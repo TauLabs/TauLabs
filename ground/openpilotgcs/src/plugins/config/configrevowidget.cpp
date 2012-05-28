@@ -830,8 +830,21 @@ void ConfigRevoWidget::doStartNoiseMeasurement()
     QMutexLocker lock(&sensorsUpdateLock);
     Q_UNUSED(lock);
 
-    RevoCalibration * revoCalibration = RevoCalibration::GetInstance(getObjectManager());
-    Q_ASSERT(revoCalibration);
+    HomeLocation * homeLocation = HomeLocation::GetInstance(getObjectManager());
+    Q_ASSERT(homeLocation);
+    HomeLocation::DataFields homeLocationData = homeLocation->getData();
+
+    //check if Homelocation is set
+    if(!homeLocationData.Set)
+    {
+        QMessageBox msgBox;
+        msgBox.setInformativeText(tr("<p>HomeLocation not SET.</p><p>Please set your HomeLocation and try again. Aborting calibration!</p>"));
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        msgBox.setIcon(QMessageBox::Information);
+        msgBox.exec();
+        return;
+    }
 
     accel_accum_x.clear();
     accel_accum_y.clear();
