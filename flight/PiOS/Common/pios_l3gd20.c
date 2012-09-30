@@ -383,12 +383,12 @@ bool PIOS_L3GD20_IRQHandler(void)
 		return ClaimBusWoken;
 	
 	if(PIOS_SPI_TransferBlock(dev->spi_id, &buf[0], &rec[0], sizeof(buf), NULL) < 0) {
-		bool ReleaseBusWoken;
+		bool ReleaseBusWoken = false;
 		PIOS_L3GD20_ReleaseBusIsr(&ReleaseBusWoken);
 		return ClaimBusWoken || ReleaseBusWoken;
 	}
 	
-	bool ReleaseBusWoken;
+	bool ReleaseBusWoken = false;
 	PIOS_L3GD20_ReleaseBusIsr(&ReleaseBusWoken);
 	
 	memcpy((uint8_t *) &(data.gyro_x), &rec[1], 6);
