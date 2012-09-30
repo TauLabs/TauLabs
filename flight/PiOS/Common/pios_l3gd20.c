@@ -61,6 +61,7 @@ static int32_t PIOS_L3GD20_Validate(struct l3gd20_dev * dev);
 static void PIOS_L3GD20_Config(struct pios_l3gd20_cfg const * cfg);
 static int32_t PIOS_L3GD20_SetReg(uint8_t address, uint8_t buffer);
 static int32_t PIOS_L3GD20_GetReg(uint8_t address);
+static int32_t PIOS_L3GD20_GetRegIsr(uint8_t address, bool *woken);
 static int32_t PIOS_L3GD20_ClaimBus();
 static int32_t PIOS_L3GD20_ClaimBusIsr();
 static int32_t PIOS_L3GD20_ReleaseBus();
@@ -258,6 +259,26 @@ static int32_t PIOS_L3GD20_GetReg(uint8_t reg)
 }
 
 /**
+ * @brief Read a register from L3GD20 from ISR context
+ * @returns The register value or -1 if failure to get bus
+ * @param reg[in] Register address to be read
+ * \param[in] task woken
+ */
+static int32_t PIOS_L3GD20_GetRegIsr(uint8_t reg, bool *woken)
+{
+	uint8_t data;
+
+	if(PIOS_L3GD20_ClaimBusIsr(woken) != 0)
+		return -1;
+
+	PIOS_SPI_TransferByte(dev->spi_id,(0x80 | reg) ); // request byte
+	data = PIOS_SPI_TransferByte(dev->spi_id,0 );     // receive response
+
+	PIOS_L3GD20_ReleaseBusIsr(woken);
+	return data;
+}
+
+/**
  * @brief Writes one byte to the L3GD20
  * \param[in] reg Register address
  * \param[in] data Byte to write
@@ -269,12 +290,12 @@ static int32_t PIOS_L3GD20_SetReg(uint8_t reg, uint8_t data)
 {
 	if(PIOS_L3GD20_ClaimBus() != 0)
 		return -1;
-	
+
 	PIOS_SPI_TransferByte(dev->spi_id, 0x7f & reg);
 	PIOS_SPI_TransferByte(dev->spi_id, data);
-	
+
 	PIOS_L3GD20_ReleaseBus();
-	
+
 	return 0;
 }
 
@@ -391,7 +412,7 @@ bool PIOS_L3GD20_IRQHandler(void)
 	PIOS_L3GD20_ReleaseBusIsr(&woken);
 	
 	memcpy((uint8_t *) &(data.gyro_x), &rec[1], 6);
-	data.temperature = PIOS_L3GD20_GetReg(PIOS_L3GD20_OUT_TEMP);
+	data.temperature = PIOS_L3GD20_GetRegIsr(PIOS_L3GD20_OUT_TEMP, &woken);
 	
 	portBASE_TYPE xHigherPriorityTaskWoken;
 	xQueueSendToBackFromISR(dev->queue, (void *) &data, &xHigherPriorityTaskWoken);
