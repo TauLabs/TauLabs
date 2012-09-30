@@ -64,6 +64,7 @@ static int32_t PIOS_L3GD20_GetReg(uint8_t address);
 static int32_t PIOS_L3GD20_ClaimBus();
 static int32_t PIOS_L3GD20_ClaimBusIsr();
 static int32_t PIOS_L3GD20_ReleaseBus();
+static int32_t PIOS_L3GD20_ReleaseBusIsr();
 
 volatile bool l3gd20_configured = false;
 
