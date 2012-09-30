@@ -193,14 +193,15 @@ static int32_t PIOS_L3GD20_ClaimBus()
 
 /**
  * @brief Claim the SPI bus for the accel communications and select this chip
+ * \param[in] pointer which receives if a task has been woken
  * @return 0 if successful, -1 for invalid device, -2 if unable to claim bus
  */
-static int32_t PIOS_L3GD20_ClaimBusIsr()
+static int32_t PIOS_L3GD20_ClaimBusIsr(bool *woken)
 {
 	if(PIOS_L3GD20_Validate(dev) != 0)
 		return -1;
 
-	if(PIOS_SPI_ClaimBusISR(dev->spi_id) != 0)
+	if(PIOS_SPI_ClaimBusISR(dev->spi_id, woken) < 0)
 		return -2;
 
 	PIOS_SPI_RC_PinSet(dev->spi_id,dev->slave_num,0);
@@ -219,6 +220,21 @@ int32_t PIOS_L3GD20_ReleaseBus()
 	PIOS_SPI_RC_PinSet(dev->spi_id,dev->slave_num,1);
 
 	return PIOS_SPI_ReleaseBus(dev->spi_id);
+}
+
+/**
+ * @brief Release the SPI bus for the accel communications and end the transaction
+ * \param[in] pointer which receives if a task has been woken
+ * @return 0 if successful, -1 for invalid device
+ */
+int32_t PIOS_L3GD20_ReleaseBusIsr(bool *woken)
+{
+	if(PIOS_L3GD20_Validate(dev) != 0)
+		return -1;
+
+	PIOS_SPI_RC_PinSet(dev->spi_id,dev->slave_num,1);
+
+	return PIOS_SPI_ReleaseBusISR(dev->spi_id, woken);
 }
 
 /**
@@ -362,15 +378,18 @@ bool PIOS_L3GD20_IRQHandler(void)
 	uint8_t rec[7];
 
 	/* This code duplicates ReadGyros above but uses ClaimBusIsr */
-	if(PIOS_L3GD20_ClaimBusIsr() != 0)
-		return;
+	bool ClaimBusWoken = false;
+	if(PIOS_L3GD20_ClaimBusIsr(&ClaimBusWoken) != 0)
+		return ClaimBusWoken;
 	
 	if(PIOS_SPI_TransferBlock(dev->spi_id, &buf[0], &rec[0], sizeof(buf), NULL) < 0) {
-		PIOS_L3GD20_ReleaseBus();
-		return;
+		bool ReleaseBusWoken;
+		PIOS_L3GD20_ReleaseBusIsr(&ReleaseBusWoken);
+		return ClaimBusWoken || ReleaseBusWoken;
 	}
 	
-	PIOS_L3GD20_ReleaseBus();
+	bool ReleaseBusWoken;
+	PIOS_L3GD20_ReleaseBusIsr(&ReleaseBusWoken);
 	
 	memcpy((uint8_t *) &(data.gyro_x), &rec[1], 6);
 	data.temperature = PIOS_L3GD20_GetReg(PIOS_L3GD20_OUT_TEMP);
@@ -378,7 +397,7 @@ bool PIOS_L3GD20_IRQHandler(void)
 	portBASE_TYPE xHigherPriorityTaskWoken;
 	xQueueSendToBackFromISR(dev->queue, (void *) &data, &xHigherPriorityTaskWoken);
 	
-	return xHigherPriorityTaskWoken == pdTRUE;
+	return ClaimBusWoken || ReleaseBusWoken|| xHigherPriorityTaskWoken == pdTRUE;
 }
 
 #endif /* L3GD20 */
