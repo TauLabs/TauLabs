@@ -458,9 +458,9 @@ bool PIOS_BMA180_IRQHandler(void)
 	uint8_t pios_bma180_dmabuf[8];
 
 	// If we can't get the bus then just move on for efficiency
-	bool ClaimBusWoken = false;
-	if(PIOS_BMA180_ClaimBusISR(&ClaimBusWoken) != 0) {
-		return ClaimBusWoken; // Something else is using bus, miss this data
+	bool woken = false;
+	if(PIOS_BMA180_ClaimBusISR(&woken) != 0) {
+		return woken; // Something else is using bus, miss this data
 	}
 		
 	PIOS_SPI_TransferBlock(dev->spi_id,pios_bma180_req_buf,(uint8_t *) pios_bma180_dmabuf, 
@@ -470,12 +470,11 @@ bool PIOS_BMA180_IRQHandler(void)
 	struct pios_bma180_data data;
 	
 	// Don't release bus till data has copied
-	bool ReleaseBusWoken = false;
-	PIOS_BMA180_ReleaseBus(&ReleaseBusWoken);
+	PIOS_BMA180_ReleaseBus(&woken);
 	
 	// Must not return before releasing bus
 	if(fifoBuf_getFree(&dev->fifo) < sizeof(data))
-		return ClaimBusWoken || ReleaseBusWoken;
+		return woken;
 	
 	// Bottom two bits indicate new data and are constant zeros.  Don't right 
 	// shift because it drops sign bit
@@ -489,7 +488,7 @@ bool PIOS_BMA180_IRQHandler(void)
 	
 	fifoBuf_putData(&dev->fifo, (uint8_t *) &data, sizeof(data));
 	
-	return ClaimBusWoken || ReleaseBusWoken;
+	return woken;
 }
 
 #endif /* PIOS_INCLUDE_BMA180 */

@@ -280,7 +280,7 @@ int32_t PIOS_SPI_ClaimBusISR(uint32_t spi_id, bool *woken)
 	if (xQueueReceiveFromISR(( xQueueHandle ) spi_dev->busy, NULL, &xHigherPriorityTaskWoken ) != pdTRUE)
 		return -1;
 
-	*woken = xHigherPriorityTaskWoken == pdTRUE;
+	*woken = *woken || (xHigherPriorityTaskWoken == pdTRUE);
 #endif
 	return 0;
 }
@@ -321,7 +321,7 @@ int32_t PIOS_SPI_ReleaseBusISR(uint32_t spi_id, bool *woken)
 
 	xSemaphoreGiveFromISR(spi_dev->busy, &xHigherPriorityTaskWoken);
 
-	*woken = xHigherPriorityTaskWoken == pdTRUE;
+	*woken = *woken || (xHigherPriorityTaskWoken == pdTRUE);
 #else
 	struct pios_spi_dev * spi_dev = (struct pios_spi_dev *)spi_id;
 	PIOS_IRQ_Disable();

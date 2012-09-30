@@ -378,18 +378,16 @@ bool PIOS_L3GD20_IRQHandler(void)
 	uint8_t rec[7];
 
 	/* This code duplicates ReadGyros above but uses ClaimBusIsr */
-	bool ClaimBusWoken = false;
-	if(PIOS_L3GD20_ClaimBusIsr(&ClaimBusWoken) != 0)
-		return ClaimBusWoken;
+	bool woken = false;
+	if(PIOS_L3GD20_ClaimBusIsr(&woken) != 0)
+		return woken;
 	
 	if(PIOS_SPI_TransferBlock(dev->spi_id, &buf[0], &rec[0], sizeof(buf), NULL) < 0) {
-		bool ReleaseBusWoken = false;
-		PIOS_L3GD20_ReleaseBusIsr(&ReleaseBusWoken);
-		return ClaimBusWoken || ReleaseBusWoken;
+		PIOS_L3GD20_ReleaseBusIsr(&woken);
+		return woken;
 	}
 	
-	bool ReleaseBusWoken = false;
-	PIOS_L3GD20_ReleaseBusIsr(&ReleaseBusWoken);
+	PIOS_L3GD20_ReleaseBusIsr(&woken);
 	
 	memcpy((uint8_t *) &(data.gyro_x), &rec[1], 6);
 	data.temperature = PIOS_L3GD20_GetReg(PIOS_L3GD20_OUT_TEMP);
@@ -397,7 +395,7 @@ bool PIOS_L3GD20_IRQHandler(void)
 	portBASE_TYPE xHigherPriorityTaskWoken;
 	xQueueSendToBackFromISR(dev->queue, (void *) &data, &xHigherPriorityTaskWoken);
 	
-	return ClaimBusWoken || ReleaseBusWoken|| xHigherPriorityTaskWoken == pdTRUE;
+	return woken || (xHigherPriorityTaskWoken == pdTRUE);
 }
 
 #endif /* L3GD20 */
