@@ -327,9 +327,8 @@ int32_t PIOS_SPI_ReleaseBusISR(uint32_t spi_id, bool *woken)
 	PIOS_IRQ_Disable();
 	spi_dev->busy = 0;
 	PIOS_IRQ_Enable();
-
-	return 0;
 #endif
+	return 0;
 }
 
 /**
