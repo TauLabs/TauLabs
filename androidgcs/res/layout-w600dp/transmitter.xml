@@ -17,6 +17,89 @@
 	    android:layout_width="400dp"
 	    android:layout_height="400dp"
 	    android:layout_alignParentTop="true"
-	    android:layout_toRightOf="@+id/pfd"/>
+	    android:layout_toLeftOf="@+id/positionHoldButton"
+	    android:layout_toRightOf="@+id/pfd" />
+
+	<ToggleButton
+	    android:id="@+id/transmitterControl"
+	    android:layout_width="200dp"
+	    android:layout_height="wrap_content"
+	    android:layout_alignLeft="@+id/landButton"
+	    android:layout_alignParentBottom="true"
+	    android:layout_alignParentRight="true"
+	    android:textOff="Tablet Control"
+	    android:textOn="Transmitter Control" />
+
+	<ToggleButton
+	    android:id="@+id/positionHoldButton"
+	    android:layout_width="150dp"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:layout_alignParentTop="true"
+	    android:textOn="Position Hold" 
+	    android:textOff="Position Hold" />
+
+	<ToggleButton
+	    android:id="@+id/rthButton"
+	    android:layout_width="150dp"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:layout_below="@+id/positionHoldButton"
+	    android:textOff="Return to Home"
+	    android:textOn="Return to Home" />
+
+	<ToggleButton
+	    android:id="@+id/rttButton"
+	    android:layout_width="150dp"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:layout_below="@+id/rthButton"
+	    android:textOff="Return to Tablet"
+	    android:textOn="Return to Tablet" />
+
+	<ToggleButton
+	    android:id="@+id/pathPlannerButton"
+	    android:layout_width="150dp"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:layout_below="@+id/rttButton"
+	    android:textOff="Fly Path"
+	    android:textOn="Fly Path" />
+
+	<ToggleButton
+	    android:id="@+id/landButton"
+	    android:layout_width="150dp"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:layout_below="@+id/pathPlannerButton"
+	    android:textOff="Land"
+	    android:textOn="Land" />
+
+	<TextView
+	    android:id="@+id/flightModeLabel"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:layout_below="@+id/pfd"
+	    android:text="Flight Mode: "
+	    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+	<TextView
+	    android:id="@+id/flightMode"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/pfd"
+	    android:layout_toRightOf="@+id/flightModeLabel"
+	    android:text="Stabilized1"
+	    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <fragment
+        android:id="@+id/viewer"
+        android:name="org.openpilot.androidgcs.fragments.SystemAlarmsFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignLeft="@+id/map"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/map" />
 
 </RelativeLayout>
