@@ -88,7 +88,7 @@ public class HomePage extends ObjectManagerActivity {
 		tester.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				startActivity(new Intent(HomePage.this, FragmentTester.class));
+				startActivity(new Intent(HomePage.this, Transmitter.class));
 			}
 		});
 

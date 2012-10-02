@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <org.openpilot.androidgcs.AttitudeView
+        android:id="@+id/attitudeView1"
+        android:layout_width="400dip"
+        android:layout_height="400dip"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
+
+    <org.osmdroid.views.MapView
+        android:layout_width="400dip"
+        android:layout_height="400dip"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/attitudeView1" >
+    </org.osmdroid.views.MapView>
+    
+</RelativeLayout>
