@@ -13,7 +13,7 @@
 
 	<fragment
 	    android:id="@+id/map"
-	    android:name="org.openpilot.androidgcs.fragments.MapView"
+	    android:name="org.openpilot.androidgcs.fragments.UavMapView"
 	    android:layout_width="400dp"
 	    android:layout_height="400dp"
 	    android:layout_alignParentTop="true"

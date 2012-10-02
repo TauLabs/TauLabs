@@ -5,7 +5,10 @@
     android:orientation="vertical" >
     
     <org.osmdroid.views.MapView
+        android:id="@+id/mapview"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent"
+		android:enabled="true"
+		android:clickable="true"/>
 
 </LinearLayout>
