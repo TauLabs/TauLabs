@@ -65,13 +65,22 @@
 	    android:layout_below="@+id/rttButton"
 	    android:textOff="Fly Path"
 	    android:textOn="Fly Path" />
-
+	
+	<ToggleButton
+	    android:id="@+id/followTabletButton"
+	    android:layout_width="150dp"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:layout_below="@+id/pathPlannerButton"
+	    android:textOff="Follow Me"
+	    android:textOn="Follow Me" />
+	
 	<ToggleButton
 	    android:id="@+id/landButton"
 	    android:layout_width="150dp"
 	    android:layout_height="wrap_content"
 	    android:layout_alignParentRight="true"
-	    android:layout_below="@+id/pathPlannerButton"
+	    android:layout_below="@+id/followTabletButton"
 	    android:textOff="Land"
 	    android:textOn="Land" />
 
