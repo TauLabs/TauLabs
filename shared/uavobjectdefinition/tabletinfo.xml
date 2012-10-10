@@ -1,0 +1,23 @@
+<xml>
+    <object name="TabletInfo" singleinstance="true" settings="false">
+        <description>The information from the tablet to the UAVO.</description>
+        <field name="Connected" units="" type="enum" elements="1" options="False,True"/>
+	<field name="Latitude" units="deg*10e6" type="int32" elements="1"/>
+	<field name="Longitude" units="deg*10e6" type="int32" elements="1"/>
+        <field name="Altitude" units="m" type="float" elements="1"/>
+        <field name="TabletModeDesired" units="" type="enum" elements="1">
+		<options>
+			<option>PositionHold</option>
+			<option>ReturnToHome</option>
+			<option>ReturnToTablet</option>
+			<option>PathPlanner</option>
+			<option>FollowMe</option>
+			<option>Land</option>
+		</options>
+	</field>
+        <access gcs="readwrite" flight="readwrite"/>
+        <telemetrygcs acked="false" updatemode="manual" period="0"/>
+        <telemetryflight acked="false" updatemode="periodic" period="2000"/>
+        <logging updatemode="manual" period="0"/>
+    </object>
+</xml>
