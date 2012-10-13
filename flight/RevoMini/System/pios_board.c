@@ -74,6 +74,19 @@ struct pios_adc_cfg pios_adc_cfg = {
 	.full_flag = DMA_IT_TCIF4,
 
 };
+
+struct stm32_gpio pios_current_sonar_pin ={
+    .gpio = GPIOA,
+			.init = {
+				.GPIO_Pin = GPIO_Pin_8,
+				.GPIO_Speed = GPIO_Speed_2MHz,
+				.GPIO_Mode  = GPIO_Mode_IN,
+				.GPIO_OType = GPIO_OType_OD,
+				.GPIO_PuPd  = GPIO_PuPd_NOPULL
+			},
+			.pin_source = GPIO_PinSource8,
+};
+
 void PIOS_ADC_DMC_irq_handler(void)
 {
 	/* Call into the generic code to handle the IRQ for this specific device */
@@ -665,6 +678,8 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_ADC)
 	PIOS_ADC_Init(&pios_adc_cfg);
+        // configure the pullup for PA8 (inhibit pullups from current/sonar shared pin)
+        GPIO_Init(pios_current_sonar_pin.gpio, &pios_current_sonar_pin.init);
 #endif
 
 #if defined(PIOS_INCLUDE_HMC5883)
