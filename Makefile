@@ -36,6 +36,7 @@ $(foreach var, $(SANITIZE_DEPRECATED_VARS), $(eval $(call SANITIZE_VAR,$(var),de
 QT_SPEC=win32-g++
 UAVOBJGENERATOR="$(BUILD_DIR)/ground/uavobjgenerator/debug/uavobjgenerator.exe"
 UNAME := $(shell uname)
+ARCH := $(shell uname -m)
 ifeq ($(UNAME), Linux)
   QT_SPEC=linux-g++
   UAVOBJGENERATOR="$(BUILD_DIR)/ground/uavobjgenerator/uavobjgenerator"
@@ -168,10 +169,16 @@ $(BUILD_DIR):
 QT_SDK_DIR := $(TOOLS_DIR)/qtsdk-v1.2.1
 
 .PHONY: qt_sdk_install
+# Choose the appropriate installer based on host architecture
+ifneq (,$(filter $(ARCH), x86_64 amd64))
+# 64-bit
+qt_sdk_install: QT_SDK_FILE := QtSdk-offline-linux-x86_64-v1.2.1.run
+qt_sdk_install: QT_SDK_URL := http://www.developer.nokia.com/dp?uri=http://sw.nokia.com/id/14b2039c-0e1f-4774-a4f2-9aa60b6d5313/Qt_SDK_Lin64_offline
+else
+# 32-bit
 qt_sdk_install: QT_SDK_URL  := http://www.developer.nokia.com/dp?uri=http://sw.nokia.com/id/8ea74da4-fec1-4277-8b26-c58cc82e204b/Qt_SDK_Lin32_offline
 qt_sdk_install: QT_SDK_FILE := QtSdk-offline-linux-x86-v1.2.1.run
-#qt_sdk_install: QT_SDK_URL  := http://www.developer.nokia.com/dp?uri=http://sw.nokia.com/id/c365bbf5-c2b9-4dda-9c1f-34b2c8d07785/Qt_SDK_Lin32_offline_v1_1_2
-#qt_sdk_install: QT_SDK_FILE := Qt_SDK_Lin32_offline_v1_1_2_en.run
+endif
 # order-only prereq on directory existance:
 qt_sdk_install : | $(DL_DIR) $(TOOLS_DIR)
 qt_sdk_install: qt_sdk_clean
@@ -645,7 +652,7 @@ $$(UAVO_COLLECTION_DIR)/$(1)/uavohash: $$(UAVO_COLLECTION_DIR)/$(1)/uavo-xml
 	$$(V1) python $$(ROOT_DIR)/make/scripts/version-info.py \
 		--path=$$(ROOT_DIR) \
 		--uavodir=$$(UAVO_COLLECTION_DIR)/$(1)/uavo-xml/shared/uavobjectdefinition \
-		--format='$$$${UAVOSHA1TXT}' | xargs -n1 -I{} ln -sf {} $$(UAVO_COLLECTION_DIR)/$(1)/uavohash
+		--format='$$$${UAVOSHA1TXT}' | sed -n 's/^\(................\).*/\1/p' | xargs -n1 -I{} ln -sf {} $$(UAVO_COLLECTION_DIR)/$(1)/uavohash
 
         # Create the target of the symlink (ie. a directory named by the actual UAVO hash)
 	$$(V0) @echo " UAVOHASH  $(1) ->" $$$$(readlink $$(UAVO_COLLECTION_DIR)/$(1)/uavohash)
@@ -957,6 +964,11 @@ sim_osx_%: uavobjects_flight
 # Packaging components
 #
 ##############################
+
 .PHONY: package
 package:
 	$(V1) cd $@ && $(MAKE) --no-print-directory $@
+
+.PHONY: package_resources
+package_resources:
+	$(V1) cd package && $(MAKE) --no-print-directory opfw_resource
