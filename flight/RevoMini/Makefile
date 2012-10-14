@@ -304,6 +304,10 @@ CDEFS += -DSYSCLK_FREQ=$(SYSCLK_FREQ)
 CDEFS += -DUSE_STDPERIPH_DRIVER
 CDEFS += -DUSE_$(BOARD)
 
+ifeq ($(ENABLE_DEBUG_CONSOLE), YES)
+CDEFS += -DPIOS_INCLUDE_DEBUG_CONSOLE
+endif
+
 # Place project-specific -D and/or -U options for
 # Assembler with preprocessor here.
 #ADEFS = -DUSE_IRQ_ASM_WRAPPER
