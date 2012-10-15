@@ -1,5 +1,8 @@
 package org.openpilot.androidgcs;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.openpilot.uavtalk.UAVObject;
 import org.openpilot.uavtalk.UAVObjectField;
 
@@ -12,6 +15,7 @@ import android.widget.ToggleButton;
 public class Transmitter extends ObjectManagerActivity {
 
 	private final static String TAG = Transmitter.class.getSimpleName();
+	private final TwoWayHashmap <String, Integer>modesToId = new TwoWayHashmap<String, Integer>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -20,8 +24,37 @@ public class Transmitter extends ObjectManagerActivity {
 
 		((RadioGroup) findViewById(R.id.modeSelector1)).setOnCheckedChangeListener(ToggleListener);
 
+		modesToId.add("PositionHold",R.id.positionHoldButton);
+		modesToId.add("ReturnToHome",R.id.rthButton);
+		modesToId.add("ReturnToTablet",R.id.rttButton);
+		modesToId.add("PathPlanner",R.id.pathPlannerButton);
+		modesToId.add("FollowMe",R.id.followTabletButton);
+		modesToId.add("Land",R.id.landButton);
 	}
 
+	@Override
+	void onOPConnected() {
+		super.onOPConnected();
+
+		// Get the current tablet mode desired to make sure screen reflects what the
+		// UAV is doing when we jump out of this activity
+		UAVObject obj = objMngr.getObject("TabletInfo");
+		UAVObjectField field;
+
+    	if (obj != null && (field = obj.getField("TabletModeDesired")) != null) {
+    		String mode = field.getValue().toString();
+    		Log.d(TAG, "Connected and mode is: " + mode);
+
+    		Integer id = modesToId.getForward(mode);
+    		if (id == null)
+    			Log.e(TAG, "Unknown mode");
+    		else
+    			onToggle(findViewById(id));
+    	}
+
+	}
+
+	//! Process the changes in the mode selector and pass that information to TabletInfo
 	final RadioGroup.OnCheckedChangeListener ToggleListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(final RadioGroup radioGroup, final int i) {
@@ -39,34 +72,12 @@ public class Transmitter extends ObjectManagerActivity {
             	if (field == null)
             		return;
 
-            	switch(i) {
-            	case R.id.positionHoldButton:
-            		Log.i(TAG, "Position hold selected");
-            		field.setValue("PositionHold");
-            		break;
-            	case R.id.rthButton:
-            		Log.i(TAG, "Return to home selected");
-            		field.setValue("ReturnToHome");
-            		break;
-            	case R.id.rttButton:
-            		Log.i(TAG, "Return to tablet selected");
-            		field.setValue("ReturnToTablet");
-            		break;
-            	case R.id.pathPlannerButton:
-            		Log.i(TAG, "Path planner selected");
-            		field.setValue("PathPlanner");
-            		break;
-            	case R.id.followTabletButton:
-            		Log.i(TAG, "Follow tablet selected");
-            		field.setValue("FollowMe");
-            		break;
-            	case R.id.landButton:
-            		Log.i(TAG, "Land selected");
-            		field.setValue("Land");
-            		break;
-	    		default:
-	    			Log.e(TAG, "Unknow mode");
-            	}
+            	String mode = modesToId.getBackward(i);
+            	if (mode != null) {
+            		Log.i(TAG, "Selecting mode: " + mode);
+            		field.setValue(mode);
+            	} else
+            		Log.e(TAG, "Unknown mode for this button");
 
             	obj.updated();
             }
@@ -77,6 +88,21 @@ public class Transmitter extends ObjectManagerActivity {
     	ToggleButton v = (ToggleButton) view;
     	v.setChecked(true);
         ((RadioGroup)view.getParent()).check(view.getId());
+    }
+
+    private class TwoWayHashmap<K extends Object, V extends Object> {
+    	private final Map<K,V> forward = new HashMap<K, V>();
+    	private final Map<V,K> backward = new HashMap<V, K>();
+    	public synchronized void add(K key, V value) {
+    		forward.put(key, value);
+    		backward.put(value, key);
+    	}
+    	public synchronized V getForward(K key) {
+    		return forward.get(key);
+    	}
+    	public synchronized K getBackward(V key) {
+    		return backward.get(key);
+    	}
     }
 
 }
