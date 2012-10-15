@@ -71,6 +71,10 @@ public abstract class TelemetryTask implements Runnable {
 	//! Thread to process the input stream
 	Thread inputProcessThread;
 
+	// TODO: Generalize this into a framework for background processing
+	//! Background process to update the TabletInformation object
+	private TabletInformation tabletInfoTask;
+
 	//! Flag to indicate a shut down was requested.  Derived classes should take care to respect this.
 	boolean shutdown;
 
@@ -116,6 +120,8 @@ public abstract class TelemetryTask implements Runnable {
 
 		// Create a new thread that processes the input bytes
 		startInputProcessing();
+
+		tabletInfoTask = new TabletInformation(objMngr, telemService);
 
 		connected = true;
 		return connected;
