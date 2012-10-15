@@ -504,6 +504,7 @@ static void simulateModelQuadcopter()
 		gpsPosition.Heading = 180 / M_PI * atan2(vel[1] + gps_vel_drift[1],vel[0] + gps_vel_drift[0]);
 		gpsPosition.Satellites = 7;
 		gpsPosition.PDOP = 1;
+		gpsPosition.Status = GPSPOSITION_STATUS_FIX3D;
 		GPSPositionSet(&gpsPosition);
 		last_gps_time = PIOS_DELAY_GetRaw();
 	}
