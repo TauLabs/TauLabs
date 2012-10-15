@@ -408,38 +408,34 @@ static void manualControlTask(void *parameters)
 
 		// Depending on the mode update the Stabilization or Actuator objects
 		static uint8_t lastFlightMode = FLIGHTSTATUS_FLIGHTMODE_MANUAL;
-		switch(PARSE_FLIGHT_MODE(flightStatus.FlightMode)) {
-			case FLIGHTMODE_UNDEFINED:
-				// This reflects a bug in the code architecture!
-				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
-				break;
-			case FLIGHTMODE_MANUAL:
+		switch(flightStatus.FlightMode) {
+			case FLIGHTSTATUS_FLIGHTMODE_MANUAL:
 				updateActuatorDesired(&cmd);
 				break;
-			case FLIGHTMODE_STABILIZED:
+			case FLIGHTSTATUS_FLIGHTMODE_STABILIZED1:
+			case FLIGHTSTATUS_FLIGHTMODE_STABILIZED2:
+			case FLIGHTSTATUS_FLIGHTMODE_STABILIZED3:
 				updateStabilizationDesired(&cmd, &settings);
 				break;
-			case FLIGHTMODE_TUNING:
+			case FLIGHTSTATUS_FLIGHTMODE_AUTOTUNE:
 				// Tuning takes settings directly from manualcontrolcommand.  No need to
 				// call anything else.  This just avoids errors.
 				break;
-			case FLIGHTMODE_GUIDANCE:
-				switch(flightStatus.FlightMode) {
-					case FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD:
-						altitudeHoldDesired(&cmd, lastFlightMode != flightStatus.FlightMode);
-						break;
-					case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
-						updatePathDesired(&cmd, lastFlightMode != flightStatus.FlightMode);
-						break;
-					case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
-						// Nothing to do
-						break;
-					case FLIGHTSTATUS_FLIGHTMODE_RTH:
-						setRTH(lastFlightMode != flightStatus.FlightMode);
-						break;
-					default:
-						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
-				}
+			case FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD:
+				altitudeHoldDesired(&cmd, lastFlightMode != flightStatus.FlightMode);
+				break;
+			case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
+				updatePathDesired(&cmd, lastFlightMode != flightStatus.FlightMode);
+				break;
+			case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
+				// Nothing to do
+				break;			
+			case FLIGHTSTATUS_FLIGHTMODE_RTH:
+				setRTH(lastFlightMode != flightStatus.FlightMode);
+				break;
+			default:
+				// Note FLIGHTSTATUS_FLIGHTMODE_VELOCITYCONTROL is no longer covered
+				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
 				break;
 		}
 		lastFlightMode = flightStatus.FlightMode;

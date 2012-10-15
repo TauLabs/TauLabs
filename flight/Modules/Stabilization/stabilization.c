@@ -357,7 +357,7 @@ static void stabilizationTask(void* parameters)
 		actuatorDesired.UpdateTime = dT * 1000;
 		actuatorDesired.Throttle = stabDesired.Throttle;
 
-		if(PARSE_FLIGHT_MODE(flightStatus.FlightMode) != FLIGHTMODE_MANUAL) {
+		if(flightStatus.FlightMode != FLIGHTSTATUS_FLIGHTMODE_MANUAL) {
 			ActuatorDesiredSet(&actuatorDesired);
 		} else {
 			// Force all axes to reinitialize when engaged
