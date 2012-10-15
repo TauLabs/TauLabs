@@ -37,6 +37,8 @@
 
 static GCSReceiverData gcsreceiverdata;
 
+#define VALID_WHEN_MISSING
+
 /* Provide a RCVR driver */
 static int32_t PIOS_GCSRCVR_Get(uint32_t rcvr_id, uint8_t channel);
 
@@ -128,7 +130,12 @@ static int32_t PIOS_GCSRCVR_Get(uint32_t rcvr_id, uint8_t channel)
 		return -1;
 	}
 
+#ifdef VALID_WHEN_MISSING
+	return (gcsreceiverdata.Channel[channel] != 0) ? (gcsreceiverdata.Channel[channel]) : 1500;
+#else 
 	return (gcsreceiverdata.Channel[channel]);
+#endif
+
 }
 
 #endif	/* PIOS_INCLUDE_GCSRCVR */

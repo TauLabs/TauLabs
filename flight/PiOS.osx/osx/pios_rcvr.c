@@ -70,7 +70,7 @@ int32_t PIOS_RCVR_Init(uint32_t * rcvr_id, const struct pios_rcvr_driver * drive
   rcvr_dev->lower_id = lower_id;
 
 
-  *rcvr_id = pios_rcvr_num_devs - 1;
+  *rcvr_id = pios_rcvr_num_devs;
 
   return(0);
 
@@ -89,7 +89,7 @@ int32_t PIOS_RCVR_Read(uint32_t rcvr_id, uint8_t channel)
 	if (rcvr_id == 0)
 		return PIOS_RCVR_NODRIVER;
 
-  struct pios_rcvr_dev * rcvr_dev = &pios_rcvr_devs[rcvr_id];
+  struct pios_rcvr_dev * rcvr_dev = &pios_rcvr_devs[rcvr_id - 1];
 
   if (!PIOS_RCVR_validate(rcvr_dev)) {
     /* Undefined RCVR port for this board (see pios_board.c) */
