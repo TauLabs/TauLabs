@@ -15,6 +15,7 @@ import org.osmdroid.views.overlay.ItemizedOverlay;
 import org.osmdroid.views.overlay.MyLocationOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -123,9 +124,20 @@ public class UavMapView extends ObjectManagerFragment {
 			uavLocation = getUavLocation();
 		}
 
+		// Create items for home and uav with nice icons
+		OverlayItem uav = new OverlayItem("UAV", "The current UAV location", uavLocation);
+		Drawable icon = getResources().getDrawable(R.drawable.ic_uav);
+		icon.setBounds(0, 0, icon.getIntrinsicWidth(), icon.getIntrinsicHeight());
+		uav.setMarker(icon);
+
+		OverlayItem home = new OverlayItem("Home", "The home location", homeLocation);
+		icon = getResources().getDrawable(R.drawable.ic_home);
+		icon.setBounds(0, 0, icon.getIntrinsicWidth(), icon.getIntrinsicHeight());
+		home.setMarker(icon);
+
         mItems.clear();
-        mItems.add(new OverlayItem("UAV", "The current UAV location", uavLocation));
-        mItems.add(new OverlayItem("Home", "The home location", homeLocation));
+        mItems.add(uav);
+        mItems.add(home);
 
         synchronized(mOsmv) {
         	if (mOsmv.getOverlays().size() > 1)
