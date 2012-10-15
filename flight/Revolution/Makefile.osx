@@ -406,7 +406,6 @@ $(OUTDIR)/sim_osx_firmwareinfo.c: $(TOP)/make/templates/firmwareinfotemplate_sim
 		--path=$(TOP) \
 		--template=$(TOP)/make/templates/firmwareinfotemplate_sim.c \
 		--outfile=$(TOP)/build/sim_osx/sim_osx_firmwareinfo.c \
-		--image=$(TOP)/build/fw_revolution/fw_revolution.elf \
 		--type=9 \
 		--revision=1 \
 		--uavodir=$(TOP)/shared/uavobjectdefinition
