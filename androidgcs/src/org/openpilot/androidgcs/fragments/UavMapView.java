@@ -26,7 +26,8 @@ public class UavMapView extends ObjectManagerFragment {
 	private static final String TAG = MapView.class.getSimpleName();
 	private static final int LOGLEVEL = 0;
 	// private static boolean WARN = LOGLEVEL > 1;
-	private static final boolean DEBUG = LOGLEVEL > 0;
+	private static final boolean DEBUG = LOGLEVEL > 2;
+	private static final boolean ERROR = LOGLEVEL > 0;
 
 	protected MapView mOsmv;
 	protected MyLocationOverlay mLocationOverlay;
@@ -71,7 +72,7 @@ public class UavMapView extends ObjectManagerFragment {
 			mLocationOverlay.enableMyLocation();
 			mLocationOverlay.enableFollowLocation();
 		} else {
-			Log.e(TAG, "Unable to create map overlay");
+			if (ERROR) Log.e(TAG, "Unable to create map overlay");
 		}
 
 	}
@@ -79,8 +80,7 @@ public class UavMapView extends ObjectManagerFragment {
 	@Override
 	public void onOPConnected(UAVObjectManager objMngr) {
 		super.onOPConnected(objMngr);
-		if (DEBUG)
-			Log.d(TAG, "On connected");
+		if (DEBUG) Log.d(TAG, "On connected");
 
 		UAVObject obj;
 
@@ -127,13 +127,9 @@ public class UavMapView extends ObjectManagerFragment {
         mItems.add(new OverlayItem("UAV", "The current UAV location", uavLocation));
         mItems.add(new OverlayItem("Home", "The home location", homeLocation));
 
-        // Remove all the overlays
-        mOsmv.getOverlays().clear();
-
-        if(mLocationOverlay != null) {
-        	mOsmv.getOverlays().add(mLocationOverlay);
-        	mLocationOverlay.enableMyLocation();
-        	mLocationOverlay.enableFollowLocation();
+        synchronized(mOsmv) {
+        	if (mOsmv.getOverlays().size() > 1)
+        		mOsmv.getOverlays().remove( 1 );
 
         	mUavOverlay = new ItemizedIconOverlay<OverlayItem>(mItems,
         			new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
@@ -149,11 +145,11 @@ public class UavMapView extends ObjectManagerFragment {
         		}
         	}, mResourceProxy);
         	if (mUavOverlay != null) {
-        		mOsmv.getOverlays().add(this.mUavOverlay);
+        		mOsmv.getOverlays().add(mUavOverlay);
         	}
         }
-        mOsmv.invalidate();
 
+        mOsmv.invalidate();
 	}
 
 	/**
