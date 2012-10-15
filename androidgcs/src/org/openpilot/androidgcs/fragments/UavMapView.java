@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.openpilot.androidgcs.R;
 import org.openpilot.uavtalk.UAVObject;
+import org.openpilot.uavtalk.UAVObjectField;
 import org.openpilot.uavtalk.UAVObjectManager;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
@@ -32,6 +33,12 @@ public class UavMapView extends ObjectManagerFragment {
 	protected ItemizedOverlay<OverlayItem> mUavOverlay;
 	protected ResourceProxy mResourceProxy;
 	public IGeoPoint currentLocation;
+	ArrayList<OverlayItem> mItems;
+
+	//! Cache the home location
+	private GeoPoint homeLocation;
+	//! Cache the uav location
+	private GeoPoint uavLocation;
 
 	// @Override
 	@Override
@@ -55,6 +62,9 @@ public class UavMapView extends ObjectManagerFragment {
 		mLocationOverlay = new MyLocationOverlay(getActivity(), mOsmv, mResourceProxy);
 		mOsmv.setBuiltInZoomControls(true);
 		mOsmv.setMultiTouchControls(true);
+		mOsmv.getController().setZoom(13);
+
+		mItems = new ArrayList<OverlayItem>();
 
 		if(mLocationOverlay != null) {
 			mOsmv.getOverlays().add(this.mLocationOverlay);
@@ -64,30 +74,6 @@ public class UavMapView extends ObjectManagerFragment {
 			Log.e(TAG, "Unable to create map overlay");
 		}
 
-		// Create overlay for the UAV and Home
-        ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
-        // Put overlay icon a little way from map center
-        GeoPoint uavLocation = new GeoPoint(29.7631*1e6, -95.3631*1e6);
-        GeoPoint homeLocation = new GeoPoint(29.7651*1e6, -95.3631*1e6);
-        items.add(new OverlayItem("UAV", "The current UAV location", uavLocation));
-        items.add(new OverlayItem("Home", "The home location", homeLocation));
-
-        mUavOverlay = new ItemizedIconOverlay<OverlayItem>(items,
-                new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-                    @Override
-                    public boolean onItemSingleTapUp(final int index,
-                            final OverlayItem item) {
-                        return true; // We 'handled' this event.
-                    }
-                    @Override
-                    public boolean onItemLongPress(final int index,
-                            final OverlayItem item) {
-                       return false;
-                    }
-                }, mResourceProxy);
-        if (mUavOverlay != null) {
-        	mOsmv.getOverlays().add(this.mUavOverlay);
-        }
 	}
 
 	@Override
@@ -104,6 +90,7 @@ public class UavMapView extends ObjectManagerFragment {
 		objectUpdated(obj);
 
 		obj = objMngr.getObject("HomeLocation");
+		obj.updateRequested(); // Make sure this is correct
 		if (obj != null)
 			registerObjectUpdates(obj);
 		objectUpdated(obj);
@@ -114,10 +101,97 @@ public class UavMapView extends ObjectManagerFragment {
 	 */
 	@Override
 	public void objectUpdated(UAVObject obj) {
-		if (DEBUG)
-			Log.d(TAG, "Updated");
+		if (DEBUG) Log.d(TAG, "Updated");
+
+		if (obj.getName().compareTo("HomeLocation") == 0) {
+			double lat = 0, lon = 0;
+
+			UAVObject home = objMngr.getObject("HomeLocation");
+			if (home != null) {
+				UAVObjectField latField = home.getField("Latitude");
+				if (latField != null)
+					lat = latField.getDouble() / 10e6;
+
+				UAVObjectField lonField = home.getField("Longitude");
+				if (lonField != null)
+					lon = lonField.getDouble() / 10e6;
+			}
+
+			homeLocation = new GeoPoint(lat, lon);
+		}
+		if (obj.getName().compareTo("PositionActual") == 0) {
+			uavLocation = getUavLocation();
+		}
+
+        mItems.clear();
+        mItems.add(new OverlayItem("UAV", "The current UAV location", uavLocation));
+        mItems.add(new OverlayItem("Home", "The home location", homeLocation));
+
+        // Remove all the overlays
+        mOsmv.getOverlays().clear();
+
+        if(mLocationOverlay != null) {
+        	mOsmv.getOverlays().add(mLocationOverlay);
+        	mLocationOverlay.enableMyLocation();
+        	mLocationOverlay.enableFollowLocation();
+
+        	mUavOverlay = new ItemizedIconOverlay<OverlayItem>(mItems,
+        			new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+        		@Override
+        		public boolean onItemSingleTapUp(final int index,
+        				final OverlayItem item) {
+        			return true; // We 'handled' this event.
+        		}
+        		@Override
+        		public boolean onItemLongPress(final int index,
+        				final OverlayItem item) {
+        			return false;
+        		}
+        	}, mResourceProxy);
+        	if (mUavOverlay != null) {
+        		mOsmv.getOverlays().add(this.mUavOverlay);
+        	}
+        }
+        mOsmv.invalidate();
 
 	}
+
+	/**
+	 * Convert the UAV location in NED representation to an
+	 * longitude latitude GeoPoint
+	 * @return The location as a GeoPoint
+	 */
+	private GeoPoint getUavLocation() {
+		UAVObject pos = objMngr.getObject("PositionActual");
+		if (pos == null)
+			return new GeoPoint(0,0);
+
+		UAVObject home = objMngr.getObject("HomeLocation");
+		if (home == null)
+			return new GeoPoint(0,0);
+
+		double lat, lon, alt;
+		lat = home.getField("Latitude").getDouble() / 10.0e6;
+		lon = home.getField("Longitude").getDouble() / 10.0e6;
+		alt = home.getField("Altitude").getDouble();
+
+		// Get the home coordinates
+		double T0, T1;
+		T0 = alt+6.378137E6;
+		T1 = Math.cos(lat * Math.PI / 180.0)*(alt+6.378137E6);
+
+		// Get the NED coordinates
+		double NED0, NED1;
+		NED0 = pos.getField("North").getDouble();
+		NED1 = pos.getField("East").getDouble();
+
+		// Compute the LLA coordinates
+		lat = lat + (NED0 / T0) * 180.0 / Math.PI;
+		lon = lon + (NED1 / T1) * 180.0 / Math.PI;
+
+		return new GeoPoint((int) (lat * 1e6), (int) (lon * 1e6));
+	}
+
 	/*
 	public class MyLocationListener implements LocationListener {
 

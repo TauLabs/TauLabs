@@ -168,6 +168,7 @@ public class UAVLocation extends MapActivity
 
 	void onOPConnected() {
 		UAVObject obj = objMngr.getObject("HomeLocation");
+		obj.updateRequested(); // Make sure this is correct and been updated
 		registerObjectUpdates(obj);
 		objectUpdated(obj);
 
