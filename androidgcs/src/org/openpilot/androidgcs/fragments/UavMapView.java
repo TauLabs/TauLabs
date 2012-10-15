@@ -8,6 +8,7 @@ import org.openpilot.uavtalk.UAVObjectField;
 import org.openpilot.uavtalk.UAVObjectManager;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
@@ -62,9 +63,16 @@ public class UavMapView extends ObjectManagerFragment {
 		//Assert.assertNotNull(mOsmv);
 
 		mLocationOverlay = new MyLocationOverlay(getActivity(), mOsmv, mResourceProxy);
+		XYTileSource tileSource = new XYTileSource("myTMStilesource", null, 3, 20, 256, ".png", "http://oatile1.mqcdn.com/tiles/1.0.0/sat/");
+		mOsmv.setTileSource(tileSource);
 		mOsmv.setBuiltInZoomControls(true);
 		mOsmv.setMultiTouchControls(true);
 		mOsmv.getController().setZoom(13);
+
+		// Some useful commands for other data sources
+		//XYTileSource tileSource = new XYTileSource("myTMStilesource", null, 3, 20, 256, ".png", "http://wms.jpl.nasa.gov/wms.cgi?");
+		//mOsmv.setTileSource(TileSourceFactory.MAPNIK);
+		//mOsmv.setUseDataConnection(false);
 
 		mItems = new ArrayList<OverlayItem>();
 
