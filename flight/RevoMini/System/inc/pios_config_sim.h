@@ -45,6 +45,9 @@
 #define PIOS_INCLUDE_RCVR
 #define PIOS_INCLUDE_GCSRCVR
 
+//! Enable the parts of the code for the tablet to control UAV
+#define PIOS_INCLUDE_TABLETCONTROL
+
 #define PIOS_RCVR_MAX_CHANNELS			12
 #define PIOS_RCVR_MAX_DEVS              3
 

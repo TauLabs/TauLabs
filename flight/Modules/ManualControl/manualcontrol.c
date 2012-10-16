@@ -49,6 +49,8 @@
 #include "stabilizationsettings.h"
 #include "stabilizationdesired.h"
 #include "receiveractivity.h"
+#include "tabletcontrol.h"
+#include "tabletinfo.h"
 
 #if defined(PIOS_INCLUDE_USB_RCTX)
 #include "pios_usb_rctx.h"
@@ -90,7 +92,7 @@ static void updateStabilizationDesired(ManualControlCommandData * cmd, ManualCon
 static void altitudeHoldDesired(ManualControlCommandData * cmd, bool changed);
 static void updatePathDesired(ManualControlCommandData * cmd, bool changed);
 static void setRTH(bool changed);
-static void processFlightMode(ManualControlSettingsData * settings, float flightMode);
+static int32_t processFlightMode(ManualControlSettingsData * settings, float flightMode);
 static void processArm(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
 static bool processFailsafe(bool valid_input_detected, ManualControlSettingsData * settings);
 static void setArmedIfChanged(uint8_t val);
@@ -145,6 +147,10 @@ int32_t ManualControlInitialize()
 	StabilizationDesiredInitialize();
 	ReceiverActivityInitialize();
 	ManualControlSettingsInitialize();
+
+#if defined(PIOS_INCLUDE_TABLETCONTROL)
+	TabletInfoInitialize();
+#endif
 
 	return 0;
 }
@@ -376,12 +382,21 @@ static void manualControlTask(void *parameters)
 				// it when in failsafe mode
 
 				// Only update the flight mode when we got valid data
+				int32_t mode = 0;
 				if (cmd.Connected == MANUALCONTROLCOMMAND_CONNECTED_TRUE)
-					processFlightMode(&settings, flightMode);
+					mode = processFlightMode(&settings, flightMode);
 
 				// However process arming all the time so it can time out
 				processArm(&cmd, &settings);
 
+#if defined(PIOS_INCLUDE_TABLETCONTROL)
+				// TODO: Right now the arming is processed normally here which means the timeout still applies
+				// for low throttle levels.  Also, when not connected the actual flight mode 
+				if (mode == 1) { // Tablet control
+					processTabletInfo();
+					continue;
+				}
+#endif
 			} else {
 				// In the case of failsafe don't process the channels to update the flight mode
 				ManualControlCommandSet(&cmd);
@@ -1026,8 +1041,9 @@ static void processArm(ManualControlCommandData * cmd, ManualControlSettingsData
  * @param[out] cmd Pointer to the command structure to set the flight mode in
  * @param[in] settings The settings which indicate which position is which mode
  * @param[in] flightMode the value of the switch position
+ * @returns 0 for normal control mode. 1 for tablet control mode.
  */
-static void processFlightMode(ManualControlSettingsData *settings, float flightMode)
+static int32_t processFlightMode(ManualControlSettingsData *settings, float flightMode)
 {
 	FlightStatusData flightStatus;
 	FlightStatusGet(&flightStatus);
@@ -1038,11 +1054,15 @@ static void processFlightMode(ManualControlSettingsData *settings, float flightM
 		pos = settings->FlightModeNumber - 1;
 
 	uint8_t newMode = settings->FlightModePosition[pos];
+	if (newMode == MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_TABLET)
+		return 1;
 
 	if (flightStatus.FlightMode != newMode) {
 		flightStatus.FlightMode = newMode;
 		FlightStatusSet(&flightStatus);
 	}
+
+	return 0;
 }
 
 /**
