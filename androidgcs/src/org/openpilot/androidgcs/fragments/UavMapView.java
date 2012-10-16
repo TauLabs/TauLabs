@@ -1,6 +1,7 @@
 package org.openpilot.androidgcs.fragments;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.openpilot.androidgcs.R;
 import org.openpilot.uavtalk.UAVObject;
@@ -8,9 +9,12 @@ import org.openpilot.uavtalk.UAVObjectField;
 import org.openpilot.uavtalk.UAVObjectManager;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlay;
 import org.osmdroid.views.overlay.MyLocationOverlay;
 import org.osmdroid.views.overlay.Overlay;
@@ -23,8 +27,11 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 public class UavMapView extends ObjectManagerFragment {
 
@@ -42,7 +49,7 @@ public class UavMapView extends ObjectManagerFragment {
 	ArrayList<OverlayItem> mItems;
 
 	//! The overlay which display path desired
-	private PathDesiredOverlay pathDesiredOverlay;
+	private WaypointsOverlay pathDesiredOverlay;
 	//! The overlay which display the UAV symbol and Home
 	private UavLocationOverlay uavLocationOverlay;
 
@@ -91,7 +98,7 @@ public class UavMapView extends ObjectManagerFragment {
 		mOsmv.getOverlays().add(uavLocationOverlay);
 
 		// Add an overlay that shows path navigation and the position desired
-		pathDesiredOverlay = new PathDesiredOverlay(getActivity());
+		pathDesiredOverlay = new WaypointsOverlay(getResources().getDrawable(R.drawable.marker_default),mResourceProxy); //new PathDesiredOverlay(mResourceProxy);
 		mOsmv.getOverlays().add(pathDesiredOverlay);
 
 		if(mLocationOverlay != null) {
@@ -202,6 +209,29 @@ public class UavMapView extends ObjectManagerFragment {
 		return new GeoPoint((int) (lat * 1e6), (int) (lon * 1e6));
 	}
 
+	private double[] getNED(GeoPoint coord) {
+		double [] NED = new double[3];
+
+		UAVObject home = objMngr.getObject("HomeLocation");
+		if (home == null)
+			return NED;
+
+		double lat = home.getField("Latitude").getDouble() / 10.0e6;
+		double lon = home.getField("Longitude").getDouble() / 10.0e6;
+		double alt = home.getField("Altitude").getDouble();
+
+	    double T[] = new double[3];
+	    T[0] = alt+6.378137E6f * Math.PI / 180.0;
+	    T[1] = Math.cos(lat * Math.PI / 180.0)*(alt+6.378137E6f) * Math.PI / 180.0;
+	    T[2] = -1.0f;
+
+	    NED[0] = (coord.getLatitudeE6() / 1e6 - lat) * T[0];
+	    NED[1] = (coord.getLongitudeE6() / 1e6 - lon) * T[1];
+	    NED[2] = (coord.getAltitude() - alt) * T[2];
+
+		return NED;
+	}
+
 	/**
 	 * Convert the UAV location in NED representation to an
 	 * longitude latitude GeoPoint
@@ -239,26 +269,41 @@ public class UavMapView extends ObjectManagerFragment {
 	}
 
 	//! An overlay that shows the path desired location
-	class PathDesiredOverlay extends Overlay
+	private class PathDesiredOverlay extends ItemizedIconOverlay<OverlayItem>
 	{
-		private final Drawable waypointMarker;
-	    public PathDesiredOverlay(Context ctx) {
-			super(ctx);
-			waypointMarker = getResources().getDrawable(R.drawable.marker_default);
+
+		public PathDesiredOverlay(ResourceProxy mResourceProxy) {
+			super(new ArrayList<OverlayItem>(),
+					getResources().getDrawable(R.drawable.marker_default),
+					new PathGesture(),
+					mResourceProxy);
+			update();
+		}
+
+		//! Refresh the waypoints
+		public void update() {
+			removeAllItems();
+			addItem(new OverlayItem("Waypoint", "PathDesired", pathDesired));
+			populate();
+		}
+
+	}
+
+	protected class PathGesture implements ItemizedIconOverlay.OnItemGestureListener<OverlayItem> {
+
+		@Override
+		public boolean onItemLongPress(int i, OverlayItem item) {
+			Log.d(TAG, "LongPress: " + i + " " + item);
+			return false;
 		}
 
 		@Override
-		protected void draw(Canvas canvas, MapView arg1, boolean arg2) {
-			Point screenPoint = new Point();
-			mOsmv.getProjection().toMapPixels(pathDesired, screenPoint);
-
-			waypointMarker.setBounds(screenPoint.x-waypointMarker.getIntrinsicWidth() / 2,
-					screenPoint.y-waypointMarker.getIntrinsicHeight() / 2,
-					screenPoint.x+waypointMarker.getIntrinsicWidth() / 2,
-					screenPoint.y+waypointMarker.getIntrinsicHeight() / 2);
-			waypointMarker.draw(canvas);
+		public boolean onItemSingleTapUp(int i, OverlayItem item) {
+			Log.d(TAG, "SingleTap: " + i + " " + item);
+			return false;
 		}
-	}
+
+	};
 
 	//! An overlay that shows the path desired location
 	class UavLocationOverlay extends Overlay
@@ -274,7 +319,11 @@ public class UavMapView extends ObjectManagerFragment {
 
 		@Override
 		protected void draw(Canvas canvas, MapView arg1, boolean arg2) {
+			if (homeLocation == null || uavLocation == null)
+				return;
+
 			Point screenPoint = new Point();
+
 			mOsmv.getProjection().toMapPixels(homeLocation, screenPoint);
 
 			homeMarker.setBounds(screenPoint.x-homeMarker.getIntrinsicWidth() / 2, screenPoint.y-homeMarker.getIntrinsicHeight()/2,
@@ -292,6 +341,164 @@ public class UavMapView extends ObjectManagerFragment {
 			uavMarker.draw(canvas);
 			canvas.restore();
 		}
+	}
+
+	private class WaypointsOverlay extends ItemizedOverlay<OverlayItem> {
+		private final List<OverlayItem> items=new ArrayList<OverlayItem>();
+		private Drawable marker=null;
+		private OverlayItem inDrag=null;
+		private final ImageView dragImage=null;
+		private final int xDragImageOffset=0;
+		private final int yDragImageOffset=0;
+		private int xDragTouchOffset=0;
+		private int yDragTouchOffset=0;
+
+		public WaypointsOverlay(Drawable marker, ResourceProxy proxy) {
+			super(marker,proxy);
+			this.marker=marker;
+
+			//dragImage=(ImageView)findViewById(R.id.marker_default);
+			//xDragImageOffset=dragImage.getDrawable().getIntrinsicWidth()/2;
+			//yDragImageOffset=dragImage.getDrawable().getIntrinsicHeight();
+
+
+			update();
+			populate();
+		}
+
+		public void update() {
+			items.clear();
+			items.add(new OverlayItem("Waypoint", "PathDesired", pathDesired));
+			populate();
+		}
+
+		@Override
+		protected OverlayItem createItem(int i) {
+			return(items.get(i));
+		}
+
+		@Override
+		public void draw(Canvas canvas, MapView mapView,
+				boolean shadow) {
+			super.draw(canvas, mapView, shadow);
+
+			//boundCenterBottom(marker);
+		}
+
+		@Override
+		public int size() {
+			return(items.size());
+		}
+
+		@Override
+		public boolean onTouchEvent(MotionEvent event, MapView mapView) {
+			Log.d(TAG, "onTouchEvent");
+			final int action=event.getAction();
+			final int x=(int)event.getX();
+			final int y=(int)event.getY();
+			boolean result=false;
+
+			if (action==MotionEvent.ACTION_DOWN) {
+				for (OverlayItem item : items) {
+					Point p=new Point(0,0);
+					//GeoPoint mapCenter = (GeoPoint) mOsmv.getMapCenter();
+
+					//mOsmv.getProjection().toMapPixels(item.getPoint(), p);
+					p = pointFromGeoPoint(item.getPoint(), mOsmv);
+					if (p == null)
+						return false;
+
+					//Log.d(TAG, "ACTION_DOWN: (" + x + " " + p.x + ", " + y + " " + p.y + ")");
+
+					if (hitTest(item, marker, x-p.x, y-p.y)) {
+						Log.d(TAG, "Found hit");
+						result=true;
+						inDrag=item;
+						items.remove(inDrag);
+						populate();
+
+						xDragTouchOffset=0;
+						yDragTouchOffset=0;
+
+						//setDragImagePosition(p.x, p.y);
+						//dragImage.setVisibility(View.VISIBLE);
+
+						xDragTouchOffset=x-p.x;
+						yDragTouchOffset=y-p.y;
+
+						break;
+					}
+				}
+			}
+			else if (action==MotionEvent.ACTION_MOVE && inDrag!=null) {
+				//setDragImagePosition(x, y);
+				result=true;
+			}
+			else if (action==MotionEvent.ACTION_UP && inDrag!=null) {
+				Log.d(TAG, "Found drop");
+				//dragImage.setVisibility(View.GONE);
+
+				GeoPoint pt=(GeoPoint) mOsmv.getProjection().fromPixels(x-xDragTouchOffset,
+						y-yDragTouchOffset);
+				OverlayItem toDrop=new OverlayItem(inDrag.getSnippet(), inDrag.getTitle(),
+						pt);
+
+				items.add(toDrop);
+				populate();
+
+				inDrag=null;
+				result=true;
+
+				double NED[] = getNED(pt);
+				UAVObject obj = objMngr.getObject("PathDesired");
+				obj.getField("End").setValue(NED[0], 0);
+				obj.getField("End").setValue(NED[1], 1);
+				obj.updated();
+			}
+
+			return(result || super.onTouchEvent(event, mapView));
+		}
+
+		private void setDragImagePosition(int x, int y) {
+			RelativeLayout.LayoutParams lp=
+					(RelativeLayout.LayoutParams)dragImage.getLayoutParams();
+
+			lp.setMargins(x-xDragImageOffset-xDragTouchOffset,
+					y-yDragImageOffset-yDragTouchOffset, 0, 0);
+			dragImage.setLayoutParams(lp);
+		}
+
+		@Override
+		public boolean onSnapToItem(int arg0, int arg1, Point arg2,
+				IMapView arg3) {
+			// TODO Auto-generated method stub
+			return false;
+		}
+	}
+
+	/**
+	 *
+	 * @param gp GeoPoint
+	 * @param vw Mapview
+	 * @return a 'Point' in screen coords relative to top left
+	 */
+	private Point pointFromGeoPoint(GeoPoint gp, MapView vw){
+
+	    Point rtnPoint = new Point();
+	    Projection projection = vw.getProjection();
+	    projection.toPixels(gp, rtnPoint);
+	    // Get the top left GeoPoint
+	    GeoPoint geoPointTopLeft = (GeoPoint) projection.fromPixels(0, 0);
+	    Point topLeftPoint = new Point();
+	    // Get the top left Point (includes osmdroid offsets)
+	    projection.toPixels(geoPointTopLeft, topLeftPoint);
+	    rtnPoint.x-= topLeftPoint.x; // remove offsets
+	    rtnPoint.y-= topLeftPoint.y;
+	    if (rtnPoint.x > vw.getWidth() || rtnPoint.y > vw.getHeight() ||
+	            rtnPoint.x < 0 || rtnPoint.y < 0){
+	        return null; // gp must be off the screen
+	    }
+	    return rtnPoint;
 	}
 
 }
