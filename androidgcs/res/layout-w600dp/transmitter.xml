@@ -115,4 +115,23 @@
             android:textOn="Land" />
     </RadioGroup>
 
+    <TextView
+        android:id="@+id/armedStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/flightMode"
+        android:layout_below="@+id/flightMode"
+        android:text="Disarmed"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/armedStatus"
+        android:layout_alignBottom="@+id/armedStatus"
+        android:layout_toLeftOf="@+id/armedStatus"
+        android:text="Armed: "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
 </RelativeLayout>
