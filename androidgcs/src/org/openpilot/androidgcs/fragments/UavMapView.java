@@ -52,6 +52,8 @@ public class UavMapView extends ObjectManagerFragment {
 	private GeoPoint uavLocation;
 	//! Cache the path desired
 	private GeoPoint pathDesired;
+	//! Cache the heading
+	private float yaw;
 
 	// @Override
 	@Override
@@ -114,6 +116,11 @@ public class UavMapView extends ObjectManagerFragment {
 			registerObjectUpdates(obj);
 		objectUpdated(obj);
 
+		obj = objMngr.getObject("AttitudeActual");
+		if (obj != null)
+			registerObjectUpdates(obj);
+		objectUpdated(obj);
+
 		obj = objMngr.getObject("PositionActual");
 		if (obj != null)
 			registerObjectUpdates(obj);
@@ -155,6 +162,14 @@ public class UavMapView extends ObjectManagerFragment {
 
 		if (obj.getName().compareTo("PathDesired") == 0) {
 			pathDesired = getPathDesiredLocation();
+			pathDesiredOverlay.update();
+		}
+
+		if (obj.getName().compareTo("AttitudeActual") == 0) {
+			UAVObjectField field = obj.getField("Yaw");
+			if (field != null)
+				yaw = (float) field.getDouble();
+			return;
 		}
 
         mOsmv.invalidate();
@@ -272,7 +287,10 @@ public class UavMapView extends ObjectManagerFragment {
 			final int UAV_SIZE = 64;
 			uavMarker.setBounds(screenPoint.x-UAV_SIZE/2, screenPoint.y-UAV_SIZE/2,
 					screenPoint.x+UAV_SIZE/2 , screenPoint.y+UAV_SIZE/2);
+			canvas.save();
+			canvas.rotate(yaw,screenPoint.x,screenPoint.y);
 			uavMarker.draw(canvas);
+			canvas.restore();
 		}
 	}
 
