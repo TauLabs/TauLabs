@@ -67,7 +67,7 @@ public class UavMapView extends ObjectManagerFragment {
 		mOsmv.setTileSource(tileSource);
 		mOsmv.setBuiltInZoomControls(true);
 		mOsmv.setMultiTouchControls(true);
-		mOsmv.getController().setZoom(13);
+		mOsmv.getController().setZoom(15);
 
 		// Some useful commands for other data sources
 		//XYTileSource tileSource = new XYTileSource("myTMStilesource", null, 3, 20, 256, ".png", "http://wms.jpl.nasa.gov/wms.cgi?");
@@ -135,12 +135,14 @@ public class UavMapView extends ObjectManagerFragment {
 		// Create items for home and uav with nice icons
 		OverlayItem uav = new OverlayItem("UAV", "The current UAV location", uavLocation);
 		Drawable icon = getResources().getDrawable(R.drawable.ic_uav);
-		icon.setBounds(0, 0, icon.getIntrinsicWidth(), icon.getIntrinsicHeight());
+		icon.setBounds(-icon.getIntrinsicWidth() / 2, -icon.getIntrinsicHeight()/2,
+				icon.getIntrinsicWidth() / 2, icon.getIntrinsicHeight() / 2);
 		uav.setMarker(icon);
 
 		OverlayItem home = new OverlayItem("Home", "The home location", homeLocation);
 		icon = getResources().getDrawable(R.drawable.ic_home);
-		icon.setBounds(0, 0, icon.getIntrinsicWidth(), icon.getIntrinsicHeight());
+		icon.setBounds(-icon.getIntrinsicWidth() / 2, -icon.getIntrinsicHeight()/2,
+				icon.getIntrinsicWidth() / 2, icon.getIntrinsicHeight() / 2);
 		home.setMarker(icon);
 
         mItems.clear();
