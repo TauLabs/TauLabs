@@ -11,11 +11,14 @@ import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlay;
 import org.osmdroid.views.overlay.MyLocationOverlay;
+import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,10 +41,17 @@ public class UavMapView extends ObjectManagerFragment {
 	public IGeoPoint currentLocation;
 	ArrayList<OverlayItem> mItems;
 
+	//! The overlay which display path desired
+	private PathDesiredOverlay pathDesiredOverlay;
+	//! The overlay which display the UAV symbol and Home
+	private UavLocationOverlay uavLocationOverlay;
+
 	//! Cache the home location
 	private GeoPoint homeLocation;
 	//! Cache the uav location
 	private GeoPoint uavLocation;
+	//! Cache the path desired
+	private GeoPoint pathDesired;
 
 	// @Override
 	@Override
@@ -74,7 +84,13 @@ public class UavMapView extends ObjectManagerFragment {
 		//mOsmv.setTileSource(TileSourceFactory.MAPNIK);
 		//mOsmv.setUseDataConnection(false);
 
-		mItems = new ArrayList<OverlayItem>();
+		// Add the overlay which shows home and the UAV
+		uavLocationOverlay = new UavLocationOverlay(getActivity());
+		mOsmv.getOverlays().add(uavLocationOverlay);
+
+		// Add an overlay that shows path navigation and the position desired
+		pathDesiredOverlay = new PathDesiredOverlay(getActivity());
+		mOsmv.getOverlays().add(pathDesiredOverlay);
 
 		if(mLocationOverlay != null) {
 			mOsmv.getOverlays().add(this.mLocationOverlay);
@@ -92,6 +108,11 @@ public class UavMapView extends ObjectManagerFragment {
 		if (DEBUG) Log.d(TAG, "On connected");
 
 		UAVObject obj;
+
+		obj = objMngr.getObject("PathDesired");
+		if (obj != null)
+			registerObjectUpdates(obj);
+		objectUpdated(obj);
 
 		obj = objMngr.getObject("PositionActual");
 		if (obj != null)
@@ -132,58 +153,19 @@ public class UavMapView extends ObjectManagerFragment {
 			uavLocation = getUavLocation();
 		}
 
-		// Create items for home and uav with nice icons
-		OverlayItem uav = new OverlayItem("UAV", "The current UAV location", uavLocation);
-		Drawable icon = getResources().getDrawable(R.drawable.ic_uav);
-		icon.setBounds(-icon.getIntrinsicWidth() / 2, -icon.getIntrinsicHeight()/2,
-				icon.getIntrinsicWidth() / 2, icon.getIntrinsicHeight() / 2);
-		uav.setMarker(icon);
-
-		OverlayItem home = new OverlayItem("Home", "The home location", homeLocation);
-		icon = getResources().getDrawable(R.drawable.ic_home);
-		icon.setBounds(-icon.getIntrinsicWidth() / 2, -icon.getIntrinsicHeight()/2,
-				icon.getIntrinsicWidth() / 2, icon.getIntrinsicHeight() / 2);
-		home.setMarker(icon);
-
-        mItems.clear();
-        mItems.add(uav);
-        mItems.add(home);
-
-        synchronized(mOsmv) {
-        	if (mOsmv.getOverlays().size() > 1)
-        		mOsmv.getOverlays().remove( 1 );
-
-        	mUavOverlay = new ItemizedIconOverlay<OverlayItem>(mItems,
-        			new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-        		@Override
-        		public boolean onItemSingleTapUp(final int index,
-        				final OverlayItem item) {
-        			return true; // We 'handled' this event.
-        		}
-        		@Override
-        		public boolean onItemLongPress(final int index,
-        				final OverlayItem item) {
-        			return false;
-        		}
-        	}, mResourceProxy);
-        	if (mUavOverlay != null) {
-        		mOsmv.getOverlays().add(mUavOverlay);
-        	}
-        }
+		if (obj.getName().compareTo("PathDesired") == 0) {
+			pathDesired = getPathDesiredLocation();
+		}
 
         mOsmv.invalidate();
 	}
 
 	/**
-	 * Convert the UAV location in NED representation to an
-	 * longitude latitude GeoPoint
-	 * @return The location as a GeoPoint
+	 * Convert from an NED representation to a geopoint
+	 * @param[in] NED the NED location, altitude not used
+	 * @return GeoPoint for this location
 	 */
-	private GeoPoint getUavLocation() {
-		UAVObject pos = objMngr.getObject("PositionActual");
-		if (pos == null)
-			return new GeoPoint(0,0);
-
+	private GeoPoint convertLocation(double NED[]) {
 		UAVObject home = objMngr.getObject("HomeLocation");
 		if (home == null)
 			return new GeoPoint(0,0);
@@ -198,61 +180,100 @@ public class UavMapView extends ObjectManagerFragment {
 		T0 = alt+6.378137E6;
 		T1 = Math.cos(lat * Math.PI / 180.0)*(alt+6.378137E6);
 
-		// Get the NED coordinates
-		double NED0, NED1;
-		NED0 = pos.getField("North").getDouble();
-		NED1 = pos.getField("East").getDouble();
-
 		// Compute the LLA coordinates
-		lat = lat + (NED0 / T0) * 180.0 / Math.PI;
-		lon = lon + (NED1 / T1) * 180.0 / Math.PI;
+		lat = lat + (NED[0] / T0) * 180.0 / Math.PI;
+		lon = lon + (NED[1] / T1) * 180.0 / Math.PI;
 
 		return new GeoPoint((int) (lat * 1e6), (int) (lon * 1e6));
 	}
 
-	/*
-	public class MyLocationListener implements LocationListener {
+	/**
+	 * Convert the UAV location in NED representation to an
+	 * longitude latitude GeoPoint
+	 * @return The location as a GeoPoint
+	 */
+	private GeoPoint getUavLocation() {
+		UAVObject pos = objMngr.getObject("PositionActual");
+		if (pos == null)
+			return new GeoPoint(0,0);
 
-	    public void onLocationChanged(Location location) {
-	        currentLocation = new GeoPoint(location);
-	        displayMyCurrentLocationOverlay();
-	    }
+		// Get the NED coordinates
+		double NED[] = new double[2];
+		NED[0] = pos.getField("North").getDouble();
+		NED[1] = pos.getField("East").getDouble();
 
-	    public void onProviderDisabled(String provider) {
-	    }
-
-	    public void onProviderEnabled(String provider) {
-	    }
-
-	    public void onStatusChanged(String provider, int status, Bundle extras) {
-	    }
+		return convertLocation(NED);
 	}
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-	    super.onCreate(savedInstanceState);
-	    locationListener = new MyLocationListener();
-	    locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-	    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-	    Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-	    if( location != null ) {
-	        currentLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
-	    }
+	/**
+	 * Convert the UAV location in NED representation to an
+	 * longitude latitude GeoPoint
+	 * @return The location as a GeoPoint
+	 */
+	private GeoPoint getPathDesiredLocation() {
+		UAVObject pos = objMngr.getObject("PathDesired");
+		if (pos == null)
+			return new GeoPoint(0,0);
+
+		// Get the NED coordinates
+		double NED[] = new double[2];
+		NED[0] = pos.getField("End").getDouble(0);
+		NED[1] = pos.getField("End").getDouble(1);
+
+		return convertLocation(NED);
 	}
 
-	private void displayMyCurrentLocationOverlay() {
-	    if( currentLocation != null) {
-	        if( currentLocationOverlay == null ) {
-	            currentLocationOverlay = new ArrayItemizedOverlay(myLocationMarker);
-	            myCurrentLocationOverlayItem = new OverlayItem(currentLocation, "My Location", "My Location!");
-	            currentLocationOverlay.addItem(myCurrentLocationOverlayItem);
-	            mOsmv.getOverlays().add(currentLocationOverlay);
-	        } else {
-	            myCurrentLocationOverlayItem.setPoint(currentLocation);
-	            currentLocationOverlay.requestRedraw();
-	        }
-	        mOsmv.getController().setCenter(currentLocation);
-	    }
+	//! An overlay that shows the path desired location
+	class PathDesiredOverlay extends Overlay
+	{
+		private final Drawable waypointMarker;
+	    public PathDesiredOverlay(Context ctx) {
+			super(ctx);
+			waypointMarker = getResources().getDrawable(R.drawable.marker_default);
+		}
+
+		@Override
+		protected void draw(Canvas canvas, MapView arg1, boolean arg2) {
+			Point screenPoint = new Point();
+			mOsmv.getProjection().toMapPixels(pathDesired, screenPoint);
+
+			waypointMarker.setBounds(screenPoint.x-waypointMarker.getIntrinsicWidth() / 2,
+					screenPoint.y-waypointMarker.getIntrinsicHeight() / 2,
+					screenPoint.x+waypointMarker.getIntrinsicWidth() / 2,
+					screenPoint.y+waypointMarker.getIntrinsicHeight() / 2);
+			waypointMarker.draw(canvas);
+		}
 	}
-	*/
+
+	//! An overlay that shows the path desired location
+	class UavLocationOverlay extends Overlay
+	{
+		private final Drawable homeMarker;
+		private final Drawable uavMarker;
+
+	    public UavLocationOverlay(Context ctx) {
+			super(ctx);
+			homeMarker = getResources().getDrawable(R.drawable.ic_home);
+			uavMarker  = getResources().getDrawable(R.drawable.ic_uav);
+		}
+
+		@Override
+		protected void draw(Canvas canvas, MapView arg1, boolean arg2) {
+			Point screenPoint = new Point();
+			mOsmv.getProjection().toMapPixels(homeLocation, screenPoint);
+
+			homeMarker.setBounds(screenPoint.x-homeMarker.getIntrinsicWidth() / 2, screenPoint.y-homeMarker.getIntrinsicHeight()/2,
+					screenPoint.x+homeMarker.getIntrinsicWidth() / 2, screenPoint.y+homeMarker.getIntrinsicHeight() / 2);
+			homeMarker.draw(canvas);
+
+			screenPoint = new Point();
+			mOsmv.getProjection().toMapPixels(uavLocation, screenPoint);
+
+			final int UAV_SIZE = 64;
+			uavMarker.setBounds(screenPoint.x-UAV_SIZE/2, screenPoint.y-UAV_SIZE/2,
+					screenPoint.x+UAV_SIZE/2 , screenPoint.y+UAV_SIZE/2);
+			uavMarker.draw(canvas);
+		}
+	}
+
 }
