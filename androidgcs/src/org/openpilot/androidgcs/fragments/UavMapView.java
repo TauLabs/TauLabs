@@ -68,7 +68,6 @@ public class UavMapView extends ObjectManagerFragment {
 			Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		Log.d(TAG, "Expanding the map view");
-
 		return inflater.inflate(R.layout.map, container, false);
 	}
 
@@ -326,9 +325,9 @@ public class UavMapView extends ObjectManagerFragment {
 		private final List<OverlayItem> items=new ArrayList<OverlayItem>();
 		private Drawable marker=null;
 		private OverlayItem inDrag=null;
-		private final ImageView dragImage=null;
-		private final int xDragImageOffset=0;
-		private final int yDragImageOffset=0;
+		private ImageView dragImage=null;
+		private int xDragImageOffset=0;
+		private int yDragImageOffset=0;
 		private int xDragTouchOffset=0;
 		private int yDragTouchOffset=0;
 
@@ -336,10 +335,9 @@ public class UavMapView extends ObjectManagerFragment {
 			super(marker,proxy);
 			this.marker=marker;
 
-			//dragImage=(ImageView)findViewById(R.id.marker_default);
-			//xDragImageOffset=dragImage.getDrawable().getIntrinsicWidth()/2;
-			//yDragImageOffset=dragImage.getDrawable().getIntrinsicHeight();
-
+			dragImage=(ImageView)getView().findViewById(R.id.drag_waypoint);
+			xDragImageOffset=dragImage.getDrawable().getIntrinsicWidth()/2;
+			yDragImageOffset=dragImage.getDrawable().getIntrinsicHeight();
 
 			update();
 			populate();
@@ -399,8 +397,8 @@ public class UavMapView extends ObjectManagerFragment {
 						xDragTouchOffset=0;
 						yDragTouchOffset=0;
 
-						//setDragImagePosition(p.x, p.y);
-						//dragImage.setVisibility(View.VISIBLE);
+						setDragImagePosition(p.x, p.y);
+						dragImage.setVisibility(View.VISIBLE);
 
 						xDragTouchOffset=x-p.x;
 						yDragTouchOffset=y-p.y;
@@ -410,12 +408,12 @@ public class UavMapView extends ObjectManagerFragment {
 				}
 			}
 			else if (action==MotionEvent.ACTION_MOVE && inDrag!=null) {
-				//setDragImagePosition(x, y);
+				setDragImagePosition(x, y);
 				result=true;
 			}
 			else if (action==MotionEvent.ACTION_UP && inDrag!=null) {
 				Log.d(TAG, "Found drop");
-				//dragImage.setVisibility(View.GONE);
+				dragImage.setVisibility(View.GONE);
 
 				GeoPoint pt=(GeoPoint) mOsmv.getProjection().fromPixels(x-xDragTouchOffset,
 						y-yDragTouchOffset);
@@ -450,7 +448,6 @@ public class UavMapView extends ObjectManagerFragment {
 		@Override
 		public boolean onSnapToItem(int arg0, int arg1, Point arg2,
 				IMapView arg3) {
-			// TODO Auto-generated method stub
 			return false;
 		}
 	}
