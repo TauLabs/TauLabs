@@ -37,6 +37,10 @@ public class TabletInformation {
                 locationListener);
 	}
 
+	public void stop() {
+		locationManager.removeUpdates(locationListener);
+	}
+
 	LocationListener locationListener = new LocationListener() {
 
 		@Override

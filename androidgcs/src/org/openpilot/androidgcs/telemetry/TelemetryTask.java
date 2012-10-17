@@ -136,6 +136,9 @@ public abstract class TelemetryTask implements Runnable {
 		// Make the default input procesing loop stop
 		shutdown = true;
 
+		// Stop updating the tablet information
+		tabletInfoTask.stop();
+
 		// Shut down all the attached
 		if (mon != null) {
 			mon.stopMonitor();
