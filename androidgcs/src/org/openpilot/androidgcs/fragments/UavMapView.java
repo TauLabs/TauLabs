@@ -268,27 +268,6 @@ public class UavMapView extends ObjectManagerFragment {
 		return convertLocation(NED);
 	}
 
-	//! An overlay that shows the path desired location
-	private class PathDesiredOverlay extends ItemizedIconOverlay<OverlayItem>
-	{
-
-		public PathDesiredOverlay(ResourceProxy mResourceProxy) {
-			super(new ArrayList<OverlayItem>(),
-					getResources().getDrawable(R.drawable.marker_default),
-					new PathGesture(),
-					mResourceProxy);
-			update();
-		}
-
-		//! Refresh the waypoints
-		public void update() {
-			removeAllItems();
-			addItem(new OverlayItem("Waypoint", "PathDesired", pathDesired));
-			populate();
-		}
-
-	}
-
 	protected class PathGesture implements ItemizedIconOverlay.OnItemGestureListener<OverlayItem> {
 
 		@Override
