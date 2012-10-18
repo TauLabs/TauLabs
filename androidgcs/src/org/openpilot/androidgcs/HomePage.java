@@ -92,6 +92,14 @@ public class HomePage extends ObjectManagerActivity {
 			}
 		});
 
+		Button tabletControl = (Button) findViewById(R.id.launch_tabletControl);
+		tabletControl.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				startActivity(new Intent(HomePage.this, Transmitter.class));
+			}
+		});
+
 		Button osgViewer = (Button) findViewById(R.id.launch_osgViewer);
 		osgViewer.setOnClickListener(new OnClickListener() {
 			@Override

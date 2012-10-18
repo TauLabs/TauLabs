@@ -15,6 +15,7 @@
         android:id="@+id/drag_waypoint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:contentDescription="@string/waypoint"
         android:src="@drawable/marker_default" />
 

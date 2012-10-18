@@ -13,6 +13,9 @@ import android.os.Bundle;
 import android.util.Log;
 
 public class TabletInformation {
+	@SuppressWarnings("unused")
+	private final static String TAG = TabletInformation.class.getSimpleName();
+
 	private final UAVObjectManager objMngr;
 	private final LocationManager locationManager;
 

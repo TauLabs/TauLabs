@@ -42,4 +42,5 @@
 	<string name="edit">Edit</string>
 	<string name="load">Load</string>
 	<string name="waypoint">waypoint</string>
+	<string name="tablet_control">Tablet Control</string>
 </resources>
