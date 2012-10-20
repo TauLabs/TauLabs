@@ -67,7 +67,7 @@ FLASH_TOOL = OPENOCD
 
 # List of modules to include
 OPTMODULES = 
-MODULES = Radio RadioComBridge
+MODULES = RadioComBridge
 
 # Paths
 OPSYSTEM = ./System
@@ -129,8 +129,8 @@ endif
 ## UAVOBJECTS
 ifndef TESTAPP
 SRC += $(OPUAVSYNTHDIR)/gcsreceiver.c
-SRC += $(OPUAVSYNTHDIR)/pipxstatus.c
-SRC += $(OPUAVSYNTHDIR)/pipxsettings.c
+SRC += $(OPUAVSYNTHDIR)/oplinkstatus.c
+SRC += $(OPUAVSYNTHDIR)/oplinksettings.c
 SRC += $(OPUAVSYNTHDIR)/objectpersistence.c
 
 endif
@@ -172,6 +172,7 @@ SRC += $(PIOSCOMMON)/pios_i2c_esc.c
 SRC += $(PIOSCOMMON)/pios_rcvr.c
 SRC += $(PIOSCOMMON)/printf-stdarg.c
 SRC += $(PIOSCOMMON)/pios_rfm22b.c
+SRC += $(PIOSCOMMON)/pios_rfm22b_com.c
 ## Libraries for flight calculations
 SRC += $(FLIGHTLIB)/fifo_buffer.c
 SRC += $(FLIGHTLIB)/CoordinateConversions.c

@@ -76,6 +76,8 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/nedaccel.h \
     $$UAVOBJECT_SYNTHETICS/nedposition.h \
     $$UAVOBJECT_SYNTHETICS/objectpersistence.h \
+    $$UAVOBJECT_SYNTHETICS/oplinksettings.h \
+    $$UAVOBJECT_SYNTHETICS/oplinkstatus.h \
     $$UAVOBJECT_SYNTHETICS/osdsettings.h \
     $$UAVOBJECT_SYNTHETICS/overosyncsettings.h \
     $$UAVOBJECT_SYNTHETICS/overosyncstats.h \
@@ -161,6 +163,8 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/nedposition.cpp \
     $$UAVOBJECT_SYNTHETICS/objectpersistence.cpp \
     $$UAVOBJECT_SYNTHETICS/osdsettings.cpp \
+    $$UAVOBJECT_SYNTHETICS/oplinksettings.cpp \
+    $$UAVOBJECT_SYNTHETICS/oplinkstatus.cpp \
     $$UAVOBJECT_SYNTHETICS/overosyncsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/overosyncstats.cpp \
     $$UAVOBJECT_SYNTHETICS/pathdesired.cpp \

@@ -99,9 +99,8 @@ UAVOBJSRCFILENAMES += waypointactive
 UAVOBJSRCFILENAMES += txpidsettings
 
 #Support for radio module on RM
-UAVOBJSRCFILENAMES += pipxstatus
-UAVOBJSRCFILENAMES += pipxsettings
-
+UAVOBJSRCFILENAMES += oplinkstatus
+UAVOBJSRCFILENAMES += oplinksettings
 
 
 UAVOBJSRC = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),$(OPUAVSYNTHDIR)/$(UAVOBJSRCFILE).c )
