@@ -97,7 +97,7 @@
 	     android:layout_row="8"
 	     android:layout_rowSpan="2"
 	     android:background="@android:color/transparent"
-	     android:drawableTop="@drawable/ic_alarms"
+	     android:drawableTop="@drawable/ic_3dview"
 	     android:text="@string/_3dview" />
         
 	<Button
