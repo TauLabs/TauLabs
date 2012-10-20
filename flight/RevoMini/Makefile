@@ -57,6 +57,7 @@ MODULES += Altitude/revolution
 MODULES += GPS FirmwareIAP
 #MODULES += Airspeed/revolution
 MODULES += AltitudeHold VtolPathFollower FixedWingPathFollower PathPlanner
+MODULES += Autotune
 MODULES += CameraStab
 MODULES += Radio
 MODULES += Telemetry

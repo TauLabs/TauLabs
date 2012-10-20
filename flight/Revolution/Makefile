@@ -54,6 +54,7 @@ MODULES += Battery
 MODULES += Altitude/revolution  GPS FirmwareIAP
 MODULES += Airspeed/revolution
 MODULES += AltitudeHold VtolPathFollower FixedWingPathFollower PathPlanner
+MODULES += Autotune
 MODULES += CameraStab
 MODULES += OveroSync
 MODULES += Telemetry
