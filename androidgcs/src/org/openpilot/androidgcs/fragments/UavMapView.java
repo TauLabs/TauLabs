@@ -345,7 +345,8 @@ public class UavMapView extends ObjectManagerFragment {
 
 		public void update() {
 			items.clear();
-			items.add(new OverlayItem("Waypoint", "PathDesired", pathDesired));
+			if (pathDesired != null)
+				items.add(new OverlayItem("Waypoint", "PathDesired", pathDesired));
 			populate();
 		}
 
