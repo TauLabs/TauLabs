@@ -65,7 +65,6 @@ fseek(fid, 0, 'bof');
 bufferIdx=1;
 
 correctMsgByte=hex2dec('20');
-correctTimestampedByte=hex2dec('A0');
 correctSyncByte=hex2dec('3C');
 unknownObjIDList=zeros(1,2);
 
@@ -77,44 +76,40 @@ last_print = -1e10;
 startTime=clock;
 
 while (1)
-	if (feof(fid)); break; end
-
-	try
 	%% Read message header
 	% get sync field (0x3C, 1 byte)
-	sync = fread(fid, 1, 'uint8');
-	if sync ~= correctSyncByte
-		prebuf = [prebuf(2:end); sync];
+	sync = buffer(bufferIdx+12);
+	
+	
+	if buffer(bufferIdx+12) ~= correctSyncByte
+		bufferIdx=bufferIdx+1;
 		wrongSyncByte = wrongSyncByte + 1;
 		continue
 	end
-    
-	% get msg type (quint8 1 byte ) should be 0x20, ignore the rest?
-	msgType = fread(fid, 1, 'uint8');
-	if msgType ~= correctMsgByte && msgType ~= hex2dec('A0')
+	
+  	%% Process header, if we are aligned
+% 	timestamp = typecast(buffer(bufferIdx:bufferIdx + 4-1), 'uint32'); %We do this one later
+	datasizeBufferIdx = bufferIdx; %Just grab the index. We'll do a typecast later, if necessary
+% 	sync = buffer(bufferIdx+12); %This one has already been done
+	msgType = buffer(bufferIdx+13); % get msg type (quint8 1 byte ) should be 0x20, ignore the rest?
+% 	msgSize = typecast(buffer(bufferIdx+14:bufferIdx+ 14+2-1), 'uint16'); % NOT USED: get msg size (quint16 2 bytes) excludes crc, include msg header and data payload
+	objID = typecast(buffer(bufferIdx+16:bufferIdx+ 16+4-1), 'uint32'); % get obj id (quint32 4 bytes)
+
+	%Advance buffer past header
+	bufferIdx=bufferIdx+20;
+
+	%Check that message type is correct
+	if msgType ~= correctMsgByte
 		wrongMessageByte = wrongMessageByte + 1;	
 		continue
 	end
-
-	% get msg size (quint16 2 bytes) excludes crc, include msg header and data payload
-	msgSize = fread(fid, 1, 'uint16');
-	% get obj id (quint32 4 bytes)
-	objID = fread(fid, 1, 'uint32');
-
-	if msgType == correctMsgByte
-		%% Process header if we are aligned
-		timestamp = typecast(uint8(prebuf(1:4)), 'uint32');
-		datasize = typecast(uint8(prebuf(5:12)), 'uint64');
-	elseif msgType == correctTimestampedByte
-		timestamp = fread(fid,1,'uint16');
-	end
-
+	
 	if (isempty(objID)) 	%End of file
 		break;
 	end
 	
 	%% Read object
-
+	try
 	switch objID
 $(SWITCHCODE)
 		otherwise
