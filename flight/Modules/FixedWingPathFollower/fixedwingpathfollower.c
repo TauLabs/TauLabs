@@ -246,8 +246,8 @@ static void updatePathVelocity()
 
 	struct path_status progress;
 	
-	float groundspeed;
-	float altitudeSetpoint;
+	float groundspeed = 0;
+	float altitudeSetpoint = 0;
 	switch (pathDesired.Mode) {
 		case PATHDESIRED_MODE_PATH:
 			path_progress(pathDesired.Start, pathDesired.End, &positionActual.North, &progress);
