@@ -61,9 +61,11 @@ static int32_t PIOS_L3GD20_Validate(struct l3gd20_dev * dev);
 static void PIOS_L3GD20_Config(struct pios_l3gd20_cfg const * cfg);
 static int32_t PIOS_L3GD20_SetReg(uint8_t address, uint8_t buffer);
 static int32_t PIOS_L3GD20_GetReg(uint8_t address);
+static int32_t PIOS_L3GD20_GetRegIsr(uint8_t address, bool *woken);
 static int32_t PIOS_L3GD20_ClaimBus();
 static int32_t PIOS_L3GD20_ClaimBusIsr();
 static int32_t PIOS_L3GD20_ReleaseBus();
+static int32_t PIOS_L3GD20_ReleaseBusIsr();
 
 volatile bool l3gd20_configured = false;
 
@@ -193,14 +195,15 @@ static int32_t PIOS_L3GD20_ClaimBus()
 
 /**
  * @brief Claim the SPI bus for the accel communications and select this chip
+ * \param[in] pointer which receives if a task has been woken
  * @return 0 if successful, -1 for invalid device, -2 if unable to claim bus
  */
-static int32_t PIOS_L3GD20_ClaimBusIsr()
+static int32_t PIOS_L3GD20_ClaimBusIsr(bool *woken)
 {
 	if(PIOS_L3GD20_Validate(dev) != 0)
 		return -1;
 
-	if(PIOS_SPI_ClaimBusISR(dev->spi_id) != 0)
+	if(PIOS_SPI_ClaimBusISR(dev->spi_id, woken) < 0)
 		return -2;
 
 	PIOS_SPI_RC_PinSet(dev->spi_id,dev->slave_num,0);
@@ -219,6 +222,21 @@ int32_t PIOS_L3GD20_ReleaseBus()
 	PIOS_SPI_RC_PinSet(dev->spi_id,dev->slave_num,1);
 
 	return PIOS_SPI_ReleaseBus(dev->spi_id);
+}
+
+/**
+ * @brief Release the SPI bus for the accel communications and end the transaction
+ * \param[in] pointer which receives if a task has been woken
+ * @return 0 if successful, -1 for invalid device
+ */
+int32_t PIOS_L3GD20_ReleaseBusIsr(bool *woken)
+{
+	if(PIOS_L3GD20_Validate(dev) != 0)
+		return -1;
+
+	PIOS_SPI_RC_PinSet(dev->spi_id,dev->slave_num,1);
+
+	return PIOS_SPI_ReleaseBusISR(dev->spi_id, woken);
 }
 
 /**
@@ -241,6 +259,26 @@ static int32_t PIOS_L3GD20_GetReg(uint8_t reg)
 }
 
 /**
+ * @brief Read a register from L3GD20 from ISR context
+ * @returns The register value or -1 if failure to get bus
+ * @param reg[in] Register address to be read
+ * \param[in] task woken
+ */
+static int32_t PIOS_L3GD20_GetRegIsr(uint8_t reg, bool *woken)
+{
+	uint8_t data;
+
+	if(PIOS_L3GD20_ClaimBusIsr(woken) != 0)
+		return -1;
+
+	PIOS_SPI_TransferByte(dev->spi_id,(0x80 | reg) ); // request byte
+	data = PIOS_SPI_TransferByte(dev->spi_id,0 );     // receive response
+
+	PIOS_L3GD20_ReleaseBusIsr(woken);
+	return data;
+}
+
+/**
  * @brief Writes one byte to the L3GD20
  * \param[in] reg Register address
  * \param[in] data Byte to write
@@ -252,12 +290,12 @@ static int32_t PIOS_L3GD20_SetReg(uint8_t reg, uint8_t data)
 {
 	if(PIOS_L3GD20_ClaimBus() != 0)
 		return -1;
-	
+
 	PIOS_SPI_TransferByte(dev->spi_id, 0x7f & reg);
 	PIOS_SPI_TransferByte(dev->spi_id, data);
-	
+
 	PIOS_L3GD20_ReleaseBus();
-	
+
 	return 0;
 }
 
@@ -362,23 +400,24 @@ bool PIOS_L3GD20_IRQHandler(void)
 	uint8_t rec[7];
 
 	/* This code duplicates ReadGyros above but uses ClaimBusIsr */
-	if(PIOS_L3GD20_ClaimBusIsr() != 0)
-		return;
+	bool woken = false;
+	if(PIOS_L3GD20_ClaimBusIsr(&woken) != 0)
+		return woken;
 	
 	if(PIOS_SPI_TransferBlock(dev->spi_id, &buf[0], &rec[0], sizeof(buf), NULL) < 0) {
-		PIOS_L3GD20_ReleaseBus();
-		return;
+		PIOS_L3GD20_ReleaseBusIsr(&woken);
+		return woken;
 	}
 	
-	PIOS_L3GD20_ReleaseBus();
+	PIOS_L3GD20_ReleaseBusIsr(&woken);
 	
 	memcpy((uint8_t *) &(data.gyro_x), &rec[1], 6);
-	data.temperature = PIOS_L3GD20_GetReg(PIOS_L3GD20_OUT_TEMP);
+	data.temperature = PIOS_L3GD20_GetRegIsr(PIOS_L3GD20_OUT_TEMP, &woken);
 	
 	portBASE_TYPE xHigherPriorityTaskWoken;
 	xQueueSendToBackFromISR(dev->queue, (void *) &data, &xHigherPriorityTaskWoken);
 	
-	return xHigherPriorityTaskWoken == pdTRUE;
+	return woken || (xHigherPriorityTaskWoken == pdTRUE);
 }
 
 #endif /* L3GD20 */
