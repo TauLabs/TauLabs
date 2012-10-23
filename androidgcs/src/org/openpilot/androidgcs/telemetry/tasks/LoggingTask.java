@@ -1,17 +1,39 @@
 package org.openpilot.androidgcs.telemetry.tasks;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import org.openpilot.uavtalk.UAVObject;
 import org.openpilot.uavtalk.UAVObjectManager;
+import org.openpilot.uavtalk.UAVTalk;
+
+import android.os.Environment;
+import android.util.Log;
 
 public class LoggingTask implements ITelemTask {
+
+	final String TAG = LoggingTask.class.getSimpleName();
+	final boolean VERBOSE = true;
+	final boolean DEBUG = true;
+
 	private UAVObjectManager objMngr;
 	private final List<UAVObject> listeningList = new ArrayList<UAVObject>();
 	private boolean loggingActive = false;
+
+
+	private File file;
+	private FileOutputStream fileStream;
+	private UAVTalk uavTalk;
+
+	private int writtenBytes;
+	private int writtenObjects;
 
 	@Override
 	public void connect(UAVObjectManager o) {
@@ -22,11 +44,13 @@ public class LoggingTask implements ITelemTask {
 		o.addNewObjectObserver(newObjObserver);
 		o.addNewInstanceObserver(newObjObserver);
 
+		// Register all existing objects
 		List<List<UAVObject>> objects = objMngr.getObjects();
 		for(int i = 0; i < objects.size(); i++)
 			for(int j = 0; j < objects.get(i).size(); j++)
 				registerObject(objects.get(i).get(j));
 
+		// For now default to starting to log
 		startLogging();
 	}
 
@@ -58,17 +82,71 @@ public class LoggingTask implements ITelemTask {
 		}
 	}
 
-
 	//! Write an updated object to the log file
 	private void logObject(UAVObject obj) {
 		if (loggingActive) {
+			if (VERBOSE) Log.v(TAG,"Updated: " + obj.toString());
+			try {
+				long time = System.currentTimeMillis();
+				fileStream.write((byte)(time & 0xff));
+				fileStream.write((byte)((time & 0x0000ff00) >> 8));
+				fileStream.write((byte)((time & 0x00ff0000) >> 16));
+				fileStream.write((byte)((time & 0xff000000) >> 24));
 
+				long size = obj.getNumBytes();
+				fileStream.write((byte)(size & 0x00000000000000ffl) >> 0);
+				fileStream.write((byte)(size & 0x000000000000ff00l) >> 8);
+				fileStream.write((byte)(size & 0x0000000000ff0000l) >> 16);
+				fileStream.write((byte)(size & 0x00000000ff000000l) >> 24);
+				fileStream.write((byte)(size & 0x000000ff00000000l) >> 32);
+				fileStream.write((byte)(size & 0x0000ff0000000000l) >> 40);
+				fileStream.write((byte)(size & 0x00ff000000000000l) >> 48);
+				fileStream.write((byte)(size & 0xff00000000000000l) >> 56);
+
+				uavTalk.sendObject(obj, false, false);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			writtenBytes += obj.getNumBytes();
+			writtenObjects ++;
 		}
 	}
 
 	//! Open a file and start logging
 	private boolean startLogging() {
-		loggingActive = true;
+		File root = Environment.getExternalStorageDirectory();
+
+		// Make the directory if it doesn't exist
+		File logDirectory = new File(root, "/OpenPilot");
+		logDirectory.mkdirs();
+
+		Date d = new Date();
+		String date = (new SimpleDateFormat("yyyyMMdd_hhmmss")).format(d);
+		String fileName = "log_" + date + ".opl";
+
+		file = new File(logDirectory, fileName);
+		if (DEBUG) Log.d(TAG, "Trying for file: " + file.getAbsolutePath());
+		try {
+			if (root.canWrite()){
+				fileStream = new FileOutputStream(file);
+				uavTalk = new UAVTalk(null, fileStream, objMngr);
+				writtenBytes = 0;
+				writtenObjects = 0;
+			} else {
+				Log.e(TAG, "Unwriteable address");
+				loggingActive = false;
+				return loggingActive;
+			}
+		} catch (IOException e) {
+			Log.e(TAG, "Could not write file " + e.getMessage());
+			loggingActive = false;
+			return loggingActive;
+
+		}
+
+		loggingActive = file.canWrite();
 
 		return loggingActive;
 	}
@@ -76,6 +154,14 @@ public class LoggingTask implements ITelemTask {
 	//! Close the file and end logging
 	private boolean endLogging() {
 		loggingActive = false;
+
+		if (DEBUG) Log.d(TAG, "Stop logging");
+		try {
+			fileStream.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		return true;
 	}
@@ -97,4 +183,20 @@ public class LoggingTask implements ITelemTask {
 			logObject(obj);
 		}
 	};
+
+	public class Stats {
+		public boolean loggingActive;
+		public int writtenBytes;
+		public int writtenObjects;
+	};
+
+	//! Return an object with the logging stats
+	public Stats getStats() {
+		Stats s = new Stats();
+		s.loggingActive = loggingActive;
+		s.writtenBytes = writtenBytes;
+		s.writtenObjects = writtenObjects;
+		return s;
+	}
+
 }
