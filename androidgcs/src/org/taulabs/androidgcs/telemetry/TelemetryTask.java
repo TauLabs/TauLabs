@@ -104,6 +104,9 @@ public abstract class TelemetryTask implements Runnable {
 	//! Indicate a physical connection is established
 	private boolean connected;
 
+	//! An object which can log the telemetry stream
+	private final LoggingTask logger = new LoggingTask();
+
 	TelemetryTask(OPTelemetryService s) {
 		telemService = s;
 		shutdown = false;
@@ -145,6 +148,9 @@ public abstract class TelemetryTask implements Runnable {
 		startInputProcessing();
 
 		tabletInfoTask = new TabletInformation(objMngr, telemService);
+
+		// Connect the logger
+		logger.connect(objMngr);
 
 		connected = true;
 		return connected;
