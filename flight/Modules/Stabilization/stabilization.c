@@ -36,8 +36,6 @@
 #include "stabilizationsettings.h"
 #include "actuatordesired.h"
 #include "ratedesired.h"
-#include "relaytuning.h"
-#include "relaytuningsettings.h"
 #include "stabilizationdesired.h"
 #include "attitudeactual.h"
 #include "gyros.h"
@@ -125,8 +123,6 @@ int32_t StabilizationInitialize()
 
 	// Code required for relay tuning
 	sin_lookup_initalize();
-	RelayTuningSettingsInitialize();
-	RelayTuningInitialize();
 
 	return 0;
 }
