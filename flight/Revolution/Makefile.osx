@@ -51,7 +51,7 @@ USE_THUMB_MODE = YES
 
 # List of modules to include
 MODULES +=  Actuator ManualControl Stabilization 
-MODULES += AltitudeHold VtolPathFollower FixedWingPathFollower PathPlanner
+MODULES += AltitudeHold VtolPathFollower PathFollower PathPlanner
 MODULES += Attitude/revolution
 #MODULES += OveroSync/simulated
 

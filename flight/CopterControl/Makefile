@@ -38,11 +38,11 @@ OUTDIR := $(TOP)/build/$(TARGET)
 DEBUG ?= NO
 
 # Include objects that are just nice information to show
-STACK_DIAGNOSTICS ?= NO
+STACK_DIAGNOSTICS ?= YES
 MIXERSTATUS_DIAGNOSTICS ?= NO
 RATEDESIRED_DIAGNOSTICS ?= NO
 I2C_WDG_STATS_DIAGNOSTICS ?= NO
-DIAG_TASKS ?= NO
+DIAG_TASKS ?= YES
 
 #Or just turn on all the above diagnostics. WARNING: This consumes massive amounts of memory.
 ALL_DIGNOSTICS ?=NO
@@ -106,7 +106,9 @@ OPTMODULES += Autotune
 endif
 
 # List of mandatory modules to include
-MODULES = Attitude Stabilization Actuator ManualControl FirmwareIAP
+MODULES = State Stabilization Actuator ManualControl FirmwareIAP
+MODULES += PathFollower
+# MODULES += PathFollower/coptercontrol
 # Telemetry must be last to grab the optional modules (why?)
 MODULES += Telemetry
 
@@ -222,6 +224,13 @@ SRC += $(OPUAVSYNTHDIR)/mixerstatus.c
 SRC += $(OPUAVSYNTHDIR)/ratedesired.c
 SRC += $(OPUAVSYNTHDIR)/baroaltitude.c
 SRC += $(OPUAVSYNTHDIR)/txpidsettings.c
+SRC += $(OPUAVSYNTHDIR)/fixedwingpathfollowerstatus.c
+SRC += $(OPUAVSYNTHDIR)/fixedwingpathfollowersettings.c
+SRC += $(OPUAVSYNTHDIR)/pathstatus.c
+SRC += $(OPUAVSYNTHDIR)/pathdesired.c
+SRC += $(OPUAVSYNTHDIR)/homelocation.c
+SRC += $(OPUAVSYNTHDIR)/positionactual.c
+SRC += $(OPUAVSYNTHDIR)/velocityactual.c
 SRC += $(OPUAVSYNTHDIR)/airspeedactual.c
 
 endif
