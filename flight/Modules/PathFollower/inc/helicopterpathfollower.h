@@ -32,6 +32,8 @@
 #include "fixedwingpathfollowersettings.h"
 
 void initializeHelicopterPathFollower();
-uint8_t updateHelicopterDesiredStabilization(uint8_t flightMode, FixedWingPathFollowerSettingsData fixedwingpathfollowerSettings);
+uint8_t updateHelicopterDesiredStabilization(uint8_t flightMode,
+					     FixedWingPathFollowerSettingsData
+					     fixedwingpathfollowerSettings);
 
-#endif // HELICOPTERPATHFOLLOWER_H
+#endif				// HELICOPTERPATHFOLLOWER_H

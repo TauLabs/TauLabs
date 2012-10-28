@@ -32,6 +32,8 @@
 #include "fixedwingpathfollowersettings.h"
 
 void initializeMultirotorPathFollower();
-uint8_t updateMultirotorDesiredStabilization(uint8_t flightMode, FixedWingPathFollowerSettingsData fixedwingpathfollowerSettings);
+uint8_t updateMultirotorDesiredStabilization(uint8_t flightMode,
+					     FixedWingPathFollowerSettingsData
+					     fixedwingpathfollowerSettings);
 
-#endif // MULTIROTORPATHFOLLOWER_H
+#endif				// MULTIROTORPATHFOLLOWER_H

@@ -71,7 +71,7 @@
 
 enum pathFollowerTypes {
 	FIXEDWING, MULTIROTOR, HELICOPTER, DUBINSCART, HOLONOMIC, NONHOLONOMIC,
-	    DISABLED
+	DISABLED
 };
 
 // Private variables
@@ -181,7 +181,8 @@ int32_t PathFollowerInitialize()
 		PathDesiredInitialize();
 
 		//VVVVVVVVVVVVVVV
-//              pathFollowerTypeInitialize[pathFollowerType]; <-- THIS NEEDS TO BE DONE LIKE THIS, WITH A VIRTUAL FUNCTION INSTEAD OF A SWITCH
+//              pathFollowerTypeInitialize[pathFollowerType]; <-- THIS NEEDS TO
+//              BE DONE LIKE THIS, WITH A VIRTUAL FUNCTION INSTEAD OF A SWITCH
 		switch (pathFollowerType) {
 		case FIXEDWING:
 			initializeFixedWingPathFollower();
@@ -228,7 +229,9 @@ static void PathFollowerTask(void *parameters)
 	// Main task loop
 	lastUpdateTime = xTaskGetTickCount();
 	while (1) {
-		FixedWingPathFollowerSettingsGet(&fixedwingpathfollowerSettings);	//IT WOULD BE NICE NOT TO DO THIS EVERY LOOP.
+		//IT WOULD BE NICE NOT TO DO THIS EVERY LOOP.
+		FixedWingPathFollowerSettingsGet
+		    (&fixedwingpathfollowerSettings);
 
 		// Wait.
 		vTaskDelayUntil(&lastUpdateTime,
@@ -246,13 +249,22 @@ static void PathFollowerTask(void *parameters)
 							    fixedwingpathfollowerSettings);
 			break;
 		case MULTIROTOR:
+			// @todo: is this really done? Added Alarmset just in case
+			AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE,
+				  SYSTEMALARMS_ALARM_CRITICAL);
 			updateMultirotorDesiredStabilization(flightMode,
 							     fixedwingpathfollowerSettings);
+			break;
 		case HELICOPTER:
-			AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE, SYSTEMALARMS_ALARM_CRITICAL);	//<--Helicopter mode is very far from being ready
-//                              updateHelicopterDesiredStabilization(fixedwingpathfollowerSettings);
+			// Helicopter mode is very far from being ready
+			AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE,
+				  SYSTEMALARMS_ALARM_CRITICAL);
+//          updateHelicopterDesiredStabilization(fixedwingpathfollowerSettings);
 		case HOLONOMIC:
-			AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE, SYSTEMALARMS_ALARM_CRITICAL);	//<--Honomomic mode is very far from being ready, and might never even be used
+			// Holomomic mode is very far from being ready, and might never
+			// even be used
+			AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE,
+				  SYSTEMALARMS_ALARM_CRITICAL);
 			break;
 		case DUBINSCART:
 			updateDubinsCartDesiredStabilization(flightMode,

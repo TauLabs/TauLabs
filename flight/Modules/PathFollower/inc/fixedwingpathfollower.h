@@ -32,5 +32,7 @@
 #include "fixedwingpathfollowersettings.h"
 
 void initializeFixedWingPathFollower();
-uint8_t updateFixedWingDesiredStabilization(uint8_t flightMode, FixedWingPathFollowerSettingsData fixedwingpathfollowerSettings);
-#endif // FIXEDWINGPATHFOLLOWER_H
+uint8_t updateFixedWingDesiredStabilization(uint8_t flightMode,
+					    FixedWingPathFollowerSettingsData
+					    fixedwingpathfollowerSettings);
+#endif				// FIXEDWINGPATHFOLLOWER_H

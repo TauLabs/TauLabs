@@ -224,28 +224,28 @@ static uint8_t waypointFollowing(uint8_t flightMode,
 	/**
 	 * Compute desired throttle command
 	 */
-#define AIRSPEED_KP      fixedwingpathfollowerSettings.AirspeedPI[FIXEDWINGPATHFOLLOWERSETTINGS_AIRSPEEDPI_KP]
-#define AIRSPEED_KI      fixedwingpathfollowerSettings.AirspeedPI[FIXEDWINGPATHFOLLOWERSETTINGS_AIRSPEEDPI_KI]
-#define AIRSPEED_ILIMIT	 fixedwingpathfollowerSettings.AirspeedPI[FIXEDWINGPATHFOLLOWERSETTINGS_AIRSPEEDPI_ILIMIT]
+    float airspeed_kp       = fixedwingpathfollowerSettings.AirspeedPI[FIXEDWINGPATHFOLLOWERSETTINGS_AIRSPEEDPI_KP];
+    float airspeed_ki       = fixedwingpathfollowerSettings.AirspeedPI[FIXEDWINGPATHFOLLOWERSETTINGS_AIRSPEEDPI_KI];
+    float airspeed_ilimit	  = fixedwingpathfollowerSettings.AirspeedPI[FIXEDWINGPATHFOLLOWERSETTINGS_AIRSPEEDPI_ILIMIT];
 
-	if (AIRSPEED_KI > 0.0f) {
+	if (airspeed_ki > 0.0f) {
 		//Integrate with saturation
 		integral->groundspeedError =
 		    bound(integral->groundspeedError + groundspeedError * dT,
-			  -AIRSPEED_ILIMIT / AIRSPEED_KI,
-			  AIRSPEED_ILIMIT / AIRSPEED_KI);
+			  -airspeed_ilimit / airspeed_ki,
+			  airspeed_ilimit / airspeed_ki);
 	}
 	//Compute the throttle command as err*Kp + errInt*Ki.
-	throttleCommand = -(groundspeedError * AIRSPEED_KP
-			    + integral->groundspeedError * AIRSPEED_KI);
+	throttleCommand = -(groundspeedError * airspeed_kp
+			    + integral->groundspeedError * airspeed_ki);
 
-#define THROTTLELIMIT_NEUTRAL fixedwingpathfollowerSettings.ThrottleLimit[FIXEDWINGPATHFOLLOWERSETTINGS_THROTTLELIMIT_NEUTRAL]
-#define THROTTLELIMIT_MIN     fixedwingpathfollowerSettings.ThrottleLimit[FIXEDWINGPATHFOLLOWERSETTINGS_THROTTLELIMIT_MIN]
-#define THROTTLELIMIT_MAX     fixedwingpathfollowerSettings.ThrottleLimit[FIXEDWINGPATHFOLLOWERSETTINGS_THROTTLELIMIT_MAX]
+    float throttlelimit_neutral  = fixedwingpathfollowerSettings.ThrottleLimit[FIXEDWINGPATHFOLLOWERSETTINGS_THROTTLELIMIT_NEUTRAL];
+    float throttlelimit_min      = fixedwingpathfollowerSettings.ThrottleLimit[FIXEDWINGPATHFOLLOWERSETTINGS_THROTTLELIMIT_MIN];
+    float throttlelimit_max      = fixedwingpathfollowerSettings.ThrottleLimit[FIXEDWINGPATHFOLLOWERSETTINGS_THROTTLELIMIT_MAX];
 
 	// set throttle with saturation
-	stabDesired.Throttle = bound(throttleCommand + THROTTLELIMIT_NEUTRAL,
-				     THROTTLELIMIT_MIN, THROTTLELIMIT_MAX);
+	stabDesired.Throttle = bound(throttleCommand + throttlelimit_neutral,
+				     throttlelimit_min, throttlelimit_max);
 
 	/**
 	 * Compute desired roll command
@@ -260,8 +260,12 @@ static uint8_t waypointFollowing(uint8_t flightMode,
 	   pathDesired.End[1] - pathDesired.Start[1],
 	   pathDesired.End[2] - pathDesired.Start[2] };
 
-	float k_path = fixedwingpathfollowerSettings.VectorFollowingGain / pathDesired.EndingVelocity;	//Divide gain by groundspeed so that the turn rate is independent of groundspeed
-	float k_orbit = fixedwingpathfollowerSettings.OrbitFollowingGain / pathDesired.EndingVelocity;	//Divide gain by groundspeed so that the turn rate is independent of groundspeed
+	float k_path = fixedwingpathfollowerSettings.VectorFollowingGain / 
+            pathDesired.EndingVelocity;	//Divide gain by groundspeed so that 
+                                        //the turn rate is independent of groundspeed
+	float k_orbit = fixedwingpathfollowerSettings.OrbitFollowingGain / 
+            pathDesired.EndingVelocity;	//Divide gain by groundspeed so that 
+                                        //the turn rate is independent of groundspeed
 	float k_psi_int = fixedwingpathfollowerSettings.FollowerIntegralGain;
 //========================================
 	//SHOULD NOT BE HARD CODED
@@ -281,7 +285,8 @@ static uint8_t waypointFollowing(uint8_t flightMode,
 	float pece = p[1] - c[1];
 	float d = sqrtf(pncn * pncn + pece * pece);
 
-#define LATERAL_ACCEL_FOR_HOLDING_CIRCLE 1.0f	//Assume that we want a lateral acceleration of 1.0m/s2. This should yield a nice, non-agressive turn
+//Assume that we want a lateral acceleration of 1.0m/s2. This should yield a nice, non-agressive turn
+#define LATERAL_ACCEL_FOR_HOLDING_CIRCLE 1.0f	
 	//Calculate radius, rho, using r*omega=v and omega = g/V_g * tan(phi)
 	//THIS SHOULD ONLY BE CALCULATED ONCE, INSTEAD OF EVERY TIME
 	rho =
@@ -370,16 +375,16 @@ static uint8_t waypointFollowing(uint8_t flightMode,
 		headingError_R -= 2.0f * F_PI;
 
 	//GET RID OF THE RAD2DEG. IT CAN BE FACTORED INTO HeadingPI
-#define YAWLIMIT_NEUTRAL  fixedwingpathfollowerSettings.RollLimit[FIXEDWINGPATHFOLLOWERSETTINGS_ROLLLIMIT_NEUTRAL]
-#define YAWLIMIT_MIN      fixedwingpathfollowerSettings.RollLimit[FIXEDWINGPATHFOLLOWERSETTINGS_ROLLLIMIT_MIN]
-#define YAWLIMIT_MAX      fixedwingpathfollowerSettings.RollLimit[FIXEDWINGPATHFOLLOWERSETTINGS_ROLLLIMIT_MAX]
-#define HEADINGPI_KP fixedwingpathfollowerSettings.HeadingPI[FIXEDWINGPATHFOLLOWERSETTINGS_HEADINGPI_KP]
-	yawCommand = (headingError_R * HEADINGPI_KP) * RAD2DEG;
+    float yawlimit_neutral   = fixedwingpathfollowerSettings.RollLimit[FIXEDWINGPATHFOLLOWERSETTINGS_ROLLLIMIT_NEUTRAL];
+    float yawlimit_min       = fixedwingpathfollowerSettings.RollLimit[FIXEDWINGPATHFOLLOWERSETTINGS_ROLLLIMIT_MIN];
+    float yawlimit_max       = fixedwingpathfollowerSettings.RollLimit[FIXEDWINGPATHFOLLOWERSETTINGS_ROLLLIMIT_MAX];
+    float headingpi_kp  = fixedwingpathfollowerSettings.HeadingPI[FIXEDWINGPATHFOLLOWERSETTINGS_HEADINGPI_KP];
+	yawCommand = (headingError_R * headingpi_kp) * RAD2DEG;
 
 	//Turn heading 
 
-	stabDesired.Yaw = bound(YAWLIMIT_NEUTRAL +
-				yawCommand, YAWLIMIT_MIN, YAWLIMIT_MAX);
+	stabDesired.Yaw = bound(yawlimit_neutral +
+				yawCommand, yawlimit_min, yawlimit_max);
 
 #ifdef SIM_OSX
 	fprintf(stderr, " headingError_R: %f, rollCommand: %f\n",
