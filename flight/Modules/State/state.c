@@ -147,8 +147,7 @@ int32_t StateInitialize(void)
 	HomeLocationInitialize();
 
 	gpsNew_flag = false;
-	glblAtt =
-	    (struct GlobalAttitudeVariables *)
+	glblAtt = (struct GlobalAttitudeVariables *)
 	    pvPortMalloc(sizeof(struct GlobalAttitudeVariables));
 
 	// Initialize quaternion
@@ -196,7 +195,8 @@ static void StateTask(void *parameters)
 	AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
 
 	// Set critical error and wait until the accel is producing data
-	//THIS IS BOARD SPECIFIC AND DOES NOT BELONG HERE. Can we put it in #if defined(PIOS_INCLUDE_ADXL345)?
+	//THIS IS BOARD SPECIFIC AND DOES NOT BELONG HERE. Can we put it in #if
+	//defined(PIOS_INCLUDE_ADXL345)?
 	while (PIOS_ADXL345_FifoElements() == 0) {
 		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,
 			  SYSTEMALARMS_ALARM_CRITICAL);
@@ -238,7 +238,8 @@ static void StateTask(void *parameters)
 
 	}
 
-	//Grab temperature at bootup. The hope is that the temperature is close enough to real temperature to have a reasonable density altitude estimate
+	//Grab temperature at bootup. The hope is that the temperature is close
+	//enough to real temperature to have a reasonable density altitude estimate
 	{
 		float prelim_accels[4];
 		float prelim_gyros[4];
@@ -253,7 +254,8 @@ static void StateTask(void *parameters)
 		HomeLocationGroundTemperatureSet(&groundTemperature);
 	}
 
-	//Store the original filter specs. This is because we currently have a poor way of calibrating the Premerlani approach
+	//Store the original filter specs. This is because we currently have a poor
+	//way of calibrating the Premerlani approach
 	uint8_t originalFilter = glblAtt->filter_choice;
 
 	//Start clock for delT calculation
@@ -267,7 +269,9 @@ static void StateTask(void *parameters)
 		FlightStatusGet(&flightStatus);
 
 		//Change gyro calibration parameters...
-		if ((xTaskGetTickCount() > 1000) && (xTaskGetTickCount() < 7000)) {	//...during first 7 seconds or so...
+		if ((xTaskGetTickCount() > 1000)
+		    && (xTaskGetTickCount() < 7000)) {
+			//...during first 7 seconds or so...
 			// For first 7 seconds use accels to get gyro bias
 			glblAtt->accelKp = 1;
 			glblAtt->accelKi = 0.9;
@@ -277,7 +281,10 @@ static void StateTask(void *parameters)
 			//Force to use the CCC, because of the way it calibrates
 			glblAtt->filter_choice =
 			    ATTITUDESETTINGS_FILTERCHOICE_CCC;
-		} else if (glblAtt->zero_during_arming && (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMING)) {	//...during arming...
+		} else if (glblAtt->zero_during_arming
+			   && (flightStatus.Armed ==
+			       FLIGHTSTATUS_ARMED_ARMING)) {
+			//...during arming...
 			glblAtt->accelKp = 1;
 			glblAtt->accelKi = 0.9;
 			glblAtt->yawBiasRate = 0.23;
@@ -302,11 +309,13 @@ static void StateTask(void *parameters)
 		GyrosData gyros;
 		int8_t retval = 0;
 
-		//Get sensor data, rotate, filter, and output to UAVO. This is the function that calls the wait structures that limit the loop rate
+		//Get sensor data, rotate, filter, and output to UAVO. This is the
+		//function that calls the wait structures that limit the loop rate
 		retval = updateIntertialSensors(&accels, &gyros, cc3d_flag);
 
 		// Only update attitude when sensor data is good
-		if (retval != 0 || cc3d_flag == false)	// <--CC IS NOT CURRENTLY SUPPORTED BY NAV BRANCH. FORCE AN ALARM STATE.
+		// CC IS NOT CURRENTLY SUPPORTED BY NAV BRANCH. FORCE AN ALARM STATE.
+		if (retval != 0 || cc3d_flag == false)
 			AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,
 				  SYSTEMALARMS_ALARM_ERROR);
 		else {
@@ -356,8 +365,21 @@ static void StateTask(void *parameters)
 
 #if defined(PIOS_GPS_PROVIDES_AIRSPEED)
 				//Estimate airspeed from GPS data
-				float staticPressure = homeLocation.SeaLevelPressure * powf(1.0f - 2.2555e-5f * (homeLocation.Altitude - positionActualData.Down), 5.25588f);	//http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
-				float staticAirDensity = staticPressure * 100 * 0.003483613507536f / (homeLocation.GroundTemperature + 273.15f);	//rho = PM/RT, and convert from millibar to Pa.
+				//http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
+				float staticPressure =
+				    homeLocation.SeaLevelPressure * powf(1.0f -
+									 2.2555e-5f
+									 *
+									 (homeLocation.
+									  Altitude
+									  -
+									  positionActualData.
+									  Down),
+									 5.25588f);
+				//rho = PM/RT, and convert from millibar to Pa.
+				float staticAirDensity =
+				    staticPressure * 100 * 0.003483613507536f /
+				    (homeLocation.GroundTemperature + 273.15f);
 
 				gps_airspeed_update(&gpsVelocityData,
 						    staticAirDensity);
@@ -396,7 +418,8 @@ static int32_t updateIntertialSensors(AccelsData * accels, GyrosData * gyros,
 	if (glblAtt->rotate) {
 		float tmpVec[3];
 
-		//Rotate the vector into a temporary vector, and then copy back into the original vectors.
+		//Rotate the vector into a temporary vector, and then copy back into
+		//the original vectors.
 		rot_mult(glblAtt->Rsb, prelim_accels, tmpVec, false);
 		memcpy(prelim_accels, tmpVec, sizeof(tmpVec));
 
@@ -404,15 +427,18 @@ static int32_t updateIntertialSensors(AccelsData * accels, GyrosData * gyros,
 		memcpy(prelim_gyros, tmpVec, sizeof(tmpVec));
 	}
 	//Correct accels biases. 
-	// NOTE: At this point, prelim_accels has now been rotated into the body frame
+	// NOTE: At this point, prelim_accels has now been rotated into the body
+	// frame
 	accels->x = prelim_accels[0];
 	accels->y = prelim_accels[1];
 	accels->z = prelim_accels[2];
 
 	//Correct gyroscope biases. 
-	// NOTE: At this point, prelim_gyros has now been rotated into the body frame, as are the gyro biases
+	// NOTE: At this point, prelim_gyros has now been rotated into the body
+	// frame, as are the gyro biases
 	if (glblAtt->bias_correct_gyro) {
-		// Applying integral component here so it can be seen on the gyros and correct bias
+		// Applying integral component here so it can be seen on the gyros and
+		// correct bias
 		gyros->x = prelim_gyros[0] + glblAtt->gyro_correct_int[0];
 		gyros->y = prelim_gyros[1] + glblAtt->gyro_correct_int[1];
 		gyros->z = prelim_gyros[2] + glblAtt->gyro_correct_int[2];
@@ -423,8 +449,9 @@ static int32_t updateIntertialSensors(AccelsData * accels, GyrosData * gyros,
 
 	}
 
-	//CopterControl has a function which can generate on the fly a correct hovering accelerometer bias for
-	//quadcopters and helicopters. See more on the wiki and forums: ???
+	//CopterControl has a function which can generate on the fly a correct
+	//hovering accelerometer bias for quadcopters and helicopters. See more on
+	//the wiki and forums: ???
 	if (glblAtt->trim_requested) {
 		if (glblAtt->trim_samples >= MAX_TRIM_FLIGHT_SAMPLES) {
 			glblAtt->trim_requested = false;
@@ -515,13 +542,15 @@ static void updateT3(GPSVelocityData * gpsVelocityData,
 				  (velocityActualData.Down * dT)) +
 	    alphaPosDown * gps_NED[2];
 
-	//Very slowly use GPS heading data to converge. This is a poor way of doing things, but will work in the short term for testing.
-	if (fabs(velocityActualData.North) > 3.0f) {	//Instead of calculating norm, use a gauge approach
+	//Very slowly use GPS heading data to converge. This is a poor way of doing
+	//things, but will work in the short term for testing.
+
+	//Instead of calculating norm, use a gauge approach
+	if (fabs(velocityActualData.North) > 3.0f) {
 		if (fabs(velocityActualData.North) > 4.0f
 		    || fabs(velocityActualData.East) > 3.0f) {
-			float heading =
-			    atan2f(velocityActualData.East,
-				   velocityActualData.North);
+			float heading = atan2f(velocityActualData.East,
+					       velocityActualData.North);
 
 			AttitudeActualData attitudeActual;
 			AttitudeActualGet(&attitudeActual);
@@ -536,7 +565,8 @@ static void updateT3(GPSVelocityData * gpsVelocityData,
 			attitudeActual.Yaw =
 			    .9f * attitudeActual.Yaw + 0.1f * heading;
 
-			// Convert into quaternions degrees (makes assumptions about RPY order)
+			// Convert into quaternions degrees (makes assumptions about RPY
+			// order)
 			RPY2Quaternion(&attitudeActual.Roll,
 				       &attitudeActual.q1);
 
@@ -644,20 +674,32 @@ static void settingsUpdatedCb(UAVObjEvent * objEv)
 	     ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE);
 	glblAtt->filter_choice = attitudeSettings.FilterChoice;
 
-	//The accelerometer sensor calibration values are all in the board sensor frame.
-	glblAtt->accelbias[0] = attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_X_S] / 1000.0f;	//Divide by 1000 because `accelbias` is in units
-	glblAtt->accelbias[1] = attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_Y_S] / 1000.0f;	// of 1000*[m/s^2]
+	//The accelerometer sensor calibration values are all in the board sensor
+	//frame.
+	//Divide by 1000 because `accelbias` is in units of 1000*[m/s^2]
+	glblAtt->accelbias[0] =
+	    attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_X_S] /
+	    1000.0f;
+	glblAtt->accelbias[1] =
+	    attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_Y_S] /
+	    1000.0f;
 	glblAtt->accelbias[2] =
 	    attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_Z_S] /
 	    1000.0f;
 
-	glblAtt->accelscale[0] = attitudeSettings.AccelScale[ATTITUDESETTINGS_ACCELSCALE_X_S] / 10000.0f;	//Divide by 1000 because `accelbias` is in units
-	glblAtt->accelscale[1] = attitudeSettings.AccelScale[ATTITUDESETTINGS_ACCELSCALE_Y_S] / 10000.0f;	// of 1000*[m/s^2]
+	//Divide by 1000 because `accelbias` is in unit of 1000*[m/s^2]s
+	glblAtt->accelscale[0] =
+	    attitudeSettings.AccelScale[ATTITUDESETTINGS_ACCELSCALE_X_S] /
+	    10000.0f;
+	glblAtt->accelscale[1] =
+	    attitudeSettings.AccelScale[ATTITUDESETTINGS_ACCELSCALE_Y_S] /
+	    10000.0f;
 	glblAtt->accelscale[2] =
 	    attitudeSettings.AccelScale[ATTITUDESETTINGS_ACCELSCALE_Z_S] /
 	    10000.0f;
 
-	//Provide minimum for scale. This keeps the accels from accidentally being "turned off".
+	//Provide minimum for scale. This keeps the accels from accidentally being
+	//"turned off".
 	for (int i = 0; i < 3; i++) {
 		if (glblAtt->accelscale[i] < .001f) {
 			glblAtt->accelscale[i] = .001f;
@@ -665,12 +707,16 @@ static void settingsUpdatedCb(UAVObjEvent * objEv)
 	}
 
 	//The gyroscope sensor calibration values are all in the body frame.
-	glblAtt->gyro_correct_int[0] = attitudeSettings.GyroBias[ATTITUDESETTINGS_GYROBIAS_X_B] / 100.0f;	//Divide by 100 because `GyroBias` 
-	glblAtt->gyro_correct_int[1] = attitudeSettings.GyroBias[ATTITUDESETTINGS_GYROBIAS_Y_B] / 100.0f;	// is in units of 100*[deg/s]
+	//Divide by 100 because `GyroBias` is in units of 100*[deg/s]
+	glblAtt->gyro_correct_int[0] =
+	    attitudeSettings.GyroBias[ATTITUDESETTINGS_GYROBIAS_X_B] / 100.0f;
+	glblAtt->gyro_correct_int[1] =
+	    attitudeSettings.GyroBias[ATTITUDESETTINGS_GYROBIAS_Y_B] / 100.0f;
 	glblAtt->gyro_correct_int[2] =
 	    attitudeSettings.GyroBias[ATTITUDESETTINGS_GYROBIAS_Z_B] / 100.0f;
 
-	//Calculate sensor to board rotation matrix. If the matrix is the identity, don't expend cycles on rotation
+	//Calculate sensor to board rotation matrix. If the matrix is the identity,
+	//don't expend cycles on rotation
 	if (attitudeSettings.BoardRotation[0] == 0
 	    && attitudeSettings.BoardRotation[1] == 0
 	    && attitudeSettings.BoardRotation[2] == 0) {
@@ -681,15 +727,15 @@ static void settingsUpdatedCb(UAVObjEvent * objEv)
 		Quaternion2R(rotationQuat, glblAtt->Rsb);
 	} else {
 		float rpy[3] =
-		    { attitudeSettings.
-		 BoardRotation[ATTITUDESETTINGS_BOARDROTATION_ROLL] * DEG2RAD /
-		 100.0f,
-			attitudeSettings.
-			    BoardRotation[ATTITUDESETTINGS_BOARDROTATION_PITCH]
+		    {
+		 attitudeSettings.BoardRotation
+		 [ATTITUDESETTINGS_BOARDROTATION_ROLL] * DEG2RAD / 100.0f,
+			attitudeSettings.BoardRotation
+			    [ATTITUDESETTINGS_BOARDROTATION_PITCH]
 			    * DEG2RAD / 100.0f,
-			attitudeSettings.
-			    BoardRotation[ATTITUDESETTINGS_BOARDROTATION_YAW] *
-			    DEG2RAD / 100.0f
+			attitudeSettings.BoardRotation
+			    [ATTITUDESETTINGS_BOARDROTATION_YAW] * DEG2RAD /
+			    100.0f
 		};
 		Euler2R(rpy, glblAtt->Rsb);
 		glblAtt->rotate = true;
@@ -708,8 +754,9 @@ static void settingsUpdatedCb(UAVObjEvent * objEv)
 		//Get sensor data  mean 
 		float a_body[3] =
 		    { glblAtt->trim_accels[0] / glblAtt->trim_samples,
-	      glblAtt->trim_accels[1] / glblAtt->trim_samples,
-	      glblAtt->trim_accels[2] / glblAtt->trim_samples };
+			glblAtt->trim_accels[1] / glblAtt->trim_samples,
+			glblAtt->trim_accels[2] / glblAtt->trim_samples
+		};
 
 		//Inverse rotation of sensor data, from body frame into sensor frame
 		float a_sensor[3];
@@ -719,14 +766,14 @@ static void settingsUpdatedCb(UAVObjEvent * objEv)
 		float psi, theta, phi;
 
 		psi =
-		    attitudeSettings.
-		    BoardRotation[ATTITUDESETTINGS_BOARDROTATION_YAW] *
-		    DEG2RAD / 100.0f;
+		    attitudeSettings.BoardRotation
+		    [ATTITUDESETTINGS_BOARDROTATION_YAW] * DEG2RAD / 100.0f;
 
 		float cP = cosf(psi);
 		float sP = sinf(psi);
 
-		//In case psi is too small, we have to use a different equation to solve for theta
+		//In case psi is too small, we have to use a different equation to
+		//solve for theta
 		if (fabs(psi) > 3.1415f / 2)
 			theta =
 			    atanf((a_sensor[1] +
@@ -744,11 +791,11 @@ static void settingsUpdatedCb(UAVObjEvent * objEv)
 		    atan2f((sP * a_sensor[0] - cP * a_sensor[1]) / GRAV,
 			   (a_sensor[2] / cosf(theta) / GRAV));
 
-		attitudeSettings.
-		    BoardRotation[ATTITUDESETTINGS_BOARDROTATION_ROLL] =
+		attitudeSettings.BoardRotation
+		    [ATTITUDESETTINGS_BOARDROTATION_ROLL] =
 		    phi * RAD2DEG * 100.0f;
-		attitudeSettings.
-		    BoardRotation[ATTITUDESETTINGS_BOARDROTATION_PITCH] =
+		attitudeSettings.BoardRotation
+		    [ATTITUDESETTINGS_BOARDROTATION_PITCH] =
 		    theta * RAD2DEG * 100.0f;
 
 		attitudeSettings.TrimFlight =
@@ -834,7 +881,9 @@ static void HomeLocationUpdatedCb(UAVObjEvent * objEv)
 
 		PositionActualSet(&positionActualData);
 	}
-	//Refuse to set gravity lower than Mars's gravity or greater than Jupiter's. Assume that if there was an attempt to do this, it was mistaken, and reset gravity to normal.
+	//Refuse to set gravity lower than Mars's gravity or greater than
+	//Jupiter's. Assume that if there was an attempt to do this, it was
+	//mistaken, and reset gravity to normal.
 	if (homeLocation.g_e < 3 || homeLocation.g_e > 25) {
 		homeLocation.g_e = 9.805;
 		HomeLocationSet(&homeLocation);

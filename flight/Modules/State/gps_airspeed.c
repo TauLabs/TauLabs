@@ -114,21 +114,23 @@ void gps_airspeed_update(const GPSVelocityData * gpsVelData,
 	    (Rbe[0][1] * gps->RbeCol1_old[1]) +
 	    (Rbe[0][2] * gps->RbeCol1_old[2]);
 
-	//If there's more than a 5 degree difference between two fuselage measurements, then we have sufficient delta to continue.
+    //If there's more than a 5 degree difference between two fuselage
+    //measurements, then we have sufficient delta to continue.
 	if (fabs(cosDiff) < cos(5.0f * DEG2RAD)) {
 		float gps_airspeed;
 
 		GPSVelocityData gpsVelData;
 		GPSVelocityGet(&gpsVelData);
 
-		//Calculate the norm^2 of the difference between the two GPS vectors
+        //Calculate the norm^2 of the difference between the two GPS vectors
 		float normDiffGPS2 =
 		    powf(gpsVelData.North - gps->gpsVelOld_N,
 			 2.0f) + powf(gpsVelData.East - gps->gpsVelOld_E,
 				      2.0f) + powf(gpsVelData.Down -
 						   gps->gpsVelOld_D, 2.0f);
 
-		//Calculate the norm^2 of the difference between the two fuselage vectors
+        //Calculate the norm^2 of the difference between the two fuselage
+        //vectors
 		float normDiffAttitude2 =
 		    powf(Rbe[0][0] - gps->RbeCol1_old[0],
 			 2.0f) + powf(Rbe[0][1] - gps->RbeCol1_old[1],
@@ -138,7 +140,8 @@ void gps_airspeed_update(const GPSVelocityData * gpsVelData,
 		//Airspeed magnitude is the ratio between the two difference norms
 		gps_airspeed = sqrtf(normDiffGPS2 / normDiffAttitude2);
 
-		//Check to see if gps airspeed estimate is reasonable (remember, it can only be positive, so only need to check upper limit)
+        //Check to see if gps airspeed estimate is reasonable (remember, it can
+        //only be positive, so only need to check upper limit)
 		if (gps_airspeed < 300) {	//NEED TO SATURATE, BUT NOT VERY GOOD TO SATURATE LIKE THIS. PROBABLY SHOULD THROW OUT ANY READINGS THAT ARE TOO FAR OUTSIDE THE CURRENT SPEED
 			//Save old variables for next pass
 			gps->gpsVelOld_N = gpsVelData.North;
@@ -162,7 +165,8 @@ void gps_airspeed_update(const GPSVelocityData * gpsVelData,
 			if (!AirspeedActualReadOnly()) {
 				AirspeedActualTrueAirspeedSet(&gps_airspeed);
 
-				//Calculate calibrated airspeed, http://en.wikipedia.org/wiki/True_airspeed
+                //Calculate calibrated airspeed,
+                //http://en.wikipedia.org/wiki/True_airspeed
 				gps_airspeed *=
 				    sqrtf(staticAirDensity /
 					  STANDARD_AIR_DENSITY);
