@@ -29,7 +29,6 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-
 #include "openpilot.h"
 #include "gps_airspeed.h"
 #include "airspeedactual.h"
@@ -37,12 +36,12 @@
 #include "CoordinateConversions.h"
 
 // Private constants
-#define GPS_AIRSPEED_BIAS_KP           0.1f   //Needs to be settable in a UAVO
-#define GPS_AIRSPEED_BIAS_KI           0.1f   //Needs to be settable in a UAVO
-#define SAMPLING_DELAY_MS_GPS          100    //Needs to be settable in a UAVO
-#define GPS_AIRSPEED_TIME_CONSTANT_MS  500.0f //Needs to be settable in a UAVO
+#define GPS_AIRSPEED_BIAS_KP           0.1f	//Needs to be settable in a UAVO
+#define GPS_AIRSPEED_BIAS_KI           0.1f	//Needs to be settable in a UAVO
+#define SAMPLING_DELAY_MS_GPS          100	//Needs to be settable in a UAVO
+#define GPS_AIRSPEED_TIME_CONSTANT_MS  500.0f	//Needs to be settable in a UAVO
 
-#define STANDARD_AIR_DENSITY 1.225f //Density of sea level air, at 15C, 20% relative humidy, in [kg/m^3].
+#define STANDARD_AIR_DENSITY 1.225f	//Density of sea level air, at 15C, 20% relative humidy, in [kg/m^3].
 #define F_PI 3.141526535897932f
 #define DEG2RAD (F_PI/180.0f)
 
@@ -75,7 +74,6 @@ static void compute_rbe(float Rbe[3][3])
 	Quaternion2R(q, Rbe);
 }
 
-
 /*
  * Initialize function loads first data sets, and allocates memory for structure.
  */
@@ -105,15 +103,16 @@ void gps_airspeed_initialize(void)
  *  where "f" is the fuselage vector in earth coordinates.
  *  We then solve for |V| = |V_gps_2-V_gps_1|/ |f_2 - f1|.
  */
-void gps_airspeed_update(const GPSVelocityData *gpsVelData, float staticAirDensity)
-{	
+void gps_airspeed_update(const GPSVelocityData * gpsVelData,
+			 float staticAirDensity)
+{
 	float Rbe[3][3];
 	compute_rbe(Rbe);
 
 	//Calculate the cos(angle) between the two fuselage basis vectors
-	float cosDiff = (Rbe[0][0] * gps->RbeCol1_old[0]) + 
-			(Rbe[0][1] * gps->RbeCol1_old[1]) +
-			(Rbe[0][2] * gps->RbeCol1_old[2]);
+	float cosDiff = (Rbe[0][0] * gps->RbeCol1_old[0]) +
+	    (Rbe[0][1] * gps->RbeCol1_old[1]) +
+	    (Rbe[0][2] * gps->RbeCol1_old[2]);
 
 	//If there's more than a 5 degree difference between two fuselage measurements, then we have sufficient delta to continue.
 	if (fabs(cosDiff) < cos(5.0f * DEG2RAD)) {
@@ -123,57 +122,63 @@ void gps_airspeed_update(const GPSVelocityData *gpsVelData, float staticAirDensi
 		GPSVelocityGet(&gpsVelData);
 
 		//Calculate the norm^2 of the difference between the two GPS vectors
-		float normDiffGPS2 = powf(gpsVelData.North - gps->gpsVelOld_N, 2.0f) +
-			             powf(gpsVelData.East  - gps->gpsVelOld_E, 2.0f) +
-			             powf(gpsVelData.Down  - gps->gpsVelOld_D, 2.0f);
+		float normDiffGPS2 =
+		    powf(gpsVelData.North - gps->gpsVelOld_N,
+			 2.0f) + powf(gpsVelData.East - gps->gpsVelOld_E,
+				      2.0f) + powf(gpsVelData.Down -
+						   gps->gpsVelOld_D, 2.0f);
 
 		//Calculate the norm^2 of the difference between the two fuselage vectors
-		float normDiffAttitude2 = powf(Rbe[0][0] - gps->RbeCol1_old[0], 2.0f) +
-			                  powf(Rbe[0][1] - gps->RbeCol1_old[1], 2.0f) +
-			                  powf(Rbe[0][2] - gps->RbeCol1_old[2], 2.0f);
+		float normDiffAttitude2 =
+		    powf(Rbe[0][0] - gps->RbeCol1_old[0],
+			 2.0f) + powf(Rbe[0][1] - gps->RbeCol1_old[1],
+				      2.0f) + powf(Rbe[0][2] -
+						   gps->RbeCol1_old[2], 2.0f);
 
 		//Airspeed magnitude is the ratio between the two difference norms
 		gps_airspeed = sqrtf(normDiffGPS2 / normDiffAttitude2);
 
 		//Check to see if gps airspeed estimate is reasonable (remember, it can only be positive, so only need to check upper limit)
-		if (gps_airspeed < 300) { //NEED TO SATURATE, BUT NOT VERY GOOD TO SATURATE LIKE THIS. PROBABLY SHOULD THROW OUT ANY READINGS THAT ARE TOO FAR OUTSIDE THE CURRENT SPEED
+		if (gps_airspeed < 300) {	//NEED TO SATURATE, BUT NOT VERY GOOD TO SATURATE LIKE THIS. PROBABLY SHOULD THROW OUT ANY READINGS THAT ARE TOO FAR OUTSIDE THE CURRENT SPEED
 			//Save old variables for next pass
 			gps->gpsVelOld_N = gpsVelData.North;
 			gps->gpsVelOld_E = gpsVelData.East;
 			gps->gpsVelOld_D = gpsVelData.Down;
-			
+
 			gps->RbeCol1_old[0] = Rbe[0][0];
 			gps->RbeCol1_old[1] = Rbe[0][1];
 			gps->RbeCol1_old[2] = Rbe[0][2];
-			
+
 			//Low pass filter
 			const float alpha = .2;
 			float gps_airspeed_old;
-			AirspeedActualTrueAirspeedGet(&gps_airspeed_old);			
-			
-			gps_airspeed=gps_airspeed*alpha + (1-alpha)*gps_airspeed_old;
-			
+			AirspeedActualTrueAirspeedGet(&gps_airspeed_old);
+
+			gps_airspeed =
+			    gps_airspeed * alpha + (1 -
+						    alpha) * gps_airspeed_old;
+
 			// Do not update airspeed data in simulation mode
 			if (!AirspeedActualReadOnly()) {
 				AirspeedActualTrueAirspeedSet(&gps_airspeed);
 
 				//Calculate calibrated airspeed, http://en.wikipedia.org/wiki/True_airspeed
-				gps_airspeed*=sqrtf(staticAirDensity/STANDARD_AIR_DENSITY);
-				AirspeedActualCalibratedAirspeedSet(&gps_airspeed);
+				gps_airspeed *=
+				    sqrtf(staticAirDensity /
+					  STANDARD_AIR_DENSITY);
+				AirspeedActualCalibratedAirspeedSet
+				    (&gps_airspeed);
 			}
-		}
-		else {
+		} else {
 			// Do not update airspeed data in simulation mode
 			if (!AirspeedActualReadOnly()) {
-				AirspeedActualTrueAirspeedGet(&gps_airspeed); //<--Why do we get the airspeed just to set it? So that the object is listed as updated?
+				AirspeedActualTrueAirspeedGet(&gps_airspeed);	//<--Why do we get the airspeed just to set it? So that the object is listed as updated?
 				AirspeedActualTrueAirspeedSet(&gps_airspeed);
 			}
 		}
 
 	}
 }
-
-
 
 /**
  * @}
