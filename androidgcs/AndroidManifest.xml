@@ -46,6 +46,7 @@
 		<activity android:name="UAVLocation" android:label="@string/location_name" />
 		<activity android:name="SystemAlarmActivity" android:label="System Alarms" />
 		<activity android:name="TuningActivity" android:label="Tuning" />
+		<activity android:name="PathPlanner" android:label="Path Planner" />
 		<activity android:name="Transmitter" android:label="Transmitter"/> <!-- android:hardwareAccelerated="false" -->
 				<activity android:name="ObjectEditor" android:label="ObjectEditor"
 			android:theme="@android:style/Theme.Dialog" />

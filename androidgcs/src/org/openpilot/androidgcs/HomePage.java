@@ -116,6 +116,14 @@ public class HomePage extends ObjectManagerActivity {
 			}
 		});
 
+		Button pathPlanner = (Button) findViewById(R.id.launch_pathplanner);
+		pathPlanner.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				startActivity(new Intent(HomePage.this, PathPlanner.class));
+			}
+		});
+
 	}
 
 }
