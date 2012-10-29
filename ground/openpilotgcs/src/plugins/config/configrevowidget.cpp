@@ -345,11 +345,11 @@ void ConfigRevoWidget::doGetAccelGyroBiasData(UAVObject *obj)
 
         collectingData = false;
 
+        // No longer need to call this callback
+        disconnect(this,SLOT(doGetAccelGyroBiasData(UAVObject*)));
+
         Accels * accels = Accels::GetInstance(getObjectManager());
         Gyros * gyros = Gyros::GetInstance(getObjectManager());
-
-        disconnect(accels,SIGNAL(objectUpdated(UAVObject*)),this,SLOT(doGetAccelGyroBiasData(UAVObject*)));
-        disconnect(gyros,SIGNAL(objectUpdated(UAVObject*)),this,SLOT(doGetAccelGyroBiasData(UAVObject*)));
 
         m_ui->accelBiasStart->setEnabled(true);
 
@@ -650,23 +650,17 @@ void ConfigRevoWidget::doGetSixPointCalibrationMeasurement(UAVObject * obj)
     if(mag_accum_x.size() >= 20 && collectingData == true) {
 #endif
         collectingData = false;
-
+        disconnect(this, SLOT(doGetSixPointCalibrationMeasurement(UAVObject*)));
         m_ui->sixPointsSave->setEnabled(true);
 
 #ifdef SIX_POINT_CAL_ACCEL
         // Store the mean for this position for the accel
-        Accels * accels = Accels::GetInstance(getObjectManager());
-        Q_ASSERT(accels);
-        disconnect(accels,SIGNAL(objectUpdated(UAVObject*)),this,SLOT(doGetSixPointCalibrationMeasurement(UAVObject*)));
         accel_data_x[position] = listMean(accel_accum_x);
         accel_data_y[position] = listMean(accel_accum_y);
         accel_data_z[position] = listMean(accel_accum_z);
 #endif
 
         // Store the mean for this position for the mag
-        Magnetometer * mag = Magnetometer::GetInstance(getObjectManager());
-        Q_ASSERT(mag);
-        disconnect(mag,SIGNAL(objectUpdated(UAVObject*)),this,SLOT(doGetSixPointCalibrationMeasurement(UAVObject*)));
         mag_data_x[position] = listMean(mag_accum_x);
         mag_data_y[position] = listMean(mag_accum_y);
         mag_data_z[position] = listMean(mag_accum_z);
@@ -699,8 +693,12 @@ void ConfigRevoWidget::doGetSixPointCalibrationMeasurement(UAVObject * obj)
 
             /* Cleanup original settings */
 #ifdef SIX_POINT_CAL_ACCEL
+            Accels * accels = Accels::GetInstance(getObjectManager());
+            Q_ASSERT(accels);
             accels->setMetadata(initialAccelsMdata);
 #endif
+            Magnetometer * mag = Magnetometer::GetInstance(getObjectManager());
+            Q_ASSERT(mag);
             mag->setMetadata(initialMagMdata);
         }
     }
