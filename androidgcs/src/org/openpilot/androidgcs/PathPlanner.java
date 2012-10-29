@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import org.openpilot.uavtalk.UAVDataObject;
+import org.openpilot.uavtalk.UAVObjectField;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -27,6 +29,11 @@ public class PathPlanner extends ObjectManagerActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.path_planner);
+	}
+
+	@Override
+	void onOPConnected() {
+		super.onOPConnected();
 
 		File waypointsFile = new File("/data/data/waypoints.xml");
 		List<Waypoint> waypoints = null;
@@ -44,6 +51,48 @@ public class PathPlanner extends ObjectManagerActivity {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+
+		storeWaypoints(waypoints);
+	}
+
+	//! Takes a list of waypoints and copies it to the flash on the UAV
+	private void storeWaypoints(List<Waypoint> waypoints) {
+
+		UAVDataObject firstWaypoint = (UAVDataObject) objMngr.getObject("Waypoint");
+		if (firstWaypoint == null) {
+			Log.e(TAG, "Waypoints are not registered.");
+		} else {
+			if (waypoints != null && waypoints.size() > 0) {
+				for (int i = 0; i < waypoints.size(); i++) {
+
+					Waypoint waypoint = waypoints.get(i);
+					UAVDataObject waypointObject = (UAVDataObject) objMngr.getObject("Waypoint",waypoint.instanceId);
+					if (waypointObject == null)
+						waypointObject = firstWaypoint.clone(waypoint.instanceId);
+
+					UAVObjectField field;
+
+					field = waypointObject.getField("Position");
+					field.setValue(waypoint.Position[0], 0);
+					field.setValue(waypoint.Position[1], 1);
+					field.setValue(waypoint.Position[2], 2);
+
+					field = waypointObject.getField("Velocity");
+					field.setValue(waypoint.Velocity[0], 0);
+					field.setValue(waypoint.Velocity[1], 1);
+					field.setValue(waypoint.Velocity[2], 2);
+
+					field = waypointObject.getField("YawDesired");
+					field.setValue(waypoint.YawDesired);
+
+					field = waypointObject.getField("Action");
+					field.setValue(waypoint.Action);
+
+					// TODO: Verify all the waypoints are properly and robustly updated
+					waypointObject.updated();
+				}
+			}
 		}
 	}
 
