@@ -86,6 +86,8 @@ static void settingsUpdatedCb(UAVObjEvent * objEv);
 
 static float accelKi = 0;
 static float accelKp = 0;
+static float accel_alpha = 0;
+static float accel_alpha_setting = 0;
 static float yawBiasRate = 0;
 static float gyroGain = 0.42;
 static int16_t accelbias[3];
@@ -215,18 +217,21 @@ static void AttitudeTask(void *parameters)
 			accelKp = 1;
 			accelKi = 0.9;
 			yawBiasRate = 0.23;
+			accel_alpha = 0;
 			init = 0;
 		}
 		else if (zero_during_arming && (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMING)) {
 			accelKp = 1;
 			accelKi = 0.9;
 			yawBiasRate = 0.23;
+			accel_alpha = 0;
 			init = 0;
 		} else if (init == 0) {
 			// Reload settings (all the rates)
 			AttitudeSettingsAccelKiGet(&accelKi);
 			AttitudeSettingsAccelKpGet(&accelKp);
 			AttitudeSettingsYawBiasRateGet(&yawBiasRate);
+			accel_alpha = accel_alpha_setting;
 			init = 1;
 		}
 		
@@ -420,6 +425,10 @@ static int32_t updateSensorsCC3D(AccelsData * accelsData, GyrosData * gyrosData)
 		gyrosData->z += gyro_correct_int[2];
 	}
 
+	// Because most crafts wont get enough information from gravity to zero yaw gyro, we try
+	// and make it average zero (weakly)
+	gyro_correct_int[2] += - gyrosData->z * yawBiasRate;
+
 	GyrosSet(gyrosData);
 	AccelsSet(accelsData);
 
@@ -439,23 +448,35 @@ static void updateAttitude(AccelsData * accelsData, GyrosData * gyrosData)
 	float * gyros = &gyrosData->x;
 	float * accels = &accelsData->x;
 	
-	float grot[3];
+	static float grot[3];
 	float accel_err[3];
+
+	// Apply smoothing to accel values, to reduce vibration noise before main calculations.
+	static float accels_filtered[3];
+	
+	accels_filtered[0] = accels_filtered[0] * accel_alpha + accels[0] * (1 - accel_alpha);
+	accels_filtered[1] = accels_filtered[1] * accel_alpha + accels[1] * (1 - accel_alpha);
+	accels_filtered[2] = accels_filtered[2] * accel_alpha + accels[2] * (1 - accel_alpha);
 	
 	// Rotate gravity to body frame and cross with accels
-	grot[0] = -(2 * (q[1] * q[3] - q[0] * q[2]));
-	grot[1] = -(2 * (q[2] * q[3] + q[0] * q[1]));
-	grot[2] = -(q[0] * q[0] - q[1]*q[1] - q[2]*q[2] + q[3]*q[3]);
-	CrossProduct((const float *) accels, (const float *) grot, accel_err);
+	grot[0] = grot[0] * accel_alpha - (2 * (q[1] * q[3] - q[0] * q[2])) * (1 - accel_alpha);
+	grot[1] = grot[1] * accel_alpha - (2 * (q[2] * q[3] + q[0] * q[1])) * (1 - accel_alpha);
+	grot[2] = grot[2] * accel_alpha - (q[0] * q[0] - q[1]*q[1] - q[2]*q[2] + q[3]*q[3]) * (1 - accel_alpha);
+	CrossProduct((const float *) accels_filtered, (const float *) grot, accel_err);
 	
 	// Account for accel magnitude
-	float accel_mag = sqrtf(accels[0]*accels[0] + accels[1]*accels[1] + accels[2]*accels[2]);
+	float accel_mag = sqrtf(accels_filtered[0]*accels_filtered[0] + accels_filtered[1]*accels_filtered[1] + accels_filtered[2]*accels_filtered[2]);
 	if(accel_mag < 1.0e-3f)
 		return;
 
-	accel_err[0] /= accel_mag;
-	accel_err[1] /= accel_mag;
-	accel_err[2] /= accel_mag;
+	// Account for filtered gravity vector magnitude
+	float grot_mag = sqrtf(grot[0]*grot[0] + grot[1]*grot[1] + grot[2]*grot[2]);
+	if(grot_mag < 1.0e-3f)
+		return;
+
+	accel_err[0] /= (accel_mag*grot_mag);
+	accel_err[1] /= (accel_mag*grot_mag);
+	accel_err[2] /= (accel_mag*grot_mag);
 	
 	// Accumulate integral of error.  Scale here so that units are (deg/s) but Ki has units of s
 	gyro_correct_int[0] += accel_err[0] * accelKi;
@@ -527,7 +548,16 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	accelKi = attitudeSettings.AccelKi;
 	yawBiasRate = attitudeSettings.YawBiasRate;
 	gyroGain = attitudeSettings.GyroGain;
+
+	// Calculate accel filter alpha, in the same way as for gyro data in stabilization module.
+	const float fakeDt = 0.0025;
+	if(attitudeSettings.AccelTau < 0.0001)
+		accel_alpha_setting = 0;   // not trusting this to resolve to 0
+	else
+		accel_alpha_setting = expf(-fakeDt  / attitudeSettings.AccelTau);
 	
+	accel_alpha = accel_alpha_setting;
+
 	zero_during_arming = attitudeSettings.ZeroDuringArming == ATTITUDESETTINGS_ZERODURINGARMING_TRUE;
 	bias_correct_gyro = attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE;
 	
