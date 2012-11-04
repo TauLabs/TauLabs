@@ -52,24 +52,33 @@
 #include "camerastabsettings.h"
 #include "cameradesired.h"
 #include "hwsettings.h"
+// New - Feed Forward
+#include "mixersettings.h"
 
 //
 // Configuration
 //
 #define SAMPLE_PERIOD_MS		10
+#define LOAD_DELAY			7000
 
 // Private types
+enum {ROLL,PITCH,YAW,MAX_AXES};
 
 // Private variables
 static struct CameraStab_data {
 	portTickType lastSysTime;
+	uint8_t AttitudeFilter;
 	float inputs[CAMERASTABSETTINGS_INPUT_NUMELEM];
-	float inputs_filtered[CAMERASTABSETTINGS_INPUT_NUMELEM];
+	float attitude_filtered[MAX_AXES];
+	float FFlastAttitude[MAX_AXES];
+	float FFlastFilteredAttitude[MAX_AXES];
+	float FFfilterAccumulator[MAX_AXES];	
 } *csd;
 
 // Private functions
 static void attitudeUpdated(UAVObjEvent* ev);
 static float bound(float val, float limit);
+static void applyFF(uint8_t index, float dT, float *attitude, CameraStabSettingsData* cameraStab);
 
 /**
  * Initialise the module, called on startup
@@ -100,7 +109,7 @@ int32_t CameraStabInitialize(void)
 		if (!csd)
 			return -1;
 
-		// make sure that all inputs[] and inputs_filtered[] are zeroed
+		// make sure that all inputs[] are zeroed
 		memset(csd, 0, sizeof(struct CameraStab_data));
 		csd->lastSysTime = xTaskGetTickCount();
 
@@ -146,8 +155,29 @@ static void attitudeUpdated(UAVObjEvent* ev)
 			(float)SAMPLE_PERIOD_MS / 1000.0f;
 	csd->lastSysTime = thisSysTime;
 
+
+	float attitude;
+	float output;
+
 	// Read any input channels and apply LPF
-	for (uint8_t i = 0; i < CAMERASTABSETTINGS_INPUT_NUMELEM; i++) {
+	for (uint8_t i = 0; i < MAX_AXES; i++) {
+		switch (i) {
+		case ROLL:
+			AttitudeActualRollGet(&attitude);
+			break;
+		case PITCH:
+			AttitudeActualPitchGet(&attitude);
+			break;
+		case YAW:
+			AttitudeActualYawGet(&attitude);
+			break;
+		}
+
+		float rt = (float)cameraStab.AttitudeFilter;
+		csd->attitude_filtered[i] = (rt / (rt + dT)) * csd->attitude_filtered[i] + (dT / (rt + dT)) * attitude;
+		attitude = csd->attitude_filtered[i];
+
+
 		if (cameraStab.Input[i] != CAMERASTABSETTINGS_INPUT_NONE) {
 			if (AccessoryDesiredInstGet(cameraStab.Input[i] - CAMERASTABSETTINGS_INPUT_ACCESSORY0, &accessory) == 0) {
 				float input_rate;
@@ -163,33 +193,28 @@ static void attitudeUpdated(UAVObjEvent* ev)
 				default:
 					PIOS_Assert(0);
 				}
+			}
+		}
 
-				// bypass LPF calculation if ResponseTime is zero
-				float rt = (float)cameraStab.ResponseTime[i];
-				if (rt)
-					csd->inputs_filtered[i] = (rt / (rt + dT)) * csd->inputs_filtered[i]
-								+ (dT / (rt + dT)) * csd->inputs[i];
-				else
-					csd->inputs_filtered[i] = csd->inputs[i];
+		// Add Servo FeedForward
+		applyFF(i, dT, &attitude, &cameraStab);
+
+		// Set output channels
+		output = bound((attitude + csd->inputs[i]) / cameraStab.OutputRange[i], 1.0f);
+		if (thisSysTime / portTICK_RATE_MS > LOAD_DELAY) {
+			switch (i) {
+			case ROLL:
+				CameraDesiredRollSet(&output);
+				break;
+			case PITCH:
+				CameraDesiredPitchSet(&output);
+				break;
+			case YAW:
+				CameraDesiredYawSet(&output);
+				break;
 			}
 		}
 	}
-
-	// Set output channels
-	float attitude;
-	float output;
-
-	AttitudeActualRollGet(&attitude);
-	output = bound((attitude + csd->inputs_filtered[CAMERASTABSETTINGS_INPUT_ROLL]) / cameraStab.OutputRange[CAMERASTABSETTINGS_OUTPUTRANGE_ROLL], 1.0f);
-	CameraDesiredRollSet(&output);
-
-	AttitudeActualPitchGet(&attitude);
-	output = bound((attitude + csd->inputs_filtered[CAMERASTABSETTINGS_INPUT_PITCH]) / cameraStab.OutputRange[CAMERASTABSETTINGS_OUTPUTRANGE_PITCH], 1.0f);
-	CameraDesiredPitchSet(&output);
-
-	AttitudeActualYawGet(&attitude);
-	output = bound((attitude + csd->inputs_filtered[CAMERASTABSETTINGS_INPUT_YAW]) / cameraStab.OutputRange[CAMERASTABSETTINGS_OUTPUTRANGE_YAW], 1.0f);
-	CameraDesiredYawSet(&output);
 }
 
 float bound(float val, float limit)
@@ -197,6 +222,55 @@ float bound(float val, float limit)
 	return (val > limit) ? limit :
 		(val < -limit) ? -limit :
 		val;
+}
+
+static void applyFF(uint8_t index, float dT, float *attitude, CameraStabSettingsData* cameraStab)
+{
+	MixerSettingsData mixerSettings;
+	MixerSettingsGet (&mixerSettings);
+	float k = 1;
+	if (index == ROLL) {
+		float pattitude;
+		AttitudeActualPitchGet(&pattitude);
+		k = (cameraStab->OutputRange[PITCH] - fabs(pattitude)) / cameraStab->OutputRange[PITCH];
+	}
+	float accumulator = csd->FFfilterAccumulator[index];
+	float period = dT / 1000.0f;
+	accumulator += (*attitude - csd->FFlastAttitude[index]) * cameraStab->FeedForward[index] * k;
+	csd->FFlastAttitude[index] = *attitude;
+	*attitude += accumulator;
+
+	if(period !=0)
+	{
+		if(accumulator > 0)
+		{
+			float filter = mixerSettings.AccelTime / period;
+			if(filter <1)
+			{
+				filter = 1;
+			}
+			accumulator -= accumulator / filter;
+		}else
+		{
+			float filter = mixerSettings.DecelTime / period;
+			if(filter <1)
+			{
+				filter = 1;
+			}
+			accumulator -= accumulator / filter;
+		}
+	}
+	csd->FFfilterAccumulator[index] = accumulator;
+	*attitude += accumulator;
+
+	//acceleration and decceleration limit
+	float delta = *attitude - csd->FFlastFilteredAttitude[index];
+	float maxDelta = mixerSettings.MaxAccel * period;
+	if(fabs(delta) > maxDelta) //we are accelerating too hard
+	{
+		*attitude = csd->FFlastFilteredAttitude[index] + (delta > 0 ? maxDelta : - maxDelta);
+	}
+	csd->FFlastFilteredAttitude[index] = *attitude;
 }
 /**
   * @}

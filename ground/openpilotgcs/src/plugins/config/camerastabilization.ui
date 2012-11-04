@@ -202,7 +202,7 @@ have to define channel output range using Output configuration tab.</string>
           <item row="2" column="0">
            <widget class="QLabel" name="label_43">
             <property name="text">
-             <string>Output Range</string>
+             <string>Output Range (Angle)</string>
             </property>
            </widget>
           </item>
@@ -331,6 +331,12 @@ margin:1px;</string>
           </item>
           <item row="1" column="3">
            <widget class="QComboBox" name="yawInputChannel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="focusPolicy">
              <enum>Qt::StrongFocus</enum>
             </property>
@@ -348,6 +354,12 @@ Don't forget to map this channel using Input configuration tab.</string>
           </item>
           <item row="1" column="2">
            <widget class="QComboBox" name="pitchInputChannel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="focusPolicy">
              <enum>Qt::StrongFocus</enum>
             </property>
@@ -365,6 +377,12 @@ Don't forget to map this channel using Input configuration tab.</string>
           </item>
           <item row="1" column="1">
            <widget class="QComboBox" name="rollInputChannel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="focusPolicy">
              <enum>Qt::StrongFocus</enum>
             </property>
@@ -389,6 +407,12 @@ Don't forget to map this channel using Input configuration tab.</string>
           </item>
           <item row="2" column="3">
            <widget class="QComboBox" name="yawStabilizationMode">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="focusPolicy">
              <enum>Qt::StrongFocus</enum>
             </property>
@@ -437,26 +461,14 @@ AxisLock: camera remembers tracking attitude. Input controls the rate of deflect
             </property>
            </widget>
           </item>
-          <item row="5" column="3">
-           <widget class="QSpinBox" name="yawResponseTime">
-            <property name="focusPolicy">
-             <enum>Qt::StrongFocus</enum>
-            </property>
-            <property name="toolTip">
-             <string>Input low-pass filter response time for yaw axis, ms.
-
-This option smoothes the stick input. Zero value disables LPF.</string>
-            </property>
-            <property name="maximum">
-             <number>1000</number>
-            </property>
-            <property name="value">
-             <number>150</number>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="2">
            <widget class="QComboBox" name="pitchStabilizationMode">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="focusPolicy">
              <enum>Qt::StrongFocus</enum>
             </property>
@@ -505,26 +517,14 @@ AxisLock: camera remembers tracking attitude. Input controls the rate of deflect
             </property>
            </widget>
           </item>
-          <item row="5" column="2">
-           <widget class="QSpinBox" name="pitchResponseTime">
-            <property name="focusPolicy">
-             <enum>Qt::StrongFocus</enum>
-            </property>
-            <property name="toolTip">
-             <string>Input low-pass filter response time for pitch axis, ms.
-
-This option smoothes the stick input. Zero value disables LPF.</string>
-            </property>
-            <property name="maximum">
-             <number>1000</number>
-            </property>
-            <property name="value">
-             <number>150</number>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="1">
            <widget class="QComboBox" name="rollStabilizationMode">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="focusPolicy">
              <enum>Qt::StrongFocus</enum>
             </property>
@@ -573,49 +573,17 @@ AxisLock: camera remembers tracking attitude. Input controls the rate of deflect
             </property>
            </widget>
           </item>
-          <item row="5" column="1">
-           <widget class="QSpinBox" name="rollResponseTime">
-            <property name="focusPolicy">
-             <enum>Qt::StrongFocus</enum>
-            </property>
-            <property name="toolTip">
-             <string>Input low-pass filter response time for roll axis, ms.
-
-This option smoothes the stick input. Zero value disables LPF.</string>
-            </property>
-            <property name="maximum">
-             <number>1000</number>
-            </property>
-            <property name="value">
-             <number>150</number>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="0">
-           <widget class="QLabel" name="label_36">
-            <property name="text">
-             <string>MaxAxisLockRate</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0">
-           <widget class="QLabel" name="label_37">
-            <property name="text">
-             <string>Response Time</string>
-            </property>
-           </widget>
-          </item>
           <item row="4" column="0">
            <widget class="QLabel" name="label_38">
             <property name="text">
-             <string>Input Rate</string>
+             <string>Input Rate (Speed)</string>
             </property>
            </widget>
           </item>
           <item row="3" column="0">
            <widget class="QLabel" name="label_39">
             <property name="text">
-             <string>Input Range</string>
+             <string>Input Range (Angle)</string>
             </property>
            </widget>
           </item>
@@ -626,14 +594,115 @@ This option smoothes the stick input. Zero value disables LPF.</string>
             </property>
            </widget>
           </item>
-          <item row="6" column="2" colspan="2">
-           <widget class="QLabel" name="label_41">
-            <property name="text">
-             <string>(the same value for Roll, Pitch, Yaw)</string>
+          <item row="5" column="3">
+           <widget class="QSpinBox" name="yawFeedForward">
+            <property name="focusPolicy">
+             <enum>Qt::StrongFocus</enum>
+            </property>
+            <property name="toolTip">
+             <string>Input low-pass filter response time for yaw axis, ms.
+
+This option smoothes the stick input. Zero value disables LPF.</string>
+            </property>
+            <property name="maximum">
+             <number>25</number>
+            </property>
+            <property name="value">
+             <number>0</number>
             </property>
            </widget>
           </item>
-          <item row="6" column="1">
+          <item row="5" column="2">
+           <widget class="QSpinBox" name="pitchFeedForward">
+            <property name="focusPolicy">
+             <enum>Qt::StrongFocus</enum>
+            </property>
+            <property name="toolTip">
+             <string>Input low-pass filter response time for pitch axis, ms.
+
+This option smoothes the stick input. Zero value disables LPF.</string>
+            </property>
+            <property name="maximum">
+             <number>25</number>
+            </property>
+            <property name="value">
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QSpinBox" name="rollFeedForward">
+            <property name="focusPolicy">
+             <enum>Qt::StrongFocus</enum>
+            </property>
+            <property name="toolTip">
+             <string>Input low-pass filter response time for roll axis, ms.
+
+This option smoothes the stick input. Zero value disables LPF.</string>
+            </property>
+            <property name="maximum">
+             <number>25</number>
+            </property>
+            <property name="value">
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="label_37">
+            <property name="text">
+             <string>Servo Acceleration</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0" colspan="4">
+           <widget class="Line" name="line_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="16" column="0" colspan="4">
+           <widget class="QLabel" name="label_2">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>WARNING! Too high Servo Acceleration or Yaw Kp/Kd value can burn your servo!</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>Yaw Kp</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QSpinBox" name="yawKp"/>
+          </item>
+          <item row="8" column="0">
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>Yaw Kd</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="1">
+           <widget class="QSpinBox" name="yawKd"/>
+          </item>
+          <item row="8" column="2">
+           <widget class="QLabel" name="label_36">
+            <property name="text">
+             <string>MaxAxisLockRate</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="3">
            <widget class="QDoubleSpinBox" name="MaxAxisLockRate">
             <property name="focusPolicy">
              <enum>Qt::StrongFocus</enum>
@@ -656,6 +725,20 @@ value.</string>
             </property>
             <property name="value">
              <double>1.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="3">
+           <widget class="QSpinBox" name="AttitudeFilter">
+            <property name="maximum">
+             <number>250</number>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="2">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Attitude Filter</string>
             </property>
            </widget>
           </item>
@@ -818,10 +901,9 @@ Apply or Save button afterwards.</string>
   <tabstop>rollInputRate</tabstop>
   <tabstop>pitchInputRate</tabstop>
   <tabstop>yawInputRate</tabstop>
-  <tabstop>rollResponseTime</tabstop>
-  <tabstop>pitchResponseTime</tabstop>
-  <tabstop>yawResponseTime</tabstop>
-  <tabstop>MaxAxisLockRate</tabstop>
+  <tabstop>rollFeedForward</tabstop>
+  <tabstop>pitchFeedForward</tabstop>
+  <tabstop>yawFeedForward</tabstop>
   <tabstop>camerastabilizationHelp</tabstop>
   <tabstop>camerastabilizationResetToDefaults</tabstop>
   <tabstop>camerastabilizationSaveRAM</tabstop>

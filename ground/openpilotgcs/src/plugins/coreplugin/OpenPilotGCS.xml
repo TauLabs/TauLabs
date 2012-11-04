@@ -2,6 +2,7 @@
   <General>
     <AutoConnect>true</AutoConnect>
     <AutoSelect>true</AutoSelect>
+    <OverrideLanguage>en</OverrideLanguage>
     <LastPreferenceCategory>LineardialGadget</LastPreferenceCategory>
     <LastPreferencePage>Mainboard CPU</LastPreferencePage>
     <SaveSettingsOnExit>true</SaveSettingsOnExit>
@@ -1407,6 +1408,17 @@
       </Yaw>
     </LineardialGadget>
     <ModelViewGadget>
+      <Gimbal__PCT__203x>
+        <configInfo>
+          <locked>false</locked>
+          <version>0.0.0</version>
+        </configInfo>
+        <data>
+          <acFilename>%%DATAPATH%%models/gimbals/gimbal_3x/gimbal_3x_top.3ds</acFilename>
+          <bgFilename>%%DATAPATH%%models/backgrounds/blue-background.jpg</bgFilename>
+          <enableVbo>false</enableVbo>
+        </data>
+      </Gimbal__PCT__203x>
       <Aeroquad__PCT__20__PCT__2B>
         <configInfo>
           <locked>false</locked>
@@ -2080,7 +2092,7 @@
           <plotCurve0>
             <color>4294901760</color>
             <mathFunction>None</mathFunction>
-            <uavField>X</uavField>
+            <uavField>x</uavField>
             <uavObject>Magnetometer</uavObject>
             <yMaximum>0</yMaximum>
             <yMeanSamples>1</yMeanSamples>
@@ -2090,7 +2102,7 @@
           <plotCurve1>
             <color>4283782655</color>
             <mathFunction>None</mathFunction>
-            <uavField>Y</uavField>
+            <uavField>y</uavField>
             <uavObject>Magnetometer</uavObject>
             <yMaximum>0</yMaximum>
             <yMeanSamples>1</yMeanSamples>
@@ -2100,7 +2112,7 @@
           <plotCurve2>
             <color>4283804160</color>
             <mathFunction>None</mathFunction>
-            <uavField>Z</uavField>
+            <uavField>z</uavField>
             <uavObject>Magnetometer</uavObject>
             <yMaximum>0</yMaximum>
             <yMeanSamples>1</yMeanSamples>
@@ -2438,14 +2450,6 @@
           </side0>
           <side1>
             <side0>
-              <classId>ModelViewGadget</classId>
-              <gadget>
-                <activeConfiguration>Test Quad X</activeConfiguration>
-              </gadget>
-              <type>uavGadget</type>
-            </side0>
-            <side1>
-              <side0>
                 <side0>
                   <classId>SystemHealthGadget</classId>
                   <gadget>
@@ -2454,14 +2458,26 @@
                   <type>uavGadget</type>
                 </side0>
                 <side1>
-                  <classId>LineardialGadget</classId>
-                  <gadget>
-                    <activeConfiguration>Mainboard CPU</activeConfiguration>
-                  </gadget>
-                  <type>uavGadget</type>
+                  <side0>
+                    <classId>LineardialGadget</classId>
+                    <gadget>
+                      <activeConfiguration>Mainboard CPU</activeConfiguration>
+                    </gadget>
+                    <type>uavGadget</type>
+                  </side0>
+                  <side1>
+                    <classId>LineardialGadget</classId>
+                    <gadget>
+                      <activeConfiguration>AHRS CPU</activeConfiguration>
+                    </gadget>
+                    <type>uavGadget</type>
+                  </side1>
+                  <splitterOrientation>1</splitterOrientation>
+                  <splitterSizes>@Variant(AAAACQAAAAIAAAACAAAAQAAAAAIAAABA)</splitterSizes>
+                  <type>splitter</type>
                 </side1>
                 <splitterOrientation>1</splitterOrientation>
-                <splitterSizes>@Variant(AAAACQAAAAIAAAACAAABLwAAAAIAAACB)</splitterSizes>
+                <splitterSizes>@Variant(AAAACQAAAAIAAAACAAABIwAAAAIAAACN)</splitterSizes>
                 <type>splitter</type>
               </side0>
               <side1>
@@ -2484,22 +2500,18 @@
                 <type>splitter</type>
               </side1>
               <splitterOrientation>2</splitterOrientation>
-              <splitterSizes>@Variant(AAAACQAAAAIAAAACAAABJQAAAAIAAABA)</splitterSizes>
-              <type>splitter</type>
-            </side1>
-            <splitterOrientation>1</splitterOrientation>
-            <splitterSizes>@Variant(AAAACQAAAAIAAAACAAABMAAAAAIAAAGx)</splitterSizes>
+            <splitterSizes>@Variant(AAAACQAAAAIAAAACAAABWgAAAAIAAAAA)</splitterSizes>
             <type>splitter</type>
           </side1>
           <splitterOrientation>2</splitterOrientation>
-          <splitterSizes>@Variant(AAAACQAAAAIAAAACAAABxQAAAAIAAAFH)</splitterSizes>
-          <type>splitter</type>
+          <splitterSizes>@Variant(AAAACQAAAAIAAAACAAAB4wAAAAIAAAGB)</splitterSizes>
+            <type>splitter</type>
         </side0>
         <side1>
           <side0>
-            <classId>OPMapGadget</classId>
+            <classId>ModelViewGadget</classId>
             <gadget>
-              <activeConfiguration>Google Sat</activeConfiguration>
+              <activeConfiguration>Gimbal 3x</activeConfiguration>
             </gadget>
             <type>uavGadget</type>
           </side0>
@@ -2619,7 +2631,7 @@
             <type>splitter</type>
           </side1>
           <splitterOrientation>2</splitterOrientation>
-          <splitterSizes>@Variant(AAAACQAAAAIAAAACAAAB7AAAAAIAAAEg)</splitterSizes>
+          <splitterSizes>@Variant(AAAACQAAAAIAAAACAAAB4gAAAAIAAAGC)</splitterSizes>
           <type>splitter</type>
         </side1>
         <splitterOrientation>1</splitterOrientation>

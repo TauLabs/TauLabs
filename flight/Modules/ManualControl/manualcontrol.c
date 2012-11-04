@@ -77,6 +77,8 @@ typedef enum
 static xTaskHandle taskHandle;
 static ArmState_t armState;
 static portTickType lastSysTime;
+static portTickType lastSysTimeD;
+static float FilteredInput[MANUALCONTROLSETTINGS_RESPONSETIME_NUMELEM];
 
 // Private functions
 static void updateActuatorDesired(ManualControlCommandData * cmd);
@@ -92,6 +94,7 @@ static uint32_t timeDifferenceMs(portTickType start_time, portTickType end_time)
 static bool okToArm(void);
 static bool validInputRange(int16_t min, int16_t max, uint16_t value);
 static void applyDeadband(float *value, float deadband);
+static void applyLPF(float * value, ManualControlSettingsResponseTimeElem channel, ManualControlSettingsData * settings, float dT);
 
 #define RCVR_ACTIVITY_MONITOR_CHANNELS_PER_GROUP 12
 #define RCVR_ACTIVITY_MONITOR_MIN_RANGE 10
@@ -332,6 +335,16 @@ static void manualControlTask(void *parameters)
 					applyDeadband(&cmd.Yaw, settings.Deadband);
 				}
 
+				// Apply Low Pass Filter for input channels
+				portTickType thisSysTime = xTaskGetTickCount();
+				float dT = (thisSysTime - lastSysTimeD) / portTICK_RATE_MS;
+				lastSysTimeD = thisSysTime;
+
+				applyLPF(&cmd.Throttle, MANUALCONTROLSETTINGS_RESPONSETIME_THROTTLE, &settings,  dT);
+				applyLPF(&cmd.Roll, MANUALCONTROLSETTINGS_RESPONSETIME_ROLL, &settings,  dT);
+				applyLPF(&cmd.Pitch, MANUALCONTROLSETTINGS_RESPONSETIME_PITCH, &settings,  dT);
+				applyLPF(&cmd.Yaw, MANUALCONTROLSETTINGS_RESPONSETIME_YAW, &settings,  dT);
+
 				if(cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE] != PIOS_RCVR_INVALID &&
 				   cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE] != PIOS_RCVR_NODRIVER &&
 				   cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE] != PIOS_RCVR_TIMEOUT)
@@ -342,6 +355,7 @@ static void manualControlTask(void *parameters)
 				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY0] != 
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 					accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY0];
+					applyLPF(&accessory.AccessoryVal, MANUALCONTROLSETTINGS_RESPONSETIME_ACCESSORY0, &settings,  dT);
 					if(AccessoryDesiredInstSet(0, &accessory) != 0)
 						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
 				}
@@ -349,6 +363,7 @@ static void manualControlTask(void *parameters)
 				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY1] != 
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 					accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY1];
+					applyLPF(&accessory.AccessoryVal, MANUALCONTROLSETTINGS_RESPONSETIME_ACCESSORY1, &settings,  dT);
 					if(AccessoryDesiredInstSet(1, &accessory) != 0)
 						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
 				}
@@ -356,6 +371,7 @@ static void manualControlTask(void *parameters)
 				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY2] != 
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 					accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY2];
+					applyLPF(&accessory.AccessoryVal, MANUALCONTROLSETTINGS_RESPONSETIME_ACCESSORY2, &settings,  dT);
 					if(AccessoryDesiredInstSet(2, &accessory) != 0)
 						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
 				}
@@ -899,6 +915,18 @@ static void applyDeadband(float *value, float deadband)
 			*value -= deadband;
 		else
 			*value += deadband;
+}
+
+/**
+ * @brief Apply Low Pass Filter to Roll/Pitch/Yaw/Throttle and Accessory channels
+ */
+static void applyLPF(float * value, ManualControlSettingsResponseTimeElem channel, ManualControlSettingsData * settings, float dT)
+{
+	float rt = (float)settings->ResponseTime[channel];
+	if (rt) {
+		FilteredInput[channel] = (rt / (rt + dT)) * FilteredInput[channel] + (dT / (rt + dT)) * *value;
+		*value = FilteredInput[channel];
+	}
 }
 
 /**

@@ -28,6 +28,7 @@
 #include "camerastabsettings.h"
 #include "hwsettings.h"
 #include "mixersettings.h"
+#include "stabilizationsettings.h"
 #include "actuatorcommand.h"
 
 #include <QDebug>
@@ -105,6 +106,7 @@ void ConfigCameraStabilizationWidget::connectUpdates()
     connect(CameraStabSettings::GetInstance(getObjectManager()), SIGNAL(objectUpdated(UAVObject *)), this, SLOT(refreshValues()));
     // TODO: This will need to support both CC and OP later
     connect(HwSettings::GetInstance(getObjectManager()), SIGNAL(objectUpdated(UAVObject *)), this, SLOT(refreshValues()));
+    connect(StabilizationSettings::GetInstance(getObjectManager()), SIGNAL(objectUpdated(UAVObject *)), this, SLOT(refreshValues()));
 }
 
 void ConfigCameraStabilizationWidget::disconnectUpdates()
@@ -114,6 +116,7 @@ void ConfigCameraStabilizationWidget::disconnectUpdates()
     disconnect(CameraStabSettings::GetInstance(getObjectManager()), SIGNAL(objectUpdated(UAVObject *)), this, SLOT(refreshValues()));
     // TODO: This will need to support both CC and OP later
     disconnect(HwSettings::GetInstance(getObjectManager()), SIGNAL(objectUpdated(UAVObject *)), this, SLOT(refreshValues()));
+    disconnect(StabilizationSettings::GetInstance(getObjectManager()), SIGNAL(objectUpdated(UAVObject *)), this, SLOT(refreshValues()));
 }
 
 /**
@@ -133,6 +136,8 @@ void ConfigCameraStabilizationWidget::applySettings()
     // Update the mixer settings
     MixerSettings *mixerSettings = MixerSettings::GetInstance(getObjectManager());
     MixerSettings::DataFields mixerSettingsData = mixerSettings->getData();
+    StabilizationSettings *stabSettings = StabilizationSettings::GetInstance(getObjectManager());
+    StabilizationSettings::DataFields stabSettingsData = stabSettings->getData();
     const int NUM_MIXERS = 10;
 
     QComboBox *outputs[3] = {
@@ -206,11 +211,15 @@ void ConfigCameraStabilizationWidget::applySettings()
     cameraStabData.InputRate[CameraStabSettings::INPUTRATE_PITCH] = m_camerastabilization->pitchInputRate->value();
     cameraStabData.InputRate[CameraStabSettings::INPUTRATE_YAW] = m_camerastabilization->yawInputRate->value();
 
-    cameraStabData.ResponseTime[CameraStabSettings::RESPONSETIME_ROLL] = m_camerastabilization->rollResponseTime->value();
-    cameraStabData.ResponseTime[CameraStabSettings::RESPONSETIME_PITCH] = m_camerastabilization->pitchResponseTime->value();
-    cameraStabData.ResponseTime[CameraStabSettings::RESPONSETIME_YAW] = m_camerastabilization->yawResponseTime->value();
+    cameraStabData.FeedForward[CameraStabSettings::FEEDFORWARD_ROLL] = m_camerastabilization->rollFeedForward->value();
+    cameraStabData.FeedForward[CameraStabSettings::FEEDFORWARD_PITCH] = m_camerastabilization->pitchFeedForward->value();
+    cameraStabData.FeedForward[CameraStabSettings::FEEDFORWARD_YAW] = m_camerastabilization->yawFeedForward->value();
 
     cameraStabData.MaxAxisLockRate = m_camerastabilization->MaxAxisLockRate->value();
+    cameraStabData.AttitudeFilter = m_camerastabilization->AttitudeFilter->value();
+
+    stabSettingsData.YawPI[StabilizationSettings::YAWPI_KP] = m_camerastabilization->yawKp->value();
+    stabSettingsData.YawRatePID[StabilizationSettings::YAWRATEPID_KP] = (float)m_camerastabilization->yawKd->value() / 10000;
 
     // Because multiple objects are updated, and all of them trigger the callback
     // they must be done together (if update one then load settings from second
@@ -220,6 +229,7 @@ void ConfigCameraStabilizationWidget::applySettings()
     hwSettings->setData(hwSettingsData);
     mixerSettings->setData(mixerSettingsData);
     cameraStab->setData(cameraStabData);
+    stabSettings->setData(stabSettingsData);
     connectUpdates();
 }
 
@@ -264,11 +274,12 @@ void ConfigCameraStabilizationWidget::refreshUIValues(CameraStabSettings::DataFi
     m_camerastabilization->pitchInputRate->setValue(cameraStabData.InputRate[CameraStabSettings::INPUTRATE_PITCH]);
     m_camerastabilization->yawInputRate->setValue(cameraStabData.InputRate[CameraStabSettings::INPUTRATE_YAW]);
 
-    m_camerastabilization->rollResponseTime->setValue(cameraStabData.ResponseTime[CameraStabSettings::RESPONSETIME_ROLL]);
-    m_camerastabilization->pitchResponseTime->setValue(cameraStabData.ResponseTime[CameraStabSettings::RESPONSETIME_PITCH]);
-    m_camerastabilization->yawResponseTime->setValue(cameraStabData.ResponseTime[CameraStabSettings::RESPONSETIME_YAW]);
+    m_camerastabilization->rollFeedForward->setValue(cameraStabData.FeedForward[CameraStabSettings::FEEDFORWARD_ROLL]);
+    m_camerastabilization->pitchFeedForward->setValue(cameraStabData.FeedForward[CameraStabSettings::FEEDFORWARD_PITCH]);
+    m_camerastabilization->yawFeedForward->setValue(cameraStabData.FeedForward[CameraStabSettings::FEEDFORWARD_YAW]);
 
     m_camerastabilization->MaxAxisLockRate->setValue(cameraStabData.MaxAxisLockRate);
+    m_camerastabilization->AttitudeFilter->setValue(cameraStabData.AttitudeFilter);
 }
 
 void ConfigCameraStabilizationWidget::refreshValues()
@@ -316,7 +327,11 @@ void ConfigCameraStabilizationWidget::refreshValues()
             if (*mixerTypes[j] == (MixerSettings::MIXER1TYPE_CAMERAROLL + i) &&
                     outputs[i]->currentIndex() != (j + 1))
                 outputs[i]->setCurrentIndex(j + 1);
-    }
+    }   
+    StabilizationSettings *stabSettings = StabilizationSettings::GetInstance(getObjectManager());
+    StabilizationSettings::DataFields stabSettingsData = stabSettings->getData();
+    m_camerastabilization->yawKp->setValue(stabSettingsData.YawPI[StabilizationSettings::YAWPI_KP]);
+    m_camerastabilization->yawKd->setValue(stabSettingsData.YawRatePID[StabilizationSettings::YAWRATEPID_KP] * 10000);
 }
 
 void ConfigCameraStabilizationWidget::resetToDefaults()

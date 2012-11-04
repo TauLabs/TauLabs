@@ -54,6 +54,8 @@ ConfigCCAttitudeWidget::ConfigCCAttitudeWidget(QWidget *parent) :
     addUAVObjectToWidgetRelation("AttitudeSettings","BoardRotation",ui->rollBias,AttitudeSettings::BOARDROTATION_ROLL);
     addUAVObjectToWidgetRelation("AttitudeSettings","BoardRotation",ui->pitchBias,AttitudeSettings::BOARDROTATION_PITCH);
     addUAVObjectToWidgetRelation("AttitudeSettings","BoardRotation",ui->yawBias,AttitudeSettings::BOARDROTATION_YAW);
+    addUAVObjectToWidgetRelation("AttitudeSettings","AccelKp",ui->AccelKp);
+    addUAVObjectToWidgetRelation("AttitudeSettings","AccelKi",ui->AccelKi);
     addWidget(ui->zeroBias);
     refreshWidgetsValues();
 }
