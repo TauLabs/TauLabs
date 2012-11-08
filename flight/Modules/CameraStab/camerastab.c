@@ -213,15 +213,15 @@ static void attitudeUpdated(UAVObjEvent* ev)
 
 			float dLoc[3];
 
-			dLoc[0]=positionActual.North-poi.North;
-			dLoc[1]=positionActual.East-poi.East;
-			dLoc[2]=positionActual.Down-poi.Down;
+			dLoc[0] = poi.North - positionActual.North;
+			dLoc[1] = poi.East - positionActual.East;
+			dLoc[2] = poi.Down - positionActual.Down;
 
 			// Compute the pitch and yaw to the POI location, assuming UAVO is level facing north
 			float distance = sqrtf(powf(dLoc[0],2)+powf(dLoc[1],2));
-			float pitch = -atan2f(dLoc[2],distance) * 180.0f / (float) M_PI;
-			float yaw = atan2f(dLoc[1],dLoc[0]) * 180.0f / (float) M_PI;;
-			if (yaw < 0) yaw += 2 * (float) M_PI;
+			float pitch = atan2f(dLoc[2],distance) * 180.0f / (float) M_PI;
+			float yaw = atan2f(dLoc[1],dLoc[0]) * 180.0f / (float) M_PI;
+			if (yaw < 0) yaw += 360.0;
 
 			switch (i) {
 				case CAMERASTABSETTINGS_INPUT_ROLL:
@@ -231,6 +231,7 @@ static void attitudeUpdated(UAVObjEvent* ev)
 					csd->inputs[CAMERASTABSETTINGS_INPUT_PITCH] = pitch;
 					break;
 				case CAMERASTABSETTINGS_INPUT_YAW:
+					CameraDesiredBearingSet(&yaw);
 					csd->inputs[CAMERASTABSETTINGS_INPUT_YAW] = yaw;
 					break;
 			}

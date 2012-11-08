@@ -38,14 +38,19 @@
 
 #include "openpilot.h"
 #include "stabilization.h"
-#include "stabilizationsettings.h"
+
+#include "attitudeactual.h"
 #include "actuatordesired.h"
+#include "cameradesired.h"
+#include "flightstatus.h"
+#include "gyros.h"
 #include "ratedesired.h"
 #include "stabilizationdesired.h"
 #include "accels.h"
 #include "attitudeactual.h"
 #include "gyros.h"
 #include "flightstatus.h"
+#include "stabilizationsettings.h"
 
 // Math libraries
 #include "coordinate_conversions.h"
@@ -381,6 +386,28 @@ static void stabilizationTask(void* parameters)
 					
 					break;
 					
+				case STABILIZATIONDESIRED_STABILIZATIONMODE_POI:
+					// TODO: Make sure this only applies to yaw
+
+					if(reinit) {
+						pids[PID_ATT_ROLL + i].iAccumulator = 0;
+						pids[PID_RATE_ROLL + i].iAccumulator = 0;
+					}
+
+					float bearing;
+					CameraDesiredBearingGet(&bearing);
+					float bearing_error = bearing - attitudeActual.Yaw;
+ 					bearing_error = fmodf(bearing_error + 180, 360) - 180;
+
+					// Compute the outer loop
+					rateDesiredAxis[i] = pid_apply(&pids[PID_ATT_ROLL + i], bearing_error, dT);
+					rateDesiredAxis[i] = bound(rateDesiredAxis[i], settings.MaximumRate[i]);
+
+					// Compute the inner loop
+					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
+					actuatorDesiredAxis[i] = bound(actuatorDesiredAxis[i],1.0f);
+
+					break;
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_NONE:
 					actuatorDesiredAxis[i] = bound(stabDesiredAxis[i],1.0f);
 					break;
