@@ -221,6 +221,7 @@ SRC += $(OPUAVSYNTHDIR)/fixedwingpathfollowersettingscc.c
 SRC += $(OPUAVSYNTHDIR)/pathstatus.c
 SRC += $(OPUAVSYNTHDIR)/pathdesired.c
 SRC += $(OPUAVSYNTHDIR)/homelocation.c
+SRC += $(OPUAVSYNTHDIR)/poilocation.c
 SRC += $(OPUAVSYNTHDIR)/positionactual.c
 SRC += $(OPUAVSYNTHDIR)/velocityactual.c
 SRC += $(OPUAVSYNTHDIR)/airspeedactual.c
