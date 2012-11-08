@@ -42,6 +42,7 @@
  */
 
 #include "openpilot.h"
+#include "misc_math.h"
 
 #include "accessorydesired.h"
 #include "attitudeactual.h"
@@ -49,6 +50,8 @@
 #include "cameradesired.h"
 #include "modulesettings.h"
 #include "misc_math.h"
+#include "poilocation.h"
+#include "positionactual.h"
 
 //
 // Configuration
@@ -75,6 +78,8 @@ static struct CameraStab_data {
 static void attitudeUpdated(UAVObjEvent* ev);
 static void settings_updated_cb(UAVObjEvent * ev);
 static void applyFF(uint8_t index, float dT_ms, float *attitude, CameraStabSettingsData* cameraStab);
+
+const bool POI_MODE_ENABLED = true;
 
 /**
  * Initialise the module, called on startup
@@ -115,6 +120,8 @@ int32_t CameraStabInitialize(void)
 
 		CameraStabSettingsConnectCallback(settings_updated_cb);
 		settings_updated_cb(NULL);
+		if (POI_MODE_ENABLED)
+			PoiLocationInitialize();
 
 		UAVObjEvent ev = {
 			.obj = AttitudeActualHandle(),
@@ -161,8 +168,9 @@ static void attitudeUpdated(UAVObjEvent* ev)
 	float attitude;
 	float output;
 
-	// Read any input channels and apply LPF
 	for (uint8_t i = 0; i < MAX_AXES; i++) {
+
+		// Get the attitude from the selected axis
 		switch (i) {
 		case ROLL:
 			AttitudeActualRollGet(&attitude);
@@ -178,7 +186,7 @@ static void attitudeUpdated(UAVObjEvent* ev)
 		csd->attitude_filtered[i] = (rt_ms / (rt_ms + dT_ms)) * csd->attitude_filtered[i] + (dT_ms / (rt_ms + dT_ms)) * attitude;
 		attitude = csd->attitude_filtered[i];
 
-		if (settings->Input[i] != CAMERASTABSETTINGS_INPUT_NONE) {
+		if (settings->Input[i] != CAMERASTABSETTINGS_INPUT_NONE && cameraStab.Input[i] != CAMERASTABSETTINGS_INPUT_POI) {
 			if (AccessoryDesiredInstGet(settings->Input[i] - CAMERASTABSETTINGS_INPUT_ACCESSORY0, &accessory) == 0) {
 				float input;
 				float input_rate;
@@ -196,6 +204,35 @@ static void attitudeUpdated(UAVObjEvent* ev)
 				default:
 					input = 0;
 				}
+			}
+		} else if (cameraStab.Input[i] == CAMERASTABSETTINGS_INPUT_POI && POI_MODE_ENABLED) {
+			PositionActualData positionActual;
+			PositionActualGet(&positionActual);
+			PoiLocationData poi;
+			PoiLocationGet(&poi);
+
+			float dLoc[3];
+
+			dLoc[0]=positionActual.North-poi.North;
+			dLoc[1]=positionActual.East-poi.East;
+			dLoc[2]=positionActual.Down-poi.Down;
+
+			// Compute the pitch and yaw to the POI location, assuming UAVO is level facing north
+			float distance = sqrtf(powf(dLoc[0],2)+powf(dLoc[1],2));
+			float pitch = -atan2f(dLoc[2],distance) * 180.0f / (float) M_PI;
+			float yaw = atan2f(dLoc[1],dLoc[0]) * 180.0f / (float) M_PI;;
+			if (yaw < 0) yaw += 2 * (float) M_PI;
+
+			switch (i) {
+				case CAMERASTABSETTINGS_INPUT_ROLL:
+					// Does not make sense to use position to control yaw
+					break;
+				case CAMERASTABSETTINGS_INPUT_PITCH:
+					csd->inputs[CAMERASTABSETTINGS_INPUT_PITCH] = pitch;
+					break;
+				case CAMERASTABSETTINGS_INPUT_YAW:
+					csd->inputs[CAMERASTABSETTINGS_INPUT_YAW] = yaw;
+					break;
 			}
 		}
 
