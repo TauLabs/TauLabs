@@ -88,8 +88,6 @@ static float accelKi = 0;
 static float accelKp = 0;
 static float accel_alpha = 0;
 static bool accel_filter_enabled = false;
-static float accels_filtered[3];
-static float grot_filtered[3];
 static float yawBiasRate = 0;
 static float gyroGain = 0.42;
 static int16_t accelbias[3];
@@ -261,8 +259,6 @@ static void AttitudeTask(void *parameters)
 		}
 	}
 }
-
-float gyros_passed[3];
 
 /**
  * Get an update from the sensors
@@ -456,7 +452,9 @@ static void updateAttitude(AccelsData * accelsData, GyrosData * gyrosData)
 	float dT;
 	portTickType thisSysTime = xTaskGetTickCount();
 	static portTickType lastSysTime = 0;
-	
+	static float accels_filtered[3] = {0,0,0};
+	static float grot_filtered[3] = {0,0,0};
+
 	dT = (thisSysTime == lastSysTime) ? 0.001 : (portMAX_DELAY & (thisSysTime - lastSysTime)) / portTICK_RATE_MS / 1000.0f;
 	lastSysTime = thisSysTime;
 	
@@ -475,8 +473,10 @@ static void updateAttitude(AccelsData * accelsData, GyrosData * gyrosData)
 	grot[1] = -(2 * (q[2] * q[3] + q[0] * q[1]));
 	grot[2] = -(q[0] * q[0] - q[1]*q[1] - q[2]*q[2] + q[3]*q[3]);
 
+	// Apply same filtering to the rotated attitude to match delays
 	apply_accel_filter(grot,grot_filtered);
 	
+	// Compute the error between the predicted direction of gravity and smoothed acceleration
 	CrossProduct((const float *) accels_filtered, (const float *) grot_filtered, accel_err);
 	
 	// Account for accel magnitude
