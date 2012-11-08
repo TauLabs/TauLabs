@@ -76,6 +76,7 @@ UAVOBJSRCFILENAMES += overosyncsettings
 UAVOBJSRCFILENAMES += pathdesired
 UAVOBJSRCFILENAMES += pathplannersettings
 UAVOBJSRCFILENAMES += pathstatus
+UAVOBJSRCFILENAMES += poilocation
 UAVOBJSRCFILENAMES += positionactual
 UAVOBJSRCFILENAMES += ratedesired
 UAVOBJSRCFILENAMES += relaytuning
