@@ -27,10 +27,10 @@
  */
 
 /**
- * Input object: ???
- * Output object: AttitudeDesired
+ * Input object: PathDesired
+ * Output object: StabilizationDesired
  *
- * This module will periodically update the value of the AttitudeDesired object.
+ * This module will periodically update the value of the StabilizationDesired object.
  *
  * The module executes in its own thread in this example.
  *
@@ -43,18 +43,12 @@
 
 #include "openpilot.h"
 
-#include "hwsettings.h"
-#include "attitudeactual.h"
-#include "positionactual.h"
-#include "velocityactual.h"
-#include "manualcontrol.h"
-#include "flightstatus.h"
 #include "airspeedactual.h"
-#include "homelocation.h"
-#include "stabilizationdesired.h"	// object that will be updated by the module
-#include "pathdesired.h"	// object that will be updated by the module
-#include "systemsettings.h"
 #include "fixedwingpathfollowersettings.h"
+#include "flightstatus.h"
+#include "hwsettings.h"
+#include "pathdesired.h"
+#include "systemsettings.h"
 
 #include "fixedwingpathfollower.h"
 #include "helicopterpathfollower.h"
@@ -83,9 +77,7 @@ static uint8_t pathFollowerType;
 
 // Private functions
 static void PathFollowerTask(void *parameters);
-//static void FixedWingPathFollowerParamsUpdatedCb(UAVObjEvent * ev);
 static void FlightStatusUpdatedCb(UAVObjEvent * ev);
-//static void updateSteadyStateAttitude();
 
 /**
  * Initialise the module, called on startup
@@ -116,62 +108,47 @@ int32_t PathFollowerInitialize()
 	uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
 	HwSettingsOptionalModulesGet(optionalModules);
 
-	// Conditions when this runs:
-	// 1. ???
-
-	//Test for vehicle type
+	// Select algorithm based on vehicle type
 	SystemSettingsInitialize();
 	uint8_t systemSettingsAirframeType;
 	SystemSettingsAirframeTypeGet(&systemSettingsAirframeType);
-	if ((systemSettingsAirframeType ==
-	     SYSTEMSETTINGS_AIRFRAMETYPE_FIXEDWING)
-	    || (systemSettingsAirframeType ==
-		SYSTEMSETTINGS_AIRFRAMETYPE_FIXEDWINGELEVON)
-	    || (systemSettingsAirframeType ==
-		SYSTEMSETTINGS_AIRFRAMETYPE_FIXEDWINGVTAIL)) {
-		pathFollowerType = FIXEDWING;
-	} else
-	    if ((systemSettingsAirframeType == SYSTEMSETTINGS_AIRFRAMETYPE_TRI)
-		|| (systemSettingsAirframeType ==
-		    SYSTEMSETTINGS_AIRFRAMETYPE_QUADX)
-		|| (systemSettingsAirframeType ==
-		    SYSTEMSETTINGS_AIRFRAMETYPE_QUADP)
-		|| (systemSettingsAirframeType ==
-		    SYSTEMSETTINGS_AIRFRAMETYPE_HEXA)
-		|| (systemSettingsAirframeType ==
-		    SYSTEMSETTINGS_AIRFRAMETYPE_HEXAX)
-		|| (systemSettingsAirframeType ==
-		    SYSTEMSETTINGS_AIRFRAMETYPE_HEXACOAX)
-		|| (systemSettingsAirframeType ==
-		    SYSTEMSETTINGS_AIRFRAMETYPE_OCTO)
-		|| (systemSettingsAirframeType ==
-		    SYSTEMSETTINGS_AIRFRAMETYPE_OCTOV)
-		|| (systemSettingsAirframeType ==
-		    SYSTEMSETTINGS_AIRFRAMETYPE_OCTOCOAXP)
-		|| (systemSettingsAirframeType ==
-		    SYSTEMSETTINGS_AIRFRAMETYPE_OCTOCOAXX)) {
-		pathFollowerType = MULTIROTOR;
-	} else
-	    if ((systemSettingsAirframeType ==
-		 SYSTEMSETTINGS_AIRFRAMETYPE_GROUNDVEHICLECAR)
-		|| (systemSettingsAirframeType ==
-		    SYSTEMSETTINGS_AIRFRAMETYPE_GROUNDVEHICLEMOTORCYCLE)) {
-		pathFollowerType = DUBINSCART;
-	} else
-	    if ((systemSettingsAirframeType ==
-		 SYSTEMSETTINGS_AIRFRAMETYPE_GROUNDVEHICLEDIFFERENTIAL)) {
-		pathFollowerType = HOLONOMIC;
-	} else
-	    if ((systemSettingsAirframeType ==
-		 SYSTEMSETTINGS_AIRFRAMETYPE_HELICP)) {
-		pathFollowerType = HELICOPTER;
-	} else
-	    if ((systemSettingsAirframeType ==
-		 SYSTEMSETTINGS_AIRFRAMETYPE_VTOL)) {
-		pathFollowerType = HOLONOMIC;
-	} else {		//WHAT ABOUT CUSTOM MIXERS?
-		pathFollowerType = DISABLED;
-		return -1;	//HUH??? RETURNING -1 STILL LEADS TO THE MODULE BEING ACTIVATED
+	switch(systemSettingsAirframeType) {
+		case SYSTEMSETTINGS_AIRFRAMETYPE_FIXEDWING:
+		case SYSTEMSETTINGS_AIRFRAMETYPE_FIXEDWINGELEVON:
+		case SYSTEMSETTINGS_AIRFRAMETYPE_FIXEDWINGVTAIL:
+			pathFollowerType = FIXEDWING;
+			break;
+		case SYSTEMSETTINGS_AIRFRAMETYPE_TRI:
+		case SYSTEMSETTINGS_AIRFRAMETYPE_QUADX:
+		case SYSTEMSETTINGS_AIRFRAMETYPE_QUADP:
+		case SYSTEMSETTINGS_AIRFRAMETYPE_HEXA:
+		case SYSTEMSETTINGS_AIRFRAMETYPE_HEXAX:
+		case SYSTEMSETTINGS_AIRFRAMETYPE_HEXACOAX:
+		case SYSTEMSETTINGS_AIRFRAMETYPE_OCTO:
+		case SYSTEMSETTINGS_AIRFRAMETYPE_OCTOV:
+		case SYSTEMSETTINGS_AIRFRAMETYPE_OCTOCOAXP:
+		case SYSTEMSETTINGS_AIRFRAMETYPE_OCTOCOAXX:
+			pathFollowerType = MULTIROTOR;
+			break;
+		case SYSTEMSETTINGS_AIRFRAMETYPE_GROUNDVEHICLECAR:
+		case SYSTEMSETTINGS_AIRFRAMETYPE_GROUNDVEHICLEMOTORCYCLE:
+			pathFollowerType = DUBINSCART;
+			break;
+		case SYSTEMSETTINGS_AIRFRAMETYPE_GROUNDVEHICLEDIFFERENTIAL:
+			pathFollowerType = HOLONOMIC;
+			break;
+		case SYSTEMSETTINGS_AIRFRAMETYPE_HELICP:
+			pathFollowerType = HELICOPTER;
+			break;
+		case SYSTEMSETTINGS_AIRFRAMETYPE_VTOL:
+			pathFollowerType = HOLONOMIC;
+			break;
+		default:
+			// Cannot activate, prevent system arming
+			AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE, SYSTEMALARMS_ALARM_CRITICAL);
+			pathFollowerType = DISABLED;
+			return -1;
+			break;
 	}
 
 	if (optionalModules[HWSETTINGS_OPTIONALMODULES_FIXEDWINGPATHFOLLOWER] ==
@@ -180,29 +157,27 @@ int32_t PathFollowerInitialize()
 		AirspeedActualInitialize();
 		PathDesiredInitialize();
 
-		//VVVVVVVVVVVVVVV
-//              pathFollowerTypeInitialize[pathFollowerType]; <-- THIS NEEDS TO
-//              BE DONE LIKE THIS, WITH A VIRTUAL FUNCTION INSTEAD OF A SWITCH
+		// TODO: Index into array of functions
 		switch (pathFollowerType) {
 		case FIXEDWING:
 			initializeFixedWingPathFollower();
 			break;
 		case MULTIROTOR:
 			initializeMultirotorPathFollower();
+			break;
 		case HELICOPTER:
 			initializeHelicopterPathFollower();
+			break;
 		case HOLONOMIC:
 			break;
 		case DUBINSCART:
 			initializeDubinsCartPathFollower();
 			break;
 		default:
-			//Something has gone wrong, we shouldn't be able to get to this point
-			AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE,
-				  SYSTEMALARMS_ALARM_CRITICAL);
+			PIOS_DEBUG_Assert(0);
+			return -1;
 			break;
 		}
-		//^^^^^^^^^^^^
 
 		FlightStatusConnectCallback(FlightStatusUpdatedCb);
 
@@ -223,63 +198,49 @@ static void PathFollowerTask(void *parameters)
 	portTickType lastUpdateTime;
 	FixedWingPathFollowerSettingsData fixedwingpathfollowerSettings;
 
-//      FixedWingPathFollowerSettingsConnectCallback(FixedWingPathFollowerParamsUpdatedCb);
-//      PathDesiredConnectCallback(FixedWingPathFollowerParamsUpdatedCb);
-
 	// Main task loop
 	lastUpdateTime = xTaskGetTickCount();
 	while (1) {
-		//IT WOULD BE NICE NOT TO DO THIS EVERY LOOP.
-		FixedWingPathFollowerSettingsGet
-		    (&fixedwingpathfollowerSettings);
+		// TODO: Refactor this into the fixed wing method as a callback
+		FixedWingPathFollowerSettingsGet(&fixedwingpathfollowerSettings);
 
-		// Wait.
-		vTaskDelayUntil(&lastUpdateTime,
-				fixedwingpathfollowerSettings.UpdatePeriod /
-				portTICK_RATE_MS);
+		vTaskDelayUntil(&lastUpdateTime, fixedwingpathfollowerSettings.UpdatePeriod / portTICK_RATE_MS);
 
-		// Check flightmode
-		if (flightStatusUpdate) {
+		if (flightStatusUpdate)
 			FlightStatusFlightModeGet(&flightMode);
-		}
-		//Depending on vehicle type, call appropriate path follower
+
+		// Depending on vehicle type, call appropriate path follower
+		// TODO: Index into array of methods
 		switch (pathFollowerType) {
 		case FIXEDWING:
 			updateFixedWingDesiredStabilization(flightMode,
 							    fixedwingpathfollowerSettings);
 			break;
 		case MULTIROTOR:
-			// @todo: is this really done? Added Alarmset just in case
-			AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE,
-				  SYSTEMALARMS_ALARM_CRITICAL);
-			updateMultirotorDesiredStabilization(flightMode,
-							     fixedwingpathfollowerSettings);
+			// Set alarm, currently untested
+			AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE, SYSTEMALARMS_ALARM_ERROR);
+			updateMultirotorDesiredStabilization(flightMode, fixedwingpathfollowerSettings);
 			break;
 		case HELICOPTER:
-			// Helicopter mode is very far from being ready
-			AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE,
-				  SYSTEMALARMS_ALARM_CRITICAL);
-//          updateHelicopterDesiredStabilization(fixedwingpathfollowerSettings);
+			// Unready
+			AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE, SYSTEMALARMS_ALARM_CRITICAL);
+			//updateHelicopterDesiredStabilization(fixedwingpathfollowerSettings);
 		case HOLONOMIC:
-			// Holomomic mode is very far from being ready, and might never
-			// even be used
-			AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE,
-				  SYSTEMALARMS_ALARM_CRITICAL);
+			// Unready
+			AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE, SYSTEMALARMS_ALARM_CRITICAL);
 			break;
 		case DUBINSCART:
-			updateDubinsCartDesiredStabilization(flightMode,
-							     fixedwingpathfollowerSettings);
+			updateDubinsCartDesiredStabilization(flightMode, fixedwingpathfollowerSettings);
 			break;
 		default:
 			//Something has gone wrong, we shouldn't be able to get to this point
-			AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE,
-				  SYSTEMALARMS_ALARM_CRITICAL);
+			AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE, SYSTEMALARMS_ALARM_CRITICAL);
 			break;
 		}
 	}
 }
 
-//Triggered by changes in FlightStatus
+// Triggered by changes in FlightStatus
 static void FlightStatusUpdatedCb(UAVObjEvent * ev)
 {
 	flightStatusUpdate = true;

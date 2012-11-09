@@ -4,7 +4,7 @@
  * @file       fixedwingpathfollower.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @brief      This module compared @ref PositionActuatl to @ref ActiveWaypoint 
- * and sets @ref AttitudeDesired.  It only does this when the FlightMode field
+ * and sets @ref StabilizationDesired.  It only does this when the FlightMode field
  * of @ref ManualControlCommand is Auto.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -27,8 +27,8 @@
  */
 
 /**
- * Input object: ???
- * Output object: AttitudeDesired
+ * Input object: @ref PositionActual and @ref PathDesired
+ * Output object: @ref StabilizationDesired
  *
  * This module will periodically update the value of the AttitudeDesired object.
  *
@@ -44,16 +44,12 @@
 #include "openpilot.h"
 #include "fixedwingpathfollower.h"
 
-#include "hwsettings.h"
-#include "attitudeactual.h"
 #include "positionactual.h"
 #include "velocityactual.h"
-#include "manualcontrol.h"
 #include "flightstatus.h"
 #include "airspeedactual.h"
-#include "homelocation.h"
-#include "stabilizationdesired.h"	// object that will be updated by the module
-#include "pathdesired.h"	// object that will be updated by the module
+#include "stabilizationdesired.h"
+#include "pathdesired.h"
 #include "systemsettings.h"
 
 #include "CoordinateConversions.h"
@@ -82,11 +78,7 @@ extern bool flightStatusUpdate;
 static bool homeOrbit = true;
 
 // Private functions
-static uint8_t waypointFollowing(uint8_t flightMode,
-				 FixedWingPathFollowerSettingsData
-				 fixedwingpathfollowerSettings);
-//static void FixedWingPathFollowerParamsUpdatedCb(UAVObjEvent * ev);
-//static void updateSteadyStateAttitude();
+static uint8_t waypointFollowing(uint8_t flightMode, FixedWingPathFollowerSettingsData fixedwingpathfollowerSettings);
 static float bound(float val, float min, float max);
 static float followStraightLine(float r[3], float q[3], float p[3],
 				float heading, float chi_inf, float k_path,
@@ -154,8 +146,7 @@ uint8_t waypointFollowing(uint8_t flightMode,
 
 	VelocityActualGet(&velocityActual);
 	StabilizationDesiredGet(&stabDesired);
-	//BOOOO!!! This not the way to get true airspeed. It needs to come from a
-	//UAVO that merges everything together.
+	// TODO: Create UAVO that merges airspeed together
 	AirspeedActualTrueAirspeedGet(&trueAirspeed);
 
 	PositionActualData positionActual;
@@ -252,12 +243,8 @@ uint8_t waypointFollowing(uint8_t flightMode,
 	float throttle_kp =
 	    fixedwingpathfollowerSettings.
 	    ThrottlePI[FIXEDWINGPATHFOLLOWERSETTINGS_THROTTLEPI_KP];
-	float throttle_ki =
-	    THROTTLE_KI fixedwingpathfollowerSettings.
-	    ThrottlePI[FIXEDWINGPATHFOLLOWERSETTINGS_THROTTLEPI_KI];
-	float throttle_ilimit =
-	    fixedwingpathfollowerSettings.
-	    ThrottlePI[FIXEDWINGPATHFOLLOWERSETTINGS_THROTTLEPI_ILIMIT];
+	float throttle_ki = fixedwingpathfollowerSettings.ThrottlePI[FIXEDWINGPATHFOLLOWERSETTINGS_THROTTLEPI_KI];
+	float throttle_ilimit = fixedwingpathfollowerSettings.ThrottlePI[FIXEDWINGPATHFOLLOWERSETTINGS_THROTTLEPI_ILIMIT];
 
 	//Integrate with bound. Make integral leaky for better performance. Approximately 30s time constant.
 	if (throttle_ilimit > 0.0f) {
@@ -383,8 +370,7 @@ uint8_t waypointFollowing(uint8_t flightMode,
 #define ROLL_FOR_HOLDING_CIRCLE 15.0f
 	//Calculate radius, rho, using r*omega=v and omega = g/V_g * tan(phi)
 	//THIS SHOULD ONLY BE CALCULATED ONCE, INSTEAD OF EVERY TIME
-	rho =
-	    powf(pathDesired.EndingVelocity,
+	rho = powf(pathDesired.EndingVelocity,
 		 2) / (9.805f * tanf(fabs(ROLL_FOR_HOLDING_CIRCLE * DEG2RAD)));
 
 	typedef enum {
@@ -540,11 +526,9 @@ float followStraightLine(float r[3], float q[3], float p[3], float psi,
 		chi_q -= 2.0f * F_PI;
 	}
 
-	float err_p =
-	    -sinf(chi_q) * (p[0] - r[0]) + cosf(chi_q) * (p[1] - r[1]);
+	float err_p = -sinf(chi_q) * (p[0] - r[0]) + cosf(chi_q) * (p[1] - r[1]);
 	integral->lineError += delT * err_p;
-	float psi_command =
-	    chi_q - chi_inf * 2.0f / F_PI * atanf(k_path * err_p) -
+	float psi_command = chi_q - chi_inf * 2.0f / F_PI * atanf(k_path * err_p) -
 	    k_psi_int * integral->lineError;
 
 	return psi_command;
@@ -602,14 +586,3 @@ static float bound(float val, float min, float max)
 	return val;
 }
 
-////Triggered by changes in FixedWingPathFollowerSettings and PathDesired
-//static void FixedWingPathFollowerParamsUpdatedCb(UAVObjEvent * ev)
-//{
-//      FixedWingPathFollowerSettingsGet(&fixedwingpathfollowerSettings);
-//      FlightStatusFlightModeGet(&flightMode);
-//      PathDesiredGet(&pathDesired);
-//      
-//      float r[2] = {pathDesired.End[0]-pathDesired.Start[0], pathDesired.End[1]-pathDesired.Start[1]};
-//      pathLength=sqrtf(r[0]*r[0]+r[1]*r[1]);
-//      
-//}
