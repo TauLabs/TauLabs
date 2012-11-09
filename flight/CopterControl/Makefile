@@ -109,9 +109,9 @@ endif
 
 # List of mandatory modules to include
 ifeq ($(NAVIGATION), YES)
-MODULES = State
+MODULES += State/cc3dnav 
 MODULES += PathFollower
-CFLAGS += "-DNAVIGATION"
+CFLAGS += -DNAVIGATION
 else
 MODULES = Attitude
 endif
@@ -477,8 +477,11 @@ ifeq ($(USE_I2C), YES)
 CDEFS += -DUSE_I2C
 endif
 
-# Declare all non-optional modules as built-in to force inclusion
-CDEFS += ${foreach MOD, ${MODULES}, -DMODULE_$(MOD)_BUILTIN }
+# Declare all non-optional modules as built-in to force inclusion, strip off any appended varieties of module
+get_mod_name = $(shell echo $(1) | sed "s/\/[^\/]*$///")
+BUILTIN_DEFS := ${foreach MOD, ${MODULES}, -DMODULE_$(call get_mod_name, $(MOD))_BUILTIN }
+CDEFS += ${BUILTIN_DEFS}
+
 
 # Place project-specific -D and/or -U options for
 # Assembler with preprocessor here.
