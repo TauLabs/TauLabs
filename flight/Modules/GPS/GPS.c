@@ -46,7 +46,10 @@
 
 #include "NMEA.h"
 #include "UBX.h"
+
+#if defined(PIOS_GPS_PROVIDES_AIRSPEED)
 #include "gps_airspeed.h"
+#endif
 
 
 // ****************

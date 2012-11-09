@@ -67,6 +67,8 @@ endif
 
 FLASH_TOOL = OPENOCD
 
+NAVIGATION ?= NO
+
 # Optional module and driver defaults
 USE_CAMERASTAB ?= YES
 USE_COMUSBBRIDGE ?= YES
@@ -106,8 +108,14 @@ OPTMODULES += Autotune
 endif
 
 # List of mandatory modules to include
-MODULES = State Stabilization Actuator ManualControl FirmwareIAP
+ifeq ($(NAVIGATION), YES)
+MODULES = State
 MODULES += PathFollower
+CFLAGS += "-DNAVIGATION"
+else
+MODULES = Attitude
+endif
+MODULES += Stabilization Actuator ManualControl FirmwareIAP
 # MODULES += PathFollower/coptercontrol
 # Telemetry must be last to grab the optional modules (why?)
 MODULES += Telemetry

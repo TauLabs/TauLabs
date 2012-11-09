@@ -60,7 +60,7 @@
 #define PIOS_GPS_MINIMAL
 #define PIOS_INCLUDE_GPS_NMEA_PARSER /* Include the NMEA protocol parser */
 #define PIOS_INCLUDE_GPS_UBX_PARSER  /* Include the UBX protocol parser */
-#define PIOS_GPS_PROVIDES_AIRSPEED
+
 #define PIOS_INCLUDE_SERVO
 #define PIOS_INCLUDE_SPI
 #define PIOS_INCLUDE_SYS
@@ -109,6 +109,11 @@
 
 /* PIOS Initcall infrastructure */
 #define PIOS_INCLUDE_INITCALL
+
+// Conditional related to making CC run navigation
+#if defined(NAVGIATION)
+#define PIOS_GPS_PROVIDES_AIRSPEED
+#endif
 
 #endif /* PIOS_CONFIG_H */
 /**
