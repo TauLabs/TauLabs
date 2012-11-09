@@ -678,24 +678,24 @@ static void settingsUpdatedCb(UAVObjEvent * objEv)
 	//frame.
 	//Divide by 1000 because `accelbias` is in units of 1000*[m/s^2]
 	glblAtt->accelbias[0] =
-	    attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_X_S] /
+	    attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_X] /
 	    1000.0f;
 	glblAtt->accelbias[1] =
-	    attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_Y_S] /
+	    attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_Y] /
 	    1000.0f;
 	glblAtt->accelbias[2] =
-	    attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_Z_S] /
+	    attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_Z] /
 	    1000.0f;
 
 	//Divide by 1000 because `accelbias` is in unit of 1000*[m/s^2]s
 	glblAtt->accelscale[0] =
-	    attitudeSettings.AccelScale[ATTITUDESETTINGS_ACCELSCALE_X_S] /
+	    attitudeSettings.AccelScale[ATTITUDESETTINGS_ACCELSCALE_X] /
 	    10000.0f;
 	glblAtt->accelscale[1] =
-	    attitudeSettings.AccelScale[ATTITUDESETTINGS_ACCELSCALE_Y_S] /
+	    attitudeSettings.AccelScale[ATTITUDESETTINGS_ACCELSCALE_Y] /
 	    10000.0f;
 	glblAtt->accelscale[2] =
-	    attitudeSettings.AccelScale[ATTITUDESETTINGS_ACCELSCALE_Z_S] /
+	    attitudeSettings.AccelScale[ATTITUDESETTINGS_ACCELSCALE_Z] /
 	    10000.0f;
 
 	//Provide minimum for scale. This keeps the accels from accidentally being
@@ -709,11 +709,11 @@ static void settingsUpdatedCb(UAVObjEvent * objEv)
 	//The gyroscope sensor calibration values are all in the body frame.
 	//Divide by 100 because `GyroBias` is in units of 100*[deg/s]
 	glblAtt->gyro_correct_int[0] =
-	    attitudeSettings.GyroBias[ATTITUDESETTINGS_GYROBIAS_X_B] / 100.0f;
+	    attitudeSettings.GyroBias[ATTITUDESETTINGS_GYROBIAS_X] / 100.0f;
 	glblAtt->gyro_correct_int[1] =
-	    attitudeSettings.GyroBias[ATTITUDESETTINGS_GYROBIAS_Y_B] / 100.0f;
+	    attitudeSettings.GyroBias[ATTITUDESETTINGS_GYROBIAS_Y] / 100.0f;
 	glblAtt->gyro_correct_int[2] =
-	    attitudeSettings.GyroBias[ATTITUDESETTINGS_GYROBIAS_Z_B] / 100.0f;
+	    attitudeSettings.GyroBias[ATTITUDESETTINGS_GYROBIAS_Z] / 100.0f;
 
 	//Calculate sensor to board rotation matrix. If the matrix is the identity,
 	//don't expend cycles on rotation

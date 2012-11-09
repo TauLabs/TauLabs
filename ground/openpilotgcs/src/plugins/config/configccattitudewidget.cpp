@@ -143,12 +143,12 @@ void ConfigCCAttitudeWidget::sensorsUpdated(UAVObject * obj) {
 
         AttitudeSettings::DataFields attitudeSettingsData = AttitudeSettings::GetInstance(getObjectManager())->getData();
         // We offset the gyro bias by current bias to help precision
-        attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_X_S] += x_bias;
-        attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Y_S] += y_bias;
-        attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Z_S] += z_bias;
-        attitudeSettingsData.GyroBias[AttitudeSettings::GYROBIAS_X_B] = -x_gyro_bias;
-        attitudeSettingsData.GyroBias[AttitudeSettings::GYROBIAS_Y_B] = -y_gyro_bias;
-        attitudeSettingsData.GyroBias[AttitudeSettings::GYROBIAS_Z_B] = -z_gyro_bias;
+        attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_X] += x_bias;
+        attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Y] += y_bias;
+        attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Z] += z_bias;
+        attitudeSettingsData.GyroBias[AttitudeSettings::GYROBIAS_X] = -x_gyro_bias;
+        attitudeSettingsData.GyroBias[AttitudeSettings::GYROBIAS_Y] = -y_gyro_bias;
+        attitudeSettingsData.GyroBias[AttitudeSettings::GYROBIAS_Z] = -z_gyro_bias;
         attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_TRUE;
         AttitudeSettings::GetInstance(getObjectManager())->setData(attitudeSettingsData);
         this->setDirty(true);
@@ -432,13 +432,13 @@ void ConfigCCAttitudeWidget::computeScaleBias()
    SixPointInConstFieldCal2( homeLocationData.g_e, accel_data_x, accel_data_y, accel_data_z, S, b);
 
    //Assign calibration data
-   attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_X_S] += (-sign(S[0]) * b[0]*1000.0f);
-   attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Y_S] += (-sign(S[1]) * b[1]*1000.0f);
-   attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Z_S] += (-sign(S[2]) * b[2]*1000.0f);
+   attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_X] += (-sign(S[0]) * b[0]*1000.0f);
+   attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Y] += (-sign(S[1]) * b[1]*1000.0f);
+   attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Z] += (-sign(S[2]) * b[2]*1000.0f);
 
-   attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_X_S] *= fabs(S[0]);
-   attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_Y_S] *= fabs(S[1]);
-   attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_Z_S] *= fabs(S[2]);
+   attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_X] *= fabs(S[0]);
+   attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_Y] *= fabs(S[1]);
+   attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_Z] *= fabs(S[2]);
 
    //Set board rotations back to user settings
    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] =boardRotation[0];
@@ -447,18 +447,18 @@ void ConfigCCAttitudeWidget::computeScaleBias()
 
    // Check the accel calibration is good
    bool good_calibration = true;
-   good_calibration &= attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_X_S] ==
-           attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_X_S];
-   good_calibration &= attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_Y_S] ==
-           attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_Y_S];
-   good_calibration &= attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_Z_S] ==
-           attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_Z_S];
-   good_calibration &= (attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_X_S] ==
-           attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_X_S]);
-   good_calibration &= (attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Y_S] ==
-           attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Y_S]);
-   good_calibration &= (attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Z_S] ==
-           attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Z_S]);
+   good_calibration &= attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_X] ==
+           attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_X];
+   good_calibration &= attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_Y] ==
+           attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_Y];
+   good_calibration &= attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_Z] ==
+           attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_Z];
+   good_calibration &= (attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_X] ==
+           attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_X]);
+   good_calibration &= (attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Y] ==
+           attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Y]);
+   good_calibration &= (attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Z] ==
+           attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Z]);
 
    //This can happen if, for instance, HomeLocation.g_e == 0
    if((S[0]+S[1]+S[2])<0.0001){
@@ -477,7 +477,7 @@ void ConfigCCAttitudeWidget::computeScaleBias()
 
    qDebug()<<  "S: " << S[0] << " " << S[1] << " " << S[2];
    qDebug()<<  "b: " << b[0] << " " << b[1] << " " << b[2];
-   qDebug()<<  "Accel bias: " << attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_X_S] << " " << attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Y_S] << " " << attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Z_S];
+   qDebug()<<  "Accel bias: " << attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_X] << " " << attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Y] << " " << attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Z];
 
 
    position = -1; //set to run again
