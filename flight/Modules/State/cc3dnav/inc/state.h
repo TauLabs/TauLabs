@@ -52,7 +52,6 @@ struct GlobalAttitudeVariables {
 	bool trim_requested;
 	float trim_accels[3];
 	int32_t trim_samples;
-	
 };
 
 
