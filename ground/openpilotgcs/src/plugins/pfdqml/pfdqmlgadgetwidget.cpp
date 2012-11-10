@@ -30,7 +30,8 @@
 
 #include <QtDeclarative/qdeclarativeengine.h>
 #include <QtDeclarative/qdeclarativecontext.h>
-#include <QtDeclarative/qdeclarativeengine.h>
+#include <QtDeclarative/qdeclarative.h>
+#include "lowpassfilter.h"
 
 PfdQmlGadgetWidget::PfdQmlGadgetWidget(QWidget *parent) :
     QDeclarativeView(parent),
@@ -51,23 +52,24 @@ PfdQmlGadgetWidget::PfdQmlGadgetWidget(QWidget *parent) :
     objectsToExport << "VelocityActual" <<
                        "PositionActual" <<
                        "AttitudeActual" <<
+                       "AirspeedActual" <<
                        "Accels" <<
                        "VelocityDesired" <<
                        "PositionDesired" <<
                        "AttitudeHoldDesired" <<
+                       "StabilizationDesired" <<
+                       "PathDesired" <<
+                       "Waypoint" <<
+                       "WaypointActive" <<
                        "GPSPosition" <<
                        "GCSTelemetryStats" <<
                        "FlightBatteryState";
 
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
+    m_objManager = pm->getObject<UAVObjectManager>();
 
     foreach (const QString &objectName, objectsToExport) {
-        UAVObject* object = objManager->getObject(objectName);
-        if (object)
-            engine()->rootContext()->setContextProperty(objectName, object);
-        else
-            qWarning() << "Failed to load object" << objectName;
+        exportUAVOInstance(objectName, 0);
     }
 
     //to expose settings values
@@ -75,11 +77,22 @@ PfdQmlGadgetWidget::PfdQmlGadgetWidget(QWidget *parent) :
 #ifdef USE_OSG
     qmlRegisterType<OsgEarthItem>("org.OpenPilot", 1, 0, "OsgEarth");
 #endif
+    qmlRegisterType<LowPassFilter>("org.OpenPilot", 1, 0, "LowPassFilter");
 }
 
 PfdQmlGadgetWidget::~PfdQmlGadgetWidget()
 {
 }
+
+void PfdQmlGadgetWidget::exportUAVOInstance(const QString &objectName, int instId)
+{
+    UAVObject* object = m_objManager->getObject(objectName, instId);
+    if (object)
+        engine()->rootContext()->setContextProperty(objectName, object);
+    else
+        qWarning() << "Failed to load object" << objectName;
+}
+
 
 void PfdQmlGadgetWidget::setQmlFile(QString fn)
 {
@@ -142,6 +155,11 @@ void PfdQmlGadgetWidget::setActualPositionUsed(bool arg)
         m_actualPositionUsed = arg;
         emit actualPositionUsedChanged(arg);
     }
+}
+
+void PfdQmlGadgetWidget::setSettingsMap(const QVariantMap &settings)
+{
+    engine()->rootContext()->setContextProperty("settings", settings);
 }
 
 void PfdQmlGadgetWidget::setLatitude(double arg)

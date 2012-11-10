@@ -76,7 +76,6 @@ namespace mapcontrol
         void mousePressEvent ( QGraphicsSceneMouseEvent * event );
         void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event );
         void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
-        QPainterPath shape() const;
     public slots:
         void RefreshPos();
         void setOpacitySlot(qreal opacity);

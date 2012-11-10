@@ -421,6 +421,11 @@ void Simulator::updateUAVOs(Output2Hardware out){
         homeData.Be[0]=0;
         homeData.Be[1]=0;
         homeData.Be[2]=0;
+
+        homeData.g_e=9.805;
+        homeData.GroundTemperature=15;
+        homeData.SeaLevelPressure=1013;
+
         posHome->setData(homeData);
         posHome->updated();
 
@@ -436,10 +441,6 @@ void Simulator::updateUAVOs(Output2Hardware out){
     //Copy everything to the ground truth object. GroundTruth is Noise-free.
     GroundTruth::DataFields groundTruthData;
     groundTruthData = groundTruth->getData();
-
-    groundTruthData.AccelerationXYZ[0]=out.accX;
-    groundTruthData.AccelerationXYZ[1]=out.accY;
-    groundTruthData.AccelerationXYZ[2]=out.accZ;
 
     groundTruthData.AngularRates[0]=out.rollRate;
     groundTruthData.AngularRates[1]=out.pitchRate;
