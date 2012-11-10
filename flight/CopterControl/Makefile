@@ -107,6 +107,7 @@ endif
 
 # List of mandatory modules to include
 MODULES = Attitude Stabilization Actuator ManualControl FirmwareIAP
+MODULES += Geofence
 # Telemetry must be last to grab the optional modules (why?)
 MODULES += Telemetry
 
@@ -223,6 +224,10 @@ SRC += $(OPUAVSYNTHDIR)/ratedesired.c
 SRC += $(OPUAVSYNTHDIR)/baroaltitude.c
 SRC += $(OPUAVSYNTHDIR)/txpidsettings.c
 SRC += $(OPUAVSYNTHDIR)/airspeedactual.c
+SRC += $(OPUAVSYNTHDIR)/geofencevertices.c
+SRC += $(OPUAVSYNTHDIR)/geofencefaces.c
+SRC += $(OPUAVSYNTHDIR)/positionactual.c
+SRC += $(OPUAVSYNTHDIR)/velocityactual.c
 
 endif
 

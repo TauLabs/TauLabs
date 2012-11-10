@@ -363,7 +363,7 @@ void Rv2Rot(float Rv[3], float R[3][3])
 	Quaternion2R(q, R);
 }
 
-// ****** Vector Cross Product ********
+// ****** 3D Vector Cross Product ********
 void CrossProduct(const float v1[3], const float v2[3], float result[3])
 {
 	result[0] = v1[1]*v2[2] - v2[1]*v1[2];
@@ -371,7 +371,14 @@ void CrossProduct(const float v1[3], const float v2[3], float result[3])
 	result[2] = v1[0]*v2[1] - v2[0]*v1[1];
 }
 
-// ****** Vector Magnitude ********
+// ****** 3D Vector Dot Product ********
+float DotProduct(const float v1[3], const float v2[3])
+{
+	return (v1[0]*v2[0] + v1[1]*v2[1] + v1[2]*v2[2]);
+}
+
+
+// ****** 3D Vector Magnitude ********
 float VectorMagnitude(const float v[3])
 {
 	return(sqrtf(v[0]*v[0] + v[1]*v[1] + v[2]*v[2]));

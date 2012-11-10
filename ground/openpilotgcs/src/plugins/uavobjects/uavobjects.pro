@@ -89,6 +89,8 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accessorydesired.h \
     $$UAVOBJECT_SYNTHETICS/pipxstatus.h \
     $$UAVOBJECT_SYNTHETICS/waypoint.h \
     $$UAVOBJECT_SYNTHETICS/waypointactive.h \
+    $$UAVOBJECT_SYNTHETICS/geofencevertices.h \
+    $$UAVOBJECT_SYNTHETICS/geofencefaces.h \
     $$UAVOBJECT_SYNTHETICS/pathaction.h
 
 SOURCES += $$UAVOBJECT_SYNTHETICS/accessorydesired.cpp \
@@ -158,4 +160,6 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accessorydesired.cpp \
     $$UAVOBJECT_SYNTHETICS/pipxstatus.cpp \
     $$UAVOBJECT_SYNTHETICS/waypoint.cpp \
     $$UAVOBJECT_SYNTHETICS/waypointactive.cpp \
+    $$UAVOBJECT_SYNTHETICS/geofencevertices.cpp \
+    $$UAVOBJECT_SYNTHETICS/geofencefaces.cpp \
     $$UAVOBJECT_SYNTHETICS/pathaction.cpp

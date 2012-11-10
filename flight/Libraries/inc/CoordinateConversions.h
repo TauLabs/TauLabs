@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       CoordinateConverions.h
+ * @file       CoordinateConversions.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @brief      Header for Coordinate conversions library in CoordinateConversions.c
  *             - all angles in deg
@@ -65,10 +65,13 @@ void R2Quaternion(float R[3][3], float q[4]);
 	// ****** solution is approximate if can't be exact ***
 uint8_t RotFrom2Vectors(const float v1b[3], const float v1e[3], const float v2b[3], const float v2e[3], float Rbe[3][3]);
 
-	// ****** Vector Cross Product ********
+// ****** 3D Vector Cross Product ********
 void CrossProduct(const float v1[3], const float v2[3], float result[3]);
 
-	// ****** Vector Magnitude ********
+// ****** 3D Vector Dot Product ********
+float DotProduct(const float v1[3], const float v2[3]);
+
+	// ****** 3D Vector Magnitude ********
 float VectorMagnitude(const float v[3]);
 
 void quat_inverse(float q[4]);
