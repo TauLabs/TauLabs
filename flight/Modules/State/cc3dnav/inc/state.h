@@ -43,6 +43,7 @@ struct GlobalAttitudeVariables {
 	float gyro_correct_int[3];
 	float q[4];
 	float Rsb[3][3]; //Rotation matrix that transforms from the sensor frame to the body frame
+	float T[3];
 	bool rotate;
 	bool zero_during_arming;
 	bool bias_correct_gyro;	

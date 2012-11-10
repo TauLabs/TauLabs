@@ -523,31 +523,30 @@ static void updateT3(GPSVelocityData * gpsVelocityData, PositionActualData * pos
 	//Very slowly use GPS heading data to converge. This is a poor way of doing
 	//things, but will work in the short term for testing.
 	//Instead of calculating norm, use a gauge approach
-	if (fabs(velocityActualData.North) > 3.0f) {
-		if (fabs(velocityActualData.North) > 4.0f
-		    || fabs(velocityActualData.East) > 3.0f) {
-			float heading = atan2f(velocityActualData.East, velocityActualData.North);
+	if (fabs(velocityActualData.North) > 3.0f && 
+			(fabs(velocityActualData.North) > 4.0f || fabs(velocityActualData.East) > 3.0f)) {
+		float heading = atan2f(velocityActualData.East, velocityActualData.North);
 
-			AttitudeActualData attitudeActual;
-			AttitudeActualGet(&attitudeActual);
+		AttitudeActualData attitudeActual;
+		AttitudeActualGet(&attitudeActual);
 
-			while (heading - attitudeActual.Yaw < -180.0f) {
-				heading += 360.0f;
-			}
-			while (heading - attitudeActual.Yaw > 180.0f) {
-				heading -= 360.0f;
-			}
+		while (heading - attitudeActual.Yaw < -180.0f) {
+			heading += 360.0f;
+		}
+		while (heading - attitudeActual.Yaw > 180.0f) {
+			heading -= 360.0f;
+		}
 
-			attitudeActual.Yaw = .9f * attitudeActual.Yaw + 0.1f * heading;
+		attitudeActual.Yaw = .9f * attitudeActual.Yaw + 0.1f * heading;
 
-			// Convert into quaternions degrees (makes assumptions about RPY order)
-			RPY2Quaternion(&attitudeActual.Roll, &attitudeActual.q1);
+		// Convert into quaternions degrees (makes assumptions about RPY order)
+		RPY2Quaternion(&attitudeActual.Roll, &attitudeActual.q1);
 
-			if (!AttitudeActualReadOnly()) {
-				AttitudeActualSet(&attitudeActual);
-			}
+		if (!AttitudeActualReadOnly()) {
+			AttitudeActualSet(&attitudeActual);
 		}
 	}
+
 	// Do not update position and velocity estimates when in simulation mode
 	PositionActualSet(&positionActualData);
 	VelocityActualSet(&velocityActualData);
