@@ -86,13 +86,12 @@ int8_t getSensorsCC(float *prelim_accels, float *prelim_gyros, xQueueHandle * gy
 	if (PIOS_ADXL345_FifoElements() == 0)
 		return -1;
 
-	//Process gyros bias and scale. First sample is temperature, so ignore.
-	//Rotated data from internal gryoscope sensor frame into board sensor frame
+	// Scale ADC data into deg/s. First sample is temperature, so ignore.
 	prelim_gyros[0] = -(gyro[1] - GYRO_NEUTRAL_BIAS) * glblAtt->gyroGain[0];
 	prelim_gyros[1] = (gyro[2] - GYRO_NEUTRAL_BIAS) * glblAtt->gyroGain[1];
 	prelim_gyros[2] = -(gyro[3] - GYRO_NEUTRAL_BIAS) * glblAtt->gyroGain[2];
 
-	//Process accelerometer sensor data. In this case, average the data
+	// Process accelerometer sensor data. In this case, average the data
 	int32_t x = 0;
 	int32_t y = 0;
 	int32_t z = 0;
@@ -108,9 +107,7 @@ int8_t getSensorsCC(float *prelim_accels, float *prelim_gyros, xQueueHandle * gy
 		z += -accel_data.z;
 	} while ((i < 32) && (samples_remaining > 0));	//<-- i=32 being hardcoded means that if the accelerometer ADC sample rate is increased, we could wind up never being able to empty the buffer
 
-	//      prelim_gyros[3] = samples_remaining; //COMMENTING OUT BECAUSE THIS ACTION CURRENTLY MAKES NO SENSE
-
-	//Apply scaling and bias correction in sensor frame
+	// Apply scaling and bias correction in sensor frame
 	prelim_accels[0] = (float)x / i * ACCEL_SCALE * glblAtt->accelscale[0] - glblAtt->accelbias[0];
 	prelim_accels[1] = (float)y / i * ACCEL_SCALE * glblAtt->accelscale[1] - glblAtt->accelbias[1];
 	prelim_accels[2] = (float)z / i * ACCEL_SCALE * glblAtt->accelscale[2] - glblAtt->accelbias[2];

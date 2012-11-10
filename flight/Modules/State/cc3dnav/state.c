@@ -99,18 +99,22 @@ uint16_t const MAX_TRIM_FLIGHT_SAMPLES = 65535;
 
 // Private functions
 static void StateTask(void *parameters);
-static int32_t updateIntertialSensors(AccelsData * accelsData,
-				      GyrosData * gyrosData, bool cc3d_flag);
+
+//! Get the sensor data and rotate from board into body frame
+static int32_t updateIntertialSensors(AccelsData * accelsData, GyrosData * gyrosData, bool cc3d_flag);
 
 //! Update the position estimate
 static void updateT3(GPSVelocityData * gpsVelocityData, PositionActualData * positionActualData);
 
 //! Predict attitude forward one time step
 static void updateSO3(float *gyros, float dT);
+
+//! Cache settings locally
 static void settingsUpdatedCb(UAVObjEvent * objEv);
 
-static int32_t LLA2NED(int32_t LL[2], float altitude, float geoidSeparation,
-		       float *NED);
+// TODO: Move this into a global library that is aware of the home location to share code with revo
+//! Convert from LLA to NED accounting for the geoid separation
+static int32_t LLA2NED(int32_t LL[2], float altitude, float geoidSeparation, float *NED);
 static void HomeLocationUpdatedCb(UAVObjEvent * objEv);
 static void GPSPositionUpdatedCb(UAVObjEvent * objEv);
 
@@ -616,6 +620,9 @@ static void updateSO3(float *gyros, float dT)
 	AttitudeActualSet(&attitudeActual);
 }
 
+/**
+ * @brief Move the settings variables from the UAVO into a temporary structure
+ */
 static void settingsUpdatedCb(UAVObjEvent * objEv)
 {
 	AttitudeSettingsData attitudeSettings;
@@ -774,7 +781,7 @@ static void HomeLocationUpdatedCb(UAVObjEvent * objEv)
 	//Set NED coordinates relative to the new home location
 	uint8_t gpsStatus;
 	GPSPositionStatusGet(&gpsStatus);
-	
+
 	// TODO: Generate a better criterion
 	if (gpsStatus == GPSPOSITION_STATUS_FIX3D)
 	{
