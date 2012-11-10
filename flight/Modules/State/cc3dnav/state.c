@@ -479,7 +479,6 @@ static void updateT3(GPSVelocityData * gpsVelocityData, PositionActualData * pos
 	VelocityActualData velocityActualData;
 	VelocityActualGet(&velocityActualData);
 
-
 	// Get a subset of the GPSPosition information
 	int32_t LL_int[2];
 	float altitude;
@@ -775,35 +774,26 @@ static void HomeLocationUpdatedCb(UAVObjEvent * objEv)
 	//Set NED coordinates relative to the new home location
 	uint8_t gpsStatus;
 	GPSPositionStatusGet(&gpsStatus);
-	if (gpsStatus == GPSPOSITION_STATUS_FIX3D)	//NEED A BETTER TEST THAN THIS
+	
+	// TODO: Generate a better criterion
+	if (gpsStatus == GPSPOSITION_STATUS_FIX3D)
 	{
-		float NED[3];
-
+		// Get the subset of the GPSPosition data required
 		int32_t LL_int[2];
-		int32_t tmpVal;
-		GPSPositionLatitudeGet(&tmpVal);
-		LL_int[0] = tmpVal;
-		GPSPositionLongitudeGet(&tmpVal);
-		LL_int[1] = tmpVal;
-
 		float altitude;
-		GPSPositionAltitudeGet(&altitude);
-
 		float geoidSeparation;
+		GPSPositionLatitudeGet(&LL_int[0]);
+		GPSPositionLongitudeGet(&LL_int[1]);
+		GPSPositionAltitudeGet(&altitude);
 		GPSPositionGeoidSeparationGet(&geoidSeparation);
 
-		LLA2NED(LL_int, altitude, geoidSeparation, NED);
-
+		// Convert LLA into NED and store it.  Assumes field order in PositionActual is NED.
 		PositionActualData positionActualData;
-		positionActualData.North = NED[0];
-		positionActualData.East = NED[1];
-		positionActualData.Down = NED[2];
-
+		LLA2NED(LL_int, altitude, geoidSeparation, &positionActualData.North);
 		PositionActualSet(&positionActualData);
 	}
-	//Refuse to set gravity lower than Mars's gravity or greater than
-	//Jupiter's. Assume that if there was an attempt to do this, it was
-	//mistaken, and reset gravity to normal.
+
+	// Constrain gravity to reasonable levels (Mars to Jupiter)
 	if (homeLocation.g_e < 3 || homeLocation.g_e > 25) {
 		homeLocation.g_e = 9.805;
 		HomeLocationSet(&homeLocation);
