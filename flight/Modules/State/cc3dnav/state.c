@@ -175,7 +175,7 @@ int32_t StateInitialize(void)
 	for (uint8_t i = 0; i < 3; i++) {
 		for (uint8_t j = 0; j < 3; j++)
 			glblAtt->Rsb[i][j] = 0;
-		glbAtt->Rsb[i][i] = 1;
+		glblAtt->Rsb[i][i] = 1;
 	}
 
 	glblAtt->trim_requested = false;
@@ -625,40 +625,22 @@ static void settingsUpdatedCb(UAVObjEvent * objEv)
 	glblAtt->accelKp = attitudeSettings.AccelKp;
 	glblAtt->accelKi = attitudeSettings.AccelKi;
 	glblAtt->yawBiasRate = attitudeSettings.YawBiasRate;
-	glblAtt->gyroGain[0] = glblAtt->gyroGain[1] = glblAtt->gyroGain[2] =
-	    glblAtt->gyroGain_ref = attitudeSettings.GyroGain;
+	glblAtt->gyroGain[0] = glblAtt->gyroGain[1] = glblAtt->gyroGain[2] = glblAtt->gyroGain_ref = attitudeSettings.GyroGain;
 
-	glblAtt->zero_during_arming =
-	    (attitudeSettings.ZeroDuringArming ==
-	     ATTITUDESETTINGS_ZERODURINGARMING_TRUE);
-	glblAtt->bias_correct_gyro =
-	    (attitudeSettings.BiasCorrectGyro ==
-	     ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE);
+	glblAtt->zero_during_arming = (attitudeSettings.ZeroDuringArming == ATTITUDESETTINGS_ZERODURINGARMING_TRUE);
+	glblAtt->bias_correct_gyro = (attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE);
 	glblAtt->filter_choice = attitudeSettings.FilterChoice;
 
-	//The accelerometer sensor calibration values are all in the board sensor
-	//frame.
+	//The accelerometer sensor calibration values are all in the board sensor frame.
 	//Divide by 1000 because `accelbias` is in units of 1000*[m/s^2]
-	glblAtt->accelbias[0] =
-	    attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_X] /
-	    1000.0f;
-	glblAtt->accelbias[1] =
-	    attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_Y] /
-	    1000.0f;
-	glblAtt->accelbias[2] =
-	    attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_Z] /
-	    1000.0f;
+	glblAtt->accelbias[0] = attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_X] / 1000.0f;
+	glblAtt->accelbias[1] = attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_Y] / 1000.0f;
+	glblAtt->accelbias[2] = attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_Z] / 1000.0f;
 
 	//Divide by 1000 because `accelbias` is in unit of 1000*[m/s^2]s
-	glblAtt->accelscale[0] =
-	    attitudeSettings.AccelScale[ATTITUDESETTINGS_ACCELSCALE_X] /
-	    10000.0f;
-	glblAtt->accelscale[1] =
-	    attitudeSettings.AccelScale[ATTITUDESETTINGS_ACCELSCALE_Y] /
-	    10000.0f;
-	glblAtt->accelscale[2] =
-	    attitudeSettings.AccelScale[ATTITUDESETTINGS_ACCELSCALE_Z] /
-	    10000.0f;
+	glblAtt->accelscale[0] = attitudeSettings.AccelScale[ATTITUDESETTINGS_ACCELSCALE_X] / 10000.0f;
+	glblAtt->accelscale[1] = attitudeSettings.AccelScale[ATTITUDESETTINGS_ACCELSCALE_Y] / 10000.0f;
+	glblAtt->accelscale[2] = attitudeSettings.AccelScale[ATTITUDESETTINGS_ACCELSCALE_Z] / 10000.0f;
 
 	//Provide minimum for scale. This keeps the accels from accidentally being
 	//"turned off".
@@ -670,12 +652,9 @@ static void settingsUpdatedCb(UAVObjEvent * objEv)
 
 	//The gyroscope sensor calibration values are all in the body frame.
 	//Divide by 100 because `GyroBias` is in units of 100*[deg/s]
-	glblAtt->gyro_correct_int[0] =
-	    attitudeSettings.GyroBias[ATTITUDESETTINGS_GYROBIAS_X] / 100.0f;
-	glblAtt->gyro_correct_int[1] =
-	    attitudeSettings.GyroBias[ATTITUDESETTINGS_GYROBIAS_Y] / 100.0f;
-	glblAtt->gyro_correct_int[2] =
-	    attitudeSettings.GyroBias[ATTITUDESETTINGS_GYROBIAS_Z] / 100.0f;
+	glblAtt->gyro_correct_int[0] = attitudeSettings.GyroBias[ATTITUDESETTINGS_GYROBIAS_X] / 100.0f;
+	glblAtt->gyro_correct_int[1] = attitudeSettings.GyroBias[ATTITUDESETTINGS_GYROBIAS_Y] / 100.0f;
+	glblAtt->gyro_correct_int[2] = attitudeSettings.GyroBias[ATTITUDESETTINGS_GYROBIAS_Z] / 100.0f;
 
 	//Calculate sensor to board rotation matrix. If the matrix is the identity,
 	//don't expend cycles on rotation
@@ -688,16 +667,10 @@ static void settingsUpdatedCb(UAVObjEvent * objEv)
 		float rotationQuat[4] = { 1, 0, 0, 0 };
 		Quaternion2R(rotationQuat, glblAtt->Rsb);
 	} else {
-		float rpy[3] =
-		    {
-		 attitudeSettings.BoardRotation
-		 [ATTITUDESETTINGS_BOARDROTATION_ROLL] * DEG2RAD / 100.0f,
-			attitudeSettings.BoardRotation
-			    [ATTITUDESETTINGS_BOARDROTATION_PITCH]
-			    * DEG2RAD / 100.0f,
-			attitudeSettings.BoardRotation
-			    [ATTITUDESETTINGS_BOARDROTATION_YAW] * DEG2RAD /
-			    100.0f
+		float rpy[3] = {
+		    attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_ROLL] * DEG2RAD / 100.0f,
+		    attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_PITCH] * DEG2RAD / 100.0f,
+			attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_YAW] * DEG2RAD / 100.0f
 		};
 		Euler2R(rpy, glblAtt->Rsb);
 		glblAtt->rotate = true;
@@ -709,27 +682,23 @@ static void settingsUpdatedCb(UAVObjEvent * objEv)
 		glblAtt->trim_accels[2] = 0;
 		glblAtt->trim_samples = 0;
 		glblAtt->trim_requested = true;
-	} else if (attitudeSettings.TrimFlight ==
-		   ATTITUDESETTINGS_TRIMFLIGHT_LOAD) {
+	} else if (attitudeSettings.TrimFlight == ATTITUDESETTINGS_TRIMFLIGHT_LOAD) {
 		glblAtt->trim_requested = false;
 
-		//Get sensor data  mean 
-		float a_body[3] =
-		    { glblAtt->trim_accels[0] / glblAtt->trim_samples,
+		// Get sensor data  mean 
+		float a_body[3] = { glblAtt->trim_accels[0] / glblAtt->trim_samples,
 			glblAtt->trim_accels[1] / glblAtt->trim_samples,
 			glblAtt->trim_accels[2] / glblAtt->trim_samples
 		};
 
-		//Inverse rotation of sensor data, from body frame into sensor frame
+		// Inverse rotation of sensor data, from body frame into sensor frame
 		float a_sensor[3];
 		rot_mult(glblAtt->Rsb, a_body, a_sensor, true);
 
-		//Temporary variables
+		// Temporary variables
 		float psi, theta, phi;
 
-		psi =
-		    attitudeSettings.BoardRotation
-		    [ATTITUDESETTINGS_BOARDROTATION_YAW] * DEG2RAD / 100.0f;
+		psi = attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_YAW] * DEG2RAD / 100.0f;
 
 		float cP = cosf(psi);
 		float sP = sinf(psi);
@@ -737,31 +706,19 @@ static void settingsUpdatedCb(UAVObjEvent * objEv)
 		//In case psi is too small, we have to use a different equation to
 		//solve for theta
 		if (fabs(psi) > 3.1415f / 2)
-			theta =
-			    atanf((a_sensor[1] +
-				   cP * (sP * a_sensor[0] -
-					 cP * a_sensor[1])) / (sP *
-							       a_sensor[2]));
+			theta = atanf((a_sensor[1] + cP * (sP * a_sensor[0] -
+					 cP * a_sensor[1])) / (sP * a_sensor[2]));
 		else
-			theta =
-			    atanf((a_sensor[0] -
-				   sP * (sP * a_sensor[0] -
-					 cP * a_sensor[1])) / (cP *
-							       a_sensor[2]));
+			theta = atanf((a_sensor[0] - sP * (sP * a_sensor[0] -
+					 cP * a_sensor[1])) / (cP * a_sensor[2]));
 
-		phi =
-		    atan2f((sP * a_sensor[0] - cP * a_sensor[1]) / GRAV,
+		phi = atan2f((sP * a_sensor[0] - cP * a_sensor[1]) / GRAV,
 			   (a_sensor[2] / cosf(theta) / GRAV));
 
-		attitudeSettings.BoardRotation
-		    [ATTITUDESETTINGS_BOARDROTATION_ROLL] =
-		    phi * RAD2DEG * 100.0f;
-		attitudeSettings.BoardRotation
-		    [ATTITUDESETTINGS_BOARDROTATION_PITCH] =
-		    theta * RAD2DEG * 100.0f;
+		attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_ROLL] = phi * RAD2DEG * 100.0f;
+		attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_PITCH] = theta * RAD2DEG * 100.0f;
 
-		attitudeSettings.TrimFlight =
-		    ATTITUDESETTINGS_TRIMFLIGHT_NORMAL;
+		attitudeSettings.TrimFlight = ATTITUDESETTINGS_TRIMFLIGHT_NORMAL;
 		AttitudeSettingsSet(&attitudeSettings);
 	} else {
 		glblAtt->trim_requested = false;
