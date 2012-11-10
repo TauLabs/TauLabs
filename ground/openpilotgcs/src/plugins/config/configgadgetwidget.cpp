@@ -211,7 +211,7 @@ void ConfigGadgetWidget::onAutopilotConnect() {
             icon->addFile(":/configgadget/images/ins_normal.png", QSize(), QIcon::Normal, QIcon::Off);
             icon->addFile(":/configgadget/images/ins_selected.png", QSize(), QIcon::Selected, QIcon::Off);
             QWidget *qwd = new ConfigCCAttitudeWidget(this);
-            ftw->insertTab(ConfigGadgetWidget::sensors, qwd, *icon, QString("INS"));
+            ftw->insertTab(ConfigGadgetWidget::sensors, qwd, *icon, QString("Attitude"));
             ftw->removeTab(ConfigGadgetWidget::hardware);
 
             icon = new QIcon();
@@ -229,7 +229,7 @@ void ConfigGadgetWidget::onAutopilotConnect() {
             icon->addFile(":/configgadget/images/ins_normal.png", QSize(), QIcon::Normal, QIcon::Off);
             icon->addFile(":/configgadget/images/ins_selected.png", QSize(), QIcon::Selected, QIcon::Off);
             QWidget *qwd = new ConfigRevoWidget(this);
-            ftw->insertTab(ConfigGadgetWidget::sensors, qwd, *icon, QString("Revo"));
+            ftw->insertTab(ConfigGadgetWidget::sensors, qwd, *icon, QString("INS"));
             ftw->removeTab(ConfigGadgetWidget::hardware);
 
             icon = new QIcon();
