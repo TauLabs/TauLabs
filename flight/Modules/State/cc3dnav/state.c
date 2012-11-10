@@ -549,12 +549,8 @@ static void updateT3(GPSVelocityData * gpsVelocityData, PositionActualData * pos
 		}
 	}
 	// Do not update position and velocity estimates when in simulation mode
-	if (!PositionActualReadOnly()) {
-		PositionActualSet(&positionActualData);
-	}
-	if (!VelocityActualReadOnly()) {
-		VelocityActualSet(&velocityActualData);
-	}
+	PositionActualSet(&positionActualData);
+	VelocityActualSet(&velocityActualData);
 }
 
 /**
