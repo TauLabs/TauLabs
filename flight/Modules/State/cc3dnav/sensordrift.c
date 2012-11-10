@@ -62,7 +62,6 @@ extern struct GlobalAttitudeVariables *glblAtt;
 bool firstpass_flag = true;
 
 struct GlobalDcmDriftVariables {
-//      float gyros_passed[3];
 	float GPSV_old[3];
 
 	float accels_e_integrator[3];
@@ -78,8 +77,9 @@ struct GlobalDcmDriftVariables {
 	float yawKp;
 	float yawKi;
 	float gyroCalibTau;
-	float delT_between_GPS;
 
+	//! Accumulator for the time step between GPS updates
+	float delT_between_GPS;
 };
 
 #define GPS_UNCONSUMED       0x00
@@ -103,13 +103,11 @@ enum DRIFT_CORRECTION_ALGOS {
 };
 
 // Private functions
-void rollPitch_drift_GPS(float Rbe[3][3], float accels_e_int[3], float delT,
-			 float *errRollPitch_b);
+void rollPitch_drift_GPS(float Rbe[3][3], float accels_e_int[3], float delT, float *errRollPitch_b);
 void gyro_drift(float gyro[3], float errYaw_b[3], float errRollPitch_b[3],
 		float normOmegaScalar, float delT, float *omegaCorrP,
 		float *omegaCorrI);
-void yaw_drift_MagGPS(float Rbe[3][3], bool gpsNewData_flag,
-		      bool magNewData_flag, float *errYaw_b);
+void yaw_drift_MagGPS(float Rbe[3][3], bool gpsNewData_flag, bool magNewData_flag, float *errYaw_b);
 void calibrate_gyros_high_speed(float gyro[3], float omegaCorrP[3],
 				float normOmegaScalar, float delT,
 				float *ggain);
@@ -122,62 +120,43 @@ static void GPSVelocityUpdatedCb(UAVObjEvent * objEv);
 static void MagnetometerUpdatedCb(UAVObjEvent * objEv);
 #endif
 
-void updateSensorDrift(AccelsData * accelsData, GyrosData * gyrosData,
-		       const float delT)
+/**
+ * Correct the sensor drift using Premerlani algorithm
+ */
+void updateSensorDrift(AccelsData * accelsData, GyrosData * gyrosData, const float delT)
 {
-	// Bad practice to assume structure order, but saves memory. //WHY DOES THIS SAVE MEMORY?
 	float *gyros = &gyrosData->x;
 	float *accels = &accelsData->x;
 
 	if (glblAtt->filter_choice == ATTITUDESETTINGS_FILTERCHOICE_CCC) {
 		CottonComplementaryCorrection(accels, gyros, delT);
-	} else if (glblAtt->filter_choice ==
-		   ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI
-		   || glblAtt->filter_choice ==
-		   ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI_GPS) {
+	} else if (glblAtt->filter_choice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI || 
+		glblAtt->filter_choice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI_GPS) {
 		if (firstpass_flag) {
-
-//                      HwSettingsInitialize(); //SHOULD THIS BE COMMENTED OUT OR NOT?
-			uint8_t
-			    optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
+			uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
 			HwSettingsOptionalModulesGet(optionalModules);
 
 			//Allocate memory for DCM drift globals
-			drft =
-			    (struct GlobalDcmDriftVariables *)
-			    pvPortMalloc(sizeof
-					 (struct GlobalDcmDriftVariables));
+			drft = (struct GlobalDcmDriftVariables *)
+			    pvPortMalloc(sizeof (struct GlobalDcmDriftVariables));
 
 			memset(drft->GPSV_old, 0, sizeof(drft->GPSV_old));
 			memset(drft->omegaCorrI, 0, sizeof(drft->omegaCorrI));
-			memset(drft->accels_e_integrator, 0,
-			       sizeof(drft->accels_e_integrator));
+			memset(drft->accels_e_integrator, 0, sizeof(drft->accels_e_integrator));
 
-//                      //Create and connect queue
-//                      DCMSettingsConnectCallback(DCMSettingsUpdatedCb);
-//
-//                      //Force callback in order to seed initial values
-//                      DCMSettingsUpdatedCb(DCMSettingsHandle());
-
-			 /*VVVVVVVVVVVVVVVVVVVVVVV*/
-/* WHAT??? HARD CODED VARIABLES BECAUSE I'VE BEEN TOO LAZY TO ADD THEM TO THE UAVO? */
-			    drft->accelsKp = 1;
+			// TODO: Expose these settings through UAVO
+			drft->accelsKp = 1;
 			drft->rollPitchKp = 20;
 			drft->rollPitchKi = 1;
 			drft->yawKp = 0;
 			drft->yawKi = 0;
 			drft->gyroCalibTau = 100;
-/*^^^^^^^^^^^^^^^^^^^^^^^*/
 
 			//Set flags
-			if (optionalModules[HWSETTINGS_OPTIONALMODULES_GPS] ==
-			    HWSETTINGS_OPTIONALMODULES_ENABLED
-			    && PIOS_COM_GPS) {
-				GPSVelocityConnectCallback
-				    (GPSVelocityUpdatedCb);
+			if (optionalModules[HWSETTINGS_OPTIONALMODULES_GPS] == HWSETTINGS_OPTIONALMODULES_ENABLED && PIOS_COM_GPS) {
+				GPSVelocityConnectCallback(GPSVelocityUpdatedCb);
 				drft->gpsPresent_flag = true;
-				drft->gpsVelocityDataConsumption_flag =
-				    GPS_CONSUMED;
+				drft->gpsVelocityDataConsumption_flag = GPS_CONSUMED;
 			} else {
 				drft->gpsPresent_flag = false;
 			}
@@ -186,25 +165,22 @@ void updateSensorDrift(AccelsData * accelsData, GyrosData * gyrosData,
 			MagnetometerConnectCallback(MagnetometerUpdatedCb);
 #endif
 			drft->magNewData_flag = false;
-
 			drft->delT_between_GPS = 0;
-
 			firstpass_flag = false;
 		}
 
+		// Apply arbitrary scaling to get into effective units
 		drft->rollPitchKp = glblAtt->accelKp * 1000.0f;
 		drft->rollPitchKi = glblAtt->accelKi * 10000.0f;
 
-		//Convert quaternions into rotation matrix
+		// Convert quaternions into rotation matrix
 		float Rbe[3][3];
 		Quaternion2R(glblAtt->q, Rbe);
 
 #if defined (PIOS_INCLUDE_GPS)
-		if (glblAtt->filter_choice ==
-		    ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI_GPS) {
+		if (glblAtt->filter_choice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI_GPS) {
 			DcmCorrection(accels, gyros, Rbe, delT, true);
-		} else if (glblAtt->filter_choice ==
-			   ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI)
+		} else if (glblAtt->filter_choice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI)
 #endif
 		{
 			DcmCorrection(accels, gyros, Rbe, delT, false);
@@ -222,14 +198,9 @@ void CottonComplementaryCorrection(float *accels, float *gyros,
 	float accel_err_b[3];
 
 	// Rotate normalized gravity reference vector to body frame and cross with measured acceleration
-	grav_b[0] =
-	    -(2 *
-	      (glblAtt->q[1] * glblAtt->q[3] - glblAtt->q[0] * glblAtt->q[2]));
-	grav_b[1] =
-	    -(2 *
-	      (glblAtt->q[2] * glblAtt->q[3] + glblAtt->q[0] * glblAtt->q[1]));
-	grav_b[2] =
-	    -(glblAtt->q[0] * glblAtt->q[0] - glblAtt->q[1] * glblAtt->q[1] -
+	grav_b[0] = -(2 * (glblAtt->q[1] * glblAtt->q[3] - glblAtt->q[0] * glblAtt->q[2]));
+	grav_b[1] = -(2 * (glblAtt->q[2] * glblAtt->q[3] + glblAtt->q[0] * glblAtt->q[1]));
+	grav_b[2] = -(glblAtt->q[0] * glblAtt->q[0] - glblAtt->q[1] * glblAtt->q[1] -
 	      glblAtt->q[2] * glblAtt->q[2] + glblAtt->q[3] * glblAtt->q[3]);
 	CrossProduct((const float *)accels, (const float *)grav_b, accel_err_b);
 
@@ -238,7 +209,7 @@ void CottonComplementaryCorrection(float *accels, float *gyros,
 	if (accel_mag < 1.0e-3f)
 		return;
 
-	//Normalize error vector
+	// Normalize error vector
 	accel_err_b[0] /= accel_mag;
 	accel_err_b[1] /= accel_mag;
 	accel_err_b[2] /= accel_mag;
@@ -274,14 +245,6 @@ void DcmCorrection(float *accels, float *gyros, float Rbe[3][3],
 	float omegaCorrP[3];
 
 	float normOmegaScalar = VectorMagnitude(gyros);
-
-	//Output raw gyro data to UAVO
-//      DCMStatusData dcmStatus;
-//      DCMStatusGet(&dcmStatus);
-//      
-//      dcmStatus.rawGyros[0]=gyros[0];
-//      dcmStatus.rawGyros[1]=gyros[1];
-//      dcmStatus.rawGyros[2]=gyros[2];
 
 	//Correct roll-pitch drift via GPS and accelerometer
 	//The math is derived from Roll-Pitch Gyro Drift Compensation, Rev.3, by W. Premerlani
