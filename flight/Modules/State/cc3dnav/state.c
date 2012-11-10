@@ -778,11 +778,10 @@ static void settingsUpdatedCb(UAVObjEvent * objEv)
  * @param[out] NED frame coordinates
  * @returns 0 for success, -1 for failure
  */
-float T[3];
-
 static int32_t LLA2NED(int32_t LL[2], float altitude, float geoidSeparation,
 		       float *NED)
 {
+	float *T = glblAtt->T;
 	float dL[3] = { (LL[0] - homeLocation.Latitude) / 10.0e6f * DEG2RAD,
 		(LL[1] - homeLocation.Longitude) / 10.0e6f * DEG2RAD,
 		(altitude + geoidSeparation - homeLocation.Altitude)
@@ -809,6 +808,8 @@ static void HomeLocationUpdatedCb(UAVObjEvent * objEv)
 	// Compute vector for converting deltaLLA to NED
 	lat = homeLocation.Latitude / 10.0e6f * DEG2RAD;
 	alt = homeLocation.Altitude;
+
+	float *T = glblAtt->T;
 
 	T[0] = alt + 6.378137E6f;
 	T[1] = cosf(lat) * (alt + 6.378137E6f);
