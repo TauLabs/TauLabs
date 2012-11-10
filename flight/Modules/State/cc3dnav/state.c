@@ -140,6 +140,8 @@ int32_t StateInitialize(void)
 	AccelsInitialize();
 	GyrosInitialize();
 
+	// TODO: These should be dependent on planning to run navigation
+	// TODO: The fact these ARE registered and GPS is running should be in sanity check
 	PositionActualInitialize();
 	VelocityActualInitialize();
 	GPSPositionInitialize();
@@ -168,9 +170,11 @@ int32_t StateInitialize(void)
 	glblAtt->q[1] = 0;
 	glblAtt->q[2] = 0;
 	glblAtt->q[3] = 0;
-	for (uint8_t i = 0; i < 3; i++)
+	for (uint8_t i = 0; i < 3; i++) {
 		for (uint8_t j = 0; j < 3; j++)
 			glblAtt->Rsb[i][j] = 0;
+		glbAtt->Rsb[i][i] = 1;
+	}
 
 	glblAtt->trim_requested = false;
 

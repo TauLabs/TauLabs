@@ -111,15 +111,9 @@ int8_t getSensorsCC(float *prelim_accels, float *prelim_gyros, xQueueHandle * gy
 	//      prelim_gyros[3] = samples_remaining; //COMMENTING OUT BECAUSE THIS ACTION CURRENTLY MAKES NO SENSE
 
 	//Apply scaling and bias correction in sensor frame
-	prelim_accels[0] =
-	    (float)x / i * ACCEL_SCALE * glblAtt->accelscale[0] -
-	    glblAtt->accelbias[0];
-	prelim_accels[1] =
-	    (float)y / i * ACCEL_SCALE * glblAtt->accelscale[1] -
-	    glblAtt->accelbias[1];
-	prelim_accels[2] =
-	    (float)z / i * ACCEL_SCALE * glblAtt->accelscale[2] -
-	    glblAtt->accelbias[2];
+	prelim_accels[0] = (float)x / i * ACCEL_SCALE * glblAtt->accelscale[0] - glblAtt->accelbias[0];
+	prelim_accels[1] = (float)y / i * ACCEL_SCALE * glblAtt->accelscale[1] - glblAtt->accelbias[1];
+	prelim_accels[2] = (float)z / i * ACCEL_SCALE * glblAtt->accelscale[2] - glblAtt->accelbias[2];
 
 	return 0;
 }
@@ -129,9 +123,9 @@ int8_t getSensorsCC(float *prelim_accels, float *prelim_gyros, xQueueHandle * gy
  * @param[in] attitudeRaw Populate the UAVO instead of saving right here
  * @return 0 if successfull, -1 if not
  */
-struct pios_mpu6000_data mpu6000_data;	//WHY IS THIS A GLOBAL? MAYBE THIS SHOULD BE EXPLAINED IN A COMMENT, OR MOVED INTO THE FUNCTION SCOPE
 int8_t getSensorsCC3D(float *prelim_accels, float *prelim_gyros)
 {
+	struct pios_mpu6000_data mpu6000_data;
 #if defined(PIOS_INCLUDE_MPU6000)
 
 	xQueueHandle queue = PIOS_MPU6000_GetQueue();
@@ -141,31 +135,18 @@ int8_t getSensorsCC3D(float *prelim_accels, float *prelim_gyros)
 		return -1;	// Error, no data
 
 	//Rotated data from internal gryoscope sensor frame into board sensor frame
-	prelim_gyros[0] =
-	    -mpu6000_data.gyro_y * PIOS_MPU6000_GetScale() *
-	    glblAtt->gyroGain[0];
-	prelim_gyros[1] =
-	    -mpu6000_data.gyro_x * PIOS_MPU6000_GetScale() *
-	    glblAtt->gyroGain[1];
-	prelim_gyros[2] =
-	    -mpu6000_data.gyro_z * PIOS_MPU6000_GetScale() *
-	    glblAtt->gyroGain[2];
+	prelim_gyros[0] = -mpu6000_data.gyro_y * PIOS_MPU6000_GetScale() * glblAtt->gyroGain[0];
+	prelim_gyros[1] = -mpu6000_data.gyro_x * PIOS_MPU6000_GetScale() * glblAtt->gyroGain[1];
+	prelim_gyros[2] = -mpu6000_data.gyro_z * PIOS_MPU6000_GetScale() * glblAtt->gyroGain[2];
 
 	//Rotated data from internal accelerometer sensor frame into board sensor frame
 	//Apply scaling and bias correction in sensor frame
-	prelim_accels[0] =
-	    -mpu6000_data.accel_y * PIOS_MPU6000_GetAccelScale() *
-	    glblAtt->accelscale[0] - glblAtt->accelbias[0];
-	prelim_accels[1] =
-	    -mpu6000_data.accel_x * PIOS_MPU6000_GetAccelScale() *
-	    glblAtt->accelscale[1] - glblAtt->accelbias[1];
-	prelim_accels[2] =
-	    -mpu6000_data.accel_z * PIOS_MPU6000_GetAccelScale() *
-	    glblAtt->accelscale[2] - glblAtt->accelbias[2];
+	prelim_accels[0] = -mpu6000_data.accel_y * PIOS_MPU6000_GetAccelScale() * glblAtt->accelscale[0] - glblAtt->accelbias[0];
+	prelim_accels[1] = -mpu6000_data.accel_x * PIOS_MPU6000_GetAccelScale() * glblAtt->accelscale[1] - glblAtt->accelbias[1];
+	prelim_accels[2] = -mpu6000_data.accel_z * PIOS_MPU6000_GetAccelScale() * glblAtt->accelscale[2] - glblAtt->accelbias[2];
 
 	prelim_gyros[3] = 35.0f + ((float)mpu6000_data.temperature + 512.0f) / 340.0f;	//Temperature sensor has a 35deg bias. //WHY? AS PER DOCS?
-	prelim_accels[3] =
-	    35.0f + ((float)mpu6000_data.temperature + 512.0f) / 340.0f;
+	prelim_accels[3] = 35.0f + ((float)mpu6000_data.temperature + 512.0f) / 340.0f;
 #endif
 
 	return 0;
