@@ -115,7 +115,11 @@ static void settingsUpdatedCb(UAVObjEvent * objEv);
 // TODO: Move this into a global library that is aware of the home location to share code with revo
 //! Convert from LLA to NED accounting for the geoid separation
 static int32_t LLA2NED(int32_t LL[2], float altitude, float geoidSeparation, float *NED);
+
+//! Recompute the translation from LLA to NED and force and update of the position
 static void HomeLocationUpdatedCb(UAVObjEvent * objEv);
+
+//! Set a flag to tell the algorithm to use this data
 static void GPSPositionUpdatedCb(UAVObjEvent * objEv);
 
 /**
@@ -372,22 +376,14 @@ static void StateTask(void *parameters)
 				//Estimate airspeed from GPS data
 				//http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
 				float staticPressure =
-				    homeLocation.SeaLevelPressure * powf(1.0f -
-									 2.2555e-5f
-									 *
-									 (homeLocation.
-									  Altitude
-									  -
-									  positionActualData.
-									  Down),
-									 5.25588f);
-				//rho = PM/RT, and convert from millibar to Pa.
-				float staticAirDensity =
-				    staticPressure * 100 * 0.003483613507536f /
+				    homeLocation.SeaLevelPressure * powf(1.0f - 2.2555e-5f *
+					    (homeLocation.Altitude - positionActualData. Down), 5.25588f);
+
+				// Convert from millibar to Pa
+				float staticAirDensity = staticPressure * 100 * 0.003483613507536f /
 				    (homeLocation.GroundTemperature + 273.15f);
 
-				gps_airspeed_update(&gpsVelocityData,
-						    staticAirDensity);
+				gps_airspeed_update(&gpsVelocityData, staticAirDensity);
 #endif
 			}
 
@@ -709,8 +705,7 @@ static void settingsUpdatedCb(UAVObjEvent * objEv)
 		float cP = cosf(psi);
 		float sP = sinf(psi);
 
-		//In case psi is too small, we have to use a different equation to
-		//solve for theta
+		// In case psi is too small, we have to use a different equation to solve for theta
 		if (fabs(psi) > 3.1415f / 2)
 			theta = atanf((a_sensor[1] + cP * (sP * a_sensor[0] -
 					 cP * a_sensor[1])) / (sP * a_sensor[2]));
@@ -741,8 +736,7 @@ static void settingsUpdatedCb(UAVObjEvent * objEv)
  * @param[out] NED frame coordinates
  * @returns 0 for success, -1 for failure
  */
-static int32_t LLA2NED(int32_t LL[2], float altitude, float geoidSeparation,
-		       float *NED)
+static int32_t LLA2NED(int32_t LL[2], float altitude, float geoidSeparation, float *NED)
 {
 	float *T = glblAtt->T;
 	float dL[3] = { (LL[0] - homeLocation.Latitude) / 10.0e6f * DEG2RAD,
@@ -757,11 +751,15 @@ static int32_t LLA2NED(int32_t LL[2], float altitude, float geoidSeparation,
 	return 0;
 }
 
+//! Set flag for data to be consumed
 static void GPSPositionUpdatedCb(UAVObjEvent * objEv)
 {
 	gpsNew_flag = true;
 }
 
+/**
+ * @brief Recompute the translation from LLA to NED and force and update of the position
+ */
 static void HomeLocationUpdatedCb(UAVObjEvent * objEv)
 {
 	float lat, alt;
