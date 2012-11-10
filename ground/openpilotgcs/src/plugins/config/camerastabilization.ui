@@ -63,7 +63,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
+            <y>-87</y>
             <width>741</width>
             <height>559</height>
            </rect>
@@ -284,6 +284,9 @@ have to define channel output range using Output configuration tab.</string>
               </item>
               <item row="2" column="0">
                <widget class="QLabel" name="label_43">
+                <property name="toolTip">
+                 <string>Degrees deflection for half the full motion.</string>
+                </property>
                 <property name="text">
                  <string>Output Range (deg)</string>
                 </property>
@@ -517,6 +520,9 @@ Don't forget to map this channel using Input configuration tab.</string>
               </item>
               <item row="1" column="0">
                <widget class="QLabel" name="label_35">
+                <property name="toolTip">
+                 <string>Which accessory channel to use as a camera input</string>
+                </property>
                 <property name="text">
                  <string>Input Channel</string>
                 </property>
@@ -841,8 +847,11 @@ AxisLock: camera remembers tracking attitude. Input controls the rate of deflect
               </item>
               <item row="6" column="0">
                <widget class="QLabel" name="label_36">
+                <property name="toolTip">
+                 <string>A stick input greater than this will cause the camera to track at that rate.  Less than this will cause it to try and track a setpoint.</string>
+                </property>
                 <property name="text">
-                 <string>MaxAxisLockRate</string>
+                 <string>AxisLock Rate (deg/s)</string>
                 </property>
                </widget>
               </item>
@@ -874,6 +883,9 @@ AxisLock: camera remembers tracking attitude. Input controls the rate of deflect
               </item>
               <item row="5" column="0">
                <widget class="QLabel" name="label_37">
+                <property name="toolTip">
+                 <string>This setting causes small changes to over-drive the servo to make it respond more quickly.  If set too high you will see overcompensation for small changes.</string>
+                </property>
                 <property name="text">
                  <string>FeedForward</string>
                 </property>
@@ -909,6 +921,9 @@ This option smoothes the stick input. Zero value disables LPF.</string>
               </item>
               <item row="4" column="0">
                <widget class="QLabel" name="label_38">
+                <property name="toolTip">
+                 <string>The maximum rate to move the camera from inputs.</string>
+                </property>
                 <property name="text">
                  <string>Input Rate (deg/s)</string>
                 </property>
@@ -916,6 +931,9 @@ This option smoothes the stick input. Zero value disables LPF.</string>
               </item>
               <item row="2" column="0">
                <widget class="QLabel" name="label_40">
+                <property name="toolTip">
+                 <string>Attitude mode means the stick specifies a direction.  Axis lock means the stick specifies a rate to track with the camera.</string>
+                </property>
                 <property name="text">
                  <string>Stabilization Mode</string>
                 </property>
@@ -930,6 +948,9 @@ This option smoothes the stick input. Zero value disables LPF.</string>
               </item>
               <item row="3" column="0">
                <widget class="QLabel" name="label_39">
+                <property name="toolTip">
+                 <string>The maximum angle to move the camera due to inputs.</string>
+                </property>
                 <property name="text">
                  <string>Input Range (deg)</string>
                 </property>
