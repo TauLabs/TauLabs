@@ -109,11 +109,11 @@ endif
 
 # List of mandatory modules to include
 ifeq ($(NAVIGATION), YES)
-MODULES += State/cc3dnav 
+MODULES += State/coptercontrol
 MODULES += PathFollower
 CFLAGS += -DNAVIGATION
 else
-MODULES = Attitude
+MODULES += Attitude
 endif
 MODULES += Stabilization Actuator ManualControl FirmwareIAP
 # MODULES += PathFollower/coptercontrol
