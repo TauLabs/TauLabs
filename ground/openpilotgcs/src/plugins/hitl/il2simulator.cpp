@@ -265,7 +265,7 @@ void IL2Simulator::processUpdate(const QByteArray& inp)
     NED[0] = current.Y;
     NED[1] = current.X;
     NED[2] = -current.Z;
-    Utils::CoordinateConversions().GetLLA(HomeLLA, NED, LLA);
+    Utils::CoordinateConversions().NED2LLA_HomeLLA(HomeLLA, NED, LLA);
     out.latitude = LLA[0];
     out.longitude = LLA[1];
     out.groundspeed = current.groundspeed;
