@@ -53,6 +53,7 @@ ConfigCCAttitudeWidget::ConfigCCAttitudeWidget(QWidget *parent) :
     
     addApplySaveButtons(ui->applyButton,ui->saveButton);
     addUAVObject("AttitudeSettings");
+    addUAVObject("HwSettings");
 
     // Connect the help button
     connect(ui->ccAttitudeHelp, SIGNAL(clicked()), this, SLOT(openHelp()));
@@ -64,6 +65,8 @@ ConfigCCAttitudeWidget::ConfigCCAttitudeWidget(QWidget *parent) :
     addUAVObjectToWidgetRelation("AttitudeSettings","AccelKp",ui->AccelKp);
     addUAVObjectToWidgetRelation("AttitudeSettings","AccelKi",ui->AccelKi);
     addUAVObjectToWidgetRelation("AttitudeSettings","AccelTau",ui->AccelTau);
+    addUAVObjectToWidgetRelation("HwSettings","GyroRange",ui->gyroRange);
+    addUAVObjectToWidgetRelation("HwSettings","AccelRange",ui->accelRange);
 
     addWidget(ui->zeroBias);
     refreshWidgetsValues();

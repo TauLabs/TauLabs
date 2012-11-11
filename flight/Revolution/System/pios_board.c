@@ -818,6 +818,42 @@ void PIOS_Board_Init(void) {
 		case 0x02:
 #if defined(PIOS_INCLUDE_MPU6000)
 			PIOS_MPU6000_Init(pios_spi_gyro_id,0, &pios_mpu6000_cfg);
+
+			// To be safe map from UAVO enum to driver enum
+			uint8_t gyro_range;
+			HwSettingsGyroRangeGet(&gyro_range);
+			switch(gyro_range) {
+				case HWSETTINGS_GYRORANGE_250:
+					PIOS_MPU6000_SetGyroRange(PIOS_MPU6000_SCALE_250_DEG);
+					break;
+				case HWSETTINGS_GYRORANGE_500:
+					PIOS_MPU6000_SetGyroRange(PIOS_MPU6000_SCALE_500_DEG);
+					break;
+				case HWSETTINGS_GYRORANGE_1000:
+					PIOS_MPU6000_SetGyroRange(PIOS_MPU6000_SCALE_1000_DEG);
+					break;
+				case HWSETTINGS_GYRORANGE_2000:
+					PIOS_MPU6000_SetGyroRange(PIOS_MPU6000_SCALE_2000_DEG);
+					break;
+			}
+
+			uint8_t accel_range;
+			HwSettingsAccelRangeGet(&accel_range);
+			switch(accel_range) {
+				case HWSETTINGS_ACCELRANGE_2G:
+					PIOS_MPU6000_SetAccelRange(PIOS_MPU6000_ACCEL_2G);
+					break;
+				case HWSETTINGS_ACCELRANGE_4G:
+					PIOS_MPU6000_SetAccelRange(PIOS_MPU6000_ACCEL_4G);
+					break;
+				case HWSETTINGS_ACCELRANGE_8G:
+					PIOS_MPU6000_SetAccelRange(PIOS_MPU6000_ACCEL_8G);
+					break;
+				case HWSETTINGS_ACCELRANGE_16G:
+					PIOS_MPU6000_SetAccelRange(PIOS_MPU6000_ACCEL_16G);
+					break;
+			}
+
 #endif
 			break;
 		default:
