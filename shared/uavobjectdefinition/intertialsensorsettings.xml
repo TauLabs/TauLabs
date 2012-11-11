@@ -4,8 +4,8 @@
         <field name="AccelBias" units="m/s^2" type="float" elementnames="X,Y,Z" defaultvalue="0"/>
         <field name="AccelScale" units="[-]" type="float" elementnames="X,Y,Z" defaultvalue="1"/>
         <field name="InitialGyroBias" units="deg/s" type="float" elementnames="X,Y,Z" defaultvalue="0"/>
-        <field name="GyroScale" units="deg/s" type="float" elementnames="X,Y,Z" defaultvalue="1"/>
-        <field name="GyroGain" units="(rad/s)/lsb" type="float" elements="1" defaultvalue="0.42"/>
+        <field name="GyroScale" units="-" type="float" elementnames="X,Y,Z" defaultvalue="1"/>
+        <field name="GyroGain" units="(rad/s)/unit" type="float" elements="1" defaultvalue="0.42"/>
         <field name="BoardRotation" units="deg * 100" type="int16" elementnames="Roll,Pitch,Yaw" defaultvalue="0,0,0"/>
         <field name="BiasCorrectGyro" units="channel" type="enum" elements="1" options="FALSE,TRUE" defaultvalue="TRUE"/>
         <field name="GyroTempCoeff" units="(deg/s)/deg" type="float" elementnames="X,Y,Z" defaultvalue="1"/>

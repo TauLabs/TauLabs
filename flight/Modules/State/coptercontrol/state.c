@@ -93,6 +93,9 @@ static xQueueHandle gyro_queue;
 static bool gpsNew_flag;
 static HomeLocationData homeLocation;
 struct GlobalAttitudeVariables *glblAtt;
+InertialSensorSettingsData inertialSensorSettings;
+AttitudeSettingsData attitudeSettings;
+GyrosBiasData gyrosBias;
 
 // For running trim flights
 uint16_t const MAX_TRIM_FLIGHT_SAMPLES = 65535;
@@ -110,7 +113,7 @@ static void updateT3(GPSVelocityData * gpsVelocityData, PositionActualData * pos
 static void updateSO3(float *gyros, float dT);
 
 //! Cache settings locally
-static void settingsUpdatedCb(UAVObjEvent * objEv);
+static void inertialSensorSettingsUpdatedCb(UAVObjEvent * objEv);
 
 // TODO: Move this into a global library that is aware of the home location to share code with revo
 //! Convert from LLA to NED accounting for the geoid separation
@@ -147,6 +150,7 @@ int32_t StateInitialize(void)
 	//Initialize UAVOs
 	AttitudeActualInitialize();
 	AttitudeSettingsInitialize();
+	InertialSensorSettingsInitialize();
 	AccelsInitialize();
 	GyrosInitialize();
 
@@ -188,7 +192,8 @@ int32_t StateInitialize(void)
 
 	glblAtt->trim_requested = false;
 
-	AttitudeSettingsConnectCallback(&settingsUpdatedCb);
+	AttitudeSettingsConnectCallback(&inertialSensorSettingsUpdatedCb);
+	InertialSensorSettingsConnectCallback(&inertialSensorSettingsUpdatedCb);
 
 	HomeLocationConnectCallback(&HomeLocationUpdatedCb);
 	GPSPositionConnectCallback(&GPSPositionUpdatedCb);
@@ -222,14 +227,16 @@ static void StateTask(void *parameters)
 	bool cc3d_flag = (bdinfo->board_rev == 0x02);
 
 	if (cc3d_flag)
-		glblAtt->gyroGain_ref = 1.0f;
+		attitudeSettings.GyroGain = 1.0f;
 	else
-		glblAtt->gyroGain_ref = 0.42f;
+		attitudeSettings.GyroGain = 0.42f;
 
-	AttitudeSettingsGyroGainSet(&glblAtt->gyroGain_ref);
+	AttitudeSettingsGyroGainSet(&(attitudeSettings.GyroGain));
+//	InertialSensorSettingsGyroGainSet(&(inertialSensorSettings.GyroGain));
 
-	// Force settings update to make sure rotation snf home location loaded
-	settingsUpdatedCb(AttitudeSettingsHandle());
+	// Force settings update to make sure rotation and home location are loaded
+	inertialSensorSettingsUpdatedCb(InertialSensorSettingsHandle());
+	inertialSensorSettingsUpdatedCb(AttitudeSettingsHandle());
 	HomeLocationUpdatedCb(HomeLocationHandle());
 
 	if (cc3d_flag) {
@@ -269,7 +276,7 @@ static void StateTask(void *parameters)
 
 	//Store the original filter specs. This is because we currently have a poor
 	//way of calibrating the Premerlani approach
-	uint8_t originalFilter = glblAtt->filter_choice;
+	uint8_t originalFilter = attitudeSettings.FilterChoice;
 
 	//Start clock for delT calculation
 	uint32_t rawtime = PIOS_DELAY_GetRaw();
@@ -282,8 +289,7 @@ static void StateTask(void *parameters)
 		FlightStatusGet(&flightStatus);
 
 		//Change gyro calibration parameters...
-		if ((xTaskGetTickCount() > 1000)
-		    && (xTaskGetTickCount() < 7000)) {
+		if ((xTaskGetTickCount() > 1000) && (xTaskGetTickCount() < 7000)) {
 			//...during first 7 seconds or so...
 			// For first 7 seconds use accels to get gyro bias
 			glblAtt->accelKp = 1;
@@ -292,11 +298,8 @@ static void StateTask(void *parameters)
 			init = 0;
 
 			//Force to use the CCC, because of the way it calibrates
-			glblAtt->filter_choice =
-			    ATTITUDESETTINGS_FILTERCHOICE_CCC;
-		} else if (glblAtt->zero_during_arming
-			   && (flightStatus.Armed ==
-			       FLIGHTSTATUS_ARMED_ARMING)) {
+			attitudeSettings.FilterChoice = ATTITUDESETTINGS_FILTERCHOICE_CCC;
+		} else if (glblAtt->zero_during_arming && (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMING)) {
 			//...during arming...
 			glblAtt->accelKp = 1;
 			glblAtt->accelKi = 0.9;
@@ -304,15 +307,14 @@ static void StateTask(void *parameters)
 			init = 0;
 
 			//Force to use the CCC, because of the way it calibrates
-			glblAtt->filter_choice =
-			    ATTITUDESETTINGS_FILTERCHOICE_CCC;
+			attitudeSettings.FilterChoice = ATTITUDESETTINGS_FILTERCHOICE_CCC;
 		} else if (init == 0) {	//...once fully armed.
 			// Reload settings (all the rates)
 			AttitudeSettingsAccelKiGet(&glblAtt->accelKi);
 			AttitudeSettingsAccelKpGet(&glblAtt->accelKp);
 			AttitudeSettingsYawBiasRateGet(&glblAtt->yawBiasRate);
 
-			glblAtt->filter_choice = originalFilter;
+			attitudeSettings.FilterChoice = originalFilter;
 
 			init = 1;
 		}
@@ -325,29 +327,28 @@ static void StateTask(void *parameters)
 		//Get sensor data, rotate, filter, and output to UAVO. This is the
 		//function that calls the wait structures that limit the loop rate
 		retval = updateIntertialSensors(&accels, &gyros, cc3d_flag);
-
+		
+		//Update UAVOs with most accurate sensor data. Get these out the door ASAP so the stabilization module can act on the gyroscope information.
+		GyrosSet(&gyros);
+		AccelsSet(&accels);
+		
 		// Only update attitude when sensor data is good
-		// CC IS NOT CURRENTLY SUPPORTED BY NAV BRANCH. FORCE AN ALARM STATE.
-		if (retval != 0 || cc3d_flag == false)
+		if (retval != 0)
 			AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_ERROR);
 		else {
 			// Do not update attitude data in simulation mode
 			if (!AttitudeActualReadOnly()) {
-
 				//Calculate delT, the time step between two attitude updates.
+				//TODO: Replace this by a constant, as it is known a priori how quickly we sample the sensor data.
 				uint16_t dT_us = PIOS_DELAY_DiffuS(rawtime);
 				rawtime = PIOS_DELAY_GetRaw();
 				dT_us = (dT_us > 0) ? dT_us : 1;
 				float delT = dT_us * 1e-6f;
-
+				
 				//Update sensor estimation with drift PI feedback
 				if (glblAtt->bias_correct_gyro) {
 					updateSensorDrift(&accels, &gyros, delT);
 				}
-
-				//Update UAVOs with most accurate sensor data
-				AccelsSet(&accels);
-				GyrosSet(&gyros);
 
 				updateSO3(&gyros.x, delT);
 			}
@@ -619,50 +620,34 @@ static void updateSO3(float *gyros, float dT)
 /**
  * @brief Move the settings variables from the UAVO into a temporary structure
  */
-static void settingsUpdatedCb(UAVObjEvent * objEv)
+static void inertialSensorSettingsUpdatedCb(UAVObjEvent * objEv)
 {
-	AttitudeSettingsData attitudeSettings;
 	AttitudeSettingsGet(&attitudeSettings);
+	InertialSensorSettingsGet(&inertialSensorSettings);
 
 	glblAtt->accelKp = attitudeSettings.AccelKp;
 	glblAtt->accelKi = attitudeSettings.AccelKi;
 	glblAtt->yawBiasRate = attitudeSettings.YawBiasRate;
-	glblAtt->gyroGain[0] = glblAtt->gyroGain[1] = glblAtt->gyroGain[2] = glblAtt->gyroGain_ref = attitudeSettings.GyroGain;
 
 	glblAtt->zero_during_arming = (attitudeSettings.ZeroDuringArming == ATTITUDESETTINGS_ZERODURINGARMING_TRUE);
 	glblAtt->bias_correct_gyro = (attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE);
-	glblAtt->filter_choice = attitudeSettings.FilterChoice;
 
-	//The accelerometer sensor calibration values are all in the board sensor frame.
-	//Divide by 1000 because `accelbias` is in units of 1000*[m/s^2]
-	glblAtt->accelbias[0] = attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_X] / 1000.0f;
-	glblAtt->accelbias[1] = attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_Y] / 1000.0f;
-	glblAtt->accelbias[2] = attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_Z] / 1000.0f;
-
-	//Divide by 1000 because `accelbias` is in unit of 1000*[m/s^2]s
-	glblAtt->accelscale[0] = attitudeSettings.AccelScale[ATTITUDESETTINGS_ACCELSCALE_X] / 10000.0f;
-	glblAtt->accelscale[1] = attitudeSettings.AccelScale[ATTITUDESETTINGS_ACCELSCALE_Y] / 10000.0f;
-	glblAtt->accelscale[2] = attitudeSettings.AccelScale[ATTITUDESETTINGS_ACCELSCALE_Z] / 10000.0f;
-
-	//Provide minimum for scale. This keeps the accels from accidentally being
-	//"turned off".
+	//Provide minimum for scale. This keeps the accels from accidentally being "turned off".
 	for (int i = 0; i < 3; i++) {
-		if (glblAtt->accelscale[i] < .001f) {
-			glblAtt->accelscale[i] = .001f;
+		if (attitudeSettings.AccelScale[i] < .01f) {
+			attitudeSettings.AccelScale[i] = .01f;
 		}
 	}
 
-	//The gyroscope sensor calibration values are all in the body frame.
-	//Divide by 100 because `GyroBias` is in units of 100*[deg/s]
-	glblAtt->gyro_correct_int[0] = attitudeSettings.GyroBias[ATTITUDESETTINGS_GYROBIAS_X] / 100.0f;
-	glblAtt->gyro_correct_int[1] = attitudeSettings.GyroBias[ATTITUDESETTINGS_GYROBIAS_Y] / 100.0f;
-	glblAtt->gyro_correct_int[2] = attitudeSettings.GyroBias[ATTITUDESETTINGS_GYROBIAS_Z] / 100.0f;
+	//Load initial gyrobias values into online-estimated gyro bias
+	gyrosBias.x = attitudeSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_X];
+	gyrosBias.y = attitudeSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_Y];
+	gyrosBias.z = attitudeSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_Z];
 
 	//Calculate sensor to board rotation matrix. If the matrix is the identity,
 	//don't expend cycles on rotation
-	if (attitudeSettings.BoardRotation[0] == 0
-	    && attitudeSettings.BoardRotation[1] == 0
-	    && attitudeSettings.BoardRotation[2] == 0) {
+	if (attitudeSettings.BoardRotation[0] == 0 && attitudeSettings.BoardRotation[1] == 0 && attitudeSettings.BoardRotation[2] == 0)
+	{
 		glblAtt->rotate = false;
 
 		// Shouldn't need to be used, but just to be safe we will anyway
@@ -670,14 +655,15 @@ static void settingsUpdatedCb(UAVObjEvent * objEv)
 		Quaternion2R(rotationQuat, glblAtt->Rsb);
 	} else {
 		float rpy[3] = {
-		    attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_ROLL] * DEG2RAD / 100.0f,
-		    attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_PITCH] * DEG2RAD / 100.0f,
-			attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_YAW] * DEG2RAD / 100.0f
+		    attitudeSettings.BoardRotation[INERTIALSENSORSETTINGS_BOARDROTATION_ROLL] * DEG2RAD / 100.0f,
+		    attitudeSettings.BoardRotation[INERTIALSENSORSETTINGS_BOARDROTATION_PITCH] * DEG2RAD / 100.0f,
+          attitudeSettings.BoardRotation[INERTIALSENSORSETTINGS_BOARDROTATION_YAW] * DEG2RAD / 100.0f
 		};
 		Euler2R(rpy, glblAtt->Rsb);
 		glblAtt->rotate = true;
 	}
 
+	//Check for trim flight request
 	if (attitudeSettings.TrimFlight == ATTITUDESETTINGS_TRIMFLIGHT_START) {
 		glblAtt->trim_accels[0] = 0;
 		glblAtt->trim_accels[1] = 0;
@@ -700,7 +686,7 @@ static void settingsUpdatedCb(UAVObjEvent * objEv)
 		// Temporary variables
 		float psi, theta, phi;
 
-		psi = attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_YAW] * DEG2RAD / 100.0f;
+		psi = attitudeSettings.BoardRotation[INERTIALSENSORSETTINGS_BOARDROTATION_YAW] * DEG2RAD / 100.0f;
 
 		float cP = cosf(psi);
 		float sP = sinf(psi);
@@ -716,11 +702,12 @@ static void settingsUpdatedCb(UAVObjEvent * objEv)
 		phi = atan2f((sP * a_sensor[0] - cP * a_sensor[1]) / GRAV,
 			   (a_sensor[2] / cosf(theta) / GRAV));
 
-		attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_ROLL] = phi * RAD2DEG * 100.0f;
-		attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_PITCH] = theta * RAD2DEG * 100.0f;
+		attitudeSettings.BoardRotation[INERTIALSENSORSETTINGS_BOARDROTATION_ROLL] = phi * RAD2DEG * 100.0f;
+		attitudeSettings.BoardRotation[INERTIALSENSORSETTINGS_BOARDROTATION_PITCH] = theta * RAD2DEG * 100.0f;
 
 		attitudeSettings.TrimFlight = ATTITUDESETTINGS_TRIMFLIGHT_NORMAL;
 		AttitudeSettingsSet(&attitudeSettings);
+		InertialSensorSettingsSet(&inertialSensorSettings);
 	} else {
 		glblAtt->trim_requested = false;
 	}

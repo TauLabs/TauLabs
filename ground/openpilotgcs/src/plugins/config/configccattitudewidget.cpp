@@ -131,13 +131,13 @@ void ConfigCCAttitudeWidget::sensorsUpdated(UAVObject * obj) {
         disconnect(obj,SIGNAL(objectUpdated(UAVObject*)),this,SLOT(sensorsUpdated(UAVObject*)));
         disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
 
-        float x_bias = listMean(accel_accum_x) *1000.0f; //Multiply by 1000 because `accelbias` is in units
-        float y_bias = listMean(accel_accum_y) *1000.0f; // of 1000*[m/s^2]
-        float z_bias = (listMean(accel_accum_z) + 9.805f) *1000.0f;
+        float x_bias = listMean(accel_accum_x);
+        float y_bias = listMean(accel_accum_y);
+        float z_bias = (listMean(accel_accum_z) + 9.805f);
 
-        float x_gyro_bias = listMean(gyro_accum_x) * 100.0f; //Multiply by 100 because `GyroBias`
-        float y_gyro_bias = listMean(gyro_accum_y) * 100.0f; // is in units of 100*[deg/s]
-        float z_gyro_bias = listMean(gyro_accum_z) * 100.0f;
+        float x_gyro_bias = listMean(gyro_accum_x);
+        float y_gyro_bias = listMean(gyro_accum_y);
+        float z_gyro_bias = listMean(gyro_accum_z);
         accels->setMetadata(initialAccelsMdata);
         gyros->setMetadata(initialGyrosMdata);
 
@@ -432,9 +432,9 @@ void ConfigCCAttitudeWidget::computeScaleBias()
    SixPointInConstFieldCal2( homeLocationData.g_e, accel_data_x, accel_data_y, accel_data_z, S, b);
 
    //Assign calibration data
-   attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_X] += (-sign(S[0]) * b[0]*1000.0f);
-   attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Y] += (-sign(S[1]) * b[1]*1000.0f);
-   attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Z] += (-sign(S[2]) * b[2]*1000.0f);
+   attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_X] += (-sign(S[0]) * b[0]);
+   attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Y] += (-sign(S[1]) * b[1]);
+   attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Z] += (-sign(S[2]) * b[2]);
 
    attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_X] *= fabs(S[0]);
    attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_Y] *= fabs(S[1]);

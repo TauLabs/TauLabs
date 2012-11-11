@@ -60,6 +60,9 @@
 
 // Private functions
 extern struct GlobalAttitudeVariables *glblAtt;
+extern InertialSensorSettingsData inertialSensorSettings;
+extern AttitudeSettingsData attitudeSettings;
+extern GyrosBiasData gyrosBias;
 
 /**
  * Get an update from the sensors
@@ -87,9 +90,9 @@ int8_t getSensorsCC(float *prelim_accels, float *prelim_gyros, xQueueHandle * gy
 		return -1;
 
 	// Scale ADC data into deg/s. First sample is temperature, so ignore.
-	prelim_gyros[0] = -(gyro[1] - GYRO_NEUTRAL_BIAS) * glblAtt->gyroGain[0];
-	prelim_gyros[1] = (gyro[2] - GYRO_NEUTRAL_BIAS) * glblAtt->gyroGain[1];
-	prelim_gyros[2] = -(gyro[3] - GYRO_NEUTRAL_BIAS) * glblAtt->gyroGain[2];
+	prelim_gyros[0] = -(gyro[1] - GYRO_NEUTRAL_BIAS) * gyrosBias.x;
+	prelim_gyros[1] =  (gyro[2] - GYRO_NEUTRAL_BIAS) * gyrosBias.y;
+	prelim_gyros[2] = -(gyro[3] - GYRO_NEUTRAL_BIAS) * gyrosBias.z;
 
 	// Process accelerometer sensor data. In this case, average the data
 	int32_t x = 0;
@@ -102,15 +105,15 @@ int8_t getSensorsCC(float *prelim_accels, float *prelim_gyros, xQueueHandle * gy
 		samples_remaining = PIOS_ADXL345_Read(&accel_data);
 
 		//Assign data, rotating from internal accelerometer frame into board sensor frame
-		x += accel_data.x;
+		x +=  accel_data.x;
 		y += -accel_data.y;
 		z += -accel_data.z;
 	} while ((i < 32) && (samples_remaining > 0));	//<-- i=32 being hardcoded means that if the accelerometer ADC sample rate is increased, we could wind up never being able to empty the buffer
 
 	// Apply scaling and bias correction in sensor frame
-	prelim_accels[0] = (float)x / i * ACCEL_SCALE * glblAtt->accelscale[0] - glblAtt->accelbias[0];
-	prelim_accels[1] = (float)y / i * ACCEL_SCALE * glblAtt->accelscale[1] - glblAtt->accelbias[1];
-	prelim_accels[2] = (float)z / i * ACCEL_SCALE * glblAtt->accelscale[2] - glblAtt->accelbias[2];
+	prelim_accels[0] = (float)x / i * ACCEL_SCALE * attitudeSettings.AccelScale[0] - attitudeSettings.AccelBias[0];
+	prelim_accels[1] = (float)y / i * ACCEL_SCALE * attitudeSettings.AccelScale[1] - attitudeSettings.AccelBias[1];
+	prelim_accels[2] = (float)z / i * ACCEL_SCALE * attitudeSettings.AccelScale[2] - attitudeSettings.AccelBias[2];
 
 	return 0;
 }
@@ -132,15 +135,16 @@ int8_t getSensorsCC3D(float *prelim_accels, float *prelim_gyros)
 		return -1;	// Error, no data
 
 	//Rotated data from internal gryoscope sensor frame into board sensor frame
-	prelim_gyros[0] = -mpu6000_data.gyro_y * PIOS_MPU6000_GetScale() * glblAtt->gyroGain[0];
-	prelim_gyros[1] = -mpu6000_data.gyro_x * PIOS_MPU6000_GetScale() * glblAtt->gyroGain[1];
-	prelim_gyros[2] = -mpu6000_data.gyro_z * PIOS_MPU6000_GetScale() * glblAtt->gyroGain[2];
-
+	prelim_gyros[0] = -mpu6000_data.gyro_y * PIOS_MPU6000_GetScale() * attitudeSettings.GyroScale[0] - gyrosBias.x;
+	prelim_gyros[1] = -mpu6000_data.gyro_x * PIOS_MPU6000_GetScale() * attitudeSettings.GyroScale[1] - gyrosBias.y;
+	prelim_gyros[2] = -mpu6000_data.gyro_z * PIOS_MPU6000_GetScale() * attitudeSettings.GyroScale[2] - gyrosBias.z;
+	
+	
 	//Rotated data from internal accelerometer sensor frame into board sensor frame
 	//Apply scaling and bias correction in sensor frame
-	prelim_accels[0] = -mpu6000_data.accel_y * PIOS_MPU6000_GetAccelScale() * glblAtt->accelscale[0] - glblAtt->accelbias[0];
-	prelim_accels[1] = -mpu6000_data.accel_x * PIOS_MPU6000_GetAccelScale() * glblAtt->accelscale[1] - glblAtt->accelbias[1];
-	prelim_accels[2] = -mpu6000_data.accel_z * PIOS_MPU6000_GetAccelScale() * glblAtt->accelscale[2] - glblAtt->accelbias[2];
+	prelim_accels[0] = -mpu6000_data.accel_y * PIOS_MPU6000_GetAccelScale() * attitudeSettings.AccelScale[0] - attitudeSettings.AccelBias[0];
+	prelim_accels[1] = -mpu6000_data.accel_x * PIOS_MPU6000_GetAccelScale() * attitudeSettings.AccelScale[1] - attitudeSettings.AccelBias[1];
+	prelim_accels[2] = -mpu6000_data.accel_z * PIOS_MPU6000_GetAccelScale() * attitudeSettings.AccelScale[2] - attitudeSettings.AccelBias[2];
 
 	prelim_gyros[3] = 35.0f + ((float)mpu6000_data.temperature + 512.0f) / 340.0f;	//Temperature sensor has a 35deg bias. //WHY? AS PER DOCS?
 	prelim_accels[3] = 35.0f + ((float)mpu6000_data.temperature + 512.0f) / 340.0f;

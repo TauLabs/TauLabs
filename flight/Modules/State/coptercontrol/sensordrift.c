@@ -47,7 +47,6 @@
 #include "CoordinateConversions.h"
 
 #include "state.h"
-#include "attitudesettings.h"
 #include "gpsvelocity.h"
 #include "manualcontrolcommand.h"
 #if defined (PIOS_INCLUDE_MAGNETOMETER)	//THIS PIOS DEFINE DOES NOT CURRENTLY EXIST, BUT WE SHOULD ADD IT IN ORDER TO SUPPORT ALL MAGS, NOT JUST THE HMC5883
@@ -59,6 +58,10 @@
 
 //Global variables
 extern struct GlobalAttitudeVariables *glblAtt;
+extern AttitudeSettingsData attitudeSettings;
+extern InertialSensorSettingsData inertialSensorSettings;
+extern GyrosBiasData gyrosBias;
+
 bool firstpass_flag = true;
 
 struct GlobalDcmDriftVariables {
@@ -127,10 +130,10 @@ void updateSensorDrift(AccelsData * accelsData, GyrosData * gyrosData, const flo
 	float *gyros = &gyrosData->x;
 	float *accels = &accelsData->x;
 
-	if (glblAtt->filter_choice == ATTITUDESETTINGS_FILTERCHOICE_CCC) {
+	if (attitudeSettings.FilterChoice == ATTITUDESETTINGS_FILTERCHOICE_CCC) {
 		CottonComplementaryCorrection(accels, gyros, delT);
-	} else if (glblAtt->filter_choice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI || 
-		glblAtt->filter_choice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI_GPS) {
+	} else if (attitudeSettings.FilterChoice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI || 
+		attitudeSettings.FilterChoice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI_GPS) {
 		if (firstpass_flag) {
 			uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
 			HwSettingsOptionalModulesGet(optionalModules);
@@ -177,9 +180,9 @@ void updateSensorDrift(AccelsData * accelsData, GyrosData * gyrosData, const flo
 		Quaternion2R(glblAtt->q, Rbe);
 
 #if defined (PIOS_INCLUDE_GPS)
-		if (glblAtt->filter_choice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI_GPS) {
+		if (attitudeSettings.FilterChoice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI_GPS) {
 			DcmCorrection(accels, gyros, Rbe, delT, true);
-		} else if (glblAtt->filter_choice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI)
+		} else if (attitudeSettings.FilterChoice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI)
 #endif
 		{
 			DcmCorrection(accels, gyros, Rbe, delT, false);
@@ -318,7 +321,9 @@ void DcmCorrection(float *accels, float *gyros, float Rbe[3][3],
 
 	// Calculate gyro drift, based on all errors
 	gyro_drift(gyros, errYaw_b, errRollPitch_b, normOmegaScalar, delT, omegaCorrP, drft->omegaCorrI);
-	calibrate_gyros_high_speed(gyros, omegaCorrP, normOmegaScalar, delT, glblAtt->gyroGain);
+	
+	//TODO: Only perform this when armed.
+	calibrate_gyros_high_speed(gyros, omegaCorrP, normOmegaScalar, delT, &(attitudeSettings.GyroScale[0]));
 
 	//Calculate final drift response
 	gyros[0] += omegaCorrP[0] + drft->omegaCorrI[0];
@@ -457,18 +462,18 @@ void calibrate_gyros_high_speed(float gyro[3], float omegaCorrP[3],
 
 		//Calculate delta gain and update gains
 		ggain[0] += normOmegaVector[0] * omegaCorrP[0] / normOmegaScalar *
-		    (glblAtt->gyroGain_ref / drft->gyroCalibTau) * delT;
+		    (attitudeSettings.GyroGain / drft->gyroCalibTau) * delT;
 		ggain[1] += normOmegaVector[1] * omegaCorrP[1] / normOmegaScalar *
-		    (glblAtt->gyroGain_ref / drft->gyroCalibTau) * delT;
+		    (attitudeSettings.GyroGain / drft->gyroCalibTau) * delT;
 		ggain[2] += normOmegaVector[2] * omegaCorrP[2] / normOmegaScalar *
-		    (glblAtt->gyroGain_ref / drft->gyroCalibTau) * delT;
+		    (attitudeSettings.GyroGain / drft->gyroCalibTau) * delT;
 
 		//Saturate gyro gains
-		float lowThresh = 1.0f / 1.05f * glblAtt->gyroGain_ref;
-		float highThresh = 1.05f * glblAtt->gyroGain_ref;
+		float lowThresh = 1.0f / 1.05f * attitudeSettings.GyroGain;
+		float highThresh = 1.05f * attitudeSettings.GyroGain;
 		for (int i = 0; i < 3; i++) {
-			ggain[i] = ggain[i] < lowThresh ? lowThresh : ggain[i];
-			ggain[i] = ggain[i] > highThresh ? highThresh : ggain[i];
+			ggain[i] = (ggain[i] < lowThresh)  ? lowThresh  : ggain[i];
+			ggain[i] = (ggain[i] > highThresh) ? highThresh : ggain[i];
 		}
 	}
 }

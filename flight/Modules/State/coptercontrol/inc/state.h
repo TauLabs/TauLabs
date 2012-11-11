@@ -31,6 +31,9 @@
 #define STATE_H
 
 #include "openpilot.h"
+#include "attitudesettings.h"
+#include "inertialsensorsettings.h"
+#include "gyrosbias.h"
 
 struct GlobalAttitudeVariables {
 	//! How fast to estimate the gyro bias
@@ -39,30 +42,21 @@ struct GlobalAttitudeVariables {
 	float accelKp;
 	//! Sets the rate when assuming that average yaw is zero to null out yaw error
 	float yawBiasRate;
-	//! Pre channel calibration of the gyro gain
-	float gyroGain[3];
-	//! Nominal scale which is different for CC3D and CC
-	float gyroGain_ref;
-	//! Estimate of the accel bias (in board frame)
-	float accelbias[3];
-	//! Estimate of the accel scale (in board frame)
-	float accelscale[3];
 	//! Current etimate of the gyro bias
 	float gyro_correct_int[3];
 	//! Local copy of current estimate of the attitude
 	float q[4];
 	//! Transformation from LLA to NED
 	float T[3];
-	//! Whether to rotate data from the board frame to the body frame (if they are different)
+	//! Whether to rotate data from the board frame to the body frame (if the frames are different)
 	bool rotate;
-	//! Rotation matrix that transforms from the sensor frame to the body frame
+	//! Rotation matrix that transforms from the body frame to the sensor frame
 	float Rsb[3][3]; 
 	//! Indicates to estimate the gyro bias again while arming (faster convergence)
 	bool zero_during_arming;
 	//! Whether to apply the estimate of gyro bias to the data in the UAVO
 	bool bias_correct_gyro;
 	//! The currently active attitude estimator
-	uint8_t filter_choice;
 	//! Indicates trimming is in progress and data is being accumulated
 	bool trim_requested;
 	//! Accumulator for the accel data during trimming

@@ -240,6 +240,7 @@ SRC += $(OPUAVSYNTHDIR)/homelocation.c
 SRC += $(OPUAVSYNTHDIR)/positionactual.c
 SRC += $(OPUAVSYNTHDIR)/velocityactual.c
 SRC += $(OPUAVSYNTHDIR)/airspeedactual.c
+SRC += $(OPUAVSYNTHDIR)/inertialsensorsettings.c
 
 endif
 
