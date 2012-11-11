@@ -146,9 +146,9 @@ void ConfigCCAttitudeWidget::sensorsUpdated(UAVObject * obj) {
         attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_X] += x_bias;
         attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Y] += y_bias;
         attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Z] += z_bias;
-        attitudeSettingsData.GyroBias[AttitudeSettings::GYROBIAS_X] = -x_gyro_bias;
-        attitudeSettingsData.GyroBias[AttitudeSettings::GYROBIAS_Y] = -y_gyro_bias;
-        attitudeSettingsData.GyroBias[AttitudeSettings::GYROBIAS_Z] = -z_gyro_bias;
+        attitudeSettingsData.InitialGyroBias[AttitudeSettings::INITIALGYROBIAS_X] = -x_gyro_bias;
+        attitudeSettingsData.InitialGyroBias[AttitudeSettings::INITIALGYROBIAS_Y] = -y_gyro_bias;
+        attitudeSettingsData.InitialGyroBias[AttitudeSettings::INITIALGYROBIAS_Z] = -z_gyro_bias;
         attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_TRUE;
         AttitudeSettings::GetInstance(getObjectManager())->setData(attitudeSettingsData);
         this->setDirty(true);
