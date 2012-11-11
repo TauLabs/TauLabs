@@ -57,6 +57,7 @@ MODULES += Altitude/revolution
 MODULES += GPS FirmwareIAP
 #MODULES += Airspeed/revolution
 MODULES += AltitudeHold VtolPathFollower FixedWingPathFollower PathPlanner TxPID
+MODULES += Autotune
 MODULES += CameraStab
 MODULES += Radio
 MODULES += Telemetry
@@ -303,6 +304,10 @@ CDEFS += -DHSE_VALUE=$(OSCILLATOR_FREQ)
 CDEFS += -DSYSCLK_FREQ=$(SYSCLK_FREQ)
 CDEFS += -DUSE_STDPERIPH_DRIVER
 CDEFS += -DUSE_$(BOARD)
+ifeq ($(ENABLE_DEBUG_CONSOLE), YES)
+CDEFS += -DPIOS_INCLUDE_DEBUG_CONSOLE
+endif
+
 ifeq ($(ENABLE_DEBUG_CONSOLE), YES)
 CDEFS += -DPIOS_INCLUDE_DEBUG_CONSOLE
 endif

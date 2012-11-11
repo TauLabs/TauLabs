@@ -268,9 +268,9 @@ void FGSimulator::processUpdate(const QByteArray& inp)
     // Get heading (deg)
     float heading = fields[14].toFloat();
     // Get altitude (m)
-    float altitude_msl = fields[15].toFloat() * FT2M;
+    float altitude = fields[15].toFloat() * FT2M;
     // Get altitudeAGL (m)
-    float altitude_agl = fields[16].toFloat() * FT2M;
+    float altitudeAGL = fields[16].toFloat() * FT2M;
     // Get groundspeed (m/s)
     float groundspeed = fields[17].toFloat() * KT2MPS;
     // Get airspeed (m/s)
@@ -299,7 +299,7 @@ void FGSimulator::processUpdate(const QByteArray& inp)
     float NED[3];
     // convert from cm back to meters
 
-    double LLA[3] = {latitude, longitude, altitude_msl};
+    double LLA[3] = {latitude, longitude, altitude};
     double ECEF[3];
     double RNE[9];
     Utils::CoordinateConversions().RneFromLLA(LLA,(double (*)[3])RNE);
@@ -310,8 +310,7 @@ void FGSimulator::processUpdate(const QByteArray& inp)
     // Update GPS Position objects
     out.latitude = latitude * 1e7;
     out.longitude = longitude * 1e7;
-    out.altitude = altitude_msl;
-    out.agl = altitude_agl;
+    out.altitude = altitude;
     out.groundspeed = groundspeed;
 
     out.calibratedAirspeed = airspeed;

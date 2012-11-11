@@ -122,7 +122,7 @@ int CoordinateConversions::ECEF2LLA(double ECEF[3], double LLA[3])
 
 /**
   * Get the current location in Longitude, Latitude Altitude (above WSG-84 ellipsoid)
-  * @param[in] BaseECEF the ECEF of the home location (in m)
+  * @param[in] homeLLA LLA of the home location (in degrees) and altitude in meters
   * @param[in] NED the offset from the home location (in m)
   * @param[out] position three element double for position in decimal degrees and altitude in meters
   * @returns

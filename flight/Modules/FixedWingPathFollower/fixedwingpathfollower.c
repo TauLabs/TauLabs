@@ -274,8 +274,8 @@ static void updatePathVelocity()
 
 	path_progress(pathDesired.Start, pathDesired.End, cur, &progress, pathDesired.Mode);
 	
-	float groundspeed;
-	float altitudeSetpoint;
+	float groundspeed = 0;
+	float altitudeSetpoint = 0;
 	switch (pathDesired.Mode) {
 		case PATHDESIRED_MODE_FLYCIRCLERIGHT:
 		case PATHDESIRED_MODE_DRIVECIRCLERIGHT:

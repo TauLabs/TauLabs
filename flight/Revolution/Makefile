@@ -80,6 +80,7 @@ MODULES = Sensors Attitude/revolution ManualControl Stabilization Actuator
 MODULES += Altitude/revolution FirmwareIAP
 MODULES += Airspeed/revolution
 MODULES += GPS AltitudeHold VtolPathFollower FixedWingPathFollower PathPlanner
+MODULES += Autotune
 MODULES += CameraStab
 MODULES += OveroSync
 MODULES += Telemetry

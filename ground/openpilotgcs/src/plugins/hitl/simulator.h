@@ -41,16 +41,15 @@
 #include "accels.h"
 #include "actuatorcommand.h"
 #include "actuatordesired.h"
-#include "airspeedactual.h"
 #include "attitudeactual.h"
 #include "attitudesettings.h"
+#include "airspeedactual.h"
 #include "baroaltitude.h"
 #include "flightstatus.h"
 #include "gcsreceiver.h"
 #include "gcstelemetrystats.h"
 #include "gpsposition.h"
 #include "gpsvelocity.h"
-#include "groundtruth.h"
 #include "gyros.h"
 #include "homelocation.h"
 #include "manualcontrolcommand.h"
@@ -70,9 +69,10 @@ typedef struct _FLIGHT_PARAM {
     float dT;
     unsigned int i;
 
-    // speeds
-    float cas; //Calibrated airspeed
-    float tas; //True airspeed
+    // speed (relative)
+    float ias;
+    float cas;
+    float tas;
     float groundspeed;
 
     // position (absolute)
@@ -101,18 +101,6 @@ typedef struct _FLIGHT_PARAM {
     float dRoll;
 
 } FLIGHT_PARAM;
-
-struct AirParameters
-{
-    float groundDensity;
-    float groundTemp;
-    float seaLevelPress;
-    float tempLapseRate;
-    float univGasConstant;
-    float dryAirConstant;
-    float relativeHumidity; //[%]
-    float M; //Molar mass
-};
 
 typedef struct _CONNECTION
 {
@@ -162,13 +150,9 @@ struct Output2Hardware{
     float latitude;
     float longitude;
     float altitude;
-    float agl;                //[m]
     float heading;
-    float groundspeed;        //[m/s]
-    float calibratedAirspeed; //[m/s]
-    float trueAirspeed;       //[m/s]
-    float angleOfAttack;
-    float angleOfSlip;
+    float groundspeed; //[m/s]
+    float calibratedAirspeed;    //[m/s]
     float roll;
     float pitch;
     float pressure;
@@ -182,10 +166,10 @@ struct Output2Hardware{
     float accX;       //[m/s^2]
     float accY;       //[m/s^2]
     float accZ;       //[m/s^2]
-    float rollRate;   //[deg/s]
-    float pitchRate;  //[deg/s]
-    float yawRate;    //[deg/s]
-    float delT;       //[s]
+    float rollRate;     //[deg/s]
+    float pitchRate;     //[deg/s]
+    float yawRate;     //[deg/s]
+    float delT;
 
     float rc_channel[GCSReceiver::CHANNEL_NUMELEM]; //Elements in rc_channel are between -1 and 1
 
@@ -224,10 +208,6 @@ public:
     QString SimulatorId() const { return simulatorId; }
     void setSimulatorId(QString str) { simulatorId = str; }
 
-    float airDensityFromAltitude(float alt, AirParameters air, float gravity);
-    float airPressureFromAltitude(float alt, AirParameters air, float gravity);
-    float cas2tas(float CAS, float alt, AirParameters air, float gravity);
-    float tas2cas(float TAS, float alt, AirParameters air, float gravity);
 
 
     static bool IsStarted() { return isStarted; }
@@ -240,9 +220,6 @@ public:
 
     void resetInitialHomePosition();
     void updateUAVOs(Output2Hardware out);
-
-    AirParameters getAirParameters();
-    void setAirParameters(AirParameters airParameters);
 
 signals:
     void autopilotConnected();
@@ -298,7 +275,6 @@ protected:
     Gyros*  gyros;
     GCSTelemetryStats* telStats;
     GCSReceiver* gcsReceiver;
-    GroundTruth* groundTruth;
 
     SimulatorSettings settings;
 
@@ -335,8 +311,6 @@ private:
     void setupInputObject(UAVObject* obj, quint32 updatePeriod);
     void setupWatchedObject(UAVObject *obj, quint32 updatePeriod);
     void setupObjects();
-
-    AirParameters airParameters;
 };
 
 

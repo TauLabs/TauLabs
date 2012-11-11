@@ -37,7 +37,6 @@
 #include "systemstats.h"
 
 // Private constants
-#define OVEROSYNC_PACKET_SIZE 1024
 #define MAX_QUEUE_SIZE   200
 #define STACK_SIZE_BYTES 512
 #define TASK_PRIORITY (tskIDLE_PRIORITY + 0)
@@ -48,8 +47,6 @@
 static xQueueHandle queue;
 static UAVTalkConnection uavTalkCon;
 static xTaskHandle overoSyncTaskHandle;
-volatile bool buffer_swap_failed;
-volatile uint32_t buffer_swap_timeval;
 static bool overoEnabled;
 
 // Private functions
