@@ -109,6 +109,8 @@
 /* PIOS Initcall infrastructure */
 #define PIOS_INCLUDE_INITCALL
 
+#define COPTERCONTROL
+
 #endif /* PIOS_CONFIG_H */
 /**
  * @}

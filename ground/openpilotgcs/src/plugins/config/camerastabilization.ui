@@ -63,7 +63,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
+            <y>-87</y>
             <width>741</width>
             <height>559</height>
            </rect>
@@ -284,8 +284,11 @@ have to define channel output range using Output configuration tab.</string>
               </item>
               <item row="2" column="0">
                <widget class="QLabel" name="label_43">
+                <property name="toolTip">
+                 <string>Degrees deflection for half the full motion.</string>
+                </property>
                 <property name="text">
-                 <string>Output Range</string>
+                 <string>Output Range (deg)</string>
                 </property>
                </widget>
               </item>
@@ -435,35 +438,6 @@ margin:1px;</string>
                 </property>
                </widget>
               </item>
-              <item row="0" column="2">
-               <widget class="QLabel" name="label_33">
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>16</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16777215</width>
-                  <height>16</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: qlineargradient(spread:reflect, x1:0.507, y1:0, x2:0.507, y2:0.772, stop:0.208955 rgba(74, 74, 74, 255), stop:0.78607 rgba(36, 36, 36, 255));
-color: rgb(255, 255, 255);
-border-radius: 5;
-font: bold 12px;
-margin:1px;</string>
-                </property>
-                <property name="text">
-                 <string>Pitch</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
               <item row="0" column="1">
                <widget class="QLabel" name="label_34">
                 <property name="minimumSize">
@@ -493,6 +467,32 @@ margin:1px;</string>
                 </property>
                </widget>
               </item>
+              <item row="2" column="3">
+               <widget class="QComboBox" name="yawStabilizationMode">
+                <property name="focusPolicy">
+                 <enum>Qt::StrongFocus</enum>
+                </property>
+                <property name="toolTip">
+                 <string>Axis stabilization mode
+
+Attitude: camera tracks level for the axis. Input controls the deflection.
+AxisLock: camera remembers tracking attitude. Input controls the rate of deflection.</string>
+                </property>
+                <property name="objrelation" stdset="0">
+                 <stringlist>
+                  <string>objname:CameraStabSettings</string>
+                  <string>fieldname:StabilizationMode</string>
+                  <string>element:Yaw</string>
+                  <string>buttongroup:1</string>
+                 </stringlist>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>Attitude</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
               <item row="1" column="3">
                <widget class="QComboBox" name="yawInputChannel">
                 <property name="focusPolicy">
@@ -508,6 +508,70 @@ Don't forget to map this channel using Input configuration tab.</string>
                   <string>objname:CameraStabSettings</string>
                   <string>fieldname:Input</string>
                   <string>element:Yaw</string>
+                  <string>buttongroup:1</string>
+                 </stringlist>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>None</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_35">
+                <property name="toolTip">
+                 <string>Which accessory channel to use as a camera input</string>
+                </property>
+                <property name="text">
+                 <string>Input Channel</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QLabel" name="label_33">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>16</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>16</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: qlineargradient(spread:reflect, x1:0.507, y1:0, x2:0.507, y2:0.772, stop:0.208955 rgba(74, 74, 74, 255), stop:0.78607 rgba(36, 36, 36, 255));
+color: rgb(255, 255, 255);
+border-radius: 5;
+font: bold 12px;
+margin:1px;</string>
+                </property>
+                <property name="text">
+                 <string>Pitch</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QComboBox" name="rollInputChannel">
+                <property name="focusPolicy">
+                 <enum>Qt::StrongFocus</enum>
+                </property>
+                <property name="toolTip">
+                 <string>Input channel to control camera roll
+
+Don't forget to map this channel using Input configuration tab.</string>
+                </property>
+                <property name="objrelation" stdset="0">
+                 <stringlist>
+                  <string>objname:CameraStabSettings</string>
+                  <string>fieldname:Input</string>
+                  <string>element:Roll</string>
                   <string>buttongroup:1</string>
                  </stringlist>
                 </property>
@@ -539,64 +603,6 @@ Don't forget to map this channel using Input configuration tab.</string>
                 <item>
                  <property name="text">
                   <string>None</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QComboBox" name="rollInputChannel">
-                <property name="focusPolicy">
-                 <enum>Qt::StrongFocus</enum>
-                </property>
-                <property name="toolTip">
-                 <string>Input channel to control camera roll
-
-Don't forget to map this channel using Input configuration tab.</string>
-                </property>
-                <property name="objrelation" stdset="0">
-                 <stringlist>
-                  <string>objname:CameraStabSettings</string>
-                  <string>fieldname:Input</string>
-                  <string>element:Roll</string>
-                  <string>buttongroup:1</string>
-                 </stringlist>
-                </property>
-                <item>
-                 <property name="text">
-                  <string>None</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_35">
-                <property name="text">
-                 <string>Input Channel</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="3">
-               <widget class="QComboBox" name="yawStabilizationMode">
-                <property name="focusPolicy">
-                 <enum>Qt::StrongFocus</enum>
-                </property>
-                <property name="toolTip">
-                 <string>Axis stabilization mode
-
-Attitude: camera tracks level for the axis. Input controls the deflection.
-AxisLock: camera remembers tracking attitude. Input controls the rate of deflection.</string>
-                </property>
-                <property name="objrelation" stdset="0">
-                 <stringlist>
-                  <string>objname:CameraStabSettings</string>
-                  <string>fieldname:StabilizationMode</string>
-                  <string>element:Yaw</string>
-                  <string>buttongroup:1</string>
-                 </stringlist>
-                </property>
-                <item>
-                 <property name="text">
-                  <string>Attitude</string>
                  </property>
                 </item>
                </widget>
@@ -667,12 +673,12 @@ This option smoothes the stick input. Zero value disables LPF.</string>
                  <number>1000</number>
                 </property>
                 <property name="value">
-                 <number>150</number>
+                 <number>0</number>
                 </property>
                 <property name="objrelation" stdset="0">
                  <stringlist>
                   <string>objname:CameraStabSettings</string>
-                  <string>fieldname:ResponseTime</string>
+                  <string>fieldname:FeedForward</string>
                   <string>element:Yaw</string>
                   <string>haslimits:no</string>
                   <string>scale:1</string>
@@ -773,12 +779,12 @@ This option smoothes the stick input. Zero value disables LPF.</string>
                  <number>1000</number>
                 </property>
                 <property name="value">
-                 <number>150</number>
+                 <number>0</number>
                 </property>
                 <property name="objrelation" stdset="0">
                  <stringlist>
                   <string>objname:CameraStabSettings</string>
-                  <string>fieldname:ResponseTime</string>
+                  <string>fieldname:FeedForward</string>
                   <string>element:Pitch</string>
                   <string>haslimits:no</string>
                   <string>scale:1</string>
@@ -839,6 +845,16 @@ AxisLock: camera remembers tracking attitude. Input controls the rate of deflect
                 </property>
                </widget>
               </item>
+              <item row="6" column="0">
+               <widget class="QLabel" name="label_36">
+                <property name="toolTip">
+                 <string>A stick input greater than this will cause the camera to track at that rate.  Less than this will cause it to try and track a setpoint.</string>
+                </property>
+                <property name="text">
+                 <string>AxisLock Rate (deg/s)</string>
+                </property>
+               </widget>
+              </item>
               <item row="4" column="1">
                <widget class="QSpinBox" name="rollInputRate">
                 <property name="focusPolicy">
@@ -865,8 +881,18 @@ AxisLock: camera remembers tracking attitude. Input controls the rate of deflect
                 </property>
                </widget>
               </item>
+              <item row="5" column="0">
+               <widget class="QLabel" name="label_37">
+                <property name="toolTip">
+                 <string>This setting causes small changes to over-drive the servo to make it respond more quickly.  If set too high you will see overcompensation for small changes.</string>
+                </property>
+                <property name="text">
+                 <string>FeedForward</string>
+                </property>
+               </widget>
+              </item>
               <item row="5" column="1">
-               <widget class="QSpinBox" name="rollResponseTime">
+               <widget class="QSpinBox" name="rollFeedforward">
                 <property name="focusPolicy">
                  <enum>Qt::StrongFocus</enum>
                 </property>
@@ -879,12 +905,12 @@ This option smoothes the stick input. Zero value disables LPF.</string>
                  <number>1000</number>
                 </property>
                 <property name="value">
-                 <number>150</number>
+                 <number>0</number>
                 </property>
                 <property name="objrelation" stdset="0">
                  <stringlist>
                   <string>objname:CameraStabSettings</string>
-                  <string>fieldname:ResponseTime</string>
+                  <string>fieldname:FeedForward</string>
                   <string>element:Roll</string>
                   <string>haslimits:no</string>
                   <string>scale:1</string>
@@ -893,36 +919,21 @@ This option smoothes the stick input. Zero value disables LPF.</string>
                 </property>
                </widget>
               </item>
-              <item row="6" column="0">
-               <widget class="QLabel" name="label_36">
-                <property name="text">
-                 <string>MaxAxisLockRate</string>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="0">
-               <widget class="QLabel" name="label_37">
-                <property name="text">
-                 <string>Response Time</string>
-                </property>
-               </widget>
-              </item>
               <item row="4" column="0">
                <widget class="QLabel" name="label_38">
-                <property name="text">
-                 <string>Input Rate</string>
+                <property name="toolTip">
+                 <string>The maximum rate to move the camera from inputs.</string>
                 </property>
-               </widget>
-              </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="label_39">
                 <property name="text">
-                 <string>Input Range</string>
+                 <string>Input Rate (deg/s)</string>
                 </property>
                </widget>
               </item>
               <item row="2" column="0">
                <widget class="QLabel" name="label_40">
+                <property name="toolTip">
+                 <string>Attitude mode means the stick specifies a direction.  Axis lock means the stick specifies a rate to track with the camera.</string>
+                </property>
                 <property name="text">
                  <string>Stabilization Mode</string>
                 </property>
@@ -932,6 +943,16 @@ This option smoothes the stick input. Zero value disables LPF.</string>
                <widget class="QLabel" name="label_41">
                 <property name="text">
                  <string>(the same value for Roll, Pitch, Yaw)</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_39">
+                <property name="toolTip">
+                 <string>The maximum angle to move the camera due to inputs.</string>
+                </property>
+                <property name="text">
+                 <string>Input Range (deg)</string>
                 </property>
                </widget>
               </item>
@@ -963,6 +984,48 @@ value.</string>
                  <stringlist>
                   <string>objname:CameraStabSettings</string>
                   <string>fieldname:MaxAxisLockRate</string>
+                  <string>haslimits:no</string>
+                  <string>scale:1</string>
+                  <string>buttongroup:1</string>
+                 </stringlist>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="0">
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Attitude Filter (ms)</string>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="1">
+               <widget class="QDoubleSpinBox" name="AttitudeFilter">
+                <property name="focusPolicy">
+                 <enum>Qt::StrongFocus</enum>
+                </property>
+                <property name="toolTip">
+                 <string>Stick input deadband for all axes in AxisLock mode, deg/s.
+
+When stick input is within the MaxAxisLockRate range, camera tracks
+current attitude. Otherwise it starts moving according to input with
+rate depending on input value.
+
+If you have drift in your Tx controls, you may want to increase this
+value.</string>
+                </property>
+                <property name="decimals">
+                 <number>1</number>
+                </property>
+                <property name="singleStep">
+                 <double>0.100000000000000</double>
+                </property>
+                <property name="value">
+                 <double>0.000000000000000</double>
+                </property>
+                <property name="objrelation" stdset="0">
+                 <stringlist>
+                  <string>objname:CameraStabSettings</string>
+                  <string>fieldname:AttitudeFilter</string>
                   <string>haslimits:no</string>
                   <string>scale:1</string>
                   <string>buttongroup:1</string>
