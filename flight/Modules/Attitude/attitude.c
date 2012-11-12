@@ -489,7 +489,7 @@ static void updateAttitude(AccelsData * accelsData, GyrosData * gyrosData)
 	else
 		grot_mag = 1.0f;
 
-	if (grot_mag > 1.0e-3f && accel_mag > >1.0e-3f) {
+	if (grot_mag > 1.0e-3f && accel_mag > 1.0e-3f) {
 		accel_err[0] /= (accel_mag*grot_mag);
 		accel_err[1] /= (accel_mag*grot_mag);
 		accel_err[2] /= (accel_mag*grot_mag);

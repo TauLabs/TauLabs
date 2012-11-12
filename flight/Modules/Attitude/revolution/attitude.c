@@ -365,12 +365,24 @@ static int32_t updateAttitudeComplementary(bool first_run)
 	// Compute the error between the predicted direction of gravity and smoothed acceleration
 	CrossProduct((const float *) accels_filtered, (const float *) grot_filtered, accel_err);
 
+	float grot_mag;
+	if (accel_filter_enabled)
+		grot_mag = sqrtf(grot_filtered[0]*grot_filtered[0] + grot_filtered[1]*grot_filtered[1] + grot_filtered[2]*grot_filtered[2]);
+	else
+		grot_mag = 1.0f;
+
 	// Account for accel magnitude
-	accel_mag = accelsData.x*accelsData.x + accelsData.y*accelsData.y + accelsData.z*accelsData.z;
+	accel_mag = accels_filtered[0]*accels_filtered[0] + accels_filtered[1]*accels_filtered[1] + accels_filtered[2]*accels_filtered[2];
 	accel_mag = sqrtf(accel_mag);
-	accel_err[0] /= accel_mag;
-	accel_err[1] /= accel_mag;
-	accel_err[2] /= accel_mag;	
+	if (grot_mag > 1.0e-3f && accel_mag > 1.0e-3f) {
+		accel_err[0] /= (accel_mag * grot_mag);
+		accel_err[1] /= (accel_mag * grot_mag);
+		accel_err[2] /= (accel_mag * grot_mag);
+	} else {
+		accel_err[0] = 0;
+		accel_err[1] = 0;
+		accel_err[2] = 0;
+	}
 
 	if ( xQueueReceive(magQueue, &ev, 0) != pdTRUE )
 	{
