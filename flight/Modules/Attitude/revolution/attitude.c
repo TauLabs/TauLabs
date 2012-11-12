@@ -102,6 +102,9 @@ static RevoSettingsData revoSettings;
 static bool gyroBiasSettingsUpdated = false;
 const uint32_t SENSOR_QUEUE_SIZE = 10;
 
+bool accel_filter_enabled;
+float accel_alpha;
+
 // Private functions
 static void AttitudeTask(void *parameters);
 
@@ -109,6 +112,8 @@ static int32_t updateAttitudeComplementary(bool first_run);
 static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode);
 static void settingsUpdatedCb(UAVObjEvent * objEv);
 
+//! A low pass filter on the accels which helps with vibration resistance
+static void apply_accel_filter(const float * raw, float * filtered);
 static int32_t getNED(GPSPositionData * gpsPosition, float * NED);
 
 /**
@@ -260,6 +265,9 @@ static int32_t updateAttitudeComplementary(bool first_run)
 	float dT;
 	static uint8_t init = 0;
 
+	static float accels_filtered[3] = {0,0,0};
+	static float grot_filtered[3] = {0,0,0};
+
 	// Wait until the AttitudeRaw object is updated, if a timeout then go to failsafe
 	if ( xQueueReceive(gyroQueue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS) != pdTRUE ||
 	     xQueueReceive(accelQueue, &ev, 1 / portTICK_RATE_MS) != pdTRUE )
@@ -342,11 +350,20 @@ static int32_t updateAttitudeComplementary(bool first_run)
 	// Get the current attitude estimate
 	quat_copy(&attitudeActual.q1, q);
 
+	// Apply smoothing to accel values, to reduce vibration noise before main calculations.
+	apply_accel_filter(&accelsData.x,accels_filtered);
+
 	// Rotate gravity to body frame and cross with accels
 	grot[0] = -(2 * (q[1] * q[3] - q[0] * q[2]));
 	grot[1] = -(2 * (q[2] * q[3] + q[0] * q[1]));
 	grot[2] = -(q[0] * q[0] - q[1]*q[1] - q[2]*q[2] + q[3]*q[3]);
 	CrossProduct((const float *) &accelsData.x, (const float *) grot, accel_err);
+
+	// Apply same filtering to the rotated attitude to match delays
+	apply_accel_filter(grot,grot_filtered);
+
+	// Compute the error between the predicted direction of gravity and smoothed acceleration
+	CrossProduct((const float *) accels_filtered, (const float *) grot_filtered, accel_err);
 
 	// Account for accel magnitude
 	accel_mag = accelsData.x*accelsData.x + accelsData.y*accelsData.y + accelsData.z*accelsData.z;
@@ -836,6 +853,19 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	return 0;
 }
 
+static void apply_accel_filter(const float * raw, float * filtered)
+{
+	if(accel_filter_enabled) {
+		filtered[0] = filtered[0] * accel_alpha + raw[0] * (1 - accel_alpha);
+		filtered[1] = filtered[1] * accel_alpha + raw[1] * (1 - accel_alpha);
+		filtered[2] = filtered[2] * accel_alpha + raw[2] * (1 - accel_alpha);
+	} else {
+		filtered[0] = raw[0];
+		filtered[1] = raw[1];
+		filtered[2] = raw[2];
+	}
+}
+
 /**
  * @brief Convert the GPS LLA position into NED coordinates
  * @note this method uses a taylor expansion around the home coordinates
@@ -892,8 +922,19 @@ static void settingsUpdatedCb(UAVObjEvent * ev)
 		T[1] = cosf(lat)*(alt+6.378137E6f);
 		T[2] = -1.0f;
 	}
-	if (ev == NULL || ev->obj == AttitudeSettingsHandle())
+	if (ev == NULL || ev->obj == AttitudeSettingsHandle()) {
 		AttitudeSettingsGet(&attitudeSettings);
+			
+		// Calculate accel filter alpha, in the same way as for gyro data in stabilization module.
+		const float fakeDt = 0.0025;
+		if(attitudeSettings.AccelTau < 0.0001) {
+			accel_alpha = 0;   // not trusting this to resolve to 0
+			accel_filter_enabled = false;
+		} else {
+			accel_alpha = expf(-fakeDt  / attitudeSettings.AccelTau);
+			accel_filter_enabled = true;
+		}
+	}
 	if (ev == NULL || ev->obj == RevoSettingsHandle())
 		RevoSettingsGet(&revoSettings);
 }
