@@ -3,7 +3,7 @@
  * @addtogroup OpenPilotModules OpenPilot Modules
  * @{
  * @addtogroup Attitude Copter Control Attitude Estimation
- * @brief A collection of mathematics that help reduce sensor drift. Pick and choose for best performance
+ * @brief A collection of mathematics that help reduce sensor drift.
  * @{
  *
  * @file       premerlani_dcm.c
@@ -86,7 +86,7 @@ struct GlobalDcmDriftVariables {
 #define GPS_CONSUMED_BY_Y    0x02
 #define GPS_CONSUMED         0xFF
 
-static struct GlobalDcmDriftVariables *drft;
+extern struct GlobalDcmDriftVariables *drft;
 
 // Private constants
 

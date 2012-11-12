@@ -86,7 +86,7 @@ struct GlobalDcmDriftVariables {
 #define GPS_CONSUMED_BY_Y    0x02
 #define GPS_CONSUMED         0xFF
 
-static struct GlobalDcmDriftVariables *drft;
+extern struct GlobalDcmDriftVariables *drft;
 
 // Private constants
 
