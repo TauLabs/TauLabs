@@ -345,11 +345,12 @@ void ConfigRevoWidget::doGetAccelGyroBiasData(UAVObject *obj)
 
         collectingData = false;
 
-        // No longer need to call this callback
-        disconnect(this,SLOT(doGetAccelGyroBiasData(UAVObject*)));
-
         Accels * accels = Accels::GetInstance(getObjectManager());
         Gyros * gyros = Gyros::GetInstance(getObjectManager());
+
+        // No longer need to call this callback
+        disconnect(accels, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(doGetAccelGyroBiasData(UAVObject*)));
+        disconnect(gyros, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(doGetAccelGyroBiasData(UAVObject*)));
 
         m_ui->accelBiasStart->setEnabled(true);
 
