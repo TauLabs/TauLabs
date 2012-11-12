@@ -1,12 +1,12 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup OpenPilotLibraries OpenPilot Libraries
  * @{ 
- * @addtogroup Attitude Attitude Module
+ * @addtogroup Attitude Attitude Library
  * @{ 
  *
- * @file       sensorfetch.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @file       ccc.h
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
  * @brief      Acquires sensor data and fuses it into attitude estimate for CC
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -27,15 +27,12 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef SENSORFETCH_H
-#define SENSORFETCH_H
+#ifndef CCC_H
+#define CCC_H
 
 #include "openpilot.h"
-#include "gyros.h"
-#include "accels.h"
+#include "state.h"
 
-int8_t getSensorsCC(float * prelim_accels, float * prelim_gyros, xQueueHandle *gyro_queue, GlobalAttitudeVariables *glblAtt);
-int8_t getSensorsCC3D(float * prelim_accels, float * prelim_gyros, GlobalAttitudeVariables *glblAtt);
+void CottonComplementaryCorrection(float *accels, float *gyros, const float delT, GlobalAttitudeVariables *glblAtt, float *omegaCorrP);
 
-
-#endif // SENSORFETCH_H
+#endif // CCC_H

@@ -65,6 +65,8 @@ struct GlobalAttitudeVariables {
 	int32_t trim_samples;
 };
 
+typedef struct GlobalAttitudeVariables GlobalAttitudeVariables;
+
 
 int32_t AttitudeInitialize(void);
 

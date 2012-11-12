@@ -50,8 +50,8 @@
 
 #include "pios.h"
 #include "state.h"
-#include "sensordrift.h"
 #include "sensorfetch.h"
+#include "attitudedrift.h"
 
 #include "accels.h"
 #include "attitudeactual.h"
@@ -163,8 +163,7 @@ int32_t StateInitialize(void)
 	HomeLocationInitialize();
 
 	gpsNew_flag = false;
-	glblAtt = (struct GlobalAttitudeVariables *)
-	    pvPortMalloc(sizeof(struct GlobalAttitudeVariables));
+	glblAtt = (GlobalAttitudeVariables *) pvPortMalloc(sizeof(GlobalAttitudeVariables));
 
 	// Initialize quaternion
 	AttitudeActualData attitude;
@@ -264,9 +263,9 @@ static void StateTask(void *parameters)
 		float prelim_accels[4];
 		float prelim_gyros[4];
 		if (cc3d_flag) {
-			getSensorsCC3D(prelim_accels, prelim_gyros);
+			getSensorsCC3D(prelim_accels, prelim_gyros, glblAtt);
 		} else {
-			getSensorsCC(prelim_accels, prelim_gyros, &gyro_queue);
+			getSensorsCC(prelim_accels, prelim_gyros, &gyro_queue, glblAtt);
 		}
 
 		int8_t groundTemperature = round(prelim_accels[3]);
@@ -345,9 +344,9 @@ static void StateTask(void *parameters)
 				dT_us = (dT_us > 0) ? dT_us : 1;
 				float delT = dT_us * 1e-6f;
 				
-				//Update sensor estimation with drift PI feedback
+				//Update attitude estimation with drift PI feedback on the rate gyroscopes
 				if (glblAtt->bias_correct_gyro) {
-					updateSensorDrift(&accels, &gyros, delT);
+					updateAttitudeDrift(&accels, &gyros, delT, glblAtt);
 				}
 
 				updateSO3(&gyros.x, delT);
@@ -357,7 +356,7 @@ static void StateTask(void *parameters)
 		}
 
 		/*=========================*/
-		// Perform estimation updates that requires GPS
+		// Perform estimation updates that require GPS
 		if (gpsNew_flag == true) {
 			uint8_t gpsStatus;
 			GPSPositionStatusGet(&gpsStatus);
@@ -408,9 +407,9 @@ static int32_t updateIntertialSensors(AccelsData * accels, GyrosData * gyros, bo
 
 	// Get the sensor data in a board specific manner
 	if (cc3d_flag) {
-		retval = getSensorsCC3D(prelim_accels, prelim_gyros);
+		retval = getSensorsCC3D(prelim_accels, prelim_gyros, glblAtt);
 	} else {
-		retval = getSensorsCC(prelim_accels, prelim_gyros, &gyro_queue);
+		retval = getSensorsCC(prelim_accels, prelim_gyros, &gyro_queue, glblAtt);
 	}
 
 	if (retval < 0) {	// No sensor data.  Alarm set by calling method

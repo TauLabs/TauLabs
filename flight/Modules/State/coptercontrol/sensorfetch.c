@@ -59,7 +59,6 @@
 // Private variables
 
 // Private functions
-extern struct GlobalAttitudeVariables *glblAtt;
 extern InertialSensorSettingsData inertialSensorSettings;
 extern AttitudeSettingsData attitudeSettings;
 extern GyrosBiasData gyrosBias;
@@ -69,7 +68,7 @@ extern GyrosBiasData gyrosBias;
  * @param[in] attitudeRaw Populate the UAVO instead of saving right here
  * @return 0 if successfull, -1 if not
  */
-int8_t getSensorsCC(float *prelim_accels, float *prelim_gyros, xQueueHandle * gyro_queue)	//SHOULD GYRO_QUEUE BE DECLARED A CONST HERE, INSTEAD OF A POINTER?
+int8_t getSensorsCC(float *prelim_accels, float *prelim_gyros, xQueueHandle * gyro_queue, GlobalAttitudeVariables *glblAtt)	//SHOULD GYRO_QUEUE BE DECLARED A CONST HERE, INSTEAD OF A POINTER?
 {
 	struct pios_adxl345_data accel_data;
 	float gyro[4];
@@ -123,7 +122,7 @@ int8_t getSensorsCC(float *prelim_accels, float *prelim_gyros, xQueueHandle * gy
  * @param[in] attitudeRaw Populate the UAVO instead of saving right here
  * @return 0 if successfull, -1 if not
  */
-int8_t getSensorsCC3D(float *prelim_accels, float *prelim_gyros)
+int8_t getSensorsCC3D(float *prelim_accels, float *prelim_gyros, GlobalAttitudeVariables *glblAtt)
 {
 	struct pios_mpu6000_data mpu6000_data;
 #if defined(PIOS_INCLUDE_MPU6000)

@@ -5,8 +5,8 @@
  * @addtogroup Attitude Attitude Module
  * @{ 
  *
- * @file       sensorfetch.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @file       attitudedrift.h
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
  * @brief      Acquires sensor data and fuses it into attitude estimate for CC
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -27,15 +27,14 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef SENSORFETCH_H
-#define SENSORFETCH_H
+#ifndef SENSORDRIFT_H
+#define SENSORDRIFT_H
 
 #include "openpilot.h"
+#include "state.h"
 #include "gyros.h"
 #include "accels.h"
 
-int8_t getSensorsCC(float * prelim_accels, float * prelim_gyros, xQueueHandle *gyro_queue, GlobalAttitudeVariables *glblAtt);
-int8_t getSensorsCC3D(float * prelim_accels, float * prelim_gyros, GlobalAttitudeVariables *glblAtt);
+void updateAttitudeDrift(AccelsData * accelsData, GyrosData * gyrosData, const float delT, GlobalAttitudeVariables *glblAtt);
 
-
-#endif // SENSORFETCH_H
+#endif // SENSORDRIFT_H
