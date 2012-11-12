@@ -480,8 +480,6 @@ static void updateAttitude(AccelsData * accelsData, GyrosData * gyrosData)
 	
 	// Account for accel magnitude
 	float accel_mag = sqrtf(accels_filtered[0]*accels_filtered[0] + accels_filtered[1]*accels_filtered[1] + accels_filtered[2]*accels_filtered[2]);
-	if(accel_mag < 1.0e-3f)
-		return;
 
 	// Account for filtered gravity vector magnitude
 	float grot_mag;
@@ -491,23 +489,22 @@ static void updateAttitude(AccelsData * accelsData, GyrosData * gyrosData)
 	else
 		grot_mag = 1.0f;
 
-	if (grot_mag < 1.0e-3f)
-		return;
-
-	accel_err[0] /= (accel_mag*grot_mag);
-	accel_err[1] /= (accel_mag*grot_mag);
-	accel_err[2] /= (accel_mag*grot_mag);
-	
-	// Accumulate integral of error.  Scale here so that units are (deg/s) but Ki has units of s
-	gyro_correct_int[0] += accel_err[0] * accelKi;
-	gyro_correct_int[1] += accel_err[1] * accelKi;
-	
-	//gyro_correct_int[2] += accel_err[2] * accelKi;
-	
-	// Correct rates based on error, integral component dealt with in updateSensors
-	gyros[0] += accel_err[0] * accelKp / dT;
-	gyros[1] += accel_err[1] * accelKp / dT;
-	gyros[2] += accel_err[2] * accelKp / dT;
+	if (grot_mag > 1.0e-3f && accel_mag > >1.0e-3f) {
+		accel_err[0] /= (accel_mag*grot_mag);
+		accel_err[1] /= (accel_mag*grot_mag);
+		accel_err[2] /= (accel_mag*grot_mag);
+		
+		// Accumulate integral of error.  Scale here so that units are (deg/s) but Ki has units of s
+		gyro_correct_int[0] += accel_err[0] * accelKi;
+		gyro_correct_int[1] += accel_err[1] * accelKi;
+		
+		//gyro_correct_int[2] += accel_err[2] * accelKi;
+		
+		// Correct rates based on error, integral component dealt with in updateSensors
+		gyros[0] += accel_err[0] * accelKp / dT;
+		gyros[1] += accel_err[1] * accelKp / dT;
+		gyros[2] += accel_err[2] * accelKp / dT;
+	}
 	
 	{ // scoping variables to save memory
 		// Work out time derivative from INSAlgo writeup
