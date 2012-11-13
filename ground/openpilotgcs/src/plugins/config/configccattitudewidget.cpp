@@ -100,11 +100,26 @@ ConfigCCAttitudeWidget::~ConfigCCAttitudeWidget()
     delete ui;
 }
 
+void rot_mult(double R[3][3], const double vec[3], double vec_out[3], bool transpose)
+{
+    if (!transpose){
+        vec_out[0] = R[0][0] * vec[0] + R[0][1] * vec[1] + R[0][2] * vec[2];
+        vec_out[1] = R[1][0] * vec[0] + R[1][1] * vec[1] + R[1][2] * vec[2];
+        vec_out[2] = R[2][0] * vec[0] + R[2][1] * vec[1] + R[2][2] * vec[2];
+    }
+    else {
+        vec_out[0] = R[0][0] * vec[0] + R[1][0] * vec[1] + R[2][0] * vec[2];
+        vec_out[1] = R[0][1] * vec[0] + R[1][1] * vec[1] + R[2][1] * vec[2];
+        vec_out[2] = R[0][2] * vec[0] + R[1][2] * vec[1] + R[2][2] * vec[2];
+
+    }
+
+}
 void ConfigCCAttitudeWidget::sensorsUpdated(UAVObject * obj) {
 
     if (!timer.isActive()) { 
-	// ignore updates that come in after the timer has expired	
-	return; 
+        // ignore updates that come in after the timer has expired
+        return;
     }
 
     Accels * accels = Accels::GetInstance(getObjectManager());
@@ -138,21 +153,48 @@ void ConfigCCAttitudeWidget::sensorsUpdated(UAVObject * obj) {
         disconnect(obj,SIGNAL(objectUpdated(UAVObject*)),this,SLOT(sensorsUpdated(UAVObject*)));
         disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
 
-        float x_bias = listMean(accel_accum_x);
-        float y_bias = listMean(accel_accum_y);
-        float z_bias = (listMean(accel_accum_z) + 9.805f);
-
         float x_gyro_bias = listMean(gyro_accum_x);
         float y_gyro_bias = listMean(gyro_accum_y);
         float z_gyro_bias = listMean(gyro_accum_z);
         accels->setMetadata(initialAccelsMdata);
         gyros->setMetadata(initialGyrosMdata);
 
+        // Get the existing attitude settings
         AttitudeSettings::DataFields attitudeSettingsData = AttitudeSettings::GetInstance(getObjectManager())->getData();
+
+        float x_bias = listMean(accel_accum_x);
+        float y_bias = listMean(accel_accum_y);
+        float z_bias = listMean(accel_accum_z);
+
+        // Inverse rotation of sensor data, from body frame into sensor frame
+        double a_sensor[3];
+        double a_body[3] = { x_bias, y_bias, z_bias };
+        double Rsb[3][3] = {{1, 0 , 0}, {0, 1, 0}, {0, 0, 1}};
+        rot_mult(Rsb, a_body, a_sensor, true);
+
+        // Temporary variables
+        double psi, theta, phi;
+
+        const double DEG2RAD = M_PI / 180.0f;
+        const double RAD2DEG = 1.0 / DEG2RAD;
+        const double GRAV = 9.81;
+
+        // Keep existing yaw rotation
+        psi = attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] * DEG2RAD;
+
+        double cP = cos(psi);
+        double sP = sin(psi);
+
+        // In case psi is too small, we have to use a different equation to solve for theta
+        if (fabs(psi) > M_PI / 2)
+            theta = atan((a_sensor[1] + cP * (sP * a_sensor[0] - cP * a_sensor[1])) / (sP * a_sensor[2]));
+        else
+            theta = atan((a_sensor[0] - sP * (sP * a_sensor[0] - cP * a_sensor[1])) / (cP * a_sensor[2]));
+        phi = atan2((sP * a_sensor[0] - cP * a_sensor[1]) / GRAV, a_sensor[2] / cosf(theta) / GRAV);
+        attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] = phi * RAD2DEG;
+        attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] = theta * RAD2DEG;
+
         // We offset the gyro bias by current bias to help precision
-        attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_X] += x_bias;
-        attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Y] += y_bias;
-        attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Z] += z_bias;
         attitudeSettingsData.InitialGyroBias[AttitudeSettings::INITIALGYROBIAS_X] = -x_gyro_bias;
         attitudeSettingsData.InitialGyroBias[AttitudeSettings::INITIALGYROBIAS_Y] = -y_gyro_bias;
         attitudeSettingsData.InitialGyroBias[AttitudeSettings::INITIALGYROBIAS_Z] = -z_gyro_bias;
@@ -263,23 +305,8 @@ void ConfigCCAttitudeWidget::updateObjectsFromWidgets()
 void ConfigCCAttitudeWidget::doStartSixPointCalibration()
 {
     AttitudeSettings * attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
-    HomeLocation * homeLocation = HomeLocation::GetInstance(getObjectManager());
     Q_ASSERT(attitudeSettings);
-    Q_ASSERT(homeLocation);
     AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
-    HomeLocation::DataFields homeLocationData = homeLocation->getData();
-
-    //check if Homelocation is set
-    if(!homeLocationData.Set)
-    {
-        QMessageBox msgBox;
-        msgBox.setInformativeText(tr("<p>HomeLocation not SET.</p><p>Please set your HomeLocation and try again. Aborting calibration!</p>"));
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        msgBox.setDefaultButton(QMessageBox::Ok);
-        msgBox.setIcon(QMessageBox::Information);
-        msgBox.exec();
-        return;
-    }
 
     //Save board rotation settings
     boardRotation[0]=attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL];
