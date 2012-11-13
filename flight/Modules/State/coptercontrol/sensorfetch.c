@@ -61,14 +61,13 @@
 // Private functions
 extern InertialSensorSettingsData inertialSensorSettings;
 extern AttitudeSettingsData attitudeSettings;
-extern GyrosBiasData gyrosBias;
 
 /**
  * Get an update from the sensors
  * @param[in] attitudeRaw Populate the UAVO instead of saving right here
  * @return 0 if successfull, -1 if not
  */
-int8_t getSensorsCC(float *prelim_accels, float *prelim_gyros, xQueueHandle * gyro_queue, GlobalAttitudeVariables *glblAtt)	//SHOULD GYRO_QUEUE BE DECLARED A CONST HERE, INSTEAD OF A POINTER?
+int8_t getSensorsCC(float *prelim_accels, float *prelim_gyros, xQueueHandle * gyro_queue, GlobalAttitudeVariables *glblAtt, GyrosBiasData *gyrosBias, InertialSensorSettingsData *inertialSensorSettings)
 {
 	struct pios_adxl345_data accel_data;
 	float gyro[4];
@@ -96,9 +95,9 @@ int8_t getSensorsCC(float *prelim_accels, float *prelim_gyros, xQueueHandle * gy
 
 	// When this is enabled remove estimate of bias
 	if (glblAtt->bias_correct_gyro) {
-		prelim_gyros[0] -= gyrosBias.x;
-		prelim_gyros[1] -= gyrosBias.y;
-		prelim_gyros[2] -= gyrosBias.z;
+		prelim_gyros[0] -= gyrosBias->x;
+		prelim_gyros[1] -= gyrosBias->y;
+		prelim_gyros[2] -= gyrosBias->z;
 	}
 
 	// Process accelerometer sensor data. In this case, average the data
@@ -130,7 +129,7 @@ int8_t getSensorsCC(float *prelim_accels, float *prelim_gyros, xQueueHandle * gy
  * @param[in] attitudeRaw Populate the UAVO instead of saving right here
  * @return 0 if successfull, -1 if not
  */
-int8_t getSensorsCC3D(float *prelim_accels, float *prelim_gyros, GlobalAttitudeVariables *glblAtt)
+int8_t getSensorsCC3D(float *prelim_accels, float *prelim_gyros, GlobalAttitudeVariables *glblAtt, GyrosBiasData *gyrosBias, InertialSensorSettingsData *inertialSensorSettings)
 {
 	struct pios_mpu6000_data mpu6000_data;
 #if defined(PIOS_INCLUDE_MPU6000)
@@ -148,9 +147,9 @@ int8_t getSensorsCC3D(float *prelim_accels, float *prelim_gyros, GlobalAttitudeV
 	
 	// When this is enabled remove estimate of bias
 	if (glblAtt->bias_correct_gyro) {
-		prelim_gyros[0] -= gyrosBias.x;
-		prelim_gyros[1] -= gyrosBias.y;
-		prelim_gyros[2] -= gyrosBias.z;
+		prelim_gyros[0] -= gyrosBias->x;
+		prelim_gyros[1] -= gyrosBias->y;
+		prelim_gyros[2] -= gyrosBias->z;
 	}
 	
 	//Rotated data from internal accelerometer sensor frame into board sensor frame

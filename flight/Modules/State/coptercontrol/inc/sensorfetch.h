@@ -34,8 +34,7 @@
 #include "gyros.h"
 #include "accels.h"
 
-int8_t getSensorsCC(float * prelim_accels, float * prelim_gyros, xQueueHandle *gyro_queue, GlobalAttitudeVariables *glblAtt);
-int8_t getSensorsCC3D(float * prelim_accels, float * prelim_gyros, GlobalAttitudeVariables *glblAtt);
-
+int8_t getSensorsCC(float * prelim_accels, float * prelim_gyros, xQueueHandle *gyro_queue, GlobalAttitudeVariables *glblAtt, GyrosBiasData *gyrosBias, InertialSensorSettingsData *inertialSensorSettings);
+int8_t getSensorsCC3D(float * prelim_accels, float * prelim_gyros, GlobalAttitudeVariables *glblAtt, GyrosBiasData *gyrosBias, InertialSensorSettingsData *inertialSensorSettings);
 
 #endif // SENSORFETCH_H

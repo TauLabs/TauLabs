@@ -61,7 +61,6 @@
 
 //Global variables
 extern AttitudeSettingsData attitudeSettings;
-extern InertialSensorSettingsData inertialSensorSettings;
 
 bool firstpass_flag = true;
 
@@ -119,7 +118,7 @@ static void MagnetometerUpdatedCb(UAVObjEvent * objEv);
 /**
  * Correct attitude drift. Choose from any of the following algorithms
  */
-void updateAttitudeDrift(AccelsData * accelsData, GyrosData * gyrosData, const float delT, GlobalAttitudeVariables *glblAtt)
+void updateAttitudeDrift(AccelsData * accelsData, GyrosData * gyrosData, const float delT, GlobalAttitudeVariables *glblAtt, InertialSensorSettingsData *inertialSensorSettings)
 {
 	float *gyros = &gyrosData->x;
 	float *accels = &accelsData->x;

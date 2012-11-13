@@ -266,9 +266,9 @@ static void StateTask(void *parameters)
 		float prelim_accels[4];
 		float prelim_gyros[4];
 		if (cc3d_flag) {
-			getSensorsCC3D(prelim_accels, prelim_gyros, glblAtt);
+			getSensorsCC3D(prelim_accels, prelim_gyros, glblAtt, &gyrosBias, &inertialSensorSettings);
 		} else {
-			getSensorsCC(prelim_accels, prelim_gyros, &gyro_queue, glblAtt);
+			getSensorsCC(prelim_accels, prelim_gyros, &gyro_queue, glblAtt, &gyrosBias, &inertialSensorSettings);
 		}
 
 		int8_t groundTemperature = round(prelim_accels[3]);
@@ -349,7 +349,7 @@ static void StateTask(void *parameters)
 				
 				//Update attitude estimation with drift PI feedback on the rate gyroscopes
 				if (glblAtt->bias_correct_gyro) {
-					updateAttitudeDrift(&accels, &gyros, delT, glblAtt);
+					updateAttitudeDrift(&accels, &gyros, delT, glblAtt, &inertialSensorSettings);
 				}
 
 				updateSO3(&gyros.x, delT);
@@ -410,9 +410,9 @@ static int32_t updateIntertialSensors(AccelsData * accels, GyrosData * gyros, bo
 
 	// Get the sensor data in a board specific manner
 	if (cc3d_flag) {
-		retval = getSensorsCC3D(prelim_accels, prelim_gyros, glblAtt);
+		retval = getSensorsCC3D(prelim_accels, prelim_gyros, glblAtt, &gyrosBias, &inertialSensorSettings);
 	} else {
-		retval = getSensorsCC(prelim_accels, prelim_gyros, &gyro_queue, glblAtt);
+		retval = getSensorsCC(prelim_accels, prelim_gyros, &gyro_queue, glblAtt, &gyrosBias, &inertialSensorSettings);
 	}
 
 	if (retval < 0) {	// No sensor data.  Alarm set by calling method

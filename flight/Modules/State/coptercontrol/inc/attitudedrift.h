@@ -35,6 +35,6 @@
 #include "gyros.h"
 #include "accels.h"
 
-void updateAttitudeDrift(AccelsData * accelsData, GyrosData * gyrosData, const float delT, GlobalAttitudeVariables *glblAtt);
+void updateAttitudeDrift(AccelsData * accelsData, GyrosData * gyrosData, const float delT, GlobalAttitudeVariables *glblAtt, InertialSensorSettingsData *inertialSensorSettings);
 
 #endif // SENSORDRIFT_H
