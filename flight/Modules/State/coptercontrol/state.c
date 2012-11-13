@@ -184,12 +184,12 @@ int32_t StateInitialize(void)
 	glblAtt->q[2] = 0;
 	glblAtt->q[3] = 0;
 	
-	//Set Rsb to Id.
+	//Set Rbs to Id.
 	for (uint8_t i = 0; i < 3; i++) {
 		for (uint8_t j = 0; j < 3; j++){
-			glblAtt->Rsb[i][j] = 0;
+			glblAtt->Rbs[i][j] = 0;
 		}
-		glblAtt->Rsb[i][i] = 1;
+		glblAtt->Rbs[i][i] = 1;
 	}
 
 	glblAtt->trim_requested = false;
@@ -425,10 +425,10 @@ static int32_t updateIntertialSensors(AccelsData * accels, GyrosData * gyros, bo
 
 		// Rotate the vector into a temporary vector, and then copy back into
 		// the original vectors.
-		rot_mult(glblAtt->Rsb, prelim_accels, tmpVec, false);
+		rot_mult(glblAtt->Rbs, prelim_accels, tmpVec, false);
 		memcpy(prelim_accels, tmpVec, sizeof(tmpVec));
 
-		rot_mult(glblAtt->Rsb, prelim_gyros, tmpVec, false);
+		rot_mult(glblAtt->Rbs, prelim_gyros, tmpVec, false);
 		memcpy(prelim_gyros, tmpVec, sizeof(tmpVec));
 	}
 
@@ -651,14 +651,14 @@ static void inertialSensorSettingsUpdatedCb(UAVObjEvent * objEv)
 
 		// Shouldn't need to be used, but just to be safe we will anyway
 		float rotationQuat[4] = { 1, 0, 0, 0 };
-		Quaternion2R(rotationQuat, glblAtt->Rsb);
+		Quaternion2R(rotationQuat, glblAtt->Rbs);
 	} else {
 		float rpy[3] = {
 		    attitudeSettings.BoardRotation[INERTIALSENSORSETTINGS_BOARDROTATION_ROLL] * DEG2RAD / 100.0f,
 		    attitudeSettings.BoardRotation[INERTIALSENSORSETTINGS_BOARDROTATION_PITCH] * DEG2RAD / 100.0f,
           attitudeSettings.BoardRotation[INERTIALSENSORSETTINGS_BOARDROTATION_YAW] * DEG2RAD / 100.0f
 		};
-		Euler2R(rpy, glblAtt->Rsb);
+		Euler2R(rpy, glblAtt->Rbs);
 		glblAtt->rotate = true;
 	}
 
@@ -680,7 +680,7 @@ static void inertialSensorSettingsUpdatedCb(UAVObjEvent * objEv)
 
 		// Inverse rotation of sensor data, from body frame into sensor frame
 		float a_sensor[3];
-		rot_mult(glblAtt->Rsb, a_body, a_sensor, true);
+		rot_mult(glblAtt->Rbs, a_body, a_sensor, true);
 
 		// Temporary variables
 		float psi, theta, phi;

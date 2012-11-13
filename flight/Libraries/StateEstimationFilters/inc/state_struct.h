@@ -48,10 +48,10 @@ struct GlobalAttitudeVariables {
 	float q[4];
 	//! Transformation from LLA to NED
 	float T[3];
-	//! Whether to rotate data from the board frame to the body frame (if the frames are different)
+	//! Whether to rotate data from the sensor board frame to the body frame (if the frames are different)
 	bool rotate;
-	//! Rotation matrix that transforms from the body frame to the sensor frame
-	float Rsb[3][3]; 
+	//! Rotation matrix that transforms from the sensor board frame to the body frame
+	float Rbs[3][3]; 
 	//! Indicates to estimate the gyro bias again while arming (faster convergence)
 	bool zero_during_arming;
 	//! Whether to apply the estimate of gyro bias to the data in the UAVO
