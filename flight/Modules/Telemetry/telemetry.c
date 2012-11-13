@@ -272,7 +272,6 @@ static void processObjEvent(UAVObjEvent * ev)
 	} else if (ev->obj == GCSTelemetryStatsHandle()) {
 		gcsTelemetryStatsUpdated();
 	} else {
-		// Only process event if connected to GCS or if object FlightTelemetryStats is updated
 		FlightTelemetryStatsGet(&flightStats);
 		// Get object metadata
 		UAVObjGetMetadata(ev->obj, &metadata);
@@ -282,7 +281,7 @@ static void processObjEvent(UAVObjEvent * ev)
 		retries = 0;
 		success = -1;
 		if (ev->event == EV_UPDATED || ev->event == EV_UPDATED_MANUAL || ((ev->event == EV_UPDATED_PERIODIC) && (updateMode != UPDATEMODE_THROTTLED))) {
-#ifdef PIOS_PACKET_HANDLER
+#if defined(PIOS_PACKET_HANDLER)
 			// Don't send PipXStatus objects over the radio link.
 			if (PIOS_PACKET_HANDLER && (ev->obj == PipXStatusHandle()) && (getComPort() == 0))
 				return;
@@ -303,9 +302,10 @@ static void processObjEvent(UAVObjEvent * ev)
 				success = UAVTalkSendObjectRequest(uavTalkCon, ev->obj, ev->instId, REQ_TIMEOUT_MS);	// call blocks until update is received or timeout
 				++retries;
 			}
-			// If this is a metaobject then make necessary telemetry updates
-			if (UAVObjIsMetaobject(ev->obj)) {
-				updateObject(UAVObjGetLinkedObj(ev->obj), EV_NONE);	// linked object will be the actual object the metadata are for
+			// Update stats
+			txRetries += (retries - 1);
+			if (success == -1) {
+				++txErrors;
 			}
 		}
 		// If this is a metaobject then make necessary telemetry updates

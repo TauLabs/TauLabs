@@ -89,9 +89,16 @@ int8_t getSensorsCC(float *prelim_accels, float *prelim_gyros, xQueueHandle * gy
 		return -1;
 
 	// Scale ADC data into deg/s. First sample is temperature, so ignore.
-	prelim_gyros[0] = -(gyro[1] - GYRO_NEUTRAL_BIAS) * gyrosBias.x;
-	prelim_gyros[1] =  (gyro[2] - GYRO_NEUTRAL_BIAS) * gyrosBias.y;
-	prelim_gyros[2] = -(gyro[3] - GYRO_NEUTRAL_BIAS) * gyrosBias.z;
+	prelim_gyros[0] = -(gyro[1] - GYRO_NEUTRAL_BIAS) * 0.42f * attitudeSettings.GyroScale[ATTITUDESETTINGS_GYROSCALE_X];
+	prelim_gyros[1] =  (gyro[2] - GYRO_NEUTRAL_BIAS) * 0.42f * attitudeSettings.GyroScale[ATTITUDESETTINGS_GYROSCALE_Y];
+	prelim_gyros[2] = -(gyro[3] - GYRO_NEUTRAL_BIAS) * 0.42f * attitudeSettings.GyroScale[ATTITUDESETTINGS_GYROSCALE_Z];
+
+	// When this is enabled remove estimate of bias
+	if (glblAtt->bias_correct_gyro) {
+		prelim_gyros[0] -= gyrosBias.x;
+		prelim_gyros[1] -= gyrosBias.y;
+		prelim_gyros[2] -= gyrosBias.z;
+	}
 
 	// Process accelerometer sensor data. In this case, average the data
 	int32_t x = 0;
@@ -134,10 +141,16 @@ int8_t getSensorsCC3D(float *prelim_accels, float *prelim_gyros, GlobalAttitudeV
 		return -1;	// Error, no data
 
 	//Rotated data from internal gryoscope sensor frame into board sensor frame
-	prelim_gyros[0] = -mpu6000_data.gyro_y * PIOS_MPU6000_GetScale() * attitudeSettings.GyroScale[0] - gyrosBias.x;
-	prelim_gyros[1] = -mpu6000_data.gyro_x * PIOS_MPU6000_GetScale() * attitudeSettings.GyroScale[1] - gyrosBias.y;
-	prelim_gyros[2] = -mpu6000_data.gyro_z * PIOS_MPU6000_GetScale() * attitudeSettings.GyroScale[2] - gyrosBias.z;
+	prelim_gyros[0] = -mpu6000_data.gyro_y * PIOS_MPU6000_GetScale() * attitudeSettings.GyroScale[0];
+	prelim_gyros[1] = -mpu6000_data.gyro_x * PIOS_MPU6000_GetScale() * attitudeSettings.GyroScale[1];
+	prelim_gyros[2] = -mpu6000_data.gyro_z * PIOS_MPU6000_GetScale() * attitudeSettings.GyroScale[2];
 	
+	// When this is enabled remove estimate of bias
+	if (glblAtt->bias_correct_gyro) {
+		prelim_gyros[0] -= gyrosBias.x;
+		prelim_gyros[1] -= gyrosBias.y;
+		prelim_gyros[2] -= gyrosBias.z;
+	}
 	
 	//Rotated data from internal accelerometer sensor frame into board sensor frame
 	//Apply scaling and bias correction in sensor frame
