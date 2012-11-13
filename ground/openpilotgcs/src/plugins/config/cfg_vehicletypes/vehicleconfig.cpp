@@ -107,6 +107,7 @@ void VehicleConfig::SetConfigData(GUIConfigDataUnion configData) {
 
 void VehicleConfig::ResetActuators(GUIConfigDataUnion* configData)
 {
+    Q_UNUSED(configData);
 }
 
 /**
@@ -266,7 +267,7 @@ void VehicleConfig::setThrottleCurve(UAVDataObject* mixer, MixerThrottleCurveEle
         }
     }
 
-    if (field && field->getNumElements() == curve.length()) {
+    if (field && field->getNumElements() == (quint32) curve.length()) {
         for (int i=0;i<curve.length();i++) {
            field->setValue(curve.at(i),i);
         }

@@ -315,7 +315,6 @@ void VehicleConfigurationHelper::applyStabilizationConfiguration()
 {
     StabilizationSettings *stabSettings = StabilizationSettings::GetInstance(m_uavoManager);
     Q_ASSERT(stabSettings);
-    StabilizationSettings::DataFields data = stabSettings->getData();
 
     StabilizationSettings defaultSettings;
     stabSettings->setData(defaultSettings.getData());
