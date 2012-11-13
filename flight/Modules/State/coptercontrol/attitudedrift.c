@@ -62,7 +62,6 @@
 //Global variables
 extern AttitudeSettingsData attitudeSettings;
 extern InertialSensorSettingsData inertialSensorSettings;
-extern GyrosBiasData gyrosBias;
 
 bool firstpass_flag = true;
 

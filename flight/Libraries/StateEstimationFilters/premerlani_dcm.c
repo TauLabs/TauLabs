@@ -54,7 +54,6 @@
 #endif
 
 //Global variables
-extern GlobalAttitudeVariables *glblAtt;
 extern AttitudeSettingsData attitudeSettings;
 extern InertialSensorSettingsData inertialSensorSettings;
 extern GyrosBiasData gyrosBias;
@@ -102,14 +101,8 @@ enum DRIFT_CORRECTION_ALGOS {
 
 // Private functions
 static void rollPitch_drift_GPS(float Rbe[3][3], float accels_e_int[3], float delT, float *errRollPitch_b);
-static void gyro_drift(float gyro[3], float errYaw_b[3], float errRollPitch_b[3],
-					 float normOmegaScalar, float delT, float *omegaCorrP,
-					 float *omegaCorrI);
-static void calibrate_gyros_high_speed(float gyro[3], float omegaCorrP[3],
-										  float normOmegaScalar, float delT,
-										  float *ggain);
-static void rollPitch_drift_accel(float accels[3], float gyros[3], float Rbe[3][3],
-									float airspeed_tas, float *errRollPitch_b);
+static void gyro_drift(float gyro[3], float errYaw_b[3], float errRollPitch_b[3], float normOmegaScalar, float delT, float *omegaCorrP, float *omegaCorrI);
+static void rollPitch_drift_accel(float accels[3], float gyros[3], float Rbe[3][3], float airspeed_tas, float *errRollPitch_b);
 
 
 /**
@@ -206,9 +199,6 @@ void Premerlani_DCM(float *accels, float *gyros, float Rbe[3][3], const float de
 	
 	// Calculate gyro drift, based on all errors
 	gyro_drift(gyros, errYaw_b, errRollPitch_b, normOmegaScalar, delT, omegaCorrP, drft->omegaCorrI);
-	
-	//TODO: Only perform this when armed.
-	calibrate_gyros_high_speed(gyros, omegaCorrP, normOmegaScalar, delT, &(attitudeSettings.GyroScale[0]));
 	
 	//Calculate final drift response
 	gyros[0] += omegaCorrP[0] + drft->omegaCorrI[0];
@@ -331,36 +321,6 @@ static void rollPitch_drift_GPS(float Rbe[3][3], float accels_e_int[3],
 	
 	//Rotate earth drift error back into body frame;
 	rot_mult(Rbe, errRollPitch_e, errRollPitch_b, FALSE);
-}
-
-//Values taken from GentleNav
-#define MINIMUM_SPIN_RATE_GYRO_CALIB 50.0	// degrees/second
-/*
- * At high speeds, the gyro gains can be honed in on. 
- *  Taken from "Fast Rotations", William Premerlani
- */
-static void calibrate_gyros_high_speed(float gyro[3], float omegaCorrP[3],
-										  float normOmegaScalar, float delT, float *ggain)
-{
-	if (normOmegaScalar > MINIMUM_SPIN_RATE_GYRO_CALIB) {
-		float normOmegaVector[3] = { gyro[0] / normOmegaScalar, gyro[1] / normOmegaScalar, gyro[2] / normOmegaScalar };
-		
-		//Calculate delta gain and update gains
-		ggain[0] += normOmegaVector[0] * omegaCorrP[0] / normOmegaScalar *
-		(attitudeSettings.GyroGain / drft->gyroCalibTau) * delT;
-		ggain[1] += normOmegaVector[1] * omegaCorrP[1] / normOmegaScalar *
-		(attitudeSettings.GyroGain / drft->gyroCalibTau) * delT;
-		ggain[2] += normOmegaVector[2] * omegaCorrP[2] / normOmegaScalar *
-		(attitudeSettings.GyroGain / drft->gyroCalibTau) * delT;
-		
-		//Saturate gyro gains
-		float lowThresh = 1.0f / 1.05f * attitudeSettings.GyroGain;
-		float highThresh = 1.05f * attitudeSettings.GyroGain;
-		for (int i = 0; i < 3; i++) {
-			ggain[i] = (ggain[i] < lowThresh)  ? lowThresh  : ggain[i];
-			ggain[i] = (ggain[i] > highThresh) ? highThresh : ggain[i];
-		}
-	}
 }
 
 
