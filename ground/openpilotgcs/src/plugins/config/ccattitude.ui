@@ -68,26 +68,6 @@ arming it in that case!</string>
       <string>Rotate virtual attitude relative to board</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Roll</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QSpinBox" name="rollBias">
-        <property name="minimum">
-         <number>-180</number>
-        </property>
-        <property name="maximum">
-         <number>180</number>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="1">
        <widget class="QLabel" name="label_3">
         <property name="text">
@@ -98,13 +78,13 @@ arming it in that case!</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QSpinBox" name="pitchBias">
-        <property name="minimum">
-         <number>-90</number>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Roll</string>
         </property>
-        <property name="maximum">
-         <number>90</number>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>
@@ -119,12 +99,38 @@ arming it in that case!</string>
        </widget>
       </item>
       <item row="1" column="2">
-       <widget class="QSpinBox" name="yawBias">
-        <property name="minimum">
-         <number>-180</number>
+       <widget class="QDoubleSpinBox" name="yawRotation">
+        <property name="objrelation" stdset="0">
+         <stringlist>
+          <string>objname:AttitudeSettings</string>
+          <string>fieldname:BoardRotation</string>
+          <string>element:Yaw</string>
+          <string>scale:100.0</string>
+         </stringlist>
         </property>
-        <property name="maximum">
-         <number>180</number>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDoubleSpinBox" name="pitchRotation">
+        <property name="objrelation" stdset="0">
+         <stringlist>
+          <string>objname:AttitudeSettings</string>
+          <string>fieldname:BoardRotation</string>
+          <string>element:Pitch</string>
+          <string>scale:100.0</string>
+         </stringlist>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QDoubleSpinBox" name="rollRotation">
+        <property name="objrelation" stdset="0">
+         <stringlist>
+          <string>objname:AttitudeSettings</string>
+          <string>fieldname:BoardRotation</string>
+          <string>element:Roll</string>
+          <string>scale:100.0</string>
+         </stringlist>
         </property>
        </widget>
       </item>
@@ -246,6 +252,12 @@ arming it in that case!</string>
         <property name="singleStep">
          <double>0.000001000000000</double>
         </property>
+        <property name="objrelation" stdset="0">
+         <stringlist>
+          <string>objname:AttitudeSettings</string>
+          <string>fieldname:AccelKi</string>
+         </stringlist>
+        </property>
        </widget>
       </item>
       <item row="1" column="1">
@@ -264,6 +276,12 @@ arming it in that case!</string>
         </property>
         <property name="singleStep">
          <double>0.001000000000000</double>
+        </property>
+        <property name="objrelation" stdset="0">
+         <stringlist>
+          <string>objname:AttitudeSettings</string>
+          <string>fieldname:AccelKp</string>
+         </stringlist>
         </property>
        </widget>
       </item>
@@ -293,6 +311,12 @@ arming it in that case!</string>
         <property name="decimals">
          <number>3</number>
         </property>
+        <property name="objrelation" stdset="0">
+         <stringlist>
+          <string>objname:AttitudeSettings</string>
+          <string>fieldname:AccelTau</string>
+         </stringlist>
+        </property>
        </widget>
       </item>
      </layout>
@@ -308,7 +332,7 @@ arming it in that case!</string>
        <widget class="QComboBox" name="accelRange">
         <property name="objrelation" stdset="0">
          <stringlist>
-          <string>objname:AttitudeSetting</string>
+          <string>objname:HwSettings</string>
           <string>fieldname:AccelRange</string>
          </stringlist>
         </property>
@@ -332,7 +356,7 @@ arming it in that case!</string>
        <widget class="QComboBox" name="gyroRange">
         <property name="objrelation" stdset="0">
          <stringlist>
-          <string>objname:AttitudeSettings</string>
+          <string>objname:HwSettings</string>
           <string>fieldname:GyroRange</string>
          </stringlist>
         </property>

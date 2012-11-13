@@ -74,22 +74,15 @@ ConfigCCAttitudeWidget::ConfigCCAttitudeWidget(QWidget *parent) :
     addUAVObject("AttitudeSettings");
     addUAVObject("HwSettings");
 
+    // Load UAVObjects to widget relations from UI file
+    // using objrelation dynamic property
+    autoLoadWidgets();
+    addUAVObjectToWidgetRelation("AttitudeSettings","ZeroDuringArming",ui->zeroGyroBiasOnArming);
+
     // Connect signals
     connect(ui->ccAttitudeHelp, SIGNAL(clicked()), this, SLOT(openHelp()));
     connect(ui->sixPointsStart, SIGNAL(clicked()), this, SLOT(doStartSixPointCalibration()));
     connect(ui->sixPointsSave, SIGNAL(clicked()), this, SLOT(savePositionData()));
-
-
-    addUAVObjectToWidgetRelation("AttitudeSettings","ZeroDuringArming",ui->zeroGyroBiasOnArming);
-
-    addUAVObjectToWidgetRelation("AttitudeSettings","BoardRotation",ui->rollBias,AttitudeSettings::BOARDROTATION_ROLL);
-    addUAVObjectToWidgetRelation("AttitudeSettings","BoardRotation",ui->pitchBias,AttitudeSettings::BOARDROTATION_PITCH);
-    addUAVObjectToWidgetRelation("AttitudeSettings","BoardRotation",ui->yawBias,AttitudeSettings::BOARDROTATION_YAW);
-    addUAVObjectToWidgetRelation("AttitudeSettings","AccelKp",ui->AccelKp);
-    addUAVObjectToWidgetRelation("AttitudeSettings","AccelKi",ui->AccelKi);
-    addUAVObjectToWidgetRelation("AttitudeSettings","AccelTau",ui->AccelTau);
-    addUAVObjectToWidgetRelation("HwSettings","GyroRange",ui->gyroRange);
-    addUAVObjectToWidgetRelation("HwSettings","AccelRange",ui->accelRange);
 
     addWidget(ui->zeroBias);
     refreshWidgetsValues();
@@ -98,6 +91,23 @@ ConfigCCAttitudeWidget::ConfigCCAttitudeWidget(QWidget *parent) :
 ConfigCCAttitudeWidget::~ConfigCCAttitudeWidget()
 {
     delete ui;
+}
+
+void Euler2R(double rpy[3], double Rbe[3][3])
+{
+    double sF = sin(rpy[0]), cF = cos(rpy[0]);
+    double sT = sin(rpy[1]), cT = cos(rpy[1]);
+    double sP = sin(rpy[2]), cP = cos(rpy[2]);
+
+    Rbe[0][0] = cT*cP;
+    Rbe[0][1] = cT*sP;
+    Rbe[0][2] = -sT;
+    Rbe[1][0] = sF*sT*cP - cF*sP;
+    Rbe[1][1] = sF*sT*sP + cF*cP;
+    Rbe[1][2] = cT*sF;
+    Rbe[2][0] = cF*sT*cP + sF*sP;
+    Rbe[2][1] = cF*sT*sP - sF*cP;
+    Rbe[2][2] = cT*cF;
 }
 
 void rot_mult(double R[3][3], const double vec[3], double vec_out[3], bool transpose)
@@ -111,10 +121,9 @@ void rot_mult(double R[3][3], const double vec[3], double vec_out[3], bool trans
         vec_out[0] = R[0][0] * vec[0] + R[1][0] * vec[1] + R[2][0] * vec[2];
         vec_out[1] = R[0][1] * vec[0] + R[1][1] * vec[1] + R[2][1] * vec[2];
         vec_out[2] = R[0][2] * vec[0] + R[1][2] * vec[1] + R[2][2] * vec[2];
-
     }
-
 }
+
 void ConfigCCAttitudeWidget::sensorsUpdated(UAVObject * obj) {
 
     if (!timer.isActive()) { 
@@ -162,25 +171,28 @@ void ConfigCCAttitudeWidget::sensorsUpdated(UAVObject * obj) {
         // Get the existing attitude settings
         AttitudeSettings::DataFields attitudeSettingsData = AttitudeSettings::GetInstance(getObjectManager())->getData();
 
-        float x_bias = listMean(accel_accum_x);
-        float y_bias = listMean(accel_accum_y);
-        float z_bias = listMean(accel_accum_z);
+        const double DEG2RAD = M_PI / 180.0f;
+        const double RAD2DEG = 1.0 / DEG2RAD;
+        const double GRAV = -9.81;
 
         // Inverse rotation of sensor data, from body frame into sensor frame
+        double a_body[3] = { listMean(accel_accum_x), listMean(accel_accum_y), listMean(accel_accum_z) };
         double a_sensor[3];
-        double a_body[3] = { x_bias, y_bias, z_bias };
-        double Rsb[3][3] = {{1, 0 , 0}, {0, 1, 0}, {0, 0, 1}};
+        double Rsb[3][3];
+        double rpy[3] = { attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] * DEG2RAD / 100.0,
+                          attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] * DEG2RAD / 100.0,
+                          attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] * DEG2RAD / 100.0};
+        Euler2R(rpy, Rsb);
         rot_mult(Rsb, a_body, a_sensor, true);
+
+        qDebug() << "A before: " << a_body[0] << " " << a_body[1] << " " << a_body[2];
+        qDebug() << "A after: " << a_sensor[0] << " " << a_sensor[1] << " " << a_sensor[2];
 
         // Temporary variables
         double psi, theta, phi;
 
-        const double DEG2RAD = M_PI / 180.0f;
-        const double RAD2DEG = 1.0 / DEG2RAD;
-        const double GRAV = 9.81;
-
         // Keep existing yaw rotation
-        psi = attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] * DEG2RAD;
+        psi = attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] * DEG2RAD / 100.0;
 
         double cP = cos(psi);
         double sP = sin(psi);
@@ -190,9 +202,10 @@ void ConfigCCAttitudeWidget::sensorsUpdated(UAVObject * obj) {
             theta = atan((a_sensor[1] + cP * (sP * a_sensor[0] - cP * a_sensor[1])) / (sP * a_sensor[2]));
         else
             theta = atan((a_sensor[0] - sP * (sP * a_sensor[0] - cP * a_sensor[1])) / (cP * a_sensor[2]));
-        phi = atan2((sP * a_sensor[0] - cP * a_sensor[1]) / GRAV, a_sensor[2] / cosf(theta) / GRAV);
-        attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] = phi * RAD2DEG;
-        attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] = theta * RAD2DEG;
+        phi = atan2((sP * a_sensor[0] - cP * a_sensor[1]) / GRAV, a_sensor[2] / cos(theta) / GRAV);
+
+        attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] = phi * RAD2DEG * 100.0;
+        attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] = theta * RAD2DEG * 100.0;
 
         // We offset the gyro bias by current bias to help precision
         attitudeSettingsData.InitialGyroBias[AttitudeSettings::INITIALGYROBIAS_X] = -x_gyro_bias;
