@@ -89,6 +89,7 @@ int8_t getSensorsCC(float *prelim_accels, float *prelim_gyros, xQueueHandle * gy
 		return -1;
 
 	// Scale ADC data into deg/s. First sample is temperature, so ignore.
+	// Rotate data from internal gryoscope sensor frame into board sensor frame
 	prelim_gyros[0] = -(gyro[1] - GYRO_NEUTRAL_BIAS) * 0.42f * attitudeSettings.GyroScale[ATTITUDESETTINGS_GYROSCALE_X];
 	prelim_gyros[1] =  (gyro[2] - GYRO_NEUTRAL_BIAS) * 0.42f * attitudeSettings.GyroScale[ATTITUDESETTINGS_GYROSCALE_Y];
 	prelim_gyros[2] = -(gyro[3] - GYRO_NEUTRAL_BIAS) * 0.42f * attitudeSettings.GyroScale[ATTITUDESETTINGS_GYROSCALE_Z];

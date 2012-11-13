@@ -183,9 +183,12 @@ int32_t StateInitialize(void)
 	glblAtt->q[1] = 0;
 	glblAtt->q[2] = 0;
 	glblAtt->q[3] = 0;
+	
+	//Set Rsb to Id.
 	for (uint8_t i = 0; i < 3; i++) {
-		for (uint8_t j = 0; j < 3; j++)
+		for (uint8_t j = 0; j < 3; j++){
 			glblAtt->Rsb[i][j] = 0;
+		}
 		glblAtt->Rsb[i][i] = 1;
 	}
 
@@ -436,8 +439,7 @@ static int32_t updateIntertialSensors(AccelsData * accels, GyrosData * gyros, bo
 
 	// Store rotated gyros, optionally with bias correction
 	if (glblAtt->bias_correct_gyro) {
-		// Applying integral component here so it can be seen on the gyros and
-		// correct bias
+		// Applying integral component here so it can be seen on the gyros and correct bias
 		gyros->x = prelim_gyros[0] + glblAtt->gyro_correct_int[0];
 		gyros->y = prelim_gyros[1] + glblAtt->gyro_correct_int[1];
 		gyros->z = prelim_gyros[2] + glblAtt->gyro_correct_int[2];
@@ -519,10 +521,8 @@ static void updateT3(GPSVelocityData * gpsVelocityData, PositionActualData * pos
 	positionActualData->Down = (1 - alphaPosDown) * (positionActualData->Down +
 				  (velocityActualData.Down * dT)) + alphaPosDown * gps_NED[2];
 
-	//Very slowly use GPS heading data to converge. This is a poor way of doing
-	//things, but will work in the short term for testing.
-	//Instead of calculating norm, use a gauge approach
-	if (fabs(velocityActualData.North) > 3.0f && 
+	//Very slowly use GPS heading data to converge. This is a poor way of doing things, but will work in the short term for testing.
+	if (fabs(velocityActualData.North) > 3.0f && 	//Instead of calculating velocity norm, use a gauge approach
 			(fabs(velocityActualData.North) > 4.0f || fabs(velocityActualData.East) > 3.0f)) {
 		float heading = atan2f(velocityActualData.East, velocityActualData.North);
 
@@ -538,7 +538,7 @@ static void updateT3(GPSVelocityData * gpsVelocityData, PositionActualData * pos
 
 		attitudeActual.Yaw = .9f * attitudeActual.Yaw + 0.1f * heading;
 
-		// Convert into quaternions degrees (makes assumptions about RPY order)
+		// Convert into quaternions (makes assumptions about quaternions and RPY order)
 		RPY2Quaternion(&attitudeActual.Roll, &attitudeActual.q1);
 
 		if (!AttitudeActualReadOnly()) {
@@ -610,7 +610,7 @@ static void updateSO3(float *gyros, float dT)
 
 	quat_copy(glblAtt->q, &attitudeActual.q1);
 
-	// Convert into eueler degrees (makes assumptions about RPY order)
+	// Convert into Euler angles (makes assumptions about quarternions and RPY order)
 	Quaternion2RPY(&attitudeActual.q1, &attitudeActual.Roll);
 
 	AttitudeActualSet(&attitudeActual);
@@ -784,7 +784,7 @@ static void HomeLocationUpdatedCb(UAVObjEvent * objEv)
 		PositionActualSet(&positionActualData);
 	}
 
-	// Constrain gravity to reasonable levels (Mars to Jupiter)
+	// Constrain gravity to reasonable levels (Mars gravity < HomeLocation gravity < Jupiter gravity)
 	if (homeLocation.g_e < 3 || homeLocation.g_e > 25) {
 		homeLocation.g_e = 9.805;
 		HomeLocationSet(&homeLocation);
