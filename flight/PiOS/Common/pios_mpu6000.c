@@ -46,6 +46,8 @@ enum pios_mpu6000_dev_magic {
 struct mpu6000_dev {
 	uint32_t spi_id;
 	uint32_t slave_num;
+	enum pios_mpu6000_accel_range accel_range;
+	enum pios_mpu6000_range gyro_range;
 	xQueueHandle queue;
 	const struct pios_mpu6000_cfg * cfg;
 	enum pios_mpu6000_dev_magic magic;
@@ -160,7 +162,7 @@ static void PIOS_MPU6000_Config(struct pios_mpu6000_cfg const * cfg)
 	// FIFO storage
 #if defined(PIOS_MPU6000_ACCEL)
 	// Set the accel scale
-	while (PIOS_MPU6000_SetReg(PIOS_MPU6000_ACCEL_CFG_REG, cfg->accel_range) != 0);
+	PIOS_MPU6000_SetAccelRange(PIOS_MPU6000_ACCEL_8G);
 	
 	while (PIOS_MPU6000_SetReg(PIOS_MPU6000_FIFO_EN_REG, cfg->Fifo_store | PIOS_MPU6000_ACCEL_OUT) != 0);
 #else
@@ -174,7 +176,7 @@ static void PIOS_MPU6000_Config(struct pios_mpu6000_cfg const * cfg)
 	while (PIOS_MPU6000_SetReg(PIOS_MPU6000_DLPF_CFG_REG, cfg->filter) != 0) ;
 	
 	// Digital low-pass filter and scale
-	while (PIOS_MPU6000_SetReg(PIOS_MPU6000_GYRO_CFG_REG, cfg->gyro_range) != 0) ;
+	PIOS_MPU6000_SetGyroRange(PIOS_MPU6000_SCALE_500_DEG);
 	
 	// Interrupt configuration
 	while (PIOS_MPU6000_SetReg(PIOS_MPU6000_USER_CTRL_REG, cfg->User_ctl) != 0) ;
@@ -191,6 +193,24 @@ static void PIOS_MPU6000_Config(struct pios_mpu6000_cfg const * cfg)
 		return;
 	
 	mpu6000_configured = true;
+}
+
+/**
+ * Set the gyro range and store it locally for scaling
+ */
+void PIOS_MPU6000_SetGyroRange(enum pios_mpu6000_range gyro_range)
+{
+	while (PIOS_MPU6000_SetReg(PIOS_MPU6000_GYRO_CFG_REG, gyro_range) != 0);
+	dev->gyro_range = gyro_range;
+}
+
+/**
+ * Set the accel range and store it locally for scaling
+ */
+extern void PIOS_MPU6000_SetAccelRange(enum pios_mpu6000_accel_range accel_range)
+{
+	while (PIOS_MPU6000_SetReg(PIOS_MPU6000_ACCEL_CFG_REG, accel_range) != 0);
+	dev->accel_range = accel_range;
 }
 
 /**
@@ -323,7 +343,7 @@ xQueueHandle PIOS_MPU6000_GetQueue()
 
 float PIOS_MPU6000_GetScale() 
 {
-	switch (dev->cfg->gyro_range) {
+	switch (dev->gyro_range) {
 		case PIOS_MPU6000_SCALE_250_DEG:
 			return 1.0f / 131.0f;
 		case PIOS_MPU6000_SCALE_500_DEG:
@@ -338,7 +358,7 @@ float PIOS_MPU6000_GetScale()
 
 float PIOS_MPU6000_GetAccelScale()
 {
-	switch (dev->cfg->accel_range) {
+	switch (dev->accel_range) {
 		case PIOS_MPU6000_ACCEL_2G:
 			return GRAV / 16384.0f;
 		case PIOS_MPU6000_ACCEL_4G:

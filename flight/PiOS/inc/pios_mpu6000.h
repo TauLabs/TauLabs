@@ -151,8 +151,6 @@ struct pios_mpu6000_cfg {
 	uint8_t interrupt_en;	/* Interrupt configuration (See datasheet page 35 for more details) */
 	uint8_t User_ctl;		/* User control settings (See datasheet page 41 for more details)  */
 	uint8_t Pwr_mgmt_clk;	/* Power management and clock selection (See datasheet page 32 for more details) */
-	enum pios_mpu6000_accel_range accel_range;
-	enum pios_mpu6000_range gyro_range;
 	enum pios_mpu6000_filter filter;
 	enum pios_mpu6000_orientation orientation;
 };
@@ -165,6 +163,8 @@ extern int32_t PIOS_MPU6000_ReadID();
 extern int32_t PIOS_MPU6000_Test();
 extern float PIOS_MPU6000_GetScale();
 extern float PIOS_MPU6000_GetAccelScale();
+extern void PIOS_MPU6000_SetGyroRange(enum pios_mpu6000_range);
+extern void PIOS_MPU6000_SetAccelRange(enum pios_mpu6000_accel_range);
 extern bool PIOS_MPU6000_IRQHandler(void);
 
 #endif /* PIOS_MPU6000_H */
