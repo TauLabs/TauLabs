@@ -396,7 +396,7 @@ static int32_t updateAttitudeComplementary(bool first_run)
 
 		// If the mag is producing bad data don't use it (normally bad calibration)
 		if  (mag.x == mag.x && mag.y == mag.y && mag.z == mag.z) {
-			rot_mult(Rbe, homeLocation.Be, brot);
+			rot_mult(Rbe, homeLocation.Be, brot, false);
 
 			float mag_len = sqrtf(mag.x * mag.x + mag.y * mag.y + mag.z * mag.z);
 			mag.x /= mag_len;

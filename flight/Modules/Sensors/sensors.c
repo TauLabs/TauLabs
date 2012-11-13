@@ -342,7 +342,7 @@ static void SensorsTask(void *parameters)
 		                       accels[1] * accel_scaling * accel_scale[1] - accel_bias[1],
 		                       accels[2] * accel_scaling * accel_scale[2] - accel_bias[2]};
 		if (rotate) {
-			rot_mult(R, accels_out, accels);
+			rot_mult(R, accels_out, accels, false);
 			accelsData.x = accels[0];
 			accelsData.y = accels[1];
 			accelsData.z = accels[2];
@@ -361,7 +361,7 @@ static void SensorsTask(void *parameters)
 		                      gyros[1] * gyro_scaling,
 		                      gyros[2] * gyro_scaling};
 		if (rotate) {
-			rot_mult(R, gyros_out, gyros);
+			rot_mult(R, gyros_out, gyros, false);
 			gyrosData.x = gyros[0];
 			gyrosData.y = gyros[1];
 			gyrosData.z = gyros[2];
@@ -394,7 +394,7 @@ static void SensorsTask(void *parameters)
 			                -(float) values[2] * mag_scale[2] - mag_bias[2]};
 			if (rotate) {
 				float mag_out[3];
-				rot_mult(R, mags, mag_out);
+				rot_mult(R, mags, mag_out, false);
 				mag.x = mag_out[0];
 				mag.y = mag_out[1];
 				mag.z = mag_out[2];
