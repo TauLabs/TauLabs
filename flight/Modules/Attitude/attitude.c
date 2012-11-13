@@ -53,6 +53,7 @@
 #include "gyros.h"
 #include "accels.h"
 #include "attitudeactual.h"
+#include "inertialsensorsettings.h"
 #include "attitudesettings.h"
 #include "flightstatus.h"
 #include "manualcontrolcommand.h"
@@ -129,6 +130,7 @@ int32_t AttitudeStart(void)
 int32_t AttitudeInitialize(void)
 {
 	AttitudeActualInitialize();
+	InertialSensorSettingsInitialize();
 	AttitudeSettingsInitialize();
 	AccelsInitialize();
 	GyrosInitialize();
@@ -158,6 +160,7 @@ int32_t AttitudeInitialize(void)
 	trim_requested = false;
 	
 	AttitudeSettingsConnectCallback(&settingsUpdatedCb);
+	InertialSensorSettingsConnectCallback(&settingsUpdatedCb);
 	
 	return 0;
 }
@@ -559,12 +562,14 @@ static void updateAttitude(AccelsData * accelsData, GyrosData * gyrosData)
 static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	AttitudeSettingsData attitudeSettings;
 	AttitudeSettingsGet(&attitudeSettings);
+	InertialSensorSettingsData inertialSensorSettings;
+	InertialSensorSettingsGet(&inertialSensorSettings);
 	
 	
 	accelKp = attitudeSettings.AccelKp;
 	accelKi = attitudeSettings.AccelKi;
 	yawBiasRate = attitudeSettings.YawBiasRate;
-	gyroGain = attitudeSettings.GyroGain;
+	gyroGain = inertialSensorSettings.NominalGyroGain;
 
 	// Calculate accel filter alpha, in the same way as for gyro data in stabilization module.
 	const float fakeDt = 0.0025;
@@ -579,13 +584,13 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	zero_during_arming = attitudeSettings.ZeroDuringArming == ATTITUDESETTINGS_ZERODURINGARMING_TRUE;
 	bias_correct_gyro = attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE;
 	
-	accelbias[0] = attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_X];
-	accelbias[1] = attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_Y];
-	accelbias[2] = attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_Z];
+	accelbias[0] = inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_X];
+	accelbias[1] = inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_Y];
+	accelbias[2] = inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_Z];
 	
-	gyro_correct_int[0] = attitudeSettings.InitialGyroBias[ATTITUDESETTINGS_INITIALGYROBIAS_X];
-	gyro_correct_int[1] = attitudeSettings.InitialGyroBias[ATTITUDESETTINGS_INITIALGYROBIAS_Y];
-	gyro_correct_int[2] = attitudeSettings.InitialGyroBias[ATTITUDESETTINGS_INITIALGYROBIAS_Z];
+	gyro_correct_int[0] = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_X];
+	gyro_correct_int[1] = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_Y];
+	gyro_correct_int[2] = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_Z];
 	
 	// Indicates not to expend cycles on rotation
 	if(attitudeSettings.BoardRotation[0] == 0 && attitudeSettings.BoardRotation[1] == 0 &&
@@ -613,12 +618,13 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 		trim_requested = true;
 	} else if (attitudeSettings.TrimFlight == ATTITUDESETTINGS_TRIMFLIGHT_LOAD) {
 		trim_requested = false;
-		attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_X] = trim_accels[0] / trim_samples;
-		attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_Y] = trim_accels[1] / trim_samples;
+		inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_X] = trim_accels[0] / trim_samples;
+		inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_Y] = trim_accels[1] / trim_samples;
 		// Z should average -grav
-		attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_Z] = trim_accels[2] / trim_samples + GRAV / ACCEL_SCALE;
+		inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_Z] = trim_accels[2] / trim_samples + GRAV / ACCEL_SCALE;
 		attitudeSettings.TrimFlight = ATTITUDESETTINGS_TRIMFLIGHT_NORMAL;
 		AttitudeSettingsSet(&attitudeSettings);
+		InertialSensorSettingsSet(&inertialSensorSettings);
 	} else
 		trim_requested = false;
 }

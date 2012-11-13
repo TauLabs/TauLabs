@@ -60,7 +60,6 @@
 #include "premerlani_gps.h"
 
 //Global variables
-extern AttitudeSettingsData attitudeSettings;
 
 bool firstpass_flag = true;
 
@@ -106,10 +105,7 @@ enum DRIFT_CORRECTION_ALGOS {
 };
 
 // Private functions
-static void calibrate_gyros_high_speed(float gyro[3], float omegaCorrP[3],
-				float normOmegaScalar, float delT,
-				float *ggain);
-
+static void calibrate_gyros_high_speed(float gyro[3], float omegaCorrP[3], float normOmegaScalar, float delT, InertialSensorSettingsData *inertialSensorSettings);
 static void GPSVelocityUpdatedCb(UAVObjEvent * objEv);
 #if defined (PIOS_INCLUDE_MAGNETOMETER)
 static void MagnetometerUpdatedCb(UAVObjEvent * objEv);
@@ -118,16 +114,16 @@ static void MagnetometerUpdatedCb(UAVObjEvent * objEv);
 /**
  * Correct attitude drift. Choose from any of the following algorithms
  */
-void updateAttitudeDrift(AccelsData * accelsData, GyrosData * gyrosData, const float delT, GlobalAttitudeVariables *glblAtt, InertialSensorSettingsData *inertialSensorSettings)
+void updateAttitudeDrift(AccelsData * accelsData, GyrosData * gyrosData, const float delT, GlobalAttitudeVariables *glblAtt, AttitudeSettingsData *attitudeSettings, InertialSensorSettingsData *inertialSensorSettings)
 {
 	float *gyros = &gyrosData->x;
 	float *accels = &accelsData->x;
 	float omegaCorrP[3];
 
-	if (attitudeSettings.FilterChoice == ATTITUDESETTINGS_FILTERCHOICE_CCC) {
+	if (attitudeSettings->FilterChoice == ATTITUDESETTINGS_FILTERCHOICE_CCC) {
 		CottonComplementaryCorrection(accels, gyros, delT, glblAtt, omegaCorrP);
-	} else if (attitudeSettings.FilterChoice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI || 
-		attitudeSettings.FilterChoice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI_GPS) {
+	} else if (attitudeSettings->FilterChoice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI || 
+		attitudeSettings->FilterChoice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI_GPS) {
 		if (firstpass_flag) {
 			uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
 			HwSettingsOptionalModulesGet(optionalModules);
@@ -174,9 +170,9 @@ void updateAttitudeDrift(AccelsData * accelsData, GyrosData * gyrosData, const f
 		Quaternion2R(glblAtt->q, Rbe);
 
 #if defined (PIOS_INCLUDE_GPS)
-		if (attitudeSettings.FilterChoice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI_GPS) {
+		if (attitudeSettings->FilterChoice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI_GPS) {
 			Premerlani_GPS(accels, gyros, Rbe, delT, true, glblAtt, omegaCorrP);
-		} else if (attitudeSettings.FilterChoice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI)
+		} else if (attitudeSettings->FilterChoice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI)
 #endif
 		{
 			Premerlani_DCM(accels, gyros, Rbe, delT, false, glblAtt, omegaCorrP); //<-- GAWD, I HATE HOW FUNCTION ARGUMENTS JUST PILE UP. IT LOOKS UNPROFESSIONAL TO MIX INPUTS AND OUTPUTS
@@ -187,7 +183,7 @@ void updateAttitudeDrift(AccelsData * accelsData, GyrosData * gyrosData, const f
 	//TODO: but only calibrate when system is armed.
 	if (0) { //<-- CURRENTLY DISABLE UNTIL TESTING CAN BE DONE.
 		float normOmegaScalar = VectorMagnitude(gyros);
-		calibrate_gyros_high_speed(gyros, omegaCorrP, normOmegaScalar, delT, &(attitudeSettings.GyroScale[0]));
+		calibrate_gyros_high_speed(gyros, omegaCorrP, normOmegaScalar, delT, inertialSensorSettings);
 	}
 }
 
@@ -197,25 +193,22 @@ void updateAttitudeDrift(AccelsData * accelsData, GyrosData * gyrosData, const f
  * At high speeds, the gyro gains can be honed in on. 
  *  Taken from "Fast Rotations", William Premerlani
  */
-static void calibrate_gyros_high_speed(float gyro[3], float omegaCorrP[3], float normOmegaScalar, float delT, float *ggain)
+static void calibrate_gyros_high_speed(float gyro[3], float omegaCorrP[3], float normOmegaScalar, float delT, InertialSensorSettingsData *inertialSensorSettings)
 {
 	if (normOmegaScalar > MINIMUM_SPIN_RATE_GYRO_CALIB) {
 		float normOmegaVector[3] = { gyro[0] / normOmegaScalar, gyro[1] / normOmegaScalar, gyro[2] / normOmegaScalar };
 		
 		//Calculate delta gain and update gains
-		ggain[0] += normOmegaVector[0] * omegaCorrP[0] / normOmegaScalar *
-		(attitudeSettings.GyroGain / drft->gyroCalibTau) * delT;
-		ggain[1] += normOmegaVector[1] * omegaCorrP[1] / normOmegaScalar *
-		(attitudeSettings.GyroGain / drft->gyroCalibTau) * delT;
-		ggain[2] += normOmegaVector[2] * omegaCorrP[2] / normOmegaScalar *
-		(attitudeSettings.GyroGain / drft->gyroCalibTau) * delT;
+		inertialSensorSettings->GyroScale[0] += normOmegaVector[0] * omegaCorrP[0] / normOmegaScalar * (inertialSensorSettings->NominalGyroGain / drft->gyroCalibTau) * delT;
+		inertialSensorSettings->GyroScale[1] += normOmegaVector[1] * omegaCorrP[1] / normOmegaScalar * (inertialSensorSettings->NominalGyroGain / drft->gyroCalibTau) * delT;
+		inertialSensorSettings->GyroScale[2] += normOmegaVector[2] * omegaCorrP[2] / normOmegaScalar * (inertialSensorSettings->NominalGyroGain / drft->gyroCalibTau) * delT;
 		
 		//Saturate gyro gains
-		float lowThresh = 1.0f / 1.05f * attitudeSettings.GyroGain;
-		float highThresh = 1.05f * attitudeSettings.GyroGain;
+		float lowThresh = 1.0f / 1.05f * inertialSensorSettings->NominalGyroGain;
+		float highThresh = 1.05f * inertialSensorSettings->NominalGyroGain;
 		for (int i = 0; i < 3; i++) {
-			ggain[i] = (ggain[i] < lowThresh)  ? lowThresh  : ggain[i];
-			ggain[i] = (ggain[i] > highThresh) ? highThresh : ggain[i];
+			inertialSensorSettings->GyroScale[i] = (inertialSensorSettings->GyroScale[i] < lowThresh)  ? lowThresh  : inertialSensorSettings->GyroScale[i];
+			inertialSensorSettings->GyroScale[i] = (inertialSensorSettings->GyroScale[i] > highThresh) ? highThresh : inertialSensorSettings->GyroScale[i];
 		}
 	}
 }

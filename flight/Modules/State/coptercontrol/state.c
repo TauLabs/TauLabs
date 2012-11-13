@@ -229,12 +229,11 @@ static void StateTask(void *parameters)
 	bool cc3d_flag = (bdinfo->board_rev == 0x02);
 
 	if (cc3d_flag)
-		attitudeSettings.GyroGain = 1.0f;
+		inertialSensorSettings.NominalGyroGain = 1.0f;
 	else
-		attitudeSettings.GyroGain = 0.42f;
+		inertialSensorSettings.NominalGyroGain = 0.42f;
 
-	AttitudeSettingsGyroGainSet(&(attitudeSettings.GyroGain));
-//	InertialSensorSettingsGyroGainSet(&(inertialSensorSettings.GyroGain));
+	InertialSensorSettingsNominalGyroGainSet(&(inertialSensorSettings.NominalGyroGain));
 
 	// Force settings update to make sure rotation and home location are loaded
 	inertialSensorSettingsUpdatedCb(InertialSensorSettingsHandle());
@@ -349,7 +348,7 @@ static void StateTask(void *parameters)
 				
 				//Update attitude estimation with drift PI feedback on the rate gyroscopes
 				if (glblAtt->bias_correct_gyro) {
-					updateAttitudeDrift(&accels, &gyros, delT, glblAtt, &inertialSensorSettings);
+					updateAttitudeDrift(&accels, &gyros, delT, glblAtt, &attitudeSettings, &inertialSensorSettings);
 				}
 
 				updateSO3(&gyros.x, delT);
@@ -633,15 +632,15 @@ static void inertialSensorSettingsUpdatedCb(UAVObjEvent * objEv)
 
 	//Provide minimum for scale. This keeps the accels from accidentally being "turned off".
 	for (int i = 0; i < 3; i++) {
-		if (attitudeSettings.AccelScale[i] < .01f) {
-			attitudeSettings.AccelScale[i] = .01f;
+		if (inertialSensorSettings.AccelScale[i] < .01f) {
+			inertialSensorSettings.AccelScale[i] = .01f;
 		}
 	}
 
 	//Load initial gyrobias values into online-estimated gyro bias
-	gyrosBias.x = attitudeSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_X];
-	gyrosBias.y = attitudeSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_Y];
-	gyrosBias.z = attitudeSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_Z];
+	gyrosBias.x = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_X];
+	gyrosBias.y = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_Y];
+	gyrosBias.z = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_Z];
 
 	//Calculate sensor to board rotation matrix. If the matrix is the identity,
 	//don't expend cycles on rotation
@@ -706,7 +705,6 @@ static void inertialSensorSettingsUpdatedCb(UAVObjEvent * objEv)
 
 		attitudeSettings.TrimFlight = ATTITUDESETTINGS_TRIMFLIGHT_NORMAL;
 		AttitudeSettingsSet(&attitudeSettings);
-		InertialSensorSettingsSet(&inertialSensorSettings);
 	} else {
 		glblAtt->trim_requested = false;
 	}
