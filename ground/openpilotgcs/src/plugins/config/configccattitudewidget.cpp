@@ -72,6 +72,7 @@ ConfigCCAttitudeWidget::ConfigCCAttitudeWidget(QWidget *parent) :
     
     addApplySaveButtons(ui->applyButton,ui->saveButton);
     addUAVObject("AttitudeSettings");
+    addUAVObject("HwSettings");
 
     // Connect signals
     connect(ui->ccAttitudeHelp, SIGNAL(clicked()), this, SLOT(openHelp()));
@@ -84,6 +85,12 @@ ConfigCCAttitudeWidget::ConfigCCAttitudeWidget(QWidget *parent) :
     addUAVObjectToWidgetRelation("AttitudeSettings","BoardRotation",ui->rollBias,AttitudeSettings::BOARDROTATION_ROLL);
     addUAVObjectToWidgetRelation("AttitudeSettings","BoardRotation",ui->pitchBias,AttitudeSettings::BOARDROTATION_PITCH);
     addUAVObjectToWidgetRelation("AttitudeSettings","BoardRotation",ui->yawBias,AttitudeSettings::BOARDROTATION_YAW);
+    addUAVObjectToWidgetRelation("AttitudeSettings","AccelKp",ui->AccelKp);
+    addUAVObjectToWidgetRelation("AttitudeSettings","AccelKi",ui->AccelKi);
+    addUAVObjectToWidgetRelation("AttitudeSettings","AccelTau",ui->AccelTau);
+    addUAVObjectToWidgetRelation("HwSettings","GyroRange",ui->gyroRange);
+    addUAVObjectToWidgetRelation("HwSettings","AccelRange",ui->accelRange);
+
     addWidget(ui->zeroBias);
     refreshWidgetsValues();
 }
