@@ -596,9 +596,9 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 		Quaternion2R(rotationQuat, R);
 	} else {
 		float rotationQuat[4];
-		const float rpy[3] = {attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_ROLL],
-			attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_PITCH],
-			attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_YAW]};
+		const float rpy[3] = {attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_ROLL] / 100.0f,
+			attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_PITCH] / 100.0f,
+			attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_YAW] / 100.0f};
 		RPY2Quaternion(rpy, rotationQuat);
 		Quaternion2R(rotationQuat, R);
 		rotate = 1;
