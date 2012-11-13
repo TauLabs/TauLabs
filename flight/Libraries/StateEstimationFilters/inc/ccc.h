@@ -31,7 +31,7 @@
 #define CCC_H
 
 #include "openpilot.h"
-#include "state.h"
+#include "state_struct.h"
 
 void CottonComplementaryCorrection(float *accels, float *gyros, const float delT, GlobalAttitudeVariables *glblAtt, float *omegaCorrP);
 
