@@ -155,7 +155,7 @@ void Simulator::onStart()
     baroAlt = BaroAltitude::GetInstance(objManager);
     airspeedActual = AirspeedActual::GetInstance(objManager);
     attActual = AttitudeActual::GetInstance(objManager);
-    attSettings = AttitudeSettings::GetInstance(objManager);
+    attitudeSettings = AttitudeSettings::GetInstance(objManager);
     accels = Accels::GetInstance(objManager);
     gyros = Gyros::GetInstance(objManager);
     gpsPos = GPSPosition::GetInstance(objManager);
@@ -504,10 +504,10 @@ void Simulator::updateUAVOs(Output2Hardware out){
 
         float dT = out.delT;
 
-        AttitudeSettings::DataFields attSettData = attSettings->getData();
-        float accelKp = attSettData.AccelKp * 0.1666666666666667;
-        float accelKi = attSettData.AccelKp * 0.1666666666666667;
-        float yawBiasRate = attSettData.YawBiasRate;
+        AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
+        float accelKp = attitudeSettingsData.AccelKp * 0.1666666666666667;
+        float accelKi = attitudeSettingsData.AccelKp * 0.1666666666666667;
+        float yawBiasRate = attitudeSettingsData.YawBiasRate;
 
         // calibrate sensors on arming
         if (flightStatus->getData().Armed == FlightStatus::ARMED_ARMING) {

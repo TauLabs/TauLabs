@@ -27,7 +27,6 @@
 #include "configccattitudewidget.h"
 #include "ui_ccattitude.h"
 #include "utils/coordinateconversions.h"
-#include "attitudesettings.h"
 #include <QMutexLocker>
 #include <QMessageBox>
 #include <QDebug>
@@ -39,6 +38,7 @@
 #include <coreplugin/generalsettings.h>
 #include "homelocation.h"
 #include "attitudesettings.h"
+#include "inertialsensorsettings.h"
 
 // *****************
 
@@ -72,6 +72,7 @@ ConfigCCAttitudeWidget::ConfigCCAttitudeWidget(QWidget *parent) :
     
     addApplySaveButtons(ui->applyButton,ui->saveButton);
     addUAVObject("AttitudeSettings");
+    addUAVObject("InertialSensorSettings");
     addUAVObject("HwSettings");
 
     // Load UAVObjects to widget relations from UI file
@@ -170,6 +171,7 @@ void ConfigCCAttitudeWidget::sensorsUpdated(UAVObject * obj) {
 
         // Get the existing attitude settings
         AttitudeSettings::DataFields attitudeSettingsData = AttitudeSettings::GetInstance(getObjectManager())->getData();
+        InertialSensorSettings::DataFields inertialSensorSettingsData = InertialSensorSettings::GetInstance(getObjectManager())->getData();
 
         const double DEG2RAD = M_PI / 180.0f;
         const double RAD2DEG = 1.0 / DEG2RAD;
@@ -208,11 +210,12 @@ void ConfigCCAttitudeWidget::sensorsUpdated(UAVObject * obj) {
         attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] = theta * RAD2DEG * 100.0;
 
         // We offset the gyro bias by current bias to help precision
-        attitudeSettingsData.InitialGyroBias[AttitudeSettings::INITIALGYROBIAS_X] = -x_gyro_bias;
-        attitudeSettingsData.InitialGyroBias[AttitudeSettings::INITIALGYROBIAS_Y] = -y_gyro_bias;
-        attitudeSettingsData.InitialGyroBias[AttitudeSettings::INITIALGYROBIAS_Z] = -z_gyro_bias;
+        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_X] = -x_gyro_bias;
+        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_Y] = -y_gyro_bias;
+        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_Z] = -z_gyro_bias;
         attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_TRUE;
         AttitudeSettings::GetInstance(getObjectManager())->setData(attitudeSettingsData);
+        InertialSensorSettings::GetInstance(getObjectManager())->setData(inertialSensorSettingsData);
         this->setDirty(true);
 
         // reenable controls
@@ -468,44 +471,44 @@ void ConfigCCAttitudeWidget::doGetSixPointCalibrationMeasurement(UAVObject * obj
 void ConfigCCAttitudeWidget::computeScaleBias()
 {
    double S[3], b[3];
-   AttitudeSettings * attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
+   InertialSensorSettings * inertialSensorSettings = InertialSensorSettings::GetInstance(getObjectManager());
    HomeLocation * homeLocation = HomeLocation::GetInstance(getObjectManager());
-   Q_ASSERT(attitudeSettings);
+   Q_ASSERT(inertialSensorSettings);
    Q_ASSERT(homeLocation);
-   AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
+   InertialSensorSettings::DataFields inertialSensorSettingsData = inertialSensorSettings->getData();
    HomeLocation::DataFields homeLocationData = homeLocation->getData();
 
    // Calibrate accelerometer
    SixPointInConstFieldCal2( homeLocationData.g_e, accel_data_x, accel_data_y, accel_data_z, S, b);
 
    //Assign calibration data
-   attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_X] += (-sign(S[0]) * b[0]);
-   attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Y] += (-sign(S[1]) * b[1]);
-   attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Z] += (-sign(S[2]) * b[2]);
+   inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_X] += (-sign(S[0]) * b[0]);
+   inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Y] += (-sign(S[1]) * b[1]);
+   inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z] += (-sign(S[2]) * b[2]);
 
-   attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_X] *= fabs(S[0]);
-   attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_Y] *= fabs(S[1]);
-   attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_Z] *= fabs(S[2]);
+   inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_X] *= fabs(S[0]);
+   inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Y] *= fabs(S[1]);
+   inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Z] *= fabs(S[2]);
 
    //Set board rotations back to user settings
-   attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] =boardRotation[0];
-   attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH]=boardRotation[1];
-   attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW]  =boardRotation[2];
+   inertialSensorSettingsData.BoardRotation[InertialSensorSettings::BOARDROTATION_ROLL] =boardRotation[0];
+   inertialSensorSettingsData.BoardRotation[InertialSensorSettings::BOARDROTATION_PITCH]=boardRotation[1];
+   inertialSensorSettingsData.BoardRotation[InertialSensorSettings::BOARDROTATION_YAW]  =boardRotation[2];
 
    // Check the accel calibration is good
    bool good_calibration = true;
-   good_calibration &= attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_X] ==
-           attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_X];
-   good_calibration &= attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_Y] ==
-           attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_Y];
-   good_calibration &= attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_Z] ==
-           attitudeSettingsData.AccelScale[AttitudeSettings::ACCELSCALE_Z];
-   good_calibration &= (attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_X] ==
-           attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_X]);
-   good_calibration &= (attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Y] ==
-           attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Y]);
-   good_calibration &= (attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Z] ==
-           attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Z]);
+   good_calibration &= inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_X] ==
+           inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_X];
+   good_calibration &= inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Y] ==
+           inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Y];
+   good_calibration &= inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Z] ==
+           inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Z];
+   good_calibration &= (inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_X] ==
+           inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_X]);
+   good_calibration &= (inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Y] ==
+           inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Y]);
+   good_calibration &= (inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z] ==
+           inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z]);
 
    //This can happen if, for instance, HomeLocation.g_e == 0
    if((S[0]+S[1]+S[2])<0.0001){
@@ -513,18 +516,18 @@ void ConfigCCAttitudeWidget::computeScaleBias()
    }
 
    if (good_calibration) {
-       attitudeSettings->setData(attitudeSettingsData);
+       inertialSensorSettings->setData(inertialSensorSettingsData);
        this->setDirty(true);
 
        ui->sixPointCalibInstructions->append("Successfully computed accelerometer bias");
    } else {
-       attitudeSettingsData = attitudeSettings->getData();
+       inertialSensorSettingsData = inertialSensorSettings->getData();
        ui->sixPointCalibInstructions->append("Bad calibration. Please repeat.");
    }
 
    qDebug()<<  "S: " << S[0] << " " << S[1] << " " << S[2];
    qDebug()<<  "b: " << b[0] << " " << b[1] << " " << b[2];
-   qDebug()<<  "Accel bias: " << attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_X] << " " << attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Y] << " " << attitudeSettingsData.AccelBias[AttitudeSettings::ACCELBIAS_Z];
+   qDebug()<<  "Accel bias: " << inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_X] << " " << inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Y] << " " << inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z];
 
 
    position = -1; //set to run again

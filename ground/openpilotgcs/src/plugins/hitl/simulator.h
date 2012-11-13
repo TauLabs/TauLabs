@@ -288,7 +288,7 @@ protected:
     BaroAltitude* baroAlt;
     AirspeedActual* airspeedActual;
     AttitudeActual* attActual;
-    AttitudeSettings* attSettings;
+    AttitudeSettings* attitudeSettings;
     VelocityActual* velActual;
     GPSPosition* gpsPos;
     GPSVelocity* gpsVel;
