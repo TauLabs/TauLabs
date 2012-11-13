@@ -413,6 +413,11 @@ void Simulator::updateUAVOs(Output2Hardware out){
         homeData.Be[0]=0;
         homeData.Be[1]=0;
         homeData.Be[2]=0;
+
+        homeData.g_e=9.805;
+        homeData.GroundTemperature=15;
+        homeData.SeaLevelPressure=1013;
+
         posHome->setData(homeData);
         posHome->updated();
 
@@ -424,6 +429,28 @@ void Simulator::updateUAVOs(Output2Hardware out){
         once=true;
     }
 
+    /*******************************/
+    //Copy everything to the ground truth object. GroundTruth is Noise-free.
+    GroundTruth::DataFields groundTruthData;
+    groundTruthData = groundTruth->getData();
+
+    groundTruthData.AngularRates[0]=out.rollRate;
+    groundTruthData.AngularRates[1]=out.pitchRate;
+    groundTruthData.AngularRates[2]=out.yawRate;
+
+    groundTruthData.CalibratedAirspeed=out.calibratedAirspeed;
+    groundTruthData.TrueAirspeed=out.trueAirspeed;
+    groundTruthData.AngleOfAttack=out.angleOfAttack;
+    groundTruthData.AngleOfSlip=out.angleOfSlip;
+
+    groundTruthData.PositionNED[0]=out.dstN-initN;
+    groundTruthData.PositionNED[1]=out.dstE-initD;
+    groundTruthData.PositionNED[2]=out.dstD-initD;
+
+    //TODO: Somehow some important changes got left out of this and groundtruth. Probably because of an insufficiently recent merge from next into revo-next
+
+    //Set UAVO
+    groundTruth->setData(groundTruthData);
 
     // Update attActual object
     AttitudeActual::DataFields attActualData;

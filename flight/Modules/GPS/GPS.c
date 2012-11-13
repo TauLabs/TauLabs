@@ -34,6 +34,7 @@
 #include "GPS.h"
 
 #include "gpsposition.h"
+#include "airspeedactual.h"
 #include "homelocation.h"
 #include "gpstime.h"
 #include "gpssatellites.h"
@@ -45,6 +46,10 @@
 
 #include "NMEA.h"
 #include "UBX.h"
+
+#if defined(PIOS_GPS_PROVIDES_AIRSPEED)
+#include "gps_airspeed.h"
+#endif
 
 
 // ****************
@@ -160,6 +165,9 @@ int32_t GPSInitialize(void)
 #ifdef PIOS_GPS_SETS_HOMELOCATION
 		HomeLocationInitialize();
 #endif
+#if defined(PIOS_GPS_PROVIDES_AIRSPEED)
+		AirspeedActualInitialize();
+#endif
 		updateSettings();
 	}
 #endif
@@ -201,6 +209,10 @@ static void gpsTask(void *parameters)
 	uint8_t	gpsProtocol;
 
 	SystemSettingsGPSDataProtocolGet(&gpsProtocol);
+
+#if defined(PIOS_GPS_PROVIDES_AIRSPEED)
+	gps_airspeed_initialize();
+#endif
 
 	timeOfLastUpdateMs = timeNowMs;
 	timeOfLastCommandMs = timeNowMs;

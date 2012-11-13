@@ -308,11 +308,11 @@ static int32_t updateSensors(AccelsData * accels, GyrosData * gyros)
 	if(rotate) {
 		// TODO: rotate sensors too so stabilization is well behaved
 		float vec_out[3];
-		rot_mult(R, accel, vec_out);
+		rot_mult(R, accel, vec_out,false);
 		accels->x = vec_out[0];
 		accels->y = vec_out[1];
 		accels->z = vec_out[2];
-		rot_mult(R, &gyros->x, vec_out);
+		rot_mult(R, &gyros->x, vec_out,false);
 		gyros->x = vec_out[0];
 		gyros->y = vec_out[1];
 		gyros->z = vec_out[2];
@@ -398,11 +398,11 @@ static int32_t updateSensorsCC3D(AccelsData * accelsData, GyrosData * gyrosData)
 	if(rotate) {
 		// TODO: rotate sensors too so stabilization is well behaved
 		float vec_out[3];
-		rot_mult(R, accels, vec_out);
+		rot_mult(R, accels, vec_out, false);
 		accels[0] = vec_out[0];
 		accels[1] = vec_out[1];
 		accels[2] = vec_out[2];
-		rot_mult(R, gyros, vec_out);
+		rot_mult(R, gyros, vec_out, false);
 		gyros[0] = vec_out[0];
 		gyros[1] = vec_out[1];
 		gyros[2] = vec_out[2];
@@ -583,9 +583,9 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	accelbias[1] = attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_Y];
 	accelbias[2] = attitudeSettings.AccelBias[ATTITUDESETTINGS_ACCELBIAS_Z];
 	
-	gyro_correct_int[0] = attitudeSettings.GyroBias[ATTITUDESETTINGS_GYROBIAS_X] / 100.0f;
-	gyro_correct_int[1] = attitudeSettings.GyroBias[ATTITUDESETTINGS_GYROBIAS_Y] / 100.0f;
-	gyro_correct_int[2] = attitudeSettings.GyroBias[ATTITUDESETTINGS_GYROBIAS_Z] / 100.0f;
+	gyro_correct_int[0] = attitudeSettings.InitialGyroBias[ATTITUDESETTINGS_INITIALGYROBIAS_X];
+	gyro_correct_int[1] = attitudeSettings.InitialGyroBias[ATTITUDESETTINGS_INITIALGYROBIAS_Y];
+	gyro_correct_int[2] = attitudeSettings.InitialGyroBias[ATTITUDESETTINGS_INITIALGYROBIAS_Z];
 	
 	// Indicates not to expend cycles on rotation
 	if(attitudeSettings.BoardRotation[0] == 0 && attitudeSettings.BoardRotation[1] == 0 &&

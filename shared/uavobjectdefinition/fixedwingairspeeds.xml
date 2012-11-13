@@ -1,0 +1,24 @@
+<xml>
+    <object name="FixedWingAirspeeds" singleinstance="true" settings="true">
+        <description>Settings for the @ref FixedWingPathFollowerModule</description>
+
+        <!-- these coefficients control desired movement in airspace -->
+        <field name="AirSpeedMax" units="m/s" type="float" elements="1" defaultvalue="20"/>
+                <!-- Vne, i.e. maximum airspeed the airframe can handle -->
+        <field name="CruiseSpeed" units="m/s" type="float" elements="1" defaultvalue="15"/>
+                <!-- Cruise speed in level flight - leave some safety margin -->
+        <field name="BestClimbRateSpeed" units="m/s" type="float" elements="1" defaultvalue="11"/>
+                <!-- V_y, i.e. airspeed at which plane climbs the best -->
+        <field name="StallSpeedClean" units="m/s" type="float" elements="1" defaultvalue="8"/>
+                <!-- Vs1, i.e. stall speed in clean configuration- leave some safety margin -->
+        <field name="StallSpeedDirty" units="m/s" type="float" elements="1" defaultvalue="8"/>
+                <!-- Vs0, i.e. stall speed with flaps and landing gear deployed - leave some safety margin -->
+        <field name="VerticalVelMax" units="m/s" type="float" elements="1" defaultvalue="10"/>
+                <!-- maximum allowed climb or sink rate in guided flight-->
+
+        <access gcs="readwrite" flight="readwrite"/>
+        <telemetrygcs acked="true" updatemode="onchange" period="0"/>
+        <telemetryflight acked="true" updatemode="onchange" period="0"/>
+        <logging updatemode="manual" period="0"/>
+    </object>
+</xml>
