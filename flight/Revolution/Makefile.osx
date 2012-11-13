@@ -57,7 +57,7 @@ USE_THUMB_MODE = YES
 
 # List of modules to include
 MODULES +=  Actuator ManualControl Stabilization 
-MODULES += AltitudeHold VtolPathFollower PathFollower PathPlanner
+MODULES += AltitudeHold VtolPathFollower PathPlanner
 MODULES += Attitude/revolution
 MODULES += FirmwareIAP
 #MODULES += OveroSync/simulated
@@ -218,6 +218,7 @@ SRC += $(FLIGHTLIB)/CoordinateConversions.c
 SRC += $(FLIGHTLIB)/paths.c
 SRC += $(FLIGHTLIB)/insgps13state.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
+SRC += $(FLIGHTLIB)/sanitycheck.c
 SRC += $(MATHLIB)/pid.c
 SRC += $(MATHLIB)/sin_lookup.c
 
