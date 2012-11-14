@@ -90,6 +90,7 @@ static float mag_bias[3] = {0,0,0};
 static float mag_scale[3] = {0,0,0};
 static float accel_bias[3] = {0,0,0};
 static float accel_scale[3] = {0,0,0};
+static float gyro_scale[3] = {0,0,0};
 
 static float Rbs[3][3] = {{0}};
 static int8_t rotate = 0;
@@ -341,7 +342,7 @@ static void SensorsTask(void *parameters)
 				PIOS_DEBUG_Assert(0);
 		}
 
-		// Scale the accels
+		// Average and scale the accels before rotation
 		float accels[3] = {(float) accel_accum[0] / accel_samples, 
 		                   (float) accel_accum[1] / accel_samples,
 		                   (float) accel_accum[2] / accel_samples};
@@ -364,9 +365,9 @@ static void SensorsTask(void *parameters)
 		float gyros[3] = {(float) gyro_accum[0] / gyro_samples,
 		                  (float) gyro_accum[1] / gyro_samples,
 		                  (float) gyro_accum[2] / gyro_samples};
-		float gyros_out[3] = {gyros[0] * gyro_scaling,
-		                      gyros[1] * gyro_scaling,
-		                      gyros[2] * gyro_scaling};
+		float gyros_out[3] = {gyros[0] * gyro_scaling * gyro_scale[0],
+		                      gyros[1] * gyro_scaling * gyro_scale[1],
+		                      gyros[2] * gyro_scaling * gyro_scale[2]};
 		if (rotate) {
 			rot_mult(Rbs, gyros_out, gyros, false);
 			gyrosData.x = gyros[0];
@@ -546,8 +547,9 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	accel_scale[0] = inertialSensorSettings.AccelScale[INERTIALSENSORSETTINGS_ACCELSCALE_X];
 	accel_scale[1] = inertialSensorSettings.AccelScale[INERTIALSENSORSETTINGS_ACCELSCALE_X];
 	accel_scale[2] = inertialSensorSettings.AccelScale[INERTIALSENSORSETTINGS_ACCELSCALE_X];
-	// Do not store gyros_bias here as that comes from the state estimator and should be
-	// used from GyroBias directly
+	gyro_scale[0] = inertialSensorSettings.GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_X];
+	gyro_scale[1] = inertialSensorSettings.GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_X];
+	gyro_scale[2] = inertialSensorSettings.GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_X];
 	
 	// Zero out any adaptive tracking
 	MagBiasData magBias;
@@ -556,7 +558,6 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	magBias.y = 0;
 	magBias.z = 0;
 	MagBiasSet(&magBias);
-	
 
 	bias_correct_gyro = (insSettings.BiasCorrectedRaw == INSSETTINGS_BIASCORRECTEDRAW_TRUE);
 
@@ -568,9 +569,9 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 		rotate = 0;
 	} else {
 		float rotationQuat[4];
-		const float rpy[3] = {attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_ROLL],
-			attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_PITCH],
-			attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_YAW]};
+		const float rpy[3] = {attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_ROLL] / 100.0f,
+			attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_PITCH] / 100.0f,
+			attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_YAW] / 100.0f};
 		RPY2Quaternion(rpy, rotationQuat);
 		Quaternion2R(rotationQuat, Rbs);
 		rotate = 1;

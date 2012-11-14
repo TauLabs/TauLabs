@@ -646,9 +646,9 @@ static void inertialSensorSettingsUpdatedCb(UAVObjEvent * objEv)
 		Quaternion2R(rotationQuat, glblAtt->Rbs);
 	} else {
 		float rpy[3] = {
-		    attitudeSettings.BoardRotation[INERTIALSENSORSETTINGS_BOARDROTATION_ROLL] * DEG2RAD / 100.0f,
-		    attitudeSettings.BoardRotation[INERTIALSENSORSETTINGS_BOARDROTATION_PITCH] * DEG2RAD / 100.0f,
-          attitudeSettings.BoardRotation[INERTIALSENSORSETTINGS_BOARDROTATION_YAW] * DEG2RAD / 100.0f
+		    attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_ROLL] * DEG2RAD / 100.0f,
+		    attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_PITCH] * DEG2RAD / 100.0f,
+            attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_YAW] * DEG2RAD / 100.0f
 		};
 		Euler2R(rpy, glblAtt->Rbs);
 		glblAtt->rotate = true;
@@ -677,7 +677,7 @@ static void inertialSensorSettingsUpdatedCb(UAVObjEvent * objEv)
 		// Temporary variables
 		float psi, theta, phi;
 
-		psi = attitudeSettings.BoardRotation[INERTIALSENSORSETTINGS_BOARDROTATION_YAW] * DEG2RAD / 100.0f;
+		psi = attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_YAW] * DEG2RAD / 100.0f;
 
 		float cP = cosf(psi);
 		float sP = sinf(psi);
@@ -693,8 +693,8 @@ static void inertialSensorSettingsUpdatedCb(UAVObjEvent * objEv)
 		phi = atan2f((sP * a_sensor[0] - cP * a_sensor[1]) / GRAV,
 			   (a_sensor[2] / cosf(theta) / GRAV));
 
-		attitudeSettings.BoardRotation[INERTIALSENSORSETTINGS_BOARDROTATION_ROLL] = phi * RAD2DEG * 100.0f;
-		attitudeSettings.BoardRotation[INERTIALSENSORSETTINGS_BOARDROTATION_PITCH] = theta * RAD2DEG * 100.0f;
+		attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_ROLL] = phi * RAD2DEG * 100.0f;
+		attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_PITCH] = theta * RAD2DEG * 100.0f;
 
 		attitudeSettings.TrimFlight = ATTITUDESETTINGS_TRIMFLIGHT_NORMAL;
 		AttitudeSettingsSet(&attitudeSettings);

@@ -73,6 +73,7 @@
 
 // Private variables
 static xTaskHandle taskHandle;
+static InertialSensorSettingsData inertialSensorSettings;
 
 // Private functions
 static void AttitudeTask(void *parameters);
@@ -90,8 +91,7 @@ static float accelKp = 0;
 static float accel_alpha = 0;
 static bool accel_filter_enabled = false;
 static float yawBiasRate = 0;
-static float gyroGain = 0.42;
-static int16_t accelbias[3];
+static const float IDG_GYRO_GAIN = 0.42;
 static float q[4] = {1,0,0,0};
 static float R[3][3];
 static int8_t rotate = 0;
@@ -105,7 +105,7 @@ static volatile int32_t trim_samples;
 int32_t const MAX_TRIM_FLIGHT_SAMPLES = 65535;
 
 #define GRAV         9.81f
-#define ACCEL_SCALE  (GRAV * 0.004f)
+#define ADXL345_ACCEL_SCALE  (GRAV * 0.004f)
 /* 0.004f is gravity / LSB */
 
 /**
@@ -288,9 +288,9 @@ static int32_t updateSensors(AccelsData * accels, GyrosData * gyros)
 		return -1;
 	
 	// First sample is temperature
-	gyros->x = -(gyro[1] - GYRO_NEUTRAL) * gyroGain;
-	gyros->y = (gyro[2] - GYRO_NEUTRAL) * gyroGain;
-	gyros->z = -(gyro[3] - GYRO_NEUTRAL) * gyroGain;
+	gyros->x = -(gyro[1] - GYRO_NEUTRAL) * IDG_GYRO_GAIN * inertialSensorSettings.GyroScale[0];
+	gyros->y = (gyro[2] - GYRO_NEUTRAL) * IDG_GYRO_GAIN * inertialSensorSettings.GyroScale[1];
+	gyros->z = -(gyro[3] - GYRO_NEUTRAL) * IDG_GYRO_GAIN * inertialSensorSettings.GyroScale[2];
 	
 	int32_t x = 0;
 	int32_t y = 0;
@@ -344,9 +344,9 @@ static int32_t updateSensors(AccelsData * accels, GyrosData * gyros)
 	}
 	
 	// Scale accels and correct bias
-	accels->x = (accels->x - accelbias[0]) * ACCEL_SCALE;
-	accels->y = (accels->y - accelbias[1]) * ACCEL_SCALE;
-	accels->z = (accels->z - accelbias[2]) * ACCEL_SCALE;
+	accels->x = accels->x * ADXL345_ACCEL_SCALE * inertialSensorSettings.AccelScale[0] - inertialSensorSettings.AccelBias[0];
+	accels->y = accels->y * ADXL345_ACCEL_SCALE * inertialSensorSettings.AccelScale[1] - inertialSensorSettings.AccelBias[1];
+	accels->z = accels->z * ADXL345_ACCEL_SCALE * inertialSensorSettings.AccelScale[2] - inertialSensorSettings.AccelBias[2];
 	
 	if(bias_correct_gyro) {
 		// Applying integral component here so it can be seen on the gyros and correct bias
@@ -370,9 +370,9 @@ static int32_t updateSensors(AccelsData * accels, GyrosData * gyros)
  * @param[in] attitudeRaw Populate the UAVO instead of saving right here
  * @return 0 if successfull, -1 if not
  */
-struct pios_mpu6000_data mpu6000_data;
 static int32_t updateSensorsCC3D(AccelsData * accelsData, GyrosData * gyrosData)
 {
+	struct pios_mpu6000_data mpu6000_data;
 	float accels[3], gyros[3];
 	
 #if defined(PIOS_INCLUDE_MPU6000)
@@ -386,13 +386,13 @@ static int32_t updateSensorsCC3D(AccelsData * accelsData, GyrosData * gyrosData)
 	if (GyrosReadOnly() || AccelsReadOnly())
 		return 0;
 
-	gyros[0] = mpu6000_data.gyro_x * PIOS_MPU6000_GetScale();
-	gyros[1] = mpu6000_data.gyro_y * PIOS_MPU6000_GetScale();
-	gyros[2] = mpu6000_data.gyro_z * PIOS_MPU6000_GetScale();
+	gyros[0] = mpu6000_data.gyro_x * PIOS_MPU6000_GetScale() * inertialSensorSettings.GyroScale[0];
+	gyros[1] = mpu6000_data.gyro_y * PIOS_MPU6000_GetScale() * inertialSensorSettings.GyroScale[1];
+	gyros[2] = mpu6000_data.gyro_z * PIOS_MPU6000_GetScale() * inertialSensorSettings.GyroScale[2];
 	
-	accels[0] = mpu6000_data.accel_x * PIOS_MPU6000_GetAccelScale();
-	accels[1] = mpu6000_data.accel_y * PIOS_MPU6000_GetAccelScale();
-	accels[2] = mpu6000_data.accel_z * PIOS_MPU6000_GetAccelScale();
+	accels[0] = mpu6000_data.accel_x * PIOS_MPU6000_GetAccelScale() * inertialSensorSettings.AccelScale[0] - inertialSensorSettings.AccelBias[0];
+	accels[1] = mpu6000_data.accel_y * PIOS_MPU6000_GetAccelScale() * inertialSensorSettings.AccelScale[1] - inertialSensorSettings.AccelBias[1];
+	accels[2] = mpu6000_data.accel_z * PIOS_MPU6000_GetAccelScale() * inertialSensorSettings.AccelScale[2] - inertialSensorSettings.AccelBias[2];
 
 	gyrosData->temperature = 35.0f + ((float) mpu6000_data.temperature + 512.0f) / 340.0f;
 	accelsData->temperature = 35.0f + ((float) mpu6000_data.temperature + 512.0f) / 340.0f;
@@ -411,9 +411,9 @@ static int32_t updateSensorsCC3D(AccelsData * accelsData, GyrosData * gyrosData)
 		gyros[2] = vec_out[2];
 	}
 
-	accelsData->x = accels[0] - accelbias[0] * ACCEL_SCALE; // Applying arbitrary scale here to match CC v1
-	accelsData->y = accels[1] - accelbias[1] * ACCEL_SCALE;
-	accelsData->z = accels[2] - accelbias[2] * ACCEL_SCALE;
+	accelsData->x = accels[0];
+	accelsData->y = accels[1];
+	accelsData->z = accels[2];
 
 	gyrosData->x = gyros[0];
 	gyrosData->y = gyros[1];
@@ -501,8 +501,6 @@ static void updateAttitude(AccelsData * accelsData, GyrosData * gyrosData)
 		gyro_correct_int[0] += accel_err[0] * accelKi;
 		gyro_correct_int[1] += accel_err[1] * accelKi;
 		
-		//gyro_correct_int[2] += accel_err[2] * accelKi;
-		
 		// Correct rates based on error, integral component dealt with in updateSensors
 		gyros[0] += accel_err[0] * accelKp / dT;
 		gyros[1] += accel_err[1] * accelKp / dT;
@@ -562,14 +560,12 @@ static void updateAttitude(AccelsData * accelsData, GyrosData * gyrosData)
 static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	AttitudeSettingsData attitudeSettings;
 	AttitudeSettingsGet(&attitudeSettings);
-	InertialSensorSettingsData inertialSensorSettings;
 	InertialSensorSettingsGet(&inertialSensorSettings);
 	
 	
 	accelKp = attitudeSettings.AccelKp;
 	accelKi = attitudeSettings.AccelKi;
 	yawBiasRate = attitudeSettings.YawBiasRate;
-	gyroGain = inertialSensorSettings.NominalGyroGain;
 
 	// Calculate accel filter alpha, in the same way as for gyro data in stabilization module.
 	const float fakeDt = 0.0025;
@@ -583,11 +579,7 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	
 	zero_during_arming = attitudeSettings.ZeroDuringArming == ATTITUDESETTINGS_ZERODURINGARMING_TRUE;
 	bias_correct_gyro = attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE;
-	
-	accelbias[0] = inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_X];
-	accelbias[1] = inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_Y];
-	accelbias[2] = inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_Z];
-	
+		
 	gyro_correct_int[0] = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_X];
 	gyro_correct_int[1] = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_Y];
 	gyro_correct_int[2] = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_Z];
@@ -618,15 +610,46 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 		trim_requested = true;
 	} else if (attitudeSettings.TrimFlight == ATTITUDESETTINGS_TRIMFLIGHT_LOAD) {
 		trim_requested = false;
-		inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_X] = trim_accels[0] / trim_samples;
-		inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_Y] = trim_accels[1] / trim_samples;
-		// Z should average -grav
-		inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_Z] = trim_accels[2] / trim_samples + GRAV / ACCEL_SCALE;
+
+		const float DEG2RAD = (float) M_PI / 180.0f;
+		const float RAD2DEG = 1.0f / DEG2RAD;
+
+		// Get sensor data  mean 
+		float a_body[3] = { trim_accels[0] / trim_samples,
+			trim_accels[1] / trim_samples,
+			trim_accels[2] / trim_samples
+		};
+
+		// Inverse rotation of sensor data, from body frame into sensor frame
+		float a_sensor[3];
+		rot_mult(R, a_body, a_sensor, true);
+
+		// Temporary variables
+		float psi, theta, phi;
+
+		psi = attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_YAW] * DEG2RAD / 100.0f;
+
+		float cP = cosf(psi);
+		float sP = sinf(psi);
+
+		// In case psi is too small, we have to use a different equation to solve for theta
+		if (fabs(psi) > 3.1415f / 2)
+			theta = atanf((a_sensor[1] + cP * (sP * a_sensor[0] -
+					 cP * a_sensor[1])) / (sP * a_sensor[2]));
+		else
+			theta = atanf((a_sensor[0] - sP * (sP * a_sensor[0] -
+					 cP * a_sensor[1])) / (cP * a_sensor[2]));
+
+		phi = atan2f((sP * a_sensor[0] - cP * a_sensor[1]) / GRAV,
+			   (a_sensor[2] / cosf(theta) / GRAV));
+
+		attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_ROLL] = phi * RAD2DEG * 100.0f;
+		attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_PITCH] = theta * RAD2DEG * 100.0f;
+
 		attitudeSettings.TrimFlight = ATTITUDESETTINGS_TRIMFLIGHT_NORMAL;
 		AttitudeSettingsSet(&attitudeSettings);
-		InertialSensorSettingsSet(&inertialSensorSettings);
-	} else
-		trim_requested = false;
+
+	}
 }
 /**
  * @}
