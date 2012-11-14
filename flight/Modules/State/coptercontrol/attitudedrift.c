@@ -199,13 +199,13 @@ static void calibrate_gyros_high_speed(float gyro[3], float omegaCorrP[3], float
 		float normOmegaVector[3] = { gyro[0] / normOmegaScalar, gyro[1] / normOmegaScalar, gyro[2] / normOmegaScalar };
 		
 		//Calculate delta gain and update gains
-		inertialSensorSettings->GyroScale[0] += normOmegaVector[0] * omegaCorrP[0] / normOmegaScalar * (inertialSensorSettings->NominalGyroGain / drft->gyroCalibTau) * delT;
-		inertialSensorSettings->GyroScale[1] += normOmegaVector[1] * omegaCorrP[1] / normOmegaScalar * (inertialSensorSettings->NominalGyroGain / drft->gyroCalibTau) * delT;
-		inertialSensorSettings->GyroScale[2] += normOmegaVector[2] * omegaCorrP[2] / normOmegaScalar * (inertialSensorSettings->NominalGyroGain / drft->gyroCalibTau) * delT;
+		inertialSensorSettings->GyroScale[0] += normOmegaVector[0] * omegaCorrP[0] / normOmegaScalar * (delT / drft->gyroCalibTau);
+		inertialSensorSettings->GyroScale[1] += normOmegaVector[1] * omegaCorrP[1] / normOmegaScalar * (delT / drft->gyroCalibTau);
+		inertialSensorSettings->GyroScale[2] += normOmegaVector[2] * omegaCorrP[2] / normOmegaScalar * (delT / drft->gyroCalibTau);
 		
 		//Saturate gyro gains
-		float lowThresh = 1.0f / 1.05f * inertialSensorSettings->NominalGyroGain;
-		float highThresh = 1.05f * inertialSensorSettings->NominalGyroGain;
+		float lowThresh = 0.95f;
+		float highThresh = 1.05f;
 		for (int i = 0; i < 3; i++) {
 			inertialSensorSettings->GyroScale[i] = (inertialSensorSettings->GyroScale[i] < lowThresh)  ? lowThresh  : inertialSensorSettings->GyroScale[i];
 			inertialSensorSettings->GyroScale[i] = (inertialSensorSettings->GyroScale[i] > highThresh) ? highThresh : inertialSensorSettings->GyroScale[i];

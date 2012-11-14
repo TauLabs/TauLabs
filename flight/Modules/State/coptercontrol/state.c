@@ -228,13 +228,6 @@ static void StateTask(void *parameters)
 	//Test if board is CopterControl or CC3D
 	bool cc3d_flag = (bdinfo->board_rev == 0x02);
 
-	if (cc3d_flag)
-		inertialSensorSettings.NominalGyroGain = 1.0f;
-	else
-		inertialSensorSettings.NominalGyroGain = 0.42f;
-
-	InertialSensorSettingsNominalGyroGainSet(&(inertialSensorSettings.NominalGyroGain));
-
 	// Force settings update to make sure rotation and home location are loaded
 	inertialSensorSettingsUpdatedCb(InertialSensorSettingsHandle());
 	inertialSensorSettingsUpdatedCb(AttitudeSettingsHandle());
