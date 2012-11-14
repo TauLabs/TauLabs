@@ -340,6 +340,18 @@ void ConfigCCAttitudeWidget::doStartSixPointCalibration()
 
     attitudeSettings->setData(attitudeSettingsData);
 
+    // Must reset the scale to get a correct result
+    InertialSensorSettings * inertialSettings = InertialSensorSettings::GetInstance(getObjectManager());
+    Q_ASSERT(inertialSettings);
+    InertialSensorSettings::DataFields inertialSettingsData = inertialSettings->getData();
+    inertialSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_X] = 1.0;
+    inertialSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Y] = 1.0;
+    inertialSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Z] = 1.0;
+    inertialSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_X] = 0.0;
+    inertialSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Y] = 0.0;
+    inertialSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z] = 0.0;
+    inertialSettings->setData(inertialSettingsData);
+
     Thread::usleep(100000);
 
     gyro_accum_x.clear();
