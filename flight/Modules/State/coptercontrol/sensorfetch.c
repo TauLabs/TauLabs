@@ -139,9 +139,9 @@ int8_t getSensorsCC3D(float *prelim_accels, float *prelim_gyros, GlobalAttitudeV
 		return -1;	// Error, no data
 
 	//Rotated data from internal gryoscope sensor frame into board sensor frame
-	prelim_gyros[0] = -mpu6000_data.gyro_y * PIOS_MPU6000_GetScale() * inertialSensorSettings->GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_X];
-	prelim_gyros[1] = -mpu6000_data.gyro_x * PIOS_MPU6000_GetScale() * inertialSensorSettings->GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_Y];
-	prelim_gyros[2] = -mpu6000_data.gyro_z * PIOS_MPU6000_GetScale() * inertialSensorSettings->GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_Z];
+	prelim_gyros[0] = mpu6000_data.gyro_x * PIOS_MPU6000_GetScale() * inertialSensorSettings->GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_X];
+	prelim_gyros[1] = mpu6000_data.gyro_y * PIOS_MPU6000_GetScale() * inertialSensorSettings->GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_Y];
+	prelim_gyros[2] = mpu6000_data.gyro_z * PIOS_MPU6000_GetScale() * inertialSensorSettings->GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_Z];
 	
 	// When this is enabled remove estimate of bias
 	if (glblAtt->bias_correct_gyro) {
@@ -152,9 +152,9 @@ int8_t getSensorsCC3D(float *prelim_accels, float *prelim_gyros, GlobalAttitudeV
 	
 	//Rotated data from internal accelerometer sensor frame into board sensor frame
 	//Apply scaling and bias correction in sensor frame
-	prelim_accels[0] = -mpu6000_data.accel_y * PIOS_MPU6000_GetAccelScale() * inertialSensorSettings->AccelScale[0] - inertialSensorSettings->AccelBias[0];
-	prelim_accels[1] = -mpu6000_data.accel_x * PIOS_MPU6000_GetAccelScale() * inertialSensorSettings->AccelScale[1] - inertialSensorSettings->AccelBias[1];
-	prelim_accels[2] = -mpu6000_data.accel_z * PIOS_MPU6000_GetAccelScale() * inertialSensorSettings->AccelScale[2] - inertialSensorSettings->AccelBias[2];
+	prelim_accels[0] = mpu6000_data.accel_x * PIOS_MPU6000_GetAccelScale() * inertialSensorSettings->AccelScale[0] - inertialSensorSettings->AccelBias[0];
+	prelim_accels[1] = mpu6000_data.accel_y * PIOS_MPU6000_GetAccelScale() * inertialSensorSettings->AccelScale[1] - inertialSensorSettings->AccelBias[1];
+	prelim_accels[2] = mpu6000_data.accel_z * PIOS_MPU6000_GetAccelScale() * inertialSensorSettings->AccelScale[2] - inertialSensorSettings->AccelBias[2];
 
 	prelim_gyros[3] = 35.0f + ((float)mpu6000_data.temperature + 512.0f) / 340.0f;	//Temperature sensor has a 35deg bias. //WHY? AS PER DOCS?
 	prelim_accels[3] = 35.0f + ((float)mpu6000_data.temperature + 512.0f) / 340.0f;
