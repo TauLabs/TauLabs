@@ -209,13 +209,20 @@ void ConfigCCAttitudeWidget::sensorsUpdated(UAVObject * obj) {
         attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] = phi * RAD2DEG * 100.0;
         attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] = theta * RAD2DEG * 100.0;
 
-        // We offset the gyro bias by current bias to help precision
-        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_X] = -x_gyro_bias;
-        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_Y] = -y_gyro_bias;
-        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_Z] = -z_gyro_bias;
-        attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_TRUE;
-        AttitudeSettings::GetInstance(getObjectManager())->setData(attitudeSettingsData);
+        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_X] = x_gyro_bias;
+        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_Y] = y_gyro_bias;
+        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_Z] = z_gyro_bias;
         InertialSensorSettings::GetInstance(getObjectManager())->setData(inertialSensorSettingsData);
+        InertialSensorSettings::GetInstance(getObjectManager())->updated();
+
+        // We offset the gyro bias by current bias to help precision
+        // Disable gyro bias correction to see raw data
+        AttitudeSettings *attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
+        Q_ASSERT(attitudeSettings);
+        attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_TRUE;
+        attitudeSettings->setData(attitudeSettingsData);
+        attitudeSettings->updated();
+
         this->setDirty(true);
 
         // reenable controls
@@ -259,9 +266,12 @@ void ConfigCCAttitudeWidget::startAccelCalibration() {
     gyro_accum_z.clear();
 
     // Disable gyro bias correction to see raw data
-    AttitudeSettings::DataFields attitudeSettingsData = AttitudeSettings::GetInstance(getObjectManager())->getData();
+    AttitudeSettings *attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
+    Q_ASSERT(attitudeSettings);
+    AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
     attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_FALSE;
-    AttitudeSettings::GetInstance(getObjectManager())->setData(attitudeSettingsData);
+    attitudeSettings->setData(attitudeSettingsData);
+    attitudeSettings->updated();
 
     // Set up to receive updates
     UAVDataObject * accels = Accels::GetInstance(getObjectManager());

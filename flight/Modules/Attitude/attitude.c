@@ -350,14 +350,14 @@ static int32_t updateSensors(AccelsData * accels, GyrosData * gyros)
 	
 	if(bias_correct_gyro) {
 		// Applying integral component here so it can be seen on the gyros and correct bias
-		gyros->x += gyro_correct_int[0];
-		gyros->y += gyro_correct_int[1];
-		gyros->z += gyro_correct_int[2];
+		gyros->x -= gyro_correct_int[0];
+		gyros->y -= gyro_correct_int[1];
+		gyros->z -= gyro_correct_int[2];
 	}
 	
 	// Because most crafts wont get enough information from gravity to zero yaw gyro, we try
 	// and make it average zero (weakly)
-	gyro_correct_int[2] += - gyros->z * yawBiasRate;
+	gyro_correct_int[2] -= - gyros->z * yawBiasRate;
 
 	GyrosSet(gyros);
 	AccelsSet(accels);
@@ -421,14 +421,14 @@ static int32_t updateSensorsCC3D(AccelsData * accelsData, GyrosData * gyrosData)
 
 	if(bias_correct_gyro) {
 		// Applying integral component here so it can be seen on the gyros and correct bias
-		gyrosData->x += gyro_correct_int[0];
-		gyrosData->y += gyro_correct_int[1];
-		gyrosData->z += gyro_correct_int[2];
+		gyrosData->x -= gyro_correct_int[0];
+		gyrosData->y -= gyro_correct_int[1];
+		gyrosData->z -= gyro_correct_int[2];
 	}
 
 	// Because most crafts wont get enough information from gravity to zero yaw gyro, we try
 	// and make it average zero (weakly)
-	gyro_correct_int[2] += - gyrosData->z * yawBiasRate;
+	gyro_correct_int[2] -= - gyrosData->z * yawBiasRate;
 
 	GyrosSet(gyrosData);
 	AccelsSet(accelsData);
@@ -498,8 +498,8 @@ static void updateAttitude(AccelsData * accelsData, GyrosData * gyrosData)
 		accel_err[2] /= (accel_mag*grot_mag);
 		
 		// Accumulate integral of error.  Scale here so that units are (deg/s) but Ki has units of s
-		gyro_correct_int[0] += accel_err[0] * accelKi;
-		gyro_correct_int[1] += accel_err[1] * accelKi;
+		gyro_correct_int[0] -= accel_err[0] * accelKi;
+		gyro_correct_int[1] -= accel_err[1] * accelKi;
 		
 		// Correct rates based on error, integral component dealt with in updateSensors
 		gyros[0] += accel_err[0] * accelKp / dT;
