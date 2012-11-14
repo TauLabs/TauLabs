@@ -56,7 +56,7 @@
 #define sign(x) ((x < 0) ? -1 : 1)
 
 // Uncomment this to enable 6 point calibration on the accels
-//#define SIX_POINT_CAL_ACCEL
+#define SIX_POINT_CAL_ACCEL
 
 const double ConfigRevoWidget::maxVarValue = 0.1;
 
@@ -671,7 +671,10 @@ void ConfigRevoWidget::doGetSixPointCalibrationMeasurement(UAVObject * obj)
     if(mag_accum_x.size() >= 20 && collectingData == true) {
 #endif
         collectingData = false;
-        disconnect(this, SLOT(doGetSixPointCalibrationMeasurement(UAVObject*)));
+        Magnetometer * mag = Magnetometer::GetInstance(getObjectManager());
+        Q_ASSERT(mag);
+        disconnect(mag, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(doGetSixPointCalibrationMeasurement(UAVObject*)));
+
         m_ui->sixPointsSave->setEnabled(true);
 
 #ifdef SIX_POINT_CAL_ACCEL
@@ -679,6 +682,9 @@ void ConfigRevoWidget::doGetSixPointCalibrationMeasurement(UAVObject * obj)
         accel_data_x[position] = listMean(accel_accum_x);
         accel_data_y[position] = listMean(accel_accum_y);
         accel_data_z[position] = listMean(accel_accum_z);
+        Accels * accels = Accels::GetInstance(getObjectManager());
+        Q_ASSERT(accels);
+        disconnect(accels, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(doGetSixPointCalibrationMeasurement(UAVObject*)));
 #endif
 
         // Store the mean for this position for the mag
