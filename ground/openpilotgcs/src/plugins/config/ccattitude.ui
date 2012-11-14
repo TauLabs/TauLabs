@@ -7,61 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>455</width>
-    <height>568</height>
+    <height>729</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="1" column="0">
-    <widget class="QGroupBox" name="groupBox_2">
-     <property name="title">
-      <string>Calibration</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Place aircraft very flat, and then click level to compute the accelerometer and gyro bias</string>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="zeroBias">
-        <property name="toolTip">
-         <string>Launch horizontal calibration.</string>
-        </property>
-        <property name="text">
-         <string>Level</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QProgressBar" name="zeroBiasProgress">
-        <property name="value">
-         <number>0</number>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="zeroGyroBiasOnArming">
-        <property name="toolTip">
-         <string>If enabled, a fast recalibration of gyro zero point will be done
-whenever the frame is armed. Do not move the airframe while
-arming it in that case!</string>
-        </property>
-        <property name="text">
-         <string>Zero gyros while arming aircraft</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
    <item row="0" column="0">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
@@ -137,7 +89,7 @@ arming it in that case!</string>
      </layout>
     </widget>
    </item>
-   <item row="5" column="0">
+   <item row="6" column="0">
     <spacer name="verticalSpacer_2">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -150,7 +102,55 @@ arming it in that case!</string>
      </property>
     </spacer>
    </item>
-   <item row="6" column="0">
+   <item row="2" column="0">
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Leveling Calibration</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Place aircraft very flat, and then click level</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="zeroBias">
+        <property name="toolTip">
+         <string>Launch horizontal calibration.</string>
+        </property>
+        <property name="text">
+         <string>Level</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QProgressBar" name="zeroBiasProgress">
+        <property name="value">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="zeroGyroBiasOnArming">
+        <property name="toolTip">
+         <string>If enabled, a fast recalibration of gyro zero point will be done
+whenever the frame is armed. Do not move the airframe while
+arming it in that case!</string>
+        </property>
+        <property name="text">
+         <string>Zero gyros while arming aircraft</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="7" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <spacer name="horizontalSpacer">
@@ -216,7 +216,7 @@ arming it in that case!</string>
      </item>
     </layout>
    </item>
-   <item row="4" column="0">
+   <item row="5" column="0">
     <widget class="QGroupBox" name="groupBox_3">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
@@ -322,7 +322,7 @@ arming it in that case!</string>
      </layout>
     </widget>
    </item>
-   <item row="3" column="0">
+   <item row="4" column="0">
     <widget class="QGroupBox" name="groupBox_4">
      <property name="title">
       <string>Sensor Ranges (changes require reboot)</string>
@@ -372,7 +372,7 @@ arming it in that case!</string>
      </layout>
     </widget>
    </item>
-   <item row="2" column="0">
+   <item row="1" column="0">
     <widget class="QGroupBox" name="groupBox_sixPointCal">
      <property name="title">
       <string>Six Point Calibration (not required for multirotor)</string>
