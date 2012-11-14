@@ -43,6 +43,7 @@
 #include <attitudesettings.h>
 #include <inertialsensorsettings.h>
 #include <revocalibration.h>
+#include <inssettings.h>
 #include <homelocation.h>
 #include <accels.h>
 #include <gyros.h>
@@ -213,6 +214,7 @@ ConfigRevoWidget::ConfigRevoWidget(QWidget *parent) :
     // Must set up the UI (above) before setting up the UAVO mappings or refreshWidgetValues
     // will be dealing with some null pointers
     addUAVObject("RevoCalibration");
+    addUAVObject("INSSettings");
     autoLoadWidgets();
 
     // Connect the signals
@@ -253,12 +255,12 @@ void ConfigRevoWidget::doStartAccelGyroBiasCalibration()
     m_ui->accelBiasStart->setEnabled(false);
     m_ui->accelBiasProgress->setValue(0);
 
-    RevoCalibration * revoCalibration = RevoCalibration::GetInstance(getObjectManager());
-    Q_ASSERT(revoCalibration);
-    RevoCalibration::DataFields revoCalibrationData = revoCalibration->getData();
-    revoCalibrationData.BiasCorrectedRaw = RevoCalibration::BIASCORRECTEDRAW_FALSE;
-    revoCalibration->setData(revoCalibrationData);
-    revoCalibration->updated();
+    INSSettings * insSettings = INSSettings::GetInstance(getObjectManager());
+    Q_ASSERT(insSettings);
+    INSSettings::DataFields insSettingsData = insSettings->getData();
+    insSettingsData.BiasCorrectedRaw = INSSettings::BIASCORRECTEDRAW_FALSE;
+    insSettings->setData(insSettingsData);
+    insSettings->updated();
 
     // Disable gyro bias correction while calibrating
     AttitudeSettings * attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
@@ -355,14 +357,14 @@ void ConfigRevoWidget::doGetAccelGyroBiasData(UAVObject *obj)
 
         m_ui->accelBiasStart->setEnabled(true);
 
-        RevoCalibration * revoCalibration = RevoCalibration::GetInstance(getObjectManager());
+        INSSettings * insSettings = INSSettings::GetInstance(getObjectManager());
         InertialSensorSettings * inertialSensorSettings = InertialSensorSettings::GetInstance(getObjectManager());
         Q_ASSERT(inertialSensorSettings);
-        Q_ASSERT(revoCalibration);
-        RevoCalibration::DataFields revoCalibrationData = revoCalibration->getData();
+        Q_ASSERT(insSettings);
+        INSSettings::DataFields insSettingsData = insSettings->getData();
         InertialSensorSettings::DataFields inertialSensorSettingsData = inertialSensorSettings->getData();
 
-        revoCalibrationData.BiasCorrectedRaw = RevoCalibration::BIASCORRECTEDRAW_TRUE;
+        insSettingsData.BiasCorrectedRaw = INSSettings::BIASCORRECTEDRAW_TRUE;
 
         // Update the biases based on collected data
         inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_X] += listMean(accel_accum_x);
@@ -372,10 +374,10 @@ void ConfigRevoWidget::doGetAccelGyroBiasData(UAVObject *obj)
         inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_Y] = listMean(gyro_accum_y);
         inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_Z] = listMean(gyro_accum_z);
 
-        revoCalibration->setData(revoCalibrationData);
+        insSettings->setData(insSettingsData);
         inertialSensorSettings->setData(inertialSensorSettingsData);
 
-        revoCalibration->updated();
+        insSettings->updated();
         inertialSensorSettings->updated();
 
         AttitudeSettings * attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
@@ -503,10 +505,13 @@ int SixPointInConstFieldCal( double ConstMag, double x[6], double y[6], double z
   */
 void ConfigRevoWidget::doStartSixPointCalibration()
 {
+    INSSettings * insSettings = INSSettings::GetInstance(getObjectManager());
     RevoCalibration * revoCalibration = RevoCalibration::GetInstance(getObjectManager());
     HomeLocation * homeLocation = HomeLocation::GetInstance(getObjectManager());
+    Q_ASSERT(insSettings);
     Q_ASSERT(revoCalibration);
     Q_ASSERT(homeLocation);
+    INSSettings::DataFields insSettingsData = insSettings->getData();
     RevoCalibration::DataFields revoCalibrationData = revoCalibration->getData();
     HomeLocation::DataFields homeLocationData = homeLocation->getData();
 
@@ -551,9 +556,10 @@ void ConfigRevoWidget::doStartSixPointCalibration()
     revoCalibrationData.mag_bias[RevoCalibration::MAG_BIAS_Z] = 0;
 
     // Disable adaptive mag nulling
-    initialMagCorrectionRate = revoCalibrationData.MagBiasNullingRate;
-    revoCalibrationData.MagBiasNullingRate = 0;
+    initialMagCorrectionRate = insSettingsData.MagBiasNullingRate;
+    insSettingsData.MagBiasNullingRate = 0;
 
+    insSettings->setData(insSettingsData);
     revoCalibration->setData(revoCalibrationData);
 
     Thread::usleep(100000);
@@ -727,10 +733,13 @@ void ConfigRevoWidget::computeScaleBias()
 {
    double S[3], b[3];
    double Be_length;
+   INSSettings * insSettings = INSSettings::GetInstance(getObjectManager());
    RevoCalibration * revoCalibration = RevoCalibration::GetInstance(getObjectManager());
    HomeLocation * homeLocation = HomeLocation::GetInstance(getObjectManager());
+   Q_ASSERT(insSettings);
    Q_ASSERT(revoCalibration);
    Q_ASSERT(homeLocation);
+   INSSettings::DataFields insSettingsData = insSettings->getData();
    RevoCalibration::DataFields revoCalibrationData = revoCalibration->getData();
    HomeLocation::DataFields homeLocationData = homeLocation->getData();
 
@@ -763,7 +772,7 @@ void ConfigRevoWidget::computeScaleBias()
    revoCalibrationData.mag_bias[RevoCalibration::MAG_BIAS_Z] = -sign(S[2]) * b[2];
 
    // Restore the previous setting
-   revoCalibrationData.MagBiasNullingRate = initialMagCorrectionRate;
+   insSettingsData.MagBiasNullingRate = initialMagCorrectionRate;
 
 #ifdef SIX_POINT_CAL_ACCEL
    bool good_calibration = true;
@@ -797,10 +806,12 @@ void ConfigRevoWidget::computeScaleBias()
            inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z];
    if (good_calibration) {
        inertialSensorSettings->setData(inertialSensorSettingsData);
+       insSettings->setData(insSettingsData);
        revoCalibration->setData(revoCalibrationData);
        m_ui->sixPointCalibInstructions->append("Computed accel and mag scale and bias...");
    } else {
        inertialSensorSettingsData=inertialSensorSettings->getData();
+       insSettingsData = insSettings->getData();
        revoCalibrationData = revoCalibration->getData();
        m_ui->sixPointCalibInstructions->append("Bad calibration. Please repeat.");
    }
@@ -819,9 +830,11 @@ void ConfigRevoWidget::computeScaleBias()
    good_calibration &= revoCalibrationData.mag_bias[RevoCalibration::MAG_BIAS_Z] ==
            revoCalibrationData.mag_bias[RevoCalibration::MAG_BIAS_Z];
    if (good_calibration) {
+       insSettings->setData(insSettingsData);
        revoCalibration->setData(revoCalibrationData);
        m_ui->sixPointCalibInstructions->append("Computed mag scale and bias...");
    } else {
+       insSettingsData = insSettings->getData();
        revoCalibrationData = revoCalibration->getData();
        m_ui->sixPointCalibInstructions->append("Bad calibration. Please repeat.");
    }
@@ -977,20 +990,20 @@ void ConfigRevoWidget::doGetNoiseSample(UAVObject * obj)
         disconnect(gyros, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(doGetNoiseSample(UAVObject*)));
         disconnect(mags, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(doGetNoiseSample(UAVObject*)));
 
-        RevoCalibration *revoCalibration = RevoCalibration::GetInstance(getObjectManager());
-        Q_ASSERT(revoCalibration);
-        if(revoCalibration) {
-            RevoCalibration::DataFields revoCalData = revoCalibration->getData();
-            revoCalData.accel_var[RevoCalibration::ACCEL_VAR_X] = listVar(accel_accum_x);
-            revoCalData.accel_var[RevoCalibration::ACCEL_VAR_Y] = listVar(accel_accum_y);
-            revoCalData.accel_var[RevoCalibration::ACCEL_VAR_Z] = listVar(accel_accum_z);
-            revoCalData.gyro_var[RevoCalibration::GYRO_VAR_X] = listVar(gyro_accum_x);
-            revoCalData.gyro_var[RevoCalibration::GYRO_VAR_Y] = listVar(gyro_accum_y);
-            revoCalData.gyro_var[RevoCalibration::GYRO_VAR_Z] = listVar(gyro_accum_z);
-            revoCalData.mag_var[RevoCalibration::MAG_VAR_X] = listVar(mag_accum_x);
-            revoCalData.mag_var[RevoCalibration::MAG_VAR_Y] = listVar(mag_accum_y);
-            revoCalData.mag_var[RevoCalibration::MAG_VAR_Z] = listVar(mag_accum_z);
-            revoCalibration->setData(revoCalData);
+        INSSettings *insSettings = INSSettings::GetInstance(getObjectManager());
+        Q_ASSERT(insSettings);
+        if(insSettings) {
+            INSSettings::DataFields revoCalData = insSettings->getData();
+            revoCalData.accel_var[INSSettings::ACCEL_VAR_X] = listVar(accel_accum_x);
+            revoCalData.accel_var[INSSettings::ACCEL_VAR_Y] = listVar(accel_accum_y);
+            revoCalData.accel_var[INSSettings::ACCEL_VAR_Z] = listVar(accel_accum_z);
+            revoCalData.gyro_var[INSSettings::GYRO_VAR_X] = listVar(gyro_accum_x);
+            revoCalData.gyro_var[INSSettings::GYRO_VAR_Y] = listVar(gyro_accum_y);
+            revoCalData.gyro_var[INSSettings::GYRO_VAR_Z] = listVar(gyro_accum_z);
+            revoCalData.mag_var[INSSettings::MAG_VAR_X] = listVar(mag_accum_x);
+            revoCalData.mag_var[INSSettings::MAG_VAR_Y] = listVar(mag_accum_y);
+            revoCalData.mag_var[INSSettings::MAG_VAR_Z] = listVar(mag_accum_z);
+            insSettings->setData(revoCalData);
         }
     }
 }
@@ -1001,42 +1014,42 @@ void ConfigRevoWidget::doGetNoiseSample(UAVObject * obj)
   */
 void ConfigRevoWidget::drawVariancesGraph()
 {
-    RevoCalibration * revoCalibration = RevoCalibration::GetInstance(getObjectManager());
-    Q_ASSERT(revoCalibration);
-    if(!revoCalibration)
+    INSSettings * insSettings = INSSettings::GetInstance(getObjectManager());
+    Q_ASSERT(insSettings);
+    if(!insSettings)
         return;
-    RevoCalibration::DataFields revoCalibrationData = revoCalibration->getData();
+    INSSettings::DataFields insSettingsData = insSettings->getData();
 
     // The expected range is from 1E-6 to 1E-1
     double steps = 6; // 6 bars on the graph
-    float accel_x_var = -1/steps*(1+steps+log10(revoCalibrationData.accel_var[RevoCalibration::ACCEL_VAR_X]));
+    float accel_x_var = -1/steps*(1+steps+log10(insSettingsData.accel_var[INSSettings::ACCEL_VAR_X]));
     if(accel_x)
         accel_x->setTransform(QTransform::fromScale(1,accel_x_var),false);
-    float accel_y_var = -1/steps*(1+steps+log10(revoCalibrationData.accel_var[RevoCalibration::ACCEL_VAR_Y]));
+    float accel_y_var = -1/steps*(1+steps+log10(insSettingsData.accel_var[INSSettings::ACCEL_VAR_Y]));
     if(accel_y)
         accel_y->setTransform(QTransform::fromScale(1,accel_y_var),false);
-    float accel_z_var = -1/steps*(1+steps+log10(revoCalibrationData.accel_var[RevoCalibration::ACCEL_VAR_Z]));
+    float accel_z_var = -1/steps*(1+steps+log10(insSettingsData.accel_var[INSSettings::ACCEL_VAR_Z]));
     if(accel_z)
         accel_z->setTransform(QTransform::fromScale(1,accel_z_var),false);
 
-    float gyro_x_var = -1/steps*(1+steps+log10(revoCalibrationData.gyro_var[RevoCalibration::GYRO_VAR_X]));
+    float gyro_x_var = -1/steps*(1+steps+log10(insSettingsData.gyro_var[INSSettings::GYRO_VAR_X]));
     if(gyro_x)
         gyro_x->setTransform(QTransform::fromScale(1,gyro_x_var),false);
-    float gyro_y_var = -1/steps*(1+steps+log10(revoCalibrationData.gyro_var[RevoCalibration::GYRO_VAR_Y]));
+    float gyro_y_var = -1/steps*(1+steps+log10(insSettingsData.gyro_var[INSSettings::GYRO_VAR_Y]));
     if(gyro_y)
         gyro_y->setTransform(QTransform::fromScale(1,gyro_y_var),false);
-    float gyro_z_var = -1/steps*(1+steps+log10(revoCalibrationData.gyro_var[RevoCalibration::GYRO_VAR_Z]));
+    float gyro_z_var = -1/steps*(1+steps+log10(insSettingsData.gyro_var[INSSettings::GYRO_VAR_Z]));
     if(gyro_z)
         gyro_z->setTransform(QTransform::fromScale(1,gyro_z_var),false);
 
     // Scale by 1e-3 because mag vars are much higher.
-    float mag_x_var = -1/steps*(1+steps+log10(1e-3*revoCalibrationData.mag_var[RevoCalibration::MAG_VAR_X]));
+    float mag_x_var = -1/steps*(1+steps+log10(1e-3*insSettingsData.mag_var[INSSettings::MAG_VAR_X]));
     if(mag_x)
         mag_x->setTransform(QTransform::fromScale(1,mag_x_var),false);
-    float mag_y_var = -1/steps*(1+steps+log10(1e-3*revoCalibrationData.mag_var[RevoCalibration::MAG_VAR_Y]));
+    float mag_y_var = -1/steps*(1+steps+log10(1e-3*insSettingsData.mag_var[INSSettings::MAG_VAR_Y]));
     if(mag_y)
         mag_y->setTransform(QTransform::fromScale(1,mag_y_var),false);
-    float mag_z_var = -1/steps*(1+steps+log10(1e-3*revoCalibrationData.mag_var[RevoCalibration::MAG_VAR_Z]));
+    float mag_z_var = -1/steps*(1+steps+log10(1e-3*insSettingsData.mag_var[INSSettings::MAG_VAR_Z]));
     if(mag_z)
         mag_z->setTransform(QTransform::fromScale(1,mag_z_var),false);
 }

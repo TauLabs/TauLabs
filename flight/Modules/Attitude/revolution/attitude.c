@@ -55,7 +55,6 @@
 #include "accels.h"
 #include "attitudeactual.h"
 #include "attitudesettings.h"
-#include "inertialsensorsettings.h"
 #include "baroaltitude.h"
 #include "flightstatus.h"
 #include "gpsposition.h"
@@ -63,10 +62,11 @@
 #include "gyros.h"
 #include "gyrosbias.h"
 #include "homelocation.h"
+#include "inertialsensorsettings.h"
+#include "inssettings.h"
 #include "magnetometer.h"
 #include "nedposition.h"
 #include "positionactual.h"
-#include "revocalibration.h"
 #include "revosettings.h"
 #include "velocityactual.h"
 #include "CoordinateConversions.h"
@@ -98,7 +98,7 @@ static xQueueHandle gpsVelQueue;
 
 static AttitudeSettingsData attitudeSettings;
 static HomeLocationData homeLocation;
-static RevoCalibrationData revoCalibration;
+static INSSettingsData insSettings;
 static RevoSettingsData revoSettings;
 static bool gyroBiasSettingsUpdated = false;
 const uint32_t SENSOR_QUEUE_SIZE = 10;
@@ -138,7 +138,9 @@ int32_t AttitudeInitialize(void)
 	PositionActualInitialize();
 	VelocityActualInitialize();
 	RevoSettingsInitialize();
-	RevoCalibrationInitialize();
+	INSSettingsInitialize();
+	InertialSensorSettingsInitialize();
+	INSSettingsInitialize();
 	
 	// Initialize this here while we aren't setting the homelocation in GPS
 	HomeLocationInitialize();
@@ -162,8 +164,9 @@ int32_t AttitudeInitialize(void)
 	
 	AttitudeSettingsConnectCallback(&settingsUpdatedCb);
 	RevoSettingsConnectCallback(&settingsUpdatedCb);
-	RevoCalibrationConnectCallback(&settingsUpdatedCb);
 	HomeLocationConnectCallback(&settingsUpdatedCb);
+	InertialSensorSettingsConnectCallback(&settingsUpdatedCb);
+	INSSettingsConnectCallback(&settingsUpdatedCb);
 
 	return 0;
 }
@@ -634,10 +637,10 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 
 			// Reset the INS algorithm
 			INSGPSInit();
-			INSSetMagVar(revoCalibration.mag_var);
-			INSSetAccelVar(revoCalibration.accel_var);
-			INSSetGyroVar(revoCalibration.gyro_var);
-			INSSetBaroVar(revoCalibration.baro_var);
+			INSSetMagVar(insSettings.mag_var);
+			INSSetAccelVar(insSettings.accel_var);
+			INSSetGyroVar(insSettings.gyro_var);
+			INSSetBaroVar(insSettings.baro_var);
 
 			// Initialize the gyro bias from the settings
 			float gyro_bias[3] = {gyrosBias.x * F_PI / 180.0f, gyrosBias.y * F_PI / 180.0f, gyrosBias.z * F_PI / 180.0f};
@@ -667,10 +670,10 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 
 			// Reset the INS algorithm
 			INSGPSInit();
-			INSSetMagVar(revoCalibration.mag_var);
-			INSSetAccelVar(revoCalibration.accel_var);
-			INSSetGyroVar(revoCalibration.gyro_var);
-			INSSetBaroVar(revoCalibration.baro_var);
+			INSSetMagVar(insSettings.mag_var);
+			INSSetAccelVar(insSettings.accel_var);
+			INSSetGyroVar(insSettings.gyro_var);
+			INSSetBaroVar(insSettings.baro_var);
 
 			INSSetMagNorth(homeLocation.Be);
 
@@ -757,7 +760,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	// Because the sensor module remove the bias we need to add it
 	// back in here so that the INS algorithm can track it correctly
 	float gyros[3] = {gyrosData.x * F_PI / 180.0f, gyrosData.y * F_PI / 180.0f, gyrosData.z * F_PI / 180.0f};
-	if (revoCalibration.BiasCorrectedRaw == REVOCALIBRATION_BIASCORRECTEDRAW_TRUE) {
+	if (insSettings.BiasCorrectedRaw == INSSETTINGS_BIASCORRECTEDRAW_TRUE) {
 		gyros[0] += gyrosBias.x * F_PI / 180.0f;
 		gyros[1] += gyrosBias.y * F_PI / 180.0f;
 		gyros[2] += gyrosBias.z * F_PI / 180.0f;
@@ -789,7 +792,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	
 	if (gps_updated && outdoor_mode)
 	{
-		INSSetPosVelVar(revoCalibration.gps_var[REVOCALIBRATION_GPS_VAR_POS], revoCalibration.gps_var[REVOCALIBRATION_GPS_VAR_VEL]);
+		INSSetPosVelVar(insSettings.gps_var[INSSETTINGS_GPS_VAR_POS], insSettings.gps_var[INSSETTINGS_GPS_VAR_VEL]);
 		sensors |= POS_SENSORS;
 
 		if (0) { // Old code to take horizontal velocity from GPS Position update
@@ -853,7 +856,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	velocityActual.Down = Nav.Vel[2];
 	VelocityActualSet(&velocityActual);
 
-	if (revoCalibration.BiasCorrectedRaw == REVOCALIBRATION_BIASCORRECTEDRAW_TRUE && !gyroBiasSettingsUpdated) {
+	if (insSettings.BiasCorrectedRaw == INSSETTINGS_BIASCORRECTEDRAW_TRUE && !gyroBiasSettingsUpdated) {
 		// Copy the gyro bias into the UAVO except when it was updated
 		// from the settings during the calculation, then consume it
 		// next cycle
@@ -905,8 +908,8 @@ static int32_t getNED(GPSPositionData * gpsPosition, float * NED)
 
 static void settingsUpdatedCb(UAVObjEvent * ev) 
 {
-	if (ev == NULL || ev->obj == RevoCalibrationHandle()) {
-		RevoCalibrationGet(&revoCalibration);
+	if (ev == NULL || ev->obj == INSSettingsHandle()) {
+		INSSettingsGet(&insSettings);
 		
 		InertialSensorSettingsData inertialSensorSettings;
 		InertialSensorSettingsGet(&inertialSensorSettings);
@@ -922,10 +925,10 @@ static void settingsUpdatedCb(UAVObjEvent * ev)
 		gyroBiasSettingsUpdated = true;
 
 		// In case INS currently running
-		INSSetMagVar(revoCalibration.mag_var);
-		INSSetAccelVar(revoCalibration.accel_var);
-		INSSetGyroVar(revoCalibration.gyro_var);
-		INSSetBaroVar(revoCalibration.baro_var);
+		INSSetMagVar(insSettings.mag_var);
+		INSSetAccelVar(insSettings.accel_var);
+		INSSetGyroVar(insSettings.gyro_var);
+		INSSetBaroVar(insSettings.baro_var);
 	}
 	if(ev == NULL || ev->obj == HomeLocationHandle()) {
 		HomeLocationGet(&homeLocation);

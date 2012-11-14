@@ -56,6 +56,7 @@
 #include "attitudeactual.h"
 #include "attitudesettings.h"
 #include "inertialsensorsettings.h"
+#include "inssettings.h"
 #include "revocalibration.h"
 #include "flightstatus.h"
 #include "CoordinateConversions.h"
@@ -80,6 +81,7 @@ static void magOffsetEstimation(MagnetometerData *mag);
 // Private variables
 static xTaskHandle sensorsTaskHandle;
 RevoCalibrationData revoCal;
+INSSettingsData insSettings;
 
 // These values are initialized by settings but can be updated by the attitude algorithm
 static bool bias_correct_gyro = true;
@@ -114,11 +116,15 @@ int32_t SensorsInitialize(void)
 	MagBiasInitialize();
 	RevoCalibrationInitialize();
 	AttitudeSettingsInitialize();
+	InertialSensorSettingsInitialize();
+	INSSettingsInitialize();
 
 	rotate = 0;
 
 	RevoCalibrationConnectCallback(&settingsUpdatedCb);
 	AttitudeSettingsConnectCallback(&settingsUpdatedCb);
+	InertialSensorSettingsConnectCallback(&settingsUpdatedCb);
+	INSSettingsConnectCallback(&settingsUpdatedCb);
 
 	return 0;
 }
@@ -406,7 +412,7 @@ static void SensorsTask(void *parameters)
 			}
 			
 			// Correct for mag bias and update if the rate is non zero
-			if(revoCal.MagBiasNullingRate > 0)
+			if(insSettings.MagBiasNullingRate > 0)
 				magOffsetEstimation(&mag);
 
 			MagnetometerSet(&mag);
@@ -454,7 +460,7 @@ static void magOffsetEstimation(MagnetometerData *mag)
 	if (norm_diff > MIN_NORM_DIFFERENCE) {
 		float norm_b1 = sqrtf(B1[0]*B1[0] + B1[1]*B1[1] + B1[2]*B1[2]);
 		float norm_b2 = sqrtf(B2[0]*B2[0] + B2[1]*B2[1] + B2[2]*B2[2]);
-		float scale = revoCal.MagBiasNullingRate * (norm_b2 - norm_b1) / norm_diff;
+		float scale = insSettings.MagBiasNullingRate * (norm_b2 - norm_b1) / norm_diff;
 		float b_error[3] = {(B2[0] - B1[0]) * scale, (B2[1] - B1[1]) * scale, (B2[2] - B1[2]) * scale};
 
 		magBias.x += b_error[0];
@@ -484,7 +490,7 @@ static void magOffsetEstimation(MagnetometerData *mag)
 	const float Rxy = sqrtf(homeLocation.Be[0]*homeLocation.Be[0] + homeLocation.Be[1]*homeLocation.Be[1]);
 	const float Rz = homeLocation.Be[2];
 	
-	const float rate = revoCal.MagBiasNullingRate;
+	const float rate = insSettings.MagBiasNullingRate;
 	float R[3][3];
 	float B_e[3];
 	float xy[2];
@@ -526,6 +532,7 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	RevoCalibrationGet(&revoCal);
 	InertialSensorSettingsData inertialSensorSettings;
 	InertialSensorSettingsGet(&inertialSensorSettings);
+	INSSettingsGet(&insSettings);
 	
 	mag_bias[0] = revoCal.mag_bias[REVOCALIBRATION_MAG_BIAS_X];
 	mag_bias[1] = revoCal.mag_bias[REVOCALIBRATION_MAG_BIAS_Y];
@@ -551,7 +558,7 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	MagBiasSet(&magBias);
 	
 
-	bias_correct_gyro = (revoCal.BiasCorrectedRaw == REVOCALIBRATION_BIASCORRECTEDRAW_TRUE);
+	bias_correct_gyro = (insSettings.BiasCorrectedRaw == INSSETTINGS_BIASCORRECTEDRAW_TRUE);
 
 	AttitudeSettingsData attitudeSettings;
 	AttitudeSettingsGet(&attitudeSettings);
