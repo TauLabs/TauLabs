@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       mapplugin.cpp
+ * @file       hitlplugin.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @addtogroup GCSPlugins GCS Plugins
  * @{

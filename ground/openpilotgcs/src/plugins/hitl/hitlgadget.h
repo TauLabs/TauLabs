@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       hitl.h
+ * @file       hitlgadget.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
