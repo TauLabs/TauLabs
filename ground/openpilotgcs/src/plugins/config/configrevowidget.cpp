@@ -215,6 +215,7 @@ ConfigRevoWidget::ConfigRevoWidget(QWidget *parent) :
     // will be dealing with some null pointers
     addUAVObject("RevoCalibration");
     addUAVObject("INSSettings");
+    addUAVObject("AttitudeSettings");
     autoLoadWidgets();
 
     // Connect the signals
@@ -222,6 +223,8 @@ ConfigRevoWidget::ConfigRevoWidget(QWidget *parent) :
     connect(m_ui->sixPointsStart, SIGNAL(clicked()), this, SLOT(doStartSixPointCalibration()));
     connect(m_ui->sixPointsSave, SIGNAL(clicked()), this, SLOT(savePositionData()));
     connect(m_ui->noiseMeasurementStart, SIGNAL(clicked()), this, SLOT(doStartNoiseMeasurement()));
+
+    refreshWidgetsValues();
 }
 
 ConfigRevoWidget::~ConfigRevoWidget()
@@ -403,9 +406,6 @@ void ConfigRevoWidget::doGetAccelGyroBiasData(UAVObject *obj)
         inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_Y] = listMean(gyro_accum_y);
         inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_Z] = listMean(gyro_accum_z);
 
-        float x_gyro_bias = listMean(gyro_accum_x);
-        float y_gyro_bias = listMean(gyro_accum_y);
-        float z_gyro_bias = listMean(gyro_accum_z);
         accels->setMetadata(initialAccelsMdata);
         gyros->setMetadata(initialGyrosMdata);
 
@@ -450,10 +450,6 @@ void ConfigRevoWidget::doGetAccelGyroBiasData(UAVObject *obj)
         attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] = theta * RAD2DEG * 100.0;
 
         // We offset the gyro bias by current bias to help precision
-        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_X] = -x_gyro_bias;
-        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_Y] = -y_gyro_bias;
-        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_Z] = -z_gyro_bias;
-        attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_TRUE;
         AttitudeSettings::GetInstance(getObjectManager())->setData(attitudeSettingsData);
         InertialSensorSettings::GetInstance(getObjectManager())->setData(inertialSensorSettingsData);
         this->setDirty(true);
@@ -1151,9 +1147,10 @@ void ConfigRevoWidget::refreshWidgetsValues(UAVObject *)
     m_ui->noiseMeasurementStart->setEnabled(true);
     m_ui->sixPointsStart->setEnabled(true);
     m_ui->accelBiasStart->setEnabled(true);
-    m_ui->startDriftCalib->setEnabled(true);
 
     m_ui->calibInstructions->setText(QString("Press \"Start\" above to calibrate."));
+
+    ConfigTaskWidget::refreshWidgetsValues();
 }
 
 /**

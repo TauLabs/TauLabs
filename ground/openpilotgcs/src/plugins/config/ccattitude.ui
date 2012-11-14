@@ -52,6 +52,12 @@
       </item>
       <item row="1" column="2">
        <widget class="QDoubleSpinBox" name="yawRotation">
+        <property name="minimum">
+         <double>-180.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>180.000000000000000</double>
+        </property>
         <property name="objrelation" stdset="0">
          <stringlist>
           <string>objname:AttitudeSettings</string>
@@ -64,6 +70,15 @@
       </item>
       <item row="1" column="1">
        <widget class="QDoubleSpinBox" name="pitchRotation">
+        <property name="minimum">
+         <double>-90.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>90.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.010000000000000</double>
+        </property>
         <property name="objrelation" stdset="0">
          <stringlist>
           <string>objname:AttitudeSettings</string>
@@ -76,6 +91,15 @@
       </item>
       <item row="1" column="0">
        <widget class="QDoubleSpinBox" name="rollRotation">
+        <property name="minimum">
+         <double>-180.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>180.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.010000000000000</double>
+        </property>
         <property name="objrelation" stdset="0">
          <stringlist>
           <string>objname:AttitudeSettings</string>
