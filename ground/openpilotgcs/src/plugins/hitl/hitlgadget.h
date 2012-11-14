@@ -34,7 +34,6 @@
 class IUAVGadget;
 class QWidget;
 class QString;
-class Simulator;
 
 using namespace Core;
 
@@ -53,7 +52,6 @@ signals:
 
 private:
 	HITLWidget* m_widget;
-	Simulator* simulator;
 };
 
 
