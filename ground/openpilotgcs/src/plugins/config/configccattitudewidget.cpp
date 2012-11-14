@@ -502,11 +502,6 @@ void ConfigCCAttitudeWidget::computeScaleBias()
    inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Y] *= fabs(S[1]);
    inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Z] *= fabs(S[2]);
 
-   //Set board rotations back to user settings
-   inertialSensorSettingsData.BoardRotation[InertialSensorSettings::BOARDROTATION_ROLL] =boardRotation[0];
-   inertialSensorSettingsData.BoardRotation[InertialSensorSettings::BOARDROTATION_PITCH]=boardRotation[1];
-   inertialSensorSettingsData.BoardRotation[InertialSensorSettings::BOARDROTATION_YAW]  =boardRotation[2];
-
    // Check the accel calibration is good
    bool good_calibration = true;
    good_calibration &= inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_X] ==
@@ -536,6 +531,15 @@ void ConfigCCAttitudeWidget::computeScaleBias()
        inertialSensorSettingsData = inertialSensorSettings->getData();
        ui->sixPointCalibInstructions->append("Bad calibration. Please repeat.");
    }
+
+   //Set board rotations back to user settings
+   AttitudeSettings * attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
+   Q_ASSERT(attitudeSettings);
+   AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
+   attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] = boardRotation[0];
+   attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] = boardRotation[1];
+   attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] = boardRotation[2];
+   attitudeSettings->setData(attitudeSettingsData);
 
    qDebug()<<  "S: " << S[0] << " " << S[1] << " " << S[2];
    qDebug()<<  "b: " << b[0] << " " << b[1] << " " << b[2];
