@@ -55,6 +55,7 @@
 #include "accels.h"
 #include "attitudeactual.h"
 #include "attitudesettings.h"
+#include "inertialsensorsettings.h"
 #include "baroaltitude.h"
 #include "flightstatus.h"
 #include "gpsposition.h"
@@ -907,12 +908,15 @@ static void settingsUpdatedCb(UAVObjEvent * ev)
 	if (ev == NULL || ev->obj == RevoCalibrationHandle()) {
 		RevoCalibrationGet(&revoCalibration);
 		
+		InertialSensorSettingsData inertialSensorSettings;
+		InertialSensorSettingsGet(&inertialSensorSettings);
+		
 		/* When the revo calibration is updated, update the GyroBias object */
 		GyrosBiasData gyrosBias;
 		GyrosBiasGet(&gyrosBias);
-		gyrosBias.x = revoCalibration.gyro_bias[REVOCALIBRATION_GYRO_BIAS_X];
-		gyrosBias.y = revoCalibration.gyro_bias[REVOCALIBRATION_GYRO_BIAS_Y];
-		gyrosBias.z = revoCalibration.gyro_bias[REVOCALIBRATION_GYRO_BIAS_Z];
+		gyrosBias.x = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_X];
+		gyrosBias.y = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_Y];
+		gyrosBias.z = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_Z];
 		GyrosBiasSet(&gyrosBias);
 
 		gyroBiasSettingsUpdated = true;

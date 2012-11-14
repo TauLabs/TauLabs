@@ -55,6 +55,7 @@
 #include "gyrosbias.h"
 #include "attitudeactual.h"
 #include "attitudesettings.h"
+#include "inertialsensorsettings.h"
 #include "revocalibration.h"
 #include "flightstatus.h"
 #include "CoordinateConversions.h"
@@ -78,7 +79,7 @@ static void magOffsetEstimation(MagnetometerData *mag);
 
 // Private variables
 static xTaskHandle sensorsTaskHandle;
-RevoCalibrationData cal;
+RevoCalibrationData revoCal;
 
 // These values are initialized by settings but can be updated by the attitude algorithm
 static bool bias_correct_gyro = true;
@@ -88,7 +89,7 @@ static float mag_scale[3] = {0,0,0};
 static float accel_bias[3] = {0,0,0};
 static float accel_scale[3] = {0,0,0};
 
-static float R[3][3] = {{0}};
+static float Rbs[3][3] = {{0}};
 static int8_t rotate = 0;
 
 /**
@@ -342,7 +343,7 @@ static void SensorsTask(void *parameters)
 		                       accels[1] * accel_scaling * accel_scale[1] - accel_bias[1],
 		                       accels[2] * accel_scaling * accel_scale[2] - accel_bias[2]};
 		if (rotate) {
-			rot_mult(R, accels_out, accels, false);
+			rot_mult(Rbs, accels_out, accels, false);
 			accelsData.x = accels[0];
 			accelsData.y = accels[1];
 			accelsData.z = accels[2];
@@ -361,7 +362,7 @@ static void SensorsTask(void *parameters)
 		                      gyros[1] * gyro_scaling,
 		                      gyros[2] * gyro_scaling};
 		if (rotate) {
-			rot_mult(R, gyros_out, gyros, false);
+			rot_mult(Rbs, gyros_out, gyros, false);
 			gyrosData.x = gyros[0];
 			gyrosData.y = gyros[1];
 			gyrosData.z = gyros[2];
@@ -394,7 +395,7 @@ static void SensorsTask(void *parameters)
 			                -(float) values[2] * mag_scale[2] - mag_bias[2]};
 			if (rotate) {
 				float mag_out[3];
-				rot_mult(R, mags, mag_out, false);
+				rot_mult(Rbs, mags, mag_out, false);
 				mag.x = mag_out[0];
 				mag.y = mag_out[1];
 				mag.z = mag_out[2];
@@ -405,7 +406,7 @@ static void SensorsTask(void *parameters)
 			}
 			
 			// Correct for mag bias and update if the rate is non zero
-			if(cal.MagBiasNullingRate > 0)
+			if(revoCal.MagBiasNullingRate > 0)
 				magOffsetEstimation(&mag);
 
 			MagnetometerSet(&mag);
@@ -453,7 +454,7 @@ static void magOffsetEstimation(MagnetometerData *mag)
 	if (norm_diff > MIN_NORM_DIFFERENCE) {
 		float norm_b1 = sqrtf(B1[0]*B1[0] + B1[1]*B1[1] + B1[2]*B1[2]);
 		float norm_b2 = sqrtf(B2[0]*B2[0] + B2[1]*B2[1] + B2[2]*B2[2]);
-		float scale = cal.MagBiasNullingRate * (norm_b2 - norm_b1) / norm_diff;
+		float scale = revoCal.MagBiasNullingRate * (norm_b2 - norm_b1) / norm_diff;
 		float b_error[3] = {(B2[0] - B1[0]) * scale, (B2[1] - B1[1]) * scale, (B2[2] - B1[2]) * scale};
 
 		magBias.x += b_error[0];
@@ -483,7 +484,7 @@ static void magOffsetEstimation(MagnetometerData *mag)
 	const float Rxy = sqrtf(homeLocation.Be[0]*homeLocation.Be[0] + homeLocation.Be[1]*homeLocation.Be[1]);
 	const float Rz = homeLocation.Be[2];
 	
-	const float rate = cal.MagBiasNullingRate;
+	const float rate = revoCal.MagBiasNullingRate;
 	float R[3][3];
 	float B_e[3];
 	float xy[2];
@@ -522,20 +523,22 @@ static void magOffsetEstimation(MagnetometerData *mag)
  * Locally cache some variables from the AtttitudeSettings object
  */
 static void settingsUpdatedCb(UAVObjEvent * objEv) {
-	RevoCalibrationGet(&cal);
+	RevoCalibrationGet(&revoCal);
+	InertialSensorSettingsData inertialSensorSettings;
+	InertialSensorSettingsGet(&inertialSensorSettings);
 	
-	mag_bias[0] = cal.mag_bias[REVOCALIBRATION_MAG_BIAS_X];
-	mag_bias[1] = cal.mag_bias[REVOCALIBRATION_MAG_BIAS_Y];
-	mag_bias[2] = cal.mag_bias[REVOCALIBRATION_MAG_BIAS_Z];
-	mag_scale[0] = cal.mag_scale[REVOCALIBRATION_MAG_SCALE_X];
-	mag_scale[1] = cal.mag_scale[REVOCALIBRATION_MAG_SCALE_Y];
-	mag_scale[2] = cal.mag_scale[REVOCALIBRATION_MAG_SCALE_Z];
-	accel_bias[0] = cal.accel_bias[REVOCALIBRATION_ACCEL_BIAS_X];
-	accel_bias[1] = cal.accel_bias[REVOCALIBRATION_ACCEL_BIAS_Y];
-	accel_bias[2] = cal.accel_bias[REVOCALIBRATION_ACCEL_BIAS_Z];
-	accel_scale[0] = cal.accel_scale[REVOCALIBRATION_ACCEL_SCALE_X];
-	accel_scale[1] = cal.accel_scale[REVOCALIBRATION_ACCEL_SCALE_Y];
-	accel_scale[2] = cal.accel_scale[REVOCALIBRATION_ACCEL_SCALE_Z];
+	mag_bias[0] = revoCal.mag_bias[REVOCALIBRATION_MAG_BIAS_X];
+	mag_bias[1] = revoCal.mag_bias[REVOCALIBRATION_MAG_BIAS_Y];
+	mag_bias[2] = revoCal.mag_bias[REVOCALIBRATION_MAG_BIAS_Z];
+	mag_scale[0] = revoCal.mag_scale[REVOCALIBRATION_MAG_SCALE_X];
+	mag_scale[1] = revoCal.mag_scale[REVOCALIBRATION_MAG_SCALE_Y];
+	mag_scale[2] = revoCal.mag_scale[REVOCALIBRATION_MAG_SCALE_Z];
+	accel_bias[0] = inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_X];
+	accel_bias[1] = inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_Y];
+	accel_bias[2] = inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_Z];
+	accel_scale[0] = inertialSensorSettings.AccelScale[INERTIALSENSORSETTINGS_ACCELSCALE_X];
+	accel_scale[1] = inertialSensorSettings.AccelScale[INERTIALSENSORSETTINGS_ACCELSCALE_X];
+	accel_scale[2] = inertialSensorSettings.AccelScale[INERTIALSENSORSETTINGS_ACCELSCALE_X];
 	// Do not store gyros_bias here as that comes from the state estimator and should be
 	// used from GyroBias directly
 	
@@ -548,10 +551,10 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	MagBiasSet(&magBias);
 	
 
+	bias_correct_gyro = (revoCal.BiasCorrectedRaw == REVOCALIBRATION_BIASCORRECTEDRAW_TRUE);
+
 	AttitudeSettingsData attitudeSettings;
 	AttitudeSettingsGet(&attitudeSettings);
-	bias_correct_gyro = (cal.BiasCorrectedRaw == REVOCALIBRATION_BIASCORRECTEDRAW_TRUE);
-
 	// Indicates not to expend cycles on rotation
 	if(attitudeSettings.BoardRotation[0] == 0 && attitudeSettings.BoardRotation[1] == 0 &&
 	   attitudeSettings.BoardRotation[2] == 0) {
@@ -562,7 +565,7 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 			attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_PITCH],
 			attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_YAW]};
 		RPY2Quaternion(rpy, rotationQuat);
-		Quaternion2R(rotationQuat, R);
+		Quaternion2R(rotationQuat, Rbs);
 		rotate = 1;
 	}
 

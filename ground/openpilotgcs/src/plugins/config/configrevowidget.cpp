@@ -41,6 +41,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <attitudesettings.h>
+#include <inertialsensorsettings.h>
 #include <revocalibration.h>
 #include <homelocation.h>
 #include <accels.h>
@@ -355,20 +356,27 @@ void ConfigRevoWidget::doGetAccelGyroBiasData(UAVObject *obj)
         m_ui->accelBiasStart->setEnabled(true);
 
         RevoCalibration * revoCalibration = RevoCalibration::GetInstance(getObjectManager());
+        InertialSensorSettings * inertialSensorSettings = InertialSensorSettings::GetInstance(getObjectManager());
+        Q_ASSERT(inertialSensorSettings);
         Q_ASSERT(revoCalibration);
         RevoCalibration::DataFields revoCalibrationData = revoCalibration->getData();
+        InertialSensorSettings::DataFields inertialSensorSettingsData = inertialSensorSettings->getData();
+
         revoCalibrationData.BiasCorrectedRaw = RevoCalibration::BIASCORRECTEDRAW_TRUE;
 
         // Update the biases based on collected data
-        revoCalibrationData.accel_bias[RevoCalibration::ACCEL_BIAS_X] += listMean(accel_accum_x);
-        revoCalibrationData.accel_bias[RevoCalibration::ACCEL_BIAS_Y] += listMean(accel_accum_y);
-        revoCalibrationData.accel_bias[RevoCalibration::ACCEL_BIAS_Z] += ( listMean(accel_accum_z) + GRAVITY );
-        revoCalibrationData.gyro_bias[RevoCalibration::GYRO_BIAS_X] = listMean(gyro_accum_x);
-        revoCalibrationData.gyro_bias[RevoCalibration::GYRO_BIAS_Y] = listMean(gyro_accum_y);
-        revoCalibrationData.gyro_bias[RevoCalibration::GYRO_BIAS_Z] = listMean(gyro_accum_z);
+        inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_X] += listMean(accel_accum_x);
+        inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Y] += listMean(accel_accum_y);
+        inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z] += ( listMean(accel_accum_z) + GRAVITY );
+        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_X] = listMean(gyro_accum_x);
+        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_Y] = listMean(gyro_accum_y);
+        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_Z] = listMean(gyro_accum_z);
 
         revoCalibration->setData(revoCalibrationData);
+        inertialSensorSettings->setData(inertialSensorSettingsData);
+
         revoCalibration->updated();
+        inertialSensorSettings->updated();
 
         AttitudeSettings * attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
         Q_ASSERT(attitudeSettings);
@@ -515,13 +523,19 @@ void ConfigRevoWidget::doStartSixPointCalibration()
     }
 
 #ifdef SIX_POINT_CAL_ACCEL
+    InertialSensorSettings * inertialSensorSettings = InertialSensorSettings::GetInstance(getObjectManager());
+    Q_ASSERT(inertialSensorSettings);
+    InertialSensorSettings::DataFields inertialSensorSettingsData = inertialSensorSettings->getData();
+
     // Calibration accel
-    revoCalibrationData.accel_scale[RevoCalibration::ACCEL_SCALE_X] = 1;
-    revoCalibrationData.accel_scale[RevoCalibration::ACCEL_SCALE_Y] = 1;
-    revoCalibrationData.accel_scale[RevoCalibration::ACCEL_SCALE_Z] = 1;
-    revoCalibrationData.accel_bias[RevoCalibration::ACCEL_BIAS_X] = 0;
-    revoCalibrationData.accel_bias[RevoCalibration::ACCEL_BIAS_Y] = 0;
-    revoCalibrationData.accel_bias[RevoCalibration::ACCEL_BIAS_Z] = 0;
+    inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_X] = 1;
+    inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Y] = 1;
+    inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Z] = 1;
+    inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_X] = 0;
+    inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Y] = 0;
+    inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z] = 0;
+
+    inertialSensorSettings->setData(inertialSensorSettingsData);
 
     accel_accum_x.clear();
     accel_accum_y.clear();
@@ -723,13 +737,18 @@ void ConfigRevoWidget::computeScaleBias()
 #ifdef SIX_POINT_CAL_ACCEL
    // Calibration accel
    SixPointInConstFieldCal( homeLocationData.g_e, accel_data_x, accel_data_y, accel_data_z, S, b);
-   revoCalibrationData.accel_scale[RevoCalibration::ACCEL_SCALE_X] = fabs(S[0]);
-   revoCalibrationData.accel_scale[RevoCalibration::ACCEL_SCALE_Y] = fabs(S[1]);
-   revoCalibrationData.accel_scale[RevoCalibration::ACCEL_SCALE_Z] = fabs(S[2]);
 
-   revoCalibrationData.accel_bias[RevoCalibration::ACCEL_BIAS_X] = -sign(S[0]) * b[0];
-   revoCalibrationData.accel_bias[RevoCalibration::ACCEL_BIAS_Y] = -sign(S[1]) * b[1];
-   revoCalibrationData.accel_bias[RevoCalibration::ACCEL_BIAS_Z] = -sign(S[2]) * b[2];
+   InertialSensorSettings * inertialSensorSettings = InertialSensorSettings::GetInstance(getObjectManager());
+   Q_ASSERT(inertialSensorSettings);
+   InertialSensorSettings::DataFields inertialSensorSettingsData = inertialSensorSettings->getData();
+
+   // Calibration accel
+   inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_X] = fabs(S[0]);
+   inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Y] = fabs(S[1]);
+   inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Z] = fabs(S[2]);
+   inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_X] = -sign(S[0]) * b[0];
+   inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Y] = -sign(S[1]) * b[1];
+   inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z] = -sign(S[2]) * b[2];
 #endif
 
    // Calibration mag
@@ -764,22 +783,24 @@ void ConfigRevoWidget::computeScaleBias()
            revoCalibrationData.mag_bias[RevoCalibration::MAG_BIAS_Z];
 
    // Check the accel calibration is good
-   good_calibration &= revoCalibrationData.accel_scale[RevoCalibration::ACCEL_SCALE_X] ==
-           revoCalibrationData.accel_scale[RevoCalibration::ACCEL_SCALE_X];
-   good_calibration &= revoCalibrationData.accel_scale[RevoCalibration::ACCEL_SCALE_Y] ==
-           revoCalibrationData.accel_scale[RevoCalibration::ACCEL_SCALE_Y];
-   good_calibration &= revoCalibrationData.accel_scale[RevoCalibration::ACCEL_SCALE_Z] ==
-           revoCalibrationData.accel_scale[RevoCalibration::ACCEL_SCALE_Z];
-   good_calibration &= revoCalibrationData.accel_bias[RevoCalibration::ACCEL_BIAS_X] ==
-           revoCalibrationData.accel_bias[RevoCalibration::ACCEL_BIAS_X];
-   good_calibration &= revoCalibrationData.accel_bias[RevoCalibration::ACCEL_BIAS_Y] ==
-           revoCalibrationData.accel_bias[RevoCalibration::ACCEL_BIAS_Y];
-   good_calibration &= revoCalibrationData.accel_bias[RevoCalibration::ACCEL_BIAS_Z] ==
-           revoCalibrationData.accel_bias[RevoCalibration::ACCEL_BIAS_Z];
+   good_calibration &= inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_X] ==
+           inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_X];
+   good_calibration &= inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Y] ==
+           inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Y];
+   good_calibration &= inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Z] ==
+           inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Z];
+   good_calibration &= inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_X] ==
+           inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_X];
+   good_calibration &= inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Y] ==
+           inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Y];
+   good_calibration &= inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z] ==
+           inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z];
    if (good_calibration) {
+       inertialSensorSettings->setData(inertialSensorSettingsData);
        revoCalibration->setData(revoCalibrationData);
        m_ui->sixPointCalibInstructions->append("Computed accel and mag scale and bias...");
    } else {
+       inertialSensorSettingsData=inertialSensorSettings->getData();
        revoCalibrationData = revoCalibration->getData();
        m_ui->sixPointCalibInstructions->append("Bad calibration. Please repeat.");
    }

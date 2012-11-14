@@ -33,6 +33,7 @@ UAVOBJSRCFILENAMES += attitudesettings
 UAVOBJSRCFILENAMES += attitudeactual
 UAVOBJSRCFILENAMES += gyros
 UAVOBJSRCFILENAMES += gyrosbias
+UAVOBJSRCFILENAMES += inertialsensorsettings
 UAVOBJSRCFILENAMES += accels
 UAVOBJSRCFILENAMES += magnetometer
 UAVOBJSRCFILENAMES += magbias
