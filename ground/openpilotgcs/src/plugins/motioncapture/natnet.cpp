@@ -62,6 +62,7 @@
 #include <coreplugin/threadmanager.h>
 #include <math.h>
 #include <qxtlogger.h>
+#include "utils/coordinateconversions.h"
 
 NatNet::NatNet(const MocapSettings& params) :
     Export(params)
@@ -279,7 +280,7 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
                 float quat[4]={qw, qx, qz, qy}; // NOTE: This is odd because of the messed up TrackingTools world axes, and the fact that according to the website it outputs left-hand data
                 float rpy[3];
 
-                Quaternion2RPY(quat, rpy);
+                Utils::CoordinateConversions().Quaternion2RPY(quat, rpy);
 
                 roll =rpy[0];
                 pitch=rpy[1];
@@ -584,12 +585,12 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
     //Rotate OptiTrack reference frame into local reference frame
     out.posN=-posZ;
     out.posE=-posX;
-    out.posD=dstY;
+    out.posD= posY;
 
     // Update VelocityActual.{North,East,Down}
-    out.velNorth = velY;
-    out.velEast = velX;
-    out.velDown = -velZ;
+    out.velNorth =-velZ;
+    out.velEast  =-velX;
+    out.velDown  = velY;
 
     out.groundspeed = sqrt(pow(out.velNorth,2)+pow(out.velEast,2)+pow(out.velDown,2));
 
