@@ -57,10 +57,6 @@ SOURCES += calibration.cpp \
     configccattitudewidget.cpp \
     configstabilizationwidget.cpp \
     configpipxtremewidget.cpp \
-    twostep.cpp \
-    legacy-calibration.cpp \
-    gyro-calibration.cpp \
-    alignment-calibration.cpp \
     defaultattitudewidget.cpp \
     defaulthwsettingswidget.cpp \
     inputchannelform.cpp \
