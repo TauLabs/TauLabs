@@ -23,12 +23,11 @@
 #ifndef CALIBRATION_H
 #define CALIBRATION_H
 
-#include "ui_ccattitude.h"
-#include "../uavobjectwidgetutils/configtaskwidget.h"
-#include "extensionsystem/pluginmanager.h"
-#include "uavobjectmanager.h"
-#include "uavobject.h"
-#include <QtGui/QWidget>
+#include <uavobjectmanager.h>
+#include <extensionsystem/pluginmanager.h>
+#include <uavobject.h>
+#include <uavobjectutilmanager.h>
+
 #include <QTimer>
 #include <QString>
 
@@ -77,6 +76,9 @@ signals:
     //! Show an instruction to the user
     void showMessage(QString message);
 
+    //! Indicate what the progress is
+    void progressChanged(int);
+
 private:
     QTimer timer;
 
@@ -92,13 +94,11 @@ private:
     //! Store the initial accel meta data to restore it after calibration
     UAVObject::Metadata initialAccelsMdata;
 
+    //! Store the initial mag meta data to restore it after calibration
+    UAVObject::Metadata initialMagMdata;
+
     //! Store the initial gyro meta data to restore it after calibration
     UAVObject::Metadata initialGyrosMdata;
-
-    // Track the number of updates
-    int accelUpdates;
-    int gyroUpdates;
-    int magUpdates;
 
     QList<double> gyro_accum_x;
     QList<double> gyro_accum_y;
@@ -114,14 +114,27 @@ private:
     double mag_data_x[6], mag_data_y[6], mag_data_z[6];
 
     static const int NUM_SENSOR_UPDATES = 300;
+    static const int NUM_SENSOR_UPDATES_SIX_POINT = 50;
+    static const int SENSOR_UPDATE_PERIOD = 50;
 
     double initialBoardRotation[3];
 
 protected:
-    //! Store a measurement at this position and indicate if it is the last one
-    bool storeSixPointMeasured(UAVObject * obj, int position);
 
-    void computeScaleBias();
+    enum sensor_type {ACCEL, GYRO, MAG};
+
+    //! Connect and speed up or disconnect a sensor
+    void connectSensor(sensor_type sensor, bool connect);
+
+    //! Store a measurement at this position and indicate if it is the last one
+    bool storeSixPointMeasurement(UAVObject * obj, int position);
+
+    //! Store leveling sample and compute level if finished
+    bool storeLevelingMeasurement();
+
+    //! Computes the scale and bias for the accelerometer and mag
+    bool computeScaleBias();
+
     int SixPointInConstFieldCal( double ConstMag, double x[6], double y[6], double z[6], double S[3], double b[3] );
     int LinearEquationsSolving(int nDim, double* pfMatr, double* pfVect, double* pfSolution);
 

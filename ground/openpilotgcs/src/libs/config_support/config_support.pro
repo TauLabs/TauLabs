@@ -11,6 +11,7 @@ QT += gui \
 DEFINES += QTCREATOR_UTILS_LIB
 
 include(../../openpilotgcslibrary.pri)
+include(config_support.pri)
 
 SOURCES += calibration.cpp
 HEADERS += calibration.h

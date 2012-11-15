@@ -20,19 +20,16 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#include "configccattitudewidget.h"
-#include "ui_ccattitude.h"
+
+#include "calibration.h"
+
 #include "utils/coordinateconversions.h"
-#include <QMutexLocker>
 #include <QMessageBox>
 #include <QDebug>
-#include <QDesktopServices>
-#include <QUrl>
 #include "accels.h"
 #include "gyros.h"
 #include "magnetometer.h"
-#include <extensionsystem/pluginmanager.h>
-#include <coreplugin/generalsettings.h>
+#include "revocalibration.h"
 #include "homelocation.h"
 #include "attitudesettings.h"
 #include "inertialsensorsettings.h"
@@ -57,6 +54,83 @@ Calibration::~Calibration()
 {
 }
 
+/**
+ * @brief Calibration::connectSensor
+ * @param sensor The sensor to change
+ * @param connect Whether to connect or disconnect to this sensor
+ */
+void Calibration::connectSensor(sensor_type sensor, bool connect)
+{
+    if (connect) {
+        switch (sensor) {
+        case ACCEL:
+            Accels * accels = Accels::GetInstance(getObjectManager());
+            Q_ASSERT(accels);
+
+            initialAccelsMdata = accels->getMetadata();
+            mdata = initialAccelsMdata;
+            UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
+            mdata.flightTelemetryUpdatePeriod = SENSOR_UPDATE_PERIOD;
+            accels->setMetadata(mdata);
+
+            connect(accels, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(dataUpdated(UAVObject *)));
+            break;
+
+        case MAG:
+            Magnetometer * mag = Magnetometer::GetInstance(getObjectManager());
+            Q_ASSERT(mag);
+
+            initialMagMdata = mag->getMetadata();
+            mdata = initialMagMdata;
+            UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
+            mdata.flightTelemetryUpdatePeriod = SENSOR_UPDATE_PERIOD;
+            mag->setMetadata(mdata);
+
+            connect(mag, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(dataUpdated(UAVObject *)));
+            break;
+
+        case GYRO:
+            Gyros * gyros = Gyros::GetInstance(getObjectManager());
+            Q_ASSERT(gyros);
+
+            initialGyroMdata = gyros->getMetadata();
+            mdata = initialMagMdata;
+            UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
+            mdata.flightTelemetryUpdatePeriod = SENSOR_UPDATE_PERIOD;
+            gyros->setMetadata(mdata);
+
+            connect(gyros, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(dataUpdated(UAVObject *)));
+            break;
+
+        }
+    } else {
+        switch (sensor) {
+        case ACCEL:
+            Accels * accels = Accels::GetInstance(getObjectManager());
+            Q_ASSERT(accels);
+            accels->setMetadata(initialAccelsMdata);
+            disconnect(accels, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(dataUpdated(UAVObject *)));
+            break;
+
+        case MAG:
+            Magnetometer * mag = Magnetometer::GetInstance(getObjectManager());
+            Q_ASSERT(mag);
+            mag->setMetadata(initialMagMdata);
+            disconnect(mag, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(dataUpdated(UAVObject *)));
+            break;
+
+        case GYRO:
+            Gyros * gyros = Gyros::GetInstance(getObjectManager());
+            Q_ASSERT(gyros);
+            gyros->setMetadata(initialGyroMdata);
+            disconnect(gyros, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(dataUpdated(UAVObject *)));
+            break;
+
+        }
+    }
+}
+
+
 void Calibration::dataUpdated(UAVObject * obj) {
 
     if (!timer.isActive()) {
@@ -72,199 +146,156 @@ void Calibration::dataUpdated(UAVObject * obj) {
     case SIX_POINT_WAIT4:
     case SIX_POINT_WAIT5:
     case SIX_POINT_WAIT6:
+        // Do nothing
         return;
         break;
     case LEVELING:
+        if(storeLevelingMeasurement()) {
+            connectSensors(GYRO, false);
+            connectSensors(ACCEL, false);
+            calibration_state = IDLE;
+
+            emit showMessage(tr("Level computed"));
+            emit toggleControls(true);
+            emit progressChanged(0);
+            disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
+        }
         break;
     case SIX_POINT_COLLECT1:
-        if(storeSixPointMeasured(obj,1)) {
+        if(storeSixPointMeasurement(obj,1)) {
             // If all the data is collected advance to the next position
             calibration_state = SIX_POINT_WAIT2;
             emit showMessage(tr("Rotate UAV and press save position..."));
             emit toggleControls(true);
             emit updatePlane(2);
+            disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
         }
         break;
     case SIX_POINT_COLLECT2:
-        if(storeSixPointMeasured(obj,2)) {
+        if(storeSixPointMeasurement(obj,2)) {
             // If all the data is collected advance to the next position
             calibration_state = SIX_POINT_WAIT3;
             emit showMessage(tr("Rotate UAV and press save position..."));
             emit toggleControls(true);
             emit updatePlane(3);
+            disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
         }
         break;
     case SIX_POINT_COLLECT3:
-        if(storeSixPointMeasured(obj,3)) {
+        if(storeSixPointMeasurement(obj,3)) {
             // If all the data is collected advance to the next position
             calibration_state = SIX_POINT_WAIT4;
             emit showMessage(tr("Rotate UAV and press save position..."));
             emit toggleControls(true);
             emit updatePlane(4);
+            disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
         }
         break;
     case SIX_POINT_COLLECT4:
-        if(storeSixPointMeasured(obj,4)) {
+        if(storeSixPointMeasurement(obj,4)) {
             // If all the data is collected advance to the next position
-            calibration_state = SIX_POINT_WAIT3;
+            calibration_state = SIX_POINT_WAIT5;
             emit showMessage(tr("Rotate UAV and press save position..."));
             emit toggleControls(true);
             emit updatePlane(5);
+            disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
         }
         break;
     case SIX_POINT_COLLECT5:
-        if(storeSixPointMeasured(obj,5)) {
+        if(storeSixPointMeasurement(obj,5)) {
             // If all the data is collected advance to the next position
-            calibration_state = SIX_POINT_WAIT3;
+            calibration_state = SIX_POINT_WAIT6;
             emit showMessage(tr("Rotate UAV and press save position..."));
             emit toggleControls(true);
             emit updatePlane(6);
+            disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
         }
         break;
     case SIX_POINT_COLLECT6:
-        if(storeSixPointMeasured(obj,6)) {
-            // If all the data is collected advance to the next position
-            calibration_state = SIX_POINT_WAIT3;
+        if(storeSixPointMeasurement(obj,6)) {
+            // All data collected.  Disconnect everything and compute value
+            connectSensor(ACCEL, false);
+            if (calibrateMag)
+                connectSensor(MAG, false);
+
+            calibration_state = IDLE;
             emit toggleControls(true);
             emit updatePlane(0);
-            computeScaleBias();
+            emit progressChanged(0);
+            disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
 
-            // TODO: Disconnect mag if appropriate, restore meta data
-            Accels * accels = Accels::GetInstance(getObjectManager());
-            Q_ASSERT(accels);
-            disconnect(accels,SIGNAL(objectUpdated(UAVObject*)),this,SLOT(dataUpdated(UAVObject*)));
-
+            // Do calculation
+            if (computeScaleBias())
+                emit showMessage(tr("Calibration succeeded"));
+            else
+                emit showMessage(tr("Calibration failed.  Please repeat"));
 
         }
         break;
     }
 
-    Accels * accels = Accels::GetInstance(getObjectManager());
-    Gyros * gyros = Gyros::GetInstance(getObjectManager());
-
-    // Accumulate samples until we have _at least_ NUM_SENSOR_UPDATES samples
-    // for both gyros and accels.
-    // Note that, at present, we stash the samples and then compute the bias
-    // at the end, even though the mean could be accumulated as we go.
-    // In future, a better algorithm could be used.
-    if(obj->getObjID() == Accels::OBJID) {
-        accelUpdates++;
-        Accels::DataFields accelsData = accels->getData();
-        accel_accum_x.append(accelsData.x);
-        accel_accum_y.append(accelsData.y);
-        accel_accum_z.append(accelsData.z);
-    } else if (obj->getObjID() == Gyros::OBJID) {
-        gyroUpdates++;
-        Gyros::DataFields gyrosData = gyros->getData();
-        gyro_accum_x.append(gyrosData.x);
-        gyro_accum_y.append(gyrosData.y);
-        gyro_accum_z.append(gyrosData.z);
-    }
-
-    // update the progress indicator
-    ui->zeroBiasProgress->setValue((float) qMin(accelUpdates, gyroUpdates) / NUM_SENSOR_UPDATES * 100);
-
-    // If we have enough samples, then stop sampling and compute the biases
-    if (accelUpdates >= NUM_SENSOR_UPDATES && gyroUpdates >= NUM_SENSOR_UPDATES) {
-        timer.stop();
-        disconnect(obj,SIGNAL(objectUpdated(UAVObject*)),this,SLOT(sensorsUpdated(UAVObject*)));
-        disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
-
-        float x_gyro_bias = listMean(gyro_accum_x);
-        float y_gyro_bias = listMean(gyro_accum_y);
-        float z_gyro_bias = listMean(gyro_accum_z);
-        accels->setMetadata(initialAccelsMdata);
-        gyros->setMetadata(initialGyrosMdata);
-
-        // Get the existing attitude settings
-        AttitudeSettings::DataFields attitudeSettingsData = AttitudeSettings::GetInstance(getObjectManager())->getData();
-        InertialSensorSettings::DataFields inertialSensorSettingsData = InertialSensorSettings::GetInstance(getObjectManager())->getData();
-
-        const double DEG2RAD = M_PI / 180.0f;
-        const double RAD2DEG = 1.0 / DEG2RAD;
-        const double GRAV = -9.81;
-
-        // Inverse rotation of sensor data, from body frame into sensor frame
-        double a_body[3] = { listMean(accel_accum_x), listMean(accel_accum_y), listMean(accel_accum_z) };
-        double a_sensor[3];
-        double Rsb[3][3];
-        double rpy[3] = { attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] * DEG2RAD / 100.0,
-                          attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] * DEG2RAD / 100.0,
-                          attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] * DEG2RAD / 100.0};
-        Euler2R(rpy, Rsb);
-        rot_mult(Rsb, a_body, a_sensor, true);
-
-        qDebug() << "A before: " << a_body[0] << " " << a_body[1] << " " << a_body[2];
-        qDebug() << "A after: " << a_sensor[0] << " " << a_sensor[1] << " " << a_sensor[2];
-
-        // Temporary variables
-        double psi, theta, phi;
-
-        // Keep existing yaw rotation
-        psi = attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] * DEG2RAD / 100.0;
-
-        double cP = cos(psi);
-        double sP = sin(psi);
-
-        // In case psi is too small, we have to use a different equation to solve for theta
-        if (fabs(psi) > M_PI / 2)
-            theta = atan((a_sensor[1] + cP * (sP * a_sensor[0] - cP * a_sensor[1])) / (sP * a_sensor[2]));
-        else
-            theta = atan((a_sensor[0] - sP * (sP * a_sensor[0] - cP * a_sensor[1])) / (cP * a_sensor[2]));
-        phi = atan2((sP * a_sensor[0] - cP * a_sensor[1]) / GRAV, a_sensor[2] / cos(theta) / GRAV);
-
-        attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] = phi * RAD2DEG * 100.0;
-        attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] = theta * RAD2DEG * 100.0;
-
-        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_X] = x_gyro_bias;
-        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_Y] = y_gyro_bias;
-        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_Z] = z_gyro_bias;
-        InertialSensorSettings::GetInstance(getObjectManager())->setData(inertialSensorSettingsData);
-        InertialSensorSettings::GetInstance(getObjectManager())->updated();
-
-        // We offset the gyro bias by current bias to help precision
-        // Disable gyro bias correction to see raw data
-        AttitudeSettings *attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
-        Q_ASSERT(attitudeSettings);
-        attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_TRUE;
-        attitudeSettings->setData(attitudeSettingsData);
-        attitudeSettings->updated();
-
-        this->setDirty(true);
-
-        // reenable controls
-        enableControls(true);
-    }
 }
 
+/**
+ * @brief Calibration::timeout When collecting data for leveling or six point calibration times out
+ * clean up the state and reset
+ */
 void Calibration::timeout() {
-    UAVDataObject * obj = Accels::GetInstance(getObjectManager());
-    disconnect(obj,SIGNAL(objectUpdated(UAVObject*)),this,SLOT(sensorsUpdated(UAVObject*)));
-    disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
 
-    Accels * accels = Accels::GetInstance(getObjectManager());
-    Gyros * gyros = Gyros::GetInstance(getObjectManager());
-    accels->setMetadata(initialAccelsMdata);
-    gyros->setMetadata(initialGyrosMdata);
+    switch(calibration_state) {
+    case IDLE:
+        // Do nothing
+        return;
+        break;
+    case LEVELING:
+        // Disconnect appropriate sensors
+        connectSensor(GYRO, false);
+        connectSensor(ACCEL, false);
+        calibration_state = IDLE;
+        emit showMessage(tr("Leveling timed out ..."));
+    case SIX_POINT_WAIT1:
+    case SIX_POINT_WAIT2:
+    case SIX_POINT_WAIT3:
+    case SIX_POINT_WAIT4:
+    case SIX_POINT_WAIT5:
+    case SIX_POINT_WAIT6:
+        // Do nothing, shouldn't happen
+        return;
+        break;
+    case SIX_POINT_COLLECT1:
+    case SIX_POINT_COLLECT2:
+    case SIX_POINT_COLLECT3:
+    case SIX_POINT_COLLECT4:
+    case SIX_POINT_COLLECT5:
+    case SIX_POINT_COLLECT6:
+        connectSensor(ACCEL, false);
+        if (calibrateMag)
+            connectSensor(MAG, false);
+        calibration_state = IDLE;
+        emit showMessage(tr("Six point data collection timed out"));
+        break;
+    }
+
+    emit updatePlane(0);
+    emit progressChanged(0);
+    emit toggleControls(true);
+
+    disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
 
     QMessageBox msgBox;
     msgBox.setText(tr("Calibration timed out before receiving required updates."));
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.setDefaultButton(QMessageBox::Ok);
     msgBox.exec();
-
-    // reset progress indicator
-    ui->zeroBiasProgress->setValue(0);
-    // reenable controls
-    enableControls(true);
 }
 
+/**
+ * @brief Calibration::doStartLeveling Called by UI to start collecting data to calculate level
+ */
 void Calibration::doStartLeveling() {
-    // disable controls during sampling
-    enableControls(false);
+    emit toggleControls(false);
+    emit showMessage(tr("Leave board flat"));
 
-    accelUpdates = 0;
-    gyroUpdates = 0;
     accel_accum_x.clear();
     accel_accum_y.clear();
     accel_accum_z.clear();
@@ -278,56 +309,16 @@ void Calibration::doStartLeveling() {
     AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
     attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_FALSE;
     attitudeSettings->setData(attitudeSettingsData);
-    attitudeSettings->updated();
 
-    // Set up to receive updates
-    UAVDataObject * accels = Accels::GetInstance(getObjectManager());
-    UAVDataObject * gyros = Gyros::GetInstance(getObjectManager());
-    connect(accels,SIGNAL(objectUpdated(UAVObject*)),this,SLOT(sensorsUpdated(UAVObject*)));
-    connect(gyros,SIGNAL(objectUpdated(UAVObject*)),this,SLOT(sensorsUpdated(UAVObject*)));
-
-    // Speed up updates
-    initialAccelsMdata = accels->getMetadata();
-    UAVObject::Metadata accelsMdata = initialAccelsMdata;
-    UAVObject::SetFlightTelemetryUpdateMode(accelsMdata, UAVObject::UPDATEMODE_PERIODIC);
-    accelsMdata.flightTelemetryUpdatePeriod = 30; // ms
-    accels->setMetadata(accelsMdata);
-
-    initialGyrosMdata = gyros->getMetadata();
-    UAVObject::Metadata gyrosMdata = initialGyrosMdata;
-    UAVObject::SetFlightTelemetryUpdateMode(gyrosMdata, UAVObject::UPDATEMODE_PERIODIC);
-    gyrosMdata.flightTelemetryUpdatePeriod = 30; // ms
-    gyros->setMetadata(gyrosMdata);
+    // Connect to the sensor updates and speed them up
+    connectSensor(ACCEL, true);
+    connectSensor(GYRO, true);
 
     // Set up timeout timer
     timer.setSingleShot(true);
-    timer.start(5000 + (NUM_SENSOR_UPDATES * qMax(accelsMdata.flightTelemetryUpdatePeriod,
-                                                  gyrosMdata.flightTelemetryUpdatePeriod)));
+    timer.start(5000 + (NUM_SENSOR_UPDATES * SENSOR_UPDATE_PERIOD);
     connect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
 }
-
-void Calibration::openHelp()
-{
-
-    QDesktopServices::openUrl( QUrl("http://wiki.openpilot.org/x/44Cf", QUrl::StrictMode) );
-}
-
-void Calibration::enableControls(bool enable)
-{
-    if(ui->zeroBias)
-        ui->zeroBias->setEnabled(enable);
-    ConfigTaskWidget::enableControls(enable);
-}
-
-void Calibration::updateObjectsFromWidgets()
-{
-    ConfigTaskWidget::updateObjectsFromWidgets();
-
-    ui->zeroBiasProgress->setValue(0);
-}
-
-
-/********** Functions for six point calibration **************/
 
 /**
   * Called by the "Start" button.  Sets up the meta data and enables the
@@ -350,12 +341,15 @@ void Calibration::doStartSixPoint()
     attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] =0;
     attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH]=0;
     attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW]  =0;
+    attitudeSettings->setData(attitudeSettingsData);
 
+    // Clear the accumulators
     accel_accum_x.clear();
     accel_accum_y.clear();
     accel_accum_z.clear();
-
-    attitudeSettings->setData(attitudeSettingsData);
+    mag_accum_x.clear();
+    mag_accum_y.clear();
+    mag_accum_z.clear();
 
     // Must reset the scale to get a correct result
     InertialSensorSettings * inertialSettings = InertialSensorSettings::GetInstance(getObjectManager());
@@ -369,23 +363,27 @@ void Calibration::doStartSixPoint()
     inertialSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z] = 0.0;
     inertialSettings->setData(inertialSettingsData);
 
+    // If calibrating the mag remove any scaling
+    if (calibrateMag) {
+        RevoCalibration *revoCalibration = RevoCalibration::GetINstance(getObjectManager());
+        Q_ASSERT(revoCalibration);
+        RevoCalibration::DataFields revoCal = revoCalibration->getData();
+        revoCal.mag_bias[RevoCalibration::MAG_BIAS_X] = 0;
+        revoCal.mag_bias[RevoCalibration::MAG_BIAS_Y] = 0;
+        revoCal.mag_bias[RevoCalibration::MAG_BIAS_Z] = 0;
+        revoCal.mag_scale[RevoCalibration::MAG_SCALE_X] = 1;
+        revoCal.mag_scale[RevoCalibration::MAG_SCALE_Y] = 1;
+        revoCal.mag_scale[RevoCalibration::MAG_SCALE_Z] = 1;
+        revoCalibration->setData(revoCal);
+    }
+
     Thread::usleep(100000);
 
-    gyro_accum_x.clear();
-    gyro_accum_y.clear();
-    gyro_accum_z.clear();
+    connectSensor(ACCELS, true);
 
-    UAVObject::Metadata mdata;
-
-    /* Need to get as many accel updates as possible */
-    Accels * accels = Accels::GetInstance(getObjectManager());
-    Q_ASSERT(accels);
-
-    initialAccelsMdata = accels->getMetadata();
-    mdata = initialAccelsMdata;
-    UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
-    mdata.flightTelemetryUpdatePeriod = 50;
-    accels->setMetadata(mdata);
+    if(calibrateMag) {
+        connectSensor(MAG, true);
+    }
 
     // Show UI parts and update the calibration state
     emit showMessage(tr("Place horizontally and click save position..."));
@@ -432,7 +430,99 @@ void Calibration::doSaveSixPointPosition()
         calibration_state = SIX_POINT_COLLECT6;
         break;
     default:
+        return;
         break;
+    }
+
+    // Set up timeout timer
+    timer.setSingleShot(true);
+    timer.start(5000 + (NUM_SENSOR_UPDATES_SIX_POINT * SENSOR_UPDATE_PERIOD);
+    connect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
+}
+
+
+/**
+ * @brief Calibration::storedLevelingMeasurement Store a measurement and if there
+ * is enough data compute the level angle and gyro zero
+ * @return true if enough data is collected
+ */
+bool Calibration::storeLevelingMeasurement() {
+    Accels * accels = Accels::GetInstance(getObjectManager());
+    Gyros * gyros = Gyros::GetInstance(getObjectManager());
+
+    // Accumulate samples until we have _at least_ NUM_SENSOR_UPDATES samples
+    if(obj->getObjID() == Accels::OBJID) {
+        Accels::DataFields accelsData = accels->getData();
+        accel_accum_x.append(accelsData.x);
+        accel_accum_y.append(accelsData.y);
+        accel_accum_z.append(accelsData.z);
+    } else if (obj->getObjID() == Gyros::OBJID) {
+        Gyros::DataFields gyrosData = gyros->getData();
+        gyro_accum_x.append(gyrosData.x);
+        gyro_accum_y.append(gyrosData.y);
+        gyro_accum_z.append(gyrosData.z);
+    }
+
+    // update the progress indicator
+    emit progressChanges((float) qMin(accel_accum_x.size(),  gyro_accum_x.gyroUpdate()) / NUM_SENSOR_UPDATES * 100);
+
+    // If we have enough samples, then stop sampling and compute the biases
+    if (accel_accum_x.size() >= NUM_SENSOR_UPDATES && gyro_accum_x.gyroUpdate() >= NUM_SENSOR_UPDATES) {
+        timer.stop();
+        disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
+
+        float x_gyro_bias = listMean(gyro_accum_x);
+        float y_gyro_bias = listMean(gyro_accum_y);
+        float z_gyro_bias = listMean(gyro_accum_z);
+
+        // Get the existing attitude settings
+        AttitudeSettings::DataFields attitudeSettingsData = AttitudeSettings::GetInstance(getObjectManager())->getData();
+        InertialSensorSettings::DataFields inertialSensorSettingsData = InertialSensorSettings::GetInstance(getObjectManager())->getData();
+
+        const double DEG2RAD = M_PI / 180.0f;
+        const double RAD2DEG = 1.0 / DEG2RAD;
+        const double GRAV = -9.81;
+
+        // Inverse rotation of sensor data, from body frame into sensor frame
+        double a_body[3] = { listMean(accel_accum_x), listMean(accel_accum_y), listMean(accel_accum_z) };
+        double a_sensor[3];
+        double Rsb[3][3];
+        double rpy[3] = { attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] * DEG2RAD / 100.0,
+                          attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] * DEG2RAD / 100.0,
+                          attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] * DEG2RAD / 100.0};
+        Euler2R(rpy, Rsb);
+        rot_mult(Rsb, a_body, a_sensor, true);
+
+        // Temporary variables
+        double psi, theta, phi;
+
+        // Keep existing yaw rotation
+        psi = attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] * DEG2RAD / 100.0;
+
+        double cP = cos(psi);
+        double sP = sin(psi);
+
+        // In case psi is too small, we have to use a different equation to solve for theta
+        if (fabs(psi) > M_PI / 2)
+            theta = atan((a_sensor[1] + cP * (sP * a_sensor[0] - cP * a_sensor[1])) / (sP * a_sensor[2]));
+        else
+            theta = atan((a_sensor[0] - sP * (sP * a_sensor[0] - cP * a_sensor[1])) / (cP * a_sensor[2]));
+        phi = atan2((sP * a_sensor[0] - cP * a_sensor[1]) / GRAV, a_sensor[2] / cos(theta) / GRAV);
+
+        attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] = phi * RAD2DEG * 100.0;
+        attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] = theta * RAD2DEG * 100.0;
+
+        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_X] = x_gyro_bias;
+        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_Y] = y_gyro_bias;
+        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_Z] = z_gyro_bias;
+        InertialSensorSettings::GetInstance(getObjectManager())->setData(inertialSensorSettingsData);
+
+        // We offset the gyro bias by current bias to help precision
+        // Disable gyro bias correction to see raw data
+        AttitudeSettings *attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
+        Q_ASSERT(attitudeSettings);
+        attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_TRUE;
+        attitudeSettings->setData(attitudeSettingsData);
     }
 }
 
@@ -441,7 +531,7 @@ void Calibration::doSaveSixPointPosition()
   * store it for averaging.
   * @return true If enough data is averaged at this position
   */
-void Calibration::storeSixPointMeasured(UAVObject * obj, int position)
+void Calibration::storeSixPointMeasurement(UAVObject * obj, int position)
 {
     // Position is specified 1-6, but used as an index
     Q_ASSERT(position >= 1 && position < 6);
@@ -459,7 +549,7 @@ void Calibration::storeSixPointMeasured(UAVObject * obj, int position)
         Q_ASSERT(0);
     }
 
-    if( obj->getObjID() == Magnetometer::OBJID && calibrateMag) {
+    if( calibrateMag && obj->getObjID() == Magnetometer::OBJID) {
         Magnetometer * mag = Magnetometer::GetInstance(getObjectManager());
         Q_ASSERT(mag);
         Magnetometer::DataFields magData = mag->getData();
@@ -471,6 +561,9 @@ void Calibration::storeSixPointMeasured(UAVObject * obj, int position)
         Q_ASSERT(0);
     }
 
+    emit progressChanges((float) accel_accum_x.size() / NUM_SENSOR_UPDATES_SIX_POINT * 100);
+
+    // If enough data is collected, average it for this position
     if(accel_accum_x.size() >= NUM_SENSOR_UPDATES_SIX_POINT &&
             (!calibrateMag || mag_accum_x.size() >= NUM_SENSOR_UPDATES_SIX_POINT)) {
 
@@ -491,77 +584,115 @@ void Calibration::storeSixPointMeasured(UAVObject * obj, int position)
 }
 
 /**
-  * Computes the scale and bias for the accelerometer once all the data
+  * Computes the scale and bias for the accelerometer and mag once all the data
   * has been collected in 6 positions.
   */
-void Calibration::computeScaleBias()
+bool Calibration::computeScaleBias()
 {
-   double S[3], b[3];
-   InertialSensorSettings * inertialSensorSettings = InertialSensorSettings::GetInstance(getObjectManager());
-   HomeLocation * homeLocation = HomeLocation::GetInstance(getObjectManager());
-   Q_ASSERT(inertialSensorSettings);
-   Q_ASSERT(homeLocation);
-   InertialSensorSettings::DataFields inertialSensorSettingsData = inertialSensorSettings->getData();
-   HomeLocation::DataFields homeLocationData = homeLocation->getData();
+    // Regardless of calibration result, set board rotations back to user settings
+    AttitudeSettings * attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
+    Q_ASSERT(attitudeSettings);
+    AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
+    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] = boardRotation[0];
+    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] = boardRotation[1];
+    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] = boardRotation[2];
+    attitudeSettings->setData(attitudeSettingsData);
 
-   // Calibrate accelerometer
-   SixPointInConstFieldCal2( homeLocationData.g_e, accel_data_x, accel_data_y, accel_data_z, S, b);
+    bool good_calibration = true;
 
-   //Assign calibration data
-   inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_X] += (-sign(S[0]) * b[0]);
-   inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Y] += (-sign(S[1]) * b[1]);
-   inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z] += (-sign(S[2]) * b[2]);
+    // Calibrate accelerometer
+    double S[3], b[3];
+    SixPointInConstFieldCal(accelLength, accel_data_x, accel_data_y, accel_data_z, S, b);
 
-   inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_X] *= fabs(S[0]);
-   inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Y] *= fabs(S[1]);
-   inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Z] *= fabs(S[2]);
+    InertialSensorSettings * inertialSensorSettings = InertialSensorSettings::GetInstance(getObjectManager());
+    Q_ASSERT(inertialSensorSettings);
+    InertialSensorSettings::DataFields inertialSensorSettingsData = inertialSensorSettings->getData();
 
-   // Check the accel calibration is good
-   bool good_calibration = true;
-   good_calibration &= inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_X] ==
-           inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_X];
-   good_calibration &= inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Y] ==
-           inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Y];
-   good_calibration &= inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Z] ==
-           inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Z];
-   good_calibration &= (inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_X] ==
-           inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_X]);
-   good_calibration &= (inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Y] ==
-           inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Y]);
-   good_calibration &= (inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z] ==
-           inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z]);
+    //Assign calibration data
+    inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_X] += (-sign(S[0]) * b[0]);
+    inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Y] += (-sign(S[1]) * b[1]);
+    inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z] += (-sign(S[2]) * b[2]);
 
-   //This can happen if, for instance, HomeLocation.g_e == 0
-   if((S[0]+S[1]+S[2])<0.0001){
-       good_calibration=false;
-   }
+    inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_X] *= fabs(S[0]);
+    inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Y] *= fabs(S[1]);
+    inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Z] *= fabs(S[2]);
 
-   if (good_calibration) {
-       inertialSensorSettings->setData(inertialSensorSettingsData);
-       this->setDirty(true);
+    // Check the accel calibration is good
+    good_calibration &= inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_X] ==
+            inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_X];
+    good_calibration &= inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Y] ==
+            inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Y];
+    good_calibration &= inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Z] ==
+            inertialSensorSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Z];
+    good_calibration &= (inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_X] ==
+                         inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_X]);
+    good_calibration &= (inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Y] ==
+                         inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Y]);
+    good_calibration &= (inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z] ==
+                         inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z]);
 
-       ui->sixPointCalibInstructions->append("Successfully computed accelerometer bias");
-   } else {
-       inertialSensorSettingsData = inertialSensorSettings->getData();
-       ui->sixPointCalibInstructions->append("Bad calibration. Please repeat.");
-   }
+    //This can happen if, for instance, HomeLocation.g_e == 0
+    if((S[0]+S[1]+S[2])<0.0001){
+        good_calibration=false;
+    }
 
-   //Set board rotations back to user settings
-   AttitudeSettings * attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
-   Q_ASSERT(attitudeSettings);
-   AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
-   attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] = boardRotation[0];
-   attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] = boardRotation[1];
-   attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] = boardRotation[2];
-   attitudeSettings->setData(attitudeSettingsData);
+    if (good_calibration) {
+        qDebug()<<  "Accel bias: " << inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_X] << " " << inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Y] << " " << inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z];
+        inertialSensorSettings->setData(inertialSensorSettingsData);
 
-   qDebug()<<  "S: " << S[0] << " " << S[1] << " " << S[2];
-   qDebug()<<  "b: " << b[0] << " " << b[1] << " " << b[2];
-   qDebug()<<  "Accel bias: " << inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_X] << " " << inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Y] << " " << inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z];
+    } else {
+        return false;
+    }
 
+    if (calibrate_mag) {
+        good_calibration = true;
 
-   position = -1; //set to run again
+        // Calibrate accelerometer
+        double S[3], b[3];
+        SixPointInConstFieldCal(magLength, mag_data_x, mag_data_y, mag_data_z, S, b);
+
+        RevoCalibration * revoCalibration = RevoCalibration::GetInstance(getObjectManager());
+        Q_ASSERT(revoCalibration);
+        RevoCalibration::DataFields revoCalibrationData = revoCalibration->getData();
+
+        //Assign calibration data
+        revoCalibrationData.MagBias[RevoCalibration::MAG_BIAS_X] += (-sign(S[0]) * b[0]);
+        revoCalibrationData.MagBias[RevoCalibration::MAG_BIAS_Y] += (-sign(S[1]) * b[1]);
+        revoCalibrationData.MagBias[RevoCalibration::MAG_BIAS_Z] += (-sign(S[2]) * b[2]);
+        revoCalibrationData.MagScale[RevoCalibration::MAG_SCALE_X] *= fabs(S[0]);
+        revoCalibrationData.MagScale[RevoCalibration::MAG_SCALE_Y] *= fabs(S[1]);
+        revoCalibrationData.MagScale[RevoCalibration::MAG_SCALE_Z] *= fabs(S[2]);
+
+        // Check the mag calibration is good
+        good_calibration &= revoCalibrationData.MagBias[RevoCalibration::MAG_BIAS_X] ==
+                revoCalibrationData.MagBias[RevoCalibration::MAG_BIAS_X];
+        good_calibration &= revoCalibrationData.MagBias[RevoCalibration::MAG_BIAS_Y] ==
+                revoCalibrationData.MagBias[RevoCalibration::MAG_BIAS_Y];
+        good_calibration &= revoCalibrationData.MagBias[RevoCalibration::MAG_BIAS_Z]  ==
+                revoCalibrationData.MagBias[RevoCalibration::MAG_BIAS_Z] ;
+        good_calibration &= revoCalibrationData.MagScale[RevoCalibration::MAG_SCALE_X] ==
+                revoCalibrationData.MagScale[RevoCalibration::MAG_SCALE_X];
+        good_calibration &= revoCalibrationData.MagScale[RevoCalibration::MAG_SCALE_Y] ==
+                revoCalibrationData.MagScale[RevoCalibration::MAG_SCALE_Y];
+        good_calibration &= revoCalibrationData.MagScale[RevoCalibration::MAG_SCALE_Z] ==
+                revoCalibrationData.MagScale[RevoCalibration::MAG_SCALE_Z];
+
+        //This can happen if, for instance, HomeLocation.g_e == 0
+        if((S[0]+S[1]+S[2])<0.0001){
+            good_calibration=false;
+        }
+
+        if (good_calibration) {
+            qDebug()<<  "Mag bias: " << revoCalibrationData.MagBias[RevoCalibration::MAG_BIAS_X] << " " << revoCalibrationData.MagBias[RevoCalibration::MAG_BIAS_Y]  << " " << revoCalibrationData.MagBias[RevoCalibration::MAG_BIAS_Z];
+            revoCalibration->setData(revoCalibrationData);
+        } else {
+            return false;
+        }
+    }
+
+    return true;
 }
+
 /**
  * @brief Compute a rotation matrix from a set of euler angles
  * @param[in] rpy The euler angles in roll, pitch, yaw
