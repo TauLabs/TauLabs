@@ -535,12 +535,12 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	InertialSensorSettingsGet(&inertialSensorSettings);
 	INSSettingsGet(&insSettings);
 	
-	mag_bias[0] = revoCal.mag_bias[REVOCALIBRATION_MAG_BIAS_X];
-	mag_bias[1] = revoCal.mag_bias[REVOCALIBRATION_MAG_BIAS_Y];
-	mag_bias[2] = revoCal.mag_bias[REVOCALIBRATION_MAG_BIAS_Z];
-	mag_scale[0] = revoCal.mag_scale[REVOCALIBRATION_MAG_SCALE_X];
-	mag_scale[1] = revoCal.mag_scale[REVOCALIBRATION_MAG_SCALE_Y];
-	mag_scale[2] = revoCal.mag_scale[REVOCALIBRATION_MAG_SCALE_Z];
+	mag_bias[0] = revoCal.MagBias[REVOCALIBRATION_MAGBIAS_X];
+	mag_bias[1] = revoCal.MagBias[REVOCALIBRATION_MAGBIAS_Y];
+	mag_bias[2] = revoCal.MagBias[REVOCALIBRATION_MAGBIAS_Z];
+	mag_scale[0] = revoCal.MagScale[REVOCALIBRATION_MAGSCALE_X];
+	mag_scale[1] = revoCal.MagScale[REVOCALIBRATION_MAGSCALE_Y];
+	mag_scale[2] = revoCal.MagScale[REVOCALIBRATION_MAGSCALE_Z];
 	accel_bias[0] = inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_X];
 	accel_bias[1] = inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_Y];
 	accel_bias[2] = inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_Z];

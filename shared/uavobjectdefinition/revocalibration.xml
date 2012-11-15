@@ -4,8 +4,8 @@
 
 
         <!-- Sensor characteristics -->
-        <field name="mag_bias" units="mGau" type="float" elementnames="X,Y,Z" defaultvalue="0,0,0"/>
-        <field name="mag_scale" units="gain" type="float" elementnames="X,Y,Z" defaultvalue="1"/>
+        <field name="MagBias" units="mGau" type="float" elementnames="X,Y,Z" defaultvalue="0,0,0"/>
+        <field name="MagScale" units="gain" type="float" elementnames="X,Y,Z" defaultvalue="1"/>
 
 
         <access gcs="readwrite" flight="readwrite"/>
