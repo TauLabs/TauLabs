@@ -5,7 +5,6 @@ SUBDIRS   = \
     qscispinbox\
     qtconcurrent \
     aggregation \
-    config_support \
     extensionsystem \
     utils \
     opmapcontrol \
