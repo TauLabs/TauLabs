@@ -26,12 +26,13 @@
 #include <uavobjectmanager.h>
 #include <extensionsystem/pluginmanager.h>
 #include <uavobject.h>
-#include <uavobjectutilmanager.h>
+//#include <uavobjectutilmanager.h>
 
+#include <QObject>
 #include <QTimer>
 #include <QString>
 
-class Calibration
+class Calibration : QObject
 {
     Q_OBJECT
 
@@ -60,11 +61,14 @@ public slots:
     void doStartSixPoint();
 
     //! Indicates UAV is in a position to collect data during 6pt calibration
-    doSaveSixPointPosition();
+    void doSaveSixPointPosition();
 
 private slots:
-    //! Indicates new data acquired
+    //! New data acquired
     void dataUpdated(UAVObject *);
+
+    //! Data collection timed out
+    void timeout();
 
 signals:
     //! Indicate whether to enable or disable controls
@@ -108,7 +112,7 @@ private:
     QList<double> accel_accum_z;
     QList<double> mag_accum_x;
     QList<double> mag_accum_y;
-    QList<double> accel_accum_z;
+    QList<double> mag_accum_z;
 
     double accel_data_x[6], accel_data_y[6], accel_data_z[6];
     double mag_data_x[6], mag_data_y[6], mag_data_z[6];
@@ -121,6 +125,9 @@ private:
 
 protected:
 
+    //! Get the object manager
+    UAVObjectManager* getObjectManager();
+
     enum sensor_type {ACCEL, GYRO, MAG};
 
     //! Connect and speed up or disconnect a sensor
@@ -130,7 +137,7 @@ protected:
     bool storeSixPointMeasurement(UAVObject * obj, int position);
 
     //! Store leveling sample and compute level if finished
-    bool storeLevelingMeasurement();
+    bool storeLevelingMeasurement(UAVObject *obj);
 
     //! Computes the scale and bias for the accelerometer and mag
     bool computeScaleBias();
@@ -139,10 +146,13 @@ protected:
     int LinearEquationsSolving(int nDim, double* pfMatr, double* pfVect, double* pfSolution);
 
     //! Rotate a vector by the rotation matrix, optionally trasposing
-    void rotate_vector(double R[3][3], const double vec[3], double vec_out[3], bool transpose = true);
+    void rotate_vector(double R[3][3], const double vec[3], double vec_out[3], bool transpose);
 
     //! Compute a rotation matrix from a set of euler angles
     void Euler2R(double rpy[3], double Rbe[3][3]);
+
+    //! Compute the mean value of a list
+    static double listMean(QList<double> list);
 
 };
 
