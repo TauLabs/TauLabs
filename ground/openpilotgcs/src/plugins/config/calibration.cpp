@@ -508,7 +508,7 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
         // Inverse rotation of sensor data, from body frame into sensor frame
         double a_body[3] = { listMean(accel_accum_x), listMean(accel_accum_y), listMean(accel_accum_z) };
         double a_sensor[3];
-        double Rsb[3][3];
+        double Rsb[3][3];  // The initial board rotation
         double rpy[3] = { attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] * DEG2RAD / 100.0,
                           attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] * DEG2RAD / 100.0,
                           attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] * DEG2RAD / 100.0};
@@ -534,9 +534,22 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
         attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] = phi * RAD2DEG * 100.0;
         attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] = theta * RAD2DEG * 100.0;
 
-        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_X] = x_gyro_bias;
-        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_Y] = y_gyro_bias;
-        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_Z] = z_gyro_bias;
+        // Rotate the gyro bias from the old body frame into the sensor frame
+        // and then into the new body frame
+        double gyro_sensor[3];
+        double gyro_newbody[3];
+        double gyro_oldbody[3] = {x_gyro_bias, y_gyro_bias, z_gyro_bias};
+        double new_rpy[3] = { attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] * DEG2RAD / 100.0,
+                              attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] * DEG2RAD / 100.0,
+                              attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] * DEG2RAD / 100.0};
+        rotate_vector(Rsb, gyro_oldbody, gyro_sensor, true);
+        Euler2R(new_rpy, Rsb);
+        rotate_vector(Rsb, gyro_sensor, gyro_newbody, false);
+
+        // Store these new biases
+        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_X] = gyro_newbody[0];
+        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_Y] = gyro_newbody[1];
+        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_Z] = gyro_newbody[2];
         InertialSensorSettings::GetInstance(getObjectManager())->setData(inertialSensorSettingsData);
 
         // We offset the gyro bias by current bias to help precision
