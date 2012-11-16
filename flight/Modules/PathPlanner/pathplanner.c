@@ -191,8 +191,11 @@ static void checkTerminationCondition()
 
 			float cur[3] = {positionActual.North, positionActual.East, positionActual.Down};
 			struct path_status progress;
+			
+			PathDesiredData pathDesired;
+			PathDesiredGet(&pathDesired);
 
-			path_progress(pathDesired.Start, pathDesired.End, cur, &progress);
+			path_progress(pathDesired.Start, pathDesired.End, cur, &progress, pathDesired.Mode);
 
 			if (progress.fractional_progress >= 1)
 				advanceWaypoint();

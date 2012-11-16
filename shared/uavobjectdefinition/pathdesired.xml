@@ -11,6 +11,7 @@
 		DriveEndpoint,DriveVector,DriveCircleLeft,DriveCircleRight,
 		FixedAttitude,
 		SetAccessory,
+		Endpoint,Path,
 		Land,
 		DisarmAlarm" default="FlyVector"/>
 	<!-- Endpoint mode - move directly towards endpoint regardless of position -->
