@@ -308,7 +308,7 @@
       <item row="2" column="1" colspan="2">
        <widget class="QProgressBar" name="sixPointProgress">
         <property name="value">
-         <number>24</number>
+         <number>0</number>
         </property>
        </widget>
       </item>
