@@ -98,9 +98,6 @@ private:
     //! Whether to attempt to calibrate the mag (normally if it is present)
     bool calibrateMag;
 
-    //! The expected magnetic amplitude
-    double magLength;
-
     //! The expected gravity amplitude
     double accelLength;
 

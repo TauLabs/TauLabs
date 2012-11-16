@@ -46,7 +46,7 @@ public:
 
 #define sign(x) ((x < 0) ? -1 : 1)
 
-Calibration::Calibration() : calibrateMag(false), magLength(100), accelLength(9.81)
+Calibration::Calibration() : calibrateMag(false), accelLength(9.81)
 {
 }
 
@@ -716,9 +716,25 @@ bool Calibration::computeScaleBias()
     if (calibrateMag) {
         good_calibration = true;
 
-        // Calibrate accelerometer
+        // Work out the average vector length as nominal since mag scale normally close to 1
+        // and we don't use the magnitude anyway.  Avoids requiring home location.
+        double m_x = 0, m_y = 0, m_z = 0, len = 0;
+        for (int i = 0; i < 6; i++) {
+            m_x += mag_data_x[i];
+            m_y += mag_data_x[i];
+            m_z += mag_data_x[i];
+        }
+        m_x /= 6;
+        m_y /= 6;
+        m_z /= 6;
+        for (int i = 0; i < 6; i++) {
+            len += sqrt(pow(mag_data_x[i] - m_x,2) + pow(mag_data_y[i] - m_y,2) + pow(mag_data_z[i] - m_z,2));
+        }
+        len /= 6;
+
+        // Calibrate magnetomter
         double S[3], b[3];
-        SixPointInConstFieldCal(magLength, mag_data_x, mag_data_y, mag_data_z, S, b);
+        SixPointInConstFieldCal(len, mag_data_x, mag_data_y, mag_data_z, S, b);
 
         RevoCalibration * revoCalibration = RevoCalibration::GetInstance(getObjectManager());
         Q_ASSERT(revoCalibration);
