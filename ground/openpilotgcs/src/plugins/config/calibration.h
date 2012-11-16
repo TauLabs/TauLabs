@@ -32,7 +32,7 @@
 #include <QTimer>
 #include <QString>
 
-class Calibration : QObject
+class Calibration : public QObject
 {
     Q_OBJECT
 
@@ -80,8 +80,11 @@ signals:
     //! Show an instruction to the user
     void showMessage(QString message);
 
-    //! Indicate what the progress is
-    void progressChanged(int);
+    //! Indicate what the progress is for leveling
+    void levelingProgressChanged(int);
+
+    //! Indicate what the progress is for six point collection
+    void sixPointProgressChanged(int);
 
 private:
     QTimer timer;

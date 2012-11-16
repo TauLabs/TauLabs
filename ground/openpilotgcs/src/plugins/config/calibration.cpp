@@ -55,6 +55,14 @@ Calibration::~Calibration()
 }
 
 /**
+ * @brief Calibration::initialize Configure whether to calibrate the mag during 6 point cal
+ * @param calibrateMags
+ */
+void Calibration::initialize(bool calibrateMags) {
+    this->calibrateMag = calibrateMags;
+}
+
+/**
  * @brief Calibration::connectSensor
  * @param sensor The sensor to change
  * @param con Whether to connect or disconnect to this sensor
@@ -170,7 +178,7 @@ void Calibration::dataUpdated(UAVObject * obj) {
 
             emit showMessage(tr("Level computed"));
             emit toggleControls(true);
-            emit progressChanged(0);
+            emit levelingProgressChanged(0);
             disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
         }
         break;
@@ -234,7 +242,7 @@ void Calibration::dataUpdated(UAVObject * obj) {
             calibration_state = IDLE;
             emit toggleControls(true);
             emit updatePlane(0);
-            emit progressChanged(0);
+            emit sixPointProgressChanged(0);
             disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
 
             // Do calculation
@@ -266,6 +274,7 @@ void Calibration::timeout() {
         connectSensor(ACCEL, false);
         calibration_state = IDLE;
         emit showMessage(tr("Leveling timed out ..."));
+        emit levelingProgressChanged(0);
     case SIX_POINT_WAIT1:
     case SIX_POINT_WAIT2:
     case SIX_POINT_WAIT3:
@@ -286,11 +295,11 @@ void Calibration::timeout() {
             connectSensor(MAG, false);
         calibration_state = IDLE;
         emit showMessage(tr("Six point data collection timed out"));
+        emit sixPointProgressChanged(0);
         break;
     }
 
     emit updatePlane(0);
-    emit progressChanged(0);
     emit toggleControls(true);
 
     disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
@@ -477,7 +486,7 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
     }
 
     // update the progress indicator
-    emit progressChanged((float) qMin(accel_accum_x.size(),  gyro_accum_x.size()) / NUM_SENSOR_UPDATES * 100);
+    emit levelingProgressChanged((float) qMin(accel_accum_x.size(),  gyro_accum_x.size()) / NUM_SENSOR_UPDATES * 100);
 
     // If we have enough samples, then stop sampling and compute the biases
     if (accel_accum_x.size() >= NUM_SENSOR_UPDATES && gyro_accum_x.size() >= NUM_SENSOR_UPDATES) {
@@ -577,7 +586,7 @@ bool Calibration::storeSixPointMeasurement(UAVObject * obj, int position)
         Q_ASSERT(0);
     }
 
-    emit progressChanged((float) accel_accum_x.size() / NUM_SENSOR_UPDATES_SIX_POINT * 100);
+    emit sixPointProgressChanged((float) accel_accum_x.size() / NUM_SENSOR_UPDATES_SIX_POINT * 100);
 
     // If enough data is collected, average it for this position
     if(accel_accum_x.size() >= NUM_SENSOR_UPDATES_SIX_POINT &&

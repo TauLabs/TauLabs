@@ -32,6 +32,7 @@
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
 #include "uavobject.h"
+#include "calibration.h"
 #include <QtGui/QWidget>
 #include <QTimer>
 
@@ -48,41 +49,16 @@ public:
     virtual void updateObjectsFromWidgets();
 
 private slots:
-    void sensorsUpdated(UAVObject * obj);
-    void timeout();
-    void startAccelCalibration();
     void openHelp();
-    void doStartSixPointCalibration();
-    void doGetSixPointCalibrationMeasurement(UAVObject * obj);
-    void savePositionData();
 
 private:
     Ui_ccattitude *ui;
-    QTimer timer;
-    UAVObject::Metadata initialAccelsMdata;
-    UAVObject::Metadata initialGyrosMdata;
 
-    int accelUpdates;
-    int gyroUpdates;
-
-    QList<double> gyro_accum_x;
-    QList<double> gyro_accum_y;
-    QList<double> gyro_accum_z;
-    QList<double> accel_accum_x;
-    QList<double> accel_accum_y;
-    QList<double> accel_accum_z;
-
-    double accel_data_x[6], accel_data_y[6], accel_data_z[6];
-
-    QMutex sensorsUpdateLock;
-    bool collectingData;
-    int position;
-
-    static const int NUM_SENSOR_UPDATES = 300;
-
-    double boardRotation[3];
-protected:
+    Calibration calibration;
+protected slots:
     virtual void enableControls(bool enable);
+
+protected:
 
     void computeScaleBias();
 
