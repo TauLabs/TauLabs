@@ -216,7 +216,7 @@ OPMapGadgetWidget::OPMapGadgetWidget(QWidget *parent) : QWidget(parent)
     m_map->UAV->update();
     if(m_map->GPS)
         m_map->GPS->SetUAVPos(m_home_position.coord, 0.0);        // set the GPS position
-#ifdef USE_PATHPLANNER
+
     model=new flightDataModel(this);
     table=new pathPlanner();
     selectionModel=new QItemSelectionModel(model);
@@ -226,7 +226,7 @@ OPMapGadgetWidget::OPMapGadgetWidget(QWidget *parent) : QWidget(parent)
     UAVProxy=new modelUavoProxy(this,model);
     connect(table,SIGNAL(sendPathPlanToUAV()),UAVProxy,SLOT(modelToObjects()));
     connect(table,SIGNAL(receivePathPlanFromUAV()),UAVProxy,SLOT(objectsToModel()));
-#endif
+
     magicWayPoint=m_map->magicWPCreate();
     magicWayPoint->setVisible(false);
 
@@ -483,7 +483,6 @@ void OPMapGadgetWidget::contextMenuEvent(QContextMenuEvent *event)
     uav_menu.addAction(goUAVAct);
 
     // *********
-#ifdef USE_PATHPLANNER
     switch (m_map_mode)
     {
         case Normal_MapMode:
@@ -515,7 +514,6 @@ void OPMapGadgetWidget::contextMenuEvent(QContextMenuEvent *event)
             contextMenu.addAction(homeMagicWaypointAct);
             break;
     }
-#endif
     // *********
 
     QMenu overlaySubMenu(tr("&Overlay Opacity "),this);
@@ -1328,11 +1326,6 @@ void OPMapGadgetWidget::createActions()
     followUAVheadingAct->setChecked(false);
     connect(followUAVheadingAct, SIGNAL(toggled(bool)), this, SLOT(onFollowUAVheadingAct_toggled(bool)));
 
-    /*
-      TODO: Waypoint support is disabled for v1.0
-      */
-
-#ifdef USE_PATHPLANNER
     wayPointEditorAct = new QAction(tr("&Waypoint editor"), this);
     wayPointEditorAct->setShortcut(tr("Ctrl+W"));
     wayPointEditorAct->setStatusTip(tr("Open the waypoint editor"));
@@ -1369,7 +1362,7 @@ void OPMapGadgetWidget::createActions()
     clearWayPointsAct->setShortcut(tr("Ctrl+C"));
     clearWayPointsAct->setStatusTip(tr("Clear waypoints"));
     connect(clearWayPointsAct, SIGNAL(triggered()), this, SLOT(onClearWayPointsAct_triggered()));
-#endif
+
     overlayOpacityActGroup = new QActionGroup(this);
     connect(overlayOpacityActGroup, SIGNAL(triggered(QAction *)), this, SLOT(onOverlayOpacityActGroup_triggered(QAction *)));
     overlayOpacityAct.clear();
