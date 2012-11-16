@@ -908,9 +908,7 @@ static int32_t getNED(GPSPositionData * gpsPosition, float * NED)
 
 static void settingsUpdatedCb(UAVObjEvent * ev) 
 {
-	if (ev == NULL || ev->obj == INSSettingsHandle()) {
-		INSSettingsGet(&insSettings);
-		
+	if (ev == NULL || ev->obj == InertialSensorSettingsHandle()) {
 		InertialSensorSettingsData inertialSensorSettings;
 		InertialSensorSettingsGet(&inertialSensorSettings);
 		
@@ -923,7 +921,9 @@ static void settingsUpdatedCb(UAVObjEvent * ev)
 		GyrosBiasSet(&gyrosBias);
 
 		gyroBiasSettingsUpdated = true;
-
+	}
+	if (ev == NULL || ev->obj == INSSettingsHandle()) {
+		INSSettingsGet(&insSettings);
 		// In case INS currently running
 		INSSetMagVar(insSettings.mag_var);
 		INSSetAccelVar(insSettings.accel_var);
