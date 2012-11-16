@@ -332,6 +332,8 @@ void Calibration::doStartLeveling() {
     attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_FALSE;
     attitudeSettings->setData(attitudeSettingsData);
 
+    calibration_state = LEVELING;
+
     // Connect to the sensor updates and speed them up
     connectSensor(ACCEL, true);
     connectSensor(GYRO, true);

@@ -224,7 +224,7 @@ ConfigRevoWidget::ConfigRevoWidget(QWidget *parent) :
     connect(m_ui->sixPointsStart, SIGNAL(clicked()), &calibration ,SLOT(doStartSixPoint()));
     connect(m_ui->sixPointsSave, SIGNAL(clicked()), &calibration ,SLOT(doSaveSixPointPosition()));
 
-    connect(&calibration, SIGNAL(progressChanged(int)), m_ui->noiseMeasurementProgress, SLOT(setValue(int)));
+    connect(&calibration, SIGNAL(levelingProgressChanged(int)), m_ui->accelBiasProgress, SLOT(setValue(int)));
     connect(&calibration, SIGNAL(showMessage(QString)), m_ui->sixPointCalibInstructions, SLOT(setText(QString)));
 
     // Currently not in the calibration object
