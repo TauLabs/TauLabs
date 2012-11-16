@@ -27,74 +27,16 @@
      </property>
     </spacer>
    </item>
-   <item row="2" column="0">
-    <widget class="QGroupBox" name="groupBox_2">
-     <property name="title">
-      <string>Leveling Calibration</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Place aircraft very flat, and then click level</string>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="levelButton">
-        <property name="toolTip">
-         <string>Launch horizontal calibration.</string>
-        </property>
-        <property name="text">
-         <string>Level</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QProgressBar" name="levelProgress">
-        <property name="value">
-         <number>0</number>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="zeroGyroBiasOnArming">
-        <property name="toolTip">
-         <string>If enabled, a fast recalibration of gyro zero point will be done
-whenever the frame is armed. Do not move the airframe while
-arming it in that case!</string>
-        </property>
-        <property name="text">
-         <string>Zero gyros while arming aircraft</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
    <item row="4" column="0">
     <widget class="QGroupBox" name="groupBox_4">
      <property name="title">
       <string>Sensor Ranges (changes require reboot)</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_4">
-      <item row="1" column="1">
-       <widget class="QComboBox" name="accelRange">
-        <property name="objrelation" stdset="0">
-         <stringlist>
-          <string>objname:HwSettings</string>
-          <string>fieldname:AccelRange</string>
-         </stringlist>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_8">
+      <item row="0" column="2">
+       <widget class="QLabel" name="horizontalSpacerLabel_2">
         <property name="text">
-         <string>Gyro Range</string>
+         <string/>
         </property>
        </widget>
       </item>
@@ -102,6 +44,16 @@ arming it in that case!</string>
        <widget class="QLabel" name="label_9">
         <property name="text">
          <string>Accel Range</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="accelRange">
+        <property name="objrelation" stdset="0">
+         <stringlist>
+          <string>objname:HwSettings</string>
+          <string>fieldname:AccelRange</string>
+         </stringlist>
         </property>
        </widget>
       </item>
@@ -115,10 +67,10 @@ arming it in that case!</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="2">
-       <widget class="QLabel" name="horizontalSpacerLabel_2">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_8">
         <property name="text">
-         <string/>
+         <string>Gyro Range</string>
         </property>
        </widget>
       </item>
@@ -336,17 +288,34 @@ arming it in that case!</string>
       <string>Six Point Calibration (not required for multirotor)</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_5">
-      <item row="1" column="1">
-       <widget class="QPushButton" name="sixPointsStart">
+      <item row="3" column="1">
+       <widget class="QPushButton" name="sixPointStart">
         <property name="text">
          <string>Start</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="2">
-       <widget class="QPushButton" name="sixPointsSave">
+      <item row="3" column="2">
+       <widget class="QPushButton" name="sixPointSave">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string>Save Position</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1" colspan="2">
+       <widget class="QProgressBar" name="sixPointProgress">
+        <property name="value">
+         <number>24</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" colspan="2">
+       <widget class="QLabel" name="sixPointInstructions">
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </item>
@@ -421,6 +390,54 @@ arming it in that case!</string>
    </item>
    <item row="6" column="0">
     <widget class="QTextEdit" name="calibrationMessages"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Leveling Calibration</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_6">
+      <item row="0" column="0" colspan="2">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Place aircraft very flat, and then click level</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QCheckBox" name="zeroGyroBiasOnArming">
+        <property name="toolTip">
+         <string>If enabled, a fast recalibration of gyro zero point will be done
+whenever the frame is armed. Do not move the airframe while
+arming it in that case!</string>
+        </property>
+        <property name="text">
+         <string>Zero gyros while arming aircraft</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QPushButton" name="levelButton">
+        <property name="toolTip">
+         <string>Launch horizontal calibration.</string>
+        </property>
+        <property name="text">
+         <string>Level</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QProgressBar" name="levelProgress">
+        <property name="value">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </item>
   </layout>
  </widget>

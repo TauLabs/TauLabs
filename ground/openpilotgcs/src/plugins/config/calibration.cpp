@@ -176,7 +176,7 @@ void Calibration::dataUpdated(UAVObject * obj) {
             connectSensor(ACCEL, false);
             calibration_state = IDLE;
 
-            emit showMessage(tr("Level computed"));
+            emit showLevelingMessage(tr("Level computed"));
             emit toggleControls(true);
             emit levelingProgressChanged(0);
             disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
@@ -186,8 +186,8 @@ void Calibration::dataUpdated(UAVObject * obj) {
         if(storeSixPointMeasurement(obj,1)) {
             // If all the data is collected advance to the next position
             calibration_state = SIX_POINT_WAIT2;
-            emit showMessage(tr("Rotate UAV and press save position..."));
-            emit toggleControls(true);
+            emit showSixPointMessage(tr("Rotate left side down and press Save Position..."));
+            emit toggleSavePosition(true);
             emit updatePlane(2);
             disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
         }
@@ -196,8 +196,8 @@ void Calibration::dataUpdated(UAVObject * obj) {
         if(storeSixPointMeasurement(obj,2)) {
             // If all the data is collected advance to the next position
             calibration_state = SIX_POINT_WAIT3;
-            emit showMessage(tr("Rotate UAV and press save position..."));
-            emit toggleControls(true);
+            emit showSixPointMessage(tr("Rotate upside down and press Save Position..."));
+            emit toggleSavePosition(true);
             emit updatePlane(3);
             disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
         }
@@ -206,8 +206,8 @@ void Calibration::dataUpdated(UAVObject * obj) {
         if(storeSixPointMeasurement(obj,3)) {
             // If all the data is collected advance to the next position
             calibration_state = SIX_POINT_WAIT4;
-            emit showMessage(tr("Rotate UAV and press save position..."));
-            emit toggleControls(true);
+            emit showSixPointMessage(tr("Point right side down and press Save Position..."));
+            emit toggleSavePosition(true);
             emit updatePlane(4);
             disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
         }
@@ -216,8 +216,8 @@ void Calibration::dataUpdated(UAVObject * obj) {
         if(storeSixPointMeasurement(obj,4)) {
             // If all the data is collected advance to the next position
             calibration_state = SIX_POINT_WAIT5;
-            emit showMessage(tr("Rotate UAV and press save position..."));
-            emit toggleControls(true);
+            emit showSixPointMessage(tr("Point nose up and press Save Position..."));
+            emit toggleSavePosition(true);
             emit updatePlane(5);
             disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
         }
@@ -226,8 +226,8 @@ void Calibration::dataUpdated(UAVObject * obj) {
         if(storeSixPointMeasurement(obj,5)) {
             // If all the data is collected advance to the next position
             calibration_state = SIX_POINT_WAIT6;
-            emit showMessage(tr("Rotate UAV and press save position..."));
-            emit toggleControls(true);
+            emit showSixPointMessage(tr("Point nose down and press Save Position..."));
+            emit toggleSavePosition(true);
             emit updatePlane(6);
             disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
         }
@@ -247,9 +247,9 @@ void Calibration::dataUpdated(UAVObject * obj) {
 
             // Do calculation
             if (computeScaleBias())
-                emit showMessage(tr("Calibration succeeded"));
+                emit showSixPointMessage(tr("Calibration succeeded"));
             else
-                emit showMessage(tr("Calibration failed.  Please repeat"));
+                emit showSixPointMessage(tr("Calibration failed.  Please repeat"));
 
         }
         break;
@@ -273,7 +273,7 @@ void Calibration::timeout() {
         connectSensor(GYRO, false);
         connectSensor(ACCEL, false);
         calibration_state = IDLE;
-        emit showMessage(tr("Leveling timed out ..."));
+        emit showLevelingMessage(tr("Leveling timed out ..."));
         emit levelingProgressChanged(0);
     case SIX_POINT_WAIT1:
     case SIX_POINT_WAIT2:
@@ -294,7 +294,7 @@ void Calibration::timeout() {
         if (calibrateMag)
             connectSensor(MAG, false);
         calibration_state = IDLE;
-        emit showMessage(tr("Six point data collection timed out"));
+        emit showSixPointMessage(tr("Six point data collection timed out"));
         emit sixPointProgressChanged(0);
         break;
     }
@@ -315,9 +315,6 @@ void Calibration::timeout() {
  * @brief Calibration::doStartLeveling Called by UI to start collecting data to calculate level
  */
 void Calibration::doStartLeveling() {
-    emit toggleControls(false);
-    emit showMessage(tr("Leave board flat"));
-
     accel_accum_x.clear();
     accel_accum_y.clear();
     accel_accum_z.clear();
@@ -337,6 +334,9 @@ void Calibration::doStartLeveling() {
     // Connect to the sensor updates and speed them up
     connectSensor(ACCEL, true);
     connectSensor(GYRO, true);
+
+    emit toggleControls(false);
+    emit showLevelingMessage(tr("Leave board flat"));
 
     // Set up timeout timer
     timer.setSingleShot(true);
@@ -410,9 +410,10 @@ void Calibration::doStartSixPoint()
     }
 
     // Show UI parts and update the calibration state
-    emit showMessage(tr("Place horizontally and click save position..."));
+    emit showSixPointMessage(tr("Place horizontally and click save position..."));
     emit updatePlane(1);
-    emit toggleControls(true);
+    emit toggleControls(false);
+    emit toggleSavePosition(true);
     calibration_state = SIX_POINT_WAIT1;
 }
 
@@ -424,32 +425,32 @@ void Calibration::doSaveSixPointPosition()
 {
     switch(calibration_state) {
     case SIX_POINT_WAIT1:
-        emit showMessage(tr("Hold..."));
+        emit showSixPointMessage(tr("Hold..."));
         emit toggleControls(false);
         calibration_state = SIX_POINT_COLLECT1;
         break;
     case SIX_POINT_WAIT2:
-        emit showMessage(tr("Hold..."));
+        emit showSixPointMessage(tr("Hold..."));
         emit toggleControls(false);
         calibration_state = SIX_POINT_COLLECT2;
         break;
     case SIX_POINT_WAIT3:
-        emit showMessage(tr("Hold..."));
+        emit showSixPointMessage(tr("Hold..."));
         emit toggleControls(false);
         calibration_state = SIX_POINT_COLLECT3;
         break;
     case SIX_POINT_WAIT4:
-        emit showMessage(tr("Hold..."));
+        emit showSixPointMessage(tr("Hold..."));
         emit toggleControls(false);
         calibration_state = SIX_POINT_COLLECT4;
         break;
     case SIX_POINT_WAIT5:
-        emit showMessage(tr("Hold..."));
+        emit showSixPointMessage(tr("Hold..."));
         emit toggleControls(false);
         calibration_state = SIX_POINT_COLLECT5;
         break;
     case SIX_POINT_WAIT6:
-        emit showMessage(tr("Hold..."));
+        emit showSixPointMessage(tr("Hold..."));
         emit toggleControls(false);
         calibration_state = SIX_POINT_COLLECT6;
         break;
@@ -457,6 +458,8 @@ void Calibration::doSaveSixPointPosition()
         return;
         break;
     }
+
+    emit toggleSavePosition(false);
 
     // Set up timeout timer
     timer.setSingleShot(true);
@@ -574,7 +577,7 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
 bool Calibration::storeSixPointMeasurement(UAVObject * obj, int position)
 {
     // Position is specified 1-6, but used as an index
-    Q_ASSERT(position >= 1 && position < 6);
+    Q_ASSERT(position >= 1 && position <= 6);
     position --;
 
     if( obj->getObjID() == Accels::OBJID ) {
@@ -585,8 +588,6 @@ bool Calibration::storeSixPointMeasurement(UAVObject * obj, int position)
         accel_accum_x.append(accelsData.x);
         accel_accum_y.append(accelsData.y);
         accel_accum_z.append(accelsData.z);
-    } else {
-        Q_ASSERT(0);
     }
 
     if( calibrateMag && obj->getObjID() == Magnetometer::OBJID) {
@@ -597,8 +598,6 @@ bool Calibration::storeSixPointMeasurement(UAVObject * obj, int position)
         mag_accum_x.append(magData.x);
         mag_accum_y.append(magData.y);
         mag_accum_z.append(magData.z);
-    } else {
-        Q_ASSERT(0);
     }
 
     emit sixPointProgressChanged((float) accel_accum_x.size() / NUM_SENSOR_UPDATES_SIX_POINT * 100);
@@ -610,11 +609,17 @@ bool Calibration::storeSixPointMeasurement(UAVObject * obj, int position)
         accel_data_x[position] = listMean(accel_accum_x);
         accel_data_y[position] = listMean(accel_accum_y);
         accel_data_z[position] = listMean(accel_accum_z);
+        accel_accum_x.clear();
+        accel_accum_y.clear();
+        accel_accum_z.clear();
 
         if (calibrateMag) {
             mag_data_x[position] = listMean(mag_accum_x);
             mag_data_y[position] = listMean(mag_accum_y);
             mag_data_z[position] = listMean(mag_accum_z);
+            mag_accum_x.clear();
+            mag_accum_y.clear();
+            mag_accum_z.clear();
         }
 
         // Indicate all data collected for this position

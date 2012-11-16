@@ -224,8 +224,21 @@ ConfigRevoWidget::ConfigRevoWidget(QWidget *parent) :
     connect(m_ui->sixPointsStart, SIGNAL(clicked()), &calibration ,SLOT(doStartSixPoint()));
     connect(m_ui->sixPointsSave, SIGNAL(clicked()), &calibration ,SLOT(doSaveSixPointPosition()));
 
+    // Let calibration update teh UI
     connect(&calibration, SIGNAL(levelingProgressChanged(int)), m_ui->accelBiasProgress, SLOT(setValue(int)));
-    connect(&calibration, SIGNAL(showMessage(QString)), m_ui->sixPointCalibInstructions, SLOT(setText(QString)));
+    connect(&calibration, SIGNAL(sixPointProgressChanged(int)), m_ui->sixPointProgres, SLOT(setValue(int)));
+    connect(&calibration, SIGNAL(showSixPointMessage(QString)), m_ui->sixPointCalibInstructions, SLOT(setText(QString)));
+    connect(&calibration, SIGNAL(updatePlane(int)), this, SLOT(displayPlane(int)));
+
+    // Let the calibration gadget control some control enables
+    connect(&calibration, SIGNAL(toggleSavePosition(bool)), m_ui->sixPointsSave, SLOT(setEnabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->sixPointsStart, SLOT(setEnabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->noiseMeasurementStart, SLOT(setEnabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->accelBiasStart, SLOT(setEnabled(bool)));
+
+    m_ui->noiseMeasurementStart->setEnabled(true);
+    m_ui->sixPointsStart->setEnabled(true);
+    m_ui->accelBiasStart->setEnabled(true);
 
     // Currently not in the calibration object
     connect(m_ui->noiseMeasurementStart, SIGNAL(clicked()), this, SLOT(doStartNoiseMeasurement()));
@@ -497,12 +510,6 @@ void ConfigRevoWidget::drawVariancesGraph()
 void ConfigRevoWidget::refreshWidgetsValues(UAVObject *)
 {
     drawVariancesGraph();
-
-    m_ui->noiseMeasurementStart->setEnabled(true);
-    m_ui->sixPointsStart->setEnabled(true);
-    m_ui->accelBiasStart->setEnabled(true);
-
-    m_ui->calibInstructions->setText(QString("Press \"Start\" above to calibrate."));
 
     ConfigTaskWidget::refreshWidgetsValues();
 }

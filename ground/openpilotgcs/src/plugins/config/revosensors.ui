@@ -123,7 +123,43 @@
           <string>Six point calibration (mag and accels)</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_4">
-          <item row="0" column="0">
+          <item row="0" column="1">
+           <widget class="QTextEdit" name="sixPointCalibInstructions"/>
+          </item>
+          <item row="2" column="0">
+           <widget class="QPushButton" name="sixPointsStart">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>Launch a sensor range and bias calibration.</string>
+            </property>
+            <property name="text">
+             <string>Start</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QPushButton" name="sixPointsSave">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>Save settings (only enabled when calibration is running)</string>
+            </property>
+            <property name="text">
+             <string>Save Position</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QProgressBar" name="sixPointProgres">
+            <property name="value">
+             <number>24</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" rowspan="2">
            <widget class="QGraphicsView" name="sixPointsHelp">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
@@ -142,35 +178,6 @@
             </property>
             <property name="styleSheet">
              <string notr="true">background:transparent</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QTextEdit" name="sixPointCalibInstructions"/>
-          </item>
-          <item row="1" column="0">
-           <widget class="QPushButton" name="sixPointsStart">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="toolTip">
-             <string>Launch a sensor range and bias calibration.</string>
-            </property>
-            <property name="text">
-             <string>Start</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QPushButton" name="sixPointsSave">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="toolTip">
-             <string>Save settings (only enabled when calibration is running)</string>
-            </property>
-            <property name="text">
-             <string>Save Position</string>
             </property>
            </widget>
           </item>

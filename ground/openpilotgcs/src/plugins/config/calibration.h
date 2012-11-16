@@ -74,11 +74,17 @@ signals:
     //! Indicate whether to enable or disable controls
     void toggleControls(bool enable);
 
+    //! Indicate whether to enable or disable controls
+    void toggleSavePosition(bool enable);
+
     //! Change the UAV visualization
     void updatePlane(int position);
 
-    //! Show an instruction to the user
-    void showMessage(QString message);
+    //! Show an instruction to the user for six point calibration
+    void showSixPointMessage(QString message);
+
+    //! Show an instruction to the user for six point calibration
+    void showLevelingMessage(QString message);
 
     //! Indicate what the progress is for leveling
     void levelingProgressChanged(int);
