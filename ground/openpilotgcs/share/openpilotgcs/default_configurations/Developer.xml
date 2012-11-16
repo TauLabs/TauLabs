@@ -2170,7 +2170,7 @@
           </plotCurve2>
           <plotCurveCount>3</plotCurveCount>
           <plotType>1</plotType>
-          <refreshInterval>500</refreshInterval>
+          <refreshInterval>100</refreshInterval>
         </data>
       </Raw__PCT__20Accels>
       <Raw__PCT__20Gyros>
@@ -2216,7 +2216,7 @@
           </plotCurve2>
           <plotCurveCount>3</plotCurveCount>
           <plotType>1</plotType>
-          <refreshInterval>500</refreshInterval>
+          <refreshInterval>100</refreshInterval>
         </data>
       </Raw__PCT__20Gyros>
       <Raw__PCT__20magnetometers>
