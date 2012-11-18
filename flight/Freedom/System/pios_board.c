@@ -351,10 +351,7 @@ void PIOS_Board_Init(void) {
 	EventDispatcherInitialize();
 	UAVObjInitialize();
 	
-	PIOS_LED_On(0);
-	HwSettingsInitialize();
-	PIOS_LED_On(1);
-	
+	HwSettingsInitialize();	
 
 #if defined(PIOS_INCLUDE_RTC)
 	PIOS_RTC_Init(&pios_rtc_main_cfg);
@@ -715,6 +712,15 @@ void PIOS_Board_Init(void) {
 // #else
 // 	PIOS_DEBUG_Init(&pios_tim_servo_all_channels, NELEMENTS(pios_tim_servo_all_channels));
 // #endif
+
+	PIOS_DELAY_WaitmS(200);
+
+#if defined(PIOS_INCLUDE_MPU6000)
+	if (PIOS_MPU6000_Init(pios_spi_gyro_id,0, &pios_mpu6000_cfg) != 0)
+		panic();
+	if (PIOS_MPU6000_Test() != 0)
+		panic();
+#endif
 	
 	if (PIOS_I2C_Init(&pios_i2c_mag_pressure_adapter_id, &pios_i2c_mag_pressure_adapter_cfg)) {
 		PIOS_DEBUG_Assert(0);
@@ -728,20 +734,17 @@ void PIOS_Board_Init(void) {
         GPIO_Init(pios_current_sonar_pin.gpio, &pios_current_sonar_pin.init);
 #endif
 
+	PIOS_LED_On(0);
 #if defined(PIOS_INCLUDE_HMC5883)
 	PIOS_HMC5883_Init(&pios_hmc5883_cfg);
 #endif
+	PIOS_LED_On(1);
+
 	
 #if defined(PIOS_INCLUDE_MS5611)
 	PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_mag_pressure_adapter_id);
 #endif
-
-#if defined(PIOS_INCLUDE_MPU6000)
-	if (PIOS_MPU6000_Init(pios_spi_gyro_id,0, &pios_mpu6000_cfg) != 0)
-		panic();
-	if (PIOS_MPU6000_Test() != 0)
-		panic();
-#endif
+	PIOS_LED_On(2);
 }
 
 /**

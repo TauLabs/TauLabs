@@ -50,7 +50,7 @@ FLASH_TOOL = OPENOCD
 
 # List of modules to include
 MODULES = Sensors
-#MODULES += Attitude/revolution 
+MODULES += Attitude/revolution 
 #MODULES += ManualControl Stabilization Actuator
 #MODULES += Battery
 #MODULES += Altitude/revolution
