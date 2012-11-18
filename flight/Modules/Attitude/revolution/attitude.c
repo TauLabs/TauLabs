@@ -192,10 +192,14 @@ int32_t AttitudeStart(void)
 	
 	GyrosConnectQueue(gyroQueue);
 	AccelsConnectQueue(accelQueue);
-	MagnetometerConnectQueue(magQueue);
-	BaroAltitudeConnectQueue(baroQueue);
-	GPSPositionConnectQueue(gpsQueue);
-	GPSVelocityConnectQueue(gpsVelQueue);
+	if (MagnetometerHandle())
+		MagnetometerConnectQueue(magQueue);
+	if (BaroAltitudeHandle())
+		BaroAltitudeConnectQueue(baroQueue);
+	if (GPSPositionHandle())
+		GPSPositionConnectQueue(gpsQueue);
+	if (GPSVelocityHandle())
+		GPSVelocityConnectQueue(gpsVelQueue);
 
 	return 0;
 }
