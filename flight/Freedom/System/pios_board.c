@@ -367,15 +367,15 @@ void PIOS_Board_Init(void) {
 	TaskMonitorInitialize();
 
 	// /* Set up pulse timers */
-	// PIOS_TIM_InitClock(&tim_1_cfg);
-	// PIOS_TIM_InitClock(&tim_3_cfg);
-	// PIOS_TIM_InitClock(&tim_4_cfg);
-	// PIOS_TIM_InitClock(&tim_5_cfg);
-	// PIOS_TIM_InitClock(&tim_8_cfg);
-	// PIOS_TIM_InitClock(&tim_9_cfg);
-	// PIOS_TIM_InitClock(&tim_10_cfg);
-	// PIOS_TIM_InitClock(&tim_11_cfg);
-	// PIOS_TIM_InitClock(&tim_12_cfg);
+	PIOS_TIM_InitClock(&tim_1_cfg);
+	PIOS_TIM_InitClock(&tim_3_cfg);
+	PIOS_TIM_InitClock(&tim_4_cfg);
+	PIOS_TIM_InitClock(&tim_5_cfg);
+	PIOS_TIM_InitClock(&tim_8_cfg);
+	PIOS_TIM_InitClock(&tim_9_cfg);
+	PIOS_TIM_InitClock(&tim_10_cfg);
+	PIOS_TIM_InitClock(&tim_11_cfg);
+	PIOS_TIM_InitClock(&tim_12_cfg);
 	/* IAP System Setup */
 	PIOS_IAP_Init();
 	uint16_t boot_count = PIOS_IAP_ReadBootCount();
@@ -716,34 +716,29 @@ void PIOS_Board_Init(void) {
 // 	PIOS_DEBUG_Init(&pios_tim_servo_all_channels, NELEMENTS(pios_tim_servo_all_channels));
 // #endif
 	
-// 	if (PIOS_I2C_Init(&pios_i2c_mag_pressure_adapter_id, &pios_i2c_mag_pressure_adapter_cfg)) {
-// 		PIOS_DEBUG_Assert(0);
-// 	}
+	if (PIOS_I2C_Init(&pios_i2c_mag_pressure_adapter_id, &pios_i2c_mag_pressure_adapter_cfg)) {
+		PIOS_DEBUG_Assert(0);
+	}
 	
-// 	PIOS_DELAY_WaitmS(50);
+	PIOS_DELAY_WaitmS(50);
 
-// #if defined(PIOS_INCLUDE_ADC)
-// 	PIOS_ADC_Init(&pios_adc_cfg);
-//         // configure the pullup for PA8 (inhibit pullups from current/sonar shared pin)
-//         GPIO_Init(pios_current_sonar_pin.gpio, &pios_current_sonar_pin.init);
-// #endif
+#if defined(PIOS_INCLUDE_ADC)
+	PIOS_ADC_Init(&pios_adc_cfg);
+        // configure the pullup for PA8 (inhibit pullups from current/sonar shared pin)
+        GPIO_Init(pios_current_sonar_pin.gpio, &pios_current_sonar_pin.init);
+#endif
 
-// #if defined(PIOS_INCLUDE_HMC5883)
-// 	PIOS_HMC5883_Init(&pios_hmc5883_cfg);
-// #endif
+#if defined(PIOS_INCLUDE_HMC5883)
+	PIOS_HMC5883_Init(&pios_hmc5883_cfg);
+#endif
 	
-// #if defined(PIOS_INCLUDE_MS5611)
-// 	PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_mag_pressure_adapter_id);
-// #endif
+#if defined(PIOS_INCLUDE_MS5611)
+	PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_mag_pressure_adapter_id);
+#endif
 
-// #if defined(PIOS_INCLUDE_MPU6000)
-// 	PIOS_MPU6000_Init(pios_spi_gyro_id,0, &pios_mpu6000_cfg);
-// #endif
-
-	PIOS_LED_On(0);
-	PIOS_LED_On(1);
-	PIOS_LED_Off(2);
-//	while(1);
+#if defined(PIOS_INCLUDE_MPU6000)
+	PIOS_MPU6000_Init(pios_spi_gyro_id,0, &pios_mpu6000_cfg);
+#endif
 }
 
 /**
