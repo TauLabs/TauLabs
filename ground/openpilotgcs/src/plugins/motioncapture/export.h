@@ -111,7 +111,6 @@ typedef struct _CONNECTION
     QString remoteAddress;
     int outPort;
     int inPort;
-    bool startExport;
     bool addNoise;
     QString latitude;
     QString longitude;
@@ -193,6 +192,8 @@ public:
 
     virtual void stopProcess() {}
     virtual void setupUdpPorts(const QString& host, int inPort, int outPort) { Q_UNUSED(host) Q_UNUSED(inPort) Q_UNUSED(outPort)}
+    virtual void setTrackable(int trackIdx){Q_UNUSED(trackIdx)}
+    virtual int getTrackable(){}
 
     void resetInitialHomePosition();
     void updateUAVOs(MocapOutput2Hardware out);

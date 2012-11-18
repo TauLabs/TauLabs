@@ -319,27 +319,11 @@
        <string>Path executable:</string>
       </property>
      </widget>
-     <widget class="QCheckBox" name="startExport">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>120</y>
-        <width>229</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="toolTip">
-       <string>Check this box to start the simulator on the local computer</string>
-      </property>
-      <property name="text">
-       <string>Start motion capture on local machine</string>
-      </property>
-     </widget>
      <widget class="QCheckBox" name="noiseCheckBox">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>150</y>
+        <y>120</y>
         <width>89</width>
         <height>20</height>
        </rect>

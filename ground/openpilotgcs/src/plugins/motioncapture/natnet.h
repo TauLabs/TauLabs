@@ -43,36 +43,14 @@ public:
         bool setupProcess();
 
 	void setupUdpPorts(const QString& host, int inPort, int outPort);
+    void setTrackable(int trackIdx);
+    int getTrackable();
 
 private slots:
 	void transmitUpdate();
 
 private:
-    enum XplaneOutputData //***WARNING***: Elements in this enum are in a precise order, do
-    {                     // not change. Cf. http://www.nuclearprojects.com/xplane/info.shtml
-		FramRate,
-		Times,
-		SimStats,
-		Speed,
-		Gload,
-		AtmosphereWeather,
-		AtmosphereAircraft,
-		SystemPressures,
-		Joystick1,
-		Joystick2,
-		ArtStab,
-		FlightCon,
-		WingSweep,
-		Trim,
-		Brakes,
-		AngularMoments,
-		AngularAccelerations,
-        AngularVelocities,
-        PitchRollHeading,
-		AoA,
-        LatitudeLongitudeAltitude,
-		LocVelDistTraveled
-	};
+    int trackableIndex;
 
 	void processUpdate(const QByteArray& data);
 

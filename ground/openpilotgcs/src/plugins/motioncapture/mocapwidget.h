@@ -55,6 +55,7 @@ private slots:
     void onAutopilotDisconnect();
     void onExportConnect();
     void onExportDisconnect();
+    void ontrackablesComboBox_changed();
 
 private:
     Ui_MoCapWidget* widget;
