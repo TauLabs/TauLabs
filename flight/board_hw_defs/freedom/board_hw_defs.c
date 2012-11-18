@@ -467,7 +467,7 @@ void PIOS_SPI_telem_flash_irq_handler(void)
 
 static const struct pios_exti_cfg pios_exti_rfm22b_cfg __exti_config = {
 	.vector = PIOS_RFM22_EXT_Int,
-	.line = EXTI_Line2,
+	.line = EXTI_Line0,
 	.pin = {
 		.gpio = GPIOC,
 		.init = {
