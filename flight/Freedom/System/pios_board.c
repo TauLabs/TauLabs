@@ -156,7 +156,7 @@ static const struct pios_ms5611_cfg pios_ms5611_cfg = {
 #include "pios_mpu6000.h"
 static const struct pios_exti_cfg pios_exti_mpu6000_cfg __exti_config = {
 	.vector = PIOS_MPU6000_IRQHandler,
-	.line = EXTI_Line4,
+	.line = EXTI_Line5,
 	.pin = {
 		.gpio = GPIOC,
 		.init = {
@@ -737,7 +737,10 @@ void PIOS_Board_Init(void) {
 #endif
 
 #if defined(PIOS_INCLUDE_MPU6000)
-	PIOS_MPU6000_Init(pios_spi_gyro_id,0, &pios_mpu6000_cfg);
+	if (PIOS_MPU6000_Init(pios_spi_gyro_id,0, &pios_mpu6000_cfg) != 0)
+		panic();
+	if (PIOS_MPU6000_Test() != 0)
+		panic();
 #endif
 }
 
