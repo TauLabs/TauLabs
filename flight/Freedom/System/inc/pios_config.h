@@ -63,14 +63,14 @@
 #define RFM22_EXT_INT_USE
  
 /* Select the sensors to include */
-#define PIOS_INCLUDE_HMC5883
-#define PIOS_HMC5883_HAS_GPIOS
-#define PIOS_INCLUDE_MPU6000
-#define PIOS_MPU6000_ACCEL
-#define PIOS_INCLUDE_MS5611
+//#define PIOS_INCLUDE_HMC5883
+//#define PIOS_HMC5883_HAS_GPIOS
+//#define PIOS_INCLUDE_MPU6000
+//#define PIOS_MPU6000_ACCEL
+//#define PIOS_INCLUDE_MS5611
 //#define PIOS_INCLUDE_ETASV3
 //#define PIOS_INCLUDE_HCSR04
-#define FLASH_FREERTOS
+//#define FLASH_FREERTOS
 /* Com systems to include */
 #define PIOS_INCLUDE_COM
 #define PIOS_INCLUDE_COM_TELEM
