@@ -200,6 +200,7 @@ OPMapGadgetWidget::OPMapGadgetWidget(QWidget *parent) : QWidget(parent)
     m_widget->labelMapPos->setText("---");
     m_widget->labelMousePos->setText("---");
     m_widget->labelMapZoom->setText("---");
+    m_widget->labelNEDCoords->setText("---");
 
     m_widget->progressBarMap->setMaximum(1);
 
@@ -677,27 +678,33 @@ void OPMapGadgetWidget::updateMousePos()
 
     internals::PointLatLng home_lat_lon = m_map->Home->Coord();
 
-	QString s = QString::number(m_mouse_lat_lon.Lat(), 'f', 7) + "  " + QString::number(m_mouse_lat_lon.Lng(), 'f', 7);
+    QString s1 = QString::number(m_mouse_lat_lon.Lat(), 'f', 7) + "  " + QString::number(m_mouse_lat_lon.Lng(), 'f', 7);
     if (wp)
     {
-        s += "  wp[" + QString::number(wp->numberAdjusted()) + "]";
+        s1 += "  wp[" + QString::number(wp->numberAdjusted()) + "]";
 
         double dist = distance(home_lat_lon, wp->Coord());
         double bear = bearing(home_lat_lon, wp->Coord());
-        s += "  " + QString::number(dist * 1000, 'f', 1) + "m";
-        s += "  " + QString::number(bear, 'f', 1) + "deg";
+        s1 += "  " + QString::number(dist * 1000, 'f', 1) + "m";
+        s1 += "  " + QString::number(bear, 'f', 1) + "deg";
     }
-    else
-    if (home)
+    else if (home)
     {
-        s += "  home";
+        s1 += "  home";
 
 		double dist = distance(home_lat_lon, m_mouse_lat_lon);
 		double bear = bearing(home_lat_lon, m_mouse_lat_lon);
-        s += "  " + QString::number(dist * 1000, 'f', 1) + "m";
-        s += "  " + QString::number(bear, 'f', 1) + "deg";
+        s1 += "  " + QString::number(dist * 1000, 'f', 1) + "m";
+        s1 += "  " + QString::number(bear, 'f', 1) + "deg";
     }
-    m_widget->labelMousePos->setText(s);
+    m_widget->labelMousePos->setText(s1);
+
+    double NED[3];
+    double homeLLA[3]={home_lat_lon.Lat(), home_lat_lon.Lng(), 0};
+    double LLA[3]={m_mouse_lat_lon.Lat(), m_mouse_lat_lon.Lng(), 0};
+    Utils::CoordinateConversions().LLA2NED_HomeLLA(LLA, homeLLA, NED); //<-- This yields, NED, the tile size in meters, assuming we are at the origin in a plate carre system
+    QString s2 = QString::number(NED[0], 'g', 5) + "  " + QString::number(NED[1], 'g', 5);
+    m_widget->labelNEDCoords->setText(s2);
 }
 
 // *************************************************************************************
