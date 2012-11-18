@@ -37,15 +37,11 @@
 
 uint32_t pios_com_telem_usb_id;
 
-static bool board_init_complete = false;
 void PIOS_Board_Init() {
-	if (board_init_complete) {
-		return;
-	}
 
 	/* Delay system */
 	PIOS_DELAY_Init();
-	
+
 	const struct pios_board_info * bdinfo = &pios_board_info_blob;
 	
 #if defined(PIOS_INCLUDE_LED)
@@ -53,6 +49,13 @@ void PIOS_Board_Init() {
 	PIOS_Assert(led_cfg);
 	PIOS_LED_Init(led_cfg);
 #endif	/* PIOS_INCLUDE_LED */
+
+	PWR_BackupAccessCmd(ENABLE);
+	RCC_LSEConfig(RCC_LSE_OFF);
+
+	PIOS_LED_On(PIOS_LED_HEARTBEAT);
+	PIOS_LED_On(PIOS_LED_ALARM);
+	PIOS_LED_On(PIOS_LED_LINK);
 
 #if defined(PIOS_INCLUDE_USB)
 	/* Initialize board specific USB data */
@@ -77,6 +80,4 @@ void PIOS_Board_Init() {
 	PIOS_USBHOOK_Activate();
 
 #endif	/* PIOS_INCLUDE_USB */
-
-	board_init_complete = true;
 }

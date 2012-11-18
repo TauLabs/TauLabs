@@ -35,9 +35,33 @@
 static const struct pios_led pios_leds[] = {
 	[PIOS_LED_HEARTBEAT] = {
 		.pin = {
-			.gpio = GPIOB,
+			.gpio = GPIOC,
 			.init = {
-				.GPIO_Pin   = GPIO_Pin_12,
+				.GPIO_Pin   = GPIO_Pin_14,
+				.GPIO_Speed = GPIO_Speed_50MHz,
+				.GPIO_Mode  = GPIO_Mode_OUT,
+				.GPIO_OType = GPIO_OType_PP,
+				.GPIO_PuPd = GPIO_PuPd_UP
+			},
+		},
+	},
+	[PIOS_LED_ALARM] = {
+		.pin = {
+			.gpio = GPIOC,
+			.init = {
+				.GPIO_Pin   = GPIO_Pin_13,
+				.GPIO_Speed = GPIO_Speed_50MHz,
+				.GPIO_Mode  = GPIO_Mode_OUT,
+				.GPIO_OType = GPIO_OType_PP,
+				.GPIO_PuPd = GPIO_PuPd_UP
+			},
+		},
+	},
+	[PIOS_LED_LINK] = {
+		.pin = {
+			.gpio = GPIOC,
+			.init = {
+				.GPIO_Pin   = GPIO_Pin_15,
 				.GPIO_Speed = GPIO_Speed_50MHz,
 				.GPIO_Mode  = GPIO_Mode_OUT,
 				.GPIO_OType = GPIO_OType_PP,
@@ -52,51 +76,10 @@ static const struct pios_led_cfg pios_led_cfg = {
 	.num_leds = NELEMENTS(pios_leds),
 };
 
-static const struct pios_led pios_leds_v2[] = {
-	[PIOS_LED_HEARTBEAT] = {
-		.pin = {
-			.gpio = GPIOB,
-			.init = {
-				.GPIO_Pin   = GPIO_Pin_5,
-				.GPIO_Speed = GPIO_Speed_50MHz,
-				.GPIO_Mode  = GPIO_Mode_OUT,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd = GPIO_PuPd_UP
-			},
-		},
-	},
-	[PIOS_LED_ALARM] = {
-		.pin = {
-			.gpio = GPIOB,
-			.init = {
-				.GPIO_Pin   = GPIO_Pin_4,
-				.GPIO_Speed = GPIO_Speed_50MHz,
-				.GPIO_Mode  = GPIO_Mode_OUT,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd = GPIO_PuPd_UP
-			},
-		},
-	},
-};
-
-static const struct pios_led_cfg pios_led_v2_cfg = {
-	.leds     = pios_leds_v2,
-	.num_leds = NELEMENTS(pios_leds_v2),
-};
 
 const struct pios_led_cfg * PIOS_BOARD_HW_DEFS_GetLedCfg (uint32_t board_revision)
 {
-	switch(board_revision) {
-		case 2:
-			return &pios_led_cfg;
-			break;
-		case 3:
-			return &pios_led_v2_cfg;
-			break;
-		default:
-			PIOS_DEBUG_Assert(0);
-	}
-	return NULL;
+	return &pios_led_cfg;
 }
 
 #endif	/* PIOS_INCLUDE_LED */
@@ -1331,7 +1314,7 @@ static const struct pios_ppm_cfg pios_ppm_cfg = {
 #if defined(PIOS_INCLUDE_USB)
 #include "pios_usb_priv.h"
 
-static const struct pios_usb_cfg pios_usb_main_rm1_cfg = {
+static const struct pios_usb_cfg pios_usb_main_cfg = {
 	.irq = {
 		.init    = {
 			.NVIC_IRQChannel                   = OTG_FS_IRQn,
@@ -1341,29 +1324,9 @@ static const struct pios_usb_cfg pios_usb_main_rm1_cfg = {
 		},
 	},
 	.vsense = {
-		.gpio = GPIOB,
+		.gpio = GPIOA,
 		.init = {
-			.GPIO_Pin   = GPIO_Pin_13,
-			.GPIO_Speed = GPIO_Speed_25MHz,
-			.GPIO_Mode  = GPIO_Mode_IN,
-			.GPIO_OType = GPIO_OType_OD,
-		},
-	}
-};
-
-static const struct pios_usb_cfg pios_usb_main_rm2_cfg = {
-	.irq = {
-		.init    = {
-			.NVIC_IRQChannel                   = OTG_FS_IRQn,
-			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_LOW,
-			.NVIC_IRQChannelSubPriority        = 3,
-			.NVIC_IRQChannelCmd                = ENABLE,
-		},
-	},
-	.vsense = {
-		.gpio = GPIOC,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_5,
+			.GPIO_Pin   = GPIO_Pin_9,
 			.GPIO_Speed = GPIO_Speed_25MHz,
 			.GPIO_Mode  = GPIO_Mode_IN,
 			.GPIO_OType = GPIO_OType_OD,
@@ -1373,17 +1336,7 @@ static const struct pios_usb_cfg pios_usb_main_rm2_cfg = {
 
 const struct pios_usb_cfg * PIOS_BOARD_HW_DEFS_GetUsbCfg (uint32_t board_revision)
 {
-	switch(board_revision) {
-		case 2:
-			return &pios_usb_main_rm1_cfg;
-			break;
-		case 3:
-			return &pios_usb_main_rm2_cfg;
-			break;
-		default:
-			PIOS_DEBUG_Assert(0);
-	}
-	return NULL;
+	return &pios_usb_main_cfg;
 }
 
 #include "pios_usb_board_data_priv.h"
