@@ -395,11 +395,11 @@ static void SensorsTask(void *parameters)
 #if defined(PIOS_INCLUDE_HMC5883)
 		MagnetometerData mag;
 		if (PIOS_HMC5883_NewDataAvailable() || PIOS_DELAY_DiffuS(mag_update_time) > 150000) {
-			int16_t values[3];
-			PIOS_HMC5883_ReadMag(values);
-			float mags[3] = {(float) values[1] * mag_scale[0] - mag_bias[0],
-			                (float) values[0] * mag_scale[1] - mag_bias[1],
-			                -(float) values[2] * mag_scale[2] - mag_bias[2]};
+			struct pios_hmc5883_data mag_data;
+			PIOS_HMC5883_ReadMag(&mag_data);
+			float mags[3] = {(float) mag_data.mag_x * mag_scale[0] - mag_bias[0],
+			                (float) mag_data.mag_y * mag_scale[1] - mag_bias[1],
+			                (float) mag_data.mag_z * mag_scale[2] - mag_bias[2]};
 			if (rotate) {
 				float mag_out[3];
 				rot_mult(Rbs, mags, mag_out, false);

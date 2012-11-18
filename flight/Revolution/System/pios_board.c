@@ -121,7 +121,7 @@ static const struct pios_hmc5883_cfg pios_hmc5883_cfg = {
 	.Meas_Conf = PIOS_HMC5883_MEASCONF_NORMAL,
 	.Gain = PIOS_HMC5883_GAIN_1_9,
 	.Mode = PIOS_HMC5883_MODE_CONTINUOUS,
-
+	.orientaiton = PIOS_HMC5883_TOP_270DEG,
 };
 #endif /* PIOS_INCLUDE_HMC5883 */
 
