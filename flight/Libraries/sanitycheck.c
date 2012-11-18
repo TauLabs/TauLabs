@@ -55,6 +55,14 @@ int32_t configuration_check()
 	const struct pios_board_info * bdinfo = &pios_board_info_blob;	
 	bool coptercontrol = bdinfo->board_type == 0x04;
 
+	// For when modules are not running we should explicitly check the objects are
+	// valid
+	if (ManualControlSettingsHandle() == NULL ||
+		SystemSettingsHandle() == NULL) {
+		AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, SYSTEMALARMS_ALARM_CRITICAL);
+		return 0;
+	}
+
 	// Classify airframe type
 	bool multirotor = true;
 	uint8_t airframe_type;
