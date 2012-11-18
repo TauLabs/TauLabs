@@ -65,7 +65,7 @@
 #include "utils/coordinateconversions.h"
 
 NatNet::NatNet(const MocapSettings& params) :
-    Export(params)
+    Export(params), trackableIndex(0)
 {
     resetInitialHomePosition();
 }
@@ -103,6 +103,15 @@ void NatNet::transmitUpdate()
 
 
 }
+
+void NatNet::setTrackable(int trackIdx){
+    trackableIndex=trackIdx;
+}
+
+int NatNet::getTrackable(){
+    return trackableIndex;
+}
+
 
 //void NatNet::processUpdate(char* pData)
 void NatNet::processUpdate(const QByteArray& dataBuf)
@@ -176,6 +185,14 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
         qDebug() << "Marker Set Count : " << nMarkerSets;
 #endif
 
+//        // If the number of markers has shrunk, simply clear the combobox and start
+//        // over again. This might not be the most efficient way, but it should happen
+//        // so rarely it's not worth expending any more logic.
+//        if (nMarkerSets > widget->trackablesComboBox->count()){
+//            widget->trackablesComboBox->clear();
+//        }
+
+
         for (int i=0; i < nMarkerSets; i++)
         {
             // Markerset name
@@ -187,6 +204,16 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
 #ifdef NATNET_DEBUG
             qDebug() << "Model Name: " << szName;
 #endif
+
+//            //Compare model name with combobox list. If not identical, change the combobox
+//            if(j >= widget->trackablesComboBox->count()){
+//                widget->trackablesComboBox->addItem(szName);
+//            }
+//            else if ( szName != widget->trackablesComboBox->itemText(j)){
+//                widget->trackablesComboBox->setItemText(j, szName);
+//            }
+
+
 
             // marker data
             int nMarkers = 0;
@@ -272,7 +299,7 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
             ptr += 4;
 
             //TODO: Allow to export other trackables than the first.
-            if (j==0){
+            if (j==trackableIndex){
                 posX=x;
                 posX=y;
                 posX=z;
