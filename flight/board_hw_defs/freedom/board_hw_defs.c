@@ -212,121 +212,122 @@ void PIOS_SPI_gyro_irq_handler(void)
  * SPI1 Interface
  * Used for Overo
  */
-// void PIOS_SPI_gyro_irq_handler(void);
-// void DMA2_Stream0_IRQHandler(void) __attribute__((alias("PIOS_SPI_gyro_irq_handler")));
-// void DMA2_Stream3_IRQHandler(void) __attribute__((alias("PIOS_SPI_gyro_irq_handler")));
-// static const struct pios_spi_cfg pios_spi_gyro_cfg = {
-// 	.regs = SPI1,
-// 	.remap = GPIO_AF_SPI1,
-// 	.init   = {
-// 		.SPI_Mode              = SPI_Mode_Master,
-// 		.SPI_Direction         = SPI_Direction_2Lines_FullDuplex,
-// 		.SPI_DataSize          = SPI_DataSize_8b,
-// 		.SPI_NSS               = SPI_NSS_Soft,
-// 		.SPI_FirstBit          = SPI_FirstBit_MSB,
-// 		.SPI_CRCPolynomial     = 7,
-// 		.SPI_CPOL              = SPI_CPOL_High,
-// 		.SPI_CPHA              = SPI_CPHA_2Edge,
-// 		.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_16,
-// 	},
-// 	.use_crc = false,
-// 	.dma = {
-// 		.irq = {
-// 			.flags   = (DMA_IT_TCIF0 | DMA_IT_TEIF0 | DMA_IT_HTIF0),
-// 			.init    = {
-// 				.NVIC_IRQChannel                   = DMA2_Stream0_IRQn,
-// 				.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH,
-// 				.NVIC_IRQChannelSubPriority        = 0,
-// 				.NVIC_IRQChannelCmd                = ENABLE,
-// 			},
-// 		},
+#include <pios_overo_priv.h>
+ void PIOS_SPI_overo_irq_handler(void);
+void DMA2_Stream3_IRQHandler(void) __attribute__((alias("PIOS_SPI_overo_irq_handler")));
+static const struct pios_overo_cfg pios_overo_cfg = {
+	.regs = SPI1,
+	.remap = GPIO_AF_SPI1,
+	.init = {
+		.SPI_Mode              = SPI_Mode_Slave,
+		.SPI_Direction         = SPI_Direction_2Lines_FullDuplex,
+		.SPI_DataSize          = SPI_DataSize_8b,
+		.SPI_NSS               = SPI_NSS_Hard,
+		.SPI_FirstBit          = SPI_FirstBit_MSB,
+		.SPI_CRCPolynomial     = 7,
+		.SPI_CPOL              = SPI_CPOL_High,
+		.SPI_CPHA              = SPI_CPHA_2Edge,
+		.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_2,
+	},
+	.use_crc = false,
+	.dma = {
+		.irq = {
+			.flags   = (DMA_IT_TCIF3),
+			.init    = {
+				.NVIC_IRQChannel                   = DMA2_Stream0_IRQn,
+				.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH,
+				.NVIC_IRQChannelSubPriority        = 0,
+				.NVIC_IRQChannelCmd                = ENABLE,
+			},
+		},
 		
-// 		.rx = {
-// 			.channel = DMA2_Stream0,
-// 			.init    = {
-//                 .DMA_Channel            = DMA_Channel_3,
-// 				.DMA_PeripheralBaseAddr = (uint32_t)&(SPI1->DR),
-// 				.DMA_DIR                = DMA_DIR_PeripheralToMemory,
-// 				.DMA_PeripheralInc      = DMA_PeripheralInc_Disable,
-// 				.DMA_MemoryInc          = DMA_MemoryInc_Enable,
-// 				.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte,
-// 				.DMA_MemoryDataSize     = DMA_MemoryDataSize_Byte,
-// 				.DMA_Mode               = DMA_Mode_Normal,
-// 				.DMA_Priority           = DMA_Priority_Medium,
-// 				.DMA_FIFOMode           = DMA_FIFOMode_Disable,
-//                 /* .DMA_FIFOThreshold */
-//                 .DMA_MemoryBurst        = DMA_MemoryBurst_Single,
-//                 .DMA_PeripheralBurst    = DMA_PeripheralBurst_Single,
-// 			},
-// 		},
-// 		.tx = {
-// 			.channel = DMA2_Stream3,
-// 			.init    = {
-//                 .DMA_Channel            = DMA_Channel_3,
-// 				.DMA_PeripheralBaseAddr = (uint32_t)&(SPI1->DR),
-// 				.DMA_DIR                = DMA_DIR_MemoryToPeripheral,
-// 				.DMA_PeripheralInc      = DMA_PeripheralInc_Disable,
-// 				.DMA_MemoryInc          = DMA_MemoryInc_Enable,
-// 				.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte,
-// 				.DMA_MemoryDataSize     = DMA_MemoryDataSize_Byte,
-// 				.DMA_Mode               = DMA_Mode_Normal,
-// 				.DMA_Priority           = DMA_Priority_High,
-// 				.DMA_FIFOMode           = DMA_FIFOMode_Disable,
-//                 /* .DMA_FIFOThreshold */
-//                 .DMA_MemoryBurst        = DMA_MemoryBurst_Single,
-//                 .DMA_PeripheralBurst    = DMA_PeripheralBurst_Single,
-// 			},
-// 		},
-// 	},
-// 	.sclk = {
-// 		.gpio = GPIOA,
-// 		.init = {
-// 			.GPIO_Pin   = GPIO_Pin_5,
-// 			.GPIO_Speed = GPIO_Speed_100MHz,
-// 			.GPIO_Mode  = GPIO_Mode_AF,
-// 			.GPIO_OType = GPIO_OType_PP,
-// 			.GPIO_PuPd = GPIO_PuPd_UP
-// 		},
-// 	},
-// 	.miso = {
-// 		.gpio = GPIOA,
-// 		.init = {
-// 			.GPIO_Pin   = GPIO_Pin_6,
-// 			.GPIO_Speed = GPIO_Speed_50MHz,
-// 			.GPIO_Mode  = GPIO_Mode_AF,
-// 			.GPIO_OType = GPIO_OType_PP,
-// 			.GPIO_PuPd = GPIO_PuPd_UP
-// 		},
-// 	},
-// 	.mosi = {
-// 		.gpio = GPIOA,
-// 		.init = {
-// 			.GPIO_Pin   = GPIO_Pin_7,
-// 			.GPIO_Speed = GPIO_Speed_50MHz,
-// 			.GPIO_Mode  = GPIO_Mode_AF,
-// 			.GPIO_OType = GPIO_OType_PP,
-// 			.GPIO_PuPd = GPIO_PuPd_UP
-// 		},
-// 	},
-// 	.slave_count = 1,
-// 	.ssel = { {
-// 		.gpio = GPIOA,
-// 		.init = {
-// 			.GPIO_Pin   = GPIO_Pin_4,
-// 			.GPIO_Speed = GPIO_Speed_50MHz,
-// 			.GPIO_Mode  = GPIO_Mode_OUT,
-// 			.GPIO_OType = GPIO_OType_PP,
-// 			.GPIO_PuPd = GPIO_PuPd_UP
-// 		} }
-// 	}
-// };
+		.rx = {
+			.channel = DMA2_Stream0,
+			.init    = {
+                .DMA_Channel            = DMA_Channel_3,
+				.DMA_PeripheralBaseAddr = (uint32_t)&(SPI1->DR),
+				.DMA_DIR                = DMA_DIR_PeripheralToMemory,
+				.DMA_PeripheralInc      = DMA_PeripheralInc_Disable,
+				.DMA_MemoryInc          = DMA_MemoryInc_Enable,
+				.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte,
+				.DMA_MemoryDataSize     = DMA_MemoryDataSize_Byte,
+				.DMA_Mode               = DMA_Mode_Circular,
+				.DMA_Priority           = DMA_Priority_Medium,
+				//TODO: Enable FIFO
+				.DMA_FIFOMode           = DMA_FIFOMode_Disable,
+				.DMA_FIFOThreshold      = DMA_FIFOThreshold_Full,
+				.DMA_MemoryBurst        = DMA_MemoryBurst_Single,
+				.DMA_PeripheralBurst    = DMA_PeripheralBurst_Single,
+			},
+		},
+		.tx = {
+			.channel = DMA2_Stream3,
+			.init    = {
+                .DMA_Channel            = DMA_Channel_3,
+				.DMA_PeripheralBaseAddr = (uint32_t)&(SPI1->DR),
+				.DMA_DIR                = DMA_DIR_MemoryToPeripheral,
+				.DMA_PeripheralInc      = DMA_PeripheralInc_Disable,
+				.DMA_MemoryInc          = DMA_MemoryInc_Enable,
+				.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte,
+				.DMA_MemoryDataSize     = DMA_MemoryDataSize_Byte,
+				.DMA_Mode               = DMA_Mode_Circular,
+				.DMA_Priority           = DMA_Priority_Medium,
+				.DMA_FIFOMode           = DMA_FIFOMode_Disable,
+				.DMA_FIFOThreshold      = DMA_FIFOThreshold_Full,
+				.DMA_MemoryBurst        = DMA_MemoryBurst_Single,
+				.DMA_PeripheralBurst    = DMA_PeripheralBurst_Single,
+			},
+		},
+	},
+	.sclk = {
+		.gpio = GPIOA,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_5,
+			.GPIO_Speed = GPIO_Speed_100MHz,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd = GPIO_PuPd_NOPULL
+		},
+	},
+	.miso = {
+		.gpio = GPIOA,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_6,
+			.GPIO_Speed = GPIO_Speed_50MHz,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd = GPIO_PuPd_NOPULL
+		},
+	},
+	.mosi = {
+		.gpio = GPIOA,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_7,
+			.GPIO_Speed = GPIO_Speed_50MHz,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd = GPIO_PuPd_NOPULL
+		},
+	},
+	.slave_count = 1,
+	.ssel = { {
+		.gpio = GPIOA,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_4,
+			.GPIO_Speed = GPIO_Speed_50MHz,
+			.GPIO_Mode  = GPIO_Mode_IN,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd = GPIO_PuPd_UP
+		} }
+	}
+};
 
-// static uint32_t pios_spi_gyro_id;
-// void PIOS_SPI_gyro_irq_handler(void)
-// {
-// 	/* Call into the generic code to handle the IRQ for this specific device */
-// 	PIOS_SPI_IRQ_Handler(pios_spi_gyro_id);
-// }
+uint32_t pios_overo_id;
+void PIOS_SPI_overo_irq_handler(void)
+{
+	/* Call into the generic code to handle the IRQ for this specific device */
+	PIOS_OVERO_DMA_irq_handler(pios_overo_id);
+}
 
 
 /*

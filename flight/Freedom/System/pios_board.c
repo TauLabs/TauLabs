@@ -662,6 +662,28 @@ void PIOS_Board_Init(void) {
 			break;
 	}
 
+#if defined(PIOS_OVERO_SPI)
+	/* Set up the SPI based PIOS_COM interface to the overo */
+	{
+		HwSettingsData hwSettings;
+		HwSettingsGet(&hwSettings);
+		if(hwSettings.OptionalModules[HWSETTINGS_OPTIONALMODULES_OVERO] == HWSETTINGS_OPTIONALMODULES_ENABLED) {
+			if (PIOS_OVERO_Init(&pios_overo_id, &pios_overo_cfg)) {
+				PIOS_DEBUG_Assert(0);
+			}
+			const uint32_t PACKET_SIZE = 1024;
+			uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PACKET_SIZE);
+			uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PACKET_SIZE);
+			PIOS_Assert(rx_buffer);
+			PIOS_Assert(tx_buffer);
+			if (PIOS_COM_Init(&pios_com_overo_id, &pios_overo_com_driver, pios_overo_id,
+							  rx_buffer, PACKET_SIZE,
+							  tx_buffer, PACKET_SIZE)) {
+				PIOS_Assert(0);
+			}
+		}
+	}
+#endif
 
 #if defined(PIOS_INCLUDE_GCSRCVR)
 	GCSReceiverInitialize();

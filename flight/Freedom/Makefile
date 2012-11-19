@@ -62,6 +62,7 @@ MODULES += GPS FirmwareIAP
 #MODULES += FixedWingPathFollower
 #MODULES += Autotune
 #MODULES += CameraStab
+MODULES += OveroSync
 MODULES += Radio
 MODULES += Telemetry
 PYMODULES = 

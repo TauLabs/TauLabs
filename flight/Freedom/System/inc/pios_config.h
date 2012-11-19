@@ -81,6 +81,8 @@
 #define PIOS_INCLUDE_GPS_UBX_PARSER
 #define PIOS_GPS_SETS_HOMELOCATION
 
+#define PIOS_OVERO_SPI
+ 
 /* Supported receiver interfaces */
 #define PIOS_INCLUDE_RCVR
 #define PIOS_INCLUDE_DSM
