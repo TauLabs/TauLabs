@@ -760,7 +760,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	// Because the sensor module remove the bias we need to add it
 	// back in here so that the INS algorithm can track it correctly
 	float gyros[3] = {gyrosData.x * F_PI / 180.0f, gyrosData.y * F_PI / 180.0f, gyrosData.z * F_PI / 180.0f};
-	if (insSettings.BiasCorrectedRaw == INSSETTINGS_BIASCORRECTEDRAW_TRUE) {
+	if (attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE) {
 		gyros[0] += gyrosBias.x * F_PI / 180.0f;
 		gyros[1] += gyrosBias.y * F_PI / 180.0f;
 		gyros[2] += gyrosBias.z * F_PI / 180.0f;
@@ -856,7 +856,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	velocityActual.Down = Nav.Vel[2];
 	VelocityActualSet(&velocityActual);
 
-	if (insSettings.BiasCorrectedRaw == INSSETTINGS_BIASCORRECTEDRAW_TRUE && !gyroBiasSettingsUpdated) {
+	if (attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE && !gyroBiasSettingsUpdated) {
 		// Copy the gyro bias into the UAVO except when it was updated
 		// from the settings during the calculation, then consume it
 		// next cycle

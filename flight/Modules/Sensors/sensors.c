@@ -559,7 +559,9 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	magBias.z = 0;
 	MagBiasSet(&magBias);
 
-	bias_correct_gyro = (insSettings.BiasCorrectedRaw == INSSETTINGS_BIASCORRECTEDRAW_TRUE);
+	uint8_t bias_correct;
+	AttitudeSettingsBiasCorrectGyroGet(&bias_correct);
+	bias_correct_gyro = (bias_correct == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE);
 
 	AttitudeSettingsData attitudeSettings;
 	AttitudeSettingsGet(&attitudeSettings);
