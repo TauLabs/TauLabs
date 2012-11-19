@@ -51,9 +51,11 @@ FLASH_TOOL = OPENOCD
 # List of modules to include
 MODULES = Sensors
 MODULES += Attitude/revolution 
-MODULES += ManualControl Stabilization Actuator
+#MODULES += Actuator
+MODULES += ManualControl
+#MODULES += ManualControl Stabilization Actuator
 #MODULES += Battery
-MODULES += Altitude/revolution
+#MODULES += Altitude/revolution
 MODULES += GPS FirmwareIAP
 #MODULES += Airspeed/revolution
 #MODULES += AltitudeHold VtolPathFollower PathPlanner TxPID

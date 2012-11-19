@@ -366,14 +366,15 @@ void PIOS_Board_Init(void) {
 
 	// /* Set up pulse timers */
 	PIOS_TIM_InitClock(&tim_1_cfg);
+	PIOS_TIM_InitClock(&tim_2_cfg);
 	PIOS_TIM_InitClock(&tim_3_cfg);
-	PIOS_TIM_InitClock(&tim_4_cfg);
+	/*PIOS_TIM_InitClock(&tim_4_cfg);
 	PIOS_TIM_InitClock(&tim_5_cfg);
 	PIOS_TIM_InitClock(&tim_8_cfg);
 	PIOS_TIM_InitClock(&tim_9_cfg);
 	PIOS_TIM_InitClock(&tim_10_cfg);
 	PIOS_TIM_InitClock(&tim_11_cfg);
-	PIOS_TIM_InitClock(&tim_12_cfg);
+	PIOS_TIM_InitClock(&tim_12_cfg);*/
 	/* IAP System Setup */
 	PIOS_IAP_Init();
 	uint16_t boot_count = PIOS_IAP_ReadBootCount();
@@ -387,7 +388,7 @@ void PIOS_Board_Init(void) {
 	}
 
 
-	//PIOS_IAP_Init();
+	PIOS_IAP_Init();
 
 #if defined(PIOS_INCLUDE_USB)
 	/* Initialize board specific USB data */
@@ -683,36 +684,39 @@ void PIOS_Board_Init(void) {
 // 			break;
 // 	}
 
+	enum pios_dsm_proto proto;
+	proto = PIOS_DSM_PROTO_DSM2;
+	PIOS_Board_configure_dsm(&pios_usart_dsm_rcvr_cfg, &pios_dsm_rcvr_cfg, 
+				&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT,&hwsettings_DSMxBind);
 
-// #if defined(PIOS_INCLUDE_GCSRCVR)
-// 	GCSReceiverInitialize();
-// 	uint32_t pios_gcsrcvr_id;
-// 	PIOS_GCSRCVR_Init(&pios_gcsrcvr_id);
-// 	uint32_t pios_gcsrcvr_rcvr_id;
-// 	if (PIOS_RCVR_Init(&pios_gcsrcvr_rcvr_id, &pios_gcsrcvr_rcvr_driver, pios_gcsrcvr_id)) {
-// 		PIOS_Assert(0);
-// 	}
-// 	pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_GCS] = pios_gcsrcvr_rcvr_id;
-// #endif	/* PIOS_INCLUDE_GCSRCVR */
 
-// #ifndef PIOS_DEBUG_ENABLE_DEBUG_PINS
-// 	switch (hwsettings_rcvrport) {
-// 		case HWSETTINGS_RM_RCVRPORT_DISABLED:
-// 		case HWSETTINGS_RM_RCVRPORT_PWM:
-// 		case HWSETTINGS_RM_RCVRPORT_PPM:
-// 			/* Set up the servo outputs */
-// 			PIOS_Servo_Init(&pios_servo_cfg);
-// 			break;
-// 		case HWSETTINGS_RM_RCVRPORT_PPMOUTPUTS:
-// 		case HWSETTINGS_RM_RCVRPORT_OUTPUTS:
-// 			//PIOS_Servo_Init(&pios_servo_rcvr_cfg);
-// 			//TODO: Prepare the configurations on board_hw_defs and handle here:
-// 			PIOS_Servo_Init(&pios_servo_cfg);
-// 			break;
-// 	}
-// #else
-// 	PIOS_DEBUG_Init(&pios_tim_servo_all_channels, NELEMENTS(pios_tim_servo_all_channels));
-// #endif
+#if defined(PIOS_INCLUDE_GCSRCVR)
+	GCSReceiverInitialize();
+	uint32_t pios_gcsrcvr_id;
+	PIOS_GCSRCVR_Init(&pios_gcsrcvr_id);
+	uint32_t pios_gcsrcvr_rcvr_id;
+	if (PIOS_RCVR_Init(&pios_gcsrcvr_rcvr_id, &pios_gcsrcvr_rcvr_driver, pios_gcsrcvr_id)) {
+		PIOS_Assert(0);
+	}
+	pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_GCS] = pios_gcsrcvr_rcvr_id;
+#endif	/* PIOS_INCLUDE_GCSRCVR */
+
+#ifndef PIOS_DEBUG_ENABLE_DEBUG_PINS
+	uint8_t output_port;
+	HwSettingsFreedom_OutputGet(&output_port);
+	switch (output_port) {
+		case HWSETTINGS_FREEDOM_OUTPUT_DISABLED:
+			break;
+		case HWSETTINGS_FREEDOM_OUTPUT_PWM:
+			/* Set up the servo outputs */
+			PIOS_Servo_Init(&pios_servo_cfg);
+			break;
+		default:
+			break;
+	}
+#else
+	PIOS_DEBUG_Init(&pios_tim_servo_all_channels, NELEMENTS(pios_tim_servo_all_channels));
+#endif
 
 	PIOS_DELAY_WaitmS(200);
 
