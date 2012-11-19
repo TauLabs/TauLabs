@@ -637,10 +637,44 @@ void PIOS_Board_Init(void) {
 // 			break;
 // 	}
 
-	enum pios_dsm_proto proto;
-	proto = PIOS_DSM_PROTO_DSM2;
-	PIOS_Board_configure_dsm(&pios_usart_dsm_rcvr_cfg, &pios_dsm_rcvr_cfg, 
-				&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT,&hwsettings_DSMxBind);
+	/* Configure input receiver USART port */
+	uint8_t hwsettings_inputport;
+	HwSettingsFreedom_InputPortGet(&hwsettings_inputport);
+	switch (hwsettings_inputport) {
+		case HWSETTINGS_FREEDOM_INPUTPORT_DISABLED:
+			break;
+		case HWSETTINGS_FREEDOM_INPUTPORT_PPM:
+			PIOS_DEBUG_Assert(0);
+			break;
+		case HWSETTINGS_FREEDOM_INPUTPORT_DSM2:
+		case HWSETTINGS_FREEDOM_INPUTPORT_DSMX10BIT:
+		case HWSETTINGS_FREEDOM_INPUTPORT_DSMX11BIT:
+			{
+				enum pios_dsm_proto proto;
+				switch (hwsettings_inputport) {
+				case HWSETTINGS_FREEDOM_INPUTPORT_DSM2:
+					proto = PIOS_DSM_PROTO_DSM2;
+					break;
+				case HWSETTINGS_FREEDOM_INPUTPORT_DSMX10BIT:
+					proto = PIOS_DSM_PROTO_DSMX10BIT;
+					break;
+				case HWSETTINGS_FREEDOM_INPUTPORT_DSMX11BIT:
+					proto = PIOS_DSM_PROTO_DSMX11BIT;
+					break;
+				default:
+					PIOS_Assert(0);
+					break;
+				}
+
+				//TODO: Define the various Channelgroup for Revo dsm inputs and handle here
+				PIOS_Board_configure_dsm(&pios_usart_dsm_rcvr_cfg, &pios_dsm_rcvr_cfg, 
+					&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT,&hwsettings_DSMxBind);
+			}
+			break;
+		case HWSETTINGS_FREEDOM_INPUTPORT_SBUS:
+			PIOS_DEBUG_Assert(0);
+			break;
+	}
 
 
 #if defined(PIOS_INCLUDE_GCSRCVR)
