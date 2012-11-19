@@ -87,11 +87,11 @@ void PIOS_ADC_DMC_irq_handler(void)
 #include "pios_hmc5883.h"
 static const struct pios_exti_cfg pios_exti_hmc5883_cfg __exti_config = {
 	.vector = PIOS_HMC5883_IRQHandler,
-	.line = EXTI_Line7,
+	.line = EXTI_Line4,
 	.pin = {
-		.gpio = GPIOB,
+		.gpio = GPIOC,
 		.init = {
-			.GPIO_Pin = GPIO_Pin_7,
+			.GPIO_Pin = GPIO_Pin_4,
 			.GPIO_Speed = GPIO_Speed_100MHz,
 			.GPIO_Mode = GPIO_Mode_IN,
 			.GPIO_OType = GPIO_OType_OD,
@@ -100,7 +100,7 @@ static const struct pios_exti_cfg pios_exti_hmc5883_cfg __exti_config = {
 	},
 	.irq = {
 		.init = {
-			.NVIC_IRQChannel = EXTI9_5_IRQn,
+			.NVIC_IRQChannel = EXTI4_IRQn,
 			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_LOW,
 			.NVIC_IRQChannelSubPriority = 0,
 			.NVIC_IRQChannelCmd = ENABLE,
@@ -108,7 +108,7 @@ static const struct pios_exti_cfg pios_exti_hmc5883_cfg __exti_config = {
 	},
 	.exti = {
 		.init = {
-			.EXTI_Line = EXTI_Line7, // matches above GPIO pin
+			.EXTI_Line = EXTI_Line4, // matches above GPIO pin
 			.EXTI_Mode = EXTI_Mode_Interrupt,
 			.EXTI_Trigger = EXTI_Trigger_Rising,
 			.EXTI_LineCmd = ENABLE,
