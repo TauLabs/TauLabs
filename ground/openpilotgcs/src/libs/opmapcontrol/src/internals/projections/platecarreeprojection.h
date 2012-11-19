@@ -48,6 +48,7 @@ private:
     const double MaxLatitude;
     const double MinLongitude;
     const double MaxLongitude;
+
     Size tileSize;
 };
 }

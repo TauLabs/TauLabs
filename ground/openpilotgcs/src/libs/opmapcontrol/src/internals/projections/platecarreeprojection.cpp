@@ -67,6 +67,7 @@ internals::PointLatLng PlateCarreeProjection::FromPixelToLatLng(const qint64 &x,
 
     return ret;
 }
+
 Size PlateCarreeProjection::TileSize() const
 {
     return tileSize;

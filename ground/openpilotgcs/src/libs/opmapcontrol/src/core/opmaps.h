@@ -41,8 +41,12 @@
 #include "urlfactory.h"
 #include "diagnostics.h"
 
-//#include "point.h"
-
+#include "../internals/pureprojection.h"
+#include "../internals/projections/lks94projection.h"
+#include "../internals/projections/mercatorprojection.h"
+#include "../internals/projections/mercatorprojectionyandex.h"
+#include "../internals/projections/platecarreeprojection.h"
+#include "../internals/projections/platecarreeprojectionpergo.h"
 
 namespace core {
     class OPMaps: public MemoryCache,public AllLayersOfType,public UrlFactory
@@ -61,7 +65,8 @@ namespace core {
         /// </summary>
 
 
-        QByteArray GetImageFrom(const MapType::Types &type,const core::Point &pos,const int &zoom);
+        QByteArray GetImageFromServer(const MapType::Types &type,const core::Point &pos,const int &zoom);
+        QByteArray GetImageFromFile(const MapType::Types &type,const core::Point &pos,const int &zoom, double hScale, double vScale, QString userImageFileName, internals::PureProjection *projection);
         bool UseMemoryCache(){return useMemoryCache;}//TODO
         void setUseMemoryCache(const bool& value){useMemoryCache=value;}
         void setLanguage(const LanguageType::Types& language){Language=language;}//TODO
@@ -83,6 +88,11 @@ namespace core {
         static OPMaps* m_pInstance;
         diagnostics diag;
         QMutex errorvars;
+        quint8 lastZoom;
+        int quadCoordRight;
+        int quadCoordBottom;
+        QImage imScaled;
+        int leastCommonZoom;
     protected:
         // MemoryCache TilesInMemory;
 

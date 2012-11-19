@@ -65,6 +65,7 @@ internals::PointLatLng PlateCarreeProjectionPergo::FromPixelToLatLng(const qint6
 
     return ret;
 }
+
 Size PlateCarreeProjectionPergo::TileSize() const
 {
     return tileSize;

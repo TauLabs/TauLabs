@@ -89,6 +89,10 @@ namespace mapcontrol
     {
         emit childSetOpacity(value);
     }
+    /**
+     * @brief MapGraphicItem::ConstructLastImage
+     * @param zoomdiff
+     */
     void MapGraphicItem::ConstructLastImage(int const& zoomdiff)
     {
         QImage temp;

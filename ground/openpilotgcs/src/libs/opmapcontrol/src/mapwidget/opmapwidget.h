@@ -240,6 +240,9 @@ namespace mapcontrol
 
         MapType::Types GetMapType(){return map->core->GetMapType();}
         void SetMapType(MapType::Types const& value){map->lastimage=QImage(); map->core->SetMapType(value);}
+        void SetUserImageHorizontalScale(double hScale){map->core->SetUserImageHorizontalScale(hScale);}
+        void SetUserImageVerticalScale(double vScale){map->core->SetUserImageVerticalScale(vScale);}
+        void SetUserImageLocation(QString location){map->core->SetUserImageLocation(location);}
 
         bool isStarted(){return map->core->isStarted();}
 

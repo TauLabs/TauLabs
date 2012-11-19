@@ -79,6 +79,7 @@ internals::PointLatLng MercatorProjection::FromPixelToLatLng(const qint64 &x,con
 
     return ret;
 }
+
 Size MercatorProjection::TileSize() const
 {
     return tileSize;

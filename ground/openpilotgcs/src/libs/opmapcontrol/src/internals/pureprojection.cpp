@@ -103,8 +103,12 @@ Point PureProjection::FromLatLngToPixel(const PointLatLng &p,const int &zoom)
 
          return ret;
       }
-      /*
-       * Returns the conversion from pixels to meters
+
+      /**
+       * @brief PureProjection::GetGroundResolution Returns the conversion from pixels to meters
+       * @param zoom Quadtile zoom level
+       * @param latitude
+       * @return Constant in [m/px]
        */
       double PureProjection::GetGroundResolution(const int &zoom,const double &latitude)
       {
