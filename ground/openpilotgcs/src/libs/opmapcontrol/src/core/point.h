@@ -30,6 +30,11 @@
 
 #include <QString>
 
+/**
+ * For the most part, points are referenced in quadtiles. Due to integer overflow
+ * issues, the integers must be 64-bits in order to allow for proper operation
+ * of quadtile zoom levels greater than 22.
+ */
 namespace core {
     struct Size;
     struct Point
