@@ -51,13 +51,13 @@ Point MercatorProjectionYandex::FromLatLngToPixel(double lat, double lng, const 
     double DY = ((20037508.342789 - a * log(z)) * 53.5865938 / z1);
 
     Point ret;// = Point.Empty;
-    ret.SetX((int) DX);
-    ret.SetY((int) DY);
+    ret.SetX((qint64) round(DX));
+    ret.SetY((qint64) round(DY));
 
     return ret;
 
 }
-internals::PointLatLng MercatorProjectionYandex::FromPixelToLatLng(const int &x, const int &y, const int &zoom)
+internals::PointLatLng MercatorProjectionYandex::FromPixelToLatLng(const qint64 &x,const qint64 &y,const int &zoom)
 {
     Size s = GetTileMatrixSizePixel(zoom);
 

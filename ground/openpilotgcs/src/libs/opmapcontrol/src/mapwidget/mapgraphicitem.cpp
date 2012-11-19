@@ -268,7 +268,7 @@ namespace mapcontrol
              {
                  internals::PointLatLng center=internals::PointLatLng(rect.Lat()-(rect.HeightLat()/2), rect.Lng()+(rect.WidthLng()/2));
                  core->SetCurrentPosition(center);
-
+//
                 if(maxZoom > MaxZoom())
                 {
                    maxZoom = MaxZoom();
@@ -297,7 +297,7 @@ namespace mapcontrol
                 }
                 else if(GetMouseWheelZoomType() == internals::MouseWheelZoomType::ViewCenter)
                 {
-                    core->SetCurrentPosition(FromLocalToLatLng((int) maprect.width()/2, (int) maprect.height()/2));
+                    core->SetCurrentPosition(FromLocalToLatLng((qint64) maprect.width()/2, (qint64) maprect.height()/2));
                 }
                 else if(GetMouseWheelZoomType() == internals::MouseWheelZoomType::MousePositionWithoutCenter)
                 {
@@ -422,27 +422,36 @@ namespace mapcontrol
     core::Point MapGraphicItem::FromLatLngToLocal(internals::PointLatLng const& point)
     {
         core::Point ret = core->FromLatLngToLocal(point);
+
         if(MapRenderTransform!=1)
         {
-            ret.SetX((int) (ret.X() * MapRenderTransform));
-            ret.SetY((int) (ret.Y() * MapRenderTransform));
-            ret.SetX(ret.X()-((boundingRect().width()*MapRenderTransform)-(boundingRect().width()))/2);
-            ret.SetY(ret.Y()-((boundingRect().height()*MapRenderTransform)-(boundingRect().height()))/2);
+            //THIS IS JUST A DUPLICATE SET OPERATION, AS NEAR AS I CAN TELL.
+//            ret.SetX((qint64) round(ret.X() * MapRenderTransform));
+//            ret.SetY((qint64) round(ret.Y() * MapRenderTransform));
+            ret.SetX(round(ret.X()-((boundingRect().width()*MapRenderTransform)-(boundingRect().width()))/2));
+            ret.SetY(round(ret.Y()-((boundingRect().height()*MapRenderTransform)-(boundingRect().height()))/2));
 
 
         }
         return ret;
     }
-    internals::PointLatLng MapGraphicItem::FromLocalToLatLng(int x, int y)
+    /**
+     * @brief MapGraphicItem::FromLocalToLatLng Converts from local wigdet window frame into map frame
+     * @param x pixel coordinate referenced from the left edge of widget window
+     * @param y pixel coordinate referenced from the top edge of widget window
+     * @return Latitude and longitude of pixel location
+     */
+    internals::PointLatLng MapGraphicItem::FromLocalToLatLng(qint64 x, qint64 y)
     {
         if(MapRenderTransform!=1)
         {
             x=x+((boundingRect().width()*MapRenderTransform)-(boundingRect().width()))/2;
             y=y+((boundingRect().height()*MapRenderTransform)-(boundingRect().height()))/2;
 
-            x = (int) (x / MapRenderTransform);
-            y = (int) (y / MapRenderTransform);
+            x = (qint64) round(x / MapRenderTransform);
+            y = (qint64) round(y / MapRenderTransform);
         }
+
         return core->FromLocalToLatLng(x, y);
     }
 
@@ -463,14 +472,14 @@ namespace mapcontrol
     {
         if(ZoomTotal() != value)
         {
+            //Saturate zoom, including digital zoom
             if(value > MaxZoom())
             {
                 zoomReal = MaxZoom();
-                zoomDigi =value-MaxZoom();
+                zoomDigi = value-MaxZoom();
             }
-            else
-                if(value < MinZoom())
-                {
+            else if(value < MinZoom())
+            {
                 zoomDigi=0;
                 zoomReal = MinZoom();
             }
@@ -479,24 +488,23 @@ namespace mapcontrol
                 zoomDigi=0;
                 zoomReal = value;
             }
+
+            //Handle digital zoom and non-integer zoom values
             double integer;
             double remainder = modf (value , &integer);
-            if(zoomDigi!=0||remainder != 0)
+            if(zoomDigi !=0 || remainder != 0)
             {
                 float scaleValue = zoomDigi+remainder + 1;
-                {
-                    MapRenderTransform = scaleValue;
-                }
-                if(integer>MaxZoom())
+                MapRenderTransform = scaleValue;
+                if(integer>MaxZoom()){
                     integer=MaxZoom();
+                }
                 SetZoomStep((qint32)(integer));
               //  core->GoToCurrentPositionOnZoom();
                 this->update();
-
             }
             else
             {
-
                 MapRenderTransform = 1;
 
                 SetZoomStep ((qint32)(value));
@@ -509,12 +517,13 @@ namespace mapcontrol
     {
         return core->Zoom();
     }
-    void MapGraphicItem::SetZoomStep(int const& value)
+    void MapGraphicItem::SetZoomStep(qint32 const& value)
     {
-        if(value-core->Zoom()>0 && value<= MaxZoom())
-            ConstructLastImage(value-core->Zoom());
+        if((value - core->Zoom()) > 0 && value<= MaxZoom())
+            ConstructLastImage(value - core->Zoom());
         else if(value!=MaxZoom())
             lastimage=QImage();
+
         if(value > MaxZoom())
         {
             core->SetZoom(MaxZoom());
@@ -528,12 +537,12 @@ namespace mapcontrol
         else
         {
             core->SetZoom(value);
-            emit zoomChanged(value+ZoomDigi(),Zoom(),ZoomDigi());;
+            emit zoomChanged(value+ZoomDigi(), Zoom(), ZoomDigi());;
         }
 
     }
 
-    void MapGraphicItem::Offset(int const& x, int const& y)
+    void MapGraphicItem::Offset(qint64 const& x, qint64 const& y)
     {
         core->DragOffset(Point(x, y));
     }

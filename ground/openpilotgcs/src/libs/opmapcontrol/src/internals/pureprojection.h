@@ -52,7 +52,7 @@ public:
 
     virtual core::Point FromLatLngToPixel(double lat, double lng, int const& zoom)=0;
 
-    virtual PointLatLng FromPixelToLatLng(const int &x,const int &y,const int &zoom)=0;
+    virtual PointLatLng FromPixelToLatLng(const qint64 &x,const qint64 &y,const int &zoom)=0;
 
     virtual QString Type(){return "PureProjection";}
     core::Point FromLatLngToPixel(const PointLatLng &p,const int &zoom);

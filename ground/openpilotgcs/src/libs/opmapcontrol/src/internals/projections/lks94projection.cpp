@@ -64,13 +64,13 @@ Point LKS94Projection::FromLatLngToPixel(double lat, double lng, int const&  zoo
 
     double res = GetTileMatrixResolution(zoom);
 
-    ret.SetX((int) floor((lks[0] + orignX) / res));
-    ret.SetY((int) floor((orignY - lks[1]) / res));
+    ret.SetX((qint64) floor((lks[0] + orignX) / res));
+    ret.SetY((qint64) floor((orignY - lks[1]) / res));
 
     return ret;
 }
 
-internals::PointLatLng LKS94Projection::FromPixelToLatLng(int const& x, int const&  y, int const&  zoom)
+internals::PointLatLng LKS94Projection::FromPixelToLatLng(const qint64 &x,const qint64 &y,const int &zoom)
 {
     internals::PointLatLng ret;// = internals::PointLatLng::Empty;
 
@@ -619,7 +619,6 @@ double LKS94Projection::GetTileMatrixResolution(int const& zoom)
  */
 double LKS94Projection::GetGroundResolution(int const& zoom, double const& latitude)
 {
-    Q_UNUSED(zoom);
     Q_UNUSED(latitude);
     return GetTileMatrixResolution(zoom);
 }

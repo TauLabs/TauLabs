@@ -34,25 +34,25 @@
 namespace core {
     struct Size
     {
-
+        //Size must be kept in 64-bit signed integer format, or else the data type overflows at mid-twenties zoom levels
         Size();
-        Size(Point pt){width=pt.X(); height=pt.Y();};
-        Size(int Width,int Height){width=Width; height=Height;};
-        friend uint qHash(Size const& size);
+        Size(Point pt){width=pt.X(); height=pt.Y();}
+        Size(qint64 Width, qint64 Height){width=Width; height=Height;}
+        friend quint64 qHash(Size const& size);
         //  friend bool operator==(Size const& lhs,Size const& rhs);
         Size operator-(const Size &sz1){return Size(width-sz1.width,height-sz1.height);}
         Size operator+(const Size &sz1){return Size(sz1.width+width,sz1.height+height);}
 
         int GetHashCode(){return width^height;}
-        uint qHash(Size const& /*rect*/){return width^height;}
+        quint64 qHash(Size const& /*rect*/){return width^height;}
         QString ToString(){return "With="+QString::number(width)+" ,Height="+QString::number(height);}
-        int Width()const {return width;}
-        int Height()const {return height;}
-        void SetWidth(int const& value){width=value;}
-        void SetHeight(int const& value){height=value;}
+        qint64 Width()const {return width;}
+        qint64 Height()const {return height;}
+        void SetWidth(qint64 const& value){width=value;}
+        void SetHeight(qint64 const& value){height=value;}
     private:
-        int width;
-        int height;
+        qint64 width;
+        qint64 height;
     };
 }
 #endif // SIZE_H

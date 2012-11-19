@@ -37,7 +37,7 @@ namespace internals {
             ,minOfTiles(0,0),maxOfTiles(0,0),zoom(0),isDragging(false),TooltipTextPadding(10,10),loaderLimit(5),maxzoom(21),started(false),runningThreads(0)
     {
         mousewheelzoomtype=MouseWheelZoomType::MousePositionAndCenter;
-        SetProjection(new MercatorProjection());
+        SetProjection(new MercatorProjection()); //CONSIDERING THE DEFAULT IN THE SWITCH CASE, MAYBE THIS SHOULD BE RETHOUGHT?
         this->setAutoDelete(false);
         ProcessLoadTaskCallback.setMaxThreadCount(10);
         renderOffset=Point(0,0);
@@ -113,33 +113,34 @@ namespace internals {
                         foreach(MapType::Types tl,layers)
                         {
                             int retry = 0;
+
                             do
                             {
-                                QByteArray img;
+                                QByteArray tileImage;
 
                                 // tile number inversion(BottomLeft -> TopLeft) for pergo maps
                                 if(tl == MapType::PergoTurkeyMap)
                                 {
-                                    img = OPMaps::Instance()->GetImageFrom(tl, Point(task.Pos.X(), maxOfTiles.Height() - task.Pos.Y()), task.Zoom);
+                                    tileImage = OPMaps::Instance()->GetImageFrom(tl, Point(task.Pos.X(), maxOfTiles.Height() - task.Pos.Y()), task.Zoom);
                                 }
                                 else // ok
                                 {
 #ifdef DEBUG_CORE
                                     qDebug()<<"start getting image"<<" ID="<<debug;
 #endif //DEBUG_CORE
-                                    img = OPMaps::Instance()->GetImageFrom(tl, task.Pos, task.Zoom);
+                                    tileImage = OPMaps::Instance()->GetImageFrom(tl, task.Pos, task.Zoom);
 #ifdef DEBUG_CORE
-                                    qDebug()<<"Core::run:gotimage size:"<<img.count()<<" ID="<<debug<<" time="<<t.elapsed();
+//                                    qDebug()<<"Core::run:gotimage size:"<<tileImage.count()<<" ID="<<debug<<" time="<<t.elapsed();
 #endif //DEBUG_CORE
                                 }
 
-                                if(img.length()!=0)
+                                if(tileImage.length()!=0)
                                 {
                                     Moverlays.lock();
                                     {
-                                        t->Overlays.append(img);
+                                        t->Overlays.append(tileImage);
 #ifdef DEBUG_CORE
-                                        qDebug()<<"Core::run append img:"<<img.length()<<" to tile:"<<t->GetPos().ToString()<<" now has "<<t->Overlays.count()<<" overlays"<<" ID="<<debug;
+                                        qDebug()<<"Core::run append tileImage:"<<tileImage.length()<<" to tile:"<<t->GetPos().ToString()<<" now has "<<t->Overlays.count()<<" overlays"<<" ID="<<debug;
 #endif //DEBUG_CORE
 
                                     }
@@ -236,10 +237,11 @@ namespace internals {
     {
         if (!isDragging)
         {
+
             zoom=value;
             minOfTiles=Projection()->GetTileMatrixMinXY(value);
             maxOfTiles=Projection()->GetTileMatrixMaxXY(value);
-            currentPositionPixel=Projection()->FromLatLngToPixel(currentPosition,value);
+            currentPositionPixel=Projection()->FromLatLngToPixel(currentPosition, value);
             if(started)
             {
                 MtileLoadQueue.lock();
@@ -283,6 +285,20 @@ namespace internals {
             }
         }
     }
+
+    void Core::SetUserImageHorizontalScale(double hScale)
+    {
+        userImageHorizontalScale=hScale;
+    }
+    void Core::SetUserImageVerticalScale(double vScale)
+    {
+        userImageVerticalScale=vScale;
+    }
+    void Core::SetUserImageLocation(QString mapLocation)
+    {
+        userImageLocation=mapLocation;
+    }
+
     void Core::SetMapType(const MapType::Types &value)
     {
 
@@ -302,11 +318,10 @@ namespace internals {
                     if(Projection()->Type()!="PlateCarreeProjection")
                     {
                         SetProjection(new PlateCarreeProjection());
-                        maxzoom=13;
                     }
+                    maxzoom=13;
                 }
                 break;
-
             case MapType::ArcGIS_MapsLT_Map_Hybrid:
             case MapType::ArcGIS_MapsLT_Map_Labels:
             case MapType::ArcGIS_MapsLT_Map:
@@ -315,8 +330,8 @@ namespace internals {
                     if(Projection()->Type()!="LKS94Projection")
                     {
                         SetProjection(new LKS94Projection());
-                        maxzoom=11;
                     }
+                    maxzoom=11;
                 }
                 break;
 
@@ -325,8 +340,8 @@ namespace internals {
                     if(Projection()->Type()!="PlateCarreeProjectionPergo")
                     {
                         SetProjection(new PlateCarreeProjectionPergo());
-                        maxzoom=17;
                     }
+                    maxzoom=17;
                 }
                 break;
 
@@ -335,8 +350,8 @@ namespace internals {
                     if(Projection()->Type()!="MercatorProjectionYandex")
                     {
                         SetProjection(new MercatorProjectionYandex());
-                        maxzoom=13;
                     }
+                    maxzoom=13;
                 }
                 break;
 
@@ -345,10 +360,15 @@ namespace internals {
                     if(Projection()->Type()!="MercatorProjection")
                     {
                         SetProjection(new MercatorProjection());
-                        maxzoom=21;
                     }
+                    maxzoom=21;
                 }
                 break;
+            }
+
+            //Ensure that no matter what the zoom can never exceed the number of bits required to display it
+            if (projection->TileSize().Width()/32 + maxzoom > 32-2){
+                maxzoom=30 - projection->TileSize().Width()/32;
             }
 
             minOfTiles = Projection()->GetTileMatrixMinXY(Zoom());
@@ -438,7 +458,7 @@ namespace internals {
         return RectLatLng::FromLTRB(p.Lng(), p.Lat(), rlng, blat);
 
     }
-    PointLatLng Core::FromLocalToLatLng(int const& x, int const& y)
+    PointLatLng Core::FromLocalToLatLng(qint64 const& x, qint64 const& y)
     {
         return Projection()->FromPixelToLatLng(Point(x - renderOffset.X(), y - renderOffset.Y()), Zoom());
     }
@@ -545,6 +565,7 @@ namespace internals {
             Point pt = Point(-(GetcurrentPositionGPixel().X() - Width/2), -(GetcurrentPositionGPixel().Y() - Height/2));
             renderOffset.SetX(pt.X() - dragPoint.X());
             renderOffset.SetY(pt.Y() - dragPoint.Y());
+
         }
 
         UpdateCenterTileXYLocation();
@@ -563,7 +584,7 @@ namespace internals {
 
         {
             LastLocationInBounds = CurrentPosition();
-            SetCurrentPosition (FromLocalToLatLng((int) Width/2, (int) Height/2));
+            SetCurrentPosition (FromLocalToLatLng((qint64) Width/2, (qint64) Height/2));
         }
 
         emit OnNeedInvalidation();
@@ -585,14 +606,13 @@ namespace internals {
         if(IsDragging())
         {
             LastLocationInBounds = CurrentPosition();
-            SetCurrentPosition(FromLocalToLatLng((int) Width/2, (int) Height/2));
+            SetCurrentPosition(FromLocalToLatLng((qint64) Width/2, (qint64) Height/2));
         }
 
         emit OnNeedInvalidation();
 
 
         emit OnMapDrag();
-
     }
     void Core::CancelAsyncTasks()
     {
@@ -693,18 +713,23 @@ namespace internals {
         pxRes1000km = (int) (1000000.0 / rez); // 1000km
         pxRes5000km = (int) (5000000.0 / rez); // 5000km
     }
+    /**
+     * @brief Core::keepInBounds Saturate renderOffest. The lower bound is (0,0), and the upper bound is ???
+     */
     void Core::keepInBounds()
     {
         if(renderOffset.X()>0)
             renderOffset.SetX(0);
         if(renderOffset.Y()>0)
             renderOffset.SetY(0);
-        int maxDragY=GetCurrentRegion().Height()-GettileRect().Height()*(maxOfTiles.Height()-minOfTiles.Height()+1);
-        int maxDragX=GetCurrentRegion().Width()-GettileRect().Width()*(maxOfTiles.Width()-minOfTiles.Width()+1);
+
+        qint64 maxDragY=GetCurrentRegion().Height()-GetTileRect().Height()*(maxOfTiles.Height()-minOfTiles.Height()+1);
+        qint64 maxDragX=GetCurrentRegion().Width()-GetTileRect().Width()*(maxOfTiles.Width()-minOfTiles.Width()+1);
 
         if(maxDragY>renderOffset.Y())
             renderOffset.SetY(maxDragY);
         if(maxDragX>renderOffset.X())
             renderOffset.SetX(maxDragX);
+
     }
 }
