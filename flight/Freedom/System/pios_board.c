@@ -594,56 +594,14 @@ void PIOS_Board_Init(void) {
 			break;
 			
 	} /* 	hwsettings_freedom_flexiport */
-	
-	
-// 	/* Configure the receiver port*/
-// 	uint8_t hwsettings_rcvrport;
-// 	HwSettingsRM_RcvrPortGet(&hwsettings_rcvrport);
-// 	//   
-// 	switch (hwsettings_rcvrport){
-// 		case HWSETTINGS_RM_RCVRPORT_DISABLED:
-// 			break;
-// 		case HWSETTINGS_RM_RCVRPORT_PWM:
-// #if defined(PIOS_INCLUDE_PWM)
-// 		{
-// 			/* Set up the receiver port.  Later this should be optional */
-// 			uint32_t pios_pwm_id;
-// 			PIOS_PWM_Init(&pios_pwm_id, &pios_pwm_cfg);
-			
-// 			uint32_t pios_pwm_rcvr_id;
-// 			if (PIOS_RCVR_Init(&pios_pwm_rcvr_id, &pios_pwm_rcvr_driver, pios_pwm_id)) {
-// 				PIOS_Assert(0);
-// 			}
-// 			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PWM] = pios_pwm_rcvr_id;
-// 		}
-// #endif	/* PIOS_INCLUDE_PWM */
-// 			break;
-// 		case HWSETTINGS_RM_RCVRPORT_PPM:
-// 		case HWSETTINGS_RM_RCVRPORT_PPMOUTPUTS:
-// #if defined(PIOS_INCLUDE_PPM)
-// 		{
-// 			uint32_t pios_ppm_id;
-// 			PIOS_PPM_Init(&pios_ppm_id, &pios_ppm_cfg);
-			
-// 			uint32_t pios_ppm_rcvr_id;
-// 			if (PIOS_RCVR_Init(&pios_ppm_rcvr_id, &pios_ppm_rcvr_driver, pios_ppm_id)) {
-// 				PIOS_Assert(0);
-// 			}
-// 			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM] = pios_ppm_rcvr_id;
-// 		}
-// #endif	/* PIOS_INCLUDE_PPM */
-// 		case HWSETTINGS_RM_RCVRPORT_OUTPUTS:
-		
-// 			break;
-// 	}
 
 	/* Configure input receiver USART port */
-	uint8_t hwsettings_inputport;
-	HwSettingsFreedom_InputPortGet(&hwsettings_inputport);
-	switch (hwsettings_inputport) {
-		case HWSETTINGS_FREEDOM_INPUTPORT_DISABLED:
+	uint8_t hwsettings_rcvrport;
+	HwSettingsFreedom_RcvrPortGet(&hwsettings_rcvrport);
+	switch (hwsettings_rcvrport) {
+		case HWSETTINGS_FREEDOM_RCVRPORT_DISABLED:
 			break;
-		case HWSETTINGS_FREEDOM_INPUTPORT_PPM:
+		case HWSETTINGS_FREEDOM_RCVRPORT_PPM:
 		{
 			uint32_t pios_ppm_id;
 			PIOS_PPM_Init(&pios_ppm_id, &pios_ppm_cfg);
@@ -655,19 +613,19 @@ void PIOS_Board_Init(void) {
 			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM] = pios_ppm_rcvr_id;
 		}
 			break;
-		case HWSETTINGS_FREEDOM_INPUTPORT_DSM2:
-		case HWSETTINGS_FREEDOM_INPUTPORT_DSMX10BIT:
-		case HWSETTINGS_FREEDOM_INPUTPORT_DSMX11BIT:
+		case HWSETTINGS_FREEDOM_RCVRPORT_DSM2:
+		case HWSETTINGS_FREEDOM_RCVRPORT_DSMX10BIT:
+		case HWSETTINGS_FREEDOM_RCVRPORT_DSMX11BIT:
 			{
 				enum pios_dsm_proto proto;
-				switch (hwsettings_inputport) {
-				case HWSETTINGS_FREEDOM_INPUTPORT_DSM2:
+				switch (hwsettings_rcvrport) {
+				case HWSETTINGS_FREEDOM_RCVRPORT_DSM2:
 					proto = PIOS_DSM_PROTO_DSM2;
 					break;
-				case HWSETTINGS_FREEDOM_INPUTPORT_DSMX10BIT:
+				case HWSETTINGS_FREEDOM_RCVRPORT_DSMX10BIT:
 					proto = PIOS_DSM_PROTO_DSMX10BIT;
 					break;
-				case HWSETTINGS_FREEDOM_INPUTPORT_DSMX11BIT:
+				case HWSETTINGS_FREEDOM_RCVRPORT_DSMX11BIT:
 					proto = PIOS_DSM_PROTO_DSMX11BIT;
 					break;
 				default:
@@ -680,8 +638,27 @@ void PIOS_Board_Init(void) {
 					&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT,&hwsettings_DSMxBind);
 			}
 			break;
-		case HWSETTINGS_FREEDOM_INPUTPORT_SBUS:
-			PIOS_DEBUG_Assert(0);
+		case HWSETTINGS_FREEDOM_RCVRPORT_SBUS:
+#if defined(PIOS_INCLUDE_SBUS)
+            {
+                    uint32_t pios_usart_sbus_id;
+                    if (PIOS_USART_Init(&pios_usart_sbus_id, &pios_usart_sbus_rcvr_cfg)) {
+                            PIOS_Assert(0);
+                    }
+
+                    uint32_t pios_sbus_id;
+                    if (PIOS_SBus_Init(&pios_sbus_id, &pios_sbus_cfg, &pios_usart_com_driver, pios_usart_sbus_id)) {
+                            PIOS_Assert(0);
+                    }
+
+                    uint32_t pios_sbus_rcvr_id;
+                    if (PIOS_RCVR_Init(&pios_sbus_rcvr_id, &pios_sbus_rcvr_driver, pios_sbus_id)) {
+                            PIOS_Assert(0);
+                    }
+                    pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_SBUS] = pios_sbus_rcvr_id;
+            }
+#endif
+
 			break;
 	}
 
