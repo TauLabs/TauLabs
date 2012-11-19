@@ -525,7 +525,7 @@ const struct pios_rfm22b_cfg * PIOS_BOARD_HW_DEFS_GetRfm22Cfg (uint32_t board_re
 /*
  * MAIN USART
  */
-static const struct pios_usart_cfg pios_usart_main_cfg = {
+static const struct pios_usart_cfg pios_usart_flexi_cfg = {
 	.regs = USART1,
 	.remap = GPIO_AF_USART1,
 	.init = {
@@ -545,9 +545,9 @@ static const struct pios_usart_cfg pios_usart_main_cfg = {
 		},
 	},
 	.rx = {
-		.gpio = GPIOA,
+		.gpio = GPIOB,
 		.init = {
-			.GPIO_Pin   = GPIO_Pin_10,
+			.GPIO_Pin   = GPIO_Pin_7,
 			.GPIO_Speed = GPIO_Speed_2MHz,
 			.GPIO_Mode  = GPIO_Mode_AF,
 			.GPIO_OType = GPIO_OType_PP,
@@ -555,9 +555,9 @@ static const struct pios_usart_cfg pios_usart_main_cfg = {
 		},
 	},
 	.tx = {
-		.gpio = GPIOA,
+		.gpio = GPIOB,
 		.init = {
-			.GPIO_Pin   = GPIO_Pin_9,
+			.GPIO_Pin   = GPIO_Pin_6,
 			.GPIO_Speed = GPIO_Speed_2MHz,
 			.GPIO_Mode  = GPIO_Mode_AF,
 			.GPIO_OType = GPIO_OType_PP,
@@ -570,7 +570,7 @@ static const struct pios_usart_cfg pios_usart_main_cfg = {
 #ifdef PIOS_INCLUDE_DSM
 
 #include "pios_dsm_priv.h"
-static const struct pios_usart_cfg pios_usart_dsm_main_cfg = {
+static const struct pios_usart_cfg pios_usart_dsm_flexi_cfg = {
 	.regs = USART1,
 	.remap = GPIO_AF_USART1,
 	.init = {
@@ -590,9 +590,9 @@ static const struct pios_usart_cfg pios_usart_dsm_main_cfg = {
 		},
 	},
 	.rx = {
-		.gpio = GPIOA,
+		.gpio = GPIOB,
 		.init = {
-			.GPIO_Pin   = GPIO_Pin_10,
+			.GPIO_Pin   = GPIO_Pin_7,
 			.GPIO_Speed = GPIO_Speed_2MHz,
 			.GPIO_Mode  = GPIO_Mode_AF,
 			.GPIO_OType = GPIO_OType_PP,
@@ -600,9 +600,9 @@ static const struct pios_usart_cfg pios_usart_dsm_main_cfg = {
 		},
 	},
 	.tx = {
-		.gpio = GPIOA,
+		.gpio = GPIOB,
 		.init = {
-			.GPIO_Pin   = GPIO_Pin_9,
+			.GPIO_Pin   = GPIO_Pin_6,
 			.GPIO_Speed = GPIO_Speed_2MHz,
 			.GPIO_Mode  = GPIO_Mode_AF,
 			.GPIO_OType = GPIO_OType_PP,
@@ -611,16 +611,14 @@ static const struct pios_usart_cfg pios_usart_dsm_main_cfg = {
 	},
 };
 
-// Because of the inverter on the main port this will not
-// work.  Notice the mode is set to IN to maintain API
-// compatibility but protect the pins
-static const struct pios_dsm_cfg pios_dsm_main_cfg = {
+
+static const struct pios_dsm_cfg pios_dsm_flexi_cfg = {
 	.bind = {
-		.gpio = GPIOA,
+		.gpio = GPIOB,
 		.init = {
-			.GPIO_Pin   = GPIO_Pin_10,
+			.GPIO_Pin   = GPIO_Pin_7,
 			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_IN,
+			.GPIO_Mode  = GPIO_Mode_OUT,
 			.GPIO_OType = GPIO_OType_PP,
 			.GPIO_PuPd  = GPIO_PuPd_NOPULL
 		},
@@ -629,74 +627,13 @@ static const struct pios_dsm_cfg pios_dsm_main_cfg = {
 
 #endif	/* PIOS_INCLUDE_DSM */
 
-#include <pios_sbus_priv.h>
-#if defined(PIOS_INCLUDE_SBUS)
-/*
- * S.Bus USART
- */
-static const struct pios_usart_cfg pios_usart_sbus_main_cfg = {
-	.regs = USART1,
-	.init = {
-		.USART_BaudRate            = 100000,
-		.USART_WordLength          = USART_WordLength_8b,
-		.USART_Parity              = USART_Parity_Even,
-		.USART_StopBits            = USART_StopBits_2,
-		.USART_HardwareFlowControl = USART_HardwareFlowControl_None,
-		.USART_Mode                = USART_Mode_Rx,
-	},
-	.irq = {
-		.init = {
-			.NVIC_IRQChannel                   = USART1_IRQn,
-			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH,
-			.NVIC_IRQChannelSubPriority        = 0,
-			.NVIC_IRQChannelCmd                = ENABLE,
-		  },
-	},
-	.rx = {
-		.gpio = GPIOA,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_10,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_IPU,
-		},
-	},
-	.tx = {
-		.gpio = GPIOA,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_9,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_IN_FLOATING,
-		},
-	},
-};
-
-#endif	/* PIOS_INCLUDE_SBUS */
-
-// Need this defined regardless to be able to turn it off
-static const struct pios_sbus_cfg pios_sbus_cfg = {
-	/* Inverter configuration */
-	.inv = {
-		.gpio = GPIOC,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_0,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_OUT,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd  = GPIO_PuPd_UP
-		},
-	},
-	.gpio_inv_enable = Bit_SET,
-	.gpio_inv_disable = Bit_RESET,
-};
-
-
 #ifdef PIOS_INCLUDE_COM_FLEXI
 /*
- * FLEXI PORT
+ * GPS PORT
  */
-static const struct pios_usart_cfg pios_usart_flexi_cfg = {
-	.regs = USART3,
-	.remap = GPIO_AF_USART3,
+static const struct pios_usart_cfg pios_usart_gps_cfg = {
+	.regs = USART2,
+	.remap = GPIO_AF_USART2,
 	.init = {
 		.USART_BaudRate = 57600,
 		.USART_WordLength = USART_WordLength_8b,
@@ -708,16 +645,16 @@ static const struct pios_usart_cfg pios_usart_flexi_cfg = {
 	},
 	.irq = {
 		.init = {
-			.NVIC_IRQChannel = USART3_IRQn,
+			.NVIC_IRQChannel = USART2_IRQn,
 			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
 			.NVIC_IRQChannelSubPriority = 0,
 			.NVIC_IRQChannelCmd = ENABLE,
 		},
 	},
 	.rx = {
-		.gpio = GPIOB,
+		.gpio = GPIOA,
 		.init = {
-			.GPIO_Pin   = GPIO_Pin_11,
+			.GPIO_Pin   = GPIO_Pin_3,
 			.GPIO_Speed = GPIO_Speed_2MHz,
 			.GPIO_Mode  = GPIO_Mode_AF,
 			.GPIO_OType = GPIO_OType_PP,
@@ -725,9 +662,9 @@ static const struct pios_usart_cfg pios_usart_flexi_cfg = {
 		},
 	},
 	.tx = {
-		.gpio = GPIOB,
+		.gpio = GPIOA,
 		.init = {
-			.GPIO_Pin   = GPIO_Pin_10,
+			.GPIO_Pin   = GPIO_Pin_2,
 			.GPIO_Speed = GPIO_Speed_2MHz,
 			.GPIO_Mode  = GPIO_Mode_AF,
 			.GPIO_OType = GPIO_OType_PP,
@@ -741,9 +678,9 @@ static const struct pios_usart_cfg pios_usart_flexi_cfg = {
 #ifdef PIOS_INCLUDE_DSM
 
 #include "pios_dsm_priv.h"
-static const struct pios_usart_cfg pios_usart_dsm_flexi_cfg = {
-	.regs = USART3,
-	.remap = GPIO_AF_USART3,
+static const struct pios_usart_cfg pios_usart_dsm_gps_cfg = {
+	.regs = USART2,
+	.remap = GPIO_AF_USART2,
 	.init = {
 		.USART_BaudRate            = 115200,
 		.USART_WordLength          = USART_WordLength_8b,
@@ -754,16 +691,16 @@ static const struct pios_usart_cfg pios_usart_dsm_flexi_cfg = {
 	},
 	.irq = {
 		.init = {
-			.NVIC_IRQChannel                   = USART3_IRQn,
+			.NVIC_IRQChannel                   = USART2_IRQn,
 			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH,
 			.NVIC_IRQChannelSubPriority        = 0,
 			.NVIC_IRQChannelCmd                = ENABLE,
 		},
 	},
 	.rx = {
-		.gpio = GPIOB,
+		.gpio = GPIOA,
 		.init = {
-			.GPIO_Pin   = GPIO_Pin_11,
+			.GPIO_Pin   = GPIO_Pin_3,
 			.GPIO_Speed = GPIO_Speed_2MHz,
 			.GPIO_Mode  = GPIO_Mode_AF,
 			.GPIO_OType = GPIO_OType_PP,
@@ -771,9 +708,9 @@ static const struct pios_usart_cfg pios_usart_dsm_flexi_cfg = {
 		},
 	},
 	.tx = {
-		.gpio = GPIOB,
+		.gpio = GPIOA,
 		.init = {
-			.GPIO_Pin   = GPIO_Pin_10,
+			.GPIO_Pin   = GPIO_Pin_2,
 			.GPIO_Speed = GPIO_Speed_2MHz,
 			.GPIO_Mode  = GPIO_Mode_AF,
 			.GPIO_OType = GPIO_OType_PP,
@@ -782,15 +719,15 @@ static const struct pios_usart_cfg pios_usart_dsm_flexi_cfg = {
 	},
 };
 
-static const struct pios_dsm_cfg pios_dsm_flexi_cfg = {
+static const struct pios_dsm_cfg pios_dsm_gps_cfg = {
 	.bind = {
-		.gpio = GPIOB,
+		.gpio = GPIOA,
 		.init = {
-			.GPIO_Pin   = GPIO_Pin_11,
+			.GPIO_Pin   = GPIO_Pin_3,
 			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_OUT,
+			.GPIO_Mode  = GPIO_Mode_AF,
 			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd  = GPIO_PuPd_NOPULL
+			.GPIO_PuPd  = GPIO_PuPd_UP
 		},
 	},
 };
@@ -837,6 +774,61 @@ static const struct pios_dsm_cfg pios_dsm_rcvr_cfg = {
 };
 
 #endif	/* PIOS_INCLUDE_DSM */
+
+#include <pios_sbus_priv.h>
+#if defined(PIOS_INCLUDE_SBUS)
+/*
+ * S.Bus USART
+ */
+static const struct pios_usart_cfg pios_usart_sbus_rcvr_cfg = {
+	.regs = UART5,
+	.init = {
+		.USART_BaudRate            = 100000,
+		.USART_WordLength          = USART_WordLength_8b,
+		.USART_Parity              = USART_Parity_Even,
+		.USART_StopBits            = USART_StopBits_2,
+		.USART_HardwareFlowControl = USART_HardwareFlowControl_None,
+		.USART_Mode                = USART_Mode_Rx,
+	},
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel                   = UART5_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH,
+			.NVIC_IRQChannelSubPriority        = 0,
+			.NVIC_IRQChannelCmd                = ENABLE,
+		  },
+	},
+	.rx = {
+		.gpio = GPIOD,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_2,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_IPU,
+		},
+	},
+	.tx = {
+		.gpio = NULL,
+	},
+};
+
+#endif	/* PIOS_INCLUDE_SBUS */
+
+// Need this defined regardless to be able to turn it off
+static const struct pios_sbus_cfg pios_sbus_cfg = {
+	/* Inverter configuration */
+	.inv = {
+		.gpio = GPIOC,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_0,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_OUT,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_UP
+		},
+	},
+	.gpio_inv_enable = Bit_SET,
+	.gpio_inv_disable = Bit_RESET,
+};
 
 #if defined(PIOS_INCLUDE_COM)
 

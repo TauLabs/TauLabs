@@ -356,13 +356,7 @@ void PIOS_Board_Init(void) {
 	PIOS_TIM_InitClock(&tim_1_cfg);
 	PIOS_TIM_InitClock(&tim_2_cfg);
 	PIOS_TIM_InitClock(&tim_3_cfg);
-	/*PIOS_TIM_InitClock(&tim_4_cfg);
-	PIOS_TIM_InitClock(&tim_5_cfg);
-	PIOS_TIM_InitClock(&tim_8_cfg);
-	PIOS_TIM_InitClock(&tim_9_cfg);
-	PIOS_TIM_InitClock(&tim_10_cfg);
-	PIOS_TIM_InitClock(&tim_11_cfg);
-	PIOS_TIM_InitClock(&tim_12_cfg);*/
+
 	/* IAP System Setup */
 	PIOS_IAP_Init();
 	uint16_t boot_count = PIOS_IAP_ReadBootCount();
@@ -494,84 +488,55 @@ void PIOS_Board_Init(void) {
 	uint8_t hwsettings_DSMxBind;
 	HwSettingsDSMxBindGet(&hwsettings_DSMxBind);
 	
-	/* Configure main USART port */
-// 	uint8_t hwsettings_mainport;
-// 	HwSettingsRM_MainPortGet(&hwsettings_mainport);
-// 	switch (hwsettings_mainport) {
-// 		case HWSETTINGS_RM_MAINPORT_DISABLED:
-// 			break;
-// 		case HWSETTINGS_RM_MAINPORT_TELEMETRY:
-// 			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
-// 			break;
-// 		case HWSETTINGS_RM_MAINPORT_GPS:
-// 			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_GPS_RX_BUF_LEN, -1, &pios_usart_com_driver, &pios_com_gps_id);
-// 			break;
-// 		case HWSETTINGS_RM_MAINPORT_SBUS:
-// #if defined(PIOS_INCLUDE_SBUS)
-//                         {
-//                                 uint32_t pios_usart_sbus_id;
-//                                 if (PIOS_USART_Init(&pios_usart_sbus_id, &pios_usart_sbus_main_cfg)) {
-//                                         PIOS_Assert(0);
-//                                 }
+	/* Configure flexi USART port */
+	uint8_t hwsettings_flexiport;
+	HwSettingsFreedom_FlexiPortGet(&hwsettings_flexiport);
+	switch (hwsettings_flexiport) {
+		case HWSETTINGS_FREEDOM_FLEXIPORT_DISABLED:
+			break;
+		case HWSETTINGS_FREEDOM_FLEXIPORT_TELEMETRY:
+			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
+			break;
+		case HWSETTINGS_FREEDOM_FLEXIPORT_GPS:
+			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_GPS_RX_BUF_LEN, -1, &pios_usart_com_driver, &pios_com_gps_id);
+			break;
+		case HWSETTINGS_FREEDOM_FLEXIPORT_DSM2:
+		case HWSETTINGS_FREEDOM_FLEXIPORT_DSMX10BIT:
+		case HWSETTINGS_FREEDOM_FLEXIPORT_DSMX11BIT:
+			{
+				enum pios_dsm_proto proto;
+				switch (hwsettings_flexiport) {
+				case HWSETTINGS_FREEDOM_FLEXIPORT_DSM2:
+					proto = PIOS_DSM_PROTO_DSM2;
+					break;
+				case HWSETTINGS_FREEDOM_FLEXIPORT_DSMX10BIT:
+					proto = PIOS_DSM_PROTO_DSMX10BIT;
+					break;
+				case HWSETTINGS_FREEDOM_FLEXIPORT_DSMX11BIT:
+					proto = PIOS_DSM_PROTO_DSMX11BIT;
+					break;
+				default:
+					PIOS_Assert(0);
+					break;
+				}
 
-//                                 uint32_t pios_sbus_id;
-//                                 if (PIOS_SBus_Init(&pios_sbus_id, &pios_sbus_cfg, &pios_usart_com_driver, pios_usart_sbus_id)) {
-//                                         PIOS_Assert(0);
-//                                 }
-
-//                                 uint32_t pios_sbus_rcvr_id;
-//                                 if (PIOS_RCVR_Init(&pios_sbus_rcvr_id, &pios_sbus_rcvr_driver, pios_sbus_id)) {
-//                                         PIOS_Assert(0);
-//                                 }
-//                                 pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_SBUS] = pios_sbus_rcvr_id;
-//                         }
-// #endif
-//                         break;
-// 		case HWSETTINGS_RM_MAINPORT_DSM2:
-// 		case HWSETTINGS_RM_MAINPORT_DSMX10BIT:
-// 		case HWSETTINGS_RM_MAINPORT_DSMX11BIT:
-// 			{
-// 				enum pios_dsm_proto proto;
-// 				switch (hwsettings_mainport) {
-// 				case HWSETTINGS_RM_MAINPORT_DSM2:
-// 					proto = PIOS_DSM_PROTO_DSM2;
-// 					break;
-// 				case HWSETTINGS_RM_MAINPORT_DSMX10BIT:
-// 					proto = PIOS_DSM_PROTO_DSMX10BIT;
-// 					break;
-// 				case HWSETTINGS_RM_MAINPORT_DSMX11BIT:
-// 					proto = PIOS_DSM_PROTO_DSMX11BIT;
-// 					break;
-// 				default:
-// 					PIOS_Assert(0);
-// 					break;
-// 				}
-
-// 				// Force binding to zero on the main port
-// 				hwsettings_DSMxBind = 0;
-
-// 				//TODO: Define the various Channelgroup for Revo dsm inputs and handle here
-// 				PIOS_Board_configure_dsm(&pios_usart_dsm_main_cfg, &pios_dsm_main_cfg, 
-// 							&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT,&hwsettings_DSMxBind);
-// 			}
-// 			break;
-// 		case HWSETTINGS_RM_MAINPORT_DEBUGCONSOLE:
-// #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
-// 			{
-// 				PIOS_Board_configure_com(&pios_usart_main_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
-// 			}
-// #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
-// 			break;
-// 		case HWSETTINGS_RM_MAINPORT_COMBRIDGE:
-// 			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
-// 			break;
+				//TODO: Define the various Channelgroup for Revo dsm inputs and handle here
+				PIOS_Board_configure_dsm(&pios_usart_dsm_flexi_cfg, &pios_dsm_flexi_cfg, 
+							&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT,&hwsettings_DSMxBind);
+			}
+			break;
+		case HWSETTINGS_FREEDOM_FLEXIPORT_DEBUGCONSOLE:
+#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
+			{
+				PIOS_Board_configure_com(&pios_usart_flexi_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
+			}
+#endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
+			break;
+		case HWSETTINGS_FREEDOM_FLEXIPORT_COMBRIDGE:
+			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
+			break;
 			
-// 	} /* 	hwsettings_rm_mainport */
-
-// 	if (hwsettings_mainport != HWSETTINGS_RM_MAINPORT_SBUS) {
-// 		GPIO_Init(pios_sbus_cfg.inv.gpio, &pios_sbus_cfg.inv.init);
-// 		GPIO_WriteBit(pios_sbus_cfg.inv.gpio, pios_sbus_cfg.inv.init.GPIO_Pin, pios_sbus_cfg.gpio_inv_disable);
-// 	}
+	} /* 	hwsettings_freedom_flexiport */
 
 // 	/* Configure FlexiPort */
 // 	uint8_t hwsettings_flexiport;
