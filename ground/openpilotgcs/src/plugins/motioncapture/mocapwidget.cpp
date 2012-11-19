@@ -104,7 +104,7 @@ void MoCapWidget::startButtonClicked()
 	}
 
     MocapCreator* creator = MoCapPlugin::getMocapCreator(settings.exportId);
-    exporter = creator->createExport(settings);
+    exporter = creator->createExport(settings, widget);
 
     // move to thread <--[BCH]
     exporter->setName(creator->Description());

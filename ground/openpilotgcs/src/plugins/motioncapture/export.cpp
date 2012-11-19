@@ -201,29 +201,29 @@ void Export::onStart()
 
 void Export::receiveUpdate()
 {
-	// Update connection timer and status
+    // Update connection timer and status
     exportTimer->setInterval(exportTimeout);
     exportTimer->stop();
     exportTimer->start();
     if ( !exportConnectionStatus )
-	{
+    {
         exportConnectionStatus = true;
         emit exportConnected();
-	}
+    }
 
-	// Process data
-        while(inSocket->hasPendingDatagrams()) {
-		// Receive datagram
-		QByteArray datagram;
-		datagram.resize(inSocket->pendingDatagramSize());
-		QHostAddress sender;
-		quint16 senderPort;
-		inSocket->readDatagram(datagram.data(), datagram.size(),
-							   &sender, &senderPort);
-		//QString datastr(datagram);
-		// Process incomming data
-		processUpdate(datagram);
-	 }
+    // Process data
+    while(inSocket->hasPendingDatagrams()) {
+        // Receive datagram
+        QByteArray datagram;
+        datagram.resize(inSocket->pendingDatagramSize());
+        QHostAddress sender;
+        quint16 senderPort;
+        inSocket->readDatagram(datagram.data(), datagram.size(),
+                               &sender, &senderPort);
+        //QString datastr(datagram);
+        // Process incomming data
+        processUpdate(datagram);
+    }
 }
 
 void Export::setupObjects()

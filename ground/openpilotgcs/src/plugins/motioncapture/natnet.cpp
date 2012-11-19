@@ -28,6 +28,7 @@
 /**
  * Description of NatNet Packet protocol:
  *
+ * //THIS IS ACTUALLY THE X-PLANE PROTOCOL. STAY TUNED FOR THE NATNET ONE
  * To see what data can be sended/recieved to/from X-Plane, launch X-Plane -> goto main menu
  * (cursor at top of main X-Plane window) -> Settings -> Data Input and Output -> Data Set.
  * Data Set shown all X-Plane params,
@@ -64,10 +65,12 @@
 #include <qxtlogger.h>
 #include "utils/coordinateconversions.h"
 
-NatNet::NatNet(const MocapSettings& params) :
+NatNet::NatNet(const MocapSettings& params, Ui_MoCapWidget *widget) :
     Export(params), trackableIndex(0)
 {
     resetInitialHomePosition();
+
+    this->widget=widget;
 }
 
 
@@ -104,16 +107,26 @@ void NatNet::transmitUpdate()
 
 }
 
+/**
+ * @brief NatNet::setTrackable Set the index of the trackable currently being tracked
+ * @param trackIdx The trackable's index
+ */
 void NatNet::setTrackable(int trackIdx){
     trackableIndex=trackIdx;
 }
 
+/**
+ * @brief NatNet::getTrackable Get the index of the trackable currently being tracked
+ * @return
+ */
 int NatNet::getTrackable(){
     return trackableIndex;
 }
 
-
-//void NatNet::processUpdate(char* pData)
+/**
+ * @brief NatNet::processUpdate Receive a UDP update, parse it, and write the outputs to the exporter
+ * @param dataBuf Buffer holding the UDP data
+ */
 void NatNet::processUpdate(const QByteArray& dataBuf)
 {
     float velX = 0;
@@ -185,12 +198,12 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
         qDebug() << "Marker Set Count : " << nMarkerSets;
 #endif
 
-//        // If the number of markers has shrunk, simply clear the combobox and start
-//        // over again. This might not be the most efficient way, but it should happen
-//        // so rarely it's not worth expending any more logic.
-//        if (nMarkerSets > widget->trackablesComboBox->count()){
-//            widget->trackablesComboBox->clear();
-//        }
+        // If the number of markers has shrunk, simply clear the combobox and start
+        // over again. This might not be the most efficient way, but it should happen
+        // so rarely it's not worth expending any more logic.
+        if (nMarkerSets > widget->trackablesComboBox->count()){
+            widget->trackablesComboBox->clear();
+        }
 
 
         for (int i=0; i < nMarkerSets; i++)
@@ -205,13 +218,13 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
             qDebug() << "Model Name: " << szName;
 #endif
 
-//            //Compare model name with combobox list. If not identical, change the combobox
-//            if(j >= widget->trackablesComboBox->count()){
-//                widget->trackablesComboBox->addItem(szName);
-//            }
-//            else if ( szName != widget->trackablesComboBox->itemText(j)){
-//                widget->trackablesComboBox->setItemText(j, szName);
-//            }
+            //Compare model name with combobox list. If not identical, change the combobox
+            if(i >= widget->trackablesComboBox->count()){
+                widget->trackablesComboBox->addItem(szName);
+            }
+            else if ( szName != widget->trackablesComboBox->itemText(i)){
+                widget->trackablesComboBox->setItemText(i, szName);
+            }
 
 
 

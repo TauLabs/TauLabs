@@ -30,6 +30,7 @@
 
 #include <coreplugin/iuavgadgetfactory.h>
 
+
 namespace Core {
 class IUAVGadget;
 class IUAVGadgetFactory;
@@ -44,7 +45,7 @@ public:
     MoCapFactory(QObject *parent = 0);
     ~MoCapFactory();
 
-	IUAVGadget *createGadget(QWidget *parent);
+    Core::IUAVGadget *createGadget(QWidget *parent);
     IUAVGadgetConfiguration *createConfiguration(QSettings* qSettings);
     IOptionsPage *createOptionsPage(IUAVGadgetConfiguration *config);
 };

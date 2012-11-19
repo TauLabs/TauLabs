@@ -37,6 +37,7 @@
 #include "qscopedpointer.h"
 #include "uavtalk/telemetrymanager.h"
 #include "uavobjectmanager.h"
+#include "ui_mocapwidget.h"
 
 #include "accels.h"
 #include "actuatorcommand.h"
@@ -193,7 +194,7 @@ public:
     virtual void stopProcess() {}
     virtual void setupUdpPorts(const QString& host, int inPort, int outPort) { Q_UNUSED(host) Q_UNUSED(inPort) Q_UNUSED(outPort)}
     virtual void setTrackable(int trackIdx){Q_UNUSED(trackIdx)}
-    virtual int getTrackable(){}
+    virtual int getTrackable(){return 0;}
 
     void resetInitialHomePosition();
     void updateUAVOs(MocapOutput2Hardware out);
@@ -285,6 +286,8 @@ private:
     void setupInputObject(UAVObject* obj, quint32 updatePeriod);
     void setupWatchedObject(UAVObject *obj, quint32 updatePeriod);
     void setupObjects();
+
+    Ui_MoCapWidget *widget;
 };
 
 
@@ -301,7 +304,7 @@ public:
     QString ClassId() const {return classId;}
     QString Description() const {return description;}
 
-    virtual Export* createExport(const MocapSettings& params) = 0;
+    virtual Export* createExport(const MocapSettings& params, Ui_MoCapWidget *widget) = 0;
 
 private:
     QString classId;
