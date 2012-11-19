@@ -159,7 +159,6 @@ int32_t PIOS_HMC5883_ReadMag(struct pios_hmc5883_data * data)
 {
 	pios_hmc5883_data_ready = false;
 	uint8_t buffer[6];
-	int32_t temp;
 	int32_t sensitivity;
 	
 	if (PIOS_HMC5883_Read(PIOS_HMC5883_DATAOUT_XMSB_REG, buffer, 6) != 0) {
