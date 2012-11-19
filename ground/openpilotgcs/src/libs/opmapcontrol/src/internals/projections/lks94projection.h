@@ -61,7 +61,6 @@ private:
          QVector <double> DTM01(QVector <double>& lonlat);
          QVector <double> MTD01(QVector <double>& pnt);
          QVector <double> MTD11(QVector <double>& p);
-         double Clip(double const& n, double const& minValue, double const& maxValue);
 };
 
 }

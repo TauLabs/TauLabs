@@ -35,8 +35,8 @@ MaxLongitude(177), RAD_DEG(180 / M_PI),DEG_RAD(M_PI / 180),MathPiDiv4(M_PI / 4),
 }
 Point MercatorProjectionYandex::FromLatLngToPixel(double lat, double lng, const int &zoom)
 {
-    lat = Clip(lat, MinLatitude, MaxLatitude);
-    lng = Clip(lng, MinLongitude, MaxLongitude);
+    lat = bound(lat, MinLatitude, MaxLatitude);
+    lng = bound(lng, MinLongitude, MaxLongitude);
 
     double rLon = lng * DEG_RAD; // Math.PI / 180;
     double rLat = lat * DEG_RAD; // Math.PI / 180;
@@ -81,10 +81,6 @@ internals::PointLatLng MercatorProjectionYandex::FromPixelToLatLng(const qint64 
     ret.SetLng (mercX / a * RAD_DEG);
 
     return ret;
-}
-double MercatorProjectionYandex::Clip(const double &n, const double &minValue, const double &maxValue) const
-{
-    return qMin(qMax(n, minValue), maxValue);
 }
 Size MercatorProjectionYandex::TileSize() const
 {

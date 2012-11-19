@@ -38,8 +38,8 @@ Point MercatorProjection::FromLatLngToPixel(double lat, double lng, const int &z
 {
     Point ret;// = Point.Empty;
 
-    lat = Clip(lat, MinLatitude, MaxLatitude);
-    lng = Clip(lng, MinLongitude, MaxLongitude);
+    lat = bound(lat, MinLatitude, MaxLatitude);
+    lng = bound(lng, MinLongitude, MaxLongitude);
 
     double x = (lng + 180) / 360;
     double sinLatitude = sin(lat * M_PI / 180);
@@ -49,8 +49,8 @@ Point MercatorProjection::FromLatLngToPixel(double lat, double lng, const int &z
     qint64 mapSizeX = s.Width();
     qint64 mapSizeY = s.Height();
 
-    ret.SetX((qint64) round(Clip(x * mapSizeX + 0.5, 0, mapSizeX - 1)));
-    ret.SetY((qint64) round(Clip(y * mapSizeY + 0.5, 0, mapSizeY - 1)));
+    ret.SetX((qint64) round(bound(x * mapSizeX + 0.5, 0, mapSizeX - 1)));
+    ret.SetY((qint64) round(bound(y * mapSizeY + 0.5, 0, mapSizeY - 1)));
 
     return ret;
 }
@@ -71,17 +71,13 @@ internals::PointLatLng MercatorProjection::FromPixelToLatLng(const qint64 &x,con
     double mapSizeY = s.Height();
 
     //Calculate the percentage distance between top and bottom, and left and right
-    double xx = (Clip(x, 0, mapSizeX - 1) / mapSizeX) - 0.5;
-    double yy = 0.5 - (Clip(y, 0, mapSizeY - 1) / mapSizeY);
+    double xx = (bound(x, 0, mapSizeX - 1) / mapSizeX) - 0.5;
+    double yy = 0.5 - (bound(y, 0, mapSizeY - 1) / mapSizeY);
 
     ret.SetLat(90 - 360 * atan(exp(-yy * 2 * M_PI)) / M_PI);
     ret.SetLng(360 * xx);
 
     return ret;
-}
-double MercatorProjection::Clip(const double &n, const double &minValue, const double &maxValue) const
-{
-    return qMin(qMax(n, minValue), maxValue);
 }
 Size MercatorProjection::TileSize() const
 {

@@ -274,4 +274,16 @@ Point PureProjection::FromLatLngToPixel(const PointLatLng &p,const int &zoom)
         return ret;
     }
 
+    /**
+     * @brief PureProjection::bound Bounds the value at an upper and lower threshold
+     * @param val value to be bounded
+     * @param minValue minimum value for bound
+     * @param maxValue maximum value for bound
+     * @return bounded value
+     */
+
+    double PureProjection::bound(const double &val, const double &minValue, const double &maxValue) const
+    {
+        return qMin(qMax(val, minValue), maxValue);
+    }
 }
