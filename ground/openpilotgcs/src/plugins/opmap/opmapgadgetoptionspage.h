@@ -58,6 +58,7 @@ public slots:
 
 private slots:
     void on_pushButtonCacheDefaults_clicked();
+    void on_providerComboBox_changed();
 
 private:
     OPMapGadgetConfiguration *m_config;

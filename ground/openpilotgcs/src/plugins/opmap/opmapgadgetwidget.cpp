@@ -724,16 +724,15 @@ void OPMapGadgetWidget::zoomChanged(double zoomt, double zoom, double zoomd)
 
     int i_zoom = (int)(zoomt + 0.5);
 
-	if (i_zoom < m_min_zoom) i_zoom = m_min_zoom;
-    else
-	if (i_zoom > m_max_zoom) i_zoom = m_max_zoom;
+    if (i_zoom < m_min_zoom) i_zoom = m_min_zoom;
+    else	if (i_zoom > m_max_zoom) i_zoom = m_max_zoom;
 
     if (m_widget->horizontalSliderZoom->value() != i_zoom)
-	m_widget->horizontalSliderZoom->setValue(i_zoom);	// set the GUI zoom slider position
+        m_widget->horizontalSliderZoom->setValue(i_zoom);	// set the GUI zoom slider position
 
 	int index0_zoom = i_zoom - m_min_zoom;			// zoom level starting at index level '0'
     if (index0_zoom < zoomAct.count())
-    zoomAct.at(index0_zoom)->setChecked(true);		// set the right-click context menu zoom level
+        zoomAct.at(index0_zoom)->setChecked(true);		// set the right-click context menu zoom level
 }
 
 void OPMapGadgetWidget::OnCurrentPositionChanged(internals::PointLatLng point)
@@ -1102,7 +1101,7 @@ void OPMapGadgetWidget::setMapProvider(QString provider)
 {
 	if (!m_widget || !m_map)
 		return;
-
+//
     m_map->SetMapType(mapcontrol::Helper::MapTypeFromString(provider));
 }
 
@@ -1211,6 +1210,20 @@ void OPMapGadgetWidget::setMapMode(opMapModeType mode)
             break;
     }
 }
+
+void OPMapGadgetWidget::setUserImageLocation(QString userImageLocation)
+{
+    m_map->SetUserImageLocation(userImageLocation);
+}
+void OPMapGadgetWidget::setUserImageHorizontalScale(double userImageHorizontalScale)
+{
+    m_map->SetUserImageHorizontalScale(userImageHorizontalScale);
+}
+void OPMapGadgetWidget::setUserImageVerticalScale(double userImageVerticalScale)
+{
+    m_map->SetUserImageVerticalScale(userImageVerticalScale);
+}
+
 
 // *************************************************************************************
 // Context menu stuff
@@ -2167,6 +2180,7 @@ void OPMapGadgetWidget::SetUavPic(QString UAVPic)
     m_map->SetUavPic(UAVPic);
 }
 
+// *************************************************************************************
 void OPMapGadgetWidget::on_tbFind_clicked()
 {
     QPalette pal = m_widget->leFind->palette();
