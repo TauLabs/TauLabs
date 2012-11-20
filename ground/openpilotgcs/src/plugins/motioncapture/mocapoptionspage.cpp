@@ -84,7 +84,6 @@ QWidget *MoCapOptionsPage::createPage(QWidget *parent)
     m_optionsPage->manualControlRadioButton->setChecked(config->Settings().manualControlEnabled);
     m_optionsPage->gcsReceiverRadioButton->setChecked(config->Settings().gcsReceiverEnabled);
 
-    m_optionsPage->startExport->setChecked(config->Settings().startExport);
     m_optionsPage->noiseCheckBox->setChecked(config->Settings().addNoise);
 
     m_optionsPage->hostAddress->setText(config->Settings().hostAddress);
@@ -129,7 +128,6 @@ void MoCapOptionsPage::apply()
     settings.exportId = m_optionsPage->chooseMotionCapture->itemData(i).toString();
     settings.binPath = m_optionsPage->executablePath->path();
     settings.dataPath = m_optionsPage->dataPath->path();
-    settings.startExport = m_optionsPage->startExport->isChecked();
     settings.addNoise = m_optionsPage->noiseCheckBox->isChecked();
     settings.hostAddress = m_optionsPage->hostAddress->text();
     settings.remoteAddress = m_optionsPage->remoteAddress->text();

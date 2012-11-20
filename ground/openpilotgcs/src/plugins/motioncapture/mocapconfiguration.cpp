@@ -36,7 +36,6 @@ MoCapConfiguration::MoCapConfiguration(QString classId, QSettings* qSettings, QO
     settings.binPath = "";
     settings.dataPath = "";
     settings.manualControlEnabled = true;
-    settings.startExport = false;
     settings.addNoise = false;
     settings.hostAddress = "127.0.0.1";
     settings.remoteAddress = "127.0.0.1";
@@ -82,7 +81,6 @@ MoCapConfiguration::MoCapConfiguration(QString classId, QSettings* qSettings, QO
 
         settings.latitude            = qSettings->value("latitude").toString();
         settings.longitude           = qSettings->value("longitude").toString();
-        settings.startExport            = qSettings->value("startExport").toBool();
         settings.addNoise            = qSettings->value("noiseCheckBox").toBool();
 
         settings.gcsReceiverEnabled  = qSettings->value("gcsReceiverEnabled").toBool();
@@ -138,7 +136,6 @@ void MoCapConfiguration::saveConfig(QSettings* qSettings) const {
     qSettings->setValue("latitude", settings.latitude);
     qSettings->setValue("longitude", settings.longitude);
     qSettings->setValue("addNoise", settings.addNoise);
-    qSettings->setValue("startExport", settings.startExport);
 
     qSettings->setValue("gcsReceiverEnabled", settings.gcsReceiverEnabled);
     qSettings->setValue("manualControlEnabled", settings.manualControlEnabled);

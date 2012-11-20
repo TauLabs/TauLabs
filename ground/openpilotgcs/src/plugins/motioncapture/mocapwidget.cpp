@@ -104,7 +104,7 @@ void MoCapWidget::startButtonClicked()
 	}
 
     MocapCreator* creator = MoCapPlugin::getMocapCreator(settings.exportId);
-    exporter = creator->createExport(settings);
+    exporter = creator->createExport(settings, widget);
 
     // move to thread <--[BCH]
     exporter->setName(creator->Description());
@@ -132,6 +132,7 @@ void MoCapWidget::startButtonClicked()
         connect(exporter, SIGNAL(autopilotDisconnected()), this, SLOT(onAutopilotDisconnect()),Qt::QueuedConnection);
         connect(exporter, SIGNAL(exportConnected()), this, SLOT(onExportConnect()),Qt::QueuedConnection);
         connect(exporter, SIGNAL(exportDisconnected()), this, SLOT(onExportDisconnect()),Qt::QueuedConnection);
+        connect(widget->trackablesComboBox, SIGNAL(	currentIndexChanged(int)), this, SLOT(ontrackablesComboBox_changed()));
 
 		// Initialize connection status
         if ( exporter->isAutopilotConnected() )
@@ -154,6 +155,8 @@ void MoCapWidget::startButtonClicked()
 	}
 }
 
+void MoCapWidget::ontrackablesComboBox_changed(){
+}
 
 void MoCapWidget::stopButtonClicked()
 {

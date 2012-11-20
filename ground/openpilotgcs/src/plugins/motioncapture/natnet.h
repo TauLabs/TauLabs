@@ -31,51 +31,29 @@
 #include <QObject>
 #include "export.h"
 
-
 #define MAX_NAMELENGTH 256
 
 class NatNet: public Export
 {
 	Q_OBJECT
 public:
-    NatNet(const MocapSettings& params);
+    NatNet(const MocapSettings& params, Ui_MoCapWidget *widget);
     ~NatNet();
         bool setupProcess();
 
 	void setupUdpPorts(const QString& host, int inPort, int outPort);
+    void setTrackable(int trackIdx);
+    int getTrackable();
+    void setWidget(Ui_MoCapWidget *widget){this->widget=widget;}
 
 private slots:
 	void transmitUpdate();
 
 private:
-    enum XplaneOutputData //***WARNING***: Elements in this enum are in a precise order, do
-    {                     // not change. Cf. http://www.nuclearprojects.com/xplane/info.shtml
-		FramRate,
-		Times,
-		SimStats,
-		Speed,
-		Gload,
-		AtmosphereWeather,
-		AtmosphereAircraft,
-		SystemPressures,
-		Joystick1,
-		Joystick2,
-		ArtStab,
-		FlightCon,
-		WingSweep,
-		Trim,
-		Brakes,
-		AngularMoments,
-		AngularAccelerations,
-        AngularVelocities,
-        PitchRollHeading,
-		AoA,
-        LatitudeLongitudeAltitude,
-		LocVelDistTraveled
-	};
+    int trackableIndex;
 
-	void processUpdate(const QByteArray& data);
-
+    void processUpdate(const QByteArray& data);
+    Ui_MoCapWidget *widget;
 };
 
 class NatNetCreator : public MocapCreator
@@ -83,11 +61,11 @@ class NatNetCreator : public MocapCreator
 public:
     NatNetCreator(const QString& classId, const QString& description)
     :  MocapCreator (classId,description)
-	{}
+    {}
 
-    Export* createExport(const MocapSettings& params)
+    Export* createExport(const MocapSettings& params, Ui_MoCapWidget *widget)
 	{
-        return new NatNet(params);
+        return new NatNet(params, widget);
 	}
 };
 
