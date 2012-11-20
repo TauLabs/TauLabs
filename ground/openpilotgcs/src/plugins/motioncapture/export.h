@@ -122,9 +122,9 @@ typedef struct _CONNECTION
     quint8 attRawRate;
 
     bool attActualEnabled;
-    bool attActHW;
-    bool attActSim;
-    bool attActCalc;
+    bool attActualHW;
+    bool attActualMocap;
+    quint16 attActualRate;
 
     bool baroAltitudeEnabled;
     quint16 baroAltRate;
@@ -193,8 +193,6 @@ public:
 
     virtual void stopProcess() {}
     virtual void setupUdpPorts(const QString& host, int inPort, int outPort) { Q_UNUSED(host) Q_UNUSED(inPort) Q_UNUSED(outPort)}
-    virtual void setTrackable(int trackIdx){Q_UNUSED(trackIdx)}
-    virtual int getTrackable(){return 0;}
 
     void resetInitialHomePosition();
     void updateUAVOs(MocapOutput2Hardware out);

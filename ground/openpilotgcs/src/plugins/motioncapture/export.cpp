@@ -236,7 +236,7 @@ void Export::setupObjects()
         setupInputObject(actDesired, settings.minOutputPeriod); //Input to the export
     }
 
-    setupOutputObject(posHome, 10000); //Hardcoded? Bleh.
+//    setupOutputObject(posHome, 10000); //Hardcoded? Bleh.
 
     if (settings.gpsPositionEnabled){
         setupOutputObject(gpsPos, settings.gpsPosRate);
@@ -253,15 +253,13 @@ void Export::setupObjects()
         setupOutputObject(gyros, settings.attRawRate);
     }
 
-    if (settings.attActualEnabled  && settings.attActHW) {
+    if (settings.attActualEnabled  && settings.attActualHW) {
         setupOutputObject(accels, settings.attRawRate);
         setupOutputObject(gyros, settings.attRawRate);
     }
 
-    if (settings.attActualEnabled && !settings.attActHW)
-        setupOutputObject(attActual, 20); //Hardcoded? Bleh.
-    else
-        setupWatchedObject(attActual, 100); //Hardcoded? Bleh.
+    if (settings.attActualEnabled && !settings.attActualHW)
+        setupOutputObject(attActual, settings.attActualRate);
 
     if(settings.airspeedActualEnabled)
         setupOutputObject(airspeedActual, settings.airspeedActualRate);
@@ -318,7 +316,7 @@ void Export::setupOutputObject(UAVObject* obj, quint32 updatePeriod)
 
     UAVObject::SetGcsAccess(mdata, UAVObject::ACCESS_READWRITE);
     UAVObject::SetGcsTelemetryAcked(mdata, false);
-	UAVObject::SetGcsTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
+    UAVObject::SetGcsTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_ONCHANGE);
     mdata.gcsTelemetryUpdatePeriod = updatePeriod;
 
     UAVObject::SetFlightAccess(mdata, UAVObject::ACCESS_READONLY);
@@ -391,10 +389,9 @@ void Export::updateUAVOs(MocapOutput2Hardware out){
     AttitudeActual::DataFields attActualData;
     attActualData = attActual->getData();
 
-    if (settings.attActHW) {
+    if (settings.attActualHW) {
         // do nothing
-        /*****************************************/
-    } else if (settings.attActSim) {
+    } else if (settings.attActualMocap) {
         // take all data from export
         attActualData.Roll = out.roll + noise.attActualData.Roll;   //roll;
         attActualData.Pitch = out.pitch + noise.attActualData.Pitch;  // pitch
@@ -412,128 +409,6 @@ void Export::updateUAVOs(MocapOutput2Hardware out){
 
         //Set UAVO
         attActual->setData(attActualData);
-        /*****************************************/
-    } else if (settings.attActCalc) {
-        // calculate RPY with code from Attitude module
-        static float q[4] = {1, 0, 0, 0};
-        static float gyro_correct_int2 = 0;
-
-        float dT = out.delT;
-
-        AttitudeSettings::DataFields attSettData = attSettings->getData();
-        float accelKp = attSettData.AccelKp * 0.1666666666666667;
-        float accelKi = attSettData.AccelKp * 0.1666666666666667;
-        float yawBiasRate = attSettData.YawBiasRate;
-
-        // calibrate sensors on arming
-        if (flightStatus->getData().Armed == FlightStatus::ARMED_ARMING) {
-            accelKp = 2.0;
-            accelKi = 0.9;
-        }
-
-        float gyro[3] = {out.rollRate, out.pitchRate, out.yawRate};
-        float attRawAcc[3] = {out.accX, out.accY, out.accZ};
-
-        // code from Attitude module begin ///////////////////////////////
-        float *accels = attRawAcc;
-        float grot[3];
-        float accel_err[3];
-
-        // Rotate gravity to body frame and cross with accels
-        grot[0] = -(2 * (q[1] * q[3] - q[0] * q[2]));
-        grot[1] = -(2 * (q[2] * q[3] + q[0] * q[1]));
-        grot[2] = -(q[0] * q[0] - q[1]*q[1] - q[2]*q[2] + q[3]*q[3]);
-
-        // CrossProduct
-        {
-            accel_err[0] = accels[1]*grot[2] - grot[1]*accels[2];
-            accel_err[1] = grot[0]*accels[2] - accels[0]*grot[2];
-            accel_err[2] = accels[0]*grot[1] - grot[0]*accels[1];
-        }
-
-        // Account for accel magnitude
-        float accel_mag = sqrt(accels[0] * accels[0] + accels[1] * accels[1] + accels[2] * accels[2]);
-        accel_err[0] /= accel_mag;
-        accel_err[1] /= accel_mag;
-        accel_err[2] /= accel_mag;
-
-        // Accumulate integral of error.  Scale here so that units are (deg/s) but Ki has units of s
-        gyro_correct_int2 += -gyro[2] * yawBiasRate;
-
-        // Correct rates based on error, integral component dealt with in updateSensors
-        gyro[0] += accel_err[0] * accelKp / dT;
-        gyro[1] += accel_err[1] * accelKp / dT;
-        gyro[2] += accel_err[2] * accelKp / dT + gyro_correct_int2;
-
-        // Work out time derivative from INSAlgo writeup
-        // Also accounts for the fact that gyros are in deg/s
-        float qdot[4];
-        qdot[0] = (-q[1] * gyro[0] - q[2] * gyro[1] - q[3] * gyro[2]) * dT * M_PI / 180 / 2;
-        qdot[1] = (+q[0] * gyro[0] - q[3] * gyro[1] + q[2] * gyro[2]) * dT * M_PI / 180 / 2;
-        qdot[2] = (+q[3] * gyro[0] + q[0] * gyro[1] - q[1] * gyro[2]) * dT * M_PI / 180 / 2;
-        qdot[3] = (-q[2] * gyro[0] + q[1] * gyro[1] + q[0] * gyro[2]) * dT * M_PI / 180 / 2;
-
-        // Take a time step
-        q[0] += qdot[0];
-        q[1] += qdot[1];
-        q[2] += qdot[2];
-        q[3] += qdot[3];
-
-        if(q[0] < 0) {
-            q[0] = -q[0];
-            q[1] = -q[1];
-            q[2] = -q[2];
-            q[3] = -q[3];
-        }
-
-        // Renomalize
-        float qmag = sqrt((q[0] * q[0]) + (q[1] * q[1]) + (q[2] * q[2]) + (q[3] * q[3]));
-        q[0] /= qmag;
-        q[1] /= qmag;
-        q[2] /= qmag;
-        q[3] /= qmag;
-
-        // If quaternion has become inappropriately short or is nan reinit.
-        // THIS SHOULD NEVER ACTUALLY HAPPEN
-        if((fabs(qmag) < 1e-3) || (qmag != qmag)) {
-            q[0] = 1;
-            q[1] = 0;
-            q[2] = 0;
-            q[3] = 0;
-        }
-
-        float rpy2[3];
-        // Quaternion2RPY
-        {
-            float q0s, q1s, q2s, q3s;
-            q0s = q[0] * q[0];
-            q1s = q[1] * q[1];
-            q2s = q[2] * q[2];
-            q3s = q[3] * q[3];
-
-            float R13, R11, R12, R23, R33;
-            R13 = 2 * (q[1] * q[3] - q[0] * q[2]);
-            R11 = q0s + q1s - q2s - q3s;
-            R12 = 2 * (q[1] * q[2] + q[0] * q[3]);
-            R23 = 2 * (q[2] * q[3] + q[0] * q[1]);
-            R33 = q0s - q1s - q2s + q3s;
-
-            rpy2[1] = RAD2DEG * asinf(-R13);    // pitch always between -pi/2 to pi/2
-            rpy2[2] = RAD2DEG * atan2f(R12, R11);
-            rpy2[0] = RAD2DEG * atan2f(R23, R33);
-        }
-
-        attActualData.Roll  = rpy2[0];
-        attActualData.Pitch = rpy2[1];
-        attActualData.Yaw   = rpy2[2];
-        attActualData.q1 = q[0];
-        attActualData.q2 = q[1];
-        attActualData.q3 = q[2];
-        attActualData.q4 = q[3];
-
-        //Set UAVO
-        attActual->setData(attActualData);
-        /*****************************************/
     }
 
 
@@ -569,7 +444,7 @@ void Export::updateUAVOs(MocapOutput2Hardware out){
         }
     }
 
-    // Update VelocityActual.{North,East,Down}
+    // Update PositionActual.{North,East,Down} && VelocityActual.{North,East,Down}
     if (settings.groundTruthEnabled) {
         if (groundTruthTime.msecsTo(currentTime) >= settings.groundTruthRate) {
             VelocityActual::DataFields velocityActualData;

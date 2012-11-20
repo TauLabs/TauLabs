@@ -1537,9 +1537,9 @@
           <addNoise>false</addNoise>
           <airspeedActualEnabled>false</airspeedActualEnabled>
           <airspeedActualRate>100</airspeedActualRate>
-          <attActCalc>false</attActCalc>
-          <attActHW>false</attActHW>
-          <attActSim>false</attActSim>
+          <attActualRate>50</attActualRate>
+          <attActualHW>false</attActualHW>
+          <attActualMocap>false</attActualMocap>
           <attActualEnabled>false</attActualEnabled>
           <attRawEnabled>false</attRawEnabled>
           <attRawRate>20</attRawRate>

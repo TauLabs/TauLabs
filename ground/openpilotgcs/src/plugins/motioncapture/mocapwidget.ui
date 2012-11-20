@@ -470,11 +470,6 @@ color: rgba(0, 0, 0, 128);
              <height>0</height>
             </size>
            </property>
-           <item>
-            <property name="text">
-             <string>Trackable 1</string>
-            </property>
-           </item>
           </widget>
          </item>
          <item>
