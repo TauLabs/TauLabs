@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       hitl.h
+ * @file       hitlgadget.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -34,7 +34,6 @@
 class IUAVGadget;
 class QWidget;
 class QString;
-class Simulator;
 
 using namespace Core;
 
@@ -53,7 +52,6 @@ signals:
 
 private:
 	HITLWidget* m_widget;
-	Simulator* simulator;
 };
 
 

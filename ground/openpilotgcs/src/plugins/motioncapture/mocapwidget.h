@@ -1,11 +1,11 @@
 /**
  ******************************************************************************
  *
- * @file       hitlgadget.cpp
+ * @file       mocapwidget.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup HITLPlugin HITL Plugin
+ * @addtogroup MoCapPlugin MoCap Plugin
  * @{
  * @brief The Hardware In The Loop plugin 
  *****************************************************************************/
@@ -24,28 +24,49 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#include "hitlgadget.h"
-#include "hitlwidget.h"
-#include "hitlconfiguration.h"
-#include "simulator.h"
 
-HITLGadget::HITLGadget(QString classId, HITLWidget *widget, QWidget *parent) :
-        IUAVGadget(classId, parent),
-        m_widget(widget)
+#ifndef MOCAPWIDGET_H
+#define MOCAPWIDGET_H
+
+#include <QtGui/QWidget>
+#include <QProcess>
+#include "export.h"
+
+class Ui_MoCapWidget;
+
+class MoCapWidget : public QWidget
 {
-	connect(this,SIGNAL(changeConfiguration(void)),m_widget,SLOT(stopButtonClicked(void)));
-}
+    Q_OBJECT
 
-HITLGadget::~HITLGadget()
-{
-    delete m_widget;
-}
+public:
+    MoCapWidget(QWidget *parent = 0);
+    ~MoCapWidget();
 
-void HITLGadget::loadConfiguration(IUAVGadgetConfiguration* config)
-{
-    HITLConfiguration *m = qobject_cast<HITLConfiguration*>(config);
-    // IL2 <-- Is this still necessary? [KDS]
-	emit changeConfiguration();
-	m_widget->setSettingParameters(m->Settings());
-}
+    void setSettingParameters(const MocapSettings& params) {settings = params;}
+signals:
+    void deleteExport();
 
+private slots:
+    void startButtonClicked();
+    void stopButtonClicked();
+	void buttonClearLogClicked();
+    void onProcessOutput(QString text);
+    void onAutopilotConnect();
+    void onAutopilotDisconnect();
+    void onExportConnect();
+    void onExportDisconnect();
+
+private:
+    Ui_MoCapWidget* widget;
+    Export* exporter;
+    MocapSettings settings;
+
+	QString greenColor;
+	QString strAutopilotDisconnected;
+    QString strExportDisconnected;
+	QString strAutopilotConnected;
+    QString strStyleEnable;
+    QString strStyleDisable;
+};
+
+#endif /* MOCAPWIDGET_H */

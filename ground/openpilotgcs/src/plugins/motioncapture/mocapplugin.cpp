@@ -1,11 +1,11 @@
 /**
  ******************************************************************************
  *
- * @file       hitlgadget.cpp
+ * @file       mocapplugin.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup HITLPlugin HITL Plugin
+ * @addtogroup MoCapPlugin Motion Capture Plugin
  * @{
  * @brief The Hardware In The Loop plugin 
  *****************************************************************************/
@@ -24,28 +24,46 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#include "hitlgadget.h"
-#include "hitlwidget.h"
-#include "hitlconfiguration.h"
-#include "simulator.h"
+#include "mocapplugin.h"
+#include "mocapfactory.h"
+#include <QtPlugin>
+#include <QStringList>
+#include <extensionsystem/pluginmanager.h>
+#include "natnet.h"
 
-HITLGadget::HITLGadget(QString classId, HITLWidget *widget, QWidget *parent) :
-        IUAVGadget(classId, parent),
-        m_widget(widget)
+QList<MocapCreator* > MoCapPlugin::typeMocaps;
+
+MoCapPlugin::MoCapPlugin()
 {
-	connect(this,SIGNAL(changeConfiguration(void)),m_widget,SLOT(stopButtonClicked(void)));
+   // Do nothing
 }
 
-HITLGadget::~HITLGadget()
+MoCapPlugin::~MoCapPlugin()
 {
-    delete m_widget;
+   // Do nothing
 }
 
-void HITLGadget::loadConfiguration(IUAVGadgetConfiguration* config)
+bool MoCapPlugin::initialize(const QStringList& args, QString *errMsg)
 {
-    HITLConfiguration *m = qobject_cast<HITLConfiguration*>(config);
-    // IL2 <-- Is this still necessary? [KDS]
-	emit changeConfiguration();
-	m_widget->setSettingParameters(m->Settings());
+   Q_UNUSED(args);
+   Q_UNUSED(errMsg);
+   mf = new MoCapFactory(this);
+
+   addAutoReleasedObject(mf);
+
+   addMocap(new NatNetCreator("NatNet","NatNet"));
+
+   return true;
 }
+
+void MoCapPlugin::extensionsInitialized()
+{
+   // Do nothing
+}
+
+void MoCapPlugin::shutdown()
+{
+   // Do nothing
+}
+Q_EXPORT_PLUGIN(MoCapPlugin)
 

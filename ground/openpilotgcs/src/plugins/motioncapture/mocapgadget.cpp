@@ -1,11 +1,11 @@
 /**
  ******************************************************************************
  *
- * @file       hitlgadget.cpp
+ * @file       mocapgadget.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup HITLPlugin HITL Plugin
+ * @addtogroup MoCapPlugin Motion Capture Plugin
  * @{
  * @brief The Hardware In The Loop plugin 
  *****************************************************************************/
@@ -24,28 +24,27 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#include "hitlgadget.h"
-#include "hitlwidget.h"
-#include "hitlconfiguration.h"
-#include "simulator.h"
+#include "mocapgadget.h"
+#include "mocapwidget.h"
+#include "mocapconfiguration.h"
+#include "export.h"
 
-HITLGadget::HITLGadget(QString classId, HITLWidget *widget, QWidget *parent) :
+MoCapGadget::MoCapGadget(QString classId, MoCapWidget *widget, QWidget *parent) :
         IUAVGadget(classId, parent),
         m_widget(widget)
 {
 	connect(this,SIGNAL(changeConfiguration(void)),m_widget,SLOT(stopButtonClicked(void)));
 }
 
-HITLGadget::~HITLGadget()
+MoCapGadget::~MoCapGadget()
 {
     delete m_widget;
 }
 
-void HITLGadget::loadConfiguration(IUAVGadgetConfiguration* config)
+void MoCapGadget::loadConfiguration(IUAVGadgetConfiguration* config)
 {
-    HITLConfiguration *m = qobject_cast<HITLConfiguration*>(config);
-    // IL2 <-- Is this still necessary? [KDS]
-	emit changeConfiguration();
-	m_widget->setSettingParameters(m->Settings());
+    MoCapConfiguration *m = qobject_cast<MoCapConfiguration*>(config);
+
+    m_widget->setSettingParameters(m->Settings());
 }
 

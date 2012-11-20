@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       hitlgadget.cpp
+ * @file       mocapfactory.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -24,28 +24,29 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#include "hitlgadget.h"
-#include "hitlwidget.h"
-#include "hitlconfiguration.h"
-#include "simulator.h"
 
-HITLGadget::HITLGadget(QString classId, HITLWidget *widget, QWidget *parent) :
-        IUAVGadget(classId, parent),
-        m_widget(widget)
-{
-	connect(this,SIGNAL(changeConfiguration(void)),m_widget,SLOT(stopButtonClicked(void)));
+#ifndef MOCAPFACTORY_H
+#define MOCAPFACTORY_H
+
+#include <coreplugin/iuavgadgetfactory.h>
+
+namespace Core {
+class IUAVGadget;
+class IUAVGadgetFactory;
 }
 
-HITLGadget::~HITLGadget()
-{
-    delete m_widget;
-}
+using namespace Core;
 
-void HITLGadget::loadConfiguration(IUAVGadgetConfiguration* config)
+class MoCapFactory : public Core::IUAVGadgetFactory
 {
-    HITLConfiguration *m = qobject_cast<HITLConfiguration*>(config);
-    // IL2 <-- Is this still necessary? [KDS]
-	emit changeConfiguration();
-	m_widget->setSettingParameters(m->Settings());
-}
+    Q_OBJECT
+public:
+    MoCapFactory(QObject *parent = 0);
+    ~MoCapFactory();
 
+	IUAVGadget *createGadget(QWidget *parent);
+    IUAVGadgetConfiguration *createConfiguration(QSettings* qSettings);
+    IOptionsPage *createOptionsPage(IUAVGadgetConfiguration *config);
+};
+
+#endif // MOCAPFACTORY_H

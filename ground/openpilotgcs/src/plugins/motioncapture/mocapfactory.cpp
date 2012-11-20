@@ -1,11 +1,11 @@
 /**
  ******************************************************************************
  *
- * @file       hitlgadget.cpp
+ * @file       mocapfactory.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup HITLPlugin HITL Plugin
+ * @addtogroup MoCapPlugin Motion Capture Plugin
  * @{
  * @brief The Hardware In The Loop plugin 
  *****************************************************************************/
@@ -24,28 +24,38 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#include "hitlgadget.h"
-#include "hitlwidget.h"
-#include "hitlconfiguration.h"
-#include "simulator.h"
+#include "mocapfactory.h"
+#include "mocapwidget.h"
+#include "mocapgadget.h"
+#include "mocapconfiguration.h"
+#include "mocapoptionspage.h"
+#include <coreplugin/iuavgadget.h>
 
-HITLGadget::HITLGadget(QString classId, HITLWidget *widget, QWidget *parent) :
-        IUAVGadget(classId, parent),
-        m_widget(widget)
+MoCapFactory::MoCapFactory(QObject *parent)
+    : IUAVGadgetFactory(QString("MoCap"), tr("Motion Capture"), parent)
 {
-	connect(this,SIGNAL(changeConfiguration(void)),m_widget,SLOT(stopButtonClicked(void)));
+
 }
 
-HITLGadget::~HITLGadget()
+MoCapFactory::~MoCapFactory()
 {
-    delete m_widget;
 }
 
-void HITLGadget::loadConfiguration(IUAVGadgetConfiguration* config)
+Core::IUAVGadget* MoCapFactory::createGadget(QWidget *parent)
 {
-    HITLConfiguration *m = qobject_cast<HITLConfiguration*>(config);
-    // IL2 <-- Is this still necessary? [KDS]
-	emit changeConfiguration();
-	m_widget->setSettingParameters(m->Settings());
+
+
+   MoCapWidget* gadgetWidget = new MoCapWidget(parent);
+   return new MoCapGadget(QString("MoCap"), gadgetWidget, parent);
+}
+
+IUAVGadgetConfiguration *MoCapFactory::createConfiguration(QSettings* qSettings)
+{
+    return new MoCapConfiguration(QString("MoCap"), qSettings);
+}
+
+IOptionsPage *MoCapFactory::createOptionsPage(IUAVGadgetConfiguration *config)
+{
+    return new MoCapOptionsPage(qobject_cast<MoCapConfiguration*>(config));
 }
 

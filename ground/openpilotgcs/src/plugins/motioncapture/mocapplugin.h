@@ -1,11 +1,11 @@
 /**
  ******************************************************************************
  *
- * @file       hitlgadget.cpp
+ * @file       mocapplugin.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup HITLPlugin HITL Plugin
+ * @addtogroup MoCapPlugin MotionCapture Plugin
  * @{
  * @brief The Hardware In The Loop plugin 
  *****************************************************************************/
@@ -24,28 +24,48 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#include "hitlgadget.h"
-#include "hitlwidget.h"
-#include "hitlconfiguration.h"
-#include "simulator.h"
 
-HITLGadget::HITLGadget(QString classId, HITLWidget *widget, QWidget *parent) :
-        IUAVGadget(classId, parent),
-        m_widget(widget)
+#ifndef MOCAPPLUGIN_H
+#define MOCAPPLUGIN_H
+
+#include <extensionsystem/iplugin.h>
+#include <QStringList>
+
+#include "export.h"
+
+class MoCapFactory;
+
+class MoCapPlugin : public ExtensionSystem::IPlugin
 {
-	connect(this,SIGNAL(changeConfiguration(void)),m_widget,SLOT(stopButtonClicked(void)));
-}
+public:
+    MoCapPlugin();
+   ~MoCapPlugin();
 
-HITLGadget::~HITLGadget()
-{
-    delete m_widget;
-}
+   void extensionsInitialized();
+   bool initialize(const QStringList & arguments, QString * errorString);
+   void shutdown();
 
-void HITLGadget::loadConfiguration(IUAVGadgetConfiguration* config)
-{
-    HITLConfiguration *m = qobject_cast<HITLConfiguration*>(config);
-    // IL2 <-- Is this still necessary? [KDS]
-	emit changeConfiguration();
-	m_widget->setSettingParameters(m->Settings());
-}
 
+   static void addMocap(MocapCreator* creator)
+   {
+      MoCapPlugin::typeMocaps.append(creator);
+   }
+
+   static MocapCreator* getMocapCreator(const QString classId)
+   {
+       foreach(MocapCreator* creator, MoCapPlugin::typeMocaps)
+	   {
+		   if(classId == creator->ClassId())
+			   return creator;
+	   }
+	   return 0;
+   }
+
+   static QList<MocapCreator* > typeMocaps;
+
+private:
+   MoCapFactory *mf;
+
+
+};
+#endif /* MOCAPPLUGIN_H */

@@ -174,6 +174,13 @@ plugin_hitl.depends += plugin_uavobjects
 plugin_hitl.depends += plugin_uavtalk
 SUBDIRS += plugin_hitl
 
+#Motion capture interface gadget
+plugin_mocap.subdir = motioncapture
+plugin_mocap.depends = plugin_coreplugin
+plugin_mocap.depends += plugin_uavobjects
+plugin_mocap.depends += plugin_uavtalk
+SUBDIRS += plugin_mocap
+
 # Export and Import GCS Configuration
 plugin_importexport.subdir = importexport
 plugin_importexport.depends = plugin_coreplugin
