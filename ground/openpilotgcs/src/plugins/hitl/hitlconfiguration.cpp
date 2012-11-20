@@ -85,16 +85,30 @@ HITLConfiguration::HITLConfiguration(QString classId, QSettings* qSettings, QObj
         settings.startSim            = qSettings->value("startSim").toBool();
         settings.addNoise            = qSettings->value("noiseCheckBox").toBool();
 
-        settings.gcsReceiverEnabled  = qSettings->value("gcsReceiverEnabled").toBool();
-        settings.manualControlEnabled= qSettings->value("manualControlEnabled").toBool();
+        settings.inputCommand        = qSettings->value("inputCommand").toBool();
+        if(settings.inputCommand){
+            settings.gcsReceiverEnabled  = qSettings->value("gcsReceiverEnabled").toBool();
+            settings.manualControlEnabled= qSettings->value("manualControlEnabled").toBool();
+        }
+        else{
+            settings.gcsReceiverEnabled  = false;
+            settings.manualControlEnabled= false;
+        }
 
         settings.attRawEnabled       = qSettings->value("attRawEnabled").toBool();
         settings.attRawRate          = qSettings->value("attRawRate").toInt();
 
         settings.attActualEnabled    = qSettings->value("attActualEnabled").toBool();
-        settings.attActHW            = qSettings->value("attActHW").toBool();
-        settings.attActSim           = qSettings->value("attActSim").toBool();
-        settings.attActCalc          = qSettings->value("attActCalc").toBool();
+        if(settings.attActualEnabled){
+            settings.attActHW        = qSettings->value("attActHW").toBool();
+            settings.attActSim       = qSettings->value("attActSim").toBool();
+            settings.attActCalc      = qSettings->value("attActCalc").toBool();
+        }
+        else{
+            settings.attActHW        = false;
+            settings.attActSim       = false;
+            settings.attActCalc      = false;
+        }
 
         settings.baroAltitudeEnabled = qSettings->value("baroAltitudeEnabled").toBool();
         settings.baroAltRate         = qSettings->value("baroAltRate").toInt();
@@ -105,7 +119,6 @@ HITLConfiguration::HITLConfiguration(QString classId, QSettings* qSettings, QObj
         settings.groundTruthEnabled  = qSettings->value("groundTruthEnabled").toBool();
         settings.groundTruthRate     = qSettings->value("groundTruthRate").toInt();
 
-        settings.inputCommand        = qSettings->value("inputCommand").toBool();
         settings.minOutputPeriod     = qSettings->value("minOutputPeriod").toInt();
 
         settings.airspeedActualEnabled=qSettings->value("airspeedActualEnabled").toBool();
@@ -140,6 +153,7 @@ void HITLConfiguration::saveConfig(QSettings* qSettings) const {
     qSettings->setValue("addNoise", settings.addNoise);
     qSettings->setValue("startSim", settings.startSim);
 
+    qSettings->setValue("inputCommand", settings.inputCommand);
     qSettings->setValue("gcsReceiverEnabled", settings.gcsReceiverEnabled);
     qSettings->setValue("manualControlEnabled", settings.manualControlEnabled);
 
@@ -155,7 +169,6 @@ void HITLConfiguration::saveConfig(QSettings* qSettings) const {
     qSettings->setValue("gpsPosRate", settings.gpsPosRate);
     qSettings->setValue("groundTruthEnabled", settings.groundTruthEnabled);
     qSettings->setValue("groundTruthRate", settings.groundTruthRate);
-    qSettings->setValue("inputCommand", settings.inputCommand);
     qSettings->setValue("minOutputPeriod", settings.minOutputPeriod);
 
     qSettings->setValue("airspeedActualEnabled", settings.airspeedActualEnabled);
