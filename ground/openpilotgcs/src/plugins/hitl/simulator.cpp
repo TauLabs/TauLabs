@@ -623,7 +623,7 @@ void Simulator::updateUAVOs(Output2Hardware out){
         }
     }
 
-    // Update VelocityActual.{North,East,Down}
+    // Update PositionActual.{North,East,Down} && VelocityActual.{North,East,Down}
     if (settings.groundTruthEnabled) {
         if (groundTruthTime.msecsTo(currentTime) >= settings.groundTruthRate) {
             VelocityActual::DataFields velocityActualData;
