@@ -47,7 +47,6 @@ namespace core {
         Point();
         Point(qint64 x, qint64 y);
         Point(Size sz);
-        Point(qint64 dw);
         bool IsEmpty(){return empty;}
         qint64 X()const{return this->x;}
         qint64 Y()const{return this->y;}
@@ -65,8 +64,6 @@ namespace core {
         {
             Offset(p.x, p.y);
         }
-        static qint64 HIWORD(qint64 n);
-        static qint64 LOWORD(qint64 n);
 
     private:
         qint64 x;

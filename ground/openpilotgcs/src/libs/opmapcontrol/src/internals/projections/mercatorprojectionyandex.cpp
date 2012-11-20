@@ -29,8 +29,8 @@
 
  
 namespace projections {
-MercatorProjectionYandex::MercatorProjectionYandex():MinLatitude(-85.05112878), MaxLatitude(85.05112878),MinLongitude(-177),
-MaxLongitude(177), RAD_DEG(180 / M_PI),DEG_RAD(M_PI / 180),MathPiDiv4(M_PI / 4),tileSize(256, 256)
+MercatorProjectionYandex::MercatorProjectionYandex():MinLatitude(-85.05112878), MaxLatitude(85.05112878),MinLongitude(-180),
+MaxLongitude(180), RAD_DEG(180 / M_PI),DEG_RAD(M_PI / 180),MathPiDiv4(M_PI / 4),tileSize(256, 256)
 {
 }
 Point MercatorProjectionYandex::FromLatLngToPixel(double lat, double lng, const int &zoom)

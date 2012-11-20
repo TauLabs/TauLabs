@@ -28,12 +28,6 @@
 #include "size.h"
 
 namespace core {
-    Point::Point(qint64 dw)
-    {
-        this->x=(int)Point::LOWORD(dw);
-        this->y=(int)Point::HIWORD(dw);
-        empty=false;
-    }
     Point::Point(Size sz)
     {
         this->x=sz.Width();
@@ -59,15 +53,6 @@ namespace core {
     bool operator!=(Point const &lhs,Point const &rhs)
     {
         return !(lhs==rhs);
-    }
-    qint64 Point::HIWORD(qint64 n)
-    {
-        return (n >> 32) & 0xffffffff;
-    }
-
-    qint64 Point::LOWORD(qint64 n)
-    {
-        return n & 0xffffffff;
     }
     Point Point::Empty=Point();
 

@@ -29,8 +29,8 @@
  
 namespace projections {
 MercatorProjection::MercatorProjection():
-    MinLatitude(-85.05112878), MaxLatitude(85.05112878),MinLongitude(-177),
-    MaxLongitude(177), tileSize(256, 256)
+    MinLatitude(-85.05112878), MaxLatitude(85.05112878),MinLongitude(-180),
+    MaxLongitude(180), tileSize(256, 256)
 {
 }
 

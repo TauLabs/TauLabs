@@ -418,16 +418,16 @@ namespace mapcontrol
         }
     }
 
-
+    //TODO: Document this function
     core::Point MapGraphicItem::FromLatLngToLocal(internals::PointLatLng const& point)
     {
         core::Point ret = core->FromLatLngToLocal(point);
 
+        //TODO: Document this if statment
         if(MapRenderTransform!=1)
         {
-            //THIS IS JUST A DUPLICATE SET OPERATION, AS NEAR AS I CAN TELL.
-//            ret.SetX((qint64) round(ret.X() * MapRenderTransform));
-//            ret.SetY((qint64) round(ret.Y() * MapRenderTransform));
+            ret.SetX((qint64) round(ret.X() * MapRenderTransform));
+            ret.SetY((qint64) round(ret.Y() * MapRenderTransform));
             ret.SetX(round(ret.X()-((boundingRect().width()*MapRenderTransform)-(boundingRect().width()))/2));
             ret.SetY(round(ret.Y()-((boundingRect().height()*MapRenderTransform)-(boundingRect().height()))/2));
 

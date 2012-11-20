@@ -130,7 +130,7 @@ namespace internals {
 #endif //DEBUG_CORE
                                     tileImage = OPMaps::Instance()->GetImageFrom(tl, task.Pos, task.Zoom);
 #ifdef DEBUG_CORE
-//                                    qDebug()<<"Core::run:gotimage size:"<<tileImage.count()<<" ID="<<debug<<" time="<<t.elapsed();
+                                    qDebug()<<"Core::run:gotimage size:"<<tileImage.count()<<" ID="<<debug;
 #endif //DEBUG_CORE
                                 }
 
