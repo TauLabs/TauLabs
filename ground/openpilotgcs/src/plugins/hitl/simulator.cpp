@@ -325,7 +325,7 @@ void Simulator::setupOutputObject(UAVObject* obj, quint32 updatePeriod)
 
     UAVObject::SetGcsAccess(mdata, UAVObject::ACCESS_READWRITE);
     UAVObject::SetGcsTelemetryAcked(mdata, false);
-	UAVObject::SetGcsTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
+    UAVObject::SetGcsTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_ONCHANGE);
     mdata.gcsTelemetryUpdatePeriod = updatePeriod;
 
     UAVObject::SetFlightAccess(mdata, UAVObject::ACCESS_READONLY);
