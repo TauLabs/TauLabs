@@ -28,9 +28,7 @@
 #ifndef HITLNOISEGENERATION_H
 #define HITLNOISEGENERATION_H
 
-//#include <QObject>
-//#include <simulator.h>
-#include "xplanesimulator.h"
+#include "simulator.h"
 #include "hitlnoisegeneration.h"
 #include "extensionsystem/pluginmanager.h"
 #include <coreplugin/icore.h>

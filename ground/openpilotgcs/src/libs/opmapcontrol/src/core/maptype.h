@@ -96,7 +96,9 @@ namespace core {
             GoogleLabelsKorea=4003,
             GoogleHybridKorea=4005,
 
-            YandexMapRu = 5000
+            YandexMapRu = 5000,
+
+            UserImage = 6000
         };
         static QString StrByType(Types const& value)
         {

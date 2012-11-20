@@ -60,16 +60,25 @@ OPMapGadgetConfiguration::OPMapGadgetConfiguration(QString classId,  QSettings* 
         QString cacheLocation= qSettings->value("cacheLocation").toString();
         QString uavSymbol=qSettings->value("uavSymbol").toString();
 		int max_update_rate = qSettings->value("maxUpdateRate").toInt();
+        float userImageHorizontalScale = qSettings->value("userImageHorizontalScale").toFloat();
+        float userImageVerticalScale = qSettings->value("userImageVerticalScale").toFloat();
+        QString userImageLocation = qSettings->value("userImageLocation").toString();
 
         m_opacity=qSettings->value("overlayOpacity",1).toReal();
 
-        if (!mapProvider.isEmpty()) m_mapProvider = mapProvider;
+        if (!mapProvider.isEmpty()){
+            m_mapProvider = mapProvider;
+        }
         m_defaultZoom = zoom;
         m_defaultLatitude = latitude;
         m_defaultLongitude = longitude;
         m_useOpenGL = useOpenGL;
         m_showTileGridLines = showTileGridLines;
 		m_uavSymbol = uavSymbol;
+
+        m_userImageHorizontalScale=userImageHorizontalScale;
+        m_userImageVerticalScale= userImageVerticalScale;
+        m_userImageLocation = userImageLocation;
 
 		m_maxUpdateRate = max_update_rate;
 		if (m_maxUpdateRate < 100 || m_maxUpdateRate > 5000)
@@ -78,6 +87,8 @@ OPMapGadgetConfiguration::OPMapGadgetConfiguration(QString classId,  QSettings* 
 		if (!accessMode.isEmpty())
 			m_accessMode = accessMode;
         m_useMemoryCache = useMemoryCache;
+
+        //Assign cache location from settings
 		if (!cacheLocation.isEmpty())
 			m_cacheLocation = Utils::PathUtils().InsertStoragePath(cacheLocation);
     }
@@ -99,6 +110,9 @@ IUAVGadgetConfiguration * OPMapGadgetConfiguration::clone()
 	m->m_uavSymbol = m_uavSymbol;
 	m->m_maxUpdateRate = m_maxUpdateRate;
     m->m_opacity=m_opacity;
+    m->m_userImageHorizontalScale=m_userImageHorizontalScale;
+    m->m_userImageVerticalScale=m_userImageVerticalScale;
+    m->m_userImageLocation=m_userImageLocation;
 
     return m;
 }
@@ -117,6 +131,9 @@ void OPMapGadgetConfiguration::saveConfig() const {
    m_settings->setValue("cacheLocation", Utils::PathUtils().RemoveStoragePath(m_cacheLocation));
    m_settings->setValue("maxUpdateRate", m_maxUpdateRate);
    m_settings->setValue("overlayOpacity",m_opacity);
+   m_settings->setValue("userImageHorizontalScale", m_userImageHorizontalScale);
+   m_settings->setValue("userImageVerticalScale", m_userImageVerticalScale);
+   m_settings->setValue("userImageLocation", m_userImageLocation);
 }
 void OPMapGadgetConfiguration::saveConfig(QSettings* qSettings) const {
    qSettings->setValue("mapProvider", m_mapProvider);
@@ -131,7 +148,7 @@ void OPMapGadgetConfiguration::saveConfig(QSettings* qSettings) const {
    qSettings->setValue("cacheLocation", Utils::PathUtils().RemoveStoragePath(m_cacheLocation));
    qSettings->setValue("maxUpdateRate", m_maxUpdateRate);
    qSettings->setValue("overlayOpacity",m_opacity);
-}
-void OPMapGadgetConfiguration::setCacheLocation(QString cacheLocation){
-    m_cacheLocation = cacheLocation;
+   qSettings->setValue("userImageHorizontalScale", m_userImageHorizontalScale);
+   qSettings->setValue("userImageVerticalScale", m_userImageVerticalScale);
+   qSettings->setValue("userImageLocation", m_userImageLocation);
 }

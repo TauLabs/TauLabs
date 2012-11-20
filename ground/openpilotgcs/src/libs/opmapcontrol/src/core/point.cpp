@@ -28,10 +28,10 @@
 #include "size.h"
 
 namespace core {
-    Point::Point(int dw)
+    Point::Point(qint64 dw)
     {
-        this->x=(short)Point::LOWORD(dw);
-        this->y=(short)Point::HIWORD(dw);
+        this->x=(int)Point::LOWORD(dw);
+        this->y=(int)Point::HIWORD(dw);
         empty=false;
     }
     Point::Point(Size sz)
@@ -40,7 +40,7 @@ namespace core {
         this->y=sz.Height();
         empty=false;
     }
-    Point::Point(int x, int y)
+    Point::Point(qint64 x, qint64 y)
     {
         this->x=x;
         this->y=y;
@@ -48,7 +48,7 @@ namespace core {
     }
     Point::Point():x(0),y(0),empty(true)
     {}
-    uint qHash(Point const& point)
+    quint64 qHash(Point const& point)
     {
         return point.x^point.y;
     }
@@ -60,14 +60,14 @@ namespace core {
     {
         return !(lhs==rhs);
     }
-    int Point::HIWORD(int n)
+    qint64 Point::HIWORD(qint64 n)
     {
-        return (n >> 16) & 0xffff;
+        return (n >> 32) & 0xffffffff;
     }
 
-    int Point::LOWORD(int n)
+    qint64 Point::LOWORD(qint64 n)
     {
-        return n & 0xffff;
+        return n & 0xffffffff;
     }
     Point Point::Empty=Point();
 

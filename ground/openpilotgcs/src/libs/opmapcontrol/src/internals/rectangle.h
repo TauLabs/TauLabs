@@ -35,13 +35,13 @@ namespace internals
 struct Rectangle
 {
 
-    friend uint qHash(Rectangle const& rect);
+    friend quint32 qHash(Rectangle const& rect);
     friend bool operator==(Rectangle const& lhs,Rectangle const& rhs);
 public:
     static Rectangle Empty;
-    static Rectangle FromLTRB(int left, int top, int right, int bottom);
-    Rectangle(){x=0; y=0; width=0; height=0; };
-    Rectangle(int x, int y, int width, int height)
+    static Rectangle FromLTRB(qint32 left, qint32 top, qint32 right, qint32 bottom);
+    Rectangle(){x=0; y=0; width=0; height=0; }
+    Rectangle(qint32 x, qint32 y, qint32 width, qint32 height)
     {
         this->x = x;
         this->y = y;
@@ -63,18 +63,18 @@ public:
         x = value.X();
         y = value.Y();
     }
-    int X(){return x;}
-    int Y(){return y;}
-    void SetX(const int &value){x=value;}
-    void SetY(const int &value){y=value;}
-    int Width(){return width;}
-    void SetWidth(const int &value){width=value;}
-    int Height(){return height;}
-    void SetHeight(const int &value){height=value;}
-    int Left(){return x;}
-    int Top(){return y;}
-    int Right(){return x+width;}
-    int Bottom(){return y+height;}
+    qint32 X(){return x;}
+    qint32 Y(){return y;}
+    void SetX(const qint32 &value){x=value;}
+    void SetY(const qint32 &value){y=value;}
+    qint32 Width(){return width;}
+    void SetWidth(const qint32 &value){width=value;}
+    qint32 Height(){return height;}
+    void SetHeight(const qint32 &value){height=value;}
+    qint32 Left(){return x;}
+    qint32 Top(){return y;}
+    qint32 Right(){return x+width;}
+    qint32 Bottom(){return y+height;}
     bool IsEmpty(){return (height==0 && width==0 && x==0 && y==0);}
     bool operator==(const Rectangle &cSource)
     {
@@ -83,7 +83,7 @@ public:
 
 
     bool operator!=(const Rectangle &cSource){return !(*this==cSource);}
-    bool Contains(const int &x,const int &y)
+    bool Contains(const qint32 &x, const qint32 &y)
     {
         return this->x<=x && x<this->x+this->width && this->y<=y && y<this->y+this->height;
     }
@@ -100,7 +100,7 @@ public:
     }
 
 
-    void Inflate(const int &width,const int &height)
+    void Inflate(const qint32 &width,const qint32 &height)
           {
              this->x -= width;
              this->y -= height;
@@ -112,7 +112,7 @@ public:
 
              Inflate(size.Width(), size.Height());
           }
-    static Rectangle Inflate(Rectangle rect, int x, int y);
+    static Rectangle Inflate(Rectangle rect, qint32 x, qint32 y);
 
     void Intersect(const Rectangle &rect)
           {
@@ -137,7 +137,7 @@ public:
         Offset(pos.X(), pos.Y());
     }
 
-    void Offset(const int &x,const int &y)
+    void Offset(const qint32 &x,const qint32 &y)
     {
         this->x += x;
         this->y += y;
@@ -149,10 +149,10 @@ public:
                 ",Height=" +QString::number(height) +"}";
           }
 private:
-    int x;
-    int y;
-    int width;
-    int height;
+    qint32 x;
+    qint32 y;
+    qint32 width;
+    qint32 height;
 };
 }
 #endif // RECTANGLE_H

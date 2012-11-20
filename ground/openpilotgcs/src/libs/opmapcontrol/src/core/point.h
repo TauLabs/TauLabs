@@ -30,28 +30,33 @@
 
 #include <QString>
 
+/**
+ * For the most part, points are referenced in quadtiles. Due to integer overflow
+ * issues, the integers must be 64-bits in order to allow for proper operation
+ * of quadtile zoom levels greater than 22.
+ */
 namespace core {
     struct Size;
     struct Point
     {
-        friend uint qHash(Point const& point);
+        friend quint64 qHash(Point const& point);
         friend bool operator==(Point const& lhs,Point const& rhs);
         friend bool operator!=(Point const& lhs,Point const& rhs);
     public:
 
         Point();
-        Point(int x,int y);
+        Point(qint64 x, qint64 y);
         Point(Size sz);
-        Point(int dw);
+        Point(qint64 dw);
         bool IsEmpty(){return empty;}
-        int X()const{return this->x;}
-        int Y()const{return this->y;}
-        void SetX(const int &value){x=value;empty=false;}
-        void SetY(const int &value){y=value;empty=false;}
+        qint64 X()const{return this->x;}
+        qint64 Y()const{return this->y;}
+        void SetX(const qint64 &value){x=value;empty=false;}
+        void SetY(const qint64 &value){y=value;empty=false;}
         QString ToString()const{return "{"+QString::number(x)+","+QString::number(y)+"}";}
 
         static Point Empty;
-        void Offset(const int &dx,const int &dy)
+        void Offset(const qint64 &dx,const qint64 &dy)
         {
             x += dx;
             y += dy;
@@ -60,12 +65,12 @@ namespace core {
         {
             Offset(p.x, p.y);
         }
-        static int HIWORD(int n);
-        static int LOWORD(int n);
+        static qint64 HIWORD(qint64 n);
+        static qint64 LOWORD(qint64 n);
 
     private:
-        int x;
-        int y;
+        qint64 x;
+        qint64 y;
         bool empty;
     };
 }

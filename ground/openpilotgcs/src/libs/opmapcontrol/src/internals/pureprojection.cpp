@@ -103,8 +103,12 @@ Point PureProjection::FromLatLngToPixel(const PointLatLng &p,const int &zoom)
 
          return ret;
       }
-      /*
-       * Returns the conversion from pixels to meters
+
+      /**
+       * @brief PureProjection::GetGroundResolution Returns the conversion from pixels to meters
+       * @param zoom Quadtile zoom level
+       * @param latitude
+       * @return Constant in [m/px]
        */
       double PureProjection::GetGroundResolution(const int &zoom,const double &latitude)
       {
@@ -274,4 +278,16 @@ Point PureProjection::FromLatLngToPixel(const PointLatLng &p,const int &zoom)
         return ret;
     }
 
+    /**
+     * @brief PureProjection::bound Bounds the value at an upper and lower threshold
+     * @param val value to be bounded
+     * @param minValue minimum value for bound
+     * @param maxValue maximum value for bound
+     * @return bounded value
+     */
+
+    double PureProjection::bound(const double &val, const double &minValue, const double &maxValue) const
+    {
+        return qMin(qMax(val, minValue), maxValue);
+    }
 }

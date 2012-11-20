@@ -325,7 +325,7 @@ void Simulator::setupOutputObject(UAVObject* obj, quint32 updatePeriod)
 
     UAVObject::SetGcsAccess(mdata, UAVObject::ACCESS_READWRITE);
     UAVObject::SetGcsTelemetryAcked(mdata, false);
-	UAVObject::SetGcsTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
+    UAVObject::SetGcsTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_ONCHANGE);
     mdata.gcsTelemetryUpdatePeriod = updatePeriod;
 
     UAVObject::SetFlightAccess(mdata, UAVObject::ACCESS_READONLY);
@@ -402,14 +402,7 @@ void Simulator::updateUAVOs(Output2Hardware out){
         homeData.Latitude = out.latitude;   //Already in *10^7 integer format
         homeData.Longitude = out.longitude; //Already in *10^7 integer format
         homeData.Altitude = out.altitude;
-        double LLA[3];
-        LLA[0]=out.latitude;
-        LLA[1]=out.longitude;
-        LLA[2]=out.altitude;
-        double ECEF[3];
-        double RNE[9];
-        Utils::CoordinateConversions().RneFromLLA(LLA,(double (*)[3])RNE);
-        Utils::CoordinateConversions().LLA2ECEF(LLA,ECEF);
+
         homeData.Be[0]=0;
         homeData.Be[1]=0;
         homeData.Be[2]=0;
@@ -623,7 +616,7 @@ void Simulator::updateUAVOs(Output2Hardware out){
         }
     }
 
-    // Update VelocityActual.{North,East,Down}
+    // Update PositionActual.{North,East,Down} && VelocityActual.{North,East,Down}
     if (settings.groundTruthEnabled) {
         if (groundTruthTime.msecsTo(currentTime) >= settings.groundTruthRate) {
             VelocityActual::DataFields velocityActualData;

@@ -200,6 +200,7 @@ OPMapGadgetWidget::OPMapGadgetWidget(QWidget *parent) : QWidget(parent)
     m_widget->labelMapPos->setText("---");
     m_widget->labelMousePos->setText("---");
     m_widget->labelMapZoom->setText("---");
+    m_widget->labelNEDCoords->setText("---");
 
     m_widget->progressBarMap->setMaximum(1);
 
@@ -677,27 +678,33 @@ void OPMapGadgetWidget::updateMousePos()
 
     internals::PointLatLng home_lat_lon = m_map->Home->Coord();
 
-	QString s = QString::number(m_mouse_lat_lon.Lat(), 'f', 7) + "  " + QString::number(m_mouse_lat_lon.Lng(), 'f', 7);
+    QString s1 = QString::number(m_mouse_lat_lon.Lat(), 'f', 7) + "  " + QString::number(m_mouse_lat_lon.Lng(), 'f', 7);
     if (wp)
     {
-        s += "  wp[" + QString::number(wp->numberAdjusted()) + "]";
+        s1 += "  wp[" + QString::number(wp->numberAdjusted()) + "]";
 
         double dist = distance(home_lat_lon, wp->Coord());
         double bear = bearing(home_lat_lon, wp->Coord());
-        s += "  " + QString::number(dist * 1000, 'f', 1) + "m";
-        s += "  " + QString::number(bear, 'f', 1) + "deg";
+        s1 += "  " + QString::number(dist * 1000, 'f', 1) + "m";
+        s1 += "  " + QString::number(bear, 'f', 1) + "deg";
     }
-    else
-    if (home)
+    else if (home)
     {
-        s += "  home";
+        s1 += "  home";
 
 		double dist = distance(home_lat_lon, m_mouse_lat_lon);
 		double bear = bearing(home_lat_lon, m_mouse_lat_lon);
-        s += "  " + QString::number(dist * 1000, 'f', 1) + "m";
-        s += "  " + QString::number(bear, 'f', 1) + "deg";
+        s1 += "  " + QString::number(dist * 1000, 'f', 1) + "m";
+        s1 += "  " + QString::number(bear, 'f', 1) + "deg";
     }
-    m_widget->labelMousePos->setText(s);
+    m_widget->labelMousePos->setText(s1);
+
+    double NED[3];
+    double homeLLA[3]={home_lat_lon.Lat(), home_lat_lon.Lng(), 0};
+    double LLA[3]={m_mouse_lat_lon.Lat(), m_mouse_lat_lon.Lng(), 0};
+    Utils::CoordinateConversions().LLA2NED_HomeLLA(LLA, homeLLA, NED); //<-- This yields, NED, the tile size in meters, assuming we are at the origin in a plate carre system
+    QString s2 = QString::number(NED[0], 'g', 5) + "  " + QString::number(NED[1], 'g', 5);
+    m_widget->labelNEDCoords->setText(s2);
 }
 
 // *************************************************************************************
@@ -717,16 +724,15 @@ void OPMapGadgetWidget::zoomChanged(double zoomt, double zoom, double zoomd)
 
     int i_zoom = (int)(zoomt + 0.5);
 
-	if (i_zoom < m_min_zoom) i_zoom = m_min_zoom;
-    else
-	if (i_zoom > m_max_zoom) i_zoom = m_max_zoom;
+    if (i_zoom < m_min_zoom) i_zoom = m_min_zoom;
+    else	if (i_zoom > m_max_zoom) i_zoom = m_max_zoom;
 
     if (m_widget->horizontalSliderZoom->value() != i_zoom)
-	m_widget->horizontalSliderZoom->setValue(i_zoom);	// set the GUI zoom slider position
+        m_widget->horizontalSliderZoom->setValue(i_zoom);	// set the GUI zoom slider position
 
 	int index0_zoom = i_zoom - m_min_zoom;			// zoom level starting at index level '0'
     if (index0_zoom < zoomAct.count())
-    zoomAct.at(index0_zoom)->setChecked(true);		// set the right-click context menu zoom level
+        zoomAct.at(index0_zoom)->setChecked(true);		// set the right-click context menu zoom level
 }
 
 void OPMapGadgetWidget::OnCurrentPositionChanged(internals::PointLatLng point)
@@ -1095,7 +1101,7 @@ void OPMapGadgetWidget::setMapProvider(QString provider)
 {
 	if (!m_widget || !m_map)
 		return;
-
+//
     m_map->SetMapType(mapcontrol::Helper::MapTypeFromString(provider));
 }
 
@@ -1204,6 +1210,20 @@ void OPMapGadgetWidget::setMapMode(opMapModeType mode)
             break;
     }
 }
+
+void OPMapGadgetWidget::setUserImageLocation(QString userImageLocation)
+{
+    m_map->SetUserImageLocation(userImageLocation);
+}
+void OPMapGadgetWidget::setUserImageHorizontalScale(double userImageHorizontalScale)
+{
+    m_map->SetUserImageHorizontalScale(userImageHorizontalScale);
+}
+void OPMapGadgetWidget::setUserImageVerticalScale(double userImageVerticalScale)
+{
+    m_map->SetUserImageVerticalScale(userImageVerticalScale);
+}
+
 
 // *************************************************************************************
 // Context menu stuff
@@ -2160,6 +2180,7 @@ void OPMapGadgetWidget::SetUavPic(QString UAVPic)
     m_map->SetUavPic(UAVPic);
 }
 
+// *************************************************************************************
 void OPMapGadgetWidget::on_tbFind_clicked()
 {
     QPalette pal = m_widget->leFind->palette();

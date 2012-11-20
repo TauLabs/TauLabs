@@ -42,7 +42,7 @@ public:
     virtual double Axis() const;
     virtual double Flattening() const;
     virtual core::Point FromLatLngToPixel(double lat, double lng, int const& zoom);
-    virtual internals::PointLatLng FromPixelToLatLng(int const& x, int const&  y, int const&  zoom);
+    virtual internals::PointLatLng FromPixelToLatLng(const qint64 &x,const qint64 &y,const int &zoom);
     virtual double GetGroundResolution(int const& zoom, double const& latitude);
     virtual Size GetTileMatrixMinXY(int const& zoom);
     virtual Size GetTileMatrixMaxXY(int const& zoom);
@@ -61,7 +61,6 @@ private:
          QVector <double> DTM01(QVector <double>& lonlat);
          QVector <double> MTD01(QVector <double>& pnt);
          QVector <double> MTD11(QVector <double>& p);
-         double Clip(double const& n, double const& minValue, double const& maxValue);
 };
 
 }
