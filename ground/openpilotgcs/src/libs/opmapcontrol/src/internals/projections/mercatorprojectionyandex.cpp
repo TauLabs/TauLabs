@@ -29,8 +29,8 @@
 
  
 namespace projections {
-MercatorProjectionYandex::MercatorProjectionYandex():MinLatitude(-85.05112878), MaxLatitude(85.05112878),MinLongitude(-177),
-MaxLongitude(177), RAD_DEG(180 / M_PI),DEG_RAD(M_PI / 180),MathPiDiv4(M_PI / 4),tileSize(256, 256)
+MercatorProjectionYandex::MercatorProjectionYandex():MinLatitude(-85.05112878), MaxLatitude(85.05112878),MinLongitude(-180),
+MaxLongitude(180), RAD_DEG(180 / M_PI),DEG_RAD(M_PI / 180),MathPiDiv4(M_PI / 4),tileSize(256, 256)
 {
 }
 Point MercatorProjectionYandex::FromLatLngToPixel(double lat, double lng, const int &zoom)
@@ -51,13 +51,13 @@ Point MercatorProjectionYandex::FromLatLngToPixel(double lat, double lng, const 
     double DY = ((20037508.342789 - a * log(z)) * 53.5865938 / z1);
 
     Point ret;// = Point.Empty;
-    ret.SetX((int) DX);
-    ret.SetY((int) DY);
+    ret.SetX((qint64) round(DX));
+    ret.SetY((qint64) round(DY));
 
     return ret;
 
 }
-internals::PointLatLng MercatorProjectionYandex::FromPixelToLatLng(const int &x, const int &y, const int &zoom)
+internals::PointLatLng MercatorProjectionYandex::FromPixelToLatLng(const qint64 &x,const qint64 &y,const int &zoom)
 {
     Size s = GetTileMatrixSizePixel(zoom);
 
