@@ -17,8 +17,9 @@
   <IPconnection>
     <Current>
       <arr_1>
-        <Port>1</Port>
-        <UseTCP>0</UseTCP>
+        <HostName>127.0.0.1</HostName>
+        <Port>9000</Port>
+        <UseTCP>1</UseTCP>
       </arr_1>
       <size>1</size>
     </Current>
@@ -2170,7 +2171,7 @@
           </plotCurve2>
           <plotCurveCount>3</plotCurveCount>
           <plotType>1</plotType>
-          <refreshInterval>500</refreshInterval>
+          <refreshInterval>100</refreshInterval>
         </data>
       </Raw__PCT__20Accels>
       <Raw__PCT__20Gyros>
@@ -2216,7 +2217,7 @@
           </plotCurve2>
           <plotCurveCount>3</plotCurveCount>
           <plotType>1</plotType>
-          <refreshInterval>500</refreshInterval>
+          <refreshInterval>100</refreshInterval>
         </data>
       </Raw__PCT__20Gyros>
       <Raw__PCT__20magnetometers>
