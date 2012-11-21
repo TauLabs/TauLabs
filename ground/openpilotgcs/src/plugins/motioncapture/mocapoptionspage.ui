@@ -1078,6 +1078,28 @@
   <tabstop>inputPort</tabstop>
   <tabstop>remoteAddress</tabstop>
   <tabstop>outputPort</tabstop>
+  <tabstop>noiseCheckBox</tabstop>
+  <tabstop>latitude</tabstop>
+  <tabstop>longitude</tabstop>
+  <tabstop>attRawCheckbox</tabstop>
+  <tabstop>attRawRateSpinbox</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>attActualCheckbox</tabstop>
+  <tabstop>attActualMocap</tabstop>
+  <tabstop>attActualHW</tabstop>
+  <tabstop>groundTruthCheckbox</tabstop>
+  <tabstop>groundTruthRateSpinbox</tabstop>
+  <tabstop>gpsPositionCheckbox</tabstop>
+  <tabstop>gpsPosRateSpinbox</tabstop>
+  <tabstop>airspeedActualCheckbox</tabstop>
+  <tabstop>airspeedRateSpinbox</tabstop>
+  <tabstop>baroAltitudeCheckbox</tabstop>
+  <tabstop>sonarMaxAlt</tabstop>
+  <tabstop>baroAltRateSpinbox</tabstop>
+  <tabstop>inputCommandCheckbox</tabstop>
+  <tabstop>manualControlRadioButton</tabstop>
+  <tabstop>gcsReceiverRadioButton</tabstop>
+  <tabstop>minOutputPeriodSpinbox</tabstop>
  </tabstops>
  <resources/>
  <connections/>
