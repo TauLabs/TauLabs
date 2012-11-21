@@ -366,11 +366,17 @@ namespace internals {
                 break;
             }
 
-            //Ensure that no matter what the zoom can never exceed the number of bits required to display it
-            if (projection->TileSize().Width()/32 + maxzoom > 32-2){
-                maxzoom=30 - projection->TileSize().Width()/32;
+            //Calculate the number of bits required to hold the tile size
+            quint8 numBits=1;
+            while( (1 << (numBits-1)) < projection->TileSize().Width()){
+                numBits++;
             }
-
+			
+            //Ensure that no matter what the zoom can never exceed the number of bits required to display it
+            if (numBits + maxzoom > sizeof(((core::Point *) 0)->X())*8 - 1){ //Remove one because of the sign bit.
+                maxzoom = sizeof(((core::Point *) 0)->X())*8 - 1 - numBits;
+            }
+			
             minOfTiles = Projection()->GetTileMatrixMinXY(Zoom());
             maxOfTiles = Projection()->GetTileMatrixMaxXY(Zoom());
             SetCurrentPositionGPixel(Projection()->FromLatLngToPixel(CurrentPosition(), Zoom()));
