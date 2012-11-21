@@ -597,6 +597,54 @@
                   </widget>
                  </item>
                  <item>
+                  <widget class="QFrame" name="frame">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>27</height>
+                    </size>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::NoFrame</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Plain</enum>
+                   </property>
+                   <property name="lineWidth">
+                    <number>1</number>
+                   </property>
+                   <widget class="QLabel" name="label_16">
+                    <property name="geometry">
+                     <rect>
+                      <x>0</x>
+                      <y>8</y>
+                      <width>398</width>
+                      <height>14</height>
+                     </rect>
+                    </property>
+                    <property name="text">
+                     <string>Refresh rate:</string>
+                    </property>
+                   </widget>
+                   <widget class="QSpinBox" name="attActualRateSpinBox">
+                    <property name="geometry">
+                     <rect>
+                      <x>150</x>
+                      <y>2</y>
+                      <width>161</width>
+                      <height>25</height>
+                     </rect>
+                    </property>
+                    <property name="suffix">
+                     <string>ms</string>
+                    </property>
+                    <property name="maximum">
+                     <number>5000</number>
+                    </property>
+                   </widget>
+                  </widget>
+                 </item>
+                 <item>
                   <spacer name="verticalSpacer_2">
                    <property name="orientation">
                     <enum>Qt::Vertical</enum>
