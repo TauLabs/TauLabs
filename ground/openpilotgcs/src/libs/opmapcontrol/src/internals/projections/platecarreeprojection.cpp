@@ -46,13 +46,13 @@ Point PlateCarreeProjection::FromLatLngToPixel(double lat, double lng, const int
 
     double scale = 360.0 / mapSizeX;
 
-    ret.SetY((int) ((90.0 - lat) / scale));
-    ret.SetX((int) ((lng + 180.0) / scale));
+    ret.SetY((qint64) round((90.0 - lat) / scale));
+    ret.SetX((qint64) round((lng + 180.0) / scale));
 
     return ret;
 
 }
-internals::PointLatLng PlateCarreeProjection::FromPixelToLatLng(const int &x, const int &y, const int &zoom)
+internals::PointLatLng PlateCarreeProjection::FromPixelToLatLng(const qint64 &x,const qint64 &y,const int &zoom)
 {
     internals::PointLatLng ret;// = internals::PointLatLng.Empty;
 
