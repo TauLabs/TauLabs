@@ -37,7 +37,7 @@ namespace internals {
             ,minOfTiles(0,0),maxOfTiles(0,0),zoom(0),isDragging(false),TooltipTextPadding(10,10),loaderLimit(5),maxzoom(21),started(false),runningThreads(0)
     {
         mousewheelzoomtype=MouseWheelZoomType::MousePositionAndCenter;
-        SetProjection(new MercatorProjection()); //CONSIDERING THE DEFAULT IN THE SWITCH CASE, MAYBE THIS SHOULD BE RETHOUGHT?
+        SetProjection(new MercatorProjection());
         this->setAutoDelete(false);
         ProcessLoadTaskCallback.setMaxThreadCount(10);
         renderOffset=Point(0,0);
