@@ -51,14 +51,21 @@ public:
 private slots:
     void openHelp();
 
+    //! Display the plane in various positions
+    void displayPlane(int i);
+
 private:
     Ui_ccattitude *ui;
+
+    QGraphicsSvgItem *paperplane;
 
     Calibration calibration;
 protected slots:
     virtual void enableControls(bool enable);
 
 protected:
+    void showEvent(QShowEvent *event);
+    void resizeEvent(QResizeEvent *event);
 
     void computeScaleBias();
 

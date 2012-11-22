@@ -62,7 +62,19 @@ ConfigCCAttitudeWidget::ConfigCCAttitudeWidget(QWidget *parent) :
         ui(new Ui_ccattitude)
 {
     ui->setupUi(this);
-    forceConnectedState(); //dynamic widgets don't recieve the connected signal
+
+    // Initialization of the Paper plane widget
+    ui->sixPointHelp->setScene(new QGraphicsScene(this));
+
+    paperplane = new QGraphicsSvgItem();
+    paperplane->setSharedRenderer(new QSvgRenderer());
+    paperplane->renderer()->load(QString(":/configgadget/images/paper-plane.svg"));
+    paperplane->setElementId("plane-horizontal");
+    ui->sixPointHelp->scene()->addItem(paperplane);
+    ui->sixPointHelp->setSceneRect(paperplane->boundingRect());
+
+    //dynamic widgets don't recieve the connected signal
+    forceConnectedState();
 
     ExtensionSystem::PluginManager *pm=ExtensionSystem::PluginManager::instance();
     Core::Internal::GeneralSettings * settings=pm->getObject<Core::Internal::GeneralSettings>();
@@ -90,7 +102,8 @@ ConfigCCAttitudeWidget::ConfigCCAttitudeWidget(QWidget *parent) :
     connect(&calibration, SIGNAL(levelingProgressChanged(int)), ui->levelProgress, SLOT(setValue(int)));
     connect(&calibration, SIGNAL(sixPointProgressChanged(int)), ui->sixPointProgress, SLOT(setValue(int)));
     connect(&calibration, SIGNAL(showSixPointMessage(QString)), ui->sixPointCalibInstructions, SLOT(setText(QString)));
-    connect(&calibration, SIGNAL(toggleControls(bool)), this, SLOT(enableControls(bool)));
+    connect(&calibration, SIGNAL(updatePlane(int)), this, SLOT(displayPlane(int)));
+//    connect(&calibration, SIGNAL(toggleControls(bool)), this, SLOT(enableControls(bool))); //<-- Is this necessary?
 
     // Let the calibration gadget control some control enables
     connect(&calibration, SIGNAL(toggleSavePosition(bool)), ui->sixPointSave, SLOT(setEnabled(bool)));
@@ -125,6 +138,54 @@ void ConfigCCAttitudeWidget::updateObjectsFromWidgets()
     ConfigTaskWidget::updateObjectsFromWidgets();
 
     ui->levelProgress->setValue(0);
+}
+
+void ConfigCCAttitudeWidget::showEvent(QShowEvent *event)
+{
+    Q_UNUSED(event)
+
+    ui->sixPointHelp->fitInView(paperplane,Qt::KeepAspectRatio);
+}
+
+void ConfigCCAttitudeWidget::resizeEvent(QResizeEvent *event)
+{
+    Q_UNUSED(event)
+
+    ui->sixPointHelp->fitInView(paperplane,Qt::KeepAspectRatio);
+}
+
+/**
+  Rotate the paper plane
+  */
+void ConfigCCAttitudeWidget::displayPlane(int position)
+{
+    QString displayElement;
+    switch(position) {
+    case 1:
+        displayElement = "plane-horizontal";
+        break;
+    case 2:
+        displayElement = "plane-left";
+        break;
+    case 3:
+        displayElement = "plane-flip";
+        break;
+    case 4:
+        displayElement = "plane-right";
+        break;
+    case 5:
+        displayElement = "plane-up";
+        break;
+    case 6:
+        displayElement = "plane-down";
+        break;
+    default:
+        return;
+    }
+
+    paperplane->setElementId(displayElement);
+    ui->sixPointHelp->setSceneRect(paperplane->boundingRect());
+    ui->sixPointHelp->fitInView(paperplane,Qt::KeepAspectRatio);
 }
 
 /**
