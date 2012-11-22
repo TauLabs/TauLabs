@@ -94,7 +94,7 @@ ConfigCCAttitudeWidget::ConfigCCAttitudeWidget(QWidget *parent) :
 
     // Let the calibration gadget control some control enables
     connect(&calibration, SIGNAL(toggleSavePosition(bool)), ui->sixPointSave, SLOT(setEnabled(bool)));
-    connect(&calibration, SIGNAL(toggleControls(bool)), ui->sixPointCancel, SLOT(setEnabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), ui->sixPointCancel, SLOT(setDisabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), ui->sixPointStart, SLOT(setEnabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), ui->levelButton, SLOT(setEnabled(bool)));
 
