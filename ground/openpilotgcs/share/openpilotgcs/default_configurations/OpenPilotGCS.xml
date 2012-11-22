@@ -2,15 +2,13 @@
   <General>
     <AutoConnect>true</AutoConnect>
     <AutoSelect>true</AutoSelect>
-    <UDPMirror>false</UDPMirror>
-    <Description>Default configuration</Description>
-    <Details>Default configuration built to work on all screen sizes</Details>
+    <Description>Laptop configuration</Description>
+    <Details>Laptop configuration built to work on standard laptop screen sizes</Details>
     <ExpertMode>true</ExpertMode>
-    <OverrideLanguage>en_AU</OverrideLanguage>
     <SaveSettingsOnExit>true</SaveSettingsOnExit>
     <SettingsWindowHeight>700</SettingsWindowHeight>
     <SettingsWindowWidth>800</SettingsWindowWidth>
-    <StyleSheet>default</StyleSheet>
+    <StyleSheet>laptop</StyleSheet>
     <UDPMirror>false</UDPMirror>
   </General>
   <KeyBindings>
@@ -1055,39 +1053,6 @@
           </data>
       </XPlane__PCT__20HITL>
     </HITL>
-    <HITLv2>
-      <default>
-        <configInfo>
-          <locked>false</locked>
-          <version>0.0.0</version>
-        </configInfo>
-        <data>
-          <attActCalc>false</attActCalc>
-          <attActHW>false</attActHW>
-          <attActSim>true</attActSim>
-          <attActual>true</attActual>
-          <attRaw>true</attRaw>
-          <attRawRate>20</attRawRate>
-          <gcsReciever>true</gcsReciever>
-          <gpsPosRate>200</gpsPosRate>
-          <gpsPosition>true</gpsPosition>
-          <homeLocRate>0</homeLocRate>
-          <homeLocation>true</homeLocation>
-          <hostAddress>127.0.0.1</hostAddress>
-          <inPort>40100</inPort>
-          <inputCommand>true</inputCommand>
-          <manualControl>false</manualControl>
-          <manualOutput>false</manualOutput>
-          <outPort>40200</outPort>
-          <outputRate>20</outputRate>
-          <remoteAddress>127.0.0.1</remoteAddress>
-          <simulatorId>ASimRC</simulatorId>
-          <sonarAltRate>50</sonarAltRate>
-          <sonarAltitude>false</sonarAltitude>
-          <sonarMaxAlt>@Variant(AAAAh0CgAAA=)</sonarMaxAlt>
-        </data>
-      </default>
-    </HITLv2>
     <LineardialGadget>
       <Accel__PCT__20Horizontal__PCT__20X>
         <configInfo>
@@ -1527,7 +1492,7 @@
         </data>
       </Yaw>
     </LineardialGadget>
-    <ModelViewGadget>
+        <ModelViewGadget>
       <Aeroquad__PCT__20__PCT__2B>
         <configInfo>
           <locked>false</locked>
@@ -1539,17 +1504,6 @@
           <enableVbo>false</enableVbo>
         </data>
       </Aeroquad__PCT__20__PCT__2B>
-      <CopterControl>
-        <configInfo>
-          <locked>false</locked>
-          <version>0.0.0</version>
-        </configInfo>
-        <data>
-          <acFilename>%%DATAPATH%%models/boards/CopterControl/CopterControl.3ds</acFilename>
-          <bgFilename>%%DATAPATH%%models/backgrounds/default_background.png</bgFilename>
-          <enableVbo>false</enableVbo>
-        </data>
-      </CopterControl>
       <CC3D>
         <configInfo>
           <locked>false</locked>
@@ -1561,6 +1515,28 @@
           <enableVbo>false</enableVbo>
         </data>
       </CC3D>
+      <CopterControl>
+        <configInfo>
+          <locked>false</locked>
+          <version>0.0.0</version>
+        </configInfo>
+        <data>
+          <acFilename>%%DATAPATH%%models/boards/CopterControl/CopterControl.3ds</acFilename>
+          <bgFilename>%%DATAPATH%%models/backgrounds/default_background.png</bgFilename>
+          <enableVbo>false</enableVbo>
+        </data>
+      </CopterControl>
+      <Danker__PCT__27s__PCT__20Quad>
+        <configInfo>
+          <locked>false</locked>
+          <version>0.0.0</version>
+        </configInfo>
+        <data>
+          <acFilename>%%DATAPATH%%models/multi/dankers_quad/dankers_quad.3ds</acFilename>
+          <bgFilename>%%DATAPATH%%models/backgrounds/default_background.png</bgFilename>
+          <enableVbo>false</enableVbo>
+        </data>
+      </Danker__PCT__27s__PCT__20Quad>
       <Easyquad__PCT__20X>
         <configInfo>
           <locked>false</locked>
@@ -1682,6 +1658,17 @@
           <enableVbo>false</enableVbo>
         </data>
       </Joe__PCT__27s__PCT__2014__PCT__22__PCT__20T__PCT__20Quad__PCT__20X>
+      <MattL__PCT__27s__PCT__20Y6>
+        <configInfo>
+          <locked>false</locked>
+          <version>0.0.0</version>
+        </configInfo>
+        <data>
+          <acFilename>%%DATAPATH%%models/multi/mattL_Y6/mattL_Y6.3ds</acFilename>
+          <bgFilename>%%DATAPATH%%models/backgrounds/default_background.png</bgFilename>
+          <enableVbo>false</enableVbo>
+        </data>
+      </MattL__PCT__27s__PCT__20Y6>
       <Quadcopter>
         <configInfo>
           <locked>false</locked>
@@ -1715,17 +1702,6 @@
           <enableVbo>false</enableVbo>
         </data>
       </Scorpion__PCT__20Tricopter>
-      <MattL__PCT__27s__PCT__20Y6>
-        <configInfo>
-          <locked>false</locked>
-          <version>0.0.0</version>
-        </configInfo>
-        <data>
-          <acFilename>%%DATAPATH%%models/multi/mattL_Y6/mattL_Y6.3ds</acFilename>
-          <bgFilename>%%DATAPATH%%models/backgrounds/default_background.png</bgFilename>
-          <enableVbo>false</enableVbo>
-        </data>
-      </MattL__PCT__27s__PCT__20Y6>
       <Test__PCT__20Quad__PCT__20__PCT__2B>
         <configInfo>
           <locked>false</locked>
@@ -1748,17 +1724,6 @@
           <enableVbo>false</enableVbo>
         </data>
       </Test__PCT__20Quad__PCT__20X>
-      <Danker__PCT__27s__PCT__20Quad>
-        <configInfo>
-          <locked>false</locked>
-          <version>0.0.0</version>
-        </configInfo>
-        <data>
-          <acFilename>%%DATAPATH%%models/multi/dankers_quad/dankers_quad.3ds</acFilename>
-          <bgFilename>%%DATAPATH%%models/backgrounds/default_background.png</bgFilename>
-          <enableVbo>false</enableVbo>
-        </data>
-      </Danker__PCT__27s__PCT__20Quad>
     </ModelViewGadget>
     <OPMapGadget>
       <Google__PCT__20Sat>
