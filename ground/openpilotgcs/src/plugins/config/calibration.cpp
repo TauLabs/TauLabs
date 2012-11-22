@@ -44,6 +44,12 @@ public:
     }
 };
 
+enum calibrationSuccessMessages{
+    CALIBRATION_SUCCESS,
+    ACCELEROMETER_FAILED,
+    MAGNETOMETER_FAILED
+};
+
 #define sign(x) ((x < 0) ? -1 : 1)
 
 Calibration::Calibration() : calibrateMag(false), accelLength(9.81)
@@ -246,11 +252,20 @@ void Calibration::dataUpdated(UAVObject * obj) {
             disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
 
             // Do calculation
-            if (computeScaleBias())
+            int ret=computeScaleBias();
+            if (ret==CALIBRATION_SUCCESS)
                 emit showSixPointMessage(tr("Calibration succeeded"));
-            else
-                emit showSixPointMessage(tr("Calibration failed.  Please repeat"));
+            else{
+                //Return sensor calibration values to their original settings
+                resetSensorCalibrationToOriginalValues();
 
+                if(ret==ACCELEROMETER_FAILED){
+                    emit showSixPointMessage(tr("Acceleromter calibration failed. Original values have been written back to device. Perhaps you moved too much during the calculation? Please repeat calibration."));
+                }
+                else if(ret==MAGNETOMETER_FAILED){
+                    emit showSixPointMessage(tr("Magnetometer calibration failed. Original values have been written back to device. Perhaps you performed the calibration near iron? Please repeat calibration."));
+                }
+            }
         }
         break;
     }
@@ -352,11 +367,12 @@ void Calibration::doStartLeveling() {
   */
 void Calibration::doStartSixPoint()
 {
+
+    // Save initial rotation settings
     AttitudeSettings * attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
     Q_ASSERT(attitudeSettings);
     AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
 
-    //Save board rotation settings
     initialBoardRotation[0]=attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL];
     initialBoardRotation[1]=attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH];
     initialBoardRotation[2]=attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW];
@@ -367,18 +383,19 @@ void Calibration::doStartSixPoint()
     attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW]  =0;
     attitudeSettings->setData(attitudeSettingsData);
 
-    // Clear the accumulators
-    accel_accum_x.clear();
-    accel_accum_y.clear();
-    accel_accum_z.clear();
-    mag_accum_x.clear();
-    mag_accum_y.clear();
-    mag_accum_z.clear();
-
-    // Must reset the scale to get a correct result
+    // Save initial accelerometer settings
     InertialSensorSettings * inertialSettings = InertialSensorSettings::GetInstance(getObjectManager());
     Q_ASSERT(inertialSettings);
     InertialSensorSettings::DataFields inertialSettingsData = inertialSettings->getData();
+
+    initialAccelsScale[0]=inertialSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_X];
+    initialAccelsScale[1]=inertialSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Y];
+    initialAccelsScale[2]=inertialSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Z];
+    initialAccelsBias[0]=inertialSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_X];
+    initialAccelsBias[1]=inertialSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Y];
+    initialAccelsBias[2]=inertialSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z];
+
+    // Reset the scale and bias to get a correct result
     inertialSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_X] = 1.0;
     inertialSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Y] = 1.0;
     inertialSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Z] = 1.0;
@@ -387,19 +404,37 @@ void Calibration::doStartSixPoint()
     inertialSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z] = 0.0;
     inertialSettings->setData(inertialSettingsData);
 
-    // If calibrating the mag remove any scaling
+    // If calibrating the mag, remove any scaling
     if (calibrateMag) {
+        // Save initial magnetometer settings
         RevoCalibration *revoCalibration = RevoCalibration::GetInstance(getObjectManager());
         Q_ASSERT(revoCalibration);
-        RevoCalibration::DataFields revoCal = revoCalibration->getData();
-        revoCal.MagBias[RevoCalibration::MAGBIAS_X] = 0;
-        revoCal.MagBias[RevoCalibration::MAGBIAS_Y] = 0;
-        revoCal.MagBias[RevoCalibration::MAGBIAS_Z] = 0;
-        revoCal.MagScale[RevoCalibration::MAGSCALE_X] = 1;
-        revoCal.MagScale[RevoCalibration::MAGSCALE_Y] = 1;
-        revoCal.MagScale[RevoCalibration::MAGSCALE_Z] = 1;
-        revoCalibration->setData(revoCal);
+        RevoCalibration::DataFields revoCalData = revoCalibration->getData();
+
+        initialMagsScale[0]=revoCalData.MagScale[RevoCalibration::MAGSCALE_X];
+        initialMagsScale[1]=revoCalData.MagScale[RevoCalibration::MAGSCALE_Y];
+        initialMagsScale[2]=revoCalData.MagScale[RevoCalibration::MAGSCALE_Z];
+        initialMagsBias[0]= revoCalData.MagBias[RevoCalibration::MAGBIAS_X];
+        initialMagsBias[1]= revoCalData.MagBias[RevoCalibration::MAGBIAS_Y];
+        initialMagsBias[2]= revoCalData.MagBias[RevoCalibration::MAGBIAS_Z];
+
+        // Reset the scale to get a correct result
+        revoCalData.MagScale[RevoCalibration::MAGSCALE_X] = 1;
+        revoCalData.MagScale[RevoCalibration::MAGSCALE_Y] = 1;
+        revoCalData.MagScale[RevoCalibration::MAGSCALE_Z] = 1;
+        revoCalData.MagBias[RevoCalibration::MAGBIAS_X] = 0;
+        revoCalData.MagBias[RevoCalibration::MAGBIAS_Y] = 0;
+        revoCalData.MagBias[RevoCalibration::MAGBIAS_Z] = 0;
+        revoCalibration->setData(revoCalData);
     }
+
+    // Clear the accumulators
+    accel_accum_x.clear();
+    accel_accum_y.clear();
+    accel_accum_z.clear();
+    mag_accum_x.clear();
+    mag_accum_y.clear();
+    mag_accum_z.clear();
 
     Thread::usleep(100000);
 
@@ -656,7 +691,7 @@ double Calibration::listMean(QList<double> list)
   * Computes the scale and bias for the accelerometer and mag once all the data
   * has been collected in 6 positions.
   */
-bool Calibration::computeScaleBias()
+int Calibration::computeScaleBias()
 {
     // Regardless of calibration result, set board rotations back to user settings
     AttitudeSettings * attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
@@ -763,7 +798,7 @@ bool Calibration::computeScaleBias()
             qDebug()<<  "Mag bias: " << revoCalibrationData.MagBias[RevoCalibration::MAGBIAS_X] << " " << revoCalibrationData.MagBias[RevoCalibration::MAGBIAS_Y]  << " " << revoCalibrationData.MagBias[RevoCalibration::MAGBIAS_Z];
             revoCalibration->setData(revoCalibrationData);
         } else {
-            return false;
+            return MAGNETOMETER_FAILED;
         }
     }
 
@@ -772,10 +807,48 @@ bool Calibration::computeScaleBias()
         qDebug()<<  "Accel bias: " << inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_X] << " " << inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Y] << " " << inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z];
         inertialSensorSettings->setData(inertialSensorSettingsData);
     } else {
-        return false;
+        return ACCELEROMETER_FAILED;
     }
 
-    return true;
+    return CALIBRATION_SUCCESS;
+}
+
+/**
+ * @brief Calibration::resetToOriginalValues Resets the accelerometer and magnetometer setting to their original values
+ */
+void Calibration::resetSensorCalibrationToOriginalValues()
+{
+    //Write the original accelerometer values back to the device
+    InertialSensorSettings * inertialSettings = InertialSensorSettings::GetInstance(getObjectManager());
+    Q_ASSERT(inertialSettings);
+    InertialSensorSettings::DataFields inertialSettingsData = inertialSettings->getData();
+
+    inertialSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_X]=initialAccelsScale[0];
+    inertialSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Y]=initialAccelsScale[1];
+    inertialSettingsData.AccelScale[InertialSensorSettings::ACCELSCALE_Z]=initialAccelsScale[2];
+    inertialSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_X]=initialAccelsBias[0];
+    inertialSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Y]=initialAccelsBias[1];
+    inertialSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z]=initialAccelsBias[2];
+
+    inertialSettings->setData(inertialSettingsData);
+
+    if (calibrateMag) {
+        //Write the original magnetometer values back to the device
+        RevoCalibration *revoCalibration = RevoCalibration::GetInstance(getObjectManager());
+        Q_ASSERT(revoCalibration);
+        RevoCalibration::DataFields revoCalData = revoCalibration->getData();
+
+        revoCalData.MagScale[RevoCalibration::MAGSCALE_X]=initialMagsScale[0];
+        revoCalData.MagScale[RevoCalibration::MAGSCALE_Y]=initialMagsScale[1];
+        revoCalData.MagScale[RevoCalibration::MAGSCALE_Z]=initialMagsScale[2];
+        revoCalData.MagBias[RevoCalibration::MAGBIAS_X]=initialMagsBias[0];
+        revoCalData.MagBias[RevoCalibration::MAGBIAS_Y]=initialMagsBias[1];
+        revoCalData.MagBias[RevoCalibration::MAGBIAS_Z]=initialMagsBias[2];
+
+        revoCalibration->setData(revoCalData);
+    }
+
+
 }
 
 /**

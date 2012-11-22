@@ -128,6 +128,10 @@ private:
     static const int SENSOR_UPDATE_PERIOD = 50;
 
     double initialBoardRotation[3];
+    double initialAccelsScale[3];
+    double initialAccelsBias[3];
+    double initialMagsScale[3];
+    double initialMagsBias[3];
 
 protected:
 
@@ -146,7 +150,7 @@ protected:
     bool storeLevelingMeasurement(UAVObject *obj);
 
     //! Computes the scale and bias for the accelerometer and mag
-    bool computeScaleBias();
+    int computeScaleBias();
 
     int SixPointInConstFieldCal( double ConstMag, double x[6], double y[6], double z[6], double S[3], double b[3] );
     int LinearEquationsSolving(int nDim, double* pfMatr, double* pfVect, double* pfSolution);
@@ -159,6 +163,9 @@ protected:
 
     //! Compute the mean value of a list
     static double listMean(QList<double> list);
+
+    //! Reset sensor settings to pre-calibration values
+    void resetSensorCalibrationToOriginalValues();
 
 };
 
