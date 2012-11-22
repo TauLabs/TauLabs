@@ -27,18 +27,8 @@ win32 {
 macx { 
     SOURCES += pjrc_rawhid_mac.cpp \
             usbmonitor_mac.cpp
-    SDK = /Developer/SDKs/MacOSX10.5.sdk
-    ARCH = -mmacosx-version-min=10.5 \
-        -arch \
-        ppc \
-        -arch \
-        i386
-    LIBS += $(ARCH) \
-        -Wl,-syslibroot,$(SDK) \
-        -framework \
-        IOKit \
-        -framework \
-        CoreFoundation
+    LIBS += -framework IOKit \
+        -framework CoreFoundation
 }
 linux-g++ {
     SOURCES += pjrc_rawhid_unix.cpp \
