@@ -705,14 +705,6 @@ bool Calibration::computeScaleBias()
         good_calibration=false;
     }
 
-    if (good_calibration) {
-        qDebug()<<  "Accel bias: " << inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_X] << " " << inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Y] << " " << inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z];
-        inertialSensorSettings->setData(inertialSensorSettingsData);
-
-    } else {
-        return false;
-    }
-
     if (calibrateMag) {
         good_calibration = true;
 
@@ -773,6 +765,14 @@ bool Calibration::computeScaleBias()
         } else {
             return false;
         }
+    }
+
+    // Apply at the end so only applies if it works and mag does too
+    if (good_calibration) {
+        qDebug()<<  "Accel bias: " << inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_X] << " " << inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Y] << " " << inertialSensorSettingsData.AccelBias[InertialSensorSettings::ACCELBIAS_Z];
+        inertialSensorSettings->setData(inertialSensorSettingsData);
+    } else {
+        return false;
     }
 
     return true;
