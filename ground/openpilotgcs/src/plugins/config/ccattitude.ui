@@ -14,7 +14,7 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="7" column="0">
+   <item row="6" column="0">
     <spacer name="verticalSpacer_2">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -375,7 +375,7 @@
      </layout>
     </widget>
    </item>
-   <item row="8" column="0">
+   <item row="7" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <spacer name="horizontalSpacer">
@@ -440,9 +440,6 @@
       </widget>
      </item>
     </layout>
-   </item>
-   <item row="6" column="0">
-    <widget class="QTextEdit" name="calibrationMessages"/>
    </item>
    <item row="2" column="0">
     <widget class="QGroupBox" name="groupBox_2">
