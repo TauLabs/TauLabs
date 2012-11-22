@@ -136,14 +136,14 @@
               <widget class="QTextEdit" name="sixPointCalibInstructions"/>
              </item>
              <item row="2" column="2">
-              <widget class="QProgressBar" name="sixPointProgres">
+              <widget class="QProgressBar" name="sixPointProgress">
                <property name="value">
                 <number>0</number>
                </property>
               </widget>
              </item>
              <item row="1" column="0">
-              <widget class="QGraphicsView" name="sixPointsHelp">
+              <widget class="QGraphicsView" name="sixPointHelp">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
                  <horstretch>0</horstretch>
@@ -177,7 +177,7 @@
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout">
              <item>
-              <widget class="QPushButton" name="sixPointsStart">
+              <widget class="QPushButton" name="sixPointStart">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -203,7 +203,7 @@
               </spacer>
              </item>
              <item>
-              <widget class="QPushButton" name="sixPointsCancel">
+              <widget class="QPushButton" name="sixPointCancel">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -213,7 +213,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="sixPointsSave">
+              <widget class="QPushButton" name="sixPointSave">
                <property name="enabled">
                 <bool>false</bool>
                </property>

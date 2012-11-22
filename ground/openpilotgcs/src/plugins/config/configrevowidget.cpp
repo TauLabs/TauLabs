@@ -80,14 +80,14 @@ ConfigRevoWidget::ConfigRevoWidget(QWidget *parent) :
     m_ui->setupUi(this);
 
     // Initialization of the Paper plane widget
-    m_ui->sixPointsHelp->setScene(new QGraphicsScene(this));
+    m_ui->sixPointHelp->setScene(new QGraphicsScene(this));
 
     paperplane = new QGraphicsSvgItem();
     paperplane->setSharedRenderer(new QSvgRenderer());
     paperplane->renderer()->load(QString(":/configgadget/images/paper-plane.svg"));
     paperplane->setElementId("plane-horizontal");
-    m_ui->sixPointsHelp->scene()->addItem(paperplane);
-    m_ui->sixPointsHelp->setSceneRect(paperplane->boundingRect());
+    m_ui->sixPointHelp->scene()->addItem(paperplane);
+    m_ui->sixPointHelp->setSceneRect(paperplane->boundingRect());
 
     // Initialization of the Revo sensor noise bargraph graph
     m_ui->sensorsBargraph->setScene(new QGraphicsScene(this));
@@ -221,25 +221,25 @@ ConfigRevoWidget::ConfigRevoWidget(QWidget *parent) :
 
     // Connect the signals
     connect(m_ui->accelBiasStart, SIGNAL(clicked()), &calibration, SLOT(doStartLeveling()));
-    connect(m_ui->sixPointsStart, SIGNAL(clicked()), &calibration ,SLOT(doStartSixPoint()));
-    connect(m_ui->sixPointsSave, SIGNAL(clicked()), &calibration ,SLOT(doSaveSixPointPosition()));
-    connect(m_ui->sixPointsCancel, SIGNAL(clicked()), &calibration ,SLOT(doCancelSixPoint()));
+    connect(m_ui->sixPointStart, SIGNAL(clicked()), &calibration ,SLOT(doStartSixPoint()));
+    connect(m_ui->sixPointSave, SIGNAL(clicked()), &calibration ,SLOT(doSaveSixPointPosition()));
+    connect(m_ui->sixPointCancel, SIGNAL(clicked()), &calibration ,SLOT(doCancelSixPoint()));
 
-    // Let calibration update teh UI
+    // Let calibration update the UI
     connect(&calibration, SIGNAL(levelingProgressChanged(int)), m_ui->accelBiasProgress, SLOT(setValue(int)));
-    connect(&calibration, SIGNAL(sixPointProgressChanged(int)), m_ui->sixPointProgres, SLOT(setValue(int)));
+    connect(&calibration, SIGNAL(sixPointProgressChanged(int)), m_ui->sixPointProgress, SLOT(setValue(int)));
     connect(&calibration, SIGNAL(showSixPointMessage(QString)), m_ui->sixPointCalibInstructions, SLOT(setText(QString)));
     connect(&calibration, SIGNAL(updatePlane(int)), this, SLOT(displayPlane(int)));
 
     // Let the calibration gadget control some control enables
-    connect(&calibration, SIGNAL(toggleSavePosition(bool)), m_ui->sixPointsSave, SLOT(setEnabled(bool)));
-    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->sixPointsStart, SLOT(setEnabled(bool)));
-    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->sixPointsCancel, SLOT(setEnabled(bool)));
+    connect(&calibration, SIGNAL(toggleSavePosition(bool)), m_ui->sixPointSave, SLOT(setEnabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->sixPointStart, SLOT(setEnabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->sixPointCancel, SLOT(setDisabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->noiseMeasurementStart, SLOT(setEnabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->accelBiasStart, SLOT(setEnabled(bool)));
 
     m_ui->noiseMeasurementStart->setEnabled(true);
-    m_ui->sixPointsStart->setEnabled(true);
+    m_ui->sixPointStart->setEnabled(true);
     m_ui->accelBiasStart->setEnabled(true);
 
     // Currently not in the calibration object
@@ -261,14 +261,14 @@ void ConfigRevoWidget::showEvent(QShowEvent *event)
     // widget is shown, otherwise it cannot compute its values and
     // the result is usually a sensorsBargraph that is way too small.
     m_ui->sensorsBargraph->fitInView(sensorsBargraph, Qt::KeepAspectRatio);
-    m_ui->sixPointsHelp->fitInView(paperplane,Qt::KeepAspectRatio);
+    m_ui->sixPointHelp->fitInView(paperplane,Qt::KeepAspectRatio);
 }
 
 void ConfigRevoWidget::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event)
     m_ui->sensorsBargraph->fitInView(sensorsBargraph, Qt::KeepAspectRatio);
-    m_ui->sixPointsHelp->fitInView(paperplane,Qt::KeepAspectRatio);
+    m_ui->sixPointHelp->fitInView(paperplane,Qt::KeepAspectRatio);
 }
 
 /**
@@ -301,8 +301,8 @@ void ConfigRevoWidget::displayPlane(int position)
     }
 
     paperplane->setElementId(displayElement);
-    m_ui->sixPointsHelp->setSceneRect(paperplane->boundingRect());
-    m_ui->sixPointsHelp->fitInView(paperplane,Qt::KeepAspectRatio);
+    m_ui->sixPointHelp->setSceneRect(paperplane->boundingRect());
+    m_ui->sixPointHelp->fitInView(paperplane,Qt::KeepAspectRatio);
 }
 
 /*********** Noise measurement functions **************/

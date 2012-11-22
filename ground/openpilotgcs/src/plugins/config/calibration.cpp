@@ -468,6 +468,7 @@ void Calibration::doCancelSixPoint(){
 
     calibration_state = IDLE;
     emit toggleControls(true);
+    emit toggleSavePosition(false);
     emit updatePlane(0);
     emit sixPointProgressChanged(0);
     disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
