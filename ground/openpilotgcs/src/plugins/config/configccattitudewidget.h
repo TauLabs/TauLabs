@@ -32,6 +32,7 @@
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
 #include "uavobject.h"
+#include "calibration.h"
 #include <QtGui/QWidget>
 #include <QTimer>
 
@@ -48,27 +49,25 @@ public:
     virtual void updateObjectsFromWidgets();
 
 private slots:
-    void sensorsUpdated(UAVObject * obj);
-    void timeout();
-    void startAccelCalibration();
     void openHelp();
+
+    //! Display the plane in various positions
+    void displayPlane(int i);
 
 private:
     Ui_ccattitude *ui;
-    QTimer timer;
-    UAVObject::Metadata initialAccelsMdata;
-    UAVObject::Metadata initialGyrosMdata;
 
-    int accelUpdates;
-    int gyroUpdates;
+    QGraphicsSvgItem *paperplane;
 
-    QList<double> x_accum, y_accum, z_accum;
-    QList<double> x_gyro_accum, y_gyro_accum, z_gyro_accum;
-
-    static const int NUM_SENSOR_UPDATES = 300;
-    static const float ACCEL_SCALE = 0.004f * 9.81f;
-protected:
+    Calibration calibration;
+protected slots:
     virtual void enableControls(bool enable);
+
+protected:
+    void showEvent(QShowEvent *event);
+    void resizeEvent(QResizeEvent *event);
+
+    void computeScaleBias();
 
 };
 

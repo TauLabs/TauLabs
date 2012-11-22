@@ -27,7 +27,6 @@
 #include "configccattitudewidget.h"
 #include "ui_ccattitude.h"
 #include "utils/coordinateconversions.h"
-#include "attitudesettings.h"
 #include <QMutexLocker>
 #include <QMessageBox>
 #include <QDebug>
@@ -37,14 +36,45 @@
 #include "gyros.h"
 #include <extensionsystem/pluginmanager.h>
 #include <coreplugin/generalsettings.h>
+#include "homelocation.h"
+#include "attitudesettings.h"
+#include "inertialsensorsettings.h"
+
+// *****************
+
+int SixPointInConstFieldCal2( double ConstMag, double x[6], double y[6], double z[6], double S[3], double b[3] );
+int LinearEquationsSolving2(int nDim, double* pfMatr, double* pfVect, double* pfSolution);
+
+
+class Thread : public QThread
+{
+public:
+    static void usleep(unsigned long usecs)
+    {
+        QThread::usleep(usecs);
+    }
+};
+
+#define sign(x) ((x < 0) ? -1 : 1)
 
 ConfigCCAttitudeWidget::ConfigCCAttitudeWidget(QWidget *parent) :
         ConfigTaskWidget(parent),
         ui(new Ui_ccattitude)
 {
     ui->setupUi(this);
-    forceConnectedState(); //dynamic widgets don't recieve the connected signal
-    connect(ui->zeroBias,SIGNAL(clicked()),this,SLOT(startAccelCalibration()));
+
+    // Initialization of the Paper plane widget
+    ui->sixPointHelp->setScene(new QGraphicsScene(this));
+
+    paperplane = new QGraphicsSvgItem();
+    paperplane->setSharedRenderer(new QSvgRenderer());
+    paperplane->renderer()->load(QString(":/configgadget/images/paper-plane.svg"));
+    paperplane->setElementId("plane-horizontal");
+    ui->sixPointHelp->scene()->addItem(paperplane);
+    ui->sixPointHelp->setSceneRect(paperplane->boundingRect());
+
+    //dynamic widgets don't recieve the connected signal
+    forceConnectedState();
 
     ExtensionSystem::PluginManager *pm=ExtensionSystem::PluginManager::instance();
     Core::Internal::GeneralSettings * settings=pm->getObject<Core::Internal::GeneralSettings>();
@@ -53,159 +83,41 @@ ConfigCCAttitudeWidget::ConfigCCAttitudeWidget(QWidget *parent) :
     
     addApplySaveButtons(ui->applyButton,ui->saveButton);
     addUAVObject("AttitudeSettings");
+    addUAVObject("InertialSensorSettings");
     addUAVObject("HwSettings");
 
-    // Connect the help button
-    connect(ui->ccAttitudeHelp, SIGNAL(clicked()), this, SLOT(openHelp()));
+    // Load UAVObjects to widget relations from UI file
+    // using objrelation dynamic property
+    autoLoadWidgets();
     addUAVObjectToWidgetRelation("AttitudeSettings","ZeroDuringArming",ui->zeroGyroBiasOnArming);
 
-    addUAVObjectToWidgetRelation("AttitudeSettings","BoardRotation",ui->rollBias,AttitudeSettings::BOARDROTATION_ROLL);
-    addUAVObjectToWidgetRelation("AttitudeSettings","BoardRotation",ui->pitchBias,AttitudeSettings::BOARDROTATION_PITCH);
-    addUAVObjectToWidgetRelation("AttitudeSettings","BoardRotation",ui->yawBias,AttitudeSettings::BOARDROTATION_YAW);
-    addUAVObjectToWidgetRelation("AttitudeSettings","AccelKp",ui->AccelKp);
-    addUAVObjectToWidgetRelation("AttitudeSettings","AccelKi",ui->AccelKi);
-    addUAVObjectToWidgetRelation("AttitudeSettings","AccelTau",ui->AccelTau);
-    addUAVObjectToWidgetRelation("HwSettings","GyroRange",ui->gyroRange);
-    addUAVObjectToWidgetRelation("HwSettings","AccelRange",ui->accelRange);
+    // Connect signals
+    connect(ui->ccAttitudeHelp, SIGNAL(clicked()), this, SLOT(openHelp()));
+    connect(ui->sixPointStart, SIGNAL(clicked()), &calibration, SLOT(doStartSixPoint()));
+    connect(ui->sixPointSave, SIGNAL(clicked()),  &calibration, SLOT(doSaveSixPointPosition()));
+    connect(ui->levelButton ,SIGNAL(clicked()), &calibration, SLOT(doStartLeveling()));
+    connect(ui->sixPointCancel, SIGNAL(clicked()), &calibration ,SLOT(doCancelSixPoint()));
 
-    addWidget(ui->zeroBias);
+    // Let calibration update the UI
+    connect(&calibration, SIGNAL(levelingProgressChanged(int)), ui->levelProgress, SLOT(setValue(int)));
+    connect(&calibration, SIGNAL(sixPointProgressChanged(int)), ui->sixPointProgress, SLOT(setValue(int)));
+    connect(&calibration, SIGNAL(showSixPointMessage(QString)), ui->sixPointCalibInstructions, SLOT(setText(QString)));
+    connect(&calibration, SIGNAL(updatePlane(int)), this, SLOT(displayPlane(int)));
+//    connect(&calibration, SIGNAL(toggleControls(bool)), this, SLOT(enableControls(bool))); //<-- Is this necessary?
+
+    // Let the calibration gadget control some control enables
+    connect(&calibration, SIGNAL(toggleSavePosition(bool)), ui->sixPointSave, SLOT(setEnabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), ui->sixPointCancel, SLOT(setDisabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), ui->sixPointStart, SLOT(setEnabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), ui->levelButton, SLOT(setEnabled(bool)));
+
+    addWidget(ui->levelButton);
     refreshWidgetsValues();
 }
 
 ConfigCCAttitudeWidget::~ConfigCCAttitudeWidget()
 {
     delete ui;
-}
-
-void ConfigCCAttitudeWidget::sensorsUpdated(UAVObject * obj) {
-
-    if (!timer.isActive()) { 
-	// ignore updates that come in after the timer has expired	
-	return; 
-    }
-
-    Accels * accels = Accels::GetInstance(getObjectManager());
-    Gyros * gyros = Gyros::GetInstance(getObjectManager());
-
-    // Accumulate samples until we have _at least_ NUM_SENSOR_UPDATES samples
-    // for both gyros and accels.
-    // Note that, at present, we stash the samples and then compute the bias
-    // at the end, even though the mean could be accumulated as we go.
-    // In future, a better algorithm could be used. 
-    if(obj->getObjID() == Accels::OBJID) {
-        accelUpdates++;
-        Accels::DataFields accelsData = accels->getData();
-        x_accum.append(accelsData.x);
-        y_accum.append(accelsData.y);
-        z_accum.append(accelsData.z);
-    } else if (obj->getObjID() == Gyros::OBJID) {
-        gyroUpdates++;
-        Gyros::DataFields gyrosData = gyros->getData();
-        x_gyro_accum.append(gyrosData.x);
-        y_gyro_accum.append(gyrosData.y);
-        z_gyro_accum.append(gyrosData.z);
-    } 
-
-    // update the progress indicator
-    ui->zeroBiasProgress->setValue((float) qMin(accelUpdates, gyroUpdates) / NUM_SENSOR_UPDATES * 100);
-
-    // If we have enough samples, then stop sampling and compute the biases
-    if (accelUpdates >= NUM_SENSOR_UPDATES && gyroUpdates >= NUM_SENSOR_UPDATES) {
-        timer.stop();
-        disconnect(obj,SIGNAL(objectUpdated(UAVObject*)),this,SLOT(sensorsUpdated(UAVObject*)));
-        disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
-
-        float x_bias = listMean(x_accum) / ACCEL_SCALE;
-        float y_bias = listMean(y_accum) / ACCEL_SCALE;
-        float z_bias = (listMean(z_accum) + 9.81) / ACCEL_SCALE;
-
-        float x_gyro_bias = listMean(x_gyro_accum) * 100.0f;
-        float y_gyro_bias = listMean(y_gyro_accum) * 100.0f;
-        float z_gyro_bias = listMean(z_gyro_accum) * 100.0f;
-        accels->setMetadata(initialAccelsMdata);
-        gyros->setMetadata(initialGyrosMdata);
-
-        AttitudeSettings::DataFields attitudeSettingsData = AttitudeSettings::GetInstance(getObjectManager())->getData();
-        // We offset the gyro bias by current bias to help precision
-        attitudeSettingsData.AccelBias[0] += x_bias;
-        attitudeSettingsData.AccelBias[1] += y_bias;
-        attitudeSettingsData.AccelBias[2] += z_bias;
-        attitudeSettingsData.GyroBias[0] = -x_gyro_bias;
-        attitudeSettingsData.GyroBias[1] = -y_gyro_bias;
-        attitudeSettingsData.GyroBias[2] = -z_gyro_bias;
-        attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_TRUE;
-        AttitudeSettings::GetInstance(getObjectManager())->setData(attitudeSettingsData);
-        this->setDirty(true);
-
-        // reenable controls
-        enableControls(true);
-    }
-}
-
-void ConfigCCAttitudeWidget::timeout() {
-    UAVDataObject * obj = Accels::GetInstance(getObjectManager());
-    disconnect(obj,SIGNAL(objectUpdated(UAVObject*)),this,SLOT(sensorsUpdated(UAVObject*)));
-    disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
-
-    Accels * accels = Accels::GetInstance(getObjectManager());
-    Gyros * gyros = Gyros::GetInstance(getObjectManager());
-    accels->setMetadata(initialAccelsMdata);
-    gyros->setMetadata(initialGyrosMdata);
-
-    QMessageBox msgBox;
-    msgBox.setText(tr("Calibration timed out before receiving required updates."));
-    msgBox.setStandardButtons(QMessageBox::Ok);
-    msgBox.setDefaultButton(QMessageBox::Ok);
-    msgBox.exec();
-
-    // reset progress indicator
-    ui->zeroBiasProgress->setValue(0); 
-    // reenable controls
-    enableControls(true);
-}
-
-void ConfigCCAttitudeWidget::startAccelCalibration() {
-    // disable controls during sampling
-    enableControls(false);
-
-    accelUpdates = 0;
-    gyroUpdates = 0;
-    x_accum.clear();
-    y_accum.clear();
-    z_accum.clear();
-    x_gyro_accum.clear();
-    y_gyro_accum.clear();
-    z_gyro_accum.clear();
-
-    // Disable gyro bias correction to see raw data
-    AttitudeSettings::DataFields attitudeSettingsData = AttitudeSettings::GetInstance(getObjectManager())->getData();
-    attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_FALSE;
-    AttitudeSettings::GetInstance(getObjectManager())->setData(attitudeSettingsData);
-
-    // Set up to receive updates
-    UAVDataObject * accels = Accels::GetInstance(getObjectManager());
-    UAVDataObject * gyros = Gyros::GetInstance(getObjectManager());
-    connect(accels,SIGNAL(objectUpdated(UAVObject*)),this,SLOT(sensorsUpdated(UAVObject*)));
-    connect(gyros,SIGNAL(objectUpdated(UAVObject*)),this,SLOT(sensorsUpdated(UAVObject*)));
-
-    // Speed up updates
-    initialAccelsMdata = accels->getMetadata();
-    UAVObject::Metadata accelsMdata = initialAccelsMdata;
-    UAVObject::SetFlightTelemetryUpdateMode(accelsMdata, UAVObject::UPDATEMODE_PERIODIC);
-    accelsMdata.flightTelemetryUpdatePeriod = 30; // ms
-    accels->setMetadata(accelsMdata);
-
-    initialGyrosMdata = gyros->getMetadata();
-    UAVObject::Metadata gyrosMdata = initialGyrosMdata;
-    UAVObject::SetFlightTelemetryUpdateMode(gyrosMdata, UAVObject::UPDATEMODE_PERIODIC);
-    gyrosMdata.flightTelemetryUpdatePeriod = 30; // ms
-    gyros->setMetadata(gyrosMdata);
-
-    // Set up timeout timer
-    timer.setSingleShot(true);
-    timer.start(5000 + (NUM_SENSOR_UPDATES * qMax(accelsMdata.flightTelemetryUpdatePeriod,
-                                                  gyrosMdata.flightTelemetryUpdatePeriod)));
-    connect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
 }
 
 void ConfigCCAttitudeWidget::openHelp()
@@ -216,8 +128,8 @@ void ConfigCCAttitudeWidget::openHelp()
 
 void ConfigCCAttitudeWidget::enableControls(bool enable)
 {
-    if(ui->zeroBias)
-        ui->zeroBias->setEnabled(enable);
+    if(ui->levelButton)
+        ui->levelButton->setEnabled(enable);
     ConfigTaskWidget::enableControls(enable);
 }
 
@@ -225,5 +137,58 @@ void ConfigCCAttitudeWidget::updateObjectsFromWidgets()
 {
     ConfigTaskWidget::updateObjectsFromWidgets();
 
-    ui->zeroBiasProgress->setValue(0);
+    ui->levelProgress->setValue(0);
 }
+
+void ConfigCCAttitudeWidget::showEvent(QShowEvent *event)
+{
+    Q_UNUSED(event)
+
+    ui->sixPointHelp->fitInView(paperplane,Qt::KeepAspectRatio);
+}
+
+void ConfigCCAttitudeWidget::resizeEvent(QResizeEvent *event)
+{
+    Q_UNUSED(event)
+
+    ui->sixPointHelp->fitInView(paperplane,Qt::KeepAspectRatio);
+}
+
+/**
+  Rotate the paper plane
+  */
+void ConfigCCAttitudeWidget::displayPlane(int position)
+{
+    QString displayElement;
+    switch(position) {
+    case 1:
+        displayElement = "plane-horizontal";
+        break;
+    case 2:
+        displayElement = "plane-left";
+        break;
+    case 3:
+        displayElement = "plane-flip";
+        break;
+    case 4:
+        displayElement = "plane-right";
+        break;
+    case 5:
+        displayElement = "plane-up";
+        break;
+    case 6:
+        displayElement = "plane-down";
+        break;
+    default:
+        return;
+    }
+
+    paperplane->setElementId(displayElement);
+    ui->sixPointHelp->setSceneRect(paperplane->boundingRect());
+    ui->sixPointHelp->fitInView(paperplane,Qt::KeepAspectRatio);
+}
+
+/**
+ * @}
+ * @}
+ */

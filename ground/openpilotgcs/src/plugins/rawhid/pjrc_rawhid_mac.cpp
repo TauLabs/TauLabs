@@ -85,6 +85,8 @@ pjrc_rawhid::~pjrc_rawhid()
   */
 int pjrc_rawhid::open(int max, int vid, int pid, int usage_page, int usage)
 {
+    Q_UNUSED(max);
+
     CFMutableDictionaryRef dict;
     CFNumberRef num;
     IOReturn ret;
@@ -265,6 +267,8 @@ int pjrc_rawhid::send(int, void *buf, int len, int timeout)
 
 //! Get the serial number for a HID device
 QString pjrc_rawhid::getserial(int num) {
+    Q_UNUSED(num);
+
     QMutexLocker locker(m_readMutex);
     Q_UNUSED(locker);
 
@@ -331,6 +335,10 @@ void pjrc_rawhid::input(uint8_t *data, CFIndex len)
 //! Callback for the HID driver on an input report
 void pjrc_rawhid::input_callback(void *c, IOReturn ret, void *sender, IOHIDReportType type, uint32_t id, uint8_t *data, CFIndex len)
 {
+    Q_UNUSED(sender);
+    Q_UNUSED(type);
+    Q_UNUSED(id);
+
     if (ret != kIOReturnSuccess || len < 1) return;
 
     pjrc_rawhid *context = (pjrc_rawhid *) c;
@@ -383,6 +391,9 @@ void pjrc_rawhid::attach(IOHIDDeviceRef d)
 //! Called from the USB system and forwarded to the instance (context)
 void pjrc_rawhid::attach_callback(void *context, IOReturn r, void *hid_mgr, IOHIDDeviceRef dev)
 {
+    Q_UNUSED(hid_mgr);
+    Q_UNUSED(r);
+
     pjrc_rawhid *p = (pjrc_rawhid*) context;
     p->attach(dev);
 }

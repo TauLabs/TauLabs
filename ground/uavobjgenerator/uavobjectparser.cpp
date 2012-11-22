@@ -477,6 +477,12 @@ QString UAVObjectParser::processObjectFields(QDomNode& childNode, ObjectInfo* in
         }
         else {
             field->numElements = elemAttr.nodeValue().toInt();
+
+            // If the number of elements is still 0, return an error.
+            if(field->numElements==0){
+                return QString("--> " + info->name +"." + field->name + ": elements cannot be 0.");
+            }
+
             for (int n = 0; n < field->numElements; ++n)
                 field->elementNames.append(QString("%1").arg(n));
 
