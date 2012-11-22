@@ -84,15 +84,17 @@ ConfigCCAttitudeWidget::ConfigCCAttitudeWidget(QWidget *parent) :
     connect(ui->sixPointStart, SIGNAL(clicked()), &calibration, SLOT(doStartSixPoint()));
     connect(ui->sixPointSave, SIGNAL(clicked()),  &calibration, SLOT(doSaveSixPointPosition()));
     connect(ui->levelButton ,SIGNAL(clicked()), &calibration, SLOT(doStartLeveling()));
+    connect(ui->sixPointCancel, SIGNAL(clicked()), &calibration ,SLOT(doCancelSixPoint()));
 
     // Let calibration update the UI
     connect(&calibration, SIGNAL(levelingProgressChanged(int)), ui->levelProgress, SLOT(setValue(int)));
     connect(&calibration, SIGNAL(sixPointProgressChanged(int)), ui->sixPointProgress, SLOT(setValue(int)));
-    connect(&calibration, SIGNAL(showSixPointMessage(QString)), ui->sixPointInstructions, SLOT(setText(QString)));
+    connect(&calibration, SIGNAL(showSixPointMessage(QString)), ui->sixPointCalibInstructions, SLOT(setText(QString)));
     connect(&calibration, SIGNAL(toggleControls(bool)), this, SLOT(enableControls(bool)));
 
     // Let the calibration gadget control some control enables
     connect(&calibration, SIGNAL(toggleSavePosition(bool)), ui->sixPointSave, SLOT(setEnabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), ui->sixPointCancel, SLOT(setEnabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), ui->sixPointStart, SLOT(setEnabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), ui->levelButton, SLOT(setEnabled(bool)));
 
