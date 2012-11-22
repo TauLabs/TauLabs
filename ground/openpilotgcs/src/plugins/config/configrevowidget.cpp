@@ -223,6 +223,7 @@ ConfigRevoWidget::ConfigRevoWidget(QWidget *parent) :
     connect(m_ui->accelBiasStart, SIGNAL(clicked()), &calibration, SLOT(doStartLeveling()));
     connect(m_ui->sixPointsStart, SIGNAL(clicked()), &calibration ,SLOT(doStartSixPoint()));
     connect(m_ui->sixPointsSave, SIGNAL(clicked()), &calibration ,SLOT(doSaveSixPointPosition()));
+    connect(m_ui->sixPointsCancel, SIGNAL(clicked()), &calibration ,SLOT(doCancelSixPoint()));
 
     // Let calibration update teh UI
     connect(&calibration, SIGNAL(levelingProgressChanged(int)), m_ui->accelBiasProgress, SLOT(setValue(int)));
@@ -233,6 +234,7 @@ ConfigRevoWidget::ConfigRevoWidget(QWidget *parent) :
     // Let the calibration gadget control some control enables
     connect(&calibration, SIGNAL(toggleSavePosition(bool)), m_ui->sixPointsSave, SLOT(setEnabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->sixPointsStart, SLOT(setEnabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->sixPointsCancel, SLOT(setEnabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->noiseMeasurementStart, SLOT(setEnabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->accelBiasStart, SLOT(setEnabled(bool)));
 

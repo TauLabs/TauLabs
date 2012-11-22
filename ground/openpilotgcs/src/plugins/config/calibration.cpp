@@ -454,6 +454,30 @@ void Calibration::doStartSixPoint()
 
 
 /**
+ * @brief Calibration::doCancelSixPoint Cancels six point calibration and returns all values to their original settings.
+ */
+void Calibration::doCancelSixPoint(){
+    //Return sensor calibration values to their original settings
+    resetSensorCalibrationToOriginalValues();
+
+    connectSensor(ACCEL, false);
+
+    if(calibrateMag) {
+        connectSensor(MAG, false);
+    }
+
+    calibration_state = IDLE;
+    emit toggleControls(true);
+    emit updatePlane(0);
+    emit sixPointProgressChanged(0);
+    disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
+
+    emit showSixPointMessage(tr("Calibration canceled."));
+
+}
+
+
+/**
   * Tells the calibration utility the UAV is in position and to collect data.
   */
 void Calibration::doSaveSixPointPosition()

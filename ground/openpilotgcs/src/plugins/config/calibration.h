@@ -60,6 +60,9 @@ public slots:
     //! Start the six point calibration routine
     void doStartSixPoint();
 
+    //! Cancels the six point calibration routine
+    void doCancelSixPoint();
+
     //! Indicates UAV is in a position to collect data during 6pt calibration
     void doSaveSixPointPosition();
 
