@@ -39,7 +39,7 @@
  */
 SystemHealthGadgetWidget::SystemHealthGadgetWidget(QWidget *parent) : QGraphicsView(parent)
 {
-    setMinimumSize(128,128);
+    setMinimumSize(128,64);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     setScene(new QGraphicsScene(this));
 
