@@ -150,7 +150,7 @@ void LogFile::timerFired()
         int time;
         time = myTime.elapsed();
 
-        // TODO: going back in time will be a problem
+        //Read packets
         while ((lastPlayTime + ((time - lastPlayTimeOffset)* playbackSpeed) > lastTimeStamp))
         {
             lastPlayTime += ((time - lastPlayTimeOffset)* playbackSpeed);
