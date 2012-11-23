@@ -200,7 +200,7 @@ int pjrc_rawhid::open(int max, int vid, int pid, int usage_page, int usage)
 
     start();
 
-    while(attach_count == 0);
+    while(attach_count == 0) ;
 
     qDebug() << "Finished opening";
 
@@ -296,7 +296,7 @@ void pjrc_rawhid::close(int)
 {
     qDebug() << "Close requested";
     close_requested = true;
-    while(device_open);
+    while(device_open) ;
 }
 
 void pjrc_rawhid::close() {
