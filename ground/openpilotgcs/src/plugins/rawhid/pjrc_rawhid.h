@@ -34,6 +34,7 @@
 #include <QDebug>
 #include <QMutex>
 #include <QString>
+#include <QThread>
 #include "rawhid_global.h"
 
 #if defined( Q_OS_MAC)
@@ -91,8 +92,11 @@ struct hid_struct
 
 
 
-
+#if defined(Q_OS_MAC)
+class RAWHID_EXPORT pjrc_rawhid: public QThread
+#else
 class RAWHID_EXPORT pjrc_rawhid: public QObject
+#endif
 {
     Q_OBJECT
 
@@ -121,18 +125,31 @@ private:
      void dettach(IOHIDDeviceRef dev);
      void input(uint8_t *, CFIndex);
 
+     // The local open method using the class vid/pid combination
+     int open();
+
      // Platform specific handles for the USB device
      IOHIDManagerRef hid_manager;
      IOHIDDeviceRef dev;
-     CFRunLoopRef the_correct_runloop;
+     CFRunLoopRef runloop;
      CFRunLoopRef received_runloop;
 
+     void run();
+
      static const int BUFFER_SIZE = 64;
-     uint8_t buffer[BUFFER_SIZE];
+     uint8_t recv_buffer[BUFFER_SIZE];
+     int recv_buffer_count;
+     uint8_t send_buffer[BUFFER_SIZE];
+     int send_buffer_count;
+
      int attach_count;
-     int buffer_count;
      bool device_open;
      bool unplugged;
+
+     int vid;
+     int pid;
+     int usage_page;
+     int usage;
 
      QMutex *m_writeMutex;
      QMutex *m_readMutex;
