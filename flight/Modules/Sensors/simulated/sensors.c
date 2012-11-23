@@ -750,9 +750,10 @@ static void simulateModelAirplane()
 	static uint32_t last_airspeed_time = 0;
 	if(PIOS_DELAY_DiffuS(last_airspeed_time) / 1.0e6 > BARO_PERIOD) {
 		BaroAirspeedData baroAirspeed;
-		baroAirspeed.Connected = BAROAIRSPEED_CONNECTED_TRUE;
-		baroAirspeed.ZeroPoint = 0;
-		baroAirspeed.Airspeed = forwardAirspeed;
+		baroAirspeed.BaroConnected = BAROAIRSPEED_BAROCONNECTED_TRUE;
+		baroAirspeed.CalibratedAirspeed = forwardAirspeed;
+		baroAirspeed.GPSAirspeed = forwardAirspeed;
+		baroAirspeed.TrueAirspeed = forwardAirspeed;
 		BaroAirspeedSet(&baroAirspeed);
 		last_airspeed_time = PIOS_DELAY_GetRaw();
 	}

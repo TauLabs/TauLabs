@@ -7,7 +7,8 @@ INCLUDEPATH += ../../libs/eigen
 
 OTHER_FILES += Config.pluginspec
 
-HEADERS += configplugin.h \
+HEADERS += calibration.h \
+    configplugin.h \
     configgadgetconfiguration.h \
     configgadgetwidget.h \
     configgadgetfactory.h \
@@ -40,7 +41,8 @@ HEADERS += configplugin.h \
     mixercurve.h \
     dblspindelegate.h \
     configautotunewidget.h
-SOURCES += configplugin.cpp \
+SOURCES += calibration.cpp \
+    configplugin.cpp \
     configgadgetconfiguration.cpp \
     configgadgetwidget.cpp \
     configgadgetfactory.cpp \
@@ -55,10 +57,6 @@ SOURCES += configplugin.cpp \
     configccattitudewidget.cpp \
     configstabilizationwidget.cpp \
     configpipxtremewidget.cpp \
-    twostep.cpp \
-    legacy-calibration.cpp \
-    gyro-calibration.cpp \
-    alignment-calibration.cpp \
     defaultattitudewidget.cpp \
     defaulthwsettingswidget.cpp \
     inputchannelform.cpp \

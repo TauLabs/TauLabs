@@ -67,6 +67,8 @@ endif
 
 FLASH_TOOL = OPENOCD
 
+NAVIGATION ?= NO
+
 # Optional module and driver defaults
 USE_CAMERASTAB ?= YES
 USE_COMUSBBRIDGE ?= YES
@@ -106,7 +108,15 @@ OPTMODULES += Autotune
 endif
 
 # List of mandatory modules to include
-MODULES = Attitude Stabilization Actuator ManualControl FirmwareIAP
+ifeq ($(NAVIGATION), YES)
+MODULES += State/coptercontrol
+MODULES += PathFollower
+CFLAGS += -DNAVIGATION
+else
+MODULES += Attitude
+endif
+MODULES += Stabilization Actuator ManualControl FirmwareIAP
+# MODULES += PathFollower/coptercontrol
 # Telemetry must be last to grab the optional modules (why?)
 MODULES += Telemetry
 
@@ -121,6 +131,8 @@ OPTESTS  = ./Tests
 OPMODULEDIR = ../Modules
 FLIGHTLIB = ../Libraries
 FLIGHTLIBINC = $(FLIGHTLIB)/inc
+STATEESTIMATIONLIB = $(FLIGHTLIB)/StateEstimationFilters
+STATEESTIMATIONLIBINC = $(STATEESTIMATIONLIB)/inc
 MATHLIB = ../Libraries/math
 MATHLIBINC = ../Libraries/math
 PIOS = ../PiOS
@@ -223,7 +235,16 @@ SRC += $(OPUAVSYNTHDIR)/mixerstatus.c
 SRC += $(OPUAVSYNTHDIR)/ratedesired.c
 SRC += $(OPUAVSYNTHDIR)/baroaltitude.c
 SRC += $(OPUAVSYNTHDIR)/txpidsettings.c
+SRC += $(OPUAVSYNTHDIR)/fixedwingairspeeds.c
+SRC += $(OPUAVSYNTHDIR)/fixedwingpathfollowerstatus.c
+SRC += $(OPUAVSYNTHDIR)/fixedwingpathfollowersettingscc.c
+SRC += $(OPUAVSYNTHDIR)/pathstatus.c
+SRC += $(OPUAVSYNTHDIR)/pathdesired.c
+SRC += $(OPUAVSYNTHDIR)/homelocation.c
+SRC += $(OPUAVSYNTHDIR)/positionactual.c
+SRC += $(OPUAVSYNTHDIR)/velocityactual.c
 SRC += $(OPUAVSYNTHDIR)/airspeedactual.c
+SRC += $(OPUAVSYNTHDIR)/inertialsensorsettings.c
 
 endif
 
@@ -280,6 +301,11 @@ SRC += $(FLIGHTLIB)/fifo_buffer.c
 SRC += $(FLIGHTLIB)/CoordinateConversions.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
 SRC += $(FLIGHTLIB)/sanitycheck.c
+ifeq ($(NAVIGATION), YES)
+SRC += $(STATEESTIMATIONLIB)/ccc.c
+SRC += $(STATEESTIMATIONLIB)/premerlani_gps.c
+SRC += $(STATEESTIMATIONLIB)/premerlani_dcm.c
+endif
 SRC += $(MATHLIB)/sin_lookup.c
 SRC += $(MATHLIB)/pid.c
 
@@ -382,6 +408,7 @@ EXTRAINCDIRS  += $(OPUAVSYNTHDIR)
 EXTRAINCDIRS  += $(PIOS)
 EXTRAINCDIRS  += $(PIOSINC)
 EXTRAINCDIRS  += $(FLIGHTLIBINC)
+EXTRAINCDIRS  += $(STATEESTIMATIONLIBINC)
 EXTRAINCDIRS  += $(MATHLIBINC)
 EXTRAINCDIRS  += $(PIOSSTM32F10X)
 EXTRAINCDIRS  += $(PIOSCOMMON)
@@ -461,8 +488,11 @@ ifeq ($(USE_I2C), YES)
 CDEFS += -DUSE_I2C
 endif
 
-# Declare all non-optional modules as built-in to force inclusion
-CDEFS += ${foreach MOD, ${MODULES}, -DMODULE_$(MOD)_BUILTIN }
+# Declare all non-optional modules as built-in to force inclusion, strip off any appended varieties of module
+get_mod_name = $(shell echo $(1) | sed "s/\/[^\/]*$///")
+BUILTIN_DEFS := ${foreach MOD, ${MODULES}, -DMODULE_$(call get_mod_name, $(MOD))_BUILTIN }
+CDEFS += ${BUILTIN_DEFS}
+
 
 # Place project-specific -D and/or -U options for
 # Assembler with preprocessor here.

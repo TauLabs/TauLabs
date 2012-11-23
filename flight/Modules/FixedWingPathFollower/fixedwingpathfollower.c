@@ -120,7 +120,8 @@ int32_t FixedWingPathFollowerInitialize()
 	HwSettingsOptionalModulesGet(optionalModules);
 	if (optionalModules[HWSETTINGS_OPTIONALMODULES_FIXEDWINGPATHFOLLOWER] == HWSETTINGS_OPTIONALMODULES_ENABLED) {
 		followerEnabled = true;
-		FixedWingPathFollowerSettingsInitialize();
+		FixedWingPathFollowerRevolutionSettingsInitialize();
+		FixedWingAirspeedsInitialize();
 		FixedWingPathFollowerStatusInitialize();
 		PathDesiredInitialize();
 		PathStatusInitialize();
@@ -193,7 +194,7 @@ static void pathfollowerTask(void *parameters)
 		// Check the combinations of flightmode and pathdesired mode
 		switch(flightStatus.FlightMode) {
 			case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
-			case FLIGHTSTATUS_FLIGHTMODE_RETURNTOBASE:
+			case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
 				if (pathDesired.Mode == PATHDESIRED_MODE_FLYENDPOINT) {
 					updatePathVelocity();
 					result = updateFixedDesiredAttitude();

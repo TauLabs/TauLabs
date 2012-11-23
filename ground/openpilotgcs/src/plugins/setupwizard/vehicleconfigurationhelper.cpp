@@ -29,7 +29,7 @@
 #include "extensionsystem/pluginmanager.h"
 #include "hwsettings.h"
 #include "actuatorsettings.h"
-#include "attitudesettings.h"
+#include "inertialsensorsettings.h"
 #include "mixersettings.h"
 #include "systemsettings.h"
 #include "manualcontrolsettings.h"
@@ -295,19 +295,19 @@ void VehicleConfigurationHelper::applyLevellingConfiguration()
     if(m_configSource->isLevellingPerformed())
     {
         accelGyroBias bias = m_configSource->getLevellingBias();
-        AttitudeSettings* attitudeSettings = AttitudeSettings::GetInstance(m_uavoManager);
-        Q_ASSERT(attitudeSettings);
-        AttitudeSettings::DataFields data = attitudeSettings->getData();
+        InertialSensorSettings* inertialSensorSettings = InertialSensorSettings::GetInstance(m_uavoManager);
+        Q_ASSERT(inertialSensorSettings);
+        InertialSensorSettings::DataFields inertialSensorSettingsData = inertialSensorSettings->getData();
 
-        data.AccelBias[0] += bias.m_accelerometerXBias;
-        data.AccelBias[1] += bias.m_accelerometerYBias;
-        data.AccelBias[2] += bias.m_accelerometerZBias;
-        data.GyroBias[0] = -bias.m_gyroXBias;
-        data.GyroBias[1] = -bias.m_gyroYBias;
-        data.GyroBias[2] = -bias.m_gyroZBias;
+        inertialSensorSettingsData.AccelBias[0] += bias.m_accelerometerXBias;
+        inertialSensorSettingsData.AccelBias[1] += bias.m_accelerometerYBias;
+        inertialSensorSettingsData.AccelBias[2] += bias.m_accelerometerZBias;
+        inertialSensorSettingsData.InitialGyroBias[0] = -bias.m_gyroXBias;
+        inertialSensorSettingsData.InitialGyroBias[1] = -bias.m_gyroYBias;
+        inertialSensorSettingsData.InitialGyroBias[2] = -bias.m_gyroZBias;
 
-        attitudeSettings->setData(data);
-        addModifiedObject(attitudeSettings, tr("Writing gyro and accelerometer bias settings"));
+        inertialSensorSettings->setData(inertialSensorSettingsData);
+        addModifiedObject(inertialSensorSettings, tr("Writing gyro and accelerometer bias settings"));
     }
 }
 
@@ -315,7 +315,6 @@ void VehicleConfigurationHelper::applyStabilizationConfiguration()
 {
     StabilizationSettings *stabSettings = StabilizationSettings::GetInstance(m_uavoManager);
     Q_ASSERT(stabSettings);
-    StabilizationSettings::DataFields data = stabSettings->getData();
 
     StabilizationSettings defaultSettings;
     stabSettings->setData(defaultSettings.getData());

@@ -200,7 +200,7 @@ static void vtolPathFollowerTask(void *parameters)
 		// Check the combinations of flightmode and pathdesired mode
 		switch(flightStatus.FlightMode) {
 			case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
-			case FLIGHTSTATUS_FLIGHTMODE_RETURNTOBASE:
+			case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
 				if (pathDesired.Mode == PATHDESIRED_MODE_FLYENDPOINT) {
 					updateEndpointVelocity();
 					updateVtolDesiredAttitude();

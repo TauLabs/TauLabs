@@ -105,6 +105,8 @@ void TreeItem::apply() {
 }
 
 void TreeItem::setHighlight(bool highlight) {
+    Q_UNUSED(highlight);
+
     //m_highlight = highlight;
     m_changed = false;
 }

@@ -1,5 +1,6 @@
 import Qt 4.7
 import "."
+import org.OpenPilot 1.0
 
 Rectangle {
     color: "#666666"
@@ -41,6 +42,28 @@ Rectangle {
             }
 
             SvgElementImage {
+                id: roll_desired
+
+                elementName: "roll-desired"
+                sceneSize: background.sceneSize
+
+                smooth: true
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: rollscale.top
+
+                //rotate it around the center of scene
+                transform: Rotation {
+                    angle: StabilizationDesired.Roll-AttitudeActual.Roll
+                    origin.x : sceneItem.width/2 - x
+                    origin.y : sceneItem.height/2 - y
+                }
+
+                //hide if not set
+                opacity: StabilizationDesired.Roll == 0 ? 0 : 1
+                Behavior on opacity { NumberAnimation { duration: 1000 } }
+            }
+
+            SvgElementImage {
                 id: foreground
                 elementName: "foreground"
                 sceneSize: background.sceneSize
@@ -54,15 +77,11 @@ Rectangle {
                 sceneSize: background.sceneSize
                 smooth: true
 
-                property real sideSlip: Accels.y
-                //smooth side slip changes, a low pass filter replacement
-                //accels are updated once per second
-                Behavior on sideSlip {
-                    SmoothedAnimation {
-                        duration: 1000
-                        velocity: -1
-                    }
+                LowPassFilter {
+                    id: accelsYfiltered
+                    input: Accels.y
                 }
+                property real sideSlip: accelsYfiltered.value
 
                 anchors.horizontalCenter: foreground.horizontalCenter
                 //0.5 coefficient is empirical to limit indicator movement
