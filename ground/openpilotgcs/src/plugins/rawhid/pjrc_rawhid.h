@@ -127,6 +127,7 @@ private:
 
      // The local open method using the class vid/pid combination
      int open();
+     void close();
 
      // Platform specific handles for the USB device
      IOHIDManagerRef hid_manager;
@@ -145,14 +146,13 @@ private:
      int attach_count;
      bool device_open;
      bool unplugged;
+     bool close_requested;
 
      int vid;
      int pid;
      int usage_page;
      int usage;
 
-     QMutex *m_writeMutex;
-     QMutex *m_readMutex;
 #elif defined(Q_OS_UNIX)
 
     hid_t *first_hid;
