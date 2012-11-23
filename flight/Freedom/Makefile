@@ -317,6 +317,12 @@ ifeq ($(ENABLE_DEBUG_CONSOLE), YES)
 CDEFS += -DPIOS_INCLUDE_DEBUG_CONSOLE
 endif
 
+
+# Declare all non-optional modules as built-in to force inclusion, strip off any appended varieties of module
+get_mod_name = $(shell echo $(1) | sed "s/\/[^\/]*$///")
+BUILTIN_DEFS := ${foreach MOD, ${MODULES}, -DMODULE_$(call get_mod_name, $(MOD))_BUILTIN }
+CDEFS += ${BUILTIN_DEFS}
+
 # Place project-specific -D and/or -U options for
 # Assembler with preprocessor here.
 #ADEFS = -DUSE_IRQ_ASM_WRAPPER
