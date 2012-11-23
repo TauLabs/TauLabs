@@ -1,10 +1,10 @@
 #####
-# Project: OpenPilot RevoMini
+# Project: PhoenixPilot Freedom
 #
 #
-# Makefile for OpenPilot RevoMini project
+# Makefile for PhoenixPilot Freedom project
 #
-# The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2012.
+# The PhoenixPilot Team, Copyright (C) 2012.
 #
 #
 # This program is free software; you can redistribute it and/or modify

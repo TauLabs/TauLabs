@@ -1,13 +1,13 @@
 /**
  ******************************************************************************
- * @addtogroup Revolution Revolution configuration files
+ * @addtogroup Freedom Freedom configuration files
  * @{
- * @brief Configures the revolution board
+ * @brief Configures the Freedom board
  * @{
  *
  * @file       pios_board.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @brief      Defines board specific static initializers for hardware for the Revolution board.
+ * @author     The PhoenixPilot Team, Copyright (C) 2012.
+ * @brief      Defines board specific static initializers for hardware for the Freedom board.
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
