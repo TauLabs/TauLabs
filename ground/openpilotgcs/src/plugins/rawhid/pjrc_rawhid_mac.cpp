@@ -222,16 +222,13 @@ int pjrc_rawhid::receive(int, void *buf, int len, int timeout)
 
     // If no data either wait for it or the timeout
     if (recv_buffer_count == 0) {
-        qDebug() << "Waiting for data " << timeout;
         QEventLoop el;
         QTimer::singleShot(timeout, &el, SLOT(quit()));
         connect(this,SIGNAL(receiveComplete(int)), &el, SLOT(quit()));
         el.exec();
-        qDebug() << "Done waiting";
     }
 
     if (recv_buffer_count != 0) {
-        qDebug() << "Found data";
         if (len > recv_buffer_count) len = recv_buffer_count;
         memcpy(buf, recv_buffer, len);
         recv_buffer_count = 0;
@@ -248,6 +245,9 @@ int pjrc_rawhid::receive(int, void *buf, int len, int timeout)
  * @param[in] len number of bytes to transmit
  * @param[in] timeout = time to wait, in milliseconds
  * @returns number of bytes sent, or -1 on error
+ *
+ * @Note: This method must be run from a thread running an event
+ * a QT Event loop to receive the timeout signals
  */
 int pjrc_rawhid::send(int, void *buf, int len, int timeout)
 {
@@ -255,9 +255,15 @@ int pjrc_rawhid::send(int, void *buf, int len, int timeout)
         return -1;
     }
 
-    while(send_buffer_count != 0) {
-        // TODO: Check for timeout
+    if (send_buffer_count != 0) {
+        QEventLoop el;
+        QTimer::singleShot(timeout, &el, SLOT(quit()));
+        connect(this,SIGNAL(sendComplete(int)), &el, SLOT(quit()));
+        el.exec();
     }
+
+    if (send_buffer_count != 0)
+        return -1;
 
     memcpy(&send_buffer[0], buf, len);
     send_buffer_count = len;
