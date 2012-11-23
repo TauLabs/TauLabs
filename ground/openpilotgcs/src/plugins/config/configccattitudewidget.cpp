@@ -103,7 +103,6 @@ ConfigCCAttitudeWidget::ConfigCCAttitudeWidget(QWidget *parent) :
     connect(&calibration, SIGNAL(sixPointProgressChanged(int)), ui->sixPointProgress, SLOT(setValue(int)));
     connect(&calibration, SIGNAL(showSixPointMessage(QString)), ui->sixPointCalibInstructions, SLOT(setText(QString)));
     connect(&calibration, SIGNAL(updatePlane(int)), this, SLOT(displayPlane(int)));
-//    connect(&calibration, SIGNAL(toggleControls(bool)), this, SLOT(enableControls(bool))); //<-- Is this necessary?
 
     // Let the calibration gadget control some control enables
     connect(&calibration, SIGNAL(toggleSavePosition(bool)), ui->sixPointSave, SLOT(setEnabled(bool)));
