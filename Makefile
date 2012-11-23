@@ -573,6 +573,27 @@ uavobjects_clean:
 	$(V0) @echo " CLEAN      $@"
 	$(V1) [ ! -d "$(UAVOBJ_OUT_DIR)" ] || $(RM) -r "$(UAVOBJ_OUT_DIR)"
 
+##############################
+#
+# Matlab related components
+#
+##############################
+
+MATLAB_OUT_DIR := $(BUILD_DIR)/matlab
+$(MATLAB_OUT_DIR):
+	$(V1) mkdir -p $@
+
+FORCE:
+$(MATLAB_OUT_DIR)/OPLogConvert.m: $(MATLAB_OUT_DIR) uavobjects_matlab FORCE
+	$(V1) python $(ROOT_DIR)/make/scripts/version-info.py \
+		--path=$(ROOT_DIR) \
+		--template=$(BUILD_DIR)/uavobject-synthetics/matlab/OPLogConvert.m.pass1 \
+		--outfile=$@ \
+		--uavodir=$(ROOT_DIR)/shared/uavobjectdefinition
+
+.PHONY: matlab
+matlab: uavobjects_matlab $(MATLAB_OUT_DIR)/OPLogConvert.m
+
 ################################
 #
 # Android GCS related components
