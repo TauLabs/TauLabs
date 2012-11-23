@@ -886,6 +886,7 @@ osd_friendly           := OSD
 coptercontrol_short    := 'cc  '
 pipxtreme_short        := 'pipx'
 revolution_short       := 'revo'
+revomini_short         := 'rm  '
 freedom_short          := 'free'
 simposix_short         := 'posx'
 osd_short              := 'osd '
