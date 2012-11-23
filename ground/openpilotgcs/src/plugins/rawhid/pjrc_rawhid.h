@@ -153,6 +153,10 @@ private:
      int usage_page;
      int usage;
 
+signals:
+     void sendComplete(int bytes);
+     void receiveComplete(int bytes);
+
 #elif defined(Q_OS_UNIX)
 
     hid_t *first_hid;

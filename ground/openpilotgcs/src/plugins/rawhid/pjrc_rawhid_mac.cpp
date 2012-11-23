@@ -165,8 +165,9 @@ void pjrc_rawhid::run() {
         while (CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, true) == kCFRunLoopRunHandledSource) ;
 
         // If pending send requests then send them
-        if (send_buffer_count != 0) {
+        if (send_buffer_count != 0 && !unplugged) {
             IOHIDDeviceSetReport(dev, kIOHIDReportTypeOutput, 2, send_buffer, send_buffer_count);
+            emit sendComplete(send_buffer_count);
             send_buffer_count = 0;
         }
 
@@ -216,30 +217,28 @@ int pjrc_rawhid::open(int max, int vid, int pid, int usage_page, int usage)
  */
 int pjrc_rawhid::receive(int, void *buf, int len, int timeout)
 {
-    QTimer timer;
-    timer.setSingleShot(true);
-    timer.start(50);
-
-    // Run the CFRunLoop until either a timeout or data is available
-    while(device_open) {
-        if (recv_buffer_count != 0) {
-            if (len > recv_buffer_count) len = recv_buffer_count;
-            memcpy(buf, recv_buffer, len);
-            recv_buffer_count = 0;
-            break;
-        }
-
-        // Check for timeout
-        if (!timer.isActive()) {
-            qDebug() << "Expired";
-            return -1;
-        }
-    }
-
     if (!device_open)
         return -1;
 
-    return len;
+    // If no data either wait for it or the timeout
+    if (recv_buffer_count == 0) {
+        qDebug() << "Waiting for data " << timeout;
+        QEventLoop el;
+        QTimer::singleShot(timeout, &el, SLOT(quit()));
+        connect(this,SIGNAL(receiveComplete(int)), &el, SLOT(quit()));
+        el.exec();
+        qDebug() << "Done waiting";
+    }
+
+    if (recv_buffer_count != 0) {
+        qDebug() << "Found data";
+        if (len > recv_buffer_count) len = recv_buffer_count;
+        memcpy(buf, recv_buffer, len);
+        recv_buffer_count = 0;
+        return len;
+    }
+
+    return -1;
 }
 
 /**
@@ -331,6 +330,8 @@ void pjrc_rawhid::input(uint8_t *data, CFIndex len)
     // Note: packet preprocessing done in OS independent code
     memcpy(recv_buffer, &data[0], len);
     recv_buffer_count = len;
+
+    emit receiveComplete(len);
 }
 
 //! Callback for the HID driver on an input report
