@@ -86,17 +86,10 @@
       <string>Six Point Calibration (not required for multirotor)</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_7">
-      <item row="3" column="3">
-       <widget class="QPushButton" name="sixPointCancel">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="text">
-         <string>Cancel</string>
-        </property>
-       </widget>
+      <item row="0" column="1" colspan="4">
+       <widget class="QTextEdit" name="sixPointCalibInstructions"/>
       </item>
-      <item row="3" column="2">
+      <item row="3" column="3">
        <widget class="QPushButton" name="sixPointSave">
         <property name="enabled">
          <bool>false</bool>
@@ -126,7 +119,7 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="0" colspan="2">
+      <item row="0" column="0">
        <widget class="QGraphicsView" name="sixPointHelp">
         <property name="toolTip">
          <string>Nice paper plane, eh?</string>
@@ -136,13 +129,20 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="2" colspan="2">
-       <widget class="QTextEdit" name="sixPointCalibInstructions"/>
-      </item>
-      <item row="1" column="0" colspan="4">
+      <item row="1" column="0" colspan="5">
        <widget class="QProgressBar" name="sixPointProgress">
         <property name="value">
          <number>0</number>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QPushButton" name="sixPointCancel">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Cancel</string>
         </property>
        </widget>
       </item>
