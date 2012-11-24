@@ -32,7 +32,7 @@
 #define SYSTEMALARMS_ALARM_DEFAULT SYSTEMALARMS_ALARM_UNINITIALISED
 
 int32_t AlarmsInitialize(void);
-int32_t AlarmsSet(SystemAlarmsAlarmElem alarm, SystemAlarmsAlarmOptions severity);
+int32_t AlarmsSet(SystemAlarmsAlarmElem alarm, SystemAlarmsAlarmOptions severity, SystemAlarmsErrorCodeElem code);
 SystemAlarmsAlarmOptions AlarmsGet(SystemAlarmsAlarmElem alarm);
 int32_t AlarmsDefault(SystemAlarmsAlarmElem alarm);
 void AlarmsDefaultAll();
@@ -41,6 +41,10 @@ void AlarmsClearAll();
 int32_t AlarmsHasWarnings();
 int32_t AlarmsHasErrors();
 int32_t AlarmsHasCritical();
+
+#if SYSTEMALARMS_ERRORCODE_NUMELEM!=SYSTEMALARMS_ALARM_NUMELEM
+#error System alarms do not match.
+#endif
 
 #endif // ALARMS_H
 

@@ -261,7 +261,7 @@ static void manualControlTask(void *parameters)
 					cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] == (uint16_t) PIOS_RCVR_INVALID ||
 					cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] == (uint16_t) PIOS_RCVR_NODRIVER))) {
 
-				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
+				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL, 0);
 				cmd.Connected = MANUALCONTROLCOMMAND_CONNECTED_FALSE;
 				ManualControlCommandSet(&cmd);
 
@@ -298,7 +298,7 @@ static void manualControlTask(void *parameters)
 				//cmd.FlightMode = MANUALCONTROLCOMMAND_FLIGHTMODE_AUTO; // don't do until AUTO implemented and functioning
 				// Important: Throttle < 0 will reset Stabilization coefficients among other things. Either change this,
 				// or leave throttle at IDLE speed or above when going into AUTO-failsafe.
-				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
+				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING, 0);
 				
 				AccessoryDesiredData accessory;
 				// Set Accessory 0
@@ -306,21 +306,21 @@ static void manualControlTask(void *parameters)
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 					accessory.AccessoryVal = 0;
 					if(AccessoryDesiredInstSet(0, &accessory) != 0)
-						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
+						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING, 0);
 				}
 				// Set Accessory 1
 				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY1] != 
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 					accessory.AccessoryVal = 0;
 					if(AccessoryDesiredInstSet(1, &accessory) != 0)
-						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
+						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING, 0);
 				}
 				// Set Accessory 2
 				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY2] != 
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 					accessory.AccessoryVal = 0;
 					if(AccessoryDesiredInstSet(2, &accessory) != 0)
-						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
+						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING, 0);
 				}
 
 			} else if (valid_input_detected) {
@@ -351,21 +351,21 @@ static void manualControlTask(void *parameters)
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 					accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY0];
 					if(AccessoryDesiredInstSet(0, &accessory) != 0)
-						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
+						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING, 0);
 				}
 				// Set Accessory 1
 				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY1] != 
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 					accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY1];
 					if(AccessoryDesiredInstSet(1, &accessory) != 0)
-						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
+						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING, 0);
 				}
 				// Set Accessory 2
 				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY2] != 
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 					accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY2];
 					if(AccessoryDesiredInstSet(2, &accessory) != 0)
-						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
+						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING, 0);
 				}
 
 				processFlightMode(&settings, flightMode);
@@ -398,7 +398,7 @@ static void manualControlTask(void *parameters)
 		switch(PARSE_FLIGHT_MODE(flightStatus.FlightMode)) {
 			case FLIGHTMODE_UNDEFINED:
 				// This reflects a bug in the code architecture!
-				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
+				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL, 0);
 				break;
 			case FLIGHTMODE_MANUAL:
 				updateActuatorDesired(&cmd);
@@ -422,7 +422,7 @@ static void manualControlTask(void *parameters)
 						updatePathDesired(&cmd, lastFlightMode != flightStatus.FlightMode, true);
 						break;
 					default:
-						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
+						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL, 0);
 				}
 				break;
 		}
@@ -603,7 +603,7 @@ static void updateStabilizationDesired(ManualControlCommandData * cmd, ManualCon
 			break;
 		default:
 			// Major error, this should not occur because only enter this block when one of these is true
-			AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
+			AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL, 0);
 			return;
 	}
 
@@ -743,7 +743,7 @@ static void altitudeHoldDesired(ManualControlCommandData * cmd, bool flightModeC
 #else
 static void altitudeHoldDesired(ManualControlCommandData * cmd, bool flightModeChanged)
 {
-	AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_ERROR);
+	AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_ERROR, 0);
 }
 #endif
 /**

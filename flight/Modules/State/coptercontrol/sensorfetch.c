@@ -73,8 +73,7 @@ int8_t getSensorsCC(float *prelim_accels, float *prelim_gyros, xQueueHandle * gy
 	// Only wait the time for two nominal updates before setting an alarm
 	if (xQueueReceive(*gyro_queue, (void *const)gyro, LOOP_RATE_MS * 2) ==
 	    errQUEUE_EMPTY) {
-		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,
-			  SYSTEMALARMS_ALARM_ERROR);
+		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_ERROR, 0);
 		return -1;
 	}
 	// Do not read raw sensor data in simulation mode

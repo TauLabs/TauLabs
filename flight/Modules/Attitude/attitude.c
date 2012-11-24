@@ -180,7 +180,7 @@ static void AttitudeTask(void *parameters)
 	
 	// Set critical error and wait until the accel is producing data
 	while(PIOS_ADXL345_FifoElements() == 0) {
-		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_CRITICAL);
+		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_CRITICAL, 0);
 		PIOS_WDG_UpdateFlag(PIOS_WDG_ATTITUDE);
 	}
 	
@@ -252,7 +252,7 @@ static void AttitudeTask(void *parameters)
 
 		// Only update attitude when sensor data is good
 		if (retval != 0)
-			AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_ERROR);
+			AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_ERROR, 0);
 		else {
 			// Do not update attitude data in simulation mode
 			if (!AttitudeActualReadOnly())
@@ -275,7 +275,7 @@ static int32_t updateSensors(AccelsData * accels, GyrosData * gyros)
 	
 	// Only wait the time for two nominal updates before setting an alarm
 	if(xQueueReceive(gyro_queue, (void * const) gyro, UPDATE_RATE * 2) == errQUEUE_EMPTY) {
-		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_ERROR);
+		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_ERROR, 0);
 		return -1;
 	}
 

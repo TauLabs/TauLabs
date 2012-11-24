@@ -136,7 +136,7 @@ int32_t configuration_check()
 
 	// TODO: Check on a multirotor no axis supports "None"
 	if(status != SYSTEMALARMS_ALARM_OK)
-		AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, status);
+		AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, status, 0);
 	else
 		AlarmsClear(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION);
 

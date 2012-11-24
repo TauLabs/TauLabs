@@ -114,7 +114,7 @@ int32_t GPSStart(void)
 			return 0;
 		}
 
-		AlarmsSet(SYSTEMALARMS_ALARM_GPS, SYSTEMALARMS_ALARM_CRITICAL);
+		AlarmsSet(SYSTEMALARMS_ALARM_GPS, SYSTEMALARMS_ALARM_CRITICAL, 0);
 	}
 	return -1;
 }
@@ -257,7 +257,7 @@ static void gpsTask(void *parameters)
 			// either the GPS is not plugged in or a hardware problem or the GPS has locked up.
 			uint8_t status = GPSPOSITION_STATUS_NOGPS;
 			GPSPositionStatusSet(&status);
-			AlarmsSet(SYSTEMALARMS_ALARM_GPS, SYSTEMALARMS_ALARM_ERROR);
+			AlarmsSet(SYSTEMALARMS_ALARM_GPS, SYSTEMALARMS_ALARM_ERROR, 0);
 		} else {
 			// we appear to be receiving GPS sentences OK, we've had an update
 			//criteria for GPS-OK taken from this post...
@@ -273,9 +273,9 @@ static void gpsTask(void *parameters)
 					setHomeLocation(&gpsposition);
 #endif
 			} else if (gpsposition.Status == GPSPOSITION_STATUS_FIX3D)
-						AlarmsSet(SYSTEMALARMS_ALARM_GPS, SYSTEMALARMS_ALARM_WARNING);
+						AlarmsSet(SYSTEMALARMS_ALARM_GPS, SYSTEMALARMS_ALARM_WARNING, 0);
 					else
-						AlarmsSet(SYSTEMALARMS_ALARM_GPS, SYSTEMALARMS_ALARM_CRITICAL);
+						AlarmsSet(SYSTEMALARMS_ALARM_GPS, SYSTEMALARMS_ALARM_CRITICAL, 0);
 		}
 
 	}

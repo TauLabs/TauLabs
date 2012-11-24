@@ -177,25 +177,25 @@ static void onTimer(UAVObjEvent* ev)
 	{ 
 		//FIXME: There's no guarantee that a floating ADC will give 0. So this 
 		// check might fail, even when there's nothing attached.
-		AlarmsSet(SYSTEMALARMS_ALARM_BATTERY, SYSTEMALARMS_ALARM_ERROR);
-		AlarmsSet(SYSTEMALARMS_ALARM_FLIGHTTIME, SYSTEMALARMS_ALARM_ERROR);
+		AlarmsSet(SYSTEMALARMS_ALARM_BATTERY, SYSTEMALARMS_ALARM_ERROR, 0);
+		AlarmsSet(SYSTEMALARMS_ALARM_FLIGHTTIME, SYSTEMALARMS_ALARM_ERROR, 0);
 	}
 	else
 	{
 		// FIXME: should make the timer alarms user configurable
 		if (flightBatteryData.EstimatedFlightTime < 30) 
-			AlarmsSet(SYSTEMALARMS_ALARM_FLIGHTTIME, SYSTEMALARMS_ALARM_CRITICAL);
+			AlarmsSet(SYSTEMALARMS_ALARM_FLIGHTTIME, SYSTEMALARMS_ALARM_CRITICAL, 0);
 		else if (flightBatteryData.EstimatedFlightTime < 120) 
-			AlarmsSet(SYSTEMALARMS_ALARM_FLIGHTTIME, SYSTEMALARMS_ALARM_WARNING);
+			AlarmsSet(SYSTEMALARMS_ALARM_FLIGHTTIME, SYSTEMALARMS_ALARM_WARNING, 0);
 		else 
 			AlarmsClear(SYSTEMALARMS_ALARM_FLIGHTTIME);
 
 		// FIXME: should make the battery voltage detection dependent on battery type. 
 		/*Not so sure. Some users will want to run their batteries harder than others, so it should be the user's choice. [KDS]*/
 		if (flightBatteryData.Voltage < batterySettings.VoltageThresholds[FLIGHTBATTERYSETTINGS_VOLTAGETHRESHOLDS_ALARM])
-			AlarmsSet(SYSTEMALARMS_ALARM_BATTERY, SYSTEMALARMS_ALARM_CRITICAL);
+			AlarmsSet(SYSTEMALARMS_ALARM_BATTERY, SYSTEMALARMS_ALARM_CRITICAL, 0);
 		else if (flightBatteryData.Voltage < batterySettings.VoltageThresholds[FLIGHTBATTERYSETTINGS_VOLTAGETHRESHOLDS_WARNING])
-			AlarmsSet(SYSTEMALARMS_ALARM_BATTERY, SYSTEMALARMS_ALARM_WARNING);
+			AlarmsSet(SYSTEMALARMS_ALARM_BATTERY, SYSTEMALARMS_ALARM_WARNING, 0);
 		else 
 			AlarmsClear(SYSTEMALARMS_ALARM_BATTERY);
 	}

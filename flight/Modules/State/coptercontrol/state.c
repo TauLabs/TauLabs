@@ -219,7 +219,7 @@ static void StateTask(void *parameters)
 	//THIS IS BOARD SPECIFIC AND DOES NOT BELONG HERE. Can we put it in #if
 	//defined(PIOS_INCLUDE_ADXL345)?
 	while (PIOS_ADXL345_FifoElements() == 0) {
-		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_CRITICAL);
+		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_CRITICAL, 0);
 		PIOS_WDG_UpdateFlag(PIOS_WDG_ATTITUDE);
 	}
 
@@ -328,7 +328,7 @@ static void StateTask(void *parameters)
 		
 		// Only update attitude when sensor data is good
 		if (retval != 0)
-			AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_ERROR);
+			AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_ERROR, 0);
 		else {
 			// Do not update attitude data in simulation mode
 			if (!AttitudeActualReadOnly()) {
