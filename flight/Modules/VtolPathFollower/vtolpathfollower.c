@@ -263,7 +263,7 @@ static void updatePathVelocity()
 	float cur[3] = {positionActual.North, positionActual.East, positionActual.Down};
 	struct path_status progress;
 	
-	path_progress(pathDesired.Start, pathDesired.End, cur, &progress, PATHDESIRED_MODE_FLYVECTOR);
+	path_progress(&pathDesired, cur, &progress);
 	
 	// Update the path status UAVO
 	PathStatusData pathStatus;
