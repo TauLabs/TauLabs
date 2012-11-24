@@ -170,8 +170,8 @@ static void checkTerminationCondition()
 	PositionActualData positionActual;
 	PathDesiredData pathDesired;
 
-	switch(waypoint.Action) {
-		case WAYPOINT_ACTION_ENDPOINTTONEXT:
+	switch(waypoint.Mode) {
+		case WAYPOINT_MODE_FLYENDPOINT:
 			PositionActualGet(&positionActual);
 
 			float r2 = powf(positionActual.North - waypoint.Position[WAYPOINT_POSITION_NORTH], 2) +
@@ -184,7 +184,7 @@ static void checkTerminationCondition()
 
 			break;
 
-		case WAYPOINT_ACTION_PATHTONEXT:
+		case WAYPOINT_MODE_FLYVECTOR:
 
 			PathDesiredGet(&pathDesired);
 			PositionActualGet(&positionActual);
@@ -201,7 +201,7 @@ static void checkTerminationCondition()
 				advanceWaypoint();
 
 			break;
-		case WAYPOINT_ACTION_STOP:
+		case WAYPOINT_MODE_STOP:
 			// Never advance even when you hit a stop waypoint
 			break;
 	}
@@ -225,17 +225,17 @@ static void activateWaypoint(int idx)
 {	
 	active_waypoint = idx;
 
-	uint8_t waypoint_mode = WAYPOINT_ACTION_PATHTONEXT;
+	uint8_t waypoint_mode = WAYPOINT_MODE_FLYVECTOR;
 	if (idx > 0) {
 		WaypointData prevWaypoint;
 		WaypointInstGet(idx - 1, &prevWaypoint);
-		waypoint_mode = prevWaypoint.Action;
+		waypoint_mode = prevWaypoint.Mode;
 	}
 
 	PathDesiredData pathDesired;
 
 	switch(waypoint_mode) {
-		case WAYPOINT_ACTION_ENDPOINTTONEXT:
+		case WAYPOINT_MODE_FLYENDPOINT:
 		{
 			WaypointInstGet(idx, &waypoint);
 
@@ -243,11 +243,11 @@ static void activateWaypoint(int idx)
 			pathDesired.End[PATHDESIRED_END_NORTH] = waypoint.Position[WAYPOINT_POSITION_NORTH];
 			pathDesired.End[PATHDESIRED_END_EAST] = waypoint.Position[WAYPOINT_POSITION_EAST];
 			pathDesired.End[PATHDESIRED_END_DOWN] = -waypoint.Position[WAYPOINT_POSITION_DOWN];
-			pathDesired.Mode = PATHDESIRED_MODE_ENDPOINT;
+			pathDesired.Mode = PATHDESIRED_MODE_FLYENDPOINT;
 			PathDesiredSet(&pathDesired);
 		}
 			break;
-		case WAYPOINT_ACTION_PATHTONEXT:
+		case WAYPOINT_MODE_FLYVECTOR:
 		{
 			WaypointInstGet(idx, &waypoint);
 
@@ -256,9 +256,8 @@ static void activateWaypoint(int idx)
 			pathDesired.End[PATHDESIRED_END_NORTH] = waypoint.Position[WAYPOINT_POSITION_NORTH];
 			pathDesired.End[PATHDESIRED_END_EAST] = waypoint.Position[WAYPOINT_POSITION_EAST];
 			pathDesired.End[PATHDESIRED_END_DOWN] = waypoint.Position[WAYPOINT_POSITION_DOWN];
-			pathDesired.Mode = PATHDESIRED_MODE_PATH;
-			pathDesired.EndingVelocity = sqrtf(powf(waypoint.Velocity[WAYPOINT_VELOCITY_NORTH],2) + 
-											   powf(waypoint.Velocity[WAYPOINT_VELOCITY_EAST],2));
+			pathDesired.Mode = PATHDESIRED_MODE_FLYVECTOR;
+			pathDesired.EndingVelocity = waypoint.Velocity;
 
 			if(waypointActive.Index == 0) {
 				// Get current position as start point
@@ -268,7 +267,7 @@ static void activateWaypoint(int idx)
 				pathDesired.Start[PATHDESIRED_START_NORTH] = positionActual.North;
 				pathDesired.Start[PATHDESIRED_START_EAST] = positionActual.East;
 				pathDesired.Start[PATHDESIRED_START_DOWN] = positionActual.Down - 1;
-				pathDesired.StartingVelocity = pathDesired.EndingVelocity;
+				pathDesired.StartingVelocity = waypoint.Velocity;
 			} else {
 				// Get previous waypoint as start point
 				WaypointData waypointPrev;
@@ -277,8 +276,7 @@ static void activateWaypoint(int idx)
 				pathDesired.Start[PATHDESIRED_END_NORTH] = waypointPrev.Position[WAYPOINT_POSITION_NORTH];
 				pathDesired.Start[PATHDESIRED_END_EAST] = waypointPrev.Position[WAYPOINT_POSITION_EAST];
 				pathDesired.Start[PATHDESIRED_END_DOWN] = waypointPrev.Position[WAYPOINT_POSITION_DOWN];
-				pathDesired.StartingVelocity = sqrtf(powf(waypointPrev.Velocity[WAYPOINT_VELOCITY_NORTH],2) +
-													 powf(waypointPrev.Velocity[WAYPOINT_VELOCITY_EAST],2));
+				pathDesired.StartingVelocity = waypointPrev.Velocity;
 			}
 			PathDesiredSet(&pathDesired);
 		}
@@ -315,8 +313,8 @@ static void createPathBox()
 	
 	// Draw O
 	WaypointData waypoint;
-	waypoint.Velocity[0] = 2; // Since for now this isn't directional just set a mag
-	waypoint.Action = WAYPOINT_ACTION_PATHTONEXT;
+	waypoint.Velocity = 5; // Since for now this isn't directional just set a mag
+	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
 
 	waypoint.Position[0] = 0;
 	waypoint.Position[1] = 0;
@@ -355,12 +353,12 @@ static void createPathLogo()
 	
 	// Draw O
 	WaypointData waypoint;
-	waypoint.Velocity[0] = 2; // Since for now this isn't directional just set a mag
+	waypoint.Velocity = 5; // Since for now this isn't directional just set a mag
 	for(uint32_t i = 0; i < 20; i++) {
 		waypoint.Position[1] = scale * 30 * cos(i / 19.0 * 2 * M_PI);
 		waypoint.Position[0] = scale * 50 * sin(i / 19.0 * 2 * M_PI);
 		waypoint.Position[2] = -50;
-		waypoint.Action = WAYPOINT_ACTION_PATHTONEXT;
+		waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
 		WaypointCreateInstance();
 		bad_inits += (WaypointInstSet(i, &waypoint) != 0);
 	}
@@ -370,7 +368,7 @@ static void createPathLogo()
 		waypoint.Position[1] = scale * (55 + 20 * cos(i / 10.0 * M_PI - M_PI / 2));
 		waypoint.Position[0] = scale * (25 + 25 * sin(i / 10.0 * M_PI - M_PI / 2));
 		waypoint.Position[2] = -50;
-		waypoint.Action = WAYPOINT_ACTION_PATHTONEXT;
+		waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
 		WaypointCreateInstance();
 		bad_inits += (WaypointInstSet(i, &waypoint) != 0);
 	}
@@ -378,7 +376,7 @@ static void createPathLogo()
 	waypoint.Position[1] = scale * 35;
 	waypoint.Position[0] = scale * -50;
 	waypoint.Position[2] = -50;
-	waypoint.Action = WAYPOINT_ACTION_PATHTONEXT;
+	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
 	WaypointCreateInstance();
 	WaypointInstSet(35, &waypoint);
 	
@@ -386,42 +384,42 @@ static void createPathLogo()
 	waypoint.Position[1] = scale * 35;
 	waypoint.Position[0] = scale * -60;
 	waypoint.Position[2] = -30;
-	waypoint.Action = WAYPOINT_ACTION_PATHTONEXT;
+	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
 	WaypointCreateInstance();
 	WaypointInstSet(36, &waypoint);
 
 	waypoint.Position[1] = scale * 85;
 	waypoint.Position[0] = scale * -60;
 	waypoint.Position[2] = -30;
-	waypoint.Action = WAYPOINT_ACTION_PATHTONEXT;
+	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
 	WaypointCreateInstance();
 	WaypointInstSet(37, &waypoint);
 
 	waypoint.Position[1] = scale * 85;
 	waypoint.Position[0] = scale * 60;
 	waypoint.Position[2] = -30;
-	waypoint.Action = WAYPOINT_ACTION_PATHTONEXT;
+	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
 	WaypointCreateInstance();
 	WaypointInstSet(38, &waypoint);
 	
 	waypoint.Position[1] = scale * -40;
 	waypoint.Position[0] = scale * 60;
 	waypoint.Position[2] = -30;
-	waypoint.Action = WAYPOINT_ACTION_PATHTONEXT;
+	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
 	WaypointCreateInstance();
 	WaypointInstSet(39, &waypoint);
 
 	waypoint.Position[1] = scale * -40;
 	waypoint.Position[0] = scale * -60;
 	waypoint.Position[2] = -30;
-	waypoint.Action = WAYPOINT_ACTION_PATHTONEXT;
+	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
 	WaypointCreateInstance();
 	WaypointInstSet(40, &waypoint);
 
 	waypoint.Position[1] = scale * 35;
 	waypoint.Position[0] = scale * -60;
 	waypoint.Position[2] = -30;
-	waypoint.Action = WAYPOINT_ACTION_PATHTONEXT;
+	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
 	WaypointCreateInstance();
 	WaypointInstSet(41, &waypoint);
 

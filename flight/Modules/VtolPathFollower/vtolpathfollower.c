@@ -195,7 +195,7 @@ static void vtolPathFollowerTask(void *parameters)
 		// Check the combinations of flightmode and pathdesired mode
 		switch(flightStatus.FlightMode) {
 			case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
-				if (pathDesired.Mode == PATHDESIRED_MODE_ENDPOINT) {
+				if (pathDesired.Mode == PATHDESIRED_MODE_HOLDPOSITION) {
 					updateEndpointVelocity();
 					updateVtolDesiredAttitude();
 				} else {
@@ -203,7 +203,7 @@ static void vtolPathFollowerTask(void *parameters)
 				}
 				break;
 			case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
-				if (pathDesired.Mode == PATHDESIRED_MODE_ENDPOINT) {
+				if (pathDesired.Mode == PATHDESIRED_MODE_HOLDPOSITION) {
 					updateEndpointVelocity();
 					updateVtolDesiredAttitude();
 				} else {
@@ -211,10 +211,10 @@ static void vtolPathFollowerTask(void *parameters)
 				}
 				break;
 			case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
-				if (pathDesired.Mode == PATHDESIRED_MODE_ENDPOINT) {
+				if (pathDesired.Mode == PATHDESIRED_MODE_FLYENDPOINT) {
 					updateEndpointVelocity();
 					updateVtolDesiredAttitude();
-				} else if (pathDesired.Mode == PATHDESIRED_MODE_PATH) {
+				} else if (pathDesired.Mode == PATHDESIRED_MODE_FLYVECTOR) {
 					updatePathVelocity();
 					updateVtolDesiredAttitude();
 				} else {

@@ -47,7 +47,6 @@ static void path_circle(float * start_point, float * end_point, float * cur_poin
 void path_progress(float * start_point, float * end_point, float * cur_point, struct path_status * status, uint8_t mode)
 {
 	switch(mode) {
-		case PATHDESIRED_MODE_PATH:
 		case PATHDESIRED_MODE_FLYVECTOR:
 		case PATHDESIRED_MODE_DRIVEVECTOR:
 			return path_vector(start_point, end_point, cur_point, status);

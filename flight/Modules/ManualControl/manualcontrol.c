@@ -671,7 +671,7 @@ static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeCha
 		pathDesired.End[PATHDESIRED_END_DOWN] = positionActual.Down - 10;
 		pathDesired.StartingVelocity=10;
 		pathDesired.EndingVelocity=10;
-		pathDesired.Mode = PATHDESIRED_MODE_ENDPOINT;
+		pathDesired.Mode = PATHDESIRED_MODE_FLYENDPOINT;
 		PathDesiredSet(&pathDesired);
 	} else if(flightModeChanged) {
 		// Simple position hold - stay at present altitude and position
@@ -688,7 +688,7 @@ static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeCha
 		pathDesired.End[PATHDESIRED_END_DOWN] = positionActual.Down;
 		pathDesired.StartingVelocity=10;
 		pathDesired.EndingVelocity=10;
-		pathDesired.Mode = PATHDESIRED_MODE_ENDPOINT;
+		pathDesired.Mode = PATHDESIRED_MODE_FLYENDPOINT;
 		PathDesiredSet(&pathDesired);
 	}
 }
