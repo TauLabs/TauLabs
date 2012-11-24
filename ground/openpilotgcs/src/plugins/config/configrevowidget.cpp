@@ -48,6 +48,7 @@
 #include <accels.h>
 #include <gyros.h>
 #include <magnetometer.h>
+#include <baroaltitude.h>
 
 #define GRAVITY 9.81f
 #include "assertions.h"
@@ -209,6 +210,17 @@ ConfigRevoWidget::ConfigRevoWidget(QWidget *parent) :
     mag_z->setPos(startX,startY);
     mag_z->setTransform(QTransform::fromScale(1,0),true);
 
+    lineMatrix = renderer->matrixForElement("baro");
+    rect = lineMatrix.mapRect(renderer->boundsOnElement("baro"));
+    startX = rect.x();
+    startY = rect.y()+ rect.height();
+    baro = new QGraphicsSvgItem();
+    baro->setSharedRenderer(renderer);
+    baro->setElementId("baro");
+    m_ui->sensorsBargraph->scene()->addItem(baro);
+    baro->setPos(startX,startY);
+    baro->setTransform(QTransform::fromScale(1,0),true);
+
     // Must set up the UI (above) before setting up the UAVO mappings or refreshWidgetValues
     // will be dealing with some null pointers
     addUAVObject("RevoCalibration");
@@ -323,6 +335,7 @@ void ConfigRevoWidget::doStartNoiseMeasurement()
     mag_accum_x.clear();
     mag_accum_y.clear();
     mag_accum_z.clear();
+    baro_accum.clear();
 
     /* Need to get as many accel, mag and gyro updates as possible */
     Accels * accels = Accels::GetInstance(getObjectManager());
@@ -330,6 +343,8 @@ void ConfigRevoWidget::doStartNoiseMeasurement()
     Gyros * gyros = Gyros::GetInstance(getObjectManager());
     Q_ASSERT(gyros);
     Magnetometer * mag = Magnetometer::GetInstance(getObjectManager());
+    Q_ASSERT(mag);
+    BaroAltitude * baro = BaroAltitude::GetInstance(getObjectManager());
     Q_ASSERT(mag);
 
     UAVObject::Metadata mdata;
@@ -352,10 +367,17 @@ void ConfigRevoWidget::doStartNoiseMeasurement()
     mdata.flightTelemetryUpdatePeriod = 100;
     mag->setMetadata(mdata);
 
+    initialBaroMdata = baro->getMetadata();
+    mdata = initialBaroMdata;
+    UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
+    mdata.flightTelemetryUpdatePeriod = 100;
+    baro->setMetadata(mdata);
+
     /* Connect for updates */
     connect(accels, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(doGetNoiseSample(UAVObject*)));
     connect(gyros, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(doGetNoiseSample(UAVObject*)));
     connect(mag, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(doGetNoiseSample(UAVObject*)));
+    connect(baro, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(doGetNoiseSample(UAVObject*)));
 }
 
 /**
@@ -400,45 +422,61 @@ void ConfigRevoWidget::doGetNoiseSample(UAVObject * obj)
         mag_accum_z.append(magData.z);
         break;
     }
+    case BaroAltitude::OBJID:
+    {
+        BaroAltitude * baro = BaroAltitude::GetInstance(getObjectManager());
+        Q_ASSERT(baro);
+        BaroAltitude::DataFields baroData = baro->getData();
+        baro_accum.append(baroData.Altitude);
+        break;
+    }
     default:
         Q_ASSERT(0);
     }
 
+    //Calculate progress as the minimum number of samples from any given sensor
     float p1 = (float) mag_accum_x.length() / (float) NOISE_SAMPLES;
     float p2 = (float) gyro_accum_x.length() / (float) NOISE_SAMPLES;
     float p3 = (float) accel_accum_x.length() / (float) NOISE_SAMPLES;
+    float p4 = (float) baro_accum.length() / (float) NOISE_SAMPLES;
 
     float prog = (p1 < p2) ? p1 : p2;
     prog = (prog < p3) ? prog : p3;
+    prog = (prog < p4) ? prog : p4;
 
     m_ui->noiseMeasurementProgress->setValue(prog * 100);
 
     if(mag_accum_x.length() >= NOISE_SAMPLES &&
             gyro_accum_x.length() >= NOISE_SAMPLES &&
-            accel_accum_x.length() >= NOISE_SAMPLES) {
+            accel_accum_x.length() >= NOISE_SAMPLES &&
+            baro_accum.length() >= NOISE_SAMPLES) {
 
         // No need to for more updates
         Magnetometer * mags = Magnetometer::GetInstance(getObjectManager());
         Accels * accels = Accels::GetInstance(getObjectManager());
         Gyros * gyros = Gyros::GetInstance(getObjectManager());
+        BaroAltitude * baro = BaroAltitude::GetInstance(getObjectManager());
         disconnect(accels, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(doGetNoiseSample(UAVObject*)));
         disconnect(gyros, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(doGetNoiseSample(UAVObject*)));
         disconnect(mags, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(doGetNoiseSample(UAVObject*)));
+        disconnect(baro, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(doGetNoiseSample(UAVObject*)));
 
+        //Store the variance
         INSSettings *insSettings = INSSettings::GetInstance(getObjectManager());
         Q_ASSERT(insSettings);
         if(insSettings) {
-            INSSettings::DataFields revoCalData = insSettings->getData();
-            revoCalData.accel_var[INSSettings::ACCEL_VAR_X] = listVar(accel_accum_x);
-            revoCalData.accel_var[INSSettings::ACCEL_VAR_Y] = listVar(accel_accum_y);
-            revoCalData.accel_var[INSSettings::ACCEL_VAR_Z] = listVar(accel_accum_z);
-            revoCalData.gyro_var[INSSettings::GYRO_VAR_X] = listVar(gyro_accum_x);
-            revoCalData.gyro_var[INSSettings::GYRO_VAR_Y] = listVar(gyro_accum_y);
-            revoCalData.gyro_var[INSSettings::GYRO_VAR_Z] = listVar(gyro_accum_z);
-            revoCalData.mag_var[INSSettings::MAG_VAR_X] = listVar(mag_accum_x);
-            revoCalData.mag_var[INSSettings::MAG_VAR_Y] = listVar(mag_accum_y);
-            revoCalData.mag_var[INSSettings::MAG_VAR_Z] = listVar(mag_accum_z);
-            insSettings->setData(revoCalData);
+            INSSettings::DataFields insSettingsData = insSettings->getData();
+            insSettingsData.accel_var[INSSettings::ACCEL_VAR_X] = listVar(accel_accum_x);
+            insSettingsData.accel_var[INSSettings::ACCEL_VAR_Y] = listVar(accel_accum_y);
+            insSettingsData.accel_var[INSSettings::ACCEL_VAR_Z] = listVar(accel_accum_z);
+            insSettingsData.gyro_var[INSSettings::GYRO_VAR_X] = listVar(gyro_accum_x);
+            insSettingsData.gyro_var[INSSettings::GYRO_VAR_Y] = listVar(gyro_accum_y);
+            insSettingsData.gyro_var[INSSettings::GYRO_VAR_Z] = listVar(gyro_accum_z);
+            insSettingsData.mag_var[INSSettings::MAG_VAR_X] = listVar(mag_accum_x);
+            insSettingsData.mag_var[INSSettings::MAG_VAR_Y] = listVar(mag_accum_y);
+            insSettingsData.mag_var[INSSettings::MAG_VAR_Z] = listVar(mag_accum_z);
+            insSettingsData.baro_var = listVar(baro_accum);
+            insSettings->setData(insSettingsData);
         }
     }
 }
@@ -487,6 +525,11 @@ void ConfigRevoWidget::drawVariancesGraph()
     float mag_z_var = -1/steps*(1+steps+log10(1e-3*insSettingsData.mag_var[INSSettings::MAG_VAR_Z]));
     if(mag_z)
         mag_z->setTransform(QTransform::fromScale(1,mag_z_var),false);
+
+    float baro_var = -1/steps*(1+steps+log10(insSettingsData.baro_var));
+    if(baro)
+        baro->setTransform(QTransform::fromScale(1,baro_var),false);
+
 }
 
 /**

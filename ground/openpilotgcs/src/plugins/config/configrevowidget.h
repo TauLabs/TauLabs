@@ -67,6 +67,7 @@ private:
     QGraphicsSvgItem *mag_x;
     QGraphicsSvgItem *mag_y;
     QGraphicsSvgItem *mag_z;
+    QGraphicsSvgItem *baro;
     QMutex sensorsUpdateLock;
     double maxBarHeight;
     int phaseCounter;
@@ -82,6 +83,7 @@ private:
     QList<double> mag_accum_x;
     QList<double> mag_accum_y;
     QList<double> mag_accum_z;
+    QList<double> baro_accum;
 
     double accel_data_x[6], accel_data_y[6], accel_data_z[6];
     double mag_data_x[6], mag_data_y[6], mag_data_z[6];
