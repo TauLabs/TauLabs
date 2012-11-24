@@ -148,7 +148,9 @@ namespace core {
 
                         //TODO: Only do this once, not every time
                         if(once){
-                            Utils::CoordinateConversions().NED2LLA_HomeLLA((double[3]){0,0,0}, (double[3]){-height, width, 0}, cornerLLA);
+                            double homeLLA[3]={0,0,0};
+                            double cornerNED[3]={-height, width, 0};
+                            Utils::CoordinateConversions().NED2LLA_HomeLLA(homeLLA, cornerNED, cornerLLA);
                             once=false;
                         }
 
