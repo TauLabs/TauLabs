@@ -134,39 +134,21 @@ int32_t AttitudeInitialize(void)
 {
 	AttitudeActualInitialize();
 	AttitudeSettingsInitialize();
-	NEDPositionInitialize();
-	PositionActualInitialize();
-	VelocityActualInitialize();
-	RevoSettingsInitialize();
-	INSSettingsInitialize();
 	InertialSensorSettingsInitialize();
 	INSSettingsInitialize();
-	
+	NEDPositionInitialize();
+	PositionActualInitialize();
+	RevoSettingsInitialize();
+	VelocityActualInitialize();
+
 	// Initialize this here while we aren't setting the homelocation in GPS
 	HomeLocationInitialize();
 
-	// Initialize quaternion
-	AttitudeActualData attitude;
-	AttitudeActualGet(&attitude);
-	attitude.q1 = 1;
-	attitude.q2 = 0;
-	attitude.q3 = 0;
-	attitude.q4 = 0;
-	AttitudeActualSet(&attitude);
-	
-	// Cannot trust the values to init right above if BL runs
-	GyrosBiasData gyrosBias;
-	GyrosBiasGet(&gyrosBias);
-	gyrosBias.x = 0;
-	gyrosBias.y = 0;
-	gyrosBias.z = 0;
-	GyrosBiasSet(&gyrosBias);
-	
 	AttitudeSettingsConnectCallback(&settingsUpdatedCb);
-	RevoSettingsConnectCallback(&settingsUpdatedCb);
 	HomeLocationConnectCallback(&settingsUpdatedCb);
 	InertialSensorSettingsConnectCallback(&settingsUpdatedCb);
 	INSSettingsConnectCallback(&settingsUpdatedCb);
+	RevoSettingsConnectCallback(&settingsUpdatedCb);
 
 	return 0;
 }
@@ -189,13 +171,34 @@ int32_t AttitudeStart(void)
 	xTaskCreate(AttitudeTask, (signed char *)"Attitude", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &attitudeTaskHandle);
 	TaskMonitorAdd(TASKINFO_RUNNING_ATTITUDE, attitudeTaskHandle);
 	PIOS_WDG_RegisterFlag(PIOS_WDG_ATTITUDE);
-	
+
+	// Initialize quaternion
+	AttitudeActualData attitude;
+	AttitudeActualGet(&attitude);
+	attitude.q1 = 1;
+	attitude.q2 = 0;
+	attitude.q3 = 0;
+	attitude.q4 = 0;
+	AttitudeActualSet(&attitude);
+
+	// Cannot trust the values to init right above if BL runs
+	GyrosBiasData gyrosBias;
+	GyrosBiasGet(&gyrosBias);
+	gyrosBias.x = 0;
+	gyrosBias.y = 0;
+	gyrosBias.z = 0;
+	GyrosBiasSet(&gyrosBias);
+
 	GyrosConnectQueue(gyroQueue);
 	AccelsConnectQueue(accelQueue);
-	MagnetometerConnectQueue(magQueue);
-	BaroAltitudeConnectQueue(baroQueue);
-	GPSPositionConnectQueue(gpsQueue);
-	GPSVelocityConnectQueue(gpsVelQueue);
+	if (MagnetometerHandle())
+		MagnetometerConnectQueue(magQueue);
+	if (BaroAltitudeHandle())
+		BaroAltitudeConnectQueue(baroQueue);
+	if (GPSPositionHandle())
+		GPSPositionConnectQueue(gpsQueue);
+	if (GPSVelocityHandle())
+		GPSVelocityConnectQueue(gpsVelQueue);
 
 	return 0;
 }

@@ -91,6 +91,12 @@
 #define PIOS_HMC5883_Sensitivity_5_6Ga		330	// LSB/Ga
 #define PIOS_HMC5883_Sensitivity_8_1Ga		230	// LSB/Ga  --> NOT RECOMMENDED
 
+enum pios_hmc5883_orientation { // clockwise rotation from board forward
+	PIOS_HMC5883_TOP_0DEG    = 0x00,
+	PIOS_HMC5883_TOP_90DEG   = 0x01,
+	PIOS_HMC5883_TOP_180DEG  = 0x02,
+	PIOS_HMC5883_TOP_270DEG  = 0x03
+};
 
 struct pios_hmc5883_cfg {
 #ifdef PIOS_HMC5883_HAS_GPIOS
@@ -100,13 +106,19 @@ struct pios_hmc5883_cfg {
 	uint8_t Meas_Conf;	/* Measurement Configuration,: Normal, positive bias, or negative bias --> here below the relative define */
 	uint8_t Gain;		/* Gain Configuration, select the full scale --> here below the relative define (See datasheet page 11 for more details) */
 	uint8_t Mode;
-	
+	enum pios_hmc5883_orientation orientation;
+};
+
+struct pios_hmc5883_data {
+	int16_t mag_x;
+	int16_t mag_y;
+	int16_t mag_z;
 };
 
 /* Public Functions */
 extern void PIOS_HMC5883_Init(const struct pios_hmc5883_cfg * cfg);
 extern bool PIOS_HMC5883_NewDataAvailable(void);
-extern int32_t PIOS_HMC5883_ReadMag(int16_t out[3]);
+extern int32_t PIOS_HMC5883_ReadMag(struct pios_hmc5883_data *);
 extern uint8_t PIOS_HMC5883_ReadID(uint8_t out[4]);
 extern int32_t PIOS_HMC5883_Test(void);
 extern bool PIOS_HMC5883_IRQHandler();
