@@ -378,7 +378,7 @@ static void actuatorTask(void* parameters)
 		if(!success) {
 			command.NumFailedUpdates++;
 			ActuatorCommandSet(&command);
-			AlarmsSet(SYSTEMALARMS_ALARM_ACTUATOR, SYSTEMALARMS_ALARM_CRITICAL);
+			AlarmsSet(SYSTEMALARMS_ALARM_ACTUATOR, SYSTEMALARMS_ALARM_CRITICAL, 0);
 		}
 
 	}
@@ -544,7 +544,7 @@ static void setFailsafe(const ActuatorSettingsData * actuatorSettings, const Mix
 	}
 
 	// Set alarm
-	AlarmsSet(SYSTEMALARMS_ALARM_ACTUATOR, SYSTEMALARMS_ALARM_CRITICAL);
+	AlarmsSet(SYSTEMALARMS_ALARM_ACTUATOR, SYSTEMALARMS_ALARM_CRITICAL, 0);
 
 	// Update servo outputs
 	for (int n = 0; n < ACTUATORCOMMAND_CHANNEL_NUMELEM; ++n)

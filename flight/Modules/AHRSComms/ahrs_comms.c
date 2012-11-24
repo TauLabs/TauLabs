@@ -104,7 +104,7 @@ static void ahrscommsTask(void *parameters)
 {
 	portTickType lastSysTime;
 
-	AlarmsSet(SYSTEMALARMS_ALARM_AHRSCOMMS, SYSTEMALARMS_ALARM_CRITICAL);
+	AlarmsSet(SYSTEMALARMS_ALARM_AHRSCOMMS, SYSTEMALARMS_ALARM_CRITICAL, 0);
 
 	// Main task loop
 	while (1) {
@@ -116,7 +116,7 @@ static void ahrscommsTask(void *parameters)
 		if (stat.linkOk) {
 			AlarmsClear(SYSTEMALARMS_ALARM_AHRSCOMMS);
 		} else {
-			AlarmsSet(SYSTEMALARMS_ALARM_AHRSCOMMS, SYSTEMALARMS_ALARM_WARNING);
+			AlarmsSet(SYSTEMALARMS_ALARM_AHRSCOMMS, SYSTEMALARMS_ALARM_WARNING, 0);
 		}
 		InsStatusData sData;
 		InsStatusGet(&sData);

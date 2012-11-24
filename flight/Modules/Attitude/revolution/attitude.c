@@ -245,7 +245,7 @@ static void AttitudeTask(void *parameters)
 				ret_val = updateAttitudeINSGPS(first_run, false);
 				break;
 			default:
-				AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_CRITICAL);
+				AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_CRITICAL, 0);
 				break;
 		}
 
@@ -282,7 +282,7 @@ static int32_t updateAttitudeComplementary(bool first_run)
 		// When one of these is updated so should the other
 		// Do not set attitude timeout warnings in simulation mode
 		if (!AttitudeActualReadOnly()){
-			AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_WARNING);
+			AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_WARNING, 0);
 			return -1;
 		}
 	}
@@ -571,7 +571,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	{
 		// Do not set attitude timeout warnings in simulation mode
 		if (!AttitudeActualReadOnly()){
-			AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_WARNING);
+			AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_WARNING, 0);
 			return -1;
 		}
 	}
@@ -621,9 +621,9 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	gps_updated &= (gpsData.Satellites >= 7) && (gpsData.PDOP <= 4.0f) && (homeLocation.Set == HOMELOCATION_SET_TRUE);
 
 	if (!inited)
-		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_ERROR);
+		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_ERROR, 0);
 	else if (outdoor_mode && gpsData.Satellites < 7)
-		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_ERROR);
+		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_ERROR, 0);
 	else
 		AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
 			

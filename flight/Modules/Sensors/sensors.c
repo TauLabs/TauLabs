@@ -207,7 +207,7 @@ static void SensorsTask(void *parameters)
 #endif
 
 	if(accel_test < 0 || gyro_test < 0 || mag_test < 0) {
-		AlarmsSet(SYSTEMALARMS_ALARM_SENSORS, SYSTEMALARMS_ALARM_CRITICAL);
+		AlarmsSet(SYSTEMALARMS_ALARM_SENSORS, SYSTEMALARMS_ALARM_CRITICAL, 0);
 		while(1) {
 			PIOS_WDG_UpdateFlag(PIOS_WDG_SENSORS);
 			vTaskDelay(10);
@@ -227,7 +227,7 @@ static void SensorsTask(void *parameters)
 			PIOS_WDG_UpdateFlag(PIOS_WDG_SENSORS);
 			lastSysTime = xTaskGetTickCount();
 			vTaskDelayUntil(&lastSysTime, SENSOR_PERIOD / portTICK_RATE_MS);
-			AlarmsSet(SYSTEMALARMS_ALARM_SENSORS, SYSTEMALARMS_ALARM_CRITICAL);
+			AlarmsSet(SYSTEMALARMS_ALARM_SENSORS, SYSTEMALARMS_ALARM_CRITICAL, 0);
 			error = false;
 		} else {
 			AlarmsClear(SYSTEMALARMS_ALARM_SENSORS);

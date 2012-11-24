@@ -166,7 +166,7 @@ static void stabilizationTask(void* parameters)
 		// Wait until the AttitudeRaw object is updated, if a timeout then go to failsafe
 		if ( xQueueReceive(queue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS) != pdTRUE )
 		{
-			AlarmsSet(SYSTEMALARMS_ALARM_STABILIZATION,SYSTEMALARMS_ALARM_WARNING);
+			AlarmsSet(SYSTEMALARMS_ALARM_STABILIZATION,SYSTEMALARMS_ALARM_WARNING, 0);
 			continue;
 		}
 		
@@ -419,7 +419,7 @@ static void stabilizationTask(void* parameters)
 		// Clear or set alarms.  Done like this to prevent toggling each cycle
 		// and hammering system alarms
 		if (error)
-			AlarmsSet(SYSTEMALARMS_ALARM_STABILIZATION,SYSTEMALARMS_ALARM_ERROR);
+			AlarmsSet(SYSTEMALARMS_ALARM_STABILIZATION,SYSTEMALARMS_ALARM_ERROR, 0);
 		else
 			AlarmsClear(SYSTEMALARMS_ALARM_STABILIZATION);
 	}
