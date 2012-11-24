@@ -35,6 +35,7 @@
 #include "flightstatus.h"
 #include "pathdesired.h"
 #include "pathplannersettings.h"
+#include "pathstatus.h"
 #include "positionactual.h"
 #include "waypoint.h"
 #include "waypointactive.h"
@@ -110,6 +111,14 @@ static void pathPlannerTask(void *parameters)
 
 	WaypointConnectCallback(waypointsUpdated);
 	WaypointActiveConnectCallback(waypointsUpdated);
+
+	// If the PathStatus isn't available no follower is running and we should abort
+	if (PathStatusHandle() == NULL || !TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER)) {
+		AlarmsSet(SYSTEMALARMS_ALARM_PATHPLANNER, SYSTEMALARMS_ALARM_CRITICAL);
+		while(1)
+			vTaskDelay(100);
+	}
+	AlarmsClear(SYSTEMALARMS_ALARM_PATHPLANNER);
 
 	FlightStatusData flightStatus;
 	

@@ -59,14 +59,15 @@
 #include "flightstatus.h"
 #include "gpsvelocity.h"
 #include "gpsposition.h"
-#include "vtolpathfollowersettings.h"
 #include "nedaccel.h"
 #include "nedposition.h"
+#include "pathstatus.h"
 #include "stabilizationdesired.h"
 #include "stabilizationsettings.h"
 #include "systemsettings.h"
 #include "velocitydesired.h"
 #include "velocityactual.h"
+#include "vtolpathfollowersettings.h"
 #include "CoordinateConversions.h"
 
 // Private constants
@@ -119,6 +120,7 @@ int32_t VtolPathFollowerInitialize()
 	
 	if (optionalModules[HWSETTINGS_OPTIONALMODULES_VTOLPATHFOLLOWER] == HWSETTINGS_OPTIONALMODULES_ENABLED) {
 		VtolPathFollowerSettingsInitialize();
+		PathStatusInitialize();
 		NedAccelInitialize();
 		PathDesiredInitialize();
 		VelocityDesiredInitialize();
@@ -263,6 +265,16 @@ static void updatePathVelocity()
 	
 	path_progress(pathDesired.Start, pathDesired.End, cur, &progress, PATHDESIRED_MODE_FLYVECTOR);
 	
+	// Update the path status UAVO
+	PathStatusData pathStatus;
+	PathStatusGet(&pathStatus);
+	pathStatus.fractional_progress = progress.fractional_progress;
+	if (pathStatus.fractional_progress < 1)
+		pathStatus.Status = PATHSTATUS_STATUS_INPROGRESS;
+	else
+		pathStatus.Status = PATHSTATUS_STATUS_COMPLETED;
+	PathStatusSet(&pathStatus);
+
 	float groundspeed = pathDesired.StartingVelocity + 
 	    (pathDesired.EndingVelocity - pathDesired.StartingVelocity) * progress.fractional_progress;
 	if(progress.fractional_progress > 1)
