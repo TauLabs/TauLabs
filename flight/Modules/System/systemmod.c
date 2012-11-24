@@ -177,8 +177,10 @@ static void systemTask(void *parameters)
 	configuration_check();
 
 	// Whenever the configuration changes, make sure it is safe to fly
-	SystemSettingsConnectCallback(configurationUpdatedCb);
-	ManualControlSettingsConnectCallback(configurationUpdatedCb);
+	if (SystemSettingsHandle())
+		SystemSettingsConnectCallback(configurationUpdatedCb);
+	if (ManualControlSettingsHandle())
+		ManualControlSettingsConnectCallback(configurationUpdatedCb);
 #endif
 
 	// Main system loop

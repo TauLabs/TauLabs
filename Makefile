@@ -413,7 +413,7 @@ stm32flash_clean:
 DFUUTIL_DIR := $(TOOLS_DIR)/dfu-util
 
 .PHONY: dfuutil_install
-dfuutil_install: DFUUTIL_URL  := http://dfu-util.gnumonks.org/releases/dfu-util-0.5.tar.gz
+dfuutil_install: DFUUTIL_URL  := http://dfu-util.gnumonks.org/releases/dfu-util-0.7.tar.gz
 dfuutil_install: DFUUTIL_FILE := $(notdir $(DFUUTIL_URL))
 dfuutil_install: | $(DL_DIR) $(TOOLS_DIR)
 dfuutil_install: dfuutil_clean
@@ -431,7 +431,7 @@ dfuutil_install: dfuutil_clean
 	$(V0) @echo " BUILD        $(DFUUTIL_DIR)"
 	$(V1) mkdir -p "$(DFUUTIL_DIR)"
 	$(V1) ( \
-	  cd $(DL_DIR)/dfuutil-build/dfu-util-0.5 ; \
+	  cd $(DL_DIR)/dfuutil-build/dfu-util-0.7 ; \
 	  ./configure --prefix="$(DFUUTIL_DIR)" ; \
 	  $(MAKE) ; \
 	  $(MAKE) install ; \
@@ -884,7 +884,7 @@ all_$(1)_clean: $$(addsuffix _clean, $$(filter bu_$(1), $$(BU_TARGETS)))
 all_$(1)_clean: $$(addsuffix _clean, $$(filter ef_$(1), $$(EF_TARGETS)))
 endef
 
-ALL_BOARDS := coptercontrol pipxtreme revolution revomini simposix osd
+ALL_BOARDS := coptercontrol pipxtreme revolution revomini simposix osd freedom
 ALL_BOARDS_BU := coptercontrol pipxtreme simposix
 
 # SimPosix only builds on Linux so drop it from the list for
@@ -899,6 +899,7 @@ coptercontrol_friendly := CopterControl
 pipxtreme_friendly     := PipXtreme
 revolution_friendly    := Revolution
 revomini_friendly      := RevoMini
+freedom_friendly       := Freedom
 simposix_friendly      := SimPosix
 osd_friendly           := OSD
 
@@ -907,6 +908,7 @@ coptercontrol_short    := 'cc  '
 pipxtreme_short        := 'pipx'
 revolution_short       := 'revo'
 revomini_short         := 'rm  '
+freedom_short          := 'free'
 simposix_short         := 'posx'
 osd_short              := 'osd '
 

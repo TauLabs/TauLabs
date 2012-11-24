@@ -163,10 +163,7 @@ void PIOS_SYS_Init(void)
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_All;
-	GPIO_InitStructure.GPIO_Pin &= ~(GPIO_Pin_3 | GPIO_Pin_4);					// leave JTAG pins alone
 	GPIO_Init(GPIOB, &GPIO_InitStructure);
-
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_All;
 	GPIO_Init(GPIOC, &GPIO_InitStructure);
 	GPIO_Init(GPIOD, &GPIO_InitStructure);
 	GPIO_Init(GPIOE, &GPIO_InitStructure);
