@@ -248,29 +248,31 @@ static void path_curve(float * start_point, float * end_point, float radius, flo
 	float diff_north, diff_east;
 	float cradius;
 	float normal[2];
+	static bool first = true;
+	static int update = 0;
 
 	// Compute the center of the circle connecting the two points as the intersection of two circles
 	// around the two points from
 	// http://www.mathworks.com/matlabcentral/newsreader/view_thread/255121
-	float m_x, m_y, p_x, p_y, d, center[2];
+	float m_n, m_e, p_n, p_e, d, center[2];
 
 	// Center between start and end
-	m_x = (start_point[0] + end_point[0]) / 2;
-	m_y = (start_point[1] + end_point[1]) / 2;
+	m_n = (start_point[0] + end_point[0]) / 2;
+	m_e = (start_point[1] + end_point[1]) / 2;
 
 	// Normal vector the line between start and end.  
-	p_x = (end_point[1] - start_point[1]);
-	p_y = (end_point[0] - start_point[0]);
+	p_n = (end_point[1] - start_point[1]);
+	p_e = (start_point[0] - end_point[0]);
 
 	// Work out how far to go along the perpendicular bisector
-	d = sqrtf(radius * radius / (p_x * p_x + p_y * p_y) - 0.25f);
+	d = sqrtf(radius * radius / (p_n * p_n + p_e * p_e) - 0.25f);
 
 	if (clockwise) {
-		center[0] = m_x + p_x * d;
-		center[1] = m_y + p_y * d;
+		center[0] = m_n + p_n * d;
+		center[1] = m_e + p_e * d;
 	} else {
-		center[0] = m_x - p_x * d;
-		center[1] = m_y - p_y * d;
+		center[0] = m_n - p_n * d;
+		center[1] = m_e - p_e * d;
 	}
 
 	// Current location relative to center
@@ -302,18 +304,34 @@ static void path_curve(float * start_point, float * end_point, float radius, flo
 	}
 
 	// Compute heading from center to start and end position
+	// atan2 takes in (y,x) and increases clockwise
 	float starting_angle = atan2f(start_point[1] - center[1], start_point[0] - center[0]);
 	float ending_angle = atan2f(end_point[1] - center[1], end_point[0] - center[0]);
-	float current_angle = atan2f(cur_point[1] - center[1], cur_point[0] - center[0]);
+	float current_angle = atan2f(diff_east, diff_north);
 
+	float total_angle, traveled_angle;
 	float angular_sign = clockwise ? 1 : -1;
-	float total_angle = fmod(angular_sign * (ending_angle - starting_angle), 2 * M_PI);
-	float traveled_angle = fmod(angular_sign * current_angle, 2 * M_PI);
+	total_angle = fmod(angular_sign * (ending_angle - starting_angle), 2 * M_PI);
+	total_angle = (total_angle < 0) ? 2 * M_PI + total_angle : total_angle;
+	traveled_angle = fmod(angular_sign * (current_angle - starting_angle), 2 * M_PI);
+	traveled_angle = (traveled_angle < 0) ? 2 * M_PI + traveled_angle : traveled_angle;
 
 	status->fractional_progress = traveled_angle / total_angle;
 
 	// error is current radius minus wanted radius - positive if too close
 	status->error = radius - cradius;
+
+	if (first) {
+		fprintf(stdout, "Center North: %g, East: %g\n", center[0],center[1]);
+		fprintf(stdout, "Normal North %g, East: %g\n", normal[0],normal[1]);
+		fprintf(stdout, "Starting angle: %g, Ending angle: %g, Current angle:%g\n", starting_angle, ending_angle, current_angle);
+		first = false;
+		update = 0;
+	} else if (update > 100) {
+		update=0;
+		fprintf(stdout, "Starting angle: %g, Ending angle: %g, Current angle:%g, Traveled: %g, Total: %g\n", starting_angle, ending_angle, current_angle, traveled_angle, total_angle);
+	} else
+		update++;
 
 	// Compute direction to correct error
 	status->correction_direction[0] = (status->error>0?1:-1) * diff_north / cradius;

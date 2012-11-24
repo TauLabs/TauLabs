@@ -228,6 +228,7 @@ static void activateWaypoint(int idx)
 	pathDesired.End[PATHDESIRED_END_NORTH] = waypoint.Position[WAYPOINT_POSITION_NORTH];
 	pathDesired.End[PATHDESIRED_END_EAST] = waypoint.Position[WAYPOINT_POSITION_EAST];
 	pathDesired.End[PATHDESIRED_END_DOWN] = waypoint.Position[WAYPOINT_POSITION_DOWN];
+	pathDesired.ModeParameters = waypoint.ModeParameters;
 
 	// Use this to ensure the cases match up (catastrophic if not) and to cover any cases
 	// that don't make sense to come from the path planner
@@ -313,29 +314,32 @@ static void createPathBox()
 	waypoint.Position[2] = -10;
 	WaypointInstSet(0, &waypoint);
 
-	waypoint.Position[0] = 5;
-	waypoint.Position[1] = 5;
+	waypoint.Position[0] = 25;
+	waypoint.Position[1] = 25;
 	waypoint.Position[2] = -10;
 	WaypointInstSet(1, &waypoint);
 
-	waypoint.Position[0] = -5;
-	waypoint.Position[1] = 5;
+	waypoint.Position[0] = -25;
+	waypoint.Position[1] = 25;
+	waypoint.Mode = WAYPOINT_MODE_FLYCIRCLERIGHT;
+	waypoint.ModeParameters = 35;
 	WaypointInstSet(2, &waypoint);
 
-	waypoint.Position[0] = -5;
-	waypoint.Position[1] = -5;
+	waypoint.Position[0] = -25;
+	waypoint.Position[1] = -25;
 	WaypointInstSet(3, &waypoint);
 
-	waypoint.Position[0] = 5;
-	waypoint.Position[1] = -5;
+	waypoint.Position[0] = 25;
+	waypoint.Position[1] = -25;
 	WaypointInstSet(4, &waypoint);
 
-	waypoint.Position[0] = 5;
-	waypoint.Position[1] = 5;
+	waypoint.Position[0] = 25;
+	waypoint.Position[1] = 25;
 	WaypointInstSet(5, &waypoint);
 
 	waypoint.Position[0] = 0;
 	waypoint.Position[1] = 0;
+	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
 	WaypointInstSet(6, &waypoint);
 }
 

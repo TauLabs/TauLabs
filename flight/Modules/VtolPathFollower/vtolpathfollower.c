@@ -216,7 +216,9 @@ static void vtolPathFollowerTask(void *parameters)
 				if (pathDesired.Mode == PATHDESIRED_MODE_FLYENDPOINT) {
 					updateEndpointVelocity();
 					updateVtolDesiredAttitude();
-				} else if (pathDesired.Mode == PATHDESIRED_MODE_FLYVECTOR) {
+				} else if (pathDesired.Mode == PATHDESIRED_MODE_FLYVECTOR ||
+					pathDesired.Mode == PATHDESIRED_MODE_FLYCIRCLELEFT ||
+					pathDesired.Mode == PATHDESIRED_MODE_FLYCIRCLERIGHT) {
 					updatePathVelocity();
 					updateVtolDesiredAttitude();
 				} else {
