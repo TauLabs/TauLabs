@@ -51,7 +51,6 @@ private:
     const double RAD_DEG;
     const double DEG_RAD;
     const double MathPiDiv4;
-    double Clip(double const& n, double const& minValue, double const& maxValue)const;
     Size tileSize;
 };
 
