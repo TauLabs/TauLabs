@@ -26,34 +26,12 @@
  */
 
 /**
- * Description of NatNet Packet protocol:
+ * Short description of NatNet Packet protocol. Refer to OptiTrack documentation for more complete details
  *
- * //THIS IS ACTUALLY THE X-PLANE PROTOCOL. STAY TUNED FOR THE NATNET ONE
- * To see what data can be sended/recieved to/from X-Plane, launch X-Plane -> goto main menu
- * (cursor at top of main X-Plane window) -> Settings -> Data Input and Output -> Data Set.
- * Data Set shown all X-Plane params,
- * each row has four checkbox: 1st check - out to UDP; 4 check - show on screen
- * All the UDP messages for X-Plane have the same format, which is:
- * 5-character MESSAGE PROLOUGE (to indicate the type of message)
- * and then a DATA INPUT STRUCTURE (containing the message data that you want to send or receive)
- *
- * DATA INPUT/OUTPUT STRUCTURE is the following stuct:
- *
- *  struct data_struct
- *  {
- *      int index;     // data index, the index into the list of variables
-                       // you can output from the Data Output screen in X-Plane.
- *      float data[8]; // the up to 8 numbers you see in the data output screen associated with that selection..
-                       // many outputs do not use all 8, though.
- * };
- *
- * For Example, update of aileron/elevon/rudder in X-Plane (11 row in Data Set)
  * bytes     value     description
- * [0-3]     DATA      message type
- * [4]       none      no matter
- * [5-8]     11        code of setting param(row in Data Set)
- * [9-41]    data      message data (8 float values)
- * total size: 41 byte
+ * [0-1]     MSGID
+ * [2-3]     ByteCnt
+ * [4-7]     FrameCnt    ...
  *
  */
 
@@ -185,14 +163,16 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
 
     // message ID
     int MessageID = 0;
-    memcpy(&MessageID, ptr, 2); ptr += 2;
+    memcpy(&MessageID, ptr, 2);
+    ptr += 2;
 #ifdef NATNET_DEBUG
     qDebug() << "Message ID :" << MessageID;
 #endif
 
     // size
     int nBytes = 0;
-    memcpy(&nBytes, ptr, 2); ptr += 2;
+    memcpy(&nBytes, ptr, 2);
+    ptr += 2;
 #ifdef NATNET_DEBUG
     qDebug() << "Byte count : " << nBytes;
 #endif
@@ -533,14 +513,20 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
     {
         // number of datasets
         int nDatasets = 0; memcpy(&nDatasets, ptr, 4); ptr += 4;
-//        printf("Dataset Count : %d\n", nDatasets);
+#ifdef NATNET_DEBUG
+        printf("Dataset Count : %d\n", nDatasets);
+#endif
 
         for(int i=0; i < nDatasets; i++)
         {
-//            printf("Dataset %d\n", i);
+#ifdef NATNET_DEBUG
+            printf("Dataset %d\n", i);
+#endif
 
             int type = 0; memcpy(&type, ptr, 4); ptr += 4;
-//            printf("Type : %d\n", type);
+#ifdef NATNET_DEBUG
+            printf("Type : %d\n", type);
+#endif
 
             if(type == 0)   // markerset
             {
@@ -549,7 +535,9 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
                 strcpy(szName, ptr);
                 int nDataBytes = (int) strlen(szName) + 1;
                 ptr += nDataBytes;
-//                printf("Markerset Name: %s\n", szName);
+#ifdef NATNET_DEBUG
+                printf("Markerset Name: %s\n", szName);
+#endif
 
                 // marker data
                 int nMarkers = 0; memcpy(&nMarkers, ptr, 4); ptr += 4;
@@ -562,7 +550,9 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
                     strcpy(szName, ptr);
                     int nDataBytes = (int) strlen(szName) + 1;
                     ptr += nDataBytes;
-//                    printf("Marker Name: %s\n", szName);
+#ifdef NATNET_DEBUG
+                    printf("Marker Name: %s\n", szName);
+#endif
                 }
             }
             else if(type ==1)   // rigid body
@@ -573,23 +563,35 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
                     char szName[MAX_NAMELENGTH];
                     strcpy(szName, ptr);
                     ptr += strlen(ptr) + 1;
-//                    printf("Name: %s\n", szName);
+#ifdef NATNET_DEBUG
+                    printf("Name: %s\n", szName);
+#endif
                 }
 
                 int ID = 0; memcpy(&ID, ptr, 4); ptr +=4;
-//                printf("ID : %d\n", ID);
+#ifdef NATNET_DEBUG
+                printf("ID : %d\n", ID);
+#endif
 
                 int parentID = 0; memcpy(&parentID, ptr, 4); ptr +=4;
-//                printf("Parent ID : %d\n", parentID);
+#ifdef NATNET_DEBUG
+                printf("Parent ID : %d\n", parentID);
+#endif
 
                 float xoffset = 0; memcpy(&xoffset, ptr, 4); ptr +=4;
-//                printf("X Offset : %3.2f\n", xoffset);
+#ifdef NATNET_DEBUG
+                printf("X Offset : %3.2f\n", xoffset);
+#endif
 
                 float yoffset = 0; memcpy(&yoffset, ptr, 4); ptr +=4;
-//                printf("Y Offset : %3.2f\n", yoffset);
+#ifdef NATNET_DEBUG
+                printf("Y Offset : %3.2f\n", yoffset);
+#endif
 
                 float zoffset = 0; memcpy(&zoffset, ptr, 4); ptr +=4;
-//                printf("Z Offset : %3.2f\n", zoffset);
+#ifdef NATNET_DEBUG
+                printf("Z Offset : %3.2f\n", zoffset);
+#endif
 
             }
             else if(type ==2)   // skeleton
@@ -597,13 +599,19 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
                 char szName[MAX_NAMELENGTH];
                 strcpy(szName, ptr);
                 ptr += strlen(ptr) + 1;
-//                printf("Name: %s\n", szName);
+#ifdef NATNET_DEBUG
+                printf("Name: %s\n", szName);
+#endif
 
                 int ID = 0; memcpy(&ID, ptr, 4); ptr +=4;
-//                printf("ID : %d\n", ID);
+#ifdef NATNET_DEBUG
+                printf("ID : %d\n", ID);
+#endif
 
                 int nRigidBodies = 0; memcpy(&nRigidBodies, ptr, 4); ptr +=4;
-//                printf("RigidBody (Bone) Count : %d\n", nRigidBodies);
+#ifdef NATNET_DEBUG
+                printf("RigidBody (Bone) Count : %d\n", nRigidBodies);
+#endif
 
                 for(int i=0; i< nRigidBodies; i++)
                 {
@@ -613,30 +621,43 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
                         char szName[MAX_NAMELENGTH];
                         strcpy(szName, ptr);
                         ptr += strlen(ptr) + 1;
-//                        printf("Rigid Body Name: %s\n", szName);
+#ifdef NATNET_DEBUG
+                        printf("Rigid Body Name: %s\n", szName);
+#endif
                     }
 
                     int ID = 0; memcpy(&ID, ptr, 4); ptr +=4;
-//                    printf("RigidBody ID : %d\n", ID);
+#ifdef NATNET_DEBUG
+                    printf("RigidBody ID : %d\n", ID);
+#endif
 
                     int parentID = 0; memcpy(&parentID, ptr, 4); ptr +=4;
-//                    printf("Parent ID : %d\n", parentID);
+#ifdef NATNET_DEBUG
+                    printf("Parent ID : %d\n", parentID);
+#endif
 
                     float xoffset = 0; memcpy(&xoffset, ptr, 4); ptr +=4;
-//                    printf("X Offset : %3.2f\n", xoffset);
+#ifdef NATNET_DEBUG
+                    printf("X Offset : %3.2f\n", xoffset);
+#endif
 
                     float yoffset = 0; memcpy(&yoffset, ptr, 4); ptr +=4;
-//                    printf("Y Offset : %3.2f\n", yoffset);
+#ifdef NATNET_DEBUG
+                    printf("Y Offset : %3.2f\n", yoffset);
+#endif
 
                     float zoffset = 0; memcpy(&zoffset, ptr, 4); ptr +=4;
-//                    printf("Z Offset : %3.2f\n", zoffset);
+#ifdef NATNET_DEBUG
+                    printf("Z Offset : %3.2f\n", zoffset);
+#endif
                 }
             }
 
         }   // next dataset
 
-//       printf("End Packet\n-------------\n");
-
+#ifdef NATNET_DEBUG
+       printf("End Packet\n-------------\n");
+#endif
     }
     else
     {
@@ -659,7 +680,7 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
         out.pitch = pitch;     // pitch
         out.yaw = yaw; // yaw
 
-        //Rotate OptiTrack reference frame into local reference frame
+        // Rotate OptiTrack reference frame into local reference frame
         out.posN=-posZ;
         out.posE=-posX;
         out.posD= posY;
@@ -668,6 +689,21 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
         out.velNorth =-velZ;
         out.velEast  =-velX;
         out.velDown  = velY;
+
+        // Update lat, lon, alt
+        static double LLA[3];
+        static bool once=false;
+        if(!once){
+            once=true;
+
+            HomeLocation::DataFields homeData = posHome->getData();
+            double homeLLA[]={homeData.Latitude, homeData.Longitude, homeData.Altitude};
+            double NED[]={out.posN, out.posE, out.posD};
+            Utils::CoordinateConversions().NED2LLA_HomeLLA(homeLLA, NED, LLA);
+        }
+        out.latitude= LLA[0];
+        out.longitude=LLA[1];
+        out.altitude= LLA[2];
 
         out.groundspeed = sqrt(pow(out.velNorth,2)+pow(out.velEast,2)+pow(out.velDown,2));
 

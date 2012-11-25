@@ -57,19 +57,6 @@ QWidget *MoCapOptionsPage::createPage(QWidget *parent)
         m_optionsPage->chooseMotionCapture->insertItem(index++, creator->Description(),creator->ClassId());
 	}
 
-    //QString classId = widget->listExports->itemData(0).toString();
-    //MocapCreator* creator = MoCapPlugin::getMocapCreator(classId);
-
-	//QWidget* embedPage = creator->createOptionsPage();
-	//m_optionsPage->verticalLayout->addWidget(embedPage);
-
-    //TODO: Remove all this as it is fluff for motion capture ----------- VVVVVVVVVVVV
-	m_optionsPage->executablePath->setExpectedKind(Utils::PathChooser::File);
-    m_optionsPage->executablePath->setPromptDialogTitle(tr("Choose motion capture executable"));
-	m_optionsPage->dataPath->setExpectedKind(Utils::PathChooser::Directory);
-    m_optionsPage->dataPath->setPromptDialogTitle(tr("Choose motion capture data directory"));
-    //TODO: Remove all this as it is fluff for motion capture ----------- ^^^^^^^^^^^^
-
     // Restore the contents from the settings:
     foreach(MocapCreator* creator, MoCapPlugin::typeMocaps)
     {
@@ -77,9 +64,6 @@ QWidget *MoCapOptionsPage::createPage(QWidget *parent)
         if(creator->ClassId() == id)
             m_optionsPage->chooseMotionCapture->setCurrentIndex(MoCapPlugin::typeMocaps.indexOf(creator));
     }
-
-    m_optionsPage->executablePath->setPath(config->Settings().binPath);
-    m_optionsPage->dataPath->setPath(config->Settings().dataPath);
 
     m_optionsPage->inputCommandCheckbox->setChecked(config->Settings().inputCommand);
     m_optionsPage->manualControlRadioButton->setChecked(config->Settings().manualControlEnabled);
@@ -104,7 +88,6 @@ QWidget *MoCapOptionsPage::createPage(QWidget *parent)
     m_optionsPage->attRawRateSpinbox->setValue(config->Settings().attRawRate);
     m_optionsPage->gpsPosRateSpinbox->setValue(config->Settings().gpsPosRate);
     m_optionsPage->groundTruthRateSpinbox->setValue(config->Settings().groundTruthRate);
-//    m_optionsPage->attActualRate->setValue(config->Settings().attActualRate);
 
     m_optionsPage->baroAltitudeCheckbox->setChecked(config->Settings().baroAltitudeEnabled);
     m_optionsPage->baroAltRateSpinbox->setValue(config->Settings().baroAltRate);
@@ -127,8 +110,6 @@ void MoCapOptionsPage::apply()
     int i = m_optionsPage->chooseMotionCapture->currentIndex();
 
     settings.exportId = m_optionsPage->chooseMotionCapture->itemData(i).toString();
-    settings.binPath = m_optionsPage->executablePath->path();
-    settings.dataPath = m_optionsPage->dataPath->path();
     settings.addNoise = m_optionsPage->noiseCheckBox->isChecked();
     settings.hostAddress = m_optionsPage->hostAddress->text();
     settings.remoteAddress = m_optionsPage->remoteAddress->text();

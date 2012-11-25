@@ -220,7 +220,7 @@ void Export::receiveUpdate()
         quint16 senderPort;
         inSocket->readDatagram(datagram.data(), datagram.size(),
                                &sender, &senderPort);
-        //QString datastr(datagram);
+
         // Process incomming data
         processUpdate(datagram);
     }
@@ -235,8 +235,6 @@ void Export::setupObjects()
     } else if (settings.manualControlEnabled) {
         setupInputObject(actDesired, settings.minOutputPeriod); //Input to the export
     }
-
-//    setupOutputObject(posHome, 10000); //Hardcoded? Bleh.
 
     if (settings.gpsPositionEnabled){
         setupOutputObject(gpsPos, settings.gpsPosRate);
@@ -383,8 +381,6 @@ void Export::updateUAVOs(MocapOutput2Hardware out){
         memset(&noise, 0, sizeof(Noise));
     }
 
-
-
     // Update attActual object
     AttitudeActual::DataFields attActualData;
     attActualData = attActual->getData();
@@ -418,11 +414,11 @@ void Export::updateUAVOs(MocapOutput2Hardware out){
             // Update GPS Position objects
             GPSPosition::DataFields gpsPosData;
             memset(&gpsPosData, 0, sizeof(GPSPosition::DataFields));
-//            gpsPosData.Altitude = out.altitude + noise.gpsPosData.Altitude;
+            gpsPosData.Altitude = out.altitude + noise.gpsPosData.Altitude;
             gpsPosData.Heading = out.yaw + noise.gpsPosData.Heading;
             gpsPosData.Groundspeed = out.groundspeed + noise.gpsPosData.Groundspeed;
-//            gpsPosData.Latitude = out.latitude + noise.gpsPosData.Latitude;    //Already in *10^7 integer format
-//            gpsPosData.Longitude = out.longitude + noise.gpsPosData.Longitude; //Already in *10^7 integer format
+            gpsPosData.Latitude = out.latitude + noise.gpsPosData.Latitude;    //Already in *10^7 integer format
+            gpsPosData.Longitude = out.longitude + noise.gpsPosData.Longitude; //Already in *10^7 integer format
             gpsPosData.GeoidSeparation = 0.0;
             gpsPosData.PDOP = 3.0;
             gpsPosData.VDOP = gpsPosData.PDOP*1.5;
@@ -492,7 +488,7 @@ void Export::updateUAVOs(MocapOutput2Hardware out){
         if (baroAltTime.msecsTo(currentTime) >= settings.baroAltRate) {
         BaroAltitude::DataFields baroAltData;
         memset(&baroAltData, 0, sizeof(BaroAltitude::DataFields));
-//        baroAltData.Altitude = out.altitude + noise.baroAltData.Altitude;
+        baroAltData.Altitude = out.altitude + noise.baroAltData.Altitude;
         baroAltData.Temperature = out.temperature + noise.baroAltData.Temperature;
         baroAltData.Pressure = out.pressure + noise.baroAltData.Pressure;
         baroAlt->setData(baroAltData);

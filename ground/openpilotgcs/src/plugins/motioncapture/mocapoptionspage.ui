@@ -125,7 +125,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>For communication with sim computer via network. Should be the IP address of one of the interfaces of the GCS computer.</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;For communication to GCS via network. Should either be the IP address of one of the interfaces of the GCS computer, or the multicast network address.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
               <string/>
@@ -201,7 +201,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>Only required if running simulator on remote machine. Should be the IP of the machine on which the simulator is running.</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Only required if communicating from GCS to the motion capture software. Should be the IP of the machine on which the simulator is running.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -246,99 +246,23 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>180</height>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>90</height>
           </size>
          </property>
          <property name="title">
-          <string>Program parameters</string>
+          <string>Initial parameters</string>
          </property>
-         <widget class="Utils::PathChooser" name="dataPath" native="true">
-          <property name="geometry">
-           <rect>
-            <x>120</x>
-            <y>60</y>
-            <width>401</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_2">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>60</y>
-            <width>94</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Data directory:</string>
-          </property>
-         </widget>
-         <widget class="Utils::PathChooser" name="executablePath" native="true">
-          <property name="geometry">
-           <rect>
-            <x>120</x>
-            <y>34</y>
-            <width>401</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>34</y>
-            <width>104</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Path executable:</string>
-          </property>
-         </widget>
          <widget class="QCheckBox" name="noiseCheckBox">
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>120</y>
+            <y>60</y>
             <width>89</width>
             <height>20</height>
            </rect>
@@ -350,24 +274,11 @@
            <string>Add noise</string>
           </property>
          </widget>
-         <widget class="Line" name="line">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>80</y>
-            <width>491</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
          <widget class="QLabel" name="label_13">
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>90</y>
+            <y>30</y>
             <width>161</width>
             <height>22</height>
            </rect>
@@ -380,7 +291,7 @@
           <property name="geometry">
            <rect>
             <x>290</x>
-            <y>90</y>
+            <y>30</y>
             <width>171</width>
             <height>22</height>
            </rect>
@@ -393,7 +304,7 @@
           <property name="geometry">
            <rect>
             <x>460</x>
-            <y>90</y>
+            <y>30</y>
             <width>100</width>
             <height>22</height>
            </rect>
@@ -421,7 +332,7 @@
           <property name="geometry">
            <rect>
             <x>170</x>
-            <y>90</y>
+            <y>30</y>
             <width>100</width>
             <height>22</height>
            </rect>
@@ -1112,14 +1023,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>Utils::PathChooser</class>
-   <extends>QWidget</extends>
-   <header>utils/pathchooser.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>chooseMotionCapture</tabstop>
   <tabstop>hostAddress</tabstop>

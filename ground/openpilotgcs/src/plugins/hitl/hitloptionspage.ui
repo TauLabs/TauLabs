@@ -125,7 +125,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>For communication with sim computer via network. Should be the IP address of one of the interfaces of the GCS computer.</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;For communication from the simulator to GCS. Should be the IP address of one of the interfaces of the GCS computer.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
               <string/>
@@ -201,7 +201,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>Only required if running simulator on remote machine. Should be the IP of the machine on which the simulator is running.</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Only required if sending data to a simulator on a remote computer. Should be the IP of the computer on which the simulator is running.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

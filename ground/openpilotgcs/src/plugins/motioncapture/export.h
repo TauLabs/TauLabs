@@ -147,6 +147,9 @@ typedef struct _CONNECTION
 
 
 struct MocapOutput2Hardware{
+    float longitude;  //[deg]
+    float latitude;   //[deg]
+    float altitude;   //[m]
     float posN;       //[m]
     float posE;       //[m]
     float posD;       //[m]
