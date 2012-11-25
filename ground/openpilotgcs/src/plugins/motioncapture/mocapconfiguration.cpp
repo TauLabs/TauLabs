@@ -48,9 +48,9 @@ MoCapConfiguration::MoCapConfiguration(QString classId, QSettings* qSettings, QO
     settings.attRawRate          = 20;
 
     settings.attActualEnabled    = true;
-    settings.attActHW            = false;
-    settings.attActSim           = true;
-    settings.attActCalc          = false;
+    settings.attActualHW         = false;
+    settings.attActualMocap      = true;
+    settings.attActualRate       = 50;
 
     settings.gpsPositionEnabled  = false;
     settings.gpsPosRate          = 100;
@@ -83,16 +83,31 @@ MoCapConfiguration::MoCapConfiguration(QString classId, QSettings* qSettings, QO
         settings.longitude           = qSettings->value("longitude").toString();
         settings.addNoise            = qSettings->value("noiseCheckBox").toBool();
 
-        settings.gcsReceiverEnabled  = qSettings->value("gcsReceiverEnabled").toBool();
-        settings.manualControlEnabled= qSettings->value("manualControlEnabled").toBool();
+        settings.inputCommand        = qSettings->value("inputCommand").toBool();
+        if(settings.inputCommand){
+            settings.gcsReceiverEnabled  = qSettings->value("gcsReceiverEnabled").toBool();
+            settings.manualControlEnabled= qSettings->value("manualControlEnabled").toBool();
+        }
+        else{
+            settings.gcsReceiverEnabled  = false;
+            settings.manualControlEnabled= false;
+        }
 
         settings.attRawEnabled       = qSettings->value("attRawEnabled").toBool();
         settings.attRawRate          = qSettings->value("attRawRate").toInt();
 
         settings.attActualEnabled    = qSettings->value("attActualEnabled").toBool();
-        settings.attActHW            = qSettings->value("attActHW").toBool();
-        settings.attActSim           = qSettings->value("attActSim").toBool();
-        settings.attActCalc          = qSettings->value("attActCalc").toBool();
+        if(settings.attActualEnabled)
+        {
+            settings.attActualHW     = qSettings->value("attActualHW").toBool();
+            settings.attActualMocap  = qSettings->value("attActualMocap").toBool();
+        }
+        else
+        {
+            settings.attActualHW        = false;
+            settings.attActualMocap     = false;
+        }
+        settings.attActualRate      = qSettings->value("attActualRate").toInt();
 
         settings.baroAltitudeEnabled = qSettings->value("baroAltitudeEnabled").toBool();
         settings.baroAltRate         = qSettings->value("baroAltRate").toInt();
@@ -103,7 +118,6 @@ MoCapConfiguration::MoCapConfiguration(QString classId, QSettings* qSettings, QO
         settings.groundTruthEnabled  = qSettings->value("groundTruthEnabled").toBool();
         settings.groundTruthRate     = qSettings->value("groundTruthRate").toInt();
 
-        settings.inputCommand        = qSettings->value("inputCommand").toBool();
         settings.minOutputPeriod     = qSettings->value("minOutputPeriod").toInt();
 
         settings.airspeedActualEnabled=qSettings->value("airspeedActualEnabled").toBool();
@@ -137,22 +151,22 @@ void MoCapConfiguration::saveConfig(QSettings* qSettings) const {
     qSettings->setValue("longitude", settings.longitude);
     qSettings->setValue("addNoise", settings.addNoise);
 
+    qSettings->setValue("inputCommand", settings.inputCommand);
     qSettings->setValue("gcsReceiverEnabled", settings.gcsReceiverEnabled);
     qSettings->setValue("manualControlEnabled", settings.manualControlEnabled);
 
     qSettings->setValue("attRawEnabled", settings.attRawEnabled);
     qSettings->setValue("attRawRate", settings.attRawRate);
     qSettings->setValue("attActualEnabled", settings.attActualEnabled);
-    qSettings->setValue("attActHW", settings.attActHW);
-    qSettings->setValue("attActSim", settings.attActSim);
-    qSettings->setValue("attActCalc", settings.attActCalc);
+    qSettings->setValue("attActualHW", settings.attActualHW);
+    qSettings->setValue("attActualMocap", settings.attActualMocap);
+    qSettings->setValue("attActualRate", settings.attActualRate);
     qSettings->setValue("baroAltitudeEnabled", settings.baroAltitudeEnabled);
     qSettings->setValue("baroAltRate", settings.baroAltRate);
     qSettings->setValue("gpsPositionEnabled", settings.gpsPositionEnabled);
     qSettings->setValue("gpsPosRate", settings.gpsPosRate);
     qSettings->setValue("groundTruthEnabled", settings.groundTruthEnabled);
     qSettings->setValue("groundTruthRate", settings.groundTruthRate);
-    qSettings->setValue("inputCommand", settings.inputCommand);
     qSettings->setValue("minOutputPeriod", settings.minOutputPeriod);
 
     qSettings->setValue("airspeedActualEnabled", settings.airspeedActualEnabled);

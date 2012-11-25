@@ -81,6 +81,7 @@ QWidget *MoCapOptionsPage::createPage(QWidget *parent)
     m_optionsPage->executablePath->setPath(config->Settings().binPath);
     m_optionsPage->dataPath->setPath(config->Settings().dataPath);
 
+    m_optionsPage->inputCommandCheckbox->setChecked(config->Settings().inputCommand);
     m_optionsPage->manualControlRadioButton->setChecked(config->Settings().manualControlEnabled);
     m_optionsPage->gcsReceiverRadioButton->setChecked(config->Settings().gcsReceiverEnabled);
 
@@ -110,9 +111,9 @@ QWidget *MoCapOptionsPage::createPage(QWidget *parent)
 
     m_optionsPage->minOutputPeriodSpinbox->setValue(config->Settings().minOutputPeriod);
 
-    m_optionsPage->attActHW->setChecked(config->Settings().attActHW);
-    m_optionsPage->attActCalc->setChecked(config->Settings().attActCalc);
-    m_optionsPage->attActSim->setChecked(config->Settings().attActSim);
+    m_optionsPage->attActualHW->setChecked(config->Settings().attActualHW);
+    m_optionsPage->attActualRateSpinBox->setValue(config->Settings().attActualRate);
+    m_optionsPage->attActualMocap->setChecked(config->Settings().attActualMocap);
 
     m_optionsPage->airspeedActualCheckbox->setChecked(config->Settings().airspeedActualEnabled);
     m_optionsPage->airspeedRateSpinbox->setValue(config->Settings().airspeedActualRate);
@@ -155,12 +156,13 @@ void MoCapOptionsPage::apply()
 
     settings.minOutputPeriod = m_optionsPage->minOutputPeriodSpinbox->value();
 
+    settings.inputCommand = m_optionsPage->inputCommandCheckbox->isChecked();
     settings.manualControlEnabled = m_optionsPage->manualControlRadioButton->isChecked();
     settings.gcsReceiverEnabled = m_optionsPage->gcsReceiverRadioButton->isChecked();
 
-    settings.attActHW = m_optionsPage->attActHW->isChecked();
-    settings.attActSim = m_optionsPage->attActSim->isChecked();
-    settings.attActCalc = m_optionsPage->attActCalc->isChecked();
+    settings.attActualHW = m_optionsPage->attActualHW->isChecked();
+    settings.attActualMocap = m_optionsPage->attActualMocap->isChecked();
+    settings.attActualRate = m_optionsPage->attActualRateSpinBox->value();
 
     settings.airspeedActualEnabled=m_optionsPage->airspeedActualCheckbox->isChecked();
     settings.airspeedActualRate=m_optionsPage->airspeedRateSpinbox->value();

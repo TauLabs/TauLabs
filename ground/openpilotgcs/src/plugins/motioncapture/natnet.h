@@ -42,8 +42,9 @@ public:
         bool setupProcess();
 
 	void setupUdpPorts(const QString& host, int inPort, int outPort);
-    void setTrackable(int trackIdx);
-    int getTrackable();
+    void setTrackableIdx(int trackIdx);
+    void setTrackableName(QString trackName);
+    int getTrackableIdx();
     void setWidget(Ui_MoCapWidget *widget){this->widget=widget;}
 
 private slots:
@@ -52,6 +53,8 @@ private slots:
 
 private:
     int trackableIndex;
+    bool trackUpdate;
+    QString trackableName;
 
     void processUpdate(const QByteArray& data);
     Ui_MoCapWidget *widget;

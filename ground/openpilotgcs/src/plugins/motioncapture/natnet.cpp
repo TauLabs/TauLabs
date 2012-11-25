@@ -65,6 +65,8 @@
 #include <qxtlogger.h>
 #include "utils/coordinateconversions.h"
 
+//#define NATNET_DEBUG
+
 NatNet::NatNet(const MocapSettings& params, Ui_MoCapWidget *widget) :
     Export(params), trackableIndex(0)
 {
@@ -108,18 +110,30 @@ void NatNet::transmitUpdate()
 }
 
 /**
- * @brief NatNet::setTrackable Set the index of the trackable currently being tracked
+ * @brief NatNet::setTrackableIdx Set the index of the trackable currently being tracked
  * @param trackIdx The trackable's index
  */
-void NatNet::setTrackable(int trackIdx){
+void NatNet::setTrackableIdx(int trackIdx)
+{
     trackableIndex=trackIdx;
 }
 
 /**
- * @brief NatNet::getTrackable Get the index of the trackable currently being tracked
+ * @brief NatNet::setTrackableName Set the name of the trackable currently being tracked
+ * @param trackIdx The trackable's name
+ */
+void NatNet::setTrackableName(QString trackName)
+{
+    trackableName=trackName;
+}
+
+
+/**
+ * @brief NatNet::getTrackableIdx Get the index of the trackable currently being tracked
  * @return
  */
-int NatNet::getTrackable(){
+int NatNet::getTrackableIdx()
+{
     return trackableIndex;
 }
 
@@ -147,6 +161,9 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
 
     float pressure = 0;
     float temperature = 0;
+
+
+    trackUpdate=false;
 
     //Taken from NatNet example program: packet.cpp
     int NatNetVersion[4] = {0,0,0,0};
@@ -221,6 +238,7 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
             // If the item is not already on the list, add it at the end.
             if(!trackablePreviouslyFound){
                 widget->trackablesComboBox->addItem(szName);
+
                 //If this is the first marker we've ever found, automatically set it as the tracked object.
                 //TODO: This might be bad behavior, as perhaps multiple objects show upon initial connection
                 if (i==0)
@@ -256,7 +274,7 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
                 memcpy(&z, ptr, 4);
                 ptr += 4;
 #ifdef NATNET_DEBUG
-                qDebug() << "    Marker "  << j << " : [" << x << "," << y << "," << z << "]";
+                qDebug() << "    Marker "  << j << " pos: [" << x << "," << y << "," << z << "]";
 #endif
             }
         }
@@ -280,7 +298,7 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
             memcpy(&z, ptr, 4);
             ptr += 4;
 #ifdef NATNET_DEBUG
-            qDebug() << "    Marker "  << j << " : [" << x << "," << y << "," << z << "]";
+            qDebug() << "    Marker "  << j << " pos: [" << x << "," << y << "," << z << "]";
 #endif
         }
 
@@ -319,11 +337,17 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
             memcpy(&qw, ptr, 4);
             ptr += 4;
 
-            //TODO: Allow to export other trackables than the first.
+#ifdef NATNET_DEBUG
+            qDebug() << "ID : " << ID;
+            qDebug() << "pos: [" << x << ", " << y << ", " << z <<"]";
+            qDebug() << "ori: [" << qx << ", " << qy << ", " << qz << " "<< qw << "]";
+#endif
+
+            // Select which trackable to export
             if (j==trackableIndex){
                 posX=x;
-                posX=y;
-                posX=z;
+                posY=y;
+                posZ=z;
 
                 float quat[4]={qw, qx, qz, qy}; // NOTE: This is odd because of the messed up TrackingTools world axes, and the fact that according to the website it outputs left-hand data
                 float rpy[3];
@@ -334,21 +358,16 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
                 pitch=rpy[1];
                 yaw  =rpy[2];
 
+
                 // Unfortunately, even when the trackable is present in the list, sometimes NatNet returns bogus data where all positions are 0.
                 // This can safely be considered as an untracked object, as it is exceptionally unlikely that all three doubles are identically 0.
                 if(posX==0 && posY == 0 && posZ==0){
 #ifdef NATNET_DEBUG
-                    qDebug() << "Trackable name " << trackableName << " was found, but position reported to be (0,0,0) ";
+                    qDebug() << "Trackable name: " << trackableName;
 #endif
                     trackUpdate=false;
                 }
             }
-
-#ifdef NATNET_DEBUG
-            qDebug() << "ID : " << ID;
-            qDebug() << "pos: [" << x << ", " << y << ", " << z <<"]";
-            qDebug() << "ori: [" << qx << ", " << qy << ", " << qz << " "<< qw << "]";
-#endif
 
             // associated marker positions
             int nRigidMarkers = 0;
@@ -379,7 +398,7 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
 #ifdef NATNET_DEBUG
                 for(int k=0; k < nRigidMarkers; k++)
                 {
-                    qDebug() << "    Marker: " << k  << " id="<<  markerIDs[k] << " size= " <<  markerSizes[k] <<  " pos = " << markerData[k*3] << " " << markerData[k*3+1] << " " << markerData[k*3+2];
+                    qDebug() << "    Marker " << k  << ", id="<<  markerIDs[k] << " size= " <<  markerSizes[k] <<  " pos = " << markerData[k*3] << " " << markerData[k*3+1] << " " << markerData[k*3+2];
                 }
 #endif
 
@@ -394,7 +413,7 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
 #ifdef NATNET_DEBUG
                 for(int k=0; k < nRigidMarkers; k++)
                 {
-                    qDebug() << "    Marker: " << k << ": pos = " << markerData[k*3] << " " << markerData[k*3+1] << " " << markerData[k*3+2];
+                    qDebug() << "    Marker " << k << ": pos = [" << markerData[k*3] << " " << markerData[k*3+1] << " " << markerData[k*3+2] << "]";
                 }
 #endif
             }
@@ -478,7 +497,7 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
 #ifdef NATNET_DEBUG
                     for(int k=0; k < nRigidMarkers; k++)
                     {
-                        qDebug() << "    Marker: " << k  << " id="<<  markerIDs[k] << " size= " <<  markerSizes[k] <<  " pos = " << markerData[k*3] << " " << markerData[k*3+1] << " " << markerData[k*3+2];
+                        qDebug() << "    Marker " << k  << ", id="<<  markerIDs[k] << " size= " <<  markerSizes[k] <<  " pos = " << markerData[k*3] << " " << markerData[k*3+1] << " " << markerData[k*3+2];
                     }
 #endif
 
@@ -621,46 +640,48 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
     }
     else
     {
-//        printf("Unrecognized Packet Type.\n");
+        qDebug() << "NatNet: Unrecognized Packet Type.\n";
     }
 
-    ///////
-    // Output formatting
-    ///////
-    MocapOutput2Hardware out;
-    memset(&out, 0, sizeof(MocapOutput2Hardware));
+    if(trackUpdate){
+        ///////
+        // Output formatting
+        ///////
+        MocapOutput2Hardware out;
+        memset(&out, 0, sizeof(MocapOutput2Hardware));
 
-    // Update BaroAltitude object
-    out.temperature = temperature;
-    out.pressure = pressure;
+        // Update BaroAltitude object
+        out.temperature = temperature;
+        out.pressure = pressure;
 
-    // Update attActual object
-    out.roll = roll;       //roll;
-    out.pitch = pitch;     // pitch
-    out.yaw = yaw; // yaw
+        // Update attActual object
+        out.roll = roll;       //roll;
+        out.pitch = pitch;     // pitch
+        out.yaw = yaw; // yaw
 
-    //Rotate OptiTrack reference frame into local reference frame
-    out.posN=-posZ;
-    out.posE=-posX;
-    out.posD= posY;
+        //Rotate OptiTrack reference frame into local reference frame
+        out.posN=-posZ;
+        out.posE=-posX;
+        out.posD= posY;
 
-    // Update VelocityActual.{North,East,Down}
-    out.velNorth =-velZ;
-    out.velEast  =-velX;
-    out.velDown  = velY;
+        // Update VelocityActual.{North,East,Down}
+        out.velNorth =-velZ;
+        out.velEast  =-velX;
+        out.velDown  = velY;
 
-    out.groundspeed = sqrt(pow(out.velNorth,2)+pow(out.velEast,2)+pow(out.velDown,2));
+        out.groundspeed = sqrt(pow(out.velNorth,2)+pow(out.velEast,2)+pow(out.velDown,2));
 
-    //Update gyroscope sensor data
-    out.rollRate = rollRate_rad;
-    out.pitchRate = pitchRate_rad;
-    out.yawRate = yawRate_rad;
+        //Update gyroscope sensor data
+        out.rollRate = rollRate_rad;
+        out.pitchRate = pitchRate_rad;
+        out.yawRate = yawRate_rad;
 
-    //Update accelerometer sensor data
-    out.accX = accX;
-    out.accY = accY;
-    out.accZ = -accZ;
+        //Update accelerometer sensor data
+        out.accX = accX;
+        out.accY = accY;
+        out.accZ = -accZ;
 
-    updateUAVOs(out);
+        updateUAVOs(out);
+    }
 
 }
