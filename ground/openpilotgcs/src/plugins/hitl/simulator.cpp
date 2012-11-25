@@ -412,11 +412,7 @@ void Simulator::updateUAVOs(Output2Hardware out){
         // Update homelocation
         homeData.Latitude = out.latitude;   //Already in *10^7 integer format
         homeData.Longitude = out.longitude; //Already in *10^7 integer format
-        homeData.Altitude = out.agl;
-        double LLA[3];
-        LLA[0]=out.latitude;
-        LLA[1]=out.longitude;
-        LLA[2]=out.altitude;
+        homeData.Altitude = out.altitude;
 
         homeData.Be[0]=0;
         homeData.Be[1]=0;

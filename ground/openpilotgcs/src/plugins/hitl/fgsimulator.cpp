@@ -296,15 +296,15 @@ void FGSimulator::processUpdate(const QByteArray& inp)
     Output2Hardware out;
     memset(&out, 0, sizeof(Output2Hardware));
 
-    float NED[3];
-    // convert from cm back to meters
+    double NED[3];
 
+    //TODO: This is broken, as currently it always yields NED = [0,0,0]
     double LLA[3] = {latitude, longitude, altitude_msl};
     double ECEF[3];
     double RNE[9];
-    Utils::CoordinateConversions().RneFromLLA(LLA,(double (*)[3])RNE);
+    Utils::CoordinateConversions().LLA2Rne(LLA,(double (*)[3])RNE);
     Utils::CoordinateConversions().LLA2ECEF(LLA,ECEF);
-    Utils::CoordinateConversions().LLA2Base(LLA, ECEF, (float (*)[3]) RNE, NED);
+    Utils::CoordinateConversions().LLA2NED_HomeECEF(LLA, ECEF, (double (*)[3]) RNE, NED);
 
 
     // Update GPS Position objects
