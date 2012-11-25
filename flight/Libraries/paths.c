@@ -246,10 +246,12 @@ static void path_circle(float * start_point, float * end_point, float * cur_poin
 static void path_curve(float * start_point, float * end_point, float radius, float * cur_point, struct path_status * status, bool clockwise)
 {
 	float diff_north, diff_east;
+	float path_north, path_east;
 	float cradius;
-	float normal[2];
+	float normal[2];	
 	static bool first = true;
 	static int update = 0;
+	float last_end_point[2];
 
 	// Compute the center of the circle connecting the two points as the intersection of two circles
 	// around the two points from
@@ -260,19 +262,27 @@ static void path_curve(float * start_point, float * end_point, float radius, flo
 	m_n = (start_point[0] + end_point[0]) / 2;
 	m_e = (start_point[1] + end_point[1]) / 2;
 
-	// Normal vector the line between start and end.  
-	p_n = (end_point[1] - start_point[1]);
-	p_e = (start_point[0] - end_point[0]);
+	// Normal vector the line between start and end.
+	if (clockwise) {
+		p_n = (end_point[1] - start_point[1]);
+		p_e = -(end_point[0] - start_point[0]);
+	} else {
+		p_n = -(end_point[1] - start_point[1]);
+		p_e = (end_point[0] - start_point[0]);		
+	}
 
 	// Work out how far to go along the perpendicular bisector
 	d = sqrtf(radius * radius / (p_n * p_n + p_e * p_e) - 0.25f);
 
-	if (clockwise) {
-		center[0] = m_n + p_n * d;
-		center[1] = m_e + p_e * d;
+	float radius_sign = (radius > 0) ? 1 : -1;
+	radius = fabs(radius);
+
+	if (fabs(p_n) < 1e-3 && fabs(p_e) < 1e-3) {
+		center[0] = m_n;
+		center[1] = m_e;
 	} else {
-		center[0] = m_n - p_n * d;
-		center[1] = m_e - p_e * d;
+		center[0] = m_n + p_n * d * radius_sign;
+		center[1] = m_e + p_e * d * radius_sign;
 	}
 
 	// Current location relative to center
@@ -311,20 +321,21 @@ static void path_curve(float * start_point, float * end_point, float radius, flo
 
 	float total_angle, traveled_angle;
 	float angular_sign = clockwise ? 1 : -1;
-	total_angle = fmod(angular_sign * (ending_angle - starting_angle), 2 * M_PI);
-	total_angle = (total_angle < 0) ? 2 * M_PI + total_angle : total_angle;
-	traveled_angle = fmod(angular_sign * (current_angle - starting_angle), 2 * M_PI);
-	traveled_angle = (traveled_angle < 0) ? 2 * M_PI + traveled_angle : traveled_angle;
-
-	status->fractional_progress = traveled_angle / total_angle;
+	total_angle = fmod(2 * M_PI + angular_sign * (ending_angle - starting_angle), 2 * M_PI);
+	traveled_angle = fmod(2 * M_PI + angular_sign * (current_angle - starting_angle), 2 * M_PI);
 
 	// error is current radius minus wanted radius - positive if too close
 	status->error = radius - cradius;
 
-	if (first) {
+	if (first || (status->fractional_progress != status->fractional_progress)) {
+		fprintf(stdout, "Start North: %g, East: %g\n", start_point[0],start_point[1]);
+		fprintf(stdout, "End North: %g, East: %g\n", end_point[0],end_point[1]);
+		fprintf(stdout, "Cur North: %g, East: %g\n", cur_point[0],cur_point[1]);
 		fprintf(stdout, "Center North: %g, East: %g\n", center[0],center[1]);
 		fprintf(stdout, "Normal North %g, East: %g\n", normal[0],normal[1]);
-		fprintf(stdout, "Starting angle: %g, Ending angle: %g, Current angle:%g\n", starting_angle, ending_angle, current_angle);
+		fprintf(stdout, "Starting angle: %g, Ending angle: %g, Current angle:%g, Traveled: %g, Total: %g\n", starting_angle, ending_angle, current_angle, traveled_angle, total_angle);
+		last_end_point[0] = end_point[0];
+		last_end_point[1] = end_point[1];
 		first = false;
 		update = 0;
 	} else if (update > 100) {
@@ -340,6 +351,15 @@ static void path_curve(float * start_point, float * end_point, float radius, flo
 	// Compute direction to travel
 	status->path_direction[0] = normal[0];
 	status->path_direction[1] = normal[1];
+
+	path_north = end_point[0] - start_point[0];
+	path_east = end_point[1] - start_point[1];
+	diff_north = cur_point[0] - start_point[0];
+	diff_east = cur_point[1] - start_point[1];
+	float dist_path = sqrtf( path_north * path_north + path_east * path_east );
+	float dot = path_north * diff_north + path_east * diff_east;
+
+	status->fractional_progress = dot / (dist_path * dist_path);
 
 	status->error = fabs(status->error);
 }
