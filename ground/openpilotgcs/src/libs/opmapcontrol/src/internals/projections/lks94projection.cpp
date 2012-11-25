@@ -53,8 +53,8 @@ Point LKS94Projection::FromLatLngToPixel(double lat, double lng, int const&  zoo
 {
     Point ret;
 
-    lat = Clip(lat, MinLatitude, MaxLatitude);
-    lng = Clip(lng, MinLongitude, MaxLongitude);
+    lat = bound(lat, MinLatitude, MaxLatitude);
+    lng = bound(lng, MinLongitude, MaxLongitude);
     QVector <double> lks(3);
     lks[0]=lng;
     lks[1]=lat;
@@ -82,8 +82,8 @@ internals::PointLatLng LKS94Projection::FromPixelToLatLng(const qint64 &x,const 
     lks = MTD11(lks);
     lks = DTM10(lks);
     lks = MTD10(lks);
-    ret.SetLat(Clip(lks[1], MinLatitude, MaxLatitude));
-    ret.SetLng(Clip(lks[0], MinLongitude, MaxLongitude));
+    ret.SetLat(bound(lks[1], MinLatitude, MaxLatitude));
+    ret.SetLng(bound(lks[0], MinLongitude, MaxLongitude));
     return ret;
 }
 
@@ -528,10 +528,6 @@ QVector <double> LKS94Projection::MTD11(QVector <double>& p)
     }
 }
 
-double LKS94Projection::Clip(double const& n, double const& minValue, double const& maxValue)
-{
-    return qMin(qMax(n, minValue), maxValue);
-}
 double LKS94Projection::GetTileMatrixResolution(int const& zoom)
 {
     double ret = 0;

@@ -285,7 +285,7 @@ Point PureProjection::FromLatLngToPixel(const PointLatLng &p,const int &zoom)
      * @param maxValue maximum value for bound
      * @return bounded value
      */
-        double PureProjection::bound(const double &val, const double &minValue, const double &maxValue) const
+    double PureProjection::bound(const double &val, const double &minValue, const double &maxValue) const
     {
         return qMin(qMax(val, minValue), maxValue);
     }
