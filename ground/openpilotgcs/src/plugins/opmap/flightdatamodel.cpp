@@ -28,23 +28,33 @@
 #include "flightdatamodel.h"
 #include <QMessageBox>
 #include <QDomDocument>
+
+//! Initialize an empty flight plan
 flightDataModel::flightDataModel(QObject *parent):QAbstractTableModel(parent)
 {
 
 }
 
+//! Return the number of waypoints
 int flightDataModel::rowCount(const QModelIndex &/*parent*/) const
 {
     return dataStorage.length();
 }
 
+//! Return the number of fields in the model
 int flightDataModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
-    return 23;
+    return 12;
 }
 
+/**
+ * @brief flightDataModel::data Fetch the data from the model
+ * @param index Specifies the row and column to fetch
+ * @param role Either use Qt::DisplayRole or Qt::EditRole
+ * @return The data as a variant or QVariant::Invalid for a bad role
+ */
 QVariant flightDataModel::data(const QModelIndex &index, int role) const
 {
     if (role == Qt::DisplayRole||role==Qt::EditRole)
@@ -57,21 +67,19 @@ QVariant flightDataModel::data(const QModelIndex &index, int role) const
         QVariant ret=getColumnByIndex(myRow,columnNumber);
         return ret;
     }
-    /*
-    else if (role == Qt::BackgroundRole) {
-      //  WaypointActive::DataFields waypointActive = waypointActiveObj->getData();
-
-        if(index.row() == waypointActive.Index) {
-            return QBrush(Qt::lightGray);
-        } else
-            return QVariant::Invalid;
-    }*/
     else {
         return QVariant::Invalid;
     }
 }
 
-bool flightDataModel::setColumnByIndex(pathPlanData  *row,const int index,const QVariant value)
+/**
+ * @brief flightDataModel::setColumnByIndex The data for a particular path plan entry
+ * @param row Which waypoint representation to modify
+ * @param index Which data type to modify (flightDataModel::pathPlanDataEnum)
+ * @param value The new value
+ * @return True if succeeded, otherwise false
+ */
+bool flightDataModel::setColumnByIndex(pathPlanData *row, const int index, const QVariant value)
 {
     switch(index)
     {
@@ -115,51 +123,8 @@ bool flightDataModel::setColumnByIndex(pathPlanData  *row,const int index,const 
         row->mode=value.toInt();
         return true;
         break;
-    case MODE_PARAMS0:
-        row->mode_params[0]=value.toFloat();
-        return true;
-        break;
-    case MODE_PARAMS1:
-        row->mode_params[1]=value.toFloat();
-        return true;
-        break;
-    case MODE_PARAMS2:
-        row->mode_params[2]=value.toFloat();
-        return true;
-        break;
-    case MODE_PARAMS3:
-        row->mode_params[3]=value.toFloat();
-        return true;
-        break;
-    case CONDITION:
-        row->condition=value.toInt();
-        return true;
-        break;
-    case CONDITION_PARAMS0:
-        row->condition_params[0]=value.toFloat();
-        return true;
-        break;
-    case CONDITION_PARAMS1:
-        row->condition_params[1]=value.toFloat();
-        return true;
-        break;
-    case CONDITION_PARAMS2:
-        row->condition_params[2]=value.toFloat();
-        return true;
-        break;
-    case CONDITION_PARAMS3:
-        row->condition_params[3]=value.toFloat();
-        return true;
-        break;
-    case COMMAND:
-        row->command=value.toInt();
-        break;
-    case JUMPDESTINATION:
-        row->jumpdestination=value.toInt();
-        return true;
-        break;
-    case ERRORDESTINATION:
-        row->errordestination=value.toInt();
+    case MODE_PARAMS:
+        row->mode_params=value.toFloat();
         return true;
         break;
     case LOCKED:
@@ -171,6 +136,13 @@ bool flightDataModel::setColumnByIndex(pathPlanData  *row,const int index,const 
     }
     return false;
 }
+
+/**
+ * @brief flightDataModel::getColumnByIndex Get the data from a particular column
+ * @param row The pathPlanData structure to use
+ * @param index Which column (flightDataModel::pathPlanDataEnum)
+ * @return The data
+ */
 QVariant flightDataModel::getColumnByIndex(const pathPlanData *row,const int index) const
 {
     switch(index)
@@ -205,46 +177,21 @@ QVariant flightDataModel::getColumnByIndex(const pathPlanData *row,const int ind
     case MODE:
         return row->mode;
         break;
-    case MODE_PARAMS0:
-        return row->mode_params[0];
-        break;
-    case MODE_PARAMS1:
-        return row->mode_params[1];
-        break;
-    case MODE_PARAMS2:
-        return row->mode_params[2];
-        break;
-    case MODE_PARAMS3:
-        return row->mode_params[3];
-        break;
-    case CONDITION:
-        return row->condition;
-        break;
-    case CONDITION_PARAMS0:
-        return row->condition_params[0];
-        break;
-    case CONDITION_PARAMS1:
-        return row->condition_params[1];
-        break;
-    case CONDITION_PARAMS2:
-        return row->condition_params[2];
-        break;
-    case CONDITION_PARAMS3:
-        return row->condition_params[3];
-        break;
-    case COMMAND:
-        return row->command;
-        break;
-    case JUMPDESTINATION:
-        return row->jumpdestination;
-        break;
-    case ERRORDESTINATION:
-        return row->errordestination;
+    case MODE_PARAMS:
+        return row->mode_params;
         break;
     case LOCKED:
         return row->locked;
     }
 }
+
+/**
+ * @brief flightDataModel::headerData Get the names of the columns
+ * @param section
+ * @param orientation
+ * @param role
+ * @return
+ */
 QVariant flightDataModel::headerData(int section, Qt::Orientation orientation, int role) const
  {
      if (role == Qt::DisplayRole)
@@ -286,41 +233,8 @@ QVariant flightDataModel::headerData(int section, Qt::Orientation orientation, i
              case MODE:
                  return QString("Mode");
                  break;
-             case MODE_PARAMS0:
-                 return QString("Mode parameter 0");
-                 break;
-             case MODE_PARAMS1:
-                 return QString("Mode parameter 1");
-                 break;
-             case MODE_PARAMS2:
-                 return QString("Mode parameter 2");
-                 break;
-             case MODE_PARAMS3:
-                 return QString("Mode parameter 3");
-                 break;
-             case CONDITION:
-                 return QString("Condition");
-                 break;
-             case CONDITION_PARAMS0:
-                 return QString("Condition parameter 0");
-                 break;
-             case CONDITION_PARAMS1:
-                 return QString("Condition parameter 1");
-                 break;
-             case CONDITION_PARAMS2:
-                 return QString("Condition parameter 2");
-                 break;
-             case CONDITION_PARAMS3:
-                 return QString("Condition parameter 3");
-                 break;
-             case COMMAND:
-                 return QString("Command");
-                 break;
-             case JUMPDESTINATION:
-                 return QString("Jump Destination");
-                 break;
-             case ERRORDESTINATION:
-                 return QString("Error Destination");
+             case MODE_PARAMS:
+                 return QString("Mode parameters");
                  break;
              case LOCKED:
                  return QString("Locked");
@@ -334,79 +248,89 @@ QVariant flightDataModel::headerData(int section, Qt::Orientation orientation, i
      else
        return QAbstractTableModel::headerData(section, orientation, role);
 }
+
+/**
+ * @brief flightDataModel::setData Set the data at a given location
+ * @param index Specifies both the row (waypoint) and column (field0
+ * @param value The new value
+ * @param role Used by the Qt MVC to determine what to do.  Should be Qt::EditRole
+ * @return  True if setting data succeeded, otherwise false
+ */
 bool flightDataModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (role == Qt::EditRole)
     {
-        int columnIndex=index.column();
-        int rowIndex=index.row();
+        int columnIndex = index.column();
+        int rowIndex = index.row();
         if(rowIndex>dataStorage.length()-1)
             return false;
-        pathPlanData * myRow=dataStorage.at(rowIndex);
+
+        pathPlanData *myRow = dataStorage.at(rowIndex);
         setColumnByIndex(myRow,columnIndex,value);
         emit dataChanged(index,index);
     }
     return true;
 }
 
+/**
+ * @brief flightDataModel::flags Tell QT MVC which flags are supported for items
+ * @return That the item is selectable, editable and enabled
+ */
 Qt::ItemFlags flightDataModel::flags(const QModelIndex & /*index*/) const
- {
+{
     return Qt::ItemIsSelectable |  Qt::ItemIsEditable | Qt::ItemIsEnabled ;
 }
 
+/**
+ * @brief flightDataModel::insertRows Create a new waypoint
+ * @param row The new waypoint id
+ * @param count How many to add
+ * @return
+ */
 bool flightDataModel::insertRows(int row, int count, const QModelIndex &/*parent*/)
 {
     pathPlanData * data;
     beginInsertRows(QModelIndex(),row,row+count-1);
     for(int x=0; x<count;++x)
     {
+        // Initialize new internal representation
         data=new pathPlanData;
         data->latPosition=0;
         data->lngPosition=0;
         data->disRelative=0;
         data->beaRelative=0;
-        data->altitudeRelative=0;
-        data->isRelative=true;
-        data->altitude=0;
-        data->velocity=0;
-        data->mode=1;
-        data->mode_params[0]=0;
-        data->mode_params[1]=0;
-        data->mode_params[2]=0;
-        data->mode_params[3]=0;
-        data->condition=3;
-        data->condition_params[0]=0;
-        data->condition_params[1]=0;
-        data->condition_params[2]=0;
-        data->condition_params[3]=0;
-        data->command=0;
-        data->jumpdestination=0;
-        data->errordestination=0;
-        data->locked=false;
-        if(rowCount()>0)
+
+        // If there is a previous waypoint, initialize some of the fields to that value
+        if(rowCount() > 0)
         {
             data->altitude=this->data(this->index(rowCount()-1,ALTITUDE)).toDouble();
             data->altitudeRelative=this->data(this->index(rowCount()-1,ALTITUDERELATIVE)).toDouble();
             data->isRelative=this->data(this->index(rowCount()-1,ISRELATIVE)).toBool();
             data->velocity=this->data(this->index(rowCount()-1,VELOCITY)).toFloat();
             data->mode=this->data(this->index(rowCount()-1,MODE)).toInt();
-            data->mode_params[0]=this->data(this->index(rowCount()-1,MODE_PARAMS0)).toFloat();
-            data->mode_params[1]=this->data(this->index(rowCount()-1,MODE_PARAMS1)).toFloat();
-            data->mode_params[2]=this->data(this->index(rowCount()-1,MODE_PARAMS2)).toFloat();
-            data->mode_params[3]=this->data(this->index(rowCount()-1,MODE_PARAMS3)).toFloat();
-            data->condition=this->data(this->index(rowCount()-1,CONDITION)).toInt();
-            data->condition_params[0]=this->data(this->index(rowCount()-1,CONDITION_PARAMS0)).toFloat();
-            data->condition_params[1]=this->data(this->index(rowCount()-1,CONDITION_PARAMS1)).toFloat();
-            data->condition_params[2]=this->data(this->index(rowCount()-1,CONDITION_PARAMS2)).toFloat();
-            data->condition_params[3]=this->data(this->index(rowCount()-1,CONDITION_PARAMS3)).toFloat();
-            data->command=this->data(this->index(rowCount()-1,COMMAND)).toInt();
-            data->errordestination=this->data(this->index(rowCount()-1,ERRORDESTINATION)).toInt();
+            data->mode_params=this->data(this->index(rowCount()-1,MODE_PARAMS)).toFloat();
+            data->locked=this->data(this->index(rowCount()-1,LOCKED)).toFloat();
+        } else {
+            data->altitudeRelative=0;
+            data->altitude=0;
+            data->isRelative=true;
+            data->velocity=0;
+            data->mode=1;
+            data->mode_params=0;
+            data->locked=false;
         }
         dataStorage.insert(row,data);
     }
+
     endInsertRows();
 }
 
+/**
+ * @brief flightDataModel::removeRows Remove waypoints from the model
+ * @param row The starting waypoint
+ * @param count How many to remove
+ * @return True if succeeded, otherwise false
+ */
 bool flightDataModel::removeRows(int row, int count, const QModelIndex &/*parent*/)
 {
     if(row<0)
@@ -420,6 +344,11 @@ bool flightDataModel::removeRows(int row, int count, const QModelIndex &/*parent
     endRemoveRows();
 }
 
+/**
+ * @brief flightDataModel::writeToFile Write the waypoints to an xml file
+ * @param fileName The filename to write to
+ * @return
+ */
 bool flightDataModel::writeToFile(QString fileName)
 {
 
@@ -491,63 +420,8 @@ bool flightDataModel::writeToFile(QString fileName)
         waypoint.appendChild(field);
 
         field=doc.createElement("field");
-        field.setAttribute("value",obj->mode_params[0]);
-        field.setAttribute("name","mode_param0");
-        waypoint.appendChild(field);
-
-        field=doc.createElement("field");
-        field.setAttribute("value",obj->mode_params[1]);
-        field.setAttribute("name","mode_param1");
-        waypoint.appendChild(field);
-
-        field=doc.createElement("field");
-        field.setAttribute("value",obj->mode_params[2]);
-        field.setAttribute("name","mode_param2");
-        waypoint.appendChild(field);
-
-        field=doc.createElement("field");
-        field.setAttribute("value",obj->mode_params[3]);
-        field.setAttribute("name","mode_param3");
-        waypoint.appendChild(field);
-
-        field=doc.createElement("field");
-        field.setAttribute("value",obj->condition);
-        field.setAttribute("name","condition");
-        waypoint.appendChild(field);
-
-        field=doc.createElement("field");
-        field.setAttribute("value",obj->condition_params[0]);
-        field.setAttribute("name","condition_param0");
-        waypoint.appendChild(field);
-
-        field=doc.createElement("field");
-        field.setAttribute("value",obj->condition_params[1]);
-        field.setAttribute("name","condition_param1");
-        waypoint.appendChild(field);
-
-        field=doc.createElement("field");
-        field.setAttribute("value",obj->condition_params[2]);
-        field.setAttribute("name","condition_param2");
-        waypoint.appendChild(field);
-
-        field=doc.createElement("field");
-        field.setAttribute("value",obj->condition_params[3]);
-        field.setAttribute("name","condition_param3");
-        waypoint.appendChild(field);
-
-        field=doc.createElement("field");
-        field.setAttribute("value",obj->command);
-        field.setAttribute("name","command");
-        waypoint.appendChild(field);
-
-        field=doc.createElement("field");
-        field.setAttribute("value",obj->jumpdestination);
-        field.setAttribute("name","jumpdestination");
-        waypoint.appendChild(field);
-
-        field=doc.createElement("field");
-        field.setAttribute("value",obj->errordestination);
-        field.setAttribute("name","errordestination");
+        field.setAttribute("value",obj->mode_params);
+        field.setAttribute("name","mode_params");
         waypoint.appendChild(field);
 
         field=doc.createElement("field");
@@ -560,9 +434,13 @@ bool flightDataModel::writeToFile(QString fileName)
     file.close();
     return true;
 }
+
+/**
+ * @brief flightDataModel::readFromFile Read into the model from a flight plan xml file
+ * @param fileName The filename to parse
+ */
 void flightDataModel::readFromFile(QString fileName)
 {
-    //TODO warning message
     removeRows(0,rowCount());
     QFile file(fileName);
     file.open(QIODevice::ReadOnly);
@@ -622,30 +500,8 @@ void flightDataModel::readFromFile(QString fileName)
                         data->velocity=field.attribute("value").toFloat();
                     else if(field.attribute("name")=="mode")
                         data->mode=field.attribute("value").toInt();
-                    else if(field.attribute("name")=="mode_param0")
-                        data->mode_params[0]=field.attribute("value").toFloat();
-                    else if(field.attribute("name")=="mode_param1")
-                        data->mode_params[1]=field.attribute("value").toFloat();
-                    else if(field.attribute("name")=="mode_param2")
-                        data->mode_params[2]=field.attribute("value").toFloat();
-                    else if(field.attribute("name")=="mode_param3")
-                        data->mode_params[3]=field.attribute("value").toFloat();
-                    else if(field.attribute("name")=="condition")
-                        data->condition=field.attribute("value").toDouble();
-                    else if(field.attribute("name")=="condition_param0")
-                        data->condition_params[0]=field.attribute("value").toFloat();
-                    else if(field.attribute("name")=="condition_param1")
-                        data->condition_params[1]=field.attribute("value").toFloat();
-                    else if(field.attribute("name")=="condition_param2")
-                        data->condition_params[2]=field.attribute("value").toFloat();
-                    else if(field.attribute("name")=="condition_param3")
-                        data->condition_params[3]=field.attribute("value").toFloat();
-                    else if(field.attribute("name")=="command")
-                        data->command=field.attribute("value").toInt();
-                    else if(field.attribute("name")=="jumpdestination")
-                        data->jumpdestination=field.attribute("value").toInt();
-                    else if(field.attribute("name")=="errordestination")
-                        data->errordestination=field.attribute("value").toInt();
+                    else if(field.attribute("name")=="mode_params")
+                        data->mode_params=field.attribute("value").toFloat();
                     else if(field.attribute("name")=="is_locked")
                         data->locked=field.attribute("value").toInt();
 

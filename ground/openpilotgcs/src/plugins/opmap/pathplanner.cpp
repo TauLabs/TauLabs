@@ -63,10 +63,6 @@ void pathPlanner::rowsInserted ( const QModelIndex & parent, int start, int end 
     {
         QModelIndex index=ui->tableView->model()->index(x,flightDataModel::MODE);
         ui->tableView->openPersistentEditor(index);
-        index=ui->tableView->model()->index(x,flightDataModel::CONDITION);
-        ui->tableView->openPersistentEditor(index);
-        index=ui->tableView->model()->index(x,flightDataModel::COMMAND);
-        ui->tableView->openPersistentEditor(index);
         ui->tableView->size().setHeight(10);
     }
 }

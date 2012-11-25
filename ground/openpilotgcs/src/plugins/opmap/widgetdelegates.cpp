@@ -41,17 +41,6 @@ QWidget *MapDataDelegate::createEditor(QWidget *parent,
         MapDataDelegate::loadComboBox(box,flightDataModel::MODE);
         return box;
         break;
-    case flightDataModel::CONDITION:
-        box=new QComboBox(parent);
-        MapDataDelegate::loadComboBox(box,flightDataModel::CONDITION);
-        return box;
-        break;
-
-    case flightDataModel::COMMAND:
-        box=new QComboBox(parent);
-        MapDataDelegate::loadComboBox(box,flightDataModel::COMMAND);
-        return box;
-        break;
     default:
         return QItemDelegate::createEditor(parent,option,index);
         break;
@@ -112,26 +101,6 @@ void MapDataDelegate::loadComboBox(QComboBox *combo, flightDataModel::pathPlanDa
         combo->addItem("Drive Circle Right",MODE_DRIVECIRCLELEFT);
         combo->addItem("Drive Circle Left",MODE_DRIVECIRCLERIGHT);
 
-        combo->addItem("Fixed Attitude",MODE_FIXEDATTITUDE);
-        combo->addItem("Set Accessory",MODE_SETACCESSORY);
-        combo->addItem("Disarm Alarm",MODE_DISARMALARM);
-        break;
-    case flightDataModel::CONDITION:
-        combo->addItem("None",ENDCONDITION_NONE);
-        combo->addItem("Timeout",ENDCONDITION_TIMEOUT);
-        combo->addItem("Distance to tgt",ENDCONDITION_DISTANCETOTARGET);
-        combo->addItem("Leg remaining",ENDCONDITION_LEGREMAINING);
-        combo->addItem("Above Altitude",ENDCONDITION_ABOVEALTITUDE);
-        combo->addItem("Pointing towards next",ENDCONDITION_POINTINGTOWARDSNEXT);
-        combo->addItem("Python script",ENDCONDITION_PYTHONSCRIPT);
-        combo->addItem("Immediate",ENDCONDITION_IMMEDIATE);
-        break;
-    case flightDataModel::COMMAND:
-        combo->addItem("On conditon next wp",COMMAND_ONCONDITIONNEXTWAYPOINT);
-        combo->addItem("On NOT conditon next wp",COMMAND_ONNOTCONDITIONNEXTWAYPOINT);
-        combo->addItem("On conditon jump wp",COMMAND_ONCONDITIONJUMPWAYPOINT);
-        combo->addItem("On NOT conditon jump wp",COMMAND_ONNOTCONDITIONJUMPWAYPOINT);
-        combo->addItem("On conditon jump wp else next wp",COMMAND_IFCONDITIONJUMPWAYPOINTELSENEXTWAYPOINT);
         break;
     default:
         break;

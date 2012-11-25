@@ -37,6 +37,10 @@ modelMapProxy::modelMapProxy(QObject *parent,OPMapWidget *map,flightDataModel * 
     connect(myMap,SIGNAL(WPValuesChanged(WayPointItem*)),this,SLOT(WPValuesChanged(WayPointItem*)));
 }
 
+/**
+ * @brief modelMapProxy::WPValuesChanged The UI changed a waypoint, update the model
+ * @param wp The handle to the changed waypoint
+ */
 void modelMapProxy::WPValuesChanged(WayPointItem * wp)
 {
     QModelIndex index;
@@ -58,6 +62,11 @@ void modelMapProxy::WPValuesChanged(WayPointItem * wp)
     model->setData(index,wp->getRelativeCoord().altitudeRelative,Qt::EditRole);
 }
 
+/**
+ * @brief modelMapProxy::currentRowChanged When a row is changed, highlight the waypoint
+ * @param current The selected row
+ * @param previous Unused
+ */
 void modelMapProxy::currentRowChanged(QModelIndex current, QModelIndex previous)
 {
     Q_UNUSED(previous);
@@ -70,6 +79,10 @@ void modelMapProxy::currentRowChanged(QModelIndex current, QModelIndex previous)
     myMap->setSelectedWP(list);
 }
 
+/**
+ * @brief modelMapProxy::selectedWPChanged When a list of waypoints are changed, select them in model
+ * @param list The list of changed waypoints
+ */
 void modelMapProxy::selectedWPChanged(QList<WayPointItem *> list)
 {
     selection->clearSelection();
@@ -80,6 +93,11 @@ void modelMapProxy::selectedWPChanged(QList<WayPointItem *> list)
     }
 }
 
+/**
+ * @brief modelMapProxy::overlayTranslate Map from path types types to Overlay types
+ * @param type The map delegate type which is like a Waypoint::Mode
+ * @return
+ */
 modelMapProxy::overlayType modelMapProxy::overlayTranslate(int type)
 {
     switch(type)
@@ -88,12 +106,12 @@ modelMapProxy::overlayType modelMapProxy::overlayTranslate(int type)
     case MapDataDelegate::MODE_FLYVECTOR:
     case MapDataDelegate::MODE_DRIVEENDPOINT:
     case MapDataDelegate::MODE_DRIVEVECTOR:
-       return OVERLAY_LINE;
+        return OVERLAY_LINE;
         break;
     case MapDataDelegate::MODE_FLYCIRCLERIGHT:
     case MapDataDelegate::MODE_DRIVECIRCLERIGHT:
         return OVERLAY_CIRCLE_RIGHT;
-         break;
+        break;
     case MapDataDelegate::MODE_FLYCIRCLELEFT:
     case MapDataDelegate::MODE_DRIVECIRCLELEFT:
         return OVERLAY_CIRCLE_LEFT;
@@ -103,6 +121,13 @@ modelMapProxy::overlayType modelMapProxy::overlayTranslate(int type)
     }
 }
 
+/**
+ * @brief modelMapProxy::createOverlay Create a graphical path component
+ * @param from The starting location
+ * @param to The ending location (for circles the radius) which is a HomeItem
+ * @param type The type of path component
+ * @param color
+ */
 void modelMapProxy::createOverlay(WayPointItem *from, WayPointItem *to, modelMapProxy::overlayType type,QColor color)
 {
     if(from==NULL || to==NULL || from==to)
@@ -123,6 +148,14 @@ void modelMapProxy::createOverlay(WayPointItem *from, WayPointItem *to, modelMap
 
     }
 }
+
+/**
+ * @brief modelMapProxy::createOverlay Create a graphical path component
+ * @param from The starting location
+ * @param to The ending location (for circles the radius) which is a HomeItem
+ * @param type The type of path component
+ * @param color
+ */
 void modelMapProxy::createOverlay(WayPointItem *from, HomeItem *to, modelMapProxy::overlayType type,QColor color)
 {
     if(from==NULL || to==NULL)
@@ -143,65 +176,54 @@ void modelMapProxy::createOverlay(WayPointItem *from, HomeItem *to, modelMapProx
 
     }
 }
+
+/**
+ * @brief modelMapProxy::refreshOverlays Update the information from the model and
+ * redraw all the components
+ */
 void modelMapProxy::refreshOverlays()
 {
     myMap->deleteAllOverlays();
     if(model->rowCount()<1)
         return;
-    WayPointItem * wp_current=NULL;
-    WayPointItem * wp_next=NULL;
-    int wp_jump;
-    int wp_error;
+    WayPointItem *wp_current = NULL;
+    WayPointItem *wp_next = NULL;
     overlayType wp_next_overlay;
-    overlayType wp_jump_overlay;
-    overlayType wp_error_overlay;
-    wp_current=findWayPointNumber(0);
-    overlayType wp_current_overlay=overlayTranslate(model->data(model->index(0,flightDataModel::MODE)).toInt());
+
+    // Get first waypoint type before stepping through path
+    wp_current = findWayPointNumber(0);
+    overlayType wp_current_overlay = overlayTranslate(model->data(model->index(0,flightDataModel::MODE)).toInt());
     createOverlay(wp_current,myMap->Home,wp_current_overlay,Qt::green);
+
     for(int x=0;x<model->rowCount();++x)
     {
-        wp_current=findWayPointNumber(x);
-        wp_jump=model->data(model->index(x,flightDataModel::JUMPDESTINATION)).toInt()-1;
-        wp_error=model->data(model->index(x,flightDataModel::ERRORDESTINATION)).toInt()-1;
-        wp_next_overlay=overlayTranslate(model->data(model->index(x+1,flightDataModel::MODE)).toInt());
-        wp_jump_overlay=overlayTranslate(model->data(model->index(wp_jump,flightDataModel::MODE)).toInt());
-        wp_error_overlay=overlayTranslate(model->data(model->index(wp_error,flightDataModel::MODE)).toInt());
-        createOverlay(wp_current,findWayPointNumber(wp_error),wp_error_overlay,Qt::red);
-        switch(model->data(model->index(x,flightDataModel::COMMAND)).toInt())
-        {
-        case MapDataDelegate::COMMAND_ONCONDITIONNEXTWAYPOINT:
-            wp_next=findWayPointNumber(x+1);
-            createOverlay(wp_current,wp_next,wp_next_overlay,Qt::green);
-            break;
-        case MapDataDelegate::COMMAND_ONCONDITIONJUMPWAYPOINT:
-            wp_next=findWayPointNumber(wp_jump);
-            createOverlay(wp_current,wp_next,wp_jump_overlay,Qt::green);
-            break;
-        case MapDataDelegate::COMMAND_ONNOTCONDITIONJUMPWAYPOINT:
-            wp_next=findWayPointNumber(wp_jump);
-            createOverlay(wp_current,wp_next,wp_jump_overlay,Qt::yellow);
-            break;
-        case MapDataDelegate::COMMAND_ONNOTCONDITIONNEXTWAYPOINT:
-            wp_next=findWayPointNumber(x+1);
-            createOverlay(wp_current,wp_next,wp_next_overlay,Qt::yellow);
-            break;
-        case MapDataDelegate::COMMAND_IFCONDITIONJUMPWAYPOINTELSENEXTWAYPOINT:
-            wp_next=findWayPointNumber(wp_jump);
-            createOverlay(wp_current,wp_next,wp_jump_overlay,Qt::green);
-            wp_next=findWayPointNumber(x+1);
-            createOverlay(wp_current,wp_next,wp_next_overlay,Qt::green);
-            break;
-        }
+        wp_current = findWayPointNumber(x);
+
+        wp_next_overlay = overlayTranslate(model->data(model->index(x+1,flightDataModel::MODE)).toInt());
+
+        wp_next = findWayPointNumber(x+1);
+        createOverlay(wp_current,wp_next,wp_next_overlay,Qt::green);
     }
 }
 
-WayPointItem * modelMapProxy::findWayPointNumber(int number)
+/**
+ * @brief modelMapProxy::findWayPointNumber Return the graphial icon for the requested waypoint
+ * @param number The waypoint number
+ * @return The pointer to the graphical item or NULL
+ */
+WayPointItem *modelMapProxy::findWayPointNumber(int number)
 {
     if(number<0)
         return NULL;
     return myMap->WPFind(number);
 }
 
+/**
+ * @brief modelMapProxy::rowsRemoved Called whenever a row is removed from the model
+ * @param parent Unused
+ * @param first The first row removed
+ * @param last The last row removed
+ */
 void modelMapProxy::rowsRemoved(const QModelIndex &parent, int first, int last)
 {
     Q_UNUSED(parent);
@@ -213,88 +235,102 @@ void modelMapProxy::rowsRemoved(const QModelIndex &parent, int first, int last)
     refreshOverlays();
 }
 
+/**
+ * @brief modelMapProxy::dataChanged Update the display whenever the model information changes
+ * @param topLeft The first waypoint and column changed
+ * @param bottomRight The last waypoint and column changed
+ */
 void modelMapProxy::dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight)
 {
     Q_UNUSED(bottomRight);
 
-    WayPointItem * item=findWayPointNumber(topLeft.row());
+    // Abort if no corresponding graphical item
+    WayPointItem *item = findWayPointNumber(topLeft.row());
     if(!item)
         return;
+
     internals::PointLatLng latlng;
-    int x=topLeft.row();
     distBearingAltitude distBearing;
     double altitude;
     bool relative;
     QModelIndex index;
     QString desc;
-    switch(topLeft.column())
-    {
-    case flightDataModel::COMMAND:
-    case flightDataModel::CONDITION:
-    case flightDataModel::JUMPDESTINATION:
-    case flightDataModel::ERRORDESTINATION:
-    case flightDataModel::MODE:
-        refreshOverlays();
-    break;
-    case flightDataModel::WPDESCRITPTION:
-        index=model->index(x,flightDataModel::WPDESCRITPTION);
-        desc=index.data(Qt::DisplayRole).toString();
-        item->SetDescription(desc);
-        break;
-    case flightDataModel::LATPOSITION:
-        latlng=item->Coord();
-        index=model->index(x,flightDataModel::LATPOSITION);
-        latlng.SetLat(index.data(Qt::DisplayRole).toDouble());
-        item->SetCoord(latlng);
-        break;
-    case flightDataModel::LNGPOSITION:
-        latlng=item->Coord();
-        index=model->index(x,flightDataModel::LNGPOSITION);
-        latlng.SetLng(index.data(Qt::DisplayRole).toDouble());
-        item->SetCoord(latlng);
-        break;
-    case flightDataModel::BEARELATIVE:
-        distBearing=item->getRelativeCoord();
-        index=model->index(x,flightDataModel::BEARELATIVE);
-        distBearing.setBearingFromDegrees(index.data(Qt::DisplayRole).toDouble());
-        item->setRelativeCoord(distBearing);
-        break;
-    case flightDataModel::DISRELATIVE:
-        distBearing=item->getRelativeCoord();
-        index=model->index(x,flightDataModel::DISRELATIVE);
-        distBearing.distance=index.data(Qt::DisplayRole).toDouble();
-        item->setRelativeCoord(distBearing);
-        break;
-    case flightDataModel::ALTITUDERELATIVE:
-        distBearing=item->getRelativeCoord();
-        index=model->index(x,flightDataModel::ALTITUDERELATIVE);
-        distBearing.altitudeRelative=index.data(Qt::DisplayRole).toFloat();
-        item->setRelativeCoord(distBearing);
-        break;
-    case flightDataModel::ISRELATIVE:
-        index=model->index(x,flightDataModel::ISRELATIVE);
-        relative=index.data(Qt::DisplayRole).toBool();
-        if(relative)
-            item->setWPType(mapcontrol::WayPointItem::relative);
-        else
-            item->setWPType(mapcontrol::WayPointItem::absolute);
-        break;
-    case flightDataModel::ALTITUDE:
-        index=model->index(x,flightDataModel::ALTITUDE);
-        altitude=index.data(Qt::DisplayRole).toDouble();
-        item->SetAltitude(altitude);
-        break;
-    case flightDataModel::LOCKED:
-        index=model->index(x,flightDataModel::LOCKED);
-        item->setFlag(QGraphicsItem::ItemIsMovable,!index.data(Qt::DisplayRole).toBool());
-        break;
+
+    for (int x = topLeft.row(); x <= bottomRight.row(); x++) {
+        for (int column = topLeft.column(); column <= bottomRight.column(); column++) {
+            // Action depends on which columns were modified
+            switch(column)
+            {
+            case flightDataModel::MODE:
+                refreshOverlays();
+                break;
+            case flightDataModel::WPDESCRITPTION:
+                index=model->index(x,flightDataModel::WPDESCRITPTION);
+                desc=index.data(Qt::DisplayRole).toString();
+                item->SetDescription(desc);
+                break;
+            case flightDataModel::LATPOSITION:
+                latlng=item->Coord();
+                index=model->index(x,flightDataModel::LATPOSITION);
+                latlng.SetLat(index.data(Qt::DisplayRole).toDouble());
+                item->SetCoord(latlng);
+                break;
+            case flightDataModel::LNGPOSITION:
+                latlng=item->Coord();
+                index=model->index(x,flightDataModel::LNGPOSITION);
+                latlng.SetLng(index.data(Qt::DisplayRole).toDouble());
+                item->SetCoord(latlng);
+                break;
+            case flightDataModel::BEARELATIVE:
+                distBearing=item->getRelativeCoord();
+                index=model->index(x,flightDataModel::BEARELATIVE);
+                distBearing.setBearingFromDegrees(index.data(Qt::DisplayRole).toDouble());
+                item->setRelativeCoord(distBearing);
+                break;
+            case flightDataModel::DISRELATIVE:
+                distBearing=item->getRelativeCoord();
+                index=model->index(x,flightDataModel::DISRELATIVE);
+                distBearing.distance=index.data(Qt::DisplayRole).toDouble();
+                item->setRelativeCoord(distBearing);
+                break;
+            case flightDataModel::ALTITUDERELATIVE:
+                distBearing=item->getRelativeCoord();
+                index=model->index(x,flightDataModel::ALTITUDERELATIVE);
+                distBearing.altitudeRelative=index.data(Qt::DisplayRole).toFloat();
+                item->setRelativeCoord(distBearing);
+                break;
+            case flightDataModel::ISRELATIVE:
+                index=model->index(x,flightDataModel::ISRELATIVE);
+                relative=index.data(Qt::DisplayRole).toBool();
+                if(relative)
+                    item->setWPType(mapcontrol::WayPointItem::relative);
+                else
+                    item->setWPType(mapcontrol::WayPointItem::absolute);
+                break;
+            case flightDataModel::ALTITUDE:
+                index=model->index(x,flightDataModel::ALTITUDE);
+                altitude=index.data(Qt::DisplayRole).toDouble();
+                item->SetAltitude(altitude);
+                break;
+            case flightDataModel::LOCKED:
+                index=model->index(x,flightDataModel::LOCKED);
+                item->setFlag(QGraphicsItem::ItemIsMovable,!index.data(Qt::DisplayRole).toBool());
+                break;
+            }
+        }
     }
 }
 
+/**
+ * @brief modelMapProxy::rowsInserted When rows are inserted in the model add the corresponding graphical items
+ * @param parent Unused
+ * @param first The first row to update
+ * @param last The last row to update
+ */
 void modelMapProxy::rowsInserted(const QModelIndex &parent, int first, int last)
 {
     Q_UNUSED(parent);
-    for(int x=first;x<last+1;x++)
+    for(int x=first; x<last+1; x++)
     {
         QModelIndex index;
         WayPointItem * item;
@@ -325,11 +361,20 @@ void modelMapProxy::rowsInserted(const QModelIndex &parent, int first, int last)
     }
     refreshOverlays();
 }
+
+/**
+ * @brief modelMapProxy::deleteWayPoint When a waypoint is deleted graphically, delete from the model
+ * @param number The waypoint which was deleted
+ */
 void modelMapProxy::deleteWayPoint(int number)
 {
     model->removeRow(number,QModelIndex());
 }
 
+/**
+ * @brief modelMapProxy::createWayPoint When a waypoint is created graphically, insert into the end of the model
+ * @param coord The coordinate the waypoint was created
+ */
 void modelMapProxy::createWayPoint(internals::PointLatLng coord)
 {
     model->insertRow(model->rowCount(),QModelIndex());
@@ -337,11 +382,11 @@ void modelMapProxy::createWayPoint(internals::PointLatLng coord)
     model->setData(index,coord.Lat(),Qt::EditRole);
     index=model->index(model->rowCount()-1,flightDataModel::LNGPOSITION,QModelIndex());
     model->setData(index,coord.Lng(),Qt::EditRole);
-    index=model->index(model->rowCount()-1,flightDataModel::JUMPDESTINATION,QModelIndex());
-    model->setData(index,1,Qt::EditRole);
-    index=model->index(model->rowCount()-1,flightDataModel::ERRORDESTINATION,QModelIndex());
-    model->setData(index,1,Qt::EditRole);
 }
+
+/**
+ * @brief modelMapProxy::deleteAll When all the waypoints are deleted graphically, update the model
+ */
 void modelMapProxy::deleteAll()
 {
     model->removeRows(0,model->rowCount(),QModelIndex());

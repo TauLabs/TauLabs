@@ -28,7 +28,6 @@
 #define MODELMAPPROXY_H
 #include <QWidget>
 #include "opmapcontrol/opmapcontrol.h"
-#include "pathaction.h"
 #include "waypoint.h"
 #include "QMutexLocker"
 #include "QPointer"
@@ -38,26 +37,52 @@
 
 
 using namespace mapcontrol;
+
+/**
+ * @brief The modelMapProxy class maps from the @ref FlightDataModel to the OPMap
+ * and provides synchronization, both when the model changes updating the UI and
+ * if it is modified on the UI propagating changes to the model
+ */
 class modelMapProxy:public QObject
 {
     typedef enum {OVERLAY_LINE,OVERLAY_CIRCLE_RIGHT,OVERLAY_CIRCLE_LEFT} overlayType;
     Q_OBJECT
 public:
     explicit modelMapProxy(QObject *parent,OPMapWidget * map,flightDataModel * model,QItemSelectionModel * selectionModel);
+
+    //! Get the handle to a waypoint graphical item
     WayPointItem *findWayPointNumber(int number);
+
+    //! When a waypoint is created graphically, insert into the end of the model
     void createWayPoint(internals::PointLatLng coord);
+
+    //! When a waypoint is deleted graphically, delete from the model
     void deleteWayPoint(int number);
+
+    //! When all the waypoints are deleted graphically, update the model
     void deleteAll();
 private slots:
+
+    //! Data in the model is changed, update the UI
     void dataChanged ( const QModelIndex & topLeft, const QModelIndex & bottomRight );
+
+    //! Rows inserted into the model, update the UI
     void rowsInserted ( const QModelIndex & parent, int first, int last );
+
+    //! Rows removed from the model, update the UI
     void rowsRemoved ( const QModelIndex & parent, int first, int last );
+
+    //! The UI changed a waypoint, update the model
     void WPValuesChanged(WayPointItem *wp);
+
+    //! When a row is changed, highlight the waypoint
     void currentRowChanged(QModelIndex,QModelIndex);
+
+    //! When a list of waypoints are changed, select them in model
     void selectedWPChanged(QList<WayPointItem*>);
 private:
     overlayType overlayTranslate(int type);
-    void createOverlay(WayPointItem * from,WayPointItem * to,overlayType type,QColor color);
+    void createOverlay(WayPointItem *from, WayPointItem * to,overlayType type,QColor color);
     void createOverlay(WayPointItem *from, HomeItem *to, modelMapProxy::overlayType type, QColor color);
     OPMapWidget * myMap;
     flightDataModel * model;

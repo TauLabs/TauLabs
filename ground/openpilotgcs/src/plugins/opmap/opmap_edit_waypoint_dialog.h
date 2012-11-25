@@ -61,7 +61,6 @@ private slots:
 private slots:
     void currentIndexChanged(int index);
     void setupModeWidgets();
-    void setupConditionWidgets();
     void pushButtonCancel_clicked();
     void on_pushButtonOK_clicked();
     void on_pushButton_clicked();

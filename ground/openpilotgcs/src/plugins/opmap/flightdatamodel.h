@@ -41,12 +41,7 @@ struct pathPlanData
     double altitude;
     float velocity;
     int mode;
-    float mode_params[4];
-    int condition;
-    float condition_params[4];
-    int command;
-    int jumpdestination;
-    int errordestination;
+    float mode_params;
     bool locked;
 };
 
@@ -54,12 +49,12 @@ class flightDataModel:public QAbstractTableModel
 {
     Q_OBJECT
 public:
+
+    //! The column names
     enum pathPlanDataEnum
     {
         WPDESCRITPTION,LATPOSITION,LNGPOSITION,DISRELATIVE,BEARELATIVE,ALTITUDERELATIVE,ISRELATIVE,ALTITUDE,
-            VELOCITY,MODE,MODE_PARAMS0,MODE_PARAMS1,MODE_PARAMS2,MODE_PARAMS3,
-            CONDITION,CONDITION_PARAMS0,CONDITION_PARAMS1,CONDITION_PARAMS2,CONDITION_PARAMS3,
-            COMMAND,JUMPDESTINATION,ERRORDESTINATION,LOCKED
+            VELOCITY,MODE,MODE_PARAMS,LOCKED
     };
     flightDataModel(QObject *parent);
     int rowCount(const QModelIndex &parent = QModelIndex()) const ;
