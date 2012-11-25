@@ -321,7 +321,8 @@ static void createPathBox()
 
 	waypoint.Position[0] = -25;
 	waypoint.Position[1] = 25;
-	waypoint.Mode = WAYPOINT_MODE_FLYCIRCLERIGHT;
+	waypoint.Mode = WAYPOINT_MODE_FLYCIRCLELEFT;
+	//waypoint.Mode = WAYPOINT_MODE_FLYCIRCLERIGHT;
 	waypoint.ModeParameters = 35;
 	WaypointInstSet(2, &waypoint);
 
