@@ -49,6 +49,7 @@ public:
 private slots:
 	void transmitUpdate();
 
+
 private:
     int trackableIndex;
 
@@ -64,9 +65,9 @@ public:
     {}
 
     Export* createExport(const MocapSettings& params, Ui_MoCapWidget *widget)
-	{
+    {
         return new NatNet(params, widget);
-	}
+    }
 };
 
 #endif // NATNET_H

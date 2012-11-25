@@ -198,14 +198,6 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
         qDebug() << "Marker Set Count : " << nMarkerSets;
 #endif
 
-        // If the number of markers has shrunk, simply clear the combobox and start
-        // over again. This might not be the most efficient way, but it should happen
-        // so rarely it's not worth expending any more logic.
-        if (nMarkerSets > widget->trackablesComboBox->count()){
-            widget->trackablesComboBox->clear();
-        }
-
-
         for (int i=0; i < nMarkerSets; i++)
         {
             // Markerset name
@@ -218,14 +210,30 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
             qDebug() << "Model Name: " << szName;
 #endif
 
-            //Compare model name with combobox list. If not identical, change the combobox
-            if(i >= widget->trackablesComboBox->count()){
-                widget->trackablesComboBox->addItem(szName);
-            }
-            else if ( szName != widget->trackablesComboBox->itemText(i)){
-                widget->trackablesComboBox->setItemText(i, szName);
+            //Compare model name with combobox list...
+            bool trackablePreviouslyFound=false;
+            for (int j =0; j<nMarkerSets; j++){
+                if( widget->trackablesComboBox->itemText(j)==QString(szName) ){
+                    trackablePreviouslyFound=true;
+                }
             }
 
+            // If the item is not already on the list, add it at the end.
+            if(!trackablePreviouslyFound){
+                widget->trackablesComboBox->addItem(szName);
+                //If this is the first marker we've ever found, automatically set it as the tracked object.
+                //TODO: This might be bad behavior, as perhaps multiple objects show upon initial connection
+                if (i==0)
+                {
+                    setTrackableIdx(i);
+                    setTrackableName(QString(szName));
+                }
+            }
+
+            // Check if the model we are tracking shows up.
+            if( i == trackableIndex ){
+                trackUpdate=true;
+            }
 
 
             // marker data
@@ -325,6 +333,15 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
                 roll =rpy[0];
                 pitch=rpy[1];
                 yaw  =rpy[2];
+
+                // Unfortunately, even when the trackable is present in the list, sometimes NatNet returns bogus data where all positions are 0.
+                // This can safely be considered as an untracked object, as it is exceptionally unlikely that all three doubles are identically 0.
+                if(posX==0 && posY == 0 && posZ==0){
+#ifdef NATNET_DEBUG
+                    qDebug() << "Trackable name " << trackableName << " was found, but position reported to be (0,0,0) ";
+#endif
+                    trackUpdate=false;
+                }
             }
 
 #ifdef NATNET_DEBUG
