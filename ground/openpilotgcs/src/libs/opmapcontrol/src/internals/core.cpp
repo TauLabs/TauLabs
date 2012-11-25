@@ -121,14 +121,18 @@ namespace internals {
                                 // tile number inversion(BottomLeft -> TopLeft) for pergo maps
                                 if(tl == MapType::PergoTurkeyMap)
                                 {
-                                    tileImage = OPMaps::Instance()->GetImageFrom(tl, Point(task.Pos.X(), maxOfTiles.Height() - task.Pos.Y()), task.Zoom);
+                                    tileImage = OPMaps::Instance()->GetImageFromServer(tl, Point(task.Pos.X(), maxOfTiles.Height() - task.Pos.Y()), task.Zoom);
+                                }
+                                else if(tl == MapType::UserImage)
+                                {
+                                    tileImage = OPMaps::Instance()->GetImageFromFile(tl, task.Pos, task.Zoom, userImageHorizontalScale, userImageVerticalScale, userImageLocation, Projection());
                                 }
                                 else // ok
                                 {
 #ifdef DEBUG_CORE
                                     qDebug()<<"start getting image"<<" ID="<<debug;
 #endif //DEBUG_CORE
-                                    tileImage = OPMaps::Instance()->GetImageFrom(tl, task.Pos, task.Zoom);
+                                    tileImage = OPMaps::Instance()->GetImageFromServer(tl, task.Pos, task.Zoom);
 #ifdef DEBUG_CORE
                                     qDebug()<<"Core::run:gotimage size:"<<tileImage.count()<<" ID="<<debug;
 #endif //DEBUG_CORE
@@ -161,7 +165,7 @@ namespace internals {
                                     }
                                 }
                             }
-                            while(++retry < OPMaps::Instance()->RetryLoadTile);
+                            while((++retry < OPMaps::Instance()->RetryLoadTile) && (tl == MapType::UserImage));
                         }
 
                         if(t->Overlays.count() > 0)
@@ -355,6 +359,15 @@ namespace internals {
                 }
                 break;
 
+            case MapType::UserImage:
+                {
+                    if(Projection()->Type()!="MercatorProjection")
+                    {
+                        SetProjection(new MercatorProjection());
+                    }
+                    maxzoom=32;
+                }
+                break;
             default:
                 {
                     if(Projection()->Type()!="MercatorProjection")

@@ -49,7 +49,6 @@ private:
     const double MinLongitude;
     const double MaxLongitude;
 
-    double Clip(double const& n, double const& minValue, double const& maxValue)const;
     Size tileSize;
 };
 }
