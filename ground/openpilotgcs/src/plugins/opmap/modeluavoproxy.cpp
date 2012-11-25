@@ -28,6 +28,9 @@
 #include "extensionsystem/pluginmanager.h"
 #include <math.h>
 
+#include "utils/coordinateconversions.h"
+#include "homelocation.h"
+
 //! Initialize the model uavo proxy
 modelUavoProxy::modelUavoProxy(QObject *parent,flightDataModel * model):QObject(parent),myModel(model)
 {
@@ -118,7 +121,22 @@ void modelUavoProxy::objectsToModel()
         if(bearing!=bearing)
             bearing=0;
 
+        // Compute the coordinates in LLA
+        HomeLocation *home = HomeLocation::GetInstance(objManager);
+        Q_ASSERT(home);
+        HomeLocation::DataFields homeLocation = home->getData();
+        double homeLLA[3];
+        homeLLA[0] = homeLocation.Latitude / 1e7;
+        homeLLA[1] = homeLocation.Longitude / 1e7;
+        homeLLA[2] = homeLocation.Altitude;
+        double LLA[3];
+        double NED[3] = {wpfields.Position[0], wpfields.Position[1], wpfields.Position[2]};
+
+        Utils::CoordinateConversions().NED2LLA_HomeLLA(homeLLA, NED, LLA);
+
         // Store the data
+        myModel->setData(myModel->index(x,flightDataModel::LATPOSITION), LLA[0]);
+        myModel->setData(myModel->index(x,flightDataModel::LNGPOSITION), LLA[1]);
         myModel->setData(myModel->index(x,flightDataModel::VELOCITY), wpfields.Velocity);
         myModel->setData(myModel->index(x,flightDataModel::DISRELATIVE), distance);
         myModel->setData(myModel->index(x,flightDataModel::BEARELATIVE), bearing);
