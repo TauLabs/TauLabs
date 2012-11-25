@@ -2495,6 +2495,15 @@
           <diagram>%%DATAPATH%%diagrams/default/system-health.svg</diagram>
         </data>
       </default>
+      <Linear>
+        <configInfo>
+          <locked>false</locked>
+          <version>0.0.0</version>
+        </configInfo>
+        <data>
+          <diagram>%%DATAPATH%%diagrams/default/system-health-linear.svg</diagram>
+        </data>
+      </Linear>
     </SystemHealthGadget>
     <UAVObjectBrowser>
       <default>
