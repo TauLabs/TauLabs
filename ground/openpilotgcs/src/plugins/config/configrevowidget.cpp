@@ -345,7 +345,7 @@ void ConfigRevoWidget::doStartNoiseMeasurement()
     Magnetometer * mag = Magnetometer::GetInstance(getObjectManager());
     Q_ASSERT(mag);
     BaroAltitude * baro = BaroAltitude::GetInstance(getObjectManager());
-    Q_ASSERT(mag);
+    Q_ASSERT(baro);
 
     UAVObject::Metadata mdata;
 
