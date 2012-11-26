@@ -42,7 +42,8 @@
 
 #include <pios_spi_priv.h>
 
-#define SPI_MAX_BLOCK_PIO	128
+//#define SPI_MAX_BLOCK_PIO	128
+#define SPI_MAX_BLOCK_PIO	0xffffffff
 
 static bool PIOS_SPI_validate(struct pios_spi_dev * com_dev)
 {
@@ -221,8 +222,19 @@ int32_t PIOS_SPI_SetClockSpeed(uint32_t spi_id, SPIPrescalerTypeDef spi_prescale
 	bool valid = PIOS_SPI_validate(spi_dev);
 	PIOS_Assert(valid)
 	
-	SPI_InitTypeDef       SPI_InitStructure;
+	SPI_InitTypeDef SPI_InitStructure;
 	
+	if (spi_dev->cfg->regs == SPI1)
+	{
+		//APB2 == 84MHz
+		//divide by 2 to match frequency
+		spi_prescaler += 1;
+	}
+	else
+	{
+		//APB1 == 42MHz
+	}
+
 	if (spi_prescaler >= 8) {
 		/* Invalid prescaler selected */
 		return -3;
