@@ -140,16 +140,19 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
     float pressure = 0;
     float temperature = 0;
 
-
     trackUpdate=false;
 
-    //Taken from NatNet example program: packet.cpp
+    /*
+    * Taken from NatNet example program: packet.cpp
+    */
     int NatNetVersion[4] = {0,0,0,0};
 
     int major = NatNetVersion[0];
     int minor = NatNetVersion[1];
 
-    //ICK. THERE'S A BETTER WAY TO DO THIS, BUT I'M TIRED AND AM NOT SEEING IT
+    // TODO: Improve the parser so that it doesn't require setting aside a fixed block of memory.
+    // This is esepcially bad because with large number of objects in the scene the NatNet packet
+    // can easily exceed this value.
     char ptrString[1024];
     char *ptr=ptrString;
 
