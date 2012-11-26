@@ -46,7 +46,7 @@
 //#define NATNET_DEBUG
 
 NatNet::NatNet(const MocapSettings& params, Ui_MoCapWidget *widget) :
-    Export(params), trackableIndex(0)
+    Exporter(params), trackableIndex(0)
 {
     resetInitialHomePosition();
 

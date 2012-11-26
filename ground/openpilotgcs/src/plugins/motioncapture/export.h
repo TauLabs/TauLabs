@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       export.h
+ * @file       exporter.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -25,8 +25,8 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef EXPORT_H
-#define EXPORT_H
+#ifndef EXPORTER_H
+#define EXPORTER_H
 
 #include <QObject>
 #include <QUdpSocket>
@@ -105,7 +105,7 @@ typedef struct _FLIGHT_PARAM {
 
 typedef struct _CONNECTION
 {
-    QString exportId;
+    QString exporterId;
     QString binPath;
     QString dataPath;
     QString hostAddress;
@@ -171,28 +171,28 @@ struct MocapOutput2Hardware{
     float delT;
 };
 
-class Export : public QObject
+class Exporter : public QObject
 {
     Q_OBJECT
 
 public:
-    Export(const MocapSettings& params);
-    virtual ~Export();
+    Exporter(const MocapSettings& params);
+    virtual ~Exporter();
 
     bool isAutopilotConnected() const { return autopilotConnectionStatus; }
-    bool isExportConnected() const { return exportConnectionStatus; }
+    bool isExporterConnected() const { return exporterConnectionStatus; }
     QString Name() const { return name; }
     void setName(QString str) { name = str; }
 
-    QString ExportId() const { return exportId; }
-    void setExportId(QString str) { exportId = str; }
+    QString ExporterId() const { return exporterId; }
+    void setExporterId(QString str) { exporterId = str; }
 
 
 
     static bool IsStarted() { return isStarted; }
     static void setStarted(bool val) { isStarted = val; }
-    static QStringList& Instances() { return Export::instances; }
-    static void setInstance(const QString& str) { Export::instances.append(str); }
+    static QStringList& Instances() { return Exporter::instances; }
+    static void setInstance(const QString& str) { Exporter::instances.append(str); }
 
     virtual void stopProcess() {}
     virtual void setupUdpPorts(const QString& host, int inPort, int outPort) { Q_UNUSED(host) Q_UNUSED(inPort) Q_UNUSED(outPort)}
@@ -203,10 +203,10 @@ public:
 signals:
     void autopilotConnected();
     void autopilotDisconnected();
-    void exportConnected();
-    void exportDisconnected();
+    void exporterConnected();
+    void exporterDisconnected();
     void processOutput(QString str);
-    void deleteExportProcess();
+    void deleteExporterProcess();
     void myStart();
 public slots:
     Q_INVOKABLE virtual bool setupProcess() { return true;}
@@ -216,9 +216,9 @@ private slots:
     void receiveUpdate();
     void onAutopilotConnect();
     void onAutopilotDisconnect();
-    void onExportConnectionTimeout();
+    void onExporterConnectionTimeout();
     void telStatsUpdated(UAVObject* obj);
-    Q_INVOKABLE void onDeleteExport(void);
+    Q_INVOKABLE void onDeleteExporter(void);
 
     virtual void transmitUpdate() = 0;
     virtual void processUpdate(const QByteArray& data) = 0;
@@ -232,7 +232,7 @@ protected:
     static const float DEG2RAD;
     static const float RAD2DEG;
 
-    QProcess* exportProcess;
+    QProcess* exporterProcess;
     QTime* time;
     QUdpSocket* inSocket;//(new QUdpSocket());
     QUdpSocket* outSocket;
@@ -265,11 +265,11 @@ private:
     bool once;
 
     int updatePeriod;
-    int exportTimeout;
+    int exporterTimeout;
     volatile bool autopilotConnectionStatus;
-    volatile bool exportConnectionStatus;
+    volatile bool exporterConnectionStatus;
     QTimer* txTimer;
-    QTimer* exportTimer;
+    QTimer* exporterTimer;
 
     QTime attRawTime;
     QTime gpsPosTime;
@@ -279,7 +279,7 @@ private:
     QTime airspeedActualTime;
 
     QString name;
-    QString exportId;
+    QString exporterId;
     volatile static bool isStarted;
     static QStringList instances;
     //QList<QScopedPointer<UAVDataObject> > requiredUAVObjects;
@@ -305,11 +305,11 @@ public:
     QString ClassId() const {return classId;}
     QString Description() const {return description;}
 
-    virtual Export* createExport(const MocapSettings& params, Ui_MoCapWidget *widget) = 0;
+    virtual Exporter* createExporter(const MocapSettings& params, Ui_MoCapWidget *widget) = 0;
 
 private:
     QString classId;
     QString description;
 };
 
-#endif // EXPORT_H
+#endif // EXPORTER_H

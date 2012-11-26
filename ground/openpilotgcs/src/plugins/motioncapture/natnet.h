@@ -33,7 +33,7 @@
 
 #define MAX_NAMELENGTH 256
 
-class NatNet: public Export
+class NatNet: public Exporter
 {
 	Q_OBJECT
 public:
@@ -67,7 +67,7 @@ public:
     :  MocapCreator (classId,description)
     {}
 
-    Export* createExport(const MocapSettings& params, Ui_MoCapWidget *widget)
+    Exporter* createExporter(const MocapSettings& params, Ui_MoCapWidget *widget)
     {
         return new NatNet(params, widget);
     }

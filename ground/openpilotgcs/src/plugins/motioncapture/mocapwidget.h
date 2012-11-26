@@ -44,7 +44,7 @@ public:
 
     void setSettingParameters(const MocapSettings& params) {settings = params;}
 signals:
-    void deleteExport();
+    void deleteExporter();
 
 private slots:
     void startButtonClicked();
@@ -53,18 +53,18 @@ private slots:
     void onProcessOutput(QString text);
     void onAutopilotConnect();
     void onAutopilotDisconnect();
-    void onExportConnect();
-    void onExportDisconnect();
+    void onExporterConnect();
+    void onExporterDisconnect();
     void ontrackablesComboBox_changed();
 
 private:
     Ui_MoCapWidget* widget;
-    Export* exporter;
+    Exporter* exporter;
     MocapSettings settings;
 
 	QString greenColor;
 	QString strAutopilotDisconnected;
-    QString strExportDisconnected;
+    QString strExporterDisconnected;
 	QString strAutopilotConnected;
     QString strStyleEnable;
     QString strStyleDisable;

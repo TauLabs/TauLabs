@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       esxport.cpp
+ * @file       esxporter.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -33,22 +33,22 @@
 #include "export.h"
 #include "mocapnoisegeneration.h"
 
-volatile bool Export::isStarted = false;
+volatile bool Exporter::isStarted = false;
 
-const float Export::RAD2DEG = (180.0/M_PI);
+const float Exporter::RAD2DEG = (180.0/M_PI);
 
-Export::Export(const MocapSettings& params) :
-    exportProcess(NULL),
+Exporter::Exporter(const MocapSettings& params) :
+    exporterProcess(NULL),
 	time(NULL),
 	inSocket(NULL),
 	outSocket(NULL),
 	settings(params),
         updatePeriod(50),
-        exportTimeout(8000),
+        exporterTimeout(8000),
 	autopilotConnectionStatus(false),
-    exportConnectionStatus(false),
+    exporterConnectionStatus(false),
 	txTimer(NULL),
-    exportTimer(NULL),
+    exporterTimer(NULL),
 	name("")
 {
 	// move to thread
@@ -66,7 +66,7 @@ Export::Export(const MocapSettings& params) :
 
 }
 
-Export::~Export()
+Exporter::~Exporter()
 {
 	if(inSocket)
 	{
@@ -86,44 +86,44 @@ Export::~Export()
 		txTimer = NULL;
 	}
 
-    if(exportTimer)
+    if(exporterTimer)
 	{
-        delete exportTimer;
-        exportTimer = NULL;
+        delete exporterTimer;
+        exporterTimer = NULL;
 	}
 	// NOTE: Does not currently work, may need to send control+c to through the terminal
-    if (exportProcess != NULL)
+    if (exporterProcess != NULL)
 	{
-        //connect(exportProcess,SIGNAL(finished(int, QProcess::ExitStatus)),this,SLOT(onFinished(int, QProcess::ExitStatus)));
+        //connect(exporterProcess,SIGNAL(finished(int, QProcess::ExitStatus)),this,SLOT(onFinished(int, QProcess::ExitStatus)));
 
-        exportProcess->disconnect();
-        if(exportProcess->state() == QProcess::Running)
-            exportProcess->kill();
-        //if(exportProcess->waitForFinished())
-            //emit deleteExportProcess();
-        delete exportProcess;
-        exportProcess = NULL;
+        exporterProcess->disconnect();
+        if(exporterProcess->state() == QProcess::Running)
+            exporterProcess->kill();
+        //if(exporterProcess->waitForFinished())
+            //emit deleteExporterProcess();
+        delete exporterProcess;
+        exporterProcess = NULL;
 	}
 }
 
-void Export::onDeleteExport(void)
+void Exporter::onDeleteExporter(void)
 {
 	// [1]
-    Export::setStarted(false);
+    Exporter::setStarted(false);
 	// [2]
-    Export::Instances().removeOne(exportId);
+    Exporter::Instances().removeOne(exporterId);
 
 	disconnect(this);
 	delete this;
 }
 
-void Export::onStart()
+void Exporter::onStart()
 {
     QMutexLocker locker(&lock);
 
     QThread* mainThread = QThread::currentThread();
 
-    qDebug() << "Export Thread: "<< mainThread;
+    qDebug() << "Exporter Thread: "<< mainThread;
 
     // Get required UAVObjects
     ExtensionSystem::PluginManager* pm = ExtensionSystem::PluginManager::instance();
@@ -178,11 +178,11 @@ void Export::onStart()
 	connect(txTimer, SIGNAL(timeout()), this, SLOT(transmitUpdate()),Qt::DirectConnection);
 	txTimer->setInterval(updatePeriod);
 	txTimer->start();
-    // Setup export connection timer
-    exportTimer = new QTimer();
-    connect(exportTimer, SIGNAL(timeout()), this, SLOT(onExportConnectionTimeout()),Qt::DirectConnection);
-    exportTimer->setInterval(exportTimeout);
-    exportTimer->start();
+    // Setup exporter connection timer
+    exporterTimer = new QTimer();
+    connect(exporterTimer, SIGNAL(timeout()), this, SLOT(onExporterConnectionTimeout()),Qt::DirectConnection);
+    exporterTimer->setInterval(exporterTimeout);
+    exporterTimer->start();
 
 	// setup time
 	time = new QTime();
@@ -192,16 +192,16 @@ void Export::onStart()
 
 }
 
-void Export::receiveUpdate()
+void Exporter::receiveUpdate()
 {
     // Update connection timer and status
-    exportTimer->setInterval(exportTimeout);
-    exportTimer->stop();
-    exportTimer->start();
-    if ( !exportConnectionStatus )
+    exporterTimer->setInterval(exporterTimeout);
+    exporterTimer->stop();
+    exporterTimer->start();
+    if ( !exporterConnectionStatus )
     {
-        exportConnectionStatus = true;
-        emit exportConnected();
+        exporterConnectionStatus = true;
+        emit exporterConnected();
     }
 
     // Process data
@@ -219,14 +219,14 @@ void Export::receiveUpdate()
     }
 }
 
-void Export::setupObjects()
+void Exporter::setupObjects()
 {
 
     if (settings.gcsReceiverEnabled) {
-        setupInputObject(actCommand, settings.minOutputPeriod); //Input to the export
+        setupInputObject(actCommand, settings.minOutputPeriod); //Input to the exporter
         setupOutputObject(gcsReceiver, settings.minOutputPeriod);
     } else if (settings.manualControlEnabled) {
-        setupInputObject(actDesired, settings.minOutputPeriod); //Input to the export
+        setupInputObject(actDesired, settings.minOutputPeriod); //Input to the exporter
     }
 
     if (settings.gpsPositionEnabled){
@@ -261,7 +261,7 @@ void Export::setupObjects()
 }
 
 
-void Export::setupInputObject(UAVObject* obj, quint32 updatePeriod)
+void Exporter::setupInputObject(UAVObject* obj, quint32 updatePeriod)
 {
     UAVObject::Metadata mdata;
     mdata = obj->getDefaultMetadata();
@@ -281,7 +281,7 @@ void Export::setupInputObject(UAVObject* obj, quint32 updatePeriod)
 }
 
 
-void Export::setupWatchedObject(UAVObject *obj, quint32 updatePeriod)
+void Exporter::setupWatchedObject(UAVObject *obj, quint32 updatePeriod)
 {
     UAVObject::Metadata mdata;
     mdata = obj->getDefaultMetadata();
@@ -300,7 +300,7 @@ void Export::setupWatchedObject(UAVObject *obj, quint32 updatePeriod)
 }
 
 
-void Export::setupOutputObject(UAVObject* obj, quint32 updatePeriod)
+void Exporter::setupOutputObject(UAVObject* obj, quint32 updatePeriod)
 {
 	UAVObject::Metadata mdata;
 	mdata = obj->getDefaultMetadata();
@@ -316,30 +316,30 @@ void Export::setupOutputObject(UAVObject* obj, quint32 updatePeriod)
     obj->setMetadata(mdata);
 }
 
-void Export::onAutopilotConnect()
+void Exporter::onAutopilotConnect()
 {
 	autopilotConnectionStatus = true;
 	setupObjects();
 	emit autopilotConnected();
 }
 
-void Export::onAutopilotDisconnect()
+void Exporter::onAutopilotDisconnect()
 {
 	autopilotConnectionStatus = false;
 	emit autopilotDisconnected();
 }
 
-void Export::onExportConnectionTimeout()
+void Exporter::onExporterConnectionTimeout()
 {
-    if ( exportConnectionStatus )
+    if ( exporterConnectionStatus )
 	{
-        exportConnectionStatus = false;
-        emit exportDisconnected();
+        exporterConnectionStatus = false;
+        emit exporterDisconnected();
 	}
 }
 
 
-void Export::telStatsUpdated(UAVObject* obj)
+void Exporter::telStatsUpdated(UAVObject* obj)
 {
     Q_UNUSED(obj);
 
@@ -355,12 +355,12 @@ void Export::telStatsUpdated(UAVObject* obj)
 }
 
 
-void Export::resetInitialHomePosition(){
+void Exporter::resetInitialHomePosition(){
     once=false;
 }
 
 
-void Export::updateUAVOs(MocapOutput2Hardware out){
+void Exporter::updateUAVOs(MocapOutput2Hardware out){
 
     QTime currentTime = QTime::currentTime();
 
@@ -381,7 +381,7 @@ void Export::updateUAVOs(MocapOutput2Hardware out){
     if (settings.attActualHW) {
         // do nothing
     } else if (settings.attActualMocap) {
-        // take all data from export
+        // take all data from exporter
         attActualData.Roll = out.roll + noise.attActualData.Roll;   //roll;
         attActualData.Pitch = out.pitch + noise.attActualData.Pitch;  // pitch
         attActualData.Yaw = out.yaw + noise.attActualData.Yaw; // Yaw

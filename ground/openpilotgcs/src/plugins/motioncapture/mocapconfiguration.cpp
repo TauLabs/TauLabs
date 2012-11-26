@@ -32,7 +32,7 @@ MoCapConfiguration::MoCapConfiguration(QString classId, QSettings* qSettings, QO
 {
 
     //Default settings values
-    settings.exportId = "";
+    settings.exporterId = "";
     settings.binPath = "";
     settings.dataPath = "";
     settings.manualControlEnabled = true;
@@ -70,7 +70,7 @@ MoCapConfiguration::MoCapConfiguration(QString classId, QSettings* qSettings, QO
     // if a saved configuration exists load it, and overwrite defaults
     if (qSettings != 0) {
 
-        settings.exportId         = qSettings->value("exportId").toString();
+        settings.exporterId         = qSettings->value("exporterId").toString();
         settings.binPath             = qSettings->value("binPath").toString();
         settings.dataPath            = qSettings->value("dataPath").toString();
 
@@ -138,7 +138,7 @@ IUAVGadgetConfiguration *MoCapConfiguration::clone()
   *
   */
 void MoCapConfiguration::saveConfig(QSettings* qSettings) const {
-    qSettings->setValue("exportId", settings.exportId);
+    qSettings->setValue("exporterId", settings.exporterId);
     qSettings->setValue("binPath", settings.binPath);
     qSettings->setValue("dataPath", settings.dataPath);
 

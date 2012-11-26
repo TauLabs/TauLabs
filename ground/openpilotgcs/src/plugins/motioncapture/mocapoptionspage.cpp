@@ -60,7 +60,7 @@ QWidget *MoCapOptionsPage::createPage(QWidget *parent)
     // Restore the contents from the settings:
     foreach(MocapCreator* creator, MoCapPlugin::typeMocaps)
     {
-        QString id = config->Settings().exportId;
+        QString id = config->Settings().exporterId;
         if(creator->ClassId() == id)
             m_optionsPage->chooseMotionCapture->setCurrentIndex(MoCapPlugin::typeMocaps.indexOf(creator));
     }
@@ -109,7 +109,7 @@ void MoCapOptionsPage::apply()
     MocapSettings settings;
     int i = m_optionsPage->chooseMotionCapture->currentIndex();
 
-    settings.exportId = m_optionsPage->chooseMotionCapture->itemData(i).toString();
+    settings.exporterId = m_optionsPage->chooseMotionCapture->itemData(i).toString();
     settings.addNoise = m_optionsPage->noiseCheckBox->isChecked();
     settings.hostAddress = m_optionsPage->hostAddress->text();
     settings.remoteAddress = m_optionsPage->remoteAddress->text();

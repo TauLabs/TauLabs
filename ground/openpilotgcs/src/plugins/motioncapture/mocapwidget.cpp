@@ -40,7 +40,7 @@
 #include "coreplugin/threadmanager.h"
 
 
-QStringList Export::instances;
+QStringList Exporter::instances;
 
 MoCapWidget::MoCapWidget(QWidget *parent)
 	: QWidget(parent),
@@ -56,11 +56,11 @@ MoCapWidget::MoCapWidget(QWidget *parent)
     strStyleDisable = "QFrame{background-color: red; color: white}";
 
     strAutopilotDisconnected = " Autopilot OFF ";
-    strExportDisconnected = " Export OFF ";
+    strExporterDisconnected = " Exporter OFF ";
     strAutopilotConnected = " Autopilot ON ";
 
 	widget->apLabel->setText(strAutopilotDisconnected);
-    widget->mocapLabel->setText(strExportDisconnected);
+    widget->mocapLabel->setText(strExporterDisconnected);
 
 	connect(widget->startButton, SIGNAL(clicked()), this, SLOT(startButtonClicked()));
 	connect(widget->stopButton, SIGNAL(clicked()), this, SLOT(stopButtonClicked()));
@@ -77,23 +77,23 @@ void MoCapWidget::startButtonClicked()
         QThread* mainThread = QThread::currentThread();
 	qDebug() << "Main Thread: "<< mainThread;
 
-    //Allow only one instance per export
-    if(Export::Instances().indexOf(settings.exportId) != -1)
+    //Allow only one instance per exporter
+    if(Exporter::Instances().indexOf(settings.exporterId) != -1)
 	{
-        widget->textBrowser->append(settings.exportId + " alreary started!");
+        widget->textBrowser->append(settings.exporterId + " alreary started!");
 		return;
 	}
 
     if(!MoCapPlugin::typeMocaps.size())
 	{
-        qxtLog->info("There is no registered exports, add through MoCapPlugin::addExport");
+        qxtLog->info("There is no registered exporters, add through MoCapPlugin::addExporter");
 		return;
 	}
 
 	// Stop running process if one is active
     if(exporter)
 	{
-        QMetaObject::invokeMethod(exporter, "onDeleteExport",Qt::QueuedConnection);
+        QMetaObject::invokeMethod(exporter, "onDeleteExporter",Qt::QueuedConnection);
         exporter = NULL;
 	}
 
@@ -103,12 +103,12 @@ void MoCapWidget::startButtonClicked()
 		return;
 	}
 
-    MocapCreator* creator = MoCapPlugin::getMocapCreator(settings.exportId);
-    exporter = creator->createExport(settings, widget);
+    MocapCreator* creator = MoCapPlugin::getMocapCreator(settings.exporterId);
+    exporter = creator->createExporter(settings, widget);
 
     // move to thread <--[BCH]
     exporter->setName(creator->Description());
-    exporter->setExportId(creator->ClassId());
+    exporter->setExporterId(creator->ClassId());
 
     connect(exporter, SIGNAL(processOutput(QString)), this, SLOT(onProcessOutput(QString)));
 
@@ -120,18 +120,18 @@ void MoCapWidget::startButtonClicked()
     bool ret = QMetaObject::invokeMethod(exporter, "setupProcess",Qt::QueuedConnection);
 	if(ret)
 	{
-        Export::setInstance(settings.exportId);
+        Exporter::setInstance(settings.exporterId);
 
-        connect(this,SIGNAL(deleteExport()),exporter, SLOT(onDeleteExport()),Qt::QueuedConnection);
+        connect(this,SIGNAL(deleteExporter()),exporter, SLOT(onDeleteExporter()),Qt::QueuedConnection);
 
 		widget->startButton->setEnabled(false);
 		widget->stopButton->setEnabled(true);
-        qxtLog->info("MoCap: Starting bridge, initializing flight export and Autopilot connections");
+        qxtLog->info("MoCap: Starting bridge, initializing flight exporter and Autopilot connections");
 
         connect(exporter, SIGNAL(autopilotConnected()), this, SLOT(onAutopilotConnect()),Qt::QueuedConnection);
         connect(exporter, SIGNAL(autopilotDisconnected()), this, SLOT(onAutopilotDisconnect()),Qt::QueuedConnection);
-        connect(exporter, SIGNAL(exportConnected()), this, SLOT(onExportConnect()),Qt::QueuedConnection);
-        connect(exporter, SIGNAL(exportDisconnected()), this, SLOT(onExportDisconnect()),Qt::QueuedConnection);
+        connect(exporter, SIGNAL(exporterConnected()), this, SLOT(onExporterConnect()),Qt::QueuedConnection);
+        connect(exporter, SIGNAL(exporterDisconnected()), this, SLOT(onExporterDisconnect()),Qt::QueuedConnection);
         connect(widget->trackablesComboBox, SIGNAL(	currentIndexChanged(int)), this, SLOT(ontrackablesComboBox_changed()));
 
 		// Initialize connection status
@@ -144,13 +144,13 @@ void MoCapWidget::startButtonClicked()
 			onAutopilotDisconnect();
 		}
 
-        if ( exporter->isExportConnected() )
+        if ( exporter->isExporterConnected() )
 		{
-            onExportConnect();
+            onExporterConnect();
 		}
 		else
 		{
-            onExportDisconnect();
+            onExporterDisconnect();
 		}
 	}
 }
@@ -168,10 +168,10 @@ void MoCapWidget::stopButtonClicked()
     widget->apLabel->setStyleSheet(QString::fromUtf8("QFrame{background-color: transparent; color: white}"));
     widget->mocapLabel->setStyleSheet(QString::fromUtf8("QFrame{background-color: transparent; color: white}"));
     widget->apLabel->setText(strAutopilotDisconnected);
-    widget->mocapLabel->setText(strExportDisconnected);
+    widget->mocapLabel->setText(strExporterDisconnected);
     if(exporter)
 	{
-        QMetaObject::invokeMethod(exporter, "onDeleteExport",Qt::QueuedConnection);
+        QMetaObject::invokeMethod(exporter, "onDeleteExporter",Qt::QueuedConnection);
         exporter = NULL;
 	}
 }
@@ -200,14 +200,14 @@ void MoCapWidget::onAutopilotDisconnect()
 	qxtLog->info(strAutopilotDisconnected);
 }
 
-void MoCapWidget::onExportConnect()
+void MoCapWidget::onExporterConnect()
 {
     widget->mocapLabel->setStyleSheet(strStyleEnable);
     widget->mocapLabel->setText(" " + exporter->Name() +" connected ");
     qxtLog->info(QString("MoCap: %1 connected").arg(exporter->Name()));
 }
 
-void MoCapWidget::onExportDisconnect()
+void MoCapWidget::onExporterDisconnect()
 {
     widget->mocapLabel->setStyleSheet(strStyleDisable);
     widget->mocapLabel->setText(" " + exporter->Name() +" disconnected ");
