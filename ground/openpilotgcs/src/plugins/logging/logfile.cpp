@@ -64,18 +64,18 @@ bool LogFile::open(OpenMode mode) {
         QString logGitHashString=file.readLine().trimmed(); //Read second line of log file. This assumes that the logfile is of the new format.
         QString logUAVOHashString=file.readLine().trimmed(); //Read third line of log file. This assumes that the logfile is of the new format.
         QString gitHash = QString::fromLatin1(Core::Constants::GCS_REVISION_STR);
-        QString uavoHash = QString::fromLatin1(Core::Constants::UAVOSHA1_STR);
+        QString uavoHash = QString::fromLatin1(Core::Constants::UAVOSHA1_STR).replace("\"{ ", "").replace(" }\"", "").replace(",", "").replace("0x", ""); // See comment above for necessity for string replacements
 
-        if(logGitHashString != gitHash){
-            QMessageBox msgBox;
-            msgBox.setText("Possible log file incompatibility.");
-            msgBox.setInformativeText(QString("The log file was made with branch %1. GCS will attempt to play the file.").arg(logGitHashString));
-            msgBox.exec();
-        }
         if(logUAVOHashString != uavoHash){
             QMessageBox msgBox;
             msgBox.setText("Likely log file incompatibility.");
             msgBox.setInformativeText(QString("The log file was made with branch %1, UAVO hash %2. GCS will attempt to play the file.").arg(logGitHashString).arg(logUAVOHashString));
+            msgBox.exec();
+        }
+        else if(logGitHashString != gitHash){
+            QMessageBox msgBox;
+            msgBox.setText("Possible log file incompatibility.");
+            msgBox.setInformativeText(QString("The log file was made with branch %1. GCS will attempt to play the file.").arg(logGitHashString));
             msgBox.exec();
         }
 
@@ -153,8 +153,6 @@ qint64 LogFile::bytesAvailable() const
 void LogFile::timerFired()
 {
     qint64 dataSize;
-
-    qDebug() << "Bytes available: " << file.bytesAvailable();
 
     if(file.bytesAvailable() > 4)
     {
