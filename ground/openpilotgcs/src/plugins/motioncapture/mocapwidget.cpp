@@ -34,7 +34,7 @@
 #include <QThread>
 
 #include <mocapplugin.h>
-#include "export.h"
+#include "exporter.h"
 #include "uavobjectmanager.h"
 #include "coreplugin/icore.h"
 #include "coreplugin/threadmanager.h"

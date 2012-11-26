@@ -32,7 +32,7 @@
 #include <QtGui/QColor>
 #include <QString>
 
-#include "export.h"
+#include "exporter.h"
 
 using namespace Core;
 

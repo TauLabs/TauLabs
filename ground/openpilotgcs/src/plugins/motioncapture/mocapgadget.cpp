@@ -27,7 +27,7 @@
 #include "mocapgadget.h"
 #include "mocapwidget.h"
 #include "mocapconfiguration.h"
-#include "export.h"
+#include "exporter.h"
 
 MoCapGadget::MoCapGadget(QString classId, MoCapWidget *widget, QWidget *parent) :
         IUAVGadget(classId, parent),

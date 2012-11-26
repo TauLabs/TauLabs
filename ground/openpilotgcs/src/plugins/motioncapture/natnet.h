@@ -29,7 +29,7 @@
 #define NATNET_H
 
 #include <QObject>
-#include "export.h"
+#include "exporter.h"
 
 #define MAX_NAMELENGTH 256
 

@@ -33,7 +33,7 @@
 #include <QFileDialog>
 #include <QtAlgorithms>
 #include <QStringList>
-#include "export.h"
+#include "exporter.h"
 
 
 

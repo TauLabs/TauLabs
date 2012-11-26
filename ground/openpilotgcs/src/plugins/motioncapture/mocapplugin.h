@@ -31,7 +31,7 @@
 #include <extensionsystem/iplugin.h>
 #include <QStringList>
 
-#include "export.h"
+#include "exporter.h"
 
 class MoCapFactory;
 

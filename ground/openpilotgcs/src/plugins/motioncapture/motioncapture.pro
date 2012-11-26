@@ -12,7 +12,7 @@ HEADERS += mocapplugin.h \
     mocapconfiguration.h \
     mocapgadget.h \
     mocapnoisegeneration.h \
-    export.h \
+    exporter.h \
     natnet.h
 SOURCES += mocapplugin.cpp \
     mocapwidget.cpp \
@@ -21,7 +21,7 @@ SOURCES += mocapplugin.cpp \
     mocapconfiguration.cpp \
     mocapgadget.cpp \
     mocapnoisegeneration.cpp \
-    export.cpp \
+    exporter.cpp \
     natnet.cpp
 OTHER_FILES += motioncapture.pluginspec
 FORMS += mocapoptionspage.ui \

@@ -30,7 +30,7 @@
 #include "extensionsystem/pluginmanager.h"
 #include "coreplugin/icore.h"
 #include "coreplugin/threadmanager.h"
-#include "export.h"
+#include "exporter.h"
 #include "mocapnoisegeneration.h"
 
 volatile bool Exporter::isStarted = false;

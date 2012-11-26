@@ -30,7 +30,7 @@
 
 #include <QtGui/QWidget>
 #include <QProcess>
-#include "export.h"
+#include "exporter.h"
 
 class Ui_MoCapWidget;
 
