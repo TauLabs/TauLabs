@@ -34,7 +34,7 @@
 #include "QPointer"
 #include "flightdatamodel.h"
 #include <QItemSelectionModel>
-#include <widgetdelegates.h>
+#include "widgetdelegates.h"
 
 
 using namespace mapcontrol;

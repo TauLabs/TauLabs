@@ -60,6 +60,7 @@
 #define PIOS_GPS_MINIMAL
 #define PIOS_INCLUDE_GPS_NMEA_PARSER /* Include the NMEA protocol parser */
 #define PIOS_INCLUDE_GPS_UBX_PARSER  /* Include the UBX protocol parser */
+
 #define PIOS_INCLUDE_SERVO
 #define PIOS_INCLUDE_SPI
 #define PIOS_INCLUDE_SYS
@@ -94,7 +95,7 @@
 #define CPULOAD_LIMIT_CRITICAL		95
 
 /* Task stack sizes */
-#define PIOS_ACTUATOR_STACK_SIZE       1020
+#define PIOS_ACTUATOR_STACK_SIZE        800
 #define PIOS_MANUAL_STACK_SIZE          800
 #define PIOS_SYSTEM_STACK_SIZE          660
 #define PIOS_STABILIZATION_STACK_SIZE   524
@@ -108,6 +109,12 @@
 
 /* PIOS Initcall infrastructure */
 #define PIOS_INCLUDE_INITCALL
+
+#define COPTERCONTROL
+// Conditional related to making CC run navigation
+#if defined(NAVGIATION)
+#define PIOS_GPS_PROVIDES_AIRSPEED
+#endif
 
 #endif /* PIOS_CONFIG_H */
 /**

@@ -155,7 +155,7 @@ void Simulator::onStart()
     baroAlt = BaroAltitude::GetInstance(objManager);
     airspeedActual = AirspeedActual::GetInstance(objManager);
     attActual = AttitudeActual::GetInstance(objManager);
-    attSettings = AttitudeSettings::GetInstance(objManager);
+    attitudeSettings = AttitudeSettings::GetInstance(objManager);
     accels = Accels::GetInstance(objManager);
     gyros = Gyros::GetInstance(objManager);
     gpsPos = GPSPosition::GetInstance(objManager);
@@ -178,22 +178,15 @@ void Simulator::onStart()
     outSocket = new QUdpSocket();
     setupUdpPorts(settings.hostAddress,settings.inPort,settings.outPort);
 
-        emit processOutput("\nLocal interface: " + settings.hostAddress + "\n" + \
-                           "Remote interface: " + settings.remoteAddress + "\n" + \
-                           "inputPort: " + QString::number(settings.inPort) + "\n" + \
-                           "outputPort: " + QString::number(settings.outPort) + "\n");
+    emit processOutput("\nLocal interface: " + settings.hostAddress + "\n" + \
+                       "Remote interface: " + settings.remoteAddress + "\n" + \
+                       "inputPort: " + QString::number(settings.inPort) + "\n" + \
+                       "outputPort: " + QString::number(settings.outPort) + "\n");
 
-        qxtLog->info("\nLocal interface: " + settings.hostAddress + "\n" + \
-                     "Remote interface: " + settings.remoteAddress + "\n" + \
-                     "inputPort: " + QString::number(settings.inPort) + "\n" + \
-                     "outputPort: " + QString::number(settings.outPort) + "\n");
-
-//        if(!inSocket->waitForConnected(5000))
-//                emit processOutput(QString("Can't connect to %1 on %2 port!").arg(settings.hostAddress).arg(settings.inPort));
-//        outSocket->connectToHost(settings.hostAddress,settings.outPort); // FG
-//        if(!outSocket->waitForConnected(5000))
-//                emit processOutput(QString("Can't connect to %1 on %2 port!").arg(settings.hostAddress).arg(settings.outPort));
-
+    qxtLog->info("\nLocal interface: " + settings.hostAddress + "\n" + \
+                 "Remote interface: " + settings.remoteAddress + "\n" + \
+                 "inputPort: " + QString::number(settings.inPort) + "\n" + \
+                 "outputPort: " + QString::number(settings.outPort) + "\n");
 
 	connect(inSocket, SIGNAL(readyRead()), this, SLOT(receiveUpdate()),Qt::DirectConnection);
 
@@ -237,8 +230,8 @@ void Simulator::receiveUpdate()
 		quint16 senderPort;
 		inSocket->readDatagram(datagram.data(), datagram.size(),
 							   &sender, &senderPort);
-		//QString datastr(datagram);
-		// Process incomming data
+
+        // Process incomming data
 		processUpdate(datagram);
 	 }
 }
@@ -335,7 +328,7 @@ void Simulator::setupOutputObject(UAVObject* obj, quint32 updatePeriod)
 
     UAVObject::SetGcsAccess(mdata, UAVObject::ACCESS_READWRITE);
     UAVObject::SetGcsTelemetryAcked(mdata, false);
-	UAVObject::SetGcsTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
+    UAVObject::SetGcsTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_ONCHANGE);
     mdata.gcsTelemetryUpdatePeriod = updatePeriod;
 
     UAVObject::SetFlightAccess(mdata, UAVObject::ACCESS_READONLY);
@@ -412,15 +405,16 @@ void Simulator::updateUAVOs(Output2Hardware out){
         // Update homelocation
         homeData.Latitude = out.latitude;   //Already in *10^7 integer format
         homeData.Longitude = out.longitude; //Already in *10^7 integer format
-        homeData.Altitude = out.agl;
-        double LLA[3];
-        LLA[0]=out.latitude;
-        LLA[1]=out.longitude;
-        LLA[2]=out.altitude;
+        homeData.Altitude = out.altitude;
 
         homeData.Be[0]=0;
         homeData.Be[1]=0;
         homeData.Be[2]=0;
+
+        homeData.g_e=9.805;
+        homeData.GroundTemperature=15;
+        homeData.SeaLevelPressure=1013;
+
         posHome->setData(homeData);
         posHome->updated();
 
@@ -437,14 +431,6 @@ void Simulator::updateUAVOs(Output2Hardware out){
     GroundTruth::DataFields groundTruthData;
     groundTruthData = groundTruth->getData();
 
-    groundTruthData.AccelerationXYZ[0]=out.accX;
-    groundTruthData.AccelerationXYZ[1]=out.accY;
-    groundTruthData.AccelerationXYZ[2]=out.accZ;
-
-    groundTruthData.AngularRates[0]=out.rollRate;
-    groundTruthData.AngularRates[1]=out.pitchRate;
-    groundTruthData.AngularRates[2]=out.yawRate;
-
     groundTruthData.CalibratedAirspeed=out.calibratedAirspeed;
     groundTruthData.TrueAirspeed=out.trueAirspeed;
     groundTruthData.AngleOfAttack=out.angleOfAttack;
@@ -458,9 +444,17 @@ void Simulator::updateUAVOs(Output2Hardware out){
     groundTruthData.VelocityNED[1]=out.velEast;
     groundTruthData.VelocityNED[2]=out.velDown;
 
+    groundTruthData.AccelerationXYZ[0]=out.accX;
+    groundTruthData.AccelerationXYZ[1]=out.accY;
+    groundTruthData.AccelerationXYZ[2]=out.accZ;
+
     groundTruthData.RPY[0]=out.roll;
     groundTruthData.RPY[0]=out.pitch;
     groundTruthData.RPY[0]=out.heading;
+
+    groundTruthData.AngularRates[0]=out.rollRate;
+    groundTruthData.AngularRates[1]=out.pitchRate;
+    groundTruthData.AngularRates[2]=out.yawRate;
 
     //Set UAVO
     groundTruth->setData(groundTruthData);
@@ -499,10 +493,10 @@ void Simulator::updateUAVOs(Output2Hardware out){
 
         float dT = out.delT;
 
-        AttitudeSettings::DataFields attSettData = attSettings->getData();
-        float accelKp = attSettData.AccelKp * 0.1666666666666667;
-        float accelKi = attSettData.AccelKp * 0.1666666666666667;
-        float yawBiasRate = attSettData.YawBiasRate;
+        AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
+        float accelKp = attitudeSettingsData.AccelKp * 0.1666666666666667;
+        float accelKi = attitudeSettingsData.AccelKp * 0.1666666666666667;
+        float yawBiasRate = attitudeSettingsData.YawBiasRate;
 
         // calibrate sensors on arming
         if (flightStatus->getData().Armed == FlightStatus::ARMED_ARMING) {
@@ -666,8 +660,7 @@ void Simulator::updateUAVOs(Output2Hardware out){
         }
     }
 
-    /*******************************/
-    // Update VelocityActual.{North,East,Down}
+    // Update PositionActual.{North,East,Down} && VelocityActual.{North,East,Down}
     if (settings.groundTruthEnabled) {
         if (groundTruthTime.msecsTo(currentTime) >= settings.groundTruthRate) {
             VelocityActual::DataFields velocityActualData;

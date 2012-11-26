@@ -29,6 +29,7 @@
 
 #include "ui_revosensors.h"
 #include "configtaskwidget.h"
+#include "calibration.h"
 
 #include "../uavobjectwidgetutils/configtaskwidget.h"
 #include "extensionsystem/pluginmanager.h"
@@ -53,12 +54,10 @@ public:
     
 private:
     void drawVariancesGraph();
-    void displayPlane(QString elementID);
-    virtual void enableControls(bool enable);
 
     Ui_RevoSensorsWidget *m_ui;
     QGraphicsSvgItem *paperplane;
-    QGraphicsSvgItem *ahrsbargraph;
+    QGraphicsSvgItem *sensorsBargraph;
     QGraphicsSvgItem *accel_x;
     QGraphicsSvgItem *accel_y;
     QGraphicsSvgItem *accel_z;
@@ -68,15 +67,12 @@ private:
     QGraphicsSvgItem *mag_x;
     QGraphicsSvgItem *mag_y;
     QGraphicsSvgItem *mag_z;
-    QMutex attitudeRawUpdateLock;
+    QGraphicsSvgItem *baro;
+    QMutex sensorsUpdateLock;
     double maxBarHeight;
     int phaseCounter;
-    int progressBarIndex;
-    QTimer progressBarTimer;
     const static double maxVarValue;
     const static int calibrationDelay = 10;
-
-    bool collectingData;
 
     QList<double> gyro_accum_x;
     QList<double> gyro_accum_y;
@@ -87,31 +83,35 @@ private:
     QList<double> mag_accum_x;
     QList<double> mag_accum_y;
     QList<double> mag_accum_z;
+    QList<double> baro_accum;
 
     double accel_data_x[6], accel_data_y[6], accel_data_z[6];
     double mag_data_x[6], mag_data_y[6], mag_data_z[6];
 
-    UAVObject::Metadata initialMdata;
-    int position;
+    UAVObject::Metadata initialAccelsMdata;
+    UAVObject::Metadata initialGyrosMdata;
+    UAVObject::Metadata initialMagMdata;
+    UAVObject::Metadata initialBaroMdata;
+    float initialMagCorrectionRate;
+
+    static const int NOISE_SAMPLES = 100;
 
 private slots:
-    void openHelp();
-    void launchAccelBiasCalibration();
-    void incrementProgress();
+    //! Overriden method from the configTaskWidget to update UI
+    virtual void refreshWidgetsValues(UAVObject * obj=NULL);
 
-    virtual void refreshValues();
-    //void ahrsSettingsRequest();
-    void SettingsToRAM();
-    void SettingsToFlash();
-    void savePositionData();
-    void computeScaleBias();
-    void sixPointCalibrationMode();
-    void sensorsUpdated(UAVObject * obj);
-    void accelBiasattitudeRawUpdated(UAVObject*);
+    //! Display the plane in various positions
+    void displayPlane(int i);
+
+    // Slots for measuring the sensor noise
+    void doStartNoiseMeasurement();
+    void doGetNoiseSample(UAVObject *);
 
 protected:
     void showEvent(QShowEvent *event);
     void resizeEvent(QResizeEvent *event);
+
+    Calibration calibration;
 
 };
 

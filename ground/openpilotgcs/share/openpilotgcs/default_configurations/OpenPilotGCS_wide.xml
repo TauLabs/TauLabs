@@ -2,16 +2,14 @@
   <General>
     <AutoConnect>true</AutoConnect>
     <AutoSelect>true</AutoSelect>
+    <Description>Wide configuration</Description>
+    <Details>Default configuration built for wide screens (17"up)</Details>
     <ExpertMode>false</ExpertMode>
-    <LastPreferenceCategory>Notify Plugin</LastPreferenceCategory>
-    <LastPreferencePage>settings</LastPreferencePage>
     <SaveSettingsOnExit>true</SaveSettingsOnExit>
     <SettingsWindowHeight>700</SettingsWindowHeight>
     <SettingsWindowWidth>800</SettingsWindowWidth>
-    <UDPMirror>false</UDPMirror>
-    <Description>Wide configuration</Description>
-    <Details>Default configuration built for wide screens (17"up)</Details>
     <StyleSheet>wide</StyleSheet>
+    <UDPMirror>false</UDPMirror>
   </General>
   <KeyBindings>
     <size>0</size>
@@ -1494,6 +1492,40 @@
         </data>
       </Yaw>
     </LineardialGadget>
+    <MoCap>
+      <default>
+        <configInfo>
+          <locked>false</locked>
+          <version>0.0.0</version>
+        </configInfo>
+        <data>
+          <addNoise>false</addNoise>
+          <airspeedActualEnabled>false</airspeedActualEnabled>
+          <airspeedActualRate>100</airspeedActualRate>
+          <attActualRate>50</attActualRate>
+          <attActualHW>false</attActualHW>
+          <attActualMocap>false</attActualMocap>
+          <attActualEnabled>false</attActualEnabled>
+          <attRawEnabled>false</attRawEnabled>
+          <attRawRate>20</attRawRate>
+          <baroAltRate>100</baroAltRate>
+          <baroAltitudeEnabled>false</baroAltitudeEnabled>
+          <exportId>NatNet</exportId>
+          <gcsReceiverEnabled>false</gcsReceiverEnabled>
+          <gpsPosRate>100</gpsPosRate>
+          <gpsPositionEnabled>false</gpsPositionEnabled>
+          <groundTruthEnabled>true</groundTruthEnabled>
+          <groundTruthRate>100</groundTruthRate>
+          <hostAddress>239.255.42.99</hostAddress>
+          <inPort>1511</inPort>
+          <inputCommand>false</inputCommand>
+          <manualControlEnabled>false</manualControlEnabled>
+          <minOutputPeriod>100</minOutputPeriod>
+          <outPort>0</outPort>
+          <remoteAddress>127.0.0.1</remoteAddress>
+        </data>
+      </default>
+    </MoCap>
     <ModelViewGadget>
       <Aeroquad__PCT__20__PCT__2B>
         <configInfo>
@@ -2216,7 +2248,7 @@
           </plotCurve2>
           <plotCurveCount>3</plotCurveCount>
           <plotType>1</plotType>
-          <refreshInterval>500</refreshInterval>
+          <refreshInterval>100</refreshInterval>
         </data>
       </Raw__PCT__20Gyros>
       <Raw__PCT__20magnetometers>
@@ -2487,6 +2519,15 @@
           <diagram>%%DATAPATH%%diagrams/default/system-health.svg</diagram>
         </data>
       </default>
+      <Linear>
+        <configInfo>
+          <locked>false</locked>
+          <version>0.0.0</version>
+        </configInfo>
+        <data>
+          <diagram>%%DATAPATH%%diagrams/default/system-health-linear.svg</diagram>
+        </data>
+      </Linear>
     </SystemHealthGadget>
     <UAVObjectBrowser>
       <default>

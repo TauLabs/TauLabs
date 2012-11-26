@@ -107,6 +107,7 @@ void VehicleConfig::SetConfigData(GUIConfigDataUnion configData) {
 
 void VehicleConfig::ResetActuators(GUIConfigDataUnion* configData)
 {
+    Q_UNUSED(configData);
 }
 
 /**
@@ -178,6 +179,18 @@ void VehicleConfig::resetMixerVector(UAVDataObject* mixer, int channel)
         setMixerVectorValue(mixer, channel, VehicleConfig::MIXERVECTOR_PITCH, 0);
         setMixerVectorValue(mixer, channel, VehicleConfig::MIXERVECTOR_ROLL, 0);
         setMixerVectorValue(mixer, channel, VehicleConfig::MIXERVECTOR_YAW, 0);
+    }
+}
+
+// Disable all servo/motor mixers (but keep camera and accessory ones)
+void VehicleConfig::resetMixers(UAVDataObject *mixer)
+{
+    for (int channel = 0; channel < (int)VehicleConfig::CHANNEL_NUMELEM; channel++) {
+        QString type = getMixerType(mixer, channel);
+        if ((type == "Disabled") || (type == "Motor") || (type == "Servo")) {
+            setMixerType(mixer, channel, VehicleConfig::MIXERTYPE_DISABLED);
+            resetMixerVector(mixer, channel);
+        }
     }
 }
 
@@ -254,7 +267,7 @@ void VehicleConfig::setThrottleCurve(UAVDataObject* mixer, MixerThrottleCurveEle
         }
     }
 
-    if (field && field->getNumElements() == curve.length()) {
+    if (field && field->getNumElements() == (quint32) curve.length()) {
         for (int i=0;i<curve.length();i++) {
            field->setValue(curve.at(i),i);
         }

@@ -103,6 +103,8 @@ void ConnectionManager::init()
 */
 bool ConnectionManager::connectDevice(DevListItem device)
 {
+    Q_UNUSED(device);
+
     DevListItem connection_device = findDevice(m_availableDevList->itemData(m_availableDevList->currentIndex(),Qt::ToolTipRole).toString());
     if (!connection_device.connection)
         return false;

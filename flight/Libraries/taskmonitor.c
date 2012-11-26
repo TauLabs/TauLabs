@@ -90,6 +90,16 @@ int32_t TaskMonitorRemove(TaskInfoRunningElem task)
 }
 
 /**
+ * Query if a task is running
+ */
+bool TaskMonitorQueryRunning(TaskInfoRunningElem task)
+{
+	if (task < TASKINFO_RUNNING_NUMELEM && handles[task] != 0)
+		return true;
+	return false;
+}
+
+/**
  * Update the status of all tasks
  */
 void TaskMonitorUpdateAll(void)
@@ -125,10 +135,10 @@ void TaskMonitorUpdateAll(void)
 			data.StackRemaining[n] = 10000;
 #else
 			data.StackRemaining[n] = uxTaskGetStackHighWaterMark(handles[n]) * 4;
+#endif
 #if ( configGENERATE_RUN_TIME_STATS == 1 )
 			/* Generate run time stats */
 			data.RunningTime[n] = uxTaskGetRunTime(handles[n]) / deltaTime;
-#endif
 #endif
 			
 		}

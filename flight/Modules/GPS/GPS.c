@@ -34,6 +34,7 @@
 #include "GPS.h"
 
 #include "gpsposition.h"
+#include "airspeedactual.h"
 #include "homelocation.h"
 #include "gpstime.h"
 #include "gpssatellites.h"
@@ -45,6 +46,10 @@
 
 #include "NMEA.h"
 #include "UBX.h"
+
+#if defined(PIOS_GPS_PROVIDES_AIRSPEED)
+#include "gps_airspeed.h"
+#endif
 
 
 // ****************
@@ -66,7 +71,7 @@ static float GravityAccel(float latitude, float longitude, float altitude);
 
 #ifdef PIOS_GPS_SETS_HOMELOCATION
 // Unfortunately need a good size stack for the WMM calculation
-	#define STACK_SIZE_BYTES            784
+	#define STACK_SIZE_BYTES            850
 #else
 #if defined(PIOS_GPS_MINIMAL)
 	#define STACK_SIZE_BYTES            500
@@ -138,6 +143,18 @@ int32_t GPSInitialize(void)
 		gpsEnabled = false;
 #endif
 
+#if defined(REVOLUTION)
+	// These objects MUST be initialized for Revolution
+	// because the rest of the system expects to just
+	// attach to their queues
+	GPSPositionInitialize();
+	GPSVelocityInitialize();
+	GPSTimeInitialize();
+	GPSSatellitesInitialize();
+	HomeLocationInitialize();
+	updateSettings();
+
+#else
 	if (gpsPort && gpsEnabled) {
 		GPSPositionInitialize();
 		GPSVelocityInitialize();
@@ -148,8 +165,12 @@ int32_t GPSInitialize(void)
 #ifdef PIOS_GPS_SETS_HOMELOCATION
 		HomeLocationInitialize();
 #endif
+#if defined(PIOS_GPS_PROVIDES_AIRSPEED)
+		AirspeedActualInitialize();
+#endif
 		updateSettings();
 	}
+#endif
 
 	if (gpsPort && gpsEnabled) {
 		SystemSettingsInitialize();
@@ -188,6 +209,10 @@ static void gpsTask(void *parameters)
 	uint8_t	gpsProtocol;
 
 	SystemSettingsGPSDataProtocolGet(&gpsProtocol);
+
+#if defined(PIOS_GPS_PROVIDES_AIRSPEED)
+	gps_airspeed_initialize();
+#endif
 
 	timeOfLastUpdateMs = timeNowMs;
 	timeOfLastCommandMs = timeNowMs;

@@ -37,8 +37,8 @@ struct LoadTask
   {
      friend bool operator==(LoadTask const& lhs,LoadTask const& rhs);
   public:
-    core::Point Pos;
-    int Zoom;
+    core::Point Pos; //Tile position in quadtile format
+    int Zoom;        //Number of zoom levels, in quadtile format
 
 
     LoadTask(Point pos, int zoom)

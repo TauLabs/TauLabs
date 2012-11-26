@@ -144,6 +144,18 @@ plugin_qmlview.depends = plugin_coreplugin
 plugin_qmlview.depends += plugin_uavobjects
 SUBDIRS += plugin_qmlview
 
+# PathAction Editor gadget
+plugin_pathactioneditor.subdir = pathactioneditor
+plugin_pathactioneditor.depends = plugin_coreplugin
+plugin_pathactioneditor.depends += plugin_uavobjects
+SUBDIRS += plugin_pathactioneditor
+
+# Waypoint Editor gadget
+plugin_waypointeditor.subdir = waypointeditor
+plugin_waypointeditor.depends = plugin_coreplugin
+plugin_waypointeditor.depends += plugin_uavobjects
+SUBDIRS += plugin_waypointeditor
+
 # Primary Flight Display (PFD) gadget, QML version
 plugin_pfdqml.subdir = pfdqml
 plugin_pfdqml.depends = plugin_coreplugin
@@ -161,6 +173,13 @@ plugin_hitl.depends = plugin_coreplugin
 plugin_hitl.depends += plugin_uavobjects
 plugin_hitl.depends += plugin_uavtalk
 SUBDIRS += plugin_hitl
+
+#Motion capture interface gadget
+plugin_mocap.subdir = motioncapture
+plugin_mocap.depends = plugin_coreplugin
+plugin_mocap.depends += plugin_uavobjects
+plugin_mocap.depends += plugin_uavtalk
+SUBDIRS += plugin_mocap
 
 # Export and Import GCS Configuration
 plugin_importexport.subdir = importexport
@@ -198,6 +217,15 @@ plugin_uavobjectutil.subdir = uavobjectutil
 plugin_uavobjectutil.depends = plugin_coreplugin
 plugin_uavobjectutil.depends += plugin_uavobjects
 SUBDIRS += plugin_uavobjectutil
+
+# OSG Earth View plugin
+OSG {
+    plugin_osgearthview.subdir = osgearthview
+    plugin_osgearthview.depends = plugin_coreplugin
+    plugin_osgearthview.depends += plugin_uavobjects
+    plugin_osgearthview.depends += plugin_uavobjectwidgetutils
+    SUBDIRS += plugin_osgearthview
+}
 
 # Magic Waypoint gadget
 plugin_magicwaypoint.subdir = magicwaypoint

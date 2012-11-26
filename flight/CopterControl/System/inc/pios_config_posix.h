@@ -43,4 +43,6 @@
 #define LOG_FILENAME 			"PIOS.LOG"
 #define STARTUP_LOG_ENABLED		1
 
+#define COPTERCONTROL
+ 
 #endif /* PIOS_CONFIG_POSIX_H */

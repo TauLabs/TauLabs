@@ -46,6 +46,8 @@ enum pios_mpu6000_dev_magic {
 struct mpu6000_dev {
 	uint32_t spi_id;
 	uint32_t slave_num;
+	enum pios_mpu6000_accel_range accel_range;
+	enum pios_mpu6000_range gyro_range;
 	xQueueHandle queue;
 	const struct pios_mpu6000_cfg * cfg;
 	enum pios_mpu6000_dev_magic magic;
@@ -133,13 +135,14 @@ int32_t PIOS_MPU6000_Init(uint32_t spi_id, uint32_t slave_num, const struct pios
 *
 */
 static void PIOS_MPU6000_Config(struct pios_mpu6000_cfg const * cfg)
-{
-	// Reset chip
-	while (PIOS_MPU6000_SetReg(PIOS_MPU6000_PWR_MGMT_REG, 0x80) != 0);
-	PIOS_DELAY_WaitmS(100);
+{	
+	PIOS_DELAY_WaitmS(50);
 	
 	// Reset chip and fifo
-	while (PIOS_MPU6000_SetReg(PIOS_MPU6000_USER_CTRL_REG, 0x01 | 0x02 | 0x04) != 0);
+	while (PIOS_MPU6000_SetReg(PIOS_MPU6000_USER_CTRL_REG, 0x80 | 0x01 | 0x02 | 0x04) != 0);
+
+	PIOS_DELAY_WaitmS(20);
+	
 	// Wait for reset to finish
 	while (PIOS_MPU6000_GetReg(PIOS_MPU6000_USER_CTRL_REG) & 0x07);
 	
@@ -155,7 +158,7 @@ static void PIOS_MPU6000_Config(struct pios_mpu6000_cfg const * cfg)
 	// FIFO storage
 #if defined(PIOS_MPU6000_ACCEL)
 	// Set the accel scale
-	while (PIOS_MPU6000_SetReg(PIOS_MPU6000_ACCEL_CFG_REG, cfg->accel_range) != 0);
+	PIOS_MPU6000_SetAccelRange(PIOS_MPU6000_ACCEL_8G);
 	
 	while (PIOS_MPU6000_SetReg(PIOS_MPU6000_FIFO_EN_REG, cfg->Fifo_store | PIOS_MPU6000_ACCEL_OUT) != 0);
 #else
@@ -169,7 +172,7 @@ static void PIOS_MPU6000_Config(struct pios_mpu6000_cfg const * cfg)
 	while (PIOS_MPU6000_SetReg(PIOS_MPU6000_DLPF_CFG_REG, cfg->filter) != 0) ;
 	
 	// Digital low-pass filter and scale
-	while (PIOS_MPU6000_SetReg(PIOS_MPU6000_GYRO_CFG_REG, cfg->gyro_range) != 0) ;
+	PIOS_MPU6000_SetGyroRange(PIOS_MPU6000_SCALE_500_DEG);
 	
 	// Interrupt configuration
 	while (PIOS_MPU6000_SetReg(PIOS_MPU6000_USER_CTRL_REG, cfg->User_ctl) != 0) ;
@@ -179,13 +182,31 @@ static void PIOS_MPU6000_Config(struct pios_mpu6000_cfg const * cfg)
 	
 	// Interrupt configuration
 	while (PIOS_MPU6000_SetReg(PIOS_MPU6000_INT_CFG_REG, cfg->interrupt_cfg) != 0) ;
-	
+
 	// Interrupt configuration
 	while (PIOS_MPU6000_SetReg(PIOS_MPU6000_INT_EN_REG, cfg->interrupt_en) != 0) ;
 	if((PIOS_MPU6000_GetReg(PIOS_MPU6000_INT_EN_REG)) != cfg->interrupt_en)
 		return;
 	
 	mpu6000_configured = true;
+}
+
+/**
+ * Set the gyro range and store it locally for scaling
+ */
+void PIOS_MPU6000_SetGyroRange(enum pios_mpu6000_range gyro_range)
+{
+	while (PIOS_MPU6000_SetReg(PIOS_MPU6000_GYRO_CFG_REG, gyro_range) != 0);
+	dev->gyro_range = gyro_range;
+}
+
+/**
+ * Set the accel range and store it locally for scaling
+ */
+extern void PIOS_MPU6000_SetAccelRange(enum pios_mpu6000_accel_range accel_range)
+{
+	while (PIOS_MPU6000_SetReg(PIOS_MPU6000_ACCEL_CFG_REG, accel_range) != 0);
+	dev->accel_range = accel_range;
 }
 
 /**
@@ -272,6 +293,7 @@ static int32_t PIOS_MPU6000_SetReg(uint8_t reg, uint8_t data)
  */
 int32_t PIOS_MPU6000_ReadGyros(struct pios_mpu6000_data * data)
 {
+	// THIS FUNCTION IS DEPRECATED AND DOES NOT PERFORM A ROTATION
 	uint8_t buf[7] = {PIOS_MPU6000_GYRO_X_OUT_MSB | 0x80, 0, 0, 0, 0, 0, 0};
 	uint8_t rec[7];
 	
@@ -317,7 +339,7 @@ xQueueHandle PIOS_MPU6000_GetQueue()
 
 float PIOS_MPU6000_GetScale() 
 {
-	switch (dev->cfg->gyro_range) {
+	switch (dev->gyro_range) {
 		case PIOS_MPU6000_SCALE_250_DEG:
 			return 1.0f / 131.0f;
 		case PIOS_MPU6000_SCALE_500_DEG:
@@ -332,7 +354,7 @@ float PIOS_MPU6000_GetScale()
 
 float PIOS_MPU6000_GetAccelScale()
 {
-	switch (dev->cfg->accel_range) {
+	switch (dev->accel_range) {
 		case PIOS_MPU6000_ACCEL_2G:
 			return GRAV / 16384.0f;
 		case PIOS_MPU6000_ACCEL_4G:
@@ -350,14 +372,14 @@ float PIOS_MPU6000_GetAccelScale()
  * \return 0 if test succeeded
  * \return non-zero value if test succeeded
  */
-uint8_t PIOS_MPU6000_Test(void)
+int32_t PIOS_MPU6000_Test(void)
 {
 	/* Verify that ID matches (MPU6000 ID is 0x69) */
 	int32_t mpu6000_id = PIOS_MPU6000_ReadID();
 	if(mpu6000_id < 0)
 		return -1;
 	
-	if(mpu6000_id != 0x68);
+	if(mpu6000_id != 0x68)
 		return -2;
 	
 	return 0;
@@ -444,19 +466,63 @@ bool PIOS_MPU6000_IRQHandler(void)
 		PIOS_MPU6000_ReleaseBus();
 	}
 	
+	// Rotate the sensor to OP convention.  The datasheet defines X as towards the right
+	// and Y as forward.  OP convention transposes this.  Also the Z is defined negatively
+	// to our convention
 #if defined(PIOS_MPU6000_ACCEL)
-	data.accel_x = mpu6000_rec_buf[1] << 8 | mpu6000_rec_buf[2];
-	data.accel_y = mpu6000_rec_buf[3] << 8 | mpu6000_rec_buf[4];
-	data.accel_z = mpu6000_rec_buf[5] << 8 | mpu6000_rec_buf[6];
+	// Currently we only support rotations on top so switch X/Y accordingly
+	switch(dev->cfg->orientation) {
+		case PIOS_MPU6000_TOP_0DEG:
+			data.accel_y = mpu6000_rec_buf[1] << 8 | mpu6000_rec_buf[2];      // chip X
+			data.accel_x = mpu6000_rec_buf[3] << 8 | mpu6000_rec_buf[4];      // chip Y
+			data.gyro_y  = mpu6000_rec_buf[9] << 8  | mpu6000_rec_buf[10];    // chip X
+			data.gyro_x  = mpu6000_rec_buf[11] << 8 | mpu6000_rec_buf[12];    // chip Y
+			break;
+		case PIOS_MPU6000_TOP_90DEG:
+			data.accel_y = -(mpu6000_rec_buf[3] << 8 | mpu6000_rec_buf[4]);   // chip Y
+			data.accel_x = mpu6000_rec_buf[1] << 8 | mpu6000_rec_buf[2];      // chip X
+			data.gyro_y  = -(mpu6000_rec_buf[11] << 8 | mpu6000_rec_buf[12]); // chip Y
+			data.gyro_x  = mpu6000_rec_buf[9] << 8  | mpu6000_rec_buf[10];    // chip X
+			break;
+		case PIOS_MPU6000_TOP_180DEG:
+			data.accel_y = -(mpu6000_rec_buf[1] << 8 | mpu6000_rec_buf[2]);   // chip X
+			data.accel_x = -(mpu6000_rec_buf[3] << 8 | mpu6000_rec_buf[4]);   // chip Y
+			data.gyro_y  = -(mpu6000_rec_buf[9] << 8  | mpu6000_rec_buf[10]); // chip X
+			data.gyro_x  = -(mpu6000_rec_buf[11] << 8 | mpu6000_rec_buf[12]); // chip Y
+			break;
+		case PIOS_MPU6000_TOP_270DEG:
+			data.accel_y = mpu6000_rec_buf[3] << 8 | mpu6000_rec_buf[4];      // chip Y
+			data.accel_x = -(mpu6000_rec_buf[1] << 8 | mpu6000_rec_buf[2]);   // chip X
+			data.gyro_y  = mpu6000_rec_buf[11] << 8 | mpu6000_rec_buf[12];    // chip Y
+			data.gyro_x  = -(mpu6000_rec_buf[9] << 8  | mpu6000_rec_buf[10]); // chip X
+			break;
+	}
+	data.gyro_z  = -(mpu6000_rec_buf[13] << 8 | mpu6000_rec_buf[14]);
+	data.accel_z = -(mpu6000_rec_buf[5] << 8 | mpu6000_rec_buf[6]);
 	data.temperature = mpu6000_rec_buf[7] << 8 | mpu6000_rec_buf[8];
-	data.gyro_x  = mpu6000_rec_buf[9] << 8  | mpu6000_rec_buf[10];
-	data.gyro_y  = mpu6000_rec_buf[11] << 8 | mpu6000_rec_buf[12];
-	data.gyro_z  = mpu6000_rec_buf[13] << 8 | mpu6000_rec_buf[14];
 #else
-	data.temperature = mpu6000_rec_buf[1] << 8 | mpu6000_rec_buf[2];
 	data.gyro_x = mpu6000_rec_buf[3] << 8 | mpu6000_rec_buf[4];
 	data.gyro_y = mpu6000_rec_buf[5] << 8 | mpu6000_rec_buf[6];
-	data.gyro_z = mpu6000_rec_buf[7] << 8 | mpu6000_rec_buf[8];
+	switch(dev->cfg->orientation) {
+		case PIOS_MPU6000_TOP_0DEG:
+			data.gyro_y  = mpu6000_rec_buf[3] << 8 | mpu6000_rec_buf[4];
+			data.gyro_x  = mpu6000_rec_buf[5] << 8 | mpu6000_rec_buf[6];
+			break;
+		case PIOS_MPU6000_TOP_90DEG:
+			data.gyro_y  = -(mpu6000_rec_buf[5] << 8 | mpu6000_rec_buf[6]); // chip Y
+			data.gyro_x  = mpu6000_rec_buf[3] << 8 | mpu6000_rec_buf[4];    // chip X
+			break;
+		case PIOS_MPU6000_TOP_180DEG:
+			data.gyro_y  = -(mpu6000_rec_buf[3] << 8 | mpu6000_rec_buf[4]);
+			data.gyro_x  = -(mpu6000_rec_buf[5] << 8 | mpu6000_rec_buf[6]);
+			break;
+		case PIOS_MPU6000_TOP_270DEG:
+			data.gyro_y  = mpu6000_rec_buf[5] << 8 | mpu6000_rec_buf[6];    // chip Y
+			data.gyro_x  = -(mpu6000_rec_buf[3] << 8 | mpu6000_rec_buf[4]); // chip X
+			break;
+	}
+	data.gyro_z = -(mpu6000_rec_buf[7] << 8 | mpu6000_rec_buf[8]);
+	data.temperature = mpu6000_rec_buf[1] << 8 | mpu6000_rec_buf[2];
 #endif
 	
 	portBASE_TYPE xHigherPriorityTaskWoken;

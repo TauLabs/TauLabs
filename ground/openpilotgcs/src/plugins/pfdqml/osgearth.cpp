@@ -94,7 +94,7 @@ void OsgEarthItem::geometryChanged(const QRectF &newGeometry, const QRectF &oldG
     Q_UNUSED(newGeometry);
 
     //Dynamic gyometry changes are not supported yet,
-    //terrain is rendered to fixed geompetry and scalled for now
+    //terrain is rendered to fixed geometry and scaled for now
 
     /*
     qDebug() << Q_FUNC_INFO << newGeometry;
@@ -131,6 +131,13 @@ void OsgEarthItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *styl
         m_rendererThread->start();
 
         QMetaObject::invokeMethod(m_renderer, "initScene", Qt::QueuedConnection);
+
+        //osgEarth requires a number of frame updates to render the scene even from the cache.
+        //othervise it just looks gray if the scene is not updated.
+        QTimer *updateTimer = new QTimer(this);
+        connect(updateTimer, SIGNAL(timeout()), SLOT(updateFrame()));
+        updateTimer->start(500);
+
         return;
     }
 

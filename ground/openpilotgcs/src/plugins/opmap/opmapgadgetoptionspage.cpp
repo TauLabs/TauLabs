@@ -97,6 +97,10 @@ QWidget *OPMapGadgetOptionsPage::createPage(QWidget *parent)
     m_page->lineEditCacheLocation->setPromptDialogTitle(tr("Choose Cache Directory"));
     m_page->lineEditCacheLocation->setPath(m_config->cacheLocation());
 
+    m_page->horizontalScaleDoubleSpinBox->setValue(m_config->getUserImageHorizontalScale());
+    m_page->verticalScaleDoubleSpinBox->setValue(m_config->getUserImageVerticalScale());
+
+
     QDir dir(":/uavs/images/");
     QStringList list=dir.entryList();
     foreach(QString i,list)
@@ -113,8 +117,30 @@ QWidget *OPMapGadgetOptionsPage::createPage(QWidget *parent)
     }
 
     connect(m_page->pushButtonCacheDefaults, SIGNAL(clicked()), this, SLOT(on_pushButtonCacheDefaults_clicked()));
+    connect(m_page->providerComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(on_providerComboBox_changed()));
+
+    //Dynamically configure page
+    on_providerComboBox_changed();
 
     return w;
+}
+
+void OPMapGadgetOptionsPage::on_providerComboBox_changed(){
+    if (m_page->providerComboBox->currentText()=="UserImage"){
+        m_page->CacheLocationLabel->setText("Map file location");
+        m_page->zoomSpinBox->setMaximum(32);
+        m_page->userImageScalingGroupBox->show();
+        m_page->lineEditCacheLocation->setExpectedKind(Utils::PathChooser::File);
+        m_page->lineEditCacheLocation->setPromptDialogTitle(tr("Choose Map File"));
+    }
+    else{
+        m_page->CacheLocationLabel->setText("Cache location");
+        m_page->zoomSpinBox->setMaximum(21);
+        m_page->userImageScalingGroupBox->hide();
+        m_page->lineEditCacheLocation->setExpectedKind(Utils::PathChooser::Directory);
+        m_page->lineEditCacheLocation->setPromptDialogTitle(tr("Choose Cache Directory"));
+    }
+
 }
 
 void OPMapGadgetOptionsPage::on_pushButtonCacheDefaults_clicked()
@@ -139,8 +165,11 @@ void OPMapGadgetOptionsPage::apply()
     m_config->setAccessMode(m_page->accessModeComboBox->currentText());
     m_config->setUseMemoryCache(m_page->checkBoxUseMemoryCache->isChecked());
     m_config->setCacheLocation(m_page->lineEditCacheLocation->path());
+    m_config->setUserImageHorizontalScale(m_page->horizontalScaleDoubleSpinBox->value());
+    m_config->setUserImageVerticalScale(m_page->verticalScaleDoubleSpinBox->value());
+    m_config->setUserImageLocation(m_page->lineEditCacheLocation->path());
     m_config->setUavSymbol(m_page->uavSymbolComboBox->itemData(m_page->uavSymbolComboBox->currentIndex()).toString());
-	m_config->setMaxUpdateRate(m_page->maxUpdateRateComboBox->itemData(m_page->maxUpdateRateComboBox->currentIndex()).toInt());
+    m_config->setMaxUpdateRate(m_page->maxUpdateRateComboBox->itemData(m_page->maxUpdateRateComboBox->currentIndex()).toInt());
 }
 
 void OPMapGadgetOptionsPage::finish()

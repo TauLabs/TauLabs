@@ -2,15 +2,13 @@
   <General>
     <AutoConnect>true</AutoConnect>
     <AutoSelect>true</AutoSelect>
-    <UDPMirror>false</UDPMirror>
-    <Description>Default configuration</Description>
-    <Details>Default configuration built to work on all screen sizes</Details>
-    <ExpertMode>false</ExpertMode>
-    <OverrideLanguage>en_AU</OverrideLanguage>
+    <Description>Laptop configuration</Description>
+    <Details>Laptop configuration built to work on standard laptop screen sizes</Details>
+    <ExpertMode>true</ExpertMode>
     <SaveSettingsOnExit>true</SaveSettingsOnExit>
     <SettingsWindowHeight>700</SettingsWindowHeight>
     <SettingsWindowWidth>800</SettingsWindowWidth>
-    <StyleSheet>default</StyleSheet>
+    <StyleSheet>laptop</StyleSheet>
     <UDPMirror>false</UDPMirror>
   </General>
   <KeyBindings>
@@ -124,7 +122,7 @@
           <needle3MinValue>0</needle3MinValue>
           <needle3Move>Rotate</needle3Move>
           <needle3ObjectField>Roll</needle3ObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </Attitude>
       <Baro__PCT__20Altimeter>
@@ -159,7 +157,7 @@
           <needle3MinValue>0</needle3MinValue>
           <needle3Move>Rotate</needle3Move>
           <needle3ObjectField>Altitude</needle3ObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </Baro__PCT__20Altimeter>
       <Barometer>
@@ -191,7 +189,7 @@
           <needle3MinValue>0</needle3MinValue>
           <needle3Move>Rotate</needle3Move>
           <needle3ObjectField>Altitude</needle3ObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </Barometer>
       <Climbrate>
@@ -223,7 +221,7 @@
           <needle3MinValue>0</needle3MinValue>
           <needle3Move>Rotate</needle3Move>
           <needle3ObjectField>Altitude</needle3ObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </Climbrate>
       <Compass>
@@ -256,7 +254,7 @@
           <needle3MinValue>0</needle3MinValue>
           <needle3Move>Rotate</needle3Move>
           <needle3ObjectField>Altitude</needle3ObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </Compass>
       <Deluxe__PCT__20Attitude>
@@ -291,7 +289,7 @@
           <needle3MinValue>0</needle3MinValue>
           <needle3Move>Rotate</needle3Move>
           <needle3ObjectField>Roll</needle3ObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </Deluxe__PCT__20Attitude>
       <Deluxe__PCT__20Baro__PCT__20Altimeter>
@@ -326,7 +324,7 @@
           <needle3MinValue>0</needle3MinValue>
           <needle3Move>Rotate</needle3Move>
           <needle3ObjectField>Altitude</needle3ObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </Deluxe__PCT__20Baro__PCT__20Altimeter>
       <Deluxe__PCT__20Barometer>
@@ -359,7 +357,7 @@
           <needle3MinValue>0</needle3MinValue>
           <needle3Move>Rotate</needle3Move>
           <needle3ObjectField>Altitude</needle3ObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </Deluxe__PCT__20Barometer>
       <Deluxe__PCT__20Climbrate>
@@ -392,7 +390,7 @@
           <needle3MinValue>0</needle3MinValue>
           <needle3Move>Rotate</needle3Move>
           <needle3ObjectField>Altitude</needle3ObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </Deluxe__PCT__20Climbrate>
       <Deluxe__PCT__20Compass>
@@ -425,7 +423,7 @@
           <needle3MinValue>0</needle3MinValue>
           <needle3Move>Rotate</needle3Move>
           <needle3ObjectField>Altitude</needle3ObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </Deluxe__PCT__20Compass>
       <Deluxe__PCT__20Groundspeed__PCT__20kph>
@@ -458,7 +456,7 @@
           <needle3MinValue>0</needle3MinValue>
           <needle3Move>Rotate</needle3Move>
           <needle3ObjectField>Altitude</needle3ObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </Deluxe__PCT__20Groundspeed__PCT__20kph>
       <Deluxe__PCT__20Temperature>
@@ -493,7 +491,7 @@
           <needle3MinValue>0</needle3MinValue>
           <needle3Move>Rotate</needle3Move>
           <needle3ObjectField>Altitude</needle3ObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </Deluxe__PCT__20Temperature>
       <Deluxe__PCT__20Turn__PCT__20Coordinator>
@@ -528,7 +526,7 @@
           <needle3MinValue>0</needle3MinValue>
           <needle3Move>Rotate</needle3Move>
           <needle3ObjectField>x</needle3ObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </Deluxe__PCT__20Turn__PCT__20Coordinator>
       <Groundspeed__PCT__20kph>
@@ -560,7 +558,7 @@
           <needle3MinValue>0</needle3MinValue>
           <needle3Move>Rotate</needle3Move>
           <needle3ObjectField>Altitude</needle3ObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </Groundspeed__PCT__20kph>
       <HiContrast__PCT__20Attitude>
@@ -595,7 +593,7 @@
           <needle3MinValue>0</needle3MinValue>
           <needle3Move>Rotate</needle3Move>
           <needle3ObjectField>Roll</needle3ObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </HiContrast__PCT__20Attitude>
       <HiContrast__PCT__20Baro__PCT__20Altimeter>
@@ -630,7 +628,7 @@
           <needle3MinValue>0</needle3MinValue>
           <needle3Move>Rotate</needle3Move>
           <needle3ObjectField>Altitude</needle3ObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </HiContrast__PCT__20Baro__PCT__20Altimeter>
       <HiContrast__PCT__20Barometer>
@@ -662,7 +660,7 @@
           <needle3MinValue>0</needle3MinValue>
           <needle3Move>Rotate</needle3Move>
           <needle3ObjectField>Altitude</needle3ObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </HiContrast__PCT__20Barometer>
       <HiContrast__PCT__20Climbrate>
@@ -694,7 +692,7 @@
           <needle3MinValue>0</needle3MinValue>
           <needle3Move>Rotate</needle3Move>
           <needle3ObjectField>Altitude</needle3ObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </HiContrast__PCT__20Climbrate>
       <HiContrast__PCT__20Compass>
@@ -727,7 +725,7 @@
           <needle3MinValue>0</needle3MinValue>
           <needle3Move>Rotate</needle3Move>
           <needle3ObjectField>Altitude</needle3ObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </HiContrast__PCT__20Compass>
       <HiContrast__PCT__20Groundspeed__PCT__20kph>
@@ -759,7 +757,7 @@
           <needle3MinValue>0</needle3MinValue>
           <needle3Move>Rotate</needle3Move>
           <needle3ObjectField>Altitude</needle3ObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </HiContrast__PCT__20Groundspeed__PCT__20kph>
       <HiContrast__PCT__20Temperature>
@@ -793,7 +791,7 @@
           <needle3MinValue>0</needle3MinValue>
           <needle3Move>Rotate</needle3Move>
           <needle3ObjectField>Altitude</needle3ObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </HiContrast__PCT__20Temperature>
       <Servo__PCT__20Channel__PCT__201>
@@ -827,7 +825,7 @@
           <needle3MinValue>0</needle3MinValue>
           <needle3Move>Rotate</needle3Move>
           <needle3ObjectField>Altitude</needle3ObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </Servo__PCT__20Channel__PCT__201>
       <Temperature>
@@ -861,7 +859,7 @@
           <needle3MinValue>0</needle3MinValue>
           <needle3Move>Rotate</needle3Move>
           <needle3ObjectField>Altitude</needle3ObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </Temperature>
     </DialGadget>
@@ -1055,39 +1053,6 @@
           </data>
       </XPlane__PCT__20HITL>
     </HITL>
-    <HITLv2>
-      <default>
-        <configInfo>
-          <locked>false</locked>
-          <version>0.0.0</version>
-        </configInfo>
-        <data>
-          <attActCalc>false</attActCalc>
-          <attActHW>false</attActHW>
-          <attActSim>true</attActSim>
-          <attActual>true</attActual>
-          <attRaw>true</attRaw>
-          <attRawRate>20</attRawRate>
-          <gcsReciever>true</gcsReciever>
-          <gpsPosRate>200</gpsPosRate>
-          <gpsPosition>true</gpsPosition>
-          <homeLocRate>0</homeLocRate>
-          <homeLocation>true</homeLocation>
-          <hostAddress>127.0.0.1</hostAddress>
-          <inPort>40100</inPort>
-          <inputCommand>true</inputCommand>
-          <manualControl>false</manualControl>
-          <manualOutput>false</manualOutput>
-          <outPort>40200</outPort>
-          <outputRate>20</outputRate>
-          <remoteAddress>127.0.0.1</remoteAddress>
-          <simulatorId>ASimRC</simulatorId>
-          <sonarAltRate>50</sonarAltRate>
-          <sonarAltitude>false</sonarAltitude>
-          <sonarMaxAlt>@Variant(AAAAh0CgAAA=)</sonarMaxAlt>
-        </data>
-      </default>
-    </HITLv2>
     <LineardialGadget>
       <Accel__PCT__20Horizontal__PCT__20X>
         <configInfo>
@@ -1107,7 +1072,7 @@
           <redMin>-11</redMin>
           <sourceDataObject>Accels</sourceDataObject>
           <sourceObjectField>x</sourceObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
           <yellowMax>-5</yellowMax>
           <yellowMin>-11</yellowMin>
         </data>
@@ -1130,7 +1095,7 @@
           <redMin>-11</redMin>
           <sourceDataObject>Accels</sourceDataObject>
           <sourceObjectField>y</sourceObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
           <yellowMax>-5</yellowMax>
           <yellowMin>-11</yellowMin>
         </data>
@@ -1153,7 +1118,7 @@
           <redMin>-11</redMin>
           <sourceDataObject>Accels</sourceDataObject>
           <sourceObjectField>z</sourceObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
           <yellowMax>-5</yellowMax>
           <yellowMin>-11</yellowMin>
         </data>
@@ -1176,7 +1141,7 @@
           <redMin>0</redMin>
           <sourceDataObject>FlightStatus</sourceDataObject>
           <sourceObjectField>Armed</sourceObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
           <yellowMax>66</yellowMax>
           <yellowMin>33</yellowMin>
         </data>
@@ -1199,7 +1164,7 @@
           <redMin>0</redMin>
           <sourceDataObject>SystemStats</sourceDataObject>
           <sourceObjectField>FlightTime</sourceObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
           <yellowMax>66</yellowMax>
           <yellowMin>33</yellowMin>
         </data>
@@ -1222,7 +1187,7 @@
           <redMin>0</redMin>
           <sourceDataObject>FlightStatus</sourceDataObject>
           <sourceObjectField>FlightMode</sourceObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
           <yellowMax>66</yellowMax>
           <yellowMin>33</yellowMin>
         </data>
@@ -1245,7 +1210,7 @@
           <redMin>0</redMin>
           <sourceDataObject>GPSPosition</sourceDataObject>
           <sourceObjectField>Satellites</sourceObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
           <yellowMax>0</yellowMax>
           <yellowMin>0</yellowMin>
         </data>
@@ -1268,7 +1233,7 @@
           <redMin>0</redMin>
           <sourceDataObject>GPSPosition</sourceDataObject>
           <sourceObjectField>Status</sourceObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
           <yellowMax>66</yellowMax>
           <yellowMin>33</yellowMin>
         </data>
@@ -1291,7 +1256,7 @@
           <redMin>95</redMin>
           <sourceDataObject>SystemStats</sourceDataObject>
           <sourceObjectField>CPULoad</sourceObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
           <yellowMax>95</yellowMax>
           <yellowMin>90</yellowMin>
         </data>
@@ -1314,7 +1279,7 @@
           <redMin>-1</redMin>
           <sourceDataObject>ActuatorDesired</sourceDataObject>
           <sourceObjectField>Pitch</sourceObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
           <yellowMax>0.8</yellowMax>
           <yellowMin>-0.8</yellowMin>
         </data>
@@ -1337,7 +1302,7 @@
           <redMin>-1</redMin>
           <sourceDataObject>ManualControlCommand</sourceDataObject>
           <sourceObjectField>Pitch</sourceObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
           <yellowMax>0.8</yellowMax>
           <yellowMin>-0.8</yellowMin>
         </data>
@@ -1360,7 +1325,7 @@
           <redMin>0</redMin>
           <sourceDataObject>AttitudeActual</sourceDataObject>
           <sourceObjectField>Pitch</sourceObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
           <yellowMax>0.9</yellowMax>
           <yellowMin>0.1</yellowMin>
         </data>
@@ -1383,7 +1348,7 @@
           <redMin>-1</redMin>
           <sourceDataObject>ActuatorDesired</sourceDataObject>
           <sourceObjectField>Roll</sourceObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
           <yellowMax>0.8</yellowMax>
           <yellowMin>-0.8</yellowMin>
         </data>
@@ -1406,7 +1371,7 @@
           <redMin>-1</redMin>
           <sourceDataObject>ManualControlCommand</sourceDataObject>
           <sourceObjectField>Roll</sourceObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
           <yellowMax>0.8</yellowMax>
           <yellowMin>-0.8</yellowMin>
         </data>
@@ -1429,7 +1394,7 @@
           <redMin>900</redMin>
           <sourceDataObject>GCSTelemetryStats</sourceDataObject>
           <sourceObjectField>RxDataRate</sourceObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
           <yellowMax>900</yellowMax>
           <yellowMin>650</yellowMin>
         </data>
@@ -1452,7 +1417,7 @@
           <redMin>900</redMin>
           <sourceDataObject>GCSTelemetryStats</sourceDataObject>
           <sourceObjectField>TxDataRate</sourceObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
           <yellowMax>900</yellowMax>
           <yellowMin>650</yellowMin>
         </data>
@@ -1475,7 +1440,7 @@
           <redMin>0.75</redMin>
           <sourceDataObject>ManualControlCommand</sourceDataObject>
           <sourceObjectField>Throttle</sourceObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
           <yellowMax>0.75</yellowMax>
           <yellowMin>0.5</yellowMin>
         </data>
@@ -1498,7 +1463,7 @@
           <redMin>-1</redMin>
           <sourceDataObject>ActuatorDesired</sourceDataObject>
           <sourceObjectField>Yaw</sourceObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
           <yellowMax>0.8</yellowMax>
           <yellowMin>-0.8</yellowMin>
         </data>
@@ -1521,12 +1486,46 @@
           <redMin>-1</redMin>
           <sourceDataObject>ManualControlCommand</sourceDataObject>
           <sourceObjectField>Yaw</sourceObjectField>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
           <yellowMax>0.8</yellowMax>
           <yellowMin>-0.8</yellowMin>
         </data>
       </Yaw>
     </LineardialGadget>
+    <MoCap>
+      <default>
+        <configInfo>
+          <locked>false</locked>
+          <version>0.0.0</version>
+        </configInfo>
+        <data>
+          <addNoise>false</addNoise>
+          <airspeedActualEnabled>false</airspeedActualEnabled>
+          <airspeedActualRate>100</airspeedActualRate>
+          <attActualRate>50</attActualRate>
+          <attActualHW>false</attActualHW>
+          <attActualMocap>false</attActualMocap>
+          <attActualEnabled>false</attActualEnabled>
+          <attRawEnabled>false</attRawEnabled>
+          <attRawRate>20</attRawRate>
+          <baroAltRate>100</baroAltRate>
+          <baroAltitudeEnabled>false</baroAltitudeEnabled>
+          <exportId>NatNet</exportId>
+          <gcsReceiverEnabled>false</gcsReceiverEnabled>
+          <gpsPosRate>100</gpsPosRate>
+          <gpsPositionEnabled>false</gpsPositionEnabled>
+          <groundTruthEnabled>true</groundTruthEnabled>
+          <groundTruthRate>100</groundTruthRate>
+          <hostAddress>239.255.42.99</hostAddress>
+          <inPort>1511</inPort>
+          <inputCommand>false</inputCommand>
+          <manualControlEnabled>false</manualControlEnabled>
+          <minOutputPeriod>100</minOutputPeriod>
+          <outPort>0</outPort>
+          <remoteAddress>127.0.0.1</remoteAddress>
+        </data>
+      </default>
+    </MoCap>
     <ModelViewGadget>
       <Aeroquad__PCT__20__PCT__2B>
         <configInfo>
@@ -1539,17 +1538,6 @@
           <enableVbo>false</enableVbo>
         </data>
       </Aeroquad__PCT__20__PCT__2B>
-      <CopterControl>
-        <configInfo>
-          <locked>false</locked>
-          <version>0.0.0</version>
-        </configInfo>
-        <data>
-          <acFilename>%%DATAPATH%%models/boards/CopterControl/CopterControl.3ds</acFilename>
-          <bgFilename>%%DATAPATH%%models/backgrounds/default_background.png</bgFilename>
-          <enableVbo>false</enableVbo>
-        </data>
-      </CopterControl>
       <CC3D>
         <configInfo>
           <locked>false</locked>
@@ -1561,6 +1549,28 @@
           <enableVbo>false</enableVbo>
         </data>
       </CC3D>
+      <CopterControl>
+        <configInfo>
+          <locked>false</locked>
+          <version>0.0.0</version>
+        </configInfo>
+        <data>
+          <acFilename>%%DATAPATH%%models/boards/CopterControl/CopterControl.3ds</acFilename>
+          <bgFilename>%%DATAPATH%%models/backgrounds/default_background.png</bgFilename>
+          <enableVbo>false</enableVbo>
+        </data>
+      </CopterControl>
+      <Danker__PCT__27s__PCT__20Quad>
+        <configInfo>
+          <locked>false</locked>
+          <version>0.0.0</version>
+        </configInfo>
+        <data>
+          <acFilename>%%DATAPATH%%models/multi/dankers_quad/dankers_quad.3ds</acFilename>
+          <bgFilename>%%DATAPATH%%models/backgrounds/default_background.png</bgFilename>
+          <enableVbo>false</enableVbo>
+        </data>
+      </Danker__PCT__27s__PCT__20Quad>
       <Easyquad__PCT__20X>
         <configInfo>
           <locked>false</locked>
@@ -1682,6 +1692,17 @@
           <enableVbo>false</enableVbo>
         </data>
       </Joe__PCT__27s__PCT__2014__PCT__22__PCT__20T__PCT__20Quad__PCT__20X>
+      <MattL__PCT__27s__PCT__20Y6>
+        <configInfo>
+          <locked>false</locked>
+          <version>0.0.0</version>
+        </configInfo>
+        <data>
+          <acFilename>%%DATAPATH%%models/multi/mattL_Y6/mattL_Y6.3ds</acFilename>
+          <bgFilename>%%DATAPATH%%models/backgrounds/default_background.png</bgFilename>
+          <enableVbo>false</enableVbo>
+        </data>
+      </MattL__PCT__27s__PCT__20Y6>
       <Quadcopter>
         <configInfo>
           <locked>false</locked>
@@ -1715,17 +1736,6 @@
           <enableVbo>false</enableVbo>
         </data>
       </Scorpion__PCT__20Tricopter>
-      <MattL__PCT__27s__PCT__20Y6>
-        <configInfo>
-          <locked>false</locked>
-          <version>0.0.0</version>
-        </configInfo>
-        <data>
-          <acFilename>%%DATAPATH%%models/multi/mattL_Y6/mattL_Y6.3ds</acFilename>
-          <bgFilename>%%DATAPATH%%models/backgrounds/default_background.png</bgFilename>
-          <enableVbo>false</enableVbo>
-        </data>
-      </MattL__PCT__27s__PCT__20Y6>
       <Test__PCT__20Quad__PCT__20__PCT__2B>
         <configInfo>
           <locked>false</locked>
@@ -1748,17 +1758,6 @@
           <enableVbo>false</enableVbo>
         </data>
       </Test__PCT__20Quad__PCT__20X>
-      <Danker__PCT__27s__PCT__20Quad>
-        <configInfo>
-          <locked>false</locked>
-          <version>0.0.0</version>
-        </configInfo>
-        <data>
-          <acFilename>%%DATAPATH%%models/multi/dankers_quad/dankers_quad.3ds</acFilename>
-          <bgFilename>%%DATAPATH%%models/backgrounds/default_background.png</bgFilename>
-          <enableVbo>false</enableVbo>
-        </data>
-      </Danker__PCT__27s__PCT__20Quad>
     </ModelViewGadget>
     <OPMapGadget>
       <Google__PCT__20Sat>
@@ -1832,7 +1831,7 @@
           <beSmooth>false</beSmooth>
           <dialFile>%%DATAPATH%%pfd/default/pfd.svg</dialFile>
           <hqFonts>false</hqFonts>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </raw>
       <smooth>
@@ -1844,7 +1843,7 @@
           <beSmooth>true</beSmooth>
           <dialFile>%%DATAPATH%%pfd/default/pfd.svg</dialFile>
           <hqFonts>false</hqFonts>
-          <useOpenGLFlag>false</useOpenGLFlag>
+          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </smooth>
     </PFDGadget>
@@ -2249,7 +2248,7 @@
           </plotCurve2>
           <plotCurveCount>3</plotCurveCount>
           <plotType>1</plotType>
-          <refreshInterval>500</refreshInterval>
+          <refreshInterval>100</refreshInterval>
         </data>
       </Raw__PCT__20Gyros>
       <Raw__PCT__20magnetometers>
@@ -2520,6 +2519,15 @@
           <diagram>%%DATAPATH%%diagrams/default/system-health.svg</diagram>
         </data>
       </default>
+      <Linear>
+        <configInfo>
+          <locked>false</locked>
+          <version>0.0.0</version>
+        </configInfo>
+        <data>
+          <diagram>%%DATAPATH%%diagrams/default/system-health-linear.svg</diagram>
+        </data>
+      </Linear>
     </SystemHealthGadget>
     <UAVObjectBrowser>
       <default>

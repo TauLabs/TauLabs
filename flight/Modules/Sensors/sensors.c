@@ -47,23 +47,24 @@
  */
 
 #include "pios.h"
-#include "attitude.h"
+#include "homelocation.h"
 #include "magnetometer.h"
+#include "magbias.h"
 #include "accels.h"
 #include "gyros.h"
 #include "gyrosbias.h"
 #include "attitudeactual.h"
 #include "attitudesettings.h"
+#include "inertialsensorsettings.h"
+#include "inssettings.h"
 #include "revocalibration.h"
 #include "flightstatus.h"
-#include "gpsposition.h"
-#include "baroaltitude.h"
 #include "CoordinateConversions.h"
 
 #include <pios_board_info.h>
 
 // Private constants
-#define STACK_SIZE_BYTES 1540
+#define STACK_SIZE_BYTES 1000
 #define TASK_PRIORITY (tskIDLE_PRIORITY+3)
 #define SENSOR_PERIOD 2
 
@@ -71,15 +72,16 @@
 #define PI_MOD(x) (fmodf(x + F_PI, F_PI * 2) - F_PI)
 // Private types
 
-// Private variables
-static xTaskHandle sensorsTaskHandle;
-static bool gps_updated = false;
-static bool baro_updated = false;
 
 // Private functions
 static void SensorsTask(void *parameters);
 static void settingsUpdatedCb(UAVObjEvent * objEv);
-static void sensorsUpdatedCb(UAVObjEvent * objEv);
+static void magOffsetEstimation(MagnetometerData *mag);
+
+// Private variables
+static xTaskHandle sensorsTaskHandle;
+RevoCalibrationData revoCal;
+INSSettingsData insSettings;
 
 // These values are initialized by settings but can be updated by the attitude algorithm
 static bool bias_correct_gyro = true;
@@ -88,8 +90,9 @@ static float mag_bias[3] = {0,0,0};
 static float mag_scale[3] = {0,0,0};
 static float accel_bias[3] = {0,0,0};
 static float accel_scale[3] = {0,0,0};
+static float gyro_scale[3] = {0,0,0};
 
-static float R[3][3] = {{0}};
+static float Rbs[3][3] = {{0}};
 static int8_t rotate = 0;
 
 /**
@@ -111,13 +114,18 @@ int32_t SensorsInitialize(void)
 	GyrosBiasInitialize();
 	AccelsInitialize();
 	MagnetometerInitialize();
+	MagBiasInitialize();
 	RevoCalibrationInitialize();
 	AttitudeSettingsInitialize();
+	InertialSensorSettingsInitialize();
+	INSSettingsInitialize();
 
 	rotate = 0;
 
 	RevoCalibrationConnectCallback(&settingsUpdatedCb);
 	AttitudeSettingsConnectCallback(&settingsUpdatedCb);
+	InertialSensorSettingsConnectCallback(&settingsUpdatedCb);
+	INSSettingsConnectCallback(&settingsUpdatedCb);
 
 	return 0;
 }
@@ -194,6 +202,8 @@ static void SensorsTask(void *parameters)
 
 #if defined(PIOS_INCLUDE_HMC5883)
 	mag_test = PIOS_HMC5883_Test();
+#else
+	mag_test = 0;
 #endif
 
 	if(accel_test < 0 || gyro_test < 0 || mag_test < 0) {
@@ -202,12 +212,6 @@ static void SensorsTask(void *parameters)
 			PIOS_WDG_UpdateFlag(PIOS_WDG_SENSORS);
 			vTaskDelay(10);
 		}
-	}
-	
-	// If debugging connect callback
-	if(pios_com_aux_id != 0) {
-		BaroAltitudeConnectCallback(&sensorsUpdatedCb);
-		GPSPositionConnectCallback(&sensorsUpdatedCb);
 	}
 	
 	// Main task loop
@@ -229,8 +233,6 @@ static void SensorsTask(void *parameters)
 			AlarmsClear(SYSTEMALARMS_ALARM_SENSORS);
 		}
 
-		int32_t read_good;
-		int32_t count;
 
 		for (int i = 0; i < 3; i++) {
 			accel_accum[i] = 0;
@@ -248,6 +250,9 @@ static void SensorsTask(void *parameters)
 			{
 				struct pios_bma180_data accel;
 				
+				int32_t read_good;
+				int32_t count;
+				
 				count = 0;
 				while((read_good = PIOS_BMA180_ReadFifo(&accel)) != 0 && !error)
 					error = ((xTaskGetTickCount() - lastSysTime) > SENSOR_PERIOD) ? true : error;
@@ -262,9 +267,9 @@ static void SensorsTask(void *parameters)
 				while(read_good == 0) {	
 					count++;
 					
-					accel_accum[0] += accel.x;
-					accel_accum[1] += accel.y;
-					accel_accum[2] += accel.z;
+					accel_accum[1] += accel.x;
+					accel_accum[0] += accel.y;
+					accel_accum[2] -= accel.z;
 					
 					read_good = PIOS_BMA180_ReadFifo(&accel);
 				}
@@ -287,9 +292,9 @@ static void SensorsTask(void *parameters)
 				}
 				
 				gyro_samples = 1;
-				gyro_accum[0] += gyro.gyro_x;
-				gyro_accum[1] += gyro.gyro_y;
-				gyro_accum[2] += gyro.gyro_z;
+				gyro_accum[1] += gyro.gyro_x;
+				gyro_accum[0] += gyro.gyro_y;
+				gyro_accum[2] -= gyro.gyro_z;
 				
 				gyro_scaling = PIOS_L3GD20_GetScale();
 
@@ -299,6 +304,7 @@ static void SensorsTask(void *parameters)
 #endif
 				break;
 			case 0x02:  // MPU6000 board
+			case 0x03:  // MPU6000 board
 #if defined(PIOS_INCLUDE_MPU6000)
 			{
 				struct pios_mpu6000_data mpu6000_data;
@@ -336,15 +342,15 @@ static void SensorsTask(void *parameters)
 				PIOS_DEBUG_Assert(0);
 		}
 
-		// Scale the accels
-		float accels[3] = {(float) accel_accum[1] / accel_samples, 
-		                   (float) accel_accum[0] / accel_samples,
-		                  -(float) accel_accum[2] / accel_samples};
+		// Average and scale the accels before rotation
+		float accels[3] = {(float) accel_accum[0] / accel_samples, 
+		                   (float) accel_accum[1] / accel_samples,
+		                   (float) accel_accum[2] / accel_samples};
 		float accels_out[3] = {accels[0] * accel_scaling * accel_scale[0] - accel_bias[0],
 		                       accels[1] * accel_scaling * accel_scale[1] - accel_bias[1],
 		                       accels[2] * accel_scaling * accel_scale[2] - accel_bias[2]};
 		if (rotate) {
-			rot_mult(R, accels_out, accels);
+			rot_mult(Rbs, accels_out, accels, false);
 			accelsData.x = accels[0];
 			accelsData.y = accels[1];
 			accelsData.z = accels[2];
@@ -356,14 +362,14 @@ static void SensorsTask(void *parameters)
 		AccelsSet(&accelsData);
 
 		// Scale the gyros
-		float gyros[3] = {(float) gyro_accum[1] / gyro_samples,
-		                  (float) gyro_accum[0] / gyro_samples,
-		                 -(float) gyro_accum[2] / gyro_samples};
-		float gyros_out[3] = {gyros[0] * gyro_scaling,
-		                      gyros[1] * gyro_scaling,
-		                      gyros[2] * gyro_scaling};
+		float gyros[3] = {(float) gyro_accum[0] / gyro_samples,
+		                  (float) gyro_accum[1] / gyro_samples,
+		                  (float) gyro_accum[2] / gyro_samples};
+		float gyros_out[3] = {gyros[0] * gyro_scaling * gyro_scale[0],
+		                      gyros[1] * gyro_scaling * gyro_scale[1],
+		                      gyros[2] * gyro_scaling * gyro_scale[2]};
 		if (rotate) {
-			rot_mult(R, gyros_out, gyros);
+			rot_mult(Rbs, gyros_out, gyros, false);
 			gyrosData.x = gyros[0];
 			gyrosData.y = gyros[1];
 			gyrosData.z = gyros[2];
@@ -374,12 +380,12 @@ static void SensorsTask(void *parameters)
 		}
 		
 		if (bias_correct_gyro) {
-			// Apply bias correction to the gyros
+			// Apply bias correction to the gyros from the state estimator
 			GyrosBiasData gyrosBias;
 			GyrosBiasGet(&gyrosBias);
-			gyrosData.x += gyrosBias.x;
-			gyrosData.y += gyrosBias.y;
-			gyrosData.z += gyrosBias.z;
+			gyrosData.x -= gyrosBias.x;
+			gyrosData.y -= gyrosBias.y;
+			gyrosData.z -= gyrosBias.z;
 		}
 		GyrosSet(&gyrosData);
 		
@@ -389,14 +395,14 @@ static void SensorsTask(void *parameters)
 #if defined(PIOS_INCLUDE_HMC5883)
 		MagnetometerData mag;
 		if (PIOS_HMC5883_NewDataAvailable() || PIOS_DELAY_DiffuS(mag_update_time) > 150000) {
-			int16_t values[3];
-			PIOS_HMC5883_ReadMag(values);
-			float mags[3] = {(float) values[1] * mag_scale[0] - mag_bias[0],
-			                (float) values[0] * mag_scale[1] - mag_bias[1],
-			                -(float) values[2] * mag_scale[2] - mag_bias[2]};
+			struct pios_hmc5883_data mag_data;
+			PIOS_HMC5883_ReadMag(&mag_data);
+			float mags[3] = {(float) mag_data.mag_x * mag_scale[0] - mag_bias[0],
+			                (float) mag_data.mag_y * mag_scale[1] - mag_bias[1],
+			                (float) mag_data.mag_z * mag_scale[2] - mag_bias[2]};
 			if (rotate) {
 				float mag_out[3];
-				rot_mult(R, mags, mag_out);
+				rot_mult(Rbs, mags, mag_out, false);
 				mag.x = mag_out[0];
 				mag.y = mag_out[1];
 				mag.z = mag_out[2];
@@ -405,6 +411,11 @@ static void SensorsTask(void *parameters)
 				mag.y = mags[1];
 				mag.z = mags[2];
 			}
+			
+			// Correct for mag bias and update if the rate is non zero
+			if(insSettings.MagBiasNullingRate > 0)
+				magOffsetEstimation(&mag);
+
 			MagnetometerSet(&mag);
 			mag_update_time = PIOS_DELAY_GetRaw();
 		}
@@ -412,64 +423,159 @@ static void SensorsTask(void *parameters)
 
 		PIOS_WDG_UpdateFlag(PIOS_WDG_SENSORS);
 
-		switch(bdinfo->board_rev) {
-			case 0x01:  // L3GD20 + BMA180 board
-				lastSysTime = xTaskGetTickCount();
-				break;
-			case 0x02:
-				vTaskDelayUntil(&lastSysTime, SENSOR_PERIOD / portTICK_RATE_MS);
-				break;
-			default:
-				PIOS_DEBUG_Assert(0);
-		}
+		lastSysTime = xTaskGetTickCount();
 	}
 }
 
 /**
- * Indicate that these sensors have been updated
+ * Perform an update of the @ref MagBias based on
+ * Magnetometer Offset Cancellation: Theory and Implementation, 
+ * revisited William Premerlani, October 14, 2011
  */
-static void sensorsUpdatedCb(UAVObjEvent * objEv)
+static void magOffsetEstimation(MagnetometerData *mag)
 {
-	if(objEv->obj == GPSPositionHandle())
-		gps_updated = true;
-	if(objEv->obj == BaroAltitudeHandle())
-		baro_updated = true;
+#if 0
+	// Constants, to possibly go into a UAVO
+	static const float MIN_NORM_DIFFERENCE = 50;
+
+	static float B2[3] = {0, 0, 0};
+
+	MagBiasData magBias;
+	MagBiasGet(&magBias);
+
+	// Remove the current estimate of the bias
+	mag->x -= magBias.x;
+	mag->y -= magBias.y;
+	mag->z -= magBias.z;
+
+	// First call
+	if (B2[0] == 0 && B2[1] == 0 && B2[2] == 0) {
+		B2[0] = mag->x;
+		B2[1] = mag->y;
+		B2[2] = mag->z;
+		return;
+	}
+
+	float B1[3] = {mag->x, mag->y, mag->z};
+	float norm_diff = sqrtf(powf(B2[0] - B1[0],2) + powf(B2[1] - B1[1],2) + powf(B2[2] - B1[2],2));
+	if (norm_diff > MIN_NORM_DIFFERENCE) {
+		float norm_b1 = sqrtf(B1[0]*B1[0] + B1[1]*B1[1] + B1[2]*B1[2]);
+		float norm_b2 = sqrtf(B2[0]*B2[0] + B2[1]*B2[1] + B2[2]*B2[2]);
+		float scale = insSettings.MagBiasNullingRate * (norm_b2 - norm_b1) / norm_diff;
+		float b_error[3] = {(B2[0] - B1[0]) * scale, (B2[1] - B1[1]) * scale, (B2[2] - B1[2]) * scale};
+
+		magBias.x += b_error[0];
+		magBias.y += b_error[1];
+		magBias.z += b_error[2];
+
+		MagBiasSet(&magBias);
+
+		// Store this value to compare against next update
+		B2[0] = B1[0]; B2[1] = B1[1]; B2[2] = B1[2];
+	}
+#else
+	MagBiasData magBias;
+	MagBiasGet(&magBias);
+	
+	// Remove the current estimate of the bias
+	mag->x -= magBias.x;
+	mag->y -= magBias.y;
+	mag->z -= magBias.z;
+	
+	HomeLocationData homeLocation;
+	HomeLocationGet(&homeLocation);
+	
+	AttitudeActualData attitude;
+	AttitudeActualGet(&attitude);
+	
+	const float Rxy = sqrtf(homeLocation.Be[0]*homeLocation.Be[0] + homeLocation.Be[1]*homeLocation.Be[1]);
+	const float Rz = homeLocation.Be[2];
+	
+	const float rate = insSettings.MagBiasNullingRate;
+	float R[3][3];
+	float B_e[3];
+	float xy[2];
+	float delta[3];
+	
+	// Get the rotation matrix
+	Quaternion2R(&attitude.q1, R);
+	
+	// Rotate the mag into the NED frame
+	B_e[0] = R[0][0] * mag->x + R[1][0] * mag->y + R[2][0] * mag->z;
+	B_e[1] = R[0][1] * mag->x + R[1][1] * mag->y + R[2][1] * mag->z;
+	B_e[2] = R[0][2] * mag->x + R[1][2] * mag->y + R[2][2] * mag->z;
+	
+	float cy = cosf(attitude.Yaw * M_PI / 180.0f);
+	float sy = sinf(attitude.Yaw * M_PI / 180.0f);
+	
+	xy[0] =  cy * B_e[0] + sy * B_e[1];
+	xy[1] = -sy * B_e[0] + cy * B_e[1];
+	
+	float xy_norm = sqrtf(xy[0]*xy[0] + xy[1]*xy[1]);
+	
+	delta[0] = -rate * (xy[0] / xy_norm * Rxy - xy[0]);
+	delta[1] = -rate * (xy[1] / xy_norm * Rxy - xy[1]);
+	delta[2] = -rate * (Rz - B_e[2]);
+	
+	if (delta[0] == delta[0] && delta[1] == delta[1] && delta[2] == delta[2]) {		
+		magBias.x += delta[0];
+		magBias.y += delta[1];
+		magBias.z += delta[2];
+		MagBiasSet(&magBias);
+	}
+#endif
 }
 
 /**
  * Locally cache some variables from the AtttitudeSettings object
  */
 static void settingsUpdatedCb(UAVObjEvent * objEv) {
-	RevoCalibrationData cal;
-	RevoCalibrationGet(&cal);
+	RevoCalibrationGet(&revoCal);
+	InertialSensorSettingsData inertialSensorSettings;
+	InertialSensorSettingsGet(&inertialSensorSettings);
+	INSSettingsGet(&insSettings);
 	
-	mag_bias[0] = cal.mag_bias[REVOCALIBRATION_MAG_BIAS_X];
-	mag_bias[1] = cal.mag_bias[REVOCALIBRATION_MAG_BIAS_Y];
-	mag_bias[2] = cal.mag_bias[REVOCALIBRATION_MAG_BIAS_Z];
-	mag_scale[0] = cal.mag_scale[REVOCALIBRATION_MAG_SCALE_X];
-	mag_scale[1] = cal.mag_scale[REVOCALIBRATION_MAG_SCALE_Y];
-	mag_scale[2] = cal.mag_scale[REVOCALIBRATION_MAG_SCALE_Z];
-	accel_bias[0] = cal.accel_bias[REVOCALIBRATION_ACCEL_BIAS_X];
-	accel_bias[1] = cal.accel_bias[REVOCALIBRATION_ACCEL_BIAS_Y];
-	accel_bias[2] = cal.accel_bias[REVOCALIBRATION_ACCEL_BIAS_Z];
-	accel_scale[0] = cal.accel_scale[REVOCALIBRATION_ACCEL_SCALE_X];
-	accel_scale[1] = cal.accel_scale[REVOCALIBRATION_ACCEL_SCALE_Y];
-	accel_scale[2] = cal.accel_scale[REVOCALIBRATION_ACCEL_SCALE_Z];
+	mag_bias[0] = revoCal.MagBias[REVOCALIBRATION_MAGBIAS_X];
+	mag_bias[1] = revoCal.MagBias[REVOCALIBRATION_MAGBIAS_Y];
+	mag_bias[2] = revoCal.MagBias[REVOCALIBRATION_MAGBIAS_Z];
+	mag_scale[0] = revoCal.MagScale[REVOCALIBRATION_MAGSCALE_X];
+	mag_scale[1] = revoCal.MagScale[REVOCALIBRATION_MAGSCALE_Y];
+	mag_scale[2] = revoCal.MagScale[REVOCALIBRATION_MAGSCALE_Z];
+	accel_bias[0] = inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_X];
+	accel_bias[1] = inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_Y];
+	accel_bias[2] = inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_Z];
+	accel_scale[0] = inertialSensorSettings.AccelScale[INERTIALSENSORSETTINGS_ACCELSCALE_X];
+	accel_scale[1] = inertialSensorSettings.AccelScale[INERTIALSENSORSETTINGS_ACCELSCALE_X];
+	accel_scale[2] = inertialSensorSettings.AccelScale[INERTIALSENSORSETTINGS_ACCELSCALE_X];
+	gyro_scale[0] = inertialSensorSettings.GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_X];
+	gyro_scale[1] = inertialSensorSettings.GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_X];
+	gyro_scale[2] = inertialSensorSettings.GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_X];
+	
+	// Zero out any adaptive tracking
+	MagBiasData magBias;
+	MagBiasGet(&magBias);
+	magBias.x = 0;
+	magBias.y = 0;
+	magBias.z = 0;
+	MagBiasSet(&magBias);
+
+	uint8_t bias_correct;
+	AttitudeSettingsBiasCorrectGyroGet(&bias_correct);
+	bias_correct_gyro = (bias_correct == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE);
 
 	AttitudeSettingsData attitudeSettings;
 	AttitudeSettingsGet(&attitudeSettings);
-
 	// Indicates not to expend cycles on rotation
 	if(attitudeSettings.BoardRotation[0] == 0 && attitudeSettings.BoardRotation[1] == 0 &&
 	   attitudeSettings.BoardRotation[2] == 0) {
 		rotate = 0;
 	} else {
 		float rotationQuat[4];
-		const float rpy[3] = {attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_ROLL],
-			attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_PITCH],
-			attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_YAW]};
+		const float rpy[3] = {attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_ROLL] / 100.0f,
+			attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_PITCH] / 100.0f,
+			attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_YAW] / 100.0f};
 		RPY2Quaternion(rpy, rotationQuat);
-		Quaternion2R(rotationQuat, R);
+		Quaternion2R(rotationQuat, Rbs);
 		rotate = 1;
 	}
 

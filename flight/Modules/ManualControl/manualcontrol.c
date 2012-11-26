@@ -34,19 +34,20 @@
  */
 
 #include "openpilot.h"
-#include "manualcontrol.h"
-#include "manualcontrolsettings.h"
-#include "stabilizationsettings.h"
-#include "manualcontrolcommand.h"
+#include "accessorydesired.h"
 #include "actuatordesired.h"
-#include "stabilizationdesired.h"
+#include "altitudeholddesired.h"
+#include "baroaltitude.h"
 #include "flighttelemetrystats.h"
 #include "flightstatus.h"
-#include "accessorydesired.h"
-#include "receiveractivity.h"
-#include "altitudeholddesired.h"
+#include "manualcontrol.h"
+#include "manualcontrolsettings.h"
+#include "manualcontrolcommand.h"
+#include "pathdesired.h"
 #include "positionactual.h"
-#include "baroaltitude.h"
+#include "receiveractivity.h"
+#include "stabilizationsettings.h"
+#include "stabilizationdesired.h"
 
 #if defined(PIOS_INCLUDE_USB_RCTX)
 #include "pios_usb_rctx.h"
@@ -65,7 +66,7 @@
 #define ARMED_TIME_MS      1000
 #define ARMED_THRESHOLD    0.50f
 //safe band to allow a bit of calibration error or trim offset (in microseconds)
-#define CONNECTION_OFFSET 150
+#define CONNECTION_OFFSET 250
 
 // Private types
 typedef enum
@@ -85,7 +86,8 @@ static portTickType lastSysTime;
 // Private functions
 static void updateActuatorDesired(ManualControlCommandData * cmd);
 static void updateStabilizationDesired(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
-static void altitudeHoldDesired(ManualControlCommandData * cmd);
+static void altitudeHoldDesired(ManualControlCommandData * cmd, bool flightModeChanged);
+static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeChanged, bool home);
 static void processFlightMode(ManualControlSettingsData * settings, float flightMode);
 static void processArm(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
 static void setArmedIfChanged(uint8_t val);
@@ -96,6 +98,8 @@ static uint32_t timeDifferenceMs(portTickType start_time, portTickType end_time)
 static bool okToArm(void);
 static bool validInputRange(int16_t min, int16_t max, uint16_t value);
 static void applyDeadband(float *value, float deadband);
+
+
 
 #define RCVR_ACTIVITY_MONITOR_CHANNELS_PER_GROUP 12
 #define RCVR_ACTIVITY_MONITOR_MIN_RANGE 10
@@ -319,7 +323,7 @@ static void manualControlTask(void *parameters)
 						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
 				}
 
-			} else {
+			} else if (valid_input_detected) {
 				AlarmsClear(SYSTEMALARMS_ALARM_MANUALCONTROL);
 
 				// Scale channels to -1 -> +1 range
@@ -336,9 +340,9 @@ static void manualControlTask(void *parameters)
 					applyDeadband(&cmd.Yaw, settings.Deadband);
 				}
 
-				if(cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE] != PIOS_RCVR_INVALID &&
-				   cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE] != PIOS_RCVR_NODRIVER &&
-				   cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE] != PIOS_RCVR_TIMEOUT)
+				if(cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE] != (uint16_t) PIOS_RCVR_INVALID &&
+				   cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE] != (uint16_t) PIOS_RCVR_NODRIVER &&
+				   cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE] != (uint16_t) PIOS_RCVR_TIMEOUT)
 					cmd.Collective = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE];
 				   
 				AccessoryDesiredData accessory;
@@ -390,6 +394,7 @@ static void manualControlTask(void *parameters)
 		FlightStatusGet(&flightStatus);
 
 		// Depending on the mode update the Stabilization or Actuator objects
+		static uint8_t lastFlightMode = FLIGHTSTATUS_FLIGHTMODE_MANUAL;
 		switch(PARSE_FLIGHT_MODE(flightStatus.FlightMode)) {
 			case FLIGHTMODE_UNDEFINED:
 				// This reflects a bug in the code architecture!
@@ -408,13 +413,20 @@ static void manualControlTask(void *parameters)
 			case FLIGHTMODE_GUIDANCE:
 				switch(flightStatus.FlightMode) {
 					case FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD:
-						altitudeHoldDesired(&cmd);
+						altitudeHoldDesired(&cmd, lastFlightMode != flightStatus.FlightMode);
+						break;
+					case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
+						updatePathDesired(&cmd, lastFlightMode != flightStatus.FlightMode, false);
+						break;
+					case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
+						updatePathDesired(&cmd, lastFlightMode != flightStatus.FlightMode, true);
 						break;
 					default:
 						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
 				}
 				break;
 		}
+		lastFlightMode = flightStatus.FlightMode;
 	}
 }
 
@@ -608,8 +620,9 @@ static void updateStabilizationDesired(ManualControlCommandData * cmd, ManualCon
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR) ? cmd->Roll :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYRATE) ? cmd->Roll * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL] :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYATTITUDE) ? cmd->Roll * stabSettings.RollMax :
+	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_COORDINATEDFLIGHT) ? cmd->Roll :
 	     0; // this is an invalid mode
-					      ;
+
 	stabilization.Pitch = (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_NONE) ? cmd->Pitch :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_RATE) ? cmd->Pitch * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING) ? cmd->Pitch * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
@@ -618,6 +631,7 @@ static void updateStabilizationDesired(ManualControlCommandData * cmd, ManualCon
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR) ? cmd->Pitch :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYRATE) ? cmd->Pitch * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYATTITUDE) ? cmd->Pitch * stabSettings.PitchMax :
+	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_COORDINATEDFLIGHT) ? cmd->Pitch :
 	     0; // this is an invalid mode
 
 	stabilization.Yaw = (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_NONE) ? cmd->Yaw :
@@ -628,15 +642,67 @@ static void updateStabilizationDesired(ManualControlCommandData * cmd, ManualCon
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR) ? cmd->Yaw :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYRATE) ? cmd->Yaw * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYATTITUDE) ? cmd->Yaw * stabSettings.YawMax :
+	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_COORDINATEDFLIGHT) ? cmd->Yaw :
 	     0; // this is an invalid mode
 
 	stabilization.Throttle = (cmd->Throttle < 0) ? -1 : cmd->Throttle;
 	StabilizationDesiredSet(&stabilization);
 }
 
+
+/**
+ * @brief Update the position desired to current location when
+ * enabled and allow the waypoint to be moved by transmitter
+ */
+static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeChanged, bool home)
+{
+//#define BESTCLIMBRATESPEED 10	//[m/s] //BOOO! Bad way to do this.	
+//
+//	if (home && flightModeChanged) {
+//		// Simple Return To Home mode - climb 10 meters and fly to home position
+//		PositionActualData positionActual;
+//		PositionActualGet(&positionActual);
+//		
+//		PathDesiredData pathDesired;
+//		PathDesiredGet(&pathDesired);
+//		pathDesired.Start[PATHDESIRED_START_NORTH] = positionActual.North;
+//		pathDesired.Start[PATHDESIRED_START_EAST] = positionActual.East;
+//		pathDesired.Start[PATHDESIRED_START_DOWN] = positionActual.Down;
+//		pathDesired.End[PATHDESIRED_END_NORTH] = 0;
+//		pathDesired.End[PATHDESIRED_END_EAST] = 0;
+//		pathDesired.End[PATHDESIRED_END_DOWN] = positionActual.Down - 10;
+//		pathDesired.StartingVelocity=BESTCLIMBRATESPEED;
+//		pathDesired.EndingVelocity=BESTCLIMBRATESPEED;
+//		pathDesired.Mode = PATHDESIRED_MODE_FLYVECTOR;
+//		PathDesiredSet(&pathDesired);
+//	} else if(flightModeChanged) {
+//		// Simple position hold - stay at present altitude and position
+//		PositionActualData positionActual;
+//		PositionActualGet(&positionActual);
+//		
+//		PathDesiredData pathDesired;
+//		PathDesiredGet(&pathDesired);
+//		pathDesired.Start[PATHDESIRED_START_NORTH] = positionActual.North-1; //Offset by one so that the two points don't perfectly coincide
+//		pathDesired.Start[PATHDESIRED_START_EAST] = positionActual.East;
+//		pathDesired.Start[PATHDESIRED_START_DOWN] = positionActual.Down;
+//		pathDesired.End[PATHDESIRED_END_NORTH] = positionActual.North;
+//		pathDesired.End[PATHDESIRED_END_EAST] = positionActual.East;
+//		pathDesired.End[PATHDESIRED_END_DOWN] = positionActual.Down;
+//		pathDesired.StartingVelocity=BESTCLIMBRATESPEED;
+//		pathDesired.EndingVelocity=BESTCLIMBRATESPEED;
+//		pathDesired.Mode = PATHDESIRED_MODE_FLYVECTOR;
+//		PathDesiredSet(&pathDesired);
+//	}
+}
+
+
 #if defined(REVOLUTION)
-// TODO: Need compile flag to exclude this from copter control
-static void altitudeHoldDesired(ManualControlCommandData * cmd)
+/**
+ * @brief Update the altitude desired to current altitude when
+ * enabled and enable altitude mode for stabilization
+ * @todo: Need compile flag to exclude this from copter control
+ */
+static void altitudeHoldDesired(ManualControlCommandData * cmd, bool flightModeChanged)
 {
 	const float DEADBAND_HIGH = 0.55;
 	const float DEADBAND_LOW = 0.45;
@@ -661,7 +727,7 @@ static void altitudeHoldDesired(ManualControlCommandData * cmd)
 	
 	float currentDown;
 	PositionActualDownGet(&currentDown);
-	if(dT > 1) {
+	if(flightModeChanged) {
 		// After not being in this mode for a while init at current height
 		altitudeHoldDesired.Altitude = 0;
 		zeroed = false;
@@ -675,7 +741,7 @@ static void altitudeHoldDesired(ManualControlCommandData * cmd)
 	AltitudeHoldDesiredSet(&altitudeHoldDesired);
 }
 #else
-static void altitudeHoldDesired(ManualControlCommandData * cmd)
+static void altitudeHoldDesired(ManualControlCommandData * cmd, bool flightModeChanged)
 {
 	AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_ERROR);
 }
@@ -742,6 +808,21 @@ static bool okToArm(void)
 
 	return true;
 }
+/**
+ * @brief Determine if the aircraft is forced to disarm by an explicit alarm
+ * @returns True if safe to arm, false otherwise
+ */
+static bool forcedDisarm(void)
+{
+	// read alarms
+	SystemAlarmsData alarms;
+	SystemAlarmsGet(&alarms);
+
+	if (alarms.Alarm[SYSTEMALARMS_ALARM_GUIDANCE] == SYSTEMALARMS_ALARM_CRITICAL) {
+		return true;
+	}
+	return false;
+}
 
 /**
  * @brief Update the flightStatus object only if value changed.  Reduces callbacks
@@ -762,10 +843,16 @@ static void setArmedIfChanged(uint8_t val) {
  * @param[out] cmd The structure to set the armed in
  * @param[in] settings Settings indicating the necessary position
  */
-static void processArm(ManualControlCommandData * cmd, ManualControlSettingsData * settings)
+static void processArm(ManualControlCommandData * cmd, ManualControlSettingsData * settings) //<-- FOR SAFETY, ARMING NEEDS TO CHANGE SO THAT OTHER MODULES CAN'T OVERRULE IT
 {
 
 	bool lowThrottle = cmd->Throttle <= 0;
+
+	if (forcedDisarm()) { //<--TODO: The name makes little sense vs. what it is intended to do.
+		// PathPlanner forces explicit disarming due to error condition (crash, impact, fire, ...)
+		setArmedIfChanged(FLIGHTSTATUS_ARMED_DISARMED);
+		return;
+	}
 
 	if (settings->Arming == MANUALCONTROLSETTINGS_ARMING_ALWAYSDISARMED) {
 		// In this configuration we always disarm

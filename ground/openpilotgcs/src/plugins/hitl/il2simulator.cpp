@@ -225,7 +225,8 @@ void IL2Simulator::processUpdate(const QByteArray& inp)
     Utils::CoordinateConversions().RPY2Quaternion(rpy,quat);
     Utils::CoordinateConversions().Quaternion2R(quat,Rbe);
 
-    // Update GPS Position objects
+    // Update GPS Position objects, convertin from the current NED position
+    // to LLA
     double HomeLLA[3];
     double LLA[3];
     double NED[3];
@@ -235,9 +236,9 @@ void IL2Simulator::processUpdate(const QByteArray& inp)
     NED[0] = current.Y;
     NED[1] = current.X;
     NED[2] = -current.Z;
-    Utils::CoordinateConversions().NED2LLA_HomeLLA(HomeLLA,NED,LLA);
-    out.latitude = LLA[0] * 1e7;
-    out.longitude = LLA[1] * 1e7;
+    Utils::CoordinateConversions().NED2LLA_HomeLLA(HomeLLA, NED, LLA);
+    out.latitude = LLA[0];
+    out.longitude = LLA[1];
     out.groundspeed = current.groundspeed;
 
     out.calibratedAirspeed = current.cas;

@@ -54,8 +54,10 @@ void PIOS_HMC5883_Init(const struct pios_hmc5883_cfg * cfg)
 {
 	dev_cfg = cfg; // store config before enabling interrupt
 
+#ifdef PIOS_HMC5883_HAS_GPIOS
 	PIOS_EXTI_Init(cfg->exti_cfg);
-	
+#endif
+
 	int32_t val = PIOS_HMC5883_Config(cfg);
 	
 	PIOS_Assert(val == 0);
@@ -153,11 +155,10 @@ static int32_t PIOS_HMC5883_Config(const struct pios_hmc5883_cfg * cfg)
  * \param[out] int16_t array of size 3 to store X, Z, and Y magnetometer readings
  * \return 0 for success or -1 for failure
  */
-int32_t PIOS_HMC5883_ReadMag(int16_t out[3])
+int32_t PIOS_HMC5883_ReadMag(struct pios_hmc5883_data * data)
 {
 	pios_hmc5883_data_ready = false;
 	uint8_t buffer[6];
-	int32_t temp;
 	int32_t sensitivity;
 	
 	if (PIOS_HMC5883_Read(PIOS_HMC5883_DATAOUT_XMSB_REG, buffer, 6) != 0) {
@@ -192,16 +193,35 @@ int32_t PIOS_HMC5883_ReadMag(int16_t out[3])
 		default:
 			PIOS_Assert(0);
 	}
-	
-	for (int i = 0; i < 3; i++) {
-		temp = ((int16_t) ((uint16_t) buffer[2 * i] << 8)
-				+ buffer[2 * i + 1]) * 1000 / sensitivity;
-		out[i] = temp;
+
+	int16_t mag_x, mag_y, mag_z;
+	mag_x = ((int16_t) ((uint16_t) buffer[0] << 8) + buffer[1]) * 1000 / sensitivity;
+	mag_z = ((int16_t) ((uint16_t) buffer[2] << 8) + buffer[3]) * 1000 / sensitivity;
+	mag_y = ((int16_t) ((uint16_t) buffer[4] << 8) + buffer[5]) * 1000 / sensitivity;
+
+	// Define "0" when the fiducial is in the front left of the board
+	switch (dev_cfg->orientation) {
+		case PIOS_HMC5883_TOP_0DEG:
+			data->mag_x = -mag_x;
+			data->mag_y = mag_y;
+			data->mag_z = -mag_z;
+			break;
+		case PIOS_HMC5883_TOP_90DEG:
+			data->mag_x = -mag_y;
+			data->mag_y = -mag_x;
+			data->mag_z = -mag_z;
+			break;
+		case PIOS_HMC5883_TOP_180DEG:
+			data->mag_x = mag_x;
+			data->mag_y = -mag_y;
+			data->mag_z = -mag_z;		
+			break;
+		case PIOS_HMC5883_TOP_270DEG:
+			data->mag_x = mag_y;
+			data->mag_y = mag_x;
+			data->mag_z = -mag_z;
+			break;
 	}
-	// Data reads out as X,Z,Y
-	temp = out[2];
-	out[2] = out[1];
-	out[1] = temp;
 	
 	// This should not be necessary but for some reason it is coming out of continuous conversion mode
 	PIOS_HMC5883_Write(PIOS_HMC5883_MODE_REG, PIOS_HMC5883_MODE_CONTINUOUS);
@@ -309,7 +329,7 @@ int32_t PIOS_HMC5883_Test(void)
 	uint8_t ctrl_a_read;
 	uint8_t ctrl_b_read;	
 	uint8_t mode_read;
-	int16_t values[3];
+	struct pios_hmc5883_data values;
 	
 	
 	
@@ -329,7 +349,7 @@ int32_t PIOS_HMC5883_Test(void)
 		return -1;
 	if( PIOS_HMC5883_Read(PIOS_HMC5883_DATAOUT_STATUS_REG, &status,1) != 0)
 		return -1;
-	if (PIOS_HMC5883_ReadMag(values) != 0)
+	if (PIOS_HMC5883_ReadMag(&values) != 0)
 		return -1;
 	
 	/*
@@ -356,7 +376,7 @@ int32_t PIOS_HMC5883_Test(void)
 	/* Must wait for value to be updated */
 	PIOS_DELAY_WaitmS(200);
 	
-	if (PIOS_HMC5883_ReadMag(values) != 0)
+	if (PIOS_HMC5883_ReadMag(&values) != 0)
 		return -1;
 	
 	/*
@@ -393,7 +413,7 @@ int32_t PIOS_HMC5883_Test(void)
  */
 bool PIOS_HMC5883_IRQHandler(void)
 {
-	pios_hmc5883_data_ready = true
+	pios_hmc5883_data_ready = true;
 	
 	return false;
 }

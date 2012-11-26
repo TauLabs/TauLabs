@@ -44,4 +44,5 @@ LoggingGadget::~LoggingGadget()
 
 void LoggingGadget::loadConfiguration(IUAVGadgetConfiguration* config)
 {
+    Q_UNUSED(config);
 }

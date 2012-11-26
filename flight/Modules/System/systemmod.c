@@ -40,8 +40,10 @@
 
 #include "openpilot.h"
 #include "systemmod.h"
+#include "sanitycheck.h"
 #include "objectpersistence.h"
 #include "flightstatus.h"
+#include "manualcontrolsettings.h"
 #include "systemstats.h"
 #include "systemsettings.h"
 #include "i2cstats.h"
@@ -87,6 +89,7 @@ static bool mallocFailed;
 
 // Private functions
 static void objectUpdatedCb(UAVObjEvent * ev);
+static void configurationUpdatedCb(UAVObjEvent * ev);
 static void updateStats();
 static void updateSystemAlarms();
 static void systemTask(void *parameters);
@@ -169,6 +172,17 @@ static void systemTask(void *parameters)
 	// Listen for SettingPersistance object updates, connect a callback function
 	ObjectPersistenceConnectQueue(objectPersistenceQueue);
 
+#if defined(COPTERCONTROL) || defined(REVOLUTION)
+	// Run this initially to make sure the configuration is checked
+	configuration_check();
+
+	// Whenever the configuration changes, make sure it is safe to fly
+	if (SystemSettingsHandle())
+		SystemSettingsConnectCallback(configurationUpdatedCb);
+	if (ManualControlSettingsHandle())
+		ManualControlSettingsConnectCallback(configurationUpdatedCb);
+#endif
+
 	// Main system loop
 	while (1) {
 		// Update the system statistics
@@ -230,7 +244,13 @@ static void objectUpdatedCb(UAVObjEvent * ev)
 		ObjectPersistenceGet(&objper);
 
 		int retval = 1;
-		// Execute action
+		
+		// When this is called because of this method don't do anything
+		if (objper.Operation == OBJECTPERSISTENCE_OPERATION_ERROR ||
+			objper.Operation == OBJECTPERSISTENCE_OPERATION_COMPLETED) {
+			return;
+		}
+
 		if (objper.Operation == OBJECTPERSISTENCE_OPERATION_LOAD) {
 			if (objper.Selection == OBJECTPERSISTENCE_SELECTION_SINGLEOBJECT) {
 				// Get selected object
@@ -305,6 +325,16 @@ static void objectUpdatedCb(UAVObjEvent * ev)
 				break;
 		}
 	}
+}
+
+/**
+ * Called whenever a critical configuration component changes
+ */
+static void configurationUpdatedCb(UAVObjEvent * ev)
+{
+#if defined(COPTERCONTROL) || defined(REVOLUTION)
+	configuration_check();
+#endif
 }
 
 /**

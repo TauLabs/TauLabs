@@ -85,7 +85,7 @@ namespace mapcontrol
         * @param y y local coordinate
         * @return internals::PointLatLng LatLng coordinate
         */
-        internals::PointLatLng FromLocalToLatLng(int x, int y);
+        internals::PointLatLng FromLocalToLatLng(qint64 x, qint64 y);
         /**
         * @brief Returns true if map is being dragged
         *
@@ -122,7 +122,7 @@ namespace mapcontrol
         *
         * @param value zoom value
         */
-        void SetZoomStep(int const& value);
+        void SetZoomStep(qint32 const& value);
 
         /**
         * @brief Ask Stacey
@@ -187,7 +187,7 @@ namespace mapcontrol
         void SetSelectedArea(internals::RectLatLng const& value){selectedArea = value;this->update();}
         internals::RectLatLng SelectedArea()const{return selectedArea;}
         internals::RectLatLng BoundsOfMap;
-        void Offset(int const& x, int const& y);
+        void Offset(qint64 const& x, qint64 const& y);
         bool CanDragMap()const{return core->CanDragMap;}
         void SetCanDragMap(bool const& value){core->CanDragMap = value;}
 
@@ -198,6 +198,7 @@ namespace mapcontrol
         GeoCoderStatusCode::Types SetCurrentPositionByKeywords(QString const& keys){return core->SetCurrentPositionByKeywords(keys);}
         MapType::Types GetMapType(){return core->GetMapType();}
         void SetMapType(MapType::Types const& value){core->SetMapType(value);}
+
     private slots:
         void Core_OnNeedInvalidation();
         void childPosRefresh();
