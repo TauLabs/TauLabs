@@ -178,22 +178,15 @@ void Simulator::onStart()
     outSocket = new QUdpSocket();
     setupUdpPorts(settings.hostAddress,settings.inPort,settings.outPort);
 
-        emit processOutput("\nLocal interface: " + settings.hostAddress + "\n" + \
-                           "Remote interface: " + settings.remoteAddress + "\n" + \
-                           "inputPort: " + QString::number(settings.inPort) + "\n" + \
-                           "outputPort: " + QString::number(settings.outPort) + "\n");
+    emit processOutput("\nLocal interface: " + settings.hostAddress + "\n" + \
+                       "Remote interface: " + settings.remoteAddress + "\n" + \
+                       "inputPort: " + QString::number(settings.inPort) + "\n" + \
+                       "outputPort: " + QString::number(settings.outPort) + "\n");
 
-        qxtLog->info("\nLocal interface: " + settings.hostAddress + "\n" + \
-                     "Remote interface: " + settings.remoteAddress + "\n" + \
-                     "inputPort: " + QString::number(settings.inPort) + "\n" + \
-                     "outputPort: " + QString::number(settings.outPort) + "\n");
-
-//        if(!inSocket->waitForConnected(5000))
-//                emit processOutput(QString("Can't connect to %1 on %2 port!").arg(settings.hostAddress).arg(settings.inPort));
-//        outSocket->connectToHost(settings.hostAddress,settings.outPort); // FG
-//        if(!outSocket->waitForConnected(5000))
-//                emit processOutput(QString("Can't connect to %1 on %2 port!").arg(settings.hostAddress).arg(settings.outPort));
-
+    qxtLog->info("\nLocal interface: " + settings.hostAddress + "\n" + \
+                 "Remote interface: " + settings.remoteAddress + "\n" + \
+                 "inputPort: " + QString::number(settings.inPort) + "\n" + \
+                 "outputPort: " + QString::number(settings.outPort) + "\n");
 
 	connect(inSocket, SIGNAL(readyRead()), this, SLOT(receiveUpdate()),Qt::DirectConnection);
 
