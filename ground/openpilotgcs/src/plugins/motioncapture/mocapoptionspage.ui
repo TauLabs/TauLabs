@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>HITLOptionsPage</class>
- <widget class="QWidget" name="HITLOptionsPage">
+ <class>MoCapOptionsPage</class>
+ <widget class="QWidget" name="MoCapOptionsPage">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -46,7 +46,7 @@
      <property name="widgetResizable">
       <bool>true</bool>
      </property>
-     <widget class="QWidget" name="scrollAreaWidgetContents_2">
+     <widget class="QWidget" name="scrollAreaWidgetContents">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -59,14 +59,14 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QLabel" name="chooseFlightSimulatorLabel">
+          <widget class="QLabel" name="chooseMotionCaptureLabel">
            <property name="text">
-            <string>Choose flight simulator:</string>
+            <string>Choose motion capture system:</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="chooseFlightSimulator"/>
+          <widget class="QComboBox" name="chooseMotionCapture"/>
          </item>
         </layout>
        </item>
@@ -93,7 +93,7 @@
          <property name="title">
           <string>IP addresses</string>
          </property>
-         <widget class="QWidget" name="layoutWidget_3">
+         <widget class="QWidget" name="layoutWidget">
           <property name="geometry">
            <rect>
             <x>10</x>
@@ -125,7 +125,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;For communication from the simulator to GCS. Should be the IP address of one of the interfaces of the GCS computer.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;For communication to GCS via network. Should either be the IP address of one of the interfaces of the GCS computer, or the multicast network address.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
               <string/>
@@ -201,7 +201,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Only required if sending data to a simulator on a remote computer. Should be the IP of the computer on which the simulator is running.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Only required if communicating from GCS to the motion capture software. Should be the IP of the machine on which the simulator is running.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -246,115 +246,23 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>180</height>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>90</height>
           </size>
          </property>
          <property name="title">
-          <string>Program parameters</string>
+          <string>Initial parameters</string>
          </property>
-         <widget class="Utils::PathChooser" name="dataPath" native="true">
-          <property name="geometry">
-           <rect>
-            <x>120</x>
-            <y>60</y>
-            <width>401</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_2">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>60</y>
-            <width>94</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Data directory:</string>
-          </property>
-         </widget>
-         <widget class="Utils::PathChooser" name="executablePath" native="true">
-          <property name="geometry">
-           <rect>
-            <x>120</x>
-            <y>34</y>
-            <width>401</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>34</y>
-            <width>104</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Path executable:</string>
-          </property>
-         </widget>
-         <widget class="QCheckBox" name="startSim">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>120</y>
-            <width>229</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="toolTip">
-           <string>Check this box to start the simulator on the local computer</string>
-          </property>
-          <property name="text">
-           <string>Start simulator on local machine</string>
-          </property>
-         </widget>
          <widget class="QCheckBox" name="noiseCheckBox">
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>150</y>
+            <y>60</y>
             <width>89</width>
             <height>20</height>
            </rect>
@@ -366,24 +274,11 @@
            <string>Add noise</string>
           </property>
          </widget>
-         <widget class="Line" name="line">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>80</y>
-            <width>491</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
          <widget class="QLabel" name="label_13">
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>90</y>
+            <y>30</y>
             <width>161</width>
             <height>22</height>
            </rect>
@@ -396,7 +291,7 @@
           <property name="geometry">
            <rect>
             <x>290</x>
-            <y>90</y>
+            <y>30</y>
             <width>171</width>
             <height>22</height>
            </rect>
@@ -409,7 +304,7 @@
           <property name="geometry">
            <rect>
             <x>460</x>
-            <y>90</y>
+            <y>30</y>
             <width>100</width>
             <height>22</height>
            </rect>
@@ -437,7 +332,7 @@
           <property name="geometry">
            <rect>
             <x>170</x>
-            <y>90</y>
+            <y>30</y>
             <width>100</width>
             <height>22</height>
            </rect>
@@ -546,7 +441,7 @@
                     <number>10</number>
                    </property>
                    <property name="maximum">
-                    <number>5000</number>
+                    <number>100</number>
                    </property>
                    <property name="value">
                     <number>20</number>
@@ -587,7 +482,7 @@
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QRadioButton" name="attActSim">
+                  <widget class="QRadioButton" name="attActualMocap">
                    <property name="font">
                     <font>
                      <weight>75</weight>
@@ -598,7 +493,7 @@
                     <string/>
                    </property>
                    <property name="text">
-                    <string>use values from simulator</string>
+                    <string>use values from motion capture</string>
                    </property>
                    <property name="checked">
                     <bool>true</bool>
@@ -606,20 +501,58 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QRadioButton" name="attActHW">
+                  <widget class="QRadioButton" name="attActualHW">
                    <property name="text">
                     <string>send simulated inertial data to board</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QRadioButton" name="attActCalc">
-                   <property name="toolTip">
-                    <string/>
+                  <widget class="QFrame" name="frame">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>27</height>
+                    </size>
                    </property>
-                   <property name="text">
-                    <string>calculate from simulated sensor data</string>
+                   <property name="frameShape">
+                    <enum>QFrame::NoFrame</enum>
                    </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Plain</enum>
+                   </property>
+                   <property name="lineWidth">
+                    <number>1</number>
+                   </property>
+                   <widget class="QLabel" name="label_16">
+                    <property name="geometry">
+                     <rect>
+                      <x>0</x>
+                      <y>8</y>
+                      <width>398</width>
+                      <height>14</height>
+                     </rect>
+                    </property>
+                    <property name="text">
+                     <string>Refresh rate:</string>
+                    </property>
+                   </widget>
+                   <widget class="QSpinBox" name="attActualRateSpinBox">
+                    <property name="geometry">
+                     <rect>
+                      <x>150</x>
+                      <y>2</y>
+                      <width>161</width>
+                      <height>25</height>
+                     </rect>
+                    </property>
+                    <property name="suffix">
+                     <string>ms</string>
+                    </property>
+                    <property name="maximum">
+                     <number>5000</number>
+                    </property>
+                   </widget>
                   </widget>
                  </item>
                  <item>
@@ -1090,14 +1023,35 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>Utils::PathChooser</class>
-   <extends>QWidget</extends>
-   <header>utils/pathchooser.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
+ <tabstops>
+  <tabstop>chooseMotionCapture</tabstop>
+  <tabstop>hostAddress</tabstop>
+  <tabstop>inputPort</tabstop>
+  <tabstop>remoteAddress</tabstop>
+  <tabstop>outputPort</tabstop>
+  <tabstop>noiseCheckBox</tabstop>
+  <tabstop>latitude</tabstop>
+  <tabstop>longitude</tabstop>
+  <tabstop>attRawCheckbox</tabstop>
+  <tabstop>attRawRateSpinbox</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>attActualCheckbox</tabstop>
+  <tabstop>attActualMocap</tabstop>
+  <tabstop>attActualHW</tabstop>
+  <tabstop>groundTruthCheckbox</tabstop>
+  <tabstop>groundTruthRateSpinbox</tabstop>
+  <tabstop>gpsPositionCheckbox</tabstop>
+  <tabstop>gpsPosRateSpinbox</tabstop>
+  <tabstop>airspeedActualCheckbox</tabstop>
+  <tabstop>airspeedRateSpinbox</tabstop>
+  <tabstop>baroAltitudeCheckbox</tabstop>
+  <tabstop>sonarMaxAlt</tabstop>
+  <tabstop>baroAltRateSpinbox</tabstop>
+  <tabstop>inputCommandCheckbox</tabstop>
+  <tabstop>manualControlRadioButton</tabstop>
+  <tabstop>gcsReceiverRadioButton</tabstop>
+  <tabstop>minOutputPeriodSpinbox</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

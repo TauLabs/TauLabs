@@ -1488,6 +1488,40 @@
         </data>
       </Yaw>
     </LineardialGadget>
+    <MoCap>
+      <default>
+        <configInfo>
+          <locked>false</locked>
+          <version>0.0.0</version>
+        </configInfo>
+        <data>
+          <addNoise>false</addNoise>
+          <airspeedActualEnabled>false</airspeedActualEnabled>
+          <airspeedActualRate>100</airspeedActualRate>
+          <attActualRate>50</attActualRate>
+          <attActualHW>false</attActualHW>
+          <attActualMocap>false</attActualMocap>
+          <attActualEnabled>false</attActualEnabled>
+          <attRawEnabled>false</attRawEnabled>
+          <attRawRate>20</attRawRate>
+          <baroAltRate>100</baroAltRate>
+          <baroAltitudeEnabled>false</baroAltitudeEnabled>
+          <exportId>NatNet</exportId>
+          <gcsReceiverEnabled>false</gcsReceiverEnabled>
+          <gpsPosRate>100</gpsPosRate>
+          <gpsPositionEnabled>false</gpsPositionEnabled>
+          <groundTruthEnabled>true</groundTruthEnabled>
+          <groundTruthRate>100</groundTruthRate>
+          <hostAddress>239.255.42.99</hostAddress>
+          <inPort>1511</inPort>
+          <inputCommand>false</inputCommand>
+          <manualControlEnabled>false</manualControlEnabled>
+          <minOutputPeriod>100</minOutputPeriod>
+          <outPort>0</outPort>
+          <remoteAddress>127.0.0.1</remoteAddress>
+        </data>
+      </default>
+    </MoCap>
     <ModelViewGadget>
       <Aeroquad__PCT__20__PCT__2B>
         <configInfo>
