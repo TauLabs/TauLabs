@@ -50,22 +50,32 @@ bool LogFile::open(OpenMode mode) {
      */
     if(mode==QIODevice::WriteOnly)
     {
-        QString gcsRevision = QString::fromLatin1(Core::Constants::GCS_REVISION_STR);
+        QString gitHash = QString::fromLatin1(Core::Constants::GCS_REVISION_STR);
+        // UAVOSHA1_STR looks something like: "{ 0xbd,0xfc,0x47,0x16,0x59,0xb9,0x08,0x18,0x1c,0x82,0x5e,0x3f,0xe1,0x1a,0x77,0x7f,0x4e,0x06,0xea,0x7c }"
+        // This string needs to be reduced to just the hex letters, so in the example we need: bdfc471659b908181c825e3fe11a777f4e06ea7c
+        QString uavoHash = QString::fromLatin1(Core::Constants::UAVOSHA1_STR).replace("\"{ ", "").replace(" }\"", "").replace(",", "").replace("0x", "");
         QTextStream out(&file);
-        out << "OpenPilot git hash:\n" <<  gcsRevision << "\n##\n";
+
+        out << "OpenPilot git hash:\n" <<  gitHash << "\n" << uavoHash << "\n##\n";
     }
     else if(mode == QIODevice::ReadOnly)
     {
         file.readLine(); //Read first line of log file. This assumes that the logfile is of the new format.
-        QString logHashString=file.readLine().trimmed(); //Read second line of log file. This assumes that the logfile is of the new format.
-        qDebug() << "Log git hash: " << logHashString;
-        QString gcsRevision = QString::fromLatin1(Core::Constants::GCS_REVISION_STR);
-        qDebug() << "GCS git hash: " << gcsRevision;
+        QString logGitHashString=file.readLine().trimmed(); //Read second line of log file. This assumes that the logfile is of the new format.
+        QString logUAVOHashString=file.readLine().trimmed(); //Read third line of log file. This assumes that the logfile is of the new format.
+        QString gitHash = QString::fromLatin1(Core::Constants::GCS_REVISION_STR);
+        QString uavoHash = QString::fromLatin1(Core::Constants::UAVOSHA1_STR).replace("\"{ ", "").replace(" }\"", "").replace(",", "").replace("0x", ""); // See comment above for necessity for string replacements
 
-        if(logHashString != gcsRevision){
+        if(logUAVOHashString != uavoHash){
+            QMessageBox msgBox;
+            msgBox.setText("Likely log file incompatibility.");
+            msgBox.setInformativeText(QString("The log file was made with branch %1, UAVO hash %2. GCS will attempt to play the file.").arg(logGitHashString).arg(logUAVOHashString));
+            msgBox.exec();
+        }
+        else if(logGitHashString != gitHash){
             QMessageBox msgBox;
             msgBox.setText("Possible log file incompatibility.");
-            msgBox.setInformativeText(QString("The log file was made with branch %1. GCS will attempt to play the file.").arg(logHashString));
+            msgBox.setInformativeText(QString("The log file was made with branch %1. GCS will attempt to play the file.").arg(logGitHashString));
             msgBox.exec();
         }
 
