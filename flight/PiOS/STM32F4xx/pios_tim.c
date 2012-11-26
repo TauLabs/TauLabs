@@ -103,7 +103,10 @@ int32_t PIOS_TIM_InitClock(const struct pios_tim_clock_cfg * cfg)
 	/* Enable Interrupts */
 	NVIC_Init(&cfg->irq.init);
 
-	/* check for optional second vector (dirty hack) */
+	/* Check for optional second vector (dirty hack)
+	 * This is needed for timers 1 and 8 when requiring more than one event
+	 * to generate an interrupt. Actually up to 4 interrupts may be necessary.
+	 */
 	if (cfg->irq2.init.NVIC_IRQChannel != 0)
 		NVIC_Init(&cfg->irq2.init);
 
