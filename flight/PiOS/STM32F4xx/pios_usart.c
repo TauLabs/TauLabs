@@ -175,17 +175,21 @@ int32_t PIOS_USART_Init(uint32_t * usart_id, const struct pios_usart_cfg * cfg)
 	/* Map pins to USART function */
 	/* note __builtin_ctz() due to the difference between GPIO_PinX and GPIO_PinSourceX */
 	if (usart_dev->cfg->remap) {
-		GPIO_PinAFConfig(usart_dev->cfg->rx.gpio,
+		if (usart_dev->cfg->rx.gpio != 0)
+			GPIO_PinAFConfig(usart_dev->cfg->rx.gpio,
 				__builtin_ctz(usart_dev->cfg->rx.init.GPIO_Pin),
 				usart_dev->cfg->remap);
-		GPIO_PinAFConfig(usart_dev->cfg->tx.gpio,
+		if (usart_dev->cfg->tx.gpio != 0)
+			GPIO_PinAFConfig(usart_dev->cfg->tx.gpio,
 				__builtin_ctz(usart_dev->cfg->tx.init.GPIO_Pin),
 				usart_dev->cfg->remap);
 	}
 
 	/* Initialize the USART Rx and Tx pins */
-	GPIO_Init(usart_dev->cfg->rx.gpio, (GPIO_InitTypeDef *)&usart_dev->cfg->rx.init);
-	GPIO_Init(usart_dev->cfg->tx.gpio, (GPIO_InitTypeDef *)&usart_dev->cfg->tx.init);
+	if (usart_dev->cfg->rx.gpio != 0)
+		GPIO_Init(usart_dev->cfg->rx.gpio, (GPIO_InitTypeDef *)&usart_dev->cfg->rx.init);
+	if (usart_dev->cfg->tx.gpio != 0)
+		GPIO_Init(usart_dev->cfg->tx.gpio, (GPIO_InitTypeDef *)&usart_dev->cfg->tx.init);
 
 	/* Configure the USART */
 	USART_Init(usart_dev->cfg->regs, (USART_InitTypeDef *)&usart_dev->cfg->init);
