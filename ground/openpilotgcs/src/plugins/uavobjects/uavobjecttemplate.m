@@ -65,11 +65,18 @@ $(INSTANTIATIONCODE)
 fid = fopen(logfile);
 
 fgetl(fid); %Read first line
-uavoLogfileHash = fgetl(fid); %Read second line
+gitLogfileHash = fgetl(fid); %Read second line
+uavoLogfileHash = fgetl(fid); %Read third line
 
-if strcmp(uavoLogfileHash,uavoImporterHash) == 0
+
+if strcmp(gitLogfileHash,uavoImporterHash) == 0
+	warning('Git hashes do not match. Incorrect file importer.'); %#ok<WNTAG>
+end
+if strcmp(uavoLogfileHash,UAVO_HASH) == 0
 	warning('UAVO hashes do not match. Incorrect file importer.'); %#ok<WNTAG>
 end
+
+
 
 
 buffer=fread(fid,Inf,'uchar=>uchar');
