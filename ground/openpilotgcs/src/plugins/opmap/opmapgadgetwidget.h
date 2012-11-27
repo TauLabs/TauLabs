@@ -31,10 +31,8 @@
 // ******************************************************
 
 
-#include "flightdatamodel.h"
 #include "pathplanner.h"
 #include "modelmapproxy.h"
-#include "modeluavoproxy.h"
 
 #include <QtGui/QWidget>
 #include <QtGui/QMenu>
@@ -59,6 +57,8 @@
 #include "objectpersistence.h"
 #include <QItemSelectionModel>
 #include "opmap_edit_waypoint_dialog.h"
+
+#include "../pathplanner/flightdatamodel.h"
 
 #include "homeeditor.h"
 
@@ -236,7 +236,6 @@ private:
     QPointer<opmap_edit_waypoint_dialog> waypoint_edit_dialog;
     QStandardItemModel wayPoint_treeView_model;
     mapcontrol::WayPointItem *m_mouse_waypoint;
-    QPointer<modelUavoProxy> UAVProxy;
     QMutex m_map_mutex;
 	bool m_telemetry_connected;
     QAction *closeAct1;
@@ -317,7 +316,7 @@ private:
     internals::PointLatLng lastLatLngMouse;
     WayPointItem * magicWayPoint;
 
-    QPointer<flightDataModel> model;
+    QPointer<FlightDataModel> model;
     QPointer<pathPlanner> table;
     QPointer<modelMapProxy> mapProxy;
     QPointer<QItemSelectionModel> selectionModel;

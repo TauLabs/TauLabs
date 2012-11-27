@@ -29,7 +29,7 @@
 #define WIDGETDELEGATES_H
 #include <QItemDelegate>
 #include <QComboBox>
-#include "flightdatamodel.h"
+#include "../pathplanner/flightdatamodel.h"
 
 
 class MapDataDelegate : public QItemDelegate
@@ -52,7 +52,7 @@ class MapDataDelegate : public QItemDelegate
 
      void updateEditorGeometry(QWidget *editor,
                                const QStyleOptionViewItem &option, const QModelIndex &index) const;
-     static void loadComboBox(QComboBox * combo,flightDataModel::pathPlanDataEnum type);
+     static void loadComboBox(QComboBox * combo,FlightDataModel::pathPlanDataEnum type);
  };
 
 #endif // WIDGETDELEGATES_H

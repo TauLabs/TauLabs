@@ -29,6 +29,7 @@
 #define FlightDataModel_H
 
 #include <QAbstractTableModel>
+#include "pathplanner_global.h"
 
 struct pathPlanData
 {
@@ -46,7 +47,7 @@ struct pathPlanData
     bool locked;
 };
 
-class FlightDataModel:public QAbstractTableModel
+class FlightDataModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:

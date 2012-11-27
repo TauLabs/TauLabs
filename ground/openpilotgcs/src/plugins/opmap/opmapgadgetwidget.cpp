@@ -56,6 +56,8 @@
 #include "positionactual.h"
 #include "velocityactual.h"
 
+#include "../pathplanner/pathplanner_global.h"
+
 #define allow_manual_home_location_move
 
 // *************************************************************************************
@@ -217,15 +219,16 @@ OPMapGadgetWidget::OPMapGadgetWidget(QWidget *parent) : QWidget(parent)
     if(m_map->GPS)
         m_map->GPS->SetUAVPos(m_home_position.coord, 0.0);        // set the GPS position
 
-    model=new flightDataModel(this);
+    // Connect to the existing model
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    model = pm->getObject<FlightDataModel>();
+    Q_ASSERT(model);
+
     table=new pathPlanner();
     selectionModel=new QItemSelectionModel(model);
     mapProxy=new modelMapProxy(this,m_map,model,selectionModel);
     table->setModel(model,selectionModel);
     waypoint_edit_dialog=new opmap_edit_waypoint_dialog(this,model,selectionModel);
-    UAVProxy=new modelUavoProxy(this,model);
-    connect(table,SIGNAL(sendPathPlanToUAV()),UAVProxy,SLOT(modelToObjects()));
-    connect(table,SIGNAL(receivePathPlanFromUAV()),UAVProxy,SLOT(objectsToModel()));
 
     magicWayPoint=m_map->magicWPCreate();
     magicWayPoint->setVisible(false);
@@ -293,8 +296,6 @@ OPMapGadgetWidget::~OPMapGadgetWidget()
 		delete m_map;
 		m_map = NULL;
 	}
-    if(!model.isNull())
-        delete model;
     if(!table.isNull())
         delete table;
     if(!selectionModel.isNull())
@@ -303,8 +304,6 @@ OPMapGadgetWidget::~OPMapGadgetWidget()
         delete mapProxy;
     if(!waypoint_edit_dialog.isNull())
         delete waypoint_edit_dialog;
-    if(!UAVProxy.isNull())
-        delete UAVProxy;
 }
 
 // *************************************************************************************

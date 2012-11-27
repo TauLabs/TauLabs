@@ -29,8 +29,10 @@
 #define PATHPLANNER_H
 
 #include <QWidget>
-#include "flightdatamodel.h"
 #include "opmap_edit_waypoint_dialog.h"
+
+#include "../pathplanner/flightdatamodel.h"
+
 namespace Ui {
 class pathPlannerUI;
 }
@@ -43,7 +45,7 @@ public:
     explicit pathPlanner(QWidget *parent = 0);
     ~pathPlanner();
     
-    void setModel(flightDataModel *model,QItemSelectionModel *selection);
+    void setModel(FlightDataModel *model,QItemSelectionModel *selection);
 private slots:
         void rowsInserted ( const QModelIndex & parent, int start, int end );
 
@@ -66,7 +68,7 @@ private slots:
 private:
     Ui::pathPlannerUI *ui;
     opmap_edit_waypoint_dialog * wid;
-    flightDataModel * myModel;
+    FlightDataModel * myModel;
 signals:
     void sendPathPlanToUAV();
     void receivePathPlanFromUAV();

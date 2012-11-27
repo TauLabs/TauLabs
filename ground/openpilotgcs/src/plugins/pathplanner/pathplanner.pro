@@ -7,6 +7,7 @@ include(../../plugins/coreplugin/coreplugin.pri)
 include(../../plugins/uavobjects/uavobjects.pri)
 
 HEADERS += pathplannergadget.h
+HEADERS += pathplanner_global.h
 HEADERS += pathplannergadgetwidget.h
 HEADERS += pathplannergadgetfactory.h
 HEADERS += pathplannerplugin.h

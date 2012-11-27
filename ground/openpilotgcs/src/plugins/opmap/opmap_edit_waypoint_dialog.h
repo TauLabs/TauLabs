@@ -31,7 +31,7 @@
 #include <QDialog>
 #include <QDataWidgetMapper>
 #include "opmapcontrol/opmapcontrol.h"
-#include "flightdatamodel.h"
+#include "../pathplanner/flightdatamodel.h"
 namespace Ui {
     class opmap_edit_waypoint_dialog;
 }

@@ -40,7 +40,7 @@ opmap_edit_waypoint_dialog::opmap_edit_waypoint_dialog(QWidget *parent,QAbstract
     connect(ui->checkBoxLocked,SIGNAL(toggled(bool)),this,SLOT(enableEditWidgets(bool)));
     connect(ui->cbMode,SIGNAL(currentIndexChanged(int)),this,SLOT(setupModeWidgets()));
     connect(ui->pushButtonCancel,SIGNAL(clicked()),this,SLOT(pushButtonCancel_clicked()));
-    MapDataDelegate::loadComboBox(ui->cbMode,flightDataModel::MODE);
+    MapDataDelegate::loadComboBox(ui->cbMode,FlightDataModel::MODE);
 
     mapper = new QDataWidgetMapper(this);
 
@@ -48,18 +48,18 @@ opmap_edit_waypoint_dialog::opmap_edit_waypoint_dialog(QWidget *parent,QAbstract
     connect(mapper,SIGNAL(currentIndexChanged(int)),this,SLOT(currentIndexChanged(int)));
     mapper->setModel(model);
     mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
-    mapper->addMapping(ui->checkBoxLocked,flightDataModel::LOCKED);
-    mapper->addMapping(ui->doubleSpinBoxLatitude,flightDataModel::LATPOSITION);
-    mapper->addMapping(ui->doubleSpinBoxLongitude,flightDataModel::LNGPOSITION);
-    mapper->addMapping(ui->doubleSpinBoxAltitude,flightDataModel::ALTITUDE);
-    mapper->addMapping(ui->lineEditDescription,flightDataModel::WPDESCRITPTION);
-    mapper->addMapping(ui->checkBoxRelative,flightDataModel::ISRELATIVE);
-    mapper->addMapping(ui->doubleSpinBoxBearing,flightDataModel::BEARELATIVE);
-    mapper->addMapping(ui->doubleSpinBoxVelocity,flightDataModel::VELOCITY);
-    mapper->addMapping(ui->doubleSpinBoxDistance,flightDataModel::DISRELATIVE);
-    mapper->addMapping(ui->doubleSpinBoxRelativeAltitude,flightDataModel::ALTITUDERELATIVE);
-    mapper->addMapping(ui->cbMode,flightDataModel::MODE);
-    mapper->addMapping(ui->dsb_modeParams,flightDataModel::MODE_PARAMS);
+    mapper->addMapping(ui->checkBoxLocked,FlightDataModel::LOCKED);
+    mapper->addMapping(ui->doubleSpinBoxLatitude,FlightDataModel::LATPOSITION);
+    mapper->addMapping(ui->doubleSpinBoxLongitude,FlightDataModel::LNGPOSITION);
+    mapper->addMapping(ui->doubleSpinBoxAltitude,FlightDataModel::ALTITUDE);
+    mapper->addMapping(ui->lineEditDescription,FlightDataModel::WPDESCRITPTION);
+    mapper->addMapping(ui->checkBoxRelative,FlightDataModel::ISRELATIVE);
+    mapper->addMapping(ui->doubleSpinBoxBearing,FlightDataModel::BEARELATIVE);
+    mapper->addMapping(ui->doubleSpinBoxVelocity,FlightDataModel::VELOCITY);
+    mapper->addMapping(ui->doubleSpinBoxDistance,FlightDataModel::DISRELATIVE);
+    mapper->addMapping(ui->doubleSpinBoxRelativeAltitude,FlightDataModel::ALTITUDERELATIVE);
+    mapper->addMapping(ui->cbMode,FlightDataModel::MODE);
+    mapper->addMapping(ui->dsb_modeParams,FlightDataModel::MODE_PARAMS);
 
     connect(itemSelection,SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),this,SLOT(currentRowChanged(QModelIndex,QModelIndex)));
 }

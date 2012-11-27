@@ -44,7 +44,7 @@ pathPlanner::~pathPlanner()
     if(wid)
         delete wid;
 }
-void pathPlanner::setModel(flightDataModel *model,QItemSelectionModel *selection)
+void pathPlanner::setModel(FlightDataModel *model,QItemSelectionModel *selection)
 {
     myModel=model;
     ui->tableView->setModel(model);
@@ -61,7 +61,7 @@ void pathPlanner::rowsInserted ( const QModelIndex & parent, int start, int end 
     Q_UNUSED(parent);
     for(int x=start;x<end+1;x++)
     {
-        QModelIndex index=ui->tableView->model()->index(x,flightDataModel::MODE);
+        QModelIndex index=ui->tableView->model()->index(x,FlightDataModel::MODE);
         ui->tableView->openPersistentEditor(index);
         ui->tableView->size().setHeight(10);
     }

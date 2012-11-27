@@ -31,10 +31,10 @@
 #include "waypoint.h"
 #include "QMutexLocker"
 #include "QPointer"
-#include "flightdatamodel.h"
 #include <QItemSelectionModel>
 #include <widgetdelegates.h>
 
+#include "../pathplanner/flightdatamodel.h"
 
 using namespace mapcontrol;
 
@@ -48,7 +48,7 @@ class modelMapProxy:public QObject
     typedef enum {OVERLAY_LINE,OVERLAY_CIRCLE_RIGHT,OVERLAY_CIRCLE_LEFT} overlayType;
     Q_OBJECT
 public:
-    explicit modelMapProxy(QObject *parent,OPMapWidget * map,flightDataModel * model,QItemSelectionModel * selectionModel);
+    explicit modelMapProxy(QObject *parent,OPMapWidget * map,FlightDataModel * model,QItemSelectionModel * selectionModel);
 
     //! Get the handle to a waypoint graphical item
     WayPointItem *findWayPointNumber(int number);
@@ -85,7 +85,7 @@ private:
     void createOverlay(WayPointItem *from, WayPointItem * to,overlayType type,QColor color);
     void createOverlay(WayPointItem *from, HomeItem *to, modelMapProxy::overlayType type, QColor color);
     OPMapWidget * myMap;
-    flightDataModel * model;
+    FlightDataModel *model;
     void refreshOverlays();
     QItemSelectionModel * selection;
 };

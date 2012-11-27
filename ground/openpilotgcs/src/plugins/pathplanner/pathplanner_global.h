@@ -1,0 +1,13 @@
+#ifndef PATHPLANNER_GLOBAL_H
+#define PATHPLANNER_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(PATHPLANNER_LIBRARY)
+#  define PATHPLANNER_EXPORT Q_DECL_EXPORT
+#else
+#  define PATHPLANNER_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // PATHPLANNER_GLOBAL_H
+

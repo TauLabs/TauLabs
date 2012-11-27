@@ -36,9 +36,9 @@ QWidget *MapDataDelegate::createEditor(QWidget *parent,
     QComboBox * box;
     switch(column)
     {
-    case flightDataModel::MODE:
+    case FlightDataModel::MODE:
         box=new QComboBox(parent);
-        MapDataDelegate::loadComboBox(box,flightDataModel::MODE);
+        MapDataDelegate::loadComboBox(box,FlightDataModel::MODE);
         return box;
         break;
     default:
@@ -86,11 +86,11 @@ void MapDataDelegate::updateEditorGeometry(QWidget *editor,
     editor->setGeometry(option.rect);
 }
 
-void MapDataDelegate::loadComboBox(QComboBox *combo, flightDataModel::pathPlanDataEnum type)
+void MapDataDelegate::loadComboBox(QComboBox *combo, FlightDataModel::pathPlanDataEnum type)
 {
     switch(type)
     {
-    case flightDataModel::MODE:
+    case FlightDataModel::MODE:
         combo->addItem("Fly Direct",MODE_FLYENDPOINT);
         combo->addItem("Fly Vector",MODE_FLYVECTOR);
         combo->addItem("Fly Circle Right",MODE_FLYCIRCLERIGHT);
