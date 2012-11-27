@@ -70,11 +70,6 @@ private slots:
 
 private:
 
-    typedef struct {
-        UAVObject* obj;
-        bool allInstances;
-    } Transaction;
-
     // Constants
     static const int TYPE_MASK = 0xF8;
     static const int TYPE_VER = 0x20;
@@ -106,7 +101,6 @@ private:
     QPointer<QIODevice> io;
     UAVObjectManager* objMngr;
     QMutex* mutex;
-    QMap<quint32, Transaction*> transMap;
     quint8 rxBuffer[MAX_PACKET_LENGTH];
     quint8 txBuffer[MAX_PACKET_LENGTH];
     // Variables used by the receive state machine
