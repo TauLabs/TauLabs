@@ -22,10 +22,10 @@
  # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  #####
 
-BOARD_NAME=revolution
-TCHAIN_PREFIX ?= 
+TCHAIN_PREFIX := 
 WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
-TOP      := $(realpath $(WHEREAMI)/../../)
+TOP      := $(realpath $(WHEREAMI)/../../../)
+include $(TOP)/make/firmware-defs.mk
 include $(TOP)/make/boards/$(BOARD_NAME)/board-info.mk
 
 
@@ -113,26 +113,15 @@ ifneq (,$(filter YES,$(DIAG_TASKS) $(ALL_DIGNOSTICS)))
 CFLAGS += -DDIAG_TASKS
 endif
 
-# Directory for output files (lst, obj, dep, elf, sym, map, hex, bin etc.)
-OUTDIR = ../../build/sim_osx
-
-# Target file name (without extension).
-TARGET = Revolution
-
 # Paths
 OPSYSTEM = ./System
 OPSYSTEMINC = $(OPSYSTEM)/inc
-OPUAVTALK = ../UAVTalk
 OPUAVTALKINC = $(OPUAVTALK)/inc
-OPUAVOBJ = ../UAVObjects
 OPUAVOBJINC = $(OPUAVOBJ)/inc
 OPTESTS  = ./Tests
-OPMODULEDIR = ../Modules
-FLIGHTLIB = ../Libraries
 FLIGHTLIBINC = $(FLIGHTLIB)/inc
-MATHLIB = ../Libraries/math
-MATHLIBINC = ../Libraries/math
-PIOS = ../PiOS.osx
+MATHLIB = $(FLIGHTLIB)/math
+MATHLIBINC = $(MATHLIB)
 PIOSINC = $(PIOS)/inc
 PIOSPOSIX = $(PIOS)/osx
 APPLIBDIR = $(PIOSPOSIX)/Libraries
@@ -436,17 +425,17 @@ MSG_ASMFROMC = ${quote}Creating asm-File from C-Source:${quote}
 MSG_ASMFROMC_ARM = ${quote}Creating asm-File from C-Source (ARM-only):${quote}
 MSG_PYMITEINIT = ${quote}**** Generating PyMite intermediate code${quote}
 
-$(OUTDIR)/sim_osx_firmwareinfo.c: $(TOP)/make/templates/firmwareinfotemplate_sim.c
+$(OUTDIR)/sim_firmwareinfo.c: $(TOP)/make/templates/firmwareinfotemplate_sim.c
 	$(V1) python $(TOP)/make/scripts/version-info.py \
 		--path=$(TOP) \
-		--template=$(TOP)/make/templates/firmwareinfotemplate_sim.c \
-		--outfile=$(TOP)/build/sim_osx/sim_osx_firmwareinfo.c \
+		--template=$^ \
+		--outfile=$@ \
 		--type=9 \
 		--revision=1 \
 		--uavodir=$(TOP)/shared/uavobjectdefinition
 
 # List of all source files.
-ALLSRC     = $(ASRCARM) $(ASRC) $(SRCARM) $(SRC) $(CPPSRCARM) $(CPPSRC) $(OUTDIR)/sim_osx_firmwareinfo.c
+ALLSRC     = $(ASRCARM) $(ASRC) $(SRCARM) $(SRC) $(CPPSRCARM) $(CPPSRC) $(OUTDIR)/sim_firmwareinfo.c
 # List of all source files without directory and file-extension.
 ALLSRCBASE = $(notdir $(basename $(ALLSRC)))
 
@@ -541,11 +530,6 @@ sizeafter:
 #	@if [ -f  $(OUTDIR)/$(TARGET).elf ]; then echo; echo $(MSG_SIZE_AFTER); $(ELFSIZE); echo; fi
 	@echo $(MSG_SIZE_AFTER)
 	$(ELFSIZE)
-
-# Display compiler version information.
-gccversion :
-	@$(CC) --version
-#	@echo $(ALLOBJ)
 
 # Create final output file (.hex) from ELF output file.
 %.hex: %.elf
