@@ -2,13 +2,13 @@
  ******************************************************************************
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
- * @addtogroup   PIOS_WDG Watchdog Functions
+ * @addtogroup PIOS_BOOTLOADER Functions
+ * @brief HAL code to interface to the OpenPilot AHRS module
  * @{
  *
- * @file       pios_wdg.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * 	       Parts by Thorsten Klose (tk@midibox.org)
- * @brief      SPI functions header.
+ * @file       pios_bl_helper.c
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @brief      Bootloader Helper Functions
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -28,21 +28,26 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef PIOS_WDG
-#define PIOS_WDG
+/* Project Includes */
+#include "pios.h"
+#if defined(PIOS_INCLUDE_BL_HELPER)
+#include <pios_board_info.h>
 
-void PIOS_WDG_Init();
-bool PIOS_WDG_RegisterFlag(uint16_t flag_requested);
-bool PIOS_WDG_UpdateFlag(uint16_t flag);
-uint16_t PIOS_WDG_GetBootupFlags();
-uint16_t PIOS_WDG_GetActiveFlags();
-void PIOS_WDG_Clear(void);
-bool PIOS_WDG_Check();
+uint32_t PIOS_BL_HELPER_CRC_Memory_Calc()
+{
+	return 0;
+}
 
-#define PIOS_WDG_ACTUATOR        0x0001
-#define PIOS_WDG_STABILIZATION   0x0002
-#define PIOS_WDG_ATTITUDE        0x0004
-#define PIOS_WDG_MANUAL          0x0008
-#define PIOS_WDG_SENSORS         0x0010
+extern const struct fw_version_info fw_version_blob;
+void PIOS_BL_HELPER_FLASH_Read_Description(uint8_t * array, uint8_t size)
+{
+	uint8_t * desc = (uint8_t *) &fw_version_blob;
+	for (uint32_t i = 0;  i < size; i++) {
+		array[i] = desc[i];
+	}
+}
 
+void PIOS_BL_HELPER_CRC_Ini()
+{
+}
 #endif

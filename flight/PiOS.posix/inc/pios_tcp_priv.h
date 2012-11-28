@@ -1,10 +1,9 @@
 /**
  ******************************************************************************
  *
- * @file       pios_udp_priv.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * 	       Parts by Thorsten Klose (tk@midibox.org)
- * @brief      UDP private definitions.
+ * @file       pios_tcp_priv.h
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @brief      TCP private definitions.
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -24,8 +23,8 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef PIOS_UDP_PRIV_H
-#define PIOS_UDP_PRIV_H
+#ifndef PIOS_TCP_PRIV_H
+#define PIOS_TCP_PRIV_H
 
 #include <pios.h>
 #include <stdio.h>
@@ -37,35 +36,36 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <netinet/in.h>
+#include "fifo_buffer.h"
 
-struct pios_udp_cfg {
-  const char * ip;
-  uint16_t port;
+struct pios_tcp_cfg {
+	const char *ip;
+	uint16_t port;
 };
 
 typedef struct {
-  const struct pios_udp_cfg * cfg;
-  xTaskHandle rxThread;
+	const struct pios_tcp_cfg * cfg;
+	pthread_t rxThread;
+	
+	int socket;
+	struct sockaddr_in server;
+	struct sockaddr_in client;
+	uint32_t clientLength;
+	int socket_connection;
+	
+	pthread_cond_t cond;
+	pthread_mutex_t mutex;
+	
+	pios_com_callback tx_out_cb;
+	uint32_t tx_out_context;
+	pios_com_callback rx_in_cb;
+	uint32_t rx_in_context;
+	
+	t_fifo_buffer rx_fifo;
+	uint8_t rx_buffer[PIOS_TCP_RX_BUFFER_SIZE];
+	uint8_t tx_buffer[PIOS_TCP_RX_BUFFER_SIZE];
+} pios_tcp_dev;
 
-  int socket;
-  struct sockaddr_in server;
-  struct sockaddr_in client;
-  uint32_t clientLength;
+extern int32_t PIOS_TCP_Init(uint32_t *tcp_id, const struct pios_tcp_cfg *cfg);
 
-  pthread_cond_t cond;
-  pthread_mutex_t mutex;
-
-  pios_com_callback tx_out_cb;
-  uint32_t tx_out_context;
-  pios_com_callback rx_in_cb;
-  uint32_t rx_in_context;
-
-  uint8_t rx_buffer[PIOS_UDP_RX_BUFFER_SIZE];
-  uint8_t tx_buffer[PIOS_UDP_RX_BUFFER_SIZE];
-} pios_udp_dev;
-
-extern int32_t PIOS_UDP_Init(uint32_t * udp_id, const struct pios_udp_cfg * cfg);
-
-
-
-#endif /* PIOS_UDP_PRIV_H */
+#endif /* PIOS_TCP_PRIV_H */

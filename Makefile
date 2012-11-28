@@ -122,11 +122,12 @@ help:
 	@echo "                            supported boards are ($(BL_BOARDS))"
 	@echo
 	@echo "   [Simulation]"
-	@echo "     sim_osx              - Build OpenPilot simulation firmware for OSX"
-	@echo "     sim_osx_clean        - Delete all build output for the osx simulation"
-	@echo "     sim_win32            - Build OpenPilot simulation firmware for"
-	@echo "                            Windows using mingw and msys"
-	@echo "     sim_win32_clean      - Delete all build output for the win32 simulation"
+	@echo "     sim_<os>_<board>     - Build host simulation firmware for <os> and <board>"
+	@echo "                            supported tuples are:"
+	@echo "                               sim_osx_revolution"
+	@echo "                               sim_posix_revolution"
+	@echo "                               sim_win32_revolution (broken)"
+	@echo "     sim_<os>_<board>_clean - Delete all build output for the simulation"
 	@echo
 	@echo "   [GCS]"
 	@echo "     gcs                  - Build the Ground Control System (GCS) application"
@@ -453,6 +454,47 @@ OPUAVSYNTHDIR := $(BUILD_DIR)/uavobject-synthetics/flight
 
 # $(1) = Canonical board name all in lower case (e.g. coptercontrol)
 # $(2) = Name of board used in source tree (e.g. CopterControl)
+# $(3) = Short name for board (e.g. CC)
+# $(4) = Host sim variant (e.g. posix, osx, win32)
+# $(5) = Build output type (e.g. elf, exe)
+define SIM_TEMPLATE
+.PHONY: sim_$(4)_$(1)
+sim_$(4)_$(1): sim_$(4)_$(1)_$(5)
+
+sim_$(4)_$(1)_%: uavobjects_flight
+	$(V1) mkdir -p $(BUILD_DIR)/sim_$(4)_$(1)/dep
+	$(V1) cd $(ROOT_DIR)/flight/targets/$(2) && \
+		$$(MAKE) --no-print-directory \
+		--file=Makefile.$(4) \
+		BOARD_NAME=$(1) \
+		BOARD_SHORT_NAME=$(3) \
+		BUILD_TYPE=fw \
+		TCHAIN_PREFIX="" \
+		REMOVE_CMD="$(RM)" \
+		OUTDIR="$(BUILD_DIR)/sim_$(4)_$(1)" \
+		\
+		TARGET=sim_$(4)_$(1) \
+		OUTDIR=$(BUILD_DIR)/sim_$(4)_$(1) \
+		\
+		PIOS=$(PIOS).$(4) \
+		FLIGHTLIB=$(FLIGHTLIB) \
+		OPMODULEDIR=$(OPMODULEDIR) \
+		OPUAVOBJ=$(OPUAVOBJ) \
+		OPUAVTALK=$(OPUAVTALK) \
+		HWDEFSINC=$(HWDEFS)/$(1) \
+		DOXYGENDIR=$(DOXYGENDIR) \
+		OPUAVSYNTHDIR=$(OPUAVSYNTHDIR) \
+		\
+		$$*
+
+.PHONY: sim_$(4)_$(1)_clean
+sim_$(4)_$(1)_clean:
+	$(V0) @echo " CLEAN      $$@"
+	$(V1) $(RM) -fr $(BUILD_DIR)/sim_$(4)_$(1)
+endef
+
+# $(1) = Canonical board name all in lower case (e.g. coptercontrol)
+# $(2) = Name of board used in source tree (e.g. CopterControl)
 # $(3) = Short name for board (e.g CC)
 define FW_TEMPLATE
 .PHONY: $(1) fw_$(1)
@@ -646,7 +688,6 @@ pipxtreme_friendly     := PipXtreme
 revolution_friendly    := Revolution
 revomini_friendly      := RevoMini
 freedom_friendly       := Freedom
-simposix_friendly      := SimPosix
 osd_friendly           := OSD
 
 # Short names of each board (used to display board name in parallel builds)
@@ -655,7 +696,6 @@ pipxtreme_short        := 'pipx'
 revolution_short       := 'revo'
 revomini_short         := 'rm  '
 freedom_short          := 'free'
-simposix_short         := 'posx'
 osd_short              := 'osd '
 
 # Start out assuming that we'll build fw, bl and bu for all boards
@@ -666,13 +706,7 @@ EF_BOARDS  := $(ALL_BOARDS)
 
 # FIXME: The BU image doesn't work for F4 boards so we need to
 #        filter them out to prevent errors.
-BU_BOARDS  := $(filter-out revolution osd, $(BU_BOARDS))
-
-# SimPosix doesn't have a BL, BU or EF target so we need to
-# filter them out to prevent errors on the all_flight target.
-BL_BOARDS  := $(filter-out simposix, $(BL_BOARDS))
-BU_BOARDS  := $(filter-out simposix, $(BU_BOARDS))
-EF_BOARDS  := $(filter-out simposix, $(EF_BOARDS))
+BU_BOARDS  := $(filter-out revolution revomini osd freedom, $(BU_BOARDS))
 
 # Generate the targets for whatever boards are left in each list
 FW_TARGETS := $(addprefix fw_, $(FW_BOARDS))
@@ -715,21 +749,13 @@ $(foreach board, $(ALL_BOARDS), $(eval $(call BL_TEMPLATE,$(board),$($(board)_fr
 # Expand the entire-flash rules
 $(foreach board, $(ALL_BOARDS), $(eval $(call EF_TEMPLATE,$(board),$($(board)_friendly),$($(board)_short))))
 
-.PHONY: sim_win32
-sim_win32: sim_win32_exe
+# Expand the simulator rules
+$(eval $(call SIM_TEMPLATE,revolution,Revolution,'revo',osx,elf))
+$(eval $(call SIM_TEMPLATE,revolution,Revolution,'revo',posix,elf))
+$(eval $(call SIM_TEMPLATE,openpilot,OpenPilot,'op  ',win32,exe))
 
-sim_win32_%: uavobjects_flight
-	$(V1) mkdir -p $(BUILD_DIR)/sitl_win32
-	$(V1) $(MAKE) --no-print-directory \
-		-C $(ROOT_DIR)/flight/targets/OpenPilot --file=$(ROOT_DIR)/flight/targets/OpenPilot/Makefile.win32 $*
+$(foreach board, $(SIM_BOARDS), $(eval $(call SIM_TEMPLATE,$(board),$($(board)_friendly),$($(board)_short))))
 
-.PHONY: sim_osx
-sim_osx: sim_osx_elf
-
-sim_osx_%: uavobjects_flight
-	$(V1) mkdir -p $(BUILD_DIR)/sim_osx
-	$(V1) $(MAKE) --no-print-directory \
-		-C $(ROOT_DIR)/flight/targets/Revolution --file=$(ROOT_DIR)/flight/targets/Revolution/Makefile.osx $*
 ##############################
 #
 # Packaging components

@@ -2,13 +2,13 @@
  ******************************************************************************
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
- * @addtogroup   PIOS_WDG Watchdog Functions
+ * @addtogroup   PIOS_GCSRCVR GCS Receiver Functions
+ * @brief PIOS interface to read from GCS receiver port
  * @{
  *
- * @file       pios_wdg.h
+ * @file       pios_gcsrcvr_priv.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * 	       Parts by Thorsten Klose (tk@midibox.org)
- * @brief      SPI functions header.
+ * @brief      GCS receiver private functions
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -28,21 +28,20 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef PIOS_WDG
-#define PIOS_WDG
+#ifndef PIOS_GCSRCVR_PRIV_H
+#define PIOS_GCSRCVR_PRIV_H
 
-void PIOS_WDG_Init();
-bool PIOS_WDG_RegisterFlag(uint16_t flag_requested);
-bool PIOS_WDG_UpdateFlag(uint16_t flag);
-uint16_t PIOS_WDG_GetBootupFlags();
-uint16_t PIOS_WDG_GetActiveFlags();
-void PIOS_WDG_Clear(void);
-bool PIOS_WDG_Check();
+#include <pios.h>
 
-#define PIOS_WDG_ACTUATOR        0x0001
-#define PIOS_WDG_STABILIZATION   0x0002
-#define PIOS_WDG_ATTITUDE        0x0004
-#define PIOS_WDG_MANUAL          0x0008
-#define PIOS_WDG_SENSORS         0x0010
+#include "gcsreceiver.h"
 
-#endif
+extern const struct pios_rcvr_driver pios_gcsrcvr_rcvr_driver;
+
+extern int32_t PIOS_GCSRCVR_Init(uint32_t *gcsrcvr_id);
+
+#endif /* PIOS_GCSRCVR_PRIV_H */
+
+/**
+ * @}
+ * @}
+ */

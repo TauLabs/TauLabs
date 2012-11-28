@@ -30,15 +30,53 @@ override THUMB :=
 include $(TOP)/make/firmware-defs.mk
 include $(TOP)/make/boards/$(BOARD_NAME)/board-info.mk
 
-# Target file name (without extension).
-TARGET := fw_$(BOARD_NAME)
-
-# Directory for output files (lst, obj, dep, elf, sym, map, hex, bin etc.)
-OUTDIR := $(TOP)/build/$(TARGET)
-
 # Set developer code and compile options
 # Set to YES for debugging
 DEBUG ?= YES
+
+# Include objects that are just nice information to show
+STACK_DIAGNOSTICS ?= NO
+MIXERSTATUS_DIAGNOSTICS ?= NO
+RATEDESIRED_DIAGNOSTICS ?= NO
+I2C_WDG_STATS_DIAGNOSTICS ?= NO
+DIAG_TASKS ?= NO
+
+#Or just turn on all the above diagnostics. WARNING: This consumes massive amounts of memory.
+ALL_DIGNOSTICS ?= NO
+
+#The following Makefile command, ifneq (, $(filter) $(A), $(B) $(C)) is equivalent 
+# to the pseudocode `if(A== B || A==C)`
+ifneq (,$(filter YES,$(STACK_DIAGNOSTICS) $(ALL_DIGNOSTICS)))
+CFLAGS += -DSTACK_DIAGNOSTICS
+endif
+
+ifneq (,$(filter YES,$(MIXERSTATUS_DIAGNOSTICS) $(ALL_DIGNOSTICS)))
+CFLAGS += -DMIXERSTATUS_DIAGNOSTICS
+endif
+
+ifneq (,$(filter YES,$(RATEDESIRED_DIAGNOSTICS) $(ALL_DIGNOSTICS)))
+CFLAGS += -DRATEDESIRED_DIAGNOSTICS
+endif
+
+ifneq (,$(filter YES,$(I2C_WDG_STATS_DIAGNOSTICS) $(ALL_DIGNOSTICS)))
+CFLAGS += -DI2C_WDG_STATS_DIAGNOSTICS
+endif
+
+ifneq (,$(filter YES,$(DIAG_TASKS) $(ALL_DIGNOSTICS)))
+CFLAGS += -DDIAG_TASKS
+endif
+
+# Since we are simulating all this firmware the code needs to know what the BL would
+# normally contain
+BLONLY_CDEFS += -DBOARD_TYPE=$(BOARD_TYPE)
+BLONLY_CDEFS += -DBOARD_REVISION=$(BOARD_REVISION)
+BLONLY_CDEFS += -DHW_TYPE=$(HW_TYPE)
+BLONLY_CDEFS += -DBOOTLOADER_VERSION=$(BOOTLOADER_VERSION)
+BLONLY_CDEFS += -DFW_BANK_BASE=$(FW_BANK_BASE)
+BLONLY_CDEFS += -DFW_BANK_SIZE=$(FW_BANK_SIZE)
+BLONLY_CDEFS += -DFW_DESC_SIZE=$(FW_DESC_SIZE)
+
+CFLAGS += $(BLONLY_CDEFS)
 
 # Set to YES when using Code Sourcery toolchain
 CODE_SOURCERY ?= NO
@@ -52,27 +90,23 @@ endif
 FLASH_TOOL = OPENOCD
 
 # List of modules to include
-MODULES = ManualControl Stabilization GPS
-MODULES += PathPlanner
-MODULES += FixedWingPathFollower
-MODULES += VtolPathFollower
-MODULES += CameraStab
+MODULES +=  Actuator ManualControl Stabilization 
+MODULES += AltitudeHold VtolPathFollower PathPlanner
+MODULES += Attitude/revolution
+MODULES += FirmwareIAP
+#MODULES += OveroSync/simulated
+
+# To run simulation instead of connect to SITL
+MODULES += Sensors/simulated
+
 MODULES += Telemetry
-#MODULES += OveroSync
-PYMODULES = 
-#FlightPlan
 
 # Paths
 OPSYSTEM = ./System
 OPSYSTEMINC = $(OPSYSTEM)/inc
-OPUAVTALK = ../../UAVTalk
 OPUAVTALKINC = $(OPUAVTALK)/inc
-OPUAVOBJ = ../../UAVObjects
 OPUAVOBJINC = $(OPUAVOBJ)/inc
-PIOS = ../../PiOS.posix
 PIOSINC = $(PIOS)/inc
-OPMODULEDIR = ../../Modules
-FLIGHTLIB = ../../Libraries
 FLIGHTLIBINC = $(FLIGHTLIB)/inc
 MATHLIB = $(FLIGHTLIB)/math
 MATHLIBINC = $(FLIGHTLIB)/math
@@ -81,8 +115,6 @@ PIOSCOMMON = $(PIOS)/posix
 PIOSBOARDS = $(PIOS)/Boards
 PIOSCOMMONLIB = $(PIOSCOMMON)/Libraries
 #APPLIBDIR = $(PIOSSTM32F4XX)/Libraries
-OPUAVOBJ = ../../UAVObjects
-OPUAVOBJINC = $(OPUAVOBJ)/inc
 BOOT = 
 BOOTINC = 
 PYMITE = $(FLIGHTLIB)/PyMite
@@ -95,8 +127,6 @@ PYMITEINC += $(PYMITEPLAT)
 PYMITEINC += $(OUTDIR)
 FLIGHTPLANLIB = $(OPMODULEDIR)/FlightPlan/lib
 FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
-HWDEFSINC = ../board_hw_defs/$(BOARD_NAME)
-UAVOBJSYNTHDIR = $(OUTDIR)/../uavobject-synthetics/flight
 
 SRC = 
 # optional component libraries
@@ -123,20 +153,19 @@ SRC += ${foreach MOD, ${MODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
 SRC += ${OUTDIR}/InitMods.c
 ## OPENPILOT CORE:
 SRC += ${OPMODULEDIR}/System/systemmod.c
-SRC += $(OPSYSTEM)/simposix.c
-SRC += $(OPSYSTEM)/pios_board.c
+SRC += $(OPSYSTEM)/revolution.c
+SRC += $(OPSYSTEM)/pios_board_sim.c
 SRC += $(OPSYSTEM)/alarms.c
 SRC += $(OPUAVTALK)/uavtalk.c
 SRC += $(OPUAVOBJ)/uavobjectmanager.c
 SRC += $(OPUAVOBJ)/eventdispatcher.c
-SRC += $(UAVOBJSYNTHDIR)/uavobjectsinit.c
+SRC += $(OPUAVSYNTHDIR)/uavobjectsinit.c
 
 SRC += $(FLIGHTLIB)/CoordinateConversions.c
 SRC += $(FLIGHTLIB)/fifo_buffer.c
 SRC += $(FLIGHTLIB)/WorldMagModel.c
 SRC += $(FLIGHTLIB)/insgps13state.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
-SRC += $(FLIGHTLIB)/sanitycheck.c
 SRC += $(FLIGHTLIB)/paths.c
 
 SRC += $(MATHLIB)/sin_lookup.c
@@ -161,7 +190,13 @@ include $(PIOS)/posix/library.mk
 #SRC += $(PIOSCOMMON)/pios_usb_desc_hid_only.c
 
 include ./UAVObjects.inc
+
+UAVOBJSRCFILENAMES += attitudesimulated
+UAVOBJSRC = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),$(OPUAVSYNTHDIR)/$(UAVOBJSRCFILE).c )
+UAVOBJDEFINE = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),-DUAVOBJ_INIT_$(UAVOBJSRCFILE) )
+
 SRC += $(UAVOBJSRC)
+CFLAGS_UAVOBJECTS = $(UAVOBJDEFINE)
 
 # List C source files here which must be compiled in ARM-Mode (no -mthumb).
 # use file-extension c for "c-only"-files
@@ -198,7 +233,7 @@ EXTRAINCDIRS  += $(OPUAVTALK)
 EXTRAINCDIRS  += $(OPUAVTALKINC)
 EXTRAINCDIRS  += $(OPUAVOBJ)
 EXTRAINCDIRS  += $(OPUAVOBJINC)
-EXTRAINCDIRS  += $(UAVOBJSYNTHDIR)
+EXTRAINCDIRS  += $(OPUAVSYNTHDIR)
 EXTRAINCDIRS  += $(FLIGHTLIBINC)
 EXTRAINCDIRS  += $(MATHLIBINC)
 #EXTRAINCDIRS  += $(PIOSSTM32F4XX)
@@ -262,12 +297,6 @@ CFLAGS += $(ARCHFLAGS)
 
 CFLAGS += $(UAVOBJDEFINE)
 
-CFLAGS += -DSTACK_DIAGNOSTICS
-CFLAGS += -DMIXERSTATUS_DIAGNOSTICS
-CFLAGS += -DRATEDESIRED_DIAGNOSTICS
-CFLAGS += -DI2C_WDG_STATS_DIAGNOSTICS
-CFLAGS += -DDIAG_TASKS
-
 # This is not the best place for these.  Really should abstract out
 # to the board file or something
 #CFLAGS += -DSTM32F4XX
@@ -289,6 +318,7 @@ CDEFS += -DHSE_VALUE=$(OSCILLATOR_FREQ)
 CDEFS += -DSYSCLK_FREQ=$(SYSCLK_FREQ)
 CDEFS += -DUSE_STDPERIPH_DRIVER
 CDEFS += -DUSE_$(BOARD)
+CDEFS += -DUSE_SIM_POSIX
 
 # Place project-specific -D and/or -U options for
 # Assembler with preprocessor here.
@@ -369,8 +399,17 @@ LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_APP))
 REMOVE  = $(REMOVE_CMD) -f
 PYHON   = python
 
+$(OUTDIR)/sim_firmwareinfo.c: $(TOP)/make/templates/firmwareinfotemplate.c
+	$(V1) python $(TOP)/make/scripts/version-info.py \
+		--path=$(TOP) \
+		--template=$^ \
+		--outfile=$@ \
+		--type=9 \
+		--revision=1 \
+		--uavodir=$(TOP)/shared/uavobjectdefinition
+
 # List of all source files.
-ALLSRC     = $(ASRCARM) $(ASRC) $(SRCARM) $(SRC) $(CPPSRCARM) $(CPPSRC)
+ALLSRC     = $(ASRCARM) $(ASRC) $(SRCARM) $(SRC) $(CPPSRCARM) $(CPPSRC) $(OUTDIR)/sim_firmwareinfo.c
 # List of all source files without directory and file-extension.
 ALLSRCBASE = $(notdir $(basename $(ALLSRC)))
 
@@ -509,17 +548,22 @@ endif
 # Generate intermediate code
 gencode: ${OUTDIR}/InitMods.c ${OUTDIR}/pmlib_img.c ${OUTDIR}/pmlib_nat.c ${OUTDIR}/pmlibusr_img.c ${OUTDIR}/pmlibusr_nat.c ${OUTDIR}/pmfeatures.h 
 
+getmodname = $(firstword $(subst /, ,$1))
+
+MOD_GEN := $(foreach MOD,$(MODULES),$(call getmodname,$(MOD)))
+
 # Generate code for module initialization
-${OUTDIR}/InitMods.c: Makefile
+${OUTDIR}/InitMods.c: Makefile.osx
+	echo ${MOD_GEN}
 	@echo ${MSG_MODINIT}
 	@echo ${quote}// Autogenerated file${quote} > ${OUTDIR}/InitMods.c
-	@echo ${quote}${foreach MOD, ${MODNAMES}, extern unsigned int ${MOD}Initialize(void);}${quote}  >> ${OUTDIR}/InitMods.c
-	@echo ${quote}${foreach MOD, ${MODNAMES}, extern unsigned int ${MOD}Start(void);}${quote}  >> ${OUTDIR}/InitMods.c
+	@echo ${quote}${foreach MOD, ${MOD_GEN}, extern unsigned int ${MOD}Initialize(void);}${quote}  >> ${OUTDIR}/InitMods.c
+	@echo ${quote}${foreach MOD, ${MOD_GEN}, extern unsigned int ${MOD}Start(void);}${quote}  >> ${OUTDIR}/InitMods.c
 	@echo ${quote}void InitModules() {${quote} >> ${OUTDIR}/InitMods.c
-	@echo ${quote}${foreach MOD, ${MODNAMES}, ${MOD}Initialize();}${quote}  >> ${OUTDIR}/InitMods.c
+	@echo ${quote}${foreach MOD, ${MOD_GEN}, ${MOD}Initialize();}${quote}  >> ${OUTDIR}/InitMods.c
 	@echo ${quote}}${quote} >> ${OUTDIR}/InitMods.c
 	@echo ${quote}void StartModules() {${quote} >> ${OUTDIR}/InitMods.c
-	@echo ${quote}${foreach MOD, ${MODNAMES}, ${MOD}Start();}${quote}  >> ${OUTDIR}/InitMods.c
+	@echo ${quote}${foreach MOD, ${MOD_GEN}, ${MOD}Start();}${quote}  >> ${OUTDIR}/InitMods.c
 	@echo ${quote}}${quote} >> ${OUTDIR}/InitMods.c
 
 # Listing of phony targets.
