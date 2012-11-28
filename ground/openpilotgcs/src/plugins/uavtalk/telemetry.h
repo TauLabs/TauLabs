@@ -136,6 +136,8 @@ private:
     void processObjectUpdates(UAVObject* obj, EventMask event, bool allInstances, bool priority);
     void processObjectTransaction(ObjectTransactionInfo *transInfo);
     void processObjectQueue();
+    bool updateTransactionMap(UAVObject* obj);
+
 
 private slots:
     void objectUpdatedAuto(UAVObject* obj);
@@ -146,7 +148,8 @@ private slots:
     void newObject(UAVObject* obj);
     void newInstance(UAVObject* obj);
     void processPeriodicUpdates();
-    void transactionCompleted(UAVObject* obj, bool success);
+    void transactionSuccess(UAVObject* obj);
+    void transactionFailure(UAVObject* obj);
 
 };
 

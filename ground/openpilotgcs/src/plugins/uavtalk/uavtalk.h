@@ -61,7 +61,10 @@ public:
     void resetStats();
 
 signals:
-    void transactionCompleted(UAVObject* obj, bool success);
+    // The only signals we send to the upper level are when we
+    // either receive an ACK or a NACK for a request.
+    void ackReceived(UAVObject* obj);
+    void nackReceived(UAVObject* obj);
 
 private slots:
     void processInputStream(void);
@@ -127,8 +130,6 @@ private:
     bool processInputByte(quint8 rxbyte);
     bool receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* data, qint32 length);
     UAVObject* updateObject(quint32 objId, quint16 instId, quint8* data);
-    void updateAck(UAVObject* obj);
-    void updateNack(UAVObject* obj);
     bool transmitNack(quint32 objId);
     bool transmitObject(UAVObject* obj, quint8 type, bool allInstances);
     bool transmitSingleObject(UAVObject* obj, quint8 type, bool allInstances);
