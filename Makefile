@@ -884,7 +884,7 @@ all_$(1)_clean: $$(addsuffix _clean, $$(filter bu_$(1), $$(BU_TARGETS)))
 all_$(1)_clean: $$(addsuffix _clean, $$(filter ef_$(1), $$(EF_TARGETS)))
 endef
 
-ALL_BOARDS := coptercontrol pipxtreme revolution revomini simposix osd freedom
+ALL_BOARDS := coptercontrol pipxtreme revolution revomini simposix osd freedom quanton
 ALL_BOARDS_BU := coptercontrol pipxtreme simposix
 
 # SimPosix only builds on Linux so drop it from the list for
@@ -900,6 +900,7 @@ pipxtreme_friendly     := PipXtreme
 revolution_friendly    := Revolution
 revomini_friendly      := RevoMini
 freedom_friendly       := Freedom
+quanton_friendly       := Quanton
 simposix_friendly      := SimPosix
 osd_friendly           := OSD
 
@@ -909,6 +910,7 @@ pipxtreme_short        := 'pipx'
 revolution_short       := 'revo'
 revomini_short         := 'rm  '
 freedom_short          := 'free'
+quanton_short          := 'quan'
 simposix_short         := 'posx'
 osd_short              := 'osd '
 
@@ -920,7 +922,7 @@ EF_BOARDS  := $(ALL_BOARDS)
 
 # FIXME: The BU image doesn't work for F4 boards so we need to
 #        filter them out to prevent errors.
-BU_BOARDS  := $(filter-out revolution osd, $(BU_BOARDS))
+BU_BOARDS  := $(filter-out revolution revomini freedom quanton osd , $(BU_BOARDS))
 
 # SimPosix doesn't have a BL, BU or EF target so we need to
 # filter them out to prevent errors on the all_flight target.
