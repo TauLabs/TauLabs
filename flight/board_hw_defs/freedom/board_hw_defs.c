@@ -208,12 +208,13 @@ void PIOS_SPI_gyro_irq_handler(void)
 	PIOS_SPI_IRQ_Handler(pios_spi_gyro_id);
 }
 
+#if defined(PIOS_OVERO_SPI)
 /* 
  * SPI1 Interface
  * Used for Overo
  */
 #include <pios_overo_priv.h>
- void PIOS_SPI_overo_irq_handler(void);
+void PIOS_SPI_overo_irq_handler(void);
 void DMA2_Stream3_IRQHandler(void) __attribute__((alias("PIOS_SPI_overo_irq_handler")));
 static const struct pios_overo_cfg pios_overo_cfg = {
 	.regs = SPI1,
@@ -328,7 +329,7 @@ void PIOS_SPI_overo_irq_handler(void)
 	/* Call into the generic code to handle the IRQ for this specific device */
 	PIOS_OVERO_DMA_irq_handler(pios_overo_id);
 }
-
+#endif /* PIOS_OVERO_SPI */
 
 /*
  * SPI3 Interface
