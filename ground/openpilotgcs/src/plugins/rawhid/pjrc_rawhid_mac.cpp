@@ -36,6 +36,18 @@
  * Version 1.0: Initial Release
  */
 
+/*
+ * There are a lot of threading issues with OSX HID so we need to make
+ * sure all the USB communications runs on a single thread.  Unfortunately
+ * to make that thread work properly it needs to run a CFRunLoop which
+ * precludes running a QEventLoop so we cannot receive Qt signals.
+ *
+ * In principle the QObject _should_ be able to send signals, so whenever
+ * data arrives that signal can be emitted.
+ *
+ * To know when to send data we need to make a CFRunLoopSource which the
+ * send method will notify.
+ */
 
 #include "pjrc_rawhid.h"
 
@@ -51,10 +63,8 @@ struct timeout_info {
 };
 
 pjrc_rawhid::pjrc_rawhid() :
-    device_open(false), hid_manager(NULL), buffer_count(0), unplugged(false)
+    device_open(false), hid_manager(NULL), recv_buffer_count(0), unplugged(false), close_requested(false)
 {
-    m_writeMutex = new QMutex();
-    m_readMutex = new QMutex();
 }
 
 pjrc_rawhid::~pjrc_rawhid()
@@ -62,30 +72,14 @@ pjrc_rawhid::~pjrc_rawhid()
     if (device_open) {
         close(0);
     }
-
-    if (m_writeMutex) {
-        delete m_writeMutex;
-        m_writeMutex = NULL;
-    }
-
-    if (m_readMutex) {
-        delete m_readMutex;
-        m_readMutex = NULL;
-    }
 }
 
 /**
-  * @brief open - open 1 or more devices
-  * @param[in] max maximum number of devices to open
-  * @param[in] vid Vendor ID, or -1 if any
-  * @param[in] pid Product ID, or -1 if any
-  * @param[in] usage_page top level usage page, or -1 if any
-  * @param[in] usage top level usage number, or -1 if any
-  * @returns actual number of devices opened
-  */
-int pjrc_rawhid::open(int max, int vid, int pid, int usage_page, int usage)
-{
-    Q_UNUSED(max);
+ * @brief pjrc_rawhid::open Attempt to open the device matching the class
+ * settings and register against this thread.  Must be run from within
+ * the thread.
+ */
+int pjrc_rawhid::open() {
 
     CFMutableDictionaryRef dict;
     CFNumberRef num;
@@ -93,6 +87,8 @@ int pjrc_rawhid::open(int max, int vid, int pid, int usage_page, int usage)
 
     Q_ASSERT(hid_manager == NULL);
     Q_ASSERT(device_open == false);
+
+    qDebug() << "Thread CFRunLoop: " << CFRunLoopGetCurrent();
 
     attach_count = 0;
 
@@ -135,17 +131,14 @@ int pjrc_rawhid::open(int max, int vid, int pid, int usage_page, int usage)
     }
 
     // Set the run loop reference before configuring the attach callback
-    the_correct_runloop = CFRunLoopGetCurrent();
+    runloop = CFRunLoopGetCurrent();
 
-    // set up a callbacks for device attach & detach
-    IOHIDManagerScheduleWithRunLoop(hid_manager, CFRunLoopGetCurrent(),
-                                    kCFRunLoopDefaultMode);
+    // set up a callbacks for device attach
+    IOHIDManagerScheduleWithRunLoop(hid_manager, runloop, kCFRunLoopDefaultMode);
     IOHIDManagerRegisterDeviceMatchingCallback(hid_manager, pjrc_rawhid::attach_callback, this);
-    IOHIDManagerRegisterDeviceRemovalCallback(hid_manager, pjrc_rawhid::dettach_callback, this);
     ret = IOHIDManagerOpen(hid_manager, kIOHIDOptionsTypeNone);
     if (ret != kIOReturnSuccess) {
-        IOHIDManagerUnscheduleFromRunLoop(hid_manager,
-                                          CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+        IOHIDManagerUnscheduleFromRunLoop(hid_manager, runloop, kCFRunLoopDefaultMode);
         CFRelease(hid_manager);
         return 0;
     }
@@ -153,8 +146,65 @@ int pjrc_rawhid::open(int max, int vid, int pid, int usage_page, int usage)
     // let it do the callback for all devices
     while (CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, true) == kCFRunLoopRunHandledSource) ;
 
-    // count up how many were added by the callback
+    qDebug() << "Attached: " << attach_count;
     return attach_count;
+}
+
+/**
+ * @brief pjrc_rawhid::run
+ */
+void pjrc_rawhid::run() {
+    open();
+
+    // Strategy:
+    // 1. running the run loop will receive usb message and then notify anything
+    //    calling receive
+    // 2. check for any requests to send data and if they are there call set report
+    while(attach_count && device_open) {
+        // This will get any incoming reports
+        while (CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, true) == kCFRunLoopRunHandledSource) ;
+
+        // If pending send requests then send them
+        if (send_buffer_count != 0 && !unplugged) {
+            IOHIDDeviceSetReport(dev, kIOHIDReportTypeOutput, 2, send_buffer, send_buffer_count);
+            emit sendComplete(send_buffer_count);
+            send_buffer_count = 0;
+        }
+
+        if (close_requested)
+            close();
+    }
+
+    qDebug() << "USB thread terminated";
+}
+
+/**
+  * @brief open - open 1 or more devices
+  * @param[in] max maximum number of devices to open
+  * @param[in] vid Vendor ID, or -1 if any
+  * @param[in] pid Product ID, or -1 if any
+  * @param[in] usage_page top level usage page, or -1 if any
+  * @param[in] usage top level usage number, or -1 if any
+  * @returns actual number of devices opened
+  */
+int pjrc_rawhid::open(int max, int vid, int pid, int usage_page, int usage)
+{
+    Q_UNUSED(max);
+    this->vid = vid;
+    this->pid = pid;
+    this->usage_page = usage_page;
+    this->usage = usage;
+    attach_count = 0;
+
+    qDebug() << "Open CFRunLoop: " << CFRunLoopGetCurrent();
+
+    start();
+
+    while(attach_count == 0) ;
+
+    qDebug() << "Finished opening";
+
+    return 1;
 }
 
 /**
@@ -167,71 +217,26 @@ int pjrc_rawhid::open(int max, int vid, int pid, int usage_page, int usage)
  */
 int pjrc_rawhid::receive(int, void *buf, int len, int timeout)
 {
-    QMutexLocker locker(m_readMutex);
-    Q_UNUSED(locker);
-
     if (!device_open)
         return -1;
 
-    // Pass information to the callback to stop this run loop and signal if a timeout occurred
-    struct timeout_info info;
-    info.loopRef = CFRunLoopGetCurrent();;
-    info.timed_out = false;
-    CFRunLoopTimerContext context;
-    memset(&context, 0, sizeof(context));
-    context.info = &info;
-
-    // Set up the timer for the timeout
-    CFRunLoopTimerRef timer;
-    timer = CFRunLoopTimerCreate(NULL, CFAbsoluteTimeGetCurrent() + (double)timeout / 1000.0, 0, 0, 0, timeout_callback, &context);
-    CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopDefaultMode);
-
-    received_runloop = CFRunLoopGetCurrent();
-
-    // Run the CFRunLoop until either a timeout or data is available
-    while(1) {
-        if (buffer_count != 0) {
-            if (len > buffer_count) len = buffer_count;
-            memcpy(buf, buffer, len);
-            buffer_count = 0;
-            break;
-        } else if (info.timed_out) {
-            len = 0;
-            break;
-        }
-        CFRunLoopRun(); // Wait for data
+    // If no data either wait for it or the timeout
+    if (recv_buffer_count == 0) {
+        QEventLoop el;
+        QTimer::singleShot(timeout, &el, SLOT(quit()));
+        connect(this,SIGNAL(receiveComplete(int)), &el, SLOT(quit()));
+        el.exec();
     }
 
-    CFRunLoopTimerInvalidate(timer);
-    CFRelease(timer);
+    if (recv_buffer_count != 0) {
+        if (len > recv_buffer_count) len = recv_buffer_count;
+        memcpy(buf, recv_buffer, len);
+        recv_buffer_count = 0;
+        return len;
+    }
 
-    received_runloop = NULL;
-
-    return len;
+    return -1;
 }
-
-/**
- * @brief Helper class that will workaround the fact
- * that the HID send is broken on OSX
- */
-class Sender : public QThread
-{
-public:
-    Sender(IOHIDDeviceRef d, uint8_t * b, int l) :
-        dev(d), buf(b), len(l), result(-1) { }
-
-    void run() {
-        ret = IOHIDDeviceSetReport(dev, kIOHIDReportTypeOutput, 2, buf, len);
-        result = (ret == kIOReturnSuccess) ? len : -1;
-    }
-
-    int result;
-    IOReturn ret;
-private:
-    IOHIDDeviceRef dev;
-    uint8_t * buf;
-    int len;
-};
 
 /**
  * @brief send - send a packet
@@ -240,37 +245,35 @@ private:
  * @param[in] len number of bytes to transmit
  * @param[in] timeout = time to wait, in milliseconds
  * @returns number of bytes sent, or -1 on error
+ *
+ * @Note: This method must be run from a thread running an event
+ * a QT Event loop to receive the timeout signals
  */
 int pjrc_rawhid::send(int, void *buf, int len, int timeout)
 {
-    // This lock ensures that when closing we don't do it until the
-    // write has terminated (and then the device_open flag is set to false)
-    QMutexLocker locker(m_writeMutex);
-    Q_UNUSED(locker);
-
     if(!device_open || unplugged) {
         return -1;
     }
 
-    uint8_t *report_buf = (uint8_t *) malloc(len);
-    memcpy(&report_buf[0], buf,len);
+    if (send_buffer_count != 0) {
+        QEventLoop el;
+        QTimer::singleShot(timeout, &el, SLOT(quit()));
+        connect(this,SIGNAL(sendComplete(int)), &el, SLOT(quit()));
+        el.exec();
+    }
 
-    QEventLoop el;
-    Sender sender(dev, report_buf, len);
-    connect(&sender, SIGNAL(finished()), &el, SLOT(quit()));
-    sender.start();
-    QTimer::singleShot(timeout, &el, SLOT(quit()));
-    el.exec();
+    if (send_buffer_count != 0)
+        return -1;
 
-    return sender.result;
+    memcpy(&send_buffer[0], buf, len);
+    send_buffer_count = len;
+
+    return len;
 }
 
 //! Get the serial number for a HID device
 QString pjrc_rawhid::getserial(int num) {
     Q_UNUSED(num);
-
-    QMutexLocker locker(m_readMutex);
-    Q_UNUSED(locker);
 
     if (!device_open || unplugged)
         return "";
@@ -291,16 +294,20 @@ QString pjrc_rawhid::getserial(int num) {
 //! Close the HID device
 void pjrc_rawhid::close(int)
 {
-    // Make sure any pending locks are done
-    QMutexLocker lock(m_writeMutex);
+    qDebug() << "Close requested";
+    close_requested = true;
+    while(device_open) ;
+}
 
+void pjrc_rawhid::close() {
+
+    qDebug() << "Calling close";
     if (device_open) {
-        device_open = false;
-        CFRunLoopStop(the_correct_runloop);
+        CFRunLoopStop(runloop);
 
         if (!unplugged) {
-            IOHIDDeviceUnscheduleFromRunLoop(dev, the_correct_runloop, kCFRunLoopDefaultMode);
-            IOHIDDeviceRegisterInputReportCallback(dev, buffer, sizeof(buffer), NULL, NULL);
+            IOHIDDeviceUnscheduleFromRunLoop(dev, runloop, kCFRunLoopDefaultMode);
+            IOHIDDeviceRegisterInputReportCallback(dev, recv_buffer, sizeof(recv_buffer), NULL, NULL);
             IOHIDDeviceClose(dev, kIOHIDOptionsTypeNone);
         }
 
@@ -309,6 +316,8 @@ void pjrc_rawhid::close(int)
 
         dev = NULL;
         hid_manager = NULL;
+
+        device_open = false;
     }
 }
 
@@ -325,11 +334,10 @@ void pjrc_rawhid::input(uint8_t *data, CFIndex len)
 
     if (len > BUFFER_SIZE) len = BUFFER_SIZE;
     // Note: packet preprocessing done in OS independent code
-    memcpy(buffer, &data[0], len);
-    buffer_count = len;
+    memcpy(recv_buffer, &data[0], len);
+    recv_buffer_count = len;
 
-    if (received_runloop)
-        CFRunLoopStop(received_runloop);
+    emit receiveComplete(len);
 }
 
 //! Callback for the HID driver on an input report
@@ -356,7 +364,9 @@ void pjrc_rawhid::timeout_callback(CFRunLoopTimerRef, void *i)
 //! Called on a dettach event
 void pjrc_rawhid::dettach(IOHIDDeviceRef d)
 {
+    //close();
     unplugged = true;
+    device_open = false;
     if (d == dev)
         emit deviceUnplugged(0);
 }
@@ -364,6 +374,7 @@ void pjrc_rawhid::dettach(IOHIDDeviceRef d)
 //! Called from the USB system and forwarded to the instance (context)
 void pjrc_rawhid::dettach_callback(void *context, IOReturn, void *, IOHIDDeviceRef dev)
 {
+    qDebug() << "Dettach callback";
     pjrc_rawhid *p = (pjrc_rawhid*) context;
     p->dettach(dev);
 }
@@ -380,8 +391,9 @@ void pjrc_rawhid::attach(IOHIDDeviceRef d)
     if (IOHIDDeviceOpen(dev, kIOHIDOptionsTypeNone) != kIOReturnSuccess) return;
     // Disconnect the attach callback since we don't want to automatically reconnect
     IOHIDManagerRegisterDeviceMatchingCallback(hid_manager, NULL, NULL);
-    IOHIDDeviceScheduleWithRunLoop(dev, the_correct_runloop, kCFRunLoopDefaultMode);
-    IOHIDDeviceRegisterInputReportCallback(dev, buffer, sizeof(buffer), pjrc_rawhid::input_callback, this);
+    IOHIDDeviceScheduleWithRunLoop(dev, runloop, kCFRunLoopDefaultMode);
+    IOHIDDeviceRegisterInputReportCallback(dev, recv_buffer, sizeof(recv_buffer), pjrc_rawhid::input_callback, this);
+    IOHIDManagerRegisterDeviceRemovalCallback(hid_manager, pjrc_rawhid::dettach_callback, this);
 
     attach_count++;
     device_open = true;
