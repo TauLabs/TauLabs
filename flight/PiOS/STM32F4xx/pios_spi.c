@@ -34,7 +34,7 @@
  */
 /*
  * @todo	Clocking is wrong (interface is badly defined, should be speed not prescaler magic numbers)
- * @todo	DMA doesn't work.  Fix it.
+ * @todo	DMA doesn't work.  Fix it. (This statement has to be checked. SPI seems to be working with DMA.)
  */
 #include <pios.h>
 
@@ -42,8 +42,7 @@
 
 #include <pios_spi_priv.h>
 
-//#define SPI_MAX_BLOCK_PIO	128
-#define SPI_MAX_BLOCK_PIO	0xffffffff
+#define SPI_MAX_BLOCK_PIO	128
 
 static bool PIOS_SPI_validate(struct pios_spi_dev * com_dev)
 {
