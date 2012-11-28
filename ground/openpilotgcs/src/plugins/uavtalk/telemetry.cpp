@@ -159,7 +159,7 @@ void Telemetry::connectToObjectInstances(UAVObject* obj, quint32 eventMask)
 /**
  * Update an object based on its metadata properties.
  *
- * This method updates the connections between object events the the telemetry
+ * This method updates the connections between object events and the telemetry
  * layer, depending on the object's metadata properties.
  *
  * Note (elafargue, 2012.11): we listen for "unpacked" events in every case, because we want
@@ -179,10 +179,7 @@ void Telemetry::updateObject(UAVObject* obj, quint32 eventType)
         setUpdatePeriod(obj, metadata.gcsTelemetryUpdatePeriod);
         // Connect signals for all instances
         eventMask = EV_UPDATED_MANUAL | EV_UPDATE_REQ | EV_UPDATED_PERIODIC;
-//        if( dynamic_cast<UAVMetaObject*>(obj) != NULL )
-//        {
-            eventMask |= EV_UNPACKED; // we also need to act on remote updates (unpack events)
-//        }
+        eventMask |= EV_UNPACKED; // we also need to act on remote updates (unpack events)
         connectToObjectInstances(obj, eventMask);
     }
     else if ( updateMode == UAVObject::UPDATEMODE_ONCHANGE )
@@ -191,10 +188,7 @@ void Telemetry::updateObject(UAVObject* obj, quint32 eventType)
         setUpdatePeriod(obj, 0);
         // Connect signals for all instances
         eventMask = EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ;
-//        if( dynamic_cast<UAVMetaObject*>(obj) != NULL )
-//        {
-            eventMask |= EV_UNPACKED; // we also need to act on remote updates (unpack events)
-//        }
+        eventMask |= EV_UNPACKED; // we also need to act on remote updates (unpack events)
         connectToObjectInstances(obj, eventMask);
     }
     else if ( updateMode == UAVObject::UPDATEMODE_THROTTLED )
@@ -205,7 +199,7 @@ void Telemetry::updateObject(UAVObject* obj, quint32 eventType)
             if (eventType == EV_NONE)
                  setUpdatePeriod(obj, metadata.gcsTelemetryUpdatePeriod);
             // Connect signals for all instances
-	    eventMask = EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ | EV_UPDATED_PERIODIC;
+            eventMask = EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ | EV_UPDATED_PERIODIC;
         }
         else
         {
@@ -213,10 +207,7 @@ void Telemetry::updateObject(UAVObject* obj, quint32 eventType)
             // Connect signals for all instances
             eventMask = EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ;
         }
-//        if( dynamic_cast<UAVMetaObject*>(obj) != NULL )
-//        {
-            eventMask |= EV_UNPACKED; // we also need to act on remote updates (unpack events)
-//        }
+        eventMask |= EV_UNPACKED; // we also need to act on remote updates (unpack events)
         connectToObjectInstances(obj, eventMask);
     }
     else if ( updateMode == UAVObject::UPDATEMODE_MANUAL )
@@ -225,10 +216,7 @@ void Telemetry::updateObject(UAVObject* obj, quint32 eventType)
         setUpdatePeriod(obj, 0);
         // Connect signals for all instances
         eventMask = EV_UPDATED_MANUAL | EV_UPDATE_REQ;
-//        if( dynamic_cast<UAVMetaObject*>(obj) != NULL )
-//        {
-            eventMask |= EV_UNPACKED; // we also need to act on remote updates (unpack events)
-//        }
+        eventMask |= EV_UNPACKED; // we also need to act on remote updates (unpack events)
         connectToObjectInstances(obj, eventMask);
     }
 }
@@ -279,16 +267,11 @@ void Telemetry::transactionTimeout(ObjectTransactionInfo *transInfo)
     }
     else
     {
-        // Stop the timer.
         transInfo->timer->stop();
-        // Terminate transaction
-        utalk->cancelTransaction(transInfo->obj);
-        // Send signal
         transInfo->obj->emitTransactionCompleted(false);
         // Remove this transaction as it's complete.
         transMap.remove(transInfo->obj->getObjID());
         delete transInfo;
-        // Process new object updates from queue
         processObjectQueue();
         ++txErrors;
     }

@@ -178,14 +178,6 @@ bool UAVTalk::sendObject(UAVObject* obj, bool acked, bool allInstances)
 }
 
 /**
- * Cancel a pending transaction
- */
-void UAVTalk::cancelTransaction(UAVObject* obj)
-{
-    qDebug() << "[uavtalk.cpp] CancelTransaction called for " << obj->getName();
-}
-
-/**
  * Execute the requested transaction on an object.
  * \param[in] obj Object
  * \param[in] type Transaction type
