@@ -172,7 +172,7 @@ static void systemTask(void *parameters)
 	// Listen for SettingPersistance object updates, connect a callback function
 	ObjectPersistenceConnectQueue(objectPersistenceQueue);
 
-#if defined(COPTERCONTROL) || defined(REVOLUTION) && ! (defined(SIM_POSIX) || defined(SIM_OSX))
+#if defined(COPTERCONTROL) || defined(REVOLUTION) || defined(SIM_OSX) && ! (defined(SIM_POSIX))
 	// Run this initially to make sure the configuration is checked
 	configuration_check();
 
