@@ -748,6 +748,17 @@ uavo-collections_clean:
 #
 ##############################
 
+# Define some pointers to the various important pieces of the flight code
+# to prevent these being repeated in every sub makefile
+PIOS          := $(ROOT_DIR)/flight/PiOS
+FLIGHTLIB     := $(ROOT_DIR)/flight/Libraries
+OPMODULEDIR   := $(ROOT_DIR)/flight/Modules
+OPUAVOBJ      := $(ROOT_DIR)/flight/UAVObjects
+OPUAVTALK     := $(ROOT_DIR)/flight/UAVTalk
+HWDEFS        := $(ROOT_DIR)/flight/targets/board_hw_defs
+DOXYGENDIR    := $(ROOT_DIR)/flight/Doc/Doxygen
+OPUAVSYNTHDIR := $(BUILD_DIR)/uavobject-synthetics/flight
+
 # $(1) = Canonical board name all in lower case (e.g. coptercontrol)
 # $(2) = Name of board used in source tree (e.g. CopterControl)
 # $(3) = Short name for board (e.g CC)
@@ -765,6 +776,19 @@ fw_$(1)_%: uavobjects_flight
 		BUILD_TYPE=fw \
 		TCHAIN_PREFIX="$(ARM_SDK_PREFIX)" \
 		REMOVE_CMD="$(RM)" OOCD_EXE="$(OPENOCD)" \
+		\
+		TARGET=fw_$(1) \
+		OUTDIR=$(BUILD_DIR)/fw_$(1) \
+		\
+		PIOS=$(PIOS) \
+		FLIGHTLIB=$(FLIGHTLIB) \
+		OPMODULEDIR=$(OPMODULEDIR) \
+		OPUAVOBJ=$(OPUAVOBJ) \
+		OPUAVTALK=$(OPUAVTALK) \
+		HWDEFSINC=$(HWDEFS)/$(1) \
+		DOXYGENDIR=$(DOXYGENDIR) \
+		OPUAVSYNTHDIR=$(OPUAVSYNTHDIR) \
+		\
 		$$*
 
 .PHONY: $(1)_clean
@@ -790,6 +814,19 @@ bl_$(1)_%:
 		BUILD_TYPE=bl \
 		TCHAIN_PREFIX="$(ARM_SDK_PREFIX)" \
 		REMOVE_CMD="$(RM)" OOCD_EXE="$(OPENOCD)" \
+		\
+		TARGET=bl_$(1) \
+		OUTDIR=$(BUILD_DIR)/bl_$(1) \
+		\
+		PIOS=$(PIOS) \
+		FLIGHTLIB=$(FLIGHTLIB) \
+		OPMODULEDIR=$(OPMODULEDIR) \
+		OPUAVOBJ=$(OPUAVOBJ) \
+		OPUAVTALK=$(OPUAVTALK) \
+		HWDEFSINC=$(HWDEFS)/$(1) \
+		OPUAVSYNTHDIR=$(OPUAVSYNTHDIR) \
+		DOXYGENDIR=$(DOXYGENDIR) \
+		\
 		$$*
 
 .PHONY: unbrick_$(1)
@@ -826,6 +863,19 @@ bu_$(1)_%: bl_$(1)_bino
 		BUILD_TYPE=bu \
 		TCHAIN_PREFIX="$(ARM_SDK_PREFIX)" \
 		REMOVE_CMD="$(RM)" OOCD_EXE="$(OPENOCD)" \
+		\
+		TARGET=bu_$(1) \
+		OUTDIR=$(BUILD_DIR)/bu_$(1) \
+		\
+		PIOS=$(PIOS) \
+		FLIGHTLIB=$(FLIGHTLIB) \
+		OPMODULEDIR=$(OPMODULEDIR) \
+		OPUAVOBJ=$(OPUAVOBJ) \
+		OPUAVTALK=$(OPUAVTALK) \
+		HWDEFSINC=$(HWDEFS)/$(1) \
+		OPUAVSYNTHDIR=$(OPUAVSYNTHDIR) \
+		DOXYGENDIR=$(DOXYGENDIR) \
+		\
 		$$*
 
 .PHONY: bu_$(1)_clean
@@ -848,6 +898,10 @@ ef_$(1)_%: bl_$(1)_bin fw_$(1)_opfw
 		BUILD_TYPE=ef \
 		TCHAIN_PREFIX="$(ARM_SDK_PREFIX)" \
 		DFU_CMD="$(DFUUTIL_DIR)/bin/dfu-util" \
+		\
+		TARGET=ef_$(1) \
+		OUTDIR=$(BUILD_DIR)/ef_$(1) \
+		\
 		$$*
 
 .PHONY: ef_$(1)_clean
