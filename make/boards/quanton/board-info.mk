@@ -1,5 +1,5 @@
 BOARD_TYPE          := 0x0a
-BOARD_REVISION      := 0x01
+BOARD_REVISION      := 0x03		# necessary to match revo revision else we won't get the correct sensors being used
 BOOTLOADER_VERSION  := 0x01
 HW_TYPE             := 0x01
 
