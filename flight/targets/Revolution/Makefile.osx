@@ -310,6 +310,9 @@ ifeq ($(USE_BOOTLOADER), YES)
 CDEFS += -DUSE_BOOTLOADER
 endif
 
+# Make sure the build knows we're building a sim version
+CDEFS += -DSIM_OSX
+
 # Compiler flag to set the C Standard level.
 # c89   - "ANSI" C
 # gnu89 - c89 plus GCC extensions

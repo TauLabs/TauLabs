@@ -77,7 +77,5 @@
 #define CPULOAD_LIMIT_CRITICAL		95
 
 #define REVOLUTION
-#define SIM_OSX
-#define SIM_POSIX
 
 #endif /* PIOS_CONFIG_POSIX_H */
