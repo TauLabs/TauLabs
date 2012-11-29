@@ -1,7 +1,7 @@
-BOARD_TYPE          := 0x0a
+BOARD_TYPE          := 0x09		# necessary to match revo to get proper tabs in gcs
 BOARD_REVISION      := 0x03		# necessary to match revo revision else we won't get the correct sensors being used
 BOOTLOADER_VERSION  := 0x01
-HW_TYPE             := 0x01
+HW_TYPE             := 0x00		# seems to be unused
 
 MCU                 := cortex-m4
 CHIP                := STM32F405RGT
