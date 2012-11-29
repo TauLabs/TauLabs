@@ -332,7 +332,8 @@ void Telemetry::processObjectTransaction(ObjectTransactionInfo *transInfo)
 }
 
 /**
- * Process the event received from an object we are following
+ * Process the event received from an object we are following. This method
+ * only enqueues objects for later processing
  */
 void Telemetry::processObjectUpdates(UAVObject* obj, EventMask event, bool allInstances, bool priority)
 {
@@ -366,16 +367,17 @@ void Telemetry::processObjectUpdates(UAVObject* obj, EventMask event, bool allIn
             obj->emitTransactionCompleted(false);
         }
     }
-
     // Process the transaction queue
     processObjectQueue();
 }
 
 /**
- * Process events from the object queue
+ * Process events from the object queue.
  */
 void Telemetry::processObjectQueue()
 {
+    if (objQueue.length() > 1)
+        qDebug() << "[telemetry.cpp] **************** Object Queue above 1 in backlog ****************";
     // Get object information from queue (first the priority and then the regular queue)
     ObjectQueueInfo objInfo;
     if ( !objPriorityQueue.isEmpty() )
@@ -448,15 +450,15 @@ void Telemetry::processObjectQueue()
         updateObject( objInfo.obj, objInfo.event );
     }
 
-    // The fact we received an unpacked event does not mean that
-    // we do not have additional objects still in the queue,
-    // so we have to reschedule queue processing to make sure they are not
-    // stuck:
+    // We received an "unpacked" event, check whether
+    // this is for an object we were expecting
     if ( objInfo.event == EV_UNPACKED ) {
         if (transMap.contains(objInfo.obj->getObjID())) {
             transactionSuccess(objInfo.obj);
+        } else
+        {
+            processObjectQueue();
         }
-        processObjectQueue();
     }
 }
 
