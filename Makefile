@@ -468,7 +468,7 @@ sim_$(4)_$(1)_%: uavobjects_flight
 		--file=Makefile.$(4) \
 		BOARD_NAME=$(1) \
 		BOARD_SHORT_NAME=$(3) \
-		BUILD_TYPE=fw \
+		BUILD_TYPE=sm \
 		TCHAIN_PREFIX="" \
 		REMOVE_CMD="$(RM)" \
 		OUTDIR="$(BUILD_DIR)/sim_$(4)_$(1)" \
@@ -672,15 +672,7 @@ all_$(1)_clean: $$(addsuffix _clean, $$(filter bu_$(1), $$(BU_TARGETS)))
 all_$(1)_clean: $$(addsuffix _clean, $$(filter ef_$(1), $$(EF_TARGETS)))
 endef
 
-ALL_BOARDS := coptercontrol pipxtreme revolution revomini simposix osd freedom
-ALL_BOARDS_BU := coptercontrol pipxtreme simposix
-
-# SimPosix only builds on Linux so drop it from the list for
-# all other platforms.
-ifneq ($(UNAME), Linux)
-ALL_BOARDS  := $(filter-out simposix, $(ALL_BOARDS))
-ALL_BOARDS_BU  := $(filter-out simposix, $(ALL_BOARDS_BU))
-endif
+ALL_BOARDS := coptercontrol pipxtreme revolution revomini osd freedom
 
 # Friendly names of each board (used to find source tree)
 coptercontrol_friendly := CopterControl
@@ -701,8 +693,19 @@ osd_short              := 'osd '
 # Start out assuming that we'll build fw, bl and bu for all boards
 FW_BOARDS  := $(ALL_BOARDS)
 BL_BOARDS  := $(ALL_BOARDS)
-BU_BOARDS  := $(ALL_BOARDS_BU)
+BU_BOARDS  := $(ALL_BOARDS)
 EF_BOARDS  := $(ALL_BOARDS)
+
+# Sim targets are different for each host OS
+ifeq ($(UNAME), Linux)
+SIM_BOARDS := sim_posix_revolution
+else ifeq ($(UNAME), Darwin)
+SIM_BOARDS := sim_osx_revolution
+else ifeq ($(UNAME), MINGW32_NT-6.1)   # Windows 7
+SIM_BOARDS := 
+else # unknown OS
+SIM_BOARDS := 
+endif
 
 # FIXME: The BU image doesn't work for F4 boards so we need to
 #        filter them out to prevent errors.
@@ -730,9 +733,13 @@ all_bu_clean:  $(addsuffix _clean, $(BU_TARGETS))
 all_ef:        $(EF_TARGETS)
 all_ef_clean:  $(addsuffix _clean, $(EF_TARGETS))
 
+.PHONY: all_sim all_sim_clean
+all_sim: $(SIM_BOARDS)
+all_sim_clean: $(addsuffix _clean, $(SIM_BOARDS))
+
 .PHONY: all_flight all_flight_clean
-all_flight:       all_fw all_bl all_bu all_ef
-all_flight_clean: all_fw_clean all_bl_clean all_bu_clean all_ef_clean
+all_flight:       all_fw all_bl all_bu all_ef all_sim
+all_flight_clean: all_fw_clean all_bl_clean all_bu_clean all_ef_clean all_sim_clean
 
 # Expand the groups of targets for each board
 $(foreach board, $(ALL_BOARDS), $(eval $(call BOARD_PHONY_TEMPLATE,$(board))))
@@ -749,12 +756,10 @@ $(foreach board, $(ALL_BOARDS), $(eval $(call BL_TEMPLATE,$(board),$($(board)_fr
 # Expand the entire-flash rules
 $(foreach board, $(ALL_BOARDS), $(eval $(call EF_TEMPLATE,$(board),$($(board)_friendly),$($(board)_short))))
 
-# Expand the simulator rules
+# Expand the available simulator rules
 $(eval $(call SIM_TEMPLATE,revolution,Revolution,'revo',osx,elf))
 $(eval $(call SIM_TEMPLATE,revolution,Revolution,'revo',posix,elf))
 $(eval $(call SIM_TEMPLATE,openpilot,OpenPilot,'op  ',win32,exe))
-
-$(foreach board, $(SIM_BOARDS), $(eval $(call SIM_TEMPLATE,$(board),$($(board)_friendly),$($(board)_short))))
 
 ##############################
 #

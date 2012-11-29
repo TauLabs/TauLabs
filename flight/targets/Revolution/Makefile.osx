@@ -22,7 +22,7 @@
  # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  #####
 
-TCHAIN_PREFIX := 
+override THUMB :=
 WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
 TOP      := $(realpath $(WHEREAMI)/../../../)
 include $(TOP)/make/firmware-defs.mk
@@ -50,10 +50,6 @@ CODE_SOURCERY ?= NO
 REMOVE_CMD ?= rm
 
 FLASH_TOOL = OPENOCD
-
-# YES enables -mthumb option to flags for source-files listed
-# in SRC and CPPSRC
-USE_THUMB_MODE = YES
 
 # List of modules to include
 MODULES +=  Actuator ManualControl Stabilization 
