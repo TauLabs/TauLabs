@@ -31,9 +31,9 @@
 #define PIOS_LED_H
 
 /* Public Functions */
+extern void PIOS_LED_Init();
 extern void PIOS_LED_On(uint32_t led_id);
 extern void PIOS_LED_Off(uint32_t led_id);
 extern void PIOS_LED_Toggle(uint32_t led_id);
-extern void PIOS_LED_Init();
 
 #endif /* PIOS_LED_H */
