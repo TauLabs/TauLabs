@@ -23,15 +23,9 @@
 #####
 
 WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
-TOP      := $(realpath $(WHEREAMI)/../../)
+TOP      := $(realpath $(WHEREAMI)/../../../)
 include $(TOP)/make/firmware-defs.mk
 include $(TOP)/make/boards/$(BOARD_NAME)/board-info.mk
-
-# Target file name (without extension).
-TARGET := fw_$(BOARD_NAME)
-
-# Directory for output files (lst, obj, dep, elf, sym, map, hex, bin etc.)
-OUTDIR := $(TOP)/build/$(TARGET)
 
 # Set developer code and compile options
 # Set to YES for debugging
@@ -71,17 +65,12 @@ PYMODULES =
 # Paths
 OPSYSTEM = ./System
 OPSYSTEMINC = $(OPSYSTEM)/inc
-OPUAVTALK = ../UAVTalk
 OPUAVTALKINC = $(OPUAVTALK)/inc
-OPUAVOBJ = ../UAVObjects
 OPUAVOBJINC = $(OPUAVOBJ)/inc
-PIOS = ../PiOS
 PIOSINC = $(PIOS)/inc
-OPMODULEDIR = ../Modules
-FLIGHTLIB = ../Libraries
-FLIGHTLIBINC = ../Libraries/inc
-MATHLIB = ../Libraries/math
-MATHLIBINC = ../Libraries/math
+FLIGHTLIBINC = $(FLIGHTLIB)/inc
+MATHLIB = $(FLIGHTLIB)/math
+MATHLIBINC = $(FLIGHTLIB)/math
 RSCODE = $(FLIGHTLIB)/rscode
 RSCODEINC = $(FLIGHTLIB)/rscode
 PIOSSTM32F4XX = $(PIOS)/STM32F4xx
@@ -93,7 +82,6 @@ STMLIBDIR = $(APPLIBDIR)
 STMSPDDIR = $(STMLIBDIR)/STM32F4xx_StdPeriph_Driver
 STMSPDSRCDIR = $(STMSPDDIR)/src
 STMSPDINCDIR = $(STMSPDDIR)/inc
-OPUAVOBJ = ../UAVObjects
 OPUAVOBJINC = $(OPUAVOBJ)/inc
 PYMITE = $(FLIGHTLIB)/PyMite
 PYMITELIB = $(PYMITE)/lib
@@ -105,8 +93,6 @@ PYMITEINC += $(PYMITEPLAT)
 PYMITEINC += $(OUTDIR)
 FLIGHTPLANLIB = $(OPMODULEDIR)/FlightPlan/lib
 FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
-HWDEFSINC = ../board_hw_defs/$(BOARD_NAME)
-UAVOBJSYNTHDIR = $(OUTDIR)/../uavobject-synthetics/flight
 
 SRC = 
 # optional component libraries
@@ -223,7 +209,7 @@ EXTRAINCDIRS  += $(OPUAVTALK)
 EXTRAINCDIRS  += $(OPUAVTALKINC)
 EXTRAINCDIRS  += $(OPUAVOBJ)
 EXTRAINCDIRS  += $(OPUAVOBJINC)
-EXTRAINCDIRS  += $(UAVOBJSYNTHDIR)
+EXTRAINCDIRS  += $(OPUAVSYNTHDIR)
 EXTRAINCDIRS  += $(FLIGHTLIBINC)
 EXTRAINCDIRS  += $(MATHLIBINC)
 EXTRAINCDIRS  += $(RSCODEINC)
@@ -232,7 +218,6 @@ EXTRAINCDIRS  += $(PIOSCOMMON)
 EXTRAINCDIRS  += $(PIOSBOARDS)
 EXTRAINCDIRS  += $(STMSPDINCDIR)
 EXTRAINCDIRS  += $(CMSISDIR)
-EXTRAINCDIRS  += $(OPUAVSYNTHDIR)
 EXTRAINCDIRS  += $(BOOTINC)
 EXTRAINCDIRS  += $(PYMITEINC)
 EXTRAINCDIRS  += $(HWDEFSINC)
