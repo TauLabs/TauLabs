@@ -159,11 +159,6 @@ int32_t configuration_check()
  */
 static int32_t check_stabilization_settings(int index, bool multirotor)
 {
-		// Get the running modules
-	uint8_t running[TASKINFO_RUNNING_NUMELEM];
-	TaskInfoRunningGet(running);
-
-
 	// Make sure the modes have identical sizes
 	if (MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_NUMELEM != MANUALCONTROLSETTINGS_STABILIZATION2SETTINGS_NUMELEM ||
 		MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_NUMELEM != MANUALCONTROLSETTINGS_STABILIZATION3SETTINGS_NUMELEM)
@@ -197,7 +192,7 @@ static int32_t check_stabilization_settings(int index, bool multirotor)
 			// appropriate objects
 			if ((modes[i] == MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_RELAYRATE || 
 				modes[i] == MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_RELAYATTITUDE) &&
-				(running[TASKINFO_RUNNING_AUTOTUNE] != TASKINFO_RUNNING_TRUE))
+				(!TaskMonitorQueryRunning(TASKINFO_RUNNING_AUTOTUNE)))
 				return SYSTEMALARMS_ALARM_ERROR;
 		}
 	}
