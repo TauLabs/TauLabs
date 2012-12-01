@@ -19,7 +19,6 @@ HEADERS += opmapplugin.h \
     opmap_zoom_slider_widget.h \
     opmap_statusbar_widget.h \
     modelmapproxy.h \
-    pathplanner.h \
     homeeditor.h
 
 SOURCES += opmapplugin.cpp \
@@ -31,7 +30,6 @@ SOURCES += opmapplugin.cpp \
     opmap_zoom_slider_widget.cpp \
     opmap_statusbar_widget.cpp \
     modelmapproxy.cpp \
-    pathplanner.cpp \
     homeeditor.cpp
 
 OTHER_FILES += OPMapGadget.pluginspec
@@ -41,7 +39,6 @@ FORMS += opmapgadgetoptionspage.ui \
     opmap_zoom_slider_widget.ui \
     opmap_statusbar_widget.ui \
     opmap_overlay_widget.ui \
-    pathplanner.ui \
     homeeditor.ui
 
 RESOURCES += opmap.qrc

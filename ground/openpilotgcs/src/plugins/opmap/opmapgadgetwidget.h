@@ -318,7 +318,7 @@ private:
     WayPointItem * magicWayPoint;
 
     QPointer<FlightDataModel> model;
-    QPointer<pathPlanner> table;
+    QPointer<QDialog> pathPlannerDialog;
     QPointer<modelMapProxy> mapProxy;
     QPointer<QItemSelectionModel> selectionModel;
 };

@@ -56,7 +56,7 @@
 #include "positionactual.h"
 #include "velocityactual.h"
 
-#include "../pathplanner/pathplanner_global.h"
+#include "../pathplanner/pathplannergadgetwidget.h"
 #include "../pathplanner/waypointdialog.h"
 
 #define allow_manual_home_location_move
@@ -230,9 +230,6 @@ OPMapGadgetWidget::OPMapGadgetWidget(QWidget *parent) : QWidget(parent)
     Q_ASSERT(selectionModel);
     mapProxy = new modelMapProxy(this, m_map, model, selectionModel);
 
-    table=new pathPlanner();
-    table->setModel(model,selectionModel);
-
     magicWayPoint=m_map->magicWPCreate();
     magicWayPoint->setVisible(false);
 
@@ -299,8 +296,7 @@ OPMapGadgetWidget::~OPMapGadgetWidget()
 		delete m_map;
 		m_map = NULL;
 	}
-    if(!table.isNull())
-        delete table;
+
     if(!mapProxy.isNull())
         delete mapProxy;
 }
@@ -529,7 +525,6 @@ void OPMapGadgetWidget::contextMenuEvent(QContextMenuEvent *event)
 
 void OPMapGadgetWidget::closeEvent(QCloseEvent *event)
 {
-    table->close();
     QWidget::closeEvent(event);
 }
 
@@ -1759,10 +1754,23 @@ void OPMapGadgetWidget::onUAVTrailDistanceActGroup_triggered(QAction *action)
     m_map->UAV->SetTrailDistance(trail_distance);
 }
 
+/**
+ * @brief OPMapGadgetWidget::onOpenWayPointEditorAct_triggered Embed a
+ * @ref PathPlannerGadgetWidget in a QDialog and display it
+ */
 void OPMapGadgetWidget::onOpenWayPointEditorAct_triggered()
 {
-    table->show();
+    //create dialog
+    pathPlannerDialog = new QDialog(this);
+    pathPlannerDialog->show();
+    //create layout dialog
+    QHBoxLayout *dialogLayout = new QHBoxLayout(pathPlannerDialog);
+    pathPlannerDialog->setLayout(dialogLayout);
+    //create elements of dialog
+    QPointer<PathPlannerGadgetWidget> widget = new PathPlannerGadgetWidget(pathPlannerDialog);
+    dialogLayout->addWidget(widget);
 }
+
 void OPMapGadgetWidget::onAddWayPointAct_triggeredFromContextMenu()
 {
     onAddWayPointAct_triggered(m_context_menu_lat_lon);

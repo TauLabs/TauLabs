@@ -122,7 +122,7 @@ void PathPlannerGadgetWidget::on_tbSaveToFile_clicked()
  */
 void PathPlannerGadgetWidget::on_tbDetails_clicked()
 {
-    PlugingManager *pm = ExtensionSystem::PluginManager::instance();
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     Q_ASSERT(pm);
     if (pm == NULL)
         return;
