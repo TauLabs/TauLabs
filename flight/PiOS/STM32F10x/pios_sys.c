@@ -117,11 +117,11 @@ uint32_t PIOS_SYS_getCPUFlashSize(void)
 }
 
 /**
-* Returns the serial number as a string
-* param[out] uint8_t pointer to a string which can store at least 12 bytes
-* (12 bytes returned for STM32)
-* return < 0 if feature not supported
-*/
+ * Returns the serial number as byte array
+ * param[out] pointer to a byte array which can store at least 12 bytes
+ * (12 bytes returned for STM32)
+ * return < 0 if feature not supported
+ */
 int32_t PIOS_SYS_SerialNumberGetBinary(uint8_t *array)
 {
 	int i;

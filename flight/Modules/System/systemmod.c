@@ -172,7 +172,7 @@ static void systemTask(void *parameters)
 	// Listen for SettingPersistance object updates, connect a callback function
 	ObjectPersistenceConnectQueue(objectPersistenceQueue);
 
-#if defined(COPTERCONTROL) || defined(REVOLUTION)
+#if (defined(COPTERCONTROL) || defined(REVOLUTION) || defined(SIM_OSX)) && ! (defined(SIM_POSIX))
 	// Run this initially to make sure the configuration is checked
 	configuration_check();
 
@@ -332,7 +332,7 @@ static void objectUpdatedCb(UAVObjEvent * ev)
  */
 static void configurationUpdatedCb(UAVObjEvent * ev)
 {
-#if defined(COPTERCONTROL) || defined(REVOLUTION)
+#if (defined(COPTERCONTROL) || defined(REVOLUTION) || defined(SIM_OSX)) && ! (defined(SIM_POSIX))
 	configuration_check();
 #endif
 }

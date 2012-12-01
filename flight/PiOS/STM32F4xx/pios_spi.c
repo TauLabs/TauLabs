@@ -34,7 +34,7 @@
  */
 /*
  * @todo	Clocking is wrong (interface is badly defined, should be speed not prescaler magic numbers)
- * @todo	DMA doesn't work.  Fix it.
+ * @todo	DMA doesn't work.  Fix it. (This statement has to be checked. SPI seems to be working with DMA.)
  */
 #include <pios.h>
 
@@ -221,8 +221,19 @@ int32_t PIOS_SPI_SetClockSpeed(uint32_t spi_id, SPIPrescalerTypeDef spi_prescale
 	bool valid = PIOS_SPI_validate(spi_dev);
 	PIOS_Assert(valid)
 	
-	SPI_InitTypeDef       SPI_InitStructure;
+	SPI_InitTypeDef SPI_InitStructure;
 	
+	if (spi_dev->cfg->regs == SPI1)
+	{
+		//APB2 == 84MHz
+		//divide by 2 to match frequency
+		spi_prescaler += 1;
+	}
+	else
+	{
+		//APB1 == 42MHz
+	}
+
 	if (spi_prescaler >= 8) {
 		/* Invalid prescaler selected */
 		return -3;

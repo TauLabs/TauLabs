@@ -37,8 +37,8 @@ Point PlateCarreeProjection::FromLatLngToPixel(double lat, double lng, const int
 {
     Point ret;// = Point.Empty;
 
-    lat = Clip(lat, MinLatitude, MaxLatitude);
-    lng = Clip(lng, MinLongitude, MaxLongitude);
+    lat = bound(lat, MinLatitude, MaxLatitude);
+    lng = bound(lng, MinLongitude, MaxLongitude);
 
     Size s = GetTileMatrixSizePixel(zoom);
     double mapSizeX = s.Width();
@@ -67,10 +67,7 @@ internals::PointLatLng PlateCarreeProjection::FromPixelToLatLng(const qint64 &x,
 
     return ret;
 }
-double PlateCarreeProjection::Clip(const double &n, const double &minValue, const double &maxValue) const
-{
-    return qMin(qMax(n, minValue), maxValue);
-}
+
 Size PlateCarreeProjection::TileSize() const
 {
     return tileSize;

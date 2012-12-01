@@ -47,7 +47,7 @@ CoordinateConversions::CoordinateConversions()
   * @param[in] LLA Longitude latitude altitude for this location
   * @param[out] Rne[3][3] Rotation matrix
   */
-void CoordinateConversions::RneFromLLA(double LLA[3], double Rne[3][3]){
+void CoordinateConversions::LLA2Rne(double LLA[3], double Rne[3][3]){
     float sinLat, sinLon, cosLat, cosLon;
 
     sinLat=(float)sin(DEG2RAD*LLA[0]);
@@ -61,13 +61,13 @@ void CoordinateConversions::RneFromLLA(double LLA[3], double Rne[3][3]){
 }
 
 /**
-  * Convert from LLA coordinates to ECEF coordinates
+  * Convert from LLA coordinates to ECEF coordinates, using WGS84 ellipsoid
   * @param[in] LLA[3] latitude longitude alititude coordinates in
   * @param[out] ECEF[3] location in ECEF coordinates
   */
 void CoordinateConversions::LLA2ECEF(double LLA[3], double ECEF[3]){
-  const double a = 6378137.0;           // Equatorial Radius
-  const double e = 8.1819190842622e-2;  // Eccentricity
+  const double a = R_equator;           // Equatorial Radius
+  const double e = eccentricity;  // Eccentricity
   double sinLat, sinLon, cosLat, cosLon;
   double N;
 
@@ -84,14 +84,14 @@ void CoordinateConversions::LLA2ECEF(double LLA[3], double ECEF[3]){
 }
 
 /**
-  * Convert from ECEF coordinates to LLA coordinates
+  * Convert from ECEF coordinates to LLA coordinates, using WGS84 ellipsoid
   * @param[in] ECEF[3] location in ECEF coordinates
   * @param[out] LLA[3] latitude longitude alititude coordinates
   */
 int CoordinateConversions::ECEF2LLA(double ECEF[3], double LLA[3])
 {
-    const double a = 6378137.0;           // Equatorial Radius
-    const double e = 8.1819190842622e-2;  // Eccentricity
+    const double a = R_equator;           // Equatorial Radius
+    const double e = eccentricity;  // Eccentricity
     double x=ECEF[0], y=ECEF[1], z=ECEF[2];
     double Lat, N, NplusH, delta, esLat;
     uint16_t iter;
@@ -122,71 +122,108 @@ int CoordinateConversions::ECEF2LLA(double ECEF[3], double LLA[3])
 
 /**
   * Get the current location in Longitude, Latitude Altitude (above WSG-84 ellipsoid)
-  * @param[in] homeLLA LLA of the home location (in degrees) and altitude in meters
+  * @param[in] BaseECEF ECEF of the home location in meters
   * @param[in] NED the offset from the home location (in m)
   * @param[out] position three element double for position in decimal degrees and altitude in meters
   * @returns
   *  @arg 0 success
   *  @arg -1 for failure
   */
-int CoordinateConversions::NED2LLA_HomeECEF(double BaseECEFm[3], double NED[3], double position[3])
+int CoordinateConversions::NED2LLA_HomeECEF(double BaseECEF[3], double NED[3], double LLA[3])
 {
     int i;
-    // stored value is in cm, convert to m
     double BaseLLA[3];
     double ECEF[3];
     double Rne [3][3];
 
     // Get LLA address to compute conversion matrix
-    ECEF2LLA(BaseECEFm, BaseLLA);
-    RneFromLLA(BaseLLA, Rne);
+    ECEF2LLA(BaseECEF, BaseLLA);
+    LLA2Rne(BaseLLA, Rne);
 
     /* P = ECEF + Rne' * NED */
     for(i = 0; i < 3; i++)
-        ECEF[i] = BaseECEFm[i] + Rne[0][i]*NED[0] + Rne[1][i]*NED[1] + Rne[2][i]*NED[2];
+        ECEF[i] = BaseECEF[i] + Rne[0][i]*NED[0] + Rne[1][i]*NED[1] + Rne[2][i]*NED[2];
 
-    ECEF2LLA(ECEF,position);
+    ECEF2LLA(ECEF,LLA);
 
     return 0;
 }
 
 /**
   * Get the current location in Longitude, Latitude, Altitude (above WSG-84 ellipsoid)
-  * @param[in] homeLLA the latitude, longitude, and altitude of the home location (in [m])
+  * @param[in] homeLLA the latitude, longitude, and altitude (in [m]) of the home location
   * @param[in] NED the offset from the home location (in [m])
   * @param[out] position three element double for position in decimal degrees and altitude in meters
   * @returns
   *  @arg 0 success
   *  @arg -1 for failure
   */
-int CoordinateConversions::NED2LLA_HomeLLA(double homeLLA[3], double NED[3], double position[3])
+int CoordinateConversions::NED2LLA_HomeLLA(double homeLLA[3], double NED[3], double LLA[3])
 {
     double T[3];
     T[0] = homeLLA[2]+6.378137E6f * M_PI / 180.0;
     T[1] = cosf(homeLLA[0] * M_PI / 180.0)*(homeLLA[2]+6.378137E6f) * M_PI / 180.0;
     T[2] = -1.0f;
 
-    position[0] = homeLLA[0] + NED[0] / T[0];
-    position[1] = homeLLA[1] + NED[1] / T[1];
-    position[2] = homeLLA[2] + NED[2] / T[2];
+    LLA[0] = homeLLA[0] + NED[0] / T[0];
+    LLA[1] = homeLLA[1] + NED[1] / T[1];
+    LLA[2] = homeLLA[2] + NED[2] / T[2];
 
     return 0;
 }
 
-void CoordinateConversions::LLA2Base(double LLA[3], double BaseECEF[3], float Rne[3][3], float NED[3])
+/**
+  * Get the current location in NED
+  * @param[in] LLA the latitude, longitude, and altitude (in [m]) of the current location
+  * @param[in] BaseECEF ECEF of the home location in meters
+  * @param[in] Rne[3][3] Rotation matrix
+  * @param[out] NED the offset from the home location (in [m])
+  * @returns
+  *  @arg 0 success
+  *  @arg -1 for failure
+  */
+void CoordinateConversions::LLA2NED_HomeECEF(double LLA[3], double BaseECEF[3], double Rne[3][3], double NED[3])
 {
-        double ECEF[3];
-        float diff[3];
+    double ECEF[3];
+    double diff[3];
 
-        LLA2ECEF(LLA, ECEF);
+    LLA2ECEF(LLA, ECEF);
 
-        diff[0] = (float)(ECEF[0] - BaseECEF[0]);
-        diff[1] = (float)(ECEF[1] - BaseECEF[1]);
-        diff[2] = (float)(ECEF[2] - BaseECEF[2]);
+    diff[0] = ECEF[0] - BaseECEF[0];
+    diff[1] = ECEF[1] - BaseECEF[1];
+    diff[2] = ECEF[2] - BaseECEF[2];
 
-        NED[0] = Rne[0][0] * diff[0] + Rne[0][1] * diff[1] + Rne[0][2] * diff[2];
-        NED[1] = Rne[1][0] * diff[0] + Rne[1][1] * diff[1] + Rne[1][2] * diff[2];
-        NED[2] = Rne[2][0] * diff[0] + Rne[2][1] * diff[1] + Rne[2][2] * diff[2];
+    NED[0] = Rne[0][0] * diff[0] + Rne[0][1] * diff[1] + Rne[0][2] * diff[2];
+    NED[1] = Rne[1][0] * diff[0] + Rne[1][1] * diff[1] + Rne[1][2] * diff[2];
+    NED[2] = Rne[2][0] * diff[0] + Rne[2][1] * diff[1] + Rne[2][2] * diff[2];
+}
+
+/**
+  * Get the current location in NED
+  * @param[in] LLA the latitude, longitude, and altitude (in [m]) of the current location, referenced to WGS84
+  * @param[in] homeLLA latitude, longitude, and altitude (in [m]) of the home location, referenced to WGS84
+  * @param[out] NED the offset from the home location (in [m])
+  * @returns
+  *  @arg 0 success
+  *  @arg -1 for failure
+  */
+void CoordinateConversions::LLA2NED_HomeLLA(double LLA[3], double homeLLA[3], double NED[3])
+{
+    double lat = homeLLA[0] * DEG2RAD;
+    double alt = homeLLA[2];
+
+    float T[3];
+    T[0] = alt+6.378137E6;
+    T[1] = cos(lat)*(alt+6.378137E6);
+    T[2] = -1.0;
+
+    float dL[3] = {(LLA[0] - homeLLA[0]) * DEG2RAD,
+        (LLA[1] - homeLLA[1]) * DEG2RAD,
+        (LLA[2] - homeLLA[2])};
+
+    NED[0] = T[0] * dL[0];
+    NED[1] = T[1] * dL[1];
+    NED[2] = T[2] * dL[2];
 }
 
 // ****** find roll, pitch, yaw from quaternion ********
