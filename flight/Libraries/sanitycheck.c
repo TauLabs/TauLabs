@@ -159,6 +159,11 @@ int32_t configuration_check()
  */
 static int32_t check_stabilization_settings(int index, bool multirotor)
 {
+		// Get the running modules
+	uint8_t running[TASKINFO_RUNNING_NUMELEM];
+	TaskInfoRunningGet(running);
+
+
 	// Make sure the modes have identical sizes
 	if (MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_NUMELEM != MANUALCONTROLSETTINGS_STABILIZATION2SETTINGS_NUMELEM ||
 		MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_NUMELEM != MANUALCONTROLSETTINGS_STABILIZATION3SETTINGS_NUMELEM)
@@ -185,6 +190,14 @@ static int32_t check_stabilization_settings(int index, bool multirotor)
 	if (multirotor) {
 		for(uint32_t i = 0; i < NELEMENTS(modes); i++) {
 			if (modes[i] == MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_NONE)
+				return SYSTEMALARMS_ALARM_ERROR;
+
+			// If this axis allows enabling an autotune behavior without the module
+			// running then set an alarm now that aututune module initializes the
+			// appropriate objects
+			if ((modes[i] == MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_RELAYRATE || 
+				modes[i] == MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_RELAYATTITUDE) &&
+				(running[TASKINFO_RUNNING_AUTOTUNE] != TASKINFO_RUNNING_TRUE))
 				return SYSTEMALARMS_ALARM_ERROR;
 		}
 	}
