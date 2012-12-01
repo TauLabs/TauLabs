@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
- * @addtogroup RevolutionBL Revolution BootLoader
- * @brief These files contain the code to the Revolution Bootloader.
+ * @addtogroup DiscoveryF4BL STM32F4 Discovery board BootLoader
+ * @brief These files contain the code to the DiscoveryF4 Bootloader.
  *
  * @{
  * @file       main.c

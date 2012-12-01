@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
- * @addtogroup CopterControlBL CopterControl BootLoader
- * @brief These files contain the code to the CopterControl Bootloader.
+ * @addtogroup DiscoveryF4BL Discovery F4 BootLoader
+ * @brief These files contain the code to the Discovery F4 Bootloader.
  *
  * @{
  * @file       op_dfu.c

@@ -1,8 +1,8 @@
  #####
- # Project: OpenPilot INS_BOOTLOADER
+ # Project: OpenPilot DISCOVERF4_BOOTLOADER
  #    
  #  
- # Makefile for OpenPilot INS project
+ # Makefile for OpenPilot DiscoverF4 project
  #
  # The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2009.
  #    
@@ -41,8 +41,8 @@ REMOVE_CMD = rm
 endif
 
 # Paths
-REVO_BL = $(WHEREAMI)
-REVO_BLINC = $(REVO_BL)/inc
+BOARD_BL = $(WHEREAMI)
+BOARD_BLINC = $(BOARD_BL)/inc
 PIOSINC = $(PIOS)/inc
 FLIGHTLIBINC = $(FLIGHTLIB)/inc
 PIOSSTM32F4XX = $(PIOS)/STM32F4xx
@@ -98,7 +98,7 @@ EXTRAINCDIRS  += $(PIOSCOMMON)
 EXTRAINCDIRS  += $(PIOSBOARDS)
 EXTRAINCDIRS  += $(STMSPDINCDIR)
 EXTRAINCDIRS  += $(CMSISDIR)
-EXTRAINCDIRS  += $(REVO_BLINC)
+EXTRAINCDIRS  += $(BOARD_BLINC)
 EXTRAINCDIRS  += $(HWDEFSINC)
 
 # List any extra directories to look for library files here.
