@@ -3,13 +3,14 @@
  * @addtogroup OpenPilotSystem OpenPilot System
  * @brief These files are the core system files of OpenPilot.
  * They are the ground layer just above PiOS. In practice, OpenPilot actually starts
- * in the main() function of openpilot.c
+ * in the main() function of discoveryf4.c
  * @{
  * @addtogroup OpenPilotCore OpenPilot Core
  * @brief This is where the OP firmware starts. Those files also define the compile-time
  * options of the firmware.
  * @{
- * @file       openpilot.c 
+ * @file       discoveryf4.c 
+ * @author     The PhoenixPilot team (c) 2102, based on work by OpenPilot project
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @brief      Sets up and runs main OpenPilot tasks.
  * @see        The GNU Public License (GPL) Version 3

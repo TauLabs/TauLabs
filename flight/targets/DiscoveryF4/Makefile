@@ -1,8 +1,8 @@
 #####
-# Project: OpenPilot INS
+# Project: STM32F4 Discovery board
 #
 #
-# Makefile for OpenPilot INS project
+# Makefile for PiOS support for the STM32F4 Discovery board
 #
 # The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2009.
 #
