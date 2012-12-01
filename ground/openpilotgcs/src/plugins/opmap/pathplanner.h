@@ -67,7 +67,6 @@ private slots:
 
 private:
     Ui::pathPlannerUI *ui;
-    opmap_edit_waypoint_dialog * wid;
     FlightDataModel * myModel;
 signals:
     void sendPathPlanToUAV();

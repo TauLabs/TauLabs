@@ -58,6 +58,14 @@ bool PathPlannerPlugin::initialize(const QStringList& args, QString *errMsg)
     dataModel = new FlightDataModel(this);
     addAutoReleasedObject(dataModel);
 
+    // Create a selector and add it to the plugin
+    selection = new QItemSelectionModel(dataModel);
+    addAutoReleasedObject(selection);
+
+    // Create a common dialog to be used by the map and path planner
+    waypointDialog = new WaypointDialog(NULL, dataModel, selection);
+    addAutoReleasedObject(waypointDialog);
+
     return true;
 }
 

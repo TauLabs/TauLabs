@@ -66,6 +66,7 @@ private:
     Ui_PathPlanner  *ui;
     FlightDataModel *model;
     ModelUavoProxy  *proxy;
+    QItemSelectionModel *selection;
 
 signals:
     void sendPathPlanToUAV();

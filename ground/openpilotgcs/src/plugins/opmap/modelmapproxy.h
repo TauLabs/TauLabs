@@ -32,7 +32,6 @@
 #include "QMutexLocker"
 #include "QPointer"
 #include <QItemSelectionModel>
-#include <widgetdelegates.h>
 
 #include "../pathplanner/flightdatamodel.h"
 

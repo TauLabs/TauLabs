@@ -56,7 +56,6 @@
 #include "uavobject.h"
 #include "objectpersistence.h"
 #include <QItemSelectionModel>
-#include "opmap_edit_waypoint_dialog.h"
 
 #include "../pathplanner/flightdatamodel.h"
 
@@ -193,6 +192,8 @@ private slots:
     void onAddWayPointAct_triggeredFromContextMenu();
     void onAddWayPointAct_triggeredFromThis();
     void onAddWayPointAct_triggered(internals::PointLatLng coord);
+
+    //! Called when a waypoint is double clicked on
     void onEditWayPointAct_triggered();
     void onLockWayPointAct_triggered();
     void onDeleteWayPointAct_triggered();
@@ -233,7 +234,7 @@ private:
 	ExtensionSystem::PluginManager *pm;
 	UAVObjectManager *obm;
 	UAVObjectUtilManager *obum;
-    QPointer<opmap_edit_waypoint_dialog> waypoint_edit_dialog;
+
     QStandardItemModel wayPoint_treeView_model;
     mapcontrol::WayPointItem *m_mouse_waypoint;
     QMutex m_map_mutex;

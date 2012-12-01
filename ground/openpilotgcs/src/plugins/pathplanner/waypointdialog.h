@@ -1,13 +1,13 @@
 /**
  ******************************************************************************
  *
- * @file       widgetdelegates.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @file       opmap_edit_waypoint_dialog.h
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup OPMapPlugin OpenPilot Map Plugin
+ * @addtogroup PathPlanner OpenPilot Map Plugin
  * @{
- * @brief The OpenPilot Map plugin
+ * @brief Waypoint editor dialog
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -25,14 +25,62 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef WIDGETDELEGATES_H
-#define WIDGETDELEGATES_H
-#include <QItemDelegate>
+#ifndef WAYPOINT_DIALOG_H
+#define WAYPOINT_DIALOG_H
+
 #include <QComboBox>
-#include "../pathplanner/flightdatamodel.h"
+#include <QDialog>
+#include <QDataWidgetMapper>
+#include <QItemDelegate>
+#include <QItemSelectionModel>
+#include "flightdatamodel.h"
+
+class Ui_waypoint_dialog;
+
+class WaypointDialog : public QWidget
+{
+    Q_OBJECT
+
+public:
+    WaypointDialog(QWidget *parent, QAbstractItemModel * model, QItemSelectionModel * selection);
+    ~WaypointDialog();
+
+    //! Edit the requested waypoint, show dialog if it is not showing
+    void editWaypoint(int number);
+
+private:
+    Ui_waypoint_dialog *ui;
+    QDataWidgetMapper *mapper;
+    QAbstractItemModel * model;
+    QItemSelectionModel * itemSelection;
+
+private slots:
+
+private slots:
+    void currentIndexChanged(int index);
+    void setupModeWidgets();
+
+    //! Close the dialog, abort any changes
+    void on_cancelButton_clicked();
+
+    //! Close the dialog, accept any changes
+    void on_okButton_clicked();
+
+    //! User requests the previous waypoint
+    void on_previousButton_clicked();
+
+    //! User requests the next waypoint
+    void on_nextButton_clicked();
+    void enableEditWidgets(bool);
+    void currentRowChanged(QModelIndex,QModelIndex);
+};
 
 
-class MapDataDelegate : public QItemDelegate
+/**
+ * @brief The WaypointDataDelegate class is used to handle updating the values in
+ * the mode combo box to the data model.
+ */
+class WaypointDataDelegate : public QItemDelegate
  {
         Q_OBJECT
 
@@ -41,18 +89,23 @@ class MapDataDelegate : public QItemDelegate
                    MODE_DRIVEENDPOINT=4, MODE_DRIVEVECTOR=5, MODE_DRIVECIRCLELEFT=6, MODE_DRIVECIRCLERIGHT=7
                  } ModeOptions;
 
-     MapDataDelegate(QObject *parent = 0);
+     WaypointDataDelegate(QObject *parent = 0);
 
      QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
                            const QModelIndex &index) const;
 
+     //! Set data in the UI when the model is changed
      void setEditorData(QWidget *editor, const QModelIndex &index) const;
+
+     //! Set data in the model when the UI is changed
      void setModelData(QWidget *editor, QAbstractItemModel *model,
                        const QModelIndex &index) const;
 
      void updateEditorGeometry(QWidget *editor,
                                const QStyleOptionViewItem &option, const QModelIndex &index) const;
+
+     //! Populate the selections in the mode combo box
      static void loadComboBox(QComboBox * combo,FlightDataModel::pathPlanDataEnum type);
  };
 
-#endif // WIDGETDELEGATES_H
+#endif /* WAYPOINT_DIALOG_H */

@@ -6,7 +6,8 @@ include(../../openpilotgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri) 
 include(../../plugins/uavobjects/uavobjects.pri)
 
-HEADERS += pathplannergadget.h
+HEADERS += pathplannergadget.h \
+    waypointdialog.h
 HEADERS += pathplanner_global.h
 HEADERS += pathplannergadgetwidget.h
 HEADERS += pathplannergadgetfactory.h
@@ -14,7 +15,8 @@ HEADERS += pathplannerplugin.h
 HEADERS += flightdatamodel.h
 HEADERS += modeluavoproxy.h
 
-SOURCES += pathplannergadget.cpp
+SOURCES += pathplannergadget.cpp \
+    waypointdialog.cpp
 SOURCES += pathplannergadgetwidget.cpp
 SOURCES += pathplannergadgetfactory.cpp
 SOURCES += pathplannerplugin.cpp
@@ -24,6 +26,7 @@ SOURCES += modeluavoproxy.cpp
 OTHER_FILES += PathPlanner.pluginspec
 
 FORMS += pathplanner.ui
+FORMS += waypoint_dialog.ui
 
 RESOURCES += pathplanner.qrc
 

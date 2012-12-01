@@ -27,9 +27,12 @@
 #ifndef PathPlannerPLUGIN_H_
 #define PathPlannerPLUGIN_H_
 
+#include <QItemSelectionModel>
+
 #include <extensionsystem/iplugin.h>
 #include "flightdatamodel.h"
 #include "modeluavoproxy.h"
+#include "waypointdialog.h"
 
 class PathPlannerGadgetFactory;
 
@@ -45,5 +48,7 @@ public:
 private:
    PathPlannerGadgetFactory *mf;
    FlightDataModel          *dataModel;
+   QItemSelectionModel      *selection;
+   WaypointDialog           *waypointDialog;
 };
 #endif /* PathPlannerPLUGIN_H_ */

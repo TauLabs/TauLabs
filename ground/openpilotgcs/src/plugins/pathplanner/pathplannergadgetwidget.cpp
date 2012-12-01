@@ -24,6 +24,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 #include "pathplannergadgetwidget.h"
+#include "waypointdialog.h"
 #include "ui_pathplanner.h"
 
 #include <QDebug>
@@ -46,8 +47,9 @@ PathPlannerGadgetWidget::PathPlannerGadgetWidget(QWidget *parent) : QLabel(paren
     FlightDataModel *model = pm->getObject<FlightDataModel>();
     Q_ASSERT(model);
 
-    setModel(model, new QItemSelectionModel(model));
-
+    QItemSelectionModel *selection = pm->getObject<QItemSelectionModel>();
+    Q_ASSERT(selection);
+    setModel(model, selection);
 }
 
 PathPlannerGadgetWidget::~PathPlannerGadgetWidget()
@@ -58,8 +60,10 @@ PathPlannerGadgetWidget::~PathPlannerGadgetWidget()
 
 void PathPlannerGadgetWidget::setModel(FlightDataModel *model, QItemSelectionModel *selection)
 {
-    this->model=model;
     proxy = new ModelUavoProxy(this, model);
+
+    this->model = model;
+    this->selection = selection;
 
     ui->tableView->setModel(model);
     ui->tableView->setSelectionModel(selection);
@@ -111,15 +115,36 @@ void PathPlannerGadgetWidget::on_tbSaveToFile_clicked()
     model->writeToFile(fileName);
 }
 
+/**
+ * @brief PathPlannerGadgetWidget::on_tbDetails_clicked Display a dialog to show
+ * and edit details of a waypoint.  The waypoint selected initially will be the
+ * highlighted one.
+ */
 void PathPlannerGadgetWidget::on_tbDetails_clicked()
 {
+    PlugingManager *pm = ExtensionSystem::PluginManager::instance();
+    Q_ASSERT(pm);
+    if (pm == NULL)
+        return;
+
+    WaypointDialog *dialog =  pm->getObject<WaypointDialog>();
+    Q_ASSERT(dialog);
+    dialog->show();
 }
 
+/**
+ * @brief PathPlannerGadgetWidget::on_tbSendToUAV_clicked Use the proxy to send
+ * the data from the flight model to the UAV
+ */
 void PathPlannerGadgetWidget::on_tbSendToUAV_clicked()
 {
     proxy->modelToObjects();
 }
 
+/**
+ * @brief PathPlannerGadgetWidget::on_tbFetchFromUAV_clicked Use the flight model to
+ * get data from the UAV
+ */
 void PathPlannerGadgetWidget::on_tbFetchFromUAV_clicked()
 {
     proxy->objectsToModel();

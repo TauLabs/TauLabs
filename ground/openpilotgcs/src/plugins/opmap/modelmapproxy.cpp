@@ -26,6 +26,7 @@
  */
 
 #include "modelmapproxy.h"
+#include "../pathplanner/waypointdialog.h"
 
 modelMapProxy::modelMapProxy(QObject *parent,OPMapWidget *map, FlightDataModel *model,QItemSelectionModel * selectionModel):QObject(parent),myMap(map),model(model),selection(selectionModel)
 {
@@ -102,18 +103,18 @@ modelMapProxy::overlayType modelMapProxy::overlayTranslate(int type)
 {
     switch(type)
     {
-    case MapDataDelegate::MODE_FLYENDPOINT:
-    case MapDataDelegate::MODE_FLYVECTOR:
-    case MapDataDelegate::MODE_DRIVEENDPOINT:
-    case MapDataDelegate::MODE_DRIVEVECTOR:
+    case WaypointDataDelegate::MODE_FLYENDPOINT:
+    case WaypointDataDelegate::MODE_FLYVECTOR:
+    case WaypointDataDelegate::MODE_DRIVEENDPOINT:
+    case WaypointDataDelegate::MODE_DRIVEVECTOR:
         return OVERLAY_LINE;
         break;
-    case MapDataDelegate::MODE_FLYCIRCLERIGHT:
-    case MapDataDelegate::MODE_DRIVECIRCLERIGHT:
+    case WaypointDataDelegate::MODE_FLYCIRCLERIGHT:
+    case WaypointDataDelegate::MODE_DRIVECIRCLERIGHT:
         return OVERLAY_CIRCLE_RIGHT;
         break;
-    case MapDataDelegate::MODE_FLYCIRCLELEFT:
-    case MapDataDelegate::MODE_DRIVECIRCLELEFT:
+    case WaypointDataDelegate::MODE_FLYCIRCLELEFT:
+    case WaypointDataDelegate::MODE_DRIVECIRCLELEFT:
         return OVERLAY_CIRCLE_LEFT;
         break;
     default:

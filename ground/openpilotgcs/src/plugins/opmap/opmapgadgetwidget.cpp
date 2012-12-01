@@ -57,6 +57,7 @@
 #include "velocityactual.h"
 
 #include "../pathplanner/pathplanner_global.h"
+#include "../pathplanner/waypointdialog.h"
 
 #define allow_manual_home_location_move
 
@@ -224,11 +225,13 @@ OPMapGadgetWidget::OPMapGadgetWidget(QWidget *parent) : QWidget(parent)
     model = pm->getObject<FlightDataModel>();
     Q_ASSERT(model);
 
+    // Get the path planner selection model to keep the gadget in sync with the map
+    selectionModel =  pm->getObject<QItemSelectionModel>();
+    Q_ASSERT(selectionModel);
+    mapProxy = new modelMapProxy(this, m_map, model, selectionModel);
+
     table=new pathPlanner();
-    selectionModel=new QItemSelectionModel(model);
-    mapProxy=new modelMapProxy(this,m_map,model,selectionModel);
     table->setModel(model,selectionModel);
-    waypoint_edit_dialog=new opmap_edit_waypoint_dialog(this,model,selectionModel);
 
     magicWayPoint=m_map->magicWPCreate();
     magicWayPoint->setVisible(false);
@@ -298,12 +301,8 @@ OPMapGadgetWidget::~OPMapGadgetWidget()
 	}
     if(!table.isNull())
         delete table;
-    if(!selectionModel.isNull())
-        delete selectionModel;
     if(!mapProxy.isNull())
         delete mapProxy;
-    if(!waypoint_edit_dialog.isNull())
-        delete waypoint_edit_dialog;
 }
 
 // *************************************************************************************
@@ -1786,25 +1785,16 @@ void OPMapGadgetWidget::onAddWayPointAct_triggered(internals::PointLatLng coord)
 
 
 /**
-  * Called when the user asks to edit a waypoint from the map
-  *
-  * TODO: should open an interface to edit waypoint properties, or
-  *       propagate the signal to a specific WP plugin (tbd).
-  **/
-
+  * Get the waypoint editor dialog from the path planner plugin and display it
+  * automatically at the selected waypoint.  Called by double clicking or selecting
+  * edit the waypoint in the context menu.
+  */
 void OPMapGadgetWidget::onEditWayPointAct_triggered()
 {
-	if (!m_widget || !m_map)
-		return;
-
-    if (m_map_mode != Normal_MapMode)
-        return;
-
-    if (!m_mouse_waypoint)
-        return;
-
-    waypoint_edit_dialog->editWaypoint(m_mouse_waypoint);
-    m_mouse_waypoint = NULL;
+    WaypointDialog *dialog =  pm->getObject<WaypointDialog>();
+    Q_ASSERT(dialog);
+    if (dialog != NULL)
+        dialog->show();
 }
 
 
