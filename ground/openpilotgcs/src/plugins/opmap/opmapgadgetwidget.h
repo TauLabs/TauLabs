@@ -31,7 +31,6 @@
 // ******************************************************
 
 
-#include "pathplanner.h"
 #include "modelmapproxy.h"
 
 #include <QtGui/QWidget>

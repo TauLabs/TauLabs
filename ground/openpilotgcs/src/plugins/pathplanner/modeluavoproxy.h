@@ -38,6 +38,10 @@ class ModelUavoProxy:public QObject
 public:
     explicit ModelUavoProxy(QObject *parent, FlightDataModel *model);
 
+private:
+    //! Robustly upload a waypoint (like smart save)
+    bool robustUpdate(Waypoint::DataFields data, int instance);
+
 public slots:
     //! Cast from the internal representation to the UAVOs
     void modelToObjects();
@@ -45,10 +49,21 @@ public slots:
     //! Cast from the UAVOs to the internal representation
     void objectsToModel();
 
+    //! Whenever a waypoint transaction is completed
+    void waypointTransactionCompleted(UAVObject *, bool);
+
+signals:
+    void waypointTransactionSucceeded();
+    void waypointTransactionFailed();
+
 private:
     UAVObjectManager *objManager;
     Waypoint         *waypointObj;
     FlightDataModel  *myModel;
+
+    //! Track if each waypoint was updated
+    QMap<int, bool>  waypointTransactionResult;
+
 };
 
 #endif // ModelUavoProxy_H
