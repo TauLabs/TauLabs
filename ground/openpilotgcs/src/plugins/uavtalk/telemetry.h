@@ -152,6 +152,7 @@ private slots:
     void processPeriodicUpdates();
     void transactionSuccess(UAVObject* obj);
     void transactionFailure(UAVObject* obj);
+    void transactionRequestCompleted(UAVObject* obj);
 
 };
 

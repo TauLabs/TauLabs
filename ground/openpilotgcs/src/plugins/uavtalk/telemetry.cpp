@@ -294,6 +294,23 @@ void Telemetry::transactionFailure(UAVObject* obj)
 }
 
 /**
+ * Called when an object request transaction is completed
+ * This happens either:
+ *  - Because we received an UNPACK event from an object we had requested.
+ */
+void Telemetry::transactionRequestCompleted(UAVObject* obj)
+{
+    if (updateTransactionMap(obj,true)) {
+        qDebug() << "[uavtalk.cpp] Transaction succeeded " << obj->getObjID() << " " << obj->getInstID();
+        obj->emitTransactionCompleted(true);
+    } else {
+        qDebug() << "[telemetry.cpp] Received a ACK we were not expecting";
+    }
+    // Process new object updates from queue
+    processObjectQueue();
+}
+
+/**
  * @brief Telemetry::updateTransactionMap
  *  Check whether the object is in our pending transactions map. If so, remove
  *  it, otherwise return an error (false)
@@ -492,7 +509,7 @@ void Telemetry::processObjectQueue()
         // TODO: Check here this is for a OBJ_REQ
         if (transMap.contains(TransactionKey(objInfo.obj, true))) {
             qDebug() << "[telemetry.cpp] EV_UNPACKED " << objInfo.obj->getName() << " inst " << objInfo.obj->getInstID();
-            //transactionSuccess(objInfo.obj);
+            transactionRequestCompleted(objInfo.obj);
         } else
         {
             processObjectQueue();
