@@ -66,6 +66,8 @@ signals:
 private slots:
     void processInputStream(void);
     void dummyUDPRead();
+public slots:
+    void sendObject(UAVObject *obj);
 
 private:
 
