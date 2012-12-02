@@ -52,6 +52,17 @@ ModelUavoProxy::ModelUavoProxy(QObject *parent, FlightDataModel *model):QObject(
  */
 void ModelUavoProxy::modelToObjects()
 {
+    Waypoint *wp = Waypoint::GetInstance(objManager,0);
+    Q_ASSERT(wp);
+    if (wp == NULL)
+        return;
+
+    // Make sure the object is acked
+    UAVObject::Metadata initialMeta = wp->getMetadata();
+    UAVObject::Metadata meta = initialMeta;
+    UAVObject::SetFlightTelemetryAcked(meta, true);
+    wp->setMetadata(meta);
+
     for(int x=0;x<myModel->rowCount();++x)
     {
         Waypoint *wp = NULL;
@@ -91,9 +102,10 @@ void ModelUavoProxy::modelToObjects()
             qDebug() << "Successfully updated";
         else {
             qDebug() << "Upload failed";
-            return;
+            break;
         }
     }
+    wp->setMetadata(initialMeta);
 }
 
 /**
@@ -121,7 +133,7 @@ bool ModelUavoProxy::robustUpdate(Waypoint::DataFields data, int instance)
             }
 
             // Wait a second for next attempt
-            QTimer::singleShot(5000, &m_eventloop, SLOT(quit()));
+            QTimer::singleShot(500, &m_eventloop, SLOT(quit()));
             m_eventloop.exec();
     }
 
