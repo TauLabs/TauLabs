@@ -120,12 +120,11 @@ bool ModelUavoProxy::robustUpdate(Waypoint::DataFields data, int instance)
     connect(wp, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(waypointTransactionCompleted(UAVObject *, bool)));
     for (int i = 0; i < 10; i++) {
             QEventLoop m_eventloop;
+            QTimer::singleShot(500, &m_eventloop, SLOT(quit()));
             connect(this, SIGNAL(waypointTransactionSucceeded()), &m_eventloop, SLOT(quit()));
             connect(this, SIGNAL(waypointTransactionFailed()), &m_eventloop, SLOT(quit()));
             waypointTransactionResult.insert(instance, false);
-            qDebug() << "Saving... " << instance;
             wp->setData(data);
-            qDebug() << "Updating...";
             wp->updated();
             m_eventloop.exec();
             if (waypointTransactionResult.value(instance)) {
