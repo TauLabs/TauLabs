@@ -316,13 +316,12 @@ bool UAVTalk::processInputByte(quint8 rxbyte)
                 if (rxType == TYPE_OBJ_REQ || rxType == TYPE_ACK || rxType == TYPE_NACK)
                 {
                     rxLength = 0;
-                    rxInstanceLength = 0;
                 }
                 else
                 {
                     rxLength = rxObj->getNumBytes();
-                    rxInstanceLength = (rxObj->isSingleInstance() ? 0 : 2);
                 }
+                rxInstanceLength = (rxObj->isSingleInstance() ? 0 : 2);
 
                 // Check length and determine next state
                 if (rxLength >= MAX_PAYLOAD_LENGTH)
