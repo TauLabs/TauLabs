@@ -37,6 +37,8 @@
 #include <QQueue>
 #include <QMap>
 
+class TransactionKey;
+
 class ObjectTransactionInfo: public QObject {
     Q_OBJECT
 
@@ -119,7 +121,7 @@ private:
     QList<ObjectTimeInfo> objList;
     QQueue<ObjectQueueInfo> objQueue;
     QQueue<ObjectQueueInfo> objPriorityQueue;
-    QMap<quint32, ObjectTransactionInfo*>transMap;
+    QMap<TransactionKey, ObjectTransactionInfo*>transMap;
     QMutex* mutex;
     QTimer* updateTimer;
     QTimer* statsTimer;

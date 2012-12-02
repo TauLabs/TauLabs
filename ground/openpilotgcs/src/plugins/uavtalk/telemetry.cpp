@@ -35,6 +35,34 @@
 #include <QDebug>
 
 /**
+ * @brief The TransactionKey class A key for the QMap to track transactions
+ */
+class TransactionKey {
+public:
+    TransactionKey(quint32 objId, quint32 instId) {
+        this->objId = objId;
+        this->instId = instId;
+    }
+
+    TransactionKey(UAVObject *obj) {
+        this->objId = obj->getObjID();
+        this->instId = obj->getInstID();
+    }
+
+    // See if this is an equivalent transaction key
+    bool operator==(const TransactionKey & rhs) const {
+        return (rhs.objId == objId && rhs.instId == instId);
+    }
+
+    bool operator<(const TransactionKey & rhs) const {
+        return objId < rhs.objId || (objId == rhs.objId && instId < rhs.instId);
+    }
+
+    quint32 objId;
+    quint32 instId;
+};
+
+/**
  * Constructor
  */
 Telemetry::Telemetry(UAVTalk* utalk, UAVObjectManager* objMngr)
@@ -68,8 +96,9 @@ Telemetry::Telemetry(UAVTalk* utalk, UAVObjectManager* objMngr)
 
 Telemetry::~Telemetry()
 {
-    for (QMap<quint32, ObjectTransactionInfo*>::iterator itr = transMap.begin(); itr != transMap.end(); ++itr)
+    for (QMap<TransactionKey, ObjectTransactionInfo*>::iterator itr = transMap.begin(); itr != transMap.end(); ++itr) {
         delete itr.value();
+    }
 }
 
 /**
@@ -268,14 +297,14 @@ void Telemetry::transactionFailure(UAVObject* obj)
  */
 bool Telemetry::updateTransactionMap(UAVObject* obj)
 {
-    quint32 objId = obj->getObjID();
-    QMap<quint32, ObjectTransactionInfo*>::iterator itr = transMap.find(objId);
+    TransactionKey key(obj->getObjID(),obj->getInstID());
+    QMap<TransactionKey, ObjectTransactionInfo*>::iterator itr = transMap.find(key);
     if ( itr != transMap.end() )
     {
         ObjectTransactionInfo *transInfo = itr.value();
         // Remove this transaction as it is complete.
         transInfo->timer->stop();
-        transMap.remove(objId);
+        transMap.remove(key);
         delete transInfo;
         return true;
     }
@@ -332,7 +361,7 @@ void Telemetry::processObjectTransaction(ObjectTransactionInfo *transInfo)
     else
     {
         // Stop tracking this transaction, since we're not expecting a response:
-        transMap.remove(transInfo->obj->getObjID());
+        transMap.remove(TransactionKey(transInfo->obj));
         delete transInfo;
     }
 }
@@ -418,7 +447,7 @@ void Telemetry::processObjectQueue()
     if ( ( objInfo.event != EV_UNPACKED ) && ( ( objInfo.event != EV_UPDATED_PERIODIC ) || ( updateMode != UAVObject::UPDATEMODE_THROTTLED ) ) )
     {
         // We are either going to send an object, or are requesting one:
-        if (transMap.contains(objInfo.obj->getObjID())) {
+        if (transMap.contains(TransactionKey(objInfo.obj))) {
             qDebug() << "[telemetry.cpp] Warning: Got request for " << objInfo.obj->getName() << " for which a request is already in progress. Not doing it";
             // We will not re-request it, then, we should wait for a timeout or success...
         } else
@@ -439,7 +468,8 @@ void Telemetry::processObjectQueue()
             }
             transInfo->telem = this;
             // Insert the transaction into the transaction map.
-            transMap.insert(objInfo.obj->getObjID(), transInfo);
+            TransactionKey key(objInfo.obj);
+            transMap.insert(key, transInfo);
             processObjectTransaction(transInfo);
         }
     }
@@ -459,7 +489,7 @@ void Telemetry::processObjectQueue()
     // We received an "unpacked" event, check whether
     // this is for an object we were expecting
     if ( objInfo.event == EV_UNPACKED ) {
-        if (transMap.contains(objInfo.obj->getObjID())) {
+        if (transMap.contains(TransactionKey(objInfo.obj))) {
             transactionSuccess(objInfo.obj);
         } else
         {
