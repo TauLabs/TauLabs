@@ -125,6 +125,7 @@ bool ModelUavoProxy::robustUpdate(Waypoint::DataFields data, int instance)
             waypointTransactionResult.insert(instance, false);
             qDebug() << "Saving... " << instance;
             wp->setData(data);
+            qDebug() << "Updating...";
             wp->updated();
             m_eventloop.exec();
             if (waypointTransactionResult.value(instance)) {

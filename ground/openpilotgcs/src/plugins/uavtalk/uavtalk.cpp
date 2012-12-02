@@ -167,6 +167,7 @@ bool UAVTalk::sendObjectRequest(UAVObject* obj, bool allInstances)
 bool UAVTalk::sendObject(UAVObject* obj, bool acked, bool allInstances)
 {
     QMutexLocker locker(mutex);
+    qDebug() << "sendObject " << acked << " " << allInstances;
     if (acked)
     {
         return objectTransaction(obj, TYPE_OBJ_ACK, allInstances);
@@ -566,6 +567,7 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
         // All instances, not allowed for ACK messages
         if (!allInstances)
         {
+            qDebug() << "Got ack for instance: " << instId;
             // Get object
             obj = objMngr->getObject(objId, instId);
             // Check if we actually know this object (tiny chance the ObjID

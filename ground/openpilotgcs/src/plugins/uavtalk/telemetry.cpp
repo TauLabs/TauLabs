@@ -231,6 +231,7 @@ void Telemetry::updateObject(UAVObject* obj, quint32 eventType)
 void Telemetry::transactionSuccess(UAVObject* obj)
 {
     if (updateTransactionMap(obj)) {
+        qDebug() << "[uavtalk.cpp] Transaction succeeded " << obj->getObjID() << " " << obj->getInstID();
         obj->emitTransactionCompleted(true);
     } else {
         qDebug() << "[telemetry.cpp] Received a ACK we were not expecting";
@@ -250,6 +251,7 @@ void Telemetry::transactionSuccess(UAVObject* obj)
 void Telemetry::transactionFailure(UAVObject* obj)
 {
     if (updateTransactionMap(obj)) {
+        qDebug() << "[uavtalk.cpp] Transaction failed " << obj->getObjID() << " " << obj->getInstID();
         obj->emitTransactionCompleted(false);
     } else {
         qDebug() << "[telemetry.cpp] Received a NACK we were not expecting";
@@ -316,6 +318,10 @@ void Telemetry::processObjectTransaction(ObjectTransactionInfo *transInfo)
     }
     else
     {   // We are sending an object to the remote end
+        if (transInfo->acked)
+            qDebug() << "[uavtalk.cpp] Sending ack'd transaction for " << transInfo->obj->getName();
+        else
+            qDebug() << "[uavtalk.cpp] Sending non-ack'd transaction for " << transInfo->obj->getName();
         utalk->sendObject(transInfo->obj, transInfo->acked, transInfo->allInstances);
     }
     // Start timer if a response is expected
