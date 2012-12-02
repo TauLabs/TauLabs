@@ -138,7 +138,7 @@ private:
     void processObjectUpdates(UAVObject* obj, EventMask event, bool allInstances, bool priority);
     void processObjectTransaction(ObjectTransactionInfo *transInfo);
     void processObjectQueue();
-    bool updateTransactionMap(UAVObject* obj);
+    bool updateTransactionMap(UAVObject* obj, bool request);
 
 
 private slots:
