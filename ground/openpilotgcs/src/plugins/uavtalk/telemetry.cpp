@@ -283,7 +283,9 @@ void Telemetry::transactionSuccess(UAVObject* obj)
  */
 void Telemetry::transactionFailure(UAVObject* obj)
 {
-    if (updateTransactionMap(obj, false)) {
+    // Here we need to check for true or false as a NAK can occur for OBJ_REQ or an
+    // object set
+    if (updateTransactionMap(obj, true) || updateTransactionMap(obj, false)) {
         qDebug() << "[uavtalk.cpp] Transaction failed " << obj->getObjID() << " " << obj->getInstID();
         obj->emitTransactionCompleted(false);
     } else {
