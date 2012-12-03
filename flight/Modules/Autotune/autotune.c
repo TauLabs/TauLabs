@@ -95,6 +95,11 @@ int32_t AutotuneInitialize(void)
 		autotuneEnabled = false;
 #endif
 
+	if (autotuneEnabled) {
+		RelayTuningSettingsInitialize();
+		RelayTuningInitialize();
+	}
+
 	return 0;
 }
 
