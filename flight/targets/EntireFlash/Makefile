@@ -37,7 +37,7 @@ $(OUTDIR)/$(TARGET).fw_pre.pad:
 	$(V0) @echo $(MSG_PADDING) $@
 	$(V1) dd if=/dev/zero count=$(FW_PRE_PAD) bs=1 | tr '\000' '\377' > $@
 
-FW_POST_PAD = $(shell echo $$[$(FW_BANK_SIZE)-$(FW_DESC_SIZE)-$(firstword $(shell du -b $(FW_BIN)))])
+FW_POST_PAD = $(shell echo $$[$(FW_BANK_SIZE)-$(FW_DESC_SIZE)-$(shell wc -c < $(FW_BIN))])
 $(OUTDIR)/$(TARGET).fw_post.pad:
 	$(V0) @echo $(MSG_PADDING) $@
 	$(V1) dd if=/dev/zero count=$(FW_POST_PAD) bs=1 | tr '\000' '\377' > $@
