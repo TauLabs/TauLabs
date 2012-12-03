@@ -60,6 +60,10 @@ int WayPointCurve::type() const
     return Type;
 }
 
+/**
+ * @brief WayPointCurve::paint Draw the path arc
+ * @param painter The painter for drawing
+ */
 void WayPointCurve::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
@@ -70,42 +74,25 @@ void WayPointCurve::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     painter->setPen(myPen);
     painter->setBrush(myColor);
 
-    //QGraphicsEllipseItem::paint(painter, option, widget);
-    painter->drawArc(this->rect(), this->startAngle(), this->spanAngle());
-
-    /*
     qreal arrowSize = 10;
     QBrush brush=painter->brush();
-    QPointF p1;
-    QPointF p2;
-    p1=QPointF(line.p1().x(),line.p1().y()+line.length());
-    p2=QPointF(line.p1().x(),line.p1().y()-line.length());
-    double angle =0;
-    if(!myClockWise)
-        angle+=M_PI;
 
-    QPointF arrowP1 = p1 + QPointF(sin(angle + M_PI / 3) * arrowSize,
-                                   cos(angle + M_PI / 3) * arrowSize);
-    QPointF arrowP2 = p1 + QPointF(sin(angle + M_PI - M_PI / 3) * arrowSize,
-                                   cos(angle + M_PI - M_PI / 3) * arrowSize);
-
-    QPointF arrowP21 = p2 + QPointF(sin(angle + M_PI + M_PI / 3) * arrowSize,
-                                    cos(angle + M_PI + M_PI / 3) * arrowSize);
-    QPointF arrowP22 = p2 + QPointF(sin(angle + M_PI + M_PI - M_PI / 3) * arrowSize,
-                                    cos(angle + M_PI + M_PI - M_PI / 3) * arrowSize);
+    QPointF arrowP1 = midpoint + QPointF(sin(midpoint_angle + M_PI / 3) * arrowSize,
+                                   cos(midpoint_angle + M_PI / 3) * arrowSize);
+    QPointF arrowP2 = midpoint + QPointF(sin(midpoint_angle + M_PI - M_PI / 3) * arrowSize,
+                                   cos(midpoint_angle + M_PI - M_PI / 3) * arrowSize);
 
     arrowHead.clear();
-    arrowHead << p1 << arrowP1 << arrowP2;
+    arrowHead << midpoint << arrowP1 << arrowP2;
     painter->drawPolygon(arrowHead);
-    arrowHead.clear();
-    arrowHead << p2 << arrowP21 << arrowP22;
-    painter->drawPolygon(arrowHead);
-    painter->translate(-line.length(),-line.length());
     painter->setBrush(brush);
-    painter->drawEllipse(this->rect());
-    */
+    painter->drawArc(this->rect(), this->startAngle(), this->spanAngle());
 }
 
+/**
+ * @brief WayPointCurve::refreshLocations Update the settings for the
+ * arc when it is moved or the zoom changes
+ */
 void WayPointCurve::refreshLocations()
 {
     double m_n, m_e, p_n, p_e, d, center_x, center_y;
@@ -142,9 +129,11 @@ void WayPointCurve::refreshLocations()
     center.setX(center_x);
     center.setY(center_y);
 
-    qDebug() << "Center: " << center_x << ", " << center_y;
-    qDebug() << "Px / m: " << pixels2meters;
-    qDebug() << "Radius " << m_radius << " m, " << radius;
+    // Compute the midpoint along the arc for the arrow
+    d = sqrt(radius * radius / (p_n * p_n + p_e * p_e));
+    midpoint.setX(center_x - p_n * d);
+    midpoint.setY(center_y - p_e * d);
+    midpoint_angle = -atan2(m_dest->pos().y() - m_start->pos().y(), m_dest->pos().x() - m_start->pos().x());
 
     double startAngle = atan2(-(m_start->pos().y() - center_y), m_start->pos().x() - center_x);
     double endAngle = atan2(-(m_dest->pos().y() - center_y), m_dest->pos().x() - center_x);

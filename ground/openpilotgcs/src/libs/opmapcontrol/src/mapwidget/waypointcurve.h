@@ -70,6 +70,12 @@ private:
     //! Center coordinate
     QPointF center;
 
+    //! Half way point
+    QPointF midpoint;
+
+    //! Angle of normal at midpoint
+    double midpoint_angle;
+
     //! Handle to the map this is shown on
     MapGraphicItem * my_map;
     QPolygonF arrowHead;

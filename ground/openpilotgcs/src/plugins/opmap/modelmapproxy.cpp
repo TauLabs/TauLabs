@@ -131,7 +131,9 @@ ModelMapProxy::overlayType ModelMapProxy::overlayTranslate(int type)
  * @param type The type of path component
  * @param color
  */
-void ModelMapProxy::createOverlay(WayPointItem *from, WayPointItem *to, ModelMapProxy::overlayType type,QColor color)
+void ModelMapProxy::createOverlay(WayPointItem *from, WayPointItem *to,
+                                  ModelMapProxy::overlayType type, QColor color,
+                                  double radius=0)
 {
     if(from==NULL || to==NULL || from==to)
         return;
@@ -147,10 +149,10 @@ void ModelMapProxy::createOverlay(WayPointItem *from, WayPointItem *to, ModelMap
         myMap->WPCircleCreate(to,from,false,color);
         break;
     case OVERLAY_CURVE_RIGHT:
-        myMap->WPCurveCreate(to,from,30,true,color);
+        myMap->WPCurveCreate(to,from,radius,true,color);
         break;
     case OVERLAY_CURVE_LEFT:
-        myMap->WPCurveCreate(to,from,30,false,color);
+        myMap->WPCurveCreate(to,from,radius,false,color);
         break;
     default:
         break;
@@ -211,7 +213,8 @@ void ModelMapProxy::refreshOverlays()
         wp_next_overlay = overlayTranslate(model->data(model->index(x+1,FlightDataModel::MODE)).toInt());
 
         wp_next = findWayPointNumber(x+1);
-        createOverlay(wp_current,wp_next,wp_next_overlay,Qt::green);
+        createOverlay(wp_current, wp_next, wp_next_overlay, Qt::green,
+                      model->data(model->index(x+1,FlightDataModel::MODE_PARAMS)).toFloat());
     }
 }
 
@@ -320,6 +323,10 @@ void ModelMapProxy::dataChanged(const QModelIndex &topLeft, const QModelIndex &b
                 index=model->index(x,FlightDataModel::ALTITUDE);
                 altitude=index.data(Qt::DisplayRole).toDouble();
                 item->SetAltitude(altitude);
+                break;
+            case FlightDataModel::MODE_PARAMS:
+                // Make sure to update radius of arcs
+                refreshOverlays();
                 break;
             case FlightDataModel::LOCKED:
                 index=model->index(x,FlightDataModel::LOCKED);
