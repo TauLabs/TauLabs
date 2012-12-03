@@ -167,7 +167,6 @@ bool UAVTalk::sendObjectRequest(UAVObject* obj, bool allInstances)
 bool UAVTalk::sendObject(UAVObject* obj, bool acked, bool allInstances)
 {
     QMutexLocker locker(mutex);
-    qDebug() << "sendObject " << acked << " " << allInstances;
     if (acked)
     {
         return objectTransaction(obj, TYPE_OBJ_ACK, allInstances);
