@@ -43,6 +43,7 @@
 #include "mapripper.h"
 #include "waypointline.h"
 #include "waypointcircle.h"
+#include "waypointcurve.h"
 #include "waypointitem.h"
 namespace mapcontrol
 {
@@ -367,10 +368,18 @@ namespace mapcontrol
         bool ShowHome()const{return showhome;}
         void SetShowDiagnostics(bool const& value);
         void SetUavPic(QString UAVPic);
-        WayPointLine * WPLineCreate(WayPointItem *from,WayPointItem *to, QColor color);
-        WayPointLine * WPLineCreate(HomeItem *from,WayPointItem *to, QColor color);
+
+        //! Create a line between two waypoint items
+        WayPointLine *WPLineCreate(WayPointItem *from,WayPointItem *to, QColor color);
+        //! Create a line from home to a waypoint item
+        WayPointLine *WPLineCreate(HomeItem *from,WayPointItem *to, QColor color);
+        //! Create a curve from one waypoint item to another with a given radius
+        WayPointCurve *WPCurveCreate(WayPointItem *start, WayPointItem *dest, double radius, bool clockwise, QColor color);
+        //! Create a circle around a waypoint with the radius specified by the distance to another waypoint
         WayPointCircle *WPCircleCreate(WayPointItem *center, WayPointItem *radius,bool clockwise,QColor color);
+        //! Create a circle around home with the radius specifed by the distance to another waypoint
         WayPointCircle *WPCircleCreate(HomeItem *center, WayPointItem *radius,bool clockwise,QColor color);
+
         void deleteAllOverlays();
         void WPSetVisibleAll(bool value);
         WayPointItem *magicWPCreate();

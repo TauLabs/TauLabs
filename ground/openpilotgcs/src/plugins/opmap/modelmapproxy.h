@@ -45,7 +45,7 @@ using namespace mapcontrol;
  */
 class ModelMapProxy:public QObject
 {
-    typedef enum {OVERLAY_LINE,OVERLAY_CIRCLE_RIGHT,OVERLAY_CIRCLE_LEFT} overlayType;
+    typedef enum {OVERLAY_LINE, OVERLAY_CURVE_RIGHT, OVERLAY_CURVE_LEFT, OVERLAY_CIRCLE_RIGHT, OVERLAY_CIRCLE_LEFT} overlayType;
     Q_OBJECT
 public:
     explicit ModelMapProxy(QObject *parent,OPMapWidget * map,FlightDataModel * model,QItemSelectionModel * selectionModel);

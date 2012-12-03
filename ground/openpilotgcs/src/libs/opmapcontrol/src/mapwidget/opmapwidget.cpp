@@ -122,6 +122,25 @@ namespace mapcontrol
         ret->setOpacity(overlayOpacity);
         return ret;
     }
+
+    /**
+     * @brief OPMapWidget::WPCurveCreate Create a curve from one waypoint to another with specified radius
+     * @param start The starting waypoint
+     * @param dest The ending waypoint
+     * @param radius The radius to use connecting the two
+     * @param clockwise The curvature direction from above
+     * @param color The color of the path
+     * @return The waypoint curve object
+     */
+    WayPointCurve * OPMapWidget::WPCurveCreate(WayPointItem *start, WayPointItem *dest, double radius, bool clockwise, QColor color)
+    {
+        if (!start || !dest)
+            return NULL;
+        WayPointCurve *ret = new WayPointCurve(start, dest, radius, clockwise, map, color);
+        ret->setOpacity(overlayOpacity);
+        return ret;
+    }
+
     WayPointCircle * OPMapWidget::WPCircleCreate(WayPointItem *center, WayPointItem *radius, bool clockwise,QColor color)
     {
         if(!center|!radius)

@@ -113,11 +113,11 @@ ModelMapProxy::overlayType ModelMapProxy::overlayTranslate(int type)
         break;
     case WaypointDataDelegate::MODE_FLYCIRCLERIGHT:
     case WaypointDataDelegate::MODE_DRIVECIRCLERIGHT:
-        return OVERLAY_CIRCLE_RIGHT;
+        return OVERLAY_CURVE_RIGHT;
         break;
     case WaypointDataDelegate::MODE_FLYCIRCLELEFT:
     case WaypointDataDelegate::MODE_DRIVECIRCLELEFT:
-        return OVERLAY_CIRCLE_LEFT;
+        return OVERLAY_CURVE_LEFT;
         break;
     default:
         break;
@@ -145,6 +145,12 @@ void ModelMapProxy::createOverlay(WayPointItem *from, WayPointItem *to, ModelMap
         break;
     case OVERLAY_CIRCLE_LEFT:
         myMap->WPCircleCreate(to,from,false,color);
+        break;
+    case OVERLAY_CURVE_RIGHT:
+        myMap->WPCurveCreate(to,from,30,true,color);
+        break;
+    case OVERLAY_CURVE_LEFT:
+        myMap->WPCurveCreate(to,from,30,false,color);
         break;
     default:
         break;
