@@ -98,6 +98,7 @@ void ModelUavoProxy::modelToObjects()
         waypoint.Position[Waypoint::POSITION_EAST]=distance*sin(bearing/180*M_PI);
         waypoint.Position[Waypoint::POSITION_DOWN]=(-1.0f)*altitude;
         waypoint.Mode = myModel->data(myModel->index(x,FlightDataModel::MODE)).toInt();
+        waypoint.ModeParameters = myModel->data(myModel->index(x,FlightDataModel::MODE_PARAMS)).toFloat();
 
         if (robustUpdate(waypoint, x))
             qDebug() << "Successfully updated";
@@ -216,5 +217,6 @@ void ModelUavoProxy::objectsToModel()
                          (-1.0f)*wpfields.Position[Waypoint::POSITION_DOWN]);
         myModel->setData(myModel->index(x,FlightDataModel::ISRELATIVE), true);
         myModel->setData(myModel->index(x,FlightDataModel::MODE), wpfields.Mode);
+        myModel->setData(myModel->index(x,FlightDataModel::MODE_PARAMS), wpfields.ModeParameters);
     }
 }
