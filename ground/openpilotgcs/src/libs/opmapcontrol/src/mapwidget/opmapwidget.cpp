@@ -456,7 +456,6 @@ namespace mapcontrol
     {
         connect(item,SIGNAL(WPNumberChanged(int,int,WayPointItem*)),this,SIGNAL(WPNumberChanged(int,int,WayPointItem*)),Qt::DirectConnection);
         connect(item,SIGNAL(WPValuesChanged(WayPointItem*)),this,SIGNAL(WPValuesChanged(WayPointItem*)),Qt::DirectConnection);
-        connect(item,SIGNAL(localPositionChanged(QPointF,WayPointItem*)),this,SIGNAL(WPLocalPositionChanged(QPointF,WayPointItem*)),Qt::DirectConnection);
         connect(item,SIGNAL(manualCoordChange(WayPointItem*)),this,SIGNAL(WPManualCoordChange(WayPointItem*)),Qt::DirectConnection);
         connect(this,SIGNAL(WPInserted(int,WayPointItem*)),item,SLOT(WPInserted(int,WayPointItem*)),Qt::DirectConnection);
         connect(this,SIGNAL(WPNumberChanged(int,int,WayPointItem*)),item,SLOT(WPRenumbered(int,int,WayPointItem*)),Qt::DirectConnection);

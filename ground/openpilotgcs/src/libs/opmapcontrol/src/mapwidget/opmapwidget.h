@@ -445,7 +445,6 @@ namespace mapcontrol
         */
         void WPDeleted(int const& number,WayPointItem* waypoint);
 
-        void WPLocalPositionChanged(QPointF,WayPointItem*);
         void WPManualCoordChange(WayPointItem*);
         /**
         * @brief Fires When a WayPoint is Reached

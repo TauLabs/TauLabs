@@ -36,7 +36,8 @@ ModelMapProxy::ModelMapProxy(QObject *parent,OPMapWidget *map, FlightDataModel *
     connect(selection,SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),this,SLOT(currentRowChanged(QModelIndex,QModelIndex)));
     connect(model,SIGNAL(dataChanged(QModelIndex,QModelIndex)),this,SLOT(dataChanged(QModelIndex,QModelIndex)));
     connect(myMap,SIGNAL(selectedWPChanged(QList<WayPointItem*>)),this,SLOT(selectedWPChanged(QList<WayPointItem*>)));
-    connect(myMap,SIGNAL(WPValuesChanged(WayPointItem*)),this,SLOT(WPValuesChanged(WayPointItem*)));
+    connect(myMap,SIGNAL(WPManualCoordChange(WayPointItem*)),this,SLOT(WPValuesChanged(WayPointItem*)));
+    connect(myMap,SIGNAL(WPNumberChanged(int,int,WayPointItem*)),this,SLOT(WPValuesChanged(WayPointItem*)));
 }
 
 /**
