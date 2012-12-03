@@ -97,6 +97,7 @@ void ModelUavoProxy::modelToObjects()
         waypoint.Position[Waypoint::POSITION_NORTH]=distance*cos(bearing/180*M_PI);
         waypoint.Position[Waypoint::POSITION_EAST]=distance*sin(bearing/180*M_PI);
         waypoint.Position[Waypoint::POSITION_DOWN]=(-1.0f)*altitude;
+        waypoint.Mode = myModel->data(myModel->index(x,FlightDataModel::MODE)).toInt();
 
         if (robustUpdate(waypoint, x))
             qDebug() << "Successfully updated";
