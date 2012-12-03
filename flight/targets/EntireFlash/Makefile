@@ -27,20 +27,22 @@ include $(TOP)/make/boards/$(BOARD_NAME)/board-info.mk
 .PHONY: bin
 bin: $(OUTDIR)/$(TARGET).bin
 
-FW_PRE_PAD = $(shell echo $$[$(FW_BANK_BASE)-$(BL_BANK_BASE)-$(BL_BANK_SIZE)])
-$(OUTDIR)/$(TARGET).fw_pre.pad:
-	$(V0) @echo $(MSG_PADDING) $@
-	$(V1) dd status=noxfer if=/dev/zero count=$(FW_PRE_PAD) bs=1 2>/dev/null | tr '\000' '\377' > $@
-
-FW_POST_PAD = $(shell echo $$[$(FW_BANK_SIZE)-$(FW_DESC_SIZE)-$$(stat -c%s $(FW_BIN))])
-$(OUTDIR)/$(TARGET).fw_post.pad:
-	$(V0) @echo $(MSG_PADDING) $@
-	$(V1) dd status=noxfer if=/dev/zero count=$(FW_POST_PAD) bs=1 2>/dev/null | tr '\000' '\377' > $@
-
-
 BL_BIN = $(TOP)/build/bl_$(BOARD_NAME)/bl_$(BOARD_NAME).bin
 FW_BIN = $(TOP)/build/fw_$(BOARD_NAME)/fw_$(BOARD_NAME).bin
 FWINFO_BIN = $(FW_BIN).firmwareinfo.bin
+
+
+FW_PRE_PAD = $(shell echo $$[$(FW_BANK_BASE)-$(BL_BANK_BASE)-$(BL_BANK_SIZE)])
+$(OUTDIR)/$(TARGET).fw_pre.pad:
+	$(V0) @echo $(MSG_PADDING) $@
+	$(V1) dd if=/dev/zero count=$(FW_PRE_PAD) bs=1 | tr '\000' '\377' > $@
+
+FW_POST_PAD = $(shell echo $$[$(FW_BANK_SIZE)-$(FW_DESC_SIZE)-$(firstword $(shell du -b $(FW_BIN)))])
+$(OUTDIR)/$(TARGET).fw_post.pad:
+	$(V0) @echo $(MSG_PADDING) $@
+	$(V1) dd if=/dev/zero count=$(FW_POST_PAD) bs=1 | tr '\000' '\377' > $@
+
+
 $(OUTDIR)/$(TARGET).bin: $(BL_BIN) $(FW_BIN) $(OUTDIR)/$(TARGET).fw_pre.pad $(OUTDIR)/$(TARGET).fw_post.pad
 	$(V0) @echo $(MSG_FLASH_IMG) $@
 	$(V1) cat $(BL_BIN) $(OUTDIR)/$(TARGET).fw_pre.pad $(FW_BIN) $(OUTDIR)/$(TARGET).fw_post.pad $(FWINFO_BIN) > $@
