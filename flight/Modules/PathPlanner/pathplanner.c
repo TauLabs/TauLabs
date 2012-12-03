@@ -197,13 +197,38 @@ static void checkTerminationCondition()
 }
 
 /**
+ * Initial position hold at current position.  This is used at the end
+ * of a path or in the case of a problem.
+ */
+static void holdCurrentPosition()
+{
+	// TODO: Define a separate error condition method which can select RTH versus PH
+		PositionActualData position;
+	PositionActualGet(&position);
+
+	PathDesiredData pathDesired;
+	pathDesired.End[PATHDESIRED_END_NORTH] = position.North;
+	pathDesired.End[PATHDESIRED_END_EAST] = position.East;
+	pathDesired.End[PATHDESIRED_END_DOWN] = position.Down;
+	pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
+	PathDesiredSet(&pathDesired);
+}
+
+/**
  * Increment the waypoint index which triggers the active waypoint method
  */
 static void advanceWaypoint()
 {
 	WaypointActiveGet(&waypointActive);
 	waypointActive.Index++;
-	WaypointActiveSet(&waypointActive);
+	if (waypointActive.Index >= UAVObjGetNumInstances(WaypointHandle())) {
+		holdCurrentPosition();
+
+		// Do not reset path_status_updated here to avoid this method constantly being called
+		return;
+	} else {
+		WaypointActiveSet(&waypointActive);
+	}
 
 	// Invalidate any pending path status updates
 	path_status_updated = false;
@@ -215,6 +240,13 @@ static void advanceWaypoint()
 static void activateWaypoint(int idx)
 {	
 	active_waypoint = idx;
+
+	if (idx >= UAVObjGetNumInstances(WaypointHandle())) {
+		// Attempting to access invalid waypoint.  Fall back to position hold at current location
+		AlarmsSet(SYSTEMALARMS_ALARM_PATHPLANNER, SYSTEMALARMS_ALARM_ERROR);
+		holdCurrentPosition();
+		return;
+	}
 
 	if (idx > 0) {
 		WaypointData prevWaypoint;
@@ -246,6 +278,7 @@ static void activateWaypoint(int idx)
 			pathDesired.Mode = PATHDESIRED_MODE_FLYCIRCLERIGHT;
 			break;
 		default:
+			holdCurrentPosition();
 			AlarmsSet(SYSTEMALARMS_ALARM_PATHPLANNER, SYSTEMALARMS_ALARM_ERROR);
 			return;
 	}
@@ -276,6 +309,8 @@ static void activateWaypoint(int idx)
 
 	// Invalidate any pending path status updates
 	path_status_updated = false;
+
+	AlarmsClear(SYSTEMALARMS_ALARM_PATHPLANNER);
 }
 
 void settingsUpdated(UAVObjEvent * ev) {

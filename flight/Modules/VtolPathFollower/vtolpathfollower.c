@@ -213,7 +213,8 @@ static void vtolPathFollowerTask(void *parameters)
 				}
 				break;
 			case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
-				if (pathDesired.Mode == PATHDESIRED_MODE_FLYENDPOINT) {
+				if (pathDesired.Mode == PATHDESIRED_MODE_FLYENDPOINT ||
+					pathDesired.Mode == PATHDESIRED_MODE_HOLDPOSITION) {
 					updateEndpointVelocity();
 					updateVtolDesiredAttitude();
 				} else if (pathDesired.Mode == PATHDESIRED_MODE_FLYVECTOR ||
