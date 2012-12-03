@@ -229,7 +229,7 @@ OPMapGadgetWidget::OPMapGadgetWidget(QWidget *parent) : QWidget(parent)
     // Get the path planner selection model to keep the gadget in sync with the map
     selectionModel =  pm->getObject<QItemSelectionModel>();
     Q_ASSERT(selectionModel);
-    mapProxy = new modelMapProxy(this, m_map, model, selectionModel);
+    mapProxy = new ModelMapProxy(this, m_map, model, selectionModel);
 
     magicWayPoint=m_map->magicWPCreate();
     magicWayPoint->setVisible(false);

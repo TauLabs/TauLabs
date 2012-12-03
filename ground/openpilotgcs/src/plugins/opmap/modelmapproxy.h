@@ -2,7 +2,8 @@
  ******************************************************************************
  *
  * @file       modelmapproxy.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     The PhoenixPilot Project, http://github.com/PhoenixPilot, Copyright (C) 2012
+ *             modified from The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup OPMapPlugin OpenPilot Map Plugin
@@ -38,16 +39,16 @@
 using namespace mapcontrol;
 
 /**
- * @brief The modelMapProxy class maps from the @ref FlightDataModel to the OPMap
+ * @brief The ModelMapProxy class maps from the @ref FlightDataModel to the OPMap
  * and provides synchronization, both when the model changes updating the UI and
  * if it is modified on the UI propagating changes to the model
  */
-class modelMapProxy:public QObject
+class ModelMapProxy:public QObject
 {
     typedef enum {OVERLAY_LINE,OVERLAY_CIRCLE_RIGHT,OVERLAY_CIRCLE_LEFT} overlayType;
     Q_OBJECT
 public:
-    explicit modelMapProxy(QObject *parent,OPMapWidget * map,FlightDataModel * model,QItemSelectionModel * selectionModel);
+    explicit ModelMapProxy(QObject *parent,OPMapWidget * map,FlightDataModel * model,QItemSelectionModel * selectionModel);
 
     //! Get the handle to a waypoint graphical item
     WayPointItem *findWayPointNumber(int number);
@@ -82,7 +83,7 @@ private slots:
 private:
     overlayType overlayTranslate(int type);
     void createOverlay(WayPointItem *from, WayPointItem * to,overlayType type,QColor color);
-    void createOverlay(WayPointItem *from, HomeItem *to, modelMapProxy::overlayType type, QColor color);
+    void createOverlay(WayPointItem *from, HomeItem *to, ModelMapProxy::overlayType type, QColor color);
     OPMapWidget * myMap;
     FlightDataModel *model;
     void refreshOverlays();

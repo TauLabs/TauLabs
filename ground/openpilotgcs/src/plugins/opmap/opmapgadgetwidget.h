@@ -322,7 +322,7 @@ private:
 
     QPointer<FlightDataModel> model;
     QPointer<QDialog> pathPlannerDialog;
-    QPointer<modelMapProxy> mapProxy;
+    QPointer<ModelMapProxy> mapProxy;
     QPointer<QItemSelectionModel> selectionModel;
 };
 
