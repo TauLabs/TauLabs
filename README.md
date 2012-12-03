@@ -16,14 +16,16 @@ In addition check out https://groups.google.com/forum/#!forum/phoenixpilot for m
 
 Chat on freenode.net #phoenixpilot
 
-## Code structure
+## Code Layout
 
-flight - contains the firmware components of the code
-flight/target - the location of the board targets (e.g. flight/targets/freedom)
-flight/PiOS - contains the drivers
-flight/Modules - the flight control logic, broken into modules that communicate via UAVObjects
+Here is a quick breakdown of the main directories to get you oriented
 
-ground - contains the GCS code
+* flight - contains the firmware components of the code
+* flight/target - the location of the board targets (e.g. flight/targets/freedom)
+* flight/PiOS - contains the drivers
+* flight/Modules - the flight control logic, broken into modules that communicate via UAVObjects
 
-androidgcs - contains the ground control software for android
+* ground - contains the GCS code
+
+* androidgcs - contains the ground control software for android
 
