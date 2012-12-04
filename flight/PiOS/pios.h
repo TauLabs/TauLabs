@@ -51,6 +51,9 @@
 #if defined(STM32F4XX)
 # include <stm32f4xx.h>
 # include <stm32f4xx_rcc.h>
+#elif defined(STM32F30X)
+#include <stm32f30x.h>
+#include <stm32f30x_rcc.h>
 #elif defined(STM32F2XX)
 #include <stm32f2xx.h>
 #include <stm32f2xx_syscfg.h>
