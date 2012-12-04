@@ -44,6 +44,7 @@
 #define STACK_SIZE_BYTES 1024
 #define TASK_PRIORITY (tskIDLE_PRIORITY+1)
 #define MAX_QUEUE_SIZE 2
+#define UPDATE_RATE_MS 20
 
 // Private types
 
@@ -131,7 +132,7 @@ static void pathPlannerTask(void *parameters)
 	while (1)
 	{
 
-		vTaskDelay(20);
+		vTaskDelay(UPDATE_RATE_MS / portTICK_RATE_MS);
 
 		// When not running the path planner short circuit and wait
 		FlightStatusGet(&flightStatus);
