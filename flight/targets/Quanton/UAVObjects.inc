@@ -1,10 +1,13 @@
-#####
-# Project: OpenPilot
+###############################################################################
+# @file       Makefile
+# @author     The PhoenixPilot Team, http://github.com/PhoenixPilot
+# @addtogroup 
+# @{
+# @addtogroup 
+# @{
+# @brief Makefile to build UAVObject code for quanton flight control.
+###############################################################################
 #
-# Makefile for OpenPilot UAVObject code
-#
-# The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2012.
-# 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 3 of the License, or
@@ -18,9 +21,9 @@
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-#####
+#
 
-# These are the UAVObjects supposed to be build as part of the OpenPilot target
+# These are the UAVObjects supposed to be build as part of the PhoenixPilot target
 # (all architectures)
 
 UAVOBJSRCFILENAMES =
