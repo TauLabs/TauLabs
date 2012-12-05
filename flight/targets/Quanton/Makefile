@@ -1,6 +1,6 @@
 ###############################################################################
 # @file       Makefile
-# @author     lilvinz@nscit.com, http://github.com/lilvinz/PhoenixPilot
+# @author     The PhoenixPilot Team, http://github.com/PhoenixPilot
 # @addtogroup 
 # @{
 # @addtogroup 
