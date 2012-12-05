@@ -37,7 +37,8 @@
 
 // Types
 typedef enum {
-    FIELDTYPE_INT8 = 0,
+    FIELDTYPE_STRUCT =0,
+    FIELDTYPE_INT8,
     FIELDTYPE_INT16,
     FIELDTYPE_INT32,
     FIELDTYPE_UINT8,
@@ -55,6 +56,7 @@ typedef struct {
     int numBytes;
     QStringList elementNames;
     QStringList options; // for enums only
+    QList<StructFieldInfo*> fields; //for structs only
     bool defaultElementNames;
     QStringList defaultValues;
     QString limitValues;

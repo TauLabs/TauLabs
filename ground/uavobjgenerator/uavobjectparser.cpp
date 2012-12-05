@@ -32,7 +32,7 @@
 UAVObjectParser::UAVObjectParser()
 {
     fieldTypeStrXML << "int8" << "int16" << "int32" << "uint8"
-        << "uint16" << "uint32" <<"float" << "enum";
+        << "uint16" << "uint32" <<"float" << "enum" << "struct";
 
     updateModeStrXML << "manual" << "periodic" << "onchange" << "throttled";
 
@@ -433,6 +433,7 @@ QString UAVObjectParser::processObjectFields(QDomNode& childNode, ObjectInfo* in
     int index = fieldTypeStrXML.indexOf(elemAttr.nodeValue());
     if (index >= 0) {
         field->type = (FieldType)index;
+//TODO change numBytes if type is struct
         field->numBytes = fieldTypeNumBytes[index];
     }  
     else {
