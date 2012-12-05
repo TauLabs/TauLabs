@@ -48,7 +48,7 @@ typedef enum {
     FIELDTYPE_ENUM
 } FieldType;
 
-typedef struct {
+typedef struct FieldInfoStruct{
     QString name;
     QString units;
     FieldType type;
@@ -56,7 +56,7 @@ typedef struct {
     int numBytes;
     QStringList elementNames;
     QStringList options; // for enums only
-    QList<StructFieldInfo*> fields; //for structs only
+    QList<struct FieldInfoStruct*> fields; //for structs only
     bool defaultElementNames;
     QStringList defaultValues;
     QString limitValues;
