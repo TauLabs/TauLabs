@@ -97,13 +97,13 @@ typedef struct  {
     int gcsTelemetryUpdatePeriod; /** Update period used by the GCS (only if telemetry mode is PERIODIC) */
     UpdateMode loggingUpdateMode; /** Update mode used by the logging module (UpdateMode) */
     int loggingUpdatePeriod; /** Update period used by the logging module (only if logging mode is PERIODIC) */
-//
-// Here is the old list of fields
-//    QList<FieldInfo*> fields; /** The data fields for the object **/
-//
-// And Here is the new way to do
+    //
+    // Here is the old list of fields
+    //    QList<FieldInfo*> fields; /** The data fields for the object **/
+    //
+    // And Here is the new way to do
     FieldInfo* field; /** The root element of the arborescent field structure  **/
-//
+    //
     QString description; /** Description used for Doxygen **/
     QString category; /** Description used for Doxygen **/
 } ObjectInfo;
@@ -135,6 +135,7 @@ private:
 
     QString processObjectAttributes(QDomNode& node, ObjectInfo* info);
     QString processField(QDomNode& node, FieldInfo* parent, ObjectInfo* info);
+    QString processObjectStructuredFields(QDomNode& childNode, ObjectInfo* info);
     QString processObjectFields(QDomNode& childNode, ObjectInfo* info);
     QString processObjectAccess(QDomNode& childNode, ObjectInfo* info);
     QString processObjectDescription(QDomNode& childNode, QString * description);
@@ -144,6 +145,8 @@ private:
     quint32 updateHash(quint32 value, quint32 hash);
     quint32 updateHash(QString& value, quint32 hash);
     quint32 updateHash(FieldInfo* field, quint32 hash);
+
+    int fieldNumBytes(FieldInfo* field);
 };
 
 #endif // UAVOBJECTPARSER_H

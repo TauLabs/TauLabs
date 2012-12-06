@@ -101,14 +101,14 @@ bool UAVObjectGeneratorMatlab::process_object(ObjectInfo* info, int numBytes)
     if (!info->isSingleInst) {
         instantiationFields.append(",...\n\t\t 'instanceID', 0");
     }
-    for (int n = 0; n < info->fields.length(); ++n) {
+    for (int n = 0; n < info->field->childrenFields.length(); ++n) {
         // Determine type
-        type = fieldTypeStrMatlab[info->fields[n]->type];
+        type = fieldTypeStrMatlab[info->field->childrenFields[n]->type];
         // Append field
-        if ( info->fields[n]->numElements > 1 )
-            instantiationFields.append(",...\n\t\t '" + info->fields[n]->name + "', zeros(" + QString::number(info->fields[n]->numElements, 10) + ",1)");
+        if ( info->field->childrenFields[n]->numElements > 1 )
+            instantiationFields.append(",...\n\t\t '" + info->field->childrenFields[n]->name + "', zeros(" + QString::number(info->field->childrenFields[n]->numElements, 10) + ",1)");
         else
-            instantiationFields.append(",...\n\t\t '" + info->fields[n]->name + "', 0");
+            instantiationFields.append(",...\n\t\t '" + info->field->childrenFields[n]->name + "', 0");
     }
     instantiationFields.append(");\n");
 
@@ -160,24 +160,24 @@ bool UAVObjectGeneratorMatlab::process_object(ObjectInfo* info, int numBytes)
         currentIdx+=2;
     }
 
-    for (int n = 0; n < info->fields.length(); ++n) {
+    for (int n = 0; n < info->field->childrenFields.length(); ++n) {
         // Determine variabel type
-        type = fieldTypeStrMatlab[info->fields[n]->type];
+        type = fieldTypeStrMatlab[info->field->childrenFields[n]->type];
 
         //Determine variable type length
-        QString size = fieldSizeStrMatlab[info->fields[n]->type];
+        QString size = fieldSizeStrMatlab[info->field->childrenFields[n]->type];
         // Append field
-        if ( info->fields[n]->numElements > 1 ){
-            allocationFields.append("\t" + objectName + "." + info->fields[n]->name + " = " +
+        if ( info->field->childrenFields[n]->numElements > 1 ){
+            allocationFields.append("\t" + objectName + "." + info->field->childrenFields[n]->name + " = " +
                               "reshape(double(typecast(buffer(mcolon(" + objectName + "FidIdx + " + QString("%1").arg(currentIdx) +
-                              ", " + objectName + "FidIdx + " + QString("%1").arg(currentIdx + size.toInt()*info->fields[n]->numElements - 1) + ")), '" + type + "')), "+ QString::number(info->fields[n]->numElements, 10) + ", [] );\n");
+                              ", " + objectName + "FidIdx + " + QString("%1").arg(currentIdx + size.toInt()*info->field->childrenFields[n]->numElements - 1) + ")), '" + type + "')), "+ QString::number(info->field->childrenFields[n]->numElements, 10) + ", [] );\n");
         }
         else{
-            allocationFields.append("\t" + objectName + "." + info->fields[n]->name + " = " +
+            allocationFields.append("\t" + objectName + "." + info->field->childrenFields[n]->name + " = " +
                               "double(typecast(buffer(mcolon(" + objectName + "FidIdx + " + QString("%1").arg(currentIdx) +
                               ", " + objectName + "FidIdx + " + QString("%1").arg(currentIdx + size.toInt() - 1) + ")), '" + type + "'))';\n");
         }
-        currentIdx+=size.toInt()*info->fields[n]->numElements;
+        currentIdx+=size.toInt()*info->field->childrenFields[n]->numElements;
     }
     matlabAllocationCode.append(allocationFields);
     matlabAllocationCode.append("\n");

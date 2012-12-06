@@ -25,6 +25,12 @@
  */
 
 #include "uavobjectparser.h"
+#include <iostream>
+
+
+
+using namespace std;
+
 
 /**
  * Constructor
@@ -38,7 +44,7 @@ UAVObjectParser::UAVObjectParser()
 
     accessModeStr << "ACCESS_READWRITE" << "ACCESS_READONLY";
 
-    //Numbytes = -1 for structs, because it is not fixed
+    //Numbytes = -1 for structs, because it is computed dynamicly depending on the structs
     fieldTypeNumBytes << int(-1) << int(1) << int(2) << int(4) <<
                          int(1) << int(2) << int(4) <<
                          int(4) << int(1);
@@ -133,6 +139,7 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
         ObjectInfo* info = new ObjectInfo;
 
         info->filename=filename;
+        info->field=NULL;
         // Process object attributes
         QString status = processObjectAttributes(node, info);
         if (!status.isNull())
@@ -147,8 +154,15 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
         bool logFound = false;
         bool descriptionFound = false;
         while ( !childNode.isNull() ) {
-            // Process element depending on its type
+            // structured fields
             if ( childNode.nodeName().compare(QString("fields")) == 0 ) {
+                QString status = processObjectStructuredFields(childNode, info);
+                if (!status.isNull())
+                    return status;
+                fieldFound = true;
+            }
+            // old schoold fields
+            if ( childNode.nodeName().compare(QString("field")) == 0 ) {
                 QString status = processObjectFields(childNode, info);
                 if (!status.isNull())
                     return status;
@@ -203,10 +217,10 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
         }
 
         // Sort all fields according to size
-        //        qStableSort(info->fields.begin(), info->fields.end(), fieldTypeLessThan);
+        //        qStableSort(info->field->childrenFields.begin(), info->field->childrenFields.end(), fieldTypeLessThan);
 
         // Sort all fields according to size
-        //        qStableSort(info->fields.begin(), info->fields.end(), fieldTypeLessThan);
+        //        qStableSort(info->field->childrenFields.begin(), info->field->childrenFields.end(), fieldTypeLessThan);
 
         // Make sure that required elements were found
         if ( !fieldFound )
@@ -384,12 +398,34 @@ QString UAVObjectParser::processObjectAccess(QDomNode& childNode, ObjectInfo* in
 }
 
 
+/**
+ * Gets the size of a field, recursively if it is a struct field
+ *
+ */
+int UAVObjectParser::fieldNumBytes(FieldInfo* field)
+{
+    int numBytes = 0;
+    if(field->type==FIELDTYPE_STRUCT) {
+        foreach(FieldInfo* child, field->childrenFields) {
+            // Compute total number of bytes
+            numBytes = numBytes + child->numBytes * child->numElements;
+        }
+
+    }
+    else {
+        numBytes = fieldTypeNumBytes[field->type];
+    }
+
+    return numBytes;
+}
 
 QString UAVObjectParser::processField(QDomNode& node, FieldInfo* parent, ObjectInfo* info)
 {
     // Create field
     FieldInfo* field = new FieldInfo;
     field->parentField = parent;
+    QList<FieldInfo*> children;
+    field->childrenFields = children;
 
 
     //If there is no parent, then the field is the root field of the UAVO
@@ -402,7 +438,7 @@ QString UAVObjectParser::processField(QDomNode& node, FieldInfo* parent, ObjectI
     QDomNode fieldNameAttr = elemAttributes.namedItem("name");
     QString name;
     if (!fieldNameAttr.isNull()) {
-         name = fieldNameAttr.nodeValue();
+        name = fieldNameAttr.nodeValue();
     }
     else if(parent == NULL) {
         // Default name for the root field is the UAVO name
@@ -467,34 +503,11 @@ QString UAVObjectParser::processField(QDomNode& node, FieldInfo* parent, ObjectI
 
 
     // Get type attribute
-    // Important : This block is a pivot point :
-    // Properties which flow from the root of the tree to the leafs (e.g. units, because units of a field = units of its parent by default ) must be defined before this point
-    // Properties which flow from the leafs of the tree to the root (e.g. size, because size of field = sum of the size of children) must be defined after this point
     fieldNameAttr = elemAttributes.namedItem("type");
     if ( !fieldNameAttr.isNull() ) {
         int index = fieldTypeStrXML.indexOf(fieldNameAttr.nodeValue());
         if (index >= 0) {
             field->type = (FieldType)index;
-
-            if(field->type==FIELDTYPE_STRUCT) {
-
-                // Process sub fields recursively
-                for (QDomElement itemNode = node.firstChildElement("field"); !itemNode.isNull(); itemNode = itemNode.nextSiblingElement("field")) {
-                    processField(itemNode,field,info);
-                }
-
-                // numBytes = sum of numBytes of children
-                int numBytes = 0;
-                foreach(FieldInfo* child, field->childrenFields) {
-                    // Compute total number of bytes
-                    numBytes = numBytes + child->numBytes * child->numElements;
-                }
-
-                field->numBytes = numBytes;
-            }
-            else {
-                field->numBytes = fieldTypeNumBytes[index];
-            }
         }
         else {
             return QString("Object:field:type attribute value is invalid");
@@ -505,6 +518,18 @@ QString UAVObjectParser::processField(QDomNode& node, FieldInfo* parent, ObjectI
     }
 
 
+    // Get nested structs
+    // Important : This block is a pivot point :
+    // Properties which flow from the root of the tree to the leafs (e.g. units, because units of a field = units of its parent by default ) must be computed before this point
+    // Properties which flow from the leafs of the tree to the root (e.g. size, because size of field = sum of the size of children) must be computed after this point
+    if(field->type==FIELDTYPE_STRUCT) {
+        // Process sub fields recursively
+        for (QDomElement itemNode = node.firstChildElement("field"); !itemNode.isNull(); itemNode = itemNode.nextSiblingElement("field")) {
+            processField(itemNode,field,info);
+       }
+    }
+
+    field->numBytes = fieldNumBytes(field);
 
 
     // Get numelements or elementnames attribute
@@ -656,15 +681,253 @@ QString UAVObjectParser::processField(QDomNode& node, FieldInfo* parent, ObjectI
 
 
 /**
- * Process the object fields of the XML
+ * Process the structured (new) object fields of the XML
  */
-QString UAVObjectParser::processObjectFields(QDomNode& node, ObjectInfo* info)
+QString UAVObjectParser::processObjectStructuredFields(QDomNode& node, ObjectInfo* info)
 {
 
     // Create field
     return processField(node,NULL,info);
 
 }
+
+
+
+
+
+
+/**
+ * Process the (old school) object fields of the XML
+ */
+QString UAVObjectParser::processObjectFields(QDomNode& childNode, ObjectInfo* info)
+{
+
+
+    //Create root field if it does not exist yet (typically in old school UAVO files)
+    if(info->field==NULL) {
+
+        FieldInfo* rootField = new FieldInfo;
+        rootField->name = info->namelc;
+        rootField->type=FIELDTYPE_STRUCT;
+        rootField->numElements=1;
+        rootField->defaultElementNames=true;
+        rootField->parentField=NULL;
+        rootField->units=QString("");
+
+       QList<FieldInfo*> children;
+       children.clear();
+
+
+        rootField->childrenFields = children;
+
+        info->field=rootField;
+
+    }
+
+
+
+    // Create field
+    FieldInfo* field = new FieldInfo;
+    // Get name attribute
+    QDomNamedNodeMap elemAttributes = childNode.attributes();
+    QDomNode elemAttr = elemAttributes.namedItem("name");
+    if (elemAttr.isNull()) {
+        return QString("Object:field:name attribute is missing");
+    }
+    QString name = elemAttr.nodeValue();
+
+
+
+    // Check to see is this field is a clone of another
+    // field that has already been declared
+    elemAttr = elemAttributes.namedItem("cloneof");
+    if (!elemAttr.isNull()) {
+        QString parentName = elemAttr.nodeValue();
+        if (!parentName.isEmpty()) {
+            foreach(FieldInfo * parent, info->field->childrenFields) {
+
+                if (parent->name == parentName) {
+
+                    // clone from this parent
+                    *field = *parent;   // safe shallow copy, no ptrs in struct
+                    field->name = name; // set our name
+                    // Add field to object
+                    info->field->childrenFields.append(field);
+                    // Done
+                    return QString();
+                }
+            }
+            return QString("Object:field::cloneof parent unknown");
+        }
+        else {
+            return QString("Object:field:cloneof attribute is empty");
+        }
+    }
+    else {
+        // this field is not a clone, so remember its name
+        field->name = name;
+    }
+
+
+
+    // Get units attribute
+    elemAttr = elemAttributes.namedItem("units");
+    if ( elemAttr.isNull() )
+        return QString("Object:field:units attribute is missing");
+
+    field->units = elemAttr.nodeValue();
+    all_units << field->units;
+
+
+
+    // Get type attribute
+    elemAttr = elemAttributes.namedItem("type");
+    if ( elemAttr.isNull() )
+        return QString("Object:field:type attribute is missing");
+
+    int index = fieldTypeStrXML.indexOf(elemAttr.nodeValue());
+    if (index >= 0) {
+        field->type = (FieldType)index;
+        field->numBytes = fieldTypeNumBytes[index];
+    }
+    else {
+        return QString("Object:field:type attribute value is invalid");
+    }
+
+
+
+    // Get numelements or elementnames attribute
+    field->numElements = 0;
+    // Look for element names as an attribute first
+    elemAttr = elemAttributes.namedItem("elementnames");
+    if ( !elemAttr.isNull() ) {
+        // Get element names
+        QStringList names = elemAttr.nodeValue().split(",", QString::SkipEmptyParts);
+        for (int n = 0; n < names.length(); ++n)
+            names[n] = names[n].trimmed();
+
+        field->elementNames = names;
+        field->numElements = names.length();
+        field->defaultElementNames = false;
+    }
+    else {
+        // Look for a list of child elementname nodes
+        QDomNode listNode = childNode.firstChildElement("elementnames");
+        if (!listNode.isNull()) {
+            for (QDomElement node = listNode.firstChildElement("elementname");
+                 !node.isNull(); node = node.nextSiblingElement("elementname")) {
+                QDomNode name = node.firstChild();
+                if (!name.isNull() && name.isText() && !name.nodeValue().isEmpty()) {
+                    field->elementNames.append(name.nodeValue());
+                }
+            }
+            field->numElements = field->elementNames.length();
+            field->defaultElementNames = false;
+        }
+    }
+    // If no element names were found, then fall back to looking
+    // for the number of elements in the 'elements' attribute
+    if (field->numElements == 0) {
+        elemAttr = elemAttributes.namedItem("elements");
+        if ( elemAttr.isNull() ) {
+            return QString("Object:field:elements and Object:field:elementnames attribute/element is missing");
+        }
+        else {
+            field->numElements = elemAttr.nodeValue().toInt();
+
+            // If the number of elements is still 0, return an error.
+            if(field->numElements==0){
+                return QString("--> " + info->name +"." + field->name + ": elements cannot be 0.");
+            }
+
+            for (int n = 0; n < field->numElements; ++n)
+                field->elementNames.append(QString("%1").arg(n));
+
+            field->defaultElementNames = true;
+        }
+    }
+
+
+
+    // Get options attribute or child elements (only if an enum type)
+    if (field->type == FIELDTYPE_ENUM) {
+
+        // Look for options attribute
+        elemAttr = elemAttributes.namedItem("options");
+        if (!elemAttr.isNull()) {
+            QStringList options = elemAttr.nodeValue().split(",", QString::SkipEmptyParts);
+            for (int n = 0; n < options.length(); ++n) {
+                options[n] = options[n].trimmed();
+            }
+            field->options = options;
+        }
+        else {
+            // Look for a list of child 'option' nodes
+            QDomNode listNode = childNode.firstChildElement("options");
+            if (!listNode.isNull()) {
+                for (QDomElement node = listNode.firstChildElement("option");
+                     !node.isNull(); node = node.nextSiblingElement("option")) {
+                    QDomNode name = node.firstChild();
+                    if (!name.isNull() && name.isText() && !name.nodeValue().isEmpty()) {
+                        field->options.append(name.nodeValue());
+                    }
+                }
+            }
+        }
+        if (field->options.length() == 0) {
+            return QString("Object:field:options attribute/element is missing");
+        }
+    }
+
+
+
+    // Get the default value attribute (required for settings objects, optional for the rest)
+    elemAttr = elemAttributes.namedItem("defaultvalue");
+    if ( elemAttr.isNull() ) {
+        if ( info->isSettings )
+            return QString("Object:field:defaultvalue attribute is missing (required for settings objects)");
+        field->defaultValues = QStringList();
+    }
+    else  {
+        QStringList defaults = elemAttr.nodeValue().split(",", QString::SkipEmptyParts);
+        for (int n = 0; n < defaults.length(); ++n)
+            defaults[n] = defaults[n].trimmed();
+
+        if(defaults.length() != field->numElements) {
+            if(defaults.length() != 1)
+                return QString("Object:field:incorrect number of default values");
+
+            /*support legacy single default for multiple elements
+            We should really issue a warning*/
+            for(int ct=1; ct< field->numElements; ct++)
+                defaults.append(defaults[0]);
+        }
+        field->defaultValues = defaults;
+    }
+
+    // Limits attribute
+    elemAttr = elemAttributes.namedItem("limits");
+    if ( elemAttr.isNull() ) {
+        field->limitValues=QString();
+    }
+    else{
+        field->limitValues=elemAttr.nodeValue();
+    }
+    // Add field to object
+
+    info->field->childrenFields.append(field);
+//    info->field->childrenFields.append(new FieldInfo);
+
+    info->field->numBytes = fieldNumBytes(info->field);
+
+    //Done
+    return QString();
+}
+
+
+
+
+
 
 /**
  * Process the object attributes from the XML
