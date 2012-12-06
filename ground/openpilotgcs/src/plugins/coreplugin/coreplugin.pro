@@ -64,7 +64,8 @@ SOURCES += mainwindow.cpp \
     uavconfiginfo.cpp \
     authorsdialog.cpp \
     telemetrymonitorwidget.cpp \
-    dialogs/importsettings.cpp
+    dialogs/importsettings.cpp \
+    boardmanager.cpp
 HEADERS += mainwindow.h \
     tabpositionindicator.h \
     fancyactionbar.h \
@@ -126,7 +127,9 @@ HEADERS += mainwindow.h \
     authorsdialog.h \
     iconfigurableplugin.h \
     telemetrymonitorwidget.h \
-    dialogs/importsettings.h
+    dialogs/importsettings.h \
+    boardmanager.h \
+    iboardtype.h
 FORMS += dialogs/settingsdialog.ui \
     dialogs/shortcutsettings.ui \
     generalsettings.ui \
