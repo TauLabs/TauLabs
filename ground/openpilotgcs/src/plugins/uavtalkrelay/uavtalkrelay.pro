@@ -8,11 +8,13 @@ HEADERS += \
     uavtalkrelayplugin.h \
     uavtalkrelay_global.h \
     uavtalkrelay.h \
-    uavtalkrelayoptionspage.h
+    uavtalkrelayoptionspage.h \
+    filtereduavtalk.h
 SOURCES += \
     uavtalkrelayplugin.cpp \
     uavtalkrelay.cpp \
-    uavtalkrelayoptionspage.cpp
+    uavtalkrelayoptionspage.cpp \
+    filtereduavtalk.cpp
 
 FORMS += uavtalkrelayoptionspage.ui
 DEFINES += UAVTALKRELAY_LIBRARY

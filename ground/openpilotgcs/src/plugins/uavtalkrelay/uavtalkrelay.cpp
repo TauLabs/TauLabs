@@ -1,16 +1,42 @@
-#include "uavtalkrelay.h"
-#include "../uavtalk/uavtalk.h"
-#include "QMessageBox"
+/**
+ ******************************************************************************
+ * @file       uavtalkrelay.c
+ * @author     The PhoenixPilot Team, http://github.com/PhoenixPilot
+ * @addtogroup GCSPlugins GCS Plugins
+ * @{
+ * @addtogroup UAVTalk relay plugin
+ * @{
+ *
+ * @brief Relays UAVTalk data trough UDP to another GCS
+ *****************************************************************************/
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+ * for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
 
-UavTalkRelay::UavTalkRelay(UAVObjectManager *ObjMngr, QString IpAdress, int Port, bool UseTcp):m_IpAddress(IpAdress),m_Port(Port),m_UseTCP(UseTcp),m_ObjMngr(ObjMngr)
+#include "uavtalkrelay.h"
+#include "QMessageBox"
+#include <QPointer>
+#include "filtereduavtalk.h"
+
+UavTalkRelay::UavTalkRelay(UAVObjectManager *ObjMngr, QString IpAdress, quint16 Port,QHash<QString,QHash<quint32,accessType> > rules,accessType defaultRule):m_IpAddress(IpAdress),m_Port(Port),m_ObjMngr(ObjMngr),m_rules(rules),m_DefaultRule(defaultRule)
 {
-    m_IpAddress="192.168.1.70";
     qDebug()<<"SERVER TRYING listening on "<<m_IpAddress<<m_Port;
     tcpServer = new QTcpServer(this);
-
     // if we did not find one, use IPv4 localhost
     if (m_IpAddress.isEmpty())
-        m_IpAddress = QHostAddress(QHostAddress::LocalHost).toString();
+        m_IpAddress = QHostAddress(QHostAddress::Any).toString();
     if (!tcpServer->listen(QHostAddress(m_IpAddress),m_Port)) {
 
         return;
@@ -21,47 +47,54 @@ UavTalkRelay::UavTalkRelay(UAVObjectManager *ObjMngr, QString IpAdress, int Port
 
 void UavTalkRelay::setPort(quint16 value)
 {
+    m_Port=value;
 }
 
 void UavTalkRelay::setIpAdress(QString value)
 {
+    m_IpAddress=value;
 }
 
-void UavTalkRelay::setUseTCP(bool value)
+void UavTalkRelay::setRules(QHash<QString, QHash<quint32, UavTalkRelay::accessType> > value)
 {
+    m_rules=value;
+}
+
+void UavTalkRelay::restartServer()
+{
+    tcpServer->close();
+    if (m_IpAddress.isEmpty())
+        m_IpAddress = QHostAddress(QHostAddress::Any).toString();
+    if (!tcpServer->listen(QHostAddress(m_IpAddress),m_Port)) {
+
+        return;
+    }
 }
 
 void UavTalkRelay::newConnection()
 {
     qDebug()<<"NEW CONNECTION";
-      QTcpSocket *clientConnection = tcpServer->nextPendingConnection();
-      connect(clientConnection, SIGNAL(disconnected()),
-               clientConnection, SLOT(deleteLater()));
-      UAVTalk * uav=new UAVTalk(clientConnection,m_ObjMngr);
-
-
-      QList< QList<UAVObject*> > list;
-      list = m_ObjMngr->getObjects();
-      QList< QList<UAVObject*> >::const_iterator i;
-      QList<UAVObject*>::const_iterator j;
-      int objects = 0;
-
-      for (i = list.constBegin(); i != list.constEnd(); ++i)
-      {
-          for (j = (*i).constBegin(); j != (*i).constEnd(); ++j)
-          {
-              connect(*j, SIGNAL(objectUpdated(UAVObject*)), uav, SLOT(sendObject(UAVObject*)));
-              objects++;
-          }
-      }
-  /*
-      GCSTelemetryStats* gcsStatsObj = GCSTelemetryStats::GetInstance(objManager);
-      GCSTelemetryStats::DataFields gcsStats = gcsStatsObj->getData();
-      if ( gcsStats.Status == GCSTelemetryStats::STATUS_CONNECTED )
-      {
-          qDebug() << "Logging: connected already, ask for all settings";
-          retrieveSettings();
-      } else {
-          qDebug() << "Logging: not connected, do no ask for settings";
-      }*/
+    QTcpSocket *clientConnection = tcpServer->nextPendingConnection();
+    connect(clientConnection, SIGNAL(disconnected()),
+            clientConnection, SLOT(deleteLater()));
+    qDebug()<<clientConnection->peerAddress().toString();
+    QHash<quint32,UavTalkRelay::accessType> temp= m_rules.value(clientConnection->peerAddress().toString());
+    temp.unite(m_rules.value("*"));
+    QPointer<FilteredUavTalk> uav=new FilteredUavTalk(clientConnection,m_ObjMngr,temp,m_DefaultRule);
+    uavTalkList.append(uav);
+    connect(clientConnection, SIGNAL(disconnected()),
+            uav, SLOT(deleteLater()));
+    QList< QList<UAVObject*> > list;
+    list = m_ObjMngr->getObjects();
+    QList< QList<UAVObject*> >::const_iterator i;
+    QList<UAVObject*>::const_iterator j;
+    int objects = 0;
+    for (i = list.constBegin(); i != list.constEnd(); ++i)
+    {
+        for (j = (*i).constBegin(); j != (*i).constEnd(); ++j)
+        {
+            connect(*j, SIGNAL(objectUpdated(UAVObject*)), uav.data(), SLOT(sendObjectSlot(UAVObject*)));
+            objects++;
+        }
+    }
 }

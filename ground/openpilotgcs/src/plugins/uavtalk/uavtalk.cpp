@@ -144,11 +144,6 @@ void UAVTalk::dummyUDPRead()
     }
 }
 
-void UAVTalk::sendObject(UAVObject *obj)
-{
-    sendObject(obj,false,false);
-}
-
 /**
  * Request an update for the specified object, on success the object data would have been
  * updated by the GCS.

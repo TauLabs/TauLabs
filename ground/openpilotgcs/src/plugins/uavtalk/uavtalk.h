@@ -66,10 +66,8 @@ signals:
 private slots:
     void processInputStream(void);
     void dummyUDPRead();
-public slots:
-    void sendObject(UAVObject *obj);
 
-private:
+protected:
 
     // Constants
     static const int TYPE_MASK = 0xF8;
@@ -127,7 +125,7 @@ private:
     // Methods
     bool objectTransaction(UAVObject* obj, quint8 type, bool allInstances);
     bool processInputByte(quint8 rxbyte);
-    bool receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* data, qint32 length);
+    virtual bool receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* data, qint32 length);
     UAVObject* updateObject(quint32 objId, quint16 instId, quint8* data);
     void updateAck(UAVObject* obj);
     void updateNack(UAVObject* obj);

@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @file       uavtalkrelay.h
+ * @file       filtereduavtalk.h
  * @author     The PhoenixPilot Team, http://github.com/PhoenixPilot
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -24,39 +24,24 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef UAVTALKRELAY_H
-#define UAVTALKRELAY_H
-#include <QObject>
-#include <QTcpServer>
-#include <QNetworkSession>
-#include <coreplugin/connectionmanager.h>
-#include <QTcpSocket>
-#include "uavobjectmanager.h"
-class FilteredUavTalk;
-class UavTalkRelay: public QObject
+#ifndef FILTEREDUAVTALK_H
+#define FILTEREDUAVTALK_H
+
+#include "../uavtalk/uavtalk.h"
+#include "uavtalkrelayplugin.h"
+#include <QHash>
+
+class FilteredUavTalk:public UAVTalk
 {
     Q_OBJECT
 public:
-    typedef enum {ReadOnly,WriteOnly,ReadWrite,None} accessType;
-    UavTalkRelay(UAVObjectManager * ObjMngr,QString IpAdress,quint16 Port,QHash<QString,QHash<quint32,accessType> > rules,accessType defaultRule);
-    quint16 Port(){return m_Port;}
-    QString IpAdress(){return m_IpAddress;}
-    void setPort(quint16 value);
-    void setIpAdress(QString value);
-    void setRules(QHash<QString,QHash<quint32,accessType> > value);
-    void restartServer();
-private slots:
-    void newConnection();
+    FilteredUavTalk(QIODevice* iodev, UAVObjectManager* objMngr,QHash<quint32,UavTalkRelay::accessType> rules,UavTalkRelay::accessType defaultRule);
+    bool receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* data, qint32 length);
 private:
-    QString m_IpAddress;
-    quint16 m_Port;
-    QTcpServer *tcpServer;
-    QStringList fortunes;
-    QNetworkSession *networkSession;
-    UAVObjectManager * m_ObjMngr;
-    QHash<QString,QHash<quint32,accessType> > m_rules;
-    accessType m_DefaultRule;
-    QList< QPointer<FilteredUavTalk> > uavTalkList;
+    QHash<quint32,UavTalkRelay::accessType> m_rules;
+    UavTalkRelay::accessType m_defaultRule;
+public slots:
+    void sendObjectSlot(UAVObject *obj);
 };
 
-#endif // UAVTALKRELAY_H
+#endif // FILTEREDUAVTALK_H
