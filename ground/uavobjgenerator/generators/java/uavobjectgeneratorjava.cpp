@@ -29,10 +29,10 @@
 using namespace std;
 
 bool UAVObjectGeneratorJava::generate(UAVObjectParser* parser,QString templatepath,QString outputpath) {
-    fieldTypeStrCPP << "Byte" << "Short" << "Int" <<
+    fieldTypeStrCPP << "Struct" << "Byte" << "Short" << "Int" <<
         "Short" << "Int" << "Long" << "Float" << "Byte";
 
-    fieldTypeStrCPPClass << "INT8" << "INT16" << "INT32"
+    fieldTypeStrCPPClass << "STRUCT" << "INT8" << "INT16" << "INT32"
         << "UINT8" << "UINT16" << "UINT32" << "FLOAT32" << "ENUM";
 
     javaCodePath = QDir( templatepath + QString(JAVA_TEMPLATE_DIR));

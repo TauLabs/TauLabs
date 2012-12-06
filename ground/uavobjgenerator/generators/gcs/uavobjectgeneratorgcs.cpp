@@ -29,10 +29,10 @@ using namespace std;
 
 bool UAVObjectGeneratorGCS::generate(UAVObjectParser* parser,QString templatepath,QString outputpath) {
 
-    fieldTypeStrCPP << "qint8" << "qint16" << "qint32" <<
+    fieldTypeStrCPP << "struct" << "qint8" << "qint16" << "qint32" <<
         "quint8" << "quint16" << "quint32" << "float" << "quint8";
 
-    fieldTypeStrCPPClass << "INT8" << "INT16" << "INT32"
+    fieldTypeStrCPPClass <<"STRUCT"<< "INT8" << "INT16" << "INT32"
         << "UINT8" << "UINT16" << "UINT32" << "FLOAT32" << "ENUM";
 
     gcsCodePath = QDir( templatepath + QString(GCS_CODE_DIR));

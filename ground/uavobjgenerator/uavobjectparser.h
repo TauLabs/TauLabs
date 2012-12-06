@@ -37,7 +37,7 @@
 
 // Types
 typedef enum {
-    FIELDTYPE_STRUCT =0,
+    FIELDTYPE_STRUCT=0,
     FIELDTYPE_INT8,
     FIELDTYPE_INT16,
     FIELDTYPE_INT32,

@@ -30,7 +30,7 @@ using namespace std;
 
 bool UAVObjectGeneratorFlight::generate(UAVObjectParser* parser,QString templatepath,QString outputpath) {
 
-    fieldTypeStrC << "int8_t" << "int16_t" << "int32_t" <<"uint8_t"
+    fieldTypeStrC << "struct" << "int8_t" << "int16_t" << "int32_t" <<"uint8_t"
             <<"uint16_t" << "uint32_t" << "float" << "uint8_t";
 
     QString flightObjInit,objInc,objFileNames,objNames;

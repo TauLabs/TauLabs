@@ -30,9 +30,10 @@ using namespace std;
 
 bool UAVObjectGeneratorWireshark::generate(UAVObjectParser* parser,QString templatepath,QString outputpath) {
 
-    fieldTypeStrHf << "FT_INT8" << "FT_INT16" << "FT_INT32" <<"FT_UINT8"
+    //TODO Implement struct instead of void
+    fieldTypeStrHf << "FT_STRUCT" << "FT_INT8" << "FT_INT16" << "FT_INT32" <<"FT_UINT8"
             <<"FT_UINT16" << "FT_UINT32" << "FT_FLOAT" << "FT_UINT8";
-    fieldTypeStrGlib << "gint8" << "gint16" << "gint32" <<"guint8"
+    fieldTypeStrGlib << "gstruct" << "gint8" << "gint16" << "gint32" <<"guint8"
             <<"guint16" << "guint32" << "gfloat" << "guint8";
 
     wiresharkCodePath = QDir( templatepath + QString("ground/openpilotgcs/src/plugins/uavobjects/wireshark"));

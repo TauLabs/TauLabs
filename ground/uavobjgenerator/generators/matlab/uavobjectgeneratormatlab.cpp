@@ -34,9 +34,9 @@ bool UAVObjectGeneratorMatlab::generate(UAVObjectParser* parser,QString template
 
     QString gcsRevision = QString::fromLatin1(Core::Constants::GCS_REVISION_STR);
 
-    fieldTypeStrMatlab << "int8" << "int16" << "int32"
+    fieldTypeStrMatlab << "struct" << "int8" << "int16" << "int32"
         << "uint8" << "uint16" << "uint32" << "single" << "uint8";
-    fieldSizeStrMatlab << "1" << "2" << "4"
+    fieldSizeStrMatlab << "0" << "1" << "2" << "4"
         << "1" << "2" << "4" << "4" << "1";
 
     QDir matlabTemplatePath = QDir( templatepath + QString("ground/openpilotgcs/src/plugins/uavobjects"));
