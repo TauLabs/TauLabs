@@ -86,15 +86,19 @@ int32_t configuration_check()
 	// For each available flight mode position sanity check the available
 	// modes
 	uint8_t num_modes;
+	uint8_t errorCode=SYSTEMALARMS_CONFIGERROR_NONE;
 	uint8_t modes[MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_NUMELEM];
 	ManualControlSettingsFlightModeNumberGet(&num_modes);
 	ManualControlSettingsFlightModePositionGet(modes);
+	
 
 	for(uint32_t i = 0; i < num_modes; i++) {
 		switch(modes[i]) {
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_MANUAL:
-				if (multirotor)
+				if (multirotor){
 					status = SYSTEMALARMS_ALARM_ERROR;
+					errorCode=SYSTEMALARMS_CONFIGERROR_STABILIZATION;
+				}
 				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_STABILIZED1:
 				status = (status == SYSTEMALARMS_ALARM_OK) ? check_stabilization_settings(1, multirotor) : status;
@@ -119,34 +123,47 @@ int32_t configuration_check()
 				}
 				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_VELOCITYCONTROL:
-				if (coptercontrol)
+				if (coptercontrol){
 					status = SYSTEMALARMS_ALARM_ERROR;
+					errorCode=SYSTEMALARMS_CONFIGERROR_VELOCITYCONTROL;
+				}
 				else {
 					// Revo supports altitude hold
-					if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER))
+					if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER)){
 						status = SYSTEMALARMS_ALARM_ERROR;
+						errorCode=SYSTEMALARMS_CONFIGERROR_VELOCITYCONTROL;
+					}
 				}
 				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_POSITIONHOLD:
-				if (coptercontrol)
+				if (coptercontrol){
 					status = SYSTEMALARMS_ALARM_ERROR;
+					errorCode=SYSTEMALARMS_CONFIGERROR_POSITIONHOLD;
+				}
 				else {
 					// Revo supports altitude hold
-					if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER))
+					if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER)){
 						status = SYSTEMALARMS_ALARM_ERROR;
+						errorCode=SYSTEMALARMS_CONFIGERROR_POSITIONHOLD;
+					}
 				}
 				break;
 			default:
 				// Uncovered modes are automatically an error
 				status = SYSTEMALARMS_ALARM_ERROR;
+				errorCode=SYSTEMALARMS_CONFIGERROR_UNDEFINED;
 		}
 	}
 
 	// TODO: Check on a multirotor no axis supports "None"
-	if(status != SYSTEMALARMS_ALARM_OK)
+	if(status != SYSTEMALARMS_ALARM_OK){
 		AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, status);
-	else
+		SystemAlarmsConfigErrorSet(&errorCode);
+		
+	}
+	else{
 		AlarmsClear(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION);
+	}
 
 	return 0;
 }

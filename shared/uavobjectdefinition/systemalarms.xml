@@ -23,6 +23,8 @@
               <elementname>BootFault</elementname>
             </elementnames>
         </field>
+        <field name="ConfigError" units="" type="enum" elements="1" options="Stabilization,AutoTune,AltitudeHold,VelocityControl,PositionHold,Undefined,None" defaultvalue="None" />
+        <field name="ManualControl" units="" type="enum" elements="1" options="Settings,NoRx,NoAccessory,AltitudeHold,Undefined,None" defaultvalue="None" />
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="true" updatemode="onchange" period="0"/>
         <telemetryflight acked="true" updatemode="onchange" period="0"/>
