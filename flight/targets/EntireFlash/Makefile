@@ -23,6 +23,8 @@
 # This needs SHELL pointing to bash https://wiki.ubuntu.com/DashAsBinSh
 ###############################################################################
 
+SHELL := /bin/bash
+
 WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
 TOP      := $(realpath $(WHEREAMI)/../../../)
 include $(TOP)/make/firmware-defs.mk
