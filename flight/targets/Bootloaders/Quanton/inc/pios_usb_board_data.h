@@ -37,9 +37,16 @@
 
 #include "pios_usb_defs.h" 	/* struct usb_* */
 
+/*
+ * For now enumerate as a OpenPilot Revolution board until
+ * the usb enumeration in gcs has been extended to support multiple vendor ids
+ */
+//#define PIOS_USB_BOARD_VENDOR_ID 0x0fda		//Quantec Networks GmbH
+//#define PIOS_USB_BOARD_PRODUCT_ID 0x0100		//quanton flight control
+
 #define PIOS_USB_BOARD_VENDOR_ID USB_VENDOR_ID_OPENPILOT
 #define PIOS_USB_BOARD_PRODUCT_ID USB_PRODUCT_ID_REVOLUTION
-#define PIOS_USB_BOARD_DEVICE_VER USB_OP_DEVICE_VER(USB_OP_BOARD_ID_REVOLUTION, USB_OP_BOARD_MODE_BL)
+#define PIOS_USB_BOARD_DEVICE_VER USB_OP_DEVICE_VER(0, USB_OP_BOARD_MODE_BL)
 #define PIOS_USB_BOARD_SN_SUFFIX "+BL"
 
 /*
@@ -51,3 +58,5 @@
 #define PIOS_USB_BOARD_BL_HID_HAS_NO_LENGTH_BYTE
 
 #endif	/* PIOS_USB_BOARD_DATA_H */
+
+
