@@ -20,10 +20,13 @@
 #####
 
 ###############################################################################
-# This needs SHELL pointing to bash https://wiki.ubuntu.com/DashAsBinSh
+# This makefile requires bash
 ###############################################################################
 
+# Set bash shell for all OSs except MS Windows
+ifndef COMSPEC
 SHELL := /bin/bash
+endif
 
 WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
 TOP      := $(realpath $(WHEREAMI)/../../../)
