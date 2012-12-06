@@ -19,6 +19,8 @@
 #include "STM32F4xx_RevoMini.h"
 #elif USE_STM32F4xx_FREEDOM
 #include "STM32F4xx_Freedom.h"
+#elif USE_STM32F4xx_QUANTON
+#include "STM32F4xx_Quanton.h"
 #else
 #error Board definition has not been provided.
 #endif
