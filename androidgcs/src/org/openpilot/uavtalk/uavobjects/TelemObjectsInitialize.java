@@ -1,8 +1,8 @@
 /**
  ******************************************************************************
  * @file       uavobjectsinittemplate.java
- * @author     PhoenixPilot Project, http://github.com/PhoenixPilot, Copyright (C) 2012.
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      the template for the uavobjects init part
  *             $(GENERATEDWARNING)
  *

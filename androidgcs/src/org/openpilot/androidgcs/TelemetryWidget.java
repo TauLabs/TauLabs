@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       TelemetryWidget.java
- * @author     PhoenixPilot Project, http://github.com/PhoenixPilot, Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      A widget that shows the status of telemetry.
  * @see        The GNU Public License (GPL) Version 3
  *****************************************************************************/

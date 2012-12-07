@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       TelemetryTask.java
- * @author     PhoenixPilot Project, http://github.com/PhoenixPilot, Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      The base class for all telemetry link layer implementations
  * @see        The GNU Public License (GPL) Version 3
  *

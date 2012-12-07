@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       ObjectEditor.java
- * @author     PhoenixPilot Project, http://github.com/PhoenixPilot, Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      A popup dialog for editing the contents of a UAVO.
  * @see        The GNU Public License (GPL) Version 3
  *

@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       HomePage.java
- * @author     PhoenixPilot Project, http://github.com/PhoenixPilot, Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      Main launch page for the Android GCS actitivies
  * @see        The GNU Public License (GPL) Version 3
  *

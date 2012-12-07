@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       PfdActivity.java
- * @author     PhoenixPilot Project, http://github.com/PhoenixPilot, Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      Shows the PFD activity.
  * @see        The GNU Public License (GPL) Version 3
  *****************************************************************************/

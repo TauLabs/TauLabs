@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       UAVMetaObject.java
- * @author     PhoenixPilot Project, http://github.com/PhoenixPilot, Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      Base object for all UAVO meta data
  * @see        The GNU Public License (GPL) Version 3
  *
