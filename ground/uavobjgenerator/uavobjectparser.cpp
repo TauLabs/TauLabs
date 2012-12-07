@@ -426,14 +426,12 @@ QString UAVObjectParser::processField(QDomNode& node, FieldInfo* parent, ObjectI
     field->parentField = parent;
     QList<FieldInfo*> children;
     field->childrenFields = children;
-    cout<<"OK1"<<endl;
 
     //If there is no parent, then the field is the root field of the UAVO
     if(parent==NULL)  {
         info->field = field;
     }
 
-    cout<<"OK1"<<endl;
 
     // Get name attribute
     QDomNamedNodeMap elemAttributes = node.attributes();
@@ -450,11 +448,7 @@ QString UAVObjectParser::processField(QDomNode& node, FieldInfo* parent, ObjectI
         return QString("Object:field:name attribute is missing");
     }
 
-    cout<<name.toStdString()<<endl;
 
-
-
-    cout<<"OK2"<<endl;
 
     // Check to see is this field is a clone of another
     // field that has already been declared
@@ -485,7 +479,6 @@ QString UAVObjectParser::processField(QDomNode& node, FieldInfo* parent, ObjectI
         field->name = name;
     }
 
-    cout<<"OK3"<<endl;
 
     // Get units attribute
     fieldNameAttr = elemAttributes.namedItem("units");
@@ -509,7 +502,6 @@ QString UAVObjectParser::processField(QDomNode& node, FieldInfo* parent, ObjectI
     }
     all_units << field->units;
 
-    cout<<"OK4"<<endl;
 
     // Get type attribute
     fieldNameAttr = elemAttributes.namedItem("type");
@@ -531,8 +523,6 @@ QString UAVObjectParser::processField(QDomNode& node, FieldInfo* parent, ObjectI
         }
     }
 
-    cout<<"OK5"<<endl;
-
     // Get nested structs
     // Important : This block is a pivot point :
     // Properties which flow from the root of the tree to the leafs (e.g. units, because units of a field = units of its parent by default ) must be computed before this point
@@ -545,8 +535,6 @@ QString UAVObjectParser::processField(QDomNode& node, FieldInfo* parent, ObjectI
     }
 
     field->numBytes = fieldNumBytes(field);
-
-    cout<<"OK6"<<endl;
 
     // Get numelements or elementnames attribute
     field->numElements = 0;
@@ -605,9 +593,6 @@ QString UAVObjectParser::processField(QDomNode& node, FieldInfo* parent, ObjectI
         }
     }
 
-
-    cout<<"OK7"<<endl;
-
     // Get options attribute or child elements (only if an enum type)
     if (field->type == FIELDTYPE_ENUM) {
 
@@ -638,8 +623,6 @@ QString UAVObjectParser::processField(QDomNode& node, FieldInfo* parent, ObjectI
         }
     }
 
-
-    cout<<"OK8"<<endl;
 
     // Get the default value attribute (required for settings objects, optional for the rest)
     fieldNameAttr = elemAttributes.namedItem("defaultvalue");
@@ -675,8 +658,6 @@ QString UAVObjectParser::processField(QDomNode& node, FieldInfo* parent, ObjectI
         }
     }
 
-    cout<<"OK9"<<endl;
-
     // Limits attribute
     fieldNameAttr = elemAttributes.namedItem("limits");
     if(field->type != FIELDTYPE_STRUCT) {
@@ -693,15 +674,10 @@ QString UAVObjectParser::processField(QDomNode& node, FieldInfo* parent, ObjectI
         }
     }
 
-    cout<<"OK10"<<endl;
-
-
     // Add field to parent field
     if(parent!=NULL) {
         parent->childrenFields.append(field);
     }
-
-    cout<<"OK11"<<endl;
 
     // Done
     return QString();
