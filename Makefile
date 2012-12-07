@@ -672,7 +672,7 @@ all_$(1)_clean: $$(addsuffix _clean, $$(filter bu_$(1), $$(BU_TARGETS)))
 all_$(1)_clean: $$(addsuffix _clean, $$(filter ef_$(1), $$(EF_TARGETS)))
 endef
 
-ALL_BOARDS := coptercontrol pipxtreme revolution revomini osd freedom
+ALL_BOARDS := coptercontrol pipxtreme revolution revomini osd freedom quanton
 
 # Friendly names of each board (used to find source tree)
 coptercontrol_friendly := CopterControl
@@ -681,6 +681,7 @@ revolution_friendly    := Revolution
 revomini_friendly      := RevoMini
 freedom_friendly       := Freedom
 osd_friendly           := OSD
+quanton_friendly       := Quanton
 
 # Short names of each board (used to display board name in parallel builds)
 coptercontrol_short    := 'cc  '
@@ -689,6 +690,7 @@ revolution_short       := 'revo'
 revomini_short         := 'rm  '
 freedom_short          := 'free'
 osd_short              := 'osd '
+quanton_short          := 'quan'
 
 # Start out assuming that we'll build fw, bl and bu for all boards
 FW_BOARDS  := $(ALL_BOARDS)
@@ -709,7 +711,7 @@ endif
 
 # FIXME: The BU image doesn't work for F4 boards so we need to
 #        filter them out to prevent errors.
-BU_BOARDS  := $(filter-out revolution revomini osd freedom, $(BU_BOARDS))
+BU_BOARDS  := $(filter-out revolution revomini osd freedom quanton, $(BU_BOARDS))
 
 # Generate the targets for whatever boards are left in each list
 FW_TARGETS := $(addprefix fw_, $(FW_BOARDS))
