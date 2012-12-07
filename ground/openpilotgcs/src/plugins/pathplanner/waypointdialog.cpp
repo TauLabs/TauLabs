@@ -1,8 +1,8 @@
 /**
  ******************************************************************************
- *
  * @file       waypointdialog.cpp
- * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2012.
+ * @author     PhoenixPilot Project, http://github.com/PhoenixPilot Copyright (C) 2012.
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @addtogroup PhoenixPilot GCS Plugins
  * @{
  * @addtogroup PathPlanner Map Plugin

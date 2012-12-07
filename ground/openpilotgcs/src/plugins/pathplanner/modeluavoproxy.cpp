@@ -1,8 +1,8 @@
 /**
  ******************************************************************************
- *
  * @file       modeluavproxy.cpp
- * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2012.
+ * @author     PhoenixPilot Project, http://github.com/PhoenixPilot Copyright (C) 2012.
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup Path Planner Plugin

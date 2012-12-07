@@ -1,8 +1,8 @@
 /**
  ******************************************************************************
- *
- * @file       opmap_edit_waypoint_dialog.h
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012.
+ * @file       waypointdialog.h
+ * @author     PhoenixPilot Project, http://github.com/PhoenixPilot Copyright (C) 2012.
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup PathPlanner OpenPilot Map Plugin

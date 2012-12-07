@@ -1,7 +1,8 @@
 /**
  ******************************************************************************
  * @file       pathplannergadget.h
- * @author     The PhoenixPilot Team, Copyright (C) 2012.
+ * @author     PhoenixPilot Project, http://github.com/PhoenixPilot Copyright (C) 2012.
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @addtogroup Path Planner GCS Plugins
  * @{
  * @addtogroup PathPlannerGadgetPlugin Path Planner Gadget Plugin
