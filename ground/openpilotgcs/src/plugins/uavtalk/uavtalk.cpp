@@ -1,13 +1,14 @@
 /**
  ******************************************************************************
- *
  * @file       uavtalk.cpp
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVTalkPlugin UAVTalk Plugin
  * @{
- * @brief The UAVTalk protocol plugin
+ * @brief Implementation of the UAVTalk protocol which serializes and
+ * deserializes UAVObjects
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify 
