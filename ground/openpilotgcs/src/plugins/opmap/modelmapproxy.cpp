@@ -1,9 +1,8 @@
 /**
  ******************************************************************************
- *
  * @file       modelmapproxy.cpp
- * @author     The PhoenixPilot Project, http://github.com/PhoenixPilot, Copyright (C) 2012
- *             modified from The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup OPMapPlugin OpenPilot Map Plugin
