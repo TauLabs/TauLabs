@@ -13,7 +13,7 @@
 			android:key="ip_address" />
 		<EditTextPreference android:name="port"
 			android:summary="Enter a TCP/IP port here"
-			android:defaultValue="9001" android:title="Port:"
+			android:defaultValue="9000" android:title="Port:"
 			android:key="port" />
 		<org.openpilot.androidgcs.BluetoothDevicePreference android:name="bt_adapter"
 		    android:key="bluetooth_mac"
