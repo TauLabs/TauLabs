@@ -1,12 +1,11 @@
-###############################################################################
-# @file       Makefile
-# @author     lilvinz@nscit.com, http://github.com/lilvinz/PhoenixPilot
-# @addtogroup 
-# @{
-# @addtogroup 
-# @{
-# @brief Makefile to build firmware for quanton flight control.
-###############################################################################
+#####
+# Project: PhoenixPilot Quanton
+#
+#
+# Makefile for PhoenixPilot Quanton project
+#
+# The PhoenixPilot Team, Copyright (C) 2012.
+#
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,7 +20,7 @@
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-#
+#####
 
 WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
 TOP      := $(realpath $(WHEREAMI)/../../../)

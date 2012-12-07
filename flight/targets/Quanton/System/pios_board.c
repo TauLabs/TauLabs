@@ -1,11 +1,15 @@
-/*****************************************************************************
+/**
+ ******************************************************************************
+ * @addtogroup Quanton configuration files
+ * @{
+ * @brief Configures the Quanton board
+ * @{
+ *
  * @file       pios_board.c
- * @author     The PhoenixPilot Team, http://github.com/PhoenixPilot
- * @addtogroup PhoenixPilotSystem PhoenixPilot System
- * @{
- * @addtogroup PhoenixPilotCore PhoenixPilot Core
- * @{
- * @brief Defines board specific static initializers for hardware for the quanton flight control board.
+ * @author     The PhoenixPilot Team, Copyright (C) 2012.
+ * @brief      Defines board specific static initializers for hardware for the Freedom board.
+ * @see        The GNU Public License (GPL) Version 3
+ *
  *****************************************************************************/
 /* 
  * This program is free software; you can redistribute it and/or modify 

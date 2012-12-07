@@ -1,10 +1,14 @@
-/******************************************************************************
- * @file       STM32F4xx_Quanton.c
- * @author     The PhoenixPilot Team, http://github.com/PhoenixPilot
- * @addtogroup PhoenixPilotSystem PhoenixPilot System * @{
- * @addtogroup PhoenixPilotCore PhoenixPilot Core
+/**
+ ******************************************************************************
+ * @addtogroup OpenPilotSystem OpenPilot System
  * @{
- * @brief PiOS configuration header for quanton flight control board.
+ * @addtogroup OpenPilotCore OpenPilot Core
+ * @{
+ * @file       pios_board.h
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @brief      Defines board hardware for the OpenPilot Version 1.1 hardware.
+ * @see        The GNU Public License (GPL) Version 3
+ *
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -21,6 +25,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+
 
 #ifndef STM3210E_INS_H_
 #define STM3210E_INS_H_
