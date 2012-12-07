@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       MapPositioner.java
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      A fragmenet to move the UAV around by dragging
  * @see        The GNU Public License (GPL) Version 3
  *****************************************************************************/
