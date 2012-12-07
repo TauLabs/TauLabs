@@ -1,14 +1,16 @@
 /**
  ******************************************************************************
- *
  * @file       vtolpathfollower.c
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @brief      This module compared @ref PositionActual to @ref PathDesired 
  * and sets @ref Stabilization.  It only does this when the FlightMode field
  * of @ref FlightStatus is PathPlanner or RTH.
- *
- * @see        The GNU Public License (GPL) Version 3
- *
+ * @addtogroup OpenPilotModules OpenPilot Modules
+ * @{
+ * @addtogroup VtolPathFollower Path follower for VTOL aircrafts
+ * @brief Perform the flight segment requested by @ref PathDesired
+ * @{
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -596,4 +598,9 @@ static void SettingsUpdatedCb(UAVObjEvent * ev)
 
 	PathDesiredGet(&pathDesired);
 }
+
+/**
+ * @}
+ * @}
+ */
 

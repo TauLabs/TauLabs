@@ -1,12 +1,14 @@
 /**
  ******************************************************************************
- *
  * @file       vtolpathfollower.h
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @brief      Module to perform path following for VTOL.
- *
- * @see        The GNU Public License (GPL) Version 3
- *
+ * @addtogroup OpenPilotModules OpenPilot Modules
+ * @{
+ * @addtogroup VtolPathFollower Path follower for VTOL aircrafts
+ * @brief Perform the flight segment requested by @ref PathDesired
+ * @{
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -29,3 +31,8 @@
 int32_t VtolPathFollowerInitialize(void);
 
 #endif // VTOLPATHFOLLOWER_H
+
+/**
+ * @}
+ * @}
+ */

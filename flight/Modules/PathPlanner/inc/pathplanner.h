@@ -1,17 +1,14 @@
 /**
  ******************************************************************************
+ * @file       pathplanner.h
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @brief      Executes a series of waypoints
  * @addtogroup OpenPilotModules OpenPilot Modules
  * @{
- * @addtogroup FlightPlan Flight Plan Module
- * @brief Executes flight plan scripts in Python
+ * @addtogroup PathPlanner Path Planner Module
+ * @brief Executes a series of waypoints
  * @{
- *
- * @file       flightplan.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Executes flight plan scripts in Python
- *
- * @see        The GNU Public License (GPL) Version 3
- *
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -28,9 +25,9 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef FLIGHTPLAN_H
-#define FLIGHTPLAN_H
+#ifndef PATHPLANNER_H
+#define PATHPLANNER_H
 
-int32_t FlightPlanInitialize();
+int32_t PathPlannerInitialize();
 
-#endif // FLIGHTPLAN_H
+#endif // PATHPLANNER_H
