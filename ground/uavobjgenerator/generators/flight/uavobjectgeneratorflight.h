@@ -39,7 +39,11 @@ public:
     QDir flightOutputPath;
 
 private:
-    bool process_object(ObjectInfo* info);
+
+    bool generateStructDefinitions(FieldInfo* field, QString& datafields);
+    bool processObject(ObjectInfo* info);
+    bool generateEnumDefinitions(FieldInfo* field, QString& enums);
+    QStringList fieldPath(FieldInfo* field);
 
 };
 

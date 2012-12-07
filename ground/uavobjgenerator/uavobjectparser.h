@@ -134,9 +134,8 @@ private:
     QStringList accessModeStrXML;
 
     QString processObjectAttributes(QDomNode& node, ObjectInfo* info);
-    QString processField(QDomNode& node, FieldInfo* parent, ObjectInfo* info);
-    QString processObjectStructuredFields(QDomNode& childNode, ObjectInfo* info);
-    QString processObjectFields(QDomNode& childNode, ObjectInfo* info);
+    QString processField(QDomNode& node, FieldInfo* parent, ObjectInfo* info); /** process a field, this is a recursive function **/
+    QString processObjectFields(QDomNode& childNode, ObjectInfo* info); /** this function is here only for retrocompatibility reasons**/
     QString processObjectAccess(QDomNode& childNode, ObjectInfo* info);
     QString processObjectDescription(QDomNode& childNode, QString * description);
     QString processObjectCategory(QDomNode& childNode, QString * category);
