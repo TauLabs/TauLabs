@@ -37,7 +37,7 @@
 
 class Ui_waypoint_dialog;
 
-class WaypointDialog : public QWidget
+class PATHPLANNER_EXPORT WaypointDialog : public QWidget
 {
     Q_OBJECT
 

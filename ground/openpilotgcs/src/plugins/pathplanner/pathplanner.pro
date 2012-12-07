@@ -6,6 +6,8 @@ include(../../openpilotgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri) 
 include(../../plugins/uavobjects/uavobjects.pri)
 
+DEFINES += PATHPLANNER_LIBRARY
+
 HEADERS += pathplannergadget.h \
     waypointdialog.h
 HEADERS += pathplanner_global.h

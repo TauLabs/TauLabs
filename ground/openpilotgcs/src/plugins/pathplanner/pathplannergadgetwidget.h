@@ -35,7 +35,7 @@
 
 class Ui_PathPlanner;
 
-class PathPlannerGadgetWidget : public QLabel
+class PATHPLANNER_EXPORT PathPlannerGadgetWidget : public QLabel
 {
     Q_OBJECT
 

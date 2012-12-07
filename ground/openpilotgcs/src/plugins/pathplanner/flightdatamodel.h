@@ -47,7 +47,7 @@ struct pathPlanData
     bool locked;
 };
 
-class FlightDataModel : public QAbstractTableModel
+class PATHPLANNER_EXPORT FlightDataModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
