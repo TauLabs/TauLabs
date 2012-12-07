@@ -60,7 +60,7 @@ MODULES += FirmwareIAP
 
 # To run simulation instead of connect to SITL
 MODULES += Sensors/simulated
-MODULES += Visualization 
+MODULES += SimVisualization 
 
 MODULES += Telemetry
 

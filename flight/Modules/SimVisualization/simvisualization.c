@@ -7,7 +7,7 @@
  * @{
  *
  * @file       visualization.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     PhoneixPilot Project, http://github.com/PhoenixPilot, Copyright (C) 2012.
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -29,8 +29,8 @@
  */
 
 /**
- * Input objects: None, takes sensor data via pios
- * Output objects: @ref Gyros @ref Accels @ref Magnetometer
+ * Input objects: @ref AttitudeSimulated and @ref CameraDesired
+ * Output objects: none, streams data out UDP port
  *
  * The module executes in its own thread.
  *
@@ -78,7 +78,7 @@ static void VisualizationTask(void *parameters);
  * Initialise the module.  Called before the start function
  * \returns 0 on success or -1 if initialisation failed
  */
-int32_t VisualizationInitialize(void)
+int32_t SimVisualizationInitialize(void)
 {
 
 	return 0;
@@ -88,7 +88,7 @@ int32_t VisualizationInitialize(void)
  * Start the task.  Expects all objects to be initialized by this point.
  *pick \returns 0 on success or -1 if initialisation failed
  */
-int32_t VisualizationStart(void)
+int32_t SimVisualizationStart(void)
 {
 	// Start main task
 	xTaskCreate(VisualizationTask, (signed char *)"Visualization", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &visualizationTaskHandle);
