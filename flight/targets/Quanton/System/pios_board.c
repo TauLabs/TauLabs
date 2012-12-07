@@ -1,6 +1,6 @@
 /*****************************************************************************
  * @file       pios_board.c
- * @author     The PhoenixPilot Team, Copyright (C) 2012.
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
  *             The PhoenixPilot Team, http://github.com/PhoenixPilot
  * @addtogroup OpenPilotSystem OpenPilot System
  * @{
