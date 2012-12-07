@@ -1,17 +1,14 @@
 /**
  ******************************************************************************
+ * @file       visualization.c
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @addtogroup OpenPilotModules OpenPilot Modules
  * @{
  * @addtogroup Visualization
- * @brief Visualization simulation of UAV
  * @{
- *
- * @file       visualization.c
- * @author     PhoneixPilot Project, http://github.com/PhoenixPilot, Copyright (C) 2012.
- *
- * @see        The GNU Public License (GPL) Version 3
- *
- ******************************************************************************/
+ * @brief Sends the state of the UAV out a UDP port to be visualized in a
+ * standalone 
+ *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

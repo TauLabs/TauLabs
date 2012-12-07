@@ -1,16 +1,13 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
- * @{ 
- * @addtogroup Visualization Visualization Module
- * @{ 
- *
  * @file       visualization.h
- * @author     PhoneixPilot Project, http://github.com/PhoenixPilot, Copyright (C) 2012.
- * @brief      Visualize the attitude of the quad and the camera view via OSG
- *
- * @see        The GNU Public License (GPL) Version 3
- *
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @addtogroup OpenPilotModules OpenPilot Modules
+ * @{
+ * @addtogroup Visualization
+ * @{
+ * @brief Sends the state of the UAV out a UDP port to be visualized in a
+ * standalone 
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
