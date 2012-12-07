@@ -82,6 +82,8 @@ STMLIBDIR = $(APPLIBDIR)
 STMSPDDIR = $(STMLIBDIR)/STM32F4xx_StdPeriph_Driver
 STMSPDSRCDIR = $(STMSPDDIR)/src
 STMSPDINCDIR = $(STMSPDDIR)/inc
+DEBUG_CM3_DIR = $(STMLIBDIR)/Debug
+DEBUG_CM3_DIR_INC = $(DEBUG_CM3_DIR)/inc
 OPUAVOBJINC = $(OPUAVOBJ)/inc
 PYMITE = $(FLIGHTLIB)/PyMite
 PYMITELIB = $(PYMITE)/lib
@@ -127,8 +129,8 @@ SRC += $(OPUAVOBJ)/uavobjectmanager.c
 SRC += $(OPUAVOBJ)/eventdispatcher.c
 
 #ifeq ($(DEBUG),YES)
-SRC += $(OPSYSTEM)/dcc_stdio.c
-SRC += $(OPSYSTEM)/cm3_fault_handlers.c
+SRC += $(DEBUG_CM3_DIR)/dcc_stdio.c
+SRC += $(DEBUG_CM3_DIR)/cm3_fault_handlers.c
 #endif
 
 SRC += $(FLIGHTLIB)/CoordinateConversions.c
@@ -220,6 +222,7 @@ EXTRAINCDIRS  += $(CMSISDIR)
 EXTRAINCDIRS  += $(BOOTINC)
 EXTRAINCDIRS  += $(PYMITEINC)
 EXTRAINCDIRS  += $(HWDEFSINC)
+EXTRAINCDIRS  += $(DEBUG_CM3_DIR_INC)
 
 # Generate intermediate code
 gencode: ${OUTDIR}/pmlib_img.c ${OUTDIR}/pmlib_nat.c ${OUTDIR}/pmlibusr_img.c ${OUTDIR}/pmlibusr_nat.c ${OUTDIR}/pmfeatures.h 
