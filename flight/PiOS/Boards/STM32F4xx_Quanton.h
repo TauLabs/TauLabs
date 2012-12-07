@@ -6,6 +6,7 @@
  * @{
  * @file       pios_board.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ *             The PhoenixPilot Team, http://github.com/PhoenixPilot
  * @brief      Defines board hardware for the OpenPilot Version 1.1 hardware.
  * @see        The GNU Public License (GPL) Version 3
  *
