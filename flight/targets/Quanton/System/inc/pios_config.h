@@ -2,7 +2,7 @@
  ******************************************************************************
  * @file       pios_config.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- *             The PhoenixPilot Team, http://github.com/PhoenixPilot
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @addtogroup OpenPilotSystem OpenPilot System
  * @{
  * @addtogroup OpenPilotCore OpenPilot Core

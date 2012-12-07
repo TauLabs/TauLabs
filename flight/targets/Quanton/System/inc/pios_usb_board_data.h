@@ -2,7 +2,7 @@
  ******************************************************************************
  * @file       pios_usb_board_data.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- *             The PhoenixPilot Team, http://github.com/PhoenixPilot
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
  * @addtogroup PIOS_USB_BOARD Board specific USB definitions
