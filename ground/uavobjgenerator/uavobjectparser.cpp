@@ -154,19 +154,18 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
         bool logFound = false;
         bool descriptionFound = false;
         while ( !childNode.isNull() ) {
-            // structured fields
-            if ( childNode.nodeName().compare(QString("fields")) == 0 ) {
-                QString status = processObjectStructuredFields(childNode, info);
+            // old schoold fields
+            if ( childNode.nodeName().compare(QString("field")) == 0 ) {
+                QString status = processObjectFields(childNode, info);
                 if (!status.isNull())
                     return status;
                 fieldFound = true;
             }
-            // old schoold fields
-            else if ( childNode.nodeName().compare(QString("field")) == 0 ) {
-                QString status = processObjectFields(childNode, info);
+            // structured fields
+            else if ( childNode.nodeName().compare(QString("fields")) == 0 ) {
+                QString status = processObjectStructuredFields(childNode, info);
                 if (!status.isNull())
                     return status;
-
                 fieldFound = true;
             }
             else if ( childNode.nodeName().compare(QString("access")) == 0 ) {
@@ -451,7 +450,7 @@ QString UAVObjectParser::processField(QDomNode& node, FieldInfo* parent, ObjectI
         return QString("Object:field:name attribute is missing");
     }
 
-        cout<<name.toStdString()<<endl;
+    cout<<name.toStdString()<<endl;
 
 
 
