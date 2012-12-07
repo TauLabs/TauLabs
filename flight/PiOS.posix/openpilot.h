@@ -4,11 +4,9 @@
  * @{
  * @addtogroup OpenPilotCore OpenPilot Core
  * @{
- *
- * @file       op_config.h  
+ * @file       openpilot.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      OpenPilot configuration header. 
- *             Compile time config for OpenPilot Application
+ * @brief      Main OpenPilot header.
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -29,10 +27,25 @@
  */
 
 
-#ifndef OP_CONFIG_H
-#define OP_CONFIG_H
+#ifndef OPENPILOT_H
+#define OPENPILOT_H
 
-#endif /* OP_CONFIG_H */
+
+/* PIOS Includes */
+#include <pios.h>
+
+/* OpenPilot Libraries */
+#include "utlist.h"
+#include "uavobjectmanager.h"
+#include "eventdispatcher.h"
+#include "alarms.h"
+#include "taskmonitor.h"
+#include "uavtalk.h"
+
+/* Global Functions */
+void OpenPilotInit(void);
+
+#endif /* OPENPILOT_H */
 /**
  * @}
  * @}
