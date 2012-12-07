@@ -1,6 +1,7 @@
 ###############################################################################
 # @file       Makefile
-# @author     The PhoenixPilot Team, http://github.com/PhoenixPilot
+# @author     The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2009.
+# @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
 # @addtogroup 
 # @{
 # @addtogroup 

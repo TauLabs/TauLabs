@@ -1,10 +1,11 @@
 /**
  ******************************************************************************
  * @file       board_hw_defs.c
- * @author     The PhoenixPilot Team, http://github.com/PhoenixPilot
- * @addtogroup PhoenixPilotSystem PhoenixPilot System
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @addtogroup OpenPilotSystem OpenPilot System
  * @{
- * @addtogroup PhoenixPilotCore PhoenixPilot Core
+ * @addtogroup OpenPilotCore OpenPilot Core
  * @{
  * @brief Defines board specific static initializers for hardware for the Quanton board.
  *****************************************************************************/
@@ -23,10 +24,9 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-
+ 
 #include <pios_config.h>
 #include <pios_board_info.h>
-
 
 #if defined(PIOS_INCLUDE_LED)
 

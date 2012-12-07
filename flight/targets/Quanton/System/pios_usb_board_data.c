@@ -1,7 +1,8 @@
 /**
  ******************************************************************************
  * @file       pios_usb_board_data.c
- * @author     The PhoenixPilot Team, http://github.com/PhoenixPilot
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
  * @addtogroup PIOS_USB_BOARD Board specific USB definitions
@@ -23,7 +24,6 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-
 #include "pios_usb_board_data.h" /* struct usb_*, USB_* */
 #include "pios_sys.h"		 /* PIOS_SYS_SerialNumberGet */
 #include "pios_usbhook.h"	 /* PIOS_USBHOOK_* */
