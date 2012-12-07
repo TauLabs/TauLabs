@@ -1,8 +1,7 @@
 /******************************************************************************
  * @file       STM32F4xx_Quanton.c
  * @author     The PhoenixPilot Team, http://github.com/PhoenixPilot
- * @addtogroup PhoenixPilotSystem PhoenixPilot System
- * @{
+ * @addtogroup PhoenixPilotSystem PhoenixPilot System * @{
  * @addtogroup PhoenixPilotCore PhoenixPilot Core
  * @{
  * @brief PiOS configuration header for quanton flight control board.
