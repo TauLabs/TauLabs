@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       ObjectBrowser.java
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      A simple object browser for UAVOs that allows viewing, editing,
  *             loading and saving.
  * @see        The GNU Public License (GPL) Version 3
