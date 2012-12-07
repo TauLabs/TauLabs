@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       Controller.java
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     PhoenixPilot Project, http://github.com/PhoenixPilot, Copyright (C) 2012.
  * @brief      Allows controlling the UAV over telemetry.  This activity
  *             pushes the appropriate settings to the remote device for it to
  *             listen to the GCSReceiver.
