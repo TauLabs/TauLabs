@@ -1,6 +1,7 @@
 <xml>
     <object name="MixerSettings" singleinstance="true" settings="true">
         <description>Settings for the @ref ActuatorModule that controls the channel assignments for the mixer based on AircraftType</description>
+<fields>
         <field name="MaxAccel" units="units/sec" type="float" elements="1" defaultvalue="1000"/>
         <field name="FeedForward" units="" type="float" elements="1" defaultvalue="0"/>
         <field name="AccelTime" units="ms" type="float" elements="1" defaultvalue="0"/>
@@ -74,6 +75,7 @@
 
 	<field name="Mixer10Type"   cloneof="Mixer1Type"/>
 	<field name="Mixer10Vector" cloneof="Mixer1Vector"/>
+</fields>
 
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="true" updatemode="onchange" period="0"/>
