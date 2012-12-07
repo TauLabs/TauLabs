@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       UAVObjectManager.java
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      Critical class.  This is the data store for all UAVOs.  Allows
  *             other objects to access and change this data.  Takes care of
  *             propagating changes to the UAV.

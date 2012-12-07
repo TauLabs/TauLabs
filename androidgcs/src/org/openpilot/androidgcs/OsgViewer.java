@@ -1,3 +1,26 @@
+/**
+ ******************************************************************************
+ * @file       OsgViewer.java
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @brief      Visualize a model with OSG
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ *****************************************************************************/
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+ * for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
 package org.openpilot.androidgcs;
 
 import org.openpilot.osg.ColorPickerDialog;
@@ -295,7 +318,7 @@ public class OsgViewer extends ObjectManagerActivity implements View.OnTouchList
     private float sqrDistance(MotionEvent event) {
         float x = event.getX(0) - event.getX(1);
         float y = event.getY(0) - event.getY(1);
-        return (float)(FloatMath.sqrt(x * x + y * y));
+        return (FloatMath.sqrt(x * x + y * y));
      }
 
 	// The below methods should all be called by the parent activity at the appropriate times

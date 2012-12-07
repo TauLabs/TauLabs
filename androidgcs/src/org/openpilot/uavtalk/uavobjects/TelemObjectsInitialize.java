@@ -1,14 +1,12 @@
 /**
  ******************************************************************************
- *
- *
  * @file       uavobjectsinittemplate.java
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      the template for the uavobjects init part
  *             $(GENERATEDWARNING)
  *
  * @see        The GNU Public License (GPL) Version 3
- *
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -31,7 +29,7 @@ package org.openpilot.uavtalk.uavobjects;
 import org.openpilot.uavtalk.UAVObjectManager;
 
 public class TelemObjectsInitialize {
-	
+
 	public static void register(UAVObjectManager objMngr) {
 		try {
 			objMngr.registerObject( new FirmwareIAPObj() );

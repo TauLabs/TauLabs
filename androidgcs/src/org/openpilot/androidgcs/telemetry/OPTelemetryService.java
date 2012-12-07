@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       OPTelemetryService.java
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      Provides UAVTalk telemetry over multiple physical links.  The
  *             details of each of these are in their respective connection
  *             classes.  This mostly creates those threads based on the selected
