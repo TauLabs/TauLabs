@@ -31,7 +31,6 @@
 #include <QObject>
 
 #include "core_global.h"
-#include "mainwindow.h"
 #include <coreplugin/iboardtype.h>
 
 
@@ -47,9 +46,22 @@ public:
 
     void init();
 
+    /**
+     * Get all board types known by the board manager as a list
+     */
     QList<IBoardType*> getAvailableBoardTypes() { return m_boardTypesList; }
 
+    /**
+     * @brief getKnownVendorIDs
+     * Get all USB VendorIDs known by the board manager
+     */
     QList<int> getKnownVendorIDs();
+
+    /**
+     * Get the board type that matches a particular vendorID and productID
+     *  Will return NULL if board is unknown.
+     */
+    IBoardType* getKnownBoard(int vendorID, int productID);
 
 
 protected:

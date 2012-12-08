@@ -28,6 +28,8 @@
 
 #include "boardmanager.h"
 #include <aggregation/aggregate.h>
+#include <extensionsystem/pluginmanager.h>
+
 
 namespace Core {
 
@@ -41,12 +43,33 @@ BoardManager::~BoardManager() {
 
 }
 
+void BoardManager::init()
+{
+    //register to the plugin manager so we can receive
+    //new connection object from plugins
+    QObject::connect(ExtensionSystem::PluginManager::instance(), SIGNAL(objectAdded(QObject*)), this, SLOT(objectAdded(QObject*)));
+    QObject::connect(ExtensionSystem::PluginManager::instance(), SIGNAL(aboutToRemoveObject(QObject*)), this, SLOT(aboutToRemoveObject(QObject*)));
+}
+
 
 QList<int> BoardManager::getKnownVendorIDs()
 {
     QList<int> list;
     list << 0;
     return list;
+}
+
+/**
+ * @brief BoardManager::getKnownBoard
+ * Returns a known board for a given vendorID and productID
+ *
+ * @param vendorID USB vendor ID
+ * @param productID USB product ID
+ * @return A board type if the board is known, NULL otherwise
+ */
+IBoardType* BoardManager::getKnownBoard(int vendorID, int productID)
+{
+    return NULL;
 }
 
 

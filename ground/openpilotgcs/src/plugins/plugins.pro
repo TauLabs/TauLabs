@@ -257,6 +257,20 @@ plugin_setupwizard.depends += plugin_config
 plugin_setupwizard.depends += plugin_uploader
 SUBDIRS += plugin_setupwizard
 
+############################
+#  Board plugins
+# Those plugins define supported board models: each board manufacturer
+# needs to implement a manufacturer plugin that defines all their boards
+############################
+
+# OpenPilot project
+plugin_boards_openpilot.subdir = boards_openpilot
+plugin_boards_openpilot.depends = plugin_coreplugin
+SUBDIRS += plugin_boards_openpilot
+
+## Plugin by E. Lafargue for the Junsi Powerlog, do not
+## remove, please.
+##
 # Junsi Powerlog plugin
 #plugin_powerlog.subdir = powerlog
 #plugin_powerlog.depends = plugin_coreplugin

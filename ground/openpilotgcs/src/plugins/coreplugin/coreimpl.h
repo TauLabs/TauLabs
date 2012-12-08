@@ -56,6 +56,7 @@ public:
     UniqueIDManager *uniqueIDManager() const;
     MessageManager *messageManager() const;
     ConnectionManager *connectionManager() const;
+    BoardManager *boardManager() const;
     UAVGadgetInstanceManager *uavGadgetInstanceManager() const;
     VariableManager *variableManager() const;
     ThreadManager *threadManager() const;

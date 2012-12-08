@@ -27,8 +27,8 @@
 
 #include "rawhidplugin.h"
 #include "rawhid.h"
-#include <extensionsystem/pluginmanager.h>
 
+#include <coreplugin/icore.h>
 #include <QtCore/QtPlugin>
 #include <QtCore/QMutexLocker>
 
@@ -38,6 +38,7 @@
 
 
 // **********************************************************************
+
 
 RawHIDConnection::RawHIDConnection()
 {
@@ -79,18 +80,26 @@ void RawHIDConnection::onDeviceDisconnected()
 
 /**
   Returns the list of all currently available devices
+
+  TODO: use the board manager to get all the VIDs of known devices
   */
 QList < Core::IConnection::device> RawHIDConnection::availableDevices()
 {
     QList < Core::IConnection::device> devices;
+    QList<USBPortInfo> portsList;
 
-    QList<USBPortInfo> portsList = m_usbMonitor->availableDevices(USBMonitor::idVendor_OpenPilot, -1, -1,USBMonitor::Running);
-    // We currently list devices by their serial number
-    device dev;
-    foreach(USBPortInfo prt, portsList) {
-        dev.name=prt.serialNumber;
-        dev.displayName=prt.product;
-        devices.append(dev);
+    // Loop for all vendorIDs known by the board manager
+    Core::BoardManager* brdMgr = Core::ICore::instance()->boardManager();
+    QList<int> brdVID = brdMgr->getKnownVendorIDs();
+    foreach(int vendorID, brdVID) {
+        portsList = m_usbMonitor->availableDevices(vendorID, -1, -1,USBMonitor::Running);
+        // We currently list devices by their serial number
+        device dev;
+        foreach(USBPortInfo prt, portsList) {
+            dev.name=prt.serialNumber;
+            dev.displayName=prt.product;
+            devices.append(dev);
+        }
     }
     return devices;
 }
