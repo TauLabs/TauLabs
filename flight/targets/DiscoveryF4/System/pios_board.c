@@ -43,6 +43,8 @@
 
 #if defined(PIOS_INCLUDE_HMC5883)
 #include "pios_hmc5883.h"
+// TODO: assign a pin for this and enable PIOS_HMC5883_HAS_GPIOS
+#ifdef PIOS_HMC5883_HAS_GPIOS
 static const struct pios_exti_cfg pios_exti_hmc5883_cfg __exti_config = {
 	.vector = PIOS_HMC5883_IRQHandler,
 	.line = EXTI_Line1,
@@ -73,9 +75,12 @@ static const struct pios_exti_cfg pios_exti_hmc5883_cfg __exti_config = {
 		},
 	},
 };
+#endif
 
 static const struct pios_hmc5883_cfg pios_hmc5883_cfg = {
+#ifdef PIOS_HMC5883_HAS_GPIOS
 	.exti_cfg = &pios_exti_hmc5883_cfg,
+#endif
 	.M_ODR = PIOS_HMC5883_ODR_75,
 	.Meas_Conf = PIOS_HMC5883_MEASCONF_NORMAL,
 	.Gain = PIOS_HMC5883_GAIN_1_9,
@@ -138,7 +143,7 @@ static const struct pios_mpu6050_cfg pios_mpu6050_cfg = {
 	.Smpl_rate_div = 11,
 	.interrupt_cfg = PIOS_MPU6050_INT_CLR_ANYRD,
 	.interrupt_en = PIOS_MPU6050_INTEN_DATA_RDY,
-	.User_ctl = PIOS_MPU6050_USERCTL_FIFO_EN | PIOS_MPU6050_USERCTL_DIS_I2C,
+	.User_ctl = PIOS_MPU6050_USERCTL_FIFO_EN,
 	.Pwr_mgmt_clk = PIOS_MPU6050_PWRMGMT_PLL_X_CLK,
 	.filter = PIOS_MPU6050_LOWPASS_256_HZ,
 	.orientation = PIOS_MPU6050_TOP_180DEG
@@ -147,8 +152,8 @@ static const struct pios_mpu6050_cfg pios_mpu6050_cfg = {
 
 #if defined(PIOS_INCLUDE_FLASH)
 static const struct flashfs_cfg flashfs_m25p_cfg = {
-	.table_magic = 0x85FB3D35,
-	.obj_magic = 0x3015A371,
+	.table_magic = 0x88ADDE24,
+	.obj_magic = 0x39A52FE1,
 	.obj_table_start = 0x00000010,
 	.obj_table_end = 0x00010000,
 	.sector_size = 0x00010000,
@@ -807,25 +812,6 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_ADC)
 	PIOS_ADC_Init(&pios_adc_cfg);
 #endif
-
-	//Set adc input to floating as long as it is unused
-	GPIO_InitTypeDef GPIO_InitStructure;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
-	GPIO_Init(GPIOC, &GPIO_InitStructure);
-	GPIO_ResetBits(GPIOC, GPIO_Pin_15);
-
-	//Set buzzer output to low as long as it is unused
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
-	GPIO_Init(GPIOA, &GPIO_InitStructure);
-	GPIO_ResetBits(GPIOA, GPIO_Pin_4);
 
 	/* Make sure we have at least one telemetry link configured or else fail initialization */
 	PIOS_Assert(pios_com_telem_rf_id || pios_com_telem_usb_id);
