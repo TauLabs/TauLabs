@@ -227,7 +227,7 @@ extern void PIOS_MPU6050_SetAccelRange(enum pios_mpu6050_accel_range accel_range
 
 /**
  * @brief Reads one or more bytes into a buffer
- * \param[in] address HMC5883 register address (depends on size)
+ * \param[in] address MPU6050 register address (depends on size)
  * \param[out] buffer destination buffer
  * \param[in] len number of bytes which should be read
  * \return 0 if operation was successful
@@ -261,7 +261,7 @@ static int32_t PIOS_MPU6050_Read(uint8_t address, uint8_t * buffer, uint8_t len)
 }
 
 /**
- * @brief Writes one or more bytes to the HMC5883
+ * @brief Writes one or more bytes to the MPU6050
  * \param[in] address Register address
  * \param[in] buffer source buffer
  * \return 0 if operation was successful
