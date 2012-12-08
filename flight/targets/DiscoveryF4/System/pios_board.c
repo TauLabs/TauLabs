@@ -40,6 +40,10 @@
 #include "hwsettings.h"
 #include "manualcontrolsettings.h"
 
+/* This file defines the what and where regarding all hardware connected to the
+ * DiscoveryF4 board. Please see hardware/Production/DiscoveryF4/pinout.txt for
+ * an overview.
+ */
 
 #if defined(PIOS_INCLUDE_HMC5883)
 #include "pios_hmc5883.h"
