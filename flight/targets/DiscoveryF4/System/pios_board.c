@@ -140,17 +140,17 @@ static const struct pios_exti_cfg pios_exti_mpu6050_cfg __exti_config = {
 	},
 };
 
-static const struct pios_mpu6050_cfg pios_mpu6050_cfg = {
+static const struct pios_mpu60x0_cfg pios_mpu6050_cfg = {
 	.exti_cfg = &pios_exti_mpu6050_cfg,
-	.Fifo_store = PIOS_MPU6050_FIFO_TEMP_OUT | PIOS_MPU6050_FIFO_GYRO_X_OUT | PIOS_MPU6050_FIFO_GYRO_Y_OUT | PIOS_MPU6050_FIFO_GYRO_Z_OUT,
+	.Fifo_store = PIOS_MPU60X0_FIFO_TEMP_OUT | PIOS_MPU60X0_FIFO_GYRO_X_OUT | PIOS_MPU60X0_FIFO_GYRO_Y_OUT | PIOS_MPU60X0_FIFO_GYRO_Z_OUT,
 	// Clock at 8 khz, downsampled by 8 for 1khz
 	.Smpl_rate_div = 11,
-	.interrupt_cfg = PIOS_MPU6050_INT_CLR_ANYRD,
-	.interrupt_en = PIOS_MPU6050_INTEN_DATA_RDY,
-	.User_ctl = PIOS_MPU6050_USERCTL_FIFO_EN,
-	.Pwr_mgmt_clk = PIOS_MPU6050_PWRMGMT_PLL_X_CLK,
-	.filter = PIOS_MPU6050_LOWPASS_256_HZ,
-	.orientation = PIOS_MPU6050_TOP_180DEG
+	.interrupt_cfg = PIOS_MPU60X0_INT_CLR_ANYRD,
+	.interrupt_en = PIOS_MPU60X0_INTEN_DATA_RDY,
+	.User_ctl = PIOS_MPU60X0_USERCTL_FIFO_EN,
+	.Pwr_mgmt_clk = PIOS_MPU60X0_PWRMGMT_PLL_X_CLK,
+	.filter = PIOS_MPU60X0_LOWPASS_256_HZ,
+	.orientation = PIOS_MPU60X0_TOP_180DEG
 };
 #endif /* PIOS_INCLUDE_MPU6050 */
 
@@ -751,16 +751,16 @@ void PIOS_Board_Init(void) {
 	HwSettingsGyroRangeGet(&gyro_range);
 	switch(gyro_range) {
 		case HWSETTINGS_GYRORANGE_250:
-			PIOS_MPU6050_SetGyroRange(PIOS_MPU6050_SCALE_250_DEG);
+			PIOS_MPU6050_SetGyroRange(PIOS_MPU60X0_SCALE_250_DEG);
 			break;
 		case HWSETTINGS_GYRORANGE_500:
-			PIOS_MPU6050_SetGyroRange(PIOS_MPU6050_SCALE_500_DEG);
+			PIOS_MPU6050_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
 			break;
 		case HWSETTINGS_GYRORANGE_1000:
-			PIOS_MPU6050_SetGyroRange(PIOS_MPU6050_SCALE_1000_DEG);
+			PIOS_MPU6050_SetGyroRange(PIOS_MPU60X0_SCALE_1000_DEG);
 			break;
 		case HWSETTINGS_GYRORANGE_2000:
-			PIOS_MPU6050_SetGyroRange(PIOS_MPU6050_SCALE_2000_DEG);
+			PIOS_MPU6050_SetGyroRange(PIOS_MPU60X0_SCALE_2000_DEG);
 			break;
 	}
 
@@ -768,16 +768,16 @@ void PIOS_Board_Init(void) {
 	HwSettingsAccelRangeGet(&accel_range);
 	switch(accel_range) {
 		case HWSETTINGS_ACCELRANGE_2G:
-			PIOS_MPU6050_SetAccelRange(PIOS_MPU6050_ACCEL_2G);
+			PIOS_MPU6050_SetAccelRange(PIOS_MPU60X0_ACCEL_2G);
 			break;
 		case HWSETTINGS_ACCELRANGE_4G:
-			PIOS_MPU6050_SetAccelRange(PIOS_MPU6050_ACCEL_4G);
+			PIOS_MPU6050_SetAccelRange(PIOS_MPU60X0_ACCEL_4G);
 			break;
 		case HWSETTINGS_ACCELRANGE_8G:
-			PIOS_MPU6050_SetAccelRange(PIOS_MPU6050_ACCEL_8G);
+			PIOS_MPU6050_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
 			break;
 		case HWSETTINGS_ACCELRANGE_16G:
-			PIOS_MPU6050_SetAccelRange(PIOS_MPU6050_ACCEL_16G);
+			PIOS_MPU6050_SetAccelRange(PIOS_MPU60X0_ACCEL_16G);
 			break;
 	}
 
