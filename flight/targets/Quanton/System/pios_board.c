@@ -1,9 +1,10 @@
 /*****************************************************************************
  * @file       pios_board.c
- * @author     The PhoenixPilot Team, http://github.com/PhoenixPilot
- * @addtogroup PhoenixPilotSystem PhoenixPilot System
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @addtogroup OpenPilotSystem OpenPilot System
  * @{
- * @addtogroup PhoenixPilotCore PhoenixPilot Core
+ * @addtogroup OpenPilotCore OpenPilot Core
  * @{
  * @brief Defines board specific static initializers for hardware for the quanton flight control board.
  *****************************************************************************/

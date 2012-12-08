@@ -1,6 +1,7 @@
 ###############################################################################
 # @file       Makefile
-# @author     The PhoenixPilot Team, http://github.com/PhoenixPilot
+# @author     The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2012.
+# @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
 # @addtogroup 
 # @{
 # @addtogroup 
@@ -23,7 +24,7 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 #
 
-# These are the UAVObjects supposed to be build as part of the PhoenixPilot target
+# These are the UAVObjects supposed to be build as part of the OpenPilot target
 # (all architectures)
 
 UAVOBJSRCFILENAMES =

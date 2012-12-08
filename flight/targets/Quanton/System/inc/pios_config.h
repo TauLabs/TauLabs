@@ -1,10 +1,11 @@
 /**
  ******************************************************************************
  * @file       pios_config.h
- * @author     The PhoenixPilot Team, http://github.com/PhoenixPilot
- * @addtogroup PhoenixPilotSystem PhoenixPilot System
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @addtogroup OpenPilotSystem OpenPilot System
  * @{
- * @addtogroup PhoenixPilotCore PhoenixPilot Core
+ * @addtogroup OpenPilotCore OpenPilot Core
  * @{
  * @brief PiOS configuration header.
  *        Central compile time config for the project.

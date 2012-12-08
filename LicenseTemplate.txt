@@ -1,9 +1,7 @@
 /**
  ******************************************************************************
  * @file       %FILENAME%
- * @author     The PhoenixPilot Team, http://github.com/PhoenixPilot
- *             based on OpenPilot, http://www.openpilot.org
-               ^^^^^^^^^^REMOVE THIS FOR NEW FILES^^^^^^^^^
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @addtogroup [Group]
  * @{
  * @addtogroup %CLASS%
