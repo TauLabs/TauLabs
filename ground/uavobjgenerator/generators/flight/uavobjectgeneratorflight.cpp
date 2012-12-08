@@ -114,24 +114,36 @@ bool UAVObjectGeneratorFlight::generateStructDefinitions(FieldInfo* field, QStri
     QString buffer = QString("");
     //for each subfield add its declaration in the struct declaration for the field
     foreach(FieldInfo* childField, field->childrenFields) {
-        if ( childField->numElements > 1 )
-            buffer.append( QString("    %1 %2[%3];\r\n").arg(fieldTypeStrC[childField->type]).arg(childField->name).arg(childField->numElements) );
-        else
-            buffer.append( QString("    %1 %2;\r\n").arg(fieldTypeStrC[childField->type]).arg(childField->name) );
+        QString childFieldType;
+
+        if (childField->type == FIELDTYPE_STRUCT) {
+            childFieldType = fieldPath(childField).join("").replace(QRegExp(ENUM_SPECIAL_CHARS), "") + QString("Data");
+        }
+        else {
+            childFieldType = fieldTypeStrC[childField->type];
+        }
+
+        if ( childField->numElements > 1 ) {
+            buffer.append( QString("    %1 %2[%3];\r\n").arg(childFieldType).arg(childField->name).arg(childField->numElements) );
+        }
+        else {
+            buffer.append( QString("    %1 %2;\r\n").arg(childFieldType).arg(childField->name) );
+        }
     }
-    // this line is for retrocompatibility reasons, would better disapear but...
-    QString structName = (field->parentField==NULL)?(field->name + QString("Data")):(field->name);
-    datafields.prepend(QString("typedef struct {\r\n") + buffer +  QString("} __attribute__((packed))") + structName +QString(";\r\n\r\n"));
+
+    QString cStructName = fieldPath(field).join("").replace(QRegExp(ENUM_SPECIAL_CHARS), "") + QString("Data");
+    datafields.prepend(QString("typedef struct {\r\n") + buffer +  QString("} __attribute__((packed)) ") + cStructName +QString(";\r\n\r\n"));
 
 
     // for each subfield of struct type, prepend datafields with the corresponding struct type definition
     foreach(FieldInfo* childField, field->childrenFields) {
-        if(childField->type == FIELDTYPE_STRUCT)
+        if(childField->type == FIELDTYPE_STRUCT) {
+
             res = res && generateStructDefinitions(childField, datafields);
+        }
     }
 
     return res;
-
 }
 
 
@@ -265,7 +277,7 @@ bool UAVObjectGeneratorFlight::processObject(ObjectInfo* info)
     outInclude.replace(QString("$(DATAFIELDINFO)"), enums);
 
 
-//TODO from here replace to recursive
+    //TODO from here replace to recursive
     // Replace the $(INITFIELDS) tag
     QString initfields;
     for (int n = 0; n < info->field->childrenFields.length(); ++n)

@@ -144,7 +144,7 @@ private:
     quint32 updateHash(quint32 value, quint32 hash);
     quint32 updateHash(QString& value, quint32 hash);
     quint32 updateHash(FieldInfo* field, quint32 hash);
-
+    QStringList fieldPath(FieldInfo* field);
     int fieldNumBytes(FieldInfo* field);
 };
 
