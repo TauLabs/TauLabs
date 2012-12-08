@@ -65,7 +65,10 @@ static void pathStatusUpdated(UAVObjEvent * ev);
 static void createPathBox();
 static void createPathLogo();
 
+//! Store which waypoint has actually been pushed into PathDesired
 static int32_t active_waypoint = -1;
+//! Store the previous waypoint which is used to determine the path trajectory
+static int32_t previous_waypoint = -1;
 /**
  * Module initialization
  */
@@ -115,8 +118,7 @@ static void pathPlannerTask(void *parameters)
 	// If the PathStatus isn't available no follower is running and we should abort
 	if (PathStatusHandle() == NULL || !TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER)) {
 		AlarmsSet(SYSTEMALARMS_ALARM_PATHPLANNER, SYSTEMALARMS_ALARM_CRITICAL);
-		while(1)
-			vTaskDelay(100);
+		vTaskSuspend(pathPlannerTask);
 	}
 	AlarmsClear(SYSTEMALARMS_ALARM_PATHPLANNER);
 
@@ -143,6 +145,11 @@ static void pathPlannerTask(void *parameters)
 			WaypointActiveGet(&waypointActive);
 			waypointActive.Index = 0;
 			WaypointActiveSet(&waypointActive);
+
+			// Reset the state.  Active waypoint sholud be set to an invalid
+			// value to force waypoint 0 to become activated when starting
+			active_waypoint = -1;
+			previous_waypoint = -1;
 
 			pathplanner_active = true;
 			continue;
@@ -218,7 +225,17 @@ static void holdCurrentPosition()
 static void advanceWaypoint()
 {
 	WaypointActiveGet(&waypointActive);
+
+	// Store the currently active waypoint.  This is used in activeWaypoint to plot
+	// a waypoint from this (previous) waypoint to the newly selected one
+	previous_waypoint = waypointActive.Index;
+
+	// Default implementation simply jumps to the next possible waypoint.  Insert any
+	// conditional logic desired here.
+	// Note: In the case of conditional logic it is the responsibilty of the implementer
+	// to ensure all possible paths are valid.
 	waypointActive.Index++;
+
 	if (waypointActive.Index >= UAVObjGetNumInstances(WaypointHandle())) {
 		holdCurrentPosition();
 
@@ -246,11 +263,7 @@ static void activateWaypoint(int idx)
 		return;
 	}
 
-	if (idx > 0) {
-		WaypointData prevWaypoint;
-		WaypointInstGet(idx - 1, &prevWaypoint);
-	}
-
+	// Get the activated waypoint
 	WaypointInstGet(idx, &waypoint);
 
 	PathDesiredData pathDesired;
@@ -283,7 +296,7 @@ static void activateWaypoint(int idx)
 
 	pathDesired.EndingVelocity = waypoint.Velocity;
 
-	if(waypointActive.Index == 0) {
+	if(previous_waypoint < 0) {
 		// For first waypoint, get current position as start point
 		PositionActualData positionActual;
 		PositionActualGet(&positionActual);
@@ -295,7 +308,7 @@ static void activateWaypoint(int idx)
 	} else {
 		// Get previous waypoint as start point
 		WaypointData waypointPrev;
-		WaypointInstGet(waypointActive.Index - 1, &waypointPrev);
+		WaypointInstGet(previous_waypoint, &waypointPrev);
 		
 		pathDesired.Start[PATHDESIRED_END_NORTH] = waypointPrev.Position[WAYPOINT_POSITION_NORTH];
 		pathDesired.Start[PATHDESIRED_END_EAST] = waypointPrev.Position[WAYPOINT_POSITION_EAST];
