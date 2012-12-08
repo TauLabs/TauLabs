@@ -194,7 +194,7 @@ static void SensorsTask(void *parameters)
 #if defined(PIOS_INCLUDE_MPU6000)
 			gyro_test = PIOS_MPU6000_Test();
 			accel_test = gyro_test;
-#elif defined(PIOS_INCLUDE_MPU6000)
+#elif defined(PIOS_INCLUDE_MPU6050)
 			gyro_test = PIOS_MPU6050_Test();
 			accel_test = gyro_test;
 #endif
