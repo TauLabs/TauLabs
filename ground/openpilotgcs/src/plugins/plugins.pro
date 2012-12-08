@@ -54,6 +54,7 @@ SUBDIRS += plugin_uavtalkrelay
 plugin_uavtalkrelay.subdir = uavtalkrelay
 plugin_uavtalkrelay.depends = plugin_uavobjects
 plugin_uavtalkrelay.depends += plugin_coreplugin
+plugin_uavtalkrelay.depends += plugin_uavtalk
 
 # OPMap UAVGadget
 plugin_opmap.subdir = opmap
