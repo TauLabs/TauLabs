@@ -657,11 +657,10 @@ UAVObject* UAVTalk::updateObject(quint32 objId, quint16 instId, quint8* data)
  * Note: obj should be a valid object pointer, this method will not
  * re-check.
  */
-bool UAVTalk::updateNack(UAVObject* obj)
+void UAVTalk::updateNack(UAVObject* obj)
 {
     qDebug() << "[uavtalk.cpp] NACK, existing transaction completed for " << obj->getName();
     emit transactionCompleted(obj, false);
-    return true;
 }
 
 
@@ -670,11 +669,10 @@ bool UAVTalk::updateNack(UAVObject* obj)
  * Note: obj should be a valid object pointer, this method will not
  * re-check.
  */
-bool UAVTalk::updateAck(UAVObject* obj)
+void UAVTalk::updateAck(UAVObject* obj)
 {
     qDebug() << "[uavtalk.cpp] ACK, existing transaction completed for " << obj->getName();
     emit transactionCompleted(obj, true);
-    return true;
 }
 
 
