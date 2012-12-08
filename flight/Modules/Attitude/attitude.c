@@ -9,7 +9,7 @@
  *
  * @file       attitude.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Module to handle all comms to the AHRS on a periodic basis.
+ * @brief      Module to compute attitude estimate.
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -178,11 +178,13 @@ static void AttitudeTask(void *parameters)
 	uint8_t init = 0;
 	AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
 	
+#if defined(PIOS_INCLUDE_ADXL345)
 	// Set critical error and wait until the accel is producing data
 	while(PIOS_ADXL345_FifoElements() == 0) {
 		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_CRITICAL);
 		PIOS_WDG_UpdateFlag(PIOS_WDG_ATTITUDE);
 	}
+#endif
 	
 	const struct pios_board_info * bdinfo = &pios_board_info_blob;
 	
@@ -191,6 +193,8 @@ static void AttitudeTask(void *parameters)
 	if(cc3d) {
 #if defined(PIOS_INCLUDE_MPU6000)
 		gyro_test = PIOS_MPU6000_Test();
+#elif defined(PIOS_INCLUDE_MPU6050)
+		gyro_test = PIOS_MPU6050_Test();
 #endif
 	} else {
 #if defined(PIOS_INCLUDE_ADXL345)
@@ -270,6 +274,7 @@ static void AttitudeTask(void *parameters)
  */
 static int32_t updateSensors(AccelsData * accels, GyrosData * gyros)
 {
+#if defined(PIOS_INCLUDE_ADXL345)
 	struct pios_adxl345_data accel_data;
 	float gyro[4];
 	
@@ -361,7 +366,7 @@ static int32_t updateSensors(AccelsData * accels, GyrosData * gyros)
 
 	GyrosSet(gyros);
 	AccelsSet(accels);
-
+#endif
 	return 0;
 }
 
@@ -372,31 +377,124 @@ static int32_t updateSensors(AccelsData * accels, GyrosData * gyros)
  */
 static int32_t updateSensorsCC3D(AccelsData * accelsData, GyrosData * gyrosData)
 {
-	struct pios_mpu6000_data mpu6000_data;
 	float accels[3], gyros[3];
 	
 #if defined(PIOS_INCLUDE_MPU6000)
-	
-	xQueueHandle queue = PIOS_MPU6000_GetQueue();
-	
-	if(xQueueReceive(queue, (void *) &mpu6000_data, SENSOR_PERIOD) == errQUEUE_EMPTY)
-		return -1;	// Error, no data
+	{
+		static struct pios_mpu6000_data mpu6000_data;
+		xQueueHandle queue = PIOS_MPU6000_GetQueue();
 
-	// Do not read raw sensor data in simulation mode
-	if (GyrosReadOnly() || AccelsReadOnly())
-		return 0;
+		if(xQueueReceive(queue, (void *) &mpu6000_data, SENSOR_PERIOD) == errQUEUE_EMPTY)
+			return -1;	// Error, no data
 
-	gyros[0] = mpu6000_data.gyro_x * PIOS_MPU6000_GetScale() * inertialSensorSettings.GyroScale[0];
-	gyros[1] = mpu6000_data.gyro_y * PIOS_MPU6000_GetScale() * inertialSensorSettings.GyroScale[1];
-	gyros[2] = mpu6000_data.gyro_z * PIOS_MPU6000_GetScale() * inertialSensorSettings.GyroScale[2];
+		// Do not read raw sensor data in simulation mode
+		if (GyrosReadOnly() || AccelsReadOnly())
+			return 0;
 	
-	accels[0] = mpu6000_data.accel_x * PIOS_MPU6000_GetAccelScale() * inertialSensorSettings.AccelScale[0] - inertialSensorSettings.AccelBias[0];
-	accels[1] = mpu6000_data.accel_y * PIOS_MPU6000_GetAccelScale() * inertialSensorSettings.AccelScale[1] - inertialSensorSettings.AccelBias[1];
-	accels[2] = mpu6000_data.accel_z * PIOS_MPU6000_GetAccelScale() * inertialSensorSettings.AccelScale[2] - inertialSensorSettings.AccelBias[2];
+		gyros[0] = mpu6000_data.gyro_x * PIOS_MPU6000_GetScale() * inertialSensorSettings.GyroScale[0];
+		gyros[1] = mpu6000_data.gyro_y * PIOS_MPU6000_GetScale() * inertialSensorSettings.GyroScale[1];
+		gyros[2] = mpu6000_data.gyro_z * PIOS_MPU6000_GetScale() * inertialSensorSettings.GyroScale[2];
 
-	gyrosData->temperature = 35.0f + ((float) mpu6000_data.temperature + 512.0f) / 340.0f;
-	accelsData->temperature = 35.0f + ((float) mpu6000_data.temperature + 512.0f) / 340.0f;
+		accels[0] = mpu6000_data.accel_x * PIOS_MPU6000_GetAccelScale() * inertialSensorSettings.AccelScale[0] - inertialSensorSettings.AccelBias[0];
+		accels[1] = mpu6000_data.accel_y * PIOS_MPU6000_GetAccelScale() * inertialSensorSettings.AccelScale[1] - inertialSensorSettings.AccelBias[1];
+		accels[2] = mpu6000_data.accel_z * PIOS_MPU6000_GetAccelScale() * inertialSensorSettings.AccelScale[2] - inertialSensorSettings.AccelBias[2];
+	
+		gyrosData->temperature = 35.0f + ((float) mpu6000_data.temperature + 512.0f) / 340.0f;
+		accelsData->temperature = 35.0f + ((float) mpu6000_data.temperature + 512.0f) / 340.0f;
+	}
+#elif defined(PIOS_INCLUDE_MPU6050)
+	{
+		static struct pios_mpu6050_data mpu6050_data;
+		xQueueHandle queue = PIOS_MPU6050_GetQueue();
+
+		if(xQueueReceive(queue, (void *) &mpu6050_data, SENSOR_PERIOD) == errQUEUE_EMPTY)
+			return -1;	// Error, no data
+
+		// Do not read raw sensor data in simulation mode
+		if (GyrosReadOnly() || AccelsReadOnly())
+			return 0;
+
+		gyros[0] = -mpu6050_data.gyro_y * PIOS_MPU6050_GetScale() * inertialSensorSettings.GyroScale[0];;
+		gyros[1] = -mpu6050_data.gyro_x * PIOS_MPU6050_GetScale() * inertialSensorSettings.GyroScale[1];;
+		gyros[2] = -mpu6050_data.gyro_z * PIOS_MPU6050_GetScale() * inertialSensorSettings.GyroScale[2];;
+
+		accels[0] = -mpu6050_data.accel_y * PIOS_MPU6050_GetAccelScale() * inertialSensorSettings.AccelScale[0] - inertialSensorSettings.AccelBias[0];;
+		accels[1] = -mpu6050_data.accel_x * PIOS_MPU6050_GetAccelScale() * inertialSensorSettings.AccelScale[1] - inertialSensorSettings.AccelBias[1];;
+		accels[2] = -mpu6050_data.accel_z * PIOS_MPU6050_GetAccelScale() * inertialSensorSettings.AccelScale[2] - inertialSensorSettings.AccelBias[2];;
+
+		gyrosData->temperature = 35.0f + ((float) mpu6050_data.temperature + 512.0f) / 340.0f;
+		accelsData->temperature = 35.0f + ((float) mpu6050_data.temperature + 512.0f) / 340.0f;
+	}
+#elif defined(PIOS_INCLUDE_L3GD20) && defined(PIOS_INCLUDE_LSM303)
+	{
+		//this one comes at 400HZ
+		struct pios_lsm303_accel_data accel;
+		xQueueHandle accel_queue = PIOS_LSM303_GetQueue_Accel();
+
+		uint32_t samples = 0;
+		memset(accels, 0, sizeof(accels));
+		while (
+			samples == 0 ? (xQueueReceive(accel_queue, (void *) &accel, SENSOR_PERIOD) != errQUEUE_EMPTY) :
+				(xQueueReceive(accel_queue, (void *) &accel, 0) != errQUEUE_EMPTY)
+			)
+		{
+			//add up samples and adjust directions to match mpu-6000
+			accels[0] += -accel.accel_x * PIOS_LSM303_GetScale_Accel();
+			accels[1] += accel.accel_y * PIOS_LSM303_GetScale_Accel();
+			accels[2] += -accel.accel_z * PIOS_LSM303_GetScale_Accel();
+			++samples;
+		}
+		if (samples == 0)
+		{
+			// Unfortunately if the LSM303 ever misses getting read, then it will not
+			// trigger more interrupts.  In this case we must force a read to kickstart
+			// it.
+			struct pios_lsm303_accel_data data;
+			PIOS_LSM303_ReadData_Accel(&data);
+			return -1;	// Error, no data
+		}
+
+		accels[0] /= samples;
+		accels[1] /= samples;
+		accels[2] /= samples;
+
+		// No temp
+		gyrosData->temperature = 0;
+	}
+	{
+		//this one comes at 760HZ
+		struct pios_l3gd20_data gyro;
+		xQueueHandle gyro_queue = PIOS_L3GD20_GetQueue();
+
+		uint32_t samples = 0;
+		memset(gyros, 0, sizeof(gyros));
+		while (xQueueReceive(gyro_queue, (void *) &gyro, 0) != errQUEUE_EMPTY)
+		{
+			//add up samples and adjust directions to match mpu-6000
+			gyros[0] += gyro.gyro_y * PIOS_L3GD20_GetScale();
+			gyros[1] += gyro.gyro_x * PIOS_L3GD20_GetScale();
+			gyros[2] += -gyro.gyro_z * PIOS_L3GD20_GetScale();
+			++samples;
+		}
+		if (samples == 0)
+		{
+			// Unfortunately if the L3GD20 ever misses getting read, then it will not
+			// trigger more interrupts.  In this case we must force a read to kickstart
+			// it.
+			struct pios_l3gd20_data data;
+			PIOS_L3GD20_ReadGyros(&data);
+			return -1;	// Error, no data
+		}
+
+		gyros[0] /= samples;
+		gyros[1] /= samples;
+		gyros[2] /= samples;
+
+		// Get temp from last reading
+		gyrosData->temperature = gyro.temperature;
+	}
 #endif
+
 
 	if(rotate) {
 		// TODO: rotate sensors too so stabilization is well behaved
