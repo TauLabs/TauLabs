@@ -141,7 +141,7 @@ bool FilteredUavTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, 
             // Check if object exists:
             if (obj != NULL)
             {
-                UAVTalk::updateNack(obj);
+                this->updateNack(obj);
             }
             else
             {
@@ -158,7 +158,7 @@ bool FilteredUavTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, 
             // Check if we actually know this object, to be sure:
             if (obj != NULL)
             {
-                UAVTalk::updateAck(obj);
+                this->updateAck(obj);
             }
             else
             {
