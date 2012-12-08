@@ -26,16 +26,15 @@
  */
 #include "filtereduavtalk.h"
 #include "gcstelemetrystats.h"
-#include "flighttelemetrystats.h"
 
-FilteredUavTalk::FilteredUavTalk(QIODevice *iodev, UAVObjectManager *objMngr,QHash<quint32,UavTalkRelay::accessType> rules,UavTalkRelay::accessType defaultRule):UAVTalk(iodev,objMngr),m_rules(rules),m_defaultRule(defaultRule)
+FilteredUavTalk::FilteredUavTalk(QIODevice *iodev, UAVObjectManager *objMngr,QHash<quint32,UavTalkRelayComon::accessType> rules,UavTalkRelayComon::accessType defaultRule):UAVTalk(iodev,objMngr),m_rules(rules),m_defaultRule(defaultRule)
 {
 }
 
 void FilteredUavTalk::sendObjectSlot(UAVObject *obj)
 {
-    UavTalkRelay::accessType access=m_rules.value(obj->getObjID(),m_defaultRule);
-    if(access==UavTalkRelay::WriteOnly || access==UavTalkRelay::None)
+    UavTalkRelayComon::accessType access=m_rules.value(obj->getObjID(),m_defaultRule);
+    if(access==UavTalkRelayComon::WriteOnly || access==UavTalkRelayComon::None)
         return;
     if(obj==GCSTelemetryStats::GetInstance(objMngr))
         return;
@@ -48,11 +47,9 @@ bool FilteredUavTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, 
     UAVObject* obj = NULL;
     bool error = false;
     bool allInstances =  (instId == ALL_INSTANCES);
-    qDebug()<<"FilteredUavTalk"<<objId<<m_rules.keys()<<m_rules.value(objId,m_defaultRule);
-    UavTalkRelay::accessType access=m_rules.value(objId,m_defaultRule);
-    if(access==UavTalkRelay::ReadOnly || access==UavTalkRelay::None)
+    UavTalkRelayComon::accessType access=m_rules.value(objId,m_defaultRule);
+    if(access==UavTalkRelayComon::ReadOnly || access==UavTalkRelayComon::None)
         return false;
-
     if (obj == NULL)
         error = true;
     // Process message type
@@ -108,7 +105,7 @@ bool FilteredUavTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, 
         break;
     case TYPE_OBJ_REQ:  // We are being asked for an object
         // Get object, if all instances are requested get instance 0 of the object
-        if(access==UavTalkRelay::WriteOnly || access==UavTalkRelay::None)
+        if(access==UavTalkRelayComon::WriteOnly || access==UavTalkRelayComon::None)
             break;
         if (allInstances)
         {

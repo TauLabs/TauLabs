@@ -28,18 +28,18 @@
 #define FILTEREDUAVTALK_H
 
 #include "../uavtalk/uavtalk.h"
-#include "uavtalkrelayplugin.h"
 #include <QHash>
+#include "uavtalkrelay_global.h"
 
-class FilteredUavTalk:public UAVTalk
+class UAVTALKRELAY_EXPORT FilteredUavTalk:public UAVTalk
 {
     Q_OBJECT
 public:
-    FilteredUavTalk(QIODevice* iodev, UAVObjectManager* objMngr,QHash<quint32,UavTalkRelay::accessType> rules,UavTalkRelay::accessType defaultRule);
+    FilteredUavTalk(QIODevice* iodev, UAVObjectManager* objMngr,QHash<quint32,UavTalkRelayComon::accessType> rules,UavTalkRelayComon::accessType defaultRule);
     bool receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* data, qint32 length);
 private:
-    QHash<quint32,UavTalkRelay::accessType> m_rules;
-    UavTalkRelay::accessType m_defaultRule;
+    QHash<quint32,UavTalkRelayComon::accessType> m_rules;
+    UavTalkRelayComon::accessType m_defaultRule;
 public slots:
     void sendObjectSlot(UAVObject *obj);
 };

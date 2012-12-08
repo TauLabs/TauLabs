@@ -34,7 +34,7 @@
 #include "uavobjectmanager.h"
 static const QString VERSION = "1.0.0";
 
-UavTalkRelayPlugin::UavTalkRelayPlugin():m_IpAddress(""),m_Port(2000),m_DefaultRule(UavTalkRelay::ReadWrite),relay(0)
+UavTalkRelayPlugin::UavTalkRelayPlugin():m_IpAddress(""),m_Port(2000),relay(0),m_DefaultRule(UavTalkRelayComon::ReadWrite)
 {
 }
 
@@ -78,7 +78,7 @@ void UavTalkRelayPlugin::readConfig(QSettings *qSettings, UAVConfigInfo *configI
     qSettings->beginGroup(QLatin1String("General Settings"));
     m_IpAddress = (qSettings->value(QLatin1String("ListeningInterface"),m_IpAddress).toString());
     m_Port = (qSettings->value(QLatin1String("ListeningPort"), m_Port).toInt());
-    m_DefaultRule=(UavTalkRelay::accessType)qSettings->value(QLatin1String("Defaul Rule"),m_DefaultRule).toInt();
+    m_DefaultRule=(UavTalkRelayComon::accessType)qSettings->value(QLatin1String("Defaul Rule"),m_DefaultRule).toInt();
     qSettings->endGroup();
     int size=qSettings->beginReadArray(QLatin1String("Rule"));
     for(int i=0;i < size;++i)
@@ -86,15 +86,15 @@ void UavTalkRelayPlugin::readConfig(QSettings *qSettings, UAVConfigInfo *configI
         qSettings->setArrayIndex(i);
         QString host=qSettings->value(QLatin1String("Host"),tr("")).toString();
         quint32 uavo=qSettings->value(QLatin1String("UAVO"),tr("")).toInt();
-        UavTalkRelay::accessType aType=(UavTalkRelay::accessType)qSettings->value(QLatin1String("Access Type"),tr("")).toInt();
+        UavTalkRelayComon::accessType aType=(UavTalkRelayComon::accessType)qSettings->value(QLatin1String("Access Type"),tr("")).toInt();
         if(rules.keys().contains(host))
         {
-           QHash <quint32,UavTalkRelay::accessType> temp=rules.value(host);
+           QHash <quint32,UavTalkRelayComon::accessType> temp=rules.value(host);
            temp.insert(uavo,aType);
         }
         else
         {
-            QHash <quint32,UavTalkRelay::accessType> temp;
+            QHash <quint32,UavTalkRelayComon::accessType> temp;
             temp.insert(uavo,aType);
             rules.insert(host,temp);
         }
@@ -134,14 +134,6 @@ void UavTalkRelayPlugin::saveConfig(QSettings *qSettings, UAVConfigInfo *configI
     relay->setPort(m_Port);
     relay->setRules(rules);
     relay->restartServer();
-}
-
-void UavTalkRelayPlugin::onDeviceConnect(QIODevice *dev)
-{
-}
-
-void UavTalkRelayPlugin::onDeviceDisconnect()
-{
 }
 
 Q_EXPORT_PLUGIN(UavTalkRelayPlugin)

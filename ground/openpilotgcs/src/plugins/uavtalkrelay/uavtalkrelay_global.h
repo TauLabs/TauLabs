@@ -29,11 +29,20 @@
 #define UAVTALKRELAY_GLOBAL_H
 
 #include <QtCore/qglobal.h>
+#include <QObject>
+#include <coreplugin/iconfigurableplugin.h>
 
 #if defined(UAVTALKRELAY_LIBRARY)
 #  define UAVTALKRELAY_EXPORT Q_DECL_EXPORT
 #else
 #  define UAVTALKRELAY_EXPORT Q_DECL_IMPORT
 #endif
+
+class UAVTALKRELAY_EXPORT UavTalkRelayComon:public QObject
+{
+    Q_OBJECT
+public:
+    typedef enum {ReadOnly,WriteOnly,ReadWrite,None} accessType;
+};
 
 #endif // UAVTALKRELAY_GLOBAL_H

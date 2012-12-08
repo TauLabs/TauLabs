@@ -32,18 +32,19 @@
 #include <coreplugin/connectionmanager.h>
 #include <QTcpSocket>
 #include "uavobjectmanager.h"
+#include "uavtalkrelay_global.h"
+
 class FilteredUavTalk;
 class UavTalkRelay: public QObject
 {
     Q_OBJECT
 public:
-    typedef enum {ReadOnly,WriteOnly,ReadWrite,None} accessType;
-    UavTalkRelay(UAVObjectManager * ObjMngr,QString IpAdress,quint16 Port,QHash<QString,QHash<quint32,accessType> > rules,accessType defaultRule);
+    UavTalkRelay(UAVObjectManager * ObjMngr,QString IpAdress,quint16 Port,QHash<QString,QHash<quint32,UavTalkRelayComon::accessType> > rules,UavTalkRelayComon::accessType defaultRule);
     quint16 Port(){return m_Port;}
     QString IpAdress(){return m_IpAddress;}
     void setPort(quint16 value);
     void setIpAdress(QString value);
-    void setRules(QHash<QString,QHash<quint32,accessType> > value);
+    void setRules(QHash<QString,QHash<quint32,UavTalkRelayComon::accessType> > value);
     void restartServer();
 private slots:
     void newConnection();
@@ -54,8 +55,8 @@ private:
     QStringList fortunes;
     QNetworkSession *networkSession;
     UAVObjectManager * m_ObjMngr;
-    QHash<QString,QHash<quint32,accessType> > m_rules;
-    accessType m_DefaultRule;
+    QHash<QString,QHash<quint32,UavTalkRelayComon::accessType> > m_rules;
+    UavTalkRelayComon::accessType m_DefaultRule;
     QList< QPointer<FilteredUavTalk> > uavTalkList;
 };
 

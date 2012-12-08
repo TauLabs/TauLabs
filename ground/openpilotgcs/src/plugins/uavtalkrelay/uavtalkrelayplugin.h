@@ -51,17 +51,15 @@ public:
     void readConfig( QSettings* qSettings, Core::UAVConfigInfo *configInfo);
     void saveConfig( QSettings* qSettings, Core::UAVConfigInfo *configInfo);
 protected slots:
-    void onDeviceConnect(QIODevice *dev);
-    void onDeviceDisconnect();
     void updateSettings();
 private:
-    QHash<QString,QHash<quint32,UavTalkRelay::accessType> > rules;
+    QHash<QString,QHash<quint32,UavTalkRelayComon::accessType> > rules;
     ExtensionSystem::PluginManager* plMngr;
     UavTalkRelay * relay;
     UavTalkRelayOptionsPage * mop;
     QString m_IpAddress;
     int m_Port;
-    UavTalkRelay::accessType m_DefaultRule;
+    UavTalkRelayComon::accessType m_DefaultRule;
 };
 
 #endif // UAVTALKPRELAYLUGIN_H

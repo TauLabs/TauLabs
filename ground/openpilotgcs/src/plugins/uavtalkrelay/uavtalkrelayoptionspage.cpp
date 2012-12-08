@@ -52,14 +52,14 @@ QWidget *UavTalkRelayOptionsPage::createPage(QWidget *parent)
     m_page->setupUi(w);
     connect(m_page->pbAddRule,SIGNAL(clicked()),this,SLOT(addRule()));
     connect(m_page->pbDeleteRule,SIGNAL(clicked()),this,SLOT(deleteRule()));
-    m_page->cbAddRuleAccessType->addItem("Read Only",UavTalkRelay::ReadOnly);
-    m_page->cbAddRuleAccessType->addItem("Write Only",UavTalkRelay::WriteOnly);
-    m_page->cbAddRuleAccessType->addItem("Read and Write",UavTalkRelay::ReadWrite);
-    m_page->cbAddRuleAccessType->addItem("none",UavTalkRelay::None);
-    m_page->cbDefaultAccess->addItem("Read Only",UavTalkRelay::ReadOnly);
-    m_page->cbDefaultAccess->addItem("Write Only",UavTalkRelay::WriteOnly);
-    m_page->cbDefaultAccess->addItem("Read and Write",UavTalkRelay::ReadWrite);
-    m_page->cbDefaultAccess->addItem("none",UavTalkRelay::None);
+    m_page->cbAddRuleAccessType->addItem("Read Only",UavTalkRelayComon::ReadOnly);
+    m_page->cbAddRuleAccessType->addItem("Write Only",UavTalkRelayComon::WriteOnly);
+    m_page->cbAddRuleAccessType->addItem("Read and Write",UavTalkRelayComon::ReadWrite);
+    m_page->cbAddRuleAccessType->addItem("none",UavTalkRelayComon::None);
+    m_page->cbDefaultAccess->addItem("Read Only",UavTalkRelayComon::ReadOnly);
+    m_page->cbDefaultAccess->addItem("Write Only",UavTalkRelayComon::WriteOnly);
+    m_page->cbDefaultAccess->addItem("Read and Write",UavTalkRelayComon::ReadWrite);
+    m_page->cbDefaultAccess->addItem("none",UavTalkRelayComon::None);
     m_page->cbDefaultAccess->setCurrentIndex(m_page->cbDefaultAccess->findData(m_config->m_DefaultRule));
     ExtensionSystem::PluginManager* pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager * objMngr = pm->getObject<UAVObjectManager>();
@@ -100,15 +100,15 @@ void UavTalkRelayOptionsPage::apply()
     {
         QString host=m_page->twRules->item(i,0)->text();
         quint32 uavo=m_page->cbAddRuleUAVO->itemData(m_page->cbAddRuleUAVO->findText(m_page->twRules->item(i,1)->text())).toInt();
-        UavTalkRelay::accessType aType=(UavTalkRelay::accessType)m_page->cbAddRuleAccessType->itemData(m_page->cbAddRuleAccessType->findText(m_page->twRules->item(i,2)->text())).toInt();
+        UavTalkRelayComon::accessType aType=(UavTalkRelayComon::accessType)m_page->cbAddRuleAccessType->itemData(m_page->cbAddRuleAccessType->findText(m_page->twRules->item(i,2)->text())).toInt();
         if(m_config->rules.keys().contains(host))
         {
-           QHash <quint32,UavTalkRelay::accessType> temp=m_config->rules.value(host);
+           QHash <quint32,UavTalkRelayComon::accessType> temp=m_config->rules.value(host);
            temp.insert(uavo,aType);
         }
         else
         {
-            QHash <quint32,UavTalkRelay::accessType> temp;
+            QHash <quint32,UavTalkRelayComon::accessType> temp;
             temp.insert(uavo,aType);
             m_config->rules.insert(host,temp);
         }

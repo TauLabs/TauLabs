@@ -30,9 +30,8 @@
 #include <QPointer>
 #include "filtereduavtalk.h"
 
-UavTalkRelay::UavTalkRelay(UAVObjectManager *ObjMngr, QString IpAdress, quint16 Port,QHash<QString,QHash<quint32,accessType> > rules,accessType defaultRule):m_IpAddress(IpAdress),m_Port(Port),m_ObjMngr(ObjMngr),m_rules(rules),m_DefaultRule(defaultRule)
+UavTalkRelay::UavTalkRelay(UAVObjectManager *ObjMngr, QString IpAdress, quint16 Port,QHash<QString,QHash<quint32,UavTalkRelayComon::accessType> > rules,UavTalkRelayComon::accessType defaultRule):m_IpAddress(IpAdress),m_Port(Port),m_ObjMngr(ObjMngr),m_rules(rules),m_DefaultRule(defaultRule)
 {
-    qDebug()<<"SERVER TRYING listening on "<<m_IpAddress<<m_Port;
     tcpServer = new QTcpServer(this);
     // if we did not find one, use IPv4 localhost
     if (m_IpAddress.isEmpty())
@@ -42,7 +41,7 @@ UavTalkRelay::UavTalkRelay(UAVObjectManager *ObjMngr, QString IpAdress, quint16 
         return;
     }
     connect(tcpServer, SIGNAL(newConnection()), this, SLOT(newConnection()));
-    qDebug()<<"SERVER listening on "<<tcpServer->serverAddress()<<tcpServer->serverPort();
+    qDebug()<<__FUNCTION__<<"SERVER listening on "<<tcpServer->serverAddress()<<tcpServer->serverPort();
 }
 
 void UavTalkRelay::setPort(quint16 value)
@@ -55,7 +54,7 @@ void UavTalkRelay::setIpAdress(QString value)
     m_IpAddress=value;
 }
 
-void UavTalkRelay::setRules(QHash<QString, QHash<quint32, UavTalkRelay::accessType> > value)
+void UavTalkRelay::setRules(QHash<QString, QHash<quint32, UavTalkRelayComon::accessType> > value)
 {
     m_rules=value;
 }
@@ -73,12 +72,12 @@ void UavTalkRelay::restartServer()
 
 void UavTalkRelay::newConnection()
 {
-    qDebug()<<"NEW CONNECTION";
+    qDebug()<<__FUNCTION__<<"NEW CONNECTION";
     QTcpSocket *clientConnection = tcpServer->nextPendingConnection();
     connect(clientConnection, SIGNAL(disconnected()),
             clientConnection, SLOT(deleteLater()));
     qDebug()<<clientConnection->peerAddress().toString();
-    QHash<quint32,UavTalkRelay::accessType> temp= m_rules.value(clientConnection->peerAddress().toString());
+    QHash<quint32,UavTalkRelayComon::accessType> temp= m_rules.value(clientConnection->peerAddress().toString());
     temp.unite(m_rules.value("*"));
     QPointer<FilteredUavTalk> uav=new FilteredUavTalk(clientConnection,m_ObjMngr,temp,m_DefaultRule);
     uavTalkList.append(uav);
