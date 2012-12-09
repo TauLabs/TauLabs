@@ -155,11 +155,16 @@ static void pathPlannerTask(void *parameters)
 			continue;
 		}
 
-		// This method determines if we have achieved the goal of the active
-		// waypoint
+		/* This method determines if we have achieved the goal of the active */
+		/* waypoint */
 		if (path_status_updated)
 			checkTerminationCondition();
 
+		/* If advance waypoint takes a long time to calculate then it should */
+		/* be called from here when the active_waypoints does not equal the  */
+		/* WaypointActive.Index                                              */
+		/* if (active_waypoint != WaypointActive.Index)                      */
+		/*     advanceWaypoint(WaypointActive.Index)                         */
 	}
 }
 
@@ -251,6 +256,11 @@ static void advanceWaypoint()
 
 /**
  * This method is called when a new waypoint is activated
+ *
+ * Note: The way this is called, it runs in an object callback.  This is safe because
+ * the execution time is extremely short.  If it starts to take a longer time then
+ * the main task look should monitor a flag (such as the waypoint changing) and call
+ * this method from the main task.
  */
 static void activateWaypoint(int idx)
 {	
