@@ -1,13 +1,14 @@
 /**
  ******************************************************************************
- *
  * @file       uavtalk.cpp
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVTalkPlugin UAVTalk Plugin
  * @{
- * @brief The UAVTalk protocol plugin
+ * @brief Implementation of the UAVTalk protocol which serializes and
+ * deserializes UAVObjects
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify 
@@ -315,13 +316,12 @@ bool UAVTalk::processInputByte(quint8 rxbyte)
                 if (rxType == TYPE_OBJ_REQ || rxType == TYPE_ACK || rxType == TYPE_NACK)
                 {
                     rxLength = 0;
-                    rxInstanceLength = 0;
                 }
                 else
                 {
                     rxLength = rxObj->getNumBytes();
-                    rxInstanceLength = (rxObj->isSingleInstance() ? 0 : 2);
                 }
+                rxInstanceLength = (rxObj->isSingleInstance() ? 0 : 2);
 
                 // Check length and determine next state
                 if (rxLength >= MAX_PAYLOAD_LENGTH)
@@ -566,6 +566,7 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
         // All instances, not allowed for ACK messages
         if (!allInstances)
         {
+            qDebug() << "Got ack for instance: " << instId;
             // Get object
             obj = objMngr->getObject(objId, instId);
             // Check if we actually know this object (tiny chance the ObjID
