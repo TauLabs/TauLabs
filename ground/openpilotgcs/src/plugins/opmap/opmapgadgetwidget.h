@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
- *
  * @file       opmapgadgetwidget.h
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -31,10 +31,7 @@
 // ******************************************************
 
 
-#include "flightdatamodel.h"
-#include "pathplanner.h"
 #include "modelmapproxy.h"
-#include "modeluavoproxy.h"
 
 #include <QtGui/QWidget>
 #include <QtGui/QMenu>
@@ -58,7 +55,8 @@
 #include "uavobject.h"
 #include "objectpersistence.h"
 #include <QItemSelectionModel>
-#include "opmap_edit_waypoint_dialog.h"
+
+#include "../pathplanner/flightdatamodel.h"
 
 #include "homeeditor.h"
 
@@ -197,6 +195,8 @@ private slots:
     void onAddWayPointAct_triggeredFromContextMenu();
     void onAddWayPointAct_triggeredFromThis();
     void onAddWayPointAct_triggered(internals::PointLatLng coord);
+
+    //! Called when a waypoint is double clicked on
     void onEditWayPointAct_triggered();
     void onLockWayPointAct_triggered();
     void onDeleteWayPointAct_triggered();
@@ -237,10 +237,9 @@ private:
 	ExtensionSystem::PluginManager *pm;
 	UAVObjectManager *obm;
 	UAVObjectUtilManager *obum;
-    QPointer<opmap_edit_waypoint_dialog> waypoint_edit_dialog;
+
     QStandardItemModel wayPoint_treeView_model;
     mapcontrol::WayPointItem *m_mouse_waypoint;
-    QPointer<modelUavoProxy> UAVProxy;
     QMutex m_map_mutex;
 	bool m_telemetry_connected;
     QAction *closeAct1;
@@ -321,9 +320,9 @@ private:
     internals::PointLatLng lastLatLngMouse;
     WayPointItem * magicWayPoint;
 
-    QPointer<flightDataModel> model;
-    QPointer<pathPlanner> table;
-    QPointer<modelMapProxy> mapProxy;
+    QPointer<FlightDataModel> model;
+    QPointer<QDialog> pathPlannerDialog;
+    QPointer<ModelMapProxy> mapProxy;
     QPointer<QItemSelectionModel> selectionModel;
 };
 

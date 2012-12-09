@@ -1,12 +1,36 @@
 <xml>
-    <object name="Waypoint" singleinstance="false" settings="false">
-        <description>A waypoint the aircraft can try and hit.  Used by the @ref PathPlanner module</description>
-        <field name="Position" units="m" type="float" elementnames="North, East, Down"/>
-	<field name="Velocity" units="m/s" type="float" elements="1"/>
-	<field name="Action" units="" type="uint8" elements="1" />
-        <access gcs="readwrite" flight="readwrite"/>
-        <telemetrygcs acked="false" updatemode="manual" period="0"/>
-        <telemetryflight acked="false" updatemode="periodic" period="4000"/>
-        <logging updatemode="periodic" period="1000"/>
-    </object>
+	<object name="Waypoint" singleinstance="false" settings="false">
+		<description>A waypoint the aircraft can try and hit.  Used by the @ref PathPlanner module</description>
+
+		<!-- The location of this waypoint -->
+		<field name="Position" units="m" type="float" elementnames="North, East, Down"/>
+
+		<!-- The velocity to try and have when passing through this waypoint -->
+		<field name="Velocity" units="m/s" type="float" elements="1" default="0"/>
+
+		<field name="Mode" units="" type="enum" elements="1">
+			<options>
+				<option>FlyEndpoint</option>
+				<option>FlyVector</option>
+				<option>FlyCircleRight</option>
+				<option>FlyCircleLeft</option>
+				<option>DriveEndpoint</option>
+				<option>DriveVector</option>
+				<option>DriveCircleLeft</option>
+				<option>DriveCircleRight</option>
+				<option>HoldPosition</option>
+				<option>CirclePositionLeft</option>
+				<option>CirclePositionRight</option>
+				<option>Land</option>
+				<option>Stop</option>
+			</options>
+		</field>
+
+
+		<field name="ModeParameters" units="" type="float" elements="1" default="0"/>
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="true" updatemode="manual" period="0"/>
+		<telemetryflight acked="true" updatemode="periodic" period="4000"/>
+		<logging updatemode="periodic" period="1000"/>
+	</object>
 </xml>

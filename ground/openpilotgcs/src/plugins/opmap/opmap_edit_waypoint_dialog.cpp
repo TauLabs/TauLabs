@@ -39,42 +39,28 @@ opmap_edit_waypoint_dialog::opmap_edit_waypoint_dialog(QWidget *parent,QAbstract
     ui->setupUi(this);
     connect(ui->checkBoxLocked,SIGNAL(toggled(bool)),this,SLOT(enableEditWidgets(bool)));
     connect(ui->cbMode,SIGNAL(currentIndexChanged(int)),this,SLOT(setupModeWidgets()));
-    connect(ui->cbCondition,SIGNAL(currentIndexChanged(int)),this,SLOT(setupConditionWidgets()));
     connect(ui->pushButtonCancel,SIGNAL(clicked()),this,SLOT(pushButtonCancel_clicked()));
-    MapDataDelegate::loadComboBox(ui->cbMode,flightDataModel::MODE);
-    MapDataDelegate::loadComboBox(ui->cbCondition,flightDataModel::CONDITION);
-    MapDataDelegate::loadComboBox(ui->cbCommand,flightDataModel::COMMAND);
+    MapDataDelegate::loadComboBox(ui->cbMode,FlightDataModel::MODE);
+
     mapper = new QDataWidgetMapper(this);
 
     mapper->setItemDelegate(new MapDataDelegate(this));
     connect(mapper,SIGNAL(currentIndexChanged(int)),this,SLOT(currentIndexChanged(int)));
     mapper->setModel(model);
     mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
-    mapper->addMapping(ui->checkBoxLocked,flightDataModel::LOCKED);
-    mapper->addMapping(ui->doubleSpinBoxLatitude,flightDataModel::LATPOSITION);
-    mapper->addMapping(ui->doubleSpinBoxLongitude,flightDataModel::LNGPOSITION);
-    mapper->addMapping(ui->doubleSpinBoxAltitude,flightDataModel::ALTITUDE);
-    mapper->addMapping(ui->lineEditDescription,flightDataModel::WPDESCRITPTION);
-    mapper->addMapping(ui->checkBoxRelative,flightDataModel::ISRELATIVE);
-    mapper->addMapping(ui->doubleSpinBoxBearing,flightDataModel::BEARELATIVE);
-    mapper->addMapping(ui->doubleSpinBoxVelocity,flightDataModel::VELOCITY);
-    mapper->addMapping(ui->doubleSpinBoxDistance,flightDataModel::DISRELATIVE);
-    mapper->addMapping(ui->doubleSpinBoxRelativeAltitude,flightDataModel::ALTITUDERELATIVE);
-    mapper->addMapping(ui->cbMode,flightDataModel::MODE);
-    mapper->addMapping(ui->dsb_modeParam1,flightDataModel::MODE_PARAMS0);
-    mapper->addMapping(ui->dsb_modeParam2,flightDataModel::MODE_PARAMS1);
-    mapper->addMapping(ui->dsb_modeParam3,flightDataModel::MODE_PARAMS2);
-    mapper->addMapping(ui->dsb_modeParam4,flightDataModel::MODE_PARAMS3);
+    mapper->addMapping(ui->checkBoxLocked,FlightDataModel::LOCKED);
+    mapper->addMapping(ui->doubleSpinBoxLatitude,FlightDataModel::LATPOSITION);
+    mapper->addMapping(ui->doubleSpinBoxLongitude,FlightDataModel::LNGPOSITION);
+    mapper->addMapping(ui->doubleSpinBoxAltitude,FlightDataModel::ALTITUDE);
+    mapper->addMapping(ui->lineEditDescription,FlightDataModel::WPDESCRITPTION);
+    mapper->addMapping(ui->checkBoxRelative,FlightDataModel::ISRELATIVE);
+    mapper->addMapping(ui->doubleSpinBoxBearing,FlightDataModel::BEARELATIVE);
+    mapper->addMapping(ui->doubleSpinBoxVelocity,FlightDataModel::VELOCITY);
+    mapper->addMapping(ui->doubleSpinBoxDistance,FlightDataModel::DISRELATIVE);
+    mapper->addMapping(ui->doubleSpinBoxRelativeAltitude,FlightDataModel::ALTITUDERELATIVE);
+    mapper->addMapping(ui->cbMode,FlightDataModel::MODE);
+    mapper->addMapping(ui->dsb_modeParams,FlightDataModel::MODE_PARAMS);
 
-    mapper->addMapping(ui->cbCondition,flightDataModel::CONDITION);
-    mapper->addMapping(ui->dsb_condParam1,flightDataModel::CONDITION_PARAMS0);
-    mapper->addMapping(ui->dsb_condParam2,flightDataModel::CONDITION_PARAMS1);
-    mapper->addMapping(ui->dsb_condParam3,flightDataModel::CONDITION_PARAMS2);
-    mapper->addMapping(ui->dsb_condParam4,flightDataModel::CONDITION_PARAMS0);
-
-    mapper->addMapping(ui->cbCommand,flightDataModel::COMMAND);
-    mapper->addMapping(ui->sbJump,flightDataModel::JUMPDESTINATION);
-    mapper->addMapping(ui->sbError,flightDataModel::ERRORDESTINATION);
     connect(itemSelection,SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),this,SLOT(currentRowChanged(QModelIndex,QModelIndex)));
 }
 void opmap_edit_waypoint_dialog::currentIndexChanged(int index)
@@ -111,119 +97,7 @@ void opmap_edit_waypoint_dialog::setupModeWidgets()
     case MapDataDelegate::MODE_DRIVEVECTOR:
     case MapDataDelegate::MODE_DRIVECIRCLELEFT:
     case MapDataDelegate::MODE_DRIVECIRCLERIGHT:
-    case MapDataDelegate::MODE_DISARMALARM:
-        ui->modeParam1->setVisible(false);
-        ui->modeParam2->setVisible(false);
-        ui->modeParam3->setVisible(false);
-        ui->modeParam4->setVisible(false);
-        ui->dsb_modeParam1->setVisible(false);
-        ui->dsb_modeParam2->setVisible(false);
-        ui->dsb_modeParam3->setVisible(false);
-        ui->dsb_modeParam4->setVisible(false);
-        break;
-    case MapDataDelegate::MODE_FIXEDATTITUDE:
-        ui->modeParam1->setText("pitch");
-        ui->modeParam2->setText("roll");
-        ui->modeParam3->setText("yaw");
-        ui->modeParam4->setText("throttle");
-        ui->modeParam1->setVisible(true);
-        ui->modeParam2->setVisible(true);
-        ui->modeParam3->setVisible(true);
-        ui->modeParam4->setVisible(true);
-        ui->dsb_modeParam1->setVisible(true);
-        ui->dsb_modeParam2->setVisible(true);
-        ui->dsb_modeParam3->setVisible(true);
-        ui->dsb_modeParam4->setVisible(true);
-        break;
-    case MapDataDelegate::MODE_SETACCESSORY:
-        ui->modeParam1->setText("Acc.channel");
-        ui->modeParam2->setText("Value");
-        ui->modeParam1->setVisible(true);
-        ui->modeParam2->setVisible(true);
-        ui->modeParam3->setVisible(false);
-        ui->modeParam4->setVisible(false);
-        ui->dsb_modeParam1->setVisible(true);
-        ui->dsb_modeParam2->setVisible(true);
-        ui->dsb_modeParam3->setVisible(false);
-        ui->dsb_modeParam4->setVisible(false);
-         break;
-    }
-}
-void opmap_edit_waypoint_dialog::setupConditionWidgets()
-{
-    MapDataDelegate::EndConditionOptions mode=(MapDataDelegate::EndConditionOptions)ui->cbCondition->itemData(ui->cbCondition->currentIndex()).toInt();
-    switch(mode)
-    {
-    case MapDataDelegate::ENDCONDITION_NONE:
-    case MapDataDelegate::ENDCONDITION_IMMEDIATE:
-    case MapDataDelegate::ENDCONDITION_PYTHONSCRIPT:
-        ui->condParam1->setVisible(false);
-        ui->condParam2->setVisible(false);
-        ui->condParam3->setVisible(false);
-        ui->condParam4->setVisible(false);
-        ui->dsb_condParam1->setVisible(false);
-        ui->dsb_condParam2->setVisible(false);
-        ui->dsb_condParam3->setVisible(false);
-        ui->dsb_condParam4->setVisible(false);
-        break;
-    case MapDataDelegate::ENDCONDITION_TIMEOUT:
-        ui->condParam1->setVisible(true);
-        ui->condParam2->setVisible(false);
-        ui->condParam3->setVisible(false);
-        ui->condParam4->setVisible(false);
-        ui->dsb_condParam1->setVisible(true);
-        ui->dsb_condParam2->setVisible(false);
-        ui->dsb_condParam3->setVisible(false);
-        ui->dsb_condParam4->setVisible(false);
-        ui->condParam1->setText("Timeout(ms)");
-        break;
-    case MapDataDelegate::ENDCONDITION_DISTANCETOTARGET:
-        ui->condParam1->setVisible(true);
-        ui->condParam2->setVisible(true);
-        ui->condParam3->setVisible(false);
-        ui->condParam4->setVisible(false);
-        ui->dsb_condParam1->setVisible(true);
-        ui->dsb_condParam2->setVisible(true);
-        ui->dsb_condParam3->setVisible(false);
-        ui->dsb_condParam4->setVisible(false);
-        ui->condParam1->setText("Distance(m)");
-        ui->condParam2->setText("Flag(0=2D,1=3D)");//FIXME
-        break;
-    case MapDataDelegate::ENDCONDITION_LEGREMAINING:
-        ui->condParam1->setVisible(true);
-        ui->condParam2->setVisible(false);
-        ui->condParam3->setVisible(false);
-        ui->condParam4->setVisible(false);
-        ui->dsb_condParam1->setVisible(true);
-        ui->dsb_condParam2->setVisible(false);
-        ui->dsb_condParam3->setVisible(false);
-        ui->dsb_condParam4->setVisible(false);
-        ui->condParam1->setText("Relative Distance(0=complete,1=just starting)");
-        break;
-    case MapDataDelegate::ENDCONDITION_ABOVEALTITUDE:
-        ui->condParam1->setVisible(true);
-        ui->condParam2->setVisible(false);
-        ui->condParam3->setVisible(false);
-        ui->condParam4->setVisible(false);
-        ui->dsb_condParam1->setVisible(true);
-        ui->dsb_condParam2->setVisible(false);
-        ui->dsb_condParam3->setVisible(false);
-        ui->dsb_condParam4->setVisible(false);
-        ui->condParam1->setText("Altitude in meters (negative)");
-        break;
-    case MapDataDelegate::ENDCONDITION_POINTINGTOWARDSNEXT:
-        ui->condParam1->setVisible(true);
-        ui->condParam2->setVisible(false);
-        ui->condParam3->setVisible(false);
-        ui->condParam4->setVisible(false);
-        ui->dsb_condParam1->setVisible(true);
-        ui->dsb_condParam2->setVisible(false);
-        ui->dsb_condParam3->setVisible(false);
-        ui->dsb_condParam4->setVisible(false);
-        ui->condParam1->setText("Degrees variation allowed");
-        break;
-    default:
-
+        ui->modeParams->setVisible(false);
         break;
     }
 }

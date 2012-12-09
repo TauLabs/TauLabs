@@ -122,6 +122,25 @@ namespace mapcontrol
         ret->setOpacity(overlayOpacity);
         return ret;
     }
+
+    /**
+     * @brief OPMapWidget::WPCurveCreate Create a curve from one waypoint to another with specified radius
+     * @param start The starting waypoint
+     * @param dest The ending waypoint
+     * @param radius The radius to use connecting the two
+     * @param clockwise The curvature direction from above
+     * @param color The color of the path
+     * @return The waypoint curve object
+     */
+    WayPointCurve * OPMapWidget::WPCurveCreate(WayPointItem *start, WayPointItem *dest, double radius, bool clockwise, QColor color)
+    {
+        if (!start || !dest)
+            return NULL;
+        WayPointCurve *ret = new WayPointCurve(start, dest, radius, clockwise, map, color);
+        ret->setOpacity(overlayOpacity);
+        return ret;
+    }
+
     WayPointCircle * OPMapWidget::WPCircleCreate(WayPointItem *center, WayPointItem *radius, bool clockwise,QColor color)
     {
         if(!center|!radius)
@@ -456,7 +475,6 @@ namespace mapcontrol
     {
         connect(item,SIGNAL(WPNumberChanged(int,int,WayPointItem*)),this,SIGNAL(WPNumberChanged(int,int,WayPointItem*)),Qt::DirectConnection);
         connect(item,SIGNAL(WPValuesChanged(WayPointItem*)),this,SIGNAL(WPValuesChanged(WayPointItem*)),Qt::DirectConnection);
-        connect(item,SIGNAL(localPositionChanged(QPointF,WayPointItem*)),this,SIGNAL(WPLocalPositionChanged(QPointF,WayPointItem*)),Qt::DirectConnection);
         connect(item,SIGNAL(manualCoordChange(WayPointItem*)),this,SIGNAL(WPManualCoordChange(WayPointItem*)),Qt::DirectConnection);
         connect(this,SIGNAL(WPInserted(int,WayPointItem*)),item,SLOT(WPInserted(int,WayPointItem*)),Qt::DirectConnection);
         connect(this,SIGNAL(WPNumberChanged(int,int,WayPointItem*)),item,SLOT(WPRenumbered(int,int,WayPointItem*)),Qt::DirectConnection);

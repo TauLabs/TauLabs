@@ -1,13 +1,15 @@
 /**
  ******************************************************************************
- *
  * @file       telemetry.h
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVTalkPlugin UAVTalk Plugin
  * @{
- * @brief The UAVTalk protocol plugin
+ * @brief Provide a higher level of telemetry control on top of UAVTalk
+ * including setting up transactions and acknowledging their receipt or
+ * timeout
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify 
@@ -36,6 +38,8 @@
 #include <QTimer>
 #include <QQueue>
 #include <QMap>
+
+class TransactionKey;
 
 class ObjectTransactionInfo: public QObject {
     Q_OBJECT
@@ -119,7 +123,7 @@ private:
     QList<ObjectTimeInfo> objList;
     QQueue<ObjectQueueInfo> objQueue;
     QQueue<ObjectQueueInfo> objPriorityQueue;
-    QMap<quint32, ObjectTransactionInfo*>transMap;
+    QMap<TransactionKey, ObjectTransactionInfo*>transMap;
     QMutex* mutex;
     QTimer* updateTimer;
     QTimer* statsTimer;
@@ -136,7 +140,7 @@ private:
     void processObjectUpdates(UAVObject* obj, EventMask event, bool allInstances, bool priority);
     void processObjectTransaction(ObjectTransactionInfo *transInfo);
     void processObjectQueue();
-    bool updateTransactionMap(UAVObject* obj);
+    bool updateTransactionMap(UAVObject* obj, bool request);
 
 
 private slots:
@@ -150,6 +154,7 @@ private slots:
     void processPeriodicUpdates();
     void transactionSuccess(UAVObject* obj);
     void transactionFailure(UAVObject* obj);
+    void transactionRequestCompleted(UAVObject* obj);
 
 };
 

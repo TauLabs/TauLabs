@@ -1,8 +1,7 @@
-
 /**
  ******************************************************************************
- *
  * @file       opmapgadgetwidget.cpp
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -55,6 +54,9 @@
 #include "attitudeactual.h"
 #include "positionactual.h"
 #include "velocityactual.h"
+
+#include "../pathplanner/pathplannergadgetwidget.h"
+#include "../pathplanner/waypointdialog.h"
 
 #define allow_manual_home_location_move
 
@@ -217,17 +219,17 @@ OPMapGadgetWidget::OPMapGadgetWidget(QWidget *parent) : QWidget(parent)
     m_map->UAV->update();
     if(m_map->GPS)
         m_map->GPS->SetUAVPos(m_home_position.coord, 0.0);        // set the GPS position
-#ifdef USE_PATHPLANNER
-    model=new flightDataModel(this);
-    table=new pathPlanner();
-    selectionModel=new QItemSelectionModel(model);
-    mapProxy=new modelMapProxy(this,m_map,model,selectionModel);
-    table->setModel(model,selectionModel);
-    waypoint_edit_dialog=new opmap_edit_waypoint_dialog(this,model,selectionModel);
-    UAVProxy=new modelUavoProxy(this,model);
-    connect(table,SIGNAL(sendPathPlanToUAV()),UAVProxy,SLOT(modelToObjects()));
-    connect(table,SIGNAL(receivePathPlanFromUAV()),UAVProxy,SLOT(objectsToModel()));
-#endif
+
+    // Connect to the existing model
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    model = pm->getObject<FlightDataModel>();
+    Q_ASSERT(model);
+
+    // Get the path planner selection model to keep the gadget in sync with the map
+    selectionModel =  pm->getObject<QItemSelectionModel>();
+    Q_ASSERT(selectionModel);
+    mapProxy = new ModelMapProxy(this, m_map, model, selectionModel);
+
     magicWayPoint=m_map->magicWPCreate();
     magicWayPoint->setVisible(false);
 
@@ -294,18 +296,9 @@ OPMapGadgetWidget::~OPMapGadgetWidget()
 		delete m_map;
 		m_map = NULL;
 	}
-    if(!model.isNull())
-        delete model;
-    if(!table.isNull())
-        delete table;
-    if(!selectionModel.isNull())
-        delete selectionModel;
+
     if(!mapProxy.isNull())
         delete mapProxy;
-    if(!waypoint_edit_dialog.isNull())
-        delete waypoint_edit_dialog;
-    if(!UAVProxy.isNull())
-        delete UAVProxy;
 }
 
 // *************************************************************************************
@@ -484,7 +477,6 @@ void OPMapGadgetWidget::contextMenuEvent(QContextMenuEvent *event)
     uav_menu.addAction(goUAVAct);
 
     // *********
-#ifdef USE_PATHPLANNER
     switch (m_map_mode)
     {
         case Normal_MapMode:
@@ -516,7 +508,6 @@ void OPMapGadgetWidget::contextMenuEvent(QContextMenuEvent *event)
             contextMenu.addAction(homeMagicWaypointAct);
             break;
     }
-#endif
     // *********
 
     QMenu overlaySubMenu(tr("&Overlay Opacity "),this);
@@ -534,7 +525,6 @@ void OPMapGadgetWidget::contextMenuEvent(QContextMenuEvent *event)
 
 void OPMapGadgetWidget::closeEvent(QCloseEvent *event)
 {
-    table->close();
     QWidget::closeEvent(event);
 }
 
@@ -1348,11 +1338,6 @@ void OPMapGadgetWidget::createActions()
     followUAVheadingAct->setChecked(false);
     connect(followUAVheadingAct, SIGNAL(toggled(bool)), this, SLOT(onFollowUAVheadingAct_toggled(bool)));
 
-    /*
-      TODO: Waypoint support is disabled for v1.0
-      */
-
-#ifdef USE_PATHPLANNER
     wayPointEditorAct = new QAction(tr("&Waypoint editor"), this);
     wayPointEditorAct->setShortcut(tr("Ctrl+W"));
     wayPointEditorAct->setStatusTip(tr("Open the waypoint editor"));
@@ -1389,7 +1374,7 @@ void OPMapGadgetWidget::createActions()
     clearWayPointsAct->setShortcut(tr("Ctrl+C"));
     clearWayPointsAct->setStatusTip(tr("Clear waypoints"));
     connect(clearWayPointsAct, SIGNAL(triggered()), this, SLOT(onClearWayPointsAct_triggered()));
-#endif
+
     overlayOpacityActGroup = new QActionGroup(this);
     connect(overlayOpacityActGroup, SIGNAL(triggered(QAction *)), this, SLOT(onOverlayOpacityActGroup_triggered(QAction *)));
     overlayOpacityAct.clear();
@@ -1788,10 +1773,23 @@ void OPMapGadgetWidget::onUAVTrailDistanceActGroup_triggered(QAction *action)
     m_map->UAV->SetTrailDistance(trail_distance);
 }
 
+/**
+ * @brief OPMapGadgetWidget::onOpenWayPointEditorAct_triggered Embed a
+ * @ref PathPlannerGadgetWidget in a QDialog and display it
+ */
 void OPMapGadgetWidget::onOpenWayPointEditorAct_triggered()
 {
-    table->show();
+    //create dialog
+    pathPlannerDialog = new QDialog(this);
+    pathPlannerDialog->show();
+    //create layout dialog
+    QHBoxLayout *dialogLayout = new QHBoxLayout(pathPlannerDialog);
+    pathPlannerDialog->setLayout(dialogLayout);
+    //create elements of dialog
+    QPointer<PathPlannerGadgetWidget> widget = new PathPlannerGadgetWidget(pathPlannerDialog);
+    dialogLayout->addWidget(widget);
 }
+
 void OPMapGadgetWidget::onAddWayPointAct_triggeredFromContextMenu()
 {
     onAddWayPointAct_triggered(m_context_menu_lat_lon);
@@ -1814,25 +1812,16 @@ void OPMapGadgetWidget::onAddWayPointAct_triggered(internals::PointLatLng coord)
 
 
 /**
-  * Called when the user asks to edit a waypoint from the map
-  *
-  * TODO: should open an interface to edit waypoint properties, or
-  *       propagate the signal to a specific WP plugin (tbd).
-  **/
-
+  * Get the waypoint editor dialog from the path planner plugin and display it
+  * automatically at the selected waypoint.  Called by double clicking or selecting
+  * edit the waypoint in the context menu.
+  */
 void OPMapGadgetWidget::onEditWayPointAct_triggered()
 {
-	if (!m_widget || !m_map)
-		return;
-
-    if (m_map_mode != Normal_MapMode)
-        return;
-
-    if (!m_mouse_waypoint)
-        return;
-
-    waypoint_edit_dialog->editWaypoint(m_mouse_waypoint);
-    m_mouse_waypoint = NULL;
+    WaypointDialog *dialog =  pm->getObject<WaypointDialog>();
+    Q_ASSERT(dialog);
+    if (dialog != NULL)
+        dialog->show();
 }
 
 

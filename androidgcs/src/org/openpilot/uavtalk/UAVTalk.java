@@ -438,6 +438,15 @@ public class UAVTalk {
 						break;
 					}
 
+	                // Check the lengths match
+	                if ((rxPacketLength + (rxObj.isSingleInstance() ? 0 : 2) + rxLength) != packetSize)
+	                {   // packet error - mismatched packet size
+	                    if (WARN) Log.w(TAG, "Packet size does not match what it should");
+	                    stats.rxErrors++;
+	                    rxState = RxStateType.STATE_SYNC;
+	                    break;
+	                }
+
 					// Check if this is a single instance object (i.e. if the
 					// instance ID field is coming next)
 					if (rxObj.isSingleInstance()) {
