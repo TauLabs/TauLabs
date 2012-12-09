@@ -76,6 +76,8 @@ FLIGHTLIB = ../../Libraries
 FLIGHTLIBINC = $(FLIGHTLIB)/inc
 MATHLIB = $(FLIGHTLIB)/math
 MATHLIBINC = $(FLIGHTLIB)/math
+PATHCALCLIB = $(FLIGHTLIB)/path_calculation
+PATHCALCINC = $(PATHCALCLIB)
 PIOSPOSIX = $(PIOS)/posix
 PIOSCOMMON = $(PIOS)/posix
 PIOSBOARDS = $(PIOS)/Boards
@@ -142,6 +144,7 @@ SRC += $(FLIGHTLIB)/paths.c
 SRC += $(MATHLIB)/sin_lookup.c
 SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/pid.c
+SRC += $(PATHCALCLIB)/path_calculation_simple.c
 
 ## PIOS Hardware (STM32F4xx)
 include $(PIOS)/posix/library.mk
