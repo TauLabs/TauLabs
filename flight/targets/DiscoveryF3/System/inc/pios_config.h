@@ -106,7 +106,7 @@
 #define CPULOAD_LIMIT_CRITICAL		95
 
 // This actually needs calibrating
-#define IDLE_COUNTS_PER_SEC_AT_NO_LOAD (1995998)
+#define IDLE_COUNTS_PER_SEC_AT_NO_LOAD (1995998) //FIXME: this is wrong for sure
 
 #define REVOLUTION
 
