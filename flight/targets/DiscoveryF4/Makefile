@@ -124,6 +124,7 @@ SRC += $(FLIGHTLIB)/insgps13state.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
 SRC += $(FLIGHTLIB)/sanitycheck.c
 SRC += $(MATHLIB)/sin_lookup.c
+SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/pid.c
 
 ## PIOS Hardware (STM32F4xx)

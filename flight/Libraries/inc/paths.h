@@ -27,6 +27,10 @@
 #ifndef PATHS_H_
 #define PATHS_H_
 
+#include "pios.h"
+#include "openpilot.h"
+#include "pathdesired.h"
+
 struct path_status {
 	float fractional_progress;
 	float error;
@@ -34,6 +38,6 @@ struct path_status {
 	float path_direction[2];
 };
 
-void path_progress(float * start_point, float * end_point, float * cur_point, struct path_status * status, uint8_t mode);
+void path_progress(PathDesiredData *pathDesired, float * cur_point, struct path_status * status);
 
 #endif
