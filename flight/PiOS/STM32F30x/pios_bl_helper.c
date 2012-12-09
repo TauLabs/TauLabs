@@ -8,6 +8,7 @@
  *
  * @file       pios_bl_helper.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      Bootloader Helper Functions
  * @see        The GNU Public License (GPL) Version 3
  *

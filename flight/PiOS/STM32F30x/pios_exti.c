@@ -9,6 +9,7 @@
  *
  * @file       pios_exti.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      External Interrupt Handlers
  * @see        The GNU Public License (GPL) Version 3
  *

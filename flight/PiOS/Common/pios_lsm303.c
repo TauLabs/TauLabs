@@ -3,12 +3,12 @@
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
  * @addtogroup PIOS_LSM303 LSM303 Functions
- * @brief Deals with the hardware interface to the 3-axis gyro
+ * @brief Deals with the hardware interface to the LSM303 3-axis accelerometer and 3-axis magnetometer
  * @{
  *
- * @file       pios_mpu000.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @brief      LSM303 6-axis gyro and accel chip
+ * @file       pios_lsm303.c
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @brief      LSM303 3-axis accelerometer and 3-axis magnetometer driver
  * @see        The GNU Public License (GPL) Version 3
  *
  ******************************************************************************

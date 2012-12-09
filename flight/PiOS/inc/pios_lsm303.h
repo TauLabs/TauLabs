@@ -6,8 +6,8 @@
  * @brief Deals with the hardware interface to the LSM303 3-axis accelerometer and 3-axis magnetometer
  * @{
  *
- * @file       PIOS_lsm303.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @file       pios_lsm303.h
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      LSM303 3-axis accelerometer and 3-axis magnetometer function headers
  * @see        The GNU Public License (GPL) Version 3
  *

@@ -8,6 +8,7 @@
  *
  * @file       pios_delay.c
  * @author     Michael Smith Copyright (C) 2012
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      Delay Functions 
  *                 - Provides a micro-second granular delay using the CPU
  *                   cycle counter.

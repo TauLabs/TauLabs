@@ -8,6 +8,7 @@
  *
  * @file       pios_gpio.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      GPIO functions, init, toggle, on & off.
  * @see        The GNU Public License (GPL) Version 3
  *

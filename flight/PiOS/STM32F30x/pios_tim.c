@@ -8,6 +8,7 @@
  *
  * @file       pios_tim.c  
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      Sets up timers and ways to register callbacks on them
  * @see        The GNU Public License (GPL) Version 3
  *
