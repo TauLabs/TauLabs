@@ -129,7 +129,7 @@ bool FilteredUavTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, 
         }
         break;
     case TYPE_NACK: // We have received a NACK for an object that does not exist on the far end.
-        // (but should exist on our end)
+                    // (but should exist on our end)
         // All instances, not allowed for NACK messages
         if (!allInstances)
         {
@@ -138,11 +138,11 @@ bool FilteredUavTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, 
             // Check if object exists:
             if (obj != NULL)
             {
-                this->updateNack(obj);
+                emit nackReceived(obj);
             }
             else
             {
-                error = true;
+             error = true;
             }
         }
         break;
@@ -152,10 +152,11 @@ bool FilteredUavTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, 
         {
             // Get object
             obj = objMngr->getObject(objId, instId);
-            // Check if we actually know this object, to be sure:
+            // Check if we actually know this object (tiny chance the ObjID
+            // could be unknown and got through CRC check...)
             if (obj != NULL)
             {
-                this->updateAck(obj);
+                emit ackReceived(obj);
             }
             else
             {
