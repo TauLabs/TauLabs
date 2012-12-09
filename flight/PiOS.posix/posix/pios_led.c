@@ -35,9 +35,6 @@
 
 
 /* Local Variables */
-//static GPIO_TypeDef* LED_GPIO_PORT[PIOS_LED_NUM] = PIOS_LED_PORTS;
-//static const uint32_t LED_GPIO_PIN[PIOS_LED_NUM] = PIOS_LED_PINS;
-//static const uint32_t LED_GPIO_CLK[PIOS_LED_NUM] = PIOS_LED_CLKS;
 static uint8_t LED_GPIO[PIOS_LED_NUM];
 
 
@@ -51,17 +48,7 @@ static inline void PIOS_SetLED(uint32_t LED,uint8_t stat) {
 */
 void PIOS_LED_Init(void)
 {
-	//GPIO_InitTypeDef GPIO_InitStructure;
-	//GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 
-	//GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	
 	for(int LEDNum = 0; LEDNum < PIOS_LED_NUM; LEDNum++) {
-		//RCC_APB2PeriphClockCmd(LED_GPIO_CLK[LEDNum], ENABLE);
-		//GPIO_InitStructure.GPIO_Pin = LED_GPIO_PIN[LEDNum];
-		//GPIO_Init(LED_GPIO_PORT[LEDNum], &GPIO_InitStructure);
-
-		/* LED's Off */
-		//LED_GPIO_PORT[LEDNum]->BSRR = LED_GPIO_PIN[LEDNum];
 		LED_GPIO[LEDNum]=0;
 	}
 }
@@ -71,10 +58,9 @@ void PIOS_LED_Init(void)
 * Turn on LED
 * \param[in] LED LED Name (LED1, LED2)
 */
-void PIOS_LED_On(uint32_t LED)
+void PIOS_LED_On(uint32_t led)
 {
-	//LED_GPIO_PORT[LED]->BRR = LED_GPIO_PIN[LED];
-	PIOS_SetLED(LED,1);
+	PIOS_SetLED(led,1);
 }
 
 
@@ -82,10 +68,9 @@ void PIOS_LED_On(uint32_t LED)
 * Turn off LED
 * \param[in] LED LED Name (LED1, LED2)
 */
-void PIOS_LED_Off(uint32_t LED)
+void PIOS_LED_Off(uint32_t led)
 {
-	//LED_GPIO_PORT[LED]->BSRR = LED_GPIO_PIN[LED];
-	PIOS_SetLED(LED,0);
+	PIOS_SetLED(led,0);
 }
 
 
@@ -93,10 +78,9 @@ void PIOS_LED_Off(uint32_t LED)
 * Toggle LED on/off
 * \param[in] LED LED Name (LED1, LED2)
 */
-void PIOS_LED_Toggle(uint32_t LED)
+void PIOS_LED_Toggle(uint32_t led)
 {
-	//LED_GPIO_PORT[LED]->ODR ^= LED_GPIO_PIN[LED];
-	PIOS_SetLED(LED,LED_GPIO[LED]?0:1);
+	PIOS_SetLED(led,LED_GPIO[led]?0:1);
 }
 
 #endif

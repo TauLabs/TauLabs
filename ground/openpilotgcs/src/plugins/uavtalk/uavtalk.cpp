@@ -189,23 +189,10 @@ bool UAVTalk::sendObject(UAVObject* obj, bool acked, bool allInstances)
  */
 bool UAVTalk::objectTransaction(UAVObject* obj, quint8 type, bool allInstances)
 {
-    // Send object depending on whether a response is needed
-    if (type == TYPE_OBJ_ACK || type == TYPE_OBJ_REQ)
+    if (type == TYPE_OBJ_ACK || type == TYPE_OBJ_REQ || type == TYPE_OBJ)
     {
-        if ( transmitObject(obj, type, allInstances) )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    else if (type == TYPE_OBJ)
-    {
-        return transmitObject(obj, TYPE_OBJ, allInstances);
-    }
-    else
+        return transmitObject(obj, type, allInstances);
+    } else
     {
         return false;
     }
@@ -505,20 +492,8 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
         {
             // Get object and update its data
             obj = updateObject(objId, instId, data);
-// ELCHANGES
             if (obj == NULL)
                     error = true;
-            /*
-            // Check if an ack is pending
-            if ( obj != NULL )
-            {
-              updateAck(obj);
-            }
-            else
-            {
-                error = true;
-            }
-            */
         }
         else
         {
@@ -579,7 +554,7 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
             // Check if object exists:
             if (obj != NULL)
             {
-                updateNack(obj);
+                emit nackReceived(obj);
             }
             else
             {
@@ -593,10 +568,11 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
         {
             // Get object
             obj = objMngr->getObject(objId, instId);
-            // Check if we actually know this object, to be sure:
+            // Check if we actually know this object (tiny chance the ObjID
+            // could be unknown and got through CRC check...)
             if (obj != NULL)
             {
-                updateAck(obj);
+                emit ackReceived(obj);
             }
             else
             {
@@ -650,29 +626,6 @@ UAVObject* UAVTalk::updateObject(quint32 objId, quint16 instId, quint8* data)
         obj->unpack(data);
         return obj;
     }
-}
-
-/**
- * Tell the upper layer we received a NACK for an object.
- * Note: obj should be a valid object pointer, this method will not
- * re-check.
- */
-void UAVTalk::updateNack(UAVObject* obj)
-{
-    qDebug() << "[uavtalk.cpp] NACK, existing transaction completed for " << obj->getName();
-    emit transactionCompleted(obj, false);
-}
-
-
-/**
- * Tell the upper layer we received an ACK for an object
- * Note: obj should be a valid object pointer, this method will not
- * re-check.
- */
-void UAVTalk::updateAck(UAVObject* obj)
-{
-    qDebug() << "[uavtalk.cpp] ACK, existing transaction completed for " << obj->getName();
-    emit transactionCompleted(obj, true);
 }
 
 

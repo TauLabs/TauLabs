@@ -310,7 +310,7 @@ int32_t PIOS_COM_SendBufferNonBlocking(uint32_t com_id, const uint8_t *buffer, u
 		}
 	}
 
-	return (0);
+	return (bytes_into_fifo);
 }
 
 /**
@@ -351,7 +351,7 @@ int32_t PIOS_COM_SendBuffer(uint32_t com_id, const uint8_t *buffer, uint16_t len
 #endif
 	} while (rc == -2);
 
-	return rc;
+	return len;
 }
 
 /**
