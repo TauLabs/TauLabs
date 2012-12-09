@@ -51,7 +51,16 @@ static xQueueHandle queue;
 static PathPlannerSettingsData pathPlannerSettings;
 static WaypointActiveData waypointActive;
 static WaypointData waypoint;
+
+//! Flag to indicate the status for the @ref VtolPathFollower or @ref FixedWingFollower
+//! has been updated but not processed (in the main task thread)
 static bool path_status_updated;
+
+//! Store which waypoint has actually been pushed into PathDesired
+static int32_t active_waypoint = -1;
+
+//! Store the previous waypoint which is used to determine the path trajectory
+static int32_t previous_waypoint = -1;
 
 // Private functions
 static void advanceWaypoint();
@@ -65,10 +74,6 @@ static void pathStatusUpdated(UAVObjEvent * ev);
 static void createPathBox();
 static void createPathLogo();
 
-//! Store which waypoint has actually been pushed into PathDesired
-static int32_t active_waypoint = -1;
-//! Store the previous waypoint which is used to determine the path trajectory
-static int32_t previous_waypoint = -1;
 /**
  * Module initialization
  */
@@ -133,38 +138,37 @@ static void pathPlannerTask(void *parameters)
 
 		vTaskDelay(UPDATE_RATE_MS / portTICK_RATE_MS);
 
-		// When not running the path planner short circuit and wait
+		/* When not running the path planner short circuit and wait */
 		FlightStatusGet(&flightStatus);
-		if (flightStatus.FlightMode != FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER) {
-			pathplanner_active = false;
-			continue;
-		}
+		pathplanner_active = flightStatus.FlightMode == FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER;
 		
 		if(pathplanner_active == false) {
-			// This triggers callback to update variable
+			/* When the path planner is not active reset to a known initial state */
+
 			WaypointActiveGet(&waypointActive);
 			waypointActive.Index = 0;
 			WaypointActiveSet(&waypointActive);
 
-			// Reset the state.  Active waypoint sholud be set to an invalid
-			// value to force waypoint 0 to become activated when starting
+			/* Reset the state.  Active waypoint sholud be set to an invalid */
+			/* value to force waypoint 0 to become activated when starting   */
 			active_waypoint = -1;
 			previous_waypoint = -1;
+		} else {
 
-			pathplanner_active = true;
-			continue;
+			/* The logic for the path planner is mixed between callbacks (events)  */
+			/* from the UAVOs and the code which runs here which might take longer */
+			/* to execute.  path_status_updated indicates the PathFollower has     */
+			/* update its information and we sholud determine whether to change    */
+			/* the waypoint.  If that happens, the active_waypoint will change and */
+			/* we should activate that waypoint (which in the future might involve */
+			/* calculating a specific trajectory)                                  */
+
+			if (path_status_updated)
+				checkTerminationCondition();
+
+			if (active_waypoint != waypointActive.Index)
+				activateWaypoint(waypointActive.Index);
 		}
-
-		/* This method determines if we have achieved the goal of the active */
-		/* waypoint */
-		if (path_status_updated)
-			checkTerminationCondition();
-
-		/* If advance waypoint takes a long time to calculate then it should */
-		/* be called from here when the active_waypoints does not equal the  */
-		/* WaypointActive.Index                                              */
-		/* if (active_waypoint != WaypointActive.Index)                      */
-		/*     advanceWaypoint(WaypointActive.Index)                         */
 	}
 }
 
@@ -180,8 +184,6 @@ static void waypointsUpdated(UAVObjEvent * ev)
 		return;
 	
 	WaypointActiveGet(&waypointActive);
-	if(active_waypoint != waypointActive.Index)
-		activateWaypoint(waypointActive.Index);
 }
 
 /**
