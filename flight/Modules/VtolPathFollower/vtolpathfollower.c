@@ -49,6 +49,7 @@
  */
 
 #include "openpilot.h"
+#include "misc_math.h"
 #include "paths.h"
 #include "pid.h"
 
@@ -93,7 +94,6 @@ static void updateNedAccel();
 static void updatePathVelocity();
 static void updateEndpointVelocity();
 static void updateVtolDesiredAttitude();
-static float bound(float val, float min, float max);
 static bool vtolpathfollower_enabled;
 
 enum vtol_pid {NORTH_VELOCITY, EAST_VELOCITY, DOWN_VELOCITY, NORTH_POSITION, EAST_POSITION, DOWN_POSITION, VTOL_PID_NUM};
@@ -308,11 +308,11 @@ static void updatePathVelocity()
 	
 	// Interpolate desired velocity along the path
 	float altitudeSetpoint = pathDesired.Start[2] + (pathDesired.End[2] - pathDesired.Start[2]) *
-	    bound(progress.fractional_progress,0,1);
+	    bound_min_max(progress.fractional_progress,0,1);
 
 	float downError = altitudeSetpoint - positionActual.Down;
 	downCommand = pid_apply(&vtol_pids[DOWN_POSITION], downError, dT);
-	velocityDesired.Down = bound(downCommand,
+	velocityDesired.Down = bound_min_max(downCommand,
 								 -guidanceSettings.VerticalVelMax,
 								 guidanceSettings.VerticalVelMax);
 
@@ -383,7 +383,7 @@ void updateEndpointVelocity()
 	// Compute the desired velocity from the position difference
 	downError = pathDesired.End[PATHDESIRED_END_DOWN] - downPos;
 	downCommand = pid_apply(&vtol_pids[DOWN_POSITION], downError, dT);
-	velocityDesired.Down = bound(downCommand,
+	velocityDesired.Down = bound_min_max(downCommand,
 				     -guidanceSettings.VerticalVelMax, 
 				     guidanceSettings.VerticalVelMax);
 	
@@ -479,14 +479,14 @@ static void updateVtolDesiredAttitude()
 	downCommand = -pid_apply(&vtol_pids[NORTH_VELOCITY], downError, dT) +
 	    nedAccel.Down * guidanceSettings.VerticalVelPID[VTOLPATHFOLLOWERSETTINGS_VERTICALVELPID_KD];
 
-	stabDesired.Throttle = bound(downCommand + throttleOffset, 0, 1);
+	stabDesired.Throttle = bound_min_max(downCommand + throttleOffset, 0, 1);
 	
 	// Project the north and east command signals into the pitch and roll based on yaw.  For this to behave well the
 	// craft should move similarly for 5 deg roll versus 5 deg pitch
-	stabDesired.Pitch = bound(-northCommand * cosf(attitudeActual.Yaw * M_PI / 180) + 
+	stabDesired.Pitch = bound_min_max(-northCommand * cosf(attitudeActual.Yaw * M_PI / 180) + 
 				      -eastCommand * sinf(attitudeActual.Yaw * M_PI / 180),
 				      -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch);
-	stabDesired.Roll = bound(-northCommand * sinf(attitudeActual.Yaw * M_PI / 180) + 
+	stabDesired.Roll = bound_min_max(-northCommand * sinf(attitudeActual.Yaw * M_PI / 180) + 
 				     eastCommand * cosf(attitudeActual.Yaw * M_PI / 180),
 				     -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch);
 	
@@ -542,19 +542,6 @@ static void updateNedAccel()
 	accelData.East = accel_ned[1];
 	accelData.Down = accel_ned[2];
 	NedAccelSet(&accelData);
-}
-
-/**
- * Bound input value between limits
- */
-static float bound(float val, float min, float max)
-{
-	if (val < min) {
-		val = min;
-	} else if (val > max) {
-		val = max;
-	}
-	return val;
 }
 
 static void SettingsUpdatedCb(UAVObjEvent * ev)

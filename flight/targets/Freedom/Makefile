@@ -142,6 +142,7 @@ SRC += $(FLIGHTLIB)/taskmonitor.c
 SRC += $(FLIGHTLIB)/sanitycheck.c
 SRC += $(MATHLIB)/sin_lookup.c
 SRC += $(MATHLIB)/pid.c
+SRC += $(MATHLIB)/misc_math.c
 
 ## For RFM22b
 SRC += $(FLIGHTLIB)/packet_handler.c
