@@ -41,8 +41,6 @@
  * For now enumerate as a OpenPilot Revolution board until
  * the usb enumeration in gcs has been extended to support multiple vendor ids
  */
-//#define PIOS_USB_BOARD_VENDOR_ID 0x0fda		//Quantec Networks GmbH
-//#define PIOS_USB_BOARD_PRODUCT_ID 0x0100		//quanton flight control
 
 #define PIOS_USB_BOARD_VENDOR_ID USB_VENDOR_ID_OPENPILOT
 #define PIOS_USB_BOARD_PRODUCT_ID USB_PRODUCT_ID_REVOLUTION
