@@ -62,12 +62,17 @@ static int32_t active_waypoint = -1;
 //! Store the previous waypoint which is used to determine the path trajectory
 static int32_t previous_waypoint = -1;
 
+//! Flag to track if the waypoints have changed since it was activated
+bool waypoints_dirty = false;
+
+
 // Private functions
 static void advanceWaypoint();
 static void checkTerminationCondition();
 static void holdCurrentPosition();
 static void pathPlannerTask(void *parameters);
 static void settingsUpdated(UAVObjEvent * ev);
+static void waypointsActiveUpdated(UAVObjEvent * ev);
 static void waypointsUpdated(UAVObjEvent * ev);
 static void pathStatusUpdated(UAVObjEvent * ev);
 static void createPathBox();
@@ -115,7 +120,7 @@ static void pathPlannerTask(void *parameters)
 	settingsUpdated(PathPlannerSettingsHandle());
 
 	WaypointConnectCallback(waypointsUpdated);
-	WaypointActiveConnectCallback(waypointsUpdated);
+	WaypointActiveConnectCallback(waypointsActiveUpdated);
 
 	PathStatusConnectCallback(pathStatusUpdated);
 
@@ -165,7 +170,7 @@ static void pathPlannerTask(void *parameters)
 			if (path_status_updated)
 				checkTerminationCondition();
 
-			if (active_waypoint != waypointActive.Index) {
+			if (active_waypoint != waypointActive.Index || waypoints_dirty == true) {
 				int32_t activated_waypoint = select_waypoint_simple(waypointActive.Index, previous_waypoint);
 				if (activated_waypoint != waypointActive.Index) {
 					/* If the path calculation does not make the desired waypoint active something went    */
@@ -179,6 +184,9 @@ static void pathPlannerTask(void *parameters)
 
 					/* Invalidate any pending path status updates */
 					path_status_updated = false;
+
+					/* We are synced up to the waypoints */
+					waypoints_dirty = false;
 				}
 			}
 		}
@@ -186,10 +194,10 @@ static void pathPlannerTask(void *parameters)
 }
 
 /**
- * On changed waypoints or active waypoint update position desired
- * if we are in charge
+ * When the active waypoint is changed refresh the object.  This allows
+ * changing the active waypoint during flight from other places (e.g. GCS)
  */
-static void waypointsUpdated(UAVObjEvent * ev)
+static void waypointsActiveUpdated(UAVObjEvent * ev)
 {
 	FlightStatusData flightStatus;
 	FlightStatusGet(&flightStatus);
@@ -197,6 +205,15 @@ static void waypointsUpdated(UAVObjEvent * ev)
 		return;
 	
 	WaypointActiveGet(&waypointActive);
+}
+
+/**
+ * When the waypoints are changed mark them as dirty so the path can be
+ * refreshed in flight
+ */
+static void waypointsUpdated(UAVObjEvent * ev)
+{
+	waypoints_dirty = true;
 }
 
 /**
