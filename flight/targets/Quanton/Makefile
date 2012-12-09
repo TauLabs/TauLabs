@@ -84,6 +84,8 @@ STMLIBDIR = $(APPLIBDIR)
 STMSPDDIR = $(STMLIBDIR)/STM32F4xx_StdPeriph_Driver
 STMSPDSRCDIR = $(STMSPDDIR)/src
 STMSPDINCDIR = $(STMSPDDIR)/inc
+DEBUG_CM3_DIR = $(STMLIBDIR)/Debug
+DEBUG_CM3_DIR_INC = $(DEBUG_CM3_DIR)/inc
 OPUAVOBJINC = $(OPUAVOBJ)/inc
 FLIGHTPLANLIB = $(OPMODULEDIR)/FlightPlan/lib
 FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
@@ -104,14 +106,14 @@ SRC += ${OPMODULEDIR}/System/systemmod.c
 SRC += $(OPSYSTEM)/quanton.c
 SRC += $(OPSYSTEM)/pios_board.c
 SRC += $(OPSYSTEM)/pios_usb_board_data.c
-SRC += $(OPSYSTEM)/alarms.c
+SRC += $(FLIGHTLIB)/alarms.c
 SRC += $(OPUAVTALK)/uavtalk.c
 SRC += $(OPUAVOBJ)/uavobjectmanager.c
 SRC += $(OPUAVOBJ)/eventdispatcher.c
 
 #ifeq ($(DEBUG),YES)
-SRC += $(OPSYSTEM)/dcc_stdio.c
-SRC += $(OPSYSTEM)/cm3_fault_handlers.c
+SRC += $(DEBUG_CM3_DIR)/dcc_stdio.c
+SRC += $(DEBUG_CM3_DIR)/cm3_fault_handlers.c
 #endif
 
 SRC += $(FLIGHTLIB)/CoordinateConversions.c
@@ -170,6 +172,8 @@ EXTRAINCDIRS += $(STMSPDINCDIR)
 EXTRAINCDIRS += $(CMSISDIR)
 EXTRAINCDIRS += $(BOOTINC)
 EXTRAINCDIRS += $(HWDEFSINC)
+EXTRAINCDIRS += $(DEBUG_CM3_DIR_INC)
+
 EXTRAINCDIRS += ${foreach MOD, ${MODULES}, $(OPMODULEDIR)/${MOD}/inc} ${OPMODULEDIR}/System/inc
 
 # List any extra directories to look for library files here.

@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       ObjectManagerFragment.java
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      Base class for all fragments that use the UAVObjectManager.  This
  *             supports all the extensions the ObjectManagerActivity does, namely
  *             access to the UAVObjectManager and callbacks in the UI thread for

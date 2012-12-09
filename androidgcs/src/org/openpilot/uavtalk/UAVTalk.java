@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       UAVTalk.java
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      The protocol layer implementation of UAVTalk.  Serializes objects
  *             for transmission (which is done in the object itself which is aware
  *             of byte packing) wraps that in the UAVTalk packet.  Parses UAVTalk

@@ -60,6 +60,7 @@ MODULES += FirmwareIAP
 
 # To run simulation instead of connect to SITL
 MODULES += Sensors/simulated
+MODULES += SimVisualization 
 
 MODULES += Telemetry
 
@@ -159,7 +160,7 @@ SRC += ${OUTDIR}/InitMods.c
 SRC += ${OPMODULEDIR}/System/systemmod.c
 SRC += $(OPSYSTEM)/revolution.c
 SRC += $(OPSYSTEM)/pios_board_sim.c
-SRC += $(OPSYSTEM)/alarms.c
+SRC += $(FLIGHTLIB)/alarms.c
 SRC += $(OPUAVTALK)/uavtalk.c
 SRC += $(OPUAVOBJ)/uavobjectmanager.c
 SRC += $(OPUAVOBJ)/eventdispatcher.c

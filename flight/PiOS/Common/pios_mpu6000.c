@@ -6,7 +6,7 @@
  * @brief Deals with the hardware interface to the 3-axis gyro
  * @{
  *
- * @file       pios_mpu000.c
+ * @file       pios_mpu6000.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @brief      MPU6000 6-axis gyro and accel chip
  * @see        The GNU Public License (GPL) Version 3
