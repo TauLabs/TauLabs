@@ -32,7 +32,7 @@
 #include "waypoint.h"
 
 //! Compute a path between two waypoints
-int select_waypoint_simple(int32_t new_waypoint, int32_t previous_waypoint);
+int32_t select_waypoint_simple(int32_t new_waypoint, int32_t previous_waypoint);
 
 #endif /* PATH_CALCULATION_SIMPLE_H */
 

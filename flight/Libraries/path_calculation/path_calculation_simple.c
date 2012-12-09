@@ -32,7 +32,7 @@
  *            indicates to use the current position
  * @returns The waypoint index selected if success or -1 if failure
  */
-int select_waypoint_simple(int32_t new_waypoint, int32_t previous_waypoint)
+int32_t select_waypoint_simple(int32_t new_waypoint, int32_t previous_waypoint)
 {
 	WaypointData waypoint;
 
