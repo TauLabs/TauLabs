@@ -186,6 +186,7 @@ int32_t PIOS_USART_Init(uint32_t * usart_id, const struct pios_usart_cfg * cfg)
 		GPIO_Init(usart_dev->cfg->tx.gpio, (GPIO_InitTypeDef *)&usart_dev->cfg->tx.init);
 
 	// FIXME: add support for inverted operation
+	/*
 	USART_ClockInitTypeDef USART_ClockInitStruct = {
 		.USART_Clock = USART_Clock_Enable,
 		.USART_CPOL = USART_CPOL_Low,
@@ -193,7 +194,8 @@ int32_t PIOS_USART_Init(uint32_t * usart_id, const struct pios_usart_cfg * cfg)
 		.USART_LastBit = USART_LastBit_Disable,
 	};
 
-	//USART_ClockInit(usart_dev->cfg->regs, &USART_ClockInitStruct);
+	USART_ClockInit(usart_dev->cfg->regs, &USART_ClockInitStruct);
+	*/
 
 	/* Configure the USART */
 	USART_Init(usart_dev->cfg->regs, (USART_InitTypeDef *)&usart_dev->cfg->init);
