@@ -2,6 +2,7 @@
  ******************************************************************************
  *
  * @file       paths.c
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2012.
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @brief      Library path manipulation 
  *
@@ -44,7 +45,9 @@ static void path_curve(float * start_point, float * end_point, float radius, flo
  * @param[in] mode Path following mode
  * @param[out] status Structure containing progress along path and deviation
  */
-void path_progress(PathDesiredData *pathDesired, float * cur_point, struct path_status * status)
+void path_progress(PathDesiredData *pathDesired,
+	               float *cur_point,
+	               struct path_status *status)
 {
 	uint8_t mode = pathDesired->Mode;
 	float start_point[2] = {pathDesired->Start[0],pathDesired->Start[1]};
@@ -85,7 +88,10 @@ void path_progress(PathDesiredData *pathDesired, float * cur_point, struct path_
  * @param[in] cur_point Current location
  * @param[out] status Structure containing progress along path and deviation
  */
-static void path_endpoint( float * start_point, float * end_point, float * cur_point, struct path_status * status)
+static void path_endpoint(float *start_point,
+	                      float *end_point,
+	                      float *cur_point,
+	                      struct path_status *status)
 {
 	float path_north, path_east, diff_north, diff_east;
 	float dist_path, dist_diff;
@@ -127,7 +133,10 @@ static void path_endpoint( float * start_point, float * end_point, float * cur_p
  * @param[in] cur_point Current location
  * @param[out] status Structure containing progress along path and deviation
  */
-static void path_vector( float * start_point, float * end_point, float * cur_point, struct path_status * status)
+static void path_vector(float *start_point,
+	                    float *end_point,
+	                    float *cur_point,
+	                    struct path_status *status)
 {
 	float path_north, path_east, diff_north, diff_east;
 	float dist_path;
@@ -181,7 +190,11 @@ static void path_vector( float * start_point, float * end_point, float * cur_poi
  * @param[in] cur_point Current location
  * @param[out] status Structure containing progress along path and deviation
  */
-static void path_circle(float * start_point, float * end_point, float * cur_point, struct path_status * status, bool clockwise)
+static void path_circle(float *start_point,
+	                    float *end_point,
+	                    float *cur_point,
+	                    struct path_status *status,
+	                    bool clockwise)
 {
 	float radius_north, radius_east, diff_north, diff_east;
 	float radius,cradius;
@@ -243,7 +256,12 @@ static void path_circle(float * start_point, float * end_point, float * cur_poin
  * @param[in] cur_point Current location
  * @param[out] status Structure containing progress along path and deviation
  */
-static void path_curve(float * start_point, float * end_point, float radius, float * cur_point, struct path_status * status, bool clockwise)
+static void path_curve(float * start_point,
+	                   float * end_point,
+	                   float radius,
+	                   float * cur_point,
+	                   struct path_status *status,
+	                   bool clockwise)
 {
 	float diff_north, diff_east;
 	float path_north, path_east;

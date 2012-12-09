@@ -118,7 +118,7 @@ static void pathPlannerTask(void *parameters)
 	// If the PathStatus isn't available no follower is running and we should abort
 	if (PathStatusHandle() == NULL || !TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER)) {
 		AlarmsSet(SYSTEMALARMS_ALARM_PATHPLANNER, SYSTEMALARMS_ALARM_CRITICAL);
-		vTaskSuspend(pathPlannerTask);
+		vTaskSuspend(taskHandle);
 	}
 	AlarmsClear(SYSTEMALARMS_ALARM_PATHPLANNER);
 

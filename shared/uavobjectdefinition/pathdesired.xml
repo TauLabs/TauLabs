@@ -10,10 +10,22 @@
 		<!-- Endpoint mode - move directly towards endpoint regardless of position -->
 		<!-- Straight Mode - move across linear path through Start towards the waypoint end, adjusting velocity - continue straight -->
 		<!-- Circle Mode - move a circular from start to end with the radius in the mode parameter -->
-		<field name="Mode" units="" type="enum" elements="1" options="FlyEndpoint,FlyVector,FlyCircleRight,FlyCircleLeft,
-			DriveEndpoint,DriveVector,DriveCircleLeft,DriveCircleRight,
-			HoldPosition,CirclePositionLeft,CirclePositionRight,
-			Land" default="FlyVector"/>
+		<field name="Mode" units="" type="enum" elements="1">
+			<options>
+				<option>FlyEndpoint</option>
+				<option>FlyVector</option>
+				<option>FlyCircleRight</option>
+				<option>FlyCircleLeft</option>
+				<option>DriveEndpoint</option>
+				<option>DriveVector</option>
+				<option>DriveCircleLeft</option>
+				<option>DriveCircleRight</option>
+				<option>HoldPosition</option>
+				<option>CirclePositionLeft</option>
+				<option>CirclePositionRight</option>
+				<option>Land</option>
+			</options>
+		</field>
 
 		<!-- The ModeParameter is interpreted based on the mode.  -->
 		<!--   For FlyEndpoint and FlyVector it does nothing -->

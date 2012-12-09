@@ -120,19 +120,26 @@ int32_t VtolPathFollowerStart()
  */
 int32_t VtolPathFollowerInitialize()
 {
+	vtolpathfollower_enabled = false;
+
+#ifdef MODULE_VTOLPATHFOLLOWER_BUILTIN
+	vtolpathfollower_enabled = true;
+#else
 	uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
 	
 	HwSettingsOptionalModulesGet(optionalModules);
 	
 	if (optionalModules[HWSETTINGS_OPTIONALMODULES_VTOLPATHFOLLOWER] == HWSETTINGS_OPTIONALMODULES_ENABLED) {
+		vtolpathfollower_enabled = true;
+	}
+#endif
+
+	if (vtolpathfollower_enabled == true) {
 		VtolPathFollowerSettingsInitialize();
 		PathStatusInitialize();
 		NedAccelInitialize();
 		PathDesiredInitialize();
 		VelocityDesiredInitialize();
-		vtolpathfollower_enabled = true;
-	} else {
-		vtolpathfollower_enabled = false;
 	}
 	
 	return 0;
@@ -202,6 +209,9 @@ static void vtolPathFollowerTask(void *parameters)
 
 		// Check the combinations of flightmode and pathdesired mode
 		switch(flightStatus.FlightMode) {
+			/* This combination of RETURNTOHOME and HOLDPOSITION looks strange but
+			 * is correct.  RETURNTOHOME mode uses HOLDPOSITION with the position
+			 * set to home */
 			case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
 				if (pathDesired.Mode == PATHDESIRED_MODE_HOLDPOSITION) {
 					updateEndpointVelocity();
@@ -230,7 +240,6 @@ static void vtolPathFollowerTask(void *parameters)
 					updateVtolDesiredAttitude();
 				} else {
 					AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE,SYSTEMALARMS_ALARM_ERROR);
-					break;
 				}
 				break;
 			default:
@@ -342,7 +351,10 @@ void updateEndpointVelocity()
 	float eastCommand;
 	float downCommand;
 	
-	float northPos = 0, eastPos = 0, downPos = 0;
+	float northPos = 0;
+	float eastPos = 0;
+	float downPos = 0;
+
 	switch (guidanceSettings.PositionSource) {
 		case VTOLPATHFOLLOWERSETTINGS_POSITIONSOURCE_EKF:
 			northPos = positionActual.North;
@@ -430,7 +442,10 @@ static void updateVtolDesiredAttitude()
 	StabilizationSettingsGet(&stabSettings);
 	NedAccelGet(&nedAccel);
 	
-	float northVel = 0, eastVel = 0, downVel = 0;
+	float northVel = 0;
+	float eastVel = 0;
+	float downVel = 0;
+
 	switch (guidanceSettings.VelocitySource) {
 		case VTOLPATHFOLLOWERSETTINGS_VELOCITYSOURCE_EKF:
 			northVel = velocityActual.North;
@@ -460,7 +475,7 @@ static void updateVtolDesiredAttitude()
 			break;
 	}
 	
-	// Testing code - refactor into manual control command
+	/* This is awkward.  This allows the transmitter to control the yaw while flying navigation */
 	ManualControlCommandData manualControlData;
 	ManualControlCommandGet(&manualControlData);
 	stabDesired.Yaw = stabSettings.MaximumRate[STABILIZATIONSETTINGS_MAXIMUMRATE_YAW] * manualControlData.Yaw;	

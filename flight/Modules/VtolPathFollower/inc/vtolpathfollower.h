@@ -28,8 +28,6 @@
 #ifndef VTOLPATHFOLLOWER_H
 #define VTOLPATHFOLLOWER_H
 
-int32_t VtolPathFollowerInitialize(void);
-
 #endif // VTOLPATHFOLLOWER_H
 
 /**

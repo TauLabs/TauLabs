@@ -28,6 +28,5 @@
 #ifndef PATHPLANNER_H
 #define PATHPLANNER_H
 
-int32_t PathPlannerInitialize();
 
 #endif // PATHPLANNER_H
