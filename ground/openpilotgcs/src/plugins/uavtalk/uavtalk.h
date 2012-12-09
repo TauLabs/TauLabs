@@ -59,8 +59,7 @@ public:
     bool sendObjectRequest(UAVObject* obj, bool allInstances);
     ComStats getStats();
     void resetStats();
-    void updateAck(UAVObject* obj);
-    void updateNack(UAVObject* obj);
+
 signals:
     void transactionCompleted(UAVObject* obj, bool success);
 
@@ -128,6 +127,8 @@ protected:
     bool processInputByte(quint8 rxbyte);
     virtual bool receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* data, qint32 length);
     UAVObject* updateObject(quint32 objId, quint16 instId, quint8* data);
+    void updateAck(UAVObject* obj);
+    void updateNack(UAVObject* obj);
     bool transmitNack(quint32 objId);
     bool transmitObject(UAVObject* obj, quint8 type, bool allInstances);
     bool transmitSingleObject(UAVObject* obj, quint8 type, bool allInstances);
