@@ -233,49 +233,44 @@ static void advanceWaypoint()
 {
 	WaypointActiveGet(&waypointActive);
 
-	// Store the currently active waypoint.  This is used in activeWaypoint to plot
-	// a waypoint from this (previous) waypoint to the newly selected one
+	/* Store the currently active waypoint.  This is used in activeWaypoint to plot */
+	/* a waypoint from this (previous) waypoint to the newly selected one           */
 	previous_waypoint = waypointActive.Index;
 
-	// Default implementation simply jumps to the next possible waypoint.  Insert any
-	// conditional logic desired here.
-	// Note: In the case of conditional logic it is the responsibilty of the implementer
-	// to ensure all possible paths are valid.
+	/* Default implementation simply jumps to the next possible waypoint.  Insert any     */
+	/* conditional logic desired here.                                                    */
+	/* Note: In the case of conditional logic it is the responsibilty of the implementer  */
+	/* to ensure all possible paths are valid.                                            */
 	waypointActive.Index++;
 
 	if (waypointActive.Index >= UAVObjGetNumInstances(WaypointHandle())) {
 		holdCurrentPosition();
 
-		// Do not reset path_status_updated here to avoid this method constantly being called
+		/* Do not reset path_status_updated here to avoid this method constantly being called */
 		return;
 	} else {
 		WaypointActiveSet(&waypointActive);
 	}
 
-	// Invalidate any pending path status updates
+	/* Invalidate any pending path status updates */
 	path_status_updated = false;
 }
 
 /**
  * This method is called when a new waypoint is activated
- *
- * Note: The way this is called, it runs in an object callback.  This is safe because
- * the execution time is extremely short.  If it starts to take a longer time then
- * the main task look should monitor a flag (such as the waypoint changing) and call
- * this method from the main task.
  */
 static void activateWaypoint(int idx)
 {	
 	active_waypoint = idx;
 
 	if (idx >= UAVObjGetNumInstances(WaypointHandle())) {
-		// Attempting to access invalid waypoint.  Fall back to position hold at current location
+		/* Attempting to access invalid waypoint.  Fall back to position hold at current location */
 		AlarmsSet(SYSTEMALARMS_ALARM_PATHPLANNER, SYSTEMALARMS_ALARM_ERROR);
 		holdCurrentPosition();
 		return;
 	}
 
-	// Get the activated waypoint
+	/* Get the activated waypoint */
 	WaypointInstGet(idx, &waypoint);
 
 	PathDesiredData pathDesired;
@@ -285,8 +280,8 @@ static void activateWaypoint(int idx)
 	pathDesired.End[PATHDESIRED_END_DOWN] = waypoint.Position[WAYPOINT_POSITION_DOWN];
 	pathDesired.ModeParameters = waypoint.ModeParameters;
 
-	// Use this to ensure the cases match up (catastrophic if not) and to cover any cases
-	// that don't make sense to come from the path planner
+	/* Use this to ensure the cases match up (catastrophic if not) and to cover any cases */
+	/* that don't make sense to come from the path planner                                */
 	switch(waypoint.Mode) {
 		case WAYPOINT_MODE_FLYVECTOR:
 			pathDesired.Mode = PATHDESIRED_MODE_FLYVECTOR;
@@ -309,7 +304,7 @@ static void activateWaypoint(int idx)
 	pathDesired.EndingVelocity = waypoint.Velocity;
 
 	if(previous_waypoint < 0) {
-		// For first waypoint, get current position as start point
+		/* For first waypoint, get current position as start point */
 		PositionActualData positionActual;
 		PositionActualGet(&positionActual);
 		
@@ -318,7 +313,7 @@ static void activateWaypoint(int idx)
 		pathDesired.Start[PATHDESIRED_START_DOWN] = positionActual.Down - 1;
 		pathDesired.StartingVelocity = waypoint.Velocity;
 	} else {
-		// Get previous waypoint as start point
+		/* Get previous waypoint as start point */
 		WaypointData waypointPrev;
 		WaypointInstGet(previous_waypoint, &waypointPrev);
 		
@@ -330,7 +325,7 @@ static void activateWaypoint(int idx)
 
 	PathDesiredSet(&pathDesired);
 
-	// Invalidate any pending path status updates
+	/* Invalidate any pending path status updates */
 	path_status_updated = false;
 
 	AlarmsClear(SYSTEMALARMS_ALARM_PATHPLANNER);
