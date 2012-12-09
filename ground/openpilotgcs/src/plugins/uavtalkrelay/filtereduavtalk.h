@@ -31,17 +31,28 @@
 #include <QHash>
 #include "uavtalkrelay_global.h"
 
+/**
+ * @brief The FilteredUavTalk class An extension of the UAVTalk class to be run on the master
+ * GCS (the one which also has a connection to the UAV) which will relay object updates to
+ * a slave GCS subject to certain filtering rules which this class enforces.
+ */
 class UAVTALKRELAY_EXPORT FilteredUavTalk:public UAVTalk
 {
     Q_OBJECT
 public:
     FilteredUavTalk(QIODevice* iodev, UAVObjectManager* objMngr,QHash<quint32,UavTalkRelayComon::accessType> rules,UavTalkRelayComon::accessType defaultRule);
+
+    //! Called when an uavtalk packet is received from the slave.  Updates master based on filtering rules
     bool receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* data, qint32 length);
+
+public slots:
+    //! Called whenever an object is updated either locally in the master GCS or from the main
+    //! telemetry connection, but NOT as a consquence of the receiveObject method
+    void sendObjectSlot(UAVObject *obj);
+
 private:
     QHash<quint32,UavTalkRelayComon::accessType> m_rules;
     UavTalkRelayComon::accessType m_defaultRule;
-public slots:
-    void sendObjectSlot(UAVObject *obj);
 };
 
 #endif // FILTEREDUAVTALK_H

@@ -27,10 +27,19 @@
 #include "filtereduavtalk.h"
 #include "gcstelemetrystats.h"
 
-FilteredUavTalk::FilteredUavTalk(QIODevice *iodev, UAVObjectManager *objMngr,QHash<quint32,UavTalkRelayComon::accessType> rules,UavTalkRelayComon::accessType defaultRule):UAVTalk(iodev,objMngr),m_rules(rules),m_defaultRule(defaultRule)
+//! Construct a filtered uavtalk class
+FilteredUavTalk::FilteredUavTalk(QIODevice *iodev, UAVObjectManager *objMngr,
+                                 QHash<quint32,UavTalkRelayComon::accessType> rules,
+                                 UavTalkRelayComon::accessType defaultRule) :
+    UAVTalk(iodev,objMngr),m_rules(rules),m_defaultRule(defaultRule)
 {
 }
 
+/**
+ * @brief FilteredUavTalk::sendObjectSlot Called whenever an object is updated by
+ * the local GCS and sends it to the remote GCS is the rules allow it.
+ * @param obj The UAVObject to possibly send
+ */
 void FilteredUavTalk::sendObjectSlot(UAVObject *obj)
 {
     UavTalkRelayComon::accessType access=m_rules.value(obj->getObjID(),m_defaultRule);
@@ -41,6 +50,16 @@ void FilteredUavTalk::sendObjectSlot(UAVObject *obj)
     sendObject(obj,false,false);
 }
 
+/**
+ * @brief FilteredUavTalk::receiveObject Called by the parent parser whenever an object is deserialized
+ * with a correct CRC.  Determines what to do based on the applicable rules.
+ * @param type The type of UAVTalk message sent (TYPE_OBJ, TYPE_OBJ_ACK, TYPE_OBJ_REQ)
+ * @param objId The ID of the object received
+ * @param instId The instance ID of the received object
+ * @param data The array of data received
+ * @param length The length of the data received
+ * @return True if the object passed the flitering, false otherwise
+ */
 bool FilteredUavTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8 *data, qint32 length)
 {
     Q_UNUSED(length);
