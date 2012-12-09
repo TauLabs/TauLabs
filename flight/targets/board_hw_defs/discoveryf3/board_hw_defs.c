@@ -1,34 +1,32 @@
 /**
  ******************************************************************************
+ * @file       board_hw_defs.c
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @addtogroup OpenPilotSystem OpenPilot System
  * @{
  * @addtogroup OpenPilotCore OpenPilot Core
  * @{
- *
- * @file       board_hw_defs.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @brief      Defines board specific static initializers for hardware for the OpenPilot board.
- * @see        The GNU Public License (GPL) Version 3
- *
+ * @brief Defines board specific static initializers for hardware for the discovery f3 board.
  *****************************************************************************/
-/* 
- * This program is free software; you can redistribute it and/or modify 
- * it under the terms of the GNU General Public License as published by 
- * the Free Software Foundation; either version 3 of the License, or 
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful, but 
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
  * for more details.
- * 
- * You should have received a copy of the GNU General Public License along 
- * with this program; if not, write to the Free Software Foundation, Inc., 
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+ 
 #include <pios_config.h>
 #include <pios_board_info.h>
-
 
 #if defined(PIOS_INCLUDE_LED)
 
@@ -145,6 +143,11 @@ static const struct pios_led_cfg pios_led_cfg = {
 	.num_leds = NELEMENTS(pios_leds),
 };
 
+const struct pios_led_cfg * PIOS_BOARD_HW_DEFS_GetLedCfg (uint32_t board_revision)
+{
+	return &pios_led_cfg;
+}
+
 #endif	/* PIOS_INCLUDE_LED */
 
 
@@ -154,9 +157,9 @@ static const struct pios_led_cfg pios_led_cfg = {
 /* SPI1 Interface
  *      - Used for flash communications
  */
-void PIOS_SPI_gyro_irq_handler(void);
-void SPI1_IRQHandler(void) __attribute__((alias("PIOS_SPI_gyro_irq_handler")));
-static const struct pios_spi_cfg pios_spi_gyro_cfg = {
+void PIOS_SPI_internal_irq_handler(void);
+void SPI1_IRQHandler(void) __attribute__((alias("PIOS_SPI_internal_irq_handler")));
+static const struct pios_spi_cfg pios_spi_internal_cfg = {
 	.regs = SPI1,
 	.remap = GPIO_AF_5,
 	.init = {
@@ -217,12 +220,87 @@ static const struct pios_spi_cfg pios_spi_gyro_cfg = {
 	} },
 };
 
-uint32_t pios_spi_gyro_id;
-void PIOS_SPI_gyro_irq_handler(void)
+uint32_t pios_spi_internal_id;
+void PIOS_SPI_internal_irq_handler(void)
 {
 	/* Call into the generic code to handle the IRQ for this specific device */
-	PIOS_SPI_IRQ_Handler(pios_spi_gyro_id);
+	PIOS_SPI_IRQ_Handler(pios_spi_internal_id);
 }
+
+
+/* SPI2 Interface
+ *      - Used for flash communications
+ */
+void PIOS_SPI_external_irq_handler(void);
+void SPI2_IRQHandler(void) __attribute__((alias("PIOS_SPI_external_irq_handler")));
+static const struct pios_spi_cfg pios_spi_external_cfg = {
+	.regs = SPI2,
+	.remap = GPIO_AF_5,
+	.init = {
+		.SPI_Mode              = SPI_Mode_Master,
+		.SPI_Direction         = SPI_Direction_2Lines_FullDuplex,
+		.SPI_DataSize          = SPI_DataSize_8b,
+		.SPI_NSS               = SPI_NSS_Soft,
+		.SPI_FirstBit          = SPI_FirstBit_MSB,
+		.SPI_CRCPolynomial     = 7,
+		.SPI_CPOL              = SPI_CPOL_Low,
+		.SPI_CPHA              = SPI_CPHA_1Edge,
+		.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_8,
+	},
+	.use_crc = false,
+	.sclk = {
+		.gpio = GPIOB,
+		.init = {
+			.GPIO_Pin = GPIO_Pin_13,
+			.GPIO_Speed = GPIO_Speed_50MHz,
+			.GPIO_Mode = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd = GPIO_PuPd_NOPULL
+		},
+		.pin_source = GPIO_PinSource13,
+	},
+	.miso = {
+		.gpio = GPIOB,
+		.init = {
+			.GPIO_Pin = GPIO_Pin_14,
+			.GPIO_Speed = GPIO_Speed_50MHz,
+			.GPIO_Mode = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd = GPIO_PuPd_NOPULL
+		},
+		.pin_source = GPIO_PinSource14,
+	},
+	.mosi = {
+		.gpio = GPIOB,
+		.init = {
+			.GPIO_Pin = GPIO_Pin_15,
+			.GPIO_Speed = GPIO_Speed_50MHz,
+			.GPIO_Mode = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd = GPIO_PuPd_NOPULL
+		},
+		.pin_source = GPIO_PinSource15,
+	},
+	.slave_count = 1,
+	.ssel = { {
+		.gpio = GPIOB,
+		.init = {
+			.GPIO_Pin = GPIO_Pin_12,
+			.GPIO_Speed = GPIO_Speed_50MHz,
+			.GPIO_Mode  = GPIO_Mode_OUT,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd = GPIO_PuPd_UP
+		},
+	} },
+};
+
+uint32_t pios_spi_external_id;
+void PIOS_SPI_external_irq_handler(void)
+{
+	/* Call into the generic code to handle the IRQ for this specific device */
+	PIOS_SPI_IRQ_Handler(pios_spi_external_id);
+}
+
 
 #endif	/* PIOS_INCLUDE_SPI */
 
@@ -236,12 +314,12 @@ void PIOS_SPI_gyro_irq_handler(void)
 /*
  * I2C Adapters
  */
-void PIOS_I2C_accel_mag_ev_irq_handler(void);
-void PIOS_I2C_accel_mag_er_irq_handler(void);
-void I2C1_EV_IRQHandler() __attribute__ ((alias ("PIOS_I2C_accel_mag_ev_irq_handler")));
-void I2C1_ER_IRQHandler() __attribute__ ((alias ("PIOS_I2C_accel_mag_er_irq_handler")));
+void PIOS_I2C_internal_ev_irq_handler(void);
+void PIOS_I2C_internal_er_irq_handler(void);
+void I2C1_EV_IRQHandler() __attribute__ ((alias ("PIOS_I2C_internal_ev_irq_handler")));
+void I2C1_ER_IRQHandler() __attribute__ ((alias ("PIOS_I2C_internal_er_irq_handler")));
 
-static const struct pios_i2c_adapter_cfg pios_i2c_accel_mag_cfg = {
+static const struct pios_i2c_adapter_cfg pios_i2c_internal_cfg = {
   .regs = I2C1,
   .remap = GPIO_AF_4,
   .init = {
@@ -296,17 +374,92 @@ static const struct pios_i2c_adapter_cfg pios_i2c_accel_mag_cfg = {
   },
 };
 
-uint32_t pios_i2c_accel_mag_id;
-void PIOS_I2C_accel_mag_ev_irq_handler(void)
+uint32_t pios_i2c_internal_id;
+void PIOS_I2C_internal_ev_irq_handler(void)
 {
   /* Call into the generic code to handle the IRQ for this specific device */
-  PIOS_I2C_EV_IRQ_Handler(pios_i2c_accel_mag_id);
+  PIOS_I2C_EV_IRQ_Handler(pios_i2c_internal_id);
 }
 
-void PIOS_I2C_accel_mag_er_irq_handler(void)
+void PIOS_I2C_internal_er_irq_handler(void)
 {
   /* Call into the generic code to handle the IRQ for this specific device */
-  PIOS_I2C_ER_IRQ_Handler(pios_i2c_accel_mag_id);
+  PIOS_I2C_ER_IRQ_Handler(pios_i2c_internal_id);
+}
+
+
+
+void PIOS_I2C_external_ev_irq_handler(void);
+void PIOS_I2C_external_er_irq_handler(void);
+void I2C2_EV_IRQHandler() __attribute__ ((alias ("PIOS_I2C_external_ev_irq_handler")));
+void I2C2_ER_IRQHandler() __attribute__ ((alias ("PIOS_I2C_external_er_irq_handler")));
+
+static const struct pios_i2c_adapter_cfg pios_i2c_external_cfg = {
+  .regs = I2C2,
+  .remap = GPIO_AF_4,
+  .init = {
+    .I2C_Mode                = I2C_Mode_I2C,
+    .I2C_OwnAddress1         = 0,
+    .I2C_Ack                 = I2C_Ack_Enable,
+    .I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit,
+    .I2C_DigitalFilter       = 0x00,
+    .I2C_AnalogFilter        = I2C_AnalogFilter_Enable,
+    .I2C_Timing              = 0x00310309,			//400kHz I2C @ 8MHz input -> PRESC=0x0, SCLDEL=0x3, SDADEL=0x1, SCLH=0x03, SCLL=0x09
+  },
+  .transfer_timeout_ms = 50,
+  .scl = {
+    .gpio = GPIOF,
+    .init = {
+			.GPIO_Pin = GPIO_Pin_6,
+            .GPIO_Mode  = GPIO_Mode_AF,
+            .GPIO_Speed = GPIO_Speed_50MHz,
+            .GPIO_OType = GPIO_OType_PP,
+            .GPIO_PuPd  = GPIO_PuPd_NOPULL,
+    },
+	.pin_source = GPIO_PinSource6,
+  },
+  .sda = {
+    .gpio = GPIOA,
+    .init = {
+			.GPIO_Pin = GPIO_Pin_10,
+            .GPIO_Mode  = GPIO_Mode_AF,
+            .GPIO_Speed = GPIO_Speed_50MHz,
+            .GPIO_OType = GPIO_OType_PP,
+            .GPIO_PuPd  = GPIO_PuPd_NOPULL,
+    },
+	.pin_source = GPIO_PinSource10,
+  },
+  .event = {
+    .flags   = 0,		/* FIXME: check this */
+    .init = {
+			.NVIC_IRQChannel = I2C1_EV_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGHEST,
+			.NVIC_IRQChannelSubPriority = 0,
+			.NVIC_IRQChannelCmd = ENABLE,
+    },
+  },
+  .error = {
+    .flags   = 0,		/* FIXME: check this */
+    .init = {
+			.NVIC_IRQChannel = I2C1_ER_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGHEST,
+			.NVIC_IRQChannelSubPriority = 0,
+			.NVIC_IRQChannelCmd = ENABLE,
+    },
+  },
+};
+
+uint32_t pios_i2c_external_id;
+void PIOS_I2C_external_ev_irq_handler(void)
+{
+  /* Call into the generic code to handle the IRQ for this specific device */
+  PIOS_I2C_EV_IRQ_Handler(pios_i2c_external_id);
+}
+
+void PIOS_I2C_external_er_irq_handler(void)
+{
+  /* Call into the generic code to handle the IRQ for this specific device */
+  PIOS_I2C_ER_IRQ_Handler(pios_i2c_external_id);
 }
 
 #endif /* PIOS_INCLUDE_I2C */
@@ -467,6 +620,102 @@ static const struct pios_dsm_cfg pios_usart3_dsm_aux_cfg = {
  * S.Bus USART
  */
 #include <pios_sbus_priv.h>
+
+static const struct pios_usart_cfg pios_usart1_sbus_cfg = {
+	.regs = USART1,
+	.remap = GPIO_AF_7,
+	.init = {
+		.USART_BaudRate            = 100000,
+		.USART_WordLength          = USART_WordLength_8b,
+		.USART_Parity              = USART_Parity_Even,
+		.USART_StopBits            = USART_StopBits_2,
+		.USART_HardwareFlowControl = USART_HardwareFlowControl_None,
+		.USART_Mode                = USART_Mode_Rx,
+	},
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel                   = USART1_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
+			.NVIC_IRQChannelSubPriority        = 0,
+			.NVIC_IRQChannelCmd                = ENABLE,
+		  },
+	},
+	.rx = {
+		.gpio = GPIOC,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_5,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_UP
+		},
+		.pin_source = GPIO_PinSource5,
+	},
+};
+
+static const struct pios_sbus_cfg pios_usart1_sbus_aux_cfg = {
+	/* Inverter configuration */
+	.inv = {
+		.gpio = GPIOD,
+		.init = {
+			.GPIO_Pin = GPIO_Pin_7,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_OUT,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_NOPULL
+		},
+	},
+	.gpio_inv_enable = Bit_SET,
+};
+
+
+static const struct pios_usart_cfg pios_usart2_sbus_cfg = {
+	.regs = USART2,
+	.remap = GPIO_AF_7,
+	.init = {
+		.USART_BaudRate            = 100000,
+		.USART_WordLength          = USART_WordLength_8b,
+		.USART_Parity              = USART_Parity_Even,
+		.USART_StopBits            = USART_StopBits_2,
+		.USART_HardwareFlowControl = USART_HardwareFlowControl_None,
+		.USART_Mode                = USART_Mode_Rx,
+	},
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel                   = USART2_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
+			.NVIC_IRQChannelSubPriority        = 0,
+			.NVIC_IRQChannelCmd                = ENABLE,
+		  },
+	},
+	.rx = {
+		.gpio = GPIOA,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_3,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_UP
+		},
+		.pin_source = GPIO_PinSource3,
+	},
+};
+
+static const struct pios_sbus_cfg pios_usart2_sbus_aux_cfg = {
+	/* Inverter configuration */
+	.inv = {
+		.gpio = GPIOD,
+		.init = {
+			.GPIO_Pin = GPIO_Pin_7,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_OUT,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_NOPULL
+		},
+	},
+	.gpio_inv_enable = Bit_SET,
+};
+
 
 static const struct pios_usart_cfg pios_usart3_sbus_cfg = {
 	.regs = USART3,
@@ -665,8 +914,8 @@ static const struct pios_usart_cfg pios_usart3_cfg = {
 void PIOS_RTC_IRQ_Handler (void);
 void RTC_WKUP_IRQHandler() __attribute__ ((alias ("PIOS_RTC_IRQ_Handler")));
 static const struct pios_rtc_cfg pios_rtc_main_cfg = {
-	.clksrc = RCC_RTCCLKSource_LSI, // LSI is at 40kHz (30kHz - 60kHz according to the datasheet)
-	.prescaler = 32, // 40000 / 2 / 32 gives 625Hz (469Hz - 938Hz)
+	.clksrc = RCC_RTCCLKSource_HSE_Div32,	//FIXME: this has to be checked
+	.prescaler = 50,
 	.irq = {
 		.init = {
 			.NVIC_IRQChannel                   = RTC_WKUP_IRQn,
@@ -1576,6 +1825,14 @@ static const struct pios_tim_channel pios_tim_rcvrport_all_channels[] = {
 	},
 };
 
+#endif
+
+/*
+ * PWM Inputs
+ */
+#if defined(PIOS_INCLUDE_PWM) || defined(PIOS_INCLUDE_PPM)
+#include <pios_pwm_priv.h>
+
 const struct pios_pwm_cfg pios_pwm_cfg = {
 	.tim_ic_init = {
 		.TIM_ICPolarity = TIM_ICPolarity_Rising,
@@ -1586,6 +1843,20 @@ const struct pios_pwm_cfg pios_pwm_cfg = {
 	.channels = pios_tim_rcvrport_all_channels,
 	.num_channels = NELEMENTS(pios_tim_rcvrport_all_channels),
 };
+
+const struct pios_pwm_cfg pios_pwm_with_ppm_cfg = {
+	.tim_ic_init = {
+		.TIM_ICPolarity = TIM_ICPolarity_Rising,
+		.TIM_ICSelection = TIM_ICSelection_DirectTI,
+		.TIM_ICPrescaler = TIM_ICPSC_DIV1,
+		.TIM_ICFilter = 0x0,
+	},
+	/* Leave the first channel for PPM use and use the rest for PWM */
+	.channels = &pios_tim_rcvrport_all_channels[1],
+	.num_channels = NELEMENTS(pios_tim_rcvrport_all_channels) - 1,
+};
+
+
 #endif
 
 /*
@@ -1632,6 +1903,11 @@ static const struct pios_usb_cfg pios_usb_main_cfg = {
 		},
 	},
 };
+
+const struct pios_usb_cfg * PIOS_BOARD_HW_DEFS_GetUsbCfg (uint32_t board_revision)
+{
+	return &pios_usb_main_cfg;
+}
 
 #include "pios_usb_board_data_priv.h"
 #include "pios_usb_desc_hid_cdc_priv.h"

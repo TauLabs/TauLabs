@@ -81,8 +81,8 @@
 
 #define PIOS_INCLUDE_SETTINGS
 /* A really shitty setting saving implementation */
-//#define PIOS_INCLUDE_FLASH
-//#define PIOS_INCLUDE_FLASH_SECTOR_SETTINGS
+#define PIOS_INCLUDE_FLASH
+#define PIOS_INCLUDE_FLASH_SECTOR_SETTINGS
 
 /* evenly shitty but at least internal settings saving implementation */
 //#define PIOS_INCLUDE_FLASH_INTERNAL

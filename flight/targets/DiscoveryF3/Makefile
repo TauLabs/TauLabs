@@ -45,7 +45,7 @@ endif
 FLASH_TOOL = OPENOCD
 
 # List of modules to include
-#MODULES = Sensors
+MODULES = Sensors
 MODULES += Attitude/revolution 
 MODULES += Actuator
 MODULES += ManualControl
@@ -57,7 +57,7 @@ MODULES += FirmwareIAP
 #MODULES += Airspeed/revolution
 #MODULES += AltitudeHold VtolPathFollower PathPlanner TxPID
 #MODULES += FixedWingPathFollower
-MODULES += Autotune
+#MODULES += Autotune
 MODULES += CameraStab
 #MODULES += OveroSync
 #MODULES += Radio
@@ -110,10 +110,10 @@ SRC += $(OPUAVTALK)/uavtalk.c
 SRC += $(OPUAVOBJ)/uavobjectmanager.c
 SRC += $(OPUAVOBJ)/eventdispatcher.c
 
-#ifeq ($(DEBUG),YES)
+ifeq ($(DEBUG),YES)
 SRC += $(DEBUG_CM3_DIR)/dcc_stdio.c
 SRC += $(DEBUG_CM3_DIR)/cm3_fault_handlers.c
-#endif
+endif
 
 SRC += $(FLIGHTLIB)/CoordinateConversions.c
 SRC += $(FLIGHTLIB)/paths.c
@@ -123,6 +123,7 @@ SRC += $(FLIGHTLIB)/insgps13state.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
 SRC += $(FLIGHTLIB)/sanitycheck.c
 SRC += $(MATHLIB)/sin_lookup.c
+SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/pid.c
 
 ## PIOS Hardware (STM32F30x)
@@ -136,9 +137,8 @@ SRC += $(PIOSCOMMON)/pios_com.c
 SRC += $(PIOSCOMMON)/pios_rcvr.c
 SRC += $(PIOSCOMMON)/pios_sbus.c
 SRC += $(PIOSCOMMON)/pios_gcsrcvr.c
-#SRC += $(PIOSCOMMON)/pios_flash_jedec.c
-#SRC += $(PIOSCOMMON)/pios_flashfs_objlist.c
-SRC += $(PIOSCOMMON)/pios_flashfs_compact.c
+SRC += $(PIOSCOMMON)/pios_flash_jedec.c
+SRC += $(PIOSCOMMON)/pios_flashfs_objlist.c
 SRC += $(PIOSCOMMON)/printf-stdarg.c
 SRC += $(PIOSCOMMON)/pios_usb_desc_hid_cdc.c
 SRC += $(PIOSCOMMON)/pios_usb_desc_hid_only.c
@@ -164,7 +164,7 @@ EXTRAINCDIRS += $(OPUAVSYNTHDIR)
 EXTRAINCDIRS += $(FLIGHTLIBINC)
 EXTRAINCDIRS += $(MATHLIBINC)
 EXTRAINCDIRS += $(RSCODEINC)
-EXTRAINCDIRS += $(PIOSSTM32F3XX)
+EXTRAINCDIRS += $(PIOSSTM32F30X)
 EXTRAINCDIRS += $(PIOSCOMMON)
 EXTRAINCDIRS += $(PIOSBOARDS)
 EXTRAINCDIRS += $(STMSPDINCDIR)
@@ -204,7 +204,7 @@ else
 CFLAGS += -Os
 endif
 
-   
+
 # common architecture-specific flags from the device-specific library makefile
 CFLAGS += $(ARCHFLAGS)
 CFLAGS += -DDIAGNOSTICS
@@ -213,6 +213,7 @@ CFLAGS += -DDIAG_TASKS
 # This is not the best place for these.  Really should abstract out
 # to the board file or something
 CFLAGS += -DSTM32F30X
+CFLAGS += -DMEM_SIZE=$(FW_BANK_SIZE)
 
 # Debugging format.
 DEBUGF = dwarf-2

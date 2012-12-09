@@ -154,10 +154,96 @@ static const struct pios_mpu6050_cfg pios_mpu6050_cfg = {
 };
 #endif /* PIOS_INCLUDE_MPU6050 */
 
+/**
+ * Configuration for L3GD20 chip
+ */
+#if defined(PIOS_INCLUDE_L3GD20)
+#include "pios_l3gd20.h"
+static const struct pios_exti_cfg pios_exti_l3gd20_cfg __exti_config = {
+	.vector = PIOS_L3GD20_IRQHandler,
+	.line = EXTI_Line1,
+	.pin = {
+		.gpio = GPIOE,
+		.init = {
+			.GPIO_Pin = GPIO_Pin_1,
+			.GPIO_Speed = GPIO_Speed_50MHz,
+			.GPIO_Mode = GPIO_Mode_IN,
+			.GPIO_OType = GPIO_OType_OD,
+			.GPIO_PuPd = GPIO_PuPd_NOPULL,
+		},
+	},
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel = EXTI1_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH,
+			.NVIC_IRQChannelSubPriority = 0,
+			.NVIC_IRQChannelCmd = ENABLE,
+		},
+	},
+	.exti = {
+		.init = {
+			.EXTI_Line = EXTI_Line1, // matches above GPIO pin
+			.EXTI_Mode = EXTI_Mode_Interrupt,
+			.EXTI_Trigger = EXTI_Trigger_Rising,
+			.EXTI_LineCmd = ENABLE,
+		},
+	},
+};
+
+static const struct pios_l3gd20_cfg pios_l3gd20_cfg = {
+	.exti_cfg = &pios_exti_l3gd20_cfg,
+	.range = PIOS_L3GD20_SCALE_500_DEG,
+};
+#endif /* PIOS_INCLUDE_L3GD20 */
+
+
+/**
+ * Configuration for the LSM303 chip
+ */
+#if defined(PIOS_INCLUDE_LSM303)
+#include "pios_lsm303.h"
+static const struct pios_exti_cfg pios_exti_lsm303_cfg __exti_config = {
+	.vector = PIOS_LSM303_IRQHandler,
+	.line = EXTI_Line4,
+	.pin = {
+		.gpio = GPIOE,
+		.init = {
+			.GPIO_Pin = GPIO_Pin_4,
+			.GPIO_Speed = GPIO_Speed_50MHz,
+			.GPIO_Mode = GPIO_Mode_IN,
+			.GPIO_OType = GPIO_OType_OD,
+			.GPIO_PuPd = GPIO_PuPd_NOPULL,
+		},
+	},
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel = EXTI4_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
+			.NVIC_IRQChannelSubPriority = 0,
+			.NVIC_IRQChannelCmd = ENABLE,
+		},
+	},
+	.exti = {
+		.init = {
+			.EXTI_Line = EXTI_Line4, // matches above GPIO pin
+			.EXTI_Mode = EXTI_Mode_Interrupt,
+			.EXTI_Trigger = EXTI_Trigger_Rising,
+			.EXTI_LineCmd = ENABLE,
+		},
+	},
+};
+
+static const struct pios_lsm303_cfg pios_lsm303_cfg = {
+	.exti_cfg = &pios_exti_lsm303_cfg,
+	.devicetype = PIOS_LSM303DLHC_DEVICE,
+	.accel_range = PIOS_LSM303_ACCEL_8_G,
+};
+#endif /* PIOS_INCLUDE_LSM303 */
+
 #if defined(PIOS_INCLUDE_FLASH)
 static const struct flashfs_cfg flashfs_m25p_cfg = {
-	.table_magic = 0x88ADDE24,
-	.obj_magic = 0x39A52FE1,
+	.table_magic = 0x85FB3D35,
+	.obj_magic = 0x3015A371,
 	.obj_table_start = 0x00000010,
 	.obj_table_end = 0x00010000,
 	.sector_size = 0x00010000,
@@ -291,11 +377,29 @@ void PIOS_Board_Init(void) {
 	PIOS_LED_Init(led_cfg);
 #endif	/* PIOS_INCLUDE_LED */
 
-#if defined(PIOS_INCLUDE_FLASH)
-	if (PIOS_SPI_Init(&pios_spi_flash_id, &pios_spi_flash_cfg)) {
+#if defined(PIOS_INCLUDE_SPI)
+	if (PIOS_SPI_Init(&pios_spi_internal_id, &pios_spi_internal_cfg)) {
 		PIOS_DEBUG_Assert(0);
 	}
-	if (PIOS_Flash_Jedec_Init(pios_spi_flash_id, 0, &flash_m25p_cfg) != 0)
+	if (PIOS_SPI_Init(&pios_spi_external_id, &pios_spi_external_cfg)) {
+		PIOS_DEBUG_Assert(0);
+	}
+#endif
+
+#if defined(PIOS_INCLUDE_I2C)
+	if (PIOS_I2C_Init(&pios_i2c_internal_id, &pios_i2c_internal_cfg)) {
+		PIOS_DEBUG_Assert(0);
+	}
+	if (PIOS_I2C_Init(&pios_i2c_external_id, &pios_i2c_external_cfg)) {
+		PIOS_DEBUG_Assert(0);
+	}
+#endif
+
+#if defined(PIOS_INCLUDE_FLASH) && defined(PIOS_INCLUDE_SPI)
+	if (PIOS_SPI_Init(&pios_spi_external_id, &pios_spi_external_cfg)) {
+		PIOS_DEBUG_Assert(0);
+	}
+	if (PIOS_Flash_Jedec_Init(pios_spi_external_id, 0, &flash_m25p_cfg) != 0)
 		panic();
 	if (PIOS_FLASHFS_Init(&flashfs_m25p_cfg) != 0)
 		panic();
@@ -457,10 +561,6 @@ void PIOS_Board_Init(void) {
 	}
 
 #endif	/* PIOS_INCLUDE_USB_HID */
-
-	if (usb_hid_present || usb_cdc_present) {
-		PIOS_USBHOOK_Activate();
-	}
 #endif	/* PIOS_INCLUDE_USB */
 
 	/* Configure the IO ports */
@@ -793,15 +893,8 @@ void PIOS_Board_Init(void) {
 	PIOS_DELAY_WaitmS(200);
 	PIOS_WDG_Clear();
 
-#if defined(PIOS_INCLUDE_I2C)
-	if (PIOS_I2C_Init(&pios_i2c_10dof_adapter_id, &pios_i2c_10dof_adapter_cfg)) {
-		PIOS_DEBUG_Assert(0);
-	}
-#endif
-
 #if defined(PIOS_INCLUDE_MPU6050) && defined(PIOS_INCLUDE_I2C)
-
-	if (PIOS_MPU6050_Init(pios_i2c_10dof_adapter_id, PIOS_MPU6050_I2C_ADD_A0_LOW, &pios_mpu6050_cfg) != 0)
+	if (PIOS_MPU6050_Init(pios_i2c_external_id, PIOS_MPU6050_I2C_ADD_A0_LOW, &pios_mpu6050_cfg) != 0)
 		panic();
 	if (PIOS_MPU6050_Test() != 0)
 		panic();
@@ -847,50 +940,48 @@ void PIOS_Board_Init(void) {
 #endif /* PIOS_INCLUDE_MPU6050 && PIOS_INCLUDE_I2C*/
 
 #if defined(PIOS_INCLUDE_L3GD20) && defined(PIOS_INCLUDE_SPI)
-	/* Set up the SPI interface to the gyro */
-	if (PIOS_SPI_Init(&pios_spi_gyro_id, &pios_spi_gyro_cfg)) {
-		PIOS_DEBUG_Assert(0);
-	}
-	PIOS_L3GD20_Init(pios_spi_gyro_id, 0, &pios_l3gd20_cfg);
-	PIOS_Assert(PIOS_L3GD20_Test() == 0);
+	if (PIOS_L3GD20_Init(pios_spi_internal_id, 0, &pios_l3gd20_cfg) != 0)
+		panic();
+	if (PIOS_L3GD20_Test() != 0)
+		panic();
 
 	PIOS_WDG_Clear();
 	PIOS_DELAY_WaitmS(50);
 	PIOS_WDG_Clear();
-#endif
+#endif /* PIOS_INCLUDE_L3GD20 && PIOS_INCLUDE_I2C*/
 
 #if defined(PIOS_INCLUDE_LSM303) && defined(PIOS_INCLUDE_I2C)
-	/* Set up the I2C interface to the accelerometer*/
-	if (PIOS_I2C_Init(&pios_i2c_accel_mag_id, &pios_i2c_accel_mag_cfg)) {
-		PIOS_DEBUG_Assert(0);
-	}
-
-	PIOS_LSM303_Init(pios_i2c_accel_mag_id, &pios_lsm303_cfg);
-	PIOS_LSM303_Test();
+	if (PIOS_LSM303_Init(pios_i2c_internal_id, &pios_lsm303_cfg) != 0)
+		panic();
+	if (PIOS_LSM303_Test() != 0)
+		panic();
 
 	PIOS_WDG_Clear();
 	PIOS_DELAY_WaitmS(50);
 	PIOS_WDG_Clear();
-#endif /* PIOS_INCLUDE_LSM303 */
+#endif /* PIOS_INCLUDE_LSM303 && PIOS_INCLUDE_I2C*/
 
 #if defined(PIOS_INCLUDE_HMC5883) && defined(PIOS_INCLUDE_I2C)
-	PIOS_HMC5883_Init(&pios_hmc5883_cfg);
+	if (PIOS_HMC5883_Init(&pios_hmc5883_cfg) != 0)
+		panic();
 	if (PIOS_HMC5883_Test() != 0)
 		panic();
 
-	//I2C is slow, sensor init as well, reset watchdog to prevent reset here
 	PIOS_WDG_Clear();
-#endif
-
+	PIOS_DELAY_WaitmS(50);
+	PIOS_WDG_Clear();
+#endif /* PIOS_INCLUDE_HMC5883 && PIOS_INCLUDE_I2C*/
 
 #if defined(PIOS_INCLUDE_MS5611) && defined(PIOS_INCLUDE_I2C)
-	PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_10dof_adapter_id);
+	if (PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_external_id) != 0)
+		panic();
 	if (PIOS_MS5611_Test() != 0)
 		panic();
 
-	//I2C is slow, sensor init as well, reset watchdog to prevent reset here
 	PIOS_WDG_Clear();
-#endif
+	PIOS_DELAY_WaitmS(50);
+	PIOS_WDG_Clear();
+#endif /* PIOS_INCLUDE_MS5611 && PIOS_INCLUDE_I2C*/
 
 
 #if defined(PIOS_INCLUDE_GPIO)
