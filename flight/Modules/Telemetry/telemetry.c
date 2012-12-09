@@ -31,7 +31,6 @@
  */
 
 #include "openpilot.h"
-#include "telemetry.h"
 #include "flighttelemetrystats.h"
 #include "gcstelemetrystats.h"
 #include "hwsettings.h"

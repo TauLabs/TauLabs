@@ -38,7 +38,6 @@
 #include <packet_handler.h>
 #include <pios_com_priv.h>
 #include <pios_rfm22b_priv.h>
-#include <radio.h>
 
 // ****************
 // Private constants

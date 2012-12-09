@@ -38,7 +38,6 @@
 
 #include "openpilot.h"
 #include "hwsettings.h"
-#include "airspeed.h"
 #include "airspeedsettings.h"
 #include "baroairspeed.h"	// object that will be updated by the module
 
