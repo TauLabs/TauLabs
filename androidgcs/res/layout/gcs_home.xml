@@ -78,27 +78,15 @@
         android:text="@string/alarms" />
 
     <Button
-        android:id="@+id/launch_tester"
+        android:id="@+id/launch_pathplanner"
         android:layout_width="132dp"
         android:layout_height="wrap_content"
         android:layout_row="8"
         android:layout_column="0"
         android:layout_rowSpan="2"
         android:background="@android:color/transparent"
-        android:drawableTop="@drawable/ic_alarms"
-        android:text="@string/tester" />    
-
-	 <Button
-	     android:id="@+id/launch_osgViewer"
-	     android:layout_width="132dp"
-	     android:layout_height="wrap_content"
-	     android:layout_column="1"
-	     android:layout_gravity="right"
-	     android:layout_row="8"
-	     android:layout_rowSpan="2"
-	     android:background="@android:color/transparent"
-	     android:drawableTop="@drawable/ic_alarms"
-	     android:text="@string/_3dview" />
+        android:drawableTop="@drawable/ic_map"
+        android:text="@string/path_planner" />    
         
 	<Button
         android:id="@+id/launch_tuning"
@@ -112,6 +100,41 @@
         android:drawableTop="@drawable/ic_tuning"
         android:text="@string/tuning" />
 
+	<Button
+        android:id="@+id/launch_tabletControl"
+        android:layout_width="132dp"
+        android:layout_height="wrap_content"
+        android:layout_column="1"
+        android:layout_gravity="right"
+        android:layout_row="6"
+        android:layout_rowSpan="2"
+        android:background="@android:color/transparent"
+        android:drawableTop="@drawable/ic_tabletcontrol"
+        android:text="@string/tablet_control" />
+
+	 <Button
+	     android:id="@+id/launch_osgViewer"
+	     android:layout_width="132dp"
+	     android:layout_height="wrap_content"
+	     android:layout_column="1"
+	     android:layout_gravity="right"
+	     android:layout_row="8"
+	     android:layout_rowSpan="2"
+	     android:background="@android:color/transparent"
+	     android:drawableTop="@drawable/ic_3dview"
+	     android:text="@string/_3dview" />
+
+    <Button
+        android:id="@+id/launch_tester"
+        android:layout_width="132dp"
+        android:layout_height="wrap_content"
+        android:layout_row="10"
+        android:layout_column="0"
+        android:layout_rowSpan="2"
+        android:background="@android:color/transparent"
+        android:drawableTop="@drawable/ic_alarms"
+        android:text="@string/tester" />    
+	 
     <Space
         android:layout_width="1dp"
         android:layout_height="32dp"

@@ -75,15 +75,14 @@ MODULE_INITCALL(WavPlayerInitialize, WavPlayerStart)
 
 // ****************
 /**
- * Main gps task. It does not return.
+ * Main task. It does not return.
  */
 
 static void WavPlayerTask(void *parameters)
 {
-	portTickType xDelay = 100 / portTICK_RATE_MS;
 	portTickType lastSysTime;
 	// Loop forever
-	lastSysTime = xTaskGetTickCount();	//portTickType xDelay = 100 / portTICK_RATE_MS;
+	lastSysTime = xTaskGetTickCount();
 	uint32_t timeNowMs = xTaskGetTickCount() * portTICK_RATE_MS;;
 
 
