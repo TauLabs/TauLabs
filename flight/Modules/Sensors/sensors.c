@@ -308,8 +308,8 @@ static void SensorsTask(void *parameters)
 				break;
 			case 0x02:  // MPU6000 board
 			case 0x03:  // MPU6000 board
-			{
 #if defined(PIOS_INCLUDE_MPU6000) || defined(PIOS_INCLUDE_MPU6050)
+			{
 #if defined(PIOS_INCLUDE_MPU6000)
 				xQueueHandle queue = PIOS_MPU6000_GetQueue();
 				gyro_scaling = PIOS_MPU6000_GetScale();
