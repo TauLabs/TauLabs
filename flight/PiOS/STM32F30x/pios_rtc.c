@@ -72,8 +72,8 @@ void PIOS_RTC_Init(const struct pios_rtc_cfg * cfg)
 		.EXTI_Trigger = EXTI_Trigger_Rising,
 		.EXTI_LineCmd = ENABLE,
 	};
-	EXTI_Init(&ExtiInit);
-	NVIC_Init(&cfg->irq.init);
+	EXTI_Init((EXTI_InitTypeDef*)&ExtiInit);
+	NVIC_Init((NVIC_InitTypeDef*)&cfg->irq.init);
 	RTC_ITConfig(RTC_IT_WUT, ENABLE);
 	
 	RTC_ClearFlag(RTC_FLAG_WUTF);

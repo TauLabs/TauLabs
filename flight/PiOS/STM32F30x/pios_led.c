@@ -55,7 +55,7 @@ int32_t PIOS_LED_Init(const struct pios_led_cfg * cfg)
 			GPIO_PinAFConfig(led->pin.gpio, led->pin.init.GPIO_Pin, led->remap);
 		}
 		
-		GPIO_Init(led->pin.gpio, &led->pin.init);
+		GPIO_Init(led->pin.gpio, (GPIO_InitTypeDef*)&led->pin.init);
 		
 		PIOS_LED_Off(i);
 	}

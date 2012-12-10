@@ -93,7 +93,7 @@ int32_t PIOS_TIM_InitClock(const struct pios_tim_clock_cfg * cfg)
 	PIOS_DEBUG_Assert(cfg);
 
 	/* Configure the dividers for this timer */
-	TIM_TimeBaseInit(cfg->timer, cfg->time_base_init);
+	TIM_TimeBaseInit(cfg->timer, (TIM_TimeBaseInitTypeDef*)cfg->time_base_init);
 
 	/* Configure internal timer clocks */
 	TIM_InternalClockConfig(cfg->timer);
@@ -102,14 +102,14 @@ int32_t PIOS_TIM_InitClock(const struct pios_tim_clock_cfg * cfg)
 	TIM_Cmd(cfg->timer, ENABLE);
 
 	/* Enable Interrupts */
-	NVIC_Init(&cfg->irq.init);
+	NVIC_Init((NVIC_InitTypeDef*)&cfg->irq.init);
 
 	/* Check for optional second vector (dirty hack)
 	 * This is needed for timers 1 and 8 when requiring more than one event
 	 * to generate an interrupt. Actually up to 4 interrupts may be necessary.
 	 */
 	if (cfg->irq2.init.NVIC_IRQChannel != 0)
-		NVIC_Init(&cfg->irq2.init);
+		NVIC_Init((NVIC_InitTypeDef*)&cfg->irq2.init);
 
 	return 0;
 }
@@ -133,23 +133,7 @@ int32_t PIOS_TIM_InitChannels(uint32_t * tim_id, const struct pios_tim_channel *
 	for (uint8_t i = 0; i < num_channels; i++) {
 		const struct pios_tim_channel * chan = &(channels[i]);
 
-		/* Enable the peripheral clock for the GPIO */
-/*		switch ((uint32_t)chan->pin.gpio) {
-		case (uint32_t) GPIOA:
-			RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-			break;
-		case (uint32_t) GPIOB:
-			RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
-			break;
-		case (uint32_t) GPIOC:
-			RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
-			break;
-		default:
-			PIOS_Assert(0);
-			break;
-		}
-*/ // commented out for now as f4 starts all clocks
-		GPIO_Init(chan->pin.gpio, &chan->pin.init);
+		GPIO_Init(chan->pin.gpio, (GPIO_InitTypeDef*)&chan->pin.init);
 
 		PIOS_DEBUG_Assert(chan->remap);
 			
