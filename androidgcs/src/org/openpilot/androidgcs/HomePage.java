@@ -88,7 +88,15 @@ public class HomePage extends ObjectManagerActivity {
 		tester.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				startActivity(new Intent(HomePage.this, FragmentTester.class));
+				startActivity(new Intent(HomePage.this, Transmitter.class));
+			}
+		});
+
+		Button tabletControl = (Button) findViewById(R.id.launch_tabletControl);
+		tabletControl.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				startActivity(new Intent(HomePage.this, Transmitter.class));
 			}
 		});
 
@@ -105,6 +113,14 @@ public class HomePage extends ObjectManagerActivity {
 			@Override
 			public void onClick(View arg0) {
 				startActivity(new Intent(HomePage.this, TuningActivity.class));
+			}
+		});
+
+		Button pathPlanner = (Button) findViewById(R.id.launch_pathplanner);
+		pathPlanner.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				startActivity(new Intent(HomePage.this, PathPlanner.class));
 			}
 		});
 
