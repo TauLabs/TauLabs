@@ -37,7 +37,6 @@
  */
 
 #include "openpilot.h"
-#include "altitude.h"
 #include "baroaltitude.h"	// object that will be updated by the module
 #if defined(PIOS_INCLUDE_HCSR04)
 #include "sonaraltitude.h"	// object that will be updated by the module

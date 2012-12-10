@@ -49,7 +49,7 @@
  */
 
 #include "pios.h"
-#include "attitude.h"
+#include "openpilot.h"
 #include "gyros.h"
 #include "accels.h"
 #include "attitudeactual.h"

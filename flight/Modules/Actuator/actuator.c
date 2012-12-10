@@ -33,7 +33,6 @@
 
 #include "openpilot.h"
 #include "accessorydesired.h"
-#include "actuator.h"
 #include "actuatorsettings.h"
 #include "systemsettings.h"
 #include "actuatordesired.h"
