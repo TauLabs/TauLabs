@@ -42,7 +42,7 @@
  */
 
 #include "pios.h"
-#include "attitude.h"
+#include "openpilot.h"
 
 #include "cameradesired.h"
 #include "attitudesimulated.h"

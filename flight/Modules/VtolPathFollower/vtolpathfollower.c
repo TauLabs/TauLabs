@@ -53,7 +53,6 @@
 #include "paths.h"
 #include "pid.h"
 
-#include "vtolpathfollower.h"
 #include "accels.h"
 #include "attitudeactual.h"
 #include "hwsettings.h"
