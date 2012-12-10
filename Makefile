@@ -133,6 +133,10 @@ help:
 	@echo "     gcs                  - Build the Ground Control System (GCS) application"
 	@echo "     gcs_clean            - Remove the Ground Control System (GCS) application"
 	@echo
+	@echo "   [AndroidGCS]"
+	@echo "     androidgcs           - Build the Ground Control System (GCS) application"
+	@echo "     androidgcs_clean     - Remove the Ground Control System (GCS) application"
+	@echo
 	@echo "   [UAVObjects]"
 	@echo "     uavobjects           - Generate source files from the UAVObject definition XML files"
 	@echo "     uavobjects_test      - parse xml-files - check for valid, duplicate ObjId's, ... "
