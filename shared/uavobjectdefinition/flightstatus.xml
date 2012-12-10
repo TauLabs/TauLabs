@@ -15,7 +15,7 @@
 			<option>VelocityControl</option>
 			<option>PositionHold</option>
 			<option>PathPlanner</option>
-			<option>RTH</option>
+			<option>ReturnToHome</option>
 			<option>Land</option>
 			<!-- Anything above this must match ManualControlSettings.  Below this is tablet only -->
 			<option>ReturnToTablet</option>

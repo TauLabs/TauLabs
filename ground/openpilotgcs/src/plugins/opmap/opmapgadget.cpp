@@ -66,6 +66,9 @@ void OPMapGadget::loadConfiguration(IUAVGadgetConfiguration *config)
     m_widget->setAccessMode(m_config->accessMode());
     m_widget->setUseMemoryCache(m_config->useMemoryCache());
     m_widget->setCacheLocation(m_config->cacheLocation());
+    m_widget->setUserImageHorizontalScale(m_config->getUserImageHorizontalScale());
+    m_widget->setUserImageVerticalScale(m_config->getUserImageVerticalScale());
+    m_widget->setUserImageLocation(m_config->getUserImageLocation());
     m_widget->SetUavPic(m_config->uavSymbol());
     m_widget->setZoom(m_config->zoom());
     m_widget->setPosition(QPointF(m_config->longitude(), m_config->latitude()));

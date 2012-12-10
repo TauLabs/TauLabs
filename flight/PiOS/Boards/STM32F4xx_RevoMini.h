@@ -31,8 +31,12 @@
 
 #include <stdbool.h>
 
+#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 #define DEBUG_LEVEL 0
 #define DEBUG_PRINTF(level, ...) {if(level <= DEBUG_LEVEL && pios_com_aux_id > 0) { PIOS_COM_SendFormattedStringNonBlocking(pios_com_aux_id, __VA_ARGS__); }}
+#else
+#define DEBUG_PRINTF(level, ...)
+#endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 
 //------------------------
 // Timers and Channels Used
@@ -125,17 +129,20 @@ extern uint32_t pios_i2c_flexiport_adapter_id;
 #define PIOS_COM_MAX_DEVS               4
 extern uint32_t pios_com_telem_rf_id;
 extern uint32_t pios_com_gps_id;
-extern uint32_t pios_com_aux_id;
 extern uint32_t pios_com_telem_usb_id;
 extern uint32_t pios_com_bridge_id;
 extern uint32_t pios_com_vcp_id;
-#define PIOS_COM_AUX                    (pios_com_aux_id)
 #define PIOS_COM_GPS                    (pios_com_gps_id)
 #define PIOS_COM_TELEM_USB              (pios_com_telem_usb_id)
 #define PIOS_COM_TELEM_RF               (pios_com_telem_rf_id)
 #define PIOS_COM_BRIDGE                 (pios_com_bridge_id)
 #define PIOS_COM_VCP                    (pios_com_vcp_id)
-#define PIOS_COM_DEBUG                  PIOS_COM_AUX
+
+#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
+extern uint32_t pios_com_debug_id;
+#define PIOS_COM_DEBUG                  (pios_com_debug_id)
+#endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
+
 #if defined(PIOS_INCLUDE_RFM22B)
 #define PIOS_COM_RFM22B_RF_RX_BUF_LEN 512
 #define PIOS_COM_RFM22B_RF_TX_BUF_LEN 512

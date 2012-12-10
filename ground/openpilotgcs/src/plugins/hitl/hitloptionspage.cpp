@@ -79,6 +79,7 @@ QWidget *HITLOptionsPage::createPage(QWidget *parent)
     m_optionsPage->executablePath->setPath(config->Settings().binPath);
     m_optionsPage->dataPath->setPath(config->Settings().dataPath);
 
+    m_optionsPage->inputCommandCheckbox->setChecked(config->Settings().inputCommand);
     m_optionsPage->manualControlRadioButton->setChecked(config->Settings().manualControlEnabled);
     m_optionsPage->gcsReceiverRadioButton->setChecked(config->Settings().gcsReceiverEnabled);
 
@@ -155,6 +156,7 @@ void HITLOptionsPage::apply()
 
     settings.minOutputPeriod = m_optionsPage->minOutputPeriodSpinbox->value();
 
+    settings.inputCommand = m_optionsPage->inputCommandCheckbox->isChecked();
     settings.manualControlEnabled = m_optionsPage->manualControlRadioButton->isChecked();
     settings.gcsReceiverEnabled = m_optionsPage->gcsReceiverRadioButton->isChecked();
 

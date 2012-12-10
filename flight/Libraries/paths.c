@@ -2,6 +2,7 @@
  ******************************************************************************
  *
  * @file       paths.c
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2012.
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @brief      Library path manipulation 
  *
@@ -27,6 +28,104 @@
 #include "pios.h"
 #include "paths.h"
 
+#include "uavobjectmanager.h"
+#include "pathdesired.h"
+
+// private functions
+static void path_endpoint( float * start_point, float * end_point, float * cur_point, struct path_status * status);
+static void path_vector( float * start_point, float * end_point, float * cur_point, struct path_status * status);
+static void path_circle(float * start_point, float * end_point, float * cur_point, struct path_status * status, bool clockwise);
+static void path_curve(float * start_point, float * end_point, float radius, float * cur_point, struct path_status * status, bool clockwise);
+
+/**
+ * @brief Compute progress along path and deviation from it
+ * @param[in] start_point Starting point
+ * @param[in] end_point Ending point
+ * @param[in] cur_point Current location
+ * @param[in] mode Path following mode
+ * @param[out] status Structure containing progress along path and deviation
+ */
+void path_progress(PathDesiredData *pathDesired,
+	               float *cur_point,
+	               struct path_status *status)
+{
+	uint8_t mode = pathDesired->Mode;
+	float start_point[2] = {pathDesired->Start[0],pathDesired->Start[1]};
+	float end_point[2] = {pathDesired->End[0],pathDesired->End[1]};
+
+	switch(mode) {
+		case PATHDESIRED_MODE_FLYVECTOR:
+		case PATHDESIRED_MODE_DRIVEVECTOR:
+			return path_vector(start_point, end_point, cur_point, status);
+			break;
+		case PATHDESIRED_MODE_FLYCIRCLERIGHT:
+		case PATHDESIRED_MODE_DRIVECIRCLERIGHT:
+			return path_curve(start_point, end_point, pathDesired->ModeParameters, cur_point, status, 1);
+			break;
+		case PATHDESIRED_MODE_FLYCIRCLELEFT:
+		case PATHDESIRED_MODE_DRIVECIRCLELEFT:
+			return path_curve(start_point, end_point, pathDesired->ModeParameters, cur_point, status, 0);
+			break;
+		case PATHDESIRED_MODE_CIRCLEPOSITIONLEFT:
+			return path_circle(start_point, end_point, cur_point, status, 0);
+			break;
+		case PATHDESIRED_MODE_CIRCLEPOSITIONRIGHT:
+			return path_circle(start_point, end_point, cur_point, status, 1);
+			break;
+		case PATHDESIRED_MODE_FLYENDPOINT:
+		case PATHDESIRED_MODE_DRIVEENDPOINT:
+		default:
+			// use the endpoint as default failsafe if called in unknown modes
+			return path_endpoint(start_point, end_point, cur_point, status);
+			break;
+	}
+}
+
+/**
+ * @brief Compute progress towards endpoint. Deviation equals distance
+ * @param[in] start_point Starting point
+ * @param[in] end_point Ending point
+ * @param[in] cur_point Current location
+ * @param[out] status Structure containing progress along path and deviation
+ */
+static void path_endpoint(float *start_point,
+	                      float *end_point,
+	                      float *cur_point,
+	                      struct path_status *status)
+{
+	float path_north, path_east, diff_north, diff_east;
+	float dist_path, dist_diff;
+
+	// we do not correct in this mode
+	status->correction_direction[0] = status->correction_direction[1] = 0;
+
+	// Distance to go
+	path_north = end_point[0] - start_point[0];
+	path_east = end_point[1] - start_point[1];
+
+	// Current progress location relative to end
+	diff_north = end_point[0] - cur_point[0];
+	diff_east = end_point[1] - cur_point[1];
+
+	dist_diff = sqrtf( diff_north * diff_north + diff_east * diff_east );
+	dist_path = sqrtf( path_north * path_north + path_east * path_east );
+
+	if(dist_diff < 1e-6 ) {
+		status->fractional_progress = 1;
+		status->error = 0;
+		status->path_direction[0] = status->path_direction[1] = 0;
+		return;
+	}
+
+	status->fractional_progress = 1 - dist_diff / (1 + dist_path);
+	status->error = dist_diff;
+
+	// Compute direction to travel
+	status->path_direction[0] = diff_north / dist_diff;
+	status->path_direction[1] = diff_east / dist_diff;
+
+}
+
 /**
  * @brief Compute progress along path and deviation from it
  * @param[in] start_point Starting point
@@ -34,10 +133,13 @@
  * @param[in] cur_point Current location
  * @param[out] status Structure containing progress along path and deviation
  */
-void path_progress(float * start_point, float * end_point, float * cur_point, struct path_status * status)
+static void path_vector(float *start_point,
+	                    float *end_point,
+	                    float *cur_point,
+	                    struct path_status *status)
 {
 	float path_north, path_east, diff_north, diff_east;
-	float dist_path2;
+	float dist_path;
 	float dot;
 	float normal[2];
 
@@ -50,21 +152,22 @@ void path_progress(float * start_point, float * end_point, float * cur_point, st
 	diff_east = cur_point[1] - start_point[1];
 
 	dot = path_north * diff_north + path_east * diff_east;
-	dist_path2 = path_north * path_north + path_east * path_east;
+	dist_path = sqrtf( path_north * path_north + path_east * path_east );
 
-	if(dist_path2 < 1e-3) {
+	if(dist_path < 1e-6) {
+		// if the path is too short, we cannot determine vector direction.
+		// Fly towards the endpoint to prevent flying away,
+		// but assume progress=1 either way.
+		path_endpoint( start_point, end_point, cur_point, status );
 		status->fractional_progress = 1;
-		status->error = 0;
-		status->correction_direction[0] = status->correction_direction[1] = 0;
-		status->path_direction[0] = status->path_direction[1] = 0;
 		return;
 	}
 
 	// Compute the normal to the path
-	normal[0] = -path_east / sqrtf(dist_path2);
-	normal[1] = path_north / sqrtf(dist_path2);
+	normal[0] = -path_east / dist_path;
+	normal[1] = path_north / dist_path;
 
-	status->fractional_progress = dot / dist_path2;
+	status->fractional_progress = dot / (dist_path * dist_path);
 	status->error = normal[0] * diff_north + normal[1] * diff_east;
 
 	// Compute direction to correct error
@@ -75,9 +178,172 @@ void path_progress(float * start_point, float * end_point, float * cur_point, st
 	status->error = fabs(status->error);
 
 	// Compute direction to travel
-	status->path_direction[0] = path_north / sqrtf(dist_path2);
-	status->path_direction[1] = path_east / sqrtf(dist_path2);
+	status->path_direction[0] = path_north / dist_path;
+	status->path_direction[1] = path_east / dist_path;
+
+}
+
+/**
+ * @brief Compute progress along circular path and deviation from it
+ * @param[in] start_point Starting point
+ * @param[in] end_point Center point
+ * @param[in] cur_point Current location
+ * @param[out] status Structure containing progress along path and deviation
+ */
+static void path_circle(float *start_point,
+	                    float *end_point,
+	                    float *cur_point,
+	                    struct path_status *status,
+	                    bool clockwise)
+{
+	float radius_north, radius_east, diff_north, diff_east;
+	float radius,cradius;
+	float normal[2];
+
+	// Radius
+	radius_north = end_point[0] - start_point[0];
+	radius_east = end_point[1] - start_point[1];
+
+	// Current location relative to center
+	diff_north = cur_point[0] - end_point[0];
+	diff_east = cur_point[1] - end_point[1];
+
+	radius = sqrtf( radius_north * radius_north + radius_east * radius_east );
+	cradius = sqrtf(  diff_north * diff_north   +   diff_east * diff_east );
+
+	if (cradius < 1e-6) {
+		// cradius is zero, just fly somewhere and make sure correction is still a normal
+		status->fractional_progress = 1;
+		status->error = radius;
+		status->correction_direction[0] = 0;
+		status->correction_direction[1] = 1;
+		status->path_direction[0] = 1;
+		status->path_direction[1] = 0;
+		return;
+	}
+
+	if (clockwise) {
+		// Compute the normal to the radius clockwise
+		normal[0] = -diff_east / cradius;
+		normal[1] = diff_north / cradius;
+	} else {
+		// Compute the normal to the radius counter clockwise
+		normal[0] = diff_east / cradius;
+		normal[1] = -diff_north / cradius;
+	}
+	
+	status->fractional_progress = (clockwise?1:-1) * atan2f( diff_north, diff_east) - atan2f( radius_north, radius_east);
+
+	// error is current radius minus wanted radius - positive if too close
+	status->error = radius - cradius;
+
+	// Compute direction to correct error
+	status->correction_direction[0] = (status->error>0?1:-1) * diff_north / cradius;
+	status->correction_direction[1] = (status->error>0?1:-1) * diff_east / cradius;
+
+	// Compute direction to travel
+	status->path_direction[0] = normal[0];
+	status->path_direction[1] = normal[1];
 
 	status->error = fabs(status->error);
 }
 
+/**
+ * @brief Compute progress along circular path and deviation from it
+ * @param[in] start_point Starting point
+ * @param[in] end_point Ending point
+ * @param[in] radius Radius of the curve segment
+ * @param[in] cur_point Current location
+ * @param[out] status Structure containing progress along path and deviation
+ */
+static void path_curve(float * start_point,
+	                   float * end_point,
+	                   float radius,
+	                   float * cur_point,
+	                   struct path_status *status,
+	                   bool clockwise)
+{
+	float diff_north, diff_east;
+	float path_north, path_east;
+	float cradius;
+	float normal[2];	
+
+	// Compute the center of the circle connecting the two points as the intersection of two circles
+	// around the two points from
+	// http://www.mathworks.com/matlabcentral/newsreader/view_thread/255121
+	float m_n, m_e, p_n, p_e, d, center[2];
+
+	// Center between start and end
+	m_n = (start_point[0] + end_point[0]) / 2;
+	m_e = (start_point[1] + end_point[1]) / 2;
+
+	// Normal vector the line between start and end.
+	if (clockwise) {
+		p_n = -(end_point[1] - start_point[1]);
+		p_e = (end_point[0] - start_point[0]);
+	} else {
+		p_n = (end_point[1] - start_point[1]);
+		p_e = -(end_point[0] - start_point[0]);		
+	}
+
+	// Work out how far to go along the perpendicular bisector
+	d = sqrtf(radius * radius / (p_n * p_n + p_e * p_e) - 0.25f);
+
+	float radius_sign = (radius > 0) ? 1 : -1;
+	radius = fabs(radius);
+
+	if (fabs(p_n) < 1e-3 && fabs(p_e) < 1e-3) {
+		center[0] = m_n;
+		center[1] = m_e;
+	} else {
+		center[0] = m_n + p_n * d * radius_sign;
+		center[1] = m_e + p_e * d * radius_sign;
+	}
+
+	// Current location relative to center
+	diff_north = cur_point[0] - center[0];
+	diff_east = cur_point[1] - center[1];
+
+	// Compute current radius from the center
+	cradius = sqrtf(  diff_north * diff_north   +   diff_east * diff_east );
+
+	if (cradius < 1e-6) {
+		// cradius is zero, just fly somewhere and make sure correction is still a normal
+		status->fractional_progress = 1;
+		status->error = radius;
+		status->correction_direction[0] = 0;
+		status->correction_direction[1] = 1;
+		status->path_direction[0] = 1;
+		status->path_direction[1] = 0;
+		return;
+	}
+
+	if (clockwise) {
+		// Compute the normal to the radius clockwise
+		normal[0] = -diff_east / cradius;
+		normal[1] = diff_north / cradius;
+	} else {
+		// Compute the normal to the radius counter clockwise
+		normal[0] = diff_east / cradius;
+		normal[1] = -diff_north / cradius;
+	}
+
+	// Compute direction to correct error
+	status->correction_direction[0] = (status->error>0?1:-1) * diff_north / cradius;
+	status->correction_direction[1] = (status->error>0?1:-1) * diff_east / cradius;
+
+	// Compute direction to travel
+	status->path_direction[0] = normal[0];
+	status->path_direction[1] = normal[1];
+
+	path_north = end_point[0] - start_point[0];
+	path_east = end_point[1] - start_point[1];
+	diff_north = cur_point[0] - start_point[0];
+	diff_east = cur_point[1] - start_point[1];
+	float dist_path = sqrtf( path_north * path_north + path_east * path_east );
+	float dot = path_north * diff_north + path_east * diff_east;
+
+	status->fractional_progress = dot / (dist_path * dist_path);
+
+	status->error = fabs(status->error);
+}

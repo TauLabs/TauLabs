@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       TelemetryMonitor.java
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      High level monitoring of telemetry to handle connection and
  *             disconnection and then signal the rest of the application.
  *             This also makes sure to fetch all objects on initial connection.

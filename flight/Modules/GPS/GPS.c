@@ -34,6 +34,7 @@
 #include "GPS.h"
 
 #include "gpsposition.h"
+#include "airspeedactual.h"
 #include "homelocation.h"
 #include "gpstime.h"
 #include "gpssatellites.h"
@@ -45,6 +46,10 @@
 
 #include "NMEA.h"
 #include "UBX.h"
+
+#if defined(PIOS_GPS_PROVIDES_AIRSPEED)
+#include "gps_airspeed.h"
+#endif
 
 
 // ****************
@@ -145,9 +150,11 @@ int32_t GPSInitialize(void)
 	GPSPositionInitialize();
 	GPSVelocityInitialize();
 	GPSTimeInitialize();
+	GPSSatellitesInitialize();
 	HomeLocationInitialize();
-#endif
+	updateSettings();
 
+#else
 	if (gpsPort && gpsEnabled) {
 		GPSPositionInitialize();
 		GPSVelocityInitialize();
@@ -158,8 +165,12 @@ int32_t GPSInitialize(void)
 #ifdef PIOS_GPS_SETS_HOMELOCATION
 		HomeLocationInitialize();
 #endif
+#if defined(PIOS_GPS_PROVIDES_AIRSPEED)
+		AirspeedActualInitialize();
+#endif
 		updateSettings();
 	}
+#endif
 
 	if (gpsPort && gpsEnabled) {
 		SystemSettingsInitialize();
@@ -198,6 +209,10 @@ static void gpsTask(void *parameters)
 	uint8_t	gpsProtocol;
 
 	SystemSettingsGPSDataProtocolGet(&gpsProtocol);
+
+#if defined(PIOS_GPS_PROVIDES_AIRSPEED)
+	gps_airspeed_initialize();
+#endif
 
 	timeOfLastUpdateMs = timeNowMs;
 	timeOfLastCommandMs = timeNowMs;
@@ -257,7 +272,10 @@ static void gpsTask(void *parameters)
 				if (home.Set == HOMELOCATION_SET_FALSE)
 					setHomeLocation(&gpsposition);
 #endif
-			}
+			} else if (gpsposition.Status == GPSPOSITION_STATUS_FIX3D)
+						AlarmsSet(SYSTEMALARMS_ALARM_GPS, SYSTEMALARMS_ALARM_WARNING);
+					else
+						AlarmsSet(SYSTEMALARMS_ALARM_GPS, SYSTEMALARMS_ALARM_CRITICAL);
 		}
 
 	}

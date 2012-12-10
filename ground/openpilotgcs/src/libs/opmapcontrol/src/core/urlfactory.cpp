@@ -172,6 +172,14 @@ namespace core {
 
     }
 
+    /**
+     * @brief UrlFactory::MakeImageUrl Make the requesting URL for the desired quadtile
+     * @param type Type of map (Google Satellite, Bing, ARCGIS...)
+     * @param pos Quadtile to be drawn
+     * @param zoom Quadtile zoom level
+     * @param language ???
+     * @return
+     */
     QString UrlFactory::MakeImageUrl(const MapType::Types &type,const Point &pos,const int &zoom,const QString &language)
     {
 #ifdef DEBUG_URLFACTORY

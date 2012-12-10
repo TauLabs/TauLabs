@@ -62,10 +62,11 @@
 #include "gyros.h"
 #include "gyrosbias.h"
 #include "homelocation.h"
+#include "inertialsensorsettings.h"
+#include "inssettings.h"
 #include "magnetometer.h"
 #include "nedposition.h"
 #include "positionactual.h"
-#include "revocalibration.h"
 #include "revosettings.h"
 #include "velocityactual.h"
 #include "CoordinateConversions.h"
@@ -97,18 +98,23 @@ static xQueueHandle gpsVelQueue;
 
 static AttitudeSettingsData attitudeSettings;
 static HomeLocationData homeLocation;
-static RevoCalibrationData revoCalibration;
+static INSSettingsData insSettings;
 static RevoSettingsData revoSettings;
 static bool gyroBiasSettingsUpdated = false;
 const uint32_t SENSOR_QUEUE_SIZE = 10;
 
+bool accel_filter_enabled;
+float accel_alpha;
+
 // Private functions
 static void AttitudeTask(void *parameters);
 
-static int32_t updateAttitudeComplimentary(bool first_run);
+static int32_t updateAttitudeComplementary(bool first_run);
 static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode);
 static void settingsUpdatedCb(UAVObjEvent * objEv);
 
+//! A low pass filter on the accels which helps with vibration resistance
+static void apply_accel_filter(const float * raw, float * filtered);
 static int32_t getNED(GPSPositionData * gpsPosition, float * NED);
 
 /**
@@ -128,36 +134,21 @@ int32_t AttitudeInitialize(void)
 {
 	AttitudeActualInitialize();
 	AttitudeSettingsInitialize();
+	InertialSensorSettingsInitialize();
+	INSSettingsInitialize();
 	NEDPositionInitialize();
 	PositionActualInitialize();
-	VelocityActualInitialize();
 	RevoSettingsInitialize();
-	RevoCalibrationInitialize();
-	
+	VelocityActualInitialize();
+
 	// Initialize this here while we aren't setting the homelocation in GPS
 	HomeLocationInitialize();
 
-	// Initialize quaternion
-	AttitudeActualData attitude;
-	AttitudeActualGet(&attitude);
-	attitude.q1 = 1;
-	attitude.q2 = 0;
-	attitude.q3 = 0;
-	attitude.q4 = 0;
-	AttitudeActualSet(&attitude);
-	
-	// Cannot trust the values to init right above if BL runs
-	GyrosBiasData gyrosBias;
-	GyrosBiasGet(&gyrosBias);
-	gyrosBias.x = 0;
-	gyrosBias.y = 0;
-	gyrosBias.z = 0;
-	GyrosBiasSet(&gyrosBias);
-	
 	AttitudeSettingsConnectCallback(&settingsUpdatedCb);
-	RevoSettingsConnectCallback(&settingsUpdatedCb);
-	RevoCalibrationConnectCallback(&settingsUpdatedCb);
 	HomeLocationConnectCallback(&settingsUpdatedCb);
+	InertialSensorSettingsConnectCallback(&settingsUpdatedCb);
+	INSSettingsConnectCallback(&settingsUpdatedCb);
+	RevoSettingsConnectCallback(&settingsUpdatedCb);
 
 	return 0;
 }
@@ -180,13 +171,34 @@ int32_t AttitudeStart(void)
 	xTaskCreate(AttitudeTask, (signed char *)"Attitude", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &attitudeTaskHandle);
 	TaskMonitorAdd(TASKINFO_RUNNING_ATTITUDE, attitudeTaskHandle);
 	PIOS_WDG_RegisterFlag(PIOS_WDG_ATTITUDE);
-	
+
+	// Initialize quaternion
+	AttitudeActualData attitude;
+	AttitudeActualGet(&attitude);
+	attitude.q1 = 1;
+	attitude.q2 = 0;
+	attitude.q3 = 0;
+	attitude.q4 = 0;
+	AttitudeActualSet(&attitude);
+
+	// Cannot trust the values to init right above if BL runs
+	GyrosBiasData gyrosBias;
+	GyrosBiasGet(&gyrosBias);
+	gyrosBias.x = 0;
+	gyrosBias.y = 0;
+	gyrosBias.z = 0;
+	GyrosBiasSet(&gyrosBias);
+
 	GyrosConnectQueue(gyroQueue);
 	AccelsConnectQueue(accelQueue);
-	MagnetometerConnectQueue(magQueue);
-	BaroAltitudeConnectQueue(baroQueue);
-	GPSPositionConnectQueue(gpsQueue);
-	GPSVelocityConnectQueue(gpsVelQueue);
+	if (MagnetometerHandle())
+		MagnetometerConnectQueue(magQueue);
+	if (BaroAltitudeHandle())
+		BaroAltitudeConnectQueue(baroQueue);
+	if (GPSPositionHandle())
+		GPSPositionConnectQueue(gpsQueue);
+	if (GPSVelocityHandle())
+		GPSVelocityConnectQueue(gpsVelQueue);
 
 	return 0;
 }
@@ -223,8 +235,8 @@ static void AttitudeTask(void *parameters)
 
 		// This  function blocks on data queue
 		switch (revoSettings.FusionAlgorithm ) {
-			case REVOSETTINGS_FUSIONALGORITHM_COMPLIMENTARY:
-				ret_val = updateAttitudeComplimentary(first_run);
+			case REVOSETTINGS_FUSIONALGORITHM_COMPLEMENTARY:
+				ret_val = updateAttitudeComplementary(first_run);
 				break;
 			case REVOSETTINGS_FUSIONALGORITHM_INSOUTDOOR:
 				ret_val = updateAttitudeINSGPS(first_run, true);
@@ -251,7 +263,7 @@ float mag_err[3];
 float magKi = 0.000001f;
 float magKp = 0.01f;
 
-static int32_t updateAttitudeComplimentary(bool first_run)
+static int32_t updateAttitudeComplementary(bool first_run)
 {
 	UAVObjEvent ev;
 	GyrosData gyrosData;
@@ -260,13 +272,19 @@ static int32_t updateAttitudeComplimentary(bool first_run)
 	float dT;
 	static uint8_t init = 0;
 
+	static float accels_filtered[3] = {0,0,0};
+	static float grot_filtered[3] = {0,0,0};
+
 	// Wait until the AttitudeRaw object is updated, if a timeout then go to failsafe
 	if ( xQueueReceive(gyroQueue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS) != pdTRUE ||
 	     xQueueReceive(accelQueue, &ev, 1 / portTICK_RATE_MS) != pdTRUE )
 	{
 		// When one of these is updated so should the other
-		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_WARNING);
-		return -1;
+		// Do not set attitude timeout warnings in simulation mode
+		if (!AttitudeActualReadOnly()){
+			AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_WARNING);
+			return -1;
+		}
 	}
 
 	AccelsGet(&accelsData);
@@ -339,18 +357,39 @@ static int32_t updateAttitudeComplimentary(bool first_run)
 	// Get the current attitude estimate
 	quat_copy(&attitudeActual.q1, q);
 
+	// Apply smoothing to accel values, to reduce vibration noise before main calculations.
+	apply_accel_filter(&accelsData.x,accels_filtered);
+
 	// Rotate gravity to body frame and cross with accels
 	grot[0] = -(2 * (q[1] * q[3] - q[0] * q[2]));
 	grot[1] = -(2 * (q[2] * q[3] + q[0] * q[1]));
 	grot[2] = -(q[0] * q[0] - q[1]*q[1] - q[2]*q[2] + q[3]*q[3]);
 	CrossProduct((const float *) &accelsData.x, (const float *) grot, accel_err);
 
+	// Apply same filtering to the rotated attitude to match delays
+	apply_accel_filter(grot,grot_filtered);
+
+	// Compute the error between the predicted direction of gravity and smoothed acceleration
+	CrossProduct((const float *) accels_filtered, (const float *) grot_filtered, accel_err);
+
+	float grot_mag;
+	if (accel_filter_enabled)
+		grot_mag = sqrtf(grot_filtered[0]*grot_filtered[0] + grot_filtered[1]*grot_filtered[1] + grot_filtered[2]*grot_filtered[2]);
+	else
+		grot_mag = 1.0f;
+
 	// Account for accel magnitude
-	accel_mag = accelsData.x*accelsData.x + accelsData.y*accelsData.y + accelsData.z*accelsData.z;
+	accel_mag = accels_filtered[0]*accels_filtered[0] + accels_filtered[1]*accels_filtered[1] + accels_filtered[2]*accels_filtered[2];
 	accel_mag = sqrtf(accel_mag);
-	accel_err[0] /= accel_mag;
-	accel_err[1] /= accel_mag;
-	accel_err[2] /= accel_mag;	
+	if (grot_mag > 1.0e-3f && accel_mag > 1.0e-3f) {
+		accel_err[0] /= (accel_mag * grot_mag);
+		accel_err[1] /= (accel_mag * grot_mag);
+		accel_err[2] /= (accel_mag * grot_mag);
+	} else {
+		accel_err[0] = 0;
+		accel_err[1] = 0;
+		accel_err[2] = 0;
+	}
 
 	if ( xQueueReceive(magQueue, &ev, 0) != pdTRUE )
 	{
@@ -364,7 +403,7 @@ static int32_t updateAttitudeComplimentary(bool first_run)
 
 		// If the mag is producing bad data don't use it (normally bad calibration)
 		if  (mag.x == mag.x && mag.y == mag.y && mag.z == mag.z) {
-			rot_mult(Rbe, homeLocation.Be, brot);
+			rot_mult(Rbe, homeLocation.Be, brot, false);
 
 			float mag_len = sqrtf(mag.x * mag.x + mag.y * mag.y + mag.z * mag.z);
 			mag.x /= mag_len;
@@ -528,10 +567,13 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 
 	// Wait until the gyro and accel object is updated, if a timeout then go to failsafe
 	if ( (xQueueReceive(gyroQueue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS) != pdTRUE) ||
-		(xQueueReceive(accelQueue, &ev, 1 / portTICK_RATE_MS) != pdTRUE) )
+	     (xQueueReceive(accelQueue, &ev, 1 / portTICK_RATE_MS) != pdTRUE) )
 	{
-		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_WARNING);
-		return -1;
+		// Do not set attitude timeout warnings in simulation mode
+		if (!AttitudeActualReadOnly()){
+			AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_WARNING);
+			return -1;
+		}
 	}
 
 	if (inited) {
@@ -598,10 +640,10 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 
 			// Reset the INS algorithm
 			INSGPSInit();
-			INSSetMagVar(revoCalibration.mag_var);
-			INSSetAccelVar(revoCalibration.accel_var);
-			INSSetGyroVar(revoCalibration.gyro_var);
-			INSSetBaroVar(revoCalibration.baro_var);
+			INSSetMagVar(insSettings.mag_var);
+			INSSetAccelVar(insSettings.accel_var);
+			INSSetGyroVar(insSettings.gyro_var);
+			INSSetBaroVar(insSettings.baro_var);
 
 			// Initialize the gyro bias from the settings
 			float gyro_bias[3] = {gyrosBias.x * F_PI / 180.0f, gyrosBias.y * F_PI / 180.0f, gyrosBias.z * F_PI / 180.0f};
@@ -631,10 +673,10 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 
 			// Reset the INS algorithm
 			INSGPSInit();
-			INSSetMagVar(revoCalibration.mag_var);
-			INSSetAccelVar(revoCalibration.accel_var);
-			INSSetGyroVar(revoCalibration.gyro_var);
-			INSSetBaroVar(revoCalibration.baro_var);
+			INSSetMagVar(insSettings.mag_var);
+			INSSetAccelVar(insSettings.accel_var);
+			INSSetGyroVar(insSettings.gyro_var);
+			INSSetBaroVar(insSettings.baro_var);
 
 			INSSetMagNorth(homeLocation.Be);
 
@@ -721,7 +763,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	// Because the sensor module remove the bias we need to add it
 	// back in here so that the INS algorithm can track it correctly
 	float gyros[3] = {gyrosData.x * F_PI / 180.0f, gyrosData.y * F_PI / 180.0f, gyrosData.z * F_PI / 180.0f};
-	if (revoCalibration.BiasCorrectedRaw == REVOCALIBRATION_BIASCORRECTEDRAW_TRUE) {
+	if (attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE) {
 		gyros[0] += gyrosBias.x * F_PI / 180.0f;
 		gyros[1] += gyrosBias.y * F_PI / 180.0f;
 		gyros[2] += gyrosBias.z * F_PI / 180.0f;
@@ -753,7 +795,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	
 	if (gps_updated && outdoor_mode)
 	{
-		INSSetPosVelVar(revoCalibration.gps_var[REVOCALIBRATION_GPS_VAR_POS], revoCalibration.gps_var[REVOCALIBRATION_GPS_VAR_VEL]);
+		INSSetPosVelVar(insSettings.gps_var[INSSETTINGS_GPS_VAR_POS], insSettings.gps_var[INSSETTINGS_GPS_VAR_VEL]);
 		sensors |= POS_SENSORS;
 
 		if (0) { // Old code to take horizontal velocity from GPS Position update
@@ -817,7 +859,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	velocityActual.Down = Nav.Vel[2];
 	VelocityActualSet(&velocityActual);
 
-	if (revoCalibration.BiasCorrectedRaw == REVOCALIBRATION_BIASCORRECTEDRAW_TRUE && !gyroBiasSettingsUpdated) {
+	if (attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE && !gyroBiasSettingsUpdated) {
 		// Copy the gyro bias into the UAVO except when it was updated
 		// from the settings during the calculation, then consume it
 		// next cycle
@@ -828,6 +870,19 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	}
 
 	return 0;
+}
+
+static void apply_accel_filter(const float * raw, float * filtered)
+{
+	if(accel_filter_enabled) {
+		filtered[0] = filtered[0] * accel_alpha + raw[0] * (1 - accel_alpha);
+		filtered[1] = filtered[1] * accel_alpha + raw[1] * (1 - accel_alpha);
+		filtered[2] = filtered[2] * accel_alpha + raw[2] * (1 - accel_alpha);
+	} else {
+		filtered[0] = raw[0];
+		filtered[1] = raw[1];
+		filtered[2] = raw[2];
+	}
 }
 
 /**
@@ -856,24 +911,27 @@ static int32_t getNED(GPSPositionData * gpsPosition, float * NED)
 
 static void settingsUpdatedCb(UAVObjEvent * ev) 
 {
-	if (ev == NULL || ev->obj == RevoCalibrationHandle()) {
-		RevoCalibrationGet(&revoCalibration);
+	if (ev == NULL || ev->obj == InertialSensorSettingsHandle()) {
+		InertialSensorSettingsData inertialSensorSettings;
+		InertialSensorSettingsGet(&inertialSensorSettings);
 		
 		/* When the revo calibration is updated, update the GyroBias object */
 		GyrosBiasData gyrosBias;
 		GyrosBiasGet(&gyrosBias);
-		gyrosBias.x = revoCalibration.gyro_bias[REVOCALIBRATION_GYRO_BIAS_X];
-		gyrosBias.y = revoCalibration.gyro_bias[REVOCALIBRATION_GYRO_BIAS_Y];
-		gyrosBias.z = revoCalibration.gyro_bias[REVOCALIBRATION_GYRO_BIAS_Z];
+		gyrosBias.x = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_X];
+		gyrosBias.y = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_Y];
+		gyrosBias.z = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_Z];
 		GyrosBiasSet(&gyrosBias);
 
 		gyroBiasSettingsUpdated = true;
-
+	}
+	if (ev == NULL || ev->obj == INSSettingsHandle()) {
+		INSSettingsGet(&insSettings);
 		// In case INS currently running
-		INSSetMagVar(revoCalibration.mag_var);
-		INSSetAccelVar(revoCalibration.accel_var);
-		INSSetGyroVar(revoCalibration.gyro_var);
-		INSSetBaroVar(revoCalibration.baro_var);
+		INSSetMagVar(insSettings.mag_var);
+		INSSetAccelVar(insSettings.accel_var);
+		INSSetGyroVar(insSettings.gyro_var);
+		INSSetBaroVar(insSettings.baro_var);
 	}
 	if(ev == NULL || ev->obj == HomeLocationHandle()) {
 		HomeLocationGet(&homeLocation);
@@ -886,8 +944,19 @@ static void settingsUpdatedCb(UAVObjEvent * ev)
 		T[1] = cosf(lat)*(alt+6.378137E6f);
 		T[2] = -1.0f;
 	}
-	if (ev == NULL || ev->obj == AttitudeSettingsHandle())
+	if (ev == NULL || ev->obj == AttitudeSettingsHandle()) {
 		AttitudeSettingsGet(&attitudeSettings);
+			
+		// Calculate accel filter alpha, in the same way as for gyro data in stabilization module.
+		const float fakeDt = 0.0025;
+		if(attitudeSettings.AccelTau < 0.0001) {
+			accel_alpha = 0;   // not trusting this to resolve to 0
+			accel_filter_enabled = false;
+		} else {
+			accel_alpha = expf(-fakeDt  / attitudeSettings.AccelTau);
+			accel_filter_enabled = true;
+		}
+	}
 	if (ev == NULL || ev->obj == RevoSettingsHandle())
 		RevoSettingsGet(&revoSettings);
 }

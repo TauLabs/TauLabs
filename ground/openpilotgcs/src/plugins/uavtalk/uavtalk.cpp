@@ -1,13 +1,14 @@
 /**
  ******************************************************************************
- *
  * @file       uavtalk.cpp
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVTalkPlugin UAVTalk Plugin
  * @{
- * @brief The UAVTalk protocol plugin
+ * @brief Implementation of the UAVTalk protocol which serializes and
+ * deserializes UAVObjects
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify 
@@ -32,9 +33,9 @@
 //#define UAVTALK_DEBUG
 #ifdef UAVTALK_DEBUG
   #include "qxtlogger.h"
-  #define UAVTALK_QXTLOG_DEBUG(args...) qxtLog->debug(args...)
+  #define UAVTALK_QXTLOG_DEBUG(...) qxtLog->debug(__VA_ARGS__)
 #else  // UAVTALK_DEBUG
-  #define UAVTALK_QXTLOG_DEBUG(args...)
+  #define UAVTALK_QXTLOG_DEBUG(...)
 #endif	// UAVTALK_DEBUG
 
 #define SYNC_VAL 0x3C
@@ -79,7 +80,7 @@ UAVTalk::UAVTalk(QIODevice* iodev, UAVObjectManager* objMngr)
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     Core::Internal::GeneralSettings * settings=pm->getObject<Core::Internal::GeneralSettings>();
     useUDPMirror=settings->useUDPMirror();
-    qDebug()<<"USE UDP:::::::::::."<<useUDPMirror;
+    qDebug()<<"[uavtalk.cpp] Use UDP: "<<useUDPMirror;
     if(useUDPMirror)
     {
         udpSocketTx=new QUdpSocket(this);
@@ -178,27 +179,10 @@ bool UAVTalk::sendObject(UAVObject* obj, bool acked, bool allInstances)
 }
 
 /**
- * Cancel a pending transaction
- */
-void UAVTalk::cancelTransaction(UAVObject* obj)
-{
-    QMutexLocker locker(mutex);
-    quint32 objId = obj->getObjID();
-    if(io.isNull())
-        return;
-    QMap<quint32, Transaction*>::iterator itr = transMap.find(objId);
-    if ( itr != transMap.end() )
-    {
-        transMap.remove(objId);
-	delete itr.value();
-    }
-}
-
-/**
  * Execute the requested transaction on an object.
  * \param[in] obj Object
  * \param[in] type Transaction type
- * 			  TYPE_OBJ: send object,
+ * 			  TYPE_OBJ: send object with no ack,
  * 			  TYPE_OBJ_REQ: request object update
  * 			  TYPE_OBJ_ACK: send object with an ack
  * \param[in] allInstances If set true then all instances will be updated
@@ -206,34 +190,17 @@ void UAVTalk::cancelTransaction(UAVObject* obj)
  */
 bool UAVTalk::objectTransaction(UAVObject* obj, quint8 type, bool allInstances)
 {
-    // Send object depending on if a response is needed
-    if (type == TYPE_OBJ_ACK || type == TYPE_OBJ_REQ)
+    if (type == TYPE_OBJ_ACK || type == TYPE_OBJ_REQ || type == TYPE_OBJ)
     {
-        if ( transmitObject(obj, type, allInstances) )
-        {
-	    Transaction *trans = new Transaction();
-	    trans->obj = obj;
-	    trans->allInstances = allInstances;
-            transMap.insert(obj->getObjID(), trans);
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    else if (type == TYPE_OBJ)
-    {
-        return transmitObject(obj, TYPE_OBJ, allInstances);
-    }
-    else
+        return transmitObject(obj, type, allInstances);
+    } else
     {
         return false;
     }
 }
 
 /**
- * Process an byte from the telemetry stream.
+ * Process a byte from the telemetry stream.
  * \param[in] rxbyte Received byte
  * \return Success (true), Failure (false)
  */
@@ -349,13 +316,12 @@ bool UAVTalk::processInputByte(quint8 rxbyte)
                 if (rxType == TYPE_OBJ_REQ || rxType == TYPE_ACK || rxType == TYPE_NACK)
                 {
                     rxLength = 0;
-                    rxInstanceLength = 0;
                 }
                 else
                 {
                     rxLength = rxObj->getNumBytes();
-                    rxInstanceLength = (rxObj->isSingleInstance() ? 0 : 2);
                 }
+                rxInstanceLength = (rxObj->isSingleInstance() ? 0 : 2);
 
                 // Check length and determine next state
                 if (rxLength >= MAX_PAYLOAD_LENGTH)
@@ -448,7 +414,7 @@ bool UAVTalk::processInputByte(quint8 rxbyte)
             rxBuffer[rxCount++] = rxbyte;
             if (rxCount < rxLength)
             {
-                UAVTALK_QXTLOG_DEBUG("UAVTalk: Data->Data");
+                //UAVTALK_QXTLOG_DEBUG("UAVTalk: Data->Data");
                 break;
             }
 
@@ -520,28 +486,21 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
 
     // Process message type
     switch (type) {
-    case TYPE_OBJ:
+    case TYPE_OBJ: // We have received an object.
         // All instances, not allowed for OBJ messages
         if (!allInstances)
         {
             // Get object and update its data
             obj = updateObject(objId, instId, data);
-            // Check if an ack is pending
-            if ( obj != NULL )
-            {
-                updateAck(obj);
-            }
-            else
-            {
-                error = true;
-            }
+            if (obj == NULL)
+                    error = true;
         }
         else
         {
             error = true;
         }
         break;
-    case TYPE_OBJ_ACK:
+    case TYPE_OBJ_ACK: // We have received an object and are asked for an ACK
         // All instances, not allowed for OBJ_ACK messages
         if (!allInstances)
         {
@@ -562,7 +521,7 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
             error = true;
         }
         break;
-    case TYPE_OBJ_REQ:
+    case TYPE_OBJ_REQ:  // We are being asked for an object
         // Get object, if all instances are requested get instance 0 of the object
         if (allInstances)
         {
@@ -585,7 +544,8 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
             error = true;
         }
         break;
-    case TYPE_NACK:
+    case TYPE_NACK: // We have received a NACK for an object that does not exist on the far end.
+                    // (but should exist on our end)
         // All instances, not allowed for NACK messages
         if (!allInstances)
         {
@@ -594,7 +554,7 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
             // Check if object exists:
             if (obj != NULL)
             {
-                updateNack(obj);
+                emit nackReceived(obj);
             }
             else
             {
@@ -602,16 +562,18 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
             }
         }
         break;
-    case TYPE_ACK:
+    case TYPE_ACK: // We have received a ACK, supposedly after sending an object with OBJ_ACK
         // All instances, not allowed for ACK messages
         if (!allInstances)
         {
+            qDebug() << "Got ack for instance: " << instId;
             // Get object
             obj = objMngr->getObject(objId, instId);
-            // Check if an ack is pending
+            // Check if we actually know this object (tiny chance the ObjID
+            // could be unknown and got through CRC check...)
             if (obj != NULL)
             {
-                updateAck(obj);
+                emit ackReceived(obj);
             }
             else
             {
@@ -622,7 +584,7 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
     default:
         error = true;
     }
-    // Done
+    // Done (exit value is "success", hence the "!" below)
     return !error;
 }
 
@@ -664,40 +626,6 @@ UAVObject* UAVTalk::updateObject(quint32 objId, quint16 instId, quint8* data)
         // Unpack data into object instance
         obj->unpack(data);
         return obj;
-    }
-}
-
-/**
- * Check if a transaction is pending and if yes complete it.
- */
-void UAVTalk::updateNack(UAVObject* obj)
-{
-    Q_ASSERT(obj);
-    if ( ! obj )
-        return;
-    quint32 objId = obj->getObjID();
-    QMap<quint32, Transaction*>::iterator itr = transMap.find(objId);
-    if ( itr != transMap.end() && (itr.value()->obj->getInstID() == obj->getInstID() || itr.value()->allInstances))
-    {
-        transMap.remove(objId);
-	delete itr.value();
-        emit transactionCompleted(obj, false);
-    }
-}
-
-
-/**
- * Check if a transaction is pending and if yes complete it.
- */
-void UAVTalk::updateAck(UAVObject* obj)
-{
-    quint32 objId = obj->getObjID();
-    QMap<quint32, Transaction*>::iterator itr = transMap.find(objId);
-    if ( itr != transMap.end() && (itr.value()->obj->getInstID() == obj->getInstID() || itr.value()->allInstances))
-    {
-        transMap.remove(objId);
-	delete itr.value();
-        emit transactionCompleted(obj, true);
     }
 }
 
@@ -760,6 +688,8 @@ bool UAVTalk::transmitObject(UAVObject* obj, quint8 type, bool allInstances)
 
 /**
  * Transmit a NACK through the telemetry link.
+ * This method is separate from transmitsingleobject because we are
+ * using an objectID for an unknown object.
  * \param[in] objId the ObjectID we rejected
  */
 bool UAVTalk::transmitNack(quint32 objId)

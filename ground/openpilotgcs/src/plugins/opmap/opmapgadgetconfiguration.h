@@ -69,6 +69,11 @@ public:
     int maxUpdateRate() const { return m_maxUpdateRate; }
     qreal opacity() const { return m_opacity; }
     void saveConfig() const;
+
+    QString getUserImageLocation(){return m_userImageLocation;}
+    float getUserImageHorizontalScale(){return m_userImageHorizontalScale;}
+    float getUserImageVerticalScale(){return m_userImageVerticalScale;}
+
 public slots:
     void setMapProvider(QString provider) { m_mapProvider = provider; }
     void setZoom(int zoom) { m_defaultZoom = zoom; }
@@ -79,9 +84,12 @@ public slots:
     void setShowTileGridLines(bool showTileGridLines) { m_showTileGridLines = showTileGridLines; }
     void setAccessMode(QString accessMode) { m_accessMode = accessMode; }
     void setUseMemoryCache(bool useMemoryCache) { m_useMemoryCache = useMemoryCache; }
-    void setCacheLocation(QString cacheLocation);
+    void setCacheLocation(QString cacheLocation) { m_cacheLocation = cacheLocation; }
     void setUavSymbol(QString symbol){m_uavSymbol=symbol;}
-	void setMaxUpdateRate(int update_rate){m_maxUpdateRate = update_rate;}
+    void setMaxUpdateRate(int update_rate){m_maxUpdateRate = update_rate;}
+    void setUserImageLocation(QString userImageLocation){m_userImageLocation = userImageLocation;}
+    void setUserImageHorizontalScale(float userImageHorizontalScale){m_userImageHorizontalScale = userImageHorizontalScale;}
+    void setUserImageVerticalScale(float userImageVerticalScale){m_userImageVerticalScale = userImageVerticalScale;}
 
 private:
     QString m_mapProvider;
@@ -97,6 +105,11 @@ private:
 	int m_maxUpdateRate;
     QSettings * m_settings;
     qreal m_opacity;
+
+    QString m_userImageLocation;
+    float m_userImageHorizontalScale;
+    float m_userImageVerticalScale;
+
 };
 
 #endif // OPMAP_GADGETCONFIGURATION_H

@@ -41,16 +41,21 @@ class QTCREATOR_UTILS_EXPORT CoordinateConversions
 {
 public:
     CoordinateConversions();
-    int GetLLA(double LLA[3], double NED[3], double position[3]);
-    int GetNED(double homeLLA[3], double position[3], double NED[3]);
-    void RneFromLLA(double LLA[3], double Rne[3][3]);
+    int NED2LLA_HomeECEF(double BaseECEF[3], double NED[3], double LLA[3]);
+    int NED2LLA_HomeLLA(double homeLLA[3], double NED[3], double LLA[3]);
+    void LLA2Rne(double LLA[3], double Rne[3][3]);
     void LLA2ECEF(double LLA[3], double ECEF[3]);
     int ECEF2LLA(double ECEF[3], double LLA[3]);
-    void LLA2Base(double LLA[3], double BaseECEF[3], float Rne[3][3], float NED[3]);
+    void LLA2NED_HomeECEF(double LLA[3], double homeECEF[3], double Rne[3][3], double NED[3]);
+    void LLA2NED_HomeLLA(double LLA[3], double homeLLA[3], double NED[3]);
     void Quaternion2RPY(const float q[4], float rpy[3]);
     void RPY2Quaternion(const float rpy[3], float q[4]);
     void Quaternion2R(const float q[4], float Rbe[3][3]);
     void R2Quaternion(float const Rbe[3][3], float q[4]);
+private:
+    //WGS84 parameters
+    static const double R_equator = 6378137.0;           // Equatorial Radius
+    static const double eccentricity = 8.1819190842621e-2;  // Eccentricity
 };
 
 }

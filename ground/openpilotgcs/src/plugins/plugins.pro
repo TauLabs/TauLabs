@@ -55,6 +55,7 @@ plugin_opmap.depends = plugin_coreplugin
 plugin_opmap.depends += plugin_uavobjects
 plugin_opmap.depends += plugin_uavobjectutil
 plugin_opmap.depends += plugin_uavtalk
+plugin_opmap.depends += plugin_pathplanner
 SUBDIRS += plugin_opmap
 
 # Scope UAVGadget
@@ -144,6 +145,12 @@ plugin_qmlview.depends = plugin_coreplugin
 plugin_qmlview.depends += plugin_uavobjects
 SUBDIRS += plugin_qmlview
 
+# Path Planner gadget
+plugin_pathplanner.subdir = pathplanner
+plugin_pathplanner.depends = plugin_coreplugin
+plugin_pathplanner.depends += plugin_uavobjects
+SUBDIRS += plugin_pathplanner
+
 # Waypoint Editor gadget
 plugin_waypointeditor.subdir = waypointeditor
 plugin_waypointeditor.depends = plugin_coreplugin
@@ -167,6 +174,13 @@ plugin_hitl.depends = plugin_coreplugin
 plugin_hitl.depends += plugin_uavobjects
 plugin_hitl.depends += plugin_uavtalk
 SUBDIRS += plugin_hitl
+
+#Motion capture interface gadget
+plugin_mocap.subdir = motioncapture
+plugin_mocap.depends = plugin_coreplugin
+plugin_mocap.depends += plugin_uavobjects
+plugin_mocap.depends += plugin_uavtalk
+SUBDIRS += plugin_mocap
 
 # Export and Import GCS Configuration
 plugin_importexport.subdir = importexport

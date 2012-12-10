@@ -29,6 +29,7 @@
 
 #include "ui_revosensors.h"
 #include "configtaskwidget.h"
+#include "calibration.h"
 
 #include "../uavobjectwidgetutils/configtaskwidget.h"
 #include "extensionsystem/pluginmanager.h"
@@ -53,10 +54,6 @@ public:
     
 private:
     void drawVariancesGraph();
-    void displayPlane(QString elementID);
-
-    //! Computes the scale and bias of the mag based on collected data
-    void computeScaleBias();
 
     Ui_RevoSensorsWidget *m_ui;
     QGraphicsSvgItem *paperplane;
@@ -70,13 +67,12 @@ private:
     QGraphicsSvgItem *mag_x;
     QGraphicsSvgItem *mag_y;
     QGraphicsSvgItem *mag_z;
+    QGraphicsSvgItem *baro;
     QMutex sensorsUpdateLock;
     double maxBarHeight;
     int phaseCounter;
     const static double maxVarValue;
     const static int calibrationDelay = 10;
-
-    bool collectingData;
 
     QList<double> gyro_accum_x;
     QList<double> gyro_accum_y;
@@ -87,6 +83,7 @@ private:
     QList<double> mag_accum_x;
     QList<double> mag_accum_y;
     QList<double> mag_accum_z;
+    QList<double> baro_accum;
 
     double accel_data_x[6], accel_data_y[6], accel_data_z[6];
     double mag_data_x[6], mag_data_y[6], mag_data_z[6];
@@ -97,22 +94,14 @@ private:
     UAVObject::Metadata initialBaroMdata;
     float initialMagCorrectionRate;
 
-    int position;
-
     static const int NOISE_SAMPLES = 100;
 
 private slots:
     //! Overriden method from the configTaskWidget to update UI
     virtual void refreshWidgetsValues(UAVObject * obj=NULL);
 
-    // Slots for calibrating the mags
-    void doStartSixPointCalibration();
-    void doGetSixPointCalibrationMeasurement(UAVObject * obj);
-    void savePositionData();
-
-    // Slots for calibrating the accel and gyro
-    void doStartAccelGyroBiasCalibration();
-    void doGetAccelGyroBiasData(UAVObject*);
+    //! Display the plane in various positions
+    void displayPlane(int i);
 
     // Slots for measuring the sensor noise
     void doStartNoiseMeasurement();
@@ -121,6 +110,8 @@ private slots:
 protected:
     void showEvent(QShowEvent *event);
     void resizeEvent(QResizeEvent *event);
+
+    Calibration calibration;
 
 };
 

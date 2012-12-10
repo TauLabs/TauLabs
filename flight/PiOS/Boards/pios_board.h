@@ -13,8 +13,16 @@
 #include "STM32F2xx_INS.h"
 #elif USE_STM32F4xx_OP
 #include "STM32F4xx_Revolution.h"
+#elif USE_STM32F4xx_OSD
+#include "STM32F4xx_OSD.h"
 #elif USE_STM32F4xx_RM
 #include "STM32F4xx_RevoMini.h"
+#elif USE_STM32F4xx_FREEDOM
+#include "STM32F4xx_Freedom.h"
+#elif USE_STM32F4xx_QUANTON
+#include "STM32F4xx_Quanton.h"
+#elif USE_STM32F4xx_DISCOVERYF4
+#include "STM32F4xx_DiscoveryF4.h"
 #else
 #error Board definition has not been provided.
 #endif

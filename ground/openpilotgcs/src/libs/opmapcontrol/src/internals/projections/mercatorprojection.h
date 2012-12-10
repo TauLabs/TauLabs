@@ -39,7 +39,7 @@ public:
     virtual double Axis() const;
     virtual double Flattening()const;
     virtual core::Point FromLatLngToPixel(double lat, double lng, int const& zoom);
-    virtual internals::PointLatLng FromPixelToLatLng(const int &x,const int &y,const int &zoom);
+    virtual internals::PointLatLng FromPixelToLatLng(const qint64 &x,const qint64 &y,const int &zoom);
     virtual  Size GetTileMatrixMinXY(const int &zoom);
     virtual  Size GetTileMatrixMaxXY(const int &zoom);
 private:
@@ -47,7 +47,6 @@ private:
     const double MaxLatitude;
     const double MinLongitude;
     const double MaxLongitude;
-    double Clip(double const& n, double const& minValue, double const& maxValue)const;
     Size tileSize;
 };
 

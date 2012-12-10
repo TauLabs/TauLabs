@@ -121,7 +121,7 @@ void MapRipper::finish()
                 foreach(core::MapType::Types type,types)
                 {
                     emit providerChanged(core::MapType::StrByType(type),zoom);
-                    QByteArray img = OPMaps::Instance()->GetImageFrom(type, p, zoom);
+                    QByteArray img = OPMaps::Instance()->GetImageFromServer(type, p, zoom);
                     if(img.length()!=0)
                     {
                         goodtile=true;

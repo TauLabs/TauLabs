@@ -23,12 +23,16 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-
 #include "uavobjectgeneratormatlab.h"
+#include "../../../openpilotgcs/src/plugins/coreplugin/coreconstants.h"
+
 
 using namespace std;
 
+
 bool UAVObjectGeneratorMatlab::generate(UAVObjectParser* parser,QString templatepath,QString outputpath) {
+
+    QString gcsRevision = QString::fromLatin1(Core::Constants::GCS_REVISION_STR);
 
     fieldTypeStrMatlab << "int8" << "int16" << "int32"
         << "uint8" << "uint16" << "uint32" << "single" << "uint8";
@@ -52,6 +56,7 @@ bool UAVObjectGeneratorMatlab::generate(UAVObjectParser* parser,QString template
         process_object(info, numBytes);
     }
 
+    matlabCodeTemplate.replace( QString("$(GCSREVISION)"), gcsRevision);
     matlabCodeTemplate.replace( QString("$(INSTANTIATIONCODE)"), matlabInstantiationCode);
     matlabCodeTemplate.replace( QString("$(SWITCHCODE)"), matlabSwitchCode);
     matlabCodeTemplate.replace( QString("$(CLEANUPCODE)"), matlabCleanupCode);
@@ -59,7 +64,7 @@ bool UAVObjectGeneratorMatlab::generate(UAVObjectParser* parser,QString template
     matlabCodeTemplate.replace( QString("$(ALLOCATIONCODE)"), matlabAllocationCode);
     matlabCodeTemplate.replace( QString("$(EXPORTCSVCODE)"), matlabExportCsvCode);
 
-    bool res = writeFile( matlabOutputPath.absolutePath() + "/OPLogConvert.m", matlabCodeTemplate );
+    bool res = writeFile( matlabOutputPath.absolutePath() + "/OPLogConvert.m.pass1", matlabCodeTemplate );
     if (!res) {
         cout << "Error: Could not write output files" << endl;
         return false;

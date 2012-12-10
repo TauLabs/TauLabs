@@ -69,7 +69,7 @@
 #define ARMED_TIME_MS      1000
 #define ARMED_THRESHOLD    0.50f
 //safe band to allow a bit of calibration error or trim offset (in microseconds)
-#define CONNECTION_OFFSET 150
+#define CONNECTION_OFFSET 250
 
 // Private types
 typedef enum
@@ -89,9 +89,8 @@ static portTickType lastSysTime;
 // Private functions
 static void updateActuatorDesired(ManualControlCommandData * cmd);
 static void updateStabilizationDesired(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
-static void altitudeHoldDesired(ManualControlCommandData * cmd, bool changed);
-static void updatePathDesired(ManualControlCommandData * cmd, bool changed);
-static void setRTH(bool changed);
+static void altitudeHoldDesired(ManualControlCommandData * cmd, bool flightModeChanged);
+static void updatePathDesired(bool changed, bool home);
 static int32_t processFlightMode(ManualControlSettingsData * settings, float flightMode);
 static void processArm(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
 static bool processFailsafe(bool valid_input_detected, ManualControlSettingsData * settings);
@@ -239,9 +238,9 @@ static void manualControlTask(void *parameters)
 				
 				// If a channel has timed out this is not valid data and we shouldn't update anything
 				// until we decide to go to failsafe
-				if(cmd.Channel[n] == PIOS_RCVR_TIMEOUT) {
+				if(cmd.Channel[n] == PIOS_RCVR_TIMEOUT)
 					valid_input_detected = false;
-				} else
+				else
 					scaledChannel[n] = scaleChannel(cmd.Channel[n], settings.ChannelMax[n],	settings.ChannelMin[n], settings.ChannelNeutral[n]);
 			}
 
@@ -381,6 +380,7 @@ static void manualControlTask(void *parameters)
 				// Process arming outside conditional so system will disarm when disconnected.  However don't do
 				// it when in failsafe mode
 
+#if defined(PIOS_INCLUDE_TABLETCONTROL)
 				// Only update the flight mode when we got valid data
 				int32_t mode = 0;
 				if (cmd.Connected == MANUALCONTROLCOMMAND_CONNECTED_TRUE)
@@ -389,13 +389,18 @@ static void manualControlTask(void *parameters)
 				// However process arming all the time so it can time out
 				processArm(&cmd, &settings);
 
-#if defined(PIOS_INCLUDE_TABLETCONTROL)
 				// TODO: Right now the arming is processed normally here which means the timeout still applies
 				// for low throttle levels.  Also, when not connected the actual flight mode 
 				if (mode == 1) { // Tablet control
 					processTabletInfo();
 					continue;
 				}
+#else
+				if (cmd.Connected == MANUALCONTROLCOMMAND_CONNECTED_TRUE)
+					processFlightMode(&settings, flightMode);
+
+				// However process arming all the time so it can time out
+				processArm(&cmd, &settings);
 #endif
 			} else {
 				// In the case of failsafe don't process the channels to update the flight mode
@@ -440,13 +445,13 @@ static void manualControlTask(void *parameters)
 				altitudeHoldDesired(&cmd, lastFlightMode != flightStatus.FlightMode);
 				break;
 			case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
-				updatePathDesired(&cmd, lastFlightMode != flightStatus.FlightMode);
+				updatePathDesired(lastFlightMode != flightStatus.FlightMode, false);
 				break;
 			case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
 				// Nothing to do
 				break;			
-			case FLIGHTSTATUS_FLIGHTMODE_RTH:
-				setRTH(lastFlightMode != flightStatus.FlightMode);
+			case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
+				updatePathDesired(lastFlightMode != flightStatus.FlightMode, true);
 				break;
 			default:
 				// Note FLIGHTSTATUS_FLIGHTMODE_VELOCITYCONTROL is no longer covered
@@ -647,8 +652,9 @@ static void updateStabilizationDesired(ManualControlCommandData * cmd, ManualCon
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR) ? cmd->Roll :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYRATE) ? cmd->Roll * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL] :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYATTITUDE) ? cmd->Roll * stabSettings.RollMax :
+	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_COORDINATEDFLIGHT) ? cmd->Roll :
 	     0; // this is an invalid mode
-					      ;
+
 	stabilization.Pitch = (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_NONE) ? cmd->Pitch :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_RATE) ? cmd->Pitch * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING) ? cmd->Pitch * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
@@ -657,6 +663,7 @@ static void updateStabilizationDesired(ManualControlCommandData * cmd, ManualCon
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR) ? cmd->Pitch :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYRATE) ? cmd->Pitch * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYATTITUDE) ? cmd->Pitch * stabSettings.PitchMax :
+	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_COORDINATEDFLIGHT) ? cmd->Pitch :
 	     0; // this is an invalid mode
 
 	stabilization.Yaw = (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_NONE) ? cmd->Yaw :
@@ -667,6 +674,7 @@ static void updateStabilizationDesired(ManualControlCommandData * cmd, ManualCon
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR) ? cmd->Yaw :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYRATE) ? cmd->Yaw * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYATTITUDE) ? cmd->Yaw * stabSettings.YawMax :
+	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_COORDINATEDFLIGHT) ? cmd->Yaw :
 	     0; // this is an invalid mode
 
 	stabilization.Throttle = (cmd->Throttle < 0) ? -1 : cmd->Throttle;
@@ -674,22 +682,35 @@ static void updateStabilizationDesired(ManualControlCommandData * cmd, ManualCon
 }
 
 #if defined(REVOLUTION)
-static void setRTH(bool changed)
+
+/**
+ * @brief Update the position desired to current location when
+ * enabled and allow the waypoint to be moved by transmitter
+ */
+static void updatePathDesired(bool flightModeChanged, bool home)
 {
-	if(changed) {
+		if (flightModeChanged) {
+		// Simple Return To Home mode - climb 10 meters and fly to home position
 		PositionActualData positionActual;
 		PositionActualGet(&positionActual);
-
+		
 		PathDesiredData pathDesired;
 		PathDesiredGet(&pathDesired);
-
-		// Attempt to fly to home 10 m above the current location
-		pathDesired.End[PATHDESIRED_END_NORTH] = 0;
-		pathDesired.End[PATHDESIRED_END_EAST] = 0;
-		pathDesired.End[PATHDESIRED_END_DOWN] = positionActual.Down - 10;
-		pathDesired.StartingVelocity = 2;
-		pathDesired.EndingVelocity = 2;
-		pathDesired.Mode = PATHDESIRED_MODE_ENDPOINT;
+		pathDesired.Start[PATHDESIRED_START_NORTH] = positionActual.North;
+		pathDesired.Start[PATHDESIRED_START_EAST] = positionActual.East;
+		pathDesired.Start[PATHDESIRED_START_DOWN] = positionActual.Down;
+		if (home) {
+			pathDesired.End[PATHDESIRED_END_NORTH] = 0;
+			pathDesired.End[PATHDESIRED_END_EAST] = 0;
+			pathDesired.End[PATHDESIRED_END_DOWN] = positionActual.Down - 10;
+		} else {
+			pathDesired.End[PATHDESIRED_END_NORTH] = positionActual.North;
+			pathDesired.End[PATHDESIRED_END_EAST] = positionActual.East;
+			pathDesired.End[PATHDESIRED_END_DOWN] = positionActual.Down - 10;			
+		}
+		pathDesired.StartingVelocity=10;
+		pathDesired.EndingVelocity=10;
+		pathDesired.Mode = PATHDESIRED_MODE_FLYENDPOINT;
 		PathDesiredSet(&pathDesired);
 	}
 }
@@ -705,12 +726,14 @@ static bool processFailsafe(bool valid_input_detected, ManualControlSettingsData
 
 	if (valid_input_detected) {
 		failsafe_enaged = false;
-	} else if (!failsafe_enaged) {
+	} else if (!failsafe_enaged && false) {
+		// Disable this for now.  Need to have way of knowing navigation is usable
+
 		switch(settings->FailsafeBehavior) {
 			case MANUALCONTROLSETTINGS_FAILSAFEBEHAVIOR_NONE:
 				failsafe_enaged = false;
 				break;
-			case MANUALCONTROLSETTINGS_FAILSAFEBEHAVIOR_RTH: 
+			case MANUALCONTROLSETTINGS_FAILSAFEBEHAVIOR_RETURNTOHOME: 
 			{
 				VtolPathFollowerSettingsData guidanceSettings;
 				VtolPathFollowerSettingsGet(&guidanceSettings);
@@ -724,8 +747,8 @@ static bool processFailsafe(bool valid_input_detected, ManualControlSettingsData
 				// exclude fixed wing.
 				if (guidanceSettings.ThrottleControl == VTOLPATHFOLLOWERSETTINGS_THROTTLECONTROL_TRUE &&
 					flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED) {
-					setRTH(true);
-					flightStatus.FlightMode = FLIGHTSTATUS_FLIGHTMODE_RTH;
+					updatePathDesired(true, true);
+					flightStatus.FlightMode = FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME;
 					FlightStatusSet(&flightStatus);
 					failsafe_enaged = true;
 				}
@@ -738,50 +761,13 @@ static bool processFailsafe(bool valid_input_detected, ManualControlSettingsData
 
 	return failsafe_enaged;
 }
-  
-/**
- * @brief Update the position desired to current location when
- * enabled and allow the waypoint to be moved by transmitter
- */
-static void updatePathDesired(ManualControlCommandData * cmd, bool changed)
-{
-	static portTickType lastSysTime;
-	portTickType thisSysTime;
-	float dT;
-	const bool TRANSMITTER_MODE_POSITION = false;
-
-	thisSysTime = xTaskGetTickCount();
-	dT = (thisSysTime - lastSysTime) / portTICK_RATE_MS / 1000.0f;
-	lastSysTime = thisSysTime;
-
-	if(changed) {
-		// After not being in this mode for a while init at current height
-		PositionActualData positionActual;
-		PositionActualGet(&positionActual);
-		
-		PathDesiredData pathDesired;
-		PathDesiredGet(&pathDesired);
-		pathDesired.End[PATHDESIRED_END_NORTH] = positionActual.North;
-		pathDesired.End[PATHDESIRED_END_EAST] = positionActual.East;
-		pathDesired.End[PATHDESIRED_END_DOWN] = positionActual.Down;
-		pathDesired.Mode = PATHDESIRED_MODE_ENDPOINT;
-		PathDesiredSet(&pathDesired);
-	} else if (TRANSMITTER_MODE_POSITION) {
-		PathDesiredData pathDesired;
-		PathDesiredGet(&pathDesired);
-		pathDesired.End[PATHDESIRED_END_NORTH] += dT * -cmd->Pitch;
-		pathDesired.End[PATHDESIRED_END_EAST] += dT * cmd->Roll;
-		pathDesired.Mode = PATHDESIRED_MODE_ENDPOINT;
-		PathDesiredSet(&pathDesired);
-	}
-}
 
 /**
  * @brief Update the altitude desired to current altitude when
  * enabled and enable altitude mode for stabilization
  * @todo: Need compile flag to exclude this from copter control
  */
-static void altitudeHoldDesired(ManualControlCommandData * cmd, bool changed)
+static void altitudeHoldDesired(ManualControlCommandData * cmd, bool flightModeChanged)
 {
 	const float DEADBAND_HIGH = 0.55;
 	const float DEADBAND_LOW = 0.45;
@@ -806,7 +792,7 @@ static void altitudeHoldDesired(ManualControlCommandData * cmd, bool changed)
 	
 	float currentDown;
 	PositionActualDownGet(&currentDown);
-	if(changed) {
+	if(flightModeChanged) {
 		// After not being in this mode for a while init at current height
 		altitudeHoldDesired.Altitude = 0;
 		zeroed = false;
@@ -827,23 +813,20 @@ static void altitudeHoldDesired(ManualControlCommandData * cmd, bool changed)
 
 static bool processFailsafe(bool valid_input_detected, ManualControlSettingsData *settings)
 {
+	AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_ERROR);
 	return false;
 }
 
-static void setRTH(bool changed)
+static void altitudeHoldDesired(ManualControlCommandData * cmd, bool flightModeChanged)
 {
 	AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_ERROR);
 }
 
-static void updatePathDesired(ManualControlCommandData * cmd, bool changed)
+static void updatePathDesired(bool changed, bool home)
 {
 	AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_ERROR);
 }
 
-static void altitudeHoldDesired(ManualControlCommandData * cmd, bool changed)
-{
-	AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_ERROR);
-}
 #endif
 /**
  * Convert channel from servo pulse duration (microseconds) to scaled -1/+1 range.

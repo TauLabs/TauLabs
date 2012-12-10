@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       UAVLocation.java
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      Display the UAV location on google maps
  * @see        The GNU Public License (GPL) Version 3
  *****************************************************************************/

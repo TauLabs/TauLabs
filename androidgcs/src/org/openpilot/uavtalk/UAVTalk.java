@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       UAVTalk.java
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      The protocol layer implementation of UAVTalk.  Serializes objects
  *             for transmission (which is done in the object itself which is aware
  *             of byte packing) wraps that in the UAVTalk packet.  Parses UAVTalk
@@ -438,6 +438,15 @@ public class UAVTalk {
 						break;
 					}
 
+	                // Check the lengths match
+	                if ((rxPacketLength + (rxObj.isSingleInstance() ? 0 : 2) + rxLength) != packetSize)
+	                {   // packet error - mismatched packet size
+	                    if (WARN) Log.w(TAG, "Packet size does not match what it should");
+	                    stats.rxErrors++;
+	                    rxState = RxStateType.STATE_SYNC;
+	                    break;
+	                }
+
 					// Check if this is a single instance object (i.e. if the
 					// instance ID field is coming next)
 					if (rxObj.isSingleInstance()) {
@@ -705,7 +714,7 @@ public class UAVTalk {
 		// because otherwise if a transaction timeout occurs at the same time we can get a
 		// deadlock:
 		// 1. processInputStream -> updateObjReq (locks uavtalk) -> tranactionCompleted (locks transInfo)
-		// 2. transactionTimeout (locks transInfo) -> sendObjectRequest -> É -> setupTransaction (locks uavtalk)
+		// 2. transactionTimeout (locks transInfo) -> sendObjectRequest -> ? -> setupTransaction (locks uavtalk)
 		synchronized(this) {
 			if(respObj != null && respType == TYPE_OBJ_REQ && respObj.getObjID() == obj.getObjID() &&
 					((respObj.getInstID() == obj.getInstID() || !respAllInstances))) {

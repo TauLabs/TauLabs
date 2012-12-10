@@ -31,7 +31,7 @@
 #include <QDialog>
 #include <QDataWidgetMapper>
 #include "opmapcontrol/opmapcontrol.h"
-#include "flightdatamodel.h"
+#include "../pathplanner/flightdatamodel.h"
 namespace Ui {
     class opmap_edit_waypoint_dialog;
 }
@@ -61,10 +61,8 @@ private slots:
 private slots:
     void currentIndexChanged(int index);
     void setupModeWidgets();
-    void setupConditionWidgets();
     void pushButtonCancel_clicked();
     void on_pushButtonOK_clicked();
-    void pushButtonApply_clicked();
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
     void enableEditWidgets(bool);

@@ -16,6 +16,7 @@
 			<option>VirtualBar</option>
 			<option>RelayRate</option>
 			<option>RelayAttitude</option>
+			<option>CoordinatedFlight</option>
 		</options>
 	</field>
         <access gcs="readwrite" flight="readwrite"/>

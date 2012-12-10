@@ -219,8 +219,8 @@ extern uint32_t pios_com_vcp_id;
 //-------------------------
 // Receiver DSM input
 //-------------------------
-#define PIOS_DSM_MAX_DEVS			2
-#define PIOS_DSM_NUM_INPUTS			12
+#define PIOS_DSM_MAX_DEVS            2
+#define PIOS_DSM_NUM_INPUTS          12
 
 //-------------------------
 // Servo outputs

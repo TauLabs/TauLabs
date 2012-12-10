@@ -34,7 +34,7 @@
  */
 /*
  * @todo	Clocking is wrong (interface is badly defined, should be speed not prescaler magic numbers)
- * @todo	DMA doesn't work.  Fix it.
+ * @todo	DMA doesn't work.  Fix it. (This statement has to be checked. SPI seems to be working with DMA.)
  */
 #include <pios.h>
 
@@ -221,8 +221,19 @@ int32_t PIOS_SPI_SetClockSpeed(uint32_t spi_id, SPIPrescalerTypeDef spi_prescale
 	bool valid = PIOS_SPI_validate(spi_dev);
 	PIOS_Assert(valid)
 	
-	SPI_InitTypeDef       SPI_InitStructure;
+	SPI_InitTypeDef SPI_InitStructure;
 	
+	if (spi_dev->cfg->regs == SPI1)
+	{
+		//APB2 == 84MHz
+		//divide by 2 to match frequency
+		spi_prescaler += 1;
+	}
+	else
+	{
+		//APB1 == 42MHz
+	}
+
 	if (spi_prescaler >= 8) {
 		/* Invalid prescaler selected */
 		return -3;
@@ -264,19 +275,23 @@ int32_t PIOS_SPI_ClaimBus(uint32_t spi_id)
 /**
  * Claim the SPI bus semaphore from an ISR.  Has no timeout.
  * \param[in] spi SPI number (0 or 1)
+ * \param[in] pointer which receives if a task has been woken
  * \return 0 if no error
  * \return -1 if timeout before claiming semaphore
  */
-int32_t PIOS_SPI_ClaimBusISR(uint32_t spi_id)
+int32_t PIOS_SPI_ClaimBusISR(uint32_t spi_id, bool *woken)
 {
 #if defined(PIOS_INCLUDE_FREERTOS)
+	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
 	struct pios_spi_dev * spi_dev = (struct pios_spi_dev *)spi_id;
 	
 	bool valid = PIOS_SPI_validate(spi_dev);
 	PIOS_Assert(valid)
 	
-	if (xQueueGenericReceive(( xQueueHandle ) spi_dev->busy, NULL, 0x0000 , pdFALSE ) != pdTRUE)
+	if (xQueueReceiveFromISR(( xQueueHandle ) spi_dev->busy, NULL, &xHigherPriorityTaskWoken ) != pdTRUE)
 		return -1;
+
+	*woken = *woken || (xHigherPriorityTaskWoken == pdTRUE);
 #endif
 	return 0;
 }
@@ -296,6 +311,33 @@ int32_t PIOS_SPI_ReleaseBus(uint32_t spi_id)
 	PIOS_Assert(valid)
 
 	xSemaphoreGive(spi_dev->busy);
+#endif
+	return 0;
+}
+
+/**
+ * Release the SPI bus from an ISR.
+ * \param[in] spi SPI number (0 or 1)
+ * \param[in] pointer which receives if a task has been woken
+ * \return 0 if no error
+ */
+int32_t PIOS_SPI_ReleaseBusISR(uint32_t spi_id, bool *woken)
+{
+#if defined(PIOS_INCLUDE_FREERTOS)
+	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+	struct pios_spi_dev * spi_dev = (struct pios_spi_dev *)spi_id;
+
+	bool valid = PIOS_SPI_validate(spi_dev);
+	PIOS_Assert(valid)
+
+	xSemaphoreGiveFromISR(spi_dev->busy, &xHigherPriorityTaskWoken);
+
+	*woken = *woken || (xHigherPriorityTaskWoken == pdTRUE);
+#else
+	struct pios_spi_dev * spi_dev = (struct pios_spi_dev *)spi_id;
+	PIOS_IRQ_Disable();
+	spi_dev->busy = 0;
+	PIOS_IRQ_Enable();
 #endif
 	return 0;
 }

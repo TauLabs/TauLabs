@@ -7,7 +7,7 @@
  * @{
  *
  * @file       pios_settings.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @brief      Settings functions header 
  * @see        The GNU Public License (GPL) Version 3
  *

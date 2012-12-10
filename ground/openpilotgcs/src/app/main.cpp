@@ -240,8 +240,9 @@ int main(int argc, char **argv)
 #endif
 #ifdef Q_OS_LINUX
     QApplication::setAttribute(Qt::AA_X11InitThreads, true);
-#endif
+    // This should have faster performance on linux
     QApplication::setGraphicsSystem("raster");
+#endif
 
     SharedTools::QtSingleApplication app((QLatin1String(appNameC)), argc, argv);
 
