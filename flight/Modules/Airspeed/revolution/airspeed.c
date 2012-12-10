@@ -38,7 +38,6 @@
 
 #include "openpilot.h"
 #include "hwsettings.h"
-#include "airspeed.h"
 #include "gpsvelocity.h"
 #include "airspeedsettings.h"
 #include "gps_airspeed.h"

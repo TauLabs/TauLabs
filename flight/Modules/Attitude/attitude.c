@@ -49,7 +49,7 @@
  */
 
 #include "pios.h"
-#include "attitude.h"
+#include "openpilot.h"
 #include "gyros.h"
 #include "accels.h"
 #include "attitudeactual.h"
@@ -372,7 +372,7 @@ static int32_t updateSensors(AccelsData * accels, GyrosData * gyros)
  */
 static int32_t updateSensorsCC3D(AccelsData * accelsData, GyrosData * gyrosData)
 {
-	struct pios_mpu6000_data mpu6000_data;
+	struct pios_mpu60x0_data mpu6000_data;
 	float accels[3], gyros[3];
 	
 #if defined(PIOS_INCLUDE_MPU6000)

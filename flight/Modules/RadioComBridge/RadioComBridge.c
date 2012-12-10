@@ -31,7 +31,6 @@
 // ****************
 
 #include <openpilot.h>
-#include <radiocombridge.h>
 #include <packet_handler.h>
 #include <gcsreceiver.h>
 #include <pipxstatus.h>

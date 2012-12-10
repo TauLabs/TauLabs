@@ -36,7 +36,4 @@
 #include "gyrosbias.h"
 #include "state_struct.h"
 
-int32_t AttitudeInitialize(void);
-
-
 #endif // STATE_H
