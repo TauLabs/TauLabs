@@ -72,7 +72,7 @@ void baro_airspeedGetETASV3(BaroAirspeedData *baroAirspeedData, portTickType *la
 	if (baroAirspeedData->SensorValue==-1) {
 		baroAirspeedData->BaroConnected = BAROAIRSPEED_BAROCONNECTED_FALSE;
 		baroAirspeedData->CalibratedAirspeed = 0;
-		BaroAirspeedSet(&baroAirspeedData);
+		BaroAirspeedSet(baroAirspeedData);
 		return;
 	}
 	
