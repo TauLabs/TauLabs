@@ -133,6 +133,10 @@ help:
 	@echo "     gcs                  - Build the Ground Control System (GCS) application"
 	@echo "     gcs_clean            - Remove the Ground Control System (GCS) application"
 	@echo
+	@echo "   [AndroidGCS]"
+	@echo "     androidgcs           - Build the Ground Control System (GCS) application"
+	@echo "     androidgcs_clean     - Remove the Ground Control System (GCS) application"
+	@echo
 	@echo "   [UAVObjects]"
 	@echo "     uavobjects           - Generate source files from the UAVObject definition XML files"
 	@echo "     uavobjects_test      - parse xml-files - check for valid, duplicate ObjId's, ... "
@@ -387,7 +391,7 @@ $$(UAVO_COLLECTION_DIR)/$(1)/uavohash: $$(UAVO_COLLECTION_DIR)/$(1)/uavo-xml
 	$$(V0) @echo " UAVOHASH  $(1) ->" $$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash)
 
 # Generate the java uavobjects for this UAVO collection
-$$(UAVO_COLLECTION_DIR)/$(1)/java-build/java: $$(UAVO_COLLECTION_DIR)/$(1)/uavohash
+$$(UAVO_COLLECTION_DIR)/$(1)/java-build/java: $$(UAVO_COLLECTION_DIR)/$(1)/uavohash uavobjgenerator
 	$$(V0) @echo " UAVOJAVA  $(1)   " $$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash)
 	$$(V1) mkdir -p $$@
 	$$(V1) ( \
