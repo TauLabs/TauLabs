@@ -46,7 +46,6 @@
 #include <string.h>
 #include <math.h>
 
-#include "pios_config.h"
 /* STM32 Std Perf Lib */
 #if defined(STM32F4XX)
 # include <stm32f4xx.h>
