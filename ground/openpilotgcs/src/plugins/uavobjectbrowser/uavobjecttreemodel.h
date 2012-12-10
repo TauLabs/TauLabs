@@ -104,6 +104,7 @@ private:
     int m_recentlyUpdatedTimeout;
     QColor m_recentlyUpdatedColor;
     QColor m_manuallyChangedColor;
+    QColor m_updatedOnlyColor;
     bool m_onlyHilightChangedValues;
     bool m_useScientificFloatNotation;
 
