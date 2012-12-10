@@ -110,7 +110,7 @@
         android:layout_rowSpan="2"
         android:background="@android:color/transparent"
         android:drawableTop="@drawable/ic_tabletcontrol"
-        android:text="@string/tuning" />
+        android:text="@string/tablet_control" />
 
 	 <Button
 	     android:id="@+id/launch_osgViewer"
