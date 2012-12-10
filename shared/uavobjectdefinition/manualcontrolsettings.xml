@@ -18,16 +18,67 @@
         <field name="Arming" units="" type="enum" elements="1" options="Always Disarmed,Always Armed,Roll Left,Roll Right,Pitch Forward,Pitch Aft,Yaw Left,Yaw Right" defaultvalue="Always Disarmed"/>
 
 	<!-- Note these options should be identical to those in StabilizationDesired.StabilizationMode -->
-        <field name="Stabilization1Settings" units="" type="enum" elementnames="Roll,Pitch,Yaw" options="None,Rate,Attitude,AxisLock,WeakLeveling,VirtualBar,RelayRate,RelayAttitude,CoordinatedFlight" defaultvalue="Attitude,Attitude,Rate"/>
-        <field name="Stabilization2Settings" units="" type="enum" elementnames="Roll,Pitch,Yaw" options="None,Rate,Attitude,AxisLock,WeakLeveling,VirtualBar,RelayRate,RelayAttitude,CoordinatedFlight" defaultvalue="Attitude,Attitude,Rate"/>
-        <field name="Stabilization3Settings" units="" type="enum" elementnames="Roll,Pitch,Yaw" options="None,Rate,Attitude,AxisLock,WeakLeveling,VirtualBar,RelayRate,RelayAttitude,CoordinatedFlight" defaultvalue="Attitude,Attitude,Rate"/>
+        <field name="Stabilization1Settings" units="" type="enum" elementnames="Roll,Pitch,Yaw" defaultvalue="Attitude,Attitude,Rate">
+		<options>
+			<option>None</option>
+			<option>Rate</option>
+			<option>Attitude</option>
+			<option>AxisLock</option>
+			<option>WeakLeveling</option>
+			<option>VirtualBar</option>
+			<option>RelayRate</option>
+			<option>RelayAttitude</option>
+			<option>CoordinatedFlight</option>
+		</options>
+	</field>
+        <field name="Stabilization2Settings" units="" type="enum" elementnames="Roll,Pitch,Yaw" defaultvalue="Attitude,Attitude,Rate">
+		<options>
+			<option>None</option>
+			<option>Rate</option>
+			<option>Attitude</option>
+			<option>AxisLock</option>
+			<option>WeakLeveling</option>
+			<option>VirtualBar</option>
+			<option>RelayRate</option>
+			<option>RelayAttitude</option>
+			<option>CoordinatedFlight</option>
+		</options>
+	</field>
+        <field name="Stabilization3Settings" units="" type="enum" elementnames="Roll,Pitch,Yaw" defaultvalue="Attitude,Attitude,Rate">
+		<options>
+			<option>None</option>
+			<option>Rate</option>
+			<option>Attitude</option>
+			<option>AxisLock</option>
+			<option>WeakLeveling</option>
+			<option>VirtualBar</option>
+			<option>RelayRate</option>
+			<option>RelayAttitude</option>
+			<option>CoordinatedFlight</option>
+		</options>
+	</field>
 
 	<!-- Note these options values should be identical to those defined in FlightMode -->
         <field name="FlightModeNumber" units="" type="uint8" elements="1" defaultvalue="3"/>
-        <field name="FlightModePosition" units="" type="enum" elements="6" options="Manual,Stabilized1,Stabilized2,Stabilized3,Autotune,AltitudeHold,VelocityControl,PositionHold,ReturnToHome,Land,PathPlanner" defaultvalue="Manual,Stabilized1,Stabilized2,Stabilized3,ReturnToHome,PositionHold" limits="%0401NE:AltitudeHold:VelocityControl;%0402NE:AltitudeHold:VelocityControl,%0401NE:AltitudeHold:VelocityControl;%0402NE:AltitudeHold:VelocityControl,%0401NE:AltitudeHold:VelocityControl;%0402NE:AltitudeHold:VelocityControl,%0401NE:AltitudeHold:VelocityControl;%0402NE:AltitudeHold:VelocityControl,%0401NE:AltitudeHold:VelocityControl;%0402NE:AltitudeHold:VelocityControl,%0401NE:AltitudeHold:VelocityControl;%0402NE:AltitudeHold:VelocityControl"/>
+        <field name="FlightModePosition" units="" type="enum" elements="6" defaultvalue="Manual,Stabilized1,Stabilized2,Stabilized3,ReturnToHome,PositionHold" limits="%0401NE:AltitudeHold:VelocityControl;%0402NE:AltitudeHold:VelocityControl,%0401NE:AltitudeHold:VelocityControl;%0402NE:AltitudeHold:VelocityControl,%0401NE:AltitudeHold:VelocityControl;%0402NE:AltitudeHold:VelocityControl,%0401NE:AltitudeHold:VelocityControl;%0402NE:AltitudeHold:VelocityControl,%0401NE:AltitudeHold:VelocityControl;%0402NE:AltitudeHold:VelocityControl,%0401NE:AltitudeHold:VelocityControl;%0402NE:AltitudeHold:VelocityControl">
+		<options>
+                        <option>Manual</option>
+                        <option>Stabilized1</option>
+                        <option>Stabilized2</option>
+                        <option>Stabilized3</option>
+                        <option>Autotune</option>
+                        <option>AltitudeHold</option>
+                        <option>VelocityControl</option>
+                        <option>PositionHold</option>
+                        <option>PathPlanner</option>
+                        <option>ReturnToHome</option>
+                        <option>Land</option>
+                        <option>Tablet</option>
+		</options>
+	</field>
 
         <field name="ArmedTimeout" units="ms" type="uint16" elements="1" defaultvalue="30000"/>
-        <field name="FailsafeBehavior" units="" type="enum" elements="1" options="None,ReturnToBase" defaultvalue="None"/>
+        <field name="FailsafeBehavior" units="" type="enum" elements="1" options="None,ReturnToHome" defaultvalue="None"/>
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="true" updatemode="onchange" period="0"/>
         <telemetryflight acked="true" updatemode="onchange" period="0"/>

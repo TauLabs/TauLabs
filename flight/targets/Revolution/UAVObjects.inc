@@ -82,6 +82,7 @@ UAVOBJSRCFILENAMES += stabilizationsettings
 UAVOBJSRCFILENAMES += systemalarms
 UAVOBJSRCFILENAMES += systemsettings
 UAVOBJSRCFILENAMES += systemstats
+UAVOBJSRCFILENAMES += tabletinfo
 UAVOBJSRCFILENAMES += taskinfo
 UAVOBJSRCFILENAMES += velocityactual
 UAVOBJSRCFILENAMES += velocitydesired

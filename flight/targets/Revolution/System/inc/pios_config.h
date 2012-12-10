@@ -56,6 +56,9 @@
 #define PIOS_INCLUDE_RTC
 #define PIOS_INCLUDE_WDG
 
+//! Enable the parts of the code for the tablet to control UAV
+#define PIOS_INCLUDE_TABLETCONTROL
+
 /* Select the sensors to include */
 #define PIOS_INCLUDE_BMA180
 #define PIOS_INCLUDE_HMC5883

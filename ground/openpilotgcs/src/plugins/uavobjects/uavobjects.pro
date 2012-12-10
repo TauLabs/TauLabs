@@ -97,6 +97,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/systemstats.h \
     $$UAVOBJECT_SYNTHETICS/systemalarms.h \
     $$UAVOBJECT_SYNTHETICS/systemsettings.h \
+    $$UAVOBJECT_SYNTHETICS/tabletinfo.h \
     $$UAVOBJECT_SYNTHETICS/taskinfo.h \
     $$UAVOBJECT_SYNTHETICS/txpidsettings.h \
     $$UAVOBJECT_SYNTHETICS/uavobjectsinit.h \
@@ -181,6 +182,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/systemalarms.cpp \
     $$UAVOBJECT_SYNTHETICS/systemsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/systemstats.cpp \
+    $$UAVOBJECT_SYNTHETICS/tabletinfo.cpp \
     $$UAVOBJECT_SYNTHETICS/taskinfo.cpp \
     $$UAVOBJECT_SYNTHETICS/txpidsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/uavobjectsinit.cpp \
