@@ -195,10 +195,11 @@ static void magbaroTask(void *parameters)
 		MagnetometerData mag;
 		if (PIOS_HMC5883_NewDataAvailable() || PIOS_DELAY_DiffuS(mag_update_time) > 100000) {
 			int16_t values[3];
-			PIOS_HMC5883_ReadMag(values);
-			float mags[3] = {(float) values[1] * mag_scale[0] - mag_bias[0],
-			                (float) values[0] * mag_scale[1] - mag_bias[1],
-			                -(float) values[2] * mag_scale[2] - mag_bias[2]};
+			struct pios_hmc5883_data hmc5883_data;
+			PIOS_HMC5883_ReadMag(&hmc5883_data);
+			float mags[3] = {(float) hmc5883_data.mag_y * mag_scale[0] - mag_bias[0],
+			                (float) hmc5883_data.mag_x * mag_scale[1] - mag_bias[1],
+			                -(float) hmc5883_data.mag_z * mag_scale[2] - mag_bias[2]};
 			mag.x = mags[0];
 			mag.y = mags[1];
 			mag.z = mags[2];
