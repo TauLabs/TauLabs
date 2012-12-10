@@ -47,7 +47,7 @@
  */
 
 #include "pios.h"
-#include "attitude.h"
+#include "openpilot.h"
 
 #include "accels.h"
 #include "actuatordesired.h"
