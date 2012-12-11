@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       BluetoothUAVTalk.java
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     AboveGroundLabs, http://abovegroundlabs.org, Copyright (C) 2012
  * @brief      Telemetry over bluetooth.
  * @see        The GNU Public License (GPL) Version 3
  *

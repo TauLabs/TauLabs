@@ -1,10 +1,9 @@
 /**
  ******************************************************************************
  * @file       PFD.java
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     AboveGroundLabs, http://abovegroundlabs.org, Copyright (C) 2012
  * @brief      The PFD display fragment
  * @see        The GNU Public License (GPL) Version 3
- *
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify

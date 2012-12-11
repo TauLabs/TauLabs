@@ -2,7 +2,7 @@ package org.abovegroundlabs.androidgcs.views;
 /**
  ******************************************************************************
  * @file       ScrollBarView.java
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     AboveGroundLabs, http://abovegroundlabs.org, Copyright (C) 2012
  * @brief      A scrollable view
  * @see        The GNU Public License (GPL) Version 3
  *

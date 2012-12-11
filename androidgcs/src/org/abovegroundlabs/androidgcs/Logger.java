@@ -1,11 +1,10 @@
 /**
  ******************************************************************************
  * @file       Logger.java
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     AboveGroundLabs, http://abovegroundlabs.org, Copyright (C) 2012
  * @brief      Controller for logging data as well as interface for getting that
  *             data on and off the tablet.
  * @see        The GNU Public License (GPL) Version 3
- *
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify

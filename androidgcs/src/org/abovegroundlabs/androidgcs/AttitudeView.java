@@ -1,10 +1,9 @@
 /**
  ******************************************************************************
  * @file       AttitudeView.java
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     AboveGroundLabs, http://abovegroundlabs.org, Copyright (C) 2012
  * @brief      A view for UAV attitude.
  * @see        The GNU Public License (GPL) Version 3
- *
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify

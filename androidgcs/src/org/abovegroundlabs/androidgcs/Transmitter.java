@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       Transmitter.java
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     AboveGroundLabs, http://abovegroundlabs.org, Copyright (C) 2012
  * @brief      Activity for controlling the UAV from a phone or tablet
  * @see        The GNU Public License (GPL) Version 3
  *****************************************************************************/

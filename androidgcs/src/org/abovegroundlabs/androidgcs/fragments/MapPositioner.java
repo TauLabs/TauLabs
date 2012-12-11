@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       MapPositioner.java
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     AboveGroundLabs, http://abovegroundlabs.org, Copyright (C) 2012
  * @brief      A fragmenet to move the UAV around by dragging
  * @see        The GNU Public License (GPL) Version 3
  *****************************************************************************/

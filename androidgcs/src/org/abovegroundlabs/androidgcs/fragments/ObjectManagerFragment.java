@@ -1,13 +1,12 @@
 /**
  ******************************************************************************
  * @file       ObjectManagerFragment.java
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     AboveGroundLabs, http://abovegroundlabs.org, Copyright (C) 2012
  * @brief      Base class for all fragments that use the UAVObjectManager.  This
  *             supports all the extensions the ObjectManagerActivity does, namely
  *             access to the UAVObjectManager and callbacks in the UI thread for
  *             object updates.
  * @see        The GNU Public License (GPL) Version 3
- *
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify

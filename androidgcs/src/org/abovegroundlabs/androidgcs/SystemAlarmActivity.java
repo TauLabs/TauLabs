@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       SystemAlarmActivity.java
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     AboveGroundLabs, http://abovegroundlabs.org, Copyright (C) 2012
  * @brief      An activity that displays the SystemAlarmsFragment.
  * @see        The GNU Public License (GPL) Version 3
  *****************************************************************************/

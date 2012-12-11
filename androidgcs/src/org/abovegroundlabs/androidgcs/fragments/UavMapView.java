@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       UavMapView.java
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     AboveGroundLabs, http://abovegroundlabs.org, Copyright (C) 2012
  * @brief      A map view that uses OSMDroid (and caches data for off-line work)
  * @see        The GNU Public License (GPL) Version 3
  *****************************************************************************/

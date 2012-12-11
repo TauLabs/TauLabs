@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       ObjectFieldMappable.java
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     AboveGroundLabs, http://abovegroundlabs.org, Copyright (C) 2012
  * @brief      Support class for mapping between UAVO fields and controls
  * @see        The GNU Public License (GPL) Version 3
  *

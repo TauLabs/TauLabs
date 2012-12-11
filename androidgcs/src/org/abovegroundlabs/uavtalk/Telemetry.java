@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       Telemetry.java
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     AboveGroundLabs, http://abovegroundlabs.org, Copyright (C) 2012
  * @brief      Port of Telemetry.cpp from the GCS.  Handles transactions on the
  *             UAVTalk channel.
  * @see        The GNU Public License (GPL) Version 3

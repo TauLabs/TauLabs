@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       ObjectManagerActivity.java
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     AboveGroundLabs, http://abovegroundlabs.org, Copyright (C) 2012
  * @brief      Base object for all activies that use the UAVObjectManager.
  *             This class takes care of binding to the service and getting the
  *             object manager as well as setting up callbacks to the objects of
@@ -10,7 +10,6 @@
  *             which indicates when a valid telemetry is established as well as a
  *             valid object manager handle.
  * @see        The GNU Public License (GPL) Version 3
- *
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
