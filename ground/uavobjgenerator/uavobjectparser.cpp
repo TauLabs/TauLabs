@@ -492,6 +492,9 @@ QStringList UAVObjectParser::fieldPath(FieldInfo* field) {
 QString UAVObjectParser::processField(QDomNode& node, FieldInfo* parent, ObjectInfo* info)
 {
 
+    if(node.nodeName().compare(QString("data"))!=0)
+        return QString("Invalid node %1 inside of %2").arg(node.nodeName()).arg(fieldPath(parent).join("."));
+
     // Create field
     FieldInfo* field = new FieldInfo;
     field->parentField = parent;
