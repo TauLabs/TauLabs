@@ -1,0 +1,49 @@
+<xml>
+    <object name="NewMixerSettings" singleinstance="true" settings="true">
+        <meta>
+            <description>Settings for the @ref ActuatorModule that controls the channel assignments for the mixer based on AircraftType</description>
+            <access gcs="readwrite" flight="readwrite"/>
+            <telemetrygcs acked="true" updatemode="onchange" period="0"/>
+            <telemetryflight acked="true" updatemode="onchange" period="0"/>
+            <logging updatemode="manual" period="0"/>
+        </meta>
+
+    
+        <data>
+
+            <data name="MaxAccel" units="units/sec" type="float" elements="1" defaultvalue="1000"/>
+            <data name="FeedForward" units="" type="float" elements="1" defaultvalue="0"/>
+            <data name="AccelTime" units="ms" type="float" elements="1" defaultvalue="0"/>
+            <data name="DecelTime" units="ms" type="float" elements="1" defaultvalue="0"/>
+	    <data name="ThrottleCurve1" units="percent" type="float" elementnames="0,25,50,75,100" defaultvalue="0,0,0,0,0"/>
+            <data name="Curve2Source" units="" type="enum" elements="1" defaultvalue="Throttle">
+                <option>Throttle</option>
+                <option>Roll</option>
+                <option>Pitch</option>
+                <option>Yaw</option>
+                <option>Collective</option>
+                <option>Accessory0</option>
+                <option>Accessory1</option>
+                <option>Accessory2</option>
+                <option>Accessory3</option>
+                <option>Accessory4</option>
+                <option>Accessory5</option>
+	    </data>
+
+            <data name="ThrottleCurve2" units="percent" type="float" elementnames="0,25,50,75,100" defaultvalue="0,0.25,0.5,0.75,1"/>
+
+            <data name="MixerVector" units="" type="struct" elements="10">
+                <data name="MixerType" units="" type="enum" 
+                     options="Disabled,Motor,Servo,CameraRoll,CameraPitch,Accessory0,Accessory1,Accessory2,Accessory3,Accessory4,Accessory5"/>
+              
+                <data name="ThrottleCurve1" type="int8" defaultvalue="0"/>
+                <data name="ThrottleCurve2" type="int8" defaultvalue="0"/>
+                <data name="Roll" type="int8" defaultvalue="0"/>
+                <data name="Pitch" type="int8" defaultvalue="0"/>
+                <data name="Yaw" type="int8" defaultvalue="0"/>
+            </data>
+        </data>
+
+      
+    </object>
+</xml>

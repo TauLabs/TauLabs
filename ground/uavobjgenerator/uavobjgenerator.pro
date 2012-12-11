@@ -30,4 +30,5 @@ HEADERS += uavobjectparser.h \
     generators/matlab/uavobjectgeneratormatlab.h \
     generators/python/uavobjectgeneratorpython.h \
     generators/wireshark/uavobjectgeneratorwireshark.h \
-    generators/generator_common.h
+    generators/generator_common.h \
+    generators/flight/uavobjectgeneratorflight.h

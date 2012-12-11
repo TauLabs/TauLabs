@@ -63,17 +63,17 @@ bool UAVObjectGeneratorPython::process_object(ObjectInfo* info)
 
     // Replace the ($DATAFIELDS) tag
     QString datafields;
-    for (int n = 0; n < info->fields.length(); ++n)
+    for (int n = 0; n < info->field->childrenFields.length(); ++n)
     {
         // Class header
-        datafields.append(QString("# Field %1 definition\n").arg(info->fields[n]->name));
-        datafields.append(QString("class %1Field(UAVObjectField):\n").arg(info->fields[n]->name));
+        datafields.append(QString("# Field %1 definition\n").arg(info->field->childrenFields[n]->name));
+        datafields.append(QString("class %1Field(UAVObjectField):\n").arg(info->field->childrenFields[n]->name));
         // Only for enum types
-        if (info->fields[n]->type == FIELDTYPE_ENUM)
+        if (info->field->childrenFields[n]->type == FIELDTYPE_ENUM)
         {
             datafields.append(QString("\t# Enumeration options\n"));
             // Go through each option
-            QStringList options = info->fields[n]->options;
+            QStringList options = info->field->childrenFields[n]->options;
             for (int m = 0; m < options.length(); ++m) {
                 QString name = options[m].toUpper().replace(QRegExp(ENUM_SPECIAL_CHARS), "");
                 if (name[0].isDigit())
@@ -82,11 +82,11 @@ bool UAVObjectGeneratorPython::process_object(ObjectInfo* info)
             }
         }
         // Generate element names (only if field has more than one element)
-        if (info->fields[n]->numElements > 1 && !info->fields[n]->defaultElementNames)
+        if (info->field->childrenFields[n]->numElements > 1 && !info->field->childrenFields[n]->defaultElementNames)
         {
             datafields.append(QString("\t# Array element names\n"));
             // Go through the element names
-            QStringList elemNames = info->fields[n]->elementNames;
+            QStringList elemNames = info->field->childrenFields[n]->elementNames;
             for (int m = 0; m < elemNames.length(); ++m)
             {
                 QString name = elemNames[m].toUpper().replace(QRegExp(ENUM_SPECIAL_CHARS), "");
@@ -97,16 +97,16 @@ bool UAVObjectGeneratorPython::process_object(ObjectInfo* info)
         }
         // Constructor
         datafields.append(QString("\tdef __init__(self):\n"));
-        datafields.append(QString("\t\tUAVObjectField.__init__(self, %1, %2)\n\n").arg(info->fields[n]->type).arg(info->fields[n]->numElements));
+        datafields.append(QString("\t\tUAVObjectField.__init__(self, %1, %2)\n\n").arg(info->field->childrenFields[n]->type).arg(info->field->childrenFields[n]->numElements));
     }
     outCode.replace(QString("$(DATAFIELDS)"), datafields);
 
     // Replace the $(DATAFIELDINIT) tag
     QString fields;
-    for (int n = 0; n < info->fields.length(); ++n)
+    for (int n = 0; n < info->field->childrenFields.length(); ++n)
     {
-        fields.append(QString("\t\tself.%1 = %1Field()\n").arg(info->fields[n]->name));
-        fields.append(QString("\t\tself.addField(self.%1)\n").arg(info->fields[n]->name));
+        fields.append(QString("\t\tself.%1 = %1Field()\n").arg(info->field->childrenFields[n]->name));
+        fields.append(QString("\t\tself.addField(self.%1)\n").arg(info->field->childrenFields[n]->name));
     }
     outCode.replace(QString("$(DATAFIELDINIT)"), fields);
 

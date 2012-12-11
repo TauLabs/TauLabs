@@ -51,10 +51,9 @@ int32_t $(NAME)Initialize();
 UAVObjHandle $(NAME)Handle();
 void $(NAME)SetDefaults(UAVObjHandle obj, uint16_t instId);
 
-// Object data
-typedef struct {
+// Object data struct definitions
 $(DATAFIELDS)
-} __attribute__((packed)) $(NAME)Data;
+
 
 // Typesafe Object access functions
 /**

@@ -26,12 +26,21 @@
 
 #include "uavobjectgeneratorflight.h"
 
+#include <iostream>
+
 using namespace std;
 
+/**
+ * @brief Generate UAVOs for flight code
+ * @param XML parser that contains parsed data
+ * @param templatepath path for code templates
+ * @param outputpath output path
+ * @return true if everything went fine
+ */
 bool UAVObjectGeneratorFlight::generate(UAVObjectParser* parser,QString templatepath,QString outputpath) {
 
-    fieldTypeStrC << "int8_t" << "int16_t" << "int32_t" <<"uint8_t"
-            <<"uint16_t" << "uint32_t" << "float" << "uint8_t";
+    fieldTypeStrC << "struct" << "int8_t" << "int16_t" << "int32_t" <<"uint8_t"
+                  <<"uint16_t" << "uint32_t" << "float" << "uint8_t";
 
     QString flightObjInit,objInc,objFileNames,objNames;
     qint32 sizeCalc;
@@ -46,30 +55,30 @@ bool UAVObjectGeneratorFlight::generate(UAVObjectParser* parser,QString template
     flightMakeTemplate = readFile( flightCodePath.absoluteFilePath("Makefiletemplate.inc") );
 
     if ( flightCodeTemplate.isNull() || flightIncludeTemplate.isNull() || flightInitTemplate.isNull()) {
-            cerr << "Error: Could not open flight template files." << endl;
-            return false;
-        }
+        cout << "Error: Could not open flight template files." << endl;
+        return false;
+    }
 
     sizeCalc = 0;
     for (int objidx = 0; objidx < parser->getNumObjects(); ++objidx) {
         ObjectInfo* info=parser->getObjectByIndex(objidx);
-        process_object(info);
+        processObject(info);
         flightObjInit.append("#ifdef UAVOBJ_INIT_" + info->namelc +"\r\n");
         flightObjInit.append("    " + info->name + "Initialize();\r\n");
         flightObjInit.append("#endif\r\n");
         objInc.append("#include \"" + info->namelc + ".h\"\r\n");
-	objFileNames.append(" " + info->namelc);
-	objNames.append(" " + info->name);
-	if (parser->getNumBytes(objidx)>sizeCalc) {
-		sizeCalc = parser->getNumBytes(objidx);
-	}
+        objFileNames.append(" " + info->namelc);
+        objNames.append(" " + info->name);
+        if (parser->getNumBytes(objidx)>sizeCalc) {
+            sizeCalc = parser->getNumBytes(objidx);
+        }
     }
 
     // Write the flight object inialization files
     flightInitTemplate.replace( QString("$(OBJINC)"), objInc);
     flightInitTemplate.replace( QString("$(OBJINIT)"), flightObjInit);
     bool res = writeFileIfDiffrent( flightOutputPath.absolutePath() + "/uavobjectsinit.c",
-                     flightInitTemplate );
+                                    flightInitTemplate );
     if (!res) {
         cout << "Error: Could not write flight object init file" << endl;
         return false;
@@ -78,7 +87,7 @@ bool UAVObjectGeneratorFlight::generate(UAVObjectParser* parser,QString template
     // Write the flight object initialization header
     flightInitIncludeTemplate.replace( QString("$(SIZECALCULATION)"), QString().setNum(sizeCalc));
     res = writeFileIfDiffrent( flightOutputPath.absolutePath() + "/uavobjectsinit.h",
-                     flightInitIncludeTemplate );
+                               flightInitIncludeTemplate );
     if (!res) {
         cout << "Error: Could not write flight object init header file" << endl;
         return false;
@@ -88,7 +97,7 @@ bool UAVObjectGeneratorFlight::generate(UAVObjectParser* parser,QString template
     flightMakeTemplate.replace( QString("$(UAVOBJFILENAMES)"), objFileNames);
     flightMakeTemplate.replace( QString("$(UAVOBJNAMES)"), objNames);
     res = writeFileIfDiffrent( flightOutputPath.absolutePath() + "/Makefile.inc",
-                     flightMakeTemplate );
+                               flightMakeTemplate );
     if (!res) {
         cout << "Error: Could not write flight Makefile" << endl;
         return false;
@@ -97,265 +106,411 @@ bool UAVObjectGeneratorFlight::generate(UAVObjectParser* parser,QString template
     return true; // if we come here everything should be fine
 }
 
-
 /**
- * Generate the Flight object files
-**/
-bool UAVObjectGeneratorFlight::process_object(ObjectInfo* info)
+ * @brief Generate the Flight code for one UAVO
+ * @param info the object to process
+ * @return true if everything went fine
+ */
+bool UAVObjectGeneratorFlight::processObject(ObjectInfo* info)
 {
     if (info == NULL)
         return false;
+
+    bool res = true;
 
     // Prepare output strings
     QString outInclude = flightIncludeTemplate;
     QString outCode = flightCodeTemplate;
 
     // Replace common tags
-    replaceCommonTags(outInclude, info);
-    replaceCommonTags(outCode, info);
+    res = res && replaceCommonTags(outInclude, info);
+    res = res && replaceCommonTags(outCode, info);
 
     // Replace the $(DATAFIELDS) tag
-    QString type;
-    QString fields;
-    for (int n = 0; n < info->fields.length(); ++n)
-    {
-        // Determine type
-        type = fieldTypeStrC[info->fields[n]->type];
-        // Append field
-        if ( info->fields[n]->numElements > 1 )
-        {
-            fields.append( QString("    %1 %2[%3];\r\n").arg(type)
-                           .arg(info->fields[n]->name).arg(info->fields[n]->numElements) );
-        }
-        else
-        {
-            fields.append( QString("    %1 %2;\r\n").arg(type).arg(info->fields[n]->name) );
-        }
-    }
-    outInclude.replace(QString("$(DATAFIELDS)"), fields);
+    QString datafields = QString("");
+    res = res && generateStructDefinitions(info->field,datafields);
+    outInclude.replace(QString("$(DATAFIELDS)"), datafields);
 
     // Replace the $(DATAFIELDINFO) tag
-    QString enums;
-    for (int n = 0; n < info->fields.length(); ++n)
-    {
-        enums.append(QString("// Field %1 information\r\n").arg(info->fields[n]->name));
-        // Only for enum types
-        if (info->fields[n]->type == FIELDTYPE_ENUM)
-        {
-            enums.append(QString("/* Enumeration options for field %1 */\r\n").arg(info->fields[n]->name));
-            enums.append("typedef enum { ");
-            // Go through each option
-            QStringList options = info->fields[n]->options;
-            for (int m = 0; m < options.length(); ++m) {
-                QString s = (m == (options.length()-1)) ? "%1_%2_%3=%4" : "%1_%2_%3=%4, ";
-                enums.append( s
-                                .arg( info->name.toUpper() )
-                                .arg( info->fields[n]->name.toUpper() )
-                                .arg( options[m].toUpper().replace(QRegExp(ENUM_SPECIAL_CHARS), "") )
-                                .arg(m) );
-
-            }
-            enums.append( QString(" } %1%2Options;\r\n")
-                          .arg( info->name )
-                          .arg( info->fields[n]->name ) );
-        }
-        // Generate element names (only if field has more than one element)
-        if (info->fields[n]->numElements > 1 && !info->fields[n]->defaultElementNames)
-        {
-            enums.append(QString("/* Array element names for field %1 */\r\n").arg(info->fields[n]->name));
-            enums.append("typedef enum { ");
-            // Go through the element names
-            QStringList elemNames = info->fields[n]->elementNames;
-            for (int m = 0; m < elemNames.length(); ++m)
-            {
-                QString s = (m != (elemNames.length()-1)) ? "%1_%2_%3=%4, " : "%1_%2_%3=%4";
-                enums.append( s
-                                .arg( info->name.toUpper() )
-                                .arg( info->fields[n]->name.toUpper() )
-                                .arg( elemNames[m].toUpper() )
-                                .arg(m) );
-
-            }
-            enums.append( QString(" } %1%2Elem;\r\n")
-                          .arg( info->name )
-                          .arg( info->fields[n]->name ) );
-        }
-        // Generate array information
-        if (info->fields[n]->numElements > 1)
-        {
-            enums.append(QString("/* Number of elements for field %1 */\r\n").arg(info->fields[n]->name));
-            enums.append( QString("#define %1_%2_NUMELEM %3\r\n")
-                          .arg( info->name.toUpper() )
-                          .arg( info->fields[n]->name.toUpper() )
-                          .arg( info->fields[n]->numElements ) );
-        }
-    }
+    QString enums = QString("");
+    res = res && generateEnumDefinitions(info->field,enums);
     outInclude.replace(QString("$(DATAFIELDINFO)"), enums);
 
     // Replace the $(INITFIELDS) tag
-    QString initfields;
-    for (int n = 0; n < info->fields.length(); ++n)
-    {
-        if (!info->fields[n]->defaultValues.isEmpty() )
-        {
-            // For non-array fields
-            if ( info->fields[n]->numElements == 1)
-            {
-                if ( info->fields[n]->type == FIELDTYPE_ENUM )
-                {
-                    initfields.append( QString("\tdata.%1 = %2;\r\n")
-                                .arg( info->fields[n]->name )
-                                .arg( info->fields[n]->options.indexOf( info->fields[n]->defaultValues[0] ) ) );
-                }
-                else if ( info->fields[n]->type == FIELDTYPE_FLOAT32 )
-                {
-                    initfields.append( QString("\tdata.%1 = %2;\r\n")
-                                .arg( info->fields[n]->name )
-                                .arg( info->fields[n]->defaultValues[0].toFloat() ) );
-                }
-                else
-                {
-                    initfields.append( QString("\tdata.%1 = %2;\r\n")
-                                .arg( info->fields[n]->name )
-                                .arg( info->fields[n]->defaultValues[0].toInt() ) );
-                }
-            }
-            else
-            {
-                // Initialize all fields in the array
-                for (int idx = 0; idx < info->fields[n]->numElements; ++idx)
-                {
-                    if ( info->fields[n]->type == FIELDTYPE_ENUM )
-                    {
-                        initfields.append( QString("\tdata.%1[%2] = %3;\r\n")
-                                    .arg( info->fields[n]->name )
-                                    .arg( idx )
-                                    .arg( info->fields[n]->options.indexOf( info->fields[n]->defaultValues[idx] ) ) );
-                    }
-                    else if ( info->fields[n]->type == FIELDTYPE_FLOAT32 )
-                    {
-                        initfields.append( QString("\tdata.%1[%2] = %3;\r\n")
-                                    .arg( info->fields[n]->name )
-                                    .arg( idx )
-                                    .arg( info->fields[n]->defaultValues[idx].toFloat() ) );
-                    }
-                    else
-                    {
-                        initfields.append( QString("\tdata.%1[%2] = %3;\r\n")
-                                    .arg( info->fields[n]->name )
-                                    .arg( idx )
-                                    .arg( info->fields[n]->defaultValues[idx].toInt() ) );
-                    }
-                }
-            }
-        }
-    }
+    QString initfields = QString("");
+    res = res && generateInitFields(info->field, initfields,QString("data"));
     outCode.replace(QString("$(INITFIELDS)"), initfields);
 
     // Replace the $(SETGETFIELDS) tag
-    QString setgetfields;
-    for (int n = 0; n < info->fields.length(); ++n)
-    {
-        //if (!info->fields[n]->defaultValues.isEmpty() )
-        {
-            // For non-array fields
-            if ( info->fields[n]->numElements == 1)
-            {
-
-            	/* Set */
-                setgetfields.append( QString("void %2%3Set( %1 *New%3 )\r\n")
-							.arg( fieldTypeStrC[info->fields[n]->type] )
-							.arg( info->name )
-							.arg( info->fields[n]->name ) );
-				setgetfields.append( QString("{\r\n") );
-				setgetfields.append( QString("\tUAVObjSetDataField(%1Handle(), (void*)New%2, offsetof( %1Data, %2), sizeof(%3));\r\n")
-							.arg( info->name )
-							.arg( info->fields[n]->name )
-							.arg( fieldTypeStrC[info->fields[n]->type] ) );
-				setgetfields.append( QString("}\r\n") );
-
-				/* GET */
-				setgetfields.append( QString("void %2%3Get( %1 *New%3 )\r\n")
-							.arg( fieldTypeStrC[info->fields[n]->type] )
-							.arg( info->name )
-							.arg( info->fields[n]->name ));
-				setgetfields.append( QString("{\r\n") );
-				setgetfields.append( QString("\tUAVObjGetDataField(%1Handle(), (void*)New%2, offsetof( %1Data, %2), sizeof(%3));\r\n")
-							.arg( info->name )
-							.arg( info->fields[n]->name )
-							.arg( fieldTypeStrC[info->fields[n]->type] ) );
-				setgetfields.append( QString("}\r\n") );
-
-            }
-            else
-            {
-
-            	/* SET */
-				setgetfields.append( QString("void %2%3Set( %1 *New%3 )\r\n")
-								.arg( fieldTypeStrC[info->fields[n]->type] )
-								.arg( info->name )
-								.arg( info->fields[n]->name ) );
-				setgetfields.append( QString("{\r\n") );
-				setgetfields.append( QString("\tUAVObjSetDataField(%1Handle(), (void*)New%2, offsetof( %1Data, %2), %3*sizeof(%4));\r\n")
-								.arg( info->name )
-								.arg( info->fields[n]->name )
-								.arg( info->fields[n]->numElements )
-								.arg( fieldTypeStrC[info->fields[n]->type] ) );
-				setgetfields.append( QString("}\r\n") );
-
-				/* GET */
-				setgetfields.append( QString("void %2%3Get( %1 *New%3 )\r\n")
-								.arg( fieldTypeStrC[info->fields[n]->type] )
-								.arg( info->name )
-								.arg( info->fields[n]->name ) );
-				setgetfields.append( QString("{\r\n") );
-				setgetfields.append( QString("\tUAVObjGetDataField(%1Handle(), (void*)New%2, offsetof( %1Data, %2), %3*sizeof(%4));\r\n")
-								.arg( info->name )
-								.arg( info->fields[n]->name )
-								.arg( info->fields[n]->numElements )
-								.arg( fieldTypeStrC[info->fields[n]->type] ) );
-				setgetfields.append( QString("}\r\n") );
-            }
-        }
-    }
+    QString setgetfields = QString("");
+    res = res && generateSetGetFields(info->field, setgetfields);
     outCode.replace(QString("$(SETGETFIELDS)"), setgetfields);
 
     // Replace the $(SETGETFIELDSEXTERN) tag
-     QString setgetfieldsextern;
-     for (int n = 0; n < info->fields.length(); ++n)
-     {
-         //if (!info->fields[n]->defaultValues.isEmpty() )
-         {
+    QString setgetfieldsextern = QString("");
+    res = res && generateExternSetGetFields(info->field, setgetfieldsextern);
+    outInclude.replace(QString("$(SETGETFIELDSEXTERN)"), setgetfieldsextern);
 
-			/* SET */
-			setgetfieldsextern.append( QString("extern void %2%3Set( %1 *New%3 );\r\n")
-					.arg( fieldTypeStrC[info->fields[n]->type] )
-					.arg( info->name )
-					.arg( info->fields[n]->name ) );
-
-			/* GET */
-			setgetfieldsextern.append( QString("extern void %2%3Get( %1 *New%3 );\r\n")
-					.arg( fieldTypeStrC[info->fields[n]->type] )
-					.arg( info->name )
-					.arg( info->fields[n]->name ) );
-         }
-     }
-     outInclude.replace(QString("$(SETGETFIELDSEXTERN)"), setgetfieldsextern);
+    if (!res) {
+        cout << "Error: Could not substitute tags" << endl;
+        return false;
+    }
 
     // Write the flight code
-    bool res = writeFileIfDiffrent( flightOutputPath.absolutePath() + "/" + info->namelc + ".c", outCode );
+    res = res &&  writeFileIfDiffrent( flightOutputPath.absolutePath() + "/" + info->namelc + ".c", outCode );
     if (!res) {
         cout << "Error: Could not write flight code files" << endl;
         return false;
     }
 
-    res = writeFileIfDiffrent( flightOutputPath.absolutePath() + "/" + info->namelc + ".h", outInclude );
+    res = res &&  writeFileIfDiffrent( flightOutputPath.absolutePath() + "/" + info->namelc + ".h", outInclude );
     if (!res) {
         cout << "Error: Could not write flight include files" << endl;
         return false;
     }
 
+    return res;
+}
+
+
+/**
+ * @brief Retrieves the path to a specific field in the field arborescence
+ * @param field
+ * @return a list representing the path to the field. The root is the first element of the list, the field is the last element
+ */
+QStringList UAVObjectGeneratorFlight::fieldPath(FieldInfo* field) {
+    QStringList result = QStringList();
+    FieldInfo* current=field;
+    while(current!=NULL) {
+        result.prepend(current->name);
+        current = current->parentField;
+    }
+    return result;
+}
+
+/**
+ * @brief Generate the field type
+ * @param field
+ * @return the C type for the field, even if it is a struct field
+ */
+QString UAVObjectGeneratorFlight::fieldType(FieldInfo* field) {
+
+    return (field->type == FIELDTYPE_STRUCT)?
+                fieldPath(field).join("").replace(QRegExp(ENUM_SPECIAL_CHARS), "").append("Data"):
+                fieldTypeStrC[field->type] ;
+}
+
+/**
+ * @brief Generate the field descriptor
+ * @param field
+ * @return a string like "int8 blabla[10]"
+ */
+QString UAVObjectGeneratorFlight::fieldDescriptor(FieldInfo* field) {
+    return (field->numElements > 1)?
+                QString("%1 %2[%3]").arg(fieldType(field)).arg(field->name).arg(field->numElements):
+                QString("%1 %2").arg(fieldType(field)).arg(field->name);
+}
+
+
+/**
+ * @brief Generate the structs definitions string, recursively
+ * @param field field to process
+ * @param datafields string to prepend with the definition of the field
+ * @return true if everything went fine
+ */
+bool UAVObjectGeneratorFlight::generateStructDefinitions(FieldInfo* field, QString& datafields)
+{
+
+    bool res = true;
+
+    QString buffer = QString("");
+    //for each subfield add its declaration in the struct declaration for the field
+    foreach(FieldInfo* childField, field->childrenFields) {
+            buffer.append( QString("    %1;\r\n").arg(fieldDescriptor(childField) ));
+    }
+
+    QString cStructName = fieldPath(field).join("").replace(QRegExp(ENUM_SPECIAL_CHARS), "") + QString("Data");
+    datafields.prepend(QString("typedef struct {\r\n") + buffer +  QString("} __attribute__((packed)) ") + cStructName +QString(";\r\n\r\n"));
+
+
+    // for each subfield of struct type, prepend datafields with the corresponding struct type definition
+    foreach(FieldInfo* childField, field->childrenFields) {
+        if(childField->type == FIELDTYPE_STRUCT) {
+            res = res && generateStructDefinitions(childField, datafields);
+        }
+    }
+
+    return res;
+}
+
+
+/**
+ * @brief Generate the structs definitions string, recursively
+ * @param field field to process
+ * @param datafields string to prepend with the definition of the field
+ * @return true if everything went fine
+ */
+bool UAVObjectGeneratorFlight::generateEnumDefinitions(FieldInfo* field, QString& enums)
+{
+
+    bool res = true;
+
+
+
+    QString buffer = QString("");
+    foreach(FieldInfo* childField, field->childrenFields) {
+
+        // For enums
+        if (childField->type == FIELDTYPE_ENUM)
+        {
+
+            buffer.append(QString("// Enumeration options for field %1 \r\n").arg(fieldPath(childField).join(QString("."))));
+            buffer.append("typedef enum { ");
+            // Go through each option
+            QStringList options = QStringList();
+            int i = 0;
+            foreach(QString option,childField->options) {
+                options.append(QString("%1_%2=%3").arg(fieldPath(childField).join(QString("_")).toUpper()).arg(option.toUpper().replace(QRegExp(ENUM_SPECIAL_CHARS), "")).arg(i));
+                i++;
+            }
+            buffer.append(options.join(QString(", ")));
+            buffer.append( QString(" } %1Options;\r\n").arg(fieldPath(childField).join(QString(""))));
+        }
+
+
+        // Generate element names (only if field has more than one element)
+        if (childField->numElements > 1 && !childField->defaultElementNames)
+        {
+
+            buffer.append(QString("// Array element names for field %1 \r\n").arg(fieldPath(childField).join(QString("."))));
+            buffer.append("typedef enum { ");
+            // Go through the element names
+            QStringList elementNames = QStringList();
+            int i = 0;
+            foreach(QString elementName,childField->elementNames) {
+                elementNames.append(QString("%1_%2=%3").arg(fieldPath(childField).join(QString("_")).toUpper()).arg(elementName.toUpper().replace(QRegExp(ENUM_SPECIAL_CHARS), "")).arg(i));
+                i++;
+            }
+            buffer.append(elementNames.join(QString(", ")));
+            buffer.append( QString(" } %1Elem;\r\n").arg(fieldPath(childField).join(QString(""))));
+        }
+        // Generate array information
+        if (childField->numElements > 1)
+        {
+
+
+            buffer.append(QString("// Number of elements for field %1 \r\n").arg(fieldPath(childField).join(QString("."))));
+
+            buffer.append( QString("#define %1_NUMELEM %2\r\n")
+                           .arg(fieldPath(childField).join(QString("_")).toUpper() )
+                           .arg( childField->numElements ));
+        }
+    }
+    enums.prepend(buffer);
+
+
+    // process subfields
+    foreach(FieldInfo* childField, field->childrenFields) {
+        if(childField->type == FIELDTYPE_STRUCT)
+            res = res && generateEnumDefinitions(childField, enums);
+    }
+
+    return res;
+}
+
+
+/**
+ * @brief Generate instructions for the initialization of fields, recursively
+ * @param field to initialize
+ * @param initfields string to append with initialization code
+ * @return true if everything went fine
+ */
+bool UAVObjectGeneratorFlight::generateInitFields(FieldInfo* field, QString& initfields,QString instanceName)
+{
+    bool res = true;
+
+    foreach(FieldInfo* childField, field->childrenFields) {
+        if (!childField->defaultValues.isEmpty() )
+        {
+            // For non-array fields
+            if ( childField->numElements == 1)
+            {
+                if ( childField->type == FIELDTYPE_STRUCT )
+                {
+                    res = res && generateInitFields(childField,initfields,QString("%1.%2").arg(instanceName).arg(childField->name));
+                }
+                else if ( childField->type == FIELDTYPE_ENUM )
+                {
+                    initfields.append( QString("\t%1.%2 = %3;\r\n")
+                                       .arg(instanceName)
+                                       .arg( childField->name)
+                                       .arg( childField->options.indexOf( childField->defaultValues[0] ) ) );
+                }
+                else if ( childField->type == FIELDTYPE_FLOAT32 )
+                {
+                    initfields.append( QString("\t%1.%2 = %3;\r\n")
+                                       .arg(instanceName)
+                                       .arg( childField->name)
+                                       .arg( childField->defaultValues[0].toFloat() ) );
+                }
+                else
+                {
+                    initfields.append( QString("\t%1.%2 = %3;\r\n")
+                                       .arg(instanceName)
+                                       .arg( childField->name)
+                                       .arg( childField->defaultValues[0].toInt() ) );
+                }
+            }
+            else
+            {
+                // Initialize all fields in the array
+                for (int idx = 0; idx < childField->numElements; ++idx)
+                {
+                    if ( childField->type == FIELDTYPE_STRUCT )
+                    {
+                        res = res && generateInitFields(childField,initfields,QString("%1.%2[%3]").arg(instanceName).arg(childField->name).arg( idx ));
+                    }
+                    else if ( childField->type == FIELDTYPE_ENUM )
+                    {
+                        initfields.append( QString("\t%1.%2[%3] = %4;\r\n")
+                                           .arg(instanceName)
+                                           .arg( childField->name)
+                                           .arg( idx )
+                                           .arg( childField->options.indexOf( childField->defaultValues[idx] ) ) );
+                    }
+                    else if ( childField->type == FIELDTYPE_FLOAT32 )
+                    {
+                        initfields.append( QString("\t%1.%2[%3] = %4;\r\n")
+                                           .arg(instanceName)
+                                           .arg( childField->name)
+                                           .arg( idx )
+                                           .arg( childField->defaultValues[idx].toFloat() ) );
+                    }
+                    else
+                    {
+                        initfields.append( QString("\t%1.%2[%3] = %4;\r\n")
+                                           .arg(instanceName)
+                                           .arg( childField->name)
+                                           .arg( idx )
+                                           .arg( childField->defaultValues[idx].toInt() ) );
+                    }
+                }
+            }
+        }
+    }
+    return res;
+}
+
+/**
+ * @brief Generate getter and setter only for the first level, not recursively (because I do not see the use for this)
+ * @param field
+ * @param setgetfields the string to append with getters and setters
+ * @return true if everything went fine
+ */
+bool UAVObjectGeneratorFlight::generateSetGetFields(FieldInfo* field, QString& setgetfields)
+{
+    foreach(FieldInfo* childField, field->childrenFields) {
+        if ( childField->numElements == 1)
+        {
+            QStringList fieldpath = fieldPath(childField);
+            QString fieldtype = fieldType(childField);
+            /* Set */
+            setgetfields.append( QString("void %1Set( %2 *New%3 )\r\n")
+                                 .arg( fieldpath.join(QString("")) )
+                                 .arg( fieldtype )
+                                 .arg( fieldpath.last() ));
+            setgetfields.append( QString("{\r\n") );
+            setgetfields.append( QString("\tUAVObjSetDataField(%1Handle(), (void*)New%2, offsetof( %1Data, %2), sizeof(%3));\r\n")
+                                 .arg( fieldpath.first() )
+                                 .arg( fieldpath.last() )
+                                 .arg( fieldtype ));
+            setgetfields.append( QString("}\r\n") );
+            /* Get */
+            setgetfields.append( QString("void %1Get( %2 *New%3 )\r\n")
+                                 .arg( fieldpath.join(QString("")) )
+                                 .arg( fieldtype )
+                                 .arg( fieldpath.last() ));
+            setgetfields.append( QString("{\r\n") );
+            setgetfields.append( QString("\tUAVObjGetDataField(%1Handle(), (void*)New%2, offsetof( %1Data, %2), sizeof(%3));\r\n")
+                                 .arg( fieldpath.first() )
+                                 .arg( fieldpath.last() )
+                                 .arg( fieldtype ));
+            setgetfields.append( QString("}\r\n") );
+        }
+        else
+        {
+            QStringList fieldpath = fieldPath(childField);
+            QString fieldtype = fieldType(childField);
+            int fieldnumelements = childField->numElements;
+            /* Set */
+            setgetfields.append( QString("void %1Set( %2 *New%3 )\r\n")
+                                 .arg( fieldpath.join(QString("")) )
+                                 .arg( fieldtype )
+                                 .arg( fieldpath.last() ));
+            setgetfields.append( QString("{\r\n") );
+            setgetfields.append( QString("\tUAVObjSetDataField(%1Handle(), (void*)New%2, offsetof( %1Data, %2), %4*sizeof(%3));\r\n")
+                                 .arg( fieldpath.first() )
+                                 .arg( fieldpath.last() )
+                                 .arg( fieldtype )
+                                 .arg( fieldnumelements ));
+            setgetfields.append( QString("}\r\n") );
+            /* Get */
+            setgetfields.append( QString("void %1Get( %2 *New%3 )\r\n")
+                                 .arg( fieldpath.join(QString("")) )
+                                 .arg( fieldtype )
+                                 .arg( fieldpath.last() ));
+            setgetfields.append( QString("{\r\n") );
+            setgetfields.append( QString("\tUAVObjGetDataField(%1Handle(), (void*)New%2, offsetof( %1Data, %2), %4*sizeof(%3));\r\n")
+                                 .arg( fieldpath.first() )
+                                 .arg( fieldpath.last() )
+                                 .arg( fieldtype )
+                                 .arg( fieldnumelements ));
+            setgetfields.append( QString("}\r\n") );
+        }
+    }
     return true;
 }
 
+/**
+ * @brief Generate declaration of getters/setters in the header file
+ * @param field
+ * @param setgetfields the string to append with the declaration
+ * @return true if everything went fine
+ */
+bool UAVObjectGeneratorFlight::generateExternSetGetFields(FieldInfo* field, QString& setgetfields)
+{
+    foreach(FieldInfo* childField, field->childrenFields) {
+        if ( childField->numElements == 1)
+        {
+            QStringList fieldpath = fieldPath(childField);
+            QString fieldtype = fieldType(childField);
+            /* Set */
+            setgetfields.append( QString("extern void %1Set( %2 *New%3 );\r\n")
+                                 .arg( fieldpath.join(QString("")) )
+                                 .arg( fieldtype )
+                                 .arg( fieldpath.last() ));
+            /* Get */
+            setgetfields.append( QString("extern void %1Get( %2 *New%3 );\r\n")
+                                 .arg( fieldpath.join(QString("")) )
+                                 .arg( fieldtype )
+                                 .arg( fieldpath.last() ));
+        }
+        else
+        {
+            QStringList fieldpath = fieldPath(childField);
+            QString fieldtype = fieldType(childField);
+            /* Set */
+            setgetfields.append( QString("void %1Set( %2 *New%3 );\r\n")
+                                 .arg( fieldpath.join(QString("")) )
+                                 .arg( fieldtype )
+                                 .arg( fieldpath.last() ));
+            /* Get */
+            setgetfields.append( QString("void %1Get( %2 *New%3 );\r\n")
+                                 .arg( fieldpath.join(QString("")) )
+                                 .arg( fieldtype )
+                                 .arg( fieldpath.last() ));
+        }
+    }
+    return true;
+}
 

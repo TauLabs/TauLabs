@@ -30,9 +30,10 @@ using namespace std;
 
 bool UAVObjectGeneratorWireshark::generate(UAVObjectParser* parser,QString templatepath,QString outputpath) {
 
-    fieldTypeStrHf << "FT_INT8" << "FT_INT16" << "FT_INT32" <<"FT_UINT8"
+    //TODO Implement struct instead of void
+    fieldTypeStrHf << "FT_STRUCT" << "FT_INT8" << "FT_INT16" << "FT_INT32" <<"FT_UINT8"
             <<"FT_UINT16" << "FT_UINT32" << "FT_FLOAT" << "FT_UINT8";
-    fieldTypeStrGlib << "gint8" << "gint16" << "gint32" <<"guint8"
+    fieldTypeStrGlib << "gstruct" << "gint8" << "gint16" << "gint32" <<"guint8"
             <<"guint16" << "guint32" << "gfloat" << "guint8";
 
     wiresharkCodePath = QDir( templatepath + QString("ground/openpilotgcs/src/plugins/uavobjects/wireshark"));
@@ -123,15 +124,15 @@ bool UAVObjectGeneratorWireshark::process_object(ObjectInfo* info, QDir outputpa
     QString subtreestatics;
     subtreestatics.append( QString("static gint ett_uavo = -1;\r\n") );
     subtrees.append( QString("&ett_uavo,\r\n") );
-    for (int n = 0; n < info->fields.length(); ++n) {
-      if (info->fields[n]->numElements > 1) {
+    for (int n = 0; n < info->field->childrenFields.length(); ++n) {
+      if (info->field->childrenFields[n]->numElements > 1) {
 	/* Reserve a subtree for each array */
 	subtreestatics.append( QString("static gint ett_%1_%2 = -1;\r\n")
 			       .arg(info->namelc)
-			       .arg(info->fields[n]->name) );
+                   .arg(info->field->childrenFields[n]->name) );
 	subtrees.append( QString("&ett_%1_%2,\r\n")
 			 .arg(info->namelc)
-			 .arg(info->fields[n]->name) );
+             .arg(info->field->childrenFields[n]->name) );
       }
     }
     outCode.replace(QString("$(SUBTREES)"), subtrees);
@@ -140,16 +141,16 @@ bool UAVObjectGeneratorWireshark::process_object(ObjectInfo* info, QDir outputpa
     // Replace the $(FIELDHANDLES) tag
     QString type;
     QString fields;
-    for (int n = 0; n < info->fields.length(); ++n) {
+    for (int n = 0; n < info->field->childrenFields.length(); ++n) {
       fields.append( QString("static int hf_op_uavobjects_%1_%2 = -1;\r\n")
 		     .arg(info->namelc)
-		     .arg(info->fields[n]->name));
-      if (info->fields[n]->numElements > 1) {
-	QStringList elemNames = info->fields[n]->elementNames;
+             .arg(info->field->childrenFields[n]->name));
+      if (info->field->childrenFields[n]->numElements > 1) {
+    QStringList elemNames = info->field->childrenFields[n]->elementNames;
 	for (int m = 0; m < elemNames.length(); ++m) {
 	  fields.append( QString("static int hf_op_uavobjects_%1_%2_%3 = -1;\r\n")
 			 .arg(info->namelc)
-			 .arg(info->fields[n]->name)
+             .arg(info->field->childrenFields[n]->name)
 			 .arg(elemNames[m]) );
 	}
       }
@@ -158,16 +159,16 @@ bool UAVObjectGeneratorWireshark::process_object(ObjectInfo* info, QDir outputpa
 
     // Replace the $(ENUMFIELDNAMES) tag
     QString enums;
-    for (int n = 0; n < info->fields.length(); ++n) {
+    for (int n = 0; n < info->field->childrenFields.length(); ++n) {
       // Only for enum types
-      if (info->fields[n]->type == FIELDTYPE_ENUM) {
-	enums.append(QString("/* Field %1 information */\r\n").arg(info->fields[n]->name) );
-	enums.append(QString("/* Enumeration options for field %1 */\r\n").arg(info->fields[n]->name));
+      if (info->field->childrenFields[n]->type == FIELDTYPE_ENUM) {
+    enums.append(QString("/* Field %1 information */\r\n").arg(info->field->childrenFields[n]->name) );
+    enums.append(QString("/* Enumeration options for field %1 */\r\n").arg(info->field->childrenFields[n]->name));
 	enums.append( QString("static const value_string uavobjects_%1_%2[]= {\r\n")
 		      .arg(info->namelc)
-		      .arg(info->fields[n]->name) );
+              .arg(info->field->childrenFields[n]->name) );
 	// Go through each option
-	QStringList options = info->fields[n]->options;
+    QStringList options = info->field->childrenFields[n]->options;
 	for (int m = 0; m < options.length(); ++m) {
 	  enums.append ( QString("\t{ %1, \"%2\" },\r\n")
 			 .arg(m)
@@ -181,29 +182,29 @@ bool UAVObjectGeneratorWireshark::process_object(ObjectInfo* info, QDir outputpa
 
     // Replace the $(POPULATETREE) tag
     QString treefields;
-    for (int n = 0; n < info->fields.length(); ++n) {
-      if ( info->fields[n]->numElements == 1 ) {
+    for (int n = 0; n < info->field->childrenFields.length(); ++n) {
+      if ( info->field->childrenFields[n]->numElements == 1 ) {
 	treefields.append( QString("    ptvcursor_add(cursor, hf_op_uavobjects_%1_%2, sizeof(%3), ENC_LITTLE_ENDIAN);\r\n")
 			   .arg(info->namelc)
-			   .arg(info->fields[n]->name)
-			   .arg(fieldTypeStrGlib[info->fields[n]->type]) );
+               .arg(info->field->childrenFields[n]->name)
+               .arg(fieldTypeStrGlib[info->field->childrenFields[n]->type]) );
       } else {
 	treefields.append( QString("    {\r\n") );
 	treefields.append( QString("      proto_item * it = NULL;\r\n") );
 	treefields.append( QString("      it = ptvcursor_add_no_advance(cursor, hf_op_uavobjects_%1_%2, 1, ENC_NA);\r\n")
 			   .arg(info->namelc)
-			   .arg(info->fields[n]->name) );
+               .arg(info->field->childrenFields[n]->name) );
 	treefields.append( QString("      ptvcursor_push_subtree(cursor, it, ett_%1_%2);\r\n")
 			   .arg(info->namelc)
-			   .arg(info->fields[n]->name) );
+               .arg(info->field->childrenFields[n]->name) );
 	/* Populate each array element into the table */
-	QStringList elemNames = info->fields[n]->elementNames;
+    QStringList elemNames = info->field->childrenFields[n]->elementNames;
 	for (int m = 0; m < elemNames.length(); ++m) {
 	  treefields.append( QString("    ptvcursor_add(cursor, hf_op_uavobjects_%1_%2_%3, sizeof(%4), ENC_LITTLE_ENDIAN);\r\n")
 			     .arg(info->namelc)
-			     .arg(info->fields[n]->name)
+                 .arg(info->field->childrenFields[n]->name)
 			     .arg(elemNames[m])
-			     .arg(fieldTypeStrGlib[info->fields[n]->type]) );
+                 .arg(fieldTypeStrGlib[info->field->childrenFields[n]->type]) );
 	}
 	treefields.append( QString("      ptvcursor_pop_subtree(cursor);\r\n") );
 	treefields.append( QString("    }\r\n") );
@@ -214,22 +215,22 @@ bool UAVObjectGeneratorWireshark::process_object(ObjectInfo* info, QDir outputpa
     // Replace the $(HEADERFIELDS) tag
     QString headerfields;
     headerfields.append( QString("   static hf_register_info hf[] = {\r\n") );
-    for (int n = 0; n < info->fields.length(); ++n) {
+    for (int n = 0; n < info->field->childrenFields.length(); ++n) {
       // For non-array fields
-      if ( info->fields[n]->numElements == 1) {
+      if ( info->field->childrenFields[n]->numElements == 1) {
 	  headerfields.append( QString("\t { &hf_op_uavobjects_%1_%2,\r\n")
 			       .arg( info->namelc )
-			       .arg( info->fields[n]->name ) );
+                   .arg( info->field->childrenFields[n]->name ) );
 	  headerfields.append( QString("\t   { \"%1\", \"%2.%3\", %4,\r\n")
-			       .arg( info->fields[n]->name )
+                   .arg( info->field->childrenFields[n]->name )
 			       .arg( info->namelc )
-			       .arg( info->fields[n]->name )
-			       .arg( fieldTypeStrHf[info->fields[n]->type] ) );
-	  if ( info->fields[n]->type == FIELDTYPE_ENUM ) {
+                   .arg( info->field->childrenFields[n]->name )
+                   .arg( fieldTypeStrHf[info->field->childrenFields[n]->type] ) );
+      if ( info->field->childrenFields[n]->type == FIELDTYPE_ENUM ) {
 	    headerfields.append( QString("\t     BASE_DEC, VALS(uavobjects_%1_%2), 0x0, NULL, HFILL \r\n")
 				 .arg( info->namelc )
-				 .arg( info->fields[n]->name ) );
-	  } else if ( info->fields[n]->type == FIELDTYPE_FLOAT32 ) {
+                 .arg( info->field->childrenFields[n]->name ) );
+      } else if ( info->field->childrenFields[n]->type == FIELDTYPE_FLOAT32 ) {
 	    headerfields.append( QString("\t     BASE_NONE, NULL, 0x0, NULL, HFILL \r\n") );
 	  } else {
 	    headerfields.append( QString("\t     BASE_DEC_HEX, NULL, 0x0, NULL, HFILL\r\n") );
@@ -239,32 +240,32 @@ bool UAVObjectGeneratorWireshark::process_object(ObjectInfo* info, QDir outputpa
       } else {
 	headerfields.append( QString("\t { &hf_op_uavobjects_%1_%2,\r\n")
 			     .arg( info->namelc )
-			     .arg( info->fields[n]->name ) );
+                 .arg( info->field->childrenFields[n]->name ) );
 	headerfields.append( QString("\t   { \"%1\", \"%2.%3\", FT_NONE,\r\n")
-			     .arg( info->fields[n]->name )
+                 .arg( info->field->childrenFields[n]->name )
 			     .arg( info->namelc )
-			     .arg( info->fields[n]->name ) );
+                 .arg( info->field->childrenFields[n]->name ) );
 	headerfields.append( QString("\t     BASE_NONE, NULL, 0x0, NULL, HFILL\r\n") );
 	headerfields.append( QString("\t   },\r\n") );
 	headerfields.append( QString("\t },\r\n") );
 
-	QStringList elemNames = info->fields[n]->elementNames;
+    QStringList elemNames = info->field->childrenFields[n]->elementNames;
 	for (int m = 0; m < elemNames.length(); ++m) {
 	  headerfields.append( QString("\t { &hf_op_uavobjects_%1_%2_%3,\r\n")
 			       .arg( info->namelc )
-			       .arg( info->fields[n]->name )
+                   .arg( info->field->childrenFields[n]->name )
 			       .arg( elemNames[m]) );
 	  headerfields.append( QString("\t   { \"%1\", \"%2.%3.%4\", %5,\r\n")
 			       .arg( elemNames[m] )
 			       .arg( info->namelc )
-			       .arg( info->fields[n]->name )
+                   .arg( info->field->childrenFields[n]->name )
 			       .arg( elemNames[m] )
-			       .arg( fieldTypeStrHf[info->fields[n]->type] ) );
-	  if ( info->fields[n]->type == FIELDTYPE_ENUM ) {
+                   .arg( fieldTypeStrHf[info->field->childrenFields[n]->type] ) );
+      if ( info->field->childrenFields[n]->type == FIELDTYPE_ENUM ) {
 	    headerfields.append( QString("\t     BASE_DEC, VALS(uavobjects_%1_%2), 0x0, NULL, HFILL \r\n")
 				 .arg( info->namelc )
-				 .arg( info->fields[n]->name ) );
-	  } else if ( info->fields[n]->type == FIELDTYPE_FLOAT32 ) {
+                 .arg( info->field->childrenFields[n]->name ) );
+      } else if ( info->field->childrenFields[n]->type == FIELDTYPE_FLOAT32 ) {
 	    headerfields.append( QString("\t     BASE_NONE, NULL, 0x0, NULL, HFILL \r\n") );
 	  } else {
 	    headerfields.append( QString("\t     BASE_DEC_HEX, NULL, 0x0, NULL, HFILL\r\n") );

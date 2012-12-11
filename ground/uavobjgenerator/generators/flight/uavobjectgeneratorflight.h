@@ -38,8 +38,19 @@ public:
     QDir flightCodePath;
     QDir flightOutputPath;
 
+
+
 private:
-    bool process_object(ObjectInfo* info);
+
+    bool generateStructDefinitions(FieldInfo* field, QString& datafields);
+    bool processObject(ObjectInfo* info);
+    bool generateEnumDefinitions(FieldInfo* field, QString& enums);
+    bool generateInitFields(FieldInfo* info, QString &initfields,QString instanceName);
+    bool generateSetGetFields(FieldInfo* field, QString &setgetfields);
+    bool generateExternSetGetFields(FieldInfo* field, QString& setgetfields);
+    QString fieldType(FieldInfo* field);
+    QString fieldDescriptor(FieldInfo* field);
+    QStringList fieldPath(FieldInfo* field);
 
 };
 
