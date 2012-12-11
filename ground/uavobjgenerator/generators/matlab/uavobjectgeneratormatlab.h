@@ -45,6 +45,10 @@ private:
     QStringList fieldTypeStrMatlab;
     QStringList fieldSizeStrMatlab;
 
+    QString recursiveStruct(int n, ObjectInfo* info, QString instantiationFields);
+    QStringList fieldPath(FieldInfo* field);
+    bool generateStructDefinitions(FieldInfo* field, QString& datafields, QString indent);
+    bool generateStructAllocations(FieldInfo* field, QString& datafields, QString objectName, int& currentIdx, QString indent, int nestingDepth);
 };
 
 #endif

@@ -39,6 +39,14 @@ bool UAVObjectGeneratorMatlab::generate(UAVObjectParser* parser,QString template
     fieldSizeStrMatlab << "0" << "1" << "2" << "4"
         << "1" << "2" << "4" << "4" << "1";
 
+    // Explicitly force these strings to be empty
+    matlabInstantiationCode = QString("");
+    matlabSwitchCode = QString("");
+    matlabCleanupCode = QString("");
+    matlabSaveObjectsCode = QString("");
+    matlabAllocationCode = QString("");
+    matlabExportCsvCode = QString("");
+
     QDir matlabTemplatePath = QDir( templatepath + QString("ground/openpilotgcs/src/plugins/uavobjects"));
     QDir matlabOutputPath = QDir( outputpath + QString("matlab") );
     matlabOutputPath.mkpath(matlabOutputPath.absolutePath());
@@ -73,6 +81,7 @@ bool UAVObjectGeneratorMatlab::generate(UAVObjectParser* parser,QString template
     return true; // if we come here everything should be fine
 }
 
+
 /**
  * Generate the matlab object files
  */
@@ -81,7 +90,7 @@ bool UAVObjectGeneratorMatlab::process_object(ObjectInfo* info, int numBytes)
     if (info == NULL)
         return false;
 
-	//Declare variables
+    //Declare variables
     QString objectName(info->name);
     // QString objectTableName(objectName + "Objects");
     QString objectTableName(objectName);
@@ -93,24 +102,26 @@ bool UAVObjectGeneratorMatlab::process_object(ObjectInfo* info, int numBytes)
     //=========================================================================//
     // Generate instantiation code (will replace the $(INSTANTIATIONCODE) tag) //
     //=========================================================================//
-    QString type;
-    QString instantiationFields;
+    QString instantiationFields = QString("");
+    QString indent("\t");
 
     matlabInstantiationCode.append("\n\t" + tableIdxName + " = 0;\n");
-    matlabInstantiationCode.append("\t" + objectTableName + "=struct('timestamp', 0");
+    matlabInstantiationCode.append("\t" + objectTableName + "=struct('timestamp', 0,...\n");
     if (!info->isSingleInst) {
-        instantiationFields.append(",...\n\t\t 'instanceID', 0");
+        matlabInstantiationCode.append("\t\t'instanceID', 0,...\n");
     }
-    for (int n = 0; n < info->field->childrenFields.length(); ++n) {
-        // Determine type
-        type = fieldTypeStrMatlab[info->field->childrenFields[n]->type];
-        // Append field
-        if ( info->field->childrenFields[n]->numElements > 1 )
-            instantiationFields.append(",...\n\t\t '" + info->field->childrenFields[n]->name + "', zeros(" + QString::number(info->field->childrenFields[n]->numElements, 10) + ",1)");
-        else
-            instantiationFields.append(",...\n\t\t '" + info->field->childrenFields[n]->name + "', 0");
-    }
-    instantiationFields.append(");\n");
+
+    generateStructDefinitions(info->field,instantiationFields,indent);
+//    for (int n = 0; n < info->field->childrenFields.length(); ++n) {
+//        // Determine type
+//        type = fieldTypeStrMatlab[info->field->childrenFields[n]->type];
+//        // Append field
+//        if ( info->field->childrenFields[n]->numElements > 1 )
+//            instantiationFields.append(",...\n\t\t '" + info->field->childrenFields[n]->name + "', zeros(" + QString::number(info->field->childrenFields[n]->numElements, 10) + ",1)");
+//        else
+//            instantiationFields.append(",...\n\t\t '" + info->field->childrenFields[n]->name + "', 0");
+//    }
+    instantiationFields.append(";\n");
 
     matlabInstantiationCode.append(instantiationFields);
     matlabInstantiationCode.append("\t" + objectTableName.toUpper() + "_OBJID=" + objectID + ";\n");
@@ -132,7 +143,7 @@ bool UAVObjectGeneratorMatlab::process_object(ObjectInfo* info, int numBytes)
     matlabSwitchCode.append("\t\t\t\t" + objectTableName + "FidIdx(" + tableIdxName + "*2) = 0;\n");
     matlabSwitchCode.append("\t\t\tend\n");
 
-	
+
     //============================================================//
     // Generate 'Cleanup:' code (will replace the $(CLEANUP) tag) //
     //============================================================//
@@ -140,7 +151,7 @@ bool UAVObjectGeneratorMatlab::process_object(ObjectInfo* info, int numBytes)
 
     //=================================================================//
     // Generate functions code (will replace the $(ALLOCATIONCODE) tag) //
-	//=================================================================//
+    //=================================================================//
     //Generate function description comment
     matlabAllocationCode.append("% " + objectName + " typecasting\n");
     QString allocationFields;
@@ -160,25 +171,29 @@ bool UAVObjectGeneratorMatlab::process_object(ObjectInfo* info, int numBytes)
         currentIdx+=2;
     }
 
-    for (int n = 0; n < info->field->childrenFields.length(); ++n) {
-        // Determine variabel type
-        type = fieldTypeStrMatlab[info->field->childrenFields[n]->type];
+    indent=QString("");
+    int nestingDepth=0;
+    generateStructAllocations(info->field,allocationFields,objectName,currentIdx,indent, nestingDepth);
+//    for (int n = 0; n < info->field->childrenFields.length(); ++n) {
+//        // Determine variable type
+//        type = fieldTypeStrMatlab[info->field->childrenFields[n]->type];
 
-        //Determine variable type length
-        QString size = fieldSizeStrMatlab[info->field->childrenFields[n]->type];
-        // Append field
-        if ( info->field->childrenFields[n]->numElements > 1 ){
-            allocationFields.append("\t" + objectName + "." + info->field->childrenFields[n]->name + " = " +
-                              "reshape(double(typecast(buffer(mcolon(" + objectName + "FidIdx + " + QString("%1").arg(currentIdx) +
-                              ", " + objectName + "FidIdx + " + QString("%1").arg(currentIdx + size.toInt()*info->field->childrenFields[n]->numElements - 1) + ")), '" + type + "')), "+ QString::number(info->field->childrenFields[n]->numElements, 10) + ", [] );\n");
-        }
-        else{
-            allocationFields.append("\t" + objectName + "." + info->field->childrenFields[n]->name + " = " +
-                              "double(typecast(buffer(mcolon(" + objectName + "FidIdx + " + QString("%1").arg(currentIdx) +
-                              ", " + objectName + "FidIdx + " + QString("%1").arg(currentIdx + size.toInt() - 1) + ")), '" + type + "'))';\n");
-        }
-        currentIdx+=size.toInt()*info->field->childrenFields[n]->numElements;
-    }
+//        //Determine variable type length
+//        QString size = fieldSizeStrMatlab[info->field->childrenFields[n]->type];
+//        // Append field
+//        if ( info->field->childrenFields[n]->numElements > 1 ){
+//            allocationFields.append("\t" + objectName + "." + info->field->childrenFields[n]->name + " = " +
+//                              "reshape(double(typecast(buffer(mcolon(" + objectName + "FidIdx + " + QString("%1").arg(currentIdx) +
+//                              ", " + objectName + "FidIdx + " + QString("%1").arg(currentIdx + size.toInt()*info->field->childrenFields[n]->numElements - 1) + ")), '" + type + "')), "+ QString::number(info->field->childrenFields[n]->numElements, 10) + ", [] );\n");
+//        }
+//        else{
+//            allocationFields.append("\t" + objectName + "." + info->field->childrenFields[n]->name + " = " +
+//                              "double(typecast(buffer(mcolon(" + objectName + "FidIdx + " + QString("%1").arg(currentIdx) +
+//                              ", " + objectName + "FidIdx + " + QString("%1").arg(currentIdx + size.toInt() - 1) + ")), '" + type + "'))';\n");
+//        }
+//        currentIdx+=size.toInt()*info->field->childrenFields[n]->numElements;
+//    }
+    allocationFields.replace("dummyFidIdx", objectName + "FidIdx" );
     matlabAllocationCode.append(allocationFields);
     matlabAllocationCode.append("\n");
 
@@ -193,9 +208,145 @@ bool UAVObjectGeneratorMatlab::process_object(ObjectInfo* info, int numBytes)
     // Generate objects csv export code (will replace the $(EXPORTCSVCODE) tag) //
     //==========================================================================//
     matlabExportCsvCode.append("\tOPLog2csv(" + objectTableName + ", '"+objectTableName+"', logfile);\n");
-//	OPLog2csv(ActuatorCommand, 'ActuatorCommand', logfile)
 
+    return true;
+}
+
+
+/**
+ * @brief Generate the structs definitions string, recursively
+ * @param field field to process
+ * @param datafields string to prepend with the definition of the field
+ * @param indent current line indentation
+ * @return true if everything went fine
+ */
+bool UAVObjectGeneratorMatlab::generateStructDefinitions(FieldInfo* field, QString& datafields, QString indent)
+{
+    indent.append("\t");
+    QString lineEnd(",...\n");
+
+    //for each subfield add its declaration in the struct declaration for the field
+    foreach(FieldInfo* childField, field->childrenFields) {
+
+        if (childField->type == FIELDTYPE_STRUCT) {
+            datafields.append(indent + "'" + childField->name + "', struct(...\n");
+            generateStructDefinitions(childField, datafields, indent);
+        }
+        else{
+            if ( childField->numElements > 1 )
+                datafields.append(indent + "'" + childField->name + "', zeros(" + QString::number(childField->numElements, 10) + ",1)");
+            else
+                datafields.append(indent + "'" + childField->name + "', 0");
+        }
+        //TODO: don't append this on the last run through the foreach()..
+        datafields.append(lineEnd);
+    }
+
+    datafields.append(")");
+
+    //TODO: See above
+    datafields.replace(lineEnd + ")", ")");
+
+    return true;
+}
+
+/**
+ * @brief Generate the structs definitions string, recursively
+ * @param field field to process
+ * @param datafields string to prepend with the definition of the field
+ * @param indent current line indentation
+ * @return true if everything went fine
+ */
+bool UAVObjectGeneratorMatlab::generateStructAllocations(FieldInfo* field, QString& allocationFields, QString objectName, int& currentIdx, QString indent, int nestingDepth)
+{
+    indent.append("\t");
+
+    //for each subfield add its declaration in the struct declaration for the field
+    foreach(FieldInfo* childField, field->childrenFields) {
+        // Determine variable type
+        QString type = fieldTypeStrMatlab[childField->type];
+
+        //Determine variable type length
+        QString size = fieldSizeStrMatlab[childField->type];
+
+        // Append field
+        if (childField->type == FIELDTYPE_STRUCT) {
+//            for(int i=0; i<childField->numElements; i++){
+//                generateStructAllocations(childField, allocationFields, objectName + "." + childField->name + "(" + QString("%1").arg(i+1) + ")", currentIdx, indent);
+//            }
+            allocationFields.append(indent + "for i=1:" + QString("%1").arg(childField->numElements) + " % Fill struct\n" );
+            allocationFields.append(indent + "\tj=(i-1)*" + QString("%1").arg(childField->numBytes) + "; %Update index\n" );
+            generateStructAllocations(childField, allocationFields, objectName + "." + childField->name + "(i)", currentIdx, indent, nestingDepth+1);
+            allocationFields.append(indent + "end\n" );
+            currentIdx+=(childField->numElements-1)*childField->numBytes;
+
+        }
+        else{
+            if ( childField->numElements > 1 )
+            {
+                switch (nestingDepth){
+                case 0:
+                    allocationFields.append(indent +  objectName + "." + childField->name + " = " +
+                                      "reshape(double(typecast(buffer(mcolon(dummyFidIdx + " + QString("%1").arg(currentIdx) +
+                                      ", dummyFidIdx + " + QString("%1").arg(currentIdx + size.toInt()*childField->numElements - 1) + ")), '" + type + "')), "+ QString::number(childField->numElements, 10) + ", [] );\n");
+                    break;
+                case 1:
+                    allocationFields.append(indent +  objectName + "." + childField->name + " = " +
+                                      "reshape(double(typecast(buffer(mcolon(dummyFidIdx + " + QString("%1").arg(currentIdx) +
+                                      "+j, dummyFidIdx + " + QString("%1").arg(currentIdx + size.toInt()*childField->numElements - 1) + "+j)), '" + type + "')), "+ QString::number(childField->numElements, 10) + ", [] );\n");
+                    break;
+                default:
+                    allocationFields.append("Whoops, too many nested structs");
+                    break;
+                }
+
+            }
+            else{
+                switch (nestingDepth){
+                case 0:
+                    allocationFields.append(indent +  objectName + "." + childField->name + " = " +
+                                      "double(typecast(buffer(mcolon(dummyFidIdx + " + QString("%1").arg(currentIdx) +
+                                      ", dummyFidIdx + " + QString("%1").arg(currentIdx + size.toInt() - 1) + ")), '" + type + "'))';\n");
+                    break;
+                case 1:
+                    allocationFields.append(indent +  objectName + "." + childField->name + " = " +
+                                      "double(typecast(buffer(mcolon(dummyFidIdx + " + QString("%1").arg(currentIdx) +
+                                      " + j, dummyFidIdx + " + QString("%1").arg(currentIdx + size.toInt() - 1) + " + j)), '" + type + "'))';\n");
+                    break;
+                default:
+                    allocationFields.append("Whoops, too many nested structs");
+                    break;
+                }
+            }
+            currentIdx+=childField->numElements;
+        }
+    }
+
+//    datafields.append(")");
 
 
     return true;
 }
+
+
+/**
+ * @brief Retrieves the path to a specific field in the field arborescence
+ * @param field
+ * @return a list representing the path to the field. The root is the first element of the list, the field is the last element
+ */
+QStringList UAVObjectGeneratorMatlab::fieldPath(FieldInfo* field) {
+    QStringList res = QStringList();
+    FieldInfo* current=field;
+
+    while(current!=NULL) {
+
+        res.prepend(current->name);
+
+        current = current->parentField;
+
+    }
+
+
+    return res;
+}
+
