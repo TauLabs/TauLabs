@@ -89,7 +89,7 @@ init_pins(void)
 	
 	for (int32_t i = 0; i < PIOS_ADC_NUM_PINS; i++) {
 		GPIO_InitStructure.GPIO_Pin = config[i].pin;
-		GPIO_Init(config[i].port, &GPIO_InitStructure);
+		GPIO_Init(config[i].port, (GPIO_InitTypeDef*)&GPIO_InitStructure);
 	}
 }
 

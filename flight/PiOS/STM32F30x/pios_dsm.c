@@ -125,7 +125,7 @@ static void PIOS_DSM_Bind(struct pios_dsm_dev *dsm_dev, uint8_t bind)
 	if (bind > 10)
 		bind = 10;
 
-	GPIO_Init(cfg->bind.gpio, &cfg->bind.init);
+	GPIO_Init(cfg->bind.gpio, (GPIO_InitTypeDef*)&cfg->bind.init);
 
 	/* RX line, set high */
 	GPIO_SetBits(cfg->bind.gpio, cfg->bind.init.GPIO_Pin);
@@ -142,7 +142,7 @@ static void PIOS_DSM_Bind(struct pios_dsm_dev *dsm_dev, uint8_t bind)
 		PIOS_DELAY_WaituS(120);
 	}
 	/* RX line, set input and wait for data */
-	GPIO_Init(cfg->bind.gpio, &GPIO_InitStructure);
+	GPIO_Init((GPIO_TypeDef*)cfg->bind.gpio, &GPIO_InitStructure);
 }
 
 /* Reset channels in case of lost signal or explicit failsafe receiver flag */
