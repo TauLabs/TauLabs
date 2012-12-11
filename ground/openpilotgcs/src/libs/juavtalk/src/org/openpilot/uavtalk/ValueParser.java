@@ -1,4 +1,4 @@
-package org.openpilot.uavtalk;
+package org.abovegroundlabs.uavtalk;
 /**
  * class with static functions to parse values from the UAVTalk protocol 
  * 
