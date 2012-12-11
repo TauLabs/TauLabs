@@ -13,9 +13,9 @@
       <data name="FeedForward" units="" type="float" elements="1" defaultvalue="0"/>
       <data name="AccelTime" units="ms" type="float" elements="1" defaultvalue="0"/>
       <data name="DecelTime" units="ms" type="float" elements="1" defaultvalue="0"/>
-      <data name="ThrottleCurve1" units="percent" type="float" elementnames="0,25,50,75,100" defaultvalue="0,0,0,0,0"/>
+      <data name="ThrottleCurve1" units="percent" type="uint8" elementnames="0,25,50,75,100" defaultvalue="0,63,127,191,255"/>
       <data name="Curve2Source" units="" type="enum" elements="1" defaultvalue="Throttle" options="Throttle,Roll,Pitch,Yaw,Collective,Accessory0,Accessory1,Accessory2,Accessory3,Accessory4,Accessory5" />
-      <data name="ThrottleCurve2" units="percent" type="float" elementnames="0,25,50,75,100" defaultvalue="0,0.25,0.5,0.75,1"/>
+      <data name="ThrottleCurve2" units="percent" type="uint8" elementnames="0,25,50,75,100" defaultvalue="0,63,127,191,255"/>
       <data name="Mixer1Type" units="" type="enum" elements="1" defaultvalue="Disabled" options="Disabled,Motor,Servo,CameraRoll,CameraPitch,CameraYaw,Accessory0,Accessory1,Accessory2,Accessory3,Accessory4,Accessory5"/>
        
       <data name="Mixer1Vector" units="" type="int8" defaultvalue="0" elementnames="ThrottleCurve1,ThrottleCurve2,Roll,Pitch,Yaw" />
