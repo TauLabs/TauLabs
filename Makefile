@@ -407,11 +407,11 @@ $$(UAVO_COLLECTION_DIR)/$(1)/java-build/uavobjects.jar: $$(UAVO_COLLECTION_DIR)/
 		HASH=$$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash) && \
 		cd $$(UAVO_COLLECTION_DIR)/$(1)/java-build && \
 		javac java/*.java \
-		   $$(ROOT_DIR)/androidgcs/src/org/openpilot/uavtalk/UAVDataObject.java \
-		   $$(ROOT_DIR)/androidgcs/src/org/openpilot/uavtalk/UAVObject*.java \
-		   $$(ROOT_DIR)/androidgcs/src/org/openpilot/uavtalk/UAVMetaObject.java \
+		   $$(ROOT_DIR)/androidgcs/src/org/abovegroundlabs/uavtalk/UAVDataObject.java \
+		   $$(ROOT_DIR)/androidgcs/src/org/abovegroundlabs/uavtalk/UAVObject*.java \
+		   $$(ROOT_DIR)/androidgcs/src/org/abovegroundlabs/uavtalk/UAVMetaObject.java \
 		   -d . && \
-		find ./org/openpilot/uavtalk/uavobjects -type f -name '*.class' > classlist.txt && \
+		find ./org/abovegroundlabs/uavtalk/uavobjects -type f -name '*.class' > classlist.txt && \
 		jar cf tmp_uavobjects.jar @classlist.txt && \
 		$$(ANDROID_DX) \
 			--dex \
@@ -676,7 +676,7 @@ all_$(1)_clean: $$(addsuffix _clean, $$(filter bu_$(1), $$(BU_TARGETS)))
 all_$(1)_clean: $$(addsuffix _clean, $$(filter ef_$(1), $$(EF_TARGETS)))
 endef
 
-ALL_BOARDS := coptercontrol pipxtreme revolution revomini osd freedom quanton discoveryf4 discoveryf3
+ALL_BOARDS := coptercontrol pipxtreme revolution revomini osd freedom quanton flyingf4 discoveryf3
 
 # Friendly names of each board (used to find source tree)
 coptercontrol_friendly := CopterControl
@@ -686,7 +686,7 @@ revomini_friendly      := RevoMini
 freedom_friendly       := Freedom
 osd_friendly           := OSD
 quanton_friendly       := Quanton
-discoveryf4_friendly   := DiscoveryF4
+flyingf4_friendly      := FlyingF4
 discoveryf3_friendly   := DiscoveryF3
 
 # Short names of each board (used to display board name in parallel builds)
@@ -697,7 +697,7 @@ revomini_short         := 'rm  '
 freedom_short          := 'free'
 osd_short              := 'osd '
 quanton_short          := 'quan'
-discoveryf4_short      := 'dif4'
+flyingf4_short         := 'fly4'
 discoveryf3_short      := 'dif3'
 
 # Start out assuming that we'll build fw, bl and bu for all boards
@@ -719,7 +719,7 @@ endif
 
 # FIXME: The BU image doesn't work for F4 boards so we need to
 #        filter them out to prevent errors.
-BU_BOARDS  := $(filter-out revolution revomini osd freedom quanton discoveryf4 discoveryf3, $(BU_BOARDS))
+BU_BOARDS  := $(filter-out revolution revomini osd freedom quanton flyingf4 discoveryf3, $(BU_BOARDS))
 
 # Generate the targets for whatever boards are left in each list
 FW_TARGETS := $(addprefix fw_, $(FW_BOARDS))
