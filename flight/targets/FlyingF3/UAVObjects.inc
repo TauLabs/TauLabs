@@ -6,7 +6,7 @@
 # @{
 # @addtogroup 
 # @{
-# @brief Makefile to build UAVObject code for discovery f3 board.
+# @brief Makefile to build UAVObject code for flying f3 board.
 ###############################################################################
 #
 # This program is free software; you can redistribute it and/or modify

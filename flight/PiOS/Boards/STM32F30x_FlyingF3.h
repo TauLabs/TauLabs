@@ -1,12 +1,12 @@
 /******************************************************************************
- * @file       STM32F4xx_DiscoveryF3.c
+ * @file       STM32F4xx_FlyingF3.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @addtogroup PhoenixPilotSystem PhoenixPilot System
  * @{
  * @addtogroup OpenPilotCore OpenPilot Core
  * @{
- * @brief PiOS configuration header for discovery f3 board.
+ * @brief PiOS configuration header for flying f3 board.
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify

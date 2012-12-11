@@ -7,7 +7,7 @@
  * @{
  * @addtogroup OpenPilotCore OpenPilot Core
  * @{
- * @brief Defines board specific static initializers for hardware for the discovery f3 board.
+ * @brief Defines board specific static initializers for hardware for the flying f3 board.
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
