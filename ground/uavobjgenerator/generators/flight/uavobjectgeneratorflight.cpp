@@ -30,6 +30,13 @@
 
 using namespace std;
 
+/**
+ * @brief Generate UAVOs for flight code
+ * @param XML parser that contains parsed data
+ * @param templatepath path for code templates
+ * @param outputpath output path
+ * @return true if everything went fine
+ */
 bool UAVObjectGeneratorFlight::generate(UAVObjectParser* parser,QString templatepath,QString outputpath) {
 
     fieldTypeStrC << "struct" << "int8_t" << "int16_t" << "int32_t" <<"uint8_t"
@@ -99,6 +106,71 @@ bool UAVObjectGeneratorFlight::generate(UAVObjectParser* parser,QString template
     return true; // if we come here everything should be fine
 }
 
+/**
+ * @brief Generate the Flight code for one UAVO
+ * @param info the object to process
+ * @return true if everything went fine
+ */
+bool UAVObjectGeneratorFlight::processObject(ObjectInfo* info)
+{
+    if (info == NULL)
+        return false;
+
+    bool res = true;
+
+    // Prepare output strings
+    QString outInclude = flightIncludeTemplate;
+    QString outCode = flightCodeTemplate;
+
+    // Replace common tags
+    res = res && replaceCommonTags(outInclude, info);
+    res = res && replaceCommonTags(outCode, info);
+
+    // Replace the $(DATAFIELDS) tag
+    QString datafields = QString("");
+    res = res && generateStructDefinitions(info->field,datafields);
+    outInclude.replace(QString("$(DATAFIELDS)"), datafields);
+
+    // Replace the $(DATAFIELDINFO) tag
+    QString enums = QString("");
+    res = res && generateEnumDefinitions(info->field,enums);
+    outInclude.replace(QString("$(DATAFIELDINFO)"), enums);
+
+    // Replace the $(INITFIELDS) tag
+    QString initfields = QString("");
+    res = res && generateInitFields(info->field, initfields,QString("data"));
+    outCode.replace(QString("$(INITFIELDS)"), initfields);
+
+    // Replace the $(SETGETFIELDS) tag
+    QString setgetfields = QString("");
+    res = res && generateSetGetFields(info->field, setgetfields);
+    outCode.replace(QString("$(SETGETFIELDS)"), setgetfields);
+
+    // Replace the $(SETGETFIELDSEXTERN) tag
+    QString setgetfieldsextern = QString("");
+    res = res && generateExternSetGetFields(info->field, setgetfieldsextern);
+    outInclude.replace(QString("$(SETGETFIELDSEXTERN)"), setgetfieldsextern);
+
+    if (!res) {
+        cout << "Error: Could not substitute tags" << endl;
+        return false;
+    }
+
+    // Write the flight code
+    res = res &&  writeFileIfDiffrent( flightOutputPath.absolutePath() + "/" + info->namelc + ".c", outCode );
+    if (!res) {
+        cout << "Error: Could not write flight code files" << endl;
+        return false;
+    }
+
+    res = res &&  writeFileIfDiffrent( flightOutputPath.absolutePath() + "/" + info->namelc + ".h", outInclude );
+    if (!res) {
+        cout << "Error: Could not write flight include files" << endl;
+        return false;
+    }
+
+    return res;
+}
 
 
 /**
@@ -119,7 +191,7 @@ QStringList UAVObjectGeneratorFlight::fieldPath(FieldInfo* field) {
 /**
  * @brief Generate the field type
  * @param field
- * @return
+ * @return the C type for the field, even if it is a struct field
  */
 QString UAVObjectGeneratorFlight::fieldType(FieldInfo* field) {
 
@@ -131,7 +203,7 @@ QString UAVObjectGeneratorFlight::fieldType(FieldInfo* field) {
 /**
  * @brief Generate the field descriptor
  * @param field
- * @return
+ * @return a string like "int8 blabla[10]"
  */
 QString UAVObjectGeneratorFlight::fieldDescriptor(FieldInfo* field) {
     return (field->numElements > 1)?
@@ -164,7 +236,6 @@ bool UAVObjectGeneratorFlight::generateStructDefinitions(FieldInfo* field, QStri
     // for each subfield of struct type, prepend datafields with the corresponding struct type definition
     foreach(FieldInfo* childField, field->childrenFields) {
         if(childField->type == FIELDTYPE_STRUCT) {
-
             res = res && generateStructDefinitions(childField, datafields);
         }
     }
@@ -249,10 +320,10 @@ bool UAVObjectGeneratorFlight::generateEnumDefinitions(FieldInfo* field, QString
 
 
 /**
- * @brief Generate instructions for initialization of fields, recursively
- * @param field
- * @param initfields
- * @return true if everything went finee
+ * @brief Generate instructions for the initialization of fields, recursively
+ * @param field to initialize
+ * @param initfields string to append with initialization code
+ * @return true if everything went fine
  */
 bool UAVObjectGeneratorFlight::generateInitFields(FieldInfo* field, QString& initfields,QString instanceName)
 {
@@ -331,10 +402,10 @@ bool UAVObjectGeneratorFlight::generateInitFields(FieldInfo* field, QString& ini
 }
 
 /**
- * @brief Generate getter and setter only for the first level, not recursive
+ * @brief Generate getter and setter only for the first level, not recursively (because I do not see the use for this)
  * @param field
- * @param setgetfields
- * @return
+ * @param setgetfields the string to append with getters and setters
+ * @return true if everything went fine
  */
 bool UAVObjectGeneratorFlight::generateSetGetFields(FieldInfo* field, QString& setgetfields)
 {
@@ -400,6 +471,12 @@ bool UAVObjectGeneratorFlight::generateSetGetFields(FieldInfo* field, QString& s
     return true;
 }
 
+/**
+ * @brief Generate declaration of getters/setters in the header file
+ * @param field
+ * @param setgetfields the string to append with the declaration
+ * @return true if everything went fine
+ */
 bool UAVObjectGeneratorFlight::generateExternSetGetFields(FieldInfo* field, QString& setgetfields)
 {
     foreach(FieldInfo* childField, field->childrenFields) {
@@ -436,69 +513,4 @@ bool UAVObjectGeneratorFlight::generateExternSetGetFields(FieldInfo* field, QStr
     }
     return true;
 }
-
-/**
- * @brief Generate the Flight object files
- * @param info the object to process
- * @return true if everything went fine
- */
-bool UAVObjectGeneratorFlight::processObject(ObjectInfo* info)
-{
-    if (info == NULL)
-        return false;
-
-
-    // Prepare output strings
-    QString outInclude = flightIncludeTemplate;
-    QString outCode = flightCodeTemplate;
-
-    // Replace common tags
-    replaceCommonTags(outInclude, info);
-    replaceCommonTags(outCode, info);
-
-
-    // Replace the $(DATAFIELDS) tag
-    QString datafields = QString("");
-    generateStructDefinitions(info->field,datafields);
-    outInclude.replace(QString("$(DATAFIELDS)"), datafields);
-
-
-    // Replace the $(DATAFIELDINFO) tag
-    QString enums = QString("");
-    generateEnumDefinitions(info->field,enums);
-    outInclude.replace(QString("$(DATAFIELDINFO)"), enums);
-
-
-    //TODO from here replace to recursive
-    // Replace the $(INITFIELDS) tag
-    QString initfields = QString("");
-    generateInitFields(info->field, initfields,QString("data"));
-    outCode.replace(QString("$(INITFIELDS)"), initfields);
-
-    // Replace the $(SETGETFIELDS) tag
-    QString setgetfields = QString("");
-    generateSetGetFields(info->field, setgetfields);
-    outCode.replace(QString("$(SETGETFIELDS)"), setgetfields);
-
-    // Replace the $(SETGETFIELDSEXTERN) tag
-    QString setgetfieldsextern = QString("");
-    generateExternSetGetFields(info->field, setgetfieldsextern);
-    outInclude.replace(QString("$(SETGETFIELDSEXTERN)"), setgetfieldsextern);
-
-    // Write the flight code
-    bool res = writeFileIfDiffrent( flightOutputPath.absolutePath() + "/" + info->namelc + ".c", outCode );
-    if (!res) {
-        cout << "Error: Could not write flight code files" << endl;
-        return false;
-    }
-
-    res = writeFileIfDiffrent( flightOutputPath.absolutePath() + "/" + info->namelc + ".h", outInclude );
-    if (!res) {
-        cout << "Error: Could not write flight include files" << endl;
-        return false;
-    }
-
-    return true;
-}
-
 
