@@ -6,7 +6,7 @@
 # @{
 # @addtogroup 
 # @{
-# @brief Makefile to build firmware for discovery f4 board.
+# @brief Makefile to build firmware for flying f4 board.
 ###############################################################################
 #
 # This program is free software; you can redistribute it and/or modify
