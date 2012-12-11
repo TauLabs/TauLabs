@@ -79,10 +79,9 @@ void RawHIDConnection::onDeviceDisconnected()
 }
 
 /**
-  Returns the list of all currently available devices
-
-  TODO: use the board manager to get all the VIDs of known devices
-  */
+ * Returns the list of all currently available devices
+ *
+ */
 QList < Core::IConnection::device> RawHIDConnection::availableDevices()
 {
     QList < Core::IConnection::device> devices;
@@ -92,26 +91,28 @@ QList < Core::IConnection::device> RawHIDConnection::availableDevices()
     Core::BoardManager* brdMgr = Core::ICore::instance()->boardManager();
     QList<int> brdVID = brdMgr->getKnownVendorIDs();
     foreach(int vendorID, brdVID) {
+        qDebug() << "[rawhidplugin] VendorID type known: " << vendorID;
         portsList = m_usbMonitor->availableDevices(vendorID, -1, -1,USBMonitor::Running);
-        // We currently list devices by their serial number
+        // We currently list devices by their serial number        
         device dev;
         foreach(USBPortInfo prt, portsList) {
             dev.name=prt.serialNumber;
             dev.displayName=prt.product;
+            dev.vendorID = prt.vendorID;
+            dev.productID = prt.productID;
             devices.append(dev);
         }
     }
     return devices;
 }
 
-QIODevice *RawHIDConnection::openDevice(const QString &deviceName)
+QIODevice *RawHIDConnection::openDevice(const device deviceName)
 {
     //added by andrew
     if (RawHidHandle)
-        closeDevice(deviceName);
+        closeDevice(deviceName.name);
     //end added by andrew
 
-    //return new RawHID(deviceName);
     RawHidHandle = new RawHID(deviceName);
     return RawHidHandle;
 }
@@ -174,8 +175,6 @@ void RawHIDPlugin::extensionsInitialized()
 	hidConnection = new RawHIDConnection();
 	addAutoReleasedObject(hidConnection);
 
-    //temp for test
-    //addAutoReleasedObject(new RawHIDTestThread);
 }
 
 bool RawHIDPlugin::initialize(const QStringList & arguments, QString * errorString)

@@ -30,6 +30,7 @@
 #include <aggregation/aggregate.h>
 #include <extensionsystem/pluginmanager.h>
 
+#include <QDebug>
 
 namespace Core {
 
@@ -52,10 +53,22 @@ void BoardManager::init()
 }
 
 
+/**
+ * @brief BoardManager::getKnownVendorIDs
+ *   Note: the list is deduplicated, each known VendorID appears
+ *         only once.
+ * @return list of known vendor IDs
+ */
 QList<int> BoardManager::getKnownVendorIDs()
 {
     QList<int> list;
-    list << 0;
+
+    foreach (IBoardType* board, m_boardTypesList) {
+        int vid = board->getUSBInfo().vendorID;
+        if (!list.contains(vid))
+        list.append(vid);
+    }
+
     return list;
 }
 
@@ -85,6 +98,7 @@ void BoardManager::objectAdded(QObject *obj)
     IBoardType *board = Aggregation::query<IBoardType>(obj);
     if (!board) return;
 
+    // qDebug() << "[boardManager] New board type registered: " << board->shortName();
     // Keep track of the registration
     m_boardTypesList.append(board);
 

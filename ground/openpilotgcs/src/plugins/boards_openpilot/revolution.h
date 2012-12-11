@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       openpilotplugin.h
+ * @file       revolution.h
  * @author     The PhoenixPilot Team, http://github.com/PhoenixPilot Copyright (C) 2012.
  *
  * @addtogroup GCSPlugins GCS Plugins
@@ -25,54 +25,24 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+#ifndef REVOLUTION_H
+#define REVOLUTION_H
 
-#include "openpilotplugin.h"
-#include "coptercontrol.h"
-#include "pipxtreme.h"
-#include "revolution.h"
-#include "revomini.h"
-#include <QtPlugin>
+#include <coreplugin/iboardtype.h>
 
+class IBoardType;
 
-OpenPilotPlugin::OpenPilotPlugin()
+class Revolution : public Core::IBoardType
 {
-   // Do nothing
-}
+public:
+    Revolution();
+    virtual ~Revolution();
 
-OpenPilotPlugin::~OpenPilotPlugin()
-{
-   // Do nothing
-}
+    virtual QString shortName();
+    virtual QString boardDescription();
+    virtual QStringList getSupportedProtocols();
 
-bool OpenPilotPlugin::initialize(const QStringList& args, QString *errMsg)
-{
-   Q_UNUSED(args);
-   Q_UNUSED(errMsg);
-   return true;
-}
+};
 
-void OpenPilotPlugin::extensionsInitialized()
-{
-    /**
-     * Create the board objects here.
-     *
-     */
-    CopterControl* cc3d = new CopterControl();
-    addAutoReleasedObject(cc3d);
 
-    PipXtreme* pipx = new PipXtreme();
-    addAutoReleasedObject(pipx);
-
-    Revolution* revo = new Revolution();
-    addAutoReleasedObject(revo);
-
-    RevoMini* rmini = new RevoMini();
-    addAutoReleasedObject(rmini);
-
-}
-
-void OpenPilotPlugin::shutdown()
-{
-}
-
-Q_EXPORT_PLUGIN(OpenPilotPlugin)
+#endif // REVOLUTION_H

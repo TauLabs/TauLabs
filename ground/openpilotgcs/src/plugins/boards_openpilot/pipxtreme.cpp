@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       openpilotplugin.h
+ * @file       pipxtreme.cpp
  * @author     The PhoenixPilot Team, http://github.com/PhoenixPilot Copyright (C) 2012.
  *
  * @addtogroup GCSPlugins GCS Plugins
@@ -26,53 +26,47 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "openpilotplugin.h"
-#include "coptercontrol.h"
 #include "pipxtreme.h"
-#include "revolution.h"
-#include "revomini.h"
-#include <QtPlugin>
 
-
-OpenPilotPlugin::OpenPilotPlugin()
+/**
+ * @brief PipXtreme::PipXtreme
+ *  This is the PipXtreme radio modem definition
+ */
+PipXtreme::PipXtreme(void)
 {
-   // Do nothing
-}
+    // Initialize our USB Structure definition here:
+    USBInfo board;
+    board.vendorID = 0x20A0;
+    board.productID = 0x415c;
 
-OpenPilotPlugin::~OpenPilotPlugin()
-{
-   // Do nothing
-}
-
-bool OpenPilotPlugin::initialize(const QStringList& args, QString *errMsg)
-{
-   Q_UNUSED(args);
-   Q_UNUSED(errMsg);
-   return true;
-}
-
-void OpenPilotPlugin::extensionsInitialized()
-{
-    /**
-     * Create the board objects here.
-     *
-     */
-    CopterControl* cc3d = new CopterControl();
-    addAutoReleasedObject(cc3d);
-
-    PipXtreme* pipx = new PipXtreme();
-    addAutoReleasedObject(pipx);
-
-    Revolution* revo = new Revolution();
-    addAutoReleasedObject(revo);
-
-    RevoMini* rmini = new RevoMini();
-    addAutoReleasedObject(rmini);
+    setUSBInfo(board);
 
 }
 
-void OpenPilotPlugin::shutdown()
+PipXtreme::~PipXtreme()
 {
+
 }
 
-Q_EXPORT_PLUGIN(OpenPilotPlugin)
+
+QString PipXtreme::shortName()
+{
+    return QString("PipXtreme");
+}
+
+QString PipXtreme::boardDescription()
+{
+    return QString("The OpenPilot project PipXtreme RF radio modem");
+}
+
+/**
+ * @brief PipXtreme::getSupportedProtocols
+ *  TODO: this is just a stub, we'll need to extend this a lot with multi protocol support
+ *  TODO: for the PipXtreme, depending on its configuration, it might offer several protocols (uavtalk and raw)
+ * @return
+ */
+QStringList PipXtreme::getSupportedProtocols()
+{
+
+    return QStringList("uavtalk");
+}

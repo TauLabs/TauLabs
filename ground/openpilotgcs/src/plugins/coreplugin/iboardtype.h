@@ -47,7 +47,25 @@ namespace Core {
 class CORE_EXPORT IBoardType : public QObject
 {
     Q_OBJECT
+
 public:
+
+    /**
+     * @brief The USBInfo struct
+     * TODO: finalize what we will put there, not everything
+     *       is relevant.
+     */
+    struct USBInfo {
+        QString serialNumber;
+        QString manufacturer;
+        QString product;
+        int UsagePage;
+        int Usage;
+        int vendorID;
+        int productID;
+        int bcdDevice;
+    };
+
 
     /**
      * Short description of the board / friendly name
@@ -67,25 +85,14 @@ public:
     virtual QStringList getSupportedProtocols() = 0;
 
     /**
-     * @brief The USBInfo struct
-     * TODO: finalize what we will put there, not everything
-     *       is relevant.
-     */
-    struct USBInfo {
-        QString serialNumber;
-        QString manufacturer;
-        QString product;
-        int UsagePage;
-        int Usage;
-        int vendorID;
-        int productID;
-        int bcdDevice;
-    };
-
-    /**
      * Get USB descriptors to detect the board
      */
     USBInfo getUSBInfo() { return boardUSBInfo; }
+
+    /**
+     * Get USB VendorID
+     */
+    int getVendorID() { return boardUSBInfo.vendorID; }
 
     /**
      * Does this board support the bootloader and DFU protocol ?
@@ -94,7 +101,10 @@ public:
 
 signals:
 
-private:
+protected:
+
+    void setUSBInfo(USBInfo info) { boardUSBInfo = info; }
+
     USBInfo boardUSBInfo;
     bool dfuSupport;
 };

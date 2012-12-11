@@ -65,7 +65,8 @@ SOURCES += mainwindow.cpp \
     authorsdialog.cpp \
     telemetrymonitorwidget.cpp \
     dialogs/importsettings.cpp \
-    boardmanager.cpp
+    boardmanager.cpp \
+    iboardtype.cpp
 HEADERS += mainwindow.h \
     tabpositionindicator.h \
     fancyactionbar.h \

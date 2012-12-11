@@ -69,7 +69,7 @@ QList <Core::IConnection::device> LoggingConnection::availableDevices()
     return list;
 }
 
-QIODevice* LoggingConnection::openDevice(const QString &deviceName)
+QIODevice* LoggingConnection::openDevice(const device deviceName)
 {
     Q_UNUSED(deviceName)
 

@@ -85,8 +85,14 @@ DFUObject::DFUObject(bool _debug,bool _use_serial,QString portname):
         QEventLoop m_eventloop;
         QTimer::singleShot(200,&m_eventloop, SLOT(quit()));
         m_eventloop.exec();
+        // Loop for all vendorIDs known by the board manager
+        Core::BoardManager* brdMgr = Core::ICore::instance()->boardManager();
+        QList<int> brdVID = brdMgr->getKnownVendorIDs();
         QList<USBPortInfo> devices;
-        devices = USBMonitor::instance()->availableDevices(0x20a0,-1,-1,USBMonitor::Bootloader);
+        foreach(int vendorID, brdVID) {
+            devices.append(USBMonitor::instance()->availableDevices(vendorID,-1,-1,USBMonitor::Bootloader));
+        }
+
         if (devices.length()==1) {
             if (hidHandle.open(1,devices.first().vendorID,devices.first().productID,0,0)==1) {
                 mready=true;
@@ -94,10 +100,12 @@ DFUObject::DFUObject(bool _debug,bool _use_serial,QString portname):
                 m_eventloop.exec();
             } else
                 hidHandle.close(0);
-        } else {
+        } else if (devices.length() == 0) {
             // Wait for the board to appear on the USB bus:
-            USBSignalFilter filter(0x20a0,-1,-1,USBMonitor::Bootloader);
-            connect(&filter, SIGNAL(deviceDiscovered()),&m_eventloop, SLOT(quit()));
+            foreach(int vendorID, brdVID) {
+                USBSignalFilter filter(vendorID,-1,-1,USBMonitor::Bootloader);
+                connect(&filter, SIGNAL(deviceDiscovered()),&m_eventloop, SLOT(quit()));
+            }
             for(int x=0;x<4;++x)
             {
                 qDebug()<<"OP_DFU trying to detect bootloader:"<<x;
@@ -107,7 +115,10 @@ DFUObject::DFUObject(bool _debug,bool _use_serial,QString portname):
                 else
                     QTimer::singleShot(2000,&m_eventloop, SLOT(quit()));
                 m_eventloop.exec();
-                devices = USBMonitor::instance()->availableDevices(0x20a0,-1,-1,USBMonitor::Bootloader);
+                devices.clear();
+                foreach(int vendorID, brdVID) {
+                    devices.append(USBMonitor::instance()->availableDevices(vendorID,-1,-1,USBMonitor::Bootloader));
+                }
                 qDebug() << "Devices length: " << devices.length();
                 if (devices.length()==1) {
                     qDebug() << "Opening device";
@@ -126,8 +137,10 @@ DFUObject::DFUObject(bool _debug,bool _use_serial,QString portname):
                     mready = false;
                 }
             }
+        } else {
+            qDebug() << devices.length()  << " device(s) detected, don't know what to do!";
+            mready = false;
         }
-
     }
 }
 

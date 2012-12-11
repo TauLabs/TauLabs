@@ -58,6 +58,13 @@ public:
     QList<int> getKnownVendorIDs();
 
     /**
+     * @brief getKnownBoards: gets a list of known boards
+     * @param bootloaderSupport
+     * @return
+     */
+    QList<IBoardType*> getKnownBoards(bool bootloaderSupport);
+
+    /**
      * Get the board type that matches a particular vendorID and productID
      *  Will return NULL if board is unknown.
      */
@@ -65,15 +72,12 @@ public:
 
 
 protected:
-//    void updateConnectionList(IConnection *connection);
-//    void registerBoardType(IBoardType *board);
 
 signals:
-//    void availableDevicesChanged(const QLinkedList<Core::DevListItem> devices);
+
 
 public slots:
-//    void telemetryConnected();
-//    void telemetryDisconnected();
+
 
 private slots:
     // Two slots used to detect arrival/removal of board types

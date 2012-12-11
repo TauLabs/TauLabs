@@ -292,9 +292,10 @@ qint64 RawHIDWriteThread::getBytesToWrite()
 
 // *********************************************************************************
 
-RawHID::RawHID(const QString &deviceName)
+RawHID::RawHID(const Core::IConnection::device deviceStructure)
     :QIODevice(),
-    serialNumber(deviceName),
+    serialNumber(deviceStructure.name),
+    deviceInfo(deviceStructure),
     m_deviceNo(-1),
     m_readThread(NULL),
 	m_writeThread(NULL),
@@ -319,12 +320,12 @@ RawHID::RawHID(const QString &deviceName)
 
 /**
  * @brief RawHID::openDevice This method opens the USB connection
- * It is uses as a callback from the read thread so that the USB
+ * It is used as a callback from the read thread so that the USB
  * system code is registered in that thread instead of the calling
  * thread (usually UI)
  */
 bool RawHID::openDevice() {
-    int opened = dev.open(USB_MAX_DEVICES, USBMonitor::idVendor_OpenPilot, -1, USB_USAGE_PAGE, USB_USAGE);
+    int opened = dev.open(USB_MAX_DEVICES, deviceInfo.vendorID, deviceInfo.productID, USB_USAGE_PAGE, USB_USAGE);
     for (int i =0; i< opened; i++) {
         if (serialNumber == dev.getserial(i))
             m_deviceNo = i;

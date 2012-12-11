@@ -19,6 +19,8 @@
 #include <qextserialport/src/qextserialport.h>
 #include <QTime>
 #include <QTimer>
+#include <coreplugin/icore.h>
+#include <coreplugin/boardmanager.h>
 #include "SSP/qssp.h"
 #include "SSP/port.h"
 #include "SSP/qsspt.h"

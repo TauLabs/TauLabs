@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       openpilotplugin.h
+ * @file       coptercontrol.cpp
  * @author     The PhoenixPilot Team, http://github.com/PhoenixPilot Copyright (C) 2012.
  *
  * @addtogroup GCSPlugins GCS Plugins
@@ -26,53 +26,46 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "openpilotplugin.h"
 #include "coptercontrol.h"
-#include "pipxtreme.h"
-#include "revolution.h"
-#include "revomini.h"
-#include <QtPlugin>
 
-
-OpenPilotPlugin::OpenPilotPlugin()
+/**
+ * @brief CopterControl::CopterControl
+ *  This is the CopterControl (3D) board definition
+ */
+CopterControl::CopterControl(void)
 {
-   // Do nothing
-}
+    // Initialize our USB Structure definition here:
+    USBInfo board;
+    board.vendorID = 0x20A0;
+    board.productID = 0x415b;
 
-OpenPilotPlugin::~OpenPilotPlugin()
-{
-   // Do nothing
-}
-
-bool OpenPilotPlugin::initialize(const QStringList& args, QString *errMsg)
-{
-   Q_UNUSED(args);
-   Q_UNUSED(errMsg);
-   return true;
-}
-
-void OpenPilotPlugin::extensionsInitialized()
-{
-    /**
-     * Create the board objects here.
-     *
-     */
-    CopterControl* cc3d = new CopterControl();
-    addAutoReleasedObject(cc3d);
-
-    PipXtreme* pipx = new PipXtreme();
-    addAutoReleasedObject(pipx);
-
-    Revolution* revo = new Revolution();
-    addAutoReleasedObject(revo);
-
-    RevoMini* rmini = new RevoMini();
-    addAutoReleasedObject(rmini);
+    setUSBInfo(board);
 
 }
 
-void OpenPilotPlugin::shutdown()
+CopterControl::~CopterControl()
 {
+
 }
 
-Q_EXPORT_PLUGIN(OpenPilotPlugin)
+
+QString CopterControl::shortName()
+{
+    return QString("CopterControl");
+}
+
+QString CopterControl::boardDescription()
+{
+    return QString("The OpenPilot project CopterControl and CopterControl 3D boards");
+}
+
+/**
+ * @brief CopterControl::getSupportedProtocols
+ *  TODO: this is just a stub, we'll need to extend this a lot with multi protocol support
+ * @return
+ */
+QStringList CopterControl::getSupportedProtocols()
+{
+
+    return QStringList("uavtalk");
+}

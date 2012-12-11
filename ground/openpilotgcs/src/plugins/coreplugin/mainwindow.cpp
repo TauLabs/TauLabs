@@ -255,6 +255,7 @@ bool MainWindow::init(QString *errorMessage)
     pm->addObject(m_coreImpl);
     m_modeManager->init();
     m_connectionManager->init();
+    m_boardManager->init();
 
     pm->addObject(m_generalSettings);
     pm->addObject(m_shortcutSettings);

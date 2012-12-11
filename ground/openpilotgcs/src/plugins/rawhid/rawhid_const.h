@@ -30,9 +30,6 @@
 
 static const int USB_MAX_DEVICES    = 10;
 
-static const int USB_VID            = 0x20A0;
-static const int USB_PID            = 0x4117;
-
 static const int USB_USAGE_PAGE     = 0xFF9C;
 static const int USB_USAGE          = 0x0001;
 
