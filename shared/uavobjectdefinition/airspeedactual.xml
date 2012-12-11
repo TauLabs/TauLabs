@@ -1,13 +1,18 @@
+<?xml version="1.0"?>
 <xml>
-    <object name="AirspeedActual" singleinstance="true" settings="false">
-        <description>UAVO for true airspeed, calibrated airspeed, angle of attack, and angle of slip</description>
-        <field name="TrueAirspeed" units="m/s" type="float" elements="1"/>
-        <field name="CalibratedAirspeed" units="m/s" type="float" elements="1"/>
-        <field name="alpha" units="deg" type="float" elements="1"/>
-        <field name="beta" units="deg" type="float" elements="1"/>
-        <access gcs="readwrite" flight="readwrite"/>
-        <telemetrygcs acked="false" updatemode="manual" period="0"/>
-        <telemetryflight acked="false" updatemode="periodic" period="500"/>
-        <logging updatemode="periodic" period="1000"/>
-    </object>
+  <object name="AirspeedActual" singleinstance="true" settings="false">
+    <meta>
+      <description>UAVO for true airspeed, calibrated airspeed, angle of attack, and angle of slip</description>
+      <access gcs="readwrite" flight="readwrite"/>
+      <telemetrygcs acked="false" updatemode="manual" period="0"/>
+      <telemetryflight acked="false" updatemode="periodic" period="500"/>
+      <logging updatemode="periodic" period="1000"/>
+    </meta>
+    <data>
+      <data name="TrueAirspeed" units="m/s" type="float" elements="1"/>
+      <data name="CalibratedAirspeed" units="m/s" type="float" elements="1"/>
+      <data name="alpha" units="deg" type="float" elements="1"/>
+      <data name="beta" units="deg" type="float" elements="1"/>
+    </data>
+  </object>
 </xml>

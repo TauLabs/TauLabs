@@ -1,12 +1,17 @@
+<?xml version="1.0"?>
 <xml>
-    <object name="SystemSettings" singleinstance="true" settings="true">
-        <description>Select airframe type.  Currently used by @ref ActuatorModule to choose mixing from @ref ActuatorDesired to @ref ActuatorCommand</description>
-        <field name="AirframeType" units="" type="enum" elements="1" options="FixedWing,FixedWingElevon,FixedWingVtail,VTOL,HeliCP,QuadX,QuadP,Hexa,Octo,Custom,HexaX,OctoV,OctoCoaxP,OctoCoaxX,HexaCoax,Tri,GroundVehicleCar,GroundVehicleDifferential,GroundVehicleMotorcycle" defaultvalue="QuadX"/>
-        <field name="GUIConfigData" units="bits" type="uint32" elements="4" defaultvalue="0"/>
-        <field name="GPSDataProtocol" units="" type="enum" elements="1" options="NMEA,UBX" defaultvalue="UBX"/>
-        <access gcs="readwrite" flight="readwrite"/>
-        <telemetrygcs acked="true" updatemode="onchange" period="0"/>
-        <telemetryflight acked="true" updatemode="onchange" period="0"/>
-        <logging updatemode="manual" period="0"/>
-    </object>
+  <object name="SystemSettings" singleinstance="true" settings="true">
+    <meta>
+      <description>Select airframe type.  Currently used by @ref ActuatorModule to choose mixing from @ref ActuatorDesired to @ref ActuatorCommand</description>
+      <access gcs="readwrite" flight="readwrite"/>
+      <telemetrygcs acked="true" updatemode="onchange" period="0"/>
+      <telemetryflight acked="true" updatemode="onchange" period="0"/>
+      <logging updatemode="manual" period="0"/>
+    </meta>
+    <data>
+      <data name="AirframeType" units="" type="enum" elements="1" options="FixedWing,FixedWingElevon,FixedWingVtail,VTOL,HeliCP,QuadX,QuadP,Hexa,Octo,Custom,HexaX,OctoV,OctoCoaxP,OctoCoaxX,HexaCoax,Tri,GroundVehicleCar,GroundVehicleDifferential,GroundVehicleMotorcycle" defaultvalue="QuadX"/>
+      <data name="GUIConfigData" units="bits" type="uint32" elements="4" defaultvalue="0"/>
+      <data name="GPSDataProtocol" units="" type="enum" elements="1" options="NMEA,UBX" defaultvalue="UBX"/>
+    </data>
+  </object>
 </xml>

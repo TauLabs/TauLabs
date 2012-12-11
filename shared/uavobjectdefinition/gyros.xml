@@ -1,13 +1,18 @@
+<?xml version="1.0"?>
 <xml>
-    <object name="Gyros" singleinstance="true" settings="false">
-        <description>The rate gyroscope sensor data, in body frame.</description>
-	<field name="x" units="deg/s" type="float" elements="1"/>
-	<field name="y" units="deg/s" type="float" elements="1"/>
-	<field name="z" units="deg/s" type="float" elements="1"/>
-	<field name="temperature" units="deg C" type="float" elements="1"/>
-        <access gcs="readwrite" flight="readwrite"/>
-        <telemetrygcs acked="false" updatemode="manual" period="0"/>
-        <telemetryflight acked="false" updatemode="periodic" period="1000"/>
-        <logging updatemode="manual" period="0"/>
-    </object>
+  <object name="Gyros" singleinstance="true" settings="false">
+    <meta>
+      <description>The rate gyroscope sensor data, in body frame.</description>
+      <access gcs="readwrite" flight="readwrite"/>
+      <telemetrygcs acked="false" updatemode="manual" period="0"/>
+      <telemetryflight acked="false" updatemode="periodic" period="1000"/>
+      <logging updatemode="manual" period="0"/>
+    </meta>
+    <data>
+      <data name="x" units="deg/s" type="float" elements="1"/>
+      <data name="y" units="deg/s" type="float" elements="1"/>
+      <data name="z" units="deg/s" type="float" elements="1"/>
+      <data name="temperature" units="deg C" type="float" elements="1"/>
+    </data>
+  </object>
 </xml>

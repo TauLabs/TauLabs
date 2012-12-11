@@ -1,16 +1,21 @@
+<?xml version="1.0"?>
 <xml>
-    <object name="ManualControlCommand" singleinstance="true" settings="false">
-        <description>The output from the @ref ManualControlModule which descodes the receiver inputs.  Overriden by GCS for fly-by-wire control.</description>
-        <field name="Connected" units="" type="enum" elements="1" options="False,True"/>
-        <field name="Throttle" units="%" type="float" elements="1"/>
-        <field name="Roll" units="%" type="float" elements="1"/>
-        <field name="Pitch" units="%" type="float" elements="1"/>
-        <field name="Yaw" units="%" type="float" elements="1"/>
-        <field name="Collective" units="%" type="float" elements="1"/>
-        <field name="Channel" units="us" type="uint16" elements="9"/>
-        <access gcs="readwrite" flight="readwrite"/>
-        <telemetrygcs acked="false" updatemode="manual" period="0"/>
-        <telemetryflight acked="false" updatemode="periodic" period="2000"/>
-        <logging updatemode="manual" period="0"/>
-    </object>
+  <object name="ManualControlCommand" singleinstance="true" settings="false">
+    <meta>
+      <description>The output from the @ref ManualControlModule which descodes the receiver inputs.  Overriden by GCS for fly-by-wire control.</description>
+      <access gcs="readwrite" flight="readwrite"/>
+      <telemetrygcs acked="false" updatemode="manual" period="0"/>
+      <telemetryflight acked="false" updatemode="periodic" period="2000"/>
+      <logging updatemode="manual" period="0"/>
+    </meta>
+    <data>
+      <data name="Connected" units="" type="enum" elements="1" options="False,True"/>
+      <data name="Throttle" units="%" type="float" elements="1"/>
+      <data name="Roll" units="%" type="float" elements="1"/>
+      <data name="Pitch" units="%" type="float" elements="1"/>
+      <data name="Yaw" units="%" type="float" elements="1"/>
+      <data name="Collective" units="%" type="float" elements="1"/>
+      <data name="Channel" units="us" type="uint16" elements="9"/>
+    </data>
+  </object>
 </xml>

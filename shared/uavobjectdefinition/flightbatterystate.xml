@@ -1,16 +1,21 @@
+<?xml version="1.0"?>
 <xml>
-    <object name="FlightBatteryState" singleinstance="true" settings="false">
-        <description>Battery status information.</description> 
-        <field name="Voltage" units="V" type="float" elements="1" defaultvalue="0.0"/>
-	<field name="Current" units="A" type="float"  elements="1" defaultvalue="0.0"/>
-	<field name="BoardSupplyVoltage"units="V" type="float" elements="1" defaultvalue="0.0"/>
-	<field name="PeakCurrent" units="A" type="float"  elements="1" defaultvalue="0.0"/>
-	<field name="AvgCurrent" units="A" type="float"  elements="1" defaultvalue="0.0"/>
-	<field name="ConsumedEnergy" units="mAh" type="float" elements="1" defaultvalue="0.0"/>           
- 	<field name="EstimatedFlightTime" units="sec"  type="float"  elements="1" defaultvalue="0.0"/>
-        <access gcs="readonly" flight="readwrite"/>
-        <telemetrygcs acked="false" updatemode="manual" period="0"/>
-        <telemetryflight acked="false" updatemode="periodic" period="50000"/>
-        <logging updatemode="manual" period="0"/>
-    </object>
+  <object name="FlightBatteryState" singleinstance="true" settings="false">
+    <meta>
+      <description>Battery status information.</description>
+      <access gcs="readonly" flight="readwrite"/>
+      <telemetrygcs acked="false" updatemode="manual" period="0"/>
+      <telemetryflight acked="false" updatemode="periodic" period="50000"/>
+      <logging updatemode="manual" period="0"/>
+    </meta>
+    <data>
+      <data name="Voltage" units="V" type="float" elements="1" defaultvalue="0.0"/>
+      <data name="Current" units="A" type="float" elements="1" defaultvalue="0.0"/>
+      <data name="BoardSupplyVoltage" units="V" type="float" elements="1" defaultvalue="0.0"/>
+      <data name="PeakCurrent" units="A" type="float" elements="1" defaultvalue="0.0"/>
+      <data name="AvgCurrent" units="A" type="float" elements="1" defaultvalue="0.0"/>
+      <data name="ConsumedEnergy" units="mAh" type="float" elements="1" defaultvalue="0.0"/>
+      <data name="EstimatedFlightTime" units="sec" type="float" elements="1" defaultvalue="0.0"/>
+    </data>
+  </object>
 </xml>

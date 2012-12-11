@@ -1,15 +1,20 @@
+<?xml version="1.0"?>
 <xml>
-    <object name="GCSTelemetryStats" singleinstance="true" settings="false">
-        <description>The telemetry statistics from the ground computer</description>
-        <field name="Status" units="" type="enum" elements="1" options="Disconnected,HandshakeReq,HandshakeAck,Connected"/>
-        <field name="TxDataRate" units="bytes/sec" type="float" elements="1"/>
-        <field name="RxDataRate" units="bytes/sec" type="float" elements="1"/>
-        <field name="TxFailures" units="count" type="uint32" elements="1"/>
-        <field name="RxFailures" units="count" type="uint32" elements="1"/>
-        <field name="TxRetries" units="count" type="uint32" elements="1"/>
-        <access gcs="readwrite" flight="readwrite"/>
-        <telemetrygcs acked="false" updatemode="periodic" period="5000"/>
-        <telemetryflight acked="false" updatemode="manual" period="0"/>
-        <logging updatemode="manual" period="0"/>
-    </object>
+  <object name="GCSTelemetryStats" singleinstance="true" settings="false">
+    <meta>
+      <description>The telemetry statistics from the ground computer</description>
+      <access gcs="readwrite" flight="readwrite"/>
+      <telemetrygcs acked="false" updatemode="periodic" period="5000"/>
+      <telemetryflight acked="false" updatemode="manual" period="0"/>
+      <logging updatemode="manual" period="0"/>
+    </meta>
+    <data>
+      <data name="Status" units="" type="enum" elements="1" options="Disconnected,HandshakeReq,HandshakeAck,Connected"/>
+      <data name="TxDataRate" units="bytes/sec" type="float" elements="1"/>
+      <data name="RxDataRate" units="bytes/sec" type="float" elements="1"/>
+      <data name="TxFailures" units="count" type="uint32" elements="1"/>
+      <data name="RxFailures" units="count" type="uint32" elements="1"/>
+      <data name="TxRetries" units="count" type="uint32" elements="1"/>
+    </data>
+  </object>
 </xml>

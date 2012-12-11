@@ -1,10 +1,15 @@
+<?xml version="1.0"?>
 <xml>
-    <object name="RevoSettings" singleinstance="true" settings="true">
-        <description>Settings for the revo to control the algorithm and what is updated</description>
-        <field name="FusionAlgorithm" units="" type="enum" elements="1" options="Complementary,INSIndoor,INSOutdoor" defaultvalue="Complementary"/>
-        <access gcs="readwrite" flight="readwrite"/>
-        <telemetrygcs acked="true" updatemode="onchange" period="0"/>
-        <telemetryflight acked="true" updatemode="onchange" period="0"/>
-        <logging updatemode="manual" period="0"/>
-    </object>
+  <object name="RevoSettings" singleinstance="true" settings="true">
+    <meta>
+      <description>Settings for the revo to control the algorithm and what is updated</description>
+      <access gcs="readwrite" flight="readwrite"/>
+      <telemetrygcs acked="true" updatemode="onchange" period="0"/>
+      <telemetryflight acked="true" updatemode="onchange" period="0"/>
+      <logging updatemode="manual" period="0"/>
+    </meta>
+    <data>
+      <data name="FusionAlgorithm" units="" type="enum" elements="1" options="Complementary,INSIndoor,INSOutdoor" defaultvalue="Complementary"/>
+    </data>
+  </object>
 </xml>

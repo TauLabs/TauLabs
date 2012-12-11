@@ -1,12 +1,17 @@
+<?xml version="1.0"?>
 <xml>
-    <object name="GyrosBias" singleinstance="true" settings="false">
-        <description>The online-estimate of gyro bias.</description>
-        <field name="x" units="deg/s" type="float" elements="1"/>
-        <field name="y" units="deg/s" type="float" elements="1"/>
-        <field name="z" units="deg/s" type="float" elements="1"/>
-        <access gcs="readwrite" flight="readwrite"/>
-        <telemetrygcs acked="false" updatemode="manual" period="0"/>
-        <telemetryflight acked="false" updatemode="periodic" period="1000"/>
-        <logging updatemode="manual" period="0"/>
-    </object>
+  <object name="GyrosBias" singleinstance="true" settings="false">
+    <meta>
+      <description>The online-estimate of gyro bias.</description>
+      <access gcs="readwrite" flight="readwrite"/>
+      <telemetrygcs acked="false" updatemode="manual" period="0"/>
+      <telemetryflight acked="false" updatemode="periodic" period="1000"/>
+      <logging updatemode="manual" period="0"/>
+    </meta>
+    <data>
+      <data name="x" units="deg/s" type="float" elements="1"/>
+      <data name="y" units="deg/s" type="float" elements="1"/>
+      <data name="z" units="deg/s" type="float" elements="1"/>
+    </data>
+  </object>
 </xml>

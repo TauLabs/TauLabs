@@ -1,17 +1,21 @@
-<xml> 
-    <object name="FirmwareIAPObj" singleinstance="true" settings="false"> 
-        <description>Queries board for SN, model, revision, and sends reset command</description> 
-        <field name="Command" units="" type="uint16" elements="1"/> 
-        <field name="Description" units="" type="uint8" elements="100"/> 
-        <field name="CPUSerial" units="" type="uint8" elements="12" /> 
-        <field name="BoardRevision" units="" type="uint16" elements="1"/> 
-        <field name="BoardType" units="" type="uint8" elements="1"/> 
-        <field name="ArmReset" units="" type="uint8" elements="1"/> 
-        <field name="crc" units="" type="uint32" elements="1"/> 
-        <access gcs="readwrite" flight="readwrite"/> 
-        <telemetrygcs acked="true" updatemode="manual" period="0"/> 
-        <telemetryflight acked="true" updatemode="onchange" period="0"/> 
-        <logging updatemode="manual" period="0"/> 
-</object> 
-</xml> 
-
+<?xml version="1.0"?>
+<xml>
+  <object name="FirmwareIAPObj" singleinstance="true" settings="false">
+    <meta>
+      <description>Queries board for SN, model, revision, and sends reset command</description>
+      <access gcs="readwrite" flight="readwrite"/>
+      <telemetrygcs acked="true" updatemode="manual" period="0"/>
+      <telemetryflight acked="true" updatemode="onchange" period="0"/>
+      <logging updatemode="manual" period="0"/>
+    </meta>
+    <data>
+      <data name="Command" units="" type="uint16" elements="1"/>
+      <data name="Description" units="" type="uint8" elements="100"/>
+      <data name="CPUSerial" units="" type="uint8" elements="12"/>
+      <data name="BoardRevision" units="" type="uint16" elements="1"/>
+      <data name="BoardType" units="" type="uint8" elements="1"/>
+      <data name="ArmReset" units="" type="uint8" elements="1"/>
+      <data name="crc" units="" type="uint32" elements="1"/>
+    </data>
+  </object>
+</xml>

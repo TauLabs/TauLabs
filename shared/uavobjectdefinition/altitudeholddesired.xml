@@ -1,13 +1,18 @@
+<?xml version="1.0"?>
 <xml>
-    <object name="AltitudeHoldDesired" singleinstance="true" settings="false">
-        <description>Holds the desired altitude (from manual control) as well as the desired attitude to pass through</description>
-        <field name="Altitude" units="m" type="float" elements="1"/>
-        <field name="Roll" units="deg" type="float" elements="1"/>
-        <field name="Pitch" units="deg" type="float" elements="1"/>
-        <field name="Yaw" units="deg/s" type="float" elements="1"/>
-        <access gcs="readwrite" flight="readwrite"/>
-        <telemetrygcs acked="false" updatemode="manual" period="0"/>
-        <telemetryflight acked="false" updatemode="onchange" period="0"/>
-        <logging updatemode="periodic" period="1000"/>
-    </object>
+  <object name="AltitudeHoldDesired" singleinstance="true" settings="false">
+    <meta>
+      <description>Holds the desired altitude (from manual control) as well as the desired attitude to pass through</description>
+      <access gcs="readwrite" flight="readwrite"/>
+      <telemetrygcs acked="false" updatemode="manual" period="0"/>
+      <telemetryflight acked="false" updatemode="onchange" period="0"/>
+      <logging updatemode="periodic" period="1000"/>
+    </meta>
+    <data>
+      <data name="Altitude" units="m" type="float" elements="1"/>
+      <data name="Roll" units="deg" type="float" elements="1"/>
+      <data name="Pitch" units="deg" type="float" elements="1"/>
+      <data name="Yaw" units="deg/s" type="float" elements="1"/>
+    </data>
+  </object>
 </xml>

@@ -1,43 +1,41 @@
+<?xml version="1.0"?>
 <xml>
-    <object name="StabilizationSettings" singleinstance="true" settings="true">
-        <description>PID settings used by the Stabilization module to combine the @ref AttitudeActual and @ref AttitudeDesired to compute @ref ActuatorDesired</description>
-	<field name="RollMax" units="degrees" type="uint8" elements="1" defaultvalue="55" limits="%BE:0:180"/>
-	<field name="PitchMax" units="degrees" type="uint8" elements="1" defaultvalue="55" limits="%BE:0:180"/>
-	<field name="YawMax" units="degrees" type="uint8" elements="1" defaultvalue="35" limits="%BE:0:180"/>
-	<field name="ManualRate" units="degrees/sec" type="float" elementnames="Roll,Pitch,Yaw" defaultvalue="150,150,150" limits="%BE:0:500,%BE:0:500,%BE:0:500"/>
-	<field name="MaximumRate" units="degrees/sec" type="float" elementnames="Roll,Pitch,Yaw" defaultvalue="300,300,300" limits="%BE:0:500,%BE:0:500,%BE:0:500"/>
-
-	<field name="RollRatePID" units="" type="float" elementnames="Kp,Ki,Kd,ILimit" defaultvalue="0.002,0,0,0.3" limits="%BE:0:0.01,%BE:0:0.01,, "/>
-	<field name="PitchRatePID" units="" type="float" elementnames="Kp,Ki,Kd,ILimit" defaultvalue="0.002,0,0,0.3" limits="%BE:0:0.01,%BE:0:0.01,, "/>
-	<field name="YawRatePID" units="" type="float" elementnames="Kp,Ki,Kd,ILimit" defaultvalue="0.0035,0.0035,0,0.3" limits="%BE:0:0.01,%BE:0:0.01,, "/>
-	<field name="RollPI" units="" type="float" elementnames="Kp,Ki,ILimit" defaultvalue="2,0,50" limits="%BE:0:10,%BE:0:10,"/>
-	<field name="PitchPI" units="" type="float" elementnames="Kp,Ki,ILimit" defaultvalue="2,0,50" limits="%BE:0:10,%BE:0:10,"/>
-	<field name="YawPI" units="" type="float" elementnames="Kp,Ki,ILimit" defaultvalue="2,0,50" limits="%BE:0:10,%BE:0:10,"/>
-
-	<field name="VbarSensitivity" units="frac" type="float" elementnames="Roll,Pitch,Yaw" defaultvalue="0.5,0.5,0.5"/>
-	<field name="VbarRollPI" units="1/(deg/s)" type="float" elementnames="Kp,Ki" defaultvalue="0.005,0.002"/>
-	<field name="VbarPitchPI" units="1/(deg/s)" type="float" elementnames="Kp,Ki" defaultvalue="0.005,0.002"/>
-	<field name="VbarYawPI" units="1/(deg/s)" type="float" elementnames="Kp,Ki" defaultvalue="0.005,0.002"/>
-	<field name="VbarTau" units="sec" type="float" elements="1" defaultvalue="0.5"/>
-	<field name="VbarGyroSuppress" units="%" type="int8" elements="1" defaultvalue="30"/>
-	<field name="VbarPiroComp" units="" type="enum" elements="1" options="FALSE,TRUE" defaultvalue="FALSE"/>
-	<field name="VbarMaxAngle" units="deg" type="uint8" elements="1" defaultvalue="10"/>
-
-	<field name="GyroTau" units="" type="float" elements="1" defaultvalue="0.005"/>
-	<field name="DerivativeCutoff" units="Hz" type="uint8" elements="1" defaultvalue="20"/>
-	<field name="DerivativeGamma" units="" type="float" elements="1" defaultvalue="1"/>
-
-	<field name="MaxAxisLock" units="deg" type="uint8" elements="1" defaultvalue="15"/>
-	<field name="MaxAxisLockRate" units="deg/s" type="uint8" elements="1" defaultvalue="2"/>
-
-	<field name="WeakLevelingKp" units="(deg/s)/deg" type="float" elements="1" defaultvalue="0.1"/>
-	<field name="MaxWeakLevelingRate" units="deg/s" type="uint8" elements="1" defaultvalue="5"/>
-
-	<field name="LowThrottleZeroIntegral" units="" type="enum" elements="1" options="FALSE,TRUE" defaultvalue="TRUE"/>
-
-	<access gcs="readwrite" flight="readwrite"/>
-	<telemetrygcs acked="true" updatemode="onchange" period="0"/>
-	<telemetryflight acked="true" updatemode="onchange" period="0"/>
-	<logging updatemode="manual" period="0"/>
-    </object>
+  <object name="StabilizationSettings" singleinstance="true" settings="true">
+    <meta>
+      <description>PID settings used by the Stabilization module to combine the @ref AttitudeActual and @ref AttitudeDesired to compute @ref ActuatorDesired</description>
+      <access gcs="readwrite" flight="readwrite"/>
+      <telemetrygcs acked="true" updatemode="onchange" period="0"/>
+      <telemetryflight acked="true" updatemode="onchange" period="0"/>
+      <logging updatemode="manual" period="0"/>
+    </meta>
+    <data>
+      <data name="RollMax" units="degrees" type="uint8" elements="1" defaultvalue="55" limits="%BE:0:180"/>
+      <data name="PitchMax" units="degrees" type="uint8" elements="1" defaultvalue="55" limits="%BE:0:180"/>
+      <data name="YawMax" units="degrees" type="uint8" elements="1" defaultvalue="35" limits="%BE:0:180"/>
+      <data name="ManualRate" units="degrees/sec" type="float" elementnames="Roll,Pitch,Yaw" defaultvalue="150,150,150" limits="%BE:0:500,%BE:0:500,%BE:0:500"/>
+      <data name="MaximumRate" units="degrees/sec" type="float" elementnames="Roll,Pitch,Yaw" defaultvalue="300,300,300" limits="%BE:0:500,%BE:0:500,%BE:0:500"/>
+      <data name="RollRatePID" units="" type="float" elementnames="Kp,Ki,Kd,ILimit" defaultvalue="0.002,0,0,0.3" limits="%BE:0:0.01,%BE:0:0.01,, "/>
+      <data name="PitchRatePID" units="" type="float" elementnames="Kp,Ki,Kd,ILimit" defaultvalue="0.002,0,0,0.3" limits="%BE:0:0.01,%BE:0:0.01,, "/>
+      <data name="YawRatePID" units="" type="float" elementnames="Kp,Ki,Kd,ILimit" defaultvalue="0.0035,0.0035,0,0.3" limits="%BE:0:0.01,%BE:0:0.01,, "/>
+      <data name="RollPI" units="" type="float" elementnames="Kp,Ki,ILimit" defaultvalue="2,0,50" limits="%BE:0:10,%BE:0:10,"/>
+      <data name="PitchPI" units="" type="float" elementnames="Kp,Ki,ILimit" defaultvalue="2,0,50" limits="%BE:0:10,%BE:0:10,"/>
+      <data name="YawPI" units="" type="float" elementnames="Kp,Ki,ILimit" defaultvalue="2,0,50" limits="%BE:0:10,%BE:0:10,"/>
+      <data name="VbarSensitivity" units="frac" type="float" elementnames="Roll,Pitch,Yaw" defaultvalue="0.5,0.5,0.5"/>
+      <data name="VbarRollPI" units="1/(deg/s)" type="float" elementnames="Kp,Ki" defaultvalue="0.005,0.002"/>
+      <data name="VbarPitchPI" units="1/(deg/s)" type="float" elementnames="Kp,Ki" defaultvalue="0.005,0.002"/>
+      <data name="VbarYawPI" units="1/(deg/s)" type="float" elementnames="Kp,Ki" defaultvalue="0.005,0.002"/>
+      <data name="VbarTau" units="sec" type="float" elements="1" defaultvalue="0.5"/>
+      <data name="VbarGyroSuppress" units="%" type="int8" elements="1" defaultvalue="30"/>
+      <data name="VbarPiroComp" units="" type="enum" elements="1" options="FALSE,TRUE" defaultvalue="FALSE"/>
+      <data name="VbarMaxAngle" units="deg" type="uint8" elements="1" defaultvalue="10"/>
+      <data name="GyroTau" units="" type="float" elements="1" defaultvalue="0.005"/>
+      <data name="DerivativeCutoff" units="Hz" type="uint8" elements="1" defaultvalue="20"/>
+      <data name="DerivativeGamma" units="" type="float" elements="1" defaultvalue="1"/>
+      <data name="MaxAxisLock" units="deg" type="uint8" elements="1" defaultvalue="15"/>
+      <data name="MaxAxisLockRate" units="deg/s" type="uint8" elements="1" defaultvalue="2"/>
+      <data name="WeakLevelingKp" units="(deg/s)/deg" type="float" elements="1" defaultvalue="0.1"/>
+      <data name="MaxWeakLevelingRate" units="deg/s" type="uint8" elements="1" defaultvalue="5"/>
+      <data name="LowThrottleZeroIntegral" units="" type="enum" elements="1" options="FALSE,TRUE" defaultvalue="TRUE"/>
+    </data>
+  </object>
 </xml>

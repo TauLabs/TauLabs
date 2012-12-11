@@ -39,6 +39,13 @@ public:
 private:
     bool process_object(ObjectInfo* info);
 
+    bool generateStructDefinitions(FieldInfo* field, QString& datafields);
+    bool generateEnumDefinitions(FieldInfo* field, QString& enums);
+
+    QString fieldType(FieldInfo* field);
+    QString fieldDescriptor(FieldInfo* field);
+    QStringList fieldPath(FieldInfo* field);
+
     QString gcsCodeTemplate,gcsIncludeTemplate;
     QStringList fieldTypeStrCPP,fieldTypeStrCPPClass;
     QDir gcsCodePath;

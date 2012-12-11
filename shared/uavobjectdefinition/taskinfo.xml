@@ -1,97 +1,17 @@
+<?xml version="1.0"?>
 <xml>
-    <object name="TaskInfo" singleinstance="true" settings="false">
-        <description>Task information</description>
-        <field name="StackRemaining" units="bytes" type="uint16">
-		<elementnames>
-			<elementname>System</elementname>
-			<elementname>Actuator</elementname>
-			<elementname>Attitude</elementname>
-			<elementname>Sensors</elementname>
-			<elementname>TelemetryTx</elementname>
-			<elementname>TelemetryTxPri</elementname>
-			<elementname>TelemetryRx</elementname>
-			<elementname>GPS</elementname>
-			<elementname>ManualControl</elementname>
-			<elementname>Altitude</elementname>
-			<elementname>Airspeed</elementname>
-			<elementname>Stabilization</elementname>
-			<elementname>AltitudeHold</elementname>
-			<elementname>PathPlanner</elementname>
-			<elementname>PathFollower</elementname>
-			<elementname>FlightPlan</elementname>
-			<elementname>Com2UsbBridge</elementname>
-			<elementname>Usb2ComBridge</elementname>
-			<elementname>OveroSync</elementname>
-			<elementname>ModemRx</elementname>
-			<elementname>ModemTx</elementname>
-			<elementname>ModemStat</elementname>
-			<elementname>Autotune</elementname>
-			<elementname>EventDispatcher</elementname>
-		</elementnames>
-	</field> 
-	<field name="Running" units="bool" type="enum">
-		<elementnames>
-			<elementname>System</elementname>
-			<elementname>Actuator</elementname>
-			<elementname>Attitude</elementname>
-			<elementname>Sensors</elementname>
-			<elementname>TelemetryTx</elementname>
-			<elementname>TelemetryTxPri</elementname>
-			<elementname>TelemetryRx</elementname>
-			<elementname>GPS</elementname>
-			<elementname>ManualControl</elementname>
-			<elementname>Altitude</elementname>
-			<elementname>Airspeed</elementname>
-			<elementname>Stabilization</elementname>
-			<elementname>AltitudeHold</elementname>
-			<elementname>PathPlanner</elementname>
-			<elementname>PathFollower</elementname>
-			<elementname>FlightPlan</elementname>
-			<elementname>Com2UsbBridge</elementname>
-			<elementname>Usb2ComBridge</elementname>
-			<elementname>OveroSync</elementname>
-			<elementname>ModemRx</elementname>
-			<elementname>ModemTx</elementname>
-			<elementname>ModemStat</elementname>
-			<elementname>Autotune</elementname>
-			<elementname>EventDispatcher</elementname>
-		</elementnames>
-		<options>
-			<option>False</option>
-			<option>True</option>
-		</options>
-	</field>
-	<field name="RunningTime" units="%" type="uint8">
-		<elementnames>
-			<elementname>System</elementname>
-			<elementname>Actuator</elementname>
-			<elementname>Attitude</elementname>
-			<elementname>Sensors</elementname>
-			<elementname>TelemetryTx</elementname>
-			<elementname>TelemetryTxPri</elementname>
-			<elementname>TelemetryRx</elementname>
-			<elementname>GPS</elementname>
-			<elementname>ManualControl</elementname>
-			<elementname>Altitude</elementname>
-			<elementname>Airspeed</elementname>
-			<elementname>Stabilization</elementname>
-			<elementname>AltitudeHold</elementname>
-			<elementname>PathPlanner</elementname>
-			<elementname>PathFollower</elementname>
-			<elementname>FlightPlan</elementname>
-			<elementname>Com2UsbBridge</elementname>
-			<elementname>Usb2ComBridge</elementname>
-			<elementname>OveroSync</elementname>
-			<elementname>ModemRx</elementname>
-			<elementname>ModemTx</elementname>
-			<elementname>ModemStat</elementname>
-			<elementname>Autotune</elementname>
-			<elementname>EventDispatcher</elementname>
-		</elementnames>
-	</field> 
-        <access gcs="readwrite" flight="readwrite"/>
-        <telemetrygcs acked="true" updatemode="onchange" period="0"/>
-        <telemetryflight acked="true" updatemode="periodic" period="10000"/>
-        <logging updatemode="periodic" period="1000"/>
-    </object>
+  <object name="TaskInfo" singleinstance="true" settings="false">
+    <meta>
+      <description>Task information</description>
+      <access gcs="readwrite" flight="readwrite"/>
+      <telemetrygcs acked="true" updatemode="onchange" period="0"/>
+      <telemetryflight acked="true" updatemode="periodic" period="10000"/>
+      <logging updatemode="periodic" period="1000"/>
+    </meta>
+    <data>
+      <data name="StackRemaining" units="bytes" type="uint16" elementnames="System,Actuator,Attitude,Sensors,TelemetryTx,TelemetryTxPri,TelemetryRx, GPS,ManualControl,Altitude,Airspeed,Stabilization,AltitudeHold,PathPlanner,PathFollower, FlightPlan,Com2UsbBridge,Usb2ComBridge,OveroSync,ModemRx,ModemTx,ModemStat,Autotune,EventDispatcher"/>
+      <data name="Running" units="bool" type="enum" options="False,True" elementnames="System,Actuator,Attitude,Sensors,TelemetryTx,TelemetryTxPri,TelemetryRx, GPS,ManualControl,Altitude,Airspeed,Stabilization,AltitudeHold,PathPlanner,PathFollower, FlightPlan,Com2UsbBridge,Usb2ComBridge,OveroSync,ModemRx,ModemTx,ModemStat,Autotune,EventDispatcher"/>
+      <data name="RunningTime" units="%" type="uint8" elementnames="System,Actuator,Attitude,Sensors,TelemetryTx,TelemetryTxPri,TelemetryRx, GPS,ManualControl,Altitude,Airspeed,Stabilization,AltitudeHold,PathPlanner,PathFollower, FlightPlan,Com2UsbBridge,Usb2ComBridge,OveroSync,ModemRx,ModemTx,ModemStat,Autotune,EventDispatcher"/>
+    </data>
+  </object>
 </xml>

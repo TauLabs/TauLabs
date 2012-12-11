@@ -255,8 +255,6 @@ bool UAVObjectGeneratorFlight::generateEnumDefinitions(FieldInfo* field, QString
 
     bool res = true;
 
-
-
     QString buffer = QString("");
     foreach(FieldInfo* childField, field->childrenFields) {
 
@@ -297,10 +295,7 @@ bool UAVObjectGeneratorFlight::generateEnumDefinitions(FieldInfo* field, QString
         // Generate array information
         if (childField->numElements > 1)
         {
-
-
             buffer.append(QString("// Number of elements for field %1 \r\n").arg(fieldPath(childField).join(QString("."))));
-
             buffer.append( QString("#define %1_NUMELEM %2\r\n")
                            .arg(fieldPath(childField).join(QString("_")).toUpper() )
                            .arg( childField->numElements ));

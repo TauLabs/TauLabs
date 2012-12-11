@@ -1,16 +1,17 @@
+<?xml version="1.0"?>
 <xml>
-    <object name="RevoCalibration" singleinstance="true" settings="true">
-        <description>Leftover settings for Revo</description>
-
-
-        <!-- Sensor characteristics -->
-        <field name="MagBias" units="mGau" type="float" elementnames="X,Y,Z" defaultvalue="0,0,0"/>
-        <field name="MagScale" units="gain" type="float" elementnames="X,Y,Z" defaultvalue="1"/>
-
-
-        <access gcs="readwrite" flight="readwrite"/>
-        <telemetrygcs acked="true" updatemode="onchange" period="0"/>
-        <telemetryflight acked="true" updatemode="onchange" period="0"/>
-        <logging updatemode="manual" period="0"/>
-    </object>
+  <object name="RevoCalibration" singleinstance="true" settings="true">
+    <meta>
+      <description>Leftover settings for Revo</description>
+      <access gcs="readwrite" flight="readwrite"/>
+      <telemetrygcs acked="true" updatemode="onchange" period="0"/>
+      <telemetryflight acked="true" updatemode="onchange" period="0"/>
+      <logging updatemode="manual" period="0"/>
+    </meta>
+    <data>
+      <!-- Sensor characteristics -->
+      <data name="MagBias" units="mGau" type="float" elementnames="X,Y,Z" defaultvalue="0,0,0"/>
+      <data name="MagScale" units="gain" type="float" elementnames="X,Y,Z" defaultvalue="1"/>
+    </data>
+  </object>
 </xml>

@@ -27,6 +27,13 @@
 #include "uavobjectgeneratorgcs.h"
 using namespace std;
 
+/**
+ * @brief Generate UAVOs for GCS code
+ * @param XML parser that contains parsed data
+ * @param templatepath path for code templates
+ * @param outputpath output path
+ * @return true if everything went fine
+ */
 bool UAVObjectGeneratorGCS::generate(UAVObjectParser* parser,QString templatepath,QString outputpath) {
 
     fieldTypeStrCPP << "struct" << "qint8" << "qint16" << "qint32" <<
@@ -72,39 +79,28 @@ bool UAVObjectGeneratorGCS::generate(UAVObjectParser* parser,QString templatepat
 }
 
 /**
- * Generate the GCS object files
+ * @brief Generate the GCS code for one UAVO
+ * @param info the object to process
+ * @return true if everything went fine
  */
 bool UAVObjectGeneratorGCS::process_object(ObjectInfo* info)
 {
     if (info == NULL)
         return false;
 
+    bool res=true;
+
     // Prepare output strings
     QString outInclude = gcsIncludeTemplate;
     QString outCode = gcsCodeTemplate;
 
     // Replace common tags
-    replaceCommonTags(outInclude, info);
-    replaceCommonTags(outCode, info);
+    res = res && replaceCommonTags(outInclude, info);
+    res = res && replaceCommonTags(outCode, info);
 
     // Replace the $(DATAFIELDS) tag
-    QString type;
-    QString fields;
-    for (int n = 0; n < info->field->childrenFields.length(); ++n)
-    {
-        // Determine type
-        type = fieldTypeStrCPP[info->field->childrenFields[n]->type];
-        // Append field
-        if ( info->field->childrenFields[n]->numElements > 1 )
-        {
-            fields.append( QString("        %1 %2[%3];\n").arg(type).arg(info->field->childrenFields[n]->name)
-                           .arg(info->field->childrenFields[n]->numElements) );
-        }
-        else
-        {
-            fields.append( QString("        %1 %2;\n").arg(type).arg(info->field->childrenFields[n]->name) );
-        }
-    }
+    QString fields = QString("");
+    res = res && generateStructDefinitions(info->field,fields);
     outInclude.replace(QString("$(DATAFIELDS)"), fields);
 
     // Replace $(PROPERTIES) and related tags
@@ -121,31 +117,31 @@ bool UAVObjectGeneratorGCS::process_object(ObjectInfo* info)
 
     for (int n = 0; n < info->field->childrenFields.length(); ++n)
     {
-        FieldInfo *field = info->field->childrenFields[n];
+        FieldInfo *childField = info->field->childrenFields[n];
 
-        if (reservedProperties.contains(field->name))
+        if (reservedProperties.contains(childField->name))
             continue;
 
         // Determine type
-        type = fieldTypeStrCPP[field->type];
+        QString type = fieldType(childField);
         // Append field
-        if ( field->numElements > 1 ) {
+        if ( childField->numElements > 1 ) {
             //add both field(elementIndex)/setField(elemntIndex,value) and field_element properties
             //field_element is more convenient if only certain element is used
             //and much easier to use from the qml side
             propertyGetters +=
                     QString("    Q_INVOKABLE %1 get%2(quint32 index) const;\n")
-                    .arg(type).arg(field->name);
+                    .arg(type).arg(childField->name);
             propertiesImpl +=
                     QString("%1 %2::get%3(quint32 index) const\n"
                             "{\n"
                             "   QMutexLocker locker(mutex);\n"
                             "   return data.%3[index];\n"
                             "}\n")
-                    .arg(type).arg(info->name).arg(field->name);
+                    .arg(type).arg(info->name).arg(childField->name);
             propertySetters +=
                     QString("    void set%1(quint32 index, %2 value);\n")
-                    .arg(field->name).arg(type);
+                    .arg(childField->name).arg(type);
             propertiesImpl +=
                     QString("void %1::set%2(quint32 index, %3 value)\n"
                             "{\n"
@@ -155,28 +151,28 @@ bool UAVObjectGeneratorGCS::process_object(ObjectInfo* info)
                             "   mutex->unlock();\n"
                             "   if (changed) emit %2Changed(index,value);\n"
                             "}\n\n")
-                    .arg(info->name).arg(field->name).arg(type);
+                    .arg(info->name).arg(childField->name).arg(type);
             propertyNotifications +=
                     QString("    void %1Changed(quint32 index, %2 value);\n")
-                    .arg(field->name).arg(type);
+                    .arg(childField->name).arg(type);
 
-            for (int elementIndex = 0; elementIndex < field->numElements; elementIndex++) {
-                QString elementName = field->elementNames[elementIndex];
+            for (int elementIndex = 0; elementIndex < childField->numElements; elementIndex++) {
+                QString elementName = childField->elementNames[elementIndex];
                 properties += QString("    Q_PROPERTY(%1 %2 READ get%2 WRITE set%2 NOTIFY %2Changed);\n")
-                        .arg(type).arg(field->name+"_"+elementName);
+                        .arg(type).arg(childField->name+"_"+elementName);
                 propertyGetters +=
                         QString("    Q_INVOKABLE %1 get%2_%3() const;\n")
-                        .arg(type).arg(field->name).arg(elementName);
+                        .arg(type).arg(childField->name).arg(elementName);
                 propertiesImpl +=
                         QString("%1 %2::get%3_%4() const\n"
                                 "{\n"
                                 "   QMutexLocker locker(mutex);\n"
                                 "   return data.%3[%5];\n"
                                 "}\n")
-                        .arg(type).arg(info->name).arg(field->name).arg(elementName).arg(elementIndex);
+                        .arg(type).arg(info->name).arg(childField->name).arg(elementName).arg(elementIndex);
                 propertySetters +=
                         QString("    void set%1_%2(%3 value);\n")
-                        .arg(field->name).arg(elementName).arg(type);
+                        .arg(childField->name).arg(elementName).arg(type);
                 propertiesImpl +=
                         QString("void %1::set%2_%3(%4 value)\n"
                                 "{\n"
@@ -186,31 +182,31 @@ bool UAVObjectGeneratorGCS::process_object(ObjectInfo* info)
                                 "   mutex->unlock();\n"
                                 "   if (changed) emit %2_%3Changed(value);\n"
                                 "}\n\n")
-                        .arg(info->name).arg(field->name).arg(elementName).arg(type).arg(elementIndex);
+                        .arg(info->name).arg(childField->name).arg(elementName).arg(type).arg(elementIndex);
                 propertyNotifications +=
                         QString("    void %1_%2Changed(%3 value);\n")
-                        .arg(field->name).arg(elementName).arg(type);
+                        .arg(childField->name).arg(elementName).arg(type);
                 propertyNotificationsImpl +=
                         QString("        //if (data.%1[%2] != oldData.%1[%2])\n"
                                 "            emit %1_%3Changed(data.%1[%2]);\n")
-                        .arg(field->name).arg(elementIndex).arg(elementName);
+                        .arg(childField->name).arg(elementIndex).arg(elementName);
             }
         } else {
             properties += QString("    Q_PROPERTY(%1 %2 READ get%2 WRITE set%2 NOTIFY %2Changed);\n")
-                    .arg(type).arg(field->name);
+                    .arg(type).arg(childField->name);
             propertyGetters +=
                     QString("    Q_INVOKABLE %1 get%2() const;\n")
-                    .arg(type).arg(field->name);
+                    .arg(type).arg(childField->name);
             propertiesImpl +=
                     QString("%1 %2::get%3() const\n"
                             "{\n"
                             "   QMutexLocker locker(mutex);\n"
                             "   return data.%3;\n"
                             "}\n")
-                    .arg(type).arg(info->name).arg(field->name);
+                    .arg(type).arg(info->name).arg(childField->name);
             propertySetters +=
                     QString("    void set%1(%2 value);\n")
-                    .arg(field->name).arg(type);
+                    .arg(childField->name).arg(type);
             propertiesImpl +=
                     QString("void %1::set%2(%3 value)\n"
                             "{\n"
@@ -220,14 +216,14 @@ bool UAVObjectGeneratorGCS::process_object(ObjectInfo* info)
                             "   mutex->unlock();\n"
                             "   if (changed) emit %2Changed(value);\n"
                             "}\n\n")
-                    .arg(info->name).arg(field->name).arg(type);
+                    .arg(info->name).arg(childField->name).arg(type);
             propertyNotifications +=
                     QString("    void %1Changed(%2 value);\n")
-                    .arg(field->name).arg(type);
+                    .arg(childField->name).arg(type);
             propertyNotificationsImpl +=
                     QString("        //if (data.%1 != oldData.%1)\n"
                             "            emit %1Changed(data.%1);\n")
-                    .arg(field->name);
+                    .arg(childField->name);
         }
     }
 
@@ -283,52 +279,8 @@ bool UAVObjectGeneratorGCS::process_object(ObjectInfo* info)
     outCode.replace(QString("$(FIELDSINIT)"), finit);
 
     // Replace the $(DATAFIELDINFO) tag
-    QString name;
-    QString enums;
-    for (int n = 0; n < info->field->childrenFields.length(); ++n)
-    {
-        enums.append(QString("    // Field %1 information\n").arg(info->field->childrenFields[n]->name));
-        // Only for enum types
-        if (info->field->childrenFields[n]->type == FIELDTYPE_ENUM)
-        {
-            enums.append(QString("    /* Enumeration options for field %1 */\n").arg(info->field->childrenFields[n]->name));
-            enums.append("    typedef enum { ");
-            // Go through each option
-            QStringList options = info->field->childrenFields[n]->options;
-            for (int m = 0; m < options.length(); ++m) {
-                QString s = (m != (options.length()-1)) ? "%1_%2=%3, " : "%1_%2=%3";
-                enums.append( s.arg( info->field->childrenFields[n]->name.toUpper() )
-                               .arg( options[m].toUpper().replace(QRegExp(ENUM_SPECIAL_CHARS), "") )
-                               .arg(m) );
-
-            }
-            enums.append( QString(" } %1Options;\n")
-                          .arg( info->field->childrenFields[n]->name ) );
-        }
-        // Generate element names (only if field has more than one element)
-        if (info->field->childrenFields[n]->numElements > 1 && !info->field->childrenFields[n]->defaultElementNames) {
-            enums.append(QString("    /* Array element names for field %1 */\n").arg(info->field->childrenFields[n]->name));
-            enums.append("    typedef enum { ");
-            // Go through the element names
-            QStringList elemNames = info->field->childrenFields[n]->elementNames;
-            for (int m = 0; m < elemNames.length(); ++m) {
-                QString s = (m != (elemNames.length()-1)) ? "%1_%2=%3, " : "%1_%2=%3";
-                enums.append( s.arg( info->field->childrenFields[n]->name.toUpper() )
-                               .arg( elemNames[m].toUpper() )
-                               .arg(m) );
-
-            }
-            enums.append( QString(" } %1Elem;\n")
-                          .arg( info->field->childrenFields[n]->name ) );
-        }
-        // Generate array information
-        if (info->field->childrenFields[n]->numElements > 1) {
-            enums.append(QString("    /* Number of elements for field %1 */\n").arg(info->field->childrenFields[n]->name));
-            enums.append( QString("    static const quint32 %1_NUMELEM = %2;\n")
-                          .arg( info->field->childrenFields[n]->name.toUpper() )
-                          .arg( info->field->childrenFields[n]->numElements ) );
-        }
-    }
+    QString enums = QString("");
+    res = res && generateEnumDefinitions(info->field,enums);
     outInclude.replace(QString("$(DATAFIELDINFO)"), enums);
 
     // Replace the $(INITFIELDS) tag
@@ -389,17 +341,163 @@ bool UAVObjectGeneratorGCS::process_object(ObjectInfo* info)
 
     outCode.replace(QString("$(INITFIELDS)"), initfields);
 
+    if (!res) {
+        cout << "Error: Could not substitute tags" << endl;
+        return false;
+    }
+
     // Write the GCS code
-    bool res = writeFileIfDiffrent( gcsOutputPath.absolutePath() + "/" + info->namelc + ".cpp", outCode );
+    res = res &&  writeFileIfDiffrent( gcsOutputPath.absolutePath() + "/" + info->namelc + ".cpp", outCode );
     if (!res) {
         cout << "Error: Could not write gcs output files" << endl;
         return false;
     }
-    res = writeFileIfDiffrent( gcsOutputPath.absolutePath() + "/" + info->namelc + ".h", outInclude );
+    res = res &&  writeFileIfDiffrent( gcsOutputPath.absolutePath() + "/" + info->namelc + ".h", outInclude );
     if (!res) {
         cout << "Error: Could not write gcs output files" << endl;
         return false;
     }
 
-    return true;
+    return res;
+}
+
+
+/**
+ * @brief Retrieves the path to a specific field in the field arborescence
+ * @param field
+ * @return a list representing the path to the field. The root is the first element of the list, the field is the last element
+ */
+QStringList UAVObjectGeneratorGCS::fieldPath(FieldInfo* field) {
+    QStringList result = QStringList();
+    FieldInfo* current=field;
+    while(current!=NULL) {
+        result.prepend(current->name);
+        current = current->parentField;
+    }
+    return result;
+}
+
+/**
+ * @brief Generate the field type
+ * @param field
+ * @return the C type for the field, even if it is a struct field
+ */
+QString UAVObjectGeneratorGCS::fieldType(FieldInfo* field) {
+
+    return (field->type == FIELDTYPE_STRUCT)?
+                fieldPath(field).join("").replace(QRegExp(ENUM_SPECIAL_CHARS), "").append("Data"):
+                fieldTypeStrCPP[field->type] ;
+}
+
+/**
+ * @brief Generate the field descriptor
+ * @param field
+ * @return a string like "int8 blabla[10]"
+ */
+QString UAVObjectGeneratorGCS::fieldDescriptor(FieldInfo* field) {
+    return (field->numElements > 1)?
+                QString("%1 %2[%3]").arg(fieldType(field)).arg(field->name).arg(field->numElements):
+                QString("%1 %2").arg(fieldType(field)).arg(field->name);
+}
+
+
+
+/**
+ * @brief Generate the structs definitions string, recursively
+ * @param field field to process
+ * @param datafields string to prepend with the definition of the field
+ * @return true if everything went fine
+ */
+bool UAVObjectGeneratorGCS::generateStructDefinitions(FieldInfo* field, QString& datafields)
+{
+
+    bool res = true;
+
+    QString buffer = QString("");
+    //for each subfield add its declaration in the struct declaration for the field
+    foreach(FieldInfo* childField, field->childrenFields) {
+            buffer.append( QString("    %1;\r\n").arg(fieldDescriptor(childField) ));
+    }
+
+    QString cStructName = fieldPath(field).join("").replace(QRegExp(ENUM_SPECIAL_CHARS), "") + QString("Data");
+    datafields.prepend(QString("typedef struct {\r\n") + buffer +  QString("} __attribute__((packed)) ") + cStructName +QString(";\r\n\r\n"));
+
+
+    // for each subfield of struct type, prepend datafields with the corresponding struct type definition
+    foreach(FieldInfo* childField, field->childrenFields) {
+        if(childField->type == FIELDTYPE_STRUCT) {
+            res = res && generateStructDefinitions(childField, datafields);
+        }
+    }
+
+    return res;
+}
+
+/**
+ * @brief Generate the structs definitions string, recursively
+ * @param field field to process
+ * @param datafields string to prepend with the definition of the field
+ * @return true if everything went fine
+ */
+bool UAVObjectGeneratorGCS::generateEnumDefinitions(FieldInfo* field, QString& enums)
+{
+
+    bool res = true;
+
+    QString buffer = QString("");
+    foreach(FieldInfo* childField, field->childrenFields) {
+
+        // For enums
+        if (childField->type == FIELDTYPE_ENUM)
+        {
+
+            buffer.append(QString("// Enumeration options for field %1 \r\n").arg(fieldPath(childField).join(QString("."))));
+            buffer.append("typedef enum { ");
+            // Go through each option
+            QStringList options = QStringList();
+            int i = 0;
+            foreach(QString option,childField->options) {
+                options.append(QString("%1_%2=%3").arg(fieldPath(childField).join(QString("_")).toUpper()).arg(option.toUpper().replace(QRegExp(ENUM_SPECIAL_CHARS), "")).arg(i));
+                i++;
+            }
+            buffer.append(options.join(QString(", ")));
+            buffer.append( QString(" } %1Options;\r\n").arg(fieldPath(childField).join(QString(""))));
+        }
+
+
+        // Generate element names (only if field has more than one element)
+        if (childField->numElements > 1 && !childField->defaultElementNames)
+        {
+
+            buffer.append(QString("// Array element names for field %1 \r\n").arg(fieldPath(childField).join(QString("."))));
+            buffer.append("typedef enum { ");
+            // Go through the element names
+            QStringList elementNames = QStringList();
+            int i = 0;
+            foreach(QString elementName,childField->elementNames) {
+                elementNames.append(QString("%1_%2=%3").arg(fieldPath(childField).join(QString("_")).toUpper()).arg(elementName.toUpper().replace(QRegExp(ENUM_SPECIAL_CHARS), "")).arg(i));
+                i++;
+            }
+            buffer.append(elementNames.join(QString(", ")));
+            buffer.append( QString(" } %1Elem;\r\n").arg(fieldPath(childField).join(QString(""))));
+        }
+        // Generate array information
+        if (childField->numElements > 1)
+        {
+            buffer.append(QString("// Number of elements for field %1 \r\n").arg(fieldPath(childField).join(QString("."))));
+            buffer.append( QString("    static const quint32 %1_NUMELEM = %2;\n")
+                           .arg(fieldPath(childField).join(QString("_")).toUpper() )
+                           .arg( childField->numElements ));
+        }
+    }
+    enums.prepend(buffer);
+
+
+    // process subfields
+    foreach(FieldInfo* childField, field->childrenFields) {
+        if(childField->type == FIELDTYPE_STRUCT)
+            res = res && generateEnumDefinitions(childField, enums);
+    }
+
+    return res;
 }
