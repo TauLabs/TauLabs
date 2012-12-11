@@ -103,7 +103,7 @@ include $(PIOSCOMMONLIB)/msheap/library.mk
 SRC += ${foreach MOD, ${MODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
 ## OPENPILOT CORE:
 SRC += ${OPMODULEDIR}/System/systemmod.c
-SRC += $(OPSYSTEM)/discoveryf4.c
+SRC += $(OPSYSTEM)/flyingf4.c
 SRC += $(OPSYSTEM)/pios_board.c
 SRC += $(OPSYSTEM)/pios_usb_board_data.c
 SRC += $(FLIGHTLIB)/alarms.c

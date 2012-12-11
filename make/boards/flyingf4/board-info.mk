@@ -5,7 +5,7 @@ HW_TYPE             := 0x00		# seems to be unused
 
 MCU                 := cortex-m4
 CHIP                := STM32F407VGT
-BOARD               := STM32F4xx_DISCOVERYF4
+BOARD               := STM32F4xx_FLYINGF4
 MODEL               := HD
 MODEL_SUFFIX        := 
 
