@@ -86,8 +86,6 @@ static void attitudeUpdated(UAVObjEvent* ev);
 static void settings_updated_cb(UAVObjEvent * ev);
 static void applyFF(uint8_t index, float dT_ms, float *attitude, CameraStabSettingsData* cameraStab);
 
-const bool POI_MODE_ENABLED = true;
-
 /**
  * Initialise the module, called on startup
  * \returns 0 on success or -1 if initialisation failed
@@ -127,8 +125,9 @@ int32_t CameraStabInitialize(void)
 
 		CameraStabSettingsConnectCallback(settings_updated_cb);
 		settings_updated_cb(NULL);
-		if (POI_MODE_ENABLED)
-			PoiLocationInitialize();
+#if defined(CAMERASTAB_POI_MODE)
+		PoiLocationInitialize();
+#endif /* CAMERASTAB_POI_MODE */
 
 		UAVObjEvent ev = {
 			.obj = AttitudeActualHandle(),
@@ -212,7 +211,9 @@ static void attitudeUpdated(UAVObjEvent* ev)
 					input = 0;
 				}
 			}
-		} else if (cameraStab.Input[i] == CAMERASTABSETTINGS_INPUT_POI && POI_MODE_ENABLED) {
+		}
+#if defined(CAMERASTAB_POI_MODE)		
+		else if (cameraStab.Input[i] == CAMERASTABSETTINGS_INPUT_POI) {
 			PositionActualData positionActual;
 			PositionActualGet(&positionActual);
 			PoiLocationData poi;
@@ -243,6 +244,7 @@ static void attitudeUpdated(UAVObjEvent* ev)
 					break;
 			}
 		}
+#endif /* CAMERASTAB_POI_MODE */		
 
 		// Add Servo FeedForward
 		applyFF(i, dT_ms, &attitude, settings);

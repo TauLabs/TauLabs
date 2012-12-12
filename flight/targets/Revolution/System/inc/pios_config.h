@@ -127,6 +127,9 @@
 
 #define REVOLUTION
 
+// Enable POI tracking mode for camera stabilization
+#define CAMERASTAB_POI_MODE
+
 #endif /* PIOS_CONFIG_H */
 /**
  * @}
