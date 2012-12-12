@@ -45,115 +45,6 @@
  * an overview.
  */
 
-#if defined(PIOS_INCLUDE_HMC5883)
-#include "pios_hmc5883.h"
-// TODO: assign a pin for this and enable PIOS_HMC5883_HAS_GPIOS
-#ifdef PIOS_HMC5883_HAS_GPIOS
-static const struct pios_exti_cfg pios_exti_hmc5883_cfg __exti_config = {
-	.vector = PIOS_HMC5883_IRQHandler,
-	.line = EXTI_Line1,
-	.pin = {
-		.gpio = GPIOC,
-		.init = {
-			.GPIO_Pin = GPIO_Pin_1,
-			.GPIO_Speed = GPIO_Speed_100MHz,
-			.GPIO_Mode = GPIO_Mode_IN,
-			.GPIO_OType = GPIO_OType_OD,
-			.GPIO_PuPd = GPIO_PuPd_NOPULL,
-		},
-	},
-	.irq = {
-		.init = {
-			.NVIC_IRQChannel = EXTI1_IRQn,
-			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_LOW,
-			.NVIC_IRQChannelSubPriority = 0,
-			.NVIC_IRQChannelCmd = ENABLE,
-		},
-	},
-	.exti = {
-		.init = {
-			.EXTI_Line = EXTI_Line1, // matches above GPIO pin
-			.EXTI_Mode = EXTI_Mode_Interrupt,
-			.EXTI_Trigger = EXTI_Trigger_Rising,
-			.EXTI_LineCmd = ENABLE,
-		},
-	},
-};
-#endif
-
-static const struct pios_hmc5883_cfg pios_hmc5883_cfg = {
-#ifdef PIOS_HMC5883_HAS_GPIOS
-	.exti_cfg = &pios_exti_hmc5883_cfg,
-#endif
-	.M_ODR = PIOS_HMC5883_ODR_75,
-	.Meas_Conf = PIOS_HMC5883_MEASCONF_NORMAL,
-	.Gain = PIOS_HMC5883_GAIN_1_9,
-	.Mode = PIOS_HMC5883_MODE_CONTINUOUS,
-	.orientation = PIOS_HMC5883_TOP_90DEG,
-
-};
-#endif /* PIOS_INCLUDE_HMC5883 */
-
-/**
- * Configuration for the MS5611 chip
- */
-#if defined(PIOS_INCLUDE_MS5611)
-#include "pios_ms5611.h"
-static const struct pios_ms5611_cfg pios_ms5611_cfg = {
-	.oversampling = MS5611_OSR_512,
-};
-#endif /* PIOS_INCLUDE_MS5611 */
-
-/**
- * Configuration for the MPU6050 chip
- */
-#if defined(PIOS_INCLUDE_MPU6050)
-#include "pios_mpu6050.h"
-static const struct pios_exti_cfg pios_exti_mpu6050_cfg __exti_config = {
-	.vector = PIOS_MPU6050_IRQHandler,
-	.line = EXTI_Line11,
-	.pin = {
-		.gpio = GPIOD,
-		.init = {
-			.GPIO_Pin = GPIO_Pin_11,
-			.GPIO_Speed = GPIO_Speed_100MHz,
-			.GPIO_Mode = GPIO_Mode_IN,
-			.GPIO_OType = GPIO_OType_OD,
-			.GPIO_PuPd = GPIO_PuPd_NOPULL,
-		},
-	},
-	.irq = {
-		.init = {
-			.NVIC_IRQChannel = EXTI15_10_IRQn,
-			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
-			.NVIC_IRQChannelSubPriority = 0,
-			.NVIC_IRQChannelCmd = ENABLE,
-		},
-	},
-	.exti = {
-		.init = {
-			.EXTI_Line = EXTI_Line11, // matches above GPIO pin
-			.EXTI_Mode = EXTI_Mode_Interrupt,
-			.EXTI_Trigger = EXTI_Trigger_Rising,
-			.EXTI_LineCmd = ENABLE,
-		},
-	},
-};
-
-static const struct pios_mpu6050_cfg pios_mpu6050_cfg = {
-	.exti_cfg = &pios_exti_mpu6050_cfg,
-	.Fifo_store = PIOS_MPU6050_FIFO_TEMP_OUT | PIOS_MPU6050_FIFO_GYRO_X_OUT | PIOS_MPU6050_FIFO_GYRO_Y_OUT | PIOS_MPU6050_FIFO_GYRO_Z_OUT,
-	// Clock at 8 khz, downsampled by 8 for 1khz
-	.Smpl_rate_div = 11,
-	.interrupt_cfg = PIOS_MPU6050_INT_CLR_ANYRD,
-	.interrupt_en = PIOS_MPU6050_INTEN_DATA_RDY,
-	.User_ctl = PIOS_MPU6050_USERCTL_FIFO_EN,
-	.Pwr_mgmt_clk = PIOS_MPU6050_PWRMGMT_PLL_X_CLK,
-	.filter = PIOS_MPU6050_LOWPASS_256_HZ,
-	.orientation = PIOS_MPU6050_TOP_180DEG
-};
-#endif /* PIOS_INCLUDE_MPU6050 */
-
 /**
  * Configuration for L3GD20 chip
  */
@@ -396,9 +287,6 @@ void PIOS_Board_Init(void) {
 #endif
 
 #if defined(PIOS_INCLUDE_FLASH) && defined(PIOS_INCLUDE_SPI)
-	if (PIOS_SPI_Init(&pios_spi_external_id, &pios_spi_external_cfg)) {
-		PIOS_DEBUG_Assert(0);
-	}
 	if (PIOS_Flash_Jedec_Init(pios_spi_external_id, 0, &flash_m25p_cfg) != 0)
 		panic();
 	if (PIOS_FLASHFS_Init(&flashfs_m25p_cfg) != 0)
