@@ -366,9 +366,12 @@ enum usb_product_ids {
 	/* PhoenixPilot Boards */
 	USB_PRODUCT_ID_FREEDOM        = 0x41d0,
 
+	/* ST Eval Boards */
+	USB_PRODUCT_ID_DISCOVERYF4    = USB_PRODUCT_ID_SPARE,
 } __attribute__((packed));
 
 enum usb_op_board_ids {
+	/* OpenPilot Boards */
 	USB_OP_BOARD_ID_OPENPILOT_MAIN = 1,
 	/* Board ID 2 may be unused or AHRS */
 	USB_OP_BOARD_ID_PIPXTREME      = 3,
@@ -379,6 +382,8 @@ enum usb_op_board_ids {
 	/* PhoenixPilot Boards */
 	USB_PP_BOARD_ID_FREEDOM        = 101,
 
+	/* ST Eval Boards */
+	USB_ST_BOARD_ID_DISCOVERYF4    = 201,
 } __attribute__((packed));
 
 enum usb_op_board_modes {
