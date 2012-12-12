@@ -26,6 +26,7 @@
  */
 
 #include "treeitem.h"
+#include "fieldtreeitem.h"
 
 /* Constructor */
 HighLightManager::HighLightManager(long checkingInterval)
@@ -105,7 +106,8 @@ TreeItem::TreeItem(const QList<QVariant> &data, TreeItem *parent) :
         m_data(data),
         m_parent(parent),
         m_highlight(false),
-        m_changed(false)
+        m_changed(false),
+        m_updated(false)
 {
 }
 
@@ -113,7 +115,8 @@ TreeItem::TreeItem(const QVariant &data, TreeItem *parent) :
         QObject(0),
         m_parent(parent),
         m_highlight(false),
-        m_changed(false)
+        m_changed(false),
+        m_updated(false)
 {
     m_data << data << "" << "";
 }
@@ -208,6 +211,32 @@ void TreeItem::setHighlight(bool highlight) {
     if(m_parent)
     {
         m_parent->setHighlight(highlight);
+    }
+}
+
+void TreeItem::setUpdatedOnly(bool updated)
+{
+    if(this->changed() && updated)
+    {
+        m_updated=updated;
+        m_parent->setUpdatedOnlyParent();
+    }
+    else if(!updated)
+        m_updated=false;
+    foreach(TreeItem * item,this->treeChildren())
+    {
+        item->setUpdatedOnly(updated);
+    }
+}
+
+void TreeItem::setUpdatedOnlyParent()
+{
+    FieldTreeItem * field=dynamic_cast<FieldTreeItem*>(this);
+    TopTreeItem * top=dynamic_cast<TopTreeItem*>(this);
+    if(!field && !top)
+    {
+        m_updated=true;
+        m_parent->setUpdatedOnlyParent();
     }
 }
 

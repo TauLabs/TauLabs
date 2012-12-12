@@ -124,8 +124,10 @@ public:
     static void setHighlightTime(int time) { m_highlightTimeMs = time; }
 
     inline bool changed() { return m_changed; }
+    inline bool updatedOnly() { return m_updated; }
     inline void setChanged(bool changed) { m_changed = changed; }
-
+    void setUpdatedOnly(bool updated);
+    void setUpdatedOnlyParent();
     virtual void setHighlightManager(HighLightManager* mgr);
 
     QTime getHiglightExpires();
@@ -163,6 +165,7 @@ private:
     TreeItem *m_parent;
     bool m_highlight;
     bool m_changed;
+    bool m_updated;
     QTime m_highlightExpires;
     HighLightManager* m_highlightManager;
     static int m_highlightTimeMs;
