@@ -62,9 +62,9 @@ void runningDeviceWidget::populate()
 
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectUtilManager* utilMngr = pm->getObject<UAVObjectUtilManager>();
-    int id = utilMngr->getBoardModel();
+    unsigned int id = utilMngr->getBoardModel();
 
-    myDevice->lblDeviceID->setText(QString("Device ID: ") + QString::number(id, 16));
+    myDevice->lblDeviceID->setText(QString("Device ID: ") + QString::number(id & 0xFFFF, 16));
     myDevice->lblBoardName->setText(deviceDescriptorStruct::idToBoardName(id));
     myDevice->lblHWRev->setText(QString(tr("HW Revision: "))+QString::number(id & 0x00FF, 16));
     qDebug()<<"CRC"<<utilMngr->getFirmwareCRC();
