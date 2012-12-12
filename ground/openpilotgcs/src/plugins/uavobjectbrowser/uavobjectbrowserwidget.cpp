@@ -135,6 +135,9 @@ void UAVObjectBrowserWidget::sendUpdate()
     this->setFocus();
     ObjectTreeItem *objItem = findCurrentObjectTreeItem();
     Q_ASSERT(objItem);
+    UAVDataObject * dataObj=qobject_cast<UAVDataObject *>(objItem->object());
+    if(dataObj && dataObj->isSettings())
+        objItem->setUpdatedOnly(true);
     objItem->apply();
     UAVObject *obj = objItem->object();
     Q_ASSERT(obj);
@@ -172,6 +175,9 @@ void UAVObjectBrowserWidget::saveObject()
     // Save object
     ObjectTreeItem *objItem = findCurrentObjectTreeItem();
     Q_ASSERT(objItem);
+    UAVDataObject * dataObj=qobject_cast<UAVDataObject *>(objItem->object());
+    if(dataObj && dataObj->isSettings())
+        objItem->setUpdatedOnly(false);
     UAVObject *obj = objItem->object();
     Q_ASSERT(obj);
     updateObjectPersistance(ObjectPersistence::OPERATION_SAVE, obj);
