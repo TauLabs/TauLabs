@@ -30,6 +30,7 @@
 
 #include <QObject>
 #include <QtCore/QStringList>
+#include <QPixmap>
 
 #include "core_global.h"
 
@@ -63,7 +64,14 @@ public:
         int Usage;
         int vendorID;
         int productID;
-        int bcdDevice;
+        // the convention for DFU mode is to change the
+        // Lower byte of bcdDevice depending on whether
+        // the board is in Bootloader mode or running mode.
+        // We provide the relevant values there:
+        int bootloaderMode;
+        int runningMode;
+        int bcdDevice; // Note: not that useful, the two values above
+                       // cater for almost the same into
     };
 
 
@@ -78,6 +86,16 @@ public:
     virtual QString boardDescription() = 0;
 
     /**
+     * @brief getBoardPicture
+     * @return provides a picture for the board. Uploader gadget or
+     *         configuration plugin can use this, for instance.
+     *
+     *  TODO: this API is not stable yet.
+     *
+     */
+    virtual QPixmap* getBoardPicture() = 0;
+
+    /**
      * Get supported protocol(s) for this board
      *
      * TODO: extend GCS to support multiple protocol types.
@@ -90,7 +108,7 @@ public:
     USBInfo getUSBInfo() { return boardUSBInfo; }
 
     /**
-     * Get USB VendorID
+     * Get USB VendorID.
      */
     int getVendorID() { return boardUSBInfo.vendorID; }
 
@@ -104,6 +122,7 @@ signals:
 protected:
 
     void setUSBInfo(USBInfo info) { boardUSBInfo = info; }
+    void setDFUSupport(bool support) { dfuSupport = support; }
 
     USBInfo boardUSBInfo;
     bool dfuSupport;

@@ -4,6 +4,21 @@
  * @file       boardmanager.cpp
  * @author     The PhoenixPilot Team, Copyright (C) 2012.
  *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
+ *
+ *   The board manager listens for the arrival or "Board Type" objects, which are
+ * instanciated by board plugins. Any plugin that needs to interface with a board
+ * at a low level - Serial, USB, etc - can query the Board Manager to understand
+ * how to to it. At the moment, the board manager provides information to the RawHID
+ * USB library to help it detect boards that are supported. On the roadmap are the
+ * following features:
+ *    - Provide information on bootloader support - supported or not, what protocol
+ *    - Provide information on telemetry protocol to use for that particular board
+ *    - Provide board description: textual, icon, board image
+ *    - Provide hardware configuration description
+ *    - Enable board detection routines over 'generic' links such as serial or network
+ *    - Provide board configuration panels to be used by the config plugin
+ *
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup CorePlugin Core Plugin
@@ -71,20 +86,6 @@ QList<int> BoardManager::getKnownVendorIDs()
 
     return list;
 }
-
-/**
- * @brief BoardManager::getKnownBoard
- * Returns a known board for a given vendorID and productID
- *
- * @param vendorID USB vendor ID
- * @param productID USB product ID
- * @return A board type if the board is known, NULL otherwise
- */
-IBoardType* BoardManager::getKnownBoard(int vendorID, int productID)
-{
-    return NULL;
-}
-
 
 
 /**

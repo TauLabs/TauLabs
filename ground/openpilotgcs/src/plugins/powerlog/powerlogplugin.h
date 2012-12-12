@@ -41,7 +41,6 @@
 
 using namespace std;
 
-// typedef unsigned long MYULONG;    // 4 Bytes
 typedef short SHORT;
 typedef unsigned short USHORT;  // 2 Bytes
 typedef unsigned char BYTE;     // 1 Byte

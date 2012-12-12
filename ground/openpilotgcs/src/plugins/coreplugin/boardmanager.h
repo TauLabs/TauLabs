@@ -53,22 +53,21 @@ public:
 
     /**
      * @brief getKnownVendorIDs
-     * Get all USB VendorIDs known by the board manager
+     * Get all USB VendorIDs known by the board manager. This can be used
+     * by any plugin which uses USB and needs to know what boards are ours.
+     * The list is deduplicated.
      */
     QList<int> getKnownVendorIDs();
 
-    /**
-     * @brief getKnownBoards: gets a list of known boards
-     * @param bootloaderSupport
-     * @return
-     */
-    QList<IBoardType*> getKnownBoards(bool bootloaderSupport);
 
     /**
-     * Get the board type that matches a particular vendorID and productID
-     *  Will return NULL if board is unknown.
+     * @brief getKnownUSBInfo
+     * @return list of all USB information for the boards that are supported.
+     * compared to "getKnownVendorIDs", this method returns more detailed info
+     * allowing plugins to detect boards in a more fine-grained manner.
      */
-    IBoardType* getKnownBoard(int vendorID, int productID);
+    QList<IBoardType::USBInfo*> getKnownUSBInfo();
+
 
 
 protected:

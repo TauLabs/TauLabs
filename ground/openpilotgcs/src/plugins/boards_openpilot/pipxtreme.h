@@ -41,6 +41,8 @@ public:
     virtual QString shortName();
     virtual QString boardDescription();
     virtual QStringList getSupportedProtocols();
+    virtual QPixmap* getBoardPicture() { return new QPixmap; }
+
 
 };
 
