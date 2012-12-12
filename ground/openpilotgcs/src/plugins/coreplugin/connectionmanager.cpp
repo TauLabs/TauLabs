@@ -109,7 +109,7 @@ bool ConnectionManager::connectDevice(DevListItem device)
     if (!connection_device.connection)
         return false;
 
-    QIODevice *io_dev = connection_device.connection->openDevice(connection_device.device.name);
+    QIODevice *io_dev = connection_device.connection->openDevice(connection_device.device);
     if (!io_dev)
         return false;
 

@@ -58,7 +58,7 @@ public:
     virtual ~LoggingConnection();
 
     virtual QList <Core::IConnection::device> availableDevices();
-    virtual QIODevice *openDevice(const QString &deviceName);
+    virtual QIODevice *openDevice(const device deviceName);
     virtual void closeDevice(const QString &deviceName);
 
     virtual QString connectionName();

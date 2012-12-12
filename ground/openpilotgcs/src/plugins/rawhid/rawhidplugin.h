@@ -31,7 +31,10 @@
 #include "rawhid_global.h"
 #include "rawhid.h"
 #include "usbmonitor.h"
+#include "extensionsystem/pluginmanager.h"
 #include "coreplugin/iconnection.h"
+#include "coreplugin/iboardtype.h"
+#include "coreplugin/boardmanager.h"
 #include <extensionsystem/iplugin.h>
 
 #include <QtCore/QMutex>
@@ -55,7 +58,7 @@ public:
     virtual ~RawHIDConnection();
 
     virtual QList < Core::IConnection::device> availableDevices();
-    virtual QIODevice *openDevice(const QString &deviceName);
+    virtual QIODevice *openDevice(const device deviceName);
     virtual void closeDevice(const QString &deviceName);
 
     virtual QString connectionName();

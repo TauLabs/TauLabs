@@ -115,13 +115,6 @@ public:
         Running = 0x02
     };
 
-    enum USBConstants {
-        idVendor_OpenPilot = 0x20a0,
-        idProduct_OpenPilot = 0x415a,
-        idProduct_CopterControl = 0x415b,
-        idProduct_PipXtreme = 0x415c
-    };
-
     static USBMonitor *instance();
 
     USBMonitor(QObject *parent = 0);

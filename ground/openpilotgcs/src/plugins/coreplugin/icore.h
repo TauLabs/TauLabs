@@ -45,6 +45,7 @@ class ActionManager;
 class IContext;
 class IWizard;
 class ConnectionManager;
+class BoardManager;
 class MessageManager;
 class MimeDatabase;
 class ModeManager;
@@ -83,6 +84,7 @@ public:
     virtual ThreadManager *threadManager() const = 0;
     virtual ModeManager *modeManager() const = 0;
     virtual ConnectionManager *connectionManager() const = 0;
+    virtual BoardManager *boardManager() const = 0;
     virtual UAVGadgetInstanceManager *uavGadgetInstanceManager() const = 0;
     virtual MimeDatabase *mimeDatabase() const = 0;
 
