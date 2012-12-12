@@ -537,6 +537,17 @@ static const struct pios_flash_jedec_cfg flash_m25p_cfg = {
 	.chip_erase = 0xC7
 };
 
+static const struct flashfs_logfs_cfg flashfs_internal_cfg = {
+	.fs_magic      = 0x89abcfef,
+	.total_fs_size = EE_BANK_SIZE, /* 32K bytes (2x16KB sectors) */
+	.arena_size    = 0x00004000, /* 64 * slot size = 16K bytes = 1 sector */
+	.slot_size     = 0x00000100, /* 256 bytes */
+
+	.start_offset  = EE_BANK_BASE, /* start after the bootloader */
+	.sector_size   = 0x00004000, /* 16K bytes */
+	.page_size     = 0x00004000, /* 16K bytes */
+};
+
 #include "pios_flash.h"
 
 #endif	/* PIOS_INCLUDE_FLASH */
