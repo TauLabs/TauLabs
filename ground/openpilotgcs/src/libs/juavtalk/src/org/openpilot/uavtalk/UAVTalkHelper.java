@@ -14,9 +14,9 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package org.openpilot.uavtalk;
-import org.openpilot.uavtalk.CRC8;
-import org.openpilot.uavtalk.UAVObject;
+package org.abovegroundlabs.uavtalk;
+import org.abovegroundlabs.uavtalk.CRC8;
+import org.abovegroundlabs.uavtalk.UAVObject;
 
 /**
  ******************************************************************************

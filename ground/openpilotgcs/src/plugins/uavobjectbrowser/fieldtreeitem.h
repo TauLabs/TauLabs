@@ -184,20 +184,63 @@ public:
 
     void setEditorValue(QWidget *editor, QVariant value) {
         QSpinBox *spinBox = static_cast<QSpinBox*>(editor);
-        spinBox->setValue(value.toInt());
+        switch (m_field->getType()) {
+        case UAVObjectField::INT8:
+        case UAVObjectField::INT16:
+        case UAVObjectField::INT32:
+            spinBox->setValue(value.toInt());
+            break;
+        case UAVObjectField::UINT8:
+        case UAVObjectField::UINT16:
+        case UAVObjectField::UINT32:
+            spinBox->setValue(value.toUInt());
+            break;
+        default:
+            Q_ASSERT(false);
+            break;
+        }
     }
     void setData(QVariant value, int column) {
         setChanged(m_field->getValue(m_index) != value);
         TreeItem::setData(value, column);
     }
     void apply() {
-        m_field->setValue(data(dataColumn).toInt(), m_index);
+        switch (m_field->getType()) {
+        case UAVObjectField::INT8:
+        case UAVObjectField::INT16:
+        case UAVObjectField::INT32:
+            m_field->setValue(data(dataColumn).toInt(), m_index);
+            break;
+        case UAVObjectField::UINT8:
+        case UAVObjectField::UINT16:
+        case UAVObjectField::UINT32:
+            m_field->setValue(data(dataColumn).toUInt(), m_index);
+            break;
+        default:
+            Q_ASSERT(false);
+            break;
+        }
         setChanged(false);
     }
     void update() {
-        int value = m_field->getValue(m_index).toInt();
+
+        QVariant value = m_field->getValue(m_index);
         if (data() != value || changed()) {
-            TreeItem::setData(value);
+            switch (m_field->getType()) {
+            case UAVObjectField::INT8:
+            case UAVObjectField::INT16:
+            case UAVObjectField::INT32:
+                TreeItem::setData(value.toInt());
+                break;
+            case UAVObjectField::UINT8:
+            case UAVObjectField::UINT16:
+            case UAVObjectField::UINT32:
+                TreeItem::setData(value.toUInt());
+                break;
+            default:
+                Q_ASSERT(false);
+                break;
+            }
             setHighlight(true);
         }
     }

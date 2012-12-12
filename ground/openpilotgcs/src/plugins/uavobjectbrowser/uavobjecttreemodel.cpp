@@ -43,7 +43,8 @@ UAVObjectTreeModel::UAVObjectTreeModel(QObject *parent, bool categorize, bool us
         m_useScientificFloatNotation(useScientificNotation),
         m_recentlyUpdatedTimeout(500), // ms
         m_recentlyUpdatedColor(QColor(255, 230, 230)),
-        m_manuallyChangedColor(QColor(230, 230, 255))
+        m_manuallyChangedColor(QColor(230, 230, 255)),
+        m_updatedOnlyColor(QColor(255,255,0))
 {
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
@@ -349,6 +350,8 @@ QVariant UAVObjectTreeModel::data(const QModelIndex &index, int role) const
     if (index.column() == 0 && role == Qt::BackgroundRole) {
         if (!dynamic_cast<TopTreeItem*>(item) && item->highlighted())
             return QVariant(m_recentlyUpdatedColor);
+        if (!dynamic_cast<TopTreeItem*>(item) && item->updatedOnly())
+            return QVariant(m_updatedOnlyColor);
     }
 
     if (index.column() == TreeItem::dataColumn && role == Qt::BackgroundRole) {
@@ -357,7 +360,10 @@ QVariant UAVObjectTreeModel::data(const QModelIndex &index, int role) const
             return QVariant(m_recentlyUpdatedColor);
 
         if (fieldItem && fieldItem->changed())
-            return QVariant(m_manuallyChangedColor);       
+            return QVariant(m_manuallyChangedColor);
+
+        if (fieldItem && fieldItem->updatedOnly())
+            return QVariant(m_updatedOnlyColor);
     }
 
     if (role != Qt::DisplayRole)

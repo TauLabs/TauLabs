@@ -26,9 +26,9 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package org.openpilot.uavtalk.uavobjects;
+package org.abovegroundlabs.uavtalk.uavobjects;
 
-import org.openpilot.uavtalk.UAVObjectManager;
+import org.abovegroundlabs.uavtalk.UAVObjectManager;
 
 public class UAVObjectsInitialize {
 	

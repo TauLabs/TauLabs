@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">PhoneixPilot GCS</string>
+	<string name="app_name">Above Ground Labs</string>
 	<string name="object_browser_name">Browser</string>
 	<string name="controller_name">Controller</string>
 	<string name="pfd_name">PFD</string>
@@ -41,4 +41,7 @@
 	<string name="data">Data</string>
 	<string name="edit">Edit</string>
 	<string name="load">Load</string>
+	<string name="waypoint">waypoint</string>
+	<string name="tablet_control">Tablet Control</string>
+	<string name="path_planner">Path Planner</string>
 </resources>

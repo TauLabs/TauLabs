@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <fragment
+        android:id="@+id/pfd"
+        android:name="org.abovegroundlabs.androidgcs.fragments.PFD"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        tools:layout="@layout/pfd" />
+
+    <fragment
+        android:id="@+id/map"
+        android:name="org.abovegroundlabs.androidgcs.fragments.UavMapView"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/positionHoldButton"
+        android:layout_toRightOf="@+id/pfd" />
+
+    <TextView
+        android:id="@+id/flightModeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/pfd"
+        android:text="Flight Mode: "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/flightMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pfd"
+        android:layout_toRightOf="@+id/flightModeLabel"
+        android:text="Stabilized1"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <fragment
+        android:id="@+id/viewer"
+        android:name="org.abovegroundlabs.androidgcs.fragments.SystemAlarmsFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignLeft="@+id/map"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/map" />
+
+    <ToggleButton
+        android:id="@+id/transmitterControl"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/landButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:textOn="Tablet Control"
+        android:textOff="Transmitter Control" />
+
+    <RadioGroup
+        android:id="@+id/modeSelector1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical" >
+
+        <ToggleButton
+            android:id="@+id/positionHoldButton"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:onClick="onToggle"
+            android:textOff="Position Hold"
+            android:textOn="Position Hold"
+            android:checked="true" />
+
+        <ToggleButton
+            android:id="@+id/rthButton"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:onClick="onToggle"
+            android:textOff="Return to Home"
+            android:textOn="Return to Home" />
+
+        <ToggleButton
+            android:id="@+id/rttButton"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:onClick="onToggle"
+            android:textOff="Return to Tablet"
+            android:textOn="Return to Tablet" />
+
+        <ToggleButton
+            android:id="@+id/pathPlannerButton"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:onClick="onToggle"
+            android:textOff="Fly Path"
+            android:textOn="Fly Path" />
+
+        <ToggleButton
+            android:id="@+id/followTabletButton"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:onClick="onToggle"
+            android:textOff="Follow Me"
+            android:textOn="Follow Me" />
+
+        <ToggleButton
+            android:id="@+id/landButton"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:onClick="onToggle"
+            android:textOff="Land"
+            android:textOn="Land" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/armedStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/flightMode"
+        android:layout_below="@+id/flightMode"
+        android:text="Disarmed"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/armedStatus"
+        android:layout_alignBottom="@+id/armedStatus"
+        android:layout_toLeftOf="@+id/armedStatus"
+        android:text="Armed: "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</RelativeLayout>

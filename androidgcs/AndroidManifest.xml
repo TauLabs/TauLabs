@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="org.openpilot.androidgcs" android:versionCode="1"
+	package="org.abovegroundlabs.androidgcs" android:versionCode="1"
 	android:versionName="1.0">
 	<uses-sdk android:minSdkVersion="14" />
 
@@ -11,6 +11,13 @@
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>  
 	<uses-feature android:name="android.hardware.usb.host" />
+	
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/> 
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	
 	<application android:icon="@drawable/ic_logo" android:label="@string/app_name" android:theme="@android:style/Theme.Holo">
 		<!-- for map overlay -->
@@ -39,13 +46,13 @@
 		<activity android:name="UAVLocation" android:label="@string/location_name" />
 		<activity android:name="SystemAlarmActivity" android:label="System Alarms" />
 		<activity android:name="TuningActivity" android:label="Tuning" />
+		<activity android:name="PathPlanner" android:label="Path Planner" />
+		<activity android:name="Transmitter" android:label="Transmitter"/> <!-- android:hardwareAccelerated="false" -->
 				<activity android:name="ObjectEditor" android:label="ObjectEditor"
 			android:theme="@android:style/Theme.Dialog" />
 		<activity android:name="Logger" android:label="Logger"
 		    android:theme="@android:style/Theme.Dialog" />
-		       		
-		       		
-		       		
+
 		<activity
 		    android:name="FragmentTester"
 		    android:label="FragmentTester" />
@@ -53,19 +60,19 @@
         <activity
             android:name="OsgViewer"
             android:label="3DView" />
-		
+
 		<receiver android:name="TelemetryWidget">
 			<intent-filter>
 				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
 			</intent-filter>
 			<intent-filter>
-				<action android:name="org.openpilot.intent.action.CONNECTED" />
-				<action android:name="org.openpilot.intent.action.DISCONNECTED" />
+				<action android:name="org.abovegroundlabs.intent.action.CONNECTED" />
+				<action android:name="org.abovegroundlabs.intent.action.DISCONNECTED" />
 			</intent-filter>
 			<meta-data android:name="android.appwidget.provider"
 				android:resource="@xml/telemetry_widget_info" />
 		</receiver>
 
-		<service android:name="org.openpilot.androidgcs.telemetry.OPTelemetryService"></service>
+		<service android:name="org.abovegroundlabs.androidgcs.telemetry.OPTelemetryService"></service>
 	</application>
 </manifest>
