@@ -1,16 +1,13 @@
 /**
  ******************************************************************************
+ * @file       pios_usb_defs.h
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
  * @addtogroup PIOS_USB_DEFS USB standard types and definitions
- * @brief USB standard types and definitions
  * @{
- *
- * @file       pios_usb_defs.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      USB Standard types and definitions
- * @see        The GNU Public License (GPL) Version 3
- *
+ * @brief USB Standard types and definitions
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -343,12 +340,21 @@ enum usb_cdc_notification {
 } __attribute__((packed));
 
 /*
- * OpenPilot Specific USB Definitions
+ * OpenPilot/PhoenixPilot Specific USB Definitions
  */
 
-#define USB_VENDOR_ID_OPENPILOT 0x20A0
+#define USB_VENDOR_ID_CLAYLOGIC    0x20A0
+#define USB_VENDOR_ID_OPENPILOT    USB_VENDOR_ID_CLAYLOGIC
+#define USB_VENDOR_ID_PHOENIXPILOT USB_VENDOR_ID_CLAYLOGIC
 
+/*
+ * These USB Product IDs are allocated along with the purchase
+ * of a hobby license for the V-USB stack:
+ *    http://www.obdev.at/products/vusb/license.html
+ * The stack is not being used but the reserved PIDs are.
+ */
 enum usb_product_ids {
+	/* OpenPilot Boards */
 	USB_PRODUCT_ID_OPENPILOT_MAIN = 0x415A,
 	USB_PRODUCT_ID_COPTERCONTROL  = 0x415B,
 	USB_PRODUCT_ID_PIPXTREME      = 0x415C,
@@ -356,15 +362,28 @@ enum usb_product_ids {
 	USB_PRODUCT_ID_REVOLUTION     = 0x415E,
 	USB_PRODUCT_ID_OSD            = 0x4194,
 	USB_PRODUCT_ID_SPARE          = 0x4195,
+
+	/* PhoenixPilot Boards */
+	USB_PRODUCT_ID_FREEDOM        = 0x41d0,
+
+	/* ST Eval Boards */
+	USB_PRODUCT_ID_DISCOVERYF4    = USB_PRODUCT_ID_SPARE,
 } __attribute__((packed));
 
 enum usb_op_board_ids {
+	/* OpenPilot Boards */
 	USB_OP_BOARD_ID_OPENPILOT_MAIN = 1,
 	/* Board ID 2 may be unused or AHRS */
 	USB_OP_BOARD_ID_PIPXTREME      = 3,
 	USB_OP_BOARD_ID_COPTERCONTROL  = 4,
 	USB_OP_BOARD_ID_REVOLUTION     = 5,
-	USB_OP_BOARD_ID_OSD     	   = 6,
+	USB_OP_BOARD_ID_OSD            = 6,
+
+	/* PhoenixPilot Boards */
+	USB_PP_BOARD_ID_FREEDOM        = 101,
+
+	/* ST Eval Boards */
+	USB_ST_BOARD_ID_DISCOVERYF4    = 201,
 } __attribute__((packed));
 
 enum usb_op_board_modes {

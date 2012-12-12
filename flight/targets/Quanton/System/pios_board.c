@@ -1,4 +1,5 @@
-/*****************************************************************************
+/**
+ *****************************************************************************
  * @file       pios_board.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
  * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
@@ -6,7 +7,7 @@
  * @{
  * @addtogroup OpenPilotCore OpenPilot Core
  * @{
- * @brief Defines board specific static initializers for hardware for the quanton flight control board.
+ * @brief Defines board specific static initializers for hardware for the Quanton board.
  *****************************************************************************/
 /* 
  * This program is free software; you can redistribute it and/or modify 
@@ -145,22 +146,6 @@ static const struct pios_mpu60x0_cfg pios_mpu6000_cfg = {
 };
 #endif /* PIOS_INCLUDE_MPU6000 */
 
-#if defined(PIOS_INCLUDE_FLASH)
-static const struct flashfs_cfg flashfs_mx25_cfg = {
-	.table_magic = 0x9393794f,
-	.obj_magic = 0x8ef27e3e,
-	.obj_table_start = 0x00000010,
-	.obj_table_end = 0x00010000,
-	.sector_size = 0x00001000,			//4kb
-	.chip_size = 0x00400000,			//4Mb
-};
-
-static const struct pios_flash_jedec_cfg flash_mx25_cfg = {
-	.sector_erase = 0x20,
-	.chip_erase = 0x60
-};
-#endif
-
 /* One slot per selectable receiver group.
  *  eg. PWM, PPM, GCS, SPEKTRUM1, SPEKTRUM2, SBUS
  * NOTE: No slot in this map for NONE.
@@ -286,9 +271,12 @@ void PIOS_Board_Init(void) {
 	if (PIOS_SPI_Init(&pios_spi_flash_id, &pios_spi_flash_cfg)) {
 		PIOS_DEBUG_Assert(0);
 	}
-	if (PIOS_Flash_Jedec_Init(pios_spi_flash_id, 0, &flash_mx25_cfg) != 0)
+
+	uint32_t flash_id;
+	if (PIOS_Flash_Jedec_Init(&flash_id, pios_spi_flash_id, 0, &flash_mx25_cfg) != 0)
 		panic();
-	if (PIOS_FLASHFS_Init(&flashfs_mx25_cfg) != 0)
+	uint32_t fs_id;
+	if (PIOS_FLASHFS_Logfs_Init(&fs_id, &flashfs_mx25_cfg, &pios_jedec_flash_driver, flash_id) != 0)
 		panic();
 #endif
 	
