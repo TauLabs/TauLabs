@@ -25,7 +25,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 #include "uploadergadgetwidget.h"
-#include "../../../../../build/ground/openpilotgcs/gcsversioninfo.h"
+#include "../../../../../build/ground/gcs/gcsversioninfo.h"
 #include <coreplugin/coreconstants.h>
 #include <QDebug>
 

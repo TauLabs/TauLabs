@@ -2,7 +2,7 @@
     error("AeroSimRC plugin is only available for win32 platform")
 }
 
-include(../../../../../openpilotgcs.pri)
+include(../../../../../gcs.pri)
 
 QT += network
 QT -= gui

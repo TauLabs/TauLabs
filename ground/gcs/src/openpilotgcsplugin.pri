@@ -1,4 +1,4 @@
-include(../openpilotgcs.pri)
+include(../gcs.pri)
 
 isEmpty(PROVIDER) {
     PROVIDER = OpenPilot

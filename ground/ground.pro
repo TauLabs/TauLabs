@@ -32,7 +32,7 @@
 TEMPLATE  = subdirs
 
 SUBDIRS = \
-        sub_openpilotgcs \
+        sub_gcs \
         sub_uavobjects \
         sub_uavobjgenerator
 
@@ -43,6 +43,6 @@ sub_uavobjgenerator.subdir = uavobjgenerator
 sub_uavobjects.subdir  = uavobjects
 sub_uavobjects.depends = sub_uavobjgenerator
 
-# openpilotgcs
-sub_openpilotgcs.subdir  = openpilotgcs
-sub_openpilotgcs.depends = sub_uavobjects
+# src
+sub_gcs.subdir  = gcs
+sub_gcs.depends = sub_uavobjects

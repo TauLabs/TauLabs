@@ -1,4 +1,4 @@
-include(../../../../../openpilotgcs.pri)
+include(../../../../../gcs.pri)
 
 QT += core gui network
 

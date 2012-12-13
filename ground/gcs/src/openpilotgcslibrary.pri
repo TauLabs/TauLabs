@@ -1,4 +1,4 @@
-include(../openpilotgcs.pri)
+include(../gcs.pri)
 
 win32 {
     DLLDESTDIR = $$GCS_APP_PATH

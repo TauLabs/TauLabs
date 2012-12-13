@@ -1,4 +1,4 @@
-include(../../openpilotgcs.pri)
+include(../../gcs.pri)
 include(../shared/qtsingleapplication/qtsingleapplication.pri)
 
 TEMPLATE = app
