@@ -465,6 +465,28 @@ void PIOS_I2C_external_er_irq_handler(void)
 #endif /* PIOS_INCLUDE_I2C */
 
 
+#if defined(PIOS_INCLUDE_FLASH)
+#include "pios_flashfs_logfs_priv.h"
+#include "pios_flash_internal_priv.h"
+
+static const struct pios_flash_internal_cfg flash_internal_cfg = {
+};
+
+static const struct flashfs_logfs_cfg flashfs_internal_cfg = {
+	.fs_magic      = 0x2ae4ee11,
+	.total_fs_size = EE_BANK_SIZE, /* 4K bytes (2x2KB sectors) */
+	.arena_size    = 0x00000800, /* 8 * slot size = 2K bytes = 1 sector */
+	.slot_size     = 0x00000100, /* 256 bytes */
+
+	.start_offset  = EE_BANK_BASE, /* start after the bootloader */
+	.sector_size   = 0x00000800, /* 2K bytes */
+	.page_size     = 0x00000800, /* 2K bytes */
+};
+
+#include "pios_flash.h"
+
+#endif	/* PIOS_INCLUDE_FLASH */
+
 
 
 #if defined(PIOS_INCLUDE_USART)

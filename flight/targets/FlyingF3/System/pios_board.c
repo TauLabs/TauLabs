@@ -131,21 +131,6 @@ static const struct pios_lsm303_cfg pios_lsm303_cfg = {
 };
 #endif /* PIOS_INCLUDE_LSM303 */
 
-#if defined(PIOS_INCLUDE_FLASH)
-static const struct flashfs_cfg flashfs_m25p_cfg = {
-	.table_magic = 0x85FB3D35,
-	.obj_magic = 0x3015A371,
-	.obj_table_start = 0x00000010,
-	.obj_table_end = 0x00010000,
-	.sector_size = 0x00010000,
-	.chip_size = 0x00200000,
-};
-
-static const struct pios_flash_jedec_cfg flash_m25p_cfg = {
-	.sector_erase = 0xD8,
-	.chip_erase = 0xC7
-};
-#endif
 
 /* One slot per selectable receiver group.
  *  eg. PWM, PPM, GCS, SPEKTRUM1, SPEKTRUM2, SBUS
@@ -286,11 +271,12 @@ void PIOS_Board_Init(void) {
 	}
 #endif
 
-#if defined(PIOS_INCLUDE_FLASH) && defined(PIOS_INCLUDE_SPI)
-	if (PIOS_Flash_Jedec_Init(pios_spi_external_id, 0, &flash_m25p_cfg) != 0)
-		panic();
-	if (PIOS_FLASHFS_Init(&flashfs_m25p_cfg) != 0)
-		panic();
+#if defined(PIOS_INCLUDE_FLASH)
+	/* Connect flash to the appropriate interface and configure it */
+	uint32_t flash_id;
+	PIOS_Flash_Internal_Init(&flash_id, &flash_internal_cfg);
+	uint32_t fs_id;
+	PIOS_FLASHFS_Logfs_Init(&fs_id, &flashfs_internal_cfg, &pios_internal_flash_driver, flash_id);
 #endif
 	
 	/* Initialize UAVObject libraries */

@@ -80,13 +80,8 @@
 #define PIOS_INCLUDE_GCSRCVR
 
 #define PIOS_INCLUDE_SETTINGS
-/* A really shitty setting saving implementation */
 #define PIOS_INCLUDE_FLASH
-#define PIOS_INCLUDE_FLASH_SECTOR_SETTINGS
-
-/* evenly shitty but at least internal settings saving implementation */
-//#define PIOS_INCLUDE_FLASH_INTERNAL
-//#define PIOS_INCLUDE_FLASH_COMPACT_SETTINGS
+#define PIOS_INCLUDE_FLASH_INTERNAL
 
 /* Other Interfaces */
 //#define PIOS_INCLUDE_I2C_ESC
