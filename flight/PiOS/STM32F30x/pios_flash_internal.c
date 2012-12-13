@@ -208,10 +208,11 @@ static int32_t PIOS_Flash_Internal_ReadData(uint32_t flash_id, uint32_t addr, ui
 	return 0;
 }
 
+static int32_t PIOS_Flash_Internal_WriteData(uint32_t flash_id, uint32_t addr, uint8_t * data, uint16_t len) __attribute((optimize(0)));
 static int32_t PIOS_Flash_Internal_WriteData(uint32_t flash_id, uint32_t addr, uint8_t * data, uint16_t len)
 {
 	PIOS_Assert(data);
-	PIOS_Assert((len & 0x0001) == 0)
+	PIOS_Assert((addr & 0x0001) == 0)
 
 	struct pios_internal_flash_dev * flash_dev = (struct pios_internal_flash_dev *)flash_id;
 
@@ -236,7 +237,7 @@ static int32_t PIOS_Flash_Internal_WriteData(uint32_t flash_id, uint32_t addr, u
 	}
 
 	/* Write the data */
-	for (uint16_t i = 0; i < len; i += 2) {
+	for (uint16_t i = 0; i < (len & ~1); i += 2) {
 		/* Check if content has been changed prios to write.
 		 * This should enhance performance and make this compatible with the F3 chip.
 		 */
@@ -248,7 +249,13 @@ static int32_t PIOS_Flash_Internal_WriteData(uint32_t flash_id, uint32_t addr, u
 			continue;
 
 		FLASH_Status status;
-		status = FLASH_ProgramHalfWord(addr + i, data[i] << 8 | data[i + 1]);
+		status = FLASH_ProgramHalfWord(addr + i, data[i + 1] << 8 | data[i]);
+		PIOS_Assert(status == FLASH_COMPLETE);
+	}
+	/* Handle uneven writes by filling up with 0xff*/
+	if ((len & 1) != 0) {
+		FLASH_Status status;
+		status = FLASH_ProgramHalfWord(addr + len - 1, 0xff << 8 | data[len - 1]);
 		PIOS_Assert(status == FLASH_COMPLETE);
 	}
 
