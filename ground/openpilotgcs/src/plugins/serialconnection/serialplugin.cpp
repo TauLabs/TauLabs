@@ -136,14 +136,14 @@ QList <Core::IConnection::device> SerialConnection::availableDevices()
     return list;
 }
 
-QIODevice *SerialConnection::openDevice(const QString &deviceName)
+QIODevice *SerialConnection::openDevice(const device deviceName)
 {
     if (serialHandle){
-        closeDevice(deviceName);
+        closeDevice(deviceName.name);
     }
     QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
     foreach( QextPortInfo port, ports ) {
-           if(port.physName == deviceName)
+           if(port.physName == deviceName.name)
             {
             //we need to handle port settings here...
             PortSettings set;
