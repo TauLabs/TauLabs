@@ -33,14 +33,16 @@
 #include "pios_flash.h"
 #include <stdbool.h>
 
+#define STM32F30X_FLASH_SECTOR_SIZE 2048
+
 static bool PIOS_Flash_Internal_GetSectorInfo(uint32_t address, uint32_t *sector_start, uint32_t *sector_size)
 {
-	if (address < 0x08000000 ||
-		address >= 0x08000000 + 256 * 1024)
+	if (address < FLASH_BASE ||
+		address >= FLASH_BASE + PIOS_SYS_getCPUFlashSize())
 		return false;
 
-	*sector_start = address & ~0x000007ff;
-	*sector_size = 2048;
+	*sector_start = address & (~(STM32F30X_FLASH_SECTOR_SIZE - 1));
+	*sector_size = STM32F30X_FLASH_SECTOR_SIZE;
 
 	return true;
 }
