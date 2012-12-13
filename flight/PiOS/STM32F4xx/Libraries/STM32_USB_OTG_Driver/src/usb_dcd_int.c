@@ -677,7 +677,14 @@ static uint32_t DCD_WriteEmptyTxFifo(USB_OTG_CORE_HANDLE *pdev, uint32_t epnum)
     
     txstatus.d32 = USB_OTG_READ_REG32(&pdev->regs.INEP_REGS[epnum]->DTXFSTS);
   }
-  
+
+  if (ep->xfer_count == ep->xfer_len || ep->xfer_len == 0) {
+    /* Turn off the Fifo Empty Interrupt */
+    uint32_t fifoemptymsk;
+
+    fifoemptymsk = 0x1 << epnum;
+    USB_OTG_MODIFY_REG32(&pdev->regs.DREGS->DIEPEMPMSK, fifoemptymsk, 0);
+  }
   return 1;
 }
 
