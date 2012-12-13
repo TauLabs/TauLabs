@@ -2,7 +2,9 @@
 #ifndef FREERTOS_CONFIG_H
 #define FREERTOS_CONFIG_H
 
+#if !defined(SIM_OSX) && !defined(SIM_POSIX)
 #include <stm32f4xx.h>
+#endif
 
 /*-----------------------------------------------------------
  * Application specific definitions.
