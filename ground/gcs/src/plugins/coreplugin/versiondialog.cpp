@@ -89,7 +89,7 @@ VersionDialog::VersionDialog(QWidget *parent)
  #endif
 
      const QString description = tr(
-        "<h3>OpenPilot GCS %1 %9 (%10)</h3>"
+        "<h3>Above Ground Labs GCS %1 %9 (%10)</h3>"
         "Based on Qt %2 (%3 bit)<br/>"
         "<br/>"
         "Built on %4 at %5<br />"

@@ -32,11 +32,11 @@
 namespace Core {
 namespace Constants {
 
-#define GCS_VERSION_MAJOR 1
-#define GCS_VERSION_MINOR 0
+#define GCS_VERSION_MAJOR 0
+#define GCS_VERSION_MINOR 1
 #define GCS_VERSION_RELEASE 0
-const char * const GCS_VERSION_TYPE = "Alpha";
-const char * const GCS_VERSION_CODENAME = "Pascal";
+const char * const GCS_VERSION_TYPE = "Beta";
+const char * const GCS_VERSION_CODENAME = "Phoenix";
 
 #define STRINGIFY_INTERNAL(x) #x
 #define STRINGIFY(x) STRINGIFY_INTERNAL(x)
@@ -46,10 +46,10 @@ const char * const GCS_VERSION_CODENAME = "Pascal";
     "." STRINGIFY(GCS_VERSION_RELEASE)
 
 const char * const GCS_VERSION_LONG      = GCS_VERSION;
-const char * const GCS_AUTHOR            = "OpenPilot Project";
+const char * const GCS_AUTHOR            = "Above Ground Labs";
 const char * const GCS_YEAR              = "2012";
 
-const char * const GCS_HELP              = "http://wiki.openpilot.org";
+const char * const GCS_HELP              = "http://github.com/PhoenixPilot";
 #ifdef GCS_REVISION
 const char * const GCS_REVISION_STR      = STRINGIFY(GCS_REVISION);
 const char * const UAVOSHA1_STR          = STRINGIFY(UAVO_HASH);
