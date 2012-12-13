@@ -767,52 +767,6 @@ void PIOS_Board_Init(void) {
 	PIOS_DELAY_WaitmS(200);
 	PIOS_WDG_Clear();
 
-#if defined(PIOS_INCLUDE_MPU6050) && defined(PIOS_INCLUDE_I2C)
-	if (PIOS_MPU6050_Init(pios_i2c_external_id, PIOS_MPU6050_I2C_ADD_A0_LOW, &pios_mpu6050_cfg) != 0)
-		panic();
-	if (PIOS_MPU6050_Test() != 0)
-		panic();
-
-	// To be safe map from UAVO enum to driver enum
-	uint8_t gyro_range;
-	HwSettingsGyroRangeGet(&gyro_range);
-	switch(gyro_range) {
-		case HWSETTINGS_GYRORANGE_250:
-			PIOS_MPU6050_SetGyroRange(PIOS_MPU6050_SCALE_250_DEG);
-			break;
-		case HWSETTINGS_GYRORANGE_500:
-			PIOS_MPU6050_SetGyroRange(PIOS_MPU6050_SCALE_500_DEG);
-			break;
-		case HWSETTINGS_GYRORANGE_1000:
-			PIOS_MPU6050_SetGyroRange(PIOS_MPU6050_SCALE_1000_DEG);
-			break;
-		case HWSETTINGS_GYRORANGE_2000:
-			PIOS_MPU6050_SetGyroRange(PIOS_MPU6050_SCALE_2000_DEG);
-			break;
-	}
-
-	uint8_t accel_range;
-	HwSettingsAccelRangeGet(&accel_range);
-	switch(accel_range) {
-		case HWSETTINGS_ACCELRANGE_2G:
-			PIOS_MPU6050_SetAccelRange(PIOS_MPU6050_ACCEL_2G);
-			break;
-		case HWSETTINGS_ACCELRANGE_4G:
-			PIOS_MPU6050_SetAccelRange(PIOS_MPU6050_ACCEL_4G);
-			break;
-		case HWSETTINGS_ACCELRANGE_8G:
-			PIOS_MPU6050_SetAccelRange(PIOS_MPU6050_ACCEL_8G);
-			break;
-		case HWSETTINGS_ACCELRANGE_16G:
-			PIOS_MPU6050_SetAccelRange(PIOS_MPU6050_ACCEL_16G);
-			break;
-	}
-
-	PIOS_WDG_Clear();
-	PIOS_DELAY_WaitmS(50);
-	PIOS_WDG_Clear();
-#endif /* PIOS_INCLUDE_MPU6050 && PIOS_INCLUDE_I2C*/
-
 #if defined(PIOS_INCLUDE_L3GD20) && defined(PIOS_INCLUDE_SPI)
 	if (PIOS_L3GD20_Init(pios_spi_internal_id, 0, &pios_l3gd20_cfg) != 0)
 		panic();
@@ -827,36 +781,15 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_LSM303) && defined(PIOS_INCLUDE_I2C)
 	if (PIOS_LSM303_Init(pios_i2c_internal_id, &pios_lsm303_cfg) != 0)
 		panic();
-	if (PIOS_LSM303_Test() != 0)
+	if (PIOS_LSM303_Test_Accel() != 0)
+		panic();
+	if (PIOS_LSM303_Test_Mag() != 0)
 		panic();
 
 	PIOS_WDG_Clear();
 	PIOS_DELAY_WaitmS(50);
 	PIOS_WDG_Clear();
 #endif /* PIOS_INCLUDE_LSM303 && PIOS_INCLUDE_I2C*/
-
-#if defined(PIOS_INCLUDE_HMC5883) && defined(PIOS_INCLUDE_I2C)
-	if (PIOS_HMC5883_Init(&pios_hmc5883_cfg) != 0)
-		panic();
-	if (PIOS_HMC5883_Test() != 0)
-		panic();
-
-	PIOS_WDG_Clear();
-	PIOS_DELAY_WaitmS(50);
-	PIOS_WDG_Clear();
-#endif /* PIOS_INCLUDE_HMC5883 && PIOS_INCLUDE_I2C*/
-
-#if defined(PIOS_INCLUDE_MS5611) && defined(PIOS_INCLUDE_I2C)
-	if (PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_external_id) != 0)
-		panic();
-	if (PIOS_MS5611_Test() != 0)
-		panic();
-
-	PIOS_WDG_Clear();
-	PIOS_DELAY_WaitmS(50);
-	PIOS_WDG_Clear();
-#endif /* PIOS_INCLUDE_MS5611 && PIOS_INCLUDE_I2C*/
-
 
 #if defined(PIOS_INCLUDE_GPIO)
 	PIOS_GPIO_Init();
