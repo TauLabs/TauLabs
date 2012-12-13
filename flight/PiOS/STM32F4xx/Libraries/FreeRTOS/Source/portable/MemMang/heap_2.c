@@ -1,6 +1,8 @@
 /*
-    FreeRTOS V7.0.1 - Copyright (C) 2011 Real Time Engineers Ltd.
+    FreeRTOS V7.3.0 - Copyright (C) 2012 Real Time Engineers Ltd.
 
+    FEATURES AND PORTS ARE ADDED TO FREERTOS ALL THE TIME.  PLEASE VISIT 
+    http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
 
     ***************************************************************************
      *                                                                       *
@@ -40,24 +42,38 @@
     FreeRTOS WEB site.
 
     1 tab == 4 spaces!
+    
+    ***************************************************************************
+     *                                                                       *
+     *    Having a problem?  Start by reading the FAQ "My application does   *
+     *    not run, what could be wrong?"                                     *
+     *                                                                       *
+     *    http://www.FreeRTOS.org/FAQHelp.html                               *
+     *                                                                       *
+    ***************************************************************************
 
-    http://www.FreeRTOS.org - Documentation, latest information, license and
-    contact details.
+    
+    http://www.FreeRTOS.org - Documentation, training, latest versions, license 
+    and contact details.  
+    
+    http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
+    including FreeRTOS+Trace - an indispensable productivity tool.
 
-    http://www.SafeRTOS.com - A version that is certified for use in safety
-    critical systems.
-
-    http://www.OpenRTOS.com - Commercial support, development, porting,
-    licensing and training services.
+    Real Time Engineers ltd license FreeRTOS to High Integrity Systems, who sell 
+    the code with commercial support, indemnification, and middleware, under 
+    the OpenRTOS brand: http://www.OpenRTOS.com.  High Integrity Systems also
+    provide a safety engineered and independently SIL3 certified version under 
+    the SafeRTOS brand: http://www.SafeRTOS.com.
 */
 
 /*
  * A sample implementation of pvPortMalloc() and vPortFree() that permits
  * allocated blocks to be freed, but does not combine adjacent free blocks
- * into a single larger block.
+ * into a single larger block (and so will fragment memory).  See heap_4.c for 
+ * an aquivalent that does combine adjacent blocks into single larger blocks.
  *
- * See heap_1.c and heap_3.c for alternative implementations, and the memory
- * management pages of http://www.FreeRTOS.org for more information.
+ * See heap_1.c, heap_3.c and heap_4.c for alternative implementations, and the 
+ * memory management pages of http://www.FreeRTOS.org for more information.
  */
 #include <stdlib.h>
 
@@ -98,15 +114,10 @@ static const unsigned short  heapSTRUCT_SIZE	= ( sizeof( xBlockLink ) + portBYTE
 /* Create a couple of list links to mark the start and end of the list. */
 static xBlockLink xStart, xEnd;
 
-/* Markers in the heap segment */
-extern char _sheap, _eheap;
-extern char	_init_stack_top, _init_stack_end;
-
-static size_t currentTOTAL_HEAP_SIZE;
-
 /* Keeps track of the number of free bytes remaining, but says nothing about
 fragmentation. */
-static size_t xFreeBytesRemaining;
+static size_t xFreeBytesRemaining = configTOTAL_HEAP_SIZE;
+static size_t currentTOTAL_HEAP_SIZE = configTOTAL_HEAP_SIZE;
 
 /* STATIC FUNCTIONS ARE DEFINED AS MACROS TO MINIMIZE THE FUNCTION CALL DEPTH. */
 
@@ -139,9 +150,6 @@ size_t xBlockSize;																	\
 #define prvHeapInit()																\
 {																					\
 xBlockLink *pxFirstFreeBlock;														\
-																					\
-	currentTOTAL_HEAP_SIZE = &_eheap - &_sheap;										\
-	xFreeBytesRemaining = currentTOTAL_HEAP_SIZE;									\
 																					\
 	/* xStart is used to hold a pointer to the first item in the list of free */	\
 	/* blocks.  The void cast is used to prevent compiler warnings. */				\
@@ -196,7 +204,7 @@ void *pvReturn = NULL;
 			(smallest) block until one of adequate size is found. */
 			pxPreviousBlock = &xStart;
 			pxBlock = xStart.pxNextFreeBlock;
-			while( ( pxBlock->xBlockSize < xWantedSize ) && ( pxBlock->pxNextFreeBlock ) )
+			while( ( pxBlock->xBlockSize < xWantedSize ) && ( pxBlock->pxNextFreeBlock != NULL ) )
 			{
 				pxPreviousBlock = pxBlock;
 				pxBlock = pxBlock->pxNextFreeBlock;
@@ -209,7 +217,7 @@ void *pvReturn = NULL;
 				at its start. */
 				pvReturn = ( void * ) ( ( ( unsigned char * ) pxPreviousBlock->pxNextFreeBlock ) + heapSTRUCT_SIZE );
 
-				/* This block is being returned for use so must be taken our of the
+				/* This block is being returned for use so must be taken out of the
 				list of free blocks. */
 				pxPreviousBlock->pxNextFreeBlock = pxBlock->pxNextFreeBlock;
 
@@ -229,7 +237,7 @@ void *pvReturn = NULL;
 					/* Insert the new block into the list of free blocks. */
 					prvInsertBlockIntoFreeList( ( pxNewBlockLink ) );
 				}
-
+				
 				xFreeBytesRemaining -= pxBlock->xBlockSize;
 			}
 		}
@@ -249,22 +257,13 @@ void *pvReturn = NULL;
 	return pvReturn;
 }
 /*-----------------------------------------------------------*/
-void xPortIncreaseHeapSize( size_t bytes );
-
 
 void vPortFree( void *pv )
 {
 unsigned char *puc = ( unsigned char * ) pv;
 xBlockLink *pxLink;
 
-	/* if this is the init stack being cleaned up on termination of the init task, sacrifice it to the heap */
-	if( ( pv == (void *)&_init_stack_end ) && ( pv == &xHeap.ucHeap[currentTOTAL_HEAP_SIZE]) )
-	{
-		xPortIncreaseHeapSize(&_init_stack_top - &_init_stack_end);
-		return;
-	}
-
-	if( pv )
+	if( pv != NULL )
 	{
 		/* The memory being freed will have an xBlockLink structure immediately
 		before it. */
@@ -298,21 +297,14 @@ void vPortInitialiseBlocks( void )
 void xPortIncreaseHeapSize( size_t bytes )
 {
 	xBlockLink *pxNewBlockLink;
-
 	vTaskSuspendAll();
-
-	/* increase the size of the end block so that this block will always be before it */
-	xEnd.xBlockSize += bytes;
-
+	currentTOTAL_HEAP_SIZE = configTOTAL_HEAP_SIZE + bytes;
+	xEnd.xBlockSize = currentTOTAL_HEAP_SIZE;
+	xFreeBytesRemaining += bytes;
 	/* Insert the new block into the list of free blocks. */
-	pxNewBlockLink = ( void * ) &xHeap.ucHeap[ currentTOTAL_HEAP_SIZE ];
+	pxNewBlockLink = ( void * ) &xHeap.ucHeap[ configTOTAL_HEAP_SIZE ];
 	pxNewBlockLink->xBlockSize = bytes;
 	prvInsertBlockIntoFreeList( ( pxNewBlockLink ) );
-
-	/* update heap statistics */
-	currentTOTAL_HEAP_SIZE += bytes;
-	xFreeBytesRemaining += bytes;
-
 	xTaskResumeAll();
 }
 /*-----------------------------------------------------------*/
