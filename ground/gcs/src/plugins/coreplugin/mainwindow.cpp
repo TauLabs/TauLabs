@@ -136,14 +136,14 @@ MainWindow::MainWindow() :
 #endif
     m_toggleFullScreenAction(0)
 {
-    setWindowTitle(tr("OpenPilot GCS"));
+    setWindowTitle(tr("Above Ground Labs GCS"));
 #ifndef Q_WS_MAC
     qApp->setWindowIcon(QIcon(":/core/images/openpilot_logo_128.png"));
 #endif
-    QCoreApplication::setApplicationName(QLatin1String("OpenPilotGCS"));
+    QCoreApplication::setApplicationName(QLatin1String("Above Ground Labs GCS"));
     QCoreApplication::setApplicationVersion(QLatin1String(Core::Constants::GCS_VERSION_LONG));
-    QCoreApplication::setOrganizationName(QLatin1String("OpenPilot"));
-    QCoreApplication::setOrganizationDomain(QLatin1String("openpilot.org"));
+    QCoreApplication::setOrganizationName(QLatin1String("AboveGroundLabs"));
+    QCoreApplication::setOrganizationDomain(QLatin1String("abovegroundlabs.org"));
     QSettings::setDefaultFormat(XmlConfig::XmlSettingsFormat);
     QString baseName = qApp->style()->objectName();
 #ifdef Q_WS_X11
