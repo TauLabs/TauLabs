@@ -91,7 +91,7 @@
   * @retval None
   */
 
-void USB_OTG_BSP_Init(void)
+void USB_OTG_BSP_Init(USB_OTG_CORE_HANDLE *pdev)
 {
 
 }
@@ -101,7 +101,7 @@ void USB_OTG_BSP_Init(void)
   * @param  None
   * @retval None
   */
-void USB_OTG_BSP_EnableInterrupt(void)
+void USB_OTG_BSP_EnableInterrupt(USB_OTG_CORE_HANDLE *pdev)
 {
 
 }
@@ -114,7 +114,7 @@ void USB_OTG_BSP_EnableInterrupt(void)
   * @retval None
   */
 
-void USB_OTG_BSP_DriveVBUS(uint32_t speed, uint8_t state)
+void USB_OTG_BSP_DriveVBUS(USB_OTG_CORE_HANDLE *pdev, uint8_t state)
 {
 
 }
@@ -126,7 +126,7 @@ void USB_OTG_BSP_DriveVBUS(uint32_t speed, uint8_t state)
   * @retval None
   */
 
-void  USB_OTG_BSP_ConfigVBUS(uint32_t speed)
+void  USB_OTG_BSP_ConfigVBUS(USB_OTG_CORE_HANDLE *pdev)
 {
 
 }
