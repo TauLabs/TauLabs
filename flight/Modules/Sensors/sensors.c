@@ -200,12 +200,22 @@ static void SensorsTask(void *parameters)
 			accel_test = gyro_test;
 #endif
 			break;
+		case 0x04:
+#if defined(PIOS_INCLUDE_L3GD20)
+			gyro_test = PIOS_L3GD20_Test();
+#endif
+#if defined(PIOS_INCLUDE_LSM303)
+			accel_test = PIOS_LSM303_Test_Accel();
+#endif
+			break;
 		default:
 			PIOS_DEBUG_Assert(0);
 	}
 
 #if defined(PIOS_INCLUDE_HMC5883)
 	mag_test = PIOS_HMC5883_Test();
+#elif defined (PIOS_INCLUDE_L3GD20)
+	mag_test = PIOS_LSM303_Test_Mag();
 #else
 	mag_test = 0;
 #endif
@@ -351,6 +361,51 @@ static void SensorsTask(void *parameters)
 				accelsData.temperature = 35.0f + ((float) mpu60x0_data.temperature + 512.0f) / 340.0f;
 			}
 #endif /* PIOS_INCLUDE_MPU6000 || PIOS_INCLUDE_MPU6050 */
+			case 0x04:  // L3GD20 + LSM303 board
+#if defined(PIOS_INCLUDE_LSM303)
+			{
+				struct pios_lsm303_accel_data accel;
+				accel_samples = 0;
+				xQueueHandle accel_queue = PIOS_LSM303_GetQueue_Accel();
+
+				if(xQueueReceive(accel_queue, (void *) &accel, 4) == errQUEUE_EMPTY) {
+					error = true;
+					continue;
+				}
+
+				accel_samples = 1;
+				accel_accum[1] += accel.accel_x;
+				accel_accum[0] += accel.accel_y;
+				accel_accum[2] -= accel.accel_z;
+
+				accel_scaling = PIOS_LSM303_GetScale_Accel();
+
+				// Get temp from last reading
+				accelsData.temperature = 0;
+			}
+#endif /* PIOS_INCLUDE_LSM303 */
+#if defined(PIOS_INCLUDE_L3GD20)
+			{
+				struct pios_l3gd20_data gyro;
+				gyro_samples = 0;
+				xQueueHandle gyro_queue = PIOS_L3GD20_GetQueue();
+
+				if(xQueueReceive(gyro_queue, (void *) &gyro, 4) == errQUEUE_EMPTY) {
+					error = true;
+					continue;
+				}
+
+				gyro_samples = 1;
+				gyro_accum[1] += gyro.gyro_x;
+				gyro_accum[0] += gyro.gyro_y;
+				gyro_accum[2] -= gyro.gyro_z;
+
+				gyro_scaling = PIOS_L3GD20_GetScale();
+
+				// Get temp from last reading
+				gyrosData.temperature = gyro.temperature;
+			}
+#endif
 				break;
 			default:
 				PIOS_DEBUG_Assert(0);
@@ -433,6 +488,35 @@ static void SensorsTask(void *parameters)
 			MagnetometerSet(&mag);
 			mag_update_time = PIOS_DELAY_GetRaw();
 		}
+#elif defined(PIOS_INCLUDE_LSM303)
+		MagnetometerData mag;
+		/*
+		if (PIOS_HMC5883_NewDataAvailable() || PIOS_DELAY_DiffuS(mag_update_time) > 150000) {
+			struct pios_hmc5883_data mag_data;
+			PIOS_HMC5883_ReadMag(&mag_data);
+			float mags[3] = {(float) mag_data.mag_x * mag_scale[0] - mag_bias[0],
+			                (float) mag_data.mag_y * mag_scale[1] - mag_bias[1],
+			                (float) mag_data.mag_z * mag_scale[2] - mag_bias[2]};
+			if (rotate) {
+				float mag_out[3];
+				rot_mult(Rbs, mags, mag_out, false);
+				mag.x = mag_out[0];
+				mag.y = mag_out[1];
+				mag.z = mag_out[2];
+			} else {
+				mag.x = mags[0];
+				mag.y = mags[1];
+				mag.z = mags[2];
+			}
+
+			// Correct for mag bias and update if the rate is non zero
+			if(insSettings.MagBiasNullingRate > 0)
+				magOffsetEstimation(&mag);
+
+			MagnetometerSet(&mag);
+			mag_update_time = PIOS_DELAY_GetRaw();
+		}
+		*/
 #endif
 
 		PIOS_WDG_UpdateFlag(PIOS_WDG_SENSORS);

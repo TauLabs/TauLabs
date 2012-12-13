@@ -465,10 +465,20 @@ float PIOS_LSM303_GetScale_Accel()
  * \return 0 if test succeeded
  * \return non-zero value if test succeeded
  */
-uint8_t PIOS_LSM303_Test(void)
+uint8_t PIOS_LSM303_Test_Accel(void)
 {
 	struct pios_lsm303_accel_data data;
 	return PIOS_LSM303_ReadData_Accel(&data);
+}
+
+/**
+ * @brief Run self-test operation.
+ * \return 0 if test succeeded
+ * \return non-zero value if test succeeded
+ */
+uint8_t PIOS_LSM303_Test_Mag(void)
+{
+	return 0;
 }
 
 /**

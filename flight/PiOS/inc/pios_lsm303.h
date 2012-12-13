@@ -209,7 +209,8 @@ extern xQueueHandle PIOS_LSM303_GetQueue_Mag();	//mag not implemented yet
 extern int32_t PIOS_LSM303_ReadData_Accel(struct pios_lsm303_accel_data * buffer);
 extern int32_t PIOS_LSM303_ReadData_Mag(struct pios_lsm303_mag_data * buffer);	//mag not implemented yet
 extern int32_t PIOS_LSM303_ReadID();
-extern uint8_t PIOS_LSM303_Test();
+extern uint8_t PIOS_LSM303_Test_Accel();
+extern uint8_t PIOS_LSM303_Test_Mag();
 extern float PIOS_LSM303_GetScale_Accel();
 extern float PIOS_LSM303_GetScale_Mag();	//mag not implemented yet
 extern bool PIOS_LSM303_IRQHandler(void);
