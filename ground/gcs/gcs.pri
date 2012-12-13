@@ -76,7 +76,7 @@ GCS_APP_PATH = $$GCS_BUILD_TREE/bin
 macx {
     QMAKE_CFLAGS_X86_64 += -mmacosx-version-min=10.7
     QMAKE_CXXFLAGS_X86_64 = $$QMAKE_CFLAGS_X86_64
-    GCS_APP_TARGET   = "OpenPilot GCS"
+    GCS_APP_TARGET   = "Above Ground Labs"
     GCS_LIBRARY_PATH = $$GCS_APP_PATH/$${GCS_APP_TARGET}.app/Contents/Plugins
     GCS_PLUGIN_PATH  = $$GCS_LIBRARY_PATH
     GCS_LIBEXEC_PATH = $$GCS_APP_PATH/$${GCS_APP_TARGET}.app/Contents/Resources
@@ -87,16 +87,16 @@ macx {
 } else {
     win32 {
         contains(TEMPLATE, vc.*)|contains(TEMPLATE_PREFIX, vc):vcproj = 1
-        GCS_APP_TARGET   = openpilotgcs
+        GCS_APP_TARGET   = abovegroundlabs
     } else {
-        GCS_APP_WRAPPER  = openpilotgcs
-        GCS_APP_TARGET   = openpilotgcs.bin
+        GCS_APP_WRAPPER  = abovegroundlabs
+        GCS_APP_TARGET   = abovegroundlabs.bin
     }
-    GCS_LIBRARY_PATH = $$GCS_BUILD_TREE/$$GCS_LIBRARY_BASENAME/openpilotgcs
+    GCS_LIBRARY_PATH = $$GCS_BUILD_TREE/$$GCS_LIBRARY_BASENAME/abovegroundlabs
     GCS_PLUGIN_PATH  = $$GCS_LIBRARY_PATH/plugins
     GCS_LIBEXEC_PATH = $$GCS_APP_PATH # FIXME
-    GCS_DATA_PATH    = $$GCS_BUILD_TREE/share/openpilotgcs
-    GCS_DATA_BASENAME = share/openpilotgcs
+    GCS_DATA_PATH    = $$GCS_BUILD_TREE/share/abovegroundlabs
+    GCS_DATA_BASENAME = share/abovegroundlabs
     GCS_DOC_PATH     = $$GCS_BUILD_TREE/share/doc
     !isEqual(GCS_SOURCE_TREE, $$GCS_BUILD_TREE):copydata = 1
 }
