@@ -2,6 +2,8 @@
 #ifndef FREERTOS_CONFIG_H
 #define FREERTOS_CONFIG_H
 
+#include <stm32f4xx.h>
+
 /*-----------------------------------------------------------
  * Application specific definitions.
  *
@@ -27,7 +29,6 @@
 #define configTICK_RATE_HZ						((portTickType )1000)
 #define configMAX_PRIORITIES					((unsigned portBASE_TYPE)5)
 #define configMINIMAL_STACK_SIZE				((unsigned short)512)
-#define configTOTAL_HEAP_SIZE					((size_t)(180 * 1024))	// this is minimum, not total
 #define configMAX_TASK_NAME_LEN					(16)
 
 #define configUSE_PREEMPTION					1
@@ -81,19 +82,12 @@ NVIC value of 255. */
 #define configGENERATE_RUN_TIME_STATS 			1
 #define INCLUDE_uxTaskGetRunTime 				1
 
-/*
- * Once we move to CMSIS2 we can at least use:
- *
- * CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
- *
- * (still nothing for the DWT registers, surprisingly)
- */
-#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()									\
-	do {																			\
-		(*(unsigned long *)0xe000edfc) |= (1<<24);	/* DEMCR |= DEMCR_TRCENA */		\
-		(*(unsigned long *)0xe0001000) |= 1; 	/* DWT_CTRL |= DWT_CYCCNT_ENA */	\
+#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()			\
+	do {													\
+		CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk; 	\
+		DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;				\
 	} while(0)
-#define portGET_RUN_TIME_COUNTER_VALUE() 			(*(unsigned long *)0xe0001004)	/* DWT_CYCCNT */
+#define portGET_RUN_TIME_COUNTER_VALUE()		DWT->CYCCNT
 
 
 /**
