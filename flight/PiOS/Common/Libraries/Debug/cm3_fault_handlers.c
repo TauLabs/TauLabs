@@ -7,11 +7,16 @@
 
 #include <stdint.h>
 #include "dcc_stdio.h"
-#ifdef STM32F4XX
-# include "stm32f4xx.h"
-#endif
-#ifdef STM32F2XX
+#if defined(STM32F10X)
+# include "stm32f10x.h"
+#elif defined(STM32F2XX)
 # include "stm32f2xx.h"
+#elif defined(STM32F30X)
+# include "stm32f30x.h"
+#elif defined(STM32F4XX)
+# include "stm32f4xx.h"
+#else
+#error Unsupported CPU
 #endif
 
 #define FAULT_TRAMPOLINE(_vec)										\
