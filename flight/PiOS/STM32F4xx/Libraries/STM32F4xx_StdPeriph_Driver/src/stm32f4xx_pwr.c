@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f4xx_pwr.c
   * @author  MCD Application Team
-  * @version V1.0.0
-  * @date    30-September-2011
+  * @version V1.0.2
+  * @date    05-March-2012
   * @brief   This file provides firmware functions to manage the following 
   *          functionalities of the Power Controller (PWR) peripheral:           
   *           - Backup Domain Access
@@ -17,14 +17,20 @@
   ******************************************************************************
   * @attention
   *
-  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
-  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
-  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY
-  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
-  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
-  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+  * <h2><center>&copy; COPYRIGHT 2012 STMicroelectronics</center></h2>
   *
-  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+  * You may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at:
+  *
+  *        http://www.st.com/software_license_agreement_liberty_v2
+  *
+  * Unless required by applicable law or agreed to in writing, software 
+  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  *
   ******************************************************************************
   */ 
 
@@ -167,15 +173,17 @@ void PWR_BackupAccessCmd(FunctionalState NewState)
   * @brief  Configures the voltage threshold detected by the Power Voltage Detector(PVD).
   * @param  PWR_PVDLevel: specifies the PVD detection level
   *          This parameter can be one of the following values:
-  *            @arg PWR_PVDLevel_0: PVD detection level set to 2.0V
-  *            @arg PWR_PVDLevel_1: PVD detection level set to 2.2V
-  *            @arg PWR_PVDLevel_2: PVD detection level set to 2.3V
-  *            @arg PWR_PVDLevel_3: PVD detection level set to 2.5V
-  *            @arg PWR_PVDLevel_4: PVD detection level set to 2.7V
-  *            @arg PWR_PVDLevel_5: PVD detection level set to 2.8V
-  *            @arg PWR_PVDLevel_6: PVD detection level set to 2.9V
-  *            @arg PWR_PVDLevel_7: PVD detection level set to 3.0V
-  * @note   Refer to the electrical characteristics of you device datasheet for more details. 
+  *            @arg PWR_PVDLevel_0
+  *            @arg PWR_PVDLevel_1
+  *            @arg PWR_PVDLevel_2
+  *            @arg PWR_PVDLevel_3
+  *            @arg PWR_PVDLevel_4
+  *            @arg PWR_PVDLevel_5
+  *            @arg PWR_PVDLevel_6
+  *            @arg PWR_PVDLevel_7
+  * @note   Refer to the electrical characteristics of your device datasheet for
+  *         more details about the voltage threshold corresponding to each 
+  *         detection level.
   * @retval None
   */
 void PWR_PVDLevelConfig(uint32_t PWR_PVDLevel)
@@ -653,4 +661,4 @@ void PWR_ClearFlag(uint32_t PWR_FLAG)
   * @}
   */
 
-/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
