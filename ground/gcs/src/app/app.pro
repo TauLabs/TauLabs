@@ -12,12 +12,12 @@ include(../libs/utils/utils.pri)
 LIBS *= -l$$qtLibraryName(ExtensionSystem) -l$$qtLibraryName(Aggregation)
 
 win32 {
-    RC_FILE = openpilotgcs.rc
+    RC_FILE = abovegroundlabs.rc
     target.path = /bin
     INSTALLS += target
 } else:macx {
     LIBS += -framework CoreFoundation
-    ICON = openpilotgcs.icns
+    ICON = abovegroundlabs.icns
     QMAKE_INFO_PLIST = Info.plist
     FILETYPES.files = profile.icns prifile.icns
     FILETYPES.path = Contents/Resources
@@ -27,4 +27,4 @@ win32 {
     INSTALLS    += target
 }
 
-OTHER_FILES += openpilotgcs.rc
+OTHER_FILES += abovegroundlabs.rc
