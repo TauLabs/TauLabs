@@ -10,7 +10,7 @@ PIOS_DEVLIB			:=	$(dir $(lastword $(MAKEFILE_LIST)))
 #
 # Hardcoded linker script names for now
 #
-LINKER_SCRIPTS_APP	 =	$(PIOS_DEVLIB)/link_STM32F30x_OP_memory.ld \
+LINKER_SCRIPTS_APP	 =	$(PIOS_DEVLIB)/link_STM32F30x_FW_memory.ld \
 						$(PIOS_DEVLIB)/link_STM32F30x_sections.ld
 
 LINKER_SCRIPTS_BL	 =	$(PIOS_DEVLIB)/link_STM32F30x_BL_memory.ld \
