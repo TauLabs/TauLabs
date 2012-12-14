@@ -764,7 +764,7 @@ int32_t UAVObjSave(UAVObjHandle obj_handle, uint16_t instId)
 		if (instId != 0)
 			return -1;
 
-		if (PIOS_FLASHFS_ObjSave(obj_handle, instId, (uint8_t*) MetaDataPtr((struct UAVOMeta *)obj_handle)) != 0)
+		if (PIOS_FLASHFS_ObjSave(0, UAVObjGetID(obj_handle), instId, (uint8_t*) MetaDataPtr((struct UAVOMeta *)obj_handle), UAVObjGetNumBytes(obj_handle)) != 0)
 			return -1;
 	} else {
 		InstanceHandle instEntry = getInstance( (struct UAVOData *)obj_handle, instId);
@@ -775,7 +775,7 @@ int32_t UAVObjSave(UAVObjHandle obj_handle, uint16_t instId)
 		if (InstanceData(instEntry) == NULL)
 			return -1;
 
-		if (PIOS_FLASHFS_ObjSave(obj_handle, instId, InstanceData(instEntry)) != 0)
+		if (PIOS_FLASHFS_ObjSave(0, UAVObjGetID(obj_handle), instId, InstanceData(instEntry), UAVObjGetNumBytes(obj_handle)) != 0)
 			return -1;
 	}
 #endif
@@ -919,7 +919,7 @@ int32_t UAVObjLoad(UAVObjHandle obj_handle, uint16_t instId)
 			return -1;
 
 		// Fire event on success
-		if (PIOS_FLASHFS_ObjLoad(obj_handle, instId, (uint8_t*) MetaDataPtr((struct UAVOMeta *)obj_handle)) == 0)
+		if (PIOS_FLASHFS_ObjLoad(0, UAVObjGetID(obj_handle), instId, (uint8_t*) MetaDataPtr((struct UAVOMeta *)obj_handle), UAVObjGetNumBytes(obj_handle)) == 0)
 			sendEvent((struct UAVOBase*)obj_handle, instId, EV_UNPACKED);
 		else
 			return -1;
@@ -931,7 +931,7 @@ int32_t UAVObjLoad(UAVObjHandle obj_handle, uint16_t instId)
 			return -1;
 
 		// Fire event on success
-		if (PIOS_FLASHFS_ObjLoad(obj_handle, instId, InstanceData(instEntry)) == 0)
+		if (PIOS_FLASHFS_ObjLoad(0, UAVObjGetID(obj_handle), instId, InstanceData(instEntry), UAVObjGetNumBytes(obj_handle)) == 0)
 			sendEvent((struct UAVOBase*)obj_handle, instId, EV_UNPACKED);
 		else
 			return -1;
@@ -989,7 +989,7 @@ int32_t UAVObjDelete(UAVObjHandle obj_handle, uint16_t instId)
 {
 	PIOS_Assert(obj_handle);
 #if defined(PIOS_INCLUDE_FLASH_SECTOR_SETTINGS)
-	PIOS_FLASHFS_ObjDelete(obj_handle, instId);
+	PIOS_FLASHFS_ObjDelete(0, UAVObjGetID(obj_handle), instId);
 #endif
 #if defined(PIOS_INCLUDE_SDCARD)
 	uint8_t filename[14];

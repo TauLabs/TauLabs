@@ -309,7 +309,7 @@ static void objectUpdatedCb(UAVObjEvent * ev)
 		} else if (objper.Operation == OBJECTPERSISTENCE_OPERATION_FULLERASE) {
 			retval = -1;
 #if defined(PIOS_INCLUDE_FLASH_SECTOR_SETTINGS)
-			retval = PIOS_FLASHFS_Format();
+			retval = PIOS_FLASHFS_Format(0);
 #endif
 		}
 		switch(retval) {

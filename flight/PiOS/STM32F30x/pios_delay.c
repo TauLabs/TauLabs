@@ -84,6 +84,9 @@ int32_t PIOS_DELAY_WaituS(uint32_t uS)
 {
 	uint32_t	elapsed = 0;
 	uint32_t	last_count = DWT_CYCCNT;
+
+	/* turn on access to the DWT registers */
+	CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
 	
 	for (;;) {
 		uint32_t current_count = DWT_CYCCNT;
