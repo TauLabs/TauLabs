@@ -773,6 +773,45 @@ $(eval $(call SIM_TEMPLATE,openpilot,OpenPilot,'op  ',win32,exe))
 
 ##############################
 #
+# Unit Tests
+#
+##############################
+
+UT_TARGETS :=
+.PHONY: ut_all
+ut_all: $(addprefix ut_, $(UT_TARGETS))
+
+UT_OUT_DIR := $(BUILD_DIR)/unit_tests
+
+$(UT_OUT_DIR):
+	$(V1) mkdir -p $@
+
+ut_%: $(UT_OUT_DIR)
+	$(V1) cd $(ROOT_DIR)/flight/tests/$* && \
+		$(MAKE) --no-print-directory \
+		BUILD_TYPE=ut \
+		BOARD_SHORT_NAME=$* \
+		TCHAIN_PREFIX="" \
+		REMOVE_CMD="$(RM)" \
+		\
+		TARGET=$* \
+		OUTDIR="$(UT_OUT_DIR)/$*" \
+		\
+		PIOS=$(PIOS) \
+		OPUAVOBJ=$(OPUAVOBJ) \
+		OPUAVTALK=$(OPUAVTALK) \
+		FLIGHTLIB=$(FLIGHTLIB) \
+		\
+		$*
+
+.PHONY: ut_clean
+ut_clean:
+	$(V0) @echo " CLEAN      $@"
+	$(V1) [ ! -d "$(UT_OUT_DIR)" ] || $(RM) -r "$(UT_OUT_DIR)"
+
+
+##############################
+#
 # Packaging components
 #
 ##############################
