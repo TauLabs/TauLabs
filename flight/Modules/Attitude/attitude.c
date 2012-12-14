@@ -200,6 +200,7 @@ static void AttitudeTask(void *parameters)
 #if defined(PIOS_INCLUDE_ADC)
 		// Create queue for passing gyro data, allow 2 back samples in case
 		gyro_queue = xQueueCreate(1, sizeof(float) * 4);
+		vQueueAddToRegistry(queue, (char*)"Attitude_gyro_queue");
 		PIOS_Assert(gyro_queue != NULL);
 		PIOS_ADC_SetQueue(gyro_queue);
 		PIOS_ADC_Config((PIOS_ADC_RATE / 1000.0f) * UPDATE_RATE);

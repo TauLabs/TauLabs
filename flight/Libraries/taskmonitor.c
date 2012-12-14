@@ -45,6 +45,7 @@ static uint32_t lastMonitorTime;
 int32_t TaskMonitorInitialize(void)
 {
 	lock = xSemaphoreCreateRecursiveMutex();
+	vQueueAddToRegistry(lock, (signed char*)"taskmonitor_lock");
 	memset(handles, 0, sizeof(xTaskHandle)*TASKINFO_RUNNING_NUMELEM);
 	lastMonitorTime = 0;
 #if defined(DIAG_TASKS)

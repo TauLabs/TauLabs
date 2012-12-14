@@ -10,6 +10,7 @@
 *
 * @file       uavobjectmanager.h
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+* @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
 * @brief      Object manager library. This library holds a collection of all objects.
 *             It can be used by all modules/libraries to find an object reference.
 * @see        The GNU Public License (GPL) Version 3
@@ -193,6 +194,7 @@ int32_t UAVObjInitialize()
 
 	// Create mutex
 	mutex = xSemaphoreCreateRecursiveMutex();
+	vQueueAddToRegistry(mutex, (signed char*)"uavobjectmanager_mutex");
 	if (mutex == NULL)
 		return -1;
 

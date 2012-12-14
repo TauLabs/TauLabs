@@ -9,6 +9,7 @@
  *
  * @file       attitude.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      Module to handle all comms to the AHRS on a periodic basis.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -245,6 +246,7 @@ static void StateTask(void *parameters)
 #if defined(PIOS_INCLUDE_ADC)
 		// Create queue for passing gyro data, allow 2 back samples in case
 		gyro_queue = xQueueCreate(1, sizeof(float) * 4);
+		vQueueAddToRegistry(gyro_queue, (signed char*)"State_gyro_queue");
 		PIOS_Assert(gyro_queue != NULL);
 		PIOS_ADC_SetQueue(gyro_queue);
 		PIOS_ADC_Config((PIOS_ADC_RATE / 1000.0f) * LOOP_RATE_MS);

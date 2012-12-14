@@ -89,12 +89,14 @@ static struct mpu6050_dev * PIOS_MPU6050_alloc(void)
 	mpu6050_dev->magic = PIOS_MPU6050_DEV_MAGIC;
 	
 	mpu6050_dev->queue = xQueueCreate(PIOS_MPU6050_MAX_DOWNSAMPLE, sizeof(struct pios_mpu60x0_data));
+	vQueueAddToRegistry(mpu6050_dev->queue, (signed char*)"pios_mpu6050_queue");
 	if(mpu6050_dev->queue == NULL) {
 		vPortFree(mpu6050_dev);
 		return NULL;
 	}
 	
 	mpu6050_dev->data_ready_sema = xSemaphoreCreateMutex();
+	vQueueAddToRegistry(mpu6050_dev->data_ready_sema, (signed char*)"pios_mpu6050_data_ready_sema");
 	if(mpu6050_dev->data_ready_sema == NULL) {
 		vPortFree(mpu6050_dev);
 		return NULL;

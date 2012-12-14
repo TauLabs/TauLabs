@@ -89,6 +89,7 @@ int32_t OveroSyncInitialize(void)
 
 	// Create object queues
 	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	vQueueAddToRegistry(queue, (signed char*)"OveroSync_queue");
 
 	// Initialise UAVTalk
 	uavTalkCon = UAVTalkInitialize(&packData);
@@ -108,10 +109,12 @@ int32_t OveroSyncStart(void)
 		return -1;
 
 	overosync->transaction_lock = xSemaphoreCreateMutex();
+	vQueueAddToRegistry(overosync->transaction_lock, (signed char*)"OveroSync_transaction_lock");
 	if(overosync->transaction_lock == NULL)
 		return -1;
 
 	overosync->buffer_lock = xSemaphoreCreateMutex();
+	vQueueAddToRegistry(overosync->buffer_lock, (signed char*)"OveroSync_buffer_lock");
 	if(overosync->buffer_lock == NULL)
 		return -1;
 

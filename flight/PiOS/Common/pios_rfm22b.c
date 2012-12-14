@@ -8,6 +8,7 @@
 *
 * @file       pios_rfm22b.c
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+* @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
 * @brief      Implements a driver the the RFM22B driver
 * @see        The GNU Public License (GPL) Version 3
 *
@@ -566,6 +567,7 @@ int32_t PIOS_RFM22B_Init(uint32_t *rfm22b_id, uint32_t spi_id, uint32_t slave_nu
 	rfm22b_dev->state = RFM22B_STATE_UNINITIALIZED;
 	// Create the event queue
 	rfm22b_dev->eventQueue = xQueueCreate(EVENT_QUEUE_SIZE, sizeof(enum pios_rfm22b_event));
+	vQueueAddToRegistry(rfm22b_dev->eventQueue, (signed char*)"pios_rfm22b_eventQueue");
 
 	// Initialize the register values.
 	rfm22b_dev->device_status = 0;
@@ -613,12 +615,15 @@ int32_t PIOS_RFM22B_Init(uint32_t *rfm22b_id, uint32_t spi_id, uint32_t slave_nu
 
 	// Create a semaphore to know if an ISR needs responding to
 	vSemaphoreCreateBinary( rfm22b_dev->isrPending );
+	vQueueAddToRegistry(rfm22b_dev->isrPending, (signed char*)"pios_rfm22b_isrPending");
 
 	// Create a semaphore to know when an rx packet is available
 	vSemaphoreCreateBinary( rfm22b_dev->rxsem );
+	vQueueAddToRegistry(rfm22b_dev->rxsem, (signed char*)"pios_rfm22b_rxsem");
 
 	// Create the packet queue.
 	rfm22b_dev->packetQueue = xQueueCreate(PACKET_QUEUE_SIZE, sizeof(PHPacketHandle));
+	vQueueAddToRegistry(rfm22b_dev->packetQueue, (signed char*)"pios_rfm22b_packetQueue");
 
 	// Initialize the max tx power level.
 	PIOS_RFM22B_SetTxPower(*rfm22b_id, cfg->maxTxPower);
