@@ -7,10 +7,9 @@
         <file>qml/NewsPanel.qml</file>
         <file>qml/ScrollDecorator.qml</file>
         <file>qml/images/welcome-news-bg.png</file>
-        <file>qml/images/welcome-op-logo.png</file>
+        <file>qml/images/welcome-logo.png</file>
         <file>qml/images/button-label.png</file>
         <file>qml/images/button-label-bottom.png</file>
-        <file>qml/images/welcome-op-bg.png</file>
         <file>qml/images/welcome-bg.png</file>
         <file>qml/images/flightdata-on.png</file>
         <file>qml/images/flightdata-off.png</file>

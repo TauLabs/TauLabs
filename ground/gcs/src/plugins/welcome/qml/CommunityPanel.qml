@@ -37,6 +37,7 @@ Item {
     }
 
     SitesPanel {
+        transformOrigin: Item.Center
         anchors.left: newsPanel.right
         anchors.right: parent.right
         anchors.top: parent.top

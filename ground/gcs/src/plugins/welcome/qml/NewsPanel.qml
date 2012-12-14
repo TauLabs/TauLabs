@@ -34,19 +34,20 @@ Item {
 
     XmlListModel {
         id: xmlModel
-        source: "http://www.openpilot.org/feed/"
-        query: "/rss/channel/item"
+        source: "http://github.com/PhoenixPilot/PhoenixPilot/commits/next.atom"
+        query: "/feed/entry"
+        namespaceDeclarations: "declare default element namespace 'http://www.w3.org/2005/Atom';"
 
         XmlRole { name: "title"; query: "title/string()" }
-        XmlRole { name: "description"; query: "description/string()" }
-        XmlRole { name: "link"; query: "link/string()" }
+        XmlRole { name: "description"; query: "author/name/string()" }
+        XmlRole { name: "link"; query: "link/href" }
     }
 
     Component {
         id: listDelegate
         Item {
             width: view.width
-            height: column.height + 16
+            height: column.height + 8
 
             Column {
                 id: column

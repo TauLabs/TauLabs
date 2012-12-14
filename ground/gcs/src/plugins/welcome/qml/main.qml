@@ -4,8 +4,18 @@ Rectangle {
     id: container
     width: 1024
     height: 768
+    gradient: Gradient {
+        GradientStop {
+            position: 0
+            color: "#333333"
+        }
 
-    color: "#272727"
+        GradientStop {
+            position: 1
+            color: "#232323"
+        }
+    }
+
 
     Image {
         id: bg
@@ -42,7 +52,10 @@ Rectangle {
             spacing: 16
 
             Image {
-                source: "images/welcome-op-logo.png"
+                x: -56
+                sourceSize.height: 235
+                sourceSize.width: 234
+                source: "images/welcome-logo.png"
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.verticalCenterOffset: -2 //it looks better aligned to icons grid
 

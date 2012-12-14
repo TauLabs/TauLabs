@@ -10,7 +10,7 @@ Item {
 
     Text {
         id: header
-        text: "OpenPilot Websites"
+        text: "Above Ground Labs Links"
         width: parent.width
         color: "#44515c"
         font {
@@ -21,12 +21,11 @@ Item {
 
     ListModel {
         id: sitesModel
-        ListElement { title: "OpenPilot Home"; link: "http://www.openpilot.org" }
-        ListElement { title: "OpenPilot Wiki"; link: "http://wiki.openpilot.org" }
-        ListElement { title: "OpenPilot Store"; link: "http://www.openpilot.org/hardware/get-hardware/" }
-        ListElement { title: "OpenPilot Forums"; link: "http://forums.openpilot.org" }
-        ListElement { title: "OpenPilot Code Reviews"; link: "http://git.openpilot.org" }
-        ListElement { title: "OpenPilot Progress Tracker"; link: "http://progress.openpilot.org" }
+        ListElement { title: "Above Ground Labs Home"; link: "http://abovegroundlabs.org" }
+        ListElement { title: "Above Ground Labs Wiki"; link: "https://github.com/PhoenixPilot/PhoenixPilot/wiki" }
+        ListElement { title: "Above Ground Labs Forums"; link: "https://groups.google.com/forum/#!forum/phoenixpilot" }
+        ListElement { title: "Above Ground Labs Code"; link: "https://github.com/PhoenixPilot/PhoenixPilot" }
+        ListElement { title: "Above Ground Labs Issues"; link: "https://github.com/PhoenixPilot/PhoenixPilot/issues" }
     }
 
     ListView {
