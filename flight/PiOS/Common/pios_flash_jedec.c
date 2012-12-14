@@ -93,6 +93,7 @@ static struct jedec_flash_dev * PIOS_Flash_Jedec_alloc(void)
 	jedec_dev->magic = PIOS_JEDEC_DEV_MAGIC;
 #if defined(FLASH_FREERTOS)
 	jedec_dev->transaction_lock = xSemaphoreCreateMutex();
+	vQueueAddToRegistry(flash_dev->transaction_lock, (signed char*)"pios_flashfs_jedec_transaction_lock");
 #endif
 	return(jedec_dev);
 }
