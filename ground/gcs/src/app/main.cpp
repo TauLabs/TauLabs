@@ -187,7 +187,7 @@ static inline QStringList getPluginPaths()
     pluginPath += QLatin1Char('/');
     pluginPath += QLatin1String(GCS_LIBRARY_BASENAME);
     pluginPath += QLatin1Char('/');
-    pluginPath += QLatin1String("openpilotgcs");
+    pluginPath += QLatin1String("abovegroundlabs");
     pluginPath += QLatin1Char('/');
     pluginPath += QLatin1String("plugins");
     rc.push_back(pluginPath);

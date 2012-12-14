@@ -1,7 +1,7 @@
 include(../gcs.pri)
 
 isEmpty(PROVIDER) {
-    PROVIDER = OpenPilot
+    PROVIDER = AboveGroundLabs
 }
 
 DESTDIR = $$GCS_PLUGIN_PATH/$$PROVIDER
@@ -43,8 +43,8 @@ contains(QT_CONFIG, reduce_exports):CONFIG += hGCS_symbols
 CONFIG += plugin plugin_with_soname
 
 !macx {
-    target.path = /$$GCS_LIBRARY_BASENAME/opnepilotgcs/plugins/$$PROVIDER
+    target.path = /$$GCS_LIBRARY_BASENAME/abovegroundlabs/plugins/$$PROVIDER
     pluginspec.files += $${TARGET}.pluginspec
-    pluginspec.path = /$$GCS_LIBRARY_BASENAME/openpilotgcs/plugins/$$PROVIDER
+    pluginspec.path = /$$GCS_LIBRARY_BASENAME/abovegroundlabs/plugins/$$PROVIDER
     INSTALLS += target pluginspec
 }

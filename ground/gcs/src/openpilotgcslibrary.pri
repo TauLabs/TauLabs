@@ -17,7 +17,7 @@ contains(QT_CONFIG, reduce_exports):CONFIG += hGCS_symbols
         target.path = /bin
         target.files = $$DESTDIR/$${TARGET}.dll
     } else {
-        target.path = /$$GCS_LIBRARY_BASENAME/openpilotgcs
+        target.path = /$$GCS_LIBRARY_BASENAME/abovegroundlabs
     }
     INSTALLS += target
 }
