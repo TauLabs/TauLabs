@@ -293,7 +293,7 @@ void MainWindow::extensionsInitialized()
 #else
             directory.cdUp();
             directory.cd("share");
-            directory.cd("openpilotgcs");
+            directory.cd("abovegroundlabs");
 #endif
             directory.cd("default_configurations");
 
@@ -350,7 +350,7 @@ void MainWindow::loadStyleSheet(QString name) {
 #else
     directory.cdUp();
     directory.cd("share");
-    directory.cd("openpilotgcs");
+    directory.cd("abovegroundlabs");
 #endif
     directory.cd("stylesheets");
 #ifdef Q_OS_MAC

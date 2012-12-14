@@ -2,7 +2,7 @@
   <General>
     <AutoConnect>true</AutoConnect>
     <AutoSelect>true</AutoSelect>
-    <Description>Laptop configuration</Description>
+    <Description>Netbook configuration</Description>
     <Details>Laptop configuration built to work on standard laptop screen sizes</Details>
     <ExpertMode>true</ExpertMode>
     <SaveSettingsOnExit>true</SaveSettingsOnExit>

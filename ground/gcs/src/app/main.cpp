@@ -199,12 +199,6 @@ static inline QStringList getPluginPaths()
     return rc;
 }
 
-#ifdef Q_OS_MAC
-#  define SHARE_PATH "/../Resources"
-#else
-#  define SHARE_PATH "/../share/openpilotgcs"
-#endif
-
 static void overrideSettings(QSettings &settings, int argc, char **argv){
 
     QMap<QString, QString> settingOptions;
@@ -263,7 +257,7 @@ int main(int argc, char **argv)
 
     const QString &creatorTrPath = QCoreApplication::applicationDirPath()
                                    + QLatin1String(SHARE_PATH "/translations");
-    if (translator.load(QLatin1String("openpilotgcs_") + locale, creatorTrPath)) {
+    if (translator.load(QLatin1String("abovegroundlabs_") + locale, creatorTrPath)) {
         const QString &qtTrPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
         const QString &qtTrFile = QLatin1String("qt_") + locale;
         // Binary installer puts Qt tr files into creatorTrPath

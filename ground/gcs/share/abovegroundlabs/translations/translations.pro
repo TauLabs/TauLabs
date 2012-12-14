@@ -12,7 +12,7 @@ XMLPATTERNS = $$targetPath($$[QT_INSTALL_BINS]/xmlpatterns)
 LUPDATE = $$targetPath($$[QT_INSTALL_BINS]/lupdate) -locations relative -no-ui-lines -no-sort -noobsolete
 LRELEASE = $$targetPath($$[QT_INSTALL_BINS]/lrelease)
 
-TRANSLATIONS = $$prependAll(LANGUAGES, $$PWD/openpilotgcs_,.ts)
+TRANSLATIONS = $$prependAll(LANGUAGES, $$PWD/abovegroundlabs_,.ts)
 
 MIME_TR_H = $$PWD/mime_tr.h
 
@@ -59,8 +59,8 @@ isEmpty(vcproj) {
     QMAKE_EXTRA_COMPILERS += phony_src
 }
 
-qmfiles.files = $$prependAll(LANGUAGES, $$OUT_PWD/openpilotgcs_,.qm)
-qmfiles.path = /share/openpilotgcs/translations
+qmfiles.files = $$prependAll(LANGUAGES, $$OUT_PWD/abovegroundlabs_,.qm)
+qmfiles.path = /share/abovegroundlabs/translations
 qmfiles.CONFIG += no_check_exist
 INSTALLS += qmfiles
 
