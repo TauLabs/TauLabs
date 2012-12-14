@@ -10,7 +10,7 @@ QT += gui \
 
 DEFINES += QTCREATOR_UTILS_LIB
 
-include(../../openpilotgcslibrary.pri)
+include(../../abovegroundlabslibrary.pri)
 
 SOURCES += reloadpromptutils.cpp \
     settingsutils.cpp \

@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = opmapwidget
 DEFINES += OPMAPWIDGET_LIBRARY
-include(../../../../openpilotgcslibrary.pri)
+include(../../../../abovegroundlabslibrary.pri)
 
 # DESTDIR = ../build
 SOURCES += mapgraphicitem.cpp \

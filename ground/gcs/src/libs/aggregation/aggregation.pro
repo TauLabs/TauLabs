@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = Aggregation
 
-include(../../openpilotgcslibrary.pri)
+include(../../abovegroundlabslibrary.pri)
 
 DEFINES += AGGREGATION_LIBRARY
 

@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = QScienceSpinBox
 
-include(../../openpilotgcslibrary.pri)
+include(../../abovegroundlabslibrary.pri)
 
 DEFINES += QSCIENCESPINBOX
 

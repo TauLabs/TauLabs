@@ -135,7 +135,7 @@ SettingsDatabase *CoreImpl::settingsDatabase() const
 #ifdef Q_OS_MAC
 #  define SHARE_PATH "/../Resources"
 #else
-#  define SHARE_PATH "/../share/openpilotgcs"
+#  define SHARE_PATH "/../share/abovegroundlabs"
 #endif
 
 QString CoreImpl::resourcePath() const

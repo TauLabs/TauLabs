@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = GLC_lib
 DEFINES += GLC_LIB_LIBRARY
-include(../../openpilotgcslibrary.pri)
+include(../../abovegroundlabslibrary.pri)
 
 # GLC_lib qmake configuration
 #TEMPLATE = lib

@@ -2,7 +2,7 @@ TEMPLATE = lib
 TARGET = QxtCore
 
 DEFINES += QXTCORE_LIBRARY
-include(../../../../openpilotgcslibrary.pri)
+include(../../../../abovegroundlabslibrary.pri)
 
 DEFINES += BUILD_QXT_CORE
 

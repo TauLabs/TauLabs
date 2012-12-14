@@ -22,7 +22,7 @@ TEMPLATE     = lib
 TARGET      = sdlgamepad
 DEFINES     += SDLGAMEPAD_LIBRARY
 
-include(../../openpilotgcslibrary.pri)
+include(../../abovegroundlabslibrary.pri)
 
 SOURCES     += sdlgamepad.cpp
 HEADERS     += sdlgamepad.h \

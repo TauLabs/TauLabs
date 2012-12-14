@@ -12,7 +12,7 @@
 TEMPLATE = lib
 TARGET = Qwt
 DEFINES += QWT_LIBRARY
-include(../../../openpilotgcslibrary.pri)
+include(../../../abovegroundlabslibrary.pri)
 include( ../qwtconfig.pri )
 
 #VVERSION = $$[QT_VERSION]

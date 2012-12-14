@@ -199,6 +199,12 @@ static inline QStringList getPluginPaths()
     return rc;
 }
 
+#ifdef Q_OS_MAC
+#  define SHARE_PATH "/../Resources"
+#else
+#  define SHARE_PATH "/../share/abovegroundlabs"
+#endif
+
 static void overrideSettings(QSettings &settings, int argc, char **argv){
 
     QMap<QString, QString> settingOptions;
@@ -226,7 +232,7 @@ static void overrideSettings(QSettings &settings, int argc, char **argv){
 int main(int argc, char **argv)
 {
 #ifdef Q_OS_MAC
-    // increase the number of file that can be opened in OpenPilot GCS
+    // increase the number of file that can be opened in GCS
     struct rlimit rl;
     getrlimit(RLIMIT_NOFILE, &rl);
     rl.rlim_cur = rl.rlim_max;

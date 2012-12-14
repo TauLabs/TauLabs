@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = QExtSerialPort
 DEFINES += QEXTSERIALPORT_LIBRARY
-include(../../../openpilotgcslibrary.pri)
+include(../../../abovegroundlabslibrary.pri)
 
 #VERSION                 = 1.2.0
 
