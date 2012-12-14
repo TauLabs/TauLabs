@@ -777,7 +777,7 @@ $(eval $(call SIM_TEMPLATE,openpilot,OpenPilot,'op  ',win32,exe))
 #
 ##############################
 
-UT_TARGETS :=
+UT_TARGETS := logfs
 .PHONY: ut_all
 ut_all: $(addprefix ut_, $(UT_TARGETS))
 
