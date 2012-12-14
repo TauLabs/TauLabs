@@ -8,6 +8,7 @@
  *
  * @file       pios_spi.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      Hardware Abstraction Layer for SPI ports of STM32
  * @see        The GNU Public License (GPL) Version 3
  * @notes
@@ -90,6 +91,7 @@ int32_t PIOS_SPI_Init(uint32_t * spi_id, const struct pios_spi_cfg * cfg)
 
 #if defined(PIOS_INCLUDE_FREERTOS)
 	vSemaphoreCreateBinary(spi_dev->busy);
+	vQueueAddToRegistry(spi_dev->busy, (signed char*)"pios_spi_busy");
 	xSemaphoreGive(spi_dev->busy);
 #endif
 

@@ -47,6 +47,7 @@ int32_t AlarmsInitialize(void)
 {
 	SystemAlarmsInitialize();
 	lock = xSemaphoreCreateRecursiveMutex();
+	vQueueAddToRegistry(lock, (signed char*)"alarms_lock");
 	return 0;
 }
 

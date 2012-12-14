@@ -588,7 +588,9 @@ int32_t PIOS_I2C_Init(uint32_t * i2c_id, const struct pios_i2c_adapter_cfg * cfg
 	 * since the sem_ready mutex is used in the initial state.
 	 */
 	vSemaphoreCreateBinary(i2c_adapter->sem_ready);
+	vQueueAddToRegistry(i2c_adapter->sem_ready, (signed char*)"pios_i2c_sem_ready");
 	i2c_adapter->sem_busy = xSemaphoreCreateMutex();
+	vQueueAddToRegistry(i2c_adapter->sem_busy, (signed char*)"pios_i2c_sem_busy");
 #else
 	i2c_adapter->busy = 0;
 #endif // USE_FREERTOS

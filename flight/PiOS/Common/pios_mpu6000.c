@@ -8,6 +8,7 @@
  *
  * @file       pios_mpu6000.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      MPU6000 6-axis gyro and accel chip
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -81,6 +82,7 @@ static struct mpu6000_dev * PIOS_MPU6000_alloc(void)
 	mpu6000_dev->magic = PIOS_MPU6000_DEV_MAGIC;
 	
 	mpu6000_dev->queue = xQueueCreate(PIOS_MPU6000_MAX_DOWNSAMPLE, sizeof(struct pios_mpu60x0_data));
+	vQueueAddToRegistry(mpu6000_dev->queue, (signed char*)"pios_mpu6000_queue");
 	if(mpu6000_dev->queue == NULL) {
 		vPortFree(mpu6000_dev);
 		return NULL;

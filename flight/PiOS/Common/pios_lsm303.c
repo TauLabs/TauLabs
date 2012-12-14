@@ -82,12 +82,14 @@ static struct lsm303_dev * PIOS_LSM303_alloc(void)
 	lsm303_dev->magic = PIOS_LSM303_DEV_MAGIC;
 	
 	lsm303_dev->queue_accel = xQueueCreate(PIOS_LSM303_MAX_DOWNSAMPLE, sizeof(struct pios_lsm303_accel_data));
+	vQueueAddToRegistry(lsm303_dev->queue_accel, (signed char*)"pios_lsm303_queue_accel");
 	if (lsm303_dev->queue_accel == NULL) {
 		vPortFree(lsm303_dev);
 		return NULL;
 	}
 	
 	lsm303_dev->data_ready_sema = xSemaphoreCreateMutex();
+	vQueueAddToRegistry(lsm303_dev->data_ready_sema, (signed char*)"pios_lsm303_data_ready_sema");
 	if (lsm303_dev->data_ready_sema == NULL) {
 		vPortFree(lsm303_dev);
 		return NULL;

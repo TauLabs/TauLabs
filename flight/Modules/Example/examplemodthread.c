@@ -71,6 +71,7 @@ int32_t ExampleModThreadInitialize()
 {
 	// Create object queue
 	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	vQueueAddToRegistry(queue, (char*)"Example_queue");
 
 	// Listen for ExampleObject1 updates
 	ExampleObject1ConnectQueue(queue);

@@ -84,6 +84,7 @@ PHInstHandle PHInitialize(PacketHandlerConfig *cfg)
 
 	// Create the lock
 	data->lock = xSemaphoreCreateRecursiveMutex();
+	vQueueAddToRegistry(lock, (signed char*)"packet_handler_lock");
 
 	// Initialize the ECC library.
 	initialize_ecc();

@@ -41,7 +41,7 @@
 #define configUSE_COUNTING_SEMAPHORES			0
 #define configUSE_ALTERNATIVE_API				0
 #define configCHECK_FOR_STACK_OVERFLOW			2
-#define configQUEUE_REGISTRY_SIZE				10
+#define configQUEUE_REGISTRY_SIZE				0
 
 #define configUSE_TIMERS						1
 #define configTIMER_TASK_PRIORITY				(configMAX_PRIORITIES - 1)	/* run timers at max priority */
