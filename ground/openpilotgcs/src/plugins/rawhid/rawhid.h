@@ -34,6 +34,7 @@
 #include <QIODevice>
 #include <QMutex>
 #include <QByteArray>
+#include <coreplugin/iconnection.h>
 
 #include "pjrc_rawhid.h"
 #include "usbmonitor.h"
@@ -55,7 +56,7 @@ class RAWHID_EXPORT RawHID : public QIODevice
 
 public:
     RawHID();
-    RawHID(const QString &deviceName);
+    RawHID(const Core::IConnection::device deviceName);
     virtual ~RawHID();
 
     virtual bool open(OpenMode mode);
@@ -81,6 +82,7 @@ protected:
     bool closeDevice();
 
     QString serialNumber;
+    Core::IConnection::device deviceInfo;
 
     int m_deviceNo;
     pjrc_rawhid dev;

@@ -174,8 +174,10 @@ QList <Core::IConnection::device> IPconnectionConnection::availableDevices()
     return list;
 }
 
-QIODevice *IPconnectionConnection::openDevice(const QString &)
+QIODevice *IPconnectionConnection::openDevice(const device deviceName)
 {
+    Q_UNUSED(deviceName)
+
     QString HostName;
     int Port;
     bool UseTCP;
