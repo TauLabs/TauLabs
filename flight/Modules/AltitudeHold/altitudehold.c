@@ -97,6 +97,7 @@ int32_t AltitudeHoldInitialize()
 
 	// Create object queue
 	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	vQueueAddToRegistry(queue, (char*)"AltitudeHold_queue");
 
 	AltitudeHoldSettingsConnectCallback(&SettingsUpdatedCb);
 

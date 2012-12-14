@@ -10,6 +10,7 @@
  *
  * @file       telemetry.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      Telemetry module, handles telemetry and UAVObject updates
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -136,8 +137,10 @@ int32_t TelemetryInitialize(void)
 
 	// Create object queues
 	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	vQueueAddToRegistry(queue, (signed char*)"Telemetry_queue");
 #if defined(PIOS_TELEM_PRIORITY_QUEUE)
 	priorityQueue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	vQueueAddToRegistry(priorityQueue, (signed char*)"Telemetry_priorityQueue");
 #endif
 
 	// Update telemetry settings

@@ -160,11 +160,17 @@ int32_t AttitudeStart(void)
 {
 	// Create the queues for the sensors
 	gyroQueue = xQueueCreate(1, sizeof(UAVObjEvent));
+	vQueueAddToRegistry(gyroQueue, (signed char*)"Attitude_gyroQueue");
 	accelQueue = xQueueCreate(1, sizeof(UAVObjEvent));
+	vQueueAddToRegistry(accelQueue, (signed char*)"Attitude_accelQueue");
 	magQueue = xQueueCreate(1, sizeof(UAVObjEvent));
+	vQueueAddToRegistry(magQueue, (signed char*)"Attitude_magQueue");
 	baroQueue = xQueueCreate(1, sizeof(UAVObjEvent));
+	vQueueAddToRegistry(baroQueue, (signed char*)"Attitude_baroQueue");
 	gpsQueue = xQueueCreate(1, sizeof(UAVObjEvent));
+	vQueueAddToRegistry(gpsQueue, (signed char*)"Attitude_gpsQueue");
 	gpsVelQueue = xQueueCreate(1, sizeof(UAVObjEvent));
+	vQueueAddToRegistry(gpsVelQueue, (signed char*)"Attitude_gpsVelQueue");
 
 	// Start main task
 	xTaskCreate(AttitudeTask, (signed char *)"Attitude", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &attitudeTaskHandle);

@@ -84,6 +84,7 @@ int32_t FlightPlanInitialize()
 
 	// Create object queue
 	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	vQueueAddToRegistry(queue, (signed char*)"FlightPlan_queue");
 
 	// Listen for FlightPlanControl updates
 	FlightPlanControlConnectQueue(queue);

@@ -88,6 +88,7 @@ int32_t OveroSyncInitialize(void)
 	
 		// Create object queues
 		queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+		vQueueAddToRegistry(queue, (signed char*)"OveroSync_queue");
 	} else {
 		overoEnabled = false;
 		return -1;

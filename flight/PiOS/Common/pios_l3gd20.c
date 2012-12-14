@@ -8,6 +8,7 @@
  *
  * @file       pios_l3gd20.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      L3GD20 3-axis gyro chip
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -85,6 +86,7 @@ static struct l3gd20_dev * PIOS_L3GD20_alloc(void)
 	l3gd20_dev->magic = PIOS_L3GD20_DEV_MAGIC;
 
 	l3gd20_dev->queue = xQueueCreate(PIOS_L3GD20_MAX_DOWNSAMPLE, sizeof(struct pios_l3gd20_data));
+	vQueueAddToRegistry(l3gd20_dev->queue, (signed char*)"pios_l3gd20_queue");
 	if(l3gd20_dev->queue == NULL) {
 		vPortFree(l3gd20_dev);
 		return NULL;
