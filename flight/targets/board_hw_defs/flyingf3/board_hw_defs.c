@@ -473,7 +473,7 @@ static const struct pios_flash_internal_cfg flash_internal_cfg = {
 };
 
 static const struct flashfs_logfs_cfg flashfs_internal_cfg = {
-	.fs_magic      = 0x2ae4ee11,
+	.fs_magic      = 0x9ae4ee11,
 	.total_fs_size = EE_BANK_SIZE, /* 4K bytes (2x2KB sectors) */
 	.arena_size    = 0x00004000, /* 64 * slot size = 16K bytes = 8 sectors */
 	.slot_size     = 0x00000100, /* 256 bytes */
