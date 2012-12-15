@@ -24,7 +24,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 #include "uavobjectgeneratormatlab.h"
-#include "../../../openpilotgcs/src/plugins/coreplugin/coreconstants.h"
+#include "../../../gcs/src/plugins/coreplugin/coreconstants.h"
 
 
 using namespace std;
@@ -39,7 +39,7 @@ bool UAVObjectGeneratorMatlab::generate(UAVObjectParser* parser,QString template
     fieldSizeStrMatlab << "1" << "2" << "4"
         << "1" << "2" << "4" << "4" << "1";
 
-    QDir matlabTemplatePath = QDir( templatepath + QString("ground/openpilotgcs/src/plugins/uavobjects"));
+    QDir matlabTemplatePath = QDir( templatepath + QString("ground/gcs/src/plugins/uavobjects"));
     QDir matlabOutputPath = QDir( outputpath + QString("matlab") );
     matlabOutputPath.mkpath(matlabOutputPath.absolutePath());
 
