@@ -563,8 +563,32 @@ void PIOS_I2C_internal_er_irq_handler(void)
 
 #endif /* PIOS_INCLUDE_I2C */
 
+#if defined(PIOS_INCLUDE_FLASH)
+#include "pios_flashfs_logfs_priv.h"
+#include "pios_flash_jedec_priv.h"
 
+static const struct flashfs_logfs_cfg flashfs_mx25_cfg = {
+	.fs_magic      = 0x99abcf00,
+	.total_fs_size = 0x00400000, /* 4M bytes (1024 sectors = entire chip) */
+	.arena_size    = 0x00010000, /* 256 * slot size */
+	.slot_size     = 0x00000100, /* 256 bytes */
 
+	.start_offset  = 0,	     /* start at the beginning of the chip */
+	.sector_size   = 0x00001000, /* 4K bytes */
+	.page_size     = 0x00000100, /* 256 bytes */
+};
+
+static const struct pios_flash_jedec_cfg flash_mx25_cfg = {
+	.expect_manufacturer = JEDEC_MANUFACTURER_MACRONIX,
+	.expect_memorytype   = 0x20,
+	.expect_capacity     = 0x16,
+	.sector_erase        = 0x20,
+	.chip_erase          = 0x60,
+};
+
+#include "pios_flash.h"
+
+#endif	/* PIOS_INCLUDE_FLASH */
 
 #if defined(PIOS_INCLUDE_USART)
 

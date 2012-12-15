@@ -1,11 +1,13 @@
-#####
-# Project: OpenPilot RevoMini
-#
-#
-# Makefile for OpenPilot RevoMini project
-#
-# The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2012.
-#
+###############################################################################
+# @file       Makefile
+# @author     The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2012.
+# @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+# @addtogroup 
+# @{
+# @addtogroup 
+# @{
+# @brief Makefile to build firmware for the RevoMini board.
+###############################################################################
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +22,7 @@
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-#####
+#
 
 WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
 TOP      := $(realpath $(WHEREAMI)/../../../)
@@ -78,7 +80,7 @@ STMLIBDIR = $(APPLIBDIR)
 STMSPDDIR = $(STMLIBDIR)/STM32F4xx_StdPeriph_Driver
 STMSPDSRCDIR = $(STMSPDDIR)/src
 STMSPDINCDIR = $(STMSPDDIR)/inc
-DEBUG_CM3_DIR = $(STMLIBDIR)/Debug
+DEBUG_CM3_DIR = $(PIOSCOMMONLIB)/Debug
 DEBUG_CM3_DIR_INC = $(DEBUG_CM3_DIR)/inc
 OPUAVOBJINC = $(OPUAVOBJ)/inc
 PYMITE = $(FLIGHTLIB)/PyMite
@@ -164,7 +166,7 @@ SRC += $(PIOSCOMMON)/pios_rfm22b.c
 SRC += $(PIOSCOMMON)/pios_rfm22b_com.c
 SRC += $(PIOSCOMMON)/pios_rcvr.c
 SRC += $(PIOSCOMMON)/pios_flash_jedec.c
-SRC += $(PIOSCOMMON)/pios_flashfs_objlist.c
+SRC += $(PIOSCOMMON)/pios_flashfs_logfs.c
 SRC += $(PIOSCOMMON)/printf-stdarg.c
 SRC += $(PIOSCOMMON)/pios_usb_desc_hid_cdc.c
 SRC += $(PIOSCOMMON)/pios_usb_desc_hid_only.c

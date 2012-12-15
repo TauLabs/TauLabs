@@ -6,7 +6,7 @@
 # @{
 # @addtogroup 
 # @{
-# @brief Makefile to build firmware for flying f4 board.
+# @brief Makefile to build firmware for the FlyingF4 board.
 ###############################################################################
 #
 # This program is free software; you can redistribute it and/or modify
@@ -84,7 +84,7 @@ STMLIBDIR = $(APPLIBDIR)
 STMSPDDIR = $(STMLIBDIR)/STM32F4xx_StdPeriph_Driver
 STMSPDSRCDIR = $(STMSPDDIR)/src
 STMSPDINCDIR = $(STMSPDDIR)/inc
-DEBUG_CM3_DIR = $(STMLIBDIR)/Debug
+DEBUG_CM3_DIR = $(PIOSCOMMONLIB)/Debug
 DEBUG_CM3_DIR_INC = $(DEBUG_CM3_DIR)/inc
 OPUAVOBJINC = $(OPUAVOBJ)/inc
 FLIGHTPLANLIB = $(OPMODULEDIR)/FlightPlan/lib
@@ -140,7 +140,7 @@ SRC += $(PIOSCOMMON)/pios_com.c
 SRC += $(PIOSCOMMON)/pios_rcvr.c
 SRC += $(PIOSCOMMON)/pios_sbus.c
 SRC += $(PIOSCOMMON)/pios_flash_jedec.c
-SRC += $(PIOSCOMMON)/pios_flashfs_objlist.c
+SRC += $(PIOSCOMMON)/pios_flashfs_logfs.c
 SRC += $(PIOSCOMMON)/printf-stdarg.c
 SRC += $(PIOSCOMMON)/pios_usb_desc_hid_cdc.c
 SRC += $(PIOSCOMMON)/pios_usb_desc_hid_only.c
