@@ -56,6 +56,7 @@
 //#define PIOS_INCLUDE_GPIO
 #define PIOS_INCLUDE_EXTI
 #define PIOS_INCLUDE_RTC
+#define PIOS_INCLUDE_WDG
 
 /* Variables related to the RFM22B functionality */
 #define PIOS_INCLUDE_RFM22B
