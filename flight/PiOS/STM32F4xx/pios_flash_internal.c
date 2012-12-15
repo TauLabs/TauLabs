@@ -166,7 +166,7 @@ static struct pios_internal_flash_dev * PIOS_Flash_Internal_alloc(void)
 
 #endif /* defined(PIOS_INCLUDE_FREERTOS) */
 
-int32_t PIOS_Flash_Internal_Init(uint32_t * flash_id, const struct pios_flash_internal_cfg * cfg)
+int32_t PIOS_Flash_Internal_Init(uintptr_t * flash_id, const struct pios_flash_internal_cfg * cfg)
 {
 	struct pios_internal_flash_dev * flash_dev;
 
@@ -179,7 +179,7 @@ int32_t PIOS_Flash_Internal_Init(uint32_t * flash_id, const struct pios_flash_in
 	vQueueAddToRegistry(flash_dev->transaction_lock, (signed char*)"pios_flash_internal_transaction_lock");
 #endif	/* defined(PIOS_INCLUDE_FREERTOS) */
 
-	*flash_id = (uint32_t) flash_dev;
+	*flash_id = (uintptr_t) flash_dev;
 
 	return 0;
 }
@@ -191,7 +191,7 @@ int32_t PIOS_Flash_Internal_Init(uint32_t * flash_id, const struct pios_flash_in
  *********************************/
 #include "pios_flash.h"
 
-static int32_t PIOS_Flash_Internal_StartTransaction(uint32_t flash_id)
+static int32_t PIOS_Flash_Internal_StartTransaction(uintptr_t flash_id)
 {
 	struct pios_internal_flash_dev * flash_dev = (struct pios_internal_flash_dev *)flash_id;
 
@@ -208,7 +208,7 @@ static int32_t PIOS_Flash_Internal_StartTransaction(uint32_t flash_id)
 	return 0;
 }
 
-static int32_t PIOS_Flash_Internal_EndTransaction(uint32_t flash_id)
+static int32_t PIOS_Flash_Internal_EndTransaction(uintptr_t flash_id)
 {
 	struct pios_internal_flash_dev * flash_dev = (struct pios_internal_flash_dev *)flash_id;
 
@@ -226,7 +226,7 @@ static int32_t PIOS_Flash_Internal_EndTransaction(uint32_t flash_id)
 	return 0;
 }
 
-static int32_t PIOS_Flash_Internal_EraseSector(uint32_t flash_id, uint32_t addr)
+static int32_t PIOS_Flash_Internal_EraseSector(uintptr_t flash_id, uint32_t addr)
 {
 	struct pios_internal_flash_dev * flash_dev = (struct pios_internal_flash_dev *)flash_id;
 
@@ -250,7 +250,7 @@ static int32_t PIOS_Flash_Internal_EraseSector(uint32_t flash_id, uint32_t addr)
 	return 0;
 }
 
-static int32_t PIOS_Flash_Internal_WriteData(uint32_t flash_id, uint32_t addr, uint8_t * data, uint16_t len)
+static int32_t PIOS_Flash_Internal_WriteData(uintptr_t flash_id, uint32_t addr, uint8_t * data, uint16_t len)
 {
 	PIOS_Assert(data);
 
@@ -292,7 +292,7 @@ static int32_t PIOS_Flash_Internal_WriteData(uint32_t flash_id, uint32_t addr, u
 	return 0;
 }
 
-static int32_t PIOS_Flash_Internal_ReadData(uint32_t flash_id, uint32_t addr, uint8_t * data, uint16_t len)
+static int32_t PIOS_Flash_Internal_ReadData(uintptr_t flash_id, uint32_t addr, uint8_t * data, uint16_t len)
 {
 	PIOS_Assert(data);
 

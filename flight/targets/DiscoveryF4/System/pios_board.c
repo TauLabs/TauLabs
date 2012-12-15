@@ -109,10 +109,10 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_LED */
 
 #if defined(PIOS_INCLUDE_FLASH)
-	/* Connect flash to the approrpiate interface and configure it */
-	uint32_t flash_id;
+	/* Connect flash to the appropriate interface and configure it */
+	uintptr_t flash_id;
 	PIOS_Flash_Internal_Init(&flash_id, &flash_internal_cfg);
-	uint32_t fs_id;
+	uintptr_t fs_id;
 	PIOS_FLASHFS_Logfs_Init(&fs_id, &flashfs_internal_cfg, &pios_internal_flash_driver, flash_id);
 #endif
 	

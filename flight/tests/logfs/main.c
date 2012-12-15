@@ -31,14 +31,14 @@ int main (int argc, char * argv[])
 
 	/* dd if=/dev/zero bs=1 count=2MiB | tr '\000' '\377' > theflash.bin */
 
-	uint32_t flash_id;
+	uintptr_t flash_id;
 	rc = PIOS_Flash_UT_Init(&flash_id, &flash_config);
 	if (rc != 0) {
 		printf ("flash init failed (%d)\n", rc);
 		abort();
 	}
 
-	uint32_t fs_id;
+	uintptr_t fs_id;
 	rc = PIOS_FLASHFS_Logfs_Init(&fs_id, &flashfs_config, &pios_ut_flash_driver, flash_id);
 	if (rc != 0) {
 		printf ("flash filesystem init failed (%d)\n", rc);

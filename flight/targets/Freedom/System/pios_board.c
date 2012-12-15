@@ -313,10 +313,10 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_FLASH)
 	/* Connect flash to the approrpiate interface and configure it */
-	uint32_t flash_id;
+	uintptr_t flash_id;
 	if (PIOS_Flash_Jedec_Init(&flash_id, pios_spi_telem_flash_id, 1, &flash_m25p_cfg) != 0)
 		panic();
-	uint32_t fs_id;
+	uintptr_t fs_id;
 	if (PIOS_FLASHFS_Logfs_Init(&fs_id, &flashfs_m25p_cfg, &pios_jedec_flash_driver, flash_id) != 0)
 		panic();
 #endif
