@@ -1,4 +1,5 @@
-/*****************************************************************************
+/**
+ *****************************************************************************
  * @file       pios_board.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
  * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
@@ -6,7 +7,7 @@
  * @{
  * @addtogroup OpenPilotCore OpenPilot Core
  * @{
- * @brief Defines board specific static initializers for hardware for the flying f4 board.
+ * @brief Defines board specific static initializers for hardware for the FlyingF4 board.
  *****************************************************************************/
 /* 
  * This program is free software; you can redistribute it and/or modify 
@@ -154,22 +155,6 @@ static const struct pios_mpu60x0_cfg pios_mpu6050_cfg = {
 };
 #endif /* PIOS_INCLUDE_MPU6050 */
 
-#if defined(PIOS_INCLUDE_FLASH)
-static const struct flashfs_cfg flashfs_m25p_cfg = {
-	.table_magic = 0x88ADDE24,
-	.obj_magic = 0x39A52FE1,
-	.obj_table_start = 0x00000010,
-	.obj_table_end = 0x00010000,
-	.sector_size = 0x00010000,
-	.chip_size = 0x00200000,
-};
-
-static const struct pios_flash_jedec_cfg flash_m25p_cfg = {
-	.sector_erase = 0xD8,
-	.chip_erase = 0xC7
-};
-#endif
-
 /* One slot per selectable receiver group.
  *  eg. PWM, PPM, GCS, SPEKTRUM1, SPEKTRUM2, SBUS
  * NOTE: No slot in this map for NONE.
@@ -295,9 +280,13 @@ void PIOS_Board_Init(void) {
 	if (PIOS_SPI_Init(&pios_spi_flash_id, &pios_spi_flash_cfg)) {
 		PIOS_DEBUG_Assert(0);
 	}
-	if (PIOS_Flash_Jedec_Init(pios_spi_flash_id, 0, &flash_m25p_cfg) != 0)
+
+	/* Connect flash to the appropriate interface and configure it */
+	uintptr_t flash_id;
+	if (PIOS_Flash_Jedec_Init(&flash_id, pios_spi_flash_id, 0, &flash_m25p_cfg) != 0)
 		panic();
-	if (PIOS_FLASHFS_Init(&flashfs_m25p_cfg) != 0)
+	uintptr_t fs_id;
+	if (PIOS_FLASHFS_Logfs_Init(&fs_id, &flashfs_m25p_cfg, &pios_jedec_flash_driver, flash_id) != 0)
 		panic();
 #endif
 	
