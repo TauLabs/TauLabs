@@ -114,7 +114,7 @@ static int32_t PIOS_Flash_Jedec_Validate(struct jedec_flash_dev * flash_dev) {
 /**
  * @brief Initialize the flash device and enable write access
  */
-int32_t PIOS_Flash_Jedec_Init(uint32_t * flash_id, uint32_t spi_id, uint32_t slave_num, const struct pios_flash_jedec_cfg * cfg)
+int32_t PIOS_Flash_Jedec_Init(uintptr_t * flash_id, uint32_t spi_id, uint32_t slave_num, const struct pios_flash_jedec_cfg * cfg)
 {
 	struct jedec_flash_dev * flash_dev = PIOS_Flash_Jedec_alloc();
 	if (flash_dev == NULL)
@@ -129,7 +129,7 @@ int32_t PIOS_Flash_Jedec_Init(uint32_t * flash_id, uint32_t spi_id, uint32_t sla
 		return -1;
 
 	/* Give back a handle to this flash device */
-	*flash_id = (uint32_t) flash_dev;
+	*flash_id = (uintptr_t) flash_dev;
 
 	return 0;
 }
@@ -246,7 +246,7 @@ static int32_t PIOS_Flash_Jedec_ReadID(struct jedec_flash_dev * flash_dev)
  * @brief Grab the semaphore to perform a transaction
  * @return 0 for success, -1 for timeout
  */
-static int32_t PIOS_Flash_Jedec_StartTransaction(uint32_t flash_id)
+static int32_t PIOS_Flash_Jedec_StartTransaction(uintptr_t flash_id)
 {
 	struct jedec_flash_dev * flash_dev = (struct jedec_flash_dev *)flash_id;
 
@@ -265,7 +265,7 @@ static int32_t PIOS_Flash_Jedec_StartTransaction(uint32_t flash_id)
  * @brief Release the semaphore to perform a transaction
  * @return 0 for success, -1 for timeout
  */
-static int32_t PIOS_Flash_Jedec_EndTransaction(uint32_t flash_id)
+static int32_t PIOS_Flash_Jedec_EndTransaction(uintptr_t flash_id)
 {
 	struct jedec_flash_dev * flash_dev = (struct jedec_flash_dev *)flash_id;
 
@@ -282,12 +282,12 @@ static int32_t PIOS_Flash_Jedec_EndTransaction(uint32_t flash_id)
 
 #else  /* FLASH_USE_FREERTOS_LOCKS */
 
-static int32_t PIOS_Flash_Jedec_StartTransaction(uint32_t flash_id)
+static int32_t PIOS_Flash_Jedec_StartTransaction(uintptr_t flash_id)
 {
 	return 0;
 }
 
-static int32_t PIOS_Flash_Jedec_EndTransaction(uint32_t flash_id)
+static int32_t PIOS_Flash_Jedec_EndTransaction(uintptr_t flash_id)
 {
 	return 0;
 }
@@ -301,7 +301,7 @@ static int32_t PIOS_Flash_Jedec_EndTransaction(uint32_t flash_id)
  * @retval -1 if unable to claim bus
  * @retval
  */
-static int32_t PIOS_Flash_Jedec_EraseSector(uint32_t flash_id, uint32_t addr)
+static int32_t PIOS_Flash_Jedec_EraseSector(uintptr_t flash_id, uint32_t addr)
 {
 	struct jedec_flash_dev * flash_dev = (struct jedec_flash_dev *)flash_id;
 
@@ -338,7 +338,7 @@ static int32_t PIOS_Flash_Jedec_EraseSector(uint32_t flash_id, uint32_t addr)
  * @brief Execute the whole chip
  * @returns 0 if successful, -1 if unable to claim bus
  */
-static int32_t PIOS_Flash_Jedec_EraseChip(uint32_t flash_id)
+static int32_t PIOS_Flash_Jedec_EraseChip(uintptr_t flash_id)
 {
 	struct jedec_flash_dev * flash_dev = (struct jedec_flash_dev *)flash_id;
 
@@ -389,7 +389,7 @@ static int32_t PIOS_Flash_Jedec_EraseChip(uint32_t flash_id)
  * @retval -2 Size exceeds 256 bytes
  * @retval -3 Length to write would wrap around page boundary
  */
-static int32_t PIOS_Flash_Jedec_WriteData(uint32_t flash_id, uint32_t addr, uint8_t * data, uint16_t len)
+static int32_t PIOS_Flash_Jedec_WriteData(uintptr_t flash_id, uint32_t addr, uint8_t * data, uint16_t len)
 {
 	struct jedec_flash_dev * flash_dev = (struct jedec_flash_dev *)flash_id;
 
@@ -457,7 +457,7 @@ static int32_t PIOS_Flash_Jedec_WriteData(uint32_t flash_id, uint32_t addr, uint
  * @retval -2 Size exceeds 256 bytes
  * @retval -3 Length to write would wrap around page boundary
  */
-static int32_t PIOS_Flash_Jedec_WriteChunks(uint32_t flash_id, uint32_t addr, struct pios_flash_chunk chunks[], uint32_t num)
+static int32_t PIOS_Flash_Jedec_WriteChunks(uintptr_t flash_id, uint32_t addr, struct pios_flash_chunk chunks[], uint32_t num)
 {
 	struct jedec_flash_dev * flash_dev = (struct jedec_flash_dev *)flash_id;
 
@@ -516,7 +516,7 @@ static int32_t PIOS_Flash_Jedec_WriteChunks(uint32_t flash_id, uint32_t addr, st
  * @return Zero if success or error code
  * @retval -1 Unable to claim SPI bus
  */
-static int32_t PIOS_Flash_Jedec_ReadData(uint32_t flash_id, uint32_t addr, uint8_t * data, uint16_t len)
+static int32_t PIOS_Flash_Jedec_ReadData(uintptr_t flash_id, uint32_t addr, uint8_t * data, uint16_t len)
 {
 	struct jedec_flash_dev * flash_dev = (struct jedec_flash_dev *)flash_id;
 
