@@ -140,7 +140,7 @@ int32_t PIOS_LSM303_Init(uint32_t i2c_id, const struct pios_lsm303_cfg * cfg)
 	/* Configure the LSM303 Sensor */
 	PIOS_LSM303_Config(cfg);
 
-	int result = xTaskCreate(PIOS_LSM303_Task, (const signed char *)"PIOS_LSM303_Task",
+	int result = xTaskCreate(PIOS_LSM303_Task, (const signed char *)"pios_lsm303",
 						 LSM303_TASK_STACK, NULL, LSM303_TASK_PRIORITY,
 						 &dev->TaskHandle);
 	PIOS_Assert(result == pdPASS);
