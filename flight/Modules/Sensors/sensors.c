@@ -162,6 +162,7 @@ int32_t mag_test;
  * 1. BMA180 accel and MPU6000 gyro
  * 2. MPU6000 gyro and accel
  * 3. BMA180 accel and L3GD20 gyro
+ * 4. LSM303 accel and L3GD20 gyro
  */
 
 uint32_t sensor_dt_us;
@@ -365,43 +366,56 @@ static void SensorsTask(void *parameters)
 			case 0x04:  // L3GD20 + LSM303 board
 #if defined(PIOS_INCLUDE_LSM303)
 			{
+				//this one comes at 400HZ
+				accel_scaling = PIOS_LSM303_GetScale_Accel();
 				struct pios_lsm303_accel_data accel;
-				accel_samples = 0;
-				xQueueHandle accel_queue = PIOS_LSM303_GetQueue_Accel();
+				xQueueHandle queue = PIOS_LSM303_GetQueue_Accel();
 
-				if(xQueueReceive(accel_queue, (void *) &accel, 4) == errQUEUE_EMPTY) {
+				while (xQueueReceive(queue, (void*)&accel, (accel_samples == 0 ? 10 / portTICK_RATE_MS : 0)) != errQUEUE_EMPTY)
+				{
+					accel_accum[0] += accel.accel_x;
+					accel_accum[1] += accel.accel_y;
+					accel_accum[2] += accel.accel_z;
+					++accel_samples;
+				}
+				if (accel_samples == 0)
+				{
+					// Unfortunately if the LSM303 ever misses getting read, then it will not
+					// trigger more interrupts.  In this case we must force a read to kickstart
+					// it.
+					struct pios_lsm303_accel_data data;
+					PIOS_LSM303_ReadData_Accel(&data);
 					error = true;
 					continue;
 				}
-
-				accel_samples = 1;
-				accel_accum[1] += accel.accel_x;
-				accel_accum[0] += accel.accel_y;
-				accel_accum[2] -= accel.accel_z;
-
-				accel_scaling = PIOS_LSM303_GetScale_Accel();
-
-				// Get temp from last reading
+				// No temp
 				accelsData.temperature = 0;
 			}
 #endif /* PIOS_INCLUDE_LSM303 */
 #if defined(PIOS_INCLUDE_L3GD20)
 			{
+				//this one comes at 760HZ
+				gyro_scaling = PIOS_L3GD20_GetScale();
 				struct pios_l3gd20_data gyro;
-				gyro_samples = 0;
-				xQueueHandle gyro_queue = PIOS_L3GD20_GetQueue();
+				xQueueHandle queue = PIOS_L3GD20_GetQueue();
 
-				if(xQueueReceive(gyro_queue, (void *) &gyro, 4) == errQUEUE_EMPTY) {
+				while (xQueueReceive(queue, (void*)&gyro, (gyro_samples == 0 ? 10 / portTICK_RATE_MS : 0)) != errQUEUE_EMPTY)
+				{
+					gyro_accum[0] += gyro.gyro_x;
+					gyro_accum[1] += gyro.gyro_y;
+					gyro_accum[2] += gyro.gyro_z;
+					++gyro_samples;
+				}
+				if (gyro_samples == 0)
+				{
+					// Unfortunately if the L3GD20 ever misses getting read, then it will not
+					// trigger more interrupts.  In this case we must force a read to kickstart
+					// it.
+					struct pios_l3gd20_data data;
+					PIOS_L3GD20_ReadGyros(&data);
 					error = true;
 					continue;
 				}
-
-				gyro_samples = 1;
-				gyro_accum[1] += gyro.gyro_x;
-				gyro_accum[0] += gyro.gyro_y;
-				gyro_accum[2] -= gyro.gyro_z;
-
-				gyro_scaling = PIOS_L3GD20_GetScale();
 
 				// Get temp from last reading
 				gyrosData.temperature = gyro.temperature;
