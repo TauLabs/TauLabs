@@ -49,10 +49,19 @@ public:
     /**
     *   Return the list of devices found on the system
     */
+
+    /**
+     * @brief The device struct
+     *  2012.12.10: added additional fields to the device, to
+     *              facilitate multiple board support and more
+     *              robust device opening.
+     */
     struct device
     {
         QString name;
         QString displayName;
+        int vendorID;        // Only makes sense for USB devices
+        int productID;       // Only makes sense for USB devices
         bool operator==(device i){return this->name==i.name;}
     };
 
@@ -63,7 +72,7 @@ public:
     *   It should be a dynamically created object as it will be
     *   deleted by the connection manager.
     */
-    virtual QIODevice *openDevice(const QString &deviceName) = 0;
+    virtual QIODevice *openDevice(const device device) = 0;
 
     virtual void closeDevice(const QString &deviceName) { Q_UNUSED(deviceName) };
 

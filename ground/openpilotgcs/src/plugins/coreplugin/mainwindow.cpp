@@ -31,6 +31,7 @@
 #include "actionmanager_p.h"
 #include "basemode.h"
 #include "connectionmanager.h"
+#include "boardmanager.h"
 #include "coreimpl.h"
 #include "coreconstants.h"
 #include "utils/mytabwidget.h"
@@ -114,6 +115,7 @@ MainWindow::MainWindow() :
     m_threadManager(new ThreadManager(this)),
     m_modeManager(0),
     m_connectionManager(0),
+    m_boardManager(0),
     m_mimeDatabase(new MimeDatabase),
     m_versionDialog(0),
     m_authorsDialog(0),
@@ -177,6 +179,8 @@ MainWindow::MainWindow() :
     m_modeManager = new ModeManager(this, m_modeStack);
 
     m_connectionManager = new ConnectionManager(this, m_modeStack);
+
+    m_boardManager = new BoardManager();
 
     m_messageManager = new MessageManager;
     setCentralWidget(m_modeStack);
@@ -251,6 +255,7 @@ bool MainWindow::init(QString *errorMessage)
     pm->addObject(m_coreImpl);
     m_modeManager->init();
     m_connectionManager->init();
+    m_boardManager->init();
 
     pm->addObject(m_generalSettings);
     pm->addObject(m_shortcutSettings);
@@ -966,6 +971,11 @@ ThreadManager *MainWindow::threadManager() const
 ConnectionManager *MainWindow::connectionManager() const
 {
     return m_connectionManager;
+}
+
+BoardManager *MainWindow::boardManager() const
+{
+    return m_boardManager;
 }
 
 QList<UAVGadgetManager*> MainWindow::uavGadgetManagers() const

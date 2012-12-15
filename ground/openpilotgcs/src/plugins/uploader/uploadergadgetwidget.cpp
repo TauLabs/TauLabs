@@ -450,16 +450,24 @@ bool UploaderGadgetWidget::autoUpdate()
     QTimer timer;
     timer.setSingleShot(true);
     connect(&timer,SIGNAL(timeout()),&loop,SLOT(quit()));
-    while(USBMonitor::instance()->availableDevices(0x20a0,-1,-1,-1).length()>0)
+    bool stillLooking = true;
+    Core::BoardManager* brdMgr = Core::ICore::instance()->boardManager();
+    QList<int> brdVID = brdMgr->getKnownVendorIDs();
+    while(stillLooking)
     {
-             emit autoUpdateSignal(WAITING_DISCONNECT,QVariant());
-             if(QMessageBox::warning(this,tr("OpenPilot Uploader"),tr("Please disconnect all openpilot boards"),QMessageBox::Ok,QMessageBox::Cancel)==QMessageBox::Cancel)
-             {
-                     emit autoUpdateSignal(FAILURE,QVariant());
-                     return false;
-             }
-             timer.start(500);
-             loop.exec();
+        stillLooking = false;
+        foreach(int vendorID, brdVID) {
+            stillLooking |= (USBMonitor::instance()->availableDevices(vendorID,-1,-1,-1).length()>0);
+        }
+
+         emit autoUpdateSignal(WAITING_DISCONNECT,QVariant());
+         if(QMessageBox::warning(this,tr("OpenPilot Uploader"),tr("Please disconnect all boards"),QMessageBox::Ok,QMessageBox::Cancel)==QMessageBox::Cancel)
+         {
+                 emit autoUpdateSignal(FAILURE,QVariant());
+                 return false;
+         }
+         timer.start(500);
+         loop.exec();
     }
     emit autoUpdateSignal(WAITING_CONNECT,0);
     autoUpdateConnectTimeout=0;
@@ -592,9 +600,15 @@ void UploaderGadgetWidget::systemRescue()
     log("** Follow those instructions to attempt a system rescue **");
     log("**********************************************************");
     log("You will be prompted to first connect USB, then system power");
-    if(USBMonitor::instance()->availableDevices(0x20a0,-1,-1,-1).length()>0)
+    Core::BoardManager* brdMgr = Core::ICore::instance()->boardManager();
+    QList<int> brdVID = brdMgr->getKnownVendorIDs();
+    bool  boardPresent = false;
+    foreach(int vendorID, brdVID) {
+            boardPresent |= (USBMonitor::instance()->availableDevices(vendorID,-1,-1,-1).length()>0);
+    }
+    if(boardPresent)
     {
-        if(QMessageBox::warning(this,tr("OpenPilot Uploader"),tr("Please disconnect all openpilot boards"),QMessageBox::Ok,QMessageBox::Cancel)==QMessageBox::Cancel)
+        if(QMessageBox::warning(this,tr("PhoenixPilot Uploader"),tr("Please disconnect all boards"),QMessageBox::Ok,QMessageBox::Cancel)==QMessageBox::Cancel)
         {
             m_config->rescueButton->setEnabled(true);
             return;

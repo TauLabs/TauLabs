@@ -92,6 +92,11 @@ ConnectionManager *CoreImpl::connectionManager() const
     return m_mainwindow->connectionManager();
 }
 
+BoardManager *CoreImpl::boardManager() const
+{
+    return m_mainwindow->boardManager();
+}
+
 UAVGadgetInstanceManager *CoreImpl::uavGadgetInstanceManager() const
 {
     return m_mainwindow->uavGadgetInstanceManager();

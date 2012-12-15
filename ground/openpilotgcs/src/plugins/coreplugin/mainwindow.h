@@ -53,6 +53,7 @@ class IContext;
 class IMode;
 class IWizard;
 class ConnectionManager;
+class BoardManager;
 class MessageManager;
 class MimeDatabase;
 class ModeManager;
@@ -106,6 +107,7 @@ public:
     QList<UAVGadgetManager*> uavGadgetManagers() const;
     UAVGadgetInstanceManager *uavGadgetInstanceManager() const;
     Core::ConnectionManager *connectionManager() const;
+    Core::BoardManager *boardManager() const;
     Core::VariableManager *variableManager() const;
     Core::ThreadManager *threadManager() const;
     Core::ModeManager *modeManager() const;
@@ -188,6 +190,7 @@ private:
     QList<UAVGadgetManager*> m_uavGadgetManagers;
     UAVGadgetInstanceManager *m_uavGadgetInstanceManager;
     ConnectionManager *m_connectionManager;
+    BoardManager *m_boardManager;
     MimeDatabase *m_mimeDatabase;
     MyTabWidget *m_modeStack;
     Core::BaseView *m_outputView;

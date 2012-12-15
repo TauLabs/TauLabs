@@ -1,13 +1,14 @@
 /**
  ******************************************************************************
  *
- * @file       rawhid_const.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @file       revomini.h
+ * @author     The PhoenixPilot Team, http://github.com/PhoenixPilot Copyright (C) 2012.
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup RawHIDPlugin Raw HID Plugin
+ * @addtogroup Boards_OpenPilotPlugin OpenPilot boards support Plugin
  * @{
- * @brief Impliments a HID USB connection to the flight hardware as a QIODevice
+ * @brief Plugin to support boards by the OP project
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -24,15 +25,26 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+#ifndef REVOMINI_H
+#define REVOMINI_H
 
-#ifndef RAWHID_CONST_H
-#define RAWHID_CONST_H
+#include <coreplugin/iboardtype.h>
 
-static const int USB_MAX_DEVICES    = 10;
+class IBoardType;
 
-static const int USB_USAGE_PAGE     = 0xFF9C;
-static const int USB_USAGE          = 0x0001;
+class RevoMini : public Core::IBoardType
+{
+public:
+    RevoMini();
+    virtual ~RevoMini();
 
-static const int USB_DEV_SERIAL_LEN = 24;
+    virtual QString shortName();
+    virtual QString boardDescription();
+    virtual QStringList getSupportedProtocols();
+    virtual QPixmap* getBoardPicture() { return new QPixmap; }
 
-#endif // RAWHID_CONST_H
+
+};
+
+
+#endif // REVOMINI_H
