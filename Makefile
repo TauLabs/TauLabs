@@ -208,12 +208,7 @@ endif
 ##############################
 
 .PHONY: all_ground
-all_ground: openpilotgcs
-
-# Convenience target for the GCS
-.PHONY: gcs gcs_clean
-gcs: openpilotgcs
-gcs_clean: openpilotgcs_clean
+all_ground: gcs
 
 ifeq ($(V), 1)
 GCS_SILENT := 
@@ -221,18 +216,18 @@ else
 GCS_SILENT := silent
 endif
 
-.PHONY: openpilotgcs
-openpilotgcs:  uavobjects_gcs
+.PHONY: gcs
+gcs:  uavobjects_gcs
 	$(V1) mkdir -p $(BUILD_DIR)/ground/$@
 	$(V1) ( cd $(BUILD_DIR)/ground/$@ && \
-	  $(QMAKE) $(ROOT_DIR)/ground/openpilotgcs/openpilotgcs.pro -spec $(QT_SPEC) -r CONFIG+="$(GCS_BUILD_CONF) $(GCS_SILENT)" $(GCS_QMAKE_OPTS) && \
+	  $(QMAKE) $(ROOT_DIR)/ground/gcs/gcs.pro -spec $(QT_SPEC) -r CONFIG+="$(GCS_BUILD_CONF) $(GCS_SILENT)" $(GCS_QMAKE_OPTS) && \
 	  $(MAKE) -w ; \
 	)
 
-.PHONY: openpilotgcs_clean
-openpilotgcs_clean:
+.PHONY: gcs_clean
+gcs_clean:
 	$(V0) @echo " CLEAN      $@"
-	$(V1) [ ! -d "$(BUILD_DIR)/ground/openpilotgcs" ] || $(RM) -r "$(BUILD_DIR)/ground/openpilotgcs"
+	$(V1) [ ! -d "$(BUILD_DIR)/ground/gcs" ] || $(RM) -r "$(BUILD_DIR)/ground/gcs"
 
 ifeq ($(V), 1)
 UAVOGEN_SILENT := 
