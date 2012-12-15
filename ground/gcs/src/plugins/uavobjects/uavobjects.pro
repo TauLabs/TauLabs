@@ -84,8 +84,6 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/pathdesired.h \
     $$UAVOBJECT_SYNTHETICS/pathplannersettings.h \
     $$UAVOBJECT_SYNTHETICS/pathstatus.h \
-    $$UAVOBJECT_SYNTHETICS/pipxsettings.h \
-    $$UAVOBJECT_SYNTHETICS/pipxstatus.h \
     $$UAVOBJECT_SYNTHETICS/positionactual.h \
     $$UAVOBJECT_SYNTHETICS/ratedesired.h \
     $$UAVOBJECT_SYNTHETICS/receiveractivity.h \
@@ -170,8 +168,6 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/pathdesired.cpp \
     $$UAVOBJECT_SYNTHETICS/pathplannersettings.cpp \
     $$UAVOBJECT_SYNTHETICS/pathstatus.cpp \
-    $$UAVOBJECT_SYNTHETICS/pipxsettings.cpp \
-    $$UAVOBJECT_SYNTHETICS/pipxstatus.cpp \
     $$UAVOBJECT_SYNTHETICS/positionactual.cpp \
     $$UAVOBJECT_SYNTHETICS/ratedesired.cpp \
     $$UAVOBJECT_SYNTHETICS/receiveractivity.cpp \
