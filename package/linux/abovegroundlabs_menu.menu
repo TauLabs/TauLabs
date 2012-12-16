@@ -3,10 +3,10 @@
 <Menu>
   <Name>Applications</Name>
   <Menu>
-    <Name>OpenPilot</Name>
-    <Directory>openpilot_menu.directory</Directory>
+    <Name>Above Ground Labs</Name>
+    <Directory>abovegroundlabs_menu.directory</Directory>
     <Include>
-        <Category>OpenPilotMenu</Category>
+        <Category>AboveGroundLabsMenu</Category>
     </Include>
-  </Menu> <!-- End OpenPilot Menu-->
+  </Menu> <!-- End Above Ground Labs Menu-->
 </Menu>

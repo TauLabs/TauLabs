@@ -1,15 +1,14 @@
-Source: openpilot
+Source: abovegroundlabs
 Section: unknown
 Priority: extra
 Maintainer: naiiawah <naiiawah@openpilot.org>
 Build-Depends: debhelper (>= 7.0.50~)
 Standards-Version: 3.8.4
-Homepage: http://www.openpilot.org
-Vcs-Git: git://git.openpilot.org/OpenPilot.git
-Vcs-Browser: http://git.openpilot.org/changelog/OpenPilot
+Homepage: http://abovegroundlabs.org
+Vcs-Git: git://github.com/PhoenixPilot/PhoenixPilot.git
+Vcs-Browser: https://github.com/PhoenixPilot/PhoenixPilot/commits/next 
 
-Package: openpilot
+Package: abovegroundlabs
 Architecture: amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: OpenPilot GCS & FW
- OpenPilot GCS and Firmware for CopterControl (CC) board.
+Description: Above Ground Labs GCS & FW
