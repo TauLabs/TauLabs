@@ -67,6 +67,8 @@ struct pios_usart_dev {
 	uint32_t rx_in_context;
 	pios_com_callback tx_out_cb;
 	uint32_t tx_out_context;
+
+	uint32_t error_overruns;
 };
 
 static bool PIOS_USART_validate(struct pios_usart_dev * usart_dev)
@@ -87,6 +89,9 @@ static struct pios_usart_dev * PIOS_USART_alloc(void)
 	usart_dev->tx_out_cb = 0;
 	usart_dev->tx_out_context = 0;
 	usart_dev->magic = PIOS_USART_DEV_MAGIC;
+
+	usart_dev->error_overruns = 0;
+
 	return(usart_dev);
 }
 #else
@@ -312,25 +317,21 @@ static void PIOS_USART_generic_irq_handler(uint32_t usart_id)
 {
 	struct pios_usart_dev * usart_dev = (struct pios_usart_dev *)usart_id;
 
+	bool rx_need_yield = false;
+	bool tx_need_yield = false;
+
 	bool valid = PIOS_USART_validate(usart_dev);
 	PIOS_Assert(valid);
 	
-	/* Force read of dr after sr to make sure to clear error flags */
-//	volatile uint32_t sr = usart_dev->cfg->regs->ISR;
-//	volatile uint16_t dr = usart_dev->cfg->regs->RDR;
-	
 	/* Check if RXNE flag is set */
-	bool rx_need_yield = false;
-	if (USART_GetFlagStatus(usart_dev->cfg->regs, USART_ISR_RXNE)) {
+	if (USART_GetITStatus(usart_dev->cfg->regs, USART_IT_RXNE)) {
 		uint8_t byte = (uint8_t)USART_ReceiveData(usart_dev->cfg->regs);
 		if (usart_dev->rx_in_cb) {
 			(void) (usart_dev->rx_in_cb)(usart_dev->rx_in_context, &byte, 1, NULL, &rx_need_yield);
 		}
 	}
-	
 	/* Check if TXE flag is set */
-	bool tx_need_yield = false;
-	if (USART_GetFlagStatus(usart_dev->cfg->regs, USART_ISR_TXE)) {
+	if (USART_GetITStatus(usart_dev->cfg->regs, USART_IT_TXE)) {
 		if (usart_dev->tx_out_cb) {
 			uint8_t b;
 			uint16_t bytes_to_send;
@@ -349,11 +350,18 @@ static void PIOS_USART_generic_irq_handler(uint32_t usart_id)
 			USART_ITConfig(usart_dev->cfg->regs, USART_IT_TXE, DISABLE);
 		}
 	}
+	/* Check for overrun condition
+	 * Note i really wanted to use USART_GetITStatus but it fails on getting the
+	 * ORE flag altough RXNE interrupt is enabled.
+	 * Probably a bug in the ST library...
+	 */
+	if (USART_GetFlagStatus(usart_dev->cfg->regs, USART_FLAG_ORE)) {
+		USART_ClearITPendingBit(usart_dev->cfg->regs, USART_IT_ORE);
+		++usart_dev->error_overruns;
+	}
 	
 #if defined(PIOS_INCLUDE_FREERTOS)
-	if (rx_need_yield || tx_need_yield) {
-		vPortYieldFromISR();
-	}
+	portEND_SWITCHING_ISR(rx_need_yield || tx_need_yield);
 #endif	/* PIOS_INCLUDE_FREERTOS */
 }
 
