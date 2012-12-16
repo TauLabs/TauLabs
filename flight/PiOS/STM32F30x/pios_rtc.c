@@ -123,7 +123,6 @@ void PIOS_RTC_irq_handler (void)
 				(cb->fn)(cb->data);
 			}
 		}
-		PIOS_LED_Toggle(PIOS_LED_ORANGE_NE);
 
 		/* Clear the RTC Second interrupt */
 		RTC_ClearITPendingBit(RTC_IT_WUT);
