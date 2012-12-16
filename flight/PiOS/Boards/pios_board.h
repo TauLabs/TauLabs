@@ -17,6 +17,8 @@
 #include "STM32F4xx_Quanton.h"
 #elif USE_STM32F4xx_FLYINGF4
 #include "STM32F4xx_FlyingF4.h"
+#elif USE_STM32F4xx_DISCOVERYF4
+#include "STM32F4xx_DiscoveryF4.h"
 #else
 #error Board definition has not been provided.
 #endif

@@ -27,11 +27,15 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-
 /* Project Includes */
 #include "pios.h"
 
 #if defined(PIOS_INCLUDE_DELAY)
+
+#ifdef __MACH__
+#include <mach/clock.h>
+#include <mach/mach.h>
+#endif
 
 /**
 * Initialises the Timer used by PIOS_DELAY functions<BR>
@@ -106,7 +110,18 @@ int32_t PIOS_DELAY_WaitmS(uint32_t mS)
 uint32_t PIOS_DELAY_GetuS()
 {
 	static struct timespec current;
+
+#ifdef __MACH__ // OS X does not have clock_gettime, use clock_get_time
+	clock_serv_t cclock;
+	mach_timespec_t mts;
+	host_get_clock_service(mach_host_self(), CALENDAR_CLOCK, &cclock);
+	clock_get_time(cclock, &mts);
+	mach_port_deallocate(mach_task_self(), cclock);
+	current.tv_sec = mts.tv_sec;
+	current.tv_nsec = mts.tv_nsec;
+#else
 	clock_gettime(CLOCK_REALTIME, &current);
+#endif	
 	return ((current.tv_sec * 1000000) + (current.tv_nsec / 1000));
 }
 

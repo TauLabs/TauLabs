@@ -7,7 +7,7 @@
  * @{
  * @addtogroup OpenPilotCore OpenPilot Core
  * @{
- * @brief Defines board specific static initializers for hardware for the flying f4 board.
+ * @brief Defines board specific static initializers for hardware for the FlyingF4 board.
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -233,7 +233,29 @@ void PIOS_SPI_flash_irq_handler(void)
 #endif	/* PIOS_INCLUDE_SPI */
 
 
+#if defined(PIOS_INCLUDE_FLASH)
+#include "pios_flashfs_logfs_priv.h"
+#include "pios_flash_jedec_priv.h"
 
+static const struct flashfs_logfs_cfg flashfs_m25p_cfg = {
+	.fs_magic      = 0x99abceef,
+	.total_fs_size = 0x00200000, /* 2M bytes (32 sectors = entire chip) */
+	.arena_size    = 0x00010000, /* 256 * slot size */
+	.slot_size     = 0x00000100, /* 256 bytes */
+
+	.start_offset  = 0,	     /* start at the beginning of the chip */
+	.sector_size   = 0x00010000, /* 64K bytes */
+	.page_size     = 0x00000100, /* 256 bytes */
+};
+
+static const struct pios_flash_jedec_cfg flash_m25p_cfg = {
+	.sector_erase = 0xD8,
+	.chip_erase = 0xC7
+};
+
+#include "pios_flash.h"
+
+#endif
 
 #if defined(PIOS_INCLUDE_I2C)
 

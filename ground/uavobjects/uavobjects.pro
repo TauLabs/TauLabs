@@ -48,9 +48,9 @@ win32 {
     uavobjects.commands +=   $$targetPath(../..) &&
     uavobjects.commands += popd $$addNewline()
 
-    uavobjects.commands += pushd $$targetPath(../../ground/openpilotgcs) &&
+    uavobjects.commands += pushd $$targetPath(../../ground/gcs) &&
     uavobjects.commands += $(QMAKE) -spec $$SPEC CONFIG+=$${BUILD_CONFIG} -r
-    uavobjects.commands +=   $$targetPath(../../../ground/openpilotgcs/)openpilotgcs.pro &&
+    uavobjects.commands +=   $$targetPath(../../../ground/src/)gcs.pro &&
     uavobjects.commands += popd $$addNewline()
 }
 
@@ -61,8 +61,8 @@ win32 {
     uavobjects.commands += ../ground/uavobjgenerator/uavobjgenerator
     uavobjects.commands += -gcs -flight -python -matlab ../../shared/uavobjectdefinition ../.. &&
 
-    uavobjects.commands += cd ../ground/openpilotgcs &&
-    uavobjects.commands += $(QMAKE) ../../../ground/openpilotgcs/openpilotgcs.pro
+    uavobjects.commands += cd ../ground/gcs &&
+    uavobjects.commands += $(QMAKE) ../../../ground/gcs/gcs.pro
     uavobjects.commands += -spec $$SPEC CONFIG+=$${BUILD_CONFIG} -r $$addNewline()
 }
 
