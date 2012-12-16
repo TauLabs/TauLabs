@@ -364,7 +364,6 @@ endif
 
 CFLAGS += -Wall
 #CFLAGS += -Werror
-CFLAGS += -Wa,-adhlns=$(addprefix $(OUTDIR)/, $(notdir $(addsuffix .lst, $(basename $<))))
 # Compiler flags to generate dependency files:
 CFLAGS += -MD -MP -MF $(OUTDIR)/dep/$(@F).d
 
@@ -377,7 +376,6 @@ CONLYFLAGS += $(CSTANDARD)
 #  -ahlns:     create listing
 ASFLAGS  = $(ARCHFLAGS) -I. -x assembler-with-cpp
 ASFLAGS += $(ADEFS)
-ASFLAGS += -Wa,-adhlns=$(addprefix $(OUTDIR)/, $(notdir $(addsuffix .lst, $(basename $<))))
 ASFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
 
 MATH_LIB = -lm
@@ -402,7 +400,7 @@ LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_APP))
 REMOVE  = $(REMOVE_CMD) -f
 PYHON   = python
 
-$(OUTDIR)/sim_firmwareinfo.c: $(TOP)/make/templates/firmwareinfotemplate.c
+$(OUTDIR)/sim_firmwareinfo.c: $(TOP)/make/templates/firmwareinfotemplate_sim.c
 	$(V1) python $(TOP)/make/scripts/version-info.py \
 		--path=$(TOP) \
 		--template=$^ \
