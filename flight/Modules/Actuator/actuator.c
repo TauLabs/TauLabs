@@ -120,7 +120,6 @@ int32_t ActuatorInitialize()
 	// Listen for ActuatorDesired updates (Primary input to this module)
 	ActuatorDesiredInitialize();
 	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
-	vQueueAddToRegistry(queue, (signed char*)"Actuator_queue");
 	ActuatorDesiredConnectQueue(queue);
 
 	// Primary output of this module

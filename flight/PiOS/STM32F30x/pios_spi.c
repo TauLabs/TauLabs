@@ -93,7 +93,6 @@ int32_t PIOS_SPI_Init(uint32_t * spi_id, const struct pios_spi_cfg * cfg)
 
 #if defined(PIOS_INCLUDE_FREERTOS)
 	vSemaphoreCreateBinary(spi_dev->busy);
-	vQueueAddToRegistry(spi_dev->busy, (signed char*)"pios_spi_busy");
 	xSemaphoreGive(spi_dev->busy);
 #endif
 

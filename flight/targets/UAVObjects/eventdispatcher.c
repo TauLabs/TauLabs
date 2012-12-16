@@ -3,7 +3,6 @@
  *
  * @file       eventdispatcher.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      Event dispatcher, distributes object events as callbacks. Alternative
  * 	       to using tasks and queues. All callbacks are invoked from the event task.
  * @see        The GNU Public License (GPL) Version 3
@@ -93,13 +92,11 @@ int32_t EventDispatcherInitialize()
 
 	// Create mutex
 	mutex = xSemaphoreCreateRecursiveMutex();
-	vQueueAddToRegistry(mutex, (signed char*)"eventdispatcher_mutex");
 	if (mutex == NULL)
 		return -1;
 
 	// Create event queue
 	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(EventCallbackInfo));
-	vQueueAddToRegistry(queue, (signed char*)"eventdispatcher_queue");
 
 	// Create task
 	xTaskCreate( eventTask, (signed char*)"Event", STACK_SIZE, NULL, TASK_PRIORITY, &eventTaskHandle );

@@ -96,7 +96,6 @@ int32_t PathPlannerInitialize()
 	
 	// Create object queue
 	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
-	vQueueAddToRegistry(queue, (signed char*)"PathPlanner_queue");
 
 	return 0;
 }

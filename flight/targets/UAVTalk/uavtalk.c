@@ -7,7 +7,6 @@
  *
  * @file       uavtalk.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      UAVTalk library, implements to telemetry protocol. See the wiki for more details.
  * 	       This library should not be called directly by the application, it is only used by the
  * 	       Telemetry module.
@@ -59,16 +58,13 @@ UAVTalkConnection UAVTalkInitialize(UAVTalkOutputStream outputStream)
 	connection->iproc.state = UAVTALK_STATE_SYNC;
 	connection->outStream = outputStream;
 	connection->lock = xSemaphoreCreateRecursiveMutex();
-	vQueueAddToRegistry(connection->lock, (signed char*)"uavtalk_lock");
 	connection->transLock = xSemaphoreCreateRecursiveMutex();
-	vQueueAddToRegistry(connection->transLock, (signed char*)"uavtalk_transLock");
 	// allocate buffers
 	connection->rxBuffer = pvPortMalloc(UAVTALK_MAX_PACKET_LENGTH);
 	if (!connection->rxBuffer) return 0;
 	connection->txBuffer = pvPortMalloc(UAVTALK_MAX_PACKET_LENGTH);
 	if (!connection->txBuffer) return 0;
 	vSemaphoreCreateBinary(connection->respSema);
-	vQueueAddToRegistry(connection->respSema, (signed char*)"uavtalk_respSema");
 	xSemaphoreTake(connection->respSema, 0); // reset to zero
 	UAVTalkResetStats( (UAVTalkConnection) connection );
 	return (UAVTalkConnection) connection;

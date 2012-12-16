@@ -8,7 +8,6 @@
  *
  * @file       pios_com.c  
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      COM layer functions
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -134,7 +133,6 @@ int32_t PIOS_COM_Init(uint32_t * com_id, const struct pios_com_driver * driver, 
 		fifoBuf_init(&com_dev->rx, rx_buffer, rx_buffer_len);
 #if defined(PIOS_INCLUDE_FREERTOS)
 		vSemaphoreCreateBinary(com_dev->rx_sem);
-		vQueueAddToRegistry(com_dev->rx_sem, (signed char*)"pios_com_rx_sem");
 #endif	/* PIOS_INCLUDE_FREERTOS */
 		(com_dev->driver->bind_rx_cb)(lower_id, PIOS_COM_RxInCallback, (uint32_t)com_dev);
 		if (com_dev->driver->rx_start) {
@@ -148,7 +146,6 @@ int32_t PIOS_COM_Init(uint32_t * com_id, const struct pios_com_driver * driver, 
 		fifoBuf_init(&com_dev->tx, tx_buffer, tx_buffer_len);
 #if defined(PIOS_INCLUDE_FREERTOS)
 		vSemaphoreCreateBinary(com_dev->tx_sem);
-		vQueueAddToRegistry(com_dev->tx_sem, (signed char*)"pios_com_tx_sem");
 #endif	/* PIOS_INCLUDE_FREERTOS */
 		(com_dev->driver->bind_tx_cb)(lower_id, PIOS_COM_TxOutCallback, (uint32_t)com_dev);
 	}

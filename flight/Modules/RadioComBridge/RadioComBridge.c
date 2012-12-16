@@ -8,7 +8,6 @@
  *
  * @file       RadioComBridge.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      Bridges selected Com Port to the COM VCP emulated serial port
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -220,12 +219,8 @@ static int32_t RadioComBridgeInitialize(void)
 
 	// Initialize the queues.
 	data->gcsEventQueue = xQueueCreate(PACKET_QUEUE_SIZE, sizeof(UAVObjEvent));
-	vQueueAddToRegistry(data->gcsEventQueue, (signed char*)"RadioComBridge_gcsEventQueue");
 	if (PIOS_COM_UAVTALK)
-	{
 		data->uavtalkEventQueue = xQueueCreate(PACKET_QUEUE_SIZE, sizeof(UAVObjEvent));
-		vQueueAddToRegistry(data->uavtalkEventQueue, (signed char*)"RadioComBridge_uavtalkEventQueue");
-	}
 	else
 	{
 		data->uavtalkEventQueue = 0;

@@ -176,7 +176,6 @@ int32_t PIOS_Flash_Internal_Init(uintptr_t * flash_id, const struct pios_flash_i
 
 #if defined(PIOS_INCLUDE_FREERTOS)
 	flash_dev->transaction_lock = xSemaphoreCreateMutex();
-	vQueueAddToRegistry(flash_dev->transaction_lock, (signed char*)"pios_flash_internal_transaction_lock");
 #endif	/* defined(PIOS_INCLUDE_FREERTOS) */
 
 	*flash_id = (uintptr_t) flash_dev;

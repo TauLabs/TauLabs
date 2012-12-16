@@ -8,7 +8,6 @@
   *
   * @file       pios_bmp085.c  
   * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
-  * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
   * @brief      BMP085 Pressure Sensor Routines
   * @see        The GNU Public License (GPL) Version 3
   *
@@ -119,7 +118,6 @@ void PIOS_BMP085_Init(void)
 #if defined(PIOS_INCLUDE_FREERTOS)
 	/* Semaphore used by ISR to signal End-Of-Conversion */
 	vSemaphoreCreateBinary(PIOS_BMP085_EOC);
-	vQueueAddToRegistry(PIOS_BMP085_EOC, (signed char*)"PIOS_BMP085_EOC");
 	/* Must start off empty so that first transfer waits for EOC */
 	xSemaphoreTake(PIOS_BMP085_EOC, portMAX_DELAY);
 #else
