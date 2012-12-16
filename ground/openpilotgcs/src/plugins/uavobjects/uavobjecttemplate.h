@@ -45,7 +45,7 @@ public:
     // Field structure
     typedef struct {
 $(DATAFIELDS)
-    } __attribute__((packed)) DataFields;
+    } __attribute__((packed)) __attribute__((aligned(4))) DataFields;
 
     // Field information
 $(DATAFIELDINFO)
