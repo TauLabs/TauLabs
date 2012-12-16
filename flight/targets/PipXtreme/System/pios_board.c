@@ -60,7 +60,6 @@ uint32_t pios_ppm_rcvr_id = 0;
 uint32_t pios_rfm22b_id = 0;
 uint32_t pios_com_rfm22b_id = 0;
 uint32_t pios_com_radio_id = 0;
-uint32_t pios_packet_handler = 0;
 #endif
 
 /**

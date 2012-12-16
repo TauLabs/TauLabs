@@ -218,10 +218,7 @@ uint32_t pios_com_telem_usb_id = 0;
 uint32_t pios_com_telem_rf_id = 0;
 uint32_t pios_com_bridge_id = 0;
 uint32_t pios_com_overo_id = 0;
-#if defined(PIOS_INCLUDE_RFM22B)
 uint32_t pios_rfm22b_id = 0;
-uint32_t pios_packet_handler = 0;
-#endif
 
 /* 
  * Setup a com port based on the passed cfg, driver and buffer sizes. tx size of -1 make the port rx only
