@@ -250,15 +250,6 @@ void PIOS_Board_Init(void) {
 			PIOS_Assert(0);
 		}
 	}
-
-	// Initialize the packet handler
-	PacketHandlerConfig pios_ph_cfg = {
-		.default_destination_id = 0xffffffff, // Broadcast
-		.source_id = PIOS_RFM22B_DeviceID(pios_rfm22b_id),
-		.win_size = PIOS_PH_WIN_SIZE,
-		.max_connections = PIOS_PH_MAX_CONNECTIONS,
-	};
-	pios_packet_handler = PHInitialize(&pios_ph_cfg);
 #endif /* PIOS_INCLUDE_RFM22B */
 
 	/* Remap AFIO pin */
