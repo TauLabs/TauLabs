@@ -22,7 +22,7 @@ ifdef OPENOCD_FTDI
 endif
 
 # Set up QT toolchain
-QT_SDK_DIR := $(TOOLS_DIR)/qtsdk-v1.2.1
+QT_SDK_DIR := $(TOOLS_DIR)/Qt5.0.0-rc2
 QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/Desktop/Qt/4.8.1/gcc/bin/qmake
 
 # Build openocd without FTDI (yes | no)
@@ -34,10 +34,10 @@ OPENOCD_FTDI ?= yes
 ifdef LINUX
   ifdef AMD64
     # Linux 64-bit
-    qt_sdk_install: QT_SDK_URL := http://jenkins.taulabs.org/distfiles/QtSdk-offline-linux-x86_64-v1.2.1.run
+    qt_sdk_install: QT_SDK_URL := http://releases.qt-project.org/qt5.0/rc2/qt-linux-opensource-5.0.0-rc2-x86_64-offline.run
   else
     # Linux 32-bit
-    qt_sdk_install: QT_SDK_URL  := http://jenkins.taulabs.org/distfiles/QtSdk-offline-linux-x86-v1.2.1.run
+    qt_sdk_install: QT_SDK_URL  := http://releases.qt-project.org/qt5.0/rc2/qt-linux-opensource-5.0.0-rc2-x86-offline.run
   endif
 endif
 
