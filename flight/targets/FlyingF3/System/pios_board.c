@@ -444,7 +444,7 @@ void PIOS_Board_Init(void) {
 
 	/* UART1 Port */
 	uint8_t hwsettings_uart1;
-	HwSettingsFlyingF3_Uart2Get(&hwsettings_uart1);
+	HwSettingsFlyingF3_Uart1Get(&hwsettings_uart1);
 	switch (hwsettings_uart1) {
 	case HWSETTINGS_FLYINGF3_UART1_DISABLED:
 		break;
@@ -593,7 +593,7 @@ void PIOS_Board_Init(void) {
 
 	/* UART2 Port */
 	uint8_t hwsettings_uart3;
-	HwSettingsFlyingF3_Uart2Get(&hwsettings_uart3);
+	HwSettingsFlyingF3_Uart3Get(&hwsettings_uart3);
 	switch (hwsettings_uart3) {
 	case HWSETTINGS_FLYINGF3_UART3_DISABLED:
 		break;
