@@ -6,8 +6,6 @@ include(../../openpilotgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri) 
 include(notifyplugin_dependencies.pri)
 
-QT        += phonon
-
 HEADERS += notifyplugin.h \  
     notifypluginoptionspage.h \
     notifyitemdelegate.h \
