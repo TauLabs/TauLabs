@@ -99,7 +99,6 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/systemsettings.h \
     $$UAVOBJECT_SYNTHETICS/taskinfo.h \
     $$UAVOBJECT_SYNTHETICS/txpidsettings.h \
-    $$UAVOBJECT_SYNTHETICS/uavobjectsinit.h \
     $$UAVOBJECT_SYNTHETICS/velocitydesired.h \
     $$UAVOBJECT_SYNTHETICS/velocityactual.h \
     $$UAVOBJECT_SYNTHETICS/vtolpathfollowersettings.h \
