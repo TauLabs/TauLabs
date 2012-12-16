@@ -84,6 +84,7 @@ static const struct pios_exti_cfg pios_exti_l3gd20_cfg __exti_config = {
 static const struct pios_l3gd20_cfg pios_l3gd20_cfg = {
 	.exti_cfg = &pios_exti_l3gd20_cfg,
 	.range = PIOS_L3GD20_SCALE_500_DEG,
+	//.orientation = PIOS_L3GD20_TOP_0DEG, FIXME
 };
 #endif /* PIOS_INCLUDE_L3GD20 */
 
@@ -127,7 +128,7 @@ static const struct pios_exti_cfg pios_exti_lsm303_cfg __exti_config = {
 static const struct pios_lsm303_cfg pios_lsm303_cfg = {
 	.exti_cfg = &pios_exti_lsm303_cfg,
 	.devicetype = PIOS_LSM303DLHC_DEVICE,
-	.accel_range = PIOS_LSM303_ACCEL_8_G,
+	.orientation = PIOS_LSM303_TOP_180DEG,
 };
 #endif /* PIOS_INCLUDE_LSM303 */
 
@@ -273,9 +274,9 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_FLASH)
 	/* Connect flash to the appropriate interface and configure it */
-	uint32_t flash_id;
+	uintptr_t flash_id;
 	PIOS_Flash_Internal_Init(&flash_id, &flash_internal_cfg);
-	uint32_t fs_id;
+	uintptr_t fs_id;
 	PIOS_FLASHFS_Logfs_Init(&fs_id, &flashfs_internal_cfg, &pios_internal_flash_driver, flash_id);
 #endif
 	
@@ -773,6 +774,28 @@ void PIOS_Board_Init(void) {
 	if (PIOS_L3GD20_Test() != 0)
 		panic();
 
+	// To be safe map from UAVO enum to driver enum
+	/*
+	 * FIXME: add support for this to l3gd20 driver
+	uint8_t gyro_range;
+	HwSettingsGyroRangeGet(&gyro_range);
+	switch(gyro_range) {
+		case HWSETTINGS_GYRORANGE_250:
+			PIOS_L3GD20_SetRange(PIOS_L3GD20_SCALE_250_DEG);
+			break;
+		case HWSETTINGS_GYRORANGE_500:
+			PIOS_L3GD20_SetRange(PIOS_L3GD20_SCALE_500_DEG);
+			break;
+		case HWSETTINGS_GYRORANGE_1000:
+			//FIXME: how to behave in this case?
+			PIOS_L3GD20_SetRange(PIOS_L3GD20_SCALE_2000_DEG);
+			break;
+		case HWSETTINGS_GYRORANGE_2000:
+			PIOS_L3GD20_SetRange(PIOS_L3GD20_SCALE_2000_DEG);
+			break;
+	}
+	*/
+
 	PIOS_WDG_Clear();
 	PIOS_DELAY_WaitmS(50);
 	PIOS_WDG_Clear();
@@ -781,10 +804,30 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_LSM303) && defined(PIOS_INCLUDE_I2C)
 	if (PIOS_LSM303_Init(pios_i2c_internal_id, &pios_lsm303_cfg) != 0)
 		panic();
-	if (PIOS_LSM303_Test_Accel() != 0)
+	if (PIOS_LSM303_Accel_Test() != 0)
 		panic();
-	if (PIOS_LSM303_Test_Mag() != 0)
+	if (PIOS_LSM303_Mag_Test() != 0)
 		panic();
+
+	uint8_t accel_range;
+	HwSettingsAccelRangeGet(&accel_range);
+	switch(accel_range) {
+		case HWSETTINGS_ACCELRANGE_2G:
+			PIOS_LSM303_Accel_SetRange(PIOS_LSM303_ACCEL_2G);
+			break;
+		case HWSETTINGS_ACCELRANGE_4G:
+			PIOS_LSM303_Accel_SetRange(PIOS_LSM303_ACCEL_4G);
+			break;
+		case HWSETTINGS_ACCELRANGE_8G:
+			PIOS_LSM303_Accel_SetRange(PIOS_LSM303_ACCEL_8G);
+			break;
+		case HWSETTINGS_ACCELRANGE_16G:
+			PIOS_LSM303_Accel_SetRange(PIOS_LSM303_ACCEL_16G);
+			break;
+	}
+
+	//there is no setting for the mag scale yet
+	PIOS_LSM303_Mag_SetRange(PIOS_LSM303_MAG_1_9GA);
 
 	PIOS_WDG_Clear();
 	PIOS_DELAY_WaitmS(50);

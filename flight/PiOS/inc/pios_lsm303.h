@@ -102,7 +102,7 @@
 #define PIOS_LSM303DLHC_OUT_Y_H_M		0x07
 #define PIOS_LSM303DLHC_OUT_Y_L_M		0x08
 
-/* Ctrl1 flags */
+/* Accel Ctrl1 flags */
 #define PIOS_LSM303_CTRL1_1344HZ		0x90
 #define PIOS_LSM303_CTRL1_400HZ			0x70
 #define PIOS_LSM303_CTRL1_PD			0x08
@@ -110,7 +110,7 @@
 #define PIOS_LSM303_CTRL1_YEN			0x02
 #define PIOS_LSM303_CTRL1_XEN			0x01
 
-/* Ctrl3 flags */
+/* Accel Ctrl3 flags */
 #define PIOS_LSM303_CTRL3_I1_CLICK		0x80
 #define PIOS_LSM303_CTRL3_I1_AOI1		0x40
 #define PIOS_LSM303_CTRL3_I1_AOI2		0x20
@@ -119,13 +119,13 @@
 #define PIOS_LSM303_CTRL3_I1_WTM		0x04
 #define PIOS_LSM303_CTRL3_I1_OVERRUN	0x02
 
-/* Ctrl4 flags */
+/* Accel Ctrl4 flags */
 #define PIOS_LSM303_CTRL4_BDU			0x80
 #define PIOS_LSM303_CTRL4_BLE			0x40
 #define PIOS_LSM303_CTRL4_HR			0x04
 #define PIOS_LSM303_CTRL4_SIM			0x02
 
-/* Ctrl5 flags */
+/* Accel Ctrl5 flags */
 #define PIOS_LSM303_CTRL5_BOOT			0x80
 #define PIOS_LSM303_CTRL5_FIFO_EN		0x40
 #define PIOS_LSM303_CTRL5_LIR_INT1		0x08
@@ -133,7 +133,7 @@
 #define PIOS_LSM303_CTRL5_LIR_INT2		0x02
 #define PIOS_LSM303_CTRL5_D4D_INT2		0x01
 
-/* Ctrl6 flags */
+/* Accel Ctrl6 flags */
 #define PIOS_LSM303_CTRL6_I2_CLICK_EN	0x80
 #define PIOS_LSM303_CTRL6_I2_INT1		0x40
 #define PIOS_LSM303_CTRL6_I2_INT2		0x20
@@ -141,22 +141,49 @@
 #define PIOS_LSM303_CTRL6_P2_ACT		0x08
 #define PIOS_LSM303_CTRL6_H_LACTIVE		0x02
 
-/* Fifo Ctrl flags */
+/* Accel Fifo Ctrl flags */
 #define PIOS_LSM303_FIFO_MODE_BYPASS	0x00
 #define PIOS_LSM303_FIFO_MODE_FIFO		0x40
 #define PIOS_LSM303_FIFO_MODE_STREAM	0x80
 #define PIOS_LSM303_FIFO_MODE_TRIGGER	0xc0
 
+/* Mag Control Register A */
+#define PIOS_LSM303_CRA_0_75HZ			0x00
+#define PIOS_LSM303_CRA_1_5HZ			0x04
+#define PIOS_LSM303_CRA_3_0HZ			0x08
+#define PIOS_LSM303_CRA_7_5HZ			0x0c
+#define PIOS_LSM303_CRA_15HZ			0x10
+#define PIOS_LSM303_CRA_30HZ			0x14
+#define PIOS_LSM303_CRA_75HZ			0x18
+#define PIOS_LSM303_CRA_220HZ			0x1c
+#define PIOS_LSM303_CRA_TEMP_EN			0x80
 
+/* Mag Mode Register */
+#define PIOS_LSM303_MR_CONTINUOUS		0x00
+#define PIOS_LSM303_MR_SIMGLE			0x01
+#define PIOS_LSM303_MR_SLEEP			0x02
+
+/* Mag Status Register flags */
+#define PIOS_LSM303_SR_DRDY				0x01
+#define PIOS_LSM303_SR_LOCK				0x02
 
 
 enum pios_lsm303_accel_range {
-	PIOS_LSM303_ACCEL_2_G = 0x00,
-	PIOS_LSM303_ACCEL_4_G = 0x10,
-	PIOS_LSM303_ACCEL_8_G = 0x20,
-	PIOS_LSM303_ACCEL_16_G = 0x30,
+	PIOS_LSM303_ACCEL_2G = 0x00,
+	PIOS_LSM303_ACCEL_4G = 0x10,
+	PIOS_LSM303_ACCEL_8G = 0x20,
+	PIOS_LSM303_ACCEL_16G = 0x30,
 };
 
+enum pios_lsm303_mag_range {
+	PIOS_LSM303_MAG_1_3GA = 0x20,
+	PIOS_LSM303_MAG_1_9GA = 0x40,
+	PIOS_LSM303_MAG_2_5GA = 0x60,
+	PIOS_LSM303_MAG_4_0GA = 0x80,
+	PIOS_LSM303_MAG_4_7GA = 0xa0,
+	PIOS_LSM303_MAG_5_6GA = 0xc0,
+	PIOS_LSM303_MAG_8_1GA = 0xe0,
+};
 
 // device types
 enum pios_lsm303_devicetype
@@ -186,7 +213,13 @@ struct pios_lsm303_mag_data {
 	int16_t mag_x;
 	int16_t mag_y;
 	int16_t mag_z;
-	int16_t temperature;
+};
+
+enum pios_lsm303_orientation { // clockwise rotation from board forward
+	PIOS_LSM303_TOP_0DEG    = 0x00,
+	PIOS_LSM303_TOP_90DEG   = 0x01,
+	PIOS_LSM303_TOP_180DEG  = 0x02,
+	PIOS_LSM303_TOP_270DEG  = 0x03
 };
 
 struct pios_lsm303_cfg {
@@ -194,20 +227,22 @@ struct pios_lsm303_cfg {
 
 	enum pios_lsm303_devicetype devicetype;
 	enum pios_lsm303_sa0_state sa0_state;
-	enum pios_lsm303_accel_range accel_range;
+	enum pios_lsm303_orientation orientation;
 };
 
 /* Public Functions */
 extern int32_t PIOS_LSM303_Init(uint32_t i2c_id, const struct pios_lsm303_cfg * new_cfg);
-extern xQueueHandle PIOS_LSM303_GetQueue_Accel();
-extern xQueueHandle PIOS_LSM303_GetQueue_Mag();	//mag not implemented yet
-extern int32_t PIOS_LSM303_ReadData_Accel(struct pios_lsm303_accel_data * buffer);
-extern int32_t PIOS_LSM303_ReadData_Mag(struct pios_lsm303_mag_data * buffer);	//mag not implemented yet
+extern xQueueHandle PIOS_LSM303_Accel_GetQueue();
+extern xQueueHandle PIOS_LSM303_Mag_GetQueue();
+extern int32_t PIOS_LSM303_Accel_ReadData(struct pios_lsm303_accel_data * buffer);
+extern int32_t PIOS_LSM303_Mag_ReadData(struct pios_lsm303_mag_data * buffer);
 extern int32_t PIOS_LSM303_ReadID();
-extern uint8_t PIOS_LSM303_Test_Accel();
-extern uint8_t PIOS_LSM303_Test_Mag();
-extern float PIOS_LSM303_GetScale_Accel();
-extern float PIOS_LSM303_GetScale_Mag();	//mag not implemented yet
+extern uint8_t PIOS_LSM303_Accel_Test();
+extern uint8_t PIOS_LSM303_Mag_Test();
+extern float PIOS_LSM303_Accel_GetScale();
+extern float PIOS_LSM303_Mag_GetScale();
+extern void PIOS_LSM303_Accel_SetRange(enum pios_lsm303_accel_range accel_range);
+extern void PIOS_LSM303_Mag_SetRange(enum pios_lsm303_mag_range mag_range);
 extern bool PIOS_LSM303_IRQHandler(void);
 
 #endif /* PIOS_PIOS_LSM303_H */
