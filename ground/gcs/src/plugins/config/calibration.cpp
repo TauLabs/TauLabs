@@ -253,6 +253,7 @@ void Calibration::dataUpdated(UAVObject * obj) {
         if(storeSixPointMeasurement(obj,6)) {
             // All data collected.  Disconnect everything and compute value
             connectSensor(ACCEL, false);
+            connectSensor(GYRO, false);
             if (calibrateMag)
                 connectSensor(MAG, false);
 
@@ -317,6 +318,7 @@ void Calibration::timeout() {
     case SIX_POINT_COLLECT5:
     case SIX_POINT_COLLECT6:
         connectSensor(ACCEL, false);
+        connectSensor(GYRO, false);
         if (calibrateMag)
             connectSensor(MAG, false);
         calibration_state = IDLE;
@@ -444,6 +446,9 @@ void Calibration::doStartSixPoint()
     accel_accum_x.clear();
     accel_accum_y.clear();
     accel_accum_z.clear();
+    gyro_accum_x.clear();
+    gyro_accum_y.clear();
+    gyro_accum_z.clear();
     mag_accum_x.clear();
     mag_accum_y.clear();
     mag_accum_z.clear();
@@ -451,6 +456,7 @@ void Calibration::doStartSixPoint()
     Thread::usleep(100000);
 
     connectSensor(ACCEL, true);
+    connectSensor(GYRO, true);
 
     if(calibrateMag) {
         connectSensor(MAG, true);
@@ -473,7 +479,7 @@ void Calibration::doCancelSixPoint(){
     resetSensorCalibrationToOriginalValues();
 
     connectSensor(ACCEL, false);
-
+    connectSensor(GYRO, false);
     if(calibrateMag) {
         connectSensor(MAG, false);
     }
@@ -673,18 +679,37 @@ bool Calibration::storeSixPointMeasurement(UAVObject * obj, int position)
         mag_accum_z.append(magData.z);
     }
 
+    if (obj->getObjID() == Gyros::OBJID) {
+        Gyros *gyros = Gyros::GetInstance(getObjectManager());
+        Q_ASSERT(gyros);
+        Gyros::DataFields gyrosData = gyros->getData();
+        gyro_accum_x.append(gyrosData.x);
+        gyro_accum_y.append(gyrosData.y);
+        gyro_accum_z.append(gyrosData.z);
+    }
+
     emit sixPointProgressChanged((float) accel_accum_x.size() / NUM_SENSOR_UPDATES_SIX_POINT * 100);
 
     // If enough data is collected, average it for this position
     if(accel_accum_x.size() >= NUM_SENSOR_UPDATES_SIX_POINT &&
+            gyro_accum_x.size() >= NUM_SENSOR_UPDATES_SIX_POINT &&
             (!calibrateMag || mag_accum_x.size() >= NUM_SENSOR_UPDATES_SIX_POINT)) {
 
+        // Store the average accel value in that position
         accel_data_x[position] = listMean(accel_accum_x);
         accel_data_y[position] = listMean(accel_accum_y);
         accel_data_z[position] = listMean(accel_accum_z);
         accel_accum_x.clear();
         accel_accum_y.clear();
         accel_accum_z.clear();
+
+        // Store the average gyro value in that position
+        gyro_data_x[position] = listMean(gyro_accum_x);
+        gyro_data_y[position] = listMean(gyro_accum_y);
+        gyro_data_z[position] = listMean(gyro_accum_z);
+        gyro_accum_x.clear();
+        gyro_accum_y.clear();
+        gyro_accum_z.clear();
 
         if (calibrateMag) {
             mag_data_x[position] = listMean(mag_accum_x);
@@ -741,6 +766,13 @@ int Calibration::computeScaleBias()
     attitudeSettings->setData(attitudeSettingsData);
 
     bool good_calibration = true;
+
+    qDebug() << "Gyro measurements";
+    for(int i = 0; i < 6; i++)
+        qDebug() << gyro_data_x[i] << ", " << gyro_data_y[i] << ", " << gyro_data_z[i] << ";";
+    qDebug() << "Accel measurements";
+    for(int i = 0; i < 6; i++)
+        qDebug() << accel_data_x[i] << ", " << accel_data_y[i] << ", " << accel_data_z[i] << ";";
 
     // Calibrate accelerometer
     double S[3], b[3];
