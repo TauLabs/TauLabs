@@ -906,8 +906,8 @@ static const struct pios_usart_cfg pios_usart3_cfg = {
 void PIOS_RTC_IRQ_Handler (void);
 void RTC_WKUP_IRQHandler() __attribute__ ((alias ("PIOS_RTC_IRQ_Handler")));
 static const struct pios_rtc_cfg pios_rtc_main_cfg = {
-	.clksrc = RCC_RTCCLKSource_HSE_Div32,	//FIXME: this has to be checked
-	.prescaler = 50,
+	.clksrc = RCC_RTCCLKSource_HSE_Div32,
+	.prescaler = 25 - 1, // 8MHz / 32 / 16 / 25 == 625Hz
 	.irq = {
 		.init = {
 			.NVIC_IRQChannel                   = RTC_WKUP_IRQn,
