@@ -646,6 +646,7 @@ static const struct pios_dsm_cfg pios_usart3_dsm_aux_cfg = {
 static const struct pios_usart_cfg pios_usart1_sbus_cfg = {
 	.regs = USART1,
 	.remap = GPIO_AF_7,
+	.rx_invert = true,
 	.init = {
 		.USART_BaudRate            = 100000,
 		.USART_WordLength          = USART_WordLength_8b,
@@ -676,24 +677,14 @@ static const struct pios_usart_cfg pios_usart1_sbus_cfg = {
 };
 
 static const struct pios_sbus_cfg pios_usart1_sbus_aux_cfg = {
-	/* Inverter configuration */
-	.inv = {
-		.gpio = GPIOD,
-		.init = {
-			.GPIO_Pin = GPIO_Pin_7,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_OUT,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd  = GPIO_PuPd_NOPULL
-		},
-	},
-	.gpio_inv_enable = Bit_SET,
+	/* No inverter configuration, f3 uart subsystem already does this for us */
 };
 
 
 static const struct pios_usart_cfg pios_usart2_sbus_cfg = {
 	.regs = USART2,
 	.remap = GPIO_AF_7,
+	.rx_invert = true,
 	.init = {
 		.USART_BaudRate            = 100000,
 		.USART_WordLength          = USART_WordLength_8b,
@@ -724,24 +715,14 @@ static const struct pios_usart_cfg pios_usart2_sbus_cfg = {
 };
 
 static const struct pios_sbus_cfg pios_usart2_sbus_aux_cfg = {
-	/* Inverter configuration */
-	.inv = {
-		.gpio = GPIOD,
-		.init = {
-			.GPIO_Pin = GPIO_Pin_7,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_OUT,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd  = GPIO_PuPd_NOPULL
-		},
-	},
-	.gpio_inv_enable = Bit_SET,
+	/* No inverter configuration, f3 uart subsystem already does this for us */
 };
 
 
 static const struct pios_usart_cfg pios_usart3_sbus_cfg = {
 	.regs = USART3,
 	.remap = GPIO_AF_7,
+	.rx_invert = true,
 	.init = {
 		.USART_BaudRate            = 100000,
 		.USART_WordLength          = USART_WordLength_8b,
@@ -772,18 +753,7 @@ static const struct pios_usart_cfg pios_usart3_sbus_cfg = {
 };
 
 static const struct pios_sbus_cfg pios_usart3_sbus_aux_cfg = {
-	/* Inverter configuration */
-	.inv = {
-		.gpio = GPIOD,
-		.init = {
-			.GPIO_Pin = GPIO_Pin_7,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_OUT,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd  = GPIO_PuPd_NOPULL
-		},
-	},
-	.gpio_inv_enable = Bit_SET,
+	/* No inverter configuration, f3 uart subsystem already does this for us */
 };
 
 #endif	/* PIOS_INCLUDE_SBUS */
