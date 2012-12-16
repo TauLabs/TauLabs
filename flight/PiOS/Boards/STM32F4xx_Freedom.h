@@ -133,6 +133,7 @@ extern uint32_t pios_com_gps_id;
 extern uint32_t pios_com_telem_usb_id;
 extern uint32_t pios_com_bridge_id;
 extern uint32_t pios_com_vcp_id;
+extern uint32_t pios_rfm22b_id;
 #define PIOS_COM_GPS                    (pios_com_gps_id)
 #define PIOS_COM_TELEM_USB              (pios_com_telem_usb_id)
 #define PIOS_COM_TELEM_RF               (pios_com_telem_rf_id)
