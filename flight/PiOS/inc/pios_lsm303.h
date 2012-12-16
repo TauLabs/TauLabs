@@ -192,15 +192,13 @@ enum pios_lsm303_devicetype
 	PIOS_LSM303DLH_DEVICE,
 	PIOS_LSM303DLM_DEVICE,
 	PIOS_LSM303DLHC_DEVICE,
-	PIOS_LSM303_DEVICE_AUTO,
 };
 
 // SA0_A states
 enum pios_lsm303_sa0_state
 {
 	PIOS_LSM303_SA0_A_LOW = 0,
-	PIOS_LSM303_SA0_A_HIGH,
-	PIOS_LSM303_SA0_A_AUTO,
+	PIOS_LSM303_SA0_A_HIGH = 1,
 };
 
 struct pios_lsm303_accel_data {
@@ -236,7 +234,7 @@ extern xQueueHandle PIOS_LSM303_Accel_GetQueue();
 extern xQueueHandle PIOS_LSM303_Mag_GetQueue();
 extern int32_t PIOS_LSM303_Accel_ReadData(struct pios_lsm303_accel_data * buffer);
 extern int32_t PIOS_LSM303_Mag_ReadData(struct pios_lsm303_mag_data * buffer);
-extern int32_t PIOS_LSM303_ReadID();
+extern int32_t PIOS_LSM303_Mag_ReadID();
 extern uint8_t PIOS_LSM303_Accel_Test();
 extern uint8_t PIOS_LSM303_Mag_Test();
 extern float PIOS_LSM303_Accel_GetScale();

@@ -439,10 +439,15 @@ int32_t PIOS_LSM303_Mag_ReadData(struct pios_lsm303_mag_data * data)
  * @brief Read the identification bytes from the LSM303 sensor
  * \return ID read from LSM303 or -1 if failure
 */
-int32_t PIOS_LSM303_ReadID()
+int32_t PIOS_LSM303_Mag_ReadID()
 {
-	//FIXME
-	return 0;
+	uint8_t id[3];
+	int32_t retval = PIOS_LSM303_Mag_Read(PIOS_LSM303_IRA_REG_M, id, sizeof(id));
+
+	if (retval != 0)
+		return retval;
+	else
+		return (id[0] << 16 | id[1] << 8 | id[2]);
 }
 
 /**
@@ -562,6 +567,10 @@ uint8_t PIOS_LSM303_Accel_Test(void)
  */
 uint8_t PIOS_LSM303_Mag_Test(void)
 {
+	int32_t id = PIOS_LSM303_Mag_ReadID();
+	if (id != 0x483433)	// "H43"
+		return -1;
+
 	struct pios_lsm303_mag_data data;
 	return PIOS_LSM303_Mag_ReadData(&data);
 }
