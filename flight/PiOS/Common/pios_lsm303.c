@@ -31,7 +31,7 @@
 
 /* Private constants */
 #define LSM303_TASK_PRIORITY	(tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
-#define LSM303_TASK_STACK		(320 / 4)
+#define LSM303_TASK_STACK		(512 / 4)
 
 #include "fifo_buffer.h"
 
@@ -502,7 +502,7 @@ float PIOS_LSM303_Accel_GetScale()
 	return 0;
 }
 
-float PIOS_LSM303_Mag_GetScale()
+float PIOS_LSM303_Mag_GetScaleXY()
 {
 	switch (dev->mag_range) {
 		case PIOS_LSM303_MAG_1_3GA:
@@ -519,6 +519,27 @@ float PIOS_LSM303_Mag_GetScale()
 			return 1000.0f / 330.0f;
 		case PIOS_LSM303_MAG_8_1GA:
 			return 1000.0f / 230.0f;
+	}
+	return 0;
+}
+
+float PIOS_LSM303_Mag_GetScaleZ()
+{
+	switch (dev->mag_range) {
+		case PIOS_LSM303_MAG_1_3GA:
+			return 1000.0f / 980.0f;
+		case PIOS_LSM303_MAG_1_9GA:
+			return 1000.0f / 760.0f;
+		case PIOS_LSM303_MAG_2_5GA:
+			return 1000.0f / 600.0f;
+		case PIOS_LSM303_MAG_4_0GA:
+			return 1000.0f / 400.0f;
+		case PIOS_LSM303_MAG_4_7GA:
+			return 1000.0f / 355.0f;
+		case PIOS_LSM303_MAG_5_6GA:
+			return 1000.0f / 295.0f;
+		case PIOS_LSM303_MAG_8_1GA:
+			return 1000.0f / 205.0f;
 	}
 	return 0;
 }
@@ -614,28 +635,30 @@ void PIOS_LSM303_Task(void *parameters)
 					continue;
 				}
 
+				float mag_scale_xy = PIOS_LSM303_Mag_GetScaleXY();
+				float mag_scale_z = PIOS_LSM303_Mag_GetScaleZ();
 				struct pios_lsm303_mag_data normalized_data;
 				switch (dev->cfg->orientation)
 				{
 					default:
 					case PIOS_LSM303_TOP_0DEG:
-						normalized_data.mag_x = +data.mag_x;
-						normalized_data.mag_y = -data.mag_y;
+						normalized_data.mag_x = +data.mag_x * mag_scale_xy;
+						normalized_data.mag_y = -data.mag_y * mag_scale_xy;
 						break;
 					case PIOS_LSM303_TOP_90DEG:
-						normalized_data.mag_x = +data.mag_y;
-						normalized_data.mag_y = +data.mag_x;
+						normalized_data.mag_x = +data.mag_y * mag_scale_xy;
+						normalized_data.mag_y = +data.mag_x * mag_scale_xy;
 						break;
 					case PIOS_LSM303_TOP_180DEG:
-						normalized_data.mag_x = -data.mag_x;
-						normalized_data.mag_y = +data.mag_y;
+						normalized_data.mag_x = -data.mag_x * mag_scale_xy;
+						normalized_data.mag_y = +data.mag_y * mag_scale_xy;
 						break;
 					case PIOS_LSM303_TOP_270DEG:
-						normalized_data.mag_x = -data.mag_y;
-						normalized_data.mag_y = -data.mag_x;
+						normalized_data.mag_x = -data.mag_y * mag_scale_xy;
+						normalized_data.mag_y = -data.mag_x * mag_scale_xy;
 						break;
 				}
-				normalized_data.mag_z = -data.mag_z;
+				normalized_data.mag_z = -data.mag_z * mag_scale_z;
 
 				xQueueSend(dev->queue_mag, (void*)&normalized_data, 0);
 			}

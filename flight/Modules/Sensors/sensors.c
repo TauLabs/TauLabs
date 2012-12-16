@@ -506,15 +506,14 @@ static void SensorsTask(void *parameters)
 		MagnetometerData mag;
 
 		//this one comes at 220Hz
-		float sensor_mag_scaling = PIOS_LSM303_Mag_GetScale();
 		struct pios_lsm303_mag_data mag_data;
 		xQueueHandle queue = PIOS_LSM303_Mag_GetQueue();
 
 		if (xQueueReceive(queue, (void*)&mag_data, 0) != errQUEUE_EMPTY)
 		{
-			float mags[3] = {(float) mag_data.mag_x * sensor_mag_scaling * mag_scale[0] - mag_bias[0],
-							(float) mag_data.mag_y * sensor_mag_scaling * mag_scale[1] - mag_bias[1],
-							(float) mag_data.mag_z * sensor_mag_scaling * mag_scale[2] - mag_bias[2]};
+			float mags[3] = {(float) mag_data.mag_x * mag_scale[0] - mag_bias[0],
+							(float) mag_data.mag_y * mag_scale[1] - mag_bias[1],
+							(float) mag_data.mag_z * mag_scale[2] - mag_bias[2]};
 			if (rotate) {
 				float mag_out[3];
 				rot_mult(Rbs, mags, mag_out, false);
