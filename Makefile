@@ -649,6 +649,9 @@ endef
 ifneq ($(strip $(filter all_%,$(MAKECMDGOALS))),)
 export ENABLE_MSG_EXTRA := yes
 endif
+ifneq (,$(filter sim_%, $(MAKECMDGOALS)))
+export ENABLE_MSG_EXTRA := yes
+endif
 
 # When building more than one goal in a single make invocation, also
 # enable the extra context for each output line
