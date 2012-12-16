@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f4xx_rtc.c
   * @author  MCD Application Team
-  * @version V1.0.0
-  * @date    30-September-2011
+  * @version V1.0.2
+  * @date    05-March-2012
   * @brief   This file provides firmware functions to manage the following 
   *          functionalities of the Real-Time Clock (RTC) peripheral:
   *           - Initialization
@@ -262,20 +262,25 @@
   ******************************************************************************
   * @attention
   *
-  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
-  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
-  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY
-  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
-  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
-  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+  * <h2><center>&copy; COPYRIGHT 2012 STMicroelectronics</center></h2>
   *
-  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+  * You may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at:
+  *
+  *        http://www.st.com/software_license_agreement_liberty_v2
+  *
+  * Unless required by applicable law or agreed to in writing, software 
+  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  *
   ******************************************************************************
   */ 
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_rtc.h"
-#include "stm32f4xx_rcc.h"
 
 /** @addtogroup STM32F4xx_StdPeriph_Driver
   * @{
@@ -297,7 +302,8 @@
 #define RTC_FLAGS_MASK          ((uint32_t)(RTC_FLAG_TSOVF | RTC_FLAG_TSF | RTC_FLAG_WUTF | \
                                             RTC_FLAG_ALRBF | RTC_FLAG_ALRAF | RTC_FLAG_INITF | \
                                             RTC_FLAG_RSF | RTC_FLAG_INITS | RTC_FLAG_WUTWF | \
-                                            RTC_FLAG_ALRBWF | RTC_FLAG_ALRAWF | RTC_FLAG_TAMP1F ))
+                                            RTC_FLAG_ALRBWF | RTC_FLAG_ALRAWF | RTC_FLAG_TAMP1F | \
+                                            RTC_FLAG_RECALPF | RTC_FLAG_SHPF))
 
 #define INITMODE_TIMEOUT         ((uint32_t) 0x00010000)
 #define SYNCHRO_TIMEOUT          ((uint32_t) 0x00020000)
@@ -407,6 +413,10 @@ ErrorStatus RTC_DeInit(void)
       RTC->CALIBR = (uint32_t)0x00000000;
       RTC->ALRMAR = (uint32_t)0x00000000;        
       RTC->ALRMBR = (uint32_t)0x00000000;
+      RTC->SHIFTR = (uint32_t)0x00000000;
+      RTC->CALR = (uint32_t)0x00000000;
+      RTC->ALRMASSR = (uint32_t)0x00000000;
+      RTC->ALRMBSSR = (uint32_t)0x00000000;
       
       /* Reset ISR register and exit initialization mode */
       RTC->ISR = (uint32_t)0x00000000;
@@ -823,15 +833,22 @@ ErrorStatus RTC_SetTime(uint32_t RTC_Format, RTC_TimeTypeDef* RTC_TimeStruct)
     /* Exit Initialization mode */
     RTC_ExitInitMode(); 
 
-    if(RTC_WaitForSynchro() == ERROR)
+    /* If  RTC_CR_BYPSHAD bit = 0, wait for synchro else this check is not needed */
+    if ((RTC->CR & RTC_CR_BYPSHAD) == RESET)
     {
-      status = ERROR;
+      if (RTC_WaitForSynchro() == ERROR)
+      {
+        status = ERROR;
+      }
+      else
+      {
+        status = SUCCESS;
+      }
     }
     else
     {
       status = SUCCESS;
     }
-  
   }
   /* Enable the write protection for RTC registers */
   RTC->WPR = 0xFF; 
@@ -984,9 +1001,17 @@ ErrorStatus RTC_SetDate(uint32_t RTC_Format, RTC_DateTypeDef* RTC_DateStruct)
     /* Exit Initialization mode */
     RTC_ExitInitMode(); 
 
-    if(RTC_WaitForSynchro() == ERROR)
+    /* If  RTC_CR_BYPSHAD bit = 0, wait for synchro else this check is not needed */
+    if ((RTC->CR & RTC_CR_BYPSHAD) == RESET)
     {
-      status = ERROR;
+      if (RTC_WaitForSynchro() == ERROR)
+      {
+        status = ERROR;
+      }
+      else
+      {
+        status = SUCCESS;
+      }
     }
     else
     {
@@ -2559,6 +2584,7 @@ void RTC_ITConfig(uint32_t RTC_IT, FunctionalState NewState)
   * @brief  Checks whether the specified RTC flag is set or not.
   * @param  RTC_FLAG: specifies the flag to check.
   *          This parameter can be one of the following values:
+  *            @arg RTC_FLAG_RECALPF: RECALPF event flag.
   *            @arg RTC_FLAG_TAMP1F: Tamper 1 event flag
   *            @arg RTC_FLAG_TSOVF: Time Stamp OverFlow flag
   *            @arg RTC_FLAG_TSF: Time Stamp event flag
@@ -2568,6 +2594,7 @@ void RTC_ITConfig(uint32_t RTC_IT, FunctionalState NewState)
   *            @arg RTC_FLAG_INITF: Initialization mode flag
   *            @arg RTC_FLAG_RSF: Registers Synchronized flag
   *            @arg RTC_FLAG_INITS: Registers Configured flag
+  *            @arg RTC_FLAG_SHPF: Shift operation pending flag.
   *            @arg RTC_FLAG_WUTWF: WakeUp Timer Write flag
   *            @arg RTC_FLAG_ALRBWF: Alarm B Write flag
   *            @arg RTC_FLAG_ALRAWF: Alarm A write flag
@@ -2729,4 +2756,4 @@ static uint8_t RTC_Bcd2ToByte(uint8_t Value)
   * @}
   */ 
 
-/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
