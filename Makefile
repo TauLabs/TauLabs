@@ -31,6 +31,21 @@ $(foreach var, $(SANITIZE_GCC_VARS), $(eval $(call SANITIZE_VAR,$(var),disallowe
 SANITIZE_DEPRECATED_VARS := USE_BOOTLOADER
 $(foreach var, $(SANITIZE_DEPRECATED_VARS), $(eval $(call SANITIZE_VAR,$(var),deprecated)))
 
+# Deal with unreasonable requests
+# See: http://xkcd.com/149/
+ifeq ($(MAKECMDGOALS),me a sandwich)
+ ifeq ($(shell whoami),root)
+ $(error Okay)
+ else
+ $(error What? Make it yourself)
+ endif
+endif
+
+# Make sure this isn't being run as root
+ifeq ($(shell whoami),root)
+$(error You should not be running this as root)
+endif
+
 # Decide on a verbosity level based on the V= parameter
 export AT := @
 
@@ -43,14 +58,17 @@ export V1    := $(AT)
 else ifeq ($(V), 1)
 endif
 
+# Make sure we know a few things about the architecture before including
+# the tools.mk to ensure that we download/install the right tools.
+UNAME := $(shell uname)
+ARCH := $(shell uname -m)
+
 include $(ROOT_DIR)/make/tools.mk
 
 # We almost need to consider autoconf/automake instead of this
 # I don't know if windows supports uname :-(
 QT_SPEC=win32-g++
 UAVOBJGENERATOR="$(BUILD_DIR)/ground/uavobjgenerator/debug/uavobjgenerator.exe"
-UNAME := $(shell uname)
-ARCH := $(shell uname -m)
 ifeq ($(UNAME), Linux)
   QT_SPEC=linux-g++
   UAVOBJGENERATOR="$(BUILD_DIR)/ground/uavobjgenerator/uavobjgenerator"
@@ -172,10 +190,10 @@ $(BUILD_DIR):
 ##############################
 
 ifeq ($(shell [ -d "$(QT_SDK_DIR)" ] && echo "exists"), exists)
-  QMAKE=$(QT_SDK_DIR)/Desktop/Qt/4.8.1/gcc/bin/qmake
+  QMAKE = $(QT_SDK_QMAKE_PATH)
 else
   # not installed, hope it's in the path...
-  QMAKE=qmake
+  QMAKE = qmake
 endif
 
 ifeq ($(shell [ -d "$(ARM_SDK_DIR)" ] && echo "exists"), exists)
@@ -647,6 +665,9 @@ endef
 # additional details on each line of output to describe which build and target
 # that each line applies to.
 ifneq ($(strip $(filter all_%,$(MAKECMDGOALS))),)
+export ENABLE_MSG_EXTRA := yes
+endif
+ifneq (,$(filter sim_%, $(MAKECMDGOALS)))
 export ENABLE_MSG_EXTRA := yes
 endif
 

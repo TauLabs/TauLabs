@@ -556,7 +556,7 @@ void PIOS_Board_Init(void) {
 	} /* 	hwsettings_rm_mainport */
 
 	if (hwsettings_mainport != HWSETTINGS_RM_MAINPORT_SBUS) {
-		GPIO_Init(pios_sbus_cfg.inv.gpio, &pios_sbus_cfg.inv.init);
+		GPIO_Init(pios_sbus_cfg.inv.gpio, (GPIO_InitTypeDef*)&pios_sbus_cfg.inv.init);
 		GPIO_WriteBit(pios_sbus_cfg.inv.gpio, pios_sbus_cfg.inv.init.GPIO_Pin, pios_sbus_cfg.gpio_inv_disable);
 	}
 
