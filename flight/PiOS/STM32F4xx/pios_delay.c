@@ -8,6 +8,7 @@
  *
  * @file       pios_delay.c
  * @author     Michael Smith Copyright (C) 2012
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      Delay Functions 
  *                 - Provides a micro-second granular delay using the CPU
  *                   cycle counter.
@@ -35,12 +36,6 @@
 
 #if defined(PIOS_INCLUDE_DELAY)
 
-/* these should be defined by CMSIS, but they aren't */
-#define DWT_CTRL	(*(volatile uint32_t *)0xe0001000)
-#define CYCCNTENA	(1<<0)
-#define DWT_CYCCNT	(*(volatile uint32_t *)0xe0001004)
-
-
 /* cycles per microsecond */
 static uint32_t us_ticks;
 
@@ -63,7 +58,7 @@ int32_t PIOS_DELAY_Init(void)
 	CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
 
 	/* enable the CPU cycle counter */
-	DWT_CTRL |= CYCCNTENA;
+	DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
 
 	return 0;
 }
@@ -81,11 +76,11 @@ int32_t PIOS_DELAY_Init(void)
  */
 int32_t PIOS_DELAY_WaituS(uint32_t uS)
 {
-	uint32_t	elapsed = 0;
-	uint32_t	last_count = DWT_CYCCNT;
+	uint32_t elapsed = 0;
+	uint32_t last_count = DWT->CYCCNT;
 	
 	for (;;) {
-		uint32_t current_count = DWT_CYCCNT;
+		uint32_t current_count = DWT->CYCCNT;
 		uint32_t elapsed_uS;
 
 		/* measure the time elapsed since the last time we checked */
@@ -135,7 +130,7 @@ int32_t PIOS_DELAY_WaitmS(uint32_t mS)
  */
 uint32_t PIOS_DELAY_GetuS()
 {
-	return DWT_CYCCNT / us_ticks;
+	return DWT->CYCCNT / us_ticks;
 }
 
 /**
@@ -154,7 +149,7 @@ uint32_t PIOS_DELAY_GetuSSince(uint32_t t)
  */
 uint32_t PIOS_DELAY_GetRaw()
 {
-	return DWT_CYCCNT;
+	return DWT->CYCCNT;
 }
 
 /**
@@ -163,7 +158,7 @@ uint32_t PIOS_DELAY_GetRaw()
  */
 uint32_t PIOS_DELAY_DiffuS(uint32_t raw)
 {
-	uint32_t diff = DWT_CYCCNT - raw;
+	uint32_t diff = DWT->CYCCNT - raw;
 	return diff / us_ticks;
 }
 
