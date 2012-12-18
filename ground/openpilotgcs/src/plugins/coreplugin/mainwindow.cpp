@@ -47,7 +47,7 @@
 #include "uavgadgetmanager.h"
 #include "uavgadgetinstancemanager.h"
 #include "workspacesettings.h"
-
+#include "globalmessaging.h"
 #include "authorsdialog.h"
 #include "baseview.h"
 #include "ioutputpane.h"
@@ -176,6 +176,8 @@ MainWindow::MainWindow() :
 #ifndef Q_WS_MAC
     m_modeStack->setDocumentMode(true);
 #endif
+    m_globalMessaging = new GlobalMessaging(this);
+
     m_modeManager = new ModeManager(this, m_modeStack);
 
     m_connectionManager = new ConnectionManager(this, m_modeStack);
@@ -183,6 +185,7 @@ MainWindow::MainWindow() :
     m_boardManager = new BoardManager();
 
     m_messageManager = new MessageManager;
+
     setCentralWidget(m_modeStack);
 
     connect(QApplication::instance(), SIGNAL(focusChanged(QWidget*,QWidget*)),
@@ -226,6 +229,8 @@ MainWindow::~MainWindow()
     pm->removeObject(m_workspaceSettings);
     delete m_messageManager;
     m_messageManager = 0;
+    delete m_globalMessaging;
+    m_globalMessaging=0;
     delete m_shortcutSettings;
     m_shortcutSettings = 0;
     delete m_generalSettings;
@@ -948,6 +953,11 @@ UniqueIDManager *MainWindow::uniqueIDManager() const
 MessageManager *MainWindow::messageManager() const
 {
     return m_messageManager;
+}
+
+GlobalMessaging *MainWindow::globalMessaging() const
+{
+    return m_globalMessaging;
 }
 
 QSettings *MainWindow::settings(QSettings::Scope scope) const

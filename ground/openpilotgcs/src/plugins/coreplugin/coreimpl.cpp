@@ -97,6 +97,11 @@ BoardManager *CoreImpl::boardManager() const
     return m_mainwindow->boardManager();
 }
 
+GlobalMessaging *CoreImpl::globalMessaging() const
+{
+    return m_mainwindow->globalMessaging();
+}
+
 UAVGadgetInstanceManager *CoreImpl::uavGadgetInstanceManager() const
 {
     return m_mainwindow->uavGadgetInstanceManager();
