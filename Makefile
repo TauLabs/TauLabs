@@ -818,6 +818,8 @@ ut_%: $(UT_OUT_DIR)
 		OPUAVTALK=$(OPUAVTALK) \
 		FLIGHTLIB=$(FLIGHTLIB) \
 		\
+		GTEST_DIR=$(GTEST_DIR) \
+		\
 		$*
 
 .PHONY: ut_clean
