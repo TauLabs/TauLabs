@@ -35,7 +35,8 @@
 #include <QtSvg/QSvgRenderer>
 #include <QtSvg/QGraphicsSvgItem>
 #include <QMouseEvent>
-
+#include <coreplugin/globalmessaging.h>
+#include <QMap>
 #include <QFile>
 #include <QTimer>
 
@@ -61,6 +62,7 @@ private slots:
    void onAutopilotDisconnect();
 
 private:
+   void initGlobalMessages();
    QSvgRenderer *m_renderer;
    QGraphicsSvgItem *background;
    QGraphicsSvgItem *foreground;
@@ -71,6 +73,11 @@ private:
 
    void showAlarmDescriptionForItemId(const QString itemId, const QPoint& location);
    void showAllAlarmDescriptions(const QPoint &location);
+
+   QMap<QString,GlobalMessage*> errorMessages;
+   QMap<QString,GlobalMessage*> warningMessages;
+   bool handleGlobalMessages;
+   static bool isFirst;
 
 };
 #endif /* SYSTEMHEALTHGADGETWIDGET_H_ */
