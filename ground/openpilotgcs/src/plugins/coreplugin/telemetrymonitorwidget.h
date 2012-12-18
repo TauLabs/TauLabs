@@ -7,6 +7,7 @@
 #include <QtSvg/QSvgRenderer>
 #include <QtSvg/QGraphicsSvgItem>
 #include <QtCore/QPointer>
+#include <QTimer>
 
 class TelemetryMonitorWidget : public QGraphicsView
 {
@@ -26,7 +27,7 @@ public:
 signals:
     
 public slots:
-    void connect();
+    void connected();
     void disconnect();
 
     void updateTelemetry(double txRate, double rxRate);
@@ -35,21 +36,32 @@ public slots:
 protected:
     void showEvent(QShowEvent *event);
     void resizeEvent(QResizeEvent *event);
-
+private slots:
+    void updateMessages();
+    void processAlerts();
 private:
    QGraphicsSvgItem *graph;
+   QGraphicsSvgItem *error_sym;
+   QGraphicsSvgItem *warning_sym;
+   QGraphicsSvgItem *info_sym;
+   QGraphicsTextItem *error_txt;
+   QGraphicsTextItem *warning_txt;
+   QGraphicsTextItem *info_txt;
    QPointer<QGraphicsTextItem> txSpeed;
    QPointer<QGraphicsTextItem> rxSpeed;
    QList<QGraphicsSvgItem*> txNodes;
    QList<QGraphicsSvgItem*> rxNodes;
-
-   bool   connected;
+   QTimer alertTimer;
+   bool   m_connected;
    double txIndex;
    double txValue;
    double rxIndex;
    double rxValue;
    double minValue;
    double maxValue;
+   bool hasErrors;
+   bool hasWarnings;
+   bool hasInfos;
 };
 
 #endif // TELEMETRYMONITORWIDGET_H

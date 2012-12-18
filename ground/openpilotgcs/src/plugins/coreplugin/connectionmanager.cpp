@@ -133,7 +133,7 @@ bool ConnectionManager::connectDevice(DevListItem device)
     m_availableDevList->setEnabled(false);
 
     // tell the monitorwidget we're conneced
-    m_monitorWidget->connect();
+    m_monitorWidget->connected();
 
     return true;
 }
@@ -256,7 +256,7 @@ void ConnectionManager::telemetryConnected()
         reconnectCheck->stop();
 
     //tell the monitor we're connected
-    m_monitorWidget->connect();
+    m_monitorWidget->connected();
 }
 
 /**
