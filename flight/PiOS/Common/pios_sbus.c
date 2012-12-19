@@ -148,7 +148,7 @@ int32_t PIOS_SBus_Init(uint32_t *sbus_id,
 		(*cfg->gpio_clk_func)(cfg->gpio_clk_periph, ENABLE);
 	if (cfg->inv.gpio != NULL)
 	{
-		GPIO_Init(cfg->inv.gpio, &cfg->inv.init);
+		GPIO_Init(cfg->inv.gpio, (GPIO_InitTypeDef*)&cfg->inv.init);
 		GPIO_WriteBit(cfg->inv.gpio, cfg->inv.init.GPIO_Pin, cfg->gpio_inv_enable);
 	}
 

@@ -31,6 +31,21 @@ $(foreach var, $(SANITIZE_GCC_VARS), $(eval $(call SANITIZE_VAR,$(var),disallowe
 SANITIZE_DEPRECATED_VARS := USE_BOOTLOADER
 $(foreach var, $(SANITIZE_DEPRECATED_VARS), $(eval $(call SANITIZE_VAR,$(var),deprecated)))
 
+# Deal with unreasonable requests
+# See: http://xkcd.com/149/
+ifeq ($(MAKECMDGOALS),me a sandwich)
+ ifeq ($(shell whoami),root)
+ $(error Okay)
+ else
+ $(error What? Make it yourself)
+ endif
+endif
+
+# Make sure this isn't being run as root
+ifeq ($(shell whoami),root)
+$(error You should not be running this as root)
+endif
+
 # Decide on a verbosity level based on the V= parameter
 export AT := @
 
@@ -43,14 +58,17 @@ export V1    := $(AT)
 else ifeq ($(V), 1)
 endif
 
+# Make sure we know a few things about the architecture before including
+# the tools.mk to ensure that we download/install the right tools.
+UNAME := $(shell uname)
+ARCH := $(shell uname -m)
+
 include $(ROOT_DIR)/make/tools.mk
 
 # We almost need to consider autoconf/automake instead of this
 # I don't know if windows supports uname :-(
 QT_SPEC=win32-g++
 UAVOBJGENERATOR="$(BUILD_DIR)/ground/uavobjgenerator/debug/uavobjgenerator.exe"
-UNAME := $(shell uname)
-ARCH := $(shell uname -m)
 ifeq ($(UNAME), Linux)
   QT_SPEC=linux-g++
   UAVOBJGENERATOR="$(BUILD_DIR)/ground/uavobjgenerator/uavobjgenerator"
@@ -172,10 +190,10 @@ $(BUILD_DIR):
 ##############################
 
 ifeq ($(shell [ -d "$(QT_SDK_DIR)" ] && echo "exists"), exists)
-  QMAKE=$(QT_SDK_DIR)/Desktop/Qt/4.8.1/gcc/bin/qmake
+  QMAKE = $(QT_SDK_QMAKE_PATH)
 else
   # not installed, hope it's in the path...
-  QMAKE=qmake
+  QMAKE = qmake
 endif
 
 ifeq ($(shell [ -d "$(ARM_SDK_DIR)" ] && echo "exists"), exists)
@@ -208,12 +226,7 @@ endif
 ##############################
 
 .PHONY: all_ground
-all_ground: openpilotgcs
-
-# Convenience target for the GCS
-.PHONY: gcs gcs_clean
-gcs: openpilotgcs
-gcs_clean: openpilotgcs_clean
+all_ground: gcs
 
 ifeq ($(V), 1)
 GCS_SILENT := 
@@ -221,18 +234,18 @@ else
 GCS_SILENT := silent
 endif
 
-.PHONY: openpilotgcs
-openpilotgcs:  uavobjects_gcs
+.PHONY: gcs
+gcs:  uavobjects_gcs
 	$(V1) mkdir -p $(BUILD_DIR)/ground/$@
 	$(V1) ( cd $(BUILD_DIR)/ground/$@ && \
-	  $(QMAKE) $(ROOT_DIR)/ground/openpilotgcs/openpilotgcs.pro -spec $(QT_SPEC) -r CONFIG+="$(GCS_BUILD_CONF) $(GCS_SILENT)" $(GCS_QMAKE_OPTS) && \
+	  $(QMAKE) $(ROOT_DIR)/ground/gcs/gcs.pro -spec $(QT_SPEC) -r CONFIG+="$(GCS_BUILD_CONF) $(GCS_SILENT)" $(GCS_QMAKE_OPTS) && \
 	  $(MAKE) -w ; \
 	)
 
-.PHONY: openpilotgcs_clean
-openpilotgcs_clean:
+.PHONY: gcs_clean
+gcs_clean:
 	$(V0) @echo " CLEAN      $@"
-	$(V1) [ ! -d "$(BUILD_DIR)/ground/openpilotgcs" ] || $(RM) -r "$(BUILD_DIR)/ground/openpilotgcs"
+	$(V1) [ ! -d "$(BUILD_DIR)/ground/gcs" ] || $(RM) -r "$(BUILD_DIR)/ground/gcs"
 
 ifeq ($(V), 1)
 UAVOGEN_SILENT := 
@@ -654,6 +667,9 @@ endef
 ifneq ($(strip $(filter all_%,$(MAKECMDGOALS))),)
 export ENABLE_MSG_EXTRA := yes
 endif
+ifneq (,$(filter sim_%, $(MAKECMDGOALS)))
+export ENABLE_MSG_EXTRA := yes
+endif
 
 # When building more than one goal in a single make invocation, also
 # enable the extra context for each output line
@@ -676,7 +692,7 @@ all_$(1)_clean: $$(addsuffix _clean, $$(filter bu_$(1), $$(BU_TARGETS)))
 all_$(1)_clean: $$(addsuffix _clean, $$(filter ef_$(1), $$(EF_TARGETS)))
 endef
 
-ALL_BOARDS := coptercontrol pipxtreme revolution revomini osd freedom quanton flyingf4
+ALL_BOARDS := coptercontrol pipxtreme revolution revomini osd freedom quanton flyingf4 discoveryf4
 
 # Friendly names of each board (used to find source tree)
 coptercontrol_friendly := CopterControl
@@ -687,6 +703,7 @@ freedom_friendly       := Freedom
 osd_friendly           := OSD
 quanton_friendly       := Quanton
 flyingf4_friendly      := FlyingF4
+discoveryf4_friendly   := DiscoveryF4
 
 # Short names of each board (used to display board name in parallel builds)
 coptercontrol_short    := 'cc  '
@@ -697,6 +714,7 @@ freedom_short          := 'free'
 osd_short              := 'osd '
 quanton_short          := 'quan'
 flyingf4_short         := 'fly4'
+discoveryf4_short      := 'dif4'
 
 # Start out assuming that we'll build fw, bl and bu for all boards
 FW_BOARDS  := $(ALL_BOARDS)
@@ -717,7 +735,7 @@ endif
 
 # FIXME: The BU image doesn't work for F4 boards so we need to
 #        filter them out to prevent errors.
-BU_BOARDS  := $(filter-out revolution revomini osd freedom quanton flyingf4, $(BU_BOARDS))
+BU_BOARDS  := $(filter-out revolution revomini osd freedom quanton flyingf4 discoveryf4, $(BU_BOARDS))
 
 # Generate the targets for whatever boards are left in each list
 FW_TARGETS := $(addprefix fw_, $(FW_BOARDS))
@@ -768,6 +786,45 @@ $(foreach board, $(ALL_BOARDS), $(eval $(call EF_TEMPLATE,$(board),$($(board)_fr
 $(eval $(call SIM_TEMPLATE,revolution,Revolution,'revo',osx,elf))
 $(eval $(call SIM_TEMPLATE,revolution,Revolution,'revo',posix,elf))
 $(eval $(call SIM_TEMPLATE,openpilot,OpenPilot,'op  ',win32,exe))
+
+##############################
+#
+# Unit Tests
+#
+##############################
+
+UT_TARGETS := logfs
+.PHONY: ut_all
+ut_all: $(addprefix ut_, $(UT_TARGETS))
+
+UT_OUT_DIR := $(BUILD_DIR)/unit_tests
+
+$(UT_OUT_DIR):
+	$(V1) mkdir -p $@
+
+ut_%: $(UT_OUT_DIR)
+	$(V1) cd $(ROOT_DIR)/flight/tests/$* && \
+		$(MAKE) --no-print-directory \
+		BUILD_TYPE=ut \
+		BOARD_SHORT_NAME=$* \
+		TCHAIN_PREFIX="" \
+		REMOVE_CMD="$(RM)" \
+		\
+		TARGET=$* \
+		OUTDIR="$(UT_OUT_DIR)/$*" \
+		\
+		PIOS=$(PIOS) \
+		OPUAVOBJ=$(OPUAVOBJ) \
+		OPUAVTALK=$(OPUAVTALK) \
+		FLIGHTLIB=$(FLIGHTLIB) \
+		\
+		$*
+
+.PHONY: ut_clean
+ut_clean:
+	$(V0) @echo " CLEAN      $@"
+	$(V1) [ ! -d "$(UT_OUT_DIR)" ] || $(RM) -r "$(UT_OUT_DIR)"
+
 
 ##############################
 #
