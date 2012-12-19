@@ -433,6 +433,29 @@ $$(UAVO_COLLECTION_DIR)/$(1)/java-build/uavobjects.jar: $$(UAVO_COLLECTION_DIR)/
 		ln -sf $$(ANDROIDGCS_ASSETS_DIR)/uavos/$$$${HASH}.jar uavobjects.jar \
 	)
 
+
+# Generate the matlab uavobjects for this UAVO collection
+$$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/matlab: $$(UAVO_COLLECTION_DIR)/$(1)/uavohash uavobjgenerator
+	$$(V0) @echo " UAVOMATLAB $(1)  " $$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash)
+	$$(V1) mkdir -p $$@
+	$$(V1) ( \
+		cd $$(UAVO_COLLECTION_DIR)/$(1)/matlab-build && \
+		$$(UAVOBJGENERATOR) -matlab $$(UAVO_COLLECTION_DIR)/$(1)/uavo-xml/shared/uavobjectdefinition $$(ROOT_DIR) ; \
+	)
+
+# Build a jar file for this UAVO collection
+$$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/OPLogConvert.m: $$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/matlab
+	$$(V0) @echo " UAVOMAT   $(1)   " $$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash)
+	$$(V1) ( \
+		HASH=$$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash) && \
+		cd $$(UAVO_COLLECTION_DIR)/$(1)/matlab-build && \
+		python $(ROOT_DIR)/make/scripts/version-info.py \
+			--path=$$(ROOT_DIR) \
+			--template=$$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/matlab/OPLogConvert.m.pass1 \
+		--outfile=$$@ \
+		--uavodir=$$(UAVO_COLLECTION_DIR)/$(1)/uavo-xml/shared/uavobjectdefinition \
+	)
+
 endef
 
 # One of these for each element of UAVO_GIT_VERSIONS so we can extract the UAVOs from git
@@ -443,6 +466,9 @@ $(foreach githash, $(UAVO_ALL_VERSIONS), $(eval $(call UAVO_COLLECTION_BUILD_TEM
 
 .PHONY: uavo-collections_java
 uavo-collections_java: $(foreach githash, $(UAVO_ALL_VERSIONS), $(UAVO_COLLECTION_DIR)/$(githash)/java-build/uavobjects.jar)
+
+.PHONY: uavo-collections_matlab
+uavo-collections_matlab: $(foreach githash, $(UAVO_ALL_VERSIONS), $(UAVO_COLLECTION_DIR)/$(githash)/matlab-build/OPLogConvert.m)
 
 .PHONY: uavo-collections
 uavo-collections: uavo-collections_java
