@@ -310,7 +310,7 @@ matlab: uavobjects_matlab $(MATLAB_OUT_DIR)/OPLogConvert.m
 #
 ################################
 
-ANDROIDGCS_BUILD_OPT ?= debug
+ANDROIDGCS_BUILD_CONF ?= debug
 
 # Build the output directory for the Android GCS build
 ANDROIDGCS_OUT_DIR := $(BUILD_DIR)/androidgcs
@@ -338,7 +338,7 @@ androidgcs: uavo-collections_java
 		$(ANT_QUIET) \
 		-Dout.dir="../$(call toprel, $(ANDROIDGCS_OUT_DIR)/bin)" \
 		-Dgen.absolute.dir="$(ANDROIDGCS_OUT_DIR)/gen" \
-		$(ANDROIDGCS_BUILD_OPT)
+		$(ANDROIDGCS_BUILD_CONF)
 
 .PHONY: androidgcs_clean
 androidgcs_clean:
