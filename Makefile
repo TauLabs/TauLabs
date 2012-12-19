@@ -310,6 +310,7 @@ matlab: uavobjects_matlab $(MATLAB_OUT_DIR)/OPLogConvert.m
 #
 ################################
 
+ANDROIDGCS_BUILD_OPT ?= debug
 
 # Build the output directory for the Android GCS build
 ANDROIDGCS_OUT_DIR := $(BUILD_DIR)/androidgcs
@@ -337,7 +338,7 @@ androidgcs: uavo-collections_java
 		$(ANT_QUIET) \
 		-Dout.dir="../$(call toprel, $(ANDROIDGCS_OUT_DIR)/bin)" \
 		-Dgen.absolute.dir="$(ANDROIDGCS_OUT_DIR)/gen" \
-		debug
+		$(ANDROIDGCS_BUILD_OPT)
 
 .PHONY: androidgcs_clean
 androidgcs_clean:
@@ -349,7 +350,7 @@ androidgcs_clean:
 #
 # Find the git hashes of each commit that changes uavobjects with:
 #   git log --format=%h -- shared/uavobjectdefinition/ | head -n 2
-UAVO_GIT_VERSIONS := 684620d 43f85d9
+UAVO_GIT_VERSIONS := 93c76ec4 
 
 # All versions includes a pseudo collection called "working" which represents
 # the UAVOs in the source tree
