@@ -340,7 +340,7 @@ $(ANDROIDGCS_ASSETS_DIR)/uavos:
 	$(V1) mkdir -p $@
 
 ifeq ($(V), 1)
-ANT_QUIET :=
+ANT_QUIET := -d
 ANDROID_SILENT := 
 else
 ANT_QUIET := -q
