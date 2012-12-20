@@ -46,6 +46,7 @@
  *
  */
 
+#include "openpilot.h"
 #include "pios.h"
 #include "homelocation.h"
 #include "magnetometer.h"

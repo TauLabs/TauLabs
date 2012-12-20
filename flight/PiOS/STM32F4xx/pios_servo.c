@@ -57,19 +57,19 @@ int32_t PIOS_Servo_Init(const struct pios_servo_cfg * cfg)
 		/* Set up for output compare function */
 		switch(chan->timer_chan) {
 			case TIM_Channel_1:
-				TIM_OC1Init(chan->timer, &cfg->tim_oc_init);
+				TIM_OC1Init(chan->timer, (TIM_OCInitTypeDef*)&cfg->tim_oc_init);
 				TIM_OC1PreloadConfig(chan->timer, TIM_OCPreload_Enable);
 				break;
 			case TIM_Channel_2:
-				TIM_OC2Init(chan->timer, &cfg->tim_oc_init);
+				TIM_OC2Init(chan->timer, (TIM_OCInitTypeDef*)&cfg->tim_oc_init);
 				TIM_OC2PreloadConfig(chan->timer, TIM_OCPreload_Enable);
 				break;
 			case TIM_Channel_3:
-				TIM_OC3Init(chan->timer, &cfg->tim_oc_init);
+				TIM_OC3Init(chan->timer, (TIM_OCInitTypeDef*)&cfg->tim_oc_init);
 				TIM_OC3PreloadConfig(chan->timer, TIM_OCPreload_Enable);
 				break;
 			case TIM_Channel_4:
-				TIM_OC4Init(chan->timer, &cfg->tim_oc_init);
+				TIM_OC4Init(chan->timer, (TIM_OCInitTypeDef*)&cfg->tim_oc_init);
 				TIM_OC4PreloadConfig(chan->timer, TIM_OCPreload_Enable);
 				break;
 		}

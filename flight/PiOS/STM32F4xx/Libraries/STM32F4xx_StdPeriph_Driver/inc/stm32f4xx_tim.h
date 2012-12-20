@@ -2,21 +2,27 @@
   ******************************************************************************
   * @file    stm32f4xx_tim.h
   * @author  MCD Application Team
-  * @version V1.0.0
-  * @date    30-September-2011
+  * @version V1.0.2
+  * @date    05-March-2012
   * @brief   This file contains all the functions prototypes for the TIM firmware 
   *          library.
   ******************************************************************************
   * @attention
   *
-  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
-  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
-  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY
-  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
-  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
-  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+  * <h2><center>&copy; COPYRIGHT 2012 STMicroelectronics</center></h2>
   *
-  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+  * You may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at:
+  *
+  *        http://www.st.com/software_license_agreement_liberty_v2
+  *
+  * Unless required by applicable law or agreed to in writing, software 
+  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  *
   ******************************************************************************
   */
 
@@ -1018,7 +1024,7 @@ typedef struct
 
 /* TimeBase management ********************************************************/
 void TIM_DeInit(TIM_TypeDef* TIMx);
-void TIM_TimeBaseInit(TIM_TypeDef* TIMx, const TIM_TimeBaseInitTypeDef* TIM_TimeBaseInitStruct);
+void TIM_TimeBaseInit(TIM_TypeDef* TIMx, TIM_TimeBaseInitTypeDef* TIM_TimeBaseInitStruct);
 void TIM_TimeBaseStructInit(TIM_TimeBaseInitTypeDef* TIM_TimeBaseInitStruct);
 void TIM_PrescalerConfig(TIM_TypeDef* TIMx, uint16_t Prescaler, uint16_t TIM_PSCReloadMode);
 void TIM_CounterModeConfig(TIM_TypeDef* TIMx, uint16_t TIM_CounterMode);
@@ -1034,10 +1040,10 @@ void TIM_SetClockDivision(TIM_TypeDef* TIMx, uint16_t TIM_CKD);
 void TIM_Cmd(TIM_TypeDef* TIMx, FunctionalState NewState);
 
 /* Output Compare management **************************************************/
-void TIM_OC1Init(TIM_TypeDef* TIMx, const TIM_OCInitTypeDef* TIM_OCInitStruct);
-void TIM_OC2Init(TIM_TypeDef* TIMx, const TIM_OCInitTypeDef* TIM_OCInitStruct);
-void TIM_OC3Init(TIM_TypeDef* TIMx, const TIM_OCInitTypeDef* TIM_OCInitStruct);
-void TIM_OC4Init(TIM_TypeDef* TIMx, const TIM_OCInitTypeDef* TIM_OCInitStruct);
+void TIM_OC1Init(TIM_TypeDef* TIMx, TIM_OCInitTypeDef* TIM_OCInitStruct);
+void TIM_OC2Init(TIM_TypeDef* TIMx, TIM_OCInitTypeDef* TIM_OCInitStruct);
+void TIM_OC3Init(TIM_TypeDef* TIMx, TIM_OCInitTypeDef* TIM_OCInitStruct);
+void TIM_OC4Init(TIM_TypeDef* TIMx, TIM_OCInitTypeDef* TIM_OCInitStruct);
 void TIM_OCStructInit(TIM_OCInitTypeDef* TIM_OCInitStruct);
 void TIM_SelectOCxM(TIM_TypeDef* TIMx, uint16_t TIM_Channel, uint16_t TIM_OCMode);
 void TIM_SetCompare1(TIM_TypeDef* TIMx, uint32_t Compare1);
@@ -1141,4 +1147,4 @@ void TIM_RemapConfig(TIM_TypeDef* TIMx, uint16_t TIM_Remap);
   * @}
   */
 
-/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

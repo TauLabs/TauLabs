@@ -1,6 +1,8 @@
 /*
-    FreeRTOS V7.2.0 - Copyright (C) 2012 Real Time Engineers Ltd.
+    FreeRTOS V7.3.0 - Copyright (C) 2012 Real Time Engineers Ltd.
 
+    FEATURES AND PORTS ARE ADDED TO FREERTOS ALL THE TIME.  PLEASE VISIT 
+    http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
 
     ***************************************************************************
      *                                                                       *
@@ -44,15 +46,15 @@
     ***************************************************************************
      *                                                                       *
      *    Having a problem?  Start by reading the FAQ "My application does   *
-     *    not run, what could be wrong?                                      *
+     *    not run, what could be wrong?"                                     *
      *                                                                       *
      *    http://www.FreeRTOS.org/FAQHelp.html                               *
      *                                                                       *
     ***************************************************************************
 
     
-    http://www.FreeRTOS.org - Documentation, training, latest information, 
-    license and contact details.
+    http://www.FreeRTOS.org - Documentation, training, latest versions, license 
+    and contact details.  
     
     http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
     including FreeRTOS+Trace - an indispensable productivity tool.
@@ -135,7 +137,7 @@ typedef struct QueueDefinition
 
 	volatile signed portBASE_TYPE xRxLock;	/*< Stores the number of items received from the queue (removed from the queue) while the queue was locked.  Set to queueUNLOCKED when the queue is not locked. */
 	volatile signed portBASE_TYPE xTxLock;	/*< Stores the number of items transmitted to the queue (added to the queue) while the queue was locked.  Set to queueUNLOCKED when the queue is not locked. */
-	
+
 	#if ( configUSE_TRACE_FACILITY == 1 )
 		unsigned char ucQueueNumber;
 		unsigned char ucQueueType;
@@ -291,10 +293,10 @@ portBASE_TYPE xQueueGenericReset( xQueueHandle pxQueue, portBASE_TYPE xNewQueue 
 
 		if( xNewQueue == pdFALSE )
 		{
-			/* If there are tasks blocked waiting to read from the queue, then 
-			the tasks will remain blocked as after this function exits the queue 
-			will still be empty.  If there are tasks blocked waiting to	write to 
-			the queue, then one should be unblocked as after this function exits 
+			/* If there are tasks blocked waiting to read from the queue, then
+			the tasks will remain blocked as after this function exits the queue
+			will still be empty.  If there are tasks blocked waiting to	write to
+			the queue, then one should be unblocked as after this function exits
 			it will be possible to write to it. */
 			if( listLIST_IS_EMPTY( &( pxQueue->xTasksWaitingToSend ) ) == pdFALSE )
 			{
@@ -308,7 +310,7 @@ portBASE_TYPE xQueueGenericReset( xQueueHandle pxQueue, portBASE_TYPE xNewQueue 
 		{
 			/* Ensure the event queues start in the correct state. */
 			vListInitialise( &( pxQueue->xTasksWaitingToSend ) );
-			vListInitialise( &( pxQueue->xTasksWaitingToReceive ) );		
+			vListInitialise( &( pxQueue->xTasksWaitingToReceive ) );
 		}
 	}
 	taskEXIT_CRITICAL();
@@ -438,7 +440,7 @@ xQueueHandle xReturn = NULL;
 		/* This function is called by xSemaphoreGetMutexHolder(), and should not
 		be called directly.  Note:  This is is a good way of determining if the
 		calling task is the mutex holder, but not a good way of determining the
-		identity of the mutex holder, as the holder may change between the 
+		identity of the mutex holder, as the holder may change between the
 		following critical section exiting and the function returning. */
 		taskENTER_CRITICAL();
 		{
@@ -452,7 +454,7 @@ xQueueHandle xReturn = NULL;
 			}
 		}
 		taskEXIT_CRITICAL();
-		
+
 		return pxReturn;
 	}
 
@@ -874,7 +876,9 @@ xTimeOutType xTimeOut;
 							if( pxQueue->uxQueueType == queueQUEUE_IS_MUTEX )
 							{
 								portENTER_CRITICAL();
+								{
 									vTaskPriorityInherit( ( void * ) pxQueue->pxMutexHolder );
+								}
 								portEXIT_CRITICAL();
 							}
 						}
