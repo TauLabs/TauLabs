@@ -121,22 +121,22 @@ public class UAVLocation extends ObjectManagerActivity
 			Double lon = obj.getField("Longitude").getDouble() / 10;
 			homeLocation = new GeoPoint(lat.intValue(), lon.intValue());
 			if (mHomeMarker == null) {
-				mHomeMarker = mMap.addMarker(new MarkerOptions()
+				mHomeMarker = mMap.addMarker(new MarkerOptions().anchor(0.5f,0.5f)
 			       .position(new LatLng(homeLocation.getLatitudeE6() / 1e6, homeLocation.getLongitudeE6() / 1e6))
-			       .title("UAV")
-			       .snippet("Fly fly fly")
-			       .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_home)));
+			       .title("Home")
+			       .snippet(String.format("%g, %g", homeLocation.getLatitudeE6() / 1e6, homeLocation.getLongitudeE6() / 1e6))
+			       .icon(BitmapDescriptorFactory.fromResource(R.drawable.im_map_home)));
 			} else {
 				mHomeMarker.setPosition((new LatLng(homeLocation.getLatitudeE6() / 1e6, homeLocation.getLongitudeE6() / 1e6)));
 			}
 		} else if (obj.getName().compareTo("PositionActual") == 0) {
 			uavLocation = getUavLocation();
 			if (mUavMarker == null) {
-				mUavMarker = mMap.addMarker(new MarkerOptions()
+				mUavMarker = mMap.addMarker(new MarkerOptions().anchor(0.5f,0.5f)
 			       .position(new LatLng(uavLocation.getLatitudeE6() / 1e6, uavLocation.getLongitudeE6() / 1e6))
 			       .title("UAV")
-			       .snippet("Fly fly fly")
-			       .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_uav)));
+			       .snippet(String.format("%g, %g", uavLocation.getLatitudeE6() / 1e6, uavLocation.getLongitudeE6() / 1e6))
+			       .icon(BitmapDescriptorFactory.fromResource(R.drawable.im_map_uav)));
 			} else {
 				mUavMarker.setPosition((new LatLng(uavLocation.getLatitudeE6() / 1e6, uavLocation.getLongitudeE6() / 1e6)));
 			}
