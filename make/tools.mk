@@ -8,19 +8,19 @@
 ###############################################################
 
 # Set up QT toolchain
-QT_SDK_DIR := $(TOOLS_DIR)/Qt5.0.0-rc2
+QT_SDK_DIR := $(TOOLS_DIR)/Qt5.0.0
 
 .PHONY: qt_sdk_install
 # Choose the appropriate installer based on host architecture
 ifneq (,$(filter $(ARCH), x86_64 amd64))
 # 64-bit
-QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.0.0-rc2/gcc_64/bin/qmake
-qt_sdk_install: QT_SDK_URL := http://releases.qt-project.org/qt5.0/rc2/qt-linux-opensource-5.0.0-rc2-x86_64-offline.run
+QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.0.0/gcc_64/bin/qmake
+qt_sdk_install: QT_SDK_URL := http://releases.qt-project.org/qt5/5.0.0/qt-linux-opensource-5.0.0-x86_64-offline.run
 qt_sdk_install: QT_SDK_FILE := $(notdir $(QT_SDK_URL))
 else
 # 32-bit
-QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.0.0-rc2/gcc/bin/qmake
-qt_sdk_install: QT_SDK_URL  := http://releases.qt-project.org/qt5.0/rc2/qt-linux-opensource-5.0.0-rc2-x86-offline.run
+QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.0.0/gcc/bin/qmake
+qt_sdk_install: QT_SDK_URL  := http://releases.qt-project.org/qt5/5.0.0/qt-linux-opensource-5.0.0-x86-offline.run
 qt_sdk_install: QT_SDK_FILE := $(notdir $(QT_SDK_URL))
 endif
 # order-only prereq on directory existance:
