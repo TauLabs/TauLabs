@@ -103,19 +103,31 @@ TelemetryMonitorWidget::TelemetryMonitorWidget(QWidget *parent) : QGraphicsView(
         for (int i=0; i<NODE_NUMELEM; i++) {
             name = QString("tx%0").arg(i);
             if (renderer->elementExists(name)) {
+                trans.reset();
                 pt = new QGraphicsSvgItem();
                 pt->setSharedRenderer(renderer);
                 pt->setElementId(name);
                 pt->setParentItem(graph);
+                orig=renderer->boundsOnElement(name);
+                Matrix = renderer->matrixForElement(name);
+                orig=Matrix.mapRect(orig);
+                trans.translate(orig.x(),orig.y());
+                pt->setTransform(trans,false);
                 txNodes.append(pt);
             }
 
             name = QString("rx%0").arg(i);
             if (renderer->elementExists(name)) {
+                trans.reset();
                 pt = new QGraphicsSvgItem();
                 pt->setSharedRenderer(renderer);
                 pt->setElementId(name);
                 pt->setParentItem(graph);
+                orig=renderer->boundsOnElement(name);
+                Matrix = renderer->matrixForElement(name);
+                orig=Matrix.mapRect(orig);
+                trans.translate(orig.x(),orig.y());
+                pt->setTransform(trans,false);
                 rxNodes.append(pt);
             }
         }
@@ -126,12 +138,24 @@ TelemetryMonitorWidget::TelemetryMonitorWidget(QWidget *parent) : QGraphicsView(
         txSpeed->setDefaultTextColor(Qt::white);
         txSpeed->setFont(QFont("Helvetica",22,2));
         txSpeed->setParentItem(graph);
+        orig=renderer->boundsOnElement("txPH");
+        Matrix = renderer->matrixForElement("txPH");
+        orig=Matrix.mapRect(orig);
+        trans.reset();
+        trans.translate(orig.x(),orig.y());
+        txSpeed->setTransform(trans,false);
         scene->addItem(txSpeed);
 
         rxSpeed = new QGraphicsTextItem();
         rxSpeed->setDefaultTextColor(Qt::white);
         rxSpeed->setFont(QFont("Helvetica",22,2));
         rxSpeed->setParentItem(graph);
+        trans.reset();
+        orig=renderer->boundsOnElement("rxPH");
+        Matrix = renderer->matrixForElement("rxPH");
+        orig=Matrix.mapRect(orig);
+        trans.translate(orig.x(),orig.y());
+        rxSpeed->setTransform(trans,false);
         scene->addItem(rxSpeed);
 
         scene->setSceneRect(graph->boundingRect());
@@ -205,30 +229,23 @@ void TelemetryMonitorWidget::showTelemetry()
         this->setToolTip(QString("Disconnected"));
 
     int i;
-    int nodeMargin = 8;
-    int leftMargin = 60;
     QGraphicsItem* node;
 
     for (i=0; i < txNodes.count(); i++) {
         node = txNodes.at(i);
-        node->setPos((i*(node->boundingRect().width() + nodeMargin)) + leftMargin, (node->boundingRect().height()/2) - 2);
         node->setVisible(m_connected && i < txIndex);
         node->update();
     }
 
     for (i=0; i < rxNodes.count(); i++) {
         node = rxNodes.at(i);
-        node->setPos((i*(node->boundingRect().width() + nodeMargin)) + leftMargin, (node->boundingRect().height()*2) - 2);
         node->setVisible(m_connected && i < rxIndex);
         node->update();
     }
 
-    QRectF rect = graph->boundingRect();
-    txSpeed->setPos(rect.right() - 110, rect.top());
     txSpeed->setPlainText(QString("%0").arg(txValue));
     txSpeed->setVisible(m_connected);
 
-    rxSpeed->setPos(rect.right() - 110, rect.top() + (rect.height() / 2));
     rxSpeed->setPlainText(QString("%0").arg(rxValue));
     rxSpeed->setVisible(m_connected);
 
