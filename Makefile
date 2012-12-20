@@ -212,12 +212,14 @@ else
 endif
 
 ifeq ($(shell [ -d "$(ANDROID_SDK_DIR)" ] && echo "exists"), exists)
-  ANDROID := $(ANDROID_SDK_DIR)/tools/android
-  ANDROID_DX := $(ANDROID_SDK_DIR)/platform-tools/dx
+  ANDROID     := $(ANDROID_SDK_DIR)/tools/android
+  ANDROID_DX  := $(ANDROID_SDK_DIR)/platform-tools/dx
+  ANDROID_ADB := $(ANDROID_SDK_DIR)/platform-tools/adb
 else
   # not installed, hope it's in the path...
-  ANDROID ?= android
-  ANDROID_DX ?= dx
+  ANDROID     ?= android
+  ANDROID_DX  ?= dx
+  ANDROID_ADB ?= adb
 endif
 
 ##############################
@@ -346,7 +348,7 @@ $(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk: uavo-collecti
 .PHONY: androidgcs_install
 androidgcs_install: $(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk
 	$(V0) @echo " AGCS INST "
-	$(V1) $(ANDROID_SDK_DIR)/platform-tools/adb install -r $(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk
+i	$(V1) $(ANDROID_ADB) install -r $(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk
 
 .PHONY: androidgcs_clean
 androidgcs_clean:
