@@ -23,7 +23,8 @@ public:
 
     //number of tx/rx nodes in the graph
     static const int NODE_NUMELEM = 7;
-
+    QSvgRenderer * getRenderer(){return renderer;}
+    QGraphicsSvgItem * getBackgroundItem(){return graph;}
 signals:
     
 public slots:
@@ -41,17 +42,10 @@ private slots:
     void processAlerts();
 private:
    QGraphicsSvgItem *graph;
-   QGraphicsSvgItem *error_sym;
-   QGraphicsSvgItem *warning_sym;
-   QGraphicsSvgItem *info_sym;
-   QGraphicsTextItem *error_txt;
-   QGraphicsTextItem *warning_txt;
-   QGraphicsTextItem *info_txt;
    QPointer<QGraphicsTextItem> txSpeed;
    QPointer<QGraphicsTextItem> rxSpeed;
    QList<QGraphicsSvgItem*> txNodes;
    QList<QGraphicsSvgItem*> rxNodes;
-   QTimer alertTimer;
    bool   m_connected;
    double txIndex;
    double txValue;
@@ -59,9 +53,7 @@ private:
    double rxValue;
    double minValue;
    double maxValue;
-   bool hasErrors;
-   bool hasWarnings;
-   bool hasInfos;
+   QSvgRenderer *renderer;
 };
 
 #endif // TELEMETRYMONITORWIDGET_H
