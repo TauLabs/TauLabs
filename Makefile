@@ -153,6 +153,7 @@ help:
 	@echo
 	@echo "   [AndroidGCS]"
 	@echo "     androidgcs           - Build the Ground Control System (GCS) application"
+	@echo "     androidgcs_install   - Use ADB to install the Ground Control System (GCS) application"
 	@echo "     androidgcs_clean     - Remove the Ground Control System (GCS) application"
 	@echo
 	@echo "   [UAVObjects]"
@@ -211,12 +212,14 @@ else
 endif
 
 ifeq ($(shell [ -d "$(ANDROID_SDK_DIR)" ] && echo "exists"), exists)
-  ANDROID := $(ANDROID_SDK_DIR)/tools/android
-  ANDROID_DX := $(ANDROID_SDK_DIR)/platform-tools/dx
+  ANDROID     := $(ANDROID_SDK_DIR)/tools/android
+  ANDROID_DX  := $(ANDROID_SDK_DIR)/platform-tools/dx
+  ANDROID_ADB := $(ANDROID_SDK_DIR)/platform-tools/adb
 else
   # not installed, hope it's in the path...
-  ANDROID ?= android
-  ANDROID_DX ?= dx
+  ANDROID     ?= android
+  ANDROID_DX  ?= dx
+  ANDROID_ADB ?= adb
 endif
 
 ##############################
@@ -330,7 +333,9 @@ ANT_QUIET := -q
 ANDROID_SILENT := -s
 endif
 .PHONY: androidgcs
-androidgcs: uavo-collections_java
+androidgcs: $(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk
+
+$(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk: uavo-collections_java
 	$(V0) @echo " ANDROID   $(call toprel, $(ANDROIDGCS_OUT_DIR))"
 	$(V1) mkdir -p $(ANDROIDGCS_OUT_DIR)
 	$(V1) $(ANDROID) $(ANDROID_SILENT) update project --target 'Google Inc.:Google APIs:16' --name androidgcs --path ./androidgcs
@@ -339,6 +344,11 @@ androidgcs: uavo-collections_java
 		-Dout.dir="../$(call toprel, $(ANDROIDGCS_OUT_DIR)/bin)" \
 		-Dgen.absolute.dir="$(ANDROIDGCS_OUT_DIR)/gen" \
 		$(ANDROIDGCS_BUILD_CONF)
+
+.PHONY: androidgcs_install
+androidgcs_install: $(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk
+	$(V0) @echo " AGCS INST "
+	$(V1) $(ANDROID_ADB) install -r $(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk
 
 .PHONY: androidgcs_clean
 androidgcs_clean:
