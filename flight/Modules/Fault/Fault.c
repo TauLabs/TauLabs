@@ -32,7 +32,7 @@
 
 #include "openpilot.h"
 #include <stdbool.h>
-#include "hwsettings.h"
+#include "modulesettings.h"
 #include "faultsettings.h"
 
 static bool module_enabled;
@@ -43,12 +43,10 @@ static int32_t fault_initialize(void)
 #ifdef MODULE_Fault_BUILTIN
 	module_enabled = true;
 #else
-	HwSettingsInitialize();
-	uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
-
-	HwSettingsOptionalModulesGet(optionalModules);
-
-	if (optionalModules[HWSETTINGS_OPTIONALMODULES_FAULT] == HWSETTINGS_OPTIONALMODULES_ENABLED) {
+	ModuleSettingsInitialize();
+	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+	ModuleSettingsEnabledGet(module_state);
+	if (module_state[MODULESETTINGS_STATE_FAULT] == MODULESETTINGS_STATE_ENABLED) {
 		module_enabled = true;
 	} else {
 		module_enabled = false;

@@ -42,6 +42,7 @@
 #include "systemsettings.h"
 #include "WorldMagModel.h"
 #include "CoordinateConversions.h"
+#include "modulesettings.h"
 #include "hwsettings.h"
 
 #include "NMEA.h"
@@ -86,7 +87,7 @@ static float GravityAccel(float latitude, float longitude, float altitude);
 // Private variables
 
 static uint32_t gpsPort;
-static bool gpsEnabled = false;
+static bool module_enabled = false;
 
 static xTaskHandle gpsTaskHandle;
 
@@ -106,7 +107,7 @@ static struct GPS_RX_STATS gpsRxStats;
 
 int32_t GPSStart(void)
 {
-	if (gpsEnabled) {
+	if (module_enabled) {
 		if (gpsPort) {
 			// Start gps task
 			xTaskCreate(gpsTask, (signed char *)"GPS", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &gpsTaskHandle);
@@ -130,17 +131,16 @@ int32_t GPSInitialize(void)
 	uint8_t	gpsProtocol;
 
 #ifdef MODULE_GPS_BUILTIN
-	gpsEnabled = true;
+	module_enabled = true;
 #else
-	HwSettingsInitialize();
-	uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
-
-	HwSettingsOptionalModulesGet(optionalModules);
-
-	if (optionalModules[HWSETTINGS_OPTIONALMODULES_GPS] == HWSETTINGS_OPTIONALMODULES_ENABLED)
-		gpsEnabled = true;
-	else
-		gpsEnabled = false;
+	ModuleSettingsInitialize();
+	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+	ModuleSettingsStateGet(module_state);
+	if (module_state[MODULESETTINGS_STATE_GPS] == MODULESETTINGS_STATE_ENABLED) {
+		module_enabled = true;
+	} else {
+		module_enabled = false;
+	}
 #endif
 
 #if defined(REVOLUTION)
@@ -155,7 +155,7 @@ int32_t GPSInitialize(void)
 	updateSettings();
 
 #else
-	if (gpsPort && gpsEnabled) {
+	if (gpsPort && module_enabled) {
 		GPSPositionInitialize();
 		GPSVelocityInitialize();
 #if !defined(PIOS_GPS_MINIMAL)
@@ -172,7 +172,7 @@ int32_t GPSInitialize(void)
 	}
 #endif
 
-	if (gpsPort && gpsEnabled) {
+	if (gpsPort && module_enabled) {
 		SystemSettingsInitialize();
 		SystemSettingsGPSDataProtocolGet(&gpsProtocol);
 		switch (gpsProtocol) {

@@ -61,7 +61,6 @@
 #include "gpsvelocity.h"
 #include "gyros.h"
 #include "homelocation.h"
-#include "hwsettings.h"
 #include "manualcontrolcommand.h"
 #include "positionactual.h"
 #include "velocityactual.h"

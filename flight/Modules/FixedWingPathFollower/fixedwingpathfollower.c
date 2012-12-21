@@ -47,7 +47,7 @@
 #include "paths.h"
 
 #include "accels.h"
-#include "hwsettings.h"
+#include "modulesettings.h"
 #include "attitudeactual.h"
 #include "pathdesired.h"	// object that will be updated by the module
 #include "positionactual.h"
@@ -79,7 +79,7 @@
 // Private types
 
 // Private variables
-static bool followerEnabled = false;
+static bool module_enabled = false;
 static xTaskHandle pathfollowerTaskHandle;
 static PathDesiredData pathDesired;
 static PathStatusData pathStatus;
@@ -100,7 +100,7 @@ static float bound(float val, float min, float max);
  */
 int32_t FixedWingPathFollowerStart()
 {
-	if (followerEnabled) {
+	if (module_enabled) {
 		// Start main task
 		xTaskCreate(pathfollowerTask, (signed char *)"PathFollower", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &pathfollowerTaskHandle);
 		TaskMonitorAdd(TASKINFO_RUNNING_PATHFOLLOWER, pathfollowerTaskHandle);
@@ -115,11 +115,16 @@ int32_t FixedWingPathFollowerStart()
  */
 int32_t FixedWingPathFollowerInitialize()
 {
-	HwSettingsInitialize();
-	uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
-	HwSettingsOptionalModulesGet(optionalModules);
-	if (optionalModules[HWSETTINGS_OPTIONALMODULES_FIXEDWINGPATHFOLLOWER] == HWSETTINGS_OPTIONALMODULES_ENABLED) {
-		followerEnabled = true;
+	ModuleSettingsInitialize();
+	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+	ModuleSettingsStateGet(module_state);
+	if (module_state[MODULESETTINGS_STATE_FIXEDWINGPATHFOLLOWER] == MODULESETTINGS_STATE_ENABLED) {
+		module_enabled = true;
+	} else {
+		module_enabled = false;
+	}
+
+	if (module_enabled) {
 		FixedWingPathFollowerRevolutionSettingsInitialize();
 		FixedWingAirspeedsInitialize();
 		FixedWingPathFollowerStatusInitialize();
@@ -127,9 +132,8 @@ int32_t FixedWingPathFollowerInitialize()
 		PathStatusInitialize();
 		VelocityDesiredInitialize();
 		AirspeedActualInitialize();
-	} else {
-		followerEnabled = false;
 	}
+
 	return 0;
 }
 MODULE_INITCALL(FixedWingPathFollowerInitialize, FixedWingPathFollowerStart)

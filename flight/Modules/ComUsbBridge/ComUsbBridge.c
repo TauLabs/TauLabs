@@ -31,6 +31,7 @@
 // ****************
 
 #include "openpilot.h"
+#include "modulesettings.h"
 #include "hwsettings.h"
 
 #include <stdbool.h>
@@ -62,7 +63,7 @@ static uint8_t * usb2com_buf;
 static uint32_t usart_port;
 static uint32_t vcp_port;
 
-static bool bridge_enabled = false;
+static bool module_enabled = false;
 
 /**
  * Initialise the module
@@ -72,7 +73,7 @@ static bool bridge_enabled = false;
 
 static int32_t comUsbBridgeStart(void)
 {
-	if (bridge_enabled) {
+	if (module_enabled) {
 		// Start tasks
 		xTaskCreate(com2UsbBridgeTask, (signed char *)"Com2UsbBridge", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &com2UsbBridgeTaskHandle);
 		TaskMonitorAdd(TASKINFO_RUNNING_COM2USBBRIDGE, com2UsbBridgeTaskHandle);
@@ -95,21 +96,20 @@ static int32_t comUsbBridgeInitialize(void)
 	vcp_port = PIOS_COM_VCP;
 
 #ifdef MODULE_ComUsbBridge_BUILTIN
-	bridge_enabled = true;
+	module_enabled = true;
 #else
-	HwSettingsInitialize();
-	uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
-
-	HwSettingsOptionalModulesGet(optionalModules);
-
+	ModuleSettingsInitialize();
+	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+	ModuleSettingsStateGet(module_state);
 	if (usart_port && vcp_port &&
-		(optionalModules[HWSETTINGS_OPTIONALMODULES_COMUSBBRIDGE] == HWSETTINGS_OPTIONALMODULES_ENABLED))
-		bridge_enabled = true;
-	else
-		bridge_enabled = false;
+		(module_state[MODULESETTINGS_STATE_COMUSBBRIDGE] == MODULESETTINGS_STATE_ENABLED)) {
+		module_enabled = true;
+	} else {
+		module_enabled = false;
+	}
 #endif
 
-	if (bridge_enabled) {
+	if (module_enabled) {
 		com2usb_buf = pvPortMalloc(BRIDGE_BUF_LEN);
 		PIOS_Assert(com2usb_buf);
 		usb2com_buf = pvPortMalloc(BRIDGE_BUF_LEN);

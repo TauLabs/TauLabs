@@ -38,6 +38,7 @@
 #include <openpilot.h>
 #include <uavobjectsinit.h>
 #include "hwsettings.h"
+#include "modulesettings.h"
 #include "manualcontrolsettings.h"
 
 /**
@@ -771,9 +772,20 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_OVERO_SPI)
 	/* Set up the SPI based PIOS_COM interface to the overo */
 	{
-		HwSettingsData hwSettings;
-		HwSettingsGet(&hwSettings);
-		if(hwSettings.OptionalModules[HWSETTINGS_OPTIONALMODULES_OVERO] == HWSETTINGS_OPTIONALMODULES_ENABLED) {
+		bool overo_enabled = false;
+#ifdef MODULE_OveroSync_BUILTIN
+		overo_enabled = true;
+#else
+		ModuleSettingsInitialize();
+		uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+		ModuleSettingsStateGet(module_state);
+		if (module_state[MODULESETTINGS_STATE_OVEROSYNC] == MODULESETTINGS_STATE_ENABLED) {
+			overo_enabled = true;
+		} else {
+			overo_enabled = false;
+		}
+#endif
+		if (overo_enabled) {
 			if (PIOS_OVERO_Init(&pios_overo_id, &pios_overo_cfg)) {
 				PIOS_DEBUG_Assert(0);
 			}

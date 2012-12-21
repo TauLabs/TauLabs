@@ -1,0 +1,27 @@
+<xml>
+	<object name="ModuleSettings" singleinstance="true" settings="true">
+		<description>Optional module enable/disable configuration.</description>
+		<field name="State" units="" type="enum" options="Disabled,Enabled" defaultvalue="Disabled">
+			<elementnames>
+				<elementname>Airspeed</elementname>
+				<elementname>Altitude</elementname>
+				<elementname>Autotune</elementname>
+				<elementname>Battery</elementname>
+				<elementname>CameraStab</elementname>
+				<elementname>ComUsbBridge</elementname>
+				<elementname>FixedWingPathFollower</elementname>
+				<elementname>Fault</elementname>
+				<elementname>GPS</elementname>
+				<elementname>OveroSync</elementname>
+				<elementname>Radio</elementname>
+				<elementname>TxPID</elementname>
+				<elementname>VtolPathFollower</elementname>
+			</elementnames>
+		</field>
+
+		<access gcs="readwrite" flight="readonly"/>
+		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+		<telemetryflight acked="true" updatemode="onchange" period="0"/>
+		<logging updatemode="manual" period="0"/>
+	</object>
+</xml>

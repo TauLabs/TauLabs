@@ -31,7 +31,7 @@
  */
 
 #include "openpilot.h"
-#include "hwsettings.h"
+#include "modulesettings.h"
 #include "overosync.h"
 #include "overosyncstats.h"
 #include "systemstats.h"
@@ -47,7 +47,7 @@
 static xQueueHandle queue;
 static UAVTalkConnection uavTalkCon;
 static xTaskHandle overoSyncTaskHandle;
-static bool overoEnabled;
+static bool module_enabled;
 
 // Private functions
 static void overoSyncTask(void *parameters);
@@ -74,29 +74,26 @@ struct overosync *overosync;
  */
 int32_t OveroSyncInitialize(void)
 {
-
-#ifdef MODULE_OVERO_BUILTIN
-	overoEnabled = true;
+#ifdef MODULE_OveroSync_BUILTIN
+	module_enabled = true;
 #else
-	
-	HwSettingsInitialize();
-	uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
-	HwSettingsOptionalModulesGet(optionalModules);
-	
-	if (optionalModules[HWSETTINGS_OPTIONALMODULES_OVERO] == HWSETTINGS_OPTIONALMODULES_ENABLED) {
-		overoEnabled = true;
-	
-		// Create object queues
-		queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	ModuleSettingsInitialize();
+	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+	ModuleSettingsStateGet(module_state);
+	if (module_state[MODULESETTINGS_STATE_OVEROSYNC] == MODULESETTINGS_STATE_ENABLED) {
+		module_enabled = true;
 	} else {
-		overoEnabled = false;
-		return -1;
+		module_enabled = false;
 	}
 #endif
-	
+
+	if (!module_enabled)
+		return -1;
+
+	// Create object queues
+	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 	
 	OveroSyncStatsInitialize();
-
 
 	// Initialise UAVTalk
 	uavTalkCon = UAVTalkInitialize(&packData);
@@ -112,7 +109,7 @@ int32_t OveroSyncInitialize(void)
 int32_t OveroSyncStart(void)
 {
 	//Check if module is enabled or not
-	if (overoEnabled == false) {
+	if (module_enabled == false) {
 		return -1;
 	}
 	

@@ -37,6 +37,7 @@
  */
 
 #include "openpilot.h"
+#include "modulesettings.h"
 #include "hwsettings.h"
 #include "gpsvelocity.h"
 #include "airspeedsettings.h"
@@ -88,7 +89,7 @@
 
 // Private variables
 static xTaskHandle taskHandle;
-static bool airspeedEnabled = false;
+static bool module_enabled = false;
 volatile bool gpsNew = false;
 static uint8_t airspeedSensorType;
 static uint16_t gpsSamplePeriod_ms;
@@ -119,7 +120,7 @@ int32_t AirspeedStart()
 #endif	
 	
 	//Check if module is enabled or not
-	if (airspeedEnabled == false) {
+	if (module_enabled == false) {
 		return -1;
 	}
 		
@@ -135,23 +136,22 @@ int32_t AirspeedStart()
  */
 int32_t AirspeedInitialize()
 {
-#ifdef MODULE_AIRSPEED_BUILTIN
-	airspeedEnabled = true;
+#ifdef MODULE_CameraStab_BUILTIN
+	module_enabled = true;
 #else
-	
-	HwSettingsInitialize();
-	uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
-	HwSettingsOptionalModulesGet(optionalModules);
-	
-	
-	if (optionalModules[HWSETTINGS_OPTIONALMODULES_AIRSPEED] == HWSETTINGS_OPTIONALMODULES_ENABLED) {
-		airspeedEnabled = true;
+	ModuleSettingsInitialize();
+	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+	ModuleSettingsStateGet(module_state);
+	if (module_state[MODULESETTINGS_STATE_AIRSPEED] == MODULESETTINGS_STATE_ENABLED) {
+		module_enabled = true;
 	} else {
-		airspeedEnabled = false;
-		return -1;
+		module_enabled = false;
 	}
 #endif
-	
+
+	if (!module_enabled)
+		return -1;
+
 #ifdef BARO_AIRSPEED_PRESENT
 	uint8_t adcRouting[HWSETTINGS_ADCROUTING_NUMELEM];	
 	HwSettingsADCRoutingGet(adcRouting);
