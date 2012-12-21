@@ -22,17 +22,22 @@
  */
 package org.abovegroundlabs.androidgcs;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import org.abovegroundlabs.osg.ColorPickerDialog;
 import org.abovegroundlabs.osg.EGLview;
 import org.abovegroundlabs.osg.osgNativeLib;
 import org.abovegroundlabs.uavtalk.UAVObject;
-import org.abovegroundlabs.androidgcs.R;
 
 import android.app.AlertDialog;
+import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.FloatMath;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -49,6 +54,7 @@ public class OsgViewer extends ObjectManagerActivity implements View.OnTouchList
 //	private static boolean WARN = LOGLEVEL > 1;
 	private static final boolean DEBUG = LOGLEVEL > 0;
 
+    final String MODEL_DIR = "models";
 
 	enum moveTypes { NONE , DRAG, MDRAG, ZOOM ,ACTUALIZE}
 	enum navType { PRINCIPAL , SECONDARY }
@@ -86,23 +92,28 @@ public class OsgViewer extends ObjectManagerActivity implements View.OnTouchList
 
     //Main Android Activity life cycle
     @Override protected void onCreate(Bundle icicle) {
-        super.onCreate(icicle);
-        setContentView(R.layout.ui_layout_gles);
-        //Obtain every Ui element
-	        mView= (EGLview) findViewById(R.id.surfaceGLES);
-		        mView.setOnTouchListener(this);
-		        mView.setOnKeyListener(this);
+    	super.onCreate(icicle);
+    	setContentView(R.layout.ui_layout_gles);
+    	//Obtain every Ui element
+    	mView= (EGLview) findViewById(R.id.surfaceGLES);
+    	mView.setOnTouchListener(this);
+    	mView.setOnKeyListener(this);
 
-	        uiCenterViewButton = (Button) findViewById(R.id.uiButtonCenter);
-	        	uiCenterViewButton.setOnClickListener(uiListenerCenterView);
-	        uiNavigationChangeButton = (Button) findViewById(R.id.uiButtonChangeNavigation);
-	        	uiNavigationChangeButton.setOnClickListener(uiListenerChangeNavigation);
-	        uiLightChangeButton = (Button) findViewById(R.id.uiButtonLight);
-	        	uiLightChangeButton.setOnClickListener(uiListenerChangeLight);
+    	uiCenterViewButton = (Button) findViewById(R.id.uiButtonCenter);
+    	uiCenterViewButton.setOnClickListener(uiListenerCenterView);
+    	uiNavigationChangeButton = (Button) findViewById(R.id.uiButtonChangeNavigation);
+    	uiNavigationChangeButton.setOnClickListener(uiListenerChangeNavigation);
+    	uiLightChangeButton = (Button) findViewById(R.id.uiButtonLight);
+    	uiLightChangeButton.setOnClickListener(uiListenerChangeLight);
 
-       	String address = Environment.getExternalStorageDirectory().getPath() + "/Models/J14-QT_X.3DS"; //quad.osg";
-       	Log.d(TAG, "Address: " + address);
-       	osgNativeLib.loadObject(address);
+    	File model = loadModel();
+    	if (model != null) {
+    		String address = model.getAbsolutePath();
+    		Log.d(TAG, "Address: " + address);
+    		osgNativeLib.loadObject(address);
+    	} else {
+    		Log.d(TAG, "Model not found");
+    	}
     }
     @Override protected void onPause() {
         super.onPause();
@@ -326,7 +337,10 @@ public class OsgViewer extends ObjectManagerActivity implements View.OnTouchList
 	public void onOPConnected() {
 		super.onOPConnected();
 
-		registerObjectUpdates(objMngr.getObject("AttitudeActual"));
+		UAVObject obj = objMngr.getObject("AttitudeActual");
+		if (obj != null) {
+			registerObjectUpdates(obj);
+		}
 	}
 
 	@Override
@@ -342,5 +356,100 @@ public class OsgViewer extends ObjectManagerActivity implements View.OnTouchList
 		osgNativeLib.setQuat(q[0], q[1], q[2], q[3]);
 	}
 
+	/************************************************************/
+	/* Everything below here has to do with getting the model   */
+	/* from the package.                                        */
+	/************************************************************/
 
+	private static void copyStream(InputStream inputStream, OutputStream outputStream) throws IOException
+    {
+        byte[] buffer = new byte[1024 * 10];
+        int numRead = inputStream.read(buffer);
+        while (numRead > 0)
+        {
+            outputStream.write(buffer, 0, numRead);
+            numRead = inputStream.read(buffer);
+        }
+    }
+
+	private boolean copyAssets(File modelsDir, String modelName)
+    {
+		boolean success = true;
+        AssetManager assetManager = getAssets();
+        try
+        {
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+            try
+            {
+                File outputFile = new File(modelsDir, modelName);
+                inputStream = assetManager.open("models/quad.osg");
+                outputStream = new FileOutputStream(outputFile);
+            	Log.d(TAG, "Copying model over: " + modelsDir.getAbsolutePath() + " to " + outputFile.getAbsolutePath());
+            	copyStream(inputStream, outputStream);
+            }
+            finally
+            {
+                if (inputStream != null)
+                    inputStream.close();
+                if (outputStream != null)
+                    outputStream.close();
+            }
+        }
+        catch (IOException e)
+        {
+        	success = false;
+            Log.e(TAG, e.toString(), e);
+            String[] list;
+			try {
+				list = assetManager.list("models/");
+				Log.i(TAG, "Listing found models");
+	            for(int i = 0; i < list.length; i++) {
+	            	Log.i(TAG, "Found: " + list[i]);
+	            }
+
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+        }
+        return success;
+    }
+
+	/**
+	 * Delete the files in a directories
+	 * @param directory
+	 */
+	private static void deleteDirectoryContents(File directory)
+	{
+		File contents[] = directory.listFiles();
+		if (contents != null)
+		{
+			for (File file : contents)
+			{
+				if (file.isDirectory())
+					deleteDirectoryContents(file);
+
+				file.delete();
+			}
+		}
+	}
+
+	/**
+	 * Load the UAVObjects from a JAR file.  This method must be called in the
+	 * service context.
+	 * @return True if success, False otherwise
+	 */
+	public File loadModel() {
+
+	    File modelsDir = getDir(MODEL_DIR, MODE_WORLD_READABLE);
+	    if (modelsDir.exists())
+	    	deleteDirectoryContents(modelsDir);
+
+	    if(copyAssets(modelsDir, "quad.osg"))
+	    	return new File(modelsDir,"quad.osg");
+	    else
+	    	return null;
+	}
 }
