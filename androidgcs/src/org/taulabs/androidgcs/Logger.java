@@ -83,7 +83,7 @@ public class Logger extends ObjectManagerActivity {
 	               intent.putExtra(Intent.EXTRA_SUBJECT, "AboveGroundLabs log file");
 	               intent.putExtra(Intent.EXTRA_TEXT, fileArray[position].getName());
 	               intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://"+ fileArray[position].getAbsolutePath()));
-	               startActivity(Intent.createChooser(intent, "Choice App to send email:"));
+	               startActivity(Intent.createChooser(intent, "Choice app to send file:"));
 		    }
 		});
 
