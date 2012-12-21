@@ -119,14 +119,22 @@ public class OsgViewer extends ObjectManagerActivity implements View.OnTouchList
     	} else {
     		Log.d(TAG, "Model not found");
     	}
+    	Log.d(TAG, "Create");
     }
     @Override protected void onPause() {
         super.onPause();
         mView.onPause();
+        Log.d(TAG, "Pause");
     }
     @Override protected void onResume() {
         super.onResume();
         mView.onResume();
+        Log.d(TAG, "Resume");
+    }
+    @Override protected void onDestroy() {
+    	super.onDestroy();
+        mView.destroy();
+        Log.d(TAG, "Destroy");
     }
 
     //Main view event processing
