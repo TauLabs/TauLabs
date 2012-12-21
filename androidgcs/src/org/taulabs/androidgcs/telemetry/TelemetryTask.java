@@ -232,6 +232,11 @@ public abstract class TelemetryTask implements Runnable {
 		}
 	};
 
+	//! Accessor to get the logging task
+	public final LoggingTask getLoggingTask() {
+		return logger;
+	}
+
 	@Override
 	public void run() {
 		try {
@@ -282,7 +287,13 @@ public abstract class TelemetryTask implements Runnable {
 			public UAVObjectManager getObjectManager() {
 				return objMngr;
 			}
+
+			@Override
+			public LoggingTask getLoggingTask() {
+				return logger;
+			}
 		};
+
 	}
 
 }
