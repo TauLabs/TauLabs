@@ -19,6 +19,15 @@
 			</elementnames>
 		</field>
 
+		<!-- Telemetry Module Settings -->
+		<field name="TelemetrySpeed" units="bps" type="enum" elements="1" options="2400,4800,9600,19200,38400,57600,115200" defaultvalue="57600"/>
+
+		<!-- GPS Module Settings -->
+		<field name="GPSSpeed" units="bps" type="enum" elements="1" options="2400,4800,9600,19200,38400,57600,115200" defaultvalue="57600"/>
+
+		<!-- ComUsbBridge Module Settings -->
+		<field name="ComUsbBridgeSpeed" units="bps" type="enum" elements="1" options="2400,4800,9600,19200,38400,57600,115200" defaultvalue="57600"/>
+
 		<access gcs="readwrite" flight="readonly"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
 		<telemetryflight acked="true" updatemode="onchange" period="0"/>

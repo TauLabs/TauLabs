@@ -32,7 +32,6 @@
 
 #include "openpilot.h"
 #include "modulesettings.h"
-#include "hwsettings.h"
 
 #include <stdbool.h>
 
@@ -169,29 +168,29 @@ static void updateSettings()
 
 		// Retrieve settings
 		uint8_t speed;
-		HwSettingsComUsbBridgeSpeedGet(&speed);
+		ModuleSettingsComUsbBridgeSpeedGet(&speed);
 
 		// Set port speed
 		switch (speed) {
-		case HWSETTINGS_COMUSBBRIDGESPEED_2400:
+		case MODULESETTINGS_COMUSBBRIDGESPEED_2400:
 			PIOS_COM_ChangeBaud(usart_port, 2400);
 			break;
-		case HWSETTINGS_COMUSBBRIDGESPEED_4800:
+		case MODULESETTINGS_COMUSBBRIDGESPEED_4800:
 			PIOS_COM_ChangeBaud(usart_port, 4800);
 			break;
-		case HWSETTINGS_COMUSBBRIDGESPEED_9600:
+		case MODULESETTINGS_COMUSBBRIDGESPEED_9600:
 			PIOS_COM_ChangeBaud(usart_port, 9600);
 			break;
-		case HWSETTINGS_COMUSBBRIDGESPEED_19200:
+		case MODULESETTINGS_COMUSBBRIDGESPEED_19200:
 			PIOS_COM_ChangeBaud(usart_port, 19200);
 			break;
-		case HWSETTINGS_COMUSBBRIDGESPEED_38400:
+		case MODULESETTINGS_COMUSBBRIDGESPEED_38400:
 			PIOS_COM_ChangeBaud(usart_port, 38400);
 			break;
-		case HWSETTINGS_COMUSBBRIDGESPEED_57600:
+		case MODULESETTINGS_COMUSBBRIDGESPEED_57600:
 			PIOS_COM_ChangeBaud(usart_port, 57600);
 			break;
-		case HWSETTINGS_COMUSBBRIDGESPEED_115200:
+		case MODULESETTINGS_COMUSBBRIDGESPEED_115200:
 			PIOS_COM_ChangeBaud(usart_port, 115200);
 			break;
 		}

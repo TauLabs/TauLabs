@@ -43,6 +43,7 @@ UAVOBJSRCFILENAMES += taskinfo
 UAVOBJSRCFILENAMES += watchdogstatus
 UAVOBJSRCFILENAMES += flightstatus
 UAVOBJSRCFILENAMES += hwsettings
+UAVOBJSRCFILENAMES += modulesettings
 UAVOBJSRCFILENAMES += receiveractivity
 UAVOBJSRCFILENAMES += gcsreceiver
 UAVOBJSRCFILENAMES += faultsettings

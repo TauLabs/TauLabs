@@ -43,7 +43,6 @@
 #include "WorldMagModel.h"
 #include "CoordinateConversions.h"
 #include "modulesettings.h"
-#include "hwsettings.h"
 
 #include "NMEA.h"
 #include "UBX.h"
@@ -335,7 +334,7 @@ static void setHomeLocation(GPSPositionData * gpsData)
  * Update the GPS settings, called on startup.
  * FIXME: This should be in the GPSSettings object. But objects have
  * too much overhead yet. Also the GPS has no any specific settings
- * like protocol, etc. Thus the HwSettings object which contains the
+ * like protocol, etc. Thus the ModuleSettings object which contains the
  * GPS port speed is used for now.
  */
 static void updateSettings()
@@ -344,29 +343,29 @@ static void updateSettings()
 
 		// Retrieve settings
 		uint8_t speed;
-		HwSettingsGPSSpeedGet(&speed);
+		ModuleSettingsGPSSpeedGet(&speed);
 
 		// Set port speed
 		switch (speed) {
-		case HWSETTINGS_GPSSPEED_2400:
+		case MODULESETTINGS_GPSSPEED_2400:
 			PIOS_COM_ChangeBaud(gpsPort, 2400);
 			break;
-		case HWSETTINGS_GPSSPEED_4800:
+		case MODULESETTINGS_GPSSPEED_4800:
 			PIOS_COM_ChangeBaud(gpsPort, 4800);
 			break;
-		case HWSETTINGS_GPSSPEED_9600:
+		case MODULESETTINGS_GPSSPEED_9600:
 			PIOS_COM_ChangeBaud(gpsPort, 9600);
 			break;
-		case HWSETTINGS_GPSSPEED_19200:
+		case MODULESETTINGS_GPSSPEED_19200:
 			PIOS_COM_ChangeBaud(gpsPort, 19200);
 			break;
-		case HWSETTINGS_GPSSPEED_38400:
+		case MODULESETTINGS_GPSSPEED_38400:
 			PIOS_COM_ChangeBaud(gpsPort, 38400);
 			break;
-		case HWSETTINGS_GPSSPEED_57600:
+		case MODULESETTINGS_GPSSPEED_57600:
 			PIOS_COM_ChangeBaud(gpsPort, 57600);
 			break;
-		case HWSETTINGS_GPSSPEED_115200:
+		case MODULESETTINGS_GPSSPEED_115200:
 			PIOS_COM_ChangeBaud(gpsPort, 115200);
 			break;
 		}
