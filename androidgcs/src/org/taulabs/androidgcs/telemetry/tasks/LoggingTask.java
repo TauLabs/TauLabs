@@ -1,4 +1,27 @@
-package org.openpilot.androidgcs.telemetry.tasks;
+/**
+ ******************************************************************************
+ * @file       LoggingTask.java
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      An @ref ITelemTask which generates logs
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ *****************************************************************************/
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+ * for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+package org.taulabs.androidgcs.telemetry.tasks;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -10,9 +33,9 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.openpilot.uavtalk.UAVObject;
-import org.openpilot.uavtalk.UAVObjectManager;
-import org.openpilot.uavtalk.UAVTalk;
+import org.taulabs.uavtalk.UAVObject;
+import org.taulabs.uavtalk.UAVObjectManager;
+import org.taulabs.uavtalk.UAVTalk;
 
 import android.os.Environment;
 import android.util.Log;

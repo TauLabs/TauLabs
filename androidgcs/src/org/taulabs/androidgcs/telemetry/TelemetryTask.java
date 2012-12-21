@@ -29,6 +29,7 @@ import java.io.OutputStream;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.taulabs.androidgcs.telemetry.tasks.LoggingTask;
 import org.taulabs.uavtalk.Telemetry;
 import org.taulabs.uavtalk.TelemetryMonitor;
 import org.taulabs.uavtalk.UAVObjectManager;
