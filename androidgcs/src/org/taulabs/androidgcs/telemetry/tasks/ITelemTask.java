@@ -25,7 +25,9 @@ package org.taulabs.androidgcs.telemetry.tasks;
 
 import org.taulabs.uavtalk.UAVObjectManager;
 
+import android.content.Context;
+
 public interface ITelemTask {
-	public void connect(UAVObjectManager objMngr);
+	public void connect(UAVObjectManager objMngr, Context context);
 	public void disconnect();
 }

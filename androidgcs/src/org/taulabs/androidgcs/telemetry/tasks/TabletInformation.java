@@ -21,7 +21,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-package org.taulabs.androidgcs.telemetry;
+package org.taulabs.androidgcs.telemetry.tasks;
 
 import org.taulabs.uavtalk.UAVObject;
 import org.taulabs.uavtalk.UAVObjectField;
@@ -39,10 +39,12 @@ public class TabletInformation {
 	@SuppressWarnings("unused")
 	private final static String TAG = TabletInformation.class.getSimpleName();
 
-	private final UAVObjectManager objMngr;
-	private final LocationManager locationManager;
+	private UAVObjectManager objMngr;
+	private LocationManager locationManager;
 
-	public TabletInformation(UAVObjectManager objMngr, Context service) {
+	public TabletInformation() {}
+
+	public void connect(UAVObjectManager objMngr, Context service) {
 
 		this.objMngr = objMngr;
 
@@ -63,7 +65,7 @@ public class TabletInformation {
                 locationListener);
 	}
 
-	public void stop() {
+	public void disconnect() {
 		locationManager.removeUpdates(locationListener);
 	}
 
