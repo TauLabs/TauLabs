@@ -55,6 +55,7 @@ public class UAVLocation extends ObjectManagerActivity
 		setContentView(R.layout.map_layout);
 		mapFrag = ((MapFragment) getFragmentManager().findFragmentById(R.id.map));
 		mMap = mapFrag.getMap();
+		mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 		mMap.setMyLocationEnabled(true);
     }
 
