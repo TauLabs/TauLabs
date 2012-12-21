@@ -12,11 +12,6 @@
 		<field name="RM_MainPort" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,S.Bus,DSM2,DSMX (10bit),DSMX (11bit),DebugConsole,ComBridge" defaultvalue="Telemetry"/>
 		<field name="RM_FlexiPort" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,I2C,DSM2,DSMX (10bit),DSMX (11bit),DebugConsole,ComBridge" defaultvalue="Disabled"/>
 
-		<field name="Freedom_Output" units="function" type="enum" elements="1" options="Disabled,PWM" defaultvalue="PWM"/>
-		<field name="Freedom_MainPort" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,DSM2,DSMX (10bit),DSMX (11bit),DebugConsole,ComBridge" defaultvalue="Telemetry"/>
-		<field name="Freedom_FlexiPort" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,I2C,DSM2,DSMX (10bit),DSMX (11bit),DebugConsole,ComBridge" defaultvalue="GPS"/>
-		<field name="Freedom_RcvrPort" units="function" type="enum" elements="1" options="Disabled,PPM,DSM2,DSMX (10bit),DSMX (11bit),S.Bus," defaultvalue="Disabled"/>
-
 		<field name="Quanton_RcvrPort" units="function" type="enum" elements="1" options="Disabled,PWM,PPM,PPM+PWM,PPM+Outputs,Outputs" defaultvalue="PWM"/>
 		<field name="Quanton_Uart1" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,I2C,DSM2,DSMX (10bit),DSMX (11bit),DebugConsole,ComBridge" defaultvalue="Disabled"/>
 		<field name="Quanton_Uart2" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,S.Bus,DSM2,DSMX (10bit),DSMX (11bit),DebugConsole,ComBridge" defaultvalue="Disabled"/>
