@@ -44,8 +44,8 @@ import android.util.Log;
 public class LoggingTask implements ITelemTask {
 
 	final String TAG = LoggingTask.class.getSimpleName();
-	final boolean VERBOSE = true;
-	final boolean DEBUG = true;
+	final boolean VERBOSE = false;
+	final boolean DEBUG = false;
 
 	private UAVObjectManager objMngr;
 	private final List<UAVObject> listeningList = new ArrayList<UAVObject>();

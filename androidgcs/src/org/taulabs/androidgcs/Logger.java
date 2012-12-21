@@ -23,11 +23,19 @@
  */
 package org.taulabs.androidgcs;
 
+import java.io.File;
+import java.io.FilenameFilter;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.taulabs.androidgcs.telemetry.OPTelemetryService.TelemTask;
 import org.taulabs.androidgcs.telemetry.tasks.LoggingTask;
 import org.taulabs.uavtalk.UAVObject;
 
 import android.os.Bundle;
+import android.os.Environment;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
@@ -41,11 +49,23 @@ public class Logger extends ObjectManagerActivity {
 	private int writtenBytes;
 	private int writtenObjects;
 
+	private final List<String> fileList = new ArrayList<String>();
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.logger);
+
+		fileList.clear();
+		File [] logFiles = getLogFiles();
+		for(File file : logFiles)
+			fileList.add(file.getName());
+
+		ArrayAdapter<String> logFileListAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1, fileList);
+		((ListView) findViewById(R.id.logger_file_list)).setAdapter(logFileListAdapter);
+
 	}
 
 	@Override
@@ -64,6 +84,18 @@ public class Logger extends ObjectManagerActivity {
 		writtenObjects = logger.getWrittenObjects();
 		((TextView) findViewById(R.id.logger_number_of_bytes)).setText(Integer.valueOf(writtenBytes).toString());
 		((TextView) findViewById(R.id.logger_number_of_objects)).setText(Integer.valueOf(writtenObjects).toString());
+	}
+
+	private File[] getLogFiles() {
+		File root = Environment.getExternalStorageDirectory();
+		File logDirectory = new File(root, "/AboveGroundLabs");
+		return logDirectory.listFiles(new FilenameFilter() {
+
+			@Override
+			public boolean accept(File dir, String filename) {
+				return filename.contains(".opl");
+			}
+		});
 	}
 
 

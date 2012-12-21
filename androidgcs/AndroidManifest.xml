@@ -50,8 +50,7 @@
 		<activity android:name="Transmitter" android:label="Transmitter"/> <!-- android:hardwareAccelerated="false" -->
 				<activity android:name="ObjectEditor" android:label="ObjectEditor"
 			android:theme="@android:style/Theme.Dialog" />
-		<activity android:name="Logger" android:label="Logger"
-		    android:theme="@android:style/Theme.Dialog" />
+		<activity android:name="Logger" android:label="Logger"/>
 
 		<activity
 		    android:name="FragmentTester"
