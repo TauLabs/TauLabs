@@ -46,13 +46,23 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/logger_number_of_bytes_title"
         android:layout_marginLeft="16dp" />
+
+	<TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/logger_space"
+        android:layout_below="@+id/logger_space"
+        android:text="@string/select_file_to_email_it"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
     
     <ListView
         android:id="@+id/logger_file_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/logger_space" 
+        android:layout_below="@+id/textView1" 
         >
     </ListView>
 
