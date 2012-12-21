@@ -86,6 +86,12 @@ public class LoggingTask implements ITelemTask {
 		unregisterAllObjects();
 	}
 
+	public int getWrittenBytes() {
+		return writtenBytes;
+	}
+	public int getWrittenObjects() {
+		return writtenObjects;
+	}
 	//! Register an object to inform this task on updates for logging
 	private void registerObject(UAVObject obj) {
 		synchronized(listeningList) {
