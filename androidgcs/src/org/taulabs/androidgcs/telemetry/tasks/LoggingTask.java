@@ -37,6 +37,7 @@ import org.taulabs.uavtalk.UAVObject;
 import org.taulabs.uavtalk.UAVObjectManager;
 import org.taulabs.uavtalk.UAVTalk;
 
+import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
@@ -59,7 +60,7 @@ public class LoggingTask implements ITelemTask {
 	private int writtenObjects;
 
 	@Override
-	public void connect(UAVObjectManager o) {
+	public void connect(UAVObjectManager o, Context context) {
 		objMngr = o;
 
 		// When new objects are registered, ensure we listen
@@ -142,7 +143,7 @@ public class LoggingTask implements ITelemTask {
 		File root = Environment.getExternalStorageDirectory();
 
 		// Make the directory if it doesn't exist
-		File logDirectory = new File(root, "/OpenPilot");
+		File logDirectory = new File(root, "/AboveGroundLabs");
 		logDirectory.mkdirs();
 
 		Date d = new Date();
