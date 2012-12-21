@@ -33,12 +33,12 @@ import org.abovegroundlabs.osg.EGLview;
 import org.abovegroundlabs.osg.osgNativeLib;
 import org.abovegroundlabs.uavtalk.UAVObject;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Bundle;
-import android.util.FloatMath;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -91,7 +91,7 @@ public class OsgViewer extends ObjectManagerActivity implements View.OnTouchList
     AlertDialog loadLayerAddress;
 
     //Main Android Activity life cycle
-    @Override protected void onCreate(Bundle icicle) {
+    @SuppressLint("ShowToast") @Override protected void onCreate(Bundle icicle) {
     	super.onCreate(icicle);
     	setContentView(R.layout.ui_layout_gles);
     	//Obtain every Ui element
@@ -105,6 +105,11 @@ public class OsgViewer extends ObjectManagerActivity implements View.OnTouchList
     	uiNavigationChangeButton.setOnClickListener(uiListenerChangeNavigation);
     	uiLightChangeButton = (Button) findViewById(R.id.uiButtonLight);
     	uiLightChangeButton.setOnClickListener(uiListenerChangeLight);
+
+    	msgUiNavPrincipal = Toast.makeText(getApplicationContext(), R.string.uiToastNavPrincipal, Toast.LENGTH_SHORT);
+    	msgUiNavSecondary = Toast.makeText(getApplicationContext(), R.string.uiToastNavSecond, Toast.LENGTH_SHORT);
+    	msgUiLightOn  = Toast.makeText(getApplicationContext(), R.string.uiToastLightOn, Toast.LENGTH_SHORT);
+    	msgUiLightOff  = Toast.makeText(getApplicationContext(), R.string.uiToastLightOff, Toast.LENGTH_SHORT);
 
     	File model = loadModel();
     	if (model != null) {
@@ -329,7 +334,7 @@ public class OsgViewer extends ObjectManagerActivity implements View.OnTouchList
     private float sqrDistance(MotionEvent event) {
         float x = event.getX(0) - event.getX(1);
         float y = event.getY(0) - event.getY(1);
-        return (FloatMath.sqrt(x * x + y * y));
+        return (float) (java.lang.Math.sqrt(x * x + y * y));
      }
 
 	// The below methods should all be called by the parent activity at the appropriate times
