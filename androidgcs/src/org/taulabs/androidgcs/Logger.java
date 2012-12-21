@@ -32,8 +32,13 @@ import org.taulabs.androidgcs.telemetry.OPTelemetryService.TelemTask;
 import org.taulabs.androidgcs.telemetry.tasks.LoggingTask;
 import org.taulabs.uavtalk.UAVObject;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -50,6 +55,7 @@ public class Logger extends ObjectManagerActivity {
 	private int writtenObjects;
 
 	private final List<String> fileList = new ArrayList<String>();
+	private File[] fileArray;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -58,14 +64,34 @@ public class Logger extends ObjectManagerActivity {
 		setContentView(R.layout.logger);
 
 		fileList.clear();
-		File [] logFiles = getLogFiles();
-		for(File file : logFiles)
+		fileArray = getLogFiles();
+		for(File file : fileArray)
 			fileList.add(file.getName());
 
 		ArrayAdapter<String> logFileListAdapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, fileList);
-		((ListView) findViewById(R.id.logger_file_list)).setAdapter(logFileListAdapter);
+		getFileListView().setAdapter(logFileListAdapter);
 
+		getFileListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		    @Override
+			public void onItemClick(AdapterView parent, View v, int position, long id) {
+		    	Log.d(TAG, fileArray[position].getAbsolutePath());
+
+		    	Intent intent = new Intent(Intent.ACTION_SEND);
+	               intent.setType("application/octet-stream");
+	               intent.putExtra(Intent.EXTRA_EMAIL, "noreply@abovegroundlabs");
+	               intent.putExtra(Intent.EXTRA_SUBJECT, "AboveGroundLabs log file");
+	               intent.putExtra(Intent.EXTRA_TEXT, fileArray[position].getName());
+	               intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://"+ fileArray[position].getAbsolutePath()));
+	               startActivity(Intent.createChooser(intent, "Choice App to send email:"));
+		    }
+		});
+
+	}
+
+	//! Return the file list view
+	private ListView getFileListView() {
+		return (ListView) findViewById(R.id.logger_file_list);
 	}
 
 	@Override
@@ -73,7 +99,9 @@ public class Logger extends ObjectManagerActivity {
 		super.onOPConnected();
 
 		UAVObject stats = objMngr.getObject("FlightTelemetryStats");
-		registerObjectUpdates(stats);
+		if (stats != null) {
+			registerObjectUpdates(stats);
+		}
 	}
 
 	@Override
