@@ -173,7 +173,6 @@ SRC += $(OPUAVSYNTHDIR)/firmwareiapobj.c
 #SRC += $(OPUAVSYNTHDIR)/attitudesettings.c
 #SRC += $(OPUAVSYNTHDIR)/camerastabsettings.c
 #SRC += $(OPUAVSYNTHDIR)/cameradesired.c
-SRC += $(OPUAVSYNTHDIR)/hwsettings.c
 SRC += $(OPUAVSYNTHDIR)/hwosd.c
 SRC += $(OPUAVSYNTHDIR)/modulesettings.c
 #SRC += $(OPUAVSYNTHDIR)/gcsreceiver.c
