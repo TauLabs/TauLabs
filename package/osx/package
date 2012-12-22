@@ -30,7 +30,7 @@ cp "${FW_DIR}/fw_revomini-${PACKAGE_LBL}.opfw" "/Volumes/${VOL_NAME}/Firmware"
 cp "${FW_DIR}/fw_pipxtreme-${PACKAGE_LBL}.opfw" "/Volumes/${VOL_NAME}/Firmware"
 cp "${FW_DIR}/fw_revolution-${PACKAGE_LBL}.opfw" "/Volumes/${VOL_NAME}/Firmware"
 
-cp "${BUILD_DIR}/uavobject-synthetics/matlab/OPLogConvert.m" "/Volumes/${VOL_NAME}/Utilities"
+cp "${BUILD_DIR}/matlab/OPLogConvert.m" "/Volumes/${VOL_NAME}/Utilities/OPLogConvert-${PACKAGE_LBL}.m"
 
 cp "${ROOT_DIR}/HISTORY.txt" "/Volumes/${VOL_NAME}"
 

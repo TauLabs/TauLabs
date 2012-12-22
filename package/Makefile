@@ -66,6 +66,9 @@ help:
 uavobjects: all_clean
 	$(V1) $(MAKE) -C $(ROOT_DIR) $@
 
+matlab:
+	$(V1) $(MAKE) -C $(ROOT_DIR) $@
+
 all_clean:
 ifneq ($(CLEAN_GROUND), NO)
 	$(V1) $(MAKE) -C $(ROOT_DIR) $@
@@ -106,7 +109,7 @@ package_flight: | all_fw all_bu
 
 package_ground: | ground_package
 
-package: | package_flight package_ground
+package: | package_flight package_ground matlab
 
 .PHONY: help uavobjects all_clean package_flight package_ground package
 
