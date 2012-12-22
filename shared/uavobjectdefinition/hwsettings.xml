@@ -1,14 +1,8 @@
 <xml>
 	<object name="HwSettings" singleinstance="true" settings="true">
 		<description>Selection of optional hardware configurations.</description>
-		<field name="USB_HIDPort" units="function" type="enum" elements="1" options="USBTelemetry,RCTransmitter,Disabled" defaultvalue="USBTelemetry"/>
-		<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,Disabled" defaultvalue="Disabled"/>
 
 		<field name="ADCRouting" units="" type="enum" elementnames="ADC0,ADC1,ADC2,ADC3" options="Disabled,BatteryVoltage,BatteryCurrent,AnalogAirspeed,Generic" defaultvalue="Disabled"/>
-		<field name="DSMxBind" units=""  type="uint8"  elements="1" defaultvalue="0"/>
-
-		<field name="GyroRange" units="deg/s" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="500"/>
-		<field name="AccelRange" units="*gravity m/s^2" type="enum" elements="1" options="2G,4G,8G,16G" defaultvalue="8G"/>
 
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
