@@ -2,7 +2,7 @@ TEMPLATE = lib
 TARGET = MotionCapture
 QT += network
 
-include(../../openpilotgcsplugin.pri)
+include(../../abovegroundlabsgcsplugin.pri)
 include(mocap_dependencies.pri)
 
 HEADERS += mocapplugin.h \

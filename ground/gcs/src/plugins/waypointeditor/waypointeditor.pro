@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = WaypointEditor 
 
-include(../../openpilotgcsplugin.pri) 
+include(../../abovegroundlabsgcsplugin.pri) 
 include(../../plugins/coreplugin/coreplugin.pri) 
 include(../../plugins/uavobjects/uavobjects.pri)
 
