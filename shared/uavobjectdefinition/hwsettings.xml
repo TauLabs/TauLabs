@@ -12,13 +12,6 @@
 		<field name="RM_MainPort" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,S.Bus,DSM2,DSMX (10bit),DSMX (11bit),DebugConsole,ComBridge" defaultvalue="Telemetry"/>
 		<field name="RM_FlexiPort" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,I2C,DSM2,DSMX (10bit),DSMX (11bit),DebugConsole,ComBridge" defaultvalue="Disabled"/>
 
-		<field name="Quanton_RcvrPort" units="function" type="enum" elements="1" options="Disabled,PWM,PPM,PPM+PWM,PPM+Outputs,Outputs" defaultvalue="PWM"/>
-		<field name="Quanton_Uart1" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,I2C,DSM2,DSMX (10bit),DSMX (11bit),DebugConsole,ComBridge" defaultvalue="Disabled"/>
-		<field name="Quanton_Uart2" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,S.Bus,DSM2,DSMX (10bit),DSMX (11bit),DebugConsole,ComBridge" defaultvalue="Disabled"/>
-		<field name="Quanton_Uart3" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,I2C,DSM2,DSMX (10bit),DSMX (11bit),DebugConsole,ComBridge" defaultvalue="Disabled"/>
-		<field name="Quanton_Uart4" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,DSM2,DSMX (10bit),DSMX (11bit),DebugConsole,ComBridge" defaultvalue="Telemetry"/>
-		<field name="Quanton_Uart5" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,DSM2,DSMX (10bit),DSMX (11bit),DebugConsole,ComBridge" defaultvalue="GPS"/>
-		
 		<field name="USB_HIDPort" units="function" type="enum" elements="1" options="USBTelemetry,RCTransmitter,Disabled" defaultvalue="USBTelemetry"/>
 		<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,Disabled" defaultvalue="Disabled"/>
 
