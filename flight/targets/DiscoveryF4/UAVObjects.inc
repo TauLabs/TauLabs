@@ -44,6 +44,7 @@ UAVOBJSRCFILENAMES += watchdogstatus
 UAVOBJSRCFILENAMES += flightstatus
 UAVOBJSRCFILENAMES += hwsettings
 UAVOBJSRCFILENAMES += modulesettings
+UAVOBJSRCFILENAMES += hwdiscoveryf4
 UAVOBJSRCFILENAMES += receiveractivity
 UAVOBJSRCFILENAMES += gcsreceiver
 UAVOBJSRCFILENAMES += faultsettings

@@ -19,8 +19,6 @@
 		<field name="Quanton_Uart4" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,DSM2,DSMX (10bit),DSMX (11bit),DebugConsole,ComBridge" defaultvalue="Telemetry"/>
 		<field name="Quanton_Uart5" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,DSM2,DSMX (10bit),DSMX (11bit),DebugConsole,ComBridge" defaultvalue="GPS"/>
 
-		<field name="DIF4_MainPort" units="function" type="enum" elements="1" options="Disabled,DebugConsole" defaultvalue="DebugConsole"/>
-
 		<field name="FlyingF4_RcvrPort" units="function" type="enum" elements="1" options="Disabled,PWM,PPM,PPM+PWM,PPM+Outputs,Outputs" defaultvalue="PWM"/>
 		<field name="FlyingF4_Uart1" units="function" type="enum" elements="1" options="Disabled,GPS,S.Bus,DSM2,DSMX (10bit),DSMX (11bit)" defaultvalue="Disabled"/>
 		<field name="FlyingF4_Uart2" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,DSM2,DSMX (10bit),DSMX (11bit),DebugConsole,ComBridge" defaultvalue="Disabled"/>
