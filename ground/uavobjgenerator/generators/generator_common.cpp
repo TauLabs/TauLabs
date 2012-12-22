@@ -71,7 +71,9 @@ void replaceCommonTags(QString& out, ObjectInfo* info)
     out.replace(QString("$(ISSINGLEINSTTF)"), boolToTRUEFALSEString( info->isSingleInst ));
     // Replace $(ISSETTINGS) tag
     out.replace(QString("$(ISSETTINGS)"), boolTo01String( info->isSettings ));
-    out.replace(QString("$(ISSETTINGSTF)"), boolToTRUEFALSEString( info->isSettings ));
+    out.replace(QString("$(ISSETTINGSTF)"), boolToTRUEFALSEString( info->isSettings ));    
+    // Replace $(NUMBTES) tag
+    out.replace(QString("$(NUMBYTES)"), QString().setNum(info->numBytes));
     // Replace $(GCSACCESS) tag
     value = accessModeStr[info->gcsAccess];
     out.replace(QString("$(GCSACCESS)"), value);
