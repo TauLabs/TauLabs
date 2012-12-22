@@ -52,13 +52,7 @@ public class $(NAME) extends UAVDataObject {
 		
 $(FIELDSINIT)
 
-		// Compute the number of bytes for this object
-		int numBytes = 0;
-		ListIterator<UAVObjectField> li = fields.listIterator();
-		while(li.hasNext()) {
-			numBytes += li.next().getNumBytes();
-		}
-		NUMBYTES = numBytes;
+		NUMBYTES = $(NUMBYTES);
 
 		// Initialize object
 		initializeFields(fields, ByteBuffer.allocate(NUMBYTES), NUMBYTES);

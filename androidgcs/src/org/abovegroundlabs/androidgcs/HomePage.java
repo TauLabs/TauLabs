@@ -137,8 +137,8 @@ public class HomePage extends ObjectManagerActivity {
 				R.drawable.ic_browser, R.drawable.ic_pfd,
 				R.drawable.ic_map, R.drawable.ic_controller,
 				R.drawable.ic_logging, R.drawable.ic_alarms,
-				R.drawable.ic_map, R.drawable.ic_tuning,
-				R.drawable.ic_tabletcontrol, R.drawable.ic_3dview
+				R.drawable.ic_tabletcontrol, R.drawable.ic_tuning,
+				R.drawable.ic_map, R.drawable.ic_3dview
 		};
 
 		@SuppressWarnings("rawtypes")
