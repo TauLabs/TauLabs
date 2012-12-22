@@ -55,7 +55,11 @@ void $(NAME)SetDefaults(UAVObjHandle obj, uint16_t instId);
 // Object data
 typedef struct {
 $(DATAFIELDS)
+#if !defined(SIM_OSX) && !defined(SIM_POSIX)
 } __attribute__((packed)) __attribute__((aligned(4))) $(NAME)Data;
+#else
+} __attribute__((packed)) $(NAME)Data;
+#endif
 
 // Typesafe Object access functions
 /**
