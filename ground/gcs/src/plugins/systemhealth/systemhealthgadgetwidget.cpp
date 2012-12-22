@@ -37,7 +37,7 @@
 /*
  * Initialize the widget
  */
-SystemHealthGadgetWidget::SystemHealthGadgetWidget(QWidget *parent) : QGraphicsView(parent),handleGlobalMessages(false)
+SystemHealthGadgetWidget::SystemHealthGadgetWidget(QWidget *parent) : QGraphicsView(parent)
 {
     setMinimumSize(128,64);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
@@ -64,12 +64,6 @@ SystemHealthGadgetWidget::SystemHealthGadgetWidget(QWidget *parent) : QGraphicsV
     connect(telMngr, SIGNAL(disconnected()), this, SLOT(onAutopilotDisconnect()));
 
     setToolTip(tr("Displays flight system errors. Click on an alarm for more information."));
-    if(SystemHealthGadgetWidget::isFirst)
-    {
-        SystemHealthGadgetWidget::isFirst=false;
-        initGlobalMessages();
-        handleGlobalMessages=true;
-    }
 }
 
 /**
@@ -88,25 +82,6 @@ void SystemHealthGadgetWidget::onAutopilotDisconnect()
     nolink->setVisible(true);
 }
 
-void SystemHealthGadgetWidget::initGlobalMessages()
-{
-    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-    SystemAlarms* obj = SystemAlarms::GetInstance(objManager);
-
-    foreach (UAVObjectField *field, obj->getFields()) {
-        for (uint i = 0; i < field->getNumElements(); ++i) {
-            QString element = field->getElementNames()[i];
-            GlobalMessage * msg=Core::ICore::instance()->globalMessaging()->addErrorMessage(element,"");
-            msg->setActive(false);
-            errorMessages.insert(element,msg);
-            msg=Core::ICore::instance()->globalMessaging()->addWarningMessage(element,"");
-            msg->setActive(false);
-            warningMessages.insert(element,msg);
-        }
-    }
-}
-
 void SystemHealthGadgetWidget::updateAlarms(UAVObject* systemAlarm)
 {
     // This code does not know anything about alarms beforehand, and
@@ -123,38 +98,6 @@ void SystemHealthGadgetWidget::updateAlarms(UAVObject* systemAlarm)
         for (uint i = 0; i < field->getNumElements(); ++i) {
             QString element = field->getElementNames()[i];
             QString value = field->getValue(i).toString();
-            if(handleGlobalMessages)
-            {
-                if(value==field->getOptions().at(SystemAlarms::ALARM_ERROR))
-                {
-                    errorMessages.value(element)->setActive(true);
-                    errorMessages.value(element)->setDescription(element+" module is in error state");
-                    warningMessages.value(element)->setActive(false);
-                }
-                else if(value==field->getOptions().at(SystemAlarms::ALARM_CRITICAL))
-                {
-                    errorMessages.value(element)->setActive(true);
-                    errorMessages.value(element)->setDescription(element+" module is in CRITICAL state");
-                    warningMessages.value(element)->setActive(false);
-                }
-                else if(value==field->getOptions().at(SystemAlarms::ALARM_WARNING))
-                {
-                    warningMessages.value(element)->setActive(true);
-                    warningMessages.value(element)->setDescription(element+" module is in warning state");
-                    errorMessages.value(element)->setActive(false);
-                }
-                else if(value==field->getOptions().at(SystemAlarms::ALARM_UNINITIALISED))
-                {
-                    warningMessages.value(element)->setActive(true);
-                    warningMessages.value(element)->setDescription(element+" module is in unitialised state");
-                    errorMessages.value(element)->setActive(false);
-                }
-                else if(value==field->getOptions().at(SystemAlarms::ALARM_OK))
-                {
-                    warningMessages.value(element)->setActive(false);
-                    errorMessages.value(element)->setActive(false);
-                }
-            }
             if (m_renderer->elementExists(element)) {
                 QMatrix blockMatrix = m_renderer->matrixForElement(element);
                 qreal startX = blockMatrix.mapRect(m_renderer->boundsOnElement(element)).x();
@@ -323,4 +266,3 @@ void SystemHealthGadgetWidget::showAllAlarmDescriptions(const QPoint& location){
         }
     }
 }
-bool SystemHealthGadgetWidget::isFirst=true;
