@@ -38,7 +38,7 @@
 
 #include "openpilot.h"
 #include "modulesettings.h"
-#include "hwsettings.h"
+#include "adcrouting.h"
 #include "gpsvelocity.h"
 #include "airspeedsettings.h"
 #include "gps_airspeed.h"
@@ -153,12 +153,12 @@ int32_t AirspeedInitialize()
 		return -1;
 
 #ifdef BARO_AIRSPEED_PRESENT
-	uint8_t adcRouting[HWSETTINGS_ADCROUTING_NUMELEM];	
-	HwSettingsADCRoutingGet(adcRouting);
+	uint8_t adc_channel_map[ADCROUTING_CHANNELMAP_NUMELEM];	
+	ADCRoutingChannelMapGet(adc_channel_map);
 	
 	//Determine if the barometric airspeed sensor is routed to an ADC pin 
-	for (int i=0; i < HWSETTINGS_ADCROUTING_NUMELEM; i++) {
-		if (adcRouting[i] == HWSETTINGS_ADCROUTING_ANALOGAIRSPEED) {
+	for (int i = 0; i < ADCROUTING_CHANNELMAP_NUMELEM; i++) {
+		if (adc_channel_map[i] == ADCROUTING_CHANNELMAP_ANALOGAIRSPEED) {
 			airspeedADCPin = i;
 		}
 	}

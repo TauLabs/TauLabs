@@ -50,7 +50,7 @@
 #include "flightbatterystate.h"
 #include "flightbatterysettings.h"
 #include "modulesettings.h"
-#include "hwsettings.h"
+#include "adcrouting.h"
 
 //
 // Configuration
@@ -92,15 +92,15 @@ int32_t BatteryInitialize(void)
 	}
 #endif
 
-	uint8_t adcRouting[HWSETTINGS_ADCROUTING_NUMELEM];	
-	HwSettingsADCRoutingGet(adcRouting);
+	uint8_t adc_channel_map[ADCROUTING_CHANNELMAP_NUMELEM];	
+	ADCRoutingChannelMapGet(adc_channel_map);
 	
 	//Determine if the battery sensors are routed to ADC pins 
-	for (int i=0; i < HWSETTINGS_ADCROUTING_NUMELEM; i++) {
-		if (adcRouting[i] == HWSETTINGS_ADCROUTING_BATTERYVOLTAGE) {
+	for (int i = 0; i < ADCROUTING_CHANNELMAP_NUMELEM; i++) {
+		if (adc_channel_map[i] == ADCROUTING_CHANNELMAP_BATTERYVOLTAGE) {
 			voltageADCPin = i;
 		}
-		if (adcRouting[i] == HWSETTINGS_ADCROUTING_BATTERYCURRENT) {
+		if (adc_channel_map[i] == ADCROUTING_CHANNELMAP_BATTERYCURRENT) {
 			currentADCPin = i;
 		}
 	}

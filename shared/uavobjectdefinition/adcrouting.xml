@@ -1,8 +1,8 @@
 <xml>
-	<object name="HwSettings" singleinstance="true" settings="true">
+	<object name="ADCRouting" singleinstance="true" settings="true">
 		<description>Selection of optional hardware configurations.</description>
 
-		<field name="Dummy" units="" type="uint8" elements="1" defaultvalue="0"/>
+		<field name="ChannelMap" units="" type="enum" elementnames="ADC0,ADC1,ADC2,ADC3" options="Disabled,BatteryVoltage,BatteryCurrent,AnalogAirspeed,Generic" defaultvalue="Disabled"/>
 
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
