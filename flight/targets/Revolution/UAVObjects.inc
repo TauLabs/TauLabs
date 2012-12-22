@@ -88,6 +88,7 @@ UAVOBJSRCFILENAMES += velocitydesired
 UAVOBJSRCFILENAMES += watchdogstatus
 UAVOBJSRCFILENAMES += flightstatus
 UAVOBJSRCFILENAMES += hwsettings
+UAVOBJSRCFILENAMES += hwrevolution
 UAVOBJSRCFILENAMES += modulesettings
 UAVOBJSRCFILENAMES += receiveractivity
 UAVOBJSRCFILENAMES += cameradesired
