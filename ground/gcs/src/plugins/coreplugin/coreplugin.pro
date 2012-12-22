@@ -140,7 +140,7 @@ FORMS += dialogs/settingsdialog.ui \
 RESOURCES += core.qrc \
     fancyactionbar.qrc
 unix:!macx { 
-    images.files = images/openpilot_logo_*.png
+    images.files = images/abovegroundlabs_logo_*.png
     images.files = images/qtcreator_logo_*.png
     images.path = /share/pixmaps
     INSTALLS += images
