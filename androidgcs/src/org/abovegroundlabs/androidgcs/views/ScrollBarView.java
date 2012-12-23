@@ -48,8 +48,10 @@ public class ScrollBarView extends GridLayout implements ObjectFieldMappable {
 	private final SeekBar bar;
 	private double value;
 	private String name;
+	private boolean localUpdate = false;
 
 	private final double SCALE = 1000000;
+	private Runnable changeListener = null;
 
 	public ScrollBarView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -81,6 +83,8 @@ public class ScrollBarView extends GridLayout implements ObjectFieldMappable {
 					boolean fromUser) {
 				value = progress / SCALE;
 				edit.setText(Double.toString(value));
+				if (changeListener != null && localUpdate == false)
+					changeListener.run();
 			}
 
 			@Override
@@ -99,6 +103,8 @@ public class ScrollBarView extends GridLayout implements ObjectFieldMappable {
 			public void afterTextChanged(Editable s) {
 				value = Double.parseDouble(s.toString());
 				bar.setProgress((int) (SCALE * value));
+				if (changeListener != null && localUpdate == false)
+					changeListener.run();
 			}
 
 			@Override
@@ -145,8 +151,15 @@ public class ScrollBarView extends GridLayout implements ObjectFieldMappable {
 
 	@Override
 	public void setValue(double val) {
+		localUpdate = true;
 		value = val;
 		edit.setText(Double.toString(value));
 		bar.setProgress((int) (SCALE * value));
+		localUpdate = false;
+	}
+
+	@Override
+	public void setOnChangedListener(Runnable run) {
+		changeListener = run;
 	}
 }

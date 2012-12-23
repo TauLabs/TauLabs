@@ -27,4 +27,5 @@ package org.abovegroundlabs.androidgcs.util;
 public interface ObjectFieldMappable {
 	public double getValue();
 	public void setValue(double val);
+	public void setOnChangedListener(Runnable run);
 }
