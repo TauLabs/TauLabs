@@ -124,6 +124,7 @@ public class SmartSave {
 	public void addControlMapping(ObjectFieldMappable control, String fieldName, int fieldIndex) {
 		FieldPairing pairing = new FieldPairing(fieldName, fieldIndex);
 		controlFieldMapping.put(control, pairing);
+		control.setOnChangedListener(markDirty);
 	}
 
 	//! Update the settings in the UI from the mappings
@@ -251,6 +252,8 @@ public class SmartSave {
 		 * 3. Send save operation
 		 * 4. Wait for completed
 		 * 5. Remove listener
+		 * 6. Request update
+		 * 7. Wait for completion
 		 */
 
 		UAVObject persistence = objMngr.getObject("ObjectPersistence");
@@ -281,7 +284,36 @@ public class SmartSave {
 			persistence.removeUpdatedObserver(ObjectPersistenceUpdated);
 		}
 
-		return persistenceUpdated;
+		// Only continue if the load worked
+		if (persistenceUpdated == false)
+			return false;
+
+		synchronized(ApplyCompleted) {
+			if (DEBUG) Log.d(TAG, "Requesting update");
+
+			// Install the listener on the object
+			obj.addTransactionCompleted(ApplyCompleted);
+
+			// 6. Update the object
+			objectUpdated = false;
+			obj.updateRequested();
+
+			// 7. Wait for acknowledgment
+			try {
+				ApplyCompleted.wait(1000);
+			} catch (InterruptedException e) {
+				if (DEBUG) Log.d(TAG ,"Apply failed");
+				obj.removeTransactionCompleted(ApplyCompleted);
+				return false;
+			}
+
+			if (DEBUG) Log.d(TAG ,"Apply succeeded");
+
+			// Uninstall the listener
+			obj.removeTransactionCompleted(ApplyCompleted);
+		}
+
+		return objectUpdated;
 	}
 
 	//! Private class to store the field mapping information
@@ -315,7 +347,6 @@ public class SmartSave {
 	private final Observer ApplyCompleted = new Observer() {
 		@Override
 		public void update(Observable observable, Object data) {
-			if (DEBUG) Log.d(TAG, "Apply called");
 			synchronized(this) {
 				objectUpdated = true;
 				notify();
@@ -346,7 +377,20 @@ public class SmartSave {
 				persistenceUpdated = true;
 				notify();
 			}
-			obj.updateRequested();
+		}
+	};
+
+	//! When the fields change this will reset the button to default appearance
+	private final Runnable markDirty = new Runnable() {
+		@Override
+		public void run() {
+			Log.d(TAG, "Marking dirty");
+			if (applyBtn != null)
+				applyBtn.getBackground().setColorFilter(null);
+			if (loadBtn != null)
+				loadBtn.getBackground().setColorFilter(null);
+			if (saveBtn != null)
+				saveBtn.getBackground().setColorFilter(null);
 		}
 	};
 
