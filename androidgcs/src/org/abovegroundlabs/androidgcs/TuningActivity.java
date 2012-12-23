@@ -26,10 +26,10 @@ package org.abovegroundlabs.androidgcs;
 import org.abovegroundlabs.androidgcs.util.SmartSave;
 import org.abovegroundlabs.androidgcs.views.ScrollBarView;
 import org.abovegroundlabs.uavtalk.UAVDataObject;
-import org.abovegroundlabs.androidgcs.R;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Button;
 
 public class TuningActivity extends ObjectManagerActivity {
@@ -44,6 +44,7 @@ public class TuningActivity extends ObjectManagerActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tuning);
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 	}
 
 	@Override
@@ -55,9 +56,11 @@ public class TuningActivity extends ObjectManagerActivity {
 		// Subscribe to updates from ManualControlCommand and show the values for crude feedback
 		UAVDataObject stabilizationSettings = (UAVDataObject) objMngr.getObject("StabilizationSettings");
 
-		smartSave = new SmartSave(objMngr, stabilizationSettings,
+		smartSave = new SmartSave(objMngr, this,
+				stabilizationSettings,
 				(Button) findViewById(R.id.saveBtn),
-				(Button) findViewById(R.id.applyBtn));
+				(Button) findViewById(R.id.applyBtn),
+				(Button) findViewById(R.id.loadBtn));
 
 		smartSave.addControlMapping((ScrollBarView) findViewById(R.id.rollRateKp), "RollRatePID", 0);
 		smartSave.addControlMapping((ScrollBarView) findViewById(R.id.rollRateKi), "RollRatePID", 1);
