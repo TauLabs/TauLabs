@@ -37,6 +37,7 @@ import junit.framework.Assert;
 import org.abovegroundlabs.uavtalk.UAVObject;
 import org.abovegroundlabs.uavtalk.UAVObjectManager;
 
+import android.app.Activity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,11 +47,13 @@ public class SmartSave {
 
 	private final static String TAG = SmartSave.class.getSimpleName();
 	private final static boolean DEBUG = false;
+	private final Activity parentActivity;
 
 	//! Create a smart save button attached to the object manager and an apply and ave button
-	public SmartSave(UAVObjectManager objMngr, UAVObject obj, Button saveButton, Button applyButton) {
+	public SmartSave(UAVObjectManager objMngr, Activity parent, UAVObject obj, Button saveButton, Button applyButton) {
 		Assert.assertNotNull(objMngr);
 		this.objMngr = objMngr;
+		this.parentActivity = parent;
 		this.applyBtn = applyButton;
 		this.obj = obj;
 
@@ -226,7 +229,12 @@ public class SmartSave {
 		@Override
 		public void update(Observable observable, Object data) {
 			if (DEBUG) Log.d(TAG, "Object updated");
-			refreshSettingsDisplay();
+			parentActivity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					refreshSettingsDisplay();
+				}
+			});
 		}
 	};
 
