@@ -46,7 +46,7 @@ import android.widget.Button;
 public class SmartSave {
 
 	private final static String TAG = SmartSave.class.getSimpleName();
-	private final static boolean DEBUG = true;
+	private final static boolean DEBUG = false;
 	private final Activity parentActivity;
 
 	//! Create a smart save button attached to the object manager and an apply and ave button
@@ -134,25 +134,46 @@ public class SmartSave {
 	 */
 	private boolean saveSettings() {
 		/*
-		 * 1. Install listener on object persistence
-		 * 2. Send load operation
-		 * 3. Wait for completed
-		 * 4. Remove listener
+		 * 1. Apply settings
+		 * 2. Install listener on object persistence
+		 * 3. Send save operation
+		 * 4. Wait for completed
+		 * 5. Remove listener
 		 */
+
+		// 1. Apply settings
+		if (!applySettings()) {
+			if (DEBUG) Log.d(TAG, "Failed to apply settings");
+			return false;
+		}
 
 		UAVObject persistence = objMngr.getObject("ObjectPersistence");
 		Assert.assertNotNull(persistence);
 
-		// 1. Install listener
-		persistence.addUpdatedObserver(ObjectPersistenceUpdated);
+		synchronized(ObjectPersistenceUpdated) {
+			// 2. Install listener
+			persistence.addUpdatedObserver(ObjectPersistenceUpdated);
 
-		// 2. Send Load operation
-		Long objId = obj.getObjID();
-		if (DEBUG) Log.d(TAG, "Saving object ID: " + objId);
-		persistence.getField("ObjectID").setValue(objId);
-		persistence.getField("Operation").setValue("Save");
-		persistence.getField("Selection").setValue("SingleObject");
-		persistence.updated();
+			// 3. Send Load operation
+			Long objId = obj.getObjID();
+			if (DEBUG) Log.d(TAG, "Saving object ID: " + objId);
+			persistence.getField("ObjectID").setValue(objId);
+			persistence.getField("Operation").setValue("Save");
+			persistence.getField("Selection").setValue("SingleObject");
+			persistence.updated();
+
+			// 4. Wait for ack
+			try {
+				ObjectPersistenceUpdated.wait(1000);
+			} catch (InterruptedException e) {
+				if (DEBUG) Log.d(TAG ,"No ack for object persistence");
+				persistence.removeUpdatedObserver(ObjectPersistenceUpdated);
+				return false;
+			}
+
+			// 5. Remove listener
+			persistence.removeUpdatedObserver(ObjectPersistenceUpdated);
+		}
 
 		return true;
 	}
@@ -179,18 +200,29 @@ public class SmartSave {
 			field.setValue(obj,mappable.getValue());
 		}
 
-		// 2. Install the listener on the object
-		obj.addTransactionCompleted(ApplyCompleted);
+		synchronized(ApplyCompleted) {
+			if (DEBUG) Log.d(TAG, "Sending apply");
 
-		// 3. Update the object
-		obj.updated();
+			// 2. Install the listener on the object
+			obj.addTransactionCompleted(ApplyCompleted);
 
-		// 4. Wait for acknowledgment
-		// TODO: Set up some semaphore with timeout
-		// sem.wait(1000);
+			// 3. Update the object
+			obj.updated();
 
-		// 5. Uninstall the listener
-		//obj.removeTransactionCompleted(ApplyCompleted);
+			// 4. Wait for acknowledgment
+			try {
+				ApplyCompleted.wait(1000);
+			} catch (InterruptedException e) {
+				if (DEBUG) Log.d(TAG ,"Apply failed");
+				obj.removeTransactionCompleted(ApplyCompleted);
+				return false;
+			}
+
+			if (DEBUG) Log.d(TAG ,"Apply succeeded");
+
+			// 5. Uninstall the listener
+			obj.removeTransactionCompleted(ApplyCompleted);
+		}
 
 		return true;
 	}
@@ -211,16 +243,29 @@ public class SmartSave {
 		UAVObject persistence = objMngr.getObject("ObjectPersistence");
 		Assert.assertNotNull(persistence);
 
-		// 2. Install listener
-		persistence.addUpdatedObserver(ObjectPersistenceUpdated);
+		synchronized(ObjectPersistenceUpdated) {
+			// 2. Install listener
+			persistence.addUpdatedObserver(ObjectPersistenceUpdated);
 
-		// 3. Send save operation
-		Long objId = obj.getObjID();
-		if (DEBUG) Log.d(TAG, "Load object ID: " + objId);
-		persistence.getField("ObjectID").setValue(objId);
-		persistence.getField("Operation").setValue("Load");
-		persistence.getField("Selection").setValue("SingleObject");
-		persistence.updated();
+			// 3. Send save operation
+			Long objId = obj.getObjID();
+			if (DEBUG) Log.d(TAG, "Load object ID: " + objId);
+			persistence.getField("ObjectID").setValue(objId);
+			persistence.getField("Operation").setValue("Load");
+			persistence.getField("Selection").setValue("SingleObject");
+			persistence.updated();
+
+			// 4. Wait for the update
+			try {
+				ObjectPersistenceUpdated.wait(1000);
+			} catch (InterruptedException e) {
+				persistence.removeUpdatedObserver(ObjectPersistenceUpdated);
+				return false;
+			}
+
+			// 5. Remove the listener
+			persistence.removeUpdatedObserver(ObjectPersistenceUpdated);
+		}
 
 		return true;
 	}
@@ -257,6 +302,9 @@ public class SmartSave {
 		@Override
 		public void update(Observable observable, Object data) {
 			if (DEBUG) Log.d(TAG, "Apply called");
+			synchronized(this) {
+				notify();
+			}
 		}
 	};
 
@@ -279,6 +327,9 @@ public class SmartSave {
 		@Override
 		public void update(Observable observable, Object data) {
 			if (DEBUG) Log.d(TAG, "Object persistence updated");
+			synchronized(this) {
+				notify();
+			}
 			obj.updateRequested();
 		}
 	};
