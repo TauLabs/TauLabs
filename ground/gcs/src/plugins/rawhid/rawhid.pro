@@ -8,10 +8,12 @@ HEADERS += rawhid_global.h \
     pjrc_rawhid.h \
     rawhid_const.h \
     usbmonitor.h \
-    usbsignalfilter.h
+    usbsignalfilter.h \
+    usbdevice.h
 SOURCES += rawhidplugin.cpp \
     rawhid.cpp \
-    usbsignalfilter.cpp
+    usbsignalfilter.cpp \
+    usbdevice.cpp
 FORMS += 
 RESOURCES += 
 DEFINES += RAWHID_LIBRARY

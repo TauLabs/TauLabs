@@ -26,6 +26,7 @@
  */
 
 #include "serialplugin.h"
+#include "serialdevice.h"
 
 #include <extensionsystem/pluginmanager.h>
 #include <coreplugin/icore.h>
@@ -53,13 +54,13 @@ SerialEnumerationThread::~SerialEnumerationThread()
 
 void SerialEnumerationThread::run()
 {
-    QList <Core::IConnection::device> devices = m_serial->availableDevices();
+    QList <Core::IDevice*> devices = m_serial->availableDevices();
 
     while(m_running)
     {
         if(!m_serial->deviceOpened())
         {
-            QList <Core::IConnection::device> newDev = m_serial->availableDevices();
+            QList <Core::IDevice*> newDev = m_serial->availableDevices();
             if(devices != newDev)
             {
                 devices = newDev;
@@ -116,9 +117,9 @@ bool sortPorts(const QextPortInfo &s1,const QextPortInfo &s2)
     return s1.portName<s2.portName;
 }
 
-QList <Core::IConnection::device> SerialConnection::availableDevices()
+QList <IDevice *> SerialConnection::availableDevices()
 {
-    QList <Core::IConnection::device> list;
+    QList <Core::IDevice*> list;
 
     if (enablePolling) {
         QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
@@ -126,9 +127,10 @@ QList <Core::IConnection::device> SerialConnection::availableDevices()
         //sort the list by port number (nice idea from PT_Dreamer :))
         qSort(ports.begin(), ports.end(),sortPorts);
         foreach( QextPortInfo port, ports ) {
-           device d;
-           d.displayName=port.friendName;
-           d.name=port.physName;
+            // TODO: check this!
+            SerialDevice* d = new SerialDevice();
+           d->displayName=port.friendName;
+           d->name=port.physName;
            list.append(d);
         }
     }
@@ -136,14 +138,14 @@ QList <Core::IConnection::device> SerialConnection::availableDevices()
     return list;
 }
 
-QIODevice *SerialConnection::openDevice(const device deviceName)
+QIODevice *SerialConnection::openDevice(IDevice *deviceName)
 {
     if (serialHandle){
-        closeDevice(deviceName.name);
+        closeDevice(deviceName->name);
     }
     QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
     foreach( QextPortInfo port, ports ) {
-           if(port.physName == deviceName.name)
+           if(port.physName == deviceName->name)
             {
             //we need to handle port settings here...
             PortSettings set;

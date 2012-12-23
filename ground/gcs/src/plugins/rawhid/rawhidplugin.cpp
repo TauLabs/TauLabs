@@ -82,9 +82,9 @@ void RawHIDConnection::onDeviceDisconnected()
  * Returns the list of all currently available devices
  *
  */
-QList < Core::IConnection::device> RawHIDConnection::availableDevices()
+QList < Core::IDevice*> RawHIDConnection::availableDevices()
 {
-    QList < Core::IConnection::device> devices;
+    QList < Core::IDevice*> devices;
     QList<USBPortInfo> portsList;
 
     // Loop for all vendorIDs known by the board manager
@@ -94,26 +94,29 @@ QList < Core::IConnection::device> RawHIDConnection::availableDevices()
         qDebug() << "[rawhidplugin] VendorID type known: " << vendorID;
         portsList = m_usbMonitor->availableDevices(vendorID, -1, -1,USBMonitor::Running);
         // We currently list devices by their serial number        
-        device dev;
+        USBDevice* dev = new USBDevice();
         foreach(USBPortInfo prt, portsList) {
-            dev.name=prt.serialNumber;
-            dev.displayName=prt.product;
-            dev.vendorID = prt.vendorID;
-            dev.productID = prt.productID;
+            dev->name=prt.serialNumber;
+            dev->displayName=prt.product;
+            dev->vendorID = prt.vendorID;
+            dev->productID = prt.productID;
             devices.append(dev);
         }
     }
     return devices;
 }
 
-QIODevice *RawHIDConnection::openDevice(const device deviceName)
+QIODevice *RawHIDConnection::openDevice(Core::IDevice *deviceName)
 {
     //added by andrew
     if (RawHidHandle)
-        closeDevice(deviceName.name);
+        closeDevice(deviceName->name);
     //end added by andrew
 
-    RawHidHandle = new RawHID(deviceName);
+    // We know this device is (should be?) a USB device:
+    USBDevice* usbDev = dynamic_cast<USBDevice*>(deviceName);
+
+    RawHidHandle = new RawHID(usbDev);
     return RawHidHandle;
 }
 

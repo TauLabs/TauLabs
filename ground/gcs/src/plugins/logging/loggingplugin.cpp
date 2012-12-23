@@ -28,6 +28,7 @@
  */
 
 #include "loggingplugin.h"
+#include "loggingdevice.h"
 #include "logginggadgetfactory.h"
 #include <QDebug>
 #include <QtPlugin>
@@ -58,18 +59,19 @@ void LoggingConnection::onEnumerationChanged()
         emit availableDevChanged(this);
 }
 
-QList <Core::IConnection::device> LoggingConnection::availableDevices()
+QList <Core::IDevice*> LoggingConnection::availableDevices()
 {
-    QList <device> list;
-    device d;
-    d.displayName="Logfile replay...";
-    d.name="Logfile replay...";
-    list <<d;
+    QList <Core::IDevice*> list;
+    // TODO: follow memory ?
+    LoggingDevice* d = new LoggingDevice();
+    d->displayName="Logfile replay...";
+    d->name="Logfile replay...";
+    list << d;
 
     return list;
 }
 
-QIODevice* LoggingConnection::openDevice(const device deviceName)
+QIODevice* LoggingConnection::openDevice(IDevice *deviceName)
 {
     Q_UNUSED(deviceName)
 

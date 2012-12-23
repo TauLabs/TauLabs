@@ -34,6 +34,7 @@
 #include <QtCore/QIODevice>
 
 #include "core_global.h"
+#include "idevice.h"
 
 namespace Core {
 
@@ -56,6 +57,7 @@ public:
      *              facilitate multiple board support and more
      *              robust device opening.
      */
+/*
     struct device
     {
         QString name;
@@ -64,17 +66,18 @@ public:
         int productID;       // Only makes sense for USB devices
         bool operator==(device i){return this->name==i.name;}
     };
+    */
 
-    virtual QList <device> availableDevices() = 0;
+    virtual QList <IDevice *> availableDevices() = 0;
 
     /**
     *   Open a device, and return a QIODevice interface from it
     *   It should be a dynamically created object as it will be
     *   deleted by the connection manager.
     */
-    virtual QIODevice *openDevice(const device device) = 0;
+    virtual QIODevice *openDevice(IDevice *device) = 0;
 
-    virtual void closeDevice(const QString &deviceName) { Q_UNUSED(deviceName) };
+    virtual void closeDevice(const QString &deviceName) { Q_UNUSED(deviceName) }
 
     /**
     *   Connection type name "USB HID"
@@ -90,8 +93,8 @@ public:
      * Manage whether the plugin is allowed to poll for devices
      * or not
      */
-    virtual void suspendPolling() {};
-    virtual void resumePolling() {};
+    virtual void suspendPolling() {}
+    virtual void resumePolling() {}
 
 signals:
     /**

@@ -50,6 +50,7 @@ QT_END_NAMESPACE
 namespace Core {
 
     class IConnection;
+    class IDevice;
 
 namespace Internal {
     class FancyTabWidget;
@@ -61,7 +62,7 @@ namespace Internal {
 class DevListItem
 {
 public:
-    DevListItem(IConnection *c, IConnection::device d) :
+    DevListItem(IConnection *c, IDevice *d) :
         connection(c), device(d) { }
 
     DevListItem() : connection(NULL) { }
@@ -69,7 +70,7 @@ public:
     QString getConName() {
         if (connection == NULL)
             return "";
-        return connection->shortName() + ": " + device.displayName;
+        return connection->shortName() + ": " + device->getDisplayName();
     }
 
     bool operator==(const DevListItem &rhs) {
@@ -77,7 +78,7 @@ public:
     }
 
     IConnection *connection;
-    IConnection::device device;
+    IDevice *device;
 };
 
 
@@ -106,7 +107,7 @@ public:
 
 protected:
     void updateConnectionList(IConnection *connection);
-    void registerDevice(IConnection *conn, IConnection::device device);
+    void registerDevice(IConnection *conn, IDevice *device);
     void updateConnectionDropdown();
 
 signals:
