@@ -37,6 +37,7 @@
 #include <openpilot.h>
 #include <uavobjectsinit.h>
 #include "hwfreedom.h"
+#include "modulesettings.h"
 #include "manualcontrolsettings.h"
 
 /**
