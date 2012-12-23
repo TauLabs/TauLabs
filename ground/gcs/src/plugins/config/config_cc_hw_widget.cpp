@@ -79,9 +79,9 @@ ConfigCCHWWidget::ConfigCCHWWidget(QWidget *parent) : ConfigTaskWidget(parent)
     addUAVObjectToWidgetRelation("HwCopterControl","RcvrPort",m_telemetry->cbRcvr);
     addUAVObjectToWidgetRelation("HwCopterControl","USB_HIDPort",m_telemetry->cbUsbHid);
     addUAVObjectToWidgetRelation("HwCopterControl","USB_VCPPort",m_telemetry->cbUsbVcp);
-    addUAVObjectToWidgetRelation("HwCopterControl","TelemetrySpeed",m_telemetry->telemetrySpeed);
-    addUAVObjectToWidgetRelation("HwCopterControl","GPSSpeed",m_telemetry->gpsSpeed);
-    addUAVObjectToWidgetRelation("HwCopterControl","ComUsbBridgeSpeed",m_telemetry->comUsbBridgeSpeed);
+    addUAVObjectToWidgetRelation("ModuleSettings","TelemetrySpeed",m_telemetry->telemetrySpeed);
+    addUAVObjectToWidgetRelation("ModuleSettings","GPSSpeed",m_telemetry->gpsSpeed);
+    addUAVObjectToWidgetRelation("ModuleSettings","ComUsbBridgeSpeed",m_telemetry->comUsbBridgeSpeed);
     connect(m_telemetry->cchwHelp,SIGNAL(clicked()),this,SLOT(openHelp()));
     enableControls(false);
     populateWidgets();
