@@ -53,7 +53,8 @@
 
 		<activity android:name="ObjectBrowser" android:label="@string/object_browser_name" />
 		<activity android:name="PfdActivity" android:label="PFD" />
-		<activity android:name="Controller" android:label="@string/controller_name" />
+		<activity android:name="Controller" android:label="@string/controller_name" 
+		    android:configChanges="keyboardHidden|orientation|screenSize"/>
 		<activity android:name="Preferences" android:label="@string/preference_title" />
 		<activity android:name="UAVLocation" android:label="@string/location_name" />
 		<activity android:name="SystemAlarmActivity" android:label="System Alarms" />
