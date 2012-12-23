@@ -46,11 +46,11 @@ import android.widget.Button;
 public class SmartSave {
 
 	private final static String TAG = SmartSave.class.getSimpleName();
-	private final static boolean DEBUG = false;
+	private final static boolean DEBUG = true;
 	private final Activity parentActivity;
 
 	//! Create a smart save button attached to the object manager and an apply and ave button
-	public SmartSave(UAVObjectManager objMngr, Activity parent, UAVObject obj, Button saveButton, Button applyButton) {
+	public SmartSave(UAVObjectManager objMngr, Activity parent, UAVObject obj, Button saveButton, Button applyButton, Button loadButton) {
 		Assert.assertNotNull(objMngr);
 		this.objMngr = objMngr;
 		this.parentActivity = parent;
@@ -85,6 +85,17 @@ public class SmartSave {
 			});
 		} else
 			applyBtn = null;
+
+		if (loadButton != null) {
+			loadBtn = loadButton;
+			loadBtn.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					loadSettings();
+				}
+			});
+		} else
+			loadBtn = null;
 	}
 
 	//! Disconnect any listeners when this object is destroyed
@@ -123,24 +134,19 @@ public class SmartSave {
 	 */
 	private boolean saveSettings() {
 		/*
-		 * 1. Update object
-		 * 2. Install listener on object persistence
-		 * 3. Send save operation
-		 * 4. Wait for completed
-		 * 5. Remove listener
+		 * 1. Install listener on object persistence
+		 * 2. Send load operation
+		 * 3. Wait for completed
+		 * 4. Remove listener
 		 */
-
-		// 1. Update object
-		if(!applySettings())
-			return false;
 
 		UAVObject persistence = objMngr.getObject("ObjectPersistence");
 		Assert.assertNotNull(persistence);
 
-		// 2. Install listener
+		// 1. Install listener
 		persistence.addUpdatedObserver(ObjectPersistenceUpdated);
 
-		// 3. Send save operation
+		// 2. Send Load operation
 		Long objId = obj.getObjID();
 		if (DEBUG) Log.d(TAG, "Saving object ID: " + objId);
 		persistence.getField("ObjectID").setValue(objId);
@@ -185,6 +191,36 @@ public class SmartSave {
 
 		// 5. Uninstall the listener
 		//obj.removeTransactionCompleted(ApplyCompleted);
+
+		return true;
+	}
+
+	/**
+	 * Robustly apply the settings to the UAV
+	 * @return True if the apply is ack'd, False if not
+	 */
+	private boolean loadSettings() {
+		/*
+		 * 1. Update object
+		 * 2. Install listener on object persistence
+		 * 3. Send save operation
+		 * 4. Wait for completed
+		 * 5. Remove listener
+		 */
+
+		UAVObject persistence = objMngr.getObject("ObjectPersistence");
+		Assert.assertNotNull(persistence);
+
+		// 2. Install listener
+		persistence.addUpdatedObserver(ObjectPersistenceUpdated);
+
+		// 3. Send save operation
+		Long objId = obj.getObjID();
+		if (DEBUG) Log.d(TAG, "Load object ID: " + objId);
+		persistence.getField("ObjectID").setValue(objId);
+		persistence.getField("Operation").setValue("Load");
+		persistence.getField("Selection").setValue("SingleObject");
+		persistence.updated();
 
 		return true;
 	}
@@ -243,6 +279,7 @@ public class SmartSave {
 		@Override
 		public void update(Observable observable, Object data) {
 			if (DEBUG) Log.d(TAG, "Object persistence updated");
+			obj.updateRequested();
 		}
 	};
 
@@ -257,6 +294,9 @@ public class SmartSave {
 
 	//! Handle to the save button
 	private Button saveBtn;
+
+	//! Handle to the load button
+	private Button loadBtn;
 
 	//! Handle to the UAVO this class works with
 	private final UAVObject obj;

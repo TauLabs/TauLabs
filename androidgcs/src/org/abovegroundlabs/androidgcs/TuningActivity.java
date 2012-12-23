@@ -59,7 +59,8 @@ public class TuningActivity extends ObjectManagerActivity {
 		smartSave = new SmartSave(objMngr, this,
 				stabilizationSettings,
 				(Button) findViewById(R.id.saveBtn),
-				(Button) findViewById(R.id.applyBtn));
+				(Button) findViewById(R.id.applyBtn),
+				(Button) findViewById(R.id.loadBtn));
 
 		smartSave.addControlMapping((ScrollBarView) findViewById(R.id.rollRateKp), "RollRatePID", 0);
 		smartSave.addControlMapping((ScrollBarView) findViewById(R.id.rollRateKi), "RollRatePID", 1);
