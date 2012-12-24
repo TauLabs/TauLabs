@@ -35,6 +35,7 @@ SOURCES += uploadergadget.cpp \
     SSP/qsspt.cpp \
     runningdevicewidget.cpp
 OTHER_FILES += Uploader.pluginspec \
+    Uploader.json
 
 FORMS += \
     uploader.ui \

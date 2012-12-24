@@ -5,6 +5,7 @@ TEMPLATE = app
 TARGET = $$GCS_APP_TARGET
 DESTDIR = $$GCS_APP_PATH
 QT += xml
+QT += widgets
 SOURCES += main.cpp
 include(../rpath.pri)
 include(../libs/utils/utils.pri)

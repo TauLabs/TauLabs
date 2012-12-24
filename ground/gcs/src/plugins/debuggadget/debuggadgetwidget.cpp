@@ -28,10 +28,10 @@
 
 #include <QDebug>
 #include <QStringList>
-#include <QtGui/QWidget>
-#include <QtGui/QTextEdit>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QPushButton>
+#include <QWidget>
+#include <QTextEdit>
+#include <QVBoxLayout>
+#include <QPushButton>
 #include "qxtlogger.h"
 #include "debugengine.h"
 #include <QFile>
@@ -84,7 +84,7 @@ void DebugGadgetWidget::saveLog()
 
     QFile file(fileName);
     if (file.open(QIODevice::WriteOnly) &&
-            (file.write(m_config->plainTextEdit->toHtml().toAscii()) != -1)) {
+            (file.write(m_config->plainTextEdit->toHtml().toLatin1()) != -1)) {
         file.close();
     } else {
         QMessageBox::critical(0,

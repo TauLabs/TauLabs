@@ -20,7 +20,8 @@ SOURCES += uavobject.cpp \
     uavobjectfield.cpp \
     uavobjectsplugin.cpp
 
-OTHER_FILES += UAVObjects.pluginspec
+OTHER_FILES += UAVObjects.pluginspec \
+    UAVObjects.json
 
 # Add in all of the synthetic/generated uavobject files
 HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \

@@ -3,7 +3,8 @@ include(../gcs.pri)
 isEmpty(PROVIDER) {
     PROVIDER = AboveGroundLabs
 }
-
+CONFIG       += plugin
+QT += widgets
 DESTDIR = $$GCS_PLUGIN_PATH/$$PROVIDER
 LIBS += -L$$DESTDIR
 INCLUDEPATH += $$GCS_SOURCE_TREE/src/plugins
@@ -17,6 +18,7 @@ isEmpty(TARGET) {
 PLUGINSPECS = $${_PRO_FILE_PWD_}/$${TARGET}.pluginspec
 copy2build.input = PLUGINSPECS
 copy2build.output = $$DESTDIR/${QMAKE_FUNC_FILE_IN_stripSrcDir}
+
 isEmpty(vcproj):copy2build.variable_out = PRE_TARGETDEPS
 copy2build.commands = $$QMAKE_COPY ${QMAKE_FILE_IN} ${QMAKE_FILE_OUT}
 copy2build.name = COPY ${QMAKE_FILE_IN}

@@ -33,6 +33,8 @@ class WaypointEditorGadgetFactory;
 
 class WaypointEditorPlugin : public ExtensionSystem::IPlugin
 {
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "AboveGroundLabs.plugins.WaypointEditor" FILE "WaypointEditor.json")
 public:
     WaypointEditorPlugin();
    ~WaypointEditorPlugin();

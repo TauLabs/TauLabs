@@ -135,5 +135,3 @@ void UavTalkRelayPlugin::saveConfig(QSettings *qSettings, UAVConfigInfo *configI
     relay->setRules(rules);
     relay->restartServer();
 }
-
-Q_EXPORT_PLUGIN(UavTalkRelayPlugin)

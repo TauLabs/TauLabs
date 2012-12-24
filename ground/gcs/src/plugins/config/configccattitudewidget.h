@@ -33,7 +33,7 @@
 #include "uavobjectmanager.h"
 #include "uavobject.h"
 #include "calibration.h"
-#include <QtGui/QWidget>
+#include <QWidget>
 #include <QTimer>
 
 class Ui_Widget;

@@ -25,7 +25,8 @@ SOURCES += gcscontrolgadgetfactory.cpp
 SOURCES += gcscontrolplugin.cpp
 SOURCES += joystickcontrol.cpp
 
-OTHER_FILES += GCSControl.pluginspec
+OTHER_FILES += GCSControl.pluginspec \
+                GCSControl.json
 
 FORMS += gcscontrol.ui \
     gcscontrolgadgetoptionspage.ui

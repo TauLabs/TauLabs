@@ -60,7 +60,6 @@ void WaypointEditorPlugin::shutdown()
 {
    // Do nothing
 }
-Q_EXPORT_PLUGIN(WaypointEditorPlugin)
 
 /**
   * @}

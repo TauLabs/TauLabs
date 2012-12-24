@@ -38,7 +38,8 @@ contains(DEFINES,USE_OSG) {
     SOURCES += osgearth.cpp
 }
 
-OTHER_FILES += PfdQml.pluginspec
+OTHER_FILES += PfdQml.pluginspec \
+    PfdQml.json
 
 FORMS += pfdqmlgadgetoptionspage.ui
 

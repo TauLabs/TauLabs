@@ -12,6 +12,8 @@
 TEMPLATE = lib
 TARGET = Qwt
 DEFINES += QWT_LIBRARY
+QT += printsupport
+
 include(../../../abovegroundlabslibrary.pri)
 include( ../qwtconfig.pri )
 

@@ -35,7 +35,7 @@
 #include "stabilizationsettings.h"
 #include "relaytuningsettings.h"
 #include "relaytuning.h"
-#include <QtGui/QWidget>
+#include <QWidget>
 #include <QTimer>
 
 class ConfigAutotuneWidget : public ConfigTaskWidget

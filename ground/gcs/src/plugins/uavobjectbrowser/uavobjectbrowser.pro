@@ -1,4 +1,5 @@
 TEMPLATE = lib
+QT+=widgets
 TARGET = UAVObjectBrowser
 include(../../openpilotgcsplugin.pri)
 include(uavobjectbrowser_dependencies.pri)
@@ -22,7 +23,8 @@ SOURCES += browserplugin.cpp \
     treeitem.cpp \
     browseritemdelegate.cpp \
     fieldtreeitem.cpp
-OTHER_FILES += UAVObjectBrowser.pluginspec
+OTHER_FILES += UAVObjectBrowser.pluginspec \
+    UAVObjectBrowser.json
 FORMS += uavobjectbrowser.ui \
     uavobjectbrowseroptionspage.ui \
     viewoptions.ui

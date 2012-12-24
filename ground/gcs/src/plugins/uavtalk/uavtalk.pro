@@ -1,4 +1,5 @@
 QT += network
+QT+=widgets
 TEMPLATE = lib
 TARGET = UAVTalk
 include(../../openpilotgcsplugin.pri)
@@ -15,4 +16,5 @@ SOURCES += uavtalk.cpp \
     telemetrymanager.cpp \
     telemetry.cpp
 DEFINES += UAVTALK_LIBRARY
-OTHER_FILES += UAVTalk.pluginspec
+OTHER_FILES += UAVTalk.pluginspec \
+    UAVTalk.json

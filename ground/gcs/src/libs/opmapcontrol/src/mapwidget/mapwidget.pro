@@ -2,7 +2,7 @@ TEMPLATE = lib
 TARGET = opmapwidget
 DEFINES += OPMAPWIDGET_LIBRARY
 include(../../../../abovegroundlabslibrary.pri)
-
+QT+=widgets
 # DESTDIR = ../build
 SOURCES += mapgraphicitem.cpp \
     opmapwidget.cpp \

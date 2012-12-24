@@ -1,4 +1,5 @@
 TEMPLATE = lib
+QT += widgets
 TARGET = IPconnection
 include(../../openpilotgcsplugin.pri)
 include(ipconnection_dependencies.pri)
@@ -13,5 +14,6 @@ SOURCES += ipconnectionplugin.cpp \
 FORMS += ipconnectionoptionspage.ui
 RESOURCES += 
 DEFINES += IPconnection_LIBRARY
-OTHER_FILES += IPconnection.pluginspec
+OTHER_FILES += IPconnection.pluginspec \
+    IPconnection.json
 QT += network

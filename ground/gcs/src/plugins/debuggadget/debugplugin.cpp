@@ -61,5 +61,3 @@ void DebugPlugin::shutdown()
 {
    // Do nothing
 }
-Q_EXPORT_PLUGIN(DebugPlugin)
-

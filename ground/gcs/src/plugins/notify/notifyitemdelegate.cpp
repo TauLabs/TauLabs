@@ -30,6 +30,11 @@
 #include "notifytablemodel.h"
 #include "notifylogging.h"
 #include "notificationitem.h"
+#include <QSpinBox>
+#include <QCheckBox>
+#include <QLineEdit>
+#include <QTableWidget>
+#include <QComboBox>
 
 NotifyItemDelegate::NotifyItemDelegate(QObject* parent)
     : QItemDelegate(parent)

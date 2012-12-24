@@ -31,9 +31,8 @@
 
 
 #include <iostream>
-#include <QtGui>
 #include <QDebug>
-
+#include <math.h>
 /*
  * Initialize the widget
  */

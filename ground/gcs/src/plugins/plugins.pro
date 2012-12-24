@@ -87,14 +87,14 @@ SUBDIRS += plugin_modelview
 #Qt 4.8.0 / phonon may crash on Mac, fixed in Qt 4.8.1, QTBUG-23128
 macx:contains(QT_VERSION, ^4\\.8\\.0): CONFIG += disable_notify_plugin
 
-# Notify gadget
-!disable_notify_plugin {
-    plugin_notify.subdir = notify
-    plugin_notify.depends = plugin_coreplugin
-    plugin_notify.depends += plugin_uavobjects
-    plugin_notify.depends += plugin_uavtalk
-    SUBDIRS += plugin_notify
-}
+# Notify gadget NEEDS PHONON UPGRADED TO QT5
+#!disable_notify_plugin {
+#    plugin_notify.subdir = notify
+#    plugin_notify.depends = plugin_coreplugin
+#    plugin_notify.depends += plugin_uavobjects
+#    plugin_notify.depends += plugin_uavtalk
+#    SUBDIRS += plugin_notify
+#}
 
 # Uploader gadget
 plugin_uploader.subdir = uploader

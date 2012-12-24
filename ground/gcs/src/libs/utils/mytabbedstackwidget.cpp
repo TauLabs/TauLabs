@@ -26,9 +26,9 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 #include "mytabbedstackwidget.h"
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QLabel>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QLabel>
 #include <QtCore/QDebug>
 
 MyTabbedStackWidget::MyTabbedStackWidget(QWidget *parent, bool isVertical, bool iconAbove)
@@ -59,7 +59,7 @@ MyTabbedStackWidget::MyTabbedStackWidget(QWidget *parent, bool isVertical, bool 
     }
 
     if (m_iconAbove && m_vertical) {
-        m_listWidget->setFixedWidth(90); // this should be computed instead
+        m_listWidget->setFixedWidth(120); // this should be computed instead
     }
 
     toplevelLayout->setSpacing(0);

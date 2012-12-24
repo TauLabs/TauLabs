@@ -62,7 +62,8 @@ SOURCES += setupwizardplugin.cpp \
     pages/savepage.cpp \
     pages/autoupdatepage.cpp
 
-OTHER_FILES += SetupWizard.pluginspec
+OTHER_FILES += SetupWizard.pluginspec \
+    SetupWizard.json
 
 FORMS += \
     pages/startpage.ui \

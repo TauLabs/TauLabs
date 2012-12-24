@@ -54,7 +54,7 @@
 #include "ioutputpane.h"
 #include "icorelistener.h"
 #include "iconfigurableplugin.h"
-#include "manhattanstyle.h"
+//#include "manhattanstyle.h"
 #include "rightpane.h"
 #include "settingsdialog.h"
 #include "threadmanager.h"
@@ -76,18 +76,19 @@
 #include <QtCore/QtPlugin>
 #include <QtCore/QUrl>
 
-#include <QtGui/QApplication>
-#include <QtGui/QCloseEvent>
-#include <QtGui/QMenu>
-#include <QtGui/QPixmap>
-#include <QtGui/QShortcut>
-#include <QtGui/QStatusBar>
-#include <QtGui/QWizard>
-#include <QtGui/QToolButton>
-#include <QtGui/QMessageBox>
+#include <QApplication>
+#include <QCloseEvent>
+#include <QMenu>
+#include <QPixmap>
+#include <QShortcut>
+#include <QStatusBar>
+#include <QWizard>
+#include <QToolButton>
+#include <QMessageBox>
 #include <QDesktopServices>
 #include "dialogs/importsettings.h"
 #include <QDir>
+#include <QMimeData>
 
 using namespace Core;
 using namespace Core::Internal;
@@ -158,7 +159,6 @@ MainWindow::MainWindow() :
             baseName = QLatin1String("cleanlooks");
     }
 #endif
-    qApp->setStyle(new ManhattanStyle(baseName));
 
     setDockNestingEnabled(true);
 
@@ -333,9 +333,7 @@ void MainWindow::extensionsInitialized()
 
     m_messageManager->init();
     readSettings(qs);
-
     updateContext();
-
     emit m_coreImpl->coreAboutToOpen();
     show();
     emit m_coreImpl->coreOpened();

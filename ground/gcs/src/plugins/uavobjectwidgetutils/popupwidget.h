@@ -5,7 +5,8 @@
 #include <QWidget>
 #include <QDialog>
 
-
+#include <QHBoxLayout>
+#include <QPushButton>
 #include "uavobjectwidgetutils_global.h"
 
 namespace Ui {

@@ -1,4 +1,5 @@
 TEMPLATE = lib
+QT+=widgets
 TARGET = ScopeGadget
 DEFINES += SCOPE_LIBRARY
 include(../../openpilotgcsplugin.pri)
@@ -18,5 +19,6 @@ SOURCES += scopegadgetconfiguration.cpp
 SOURCES += scopegadget.cpp
 SOURCES += scopegadgetfactory.cpp
 SOURCES += scopegadgetwidget.cpp
-OTHER_FILES += ScopeGadget.pluginspec
+OTHER_FILES += ScopeGadget.pluginspec \
+    ScopeGadget.json
 FORMS += scopegadgetoptionspage.ui

@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = Welcome
 QT += network declarative
-
+CONFIG       += plugin
 include(../../openpilotgcsplugin.pri)
 include(welcome_dependencies.pri)
 
@@ -13,4 +13,5 @@ SOURCES += welcomeplugin.cpp \
 
 RESOURCES += welcome.qrc
 DEFINES += WELCOME_LIBRARY
-OTHER_FILES += Welcome.pluginspec
+OTHER_FILES += Welcome.pluginspec \
+    welcome.json

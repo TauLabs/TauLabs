@@ -33,8 +33,8 @@
 
 #include "modelmapproxy.h"
 
-#include <QtGui/QWidget>
-#include <QtGui/QMenu>
+#include <QWidget>
+#include <QMenu>
 #include <QStringList>
 #include <QStandardItemModel>
 #include <QList>

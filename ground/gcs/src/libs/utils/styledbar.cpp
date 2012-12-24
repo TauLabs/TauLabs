@@ -31,10 +31,10 @@
 #include "stylehelper.h"
 
 #include <QtCore/QVariant>
-#include <QtGui/QPainter>
-#include <QtGui/QPixmapCache>
-#include <QtGui/QStyle>
-#include <QtGui/QStyleOption>
+#include <QPainter>
+#include <QPixmapCache>
+#include <QStyle>
+#include <QStyleOption>
 
 using namespace Utils;
 

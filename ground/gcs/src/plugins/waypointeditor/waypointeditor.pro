@@ -1,4 +1,5 @@
 TEMPLATE = lib
+QT += widgets
 TARGET = WaypointEditor 
 
 include(../../openpilotgcsplugin.pri) 
@@ -17,7 +18,8 @@ SOURCES += waypointeditorgadgetwidget.cpp
 SOURCES += waypointeditorgadgetfactory.cpp
 SOURCES += waypointeditorplugin.cpp
 
-OTHER_FILES += waypointeditor.pluginspec
+OTHER_FILES += WaypointEditor.pluginspec \
+    WaypointEditor.json
 
 FORMS += waypointeditor.ui
 

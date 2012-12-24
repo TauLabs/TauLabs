@@ -431,7 +431,7 @@ bool FlightDataModel::writeToFile(QString fileName)
         waypoint.appendChild(field);
 
     }
-    file.write(doc.toString().toAscii());
+    file.write(doc.toString().toLatin1());
     file.close();
     return true;
 }

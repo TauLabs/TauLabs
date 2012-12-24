@@ -41,7 +41,7 @@ class WelcomePlugin
   : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
-
+    Q_PLUGIN_METADATA(IID "Welcome" FILE "welcome.json")
 public:
     WelcomePlugin();
     ~WelcomePlugin();

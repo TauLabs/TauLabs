@@ -27,7 +27,7 @@
 #ifndef WaypointEditorGADGETWIDGET_H_
 #define WaypointEditorGADGETWIDGET_H_
 
-#include <QtGui/QLabel>
+#include <QLabel>
 #include <waypointtable.h>
 #include <waypointactive.h>
 

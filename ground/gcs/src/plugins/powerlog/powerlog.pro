@@ -1,4 +1,5 @@
 TEMPLATE = lib
+QT+=widgets
 TARGET = PowerLog
 DEFINES += POWERLOG_LIBRARY
 include(../../openpilotgcsplugin.pri)
@@ -7,5 +8,6 @@ HEADERS += powerlogplugin.h
 
 SOURCES += powerlogplugin.cpp
 
-OTHER_FILES += PowerLog.pluginspec
+OTHER_FILES += PowerLog.pluginspec \
+    PowerLog.json
 

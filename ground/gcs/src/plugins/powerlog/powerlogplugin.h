@@ -81,6 +81,7 @@ class PowerlogPlugin;
 class PowerlogThread : public QThread
 {
     Q_OBJECT
+    Q_PLUGIN_METADATA(IID "AboveGroundLabs.plugins.PowerLog" FILE "PowerLog.json")
 
 public:
     bool openFile(QString file, PowerlogPlugin * parent);

@@ -40,7 +40,7 @@
 #include "cfg_vehicletypes/configgroundvehiclewidget.h"
 #include "cfg_vehicletypes/vehicleconfig.h"
 
-#include <QtGui/QWidget>
+#include <QWidget>
 #include <QList>
 #include <QItemDelegate>
 

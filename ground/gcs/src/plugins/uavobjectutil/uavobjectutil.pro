@@ -1,4 +1,5 @@
 TEMPLATE = lib
+QT+=widgets
 TARGET = UAVObjectUtil
 DEFINES += UAVOBJECTUTIL_LIBRARY
 include(../../openpilotgcsplugin.pri)
@@ -12,4 +13,5 @@ HEADERS += uavobjectutil_global.h \
 SOURCES += uavobjectutilmanager.cpp \
     uavobjectutilplugin.cpp
 
-OTHER_FILES += UAVObjectUtil.pluginspec
+OTHER_FILES += UAVObjectUtil.pluginspec \
+    UAVObjectUtil.json

@@ -1,6 +1,6 @@
 TEMPLATE = lib 
 TARGET = EmptyGadget
-
+QT += widgets
 include(../../openpilotgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri) 
 
@@ -13,4 +13,5 @@ SOURCES += emptygadget.cpp
 SOURCES += emptygadgetfactory.cpp
 SOURCES += emptygadgetwidget.cpp
 
-OTHER_FILES += EmptyGadget.pluginspec
+OTHER_FILES += EmptyGadget.pluginspec \
+                EmptyGadget.json

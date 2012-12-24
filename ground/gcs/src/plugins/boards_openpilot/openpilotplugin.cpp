@@ -74,5 +74,3 @@ void OpenPilotPlugin::extensionsInitialized()
 void OpenPilotPlugin::shutdown()
 {
 }
-
-Q_EXPORT_PLUGIN(OpenPilotPlugin)
