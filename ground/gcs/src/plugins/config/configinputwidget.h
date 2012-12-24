@@ -42,6 +42,8 @@
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
 #include "uavobject.h"
+#include <QWidget>
+#include <QList>
 #include "inputchannelform.h"
 
 #include "accessorydesired.h"

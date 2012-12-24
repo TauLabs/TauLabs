@@ -34,6 +34,8 @@ class ScopeGadgetFactory;
 
 class ScopePlugin : public ExtensionSystem::IPlugin
 {
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "AboveGroundLabs.plugins.ScopeGadget" FILE "ScopeGadget.json")
 public:
     ScopePlugin();
     ~ScopePlugin();

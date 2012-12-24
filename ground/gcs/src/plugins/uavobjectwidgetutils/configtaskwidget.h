@@ -34,7 +34,7 @@
 #include "uavobject.h"
 #include "uavobjectutilmanager.h"
 #include <QQueue>
-#include <QtGui/QWidget>
+#include <QWidget>
 #include <QList>
 #include <QLabel>
 #include "smartsavebutton.h"

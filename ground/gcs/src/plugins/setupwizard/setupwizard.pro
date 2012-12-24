@@ -1,4 +1,3 @@
-
 TEMPLATE = lib 
 TARGET = SetupWizard 
 QT += svg
@@ -64,7 +63,8 @@ SOURCES += setupwizardplugin.cpp \
     pages/autoupdatepage.cpp \
     pages/biascalibrationpage.cpp
 
-OTHER_FILES += SetupWizard.pluginspec
+OTHER_FILES += SetupWizard.pluginspec \
+    SetupWizard.json
 
 FORMS += \
     pages/startpage.ui \

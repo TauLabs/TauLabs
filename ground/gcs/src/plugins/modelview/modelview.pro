@@ -17,7 +17,8 @@ SOURCES += modelviewplugin.cpp \
     modelviewgadgetfactory.cpp \
     modelviewgadgetwidget.cpp \
     modelviewgadgetoptionspage.cpp
-OTHER_FILES += ModelViewGadget.pluginspec
+OTHER_FILES += ModelViewGadget.pluginspec \
+    ModelViewGadget.json
 FORMS += modelviewoptionspage.ui
 
 RESOURCES += \

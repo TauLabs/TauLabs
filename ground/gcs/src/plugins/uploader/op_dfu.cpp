@@ -331,7 +331,7 @@ OP_DFU::Status DFUObject::UploadDescription(QVariant desc)
             padding.fill(' ',pad);
             description.append(padding);
         }
-        array=description.toAscii();
+        array=description.toLatin1();
 
     } else if (desc.type() == QVariant::ByteArray) {
         array = desc.toByteArray();

@@ -31,9 +31,9 @@
 #include <math.h>
 #include <QDebug>
 #include <QStringList>
-#include <QtGui/QWidget>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QPushButton>
+#include <QWidget>
+#include <QVBoxLayout>
+#include <QPushButton>
 
 // Message Codes
 #define NMEA_NODATA		0	// No data. Packet not available, bad, or not decoded
@@ -163,7 +163,7 @@ quint8 NMEAParser::nmeaProcess(cBuffer* rxBuffer)
                 if(bufferGetAtIndex(rxBuffer,0) == '$')
                 {
                         // found start
-                        startFlag = TRUE;
+                        startFlag = true;
                         // when start is found, we leave it intact in the receive buffer
                         // in case the full NMEA string is not completely received.  The
                         // start will be detected in the next nmeaProcess iteration.

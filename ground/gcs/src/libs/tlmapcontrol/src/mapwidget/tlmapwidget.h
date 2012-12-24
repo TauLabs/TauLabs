@@ -46,6 +46,8 @@
 #include "mapcircle.h"
 #include "waypointcurve.h"
 #include "waypointitem.h"
+#include <QGraphicsView>
+
 namespace mapcontrol
 {
     class UAVItem;

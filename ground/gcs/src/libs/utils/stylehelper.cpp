@@ -28,12 +28,12 @@
 
 #include "stylehelper.h"
 
-#include <QtGui/QPixmapCache>
-#include <QtGui/QWidget>
+#include <QPixmapCache>
+#include <QWidget>
 #include <QtCore/QRect>
-#include <QtGui/QPainter>
-#include <QtGui/QApplication>
-#include <QtGui/QPalette>
+#include <QPainter>
+#include <QApplication>
+#include <QPalette>
 
 // Clamps float color values within (0, 255)
 static int clamp(float x)

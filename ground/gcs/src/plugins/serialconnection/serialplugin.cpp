@@ -32,7 +32,7 @@
 #include <coreplugin/icore.h>
 
 #include <QtCore/QtPlugin>
-#include <QtGui/QMainWindow>
+#include <QMainWindow>
 
 #include <QDebug>
 
@@ -303,5 +303,3 @@ bool SerialPlugin::initialize(const QStringList &arguments, QString *errorString
     addObject(m_connection->Optionspage());
     return true;
 }
-
-Q_EXPORT_PLUGIN(SerialPlugin)

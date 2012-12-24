@@ -23,7 +23,7 @@
 #include <qpainter.h>
 #include <qpaintengine.h>
 #include <qtransform.h>
-#include <qprinter.h>
+#include <QtPrintSupport/QPrinter>
 #include <qstyle.h>
 #include <qstyleoption.h>
 #include <qimagewriter.h>
@@ -247,7 +247,7 @@ void QwtPlotRenderer::renderDocument( QwtPlot *plot,
         printer.setDocName( title );
         printer.setOutputFileName( fileName );
         printer.setOutputFormat( ( format == "pdf" )
-            ? QPrinter::PdfFormat : QPrinter::PostScriptFormat );
+            ? QPrinter::PdfFormat : QPrinter::NativeFormat );
         printer.setResolution( resolution );
 
         QPainter painter( &printer );
