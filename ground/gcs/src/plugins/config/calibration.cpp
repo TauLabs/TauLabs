@@ -34,6 +34,22 @@
 #include "attitudesettings.h"
 #include "inertialsensorsettings.h"
 
+#include <Eigen/Core>
+#include <Eigen/Cholesky>
+#include <Eigen/SVD>
+#include <Eigen/QR>
+#include <cstdlib>
+
+#if defined(__APPLE__) || defined(_WIN32)
+  // Qt bug work around
+  #ifndef isnan
+    extern "C" int isnan(double);
+  #endif
+  #ifndef isinf
+    extern "C" int isinf(double);
+  #endif
+#endif
+
 class Thread : public QThread
 {
 public:
@@ -280,7 +296,7 @@ void Calibration::dataUpdated(UAVObject * obj) {
         }
         break;
     case GYRO_TEMP_CAL:
-        if (storeTempCalMeasurement()) {
+        if (storeTempCalMeasurement(obj)) {
             connectSensor(GYRO, false);
 
             calibration_state = IDLE;
@@ -337,6 +353,12 @@ void Calibration::timeout() {
         calibration_state = IDLE;
         emit showSixPointMessage(tr("Six point data collection timed out"));
         emit sixPointProgressChanged(0);
+        break;
+    case GYRO_TEMP_CAL:
+        connectSensor(GYRO, false);
+        calibration_state = IDLE;
+        emit showTempCalMessage(tr("Temperature calibration timed out"));
+        emit tempCalProgressChanged(0);
         break;
     }
 
@@ -585,7 +607,7 @@ void Calibration::doStartTempCal()
 
     // Set up timeout timer
     timer.setSingleShot(true);
-    timer.start(5000 + (NUM_SENSOR_UPDATES * SENSOR_UPDATE_PERIOD));
+    timer.start(5000 + (2 * NUM_SENSOR_UPDATES * SENSOR_UPDATE_PERIOD));
     connect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
 }
 
@@ -783,7 +805,7 @@ bool Calibration::storeTempCalMeasurement(UAVObject * obj)
         gyro_accum_x.append(gyrosData.x);
         gyro_accum_y.append(gyrosData.y);
         gyro_accum_z.append(gyrosData.z);
-        gyro_accum_temp.append(gyroData.temperature)
+        gyro_accum_temp.append(gyrosData.temperature);
     }
 
     emit tempCalProgressChanged((float) gyro_accum_x.size() / NUM_SENSOR_UPDATES_SIX_POINT * 100);
@@ -801,15 +823,38 @@ bool Calibration::storeTempCalMeasurement(UAVObject * obj)
  * of the temperature data and each gyro channel
  * @return
  */
-int Calibration::computeTempCal(UAVObject *)
+int Calibration::computeTempCal()
 {
-    // convert to a format Eigen likes
-    for (int i = 0; i < gyro_accum_temp.size(); i++) {
-        // x(i,:) = [1 gyro_accum_temp[i] pow(gyro_accum_temp,2) pow(gyro_accum_temp,3) pow(gyro_accum_temp,4)];
-        // y(i,:) = [gyro_accum_x[i] gyro_accum_y[i] gyro_accum_z[i]];
+    unsigned int n_samples = gyro_accum_temp.size();
+
+    // Construct the matrix of temperature.
+    Eigen::Matrix<double, Eigen::Dynamic, 4> X(n_samples, 4);
+
+    // And the matrix of gyro samples.
+    Eigen::Matrix<double, Eigen::Dynamic, 3> Y(n_samples, 3);
+
+    for (unsigned i = 0; i < n_samples; ++i) {
+        X(i,0) = 1;
+        X(i,1) = gyro_accum_temp[i];
+        X(i,2) = pow(gyro_accum_temp[i],2);
+        X(i,3) = pow(gyro_accum_temp[i],3);
+        Y(i,0) = gyro_accum_x[i];
+        Y(i,1) = gyro_accum_y[i];
+        Y(i,2) = gyro_accum_z[i];
     }
 
-    // B = y \ x;
+    // Solve Y = X * B
+
+    Eigen::Matrix<double, 4, 3> result;
+    // Use the cholesky-based Penrose pseudoinverse method.
+    (X.transpose() * X).ldlt().solve(X.transpose()*Y, &result);
+
+    //qDebug() << "Solution" << result;
+    qDebug() << "Solution: ";
+    qDebug() << "[" << result(0,0) << " " << result(0,1) << " " << result(0,2) << "]";
+    qDebug() << "[" << result(1,0) << " " << result(1,1) << " " << result(1,2) << "]";
+    qDebug() << "[" << result(2,0) << " " << result(2,1) << " " << result(2,2) << "]";
+    qDebug() << "[" << result(3,0) << " " << result(3,1) << " " << result(3,2) << "]";
 
     return CALIBRATION_SUCCESS;
 }
