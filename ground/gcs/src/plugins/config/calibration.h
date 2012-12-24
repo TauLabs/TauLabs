@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       calibration.h
- * @author     The PhoenixPilo Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     The PhoenixPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @brief      Gui-less support class for calibration
  *****************************************************************************/
 /*
@@ -50,7 +50,8 @@ private:
         SIX_POINT_WAIT3, SIX_POINT_COLLECT3,
         SIX_POINT_WAIT4, SIX_POINT_COLLECT4,
         SIX_POINT_WAIT5, SIX_POINT_COLLECT5,
-        SIX_POINT_WAIT6, SIX_POINT_COLLECT6
+        SIX_POINT_WAIT6, SIX_POINT_COLLECT6,
+        GYRO_TEMP_CAL
     } calibration_state;
 
 public slots:
@@ -65,6 +66,9 @@ public slots:
 
     //! Indicates UAV is in a position to collect data during 6pt calibration
     void doSaveSixPointPosition();
+
+    //! Start collecting gyro calibration data
+    void doStartTempCal();
 
 private slots:
     //! New data acquired
@@ -95,6 +99,12 @@ signals:
     //! Indicate what the progress is for six point collection
     void sixPointProgressChanged(int);
 
+    //! Show an instruction or message from temperature calibration
+    void showTempCalMessage(QString message);
+
+    //! Indicate what the progress is for leveling
+    void tempCalProgressChanged(int);
+
 private:
     QTimer timer;
 
@@ -116,6 +126,7 @@ private:
     QList<double> gyro_accum_x;
     QList<double> gyro_accum_y;
     QList<double> gyro_accum_z;
+    QList<double> gyro_accum_temp;
     QList<double> accel_accum_x;
     QList<double> accel_accum_y;
     QList<double> accel_accum_z;
@@ -170,6 +181,12 @@ protected:
 
     //! Reset sensor settings to pre-calibration values
     void resetSensorCalibrationToOriginalValues();
+
+    //! Store a sample for temperature compensation
+    bool storeTempCalMeasurement(UAVObject *obj);
+
+    //! Compute temperature compensation factors
+    int computeTempCal();
 
 };
 

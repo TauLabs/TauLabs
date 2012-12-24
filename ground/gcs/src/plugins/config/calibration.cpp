@@ -34,7 +34,6 @@
 #include "attitudesettings.h"
 #include "inertialsensorsettings.h"
 
-
 class Thread : public QThread
 {
 public:
@@ -280,6 +279,20 @@ void Calibration::dataUpdated(UAVObject * obj) {
             }
         }
         break;
+    case GYRO_TEMP_CAL:
+        if (storeTempCalMeasurement()) {
+            connectSensor(GYRO, false);
+
+            calibration_state = IDLE;
+            emit toggleControls(true);
+
+            int ret = computeTempCal();
+            if (ret == CALIBRATION_SUCCESS) {
+                emit showTempCalMessage(tr("Temperature compensation calibration succeeded"));
+            } else {
+                emit showTempCalMessage(tr("Temperature compensation calibration succeeded"));
+            }
+        }
     }
 
 }
@@ -545,6 +558,37 @@ void Calibration::doSaveSixPointPosition()
     connect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
 }
 
+/**
+ * Start collecting gyro calibration data
+ */
+void Calibration::doStartTempCal()
+{
+    gyro_accum_x.clear();
+    gyro_accum_y.clear();
+    gyro_accum_z.clear();
+    gyro_accum_temp.clear();
+
+    // Disable gyro bias correction to see raw data
+    AttitudeSettings *attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
+    Q_ASSERT(attitudeSettings);
+    AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
+    attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_FALSE;
+    attitudeSettings->setData(attitudeSettingsData);
+
+    calibration_state = GYRO_TEMP_CAL;
+
+    // Connect to the sensor updates and speed them up
+    connectSensor(GYRO, true);
+
+    emit toggleControls(false);
+    emit showTempCalMessage(tr("Leave board flat and very still while it changes temperature"));
+
+    // Set up timeout timer
+    timer.setSingleShot(true);
+    timer.start(5000 + (NUM_SENSOR_UPDATES * SENSOR_UPDATE_PERIOD));
+    connect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
+}
+
 
 /**
  * @brief Calibration::storedLevelingMeasurement Store a measurement and if there
@@ -724,6 +768,50 @@ bool Calibration::storeSixPointMeasurement(UAVObject * obj, int position)
         return true;
     }
     return false;
+}
+
+/**
+  * Grab a sample of gyro data with the temperautre
+  * @return true If enough data is averaged at this position
+  */
+bool Calibration::storeTempCalMeasurement(UAVObject * obj)
+{
+    if (obj->getObjID() == Gyros::OBJID) {
+        Gyros *gyros = Gyros::GetInstance(getObjectManager());
+        Q_ASSERT(gyros);
+        Gyros::DataFields gyrosData = gyros->getData();
+        gyro_accum_x.append(gyrosData.x);
+        gyro_accum_y.append(gyrosData.y);
+        gyro_accum_z.append(gyrosData.z);
+        gyro_accum_temp.append(gyroData.temperature)
+    }
+
+    emit tempCalProgressChanged((float) gyro_accum_x.size() / NUM_SENSOR_UPDATES_SIX_POINT * 100);
+
+    // If enough data is collected, average it for this position
+    if(gyro_accum_x.size() >= NUM_SENSOR_UPDATES_SIX_POINT) {
+        return true;
+    }
+
+    return false;
+}
+
+/**
+ * @brief Calibration::tempCalProgressChanged Compute a polynominal fit to all
+ * of the temperature data and each gyro channel
+ * @return
+ */
+int Calibration::computeTempCal(UAVObject *)
+{
+    // convert to a format Eigen likes
+    for (int i = 0; i < gyro_accum_temp.size(); i++) {
+        // x(i,:) = [1 gyro_accum_temp[i] pow(gyro_accum_temp,2) pow(gyro_accum_temp,3) pow(gyro_accum_temp,4)];
+        // y(i,:) = [gyro_accum_x[i] gyro_accum_y[i] gyro_accum_z[i]];
+    }
+
+    // B = y \ x;
+
+    return CALIBRATION_SUCCESS;
 }
 
 /**
