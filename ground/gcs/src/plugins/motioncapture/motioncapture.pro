@@ -23,7 +23,8 @@ SOURCES += mocapplugin.cpp \
     mocapnoisegeneration.cpp \
     exporter.cpp \
     natnet.cpp
-OTHER_FILES += motioncapture.pluginspec
+OTHER_FILES += motioncapture.pluginspec \
+    motioncapture.json
 FORMS += mocapoptionspage.ui \
     mocapwidget.ui
 RESOURCES += mocapresources.qrc

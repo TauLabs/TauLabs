@@ -40,7 +40,7 @@
 #include <QtCore/QStringList>
 #include <QtCore/QSettings>
 #include <QtCore/QDebug>
-#include <QtGui/QMessageBox>
+#include <QMessageBox>
 
 
 using namespace Core;

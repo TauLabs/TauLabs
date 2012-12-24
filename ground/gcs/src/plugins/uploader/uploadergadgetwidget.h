@@ -46,7 +46,7 @@
 #include "coreplugin/connectionmanager.h"
 
 #include "rawhid/rawhidplugin.h"
-#include <QtGui/QWidget>
+#include <QWidget>
 #include <QLabel>
 #include <QLineEdit>
 #include <QThread>

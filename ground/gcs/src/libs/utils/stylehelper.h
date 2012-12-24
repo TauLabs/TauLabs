@@ -31,7 +31,7 @@
 
 #include "utils_global.h"
 
-#include <QtGui/QColor>
+#include <QColor>
 
 QT_BEGIN_NAMESPACE
 class QPalette;

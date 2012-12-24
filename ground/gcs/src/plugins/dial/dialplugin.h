@@ -35,6 +35,9 @@ class DialGadgetFactory;
 
 class DialPlugin : public ExtensionSystem::IPlugin
 {
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "AboveGroundLabs.plugins.DialPlugin" FILE "DialGadget.json")
+
 public:
    DialPlugin();
    ~DialPlugin();

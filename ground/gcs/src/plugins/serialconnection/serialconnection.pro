@@ -1,5 +1,7 @@
 TEMPLATE = lib
 TARGET = Serial
+QT += widgets
+
 include(../../taulabsgcsplugin.pri)
 include(serial_dependencies.pri)
 INCLUDEPATH *= ../../libs/qextserialport/src
@@ -14,4 +16,5 @@ SOURCES += serialplugin.cpp \
 FORMS += \ 
     serialpluginoptions.ui
 RESOURCES += 
-OTHER_FILES += Serial.pluginspec
+OTHER_FILES += Serial.pluginspec \
+    Serial.json

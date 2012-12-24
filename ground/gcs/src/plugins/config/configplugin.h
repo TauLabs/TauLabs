@@ -43,6 +43,7 @@ class ConfigGadgetFactory;
 class ConfigPlugin : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
+    Q_PLUGIN_METADATA(IID "AboveGroundLabs.Config." FILE "Config.json")
 
 public:
     ConfigPlugin();

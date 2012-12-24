@@ -34,6 +34,8 @@ class SystemHealthGadgetFactory;
 
 class SystemHealthPlugin : public ExtensionSystem::IPlugin
 {
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "AboveGroundLabs.plugins.SystemHealthGadget" FILE "SystemHealthGadget.json")
 public:
         SystemHealthPlugin();
         ~SystemHealthPlugin();

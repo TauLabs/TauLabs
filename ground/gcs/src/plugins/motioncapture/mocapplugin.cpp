@@ -66,5 +66,4 @@ void MoCapPlugin::shutdown()
 {
    // Do nothing
 }
-Q_EXPORT_PLUGIN(MoCapPlugin)
 

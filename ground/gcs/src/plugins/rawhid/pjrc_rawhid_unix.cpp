@@ -294,7 +294,7 @@ QString pjrc_rawhid::getserial(int num)
         return "";
     }
 
-    return QString().fromAscii((char*)buf,-1);
+    return QString().fromLatin1((char*)buf,-1);
 }
 
 //  close - close a device

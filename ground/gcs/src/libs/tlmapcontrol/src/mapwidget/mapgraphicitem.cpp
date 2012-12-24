@@ -29,6 +29,7 @@
 #include "gpsitem.h"
 #include "homeitem.h"
 #include "mapgraphicitem.h"
+#include <QGraphicsSceneMouseEvent>
 
 namespace mapcontrol
 {
