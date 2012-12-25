@@ -174,20 +174,15 @@ uint32_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 #define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
-uint32_t pios_com_debug_id;
-#endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
-
-#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
-#define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
-uint32_t pios_com_debug_id;
+uintptr_t pios_com_debug_id;
 #endif /* PIOS_INCLUDE_DEBUG_CONSOLE */
 
-uint32_t pios_com_aux_id = 0;
-uint32_t pios_com_gps_id = 0;
-uint32_t pios_com_telem_usb_id = 0;
-uint32_t pios_com_telem_rf_id = 0;
-uint32_t pios_com_bridge_id = 0;
-uint32_t pios_com_overo_id = 0;
+uintptr_t pios_com_aux_id = 0;
+uintptr_t pios_com_gps_id = 0;
+uintptr_t pios_com_telem_usb_id = 0;
+uintptr_t pios_com_telem_rf_id = 0;
+uintptr_t pios_com_bridge_id = 0;
+uintptr_t pios_com_overo_id = 0;
 
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. tx size of -1 make the port rx only
