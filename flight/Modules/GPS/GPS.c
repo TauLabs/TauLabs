@@ -39,7 +39,6 @@
 #include "gpstime.h"
 #include "gpssatellites.h"
 #include "gpsvelocity.h"
-#include "systemsettings.h"
 #include "WorldMagModel.h"
 #include "CoordinateConversions.h"
 #include "modulesettings.h"
@@ -172,13 +171,13 @@ int32_t GPSInitialize(void)
 #endif
 
 	if (gpsPort && module_enabled) {
-		SystemSettingsInitialize();
-		SystemSettingsGPSDataProtocolGet(&gpsProtocol);
+		ModuleSettingsInitialize();
+		ModuleSettingsGPSDataProtocolGet(&gpsProtocol);
 		switch (gpsProtocol) {
-			case SYSTEMSETTINGS_GPSDATAPROTOCOL_NMEA:
+			case MODULESETTINGS_GPSDATAPROTOCOL_NMEA:
 				gps_rx_buffer = pvPortMalloc(NMEA_MAX_PACKET_LENGTH);
 				break;
-			case SYSTEMSETTINGS_GPSDATAPROTOCOL_UBX:
+			case MODULESETTINGS_GPSDATAPROTOCOL_UBX:
 				gps_rx_buffer = pvPortMalloc(sizeof(struct UBXPacket));
 				break;
 			default:
@@ -207,7 +206,7 @@ static void gpsTask(void *parameters)
 	GPSPositionData gpsposition;
 	uint8_t	gpsProtocol;
 
-	SystemSettingsGPSDataProtocolGet(&gpsProtocol);
+	ModuleSettingsGPSDataProtocolGet(&gpsProtocol);
 
 #if defined(PIOS_GPS_PROVIDES_AIRSPEED)
 	gps_airspeed_initialize();
@@ -228,12 +227,12 @@ static void gpsTask(void *parameters)
 			int res;
 			switch (gpsProtocol) {
 #if defined(PIOS_INCLUDE_GPS_NMEA_PARSER)
-				case SYSTEMSETTINGS_GPSDATAPROTOCOL_NMEA:
+				case MODULESETTINGS_GPSDATAPROTOCOL_NMEA:
 					res = parse_nmea_stream (c,gps_rx_buffer, &gpsposition, &gpsRxStats);
 					break;
 #endif
 #if defined(PIOS_INCLUDE_GPS_UBX_PARSER)
-				case SYSTEMSETTINGS_GPSDATAPROTOCOL_UBX:
+				case MODULESETTINGS_GPSDATAPROTOCOL_UBX:
 					res = parse_ubx_stream (c,gps_rx_buffer, &gpsposition, &gpsRxStats);
 					break;
 #endif
