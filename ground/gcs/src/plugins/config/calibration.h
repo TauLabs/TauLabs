@@ -145,6 +145,8 @@ private:
     static const int NUM_SENSOR_UPDATES_SIX_POINT = 500;
     static const int SENSOR_UPDATE_PERIOD = 50;
 
+    static const double MIN_TEMPERATURE_RANGE = 10;
+
     double initialBoardRotation[3];
     double initialAccelsScale[3];
     double initialAccelsBias[3];
@@ -185,6 +187,12 @@ protected:
     //! Compute the mean value of a list
     static double listMean(QList<double> list);
 
+    //! Compute the min value of a list
+    static double listMin(QList<double> list);
+
+    //! Compute the max value of a list
+    static double listMax(QList<double> list);
+
     //! Reset sensor settings to pre-calibration values
     void resetSensorCalibrationToOriginalValues();
 
@@ -193,6 +201,9 @@ protected:
 
     //! Compute temperature compensation factors
     int computeTempCal();
+
+    //! Update the graphs with the temperature compensation
+    void updateTempCompCalibrationDisplay();
 
 };
 

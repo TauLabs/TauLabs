@@ -54,7 +54,6 @@ void TempCompCurve::plotData(QList<double> temp, QList<double> gyro, QList <doub
     // TODO: Keep the curves and free them in the destructors
     const int STEPS = 100;
 
-    qDebug() << "Plotting data";
     points.clear();
     fit.clear();
 

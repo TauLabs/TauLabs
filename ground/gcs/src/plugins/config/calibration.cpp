@@ -836,14 +836,75 @@ bool Calibration::storeTempCalMeasurement(UAVObject * obj)
         gyro_accum_temp.append(gyrosData.temperature);
     }
 
-    emit tempCalProgressChanged((float) gyro_accum_x.size() / NUM_SENSOR_UPDATES_SIX_POINT * 100);
+    double range = listMax(gyro_accum_temp) - listMin(gyro_accum_temp);
+    emit tempCalProgressChanged((float) range / MIN_TEMPERATURE_RANGE * 100);
+
+    if ((gyro_accum_temp.size() % 10) == 0) {
+        updateTempCompCalibrationDisplay();
+    }
 
     // If enough data is collected, average it for this position
-    if(gyro_accum_x.size() >= NUM_SENSOR_UPDATES_SIX_POINT) {
+    if(range >= MIN_TEMPERATURE_RANGE) {
         return true;
     }
 
     return false;
+}
+
+/**
+ * @brief Calibration::updateTempCompCalibrationDisplay
+ */
+void Calibration::updateTempCompCalibrationDisplay()
+{
+    qDebug() << "Update display";
+    unsigned int n_samples = gyro_accum_temp.size();
+
+    // Construct the matrix of temperature.
+    Eigen::Matrix<double, Eigen::Dynamic, 4> X(n_samples, 4);
+
+    // And the matrix of gyro samples.
+    Eigen::Matrix<double, Eigen::Dynamic, 3> Y(n_samples, 3);
+
+    for (unsigned i = 0; i < n_samples; ++i) {
+        X(i,0) = 1;
+        X(i,1) = gyro_accum_temp[i];
+        X(i,2) = pow(gyro_accum_temp[i],2);
+        X(i,3) = pow(gyro_accum_temp[i],3);
+        Y(i,0) = gyro_accum_x[i];
+        Y(i,1) = gyro_accum_y[i];
+        Y(i,2) = gyro_accum_z[i];
+    }
+
+    // Solve Y = X * B
+
+    Eigen::Matrix<double, 4, 3> result;
+    // Use the cholesky-based Penrose pseudoinverse method.
+    (X.transpose() * X).ldlt().solve(X.transpose()*Y, &result);
+
+    QList<double> xCoeffs, yCoeffs, zCoeffs;
+    xCoeffs.clear();
+    xCoeffs.append(result(0,0));
+    xCoeffs.append(result(1,0));
+    xCoeffs.append(result(2,0));
+    xCoeffs.append(result(3,0));
+    yCoeffs.clear();
+    yCoeffs.append(result(0,1));
+    yCoeffs.append(result(1,1));
+    yCoeffs.append(result(2,1));
+    yCoeffs.append(result(3,1));
+    zCoeffs.clear();
+    zCoeffs.append(result(0,2));
+    zCoeffs.append(result(1,2));
+    zCoeffs.append(result(2,2));
+    zCoeffs.append(result(3,2));
+
+    if (xCurve != NULL)
+        xCurve->plotData(gyro_accum_temp, gyro_accum_x, xCoeffs);
+    if (yCurve != NULL)
+        yCurve->plotData(gyro_accum_temp, gyro_accum_y, yCoeffs);
+    if (zCurve != NULL)
+        zCurve->plotData(gyro_accum_temp, gyro_accum_z, zCoeffs);
+
 }
 
 /**
@@ -951,6 +1012,32 @@ double Calibration::listMean(QList<double> list)
     for(int i = 0; i < list.size(); i++)
         accum += list[i];
     return accum / list.size();
+}
+
+/**
+ * Utility function which calculates the Mean value of a list of values
+ * @param list list of double values
+ * @returns Mean value of the list of parameter values
+ */
+double Calibration::listMin(QList<double> list)
+{
+    double min = list[0];
+    for(int i = 0; i < list.size(); i++)
+        min = qMin(min, list[i]);
+    return min;
+}
+
+/**
+ * Utility function which calculates the Mean value of a list of values
+ * @param list list of double values
+ * @returns Mean value of the list of parameter values
+ */
+double Calibration::listMax(QList<double> list)
+{
+    double max = list[0];
+    for(int i = 0; i < list.size(); i++)
+        max = qMax(max, list[i]);
+    return max;
 }
 
 /**
