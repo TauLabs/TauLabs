@@ -375,9 +375,9 @@ static void simulateModelQuadcopter()
 
 	temperature += rand_gauss() * 0.1;
 	GyrosData gyrosData; // Skip get as we set all the fields
-	gyrosData.x = rpy[0] + rand_gauss() + (temperature - 20) * 1;
-	gyrosData.y = rpy[1] + rand_gauss() + (temperature - 20) * 1;
-	gyrosData.z = rpy[2] + rand_gauss() + (temperature - 20) * 1;
+	gyrosData.x = rpy[0] + rand_gauss() + (temperature - 20) * 1 + powf(temperature - 20,2) * 0.11; // - powf(temperature - 20,3) * 0.05;;
+	gyrosData.y = rpy[1] + rand_gauss() + (temperature - 20) * 1 + powf(temperature - 20,2) * 0.11;;
+	gyrosData.z = rpy[2] + rand_gauss() + (temperature - 20) * 1 + powf(temperature - 20,2) * 0.11;;
 	gyrosData.temperature = temperature;
 	GyrosSet(&gyrosData);
 	

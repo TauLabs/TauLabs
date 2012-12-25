@@ -697,9 +697,18 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
         rotate_vector(Rsb, gyro_sensor, gyro_newbody, false);
 
         // Store these new biases
-        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_X] = gyro_newbody[0];
-        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_Y] = gyro_newbody[1];
-        inertialSensorSettingsData.InitialGyroBias[InertialSensorSettings::INITIALGYROBIAS_Z] = gyro_newbody[2];
+        inertialSensorSettingsData.XGyroTempCoeff[0] = gyro_newbody[0];
+        inertialSensorSettingsData.XGyroTempCoeff[1] = 0;
+        inertialSensorSettingsData.XGyroTempCoeff[2] = 0;
+        inertialSensorSettingsData.XGyroTempCoeff[3] = 0;
+        inertialSensorSettingsData.YGyroTempCoeff[0] = gyro_newbody[1];
+        inertialSensorSettingsData.YGyroTempCoeff[1] = 0;
+        inertialSensorSettingsData.YGyroTempCoeff[2] = 0;
+        inertialSensorSettingsData.YGyroTempCoeff[3] = 0;
+        inertialSensorSettingsData.ZGyroTempCoeff[0] = gyro_newbody[2];
+        inertialSensorSettingsData.ZGyroTempCoeff[1] = 0;
+        inertialSensorSettingsData.ZGyroTempCoeff[2] = 0;
+        inertialSensorSettingsData.ZGyroTempCoeff[3] = 0;
         InertialSensorSettings::GetInstance(getObjectManager())->setData(inertialSensorSettingsData);
 
         // We offset the gyro bias by current bias to help precision
@@ -871,6 +880,24 @@ int Calibration::computeTempCal()
     qDebug() << "[" << result(1,0) << " " << result(1,1) << " " << result(1,2) << "]";
     qDebug() << "[" << result(2,0) << " " << result(2,1) << " " << result(2,2) << "]";
     qDebug() << "[" << result(3,0) << " " << result(3,1) << " " << result(3,2) << "]";
+
+    // Store the results
+    InertialSensorSettings * inertialSensorSettings = InertialSensorSettings::GetInstance(getObjectManager());
+    Q_ASSERT(inertialSensorSettings);
+    InertialSensorSettings::DataFields inertialSensorSettingsData = inertialSensorSettings->getData();
+    inertialSensorSettingsData.XGyroTempCoeff[0] = result(0,0);
+    inertialSensorSettingsData.XGyroTempCoeff[1] = result(1,0);
+    inertialSensorSettingsData.XGyroTempCoeff[2] = result(2,0);
+    inertialSensorSettingsData.XGyroTempCoeff[3] = result(3,0);
+    inertialSensorSettingsData.YGyroTempCoeff[0] = result(0,1);
+    inertialSensorSettingsData.YGyroTempCoeff[1] = result(1,1);
+    inertialSensorSettingsData.YGyroTempCoeff[2] = result(2,1);
+    inertialSensorSettingsData.YGyroTempCoeff[3] = result(3,1);
+    inertialSensorSettingsData.ZGyroTempCoeff[0] = result(0,2);
+    inertialSensorSettingsData.ZGyroTempCoeff[1] = result(1,2);
+    inertialSensorSettingsData.ZGyroTempCoeff[2] = result(2,2);
+    inertialSensorSettingsData.ZGyroTempCoeff[3] = result(3,2);
+    inertialSensorSettings->setData(inertialSensorSettingsData);
 
     QList<double> xCoeffs, yCoeffs, zCoeffs;
     xCoeffs.clear();
