@@ -1,0 +1,38 @@
+<xml>
+	<object name="ModuleSettings" singleinstance="true" settings="true">
+		<description>Optional module enable/disable configuration.</description>
+		<field name="State" units="" type="enum" options="Disabled,Enabled" defaultvalue="Disabled">
+			<elementnames>
+				<elementname>Airspeed</elementname>
+				<elementname>Altitude</elementname>
+				<elementname>Autotune</elementname>
+				<elementname>Battery</elementname>
+				<elementname>CameraStab</elementname>
+				<elementname>ComUsbBridge</elementname>
+				<elementname>FixedWingPathFollower</elementname>
+				<elementname>Fault</elementname>
+				<elementname>GPS</elementname>
+				<elementname>OveroSync</elementname>
+				<elementname>Radio</elementname>
+				<elementname>TxPID</elementname>
+				<elementname>VtolPathFollower</elementname>
+			</elementnames>
+		</field>
+
+		<!-- Telemetry Module Settings -->
+		<field name="TelemetrySpeed" units="bps" type="enum" elements="1" options="2400,4800,9600,19200,38400,57600,115200" defaultvalue="57600"/>
+
+		<!-- GPS Module Settings -->
+		<field name="GPSSpeed" units="bps" type="enum" elements="1" options="2400,4800,9600,19200,38400,57600,115200" defaultvalue="57600"/>
+		<field name="GPSDataProtocol" units="" type="enum" elements="1" options="NMEA,UBX" defaultvalue="UBX"/>
+
+
+		<!-- ComUsbBridge Module Settings -->
+		<field name="ComUsbBridgeSpeed" units="bps" type="enum" elements="1" options="2400,4800,9600,19200,38400,57600,115200" defaultvalue="57600"/>
+
+		<access gcs="readwrite" flight="readonly"/>
+		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+		<telemetryflight acked="true" updatemode="onchange" period="0"/>
+		<logging updatemode="manual" period="0"/>
+	</object>
+</xml>

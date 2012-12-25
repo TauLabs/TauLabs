@@ -426,7 +426,7 @@ arming it in that case!</string>
        <widget class="QComboBox" name="accelRange">
         <property name="objrelation" stdset="0">
          <stringlist>
-          <string>objname:HwSettings</string>
+          <string>objname:HwCopterControl</string>
           <string>fieldname:AccelRange</string>
          </stringlist>
         </property>
@@ -436,7 +436,7 @@ arming it in that case!</string>
        <widget class="QComboBox" name="gyroRange">
         <property name="objrelation" stdset="0">
          <stringlist>
-          <string>objname:HwSettings</string>
+          <string>objname:HwCopterControl</string>
           <string>fieldname:GyroRange</string>
          </stringlist>
         </property>

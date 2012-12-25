@@ -33,7 +33,7 @@
 #include "openpilot.h"
 #include "flighttelemetrystats.h"
 #include "gcstelemetrystats.h"
-#include "hwsettings.h"
+#include "modulesettings.h"
 #if defined(PIOS_PACKET_HANDLER)
 #include "pipxstatus.h"
 #include "packet_handler.h"
@@ -142,7 +142,7 @@ int32_t TelemetryInitialize(void)
 
 	// Update telemetry settings
 	telemetryPort = PIOS_COM_TELEM_RF;
-	HwSettingsInitialize();
+	ModuleSettingsInitialize();
 	updateSettings();
     
 	// Initialise UAVTalk
@@ -532,7 +532,7 @@ static void updateTelemetryStats()
  * Update the telemetry settings, called on startup.
  * FIXME: This should be in the TelemetrySettings object. But objects
  * have too much overhead yet. Also the telemetry has no any specific
- * settings, etc. Thus the HwSettings object which contains the
+ * settings, etc. Thus the ModuleSettings object which contains the
  * telemetry port speed is used for now.
  */
 static void updateSettings()
@@ -541,29 +541,29 @@ static void updateSettings()
 	if (telemetryPort) {
 		// Retrieve settings
 		uint8_t speed;
-		HwSettingsTelemetrySpeedGet(&speed);
+		ModuleSettingsTelemetrySpeedGet(&speed);
 
 		// Set port speed
 		switch (speed) {
-		case HWSETTINGS_TELEMETRYSPEED_2400:
+		case MODULESETTINGS_TELEMETRYSPEED_2400:
 			PIOS_COM_ChangeBaud(telemetryPort, 2400);
 			break;
-		case HWSETTINGS_TELEMETRYSPEED_4800:
+		case MODULESETTINGS_TELEMETRYSPEED_4800:
 			PIOS_COM_ChangeBaud(telemetryPort, 4800);
 			break;
-		case HWSETTINGS_TELEMETRYSPEED_9600:
+		case MODULESETTINGS_TELEMETRYSPEED_9600:
 			PIOS_COM_ChangeBaud(telemetryPort, 9600);
 			break;
-		case HWSETTINGS_TELEMETRYSPEED_19200:
+		case MODULESETTINGS_TELEMETRYSPEED_19200:
 			PIOS_COM_ChangeBaud(telemetryPort, 19200);
 			break;
-		case HWSETTINGS_TELEMETRYSPEED_38400:
+		case MODULESETTINGS_TELEMETRYSPEED_38400:
 			PIOS_COM_ChangeBaud(telemetryPort, 38400);
 			break;
-		case HWSETTINGS_TELEMETRYSPEED_57600:
+		case MODULESETTINGS_TELEMETRYSPEED_57600:
 			PIOS_COM_ChangeBaud(telemetryPort, 57600);
 			break;
-		case HWSETTINGS_TELEMETRYSPEED_115200:
+		case MODULESETTINGS_TELEMETRYSPEED_115200:
 			PIOS_COM_ChangeBaud(telemetryPort, 115200);
 			break;
 		}

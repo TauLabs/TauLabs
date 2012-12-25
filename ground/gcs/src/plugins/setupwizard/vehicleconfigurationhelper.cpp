@@ -27,7 +27,7 @@
 
 #include "vehicleconfigurationhelper.h"
 #include "extensionsystem/pluginmanager.h"
-#include "hwsettings.h"
+#include "hwcoptercontrol.h"
 #include "actuatorsettings.h"
 #include "inertialsensorsettings.h"
 #include "mixersettings.h"
@@ -101,40 +101,40 @@ void VehicleConfigurationHelper::clearModifiedObjects()
 
 void VehicleConfigurationHelper::applyHardwareConfiguration()
 {
-    HwSettings* hwSettings = HwSettings::GetInstance(m_uavoManager);
-    HwSettings::DataFields data = hwSettings->getData();
+    HwCopterControl* hwCopterControl = HwCopterControl::GetInstance(m_uavoManager);
+    HwCopterControl::DataFields data = hwCopterControl->getData();
     switch(m_configSource->getControllerType())
     {
         case VehicleConfigurationSource::CONTROLLER_CC:
         case VehicleConfigurationSource::CONTROLLER_CC3D:
             // Reset all ports
-            data.CC_RcvrPort = HwSettings::CC_RCVRPORT_DISABLED;
+            data.RcvrPort = HwCopterControl::RCVRPORT_DISABLED;
 
             //Default mainport to be active telemetry link
-            data.CC_MainPort = HwSettings::CC_MAINPORT_TELEMETRY;
+            data.MainPort = HwCopterControl::MAINPORT_TELEMETRY;
 
-            data.CC_FlexiPort = HwSettings::CC_FLEXIPORT_DISABLED;
+            data.FlexiPort = HwCopterControl::FLEXIPORT_DISABLED;
             switch(m_configSource->getInputType())
             {
                 case VehicleConfigurationSource::INPUT_PWM:
-                    data.CC_RcvrPort = HwSettings::CC_RCVRPORT_PWM;
+                    data.RcvrPort = HwCopterControl::RCVRPORT_PWM;
                     break;
                 case VehicleConfigurationSource::INPUT_PPM:
-                    data.CC_RcvrPort = HwSettings::CC_RCVRPORT_PPM;
+                    data.RcvrPort = HwCopterControl::RCVRPORT_PPM;
                     break;
                 case VehicleConfigurationSource::INPUT_SBUS:
                     // We have to set teletry on flexport since s.bus needs the mainport.
-                    data.CC_MainPort = HwSettings::CC_MAINPORT_SBUS;
-                    data.CC_FlexiPort = HwSettings::CC_FLEXIPORT_TELEMETRY;
+                    data.MainPort = HwCopterControl::MAINPORT_SBUS;
+                    data.FlexiPort = HwCopterControl::FLEXIPORT_TELEMETRY;
                     break;
                 case VehicleConfigurationSource::INPUT_DSMX10:
-                    data.CC_FlexiPort = HwSettings::CC_FLEXIPORT_DSMX10BIT;
+                    data.FlexiPort = HwCopterControl::FLEXIPORT_DSMX10BIT;
                     break;
                 case VehicleConfigurationSource::INPUT_DSMX11:
-                    data.CC_FlexiPort = HwSettings::CC_FLEXIPORT_DSMX11BIT;
+                    data.FlexiPort = HwCopterControl::FLEXIPORT_DSMX11BIT;
                     break;
                 case VehicleConfigurationSource::INPUT_DSM2:
-                    data.CC_FlexiPort = HwSettings::CC_FLEXIPORT_DSM2;
+                    data.FlexiPort = HwCopterControl::FLEXIPORT_DSM2;
                     break;
                 default:
                     break;
@@ -146,8 +146,8 @@ void VehicleConfigurationHelper::applyHardwareConfiguration()
         default:
             break;
     }
-    hwSettings->setData(data);
-    addModifiedObject(hwSettings, tr("Writing hardware settings"));
+    hwCopterControl->setData(data);
+    addModifiedObject(hwCopterControl, tr("Writing hardware settings"));
 }
 
 void VehicleConfigurationHelper::applyVehicleConfiguration()
