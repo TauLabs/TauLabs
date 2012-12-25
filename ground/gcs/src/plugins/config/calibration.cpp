@@ -385,6 +385,7 @@ void Calibration::doStartLeveling() {
     gyro_accum_x.clear();
     gyro_accum_y.clear();
     gyro_accum_z.clear();
+    gyro_accum_temp.clear();
 
     // Disable gyro bias correction to see raw data
     AttitudeSettings *attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
@@ -633,6 +634,7 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
         gyro_accum_x.append(gyrosData.x);
         gyro_accum_y.append(gyrosData.y);
         gyro_accum_z.append(gyrosData.z);
+        gyro_accum_temp.append(gyrosData.temperature);
     }
 
     // update the progress indicator
@@ -646,6 +648,7 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
         float x_gyro_bias = listMean(gyro_accum_x);
         float y_gyro_bias = listMean(gyro_accum_y);
         float z_gyro_bias = listMean(gyro_accum_z);
+        float temp = listMean(gyro_accum_temp);
 
         // Get the existing attitude settings
         AttitudeSettings::DataFields attitudeSettingsData = AttitudeSettings::GetInstance(getObjectManager())->getData();
@@ -696,19 +699,19 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
         Euler2R(new_rpy, Rsb);
         rotate_vector(Rsb, gyro_sensor, gyro_newbody, false);
 
-        // Store these new biases
-        inertialSensorSettingsData.XGyroTempCoeff[0] = gyro_newbody[0];
-        inertialSensorSettingsData.XGyroTempCoeff[1] = 0;
-        inertialSensorSettingsData.XGyroTempCoeff[2] = 0;
-        inertialSensorSettingsData.XGyroTempCoeff[3] = 0;
-        inertialSensorSettingsData.YGyroTempCoeff[0] = gyro_newbody[1];
-        inertialSensorSettingsData.YGyroTempCoeff[1] = 0;
-        inertialSensorSettingsData.YGyroTempCoeff[2] = 0;
-        inertialSensorSettingsData.YGyroTempCoeff[3] = 0;
-        inertialSensorSettingsData.ZGyroTempCoeff[0] = gyro_newbody[2];
-        inertialSensorSettingsData.ZGyroTempCoeff[1] = 0;
-        inertialSensorSettingsData.ZGyroTempCoeff[2] = 0;
-        inertialSensorSettingsData.ZGyroTempCoeff[3] = 0;
+        // Store these new biases, accounting for any temperature coefficients
+        inertialSensorSettingsData.XGyroTempCoeff[0] = gyro_newbody[0] -
+                temp * inertialSensorSettingsData.XGyroTempCoeff[1] -
+                pow(temp,2) * inertialSensorSettingsData.XGyroTempCoeff[2] -
+                pow(temp,3) * inertialSensorSettingsData.XGyroTempCoeff[3];
+        inertialSensorSettingsData.YGyroTempCoeff[0] = gyro_newbody[1] -
+                temp * inertialSensorSettingsData.YGyroTempCoeff[1] -
+                pow(temp,2) * inertialSensorSettingsData.YGyroTempCoeff[2] -
+                pow(temp,3) * inertialSensorSettingsData.YGyroTempCoeff[3];
+        inertialSensorSettingsData.ZGyroTempCoeff[0] = gyro_newbody[2] -
+                temp * inertialSensorSettingsData.ZGyroTempCoeff[1] -
+                pow(temp,2) * inertialSensorSettingsData.ZGyroTempCoeff[2] -
+                pow(temp,3) * inertialSensorSettingsData.ZGyroTempCoeff[3];
         InertialSensorSettings::GetInstance(getObjectManager())->setData(inertialSensorSettingsData);
 
         // We offset the gyro bias by current bias to help precision
