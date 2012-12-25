@@ -26,7 +26,7 @@
 #include <uavobjectmanager.h>
 #include <extensionsystem/pluginmanager.h>
 #include <uavobject.h>
-//#include <uavobjectutilmanager.h>
+#include <tempcompcurve.h>
 
 #include <QObject>
 #include <QTimer>
@@ -69,6 +69,9 @@ public slots:
 
     //! Start collecting gyro calibration data
     void doStartTempCal();
+
+    //! Set up the curves
+    void configureTempCurves(TempCompCurve *x, TempCompCurve *y, TempCompCurve *z);
 
 private slots:
     //! New data acquired
@@ -148,6 +151,9 @@ private:
     double initialMagsScale[3];
     double initialMagsBias[3];
 
+    TempCompCurve *xCurve;
+    TempCompCurve *yCurve;
+    TempCompCurve *zCurve;
 protected:
 
     //! Get the object manager

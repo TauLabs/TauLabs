@@ -232,14 +232,20 @@ ConfigRevoWidget::ConfigRevoWidget(QWidget *parent) :
     // Configure the calibration object
     calibration.initialize(true);
 
+    // Must connect the graphs to the calibration object to see the calibration results
+    calibration.configureTempCurves(m_ui->xGyroTemp, m_ui->yGyroTemp, m_ui->zGyroTemp);
+
     // Connect the signals
     connect(m_ui->accelBiasStart, SIGNAL(clicked()), &calibration, SLOT(doStartLeveling()));
     connect(m_ui->sixPointStart, SIGNAL(clicked()), &calibration ,SLOT(doStartSixPoint()));
     connect(m_ui->sixPointSave, SIGNAL(clicked()), &calibration ,SLOT(doSaveSixPointPosition()));
     connect(m_ui->sixPointCancel, SIGNAL(clicked()), &calibration ,SLOT(doCancelSixPoint()));
+    connect(m_ui->startTempCal, SIGNAL(clicked()), &calibration, SLOT(doStartTempCal()));
 
     // Let calibration update the UI
     connect(&calibration, SIGNAL(levelingProgressChanged(int)), m_ui->accelBiasProgress, SLOT(setValue(int)));
+    connect(&calibration, SIGNAL(tempCalProgressChanged(int)), m_ui->tempCalProgress, SLOT(setValue(int)));
+    connect(&calibration, SIGNAL(showTempCalMessage(QString)), m_ui->tempCalMessage, SLOT(setText(QString)));
     connect(&calibration, SIGNAL(sixPointProgressChanged(int)), m_ui->sixPointProgress, SLOT(setValue(int)));
     connect(&calibration, SIGNAL(showSixPointMessage(QString)), m_ui->sixPointCalibInstructions, SLOT(setText(QString)));
     connect(&calibration, SIGNAL(updatePlane(int)), this, SLOT(displayPlane(int)));
@@ -250,6 +256,7 @@ ConfigRevoWidget::ConfigRevoWidget(QWidget *parent) :
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->sixPointCancel, SLOT(setDisabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->noiseMeasurementStart, SLOT(setEnabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->accelBiasStart, SLOT(setEnabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->startTempCal, SLOT(setEnabled(bool)));
 
     m_ui->noiseMeasurementStart->setEnabled(true);
     m_ui->sixPointStart->setEnabled(true);

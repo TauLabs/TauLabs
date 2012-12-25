@@ -67,7 +67,8 @@ enum calibrationSuccessMessages{
 
 #define sign(x) ((x < 0) ? -1 : 1)
 
-Calibration::Calibration() : calibrateMag(false), accelLength(9.81)
+Calibration::Calibration() : calibrateMag(false), accelLength(9.81),
+    xCurve(NULL), yCurve(NULL), zCurve(NULL)
 {
 }
 
@@ -607,7 +608,7 @@ void Calibration::doStartTempCal()
 
     // Set up timeout timer
     timer.setSingleShot(true);
-    timer.start(5000 + (2 * NUM_SENSOR_UPDATES * SENSOR_UPDATE_PERIOD));
+    timer.start(5000 + (3 * NUM_SENSOR_UPDATES * SENSOR_UPDATE_PERIOD));
     connect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
 }
 
@@ -793,6 +794,21 @@ bool Calibration::storeSixPointMeasurement(UAVObject * obj, int position)
 }
 
 /**
+ * @brief Calibration::configureTempCurves
+ * @param x
+ * @param y
+ * @param z
+ */
+void Calibration::configureTempCurves(TempCompCurve *x,
+                                      TempCompCurve *y,
+                                      TempCompCurve *z)
+{
+    xCurve = x;
+    yCurve = y;
+    zCurve = z;
+}
+
+/**
   * Grab a sample of gyro data with the temperautre
   * @return true If enough data is averaged at this position
   */
@@ -855,6 +871,30 @@ int Calibration::computeTempCal()
     qDebug() << "[" << result(1,0) << " " << result(1,1) << " " << result(1,2) << "]";
     qDebug() << "[" << result(2,0) << " " << result(2,1) << " " << result(2,2) << "]";
     qDebug() << "[" << result(3,0) << " " << result(3,1) << " " << result(3,2) << "]";
+
+    QList<double> xCoeffs, yCoeffs, zCoeffs;
+    xCoeffs.clear();
+    xCoeffs.append(result(0,0));
+    xCoeffs.append(result(1,0));
+    xCoeffs.append(result(2,0));
+    xCoeffs.append(result(3,0));
+    yCoeffs.clear();
+    yCoeffs.append(result(0,1));
+    yCoeffs.append(result(1,1));
+    yCoeffs.append(result(2,1));
+    yCoeffs.append(result(3,1));
+    zCoeffs.clear();
+    zCoeffs.append(result(0,2));
+    zCoeffs.append(result(1,2));
+    zCoeffs.append(result(2,2));
+    zCoeffs.append(result(3,2));
+
+    if (xCurve != NULL)
+        xCurve->plotData(gyro_accum_temp, gyro_accum_x, xCoeffs);
+    if (yCurve != NULL)
+        yCurve->plotData(gyro_accum_temp, gyro_accum_y, yCoeffs);
+    if (zCurve != NULL)
+        zCurve->plotData(gyro_accum_temp, gyro_accum_z, zCoeffs);
 
     return CALIBRATION_SUCCESS;
 }
