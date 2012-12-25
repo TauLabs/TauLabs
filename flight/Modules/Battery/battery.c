@@ -49,7 +49,8 @@
 
 #include "flightbatterystate.h"
 #include "flightbatterysettings.h"
-#include "hwsettings.h"
+#include "modulesettings.h"
+#include "adcrouting.h"
 
 //
 // Configuration
@@ -58,7 +59,7 @@
 // Private types
 
 // Private variables
-static bool batteryEnabled = false;
+static bool module_enabled = false;
 
 //THESE COULD BE BETTER AS SOME KIND OF UNION OR STRUCT, BY WHICH 4 BITS ARE USED FOR EACH 
 //PIN VARIABLE, ONE OF WHICH INDICATES SIGN, AND THE OTHER 3 BITS INDICATE POSITION. THIS WILL
@@ -79,37 +80,37 @@ int32_t BatteryInitialize(void)
 
 	
 #ifdef MODULE_BATTERY_BUILTIN
-	batteryEnabled = true;
+	module_enabled = true;
 #else
-	uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
-
-	HwSettingsOptionalModulesGet(optionalModules);
-
-	if ((optionalModules[HWSETTINGS_OPTIONALMODULES_BATTERY] == HWSETTINGS_OPTIONALMODULES_ENABLED))
-		batteryEnabled = true;
-	else
-		batteryEnabled = false;
+	ModuleSettingsInitialize();
+	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+	ModuleSettingsStateGet(module_state);
+	if (module_state[MODULESETTINGS_STATE_BATTERY] == MODULESETTINGS_STATE_ENABLED) {
+		module_enabled = true;
+	} else {
+		module_enabled = false;
+	}
 #endif
 
-	uint8_t adcRouting[HWSETTINGS_ADCROUTING_NUMELEM];	
-	HwSettingsADCRoutingGet(adcRouting);
+	uint8_t adc_channel_map[ADCROUTING_CHANNELMAP_NUMELEM];	
+	ADCRoutingChannelMapGet(adc_channel_map);
 	
 	//Determine if the battery sensors are routed to ADC pins 
-	for (int i=0; i < HWSETTINGS_ADCROUTING_NUMELEM; i++) {
-		if (adcRouting[i] == HWSETTINGS_ADCROUTING_BATTERYVOLTAGE) {
+	for (int i = 0; i < ADCROUTING_CHANNELMAP_NUMELEM; i++) {
+		if (adc_channel_map[i] == ADCROUTING_CHANNELMAP_BATTERYVOLTAGE) {
 			voltageADCPin = i;
 		}
-		if (adcRouting[i] == HWSETTINGS_ADCROUTING_BATTERYCURRENT) {
+		if (adc_channel_map[i] == ADCROUTING_CHANNELMAP_BATTERYCURRENT) {
 			currentADCPin = i;
 		}
 	}
 	
 	//Don't enable module if no ADC pins are routed to the sensors
 	if (voltageADCPin <0 && currentADCPin <0)
-		batteryEnabled = false;
+		module_enabled = false;
 
 	//Start module
-	if (batteryEnabled) {
+	if (module_enabled) {
 		FlightBatteryStateInitialize();
 		FlightBatterySettingsInitialize();
 	

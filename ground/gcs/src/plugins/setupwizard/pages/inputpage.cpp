@@ -30,7 +30,7 @@
 #include "setupwizard.h"
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
-#include "hwsettings.h"
+#include "hwcoptercontrol.h"
 
 InputPage::InputPage(SetupWizard *wizard, QWidget *parent) :
         AbstractWizardPage(wizard, parent),
@@ -72,19 +72,19 @@ bool InputPage::restartNeeded(VehicleConfigurationSource::INPUT_TYPE selectedTyp
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
     Q_ASSERT(uavoManager);
-    HwSettings* hwSettings = HwSettings::GetInstance(uavoManager);
-    HwSettings::DataFields data = hwSettings->getData();
+    HwCopterControl* hwCopterControl = HwCopterControl::GetInstance(uavoManager);
+    HwCopterControl::DataFields data = hwCopterControl->getData();
     switch(selectedType)
     {
         case VehicleConfigurationSource::INPUT_PWM:
-            return data.CC_RcvrPort != HwSettings::CC_RCVRPORT_PWM;
+            return data.RcvrPort != HwCopterControl::RCVRPORT_PWM;
         case VehicleConfigurationSource::INPUT_PPM:
-            return data.CC_RcvrPort != HwSettings::CC_RCVRPORT_PPM;
+            return data.RcvrPort != HwCopterControl::RCVRPORT_PPM;
         case VehicleConfigurationSource::INPUT_SBUS:
-            return data.CC_MainPort != HwSettings::CC_MAINPORT_SBUS;
+            return data.MainPort != HwCopterControl::MAINPORT_SBUS;
         case VehicleConfigurationSource::INPUT_DSM2:
             // TODO: Handle all of the DSM types ?? Which is most common?
-            return data.CC_MainPort != HwSettings::CC_MAINPORT_DSM2;
+            return data.MainPort != HwCopterControl::MAINPORT_DSM2;
         default:
             return true;
     }

@@ -38,7 +38,7 @@
 #include <pios.h>
 #include <openpilot.h>
 #include <uavobjectsinit.h>
-#include "hwsettings.h"
+#include "hwquanton.h"
 #include "manualcontrolsettings.h"
 
 
@@ -284,7 +284,7 @@ void PIOS_Board_Init(void) {
 	EventDispatcherInitialize();
 	UAVObjInitialize();
 
-	HwSettingsInitialize();
+	HwQuantonInitialize();
 
 #if defined(PIOS_INCLUDE_RTC)
 	/* Initialize the real-time clock and its associated tick */
@@ -325,8 +325,8 @@ void PIOS_Board_Init(void) {
 		PIOS_IAP_WriteBootCount(++boot_count);
 		AlarmsClear(SYSTEMALARMS_ALARM_BOOTFAULT);
 	} else {
-		/* Too many failed boot attempts, force hwsettings to defaults */
-		HwSettingsSetDefaults(HwSettingsHandle(), 0);
+		/* Too many failed boot attempts, force hw config to defaults */
+		HwQuantonSetDefaults(HwQuantonHandle(), 0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
 
@@ -356,29 +356,29 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_USB_CDC)
 
-	uint8_t hwsettings_usb_vcpport;
+	uint8_t hw_usb_vcpport;
 	/* Configure the USB VCP port */
-	HwSettingsUSB_VCPPortGet(&hwsettings_usb_vcpport);
+	HwQuantonUSB_VCPPortGet(&hw_usb_vcpport);
 
 	if (!usb_cdc_present) {
 		/* Force VCP port function to disabled if we haven't advertised VCP in our USB descriptor */
-		hwsettings_usb_vcpport = HWSETTINGS_USB_VCPPORT_DISABLED;
+		hw_usb_vcpport = HWQUANTON_USB_VCPPORT_DISABLED;
 	}
 
-	switch (hwsettings_usb_vcpport) {
-	case HWSETTINGS_USB_VCPPORT_DISABLED:
+	switch (hw_usb_vcpport) {
+	case HWQUANTON_USB_VCPPORT_DISABLED:
 		break;
-	case HWSETTINGS_USB_VCPPORT_USBTELEMETRY:
+	case HWQUANTON_USB_VCPPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 			PIOS_Board_configure_com(&pios_usb_cdc_cfg, PIOS_COM_TELEM_USB_RX_BUF_LEN, PIOS_COM_TELEM_USB_TX_BUF_LEN, &pios_usb_cdc_com_driver, &pios_com_telem_usb_id);
 #endif	/* PIOS_INCLUDE_COM */
 		break;
-	case HWSETTINGS_USB_VCPPORT_COMBRIDGE:
+	case HWQUANTON_USB_VCPPORT_COMBRIDGE:
 #if defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usb_cdc_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usb_cdc_com_driver, &pios_com_vcp_id);
 #endif	/* PIOS_INCLUDE_COM */
 		break;
-	case HWSETTINGS_USB_VCPPORT_DEBUGCONSOLE:
+	case HWQUANTON_USB_VCPPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 		{
@@ -403,18 +403,18 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_USB_HID)
 	/* Configure the usb HID port */
-	uint8_t hwsettings_usb_hidport;
-	HwSettingsUSB_HIDPortGet(&hwsettings_usb_hidport);
+	uint8_t hw_usb_hidport;
+	HwQuantonUSB_HIDPortGet(&hw_usb_hidport);
 
 	if (!usb_hid_present) {
 		/* Force HID port function to disabled if we haven't advertised HID in our USB descriptor */
-		hwsettings_usb_hidport = HWSETTINGS_USB_HIDPORT_DISABLED;
+		hw_usb_hidport = HWQUANTON_USB_HIDPORT_DISABLED;
 	}
 
-	switch (hwsettings_usb_hidport) {
-	case HWSETTINGS_USB_HIDPORT_DISABLED:
+	switch (hw_usb_hidport) {
+	case HWQUANTON_USB_HIDPORT_DISABLED:
 		break;
-	case HWSETTINGS_USB_HIDPORT_USBTELEMETRY:
+	case HWQUANTON_USB_HIDPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uint32_t pios_usb_hid_id;
@@ -443,46 +443,46 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_USB */
 
 	/* Configure the IO ports */
-	uint8_t hwsettings_DSMxBind;
-	HwSettingsDSMxBindGet(&hwsettings_DSMxBind);
+	uint8_t hw_DSMxBind;
+	HwQuantonDSMxBindGet(&hw_DSMxBind);
 
 	/* UART1 Port */
-	uint8_t hwsettings_uart1;
-	HwSettingsQuanton_Uart1Get(&hwsettings_uart1);
-	switch (hwsettings_uart1) {
-	case HWSETTINGS_QUANTON_UART1_DISABLED:
+	uint8_t hw_uart1;
+	HwQuantonUart1Get(&hw_uart1);
+	switch (hw_uart1) {
+	case HWQUANTON_UART1_DISABLED:
 		break;
-	case HWSETTINGS_QUANTON_UART1_TELEMETRY:
+	case HWQUANTON_UART1_TELEMETRY:
 #if defined(PIOS_INCLUDE_TELEMETRY_RF) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart1_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
 #endif /* PIOS_INCLUDE_TELEMETRY_RF */
 		break;
-	case HWSETTINGS_QUANTON_UART1_GPS:
+	case HWQUANTON_UART1_GPS:
 #if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart1_cfg, PIOS_COM_GPS_RX_BUF_LEN, -1, &pios_usart_com_driver, &pios_com_gps_id);
 #endif
 		break;
-	case HWSETTINGS_QUANTON_UART1_I2C:
+	case HWQUANTON_UART1_I2C:
 #if defined(PIOS_INCLUDE_I2C)
 		if (PIOS_I2C_Init(&pios_i2c_usart1_adapter_id, &pios_i2c_usart1_adapter_cfg)) {
 			PIOS_Assert(0);
 		}
 #endif	/* PIOS_INCLUDE_I2C */
 		break;
-	case HWSETTINGS_QUANTON_UART1_DSM2:
-	case HWSETTINGS_QUANTON_UART1_DSMX10BIT:
-	case HWSETTINGS_QUANTON_UART1_DSMX11BIT:
+	case HWQUANTON_UART1_DSM2:
+	case HWQUANTON_UART1_DSMX10BIT:
+	case HWQUANTON_UART1_DSMX11BIT:
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			enum pios_dsm_proto proto;
-			switch (hwsettings_uart1) {
-			case HWSETTINGS_QUANTON_UART1_DSM2:
+			switch (hw_uart1) {
+			case HWQUANTON_UART1_DSM2:
 				proto = PIOS_DSM_PROTO_DSM2;
 				break;
-			case HWSETTINGS_QUANTON_UART1_DSMX10BIT:
+			case HWQUANTON_UART1_DSMX10BIT:
 				proto = PIOS_DSM_PROTO_DSMX10BIT;
 				break;
-			case HWSETTINGS_QUANTON_UART1_DSMX11BIT:
+			case HWQUANTON_UART1_DSMX11BIT:
 				proto = PIOS_DSM_PROTO_DSMX11BIT;
 				break;
 			default:
@@ -490,40 +490,39 @@ void PIOS_Board_Init(void) {
 				break;
 			}
 			PIOS_Board_configure_dsm(&pios_usart1_dsm_cfg, &pios_usart1_dsm_aux_cfg, &pios_usart_com_driver,
-				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hwsettings_DSMxBind);
+				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
-	case HWSETTINGS_QUANTON_UART1_DEBUGCONSOLE:
+	case HWQUANTON_UART1_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart_1_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 		break;
-	case HWSETTINGS_QUANTON_UART1_COMBRIDGE:
+	case HWQUANTON_UART1_COMBRIDGE:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart1_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
 #endif
 		break;
 	}
 
-
 	/* UART2 Port */
-	uint8_t hwsettings_uart2;
-	HwSettingsQuanton_Uart2Get(&hwsettings_uart2);
-	switch (hwsettings_uart2) {
-	case HWSETTINGS_QUANTON_UART2_DISABLED:
+	uint8_t hw_uart2;
+	HwQuantonUart2Get(&hw_uart2);
+	switch (hw_uart2) {
+	case HWQUANTON_UART2_DISABLED:
 		break;
-	case HWSETTINGS_QUANTON_UART2_TELEMETRY:
+	case HWQUANTON_UART2_TELEMETRY:
 #if defined(PIOS_INCLUDE_TELEMETRY_RF) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart2_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
 #endif /* PIOS_INCLUDE_TELEMETRY_RF */
 		break;
-	case HWSETTINGS_QUANTON_UART2_GPS:
+	case HWQUANTON_UART2_GPS:
 #if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart2_cfg, PIOS_COM_GPS_RX_BUF_LEN, -1, &pios_usart_com_driver, &pios_com_gps_id);
 #endif
 		break;
-	case HWSETTINGS_QUANTON_UART2_SBUS:
+	case HWQUANTON_UART2_SBUS:
 		//hardware signal inverter required
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
@@ -543,20 +542,20 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_SBUS */
 		break;
-	case HWSETTINGS_QUANTON_UART2_DSM2:
-	case HWSETTINGS_QUANTON_UART2_DSMX10BIT:
-	case HWSETTINGS_QUANTON_UART2_DSMX11BIT:
+	case HWQUANTON_UART2_DSM2:
+	case HWQUANTON_UART2_DSMX10BIT:
+	case HWQUANTON_UART2_DSMX11BIT:
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			enum pios_dsm_proto proto;
-			switch (hwsettings_uart2) {
-			case HWSETTINGS_QUANTON_UART2_DSM2:
+			switch (hw_uart2) {
+			case HWQUANTON_UART2_DSM2:
 				proto = PIOS_DSM_PROTO_DSM2;
 				break;
-			case HWSETTINGS_QUANTON_UART2_DSMX10BIT:
+			case HWQUANTON_UART2_DSMX10BIT:
 				proto = PIOS_DSM_PROTO_DSMX10BIT;
 				break;
-			case HWSETTINGS_QUANTON_UART2_DSMX11BIT:
+			case HWQUANTON_UART2_DSMX11BIT:
 				proto = PIOS_DSM_PROTO_DSMX11BIT;
 				break;
 			default:
@@ -564,60 +563,59 @@ void PIOS_Board_Init(void) {
 				break;
 			}
 			PIOS_Board_configure_dsm(&pios_usart2_dsm_cfg, &pios_usart2_dsm_aux_cfg, &pios_usart_com_driver,
-				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hwsettings_DSMxBind);
+				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
-	case HWSETTINGS_QUANTON_UART2_DEBUGCONSOLE:
+	case HWQUANTON_UART2_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart_2_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 		break;
-	case HWSETTINGS_QUANTON_UART2_COMBRIDGE:
+	case HWQUANTON_UART2_COMBRIDGE:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart2_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
 #endif
 		break;
 	}
 
-
 	/* UART3 Port */
-	uint8_t hwsettings_uart3;
-	HwSettingsQuanton_Uart3Get(&hwsettings_uart3);
-	switch (hwsettings_uart3) {
-	case HWSETTINGS_QUANTON_UART3_DISABLED:
+	uint8_t hw_uart3;
+	HwQuantonUart3Get(&hw_uart3);
+	switch (hw_uart3) {
+	case HWQUANTON_UART3_DISABLED:
 		break;
-	case HWSETTINGS_QUANTON_UART3_TELEMETRY:
+	case HWQUANTON_UART3_TELEMETRY:
 #if defined(PIOS_INCLUDE_TELEMETRY_RF) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
 #endif /* PIOS_INCLUDE_TELEMETRY_RF */
 		break;
-	case HWSETTINGS_QUANTON_UART3_GPS:
+	case HWQUANTON_UART3_GPS:
 #if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_GPS_RX_BUF_LEN, -1, &pios_usart_com_driver, &pios_com_gps_id);
 #endif
 		break;
-	case HWSETTINGS_QUANTON_UART3_I2C:
+	case HWQUANTON_UART3_I2C:
 #if defined(PIOS_INCLUDE_I2C)
 		if (PIOS_I2C_Init(&pios_i2c_usart3_adapter_id, &pios_i2c_usart3_adapter_cfg)) {
 			PIOS_Assert(0);
 		}
 #endif	/* PIOS_INCLUDE_I2C */
 		break;
-	case HWSETTINGS_QUANTON_UART3_DSM2:
-	case HWSETTINGS_QUANTON_UART3_DSMX10BIT:
-	case HWSETTINGS_QUANTON_UART3_DSMX11BIT:
+	case HWQUANTON_UART3_DSM2:
+	case HWQUANTON_UART3_DSMX10BIT:
+	case HWQUANTON_UART3_DSMX11BIT:
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			enum pios_dsm_proto proto;
-			switch (hwsettings_uart3) {
-			case HWSETTINGS_QUANTON_UART3_DSM2:
+			switch (hw_uart3) {
+			case HWQUANTON_UART3_DSM2:
 				proto = PIOS_DSM_PROTO_DSM2;
 				break;
-			case HWSETTINGS_QUANTON_UART3_DSMX10BIT:
+			case HWQUANTON_UART3_DSMX10BIT:
 				proto = PIOS_DSM_PROTO_DSMX10BIT;
 				break;
-			case HWSETTINGS_QUANTON_UART3_DSMX11BIT:
+			case HWQUANTON_UART3_DSMX11BIT:
 				proto = PIOS_DSM_PROTO_DSMX11BIT;
 				break;
 			default:
@@ -625,55 +623,52 @@ void PIOS_Board_Init(void) {
 				break;
 			}
 			PIOS_Board_configure_dsm(&pios_usart3_dsm_cfg, &pios_usart3_dsm_aux_cfg, &pios_usart_com_driver,
-				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hwsettings_DSMxBind);
+				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
-	case HWSETTINGS_QUANTON_UART3_DEBUGCONSOLE:
+	case HWQUANTON_UART3_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart_3_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 		break;
-	case HWSETTINGS_QUANTON_UART3_COMBRIDGE:
+	case HWQUANTON_UART3_COMBRIDGE:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
 #endif
 		break;
 	}
 
-
-
-
 	/* UART4 Port */
-	uint8_t hwsettings_uart4;
-	HwSettingsQuanton_Uart4Get(&hwsettings_uart4);
-	switch (hwsettings_uart4) {
-	case HWSETTINGS_QUANTON_UART4_DISABLED:
+	uint8_t hw_uart4;
+	HwQuantonUart4Get(&hw_uart4);
+	switch (hw_uart4) {
+	case HWQUANTON_UART4_DISABLED:
 		break;
-	case HWSETTINGS_QUANTON_UART4_TELEMETRY:
+	case HWQUANTON_UART4_TELEMETRY:
 #if defined(PIOS_INCLUDE_TELEMETRY_RF) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart4_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
 #endif /* PIOS_INCLUDE_TELEMETRY_RF */
 		break;
-	case HWSETTINGS_QUANTON_UART4_GPS:
+	case HWQUANTON_UART4_GPS:
 #if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart4_cfg, PIOS_COM_GPS_RX_BUF_LEN, -1, &pios_usart_com_driver, &pios_com_gps_id);
 #endif
 		break;
-	case HWSETTINGS_QUANTON_UART4_DSM2:
-	case HWSETTINGS_QUANTON_UART4_DSMX10BIT:
-	case HWSETTINGS_QUANTON_UART4_DSMX11BIT:
+	case HWQUANTON_UART4_DSM2:
+	case HWQUANTON_UART4_DSMX10BIT:
+	case HWQUANTON_UART4_DSMX11BIT:
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			enum pios_dsm_proto proto;
-			switch (hwsettings_uart4) {
-			case HWSETTINGS_QUANTON_UART4_DSM2:
+			switch (hw_uart4) {
+			case HWQUANTON_UART4_DSM2:
 				proto = PIOS_DSM_PROTO_DSM2;
 				break;
-			case HWSETTINGS_QUANTON_UART4_DSMX10BIT:
+			case HWQUANTON_UART4_DSMX10BIT:
 				proto = PIOS_DSM_PROTO_DSMX10BIT;
 				break;
-			case HWSETTINGS_QUANTON_UART4_DSMX11BIT:
+			case HWQUANTON_UART4_DSMX11BIT:
 				proto = PIOS_DSM_PROTO_DSMX11BIT;
 				break;
 			default:
@@ -681,57 +676,52 @@ void PIOS_Board_Init(void) {
 				break;
 			}
 			PIOS_Board_configure_dsm(&pios_usart4_dsm_cfg, &pios_usart4_dsm_aux_cfg, &pios_usart_com_driver,
-				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hwsettings_DSMxBind);
+				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
-	case HWSETTINGS_QUANTON_UART4_DEBUGCONSOLE:
+	case HWQUANTON_UART4_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart_4_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 		break;
-	case HWSETTINGS_QUANTON_UART4_COMBRIDGE:
+	case HWQUANTON_UART4_COMBRIDGE:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart4_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
 #endif
 		break;
 	}
 
-
-
-
-
-
 	/* UART5 Port */
-	uint8_t hwsettings_uart5;
-	HwSettingsQuanton_Uart5Get(&hwsettings_uart5);
-	switch (hwsettings_uart5) {
-	case HWSETTINGS_QUANTON_UART5_DISABLED:
+	uint8_t hw_uart5;
+	HwQuantonUart5Get(&hw_uart5);
+	switch (hw_uart5) {
+	case HWQUANTON_UART5_DISABLED:
 		break;
-	case HWSETTINGS_QUANTON_UART5_TELEMETRY:
+	case HWQUANTON_UART5_TELEMETRY:
 #if defined(PIOS_INCLUDE_TELEMETRY_RF) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart5_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
 #endif /* PIOS_INCLUDE_TELEMETRY_RF */
 		break;
-	case HWSETTINGS_QUANTON_UART5_GPS:
+	case HWQUANTON_UART5_GPS:
 #if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart5_cfg, PIOS_COM_GPS_RX_BUF_LEN, -1, &pios_usart_com_driver, &pios_com_gps_id);
 #endif
 		break;
-	case HWSETTINGS_QUANTON_UART5_DSM2:
-	case HWSETTINGS_QUANTON_UART5_DSMX10BIT:
-	case HWSETTINGS_QUANTON_UART5_DSMX11BIT:
+	case HWQUANTON_UART5_DSM2:
+	case HWQUANTON_UART5_DSMX10BIT:
+	case HWQUANTON_UART5_DSMX11BIT:
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			enum pios_dsm_proto proto;
-			switch (hwsettings_uart5) {
-			case HWSETTINGS_QUANTON_UART5_DSM2:
+			switch (hw_uart5) {
+			case HWQUANTON_UART5_DSM2:
 				proto = PIOS_DSM_PROTO_DSM2;
 				break;
-			case HWSETTINGS_QUANTON_UART5_DSMX10BIT:
+			case HWQUANTON_UART5_DSMX10BIT:
 				proto = PIOS_DSM_PROTO_DSMX10BIT;
 				break;
-			case HWSETTINGS_QUANTON_UART5_DSMX11BIT:
+			case HWQUANTON_UART5_DSMX11BIT:
 				proto = PIOS_DSM_PROTO_DSMX11BIT;
 				break;
 			default:
@@ -739,33 +729,30 @@ void PIOS_Board_Init(void) {
 				break;
 			}
 			PIOS_Board_configure_dsm(&pios_usart5_dsm_cfg, &pios_usart5_dsm_aux_cfg, &pios_usart_com_driver,
-				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hwsettings_DSMxBind);
+				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
-	case HWSETTINGS_QUANTON_UART5_DEBUGCONSOLE:
+	case HWQUANTON_UART5_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart_5_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 		break;
-	case HWSETTINGS_QUANTON_UART5_COMBRIDGE:
+	case HWQUANTON_UART5_COMBRIDGE:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart5_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
 #endif
 		break;
 	}
 
-
-
-
 	/* Configure the rcvr port */
-	uint8_t hwsettings_rcvrport;
-	HwSettingsQuanton_RcvrPortGet(&hwsettings_rcvrport);
+	uint8_t hw_rcvrport;
+	HwQuantonRcvrPortGet(&hw_rcvrport);
 
-	switch (hwsettings_rcvrport) {
-	case HWSETTINGS_QUANTON_RCVRPORT_DISABLED:
+	switch (hw_rcvrport) {
+	case HWQUANTON_RCVRPORT_DISABLED:
 		break;
-	case HWSETTINGS_QUANTON_RCVRPORT_PWM:
+	case HWQUANTON_RCVRPORT_PWM:
 #if defined(PIOS_INCLUDE_PWM)
 		{
 			uint32_t pios_pwm_id;
@@ -779,8 +766,8 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_PWM */
 		break;
-	case HWSETTINGS_QUANTON_RCVRPORT_PPM:
-	case HWSETTINGS_QUANTON_RCVRPORT_PPMOUTPUTS:
+	case HWQUANTON_RCVRPORT_PPM:
+	case HWQUANTON_RCVRPORT_PPMOUTPUTS:
 #if defined(PIOS_INCLUDE_PPM)
 		{
 			uint32_t pios_ppm_id;
@@ -794,7 +781,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_PPM */
 		break;
-	case HWSETTINGS_QUANTON_RCVRPORT_PPMPWM:
+	case HWQUANTON_RCVRPORT_PPMPWM:
 		/* This is a combination of PPM and PWM inputs */
 #if defined(PIOS_INCLUDE_PPM)
 		{
@@ -836,17 +823,17 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_GCSRCVR */
 
 #ifndef PIOS_DEBUG_ENABLE_DEBUG_PINS
-	switch (hwsettings_rcvrport) {
-		case HWSETTINGS_QUANTON_RCVRPORT_DISABLED:
-		case HWSETTINGS_QUANTON_RCVRPORT_PWM:
-		case HWSETTINGS_QUANTON_RCVRPORT_PPM:
+	switch (hw_rcvrport) {
+		case HWQUANTON_RCVRPORT_DISABLED:
+		case HWQUANTON_RCVRPORT_PWM:
+		case HWQUANTON_RCVRPORT_PPM:
 			/* Set up the servo outputs */
 #ifdef PIOS_INCLUDE_SERVO
 			PIOS_Servo_Init(&pios_servo_cfg);
 #endif
 			break;
-		case HWSETTINGS_QUANTON_RCVRPORT_PPMOUTPUTS:
-		case HWSETTINGS_QUANTON_RCVRPORT_OUTPUTS:
+		case HWQUANTON_RCVRPORT_PPMOUTPUTS:
+		case HWQUANTON_RCVRPORT_OUTPUTS:
 #ifdef PIOS_INCLUDE_SERVO
 			PIOS_Servo_Init(&pios_servo_rcvr_cfg);
 #endif
@@ -871,36 +858,36 @@ void PIOS_Board_Init(void) {
 		panic();
 
 	// To be safe map from UAVO enum to driver enum
-	uint8_t gyro_range;
-	HwSettingsGyroRangeGet(&gyro_range);
-	switch(gyro_range) {
-		case HWSETTINGS_GYRORANGE_250:
+	uint8_t hw_gyro_range;
+	HwQuantonGyroRangeGet(&hw_gyro_range);
+	switch(hw_gyro_range) {
+		case HWQUANTON_GYRORANGE_250:
 			PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_250_DEG);
 			break;
-		case HWSETTINGS_GYRORANGE_500:
+		case HWQUANTON_GYRORANGE_500:
 			PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
 			break;
-		case HWSETTINGS_GYRORANGE_1000:
+		case HWQUANTON_GYRORANGE_1000:
 			PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_1000_DEG);
 			break;
-		case HWSETTINGS_GYRORANGE_2000:
+		case HWQUANTON_GYRORANGE_2000:
 			PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_2000_DEG);
 			break;
 	}
 
-	uint8_t accel_range;
-	HwSettingsAccelRangeGet(&accel_range);
-	switch(accel_range) {
-		case HWSETTINGS_ACCELRANGE_2G:
+	uint8_t hw_accel_range;
+	HwQuantonAccelRangeGet(&hw_accel_range);
+	switch(hw_accel_range) {
+		case HWQUANTON_ACCELRANGE_2G:
 			PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_2G);
 			break;
-		case HWSETTINGS_ACCELRANGE_4G:
+		case HWQUANTON_ACCELRANGE_4G:
 			PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_4G);
 			break;
-		case HWSETTINGS_ACCELRANGE_8G:
+		case HWQUANTON_ACCELRANGE_8G:
 			PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
 			break;
-		case HWSETTINGS_ACCELRANGE_16G:
+		case HWQUANTON_ACCELRANGE_16G:
 			PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_16G);
 			break;
 	}

@@ -84,7 +84,7 @@ ConfigCCAttitudeWidget::ConfigCCAttitudeWidget(QWidget *parent) :
     addApplySaveButtons(ui->applyButton,ui->saveButton);
     addUAVObject("AttitudeSettings");
     addUAVObject("InertialSensorSettings");
-    addUAVObject("HwSettings");
+    addUAVObject("HwCopterControl");
 
     // Load UAVObjects to widget relations from UI file
     // using objrelation dynamic property

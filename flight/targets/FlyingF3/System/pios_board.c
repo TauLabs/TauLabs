@@ -37,7 +37,7 @@
 #include <pios.h>
 #include <openpilot.h>
 #include <uavobjectsinit.h>
-#include "hwsettings.h"
+#include "hwflyingf3.h"
 #include "manualcontrolsettings.h"
 
 /* This file defines the what and where regarding all hardware connected to the
@@ -284,7 +284,7 @@ void PIOS_Board_Init(void) {
 	EventDispatcherInitialize();
 	UAVObjInitialize();
 
-	HwSettingsInitialize();
+	HwFlyingF3Initialize();
 
 #if defined(PIOS_INCLUDE_RTC)
 	/* Initialize the real-time clock and its associated tick */
@@ -325,8 +325,8 @@ void PIOS_Board_Init(void) {
 		PIOS_IAP_WriteBootCount(++boot_count);
 		AlarmsClear(SYSTEMALARMS_ALARM_BOOTFAULT);
 	} else {
-		/* Too many failed boot attempts, force hwsettings to defaults */
-		HwSettingsSetDefaults(HwSettingsHandle(), 0);
+		/* Too many failed boot attempts, force hw config to defaults */
+		HwFlyingF3SetDefaults(HwFlyingF3Handle(), 0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
 
@@ -336,9 +336,9 @@ void PIOS_Board_Init(void) {
 
 	/* Flags to determine if various USB interfaces are advertised */
 	bool usb_hid_present = false;
-	bool usb_cdc_present = false;
 
 #if defined(PIOS_INCLUDE_USB_CDC)
+	bool usb_cdc_present = false;
 	if (PIOS_USB_DESC_HID_CDC_Init()) {
 		PIOS_Assert(0);
 	}
@@ -356,29 +356,29 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_USB_CDC)
 
-	uint8_t hwsettings_usb_vcpport;
+	uint8_t hw_usb_vcpport;
 	/* Configure the USB VCP port */
-	HwSettingsUSB_VCPPortGet(&hwsettings_usb_vcpport);
+	HwFlyingF3USB_VCPPortGet(&hw_usb_vcpport);
 
 	if (!usb_cdc_present) {
 		/* Force VCP port function to disabled if we haven't advertised VCP in our USB descriptor */
-		hwsettings_usb_vcpport = HWSETTINGS_USB_VCPPORT_DISABLED;
+		hw_usb_vcpport = HWFLYINGF3_USB_VCPPORT_DISABLED;
 	}
 
-	switch (hwsettings_usb_vcpport) {
-	case HWSETTINGS_USB_VCPPORT_DISABLED:
+	switch (hw_usb_vcpport) {
+	case HWFLYINGF3_USB_VCPPORT_DISABLED:
 		break;
-	case HWSETTINGS_USB_VCPPORT_USBTELEMETRY:
+	case HWFLYINGF3_USB_VCPPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 			PIOS_Board_configure_com(&pios_usb_cdc_cfg, PIOS_COM_TELEM_USB_RX_BUF_LEN, PIOS_COM_TELEM_USB_TX_BUF_LEN, &pios_usb_cdc_com_driver, &pios_com_telem_usb_id);
 #endif	/* PIOS_INCLUDE_COM */
 		break;
-	case HWSETTINGS_USB_VCPPORT_COMBRIDGE:
+	case HWFLYINGF3_USB_VCPPORT_COMBRIDGE:
 #if defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usb_cdc_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usb_cdc_com_driver, &pios_com_vcp_id);
 #endif	/* PIOS_INCLUDE_COM */
 		break;
-	case HWSETTINGS_USB_VCPPORT_DEBUGCONSOLE:
+	case HWFLYINGF3_USB_VCPPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 		{
@@ -403,18 +403,18 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_USB_HID)
 	/* Configure the usb HID port */
-	uint8_t hwsettings_usb_hidport;
-	HwSettingsUSB_HIDPortGet(&hwsettings_usb_hidport);
+	uint8_t hw_usb_hidport;
+	HwFlyingF3USB_HIDPortGet(&hw_usb_hidport);
 
 	if (!usb_hid_present) {
 		/* Force HID port function to disabled if we haven't advertised HID in our USB descriptor */
-		hwsettings_usb_hidport = HWSETTINGS_USB_HIDPORT_DISABLED;
+		hw_usb_hidport = HWFLYINGF3_USB_HIDPORT_DISABLED;
 	}
 
-	switch (hwsettings_usb_hidport) {
-	case HWSETTINGS_USB_HIDPORT_DISABLED:
+	switch (hw_usb_hidport) {
+	case HWFLYINGF3_USB_HIDPORT_DISABLED:
 		break;
-	case HWSETTINGS_USB_HIDPORT_USBTELEMETRY:
+	case HWFLYINGF3_USB_HIDPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uint32_t pios_usb_hid_id;
@@ -439,26 +439,26 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_USB */
 
 	/* Configure the IO ports */
-	uint8_t hwsettings_DSMxBind;
-	HwSettingsDSMxBindGet(&hwsettings_DSMxBind);
+	uint8_t hw_DSMxBind;
+	HwFlyingF3DSMxBindGet(&hw_DSMxBind);
 
 	/* UART1 Port */
-	uint8_t hwsettings_uart1;
-	HwSettingsFlyingF3_Uart1Get(&hwsettings_uart1);
-	switch (hwsettings_uart1) {
-	case HWSETTINGS_FLYINGF3_UART1_DISABLED:
+	uint8_t hw_uart1;
+	HwFlyingF3Uart1Get(&hw_uart1);
+	switch (hw_uart1) {
+	case HWFLYINGF3_UART1_DISABLED:
 		break;
-	case HWSETTINGS_FLYINGF3_UART1_TELEMETRY:
+	case HWFLYINGF3_UART1_TELEMETRY:
 #if defined(PIOS_INCLUDE_TELEMETRY_RF) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart1_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
 #endif /* PIOS_INCLUDE_TELEMETRY_RF */
 		break;
-	case HWSETTINGS_FLYINGF3_UART1_GPS:
+	case HWFLYINGF3_UART1_GPS:
 #if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart1_cfg, PIOS_COM_GPS_RX_BUF_LEN, -1, &pios_usart_com_driver, &pios_com_gps_id);
 #endif
 		break;
-	case HWSETTINGS_FLYINGF3_UART1_SBUS:
+	case HWFLYINGF3_UART1_SBUS:
 		//hardware signal inverter required
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
@@ -478,20 +478,20 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_SBUS */
 		break;
-	case HWSETTINGS_FLYINGF3_UART1_DSM2:
-	case HWSETTINGS_FLYINGF3_UART1_DSMX10BIT:
-	case HWSETTINGS_FLYINGF3_UART1_DSMX11BIT:
+	case HWFLYINGF3_UART1_DSM2:
+	case HWFLYINGF3_UART1_DSMX10BIT:
+	case HWFLYINGF3_UART1_DSMX11BIT:
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			enum pios_dsm_proto proto;
-			switch (hwsettings_uart1) {
-			case HWSETTINGS_FLYINGF3_UART1_DSM2:
+			switch (hw_uart1) {
+			case HWFLYINGF3_UART1_DSM2:
 				proto = PIOS_DSM_PROTO_DSM2;
 				break;
-			case HWSETTINGS_FLYINGF3_UART1_DSMX10BIT:
+			case HWFLYINGF3_UART1_DSMX10BIT:
 				proto = PIOS_DSM_PROTO_DSMX10BIT;
 				break;
-			case HWSETTINGS_FLYINGF3_UART1_DSMX11BIT:
+			case HWFLYINGF3_UART1_DSMX11BIT:
 				proto = PIOS_DSM_PROTO_DSMX11BIT;
 				break;
 			default:
@@ -499,16 +499,16 @@ void PIOS_Board_Init(void) {
 				break;
 			}
 			PIOS_Board_configure_dsm(&pios_usart1_dsm_cfg, &pios_usart1_dsm_aux_cfg, &pios_usart_com_driver,
-				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hwsettings_DSMxBind);
+				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
-	case HWSETTINGS_FLYINGF3_UART1_DEBUGCONSOLE:
+	case HWFLYINGF3_UART1_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart_1_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 		break;
-	case HWSETTINGS_FLYINGF3_UART1_COMBRIDGE:
+	case HWFLYINGF3_UART1_COMBRIDGE:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart1_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
 #endif
@@ -518,22 +518,22 @@ void PIOS_Board_Init(void) {
 
 
 	/* UART2 Port */
-	uint8_t hwsettings_uart2;
-	HwSettingsFlyingF3_Uart2Get(&hwsettings_uart2);
-	switch (hwsettings_uart2) {
-	case HWSETTINGS_FLYINGF3_UART2_DISABLED:
+	uint8_t hw_uart2;
+	HwFlyingF3Uart2Get(&hw_uart2);
+	switch (hw_uart2) {
+	case HWFLYINGF3_UART2_DISABLED:
 		break;
-	case HWSETTINGS_FLYINGF3_UART2_TELEMETRY:
+	case HWFLYINGF3_UART2_TELEMETRY:
 #if defined(PIOS_INCLUDE_TELEMETRY_RF) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart2_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
 #endif /* PIOS_INCLUDE_TELEMETRY_RF */
 		break;
-	case HWSETTINGS_FLYINGF3_UART2_GPS:
+	case HWFLYINGF3_UART2_GPS:
 #if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart2_cfg, PIOS_COM_GPS_RX_BUF_LEN, -1, &pios_usart_com_driver, &pios_com_gps_id);
 #endif
 		break;
-	case HWSETTINGS_FLYINGF3_UART2_SBUS:
+	case HWFLYINGF3_UART2_SBUS:
 		//hardware signal inverter required
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
@@ -553,20 +553,20 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_SBUS */
 		break;
-	case HWSETTINGS_FLYINGF3_UART2_DSM2:
-	case HWSETTINGS_FLYINGF3_UART2_DSMX10BIT:
-	case HWSETTINGS_FLYINGF3_UART2_DSMX11BIT:
+	case HWFLYINGF3_UART2_DSM2:
+	case HWFLYINGF3_UART2_DSMX10BIT:
+	case HWFLYINGF3_UART2_DSMX11BIT:
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			enum pios_dsm_proto proto;
-			switch (hwsettings_uart2) {
-			case HWSETTINGS_FLYINGF3_UART2_DSM2:
+			switch (hw_uart2) {
+			case HWFLYINGF3_UART2_DSM2:
 				proto = PIOS_DSM_PROTO_DSM2;
 				break;
-			case HWSETTINGS_FLYINGF3_UART2_DSMX10BIT:
+			case HWFLYINGF3_UART2_DSMX10BIT:
 				proto = PIOS_DSM_PROTO_DSMX10BIT;
 				break;
-			case HWSETTINGS_FLYINGF3_UART2_DSMX11BIT:
+			case HWFLYINGF3_UART2_DSMX11BIT:
 				proto = PIOS_DSM_PROTO_DSMX11BIT;
 				break;
 			default:
@@ -574,16 +574,16 @@ void PIOS_Board_Init(void) {
 				break;
 			}
 			PIOS_Board_configure_dsm(&pios_usart2_dsm_cfg, &pios_usart2_dsm_aux_cfg, &pios_usart_com_driver,
-				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hwsettings_DSMxBind);
+				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
-	case HWSETTINGS_FLYINGF3_UART2_DEBUGCONSOLE:
+	case HWFLYINGF3_UART2_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart_2_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 		break;
-	case HWSETTINGS_FLYINGF3_UART2_COMBRIDGE:
+	case HWFLYINGF3_UART2_COMBRIDGE:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart2_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
 #endif
@@ -592,22 +592,22 @@ void PIOS_Board_Init(void) {
 
 
 	/* UART2 Port */
-	uint8_t hwsettings_uart3;
-	HwSettingsFlyingF3_Uart3Get(&hwsettings_uart3);
-	switch (hwsettings_uart3) {
-	case HWSETTINGS_FLYINGF3_UART3_DISABLED:
+	uint8_t hw_uart3;
+	HwFlyingF3Uart3Get(&hw_uart3);
+	switch (hw_uart3) {
+	case HWFLYINGF3_UART3_DISABLED:
 		break;
-	case HWSETTINGS_FLYINGF3_UART3_TELEMETRY:
+	case HWFLYINGF3_UART3_TELEMETRY:
 #if defined(PIOS_INCLUDE_TELEMETRY_RF) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
 #endif /* PIOS_INCLUDE_TELEMETRY_RF */
 		break;
-	case HWSETTINGS_FLYINGF3_UART3_GPS:
+	case HWFLYINGF3_UART3_GPS:
 #if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_GPS_RX_BUF_LEN, -1, &pios_usart_com_driver, &pios_com_gps_id);
 #endif
 		break;
-	case HWSETTINGS_FLYINGF3_UART3_SBUS:
+	case HWFLYINGF3_UART3_SBUS:
 		//hardware signal inverter required
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
@@ -627,20 +627,20 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_SBUS */
 		break;
-	case HWSETTINGS_FLYINGF3_UART3_DSM2:
-	case HWSETTINGS_FLYINGF3_UART3_DSMX10BIT:
-	case HWSETTINGS_FLYINGF3_UART3_DSMX11BIT:
+	case HWFLYINGF3_UART3_DSM2:
+	case HWFLYINGF3_UART3_DSMX10BIT:
+	case HWFLYINGF3_UART3_DSMX11BIT:
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			enum pios_dsm_proto proto;
-			switch (hwsettings_uart3) {
-			case HWSETTINGS_FLYINGF3_UART3_DSM2:
+			switch (hw_uart3) {
+			case HWFLYINGF3_UART3_DSM2:
 				proto = PIOS_DSM_PROTO_DSM2;
 				break;
-			case HWSETTINGS_FLYINGF3_UART3_DSMX10BIT:
+			case HWFLYINGF3_UART3_DSMX10BIT:
 				proto = PIOS_DSM_PROTO_DSMX10BIT;
 				break;
-			case HWSETTINGS_FLYINGF3_UART3_DSMX11BIT:
+			case HWFLYINGF3_UART3_DSMX11BIT:
 				proto = PIOS_DSM_PROTO_DSMX11BIT;
 				break;
 			default:
@@ -648,16 +648,16 @@ void PIOS_Board_Init(void) {
 				break;
 			}
 			PIOS_Board_configure_dsm(&pios_usart3_dsm_cfg, &pios_usart3_dsm_aux_cfg, &pios_usart_com_driver,
-				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hwsettings_DSMxBind);
+				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
-	case HWSETTINGS_FLYINGF3_UART3_DEBUGCONSOLE:
+	case HWFLYINGF3_UART3_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart_3_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 		break;
-	case HWSETTINGS_FLYINGF3_UART3_COMBRIDGE:
+	case HWFLYINGF3_UART3_COMBRIDGE:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
 #endif
@@ -667,13 +667,13 @@ void PIOS_Board_Init(void) {
 
 
 	/* Configure the rcvr port */
-	uint8_t hwsettings_rcvrport;
-	HwSettingsFlyingF3_RcvrPortGet(&hwsettings_rcvrport);
+	uint8_t hw_rcvrport;
+	HwFlyingF3RcvrPortGet(&hw_rcvrport);
 
-	switch (hwsettings_rcvrport) {
-	case HWSETTINGS_FLYINGF3_RCVRPORT_DISABLED:
+	switch (hw_rcvrport) {
+	case HWFLYINGF3_RCVRPORT_DISABLED:
 		break;
-	case HWSETTINGS_FLYINGF3_RCVRPORT_PWM:
+	case HWFLYINGF3_RCVRPORT_PWM:
 #if defined(PIOS_INCLUDE_PWM)
 		{
 			uint32_t pios_pwm_id;
@@ -687,8 +687,8 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_PWM */
 		break;
-	case HWSETTINGS_FLYINGF3_RCVRPORT_PPM:
-	case HWSETTINGS_FLYINGF3_RCVRPORT_PPMOUTPUTS:
+	case HWFLYINGF3_RCVRPORT_PPM:
+	case HWFLYINGF3_RCVRPORT_PPMOUTPUTS:
 #if defined(PIOS_INCLUDE_PPM)
 		{
 			uint32_t pios_ppm_id;
@@ -702,7 +702,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_PPM */
 		break;
-	case HWSETTINGS_FLYINGF3_RCVRPORT_PPMPWM:
+	case HWFLYINGF3_RCVRPORT_PPMPWM:
 		/* This is a combination of PPM and PWM inputs */
 #if defined(PIOS_INCLUDE_PPM)
 		{
@@ -744,17 +744,17 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_GCSRCVR */
 
 #ifndef PIOS_DEBUG_ENABLE_DEBUG_PINS
-	switch (hwsettings_rcvrport) {
-		case HWSETTINGS_FLYINGF3_RCVRPORT_DISABLED:
-		case HWSETTINGS_FLYINGF3_RCVRPORT_PWM:
-		case HWSETTINGS_FLYINGF3_RCVRPORT_PPM:
+	switch (hw_rcvrport) {
+		case HWFLYINGF3_RCVRPORT_DISABLED:
+		case HWFLYINGF3_RCVRPORT_PWM:
+		case HWFLYINGF3_RCVRPORT_PPM:
 			/* Set up the servo outputs */
 #ifdef PIOS_INCLUDE_SERVO
 			PIOS_Servo_Init(&pios_servo_cfg);
 #endif
 			break;
-		case HWSETTINGS_FLYINGF3_RCVRPORT_PPMOUTPUTS:
-		case HWSETTINGS_FLYINGF3_RCVRPORT_OUTPUTS:
+		case HWFLYINGF3_RCVRPORT_PPMOUTPUTS:
+		case HWFLYINGF3_RCVRPORT_OUTPUTS:
 #ifdef PIOS_INCLUDE_SERVO
 			PIOS_Servo_Init(&pios_servo_rcvr_cfg);
 #endif
@@ -777,20 +777,20 @@ void PIOS_Board_Init(void) {
 	// To be safe map from UAVO enum to driver enum
 	/*
 	 * FIXME: add support for this to l3gd20 driver
-	uint8_t gyro_range;
-	HwSettingsGyroRangeGet(&gyro_range);
-	switch(gyro_range) {
-		case HWSETTINGS_GYRORANGE_250:
+	uint8_t hw_gyro_range;
+	HwFlyingF3GyroRangeGet(&hw_gyro_range);
+	switch(hw_gyro_range) {
+		case HWFLYINGF3_GYRORANGE_250:
 			PIOS_L3GD20_SetRange(PIOS_L3GD20_SCALE_250_DEG);
 			break;
-		case HWSETTINGS_GYRORANGE_500:
+		case HWFLYINGF3_GYRORANGE_500:
 			PIOS_L3GD20_SetRange(PIOS_L3GD20_SCALE_500_DEG);
 			break;
-		case HWSETTINGS_GYRORANGE_1000:
+		case HWFLYINGF3_GYRORANGE_1000:
 			//FIXME: how to behave in this case?
 			PIOS_L3GD20_SetRange(PIOS_L3GD20_SCALE_2000_DEG);
 			break;
-		case HWSETTINGS_GYRORANGE_2000:
+		case HWFLYINGF3_GYRORANGE_2000:
 			PIOS_L3GD20_SetRange(PIOS_L3GD20_SCALE_2000_DEG);
 			break;
 	}
@@ -809,19 +809,19 @@ void PIOS_Board_Init(void) {
 	if (PIOS_LSM303_Mag_Test() != 0)
 		panic();
 
-	uint8_t accel_range;
-	HwSettingsAccelRangeGet(&accel_range);
-	switch(accel_range) {
-		case HWSETTINGS_ACCELRANGE_2G:
+	uint8_t hw_accel_range;
+	HwFlyingF3AccelRangeGet(&hw_accel_range);
+	switch(hw_accel_range) {
+		case HWFLYINGF3_ACCELRANGE_2G:
 			PIOS_LSM303_Accel_SetRange(PIOS_LSM303_ACCEL_2G);
 			break;
-		case HWSETTINGS_ACCELRANGE_4G:
+		case HWFLYINGF3_ACCELRANGE_4G:
 			PIOS_LSM303_Accel_SetRange(PIOS_LSM303_ACCEL_4G);
 			break;
-		case HWSETTINGS_ACCELRANGE_8G:
+		case HWFLYINGF3_ACCELRANGE_8G:
 			PIOS_LSM303_Accel_SetRange(PIOS_LSM303_ACCEL_8G);
 			break;
-		case HWSETTINGS_ACCELRANGE_16G:
+		case HWFLYINGF3_ACCELRANGE_16G:
 			PIOS_LSM303_Accel_SetRange(PIOS_LSM303_ACCEL_16G);
 			break;
 	}
