@@ -60,6 +60,10 @@
 /* by the device application software */
 #define IMR_MSK (CNTR_CTRM  | CNTR_WKUPM | CNTR_SUSPM | CNTR_ERRM  | CNTR_SOFM \
                  | CNTR_ESOFM | CNTR_RESETM )
+
+/* Provide a callback function for SOF so we can do early USB detection */
+#define SOF_CALLBACK
+
 #endif /* STM32F10X_CL */
 
 #ifdef STM32F10X_CL
