@@ -93,6 +93,7 @@ static void settingsUpdatedCb(UAVObjEvent * objEv);
 static void update_accels(struct pios_sensor_accel_data *accels, AccelsData * accelsData);
 static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosData);
 static void update_trimming(AccelsData * accelsData);
+static void updateTemperatureComp(float temperature, float *temp_bias);
 
 //! Compute the mean gyro accumulated and assign the bias
 static void accumulate_gyro_compute();
@@ -448,6 +449,8 @@ static void update_accels(struct pios_sensor_accel_data *accels, AccelsData * ac
  */
 static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosData)
 {
+	static float gyro_temp_bias[3] = {0,0,0};
+
 	// Scale the gyros
 	float gyros_out[3] = {gyros->x * inertialSensorSettings.GyroScale[0],
 	                      gyros->y * inertialSensorSettings.GyroScale[1],
@@ -468,11 +471,14 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosD
 	// When computing the bias accumulate samples
 	accumulate_gyro(gyrosData);
 
+	// Update the bias due to the temperature
+	updateTemperatureComp(gyrosData->temperature, gyro_temp_bias);
+
 	if(bias_correct_gyro) {
 		// Applying integral component here so it can be seen on the gyros and correct bias
-		gyrosData->x -= gyro_correct_int[0];
-		gyrosData->y -= gyro_correct_int[1];
-		gyrosData->z -= gyro_correct_int[2];
+		gyrosData->x -= gyro_temp_bias[0] + gyro_correct_int[0];
+		gyrosData->y -= gyro_temp_bias[1] + gyro_correct_int[1];
+		gyrosData->z -= gyro_temp_bias[2] + gyro_correct_int[2];
 	}
 
 	// Because most crafts wont get enough information from gravity to zero yaw gyro, we try
@@ -672,6 +678,39 @@ static void updateAttitude(AccelsData * accelsData, GyrosData * gyrosData)
 	Quaternion2RPY(&attitudeActual.q1,&attitudeActual.Roll);
 	
 	AttitudeActualSet(&attitudeActual);
+}
+
+/**
+ * Compute the bias expected from temperature variation for each gyro
+ * channel
+ */
+static void updateTemperatureComp(float temperature, float *temp_bias)
+{
+	static int temp_counter = 0;
+	static float temp_accum = 0;
+
+	if (temp_counter < 500) {
+		temp_accum += temperature;
+		temp_counter ++;
+	} else {
+		float t = temp_accum / temp_counter;
+		temp_accum = 0;
+		temp_counter = 0;
+
+		// Compute a third order polynomial for each chanel after each 500 samples
+		temp_bias[0] = inertialSensorSettings.XGyroTempCoeff[0] + 
+		               inertialSensorSettings.XGyroTempCoeff[1] * t + 
+		               inertialSensorSettings.XGyroTempCoeff[2] * powf(t,2) + 
+		               inertialSensorSettings.XGyroTempCoeff[3] * powf(t,3);
+		temp_bias[1] = inertialSensorSettings.YGyroTempCoeff[0] + 
+		               inertialSensorSettings.YGyroTempCoeff[1] * t + 
+		               inertialSensorSettings.YGyroTempCoeff[2] * powf(t,2) + 
+		               inertialSensorSettings.YGyroTempCoeff[3] * powf(t,3);
+		temp_bias[2] = inertialSensorSettings.ZGyroTempCoeff[0] + 
+		               inertialSensorSettings.ZGyroTempCoeff[1] * t + 
+		               inertialSensorSettings.ZGyroTempCoeff[2] * powf(t,2) + 
+		               inertialSensorSettings.ZGyroTempCoeff[3] * powf(t,3);
+	}
 }
 
 static void settingsUpdatedCb(UAVObjEvent * objEv) {
