@@ -42,6 +42,9 @@
 /* Rx/Tx status */
 static bool transfer_possible = false;
 
+/* USB activity detection */
+static volatile bool sof_seen_since_reset = false;
+
 enum pios_usb_dev_magic {
 	PIOS_USB_DEV_MAGIC = 0x17365904,
 };
@@ -231,6 +234,16 @@ bool PIOS_USB_CheckAvailable(uint8_t id)
 		return false;
 
 	return PIOS_USB_CableConnected(id) && transfer_possible;
+}
+
+void SOF_Callback(void)
+{
+	sof_seen_since_reset = true;
+}
+
+void SUSP_Callback(void)
+{
+	sof_seen_since_reset = false;
 }
 
 #endif
