@@ -19,13 +19,11 @@ HEADERS += calibration.h \
     configoutputwidget.h \
     configvehicletypewidget.h \
     config_cc_hw_widget.h \
-    configccattitudewidget.h \
     configpipxtremewidget.h \
     cfg_vehicletypes/configccpmwidget.h \
     configstabilizationwidget.h \
     assertions.h \
     calibration.h \
-    defaultattitudewidget.h \
     defaulthwsettingswidget.h \
     inputchannelform.h \
     configcamerastabilizationwidget.h \
@@ -35,7 +33,7 @@ HEADERS += calibration.h \
     cfg_vehicletypes/configgroundvehiclewidget.h \
     cfg_vehicletypes/configfixedwingwidget.h \
     cfg_vehicletypes/vehicleconfig.h \
-    configrevowidget.h \
+    configattitudewidget.h \
     config_global.h \
     mixercurve.h \
     dblspindelegate.h \
@@ -54,14 +52,12 @@ SOURCES += calibration.cpp \
     configoutputwidget.cpp \
     configvehicletypewidget.cpp \
     config_cc_hw_widget.cpp \
-    configccattitudewidget.cpp \
     configstabilizationwidget.cpp \
     configpipxtremewidget.cpp \
-    defaultattitudewidget.cpp \
     defaulthwsettingswidget.cpp \
     inputchannelform.cpp \
     configcamerastabilizationwidget.cpp \
-    configrevowidget.cpp \
+    configattitudewidget.cpp \
     configtxpidwidget.cpp \
     cfg_vehicletypes/configmultirotorwidget.cpp \
     cfg_vehicletypes/configgroundvehiclewidget.cpp \
@@ -80,13 +76,11 @@ FORMS += airframe.ui \
     stabilization.ui \
     input.ui \
     output.ui \
-    ccattitude.ui \
-    defaultattitude.ui \
     defaulthwsettings.ui \
     inputchannelform.ui \
     camerastabilization.ui \
     outputchannelform.ui \
-    revosensors.ui \
+    attitude.ui \
     txpid.ui \
     pipxtreme.ui \
     mixercurve.ui \

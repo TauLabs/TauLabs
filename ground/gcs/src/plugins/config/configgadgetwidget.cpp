@@ -29,7 +29,6 @@
 #include "configgadgetwidget.h"
 
 #include "configvehicletypewidget.h"
-#include "configccattitudewidget.h"
 #include "configinputwidget.h"
 #include "configoutputwidget.h"
 #include "configstabilizationwidget.h"
@@ -38,8 +37,7 @@
 #include "configtxpidwidget.h"
 #include "config_cc_hw_widget.h"
 #include "configpipxtremewidget.h"
-#include "configrevowidget.h"
-#include "defaultattitudewidget.h"
+#include "configattitudewidget.h"
 #include "defaulthwsettingswidget.h"
 #include "uavobjectutilmanager.h"
 
@@ -94,8 +92,8 @@ ConfigGadgetWidget::ConfigGadgetWidget(QWidget *parent) : QWidget(parent)
     icon = new QIcon();
     icon->addFile(":/configgadget/images/ins_normal.png", QSize(), QIcon::Normal, QIcon::Off);
     icon->addFile(":/configgadget/images/ins_selected.png", QSize(), QIcon::Selected, QIcon::Off);
-    qwd = new DefaultAttitudeWidget(this);
-    ftw->insertTab(ConfigGadgetWidget::sensors, qwd, *icon, QString("INS"));
+    qwd = new ConfigAttitudeWidget(this);
+    ftw->insertTab(ConfigGadgetWidget::sensors, qwd, *icon, QString("Attitude"));
 
     icon = new QIcon();
     icon->addFile(":/configgadget/images/stabilization_normal.png", QSize(), QIcon::Normal, QIcon::Off);
@@ -173,19 +171,12 @@ void ConfigGadgetWidget::resizeEvent(QResizeEvent *event)
 
 void ConfigGadgetWidget::onAutopilotDisconnect() {
     ftw->setCurrentIndex(ConfigGadgetWidget::hardware);
-    ftw->removeTab(ConfigGadgetWidget::sensors);
-
-    QIcon *icon = new QIcon();
-    icon->addFile(":/configgadget/images/ins_normal.png", QSize(), QIcon::Normal, QIcon::Off);
-    icon->addFile(":/configgadget/images/ins_selected.png", QSize(), QIcon::Selected, QIcon::Off);
-    QWidget *qwd = new DefaultAttitudeWidget(this);
-    ftw->insertTab(ConfigGadgetWidget::sensors, qwd, *icon, QString("INS"));
     ftw->removeTab(ConfigGadgetWidget::hardware);
 
-    icon = new QIcon();
+    QIcon *icon = new QIcon();
     icon->addFile(":/configgadget/images/hardware_normal.png", QSize(), QIcon::Normal, QIcon::Off);
     icon->addFile(":/configgadget/images/hardware_selected.png", QSize(), QIcon::Selected, QIcon::Off);
-    qwd = new DefaultHwSettingsWidget(this, false);
+    QWidget *qwd = new DefaultHwSettingsWidget(this, false);
     ftw->insertTab(ConfigGadgetWidget::hardware, qwd, *icon, QString("Hardware"));
     ftw->setCurrentIndex(ConfigGadgetWidget::hardware);
 
@@ -203,21 +194,14 @@ void ConfigGadgetWidget::onAutopilotConnect() {
         int board = utilMngr->getBoardModel();
         if ((board & 0xff00) == 1024) {
             // CopterControl family
-            //Delete the current sensor panel, replace with CC sensor panel:
             ftw->setCurrentIndex(ConfigGadgetWidget::hardware);
-            ftw->removeTab(ConfigGadgetWidget::sensors);
-            QIcon *icon = new QIcon();
-            icon->addFile(":/configgadget/images/ins_normal.png", QSize(), QIcon::Normal, QIcon::Off);
-            icon->addFile(":/configgadget/images/ins_selected.png", QSize(), QIcon::Selected, QIcon::Off);
-            QWidget *qwd = new ConfigCCAttitudeWidget(this);
-            ftw->insertTab(ConfigGadgetWidget::sensors, qwd, *icon, QString("Attitude"));
 
             // Delete the current hardware panel, replace with CopterControl/CC3D hardware configuration
             ftw->removeTab(ConfigGadgetWidget::hardware);
-            icon = new QIcon();
+            QIcon *icon = new QIcon();
             icon->addFile(":/configgadget/images/hardware_normal.png", QSize(), QIcon::Normal, QIcon::Off);
             icon->addFile(":/configgadget/images/hardware_selected.png", QSize(), QIcon::Selected, QIcon::Off);
-            qwd = new ConfigCCHWWidget(this);
+            QWidget *qwd = new ConfigCCHWWidget(this);
             ftw->insertTab(ConfigGadgetWidget::hardware, qwd, *icon, QString("Hardware"));
             ftw->setCurrentIndex(ConfigGadgetWidget::hardware);
         } else if ((board & 0xff00) == 0x0900 || // RevoMini
@@ -228,22 +212,12 @@ void ConfigGadgetWidget::onAutopilotConnect() {
                    (board & 0xff00) == 0x8600    // Quanton
                    ) {
             // Non-CopterControl family
-            //Delete the current sensor panel, replace with INS sensor configuration
             ftw->setCurrentIndex(ConfigGadgetWidget::hardware);
-            ftw->removeTab(ConfigGadgetWidget::sensors);
-
-            QIcon *icon = new QIcon();
-            icon->addFile(":/configgadget/images/ins_normal.png", QSize(), QIcon::Normal, QIcon::Off);
-            icon->addFile(":/configgadget/images/ins_selected.png", QSize(), QIcon::Selected, QIcon::Off);
-            QWidget *qwd = new ConfigRevoWidget(this);
-            ftw->insertTab(ConfigGadgetWidget::sensors, qwd, *icon, QString("INS"));
-
-            // Delete the current hardware panel, replace with generic hardware configuration
             ftw->removeTab(ConfigGadgetWidget::hardware);
-            icon = new QIcon();
+            QIcon *icon = new QIcon();
             icon->addFile(":/configgadget/images/hardware_normal.png", QSize(), QIcon::Normal, QIcon::Off);
             icon->addFile(":/configgadget/images/hardware_selected.png", QSize(), QIcon::Normal, QIcon::On);
-            qwd = new DefaultHwSettingsWidget(this, true);
+            QWidget *qwd = new DefaultHwSettingsWidget(this);
             ftw->insertTab(ConfigGadgetWidget::hardware, qwd, *icon, QString("Hardware"));
             ftw->setCurrentIndex(ConfigGadgetWidget::hardware);
         } else {

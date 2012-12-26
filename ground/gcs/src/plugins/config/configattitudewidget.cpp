@@ -1,8 +1,9 @@
 /**
  ******************************************************************************
  *
- * @file       ConfigRevoWidget.h
+ * @file       ConfigAttitudeWidget.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     PhoenixPilot, http://github.com/PhoenixPIlot Copyright (C) 2012.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -24,7 +25,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#include "configrevowidget.h"
+#include "ConfigAttitudeWidget.h"
 
 #include "math.h"
 #include <QDebug>
@@ -59,7 +60,7 @@
 // Uncomment this to enable 6 point calibration on the accels
 #define SIX_POINT_CAL_ACCEL
 
-const double ConfigRevoWidget::maxVarValue = 0.1;
+const double ConfigAttitudeWidget::maxVarValue = 0.1;
 
 // *****************
 
@@ -74,9 +75,9 @@ public:
 
 // *****************
 
-ConfigRevoWidget::ConfigRevoWidget(QWidget *parent) :
+ConfigAttitudeWidget::ConfigAttitudeWidget(QWidget *parent) :
     ConfigTaskWidget(parent),
-    m_ui(new Ui_RevoSensorsWidget())
+    m_ui(new Ui_AttitudeWidget())
 {
     m_ui->setupUi(this);
 
@@ -270,13 +271,13 @@ ConfigRevoWidget::ConfigRevoWidget(QWidget *parent) :
     refreshWidgetsValues();
 }
 
-ConfigRevoWidget::~ConfigRevoWidget()
+ConfigAttitudeWidget::~ConfigAttitudeWidget()
 {
     // Do nothing
 }
 
 
-void ConfigRevoWidget::showEvent(QShowEvent *event)
+void ConfigAttitudeWidget::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event)
     // Thit fitInView method should only be called now, once the
@@ -286,7 +287,7 @@ void ConfigRevoWidget::showEvent(QShowEvent *event)
     m_ui->sixPointHelp->fitInView(paperplane,Qt::KeepAspectRatio);
 }
 
-void ConfigRevoWidget::resizeEvent(QResizeEvent *event)
+void ConfigAttitudeWidget::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event)
     m_ui->sensorsBargraph->fitInView(sensorsBargraph, Qt::KeepAspectRatio);
@@ -296,7 +297,7 @@ void ConfigRevoWidget::resizeEvent(QResizeEvent *event)
 /**
   Rotate the paper plane
   */
-void ConfigRevoWidget::displayPlane(int position)
+void ConfigAttitudeWidget::displayPlane(int position)
 {
     QString displayElement;
     switch(position) {
@@ -331,7 +332,7 @@ void ConfigRevoWidget::displayPlane(int position)
 /**
   * Connect sensor updates and timeout for measuring the noise
   */
-void ConfigRevoWidget::doStartNoiseMeasurement()
+void ConfigAttitudeWidget::doStartNoiseMeasurement()
 {
     QMutexLocker lock(&sensorsUpdateLock);
     Q_UNUSED(lock);
@@ -394,7 +395,7 @@ void ConfigRevoWidget::doStartNoiseMeasurement()
   * Called when any of the sensors are updated.  Stores the sample for measuring the
   * variance at the end
   */
-void ConfigRevoWidget::doGetNoiseSample(UAVObject * obj)
+void ConfigAttitudeWidget::doGetNoiseSample(UAVObject * obj)
 {
     QMutexLocker lock(&sensorsUpdateLock);
     Q_UNUSED(lock);
@@ -495,7 +496,7 @@ void ConfigRevoWidget::doGetNoiseSample(UAVObject * obj)
 /**
   Draws the sensor variances bargraph
   */
-void ConfigRevoWidget::drawVariancesGraph()
+void ConfigAttitudeWidget::drawVariancesGraph()
 {
     INSSettings * insSettings = INSSettings::GetInstance(getObjectManager());
     Q_ASSERT(insSettings);
@@ -546,7 +547,7 @@ void ConfigRevoWidget::drawVariancesGraph()
   * Called by the ConfigTaskWidget parent when RevoCalibration is updated
   * to update the UI
   */
-void ConfigRevoWidget::refreshWidgetsValues(UAVObject *)
+void ConfigAttitudeWidget::refreshWidgetsValues(UAVObject *)
 {
     drawVariancesGraph();
 

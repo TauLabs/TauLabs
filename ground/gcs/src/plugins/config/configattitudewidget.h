@@ -3,6 +3,7 @@
  *
  * @file       configahrstwidget.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     PhoenixPilot, http://github.com/PhoenixPIlot Copyright (C) 2012.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -24,10 +25,10 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef CONFIGREVOWIDGET_H
-#define CONFIGREVOWIDGET_H
+#ifndef ConfigAttitudeWidget_H
+#define ConfigAttitudeWidget_H
 
-#include "ui_revosensors.h"
+#include "ui_attitude.h"
 #include "configtaskwidget.h"
 #include "calibration.h"
 
@@ -44,18 +45,18 @@
 
 class Ui_Widget;
 
-class ConfigRevoWidget: public ConfigTaskWidget
+class ConfigAttitudeWidget: public ConfigTaskWidget
 {
     Q_OBJECT
 
 public:
-    ConfigRevoWidget(QWidget *parent = 0);
-    ~ConfigRevoWidget();
+    ConfigAttitudeWidget(QWidget *parent = 0);
+    ~ConfigAttitudeWidget();
     
 private:
     void drawVariancesGraph();
 
-    Ui_RevoSensorsWidget *m_ui;
+    Ui_AttitudeWidget *m_ui;
     QGraphicsSvgItem *paperplane;
     QGraphicsSvgItem *sensorsBargraph;
     QGraphicsSvgItem *accel_x;
@@ -115,4 +116,4 @@ protected:
 
 };
 
-#endif // ConfigRevoWidget_H
+#endif // ConfigAttitudeWidget_H
