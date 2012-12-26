@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = SystemHealthGadget
 QT += svg
-include(../../openpilotgcsplugin.pri)
+include(../../abovegroundlabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
 include(systemhealth_dependencies.pri)
 HEADERS += systemhealthplugin.h

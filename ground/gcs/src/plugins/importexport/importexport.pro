@@ -2,7 +2,7 @@ TEMPLATE = lib
 TARGET = ImportExportGadget
 DEFINES += IMPORTEXPORT_LIBRARY
 QT += xml
-include(../../openpilotgcsplugin.pri)
+include(../../abovegroundlabsgcsplugin.pri)
 include(importexport_dependencies.pri)
 HEADERS += importexportplugin.h \
     importexportgadgetwidget.h \

@@ -27,7 +27,7 @@ manpage.1: manpage.sgml
   <!ENTITY dhemail     "<email>naiiawah@none</email>">
   <!ENTITY dhusername  "naiiawah">
   <!ENTITY dhucpackage "<refentrytitle>OPENPILOT</refentrytitle>">
-  <!ENTITY dhpackage   "openpilot">
+  <!ENTITY dhpackage   "abovegroundlabs">
 
   <!ENTITY debian      "<productname>Debian</productname>">
   <!ENTITY gnu         "<acronym>GNU</acronym>">
