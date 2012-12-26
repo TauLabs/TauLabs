@@ -606,11 +606,31 @@ void Calibration::doStartTempCal()
 
     emit toggleControls(false);
     emit showTempCalMessage(tr("Leave board flat and very still while it changes temperature"));
+    emit tempCalProgressChanged(0);
 
     // Set up timeout timer
     timer.setSingleShot(true);
-    timer.start(5000 + (3 * NUM_SENSOR_UPDATES * SENSOR_UPDATE_PERIOD));
+    timer.start(1800000);
     connect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
+}
+
+/**
+ * @brief Calibration::doCancelTempCalPoint Abort the temperature calibration
+ */
+void Calibration::doCancelTempCalPoint()
+{
+    if (calibration_state == GYRO_TEMP_CAL) {
+        qDebug() << "Canceling";
+        connectSensor(GYRO, false);
+
+        calibration_state = IDLE;
+        emit showTempCalMessage(tr("Temperature calibration timed out"));
+        emit tempCalProgressChanged(0);
+        emit toggleControls(true);
+
+        timer.stop();
+        disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
+    }
 }
 
 
@@ -856,7 +876,6 @@ bool Calibration::storeTempCalMeasurement(UAVObject * obj)
  */
 void Calibration::updateTempCompCalibrationDisplay()
 {
-    qDebug() << "Update display";
     unsigned int n_samples = gyro_accum_temp.size();
 
     // Construct the matrix of temperature.
@@ -914,6 +933,9 @@ void Calibration::updateTempCompCalibrationDisplay()
  */
 int Calibration::computeTempCal()
 {
+    timer.stop();
+    disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
+
     unsigned int n_samples = gyro_accum_temp.size();
 
     // Construct the matrix of temperature.
@@ -986,6 +1008,8 @@ int Calibration::computeTempCal()
         yCurve->plotData(gyro_accum_temp, gyro_accum_y, yCoeffs);
     if (zCurve != NULL)
         zCurve->plotData(gyro_accum_temp, gyro_accum_z, zCoeffs);
+
+    emit tempCalProgressChanged(0);
 
     return CALIBRATION_SUCCESS;
 }

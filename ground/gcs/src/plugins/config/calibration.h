@@ -70,6 +70,9 @@ public slots:
     //! Start collecting gyro calibration data
     void doStartTempCal();
 
+    //! Cancels the temperature calibration routine
+    void doCancelTempCalPoint();
+
     //! Set up the curves
     void configureTempCurves(TempCompCurve *x, TempCompCurve *y, TempCompCurve *z);
 
@@ -144,8 +147,7 @@ private:
     static const int NUM_SENSOR_UPDATES = 300;
     static const int NUM_SENSOR_UPDATES_SIX_POINT = 500;
     static const int SENSOR_UPDATE_PERIOD = 50;
-
-    static const double MIN_TEMPERATURE_RANGE = 10;
+    static const double MIN_TEMPERATURE_RANGE = 10.0;
 
     double initialBoardRotation[3];
     double initialAccelsScale[3];
