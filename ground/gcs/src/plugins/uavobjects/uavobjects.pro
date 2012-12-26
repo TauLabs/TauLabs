@@ -28,6 +28,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/actuatorcommand.h \
     $$UAVOBJECT_SYNTHETICS/actuatordesired.h \
     $$UAVOBJECT_SYNTHETICS/actuatorsettings.h \
+    $$UAVOBJECT_SYNTHETICS/adcrouting.h \
     $$UAVOBJECT_SYNTHETICS/airspeedsettings.h \
     $$UAVOBJECT_SYNTHETICS/airspeedactual.h \
     $$UAVOBJECT_SYNTHETICS/altholdsmoothed.h \
@@ -63,7 +64,15 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/gyros.h \
     $$UAVOBJECT_SYNTHETICS/gyrosbias.h \
     $$UAVOBJECT_SYNTHETICS/homelocation.h \
-    $$UAVOBJECT_SYNTHETICS/hwsettings.h \
+    $$UAVOBJECT_SYNTHETICS/hwcoptercontrol.h \
+    $$UAVOBJECT_SYNTHETICS/hwdiscoveryf4.h \
+    $$UAVOBJECT_SYNTHETICS/hwfreedom.h \
+    $$UAVOBJECT_SYNTHETICS/hwflyingf3.h \
+    $$UAVOBJECT_SYNTHETICS/hwflyingf4.h \
+    $$UAVOBJECT_SYNTHETICS/hwosd.h \
+    $$UAVOBJECT_SYNTHETICS/hwquanton.h \
+    $$UAVOBJECT_SYNTHETICS/hwrevolution.h \
+    $$UAVOBJECT_SYNTHETICS/hwrevomini.h \
     $$UAVOBJECT_SYNTHETICS/i2cstats.h \
     $$UAVOBJECT_SYNTHETICS/inertialsensorsettings.h \
     $$UAVOBJECT_SYNTHETICS/inssettings.h \
@@ -73,6 +82,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/manualcontrolcommand.h \
     $$UAVOBJECT_SYNTHETICS/mixersettings.h \
     $$UAVOBJECT_SYNTHETICS/mixerstatus.h \
+    $$UAVOBJECT_SYNTHETICS/modulesettings.h \
     $$UAVOBJECT_SYNTHETICS/nedaccel.h \
     $$UAVOBJECT_SYNTHETICS/nedposition.h \
     $$UAVOBJECT_SYNTHETICS/objectpersistence.h \
@@ -111,6 +121,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/actuatorcommand.cpp \
     $$UAVOBJECT_SYNTHETICS/actuatordesired.cpp \
     $$UAVOBJECT_SYNTHETICS/actuatorsettings.cpp \
+    $$UAVOBJECT_SYNTHETICS/adcrouting.cpp \
     $$UAVOBJECT_SYNTHETICS/airspeedsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/airspeedactual.cpp \
     $$UAVOBJECT_SYNTHETICS/altholdsmoothed.cpp \
@@ -146,7 +157,15 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/gyros.cpp \
     $$UAVOBJECT_SYNTHETICS/gyrosbias.cpp \
     $$UAVOBJECT_SYNTHETICS/homelocation.cpp \
-    $$UAVOBJECT_SYNTHETICS/hwsettings.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwcoptercontrol.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwdiscoveryf4.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwfreedom.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwflyingf3.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwflyingf4.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwosd.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwquanton.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwrevolution.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwrevomini.cpp \
     $$UAVOBJECT_SYNTHETICS/i2cstats.cpp \
     $$UAVOBJECT_SYNTHETICS/inertialsensorsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/inssettings.cpp \
@@ -156,6 +175,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/manualcontrolcommand.cpp \
     $$UAVOBJECT_SYNTHETICS/mixersettings.cpp \
     $$UAVOBJECT_SYNTHETICS/mixerstatus.cpp \
+    $$UAVOBJECT_SYNTHETICS/modulesettings.cpp \
     $$UAVOBJECT_SYNTHETICS/nedaccel.cpp \
     $$UAVOBJECT_SYNTHETICS/nedposition.cpp \
     $$UAVOBJECT_SYNTHETICS/objectpersistence.cpp \

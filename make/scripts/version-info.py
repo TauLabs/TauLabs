@@ -271,7 +271,6 @@ def GetHashofDirs(directory, verbose=0, raw=0):
           f1 = open(filepath, 'rU')
         except:
           # You can't open the file for some reason
-          f1.close()
           continue
 
         # Compute file hash.  Same as running "sha1sum <file>".

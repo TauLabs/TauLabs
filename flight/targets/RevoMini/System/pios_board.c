@@ -37,7 +37,7 @@
 #include <pios.h>
 #include <openpilot.h>
 #include <uavobjectsinit.h>
-#include "hwsettings.h"
+#include "hwrevomini.h"
 #include "manualcontrolsettings.h"
 
 /**
@@ -332,7 +332,7 @@ void PIOS_Board_Init(void) {
 	EventDispatcherInitialize();
 	UAVObjInitialize();
 	
-	HwSettingsInitialize();
+	HwRevoMiniInitialize();
 	
 #if defined(PIOS_INCLUDE_RTC)
 	PIOS_RTC_Init(&pios_rtc_main_cfg);
@@ -361,8 +361,8 @@ void PIOS_Board_Init(void) {
 		PIOS_IAP_WriteBootCount(++boot_count);
 		AlarmsClear(SYSTEMALARMS_ALARM_BOOTFAULT);
 	} else {
-		/* Too many failed boot attempts, force hwsettings to defaults */
-		HwSettingsSetDefaults(HwSettingsHandle(), 0);
+		/* Too many failed boot attempts, force hw config to defaults */
+		HwRevoMiniSetDefaults(HwRevoMiniHandle(), 0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
 
@@ -395,29 +395,29 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_USB_CDC)
 
-	uint8_t hwsettings_usb_vcpport;
+	uint8_t hw_usb_vcpport;
 	/* Configure the USB VCP port */
-	HwSettingsUSB_VCPPortGet(&hwsettings_usb_vcpport);
+	HwRevoMiniUSB_VCPPortGet(&hw_usb_vcpport);
 
 	if (!usb_cdc_present) {
 		/* Force VCP port function to disabled if we haven't advertised VCP in our USB descriptor */
-		hwsettings_usb_vcpport = HWSETTINGS_USB_VCPPORT_DISABLED;
+		hw_usb_vcpport = HWREVOMINI_USB_VCPPORT_DISABLED;
 	}
 
-	switch (hwsettings_usb_vcpport) {
-	case HWSETTINGS_USB_VCPPORT_DISABLED:
+	switch (hw_usb_vcpport) {
+	case HWREVOMINI_USB_VCPPORT_DISABLED:
 		break;
-	case HWSETTINGS_USB_VCPPORT_USBTELEMETRY:
+	case HWREVOMINI_USB_VCPPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 			PIOS_Board_configure_com(&pios_usb_cdc_cfg, PIOS_COM_TELEM_USB_RX_BUF_LEN, PIOS_COM_TELEM_USB_TX_BUF_LEN, &pios_usb_cdc_com_driver, &pios_com_telem_usb_id);
 #endif	/* PIOS_INCLUDE_COM */
 		break;
-	case HWSETTINGS_USB_VCPPORT_COMBRIDGE:
+	case HWREVOMINI_USB_VCPPORT_COMBRIDGE:
 #if defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usb_cdc_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usb_cdc_com_driver, &pios_com_vcp_id);
 #endif	/* PIOS_INCLUDE_COM */
 		break;
-	case HWSETTINGS_USB_VCPPORT_DEBUGCONSOLE:
+	case HWREVOMINI_USB_VCPPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 		{
@@ -442,18 +442,18 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_USB_HID)
 	/* Configure the usb HID port */
-	uint8_t hwsettings_usb_hidport;
-	HwSettingsUSB_HIDPortGet(&hwsettings_usb_hidport);
+	uint8_t hw_usb_hidport;
+	HwRevoMiniUSB_HIDPortGet(&hw_usb_hidport);
 
 	if (!usb_hid_present) {
 		/* Force HID port function to disabled if we haven't advertised HID in our USB descriptor */
-		hwsettings_usb_hidport = HWSETTINGS_USB_HIDPORT_DISABLED;
+		hw_usb_hidport = HWREVOMINI_USB_HIDPORT_DISABLED;
 	}
 
-	switch (hwsettings_usb_hidport) {
-	case HWSETTINGS_USB_HIDPORT_DISABLED:
+	switch (hw_usb_hidport) {
+	case HWREVOMINI_USB_HIDPORT_DISABLED:
 		break;
-	case HWSETTINGS_USB_HIDPORT_USBTELEMETRY:
+	case HWREVOMINI_USB_HIDPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uint32_t pios_usb_hid_id;
@@ -482,22 +482,22 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_USB */
 
 	/* Configure IO ports */
-	uint8_t hwsettings_DSMxBind;
-	HwSettingsDSMxBindGet(&hwsettings_DSMxBind);
+	uint8_t hw_DSMxBind;
+	HwRevoMiniDSMxBindGet(&hw_DSMxBind);
 	
 	/* Configure main USART port */
-	uint8_t hwsettings_mainport;
-	HwSettingsRM_MainPortGet(&hwsettings_mainport);
-	switch (hwsettings_mainport) {
-		case HWSETTINGS_RM_MAINPORT_DISABLED:
+	uint8_t hw_mainport;
+	HwRevoMiniMainPortGet(&hw_mainport);
+	switch (hw_mainport) {
+		case HWREVOMINI_MAINPORT_DISABLED:
 			break;
-		case HWSETTINGS_RM_MAINPORT_TELEMETRY:
+		case HWREVOMINI_MAINPORT_TELEMETRY:
 			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
 			break;
-		case HWSETTINGS_RM_MAINPORT_GPS:
+		case HWREVOMINI_MAINPORT_GPS:
 			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_GPS_RX_BUF_LEN, -1, &pios_usart_com_driver, &pios_com_gps_id);
 			break;
-		case HWSETTINGS_RM_MAINPORT_SBUS:
+		case HWREVOMINI_MAINPORT_SBUS:
 #if defined(PIOS_INCLUDE_SBUS)
                         {
                                 uint32_t pios_usart_sbus_id;
@@ -518,19 +518,19 @@ void PIOS_Board_Init(void) {
                         }
 #endif
                         break;
-		case HWSETTINGS_RM_MAINPORT_DSM2:
-		case HWSETTINGS_RM_MAINPORT_DSMX10BIT:
-		case HWSETTINGS_RM_MAINPORT_DSMX11BIT:
+		case HWREVOMINI_MAINPORT_DSM2:
+		case HWREVOMINI_MAINPORT_DSMX10BIT:
+		case HWREVOMINI_MAINPORT_DSMX11BIT:
 			{
 				enum pios_dsm_proto proto;
-				switch (hwsettings_mainport) {
-				case HWSETTINGS_RM_MAINPORT_DSM2:
+				switch (hw_mainport) {
+				case HWREVOMINI_MAINPORT_DSM2:
 					proto = PIOS_DSM_PROTO_DSM2;
 					break;
-				case HWSETTINGS_RM_MAINPORT_DSMX10BIT:
+				case HWREVOMINI_MAINPORT_DSMX10BIT:
 					proto = PIOS_DSM_PROTO_DSMX10BIT;
 					break;
-				case HWSETTINGS_RM_MAINPORT_DSMX11BIT:
+				case HWREVOMINI_MAINPORT_DSMX11BIT:
 					proto = PIOS_DSM_PROTO_DSMX11BIT;
 					break;
 				default:
@@ -539,41 +539,41 @@ void PIOS_Board_Init(void) {
 				}
 
 				// Force binding to zero on the main port
-				hwsettings_DSMxBind = 0;
+				hw_DSMxBind = 0;
 
 				//TODO: Define the various Channelgroup for Revo dsm inputs and handle here
 				PIOS_Board_configure_dsm(&pios_usart_dsm_main_cfg, &pios_dsm_main_cfg, 
-							&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT,&hwsettings_DSMxBind);
+							&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT,&hw_DSMxBind);
 			}
 			break;
-		case HWSETTINGS_RM_MAINPORT_DEBUGCONSOLE:
+		case HWREVOMINI_MAINPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 			{
 				PIOS_Board_configure_com(&pios_usart_main_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_debug_id);
 			}
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 			break;
-		case HWSETTINGS_RM_MAINPORT_COMBRIDGE:
+		case HWREVOMINI_MAINPORT_COMBRIDGE:
 			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
 			break;
 			
-	} /* 	hwsettings_rm_mainport */
+	} /* 	hw_mainport */
 
-	if (hwsettings_mainport != HWSETTINGS_RM_MAINPORT_SBUS) {
+	if (hw_mainport != HWREVOMINI_MAINPORT_SBUS) {
 		GPIO_Init(pios_sbus_cfg.inv.gpio, (GPIO_InitTypeDef*)&pios_sbus_cfg.inv.init);
 		GPIO_WriteBit(pios_sbus_cfg.inv.gpio, pios_sbus_cfg.inv.init.GPIO_Pin, pios_sbus_cfg.gpio_inv_disable);
 	}
 
 	/* Configure FlexiPort */
-	uint8_t hwsettings_flexiport;
-	HwSettingsRM_FlexiPortGet(&hwsettings_flexiport);
-	switch (hwsettings_flexiport) {
-		case HWSETTINGS_RM_FLEXIPORT_DISABLED:
+	uint8_t hw_flexiport;
+	HwRevoMiniFlexiPortGet(&hw_flexiport);
+	switch (hw_flexiport) {
+		case HWREVOMINI_FLEXIPORT_DISABLED:
 			break;
-                case HWSETTINGS_RM_FLEXIPORT_TELEMETRY:
+                case HWREVOMINI_FLEXIPORT_TELEMETRY:
                         PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
 			break;
-		case HWSETTINGS_RM_FLEXIPORT_I2C:
+		case HWREVOMINI_FLEXIPORT_I2C:
 #if defined(PIOS_INCLUDE_I2C)
 			{
 				if (PIOS_I2C_Init(&pios_i2c_flexiport_adapter_id, &pios_i2c_flexiport_adapter_cfg)) {
@@ -582,22 +582,22 @@ void PIOS_Board_Init(void) {
 			}
 #endif	/* PIOS_INCLUDE_I2C */
 			break;
-		case HWSETTINGS_RM_FLEXIPORT_GPS:
+		case HWREVOMINI_FLEXIPORT_GPS:
 			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_GPS_RX_BUF_LEN, -1, &pios_usart_com_driver, &pios_com_gps_id);
 			break;
-		case HWSETTINGS_RM_FLEXIPORT_DSM2:
-		case HWSETTINGS_RM_FLEXIPORT_DSMX10BIT:
-		case HWSETTINGS_RM_FLEXIPORT_DSMX11BIT:
+		case HWREVOMINI_FLEXIPORT_DSM2:
+		case HWREVOMINI_FLEXIPORT_DSMX10BIT:
+		case HWREVOMINI_FLEXIPORT_DSMX11BIT:
 			{
 				enum pios_dsm_proto proto;
-				switch (hwsettings_flexiport) {
-				case HWSETTINGS_RM_FLEXIPORT_DSM2:
+				switch (hw_flexiport) {
+				case HWREVOMINI_FLEXIPORT_DSM2:
 					proto = PIOS_DSM_PROTO_DSM2;
 					break;
-				case HWSETTINGS_RM_FLEXIPORT_DSMX10BIT:
+				case HWREVOMINI_FLEXIPORT_DSMX10BIT:
 					proto = PIOS_DSM_PROTO_DSMX10BIT;
 					break;
-				case HWSETTINGS_RM_FLEXIPORT_DSMX11BIT:
+				case HWREVOMINI_FLEXIPORT_DSMX11BIT:
 					proto = PIOS_DSM_PROTO_DSMX11BIT;
 					break;
 				default:
@@ -606,17 +606,17 @@ void PIOS_Board_Init(void) {
 				}
 				//TODO: Define the various Channelgroup for Revo dsm inputs and handle here
 				PIOS_Board_configure_dsm(&pios_usart_dsm_flexi_cfg, &pios_dsm_flexi_cfg, 
-							&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT,&hwsettings_DSMxBind);
+							&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT,&hw_DSMxBind);
 			}
 			break;
-		case HWSETTINGS_RM_FLEXIPORT_DEBUGCONSOLE:
+		case HWREVOMINI_FLEXIPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 			{
 				PIOS_Board_configure_com(&pios_usart_main_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_debug_id);
 			}
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 			break;
-		case HWSETTINGS_RM_FLEXIPORT_COMBRIDGE:
+		case HWREVOMINI_FLEXIPORT_COMBRIDGE:
 			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
 			break;
 	} /* hwsettings_rv_flexiport */
@@ -624,11 +624,11 @@ void PIOS_Board_Init(void) {
 	/* Initalize the RFM22B radio COM device. */
 #if defined(PIOS_INCLUDE_RFM22B)
 	uint8_t hwsettings_radioport;
-	HwSettingsRadioPortGet(&hwsettings_radioport);
+	HwRevoMiniRadioPortGet(&hwsettings_radioport);
 	switch (hwsettings_radioport) {
-		case HWSETTINGS_RADIOPORT_DISABLED:
+		case HWREVOMINI_RADIOPORT_DISABLED:
 			break;
-		case HWSETTINGS_RADIOPORT_TELEMETRY:
+		case HWREVOMINI_RADIOPORT_TELEMETRY:
 		{
 			extern const struct pios_rfm22b_cfg * PIOS_BOARD_HW_DEFS_GetRfm22Cfg (uint32_t board_revision);
 			const struct pios_board_info * bdinfo = &pios_board_info_blob;
@@ -652,13 +652,13 @@ void PIOS_Board_Init(void) {
 #endif /* PIOS_INCLUDE_RFM22B */
 
 	/* Configure the receiver port*/
-	uint8_t hwsettings_rcvrport;
-	HwSettingsRM_RcvrPortGet(&hwsettings_rcvrport);
+	uint8_t hw_rcvrport;
+	HwRevoMiniRcvrPortGet(&hw_rcvrport);
 	//   
-	switch (hwsettings_rcvrport){
-		case HWSETTINGS_RM_RCVRPORT_DISABLED:
+	switch (hw_rcvrport){
+		case HWREVOMINI_RCVRPORT_DISABLED:
 			break;
-		case HWSETTINGS_RM_RCVRPORT_PWM:
+		case HWREVOMINI_RCVRPORT_PWM:
 #if defined(PIOS_INCLUDE_PWM)
 		{
 			/* Set up the receiver port.  Later this should be optional */
@@ -673,8 +673,8 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_PWM */
 			break;
-		case HWSETTINGS_RM_RCVRPORT_PPM:
-		case HWSETTINGS_RM_RCVRPORT_PPMOUTPUTS:
+		case HWREVOMINI_RCVRPORT_PPM:
+		case HWREVOMINI_RCVRPORT_PPMOUTPUTS:
 #if defined(PIOS_INCLUDE_PPM)
 		{
 			uint32_t pios_ppm_id;
@@ -687,7 +687,7 @@ void PIOS_Board_Init(void) {
 			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM] = pios_ppm_rcvr_id;
 		}
 #endif	/* PIOS_INCLUDE_PPM */
-		case HWSETTINGS_RM_RCVRPORT_OUTPUTS:
+		case HWREVOMINI_RCVRPORT_OUTPUTS:
 		
 			break;
 	}
@@ -705,15 +705,15 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_GCSRCVR */
 
 #ifndef PIOS_DEBUG_ENABLE_DEBUG_PINS
-	switch (hwsettings_rcvrport) {
-		case HWSETTINGS_RM_RCVRPORT_DISABLED:
-		case HWSETTINGS_RM_RCVRPORT_PWM:
-		case HWSETTINGS_RM_RCVRPORT_PPM:
+	switch (hw_rcvrport) {
+		case HWREVOMINI_RCVRPORT_DISABLED:
+		case HWREVOMINI_RCVRPORT_PWM:
+		case HWREVOMINI_RCVRPORT_PPM:
 			/* Set up the servo outputs */
 			PIOS_Servo_Init(&pios_servo_cfg);
 			break;
-		case HWSETTINGS_RM_RCVRPORT_PPMOUTPUTS:
-		case HWSETTINGS_RM_RCVRPORT_OUTPUTS:
+		case HWREVOMINI_RCVRPORT_PPMOUTPUTS:
+		case HWREVOMINI_RCVRPORT_OUTPUTS:
 			//PIOS_Servo_Init(&pios_servo_rcvr_cfg);
 			//TODO: Prepare the configurations on board_hw_defs and handle here:
 			PIOS_Servo_Init(&pios_servo_cfg);

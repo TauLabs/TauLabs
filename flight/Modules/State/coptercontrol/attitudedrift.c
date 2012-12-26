@@ -41,7 +41,7 @@
  */
 
 #include "pios.h"
-#include "hwsettings.h"
+#include "modulesettings.h"
 #include <pios_board_info.h>
 #include "attitudedrift.h"
 #include "CoordinateConversions.h"
@@ -125,8 +125,8 @@ void updateAttitudeDrift(AccelsData * accelsData, GyrosData * gyrosData, const f
 	} else if (attitudeSettings->FilterChoice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI || 
 		attitudeSettings->FilterChoice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI_GPS) {
 		if (firstpass_flag) {
-			uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
-			HwSettingsOptionalModulesGet(optionalModules);
+			uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+			ModuleSettingsStateGet(module_state);
 
 			//Allocate memory for DCM drift globals
 			drft = (struct GlobalDcmDriftVariables *)
@@ -145,7 +145,7 @@ void updateAttitudeDrift(AccelsData * accelsData, GyrosData * gyrosData, const f
 			drft->gyroCalibTau = 100;
 
 			// Set flags
-			if (optionalModules[HWSETTINGS_OPTIONALMODULES_GPS] == HWSETTINGS_OPTIONALMODULES_ENABLED && PIOS_COM_GPS) {
+			if (module_state[MODULESETTINGS_STATE_GPS] == MODULESETTINGS_STATE_ENABLED && PIOS_COM_GPS) {
 				GPSVelocityConnectCallback(GPSVelocityUpdatedCb);
 				drft->gpsPresent_flag = true;
 				drft->gpsVelocityDataConsumption_flag = GPS_CONSUMED;

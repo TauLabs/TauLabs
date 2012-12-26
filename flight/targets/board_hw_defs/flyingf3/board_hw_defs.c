@@ -1030,11 +1030,11 @@ static const TIM_TimeBaseInitTypeDef tim_8_15_17_time_base = {
 };
 
 static const struct pios_tim_clock_cfg tim_4_cfg = {
-	.timer = TIM1,
+	.timer = TIM4,
 	.time_base_init = &tim_4_time_base,
 	.irq = {
 		.init = {
-			.NVIC_IRQChannel                   = TIM1_UP_TIM16_IRQn,
+			.NVIC_IRQChannel                   = TIM4_IRQn,
 			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
 			.NVIC_IRQChannelSubPriority        = 0,
 			.NVIC_IRQChannelCmd                = ENABLE,
