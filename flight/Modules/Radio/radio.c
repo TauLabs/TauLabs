@@ -32,7 +32,7 @@
 #include <pios_board_info.h>
 #include <openpilot.h>
 #include <gcsreceiver.h>
-#include <hwsettings.h>
+#include <modulesettings.h>
 #include <pipxsettings.h>
 #include <pipxstatus.h>
 #include <packet_handler.h>
@@ -114,6 +114,7 @@ static void PPMHandler(uint16_t *channels);
 // Private variables
 
 static RadioData *data = 0;
+static bool module_enabled;
 
 // ****************
 // Global variables
@@ -160,17 +161,23 @@ static int32_t RadioStart(void)
  */
 static int32_t RadioInitialize(void)
 {
+#ifdef MODULE_Radio_BUILTIN
+	module_enabled = true;
+#else
+	ModuleSettingsInitialize();
+	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+	ModuleSettingsStateGet(module_state);
+	if (module_state[MODULESETTINGS_STATE_RADIO] == MODULESETTINGS_STATE_ENABLED) {
+		module_enabled = true;
+	} else {
+		module_enabled = false;
+	}
+#endif
 
-	// See if this module is enabled.
-#ifndef RADIO_BUILTIN
-	HwSettingsInitialize();
-	uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
-	HwSettingsOptionalModulesGet(optionalModules);
-	if (optionalModules[HWSETTINGS_OPTIONALMODULES_RADIO] != HWSETTINGS_OPTIONALMODULES_ENABLED) {
+	if (!module_enabled) {
 		pios_packet_handler = 0;
 		return -1;
 	}
-#endif
 
 	// Initalize out UAVOs
 	PipXSettingsInitialize();

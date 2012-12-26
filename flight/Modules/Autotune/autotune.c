@@ -51,7 +51,7 @@
 #include "openpilot.h"
 #include "pios.h"
 #include "flightstatus.h"
-#include "hwsettings.h"
+#include "modulesettings.h"
 #include "manualcontrolcommand.h"
 #include "manualcontrolsettings.h"
 #include "relaytuning.h"
@@ -69,7 +69,7 @@ enum AUTOTUNE_STATE {AT_INIT, AT_START, AT_ROLL, AT_PITCH, AT_FINISHED, AT_SET};
 
 // Private variables
 static xTaskHandle taskHandle;
-static bool autotuneEnabled;
+static bool module_enabled;
 
 // Private functions
 static void AutotuneTask(void *parameters);
@@ -83,20 +83,18 @@ int32_t AutotuneInitialize(void)
 {
 	// Create a queue, connect to manual control command and flightstatus
 #ifdef MODULE_AUTOTUNE_BUILTIN
-	autotuneEnabled = true;
+	module_enabled = true;
 #else
-	HwSettingsInitialize();
-	uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
-
-	HwSettingsOptionalModulesGet(optionalModules);
-
-	if (optionalModules[HWSETTINGS_OPTIONALMODULES_AUTOTUNE] == HWSETTINGS_OPTIONALMODULES_ENABLED)
-		autotuneEnabled = true;
+	ModuleSettingsInitialize();
+	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+	ModuleSettingsStateGet(module_state);
+	if (module_state[MODULESETTINGS_STATE_AUTOTUNE] == MODULESETTINGS_STATE_ENABLED)
+		module_enabled = true;
 	else
-		autotuneEnabled = false;
+		module_enabled = false;
 #endif
 
-	if (autotuneEnabled) {
+	if (module_enabled) {
 		RelayTuningSettingsInitialize();
 		RelayTuningInitialize();
 	}
@@ -111,7 +109,7 @@ int32_t AutotuneInitialize(void)
 int32_t AutotuneStart(void)
 {
 	// Start main task if it is enabled
-	if(autotuneEnabled) {
+	if(module_enabled) {
 		xTaskCreate(AutotuneTask, (signed char *)"Autotune", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
 
 		TaskMonitorAdd(TASKINFO_RUNNING_AUTOTUNE, taskHandle);

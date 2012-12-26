@@ -37,7 +37,7 @@
 #include <pios.h>
 #include <openpilot.h>
 #include <uavobjectsinit.h>
-#include "hwsettings.h"
+#include "hwdiscoveryf4.h"
 #include "manualcontrolsettings.h"
 #include "gcsreceiver.h"
 
@@ -125,7 +125,7 @@ void PIOS_Board_Init(void) {
 	PIOS_RTC_Init(&pios_rtc_main_cfg);
 #endif
 
-	HwSettingsInitialize();
+	HwDiscoveryF4Initialize();
 
 #ifndef ERASE_FLASH
 	/* Initialize watchdog as early as possible to catch faults during init */
@@ -147,8 +147,8 @@ void PIOS_Board_Init(void) {
 		PIOS_IAP_WriteBootCount(++boot_count);
 		AlarmsClear(SYSTEMALARMS_ALARM_BOOTFAULT);
 	} else {
-		/* Too many failed boot attempts, force hwsettings to defaults */
-		HwSettingsSetDefaults(HwSettingsHandle(), 0);
+		/* Too many failed boot attempts, force hw config to defaults */
+		HwDiscoveryF4SetDefaults(HwDiscoveryF4Handle(), 0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
 
@@ -170,18 +170,18 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_USB_HID)
 	/* Configure the usb HID port */
-	uint8_t hwsettings_usb_hidport;
-	HwSettingsUSB_HIDPortGet(&hwsettings_usb_hidport);
+	uint8_t hw_usb_hidport;
+	HwDiscoveryF4USB_HIDPortGet(&hw_usb_hidport);
 
 	if (!usb_hid_present) {
 		/* Force HID port function to disabled if we haven't advertised HID in our USB descriptor */
-		hwsettings_usb_hidport = HWSETTINGS_USB_HIDPORT_DISABLED;
+		hw_usb_hidport = HWDISCOVERYF4_USB_HIDPORT_DISABLED;
 	}
 
-	switch (hwsettings_usb_hidport) {
-	case HWSETTINGS_USB_HIDPORT_DISABLED:
+	switch (hw_usb_hidport) {
+	case HWDISCOVERYF4_USB_HIDPORT_DISABLED:
 		break;
-	case HWSETTINGS_USB_HIDPORT_USBTELEMETRY:
+	case HWDISCOVERYF4_USB_HIDPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uint32_t pios_usb_hid_id;
@@ -213,13 +213,13 @@ void PIOS_Board_Init(void) {
 
 
 	/* Configure the main IO port */
-	uint8_t hwsettings_dif4_mainport;
-	HwSettingsDIF4_MainPortGet(&hwsettings_dif4_mainport);
+	uint8_t hw_mainport;
+	HwDiscoveryF4MainPortGet(&hw_mainport);
 
-	switch (hwsettings_dif4_mainport) {
-	case HWSETTINGS_DIF4_MAINPORT_DISABLED:
+	switch (hw_mainport) {
+	case HWDISCOVERYF4_MAINPORT_DISABLED:
 		break;
-	case HWSETTINGS_CC_MAINPORT_DEBUGCONSOLE:
+	case HWDISCOVERYF4_MAINPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 		{
