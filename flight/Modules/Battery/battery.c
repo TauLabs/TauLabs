@@ -77,7 +77,7 @@ static void onTimer(UAVObjEvent* ev);
  */
 int32_t BatteryInitialize(void)
 {
-
+	ADCRoutingInitialize();
 	
 #ifdef MODULE_BATTERY_BUILTIN
 	module_enabled = true;
