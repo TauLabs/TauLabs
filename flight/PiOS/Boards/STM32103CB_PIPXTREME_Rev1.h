@@ -150,15 +150,14 @@ extern uint32_t pios_i2c_flexi_adapter_id;
 //-------------------------
 #define PIOS_COM_MAX_DEVS			5
 
-extern uint32_t pios_com_telem_usb_id;
-extern uint32_t pios_com_telemetry_id;
-extern uint32_t pios_com_flexi_id;
-extern uint32_t pios_com_vcp_id;
-extern uint32_t pios_com_uavtalk_com_id;
-extern uint32_t pios_com_gcs_com_id;
-extern uint32_t pios_com_trans_com_id;
-extern uint32_t pios_com_debug_id;
-extern uint32_t pios_com_rfm22b_id;
+extern uintptr_t pios_com_telem_usb_id;
+extern uintptr_t pios_com_telemetry_id;
+extern uintptr_t pios_com_flexi_id;
+extern uintptr_t pios_com_vcp_id;
+extern uintptr_t pios_com_uavtalk_com_id;
+extern uintptr_t pios_com_gcs_com_id;
+extern uintptr_t pios_com_trans_com_id;
+extern uintptr_t pios_com_debug_id;
 extern uint32_t pios_ppm_rcvr_id;
 #define PIOS_COM_USB_HID           (pios_com_telem_usb_id)
 #define PIOS_COM_TELEMETRY         (pios_com_telemetry_id)
@@ -168,7 +167,6 @@ extern uint32_t pios_ppm_rcvr_id;
 #define PIOS_COM_GCS               (pios_com_gcs_com_id)
 #define PIOS_COM_TRANS_COM         (pios_com_trans_com_id)
 #define PIOS_COM_DEBUG             (pios_com_debug_id)
-#define PIOS_COM_RADIO             (pios_com_rfm22b_id)
 #define PIOS_COM_TELEM_USB         PIOS_COM_USB_HID
 #define PIOS_PPM_RECEIVER          (pios_ppm_rcvr_id)
 
@@ -270,7 +268,7 @@ extern uint32_t pios_ppm_rcvr_id;
 #if defined(PIOS_INCLUDE_RFM22B)
 #define PIOS_COM_RFM22B_RF_RX_BUF_LEN 256
 #define PIOS_COM_RFM22B_RF_TX_BUF_LEN 256
-extern uint32_t pios_com_rfm22b_id;
+extern uintptr_t pios_com_rfm22b_id;
 #define PIOS_COM_RADIO                  (pios_com_rfm22b_id)
 extern uint32_t pios_spi_rfm22b_id;
 #define PIOS_RFM22_SPI_PORT             (pios_spi_rfm22b_id)

@@ -119,7 +119,7 @@ static bool module_enabled;
 // ****************
 // Global variables
 uint32_t pios_rfm22b_id = 0;
-uint32_t pios_com_rfm22b_id = 0;
+uintptr_t pios_com_rfm22b_id = 0;
 uint32_t pios_packet_handler = 0;
 const struct pios_rfm22b_cfg *pios_rfm22b_cfg;
 
