@@ -86,14 +86,14 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/nedaccel.h \
     $$UAVOBJECT_SYNTHETICS/nedposition.h \
     $$UAVOBJECT_SYNTHETICS/objectpersistence.h \
+    $$UAVOBJECT_SYNTHETICS/oplinksettings.h \
+    $$UAVOBJECT_SYNTHETICS/oplinkstatus.h \
     $$UAVOBJECT_SYNTHETICS/osdsettings.h \
     $$UAVOBJECT_SYNTHETICS/overosyncsettings.h \
     $$UAVOBJECT_SYNTHETICS/overosyncstats.h \
     $$UAVOBJECT_SYNTHETICS/pathdesired.h \
     $$UAVOBJECT_SYNTHETICS/pathplannersettings.h \
     $$UAVOBJECT_SYNTHETICS/pathstatus.h \
-    $$UAVOBJECT_SYNTHETICS/pipxsettings.h \
-    $$UAVOBJECT_SYNTHETICS/pipxstatus.h \
     $$UAVOBJECT_SYNTHETICS/positionactual.h \
     $$UAVOBJECT_SYNTHETICS/ratedesired.h \
     $$UAVOBJECT_SYNTHETICS/receiveractivity.h \
@@ -180,13 +180,13 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/nedposition.cpp \
     $$UAVOBJECT_SYNTHETICS/objectpersistence.cpp \
     $$UAVOBJECT_SYNTHETICS/osdsettings.cpp \
+    $$UAVOBJECT_SYNTHETICS/oplinksettings.cpp \
+    $$UAVOBJECT_SYNTHETICS/oplinkstatus.cpp \
     $$UAVOBJECT_SYNTHETICS/overosyncsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/overosyncstats.cpp \
     $$UAVOBJECT_SYNTHETICS/pathdesired.cpp \
     $$UAVOBJECT_SYNTHETICS/pathplannersettings.cpp \
     $$UAVOBJECT_SYNTHETICS/pathstatus.cpp \
-    $$UAVOBJECT_SYNTHETICS/pipxsettings.cpp \
-    $$UAVOBJECT_SYNTHETICS/pipxstatus.cpp \
     $$UAVOBJECT_SYNTHETICS/positionactual.cpp \
     $$UAVOBJECT_SYNTHETICS/ratedesired.cpp \
     $$UAVOBJECT_SYNTHETICS/receiveractivity.cpp \

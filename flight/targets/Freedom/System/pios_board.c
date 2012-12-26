@@ -214,6 +214,7 @@ uintptr_t pios_com_telem_usb_id = 0;
 uintptr_t pios_com_telem_rf_id = 0;
 uintptr_t pios_com_bridge_id = 0;
 uintptr_t pios_com_overo_id = 0;
+uint32_t pios_rfm22b_id = 0;
 
 /* 
  * Setup a com port based on the passed cfg, driver and buffer sizes. tx size of -1 make the port rx only
@@ -575,6 +576,35 @@ void PIOS_Board_Init(void) {
 			break;
 			
 	} /* 	hw_freedom_flexiport */
+
+	/* Initalize the RFM22B radio COM device. */
+#if defined(PIOS_INCLUDE_RFM22B)
+	uint8_t hwsettings_radioport;
+	HwFreedomRadioPortGet(&hwsettings_radioport);
+	switch (hwsettings_radioport) {
+		case HWFREEDOM_RADIOPORT_DISABLED:
+			break;
+		case HWFREEDOM_RADIOPORT_TELEMETRY:
+		{
+			const struct pios_board_info * bdinfo = &pios_board_info_blob;
+			const struct pios_rfm22b_cfg *pios_rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
+			if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, pios_rfm22b_cfg->slave_num, pios_rfm22b_cfg)) {
+				PIOS_Assert(0);
+			}
+			uint8_t *rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_RFM22B_RF_RX_BUF_LEN);
+			uint8_t *tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_RFM22B_RF_TX_BUF_LEN);
+			PIOS_Assert(rx_buffer);
+			PIOS_Assert(tx_buffer);
+			if (PIOS_COM_Init(&pios_com_telem_rf_id, &pios_rfm22b_com_driver, pios_rfm22b_id,
+					  rx_buffer, PIOS_COM_RFM22B_RF_RX_BUF_LEN,
+					  tx_buffer, PIOS_COM_RFM22B_RF_TX_BUF_LEN)) {
+				PIOS_Assert(0);
+			}
+			break;
+		}
+	}
+
+#endif /* PIOS_INCLUDE_RFM22B */
 
 	/* Configure input receiver USART port */
 	uint8_t hw_rcvrport;
