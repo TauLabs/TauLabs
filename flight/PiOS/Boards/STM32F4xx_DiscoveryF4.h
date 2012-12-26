@@ -131,18 +131,18 @@ extern uint32_t pios_i2c_gyro_accel_adapter_id;
 //-------------------------
 #define PIOS_COM_MAX_DEVS			3
 
-extern uint32_t pios_com_telem_rf_id;
+extern uintptr_t pios_com_telem_rf_id;
 #define PIOS_COM_TELEM_RF               (pios_com_telem_rf_id)
 
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
-extern uint32_t pios_com_debug_id;
+extern uintptr_t pios_com_debug_id;
 #define PIOS_COM_DEBUG                  (pios_com_debug_id)
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 
-extern uint32_t pios_com_vcp_id;
+extern uintptr_t pios_com_vcp_id;
 #define PIOS_COM_VCP			(pios_com_vcp_id)
 
-extern uint32_t pios_com_telem_usb_id;
+extern uintptr_t pios_com_telem_usb_id;
 #define PIOS_COM_TELEM_USB              (pios_com_telem_usb_id)
 
 //------------------------
