@@ -76,7 +76,7 @@ int main() {
 	PIOS_IAP_Init();
 
 	/* Give USB SOF a chance to fire so we can notice a cable attached */
-	PIOS_DELAY_WaitmS(250);
+	PIOS_DELAY_WaitmS(500);
 
 	USB_connected = PIOS_USB_CableConnected(0);
 
