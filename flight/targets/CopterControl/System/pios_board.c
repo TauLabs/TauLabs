@@ -61,14 +61,14 @@ uint32_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 #define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
-uint32_t pios_com_debug_id;
+uintptr_t pios_com_debug_id;
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 
-uint32_t pios_com_telem_rf_id;
-uint32_t pios_com_telem_usb_id;
-uint32_t pios_com_vcp_id;
-uint32_t pios_com_gps_id;
-uint32_t pios_com_bridge_id;
+uintptr_t pios_com_telem_rf_id;
+uintptr_t pios_com_telem_usb_id;
+uintptr_t pios_com_vcp_id;
+uintptr_t pios_com_gps_id;
+uintptr_t pios_com_bridge_id;
 
 uint32_t pios_usb_rctx_id;
 

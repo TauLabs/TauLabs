@@ -107,7 +107,7 @@ static void PIOS_COM_UnblockTx(struct pios_com_dev * com_dev, bool * need_yield)
   * \param[in] id
   * \return < 0 if initialisation failed
   */
-int32_t PIOS_COM_Init(uint32_t * com_id, const struct pios_com_driver * driver, uint32_t lower_id, uint8_t * rx_buffer, uint16_t rx_buffer_len, uint8_t * tx_buffer, uint16_t tx_buffer_len)
+int32_t PIOS_COM_Init(uintptr_t * com_id, const struct pios_com_driver * driver, uint32_t lower_id, uint8_t * rx_buffer, uint16_t rx_buffer_len, uint8_t * tx_buffer, uint16_t tx_buffer_len)
 {
 	PIOS_Assert(com_id);
 	PIOS_Assert(driver);
@@ -150,7 +150,7 @@ int32_t PIOS_COM_Init(uint32_t * com_id, const struct pios_com_driver * driver, 
 		(com_dev->driver->bind_tx_cb)(lower_id, PIOS_COM_TxOutCallback, (uint32_t)com_dev);
 	}
 
-	*com_id = (uint32_t)com_dev;
+	*com_id = (uintptr_t)com_dev;
 	return(0);
 
 out_fail:
@@ -242,7 +242,7 @@ static uint16_t PIOS_COM_TxOutCallback(uint32_t context, uint8_t * buf, uint16_t
 * \return -1 if port not available
 * \return 0 on success
 */
-int32_t PIOS_COM_ChangeBaud(uint32_t com_id, uint32_t baud)
+int32_t PIOS_COM_ChangeBaud(uintptr_t com_id, uint32_t baud)
 {
 	struct pios_com_dev * com_dev = (struct pios_com_dev *)com_id;
 
@@ -269,7 +269,7 @@ int32_t PIOS_COM_ChangeBaud(uint32_t com_id, uint32_t baud)
 *            caller should retry until buffer is free again
 * \return number of bytes transmitted on success
 */
-int32_t PIOS_COM_SendBufferNonBlocking(uint32_t com_id, const uint8_t *buffer, uint16_t len)
+int32_t PIOS_COM_SendBufferNonBlocking(uintptr_t com_id, const uint8_t *buffer, uint16_t len)
 {
 	struct pios_com_dev * com_dev = (struct pios_com_dev *)com_id;
 
@@ -307,7 +307,7 @@ int32_t PIOS_COM_SendBufferNonBlocking(uint32_t com_id, const uint8_t *buffer, u
 * \return -1 if port not available
 * \return number of bytes transmitted on success
 */
-int32_t PIOS_COM_SendBuffer(uint32_t com_id, const uint8_t *buffer, uint16_t len)
+int32_t PIOS_COM_SendBuffer(uintptr_t com_id, const uint8_t *buffer, uint16_t len)
 {
 	struct pios_com_dev * com_dev = (struct pios_com_dev *)com_id;
 
@@ -369,7 +369,7 @@ int32_t PIOS_COM_SendBuffer(uint32_t com_id, const uint8_t *buffer, uint16_t len
 *            caller should retry until buffer is free again
 * \return 0 on success
 */
-int32_t PIOS_COM_SendCharNonBlocking(uint32_t com_id, char c)
+int32_t PIOS_COM_SendCharNonBlocking(uintptr_t com_id, char c)
 {
 	return PIOS_COM_SendBufferNonBlocking(com_id, (uint8_t *)&c, 1);
 }
@@ -382,7 +382,7 @@ int32_t PIOS_COM_SendCharNonBlocking(uint32_t com_id, char c)
 * \return -1 if port not available
 * \return 0 on success
 */
-int32_t PIOS_COM_SendChar(uint32_t com_id, char c)
+int32_t PIOS_COM_SendChar(uintptr_t com_id, char c)
 {
 	return PIOS_COM_SendBuffer(com_id, (uint8_t *)&c, 1);
 }
@@ -396,7 +396,7 @@ int32_t PIOS_COM_SendChar(uint32_t com_id, char c)
 *         caller should retry until buffer is free again
 * \return 0 on success
 */
-int32_t PIOS_COM_SendStringNonBlocking(uint32_t com_id, const char *str)
+int32_t PIOS_COM_SendStringNonBlocking(uintptr_t com_id, const char *str)
 {
 	return PIOS_COM_SendBufferNonBlocking(com_id, (uint8_t *)str, (uint16_t)strlen(str));
 }
@@ -409,7 +409,7 @@ int32_t PIOS_COM_SendStringNonBlocking(uint32_t com_id, const char *str)
 * \return -1 if port not available
 * \return 0 on success
 */
-int32_t PIOS_COM_SendString(uint32_t com_id, const char *str)
+int32_t PIOS_COM_SendString(uintptr_t com_id, const char *str)
 {
 	return PIOS_COM_SendBuffer(com_id, (uint8_t *)str, strlen(str));
 }
@@ -424,7 +424,7 @@ int32_t PIOS_COM_SendString(uint32_t com_id, const char *str)
 *         caller should retry until buffer is free again
 * \return 0 on success
 */
-int32_t PIOS_COM_SendFormattedStringNonBlocking(uint32_t com_id, const char *format, ...)
+int32_t PIOS_COM_SendFormattedStringNonBlocking(uintptr_t com_id, const char *format, ...)
 {
 	uint8_t buffer[128]; // TODO: tmp!!! Provide a streamed COM method later!
 
@@ -444,7 +444,7 @@ int32_t PIOS_COM_SendFormattedStringNonBlocking(uint32_t com_id, const char *for
 * \return -1 if port not available
 * \return 0 on success
 */
-int32_t PIOS_COM_SendFormattedString(uint32_t com_id, const char *format, ...)
+int32_t PIOS_COM_SendFormattedString(uintptr_t com_id, const char *format, ...)
 {
 	uint8_t buffer[128]; // TODO: tmp!!! Provide a streamed COM method later!
 	va_list args;
@@ -459,7 +459,7 @@ int32_t PIOS_COM_SendFormattedString(uint32_t com_id, const char *format, ...)
 * \param[in] port COM port
 * \returns Byte from buffer
 */
-uint16_t PIOS_COM_ReceiveBuffer(uint32_t com_id, uint8_t * buf, uint16_t buf_len, uint32_t timeout_ms)
+uint16_t PIOS_COM_ReceiveBuffer(uintptr_t com_id, uint8_t * buf, uint16_t buf_len, uint32_t timeout_ms)
 {
 	PIOS_Assert(buf);
 	PIOS_Assert(buf_len);
