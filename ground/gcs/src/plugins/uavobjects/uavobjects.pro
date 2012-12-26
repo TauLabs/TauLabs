@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = UAVObjects
 DEFINES += UAVOBJECTS_LIBRARY
-include(../../openpilotgcsplugin.pri)
+include(../../abovegroundlabsgcsplugin.pri)
 include(uavobjects_dependencies.pri)
 
 HEADERS += uavobjects_global.h \

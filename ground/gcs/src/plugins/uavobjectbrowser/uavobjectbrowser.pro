@@ -1,6 +1,6 @@
 TEMPLATE = lib
 TARGET = UAVObjectBrowser
-include(../../openpilotgcsplugin.pri)
+include(../../abovegroundlabsgcsplugin.pri)
 include(uavobjectbrowser_dependencies.pri)
 HEADERS += browserplugin.h \
     uavobjectbrowserconfiguration.h \

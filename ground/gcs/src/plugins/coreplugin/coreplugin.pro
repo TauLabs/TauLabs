@@ -6,7 +6,7 @@ QT += xml \
     script \
     svg \
     sql
-include(../../openpilotgcsplugin.pri)
+include(../../abovegroundlabsgcsplugin.pri)
 include(../../libs/utils/utils.pri)
 include(../../shared/scriptwrapper/scriptwrapper.pri)
 include(coreplugin_dependencies.pri)
@@ -140,7 +140,7 @@ FORMS += dialogs/settingsdialog.ui \
 RESOURCES += core.qrc \
     fancyactionbar.qrc
 unix:!macx { 
-    images.files = images/openpilot_logo_*.png
+    images.files = images/abovegroundlabs_logo_*.png
     images.files = images/qtcreator_logo_*.png
     images.path = /share/pixmaps
     INSTALLS += images

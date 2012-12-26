@@ -1,7 +1,7 @@
 TEMPLATE = lib 
 TARGET = DebugGadget
 
-include(../../openpilotgcsplugin.pri)
+include(../../abovegroundlabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
 HEADERS += debugplugin.h \
     debugengine.h

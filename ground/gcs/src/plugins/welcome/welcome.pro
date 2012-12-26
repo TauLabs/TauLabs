@@ -2,7 +2,7 @@ TEMPLATE = lib
 TARGET = Welcome
 QT += network declarative
 
-include(../../openpilotgcsplugin.pri)
+include(../../abovegroundlabsgcsplugin.pri)
 include(welcome_dependencies.pri)
 
 HEADERS += welcomeplugin.h \

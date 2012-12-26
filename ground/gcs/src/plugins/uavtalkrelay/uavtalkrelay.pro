@@ -1,7 +1,7 @@
 QT += network
 TEMPLATE = lib
 TARGET = UAVTalkRelay
-include(../../openpilotgcsplugin.pri)
+include(../../abovegroundlabsgcsplugin.pri)
 include(../uavtalk/uavtalk.pri)
 include(uavtalkrelay_dependencies.pri)
 HEADERS += \

@@ -2,7 +2,7 @@ TEMPLATE = lib
 TARGET = LineardialGadget
 QT += svg
 QT += opengl
-include(../../openpilotgcsplugin.pri)
+include(../../abovegroundlabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
 include(lineardial_dependencies.pri)
 HEADERS += lineardialplugin.h

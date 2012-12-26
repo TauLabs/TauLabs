@@ -1,6 +1,6 @@
 TEMPLATE = lib
 TARGET = RawHID
-include(../../openpilotgcsplugin.pri)
+include(../../abovegroundlabsgcsplugin.pri)
 include(rawhid_dependencies.pri)
 HEADERS += rawhid_global.h \
     rawhidplugin.h \
