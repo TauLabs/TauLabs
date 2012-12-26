@@ -167,7 +167,7 @@ uintptr_t pios_com_overo_id = 0;
  */
 #ifdef PIOS_INCLUDE_USART
 static void PIOS_Board_configure_com(const struct pios_usart_cfg *usart_port_cfg, size_t rx_buf_len, size_t tx_buf_len,
-		const struct pios_com_driver *com_driver, uint32_t *pios_com_id)
+		const struct pios_com_driver *com_driver, uintptr_t *pios_com_id)
 {
 	uint32_t pios_usart_id;
 	if (PIOS_USART_Init(&pios_usart_id, usart_port_cfg)) {
