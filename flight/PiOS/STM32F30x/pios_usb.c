@@ -262,6 +262,11 @@ void SOF_Callback(void)
 	sof_seen_since_reset = true;
 }
 
+void SUSP_Callback(void)
+{
+	sof_seen_since_reset = false;
+}
+
 #endif
 
 /**

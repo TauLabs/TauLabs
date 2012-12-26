@@ -64,6 +64,9 @@
 /* Provide a callback function for SOF so we can do early USB detection */
 #define SOF_CALLBACK
 
+/* Provide a callback function for SUSPend so we can notice a cable removal event */
+#define SUSP_CALLBACK
+
 #endif /* STM32F10X_CL */
 
 #ifdef STM32F10X_CL
