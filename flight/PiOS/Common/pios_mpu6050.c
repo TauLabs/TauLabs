@@ -321,7 +321,7 @@ static int32_t PIOS_MPU6050_SetReg(uint8_t reg, uint8_t data)
 
 /**
  * @brief Read current X, Z, Y values (in that order)
- * \param[out] int16_t array of size 3 to store X, Z, and Y magnetometer readings
+ * \param[out] int16_t array of size 3 to store X, Z, and Y gyro readings
  * \returns The number of samples remaining in the fifo
  */
 int32_t PIOS_MPU6050_ReadGyros(struct pios_mpu60x0_data * data)

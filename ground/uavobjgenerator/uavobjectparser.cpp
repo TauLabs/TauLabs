@@ -94,20 +94,20 @@ quint32 UAVObjectParser::getObjectID(int objIndex)
  * Get the number of bytes in the data fields of this object
  */
 int UAVObjectParser::getNumBytes(int objIndex)
-{
+{    
     ObjectInfo* info = objInfo[objIndex];
-    if (info == NULL)
+    return info->numBytes;
+}
+
+/**
+ * Calculate the number of bytes in this object's fields
+ */
+void UAVObjectParser::calculateSize(ObjectInfo *info) {
+    Q_ASSERT(info != NULL);
+    info->numBytes = 0;
+    for (int n = 0; n < info->fields.length(); ++n)
     {
-        return 0;
-    }
-    else
-    {
-        int numBytes = 0;
-        for (int n = 0; n < info->fields.length(); ++n)
-        {
-            numBytes += info->fields[n]->numBytes * info->fields[n]->numElements;
-        }
-        return numBytes;
+        info->numBytes += info->fields[n]->numBytes * info->fields[n]->numElements;
     }
 }
 
@@ -235,6 +235,9 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
         // Calculate ID
         calculateID(info);
 
+        // Calculate size
+        calculateSize(info);
+
         // Add object
         objInfo.append(info);
 
@@ -291,7 +294,7 @@ quint32 UAVObjectParser::updateHash(quint32 value, quint32 hash)
  */
 quint32 UAVObjectParser::updateHash(QString& value, quint32 hash)
 {
-    QByteArray bytes = value.toAscii();
+    QByteArray bytes = value.toLatin1();
     quint32 hashout = hash;
     for (int n = 0; n < bytes.length(); ++n)
         hashout = updateHash(bytes[n], hashout);

@@ -204,8 +204,8 @@ void PIOS_Video_Init(const struct pios_video_cfg * cfg){
 */
 
 	/* Configure DMA interrupt */
-	NVIC_Init(&cfg->level.dma.irq.init);
-	NVIC_Init(&cfg->mask.dma.irq.init);
+	NVIC_Init((NVIC_InitTypeDef*)&cfg->level.dma.irq.init);
+	NVIC_Init((NVIC_InitTypeDef*)&cfg->mask.dma.irq.init);
 
 	/* Enable SPI interrupts to DMA */
 	SPI_I2S_DMACmd(cfg->level.regs, SPI_I2S_DMAReq_Tx, ENABLE);

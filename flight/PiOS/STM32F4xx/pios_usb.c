@@ -204,7 +204,7 @@ void USB_OTG_BSP_Init(USB_OTG_CORE_HANDLE *pdev)
 	GPIO_PinAFConfig(GPIOA, GPIO_PinSource12, GPIO_AF_OTG1_FS);
 
 	/* Configure VBUS sense pin */
-	GPIO_Init(usb_dev->cfg->vsense.gpio, &usb_dev->cfg->vsense.init);
+	GPIO_Init(usb_dev->cfg->vsense.gpio, (GPIO_InitTypeDef*)&usb_dev->cfg->vsense.init);
 
 	/* Enable USB OTG Clock */
 	RCC_AHB2PeriphClockCmd(RCC_AHB2Periph_OTG_FS, ENABLE);
@@ -219,7 +219,7 @@ void USB_OTG_BSP_EnableInterrupt(USB_OTG_CORE_HANDLE *pdev)
 
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
 
-	NVIC_Init(&usb_dev->cfg->irq.init);
+	NVIC_Init((NVIC_InitTypeDef*)&usb_dev->cfg->irq.init);
 }
 
 #ifdef USE_HOST_MODE

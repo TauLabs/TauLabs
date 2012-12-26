@@ -2,7 +2,7 @@
  ******************************************************************************
  * @file       HomePage.java
  * @author     AboveGroundLabs, http://abovegroundlabs.org, Copyright (C) 2012
- * @brief      Main launch page for the Android GCS actitivies
+ * @brief      Main launch page for the Android GCS activities
  * @see        The GNU Public License (GPL) Version 3
  *****************************************************************************/
 /*
@@ -22,109 +22,141 @@
  */
 package org.abovegroundlabs.androidgcs;
 
-import org.abovegroundlabs.androidgcs.R;
-
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+/**
+ * This activity provides a selector to launch all the
+ * main activities
+ */
 public class HomePage extends ObjectManagerActivity {
+	private ImageAdapter adapt;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.gcs_home);
 
-		Button objectBrowser = (Button) findViewById(R.id.launch_object_browser);
-		objectBrowser.setOnClickListener(new OnClickListener() {
+		adapt = new ImageAdapter(this);
+		GridView gridview = (GridView) findViewById(R.id.gridview);
+		gridview.setAdapter(adapt);
+
+		gridview.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onClick(View arg0) {
-				startActivity(new Intent(HomePage.this, ObjectBrowser.class));
+			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+				//Toast.makeText(HelloGridView.this, "" + position, Toast.LENGTH_SHORT).show();
+				startActivity(new Intent(HomePage.this, adapt.getActivity(position)));
 			}
 		});
+	}
 
-		Button pfd = (Button) findViewById(R.id.launch_pfd);
-		pfd.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				startActivity(new Intent(HomePage.this, PfdActivity.class));
+	//! Class that shows an icon with a label below
+	public class LabeledImageView extends LinearLayout {
+		final int WIDTH = 250;
+		final int HEIGHT = 220;
+
+		public LabeledImageView(Context context, int image, String text) {
+			super(context);
+
+			setOrientation(LinearLayout.VERTICAL);
+			setLayoutParams(new AbsListView.LayoutParams(WIDTH, HEIGHT));
+
+			// Show the icon for this activity
+			ImageView imageView = new ImageView(context);
+			imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+			imageView.setPadding(8, 8, 8, 8);
+			imageView.setImageResource(image);
+			addView(imageView);
+
+			// Show a label for it
+			TextView textView = new TextView(context);
+			textView.setText(text);
+			textView.setWidth(WIDTH);
+			textView.setGravity(Gravity.CENTER);
+			addView(textView);
+		}
+	}
+
+	//! Map from a list of activities and icons to their views for display
+	public class ImageAdapter extends BaseAdapter {
+		private final Context mContext;
+
+		public ImageAdapter(Context c) {
+			mContext = c;
+		}
+
+		@Override
+		public int getCount() {
+			return mThumbIds.length;
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return null;
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return 0;
+		}
+
+		// create a new ImageView for each item referenced by the Adapter
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			LabeledImageView labeledImageView;
+
+			if (convertView == null) {
+				labeledImageView = new LabeledImageView(mContext, mThumbIds[position], names[position]);
+			} else {
+				labeledImageView = (LabeledImageView) convertView;
 			}
-		});
 
-		Button location = (Button) findViewById(R.id.launch_location);
-		location.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				startActivity(new Intent(HomePage.this, UAVLocation.class));
-			}
-		});
+			return labeledImageView;
+		}
 
-		Button controller = (Button) findViewById(R.id.launch_controller);
-		controller.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				startActivity(new Intent(HomePage.this, Controller.class));
-			}
-		});
+		@SuppressWarnings("rawtypes")
+		public Class getActivity(int position) {
+			return mActivities[position];
+		}
 
-		Button logger = (Button) findViewById(R.id.launch_logger);
-		logger.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				startActivity(new Intent(HomePage.this, Logger.class));
-			}
-		});
+		// references to our images
+		private final Integer[] mThumbIds = {
+				R.drawable.ic_browser, R.drawable.ic_pfd,
+				R.drawable.ic_map, R.drawable.ic_controller,
+				R.drawable.ic_logging, R.drawable.ic_alarms,
+				R.drawable.ic_tabletcontrol, R.drawable.ic_tuning,
+				R.drawable.ic_map, R.drawable.ic_3dview
+		};
 
-		Button alarms = (Button) findViewById(R.id.launch_alarms);
-		alarms.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				startActivity(new Intent(HomePage.this, SystemAlarmActivity.class));
-			}
-		});
+		@SuppressWarnings("rawtypes")
+		private final Class[] mActivities = {
+			ObjectBrowser.class, PfdActivity.class,
+			UAVLocation.class, Controller.class,
+			Logger.class, SystemAlarmActivity.class,
+			Transmitter.class, TuningActivity.class,
+			PathPlanner.class, OsgViewer.class
+		};
 
-		Button tester = (Button) findViewById(R.id.launch_tester);
-		tester.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				startActivity(new Intent(HomePage.this, Transmitter.class));
-			}
-		});
-
-		Button tabletControl = (Button) findViewById(R.id.launch_tabletControl);
-		tabletControl.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				startActivity(new Intent(HomePage.this, Transmitter.class));
-			}
-		});
-
-		Button osgViewer = (Button) findViewById(R.id.launch_osgViewer);
-		osgViewer.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				startActivity(new Intent(HomePage.this, OsgViewer.class));
-			}
-		});
-
-		Button tuning = (Button) findViewById(R.id.launch_tuning);
-		tuning.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				startActivity(new Intent(HomePage.this, TuningActivity.class));
-			}
-		});
-
-		Button pathPlanner = (Button) findViewById(R.id.launch_pathplanner);
-		pathPlanner.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				startActivity(new Intent(HomePage.this, PathPlanner.class));
-			}
-		});
-
+		private final String[] names = {
+				"Object Browser", "PFD",
+				"Map", "Controller",
+				"Logger", "Alarms",
+				"Tablet Control", "Tuning",
+				"Path Planning", "OSG"
+		};
 	}
 
 }
