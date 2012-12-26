@@ -53,7 +53,7 @@ static struct pios_com_msg_dev com_msg_dev;
 static uint16_t PIOS_COM_MSG_TxOutCallback(uint32_t context, uint8_t * buf, uint16_t buf_len, uint16_t * headroom, bool * need_yield);
 static uint16_t PIOS_COM_MSG_RxInCallback(uint32_t context, uint8_t * buf, uint16_t buf_len, uint16_t * headroom, bool * need_yield);
 
-int32_t PIOS_COM_MSG_Init(uint32_t * com_id, const struct pios_com_driver * driver, uint32_t lower_id)
+int32_t PIOS_COM_MSG_Init(uintptr_t * com_id, const struct pios_com_driver * driver, uint32_t lower_id)
 {
 	PIOS_Assert(com_id);
 	PIOS_Assert(driver);
@@ -73,7 +73,7 @@ int32_t PIOS_COM_MSG_Init(uint32_t * com_id, const struct pios_com_driver * driv
 	com_dev->tx_msg_full = false;
 	(com_dev->driver->bind_tx_cb)(lower_id, PIOS_COM_MSG_TxOutCallback, (uint32_t)com_dev);
 
-	*com_id = (uint32_t)com_dev;
+	*com_id = (uintptr_t)com_dev;
 	return(0);
 }
 
@@ -127,7 +127,7 @@ static uint16_t PIOS_COM_MSG_RxInCallback(uint32_t context, uint8_t * buf, uint1
 	return (bytes_into_fifo);
 }
 
-int32_t PIOS_COM_MSG_Send(uint32_t com_id, const uint8_t *msg, uint16_t msg_len)
+int32_t PIOS_COM_MSG_Send(uintptr_t com_id, const uint8_t *msg, uint16_t msg_len)
 {
 	PIOS_Assert(msg);
 	PIOS_Assert(msg_len);
@@ -155,7 +155,7 @@ int32_t PIOS_COM_MSG_Send(uint32_t com_id, const uint8_t *msg, uint16_t msg_len)
 	return 0;
 }
 
-uint16_t PIOS_COM_MSG_Receive(uint32_t com_id, uint8_t * msg, uint16_t msg_len)
+uint16_t PIOS_COM_MSG_Receive(uintptr_t com_id, uint8_t * msg, uint16_t msg_len)
 {
 	PIOS_Assert(msg);
 	PIOS_Assert(msg_len);

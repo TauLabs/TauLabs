@@ -99,10 +99,10 @@ static void Clock(uint32_t spektrum_id);
 #define PIOS_COM_BRIDGE_RX_BUF_LEN 65
 #define PIOS_COM_BRIDGE_TX_BUF_LEN 12
 
-uint32_t pios_com_aux_id;
-uint32_t pios_com_gps_id;
-uint32_t pios_com_telem_usb_id;
-uint32_t pios_com_telem_rf_id;
+uintptr_t pios_com_aux_id;
+uintptr_t pios_com_gps_id;
+uintptr_t pios_com_telem_usb_id;
+uintptr_t pios_com_telem_rf_id;
 
 
 

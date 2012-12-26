@@ -48,18 +48,18 @@
 #define PIOS_COM_RFM22B_RF_RX_BUF_LEN 256
 #define PIOS_COM_RFM22B_RF_TX_BUF_LEN 256
 
-uint32_t pios_com_telem_usb_id = 0;
-uint32_t pios_com_telem_vcp_id = 0;
-uint32_t pios_com_telem_uart_telem_id = 0;
-uint32_t pios_com_telem_uart_flexi_id = 0;
-uint32_t pios_com_telemetry_id = 0;
+uintptr_t pios_com_telem_usb_id = 0;
+uintptr_t pios_com_telem_vcp_id = 0;
+uintptr_t pios_com_telem_uart_telem_id = 0;
+uintptr_t pios_com_telem_uart_flexi_id = 0;
+uintptr_t pios_com_telemetry_id = 0;
 #if defined(PIOS_INCLUDE_PPM)
 uint32_t pios_ppm_rcvr_id = 0;
 #endif
 #if defined(PIOS_INCLUDE_RFM22B)
 uint32_t pios_rfm22b_id = 0;
-uint32_t pios_com_rfm22b_id = 0;
-uint32_t pios_com_radio_id = 0;
+uintptr_t pios_com_rfm22b_id = 0;
+uintptr_t pios_com_radio_id = 0;
 #endif
 
 /**
