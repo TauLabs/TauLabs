@@ -45,7 +45,7 @@
 #define $(NAMEUC)_OBJID $(OBJIDHEX)
 #define $(NAMEUC)_ISSINGLEINST $(ISSINGLEINST)
 #define $(NAMEUC)_ISSETTINGS $(ISSETTINGS)
-#define $(NAMEUC)_NUMBYTES sizeof($(NAME)Data)
+#define $(NAMEUC)_NUMBYTES $(NUMBYTES)
 
 // Generic interface functions
 int32_t $(NAME)Initialize();

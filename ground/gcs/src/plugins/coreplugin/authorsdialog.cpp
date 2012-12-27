@@ -52,9 +52,9 @@ AuthorsDialog::AuthorsDialog(QWidget *parent)
 {
     // We need to set the window icon explicitly here since for some reason the
     // application icon isn't used when the size of the dialog is fixed (at least not on X11/GNOME)
-    setWindowIcon(QIcon(":/core/images/openpilot_logo_32.png"));
+    setWindowIcon(QIcon(":/core/images/abovegroundlabs_logo_32.png"));
 
-    setWindowTitle(tr("About OpenPilot Authors"));
+    setWindowTitle(tr("About Above Ground Labs Authors"));
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     QGridLayout *layout = new QGridLayout(this);
     layout->setSizeConstraint(QLayout::SetFixedSize);
@@ -62,7 +62,6 @@ AuthorsDialog::AuthorsDialog(QWidget *parent)
     QString version = QLatin1String(GCS_VERSION_LONG);
     version += QDate(2007, 25, 10).toString(Qt::SystemLocaleDate);
 
-    QString ideRev;
 #ifdef GCS_REVISION
      //: This gets conditionally inserted as argument %8 into the description string.
      ideRev = tr("From revision %1<br/>").arg(QString::fromLatin1(GCS_REVISION_STR).left(10));
@@ -88,7 +87,7 @@ AuthorsDialog::AuthorsDialog(QWidget *parent)
     connect(buttonBox , SIGNAL(rejected()), this, SLOT(reject()));
 
     QLabel *logoLabel = new QLabel;
-    logoLabel->setPixmap(QPixmap(QLatin1String(":/core/images/openpilot_logo_128.png")));
+    logoLabel->setPixmap(QPixmap(QLatin1String(":/core/images/abovegroundlabs_logo_128.png")));
     layout->addWidget(logoLabel ,     0, 0, 1, 1);
     layout->addWidget(copyRightLabel, 0, 1, 2, 4);
     layout->addWidget(creditsArea,    3, 0, 2, 5);

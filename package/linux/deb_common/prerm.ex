@@ -1,5 +1,5 @@
 #!/bin/sh
-# prerm script for openpilot
+# prerm script for abovegroundlabs
 #
 # see: dh_installdeb(1)
 

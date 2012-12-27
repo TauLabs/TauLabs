@@ -42,6 +42,9 @@
 /* Rx/Tx status */
 static bool transfer_possible = false;
 
+/* USB activity detection */
+static volatile bool sof_seen_since_reset = false;
+
 enum pios_usb_dev_magic {
 	PIOS_USB_DEV_MAGIC = 0x17365904,
 };
@@ -235,12 +238,7 @@ bool PIOS_USB_CableConnected(uint8_t id)
 	if (PIOS_USB_validate(usb_dev) != 0)
 		return false;
 
-	//if hardware does not support vsense, return true
-	//FIXME this has to be changed to something better
-	if (usb_dev->cfg->vsense.gpio == 0)
-		return true;
-
-	return usb_dev->cfg->vsense.gpio->IDR & usb_dev->cfg->vsense.init.GPIO_Pin;
+	return sof_seen_since_reset;
 }
 
 /**
@@ -249,7 +247,7 @@ bool PIOS_USB_CableConnected(uint8_t id)
  * \return 0: interface not available
  * \note Applications shouldn't call this function directly, instead please use \ref PIOS_COM layer functions
  */
-bool PIOS_USB_CheckAvailable(uint8_t id)
+bool PIOS_USB_CheckAvailable(uint32_t id)
 {
 	struct pios_usb_dev * usb_dev = (struct pios_usb_dev *) pios_usb_com_id;
 
@@ -257,6 +255,16 @@ bool PIOS_USB_CheckAvailable(uint8_t id)
 		return false;
 
 	return PIOS_USB_CableConnected(id) && transfer_possible;
+}
+
+void SOF_Callback(void)
+{
+	sof_seen_since_reset = true;
+}
+
+void SUSP_Callback(void)
+{
+	sof_seen_since_reset = false;
 }
 
 #endif

@@ -56,7 +56,6 @@ MODULES += AltitudeHold VtolPathFollower PathPlanner TxPID
 #MODULES += FixedWingPathFollower
 MODULES += Autotune
 MODULES += CameraStab
-MODULES += Radio
 MODULES += Telemetry
 PYMODULES = 
 #FlightPlan
@@ -144,7 +143,6 @@ SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/pid.c
 
 ## For RFM22b
-SRC += $(FLIGHTLIB)/packet_handler.c
 SRC += $(RSCODE)/berlekamp.c
 SRC += $(RSCODE)/crcgen.c
 SRC += $(RSCODE)/galois.c
@@ -164,6 +162,7 @@ SRC += $(PIOSCOMMON)/pios_ms5611.c
 SRC += $(PIOSCOMMON)/pios_crc.c
 SRC += $(PIOSCOMMON)/pios_com.c
 SRC += $(PIOSCOMMON)/pios_rfm22b.c
+SRC += $(PIOSCOMMON)/pios_rfm22b_com.c
 SRC += $(PIOSCOMMON)/pios_rcvr.c
 SRC += $(PIOSCOMMON)/pios_flash_jedec.c
 SRC += $(PIOSCOMMON)/pios_flashfs_logfs.c

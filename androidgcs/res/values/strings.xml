@@ -44,4 +44,9 @@
 	<string name="waypoint">waypoint</string>
 	<string name="tablet_control">Tablet Control</string>
 	<string name="path_planner">Path Planner</string>
+
+	<string name="uiToastNavPrincipal">Main navigation</string>
+	<string name="uiToastNavSecond">Second Navigation</string>
+	<string name="uiToastLightOn">Light ON</string>
+	<string name="uiToastLightOff">Light OFF</string>
 </resources>

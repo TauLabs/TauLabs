@@ -34,7 +34,7 @@
 #include <stdint.h>		/* uint*_t */
 #include "pios_com_priv.h"	/* struct pios_com_driver */
 
-extern int32_t PIOS_COM_MSG_Init(uint32_t * com_id, const struct pios_com_driver * driver, uint32_t lower_id);
+extern int32_t PIOS_COM_MSG_Init(uintptr_t * com_id, const struct pios_com_driver * driver, uint32_t lower_id);
 
 #endif /* PIOS_COM_MSG_PRIV_H */
 

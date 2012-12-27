@@ -4,7 +4,7 @@ TARGET = SetupWizard
 QT += svg
 
 
-include(../../openpilotgcsplugin.pri)
+include(../../abovegroundlabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
 include(../../plugins/uavobjectutil/uavobjectutil.pri)
 include(../../plugins/config/config.pri)

@@ -57,7 +57,7 @@ $(DATAFIELDINFO)
     static const QString CATEGORY;
     static const bool ISSINGLEINST = $(ISSINGLEINST);
     static const bool ISSETTINGS = $(ISSETTINGS);
-    static const quint32 NUMBYTES = sizeof(DataFields);
+    static const quint32 NUMBYTES = $(NUMBYTES);
 
     // Functions
     $(NAME)();

@@ -1,7 +1,7 @@
 TEMPLATE = lib 
 TARGET = EmptyGadget
 
-include(../../openpilotgcsplugin.pri)
+include(../../abovegroundlabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri) 
 
 HEADERS += emptyplugin.h

@@ -37,7 +37,7 @@
 #include <pios.h>
 #include <openpilot.h>
 #include <uavobjectsinit.h>
-#include <hwsettings.h>
+#include <hwcoptercontrol.h>
 #include <manualcontrolsettings.h>
 #include <gcsreceiver.h>
 
@@ -61,14 +61,14 @@ uint32_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 #define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
-uint32_t pios_com_debug_id;
+uintptr_t pios_com_debug_id;
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 
-uint32_t pios_com_telem_rf_id;
-uint32_t pios_com_telem_usb_id;
-uint32_t pios_com_vcp_id;
-uint32_t pios_com_gps_id;
-uint32_t pios_com_bridge_id;
+uintptr_t pios_com_telem_rf_id;
+uintptr_t pios_com_telem_usb_id;
+uintptr_t pios_com_vcp_id;
+uintptr_t pios_com_gps_id;
+uintptr_t pios_com_bridge_id;
 
 uint32_t pios_usb_rctx_id;
 
@@ -184,7 +184,7 @@ void PIOS_Board_Init(void) {
 	PIOS_RTC_Init(&pios_rtc_main_cfg);
 #endif
 
-	HwSettingsInitialize();
+	HwCopterControlInitialize();
 
 #ifndef ERASE_FLASH
 	/* Initialize watchdog as early as possible to catch faults during init */
@@ -201,8 +201,8 @@ void PIOS_Board_Init(void) {
 		PIOS_IAP_WriteBootCount(++boot_count);
 		AlarmsClear(SYSTEMALARMS_ALARM_BOOTFAULT);
 	} else {
-		/* Too many failed boot attempts, force hwsettings to defaults */
-		HwSettingsSetDefaults(HwSettingsHandle(), 0);
+		/* Too many failed boot attempts, force hw configuration to defaults */
+		HwCopterControlSetDefaults(HwCopterControlHandle(), 0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
 
@@ -252,19 +252,19 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_USB_CDC)
 
-	uint8_t hwsettings_usb_vcpport;
+	uint8_t hw_usb_vcpport;
 	/* Configure the USB VCP port */
-	HwSettingsUSB_VCPPortGet(&hwsettings_usb_vcpport);
+	HwCopterControlUSB_VCPPortGet(&hw_usb_vcpport);
 
 	if (!usb_cdc_present) {
 		/* Force VCP port function to disabled if we haven't advertised VCP in our USB descriptor */
-		hwsettings_usb_vcpport = HWSETTINGS_USB_VCPPORT_DISABLED;
+		hw_usb_vcpport = HWCOPTERCONTROL_USB_VCPPORT_DISABLED;
 	}
 
-	switch (hwsettings_usb_vcpport) {
-	case HWSETTINGS_USB_VCPPORT_DISABLED:
+	switch (hw_usb_vcpport) {
+	case HWCOPTERCONTROL_USB_VCPPORT_DISABLED:
 		break;
-	case HWSETTINGS_USB_VCPPORT_USBTELEMETRY:
+	case HWCOPTERCONTROL_USB_VCPPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uint32_t pios_usb_cdc_id;
@@ -283,7 +283,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_COM */
 		break;
-	case HWSETTINGS_USB_VCPPORT_COMBRIDGE:
+	case HWCOPTERCONTROL_USB_VCPPORT_COMBRIDGE:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uint32_t pios_usb_cdc_id;
@@ -302,7 +302,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_COM */
 		break;
-	case HWSETTINGS_USB_VCPPORT_DEBUGCONSOLE:
+	case HWCOPTERCONTROL_USB_VCPPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 		{
@@ -326,18 +326,18 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_USB_HID)
 	/* Configure the usb HID port */
-	uint8_t hwsettings_usb_hidport;
-	HwSettingsUSB_HIDPortGet(&hwsettings_usb_hidport);
+	uint8_t hw_usb_hidport;
+	HwCopterControlUSB_HIDPortGet(&hw_usb_hidport);
 
 	if (!usb_hid_present) {
 		/* Force HID port function to disabled if we haven't advertised HID in our USB descriptor */
-		hwsettings_usb_hidport = HWSETTINGS_USB_HIDPORT_DISABLED;
+		hw_usb_hidport = HWCOPTERCONTROL_USB_HIDPORT_DISABLED;
 	}
 
-	switch (hwsettings_usb_hidport) {
-	case HWSETTINGS_USB_HIDPORT_DISABLED:
+	switch (hw_usb_hidport) {
+	case HWCOPTERCONTROL_USB_HIDPORT_DISABLED:
 		break;
-	case HWSETTINGS_USB_HIDPORT_USBTELEMETRY:
+	case HWCOPTERCONTROL_USB_HIDPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uint32_t pios_usb_hid_id;
@@ -356,7 +356,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_COM */
 		break;
-	case HWSETTINGS_USB_HIDPORT_RCTRANSMITTER:
+	case HWCOPTERCONTROL_USB_HIDPORT_RCTRANSMITTER:
 #if defined(PIOS_INCLUDE_USB_RCTX)
 		{
 			if (PIOS_USB_RCTX_Init(&pios_usb_rctx_id, &pios_usb_rctx_cfg, pios_usb_id)) {
@@ -372,15 +372,15 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_USB */
 
 	/* Configure the main IO port */
-	uint8_t hwsettings_DSMxBind;
-	HwSettingsDSMxBindGet(&hwsettings_DSMxBind);
-	uint8_t hwsettings_cc_mainport;
-	HwSettingsCC_MainPortGet(&hwsettings_cc_mainport);
+	uint8_t hw_DSMxBind;
+	HwCopterControlDSMxBindGet(&hw_DSMxBind);
+	uint8_t hw_mainport;
+	HwCopterControlMainPortGet(&hw_mainport);
 
-	switch (hwsettings_cc_mainport) {
-	case HWSETTINGS_CC_MAINPORT_DISABLED:
+	switch (hw_mainport) {
+	case HWCOPTERCONTROL_MAINPORT_DISABLED:
 		break;
-	case HWSETTINGS_CC_MAINPORT_TELEMETRY:
+	case HWCOPTERCONTROL_MAINPORT_TELEMETRY:
 #if defined(PIOS_INCLUDE_TELEMETRY_RF)
 		{
 			uint32_t pios_usart_generic_id;
@@ -400,7 +400,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_TELEMETRY_RF */
 		break;
-	case HWSETTINGS_CC_MAINPORT_SBUS:
+	case HWCOPTERCONTROL_MAINPORT_SBUS:
 #if defined(PIOS_INCLUDE_SBUS)
 		{
 			uint32_t pios_usart_sbus_id;
@@ -422,7 +422,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_SBUS */
 		break;
-	case HWSETTINGS_CC_MAINPORT_GPS:
+	case HWCOPTERCONTROL_MAINPORT_GPS:
 #if defined(PIOS_INCLUDE_GPS)
 		{
 			uint32_t pios_usart_generic_id;
@@ -440,20 +440,20 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_GPS */
 		break;
-	case HWSETTINGS_CC_MAINPORT_DSM2:
-	case HWSETTINGS_CC_MAINPORT_DSMX10BIT:
-	case HWSETTINGS_CC_MAINPORT_DSMX11BIT:
+	case HWCOPTERCONTROL_MAINPORT_DSM2:
+	case HWCOPTERCONTROL_MAINPORT_DSMX10BIT:
+	case HWCOPTERCONTROL_MAINPORT_DSMX11BIT:
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			enum pios_dsm_proto proto;
-			switch (hwsettings_cc_mainport) {
-			case HWSETTINGS_CC_MAINPORT_DSM2:
+			switch (hw_mainport) {
+			case HWCOPTERCONTROL_MAINPORT_DSM2:
 				proto = PIOS_DSM_PROTO_DSM2;
 				break;
-			case HWSETTINGS_CC_MAINPORT_DSMX10BIT:
+			case HWCOPTERCONTROL_MAINPORT_DSMX10BIT:
 				proto = PIOS_DSM_PROTO_DSMX10BIT;
 				break;
-			case HWSETTINGS_CC_MAINPORT_DSMX11BIT:
+			case HWCOPTERCONTROL_MAINPORT_DSMX11BIT:
 				proto = PIOS_DSM_PROTO_DSMX11BIT;
 				break;
 			default:
@@ -483,7 +483,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
-	case HWSETTINGS_CC_MAINPORT_DEBUGCONSOLE:
+	case HWCOPTERCONTROL_MAINPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 		{
@@ -503,7 +503,7 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 #endif	/* PIOS_INCLUDE_COM */
 		break;
-	case HWSETTINGS_CC_MAINPORT_COMBRIDGE:
+	case HWCOPTERCONTROL_MAINPORT_COMBRIDGE:
 		{
 			uint32_t pios_usart_generic_id;
 			if (PIOS_USART_Init(&pios_usart_generic_id, &pios_usart_generic_main_cfg)) {
@@ -524,13 +524,13 @@ void PIOS_Board_Init(void) {
 	}
 
 	/* Configure the flexi port */
-	uint8_t hwsettings_cc_flexiport;
-	HwSettingsCC_FlexiPortGet(&hwsettings_cc_flexiport);
+	uint8_t hw_flexiport;
+	HwCopterControlFlexiPortGet(&hw_flexiport);
 
-	switch (hwsettings_cc_flexiport) {
-	case HWSETTINGS_CC_FLEXIPORT_DISABLED:
+	switch (hw_flexiport) {
+	case HWCOPTERCONTROL_FLEXIPORT_DISABLED:
 		break;
-	case HWSETTINGS_CC_FLEXIPORT_TELEMETRY:
+	case HWCOPTERCONTROL_FLEXIPORT_TELEMETRY:
 #if defined(PIOS_INCLUDE_TELEMETRY_RF)
 		{
 			uint32_t pios_usart_generic_id;
@@ -549,7 +549,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif /* PIOS_INCLUDE_TELEMETRY_RF */
 		break;
-	case HWSETTINGS_CC_FLEXIPORT_COMBRIDGE:
+	case HWCOPTERCONTROL_FLEXIPORT_COMBRIDGE:
 		{
 			uint32_t pios_usart_generic_id;
 			if (PIOS_USART_Init(&pios_usart_generic_id, &pios_usart_generic_flexi_cfg)) {
@@ -567,7 +567,7 @@ void PIOS_Board_Init(void) {
 			}
 		}
 		break;
-	case HWSETTINGS_CC_FLEXIPORT_GPS:
+	case HWCOPTERCONTROL_FLEXIPORT_GPS:
 #if defined(PIOS_INCLUDE_GPS)
 		{
 			uint32_t pios_usart_generic_id;
@@ -584,20 +584,20 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_GPS */
 		break;
-	case HWSETTINGS_CC_FLEXIPORT_DSM2:
-	case HWSETTINGS_CC_FLEXIPORT_DSMX10BIT:
-	case HWSETTINGS_CC_FLEXIPORT_DSMX11BIT:
+	case HWCOPTERCONTROL_FLEXIPORT_DSM2:
+	case HWCOPTERCONTROL_FLEXIPORT_DSMX10BIT:
+	case HWCOPTERCONTROL_FLEXIPORT_DSMX11BIT:
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			enum pios_dsm_proto proto;
-			switch (hwsettings_cc_flexiport) {
-			case HWSETTINGS_CC_FLEXIPORT_DSM2:
+			switch (hw_flexiport) {
+			case HWCOPTERCONTROL_FLEXIPORT_DSM2:
 				proto = PIOS_DSM_PROTO_DSM2;
 				break;
-			case HWSETTINGS_CC_FLEXIPORT_DSMX10BIT:
+			case HWCOPTERCONTROL_FLEXIPORT_DSMX10BIT:
 				proto = PIOS_DSM_PROTO_DSMX10BIT;
 				break;
-			case HWSETTINGS_CC_FLEXIPORT_DSMX11BIT:
+			case HWCOPTERCONTROL_FLEXIPORT_DSMX11BIT:
 				proto = PIOS_DSM_PROTO_DSMX11BIT;
 				break;
 			default:
@@ -615,7 +615,7 @@ void PIOS_Board_Init(void) {
 					  &pios_dsm_flexi_cfg,
 					  &pios_usart_com_driver,
 					  pios_usart_dsm_id,
-					  proto, hwsettings_DSMxBind)) {
+					  proto, hw_DSMxBind)) {
 				PIOS_Assert(0);
 			}
 
@@ -627,7 +627,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
-	case HWSETTINGS_CC_FLEXIPORT_DEBUGCONSOLE:
+	case HWCOPTERCONTROL_FLEXIPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 		{
@@ -647,7 +647,7 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 #endif	/* PIOS_INCLUDE_COM */
 		break;
-	case HWSETTINGS_CC_FLEXIPORT_I2C:
+	case HWCOPTERCONTROL_FLEXIPORT_I2C:
 #if defined(PIOS_INCLUDE_I2C)
 		{
 			if (PIOS_I2C_Init(&pios_i2c_flexi_adapter_id, &pios_i2c_flexi_adapter_cfg)) {
@@ -659,13 +659,13 @@ void PIOS_Board_Init(void) {
 	}
 
 	/* Configure the rcvr port */
-	uint8_t hwsettings_rcvrport;
-	HwSettingsCC_RcvrPortGet(&hwsettings_rcvrport);
+	uint8_t hw_rcvrport;
+	HwCopterControlRcvrPortGet(&hw_rcvrport);
 
-	switch (hwsettings_rcvrport) {
-	case HWSETTINGS_CC_RCVRPORT_DISABLED:
+	switch (hw_rcvrport) {
+	case HWCOPTERCONTROL_RCVRPORT_DISABLED:
 		break;
-	case HWSETTINGS_CC_RCVRPORT_PWM:
+	case HWCOPTERCONTROL_RCVRPORT_PWM:
 #if defined(PIOS_INCLUDE_PWM)
 		{
 			uint32_t pios_pwm_id;
@@ -679,8 +679,8 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_PWM */
 		break;
-	case HWSETTINGS_CC_RCVRPORT_PPM:
-	case HWSETTINGS_CC_RCVRPORT_PPMOUTPUTS:
+	case HWCOPTERCONTROL_RCVRPORT_PPM:
+	case HWCOPTERCONTROL_RCVRPORT_PPMOUTPUTS:
 #if defined(PIOS_INCLUDE_PPM)
 		{
 			uint32_t pios_ppm_id;
@@ -694,7 +694,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_PPM */
 		break;
-	case HWSETTINGS_CC_RCVRPORT_PPMPWM:
+	case HWCOPTERCONTROL_RCVRPORT_PPMPWM:
 		/* This is a combination of PPM and PWM inputs */
 #if defined(PIOS_INCLUDE_PPM)
 		{
@@ -738,15 +738,15 @@ void PIOS_Board_Init(void) {
 	GPIO_PinRemapConfig( GPIO_Remap_SWJ_NoJTRST, ENABLE);
 
 #ifndef PIOS_DEBUG_ENABLE_DEBUG_PINS
-	switch (hwsettings_rcvrport) {
-		case HWSETTINGS_CC_RCVRPORT_DISABLED:
-		case HWSETTINGS_CC_RCVRPORT_PWM:
-		case HWSETTINGS_CC_RCVRPORT_PPM:
-		case HWSETTINGS_CC_RCVRPORT_PPMPWM:
+	switch (hw_rcvrport) {
+		case HWCOPTERCONTROL_RCVRPORT_DISABLED:
+		case HWCOPTERCONTROL_RCVRPORT_PWM:
+		case HWCOPTERCONTROL_RCVRPORT_PPM:
+		case HWCOPTERCONTROL_RCVRPORT_PPMPWM:
 			PIOS_Servo_Init(&pios_servo_cfg);
 			break;
-		case HWSETTINGS_CC_RCVRPORT_PPMOUTPUTS:
-		case HWSETTINGS_CC_RCVRPORT_OUTPUTS:
+		case HWCOPTERCONTROL_RCVRPORT_PPMOUTPUTS:
+		case HWCOPTERCONTROL_RCVRPORT_OUTPUTS:
 			PIOS_Servo_Init(&pios_servo_rcvr_cfg);
 			break;
 	}
@@ -776,36 +776,36 @@ void PIOS_Board_Init(void) {
 			PIOS_MPU6000_Init(pios_spi_gyro_id,0,&pios_mpu6000_cfg);
 			init_test = PIOS_MPU6000_Test();
 
-			uint8_t gyro_range;
-			HwSettingsGyroRangeGet(&gyro_range);
-			switch(gyro_range) {
-				case HWSETTINGS_GYRORANGE_250:
+			uint8_t hw_gyro_range;
+			HwCopterControlGyroRangeGet(&hw_gyro_range);
+			switch(hw_gyro_range) {
+				case HWCOPTERCONTROL_GYRORANGE_250:
 					PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_250_DEG);
 					break;
-				case HWSETTINGS_GYRORANGE_500:
+				case HWCOPTERCONTROL_GYRORANGE_500:
 					PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
 					break;
-				case HWSETTINGS_GYRORANGE_1000:
+				case HWCOPTERCONTROL_GYRORANGE_1000:
 					PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_1000_DEG);
 					break;
-				case HWSETTINGS_GYRORANGE_2000:
+				case HWCOPTERCONTROL_GYRORANGE_2000:
 					PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_2000_DEG);
 					break;
 			}
 
-			uint8_t accel_range;
-			HwSettingsAccelRangeGet(&accel_range);
-			switch(accel_range) {
-				case HWSETTINGS_ACCELRANGE_2G:
+			uint8_t hw_accel_range;
+			HwCopterControlAccelRangeGet(&hw_accel_range);
+			switch(hw_accel_range) {
+				case HWCOPTERCONTROL_ACCELRANGE_2G:
 					PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_2G);
 					break;
-				case HWSETTINGS_ACCELRANGE_4G:
+				case HWCOPTERCONTROL_ACCELRANGE_4G:
 					PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_4G);
 					break;
-				case HWSETTINGS_ACCELRANGE_8G:
+				case HWCOPTERCONTROL_ACCELRANGE_8G:
 					PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
 					break;
-				case HWSETTINGS_ACCELRANGE_16G:
+				case HWCOPTERCONTROL_ACCELRANGE_16G:
 					PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_16G);
 					break;
 			}

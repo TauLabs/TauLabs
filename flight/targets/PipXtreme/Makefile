@@ -67,7 +67,7 @@ FLASH_TOOL = OPENOCD
 
 # List of modules to include
 OPTMODULES = 
-MODULES = Radio RadioComBridge
+MODULES = RadioComBridge
 
 # Paths
 OPSYSTEM = ./System
@@ -129,8 +129,8 @@ endif
 ## UAVOBJECTS
 ifndef TESTAPP
 SRC += $(OPUAVSYNTHDIR)/gcsreceiver.c
-SRC += $(OPUAVSYNTHDIR)/pipxstatus.c
-SRC += $(OPUAVSYNTHDIR)/pipxsettings.c
+SRC += $(OPUAVSYNTHDIR)/oplinkstatus.c
+SRC += $(OPUAVSYNTHDIR)/oplinksettings.c
 SRC += $(OPUAVSYNTHDIR)/objectpersistence.c
 
 endif
@@ -172,12 +172,12 @@ SRC += $(PIOSCOMMON)/pios_i2c_esc.c
 SRC += $(PIOSCOMMON)/pios_rcvr.c
 SRC += $(PIOSCOMMON)/printf-stdarg.c
 SRC += $(PIOSCOMMON)/pios_rfm22b.c
+SRC += $(PIOSCOMMON)/pios_rfm22b_com.c
 ## Libraries for flight calculations
 SRC += $(FLIGHTLIB)/fifo_buffer.c
 SRC += $(FLIGHTLIB)/CoordinateConversions.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
 SRC += $(FLIGHTLIB)/aes.c
-SRC += $(FLIGHTLIB)/packet_handler.c
 ## The Reed-Solomon FEC library
 SRC += $(FLIGHTLIB)/rscode/rs.c
 SRC += $(FLIGHTLIB)/rscode/berlekamp.c
@@ -339,6 +339,9 @@ endif
 ifeq ($(USE_I2C), YES)
 CDEFS += -DUSE_I2C
 endif
+
+# Declare all non-optional modules as built-in to force inclusion
+CDEFS += $(foreach MOD, $(notdir $(MODULES)), -DMODULE_$(MOD)_BUILTIN)
 
 # Place project-specific -D and/or -U options for
 # Assembler with preprocessor here.

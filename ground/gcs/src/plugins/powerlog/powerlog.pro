@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = PowerLog
 DEFINES += POWERLOG_LIBRARY
-include(../../openpilotgcsplugin.pri)
+include(../../abovegroundlabsgcsplugin.pri)
 include(powerlog_dependencies.pri)
 HEADERS += powerlogplugin.h
 
