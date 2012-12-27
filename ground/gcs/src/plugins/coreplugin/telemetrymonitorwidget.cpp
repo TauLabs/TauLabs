@@ -34,9 +34,9 @@
 
 TelemetryMonitorWidget::TelemetryMonitorWidget(QWidget *parent) : QGraphicsView(parent)
 {
-    setMinimumSize(180,100);
-    setMaximumSize(180,100);
-    setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    setMinimumSize(200,75);
+    setMaximumSize(200,75);
+    setSizePolicy(QSizePolicy::Fixed, QSizePolicy::MinimumExpanding);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setAlignment(Qt::AlignCenter);
@@ -46,7 +46,7 @@ TelemetryMonitorWidget::TelemetryMonitorWidget(QWidget *parent) : QGraphicsView(
     setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlags(Qt::FramelessWindowHint);
 
-    QGraphicsScene *scene = new QGraphicsScene(0,0,180,100, this);
+    QGraphicsScene *scene = new QGraphicsScene(0,0,1040,110, this);
 
     renderer = new QSvgRenderer();
     if (renderer->load(QString(":/core/images/tx-rx.svg"))) {
