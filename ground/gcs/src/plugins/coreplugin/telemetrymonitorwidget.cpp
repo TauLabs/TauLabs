@@ -41,7 +41,7 @@ TelemetryMonitorWidget::TelemetryMonitorWidget(QWidget *parent) : QGraphicsView(
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setAlignment(Qt::AlignCenter);
     setFrameStyle(QFrame::NoFrame);
-    setStyleSheet("QGraphicsView{background:transparent;} QToolTip{background:black;}");
+    setStyleSheet("QGraphicsView{background:transparent;}");
 
     setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlags(Qt::FramelessWindowHint);
