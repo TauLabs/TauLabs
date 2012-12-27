@@ -41,6 +41,8 @@ class HwFieldSelector : public QWidget
 public:
     explicit HwFieldSelector(QWidget *parent = 0);
     void setUavoField(UAVObjectField *field);
+
+    QComboBox *getCombo();
 signals:
     
 public slots:

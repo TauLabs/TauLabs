@@ -38,3 +38,9 @@ void HwFieldSelector::setUavoField(UAVObjectField *field)
     ui->Name->setText(field->getName());
     ui->Selection->addItems(field->getOptions());
 }
+
+//! Accessor for the QComboBox
+QComboBox *HwFieldSelector::getCombo()
+{
+    return ui->Selection;
+}

@@ -34,11 +34,15 @@
 DefaultHwSettingsWidget::DefaultHwSettingsWidget(QWidget *parent) :
         ConfigTaskWidget(parent),
         ui(new Ui_defaulthwsettings),
-        hwSettingsObject("HwFreedom")
+        hwSettingsObject("HwRevolution")
 {
     ui->setupUi(this);
     fieldWidgets.clear();
     updateFields();
+
+    addApplySaveButtons(ui->applyButton,ui->saveButton);
+    addUAVObject(hwSettingsObject);
+    refreshWidgetsValues();
 }
 
 DefaultHwSettingsWidget::~DefaultHwSettingsWidget()
@@ -64,5 +68,6 @@ void DefaultHwSettingsWidget::updateFields()
         layout->addWidget(sel);
         sel->setUavoField(fields[i]);
         fieldWidgets.append(sel);
+        addUAVObjectToWidgetRelation(hwSettingsObject,fields[i]->getName(),sel->getCombo());
     }
 }
