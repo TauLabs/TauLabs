@@ -46,6 +46,7 @@ DefaultHwSettingsWidget::DefaultHwSettingsWidget(QWidget *parent) :
     fieldWidgets.clear();
 
     addApplySaveButtons(ui->applyButton,ui->saveButton);
+    addReloadButton(ui->reloadButton, 0);
 
     allHwSettings.append("HwFlyingF3");
     allHwSettings.append("HwFlyingF4");
@@ -77,7 +78,11 @@ void DefaultHwSettingsWidget::settingsUpdated(UAVObject *obj, bool success)
 
         hwSettingsObject = obj;
         updateFields();
-        addUAVObject(obj);
+
+        QList<int> reloadGroups;
+        reloadGroups << 0;
+
+        addUAVObject(obj, &reloadGroups);
         refreshWidgetsValues();
     }
 }
