@@ -39,7 +39,8 @@ HEADERS += calibration.h \
     config_global.h \
     mixercurve.h \
     dblspindelegate.h \
-    configautotunewidget.h
+    configautotunewidget.h \
+    hwfieldselector.h
 SOURCES += calibration.cpp \
     configplugin.cpp \
     configgadgetconfiguration.cpp \
@@ -69,7 +70,8 @@ SOURCES += calibration.cpp \
     cfg_vehicletypes/vehicleconfig.cpp \
     mixercurve.cpp \
     dblspindelegate.cpp \
-    configautotunewidget.cpp
+    configautotunewidget.cpp \
+    hwfieldselector.cpp
 FORMS += airframe.ui \
     cc_hw_settings.ui \
     ccpm.ui \
@@ -86,7 +88,8 @@ FORMS += airframe.ui \
     txpid.ui \
     pipxtreme.ui \
     mixercurve.ui \
-    autotune.ui
+    autotune.ui \
+    hwfieldselector.ui
 RESOURCES += configgadget.qrc
 
 

@@ -1,8 +1,8 @@
 /**
  ******************************************************************************
- *
  * @file       DefaultHwSettingsWidget.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -26,6 +26,7 @@
  */
 #include "defaulthwsettingswidget.h"
 #include "ui_defaultattitude.h"
+#include "hwfieldselector.h"
 #include <QMutexLocker>
 #include <QErrorMessage>
 #include <QDebug>
@@ -36,6 +37,7 @@ DefaultHwSettingsWidget::DefaultHwSettingsWidget(QWidget *parent) :
         hwSettingsObject("HwFreedom")
 {
     ui->setupUi(this);
+    fieldWidgets.clear();
     updateFields();
 }
 
@@ -44,10 +46,23 @@ DefaultHwSettingsWidget::~DefaultHwSettingsWidget()
     delete ui;
 }
 
+/**
+ * @brief DefaultHwSettingsWidget::updateFields Update the list of fields
+ * on the UI
+ */
 void DefaultHwSettingsWidget::updateFields()
 {
+    QLayout *layout = ui->portSettingsFrame->layout();
+    for (int i = 0; i < fieldWidgets.size(); i++)
+        layout->removeWidget(fieldWidgets[i]);
+    fieldWidgets.clear();
+
     UAVObject *settings = getObjectManager()->getObject(hwSettingsObject);
     QList <UAVObjectField*> fields = settings->getFields();
-    ui->portName->setText(fields[0]->getName());
-    ui->portSelector->addItems(fields[0]->getOptions());
+    for (int i = 0; i < fields.size(); i++) {
+        HwFieldSelector *sel = new HwFieldSelector(this);
+        layout->addWidget(sel);
+        sel->setUavoField(fields[i]);
+        fieldWidgets.append(sel);
+    }
 }

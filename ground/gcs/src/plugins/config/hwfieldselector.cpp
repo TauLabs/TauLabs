@@ -1,13 +1,12 @@
 /**
  ******************************************************************************
- *
- * @file       defaultccattitudewidget.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @file       hwfieldselector.cpp
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup ConfigPlugin Config Plugin
+ * @addtogroup CorePlugin Core Plugin
  * @{
- * @brief Placeholder for attitude settings widget until board connected.
+ * @brief A selector widget for hardware configuration field options
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -24,38 +23,18 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef DEFAULTHWSETTINGSt_H
-#define DEFAULTHWSETTINGSt_H
 
-#include "ui_defaulthwsettings.h"
 #include "hwfieldselector.h"
-#include "../uavobjectwidgetutils/configtaskwidget.h"
-#include "extensionsystem/pluginmanager.h"
-#include "uavobjectmanager.h"
-#include "uavobject.h"
-#include <QList>
-#include <QtGui/QWidget>
-#include <QTimer>
-#include <QMutex>
 
-class Ui_Widget;
-
-class DefaultHwSettingsWidget : public ConfigTaskWidget
+HwFieldSelector::HwFieldSelector(QWidget *parent) :
+    QWidget(parent)
 {
-    Q_OBJECT
+    ui = new Ui::HwFieldSelector();
+    ui->setupUi(this);
+}
 
-public:
-    explicit DefaultHwSettingsWidget(QWidget *parent = 0);
-    ~DefaultHwSettingsWidget();
-
-private slots:
-
-private:
-    void updateFields();
-    Ui_defaulthwsettings *ui;
-
-    QString hwSettingsObject;
-    QList <HwFieldSelector *> fieldWidgets;
-};
-
-#endif // DEFAULTHWSETTINGSt_H
+void HwFieldSelector::setUavoField(UAVObjectField *field)
+{
+    ui->Name->setText(field->getName());
+    ui->Selection->addItems(field->getOptions());
+}

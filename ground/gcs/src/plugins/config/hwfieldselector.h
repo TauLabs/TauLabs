@@ -1,13 +1,12 @@
 /**
  ******************************************************************************
- *
- * @file       defaultccattitudewidget.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @file       hwfieldselector.h
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup ConfigPlugin Config Plugin
+ * @addtogroup CorePlugin Core Plugin
  * @{
- * @brief Placeholder for attitude settings widget until board connected.
+ * @brief A selector widget for hardware configuration field options
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -24,38 +23,30 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef DEFAULTHWSETTINGSt_H
-#define DEFAULTHWSETTINGSt_H
+#ifndef HWFIELDSELECTOR_H
+#define HWFIELDSELECTOR_H
 
-#include "ui_defaulthwsettings.h"
-#include "hwfieldselector.h"
-#include "../uavobjectwidgetutils/configtaskwidget.h"
-#include "extensionsystem/pluginmanager.h"
-#include "uavobjectmanager.h"
-#include "uavobject.h"
-#include <QList>
-#include <QtGui/QWidget>
-#include <QTimer>
-#include <QMutex>
+#include <QWidget>
+#include <hwfieldselector.h>
+#include <ui_hwfieldselector.h>
+#include <uavobjectfield.h>
 
-class Ui_Widget;
+namespace Ui {
+    class HwFieldSelector;
+}
 
-class DefaultHwSettingsWidget : public ConfigTaskWidget
+class HwFieldSelector : public QWidget
 {
     Q_OBJECT
-
 public:
-    explicit DefaultHwSettingsWidget(QWidget *parent = 0);
-    ~DefaultHwSettingsWidget();
-
-private slots:
+    explicit HwFieldSelector(QWidget *parent = 0);
+    void setUavoField(UAVObjectField *field);
+signals:
+    
+public slots:
 
 private:
-    void updateFields();
-    Ui_defaulthwsettings *ui;
-
-    QString hwSettingsObject;
-    QList <HwFieldSelector *> fieldWidgets;
+    Ui::HwFieldSelector *ui;
 };
 
-#endif // DEFAULTHWSETTINGSt_H
+#endif // HWFIELDSELECTOR_H
