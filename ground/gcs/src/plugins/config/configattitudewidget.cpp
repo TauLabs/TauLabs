@@ -222,16 +222,20 @@ ConfigAttitudeWidget::ConfigAttitudeWidget(QWidget *parent) :
     baro->setPos(startX,startY);
     baro->setTransform(QTransform::fromScale(1,0),true);
 
+    bool full_hardware = false;
+
     // Must set up the UI (above) before setting up the UAVO mappings or refreshWidgetValues
     // will be dealing with some null pointers
-    addUAVObject("RevoCalibration");
-    addUAVObject("INSSettings");
-    addUAVObject("InertialSensorSettings");
     addUAVObject("AttitudeSettings");
+    addUAVObject("InertialSensorSettings");
+    if (full_hardware) {
+        addUAVObject("RevoCalibration");
+        addUAVObject("INSSettings");
+    }
     autoLoadWidgets();
 
     // Configure the calibration object
-    calibration.initialize(true);
+    calibration.initialize(full_hardware);
 
     // Must connect the graphs to the calibration object to see the calibration results
     calibration.configureTempCurves(m_ui->xGyroTemp, m_ui->yGyroTemp, m_ui->zGyroTemp);
