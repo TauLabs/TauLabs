@@ -67,8 +67,11 @@ public slots:
     //! Indicates UAV is in a position to collect data during 6pt calibration
     void doSaveSixPointPosition();
 
-    //! Start collecting gyro calibration data
+    //! Start collecting gyro temp calibration data
     void doStartTempCal();
+
+    //! Accept gyro temp calibration data
+    void doAcceptTempCal();
 
     //! Cancels the temperature calibration routine
     void doCancelTempCalPoint();
@@ -82,6 +85,10 @@ private slots:
 
     //! Data collection timed out
     void timeout();
+
+public slots:
+    //! Set temperature calibration range
+    void setTempCalRange(int r);
 
 signals:
     //! Indicate whether to enable or disable controls
@@ -147,7 +154,7 @@ private:
     static const int NUM_SENSOR_UPDATES = 300;
     static const int NUM_SENSOR_UPDATES_SIX_POINT = 500;
     static const int SENSOR_UPDATE_PERIOD = 50;
-    static const double MIN_TEMPERATURE_RANGE = 10.0;
+    double MIN_TEMPERATURE_RANGE;
 
     double initialBoardRotation[3];
     double initialAccelsScale[3];

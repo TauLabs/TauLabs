@@ -467,6 +467,37 @@ Tip: lower is better!</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QProgressBar" name="tempCalProgress">
+           <property name="value">
+            <number>0</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Temperature range: </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="tempCalRange">
+           <property name="suffix">
+            <string> deg C</string>
+           </property>
+           <property name="prefix">
+            <string/>
+           </property>
+           <property name="value">
+            <number>15</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <widget class="QLabel" name="tempCalMessage">
          <property name="maximumSize">
           <size>
@@ -476,13 +507,6 @@ Tip: lower is better!</string>
          </property>
          <property name="text">
           <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QProgressBar" name="tempCalProgress">
-         <property name="value">
-          <number>0</number>
          </property>
         </widget>
        </item>
@@ -501,6 +525,13 @@ Tip: lower is better!</string>
           <widget class="QPushButton" name="startTempCal">
            <property name="text">
             <string>Start Temperature Calibration</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="acceptTempCal">
+           <property name="text">
+            <string>Accept Temperature Calibrtion</string>
            </property>
           </widget>
          </item>

@@ -242,7 +242,10 @@ ConfigAttitudeWidget::ConfigAttitudeWidget(QWidget *parent) :
     connect(m_ui->sixPointSave, SIGNAL(clicked()), &calibration ,SLOT(doSaveSixPointPosition()));
     connect(m_ui->sixPointCancel, SIGNAL(clicked()), &calibration ,SLOT(doCancelSixPoint()));
     connect(m_ui->startTempCal, SIGNAL(clicked()), &calibration, SLOT(doStartTempCal()));
+    connect(m_ui->acceptTempCal, SIGNAL(clicked()), &calibration, SLOT(doAcceptTempCal()));
     connect(m_ui->cancelTempCal, SIGNAL(clicked()), &calibration, SLOT(doCancelTempCalPoint()));
+    connect(m_ui->tempCalRange, SIGNAL(valueChanged(int)), &calibration, SLOT(setTempCalRange(int)));
+    calibration.setTempCalRange(m_ui->tempCalRange->value());
 
     // Let calibration update the UI
     connect(&calibration, SIGNAL(levelingProgressChanged(int)), m_ui->accelBiasProgress, SLOT(setValue(int)));
@@ -256,10 +259,11 @@ ConfigAttitudeWidget::ConfigAttitudeWidget(QWidget *parent) :
     connect(&calibration, SIGNAL(toggleSavePosition(bool)), m_ui->sixPointSave, SLOT(setEnabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->sixPointStart, SLOT(setEnabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->sixPointCancel, SLOT(setDisabled(bool)));
-    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->cancelTempCal, SLOT(setDisabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->noiseMeasurementStart, SLOT(setEnabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->accelBiasStart, SLOT(setEnabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->startTempCal, SLOT(setEnabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->acceptTempCal, SLOT(setDisabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->cancelTempCal, SLOT(setDisabled(bool)));
 
     m_ui->noiseMeasurementStart->setEnabled(true);
     m_ui->sixPointStart->setEnabled(true);

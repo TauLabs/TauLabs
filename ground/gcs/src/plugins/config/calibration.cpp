@@ -617,6 +617,27 @@ void Calibration::doStartTempCal()
 /**
  * @brief Calibration::doCancelTempCalPoint Abort the temperature calibration
  */
+void Calibration::doAcceptTempCal()
+{
+    if (calibration_state == GYRO_TEMP_CAL) {
+        qDebug() << "Accepting";
+        connectSensor(GYRO, false);
+
+        calibration_state = IDLE;
+        emit showTempCalMessage(tr("Temperature calibration accepted"));
+        emit tempCalProgressChanged(0);
+        emit toggleControls(true);
+
+        timer.stop();
+        disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
+
+        computeTempCal();
+    }
+}
+
+/**
+ * @brief Calibration::doCancelTempCalPoint Abort the temperature calibration
+ */
 void Calibration::doCancelTempCalPoint()
 {
     if (calibration_state == GYRO_TEMP_CAL) {
@@ -633,6 +654,15 @@ void Calibration::doCancelTempCalPoint()
     }
 }
 
+/**
+ * @brief Calibration::setTempCalRange Set the range for calibration
+ * @param r The number of degrees that must be spanned for calibration
+ * to terminate
+ */
+void Calibration::setTempCalRange(int r)
+{
+    MIN_TEMPERATURE_RANGE = r;
+}
 
 /**
  * @brief Calibration::storedLevelingMeasurement Store a measurement and if there
