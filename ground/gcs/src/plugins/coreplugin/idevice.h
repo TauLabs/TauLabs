@@ -39,8 +39,9 @@ namespace Core {
 * device, that will be PID/VID/Serial number, for serial devices, that will be the
 * port name, etc.
 *
-*  As such, this interface is minimal, it is up to the plugins to define additional
-* methods/properties they need.
+*  As such, this interface is minimal - only short and display name - , it is up to
+*  the plugins to define additional methods/properties they need and use dynamic
+*  casting when getting device objects back from the connection manager.
 *
 */
 class CORE_EXPORT IDevice : public QObject
@@ -58,7 +59,6 @@ public:
         return name == idv.name  && displayName == idv.displayName;
     }
 
-//protected:
     QString name;
     QString displayName;
 

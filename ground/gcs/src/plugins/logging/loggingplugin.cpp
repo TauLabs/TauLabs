@@ -47,6 +47,11 @@
 
 LoggingConnection::LoggingConnection()
 {
+    // We only ever use one (virtual) logging device, so let's just
+    // initialize it once upon connection init:
+    logDevice.displayName="Logfile replay...";
+    logDevice.name="Logfile replay...";
+
 
 }
 
@@ -62,12 +67,7 @@ void LoggingConnection::onEnumerationChanged()
 QList <Core::IDevice*> LoggingConnection::availableDevices()
 {
     QList <Core::IDevice*> list;
-    // TODO: follow memory ?
-    LoggingDevice* d = new LoggingDevice();
-    d->displayName="Logfile replay...";
-    d->name="Logfile replay...";
-    list << d;
-
+    list.append(&logDevice);
     return list;
 }
 

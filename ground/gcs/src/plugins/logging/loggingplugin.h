@@ -34,6 +34,7 @@
 #include <extensionsystem/iplugin.h>
 #include "uavobjectmanager.h"
 #include "gcstelemetrystats.h"
+#include "loggingdevice.h"
 #include <uavtalk/uavtalk.h>
 #include <logfile.h>
 
@@ -70,7 +71,7 @@ public:
 
 private:
     LogFile logFile;
-
+    LoggingDevice  logDevice;
 
 protected slots:
     void onEnumerationChanged();

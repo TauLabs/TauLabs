@@ -50,24 +50,6 @@ public:
     /**
     *   Return the list of devices found on the system
     */
-
-    /**
-     * @brief The device struct
-     *  2012.12.10: added additional fields to the device, to
-     *              facilitate multiple board support and more
-     *              robust device opening.
-     */
-/*
-    struct device
-    {
-        QString name;
-        QString displayName;
-        int vendorID;        // Only makes sense for USB devices
-        int productID;       // Only makes sense for USB devices
-        bool operator==(device i){return this->name==i.name;}
-    };
-    */
-
     virtual QList <IDevice *> availableDevices() = 0;
 
     /**

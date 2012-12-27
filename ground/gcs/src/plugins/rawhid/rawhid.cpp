@@ -355,6 +355,7 @@ bool RawHID::openDevice() {
  */
 bool RawHID::closeDevice() {
     dev.close(m_deviceNo);
+    return true;
 }
 
 RawHID::~RawHID()

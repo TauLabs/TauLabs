@@ -115,6 +115,7 @@ QIODevice *RawHIDConnection::openDevice(Core::IDevice *deviceName)
 
     // We know this device is (should be?) a USB device:
     USBDevice* usbDev = dynamic_cast<USBDevice*>(deviceName);
+    Q_ASSERT(usbDev);
 
     RawHidHandle = new RawHID(usbDev);
     return RawHidHandle;
