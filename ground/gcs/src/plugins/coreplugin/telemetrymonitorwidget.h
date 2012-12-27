@@ -37,9 +37,7 @@ public slots:
 protected:
     void showEvent(QShowEvent *event);
     void resizeEvent(QResizeEvent *event);
-private slots:
-    void updateMessages();
-    void processAlerts();
+
 private:
    QGraphicsSvgItem *graph;
    QPointer<QGraphicsTextItem> txSpeed;
