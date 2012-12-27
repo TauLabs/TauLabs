@@ -302,9 +302,6 @@ void VehicleConfigurationHelper::applyLevellingConfiguration()
         inertialSensorSettingsData.AccelBias[0] += bias.m_accelerometerXBias;
         inertialSensorSettingsData.AccelBias[1] += bias.m_accelerometerYBias;
         inertialSensorSettingsData.AccelBias[2] += bias.m_accelerometerZBias;
-        inertialSensorSettingsData.InitialGyroBias[0] = -bias.m_gyroXBias;
-        inertialSensorSettingsData.InitialGyroBias[1] = -bias.m_gyroYBias;
-        inertialSensorSettingsData.InitialGyroBias[2] = -bias.m_gyroZBias;
 
         inertialSensorSettings->setData(inertialSensorSettingsData);
         addModifiedObject(inertialSensorSettings, tr("Writing gyro and accelerometer bias settings"));
