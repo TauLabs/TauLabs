@@ -49,12 +49,16 @@ public:
     ~DefaultHwSettingsWidget();
 
 private slots:
+    void settingsUpdated(UAVObject*,bool);
 
 private:
     void updateFields();
     Ui_defaulthwsettings *ui;
 
-    QString hwSettingsObject;
+    QList<QString> allHwSettings;
+    UAVObject *hwSettingsObject;
+    bool settingSelected;
+
     QList <HwFieldSelector *> fieldWidgets;
 };
 
