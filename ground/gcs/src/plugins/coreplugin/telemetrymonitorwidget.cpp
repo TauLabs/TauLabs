@@ -34,9 +34,9 @@
 
 TelemetryMonitorWidget::TelemetryMonitorWidget(QWidget *parent) : QGraphicsView(parent)
 {
-    setMinimumSize(200,75);
-    setMaximumSize(200,75);
-    setSizePolicy(QSizePolicy::Fixed, QSizePolicy::MinimumExpanding);
+    setMinimumSize(200,parent->height());
+    setMaximumSize(200,parent->height());
+    setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setAlignment(Qt::AlignCenter);
@@ -46,6 +46,7 @@ TelemetryMonitorWidget::TelemetryMonitorWidget(QWidget *parent) : QGraphicsView(
     setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlags(Qt::FramelessWindowHint);
 
+    // This comes from the size of the image
     QGraphicsScene *scene = new QGraphicsScene(0,0,1040,110, this);
 
     renderer = new QSvgRenderer();
@@ -158,11 +159,11 @@ void TelemetryMonitorWidget::disconnect()
     m_connected = false;
     updateTelemetry(0.0,0.0);
 }
-/*!
-  \brief Called by the UAVObject which got updated
 
-  Updates the numeric value and/or the icon if the dial wants this.
-  */
+/**
+ * @brief Called by the UAVObject which got updated
+ * Updates the numeric value and/or the icon if the dial wants this.
+ */
 void TelemetryMonitorWidget::updateTelemetry(double txRate, double rxRate)
 {
     txValue = txRate;
@@ -171,8 +172,9 @@ void TelemetryMonitorWidget::updateTelemetry(double txRate, double rxRate)
     showTelemetry();
 }
 
-// Converts the value into an percentage:
-// this enables smooth movement in moveIndex below
+/** Converts the value into an percentage:
+ * this enables smooth movement in moveIndex below
+ */
 void TelemetryMonitorWidget::showTelemetry()
 {
     txIndex = (txValue-minValue)/(maxValue-minValue) * NODE_NUMELEM;
@@ -218,7 +220,9 @@ void TelemetryMonitorWidget::resizeEvent(QResizeEvent* event)
 {
     Q_UNUSED(event);
 
-    graph->setPos(0,-130);
+    // This offset is required because the widget is not centered while
+    // it is a child of the connection selector widget
+    graph->setPos(0,-20);
     fitInView(graph, Qt::KeepAspectRatio);
 }
 

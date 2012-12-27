@@ -53,7 +53,7 @@ ConnectionManager::ConnectionManager(Internal::MainWindow *mainWindow, QTabWidge
 {
     QHBoxLayout *layout = new QHBoxLayout;
     layout->setSpacing(5);
-    layout->setContentsMargins(5,2,5,2);
+    layout->setContentsMargins(0,0,0,0);
 
     m_monitorWidget = new TelemetryMonitorWidget(this);
     AlarmsMonitorWidget::getInstance().init(m_monitorWidget->getRenderer(),m_monitorWidget->getBackgroundItem());
