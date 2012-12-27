@@ -31,10 +31,12 @@
 #include <QDebug>
 
 DefaultHwSettingsWidget::DefaultHwSettingsWidget(QWidget *parent) :
-        QWidget(parent),
-        ui(new Ui_defaulthwsettings)
+        ConfigTaskWidget(parent),
+        ui(new Ui_defaulthwsettings),
+        hwSettingsObject("HwFreedom")
 {
     ui->setupUi(this);
+    updateFields();
 }
 
 DefaultHwSettingsWidget::~DefaultHwSettingsWidget()
@@ -42,3 +44,10 @@ DefaultHwSettingsWidget::~DefaultHwSettingsWidget()
     delete ui;
 }
 
+void DefaultHwSettingsWidget::updateFields()
+{
+    UAVObject *settings = getObjectManager()->getObject(hwSettingsObject);
+    QList <UAVObjectField*> fields = settings->getFields();
+    ui->portName->setText(fields[0]->getName());
+    ui->portSelector->addItems(fields[0]->getOptions());
+}

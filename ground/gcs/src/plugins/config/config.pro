@@ -18,7 +18,6 @@ HEADERS += calibration.h \
     configinputwidget.h \
     configoutputwidget.h \
     configvehicletypewidget.h \
-    config_pro_hw_widget.h \
     config_cc_hw_widget.h \
     configccattitudewidget.h \
     configpipxtremewidget.h \
@@ -52,7 +51,6 @@ SOURCES += calibration.cpp \
     configinputwidget.cpp \
     configoutputwidget.cpp \
     configvehicletypewidget.cpp \
-    config_pro_hw_widget.cpp \
     config_cc_hw_widget.cpp \
     configccattitudewidget.cpp \
     configstabilizationwidget.cpp \
@@ -74,7 +72,6 @@ SOURCES += calibration.cpp \
     configautotunewidget.cpp
 FORMS += airframe.ui \
     cc_hw_settings.ui \
-    pro_hw_settings.ui \
     ccpm.ui \
     stabilization.ui \
     input.ui \

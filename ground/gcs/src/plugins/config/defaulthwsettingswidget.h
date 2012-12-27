@@ -38,7 +38,7 @@
 
 class Ui_Widget;
 
-class DefaultHwSettingsWidget : public QWidget
+class DefaultHwSettingsWidget : public ConfigTaskWidget
 {
     Q_OBJECT
 
@@ -49,7 +49,10 @@ public:
 private slots:
 
 private:
+    void updateFields();
     Ui_defaulthwsettings *ui;
+
+    QString hwSettingsObject;
 };
 
 #endif // DEFAULTHWSETTINGSt_H
