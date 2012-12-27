@@ -152,7 +152,7 @@ private:
     double mag_data_x[6], mag_data_y[6], mag_data_z[6];
 
     static const int NUM_SENSOR_UPDATES = 300;
-    static const int NUM_SENSOR_UPDATES_SIX_POINT = 500;
+    static const int NUM_SENSOR_UPDATES_SIX_POINT = 100;
     static const int SENSOR_UPDATE_PERIOD = 50;
     double MIN_TEMPERATURE_RANGE;
 

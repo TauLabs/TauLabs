@@ -6,16 +6,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>720</width>
+    <width>773</width>
     <height>867</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_11">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
-    <widget class="QTabWidget" name="tabComplimentary">
+    <widget class="QTabWidget" name="tabAttitudeSetting">
      <property name="currentIndex">
       <number>0</number>
      </property>
@@ -74,6 +74,7 @@
               <string>fieldname:BoardRotation</string>
               <string>element:Yaw</string>
               <string>scale:100.0</string>
+              <string>buttongroup:1</string>
              </stringlist>
             </property>
            </widget>
@@ -92,6 +93,7 @@
               <string>fieldname:BoardRotation</string>
               <string>element:Pitch</string>
               <string>scale:100.0</string>
+              <string>buttongroup:1</string>
              </stringlist>
             </property>
            </widget>
@@ -110,6 +112,7 @@
               <string>fieldname:BoardRotation</string>
               <string>element:Roll</string>
               <string>scale:100.0</string>
+              <string>buttongroup:1</string>
              </stringlist>
             </property>
            </widget>
@@ -240,6 +243,13 @@ arming it in that case!</string>
             <property name="text">
              <string>Zero gyros while arming aircraft</string>
             </property>
+            <property name="objrelation" stdset="0">
+             <stringlist>
+              <string>objname:AttitudeSettings</string>
+              <string>fieldname:ZeroDuringArming</string>
+              <string>buttongroup:1</string>
+             </stringlist>
+            </property>
            </widget>
           </item>
           <item row="1" column="0" colspan="2">
@@ -302,6 +312,7 @@ arming it in that case!</string>
              <stringlist>
               <string>objname:AttitudeSettings</string>
               <string>fieldname:AccelKi</string>
+              <string>buttongroup:1</string>
              </stringlist>
             </property>
            </widget>
@@ -327,6 +338,7 @@ arming it in that case!</string>
              <stringlist>
               <string>objname:AttitudeSettings</string>
               <string>fieldname:AccelKp</string>
+              <string>buttongroup:1</string>
              </stringlist>
             </property>
            </widget>
@@ -361,6 +373,7 @@ arming it in that case!</string>
              <stringlist>
               <string>objname:AttitudeSettings</string>
               <string>fieldname:AccelTau</string>
+              <string>buttongroup:1</string>
              </stringlist>
             </property>
            </widget>
@@ -498,6 +511,376 @@ Tip: lower is better!</string>
         </layout>
        </item>
        <item>
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
+          <string>Fitted Coefficients</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_7">
+          <item row="0" column="0">
+           <layout class="QGridLayout" name="gridLayout_6">
+            <item row="2" column="4">
+             <widget class="QDoubleSpinBox" name="xGyroField_5">
+              <property name="decimals">
+               <number>5</number>
+              </property>
+              <property name="minimum">
+               <double>-180.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>180.000000000000000</double>
+              </property>
+              <property name="objrelation" stdset="0">
+               <stringlist>
+                <string>objname:InertialSensorSettings</string>
+                <string>fieldname:YGyroTempCoeff</string>
+                <string>element:T3</string>
+                <string>scale:1</string>
+                <string>buttongroup:1</string>
+               </stringlist>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="2">
+             <widget class="QDoubleSpinBox" name="xGyroField_10">
+              <property name="decimals">
+               <number>5</number>
+              </property>
+              <property name="minimum">
+               <double>-180.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>180.000000000000000</double>
+              </property>
+              <property name="objrelation" stdset="0">
+               <stringlist>
+                <string>objname:InertialSensorSettings</string>
+                <string>fieldname:ZGyroTempCoeff</string>
+                <string>element:T</string>
+                <string>scale:1</string>
+                <string>buttongroup:1</string>
+               </stringlist>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="4">
+             <widget class="QDoubleSpinBox" name="xGyroField_4">
+              <property name="decimals">
+               <number>5</number>
+              </property>
+              <property name="minimum">
+               <double>-180.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>180.000000000000000</double>
+              </property>
+              <property name="objrelation" stdset="0">
+               <stringlist>
+                <string>objname:InertialSensorSettings</string>
+                <string>fieldname:XGyroTempCoeff</string>
+                <string>element:T3</string>
+                <string>scale:1</string>
+                <string>buttongroup:1</string>
+               </stringlist>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QDoubleSpinBox" name="xGyroField_2">
+              <property name="decimals">
+               <number>5</number>
+              </property>
+              <property name="minimum">
+               <double>-180.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>180.000000000000000</double>
+              </property>
+              <property name="objrelation" stdset="0">
+               <stringlist>
+                <string>objname:InertialSensorSettings</string>
+                <string>fieldname:XGyroTempCoeff</string>
+                <string>element:T</string>
+                <string>scale:1</string>
+                <string>buttongroup:1</string>
+               </stringlist>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="3">
+             <widget class="QLabel" name="label_14">
+              <property name="text">
+               <string>T^2</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QDoubleSpinBox" name="xGyroField_11">
+              <property name="decimals">
+               <number>5</number>
+              </property>
+              <property name="minimum">
+               <double>-180.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>180.000000000000000</double>
+              </property>
+              <property name="objrelation" stdset="0">
+               <stringlist>
+                <string>objname:InertialSensorSettings</string>
+                <string>fieldname:ZGyroTempCoeff</string>
+                <string>element:1</string>
+                <string>scale:1</string>
+                <string>buttongroup:1</string>
+               </stringlist>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QDoubleSpinBox" name="xGyroField_1">
+              <property name="decimals">
+               <number>5</number>
+              </property>
+              <property name="minimum">
+               <double>-180.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>180.000000000000000</double>
+              </property>
+              <property name="objrelation" stdset="0">
+               <stringlist>
+                <string>objname:InertialSensorSettings</string>
+                <string>fieldname:XGyroTempCoeff</string>
+                <string>element:1</string>
+                <string>scale:1</string>
+                <string>buttongroup:1</string>
+               </stringlist>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLabel" name="label_16">
+              <property name="text">
+               <string>Constant</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="3">
+             <widget class="QDoubleSpinBox" name="xGyroField_3">
+              <property name="decimals">
+               <number>5</number>
+              </property>
+              <property name="minimum">
+               <double>-180.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>180.000000000000000</double>
+              </property>
+              <property name="objrelation" stdset="0">
+               <stringlist>
+                <string>objname:InertialSensorSettings</string>
+                <string>fieldname:XGyroTempCoeff</string>
+                <string>element:T2</string>
+                <string>scale:1</string>
+                <string>buttongroup:1</string>
+               </stringlist>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QDoubleSpinBox" name="xGyroField_7">
+              <property name="decimals">
+               <number>5</number>
+              </property>
+              <property name="minimum">
+               <double>-180.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>180.000000000000000</double>
+              </property>
+              <property name="objrelation" stdset="0">
+               <stringlist>
+                <string>objname:InertialSensorSettings</string>
+                <string>fieldname:YGyroTempCoeff</string>
+                <string>element:1</string>
+                <string>scale:1</string>
+                <string>buttongroup:1</string>
+               </stringlist>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QDoubleSpinBox" name="xGyroField_6">
+              <property name="decimals">
+               <number>5</number>
+              </property>
+              <property name="minimum">
+               <double>-180.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>180.000000000000000</double>
+              </property>
+              <property name="objrelation" stdset="0">
+               <stringlist>
+                <string>objname:InertialSensorSettings</string>
+                <string>fieldname:YGyroTempCoeff</string>
+                <string>element:T</string>
+                <string>scale:1</string>
+                <string>buttongroup:1</string>
+               </stringlist>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="4">
+             <widget class="QLabel" name="label_11">
+              <property name="text">
+               <string>T^3</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_12">
+              <property name="text">
+               <string>Y Gyro</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="3">
+             <widget class="QDoubleSpinBox" name="xGyroField_8">
+              <property name="decimals">
+               <number>5</number>
+              </property>
+              <property name="minimum">
+               <double>-180.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>180.000000000000000</double>
+              </property>
+              <property name="objrelation" stdset="0">
+               <stringlist>
+                <string>objname:InertialSensorSettings</string>
+                <string>fieldname:YGyroTempCoeff</string>
+                <string>element:T2</string>
+                <string>scale:1</string>
+                <string>buttongroup:1</string>
+               </stringlist>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_15">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>X Gyro</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="4">
+             <widget class="QDoubleSpinBox" name="xGyroField_9">
+              <property name="decimals">
+               <number>5</number>
+              </property>
+              <property name="minimum">
+               <double>-180.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>180.000000000000000</double>
+              </property>
+              <property name="objrelation" stdset="0">
+               <stringlist>
+                <string>objname:InertialSensorSettings</string>
+                <string>fieldname:ZGyroTempCoeff</string>
+                <string>element:T3</string>
+                <string>scale:1</string>
+                <string>buttongroup:1</string>
+               </stringlist>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QLabel" name="label_17">
+              <property name="text">
+               <string>T</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="3">
+             <widget class="QDoubleSpinBox" name="xGyroField_12">
+              <property name="decimals">
+               <number>5</number>
+              </property>
+              <property name="minimum">
+               <double>-180.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>180.000000000000000</double>
+              </property>
+              <property name="objrelation" stdset="0">
+               <stringlist>
+                <string>objname:InertialSensorSettings</string>
+                <string>fieldname:ZGyroTempCoeff</string>
+                <string>element:T2</string>
+                <string>scale:1</string>
+                <string>buttongroup:1</string>
+               </stringlist>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_13">
+              <property name="text">
+               <string>Z Gyro</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="5">
+             <spacer name="horizontalSpacer_4">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
         <widget class="QLabel" name="tempCalMessage">
          <property name="maximumSize">
           <size>
@@ -511,13 +894,52 @@ Tip: lower is better!</string>
         </widget>
        </item>
        <item>
-        <widget class="TempCompCurve" name="xGyroTemp" native="true"/>
+        <widget class="TempCompCurve" name="xGyroTemp" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>100</height>
+          </size>
+         </property>
+        </widget>
        </item>
        <item>
-        <widget class="TempCompCurve" name="yGyroTemp" native="true"/>
+        <widget class="TempCompCurve" name="yGyroTemp" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>100</height>
+          </size>
+         </property>
+        </widget>
        </item>
        <item>
-        <widget class="TempCompCurve" name="zGyroTemp" native="true"/>
+        <widget class="TempCompCurve" name="zGyroTemp" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>100</height>
+          </size>
+         </property>
+        </widget>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout">
@@ -678,7 +1100,7 @@ new home location unless it is in indoor mode.</string>
     </spacer>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="submitButtons">
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
       <widget class="QLabel" name="calibInstructions">
        <property name="text">
@@ -744,6 +1166,70 @@ new home location unless it is in indoor mode.</string>
         <stringlist>
          <string>button:help</string>
          <string>url:http://wiki.openpilot.org/display/Doc/Revo+Configuration</string>
+        </stringlist>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="resetButton">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Load default CameraStabilization settings except output channels into GCS.
+
+Loaded settings are not applied automatically. You have to click the
+Apply or Save button afterwards.</string>
+       </property>
+       <property name="text">
+        <string>Reset To Defaults</string>
+       </property>
+       <property name="objrelation" stdset="0">
+        <stringlist>
+         <string>button:default</string>
+         <string>buttongroup:1</string>
+        </stringlist>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="reloadButton">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Reloads saved CameraStabilization settings  except output channels
+from board into GCS. Useful if you have accidentally changed some
+settings.
+
+Loaded settings are not applied automatically. You have to click the
+Apply or Save button afterwards.</string>
+       </property>
+       <property name="text">
+        <string>Reload Board Data</string>
+       </property>
+       <property name="objrelation" stdset="0">
+        <stringlist>
+         <string>button:reload</string>
+         <string>buttongroup:1</string>
         </stringlist>
        </property>
       </widget>
