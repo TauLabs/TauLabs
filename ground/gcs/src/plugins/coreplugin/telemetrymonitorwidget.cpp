@@ -1,3 +1,30 @@
+/**
+ ******************************************************************************
+ * @file       telemetrymonitorwidget.cpp
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011-2012.
+ *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @addtogroup GCSPlugins GCS Plugins
+ * @{
+ * @addtogroup CorePlugin Core Plugin
+ * @{
+ * @brief Provides a compact summary of telemetry on the tool bar
+ *****************************************************************************/
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+ * for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
 #include "telemetrymonitorwidget.h"
 
 #include <QObject>
@@ -7,19 +34,20 @@
 
 TelemetryMonitorWidget::TelemetryMonitorWidget(QWidget *parent) : QGraphicsView(parent)
 {
-    setMinimumSize(180,100);
-    setMaximumSize(180,100);
-    setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    setMinimumSize(200,parent->height());
+    setMaximumSize(200,parent->height());
+    setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setAlignment(Qt::AlignCenter);
     setFrameStyle(QFrame::NoFrame);
-    setStyleSheet("QGraphicsView{background:transparent;} QToolTip{background:black;}");
+    setStyleSheet("QGraphicsView{background:transparent;}");
 
     setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlags(Qt::FramelessWindowHint);
 
-    QGraphicsScene *scene = new QGraphicsScene(0,0,180,100, this);
+    // This comes from the size of the image
+    QGraphicsScene *scene = new QGraphicsScene(0,0,1040,110, this);
 
     renderer = new QSvgRenderer();
     if (renderer->load(QString(":/core/images/tx-rx.svg"))) {
@@ -131,11 +159,11 @@ void TelemetryMonitorWidget::disconnect()
     m_connected = false;
     updateTelemetry(0.0,0.0);
 }
-/*!
-  \brief Called by the UAVObject which got updated
 
-  Updates the numeric value and/or the icon if the dial wants this.
-  */
+/**
+ * @brief Called by the UAVObject which got updated
+ * Updates the numeric value and/or the icon if the dial wants this.
+ */
 void TelemetryMonitorWidget::updateTelemetry(double txRate, double rxRate)
 {
     txValue = txRate;
@@ -144,8 +172,9 @@ void TelemetryMonitorWidget::updateTelemetry(double txRate, double rxRate)
     showTelemetry();
 }
 
-// Converts the value into an percentage:
-// this enables smooth movement in moveIndex below
+/** Converts the value into an percentage:
+ * this enables smooth movement in moveIndex below
+ */
 void TelemetryMonitorWidget::showTelemetry()
 {
     txIndex = (txValue-minValue)/(maxValue-minValue) * NODE_NUMELEM;
@@ -191,7 +220,9 @@ void TelemetryMonitorWidget::resizeEvent(QResizeEvent* event)
 {
     Q_UNUSED(event);
 
-    graph->setPos(0,-130);
+    // This offset is required because the widget is not centered while
+    // it is a child of the connection selector widget
+    graph->setPos(0,-20);
     fitInView(graph, Qt::KeepAspectRatio);
 }
 
