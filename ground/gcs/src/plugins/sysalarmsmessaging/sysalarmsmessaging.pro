@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = SysAlarmsMessaging
 QT += svg
-include(../../openpilotgcsplugin.pri)
+include(../../abovegroundlabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
 include(sysalarmsmessaging_dependencies.pri)
 HEADERS += sysalarmsmessagingplugin.h
