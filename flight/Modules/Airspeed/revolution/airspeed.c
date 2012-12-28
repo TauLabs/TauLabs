@@ -57,6 +57,7 @@
 
 #if defined (PIOS_INCLUDE_MPXV5004) || defined (PIOS_INCLUDE_MPXV7002) || defined (PIOS_INCLUDE_ETASV3)
  #define BARO_AIRSPEED_PRESENT
+ #error Make sure this does not use 100% CPU when you turn this back on!
 #endif
 
 #if defined (GPS_AIRSPEED_PRESENT) && defined (BARO_AIRSPEED_PRESENT)
