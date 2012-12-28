@@ -35,7 +35,7 @@
 #include <QtSvg/QSvgRenderer>
 #include <QtSvg/QGraphicsSvgItem>
 #include <QMouseEvent>
-
+#include <QMap>
 #include <QFile>
 #include <QTimer>
 

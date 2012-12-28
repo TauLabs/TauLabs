@@ -38,6 +38,7 @@
 #include <QHBoxLayout>
 #include <QComboBox>
 #include <QEventLoop>
+#include <alarmsmonitorwidget.h>
 
 namespace Core {
 
@@ -52,9 +53,10 @@ ConnectionManager::ConnectionManager(Internal::MainWindow *mainWindow, QTabWidge
 {
     QHBoxLayout *layout = new QHBoxLayout;
     layout->setSpacing(5);
-    layout->setContentsMargins(5,2,5,2);
+    layout->setContentsMargins(0,0,0,0);
 
     m_monitorWidget = new TelemetryMonitorWidget(this);
+    AlarmsMonitorWidget::getInstance().init(m_monitorWidget->getRenderer(),m_monitorWidget->getBackgroundItem());
     layout->addWidget(m_monitorWidget, Qt::AlignHCenter);
 
     layout->addWidget(new QLabel(tr("Connections:")));
@@ -133,7 +135,7 @@ bool ConnectionManager::connectDevice(DevListItem device)
     m_availableDevList->setEnabled(false);
 
     // tell the monitorwidget we're conneced
-    m_monitorWidget->connect();
+    m_monitorWidget->connected();
 
     return true;
 }
@@ -256,7 +258,7 @@ void ConnectionManager::telemetryConnected()
         reconnectCheck->stop();
 
     //tell the monitor we're connected
-    m_monitorWidget->connect();
+    m_monitorWidget->connected();
 }
 
 /**

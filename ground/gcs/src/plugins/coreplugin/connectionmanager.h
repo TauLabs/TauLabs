@@ -103,6 +103,7 @@ public:
     bool disconnectDevice();
     void suspendPolling();
     void resumePolling();
+    TelemetryMonitorWidget * getTelemetryMonitorWidget(){return m_monitorWidget;}
 
 protected:
     void updateConnectionList(IConnection *connection);
