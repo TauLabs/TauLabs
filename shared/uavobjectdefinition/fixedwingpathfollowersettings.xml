@@ -1,8 +1,11 @@
 <xml>
-    <object name="FixedWingPathFollowerSettingsRevolution" singleinstance="true" settings="true">
+    <object name="FixedWingPathFollowerSettings" singleinstance="true" settings="true">
         <description>Settings for the @ref FixedWingPathFollowerModule</description>
 
         <field name="VerticalVelMax" units="m/s" type="float" elements="1" defaultvalue="10"/>
+                <!-- maximum allowed climb or sink rate in guided flight-->
+
+        <field name="HeadingFeedForward" units="s" type="float" elements="1" defaultvalue="10"/>
                 <!-- maximum allowed climb or sink rate in guided flight-->
 
         <field name="VectorFollowingGain" units="(m/s)/m" type="float" elements="1" defaultvalue="0.5"/>
@@ -15,10 +18,11 @@
                 <!-- proportional coefficient for desired vertical speed in relation to altitude displacement-->
 
         <!-- these coefficients control actual control outputs -->
-        <field name="HeadingPI" units="deg/deg" type="float" elements="3" elementnames="Kp,Ki,ILimit" defaultvalue="0.6, 0, 0"/>
-                <!-- coefficients for desired bank angle in relation to ground bearing error - this controls heading -->
+        <field name="HorizontalPosP" units="" type="float" elements="1" defaultvalue="0.6"/>
 
-        <field name="AirspeedPI" units="deg / (m/s)" type="float" elements="3" elementnames="Kp,Ki,ILimit" defaultvalue="1.5, .15, 20"/>
+        <field name="BearingPI" units="deg/deg" type="float" elements="3" elementnames="Kp,Ki,ILimit" defaultvalue="0.6, 0, 0"/>
+                <!-- coefficients for desired bank angle in relation to ground bearing error - this controls heading -->
+        <field name="PowerPI" units="deg / (m/s)" type="float" elements="3" elementnames="Kp,Ki,ILimit" defaultvalue="1.5, .15, 20"/>
                 <!-- coefficients for desired pitch
                      in relation to relative speed error (IASerror/IASactual) -->
         <field name="VerticalToPitchCrossFeed" units="deg / ((m/s)/(m/s))" type="float" elementnames="Kp,Max" defaultvalue="5, 10"/>
@@ -27,7 +31,7 @@
         <field name="AirspeedToVerticalCrossFeed" units="(m/s) / ((m/s)/(m/s))" type="float" elementnames="Kp,Max" defaultvalue="10, 100"/>
                 <!-- proportional coefficient for adjusting vertical speed error for power calculation
                      in relation to relative airspeed error (IASerror/IASactual) -->
-        <field name="ThrottlePI" units="1/(m/s)" type="float" elements="3" elementnames="Kp,Ki,ILimit" defaultvalue="0.01,0.01,0.8"/>
+        <field name="SpeedPI" units="1/(m/s)" type="float" elements="3" elementnames="Kp,Ki,ILimit" defaultvalue="0.01,0.01,0.8"/>
                 <!-- proportional coefficient for desired throttle
                      in relation to vertical speed error (absolute but including crossfeed) -->
 

@@ -3,8 +3,9 @@
  *
  * @file       fixedwingpathfollower.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      This module compared @ref PositionActuatl to @ref ActiveWaypoint 
- * and sets @ref AttitudeDesired.  It only does this when the FlightMode field
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2012.
+ * @brief      This module compared @ref PositionActual to @ref PathDesired 
+ * and sets @ref StabilizationDesired.  It only does this when the FlightMode field
  * of @ref ManualControlCommand is Auto.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -27,12 +28,12 @@
  */
 
 /**
- * Input object: ActiveWaypoint
- * Input object: PositionActual
- * Input object: ManualControlCommand
- * Output object: AttitudeDesired
+ * Input object: @ref ActiveWaypoint
+ * Input object: @ref PositionActual
+ * Input object: @ref ManualControlCommand
+ * Output object: @ref StabilizationDesired
  *
- * This module will periodically update the value of the AttitudeDesired object.
+ * This module will periodically update the value of the @ref StabilizationDesired object.
  *
  * The module executes in its own thread in this example.
  *
@@ -57,6 +58,7 @@
 #include "airspeedactual.h"
 #include "gpsvelocity.h"
 #include "gpsposition.h"
+#include "fixedwingairspeeds.h"
 #include "fixedwingpathfollowersettings.h"
 #include "fixedwingpathfollowerstatus.h"
 #include "homelocation.h"
@@ -84,13 +86,13 @@ static xTaskHandle pathfollowerTaskHandle;
 static PathDesiredData pathDesired;
 static PathStatusData pathStatus;
 static FixedWingPathFollowerSettingsData fixedwingpathfollowerSettings;
+static FixedWingAirspeedsData fixedWingAirspeeds;
 
 // Private functions
 static void pathfollowerTask(void *parameters);
 static void SettingsUpdatedCb(UAVObjEvent * ev);
 static void updatePathVelocity();
 static uint8_t updateFixedDesiredAttitude();
-static void updateFixedAttitude();
 static void airspeedActualUpdatedCb(UAVObjEvent * ev);
 static float bound(float val, float min, float max);
 
@@ -125,7 +127,7 @@ int32_t FixedWingPathFollowerInitialize()
 	}
 
 	if (module_enabled) {
-		FixedWingPathFollowerRevolutionSettingsInitialize();
+		FixedWingPathFollowerSettingsInitialize();
 		FixedWingAirspeedsInitialize();
 		FixedWingPathFollowerStatusInitialize();
 		PathDesiredInitialize();
@@ -163,6 +165,7 @@ static void pathfollowerTask(void *parameters)
 	
 	AirspeedActualConnectCallback(airspeedActualUpdatedCb);
 	FixedWingPathFollowerSettingsConnectCallback(SettingsUpdatedCb);
+	FixedWingAirspeedsConnectCallback(SettingsUpdatedCb);
 	PathDesiredConnectCallback(SettingsUpdatedCb);
 	
 	FixedWingPathFollowerSettingsGet(&fixedwingpathfollowerSettings);
@@ -212,7 +215,6 @@ static void pathfollowerTask(void *parameters)
 				}
 				break;
 			case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
-				pathStatus.UID = pathDesired.UID;
 				pathStatus.Status = PATHSTATUS_STATUS_INPROGRESS;
 				switch(pathDesired.Mode) {
 					case PATHDESIRED_MODE_FLYENDPOINT:
@@ -227,13 +229,6 @@ static void pathfollowerTask(void *parameters)
 							pathStatus.Status = PATHSTATUS_STATUS_CRITICAL;
 							AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE,SYSTEMALARMS_ALARM_WARNING);
 						}
-						break;
-					case PATHDESIRED_MODE_FIXEDATTITUDE:
-						updateFixedAttitude(pathDesired.ModeParameters);
-						AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE,SYSTEMALARMS_ALARM_OK);
-						break;
-					case PATHDESIRED_MODE_DISARMALARM:
-						AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE,SYSTEMALARMS_ALARM_CRITICAL);
 						break;
 					default:
 						pathStatus.Status = PATHSTATUS_STATUS_CRITICAL;
@@ -277,7 +272,7 @@ static void updatePathVelocity()
 					};
 	struct path_status progress;
 
-	path_progress(pathDesired.Start, pathDesired.End, cur, &progress, pathDesired.Mode);
+	path_progress(&pathDesired, cur, &progress);
 	
 	float groundspeed = 0;
 	float altitudeSetpoint = 0;
@@ -301,8 +296,8 @@ static void updatePathVelocity()
 			break;
 	}
 	// this ensures a significant forward component at least close to the real trajectory
-	if (groundspeed<fixedwingpathfollowerSettings.BestClimbRateSpeed/10.)
-		groundspeed=fixedwingpathfollowerSettings.BestClimbRateSpeed/10.;
+	if (groundspeed<fixedWingAirspeeds.BestClimbRateSpeed/10.)
+		groundspeed=fixedWingAirspeeds.BestClimbRateSpeed/10.;
 	
 	// calculate velocity - can be zero if waypoints are too close
 	VelocityDesiredData velocityDesired;
@@ -323,25 +318,6 @@ static void updatePathVelocity()
 	pathStatus.fractional_progress = progress.fractional_progress;
 
 	VelocityDesiredSet(&velocityDesired);
-}
-
-
-/**
- * Compute desired attitude from a fixed preset
- *
- */
-static void updateFixedAttitude(float* attitude)
-{
-	StabilizationDesiredData stabDesired;
-	StabilizationDesiredGet(&stabDesired);
-	stabDesired.Roll     = attitude[0];
-	stabDesired.Pitch    = attitude[1];
-	stabDesired.Yaw      = attitude[2];
-	stabDesired.Throttle = attitude[3];
-	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
-	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
-	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_RATE;
-	StabilizationDesiredSet(&stabDesired);
 }
 
 /**
@@ -412,8 +388,8 @@ static uint8_t updateFixedDesiredAttitude()
 	// Desired ground speed
 	groundspeedDesired = sqrtf(velocityDesired.North*velocityDesired.North + velocityDesired.East*velocityDesired.East);
 	indicatedAirspeedDesired    = bound( groundspeedDesired + indicatedAirspeedActualBias,
-							fixedwingpathfollowerSettings.BestClimbRateSpeed,
-							fixedwingpathfollowerSettings.CruiseSpeed);
+							fixedWingAirspeeds.BestClimbRateSpeed,
+							fixedWingAirspeeds.CruiseSpeed);
 
 	// Airspeed error
 	airspeedError = indicatedAirspeedDesired - indicatedAirspeedActual;
@@ -434,23 +410,23 @@ static uint8_t updateFixedDesiredAttitude()
 	// Error condition: plane too slow or too fast
 	fixedwingpathfollowerStatus.Errors[FIXEDWINGPATHFOLLOWERSTATUS_ERRORS_HIGHSPEED] = 0;
 	fixedwingpathfollowerStatus.Errors[FIXEDWINGPATHFOLLOWERSTATUS_ERRORS_LOWSPEED] = 0;
-	if ( indicatedAirspeedActual >  fixedwingpathfollowerSettings.AirSpeedMax) {
+	if ( indicatedAirspeedActual >  fixedWingAirspeeds.AirSpeedMax) {
 		fixedwingpathfollowerStatus.Errors[FIXEDWINGPATHFOLLOWERSTATUS_ERRORS_OVERSPEED] = 1;
 		result = 0;
 	}
-	if ( indicatedAirspeedActual >  fixedwingpathfollowerSettings.CruiseSpeed * 1.2f) {
+	if ( indicatedAirspeedActual >  fixedWingAirspeeds.CruiseSpeed * 1.2f) {
 		fixedwingpathfollowerStatus.Errors[FIXEDWINGPATHFOLLOWERSTATUS_ERRORS_HIGHSPEED] = 1;
 		result = 0;
 	}
-	if (indicatedAirspeedActual < fixedwingpathfollowerSettings.BestClimbRateSpeed * 0.8f && 1) { //The next three && 1 are placeholders for UAVOs representing LANDING and TAKEOFF
+	if (indicatedAirspeedActual < fixedWingAirspeeds.BestClimbRateSpeed * 0.8f && 1) { //The next three && 1 are placeholders for UAVOs representing LANDING and TAKEOFF
 		fixedwingpathfollowerStatus.Errors[FIXEDWINGPATHFOLLOWERSTATUS_ERRORS_LOWSPEED] = 1;
 		result = 0;
 	}
-	if (indicatedAirspeedActual < fixedwingpathfollowerSettings.StallSpeedClean && 1 && 1) { //Where the && 1 represents the UAVO that will control whether the airplane is prepped for landing or not
+	if (indicatedAirspeedActual < fixedWingAirspeeds.StallSpeedClean && 1 && 1) { //Where the && 1 represents the UAVO that will control whether the airplane is prepped for landing or not
 		fixedwingpathfollowerStatus.Errors[FIXEDWINGPATHFOLLOWERSTATUS_ERRORS_STALLSPEED] = 1;
 		result = 0;
 	}
-	if (indicatedAirspeedActual < fixedwingpathfollowerSettings.StallSpeedDirty && 1) {
+	if (indicatedAirspeedActual < fixedWingAirspeeds.StallSpeedDirty && 1) {
 		fixedwingpathfollowerStatus.Errors[FIXEDWINGPATHFOLLOWERSTATUS_ERRORS_STALLSPEED] = 1;
 		result = 0;
 	}
@@ -468,7 +444,7 @@ static uint8_t updateFixedDesiredAttitude()
 	// compute proportional throttle response
 	powerError = -descentspeedError +
 		bound (
-			 (airspeedError/fixedwingpathfollowerSettings.BestClimbRateSpeed)* fixedwingpathfollowerSettings.AirspeedToVerticalCrossFeed[FIXEDWINGPATHFOLLOWERSETTINGS_AIRSPEEDTOVERTICALCROSSFEED_KP] ,
+			 (airspeedError/fixedWingAirspeeds.BestClimbRateSpeed)* fixedwingpathfollowerSettings.AirspeedToVerticalCrossFeed[FIXEDWINGPATHFOLLOWERSETTINGS_AIRSPEEDTOVERTICALCROSSFEED_KP] ,
 			 -fixedwingpathfollowerSettings.AirspeedToVerticalCrossFeed[FIXEDWINGPATHFOLLOWERSETTINGS_AIRSPEEDTOVERTICALCROSSFEED_MAX],
 			 fixedwingpathfollowerSettings.AirspeedToVerticalCrossFeed[FIXEDWINGPATHFOLLOWERSETTINGS_AIRSPEEDTOVERTICALCROSSFEED_MAX]
 			 );
@@ -632,6 +608,7 @@ static float bound(float val, float min, float max)
 static void SettingsUpdatedCb(UAVObjEvent * ev)
 {
 	FixedWingPathFollowerSettingsGet(&fixedwingpathfollowerSettings);
+	FixedWingAirspeedsGet(&fixedWingAirspeeds);
 	PathDesiredGet(&pathDesired);
 }
 
