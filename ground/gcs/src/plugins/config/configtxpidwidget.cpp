@@ -27,7 +27,7 @@
 
 #include "configtxpidwidget.h"
 #include "txpidsettings.h"
-#include "hwsettings.h"
+#include "modulesettings.h"
 #include <extensionsystem/pluginmanager.h>
 #include <coreplugin/generalsettings.h>
 
@@ -46,7 +46,7 @@ ConfigTxPIDWidget::ConfigTxPIDWidget(QWidget *parent) : ConfigTaskWidget(parent)
     // Cannot use addUAVObjectToWidgetRelation() for OptionaModules enum because
     // QCheckBox returns bool (0 or -1) and this value is then set to enum instead
     // or enum options
-    connect(HwSettings::GetInstance(getObjectManager()), SIGNAL(objectUpdated(UAVObject *)), this, SLOT(refreshValues()));
+    connect(ModuleSettings::GetInstance(getObjectManager()), SIGNAL(objectUpdated(UAVObject *)), this, SLOT(refreshValues()));
     connect(m_txpid->Apply, SIGNAL(clicked()), this, SLOT(applySettings()));
     connect(m_txpid->Save, SIGNAL(clicked()), this, SLOT(saveSettings()));
 
@@ -87,25 +87,25 @@ ConfigTxPIDWidget::~ConfigTxPIDWidget()
 
 void ConfigTxPIDWidget::refreshValues()
 {
-    HwSettings *hwSettings = HwSettings::GetInstance(getObjectManager());
-    HwSettings::DataFields hwSettingsData = hwSettings->getData();
+    ModuleSettings *moduleSettings = ModuleSettings::GetInstance(getObjectManager());
+    ModuleSettings::DataFields moduleSettingsData = moduleSettings->getData();
     m_txpid->TxPIDEnable->setChecked(
-        hwSettingsData.OptionalModules[HwSettings::OPTIONALMODULES_TXPID] == HwSettings::OPTIONALMODULES_ENABLED);
+        moduleSettingsData.State[ModuleSettings::STATE_TXPID] == ModuleSettings::STATE_ENABLED);
 }
 
 void ConfigTxPIDWidget::applySettings()
 {
-    HwSettings *hwSettings = HwSettings::GetInstance(getObjectManager());
-    HwSettings::DataFields hwSettingsData = hwSettings->getData();
-    hwSettingsData.OptionalModules[HwSettings::OPTIONALMODULES_TXPID] =
-        m_txpid->TxPIDEnable->isChecked() ? HwSettings::OPTIONALMODULES_ENABLED : HwSettings::OPTIONALMODULES_DISABLED;
-    hwSettings->setData(hwSettingsData);
+    ModuleSettings *moduleSettings = ModuleSettings::GetInstance(getObjectManager());
+    ModuleSettings::DataFields moduleSettingsData = moduleSettings->getData();
+    moduleSettingsData.State[ModuleSettings::STATE_TXPID] =
+        m_txpid->TxPIDEnable->isChecked() ? ModuleSettings::STATE_ENABLED : ModuleSettings::STATE_DISABLED;
+    moduleSettings->setData(moduleSettingsData);
 }
 
 void ConfigTxPIDWidget::saveSettings()
 {
     applySettings();
-    UAVObject *obj = HwSettings::GetInstance(getObjectManager());
+    UAVObject *obj = ModuleSettings::GetInstance(getObjectManager());
     saveObjectToSD(obj);
 }
 

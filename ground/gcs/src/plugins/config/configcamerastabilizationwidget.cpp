@@ -35,7 +35,7 @@
 
 #include "configcamerastabilizationwidget.h"
 #include "camerastabsettings.h"
-#include "hwsettings.h"
+#include "modulesettings.h"
 #include "mixersettings.h"
 #include "actuatorcommand.h"
 #include <extensionsystem/pluginmanager.h>
@@ -86,11 +86,11 @@ ConfigCameraStabilizationWidget::ConfigCameraStabilizationWidget(QWidget *parent
     // Add some UAVObjects to monitor their changes in addition to autoloaded ones.
     // Note also that we want to reload some UAVObjects by "Reload" button and have
     // to pass corresponding reload group numbers (defined also in objrelation property)
-    // to the montitor. We don't reload HwSettings (module enable state) but reload
+    // to the montitor. We don't reload ModuleSettings (module enable state) but reload
     // output channels.
     QList<int> reloadGroups;
     reloadGroups << 1;
-    addUAVObject("HwSettings");
+    addUAVObject("ModuleSettings");
     addUAVObject("MixerSettings", &reloadGroups);
 
     // To set special widgets to defaults when requested
@@ -117,11 +117,11 @@ void ConfigCameraStabilizationWidget::refreshWidgetsValues(UAVObject *obj)
     // Set module enable checkbox from OptionalModules UAVObject item.
     // It needs special processing because ConfigTaskWidget uses TRUE/FALSE
     // for QCheckBox, but OptionalModules uses Enabled/Disabled enum values.
-    HwSettings *hwSettings = HwSettings::GetInstance(getObjectManager());
-    HwSettings::DataFields hwSettingsData = hwSettings->getData();
+    ModuleSettings *moduleSettings = ModuleSettings::GetInstance(getObjectManager());
+    ModuleSettings::DataFields moduleSettingsData = moduleSettings->getData();
 
     m_camerastabilization->enableCameraStabilization->setChecked(
-        hwSettingsData.OptionalModules[HwSettings::OPTIONALMODULES_CAMERASTAB] == HwSettings::OPTIONALMODULES_ENABLED);
+        moduleSettingsData.State[ModuleSettings::STATE_CAMERASTAB] == ModuleSettings::STATE_ENABLED);
 
     // Load mixer outputs which are mapped to camera controls
     MixerSettings *mixerSettings = MixerSettings::GetInstance(getObjectManager());
@@ -176,9 +176,9 @@ void ConfigCameraStabilizationWidget::updateObjectsFromWidgets()
     // Do not use setData() member on whole object, if possible, since it triggers
     // unnessesary UAVObect update.
     quint8 enableModule = m_camerastabilization->enableCameraStabilization->isChecked() ?
-            HwSettings::OPTIONALMODULES_ENABLED : HwSettings::OPTIONALMODULES_DISABLED;
-    HwSettings *hwSettings = HwSettings::GetInstance(getObjectManager());
-    hwSettings->setOptionalModules(HwSettings::OPTIONALMODULES_CAMERASTAB, enableModule);
+            ModuleSettings::STATE_ENABLED : ModuleSettings::STATE_DISABLED;
+    ModuleSettings *moduleSettings = ModuleSettings::GetInstance(getObjectManager());
+    moduleSettings->setState(ModuleSettings::STATE_CAMERASTAB, enableModule);
 
     // Update mixer channels which were mapped to camera outputs in case they are
     // not used for other function yet

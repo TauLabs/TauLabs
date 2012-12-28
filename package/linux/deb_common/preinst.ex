@@ -1,5 +1,5 @@
 #!/bin/sh
-# preinst script for openpilot
+# preinst script for abovegroundlabs
 #
 # see: dh_installdeb(1)
 

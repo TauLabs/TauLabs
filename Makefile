@@ -116,6 +116,10 @@ help:
 	@echo "     all_<board>          - Build all available images for <board>"
 	@echo "     all_<board>_clean    - Remove all available images for <board>"
 	@echo
+	@echo "     all_ut               - Build all unit tests"
+	@echo "     all_ut_tap           - Run all unit tests and capture all TAP output to files"
+	@echo "     all_ut_run           - Run all unit tests and dump TAP output to console"
+	@echo
 	@echo "   [Firmware]"
 	@echo "     <board>              - Build firmware for <board>"
 	@echo "                            supported boards are ($(ALL_BOARDS))"
@@ -138,6 +142,10 @@ help:
 	@echo "   [Unbrick a board]"
 	@echo "     unbrick_<board>      - Use the STM32's built in boot ROM to write a bootloader to <board>"
 	@echo "                            supported boards are ($(BL_BOARDS))"
+	@echo "   [Unittests]"
+	@echo "     ut_<test>            - Build unit test <test>"
+	@echo "     ut_<test>_tap        - Run test and capture TAP output into a file"
+	@echo "     ut_<test>_run        - Run test and dump TAP output to console"
 	@echo
 	@echo "   [Simulation]"
 	@echo "     sim_<os>_<board>     - Build host simulation firmware for <os> and <board>"
@@ -153,6 +161,7 @@ help:
 	@echo
 	@echo "   [AndroidGCS]"
 	@echo "     androidgcs           - Build the Ground Control System (GCS) application"
+	@echo "     androidgcs_install   - Use ADB to install the Ground Control System (GCS) application"
 	@echo "     androidgcs_clean     - Remove the Ground Control System (GCS) application"
 	@echo
 	@echo "   [UAVObjects]"
@@ -211,12 +220,14 @@ else
 endif
 
 ifeq ($(shell [ -d "$(ANDROID_SDK_DIR)" ] && echo "exists"), exists)
-  ANDROID := $(ANDROID_SDK_DIR)/tools/android
-  ANDROID_DX := $(ANDROID_SDK_DIR)/platform-tools/dx
+  ANDROID     := $(ANDROID_SDK_DIR)/tools/android
+  ANDROID_DX  := $(ANDROID_SDK_DIR)/platform-tools/dx
+  ANDROID_ADB := $(ANDROID_SDK_DIR)/platform-tools/adb
 else
   # not installed, hope it's in the path...
-  ANDROID ?= android
-  ANDROID_DX ?= dx
+  ANDROID     ?= android
+  ANDROID_DX  ?= dx
+  ANDROID_ADB ?= adb
 endif
 
 ##############################
@@ -310,6 +321,7 @@ matlab: uavobjects_matlab $(MATLAB_OUT_DIR)/OPLogConvert.m
 #
 ################################
 
+ANDROIDGCS_BUILD_CONF ?= debug
 
 # Build the output directory for the Android GCS build
 ANDROIDGCS_OUT_DIR := $(BUILD_DIR)/androidgcs
@@ -329,7 +341,9 @@ ANT_QUIET := -q
 ANDROID_SILENT := -s
 endif
 .PHONY: androidgcs
-androidgcs: uavo-collections_java
+androidgcs: $(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk
+
+$(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk: uavo-collections_java
 	$(V0) @echo " ANDROID   $(call toprel, $(ANDROIDGCS_OUT_DIR))"
 	$(V1) mkdir -p $(ANDROIDGCS_OUT_DIR)
 	$(V1) $(ANDROID) $(ANDROID_SILENT) update project --target 'Google Inc.:Google APIs:16' --name androidgcs --path ./androidgcs
@@ -337,7 +351,12 @@ androidgcs: uavo-collections_java
 		$(ANT_QUIET) \
 		-Dout.dir="../$(call toprel, $(ANDROIDGCS_OUT_DIR)/bin)" \
 		-Dgen.absolute.dir="$(ANDROIDGCS_OUT_DIR)/gen" \
-		debug
+		$(ANDROIDGCS_BUILD_CONF)
+
+.PHONY: androidgcs_install
+androidgcs_install: $(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk
+	$(V0) @echo " AGCS INST "
+	$(V1) $(ANDROID_ADB) install -r $(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk
 
 .PHONY: androidgcs_clean
 androidgcs_clean:
@@ -349,7 +368,7 @@ androidgcs_clean:
 #
 # Find the git hashes of each commit that changes uavobjects with:
 #   git log --format=%h -- shared/uavobjectdefinition/ | head -n 2
-UAVO_GIT_VERSIONS := 684620d 43f85d9
+UAVO_GIT_VERSIONS := 93c76ec4 
 
 # All versions includes a pseudo collection called "working" which represents
 # the UAVOs in the source tree
@@ -433,6 +452,29 @@ $$(UAVO_COLLECTION_DIR)/$(1)/java-build/uavobjects.jar: $$(UAVO_COLLECTION_DIR)/
 		ln -sf $$(ANDROIDGCS_ASSETS_DIR)/uavos/$$$${HASH}.jar uavobjects.jar \
 	)
 
+
+# Generate the matlab uavobjects for this UAVO collection
+$$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/matlab: $$(UAVO_COLLECTION_DIR)/$(1)/uavohash uavobjgenerator
+	$$(V0) @echo " UAVOMATLAB $(1)  " $$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash)
+	$$(V1) mkdir -p $$@
+	$$(V1) ( \
+		cd $$(UAVO_COLLECTION_DIR)/$(1)/matlab-build && \
+		$$(UAVOBJGENERATOR) -matlab $$(UAVO_COLLECTION_DIR)/$(1)/uavo-xml/shared/uavobjectdefinition $$(ROOT_DIR) ; \
+	)
+
+# Build a jar file for this UAVO collection
+$$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/OPLogConvert.m: $$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/matlab
+	$$(V0) @echo " UAVOMAT   $(1)   " $$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash)
+	$$(V1) ( \
+		HASH=$$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash) && \
+		cd $$(UAVO_COLLECTION_DIR)/$(1)/matlab-build && \
+		python $(ROOT_DIR)/make/scripts/version-info.py \
+			--path=$$(ROOT_DIR) \
+			--template=$$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/matlab/OPLogConvert.m.pass1 \
+		--outfile=$$@ \
+		--uavodir=$$(UAVO_COLLECTION_DIR)/$(1)/uavo-xml/shared/uavobjectdefinition \
+	)
+
 endef
 
 # One of these for each element of UAVO_GIT_VERSIONS so we can extract the UAVOs from git
@@ -443,6 +485,9 @@ $(foreach githash, $(UAVO_ALL_VERSIONS), $(eval $(call UAVO_COLLECTION_BUILD_TEM
 
 .PHONY: uavo-collections_java
 uavo-collections_java: $(foreach githash, $(UAVO_ALL_VERSIONS), $(UAVO_COLLECTION_DIR)/$(githash)/java-build/uavobjects.jar)
+
+.PHONY: uavo-collections_matlab
+uavo-collections_matlab: $(foreach githash, $(UAVO_ALL_VERSIONS), $(UAVO_COLLECTION_DIR)/$(githash)/matlab-build/OPLogConvert.m)
 
 .PHONY: uavo-collections
 uavo-collections: uavo-collections_java
@@ -692,7 +737,7 @@ all_$(1)_clean: $$(addsuffix _clean, $$(filter bu_$(1), $$(BU_TARGETS)))
 all_$(1)_clean: $$(addsuffix _clean, $$(filter ef_$(1), $$(EF_TARGETS)))
 endef
 
-ALL_BOARDS := coptercontrol pipxtreme revolution revomini osd freedom quanton flyingf4 discoveryf4
+ALL_BOARDS := coptercontrol pipxtreme revolution revomini osd freedom quanton discoveryf4 flyingf4 flyingf3
 
 # Friendly names of each board (used to find source tree)
 coptercontrol_friendly := CopterControl
@@ -704,6 +749,7 @@ osd_friendly           := OSD
 quanton_friendly       := Quanton
 flyingf4_friendly      := FlyingF4
 discoveryf4_friendly   := DiscoveryF4
+flyingf3_friendly      := FlyingF3
 
 # Short names of each board (used to display board name in parallel builds)
 coptercontrol_short    := 'cc  '
@@ -715,6 +761,7 @@ osd_short              := 'osd '
 quanton_short          := 'quan'
 flyingf4_short         := 'fly4'
 discoveryf4_short      := 'dif4'
+flyingf3_short         := 'fly3'
 
 # Start out assuming that we'll build fw, bl and bu for all boards
 FW_BOARDS  := $(ALL_BOARDS)
@@ -735,7 +782,7 @@ endif
 
 # FIXME: The BU image doesn't work for F4 boards so we need to
 #        filter them out to prevent errors.
-BU_BOARDS  := $(filter-out revolution revomini osd freedom quanton flyingf4 discoveryf4, $(BU_BOARDS))
+BU_BOARDS  := $(filter-out revolution revomini osd freedom quanton flyingf4 discoveryf4 flyingf3, $(BU_BOARDS))
 
 # Generate the targets for whatever boards are left in each list
 FW_TARGETS := $(addprefix fw_, $(FW_BOARDS))
@@ -793,38 +840,69 @@ $(eval $(call SIM_TEMPLATE,openpilot,OpenPilot,'op  ',win32,exe))
 #
 ##############################
 
-UT_TARGETS := logfs
-.PHONY: ut_all
-ut_all: $(addprefix ut_, $(UT_TARGETS))
+ALL_UNITTESTS := logfs
 
 UT_OUT_DIR := $(BUILD_DIR)/unit_tests
 
 $(UT_OUT_DIR):
 	$(V1) mkdir -p $@
 
-ut_%: $(UT_OUT_DIR)
-	$(V1) cd $(ROOT_DIR)/flight/tests/$* && \
-		$(MAKE) --no-print-directory \
+.PHONY: all_ut
+all_ut: $(addsuffix _elf, $(addprefix ut_, $(ALL_UNITTESTS)))
+
+.PHONY: all_ut_tap
+all_ut_tap: $(addsuffix _tap, $(addprefix ut_, $(ALL_UNITTESTS)))
+
+.PHONY: all_ut_run
+all_ut_run: $(addsuffix _run, $(addprefix ut_, $(ALL_UNITTESTS)))
+
+.PHONY: ut_all_clean
+all_ut_clean:
+	$(V0) @echo " CLEAN      $@"
+	$(V1) [ ! -d "$(UT_OUT_DIR)" ] || $(RM) -r "$(UT_OUT_DIR)"
+
+# $(1) = Unit test name
+define UT_TEMPLATE
+.PHONY: ut_$(1)
+ut_$(1): ut_$(1)_run
+
+ut_$(1)_%: $$(UT_OUT_DIR)
+	$(V1) mkdir -p $(UT_OUT_DIR)/$(1)
+	$(V1) cd $(ROOT_DIR)/flight/tests/$(1) && \
+		$$(MAKE) -r --no-print-directory \
 		BUILD_TYPE=ut \
-		BOARD_SHORT_NAME=$* \
+		BOARD_SHORT_NAME=$(1) \
 		TCHAIN_PREFIX="" \
 		REMOVE_CMD="$(RM)" \
 		\
-		TARGET=$* \
-		OUTDIR="$(UT_OUT_DIR)/$*" \
+		TARGET=$(1) \
+		OUTDIR="$(UT_OUT_DIR)/$(1)" \
 		\
 		PIOS=$(PIOS) \
 		OPUAVOBJ=$(OPUAVOBJ) \
 		OPUAVTALK=$(OPUAVTALK) \
 		FLIGHTLIB=$(FLIGHTLIB) \
 		\
-		$*
+		GTEST_DIR=$(GTEST_DIR) \
+		\
+		$$*
 
-.PHONY: ut_clean
-ut_clean:
-	$(V0) @echo " CLEAN      $@"
-	$(V1) [ ! -d "$(UT_OUT_DIR)" ] || $(RM) -r "$(UT_OUT_DIR)"
+.PHONY: ut_$(1)_clean
+ut_$(1)_clean:
+	$(V0) @echo " CLEAN      $(1)"
+	$(V1) [ ! -d "$(UT_OUT_DIR)/$(1)" ] || $(RM) -r "$(UT_OUT_DIR)/$(1)"
 
+endef
+
+# Expand the unittest rules
+$(foreach ut, $(ALL_UNITTESTS), $(eval $(call UT_TEMPLATE,$(ut))))
+
+# Disable parallel make when the all_ut_run target is requested otherwise the TAP
+# output is interleaved with the rest of the make output.
+ifneq ($(strip $(filter all_ut_run,$(MAKECMDGOALS))),)
+.NOTPARALLEL:
+$(info *NOTE*     Parallel make disabled by all_ut_run target so we have sane console output)
+endif
 
 ##############################
 #

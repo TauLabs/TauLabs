@@ -37,10 +37,10 @@
  */
 
 #include "openpilot.h"
-#include "hwsettings.h"
 #include "magbaro.h"
 #include "baroaltitude.h"	// object that will be updated by the module
 #include "magnetometer.h"
+#include "modulesettings.h"
 
 // Private constants
 #define STACK_SIZE_BYTES 620
@@ -58,7 +58,7 @@ static int32_t alt_ds_temp = 0;
 static int32_t alt_ds_pres = 0;
 static int alt_ds_count = 0;
 int32_t mag_test;
-static bool magbaroEnabled;
+static bool module_enabled;
 static float mag_bias[3] = {0,0,0};
 static float mag_scale[3] = {1,1,1};
 
@@ -72,7 +72,7 @@ static void magbaroTask(void *parameters);
 int32_t MagBaroStart()
 {
 
-	if (magbaroEnabled) {
+	if (module_enabled) {
 		// Start main task
 		xTaskCreate(magbaroTask, (signed char *)"MagBaro", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
 		//TaskMonitorAdd(TASKINFO_RUNNING_MAGBARO, taskHandle);
@@ -88,19 +88,19 @@ int32_t MagBaroStart()
 int32_t MagBaroInitialize()
 {
 #ifdef MODULE_MagBaro_BUILTIN
-	magbaroEnabled = 1;
+	module_enabled = true;
 #else
-	HwSettingsInitialize();
-	uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
-	HwSettingsOptionalModulesGet(optionalModules);
-	if (optionalModules[HWSETTINGS_OPTIONALMODULES_MAGBARO] == HWSETTINGS_OPTIONALMODULES_ENABLED) {
-		magbaroEnabled = 1;
+	ModuleSettingsInitialize();
+	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+	ModuleSettingsStateGet(module_state);
+	if (module_state[MODULESETTINGS_STATE_MAGBARO] == MODULESETTINGS_STATE_ENABLED) {
+		module_enabled = true;
 	} else {
-		magbaroEnabled = 0;
+		module_enabled = false;
 	}
 #endif
 
-	if(magbaroEnabled)
+	if (module_enabled)
 	{
 		MagnetometerInitialize();
 		BaroAltitudeInitialize();
@@ -194,7 +194,6 @@ static void magbaroTask(void *parameters)
 #if defined(PIOS_INCLUDE_HMC5883)
 		MagnetometerData mag;
 		if (PIOS_HMC5883_NewDataAvailable() || PIOS_DELAY_DiffuS(mag_update_time) > 100000) {
-			int16_t values[3];
 			struct pios_hmc5883_data hmc5883_data;
 			PIOS_HMC5883_ReadMag(&hmc5883_data);
 			float mags[3] = {(float) hmc5883_data.mag_y * mag_scale[0] - mag_bias[0],

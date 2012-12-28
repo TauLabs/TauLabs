@@ -37,7 +37,7 @@
  */
 
 #include "openpilot.h"
-#include "hwsettings.h"
+#include "modulesettings.h"
 #include "baroaltitude.h"	// object that will be updated by the module
 #if defined(PIOS_INCLUDE_HCSR04)
 #include "sonaraltitude.h"	// object that will be updated by the module
@@ -59,7 +59,7 @@ static int32_t alt_ds_temp = 0;
 static int32_t alt_ds_pres = 0;
 static int alt_ds_count = 0;
 
-static bool altitudeEnabled;
+static bool module_enabled;
 
         // Private functions
 static void altitudeTask(void *parameters);
@@ -71,7 +71,7 @@ static void altitudeTask(void *parameters);
 int32_t AltitudeStart()
 {
 
-	if (altitudeEnabled) {
+	if (module_enabled) {
 		BaroAltitudeInitialize();
 #if defined(PIOS_INCLUDE_HCSR04)
 		SonarAltitudeInitialze();
@@ -92,15 +92,15 @@ int32_t AltitudeStart()
 int32_t AltitudeInitialize()
 {
 #ifdef MODULE_Altitude_BUILTIN
-	altitudeEnabled = 1;
+	module_enabled = true;
 #else
-	HwSettingsInitialize();
-	uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
-	HwSettingsOptionalModulesGet(optionalModules);
-	if (optionalModules[HWSETTINGS_OPTIONALMODULES_ALTITUDE] == HWSETTINGS_OPTIONALMODULES_ENABLED) {
-		altitudeEnabled = 1;
+	ModuleSettingsInitialize();
+	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+	ModuleSettingsEnabledGet(module_state);
+	if (module_state[MODULESETTINGS_STATE_ALTITUDE] == MODULESETTINGS_STATE_ENABLED) {
+		module_enabled = true;
 	} else {
-		altitudeEnabled = 0;
+		module_enabled = false;
 	}
 #endif
 

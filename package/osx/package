@@ -4,16 +4,16 @@
 : ${ROOT_DIR?} ${BUILD_DIR?} ${PACKAGE_LBL?} ${PACKAGE_DIR?} ${FW_DIR?}
 
 # more variables
-APP_PATH="${BUILD_DIR}/ground/openpilotgcs/bin/OpenPilot GCS.app"
-TEMP_FILE="${PACKAGE_DIR}/OpenPilot-temp.dmg"
-OUT_FILE="${PACKAGE_DIR}/OpenPilot-${PACKAGE_LBL}.dmg"
-VOL_NAME="OpenPilot"
+APP_PATH="${BUILD_DIR}/ground/gcs/bin/Above Ground Labs.app"
+TEMP_FILE="${PACKAGE_DIR}/AboveGroundLabs-temp.dmg"
+OUT_FILE="${PACKAGE_DIR}/AboveGroundLabs-${PACKAGE_LBL}.dmg"
+VOL_NAME="Above Ground Labs"
 
 # prepare the stage
 rm -f "${TEMP_FILE}"
 rm -f "${OUT_FILE}"
 
-hdiutil convert "${ROOT_DIR}/package/osx/OpenPilot.dmg" \
+hdiutil convert "${ROOT_DIR}/package/osx/AboveGroundLabs.dmg" \
 	-format UDRW -o "${TEMP_FILE}"
 device=$(hdiutil attach  "${TEMP_FILE}" | \
          egrep '^/dev/' | sed 1q | awk '{print $1}')
@@ -21,17 +21,21 @@ device=$(hdiutil attach  "${TEMP_FILE}" | \
 # packaging goes here
 cp -r "${APP_PATH}" "/Volumes/${VOL_NAME}"
 #cp -r "${FW_DIR}" "/Volumes/${VOL_NAME}/firmware"
+cp "${FW_DIR}/fw_quanton-${PACKAGE_LBL}.opfw" "/Volumes/${VOL_NAME}/Firmware"
+cp "${FW_DIR}/fw_freedom-${PACKAGE_LBL}.opfw" "/Volumes/${VOL_NAME}/Firmware"
+cp "${FW_DIR}/fw_flyingf3-${PACKAGE_LBL}.opfw" "/Volumes/${VOL_NAME}/Firmware"
+cp "${FW_DIR}/fw_flyingf4-${PACKAGE_LBL}.opfw" "/Volumes/${VOL_NAME}/Firmware"
 cp "${FW_DIR}/fw_coptercontrol-${PACKAGE_LBL}.opfw" "/Volumes/${VOL_NAME}/Firmware"
 cp "${FW_DIR}/fw_revomini-${PACKAGE_LBL}.opfw" "/Volumes/${VOL_NAME}/Firmware"
 cp "${FW_DIR}/fw_pipxtreme-${PACKAGE_LBL}.opfw" "/Volumes/${VOL_NAME}/Firmware"
 cp "${FW_DIR}/fw_revolution-${PACKAGE_LBL}.opfw" "/Volumes/${VOL_NAME}/Firmware"
 
-cp "${BUILD_DIR}/uavobject-synthetics/matlab/OPLogConvert.m" "/Volumes/${VOL_NAME}/Utilities"
+cp "${BUILD_DIR}/matlab/OPLogConvert.m" "/Volumes/${VOL_NAME}/Utilities/OPLogConvert-${PACKAGE_LBL}.m"
 
 cp "${ROOT_DIR}/HISTORY.txt" "/Volumes/${VOL_NAME}"
 
 "${ROOT_DIR}/package/osx/libraries" \
-	"/Volumes/${VOL_NAME}/OpenPilot GCS.app" || exit 1
+	"/Volumes/${VOL_NAME}/Above Ground Labs.app" || exit 1
 
 hdiutil detach ${device}
 

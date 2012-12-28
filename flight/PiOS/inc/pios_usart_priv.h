@@ -45,6 +45,9 @@ struct pios_usart_cfg {
 	struct stm32_gpio rx;
 	struct stm32_gpio tx;
 	struct stm32_irq irq;
+	bool rx_invert;
+	bool tx_invert;
+	bool rxtx_swap;
 };
 
 extern int32_t PIOS_USART_Init(uint32_t * usart_id, const struct pios_usart_cfg * cfg);

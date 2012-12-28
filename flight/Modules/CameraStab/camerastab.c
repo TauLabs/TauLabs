@@ -51,7 +51,7 @@
 #include "attitudeactual.h"
 #include "camerastabsettings.h"
 #include "cameradesired.h"
-#include "hwsettings.h"
+#include "modulesettings.h"
 // New - Feed Forward
 #include "mixersettings.h"
 
@@ -86,23 +86,22 @@ static void applyFF(uint8_t index, float dT, float *attitude, CameraStabSettings
  */
 int32_t CameraStabInitialize(void)
 {
-	bool cameraStabEnabled;
+	bool module_enabled = false;
 
 #ifdef MODULE_CameraStab_BUILTIN
-	cameraStabEnabled = true;
+	module_enabled = true;
 #else
-	uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
-
-	HwSettingsInitialize();
-	HwSettingsOptionalModulesGet(optionalModules);
-
-	if (optionalModules[HWSETTINGS_OPTIONALMODULES_CAMERASTAB] == HWSETTINGS_OPTIONALMODULES_ENABLED)
-		cameraStabEnabled = true;
-	else
-		cameraStabEnabled = false;
+	ModuleSettingsInitialize();
+	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+	ModuleSettingsStateGet(module_state);
+	if (module_state[MODULESETTINGS_STATE_CAMERASTAB] == MODULESETTINGS_STATE_ENABLED) {
+		module_enabled = true;
+	} else {
+		module_enabled = false;
+	}
 #endif
 
-	if (cameraStabEnabled) {
+	if (module_enabled) {
 
 		// allocate and initialize the static data storage only if module is enabled
 		csd = (struct CameraStab_data *) pvPortMalloc(sizeof(struct CameraStab_data));

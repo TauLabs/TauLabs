@@ -37,6 +37,8 @@ import junit.framework.Assert;
 import org.abovegroundlabs.uavtalk.UAVObject;
 import org.abovegroundlabs.uavtalk.UAVObjectManager;
 
+import android.app.Activity;
+import android.graphics.LightingColorFilter;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,11 +48,13 @@ public class SmartSave {
 
 	private final static String TAG = SmartSave.class.getSimpleName();
 	private final static boolean DEBUG = false;
+	private final Activity parentActivity;
 
 	//! Create a smart save button attached to the object manager and an apply and ave button
-	public SmartSave(UAVObjectManager objMngr, UAVObject obj, Button saveButton, Button applyButton) {
+	public SmartSave(UAVObjectManager objMngr, Activity parent, UAVObject obj, Button saveButton, Button applyButton, Button loadButton) {
 		Assert.assertNotNull(objMngr);
 		this.objMngr = objMngr;
+		this.parentActivity = parent;
 		this.applyBtn = applyButton;
 		this.obj = obj;
 
@@ -66,7 +70,11 @@ public class SmartSave {
 			saveBtn.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					saveSettings();
+					if (saveSettings())
+						saveBtn.getBackground().setColorFilter(new LightingColorFilter(0x11111111, 0xFF00FF00));
+					else
+						saveBtn.getBackground().setColorFilter(new LightingColorFilter(0x11111111, 0xFFFF0000));
+
 				}
 			});
 		} else
@@ -77,11 +85,28 @@ public class SmartSave {
 			applyBtn.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					applySettings();
+					if (applySettings())
+						applyBtn.getBackground().setColorFilter(new LightingColorFilter(0x11111111, 0xFF00FF00));
+					else
+						applyBtn.getBackground().setColorFilter(new LightingColorFilter(0x11111111, 0xFFFF0000));
 				}
 			});
 		} else
 			applyBtn = null;
+
+		if (loadButton != null) {
+			loadBtn = loadButton;
+			loadBtn.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (loadSettings())
+						loadBtn.getBackground().setColorFilter(new LightingColorFilter(0x11111111, 0xFF00FF00));
+					else
+						loadBtn.getBackground().setColorFilter(new LightingColorFilter(0x11111111, 0xFFFF0000));
+				}
+			});
+		} else
+			loadBtn = null;
 	}
 
 	//! Disconnect any listeners when this object is destroyed
@@ -99,6 +124,7 @@ public class SmartSave {
 	public void addControlMapping(ObjectFieldMappable control, String fieldName, int fieldIndex) {
 		FieldPairing pairing = new FieldPairing(fieldName, fieldIndex);
 		controlFieldMapping.put(control, pairing);
+		control.setOnChangedListener(markDirty);
 	}
 
 	//! Update the settings in the UI from the mappings
@@ -120,32 +146,49 @@ public class SmartSave {
 	 */
 	private boolean saveSettings() {
 		/*
-		 * 1. Update object
+		 * 1. Apply settings
 		 * 2. Install listener on object persistence
 		 * 3. Send save operation
 		 * 4. Wait for completed
 		 * 5. Remove listener
 		 */
 
-		// 1. Update object
-		if(!applySettings())
+		// 1. Apply settings
+		if (!applySettings()) {
+			if (DEBUG) Log.d(TAG, "Failed to apply settings");
 			return false;
+		}
 
 		UAVObject persistence = objMngr.getObject("ObjectPersistence");
 		Assert.assertNotNull(persistence);
 
-		// 2. Install listener
-		persistence.addUpdatedObserver(ObjectPersistenceUpdated);
+		synchronized(ObjectPersistenceUpdated) {
+			// 2. Install listener
+			persistence.addUpdatedObserver(ObjectPersistenceUpdated);
 
-		// 3. Send save operation
-		Long objId = obj.getObjID();
-		if (DEBUG) Log.d(TAG, "Saving object ID: " + objId);
-		persistence.getField("ObjectID").setValue(objId);
-		persistence.getField("Operation").setValue("Save");
-		persistence.getField("Selection").setValue("SingleObject");
-		persistence.updated();
+			// 3. Send Load operation
+			persistenceUpdated = false;
+			Long objId = obj.getObjID();
+			if (DEBUG) Log.d(TAG, "Saving object ID: " + objId);
+			persistence.getField("ObjectID").setValue(objId);
+			persistence.getField("Operation").setValue("Save");
+			persistence.getField("Selection").setValue("SingleObject");
+			persistence.updated();
 
-		return true;
+			// 4. Wait for ack
+			try {
+				ObjectPersistenceUpdated.wait(1000);
+			} catch (InterruptedException e) {
+				if (DEBUG) Log.d(TAG ,"No ack for object persistence");
+				persistence.removeUpdatedObserver(ObjectPersistenceUpdated);
+				return false;
+			}
+
+			// 5. Remove listener
+			persistence.removeUpdatedObserver(ObjectPersistenceUpdated);
+		}
+
+		return persistenceUpdated;
 	}
 
 	/**
@@ -170,20 +213,107 @@ public class SmartSave {
 			field.setValue(obj,mappable.getValue());
 		}
 
-		// 2. Install the listener on the object
-		obj.addTransactionCompleted(ApplyCompleted);
+		synchronized(ApplyCompleted) {
+			if (DEBUG) Log.d(TAG, "Sending apply");
 
-		// 3. Update the object
-		obj.updated();
+			// 2. Install the listener on the object
+			obj.addTransactionCompleted(ApplyCompleted);
 
-		// 4. Wait for acknowledgment
-		// TODO: Set up some semaphore with timeout
-		// sem.wait(1000);
+			// 3. Update the object
+			objectUpdated = false;
+			obj.updated();
 
-		// 5. Uninstall the listener
-		//obj.removeTransactionCompleted(ApplyCompleted);
+			// 4. Wait for acknowledgment
+			try {
+				ApplyCompleted.wait(1000);
+			} catch (InterruptedException e) {
+				if (DEBUG) Log.d(TAG ,"Apply failed");
+				obj.removeTransactionCompleted(ApplyCompleted);
+				return false;
+			}
 
-		return true;
+			if (DEBUG) Log.d(TAG ,"Apply succeeded");
+
+			// 5. Uninstall the listener
+			obj.removeTransactionCompleted(ApplyCompleted);
+		}
+
+		return objectUpdated;
+	}
+
+	/**
+	 * Robustly apply the settings to the UAV
+	 * @return True if the apply is ack'd, False if not
+	 */
+	private boolean loadSettings() {
+		/*
+		 * 1. Update object
+		 * 2. Install listener on object persistence
+		 * 3. Send save operation
+		 * 4. Wait for completed
+		 * 5. Remove listener
+		 * 6. Request update
+		 * 7. Wait for completion
+		 */
+
+		UAVObject persistence = objMngr.getObject("ObjectPersistence");
+		Assert.assertNotNull(persistence);
+
+		synchronized(ObjectPersistenceUpdated) {
+			// 2. Install listener
+			persistence.addUpdatedObserver(ObjectPersistenceUpdated);
+
+			// 3. Send save operation
+			persistenceUpdated = false;
+			Long objId = obj.getObjID();
+			if (DEBUG) Log.d(TAG, "Load object ID: " + objId);
+			persistence.getField("ObjectID").setValue(objId);
+			persistence.getField("Operation").setValue("Load");
+			persistence.getField("Selection").setValue("SingleObject");
+			persistence.updated();
+
+			// 4. Wait for the update
+			try {
+				ObjectPersistenceUpdated.wait(1000);
+			} catch (InterruptedException e) {
+				persistence.removeUpdatedObserver(ObjectPersistenceUpdated);
+				return false;
+			}
+
+			// 5. Remove the listener
+			persistence.removeUpdatedObserver(ObjectPersistenceUpdated);
+		}
+
+		// Only continue if the load worked
+		if (persistenceUpdated == false)
+			return false;
+
+		synchronized(ApplyCompleted) {
+			if (DEBUG) Log.d(TAG, "Requesting update");
+
+			// Install the listener on the object
+			obj.addTransactionCompleted(ApplyCompleted);
+
+			// 6. Update the object
+			objectUpdated = false;
+			obj.updateRequested();
+
+			// 7. Wait for acknowledgment
+			try {
+				ApplyCompleted.wait(1000);
+			} catch (InterruptedException e) {
+				if (DEBUG) Log.d(TAG ,"Apply failed");
+				obj.removeTransactionCompleted(ApplyCompleted);
+				return false;
+			}
+
+			if (DEBUG) Log.d(TAG ,"Apply succeeded");
+
+			// Uninstall the listener
+			obj.removeTransactionCompleted(ApplyCompleted);
+		}
+
+		return objectUpdated;
 	}
 
 	//! Private class to store the field mapping information
@@ -217,7 +347,10 @@ public class SmartSave {
 	private final Observer ApplyCompleted = new Observer() {
 		@Override
 		public void update(Observable observable, Object data) {
-			if (DEBUG) Log.d(TAG, "Apply called");
+			synchronized(this) {
+				objectUpdated = true;
+				notify();
+			}
 		}
 	};
 
@@ -226,7 +359,12 @@ public class SmartSave {
 		@Override
 		public void update(Observable observable, Object data) {
 			if (DEBUG) Log.d(TAG, "Object updated");
-			refreshSettingsDisplay();
+			parentActivity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					refreshSettingsDisplay();
+				}
+			});
 		}
 	};
 
@@ -235,6 +373,24 @@ public class SmartSave {
 		@Override
 		public void update(Observable observable, Object data) {
 			if (DEBUG) Log.d(TAG, "Object persistence updated");
+			synchronized(this) {
+				persistenceUpdated = true;
+				notify();
+			}
+		}
+	};
+
+	//! When the fields change this will reset the button to default appearance
+	private final Runnable markDirty = new Runnable() {
+		@Override
+		public void run() {
+			Log.d(TAG, "Marking dirty");
+			if (applyBtn != null)
+				applyBtn.getBackground().setColorFilter(null);
+			if (loadBtn != null)
+				loadBtn.getBackground().setColorFilter(null);
+			if (saveBtn != null)
+				saveBtn.getBackground().setColorFilter(null);
 		}
 	};
 
@@ -249,6 +405,15 @@ public class SmartSave {
 
 	//! Handle to the save button
 	private Button saveBtn;
+
+	//! Handle to the load button
+	private Button loadBtn;
+
+	//! Indicate if Object Persistence was updated
+	private boolean persistenceUpdated;
+
+	//! Indicate if the object was updated
+	private boolean objectUpdated;
 
 	//! Handle to the UAVO this class works with
 	private final UAVObject obj;

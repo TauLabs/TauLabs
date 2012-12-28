@@ -89,7 +89,11 @@ static bool mallocFailed;
 
 // Private functions
 static void objectUpdatedCb(UAVObjEvent * ev);
+
+#if (defined(COPTERCONTROL) || defined(REVOLUTION) || defined(SIM_OSX)) && ! (defined(SIM_POSIX))
 static void configurationUpdatedCb(UAVObjEvent * ev);
+#endif
+
 static void updateStats();
 static void updateSystemAlarms();
 static void systemTask(void *parameters);
@@ -330,12 +334,12 @@ static void objectUpdatedCb(UAVObjEvent * ev)
 /**
  * Called whenever a critical configuration component changes
  */
+#if (defined(COPTERCONTROL) || defined(REVOLUTION) || defined(SIM_OSX)) && ! (defined(SIM_POSIX))
 static void configurationUpdatedCb(UAVObjEvent * ev)
 {
-#if (defined(COPTERCONTROL) || defined(REVOLUTION) || defined(SIM_OSX)) && ! (defined(SIM_POSIX))
 	configuration_check();
-#endif
 }
+#endif
 
 /**
  * Called periodically to update the I2C statistics 

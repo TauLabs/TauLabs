@@ -45,7 +45,7 @@ public:
     // Field structure
     typedef struct {
 $(DATAFIELDS)
-    } __attribute__((packed)) DataFields;
+    } __attribute__((packed)) __attribute__((aligned(4))) DataFields;
 
     // Field information
 $(DATAFIELDINFO)
@@ -57,7 +57,7 @@ $(DATAFIELDINFO)
     static const QString CATEGORY;
     static const bool ISSINGLEINST = $(ISSINGLEINST);
     static const bool ISSETTINGS = $(ISSETTINGS);
-    static const quint32 NUMBYTES = sizeof(DataFields);
+    static const quint32 NUMBYTES = $(NUMBYTES);
 
     // Functions
     $(NAME)();

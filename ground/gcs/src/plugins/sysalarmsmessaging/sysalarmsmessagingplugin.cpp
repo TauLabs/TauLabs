@@ -2,12 +2,13 @@
  ******************************************************************************
  *
  * @file       sysalarmsmessagingplugin.cpp
- * @author     The AGL Team, http://www.TODO.org Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2012.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup System Alarms Messaging Plugin
  * @{
- * @brief
+ * @brief Map fields from the @ref SystemAlarms object to the global messaging
+ * system
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify 
@@ -53,6 +54,11 @@ void SysAlarmsMessagingPlugin::extensionsInitialized()
 
 }
 
+/**
+ * @brief SysAlarmsMessagingPlugin::initialize Create a warning and error message for each
+ * field in the SystemAlarms object
+ * @return True
+ */
 bool SysAlarmsMessagingPlugin::initialize(const QStringList &arguments, QString *errorString)
 {
     Q_UNUSED(arguments);
@@ -75,8 +81,15 @@ bool SysAlarmsMessagingPlugin::initialize(const QStringList &arguments, QString 
     return true;
 }
 
+/**
+ * @brief SysAlarmsMessagingPlugin::updateAlarms Called whenever the SystemAlarms
+ * object is updated to set the alarm messages appropriately.
+ * @param[in] systemAlarm Must be the SystemAlarms object
+ */
 void SysAlarmsMessagingPlugin::updateAlarms(UAVObject* systemAlarm)
 {
+    Q_ASSERT(systemAlarm->getObjID() == SystemAlarms::OBJID);
+
     foreach (UAVObjectField *field, systemAlarm->getFields()) {
         for (uint i = 0; i < field->getNumElements(); ++i) {
             QString element = field->getElementNames()[i];
