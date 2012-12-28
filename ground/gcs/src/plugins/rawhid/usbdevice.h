@@ -35,11 +35,12 @@ public:
     USBDevice();
 
     // Our USB-specific device info:
-    int getVendorID() { return vendorID; }
-    int getProductID() { return productID; }
+    int getVendorID() const { return vendorID; }
+    int getProductID() const { return productID; }
     void setVendorID(int vid) { vendorID = vid; }
-    void setProdictID(int pid) { productID = pid; }
+    void setProductID(int pid) { productID = pid; }
 
+private:
     int vendorID;
     int productID;
 

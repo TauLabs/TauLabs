@@ -50,15 +50,17 @@ class CORE_EXPORT IDevice : public QObject
 public:
 
 
-    QString getName() { return name; }
+    QString getName() const { return name; }
     void setName(QString theName) { name = theName; }
-    QString getDisplayName() { return displayName; }
+    QString getDisplayName() const { return displayName; }
     void setDisplayName( QString dn ) { displayName = dn; }
 
-    bool operator==(const IDevice &idv) {
-        return name == idv.name  && displayName == idv.displayName;
+    bool operator==(const IDevice &idv) const {
+        return name == idv.getName()  && displayName == idv.getDisplayName();
     }
 
+
+private:
     QString name;
     QString displayName;
 

@@ -127,10 +127,9 @@ QList <IDevice *> SerialConnection::availableDevices()
         //sort the list by port number (nice idea from PT_Dreamer :))
         qSort(ports.begin(), ports.end(),sortPorts);
         foreach( QextPortInfo port, ports ) {
-            // TODO: check this!
             SerialDevice* d = new SerialDevice();
-           d->displayName=port.friendName;
-           d->name=port.physName;
+           d->setDisplayName(port.friendName);
+           d->setName(port.physName);
            list.append(d);
         }
     }
@@ -141,11 +140,11 @@ QList <IDevice *> SerialConnection::availableDevices()
 QIODevice *SerialConnection::openDevice(IDevice *deviceName)
 {
     if (serialHandle){
-        closeDevice(deviceName->name);
+        closeDevice(deviceName->getName());
     }
     QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
     foreach( QextPortInfo port, ports ) {
-           if(port.physName == deviceName->name)
+        if(port.physName == deviceName->getName())
             {
             //we need to handle port settings here...
             PortSettings set;

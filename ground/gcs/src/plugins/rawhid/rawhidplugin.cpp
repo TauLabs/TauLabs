@@ -96,10 +96,10 @@ QList < Core::IDevice*> RawHIDConnection::availableDevices()
         // We currently list devices by their serial number        
         USBDevice* dev = new USBDevice();
         foreach(USBPortInfo prt, portsList) {
-            dev->name=prt.serialNumber;
-            dev->displayName=prt.product;
-            dev->vendorID = prt.vendorID;
-            dev->productID = prt.productID;
+            dev->setName(prt.serialNumber);
+            dev->setDisplayName(prt.product);
+            dev->setVendorID(prt.vendorID);
+            dev->setProductID(prt.productID);
             devices.append(dev);
         }
     }
@@ -110,7 +110,7 @@ QIODevice *RawHIDConnection::openDevice(Core::IDevice *deviceName)
 {
     //added by andrew
     if (RawHidHandle)
-        closeDevice(deviceName->name);
+        closeDevice(deviceName->getName());
     //end added by andrew
 
     // We know this device is (should be?) a USB device:

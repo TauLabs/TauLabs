@@ -49,8 +49,8 @@ LoggingConnection::LoggingConnection()
 {
     // We only ever use one (virtual) logging device, so let's just
     // initialize it once upon connection init:
-    logDevice.displayName="Logfile replay...";
-    logDevice.name="Logfile replay...";
+    logDevice.setDisplayName("Logfile replay...");
+    logDevice.setName("Logfile replay...");
 
 
 }
