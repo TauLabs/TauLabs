@@ -153,6 +153,7 @@ int32_t AirspeedInitialize()
 		return -1;
 
 #ifdef BARO_AIRSPEED_PRESENT
+	ADCRoutingInitialize();
 	uint8_t adc_channel_map[ADCROUTING_CHANNELMAP_NUMELEM];	
 	ADCRoutingChannelMapGet(adc_channel_map);
 	
