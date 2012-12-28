@@ -2,12 +2,13 @@
  ******************************************************************************
  *
  * @file       sysalarmsmessagingplugin.h
- * @author     The AGL Team, http://www.TODO.org Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2012.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup System Alarms Messaging Plugin
  * @{
- * @brief
+ * @brief Map fields from the @ref SystemAlarms object to the global messaging
+ * system
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify 
@@ -36,6 +37,11 @@
 
 using namespace Core;
 
+/**
+ * @brief The SysAlarmsMessagingPlugin class keeps a mapping from the field
+ * names in the @ref SystemAlarms object to @ref GlobalMessage messages and
+ * whenever the alarms change updates the messaging system
+ */
 class SysAlarmsMessagingPlugin
     : public ExtensionSystem::IPlugin
 {
@@ -45,6 +51,7 @@ public:
     SysAlarmsMessagingPlugin();
     ~SysAlarmsMessagingPlugin();
 
+    //! Create the message for all of the alarm fields
     virtual bool initialize(const QStringList &arguments, QString *error_message);
     virtual void extensionsInitialized();
 private:
