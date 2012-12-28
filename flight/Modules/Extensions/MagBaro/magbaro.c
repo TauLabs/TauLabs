@@ -194,7 +194,6 @@ static void magbaroTask(void *parameters)
 #if defined(PIOS_INCLUDE_HMC5883)
 		MagnetometerData mag;
 		if (PIOS_HMC5883_NewDataAvailable() || PIOS_DELAY_DiffuS(mag_update_time) > 100000) {
-			int16_t values[3];
 			struct pios_hmc5883_data hmc5883_data;
 			PIOS_HMC5883_ReadMag(&hmc5883_data);
 			float mags[3] = {(float) hmc5883_data.mag_y * mag_scale[0] - mag_bias[0],

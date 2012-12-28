@@ -65,7 +65,6 @@ static struct lsm303_dev * PIOS_LSM303_alloc(void);
 static int32_t PIOS_LSM303_Validate(struct lsm303_dev * dev);
 static void PIOS_LSM303_Config(struct pios_lsm303_cfg const * cfg);
 static int32_t PIOS_LSM303_Accel_SetReg(uint8_t address, uint8_t buffer);
-static int32_t PIOS_LSM303_Accel_GetReg(uint8_t address);
 static int32_t PIOS_LSM303_Mag_SetReg(uint8_t address, uint8_t buffer);
 static int32_t PIOS_LSM303_Mag_GetReg(uint8_t address);
 static void PIOS_LSM303_Task(void *parameters);
@@ -339,23 +338,6 @@ static int32_t PIOS_LSM303_Mag_Write(uint8_t address, uint8_t buffer)
 	};
 
 	return PIOS_I2C_Transfer(dev->i2c_id, txn_list, NELEMENTS(txn_list));
-}
-
-/**
- * @brief Read a register from LSM303
- * @returns The register value or -1 if failure to get bus
- * @param reg[in] Register address to be read
- */
-static int32_t PIOS_LSM303_Accel_GetReg(uint8_t reg)
-{
-	uint8_t data;
-
-	int32_t retval = PIOS_LSM303_Accel_Read(reg, &data, sizeof(data));
-
-	if (retval != 0)
-		return retval;
-	else
-		return data;
 }
 
 /**

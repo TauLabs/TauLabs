@@ -232,7 +232,9 @@ static void SensorsTask(void *parameters)
 	// Main task loop
 	lastSysTime = xTaskGetTickCount();
 	bool error = false;
+#if defined(PIOS_INCLUDE_HMC5883)
 	uint32_t mag_update_time = PIOS_DELAY_GetRaw();
+#endif
 	while (1) {
 		// TODO: add timeouts to the sensor reads and set an error if the fail
 		sensor_dt_us = PIOS_DELAY_DiffuS(timeval);
