@@ -33,28 +33,28 @@ install:
 	dh_installdirs
 	dh_installudev --priority=45
 	# Add here commands to install the package into debian/<packagename>
-	cp -arp build/ground/openpilotgcs/bin   debian/openpilot/usr/local/OpenPilot
-	cp -arp build/ground/openpilotgcs/lib   debian/openpilot/usr/local/OpenPilot
-	cp -arp build/ground/openpilotgcs/share debian/openpilot/usr/local/OpenPilot
-	cp -arp build/ground/openpilotgcs/.obj  debian/openpilot/usr/local/OpenPilot
-	cp -arp build/ground/openpilotgcs/gcsversioninfo.h debian/openpilot/usr/local/OpenPilot
-	cp -arp package/linux/openpilot.desktop debian/openpilot/usr/share/applications
-	cp -arp package/linux/openpilot.png     debian/openpilot/usr/share/pixmaps
-	cp -arp package/linux/openpilot_menu.png  debian/openpilot/usr/share/pixmaps
-	cp -arp package/linux/openpilot_menu.menu debian/openpilot/etc/xdg/menus/applications-merged
-	cp -arp package/linux/openpilot_menu.directory debian/openpilot/usr/share/desktop-directories
+	cp -arp build/ground/gcs/bin   debian/abovegroundlabs/usr/local/AboveGroundLabs
+	cp -arp build/ground/gcs/lib   debian/abovegroundlabs/usr/local/AboveGroundLabs
+	cp -arp build/ground/gcs/share debian/abovegroundlabs/usr/local/AboveGroundLabs
+	cp -arp build/ground/gcs/.obj  debian/abovegroundlabs/usr/local/AboveGroundLabs
+	cp -arp build/ground/gcs/gcsversioninfo.h debian/abovegroundlabs/usr/local/AboveGroundLabs
+	cp -arp package/linux/abovegroundlabs.desktop debian/abovegroundlabs/usr/share/applications
+	cp -arp package/linux/abovegroundlabs.png     debian/abovegroundlabs/usr/share/pixmaps
+	cp -arp package/linux/abovegroundlabs_menu.png  debian/abovegroundlabs/usr/share/pixmaps
+	cp -arp package/linux/abovegroundlabs_menu.menu debian/abovegroundlabs/etc/xdg/menus/applications-merged
+	cp -arp package/linux/abovegroundlabs_menu.directory debian/abovegroundlabs/usr/share/desktop-directories
 ifdef PACKAGE_DIR
-	cp -a $(PACKAGE_DIR)/*.opfw debian/openpilot/usr/local/OpenPilot/firmware/
+	cp -a $(PACKAGE_DIR)/*.opfw debian/abovegroundlabs/usr/local/AboveGroundLabs/firmware/
 else
 	$(error PACKAGE_DIR not defined! $(PACKAGE_DIR))
 endif
-	ln -s /usr/local/OpenPilot/bin/openpilotgcs.bin `pwd`/debian/openpilot/usr/bin/openpilot-gcs
-	rm -rf debian/openpilot/usr/local/OpenPilot/share/openpilotgcs/sounds/sounds
-	rm -rf debian/openpilot/usr/local/OpenPilot/share/openpilotgcs/pfd/pfd
-	rm -rf debian/openpilot/usr/local/OpenPilot/share/openpilotgcs/models/models
-	rm -rf debian/openpilot/usr/local/OpenPilot/share/openpilotgcs/mapicons/mapicons
-	rm -rf debian/openpilot/usr/local/OpenPilot/share/openpilotgcs/dials/dials
-	rm -rf debian/openpilot/usr/local/OpenPilot/share/openpilotgcs/diagrams/diagrams
+	ln -s /usr/local/AboveGroundLabs/bin/abovegroundlabs.bin `pwd`/debian/abovegroundlabs/usr/bin/abovegroundlabs-gcs
+	rm -rf debian/abovegroundlabs/usr/local/AboveGroundLabs/share/abovegroundlabs/sounds/sounds
+	rm -rf debian/abovegroundlabs/usr/local/AboveGroundLabs/share/abovegroundlabs/pfd/pfd
+	rm -rf debian/abovegroundlabs/usr/local/AboveGroundLabs/share/abovegroundlabs/models/models
+	rm -rf debian/abovegroundlabs/usr/local/AboveGroundLabs/share/abovegroundlabs/mapicons/mapicons
+	rm -rf debian/abovegroundlabs/usr/local/AboveGroundLabs/share/abovegroundlabs/dials/dials
+	rm -rf debian/abovegroundlabs/usr/local/AboveGroundLabs/share/abovegroundlabs/diagrams/diagrams
 
 
 # Build architecture-independent files here.
@@ -74,7 +74,7 @@ binary-arch: install
 	dh_compress
 	dh_fixperms
 	dh_installdeb
-	dh_shlibdeps -l/usr/local/OpenPilot/lib/openpilotgcs --dpkg-shlibdeps-params="--ignore-missing-info -v"
+	dh_shlibdeps -l/usr/local/AboveGroundLabs/lib/abovegroundlabs --dpkg-shlibdeps-params="--ignore-missing-info -v"
 	dh_gencontrol
 	dh_md5sums
 	dh_builddeb

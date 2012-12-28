@@ -27,7 +27,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../coreplugin/core.qrc">
-    <normaloff>:/core/images/openpilot_logo_128.png</normaloff>:/core/images/openpilot_logo_128.png</iconset>
+    <normaloff>:/core/images/abovegroundlabs_logo_128.png</normaloff>:/core/images/abovegroundlabs_logo_128.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

@@ -92,6 +92,10 @@ public class EGLview extends GLSurfaceView {
 	    setRenderer(new Renderer());
 	}
 
+	public void destroy() {
+		osgNativeLib.clearContents();
+	}
+
 	private static class ContextFactory implements GLSurfaceView.EGLContextFactory {
 	    private static int EGL_CONTEXT_CLIENT_VERSION = 0x3098;
 	    @Override

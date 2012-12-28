@@ -51,6 +51,9 @@
 #if defined(STM32F4XX)
 # include <stm32f4xx.h>
 # include <stm32f4xx_rcc.h>
+#elif defined(STM32F30X)
+#include <stm32f30x.h>
+#include <stm32f30x_rcc.h>
 #elif defined(STM32F2XX)
 #include <stm32f2xx.h>
 #include <stm32f2xx_syscfg.h>
@@ -137,6 +140,9 @@
 #if defined(PIOS_INCLUDE_L3GD20)
 #include <pios_l3gd20.h>
 #endif
+#if defined(PIOS_INCLUDE_LSM303)
+#include <pios_lsm303.h>
+#endif
 #if defined(PIOS_INCLUDE_MS5611)
 #include <pios_ms5611.h>
 #endif
@@ -167,6 +173,13 @@
 
 #if defined(PIOS_INCLUDE_USB)
 #include <pios_usb.h>
+#endif
+
+#if defined(PIOS_INCLUDE_RFM22B)
+#include <pios_rfm22b.h>
+#ifdef PIOS_INCLUDE_RFM22B_COM
+#include <pios_rfm22b_com.h>
+#endif
 #endif
 
 #include <pios_crc.h>

@@ -16,16 +16,16 @@
 .\" .sp <n>    insert n+1 empty lines
 .\" for manpage-specific macros, see man(7)
 .SH NAME
-openpilot \- program to do something
+abovegroundlabs \- program to do something
 .SH SYNOPSIS
-.B openpilot
+.B abovegroundlabs
 .RI [ options ] " files" ...
 .br
 .B bar
 .RI [ options ] " files" ...
 .SH DESCRIPTION
 This manual page documents briefly the
-.B openpilot
+.B abovegroundlabs
 and
 .B bar
 commands.
@@ -33,7 +33,7 @@ commands.
 .\" TeX users may be more comfortable with the \fB<whatever>\fP and
 .\" \fI<whatever>\fP escape sequences to invode bold face and italics,
 .\" respectively.
-\fBopenpilot\fP is a program that...
+\fBabovegroundlabs\fP is a program that...
 .SH OPTIONS
 These programs follow the usual GNU command line syntax, with long
 options starting with two dashes (`-').
@@ -53,7 +53,7 @@ The programs are documented fully by
 .IR "The Rise and Fall of a Fooish Bar" ,
 available via the Info system.
 .SH AUTHOR
-openpilot was written by <upstream author>.
+abovegroundlabs was written by <upstream author>.
 .PP
 This manual page was written by naiiawah <naiiawah@none>,
 for the Debian project (and may be used by others).

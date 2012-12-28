@@ -9,6 +9,7 @@
  *
  * @file       sensors.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @brief      Module to handle all comms to the AHRS on a periodic basis.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -161,6 +162,7 @@ int32_t mag_test;
  * 1. BMA180 accel and MPU6000 gyro
  * 2. MPU6000 gyro and accel
  * 3. BMA180 accel and L3GD20 gyro
+ * 4. LSM303 accel and L3GD20 gyro
  */
 
 uint32_t sensor_dt_us;
@@ -199,6 +201,13 @@ static void SensorsTask(void *parameters)
 			gyro_test = PIOS_MPU6050_Test();
 			accel_test = gyro_test;
 #endif
+		case 0x04:
+#if defined(PIOS_INCLUDE_L3GD20)
+			gyro_test = PIOS_L3GD20_Test();
+#endif
+#if defined(PIOS_INCLUDE_LSM303)
+			accel_test = PIOS_LSM303_Accel_Test();
+#endif
 			break;
 		default:
 			PIOS_DEBUG_Assert(0);
@@ -206,6 +215,8 @@ static void SensorsTask(void *parameters)
 
 #if defined(PIOS_INCLUDE_HMC5883)
 	mag_test = PIOS_HMC5883_Test();
+#elif defined (PIOS_INCLUDE_LSM303)
+	mag_test = PIOS_LSM303_Mag_Test();
 #else
 	mag_test = 0;
 #endif
@@ -221,7 +232,9 @@ static void SensorsTask(void *parameters)
 	// Main task loop
 	lastSysTime = xTaskGetTickCount();
 	bool error = false;
+#if defined(PIOS_INCLUDE_HMC5883)
 	uint32_t mag_update_time = PIOS_DELAY_GetRaw();
+#endif
 	while (1) {
 		// TODO: add timeouts to the sensor reads and set an error if the fail
 		sensor_dt_us = PIOS_DELAY_DiffuS(timeval);
@@ -352,6 +365,66 @@ static void SensorsTask(void *parameters)
 			}
 #endif /* PIOS_INCLUDE_MPU6000 || PIOS_INCLUDE_MPU6050 */
 				break;
+
+			case 0x04: // LSM303 and L3GD20 board
+#if defined(PIOS_INCLUDE_LSM303)
+			{
+				//this one comes at 400Hz
+				accel_scaling = PIOS_LSM303_Accel_GetScale();
+				struct pios_lsm303_accel_data accel;
+				xQueueHandle queue = PIOS_LSM303_Accel_GetQueue();
+
+				while (xQueueReceive(queue, (void*)&accel, (accel_samples == 0 ? 10 / portTICK_RATE_MS : 0)) != errQUEUE_EMPTY)
+				{
+					accel_accum[0] += accel.accel_x;
+					accel_accum[1] += accel.accel_y;
+					accel_accum[2] += accel.accel_z;
+					++accel_samples;
+				}
+				if (accel_samples == 0)
+				{
+					// Unfortunately if the LSM303 ever misses getting read, then it will not
+					// trigger more interrupts.  In this case we must force a read to kickstart
+					// it.
+					struct pios_lsm303_accel_data data;
+					PIOS_LSM303_Accel_ReadData(&data);
+					error = true;
+					continue;
+				}
+				// No temp
+				accelsData.temperature = 0;
+			}
+#endif /* PIOS_INCLUDE_LSM303 */
+#if defined(PIOS_INCLUDE_L3GD20)
+			{
+				//this one comes at 760Hz
+				gyro_scaling = PIOS_L3GD20_GetScale();
+				struct pios_l3gd20_data gyro;
+				xQueueHandle queue = PIOS_L3GD20_GetQueue();
+
+				while (xQueueReceive(queue, (void*)&gyro, (gyro_samples == 0 ? 10 / portTICK_RATE_MS : 0)) != errQUEUE_EMPTY)
+				{
+					gyro_accum[0] += gyro.gyro_y;
+					gyro_accum[1] += gyro.gyro_x;
+					gyro_accum[2] -= gyro.gyro_z;
+					++gyro_samples;
+				}
+				if (gyro_samples == 0)
+				{
+					// Unfortunately if the L3GD20 ever misses getting read, then it will not
+					// trigger more interrupts.  In this case we must force a read to kickstart
+					// it.
+					struct pios_l3gd20_data data;
+					PIOS_L3GD20_ReadGyros(&data);
+					error = true;
+					continue;
+				}
+
+				// Get temp from last reading
+				gyrosData.temperature = gyro.temperature;
+			}
+#endif
+				break;
 			default:
 				PIOS_DEBUG_Assert(0);
 		}
@@ -432,6 +505,36 @@ static void SensorsTask(void *parameters)
 
 			MagnetometerSet(&mag);
 			mag_update_time = PIOS_DELAY_GetRaw();
+		}
+#elif defined(PIOS_INCLUDE_LSM303)
+		MagnetometerData mag;
+
+		//this one comes at 220Hz
+		struct pios_lsm303_mag_data mag_data;
+		xQueueHandle queue = PIOS_LSM303_Mag_GetQueue();
+
+		if (xQueueReceive(queue, (void*)&mag_data, 0) != errQUEUE_EMPTY)
+		{
+			float mags[3] = {(float) mag_data.mag_x * mag_scale[0] - mag_bias[0],
+							(float) mag_data.mag_y * mag_scale[1] - mag_bias[1],
+							(float) mag_data.mag_z * mag_scale[2] - mag_bias[2]};
+			if (rotate) {
+				float mag_out[3];
+				rot_mult(Rbs, mags, mag_out, false);
+				mag.x = mag_out[0];
+				mag.y = mag_out[1];
+				mag.z = mag_out[2];
+			} else {
+				mag.x = mags[0];
+				mag.y = mags[1];
+				mag.z = mags[2];
+			}
+
+			// Correct for mag bias and update if the rate is non zero
+			if (insSettings.MagBiasNullingRate > 0)
+				magOffsetEstimation(&mag);
+
+			MagnetometerSet(&mag);
 		}
 #endif
 

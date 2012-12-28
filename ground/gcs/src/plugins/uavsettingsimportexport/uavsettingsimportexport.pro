@@ -4,7 +4,7 @@ QT += xml
 
 TARGET = UAVSettingsImportExport
 DEFINES += UAVSETTINGSIMPORTEXPORT_LIBRARY
-include(../../openpilotgcsplugin.pri)
+include(../../abovegroundlabsgcsplugin.pri)
 include(uavsettingsimportexport_dependencies.pri)
 
 HEADERS += uavsettingsimportexport.h \

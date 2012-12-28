@@ -45,13 +45,13 @@ static struct wdg_configuration {
  * @brief Initialize the watchdog timer for a specified timeout
  *
  * It is important to note that this function returns the achieved timeout 
- * for this hardware.  For hardware indendence this should be checked when 
+ * for this hardware.  For hardware independence this should be checked when
  * scheduling updates.  Other hardware dependent details may need to be 
  * considered such as a window time which sets a minimum update time, 
  * and this function should return a recommended delay for clearing.  
  *
  * For the STM32 nominal clock rate is 32 khz, but for the maximum clock rate of
- * 60 khz and a prescalar of 4 yields a clock rate of 15 khz.  The delay that is 
+ * 60 khz and a prescaler of 4 yields a clock rate of 15 khz.  The delay that is
  * set in the watchdog assumes the nominal clock rate, but the delay for FreeRTOS
  * to use is 75% of the minimal delay.
  *
@@ -125,10 +125,10 @@ bool PIOS_WDG_UpdateFlag(uint16_t flag)
 	
 	if((cur_flags | flag) == wdg_configuration.used_flags) {
 		PIOS_WDG_Clear();
-		BKP_WriteBackupRegister(PIOS_WDG_REGISTER, flag);		
+		BKP_WriteBackupRegister(PIOS_WDG_REGISTER, flag);
 		return true;
 	} else {
-		BKP_WriteBackupRegister(PIOS_WDG_REGISTER, cur_flags | flag);		
+		BKP_WriteBackupRegister(PIOS_WDG_REGISTER, cur_flags | flag);
 		return false;
 	}
 		

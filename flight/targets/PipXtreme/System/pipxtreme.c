@@ -35,7 +35,6 @@
 /* OpenPilot Includes */
 #include "openpilot.h"
 #include "uavobjectsinit.h"
-#include "hwsettings.h"
 #include "systemmod.h"
 
 /* Task Priorities */

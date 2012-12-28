@@ -36,7 +36,7 @@
 #include <fifo_buffer.h>
 #include <openpilot.h>
 #include <uavobjectsinit.h>
-#include <hwsettings.h>
+#include <hwosd.h>
 #include <manualcontrolsettings.h>
 #include <gcsreceiver.h>
 
@@ -99,10 +99,10 @@ static void Clock(uint32_t spektrum_id);
 #define PIOS_COM_BRIDGE_RX_BUF_LEN 65
 #define PIOS_COM_BRIDGE_TX_BUF_LEN 12
 
-uint32_t pios_com_aux_id;
-uint32_t pios_com_gps_id;
-uint32_t pios_com_telem_usb_id;
-uint32_t pios_com_telem_rf_id;
+uintptr_t pios_com_aux_id;
+uintptr_t pios_com_gps_id;
+uintptr_t pios_com_telem_usb_id;
+uintptr_t pios_com_telem_rf_id;
 
 
 
@@ -128,7 +128,7 @@ void PIOS_Board_Init(void) {
 	EventDispatcherInitialize();
 	UAVObjInitialize();
 
-	HwSettingsInitialize();
+	HwOSDInitialize();
 
 	/* Initialize the alarms library */
 	AlarmsInitialize();
@@ -143,8 +143,8 @@ void PIOS_Board_Init(void) {
 		PIOS_IAP_WriteBootCount(++boot_count);
 		AlarmsClear(SYSTEMALARMS_ALARM_BOOTFAULT);
 	} else {
-		/* Too many failed boot attempts, force hwsettings to defaults */
-		HwSettingsSetDefaults(HwSettingsHandle(), 0);
+		/* Too many failed boot attempts, force hw config to defaults */
+		HwOSDSetDefaults(HwOSDHandle(), 0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
 
@@ -182,19 +182,19 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_USB_CDC)
 
-	uint8_t hwsettings_usb_vcpport;
+	uint8_t hw_usb_vcpport;
 	/* Configure the USB VCP port */
-	HwSettingsUSB_VCPPortGet(&hwsettings_usb_vcpport);
+	HwOSDUSB_VCPPortGet(&hw_usb_vcpport);
 
 	if (!usb_cdc_present) {
 		/* Force VCP port function to disabled if we haven't advertised VCP in our USB descriptor */
-		hwsettings_usb_vcpport = HWSETTINGS_USB_VCPPORT_DISABLED;
+		hw_usb_vcpport = HWOSD_USB_VCPPORT_DISABLED;
 	}
 
-	switch (hwsettings_usb_vcpport) {
-	case HWSETTINGS_USB_VCPPORT_DISABLED:
+	switch (hw_usb_vcpport) {
+	case HWOSD_USB_VCPPORT_DISABLED:
 		break;
-	case HWSETTINGS_USB_VCPPORT_USBTELEMETRY:
+	case HWOSD_USB_VCPPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uint32_t pios_usb_cdc_id;
@@ -213,7 +213,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_COM */
 		break;
-	case HWSETTINGS_USB_VCPPORT_COMBRIDGE:
+	case HWOSD_USB_VCPPORT_COMBRIDGE:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uint32_t pios_usb_cdc_id;
@@ -237,18 +237,18 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_USB_HID)
 	/* Configure the usb HID port */
-	uint8_t hwsettings_usb_hidport;
-	HwSettingsUSB_HIDPortGet(&hwsettings_usb_hidport);
+	uint8_t hw_usb_hidport;
+	HwOSDUSB_HIDPortGet(&hw_usb_hidport);
 
 	if (!usb_hid_present) {
 		/* Force HID port function to disabled if we haven't advertised HID in our USB descriptor */
-		hwsettings_usb_hidport = HWSETTINGS_USB_HIDPORT_DISABLED;
+		hw_usb_hidport = HWOSD_USB_HIDPORT_DISABLED;
 	}
 
-	switch (hwsettings_usb_hidport) {
-	case HWSETTINGS_USB_HIDPORT_DISABLED:
+	switch (hw_usb_hidport) {
+	case HWOSD_USB_HIDPORT_DISABLED:
 		break;
-	case HWSETTINGS_USB_HIDPORT_USBTELEMETRY:
+	case HWOSD_USB_HIDPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uint32_t pios_usb_hid_id;
@@ -343,55 +343,11 @@ void PIOS_Board_Init(void) {
 
 	/* Configure FlexiPort */
 
-/*	uint8_t hwsettings_rv_flexiport;
-	HwSettingsRV_FlexiPortGet(&hwsettings_rv_flexiport);
-
-	switch (hwsettings_rv_flexiport) {
-		case HWSETTINGS_RV_FLEXIPORT_DISABLED:
-			break;
-		case HWSETTINGS_RV_FLEXIPORT_I2C:*/
 #if defined(PIOS_INCLUDE_I2C)
-		{
-			if (PIOS_I2C_Init(&pios_i2c_flexiport_adapter_id, &pios_i2c_flexiport_adapter_cfg)) {
-				PIOS_Assert(0);
-			}
-		}
+	if (PIOS_I2C_Init(&pios_i2c_flexiport_adapter_id, &pios_i2c_flexiport_adapter_cfg)) {
+		PIOS_Assert(0);
+	}
 #endif	/* PIOS_INCLUDE_I2C */
-/*			break;
-
-		case HWSETTINGS_RV_FLEXIPORT_DSM2:
-		case HWSETTINGS_RV_FLEXIPORT_DSMX10BIT:
-		case HWSETTINGS_RV_FLEXIPORT_DSMX11BIT:
-		{
-			enum pios_dsm_proto proto;
-			switch (hwsettings_rv_flexiport) {
-				case HWSETTINGS_RV_FLEXIPORT_DSM2:
-					proto = PIOS_DSM_PROTO_DSM2;
-					break;
-				case HWSETTINGS_RV_FLEXIPORT_DSMX10BIT:
-					proto = PIOS_DSM_PROTO_DSMX10BIT;
-					break;
-				case HWSETTINGS_RV_FLEXIPORT_DSMX11BIT:
-					proto = PIOS_DSM_PROTO_DSMX11BIT;
-					break;
-				default:
-					PIOS_Assert(0);
-					break;
-			}
-			//TODO: Define the various Channelgroup for Revo dsm inputs and handle here
-			PIOS_Board_configure_dsm(&pios_usart_dsm_flexi_cfg, &pios_dsm_flexi_cfg,
-											 &pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT,&hwsettings_DSMxBind);
-		}
-			break;
-		case HWSETTINGS_RV_FLEXIPORT_COMAUX:
-			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_AUX_RX_BUF_LEN, PIOS_COM_AUX_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
-			break;
-		case HWSETTINGS_RV_FLEXIPORT_COMBRIDGE:
-			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
-			break;
-	}*/
-		/* hwsettings_rv_flexiport */
-
 
 #if defined(PIOS_INCLUDE_WAVE)
 	PIOS_WavPlay_Init(&pios_dac_cfg);

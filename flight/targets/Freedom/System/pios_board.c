@@ -36,7 +36,8 @@
 #include <pios.h>
 #include <openpilot.h>
 #include <uavobjectsinit.h>
-#include "hwsettings.h"
+#include "hwfreedom.h"
+#include "modulesettings.h"
 #include "manualcontrolsettings.h"
 
 /**
@@ -204,26 +205,22 @@ uint32_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 #define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
-uint32_t pios_com_debug_id;
-#endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
-
-#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
-#define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
-uint32_t pios_com_debug_id;
+uintptr_t pios_com_debug_id;
 #endif /* PIOS_INCLUDE_DEBUG_CONSOLE */
 
-uint32_t pios_com_aux_id = 0;
-uint32_t pios_com_gps_id = 0;
-uint32_t pios_com_telem_usb_id = 0;
-uint32_t pios_com_telem_rf_id = 0;
-uint32_t pios_com_bridge_id = 0;
-uint32_t pios_com_overo_id = 0;
+uintptr_t pios_com_aux_id = 0;
+uintptr_t pios_com_gps_id = 0;
+uintptr_t pios_com_telem_usb_id = 0;
+uintptr_t pios_com_telem_rf_id = 0;
+uintptr_t pios_com_bridge_id = 0;
+uintptr_t pios_com_overo_id = 0;
+uint32_t pios_rfm22b_id = 0;
 
 /* 
  * Setup a com port based on the passed cfg, driver and buffer sizes. tx size of -1 make the port rx only
  */
 static void PIOS_Board_configure_com(const struct pios_usart_cfg *usart_port_cfg, size_t rx_buf_len, size_t tx_buf_len,
-		const struct pios_com_driver *com_driver, uint32_t *pios_com_id) 
+		const struct pios_com_driver *com_driver, uintptr_t *pios_com_id) 
 {
 	uint32_t pios_usart_id;
 	if (PIOS_USART_Init(&pios_usart_id, usart_port_cfg)) {
@@ -325,7 +322,7 @@ void PIOS_Board_Init(void) {
 	EventDispatcherInitialize();
 	UAVObjInitialize();
 	
-	HwSettingsInitialize();	
+	HwFreedomInitialize();
 
 #if defined(PIOS_INCLUDE_RTC)
 	PIOS_RTC_Init(&pios_rtc_main_cfg);
@@ -349,8 +346,8 @@ void PIOS_Board_Init(void) {
 		PIOS_IAP_WriteBootCount(++boot_count);
 		AlarmsClear(SYSTEMALARMS_ALARM_BOOTFAULT);
 	} else {
-		/* Too many failed boot attempts, force hwsettings to defaults */
-		HwSettingsSetDefaults(HwSettingsHandle(), 0);
+		/* Too many failed boot attempts, force hw config to defaults */
+		HwFreedomSetDefaults(HwFreedomHandle(), 0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
 
@@ -383,29 +380,29 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_USB_CDC)
 
-	uint8_t hwsettings_usb_vcpport;
+	uint8_t hw_usb_vcpport;
 	/* Configure the USB VCP port */
-	HwSettingsUSB_VCPPortGet(&hwsettings_usb_vcpport);
+	HwFreedomUSB_VCPPortGet(&hw_usb_vcpport);
 
 	if (!usb_cdc_present) {
 		/* Force VCP port function to disabled if we haven't advertised VCP in our USB descriptor */
-		hwsettings_usb_vcpport = HWSETTINGS_USB_VCPPORT_DISABLED;
+		hw_usb_vcpport = HWFREEDOM_USB_VCPPORT_DISABLED;
 	}
 
-	switch (hwsettings_usb_vcpport) {
-	case HWSETTINGS_USB_VCPPORT_DISABLED:
+	switch (hw_usb_vcpport) {
+	case HWFREEDOM_USB_VCPPORT_DISABLED:
 		break;
-	case HWSETTINGS_USB_VCPPORT_USBTELEMETRY:
+	case HWFREEDOM_USB_VCPPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 			PIOS_Board_configure_com(&pios_usb_cdc_cfg, PIOS_COM_TELEM_USB_RX_BUF_LEN, PIOS_COM_TELEM_USB_TX_BUF_LEN, &pios_usb_cdc_com_driver, &pios_com_telem_usb_id);
 #endif	/* PIOS_INCLUDE_COM */
 		break;
-	case HWSETTINGS_USB_VCPPORT_COMBRIDGE:
+	case HWFREEDOM_USB_VCPPORT_COMBRIDGE:
 #if defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usb_cdc_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usb_cdc_com_driver, &pios_com_vcp_id);
 #endif	/* PIOS_INCLUDE_COM */
 		break;
-	case HWSETTINGS_USB_VCPPORT_DEBUGCONSOLE:
+	case HWFREEDOM_USB_VCPPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 		{
@@ -430,18 +427,18 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_USB_HID)
 	/* Configure the usb HID port */
-	uint8_t hwsettings_usb_hidport;
-	HwSettingsUSB_HIDPortGet(&hwsettings_usb_hidport);
+	uint8_t hw_usb_hidport;
+	HwFreedomUSB_HIDPortGet(&hw_usb_hidport);
 
 	if (!usb_hid_present) {
 		/* Force HID port function to disabled if we haven't advertised HID in our USB descriptor */
-		hwsettings_usb_hidport = HWSETTINGS_USB_HIDPORT_DISABLED;
+		hw_usb_hidport = HWFREEDOM_USB_HIDPORT_DISABLED;
 	}
 
-	switch (hwsettings_usb_hidport) {
-	case HWSETTINGS_USB_HIDPORT_DISABLED:
+	switch (hw_usb_hidport) {
+	case HWFREEDOM_USB_HIDPORT_DISABLED:
 		break;
-	case HWSETTINGS_USB_HIDPORT_USBTELEMETRY:
+	case HWFREEDOM_USB_HIDPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uint32_t pios_usb_hid_id;
@@ -470,35 +467,35 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_USB */
 
 	/* Configure IO ports */
-	uint8_t hwsettings_DSMxBind;
-	HwSettingsDSMxBindGet(&hwsettings_DSMxBind);
+	uint8_t hw_DSMxBind;
+	HwFreedomDSMxBindGet(&hw_DSMxBind);
 
 	/* Configure FlexiPort */
-	uint8_t hwsettings_mainport;
-	HwSettingsFreedom_MainPortGet(&hwsettings_mainport);
-	switch (hwsettings_mainport) {
-		case HWSETTINGS_FREEDOM_MAINPORT_DISABLED:
+	uint8_t hw_mainport;
+	HwFreedomMainPortGet(&hw_mainport);
+	switch (hw_mainport) {
+		case HWFREEDOM_MAINPORT_DISABLED:
 			break;
-		case HWSETTINGS_FREEDOM_MAINPORT_TELEMETRY:
+		case HWFREEDOM_MAINPORT_TELEMETRY:
 			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
 			break;
 			break;
-		case HWSETTINGS_FREEDOM_MAINPORT_GPS:
+		case HWFREEDOM_MAINPORT_GPS:
 			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_GPS_RX_BUF_LEN, -1, &pios_usart_com_driver, &pios_com_gps_id);
 			break;
-		case HWSETTINGS_FREEDOM_MAINPORT_DSM2:
-		case HWSETTINGS_FREEDOM_MAINPORT_DSMX10BIT:
-		case HWSETTINGS_FREEDOM_MAINPORT_DSMX11BIT:
+		case HWFREEDOM_MAINPORT_DSM2:
+		case HWFREEDOM_MAINPORT_DSMX10BIT:
+		case HWFREEDOM_MAINPORT_DSMX11BIT:
 			{
 				enum pios_dsm_proto proto;
-				switch (hwsettings_mainport) {
-				case HWSETTINGS_FREEDOM_MAINPORT_DSM2:
+				switch (hw_mainport) {
+				case HWFREEDOM_MAINPORT_DSM2:
 					proto = PIOS_DSM_PROTO_DSM2;
 					break;
-				case HWSETTINGS_FREEDOM_MAINPORT_DSMX10BIT:
+				case HWFREEDOM_MAINPORT_DSMX10BIT:
 					proto = PIOS_DSM_PROTO_DSMX10BIT;
 					break;
-				case HWSETTINGS_FREEDOM_MAINPORT_DSMX11BIT:
+				case HWFREEDOM_MAINPORT_DSMX11BIT:
 					proto = PIOS_DSM_PROTO_DSMX11BIT;
 					break;
 				default:
@@ -506,46 +503,46 @@ void PIOS_Board_Init(void) {
 					break;
 				}
 				PIOS_Board_configure_dsm(&pios_usart_dsm_main_cfg, &pios_dsm_main_cfg, 
-							&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT,&hwsettings_DSMxBind);
+							&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT,&hw_DSMxBind);
 			}
 			break;
-		case HWSETTINGS_FREEDOM_MAINPORT_DEBUGCONSOLE:
+		case HWFREEDOM_MAINPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 			{
 				PIOS_Board_configure_com(&pios_usart_main_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
 			}
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 			break;
-		case HWSETTINGS_FREEDOM_MAINPORT_COMBRIDGE:
+		case HWFREEDOM_MAINPORT_COMBRIDGE:
 			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
 			break;
-	} /* hwsettings_freedom_mainport */
+	} /* hw_freedom_mainport */
 
 	/* Configure flexi USART port */
-	uint8_t hwsettings_flexiport;
-	HwSettingsFreedom_FlexiPortGet(&hwsettings_flexiport);
-	switch (hwsettings_flexiport) {
-		case HWSETTINGS_FREEDOM_FLEXIPORT_DISABLED:
+	uint8_t hw_flexiport;
+	HwFreedomFlexiPortGet(&hw_flexiport);
+	switch (hw_flexiport) {
+		case HWFREEDOM_FLEXIPORT_DISABLED:
 			break;
-		case HWSETTINGS_FREEDOM_FLEXIPORT_TELEMETRY:
+		case HWFREEDOM_FLEXIPORT_TELEMETRY:
 			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
 			break;
-		case HWSETTINGS_FREEDOM_FLEXIPORT_GPS:
+		case HWFREEDOM_FLEXIPORT_GPS:
 			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_GPS_RX_BUF_LEN, -1, &pios_usart_com_driver, &pios_com_gps_id);
 			break;
-		case HWSETTINGS_FREEDOM_FLEXIPORT_DSM2:
-		case HWSETTINGS_FREEDOM_FLEXIPORT_DSMX10BIT:
-		case HWSETTINGS_FREEDOM_FLEXIPORT_DSMX11BIT:
+		case HWFREEDOM_FLEXIPORT_DSM2:
+		case HWFREEDOM_FLEXIPORT_DSMX10BIT:
+		case HWFREEDOM_FLEXIPORT_DSMX11BIT:
 			{
 				enum pios_dsm_proto proto;
-				switch (hwsettings_flexiport) {
-				case HWSETTINGS_FREEDOM_FLEXIPORT_DSM2:
+				switch (hw_flexiport) {
+				case HWFREEDOM_FLEXIPORT_DSM2:
 					proto = PIOS_DSM_PROTO_DSM2;
 					break;
-				case HWSETTINGS_FREEDOM_FLEXIPORT_DSMX10BIT:
+				case HWFREEDOM_FLEXIPORT_DSMX10BIT:
 					proto = PIOS_DSM_PROTO_DSMX10BIT;
 					break;
-				case HWSETTINGS_FREEDOM_FLEXIPORT_DSMX11BIT:
+				case HWFREEDOM_FLEXIPORT_DSMX11BIT:
 					proto = PIOS_DSM_PROTO_DSMX11BIT;
 					break;
 				default:
@@ -555,10 +552,10 @@ void PIOS_Board_Init(void) {
 
 				//TODO: Define the various Channelgroup for Revo dsm inputs and handle here
 				PIOS_Board_configure_dsm(&pios_usart_dsm_flexi_cfg, &pios_dsm_flexi_cfg, 
-							&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT,&hwsettings_DSMxBind);
+							&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT,&hw_DSMxBind);
 			}
 			break;
-		case HWSETTINGS_FREEDOM_FLEXIPORT_I2C:
+		case HWFREEDOM_FLEXIPORT_I2C:
 #if defined(PIOS_INCLUDE_I2C)
 			{
 				if (PIOS_I2C_Init(&pios_i2c_flexiport_adapter_id, &pios_i2c_flexiport_adapter_cfg)) {
@@ -567,26 +564,55 @@ void PIOS_Board_Init(void) {
 			}
 #endif	/* PIOS_INCLUDE_I2C */
 
-		case HWSETTINGS_FREEDOM_FLEXIPORT_DEBUGCONSOLE:
+		case HWFREEDOM_FLEXIPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 			{
 				PIOS_Board_configure_com(&pios_usart_flexi_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
 			}
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 			break;
-		case HWSETTINGS_FREEDOM_FLEXIPORT_COMBRIDGE:
+		case HWFREEDOM_FLEXIPORT_COMBRIDGE:
 			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
 			break;
 			
-	} /* 	hwsettings_freedom_flexiport */
+	} /* 	hw_freedom_flexiport */
+
+	/* Initalize the RFM22B radio COM device. */
+#if defined(PIOS_INCLUDE_RFM22B)
+	uint8_t hwsettings_radioport;
+	HwFreedomRadioPortGet(&hwsettings_radioport);
+	switch (hwsettings_radioport) {
+		case HWFREEDOM_RADIOPORT_DISABLED:
+			break;
+		case HWFREEDOM_RADIOPORT_TELEMETRY:
+		{
+			const struct pios_board_info * bdinfo = &pios_board_info_blob;
+			const struct pios_rfm22b_cfg *pios_rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
+			if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, pios_rfm22b_cfg->slave_num, pios_rfm22b_cfg)) {
+				PIOS_Assert(0);
+			}
+			uint8_t *rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_RFM22B_RF_RX_BUF_LEN);
+			uint8_t *tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_RFM22B_RF_TX_BUF_LEN);
+			PIOS_Assert(rx_buffer);
+			PIOS_Assert(tx_buffer);
+			if (PIOS_COM_Init(&pios_com_telem_rf_id, &pios_rfm22b_com_driver, pios_rfm22b_id,
+					  rx_buffer, PIOS_COM_RFM22B_RF_RX_BUF_LEN,
+					  tx_buffer, PIOS_COM_RFM22B_RF_TX_BUF_LEN)) {
+				PIOS_Assert(0);
+			}
+			break;
+		}
+	}
+
+#endif /* PIOS_INCLUDE_RFM22B */
 
 	/* Configure input receiver USART port */
-	uint8_t hwsettings_rcvrport;
-	HwSettingsFreedom_RcvrPortGet(&hwsettings_rcvrport);
-	switch (hwsettings_rcvrport) {
-		case HWSETTINGS_FREEDOM_RCVRPORT_DISABLED:
+	uint8_t hw_rcvrport;
+	HwFreedomRcvrPortGet(&hw_rcvrport);
+	switch (hw_rcvrport) {
+		case HWFREEDOM_RCVRPORT_DISABLED:
 			break;
-		case HWSETTINGS_FREEDOM_RCVRPORT_PPM:
+		case HWFREEDOM_RCVRPORT_PPM:
 		{
 			uint32_t pios_ppm_id;
 			PIOS_PPM_Init(&pios_ppm_id, &pios_ppm_cfg);
@@ -598,19 +624,19 @@ void PIOS_Board_Init(void) {
 			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM] = pios_ppm_rcvr_id;
 		}
 			break;
-		case HWSETTINGS_FREEDOM_RCVRPORT_DSM2:
-		case HWSETTINGS_FREEDOM_RCVRPORT_DSMX10BIT:
-		case HWSETTINGS_FREEDOM_RCVRPORT_DSMX11BIT:
+		case HWFREEDOM_RCVRPORT_DSM2:
+		case HWFREEDOM_RCVRPORT_DSMX10BIT:
+		case HWFREEDOM_RCVRPORT_DSMX11BIT:
 			{
 				enum pios_dsm_proto proto;
-				switch (hwsettings_rcvrport) {
-				case HWSETTINGS_FREEDOM_RCVRPORT_DSM2:
+				switch (hw_rcvrport) {
+				case HWFREEDOM_RCVRPORT_DSM2:
 					proto = PIOS_DSM_PROTO_DSM2;
 					break;
-				case HWSETTINGS_FREEDOM_RCVRPORT_DSMX10BIT:
+				case HWFREEDOM_RCVRPORT_DSMX10BIT:
 					proto = PIOS_DSM_PROTO_DSMX10BIT;
 					break;
-				case HWSETTINGS_FREEDOM_RCVRPORT_DSMX11BIT:
+				case HWFREEDOM_RCVRPORT_DSMX11BIT:
 					proto = PIOS_DSM_PROTO_DSMX11BIT;
 					break;
 				default:
@@ -620,10 +646,10 @@ void PIOS_Board_Init(void) {
 
 				//TODO: Define the various Channelgroup for Revo dsm inputs and handle here
 				PIOS_Board_configure_dsm(&pios_usart_dsm_rcvr_cfg, &pios_dsm_rcvr_cfg, 
-					&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT,&hwsettings_DSMxBind);
+					&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT,&hw_DSMxBind);
 			}
 			break;
-		case HWSETTINGS_FREEDOM_RCVRPORT_SBUS:
+		case HWFREEDOM_RCVRPORT_SBUS:
 #if defined(PIOS_INCLUDE_SBUS)
             {
                     uint32_t pios_usart_sbus_id;
@@ -650,9 +676,20 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_OVERO_SPI)
 	/* Set up the SPI based PIOS_COM interface to the overo */
 	{
-		HwSettingsData hwSettings;
-		HwSettingsGet(&hwSettings);
-		if(hwSettings.OptionalModules[HWSETTINGS_OPTIONALMODULES_OVERO] == HWSETTINGS_OPTIONALMODULES_ENABLED) {
+		bool overo_enabled = false;
+#ifdef MODULE_OveroSync_BUILTIN
+		overo_enabled = true;
+#else
+		ModuleSettingsInitialize();
+		uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+		ModuleSettingsStateGet(module_state);
+		if (module_state[MODULESETTINGS_STATE_OVEROSYNC] == MODULESETTINGS_STATE_ENABLED) {
+			overo_enabled = true;
+		} else {
+			overo_enabled = false;
+		}
+#endif
+		if (overo_enabled) {
 			if (PIOS_OVERO_Init(&pios_overo_id, &pios_overo_cfg)) {
 				PIOS_DEBUG_Assert(0);
 			}
@@ -682,12 +719,12 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_GCSRCVR */
 
 #ifndef PIOS_DEBUG_ENABLE_DEBUG_PINS
-	uint8_t output_port;
-	HwSettingsFreedom_OutputGet(&output_port);
-	switch (output_port) {
-		case HWSETTINGS_FREEDOM_OUTPUT_DISABLED:
+	uint8_t hw_output_port;
+	HwFreedomOutputGet(&hw_output_port);
+	switch (hw_output_port) {
+		case HWFREEDOM_OUTPUT_DISABLED:
 			break;
-		case HWSETTINGS_FREEDOM_OUTPUT_PWM:
+		case HWFREEDOM_OUTPUT_PWM:
 			/* Set up the servo outputs */
 			PIOS_Servo_Init(&pios_servo_cfg);
 			break;
@@ -707,36 +744,36 @@ void PIOS_Board_Init(void) {
 		panic();
 	
 	// To be safe map from UAVO enum to driver enum
-	uint8_t gyro_range;
-	HwSettingsGyroRangeGet(&gyro_range);
-	switch(gyro_range) {
-		case HWSETTINGS_GYRORANGE_250:
+	uint8_t hw_gyro_range;
+	HwFreedomGyroRangeGet(&hw_gyro_range);
+	switch(hw_gyro_range) {
+		case HWFREEDOM_GYRORANGE_250:
 			PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_250_DEG);
 			break;
-		case HWSETTINGS_GYRORANGE_500:
+		case HWFREEDOM_GYRORANGE_500:
 			PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
 			break;
-		case HWSETTINGS_GYRORANGE_1000:
+		case HWFREEDOM_GYRORANGE_1000:
 			PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_1000_DEG);
 			break;
-		case HWSETTINGS_GYRORANGE_2000:
+		case HWFREEDOM_GYRORANGE_2000:
 			PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_2000_DEG);
 			break;
 	}
 
-	uint8_t accel_range;
-	HwSettingsAccelRangeGet(&accel_range);
-	switch(accel_range) {
-		case HWSETTINGS_ACCELRANGE_2G:
+	uint8_t hw_accel_range;
+	HwFreedomAccelRangeGet(&hw_accel_range);
+	switch(hw_accel_range) {
+		case HWFREEDOM_ACCELRANGE_2G:
 			PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_2G);
 			break;
-		case HWSETTINGS_ACCELRANGE_4G:
+		case HWFREEDOM_ACCELRANGE_4G:
 			PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_4G);
 			break;
-		case HWSETTINGS_ACCELRANGE_8G:
+		case HWFREEDOM_ACCELRANGE_8G:
 			PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
 			break;
-		case HWSETTINGS_ACCELRANGE_16G:
+		case HWFREEDOM_ACCELRANGE_16G:
 			PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_16G);
 			break;
 	}

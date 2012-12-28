@@ -173,7 +173,8 @@ SRC += $(OPUAVSYNTHDIR)/firmwareiapobj.c
 #SRC += $(OPUAVSYNTHDIR)/attitudesettings.c
 #SRC += $(OPUAVSYNTHDIR)/camerastabsettings.c
 #SRC += $(OPUAVSYNTHDIR)/cameradesired.c
-SRC += $(OPUAVSYNTHDIR)/hwsettings.c
+SRC += $(OPUAVSYNTHDIR)/hwosd.c
+SRC += $(OPUAVSYNTHDIR)/modulesettings.c
 #SRC += $(OPUAVSYNTHDIR)/gcsreceiver.c
 #SRC += $(OPUAVSYNTHDIR)/receiveractivity.c
 SRC += $(OPUAVSYNTHDIR)/taskinfo.c
@@ -368,7 +369,7 @@ CFLAGS += -fpromote-loop-indices
 endif
 
 CFLAGS += -Wall
-#CFLAGS += -Werror
+CFLAGS += -Werror
 CFLAGS += -Wa,-adhlns=$(addprefix $(OUTDIR)/, $(notdir $(addsuffix .lst, $(basename $<))))
 # Compiler flags to generate dependency files:
 CFLAGS += -MD -MP -MF $(OUTDIR)/dep/$(@F).d

@@ -97,6 +97,7 @@ typedef struct  {
     QList<FieldInfo*> fields; /** The data fields for the object **/
     QString description; /** Description used for Doxygen **/
     QString category; /** Description used for Doxygen **/
+    int numBytes;
 } ObjectInfo;
 
 class UAVObjectParser
@@ -131,6 +132,7 @@ private:
     QString processObjectCategory(QDomNode& childNode, QString * category);
     QString processObjectMetadata(QDomNode& childNode, UpdateMode* mode, int* period, bool* acked);
     void calculateID(ObjectInfo* info);
+    void calculateSize(ObjectInfo* info);
     quint32 updateHash(quint32 value, quint32 hash);
     quint32 updateHash(QString& value, quint32 hash);
 };
