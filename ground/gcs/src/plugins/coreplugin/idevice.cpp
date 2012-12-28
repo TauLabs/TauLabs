@@ -1,9 +1,8 @@
 /**
  ******************************************************************************
  *
- * @file       icore.cpp
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
+ * @file       idevice.cpp
+ * @author     The PhoenixPilot Team, Copyright (C) 2012.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup CorePlugin Core Plugin
