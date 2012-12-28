@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       configahrstwidget.h
+ * @file       configattitudetwidget.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @author     PhoenixPilot, http://github.com/PhoenixPIlot Copyright (C) 2012.
  * @addtogroup GCSPlugins GCS Plugins
@@ -25,8 +25,8 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef ConfigAttitudeWidget_H
-#define ConfigAttitudeWidget_H
+#ifndef CONFIGATTITUDEWIDGET_H
+#define CONFIGATTITUDEWIDGET_H
 
 #include "ui_attitude.h"
 #include "configtaskwidget.h"
@@ -116,4 +116,4 @@ protected:
 
 };
 
-#endif // ConfigAttitudeWidget_H
+#endif // CONFIGATTITUDEWIDGET_H

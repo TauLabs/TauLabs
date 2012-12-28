@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       ConfigAttitudeWidget.h
+ * @file       configattitudewidget.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @author     PhoenixPilot, http://github.com/PhoenixPIlot Copyright (C) 2012.
  * @addtogroup GCSPlugins GCS Plugins
@@ -25,7 +25,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#include "ConfigAttitudeWidget.h"
+#include "configattitudewidget.h"
 
 #include "math.h"
 #include <QDebug>
