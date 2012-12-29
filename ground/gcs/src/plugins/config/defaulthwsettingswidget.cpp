@@ -103,6 +103,8 @@ void DefaultHwSettingsWidget::updateFields()
 
     QList <UAVObjectField*> fields = hwSettingsObject->getFields();
     for (int i = 0; i < fields.size(); i++) {
+        if (fields[i]->getType() != UAVObjectField::ENUM)
+            continue;
         HwFieldSelector *sel = new HwFieldSelector(this);
         layout->addWidget(sel);
         sel->setUavoField(fields[i]);
