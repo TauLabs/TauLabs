@@ -226,7 +226,6 @@ static void pathfollowerTask(void *parameters)
 						if (result) {
 							AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE,SYSTEMALARMS_ALARM_OK);
 						} else {
-							pathStatus.Status = PATHSTATUS_STATUS_CRITICAL;
 							AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE,SYSTEMALARMS_ALARM_WARNING);
 						}
 						break;
@@ -317,6 +316,11 @@ static void updatePathVelocity()
 	pathStatus.error = progress.error;
 	pathStatus.fractional_progress = progress.fractional_progress;
 
+	pathStatus.fractional_progress = progress.fractional_progress;
+	if (pathStatus.fractional_progress < 1)
+		pathStatus.Status = PATHSTATUS_STATUS_INPROGRESS;
+	else
+		pathStatus.Status = PATHSTATUS_STATUS_COMPLETED;
 	VelocityDesiredSet(&velocityDesired);
 }
 
