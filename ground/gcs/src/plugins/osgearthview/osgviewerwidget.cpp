@@ -103,13 +103,17 @@ using namespace osgEarth::Annotation;
 
 using namespace Utils;
 
+#define MULTIROTOR_MODEL "/Users/Cotton/Programming/OpenPilot/artwork/3D Model/multi/joes_cnc/J14-QT_+.3DS"
+#define AIRPLANE_MODEL "/Users/Cotton/Programming/OpenPilot/artwork/3D Model/planes/Easystar/easystar.3ds"
+#define OSGEARTH_FILE "/Users/Cotton/Programming/osg/osgearth/tests/boston.earth"
+
 OsgViewerWidget::OsgViewerWidget(QWidget *parent) : QWidget(parent)
 {
     setThreadingModel(osgViewer::ViewerBase::CullThreadPerCameraDrawThreadPerContext);
     setAttribute(Qt::WA_PaintOnScreen, true);
 
     osg::Group* root = new osg::Group;
-    osg::Node* earth = osgDB::readNodeFile("/Users/Cotton/Programming/osg/osgearth/tests/boston.earth");
+    osg::Node* earth = osgDB::readNodeFile(OSGEARTH_FILE);
     mapNode = osgEarth::MapNode::findMapNode( earth );
     if (!mapNode)
     {
@@ -233,10 +237,10 @@ void OsgViewerWidget::updateAirframe(UAVObject *obj)
         case SystemSettings::AIRFRAMETYPE_FIXEDWING:
         case SystemSettings::AIRFRAMETYPE_FIXEDWINGELEVON:
         case  SystemSettings::AIRFRAMETYPE_FIXEDWINGVTAIL:
-            uav = osgDB::readNodeFile("/Users/Cotton/Programming/OpenPilot/artwork/3D Model/planes/Easystar/easystar.3ds");
+            uav = osgDB::readNodeFile(AIRPLANE_MODEL);
             break;
         default:
-            uav = osgDB::readNodeFile("/Users/Cotton/Programming/OpenPilot/artwork/3D Model/multi/joes_cnc/J14-QT_+.3DS");
+            uav = osgDB::readNodeFile(MULTIROTOR_MODEL);
         }
 
         if (uav) {
@@ -266,10 +270,10 @@ osg::Node* OsgViewerWidget::createAirplane()
     case SystemSettings::AIRFRAMETYPE_FIXEDWING:
     case SystemSettings::AIRFRAMETYPE_FIXEDWINGELEVON:
     case  SystemSettings::AIRFRAMETYPE_FIXEDWINGVTAIL:
-        uav = osgDB::readNodeFile("/Users/Cotton/Programming/OpenPilot/artwork/3D Model/planes/Easystar/easystar.3ds");
+        uav = osgDB::readNodeFile(AIRPLANE_MODEL);
         break;
     default:
-        uav = osgDB::readNodeFile("/Users/Cotton/Programming/OpenPilot/artwork/3D Model/multi/joes_cnc/J14-QT_+.3DS");
+        uav = osgDB::readNodeFile(MULTIROTOR_MODEL);
     }
 
     if(uav) {
