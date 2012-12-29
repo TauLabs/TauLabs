@@ -30,7 +30,7 @@
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
 #include "systemalarms.h"
-
+#include <coreplugin/icore.h>
 #include <QDebug>
 #include <QWhatsThis>
 
@@ -94,7 +94,6 @@ void SystemHealthGadgetWidget::updateAlarms(UAVObject* systemAlarm)
         delete item; // removeItem does _not_ delete the item.
     }
 
-    QString alarm = systemAlarm->getName();
     foreach (UAVObjectField *field, systemAlarm->getFields()) {
         for (uint i = 0; i < field->getNumElements(); ++i) {
             QString element = field->getElementNames()[i];
