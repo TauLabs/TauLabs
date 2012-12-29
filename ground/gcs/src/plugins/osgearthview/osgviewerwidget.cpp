@@ -34,6 +34,7 @@
 #include <QtGui/QApplication>
 #include <QLabel>
 #include <QDebug>
+#include <QDir>
 
 #include <QtCore/QTimer>
 #include <QtGui/QApplication>
@@ -103,9 +104,11 @@ using namespace osgEarth::Annotation;
 
 using namespace Utils;
 
-#define MULTIROTOR_MODEL "/Users/Cotton/Programming/OpenPilot/artwork/3D Model/multi/joes_cnc/J14-QT_+.3DS"
-#define AIRPLANE_MODEL "/Users/Cotton/Programming/OpenPilot/artwork/3D Model/planes/Easystar/easystar.3ds"
-#define OSGEARTH_FILE "/Users/Cotton/Programming/osg/osgearth/tests/boston.earth"
+#define MULTIROTOR_MODEL ":/osgearthview/models/joecnc.3ds"
+#define MULTIROTOR_TEXTURE ":/osgearthview/models/joecnc_texture.png"
+#define AIRPLANE_MODEL ":/osgearthview/models/easystar.3ds"
+#define AIRPLANE_TEXTURE ":/osgearthview/models/easystar_texture.jpg"
+#define OSGEARTH_FILE ":/osgearthview/models/world.earth"
 
 OsgViewerWidget::OsgViewerWidget(QWidget *parent) : QWidget(parent)
 {
@@ -113,7 +116,14 @@ OsgViewerWidget::OsgViewerWidget(QWidget *parent) : QWidget(parent)
     setAttribute(Qt::WA_PaintOnScreen, true);
 
     osg::Group* root = new osg::Group;
-    osg::Node* earth = osgDB::readNodeFile(OSGEARTH_FILE);
+
+    // Copy earth out of the resource file into a temporary file
+    QString earthFile = QDir::temp().filePath("world.earth");
+    QFile::copy(OSGEARTH_FILE, earthFile);
+    qDebug() << "Copying earth to " << earthFile;
+    osg::Node* earth = osgDB::readNodeFile(earthFile.toUtf8().constData());
+    QFile::remove(earthFile);
+
     mapNode = osgEarth::MapNode::findMapNode( earth );
     if (!mapNode)
     {
@@ -170,21 +180,12 @@ QWidget* OsgViewerWidget::createViewWidget( osg::Camera* camera, osg::Node* scen
     manip = new EarthManipulator();
     view->setCameraManipulator( manip );
 
-//    osgGA::NodeTrackerManipulator *camTracker = new osgGA::NodeTrackerManipulator();
-//    camTracker->setTrackNode(uavPos);
-//    camTracker->setMinimumDistance(0.0001f);
-//    camTracker->setDistance(0.001f);
-//    camTracker->setTrackerMode(osgGA::NodeTrackerManipulator::NODE_CENTER);
-//    view->setCameraManipulator(camTracker);
-
     Grid* grid = new Grid();
     grid->setControl(0,0,new LabelControl("OpenPilot"));
     ControlCanvas::get(view, true)->addControl(grid);
 
     // zoom to a good startup position
     manip->setViewpoint( Viewpoint(-71.100549, 42.349273, 0, 24.261, -21.6, 350.0), 5.0 );
-    //manip->setViewpoint( Viewpoint(-71.100549, 42.349273, 0, 24.261, -81.6, 650.0), 5.0 );
-    //manip->setHomeViewpoint(Viewpoint("Boston", osg::Vec3d(-71.0763, 42.34425, 0), 24.261, -21.6, 3450.0));
 
     manip->setTetherNode(uavPos);
 
@@ -233,19 +234,40 @@ void OsgViewerWidget::updateAirframe(UAVObject *obj)
 
         osg::Node *uav;
 
+        QString modelFile;
+        QString textureFile;
         switch(systemSettings.AirframeType) {
         case SystemSettings::AIRFRAMETYPE_FIXEDWING:
         case SystemSettings::AIRFRAMETYPE_FIXEDWINGELEVON:
         case  SystemSettings::AIRFRAMETYPE_FIXEDWINGVTAIL:
-            uav = osgDB::readNodeFile(AIRPLANE_MODEL);
+            modelFile = QDir::temp().filePath("model.3ds");
+            QFile::copy( AIRPLANE_MODEL, modelFile );
+            qDebug() << "Copied to " << modelFile;
+
+            textureFile = QDir::temp().filePath("texture.jpg");
+            QFile::copy( AIRPLANE_TEXTURE, textureFile );
+            qDebug() << "Copied to " << textureFile;
             break;
         default:
-            uav = osgDB::readNodeFile(MULTIROTOR_MODEL);
+            modelFile = QDir::temp().filePath("model.3ds");
+            QFile::copy( MULTIROTOR_MODEL, modelFile );
+            qDebug() << "Copied to " << modelFile;
+
+            textureFile = QDir::temp().filePath("TEXTURE.PNG");
+            QFile::copy( MULTIROTOR_TEXTURE, textureFile );
+            qDebug() << "Copied to " << textureFile;
         }
+
+        uav = osgDB::readNodeFile(modelFile.toUtf8().constData());
+
+        QFile::remove(modelFile);
+        QFile::remove(modelFile);
 
         if (uav) {
             rotateModelNED->removeChild(0,1);
             rotateModelNED->addChild(uav);
+        } else {
+            qDebug() << "Unable to load the model file";
         }
 
     }
@@ -254,7 +276,6 @@ void OsgViewerWidget::updateAirframe(UAVObject *obj)
 osg::Node* OsgViewerWidget::createAirplane()
 {
     osg::Group* model = new osg::Group;
-    osg::Node *uav;
 
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     Q_ASSERT(pm);
@@ -262,34 +283,21 @@ osg::Node* OsgViewerWidget::createAirplane()
     Q_ASSERT(objMngr);
 
     SystemSettings *systemSettingsObj = SystemSettings::GetInstance(objMngr);
-    SystemSettings::DataFields systemSettings = systemSettingsObj->getData();
 
-    qDebug() << "Frame type:" << systemSettingsObj->getField("AirframeType")->getValue().toString();
-    // Get model that matches airframe type
-    switch(systemSettings.AirframeType) {
-    case SystemSettings::AIRFRAMETYPE_FIXEDWING:
-    case SystemSettings::AIRFRAMETYPE_FIXEDWINGELEVON:
-    case  SystemSettings::AIRFRAMETYPE_FIXEDWINGVTAIL:
-        uav = osgDB::readNodeFile(AIRPLANE_MODEL);
-        break;
-    default:
-        uav = osgDB::readNodeFile(MULTIROTOR_MODEL);
-    }
+    uavAttitudeAndScale = new osg::MatrixTransform();
+    uavAttitudeAndScale->setMatrix(osg::Matrixd::scale(0.2e0,0.2e0,0.2e0));
 
-    if(uav) {
-        uavAttitudeAndScale = new osg::MatrixTransform();
-        uavAttitudeAndScale->setMatrix(osg::Matrixd::scale(0.2e0,0.2e0,0.2e0));
+    // Apply a rotation so model is NED before any other rotations
+    rotateModelNED = new osg::MatrixTransform();
+    rotateModelNED->setMatrix(osg::Matrixd::scale(0.05e0,0.05e0,0.05e0) * osg::Matrixd::rotate(M_PI, osg::Vec3d(0,0,1)));
 
-        // Apply a rotation so model is NED before any other rotations
-        rotateModelNED = new osg::MatrixTransform();
-        rotateModelNED->setMatrix(osg::Matrixd::scale(0.05e0,0.05e0,0.05e0) * osg::Matrixd::rotate(M_PI, osg::Vec3d(0,0,1)));
-        rotateModelNED->addChild( uav );
+    uavAttitudeAndScale->addChild( rotateModelNED );
 
-        uavAttitudeAndScale->addChild( rotateModelNED );
+    model->addChild(uavAttitudeAndScale);
 
-        model->addChild(uavAttitudeAndScale);
-    } else
-        qDebug() << "Bad model file";
+    // Attach the specific airframe
+    updateAirframe(systemSettingsObj);
+
     return model;
 }
 
