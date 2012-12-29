@@ -398,8 +398,8 @@ static uint8_t updateFixedDesiredAttitude()
 	// Vertical speed error
 	descentspeedDesired = bound (
 						velocityDesired.Down,
-						-fixedwingpathfollowerSettings.VerticalVelMax,
-						fixedwingpathfollowerSettings.VerticalVelMax);
+						-fixedWingAirspeeds.VerticalVelMax,
+						fixedWingAirspeeds.VerticalVelMax);
 	descentspeedError = descentspeedDesired - velocityActual.Down;
 
 	// Error condition: wind speed is higher than maximum allowed speed. We are forced backwards!
