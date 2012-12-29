@@ -1,13 +1,12 @@
 /**
  ******************************************************************************
- *
- * @file       configtelemetrytwidget.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @file       hwfieldselector.h
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup ConfigPlugin Config Plugin
+ * @addtogroup CorePlugin Core Plugin
  * @{
- * @brief Telemetry configuration panel
+ * @brief A selector widget for hardware configuration field options
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -24,32 +23,32 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef CONFIGPROHWWIDGET_H
-#define CONFIGPROHWWIDGET_H
+#ifndef HWFIELDSELECTOR_H
+#define HWFIELDSELECTOR_H
 
-#include "ui_pro_hw_settings.h"
-#include "../uavobjectwidgetutils/configtaskwidget.h"
-#include "extensionsystem/pluginmanager.h"
-#include "uavobjectmanager.h"
-#include "uavobject.h"
-#include <QtGui/QWidget>
-#include <QList>
+#include <QWidget>
+#include <hwfieldselector.h>
+#include <ui_hwfieldselector.h>
+#include <uavobjectfield.h>
 
+namespace Ui {
+    class HwFieldSelector;
+}
 
-class ConfigProHWWidget: public ConfigTaskWidget
+class HwFieldSelector : public QWidget
 {
     Q_OBJECT
-
 public:
-    ConfigProHWWidget(QWidget *parent = 0);
-    ~ConfigProHWWidget();
+    explicit HwFieldSelector(QWidget *parent = 0);
+    void setUavoField(UAVObjectField *field);
+
+    QComboBox *getCombo();
+signals:
+    
+public slots:
 
 private:
-    Ui_PRO_HW_Widget *m_telemetry;
-
-private slots:
-    virtual void refreshValues();
-
+    Ui::HwFieldSelector *ui;
 };
 
-#endif // CONFIGPROHWWIDGET_H
+#endif // HWFIELDSELECTOR_H
