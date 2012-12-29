@@ -123,6 +123,13 @@ OsgViewerWidget::OsgViewerWidget(QWidget *parent) : QWidget(parent)
     uavPos->getLocator()->setPosition( osg::Vec3d(-71.100549, 42.349273, 150) );
     uavPos->addChild(airplane);
 
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    Q_ASSERT(pm);
+    UAVObjectManager * objMngr = pm->getObject<UAVObjectManager>();
+    Q_ASSERT(objMngr);
+    SystemSettings *systemSettingsObj = SystemSettings::GetInstance(objMngr);
+    connect(systemSettingsObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateAirframe(UAVObject*)));
+
     root->addChild(uavPos);
 
     osgUtil::Optimizer optimizer;
@@ -135,9 +142,10 @@ OsgViewerWidget::OsgViewerWidget(QWidget *parent) : QWidget(parent)
     viewWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     layout()->addWidget(viewWidget);
 
-
     connect( &_timer, SIGNAL(timeout()), this, SLOT(update()) );
     _timer.start( 10 );
+
+
 }
 
 OsgViewerWidget::~OsgViewerWidget()
@@ -206,6 +214,39 @@ osg::Camera* OsgViewerWidget::createCamera( int x, int y, int w, int h, const st
     return camera.release();
 }
 
+/**
+ * @brief OsgViewerWidget::updateAirframe Called when the SystemSettings object is updated
+ * to show an appropriate model
+ * @param obj Should be the SystemSettings UAVO
+ */
+void OsgViewerWidget::updateAirframe(UAVObject *obj)
+{
+    if (obj->getObjID() == SystemSettings::OBJID && rotateModelNED != NULL) {
+        SystemSettings *systemSettingsObj = dynamic_cast<SystemSettings *>(obj);
+        if (systemSettingsObj == NULL)
+            return;
+        SystemSettings::DataFields systemSettings = systemSettingsObj->getData();
+
+        osg::Node *uav;
+
+        switch(systemSettings.AirframeType) {
+        case SystemSettings::AIRFRAMETYPE_FIXEDWING:
+        case SystemSettings::AIRFRAMETYPE_FIXEDWINGELEVON:
+        case  SystemSettings::AIRFRAMETYPE_FIXEDWINGVTAIL:
+            uav = osgDB::readNodeFile("/Users/Cotton/Programming/OpenPilot/artwork/3D Model/planes/Easystar/easystar.3ds");
+            break;
+        default:
+            uav = osgDB::readNodeFile("/Users/Cotton/Programming/OpenPilot/artwork/3D Model/multi/joes_cnc/J14-QT_+.3DS");
+        }
+
+        if (uav) {
+            rotateModelNED->removeChild(0,1);
+            rotateModelNED->addChild(uav);
+        }
+
+    }
+}
+
 osg::Node* OsgViewerWidget::createAirplane()
 {
     osg::Group* model = new osg::Group;
@@ -236,7 +277,7 @@ osg::Node* OsgViewerWidget::createAirplane()
         uavAttitudeAndScale->setMatrix(osg::Matrixd::scale(0.2e0,0.2e0,0.2e0));
 
         // Apply a rotation so model is NED before any other rotations
-        osg::MatrixTransform *rotateModelNED = new osg::MatrixTransform();
+        rotateModelNED = new osg::MatrixTransform();
         rotateModelNED->setMatrix(osg::Matrixd::scale(0.05e0,0.05e0,0.05e0) * osg::Matrixd::rotate(M_PI, osg::Vec3d(0,0,1)));
         rotateModelNED->addChild( uav );
 
