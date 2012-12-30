@@ -32,6 +32,7 @@
 #include "ipconnectionoptionspage.h"
 #include "ipconnectionconfiguration.h"
 #include "coreplugin/iconnection.h"
+#include "ipdevice.h"
 #include <extensionsystem/iplugin.h>
 //#include <QtCore/QSettings>
 
@@ -54,8 +55,8 @@ public:
     IPconnectionConnection();
     virtual ~IPconnectionConnection();
 
-    virtual QList <Core::IConnection::device> availableDevices();
-    virtual QIODevice *openDevice(device deviceName);
+    virtual QList <Core::IDevice*> availableDevices();
+    virtual QIODevice *openDevice(Core::IDevice *deviceName);
     virtual void closeDevice(const QString &deviceName);
 
     virtual QString connectionName();
@@ -77,6 +78,7 @@ private:
        QAbstractSocket *ipSocket;
        IPconnectionConfiguration *m_config;
        IPconnectionOptionsPage *m_optionspage;
+       IPDevice dev;
        //QSettings* settings;
 
 };

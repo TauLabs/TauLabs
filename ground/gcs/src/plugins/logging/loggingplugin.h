@@ -34,6 +34,7 @@
 #include <extensionsystem/iplugin.h>
 #include "uavobjectmanager.h"
 #include "gcstelemetrystats.h"
+#include "loggingdevice.h"
 #include <uavtalk/uavtalk.h>
 #include <logfile.h>
 
@@ -57,8 +58,8 @@ public:
     LoggingConnection();
     virtual ~LoggingConnection();
 
-    virtual QList <Core::IConnection::device> availableDevices();
-    virtual QIODevice *openDevice(const device deviceName);
+    virtual QList <Core::IDevice*> availableDevices();
+    virtual QIODevice *openDevice(Core::IDevice* deviceName);
     virtual void closeDevice(const QString &deviceName);
 
     virtual QString connectionName();
@@ -70,7 +71,7 @@ public:
 
 private:
     LogFile logFile;
-
+    LoggingDevice  logDevice;
 
 protected slots:
     void onEnumerationChanged();

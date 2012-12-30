@@ -67,6 +67,7 @@ SOURCES += mainwindow.cpp \
     dialogs/importsettings.cpp \
     boardmanager.cpp \
     iboardtype.cpp \
+    idevice.cpp \
     globalmessaging.cpp \
     alarmsmonitorwidget.cpp
 HEADERS += mainwindow.h \
@@ -133,6 +134,7 @@ HEADERS += mainwindow.h \
     dialogs/importsettings.h \
     boardmanager.h \
     iboardtype.h \
+    idevice.h \
     globalmessaging.h \
     alarmsmonitorwidget.h
 FORMS += dialogs/settingsdialog.ui \
