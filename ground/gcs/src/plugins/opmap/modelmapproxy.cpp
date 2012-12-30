@@ -104,18 +104,18 @@ ModelMapProxy::overlayType ModelMapProxy::overlayTranslate(int type)
 {
     switch(type)
     {
-    case WaypointDataDelegate::MODE_FLYENDPOINT:
-    case WaypointDataDelegate::MODE_FLYVECTOR:
-    case WaypointDataDelegate::MODE_DRIVEENDPOINT:
-    case WaypointDataDelegate::MODE_DRIVEVECTOR:
+    case Waypoint::MODE_FLYENDPOINT:
+    case Waypoint::MODE_FLYVECTOR:
+    case Waypoint::MODE_DRIVEENDPOINT:
+    case Waypoint::MODE_DRIVEVECTOR:
         return OVERLAY_LINE;
         break;
-    case WaypointDataDelegate::MODE_FLYCIRCLERIGHT:
-    case WaypointDataDelegate::MODE_DRIVECIRCLERIGHT:
+    case Waypoint::MODE_FLYCIRCLERIGHT:
+    case Waypoint::MODE_DRIVECIRCLERIGHT:
         return OVERLAY_CURVE_RIGHT;
         break;
-    case WaypointDataDelegate::MODE_FLYCIRCLELEFT:
-    case WaypointDataDelegate::MODE_DRIVECIRCLELEFT:
+    case Waypoint::MODE_FLYCIRCLELEFT:
+    case Waypoint::MODE_DRIVECIRCLELEFT:
         return OVERLAY_CURVE_LEFT;
         break;
     default:

@@ -27,6 +27,7 @@
 
 #include <QDebug>
 #include "waypointdialog.h"
+#include <waypoint.h>
 #include "ui_waypoint_dialog.h"
 
 WaypointDialog::WaypointDialog(QWidget *parent, QAbstractItemModel *model,QItemSelectionModel *selection) :
@@ -46,7 +47,7 @@ WaypointDialog::WaypointDialog(QWidget *parent, QAbstractItemModel *model,QItemS
     mapper = new QDataWidgetMapper(this);
 
     WaypointDataDelegate *delegate = new WaypointDataDelegate(this);
-    delegate->loadComboBox(ui->cbMode,FlightDataModel::MODE);
+    delegate->loadComboBox(ui->cbMode);
 
     mapper->setItemDelegate(delegate);
     connect (mapper,SIGNAL(currentIndexChanged(int)),this,SLOT(currentIndexChanged(int)));
@@ -70,6 +71,11 @@ WaypointDialog::WaypointDialog(QWidget *parent, QAbstractItemModel *model,QItemS
     connect(itemSelection,SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),this,SLOT(currentRowChanged(QModelIndex,QModelIndex)));
 }
 
+/**
+ * @brief WaypointDialog::currentIndexChanged Called when the data widget selector index
+ * changes
+ * @param index The newly selected index
+ */
 void WaypointDialog::currentIndexChanged(int index)
 {
     ui->lbNumber->setText(QString::number(index+1));
@@ -85,16 +91,19 @@ WaypointDialog::~WaypointDialog()
     delete ui;
 }
 
+/**
+ * @brief WaypointDialog::setupModeWidgets Whenever the waypoint mode type changes
+ * this updates the UI to display the available options (e.g. radius)
+ */
 void WaypointDialog::setupModeWidgets()
 {
-    WaypointDataDelegate::ModeOptions mode = (WaypointDataDelegate::ModeOptions)
-                   ui->cbMode->itemData(ui->cbMode->currentIndex()).toInt();
+    int mode = ui->cbMode->itemData(ui->cbMode->currentIndex()).toInt();
     switch(mode)
     {
-    case WaypointDataDelegate::MODE_FLYCIRCLERIGHT:
-    case WaypointDataDelegate::MODE_FLYCIRCLELEFT:
-    case WaypointDataDelegate::MODE_DRIVECIRCLELEFT:
-    case WaypointDataDelegate::MODE_DRIVECIRCLERIGHT:
+    case Waypoint::MODE_FLYCIRCLERIGHT:
+    case Waypoint::MODE_FLYCIRCLELEFT:
+    case Waypoint::MODE_DRIVECIRCLELEFT:
+    case Waypoint::MODE_DRIVECIRCLERIGHT:
         ui->modeParams->setVisible(true);
         ui->modeParams->setText(tr("Radius"));
         ui->dsb_modeParams->setVisible(true);
@@ -150,7 +159,8 @@ void WaypointDialog::on_nextButton_clicked()
 }
 
 /**
- * @brief WaypointDialog::enableEditWidgets Enable or disable the controls
+ * @brief WaypointDialog::enableEditWidgets Enable or disable the controls based
+ * on the lock control
  * @param[in] value True if they should be enabled, false to disable
  */
 void WaypointDialog::enableEditWidgets(bool value)
@@ -176,6 +186,11 @@ void WaypointDialog::enableEditWidgets(bool value)
     }
 }
 
+/**
+ * @brief WaypointDialog::currentRowChanged When the selector changes pass the
+ * update to the data mapper
+ * @param current The newly selected index
+ */
 void WaypointDialog::currentRowChanged(QModelIndex current, QModelIndex previous)
 {
     Q_UNUSED(previous);
@@ -199,7 +214,7 @@ QWidget *WaypointDataDelegate::createEditor(QWidget *parent,
     {
     case FlightDataModel::MODE:
         box=new QComboBox(parent);
-        loadComboBox(box, FlightDataModel::MODE);
+        loadComboBox(box);
         return box;
         break;
     default:
@@ -227,7 +242,6 @@ void WaypointDataDelegate::setEditorData(QWidget *editor,
         int value = index.model()->data(index, Qt::EditRole).toInt();
         QComboBox *comboBox = static_cast<QComboBox*>(editor);
         int x=comboBox->findData(value);
-        qDebug()<<"VALUE="<<x;
         comboBox->setCurrentIndex(x);
     }
     else
@@ -254,26 +268,25 @@ void WaypointDataDelegate::setModelData(QWidget *editor, QAbstractItemModel *mod
         QItemDelegate::setModelData(editor,model,index);
 }
 
+/**
+ * @brief WaypointDataDelegate::updateEditorGeometry Update the size of the editor widget
+ */
 void WaypointDataDelegate::updateEditorGeometry(QWidget *editor,
                                             const QStyleOptionViewItem &option, const QModelIndex &/* index */) const
 {
     editor->setGeometry(option.rect);
 }
 
-void WaypointDataDelegate::loadComboBox(QComboBox *combo, FlightDataModel::pathPlanDataEnum type) const
+/**
+ * @brief WaypointDataDelegate::loadComboBox Populate the combo box with the list of flight modes
+ * @param combo The QComboBox to add options to
+ * @param type
+ */
+void WaypointDataDelegate::loadComboBox(QComboBox *combo) const
 {
-    switch(type)
-    {
-    case FlightDataModel::MODE:
-    {
-        QList<int> keys = FlightDataModel::modeNames.keys();
-        foreach (const int k, keys)
-            combo->addItem(FlightDataModel::modeNames.value(k), k);
-        break;
-    }
-    default:
-        break;
-    }
+    QList<int> keys = FlightDataModel::modeNames.keys();
+    foreach (const int k, keys)
+        combo->addItem(FlightDataModel::modeNames.value(k), k);
 }
 
 WaypointDataDelegate::WaypointDataDelegate(QObject *parent):QItemDelegate(parent)

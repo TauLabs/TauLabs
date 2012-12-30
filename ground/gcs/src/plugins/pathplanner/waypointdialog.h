@@ -37,6 +37,9 @@
 
 class Ui_waypoint_dialog;
 
+/**
+ * @brief The WaypointDialog class creates a dialog for editing the properties of a single waypoint
+ */
 class PATHPLANNER_EXPORT WaypointDialog : public QWidget
 {
     Q_OBJECT
@@ -48,17 +51,15 @@ public:
     //! Edit the requested waypoint, show dialog if it is not showing
     void editWaypoint(int number);
 
-private:
-    Ui_waypoint_dialog *ui;
-    QDataWidgetMapper *mapper;
-    QAbstractItemModel *model;
-    QItemSelectionModel * itemSelection;
-
 private slots:
-
-private slots:
+    //! Called when the data widget selector index changes
     void currentIndexChanged(int index);
+
+    //! Updates the UI to display the available options (e.g. radius) when mode changes
     void setupModeWidgets();
+
+    //! Enable or disable the controls based on the lock control
+    void enableEditWidgets(bool);
 
     //! Close the dialog, abort any changes
     void on_cancelButton_clicked();
@@ -71,8 +72,23 @@ private slots:
 
     //! User requests the next waypoint
     void on_nextButton_clicked();
-    void enableEditWidgets(bool);
+
+    //! When the selector changes pass the update to the data mapper
     void currentRowChanged(QModelIndex,QModelIndex);
+
+private:
+
+    //! The handle to the UI
+    Ui_waypoint_dialog *ui;
+
+    //! Delegate between the model (one waypoint) and the view
+    QDataWidgetMapper *mapper;
+
+    //! The data model for the flight plan
+    QAbstractItemModel *model;
+
+    //! Indicates which waypoint is selected for editing
+    QItemSelectionModel * itemSelection;
 };
 
 
@@ -85,27 +101,26 @@ class WaypointDataDelegate : public QItemDelegate
         Q_OBJECT
 
  public:
-    typedef enum { MODE_FLYENDPOINT=0, MODE_FLYVECTOR=1, MODE_FLYCIRCLERIGHT=2, MODE_FLYCIRCLELEFT=3,
-                   MODE_DRIVEENDPOINT=4, MODE_DRIVEVECTOR=5, MODE_DRIVECIRCLELEFT=6, MODE_DRIVECIRCLERIGHT=7
-                 } ModeOptions;
 
-     WaypointDataDelegate(QObject *parent = 0);
+    WaypointDataDelegate(QObject *parent = 0);
 
-     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
-                           const QModelIndex &index) const;
+    //! Create the QComboxBox for the mode or pass to the default implementation
+    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
+                          const QModelIndex &index) const;
 
-     //! Set data in the UI when the model is changed
-     void setEditorData(QWidget *editor, const QModelIndex &index) const;
+    //! Set data in the UI when the model is changed
+    void setEditorData(QWidget *editor, const QModelIndex &index) const;
 
-     //! Set data in the model when the UI is changed
-     void setModelData(QWidget *editor, QAbstractItemModel *model,
-                       const QModelIndex &index) const;
+    //! Set data in the model when the UI is changed
+    void setModelData(QWidget *editor, QAbstractItemModel *model,
+                      const QModelIndex &index) const;
 
-     void updateEditorGeometry(QWidget *editor,
-                               const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    //!  Update the size of the editor widget
+    void updateEditorGeometry(QWidget *editor,
+                              const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
-     //! Populate the selections in the mode combo box
-     void loadComboBox(QComboBox * combo, FlightDataModel::pathPlanDataEnum type) const;
+    //! Populate the selections in the mode combo box
+    void loadComboBox(QComboBox * combo) const;
  };
 
 #endif /* WAYPOINT_DIALOG_H */
