@@ -28,7 +28,7 @@
 #include <waypointdelegate.h>
 #include <flightdatamodel.h>
 
-WaypointDelegate::WaypointDelegate(QObject *parent):QItemDelegate(parent)
+WaypointDelegate::WaypointDelegate(QObject *parent):QStyledItemDelegate(parent)
 {
 }
 
@@ -52,7 +52,7 @@ QWidget *WaypointDelegate::createEditor(QWidget *parent,
         return box;
         break;
     default:
-        return QItemDelegate::createEditor(parent,option,index);
+        return QStyledItemDelegate::createEditor(parent,option,index);
         break;
     }
 
@@ -77,7 +77,7 @@ void WaypointDelegate::setEditorData(QWidget *editor,
         comboBox->setCurrentIndex(value);
     }
     else
-        QItemDelegate::setEditorData(editor, index);
+        QStyledItemDelegate::setEditorData(editor, index);
 }
 
 /**
@@ -99,7 +99,7 @@ void WaypointDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
         model->setData(index, value, Qt::EditRole);
     }
     else
-        QItemDelegate::setModelData(editor,model,index);
+        QStyledItemDelegate::setModelData(editor,model,index);
 }
 
 /**

@@ -28,14 +28,14 @@
 #ifndef WAYPOINTDELEGATE_H
 #define WAYPOINTDELEGATE_H
 
-#include <QItemDelegate>
+#include <QStyledItemDelegate>
 #include <QComboBox>
 
 /**
  * @brief The WaypointDelegate class is used to handle updating the values in
  * the mode combo box to the data model.
  */
-class WaypointDelegate : public QItemDelegate
+class WaypointDelegate : public QStyledItemDelegate
  {
         Q_OBJECT
 
