@@ -29,9 +29,9 @@
 #include "waypointdialog.h"
 #include "ui_waypoint_dialog.h"
 
-WaypointDialog::WaypointDialog(QWidget *parent,QAbstractItemModel * model,QItemSelectionModel * selection) :
-    QWidget(parent,Qt::Window), model(model), itemSelection(selection),
-    ui(new Ui_waypoint_dialog)
+WaypointDialog::WaypointDialog(QWidget *parent, QAbstractItemModel *model,QItemSelectionModel *selection) :
+    QWidget(parent,Qt::Window), ui(new Ui_waypoint_dialog),
+    model(model), itemSelection(selection)
 {
     ui->setupUi(this);
     connect(ui->checkBoxLocked,SIGNAL(toggled(bool)),this,SLOT(enableEditWidgets(bool)));
@@ -43,11 +43,12 @@ WaypointDialog::WaypointDialog(QWidget *parent,QAbstractItemModel * model,QItemS
     connect(ui->pushButtonPrevious, SIGNAL(clicked()), this, SLOT(on_previousButton_clicked()));
     connect(ui->pushButtonNext, SIGNAL(clicked()), this, SLOT(on_nextButton_clicked()));
 
-    WaypointDataDelegate::loadComboBox(ui->cbMode,FlightDataModel::MODE);
-
     mapper = new QDataWidgetMapper(this);
 
-    mapper->setItemDelegate(new WaypointDataDelegate(this));
+    WaypointDataDelegate *delegate = new WaypointDataDelegate(this);
+    delegate->loadComboBox(ui->cbMode,FlightDataModel::MODE);
+
+    mapper->setItemDelegate(delegate);
     connect (mapper,SIGNAL(currentIndexChanged(int)),this,SLOT(currentIndexChanged(int)));
     mapper->setModel(model);
     mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
@@ -90,15 +91,17 @@ void WaypointDialog::setupModeWidgets()
                    ui->cbMode->itemData(ui->cbMode->currentIndex()).toInt();
     switch(mode)
     {
-    case WaypointDataDelegate::MODE_FLYENDPOINT:
-    case WaypointDataDelegate::MODE_FLYVECTOR:
     case WaypointDataDelegate::MODE_FLYCIRCLERIGHT:
     case WaypointDataDelegate::MODE_FLYCIRCLELEFT:
-    case WaypointDataDelegate::MODE_DRIVEENDPOINT:
-    case WaypointDataDelegate::MODE_DRIVEVECTOR:
     case WaypointDataDelegate::MODE_DRIVECIRCLELEFT:
     case WaypointDataDelegate::MODE_DRIVECIRCLERIGHT:
+        ui->modeParams->setVisible(true);
+        ui->modeParams->setText(tr("Radius"));
+        ui->dsb_modeParams->setVisible(true);
+        break;
+    default:
         ui->modeParams->setVisible(false);
+        ui->dsb_modeParams->setVisible(false);
         break;
     }
 }
@@ -196,7 +199,7 @@ QWidget *WaypointDataDelegate::createEditor(QWidget *parent,
     {
     case FlightDataModel::MODE:
         box=new QComboBox(parent);
-        WaypointDataDelegate::loadComboBox(box, FlightDataModel::MODE);
+        loadComboBox(box, FlightDataModel::MODE);
         return box;
         break;
     default:
@@ -257,22 +260,17 @@ void WaypointDataDelegate::updateEditorGeometry(QWidget *editor,
     editor->setGeometry(option.rect);
 }
 
-void WaypointDataDelegate::loadComboBox(QComboBox *combo, FlightDataModel::pathPlanDataEnum type)
+void WaypointDataDelegate::loadComboBox(QComboBox *combo, FlightDataModel::pathPlanDataEnum type) const
 {
     switch(type)
     {
     case FlightDataModel::MODE:
-        combo->addItem("Fly Direct",MODE_FLYENDPOINT);
-        combo->addItem("Fly Vector",MODE_FLYVECTOR);
-        combo->addItem("Fly Circle Right",MODE_FLYCIRCLERIGHT);
-        combo->addItem("Fly Circle Left",MODE_FLYCIRCLELEFT);
-
-        combo->addItem("Drive Direct",MODE_DRIVEENDPOINT);
-        combo->addItem("Drive Vector",MODE_DRIVEVECTOR);
-        combo->addItem("Drive Circle Right",MODE_DRIVECIRCLELEFT);
-        combo->addItem("Drive Circle Left",MODE_DRIVECIRCLERIGHT);
-
+    {
+        QList<int> keys = FlightDataModel::modeNames.keys();
+        foreach (const int k, keys)
+            combo->addItem(FlightDataModel::modeNames.value(k), k);
         break;
+    }
     default:
         break;
     }

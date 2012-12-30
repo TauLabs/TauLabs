@@ -70,6 +70,8 @@ public:
     bool removeRows ( int row, int count, const QModelIndex & parent = QModelIndex() );
     bool writeToFile(QString filename);
     void readFromFile(QString fileName);
+
+    static QMap<int,QString> modeNames;
 private:
     QList<pathPlanData *> dataStorage;
     QVariant getColumnByIndex(const pathPlanData *row, const int index) const;

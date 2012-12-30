@@ -29,11 +29,29 @@
 #include <QFile>
 #include <QDomDocument>
 #include <QMessageBox>
+#include <waypoint.h>
+
+QMap<int,QString> FlightDataModel::modeNames = QMap<int, QString>();
 
 //! Initialize an empty flight plan
 FlightDataModel::FlightDataModel(QObject *parent):QAbstractTableModel(parent)
 {
-
+    // This could be auto populated from the waypoint object but nothing else in the
+    // model depends on run time properties and we might want to exclude certain modes
+    // being presented later (e.g. driving on a multirotor)
+    modeNames.clear();
+    modeNames.insert(Waypoint::MODE_CIRCLEPOSITIONLEFT, tr("Circle Position Left"));
+    modeNames.insert(Waypoint::MODE_CIRCLEPOSITIONRIGHT, tr("Circle Position Right"));
+    modeNames.insert(Waypoint::MODE_DRIVECIRCLELEFT, tr("Drive Circle Left"));
+    modeNames.insert(Waypoint::MODE_DRIVECIRCLERIGHT, tr("Drive Circle Right"));
+    modeNames.insert(Waypoint::MODE_DRIVEENDPOINT, tr("Drive Endpoint"));
+    modeNames.insert(Waypoint::MODE_DRIVEVECTOR, tr("Drive Vector"));
+    modeNames.insert(Waypoint::MODE_FLYCIRCLELEFT, tr("Fly Circle Left"));
+    modeNames.insert(Waypoint::MODE_FLYCIRCLERIGHT, tr("Fly Circle Right"));
+    modeNames.insert(Waypoint::MODE_FLYENDPOINT, tr("Fly Endpoint"));
+    modeNames.insert(Waypoint::MODE_FLYVECTOR, tr("Fly Vector"));
+    modeNames.insert(Waypoint::MODE_LAND, tr("Land"));
+    modeNames.insert(Waypoint::MODE_STOP, tr("Stop"));
 }
 
 //! Return the number of waypoints

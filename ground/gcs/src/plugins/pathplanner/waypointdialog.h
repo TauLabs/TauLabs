@@ -42,7 +42,7 @@ class PATHPLANNER_EXPORT WaypointDialog : public QWidget
     Q_OBJECT
 
 public:
-    WaypointDialog(QWidget *parent, QAbstractItemModel * model, QItemSelectionModel * selection);
+    WaypointDialog(QWidget *parent, QAbstractItemModel *model, QItemSelectionModel * selection);
     ~WaypointDialog();
 
     //! Edit the requested waypoint, show dialog if it is not showing
@@ -51,7 +51,7 @@ public:
 private:
     Ui_waypoint_dialog *ui;
     QDataWidgetMapper *mapper;
-    QAbstractItemModel * model;
+    QAbstractItemModel *model;
     QItemSelectionModel * itemSelection;
 
 private slots:
@@ -105,7 +105,7 @@ class WaypointDataDelegate : public QItemDelegate
                                const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
      //! Populate the selections in the mode combo box
-     static void loadComboBox(QComboBox * combo,FlightDataModel::pathPlanDataEnum type);
+     void loadComboBox(QComboBox * combo, FlightDataModel::pathPlanDataEnum type) const;
  };
 
 #endif /* WAYPOINT_DIALOG_H */

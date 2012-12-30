@@ -68,7 +68,20 @@ void PathPlannerGadgetWidget::setModel(FlightDataModel *model, QItemSelectionMod
     ui->tableView->setModel(model);
     ui->tableView->setSelectionModel(selection);
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-    //ui->tableView->setItemDelegate(new MapDataDelegate(this));
+
+    QModelIndex index = model->index(0,(int) FlightDataModel::MODE);
+    QComboBox *modeBox = new QComboBox();
+    modeBox->addItem("Fly Direct",Waypoint::MODE_FLYENDPOINT);
+    modeBox->addItem("Fly Vector",Waypoint::MODE_FLYVECTOR);
+    modeBox->addItem("Fly Circle Right",Waypoint::MODE_FLYCIRCLERIGHT);
+    modeBox->addItem("Fly Circle Left",Waypoint::MODE_FLYCIRCLELEFT);
+
+    modeBox->addItem("Drive Direct",Waypoint::MODE_DRIVEENDPOINT);
+    modeBox->addItem("Drive Vector",Waypoint::MODE_DRIVEVECTOR);
+    modeBox->addItem("Drive Circle Right",Waypoint::MODE_DRIVECIRCLELEFT);
+    modeBox->addItem("Drive Circle Left",Waypoint::MODE_DRIVECIRCLERIGHT);
+    ui->tableView->setIndexWidget(index, modeBox);
+
     connect(model,SIGNAL(rowsInserted(const QModelIndex&,int,int)),this,SLOT(rowsInserted(const QModelIndex&,int,int)));
     ui->tableView->resizeColumnsToContents();
 }
