@@ -55,10 +55,15 @@ public:
     QString getDisplayName() const { return displayName; }
     void setDisplayName( QString dn ) { displayName = dn; }
 
-    bool operator==(const IDevice &idv) const {
-        return name == idv.getName()  && displayName == idv.getDisplayName();
+    /*
+    bool operator==(const IDevice *idv) const {
+        return name == idv->getName()  && displayName == idv->getDisplayName();
     }
+    */
 
+    bool equals(const IDevice *idv) const {
+        return name == idv->getName()  && displayName == idv->getDisplayName();
+    }
 
 private:
     QString name;

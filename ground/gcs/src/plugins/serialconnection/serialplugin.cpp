@@ -61,20 +61,30 @@ void SerialEnumerationThread::run()
         if(!m_serial->deviceOpened())
         {
             QList <Core::IDevice*> newDev = m_serial->availableDevices();
-            if(devices != newDev)
-            {
+            // Note: if(devices != newDev) does not work here (QList of pointers)...
+            bool different = false;
+            if (newDev.length()!= devices.length()) {
+                different = true;
+            } else {
+                for (int i= 0; i< newDev.length(); i++) {
+                    Core::IDevice* oldd = devices.at(i);
+                    Core::IDevice* newd = newDev.at(i);
+                    different |= !(oldd->equals(newd));
+                }
+            }
+            if (different) {
                 devices = newDev;
                 emit enumerationChanged();
             }
         }
-
         msleep(2000); //update available devices every two seconds (doesn't need more)
     }
 }
 
 
 SerialConnection::SerialConnection()
-    : enablePolling(true), m_enumerateThread(this)
+    : enablePolling(true), m_enumerateThread(this),
+      m_deviceOpened(false)
 {
     serialHandle = NULL;
     m_config = new SerialPluginConfiguration("Serial Telemetry", NULL, this);
