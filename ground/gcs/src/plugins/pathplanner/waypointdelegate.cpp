@@ -108,7 +108,9 @@ void WaypointDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
 void WaypointDelegate::updateEditorGeometry(QWidget *editor,
                                             const QStyleOptionViewItem &option, const QModelIndex &/* index */) const
 {
-    editor->setGeometry(option.rect);
+    QRect r = option.rect;
+    r.setSize( editor->sizeHint() );
+    editor->setGeometry( r );
 }
 
 /**

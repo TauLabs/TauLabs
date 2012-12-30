@@ -71,6 +71,7 @@ void PathPlannerGadgetWidget::setModel(FlightDataModel *model, QItemSelectionMod
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
     ui->tableView->setItemDelegate(new WaypointDelegate(this));
+    ui->tableView->resizeColumnsToContents();
 
     connect(model,SIGNAL(rowsInserted(const QModelIndex&,int,int)),this,SLOT(rowsInserted(const QModelIndex&,int,int)));
     ui->tableView->resizeColumnsToContents();
@@ -151,6 +152,7 @@ void PathPlannerGadgetWidget::on_tbSendToUAV_clicked()
 void PathPlannerGadgetWidget::on_tbFetchFromUAV_clicked()
 {
     proxy->objectsToModel();
+    ui->tableView->resizeColumnsToContents();
 }
 
 /**
