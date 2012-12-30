@@ -91,36 +91,4 @@ private:
     QItemSelectionModel * itemSelection;
 };
 
-
-/**
- * @brief The WaypointDataDelegate class is used to handle updating the values in
- * the mode combo box to the data model.
- */
-class WaypointDataDelegate : public QItemDelegate
- {
-        Q_OBJECT
-
- public:
-
-    WaypointDataDelegate(QObject *parent = 0);
-
-    //! Create the QComboxBox for the mode or pass to the default implementation
-    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
-                          const QModelIndex &index) const;
-
-    //! Set data in the UI when the model is changed
-    void setEditorData(QWidget *editor, const QModelIndex &index) const;
-
-    //! Set data in the model when the UI is changed
-    void setModelData(QWidget *editor, QAbstractItemModel *model,
-                      const QModelIndex &index) const;
-
-    //!  Update the size of the editor widget
-    void updateEditorGeometry(QWidget *editor,
-                              const QStyleOptionViewItem &option, const QModelIndex &index) const;
-
-    //! Populate the selections in the mode combo box
-    void loadComboBox(QComboBox * combo) const;
- };
-
 #endif /* WAYPOINT_DIALOG_H */

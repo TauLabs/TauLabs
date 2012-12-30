@@ -27,6 +27,7 @@
 
 #include <QDebug>
 #include "waypointdialog.h"
+#include <waypointdelegate.h>
 #include <waypoint.h>
 #include "ui_waypoint_dialog.h"
 
@@ -46,7 +47,7 @@ WaypointDialog::WaypointDialog(QWidget *parent, QAbstractItemModel *model,QItemS
 
     mapper = new QDataWidgetMapper(this);
 
-    WaypointDataDelegate *delegate = new WaypointDataDelegate(this);
+    WaypointDelegate *delegate = new WaypointDelegate(this);
     delegate->loadComboBox(ui->cbMode);
 
     mapper->setItemDelegate(delegate);
@@ -196,99 +197,4 @@ void WaypointDialog::currentRowChanged(QModelIndex current, QModelIndex previous
     Q_UNUSED(previous);
 
     mapper->setCurrentIndex(current.row());
-}
-
-/**
- * @brief WaypointDataDelegate::createEditor Returns the widget used to edit the item
- * specified by index for editing. The parent widget and style option are used to
- * control how the editor widget appears.
- * @return The widget for the index
- */
-QWidget *WaypointDataDelegate::createEditor(QWidget *parent,
-                                        const QStyleOptionViewItem & option,
-                                        const QModelIndex & index) const
-{
-    int column=index.column();
-    QComboBox * box;
-    switch(column)
-    {
-    case FlightDataModel::MODE:
-        box=new QComboBox(parent);
-        loadComboBox(box);
-        return box;
-        break;
-    default:
-        return QItemDelegate::createEditor(parent,option,index);
-        break;
-    }
-
-    QComboBox *editor = new QComboBox(parent);
-    return editor;
-}
-
-/**
- * @brief WaypointDataDelegate::setEditorData Set the data in the UI from the model
- * for a particular element index
- * @param editor The editor dialog
- * @param index The model parameter index to use
- */
-void WaypointDataDelegate::setEditorData(QWidget *editor,
-                                     const QModelIndex &index) const
-{
-    if(!index.isValid())
-        return;
-    QString className=editor->metaObject()->className();
-    if (className.contains("QComboBox")) {
-        int value = index.model()->data(index, Qt::EditRole).toInt();
-        QComboBox *comboBox = static_cast<QComboBox*>(editor);
-        int x=comboBox->findData(value);
-        comboBox->setCurrentIndex(x);
-    }
-    else
-        QItemDelegate::setEditorData(editor, index);
-}
-
-/**
- * @brief WaypointDataDelegate::setModelData Update the model from the UI for a particular
- * element index
- * @param editor
- * @param model The editor dialog
- * @param index The model parameter index to change
- */
-void WaypointDataDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
-                                    const QModelIndex &index) const
-{
-    QString className=editor->metaObject()->className();
-    if (className.contains("QComboBox")) {
-        QComboBox *comboBox = static_cast<QComboBox*>(editor);
-        int value = comboBox->itemData(comboBox->currentIndex()).toInt();
-        model->setData(index, value, Qt::EditRole);
-    }
-    else
-        QItemDelegate::setModelData(editor,model,index);
-}
-
-/**
- * @brief WaypointDataDelegate::updateEditorGeometry Update the size of the editor widget
- */
-void WaypointDataDelegate::updateEditorGeometry(QWidget *editor,
-                                            const QStyleOptionViewItem &option, const QModelIndex &/* index */) const
-{
-    editor->setGeometry(option.rect);
-}
-
-/**
- * @brief WaypointDataDelegate::loadComboBox Populate the combo box with the list of flight modes
- * @param combo The QComboBox to add options to
- * @param type
- */
-void WaypointDataDelegate::loadComboBox(QComboBox *combo) const
-{
-    QList<int> keys = FlightDataModel::modeNames.keys();
-    foreach (const int k, keys)
-        combo->addItem(FlightDataModel::modeNames.value(k), k);
-}
-
-WaypointDataDelegate::WaypointDataDelegate(QObject *parent):QItemDelegate(parent)
-{
 }
