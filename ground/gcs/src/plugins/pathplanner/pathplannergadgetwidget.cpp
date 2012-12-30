@@ -25,6 +25,7 @@
  */
 #include "pathplannergadgetwidget.h"
 #include "waypointdialog.h"
+#include "waypointdelegate.h"
 #include "ui_pathplanner.h"
 
 #include <QDebug>
@@ -69,18 +70,7 @@ void PathPlannerGadgetWidget::setModel(FlightDataModel *model, QItemSelectionMod
     ui->tableView->setSelectionModel(selection);
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
-    QModelIndex index = model->index(0,(int) FlightDataModel::MODE);
-    QComboBox *modeBox = new QComboBox();
-    modeBox->addItem("Fly Direct",Waypoint::MODE_FLYENDPOINT);
-    modeBox->addItem("Fly Vector",Waypoint::MODE_FLYVECTOR);
-    modeBox->addItem("Fly Circle Right",Waypoint::MODE_FLYCIRCLERIGHT);
-    modeBox->addItem("Fly Circle Left",Waypoint::MODE_FLYCIRCLELEFT);
-
-    modeBox->addItem("Drive Direct",Waypoint::MODE_DRIVEENDPOINT);
-    modeBox->addItem("Drive Vector",Waypoint::MODE_DRIVEVECTOR);
-    modeBox->addItem("Drive Circle Right",Waypoint::MODE_DRIVECIRCLELEFT);
-    modeBox->addItem("Drive Circle Left",Waypoint::MODE_DRIVECIRCLERIGHT);
-    ui->tableView->setIndexWidget(index, modeBox);
+    ui->tableView->setItemDelegate(new WaypointDelegate(this));
 
     connect(model,SIGNAL(rowsInserted(const QModelIndex&,int,int)),this,SLOT(rowsInserted(const QModelIndex&,int,int)));
     ui->tableView->resizeColumnsToContents();
