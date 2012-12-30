@@ -355,7 +355,7 @@ static void PIOS_USART_generic_irq_handler(uint32_t usart_id)
 	}
 	/* Check for overrun condition
 	 * Note i really wanted to use USART_GetITStatus but it fails on getting the
-	 * ORE flag altough RXNE interrupt is enabled.
+	 * ORE flag although RXNE interrupt is enabled.
 	 * Probably a bug in the ST library...
 	 */
 	if (USART_GetFlagStatus(usart_dev->cfg->regs, USART_FLAG_ORE)) {
