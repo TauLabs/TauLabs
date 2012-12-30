@@ -65,7 +65,7 @@ class ThreadManager;
 class ViewManagerInterface;
 class UAVGadgetManager;
 class UAVGadgetInstanceManager;
-
+class GlobalMessaging;
 
 namespace Internal {
 
@@ -104,6 +104,7 @@ public:
     Core::ActionManager *actionManager() const;
     Core::UniqueIDManager *uniqueIDManager() const;
     Core::MessageManager *messageManager() const;
+    Core::GlobalMessaging *globalMessaging() const;
     QList<UAVGadgetManager*> uavGadgetManagers() const;
     UAVGadgetInstanceManager *uavGadgetInstanceManager() const;
     Core::ConnectionManager *connectionManager() const;
@@ -184,6 +185,7 @@ private:
     bool m_dontSaveSettings; // In case of an Error or if we reset the settings, never save them.
     ActionManagerPrivate *m_actionManager;
     MessageManager *m_messageManager;
+    GlobalMessaging * m_globalMessaging;
     VariableManager *m_variableManager;
     ThreadManager *m_threadManager;
     ModeManager *m_modeManager;

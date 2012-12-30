@@ -35,7 +35,6 @@
 #include "configautotunewidget.h"
 #include "configcamerastabilizationwidget.h"
 #include "configtxpidwidget.h"
-#include "config_pro_hw_widget.h"
 #include "config_cc_hw_widget.h"
 #include "configpipxtremewidget.h"
 #include "configrevowidget.h"
@@ -235,7 +234,7 @@ void ConfigGadgetWidget::onAutopilotConnect() {
             icon = new QIcon();
             icon->addFile(":/configgadget/images/hardware_normal.png", QSize(), QIcon::Normal, QIcon::Off);
             icon->addFile(":/configgadget/images/hardware_selected.png", QSize(), QIcon::Normal, QIcon::On);
-            qwd = new ConfigProHWWidget(this);
+            qwd = new DefaultHwSettingsWidget(this);
             ftw->insertTab(ConfigGadgetWidget::hardware, qwd, *icon, QString("Hardware"));
             ftw->setCurrentIndex(ConfigGadgetWidget::hardware);
         } else {

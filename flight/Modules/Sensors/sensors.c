@@ -232,7 +232,9 @@ static void SensorsTask(void *parameters)
 	// Main task loop
 	lastSysTime = xTaskGetTickCount();
 	bool error = false;
+#if defined(PIOS_INCLUDE_HMC5883)
 	uint32_t mag_update_time = PIOS_DELAY_GetRaw();
+#endif
 	while (1) {
 		// TODO: add timeouts to the sensor reads and set an error if the fail
 		sensor_dt_us = PIOS_DELAY_DiffuS(timeval);
@@ -362,6 +364,8 @@ static void SensorsTask(void *parameters)
 				accelsData.temperature = 35.0f + ((float) mpu60x0_data.temperature + 512.0f) / 340.0f;
 			}
 #endif /* PIOS_INCLUDE_MPU6000 || PIOS_INCLUDE_MPU6050 */
+				break;
+
 			case 0x04: // LSM303 and L3GD20 board
 #if defined(PIOS_INCLUDE_LSM303)
 			{

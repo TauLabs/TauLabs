@@ -146,8 +146,6 @@ MODULE_INITCALL(SensorsInitialize, SensorsStart)
 int sensors_count;
 static void SensorsTask(void *parameters)
 {
-	portTickType lastSysTime;
-
 	AlarmsClear(SYSTEMALARMS_ALARM_SENSORS);
 	
 //	HomeLocationData homeLocation;
@@ -163,8 +161,6 @@ static void SensorsTask(void *parameters)
 
 
 	// Main task loop
-	lastSysTime = xTaskGetTickCount();
-	uint32_t last_time = PIOS_DELAY_GetRaw();
 	while (1) {
 		PIOS_WDG_UpdateFlag(PIOS_WDG_SENSORS);
 
@@ -193,7 +189,6 @@ static void SensorsTask(void *parameters)
 		if (i % 5000 == 0) {
 			//float dT = PIOS_DELAY_DiffuS(last_time) / 10.0e6;
 			//fprintf(stderr, "Sensor relative timing: %f\n", dT);
-			last_time = PIOS_DELAY_GetRaw();
 		}
 		
 		sensors_count++;
