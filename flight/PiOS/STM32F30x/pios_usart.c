@@ -284,6 +284,11 @@ static void PIOS_USART_ChangeBaud(uint32_t usart_id, uint32_t baud)
 
 	/* Write back the new configuration */
 	USART_Init(usart_dev->cfg->regs, &USART_InitStructure);
+
+	/* For some reason USART_Init results in the UE bit in USART_CR1 being cleared
+	 * so we have to enable it again.
+	 */
+	USART_Cmd(usart_dev->cfg->regs, ENABLE);
 }
 
 static void PIOS_USART_RegisterRxCallback(uint32_t usart_id, pios_com_callback rx_in_cb, uint32_t context)
