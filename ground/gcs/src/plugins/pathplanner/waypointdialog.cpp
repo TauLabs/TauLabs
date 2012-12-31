@@ -56,6 +56,9 @@ WaypointDialog::WaypointDialog(QWidget *parent, QAbstractItemModel *model,QItemS
     mapper->addMapping(ui->doubleSpinBoxLatitude,FlightDataModel::LATPOSITION);
     mapper->addMapping(ui->doubleSpinBoxLongitude,FlightDataModel::LNGPOSITION);
     mapper->addMapping(ui->doubleSpinBoxAltitude,FlightDataModel::ALTITUDE);
+    mapper->addMapping(ui->doubleSpinBoxNorth,FlightDataModel::NED_NORTH);
+    mapper->addMapping(ui->doubleSpinBoxEast,FlightDataModel::NED_EAST);
+    mapper->addMapping(ui->doubleSpinBoxDown,FlightDataModel::NED_DOWN);
     mapper->addMapping(ui->lineEditDescription,FlightDataModel::WPDESCRITPTION);
     mapper->addMapping(ui->doubleSpinBoxVelocity,FlightDataModel::VELOCITY);
     mapper->addMapping(ui->cbMode,FlightDataModel::MODE);
