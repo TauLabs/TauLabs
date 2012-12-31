@@ -198,14 +198,14 @@ void ModelMapProxy::refreshOverlays()
 
     // Get first waypoint type before stepping through path
     wp_current = findWayPointNumber(0);
-    overlayType wp_current_overlay = overlayTranslate(model->data(model->index(0,FlightDataModel::MODE)).toInt());
+    overlayType wp_current_overlay = overlayTranslate(model->data(model->index(0,FlightDataModel::MODE),Qt::UserRole).toInt());
     createOverlay(wp_current,myMap->Home,wp_current_overlay,Qt::green);
 
     for(int x=0;x<model->rowCount();++x)
     {
         wp_current = findWayPointNumber(x);
 
-        wp_next_overlay = overlayTranslate(model->data(model->index(x+1,FlightDataModel::MODE)).toInt());
+        wp_next_overlay = overlayTranslate(model->data(model->index(x+1,FlightDataModel::MODE),Qt::UserRole).toInt());
 
         wp_next = findWayPointNumber(x+1);
         createOverlay(wp_current, wp_next, wp_next_overlay, Qt::green,
