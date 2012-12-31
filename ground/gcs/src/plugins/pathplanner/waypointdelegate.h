@@ -58,6 +58,9 @@ class WaypointDelegate : public QStyledItemDelegate
     void updateEditorGeometry(QWidget *editor,
                               const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
+    //! Convert the variant to a string value
+    QString displayText ( const QVariant & value, const QLocale & locale ) const;
+
     //! Populate the selections in the mode combo box
     void loadComboBox(QComboBox * combo) const;
  };

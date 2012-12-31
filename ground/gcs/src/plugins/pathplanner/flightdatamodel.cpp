@@ -277,18 +277,18 @@ QVariant FlightDataModel::headerData(int section, Qt::Orientation orientation, i
  */
 bool FlightDataModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if (role == Qt::EditRole)
+    if (index.isValid() && role == Qt::EditRole)
     {
         int columnIndex = index.column();
         int rowIndex = index.row();
-        if(rowIndex>dataStorage.length()-1)
-            return false;
 
         pathPlanData *myRow = dataStorage.at(rowIndex);
         setColumnByIndex(myRow,columnIndex,value);
         emit dataChanged(index,index);
+
+        return true;
     }
-    return true;
+    return false;
 }
 
 /**

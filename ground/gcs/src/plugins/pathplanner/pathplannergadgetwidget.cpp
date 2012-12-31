@@ -77,17 +77,6 @@ void PathPlannerGadgetWidget::setModel(FlightDataModel *model, QItemSelectionMod
     ui->tableView->resizeColumnsToContents();
 }
 
-void PathPlannerGadgetWidget::rowsInserted ( const QModelIndex & parent, int start, int end )
-{
-    Q_UNUSED(parent);
-    for(int x=start;x<end+1;x++)
-    {
-        QModelIndex index=ui->tableView->model()->index(x,FlightDataModel::MODE);
-        ui->tableView->openPersistentEditor(index);
-        ui->tableView->size().setHeight(10);
-    }
-}
-
 void PathPlannerGadgetWidget::on_tbAdd_clicked()
 {
     ui->tableView->model()->insertRow(ui->tableView->model()->rowCount());

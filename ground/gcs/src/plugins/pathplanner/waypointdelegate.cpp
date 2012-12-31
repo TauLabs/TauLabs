@@ -43,21 +43,22 @@ QWidget *WaypointDelegate::createEditor(QWidget *parent,
                                         const QModelIndex & index) const
 {
     int column=index.column();
-    QComboBox * box;
     switch(column)
     {
     case FlightDataModel::MODE:
-        box=new QComboBox(parent);
+    {
+        QComboBox *box = new QComboBox(parent);
         loadComboBox(box);
+        box->setVisible(false);
+        box->setFrame(false);
+        box->setEditable(false);
         return box;
-        break;
+    }
     default:
-        return QStyledItemDelegate::createEditor(parent,option,index);
         break;
     }
 
-    QComboBox *editor = new QComboBox(parent);
-    return editor;
+    return QStyledItemDelegate::createEditor(parent,option,index);
 }
 
 /**
@@ -73,6 +74,9 @@ void WaypointDelegate::setEditorData(QWidget *editor,
         return;
     if (index.column() == (int) FlightDataModel::MODE) {
         QComboBox *comboBox = static_cast<QComboBox*>(editor);
+        Q_ASSERT(comboBox != NULL);
+        if (comboBox == NULL) return;
+
         int value = index.model()->data(index, Qt::EditRole).toInt();
         comboBox->setCurrentIndex(value);
     }
@@ -95,6 +99,8 @@ void WaypointDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
     if (index.column() == (int) FlightDataModel::MODE) {
         QComboBox *comboBox = static_cast<QComboBox*>(editor);
         Q_ASSERT(comboBox != NULL);
+        if (comboBox == NULL) return;
+
         int value = comboBox->itemData(comboBox->currentIndex()).toInt();
         model->setData(index, value, Qt::EditRole);
     }
@@ -106,11 +112,25 @@ void WaypointDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
  * @brief WaypointDelegate::updateEditorGeometry Update the size of the editor widget
  */
 void WaypointDelegate::updateEditorGeometry(QWidget *editor,
-                                            const QStyleOptionViewItem &option, const QModelIndex &/* index */) const
+                                            const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    QRect r = option.rect;
-    r.setSize( editor->sizeHint() );
-    editor->setGeometry( r );
+    if (index.column() == (int) FlightDataModel::MODE) {
+        QRect r = option.rect;
+        r.setSize( editor->sizeHint() );
+        editor->setGeometry( r );
+    } else
+        QStyledItemDelegate::updateEditorGeometry(editor, option, index);
+}
+
+/**
+ * @brief WaypointDelegate::displayText Convert the variant to a string value
+ * @param value The value of this data
+ * @param locale The locale to convert the text to
+ * @return
+ */
+QString WaypointDelegate::displayText ( const QVariant & value, const QLocale & locale ) const
+{
+    return QStyledItemDelegate::displayText(value, locale);
 }
 
 /**

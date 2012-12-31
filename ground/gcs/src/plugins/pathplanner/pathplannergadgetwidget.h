@@ -45,8 +45,6 @@ public:
 
     void setModel(FlightDataModel *model, QItemSelectionModel *selection);
 private slots:
-    void rowsInserted ( const QModelIndex & parent, int start, int end );
-
     void on_tbAdd_clicked();
 
     void on_tbDelete_clicked();
