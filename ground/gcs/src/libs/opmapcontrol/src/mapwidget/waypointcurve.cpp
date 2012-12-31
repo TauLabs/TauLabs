@@ -41,8 +41,8 @@ namespace mapcontrol
  * @param color Color of the curve
  */
 WayPointCurve::WayPointCurve(WayPointItem *start, WayPointItem *dest, double radius, bool clockwise, MapGraphicItem *map,QColor color) :
-    m_start(start), m_dest(dest), m_radius(radius), m_clockwise(clockwise),
-    my_map(map),QGraphicsEllipseItem(map),myColor(color)
+    QGraphicsEllipseItem(map), m_start(start), m_dest(dest), m_radius(radius),
+    m_clockwise(clockwise), my_map(map),myColor(color)
 {
     connect(start,SIGNAL(localPositionChanged(QPointF,WayPointItem*)),this,SLOT(refreshLocations()));
     connect(dest,SIGNAL(localPositionChanged(QPointF,WayPointItem*)),this,SLOT(refreshLocations()));

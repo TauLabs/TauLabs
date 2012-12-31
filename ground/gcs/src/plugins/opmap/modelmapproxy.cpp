@@ -121,6 +121,9 @@ ModelMapProxy::overlayType ModelMapProxy::overlayTranslate(int type)
     default:
         break;
     }
+
+    // Default value
+    return OVERLAY_LINE;
 }
 
 /**
