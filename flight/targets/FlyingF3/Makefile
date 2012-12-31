@@ -63,7 +63,7 @@ MODULES += CameraStab
 #MODULES += Radio
 MODULES += Telemetry
 MODULES += ComUsbBridge
-
+MODULES += GenericI2CSensor
 
 # Paths
 OPSYSTEM = ./System
