@@ -58,9 +58,6 @@ private slots:
     //! Updates the UI to display the available options (e.g. radius) when mode changes
     void setupModeWidgets();
 
-    //! Enable or disable the controls based on the lock control
-    void enableEditWidgets(bool);
-
     //! Close the dialog, abort any changes
     void on_cancelButton_clicked();
 

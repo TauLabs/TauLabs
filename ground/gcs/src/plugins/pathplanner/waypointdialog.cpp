@@ -36,7 +36,6 @@ WaypointDialog::WaypointDialog(QWidget *parent, QAbstractItemModel *model,QItemS
     model(model), itemSelection(selection)
 {
     ui->setupUi(this);
-    connect(ui->checkBoxLocked,SIGNAL(toggled(bool)),this,SLOT(enableEditWidgets(bool)));
     connect(ui->cbMode,SIGNAL(currentIndexChanged(int)),this,SLOT(setupModeWidgets()));
 
     // Connect up the buttons
@@ -152,34 +151,6 @@ void WaypointDialog::on_previousButton_clicked()
 void WaypointDialog::on_nextButton_clicked()
 {
     mapper->toNext();
-}
-
-/**
- * @brief WaypointDialog::enableEditWidgets Enable or disable the controls based
- * on the lock control
- * @param[in] value True if they should be enabled, false to disable
- */
-void WaypointDialog::enableEditWidgets(bool value)
-{
-    QWidget * w;
-    foreach(QWidget * obj,this->findChildren<QWidget *>())
-    {
-        w=qobject_cast<QComboBox*>(obj);
-        if(w)
-            w->setEnabled(!value);
-        w=qobject_cast<QLineEdit*>(obj);
-        if(w)
-            w->setEnabled(!value);
-        w=qobject_cast<QDoubleSpinBox*>(obj);
-        if(w)
-            w->setEnabled(!value);
-        w=qobject_cast<QCheckBox*>(obj);
-        if(w && w!=ui->checkBoxLocked)
-            w->setEnabled(!value);
-        w=qobject_cast<QSpinBox*>(obj);
-        if(w)
-            w->setEnabled(!value);
-    }
 }
 
 /**

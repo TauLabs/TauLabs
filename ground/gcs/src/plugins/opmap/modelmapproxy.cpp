@@ -257,9 +257,7 @@ void ModelMapProxy::dataChanged(const QModelIndex &topLeft, const QModelIndex &b
         return;
 
     internals::PointLatLng latlng;
-    distBearingAltitude distBearing;
     double altitude;
-    bool relative;
     QModelIndex index;
     QString desc;
 
