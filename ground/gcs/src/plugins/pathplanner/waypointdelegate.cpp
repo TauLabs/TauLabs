@@ -115,7 +115,13 @@ void WaypointDelegate::updateEditorGeometry(QWidget *editor,
         QRect r = option.rect;
         r.setSize( editor->sizeHint() );
         editor->setGeometry( r );
-    } else
+    } else if (index.column() == (int) FlightDataModel::LOCKED) {
+        // The locked combo box is wider than the column sometimes
+        QRect r = option.rect;
+        r.setSize( editor->sizeHint() );
+        editor->setGeometry( r );
+    }
+    else
         QStyledItemDelegate::updateEditorGeometry(editor, option, index);
 }
 
