@@ -180,10 +180,6 @@ QWidget* OsgViewerWidget::createViewWidget( osg::Camera* camera, osg::Node* scen
     manip = new EarthManipulator();
     view->setCameraManipulator( manip );
 
-    Grid* grid = new Grid();
-    grid->setControl(0,0,new LabelControl("OpenPilot"));
-    ControlCanvas::get(view, true)->addControl(grid);
-
     // zoom to a good startup position
     manip->setViewpoint( Viewpoint(-71.100549, 42.349273, 0, 24.261, -21.6, 350.0), 5.0 );
 
