@@ -49,9 +49,6 @@ QWidget *WaypointDelegate::createEditor(QWidget *parent,
     {
         QComboBox *box = new QComboBox(parent);
         loadComboBox(box);
-        box->setVisible(false);
-        box->setFrame(false);
-        box->setEditable(false);
         return box;
     }
     default:
