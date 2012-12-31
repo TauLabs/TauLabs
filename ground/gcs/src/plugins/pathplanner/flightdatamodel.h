@@ -71,7 +71,6 @@ public:
     static QMap<int,QString> modeNames;
 private:
     QList<pathPlanData *> dataStorage;
-    bool setColumnByIndex(pathPlanData *row, const int index, const QVariant value);
 
     //! NED representation of a location
     struct NED {

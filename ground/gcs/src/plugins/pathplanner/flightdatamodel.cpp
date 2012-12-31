@@ -129,50 +129,6 @@ QVariant FlightDataModel::data(const QModelIndex &index, int role) const
 }
 
 /**
- * @brief FlightDataModel::setColumnByIndex The data for a particular path plan entry
- * @param row Which waypoint representation to modify
- * @param index Which data type to modify (FlightDataModel::pathPlanDataEnum)
- * @param value The new value
- * @return True if succeeded, otherwise false
- */
-bool FlightDataModel::setColumnByIndex(pathPlanData *row, const int index, const QVariant value)
-{
-    switch(index)
-    {
-    case WPDESCRITPTION:
-        row->wpDescritption=value.toString();
-        return true;
-    case LATPOSITION:
-        row->latPosition=value.toDouble();
-        return true;
-    case LNGPOSITION:
-        row->lngPosition=value.toDouble();
-        return true;
-    case NED_NORTH:
-        return false;
-    case NED_EAST:
-        return false;
-    case NED_DOWN:
-        return false;
-    case ALTITUDE:
-        row->altitude=value.toDouble();
-        return true;
-    case VELOCITY:
-        row->velocity=value.toFloat();
-        return true;
-    case MODE:
-        row->mode=value.toInt();
-        return true;
-    case MODE_PARAMS:
-        row->mode_params=value.toFloat();
-        return true;
-    default:
-        return false;
-    }
-    return false;
-}
-
-/**
  * @brief FlightDataModel::headerData Get the names of the columns
  * @param section
  * @param orientation
@@ -230,13 +186,71 @@ bool FlightDataModel::setData(const QModelIndex &index, const QVariant &value, i
 {
     if (index.isValid() && role == Qt::EditRole)
     {
-        int columnIndex = index.column();
-        int rowIndex = index.row();
+        pathPlanData *row = dataStorage.at(index.row());
 
-        pathPlanData *myRow = dataStorage.at(rowIndex);
-        setColumnByIndex(myRow,columnIndex,value);
+        struct FlightDataModel::NED NED;
+        QModelIndex otherIndex;
+        switch(index.column())
+        {
+        case WPDESCRITPTION:
+            row->wpDescritption=value.toString();
+            break;
+        case LATPOSITION:
+            row->latPosition=value.toDouble();
+            // Indicate this also changed the north
+            otherIndex = this->index(index.row(), FlightDataModel::NED_NORTH);
+            emit dataChanged(otherIndex,otherIndex);
+            break;
+        case LNGPOSITION:
+            row->lngPosition=value.toDouble();
+            // Indicate this also changed the east
+            otherIndex = this->index(index.row(), FlightDataModel::NED_EAST);
+            emit dataChanged(otherIndex,otherIndex);
+            break;
+        case ALTITUDE:
+            row->altitude=value.toDouble();
+            // Indicate this also changed the NED down
+            otherIndex = this->index(index.row(), FlightDataModel::NED_DOWN);
+            emit dataChanged(otherIndex,otherIndex);
+            break;
+        case NED_NORTH:
+            NED = getNED(index.row());
+            NED.North = value.toDouble();
+            setNED(index.row(), NED);
+            // Indicate this also changed the latitude
+            otherIndex = this->index(index.row(), FlightDataModel::LATPOSITION);
+            emit dataChanged(otherIndex,otherIndex);
+            break;
+        case NED_EAST:
+            NED = getNED(index.row());
+            NED.East = value.toDouble();
+            setNED(index.row(), NED);
+            // Indicate this also changed the longitude
+            otherIndex = this->index(index.row(), FlightDataModel::LNGPOSITION);
+            emit dataChanged(otherIndex,otherIndex);
+            break;
+        case NED_DOWN:
+            NED = getNED(index.row());
+            NED.Down = value.toDouble();
+            setNED(index.row(), NED);
+            // Indicate this also changed the altitude
+            otherIndex = this->index(index.row(), FlightDataModel::ALTITUDE);
+            emit dataChanged(otherIndex,otherIndex);
+            break;
+        case VELOCITY:
+            row->velocity=value.toFloat();
+            break;
+        case MODE:
+            row->mode=value.toInt();
+            break;
+        case MODE_PARAMS:
+            row->mode_params=value.toFloat();
+            break;
+        default:
+            return false;
+        }
+
         emit dataChanged(index,index);
-
         return true;
     }
     return false;
