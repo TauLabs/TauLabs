@@ -101,7 +101,7 @@ void ModelUavoProxy::modelToObjects()
         waypoint.Position[Waypoint::POSITION_NORTH] = NED[0];
         waypoint.Position[Waypoint::POSITION_EAST]  = NED[1];
         waypoint.Position[Waypoint::POSITION_DOWN]  = NED[2];
-        waypoint.Mode = myModel->data(myModel->index(x,FlightDataModel::MODE)).toInt();
+        waypoint.Mode = myModel->data(myModel->index(x,FlightDataModel::MODE), Qt::UserRole).toInt();
         waypoint.ModeParameters = myModel->data(myModel->index(x,FlightDataModel::MODE_PARAMS)).toFloat();
 
         if (robustUpdate(waypoint, x))

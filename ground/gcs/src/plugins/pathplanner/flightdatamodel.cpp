@@ -76,21 +76,24 @@ int FlightDataModel::columnCount(const QModelIndex &parent) const
  */
 QVariant FlightDataModel::data(const QModelIndex &index, int role) const
 {
-    if (role == Qt::DisplayRole||role==Qt::EditRole)
+    if (role == Qt::DisplayRole || role==Qt::EditRole || role==Qt::UserRole)
     {
         int rowNumber=index.row();
         int columnNumber=index.column();
         if(rowNumber>dataStorage.length()-1 || rowNumber<0)
             return QVariant::Invalid;
         pathPlanData * myRow=dataStorage.at(rowNumber);
-        QVariant ret;
+
+        // For the case of mode we want the model to normally return the string value
+        // associated with that enum for display purposes.  However in the case of
+        // Qt::UserRole this should fall through and return the numerical value of
+        // the enum
         if (index.column() == (int) FlightDataModel::MODE && role == Qt::DisplayRole) {
             int value = getColumnByIndex(myRow,columnNumber).toInt();
-            ret = QVariant(modeNames.value(value));
-        } else
-            ret = getColumnByIndex(myRow,columnNumber);
+            return QVariant(modeNames.value(value));
+        }
 
-        return ret;
+        return getColumnByIndex(myRow,columnNumber);
     }
     else {
         return QVariant::Invalid;
@@ -277,10 +280,11 @@ bool FlightDataModel::insertRows(int row, int count, const QModelIndex &/*parent
         // If there is a previous waypoint, initialize some of the fields to that value
         if(rowCount() > 0)
         {
-            data->altitude=this->data(this->index(rowCount()-1,ALTITUDE)).toDouble();
-            data->velocity=this->data(this->index(rowCount()-1,VELOCITY)).toFloat();
-            data->mode=this->data(this->index(rowCount()-1,MODE)).toInt();
-            data->mode_params=this->data(this->index(rowCount()-1,MODE_PARAMS)).toFloat();
+            pathPlanData * prevRow = dataStorage.at(rowCount()-1);
+            data->altitude    = prevRow->altitude;
+            data->velocity    = prevRow->velocity;
+            data->mode        = prevRow->mode;
+            data->mode_params = prevRow->mode_params;
         } else {
             data->altitude=0;
             data->velocity=0;
