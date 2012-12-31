@@ -157,26 +157,21 @@ QVariant FlightDataModel::getColumnByIndex(const pathPlanData *row,const int ind
     {
     case WPDESCRITPTION:
         return row->wpDescritption;
-        break;
     case LATPOSITION:
         return row->latPosition;
-        break;
     case LNGPOSITION:
         return row->lngPosition;
-        break;
     case ALTITUDE:
         return row->altitude;
-        break;
     case VELOCITY:
         return row->velocity;
-        break;
     case MODE:
         return row->mode;
-        break;
     case MODE_PARAMS:
         return row->mode_params;
-        break;
     }
+
+    return QVariant::Invalid;
 }
 
 /**
@@ -199,33 +194,25 @@ QVariant FlightDataModel::headerData(int section, Qt::Orientation orientation, i
              {
              case WPDESCRITPTION:
                  return QString("Description");
-                 break;
              case LATPOSITION:
                  return QString("Latitude");
-                 break;
              case LNGPOSITION:
                  return QString("Longitude");
-                 break;
              case ALTITUDE:
                  return QString("Altitude");
-                 break;
              case VELOCITY:
                  return QString("Velocity");
-                 break;
              case MODE:
                  return QString("Mode");
-                 break;
              case MODE_PARAMS:
                  return QString("Mode parameters");
-                 break;
              default:
-                 return QString();
-                 break;
+                 return QVariant::Invalid;
              }
          }
      }
-     else
-       return QAbstractTableModel::headerData(section, orientation, role);
+
+     return QAbstractTableModel::headerData(section, orientation, role);
 }
 
 /**
@@ -288,13 +275,15 @@ bool FlightDataModel::insertRows(int row, int count, const QModelIndex &/*parent
         } else {
             data->altitude=0;
             data->velocity=0;
-            data->mode=1;
+            data->mode = Waypoint::MODE_FLYVECTOR;
             data->mode_params=0;
         }
         dataStorage.insert(row,data);
     }
 
     endInsertRows();
+
+    return true;
 }
 
 /**
@@ -314,6 +303,8 @@ bool FlightDataModel::removeRows(int row, int count, const QModelIndex &/*parent
         dataStorage.removeAt(row);
     }
     endRemoveRows();
+
+    return true;
 }
 
 /**
