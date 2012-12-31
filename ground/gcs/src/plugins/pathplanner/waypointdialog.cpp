@@ -66,6 +66,11 @@ WaypointDialog::WaypointDialog(QWidget *parent, QAbstractItemModel *model,QItemS
 
     mapper->setCurrentIndex(selection->currentIndex().row());
 
+
+    // This means whenever the model changes we show those changes.  Since the update is on
+    // auto submit changes are still permitted.
+    connect(model, SIGNAL(dataChanged(QModelIndex,QModelIndex)), mapper, SLOT(revert()));
+
     connect(itemSelection,SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),this,SLOT(currentRowChanged(QModelIndex,QModelIndex)));
 }
 
