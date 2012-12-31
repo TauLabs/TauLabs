@@ -69,7 +69,7 @@ int FlightDataModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
-    return LASTCOLUMN-1;
+    return LASTCOLUMN;
 }
 
 /**
@@ -83,7 +83,7 @@ QVariant FlightDataModel::data(const QModelIndex &index, int role) const
     if (role == Qt::DisplayRole || role==Qt::EditRole || role==Qt::UserRole)
     {
 
-        if(index.row() > dataStorage.length()-1 || index.row() < 0)
+        if(!index.isValid() || index.row() > dataStorage.length()-1)
             return QVariant::Invalid;
 
         pathPlanData * row=dataStorage.at(index.row());
@@ -93,7 +93,7 @@ QVariant FlightDataModel::data(const QModelIndex &index, int role) const
         // Qt::UserRole this should fall through and return the numerical value of
         // the enum
         if (index.column() == (int) FlightDataModel::MODE && role == Qt::DisplayRole) {
-            return QVariant(row->mode);
+            return modeNames.value(row->mode);
         }
 
         struct FlightDataModel::NED NED;
@@ -122,6 +122,8 @@ QVariant FlightDataModel::data(const QModelIndex &index, int role) const
             return row->mode;
         case MODE_PARAMS:
             return row->mode_params;
+        case LOCKED:
+            return row->locked;
         }
     }
 
@@ -166,6 +168,8 @@ QVariant FlightDataModel::headerData(int section, Qt::Orientation orientation, i
                  return QString("Mode");
              case MODE_PARAMS:
                  return QString("Mode parameters");
+             case LOCKED:
+                 return QString("Locked");
              default:
                  return QVariant::Invalid;
              }
@@ -187,6 +191,10 @@ bool FlightDataModel::setData(const QModelIndex &index, const QVariant &value, i
     if (index.isValid() && role == Qt::EditRole)
     {
         pathPlanData *row = dataStorage.at(index.row());
+
+        // Do not allow changing any values except locked when the column is locked
+        if (row->locked && index.column() != (int) FlightDataModel::LOCKED)
+            return false;
 
         struct FlightDataModel::NED NED;
         QModelIndex otherIndex;
@@ -246,6 +254,9 @@ bool FlightDataModel::setData(const QModelIndex &index, const QVariant &value, i
         case MODE_PARAMS:
             row->mode_params=value.toFloat();
             break;
+        case LOCKED:
+            row->locked = value.toBool();
+            break;
         default:
             return false;
         }
@@ -260,9 +271,19 @@ bool FlightDataModel::setData(const QModelIndex &index, const QVariant &value, i
  * @brief FlightDataModel::flags Tell QT MVC which flags are supported for items
  * @return That the item is selectable, editable and enabled
  */
-Qt::ItemFlags FlightDataModel::flags(const QModelIndex & /*index*/) const
+Qt::ItemFlags FlightDataModel::flags(const QModelIndex & index) const
 {
-    return Qt::ItemIsSelectable |  Qt::ItemIsEditable | Qt::ItemIsEnabled ;
+    // Locked is always editable
+    if (index.column() == (int) FlightDataModel::LOCKED)
+        return Qt::ItemIsSelectable |  Qt::ItemIsEditable | Qt::ItemIsEnabled;
+
+    // Suppress editable flag if row is locked
+    pathPlanData *row = dataStorage.at(index.row());
+    if (row->locked)
+        return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+
+    return Qt::ItemIsSelectable |  Qt::ItemIsEditable | Qt::ItemIsEnabled;
+
 }
 
 /**
@@ -290,11 +311,13 @@ bool FlightDataModel::insertRows(int row, int count, const QModelIndex &/*parent
             data->velocity    = prevRow->velocity;
             data->mode        = prevRow->mode;
             data->mode_params = prevRow->mode_params;
+            data->locked      = prevRow->locked;
         } else {
-            data->altitude=0;
-            data->velocity=0;
-            data->mode = Waypoint::MODE_FLYVECTOR;
-            data->mode_params=0;
+            data->altitude    = 0;
+            data->velocity    = 0;
+            data->mode        = Waypoint::MODE_FLYVECTOR;
+            data->mode_params = 0;
+            data->locked      = false;
         }
         dataStorage.insert(row,data);
     }
@@ -384,6 +407,11 @@ bool FlightDataModel::writeToFile(QString fileName)
         field.setAttribute("value",obj->mode_params);
         field.setAttribute("name","mode_params");
         waypoint.appendChild(field);
+
+        field=doc.createElement("field");
+        field.setAttribute("value",obj->locked);
+        field.setAttribute("name","is_locked");
+        waypoint.appendChild(field);
     }
     file.write(doc.toString().toAscii());
     file.close();
@@ -449,6 +477,8 @@ void FlightDataModel::readFromFile(QString fileName)
                         data->mode=field.attribute("value").toInt();
                     else if(field.attribute("name")=="mode_params")
                         data->mode_params=field.attribute("value").toFloat();
+                    else if(field.attribute("name")=="is_locked")
+                        data->locked=field.attribute("value").toInt();
                 }
                 fieldNode=fieldNode.nextSibling();
             }
@@ -494,7 +524,6 @@ struct FlightDataModel::NED FlightDataModel::getNED(int index) const
 {
     double f_NED[3];
     double homeLLA[3];
-    qDebug() << "Getting index " << index;
     pathPlanData * row = dataStorage.at(index);
     double LLA[3] = {row->latPosition, row->lngPosition, row->altitude};
 

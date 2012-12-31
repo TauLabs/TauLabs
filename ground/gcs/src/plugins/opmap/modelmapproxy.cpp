@@ -295,6 +295,10 @@ void ModelMapProxy::dataChanged(const QModelIndex &topLeft, const QModelIndex &b
                 // Make sure to update radius of arcs
                 refreshOverlays();
                 break;
+            case FlightDataModel::LOCKED:
+                index=model->index(x,FlightDataModel::LOCKED);
+                item->setFlag(QGraphicsItem::ItemIsMovable,!index.data(Qt::DisplayRole).toBool());
+                break;
             }
         }
     }

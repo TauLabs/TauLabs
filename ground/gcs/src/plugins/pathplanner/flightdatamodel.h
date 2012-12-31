@@ -40,6 +40,7 @@ struct pathPlanData
     float velocity;
     int mode;
     float mode_params;
+    bool locked;
 };
 
 class PATHPLANNER_EXPORT FlightDataModel : public QAbstractTableModel
@@ -52,7 +53,8 @@ public:
     {
         LATPOSITION,LNGPOSITION,ALTITUDE,
         NED_NORTH, NED_EAST, NED_DOWN,
-        VELOCITY,MODE,MODE_PARAMS,WPDESCRITPTION,LASTCOLUMN
+        VELOCITY,MODE,MODE_PARAMS,LOCKED, WPDESCRITPTION,
+        LASTCOLUMN
     };
 
     FlightDataModel(QObject *parent);

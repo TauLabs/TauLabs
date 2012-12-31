@@ -63,9 +63,17 @@ WaypointDialog::WaypointDialog(QWidget *parent, QAbstractItemModel *model,QItemS
     mapper->addMapping(ui->doubleSpinBoxVelocity,FlightDataModel::VELOCITY);
     mapper->addMapping(ui->cbMode,FlightDataModel::MODE);
     mapper->addMapping(ui->dsb_modeParams,FlightDataModel::MODE_PARAMS);
+    mapper->addMapping(ui->checkBoxLocked,FlightDataModel::LOCKED);
+
+    // Make sure the model catches updates from the check box
+    //connect(ui->checkBoxLocked,SIGNAL(toggled(bool)),mapper,SLOT(submit()));
+    connect(ui->checkBoxLocked, SIGNAL(stateChanged(int)), mapper, SLOT(submit()));
 
     mapper->setCurrentIndex(selection->currentIndex().row());
 
+    // Support locking the controls when locked
+    enableEditWidgets();
+    connect(model,SIGNAL(dataChanged(QModelIndex,QModelIndex)),this,SLOT(enableEditWidgets()));
 
     // This means whenever the model changes we show those changes.  Since the update is on
     // auto submit changes are still permitted.
@@ -171,4 +179,31 @@ void WaypointDialog::currentRowChanged(QModelIndex current, QModelIndex previous
     Q_UNUSED(previous);
 
     mapper->setCurrentIndex(current.row());
+}
+
+/**
+ * @brief WaypointDialog::enableEditWidgets Enable or disable the controls based
+ * on the lock control
+ * @param[in] value True if they should be enabled, false to disable
+ */
+void WaypointDialog::enableEditWidgets()
+{
+    int row = itemSelection->currentIndex().row();
+    bool value = model->data(model->index(row,FlightDataModel::LOCKED)).toBool();
+    QWidget * w;
+    foreach(QWidget * obj,this->findChildren<QWidget *>())
+    {
+        w=qobject_cast<QComboBox*>(obj);
+        if(w)
+            w->setEnabled(!value);
+        w=qobject_cast<QLineEdit*>(obj);
+        if(w)
+            w->setEnabled(!value);
+        w=qobject_cast<QDoubleSpinBox*>(obj);
+        if(w)
+            w->setEnabled(!value);
+        w=qobject_cast<QSpinBox*>(obj);
+        if(w)
+            w->setEnabled(!value);
+    }
 }

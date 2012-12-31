@@ -73,6 +73,8 @@ private slots:
     //! When the selector changes pass the update to the data mapper
     void currentRowChanged(QModelIndex,QModelIndex);
 
+    //! Enable or disable the controls based on the lock control
+    void enableEditWidgets();
 private:
 
     //! The handle to the UI
@@ -86,6 +88,9 @@ private:
 
     //! Indicates which waypoint is selected for editing
     QItemSelectionModel * itemSelection;
+
+    //! Store the current waypoint index
+    int index;
 };
 
 #endif /* WAYPOINT_DIALOG_H */
