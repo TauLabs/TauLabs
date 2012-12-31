@@ -26,15 +26,19 @@
  */
 
 #include "flightdatamodel.h"
+#include "utils/coordinateconversions.h"
+#include "homelocation.h"
 #include <QFile>
 #include <QDomDocument>
 #include <QMessageBox>
 #include <waypoint.h>
 
+#include <QDebug>
+
 QMap<int,QString> FlightDataModel::modeNames = QMap<int, QString>();
 
 //! Initialize an empty flight plan
-FlightDataModel::FlightDataModel(QObject *parent):QAbstractTableModel(parent)
+FlightDataModel::FlightDataModel(QObject *parent) : QAbstractTableModel(parent)
 {
     // This could be auto populated from the waypoint object but nothing else in the
     // model depends on run time properties and we might want to exclude certain modes
@@ -78,26 +82,50 @@ QVariant FlightDataModel::data(const QModelIndex &index, int role) const
 {
     if (role == Qt::DisplayRole || role==Qt::EditRole || role==Qt::UserRole)
     {
-        int rowNumber=index.row();
-        int columnNumber=index.column();
-        if(rowNumber>dataStorage.length()-1 || rowNumber<0)
+
+        if(index.row() > dataStorage.length()-1 || index.row() < 0)
             return QVariant::Invalid;
-        pathPlanData * myRow=dataStorage.at(rowNumber);
+
+        pathPlanData * row=dataStorage.at(index.row());
 
         // For the case of mode we want the model to normally return the string value
         // associated with that enum for display purposes.  However in the case of
         // Qt::UserRole this should fall through and return the numerical value of
         // the enum
         if (index.column() == (int) FlightDataModel::MODE && role == Qt::DisplayRole) {
-            int value = getColumnByIndex(myRow,columnNumber).toInt();
-            return QVariant(modeNames.value(value));
+            return QVariant(row->mode);
         }
 
-        return getColumnByIndex(myRow,columnNumber);
+        struct FlightDataModel::NED NED;
+        switch(index.column())
+        {
+        case WPDESCRITPTION:
+            return row->wpDescritption;
+        case LATPOSITION:
+            return row->latPosition;
+        case LNGPOSITION:
+            return row->lngPosition;
+        case ALTITUDE:
+            return row->altitude;
+        case NED_NORTH:
+            NED = getNED(index.row());
+            return NED.North;
+        case NED_EAST:
+            NED = getNED(index.row());
+            return NED.East;
+        case NED_DOWN:
+            NED = getNED(index.row());
+            return NED.Down;
+        case VELOCITY:
+            return row->velocity;
+        case MODE:
+            return row->mode;
+        case MODE_PARAMS:
+            return row->mode_params;
+        }
     }
-    else {
-        return QVariant::Invalid;
-    }
+
+    return QVariant::Invalid;
 }
 
 /**
@@ -114,64 +142,34 @@ bool FlightDataModel::setColumnByIndex(pathPlanData *row, const int index, const
     case WPDESCRITPTION:
         row->wpDescritption=value.toString();
         return true;
-        break;
     case LATPOSITION:
         row->latPosition=value.toDouble();
         return true;
-        break;
     case LNGPOSITION:
         row->lngPosition=value.toDouble();
         return true;
-        break;
+    case NED_NORTH:
+        return false;
+    case NED_EAST:
+        return false;
+    case NED_DOWN:
+        return false;
     case ALTITUDE:
         row->altitude=value.toDouble();
         return true;
-        break;
     case VELOCITY:
         row->velocity=value.toFloat();
         return true;
-        break;
     case MODE:
         row->mode=value.toInt();
         return true;
-        break;
     case MODE_PARAMS:
         row->mode_params=value.toFloat();
         return true;
-        break;
     default:
         return false;
     }
     return false;
-}
-
-/**
- * @brief FlightDataModel::getColumnByIndex Get the data from a particular column
- * @param row The pathPlanData structure to use
- * @param index Which column (FlightDataModel::pathPlanDataEnum)
- * @return The data
- */
-QVariant FlightDataModel::getColumnByIndex(const pathPlanData *row,const int index) const
-{
-    switch(index)
-    {
-    case WPDESCRITPTION:
-        return row->wpDescritption;
-    case LATPOSITION:
-        return row->latPosition;
-    case LNGPOSITION:
-        return row->lngPosition;
-    case ALTITUDE:
-        return row->altitude;
-    case VELOCITY:
-        return row->velocity;
-    case MODE:
-        return row->mode;
-    case MODE_PARAMS:
-        return row->mode_params;
-    }
-
-    return QVariant::Invalid;
 }
 
 /**
@@ -200,6 +198,12 @@ QVariant FlightDataModel::headerData(int section, Qt::Orientation orientation, i
                  return QString("Longitude");
              case ALTITUDE:
                  return QString("Altitude");
+             case NED_NORTH:
+                 return QString("Relative North");
+             case NED_EAST:
+                 return QString("Relative East");
+             case NED_DOWN:
+                 return QString("Relative Down");
              case VELOCITY:
                  return QString("Velocity");
              case MODE:
@@ -442,3 +446,74 @@ void FlightDataModel::readFromFile(QString fileName)
     }
 }
 
+
+/**
+ * @brief ModelUavoProxy::getHomeLocation Take care of scaling the home location UAVO to
+ * degrees (lat lon) and meters altitude
+ * @param [out] home A 3 element double array to store resul in
+ * @return True if successful, false otherwise
+ */
+bool FlightDataModel::getHomeLocation(double *homeLLA) const
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager * objMngr = pm->getObject<UAVObjectManager>();
+    Q_ASSERT(objMngr);
+
+    HomeLocation *home = HomeLocation::GetInstance(objMngr);
+    if (home == NULL)
+        return false;
+
+    HomeLocation::DataFields homeLocation = home->getData();
+    homeLLA[0] = homeLocation.Latitude / 1e7;
+    homeLLA[1] = homeLocation.Longitude / 1e7;
+    homeLLA[2] = homeLocation.Altitude;
+
+    return true;
+}
+
+/**
+ * @brief FlightDataModel::getNED Get hte NEW representation of a waypoint
+ * @param row Which waypoint to get
+ * @return The NED structure
+ */
+struct FlightDataModel::NED FlightDataModel::getNED(int index) const
+{
+    double f_NED[3];
+    double homeLLA[3];
+    qDebug() << "Getting index " << index;
+    pathPlanData * row = dataStorage.at(index);
+    double LLA[3] = {row->latPosition, row->lngPosition, row->altitude};
+
+    getHomeLocation(homeLLA);
+    Utils::CoordinateConversions().LLA2NED_HomeLLA(LLA, homeLLA, f_NED);
+
+    struct NED NED;
+    NED.North = f_NED[0];
+    NED.East = f_NED[1];
+    NED.Down = f_NED[2];
+
+    return NED;
+}
+
+/**
+ * @brief FlightDataModel::setNED Set a waypoint by the NED representation
+ * @param row Which waypoint to set
+ * @param NED The NED structure
+ * @return True if successful
+ */
+bool FlightDataModel::setNED(int index, struct FlightDataModel::NED NED)
+{
+    double homeLLA[3];
+    double LLA[3];
+    pathPlanData * row = dataStorage.at(index);
+    double f_NED[3] = {NED.North, NED.East, NED.Down};
+
+    getHomeLocation(homeLLA);
+    Utils::CoordinateConversions().NED2LLA_HomeLLA(homeLLA, f_NED, LLA);
+
+    row->latPosition = LLA[0];
+    row->lngPosition = LLA[1];
+    row->altitude = LLA[2];
+
+    return true;
+}
