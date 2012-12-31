@@ -65,7 +65,7 @@ int FlightDataModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
-    return 12;
+    return LASTCOLUMN-1;
 }
 
 /**
@@ -114,22 +114,6 @@ bool FlightDataModel::setColumnByIndex(pathPlanData *row, const int index, const
         row->lngPosition=value.toDouble();
         return true;
         break;
-    case DISRELATIVE:
-        row->disRelative=value.toDouble();
-        return true;
-        break;
-    case BEARELATIVE:
-        row->beaRelative=value.toDouble();
-        return true;
-        break;
-    case ALTITUDERELATIVE:
-        row->altitudeRelative=value.toFloat();
-        return true;
-        break;
-    case ISRELATIVE:
-        row->isRelative=value.toBool();
-        return true;
-        break;
     case ALTITUDE:
         row->altitude=value.toDouble();
         return true;
@@ -144,10 +128,6 @@ bool FlightDataModel::setColumnByIndex(pathPlanData *row, const int index, const
         break;
     case MODE_PARAMS:
         row->mode_params=value.toFloat();
-        return true;
-        break;
-    case LOCKED:
-        row->locked=value.toBool();
         return true;
         break;
     default:
@@ -175,18 +155,6 @@ QVariant FlightDataModel::getColumnByIndex(const pathPlanData *row,const int ind
     case LNGPOSITION:
         return row->lngPosition;
         break;
-    case DISRELATIVE:
-        return row->disRelative;
-        break;
-    case BEARELATIVE:
-        return row->beaRelative;
-        break;
-    case ALTITUDERELATIVE:
-        return row->altitudeRelative;
-        break;
-    case ISRELATIVE:
-        return row->isRelative;
-        break;
     case ALTITUDE:
         return row->altitude;
         break;
@@ -199,8 +167,6 @@ QVariant FlightDataModel::getColumnByIndex(const pathPlanData *row,const int ind
     case MODE_PARAMS:
         return row->mode_params;
         break;
-    case LOCKED:
-        return row->locked;
     }
 }
 
@@ -231,18 +197,6 @@ QVariant FlightDataModel::headerData(int section, Qt::Orientation orientation, i
              case LNGPOSITION:
                  return QString("Longitude");
                  break;
-             case DISRELATIVE:
-                 return QString("Distance to home");
-                 break;
-             case BEARELATIVE:
-                 return QString("Bearing from home");
-                 break;
-             case ALTITUDERELATIVE:
-                 return QString("Altitude above home");
-                 break;
-             case ISRELATIVE:
-                 return QString("Relative to home");
-                 break;
              case ALTITUDE:
                  return QString("Altitude");
                  break;
@@ -254,9 +208,6 @@ QVariant FlightDataModel::headerData(int section, Qt::Orientation orientation, i
                  break;
              case MODE_PARAMS:
                  return QString("Mode parameters");
-                 break;
-             case LOCKED:
-                 return QString("Locked");
                  break;
              default:
                  return QString();
@@ -316,27 +267,19 @@ bool FlightDataModel::insertRows(int row, int count, const QModelIndex &/*parent
         data=new pathPlanData;
         data->latPosition=0;
         data->lngPosition=0;
-        data->disRelative=0;
-        data->beaRelative=0;
 
         // If there is a previous waypoint, initialize some of the fields to that value
         if(rowCount() > 0)
         {
             data->altitude=this->data(this->index(rowCount()-1,ALTITUDE)).toDouble();
-            data->altitudeRelative=this->data(this->index(rowCount()-1,ALTITUDERELATIVE)).toDouble();
-            data->isRelative=this->data(this->index(rowCount()-1,ISRELATIVE)).toBool();
             data->velocity=this->data(this->index(rowCount()-1,VELOCITY)).toFloat();
             data->mode=this->data(this->index(rowCount()-1,MODE)).toInt();
             data->mode_params=this->data(this->index(rowCount()-1,MODE_PARAMS)).toFloat();
-            data->locked=this->data(this->index(rowCount()-1,LOCKED)).toFloat();
         } else {
-            data->altitudeRelative=0;
             data->altitude=0;
-            data->isRelative=true;
             data->velocity=0;
             data->mode=1;
             data->mode_params=0;
-            data->locked=false;
         }
         dataStorage.insert(row,data);
     }
@@ -404,26 +347,6 @@ bool FlightDataModel::writeToFile(QString fileName)
         waypoint.appendChild(field);
 
         field=doc.createElement("field");
-        field.setAttribute("value",obj->disRelative);
-        field.setAttribute("name","distance_to_home");
-        waypoint.appendChild(field);
-
-        field=doc.createElement("field");
-        field.setAttribute("value",obj->beaRelative);
-        field.setAttribute("name","bearing_from_home");
-        waypoint.appendChild(field);
-
-        field=doc.createElement("field");
-        field.setAttribute("value",obj->altitudeRelative);
-        field.setAttribute("name","altitude_above_home");
-        waypoint.appendChild(field);
-
-        field=doc.createElement("field");
-        field.setAttribute("value",obj->isRelative);
-        field.setAttribute("name","is_relative_to_home");
-        waypoint.appendChild(field);
-
-        field=doc.createElement("field");
         field.setAttribute("value",obj->altitude);
         field.setAttribute("name","altitude");
         waypoint.appendChild(field);
@@ -442,12 +365,6 @@ bool FlightDataModel::writeToFile(QString fileName)
         field.setAttribute("value",obj->mode_params);
         field.setAttribute("name","mode_params");
         waypoint.appendChild(field);
-
-        field=doc.createElement("field");
-        field.setAttribute("value",obj->locked);
-        field.setAttribute("name","is_locked");
-        waypoint.appendChild(field);
-
     }
     file.write(doc.toString().toAscii());
     file.close();
@@ -505,14 +422,6 @@ void FlightDataModel::readFromFile(QString fileName)
                         data->latPosition=field.attribute("value").toDouble();
                     else if(field.attribute("name")=="longitude")
                         data->lngPosition=field.attribute("value").toDouble();
-                    else if(field.attribute("name")=="distance_to_home")
-                        data->disRelative=field.attribute("value").toDouble();
-                    else if(field.attribute("name")=="bearing_from_home")
-                        data->beaRelative=field.attribute("value").toDouble();
-                    else if(field.attribute("name")=="altitude_above_home")
-                        data->altitudeRelative=field.attribute("value").toFloat();
-                    else if(field.attribute("name")=="is_relative_to_home")
-                        data->isRelative=field.attribute("value").toInt();
                     else if(field.attribute("name")=="altitude")
                         data->altitude=field.attribute("value").toDouble();
                     else if(field.attribute("name")=="velocity")
@@ -521,9 +430,6 @@ void FlightDataModel::readFromFile(QString fileName)
                         data->mode=field.attribute("value").toInt();
                     else if(field.attribute("name")=="mode_params")
                         data->mode_params=field.attribute("value").toFloat();
-                    else if(field.attribute("name")=="is_locked")
-                        data->locked=field.attribute("value").toInt();
-
                 }
                 fieldNode=fieldNode.nextSibling();
             }

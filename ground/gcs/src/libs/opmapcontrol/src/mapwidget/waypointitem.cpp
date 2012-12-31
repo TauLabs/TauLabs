@@ -55,7 +55,6 @@ WayPointItem::WayPointItem(const internals::PointLatLng &coord,int const& altitu
         if(myHome)
         {
             map->Projection()->offSetFromLatLngs(myHome->Coord(),coord,relativeCoord.distance,relativeCoord.bearing);
-            relativeCoord.altitudeRelative=Altitude()-myHome->Altitude();
             connect(myHome,SIGNAL(homePositionChanged(internals::PointLatLng,float)),this,SLOT(onHomePositionChanged(internals::PointLatLng,float)));
         }
         connect(this,SIGNAL(waypointdoubleclick(WayPointItem*)),map,SIGNAL(wpdoubleclicked(WayPointItem*)));
@@ -66,9 +65,6 @@ WayPointItem::WayPointItem(const internals::PointLatLng &coord,int const& altitu
 
 WayPointItem::WayPointItem(MapGraphicItem *map, bool magicwaypoint):reached(false),description(""),shownumber(true),isDragging(false),altitude(0),map(map)
 {
-    relativeCoord.bearing=0;
-    relativeCoord.distance=0;
-    relativeCoord.altitudeRelative=0;
     myType=relative;
     if(magicwaypoint)
     {
@@ -102,7 +98,6 @@ WayPointItem::WayPointItem(MapGraphicItem *map, bool magicwaypoint):reached(fals
     if(myHome)
     {
         coord=map->Projection()->translate(myHome->Coord(),relativeCoord.distance,relativeCoord.bearing);
-        SetAltitude(myHome->Altitude()+relativeCoord.altitudeRelative);
         connect(myHome,SIGNAL(homePositionChanged(internals::PointLatLng,float)),this,SLOT(onHomePositionChanged(internals::PointLatLng,float)));
     }
     connect(this,SIGNAL(waypointdoubleclick(WayPointItem*)),map,SIGNAL(wpdoubleclicked(WayPointItem*)));
@@ -135,7 +130,6 @@ WayPointItem::WayPointItem(MapGraphicItem *map, bool magicwaypoint):reached(fals
         if(myHome)
         {
             map->Projection()->offSetFromLatLngs(myHome->Coord(),coord,relativeCoord.distance,relativeCoord.bearing);
-            relativeCoord.altitudeRelative=Altitude()-myHome->Altitude();
             connect(myHome,SIGNAL(homePositionChanged(internals::PointLatLng,float)),this,SLOT(onHomePositionChanged(internals::PointLatLng,float)));
         }
         connect(this,SIGNAL(waypointdoubleclick(WayPointItem*)),map,SIGNAL(wpdoubleclicked(WayPointItem*)));
@@ -158,7 +152,6 @@ WayPointItem::WayPointItem(MapGraphicItem *map, bool magicwaypoint):reached(fals
         {
             connect(myHome,SIGNAL(homePositionChanged(internals::PointLatLng,float)),this,SLOT(onHomePositionChanged(internals::PointLatLng,float)));
             coord=map->Projection()->translate(myHome->Coord(),relativeCoord.distance,relativeCoord.bearing);
-            SetAltitude(myHome->Altitude()+relativeCoord.altitudeRelative);
         }
         myType=relative;
         text=0;
@@ -276,10 +269,6 @@ WayPointItem::WayPointItem(MapGraphicItem *map, bool magicwaypoint):reached(fals
         if(altitude==value)
             return;
         altitude=value;
-        if(myHome)
-        {
-            relativeCoord.altitudeRelative=altitude-myHome->Altitude();
-        }
         RefreshToolTip();
         emit WPValuesChanged(this);
         this->update();
@@ -291,7 +280,6 @@ WayPointItem::WayPointItem(MapGraphicItem *map, bool magicwaypoint):reached(fals
         if(myHome)
         {
             SetCoord(map->Projection()->translate(myHome->Coord(),relativeCoord.distance,relativeCoord.bearing));
-            SetAltitude(myHome->Altitude()+relativeCoord.altitudeRelative);
         }
         RefreshPos();
         RefreshToolTip();
@@ -402,7 +390,6 @@ WayPointItem::WayPointItem(MapGraphicItem *map, bool magicwaypoint):reached(fals
         if(myType==relative)
         {
             coord=map->Projection()->translate(homepos,relativeCoord.distance,relativeCoord.bearing);
-            SetAltitude(relativeCoord.altitudeRelative+homeAltitude);
             emit WPValuesChanged(this);
             RefreshPos();
             RefreshToolTip();
@@ -413,7 +400,6 @@ WayPointItem::WayPointItem(MapGraphicItem *map, bool magicwaypoint):reached(fals
             if(myHome)
             {
                 map->Projection()->offSetFromLatLngs(myHome->Coord(),coord,relativeCoord.distance,relativeCoord.bearing);
-                relativeCoord.altitudeRelative=Altitude()-homeAltitude;
             }
             emit WPValuesChanged(this);
         }
@@ -468,7 +454,7 @@ WayPointItem::WayPointItem(MapGraphicItem *map, bool magicwaypoint):reached(fals
             type_str="Absolute";
         QString coord_str = " " + QString::number(coord.Lat(), 'f', 6) + "   " + QString::number(coord.Lng(), 'f', 6);
         QString relativeCoord_str = " Distance:" + QString::number(relativeCoord.distance) + " Bearing:" + QString::number(relativeCoord.bearing*180/M_PI);
-        QString relativeAltitude_str=QString::number(relativeCoord.altitudeRelative);
+        QString relativeAltitude_str="";
         if(Number()!=-1)
             setToolTip(QString("WayPoint Number:%1\nDescription:%2\nCoordinate:%4\nFrom Home:%5\nRelative altitude:%6\nAltitude:%7\nType:%8\n%9").arg(QString::number(numberAdjusted())).arg(description).arg(coord_str).arg(relativeCoord_str).arg(relativeAltitude_str).arg(QString::number(altitude)).arg(type_str).arg(myCustomString));
         else

@@ -36,15 +36,10 @@ struct pathPlanData
     QString wpDescritption;
     double latPosition;
     double lngPosition;
-    double disRelative;
-    double beaRelative;
-    double altitudeRelative;
-    bool isRelative;
     double altitude;
     float velocity;
     int mode;
     float mode_params;
-    bool locked;
 };
 
 class PATHPLANNER_EXPORT FlightDataModel : public QAbstractTableModel
@@ -55,8 +50,7 @@ public:
     //! The column names
     enum pathPlanDataEnum
     {
-        LATPOSITION,LNGPOSITION,DISRELATIVE,BEARELATIVE,ALTITUDERELATIVE,ISRELATIVE,ALTITUDE,
-            VELOCITY,MODE,MODE_PARAMS,WPDESCRITPTION,LOCKED
+        LATPOSITION,LNGPOSITION,ALTITUDE,VELOCITY,MODE,MODE_PARAMS,WPDESCRITPTION,LASTCOLUMN
     };
     FlightDataModel(QObject *parent);
     int rowCount(const QModelIndex &parent = QModelIndex()) const ;

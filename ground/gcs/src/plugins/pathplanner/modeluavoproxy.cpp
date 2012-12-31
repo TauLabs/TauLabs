@@ -66,8 +66,6 @@ void ModelUavoProxy::modelToObjects()
     for(int x=0;x<myModel->rowCount();++x)
     {
         Waypoint *wp = NULL;
-        double distance;
-        double bearing;
         double altitude;
 
         // Get the number of existing waypoints
@@ -89,13 +87,9 @@ void ModelUavoProxy::modelToObjects()
         Waypoint::DataFields waypoint = wp->getData();
 
         // Fetch the data from the internal model
-        distance=myModel->data(myModel->index(x,FlightDataModel::DISRELATIVE)).toDouble();
-        bearing=myModel->data(myModel->index(x,FlightDataModel::BEARELATIVE)).toDouble();
-        altitude=myModel->data(myModel->index(x,FlightDataModel::ALTITUDERELATIVE)).toFloat();
         waypoint.Velocity=myModel->data(myModel->index(x,FlightDataModel::VELOCITY)).toFloat();
-
-        waypoint.Position[Waypoint::POSITION_NORTH]=distance*cos(bearing/180*M_PI);
-        waypoint.Position[Waypoint::POSITION_EAST]=distance*sin(bearing/180*M_PI);
+        waypoint.Position[Waypoint::POSITION_NORTH]=0;
+        waypoint.Position[Waypoint::POSITION_EAST]=0;
         waypoint.Position[Waypoint::POSITION_DOWN]=(-1.0f)*altitude;
         waypoint.Mode = myModel->data(myModel->index(x,FlightDataModel::MODE)).toInt();
         waypoint.ModeParameters = myModel->data(myModel->index(x,FlightDataModel::MODE_PARAMS)).toFloat();
@@ -211,11 +205,6 @@ void ModelUavoProxy::objectsToModel()
         myModel->setData(myModel->index(x,FlightDataModel::LATPOSITION), LLA[0]);
         myModel->setData(myModel->index(x,FlightDataModel::LNGPOSITION), LLA[1]);
         myModel->setData(myModel->index(x,FlightDataModel::VELOCITY), wpfields.Velocity);
-        myModel->setData(myModel->index(x,FlightDataModel::DISRELATIVE), distance);
-        myModel->setData(myModel->index(x,FlightDataModel::BEARELATIVE), bearing);
-        myModel->setData(myModel->index(x,FlightDataModel::ALTITUDERELATIVE),
-                         (-1.0f)*wpfields.Position[Waypoint::POSITION_DOWN]);
-        myModel->setData(myModel->index(x,FlightDataModel::ISRELATIVE), true);
         myModel->setData(myModel->index(x,FlightDataModel::MODE), wpfields.Mode);
         myModel->setData(myModel->index(x,FlightDataModel::MODE_PARAMS), wpfields.ModeParameters);
     }
