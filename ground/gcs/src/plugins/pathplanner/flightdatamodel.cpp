@@ -83,7 +83,13 @@ QVariant FlightDataModel::data(const QModelIndex &index, int role) const
         if(rowNumber>dataStorage.length()-1 || rowNumber<0)
             return QVariant::Invalid;
         pathPlanData * myRow=dataStorage.at(rowNumber);
-        QVariant ret=getColumnByIndex(myRow,columnNumber);
+        QVariant ret;
+        if (index.column() == (int) FlightDataModel::MODE && role == Qt::DisplayRole) {
+            int value = getColumnByIndex(myRow,columnNumber).toInt();
+            ret = QVariant(modeNames.value(value));
+        } else
+            ret = getColumnByIndex(myRow,columnNumber);
+
         return ret;
     }
     else {
