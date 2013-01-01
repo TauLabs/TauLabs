@@ -63,8 +63,6 @@ OPTMODULES += FixedWingPathFollower
 OPTMODULES += CameraStab
 OPTMODULES += OveroSync/simulated
 OPTMODULES += Autotune
-OPTMODULES += TxPID
-OPTMODULES += GPS
 
 # To run simulation instead of connect to SITL
 MODULES += Sensors/simulated
@@ -162,6 +160,7 @@ SRC += $(wildcard ${PYMITEVM}/*.c)
 SRC += $(wildcard ${PYMITEPLAT}/*.c)
 
 ## MODULES
+SRC += ${foreach MOD, ${OPTMODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
 SRC += ${foreach MOD, ${MODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
 SRC += ${OUTDIR}/InitMods.c
 ## OPENPILOT CORE:
@@ -264,8 +263,7 @@ EXTRAINCDIRS  += $(APPLIBDIR)
 EXTRAINCDIRS  += $(RTOSSRCDIR)/portable/GCC/Posix
 EXTRAINCDIRS  += $(PYMITEINC)
 
-EXTRAINCDIRS += ${foreach MOD, ${MODULES}, $(OPMODULEDIR)/${MOD}/inc} ${OPMODULEDIR}/System/inc
-
+EXTRAINCDIRS += ${foreach MOD, ${OPTMODULES} ${MODULES} ${PYMODULES}, $(OPMODULEDIR)/${MOD}/inc} ${OPMODULEDIR}/System/inc
 
 # List any extra directories to look for library files here.
 # Also add directories where the linker should search for
@@ -474,7 +472,7 @@ gencode: ${OUTDIR}/InitMods.c ${OUTDIR}/pmlib_img.c ${OUTDIR}/pmlib_nat.c ${OUTD
 
 getmodname = $(firstword $(subst /, ,$1))
 
-MOD_GEN := $(foreach MOD,$(MODULES),$(call getmodname,$(MOD)))
+MOD_GEN := $(foreach MOD,$(MODULES) $(OPTMODULES),$(call getmodname,$(MOD)))
 
 # Generate code for module initialization
 ${OUTDIR}/InitMods.c: Makefile.osx

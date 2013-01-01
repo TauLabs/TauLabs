@@ -95,14 +95,12 @@ MODULES += Attitude/revolution
 MODULES += FirmwareIAP
 MODULES += Telemetry
 
-OPTMODULES += GPS
 OPTMODULES += AltitudeHold 
 OPTMODULES += VtolPathFollower 
 OPTMODULES += FixedWingPathFollower
 OPTMODULES += CameraStab
 OPTMODULES += OveroSync/simulated
 OPTMODULES += Autotune
-OPTMODULES += TxPID
 OPTMODULES += Battery
 
 # To run simulation instead of connect to SITL

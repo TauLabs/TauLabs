@@ -102,7 +102,7 @@ include $(PIOSCOMMONLIB)/msheap/library.mk
 # use file-extension c for "c-only"-files
 
 ## MODULES
-SRC += ${foreach MOD, ${MODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
+SRC += ${foreach MOD, ${MODULES} ${OPTMODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
 ## OPENPILOT CORE:
 SRC += ${OPMODULEDIR}/System/systemmod.c
 SRC += $(OPSYSTEM)/quanton.c
@@ -177,7 +177,7 @@ EXTRAINCDIRS += $(BOOTINC)
 EXTRAINCDIRS += $(HWDEFSINC)
 EXTRAINCDIRS += $(DEBUG_CM3_DIR_INC)
 
-EXTRAINCDIRS += ${foreach MOD, ${MODULES}, $(OPMODULEDIR)/${MOD}/inc} ${OPMODULEDIR}/System/inc
+EXTRAINCDIRS += ${foreach MOD, ${MODULES} ${OPTMODULES}, $(OPMODULEDIR)/${MOD}/inc} ${OPMODULEDIR}/System/inc
 
 # List any extra directories to look for library files here.
 # Also add directories where the linker should search for
