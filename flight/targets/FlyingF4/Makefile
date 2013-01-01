@@ -50,18 +50,22 @@ MODULES += Attitude/revolution
 MODULES += Actuator
 MODULES += ManualControl
 MODULES += Stabilization
-#MODULES += Battery
 MODULES += Altitude/revolution
-MODULES += GPS
 MODULES += FirmwareIAP
 #MODULES += Airspeed/revolution
-#MODULES += AltitudeHold VtolPathFollower PathPlanner TxPID
-#MODULES += FixedWingPathFollower
-MODULES += Autotune
-MODULES += CameraStab
-#MODULES += OveroSync
-#MODULES += Radio
+MODULES += PathPlanner
 MODULES += Telemetry
+
+OPTMODULES += GPS
+OPTMODULES += AltitudeHold 
+OPTMODULES += VtolPathFollower 
+OPTMODULES += FixedWingPathFollower
+OPTMODULES += CameraStab
+OPTMODULES += OveroSync
+OPTMODULES += Autotune
+OPTMODULES += TxPID
+OPTMODULES += Battery
+OPTMODULES += ComUsbBridge
 
 
 # Paths

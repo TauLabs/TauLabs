@@ -52,11 +52,19 @@ REMOVE_CMD ?= rm
 FLASH_TOOL = OPENOCD
 
 # List of modules to include
-MODULES +=  Actuator ManualControl Stabilization 
-MODULES += AltitudeHold VtolPathFollower PathPlanner
+MODULES += Actuator ManualControl Stabilization 
+MODULES += PathPlanner
 MODULES += Attitude/revolution
 MODULES += FirmwareIAP
-#MODULES += OveroSync/simulated
+
+OPTMODULES += AltitudeHold 
+OPTMODULES += VtolPathFollower 
+OPTMODULES += FixedWingPathFollower
+OPTMODULES += CameraStab
+OPTMODULES += OveroSync/simulated
+OPTMODULES += Autotune
+OPTMODULES += TxPID
+OPTMODULES += GPS
 
 # To run simulation instead of connect to SITL
 MODULES += Sensors/simulated
@@ -310,6 +318,11 @@ endif
 
 # Make sure the build knows we're building a sim version
 CDEFS += -DSIM_OSX
+
+# Declare all non-optional modules as built-in to force inclusion
+get_mod_name = $(shell echo $(1) | sed "s/\/[^\/]*$///")
+BUILTIN_DEFS := ${foreach MOD, ${MODULES}, -DMODULE_$(call get_mod_name, $(MOD))_BUILTIN }
+CDEFS += ${BUILTIN_DEFS}
 
 # Compiler flag to set the C Standard level.
 # c89   - "ANSI" C

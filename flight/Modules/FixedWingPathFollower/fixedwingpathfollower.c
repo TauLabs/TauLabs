@@ -117,6 +117,9 @@ int32_t FixedWingPathFollowerStart()
  */
 int32_t FixedWingPathFollowerInitialize()
 {
+#ifdef MODULE_FixedWingPathFollower_BUILTIN
+	module_enabled = true;
+#else
 	ModuleSettingsInitialize();
 	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
 	ModuleSettingsStateGet(module_state);
@@ -125,6 +128,7 @@ int32_t FixedWingPathFollowerInitialize()
 	} else {
 		module_enabled = false;
 	}
+#endif
 
 	if (module_enabled) {
 		FixedWingPathFollowerSettingsInitialize();

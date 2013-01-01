@@ -47,18 +47,26 @@ FLASH_TOOL = OPENOCD
 # List of modules to include
 MODULES = Sensors
 MODULES += Attitude/revolution 
-MODULES += ManualControl Stabilization Actuator
-MODULES += Battery
+MODULES += ManualControl
+MODULES += Stabilization
+MODULES += Actuator
 MODULES += Altitude/revolution
-MODULES += GPS FirmwareIAP
+MODULES += FirmwareIAP
 #MODULES += Airspeed/revolution
-MODULES += AltitudeHold VtolPathFollower PathPlanner TxPID
-#MODULES += FixedWingPathFollower
-MODULES += Autotune
-MODULES += CameraStab
+MODULES += PathPlanner
 MODULES += Telemetry
 PYMODULES = 
 #FlightPlan
+
+OPTMODULES += GPS
+OPTMODULES += AltitudeHold 
+OPTMODULES += VtolPathFollower 
+OPTMODULES += FixedWingPathFollower
+OPTMODULES += CameraStab
+OPTMODULES += OveroSync/simulated
+OPTMODULES += Autotune
+OPTMODULES += TxPID
+OPTMODULES += Battery
 
 # Paths
 OPSYSTEM = ./System
@@ -304,6 +312,11 @@ endif
 ifeq ($(ENABLE_DEBUG_CONSOLE), YES)
 CDEFS += -DPIOS_INCLUDE_DEBUG_CONSOLE
 endif
+
+# Declare all non-optional modules as built-in to force inclusion
+get_mod_name = $(shell echo $(1) | sed "s/\/[^\/]*$///")
+BUILTIN_DEFS := ${foreach MOD, ${MODULES}, -DMODULE_$(call get_mod_name, $(MOD))_BUILTIN }
+CDEFS += ${BUILTIN_DEFS}
 
 # Place project-specific -D and/or -U options for
 # Assembler with preprocessor here.
