@@ -74,6 +74,8 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/hwrevolution.h \
     $$UAVOBJECT_SYNTHETICS/hwrevomini.h \
     $$UAVOBJECT_SYNTHETICS/i2cstats.h \
+    $$UAVOBJECT_SYNTHETICS/i2cvm.h \
+    $$UAVOBJECT_SYNTHETICS/i2cvmuserprogram.h \
     $$UAVOBJECT_SYNTHETICS/inertialsensorsettings.h \
     $$UAVOBJECT_SYNTHETICS/inssettings.h \
     $$UAVOBJECT_SYNTHETICS/magbias.h \
@@ -167,6 +169,8 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/hwrevolution.cpp \
     $$UAVOBJECT_SYNTHETICS/hwrevomini.cpp \
     $$UAVOBJECT_SYNTHETICS/i2cstats.cpp \
+    $$UAVOBJECT_SYNTHETICS/i2cvm.cpp \
+    $$UAVOBJECT_SYNTHETICS/i2cvmuserprogram.cpp \
     $$UAVOBJECT_SYNTHETICS/inertialsensorsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/inssettings.cpp \
     $$UAVOBJECT_SYNTHETICS/magbias.cpp \

@@ -16,6 +16,7 @@
 				<elementname>Radio</elementname>
 				<elementname>TxPID</elementname>
 				<elementname>VtolPathFollower</elementname>
+				<elementname>GenericI2CSensor</elementname>
 			</elementnames>
 		</field>
 
@@ -29,6 +30,16 @@
 
 		<!-- ComUsbBridge Module Settings -->
 		<field name="ComUsbBridgeSpeed" units="bps" type="enum" elements="1" options="2400,4800,9600,19200,38400,57600,115200" defaultvalue="57600"/>
+
+		<!-- GenericI2CSensor Module Settings -->
+		<field name="I2CVMProgramSelect" units="" type="enum" elements="1" defaultvalue="None">
+			<options>
+				<option>None</option>
+				<option>OPBaroAltimeter</option>
+				<option>User</option>
+				<option>BasicTest</option>
+			</options>
+		</field>
 
 		<access gcs="readwrite" flight="readonly"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
