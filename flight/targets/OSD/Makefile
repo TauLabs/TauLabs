@@ -240,6 +240,7 @@ ASRCARM =
 
 # List any extra directories to look for include files here.
 #    Each directory must be seperated by a space.
+EXTRAINCDIRS  += $(SHAREDAPIDIR)
 EXTRAINCDIRS  +=  $(OPSYSTEM)
 EXTRAINCDIRS  += $(OPSYSTEMINC)
 EXTRAINCDIRS  += $(OPUAVTALK)

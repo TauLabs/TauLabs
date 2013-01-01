@@ -512,6 +512,7 @@ OPUAVOBJ      := $(ROOT_DIR)/flight/targets/UAVObjects
 OPUAVTALK     := $(ROOT_DIR)/flight/targets/UAVTalk
 HWDEFS        := $(ROOT_DIR)/flight/targets/board_hw_defs
 DOXYGENDIR    := $(ROOT_DIR)/flight/Doc/Doxygen
+SHAREDAPIDIR  := $(ROOT_DIR)/shared/api
 OPUAVSYNTHDIR := $(BUILD_DIR)/uavobject-synthetics/flight
 
 # $(1) = Canonical board name all in lower case (e.g. coptercontrol)
@@ -584,6 +585,7 @@ fw_$(1)_%: uavobjects_flight
 		HWDEFSINC=$(HWDEFS)/$(1) \
 		DOXYGENDIR=$(DOXYGENDIR) \
 		OPUAVSYNTHDIR=$(OPUAVSYNTHDIR) \
+		SHAREDAPIDIR=$(SHAREDAPIDIR) \
 		\
 		$$*
 
