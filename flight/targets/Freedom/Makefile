@@ -65,7 +65,7 @@ OPTMODULES += OveroSync
 OPTMODULES += Autotune
 OPTMODULES += TxPID
 OPTMODULES += Battery
-OPTMODULES += ComUsbBridge
+#OPTMODULES += ComUsbBridge
 
 PYMODULES = 
 #FlightPlan

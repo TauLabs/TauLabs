@@ -61,11 +61,10 @@ OPTMODULES += AltitudeHold
 OPTMODULES += VtolPathFollower 
 OPTMODULES += FixedWingPathFollower
 OPTMODULES += CameraStab
-OPTMODULES += OveroSync
 OPTMODULES += Autotune
 OPTMODULES += TxPID
-OPTMODULES += Battery
-OPTMODULES += ComUsbBridge
+#OPTMODULES += Battery
+#OPTMODULES += ComUsbBridge
 
 
 # Paths
