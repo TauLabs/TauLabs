@@ -307,6 +307,10 @@ static void path_curve(float * start_point,
 	// Compute current radius from the center
 	cradius = sqrtf(  diff_north * diff_north   +   diff_east * diff_east );
 
+	// Compute error in terms of meters from the curve (the distance projected
+	// normal onto the path i.e. cross-track distance)
+	status->error = radius - cradius;
+
 	if (cradius < 1e-6) {
 		// cradius is zero, just fly somewhere and make sure correction is still a normal
 		status->fractional_progress = 1;

@@ -52,11 +52,17 @@ REMOVE_CMD ?= rm
 FLASH_TOOL = OPENOCD
 
 # List of modules to include
-MODULES +=  Actuator ManualControl Stabilization 
-MODULES += AltitudeHold VtolPathFollower PathPlanner
+MODULES += Actuator ManualControl Stabilization 
+MODULES += PathPlanner
 MODULES += Attitude/revolution
 MODULES += FirmwareIAP
-#MODULES += OveroSync/simulated
+
+OPTMODULES += AltitudeHold 
+OPTMODULES += VtolPathFollower 
+OPTMODULES += FixedWingPathFollower
+OPTMODULES += CameraStab
+OPTMODULES += OveroSync/simulated
+OPTMODULES += Autotune
 
 # To run simulation instead of connect to SITL
 MODULES += Sensors/simulated
@@ -154,6 +160,7 @@ SRC += $(wildcard ${PYMITEVM}/*.c)
 SRC += $(wildcard ${PYMITEPLAT}/*.c)
 
 ## MODULES
+SRC += ${foreach MOD, ${OPTMODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
 SRC += ${foreach MOD, ${MODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
 SRC += ${OUTDIR}/InitMods.c
 ## OPENPILOT CORE:
@@ -256,8 +263,7 @@ EXTRAINCDIRS  += $(APPLIBDIR)
 EXTRAINCDIRS  += $(RTOSSRCDIR)/portable/GCC/Posix
 EXTRAINCDIRS  += $(PYMITEINC)
 
-EXTRAINCDIRS += ${foreach MOD, ${MODULES}, $(OPMODULEDIR)/${MOD}/inc} ${OPMODULEDIR}/System/inc
-
+EXTRAINCDIRS += ${foreach MOD, ${OPTMODULES} ${MODULES} ${PYMODULES}, $(OPMODULEDIR)/${MOD}/inc} ${OPMODULEDIR}/System/inc
 
 # List any extra directories to look for library files here.
 # Also add directories where the linker should search for
@@ -310,6 +316,11 @@ endif
 
 # Make sure the build knows we're building a sim version
 CDEFS += -DSIM_OSX
+
+# Declare all non-optional modules as built-in to force inclusion
+get_mod_name = $(shell echo $(1) | sed "s/\/[^\/]*$///")
+BUILTIN_DEFS := ${foreach MOD, ${MODULES}, -DMODULE_$(call get_mod_name, $(MOD))_BUILTIN }
+CDEFS += ${BUILTIN_DEFS}
 
 # Compiler flag to set the C Standard level.
 # c89   - "ANSI" C
@@ -461,7 +472,7 @@ gencode: ${OUTDIR}/InitMods.c ${OUTDIR}/pmlib_img.c ${OUTDIR}/pmlib_nat.c ${OUTD
 
 getmodname = $(firstword $(subst /, ,$1))
 
-MOD_GEN := $(foreach MOD,$(MODULES),$(call getmodname,$(MOD)))
+MOD_GEN := $(foreach MOD,$(MODULES) $(OPTMODULES),$(call getmodname,$(MOD)))
 
 # Generate code for module initialization
 ${OUTDIR}/InitMods.c: Makefile.osx
