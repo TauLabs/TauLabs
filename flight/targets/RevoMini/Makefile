@@ -47,18 +47,25 @@ FLASH_TOOL = OPENOCD
 # List of modules to include
 MODULES = Sensors
 MODULES += Attitude/revolution 
-MODULES += ManualControl Stabilization Actuator
-MODULES += Battery
+MODULES += ManualControl
+MODULES += Stabilization
+MODULES += Actuator
 MODULES += Altitude/revolution
-MODULES += GPS FirmwareIAP
+MODULES += FirmwareIAP
 #MODULES += Airspeed/revolution
-MODULES += AltitudeHold VtolPathFollower PathPlanner TxPID
-#MODULES += FixedWingPathFollower
-MODULES += Autotune
-MODULES += CameraStab
+MODULES += PathPlanner
 MODULES += Telemetry
 PYMODULES = 
 #FlightPlan
+
+OPTMODULES += GPS
+OPTMODULES += AltitudeHold 
+OPTMODULES += VtolPathFollower 
+OPTMODULES += FixedWingPathFollower
+OPTMODULES += CameraStab
+OPTMODULES += Autotune
+OPTMODULES += TxPID
+OPTMODULES += Battery
 
 # Paths
 OPSYSTEM = ./System
@@ -115,7 +122,7 @@ PYSRC += ${foreach MOD, ${PYMODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
 SRC += $(PYSRC)
 
 ## MODULES
-SRC += ${foreach MOD, ${MODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
+SRC += ${foreach MOD, ${MODULES} ${OPTMODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
 ## OPENPILOT CORE:
 SRC += ${OPMODULEDIR}/System/systemmod.c
 SRC += $(OPSYSTEM)/revolution.c
@@ -237,7 +244,7 @@ ${OUTDIR}/pmlib_img.c ${OUTDIR}/pmlib_nat.c ${OUTDIR}/pmlibusr_img.c ${OUTDIR}/p
 	@$(PYTHON) $(PYMITETOOLS)/pmImgCreator.py -f $(PYMITEPLAT)/pmfeatures.py -c -s --memspace=flash -o $(OUTDIR)/pmlib_img.c --native-file=$(OUTDIR)/pmlib_nat.c $(PYMITELIB)/list.py $(PYMITELIB)/dict.py $(PYMITELIB)/__bi.py $(PYMITELIB)/sys.py $(PYMITELIB)/string.py $(wildcard $(FLIGHTPLANLIB)/*.py)
 	@$(PYTHON) $(PYMITETOOLS)/pmGenPmFeatures.py $(PYMITEPLAT)/pmfeatures.py > $(OUTDIR)/pmfeatures.h
 	@$(PYTHON) $(PYMITETOOLS)/pmImgCreator.py -f $(PYMITEPLAT)/pmfeatures.py -c -u -o $(OUTDIR)/pmlibusr_img.c --native-file=$(OUTDIR)/pmlibusr_nat.c $(FLIGHTPLANS)/test.py
-EXTRAINCDIRS += ${foreach MOD, ${MODULES} ${PYMODULES}, $(OPMODULEDIR)/${MOD}/inc} ${OPMODULEDIR}/System/inc
+EXTRAINCDIRS += ${foreach MOD, ${MODULES} ${OPTMODULES} ${PYMODULES}, $(OPMODULEDIR)/${MOD}/inc} ${OPMODULEDIR}/System/inc
 
 # List any extra directories to look for library files here.
 # Also add directories where the linker should search for
@@ -304,6 +311,11 @@ endif
 ifeq ($(ENABLE_DEBUG_CONSOLE), YES)
 CDEFS += -DPIOS_INCLUDE_DEBUG_CONSOLE
 endif
+
+# Declare all non-optional modules as built-in to force inclusion
+get_mod_name = $(shell echo $(1) | sed "s/\/[^\/]*$///")
+BUILTIN_DEFS := ${foreach MOD, ${MODULES}, -DMODULE_$(call get_mod_name, $(MOD))_BUILTIN }
+CDEFS += ${BUILTIN_DEFS}
 
 # Place project-specific -D and/or -U options for
 # Assembler with preprocessor here.
