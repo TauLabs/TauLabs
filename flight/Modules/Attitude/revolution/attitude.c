@@ -161,7 +161,7 @@ int32_t AttitudeStart(void)
 	// Create the queues for the sensors
 	gyroQueue = xQueueCreate(1, sizeof(UAVObjEvent));
 	accelQueue = xQueueCreate(1, sizeof(UAVObjEvent));
-	magQueue = xQueueCreate(1, sizeof(UAVObjEvent));
+	magQueue = xQueueCreate(2, sizeof(UAVObjEvent));
 	baroQueue = xQueueCreate(1, sizeof(UAVObjEvent));
 	gpsQueue = xQueueCreate(1, sizeof(UAVObjEvent));
 	gpsVelQueue = xQueueCreate(1, sizeof(UAVObjEvent));
