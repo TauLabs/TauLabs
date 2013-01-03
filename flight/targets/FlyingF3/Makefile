@@ -62,7 +62,7 @@ MODULES += CameraStab
 #MODULES += OveroSync
 #MODULES += Radio
 MODULES += Telemetry
-MODULES += ComUsbBridge
+#MODULES += ComUsbBridge
 
 
 # Paths
