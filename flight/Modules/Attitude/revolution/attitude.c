@@ -335,7 +335,7 @@ static int32_t updateAttitudeComplementary(bool first_run)
 	} else if (init == 0) {
 		// Reload settings (all the rates)
 		AttitudeSettingsGet(&attitudeSettings);
-		magKp = 0.01f;
+		magKp = attitudeSettings.MagKp;
 		init = 1;
 	}
 
@@ -401,7 +401,8 @@ static int32_t updateAttitudeComplementary(bool first_run)
 		MagnetometerGet(&mag);
 
 		// If the mag is producing bad data don't use it (normally bad calibration)
-		if  (mag.x == mag.x && mag.y == mag.y && mag.z == mag.z) {
+		if  (mag.x == mag.x && mag.y == mag.y && mag.z == mag.z &&
+			 homeLocation.Set == HOMELOCATION_SET_TRUE) {
 			rot_mult(Rbe, homeLocation.Be, brot, false);
 
 			float mag_len = sqrtf(mag.x * mag.x + mag.y * mag.y + mag.z * mag.z);
