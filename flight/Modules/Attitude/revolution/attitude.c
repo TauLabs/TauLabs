@@ -292,7 +292,7 @@ static int32_t updateAttitudeComplementary(bool first_run)
 	FlightStatusData flightStatus;
 	FlightStatusGet(&flightStatus);
 	if(first_run) {
-#if defined(PIOS_INCLUDE_HMC5883)
+#if defined(PIOS_INCLUDE_HMC5883) || defined(PIOS_INCLUDE_LSM303)
 		// To initialize we need a valid mag reading
 		if ( xQueueReceive(magQueue, &ev, 0 / portTICK_RATE_MS) != pdTRUE )
 			return -1;
