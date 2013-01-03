@@ -55,14 +55,10 @@ enum pios_ms5611_dev_magic {
 	PIOS_MS5611_DEV_MAGIC = 0xefba8e1d,
 };
 
-typedef struct {
-	uint16_t C[6];
-} MS5611CalibDataTypeDef;
-
-typedef enum {
-	PressureConv,
-	TemperatureConv
-} ConversionTypeTypeDef;
+enum conversion_type {
+	PRESSURE_CONV,
+	TEMPERATURE_CONV
+};
 
 struct ms5611_dev {
 	const struct pios_ms5611_cfg * cfg;
@@ -70,10 +66,10 @@ struct ms5611_dev {
 	xTaskHandle task;
 	xQueueHandle queue;
 
-	int64_t Pressure;
-	int64_t Temperature;
-	MS5611CalibDataTypeDef CalibData;
-	ConversionTypeTypeDef CurrentRead;
+	int64_t pressure_unscaled;
+	int64_t temperature_unscaled;
+	uint16_t calibration[6];
+	enum conversion_type current_conversion_type;
 	uint32_t oversampling;
 	int32_t ms5611_read_flag;
 	enum pios_ms5611_dev_magic magic;
@@ -140,7 +136,7 @@ int32_t PIOS_MS5611_Init(const struct pios_ms5611_cfg *cfg, int32_t i2c_device)
 	/* Calibration parameters */
 	for (int i = 0; i < 6; i++) {
 		PIOS_MS5611_Read(MS5611_CALIB_ADDR + i * 2, data, 2);
-		dev->CalibData.C[i] = (data[0] << 8) | data[1];
+		dev->calibration[i] = (data[0] << 8) | data[1];
 	}
 
 	portBASE_TYPE result = xTaskCreate(PIOS_MS5611_Task, (const signed char *)"pios_ms5611",
@@ -167,21 +163,21 @@ xQueueHandle PIOS_MS5611_GetQueue()
 * \param[in] PresOrTemp BMP085_PRES_ADDR or BMP085_TEMP_ADDR
 * \return 0 for success, -1 for failure (conversion completed and not read)
 */
-int32_t PIOS_MS5611_StartADC(ConversionTypeTypeDef Type)
+int32_t PIOS_MS5611_StartADC(enum conversion_type Type)
 {
 	if (PIOS_MS5611_Validate(dev) != 0)
 		return -1;
 
 	/* Start the conversion */
-	if (Type == TemperatureConv) {
+	if (Type == TEMPERATURE_CONV) {
 		while (PIOS_MS5611_WriteCommand(MS5611_TEMP_ADDR + dev->oversampling) != 0)
 			continue;
-	} else if (Type == PressureConv) {
+	} else if (Type == PRESSURE_CONV) {
 		while (PIOS_MS5611_WriteCommand(MS5611_PRES_ADDR + dev->oversampling) != 0)
 			continue;
 	}
 
-	dev->CurrentRead = Type;
+	dev->current_conversion_type = Type;
 	
 	return 0;
 }
@@ -220,40 +216,40 @@ int32_t PIOS_MS5611_ReadADC(void)
 	if (PIOS_MS5611_Validate(dev) != 0)
 		return -1;
 
-	uint8_t Data[3];
-	Data[0] = 0;
-	Data[1] = 0;
-	Data[2] = 0;
+	uint8_t data[3];
+	data[0] = 0;
+	data[1] = 0;
+	data[2] = 0;
 	
-	static int64_t deltaTemp;
+	static int64_t delta_temp;
 
 	/* Read and store the 16bit result */
-	if (dev->CurrentRead == TemperatureConv) {
-		uint32_t RawTemperature;
+	if (dev->current_conversion_type == TEMPERATURE_CONV) {
+		uint32_t raw_temperature;
 		/* Read the temperature conversion */
-		if (PIOS_MS5611_Read(MS5611_ADC_READ, Data, 3) != 0)
+		if (PIOS_MS5611_Read(MS5611_ADC_READ, data, 3) != 0)
 			return -1;
 
-		RawTemperature = (Data[0] << 16) | (Data[1] << 8) | Data[2];
+		raw_temperature = (data[0] << 16) | (data[1] << 8) | data[2];
 		
-		deltaTemp = ((int32_t) RawTemperature) - (dev->CalibData.C[4] << 8);
-		dev->Temperature = 2000l + ((deltaTemp * dev->CalibData.C[5]) >> 23);
+		delta_temp = ((int32_t) raw_temperature) - (dev->calibration[4] << 8);
+		dev->temperature_unscaled = 2000l + ((delta_temp * dev->calibration[5]) >> 23);
 
 	} else {	
-		int64_t Offset;
-		int64_t Sens;
-		uint32_t RawPressure;
+		int64_t offset;
+		int64_t sens;
+		uint32_t raw_pressure;
 
 		/* Read the pressure conversion */
-		if (PIOS_MS5611_Read(MS5611_ADC_READ, Data, 3) != 0)
+		if (PIOS_MS5611_Read(MS5611_ADC_READ, data, 3) != 0)
 			return -1;
-		RawPressure = ((Data[0] << 16) | (Data[1] << 8) | Data[2]);
+		raw_pressure = ((data[0] << 16) | (data[1] << 8) | data[2]);
 		
-		Offset = (((int64_t) dev->CalibData.C[1]) << 16) + ((((int64_t) dev->CalibData.C[3]) * deltaTemp) >> 7);
-		Sens = ((int64_t) dev->CalibData.C[0]) << 15;
-		Sens = Sens + ((((int64_t) dev->CalibData.C[2]) * deltaTemp) >> 8);
+		offset = (((int64_t) dev->calibration[1]) << 16) + ((((int64_t) dev->calibration[3]) * delta_temp) >> 7);
+		sens = ((int64_t) dev->calibration[0]) << 15;
+		sens = sens + ((((int64_t) dev->calibration[2]) * delta_temp) >> 8);
 		
-		dev->Pressure = (((((int64_t) RawPressure) * Sens) >> 21) - Offset) >> 15; 
+		dev->pressure_unscaled = (((((int64_t) raw_pressure) * sens) >> 21) - offset) >> 15; 
 	}
 	return 0;
 }
@@ -266,7 +262,7 @@ float PIOS_MS5611_GetTemperature(void)
 	if (PIOS_MS5611_Validate(dev) != 0)
 		return -1;
 
-	return ((float) dev->Temperature) / 100.0f;
+	return ((float) dev->temperature_unscaled) / 100.0f;
 }
 
 /**
@@ -277,7 +273,7 @@ float PIOS_MS5611_GetPressure(void)
 	if (PIOS_MS5611_Validate(dev) != 0)
 		return -1;
 
-	return ((float) dev->Pressure) / 1000.0f;
+	return ((float) dev->pressure_unscaled) / 1000.0f;
 }
 
 /**
@@ -353,18 +349,18 @@ int32_t PIOS_MS5611_Test()
 	// TODO: Is there a better way to test this than just checking that pressure/temperature has changed?
 	int32_t cur_value = 0;
 
-	cur_value = dev->Temperature;
-	PIOS_MS5611_StartADC(TemperatureConv);
+	cur_value = dev->temperature_unscaled;
+	PIOS_MS5611_StartADC(TEMPERATURE_CONV);
 	PIOS_DELAY_WaitmS(5);
 	PIOS_MS5611_ReadADC();
-	if (cur_value == dev->Temperature)
+	if (cur_value == dev->temperature_unscaled)
 		return -1;
 
-	cur_value = dev->Pressure;
-	PIOS_MS5611_StartADC(PressureConv);
+	cur_value = dev->pressure_unscaled;
+	PIOS_MS5611_StartADC(PRESSURE_CONV);
 	PIOS_DELAY_WaitmS(26);
 	PIOS_MS5611_ReadADC();
-	if (cur_value == dev->Pressure)
+	if (cur_value == dev->pressure_unscaled)
 		return -1;
 	
 	return 0;
@@ -389,7 +385,7 @@ void PIOS_MS5611_Task(void *parameters)
 		{
 #endif
 		// Update the temperature data
-		PIOS_MS5611_StartADC(TemperatureConv);
+		PIOS_MS5611_StartADC(TEMPERATURE_CONV);
 		vTaskDelay(PIOS_MS5611_GetDelay());
 		PIOS_MS5611_ReadADC();
 			
@@ -399,8 +395,8 @@ void PIOS_MS5611_Task(void *parameters)
 #endif
 		// Compute the altitude from the pressure and temperature and send it out
 		struct pios_ms5611_data data;		
-		data.temperature = PIOS_MS5611_GetTemperature();;
-		data.pressure = PIOS_MS5611_GetPressure();;
+		data.temperature = PIOS_MS5611_GetTemperature();
+		data.pressure = PIOS_MS5611_GetPressure();
 		data.altitude = 44330.0f * (1.0f - powf(data.pressure / MS5611_P0, (1.0f / 5.255f)));
 
 		xQueueSend(dev->queue, (void*)&data, 0);
