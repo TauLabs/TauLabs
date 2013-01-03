@@ -131,6 +131,7 @@ static const struct pios_hmc5883_cfg pios_hmc5883_cfg = {
 #include "pios_ms5611.h"
 static const struct pios_ms5611_cfg pios_ms5611_cfg = {
 	.oversampling = MS5611_OSR_512,
+	.temperature_interleaving = 1,
 };
 #endif /* PIOS_INCLUDE_MS5611 */
 

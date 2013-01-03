@@ -46,6 +46,7 @@
 
 struct pios_ms5611_cfg {
 	uint32_t oversampling;
+	uint32_t temperature_interleaving;
 };
 
 enum pios_ms5611_osr {

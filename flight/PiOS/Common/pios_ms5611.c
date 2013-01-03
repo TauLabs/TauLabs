@@ -71,6 +71,7 @@ struct ms5611_dev {
 	uint16_t calibration[6];
 	enum conversion_type current_conversion_type;
 	uint32_t oversampling;
+	uint32_t temperature_interleaving;
 	int32_t ms5611_read_flag;
 	enum pios_ms5611_dev_magic magic;
 };
@@ -126,6 +127,7 @@ int32_t PIOS_MS5611_Init(const struct pios_ms5611_cfg *cfg, int32_t i2c_device)
 	dev->i2c_id = i2c_device;
 
 	dev->oversampling = cfg->oversampling;
+	dev->temperature_interleaving = (cfg->temperature_interleaving) == 0 ? 1 : cfg->temperature_interleaving;
 	dev->cfg = cfg;	// Store cfg before enabling interrupt
 
 	PIOS_MS5611_WriteCommand(MS5611_RESET);
@@ -368,9 +370,12 @@ int32_t PIOS_MS5611_Test()
 
 void PIOS_MS5611_Task(void *parameters)
 {
-#ifdef PIOS_MS5611_SLOW_TEMP_RATE
-	uint32_t temp_press_interleave_count = PIOS_MS5611_SLOW_TEMP_RATE;
-#endif
+	int32_t temp_press_interleave_count;
+	if (PIOS_MS5611_Validate(dev) != 0)
+		temp_press_interleave_count = 1;
+	else
+		temp_press_interleave_count = dev->temperature_interleaving;
+
 	while (1)
 	{
 		vTaskDelay(PIOS_MS5611_GetDelay() * portTICK_RATE_MS);
@@ -379,20 +384,22 @@ void PIOS_MS5611_Task(void *parameters)
 		if (PIOS_MS5611_Validate(dev) != 0)
 			continue;
 
-#ifdef PIOS_MS5611_SLOW_TEMP_RATE
 		temp_press_interleave_count --;
-		if(temp_press_interleave_count == 0)
+		if(temp_press_interleave_count <= 0)
 		{
-#endif
+			// Update the temperature data
+			PIOS_MS5611_StartADC(TEMPERATURE_CONV);
+			vTaskDelay(PIOS_MS5611_GetDelay());
+			PIOS_MS5611_ReadADC();
+			
+			temp_press_interleave_count = dev->temperature_interleaving;
+		}
+
 		// Update the temperature data
-		PIOS_MS5611_StartADC(TEMPERATURE_CONV);
+		PIOS_MS5611_StartADC(PRESSURE_CONV);
 		vTaskDelay(PIOS_MS5611_GetDelay());
 		PIOS_MS5611_ReadADC();
-			
-#ifdef PIOS_MS5611_SLOW_TEMP_RATE
-			temp_press_interleave_count = PIOS_MS5611_SLOW_TEMP_RATE;
-		}
-#endif
+
 		// Compute the altitude from the pressure and temperature and send it out
 		struct pios_ms5611_data data;		
 		data.temperature = PIOS_MS5611_GetTemperature();
