@@ -268,7 +268,6 @@ static void updatePathVelocity()
 	VelocityActualData velocityActual;
 	VelocityActualGet(&velocityActual);
 
-	// look ahead fixedwingpathfollowerSettings.HeadingFeedForward seconds
 	float cur[3] = {positionActual.North, positionActual.East, positionActual.Down};
 	struct path_status progress;
 
