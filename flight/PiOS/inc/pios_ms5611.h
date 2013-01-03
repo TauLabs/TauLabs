@@ -44,16 +44,6 @@
 #define MS5611_ADC_MSB			0xF6
 #define MS5611_P0			    101.3250f
 
-/* Local Types */
-typedef struct {
-	uint16_t C[6];
-} MS5611CalibDataTypeDef;
-
-typedef enum {
-	PressureConv,
-	TemperatureConv
-} ConversionTypeTypeDef;
-
 struct pios_ms5611_cfg {
 	uint32_t oversampling;
 };
@@ -73,7 +63,7 @@ struct pios_ms5611_data {
 };
 
 /* Public Functions */
-extern void PIOS_MS5611_Init(const struct pios_ms5611_cfg * cfg, int32_t i2c_device);
+extern int32_t PIOS_MS5611_Init(const struct pios_ms5611_cfg * cfg, int32_t i2c_device);
 extern xQueueHandle PIOS_MS5611_GetQueue();
 extern float PIOS_MS5611_GetTemperature(void);
 extern float PIOS_MS5611_GetPressure(void);
