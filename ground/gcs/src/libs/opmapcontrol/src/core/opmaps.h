@@ -83,7 +83,8 @@ namespace core {
         //  PureImageCache ImageCacheLocal;//TODO Criar acesso Get Set
         TileCacheQueue TileDBcacheQueue;
         OPMaps();
-        OPMaps(OPMaps const&){}
+        OPMaps(const OPMaps &)  : MemoryCache(), AllLayersOfType(), UrlFactory() {}
+
         OPMaps& operator=(OPMaps const&){ return *this; }
         static OPMaps* m_pInstance;
         diagnostics diag;

@@ -28,17 +28,19 @@
 #define DEFAULTHWSETTINGSt_H
 
 #include "ui_defaulthwsettings.h"
+#include "hwfieldselector.h"
 #include "../uavobjectwidgetutils/configtaskwidget.h"
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
 #include "uavobject.h"
+#include <QList>
 #include <QtGui/QWidget>
 #include <QTimer>
 #include <QMutex>
 
 class Ui_Widget;
 
-class DefaultHwSettingsWidget : public QWidget
+class DefaultHwSettingsWidget : public ConfigTaskWidget
 {
     Q_OBJECT
 
@@ -47,9 +49,17 @@ public:
     ~DefaultHwSettingsWidget();
 
 private slots:
+    void settingsUpdated(UAVObject*,bool);
 
 private:
+    void updateFields();
     Ui_defaulthwsettings *ui;
+
+    QList<QString> allHwSettings;
+    UAVObject *hwSettingsObject;
+    bool settingSelected;
+
+    QList <HwFieldSelector *> fieldWidgets;
 };
 
 #endif // DEFAULTHWSETTINGSt_H

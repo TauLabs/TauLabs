@@ -284,3 +284,10 @@ plugin_powerlog.subdir = powerlog
 plugin_powerlog.depends = plugin_coreplugin
 plugin_powerlog.depends += plugin_rawhid
 SUBDIRS += plugin_powerlog
+
+plugin_sysalarmsmessaging.subdir = sysalarmsmessaging
+plugin_sysalarmsmessaging.depends = plugin_coreplugin
+plugin_sysalarmsmessaging.depends += plugin_uavobjects
+plugin_sysalarmsmessaging.depends += plugin_uavtalk
+SUBDIRS += plugin_sysalarmsmessaging
+

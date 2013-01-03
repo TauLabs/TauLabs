@@ -26,7 +26,7 @@
  */
 #include "qsspt.h"
 
-qsspt::qsspt(port * info,bool debug):qssp(info,debug),endthread(false),datapending(false),debug(debug)
+qsspt::qsspt(port * info,bool debug):qssp(info,debug),datapending(false),endthread(false),debug(debug)
 {
 }
 

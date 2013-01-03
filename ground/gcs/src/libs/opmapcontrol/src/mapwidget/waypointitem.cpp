@@ -29,7 +29,7 @@
 
 namespace mapcontrol
 {
-WayPointItem::WayPointItem(const internals::PointLatLng &coord,int const& altitude, MapGraphicItem *map,wptype type):coord(coord),reached(false),description(""),shownumber(true),isDragging(false),altitude(altitude),map(map),myType(type)
+WayPointItem::WayPointItem(const internals::PointLatLng &coord,int const& altitude, MapGraphicItem *map,wptype type) :coord(coord),reached(false),description(""),shownumber(true),isDragging(false),altitude(altitude),map(map),myType(type)
     {
         text=0;
         numberI=0;

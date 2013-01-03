@@ -37,7 +37,7 @@
 
 namespace mapcontrol
 {
-class WayPointLine:public QObject,public QGraphicsLineItem
+class WayPointLine : public QObject, public QGraphicsLineItem
 {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)

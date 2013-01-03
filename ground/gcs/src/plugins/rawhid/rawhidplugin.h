@@ -57,8 +57,8 @@ public:
     RawHIDConnection();
     virtual ~RawHIDConnection();
 
-    virtual QList < Core::IConnection::device> availableDevices();
-    virtual QIODevice *openDevice(const device deviceName);
+    virtual QList < Core::IDevice*> availableDevices();
+    virtual QIODevice *openDevice(Core::IDevice *deviceName);
     virtual void closeDevice(const QString &deviceName);
 
     virtual QString connectionName();

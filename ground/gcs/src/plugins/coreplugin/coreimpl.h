@@ -57,6 +57,7 @@ public:
     MessageManager *messageManager() const;
     ConnectionManager *connectionManager() const;
     BoardManager *boardManager() const;
+    GlobalMessaging *globalMessaging() const;
     UAVGadgetInstanceManager *uavGadgetInstanceManager() const;
     VariableManager *variableManager() const;
     ThreadManager *threadManager() const;

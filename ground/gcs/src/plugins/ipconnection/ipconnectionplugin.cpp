@@ -159,22 +159,21 @@ void IPconnectionConnection::onEnumerationChanged()
 
 
 
-QList <Core::IConnection::device> IPconnectionConnection::availableDevices()
+QList<IDevice *> IPconnectionConnection::availableDevices()
 {
-    QList <Core::IConnection::device> list;
-    device d;
+    QList <Core::IDevice*> list;
     if (m_config->HostName().length()>1)
-        d.displayName=(const QString )m_config->HostName();
+        dev.setDisplayName(m_config->HostName());
     else
-        d.displayName="Unconfigured";
-    d.name=(const QString )m_config->HostName();
+        dev.setDisplayName("Unconfigured");
+    dev.setName(m_config->HostName());
     //we only have one "device" as defined by the configuration m_config
-    list.append(d);
+    list.append(&dev);
 
     return list;
 }
 
-QIODevice *IPconnectionConnection::openDevice(const device deviceName)
+QIODevice *IPconnectionConnection::openDevice(Core::IDevice *deviceName)
 {
     Q_UNUSED(deviceName)
 

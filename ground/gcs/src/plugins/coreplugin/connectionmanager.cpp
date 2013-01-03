@@ -30,6 +30,7 @@
 
 #include <aggregation/aggregate.h>
 #include <coreplugin/iconnection.h>
+#include <coreplugin/idevice.h>
 #include <extensionsystem/pluginmanager.h>
 #include "qextserialport/src/qextserialenumerator.h"
 #include "qextserialport/src/qextserialport.h"
@@ -38,6 +39,7 @@
 #include <QHBoxLayout>
 #include <QComboBox>
 #include <QEventLoop>
+#include <alarmsmonitorwidget.h>
 
 namespace Core {
 
@@ -52,9 +54,10 @@ ConnectionManager::ConnectionManager(Internal::MainWindow *mainWindow, QTabWidge
 {
     QHBoxLayout *layout = new QHBoxLayout;
     layout->setSpacing(5);
-    layout->setContentsMargins(5,2,5,2);
+    layout->setContentsMargins(0,0,0,0);
 
     m_monitorWidget = new TelemetryMonitorWidget(this);
+    AlarmsMonitorWidget::getInstance().init(m_monitorWidget->getRenderer(),m_monitorWidget->getBackgroundItem());
     layout->addWidget(m_monitorWidget, Qt::AlignHCenter);
 
     layout->addWidget(new QLabel(tr("Connections:")));
@@ -133,7 +136,7 @@ bool ConnectionManager::connectDevice(DevListItem device)
     m_availableDevList->setEnabled(false);
 
     // tell the monitorwidget we're conneced
-    m_monitorWidget->connect();
+    m_monitorWidget->connected();
 
     return true;
 }
@@ -256,7 +259,7 @@ void ConnectionManager::telemetryConnected()
         reconnectCheck->stop();
 
     //tell the monitor we're connected
-    m_monitorWidget->connect();
+    m_monitorWidget->connected();
 }
 
 /**
@@ -365,7 +368,7 @@ void ConnectionManager::resumePolling()
 void ConnectionManager::updateConnectionList(IConnection *connection)
 {
     // Get the updated list of devices
-    QList <IConnection::device> availableDev = connection->availableDevices();
+    QList <IDevice*> availableDev = connection->availableDevices();
 
     // Go through the list of connections of that type.  If they are not in the
     // available device list then remove them.  If they are connected, then
@@ -385,13 +388,17 @@ void ConnectionManager::updateConnectionList(IConnection *connection)
                 disconnectDevice();
             }
 
+            // We have to delete the IDevice in that DevListItem before getting rid
+            // of the iter itself.
+            delete(iter->device);
+
             iter = m_devList.erase(iter);
         } else
             ++iter;
     }
 
     // Add any back to list that don't exist
-    foreach (IConnection::device dev, availableDev)
+    foreach (IDevice *dev, availableDev)
     {
         bool found = m_devList.contains(DevListItem(connection, dev));
         if (!found) {
@@ -406,7 +413,7 @@ void ConnectionManager::updateConnectionList(IConnection *connection)
 *  @param disp is the name that is displayed in the dropdown menu
 *  @param name is the actual device name
 */
-void ConnectionManager::registerDevice(IConnection *conn, IConnection::device device)
+void ConnectionManager::registerDevice(IConnection *conn, IDevice *device)
 {
     DevListItem d(conn,device);
     m_devList.append(d);

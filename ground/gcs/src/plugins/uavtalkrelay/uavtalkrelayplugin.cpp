@@ -34,7 +34,8 @@
 #include "uavobjectmanager.h"
 static const QString VERSION = "1.0.0";
 
-UavTalkRelayPlugin::UavTalkRelayPlugin():m_IpAddress(""),m_Port(2000),relay(0),m_DefaultRule(UavTalkRelayComon::ReadWrite)
+UavTalkRelayPlugin::UavTalkRelayPlugin() : relay(0), m_IpAddress(""),
+    m_Port(2000), m_DefaultRule(UavTalkRelayComon::ReadWrite)
 {
 }
 
