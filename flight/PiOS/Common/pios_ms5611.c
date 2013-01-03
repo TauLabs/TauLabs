@@ -8,6 +8,7 @@
  *
  * @file       pios_ms5611.c  
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2012.
  * @brief      MS5611 Pressure Sensor Routines
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -29,18 +30,21 @@
  */
 
 /* Project Includes */
-// TODO: Clean this up.  Getting around old constant.
-#define PIOS_MS5611_OVERSAMPLING oversampling
-
 #include "pios.h"
 
 #if defined(PIOS_INCLUDE_MS5611)
+
+/* Private constants */
+#define PIOS_MS5611_OVERSAMPLING oversampling
+#define MS5611_TASK_PRIORITY	(tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
+#define MS5611_TASK_STACK		(512 / 4)
 
 /* Glocal Variables */
 ConversionTypeTypeDef CurrentRead;
 
 /* Local Variables */
 MS5611CalibDataTypeDef CalibData;
+static xTaskHandle TaskHandle;
 
 /* Straight from the datasheet */
 static uint32_t RawTemperature;
@@ -48,8 +52,10 @@ static uint32_t RawPressure;
 static int64_t Pressure;
 static int64_t Temperature;
 
+/* Private methods */
 static int32_t PIOS_MS5611_Read(uint8_t address, uint8_t * buffer, uint8_t len);
 static int32_t PIOS_MS5611_WriteCommand(uint8_t command);
+static void PIOS_MS5611_Task(void *parameters);
 
 // Move into proper driver structure with cfg stored
 static uint32_t oversampling;
@@ -78,6 +84,12 @@ void PIOS_MS5611_Init(const struct pios_ms5611_cfg * cfg, int32_t i2c_device)
 		PIOS_MS5611_Read(MS5611_CALIB_ADDR + i * 2, data, 2);
 		CalibData.C[i] = (data[0] << 8) | data[1];
 	}
+
+	portBASE_TYPE result = xTaskCreate(PIOS_MS5611_Task, (const signed char *)"pios_ms5611",
+						 MS5611_TASK_STACK, NULL, MS5611_TASK_PRIORITY,
+						 &TaskHandle);
+	PIOS_Assert(result == pdPASS);
+
 }
 
 /**
@@ -260,6 +272,15 @@ int32_t PIOS_MS5611_Test()
 	
 	return 0;
 }
+
+void PIOS_MS5611_Task(void *parameters)
+{
+	while (1)
+	{
+		vTaskDelay(PIOS_MS5611_GetDelay() * portTICK_RATE_MS);
+	}
+}
+
 
 #endif
 
