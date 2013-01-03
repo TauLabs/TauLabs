@@ -166,11 +166,6 @@ int32_t AttitudeStart(void)
 	gpsQueue = xQueueCreate(1, sizeof(UAVObjEvent));
 	gpsVelQueue = xQueueCreate(1, sizeof(UAVObjEvent));
 
-	// Start main task
-	xTaskCreate(AttitudeTask, (signed char *)"Attitude", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &attitudeTaskHandle);
-	TaskMonitorAdd(TASKINFO_RUNNING_ATTITUDE, attitudeTaskHandle);
-	PIOS_WDG_RegisterFlag(PIOS_WDG_ATTITUDE);
-
 	// Initialize quaternion
 	AttitudeActualData attitude;
 	AttitudeActualGet(&attitude);
@@ -198,6 +193,11 @@ int32_t AttitudeStart(void)
 		GPSPositionConnectQueue(gpsQueue);
 	if (GPSVelocityHandle())
 		GPSVelocityConnectQueue(gpsVelQueue);
+
+	// Start main task
+	xTaskCreate(AttitudeTask, (signed char *)"Attitude", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &attitudeTaskHandle);
+	TaskMonitorAdd(TASKINFO_RUNNING_ATTITUDE, attitudeTaskHandle);
+	PIOS_WDG_RegisterFlag(PIOS_WDG_ATTITUDE);
 
 	return 0;
 }
