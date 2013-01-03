@@ -97,15 +97,9 @@ static void altitudeTask(void *parameters)
 	PIOS_HCSR04_Trigger();
 #endif
 
-	// TODO: Check the pressure sensor and set a warning if it fails test
-	
-// Option to change the interleave between Temp and Pressure conversions
-// Undef for normal operation
-//#define PIOS_MS5611_SLOW_TEMP_RATE 20
+	// Get the queue for pressure data
+	xQueueHandle pressure_queue = PIOS_MS5611_GetQueue();
  
-#ifdef PIOS_MS5611_SLOW_TEMP_RATE
-	uint8_t temp_press_interleave_count = 1;
-#endif
 	// Main task loop
 	while (1)
 	{
@@ -133,37 +127,17 @@ static void altitudeTask(void *parameters)
 			PIOS_HCSR04_Trigger();
 		}
 #endif
-		float temp, press;
-#ifdef PIOS_MS5611_SLOW_TEMP_RATE
-		temp_press_interleave_count --;
-		if(temp_press_interleave_count == 0)
-		{
-#endif
-		// Update the temperature data
-		PIOS_MS5611_StartADC(TemperatureConv);
-		vTaskDelay(PIOS_MS5611_GetDelay());
-		PIOS_MS5611_ReadADC();
-			
-#ifdef PIOS_MS5611_SLOW_TEMP_RATE
-			temp_press_interleave_count=PIOS_MS5611_SLOW_TEMP_RATE;
-		}
-#endif
-		
-		// Update the pressure data
-		PIOS_MS5611_StartADC(PressureConv);
-		vTaskDelay(PIOS_MS5611_GetDelay());
-		PIOS_MS5611_ReadADC();
 
+		struct pios_ms5611_data baro_data;
+		if (xQueueReceive(pressure_queue, &baro_data, 1000) != pdTRUE )
+		{
+			data.Temperature = baro_data.temperature;
+			data.Pressure = baro_data.pressure;
+			data.Altitude = baro_data.altitude;
 		
-		temp = PIOS_MS5611_GetTemperature();
-		press = PIOS_MS5611_GetPressure();
-		
-		data.Temperature = temp;
-		data.Pressure = press;
-		data.Altitude = 44330.0f * (1.0f - powf(data.Pressure / MS5611_P0, (1.0f / 5.255f)));
-	
-		// Update the AltitudeActual UAVObject
-		BaroAltitudeSet(&data);
+			// Update the AltitudeActual UAVObject
+			BaroAltitudeSet(&data);
+		}
 	}
 }
 

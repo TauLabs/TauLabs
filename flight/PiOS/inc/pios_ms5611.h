@@ -66,14 +66,18 @@ enum pios_ms5611_osr {
 	MS5611_OSR_4096  = 8,
 };
 
+struct pios_ms5611_data {
+	float temperature;
+	float pressure;
+	float altitude;
+};
+
 /* Public Functions */
 extern void PIOS_MS5611_Init(const struct pios_ms5611_cfg * cfg, int32_t i2c_device);
-extern int32_t PIOS_MS5611_StartADC(ConversionTypeTypeDef Type);
-extern int32_t PIOS_MS5611_ReadADC(void);
+extern xQueueHandle PIOS_MS5611_GetQueue();
 extern float PIOS_MS5611_GetTemperature(void);
 extern float PIOS_MS5611_GetPressure(void);
 extern int32_t PIOS_MS5611_Test();
-extern int32_t PIOS_MS5611_GetDelay();
 
 #endif /* PIOS_MS5611_H */
 

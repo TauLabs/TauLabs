@@ -39,12 +39,16 @@
 #define MS5611_TASK_PRIORITY	(tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
 #define MS5611_TASK_STACK		(512 / 4)
 
+// Undef for normal operation
+//#define PIOS_MS5611_SLOW_TEMP_RATE 20
+
 /* Glocal Variables */
 ConversionTypeTypeDef CurrentRead;
 
 /* Local Variables */
 MS5611CalibDataTypeDef CalibData;
 static xTaskHandle TaskHandle;
+static xQueueHandle queue_pressure;
 
 /* Straight from the datasheet */
 static uint32_t RawTemperature;
@@ -85,11 +89,20 @@ void PIOS_MS5611_Init(const struct pios_ms5611_cfg * cfg, int32_t i2c_device)
 		CalibData.C[i] = (data[0] << 8) | data[1];
 	}
 
+	queue_pressure = xQueueCreate(1, sizeof(struct pios_ms5611_data));
 	portBASE_TYPE result = xTaskCreate(PIOS_MS5611_Task, (const signed char *)"pios_ms5611",
 						 MS5611_TASK_STACK, NULL, MS5611_TASK_PRIORITY,
 						 &TaskHandle);
 	PIOS_Assert(result == pdPASS);
 
+}
+
+/**
+ * Return the queue that receives pressure data
+ */
+xQueueHandle PIOS_MS5611_GetQueue()
+{
+	return queue_pressure;
 }
 
 /**
@@ -275,9 +288,33 @@ int32_t PIOS_MS5611_Test()
 
 void PIOS_MS5611_Task(void *parameters)
 {
+#ifdef PIOS_MS5611_SLOW_TEMP_RATE
+	uint32_t temp_press_interleave_count = PIOS_MS5611_SLOW_TEMP_RATE;
+#endif
 	while (1)
 	{
 		vTaskDelay(PIOS_MS5611_GetDelay() * portTICK_RATE_MS);
+
+#ifdef PIOS_MS5611_SLOW_TEMP_RATE
+		temp_press_interleave_count --;
+		if(temp_press_interleave_count == 0)
+		{
+#endif
+		// Update the temperature data
+		PIOS_MS5611_StartADC(TemperatureConv);
+		vTaskDelay(PIOS_MS5611_GetDelay());
+		PIOS_MS5611_ReadADC();
+			
+#ifdef PIOS_MS5611_SLOW_TEMP_RATE
+			temp_press_interleave_count = PIOS_MS5611_SLOW_TEMP_RATE;
+		}
+#endif
+		// Compute the altitude from the pressure and temperature and send it out
+		struct pios_ms5611_data data;		
+		data.temperature = PIOS_MS5611_GetTemperature();;
+		data.pressure = PIOS_MS5611_GetPressure();;
+		data.altitude = 44330.0f * (1.0f - powf(data.pressure / MS5611_P0, (1.0f / 5.255f)));
+		xQueueSend(queue_pressure, (void*)&data, 0);
 	}
 }
 
