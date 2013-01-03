@@ -1,21 +1,22 @@
 <xml>
 	<object name="I2CVM" singleinstance="true" settings="false">
-		<description>The raw data from the I2C Virtual Machine with up to eight values, four ints and four floats</description>
+		<description>Snapshot of the register and RAM state of the I2C Virtual Machine</description>
 
-		<field name="r0" units="-" type="int32" elements="1"/>
-		<field name="r1" units="-" type="int32" elements="1"/>
-		<field name="r2" units="-" type="int32" elements="1"/>
-		<field name="r3" units="-" type="int32" elements="1"/>
-		<field name="r4" units="-" type="int32" elements="1"/>
-		<field name="r5" units="-" type="int32" elements="1"/>
-		<field name="f0" units="-" type="float" elements="1"/>
-		<field name="f1" units="-" type="float" elements="1"/>
-		<field name="f2" units="-" type="float" elements="1"/>
-		<field name="f3" units="-" type="float" elements="1"/>
+		<field name="ram" units="" type="uint8" elements="8"/>
 
-		<access gcs="readonly" flight="readwrite"/>
+		<field name="pc"  units="" type="uint16" elements="1"/>
+
+		<field name="r0"  units="" type="int32" elements="1"/>
+		<field name="r1"  units="" type="int32" elements="1"/>
+		<field name="r2"  units="" type="int32" elements="1"/>
+		<field name="r3"  units="" type="int32" elements="1"/>
+		<field name="r4"  units="" type="int32" elements="1"/>
+		<field name="r5"  units="" type="int32" elements="1"/>
+		<field name="r6"  units="" type="int32" elements="1"/>
+
+		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="false" updatemode="onchange" period="0"/>
-		<telemetryflight acked="false" updatemode="periodic" period="500"/>
-		<logging updatemode="manual" period="0"/>
+		<telemetryflight acked="false" updatemode="periodic" period="1000"/>
+		<logging updatemode="periodic" period="1000"/>
 	</object>
 </xml>
