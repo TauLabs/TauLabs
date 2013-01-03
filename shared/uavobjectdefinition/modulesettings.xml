@@ -34,10 +34,11 @@
 		<!-- GenericI2CSensor Module Settings -->
 		<field name="I2CVMProgramSelect" units="" type="enum" elements="1" defaultvalue="None">
 			<options>
+				<option>EndianTest</option>
+				<option>MathTest</option>
 				<option>None</option>
 				<option>OPBaroAltimeter</option>
 				<option>User</option>
-				<option>BasicTest</option>
 			</options>
 		</field>
 

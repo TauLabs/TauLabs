@@ -103,8 +103,8 @@ static const uint32_t op_mag_baro_program[] = {
 	I2C_VM_ASM_JUMP(-25),             /* Jump back 25 instructions */
 };
 
-static const uint32_t basictest_program[] = {
-	I2C_VM_ASM_SET_CTR(10),
+static const uint32_t endiantest_program[] = {
+	I2C_VM_ASM_SET_IMM (VM_R6, 10),
 
 	I2C_VM_ASM_STORE(0x0A, 0),
 	I2C_VM_ASM_STORE(0x0B, 1),
@@ -123,9 +123,69 @@ static const uint32_t basictest_program[] = {
 
 	I2C_VM_ASM_SEND_UAVO(),	/* Set the UAVObject */
 
-	I2C_VM_ASM_DEC_CTR(),
+	I2C_VM_ASM_ADD_IMM(VM_R6, -1),
 	I2C_VM_ASM_DELAY(20),
-	I2C_VM_ASM_BNZ(-9),
+	I2C_VM_ASM_BNZ(VM_R6, -9),
+};
+
+static const uint32_t mathtest_program[] = {
+
+	/*
+	 * Test Logical Shift Left
+	 */
+	I2C_VM_ASM_SET_IMM(VM_R0, 1),  /* initialize r0 to 1 */
+
+	I2C_VM_ASM_SET_IMM(VM_R6, 32), /* set counter to 32 */
+/* Start loop */
+	I2C_VM_ASM_SEND_UAVO(),	       /* Set the UAVO */
+	I2C_VM_ASM_DELAY(500),	       /* Pause */
+	I2C_VM_ASM_SL_IMM(VM_R0, 1),   /* shift the bit left by 1 */
+	I2C_VM_ASM_ADD_IMM(VM_R6, -1), /* decrement the counter */
+/* End loop */
+	I2C_VM_ASM_BNZ(VM_R6, -4),     /* loop until counter is zero */
+
+	/*
+	 * Test Arithmetic Shift Right
+	 */
+	/* Set r0 to 0x80000000 */
+	I2C_VM_ASM_SET_IMM(VM_R1, 0x8000),
+	I2C_VM_ASM_SL_IMM(VM_R1, 16),
+
+	I2C_VM_ASM_SET_IMM(VM_R6, 32), /* set counter to 32 */
+/* Start loop */
+	I2C_VM_ASM_SEND_UAVO(),	       /* Set the UAVO */
+	I2C_VM_ASM_DELAY(500),	       /* Pause */
+	I2C_VM_ASM_ASR_IMM(VM_R1, 1),
+	I2C_VM_ASM_ADD_IMM(VM_R6, -1), /* decrement the counter */
+/* End loop */
+	I2C_VM_ASM_BNZ(VM_R6, -4),     /* loop until counter is zero */
+
+	/*
+	 * Test Add Immediate
+	 */
+	I2C_VM_ASM_SET_IMM(VM_R1, 1000),
+	I2C_VM_ASM_SET_IMM(VM_R6, 100), /* set counter to 100 */
+/* Start loop */
+	I2C_VM_ASM_SEND_UAVO(),	       /* Set the UAVO */
+	I2C_VM_ASM_DELAY(500),	       /* Pause */
+	I2C_VM_ASM_ADD_IMM(VM_R1, -10),
+	I2C_VM_ASM_ADD_IMM(VM_R6, -1), /* decrement the counter */
+/* End loop */
+	I2C_VM_ASM_BNZ(VM_R6, -4),     /* loop until counter is zero */
+
+	/*
+	 * Test Add Registers
+	 */
+	I2C_VM_ASM_SET_IMM(VM_R1, 50000),
+	I2C_VM_ASM_SET_IMM(VM_R2, 100),
+	I2C_VM_ASM_SET_IMM(VM_R6, 19), /* set counter to 19 */
+/* Start loop */
+	I2C_VM_ASM_SEND_UAVO(),	       /* Set the UAVO */
+	I2C_VM_ASM_DELAY(500),	       /* Pause */
+	I2C_VM_ASM_ADD(VM_R1, VM_R1, VM_R1),
+	I2C_VM_ASM_ADD_IMM(VM_R6, -1), /* decrement the counter */
+/* End loop */
+	I2C_VM_ASM_BNZ(VM_R6, -4),     /* loop until counter is zero */
 };
 
 // Private functions
@@ -197,9 +257,13 @@ static int32_t GenericI2CSensorInitialize(void)
 		i2cvm_program = op_mag_baro_program;
 		i2cvm_program_len = NELEMENTS(op_mag_baro_program);
 		break;
-	case MODULESETTINGS_I2CVMPROGRAMSELECT_BASICTEST:
-		i2cvm_program = basictest_program;
-		i2cvm_program_len = NELEMENTS(basictest_program);
+	case MODULESETTINGS_I2CVMPROGRAMSELECT_ENDIANTEST:
+		i2cvm_program = endiantest_program;
+		i2cvm_program_len = NELEMENTS(endiantest_program);
+		break;
+	case MODULESETTINGS_I2CVMPROGRAMSELECT_MATHTEST:
+		i2cvm_program = mathtest_program;
+		i2cvm_program_len = NELEMENTS(mathtest_program);
 		break;
 	case MODULESETTINGS_I2CVMPROGRAMSELECT_NONE:
 	default:
