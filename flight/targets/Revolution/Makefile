@@ -78,7 +78,6 @@ MODULES += ManualControl
 MODULES += Stabilization
 MODULES += Actuator
 MODULES += FirmwareIAP
-MODULES += Altitude/revolution
 MODULES += Airspeed/revolution
 MODULES += PathPlanner
 MODULES += Telemetry

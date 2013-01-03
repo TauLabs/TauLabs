@@ -49,18 +49,21 @@
 
 #include "openpilot.h"
 #include "pios.h"
-#include "homelocation.h"
-#include "magnetometer.h"
-#include "magbias.h"
+
+// UAVOs
 #include "accels.h"
-#include "gyros.h"
-#include "gyrosbias.h"
 #include "attitudeactual.h"
 #include "attitudesettings.h"
+#include "baroaltitude.h"
+#include "flightstatus.h"
+#include "gyros.h"
+#include "gyrosbias.h"
+#include "homelocation.h"
 #include "inertialsensorsettings.h"
 #include "inssettings.h"
+#include "magnetometer.h"
+#include "magbias.h"
 #include "revocalibration.h"
-#include "flightstatus.h"
 #include "CoordinateConversions.h"
 
 #include <pios_board_info.h>
@@ -151,7 +154,7 @@ MODULE_INITCALL(SensorsInitialize, SensorsStart)
 int32_t accel_test;
 int32_t gyro_test;
 int32_t mag_test;
-//int32_t pressure_test;
+int32_t pressure_test;
 
 
 /**
@@ -219,6 +222,10 @@ static void SensorsTask(void *parameters)
 	mag_test = PIOS_LSM303_Mag_Test();
 #else
 	mag_test = 0;
+#endif
+
+#if defined(PIOS_INCLUDE_MS5611)
+	pressure_test = PIOS_MS5611_Test();
 #endif
 
 	if(accel_test < 0 || gyro_test < 0 || mag_test < 0) {
@@ -537,6 +544,24 @@ static void SensorsTask(void *parameters)
 			MagnetometerSet(&mag);
 		}
 #endif
+
+#if defined(PIOS_INCLUDE_MS5611)
+
+		// If the MS5611 is included check for any data and pass it to the
+		// UAVO if so
+		struct pios_ms5611_data baro_data;
+		xQueueHandle pressure_queue = PIOS_MS5611_GetQueue();
+		if (xQueueReceive(pressure_queue, &baro_data, 0) != pdTRUE )
+		{
+			BaroAltitudeData baroAltitude;
+			BaroAltitudeGet(&baroAltitude);
+			baroAltitude.Temperature = baro_data.temperature;
+			baroAltitude.Pressure = baro_data.pressure;
+			baroAltitude.Altitude = baro_data.altitude;
+			BaroAltitudeSet(&baroAltitude);
+		}
+
+#endif /* PIOS_INCLUDE_MS5611 */
 
 		PIOS_WDG_UpdateFlag(PIOS_WDG_SENSORS);
 
