@@ -842,7 +842,7 @@ $(eval $(call SIM_TEMPLATE,openpilot,OpenPilot,'op  ',win32,exe))
 #
 ##############################
 
-ALL_UNITTESTS := logfs
+ALL_UNITTESTS := logfs i2c_vm
 
 UT_OUT_DIR := $(BUILD_DIR)/unit_tests
 
@@ -883,7 +883,9 @@ ut_$(1)_%: $$(UT_OUT_DIR)
 		PIOS=$(PIOS) \
 		OPUAVOBJ=$(OPUAVOBJ) \
 		OPUAVTALK=$(OPUAVTALK) \
+		OPMODULEDIR=$(OPMODULEDIR) \
 		FLIGHTLIB=$(FLIGHTLIB) \
+		SHAREDAPIDIR=$(SHAREDAPIDIR) \
 		\
 		GTEST_DIR=$(GTEST_DIR) \
 		\
