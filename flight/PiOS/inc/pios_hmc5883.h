@@ -8,6 +8,7 @@
  *
  * @file       pios_hmc5883.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     PhoenixPilot, http://gtihub.com/PhoenixPilot Copyright (C) 2012.
  * @brief      HMC5883 functions header.
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -116,9 +117,7 @@ struct pios_hmc5883_data {
 };
 
 /* Public Functions */
-extern void PIOS_HMC5883_Init(const struct pios_hmc5883_cfg * cfg);
-extern bool PIOS_HMC5883_NewDataAvailable(void);
-extern int32_t PIOS_HMC5883_ReadMag(struct pios_hmc5883_data *);
+extern int32_t PIOS_HMC5883_Init(uint32_t i2c_id, const struct pios_hmc5883_cfg * cfg);
 extern uint8_t PIOS_HMC5883_ReadID(uint8_t out[4]);
 extern int32_t PIOS_HMC5883_Test(void);
 extern bool PIOS_HMC5883_IRQHandler();

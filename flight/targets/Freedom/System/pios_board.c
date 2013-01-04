@@ -794,7 +794,7 @@ void PIOS_Board_Init(void) {
 
 	PIOS_LED_On(0);
 #if defined(PIOS_INCLUDE_HMC5883)
-	PIOS_HMC5883_Init(&pios_hmc5883_cfg);
+	PIOS_HMC5883_Init(PIOS_I2C_MAIN_ADAPTER, &pios_hmc5883_cfg);
 #endif
 	PIOS_LED_On(1);
 
