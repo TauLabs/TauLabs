@@ -283,7 +283,7 @@ static void update_stabilization_settings()
 	const float zero_ratio_p = 1.0f / 5.0f;
 
 	// For now just run over roll and pitch
-	for (uint i = 0; i < 2; i++) {
+	for (uint32_t i = 0; i < 2; i++) {
 		float wu = 1000.0f * 2 * M_PI / relayTuning.Period[i]; // ultimate freq = output osc freq (rad/s)
 
 		float wc = wu * gain_ratio_r;      // target openloop crossover frequency (rad/s)

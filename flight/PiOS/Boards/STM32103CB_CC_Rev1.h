@@ -70,11 +70,6 @@ TIM4  |  RC In 1  |  Servo 3  |  Servo 2  |  Servo 1
 //------------------------
 #define PIOS_WATCHDOG_TIMEOUT    250
 #define PIOS_WDG_REGISTER        BKP_DR4
-#define PIOS_WDG_ACTUATOR        0x0001
-#define PIOS_WDG_STABILIZATION   0x0002
-#define PIOS_WDG_ATTITUDE        0x0004
-#define PIOS_WDG_MANUAL          0x0008
-#define PIOS_WDG_AUTOTUNE        0x0010
 
 //------------------------
 // TELEMETRY

@@ -107,6 +107,13 @@ MODULE_INITCALL(PathPlannerInitialize, PathPlannerStart)
  */
 static void pathPlannerTask(void *parameters)
 {
+	// If the PathStatus isn't available no follower is running and we should abort
+	while (PathStatusHandle() == NULL || !TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER)) {
+		AlarmsSet(SYSTEMALARMS_ALARM_PATHPLANNER, SYSTEMALARMS_ALARM_CRITICAL);
+		vTaskDelay(1000);
+	}
+	AlarmsClear(SYSTEMALARMS_ALARM_PATHPLANNER);
+
 	PathPlannerSettingsConnectCallback(settingsUpdated);
 	settingsUpdated(PathPlannerSettingsHandle());
 
@@ -114,13 +121,6 @@ static void pathPlannerTask(void *parameters)
 	WaypointActiveConnectCallback(waypointsUpdated);
 
 	PathStatusConnectCallback(pathStatusUpdated);
-
-	// If the PathStatus isn't available no follower is running and we should abort
-	if (PathStatusHandle() == NULL || !TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER)) {
-		AlarmsSet(SYSTEMALARMS_ALARM_PATHPLANNER, SYSTEMALARMS_ALARM_CRITICAL);
-		vTaskSuspend(taskHandle);
-	}
-	AlarmsClear(SYSTEMALARMS_ALARM_PATHPLANNER);
 
 	FlightStatusData flightStatus;
 	
