@@ -62,7 +62,7 @@ enum conversion_type {
 
 struct ms5611_dev {
 	const struct pios_ms5611_cfg * cfg;
-	int32_t i2c_id;
+	uint32_t i2c_id;
 	xTaskHandle task;
 	xQueueHandle queue;
 
