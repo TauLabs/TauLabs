@@ -170,6 +170,7 @@ openocd_git_win_install: openocd_win_clean libusb_win_install ftd2xx_install
 	$(V1) ( \
 	  cd $(OPENOCD_BUILD_DIR) ; \
 	  git apply < $(ROOT_DIR)/flight/Project/OpenOCD/0003-freertos-cm4f-fpu-support.patch ; \
+	  git apply < $(ROOT_DIR)/flight/Project/OpenOCD/0004-st-icdi-disable.patch ; \
 	)
 
         # build and install
