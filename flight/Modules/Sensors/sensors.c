@@ -78,7 +78,7 @@
 // Private functions
 static void SensorsTask(void *parameters);
 static void settingsUpdatedCb(UAVObjEvent * objEv);
-//static void magOffsetEstimation(MagnetometerData *mag);
+static void magOffsetEstimation(MagnetometerData *mag);
 
 void update_accels(struct pios_sensor_accel_data *accel);
 void update_gyros(struct pios_sensor_gyro_data *gyro);
@@ -152,24 +152,10 @@ int32_t SensorsStart(void)
 
 MODULE_INITCALL(SensorsInitialize, SensorsStart)
 
-int32_t accel_test;
-int32_t gyro_test;
-int32_t mag_test;
-//int32_t pressure_test;
-
-
 /**
  * The sensor task.  This polls the gyros at 500 Hz and pumps that data to
  * stabilization and to the attitude loop
- * 
- * This function has a lot of if/defs right now to allow these configurations:
- * 1. BMA180 accel and MPU6000 gyro
- * 2. MPU6000 gyro and accel
- * 3. BMA180 accel and L3GD20 gyro
- * 4. LSM303 accel and L3GD20 gyro
  */
-
-uint32_t sensor_dt_us;
 static void SensorsTask(void *parameters)
 {
 	portTickType lastSysTime;
@@ -196,7 +182,6 @@ static void SensorsTask(void *parameters)
 
 		struct pios_sensor_gyro_data gyros;
 		struct pios_sensor_accel_data accels;
-		//struct pios_sensor_baro_data baro;
 		struct pios_sensor_mag_data mags;
 
 		xQueueHandle queue;
@@ -223,6 +208,7 @@ static void SensorsTask(void *parameters)
 			update_mags(&mags);
 		}
 
+		PIOS_WDG_UpdateFlag(PIOS_WDG_SENSORS);
 	}
 }
 
@@ -297,351 +283,128 @@ void update_gyros(struct pios_sensor_gyro_data *gyros)
  */
 void update_mags(struct pios_sensor_mag_data *mag)
 {
-	MagnetometerData uavo;
-	uavo.x = mag->x;
-	uavo.y = mag->y;
-	uavo.z = mag->z;
-	MagnetometerSet(&uavo);
+	float mags[3] = {mag->x * mag_scale[0] - mag_bias[0],
+					 mag->y * mag_scale[1] - mag_bias[1],
+					 mag->z * mag_scale[2] - mag_bias[2]};
+
+	MagnetometerData magData;
+	if (rotate) {
+		float mag_out[3];
+		rot_mult(Rbs, mags, mag_out, false);
+		magData.x = mag_out[0];
+		magData.y = mag_out[1];
+		magData.z = mag_out[2];
+	} else {
+		magData.x = mags[0];
+		magData.y = mags[1];
+		magData.z = mags[2];
+	}
+
+	// Correct for mag bias and update if the rate is non zero
+	if (insSettings.MagBiasNullingRate > 0)
+		magOffsetEstimation(&magData);
+
+	MagnetometerSet(&magData);
 }
 
-// 		switch(bdinfo->board_rev) {
-// 			case 0x01:  // L3GD20 + BMA180 board
-// #if defined(PIOS_INCLUDE_BMA180)
-// 			{
-// 				struct pios_bma180_data accel;
-				
-// 				int32_t read_good;
-// 				int32_t count;
-				
-// 				count = 0;
-// 				while((read_good = PIOS_BMA180_ReadFifo(&accel)) != 0 && !error)
-// 					error = ((xTaskGetTickCount() - lastSysTime) > SENSOR_PERIOD) ? true : error;
-// 				if (error) {
-// 					// Unfortunately if the BMA180 ever misses getting read, then it will not
-// 					// trigger more interrupts.  In this case we must force a read to kickstarts
-// 					// it.
-// 					struct pios_bma180_data data;
-// 					PIOS_BMA180_ReadAccels(&data);
-// 					continue;
-// 				}
-// 				while(read_good == 0) {	
-// 					count++;
-					
-// 					accel_accum[1] += accel.x;
-// 					accel_accum[0] += accel.y;
-// 					accel_accum[2] -= accel.z;
-					
-// 					read_good = PIOS_BMA180_ReadFifo(&accel);
-// 				}
-// 				accel_samples = count;
-// 				accel_scaling = PIOS_BMA180_GetScale();
-				
-// 				// Get temp from last reading
-// 				accelsData.temperature = 25.0f + ((float) accel.temperature - 2.0f) / 2.0f;
-// 			}
-// #endif
-// #if defined(PIOS_INCLUDE_L3GD20)
-// 			{
-// 				struct pios_l3gd20_data gyro;
-// 				gyro_samples = 0;
-// 				xQueueHandle gyro_queue = PIOS_L3GD20_GetQueue();
-				
-// 				if(xQueueReceive(gyro_queue, (void *) &gyro, 4) == errQUEUE_EMPTY) {
-// 					error = true;
-// 					continue;
-// 				}
-				
-// 				gyro_samples = 1;
-// 				gyro_accum[1] += gyro.gyro_x;
-// 				gyro_accum[0] += gyro.gyro_y;
-// 				gyro_accum[2] -= gyro.gyro_z;
-				
-// 				gyro_scaling = PIOS_L3GD20_GetScale();
+/**
+ * Perform an update of the @ref MagBias based on
+ * Magnetometer Offset Cancellation: Theory and Implementation, 
+ * revisited William Premerlani, October 14, 2011
+ */
+static void magOffsetEstimation(MagnetometerData *mag)
+{
+#if 0
+	// Constants, to possibly go into a UAVO
+	static const float MIN_NORM_DIFFERENCE = 50;
 
-// 				// Get temp from last reading
-// 				gyrosData.temperature = gyro.temperature;
-// 			}
-// #endif
-// 				break;
-// 			case 0x02:  // MPU6000 board
-// 			case 0x03:  // MPU6000 board
-// #if defined(PIOS_INCLUDE_MPU6000) || defined(PIOS_INCLUDE_MPU6050)
-// 			{
-// #if defined(PIOS_INCLUDE_MPU6000)
-// 				xQueueHandle queue = PIOS_MPU6000_GetQueue();
-// 				gyro_scaling = PIOS_MPU6000_GetScale();
-// 				accel_scaling = PIOS_MPU6000_GetAccelScale();
-// #elif defined(PIOS_INCLUDE_MPU6050)
-// 				xQueueHandle queue = PIOS_MPU6050_GetQueue();
-// 				gyro_scaling = PIOS_MPU6050_GetScale();
-// 				accel_scaling = PIOS_MPU6050_GetAccelScale();
-// #endif
+	static float B2[3] = {0, 0, 0};
 
-// 				struct pios_mpu60x0_data mpu60x0_data;
-				
-// 				while(xQueueReceive(queue, (void *) &mpu60x0_data, gyro_samples == 0 ? 10 : 0) != errQUEUE_EMPTY)
-// 				{
-// 					gyro_accum[0] += mpu60x0_data.gyro_x;
-// 					gyro_accum[1] += mpu60x0_data.gyro_y;
-// 					gyro_accum[2] += mpu60x0_data.gyro_z;
+	MagBiasData magBias;
+	MagBiasGet(&magBias);
 
-// 					accel_accum[0] += mpu60x0_data.accel_x;
-// 					accel_accum[1] += mpu60x0_data.accel_y;
-// 					accel_accum[2] += mpu60x0_data.accel_z;
+	// Remove the current estimate of the bias
+	mag->x -= magBias.x;
+	mag->y -= magBias.y;
+	mag->z -= magBias.z;
 
-// 					gyro_samples ++;
-// 					accel_samples ++;
-// 				}
-				
-// 				if (gyro_samples == 0) {
-// #if defined(PIOS_INCLUDE_MPU6000)
-// 					PIOS_MPU6000_ReadGyros(&mpu60x0_data);
-// #elif defined(PIOS_INCLUDE_MPU6050)
-// 					PIOS_MPU6050_ReadGyros(&mpu60x0_data);
-// #endif
-// 					error = true;
-// 					continue;
-// 				}
+	// First call
+	if (B2[0] == 0 && B2[1] == 0 && B2[2] == 0) {
+		B2[0] = mag->x;
+		B2[1] = mag->y;
+		B2[2] = mag->z;
+		return;
+	}
 
-// 				gyrosData.temperature = 35.0f + ((float) mpu60x0_data.temperature + 512.0f) / 340.0f;
-// 				accelsData.temperature = 35.0f + ((float) mpu60x0_data.temperature + 512.0f) / 340.0f;
-// 			}
-// #endif /* PIOS_INCLUDE_MPU6000 || PIOS_INCLUDE_MPU6050 */
-// 				break;
+	float B1[3] = {mag->x, mag->y, mag->z};
+	float norm_diff = sqrtf(powf(B2[0] - B1[0],2) + powf(B2[1] - B1[1],2) + powf(B2[2] - B1[2],2));
+	if (norm_diff > MIN_NORM_DIFFERENCE) {
+		float norm_b1 = sqrtf(B1[0]*B1[0] + B1[1]*B1[1] + B1[2]*B1[2]);
+		float norm_b2 = sqrtf(B2[0]*B2[0] + B2[1]*B2[1] + B2[2]*B2[2]);
+		float scale = insSettings.MagBiasNullingRate * (norm_b2 - norm_b1) / norm_diff;
+		float b_error[3] = {(B2[0] - B1[0]) * scale, (B2[1] - B1[1]) * scale, (B2[2] - B1[2]) * scale};
 
-// 			case 0x04: // LSM303 and L3GD20 board
-// #if defined(PIOS_INCLUDE_LSM303)
-// 			{
-// 				//this one comes at 400Hz
-// 				accel_scaling = PIOS_LSM303_Accel_GetScale();
-// 				struct pios_lsm303_accel_data accel;
-// 				xQueueHandle queue = PIOS_LSM303_Accel_GetQueue();
+		magBias.x += b_error[0];
+		magBias.y += b_error[1];
+		magBias.z += b_error[2];
 
-// 				while (xQueueReceive(queue, (void*)&accel, (accel_samples == 0 ? 10 / portTICK_RATE_MS : 0)) != errQUEUE_EMPTY)
-// 				{
-// 					accel_accum[0] += accel.accel_x;
-// 					accel_accum[1] += accel.accel_y;
-// 					accel_accum[2] += accel.accel_z;
-// 					++accel_samples;
-// 				}
-// 				if (accel_samples == 0)
-// 				{
-// 					// Unfortunately if the LSM303 ever misses getting read, then it will not
-// 					// trigger more interrupts.  In this case we must force a read to kickstart
-// 					// it.
-// 					struct pios_lsm303_accel_data data;
-// 					PIOS_LSM303_Accel_ReadData(&data);
-// 					error = true;
-// 					continue;
-// 				}
-// 				// No temp
-// 				accelsData.temperature = 0;
-// 			}
-// #endif /* PIOS_INCLUDE_LSM303 */
-// #if defined(PIOS_INCLUDE_L3GD20)
-// 			{
-// 				//this one comes at 760Hz
-// 				gyro_scaling = PIOS_L3GD20_GetScale();
-// 				struct pios_l3gd20_data gyro;
-// 				xQueueHandle queue = PIOS_L3GD20_GetQueue();
+		MagBiasSet(&magBias);
 
-// 				while (xQueueReceive(queue, (void*)&gyro, (gyro_samples == 0 ? 10 / portTICK_RATE_MS : 0)) != errQUEUE_EMPTY)
-// 				{
-// 					gyro_accum[0] += gyro.gyro_y;
-// 					gyro_accum[1] += gyro.gyro_x;
-// 					gyro_accum[2] -= gyro.gyro_z;
-// 					++gyro_samples;
-// 				}
-// 				if (gyro_samples == 0)
-// 				{
-// 					// Unfortunately if the L3GD20 ever misses getting read, then it will not
-// 					// trigger more interrupts.  In this case we must force a read to kickstart
-// 					// it.
-// 					struct pios_l3gd20_data data;
-// 					PIOS_L3GD20_ReadGyros(&data);
-// 					error = true;
-// 					continue;
-// 				}
-
-// 				// Get temp from last reading
-// 				gyrosData.temperature = gyro.temperature;
-// 			}
-// #endif
-// 				break;
-// 			default:
-// 				PIOS_DEBUG_Assert(0);
-// 		}
-
-
-
-
-		
-// 		// Because most crafts wont get enough information from gravity to zero yaw gyro, we try
-// 		// and make it average zero (weakly)
-
-// #if defined(PIOS_INCLUDE_HMC5883)
-// 		MagnetometerData mag;
-// 		if (PIOS_HMC5883_NewDataAvailable() || PIOS_DELAY_DiffuS(mag_update_time) > 150000) {
-// 			struct pios_hmc5883_data mag_data;
-// 			PIOS_HMC5883_ReadMag(&mag_data);
-// 			float mags[3] = {(float) mag_data.mag_x * mag_scale[0] - mag_bias[0],
-// 			                (float) mag_data.mag_y * mag_scale[1] - mag_bias[1],
-// 			                (float) mag_data.mag_z * mag_scale[2] - mag_bias[2]};
-// 			if (rotate) {
-// 				float mag_out[3];
-// 				rot_mult(Rbs, mags, mag_out, false);
-// 				mag.x = mag_out[0];
-// 				mag.y = mag_out[1];
-// 				mag.z = mag_out[2];
-// 			} else {
-// 				mag.x = mags[0];
-// 				mag.y = mags[1];
-// 				mag.z = mags[2];
-// 			}
-			
-// 			// Correct for mag bias and update if the rate is non zero
-// 			if(insSettings.MagBiasNullingRate > 0)
-// 				magOffsetEstimation(&mag);
-
-// 			MagnetometerSet(&mag);
-// 			mag_update_time = PIOS_DELAY_GetRaw();
-// 		}
-// #elif defined(PIOS_INCLUDE_LSM303)
-// 		MagnetometerData mag;
-
-// 		//this one comes at 220Hz
-// 		struct pios_lsm303_mag_data mag_data;
-// 		xQueueHandle queue = PIOS_LSM303_Mag_GetQueue();
-
-// 		if (xQueueReceive(queue, (void*)&mag_data, 0) != errQUEUE_EMPTY)
-// 		{
-// 			float mags[3] = {(float) mag_data.mag_x * mag_scale[0] - mag_bias[0],
-// 							(float) mag_data.mag_y * mag_scale[1] - mag_bias[1],
-// 							(float) mag_data.mag_z * mag_scale[2] - mag_bias[2]};
-// 			if (rotate) {
-// 				float mag_out[3];
-// 				rot_mult(Rbs, mags, mag_out, false);
-// 				mag.x = mag_out[0];
-// 				mag.y = mag_out[1];
-// 				mag.z = mag_out[2];
-// 			} else {
-// 				mag.x = mags[0];
-// 				mag.y = mags[1];
-// 				mag.z = mags[2];
-// 			}
-
-// 			// Correct for mag bias and update if the rate is non zero
-// 			if (insSettings.MagBiasNullingRate > 0)
-// 				magOffsetEstimation(&mag);
-
-// 			MagnetometerSet(&mag);
-// 		}
-// #endif
-
-// 		PIOS_WDG_UpdateFlag(PIOS_WDG_SENSORS);
-
-// 		lastSysTime = xTaskGetTickCount();
-// 	}
-// }
-
-// /**
-//  * Perform an update of the @ref MagBias based on
-//  * Magnetometer Offset Cancellation: Theory and Implementation, 
-//  * revisited William Premerlani, October 14, 2011
-//  */
-// static void magOffsetEstimation(MagnetometerData *mag)
-// {
-// #if 0
-// 	// Constants, to possibly go into a UAVO
-// 	static const float MIN_NORM_DIFFERENCE = 50;
-
-// 	static float B2[3] = {0, 0, 0};
-
-// 	MagBiasData magBias;
-// 	MagBiasGet(&magBias);
-
-// 	// Remove the current estimate of the bias
-// 	mag->x -= magBias.x;
-// 	mag->y -= magBias.y;
-// 	mag->z -= magBias.z;
-
-// 	// First call
-// 	if (B2[0] == 0 && B2[1] == 0 && B2[2] == 0) {
-// 		B2[0] = mag->x;
-// 		B2[1] = mag->y;
-// 		B2[2] = mag->z;
-// 		return;
-// 	}
-
-// 	float B1[3] = {mag->x, mag->y, mag->z};
-// 	float norm_diff = sqrtf(powf(B2[0] - B1[0],2) + powf(B2[1] - B1[1],2) + powf(B2[2] - B1[2],2));
-// 	if (norm_diff > MIN_NORM_DIFFERENCE) {
-// 		float norm_b1 = sqrtf(B1[0]*B1[0] + B1[1]*B1[1] + B1[2]*B1[2]);
-// 		float norm_b2 = sqrtf(B2[0]*B2[0] + B2[1]*B2[1] + B2[2]*B2[2]);
-// 		float scale = insSettings.MagBiasNullingRate * (norm_b2 - norm_b1) / norm_diff;
-// 		float b_error[3] = {(B2[0] - B1[0]) * scale, (B2[1] - B1[1]) * scale, (B2[2] - B1[2]) * scale};
-
-// 		magBias.x += b_error[0];
-// 		magBias.y += b_error[1];
-// 		magBias.z += b_error[2];
-
-// 		MagBiasSet(&magBias);
-
-// 		// Store this value to compare against next update
-// 		B2[0] = B1[0]; B2[1] = B1[1]; B2[2] = B1[2];
-// 	}
-// #else
-// 	MagBiasData magBias;
-// 	MagBiasGet(&magBias);
+		// Store this value to compare against next update
+		B2[0] = B1[0]; B2[1] = B1[1]; B2[2] = B1[2];
+	}
+#else
+	MagBiasData magBias;
+	MagBiasGet(&magBias);
 	
-// 	// Remove the current estimate of the bias
-// 	mag->x -= magBias.x;
-// 	mag->y -= magBias.y;
-// 	mag->z -= magBias.z;
+	// Remove the current estimate of the bias
+	mag->x -= magBias.x;
+	mag->y -= magBias.y;
+	mag->z -= magBias.z;
 	
-// 	HomeLocationData homeLocation;
-// 	HomeLocationGet(&homeLocation);
+	HomeLocationData homeLocation;
+	HomeLocationGet(&homeLocation);
 	
-// 	AttitudeActualData attitude;
-// 	AttitudeActualGet(&attitude);
+	AttitudeActualData attitude;
+	AttitudeActualGet(&attitude);
 	
-// 	const float Rxy = sqrtf(homeLocation.Be[0]*homeLocation.Be[0] + homeLocation.Be[1]*homeLocation.Be[1]);
-// 	const float Rz = homeLocation.Be[2];
+	const float Rxy = sqrtf(homeLocation.Be[0]*homeLocation.Be[0] + homeLocation.Be[1]*homeLocation.Be[1]);
+	const float Rz = homeLocation.Be[2];
 	
-// 	const float rate = insSettings.MagBiasNullingRate;
-// 	float R[3][3];
-// 	float B_e[3];
-// 	float xy[2];
-// 	float delta[3];
+	const float rate = insSettings.MagBiasNullingRate;
+	float R[3][3];
+	float B_e[3];
+	float xy[2];
+	float delta[3];
 	
-// 	// Get the rotation matrix
-// 	Quaternion2R(&attitude.q1, R);
+	// Get the rotation matrix
+	Quaternion2R(&attitude.q1, R);
 	
-// 	// Rotate the mag into the NED frame
-// 	B_e[0] = R[0][0] * mag->x + R[1][0] * mag->y + R[2][0] * mag->z;
-// 	B_e[1] = R[0][1] * mag->x + R[1][1] * mag->y + R[2][1] * mag->z;
-// 	B_e[2] = R[0][2] * mag->x + R[1][2] * mag->y + R[2][2] * mag->z;
+	// Rotate the mag into the NED frame
+	B_e[0] = R[0][0] * mag->x + R[1][0] * mag->y + R[2][0] * mag->z;
+	B_e[1] = R[0][1] * mag->x + R[1][1] * mag->y + R[2][1] * mag->z;
+	B_e[2] = R[0][2] * mag->x + R[1][2] * mag->y + R[2][2] * mag->z;
 	
-// 	float cy = cosf(attitude.Yaw * M_PI / 180.0f);
-// 	float sy = sinf(attitude.Yaw * M_PI / 180.0f);
+	float cy = cosf(attitude.Yaw * M_PI / 180.0f);
+	float sy = sinf(attitude.Yaw * M_PI / 180.0f);
 	
-// 	xy[0] =  cy * B_e[0] + sy * B_e[1];
-// 	xy[1] = -sy * B_e[0] + cy * B_e[1];
+	xy[0] =  cy * B_e[0] + sy * B_e[1];
+	xy[1] = -sy * B_e[0] + cy * B_e[1];
 	
-// 	float xy_norm = sqrtf(xy[0]*xy[0] + xy[1]*xy[1]);
+	float xy_norm = sqrtf(xy[0]*xy[0] + xy[1]*xy[1]);
 	
-// 	delta[0] = -rate * (xy[0] / xy_norm * Rxy - xy[0]);
-// 	delta[1] = -rate * (xy[1] / xy_norm * Rxy - xy[1]);
-// 	delta[2] = -rate * (Rz - B_e[2]);
+	delta[0] = -rate * (xy[0] / xy_norm * Rxy - xy[0]);
+	delta[1] = -rate * (xy[1] / xy_norm * Rxy - xy[1]);
+	delta[2] = -rate * (Rz - B_e[2]);
 	
-// 	if (delta[0] == delta[0] && delta[1] == delta[1] && delta[2] == delta[2]) {		
-// 		magBias.x += delta[0];
-// 		magBias.y += delta[1];
-// 		magBias.z += delta[2];
-// 		MagBiasSet(&magBias);
-// 	}
-// #endif
-// }
+	if (delta[0] == delta[0] && delta[1] == delta[1] && delta[2] == delta[2]) {		
+		magBias.x += delta[0];
+		magBias.y += delta[1];
+		magBias.z += delta[2];
+		MagBiasSet(&magBias);
+	}
+#endif
+}
 
 /**
  * Locally cache some variables from the AtttitudeSettings object
