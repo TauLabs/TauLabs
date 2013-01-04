@@ -54,17 +54,17 @@ MODULES += Stabilization
 #MODULES += Airspeed/revolution
 MODULES += FirmwareIAP
 MODULES += Telemetry
-MODULES += PathPlanner
+#MODULES += PathPlanner
 
 OPTMODULES += GPS
-OPTMODULES += AltitudeHold 
-OPTMODULES += VtolPathFollower 
-OPTMODULES += FixedWingPathFollower
 OPTMODULES += CameraStab
 OPTMODULES += Autotune
 OPTMODULES += TxPID
-OPTMODULES += Battery
-OPTMODULES += ComUsbBridge
+#OPTMODULES += AltitudeHold 
+#OPTMODULES += VtolPathFollower 
+#OPTMODULES += FixedWingPathFollower
+#OPTMODULES += Battery
+#OPTMODULES += ComUsbBridge
 
 # Paths
 OPSYSTEM = ./System
