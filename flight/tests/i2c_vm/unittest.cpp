@@ -623,6 +623,87 @@ TEST_F(I2CVMTest, DivImm) {
   EXPECT_EQ(465, uavo_data.r0);
 }
 
+TEST_F(I2CVMTest, JumpForward) {
+  const uint32_t program[] = {
+    I2C_VM_ASM_SET_IMM(VM_R0, 1),
+    I2C_VM_ASM_JUMP(2),
+
+    /* Never reached */
+    I2C_VM_ASM_SET_IMM(VM_R0, 2),
+
+    I2C_VM_ASM_SEND_UAVO(),
+  };
+
+  EXPECT_TRUE(i2c_vm_run (program, NELEMENTS(program), 0));
+
+  EXPECT_EQ(1, uavo_data.r0);
+}
+
+TEST_F(I2CVMTest, JumpBackward) {
+  const uint32_t program[] = {
+    I2C_VM_ASM_SET_IMM(VM_R0, 1),
+
+    /* Skip forward over the next block */
+    I2C_VM_ASM_JUMP(3),
+
+    I2C_VM_ASM_SET_IMM(VM_R0, 2),
+    I2C_VM_ASM_JUMP(2),
+
+    /* Jump back into the previous block */
+    I2C_VM_ASM_JUMP(-2),
+
+    I2C_VM_ASM_SEND_UAVO(),
+  };
+
+  EXPECT_TRUE(i2c_vm_run (program, NELEMENTS(program), 0));
+
+  EXPECT_EQ(2, uavo_data.r0);
+}
+
+TEST_F(I2CVMTest, BNZNotTaken) {
+  const uint32_t program[] = {
+    I2C_VM_ASM_SET_IMM(VM_R0, 1),
+    I2C_VM_ASM_SET_IMM(VM_R1, 0),
+
+    /* Skip forward over the next block */
+    I2C_VM_ASM_JUMP(3),
+
+    I2C_VM_ASM_SET_IMM(VM_R0, 2),
+    I2C_VM_ASM_JUMP(2),
+
+    /* Jump back into the previous block IFF R1 != 0 */
+    I2C_VM_ASM_BNZ(VM_R1, -2),
+
+    I2C_VM_ASM_SEND_UAVO(),
+  };
+
+  EXPECT_TRUE(i2c_vm_run (program, NELEMENTS(program), 0));
+
+  EXPECT_EQ(1, uavo_data.r0);
+}
+
+TEST_F(I2CVMTest, BNZTaken) {
+  const uint32_t program[] = {
+    I2C_VM_ASM_SET_IMM(VM_R0, 1),
+    I2C_VM_ASM_SET_IMM(VM_R1, 1),
+
+    /* Skip forward over the next block */
+    I2C_VM_ASM_JUMP(3),
+
+    I2C_VM_ASM_SET_IMM(VM_R0, 2),
+    I2C_VM_ASM_JUMP(2),
+
+    /* Jump back into the previous block IFF R1 != 0 */
+    I2C_VM_ASM_BNZ(VM_R1, -2),
+
+    I2C_VM_ASM_SEND_UAVO(),
+  };
+
+  EXPECT_TRUE(i2c_vm_run (program, NELEMENTS(program), 0));
+
+  EXPECT_EQ(2, uavo_data.r0);
+}
+
 TEST_F(I2CVMTest, CleanReboot) {
   /* Run a program to scribble all over the machine state */
   const uint32_t program[] = {
