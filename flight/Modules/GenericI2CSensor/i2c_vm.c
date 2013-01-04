@@ -52,8 +52,9 @@ struct i2c_vm_regs {
 
 /* Assign a 32-bit value into virtual machine registers
  *
- * reg: destination register where value will be stored
- * val: value to store in register
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] reg destination register where value will be stored
+ * @param[in] val value to store in register
  */
 static bool i2c_vm_set_reg (struct i2c_vm_regs * vm_state, uint8_t reg, uint32_t val)
 {
@@ -88,10 +89,11 @@ static bool i2c_vm_set_reg (struct i2c_vm_regs * vm_state, uint8_t reg, uint32_t
 
 /* Read a 32-bit value from virtual machine registers
  *
- * reg: destination register to read value from
- * val: pointer to hold value
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] reg register where value will be read from
+ * @param[out] val pointer to hold the value of the register
  */
-static bool i2c_vm_get_reg (struct i2c_vm_regs * vm_state, uint8_t reg, uint32_t * val)
+static bool i2c_vm_get_reg (const struct i2c_vm_regs * vm_state, uint8_t reg, uint32_t * val)
 {
 	switch (reg) {
 	case VM_R0:
@@ -133,17 +135,25 @@ enum aluop {
 	ALUOP_AND,
 };
 
+/* Perform an ALU operation and update the virtual machine state (rd = ra op rb)
+ *
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] operation ALU operation to be performed
+ * @param[in] rd destination register for result
+ * @param[in] ra first operand register
+ * @param[in] rb second operand register
+ */
 static bool i2c_vm_aluop_reg (struct i2c_vm_regs * vm_state, enum aluop operation, uint8_t rd, uint8_t ra, uint8_t rb)
 {
 	uint32_t ra_val;
 	uint32_t rb_val;
 	uint32_t rd_val;
 
-	/* Load rA value */
+	/* Load ra value */
 	if (!i2c_vm_get_reg(vm_state, ra, &ra_val))
 		return false;
 
-	/* Load rB value */
+	/* Load rb value */
 	if (!i2c_vm_get_reg(vm_state, rb, &rb_val))
 		return false;
 
@@ -173,12 +183,19 @@ static bool i2c_vm_aluop_reg (struct i2c_vm_regs * vm_state, enum aluop operatio
 	return true;
 }
 
+/* Perform an ALU operation and update the virtual machine state (rd = rd op simm)
+ *
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] operation ALU operation to be performed
+ * @param[in] rd destination register for result
+ * @param[in] simm_hi,simm_lo short immediate data
+ */
 static bool i2c_vm_aluop_imm (struct i2c_vm_regs * vm_state, enum aluop operation, uint8_t rd, uint8_t simm_hi, uint8_t simm_lo)
 {
 	uint32_t rd_val;
 	int16_t  simm_val;
 
-	/* Load rD value */
+	/* Load rd value */
 	if (!i2c_vm_get_reg(vm_state, rd, &rd_val))
 		return false;
 
@@ -235,7 +252,8 @@ static bool i2c_vm_aluop_imm (struct i2c_vm_regs * vm_state, enum aluop operatio
 
 /* Halt the virtual machine
  *
- * No operands
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] op1,op2,op3 unused
  */
 static bool i2c_vm_halt (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2, uint8_t op3)
 {
@@ -245,7 +263,8 @@ static bool i2c_vm_halt (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2
 
 /* Virtual machine no operation instruction
  *
- * No operands
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] op1,op2,op3 unused
  */
 static bool i2c_vm_nop (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2, uint8_t op3)
 {
@@ -255,13 +274,13 @@ static bool i2c_vm_nop (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2,
 
 /* Set virtual machine register
  *
- * op1: register to be set
- * op2: MSB of short immediate data
- * op3: LSB of short immediate data
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] rd register be set
+ * @param[in] imm_hi,imm_lo short immediate data
  */
-static bool i2c_vm_set_imm (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2, uint8_t op3)
+static bool i2c_vm_set_imm (struct i2c_vm_regs * vm_state, uint8_t rd, uint8_t imm_hi, uint8_t imm_lo)
 {
-	if (!i2c_vm_set_reg(vm_state, op1, (uint32_t)SIMM_VAL(op2, op3)))
+	if (!i2c_vm_set_reg(vm_state, rd, (uint32_t)SIMM_VAL(imm_hi, imm_lo)))
 		return false;
 
 	vm_state->uavo.pc++;
@@ -270,16 +289,17 @@ static bool i2c_vm_set_imm (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t 
 
 /* Store virtual machine data in RAM
  *
- * op1: value to store into ram
- * op2: offset in ram where value is to be stored
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] val value to be stored in RAM
+ * @param[in] ram_addr address (in virtual RAM) where value will be stored
+ * @param[in] op3 unused
  */
-static bool i2c_vm_store (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2, uint8_t op3)
+static bool i2c_vm_store (struct i2c_vm_regs * vm_state, uint8_t val, uint8_t ram_addr, uint8_t op3)
 {
-	if (op2 >= sizeof(vm_state->uavo.ram)) {
+	if (ram_addr >= sizeof(vm_state->uavo.ram))
 		return false;
-	}
 
-	vm_state->uavo.ram[op2] = op1;
+	vm_state->uavo.ram[ram_addr] = val;
 	vm_state->uavo.pc++;
 	return true;
 }
@@ -287,21 +307,21 @@ static bool i2c_vm_store (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op
 
 /* Load register information in Big Endian format
  *
- * op1: offset in RAM where value is located
- * op2: length of data to read from RAM
- * op3: destination register to store the converted result into
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] addr address (in virtual RAM) where value should be loaded from
+ * @param[in] len number of bytes to load from RAM
+ * @param[in] rd register to store the value into
  */
-static bool i2c_vm_load_be (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2, uint8_t op3)
+static bool i2c_vm_load_be (struct i2c_vm_regs * vm_state, uint8_t addr, uint8_t len, uint8_t rd)
 {
-	if ((op2 < 1) || (op2 > 4)) {
+	if ((len < 1) || (len > 4))
 		return false;
-	}
 
-	if (op1 >= sizeof(vm_state->uavo.ram))
+	if (addr >= sizeof(vm_state->uavo.ram))
 		return false;
 
 	uint32_t val = 0;
-	memcpy ((void *)((uintptr_t)&val + (4 - op2)), &(vm_state->uavo.ram[op1]), op2);
+	memcpy ((void *)((uintptr_t)&val + (4 - len)), &(vm_state->uavo.ram[addr]), len);
 
 	/* Handle byte swapping */
 	val = (((val & 0xFF000000) >> 24) |
@@ -309,7 +329,7 @@ static bool i2c_vm_load_be (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t 
 		((val & 0x0000FF00) << 8) |
 		((val & 0x000000FF) << 24));
 
-	if (!i2c_vm_set_reg (vm_state, op3, val))
+	if (!i2c_vm_set_reg (vm_state, rd, val))
 		return false;
 
 	vm_state->uavo.pc++;
@@ -318,64 +338,66 @@ static bool i2c_vm_load_be (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t 
 
 /* Load register information in Little Endian format
  *
- * op1: offset in RAM where value is located
- * op2: length of data to read from RAM
- * op3: destination register to store the converted result into
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] addr address (in virtual RAM) where value should be loaded from
+ * @param[in] len number of bytes to load from RAM
+ * @param[in] rd register to store the value into
  */
-static bool i2c_vm_load_le (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2, uint8_t op3)
+static bool i2c_vm_load_le (struct i2c_vm_regs * vm_state, uint8_t addr, uint8_t len, uint8_t rd)
 {
-	if ((op2 < 1) || (op2 > 4)) {
+	if ((len < 1) || (len > 4))
 		return false;
-	}
 
-	if (op1 >= sizeof(vm_state->uavo.ram))
+	if (addr >= sizeof(vm_state->uavo.ram))
 		return false;
 
 	uint32_t val = 0;
-	memcpy (&val, &(vm_state->uavo.ram[op1]), op2);
+	memcpy (&val, &(vm_state->uavo.ram[addr]), len);
 
-	if (!i2c_vm_set_reg (vm_state, op3, val))
+	if (!i2c_vm_set_reg (vm_state, rd, val))
 		return false;
 
 	vm_state->uavo.pc++;
 	return true;
 }
 
-/* ADD registers rA and rB and store the result in a destination register rD
+/* ADD: rd = ra + rb
  *
- * op1: destination register
- * op2: source register A
- * op3: source register B
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] rd destination register for result
+ * @param[in] ra first operand register
+ * @param[in] rb second operand register
  */
-static bool i2c_vm_add_reg (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2, uint8_t op3)
+static bool i2c_vm_add_reg (struct i2c_vm_regs * vm_state, uint8_t rd, uint8_t ra, uint8_t rb)
 {
-	if (!i2c_vm_aluop_reg(vm_state, ALUOP_ADD, op1, op2, op3))
+	if (!i2c_vm_aluop_reg(vm_state, ALUOP_ADD, rd, ra, rb))
 		return false;
 
 	vm_state->uavo.pc++;
 	return true;
 }
 
-/* ADD immediate data to register rD
+/* ADD: rd += simm
  *
- * op1: rD
- * op2: MSB of short immediate data
- * op3: LSB of short immediate data
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] rd destination register for result
+ * @param[in] imm_hi,imm_lo short immediate data
  */
-static bool i2c_vm_add_imm (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2, uint8_t op3)
+static bool i2c_vm_add_imm (struct i2c_vm_regs * vm_state, uint8_t rd, uint8_t imm_hi, uint8_t imm_lo)
 {
-	if (!i2c_vm_aluop_imm(vm_state, ALUOP_ADD, op1, op2, op3))
+	if (!i2c_vm_aluop_imm(vm_state, ALUOP_ADD, rd, imm_hi, imm_lo))
 		return false;
 
 	vm_state->uavo.pc++;
 	return true;
 }
 
-/* Multiply registers rA by rB and store the result in a destination register rD
+/* Multiply: rd = ra * rb
  *
- * op1: destination register
- * op2: source register A
- * op3: source register B
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] rd destination register for result
+ * @param[in] ra first operand register
+ * @param[in] rb second operand register
  */
 static bool i2c_vm_mul_reg (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2, uint8_t op3)
 {
@@ -386,105 +408,107 @@ static bool i2c_vm_mul_reg (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t 
 	return true;
 }
 
-/* Multiply register rD by immediate data
+/* Multiply: rd *= simm
  *
- * op1: rD
- * op2: MSB of short immediate data
- * op3: LSB of short immediate data
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] rd destination register for result
+ * @param[in] imm_hi,imm_lo short immediate data
  */
-static bool i2c_vm_mul_imm (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2, uint8_t op3)
+static bool i2c_vm_mul_imm (struct i2c_vm_regs * vm_state, uint8_t rd, uint8_t imm_hi, uint8_t imm_lo)
 {
-	if (!i2c_vm_aluop_imm(vm_state, ALUOP_MUL, op1, op2, op3))
+	if (!i2c_vm_aluop_imm(vm_state, ALUOP_MUL, rd, imm_hi, imm_lo))
 		return false;
 
 	vm_state->uavo.pc++;
 	return true;
 }
 
-/* Divide registers rA by rB and store the result in a destination register rD
+/* Divide: rd = ra / rb
  *
- * op1: destination register
- * op2: source register A
- * op3: source register B
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] rd destination register for result
+ * @param[in] ra first operand register
+ * @param[in] rb second operand register
  */
-static bool i2c_vm_div_reg (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2, uint8_t op3)
+static bool i2c_vm_div_reg (struct i2c_vm_regs * vm_state, uint8_t rd, uint8_t ra, uint8_t rb)
 {
-	if (!i2c_vm_aluop_reg(vm_state, ALUOP_DIV, op1, op2, op3))
+	if (!i2c_vm_aluop_reg(vm_state, ALUOP_DIV, rd, ra, rb))
 		return false;
 
 	vm_state->uavo.pc++;
 	return true;
 }
 
-/* Divide register rD by immediate data
+/* Divide: rd /= simm
  *
- * op1: rD
- * op2: MSB of short immediate data
- * op3: LSB of short immediate data
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] rd destination register for result
+ * @param[in] imm_hi,imm_lo short immediate data
  */
-static bool i2c_vm_div_imm (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2, uint8_t op3)
+static bool i2c_vm_div_imm (struct i2c_vm_regs * vm_state, uint8_t rd, uint8_t imm_hi, uint8_t imm_lo)
 {
-	if (!i2c_vm_aluop_imm(vm_state, ALUOP_DIV, op1, op2, op3))
+	if (!i2c_vm_aluop_imm(vm_state, ALUOP_DIV, rd, imm_hi, imm_lo))
 		return false;
 
 	vm_state->uavo.pc++;
 	return true;
 }
 
-/* OR register rA with immediate data and store the result back in rA
+/* OR: rd |= (simm & 0xFFFF)
  *
- * op1: rA
- * op2: MSB of short immediate data
- * op3: LSB of short immediate data
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] rd destination register for result
+ * @param[in] imm_hi,imm_lo short immediate data
  */
-static bool i2c_vm_or_imm (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2, uint8_t op3)
+static bool i2c_vm_or_imm (struct i2c_vm_regs * vm_state, uint8_t rd, uint8_t imm_hi, uint8_t imm_lo)
 {
-	if (!i2c_vm_aluop_imm(vm_state, ALUOP_OR, op1, op2, op3))
+	if (!i2c_vm_aluop_imm(vm_state, ALUOP_OR, rd, imm_hi, imm_lo))
 		return false;
 
 	vm_state->uavo.pc++;
 	return true;
 }
 
-/* AND registers rA and rB and store the result in a destination register rD
+/* AND: rd = ra & rb
  *
- * op1: destination register
- * op2: source register A
- * op3: source register B
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] rd destination register for result
+ * @param[in] ra first operand register
+ * @param[in] rb second operand register
  */
-static bool i2c_vm_and_reg (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2, uint8_t op3)
+static bool i2c_vm_and_reg (struct i2c_vm_regs * vm_state, uint8_t rd, uint8_t ra, uint8_t rb)
 {
-	if (!i2c_vm_aluop_reg(vm_state, ALUOP_AND, op1, op2, op3))
+	if (!i2c_vm_aluop_reg(vm_state, ALUOP_AND, rd, ra, rb))
 		return false;
 
 	vm_state->uavo.pc++;
 	return true;
 }
 
-/* Arithmetic Shift Right register rA by # of bits specified in immediate data and store the result back in rA
+/* Arithmetic Shift Right (ASR): signed(rd) >>= (simm & 0x1F)
  *
- * op1: rA
- * op2: MSB of short immediate data
- * op3: LSB of short immediate data
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] rd destination register for result
+ * @param[in] imm_hi,imm_lo number of bits to shift (short immediate data)
  */
-static bool i2c_vm_asr_imm (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2, uint8_t op3)
+static bool i2c_vm_asr_imm (struct i2c_vm_regs * vm_state, uint8_t rd, uint8_t imm_hi, uint8_t imm_lo)
 {
-	if (!i2c_vm_aluop_imm(vm_state, ALUOP_ASR, op1, op2, op3))
+	if (!i2c_vm_aluop_imm(vm_state, ALUOP_ASR, rd, imm_hi, imm_lo))
 		return false;
 
 	vm_state->uavo.pc++;
 	return true;
 }
 
-/* Logical Shift Right register rA by # of bits specified in immediate data and store the result back in rA
+/* Logical Shift Right (LSR): rd >>= (simm & 0x1F)
  *
- * op1: rA
- * op2: MSB of short immediate data
- * op3: LSB of short immediate data
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] rd destination register for result
+ * @param[in] imm_hi,imm_lo number of bits to shift (short immediate data)
  */
-static bool i2c_vm_lsr_imm (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2, uint8_t op3)
+static bool i2c_vm_lsr_imm (struct i2c_vm_regs * vm_state, uint8_t rd, uint8_t imm_hi, uint8_t imm_lo)
 {
-	if (!i2c_vm_aluop_imm(vm_state, ALUOP_LSR, op1, op2, op3))
+	if (!i2c_vm_aluop_imm(vm_state, ALUOP_LSR, rd, imm_hi, imm_lo))
 		return false;
 
 	vm_state->uavo.pc++;
@@ -492,52 +516,50 @@ static bool i2c_vm_lsr_imm (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t 
 }
 
 
-/* Logical Shift Left register rA by # of bits specified in immediate data and store the result back in rA
+/* Logical Shift Left (SL): rd <<= (simm & 0x1F)
  *
- * op1: rA
- * op2: MSB of short immediate data
- * op3: LSB of short immediate data
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] rd destination register for result
+ * @param[in] imm_hi,imm_lo number of bits to shift (short immediate data)
  */
-static bool i2c_vm_sl_imm (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2, uint8_t op3)
+static bool i2c_vm_sl_imm (struct i2c_vm_regs * vm_state, uint8_t rd, uint8_t imm_hi, uint8_t imm_lo)
 {
-	if (!i2c_vm_aluop_imm(vm_state, ALUOP_SL, op1, op2, op3))
+	if (!i2c_vm_aluop_imm(vm_state, ALUOP_SL, rd, imm_hi, imm_lo))
 		return false;
 
 	vm_state->uavo.pc++;
 	return true;
 }
 
-/* Virtual machine jump operation
+/* Jump: pc += simm
  *
- * op1: unused
- * op2: MSB of SIMM value to add to the current PC
- * op3: LSB of SIMM value to add to the current PC
- *      (SIMM operand is a signed 2's complement value)
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] op1 unused
+ * @param[in] imm_hi,imm_lo offset to apply to the program counter (short immediate data)
  */
-static bool i2c_vm_jump (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2, uint8_t op3)
+static bool i2c_vm_jump (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t imm_hi, uint8_t imm_lo)
 {
-	vm_state->uavo.pc += SIMM_VAL(op2, op3);
+	vm_state->uavo.pc += SIMM_VAL(imm_hi, imm_lo);
 
 	return true;
 }
 
-/* Virtual machine Branch If Not Zero operation
+/* Branch If Not Zero: pc += simm IFF (ra == 0)
  *
- * op1: register to compare (rA)
- * op2: MSB of SIMM value to add to the current PC IFF op1 is non-zero
- * op3: LSB of SIMM value to add to the current PC IFF op1 is non-zero
- *      (SIMM operand is a signed 2's complement value)
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] ra register to compare
+ * @param[in] imm_hi,imm_lo short immediate data
  */
-static bool i2c_vm_bnz (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2, uint8_t op3)
+static bool i2c_vm_bnz (struct i2c_vm_regs * vm_state, uint8_t ra, uint8_t imm_hi, uint8_t imm_lo)
 {
 	uint32_t ra_val;
 
-	/* Load rA value */
-	if (!i2c_vm_get_reg(vm_state, op1, &ra_val))
+	/* Load ra value */
+	if (!i2c_vm_get_reg(vm_state, ra, &ra_val))
 		return false;
 
 	if (ra_val) {
-		return (i2c_vm_jump(vm_state, op1, op2, op3));
+		return (i2c_vm_jump(vm_state, 0, imm_hi, imm_lo));
 	} else {
 		vm_state->uavo.pc++;
 	}
@@ -547,24 +569,28 @@ static bool i2c_vm_bnz (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2,
 
 /* Set I2C device address in virtual machine
  *
- * op1: 7-bit I2C device address to be used in future I2C transfers
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] i2c_dev_addr 7-bit I2C device address to be used in future I2C transfers
+ * @param[in] op2,op3 unused
  */
-static bool i2c_vm_set_dev_addr (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2, uint8_t op3)
+static bool i2c_vm_set_dev_addr (struct i2c_vm_regs * vm_state, uint8_t i2c_dev_addr, uint8_t op2, uint8_t op3)
 {
-	vm_state->i2c_dev_addr = op1;
+	vm_state->i2c_dev_addr = i2c_dev_addr;
 	vm_state->uavo.pc++;
 	return true;
 }
 
 /* Read I2C data into virtual machine RAM
  *
- * op1: offset into RAM to start writing
- * op2: number of bytes to read from I2C bus into RAM
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] ram_addr base address (in virtual RAM) where data will be stored
+ * @param[in] len number of bytes to read from the i2c bus and store into virtual RAM
+ * @param[in] op3 unused
  */
-static bool i2c_vm_read (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2, uint8_t op3)
+static bool i2c_vm_read (struct i2c_vm_regs * vm_state, uint8_t ram_addr, uint8_t len, uint8_t op3)
 {
 	/* Make sure our read fits in our buffer */
-	if ((op1 + op2) > sizeof(vm_state->uavo.ram)) {
+	if ((ram_addr + len) > sizeof(vm_state->uavo.ram)) {
 		return false;
 	}
 
@@ -573,8 +599,8 @@ static bool i2c_vm_read (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2
 			.info = __func__,
 			.addr = vm_state->i2c_dev_addr,
 			.rw   = PIOS_I2C_TXN_READ,
-			.len  = op2,
-			.buf  = vm_state->uavo.ram + op1,
+			.len  = len,
+			.buf  = vm_state->uavo.ram + ram_addr,
 		},
 	};
 
@@ -591,12 +617,14 @@ static bool i2c_vm_read (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2
 
 /* Write I2C data from virtual machine RAM
  *
- * op1: offset into RAM to start reading
- * op2: number of bytes to write from RAM to the I2C bus
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] ram_addr base address (in virtual RAM) where data will be read from
+ * @param[in] len number of bytes to read from virtual RAM and write to the the i2c bus
+ * @param[in] op3 unused
  */
-static bool i2c_vm_write (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2, uint8_t op3)
+static bool i2c_vm_write (struct i2c_vm_regs * vm_state, uint8_t ram_addr, uint8_t len, uint8_t op3)
 {
-	if ((op1 + op2) > sizeof(vm_state->uavo.ram)) {
+	if ((ram_addr + len) > sizeof(vm_state->uavo.ram)) {
 		return false;
 	}
 
@@ -605,8 +633,8 @@ static bool i2c_vm_write (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op
 			.info = __func__,
 			.addr = vm_state->i2c_dev_addr,
 			.rw   = PIOS_I2C_TXN_WRITE,
-			.len  = op2,
-			.buf  = vm_state->uavo.ram + op1,
+			.len  = len,
+			.buf  = vm_state->uavo.ram + ram_addr,
 		},
 	};
 
@@ -623,7 +651,8 @@ static bool i2c_vm_write (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op
 
 /* Send UAVObject from virtual machine registers
  *
- * No operands
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] op1,op2,op3 unused
  */
 static bool i2c_vm_send_uavo (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2, uint8_t op3)
 {
@@ -636,11 +665,13 @@ static bool i2c_vm_send_uavo (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_
 
 /* Make virtual machine wait
  *
- * op1: number of ms to wait
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] op1 unused
+ * @param[in] imm_hi,imm_lo number of ms to wait (short immediate data)
  */
-static bool i2c_vm_delay (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op2, uint8_t op3)
+static bool i2c_vm_delay (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t imm_hi, uint8_t imm_lo)
 {
-	vTaskDelay((SIMM_VAL(op2, op3)) / portTICK_RATE_MS);
+	vTaskDelay((SIMM_VAL(imm_hi, imm_lo)) / portTICK_RATE_MS);
 
 	vm_state->uavo.pc++;
 	return true;
@@ -648,7 +679,8 @@ static bool i2c_vm_delay (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t op
 
 /* Reboot virtual machine
  *
- * No operands
+ * @param[in,out] vm_state virtual machine state
+ * @param[in] op1,op2,op3 unused
  */
 static bool i2c_vm_reboot (struct i2c_vm_regs * vm_state, uintptr_t i2c_adapter)
 {
@@ -714,7 +746,13 @@ const i2c_vm_inst_handler i2c_vm_handlers[] = {
 	[I2C_VM_OP_SEND_UAVO]    = i2c_vm_send_uavo,    /* Send UAV Object */
 };
 
-/* Run virtual machine. This is the code that loops through and interprets all the instructions */
+/* Run virtual machine. This is the code that loops through and interprets all the instructions
+ *
+ * @param[in] code pointer to program to execute
+ * @param[in] code_len number of 32-bit instructions contained in the program
+ * @param[in] i2c_adapter opaque I2C adapter handle to use for i2c transactions
+ *
+ */
 bool i2c_vm_run (const uint32_t * code, uint8_t code_len, uintptr_t i2c_adapter)
 {
 	if (code == NULL || code_len == 0)
