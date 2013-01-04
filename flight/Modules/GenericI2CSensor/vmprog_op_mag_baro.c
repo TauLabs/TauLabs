@@ -59,6 +59,29 @@ const uint32_t vmprog_op_mag_baro[] = {
 	I2C_VM_ASM_LOAD_BE(2, 2, VM_R1), /* mag_y */
 	I2C_VM_ASM_LOAD_BE(4, 2, VM_R2), /* mag_z */
 
+	/*
+	 * Sign extend the 16-bit values by logical shifting left to place the sign bit
+	 * at the top of the register and then arithmetic shift right to extend the sign
+	 */
+	I2C_VM_ASM_SL_IMM(VM_R0, 16),
+	I2C_VM_ASM_ASR_IMM(VM_R0, 16),
+
+	I2C_VM_ASM_SL_IMM(VM_R1, 16),
+	I2C_VM_ASM_ASR_IMM(VM_R1, 16),
+
+	I2C_VM_ASM_SL_IMM(VM_R2, 16),
+	I2C_VM_ASM_ASR_IMM(VM_R2, 16),
+
+	/* Scale Magnetometer Readings */
+	I2C_VM_ASM_MUL_IMM(VM_R0, 1000),
+	I2C_VM_ASM_DIV_IMM(VM_R0, PIOS_HMC5883_Sensitivity_1_9Ga),
+
+	I2C_VM_ASM_MUL_IMM(VM_R1, 1000),
+	I2C_VM_ASM_DIV_IMM(VM_R1, PIOS_HMC5883_Sensitivity_1_9Ga),
+
+	I2C_VM_ASM_MUL_IMM(VM_R1, 1000),
+	I2C_VM_ASM_DIV_IMM(VM_R1, PIOS_HMC5883_Sensitivity_1_9Ga),
+
 	/* Temperature conversion */
 
 	I2C_VM_ASM_SET_DEV_ADDR(0x77),   /* Set I2C device address (in 7-bit) */
@@ -85,8 +108,11 @@ const uint32_t vmprog_op_mag_baro[] = {
 	I2C_VM_ASM_READ_I2C(0, 3),        /* Read 3 byte ADC value */
 	I2C_VM_ASM_LOAD_BE(0, 3, VM_R4),  /* Load 24-bit formatted bytes into first output reg */
 
+	/* Scale the pressure conversion by the oversampling factor (set when conversion started) */
+	I2C_VM_ASM_LSR_IMM(VM_R4, 8 - 3),
+
 	I2C_VM_ASM_SEND_UAVO(),	          /* Set the UAVObject */
-	I2C_VM_ASM_JUMP(-25),             /* Jump back 25 instructions */
+	I2C_VM_ASM_JUMP(-38),             /* Jump back 38 instructions */
 };
 
 const uint32_t vmprog_op_mag_baro_len = NELEMENTS(vmprog_op_mag_baro);
