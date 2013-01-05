@@ -87,6 +87,7 @@ static void updateAttitude(AccelsData *, GyrosData *);
 static void settingsUpdatedCb(UAVObjEvent * objEv);
 static void update_accels(struct pios_sensor_accel_data *accels, AccelsData * accelsData);
 static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosData);
+static void update_trimming(AccelsData * accelsData);
 
 static float accelKi = 0;
 static float accelKp = 0;
@@ -270,7 +271,7 @@ static void AttitudeTask(void *parameters)
  * @param[in] attitudeRaw Populate the UAVO instead of saving right here
  * @return 0 if successfull, -1 if not
  */
-static int32_t updateSensors(AccelsData * accels, GyrosData * gyros)
+static int32_t updateSensors(AccelsData * accelsData, GyrosData * gyrosData)
 {
 	struct pios_adxl345_data accel_data;
 	float gyro[4];
@@ -289,11 +290,14 @@ static int32_t updateSensors(AccelsData * accels, GyrosData * gyros)
 	if(PIOS_ADXL345_FifoElements() == 0)
 		return -1;
 	
-	// First sample is temperature
-	gyros->x = -(gyro[1] - GYRO_NEUTRAL) * IDG_GYRO_GAIN * inertialSensorSettings.GyroScale[0];
-	gyros->y = (gyro[2] - GYRO_NEUTRAL) * IDG_GYRO_GAIN * inertialSensorSettings.GyroScale[1];
-	gyros->z = -(gyro[3] - GYRO_NEUTRAL) * IDG_GYRO_GAIN * inertialSensorSettings.GyroScale[2];
+	// Convert the ADC data into the standard normalized format
+	struct pios_sensor_gyro_data gyros;
+	gyros.temp = gyro[0];
+	gyros.x = -(gyro[1] - GYRO_NEUTRAL) * IDG_GYRO_GAIN;
+	gyros.y = (gyro[2] - GYRO_NEUTRAL) * IDG_GYRO_GAIN;
+	gyros.z = -(gyro[3] - GYRO_NEUTRAL) * IDG_GYRO_GAIN;
 	
+	// Convert the ADXL345 data into the standard normalized format
 	int32_t x = 0;
 	int32_t y = 0;
 	int32_t z = 0;
@@ -306,63 +310,23 @@ static int32_t updateSensors(AccelsData * accels, GyrosData * gyros)
 		y += -accel_data.y;
 		z += -accel_data.z;
 	} while ( (i < 32) && (samples_remaining > 0) );
-	gyros->temperature = samples_remaining;
 
-	float accel[3] = {(float) x / i, (float) y / i, (float) z / i};
+	struct pios_sensor_accel_data accels;
 	
-	if(rotate) {
-		// TODO: rotate sensors too so stabilization is well behaved
-		float vec_out[3];
-		rot_mult(R, accel, vec_out,false);
-		accels->x = vec_out[0];
-		accels->y = vec_out[1];
-		accels->z = vec_out[2];
-		rot_mult(R, &gyros->x, vec_out,false);
-		gyros->x = vec_out[0];
-		gyros->y = vec_out[1];
-		gyros->z = vec_out[2];
-	} else {
-		accels->x = accel[0];
-		accels->y = accel[1];
-		accels->z = accel[2];
-	}
-	
-	if (trim_requested) {
-		if (trim_samples >= MAX_TRIM_FLIGHT_SAMPLES) {
-			trim_requested = false;
-		} else {
-			uint8_t armed;
-			float throttle;
-			FlightStatusArmedGet(&armed);
-			ManualControlCommandThrottleGet(&throttle);  // Until flight status indicates airborne
-			if ((armed == FLIGHTSTATUS_ARMED_ARMED) && (throttle > 0)) {
-				trim_samples++;
-				// Store the digitally scaled version since that is what we use for bias
-				trim_accels[0] += accels->x;
-				trim_accels[1] += accels->y;
-				trim_accels[2] += accels->z;
-			}
-		}
-	}
-	
-	// Scale accels and correct bias
-	accels->x = accels->x * ADXL345_ACCEL_SCALE * inertialSensorSettings.AccelScale[0] - inertialSensorSettings.AccelBias[0];
-	accels->y = accels->y * ADXL345_ACCEL_SCALE * inertialSensorSettings.AccelScale[1] - inertialSensorSettings.AccelBias[1];
-	accels->z = accels->z * ADXL345_ACCEL_SCALE * inertialSensorSettings.AccelScale[2] - inertialSensorSettings.AccelBias[2];
-	
-	if(bias_correct_gyro) {
-		// Applying integral component here so it can be seen on the gyros and correct bias
-		gyros->x -= gyro_correct_int[0];
-		gyros->y -= gyro_correct_int[1];
-		gyros->z -= gyro_correct_int[2];
-	}
-	
-	// Because most crafts wont get enough information from gravity to zero yaw gyro, we try
-	// and make it average zero (weakly)
-	gyro_correct_int[2] -= - gyros->z * yawBiasRate;
+	accels.x = ((float) x / i) * ADXL345_ACCEL_SCALE;
+	accels.y = ((float) y / i) * ADXL345_ACCEL_SCALE;
+	accels.z = ((float) z / i) * ADXL345_ACCEL_SCALE;
 
-	GyrosSet(gyros);
-	AccelsSet(accels);
+	// Apply rotation / calibration and assign to the UAVO
+	update_gyros(&gyros, gyrosData);
+	update_accels(&accels, accelsData);
+	
+	update_trimming(accelsData);
+
+		
+
+	GyrosSet(gyrosData);
+	AccelsSet(accelsData);
 
 	return 0;
 }
@@ -396,26 +360,13 @@ static int32_t updateSensorsCC3D(AccelsData * accelsData, GyrosData * gyrosData)
 	// the accels to be available first
 	update_gyros(&gyros, gyrosData);
 
-	if (trim_requested) {
-		if (trim_samples >= MAX_TRIM_FLIGHT_SAMPLES) {
-			trim_requested = false;
-		} else {
-			uint8_t armed;
-			float throttle;
-			FlightStatusArmedGet(&armed);
-			ManualControlCommandThrottleGet(&throttle);  // Until flight status indicates airborne
-			if ((armed == FLIGHTSTATUS_ARMED_ARMED) && (throttle > 0)) {
-				trim_samples++;
-				// Store the digitally scaled version since that is what we use for bias
-				trim_accels[0] += accelsData->x;
-				trim_accels[1] += accelsData->y;
-				trim_accels[2] += accelsData->z;
-			}
-		}
-	}
+	update_trimming(accelsData);
+
+	GyrosSet(gyrosData);
+	AccelsSet(accelsData);
+
 	return 0;
 }
-
 
 /**
  * @brief Apply calibration and rotation to the raw accel data
@@ -473,7 +424,36 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosD
 		gyrosData->z -= gyro_correct_int[2];
 	}
 
+	// Because most crafts wont get enough information from gravity to zero yaw gyro, we try
+	// and make it average zero (weakly)
+	gyro_correct_int[2] += gyrosData->z * yawBiasRate;
+
 	gyrosData->temperature = gyros->temp;
+}
+
+/**
+ * @brief If requested accumulate accel values to calculate level
+ * @param[in] accelsData the scaled and normalized accels
+ */
+static void update_trimming(AccelsData * accelsData)
+{
+	if (trim_requested) {
+		if (trim_samples >= MAX_TRIM_FLIGHT_SAMPLES) {
+			trim_requested = false;
+		} else {
+			uint8_t armed;
+			float throttle;
+			FlightStatusArmedGet(&armed);
+			ManualControlCommandThrottleGet(&throttle);  // Until flight status indicates airborne
+			if ((armed == FLIGHTSTATUS_ARMED_ARMED) && (throttle > 0)) {
+				trim_samples++;
+				// Store the digitally scaled version since that is what we use for bias
+				trim_accels[0] += accelsData->x;
+				trim_accels[1] += accelsData->y;
+				trim_accels[2] += accelsData->z;
+			}
+		}
+	}
 }
 
 static inline void apply_accel_filter(const float * raw, float * filtered)
