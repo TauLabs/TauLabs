@@ -61,7 +61,7 @@ static int32_t PIOS_HMC5883_Read(uint8_t address, uint8_t * buffer, uint8_t len)
 static int32_t PIOS_HMC5883_Write(uint8_t address, uint8_t buffer);
 static void PIOS_HMC5883_Task(void *parameters);
 
-struct hmc5883_dev *dev;
+static struct hmc5883_dev *dev;
 
 /**
  * @brief Allocate a new device
