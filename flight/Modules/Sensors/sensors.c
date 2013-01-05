@@ -199,8 +199,10 @@ static void SensorsTask(void *parameters)
 			continue;
 		}
 
+		// As it says below, because the rest of the code expects the accel to be ready when
+		// the gyro is we must block here too
 		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_ACCEL);
-		if(queue == NULL || xQueueReceive(queue, (void *) &accels, 0) == errQUEUE_EMPTY) {
+		if(queue == NULL || xQueueReceive(queue, (void *) &accels, 1) == errQUEUE_EMPTY) {
 			error = true;
 			continue;
 		}
