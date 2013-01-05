@@ -391,11 +391,11 @@ static void PIOS_MS5611_Task(void *parameters)
 
 	while (1)
 	{
-		vTaskDelay(PIOS_MS5611_GetDelay() * portTICK_RATE_MS);
-
 		// If device handle isn't validate pause
-		if (PIOS_MS5611_Validate(dev) != 0)
+		if (PIOS_MS5611_Validate(dev) != 0) {
+			vTaskDelay(1000);
 			continue;
+		}
 
 		temp_press_interleave_count --;
 		if(temp_press_interleave_count <= 0)

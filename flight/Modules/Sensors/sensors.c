@@ -552,7 +552,7 @@ static void SensorsTask(void *parameters)
 		// UAVO if so
 		struct pios_ms5611_data baro_data;
 		xQueueHandle pressure_queue = PIOS_MS5611_GetQueue();
-		if (pressure_queue != NULL && xQueueReceive(pressure_queue, &baro_data, 0) != pdTRUE )
+		if (pressure_queue != NULL && xQueueReceive(pressure_queue, &baro_data, 0) == pdTRUE )
 		{
 			BaroAltitudeData baroAltitude;
 			BaroAltitudeGet(&baroAltitude);
