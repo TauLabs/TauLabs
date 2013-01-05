@@ -41,6 +41,17 @@
 #define MS5611_TASK_PRIORITY	(tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
 #define MS5611_TASK_STACK		(512 / 4)
 
+/* MS5611 Addresses */
+#define MS5611_I2C_ADDR	        0x77
+#define MS5611_RESET            0x1E
+#define MS5611_CALIB_ADDR		0xA2  /* First sample is factory stuff */
+#define MS5611_CALIB_LEN		16
+#define MS5611_ADC_READ		    0x00
+#define MS5611_PRES_ADDR		0x40
+#define MS5611_TEMP_ADDR		0x50
+#define MS5611_ADC_MSB			0xF6
+#define MS5611_P0			    101.3250f
+
 /* Private methods */
 static int32_t PIOS_MS5611_Read(uint8_t address, uint8_t * buffer, uint8_t len);
 static int32_t PIOS_MS5611_WriteCommand(uint8_t command);
@@ -100,7 +111,7 @@ static struct ms5611_dev * PIOS_MS5611_alloc(void)
 
 /**
  * @brief Validate the handle to the i2c device
- * @returns 0 for valid device or -1 otherwise
+ * @returns 0 for valid device or <0 otherwise
  */
 static int32_t PIOS_MS5611_Validate(struct ms5611_dev *dev)
 {
@@ -160,7 +171,7 @@ xQueueHandle PIOS_MS5611_GetQueue()
 
 /**
 * Start the ADC conversion
-* \param[in] PresOrTemp BMP085_PRES_ADDR or BMP085_TEMP_ADDR
+* \param[in] PRESSURE_CONV or TEMPERATURE_CONV to select which measurement to make
 * \return 0 for success, -1 for failure (conversion completed and not read)
 */
 static int32_t PIOS_MS5611_StartADC(enum conversion_type type)
@@ -213,7 +224,6 @@ static int32_t PIOS_MS5611_GetDelay() {
 
 /**
 * Read the ADC conversion value (once ADC conversion has completed)
-* \param[in] PresOrTemp BMP085_PRES_ADDR or BMP085_TEMP_ADDR
 * \return 0 if successfully read the ADC, -1 if failed
 */
 static int32_t PIOS_MS5611_ReadADC(void)

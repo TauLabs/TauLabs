@@ -31,6 +31,15 @@
 #ifndef PIOS_MS5611_PRIV_H
 #define PIOS_MS5611_PRIV_H
 
+//! The valid oversampling rates
+enum pios_ms5611_osr {
+	MS5611_OSR_256   = 0,
+	MS5611_OSR_512   = 2,
+	MS5611_OSR_1024  = 4,
+	MS5611_OSR_2048  = 6,
+	MS5611_OSR_4096  = 8,
+};
+
 //! Configuration structure for the MS5611 driver
 struct pios_ms5611_cfg {
 	//! The oversampling setting for the baro, higher produces
