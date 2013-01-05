@@ -155,7 +155,7 @@ const struct pios_led_cfg * PIOS_BOARD_HW_DEFS_GetLedCfg (uint32_t board_revisio
 #include <pios_spi_priv.h>
 
 /* SPI1 Interface
- *      - Used for flash communications
+ *      - Used for internal gyro
  */
 void PIOS_SPI_internal_irq_handler(void);
 void SPI1_IRQHandler(void) __attribute__((alias("PIOS_SPI_internal_irq_handler")));
@@ -229,7 +229,7 @@ void PIOS_SPI_internal_irq_handler(void)
 
 
 /* SPI2 Interface
- *      - Used for flash communications
+ *      - Used for optional external components
  */
 void PIOS_SPI_external_irq_handler(void);
 void SPI2_IRQHandler(void) __attribute__((alias("PIOS_SPI_external_irq_handler")));
@@ -432,7 +432,7 @@ static const struct pios_i2c_adapter_cfg pios_i2c_external_cfg = {
   .event = {
     .flags   = 0,		/* FIXME: check this */
     .init = {
-			.NVIC_IRQChannel = I2C1_EV_IRQn,
+			.NVIC_IRQChannel = I2C2_EV_IRQn,
 			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGHEST,
 			.NVIC_IRQChannelSubPriority = 0,
 			.NVIC_IRQChannelCmd = ENABLE,
@@ -441,7 +441,7 @@ static const struct pios_i2c_adapter_cfg pios_i2c_external_cfg = {
   .error = {
     .flags   = 0,		/* FIXME: check this */
     .init = {
-			.NVIC_IRQChannel = I2C1_ER_IRQn,
+			.NVIC_IRQChannel = I2C2_ER_IRQn,
 			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGHEST,
 			.NVIC_IRQChannelSubPriority = 0,
 			.NVIC_IRQChannelCmd = ENABLE,

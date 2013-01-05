@@ -49,18 +49,21 @@
 
 #include "openpilot.h"
 #include "pios.h"
-#include "homelocation.h"
-#include "magnetometer.h"
-#include "magbias.h"
+
+// UAVOs
 #include "accels.h"
-#include "gyros.h"
-#include "gyrosbias.h"
 #include "attitudeactual.h"
 #include "attitudesettings.h"
+#include "baroaltitude.h"
+#include "flightstatus.h"
+#include "gyros.h"
+#include "gyrosbias.h"
+#include "homelocation.h"
 #include "inertialsensorsettings.h"
 #include "inssettings.h"
+#include "magnetometer.h"
+#include "magbias.h"
 #include "revocalibration.h"
-#include "flightstatus.h"
 #include "CoordinateConversions.h"
 
 #include <pios_board_info.h>
@@ -83,6 +86,7 @@ static void magOffsetEstimation(MagnetometerData *mag);
 void update_accels(struct pios_sensor_accel_data *accel);
 void update_gyros(struct pios_sensor_gyro_data *gyro);
 void update_mags(struct pios_sensor_mag_data *mag);
+void update_baro(struct pios_sensor_baro_data *baro);
 
 // Private variables
 static xTaskHandle sensorsTaskHandle;
@@ -119,6 +123,7 @@ int32_t SensorsInitialize(void)
 	GyrosInitialize();
 	GyrosBiasInitialize();
 	AccelsInitialize();
+	BaroAltitudeInitialize();
 	MagnetometerInitialize();
 	MagBiasInitialize();
 	RevoCalibrationInitialize();
@@ -152,6 +157,7 @@ int32_t SensorsStart(void)
 
 MODULE_INITCALL(SensorsInitialize, SensorsStart)
 
+
 /**
  * The sensor task.  This polls the gyros at 500 Hz and pumps that data to
  * stabilization and to the attitude loop
@@ -164,6 +170,7 @@ static void SensorsTask(void *parameters)
 
 	UAVObjEvent ev;
 	settingsUpdatedCb(&ev);
+
 
 	// Main task loop
 	lastSysTime = xTaskGetTickCount();
@@ -183,6 +190,7 @@ static void SensorsTask(void *parameters)
 		struct pios_sensor_gyro_data gyros;
 		struct pios_sensor_accel_data accels;
 		struct pios_sensor_mag_data mags;
+		struct pios_sensor_baro_data baro;
 
 		xQueueHandle queue;
 		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_GYRO);
@@ -206,6 +214,11 @@ static void SensorsTask(void *parameters)
 		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_MAG);
 		if(queue != NULL && xQueueReceive(queue, (void *) &mags, 0) != errQUEUE_EMPTY) {
 			update_mags(&mags);
+		}
+
+		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_BARO);
+		if (queue != NULL && xQueueReceive(queue, (void *) &baro, 0) != errQUEUE_EMPTY) {
+			update_baro(&baro);
 		}
 
 		PIOS_WDG_UpdateFlag(PIOS_WDG_SENSORS);
@@ -305,6 +318,16 @@ void update_mags(struct pios_sensor_mag_data *mag)
 		magOffsetEstimation(&magData);
 
 	MagnetometerSet(&magData);
+}
+
+void update_baro(struct pios_sensor_baro_data *baro)
+{
+	BaroAltitudeData baroAltitude;
+	BaroAltitudeGet(&baroAltitude);
+	baroAltitude.Temperature = baro->temperature;
+	baroAltitude.Pressure = baro->pressure;
+	baroAltitude.Altitude = baro->altitude;
+	BaroAltitudeSet(&baroAltitude);
 }
 
 /**

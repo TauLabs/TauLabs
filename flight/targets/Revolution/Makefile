@@ -78,7 +78,6 @@ MODULES += ManualControl
 MODULES += Stabilization
 MODULES += Actuator
 MODULES += FirmwareIAP
-MODULES += Altitude/revolution
 MODULES += Airspeed/revolution
 MODULES += PathPlanner
 MODULES += Telemetry
@@ -232,6 +231,7 @@ ASRCARM =
 
 # List any extra directories to look for include files here.
 #    Each directory must be seperated by a space.
+EXTRAINCDIRS  += $(SHAREDAPIDIR)
 EXTRAINCDIRS  += $(PIOS)
 EXTRAINCDIRS  += $(PIOSINC)
 EXTRAINCDIRS  += $(OPSYSTEMINC)

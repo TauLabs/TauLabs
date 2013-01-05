@@ -55,7 +55,7 @@ struct pios_sensor_mag_data {
 };
 
 //! Pios sensor structure for generic baro data
-struct pios_sensors_baro_data {
+struct pios_sensor_baro_data {
 	float temperature;
 	float pressure;
 	float altitude;
