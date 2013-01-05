@@ -92,6 +92,10 @@ signals:
 
 public slots:
 
+protected slots:
+    //! Update the airframe image based on the model type
+    void updateAirframe(UAVObject *obj);
+
 protected:
     void paintEvent(QPaintEvent *event);
 
@@ -108,6 +112,7 @@ private: /* Private variables */
     QTimer _timer;
     EarthManipulator* manip;
     osgEarth::Util::ObjectLocatorNode* uavPos;
+    osg::MatrixTransform *rotateModelNED;
     osg::MatrixTransform* uavAttitudeAndScale;
     osgEarth::MapNode* mapNode;
 };
