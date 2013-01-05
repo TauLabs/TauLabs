@@ -83,10 +83,10 @@ static void SensorsTask(void *parameters);
 static void settingsUpdatedCb(UAVObjEvent * objEv);
 static void magOffsetEstimation(MagnetometerData *mag);
 
-void update_accels(struct pios_sensor_accel_data *accel);
-void update_gyros(struct pios_sensor_gyro_data *gyro);
-void update_mags(struct pios_sensor_mag_data *mag);
-void update_baro(struct pios_sensor_baro_data *baro);
+static void update_accels(struct pios_sensor_accel_data *accel);
+static void update_gyros(struct pios_sensor_gyro_data *gyro);
+static void update_mags(struct pios_sensor_mag_data *mag);
+static void update_baro(struct pios_sensor_baro_data *baro);
 
 // Private variables
 static xTaskHandle sensorsTaskHandle;
@@ -231,7 +231,7 @@ static void SensorsTask(void *parameters)
  * @brief Apply calibration and rotation to the raw accel data
  * @param[in] accels The raw accel data
  */
-void update_accels(struct pios_sensor_accel_data *accels)
+static void update_accels(struct pios_sensor_accel_data *accels)
 {
 	// Average and scale the accels before rotation
 	float accels_out[3] = {accels->x * accel_scale[0] - accel_bias[0],
@@ -259,7 +259,7 @@ void update_accels(struct pios_sensor_accel_data *accels)
  * @brief Apply calibration and rotation to the raw gyro data
  * @param[in] gyros The raw gyro data
  */
-void update_gyros(struct pios_sensor_gyro_data *gyros)
+static void update_gyros(struct pios_sensor_gyro_data *gyros)
 {
 	// Scale the gyros
 	float gyros_out[3] = {gyros->x * gyro_scale[0],
@@ -296,7 +296,7 @@ void update_gyros(struct pios_sensor_gyro_data *gyros)
  * @brief Apply calibration and rotation to the raw mag data
  * @param[in] mag The raw mag data
  */
-void update_mags(struct pios_sensor_mag_data *mag)
+static void update_mags(struct pios_sensor_mag_data *mag)
 {
 	float mags[3] = {mag->x * mag_scale[0] - mag_bias[0],
 					 mag->y * mag_scale[1] - mag_bias[1],
@@ -322,7 +322,7 @@ void update_mags(struct pios_sensor_mag_data *mag)
 	MagnetometerSet(&magData);
 }
 
-void update_baro(struct pios_sensor_baro_data *baro)
+static void update_baro(struct pios_sensor_baro_data *baro)
 {
 	BaroAltitudeData baroAltitude;
 	BaroAltitudeGet(&baroAltitude);
