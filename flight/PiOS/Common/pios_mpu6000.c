@@ -62,6 +62,8 @@ volatile bool mpu6000_configured = false;
 static struct mpu6000_dev * PIOS_MPU6000_alloc(void);
 static int32_t PIOS_MPU6000_Validate(struct mpu6000_dev * dev);
 static void PIOS_MPU6000_Config(struct pios_mpu60x0_cfg const * cfg);
+static int32_t PIOS_MPU6000_ClaimBus();
+static int32_t PIOS_MPU6000_ReleaseBus();
 static int32_t PIOS_MPU6000_SetReg(uint8_t address, uint8_t buffer);
 static int32_t PIOS_MPU6000_GetReg(uint8_t address);
 
@@ -147,62 +149,64 @@ int32_t PIOS_MPU6000_Init(uint32_t spi_id, uint32_t slave_num, const struct pios
 */
 static void PIOS_MPU6000_Config(struct pios_mpu60x0_cfg const * cfg)
 {
+	PIOS_MPU6000_ClaimBus();
+	PIOS_DELAY_WaitmS(1);
+	PIOS_MPU6000_ReleaseBus();
+	PIOS_DELAY_WaitmS(10);
 
-	PIOS_MPU6000_Test();
-	
 	// Reset chip
-	while (PIOS_MPU6000_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, 0x80) != 0);
-	
-	PIOS_DELAY_WaitmS(100);
-	
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, 0x80 | cfg->Pwr_mgmt_clk);
+	do {
+		PIOS_DELAY_WaitmS(5);
+	} while (PIOS_MPU6000_GetReg(PIOS_MPU60X0_PWR_MGMT_REG) & 0x80);
+
+	PIOS_DELAY_WaitmS(25);
+
 	// Reset chip and fifo
-	while (PIOS_MPU6000_SetReg(PIOS_MPU60X0_USER_CTRL_REG, 0x80 | 0x01 | 0x02 | 0x04) != 0);
-	
-	// Wait for reset to finish
-	while (PIOS_MPU6000_GetReg(PIOS_MPU60X0_USER_CTRL_REG) & 0x07);
-	
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_USER_CTRL_REG, 0x80 | 0x01 | 0x02 | 0x04);;
+	do {
+		PIOS_DELAY_WaitmS(5);
+	} while (PIOS_MPU6000_GetReg(PIOS_MPU60X0_USER_CTRL_REG) & 0x07);
+
+	PIOS_DELAY_WaitmS(25);
+
 	//Power management configuration
-	while (PIOS_MPU6000_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, cfg->Pwr_mgmt_clk) != 0) ;
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, cfg->Pwr_mgmt_clk);
 
 	// Interrupt configuration
-	while (PIOS_MPU6000_SetReg(PIOS_MPU60X0_INT_CFG_REG, cfg->interrupt_cfg) != 0) ;
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_USER_CTRL_REG, cfg->User_ctl);
 
 	// Interrupt configuration
-	while (PIOS_MPU6000_SetReg(PIOS_MPU60X0_INT_EN_REG, cfg->interrupt_en) != 0) ;
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_INT_CFG_REG, cfg->interrupt_cfg);
+
+	// Interrupt configuration
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_INT_EN_REG, cfg->interrupt_en);
 
 	// FIFO storage
 #if defined(PIOS_MPU6000_ACCEL)
 	// Set the accel scale
 	PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
 	
-	while (PIOS_MPU6000_SetReg(PIOS_MPU60X0_FIFO_EN_REG, cfg->Fifo_store | PIOS_MPU60X0_ACCEL_OUT) != 0);
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_FIFO_EN_REG, cfg->Fifo_store | PIOS_MPU60X0_ACCEL_OUT);
 #else
-	while (PIOS_MPU6000_SetReg(PIOS_MPU60X0_FIFO_EN_REG, cfg->Fifo_store) != 0);
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_FIFO_EN_REG, cfg->Fifo_store);
 #endif
-	
+
 	// Sample rate divider
-	while (PIOS_MPU6000_SetReg(PIOS_MPU60X0_SMPLRT_DIV_REG, cfg->Smpl_rate_div) != 0) ;
-	
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_SMPLRT_DIV_REG, cfg->Smpl_rate_div);
+
 	// Digital low-pass filter and scale
-	while (PIOS_MPU6000_SetReg(PIOS_MPU60X0_DLPF_CFG_REG, cfg->filter) != 0) ;
-	
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_DLPF_CFG_REG, cfg->filter);
+
 	// Digital low-pass filter and scale
 	PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
-	
-	// Interrupt configuration
-	while (PIOS_MPU6000_SetReg(PIOS_MPU60X0_USER_CTRL_REG, cfg->User_ctl) != 0) ;
-	
-	// Interrupt configuration
-	while (PIOS_MPU6000_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, cfg->Pwr_mgmt_clk) != 0) ;
-	
-	// Interrupt configuration
-	while (PIOS_MPU6000_SetReg(PIOS_MPU60X0_INT_CFG_REG, cfg->interrupt_cfg) != 0) ;
 
 	// Interrupt configuration
-	while (PIOS_MPU6000_SetReg(PIOS_MPU60X0_INT_EN_REG, cfg->interrupt_en) != 0) ;
-	if((PIOS_MPU6000_GetReg(PIOS_MPU60X0_INT_EN_REG)) != cfg->interrupt_en)
-		return;
-	
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_INT_CFG_REG, cfg->interrupt_cfg);
+
+	// Interrupt configuration
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_INT_EN_REG, cfg->interrupt_en);
+
 	mpu6000_configured = true;
 }
 
@@ -228,7 +232,7 @@ extern void PIOS_MPU6000_SetAccelRange(enum pios_mpu60x0_accel_range accel_range
  * @brief Claim the SPI bus for the accel communications and select this chip
  * @return 0 if successful, -1 for invalid device, -2 if unable to claim bus
  */
-int32_t PIOS_MPU6000_ClaimBus()
+static int32_t PIOS_MPU6000_ClaimBus()
 {
 	if(PIOS_MPU6000_Validate(dev) != 0)
 		return -1;
@@ -244,7 +248,7 @@ int32_t PIOS_MPU6000_ClaimBus()
  * @brief Release the SPI bus for the accel communications and end the transaction
  * @return 0 if successful
  */
-int32_t PIOS_MPU6000_ReleaseBus()
+static int32_t PIOS_MPU6000_ReleaseBus()
 {
 	if(PIOS_MPU6000_Validate(dev) != 0)
 		return -1;
