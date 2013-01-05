@@ -56,6 +56,20 @@ struct lsm303_dev {
 	enum pios_lsm303_dev_magic magic;
 };
 
+//! Internal representation of unscaled accelerometer data
+struct pios_lsm303_accel_data {
+	int16_t accel_x;
+	int16_t accel_y;
+	int16_t accel_z;
+};
+
+//! Internal representation of unscaled magnetometer data
+struct pios_lsm303_mag_data {
+	int16_t mag_x;
+	int16_t mag_y;
+	int16_t mag_z;
+};
+
 //! Global structure for this device device
 static struct lsm303_dev * dev;
 volatile bool lsm303_configured = false;
@@ -67,6 +81,8 @@ static void PIOS_LSM303_Config(struct pios_lsm303_cfg const * cfg);
 static int32_t PIOS_LSM303_Accel_SetReg(uint8_t address, uint8_t buffer);
 static int32_t PIOS_LSM303_Mag_SetReg(uint8_t address, uint8_t buffer);
 static int32_t PIOS_LSM303_Mag_GetReg(uint8_t address);
+static int32_t PIOS_LSM303_Accel_ReadData(struct pios_lsm303_accel_data * data);
+static int32_t PIOS_LSM303_Mag_ReadData(struct pios_lsm303_mag_data * data);
 static void PIOS_LSM303_Task(void *parameters);
 
 #define GRAV 9.81f
@@ -83,13 +99,13 @@ static struct lsm303_dev * PIOS_LSM303_alloc(void)
 	
 	lsm303_dev->magic = PIOS_LSM303_DEV_MAGIC;
 	
-	lsm303_dev->queue_accel = xQueueCreate(PIOS_LSM303_MAX_DOWNSAMPLE, sizeof(struct pios_lsm303_accel_data));
+	lsm303_dev->queue_accel = xQueueCreate(PIOS_LSM303_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_accel_data));
 	if (lsm303_dev->queue_accel == NULL) {
 		vPortFree(lsm303_dev);
 		return NULL;
 	}
 
-	lsm303_dev->queue_mag = xQueueCreate(PIOS_LSM303_MAX_DOWNSAMPLE, sizeof(struct pios_lsm303_mag_data));
+	lsm303_dev->queue_mag = xQueueCreate(PIOS_LSM303_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_mag_data));
 	vQueueAddToRegistry(lsm303_dev->queue_mag, (signed char*)"pios_lsm303_queue_mag");
 	if (lsm303_dev->queue_mag == NULL) {
 		vPortFree(lsm303_dev);
@@ -158,6 +174,9 @@ int32_t PIOS_LSM303_Init(uint32_t i2c_id, const struct pios_lsm303_cfg * cfg)
 	// An initial read is needed to get it running
 	struct pios_lsm303_accel_data data;
 	PIOS_LSM303_Accel_ReadData(&data);
+
+	PIOS_SENSORS_Register(PIOS_SENSOR_ACCEL, dev->queue_accel);
+	PIOS_SENSORS_Register(PIOS_SENSOR_MAG, dev->queue_mag);
 
 	return 0;
 }
@@ -388,7 +407,7 @@ static int32_t PIOS_LSM303_Mag_SetReg(uint8_t reg, uint8_t data)
  * \param[out] int16_t array of size 3 to store X, Z, and Y accelerometer readings
  * \returns The number of samples remaining in the fifo
  */
-int32_t PIOS_LSM303_Accel_ReadData(struct pios_lsm303_accel_data * data)
+static int32_t PIOS_LSM303_Accel_ReadData(struct pios_lsm303_accel_data * data)
 {
 	if (PIOS_LSM303_Accel_Read(PIOS_LSM303_OUT_X_L_A, (uint8_t*)data, sizeof(*data)) < 0) {
 		return -2;
@@ -401,7 +420,7 @@ int32_t PIOS_LSM303_Accel_ReadData(struct pios_lsm303_accel_data * data)
  * \param[out] int16_t array of size 3 to store X, Y, Z and temperature magnetometer readings
  * \returns The number of samples remaining in the fifo
  */
-int32_t PIOS_LSM303_Mag_ReadData(struct pios_lsm303_mag_data * data)
+static int32_t PIOS_LSM303_Mag_ReadData(struct pios_lsm303_mag_data * data)
 {
 	uint8_t temp[6];
 	if (PIOS_LSM303_Mag_Read(PIOS_LSM303_OUT_X_H_M, temp, sizeof(temp)) < 0) {
@@ -487,7 +506,7 @@ float PIOS_LSM303_Accel_GetScale()
 	return 0;
 }
 
-float PIOS_LSM303_Mag_GetScaleXY()
+static float PIOS_LSM303_Mag_GetScaleXY()
 {
 	switch (dev->mag_range) {
 		case PIOS_LSM303_MAG_1_3GA:
@@ -508,7 +527,7 @@ float PIOS_LSM303_Mag_GetScaleXY()
 	return 0;
 }
 
-float PIOS_LSM303_Mag_GetScaleZ()
+static float PIOS_LSM303_Mag_GetScaleZ()
 {
 	switch (dev->mag_range) {
 		case PIOS_LSM303_MAG_1_3GA:
@@ -534,7 +553,7 @@ float PIOS_LSM303_Mag_GetScaleZ()
  * \return 0 if test succeeded
  * \return non-zero value if test succeeded
  */
-uint8_t PIOS_LSM303_Accel_Test(void)
+int32_t PIOS_LSM303_Accel_Test(void)
 {
 	struct pios_lsm303_accel_data data;
 	return PIOS_LSM303_Accel_ReadData(&data);
@@ -545,7 +564,7 @@ uint8_t PIOS_LSM303_Accel_Test(void)
  * \return 0 if test succeeded
  * \return non-zero value if test succeeded
  */
-uint8_t PIOS_LSM303_Mag_Test(void)
+int32_t PIOS_LSM303_Mag_Test(void)
 {
 	int32_t id = PIOS_LSM303_Mag_ReadID();
 	if (id != 0x483433)	// "H43"
@@ -587,28 +606,29 @@ void PIOS_LSM303_Task(void *parameters)
 				continue;
 			}
 
-			struct pios_lsm303_accel_data normalized_data;
+			struct pios_sensor_accel_data normalized_data;
 			switch (dev->cfg->orientation)
 			{
 				default:
 				case PIOS_LSM303_TOP_0DEG:
-					normalized_data.accel_x = +data.accel_x;
-					normalized_data.accel_y = -data.accel_y;
+					normalized_data.x = +data.accel_x * PIOS_LSM303_Accel_GetScale();
+					normalized_data.y = -data.accel_y * PIOS_LSM303_Accel_GetScale();
 					break;
 				case PIOS_LSM303_TOP_90DEG:
-					normalized_data.accel_x = +data.accel_y;
-					normalized_data.accel_y = +data.accel_x;
+					normalized_data.x = +data.accel_y * PIOS_LSM303_Accel_GetScale();
+					normalized_data.y = +data.accel_x * PIOS_LSM303_Accel_GetScale();
 					break;
 				case PIOS_LSM303_TOP_180DEG:
-					normalized_data.accel_x = -data.accel_x;
-					normalized_data.accel_y = +data.accel_y;
+					normalized_data.x = -data.accel_x * PIOS_LSM303_Accel_GetScale();
+					normalized_data.y = +data.accel_y * PIOS_LSM303_Accel_GetScale();
 					break;
 				case PIOS_LSM303_TOP_270DEG:
-					normalized_data.accel_x = -data.accel_y;
-					normalized_data.accel_y = -data.accel_x;
+					normalized_data.x = -data.accel_y * PIOS_LSM303_Accel_GetScale();
+					normalized_data.y = -data.accel_x * PIOS_LSM303_Accel_GetScale();
 					break;
 			}
-			normalized_data.accel_z = -data.accel_z;
+			normalized_data.z = -data.accel_z * PIOS_LSM303_Accel_GetScale();
+			normalized_data.temp = 0;
 
 			xQueueSend(dev->queue_accel, (void*)&normalized_data, 0);
 		}
@@ -626,28 +646,28 @@ void PIOS_LSM303_Task(void *parameters)
 
 				float mag_scale_xy = PIOS_LSM303_Mag_GetScaleXY();
 				float mag_scale_z = PIOS_LSM303_Mag_GetScaleZ();
-				struct pios_lsm303_mag_data normalized_data;
+				struct pios_sensor_mag_data normalized_data;
 				switch (dev->cfg->orientation)
 				{
 					default:
 					case PIOS_LSM303_TOP_0DEG:
-						normalized_data.mag_x = +data.mag_x * mag_scale_xy;
-						normalized_data.mag_y = -data.mag_y * mag_scale_xy;
+						normalized_data.x = +data.mag_x * mag_scale_xy;
+						normalized_data.y = -data.mag_y * mag_scale_xy;
 						break;
 					case PIOS_LSM303_TOP_90DEG:
-						normalized_data.mag_x = +data.mag_y * mag_scale_xy;
-						normalized_data.mag_y = +data.mag_x * mag_scale_xy;
+						normalized_data.x = +data.mag_y * mag_scale_xy;
+						normalized_data.y = +data.mag_x * mag_scale_xy;
 						break;
 					case PIOS_LSM303_TOP_180DEG:
-						normalized_data.mag_x = -data.mag_x * mag_scale_xy;
-						normalized_data.mag_y = +data.mag_y * mag_scale_xy;
+						normalized_data.x = -data.mag_x * mag_scale_xy;
+						normalized_data.y = +data.mag_y * mag_scale_xy;
 						break;
 					case PIOS_LSM303_TOP_270DEG:
-						normalized_data.mag_x = -data.mag_y * mag_scale_xy;
-						normalized_data.mag_y = -data.mag_x * mag_scale_xy;
+						normalized_data.x = -data.mag_y * mag_scale_xy;
+						normalized_data.y = -data.mag_x * mag_scale_xy;
 						break;
 				}
-				normalized_data.mag_z = -data.mag_z * mag_scale_z;
+				normalized_data.z = -data.mag_z * mag_scale_z;
 
 				xQueueSend(dev->queue_mag, (void*)&normalized_data, 0);
 			}
