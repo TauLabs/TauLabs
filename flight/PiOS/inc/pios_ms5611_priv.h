@@ -6,8 +6,7 @@
  * @brief Hardware functions to deal with the altitude pressure sensor
  * @{
  *
- * @file       pios_ms5611.h  
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @file       pios_ms5611_priv.h  
  * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2013.
  * @brief      MS5611 functions header.
  * @see        The GNU Public License (GPL) Version 3
@@ -29,23 +28,31 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef PIOS_MS5611_H
-#define PIOS_MS5611_H
+#ifndef PIOS_MS5611_PRIV_H
+#define PIOS_MS5611_PRIV_H
 
-#include <pios.h>
-
-//! The data format for this driver
-struct pios_ms5611_data {
-	float temperature;
-	float pressure;
-	float altitude;
+//! The valid oversampling rates
+enum pios_ms5611_osr {
+	MS5611_OSR_256   = 0,
+	MS5611_OSR_512   = 2,
+	MS5611_OSR_1024  = 4,
+	MS5611_OSR_2048  = 6,
+	MS5611_OSR_4096  = 8,
 };
 
-/* Public Functions */
-extern xQueueHandle PIOS_MS5611_GetQueue();
-extern int32_t PIOS_MS5611_Test();
+//! Configuration structure for the MS5611 driver
+struct pios_ms5611_cfg {
+	//! The oversampling setting for the baro, higher produces
+	//! less frequenct cleaner data
+	enum pios_ms5611_osr oversampling;
 
-#endif /* PIOS_MS5611_H */
+	//! How many samples of pressure for each temperature measurement
+	uint32_t temperature_interleaving;
+};
+
+int32_t PIOS_MS5611_Init(const struct pios_ms5611_cfg * cfg, int32_t i2c_device);
+
+#endif /* PIOS_MS5611_PRIV_H */
 
 /** 
   * @}

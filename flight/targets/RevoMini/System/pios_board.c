@@ -140,9 +140,10 @@ static const struct pios_hmc5883_cfg pios_hmc5883_cfg = {
  * Configuration for the MS5611 chip
  */
 #if defined(PIOS_INCLUDE_MS5611)
-#include "pios_ms5611.h"
+#include "pios_ms5611_priv.h"
 static const struct pios_ms5611_cfg pios_ms5611_cfg = {
 	.oversampling = MS5611_OSR_512,
+	.temperature_interleaving = 1,
 };
 #endif /* PIOS_INCLUDE_MS5611 */
 

@@ -50,7 +50,6 @@ MODULES += Attitude/revolution
 MODULES += Actuator
 MODULES += ManualControl
 MODULES += Stabilization
-MODULES += Altitude/revolution
 MODULES += FirmwareIAP
 MODULES += Telemetry
 MODULES += PathPlanner
