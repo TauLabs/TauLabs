@@ -206,24 +206,25 @@ WayPointItem::WayPointItem(MapGraphicItem *map, bool magicwaypoint):reached(fals
     {
         if(event->button()==Qt::LeftButton)
         {
-        text=new QGraphicsSimpleTextItem(this);
+            text=new QGraphicsSimpleTextItem(this);
             textBG=new QGraphicsRectItem(this);
 
-        textBG->setBrush(Qt::yellow);
+            textBG->setBrush(Qt::yellow);
 
-        text->setPen(QPen(Qt::red));
-        text->setPos(10,-picture.height());
-        textBG->setPos(10,-picture.height());
-        text->setZValue(3);
-        RefreshToolTip();
-        isDragging=true;
-    }
+            text->setPen(QPen(Qt::red));
+            text->setPos(10,-picture.height());
+            textBG->setPos(10,-picture.height());
+            text->setZValue(3);
+            RefreshToolTip();
+            isDragging=true;
+        }
         QGraphicsItem::mousePressEvent(event);
     }
     void WayPointItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     {
         QGraphicsItem::mouseReleaseEvent(event);
-        if(event->button()==Qt::LeftButton)
+        if(event->button()==Qt::LeftButton &&
+                event->buttonDownScenePos(Qt::LeftButton) != event->lastScenePos())
         {
             if(text)
             {
@@ -243,6 +244,21 @@ WayPointItem::WayPointItem(MapGraphicItem *map, bool magicwaypoint):reached(fals
             emit localPositionChanged(this->pos(),this);
             emit WPValuesChanged(this);
             emit WPDropped(this);
+        } else if(event->button()==Qt::LeftButton) {
+            if(text)
+            {
+                delete text;
+                text=NULL;
+            }
+            if(textBG)
+            {
+                delete textBG;
+                textBG=NULL;
+            }
+            coord=map->FromLocalToLatLng(this->pos().x(),this->pos().y());
+
+            isDragging=false;
+            RefreshToolTip();
         }
     }
     void WayPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
