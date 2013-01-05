@@ -171,10 +171,6 @@ int32_t PIOS_LSM303_Init(uint32_t i2c_id, const struct pios_lsm303_cfg * cfg)
 	/* Set up EXTI line */
 	PIOS_EXTI_Init(cfg->exti_cfg);
 
-	// An initial read is needed to get it running
-	struct pios_lsm303_accel_data data;
-	PIOS_LSM303_Accel_ReadData(&data);
-
 	PIOS_SENSORS_Register(PIOS_SENSOR_ACCEL, dev->queue_accel);
 	PIOS_SENSORS_Register(PIOS_SENSOR_MAG, dev->queue_mag);
 
@@ -591,8 +587,12 @@ void PIOS_LSM303_Task(void *parameters)
 	while (1)
 	{
 		//Wait for data ready interrupt
-		if (xSemaphoreTake(dev->data_ready_sema, portMAX_DELAY) != pdTRUE)
+		if (xSemaphoreTake(dev->data_ready_sema, 20 * portTICK_RATE_MS) != pdTRUE) {
+			// If this expires kick start the sensor
+			struct pios_lsm303_accel_data data;
+			PIOS_LSM303_Accel_ReadData(&data);
 			continue;
+		}
 
 		if (!lsm303_configured)
 			continue;
