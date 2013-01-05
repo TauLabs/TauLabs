@@ -51,6 +51,7 @@ struct mpu6000_dev {
 	xQueueHandle gyro_queue;
 	xQueueHandle accel_queue;
 	const struct pios_mpu60x0_cfg * cfg;
+	bool configured;
 	enum pios_mpu6000_dev_magic magic;
 };
 
@@ -82,6 +83,8 @@ static struct mpu6000_dev * PIOS_MPU6000_alloc(void)
 	if (!mpu6000_dev) return (NULL);
 	
 	mpu6000_dev->magic = PIOS_MPU6000_DEV_MAGIC;
+
+	mpu6000_dev->configured = false;
 	
 	mpu6000_dev->accel_queue = xQueueCreate(PIOS_MPU6000_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_gyro_data));
 	if(mpu6000_dev->accel_queue == NULL) {
@@ -207,7 +210,7 @@ static void PIOS_MPU6000_Config(struct pios_mpu60x0_cfg const * cfg)
 	// Interrupt configuration
 	PIOS_MPU6000_SetReg(PIOS_MPU60X0_INT_EN_REG, cfg->interrupt_en);
 
-	mpu6000_configured = true;
+	dev->configured = true;
 }
 
 /**
@@ -419,7 +422,10 @@ static int32_t PIOS_MPU6000_FifoDepth(void)
 */
 bool PIOS_MPU6000_IRQHandler(void)
 {
-	if(!mpu6000_configured)
+	if (PIOS_MPU6000_Validate(dev) != 0)
+		return false;
+
+	if(!dev->configured)
 		return false;
 
 	uint32_t mpu6000_count = PIOS_MPU6000_FifoDepth();
