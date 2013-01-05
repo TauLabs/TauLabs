@@ -80,6 +80,8 @@ WaypointDialog::WaypointDialog(QWidget *parent, QAbstractItemModel *model,QItemS
     connect(model, SIGNAL(dataChanged(QModelIndex,QModelIndex)), mapper, SLOT(revert()));
 
     connect(itemSelection,SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),this,SLOT(currentRowChanged(QModelIndex,QModelIndex)));
+
+    setWindowFlags(Qt::WindowStaysOnTopHint);
 }
 
 /**
