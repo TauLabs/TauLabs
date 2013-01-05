@@ -31,8 +31,13 @@
 #ifndef PIOS_MS5611_PRIV_H
 #define PIOS_MS5611_PRIV_H
 
+//! Configuration structure for the MS5611 driver
 struct pios_ms5611_cfg {
-	uint32_t oversampling;
+	//! The oversampling setting for the baro, higher produces
+	//! less frequenct cleaner data
+	enum pios_ms5611_osr oversampling;
+
+	//! How many samples of pressure for each temperature measurement
 	uint32_t temperature_interleaving;
 };
 

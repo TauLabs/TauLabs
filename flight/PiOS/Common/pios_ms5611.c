@@ -41,9 +41,6 @@
 #define MS5611_TASK_PRIORITY	(tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
 #define MS5611_TASK_STACK		(512 / 4)
 
-// Undef for normal operation
-//#define PIOS_MS5611_SLOW_TEMP_RATE 20
-
 /* Private methods */
 static int32_t PIOS_MS5611_Read(uint8_t address, uint8_t * buffer, uint8_t len);
 static int32_t PIOS_MS5611_WriteCommand(uint8_t command);
@@ -72,7 +69,7 @@ struct ms5611_dev {
 	int64_t temperature_unscaled;
 	uint16_t calibration[6];
 	enum conversion_type current_conversion_type;
-	uint32_t oversampling;
+	enum pios_ms5611_osr oversampling;
 	uint32_t temperature_interleaving;
 	int32_t ms5611_read_flag;
 	enum pios_ms5611_dev_magic magic;
