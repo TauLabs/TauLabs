@@ -86,7 +86,7 @@ struct ms5611_dev {
 	enum pios_ms5611_dev_magic magic;
 };
 
-struct ms5611_dev *dev;
+static struct ms5611_dev *dev;
 
 /**
  * @brief Allocate a new device
@@ -98,14 +98,14 @@ static struct ms5611_dev * PIOS_MS5611_alloc(void)
 	ms5611_dev = (struct ms5611_dev *)pvPortMalloc(sizeof(*ms5611_dev));
 	if (!ms5611_dev) return (NULL);
 	
-	ms5611_dev->magic = PIOS_MS5611_DEV_MAGIC;
-	
-	ms5611_dev->queue = xQueueCreate(1, sizeof(struct pios_ms5611_data));
+	ms5611_dev->queue = xQueueCreate(1, sizeof(struct pios_sensor_baro_data));
 	if (ms5611_dev->queue == NULL) {
 		vPortFree(ms5611_dev);
 		return NULL;
 	}
 
+	ms5611_dev->magic = PIOS_MS5611_DEV_MAGIC;
+	
 	return(ms5611_dev);
 }
 

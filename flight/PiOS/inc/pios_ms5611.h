@@ -34,13 +34,6 @@
 
 #include <pios.h>
 
-//! The data format for this driver
-struct pios_ms5611_data {
-	float temperature;
-	float pressure;
-	float altitude;
-};
-
 /* Public Functions */
 extern xQueueHandle PIOS_MS5611_GetQueue();
 extern int32_t PIOS_MS5611_Test();
