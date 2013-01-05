@@ -94,14 +94,19 @@ static int32_t comUsbBridgeInitialize(void)
 	usart_port = PIOS_COM_BRIDGE;
 	vcp_port = PIOS_COM_VCP;
 
+	/* Only run the module if we have a VCP port and a selected USART port */
+	if (!usart_port || !vcp_port) {
+		module_enabled = false;
+		return 0;
+	}
+
 #ifdef MODULE_ComUsbBridge_BUILTIN
 	module_enabled = true;
 #else
 	ModuleSettingsInitialize();
 	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
 	ModuleSettingsStateGet(module_state);
-	if (usart_port && vcp_port &&
-		(module_state[MODULESETTINGS_STATE_COMUSBBRIDGE] == MODULESETTINGS_STATE_ENABLED)) {
+	if (module_state[MODULESETTINGS_STATE_COMUSBBRIDGE] == MODULESETTINGS_STATE_ENABLED) {
 		module_enabled = true;
 	} else {
 		module_enabled = false;
