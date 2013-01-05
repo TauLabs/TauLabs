@@ -63,12 +63,14 @@ void ModelUavoProxy::modelToObjects()
     UAVObject::SetFlightTelemetryAcked(meta, true);
     wp->setMetadata(meta);
 
+    double homeLLA[3];
+    double NED[3];
+    double LLA[3];
+    getHomeLocation(homeLLA);
+
     for(int x=0;x<myModel->rowCount();++x)
     {
         Waypoint *wp = NULL;
-        double distance;
-        double bearing;
-        double altitude;
 
         // Get the number of existing waypoints
         int instances=objManager->getNumInstances(Waypoint::OBJID);
@@ -88,16 +90,18 @@ void ModelUavoProxy::modelToObjects()
         Q_ASSERT(wp);
         Waypoint::DataFields waypoint = wp->getData();
 
-        // Fetch the data from the internal model
-        distance=myModel->data(myModel->index(x,FlightDataModel::DISRELATIVE)).toDouble();
-        bearing=myModel->data(myModel->index(x,FlightDataModel::BEARELATIVE)).toDouble();
-        altitude=myModel->data(myModel->index(x,FlightDataModel::ALTITUDERELATIVE)).toFloat();
-        waypoint.Velocity=myModel->data(myModel->index(x,FlightDataModel::VELOCITY)).toFloat();
+        // Convert from LLA to NED for sending to the model
+        LLA[0] = myModel->data(myModel->index(x,FlightDataModel::LATPOSITION)).toDouble();
+        LLA[1] = myModel->data(myModel->index(x,FlightDataModel::LNGPOSITION)).toDouble();
+        LLA[2] = myModel->data(myModel->index(x,FlightDataModel::ALTITUDE)).toDouble();
+        Utils::CoordinateConversions().LLA2NED_HomeLLA(LLA, homeLLA, NED);
 
-        waypoint.Position[Waypoint::POSITION_NORTH]=distance*cos(bearing/180*M_PI);
-        waypoint.Position[Waypoint::POSITION_EAST]=distance*sin(bearing/180*M_PI);
-        waypoint.Position[Waypoint::POSITION_DOWN]=(-1.0f)*altitude;
-        waypoint.Mode = myModel->data(myModel->index(x,FlightDataModel::MODE)).toInt();
+        // Fetch the data from the internal model
+        waypoint.Velocity=myModel->data(myModel->index(x,FlightDataModel::VELOCITY)).toFloat();
+        waypoint.Position[Waypoint::POSITION_NORTH] = NED[0];
+        waypoint.Position[Waypoint::POSITION_EAST]  = NED[1];
+        waypoint.Position[Waypoint::POSITION_DOWN]  = NED[2];
+        waypoint.Mode = myModel->data(myModel->index(x,FlightDataModel::MODE), Qt::UserRole).toInt();
         waypoint.ModeParameters = myModel->data(myModel->index(x,FlightDataModel::MODE_PARAMS)).toFloat();
 
         if (robustUpdate(waypoint, x))
@@ -167,13 +171,15 @@ void ModelUavoProxy::waypointTransactionCompleted(UAVObject *obj, bool success) 
  */
 void ModelUavoProxy::objectsToModel()
 {
+    double homeLLA[3];
+    getHomeLocation(homeLLA);
+    double LLA[3];
+
     myModel->removeRows(0,myModel->rowCount());
     for(int x=0;x<objManager->getNumInstances(waypointObj->getObjID());++x)
     {
         Waypoint * wp;
         Waypoint::DataFields wpfields;
-        double distance;
-        double bearing;
 
         wp = Waypoint::GetInstance(objManager,x);
         Q_ASSERT(wp);
@@ -185,38 +191,37 @@ void ModelUavoProxy::objectsToModel()
         wpfields = wp->getData();
         myModel->insertRow(x);
 
-        // Calculate relative position and angle
-        distance = sqrt(wpfields.Position[Waypoint::POSITION_NORTH]*wpfields.Position[Waypoint::POSITION_NORTH]+
-                      wpfields.Position[Waypoint::POSITION_EAST]*wpfields.Position[Waypoint::POSITION_EAST]);
-        bearing = atan2(wpfields.Position[Waypoint::POSITION_EAST],wpfields.Position[Waypoint::POSITION_NORTH])*180/M_PI;
-
-        // Check for NAN
-        if(bearing!=bearing)
-            bearing=0;
-
         // Compute the coordinates in LLA
-        HomeLocation *home = HomeLocation::GetInstance(objManager);
-        Q_ASSERT(home);
-        HomeLocation::DataFields homeLocation = home->getData();
-        double homeLLA[3];
-        homeLLA[0] = homeLocation.Latitude / 1e7;
-        homeLLA[1] = homeLocation.Longitude / 1e7;
-        homeLLA[2] = homeLocation.Altitude;
-        double LLA[3];
         double NED[3] = {wpfields.Position[0], wpfields.Position[1], wpfields.Position[2]};
-
         Utils::CoordinateConversions().NED2LLA_HomeLLA(homeLLA, NED, LLA);
 
         // Store the data
         myModel->setData(myModel->index(x,FlightDataModel::LATPOSITION), LLA[0]);
         myModel->setData(myModel->index(x,FlightDataModel::LNGPOSITION), LLA[1]);
         myModel->setData(myModel->index(x,FlightDataModel::VELOCITY), wpfields.Velocity);
-        myModel->setData(myModel->index(x,FlightDataModel::DISRELATIVE), distance);
-        myModel->setData(myModel->index(x,FlightDataModel::BEARELATIVE), bearing);
-        myModel->setData(myModel->index(x,FlightDataModel::ALTITUDERELATIVE),
-                         (-1.0f)*wpfields.Position[Waypoint::POSITION_DOWN]);
-        myModel->setData(myModel->index(x,FlightDataModel::ISRELATIVE), true);
         myModel->setData(myModel->index(x,FlightDataModel::MODE), wpfields.Mode);
         myModel->setData(myModel->index(x,FlightDataModel::MODE_PARAMS), wpfields.ModeParameters);
     }
 }
+
+/**
+ * @brief ModelUavoProxy::getHomeLocation Take care of scaling the home location UAVO to
+ * degrees (lat lon) and meters altitude
+ * @param [out] home A 3 element double array to store resul in
+ * @return True if successful, false otherwise
+ */
+bool ModelUavoProxy::getHomeLocation(double *homeLLA)
+{
+    // Compute the coordinates in LLA
+    HomeLocation *home = HomeLocation::GetInstance(objManager);
+    if (home == NULL)
+        return false;
+
+    HomeLocation::DataFields homeLocation = home->getData();
+    homeLLA[0] = homeLocation.Latitude / 1e7;
+    homeLLA[1] = homeLocation.Longitude / 1e7;
+    homeLLA[2] = homeLocation.Altitude;
+
+    return true;
+}
+

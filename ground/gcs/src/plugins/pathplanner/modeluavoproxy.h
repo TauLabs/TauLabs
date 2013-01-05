@@ -42,6 +42,9 @@ private:
     //! Robustly upload a waypoint (like smart save)
     bool robustUpdate(Waypoint::DataFields data, int instance);
 
+    //! Fetch the home LLA position
+    bool getHomeLocation(double *homeLLA);
+
 public slots:
     //! Cast from the internal representation to the UAVOs
     void modelToObjects();
