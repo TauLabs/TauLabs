@@ -34,6 +34,8 @@
 
 #if defined(PIOS_INCLUDE_MS5611)
 
+#include "pios_ms5611_priv.h"
+
 /* Private constants */
 #define PIOS_MS5611_OVERSAMPLING oversampling
 #define MS5611_TASK_PRIORITY	(tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
@@ -92,7 +94,6 @@ static struct ms5611_dev * PIOS_MS5611_alloc(void)
 	
 	ms5611_dev->queue = xQueueCreate(1, sizeof(struct pios_ms5611_data));
 	if (ms5611_dev->queue == NULL) {
-		vQueueAddToRegistry(ms5611_dev->queue, (signed char*)"pios_ms5611_queue_mag");
 		vPortFree(ms5611_dev);
 		return NULL;
 	}
@@ -128,7 +129,7 @@ int32_t PIOS_MS5611_Init(const struct pios_ms5611_cfg *cfg, int32_t i2c_device)
 
 	dev->oversampling = cfg->oversampling;
 	dev->temperature_interleaving = (cfg->temperature_interleaving) == 0 ? 1 : cfg->temperature_interleaving;
-	dev->cfg = cfg;	// Store cfg before enabling interrupt
+	dev->cfg = cfg;
 
 	PIOS_MS5611_WriteCommand(MS5611_RESET);
 	PIOS_DELAY_WaitmS(20);			
@@ -136,7 +137,7 @@ int32_t PIOS_MS5611_Init(const struct pios_ms5611_cfg *cfg, int32_t i2c_device)
 	uint8_t data[2];
 
 	/* Calibration parameters */
-	for (int i = 0; i < 6; i++) {
+	for (int i = 0; i < NELEMENTS(dev->calibration); i++) {
 		PIOS_MS5611_Read(MS5611_CALIB_ADDR + i * 2, data, 2);
 		dev->calibration[i] = (data[0] << 8) | data[1];
 	}
@@ -165,21 +166,26 @@ xQueueHandle PIOS_MS5611_GetQueue()
 * \param[in] PresOrTemp BMP085_PRES_ADDR or BMP085_TEMP_ADDR
 * \return 0 for success, -1 for failure (conversion completed and not read)
 */
-int32_t PIOS_MS5611_StartADC(enum conversion_type Type)
+static int32_t PIOS_MS5611_StartADC(enum conversion_type type)
 {
 	if (PIOS_MS5611_Validate(dev) != 0)
 		return -1;
 
 	/* Start the conversion */
-	if (Type == TEMPERATURE_CONV) {
+	switch(type) {
+	case TEMPERATURE_CONV:
 		while (PIOS_MS5611_WriteCommand(MS5611_TEMP_ADDR + dev->oversampling) != 0)
 			continue;
-	} else if (Type == PRESSURE_CONV) {
+		break;
+	case PRESSURE_CONV:
 		while (PIOS_MS5611_WriteCommand(MS5611_PRES_ADDR + dev->oversampling) != 0)
 			continue;
+		break;
+	default:
+		return -1;
 	}
 
-	dev->current_conversion_type = Type;
+	dev->current_conversion_type = type;
 	
 	return 0;
 }
@@ -187,7 +193,7 @@ int32_t PIOS_MS5611_StartADC(enum conversion_type Type)
 /**
  * @brief Return the delay for the current osr
  */
-int32_t PIOS_MS5611_GetDelay() {
+static int32_t PIOS_MS5611_GetDelay() {
 	if (PIOS_MS5611_Validate(dev) != 0)
 		return 100;
 
@@ -213,7 +219,7 @@ int32_t PIOS_MS5611_GetDelay() {
 * \param[in] PresOrTemp BMP085_PRES_ADDR or BMP085_TEMP_ADDR
 * \return 0 if successfully read the ADC, -1 if failed
 */
-int32_t PIOS_MS5611_ReadADC(void)
+static int32_t PIOS_MS5611_ReadADC(void)
 {
 	if (PIOS_MS5611_Validate(dev) != 0)
 		return -1;
@@ -259,7 +265,7 @@ int32_t PIOS_MS5611_ReadADC(void)
 /**
  * Return the most recently computed temperature in kPa
  */
-float PIOS_MS5611_GetTemperature(void)
+static float PIOS_MS5611_GetTemperature(void)
 {
 	if (PIOS_MS5611_Validate(dev) != 0)
 		return -1;
@@ -270,7 +276,7 @@ float PIOS_MS5611_GetTemperature(void)
 /**
  * Return the most recently computed pressure in kPa
  */
-float PIOS_MS5611_GetPressure(void)
+static float PIOS_MS5611_GetPressure(void)
 {
 	if (PIOS_MS5611_Validate(dev) != 0)
 		return -1;
@@ -286,7 +292,7 @@ float PIOS_MS5611_GetPressure(void)
 * \return 0 if operation was successful
 * \return -1 if error during I2C transfer
 */
-int32_t PIOS_MS5611_Read(uint8_t address, uint8_t * buffer, uint8_t len)
+static int32_t PIOS_MS5611_Read(uint8_t address, uint8_t * buffer, uint8_t len)
 {
 
 	if (PIOS_MS5611_Validate(dev) != 0)
@@ -320,7 +326,7 @@ int32_t PIOS_MS5611_Read(uint8_t address, uint8_t * buffer, uint8_t len)
 * \return 0 if operation was successful
 * \return -1 if error during I2C transfer
 */
-int32_t PIOS_MS5611_WriteCommand(uint8_t command)
+static int32_t PIOS_MS5611_WriteCommand(uint8_t command)
 {
 	if (PIOS_MS5611_Validate(dev) != 0)
 		return -1;
@@ -368,7 +374,7 @@ int32_t PIOS_MS5611_Test()
 	return 0;
 }
 
-void PIOS_MS5611_Task(void *parameters)
+static void PIOS_MS5611_Task(void *parameters)
 {
 	int32_t temp_press_interleave_count;
 	if (PIOS_MS5611_Validate(dev) != 0)
@@ -395,7 +401,7 @@ void PIOS_MS5611_Task(void *parameters)
 			temp_press_interleave_count = dev->temperature_interleaving;
 		}
 
-		// Update the temperature data
+		// Update the pressure data
 		PIOS_MS5611_StartADC(PRESSURE_CONV);
 		vTaskDelay(PIOS_MS5611_GetDelay());
 		PIOS_MS5611_ReadADC();

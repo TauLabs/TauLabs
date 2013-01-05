@@ -6,8 +6,7 @@
  * @brief Hardware functions to deal with the altitude pressure sensor
  * @{
  *
- * @file       pios_ms5611.h  
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @file       pios_ms5611_priv.h  
  * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2013.
  * @brief      MS5611 functions header.
  * @see        The GNU Public License (GPL) Version 3
@@ -29,41 +28,17 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef PIOS_MS5611_H
-#define PIOS_MS5611_H
+#ifndef PIOS_MS5611_PRIV_H
+#define PIOS_MS5611_PRIV_H
 
-#include <pios.h>
-
-/* BMP085 Addresses */
-#define MS5611_I2C_ADDR	        0x77
-#define MS5611_RESET            0x1E
-#define MS5611_CALIB_ADDR		0xA2  /* First sample is factory stuff */
-#define MS5611_CALIB_LEN		16
-#define MS5611_ADC_READ		    0x00
-#define MS5611_PRES_ADDR		0x40
-#define MS5611_TEMP_ADDR		0x50
-#define MS5611_ADC_MSB			0xF6
-#define MS5611_P0			    101.3250f
-
-enum pios_ms5611_osr {
-	MS5611_OSR_256   = 0,
-	MS5611_OSR_512   = 2,
-	MS5611_OSR_1024  = 4,
-	MS5611_OSR_2048  = 6,
-	MS5611_OSR_4096  = 8,
+struct pios_ms5611_cfg {
+	uint32_t oversampling;
+	uint32_t temperature_interleaving;
 };
 
-struct pios_ms5611_data {
-	float temperature;
-	float pressure;
-	float altitude;
-};
+int32_t PIOS_MS5611_Init(const struct pios_ms5611_cfg * cfg, int32_t i2c_device);
 
-/* Public Functions */
-extern xQueueHandle PIOS_MS5611_GetQueue();
-extern int32_t PIOS_MS5611_Test();
-
-#endif /* PIOS_MS5611_H */
+#endif /* PIOS_MS5611_PRIV_H */
 
 /** 
   * @}
