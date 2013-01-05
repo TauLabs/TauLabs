@@ -52,6 +52,7 @@ struct lsm303_dev {
 	xQueueHandle queue_mag;
 	xTaskHandle TaskHandle;
 	xSemaphoreHandle data_ready_sema;
+	volatile bool configured;
 	const struct pios_lsm303_cfg * cfg;
 	enum pios_lsm303_dev_magic magic;
 };
@@ -72,7 +73,6 @@ struct pios_lsm303_mag_data {
 
 //! Global structure for this device device
 static struct lsm303_dev * dev;
-volatile bool lsm303_configured = false;
 
 //! Private functions
 static struct lsm303_dev * PIOS_LSM303_alloc(void);
@@ -226,7 +226,7 @@ static void PIOS_LSM303_Config(struct pios_lsm303_cfg const * cfg)
 	// Set the mag range
 	PIOS_LSM303_Mag_SetRange(PIOS_LSM303_MAG_1_9GA);
 
-	lsm303_configured = true;
+	dev->configured = true;
 }
 
 /**
@@ -240,6 +240,9 @@ static void PIOS_LSM303_Config(struct pios_lsm303_cfg const * cfg)
  */
 static int32_t PIOS_LSM303_Accel_Read(uint8_t address, uint8_t * buffer, uint8_t len)
 {
+	if (PIOS_LSM303_Validate(dev) != 0)
+		return -1;
+
 	uint8_t addr_buffer[] = {
 		len <= 1 ? address : (address | 0x80),
 	};
@@ -274,6 +277,9 @@ static int32_t PIOS_LSM303_Accel_Read(uint8_t address, uint8_t * buffer, uint8_t
  */
 static int32_t PIOS_LSM303_Accel_Write(uint8_t address, uint8_t buffer)
 {
+	if (PIOS_LSM303_Validate(dev) != 0)
+		return -1;
+
 	uint8_t data[] = {
 		address,
 		buffer,
@@ -303,6 +309,9 @@ static int32_t PIOS_LSM303_Accel_Write(uint8_t address, uint8_t buffer)
  */
 static int32_t PIOS_LSM303_Mag_Read(uint8_t address, uint8_t * buffer, uint8_t len)
 {
+	if (PIOS_LSM303_Validate(dev) != 0)
+		return -1;
+
 	uint8_t addr_buffer[] = {
 		len <= 1 ? address : (address | 0x80),
 	};
@@ -337,6 +346,9 @@ static int32_t PIOS_LSM303_Mag_Read(uint8_t address, uint8_t * buffer, uint8_t l
  */
 static int32_t PIOS_LSM303_Mag_Write(uint8_t address, uint8_t buffer)
 {
+	if (PIOS_LSM303_Validate(dev) != 0)
+		return -1;
+
 	uint8_t data[] = {
 		address,
 		buffer,
@@ -446,34 +458,13 @@ int32_t PIOS_LSM303_Mag_ReadID()
 }
 
 /**
- * \brief Reads the queue handle
- * \return Handle to the queue or null if invalid device
- */
-xQueueHandle PIOS_LSM303_Accel_GetQueue()
-{
-	if(PIOS_LSM303_Validate(dev) != 0)
-		return (xQueueHandle) NULL;
-	
-	return dev->queue_accel;
-}
-
-/**
- * \brief Reads the queue handle
- * \return Handle to the queue or null if invalid device
- */
-xQueueHandle PIOS_LSM303_Mag_GetQueue()
-{
-	if(PIOS_LSM303_Validate(dev) != 0)
-		return (xQueueHandle) NULL;
-
-	return dev->queue_mag;
-}
-
-/**
  * Set the accel range and store it locally for scaling
  */
 void PIOS_LSM303_Accel_SetRange(enum pios_lsm303_accel_range accel_range)
 {
+	if (PIOS_LSM303_Validate(dev) != 0)
+		return;
+
 	while (PIOS_LSM303_Accel_SetReg(PIOS_LSM303_CTRL_REG4_A, accel_range) != 0);
 	dev->accel_range = accel_range;
 }
@@ -483,12 +474,17 @@ void PIOS_LSM303_Accel_SetRange(enum pios_lsm303_accel_range accel_range)
  */
 void PIOS_LSM303_Mag_SetRange(enum pios_lsm303_mag_range mag_range)
 {
+	if (PIOS_LSM303_Validate(dev) != 0)
+		return;
+
 	while (PIOS_LSM303_Mag_SetReg(PIOS_LSM303_CRB_REG_M, mag_range) != 0);
 	dev->mag_range = mag_range;
 }
 
-float PIOS_LSM303_Accel_GetScale()
+static float PIOS_LSM303_Accel_GetScale()
 {
+	// Not validating device here for efficiency
+
 	switch (dev->accel_range) {
 		case PIOS_LSM303_ACCEL_2G:
 			return GRAV / 16384.0f;
@@ -504,6 +500,8 @@ float PIOS_LSM303_Accel_GetScale()
 
 static float PIOS_LSM303_Mag_GetScaleXY()
 {
+	// Not validating device here for efficiency
+
 	switch (dev->mag_range) {
 		case PIOS_LSM303_MAG_1_3GA:
 			return 1000.0f / 1100.0f;
@@ -525,6 +523,8 @@ static float PIOS_LSM303_Mag_GetScaleXY()
 
 static float PIOS_LSM303_Mag_GetScaleZ()
 {
+	// Not validating device here for efficiency
+
 	switch (dev->mag_range) {
 		case PIOS_LSM303_MAG_1_3GA:
 			return 1000.0f / 980.0f;
@@ -584,17 +584,22 @@ bool PIOS_LSM303_IRQHandler(void)
 
 void PIOS_LSM303_Task(void *parameters)
 {
+	// Do not try and process sensor until the device is valid
+	while (PIOS_LSM303_Validate(dev) != 0) {
+		vTaskDelay(100 * portTICK_RATE_MS);
+	}
+
 	while (1)
 	{
 		//Wait for data ready interrupt
-		if (xSemaphoreTake(dev->data_ready_sema, 20 * portTICK_RATE_MS) != pdTRUE) {
+		if (xSemaphoreTake(dev->data_ready_sema, 5 * portTICK_RATE_MS) != pdTRUE) {
 			// If this expires kick start the sensor
 			struct pios_lsm303_accel_data data;
 			PIOS_LSM303_Accel_ReadData(&data);
 			continue;
 		}
 
-		if (!lsm303_configured)
+		if (!dev->configured)
 			continue;
 	
 		/*
