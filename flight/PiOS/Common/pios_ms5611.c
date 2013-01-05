@@ -272,28 +272,6 @@ static int32_t PIOS_MS5611_ReadADC(void)
 }
 
 /**
- * Return the most recently computed temperature in kPa
- */
-static float PIOS_MS5611_GetTemperature(void)
-{
-	if (PIOS_MS5611_Validate(dev) != 0)
-		return -1;
-
-	return ((float) dev->temperature_unscaled) / 100.0f;
-}
-
-/**
- * Return the most recently computed pressure in kPa
- */
-static float PIOS_MS5611_GetPressure(void)
-{
-	if (PIOS_MS5611_Validate(dev) != 0)
-		return -1;
-
-	return ((float) dev->pressure_unscaled) / 1000.0f;
-}
-
-/**
 * Reads one or more bytes into a buffer
 * \param[in] the command indicating the address to read
 * \param[out] buffer destination buffer
@@ -391,13 +369,12 @@ static void PIOS_MS5611_Task(void *parameters)
 	else
 		temp_press_interleave_count = dev->temperature_interleaving;
 
-	while (1)
-	{
-		// If device handle isn't validate pause
-		if (PIOS_MS5611_Validate(dev) != 0) {
-			vTaskDelay(1000);
-			continue;
-		}
+	// If device handle isn't validate pause
+	while (PIOS_MS5611_Validate(dev) != 0) {
+		vTaskDelay(1000);
+	}
+
+	while (1) {
 
 		temp_press_interleave_count --;
 		if(temp_press_interleave_count <= 0)
@@ -416,9 +393,9 @@ static void PIOS_MS5611_Task(void *parameters)
 		PIOS_MS5611_ReadADC();
 
 		// Compute the altitude from the pressure and temperature and send it out
-		struct pios_ms5611_data data;		
-		data.temperature = PIOS_MS5611_GetTemperature();
-		data.pressure = PIOS_MS5611_GetPressure();
+		struct pios_sensor_baro_data data;		
+		data.temperature = ((float) dev->temperature_unscaled) / 100.0f;
+		data.pressure = ((float) dev->pressure_unscaled) / 1000.0f;
 		data.altitude = 44330.0f * (1.0f - powf(data.pressure / MS5611_P0, (1.0f / 5.255f)));
 
 		xQueueSend(dev->queue, (void*)&data, 0);
