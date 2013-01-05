@@ -155,6 +155,8 @@ int32_t PIOS_MS5611_Init(const struct pios_ms5611_cfg *cfg, int32_t i2c_device)
 						 &dev->task);
 	PIOS_Assert(result == pdPASS);
 
+	PIOS_SENSORS_Register(PIOS_SENSOR_BARO, dev->queue);
+
 	return 0;
 }
 
