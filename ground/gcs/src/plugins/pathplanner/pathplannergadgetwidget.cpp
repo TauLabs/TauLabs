@@ -73,7 +73,6 @@ void PathPlannerGadgetWidget::setModel(FlightDataModel *model, QItemSelectionMod
     ui->tableView->setItemDelegate(new WaypointDelegate(this));
     ui->tableView->resizeColumnsToContents();
 
-    connect(model,SIGNAL(rowsInserted(const QModelIndex&,int,int)),this,SLOT(rowsInserted(const QModelIndex&,int,int)));
     ui->tableView->resizeColumnsToContents();
 }
 
