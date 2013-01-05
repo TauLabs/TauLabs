@@ -32,7 +32,7 @@
 #include "ui_waypoint_dialog.h"
 
 WaypointDialog::WaypointDialog(QWidget *parent, QAbstractItemModel *model,QItemSelectionModel *selection) :
-    QWidget(parent,Qt::Window), ui(new Ui_waypoint_dialog),
+    QDialog(parent,Qt::Window), ui(new Ui_waypoint_dialog),
     model(model), itemSelection(selection)
 {
     ui->setupUi(this);
@@ -81,7 +81,7 @@ WaypointDialog::WaypointDialog(QWidget *parent, QAbstractItemModel *model,QItemS
 
     connect(itemSelection,SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),this,SLOT(currentRowChanged(QModelIndex,QModelIndex)));
 
-    setWindowFlags(Qt::WindowStaysOnTopHint);
+    setModal(true);
 }
 
 /**

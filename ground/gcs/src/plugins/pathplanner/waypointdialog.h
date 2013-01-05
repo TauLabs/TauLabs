@@ -40,7 +40,7 @@ class Ui_waypoint_dialog;
 /**
  * @brief The WaypointDialog class creates a dialog for editing the properties of a single waypoint
  */
-class PATHPLANNER_EXPORT WaypointDialog : public QWidget
+class PATHPLANNER_EXPORT WaypointDialog : public QDialog
 {
     Q_OBJECT
 
