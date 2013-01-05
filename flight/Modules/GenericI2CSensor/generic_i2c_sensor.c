@@ -54,12 +54,6 @@ static int32_t GenericI2CSensorStart(void)
 	if (!module_enabled)
 		return -1;
 
-	/* Make sure we have something to run */
-	if ((i2cvm_program == NULL) || (i2cvm_program_len == 0))
-		return -1;
-
-	I2CVMInitialize();
-
 	// Start main task
 	xTaskCreate(GenericI2CSensorTask, (signed char *)"GenericI2CSensor", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
 	TaskMonitorAdd(TASKINFO_RUNNING_GENERICI2CSENSOR, taskHandle);
@@ -134,6 +128,14 @@ static int32_t GenericI2CSensorInitialize(void)
 		/* No program selected, module will not start */
 		break;
 	}
+
+	/* Make sure we have something to run */
+	if ((i2cvm_program == NULL) || (i2cvm_program_len == 0)) {
+		module_enabled = false;
+		return -1;
+	}
+
+	I2CVMInitialize();
 
 	return 0;
 }
