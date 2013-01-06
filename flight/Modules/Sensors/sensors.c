@@ -71,7 +71,7 @@
 // Private constants
 #define STACK_SIZE_BYTES 1000
 #define TASK_PRIORITY (tskIDLE_PRIORITY+3)
-#define SENSOR_PERIOD 2
+#define SENSOR_PERIOD 3
 #define REQUIRED_GOOD_CYCLES 50
 
 #define F_PI 3.14159265358979323846f
@@ -192,7 +192,7 @@ static void SensorsTask(void *parameters)
 
 		xQueueHandle queue;
 		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_GYRO);
-		if(queue == NULL || xQueueReceive(queue, (void *) &gyros, 4) == errQUEUE_EMPTY) {
+		if(queue == NULL || xQueueReceive(queue, (void *) &gyros, SENSOR_PERIOD) == errQUEUE_EMPTY) {
 			good_runs = 0;
 			continue;
 		}
@@ -200,7 +200,7 @@ static void SensorsTask(void *parameters)
 		// As it says below, because the rest of the code expects the accel to be ready when
 		// the gyro is we must block here too
 		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_ACCEL);
-		if(queue == NULL || xQueueReceive(queue, (void *) &accels, 1) == errQUEUE_EMPTY) {
+		if(queue == NULL || xQueueReceive(queue, (void *) &accels, SENSOR_PERIOD) == errQUEUE_EMPTY) {
 			good_runs = 0;
 			continue;
 		}
