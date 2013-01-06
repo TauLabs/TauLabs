@@ -71,7 +71,7 @@
 // Private constants
 #define STACK_SIZE_BYTES 1000
 #define TASK_PRIORITY (tskIDLE_PRIORITY+3)
-#define SENSOR_PERIOD 3
+#define SENSOR_PERIOD 4
 #define REQUIRED_GOOD_CYCLES 50
 
 #define F_PI 3.14159265358979323846f
@@ -190,6 +190,8 @@ static void SensorsTask(void *parameters)
 		struct pios_sensor_mag_data mags;
 		struct pios_sensor_baro_data baro;
 
+		uint32_t timeval = PIOS_DELAY_GetRaw();
+
 		xQueueHandle queue;
 		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_GYRO);
 		if(queue == NULL || xQueueReceive(queue, (void *) &gyros, SENSOR_PERIOD) == errQUEUE_EMPTY) {
@@ -226,6 +228,12 @@ static void SensorsTask(void *parameters)
 		else
 			good_runs++;
 		PIOS_WDG_UpdateFlag(PIOS_WDG_SENSORS);
+
+		// Check total time to get the sensors wasn't over the limit
+		uint32_t dT_us = PIOS_DELAY_DiffuS(timeval);
+		if (dT_us > (SENSOR_PERIOD * 1000))
+			good_runs = 0;
+
 	}
 }
 
