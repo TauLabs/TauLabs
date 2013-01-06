@@ -41,7 +41,7 @@ enum pios_l3gd20_dev_magic {
 	PIOS_L3GD20_DEV_MAGIC = 0x9d39bced,
 };
 
-#define PIOS_L3GD20_MAX_DOWNSAMPLE 2
+#define PIOS_L3GD20_MAX_DOWNSAMPLE 1
 
 //! Local types
 struct l3gd20_dev {

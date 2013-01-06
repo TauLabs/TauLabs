@@ -42,7 +42,7 @@ enum pios_mpu6000_dev_magic {
 	PIOS_MPU6000_DEV_MAGIC = 0x9da9b3ed,
 };
 
-#define PIOS_MPU6000_MAX_DOWNSAMPLE 2
+#define PIOS_MPU6000_MAX_DOWNSAMPLE 1
 struct mpu6000_dev {
 	uint32_t spi_id;
 	uint32_t slave_num;

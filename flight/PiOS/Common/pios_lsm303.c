@@ -41,7 +41,7 @@ enum pios_lsm303_dev_magic {
 	PIOS_LSM303_DEV_MAGIC = 0xef8e9e1d,
 };
 
-#define PIOS_LSM303_MAX_DOWNSAMPLE 2
+#define PIOS_LSM303_MAX_DOWNSAMPLE 1
 struct lsm303_dev {
 	uint32_t i2c_id;
 	uint8_t i2c_addr_accel;
