@@ -137,7 +137,7 @@ static void magbaroTask(void *parameters)
 	PIOS_BMP085_Init();
 #endif
 #if defined(PIOS_INCLUDE_HMC5883)
-	PIOS_HMC5883_Init(&pios_hmc5883_cfg);
+	PIOS_HMC5883_Init(PIOS_I2C_MAIN_ADAPTER, &pios_hmc5883_cfg);
 #endif
 
 #if defined(PIOS_INCLUDE_HMC5883)
