@@ -72,6 +72,7 @@
 #define STACK_SIZE_BYTES 1000
 #define TASK_PRIORITY (tskIDLE_PRIORITY+3)
 #define SENSOR_PERIOD 2
+#define REQUIRED_GOOD_CYCLES 50
 
 #define F_PI 3.14159265358979323846f
 #define PI_MOD(x) (fmodf(x + F_PI, F_PI * 2) - F_PI)
@@ -166,7 +167,7 @@ static void SensorsTask(void *parameters)
 {
 	portTickType lastSysTime;
 
-	AlarmsClear(SYSTEMALARMS_ALARM_SENSORS);
+	AlarmsSet(SYSTEMALARMS_ALARM_SENSORS, SYSTEMALARMS_ALARM_CRITICAL);
 
 	UAVObjEvent ev;
 	settingsUpdatedCb(&ev);
@@ -174,17 +175,14 @@ static void SensorsTask(void *parameters)
 
 	// Main task loop
 	lastSysTime = xTaskGetTickCount();
-	bool error = false;
+	uint32_t good_runs = 1;
 
 	while (1) {
-		if (error) {
+		if (good_runs == 0) {
 			PIOS_WDG_UpdateFlag(PIOS_WDG_SENSORS);
 			lastSysTime = xTaskGetTickCount();
 			vTaskDelayUntil(&lastSysTime, SENSOR_PERIOD / portTICK_RATE_MS);
 			AlarmsSet(SYSTEMALARMS_ALARM_SENSORS, SYSTEMALARMS_ALARM_CRITICAL);
-			error = false;
-		} else {
-			AlarmsClear(SYSTEMALARMS_ALARM_SENSORS);
 		}
 
 		struct pios_sensor_gyro_data gyros;
@@ -195,7 +193,7 @@ static void SensorsTask(void *parameters)
 		xQueueHandle queue;
 		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_GYRO);
 		if(queue == NULL || xQueueReceive(queue, (void *) &gyros, 4) == errQUEUE_EMPTY) {
-			error = true;
+			good_runs = 0;
 			continue;
 		}
 
@@ -203,7 +201,7 @@ static void SensorsTask(void *parameters)
 		// the gyro is we must block here too
 		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_ACCEL);
 		if(queue == NULL || xQueueReceive(queue, (void *) &accels, 1) == errQUEUE_EMPTY) {
-			error = true;
+			good_runs = 0;
 			continue;
 		}
 		else
@@ -223,6 +221,10 @@ static void SensorsTask(void *parameters)
 			update_baro(&baro);
 		}
 
+		if (good_runs > REQUIRED_GOOD_CYCLES)
+			AlarmsClear(SYSTEMALARMS_ALARM_SENSORS);
+		else
+			good_runs++;
 		PIOS_WDG_UpdateFlag(PIOS_WDG_SENSORS);
 	}
 }
