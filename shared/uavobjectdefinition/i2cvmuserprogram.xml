@@ -1,0 +1,13 @@
+<xml>
+	<object name="I2CVMUserProgram" singleinstance="true" settings="true">
+		<description>Allows GCS to provide a user-defined program to the I2C Virtual Machine</description>
+
+		<!-- Default values are a simple test for the VM that doesn't use I2C at all -->
+		<field name="Program" units="" type="uint32" elements="20" defaultvalue="134676490, 84541440, 84607232, 84673024, 84738816, 117441025, 117441282, 117441539, 100663812, 100664069, 100664326, 385875968, 168296447, 33554452, 50855927,0,0,0,0,0"/>
+
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+		<telemetryflight acked="true" updatemode="onchange" period="0"/>
+		<logging updatemode="manual" period="0"/>
+	</object>
+</xml>

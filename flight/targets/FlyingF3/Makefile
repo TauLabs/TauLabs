@@ -50,7 +50,6 @@ MODULES += Attitude/revolution
 MODULES += Actuator
 MODULES += ManualControl
 MODULES += Stabilization
-#MODULES += Altitude/revolution
 #MODULES += Airspeed/revolution
 MODULES += FirmwareIAP
 MODULES += Telemetry
@@ -60,6 +59,7 @@ OPTMODULES += GPS
 OPTMODULES += CameraStab
 OPTMODULES += Autotune
 OPTMODULES += TxPID
+OPTMODULES += GenericI2CSensor
 #OPTMODULES += AltitudeHold 
 #OPTMODULES += VtolPathFollower 
 #OPTMODULES += FixedWingPathFollower
@@ -153,6 +153,7 @@ CPPSRC =
 
 # List any extra directories to look for include files here.
 #    Each directory must be seperated by a space.
+EXTRAINCDIRS += $(SHAREDAPIDIR)
 EXTRAINCDIRS += $(PIOS)
 EXTRAINCDIRS += $(PIOSINC)
 EXTRAINCDIRS += $(OPSYSTEMINC)

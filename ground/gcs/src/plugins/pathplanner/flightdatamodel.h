@@ -36,10 +36,6 @@ struct pathPlanData
     QString wpDescritption;
     double latPosition;
     double lngPosition;
-    double disRelative;
-    double beaRelative;
-    double altitudeRelative;
-    bool isRelative;
     double altitude;
     float velocity;
     int mode;
@@ -55,9 +51,12 @@ public:
     //! The column names
     enum pathPlanDataEnum
     {
-        LATPOSITION,LNGPOSITION,DISRELATIVE,BEARELATIVE,ALTITUDERELATIVE,ISRELATIVE,ALTITUDE,
-            VELOCITY,MODE,MODE_PARAMS,WPDESCRITPTION,LOCKED
+        LATPOSITION,LNGPOSITION,ALTITUDE,
+        NED_NORTH, NED_EAST, NED_DOWN,
+        VELOCITY,MODE,MODE_PARAMS,LOCKED, WPDESCRITPTION,
+        LASTCOLUMN
     };
+
     FlightDataModel(QObject *parent);
     int rowCount(const QModelIndex &parent = QModelIndex()) const ;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
@@ -70,10 +69,26 @@ public:
     bool removeRows ( int row, int count, const QModelIndex & parent = QModelIndex() );
     bool writeToFile(QString filename);
     void readFromFile(QString fileName);
+
+    static QMap<int,QString> modeNames;
 private:
     QList<pathPlanData *> dataStorage;
-    QVariant getColumnByIndex(const pathPlanData *row, const int index) const;
-    bool setColumnByIndex(pathPlanData *row, const int index, const QVariant value);
+
+    //! NED representation of a location
+    struct NED {
+        double North;
+        double East;
+        double Down;
+    };
+
+    //! Get the NED representation of a waypoint
+    struct FlightDataModel::NED getNED(int index) const;
+
+    //! Set the NED representation of a waypoint
+    bool setNED(int index, struct FlightDataModel::NED NED);
+
+    //! Get the current home location
+    bool getHomeLocation(double *homeLLA) const;
 };
 
 #endif // FlightDataModel_H

@@ -37,27 +37,25 @@
 
 class Ui_waypoint_dialog;
 
-class PATHPLANNER_EXPORT WaypointDialog : public QWidget
+/**
+ * @brief The WaypointDialog class creates a dialog for editing the properties of a single waypoint
+ */
+class PATHPLANNER_EXPORT WaypointDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    WaypointDialog(QWidget *parent, QAbstractItemModel * model, QItemSelectionModel * selection);
+    WaypointDialog(QWidget *parent, QAbstractItemModel *model, QItemSelectionModel * selection);
     ~WaypointDialog();
 
     //! Edit the requested waypoint, show dialog if it is not showing
     void editWaypoint(int number);
 
-private:
-    Ui_waypoint_dialog *ui;
-    QDataWidgetMapper *mapper;
-    QAbstractItemModel * model;
-    QItemSelectionModel * itemSelection;
-
 private slots:
-
-private slots:
+    //! Called when the data widget selector index changes
     void currentIndexChanged(int index);
+
+    //! Updates the UI to display the available options (e.g. radius) when mode changes
     void setupModeWidgets();
 
     //! Close the dialog, abort any changes
@@ -71,41 +69,28 @@ private slots:
 
     //! User requests the next waypoint
     void on_nextButton_clicked();
-    void enableEditWidgets(bool);
+
+    //! When the selector changes pass the update to the data mapper
     void currentRowChanged(QModelIndex,QModelIndex);
+
+    //! Enable or disable the controls based on the lock control
+    void enableEditWidgets();
+private:
+
+    //! The handle to the UI
+    Ui_waypoint_dialog *ui;
+
+    //! Delegate between the model (one waypoint) and the view
+    QDataWidgetMapper *mapper;
+
+    //! The data model for the flight plan
+    QAbstractItemModel *model;
+
+    //! Indicates which waypoint is selected for editing
+    QItemSelectionModel * itemSelection;
+
+    //! Store the current waypoint index
+    int index;
 };
-
-
-/**
- * @brief The WaypointDataDelegate class is used to handle updating the values in
- * the mode combo box to the data model.
- */
-class WaypointDataDelegate : public QItemDelegate
- {
-        Q_OBJECT
-
- public:
-    typedef enum { MODE_FLYENDPOINT=0, MODE_FLYVECTOR=1, MODE_FLYCIRCLERIGHT=2, MODE_FLYCIRCLELEFT=3,
-                   MODE_DRIVEENDPOINT=4, MODE_DRIVEVECTOR=5, MODE_DRIVECIRCLELEFT=6, MODE_DRIVECIRCLERIGHT=7
-                 } ModeOptions;
-
-     WaypointDataDelegate(QObject *parent = 0);
-
-     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
-                           const QModelIndex &index) const;
-
-     //! Set data in the UI when the model is changed
-     void setEditorData(QWidget *editor, const QModelIndex &index) const;
-
-     //! Set data in the model when the UI is changed
-     void setModelData(QWidget *editor, QAbstractItemModel *model,
-                       const QModelIndex &index) const;
-
-     void updateEditorGeometry(QWidget *editor,
-                               const QStyleOptionViewItem &option, const QModelIndex &index) const;
-
-     //! Populate the selections in the mode combo box
-     static void loadComboBox(QComboBox * combo,FlightDataModel::pathPlanDataEnum type);
- };
 
 #endif /* WAYPOINT_DIALOG_H */

@@ -215,7 +215,6 @@ private:
     QAction *m_saveAllAction;
     QAction *m_exitAction;
     QAction *m_optionsAction;
-    QAction *m_toggleFullScreenAction;
     // UavGadgetManager actions
     QAction *m_showToolbarsAction;
     QAction *m_splitAction;
@@ -231,6 +230,7 @@ private:
     QAction *m_minimizeAction;
     QAction *m_zoomAction;
 #endif
+    QAction *m_toggleFullScreenAction;
 
 };
 

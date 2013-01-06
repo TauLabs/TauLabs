@@ -50,7 +50,6 @@ MODULES += Attitude/revolution
 MODULES += Actuator
 MODULES += ManualControl
 MODULES += Stabilization
-MODULES += Altitude/revolution
 MODULES += FirmwareIAP
 #MODULES += Airspeed/revolution
 MODULES += PathPlanner
@@ -158,6 +157,7 @@ CPPSRC =
 
 # List any extra directories to look for include files here.
 #    Each directory must be seperated by a space.
+EXTRAINCDIRS += $(SHAREDAPIDIR)
 EXTRAINCDIRS += $(PIOS)
 EXTRAINCDIRS += $(PIOSINC)
 EXTRAINCDIRS += $(OPSYSTEMINC)
