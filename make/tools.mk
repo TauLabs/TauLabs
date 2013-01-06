@@ -152,8 +152,8 @@ libusb_win_clean:
 .PHONY: openocd_git_win_install
 
 openocd_git_win_install: | $(DL_DIR) $(TOOLS_DIR)
-openocd_git_win_install: OPENOCD_URL  := git://openocd.git.sourceforge.net/gitroot/openocd/openocd
-openocd_git_win_install: OPENOCD_REV  := f1c0133321c8fcadadd10bba5537c0a634eb183b
+openocd_git_win_install: OPENOCD_URL  := git://git.code.sf.net/p/openocd/code
+openocd_git_win_install: OPENOCD_REV  := cf1418e9a85013bbf8dbcc2d2e9985695993d9f4
 openocd_git_win_install: openocd_win_clean libusb_win_install ftd2xx_install
         # download the source
 	$(V0) @echo " DOWNLOAD     $(OPENOCD_URL) @ $(OPENOCD_REV)"
@@ -169,8 +169,8 @@ openocd_git_win_install: openocd_win_clean libusb_win_install ftd2xx_install
 	$(V0) @echo " PATCH        $(OPENOCD_BUILD_DIR)"
 	$(V1) ( \
 	  cd $(OPENOCD_BUILD_DIR) ; \
-	  git apply < $(ROOT_DIR)/flight/Project/OpenOCD/0001-armv7m-remove-dummy-FP-regs-for-new-gdb.patch ; \
-	  git apply < $(ROOT_DIR)/flight/Project/OpenOCD/0002-rtos-add-stm32_stlink-to-FreeRTOS-targets.patch ; \
+	  git apply < $(ROOT_DIR)/flight/Project/OpenOCD/0003-freertos-cm4f-fpu-support.patch ; \
+	  git apply < $(ROOT_DIR)/flight/Project/OpenOCD/0004-st-icdi-disable.patch ; \
 	)
 
         # build and install
@@ -201,8 +201,8 @@ openocd_win_clean:
 .PHONY: openocd_git_install
 
 openocd_git_install: | $(DL_DIR) $(TOOLS_DIR)
-openocd_git_install: OPENOCD_URL  := git://openocd.git.sourceforge.net/gitroot/openocd/openocd
-openocd_git_install: OPENOCD_REV  := f1c0133321c8fcadadd10bba5537c0a634eb183b
+openocd_git_install: OPENOCD_URL  := git://git.code.sf.net/p/openocd/code
+openocd_git_install: OPENOCD_REV  := cf1418e9a85013bbf8dbcc2d2e9985695993d9f4
 openocd_git_install: openocd_clean
         # download the source
 	$(V0) @echo " DOWNLOAD     $(OPENOCD_URL) @ $(OPENOCD_REV)"
@@ -218,8 +218,7 @@ openocd_git_install: openocd_clean
 	$(V0) @echo " PATCH        $(OPENOCD_DIR)"
 	$(V1) ( \
 	  cd $(OPENOCD_BUILD_DIR) ; \
-	  git apply < $(ROOT_DIR)/flight/Project/OpenOCD/0001-armv7m-remove-dummy-FP-regs-for-new-gdb.patch ; \
-	  git apply < $(ROOT_DIR)/flight/Project/OpenOCD/0002-rtos-add-stm32_stlink-to-FreeRTOS-targets.patch ; \
+	  git apply < $(ROOT_DIR)/flight/Project/OpenOCD/0003-freertos-cm4f-fpu-support.patch ; \
 	)
 
         # build and install
