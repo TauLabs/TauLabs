@@ -59,11 +59,10 @@ static int32_t alt_ds_pres = 0;
 static int alt_ds_count = 0;
 int32_t mag_test;
 static bool module_enabled;
-static float mag_bias[3] = {0,0,0};
-static float mag_scale[3] = {1,1,1};
 
-        // Private functions
+// Private functions
 static void magbaroTask(void *parameters);
+static void update_mags(struct pios_sensor_mag_data *mag);
 
 /**
  * Initialise the module, called on startup
@@ -140,14 +139,9 @@ static void magbaroTask(void *parameters)
 	PIOS_HMC5883_Init(PIOS_I2C_MAIN_ADAPTER, &pios_hmc5883_cfg);
 #endif
 
-#if defined(PIOS_INCLUDE_HMC5883)
-	//mag_test = PIOS_HMC5883_Test();
-#else
 	mag_test = 0;
-#endif
 	// Main task loop
 	lastSysTime = xTaskGetTickCount();
-	uint32_t mag_update_time = PIOS_DELAY_GetRaw();
 	while (1)
 	{
 #if defined(PIOS_INCLUDE_BMP085)
@@ -192,18 +186,10 @@ static void magbaroTask(void *parameters)
 #endif
 
 #if defined(PIOS_INCLUDE_HMC5883)
-		MagnetometerData mag;
-		if (PIOS_HMC5883_NewDataAvailable() || PIOS_DELAY_DiffuS(mag_update_time) > 100000) {
-			struct pios_hmc5883_data hmc5883_data;
-			PIOS_HMC5883_ReadMag(&hmc5883_data);
-			float mags[3] = {(float) hmc5883_data.mag_y * mag_scale[0] - mag_bias[0],
-			                (float) hmc5883_data.mag_x * mag_scale[1] - mag_bias[1],
-			                -(float) hmc5883_data.mag_z * mag_scale[2] - mag_bias[2]};
-			mag.x = mags[0];
-			mag.y = mags[1];
-			mag.z = mags[2];
-			MagnetometerSet(&mag);
-			mag_update_time = PIOS_DELAY_GetRaw();
+		struct pios_sensor_mag_data mags;
+		xQueueHandle queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_MAG);
+		if (queue != NULL && xQueueReceive(queue, (void *) &mags, 0) != errQUEUE_EMPTY) {
+			update_mags(&mags);
 		}
 #endif
 
@@ -211,6 +197,22 @@ static void magbaroTask(void *parameters)
 		vTaskDelayUntil(&lastSysTime, UPDATE_PERIOD / portTICK_RATE_MS);
 	}
 }
+
+/**
+ * @brief Apply calibration and rotation to the raw mag data
+ * @param[in] mag The raw mag data
+ */
+static void update_mags(struct pios_sensor_mag_data *mag)
+{
+	float mags[3] = {mag->x, mag->y, mag->z};
+
+	MagnetometerData magData;
+	magData.x = mags[0];
+	magData.y = mags[1];
+	magData.z = mags[2];
+	MagnetometerSet(&magData);
+}
+
 
 /**
  * @}
