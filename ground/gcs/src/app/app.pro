@@ -12,7 +12,7 @@ include(../libs/utils/utils.pri)
 LIBS *= -l$$qtLibraryName(ExtensionSystem) -l$$qtLibraryName(Aggregation)
 
 win32 {
-    RC_FILE = abovegroundlabs.rc
+    RC_FILE = taulabs.rc
     target.path = /bin
     INSTALLS += target
 } else:macx {
@@ -27,4 +27,4 @@ win32 {
     INSTALLS    += target
 }
 
-OTHER_FILES += abovegroundlabs.rc
+OTHER_FILES += taulabs.rc

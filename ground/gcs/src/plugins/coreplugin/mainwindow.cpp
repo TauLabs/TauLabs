@@ -104,11 +104,11 @@ MainWindow::MainWindow() :
     m_additionalContexts(m_globalContext),
     // keep this in sync with main() in app/main.cpp
     m_settings(new QSettings(XmlConfig::XmlSettingsFormat, QSettings::UserScope,
-                             QLatin1String("AboveGroundLabs"), QLatin1String("AboveGroundLabs_config"), this)),
+                             QLatin1String("TauLabs"), QLatin1String("TauLabs_config"), this)),
     m_globalSettings(new QSettings(XmlConfig::XmlSettingsFormat, QSettings::SystemScope,
-                                 QLatin1String("AboveGroundLabs"), QLatin1String("AboveGroundLabs_config"), this)),
+                                 QLatin1String("TauLabs"), QLatin1String("TauLabs_config"), this)),
     m_settingsDatabase(new SettingsDatabase(QFileInfo(m_settings->fileName()).path(),
-                                            QLatin1String("AboveGroundLabs_config"),
+                                            QLatin1String("TauLabs_config"),
                                             this)),
     m_dontSaveSettings(false),
     m_actionManager(new ActionManagerPrivate(this)),
@@ -137,14 +137,14 @@ MainWindow::MainWindow() :
 #endif
     m_toggleFullScreenAction(0)
 {
-    setWindowTitle(tr("Above Ground Labs GCS"));
+    setWindowTitle(tr("Tau Labs GCS"));
 #ifndef Q_WS_MAC
-    qApp->setWindowIcon(QIcon(":/core/images/openpilot_logo_128.png"));
+    qApp->setWindowIcon(QIcon(":/core/images/abovegroundlabs_logo_128.png"));
 #endif
-    QCoreApplication::setApplicationName(QLatin1String("Above Ground Labs GCS"));
+    QCoreApplication::setApplicationName(QLatin1String("Tau Labs GCS"));
     QCoreApplication::setApplicationVersion(QLatin1String(Core::Constants::GCS_VERSION_LONG));
-    QCoreApplication::setOrganizationName(QLatin1String("AboveGroundLabs"));
-    QCoreApplication::setOrganizationDomain(QLatin1String("abovegroundlabs.org"));
+    QCoreApplication::setOrganizationName(QLatin1String("TauLabs"));
+    QCoreApplication::setOrganizationDomain(QLatin1String("taulabs.org"));
     QSettings::setDefaultFormat(XmlConfig::XmlSettingsFormat);
     QString baseName = qApp->style()->objectName();
 #ifdef Q_WS_X11
@@ -298,7 +298,7 @@ void MainWindow::extensionsInitialized()
 #else
             directory.cdUp();
             directory.cd("share");
-            directory.cd("abovegroundlabs");
+            directory.cd("taulabs");
 #endif
             directory.cd("default_configurations");
 
@@ -355,7 +355,7 @@ void MainWindow::loadStyleSheet(QString name) {
 #else
     directory.cdUp();
     directory.cd("share");
-    directory.cd("abovegroundlabs");
+    directory.cd("taulabs");
 #endif
     directory.cd("stylesheets");
 #ifdef Q_OS_MAC
