@@ -49,7 +49,7 @@
 
 enum { OptionIndent = 4, DescriptionIndent = 24 };
 
-static const char *appNameC = "Above Ground Labs GCS";
+static const char *appNameC = "Tau Labs GCS";
 static const char *corePluginNameC = "Core";
 static const char *fixedOptionsC =
 " [OPTION]... [FILE]...\n"
@@ -355,7 +355,7 @@ int main(int argc, char **argv)
                 errors.append(p->errorString());
         if (!errors.isEmpty())
             QMessageBox::warning(0,
-                QCoreApplication::translate("Application", "Above Ground Labs - Plugin loader messages"),
+                QCoreApplication::translate("Application", "Tau Labs - Plugin loader messages"),
                 errors.join(QString::fromLatin1("\n\n")));
     }
 

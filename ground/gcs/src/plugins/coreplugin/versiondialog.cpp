@@ -54,7 +54,7 @@ VersionDialog::VersionDialog(QWidget *parent)
     // application icon isn't used when the size of the dialog is fixed (at least not on X11/GNOME)
     setWindowIcon(QIcon(":/core/images/abovegroundlabs_logo_32.png"));
 
-    setWindowTitle(tr("About Above Ground Labs GCS"));
+    setWindowTitle(tr("About Tau Labs GCS"));
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     QGridLayout *layout = new QGridLayout(this);
     layout->setSizeConstraint(QLayout::SetFixedSize);
@@ -89,7 +89,7 @@ VersionDialog::VersionDialog(QWidget *parent)
  #endif
 
      const QString description = tr(
-        "<h3>Above Ground Labs GCS %1 %9 (%10)</h3>"
+        "<h3>Tau Labs GCS %1 %9 (%10)</h3>"
         "Based on Qt %2 (%3 bit)<br/>"
         "<br/>"
         "Built on %4 at %5<br />"

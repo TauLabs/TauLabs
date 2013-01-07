@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       mainwindow.cpp
- * @author     Above Ground Labs, http://abovegroundlabs.org Copyright (C) 2012
+ * @author     Tau Labs, http://abovegroundlabs.org Copyright (C) 2012
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
  * @addtogroup GCSPlugins GCS Plugins
@@ -822,9 +822,9 @@ void MainWindow::registerDefaultActions()
 
     // About GCS Action
 #ifdef Q_WS_MAC
-    tmpaction = new QAction(QIcon(Constants::ICON_OPENPILOT), tr("About &Above Ground Labs GCS"), this); // it's convention not to add dots to the about menu
+    tmpaction = new QAction(QIcon(Constants::ICON_OPENPILOT), tr("About &Tau Labs GCS"), this); // it's convention not to add dots to the about menu
 #else
-    tmpaction = new QAction(QIcon(Constants::ICON_OPENPILOT), tr("About &Above Ground Labs GCS..."), this);
+    tmpaction = new QAction(QIcon(Constants::ICON_OPENPILOT), tr("About &Tau Labs GCS..."), this);
 #endif
     cmd = am->registerAction(tmpaction, Constants::ABOUT_OPENPILOTGCS, m_globalContext);
     mhelp->addAction(cmd, Constants::G_HELP_ABOUT);
