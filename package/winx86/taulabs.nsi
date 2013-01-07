@@ -43,27 +43,27 @@
   !define AEROSIMRC_TREE "..\..\build\ground\AeroSIM-RC"
 
   ; Default installation folder
-  InstallDir "$PROGRAMFILES\AboveGroundLabs"
+  InstallDir "$PROGRAMFILES\TauLabs"
 
   ; Get installation folder from registry if available
-  InstallDirRegKey HKLM "Software\AboveGroundLabs" "Install Location"
+  InstallDirRegKey HKLM "Software\TauLabs" "Install Location"
 
 ;--------------------------------
 ; Version information
 
   ; Program name and installer file
-  !define PRODUCT_NAME "AboveGroundLabs GCS"
-  !define INSTALLER_NAME "AboveGroundLabs GCS Installer"
+  !define PRODUCT_NAME "TauLabs GCS"
+  !define INSTALLER_NAME "TauLabs GCS Installer"
 
   ; Read automatically generated version info
 ; !define PACKAGE_LBL "${DATE}-${TAG_OR_HASH8}"
 ; !define PACKAGE_DIR "..\..\build\package-$${PACKAGE_LBL}"
-; !define OUT_FILE "AboveGroundLabs-$${PACKAGE_LBL}-install.exe"
+; !define OUT_FILE "TauLabs-$${PACKAGE_LBL}-install.exe"
 ; !define FIRMWARE_DIR "firmware-$${PACKAGE_LBL}"
 ; !define PRODUCT_VERSION "0.0.0.0"
 ; !define FILE_VERSION "${TAG_OR_BRANCH}:${HASH8} ${DATETIME}"
 ; !define BUILD_DESCRIPTION "${TAG_OR_BRANCH}:${HASH8} built using ${ORIGIN} as origin, committed ${DATETIME} as ${HASH}"
-  !include "${GCS_BUILD_TREE}\abovegroundlabs.nsh"
+  !include "${GCS_BUILD_TREE}\taulabs.nsh"
 
   Name "${PRODUCT_NAME}"
   OutFile "${PACKAGE_DIR}\${OUT_FILE}"
@@ -72,8 +72,8 @@
   VIAddVersionKey "ProductName" "${INSTALLER_NAME}"
   VIAddVersionKey "FileVersion" "${FILE_VERSION}"
   VIAddVersionKey "Comments" "${INSTALLER_NAME}. ${BUILD_DESCRIPTION}"
-  VIAddVersionKey "CompanyName" "AboveGroundLabs, http://abovegroundlabs.org"
-  VIAddVersionKey "LegalCopyright" "© 2012 Above Ground Labs, 2010-2012 The OpenPilot Team"
+  VIAddVersionKey "CompanyName" "TauLabs, http://taulabs.org"
+  VIAddVersionKey "LegalCopyright" "© 2012-2013 Tau Labs, 2010-2012 The OpenPilot Team"
   VIAddVersionKey "FileDescription" "${INSTALLER_NAME}"
 
 ;--------------------------------
@@ -94,9 +94,9 @@
 ;--------------------------------
 ; Branding
 
-  BrandingText "© 2012 Above Ground Labs, http://abovegroundlabs.org. 2010-2012 The OpenPilot Team, http://www.openpilot.org"
+  BrandingText "© 2012-2013 Tau Labs, http://taulabs.org. 2010-2012 The OpenPilot Team, http://www.openpilot.org"
 
-  !define MUI_ICON "${NSIS_DATA_TREE}\resources\abovegroundlabs.ico"
+  !define MUI_ICON "${NSIS_DATA_TREE}\resources\taulabs.ico"
   !define MUI_HEADERIMAGE
   !define MUI_HEADERIMAGE_BITMAP "${NSIS_DATA_TREE}\resources\header.bmp"
   !define MUI_HEADERIMAGE_BITMAP_NOSTRETCH
@@ -110,7 +110,7 @@
 
   ; Remember the installer language
   !define MUI_LANGDLL_REGISTRY_ROOT "HKCU" 
-  !define MUI_LANGDLL_REGISTRY_KEY "Software\AboveGroundLabs" 
+  !define MUI_LANGDLL_REGISTRY_KEY "Software\TauLabs" 
   !define MUI_LANGDLL_REGISTRY_VALUENAME "Installer Language"
   !define MUI_LANGDLL_ALWAYSSHOW
 
@@ -165,41 +165,41 @@ SectionEnd
 ; Copy GCS plugins
 Section "-Plugins" InSecPlugins
   SectionIn RO
-  SetOutPath "$INSTDIR\lib\abovegroundlabs\plugins"
-  File /r "${GCS_BUILD_TREE}\lib\abovegroundlabs\plugins\*.dll"
-  File /r "${GCS_BUILD_TREE}\lib\abovegroundlabs\plugins\*.pluginspec"
+  SetOutPath "$INSTDIR\lib\taulabs\plugins"
+  File /r "${GCS_BUILD_TREE}\lib\taulabs\plugins\*.dll"
+  File /r "${GCS_BUILD_TREE}\lib\taulabs\plugins\*.pluginspec"
 SectionEnd
 
 ; Copy GCS resources
 Section "-Resources" InSecResources
-  SetOutPath "$INSTDIR\share\abovegroundlabs\default_configurations"
-  File /r "${GCS_BUILD_TREE}\share\abovegroundlabs\default_configurations\*"
-  SetOutPath "$INSTDIR\share\abovegroundlabs\stylesheets"
-  File /r "${GCS_BUILD_TREE}\share\abovegroundlabs\stylesheets\*"
-  SetOutPath "$INSTDIR\share\abovegroundlabs\diagrams"
-  File /r "${GCS_BUILD_TREE}\share\abovegroundlabs\diagrams\*"
-  SetOutPath "$INSTDIR\share\abovegroundlabs\dials"
-  File /r "${GCS_BUILD_TREE}\share\abovegroundlabs\dials\*"
-  SetOutPath "$INSTDIR\share\abovegroundlabs\mapicons"
-  File /r "${GCS_BUILD_TREE}\share\abovegroundlabs\mapicons\*"
-  SetOutPath "$INSTDIR\share\abovegroundlabs\models"
-  File /r "${GCS_BUILD_TREE}\share\abovegroundlabs\models\*"
-  SetOutPath "$INSTDIR\share\abovegroundlabs\pfd"
-  File /r "${GCS_BUILD_TREE}\share\abovegroundlabs\pfd\*"
+  SetOutPath "$INSTDIR\share\taulabs\default_configurations"
+  File /r "${GCS_BUILD_TREE}\share\taulabs\default_configurations\*"
+  SetOutPath "$INSTDIR\share\taulabs\stylesheets"
+  File /r "${GCS_BUILD_TREE}\share\taulabs\stylesheets\*"
+  SetOutPath "$INSTDIR\share\taulabs\diagrams"
+  File /r "${GCS_BUILD_TREE}\share\taulabs\diagrams\*"
+  SetOutPath "$INSTDIR\share\taulabs\dials"
+  File /r "${GCS_BUILD_TREE}\share\taulabs\dials\*"
+  SetOutPath "$INSTDIR\share\taulabs\mapicons"
+  File /r "${GCS_BUILD_TREE}\share\taulabs\mapicons\*"
+  SetOutPath "$INSTDIR\share\taulabs\models"
+  File /r "${GCS_BUILD_TREE}\share\taulabs\models\*"
+  SetOutPath "$INSTDIR\share\taulabs\pfd"
+  File /r "${GCS_BUILD_TREE}\share\taulabs\pfd\*"
 SectionEnd
 
 ; Copy Notify plugin sound files
 Section "-Sound files" InSecSounds
-  SetOutPath "$INSTDIR\share\abovegroundlabs\sounds"
-  File /r "${GCS_BUILD_TREE}\share\abovegroundlabs\sounds\*"
+  SetOutPath "$INSTDIR\share\taulabs\sounds"
+  File /r "${GCS_BUILD_TREE}\share\taulabs\sounds\*"
 SectionEnd
 
 ; Copy localization files
 ; Disabled until GCS source is stable and properly localized
 Section "-Localization" InSecLocalization
-  SetOutPath "$INSTDIR\share\abovegroundlabs\translations"
-; File /r "${GCS_BUILD_TREE}\share\abovegroundlabs\translations\abovegroundlabs_*.qm"
-  File /r "${GCS_BUILD_TREE}\share\abovegroundlabs\translations\qt_*.qm"
+  SetOutPath "$INSTDIR\share\taulabs\translations"
+; File /r "${GCS_BUILD_TREE}\share\taulabs\translations\taulabs_*.qm"
+  File /r "${GCS_BUILD_TREE}\share\taulabs\translations\qt_*.qm"
 SectionEnd
 
 ; Copy firmware files
@@ -250,29 +250,29 @@ SectionEnd
 Section "Shortcuts" InSecShortcuts
   ; Create desktop and start menu shortcuts
   SetOutPath "$INSTDIR"
-  CreateDirectory "$SMPROGRAMS\AboveGroundLabs"
-  CreateShortCut "$SMPROGRAMS\AboveGroundLabs\AboveGroundLabs GCS.lnk" "$INSTDIR\bin\abovegroundlabs.exe" \
-	"" "$INSTDIR\bin\abovegroundlabs.exe" 0 "" "" "${PRODUCT_NAME} ${PRODUCT_VERSION}. ${BUILD_DESCRIPTION}"
-  CreateShortCut "$SMPROGRAMS\OpenPilot\OpenPilot GCS (clean configuration).lnk" "$INSTDIR\bin\abovegroundlabs.exe" \
-	"-clean-config" "$INSTDIR\bin\abovegroundlabs.exe" 0 "" "" "${PRODUCT_NAME} ${PRODUCT_VERSION}. ${BUILD_DESCRIPTION}"
-  CreateShortCut "$SMPROGRAMS\AboveGroundLabs\AboveGroundLabs ChangeLog.lnk" "$INSTDIR\HISTORY.txt" \
-	"" "$INSTDIR\bin\abovegroundlabs.exe" 0
-  CreateShortCut "$SMPROGRAMS\AboveGroundLabs\AboveGroundLabs Website.lnk" "http://abovegroundlabs.org" \
-	"" "$INSTDIR\bin\abovegroundlabs.exe" 0
-  CreateShortCut "$DESKTOP\AboveGroundLabs GCS.lnk" "$INSTDIR\bin\abovegroundlabs.exe" \
-  	"" "$INSTDIR\bin\abovegroundlabs.exe" 0 "" "" "${PRODUCT_NAME} ${PRODUCT_VERSION}. ${BUILD_DESCRIPTION}"
-  CreateShortCut "$SMPROGRAMS\AboveGroundLabs\Uninstall.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\Uninstall.exe" 0
+  CreateDirectory "$SMPROGRAMS\Tau Labs"
+  CreateShortCut "$SMPROGRAMS\Tau Labs\Tau Labs GCS.lnk" "$INSTDIR\bin\taulabsgcs.exe" \
+	"" "$INSTDIR\bin\taulabsgcs.exe" 0 "" "" "${PRODUCT_NAME} ${PRODUCT_VERSION}. ${BUILD_DESCRIPTION}"
+  CreateShortCut "$SMPROGRAMS\Tau Labs\Tau Labs GCS (clean configuration).lnk" "$INSTDIR\bin\taulabsgcs.exe" \
+	"-clean-config" "$INSTDIR\bin\taulabsgcs.exe" 0 "" "" "${PRODUCT_NAME} ${PRODUCT_VERSION}. ${BUILD_DESCRIPTION}"
+  CreateShortCut "$SMPROGRAMS\Tau Labs\Tau Labs ChangeLog.lnk" "$INSTDIR\HISTORY.txt" \
+	"" "$INSTDIR\bin\taulabsgcs.exe" 0
+  CreateShortCut "$SMPROGRAMS\Tau Labs\Tau Labs Website.lnk" "http://taulabs.org" \
+	"" "$INSTDIR\bin\taulabsgcs.exe" 0
+  CreateShortCut "$DESKTOP\Tau Labs GCS.lnk" "$INSTDIR\bin\taulabsgcs.exe" \
+  	"" "$INSTDIR\bin\taulabsgcs.exe" 0 "" "" "${PRODUCT_NAME} ${PRODUCT_VERSION}. ${BUILD_DESCRIPTION}"
+  CreateShortCut "$SMPROGRAMS\Tau Labs\Uninstall.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\Uninstall.exe" 0
 SectionEnd
 
 Section ; create uninstall info
   ; Write the installation path into the registry
-  WriteRegStr HKCU "Software\AboveGroundLabs" "Install Location" $INSTDIR
+  WriteRegStr HKCU "Software\TauLabs" "Install Location" $INSTDIR
 
   ; Write the uninstall keys for Windows
-  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\AboveGroundLabs" "DisplayName" "AboveGroundLabs GCS"
-  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\AboveGroundLabs" "UninstallString" '"$INSTDIR\Uninstall.exe"'
-  WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\AboveGroundLabs" "NoModify" 1
-  WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\AboveGroundLabs" "NoRepair" 1
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\TauLabs" "DisplayName" "Tau Labs GCS"
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\TauLabs" "UninstallString" '"$INSTDIR\Uninstall.exe"'
+  WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\TauLabs" "NoModify" 1
+  WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\TauLabs" "NoRepair" 1
 
   ; Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
@@ -308,7 +308,7 @@ FunctionEnd
 ;--------------------------------
 ; Uninstaller sections
 
-Section "un.AboveGroundLabs GCS" UnSecProgram
+Section "un.Tau Labs GCS" UnSecProgram
   ; Remove installed files and/or directories
   RMDir /r /rebootok "$INSTDIR\bin"
   RMDir /r /rebootok "$INSTDIR\lib"
@@ -324,34 +324,34 @@ Section "un.AboveGroundLabs GCS" UnSecProgram
   RMDir /rebootok "$INSTDIR"
 
   ; Remove registry keys
-  DeleteRegKey HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\AboveGroundLabs"
-  DeleteRegKey HKCU "Software\AboveGroundLabs"
+  DeleteRegKey HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\TauLabs"
+  DeleteRegKey HKCU "Software\TauLabs"
 
   ; Remove shortcuts, if any
   SetShellVarContext all
-  Delete /rebootok "$DESKTOP\AboveGroundLabs GCS.lnk"
-  Delete /rebootok "$SMPROGRAMS\AboveGroundLabs\*"
-  RMDir /rebootok "$SMPROGRAMS\AboveGroundLabs"
+  Delete /rebootok "$DESKTOP\Tau Labs GCS.lnk"
+  Delete /rebootok "$SMPROGRAMS\Tau Labs\*"
+  RMDir /rebootok "$SMPROGRAMS\Tau Labs"
 SectionEnd
 
 Section "un.Maps cache" UnSecCache
   ; Remove maps cache
   SetShellVarContext current
-  RMDir /r /rebootok "$APPDATA\AboveGroundLabs\mapscache"
+  RMDir /r /rebootok "$APPDATA\TauLabs\mapscache"
 SectionEnd
 
 Section /o "un.Configuration" UnSecConfig
   ; Remove configuration
   SetShellVarContext current
-  Delete /rebootok "$APPDATA\AboveGroundLabs\AboveGroundLabs*.db"
-  Delete /rebootok "$APPDATA\AboveGroundLabs\AboveGroundLabs*.xml"
-  Delete /rebootok "$APPDATA\AboveGroundLabs\AboveGroundLabs*.ini"
+  Delete /rebootok "$APPDATA\TauLabs\TauLabs*.db"
+  Delete /rebootok "$APPDATA\TauLabs\TauLabs*.xml"
+  Delete /rebootok "$APPDATA\TauLabs\TauLabs*.ini"
 SectionEnd
 
 Section "-un.Profile" UnSecProfile
-  ; Remove AboveGroundLabs user profile subdirectory if empty
+  ; Remove TauLabs user profile subdirectory if empty
   SetShellVarContext current
-  RMDir "$APPDATA\AboveGroundLabs"
+  RMDir "$APPDATA\TauLabs"
 SectionEnd
 
 ;--------------------------------
@@ -378,6 +378,6 @@ FunctionEnd
 
 Function RunApplication
 
-  Exec '"$INSTDIR\bin\abovegroundlabs.exe"'
+  Exec '"$INSTDIR\bin\taulabsgcs.exe"'
 
 FunctionEnd
