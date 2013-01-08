@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <org.abovegroundlabs.androidgcs.AttitudeView
+    <org.taulabs.androidgcs.AttitudeView
         android:id="@+id/attitude_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
