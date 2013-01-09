@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       quanton.h
- * @author     The PhoenixPilot Team, http://github.com/PhoenixPilot Copyright (C) 2013.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2013
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
