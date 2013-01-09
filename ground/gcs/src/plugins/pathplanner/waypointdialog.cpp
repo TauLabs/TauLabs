@@ -27,14 +27,15 @@
 
 #include <QDebug>
 #include "waypointdialog.h"
+#include <waypointdelegate.h>
+#include <waypoint.h>
 #include "ui_waypoint_dialog.h"
 
-WaypointDialog::WaypointDialog(QWidget *parent,QAbstractItemModel * model,QItemSelectionModel * selection) :
-    QWidget(parent,Qt::Window), model(model), itemSelection(selection),
-    ui(new Ui_waypoint_dialog)
+WaypointDialog::WaypointDialog(QWidget *parent, QAbstractItemModel *model,QItemSelectionModel *selection) :
+    QDialog(parent,Qt::Window), ui(new Ui_waypoint_dialog),
+    model(model), itemSelection(selection)
 {
     ui->setupUi(this);
-    connect(ui->checkBoxLocked,SIGNAL(toggled(bool)),this,SLOT(enableEditWidgets(bool)));
     connect(ui->cbMode,SIGNAL(currentIndexChanged(int)),this,SLOT(setupModeWidgets()));
 
     // Connect up the buttons
@@ -43,32 +44,51 @@ WaypointDialog::WaypointDialog(QWidget *parent,QAbstractItemModel * model,QItemS
     connect(ui->pushButtonPrevious, SIGNAL(clicked()), this, SLOT(on_previousButton_clicked()));
     connect(ui->pushButtonNext, SIGNAL(clicked()), this, SLOT(on_nextButton_clicked()));
 
-    WaypointDataDelegate::loadComboBox(ui->cbMode,FlightDataModel::MODE);
-
     mapper = new QDataWidgetMapper(this);
 
-    mapper->setItemDelegate(new WaypointDataDelegate(this));
+    WaypointDelegate *delegate = new WaypointDelegate(this);
+    delegate->loadComboBox(ui->cbMode);
+
+    mapper->setItemDelegate(delegate);
     connect (mapper,SIGNAL(currentIndexChanged(int)),this,SLOT(currentIndexChanged(int)));
     mapper->setModel(model);
     mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
-    mapper->addMapping(ui->checkBoxLocked,FlightDataModel::LOCKED);
     mapper->addMapping(ui->doubleSpinBoxLatitude,FlightDataModel::LATPOSITION);
     mapper->addMapping(ui->doubleSpinBoxLongitude,FlightDataModel::LNGPOSITION);
     mapper->addMapping(ui->doubleSpinBoxAltitude,FlightDataModel::ALTITUDE);
+    mapper->addMapping(ui->doubleSpinBoxNorth,FlightDataModel::NED_NORTH);
+    mapper->addMapping(ui->doubleSpinBoxEast,FlightDataModel::NED_EAST);
+    mapper->addMapping(ui->doubleSpinBoxDown,FlightDataModel::NED_DOWN);
     mapper->addMapping(ui->lineEditDescription,FlightDataModel::WPDESCRITPTION);
-    mapper->addMapping(ui->checkBoxRelative,FlightDataModel::ISRELATIVE);
-    mapper->addMapping(ui->doubleSpinBoxBearing,FlightDataModel::BEARELATIVE);
     mapper->addMapping(ui->doubleSpinBoxVelocity,FlightDataModel::VELOCITY);
-    mapper->addMapping(ui->doubleSpinBoxDistance,FlightDataModel::DISRELATIVE);
-    mapper->addMapping(ui->doubleSpinBoxRelativeAltitude,FlightDataModel::ALTITUDERELATIVE);
     mapper->addMapping(ui->cbMode,FlightDataModel::MODE);
     mapper->addMapping(ui->dsb_modeParams,FlightDataModel::MODE_PARAMS);
+    mapper->addMapping(ui->checkBoxLocked,FlightDataModel::LOCKED);
+
+    // Make sure the model catches updates from the check box
+    //connect(ui->checkBoxLocked,SIGNAL(toggled(bool)),mapper,SLOT(submit()));
+    connect(ui->checkBoxLocked, SIGNAL(stateChanged(int)), mapper, SLOT(submit()));
 
     mapper->setCurrentIndex(selection->currentIndex().row());
 
+    // Support locking the controls when locked
+    enableEditWidgets();
+    connect(model,SIGNAL(dataChanged(QModelIndex,QModelIndex)),this,SLOT(enableEditWidgets()));
+
+    // This means whenever the model changes we show those changes.  Since the update is on
+    // auto submit changes are still permitted.
+    connect(model, SIGNAL(dataChanged(QModelIndex,QModelIndex)), mapper, SLOT(revert()));
+
     connect(itemSelection,SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),this,SLOT(currentRowChanged(QModelIndex,QModelIndex)));
+
+    setModal(true);
 }
 
+/**
+ * @brief WaypointDialog::currentIndexChanged Called when the data widget selector index
+ * changes
+ * @param index The newly selected index
+ */
 void WaypointDialog::currentIndexChanged(int index)
 {
     ui->lbNumber->setText(QString::number(index+1));
@@ -84,21 +104,26 @@ WaypointDialog::~WaypointDialog()
     delete ui;
 }
 
+/**
+ * @brief WaypointDialog::setupModeWidgets Whenever the waypoint mode type changes
+ * this updates the UI to display the available options (e.g. radius)
+ */
 void WaypointDialog::setupModeWidgets()
 {
-    WaypointDataDelegate::ModeOptions mode = (WaypointDataDelegate::ModeOptions)
-                   ui->cbMode->itemData(ui->cbMode->currentIndex()).toInt();
+    int mode = ui->cbMode->itemData(ui->cbMode->currentIndex()).toInt();
     switch(mode)
     {
-    case WaypointDataDelegate::MODE_FLYENDPOINT:
-    case WaypointDataDelegate::MODE_FLYVECTOR:
-    case WaypointDataDelegate::MODE_FLYCIRCLERIGHT:
-    case WaypointDataDelegate::MODE_FLYCIRCLELEFT:
-    case WaypointDataDelegate::MODE_DRIVEENDPOINT:
-    case WaypointDataDelegate::MODE_DRIVEVECTOR:
-    case WaypointDataDelegate::MODE_DRIVECIRCLELEFT:
-    case WaypointDataDelegate::MODE_DRIVECIRCLERIGHT:
+    case Waypoint::MODE_FLYCIRCLERIGHT:
+    case Waypoint::MODE_FLYCIRCLELEFT:
+    case Waypoint::MODE_DRIVECIRCLELEFT:
+    case Waypoint::MODE_DRIVECIRCLERIGHT:
+        ui->modeParams->setVisible(true);
+        ui->modeParams->setText(tr("Radius"));
+        ui->dsb_modeParams->setVisible(true);
+        break;
+    default:
         ui->modeParams->setVisible(false);
+        ui->dsb_modeParams->setVisible(false);
         break;
     }
 }
@@ -147,11 +172,26 @@ void WaypointDialog::on_nextButton_clicked()
 }
 
 /**
- * @brief WaypointDialog::enableEditWidgets Enable or disable the controls
+ * @brief WaypointDialog::currentRowChanged When the selector changes pass the
+ * update to the data mapper
+ * @param current The newly selected index
+ */
+void WaypointDialog::currentRowChanged(QModelIndex current, QModelIndex previous)
+{
+    Q_UNUSED(previous);
+
+    mapper->setCurrentIndex(current.row());
+}
+
+/**
+ * @brief WaypointDialog::enableEditWidgets Enable or disable the controls based
+ * on the lock control
  * @param[in] value True if they should be enabled, false to disable
  */
-void WaypointDialog::enableEditWidgets(bool value)
+void WaypointDialog::enableEditWidgets()
 {
+    int row = itemSelection->currentIndex().row();
+    bool value = model->data(model->index(row,FlightDataModel::LOCKED)).toBool();
     QWidget * w;
     foreach(QWidget * obj,this->findChildren<QWidget *>())
     {
@@ -164,120 +204,8 @@ void WaypointDialog::enableEditWidgets(bool value)
         w=qobject_cast<QDoubleSpinBox*>(obj);
         if(w)
             w->setEnabled(!value);
-        w=qobject_cast<QCheckBox*>(obj);
-        if(w && w!=ui->checkBoxLocked)
-            w->setEnabled(!value);
         w=qobject_cast<QSpinBox*>(obj);
         if(w)
             w->setEnabled(!value);
     }
-}
-
-void WaypointDialog::currentRowChanged(QModelIndex current, QModelIndex previous)
-{
-    Q_UNUSED(previous);
-
-    mapper->setCurrentIndex(current.row());
-}
-
-/**
- * @brief WaypointDataDelegate::createEditor Returns the widget used to edit the item
- * specified by index for editing. The parent widget and style option are used to
- * control how the editor widget appears.
- * @return The widget for the index
- */
-QWidget *WaypointDataDelegate::createEditor(QWidget *parent,
-                                        const QStyleOptionViewItem & option,
-                                        const QModelIndex & index) const
-{
-    int column=index.column();
-    QComboBox * box;
-    switch(column)
-    {
-    case FlightDataModel::MODE:
-        box=new QComboBox(parent);
-        WaypointDataDelegate::loadComboBox(box, FlightDataModel::MODE);
-        return box;
-        break;
-    default:
-        return QItemDelegate::createEditor(parent,option,index);
-        break;
-    }
-
-    QComboBox *editor = new QComboBox(parent);
-    return editor;
-}
-
-/**
- * @brief WaypointDataDelegate::setEditorData Set the data in the UI from the model
- * for a particular element index
- * @param editor The editor dialog
- * @param index The model parameter index to use
- */
-void WaypointDataDelegate::setEditorData(QWidget *editor,
-                                     const QModelIndex &index) const
-{
-    if(!index.isValid())
-        return;
-    QString className=editor->metaObject()->className();
-    if (className.contains("QComboBox")) {
-        int value = index.model()->data(index, Qt::EditRole).toInt();
-        QComboBox *comboBox = static_cast<QComboBox*>(editor);
-        int x=comboBox->findData(value);
-        qDebug()<<"VALUE="<<x;
-        comboBox->setCurrentIndex(x);
-    }
-    else
-        QItemDelegate::setEditorData(editor, index);
-}
-
-/**
- * @brief WaypointDataDelegate::setModelData Update the model from the UI for a particular
- * element index
- * @param editor
- * @param model The editor dialog
- * @param index The model parameter index to change
- */
-void WaypointDataDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
-                                    const QModelIndex &index) const
-{
-    QString className=editor->metaObject()->className();
-    if (className.contains("QComboBox")) {
-        QComboBox *comboBox = static_cast<QComboBox*>(editor);
-        int value = comboBox->itemData(comboBox->currentIndex()).toInt();
-        model->setData(index, value, Qt::EditRole);
-    }
-    else
-        QItemDelegate::setModelData(editor,model,index);
-}
-
-void WaypointDataDelegate::updateEditorGeometry(QWidget *editor,
-                                            const QStyleOptionViewItem &option, const QModelIndex &/* index */) const
-{
-    editor->setGeometry(option.rect);
-}
-
-void WaypointDataDelegate::loadComboBox(QComboBox *combo, FlightDataModel::pathPlanDataEnum type)
-{
-    switch(type)
-    {
-    case FlightDataModel::MODE:
-        combo->addItem("Fly Direct",MODE_FLYENDPOINT);
-        combo->addItem("Fly Vector",MODE_FLYVECTOR);
-        combo->addItem("Fly Circle Right",MODE_FLYCIRCLERIGHT);
-        combo->addItem("Fly Circle Left",MODE_FLYCIRCLELEFT);
-
-        combo->addItem("Drive Direct",MODE_DRIVEENDPOINT);
-        combo->addItem("Drive Vector",MODE_DRIVEVECTOR);
-        combo->addItem("Drive Circle Right",MODE_DRIVECIRCLELEFT);
-        combo->addItem("Drive Circle Left",MODE_DRIVECIRCLERIGHT);
-
-        break;
-    default:
-        break;
-    }
-}
-
-WaypointDataDelegate::WaypointDataDelegate(QObject *parent):QItemDelegate(parent)
-{
 }

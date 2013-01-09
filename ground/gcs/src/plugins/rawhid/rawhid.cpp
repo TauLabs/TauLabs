@@ -261,6 +261,11 @@ void RawHIDWriteThread::run()
 
             emit m_hid->bytesWritten(ret - 2);
         }
+        else if(ret == -110) // timeout
+        {
+            // timeout occured
+            qDebug() << "Send Timeout: No data written to device.";
+        }
         else if(ret < 0) // < 0 => error
         {
             //TODO! make proper error handling, this only quick hack for unplug freeze

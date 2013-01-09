@@ -161,15 +161,10 @@ int32_t AttitudeStart(void)
 	// Create the queues for the sensors
 	gyroQueue = xQueueCreate(1, sizeof(UAVObjEvent));
 	accelQueue = xQueueCreate(1, sizeof(UAVObjEvent));
-	magQueue = xQueueCreate(1, sizeof(UAVObjEvent));
+	magQueue = xQueueCreate(2, sizeof(UAVObjEvent));
 	baroQueue = xQueueCreate(1, sizeof(UAVObjEvent));
 	gpsQueue = xQueueCreate(1, sizeof(UAVObjEvent));
 	gpsVelQueue = xQueueCreate(1, sizeof(UAVObjEvent));
-
-	// Start main task
-	xTaskCreate(AttitudeTask, (signed char *)"Attitude", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &attitudeTaskHandle);
-	TaskMonitorAdd(TASKINFO_RUNNING_ATTITUDE, attitudeTaskHandle);
-	PIOS_WDG_RegisterFlag(PIOS_WDG_ATTITUDE);
 
 	// Initialize quaternion
 	AttitudeActualData attitude;
@@ -198,6 +193,11 @@ int32_t AttitudeStart(void)
 		GPSPositionConnectQueue(gpsQueue);
 	if (GPSVelocityHandle())
 		GPSVelocityConnectQueue(gpsVelQueue);
+
+	// Start main task
+	xTaskCreate(AttitudeTask, (signed char *)"Attitude", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &attitudeTaskHandle);
+	TaskMonitorAdd(TASKINFO_RUNNING_ATTITUDE, attitudeTaskHandle);
+	PIOS_WDG_RegisterFlag(PIOS_WDG_ATTITUDE);
 
 	return 0;
 }
@@ -292,7 +292,7 @@ static int32_t updateAttitudeComplementary(bool first_run)
 	FlightStatusData flightStatus;
 	FlightStatusGet(&flightStatus);
 	if(first_run) {
-#if defined(PIOS_INCLUDE_HMC5883)
+#if defined(PIOS_INCLUDE_HMC5883) || defined(PIOS_INCLUDE_LSM303)
 		// To initialize we need a valid mag reading
 		if ( xQueueReceive(magQueue, &ev, 0 / portTICK_RATE_MS) != pdTRUE )
 			return -1;
@@ -335,7 +335,7 @@ static int32_t updateAttitudeComplementary(bool first_run)
 	} else if (init == 0) {
 		// Reload settings (all the rates)
 		AttitudeSettingsGet(&attitudeSettings);
-		magKp = 0.01f;
+		magKp = attitudeSettings.MagKp;
 		init = 1;
 	}
 
@@ -401,7 +401,8 @@ static int32_t updateAttitudeComplementary(bool first_run)
 		MagnetometerGet(&mag);
 
 		// If the mag is producing bad data don't use it (normally bad calibration)
-		if  (mag.x == mag.x && mag.y == mag.y && mag.z == mag.z) {
+		if  (mag.x == mag.x && mag.y == mag.y && mag.z == mag.z &&
+			 homeLocation.Set == HOMELOCATION_SET_TRUE) {
 			rot_mult(Rbe, homeLocation.Be, brot, false);
 
 			float mag_len = sqrtf(mag.x * mag.x + mag.y * mag.y + mag.z * mag.z);

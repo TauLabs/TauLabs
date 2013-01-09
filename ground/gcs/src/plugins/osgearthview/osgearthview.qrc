@@ -1,3 +1,9 @@
 <RCC>
-    <qresource prefix="/pfd"/>
+    <qresource prefix="/osgearthview">
+        <file>models/easystar.3ds</file>
+        <file>models/world.earth</file>
+        <file>models/joecnc.3ds</file>
+        <file>models/joecnc_texture.png</file>
+        <file>models/easystar_texture.jpg</file>
+    </qresource>
 </RCC>
