@@ -2,8 +2,8 @@
     <vendor>Above Ground Labs</vendor>
     <copyright>(C) 2013 Above Ground Labs</copyright>
     <license>The GNU Public License (GPL) Version 3</license>
-    <description>Hardware definitions for boards by Quantec Gmbh</description>
-    <url>http://www.quantec.de/</url>
+    <description>Hardware definitions for boards by Quantec Networks GmbH</description>
+    <url>http://www.quantec-networks.de/</url>
     <dependencyList>
         <dependency name="Core" version="1.0.0"/>
     </dependencyList>

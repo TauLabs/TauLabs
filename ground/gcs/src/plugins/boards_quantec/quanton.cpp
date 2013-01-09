@@ -50,12 +50,12 @@ Quanton::~Quanton()
 
 QString Quanton::shortName()
 {
-    return QString("Quanton");
+    return QString("quanton");
 }
 
 QString Quanton::boardDescription()
 {
-    return QString("The Quanton board by Quantec Gmbh");
+    return QString("quanton flight control rev. 1 by Quantec Networks GmbH");
 }
 
 /**
