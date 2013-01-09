@@ -74,6 +74,7 @@ USE_I2C ?= NO
 USE_ALTITUDE ?= NO
 USE_AUTOTUNE ?= YES
 TEST_FAULTS ?= NO
+USE_UAVOMAVLINKBRIDGE ?= YES
 
 # List of optional modules to include
 OPTMODULES =
@@ -101,6 +102,9 @@ OPTMODULES += Fault
 endif
 ifeq ($(USE_AUTOTUNE), YES)
 OPTMODULES += Autotune
+endif
+ifeq ($(USE_UAVOMAVLINKBRIDGE), YES)
+OPTMODULES += UAVOMavlinkBridge
 endif
 
 # List of mandatory modules to include
@@ -147,6 +151,7 @@ RTOSSRCDIR = $(RTOSDIR)/Source
 RTOSINCDIR = $(RTOSSRCDIR)/include
 RTOSPORTDIR = $(APPLIBDIR)/FreeRTOS/Source
 DOXYGENDIR = ../Doc/Doxygen
+MAVLINKINC  = $(FLIGHTLIB)/mavlink/v1.0/common
 PYMITE = $(FLIGHTLIB)/PyMite
 PYMITELIB = $(PYMITE)/lib
 PYMITEPLAT = $(PYMITE)/platform/openpilot
@@ -232,7 +237,8 @@ SRC += $(OPUAVSYNTHDIR)/positionactual.c
 SRC += $(OPUAVSYNTHDIR)/velocityactual.c
 SRC += $(OPUAVSYNTHDIR)/airspeedactual.c
 SRC += $(OPUAVSYNTHDIR)/inertialsensorsettings.c
-
+SRC += $(OPUAVSYNTHDIR)/flightbatterystate.c
+SRC += $(OPUAVSYNTHDIR)/flightbatterysettings.c
 endif
 
 ## PIOS Hardware (STM32F10x)
@@ -413,6 +419,7 @@ EXTRAINCDIRS  += $(RTOSPORTDIR)/portable/GCC/ARM_CM3
 EXTRAINCDIRS  += $(AHRSBOOTLOADERINC)
 EXTRAINCDIRS  += $(PYMITEINC)
 EXTRAINCDIRS  += $(HWDEFSINC)
+EXTRAINCDIRS  += $(MAVLINKINC)
 
 EXTRAINCDIRS += ${foreach MOD, ${OPTMODULES} ${MODULES}, ${OPMODULEDIR}/${MOD}/inc} ${OPMODULEDIR}/System/inc
 

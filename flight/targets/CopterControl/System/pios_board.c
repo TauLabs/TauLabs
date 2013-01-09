@@ -59,6 +59,8 @@ uint32_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 #define PIOS_COM_BRIDGE_RX_BUF_LEN 65
 #define PIOS_COM_BRIDGE_TX_BUF_LEN 12
 
+#define PIOS_COM_MAVLINK_TX_BUF_LEN 32
+
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 #define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
 uintptr_t pios_com_debug_id;
@@ -69,7 +71,7 @@ uintptr_t pios_com_telem_usb_id;
 uintptr_t pios_com_vcp_id;
 uintptr_t pios_com_gps_id;
 uintptr_t pios_com_bridge_id;
-
+uintptr_t pios_com_mavlink_id;
 uint32_t pios_usb_rctx_id;
 
 /**
@@ -521,6 +523,24 @@ void PIOS_Board_Init(void) {
 			}
 		}
 		break;
+	case HWCOPTERCONTROL_MAINPORT_MAVLINKTX:
+	#if defined(PIOS_INCLUDE_MAVLINK)
+			{
+				uint32_t pios_usart_generic_id;
+				if (PIOS_USART_Init(&pios_usart_generic_id, &pios_usart_generic_main_cfg)) {
+					PIOS_Assert(0);
+				}
+
+				uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_MAVLINK_TX_BUF_LEN);
+				PIOS_Assert(tx_buffer);
+				if (PIOS_COM_Init(&pios_com_mavlink_id, &pios_usart_com_driver, pios_usart_generic_id,
+						  NULL, 0,
+						  tx_buffer, PIOS_COM_MAVLINK_TX_BUF_LEN)) {
+					PIOS_Assert(0);
+				}
+			}
+	#endif	/* PIOS_INCLUDE_MAVLINK */
+			break;
 	}
 
 	/* Configure the flexi port */
@@ -656,6 +676,24 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_I2C */
 		break;
+	case HWCOPTERCONTROL_FLEXIPORT_MAVLINKTX:
+	#if defined(PIOS_INCLUDE_MAVLINK)
+			{
+				uint32_t pios_usart_generic_id;
+				if (PIOS_USART_Init(&pios_usart_generic_id, &pios_usart_generic_flexi_cfg)) {
+					PIOS_Assert(0);
+				}
+
+				uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_MAVLINK_TX_BUF_LEN);
+				PIOS_Assert(tx_buffer);
+				if (PIOS_COM_Init(&pios_com_mavlink_id, &pios_usart_com_driver, pios_usart_generic_id,
+						  NULL, 0,
+						  tx_buffer, PIOS_COM_MAVLINK_TX_BUF_LEN)) {
+					PIOS_Assert(0);
+				}
+			}
+	#endif	/* PIOS_INCLUDE_MAVLINK */
+			break;
 	}
 
 	/* Configure the rcvr port */

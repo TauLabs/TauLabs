@@ -16,6 +16,7 @@
 				<elementname>Radio</elementname>
 				<elementname>TxPID</elementname>
 				<elementname>VtolPathFollower</elementname>
+				<elementname>UAVOMavlinkBridge</elementname>
 			</elementnames>
 		</field>
 
