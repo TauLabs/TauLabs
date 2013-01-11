@@ -1905,6 +1905,22 @@ const struct pios_servo_cfg pios_servo_rcvr_cfg = {
  */
 static const struct pios_tim_channel pios_tim_rcvrport_all_channels[] = {
 	{
+		.timer = TIM1,
+		.timer_chan = TIM_Channel_1,
+		.remap = GPIO_AF_6,
+		.pin = {
+			.gpio = GPIOA,
+			.init = {
+				.GPIO_Pin = GPIO_Pin_8,
+				.GPIO_Speed = GPIO_Speed_2MHz,
+				.GPIO_Mode  = GPIO_Mode_AF,
+				.GPIO_OType = GPIO_OType_PP,
+				.GPIO_PuPd  = GPIO_PuPd_UP
+			},
+			.pin_source = GPIO_PinSource8,
+		},
+	},
+	{
 		.timer = TIM16,
 		.timer_chan = TIM_Channel_1,
 		.remap = GPIO_AF_1,
