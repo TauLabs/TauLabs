@@ -503,14 +503,16 @@ bool PIOS_MPU6000_IRQHandler(void)
 	float temperature = 35.0f + ((float) raw_temp + 512.0f) / 340.0f;
 
 	// Apply sensor scaling
-	accel_data.x *= PIOS_MPU6000_GetAccelScale();
-	accel_data.y *= PIOS_MPU6000_GetAccelScale();
-	accel_data.z *= PIOS_MPU6000_GetAccelScale();
+	float accel_scale = PIOS_MPU6000_GetAccelScale();
+	accel_data.x *= accel_scale;
+	accel_data.y *= accel_scale;
+	accel_data.z *= accel_scale;
 	accel_data.temperature = temperature;
 
-	gyro_data.x *= PIOS_MPU6000_GetScale();
-	gyro_data.y *= PIOS_MPU6000_GetScale();
-	gyro_data.z *= PIOS_MPU6000_GetScale();
+	float gyro_scale = PIOS_MPU6000_GetScale();
+	gyro_data.x *= gyro_scale;
+	gyro_data.y *= gyro_scale;
+	gyro_data.z *= gyro_scale;
 	gyro_data.temperature = temperature;
 
 	portBASE_TYPE xHigherPriorityTaskWoken_accel;
