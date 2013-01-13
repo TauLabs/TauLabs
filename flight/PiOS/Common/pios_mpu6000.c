@@ -57,7 +57,6 @@ struct mpu6000_dev {
 
 //! Global structure for this device device
 static struct mpu6000_dev * dev;
-volatile bool mpu6000_configured = false;
 
 //! Private functions
 static struct mpu6000_dev * PIOS_MPU6000_alloc(void);
@@ -308,37 +307,11 @@ static int32_t PIOS_MPU6000_SetReg(uint8_t reg, uint8_t data)
 	return 0;
 }
 
-/**
- * @brief Read current X, Z, Y values (in that order)
- * \param[out] int16_t array of size 3 to store X, Z, and Y gyro readings
- * \returns The number of samples remaining in the fifo
- */
-int32_t PIOS_MPU6000_ReadGyros(struct pios_mpu60x0_data * data)
-{
-	// THIS FUNCTION IS DEPRECATED AND DOES NOT PERFORM A ROTATION
-	uint8_t buf[7] = {PIOS_MPU60X0_GYRO_X_OUT_MSB | 0x80, 0, 0, 0, 0, 0, 0};
-	uint8_t rec[7];
-	
-	if(PIOS_MPU6000_ClaimBus() != 0)
-		return -1;
-
-	if(PIOS_SPI_TransferBlock(dev->spi_id, &buf[0], &rec[0], sizeof(buf), NULL) < 0)
-		return -2;
-		
-	PIOS_MPU6000_ReleaseBus();
-	
-	data->gyro_x = rec[1] << 8 | rec[2];
-	data->gyro_y = rec[3] << 8 | rec[4];
-	data->gyro_z = rec[5] << 8 | rec[6];
-	
-	return 0;
-}
-
 /*
  * @brief Read the identification bytes from the MPU6000 sensor
  * \return ID read from MPU6000 or -1 if failure
 */
-int32_t PIOS_MPU6000_ReadID()
+static int32_t PIOS_MPU6000_ReadID()
 {
 	int32_t mpu6000_id = PIOS_MPU6000_GetReg(PIOS_MPU60X0_WHOAMI);
 	if(mpu6000_id < 0)
@@ -346,7 +319,11 @@ int32_t PIOS_MPU6000_ReadID()
 	return mpu6000_id;
 }
 
-float PIOS_MPU6000_GetScale() 
+/**
+ * Get the gyro scale based on the active device settings
+ * @return Scale in (deg/s) / LSB
+ */
+static float PIOS_MPU6000_GetGyroScale() 
 {
 	switch (dev->gyro_range) {
 		case PIOS_MPU60X0_SCALE_250_DEG:
@@ -361,7 +338,11 @@ float PIOS_MPU6000_GetScale()
 	return 0;
 }
 
-float PIOS_MPU6000_GetAccelScale()
+/**
+ * Get the accel scale based on the active settings
+ * @returns Scale in (m/s^2) / LSB
+ */
+static float PIOS_MPU6000_GetAccelScale()
 {
 	switch (dev->accel_range) {
 		case PIOS_MPU60X0_ACCEL_2G:
@@ -509,7 +490,7 @@ bool PIOS_MPU6000_IRQHandler(void)
 	accel_data.z *= accel_scale;
 	accel_data.temperature = temperature;
 
-	float gyro_scale = PIOS_MPU6000_GetScale();
+	float gyro_scale = PIOS_MPU6000_GetGyroScale();
 	gyro_data.x *= gyro_scale;
 	gyro_data.y *= gyro_scale;
 	gyro_data.z *= gyro_scale;
@@ -550,7 +531,7 @@ bool PIOS_MPU6000_IRQHandler(void)
 	float temperature = 35.0f + ((float) raw_temp + 512.0f) / 340.0f;
 
 	// Apply sensor scaling
-	float gyro_scale = PIOS_MPU6000_GetScale();
+	float gyro_scale = PIOS_MPU6000_GetGyroScale();
 	gyro_data.x *= gyro_scale;
 	gyro_data.y *= gyro_scale;
 	gyro_data.z *= gyro_scale;
