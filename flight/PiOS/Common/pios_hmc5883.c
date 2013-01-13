@@ -7,6 +7,7 @@
  * @{
  * @file       pios_hmc5883.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2012.
  * @brief      HMC5883 Magnetic Sensor Functions from AHRS
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -33,26 +34,89 @@
 
 #if defined(PIOS_INCLUDE_HMC5883)
 
+/* Private constants */
+#define HMC5883_TASK_PRIORITY        (tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)  // max priority
+#define HMC5883_TASK_STACK	         (512 / 4)
+#define PIOS_HMC5883_MAX_DOWNSAMPLE  1
+
 /* Global Variables */
 
 /* Local Types */
+enum pios_hmc5883_dev_magic {
+	PIOS_HMC5883_DEV_MAGIC = 0x3d8e17ab,
+};
+
+struct hmc5883_dev {
+	uint32_t i2c_id;
+	const struct pios_hmc5883_cfg *cfg;
+	xQueueHandle queue;
+	xTaskHandle task;
+	xSemaphoreHandle data_ready_sema;
+	enum pios_hmc5883_dev_magic magic;
+};
 
 /* Local Variables */
-volatile bool pios_hmc5883_data_ready;
-
 static int32_t PIOS_HMC5883_Config(const struct pios_hmc5883_cfg * cfg);
 static int32_t PIOS_HMC5883_Read(uint8_t address, uint8_t * buffer, uint8_t len);
 static int32_t PIOS_HMC5883_Write(uint8_t address, uint8_t buffer);
+static void PIOS_HMC5883_Task(void *parameters);
 
-static const struct pios_hmc5883_cfg * dev_cfg;
+static struct hmc5883_dev *dev;
+
+/**
+ * @brief Allocate a new device
+ */
+static struct hmc5883_dev * PIOS_HMC5883_alloc(void)
+{
+	struct hmc5883_dev *hmc5883_dev;
+	
+	hmc5883_dev = (struct hmc5883_dev *)pvPortMalloc(sizeof(*hmc5883_dev));
+	if (!hmc5883_dev) return (NULL);
+	
+	hmc5883_dev->magic = PIOS_HMC5883_DEV_MAGIC;
+	
+	hmc5883_dev->queue = xQueueCreate(PIOS_HMC5883_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_mag_data));
+	if (hmc5883_dev->queue == NULL) {
+		vPortFree(hmc5883_dev);
+		return NULL;
+	}
+	
+	hmc5883_dev->data_ready_sema = xSemaphoreCreateMutex();
+	if (hmc5883_dev->data_ready_sema == NULL) {
+		vPortFree(hmc5883_dev);
+		return NULL;
+	}
+
+	return(hmc5883_dev);
+}
+
+/**
+ * @brief Validate the handle to the i2c device
+ * @returns 0 for valid device or -1 otherwise
+ */
+static int32_t PIOS_HMC5883_Validate(struct hmc5883_dev *dev)
+{
+	if (dev == NULL) 
+		return -1;
+	if (dev->magic != PIOS_HMC5883_DEV_MAGIC)
+		return -2;
+	if (dev->i2c_id == 0)
+		return -3;
+	return 0;
+}
 
 /**
  * @brief Initialize the HMC5883 magnetometer sensor.
  * @return none
  */
-void PIOS_HMC5883_Init(const struct pios_hmc5883_cfg * cfg)
+int32_t PIOS_HMC5883_Init(uint32_t i2c_id, const struct pios_hmc5883_cfg *cfg)
 {
-	dev_cfg = cfg; // store config before enabling interrupt
+	dev = (struct hmc5883_dev *) PIOS_HMC5883_alloc();
+	if (dev == NULL)
+		return -1;
+
+	dev->cfg = cfg;
+	dev->i2c_id = i2c_id;
 
 #ifdef PIOS_HMC5883_HAS_GPIOS
 	PIOS_EXTI_Init(cfg->exti_cfg);
@@ -61,8 +125,18 @@ void PIOS_HMC5883_Init(const struct pios_hmc5883_cfg * cfg)
 	int32_t val = PIOS_HMC5883_Config(cfg);
 	
 	PIOS_Assert(val == 0);
-	
-	pios_hmc5883_data_ready = false;
+
+	PIOS_SENSORS_Register(PIOS_SENSOR_MAG, dev->queue);
+
+	int result = xTaskCreate(PIOS_HMC5883_Task, (const signed char *)"pios_hmc5883",
+						 HMC5883_TASK_STACK, NULL, HMC5883_TASK_PRIORITY,
+						 &dev->task);
+
+	PIOS_Assert(result == pdPASS);
+
+	dev->data_ready_sema = xSemaphoreCreateMutex();
+
+	return 0;
 }
 
 /**
@@ -155,9 +229,11 @@ static int32_t PIOS_HMC5883_Config(const struct pios_hmc5883_cfg * cfg)
  * \param[out] int16_t array of size 3 to store X, Z, and Y magnetometer readings
  * \return 0 for success or -1 for failure
  */
-int32_t PIOS_HMC5883_ReadMag(struct pios_hmc5883_data * data)
+static int32_t PIOS_HMC5883_ReadMag(struct pios_sensor_mag_data *mag_data)
 {
-	pios_hmc5883_data_ready = false;
+	if(PIOS_HMC5883_Validate(dev) != 0)
+		return -1;
+
 	uint8_t buffer[6];
 	int32_t sensitivity;
 	
@@ -200,26 +276,26 @@ int32_t PIOS_HMC5883_ReadMag(struct pios_hmc5883_data * data)
 	mag_y = ((int16_t) ((uint16_t) buffer[4] << 8) + buffer[5]) * 1000 / sensitivity;
 
 	// Define "0" when the fiducial is in the front left of the board
-	switch (dev_cfg->orientation) {
+	switch (dev->cfg->orientation) {
 		case PIOS_HMC5883_TOP_0DEG:
-			data->mag_x = -mag_x;
-			data->mag_y = mag_y;
-			data->mag_z = -mag_z;
+			mag_data->x = -mag_x;
+			mag_data->y = mag_y;
+			mag_data->z = -mag_z;
 			break;
 		case PIOS_HMC5883_TOP_90DEG:
-			data->mag_x = -mag_y;
-			data->mag_y = -mag_x;
-			data->mag_z = -mag_z;
+			mag_data->x = -mag_y;
+			mag_data->y = -mag_x;
+			mag_data->z = -mag_z;
 			break;
 		case PIOS_HMC5883_TOP_180DEG:
-			data->mag_x = mag_x;
-			data->mag_y = -mag_y;
-			data->mag_z = -mag_z;		
+			mag_data->x = mag_x;
+			mag_data->y = -mag_y;
+			mag_data->z = -mag_z;		
 			break;
 		case PIOS_HMC5883_TOP_270DEG:
-			data->mag_x = mag_y;
-			data->mag_y = mag_x;
-			data->mag_z = -mag_z;
+			mag_data->x = mag_y;
+			mag_data->y = mag_x;
+			mag_data->z = -mag_z;
 			break;
 	}
 	
@@ -235,22 +311,13 @@ int32_t PIOS_HMC5883_ReadMag(struct pios_hmc5883_data * data)
  * \param[out] uint8_t array of size 4 to store HMC5883 ID.
  * \return 0 if successful, -1 if not
  */
-uint8_t PIOS_HMC5883_ReadID(uint8_t out[4])
+static uint8_t PIOS_HMC5883_ReadID(uint8_t out[4])
 {
 	uint8_t retval = PIOS_HMC5883_Read(PIOS_HMC5883_DATAOUT_IDA_REG, out, 3);
 	out[3] = '\0';
 	return retval;
 }
 
-/**
- * @brief Tells whether new magnetometer readings are available
- * \return true if new data is available
- * \return false if new data is not available
- */
-bool PIOS_HMC5883_NewDataAvailable(void)
-{
-	return (pios_hmc5883_data_ready);
-}
 
 /**
  * @brief Reads one or more bytes into a buffer
@@ -263,6 +330,9 @@ bool PIOS_HMC5883_NewDataAvailable(void)
  */
 static int32_t PIOS_HMC5883_Read(uint8_t address, uint8_t * buffer, uint8_t len)
 {
+	if(PIOS_HMC5883_Validate(dev) != 0)
+		return -1;
+
 	uint8_t addr_buffer[] = {
 		address,
 	};
@@ -285,7 +355,7 @@ static int32_t PIOS_HMC5883_Read(uint8_t address, uint8_t * buffer, uint8_t len)
 		}
 	};
 	
-	return PIOS_I2C_Transfer(PIOS_I2C_MAIN_ADAPTER, txn_list, NELEMENTS(txn_list));
+	return PIOS_I2C_Transfer(dev->i2c_id, txn_list, NELEMENTS(txn_list));
 }
 
 /**
@@ -298,6 +368,9 @@ static int32_t PIOS_HMC5883_Read(uint8_t address, uint8_t * buffer, uint8_t len)
  */
 static int32_t PIOS_HMC5883_Write(uint8_t address, uint8_t buffer)
 {
+	if(PIOS_HMC5883_Validate(dev) != 0)
+		return -1;
+
 	uint8_t data[] = {
 		address,
 		buffer,
@@ -314,7 +387,7 @@ static int32_t PIOS_HMC5883_Write(uint8_t address, uint8_t buffer)
 		,
 	};
 	;
-	return PIOS_I2C_Transfer(PIOS_I2C_MAIN_ADAPTER, txn_list, NELEMENTS(txn_list));
+	return PIOS_I2C_Transfer(dev->i2c_id, txn_list, NELEMENTS(txn_list));
 }
 
 /**
@@ -329,20 +402,18 @@ int32_t PIOS_HMC5883_Test(void)
 	uint8_t ctrl_a_read;
 	uint8_t ctrl_b_read;	
 	uint8_t mode_read;
-	struct pios_hmc5883_data values;
-	
-	
-	
+	struct pios_sensor_mag_data values;
+
 	/* Verify that ID matches (HMC5883 ID is null-terminated ASCII string "H43") */
 	char id[4];
 	PIOS_HMC5883_ReadID((uint8_t *)id);
 	if((id[0] != 'H') || (id[1] != '4') || (id[2] != '3')) // Expect H43
 		return -1;
-	
+
 	/* Backup existing configuration */
 	if (PIOS_HMC5883_Read(PIOS_HMC5883_CONFIG_REG_A,registers,3) != 0)
 		return -1;
-	
+
 	/* Stop the device and read out last value */
 	PIOS_DELAY_WaitmS(10);
 	if (PIOS_HMC5883_Write(PIOS_HMC5883_MODE_REG, PIOS_HMC5883_MODE_IDLE) != 0) 
@@ -351,7 +422,7 @@ int32_t PIOS_HMC5883_Test(void)
 		return -1;
 	if (PIOS_HMC5883_ReadMag(&values) != 0)
 		return -1;
-	
+
 	/*
 	 * Put HMC5883 into self test mode
 	 * This is done by placing measurement config into positive (0x01) or negative (0x10) bias
@@ -372,28 +443,18 @@ int32_t PIOS_HMC5883_Test(void)
 	PIOS_DELAY_WaitmS(10);
 	if (PIOS_HMC5883_Write(PIOS_HMC5883_MODE_REG, PIOS_HMC5883_MODE_SINGLE) != 0) 
 		return -1;
-	
+
 	/* Must wait for value to be updated */
 	PIOS_DELAY_WaitmS(200);
-	
+
 	if (PIOS_HMC5883_ReadMag(&values) != 0)
 		return -1;
-	
-	/*
-	 if(abs(values[0] - 766) > 20)
-	 failed |= 1;
-	 if(abs(values[1] - 766) > 20)
-	 failed |= 1;
-	 if(abs(values[2] - 713) > 20)
-	 failed |= 1;
-	*/
-	
+
 	PIOS_HMC5883_Read(PIOS_HMC5883_CONFIG_REG_A, &ctrl_a_read,1);
 	PIOS_HMC5883_Read(PIOS_HMC5883_CONFIG_REG_B, &ctrl_b_read,1);
 	PIOS_HMC5883_Read(PIOS_HMC5883_MODE_REG, &mode_read,1);
 	PIOS_HMC5883_Read(PIOS_HMC5883_DATAOUT_STATUS_REG, &status,1);
-	
-	
+
 	/* Restore backup configuration */
 	PIOS_DELAY_WaitmS(10);
 	if (PIOS_HMC5883_Write(PIOS_HMC5883_CONFIG_REG_A, registers[0]) != 0)
@@ -404,7 +465,7 @@ int32_t PIOS_HMC5883_Test(void)
 	PIOS_DELAY_WaitmS(10);
 	if (PIOS_HMC5883_Write(PIOS_HMC5883_MODE_REG, registers[2]) != 0) 
 		return -1;
-	
+
 	return failed;
 }
 
@@ -413,9 +474,35 @@ int32_t PIOS_HMC5883_Test(void)
  */
 bool PIOS_HMC5883_IRQHandler(void)
 {
-	pios_hmc5883_data_ready = true;
-	
-	return false;
+	if(PIOS_HMC5883_Validate(dev) != 0)
+		return false;
+
+	portBASE_TYPE xHigherPriorityTaskWoken;
+	xSemaphoreGiveFromISR(dev->data_ready_sema, &xHigherPriorityTaskWoken);
+
+    return xHigherPriorityTaskWoken == pdTRUE;
+}
+
+/**
+ * The HMC5883 task
+ */
+static void PIOS_HMC5883_Task(void *parameters)
+{
+	while(1) {
+		if(PIOS_HMC5883_Validate(dev) != 0) {
+			vTaskDelay(100 * portTICK_RATE_MS);
+			continue;
+		}
+
+		if (xSemaphoreTake(dev->data_ready_sema, portMAX_DELAY) != pdTRUE) {
+			vTaskDelay(100 * portTICK_RATE_MS);
+			continue;
+		}
+
+		struct pios_sensor_mag_data mag_data;
+		if (PIOS_HMC5883_ReadMag(&mag_data) == 0)
+			xQueueSend(dev->queue, (void *) &mag_data, 0);
+	}
 }
 
 #endif /* PIOS_INCLUDE_HMC5883 */
