@@ -7,7 +7,7 @@
  * @{
  *
  * @file       pios_sensors.c
- * @author     PhoenixPIlot, http://github.com/PhoenixPilot Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2012.
  * @brief      Generic interface for sensors
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -48,7 +48,8 @@ int32_t PIOS_SENSORS_Init()
 //! Register a sensor with the PIOS_SENSORS interface
 int32_t PIOS_SENSORS_Register(enum pios_sensor_type type, xQueueHandle queue)
 {
-	PIOS_DEBUG_Assert(queues[type] == NULL);
+	if(queues[type] != NULL)
+		return -1;
 
 	queues[type] = queue;
 

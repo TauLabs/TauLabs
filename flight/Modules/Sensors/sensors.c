@@ -345,6 +345,7 @@ static void update_mags(struct pios_sensor_mag_data *mag)
 			break;
 		default:
 			// No calibration
+			break;
 		}
 	}
 
