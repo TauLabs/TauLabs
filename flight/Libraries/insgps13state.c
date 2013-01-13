@@ -65,6 +65,7 @@ float Be[3];			// local magnetic unit vector in NED frame
 float P[NUMX][NUMX], X[NUMX];	// covariance matrix and state vector
 float Q[NUMW], R[NUMV];		// input noise and measurement noise variances
 float K[NUMX][NUMV];		// feedback gain matrix
+static struct NavStruct Nav;
 
 //  *************  Exposed Functions ****************
 //  *************************************************
@@ -122,6 +123,11 @@ void INSGPSInit()		//pretty much just a place holder for now
 	R[5] = 100.0f;          // High freq GPS vertical velocity noise variance (m/s)^2
 	R[6] = R[7] = R[8] = 0.005f;    // magnetometer unit vector noise variance
 	R[9] = .25f;                    // High freq altimeter noise variance (m^2)
+}
+
+struct NavStruct *INSGPSGetNav()
+{
+	return &Nav;
 }
 
 void INSResetP(float PDiag[NUMX])

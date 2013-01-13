@@ -38,12 +38,7 @@
 
 /* Public Functions */
 extern int32_t PIOS_MPU6000_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_mpu60x0_cfg * new_cfg);
-extern xQueueHandle PIOS_MPU6000_GetQueue();
-extern int32_t PIOS_MPU6000_ReadGyros(struct pios_mpu60x0_data * buffer);
-extern int32_t PIOS_MPU6000_ReadID();
 extern int32_t PIOS_MPU6000_Test();
-extern float PIOS_MPU6000_GetScale();
-extern float PIOS_MPU6000_GetAccelScale();
 extern void PIOS_MPU6000_SetGyroRange(enum pios_mpu60x0_range);
 extern void PIOS_MPU6000_SetAccelRange(enum pios_mpu60x0_accel_range);
 extern bool PIOS_MPU6000_IRQHandler(void);

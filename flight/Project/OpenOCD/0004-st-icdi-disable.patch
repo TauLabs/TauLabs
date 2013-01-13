@@ -1,0 +1,45 @@
+diff --git a/src/jtag/drivers/Makefile.am b/src/jtag/drivers/Makefile.am
+index e064399..47956de 100644
+--- a/src/jtag/drivers/Makefile.am
++++ b/src/jtag/drivers/Makefile.am
+@@ -100,7 +100,7 @@ DRIVERFILES += remote_bitbang.c
+ endif
+ if HLADAPTER
+ DRIVERFILES += stlink_usb.c
+-DRIVERFILES += ti_icdi_usb.c
++#DRIVERFILES += ti_icdi_usb.c
+ endif
+ if OSBDM
+ DRIVERFILES += osbdm.c
+diff --git a/src/jtag/hla/hla_layout.c b/src/jtag/hla/hla_layout.c
+index 54c5314..702ec19 100644
+--- a/src/jtag/hla/hla_layout.c
++++ b/src/jtag/hla/hla_layout.c
+@@ -71,12 +71,14 @@ static const struct hl_layout hl_layouts[] = {
+ 	 .close = hl_layout_close,
+ 	 .api = &stlink_usb_layout_api,
+ 	 },
++/*
+ 	{
+ 	 .name = "ti-icdi",
+ 	 .open = hl_layout_open,
+ 	 .close = hl_layout_close,
+ 	 .api = &icdi_usb_layout_api,
+ 	},
++*/
+ 	{.name = NULL, /* END OF TABLE */ },
+ };
+ 
+diff --git a/src/jtag/hla/hla_layout.h b/src/jtag/hla/hla_layout.h
+index 3fd361e..19752ab 100644
+--- a/src/jtag/hla/hla_layout.h
++++ b/src/jtag/hla/hla_layout.h
+@@ -30,7 +30,7 @@ struct hl_interface_param_s;
+ 
+ /** */
+ extern struct hl_layout_api_s stlink_usb_layout_api;
+-extern struct hl_layout_api_s icdi_usb_layout_api;
++/* extern struct hl_layout_api_s icdi_usb_layout_api; */
+ 
+ /** */
+ struct hl_layout_api_s {
