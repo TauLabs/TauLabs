@@ -109,7 +109,7 @@ MODULES += State/coptercontrol
 MODULES += PathFollower
 CFLAGS += -DNAVIGATION
 else
-MODULES += Attitude
+MODULES += Attitude/coptercontrol
 endif
 MODULES += Stabilization Actuator ManualControl FirmwareIAP
 # MODULES += PathFollower/coptercontrol
