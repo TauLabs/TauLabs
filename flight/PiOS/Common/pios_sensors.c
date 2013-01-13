@@ -31,10 +31,10 @@
 // TODO: Make this pios driver actually create the queue and set that to the 
 // lower driver (??)
 
-#include "pios.h"
+#include "pios_sensors.h"
 
 //! The list of queue handles
-xQueueHandle queues[PIOS_SENSOR_LAST];
+static xQueueHandle queues[PIOS_SENSOR_LAST];
 
 //! Initialize the sensors interface
 int32_t PIOS_SENSORS_Init()

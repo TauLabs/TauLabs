@@ -31,6 +31,10 @@
 #ifndef PIOS_SENSOR_H
 #define PIOS_SENSOR_H
 
+#include "stdint.h"
+#include "FreeRTOS.h"
+#include "queue.h"
+
 //! Pios sensor structure for generic gyro data
 struct pios_sensor_gyro_data {
 	float x;
