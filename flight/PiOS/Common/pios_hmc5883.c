@@ -489,16 +489,19 @@ bool PIOS_HMC5883_IRQHandler(void)
 static void PIOS_HMC5883_Task(void *parameters)
 {
 	while(1) {
-		if(PIOS_HMC5883_Validate(dev) != 0)
+		if(PIOS_HMC5883_Validate(dev) != 0) {
+			vTaskDelay(100 * portTICK_RATE_MS);
 			continue;
+		}
 
-		if (xSemaphoreTake(dev->data_ready_sema, portMAX_DELAY) != pdTRUE)
+		if (xSemaphoreTake(dev->data_ready_sema, portMAX_DELAY) != pdTRUE) {
+			vTaskDelay(100 * portTICK_RATE_MS);
 			continue;
+		}
 
 		struct pios_sensor_mag_data mag_data;
-		PIOS_HMC5883_ReadMag(&mag_data);
-
-		xQueueSend(dev->queue, (void *) &mag_data, 0);
+		if (PIOS_HMC5883_ReadMag(&mag_data) == 0)
+			xQueueSend(dev->queue, (void *) &mag_data, 0);
 	}
 }
 
