@@ -27,7 +27,7 @@
 			<elementname>ModemStat</elementname>
 			<elementname>Autotune</elementname>
 			<elementname>EventDispatcher</elementname>
-			<elementname>UAVOMavlingBridge</elementname>
+			<elementname>UAVOMavlinkBridge</elementname>
 		</elementnames>
 	</field> 
 	<field name="Running" units="bool" type="enum">
@@ -56,7 +56,7 @@
 			<elementname>ModemStat</elementname>
 			<elementname>Autotune</elementname>
 			<elementname>EventDispatcher</elementname>
-			<elementname>UAVOMavlingBridge</elementname>
+			<elementname>UAVOMavlinkBridge</elementname>
 		</elementnames>
 		<options>
 			<option>False</option>
@@ -89,7 +89,7 @@
 			<elementname>ModemStat</elementname>
 			<elementname>Autotune</elementname>
 			<elementname>EventDispatcher</elementname>
-			<elementname>UAVOMavlingBridge</elementname>
+			<elementname>UAVOMavlinkBridge</elementname>
 		</elementnames>
 	</field> 
         <access gcs="readwrite" flight="readwrite"/>

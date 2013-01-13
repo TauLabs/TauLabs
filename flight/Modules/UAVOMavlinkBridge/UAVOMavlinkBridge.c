@@ -43,43 +43,33 @@
 #include "flightstatus.h"
 #include "mavlink.h"
 
-
-enum MY_MAV_DATA_STREAM {
-	MY_MAV_DATA_STREAM_RAW_SENSORS = 0, /* Enable IMU_RAW, GPS_RAW, GPS_STATUS packets. | */
-	MY_MAV_DATA_STREAM_EXTENDED_STATUS, /* Enable GPS_STATUS, CONTROL_STATUS, AUX_STATUS | */
-	MY_MAV_DATA_STREAM_RC_CHANNELS, /* Enable RC_CHANNELS_SCALED, RC_CHANNELS_RAW, SERVO_OUTPUT_RAW | */
-	MY_MAV_DATA_STREAM_POSITION, /* Enable LOCAL_POSITION, GLOBAL_POSITION/GLOBAL_POSITION_INT messages. | */
-	MY_MAV_DATA_STREAM_EXTRA1, /* Dependent on the autopilot | */
-	MY_MAV_DATA_STREAM_EXTRA2, /* Dependent on the autopilot | */
-};
-
 // ****************
 // Private functions
 
-static void uavoMavlingBridgeTask(void *parameters);
+static void uavoMavlinkBridgeTask(void *parameters);
 static bool stream_trigger(enum MAV_DATA_STREAM stream_num);
 
 // ****************
 // Private constants
 
 #define STACK_SIZE_BYTES            600
-#define TASK_PRIORITY                   (tskIDLE_PRIORITY + 1)
-#define TASK_RATE					10
+#define TASK_PRIORITY               (tskIDLE_PRIORITY + 1)
+#define TASK_RATE_HZ				10
 
-#define MAXSTREAMS 6
-static const uint8_t MAVStreams[MAXSTREAMS] = { MY_MAV_DATA_STREAM_RAW_SENSORS, //2Hz
-		MY_MAV_DATA_STREAM_EXTENDED_STATUS, //2Hz
-		MY_MAV_DATA_STREAM_RC_CHANNELS, //5Hz
-		MY_MAV_DATA_STREAM_POSITION, //2Hz
-		MY_MAV_DATA_STREAM_EXTRA1, //5Hz
-		MY_MAV_DATA_STREAM_EXTRA2 }; //2Hz
-static const uint16_t MAVRates[MAXSTREAMS] = { 0x02, 0x02, 0x05, 0x02, 0x0A,
-		0x02 };
+static const uint8_t mav_rates[] =
+	 { [MAV_DATA_STREAM_RAW_SENSORS]=0x02, //2Hz
+	   [MAV_DATA_STREAM_EXTENDED_STATUS]=0x02, //2Hz
+	   [MAV_DATA_STREAM_RC_CHANNELS]=0x05, //5Hz
+	   [MAV_DATA_STREAM_POSITION]=0x02, //2Hz
+	   [MAV_DATA_STREAM_EXTRA1]=0x0A, //10Hz
+	   [MAV_DATA_STREAM_EXTRA2]=0x02 }; //2Hz
+
+#define MAXSTREAMS sizeof(mav_rates)
 
 // ****************
 // Private variables
 
-static xTaskHandle uavoMavlingBridgeTaskHandle;
+static xTaskHandle uavoMavlinkBridgeTaskHandle;
 
 static uint32_t mavlink_port;
 
@@ -96,14 +86,14 @@ static uint8_t * serial_buf;
  * \return -1 if initialisation failed
  * \return 0 on success
  */
-static int32_t uavoMavlingBridgeStart(void) {
+static int32_t uavoMavlinkBridgeStart(void) {
 	if (module_enabled) {
 		// Start tasks
-		xTaskCreate(uavoMavlingBridgeTask, (signed char *) "uavoMavlinkBridge",
+		xTaskCreate(uavoMavlinkBridgeTask, (signed char *) "uavoMavlinkBridge",
 				STACK_SIZE_BYTES / 4, NULL, TASK_PRIORITY,
-				&uavoMavlingBridgeTaskHandle);
-		TaskMonitorAdd(TASKINFO_RUNNING_COM2USBBRIDGE,
-				uavoMavlingBridgeTaskHandle);
+				&uavoMavlinkBridgeTaskHandle);
+		TaskMonitorAdd(TASKINFO_RUNNING_UAVOMAVLINKBRIDGE,
+				uavoMavlinkBridgeTaskHandle);
 		return 0;
 	}
 	return -1;
@@ -113,7 +103,7 @@ static int32_t uavoMavlingBridgeStart(void) {
  * \return -1 if initialisation failed
  * \return 0 on success
  */
-static int32_t uavoMavlingBridgeInitialize(void) {
+static int32_t uavoMavlinkBridgeInitialize(void) {
 	mavlink_port = PIOS_COM_MAVLINK;
 
 	ModuleSettingsInitialize();
@@ -124,28 +114,24 @@ static int32_t uavoMavlingBridgeInitialize(void) {
 					== MODULESETTINGS_STATE_ENABLED)) {
 		module_enabled = true;
 		PIOS_COM_ChangeBaud(mavlink_port, 57600);
-#ifdef TEST_GPS
-		FlightBatteryStateInitialize();
-		FlightBatterySettingsInitialize();
-		GPSPositionInitialize();
-#endif
+
 		serial_buf = pvPortMalloc(MAVLINK_MAX_PACKET_LEN);
 		stream_ticks = pvPortMalloc(MAXSTREAMS);
 		for (int x = 0; x < MAXSTREAMS; ++x) {
-			stream_ticks[x] = (TASK_RATE / MAVRates[x]);
+			stream_ticks[x] = (TASK_RATE_HZ / mav_rates[x]);
 		}
 	} else {
 		module_enabled = false;
 	}
 	return 0;
 }
-MODULE_INITCALL( uavoMavlingBridgeInitialize, uavoMavlingBridgeStart)
+MODULE_INITCALL( uavoMavlinkBridgeInitialize, uavoMavlinkBridgeStart)
 
 /**
  * Main task. It does not return.
  */
 
-static void uavoMavlingBridgeTask(void *parameters) {
+static void uavoMavlinkBridgeTask(void *parameters) {
 	FlightBatterySettingsData batSettings;
 	FlightBatteryStateData batState;
 	GPSPositionData gpsPosData;
@@ -157,14 +143,53 @@ static void uavoMavlingBridgeTask(void *parameters) {
 
 	if (FlightBatterySettingsHandle() != NULL )
 		FlightBatterySettingsGet(&batSettings);
-
-	uint16_t msg_lenght;
+	else {
+		batSettings.Capacity=0;
+		batSettings.NbCells=0;
+		batSettings.SensorCalibrations[0]=0;
+		batSettings.SensorCalibrations[1]=0;
+		batSettings.SensorType[0]=0;
+		batSettings.SensorType[1]=0;
+		batSettings.Type=0;
+		batSettings.VoltageThresholds[0]=0;
+		batSettings.VoltageThresholds[1]=0;
+	}
+	if (GPSPositionHandle() == NULL ){
+		gpsPosData.Altitude=0;
+		gpsPosData.GeoidSeparation=0;
+		gpsPosData.Groundspeed=0;
+		gpsPosData.HDOP=0;
+		gpsPosData.Heading=0;
+		gpsPosData.Latitude=0;
+		gpsPosData.Longitude=0;
+		gpsPosData.PDOP=0;
+		gpsPosData.Satellites=0;
+		gpsPosData.Status=0;
+		gpsPosData.VDOP=0;
+	}
+	if (FlightBatteryStateHandle() == NULL ) {
+		batState.AvgCurrent=0;
+		batState.BoardSupplyVoltage=0;
+		batState.ConsumedEnergy=0;
+		batState.Current=0;
+		batState.EstimatedFlightTime=0;
+		batState.PeakCurrent=0;
+		batState.Voltage=0;
+	}
+	if (AirspeedActualHandle() == NULL ) {
+		airspeedActual.CalibratedAirspeed=0;
+		airspeedActual.TrueAirspeed=0;
+		airspeedActual.alpha=0;
+		airspeedActual.beta=0;
+	}
+	uint16_t msg_length;
 	uint8_t armed_mode;
 	portTickType lastSysTime;
 	// Main task loop
 	lastSysTime = xTaskGetTickCount();
 	while (1) {
-		if (stream_trigger(MY_MAV_DATA_STREAM_EXTENDED_STATUS)) {
+		vTaskDelayUntil(&lastSysTime, (1000 / TASK_RATE_HZ) / portTICK_RATE_MS);
+		if (stream_trigger(MAV_DATA_STREAM_EXTENDED_STATUS)) {
 			if (FlightBatteryStateHandle() != NULL )
 				FlightBatteryStateGet(&batState);
 			if (GPSPositionHandle() != NULL )
@@ -173,14 +198,14 @@ static void uavoMavlingBridgeTask(void *parameters) {
 					batState.Voltage * 1000, batState.Current * 100,
 					batState.ConsumedEnergy / batSettings.Capacity * 100, 0, 0,
 					0, 0, 0, 0);
-			msg_lenght = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
-			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_lenght);
+			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
+			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
 			mavlink_msg_gps_raw_int_pack(0, 200, &mavMsg, 0,
 					gpsPosData.Status - 1, gpsPosData.Latitude*10^-7,
 					gpsPosData.Longitude*10^-7, gpsPosData.Altitude, 0, 0, 0, 0,
 					gpsPosData.Satellites);
-			msg_lenght = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
-			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_lenght);
+			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
+			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
 
 			//TODO add waypoint nav stuff
 			//wp_target_bearing
@@ -193,7 +218,7 @@ static void uavoMavlingBridgeTask(void *parameters) {
 			//mavlink_msg_mission_current_pack
 		}
 
-		if (stream_trigger(MY_MAV_DATA_STREAM_RC_CHANNELS)) {
+		if (stream_trigger(MAV_DATA_STREAM_RC_CHANNELS)) {
 			ManualControlCommandGet(&manualState);
 			FlightStatusGet(&flightStatus);
 			//TODO connect with RSSI object and pass in last argument
@@ -202,20 +227,20 @@ static void uavoMavlingBridgeTask(void *parameters) {
 					manualState.Channel[2], manualState.Channel[3],
 					manualState.Channel[4], manualState.Channel[5],
 					manualState.Channel[6], manualState.Channel[7], 0);
-			msg_lenght = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
-			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_lenght);
+			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
+			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
 		}
 
-		if (stream_trigger(MY_MAV_DATA_STREAM_EXTRA1)) {
+		if (stream_trigger(MAV_DATA_STREAM_EXTRA1)) {
 			AttitudeActualGet(&attActual);
 			mavlink_msg_attitude_pack(0, 200, &mavMsg, 0,
 					attActual.Roll * PI / 180, attActual.Pitch * PI / 180,
 					attActual.Yaw * PI / 180, 0, 0, 0);
-			msg_lenght = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
-			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_lenght);
+			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
+			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
 		}
 
-		if (stream_trigger(MY_MAV_DATA_STREAM_EXTRA2)) {
+		if (stream_trigger(MAV_DATA_STREAM_EXTRA2)) {
 			if (AirspeedActualHandle() != NULL )
 				AirspeedActualGet(&airspeedActual);
 			if (GPSPositionHandle() != NULL )
@@ -226,23 +251,22 @@ static void uavoMavlingBridgeTask(void *parameters) {
 					airspeedActual.TrueAirspeed, gpsPosData.Groundspeed,
 					gpsPosData.Heading, actDesired.Throttle,
 					gpsPosData.Altitude, 0);
-			msg_lenght = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
-			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_lenght);
+			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
+			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
 			if (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED)
 				armed_mode = MAV_MODE_FLAG_SAFETY_ARMED;
 			else
 				armed_mode = 0;
 			mavlink_msg_heartbeat_pack(0, 200, &mavMsg, MAV_TYPE_FIXED_WING,
 					MAV_AUTOPILOT_GENERIC, armed_mode, 0, 0);
-			msg_lenght = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
-			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_lenght);
+			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
+			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
 		}
-		vTaskDelayUntil(&lastSysTime, (1000 / TASK_RATE) / portTICK_RATE_MS);
 	}
 }
 
 static bool stream_trigger(enum MAV_DATA_STREAM stream_num) {
-	uint8_t rate = (uint8_t) MAVRates[stream_num];
+	uint8_t rate = (uint8_t) mav_rates[stream_num];
 
 	if (rate == 0) {
 		return false;
@@ -250,10 +274,10 @@ static bool stream_trigger(enum MAV_DATA_STREAM stream_num) {
 
 	if (stream_ticks[stream_num] == 0) {
 		// we're triggering now, setup the next trigger point
-		if (rate > TASK_RATE) {
-			rate = TASK_RATE;
+		if (rate > TASK_RATE_HZ) {
+			rate = TASK_RATE_HZ;
 		}
-		stream_ticks[stream_num] = (TASK_RATE / rate);
+		stream_ticks[stream_num] = (TASK_RATE_HZ / rate);
 		return true;
 	}
 	// count down at 50Hz
