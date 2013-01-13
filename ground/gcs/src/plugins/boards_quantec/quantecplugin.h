@@ -1,12 +1,14 @@
 /**
  ******************************************************************************
- * @file       %FILENAME%
+ *
+ * @file       quantecplugin.h
  * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2013
- * @addtogroup [Group]
+ *
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup %CLASS%
+ * @addtogroup Boards_QuantecPlugin Quantec boards support Plugin
  * @{
- * @brief [Brief]
+ * @brief Plugin to support boards by the OP project
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -23,3 +25,21 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+#ifndef QUANTECPLUGIN_H
+#define QUANTECPLUGIN_H
+
+#include <extensionsystem/iplugin.h>
+
+class QuantecPlugin : public ExtensionSystem::IPlugin
+{
+public:
+   QuantecPlugin();
+   ~QuantecPlugin();
+
+   void extensionsInitialized();
+   bool initialize(const QStringList & arguments, QString * errorString);
+   void shutdown();
+
+};
+
+#endif // QUANTECPLUGIN_H

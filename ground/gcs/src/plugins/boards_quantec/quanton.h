@@ -1,12 +1,14 @@
 /**
  ******************************************************************************
- * @file       %FILENAME%
+ *
+ * @file       quanton.h
  * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2013
- * @addtogroup [Group]
+ *
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup %CLASS%
+ * @addtogroup Boards_Quantec Quantec boards support Plugin
  * @{
- * @brief [Brief]
+ * @brief Plugin to support boards by Quantec Networks GmbH
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -23,3 +25,25 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+#ifndef QUANTON_H
+#define QUANTON_H
+
+#include <coreplugin/iboardtype.h>
+
+class IBoardType;
+
+class Quanton : public Core::IBoardType
+{
+public:
+    Quanton();
+    virtual ~Quanton();
+
+    virtual QString shortName();
+    virtual QString boardDescription();
+    virtual QStringList getSupportedProtocols();
+    virtual QPixmap* getBoardPicture() { return new QPixmap; }
+
+};
+
+
+#endif // QUANTON_H
