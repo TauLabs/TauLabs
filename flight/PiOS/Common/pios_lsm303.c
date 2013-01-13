@@ -582,7 +582,7 @@ bool PIOS_LSM303_IRQHandler(void)
     return xHigherPriorityTaskWoken == pdTRUE;
 }
 
-void PIOS_LSM303_Task(void *parameters)
+static void PIOS_LSM303_Task(void *parameters)
 {
 	// Do not try and process sensor until the device is valid
 	while (PIOS_LSM303_Validate(dev) != 0) {

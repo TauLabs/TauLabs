@@ -34,8 +34,6 @@
 
 #if defined(PIOS_INCLUDE_MPU6000)
 
-#include "fifo_buffer.h"
-
 /* Global Variables */
 
 enum pios_mpu6000_dev_magic {
@@ -66,8 +64,6 @@ static int32_t PIOS_MPU6000_ClaimBus();
 static int32_t PIOS_MPU6000_ReleaseBus();
 static int32_t PIOS_MPU6000_SetReg(uint8_t address, uint8_t buffer);
 static int32_t PIOS_MPU6000_GetReg(uint8_t address);
-
-#define DEG_TO_RAD (M_PI / 180.0)
 
 #define GRAV 9.81f
 
@@ -227,7 +223,7 @@ void PIOS_MPU6000_SetGyroRange(enum pios_mpu60x0_range gyro_range)
 /**
  * Set the accel range and store it locally for scaling
  */
-extern void PIOS_MPU6000_SetAccelRange(enum pios_mpu60x0_accel_range accel_range)
+void PIOS_MPU6000_SetAccelRange(enum pios_mpu60x0_accel_range accel_range)
 {
 	while (PIOS_MPU6000_SetReg(PIOS_MPU60X0_ACCEL_CFG_REG, accel_range) != 0);
 	dev->accel_range = accel_range;
