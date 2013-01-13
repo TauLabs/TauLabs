@@ -261,6 +261,11 @@ void RawHIDWriteThread::run()
 
             emit m_hid->bytesWritten(ret - 2);
         }
+        else if(ret == -110) // timeout
+        {
+            // timeout occured
+            qDebug() << "Send Timeout: No data written to device.";
+        }
         else if(ret < 0) // < 0 => error
         {
             //TODO! make proper error handling, this only quick hack for unplug freeze
@@ -292,9 +297,9 @@ qint64 RawHIDWriteThread::getBytesToWrite()
 
 // *********************************************************************************
 
-RawHID::RawHID(const Core::IConnection::device deviceStructure)
+RawHID::RawHID(USBDevice *deviceStructure)
     :QIODevice(),
-    serialNumber(deviceStructure.name),
+    serialNumber(deviceStructure->getName()),
     deviceInfo(deviceStructure),
     m_deviceNo(-1),
     m_readThread(NULL),
@@ -325,7 +330,7 @@ RawHID::RawHID(const Core::IConnection::device deviceStructure)
  * thread (usually UI)
  */
 bool RawHID::openDevice() {
-    int opened = dev.open(USB_MAX_DEVICES, deviceInfo.vendorID, deviceInfo.productID, USB_USAGE_PAGE, USB_USAGE);
+    int opened = dev.open(USB_MAX_DEVICES, deviceInfo->getVendorID(), deviceInfo->getProductID(), USB_USAGE_PAGE, USB_USAGE);
     for (int i =0; i< opened; i++) {
         if (serialNumber == dev.getserial(i))
             m_deviceNo = i;
@@ -355,6 +360,7 @@ bool RawHID::openDevice() {
  */
 bool RawHID::closeDevice() {
     dev.close(m_deviceNo);
+    return true;
 }
 
 RawHID::~RawHID()

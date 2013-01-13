@@ -1,13 +1,13 @@
 /**
  ******************************************************************************
  *
- * @file       configtelemetrytwidget.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @file       ipdevice.h
+ * @author     The PhoenixPilot Team, Copyright (C) 2012.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup ConfigPlugin Config Plugin
+ * @addtogroup CorePlugin Core Plugin
  * @{
- * @brief Telemetry configuration panel
+ * @brief The Core GCS plugin
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -24,32 +24,21 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef CONFIGPROHWWIDGET_H
-#define CONFIGPROHWWIDGET_H
+#ifndef IPDEVICE_H
+#define IPDEVICE_H
 
-#include "ui_pro_hw_settings.h"
-#include "../uavobjectwidgetutils/configtaskwidget.h"
-#include "extensionsystem/pluginmanager.h"
-#include "uavobjectmanager.h"
-#include "uavobject.h"
-#include <QtGui/QWidget>
-#include <QList>
+#include <coreplugin/idevice.h>
 
 
-class ConfigProHWWidget: public ConfigTaskWidget
+/**
+ * @brief The IPDevice class
+ *
+ */
+
+class IPDevice : public Core::IDevice
 {
-    Q_OBJECT
-
 public:
-    ConfigProHWWidget(QWidget *parent = 0);
-    ~ConfigProHWWidget();
-
-private:
-    Ui_PRO_HW_Widget *m_telemetry;
-
-private slots:
-    virtual void refreshValues();
-
+    IPDevice();
 };
 
-#endif // CONFIGPROHWWIDGET_H
+#endif // IPDEVICE_H

@@ -29,7 +29,6 @@
 
 #include <QGraphicsItem>
 #include "../internals/core.h"
-//#include "../internals/point.h"
 #include "../core/diagnostics.h"
 #include "configuration.h"
 #include <QtGui>
@@ -39,7 +38,6 @@
 #include <QFont>
 #include <QObject>
 #include "waypointitem.h"
-//#include "uavitem.h"
 
 namespace mapcontrol
 {

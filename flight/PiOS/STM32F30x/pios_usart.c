@@ -172,15 +172,14 @@ int32_t PIOS_USART_Init(uint32_t * usart_id, const struct pios_usart_cfg * cfg)
 	usart_dev->cfg = cfg;
 
 	/* Map pins to USART function */
-	/* note __builtin_ctz() due to the difference between GPIO_PinX and GPIO_PinSourceX */
 	if (usart_dev->cfg->remap) {
 		if (usart_dev->cfg->rx.gpio != 0)
 			GPIO_PinAFConfig(usart_dev->cfg->rx.gpio,
-				__builtin_ctz(usart_dev->cfg->rx.init.GPIO_Pin),
+				usart_dev->cfg->rx.pin_source,
 				usart_dev->cfg->remap);
 		if (usart_dev->cfg->tx.gpio != 0)
 			GPIO_PinAFConfig(usart_dev->cfg->tx.gpio,
-				__builtin_ctz(usart_dev->cfg->tx.init.GPIO_Pin),
+				usart_dev->cfg->tx.pin_source,
 				usart_dev->cfg->remap);
 	}
 
@@ -285,6 +284,11 @@ static void PIOS_USART_ChangeBaud(uint32_t usart_id, uint32_t baud)
 
 	/* Write back the new configuration */
 	USART_Init(usart_dev->cfg->regs, &USART_InitStructure);
+
+	/* For some reason USART_Init results in the UE bit in USART_CR1 being cleared
+	 * so we have to enable it again.
+	 */
+	USART_Cmd(usart_dev->cfg->regs, ENABLE);
 }
 
 static void PIOS_USART_RegisterRxCallback(uint32_t usart_id, pios_com_callback rx_in_cb, uint32_t context)
@@ -356,7 +360,7 @@ static void PIOS_USART_generic_irq_handler(uint32_t usart_id)
 	}
 	/* Check for overrun condition
 	 * Note i really wanted to use USART_GetITStatus but it fails on getting the
-	 * ORE flag altough RXNE interrupt is enabled.
+	 * ORE flag although RXNE interrupt is enabled.
 	 * Probably a bug in the ST library...
 	 */
 	if (USART_GetFlagStatus(usart_dev->cfg->regs, USART_FLAG_ORE)) {

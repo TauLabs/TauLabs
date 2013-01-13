@@ -31,6 +31,13 @@
 #ifndef PIOS_WDG
 #define PIOS_WDG
 
+#define PIOS_WDG_ACTUATOR        0x0001
+#define PIOS_WDG_STABILIZATION   0x0002
+#define PIOS_WDG_ATTITUDE        0x0004
+#define PIOS_WDG_MANUAL          0x0008
+#define PIOS_WDG_SENSORS         0x0010
+#define PIOS_WDG_AUTOTUNE        0x0020
+
 uint16_t PIOS_WDG_Init();
 bool PIOS_WDG_RegisterFlag(uint16_t flag_requested);
 bool PIOS_WDG_UpdateFlag(uint16_t flag);

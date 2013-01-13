@@ -27,6 +27,7 @@
 			<elementname>ModemStat</elementname>
 			<elementname>Autotune</elementname>
 			<elementname>EventDispatcher</elementname>
+			<elementname>GenericI2CSensor</elementname>
 			<elementname>UAVOMavlinkBridge</elementname>
 		</elementnames>
 	</field> 
@@ -56,6 +57,7 @@
 			<elementname>ModemStat</elementname>
 			<elementname>Autotune</elementname>
 			<elementname>EventDispatcher</elementname>
+			<elementname>GenericI2CSensor</elementname>
 			<elementname>UAVOMavlinkBridge</elementname>
 		</elementnames>
 		<options>
@@ -89,6 +91,7 @@
 			<elementname>ModemStat</elementname>
 			<elementname>Autotune</elementname>
 			<elementname>EventDispatcher</elementname>
+			<elementname>GenericI2CSensor</elementname>
 			<elementname>UAVOMavlinkBridge</elementname>
 		</elementnames>
 	</field> 

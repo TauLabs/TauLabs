@@ -116,11 +116,11 @@ OsgEarthviewWidget::~OsgEarthviewWidget()
 {
 }
 
-void OsgEarthviewWidget::paintEvent( QPaintEvent* event )
+void OsgEarthviewWidget::paintEvent( QPaintEvent* )
 {
 }
 
-void OsgEarthviewWidget::resizeEvent(QResizeEvent *event)
+void OsgEarthviewWidget::resizeEvent(QResizeEvent *)
 {
 }
 

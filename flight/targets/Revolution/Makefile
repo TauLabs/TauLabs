@@ -72,15 +72,26 @@ endif
 endif
 
 # List of modules to include
-MODULES = Sensors Attitude/revolution ManualControl Stabilization Actuator
-MODULES += Altitude/revolution FirmwareIAP
+MODULES = Sensors 
+MODULES += Attitude/revolution
+MODULES += ManualControl
+MODULES += Stabilization
+MODULES += Actuator
+MODULES += FirmwareIAP
 MODULES += Airspeed/revolution
-MODULES += GPS AltitudeHold VtolPathFollower PathPlanner
-#MODULES += FixedWingPathFollower
-MODULES += Autotune
-MODULES += CameraStab
-MODULES += OveroSync
+MODULES += PathPlanner
 MODULES += Telemetry
+
+OPTMODULES += GPS
+OPTMODULES += AltitudeHold 
+OPTMODULES += VtolPathFollower 
+OPTMODULES += FixedWingPathFollower
+OPTMODULES += CameraStab
+OPTMODULES += OveroSync
+OPTMODULES += Autotune
+OPTMODULES += TxPID
+OPTMODULES += Battery
+
 PYMODULES = 
 #FlightPlan
 
@@ -220,6 +231,7 @@ ASRCARM =
 
 # List any extra directories to look for include files here.
 #    Each directory must be seperated by a space.
+EXTRAINCDIRS  += $(SHAREDAPIDIR)
 EXTRAINCDIRS  += $(PIOS)
 EXTRAINCDIRS  += $(PIOSINC)
 EXTRAINCDIRS  += $(OPSYSTEMINC)

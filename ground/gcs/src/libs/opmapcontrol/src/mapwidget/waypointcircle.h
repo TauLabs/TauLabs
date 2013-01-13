@@ -38,7 +38,7 @@
 namespace mapcontrol
 {
 
-class WayPointCircle:public QObject,public QGraphicsEllipseItem
+class WayPointCircle: public QObject, public QGraphicsEllipseItem
 {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)
@@ -50,9 +50,9 @@ public:
     void setColor(const QColor &color)
         { myColor = color; }
 private:
-    QGraphicsItem * my_center;
-    QGraphicsItem * my_radius;
-    MapGraphicItem * my_map;
+    QGraphicsItem *my_center;
+    QGraphicsItem *my_radius;
+    MapGraphicItem *my_map;
     QPolygonF arrowHead;
     QColor myColor;
     bool myClockWise;

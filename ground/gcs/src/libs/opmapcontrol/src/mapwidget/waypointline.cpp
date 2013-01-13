@@ -30,8 +30,8 @@
 
 namespace mapcontrol
 {
-WayPointLine::WayPointLine(WayPointItem *from, WayPointItem *to, MapGraphicItem *map,QColor color):source(from),
-    destination(to),my_map(map),QGraphicsLineItem(map),myColor(color)
+WayPointLine::WayPointLine(WayPointItem *from, WayPointItem *to, MapGraphicItem *map, QColor color) :
+    QGraphicsLineItem(map), source(from), destination(to), my_map(map), myColor(color)
 {
     this->setLine(to->pos().x(),to->pos().y(),from->pos().x(),from->pos().y());
     connect(from,SIGNAL(localPositionChanged(QPointF,WayPointItem*)),this,SLOT(refreshLocations()));
@@ -47,8 +47,8 @@ WayPointLine::WayPointLine(WayPointItem *from, WayPointItem *to, MapGraphicItem 
     connect(map,SIGNAL(childSetOpacity(qreal)),this,SLOT(setOpacitySlot(qreal)));
 }
 
-WayPointLine::WayPointLine(HomeItem *from, WayPointItem *to, MapGraphicItem *map, QColor color):source(from),
-    destination(to),my_map(map),QGraphicsLineItem(map),myColor(color)
+WayPointLine::WayPointLine(HomeItem *from, WayPointItem *to, MapGraphicItem *map, QColor color) :
+    QGraphicsLineItem(map), source(from), destination(to), my_map(map), myColor(color)
 {
     this->setLine(to->pos().x(),to->pos().y(),from->pos().x(),from->pos().y());
     connect(from,SIGNAL(homePositionChanged(internals::PointLatLng,float)),this,SLOT(refreshLocations()));
@@ -62,17 +62,20 @@ WayPointLine::WayPointLine(HomeItem *from, WayPointItem *to, MapGraphicItem *map
         this->setZValue(8);
     connect(map,SIGNAL(childSetOpacity(qreal)),this,SLOT(setOpacitySlot(qreal)));
 }
+
 int WayPointLine::type() const
 {
     // Enable the use of qgraphicsitem_cast with this item.
     return Type;
 }
+
 QPainterPath WayPointLine::shape() const
 {
     QPainterPath path = QGraphicsLineItem::shape();
     path.addPolygon(arrowHead);
     return path;
 }
+
 void WayPointLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);

@@ -512,6 +512,7 @@ OPUAVOBJ      := $(ROOT_DIR)/flight/targets/UAVObjects
 OPUAVTALK     := $(ROOT_DIR)/flight/targets/UAVTalk
 HWDEFS        := $(ROOT_DIR)/flight/targets/board_hw_defs
 DOXYGENDIR    := $(ROOT_DIR)/flight/Doc/Doxygen
+SHAREDAPIDIR  := $(ROOT_DIR)/shared/api
 OPUAVSYNTHDIR := $(BUILD_DIR)/uavobject-synthetics/flight
 
 # $(1) = Canonical board name all in lower case (e.g. coptercontrol)
@@ -584,6 +585,7 @@ fw_$(1)_%: uavobjects_flight
 		HWDEFSINC=$(HWDEFS)/$(1) \
 		DOXYGENDIR=$(DOXYGENDIR) \
 		OPUAVSYNTHDIR=$(OPUAVSYNTHDIR) \
+		SHAREDAPIDIR=$(SHAREDAPIDIR) \
 		\
 		$$*
 
@@ -840,7 +842,7 @@ $(eval $(call SIM_TEMPLATE,openpilot,OpenPilot,'op  ',win32,exe))
 #
 ##############################
 
-ALL_UNITTESTS := logfs
+ALL_UNITTESTS := logfs i2c_vm
 
 UT_OUT_DIR := $(BUILD_DIR)/unit_tests
 
@@ -856,7 +858,7 @@ all_ut_tap: $(addsuffix _tap, $(addprefix ut_, $(ALL_UNITTESTS)))
 .PHONY: all_ut_run
 all_ut_run: $(addsuffix _run, $(addprefix ut_, $(ALL_UNITTESTS)))
 
-.PHONY: ut_all_clean
+.PHONY: all_ut_clean
 all_ut_clean:
 	$(V0) @echo " CLEAN      $@"
 	$(V1) [ ! -d "$(UT_OUT_DIR)" ] || $(RM) -r "$(UT_OUT_DIR)"
@@ -881,7 +883,9 @@ ut_$(1)_%: $$(UT_OUT_DIR)
 		PIOS=$(PIOS) \
 		OPUAVOBJ=$(OPUAVOBJ) \
 		OPUAVTALK=$(OPUAVTALK) \
+		OPMODULEDIR=$(OPMODULEDIR) \
 		FLIGHTLIB=$(FLIGHTLIB) \
+		SHAREDAPIDIR=$(SHAREDAPIDIR) \
 		\
 		GTEST_DIR=$(GTEST_DIR) \
 		\
