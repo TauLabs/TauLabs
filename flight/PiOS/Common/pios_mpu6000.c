@@ -176,9 +176,6 @@ static void PIOS_MPU6000_Config(struct pios_mpu60x0_cfg const * cfg)
 	PIOS_MPU6000_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, cfg->Pwr_mgmt_clk);
 
 	// Interrupt configuration
-	PIOS_MPU6000_SetReg(PIOS_MPU60X0_USER_CTRL_REG, cfg->User_ctl);
-
-	// Interrupt configuration
 	PIOS_MPU6000_SetReg(PIOS_MPU60X0_INT_CFG_REG, cfg->interrupt_cfg);
 
 	// Interrupt configuration
@@ -202,6 +199,12 @@ static void PIOS_MPU6000_Config(struct pios_mpu60x0_cfg const * cfg)
 
 	// Digital low-pass filter and scale
 	PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
+
+	// Interrupt configuration
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_USER_CTRL_REG, cfg->User_ctl);
+
+	//Power management configuration
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, cfg->Pwr_mgmt_clk);
 
 	// Interrupt configuration
 	PIOS_MPU6000_SetReg(PIOS_MPU60X0_INT_CFG_REG, cfg->interrupt_cfg);
