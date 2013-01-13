@@ -738,6 +738,8 @@ void PIOS_Board_Init(void) {
 
 	PIOS_DELAY_WaitmS(200);
 
+	PIOS_SENSORS_Init();
+
 #if defined(PIOS_INCLUDE_MPU6000)
 	if (PIOS_MPU6000_Init(pios_spi_gyro_id,0, &pios_mpu6000_cfg) != 0)
 		panic();
@@ -778,6 +780,7 @@ void PIOS_Board_Init(void) {
 			PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_16G);
 			break;
 	}
+
 #endif
 	
 	if (PIOS_I2C_Init(&pios_i2c_mag_pressure_adapter_id, &pios_i2c_mag_pressure_adapter_cfg)) {
@@ -792,7 +795,7 @@ void PIOS_Board_Init(void) {
 
 	PIOS_LED_On(0);
 #if defined(PIOS_INCLUDE_HMC5883)
-	PIOS_HMC5883_Init(&pios_hmc5883_cfg);
+	PIOS_HMC5883_Init(PIOS_I2C_MAIN_ADAPTER, &pios_hmc5883_cfg);
 #endif
 	PIOS_LED_On(1);
 

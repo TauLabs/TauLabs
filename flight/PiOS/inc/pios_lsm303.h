@@ -201,18 +201,6 @@ enum pios_lsm303_sa0_state
 	PIOS_LSM303_SA0_A_HIGH = 1,
 };
 
-struct pios_lsm303_accel_data {
-	int16_t accel_x;
-	int16_t accel_y;
-	int16_t accel_z;
-};
-
-struct pios_lsm303_mag_data {
-	int16_t mag_x;
-	int16_t mag_y;
-	int16_t mag_z;
-};
-
 enum pios_lsm303_orientation { // clockwise rotation from board forward
 	PIOS_LSM303_TOP_0DEG    = 0x00,
 	PIOS_LSM303_TOP_90DEG   = 0x01,
@@ -230,16 +218,9 @@ struct pios_lsm303_cfg {
 
 /* Public Functions */
 extern int32_t PIOS_LSM303_Init(uint32_t i2c_id, const struct pios_lsm303_cfg * new_cfg);
-extern xQueueHandle PIOS_LSM303_Accel_GetQueue();
-extern xQueueHandle PIOS_LSM303_Mag_GetQueue();
-extern int32_t PIOS_LSM303_Accel_ReadData(struct pios_lsm303_accel_data * buffer);
-extern int32_t PIOS_LSM303_Mag_ReadData(struct pios_lsm303_mag_data * buffer);
 extern int32_t PIOS_LSM303_Mag_ReadID();
-extern uint8_t PIOS_LSM303_Accel_Test();
-extern uint8_t PIOS_LSM303_Mag_Test();
-extern float PIOS_LSM303_Accel_GetScale();
-extern float PIOS_LSM303_Mag_GetScaleXY();
-extern float PIOS_LSM303_Mag_GetScaleZ();
+extern int32_t PIOS_LSM303_Accel_Test();
+extern int32_t PIOS_LSM303_Mag_Test();
 extern void PIOS_LSM303_Accel_SetRange(enum pios_lsm303_accel_range accel_range);
 extern void PIOS_LSM303_Mag_SetRange(enum pios_lsm303_mag_range mag_range);
 extern bool PIOS_LSM303_IRQHandler(void);

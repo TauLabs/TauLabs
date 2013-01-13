@@ -55,7 +55,6 @@
 #include "attitudeactual.h"
 #include "attitudesettings.h"
 #include "baroaltitude.h"
-#include "flightstatus.h"
 #include "gyros.h"
 #include "gyrosbias.h"
 #include "homelocation.h"
@@ -66,27 +65,34 @@
 #include "revocalibration.h"
 #include "CoordinateConversions.h"
 
-#include <pios_board_info.h>
-
 // Private constants
 #define STACK_SIZE_BYTES 1000
 #define TASK_PRIORITY (tskIDLE_PRIORITY+3)
-#define SENSOR_PERIOD 2
+#define SENSOR_PERIOD 4
+#define REQUIRED_GOOD_CYCLES 50
 
-#define F_PI 3.14159265358979323846f
-#define PI_MOD(x) (fmodf(x + F_PI, F_PI * 2) - F_PI)
 // Private types
-
+enum mag_calibration_algo {
+	MAG_CALIBRATION_PRELEMARI,
+	MAG_CALIBRATION_NORMALIZE_LENGTH
+};
 
 // Private functions
 static void SensorsTask(void *parameters);
 static void settingsUpdatedCb(UAVObjEvent * objEv);
-static void magOffsetEstimation(MagnetometerData *mag);
+
+static void update_accels(struct pios_sensor_accel_data *accel);
+static void update_gyros(struct pios_sensor_gyro_data *gyro);
+static void update_mags(struct pios_sensor_mag_data *mag);
+static void update_baro(struct pios_sensor_baro_data *baro);
+
+static void mag_calibration_prelemari(MagnetometerData *mag);
+static void mag_calibration_fix_length(MagnetometerData *mag);
 
 // Private variables
 static xTaskHandle sensorsTaskHandle;
-RevoCalibrationData revoCal;
-INSSettingsData insSettings;
+static RevoCalibrationData revoCal;
+static INSSettingsData insSettings;
 
 // These values are initialized by settings but can be updated by the attitude algorithm
 static bool bias_correct_gyro = true;
@@ -99,6 +105,9 @@ static float gyro_scale[3] = {0,0,0};
 
 static float Rbs[3][3] = {{0}};
 static int8_t rotate = 0;
+
+//! Select the algorithm to try and null out the magnetometer bias error
+static enum mag_calibration_algo mag_calibration_algo = MAG_CALIBRATION_PRELEMARI;
 
 /**
  * API for sensor fusion algorithms:
@@ -113,7 +122,7 @@ static int8_t rotate = 0;
  * Initialise the module.  Called before the start function
  * \returns 0 on success or -1 if initialisation failed
  */
-int32_t SensorsInitialize(void)
+static int32_t SensorsInitialize(void)
 {
 	GyrosInitialize();
 	GyrosBiasInitialize();
@@ -140,7 +149,7 @@ int32_t SensorsInitialize(void)
  * Start the task.  Expects all objects to be initialized by this point.
  * \returns 0 on success or -1 if initialisation failed
  */
-int32_t SensorsStart(void)
+static int32_t SensorsStart(void)
 {
 	// Start main task
 	xTaskCreate(SensorsTask, (signed char *)"Sensors", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &sensorsTaskHandle);
@@ -152,422 +161,205 @@ int32_t SensorsStart(void)
 
 MODULE_INITCALL(SensorsInitialize, SensorsStart)
 
-int32_t accel_test;
-int32_t gyro_test;
-int32_t mag_test;
-int32_t pressure_test;
-
 
 /**
  * The sensor task.  This polls the gyros at 500 Hz and pumps that data to
  * stabilization and to the attitude loop
- * 
- * This function has a lot of if/defs right now to allow these configurations:
- * 1. BMA180 accel and MPU6000 gyro
- * 2. MPU6000 gyro and accel
- * 3. BMA180 accel and L3GD20 gyro
- * 4. LSM303 accel and L3GD20 gyro
  */
-
-uint32_t sensor_dt_us;
 static void SensorsTask(void *parameters)
 {
 	portTickType lastSysTime;
-	uint32_t accel_samples = 0;
-	uint32_t gyro_samples = 0;
-	int32_t accel_accum[3] = {0, 0, 0};
-	int32_t gyro_accum[3] = {0,0,0};
-	float gyro_scaling = 0;
-	float accel_scaling = 0;
-	static int32_t timeval;
 
-	AlarmsClear(SYSTEMALARMS_ALARM_SENSORS);
+	AlarmsSet(SYSTEMALARMS_ALARM_SENSORS, SYSTEMALARMS_ALARM_CRITICAL);
 
 	UAVObjEvent ev;
 	settingsUpdatedCb(&ev);
 
-	const struct pios_board_info * bdinfo = &pios_board_info_blob;	
 
-	switch(bdinfo->board_rev) {
-		case 0x01:
-#if defined(PIOS_INCLUDE_L3GD20)
-			gyro_test = PIOS_L3GD20_Test();
-#endif
-#if defined(PIOS_INCLUDE_BMA180)
-			accel_test = PIOS_BMA180_Test();
-#endif
-			break;
-		case 0x02:
-#if defined(PIOS_INCLUDE_MPU6000)
-			gyro_test = PIOS_MPU6000_Test();
-			accel_test = gyro_test;
-#elif defined(PIOS_INCLUDE_MPU6050)
-			gyro_test = PIOS_MPU6050_Test();
-			accel_test = gyro_test;
-#endif
-		case 0x04:
-#if defined(PIOS_INCLUDE_L3GD20)
-			gyro_test = PIOS_L3GD20_Test();
-#endif
-#if defined(PIOS_INCLUDE_LSM303)
-			accel_test = PIOS_LSM303_Accel_Test();
-#endif
-			break;
-		default:
-			PIOS_DEBUG_Assert(0);
-	}
-
-#if defined(PIOS_INCLUDE_HMC5883)
-	mag_test = PIOS_HMC5883_Test();
-#elif defined (PIOS_INCLUDE_LSM303)
-	mag_test = PIOS_LSM303_Mag_Test();
-#else
-	mag_test = 0;
-#endif
-
-#if defined(PIOS_INCLUDE_MS5611)
-	pressure_test = PIOS_MS5611_Test();
-#endif
-
-	if(accel_test < 0 || gyro_test < 0 || mag_test < 0) {
-		AlarmsSet(SYSTEMALARMS_ALARM_SENSORS, SYSTEMALARMS_ALARM_CRITICAL);
-		while(1) {
-			PIOS_WDG_UpdateFlag(PIOS_WDG_SENSORS);
-			vTaskDelay(10);
-		}
-	}
-	
 	// Main task loop
 	lastSysTime = xTaskGetTickCount();
-	bool error = false;
-#if defined(PIOS_INCLUDE_HMC5883)
-	uint32_t mag_update_time = PIOS_DELAY_GetRaw();
-#endif
-	while (1) {
-		// TODO: add timeouts to the sensor reads and set an error if the fail
-		sensor_dt_us = PIOS_DELAY_DiffuS(timeval);
-		timeval = PIOS_DELAY_GetRaw();
+	uint32_t good_runs = 1;
 
-		if (error) {
+	while (1) {
+		if (good_runs == 0) {
 			PIOS_WDG_UpdateFlag(PIOS_WDG_SENSORS);
 			lastSysTime = xTaskGetTickCount();
-			vTaskDelayUntil(&lastSysTime, SENSOR_PERIOD / portTICK_RATE_MS);
 			AlarmsSet(SYSTEMALARMS_ALARM_SENSORS, SYSTEMALARMS_ALARM_CRITICAL);
-			error = false;
-		} else {
+			vTaskDelayUntil(&lastSysTime, SENSOR_PERIOD / portTICK_RATE_MS);
+		}
+
+		struct pios_sensor_gyro_data gyros;
+		struct pios_sensor_accel_data accels;
+		struct pios_sensor_mag_data mags;
+		struct pios_sensor_baro_data baro;
+
+		uint32_t timeval = PIOS_DELAY_GetRaw();
+
+		xQueueHandle queue;
+		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_GYRO);
+		if(queue == NULL || xQueueReceive(queue, (void *) &gyros, SENSOR_PERIOD) == errQUEUE_EMPTY) {
+			good_runs = 0;
+			continue;
+		}
+
+		// As it says below, because the rest of the code expects the accel to be ready when
+		// the gyro is we must block here too
+		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_ACCEL);
+		if(queue == NULL || xQueueReceive(queue, (void *) &accels, SENSOR_PERIOD) == errQUEUE_EMPTY) {
+			good_runs = 0;
+			continue;
+		}
+		else
+			update_accels(&accels);
+
+		// Update gyros after the accels since the rest of the code expects
+		// the accels to be available first
+		update_gyros(&gyros);
+
+		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_MAG);
+		if(queue != NULL && xQueueReceive(queue, (void *) &mags, 0) != errQUEUE_EMPTY) {
+			update_mags(&mags);
+		}
+
+		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_BARO);
+		if (queue != NULL && xQueueReceive(queue, (void *) &baro, 0) != errQUEUE_EMPTY) {
+			update_baro(&baro);
+		}
+
+		if (good_runs > REQUIRED_GOOD_CYCLES)
 			AlarmsClear(SYSTEMALARMS_ALARM_SENSORS);
-		}
-
-
-		for (int i = 0; i < 3; i++) {
-			accel_accum[i] = 0;
-			gyro_accum[i] = 0;
-		}
-		accel_samples = 0;
-		gyro_samples = 0;
-
-		AccelsData accelsData;
-		GyrosData gyrosData;
-
-		switch(bdinfo->board_rev) {
-			case 0x01:  // L3GD20 + BMA180 board
-#if defined(PIOS_INCLUDE_BMA180)
-			{
-				struct pios_bma180_data accel;
-				
-				int32_t read_good;
-				int32_t count;
-				
-				count = 0;
-				while((read_good = PIOS_BMA180_ReadFifo(&accel)) != 0 && !error)
-					error = ((xTaskGetTickCount() - lastSysTime) > SENSOR_PERIOD) ? true : error;
-				if (error) {
-					// Unfortunately if the BMA180 ever misses getting read, then it will not
-					// trigger more interrupts.  In this case we must force a read to kickstarts
-					// it.
-					struct pios_bma180_data data;
-					PIOS_BMA180_ReadAccels(&data);
-					continue;
-				}
-				while(read_good == 0) {	
-					count++;
-					
-					accel_accum[1] += accel.x;
-					accel_accum[0] += accel.y;
-					accel_accum[2] -= accel.z;
-					
-					read_good = PIOS_BMA180_ReadFifo(&accel);
-				}
-				accel_samples = count;
-				accel_scaling = PIOS_BMA180_GetScale();
-				
-				// Get temp from last reading
-				accelsData.temperature = 25.0f + ((float) accel.temperature - 2.0f) / 2.0f;
-			}
-#endif
-#if defined(PIOS_INCLUDE_L3GD20)
-			{
-				struct pios_l3gd20_data gyro;
-				gyro_samples = 0;
-				xQueueHandle gyro_queue = PIOS_L3GD20_GetQueue();
-				
-				if(xQueueReceive(gyro_queue, (void *) &gyro, 4) == errQUEUE_EMPTY) {
-					error = true;
-					continue;
-				}
-				
-				gyro_samples = 1;
-				gyro_accum[1] += gyro.gyro_x;
-				gyro_accum[0] += gyro.gyro_y;
-				gyro_accum[2] -= gyro.gyro_z;
-				
-				gyro_scaling = PIOS_L3GD20_GetScale();
-
-				// Get temp from last reading
-				gyrosData.temperature = gyro.temperature;
-			}
-#endif
-				break;
-			case 0x02:  // MPU6000 board
-			case 0x03:  // MPU6000 board
-#if defined(PIOS_INCLUDE_MPU6000) || defined(PIOS_INCLUDE_MPU6050)
-			{
-#if defined(PIOS_INCLUDE_MPU6000)
-				xQueueHandle queue = PIOS_MPU6000_GetQueue();
-				gyro_scaling = PIOS_MPU6000_GetScale();
-				accel_scaling = PIOS_MPU6000_GetAccelScale();
-#elif defined(PIOS_INCLUDE_MPU6050)
-				xQueueHandle queue = PIOS_MPU6050_GetQueue();
-				gyro_scaling = PIOS_MPU6050_GetScale();
-				accel_scaling = PIOS_MPU6050_GetAccelScale();
-#endif
-
-				struct pios_mpu60x0_data mpu60x0_data;
-				
-				while(xQueueReceive(queue, (void *) &mpu60x0_data, gyro_samples == 0 ? 10 : 0) != errQUEUE_EMPTY)
-				{
-					gyro_accum[0] += mpu60x0_data.gyro_x;
-					gyro_accum[1] += mpu60x0_data.gyro_y;
-					gyro_accum[2] += mpu60x0_data.gyro_z;
-
-					accel_accum[0] += mpu60x0_data.accel_x;
-					accel_accum[1] += mpu60x0_data.accel_y;
-					accel_accum[2] += mpu60x0_data.accel_z;
-
-					gyro_samples ++;
-					accel_samples ++;
-				}
-				
-				if (gyro_samples == 0) {
-#if defined(PIOS_INCLUDE_MPU6000)
-					PIOS_MPU6000_ReadGyros(&mpu60x0_data);
-#elif defined(PIOS_INCLUDE_MPU6050)
-					PIOS_MPU6050_ReadGyros(&mpu60x0_data);
-#endif
-					error = true;
-					continue;
-				}
-
-				gyrosData.temperature = 35.0f + ((float) mpu60x0_data.temperature + 512.0f) / 340.0f;
-				accelsData.temperature = 35.0f + ((float) mpu60x0_data.temperature + 512.0f) / 340.0f;
-			}
-#endif /* PIOS_INCLUDE_MPU6000 || PIOS_INCLUDE_MPU6050 */
-				break;
-
-			case 0x04: // LSM303 and L3GD20 board
-#if defined(PIOS_INCLUDE_LSM303)
-			{
-				//this one comes at 400Hz
-				accel_scaling = PIOS_LSM303_Accel_GetScale();
-				struct pios_lsm303_accel_data accel;
-				xQueueHandle queue = PIOS_LSM303_Accel_GetQueue();
-
-				while (xQueueReceive(queue, (void*)&accel, (accel_samples == 0 ? 10 / portTICK_RATE_MS : 0)) != errQUEUE_EMPTY)
-				{
-					accel_accum[0] += accel.accel_x;
-					accel_accum[1] += accel.accel_y;
-					accel_accum[2] += accel.accel_z;
-					++accel_samples;
-				}
-				if (accel_samples == 0)
-				{
-					// Unfortunately if the LSM303 ever misses getting read, then it will not
-					// trigger more interrupts.  In this case we must force a read to kickstart
-					// it.
-					struct pios_lsm303_accel_data data;
-					PIOS_LSM303_Accel_ReadData(&data);
-					error = true;
-					continue;
-				}
-				// No temp
-				accelsData.temperature = 0;
-			}
-#endif /* PIOS_INCLUDE_LSM303 */
-#if defined(PIOS_INCLUDE_L3GD20)
-			{
-				//this one comes at 760Hz
-				gyro_scaling = PIOS_L3GD20_GetScale();
-				struct pios_l3gd20_data gyro;
-				xQueueHandle queue = PIOS_L3GD20_GetQueue();
-
-				while (xQueueReceive(queue, (void*)&gyro, (gyro_samples == 0 ? 10 / portTICK_RATE_MS : 0)) != errQUEUE_EMPTY)
-				{
-					gyro_accum[0] += gyro.gyro_y;
-					gyro_accum[1] += gyro.gyro_x;
-					gyro_accum[2] -= gyro.gyro_z;
-					++gyro_samples;
-				}
-				if (gyro_samples == 0)
-				{
-					// Unfortunately if the L3GD20 ever misses getting read, then it will not
-					// trigger more interrupts.  In this case we must force a read to kickstart
-					// it.
-					struct pios_l3gd20_data data;
-					PIOS_L3GD20_ReadGyros(&data);
-					error = true;
-					continue;
-				}
-
-				// Get temp from last reading
-				gyrosData.temperature = gyro.temperature;
-			}
-#endif
-				break;
-			default:
-				PIOS_DEBUG_Assert(0);
-		}
-
-		// Average and scale the accels before rotation
-		float accels[3] = {(float) accel_accum[0] / accel_samples, 
-		                   (float) accel_accum[1] / accel_samples,
-		                   (float) accel_accum[2] / accel_samples};
-		float accels_out[3] = {accels[0] * accel_scaling * accel_scale[0] - accel_bias[0],
-		                       accels[1] * accel_scaling * accel_scale[1] - accel_bias[1],
-		                       accels[2] * accel_scaling * accel_scale[2] - accel_bias[2]};
-		if (rotate) {
-			rot_mult(Rbs, accels_out, accels, false);
-			accelsData.x = accels[0];
-			accelsData.y = accels[1];
-			accelsData.z = accels[2];
-		} else {
-			accelsData.x = accels_out[0];
-			accelsData.y = accels_out[1];
-			accelsData.z = accels_out[2];
-		}
-		AccelsSet(&accelsData);
-
-		// Scale the gyros
-		float gyros[3] = {(float) gyro_accum[0] / gyro_samples,
-		                  (float) gyro_accum[1] / gyro_samples,
-		                  (float) gyro_accum[2] / gyro_samples};
-		float gyros_out[3] = {gyros[0] * gyro_scaling * gyro_scale[0],
-		                      gyros[1] * gyro_scaling * gyro_scale[1],
-		                      gyros[2] * gyro_scaling * gyro_scale[2]};
-		if (rotate) {
-			rot_mult(Rbs, gyros_out, gyros, false);
-			gyrosData.x = gyros[0];
-			gyrosData.y = gyros[1];
-			gyrosData.z = gyros[2];
-		} else {
-			gyrosData.x = gyros_out[0];
-			gyrosData.y = gyros_out[1];
-			gyrosData.z = gyros_out[2];
-		}
-		
-		if (bias_correct_gyro) {
-			// Apply bias correction to the gyros from the state estimator
-			GyrosBiasData gyrosBias;
-			GyrosBiasGet(&gyrosBias);
-			gyrosData.x -= gyrosBias.x;
-			gyrosData.y -= gyrosBias.y;
-			gyrosData.z -= gyrosBias.z;
-		}
-		GyrosSet(&gyrosData);
-		
-		// Because most crafts wont get enough information from gravity to zero yaw gyro, we try
-		// and make it average zero (weakly)
-
-#if defined(PIOS_INCLUDE_HMC5883)
-		MagnetometerData mag;
-		if (PIOS_HMC5883_NewDataAvailable() || PIOS_DELAY_DiffuS(mag_update_time) > 150000) {
-			struct pios_hmc5883_data mag_data;
-			PIOS_HMC5883_ReadMag(&mag_data);
-			float mags[3] = {(float) mag_data.mag_x * mag_scale[0] - mag_bias[0],
-			                (float) mag_data.mag_y * mag_scale[1] - mag_bias[1],
-			                (float) mag_data.mag_z * mag_scale[2] - mag_bias[2]};
-			if (rotate) {
-				float mag_out[3];
-				rot_mult(Rbs, mags, mag_out, false);
-				mag.x = mag_out[0];
-				mag.y = mag_out[1];
-				mag.z = mag_out[2];
-			} else {
-				mag.x = mags[0];
-				mag.y = mags[1];
-				mag.z = mags[2];
-			}
-			
-			// Correct for mag bias and update if the rate is non zero
-			if(insSettings.MagBiasNullingRate > 0)
-				magOffsetEstimation(&mag);
-
-			MagnetometerSet(&mag);
-			mag_update_time = PIOS_DELAY_GetRaw();
-		}
-#elif defined(PIOS_INCLUDE_LSM303)
-		MagnetometerData mag;
-
-		//this one comes at 220Hz
-		struct pios_lsm303_mag_data mag_data;
-		xQueueHandle queue = PIOS_LSM303_Mag_GetQueue();
-
-		if (xQueueReceive(queue, (void*)&mag_data, 0) != errQUEUE_EMPTY)
-		{
-			float mags[3] = {(float) mag_data.mag_x * mag_scale[0] - mag_bias[0],
-							(float) mag_data.mag_y * mag_scale[1] - mag_bias[1],
-							(float) mag_data.mag_z * mag_scale[2] - mag_bias[2]};
-			if (rotate) {
-				float mag_out[3];
-				rot_mult(Rbs, mags, mag_out, false);
-				mag.x = mag_out[0];
-				mag.y = mag_out[1];
-				mag.z = mag_out[2];
-			} else {
-				mag.x = mags[0];
-				mag.y = mags[1];
-				mag.z = mags[2];
-			}
-
-			// Correct for mag bias and update if the rate is non zero
-			if (insSettings.MagBiasNullingRate > 0)
-				magOffsetEstimation(&mag);
-
-			MagnetometerSet(&mag);
-		}
-#endif
-
-#if defined(PIOS_INCLUDE_MS5611)
-
-		// If the MS5611 is included check for any data and pass it to the
-		// UAVO if so
-		struct pios_ms5611_data baro_data;
-		xQueueHandle pressure_queue = PIOS_MS5611_GetQueue();
-		if (pressure_queue != NULL && xQueueReceive(pressure_queue, &baro_data, 0) == pdTRUE )
-		{
-			BaroAltitudeData baroAltitude;
-			BaroAltitudeGet(&baroAltitude);
-			baroAltitude.Temperature = baro_data.temperature;
-			baroAltitude.Pressure = baro_data.pressure;
-			baroAltitude.Altitude = baro_data.altitude;
-			BaroAltitudeSet(&baroAltitude);
-		}
-
-#endif /* PIOS_INCLUDE_MS5611 */
-
+		else
+			good_runs++;
 		PIOS_WDG_UpdateFlag(PIOS_WDG_SENSORS);
 
-		lastSysTime = xTaskGetTickCount();
+		// Check total time to get the sensors wasn't over the limit
+		uint32_t dT_us = PIOS_DELAY_DiffuS(timeval);
+		if (dT_us > (SENSOR_PERIOD * 1000))
+			good_runs = 0;
+
 	}
+}
+
+/**
+ * @brief Apply calibration and rotation to the raw accel data
+ * @param[in] accels The raw accel data
+ */
+static void update_accels(struct pios_sensor_accel_data *accels)
+{
+	// Average and scale the accels before rotation
+	float accels_out[3] = {
+	    accels->x * accel_scale[0] - accel_bias[0],
+	    accels->y * accel_scale[1] - accel_bias[1],
+	    accels->z * accel_scale[2] - accel_bias[2]
+	};
+
+	AccelsData accelsData;
+	if (rotate) {
+		float accel_rotated[3];
+		rot_mult(Rbs, accels_out, accel_rotated, false);
+		accelsData.x = accel_rotated[0];
+		accelsData.y = accel_rotated[1];
+		accelsData.z = accel_rotated[2];
+	} else {
+		accelsData.x = accels_out[0];
+		accelsData.y = accels_out[1];
+		accelsData.z = accels_out[2];
+	}
+
+	accelsData.temperature = accels->temperature;
+	AccelsSet(&accelsData);
+}
+
+/**
+ * @brief Apply calibration and rotation to the raw gyro data
+ * @param[in] gyros The raw gyro data
+ */
+static void update_gyros(struct pios_sensor_gyro_data *gyros)
+{
+	// Scale the gyros
+	float gyros_out[3] = {
+	    gyros->x * gyro_scale[0],
+	    gyros->y * gyro_scale[1],
+	    gyros->z * gyro_scale[2]
+	};
+
+	GyrosData gyrosData;
+	if (rotate) {
+		float gyros[3];
+		rot_mult(Rbs, gyros_out, gyros, false);
+		gyrosData.x = gyros[0];
+		gyrosData.y = gyros[1];
+		gyrosData.z = gyros[2];
+	} else {
+		gyrosData.x = gyros_out[0];
+		gyrosData.y = gyros_out[1];
+		gyrosData.z = gyros_out[2];
+	}
+	
+	if (bias_correct_gyro) {
+		// Apply bias correction to the gyros from the state estimator
+		GyrosBiasData gyrosBias;
+		GyrosBiasGet(&gyrosBias);
+		gyrosData.x -= gyrosBias.x;
+		gyrosData.y -= gyrosBias.y;
+		gyrosData.z -= gyrosBias.z;
+	}
+
+	gyrosData.temperature = gyros->temperature;
+	GyrosSet(&gyrosData);
+}
+
+/**
+ * @brief Apply calibration and rotation to the raw mag data
+ * @param[in] mag The raw mag data
+ */
+static void update_mags(struct pios_sensor_mag_data *mag)
+{
+	float mags[3] = {
+	    mag->x * mag_scale[0] - mag_bias[0],
+	    mag->y * mag_scale[1] - mag_bias[1],
+	    mag->z * mag_scale[2] - mag_bias[2]
+	};
+
+	MagnetometerData magData;
+	if (rotate) {
+		float mag_out[3];
+		rot_mult(Rbs, mags, mag_out, false);
+		magData.x = mag_out[0];
+		magData.y = mag_out[1];
+		magData.z = mag_out[2];
+	} else {
+		magData.x = mags[0];
+		magData.y = mags[1];
+		magData.z = mags[2];
+	}
+
+	// Correct for mag bias and update if the rate is non zero
+	if (insSettings.MagBiasNullingRate > 0) {
+		switch (mag_calibration_algo) {
+		case MAG_CALIBRATION_PRELEMARI:
+			mag_calibration_prelemari(&magData);
+			break;
+		case MAG_CALIBRATION_NORMALIZE_LENGTH:
+			mag_calibration_fix_length(&magData);
+			break;
+		default:
+			// No calibration
+			break;
+		}
+	}
+
+	MagnetometerSet(&magData);
+}
+
+static void update_baro(struct pios_sensor_baro_data *baro)
+{
+	BaroAltitudeData baroAltitude;
+	BaroAltitudeGet(&baroAltitude);
+	baroAltitude.Temperature = baro->temperature;
+	baroAltitude.Pressure = baro->pressure;
+	baroAltitude.Altitude = baro->altitude;
+	BaroAltitudeSet(&baroAltitude);
 }
 
 /**
@@ -575,9 +367,8 @@ static void SensorsTask(void *parameters)
  * Magnetometer Offset Cancellation: Theory and Implementation, 
  * revisited William Premerlani, October 14, 2011
  */
-static void magOffsetEstimation(MagnetometerData *mag)
+static void mag_calibration_prelemari(MagnetometerData *mag)
 {
-#if 0
 	// Constants, to possibly go into a UAVO
 	static const float MIN_NORM_DIFFERENCE = 50;
 
@@ -616,7 +407,16 @@ static void magOffsetEstimation(MagnetometerData *mag)
 		// Store this value to compare against next update
 		B2[0] = B1[0]; B2[1] = B1[1]; B2[2] = B1[2];
 	}
-#else
+}
+
+/**
+ * Perform an update of the @ref MagBias based on an algorithm 
+ * we developed that tries to drive the magnetometer length to
+ * the expected value.  This algorithm seems to work better
+ * when not turning a lot.
+ */
+static void mag_calibration_fix_length(MagnetometerData *mag)
+{
 	MagBiasData magBias;
 	MagBiasGet(&magBias);
 	
@@ -666,7 +466,6 @@ static void magOffsetEstimation(MagnetometerData *mag)
 		magBias.z += delta[2];
 		MagBiasSet(&magBias);
 	}
-#endif
 }
 
 /**
@@ -688,11 +487,11 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	accel_bias[1] = inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_Y];
 	accel_bias[2] = inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_Z];
 	accel_scale[0] = inertialSensorSettings.AccelScale[INERTIALSENSORSETTINGS_ACCELSCALE_X];
-	accel_scale[1] = inertialSensorSettings.AccelScale[INERTIALSENSORSETTINGS_ACCELSCALE_X];
-	accel_scale[2] = inertialSensorSettings.AccelScale[INERTIALSENSORSETTINGS_ACCELSCALE_X];
+	accel_scale[1] = inertialSensorSettings.AccelScale[INERTIALSENSORSETTINGS_ACCELSCALE_Y];
+	accel_scale[2] = inertialSensorSettings.AccelScale[INERTIALSENSORSETTINGS_ACCELSCALE_Z];
 	gyro_scale[0] = inertialSensorSettings.GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_X];
-	gyro_scale[1] = inertialSensorSettings.GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_X];
-	gyro_scale[2] = inertialSensorSettings.GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_X];
+	gyro_scale[1] = inertialSensorSettings.GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_Y];
+	gyro_scale[2] = inertialSensorSettings.GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_Z];
 	
 	// Zero out any adaptive tracking
 	MagBiasData magBias;
