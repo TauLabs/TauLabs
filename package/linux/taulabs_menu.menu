@@ -3,10 +3,10 @@
 <Menu>
   <Name>Applications</Name>
   <Menu>
-    <Name>Above Ground Labs</Name>
-    <Directory>abovegroundlabs_menu.directory</Directory>
+    <Name>Tau Labs</Name>
+    <Directory>taulabs_menu.directory</Directory>
     <Include>
-        <Category>AboveGroundLabsMenu</Category>
+        <Category>TauLabsMenu</Category>
     </Include>
-  </Menu> <!-- End Above Ground Labs Menu-->
+  </Menu> <!-- End Tau Labs Menu-->
 </Menu>

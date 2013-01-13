@@ -1,14 +1,14 @@
-Source: abovegroundlabs
+Source: taulabs
 Section: unknown
 Priority: extra
-Maintainer: naiiawah <naiiawah@openpilot.org>
+Maintainer: peabody124 <peabody124@gmail.com>
 Build-Depends: debhelper (>= 7.0.50~)
 Standards-Version: 3.8.4
-Homepage: http://abovegroundlabs.org
+Homepage: http://taulabs.org
 Vcs-Git: git://github.com/PhoenixPilot/PhoenixPilot.git
 Vcs-Browser: https://github.com/PhoenixPilot/PhoenixPilot/commits/next 
 
-Package: abovegroundlabs
+Package: taulabs
 Architecture: amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: Above Ground Labs GCS & FW
+Description: Tau Labs GCS & FW
