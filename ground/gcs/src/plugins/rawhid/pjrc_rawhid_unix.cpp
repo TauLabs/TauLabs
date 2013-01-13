@@ -59,12 +59,12 @@ pjrc_rawhid::~pjrc_rawhid()
 //	max = maximum number of devices to open
 //	vid = Vendor ID, or -1 if any
 //	pid = Product ID, or -1 if any
-//	usage_page = top level usage page, or -1 if any
-//	usage = top level usage number, or -1 if any
+//	usage_page = unused, argument kept for api consistency
+//	usage = unused, argument kept for api consistency
 //    Output:
 //	actual number of devices opened
 //
-int pjrc_rawhid::open(int max, int vid, int pid, int usage_page, int usage)
+int pjrc_rawhid::open(int max, int vid, int pid, int /* usage_page */, int /* usage */)
 {
 	//check if there are still open devices and close them
 	if (!m_DeviceHandles.empty()) {
@@ -109,7 +109,6 @@ int pjrc_rawhid::open(int max, int vid, int pid, int usage_page, int usage)
 		int device_interface = -1;
 		const libusb_interface* interface;
 		const libusb_interface_descriptor* interface_desc;
-		const libusb_endpoint_descriptor* endpoint_desc;
 		for (ssize_t iInterface = 0;
 				iInterface < config_desc->bNumInterfaces && device_interface == -1;
 				++iInterface)
