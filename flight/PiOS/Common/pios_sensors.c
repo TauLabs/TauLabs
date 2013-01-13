@@ -48,6 +48,8 @@ int32_t PIOS_SENSORS_Init()
 //! Register a sensor with the PIOS_SENSORS interface
 int32_t PIOS_SENSORS_Register(enum pios_sensor_type type, xQueueHandle queue)
 {
+	PIOS_DEBUG_Assert(queues[type] == NULL);
+
 	queues[type] = queue;
 
 	return 0;

@@ -34,6 +34,7 @@
 #include "stdint.h"
 #include "FreeRTOS.h"
 #include "queue.h"
+#include "pios_debug.h"
 
 //! Pios sensor structure for generic gyro data
 struct pios_sensor_gyro_data {
