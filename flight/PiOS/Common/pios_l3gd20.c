@@ -420,7 +420,7 @@ bool PIOS_L3GD20_IRQHandler(void)
 	normalized_data.y = data.gyro_x * PIOS_L3GD20_GetScale();
 	normalized_data.x = data.gyro_y * PIOS_L3GD20_GetScale();
 	normalized_data.z = -data.gyro_z * PIOS_L3GD20_GetScale();
-	normalized_data.temp = PIOS_L3GD20_GetRegIsr(PIOS_L3GD20_OUT_TEMP, &woken);
+	normalized_data.temperature = PIOS_L3GD20_GetRegIsr(PIOS_L3GD20_OUT_TEMP, &woken);
 
 	portBASE_TYPE xHigherPriorityTaskWoken;
 	xQueueSendToBackFromISR(dev->queue, (void *) &normalized_data, &xHigherPriorityTaskWoken);

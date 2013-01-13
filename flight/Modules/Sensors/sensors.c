@@ -261,7 +261,7 @@ static void update_accels(struct pios_sensor_accel_data *accels)
 		accelsData.z = accels_out[2];
 	}
 
-	accelsData.temperature = accels->temp;
+	accelsData.temperature = accels->temperature;
 	AccelsSet(&accelsData);
 }
 
@@ -298,7 +298,7 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros)
 		gyrosData.z -= gyrosBias.z;
 	}
 
-	gyrosData.temperature = gyros->temp;
+	gyrosData.temperature = gyros->temperature;
 	GyrosSet(&gyrosData);
 }
 

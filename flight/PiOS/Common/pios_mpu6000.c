@@ -506,12 +506,12 @@ bool PIOS_MPU6000_IRQHandler(void)
 	accel_data.x *= PIOS_MPU6000_GetAccelScale();
 	accel_data.y *= PIOS_MPU6000_GetAccelScale();
 	accel_data.z *= PIOS_MPU6000_GetAccelScale();
-	accel_data.temp = temperature;
+	accel_data.temperature = temperature;
 
 	gyro_data.x *= PIOS_MPU6000_GetScale();
 	gyro_data.y *= PIOS_MPU6000_GetScale();
 	gyro_data.z *= PIOS_MPU6000_GetScale();
-	gyro_data.temp = temperature;
+	gyro_data.temperature = temperature;
 
 	portBASE_TYPE xHigherPriorityTaskWoken_accel;
 	xQueueSendToBackFromISR(dev->accel_queue, (void *) &accel_data, &xHigherPriorityTaskWoken_accel);
@@ -548,10 +548,11 @@ bool PIOS_MPU6000_IRQHandler(void)
 	float temperature = 35.0f + ((float) raw_temp + 512.0f) / 340.0f;
 
 	// Apply sensor scaling
-	gyro_data.x *= PIOS_MPU6000_GetScale();
-	gyro_data.y *= PIOS_MPU6000_GetScale();
-	gyro_data.z *= PIOS_MPU6000_GetScale();
-	gyro_data.temp = temperature;
+	float gyro_scale = PIOS_MPU6000_GetScale();
+	gyro_data.x *= gyro_scale;
+	gyro_data.y *= gyro_scale;
+	gyro_data.z *= gyro_scale;
+	gyro_data.temperature = temperature;
 
 	portBASE_TYPE xHigherPriorityTaskWoken_gyro;
 	xQueueSendToBackFromISR(dev->gyro_queue, (void *) &gyro_data, &xHigherPriorityTaskWoken_gyro);

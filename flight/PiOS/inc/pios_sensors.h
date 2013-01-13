@@ -36,7 +36,7 @@ struct pios_sensor_gyro_data {
 	float x;
 	float y; 
 	float z;
-	float temp;
+	float temperature;
 };
 
 //! Pios sensor structure for generic accel data
@@ -44,7 +44,7 @@ struct pios_sensor_accel_data {
 	float x;
 	float y; 
 	float z;
-	float temp;
+	float temperature;
 };
 
 //! Pios sensor structure for generic mag data

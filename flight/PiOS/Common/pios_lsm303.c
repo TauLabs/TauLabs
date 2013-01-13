@@ -633,7 +633,7 @@ void PIOS_LSM303_Task(void *parameters)
 					break;
 			}
 			normalized_data.z = -data.accel_z * PIOS_LSM303_Accel_GetScale();
-			normalized_data.temp = 0;
+			normalized_data.temperature = 0;
 
 			xQueueSend(dev->queue_accel, (void*)&normalized_data, 0);
 		}

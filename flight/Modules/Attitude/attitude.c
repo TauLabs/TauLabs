@@ -292,7 +292,7 @@ static int32_t updateSensors(AccelsData * accelsData, GyrosData * gyrosData)
 	
 	// Convert the ADC data into the standard normalized format
 	struct pios_sensor_gyro_data gyros;
-	gyros.temp = gyro[0];
+	gyros.temperature = gyro[0];
 	gyros.x = -(gyro[1] - GYRO_NEUTRAL) * IDG_GYRO_GAIN;
 	gyros.y = (gyro[2] - GYRO_NEUTRAL) * IDG_GYRO_GAIN;
 	gyros.z = -(gyro[3] - GYRO_NEUTRAL) * IDG_GYRO_GAIN;
@@ -391,7 +391,7 @@ static void update_accels(struct pios_sensor_accel_data *accels, AccelsData * ac
 		accelsData->z = accels_out[2];
 	}
 
-	accelsData->temperature = accels->temp;
+	accelsData->temperature = accels->temperature;
 }
 
 /**
@@ -428,7 +428,7 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosD
 	// and make it average zero (weakly)
 	gyro_correct_int[2] += gyrosData->z * yawBiasRate;
 
-	gyrosData->temperature = gyros->temp;
+	gyrosData->temperature = gyros->temperature;
 }
 
 /**
