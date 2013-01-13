@@ -72,16 +72,22 @@
 #define REQUIRED_GOOD_CYCLES 50
 
 // Private types
+enum mag_calibration_algo {
+	MAG_CALIBRATION_PRELEMARI,
+	MAG_CALIBRATION_NORMALIZE_LENGTH
+};
 
 // Private functions
 static void SensorsTask(void *parameters);
 static void settingsUpdatedCb(UAVObjEvent * objEv);
-static void magOffsetEstimation(MagnetometerData *mag);
 
 static void update_accels(struct pios_sensor_accel_data *accel);
 static void update_gyros(struct pios_sensor_gyro_data *gyro);
 static void update_mags(struct pios_sensor_mag_data *mag);
 static void update_baro(struct pios_sensor_baro_data *baro);
+
+static void mag_calibration_prelemari(MagnetometerData *mag);
+static void mag_calibration_fix_length(MagnetometerData *mag);
 
 // Private variables
 static xTaskHandle sensorsTaskHandle;
@@ -99,6 +105,9 @@ static float gyro_scale[3] = {0,0,0};
 
 static float Rbs[3][3] = {{0}};
 static int8_t rotate = 0;
+
+//! Select the algorithm to try and null out the magnetometer bias error
+static enum mag_calibration_algo mag_calibration_algo = MAG_CALIBRATION_PRELEMARI;
 
 /**
  * API for sensor fusion algorithms:
@@ -326,8 +335,18 @@ static void update_mags(struct pios_sensor_mag_data *mag)
 	}
 
 	// Correct for mag bias and update if the rate is non zero
-	if (insSettings.MagBiasNullingRate > 0)
-		magOffsetEstimation(&magData);
+	if (insSettings.MagBiasNullingRate > 0) {
+		switch (mag_calibration_algo) {
+		case MAG_CALIBRATION_PRELEMARI:
+			mag_calibration_prelemari(&magData);
+			break;
+		case MAG_CALIBRATION_NORMALIZE_LENGTH:
+			mag_calibration_fix_length(&magData);
+			break;
+		default:
+			// No calibration
+		}
+	}
 
 	MagnetometerSet(&magData);
 }
@@ -347,9 +366,8 @@ static void update_baro(struct pios_sensor_baro_data *baro)
  * Magnetometer Offset Cancellation: Theory and Implementation, 
  * revisited William Premerlani, October 14, 2011
  */
-static void magOffsetEstimation(MagnetometerData *mag)
+static void mag_calibration_prelemari(MagnetometerData *mag)
 {
-#if 0
 	// Constants, to possibly go into a UAVO
 	static const float MIN_NORM_DIFFERENCE = 50;
 
@@ -388,7 +406,16 @@ static void magOffsetEstimation(MagnetometerData *mag)
 		// Store this value to compare against next update
 		B2[0] = B1[0]; B2[1] = B1[1]; B2[2] = B1[2];
 	}
-#else
+}
+
+/**
+ * Perform an update of the @ref MagBias based on an algorithm 
+ * we developed that tries to drive the magnetometer length to
+ * the expected value.  This algorithm seems to work better
+ * when not turning a lot.
+ */
+static void mag_calibration_fix_length(MagnetometerData *mag)
+{
 	MagBiasData magBias;
 	MagBiasGet(&magBias);
 	
@@ -438,7 +465,6 @@ static void magOffsetEstimation(MagnetometerData *mag)
 		magBias.z += delta[2];
 		MagBiasSet(&magBias);
 	}
-#endif
 }
 
 /**
