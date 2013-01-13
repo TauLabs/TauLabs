@@ -1,12 +1,14 @@
 /**
  ******************************************************************************
- * @file       %FILENAME%
+ *
+ * @file       quanton.cpp
  * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2013
- * @addtogroup [Group]
+ *
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup %CLASS%
+ * @addtogroup Boards_Quantec Quantec boards support Plugin
  * @{
- * @brief [Brief]
+ * @brief Plugin to support boards by Quantec
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -23,3 +25,46 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+
+#include "quanton.h"
+
+/**
+ * @brief Quanton::Quanton
+ *  This is the Quanton board definition
+ */
+Quanton::Quanton(void)
+{
+    // Initialize our USB Structure definition here:
+    USBInfo board;
+    board.vendorID = 0x0fda;
+    board.productID = 0x0100;
+
+    setUSBInfo(board);
+
+}
+
+Quanton::~Quanton()
+{
+
+}
+
+QString Quanton::shortName()
+{
+    return QString("quanton");
+}
+
+QString Quanton::boardDescription()
+{
+    return QString("quanton flight control rev. 1 by Quantec Networks GmbH");
+}
+
+/**
+ * @brief Quanton::getSupportedProtocols
+ *  TODO: this is just a stub, we'll need to extend this a lot with multi protocol support
+ * @return
+ */
+QStringList Quanton::getSupportedProtocols()
+{
+
+    return QStringList("uavtalk");
+}

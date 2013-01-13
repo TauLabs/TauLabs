@@ -1,12 +1,14 @@
 /**
  ******************************************************************************
- * @file       %FILENAME%
+ *
+ * @file       quantecplugin.h
  * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2013
- * @addtogroup [Group]
+ *
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup %CLASS%
+ * @addtogroup Boards_Quantec Quantec boards support Plugin
  * @{
- * @brief [Brief]
+ * @brief Plugin to support boards by Quantec
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -23,3 +25,42 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+
+#include "quantecplugin.h"
+#include "quanton.h"
+#include <QtPlugin>
+
+
+QuantecPlugin::QuantecPlugin()
+{
+   // Do nothing
+}
+
+QuantecPlugin::~QuantecPlugin()
+{
+   // Do nothing
+}
+
+bool QuantecPlugin::initialize(const QStringList& args, QString *errMsg)
+{
+   Q_UNUSED(args);
+   Q_UNUSED(errMsg);
+   return true;
+}
+
+void QuantecPlugin::extensionsInitialized()
+{
+    /**
+     * Create the board objects here.
+     *
+     */
+    Quanton* quanton = new Quanton();
+    addAutoReleasedObject(quanton);
+
+}
+
+void QuantecPlugin::shutdown()
+{
+}
+
+Q_EXPORT_PLUGIN(QuantecPlugin)
