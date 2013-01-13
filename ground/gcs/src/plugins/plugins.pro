@@ -276,7 +276,7 @@ plugin_boards_openpilot.subdir = boards_openpilot
 plugin_boards_openpilot.depends = plugin_coreplugin
 SUBDIRS += plugin_boards_openpilot
 
-# Quantec GMBH
+# Quantec Networks GmbH
 plugin_boards_quantec.subdir = boards_quantec
 plugin_boards_quantec.depends = plugin_coreplugin
 SUBDIRS += plugin_boards_quantec
