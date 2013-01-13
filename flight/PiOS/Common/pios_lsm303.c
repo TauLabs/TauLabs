@@ -611,28 +611,30 @@ void PIOS_LSM303_Task(void *parameters)
 				continue;
 			}
 
+			float accel_scale = PIOS_LSM303_Accel_GetScale();
+
 			struct pios_sensor_accel_data normalized_data;
 			switch (dev->cfg->orientation)
 			{
 				default:
 				case PIOS_LSM303_TOP_0DEG:
-					normalized_data.x = +data.accel_x * PIOS_LSM303_Accel_GetScale();
-					normalized_data.y = -data.accel_y * PIOS_LSM303_Accel_GetScale();
+					normalized_data.x = +data.accel_x * accel_scale;
+					normalized_data.y = -data.accel_y * accel_scale;
 					break;
 				case PIOS_LSM303_TOP_90DEG:
-					normalized_data.x = +data.accel_y * PIOS_LSM303_Accel_GetScale();
-					normalized_data.y = +data.accel_x * PIOS_LSM303_Accel_GetScale();
+					normalized_data.x = +data.accel_y * accel_scale;
+					normalized_data.y = +data.accel_x * accel_scale;
 					break;
 				case PIOS_LSM303_TOP_180DEG:
-					normalized_data.x = -data.accel_x * PIOS_LSM303_Accel_GetScale();
-					normalized_data.y = +data.accel_y * PIOS_LSM303_Accel_GetScale();
+					normalized_data.x = -data.accel_x * accel_scale;
+					normalized_data.y = +data.accel_y * accel_scale;
 					break;
 				case PIOS_LSM303_TOP_270DEG:
-					normalized_data.x = -data.accel_y * PIOS_LSM303_Accel_GetScale();
-					normalized_data.y = -data.accel_x * PIOS_LSM303_Accel_GetScale();
+					normalized_data.x = -data.accel_y * accel_scale;
+					normalized_data.y = -data.accel_x * accel_scale;
 					break;
 			}
-			normalized_data.z = -data.accel_z * PIOS_LSM303_Accel_GetScale();
+			normalized_data.z = -data.accel_z * accel_scale;
 			normalized_data.temperature = 0;
 
 			xQueueSend(dev->queue_accel, (void*)&normalized_data, 0);
