@@ -91,8 +91,8 @@ static void update_baro(struct pios_sensor_baro_data *baro);
 
 // Private variables
 static xTaskHandle sensorsTaskHandle;
-RevoCalibrationData revoCal;
-INSSettingsData insSettings;
+static RevoCalibrationData revoCal;
+static INSSettingsData insSettings;
 
 // These values are initialized by settings but can be updated by the attitude algorithm
 static bool bias_correct_gyro = true;
@@ -119,7 +119,7 @@ static int8_t rotate = 0;
  * Initialise the module.  Called before the start function
  * \returns 0 on success or -1 if initialisation failed
  */
-int32_t SensorsInitialize(void)
+static int32_t SensorsInitialize(void)
 {
 	GyrosInitialize();
 	GyrosBiasInitialize();
@@ -146,7 +146,7 @@ int32_t SensorsInitialize(void)
  * Start the task.  Expects all objects to be initialized by this point.
  * \returns 0 on success or -1 if initialisation failed
  */
-int32_t SensorsStart(void)
+static int32_t SensorsStart(void)
 {
 	// Start main task
 	xTaskCreate(SensorsTask, (signed char *)"Sensors", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &sensorsTaskHandle);

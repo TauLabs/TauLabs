@@ -68,7 +68,7 @@ static void update_mags(struct pios_sensor_mag_data *mag);
  * Initialise the module, called on startup
  * \returns 0 on success or -1 if initialisation failed
  */
-int32_t MagBaroStart()
+static int32_t MagBaroStart()
 {
 
 	if (module_enabled) {
@@ -84,7 +84,7 @@ int32_t MagBaroStart()
  * Initialise the module, called on startup
  * \returns 0 on success or -1 if initialisation failed
  */
-int32_t MagBaroInitialize()
+static int32_t MagBaroInitialize()
 {
 #ifdef MODULE_MagBaro_BUILTIN
 	module_enabled = true;

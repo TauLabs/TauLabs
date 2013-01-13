@@ -118,7 +118,6 @@ struct pios_hmc5883_data {
 
 /* Public Functions */
 extern int32_t PIOS_HMC5883_Init(uint32_t i2c_id, const struct pios_hmc5883_cfg * cfg);
-extern uint8_t PIOS_HMC5883_ReadID(uint8_t out[4]);
 extern int32_t PIOS_HMC5883_Test(void);
 extern bool PIOS_HMC5883_IRQHandler();
 #endif /* PIOS_HMC5883_H */

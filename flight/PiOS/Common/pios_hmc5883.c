@@ -229,7 +229,7 @@ static int32_t PIOS_HMC5883_Config(const struct pios_hmc5883_cfg * cfg)
  * \param[out] int16_t array of size 3 to store X, Z, and Y magnetometer readings
  * \return 0 for success or -1 for failure
  */
-int32_t PIOS_HMC5883_ReadMag(struct pios_sensor_mag_data *mag_data)
+static int32_t PIOS_HMC5883_ReadMag(struct pios_sensor_mag_data *mag_data)
 {
 	if(PIOS_HMC5883_Validate(dev) != 0)
 		return -1;
@@ -311,7 +311,7 @@ int32_t PIOS_HMC5883_ReadMag(struct pios_sensor_mag_data *mag_data)
  * \param[out] uint8_t array of size 4 to store HMC5883 ID.
  * \return 0 if successful, -1 if not
  */
-uint8_t PIOS_HMC5883_ReadID(uint8_t out[4])
+static uint8_t PIOS_HMC5883_ReadID(uint8_t out[4])
 {
 	uint8_t retval = PIOS_HMC5883_Read(PIOS_HMC5883_DATAOUT_IDA_REG, out, 3);
 	out[3] = '\0';

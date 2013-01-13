@@ -31,7 +31,7 @@
 #ifndef MAGBARO_H
 #define MAGBARO_H
 
-int32_t MagBaroInitialize();
+static int32_t MagBaroInitialize();
 
 #endif // ALTITUDE_H
 
