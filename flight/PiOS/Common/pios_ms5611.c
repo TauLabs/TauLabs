@@ -161,17 +161,6 @@ int32_t PIOS_MS5611_Init(const struct pios_ms5611_cfg *cfg, int32_t i2c_device)
 }
 
 /**
- * Return the queue that receives pressure data
- */
-xQueueHandle PIOS_MS5611_GetQueue()
-{
-	if (PIOS_MS5611_Validate(dev) != 0)
-		return NULL;
-
-	return dev->queue;
-}
-
-/**
 * Start the ADC conversion
 * \param[in] PRESSURE_CONV or TEMPERATURE_CONV to select which measurement to make
 * \return 0 for success, -1 for failure (conversion completed and not read)

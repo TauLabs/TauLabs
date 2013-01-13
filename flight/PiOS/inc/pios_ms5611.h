@@ -35,7 +35,6 @@
 #include <pios.h>
 
 /* Public Functions */
-extern xQueueHandle PIOS_MS5611_GetQueue();
 extern int32_t PIOS_MS5611_Test();
 
 #endif /* PIOS_MS5611_H */
