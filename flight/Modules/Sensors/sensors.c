@@ -55,7 +55,6 @@
 #include "attitudeactual.h"
 #include "attitudesettings.h"
 #include "baroaltitude.h"
-#include "flightstatus.h"
 #include "gyros.h"
 #include "gyrosbias.h"
 #include "homelocation.h"
@@ -66,18 +65,13 @@
 #include "revocalibration.h"
 #include "CoordinateConversions.h"
 
-#include <pios_board_info.h>
-
 // Private constants
 #define STACK_SIZE_BYTES 1000
 #define TASK_PRIORITY (tskIDLE_PRIORITY+3)
 #define SENSOR_PERIOD 4
 #define REQUIRED_GOOD_CYCLES 50
 
-#define F_PI 3.14159265358979323846f
-#define PI_MOD(x) (fmodf(x + F_PI, F_PI * 2) - F_PI)
 // Private types
-
 
 // Private functions
 static void SensorsTask(void *parameters);
@@ -209,7 +203,7 @@ static void SensorsTask(void *parameters)
 		else
 			update_accels(&accels);
 
-		// Update gyros after the gyros after the accels since the rest of the code expects
+		// Update gyros after the accels since the rest of the code expects
 		// the accels to be available first
 		update_gyros(&gyros);
 
@@ -244,9 +238,11 @@ static void SensorsTask(void *parameters)
 static void update_accels(struct pios_sensor_accel_data *accels)
 {
 	// Average and scale the accels before rotation
-	float accels_out[3] = {accels->x * accel_scale[0] - accel_bias[0],
-	                       accels->y * accel_scale[1] - accel_bias[1],
-	                       accels->z * accel_scale[2] - accel_bias[2]};
+	float accels_out[3] = {
+	    accels->x * accel_scale[0] - accel_bias[0],
+	    accels->y * accel_scale[1] - accel_bias[1],
+	    accels->z * accel_scale[2] - accel_bias[2]
+	};
 
 	AccelsData accelsData;
 	if (rotate) {
@@ -272,9 +268,11 @@ static void update_accels(struct pios_sensor_accel_data *accels)
 static void update_gyros(struct pios_sensor_gyro_data *gyros)
 {
 	// Scale the gyros
-	float gyros_out[3] = {gyros->x * gyro_scale[0],
-	                      gyros->y * gyro_scale[1],
-	                      gyros->z * gyro_scale[2]};
+	float gyros_out[3] = {
+	    gyros->x * gyro_scale[0],
+	    gyros->y * gyro_scale[1],
+	    gyros->z * gyro_scale[2]
+	};
 
 	GyrosData gyrosData;
 	if (rotate) {
@@ -308,9 +306,11 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros)
  */
 static void update_mags(struct pios_sensor_mag_data *mag)
 {
-	float mags[3] = {mag->x * mag_scale[0] - mag_bias[0],
-					 mag->y * mag_scale[1] - mag_bias[1],
-					 mag->z * mag_scale[2] - mag_bias[2]};
+	float mags[3] = {
+	    mag->x * mag_scale[0] - mag_bias[0],
+	    mag->y * mag_scale[1] - mag_bias[1],
+	    mag->z * mag_scale[2] - mag_bias[2]
+	};
 
 	MagnetometerData magData;
 	if (rotate) {
@@ -460,11 +460,11 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	accel_bias[1] = inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_Y];
 	accel_bias[2] = inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_Z];
 	accel_scale[0] = inertialSensorSettings.AccelScale[INERTIALSENSORSETTINGS_ACCELSCALE_X];
-	accel_scale[1] = inertialSensorSettings.AccelScale[INERTIALSENSORSETTINGS_ACCELSCALE_X];
-	accel_scale[2] = inertialSensorSettings.AccelScale[INERTIALSENSORSETTINGS_ACCELSCALE_X];
+	accel_scale[1] = inertialSensorSettings.AccelScale[INERTIALSENSORSETTINGS_ACCELSCALE_Y];
+	accel_scale[2] = inertialSensorSettings.AccelScale[INERTIALSENSORSETTINGS_ACCELSCALE_Z];
 	gyro_scale[0] = inertialSensorSettings.GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_X];
-	gyro_scale[1] = inertialSensorSettings.GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_X];
-	gyro_scale[2] = inertialSensorSettings.GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_X];
+	gyro_scale[1] = inertialSensorSettings.GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_Y];
+	gyro_scale[2] = inertialSensorSettings.GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_Z];
 	
 	// Zero out any adaptive tracking
 	MagBiasData magBias;

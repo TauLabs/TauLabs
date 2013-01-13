@@ -356,7 +356,7 @@ static int32_t updateSensorsCC3D(AccelsData * accelsData, GyrosData * gyrosData)
 	else
 		update_accels(&accels, accelsData);
 
-	// Update gyros after the gyros after the accels since the rest of the code expects
+	// Update gyros after the accels since the rest of the code expects
 	// the accels to be available first
 	update_gyros(&gyros, gyrosData);
 

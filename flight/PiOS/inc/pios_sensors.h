@@ -66,9 +66,14 @@ struct pios_sensor_baro_data {
 };
 
 //! The types of sensors this module supports
-enum pios_sensor_type {
-	PIOS_SENSOR_ACCEL, PIOS_SENSOR_GYRO, PIOS_SENSOR_MAG,
-	PIOS_SENSOR_BARO, PIOS_SENSOR_LAST};
+enum pios_sensor_type
+{
+	PIOS_SENSOR_ACCEL,
+	PIOS_SENSOR_GYRO,
+	PIOS_SENSOR_MAG,
+	PIOS_SENSOR_BARO,
+	PIOS_SENSOR_LAST
+};
 
 //! Structure to register the data
 struct pios_sensor_registration {
