@@ -41,9 +41,7 @@ enum pios_l3gd20_dev_magic {
 	PIOS_L3GD20_DEV_MAGIC = 0x9d39bced,
 };
 
-#define PIOS_L3GD20_MAX_DOWNSAMPLE 1
-
-//! Local types
+#define PIOS_L3GD20_MAX_DOWNSAMPLE 2
 struct l3gd20_dev {
 	uint32_t spi_id;
 	uint32_t slave_num;
@@ -52,13 +50,6 @@ struct l3gd20_dev {
 	enum pios_l3gd20_filter bandwidth;
 	enum pios_l3gd20_range range;
 	enum pios_l3gd20_dev_magic magic;
-};
-
-struct pios_l3gd20_data {
-	int16_t gyro_x;
-	int16_t gyro_y;
-	int16_t gyro_z;
-	int16_t temperature;
 };
 
 //! Global structure for this device device
@@ -75,8 +66,6 @@ static int32_t PIOS_L3GD20_ClaimBus();
 static int32_t PIOS_L3GD20_ClaimBusIsr();
 static int32_t PIOS_L3GD20_ReleaseBus();
 static int32_t PIOS_L3GD20_ReleaseBusIsr();
-static int32_t PIOS_L3GD20_ReadGyros(struct pios_l3gd20_data * buffer);
-
 
 volatile bool l3gd20_configured = false;
 
@@ -95,7 +84,7 @@ static struct l3gd20_dev * PIOS_L3GD20_alloc(void)
 
 	l3gd20_dev->magic = PIOS_L3GD20_DEV_MAGIC;
 
-	l3gd20_dev->queue = xQueueCreate(PIOS_L3GD20_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_gyro_data));
+	l3gd20_dev->queue = xQueueCreate(PIOS_L3GD20_MAX_DOWNSAMPLE, sizeof(struct pios_l3gd20_data));
 	if(l3gd20_dev->queue == NULL) {
 		vPortFree(l3gd20_dev);
 		return NULL;
@@ -143,8 +132,6 @@ int32_t PIOS_L3GD20_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_
 	// An initial read is needed to get it running
 	struct pios_l3gd20_data data;
 	PIOS_L3GD20_ReadGyros(&data);
-
-	PIOS_SENSORS_Register(PIOS_SENSOR_GYRO, dev->queue);
 
 	return 0;
 }
@@ -227,7 +214,7 @@ static int32_t PIOS_L3GD20_ClaimBusIsr(bool *woken)
  * @brief Release the SPI bus for the accel communications and end the transaction
  * @return 0 if successful, -1 for invalid device
  */
-static int32_t PIOS_L3GD20_ReleaseBus()
+int32_t PIOS_L3GD20_ReleaseBus()
 {
 	if(PIOS_L3GD20_Validate(dev) != 0)
 		return -1;
@@ -242,7 +229,7 @@ static int32_t PIOS_L3GD20_ReleaseBus()
  * \param[in] pointer which receives if a task has been woken
  * @return 0 if successful, -1 for invalid device
  */
-static int32_t PIOS_L3GD20_ReleaseBusIsr(bool *woken)
+int32_t PIOS_L3GD20_ReleaseBusIsr(bool *woken)
 {
 	if(PIOS_L3GD20_Validate(dev) != 0)
 		return -1;
@@ -318,7 +305,7 @@ static int32_t PIOS_L3GD20_SetReg(uint8_t reg, uint8_t data)
  * \returns The number of samples remaining in the fifo
  */
 uint32_t l3gd20_irq = 0;
-static int32_t PIOS_L3GD20_ReadGyros(struct pios_l3gd20_data * data)
+int32_t PIOS_L3GD20_ReadGyros(struct pios_l3gd20_data * data)
 {
 	uint8_t buf[7] = {PIOS_L3GD20_GYRO_X_OUT_LSB | 0x80 | 0x40, 0, 0, 0, 0, 0, 0};
 	uint8_t rec[7];
@@ -355,7 +342,19 @@ int32_t PIOS_L3GD20_ReadID()
 	return l3gd20_id;
 }
 
-static float PIOS_L3GD20_GetScale() 
+/**
+ * \brief Reads the queue handle
+ * \return Handle to the queue or null if invalid device
+ */
+xQueueHandle PIOS_L3GD20_GetQueue()
+{
+	if(PIOS_L3GD20_Validate(dev) != 0)
+		return (xQueueHandle) NULL;
+
+	return dev->queue;
+}
+
+float PIOS_L3GD20_GetScale() 
 {
 	if(PIOS_L3GD20_Validate(dev) != 0)
 		return -1;
@@ -413,23 +412,15 @@ bool PIOS_L3GD20_IRQHandler(void)
 	PIOS_L3GD20_ReleaseBusIsr(&woken);
 	
 	memcpy((uint8_t *) &(data.gyro_x), &rec[1], 6);
-
-	// TODO: This reordering is specific to the FlyingF3 chip placement.  Whenever
-	// this code is used on another board add an orientation mapping to the configuration
-	struct pios_sensor_gyro_data normalized_data;
-	float scale = PIOS_L3GD20_GetScale();
-	normalized_data.y = data.gyro_x * scale;
-	normalized_data.x = data.gyro_y * scale;
-	normalized_data.z = -data.gyro_z * scale;
-	normalized_data.temperature = PIOS_L3GD20_GetRegIsr(PIOS_L3GD20_OUT_TEMP, &woken);
-
+	data.temperature = PIOS_L3GD20_GetRegIsr(PIOS_L3GD20_OUT_TEMP, &woken);
+	
 	portBASE_TYPE xHigherPriorityTaskWoken;
-	xQueueSendToBackFromISR(dev->queue, (void *) &normalized_data, &xHigherPriorityTaskWoken);
+	xQueueSendToBackFromISR(dev->queue, (void *) &data, &xHigherPriorityTaskWoken);
 	
 	return woken || (xHigherPriorityTaskWoken == pdTRUE);
 }
 
-#endif /* PIOS_INCLUDE_L3GD20 */
+#endif /* L3GD20 */
 
 /**
  * @}

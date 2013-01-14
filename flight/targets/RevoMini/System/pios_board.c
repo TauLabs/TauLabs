@@ -732,7 +732,7 @@ void PIOS_Board_Init(void) {
 #endif
 
 #if defined(PIOS_INCLUDE_HMC5883)
-	PIOS_HMC5883_Init(PIOS_I2C_MAIN_ADAPTER, &pios_hmc5883_cfg);
+	PIOS_HMC5883_Init(&pios_hmc5883_cfg);
 #endif
 	
 #if defined(PIOS_INCLUDE_MS5611)
@@ -741,41 +741,6 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_MPU6000)
 	PIOS_MPU6000_Init(pios_spi_gyro_id,0, &pios_mpu6000_cfg);
-
-	// To be safe map from UAVO enum to driver enum
-	uint8_t hw_gyro_range;
-	HwRevoMiniGyroRangeGet(&hw_gyro_range);
-	switch(hw_gyro_range) {
-		case HWREVOMINI_GYRORANGE_250:
-			PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_250_DEG);
-			break;
-		case HWREVOMINI_GYRORANGE_500:
-			PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
-			break;
-		case HWREVOMINI_GYRORANGE_1000:
-			PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_1000_DEG);
-			break;
-		case HWREVOMINI_GYRORANGE_2000:
-			PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_2000_DEG);
-			break;
-	}
-
-	uint8_t hw_accel_range;
-	HwRevoMiniAccelRangeGet(&hw_accel_range);
-	switch(hw_accel_range) {
-		case HWREVOMINI_ACCELRANGE_2G:
-			PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_2G);
-			break;
-		case HWREVOMINI_ACCELRANGE_4G:
-			PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_4G);
-			break;
-		case HWREVOMINI_ACCELRANGE_8G:
-			PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
-			break;
-		case HWREVOMINI_ACCELRANGE_16G:
-			PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_16G);
-			break;
-	}
 #endif
 
 }

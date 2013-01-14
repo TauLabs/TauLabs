@@ -85,9 +85,6 @@ static int32_t updateSensors(AccelsData *, GyrosData *);
 static int32_t updateSensorsCC3D(AccelsData * accelsData, GyrosData * gyrosData);
 static void updateAttitude(AccelsData *, GyrosData *);
 static void settingsUpdatedCb(UAVObjEvent * objEv);
-static void update_accels(struct pios_sensor_accel_data *accels, AccelsData * accelsData);
-static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosData);
-static void update_trimming(AccelsData * accelsData);
 
 static float accelKi = 0;
 static float accelKp = 0;
@@ -271,7 +268,7 @@ static void AttitudeTask(void *parameters)
  * @param[in] attitudeRaw Populate the UAVO instead of saving right here
  * @return 0 if successfull, -1 if not
  */
-static int32_t updateSensors(AccelsData * accelsData, GyrosData * gyrosData)
+static int32_t updateSensors(AccelsData * accels, GyrosData * gyros)
 {
 	struct pios_adxl345_data accel_data;
 	float gyro[4];
@@ -290,14 +287,11 @@ static int32_t updateSensors(AccelsData * accelsData, GyrosData * gyrosData)
 	if(PIOS_ADXL345_FifoElements() == 0)
 		return -1;
 	
-	// Convert the ADC data into the standard normalized format
-	struct pios_sensor_gyro_data gyros;
-	gyros.temperature = gyro[0];
-	gyros.x = -(gyro[1] - GYRO_NEUTRAL) * IDG_GYRO_GAIN;
-	gyros.y = (gyro[2] - GYRO_NEUTRAL) * IDG_GYRO_GAIN;
-	gyros.z = -(gyro[3] - GYRO_NEUTRAL) * IDG_GYRO_GAIN;
+	// First sample is temperature
+	gyros->x = -(gyro[1] - GYRO_NEUTRAL) * IDG_GYRO_GAIN * inertialSensorSettings.GyroScale[0];
+	gyros->y = (gyro[2] - GYRO_NEUTRAL) * IDG_GYRO_GAIN * inertialSensorSettings.GyroScale[1];
+	gyros->z = -(gyro[3] - GYRO_NEUTRAL) * IDG_GYRO_GAIN * inertialSensorSettings.GyroScale[2];
 	
-	// Convert the ADXL345 data into the standard normalized format
 	int32_t x = 0;
 	int32_t y = 0;
 	int32_t z = 0;
@@ -310,133 +304,27 @@ static int32_t updateSensors(AccelsData * accelsData, GyrosData * gyrosData)
 		y += -accel_data.y;
 		z += -accel_data.z;
 	} while ( (i < 32) && (samples_remaining > 0) );
+	gyros->temperature = samples_remaining;
 
-	struct pios_sensor_accel_data accels;
+	float accel[3] = {(float) x / i, (float) y / i, (float) z / i};
 	
-	accels.x = ((float) x / i) * ADXL345_ACCEL_SCALE;
-	accels.y = ((float) y / i) * ADXL345_ACCEL_SCALE;
-	accels.z = ((float) z / i) * ADXL345_ACCEL_SCALE;
-
-	// Apply rotation / calibration and assign to the UAVO
-	update_gyros(&gyros, gyrosData);
-	update_accels(&accels, accelsData);
-	
-	update_trimming(accelsData);
-
-		
-
-	GyrosSet(gyrosData);
-	AccelsSet(accelsData);
-
-	return 0;
-}
-
-/**
- * Get an update from the sensors
- * @param[in] attitudeRaw Populate the UAVO instead of saving right here
- * @return 0 if successfull, -1 if not
- */
-static int32_t updateSensorsCC3D(AccelsData * accelsData, GyrosData * gyrosData)
-{
-	struct pios_sensor_gyro_data gyros;
-	struct pios_sensor_accel_data accels;
-	xQueueHandle queue;
-
-	queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_GYRO);
-	if(queue == NULL || xQueueReceive(queue, (void *) &gyros, 4) == errQUEUE_EMPTY) {
-		return-1;
-	}
-
-	// As it says below, because the rest of the code expects the accel to be ready when
-	// the gyro is we must block here too
-	queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_ACCEL);
-	if(queue == NULL || xQueueReceive(queue, (void *) &accels, 1) == errQUEUE_EMPTY) {
-		return -1;
-	}
-	else
-		update_accels(&accels, accelsData);
-
-	// Update gyros after the accels since the rest of the code expects
-	// the accels to be available first
-	update_gyros(&gyros, gyrosData);
-
-	update_trimming(accelsData);
-
-	GyrosSet(gyrosData);
-	AccelsSet(accelsData);
-
-	return 0;
-}
-
-/**
- * @brief Apply calibration and rotation to the raw accel data
- * @param[in] accels The raw accel data
- */
-static void update_accels(struct pios_sensor_accel_data *accels, AccelsData * accelsData)
-{
-	// Average and scale the accels before rotation
-	float accels_out[3] = {accels->x * inertialSensorSettings.AccelScale[0] - inertialSensorSettings.AccelBias[0],
-	                       accels->y * inertialSensorSettings.AccelScale[1] - inertialSensorSettings.AccelBias[1],
-	                       accels->z * inertialSensorSettings.AccelScale[2] - inertialSensorSettings.AccelBias[2]};
-
-	if (rotate) {
-		float accel_rotated[3];
-		rot_mult(R, accels_out, accel_rotated, false);
-		accelsData->x = accel_rotated[0];
-		accelsData->y = accel_rotated[1];
-		accelsData->z = accel_rotated[2];
+	if(rotate) {
+		// TODO: rotate sensors too so stabilization is well behaved
+		float vec_out[3];
+		rot_mult(R, accel, vec_out,false);
+		accels->x = vec_out[0];
+		accels->y = vec_out[1];
+		accels->z = vec_out[2];
+		rot_mult(R, &gyros->x, vec_out,false);
+		gyros->x = vec_out[0];
+		gyros->y = vec_out[1];
+		gyros->z = vec_out[2];
 	} else {
-		accelsData->x = accels_out[0];
-		accelsData->y = accels_out[1];
-		accelsData->z = accels_out[2];
-	}
-
-	accelsData->temperature = accels->temperature;
-}
-
-/**
- * @brief Apply calibration and rotation to the raw gyro data
- * @param[in] gyros The raw gyro data
- */
-static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosData)
-{
-	// Scale the gyros
-	float gyros_out[3] = {gyros->x * inertialSensorSettings.GyroScale[0],
-	                      gyros->y * inertialSensorSettings.GyroScale[1],
-	                      gyros->z * inertialSensorSettings.GyroScale[2]};
-
-	if (rotate) {
-		float gyros[3];
-		rot_mult(R, gyros_out, gyros, false);
-		gyrosData->x = gyros[0];
-		gyrosData->y = gyros[1];
-		gyrosData->z = gyros[2];
-	} else {
-		gyrosData->x = gyros_out[0];
-		gyrosData->y = gyros_out[1];
-		gyrosData->z = gyros_out[2];
+		accels->x = accel[0];
+		accels->y = accel[1];
+		accels->z = accel[2];
 	}
 	
-	if(bias_correct_gyro) {
-		// Applying integral component here so it can be seen on the gyros and correct bias
-		gyrosData->x -= gyro_correct_int[0];
-		gyrosData->y -= gyro_correct_int[1];
-		gyrosData->z -= gyro_correct_int[2];
-	}
-
-	// Because most crafts wont get enough information from gravity to zero yaw gyro, we try
-	// and make it average zero (weakly)
-	gyro_correct_int[2] += gyrosData->z * yawBiasRate;
-
-	gyrosData->temperature = gyros->temperature;
-}
-
-/**
- * @brief If requested accumulate accel values to calculate level
- * @param[in] accelsData the scaled and normalized accels
- */
-static void update_trimming(AccelsData * accelsData)
-{
 	if (trim_requested) {
 		if (trim_samples >= MAX_TRIM_FLIGHT_SAMPLES) {
 			trim_requested = false;
@@ -448,12 +336,104 @@ static void update_trimming(AccelsData * accelsData)
 			if ((armed == FLIGHTSTATUS_ARMED_ARMED) && (throttle > 0)) {
 				trim_samples++;
 				// Store the digitally scaled version since that is what we use for bias
-				trim_accels[0] += accelsData->x;
-				trim_accels[1] += accelsData->y;
-				trim_accels[2] += accelsData->z;
+				trim_accels[0] += accels->x;
+				trim_accels[1] += accels->y;
+				trim_accels[2] += accels->z;
 			}
 		}
 	}
+	
+	// Scale accels and correct bias
+	accels->x = accels->x * ADXL345_ACCEL_SCALE * inertialSensorSettings.AccelScale[0] - inertialSensorSettings.AccelBias[0];
+	accels->y = accels->y * ADXL345_ACCEL_SCALE * inertialSensorSettings.AccelScale[1] - inertialSensorSettings.AccelBias[1];
+	accels->z = accels->z * ADXL345_ACCEL_SCALE * inertialSensorSettings.AccelScale[2] - inertialSensorSettings.AccelBias[2];
+	
+	if(bias_correct_gyro) {
+		// Applying integral component here so it can be seen on the gyros and correct bias
+		gyros->x -= gyro_correct_int[0];
+		gyros->y -= gyro_correct_int[1];
+		gyros->z -= gyro_correct_int[2];
+	}
+	
+	// Because most crafts wont get enough information from gravity to zero yaw gyro, we try
+	// and make it average zero (weakly)
+	gyro_correct_int[2] -= - gyros->z * yawBiasRate;
+
+	GyrosSet(gyros);
+	AccelsSet(accels);
+
+	return 0;
+}
+
+/**
+ * Get an update from the sensors
+ * @param[in] attitudeRaw Populate the UAVO instead of saving right here
+ * @return 0 if successfull, -1 if not
+ */
+static int32_t updateSensorsCC3D(AccelsData * accelsData, GyrosData * gyrosData)
+{
+	struct pios_mpu60x0_data mpu6000_data;
+	float accels[3], gyros[3];
+	
+#if defined(PIOS_INCLUDE_MPU6000)
+	
+	xQueueHandle queue = PIOS_MPU6000_GetQueue();
+	
+	if(xQueueReceive(queue, (void *) &mpu6000_data, SENSOR_PERIOD) == errQUEUE_EMPTY)
+		return -1;	// Error, no data
+
+	// Do not read raw sensor data in simulation mode
+	if (GyrosReadOnly() || AccelsReadOnly())
+		return 0;
+
+	gyros[0] = mpu6000_data.gyro_x * PIOS_MPU6000_GetScale() * inertialSensorSettings.GyroScale[0];
+	gyros[1] = mpu6000_data.gyro_y * PIOS_MPU6000_GetScale() * inertialSensorSettings.GyroScale[1];
+	gyros[2] = mpu6000_data.gyro_z * PIOS_MPU6000_GetScale() * inertialSensorSettings.GyroScale[2];
+	
+	accels[0] = mpu6000_data.accel_x * PIOS_MPU6000_GetAccelScale() * inertialSensorSettings.AccelScale[0] - inertialSensorSettings.AccelBias[0];
+	accels[1] = mpu6000_data.accel_y * PIOS_MPU6000_GetAccelScale() * inertialSensorSettings.AccelScale[1] - inertialSensorSettings.AccelBias[1];
+	accels[2] = mpu6000_data.accel_z * PIOS_MPU6000_GetAccelScale() * inertialSensorSettings.AccelScale[2] - inertialSensorSettings.AccelBias[2];
+
+	gyrosData->temperature = 35.0f + ((float) mpu6000_data.temperature + 512.0f) / 340.0f;
+	accelsData->temperature = 35.0f + ((float) mpu6000_data.temperature + 512.0f) / 340.0f;
+#endif
+
+	if(rotate) {
+		// TODO: rotate sensors too so stabilization is well behaved
+		float vec_out[3];
+		rot_mult(R, accels, vec_out, false);
+		accels[0] = vec_out[0];
+		accels[1] = vec_out[1];
+		accels[2] = vec_out[2];
+		rot_mult(R, gyros, vec_out, false);
+		gyros[0] = vec_out[0];
+		gyros[1] = vec_out[1];
+		gyros[2] = vec_out[2];
+	}
+
+	accelsData->x = accels[0];
+	accelsData->y = accels[1];
+	accelsData->z = accels[2];
+
+	gyrosData->x = gyros[0];
+	gyrosData->y = gyros[1];
+	gyrosData->z = gyros[2];
+
+	if(bias_correct_gyro) {
+		// Applying integral component here so it can be seen on the gyros and correct bias
+		gyrosData->x -= gyro_correct_int[0];
+		gyrosData->y -= gyro_correct_int[1];
+		gyrosData->z -= gyro_correct_int[2];
+	}
+
+	// Because most crafts wont get enough information from gravity to zero yaw gyro, we try
+	// and make it average zero (weakly)
+	gyro_correct_int[2] -= - gyrosData->z * yawBiasRate;
+
+	GyrosSet(gyrosData);
+	AccelsSet(accelsData);
+
+	return 0;
 }
 
 static inline void apply_accel_filter(const float * raw, float * filtered)

@@ -54,7 +54,6 @@
 
 //  Exposed Function Prototypes
 void INSGPSInit();
-struct NavStruct *INSGPSGetNav();
 void INSStatePrediction(float gyro_data[3], float accel_data[3], float dT);
 void INSCovariancePrediction(float dT);
 void INSCorrection(float mag_data[3], float Pos[3], float Vel[3], float BaroAlt, uint16_t SensorsUsed);
@@ -87,7 +86,7 @@ struct NavStruct {
 	float q[4];		// unit quaternion rotation relative to NED
 	float gyro_bias[3];
 	float accel_bias[3];
-};
+} Nav;
 
 /**
  * @}

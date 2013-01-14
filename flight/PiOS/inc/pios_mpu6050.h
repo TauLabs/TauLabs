@@ -42,7 +42,12 @@
 
 /* Public Functions */
 extern int32_t PIOS_MPU6050_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_mpu60x0_cfg * new_cfg);
+extern xQueueHandle PIOS_MPU6050_GetQueue();
+extern int32_t PIOS_MPU6050_ReadGyros(struct pios_mpu60x0_data * buffer);
+extern int32_t PIOS_MPU6050_ReadID();
 extern uint8_t PIOS_MPU6050_Test();
+extern float PIOS_MPU6050_GetScale();
+extern float PIOS_MPU6050_GetAccelScale();
 extern void PIOS_MPU6050_SetGyroRange(enum pios_mpu60x0_range);
 extern void PIOS_MPU6050_SetAccelRange(enum pios_mpu60x0_accel_range);
 extern bool PIOS_MPU6050_IRQHandler(void);

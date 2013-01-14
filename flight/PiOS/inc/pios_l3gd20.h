@@ -120,6 +120,12 @@ enum pios_l3gd20_filter {
 	PIOS_L3GD20_LOWPASS_5_HZ   = 0x06
 };
 
+struct pios_l3gd20_data {
+	int16_t gyro_x;
+	int16_t gyro_y;
+	int16_t gyro_z;
+	int16_t temperature;
+};
 
 struct pios_l3gd20_cfg {
 	const struct pios_exti_cfg * exti_cfg; /* Pointer to the EXTI configuration */
@@ -129,7 +135,10 @@ struct pios_l3gd20_cfg {
 
 /* Public Functions */
 extern int32_t PIOS_L3GD20_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_l3gd20_cfg * cfg);
+extern xQueueHandle PIOS_L3GD20_GetQueue();
+extern int32_t PIOS_L3GD20_ReadGyros(struct pios_l3gd20_data * buffer);
 extern int32_t PIOS_L3GD20_SetRange(enum pios_l3gd20_range range);
+extern float PIOS_L3GD20_GetScale();
 extern int32_t PIOS_L3GD20_ReadID();
 extern uint8_t PIOS_L3GD20_Test();
 extern bool PIOS_L3GD20_IRQHandler();
