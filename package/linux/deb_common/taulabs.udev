@@ -10,6 +10,8 @@
     SUBSYSTEM=="usb", ATTRS{idVendor}=="20a0", ATTRS{idProduct}=="415d", MODE="0664", GROUP="plugdev"
     # OpenPilot Revolution flight control board
     SUBSYSTEM=="usb", ATTRS{idVendor}=="20a0", ATTRS{idProduct}=="415e", MODE="0664", GROUP="plugdev"
+    # Quantec Networks GmbH - quanton flight control rev. 1
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="0fda", ATTRS{idProduct}=="0100", MODE="0664", GROUP="plugdev"
     # unprogrammed openpilot flight control board
     SUBSYSTEM=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5750", MODE="0664", GROUP="plugdev"
     # FTDI FT2232C Dual USB-UART/FIFO IC
