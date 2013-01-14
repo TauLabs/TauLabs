@@ -68,7 +68,6 @@ AuthorsDialog::AuthorsDialog(QWidget *parent)
 #endif
 
      const QString description = tr(
-        "<h3>The OpenPilot Project</h3>"
         "Proudly brought to you by this fine team:<br/>"
         );
 
