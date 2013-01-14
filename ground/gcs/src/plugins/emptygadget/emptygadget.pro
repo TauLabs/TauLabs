@@ -1,7 +1,7 @@
 TEMPLATE = lib 
 TARGET = EmptyGadget
 
-include(../../abovegroundlabsgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri) 
 
 HEADERS += emptyplugin.h

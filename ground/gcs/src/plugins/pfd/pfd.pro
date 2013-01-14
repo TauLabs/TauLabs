@@ -2,7 +2,7 @@ TEMPLATE = lib
 TARGET = PFDGadget
 QT += svg
 QT += opengl
-include(../../abovegroundlabsgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
 include(pfd_dependencies.pri)
 HEADERS += pfdplugin.h
