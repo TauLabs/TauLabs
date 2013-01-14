@@ -44,13 +44,13 @@
 /* MS5611 Addresses */
 #define MS5611_I2C_ADDR	        0x77
 #define MS5611_RESET            0x1E
-#define MS5611_CALIB_ADDR		0xA2  /* First sample is factory stuff */
-#define MS5611_CALIB_LEN		16
-#define MS5611_ADC_READ		    0x00
-#define MS5611_PRES_ADDR		0x40
-#define MS5611_TEMP_ADDR		0x50
-#define MS5611_ADC_MSB			0xF6
-#define MS5611_P0			    101.3250f
+#define MS5611_CALIB_ADDR       0xA2  /* First sample is factory stuff */
+#define MS5611_CALIB_LEN        16
+#define MS5611_ADC_READ         0x00
+#define MS5611_PRES_ADDR        0x40
+#define MS5611_TEMP_ADDR        0x50
+#define MS5611_ADC_MSB          0xF6
+#define MS5611_P0               101.3250f
 
 /* Private methods */
 static int32_t PIOS_MS5611_Read(uint8_t address, uint8_t * buffer, uint8_t len);
@@ -86,7 +86,7 @@ struct ms5611_dev {
 	enum pios_ms5611_dev_magic magic;
 };
 
-struct ms5611_dev *dev;
+static struct ms5611_dev *dev;
 
 /**
  * @brief Allocate a new device
@@ -98,14 +98,14 @@ static struct ms5611_dev * PIOS_MS5611_alloc(void)
 	ms5611_dev = (struct ms5611_dev *)pvPortMalloc(sizeof(*ms5611_dev));
 	if (!ms5611_dev) return (NULL);
 	
-	ms5611_dev->magic = PIOS_MS5611_DEV_MAGIC;
-	
-	ms5611_dev->queue = xQueueCreate(1, sizeof(struct pios_ms5611_data));
+	ms5611_dev->queue = xQueueCreate(1, sizeof(struct pios_sensor_baro_data));
 	if (ms5611_dev->queue == NULL) {
 		vPortFree(ms5611_dev);
 		return NULL;
 	}
 
+	ms5611_dev->magic = PIOS_MS5611_DEV_MAGIC;
+	
 	return(ms5611_dev);
 }
 
@@ -155,18 +155,9 @@ int32_t PIOS_MS5611_Init(const struct pios_ms5611_cfg *cfg, int32_t i2c_device)
 						 &dev->task);
 	PIOS_Assert(result == pdPASS);
 
+	PIOS_SENSORS_Register(PIOS_SENSOR_BARO, dev->queue);
+
 	return 0;
-}
-
-/**
- * Return the queue that receives pressure data
- */
-xQueueHandle PIOS_MS5611_GetQueue()
-{
-	if (PIOS_MS5611_Validate(dev) != 0)
-		return NULL;
-
-	return dev->queue;
 }
 
 /**
@@ -270,28 +261,6 @@ static int32_t PIOS_MS5611_ReadADC(void)
 }
 
 /**
- * Return the most recently computed temperature in kPa
- */
-static float PIOS_MS5611_GetTemperature(void)
-{
-	if (PIOS_MS5611_Validate(dev) != 0)
-		return -1;
-
-	return ((float) dev->temperature_unscaled) / 100.0f;
-}
-
-/**
- * Return the most recently computed pressure in kPa
- */
-static float PIOS_MS5611_GetPressure(void)
-{
-	if (PIOS_MS5611_Validate(dev) != 0)
-		return -1;
-
-	return ((float) dev->pressure_unscaled) / 1000.0f;
-}
-
-/**
 * Reads one or more bytes into a buffer
 * \param[in] the command indicating the address to read
 * \param[out] buffer destination buffer
@@ -389,13 +358,12 @@ static void PIOS_MS5611_Task(void *parameters)
 	else
 		temp_press_interleave_count = dev->temperature_interleaving;
 
-	while (1)
-	{
-		// If device handle isn't validate pause
-		if (PIOS_MS5611_Validate(dev) != 0) {
-			vTaskDelay(1000);
-			continue;
-		}
+	// If device handle isn't validate pause
+	while (PIOS_MS5611_Validate(dev) != 0) {
+		vTaskDelay(1000);
+	}
+
+	while (1) {
 
 		temp_press_interleave_count --;
 		if(temp_press_interleave_count <= 0)
@@ -414,9 +382,9 @@ static void PIOS_MS5611_Task(void *parameters)
 		PIOS_MS5611_ReadADC();
 
 		// Compute the altitude from the pressure and temperature and send it out
-		struct pios_ms5611_data data;		
-		data.temperature = PIOS_MS5611_GetTemperature();
-		data.pressure = PIOS_MS5611_GetPressure();
+		struct pios_sensor_baro_data data;		
+		data.temperature = ((float) dev->temperature_unscaled) / 100.0f;
+		data.pressure = ((float) dev->pressure_unscaled) / 1000.0f;
 		data.altitude = 44330.0f * (1.0f - powf(data.pressure / MS5611_P0, (1.0f / 5.255f)));
 
 		xQueueSend(dev->queue, (void*)&data, 0);

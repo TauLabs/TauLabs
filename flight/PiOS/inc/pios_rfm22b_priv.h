@@ -42,6 +42,7 @@
 #define RFM22_DEVICE_VERSION_V2		0x02
 #define RFM22_DEVICE_VERSION_A0		0x04
 #define RFM22_DEVICE_VERSION_B1		0x06
+#define RFM22_DEVICE_VERSION_B2		0x08
 
 // ************************************
 

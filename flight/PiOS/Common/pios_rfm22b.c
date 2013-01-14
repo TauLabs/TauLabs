@@ -2213,7 +2213,7 @@ static enum pios_rfm22b_event rfm22_init(struct pios_rfm22b_dev *rfm22b_dev)
 		// incorrect RF module type
 		return RFM22B_EVENT_FATAL_ERROR;
 	}
-	if (device_version != RFM22_DEVICE_VERSION_B1)
+	if (device_version != RFM22_DEVICE_VERSION_B1 && device_version != RFM22_DEVICE_VERSION_B2)
 	{
 #if defined(RFM22_DEBUG)
 		DEBUG_PRINTF(2, "rf device version: INCORRECT\n\r");
