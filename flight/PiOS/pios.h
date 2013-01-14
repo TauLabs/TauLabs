@@ -93,6 +93,9 @@
 #include <pios_ppm.h>
 #include <pios_pwm.h>
 #include <pios_rcvr.h>
+#if defined(PIOS_INCLUDE_FREERTOS)
+#include <pios_sensors.h>
+#endif
 #include <pios_dsm.h>
 #include <pios_sbus.h>
 #include <pios_usb_hid.h>

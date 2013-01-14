@@ -305,14 +305,14 @@ void PIOS_Board_Init(void) {
 	/* Set up pulse timers */
 	//inputs
 	PIOS_TIM_InitClock(&tim_1_cfg);
-	PIOS_TIM_InitClock(&tim_2_cfg);
-	PIOS_TIM_InitClock(&tim_3_cfg);
-	PIOS_TIM_InitClock(&tim_16_cfg);
-	//outputs
-	PIOS_TIM_InitClock(&tim_4_cfg);
 	PIOS_TIM_InitClock(&tim_8_cfg);
 	PIOS_TIM_InitClock(&tim_15_cfg);
+	PIOS_TIM_InitClock(&tim_16_cfg);
 	PIOS_TIM_InitClock(&tim_17_cfg);
+	//outputs
+	PIOS_TIM_InitClock(&tim_2_cfg);
+	PIOS_TIM_InitClock(&tim_3_cfg);
+	PIOS_TIM_InitClock(&tim_4_cfg);
 
 	/* IAP System Setup */
 	PIOS_IAP_Init();
@@ -615,7 +615,7 @@ void PIOS_Board_Init(void) {
 	}
 
 
-	/* UART2 Port */
+	/* UART3 Port */
 	uint8_t hw_uart3;
 	HwFlyingF3Uart3Get(&hw_uart3);
 	switch (hw_uart3) {
@@ -684,6 +684,154 @@ void PIOS_Board_Init(void) {
 	case HWFLYINGF3_UART3_COMBRIDGE:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
+#endif
+		break;
+	}
+
+
+	/* UART4 Port */
+	uint8_t hw_uart4;
+	HwFlyingF3Uart4Get(&hw_uart4);
+	switch (hw_uart4) {
+	case HWFLYINGF3_UART4_DISABLED:
+		break;
+	case HWFLYINGF3_UART4_TELEMETRY:
+#if defined(PIOS_INCLUDE_TELEMETRY_RF) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_usart4_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
+#endif /* PIOS_INCLUDE_TELEMETRY_RF */
+		break;
+	case HWFLYINGF3_UART4_GPS:
+#if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_usart4_cfg, PIOS_COM_GPS_RX_BUF_LEN, -1, &pios_usart_com_driver, &pios_com_gps_id);
+#endif
+		break;
+	case HWFLYINGF3_UART4_SBUS:
+		//hardware signal inverter required
+#if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
+		{
+			uint32_t pios_usart_sbus_id;
+			if (PIOS_USART_Init(&pios_usart_sbus_id, &pios_usart4_sbus_cfg)) {
+				PIOS_Assert(0);
+			}
+			uint32_t pios_sbus_id;
+			if (PIOS_SBus_Init(&pios_sbus_id, &pios_usart4_sbus_aux_cfg, &pios_usart_com_driver, pios_usart_sbus_id)) {
+				PIOS_Assert(0);
+			}
+			uint32_t pios_sbus_rcvr_id;
+			if (PIOS_RCVR_Init(&pios_sbus_rcvr_id, &pios_sbus_rcvr_driver, pios_sbus_id)) {
+				PIOS_Assert(0);
+			}
+			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_SBUS] = pios_sbus_rcvr_id;
+		}
+#endif	/* PIOS_INCLUDE_SBUS */
+		break;
+	case HWFLYINGF3_UART4_DSM2:
+	case HWFLYINGF3_UART4_DSMX10BIT:
+	case HWFLYINGF3_UART4_DSMX11BIT:
+#if defined(PIOS_INCLUDE_DSM)
+		{
+			enum pios_dsm_proto proto;
+			switch (hw_uart4) {
+			case HWFLYINGF3_UART4_DSM2:
+				proto = PIOS_DSM_PROTO_DSM2;
+				break;
+			case HWFLYINGF3_UART4_DSMX10BIT:
+				proto = PIOS_DSM_PROTO_DSMX10BIT;
+				break;
+			case HWFLYINGF3_UART4_DSMX11BIT:
+				proto = PIOS_DSM_PROTO_DSMX11BIT;
+				break;
+			default:
+				PIOS_Assert(0);
+				break;
+			}
+			PIOS_Board_configure_dsm(&pios_usart4_dsm_cfg, &pios_usart4_dsm_aux_cfg, &pios_usart_com_driver,
+				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
+		}
+#endif	/* PIOS_INCLUDE_DSM */
+		break;
+	case HWFLYINGF3_UART4_DEBUGCONSOLE:
+#if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_usart_4_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
+#endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
+		break;
+	case HWFLYINGF3_UART4_COMBRIDGE:
+#if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_usart4_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
+#endif
+		break;
+	}
+
+
+	/* UART5 Port */
+	uint8_t hw_uart5;
+	HwFlyingF3Uart5Get(&hw_uart5);
+	switch (hw_uart5) {
+	case HWFLYINGF3_UART5_DISABLED:
+		break;
+	case HWFLYINGF3_UART5_TELEMETRY:
+#if defined(PIOS_INCLUDE_TELEMETRY_RF) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_usart5_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
+#endif /* PIOS_INCLUDE_TELEMETRY_RF */
+		break;
+	case HWFLYINGF3_UART5_GPS:
+#if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_usart5_cfg, PIOS_COM_GPS_RX_BUF_LEN, -1, &pios_usart_com_driver, &pios_com_gps_id);
+#endif
+		break;
+	case HWFLYINGF3_UART5_SBUS:
+		//hardware signal inverter required
+#if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
+		{
+			uint32_t pios_usart_sbus_id;
+			if (PIOS_USART_Init(&pios_usart_sbus_id, &pios_usart5_sbus_cfg)) {
+				PIOS_Assert(0);
+			}
+			uint32_t pios_sbus_id;
+			if (PIOS_SBus_Init(&pios_sbus_id, &pios_usart5_sbus_aux_cfg, &pios_usart_com_driver, pios_usart_sbus_id)) {
+				PIOS_Assert(0);
+			}
+			uint32_t pios_sbus_rcvr_id;
+			if (PIOS_RCVR_Init(&pios_sbus_rcvr_id, &pios_sbus_rcvr_driver, pios_sbus_id)) {
+				PIOS_Assert(0);
+			}
+			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_SBUS] = pios_sbus_rcvr_id;
+		}
+#endif	/* PIOS_INCLUDE_SBUS */
+		break;
+	case HWFLYINGF3_UART5_DSM2:
+	case HWFLYINGF3_UART5_DSMX10BIT:
+	case HWFLYINGF3_UART5_DSMX11BIT:
+#if defined(PIOS_INCLUDE_DSM)
+		{
+			enum pios_dsm_proto proto;
+			switch (hw_uart5) {
+			case HWFLYINGF3_UART5_DSM2:
+				proto = PIOS_DSM_PROTO_DSM2;
+				break;
+			case HWFLYINGF3_UART5_DSMX10BIT:
+				proto = PIOS_DSM_PROTO_DSMX10BIT;
+				break;
+			case HWFLYINGF3_UART5_DSMX11BIT:
+				proto = PIOS_DSM_PROTO_DSMX11BIT;
+				break;
+			default:
+				PIOS_Assert(0);
+				break;
+			}
+			PIOS_Board_configure_dsm(&pios_usart5_dsm_cfg, &pios_usart5_dsm_aux_cfg, &pios_usart_com_driver,
+				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
+		}
+#endif	/* PIOS_INCLUDE_DSM */
+		break;
+	case HWFLYINGF3_UART5_DEBUGCONSOLE:
+#if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_usart_5_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
+#endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
+		break;
+	case HWFLYINGF3_UART5_COMBRIDGE:
+#if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_usart5_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
 #endif
 		break;
 	}
