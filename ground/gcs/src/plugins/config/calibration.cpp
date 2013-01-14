@@ -354,6 +354,7 @@ void Calibration::doStartLeveling() {
     AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
     attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_FALSE;
     attitudeSettings->setData(attitudeSettingsData);
+    attitudeSettings->updated();
 
     calibration_state = LEVELING;
 
@@ -634,6 +635,7 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
         Q_ASSERT(attitudeSettings);
         attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_TRUE;
         attitudeSettings->setData(attitudeSettingsData);
+        attitudeSettings->updated();
 
         return true;
     }
