@@ -3,5 +3,5 @@
     <copyright>(C) 2012 Tau Labs and (C) 2010 OpenPilot Project and Nokia</copyright>
     <license>The GNU Public License (GPL) Version 3</license>
     <description>The core plugin for the Tau Labs GCS</description>
-    <url>http://abovegroundlabs.org</url>
+    <url>http://taulabs.org</url>
 </plugin>

@@ -3,7 +3,7 @@
     <copyright>(C) 2010 David "Buzz" Carlson</copyright>
     <license>The GNU Public License (GPL) Version 3</license>
     <description>A 3D model view gadget</description>
-    <url>http://abovegroundlabs.org</url>
+    <url>http://taulabs.org</url>
     <dependencyList>
         <dependency name="Core" version="1.0.0"/>
     </dependencyList>

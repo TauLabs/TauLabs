@@ -3,7 +3,7 @@
     <copyright>(C) 2010-2012 Jose Barros A.K.A. PT_Dreamer</copyright>
     <license>The GNU Public License (GPL) Version 3</license>
     <description>A plugin to Upload Firmware to the OpenPilot HW via USB DFU</description>
-    <url>http://abovegroundlabs.org</url>
+    <url>http://taulabs.org</url>
     <dependencyList>
         <dependency name="Core" version="1.0.0"/>
         <dependency name="UAVObjects" version="1.0.0"/>
