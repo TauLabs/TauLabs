@@ -24,10 +24,10 @@ manpage.1: manpage.sgml
   <!-- SECTION should be 1-8, maybe w/ subsection other parameters are
        allowed: see man(7), man(1). -->
   <!ENTITY dhsection   "<manvolnum>SECTION</manvolnum>">
-  <!ENTITY dhemail     "<email>naiiawah@none</email>">
+  <!ENTITY dhemail     "<email>peabody124@gmail.com</email>">
   <!ENTITY dhusername  "naiiawah">
-  <!ENTITY dhucpackage "<refentrytitle>OPENPILOT</refentrytitle>">
-  <!ENTITY dhpackage   "abovegroundlabs">
+  <!ENTITY dhucpackage "<refentrytitle>Tau Labs</refentrytitle>">
+  <!ENTITY dhpackage   "taulabs">
 
   <!ENTITY debian      "<productname>Debian</productname>">
   <!ENTITY gnu         "<acronym>GNU</acronym>">

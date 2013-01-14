@@ -33,10 +33,10 @@ install:
 	dh_installdirs
 	dh_installudev --priority=45
 	# Add here commands to install the package into debian/<packagename>
-	cp -arp build/ground/gcs/bin   debian/taulabs/usr/local/AboveGroundLabs
-	cp -arp build/ground/gcs/lib   debian/taulabs/usr/local/AboveGroundLabs
-	cp -arp build/ground/gcs/share debian/taulabs/usr/local/AboveGroundLabs
-	cp -arp build/ground/gcs/.obj  debian/taulabs/usr/local/AboveGroundLabs
+	cp -arp build/ground/gcs/bin   debian/taulabs/usr/local/TauLabs
+	cp -arp build/ground/gcs/lib   debian/taulabs/usr/local/TauLabs
+	cp -arp build/ground/gcs/share debian/taulabs/usr/local/TauLabs
+	cp -arp build/ground/gcs/.obj  debian/taulabs/usr/local/TauLabs
 	cp -arp build/ground/gcs/gcsversioninfo.h debian/taulabs/usr/local/TauLabs
 	cp -arp package/linux/taulabs.desktop debian/taulabs/usr/share/applications
 	cp -arp package/linux/taulabs.png     debian/taulabs/usr/share/pixmaps
@@ -48,7 +48,7 @@ ifdef PACKAGE_DIR
 else
 	$(error PACKAGE_DIR not defined! $(PACKAGE_DIR))
 endif
-	ln -s /usr/local/TauLabs/bin/taulabs.bin `pwd`/debian/taulabs/usr/bin/taulabs-gcs
+	ln -s /usr/local/TauLabs/bin/taulabsgcs.bin `pwd`/debian/taulabs/usr/bin/taulabs-gcs
 	rm -rf debian/taulabs/usr/local/TauLabs/share/taulabs/sounds/sounds
 	rm -rf debian/taulabs/usr/local/TauLabs/share/taulabs/pfd/pfd
 	rm -rf debian/taulabs/usr/local/TauLabs/share/taulabs/models/models
@@ -74,7 +74,7 @@ binary-arch: install
 	dh_compress
 	dh_fixperms
 	dh_installdeb
-	dh_shlibdeps -l/usr/local/AboveGroundLabs/lib/abovegroundlabs --dpkg-shlibdeps-params="--ignore-missing-info -v"
+	dh_shlibdeps -l/usr/local/TauLabs/lib/taulabs --dpkg-shlibdeps-params="--ignore-missing-info -v"
 	dh_gencontrol
 	dh_md5sums
 	dh_builddeb
