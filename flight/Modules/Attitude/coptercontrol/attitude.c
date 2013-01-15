@@ -68,8 +68,13 @@
 #define UPDATE_RATE  25.0f
 #define GYRO_NEUTRAL 1665
 
-#define PI_MOD(x) (fmod(x + M_PI, M_PI * 2) - M_PI)
 // Private types
+enum complimentary_filter_status {
+	CF_POWERON,
+	CF_INITIALIZING,
+	CF_ARMING,
+	CF_NORMAL
+};
 
 // Private variables
 static xTaskHandle taskHandle;
@@ -173,12 +178,8 @@ MODULE_INITCALL(AttitudeInitialize, AttitudeStart)
 /**
  * Module thread, should not return.
  */
- 
-int32_t accel_test;
-int32_t gyro_test;
 static void AttitudeTask(void *parameters)
 {
-	uint8_t init = 0;
 	AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
 	
 	// Set critical error and wait until the accel is producing data
@@ -191,15 +192,7 @@ static void AttitudeTask(void *parameters)
 	
 	bool cc3d = bdinfo->board_rev == 0x02;
 
-	if(cc3d) {
-#if defined(PIOS_INCLUDE_MPU6000)
-		gyro_test = PIOS_MPU6000_Test();
-#endif
-	} else {
-#if defined(PIOS_INCLUDE_ADXL345)
-		accel_test = PIOS_ADXL345_Test();
-#endif
-
+	if (!cc3d) {
 #if defined(PIOS_INCLUDE_ADC)
 		// Create queue for passing gyro data, allow 2 back samples in case
 		gyro_queue = xQueueCreate(1, sizeof(float) * 4);
@@ -207,39 +200,59 @@ static void AttitudeTask(void *parameters)
 		PIOS_ADC_SetQueue(gyro_queue);
 		PIOS_ADC_Config((PIOS_ADC_RATE / 1000.0f) * UPDATE_RATE);
 #endif
-
 	}
+
 	// Force settings update to make sure rotation loaded
 	settingsUpdatedCb(AttitudeSettingsHandle());
 	
+	enum complimentary_filter_status complimentary_filter_status;
+	complimentary_filter_status = CF_POWERON;
+
 	// Main task loop
 	while (1) {
-		
+
 		FlightStatusData flightStatus;
 		FlightStatusGet(&flightStatus);
-		
-		if((xTaskGetTickCount() < 7000) && (xTaskGetTickCount() > 1000)) {
+
+		if (complimentary_filter_status == CF_POWERON) {
+
+			complimentary_filter_status = (xTaskGetTickCount() > 1000) ?
+				CF_INITIALIZING : CF_POWERON;
+
+		} else if(complimentary_filter_status == CF_INITIALIZING &&
+			(xTaskGetTickCount() < 7000) && 
+			(xTaskGetTickCount() > 1000)) {
+
 			// For first 7 seconds use accels to get gyro bias
-			accelKp = 1;
-			accelKi = 0.9;
-			yawBiasRate = 0.23;
+			accelKp = 0.1f + 0.1f * (xTaskGetTickCount() < 4000);
+			accelKi = 0.1;
+			yawBiasRate = 0.1;
 			accel_filter_enabled = false;
-			init = 0;
-		}
-		else if (zero_during_arming && (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMING)) {
-			accelKp = 1;
-			accelKi = 0.9;
-			yawBiasRate = 0.23;
+
+		} else if (zero_during_arming && 
+			       (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMING)) {
+
+			accelKp = 0.1f;
+			accelKi = 0.1f;
+			yawBiasRate = 0.1f;
 			accel_filter_enabled = false;
-			init = 0;
-		} else if (init == 0) {
+
+			// Indicate arming so that after arming it reloads
+			// the normal settings
+			complimentary_filter_status = CF_ARMING;
+
+		} else if (complimentary_filter_status == CF_ARMING ||
+			complimentary_filter_status == CF_INITIALIZING) {
+
 			// Reload settings (all the rates)
 			AttitudeSettingsAccelKiGet(&accelKi);
 			AttitudeSettingsAccelKpGet(&accelKp);
 			AttitudeSettingsYawBiasRateGet(&yawBiasRate);
 			if(accel_alpha > 0.0f)
 				accel_filter_enabled = true;
-			init = 1;
+
+			// Indicate normal mode to prevent rerunning this code
+			complimentary_filter_status = CF_NORMAL;
 		}
 		
 		PIOS_WDG_UpdateFlag(PIOS_WDG_ATTITUDE);
