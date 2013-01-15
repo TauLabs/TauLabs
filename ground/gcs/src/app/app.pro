@@ -17,7 +17,7 @@ win32 {
     INSTALLS += target
 } else:macx {
     LIBS += -framework CoreFoundation
-    ICON = abovegroundlabs.icns
+    ICON = taulabs.icns
     QMAKE_INFO_PLIST = Info.plist
     FILETYPES.files = profile.icns prifile.icns
     FILETYPES.path = Contents/Resources

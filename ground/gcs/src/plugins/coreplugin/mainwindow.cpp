@@ -139,7 +139,7 @@ MainWindow::MainWindow() :
 {
     setWindowTitle(tr("Tau Labs GCS"));
 #ifndef Q_WS_MAC
-    qApp->setWindowIcon(QIcon(":/core/images/abovegroundlabs_logo_128.png"));
+    qApp->setWindowIcon(QIcon(":/core/images/taulabs_logo_128.png"));
 #endif
     QCoreApplication::setApplicationName(QLatin1String("Tau Labs GCS"));
     QCoreApplication::setApplicationVersion(QLatin1String(Core::Constants::GCS_VERSION_LONG));
