@@ -222,6 +222,8 @@ static void AttitudeTask(void *parameters)
 	enum complimentary_filter_status complimentary_filter_status;
 	complimentary_filter_status = CF_POWERON;
 
+	uint32_t arming_count = 0;
+
 	// Main task loop
 	while (1) {
 
@@ -246,7 +248,14 @@ static void AttitudeTask(void *parameters)
 		} else if (zero_during_arming && 
 			       (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMING)) {
 
-			accelKp = 0.1f;
+			// Use a rapidly decrease accelKp to force the attitude to snap back
+			// to level and then converge more smoothly
+			if (arming_count < 20)
+				accelKp = 1.0;
+			else if (accelKp > 0.1f)
+				accelKp -= 0.01f;
+			arming_count++;
+
 			accelKi = 0.1f;
 			yawBiasRate = 0.1f;
 			accel_filter_enabled = false;
@@ -274,6 +283,7 @@ static void AttitudeTask(void *parameters)
 			if (complimentary_filter_status == CF_ARMING) {
 				accumulate_gyro_compute();
 				accumulating_gyro = false;
+				arming_count = 0;
 			}
 
 			// Indicate normal mode to prevent rerunning this code
