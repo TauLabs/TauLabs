@@ -598,6 +598,7 @@ void Calibration::doStartTempCal()
     AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
     attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_FALSE;
     attitudeSettings->setData(attitudeSettingsData);
+    attitudeSettings->updated();
 
     calibration_state = GYRO_TEMP_CAL;
 
@@ -643,6 +644,14 @@ void Calibration::doCancelTempCalPoint()
     if (calibration_state == GYRO_TEMP_CAL) {
         qDebug() << "Canceling";
         connectSensor(GYRO, false);
+
+        // Disable gyro bias correction to see raw data
+        AttitudeSettings *attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
+        Q_ASSERT(attitudeSettings);
+        AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
+        attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_TRUE;
+        attitudeSettings->setData(attitudeSettingsData);
+        attitudeSettings->updated();
 
         calibration_state = IDLE;
         emit showTempCalMessage(tr("Temperature calibration timed out"));
@@ -965,6 +974,14 @@ int Calibration::computeTempCal()
 {
     timer.stop();
     disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
+
+    // Reenable gyro bias correction
+    AttitudeSettings *attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
+    Q_ASSERT(attitudeSettings);
+    AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
+    attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_TRUE;
+    attitudeSettings->setData(attitudeSettingsData);
+    attitudeSettings->updated();
 
     unsigned int n_samples = gyro_accum_temp.size();
 
