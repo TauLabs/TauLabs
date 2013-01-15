@@ -67,11 +67,13 @@ SUBDIRS += plugin_opmap
 }
 
 # Scope UAVGadget
+!LIGHTWEIGHT_GCS {
 plugin_scope.subdir = scope
 plugin_scope.depends = plugin_coreplugin
 plugin_scope.depends += plugin_uavobjects
 plugin_scope.depends += plugin_uavtalk
 SUBDIRS += plugin_scope
+}
 
 # UAVObject Browser gadget
 plugin_uavobjectbrowser.subdir = uavobjectbrowser
