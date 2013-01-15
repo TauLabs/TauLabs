@@ -61,7 +61,7 @@
 #include <pios_board_info.h>
  
 // Private constants
-#define STACK_SIZE_BYTES 540
+#define STACK_SIZE_BYTES 580
 #define TASK_PRIORITY (tskIDLE_PRIORITY+3)
 
 #define SENSOR_PERIOD 4
@@ -94,6 +94,15 @@ static void update_accels(struct pios_sensor_accel_data *accels, AccelsData * ac
 static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosData);
 static void update_trimming(AccelsData * accelsData);
 
+//! Compute the mean gyro accumulated and assign the bias
+static void accumulate_gyro_compute();
+
+//! Zero the gyro accumulators
+static void accumulate_gyro_zero();
+
+//! Store a gyro sample
+static void accumulate_gyro(GyrosData *gyrosData);
+
 static float accelKi = 0;
 static float accelKp = 0;
 static float accel_alpha = 0;
@@ -106,11 +115,16 @@ static int8_t rotate = 0;
 static bool zero_during_arming = false;
 static bool bias_correct_gyro = true;
 
+// For computing the average gyro during arming
+static bool accumulating_gyro = false;
+static uint32_t accumulated_gyro_samples = 0;
+static float accumulated_gyro[3];
+
 // For running trim flights
 static volatile bool trim_requested = false;
 static volatile int32_t trim_accels[3];
 static volatile int32_t trim_samples;
-int32_t const MAX_TRIM_FLIGHT_SAMPLES = 65535;
+static int32_t const MAX_TRIM_FLIGHT_SAMPLES = 65535;
 
 #define GRAV         9.81f
 #define ADXL345_ACCEL_SCALE  (GRAV * 0.004f)
@@ -239,7 +253,11 @@ static void AttitudeTask(void *parameters)
 
 			// Indicate arming so that after arming it reloads
 			// the normal settings
-			complimentary_filter_status = CF_ARMING;
+			if (complimentary_filter_status != CF_ARMING) {
+				accumulate_gyro_zero();
+				complimentary_filter_status = CF_ARMING;
+				accumulating_gyro = true;
+			}
 
 		} else if (complimentary_filter_status == CF_ARMING ||
 			complimentary_filter_status == CF_INITIALIZING) {
@@ -250,6 +268,13 @@ static void AttitudeTask(void *parameters)
 			AttitudeSettingsYawBiasRateGet(&yawBiasRate);
 			if(accel_alpha > 0.0f)
 				accel_filter_enabled = true;
+
+			// If arming that means we were accumulating gyro
+			// samples.  Compute new bias.
+			if (complimentary_filter_status == CF_ARMING) {
+				accumulate_gyro_compute();
+				accumulating_gyro = false;
+			}
 
 			// Indicate normal mode to prevent rerunning this code
 			complimentary_filter_status = CF_NORMAL;
@@ -429,7 +454,10 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosD
 		gyrosData->y = gyros_out[1];
 		gyrosData->z = gyros_out[2];
 	}
-	
+
+	// When computing the bias accumulate samples
+	accumulate_gyro(gyrosData);
+
 	if(bias_correct_gyro) {
 		// Applying integral component here so it can be seen on the gyros and correct bias
 		gyrosData->x -= gyro_correct_int[0];
@@ -442,6 +470,52 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosD
 	gyro_correct_int[2] += gyrosData->z * yawBiasRate;
 
 	gyrosData->temperature = gyros->temperature;
+}
+
+/**
+ * If accumulating data and sufficient data recompute
+ * the gyro bias based on the mean accumulated
+ */
+static void accumulate_gyro_compute()
+{
+	if (accumulating_gyro && 
+		accumulated_gyro_samples > 100) {
+
+		gyro_correct_int[0] = accumulated_gyro[0] / accumulated_gyro_samples;
+		gyro_correct_int[1] = accumulated_gyro[1] / accumulated_gyro_samples;
+		gyro_correct_int[2] = accumulated_gyro[2] / accumulated_gyro_samples;
+
+		accumulate_gyro_zero();
+
+		accumulating_gyro = false;
+	}
+}
+
+/**
+ * Zero the accumulation of gyro data
+ */
+static void accumulate_gyro_zero()
+{
+	accumulated_gyro_samples = 0;
+	accumulated_gyro[0] = 0;
+	accumulated_gyro[1] = 0;
+	accumulated_gyro[2] = 0;
+}
+
+/**
+ * Accumulate a set of gyro samples for computing the
+ * bias
+ * @param [in] gyrosData The samples of data to accumulate
+ */
+static void accumulate_gyro(GyrosData *gyrosData)
+{
+	if (!accumulating_gyro)
+		return;
+
+	accumulated_gyro_samples++;
+	accumulated_gyro[0] += gyrosData->x;
+	accumulated_gyro[1] += gyrosData->y;
+	accumulated_gyro[2] += gyrosData->z;
 }
 
 /**
