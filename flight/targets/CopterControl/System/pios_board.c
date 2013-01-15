@@ -884,6 +884,19 @@ void PIOS_Board_Init(void) {
 			    15;
 			PIOS_MPU6000_SetDivisor(hw_mpu6000_divisor);
 
+			uint8_t hw_dlpf;
+			HwCopterControlMPU6000DLPFGet(&hw_dlpf);
+			uint16_t hw_mpu6000_dlpf = \
+			    (hw_dlpf == HWCOPTERCONTROL_MPU6000DLPF_256) ? PIOS_MPU60X0_LOWPASS_256_HZ : \
+			    (hw_dlpf == HWCOPTERCONTROL_MPU6000DLPF_188) ? PIOS_MPU60X0_LOWPASS_188_HZ : \
+			    (hw_dlpf == HWCOPTERCONTROL_MPU6000DLPF_98) ? PIOS_MPU60X0_LOWPASS_98_HZ : \
+			    (hw_dlpf == HWCOPTERCONTROL_MPU6000DLPF_42) ? PIOS_MPU60X0_LOWPASS_42_HZ : \
+			    (hw_dlpf == HWCOPTERCONTROL_MPU6000DLPF_20) ? PIOS_MPU60X0_LOWPASS_20_HZ : \
+			    (hw_dlpf == HWCOPTERCONTROL_MPU6000DLPF_10) ? PIOS_MPU60X0_LOWPASS_10_HZ : \
+			    (hw_dlpf == HWCOPTERCONTROL_MPU6000DLPF_5) ? PIOS_MPU60X0_LOWPASS_5_HZ : \
+			    PIOS_MPU60X0_LOWPASS_256_HZ;
+			PIOS_MPU6000_SetLPF(hw_mpu6000_dlpf);
+
 #endif /* PIOS_INCLUDE_MPU6000 */
 
 			break;

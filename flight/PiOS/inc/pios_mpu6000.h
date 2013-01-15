@@ -42,6 +42,7 @@ extern int32_t PIOS_MPU6000_Test();
 extern void PIOS_MPU6000_SetGyroRange(enum pios_mpu60x0_range);
 extern void PIOS_MPU6000_SetAccelRange(enum pios_mpu60x0_accel_range);
 extern void PIOS_MPU6000_SetDivisor(uint8_t div);
+extern void PIOS_MPU6000_SetLPF(enum pios_mpu60x0_filter filter);
 extern bool PIOS_MPU6000_IRQHandler(void);
 
 #endif /* PIOS_MPU6000_H */

@@ -239,6 +239,14 @@ void PIOS_MPU6000_SetDivisor(uint8_t div)
 }
 
 /**
+ * Configure the digital low-pass filter
+ */
+void PIOS_MPU6000_SetLPF(enum pios_mpu60x0_filter filter)
+{
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_DLPF_CFG_REG, filter);
+}
+
+/**
  * @brief Claim the SPI bus for the accel communications and select this chip
  * @return 0 if successful, -1 for invalid device, -2 if unable to claim bus
  */
