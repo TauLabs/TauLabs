@@ -23,7 +23,7 @@
       <attribute name="title">
        <string>Leveling</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0,0,0,0">
+      <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0,0,0">
        <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
@@ -261,92 +261,6 @@ arming it in that case!</string>
              <bool>false</bool>
             </property>
            </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupBox_5">
-         <property name="title">
-          <string>Sensor Settings</string>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_6">
-          <item>
-           <layout class="QFormLayout" name="formLayout_2">
-            <item row="0" column="0">
-             <widget class="QLabel" name="accelRangeLabel">
-              <property name="text">
-               <string>Accel Range</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="gyroRangeLabel">
-              <property name="text">
-               <string>Gyro Range</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QComboBox" name="gyroRangeCombo">
-              <property name="minimumSize">
-               <size>
-                <width>100</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="objrelation" stdset="0">
-               <stringlist>
-                <string>objname:HwSettings</string>
-                <string>fieldname:GyroRange</string>
-                <string>buttongroup:1</string>
-               </stringlist>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QComboBox" name="accelRangeCombo">
-              <property name="minimumSize">
-               <size>
-                <width>100</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="objrelation" stdset="0">
-               <stringlist>
-                <string>objname:HwSettings</string>
-                <string>fieldname:AccelRange</string>
-                <string>buttongroup:1</string>
-               </stringlist>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_5">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>328</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
           </item>
          </layout>
         </widget>
