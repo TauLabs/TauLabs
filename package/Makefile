@@ -66,7 +66,7 @@ help:
 uavobjects: all_clean
 	$(V1) $(MAKE) -C $(ROOT_DIR) $@
 
-matlab:
+matlab: uavobjects
 	$(V1) $(MAKE) -C $(ROOT_DIR) $@
 
 all_clean:
@@ -107,9 +107,11 @@ $(eval $(call INSTALL_TEMPLATE,all_bu,all_bl,$(BU_DIR),,-$(PACKAGE_LBL),,,$(BU_T
 # Order-only dependencies
 package_flight: | all_fw all_bu
 
+package_matlab: | matlab
+
 package_ground: | ground_package
 
-package: | package_flight package_ground matlab
+package: | package_flight package_ground package_matlab
 
 .PHONY: help uavobjects all_clean package_flight package_ground package
 

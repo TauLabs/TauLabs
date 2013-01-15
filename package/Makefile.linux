@@ -52,7 +52,7 @@ deb_build: | $(DEB_BUILD_DIR) $(ALL_DEB_FILES) $(BUILD_DIR)/build
 	$(V1)$(shell echo $(FW_DIR) > $(BUILD_DIR)/package_dir)
 	$(V1)sed -i -e "$(SED_SCRIPT)" $(DEB_BUILD_DIR)/changelog
 
-$(BUILD_DIR)/build: package_flight
+$(BUILD_DIR)/build: package_flight package_matlab
 
 $(DEB_BUILD_DIR): 
 	@echo $@ starting
