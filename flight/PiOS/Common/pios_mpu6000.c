@@ -230,6 +230,15 @@ void PIOS_MPU6000_SetAccelRange(enum pios_mpu60x0_accel_range accel_range)
 }
 
 /**
+ * Set the sampling divisor
+ * @param[in] div The divisor to use
+ */
+void PIOS_MPU6000_SetDivisor(uint8_t div)
+{
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_SMPLRT_DIV_REG, div);
+}
+
+/**
  * @brief Claim the SPI bus for the accel communications and select this chip
  * @return 0 if successful, -1 for invalid device, -2 if unable to claim bus
  */

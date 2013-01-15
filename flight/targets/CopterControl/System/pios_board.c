@@ -871,6 +871,19 @@ void PIOS_Board_Init(void) {
 					PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_16G);
 					break;
 			}
+
+			uint8_t hw_mpu6000_rate;
+			HwCopterControlMPU6000RateGet(&hw_mpu6000_rate);
+			uint16_t hw_mpu6000_divisor = \
+			    (hw_mpu6000_rate == HWCOPTERCONTROL_MPU6000RATE_500) ? 15 : \
+			    (hw_mpu6000_rate == HWCOPTERCONTROL_MPU6000RATE_666) ? 11 : \
+			    (hw_mpu6000_rate == HWCOPTERCONTROL_MPU6000RATE_1000) ? 7 : \
+			    (hw_mpu6000_rate == HWCOPTERCONTROL_MPU6000RATE_2000) ? 3 : \
+			    (hw_mpu6000_rate == HWCOPTERCONTROL_MPU6000RATE_4000) ? 1 : \
+			    (hw_mpu6000_rate == HWCOPTERCONTROL_MPU6000RATE_8000) ? 0 : \
+			    15;
+			PIOS_MPU6000_SetDivisor(hw_mpu6000_divisor);
+
 #endif /* PIOS_INCLUDE_MPU6000 */
 
 			break;

@@ -801,6 +801,17 @@ void PIOS_Board_Init(void) {
 			break;
 	}
 
+	uint8_t hw_mpu6000_rate;
+	HwFreedomMPU6000RateGet(&hw_mpu6000_rate);
+	uint16_t hw_mpu6000_divisor = \
+	    (hw_mpu6000_rate == HWFREEDOM_MPU6000RATE_500) ? 15 : \
+	    (hw_mpu6000_rate == HWFREEDOM_MPU6000RATE_666) ? 11 : \
+	    (hw_mpu6000_rate == HWFREEDOM_MPU6000RATE_1000) ? 7 : \
+	    (hw_mpu6000_rate == HWFREEDOM_MPU6000RATE_2000) ? 3 : \
+	    (hw_mpu6000_rate == HWFREEDOM_MPU6000RATE_4000) ? 1 : \
+	    (hw_mpu6000_rate == HWFREEDOM_MPU6000RATE_8000) ? 0 : \
+	    15;
+	PIOS_MPU6000_SetDivisor(hw_mpu6000_divisor);
 #endif
 	
 	if (PIOS_I2C_Init(&pios_i2c_mag_pressure_adapter_id, &pios_i2c_mag_pressure_adapter_cfg)) {
