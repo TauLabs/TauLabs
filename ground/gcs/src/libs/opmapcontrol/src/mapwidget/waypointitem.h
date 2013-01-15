@@ -41,6 +41,7 @@ struct distBearingAltitude
 {
     double distance;
     double bearing;
+    distBearingAltitude() : distance(0.0), bearing(0.0) { }
     double bearingToDegrees(){return bearing*180/M_PI;}
     void setBearingFromDegrees(double degrees){bearing=degrees*M_PI/180;}
 };
