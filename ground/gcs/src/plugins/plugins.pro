@@ -67,13 +67,12 @@ SUBDIRS += plugin_opmap
 }
 
 # Scope UAVGadget
-!LIGHTWEIGHT_GCS {
 plugin_scope.subdir = scope
 plugin_scope.depends = plugin_coreplugin
 plugin_scope.depends += plugin_uavobjects
 plugin_scope.depends += plugin_uavtalk
 SUBDIRS += plugin_scope
-}
+
 
 # UAVObject Browser gadget
 plugin_uavobjectbrowser.subdir = uavobjectbrowser
@@ -92,7 +91,7 @@ SUBDIRS += plugin_modelview
 #Qt 4.8.0 / phonon may crash on Mac, fixed in Qt 4.8.1, QTBUG-23128
 macx:contains(QT_VERSION, ^4\\.8\\.0): CONFIG += disable_notify_plugin
 # Notify gadget
-!disable_notify_plugin && !LIGHTWEIGHT_GCS {
+!disable_notify_plugin {
     plugin_notify.subdir = notify
     plugin_notify.depends = plugin_coreplugin
     plugin_notify.depends += plugin_uavobjects
@@ -145,12 +144,11 @@ plugin_gpsdisplay.depends += plugin_uavobjects
 SUBDIRS += plugin_gpsdisplay
 
 # Primary Flight Display (PFD) gadget
-!LIGHTWEIGHT_GCS {
 plugin_pfd.subdir = pfd
 plugin_pfd.depends = plugin_coreplugin
 plugin_pfd.depends += plugin_uavobjects
 SUBDIRS += plugin_pfd
-}
+
 
 # QML viewer gadget
 !LIGHTWEIGHT_GCS {
@@ -195,11 +193,13 @@ SUBDIRS += plugin_hitl
 }
 
 #Motion capture interface gadget
+!LIGHTWEIGHT_GCS {
 plugin_mocap.subdir = motioncapture
 plugin_mocap.depends = plugin_coreplugin
 plugin_mocap.depends += plugin_uavobjects
 plugin_mocap.depends += plugin_uavtalk
 SUBDIRS += plugin_mocap
+}
 
 # Export and Import GCS Configuration
 plugin_importexport.subdir = importexport
