@@ -3,6 +3,7 @@
  *
  * @file       configgadgetwidget.cpp
  * @author     E. Lafargue & The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -69,7 +70,7 @@ ConfigGadgetWidget::ConfigGadgetWidget(QWidget *parent) : QWidget(parent)
     QIcon *icon = new QIcon();
     icon->addFile(":/configgadget/images/hardware_normal.png", QSize(), QIcon::Normal, QIcon::Off);
     icon->addFile(":/configgadget/images/hardware_selected.png", QSize(), QIcon::Selected, QIcon::Off);
-    qwd = new DefaultHwSettingsWidget(this);
+    qwd = new DefaultHwSettingsWidget(this, false);
     ftw->insertTab(ConfigGadgetWidget::hardware, qwd, *icon, QString("Hardware"));
 
     icon = new QIcon();
@@ -184,7 +185,7 @@ void ConfigGadgetWidget::onAutopilotDisconnect() {
     icon = new QIcon();
     icon->addFile(":/configgadget/images/hardware_normal.png", QSize(), QIcon::Normal, QIcon::Off);
     icon->addFile(":/configgadget/images/hardware_selected.png", QSize(), QIcon::Selected, QIcon::Off);
-    qwd = new DefaultHwSettingsWidget(this);
+    qwd = new DefaultHwSettingsWidget(this, false);
     ftw->insertTab(ConfigGadgetWidget::hardware, qwd, *icon, QString("Hardware"));
     ftw->setCurrentIndex(ConfigGadgetWidget::hardware);
 
@@ -213,6 +214,7 @@ void ConfigGadgetWidget::onAutopilotConnect() {
             ftw->insertTab(ConfigGadgetWidget::sensors, qwd, *icon, QString("Attitude"));
             ftw->removeTab(ConfigGadgetWidget::hardware);
 
+            // CopterControl/CC3D hardware configuration
             icon = new QIcon();
             icon->addFile(":/configgadget/images/hardware_normal.png", QSize(), QIcon::Normal, QIcon::Off);
             icon->addFile(":/configgadget/images/hardware_selected.png", QSize(), QIcon::Selected, QIcon::Off);
@@ -220,7 +222,7 @@ void ConfigGadgetWidget::onAutopilotConnect() {
             ftw->insertTab(ConfigGadgetWidget::hardware, qwd, *icon, QString("Hardware"));
             ftw->setCurrentIndex(ConfigGadgetWidget::hardware);
         } else if ((board & 0xff00) == 0x0900) {
-            // Revolution sensor calibration
+            // Non-CopterControl sensor configuration
             ftw->setCurrentIndex(ConfigGadgetWidget::hardware);
             ftw->removeTab(ConfigGadgetWidget::sensors);
 
@@ -231,10 +233,11 @@ void ConfigGadgetWidget::onAutopilotConnect() {
             ftw->insertTab(ConfigGadgetWidget::sensors, qwd, *icon, QString("INS"));
             ftw->removeTab(ConfigGadgetWidget::hardware);
 
+            // Non-CopterControl hardware configuration
             icon = new QIcon();
             icon->addFile(":/configgadget/images/hardware_normal.png", QSize(), QIcon::Normal, QIcon::Off);
             icon->addFile(":/configgadget/images/hardware_selected.png", QSize(), QIcon::Normal, QIcon::On);
-            qwd = new DefaultHwSettingsWidget(this);
+            qwd = new DefaultHwSettingsWidget(this, true);
             ftw->insertTab(ConfigGadgetWidget::hardware, qwd, *icon, QString("Hardware"));
             ftw->setCurrentIndex(ConfigGadgetWidget::hardware);
         } else {
