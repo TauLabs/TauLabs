@@ -12,7 +12,6 @@ SUBDIRS   = plugin_coreplugin
 
 # Core plugin
 plugin_coreplugin.subdir = coreplugin
-
 # Empty UAVGadget - Default for new splits
 plugin_emptygadget.subdir = emptygadget
 plugin_emptygadget.depends = plugin_coreplugin
@@ -57,6 +56,7 @@ plugin_uavtalkrelay.depends += plugin_coreplugin
 plugin_uavtalkrelay.depends += plugin_uavtalk
 
 # OPMap UAVGadget
+!LIGHTWEIGHT_GCS {
 plugin_opmap.subdir = opmap
 plugin_opmap.depends = plugin_coreplugin
 plugin_opmap.depends += plugin_uavobjects
@@ -64,6 +64,7 @@ plugin_opmap.depends += plugin_uavobjectutil
 plugin_opmap.depends += plugin_uavtalk
 plugin_opmap.depends += plugin_pathplanner
 SUBDIRS += plugin_opmap
+}
 
 # Scope UAVGadget
 plugin_scope.subdir = scope
@@ -72,6 +73,7 @@ plugin_scope.depends += plugin_uavobjects
 plugin_scope.depends += plugin_uavtalk
 SUBDIRS += plugin_scope
 
+
 # UAVObject Browser gadget
 plugin_uavobjectbrowser.subdir = uavobjectbrowser
 plugin_uavobjectbrowser.depends = plugin_coreplugin
@@ -79,14 +81,15 @@ plugin_uavobjectbrowser.depends += plugin_uavobjects
 SUBDIRS += plugin_uavobjectbrowser
 
 # ModelView UAVGadget
+!LIGHTWEIGHT_GCS {
 plugin_modelview.subdir = modelview
 plugin_modelview.depends = plugin_coreplugin
 plugin_modelview.depends += plugin_uavobjects
 SUBDIRS += plugin_modelview
+}
 
 #Qt 4.8.0 / phonon may crash on Mac, fixed in Qt 4.8.1, QTBUG-23128
 macx:contains(QT_VERSION, ^4\\.8\\.0): CONFIG += disable_notify_plugin
-
 # Notify gadget
 !disable_notify_plugin {
     plugin_notify.subdir = notify
@@ -146,11 +149,14 @@ plugin_pfd.depends = plugin_coreplugin
 plugin_pfd.depends += plugin_uavobjects
 SUBDIRS += plugin_pfd
 
+
 # QML viewer gadget
+!LIGHTWEIGHT_GCS {
 plugin_qmlview.subdir = qmlview
 plugin_qmlview.depends = plugin_coreplugin
 plugin_qmlview.depends += plugin_uavobjects
 SUBDIRS += plugin_qmlview
+}
 
 # Path Planner gadget
 plugin_pathplanner.subdir = pathplanner
@@ -165,10 +171,12 @@ plugin_waypointeditor.depends += plugin_uavobjects
 SUBDIRS += plugin_waypointeditor
 
 # Primary Flight Display (PFD) gadget, QML version
+!LIGHTWEIGHT_GCS {
 plugin_pfdqml.subdir = pfdqml
 plugin_pfdqml.depends = plugin_coreplugin
 plugin_pfdqml.depends += plugin_uavobjects
 SUBDIRS += plugin_pfdqml
+}
 
 # IP connection plugin
 plugin_ipconnection.subdir = ipconnection
@@ -176,18 +184,22 @@ plugin_ipconnection.depends = plugin_coreplugin
 SUBDIRS += plugin_ipconnection
 
 #HITL Simulation gadget
+!LIGHTWEIGHT_GCS {
 plugin_hitl.subdir = hitl
 plugin_hitl.depends = plugin_coreplugin
 plugin_hitl.depends += plugin_uavobjects
 plugin_hitl.depends += plugin_uavtalk
 SUBDIRS += plugin_hitl
+}
 
 #Motion capture interface gadget
+!LIGHTWEIGHT_GCS {
 plugin_mocap.subdir = motioncapture
 plugin_mocap.depends = plugin_coreplugin
 plugin_mocap.depends += plugin_uavobjects
 plugin_mocap.depends += plugin_uavtalk
 SUBDIRS += plugin_mocap
+}
 
 # Export and Import GCS Configuration
 plugin_importexport.subdir = importexport
@@ -203,10 +215,12 @@ plugin_logging.depends += plugin_scope
 SUBDIRS += plugin_logging
 
 # GCS Control of UAV gadget
+!LIGHTWEIGHT_GCS {
 plugin_gcscontrol.subdir = gcscontrol
 plugin_gcscontrol.depends = plugin_coreplugin
 plugin_gcscontrol.depends += plugin_uavobjects
 SUBDIRS += plugin_gcscontrol
+}
 
 # Antenna tracker
 #plugin_antennatrack.subdir = antennatrack
@@ -236,10 +250,12 @@ OSG {
 }
 
 # Magic Waypoint gadget
+!LIGHTWEIGHT_GCS {
 plugin_magicwaypoint.subdir = magicwaypoint
 plugin_magicwaypoint.depends = plugin_coreplugin
 plugin_magicwaypoint.depends = plugin_uavobjects
 SUBDIRS += plugin_magicwaypoint
+}
 
 # UAV Settings Import/Export plugin
 plugin_uavsettingsimportexport.subdir = uavsettingsimportexport
@@ -275,6 +291,11 @@ SUBDIRS += plugin_setupwizard
 plugin_boards_openpilot.subdir = boards_openpilot
 plugin_boards_openpilot.depends = plugin_coreplugin
 SUBDIRS += plugin_boards_openpilot
+
+# Quantec Networks GmbH
+plugin_boards_quantec.subdir = boards_quantec
+plugin_boards_quantec.depends = plugin_coreplugin
+SUBDIRS += plugin_boards_quantec
 
 ## Plugin by E. Lafargue for the Junsi Powerlog, do not
 ## remove, please.
