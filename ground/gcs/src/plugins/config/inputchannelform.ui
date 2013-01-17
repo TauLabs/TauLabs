@@ -68,6 +68,9 @@
      <property name="focusPolicy">
       <enum>Qt::StrongFocus</enum>
      </property>
+     <property name="toolTip">
+      <string>Channel input type</string>
+     </property>
     </widget>
    </item>
    <item row="2" column="4">
@@ -80,6 +83,9 @@
      </property>
      <property name="focusPolicy">
       <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="toolTip">
+      <string>Set minimum input value</string>
      </property>
      <property name="buttonSymbols">
       <enum>QAbstractSpinBox::NoButtons</enum>
@@ -102,6 +108,9 @@
      </property>
      <property name="focusPolicy">
       <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="toolTip">
+      <string>Set maximum input value</string>
      </property>
      <property name="buttonSymbols">
       <enum>QAbstractSpinBox::NoButtons</enum>
@@ -287,6 +296,11 @@ font:bold;</string>
      <property name="focusPolicy">
       <enum>Qt::StrongFocus</enum>
      </property>
+     <property name="toolTip">
+      <string>Set input value neutral point. 
+Input values below this point are scaled from -1 to 0. 
+Input values above this point are scaled from 0 to +1. </string>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -314,6 +328,9 @@ font:bold;</string>
      </property>
      <property name="focusPolicy">
       <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="toolTip">
+      <string>Channel number</string>
      </property>
      <property name="maxVisibleItems">
       <number>7</number>
@@ -346,31 +363,6 @@ font:bold;</string>
      </property>
      <property name="text">
       <string>Rev</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="10">
-    <widget class="QLabel" name="neutral">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>25</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>30</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="text">
-      <string/>
      </property>
     </widget>
    </item>
@@ -484,7 +476,7 @@ font:bold;</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="13">
+   <item row="2" column="14">
     <widget class="QSpinBox" name="channelResponseTime">
      <property name="enabled">
       <bool>true</bool>
@@ -501,6 +493,9 @@ font:bold;</string>
        <height>25</height>
       </size>
      </property>
+     <property name="toolTip">
+      <string>Set channel response time</string>
+     </property>
      <property name="wrapping">
       <bool>false</bool>
      </property>
@@ -515,7 +510,7 @@ font:bold;</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="13">
+   <item row="0" column="14">
     <widget class="QLabel" name="legend6">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -536,6 +531,9 @@ font:bold;</string>
        <bold>true</bold>
       </font>
      </property>
+     <property name="toolTip">
+      <string>Channel response time</string>
+     </property>
      <property name="styleSheet">
       <string notr="true">background-color: qlineargradient(spread:reflect, x1:0.507, y1:0, x2:0.507, y2:0.772, stop:0.208955 rgba(74, 74, 74, 255), stop:0.78607 rgba(36, 36, 36, 255));
 color: rgb(255, 255, 255);
@@ -550,6 +548,63 @@ font:bold;</string>
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
+   </item>
+   <item row="2" column="13">
+    <spacer name="horizontalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>10</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="10">
+    <widget class="QLabel" name="neutral">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>35</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>30</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>1500</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="11">
+    <spacer name="horizontalSpacer_4">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>10</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

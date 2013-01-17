@@ -3,6 +3,7 @@
  *
  * @file       defaultccattitudewidget.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -45,7 +46,7 @@ class DefaultHwSettingsWidget : public ConfigTaskWidget
     Q_OBJECT
 
 public:
-    explicit DefaultHwSettingsWidget(QWidget *parent = 0);
+    explicit DefaultHwSettingsWidget(QWidget *parent = 0, bool autoPilotConnected = false);
     ~DefaultHwSettingsWidget();
 
 private slots:
