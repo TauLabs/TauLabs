@@ -251,7 +251,7 @@ static void AttitudeTask(void *parameters)
 			// Use a rapidly decrease accelKp to force the attitude to snap back
 			// to level and then converge more smoothly
 			if (arming_count < 20)
-				accelKp = 1.0;
+				accelKp = 1.0f;
 			else if (accelKp > 0.1f)
 				accelKp -= 0.01f;
 			arming_count++;
@@ -483,7 +483,7 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosD
 }
 
 /**
- * If accumulating data and sufficient data recompute
+ * If accumulating data and enough samples acquired then recompute
  * the gyro bias based on the mean accumulated
  */
 static void accumulate_gyro_compute()
