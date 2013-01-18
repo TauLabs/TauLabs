@@ -43,6 +43,9 @@
 //! Check a stabilization mode switch position for safety
 static int32_t check_stabilization_settings(int index, bool multirotor);
 
+//! Set the configuration error code
+static int8_t setConfigErrorCode(uint8_t errorCode);
+
 /**
  * Run a preflight check over the hardware configuration
  * and currently active modules
@@ -157,15 +160,35 @@ int32_t configuration_check()
 
 	// TODO: Check on a multirotor no axis supports "None"
 	if(status != SYSTEMALARMS_ALARM_OK){
+		//Set alarm and error code
 		AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, status);
-		SystemAlarmsConfigErrorSet(&errorCode);
-		
+		setConfigErrorCode(errorCode);
 	}
 	else{
+		//Clear alarm and error code
 		AlarmsClear(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION);
+		setConfigErrorCode(SYSTEMALARMS_CONFIGERROR_NONE);
 	}
 
 	return 0;
+}
+
+/**
+ * Set the error code in the UAVO
+ * @param[in] error code
+ * @returns -1 on no change of error code, 0 on change of error code
+ */
+static int8_t setConfigErrorCode(uint8_t errorCode)
+{
+	uint8_t currentErrorCode;
+	SystemAlarmsConfigErrorGet(&currentErrorCode);
+	if (currentErrorCode != errorCode) {
+		SystemAlarmsConfigErrorSet(&errorCode);
+		return 0;
+	}
+	else{
+		return -1;
+	}	
 }
 
 /**

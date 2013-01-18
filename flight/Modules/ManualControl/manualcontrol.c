@@ -91,6 +91,7 @@ static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeCha
 static void processFlightMode(ManualControlSettingsData * settings, float flightMode);
 static void processArm(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
 static void setArmedIfChanged(uint8_t val);
+static int8_t setManualControlErrorCode(uint8_t errorCode);
 
 static void manualControlTask(void *parameters);
 static float scaleChannel(int16_t value, int16_t max, int16_t min, int16_t neutral);
@@ -261,9 +262,9 @@ static void manualControlTask(void *parameters)
 					cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] == (uint16_t) PIOS_RCVR_INVALID ||
 					cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] == (uint16_t) PIOS_RCVR_NODRIVER))) {
 
+				setManualControlErrorCode(SYSTEMALARMS_MANUALCONTROL_SETTINGS);
 				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
-				uint8_t errorCode=SYSTEMALARMS_MANUALCONTROL_SETTINGS;
-				SystemAlarmsManualControlSet(&errorCode);
+				
 				cmd.Connected = MANUALCONTROLCOMMAND_CONNECTED_FALSE;
 				ManualControlCommandSet(&cmd);
 
@@ -300,8 +301,7 @@ static void manualControlTask(void *parameters)
 				//cmd.FlightMode = MANUALCONTROLCOMMAND_FLIGHTMODE_AUTO; // don't do until AUTO implemented and functioning
 				// Important: Throttle < 0 will reset Stabilization coefficients among other things. Either change this,
 				// or leave throttle at IDLE speed or above when going into AUTO-failsafe.
-				uint8_t errorCode=SYSTEMALARMS_MANUALCONTROL_NORX;
-				SystemAlarmsManualControlSet(&errorCode);
+				setManualControlErrorCode(SYSTEMALARMS_MANUALCONTROL_NORX);
 				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
 				
 				AccessoryDesiredData accessory;
@@ -351,31 +351,19 @@ static void manualControlTask(void *parameters)
 				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY0] != 
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 					accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY0];
-					if(AccessoryDesiredInstSet(0, &accessory) != 0){
-						uint8_t errorCode=SYSTEMALARMS_MANUALCONTROL_NOACCESSORY;
-						SystemAlarmsManualControlSet(&errorCode);
-						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
-					}
+					AccessoryDesiredInstSet(0, &accessory);
 				}
 				// Set Accessory 1
 				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY1] != 
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 					accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY1];
-					if(AccessoryDesiredInstSet(1, &accessory) != 0){
-						uint8_t errorCode=SYSTEMALARMS_MANUALCONTROL_NOACCESSORY;
-						SystemAlarmsManualControlSet(&errorCode);
-						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
-					}
+					AccessoryDesiredInstSet(1, &accessory);
 				}
 				// Set Accessory 2
 				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY2] != 
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 					accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY2];
-					if(AccessoryDesiredInstSet(2, &accessory) != 0){
-						uint8_t errorCode=SYSTEMALARMS_MANUALCONTROL_NOACCESSORY;
-						SystemAlarmsManualControlSet(&errorCode);
-						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
-					}
+					AccessoryDesiredInstSet(2, &accessory);
 				}
 
 				processFlightMode(&settings, flightMode);
@@ -409,8 +397,7 @@ static void manualControlTask(void *parameters)
 			case FLIGHTMODE_UNDEFINED:
 				{
 					// This reflects a bug in the code architecture!
-					uint8_t errorCode=SYSTEMALARMS_MANUALCONTROL_UNDEFINED;
-					SystemAlarmsManualControlSet(&errorCode);
+					setManualControlErrorCode(SYSTEMALARMS_MANUALCONTROL_UNDEFINED);
 					AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
 				}
 				break;
@@ -437,8 +424,7 @@ static void manualControlTask(void *parameters)
 						break;
 					default:
 						{
-							uint8_t errorCode=SYSTEMALARMS_MANUALCONTROL_UNDEFINED;
-							SystemAlarmsManualControlSet(&errorCode);
+							setManualControlErrorCode(SYSTEMALARMS_MANUALCONTROL_UNDEFINED);
 							AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
 						}
 				}
@@ -622,8 +608,7 @@ static void updateStabilizationDesired(ManualControlCommandData * cmd, ManualCon
 		default:
 			{
 				// Major error, this should not occur because only enter this block when one of these is true
-				uint8_t errorCode=SYSTEMALARMS_MANUALCONTROL_UNDEFINED;
-				SystemAlarmsManualControlSet(&errorCode);
+				setManualControlErrorCode(SYSTEMALARMS_MANUALCONTROL_UNDEFINED);
 				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
 			}
 			return;
@@ -763,8 +748,7 @@ static void altitudeHoldDesired(ManualControlCommandData * cmd, bool flightModeC
 #else
 static void altitudeHoldDesired(ManualControlCommandData * cmd, bool flightModeChanged)
 {
-	uint8_t errorCode=SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD;
-	SystemAlarmsManualControlSet(&errorCode);
+	setManualControlErrorCode(SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD);
 	AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_ERROR);
 }
 #endif
@@ -1032,6 +1016,25 @@ static void applyDeadband(float *value, float deadband)
 		else
 			*value += deadband;
 }
+
+/**
+ * Set the error code in the UAVO
+ * @param[in] error code
+ * @returns -1 on no change of error code, 0 on change of error code
+ */
+static int8_t setManualControlErrorCode(uint8_t errorCode)
+{
+	uint8_t currentErrorCode;
+	SystemAlarmsManualControlGet(&currentErrorCode);
+	if (currentErrorCode != errorCode) {
+		SystemAlarmsManualControlSet(&errorCode);
+		return 0;
+	}
+	else{
+		return -1;
+	}	
+}
+
 
 /**
   * @}
