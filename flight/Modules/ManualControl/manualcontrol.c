@@ -326,6 +326,7 @@ static void manualControlTask(void *parameters)
 
 			} else if (valid_input_detected) {
 				AlarmsClear(SYSTEMALARMS_ALARM_MANUALCONTROL);
+				setManualControlErrorCode(SYSTEMALARMS_MANUALCONTROL_NONE);
 
 				// Scale channels to -1 -> +1 range
 				cmd.Roll           = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL];
