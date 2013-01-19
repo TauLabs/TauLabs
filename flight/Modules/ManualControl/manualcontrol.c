@@ -92,7 +92,7 @@ static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeCha
 static void processFlightMode(ManualControlSettingsData * settings, float flightMode);
 static void processArm(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
 static void setArmedIfChanged(uint8_t val);
-static int8_t setManualControlErrorCode(uint8_t errorCode);
+static int8_t set_manual_control_error(uint8_t errorCode);
 
 static void manualControlTask(void *parameters);
 static float scaleChannel(int16_t value, int16_t max, int16_t min, int16_t neutral);
@@ -1019,39 +1019,39 @@ static void applyDeadband(float *value, float deadband)
  */
 static int8_t set_manual_control_error(uint8_t error_code)
 {
-	uint8_t currentErrorCode;
-	SystemAlarmsManualControlGet(&currentErrorCode);
-	if (currentErrorCode != errorCode) {
+	uint8_t current_error_code;
+	SystemAlarmsManualControlGet(&current_error_code);
+	if (current_error_code != error_code) {
 		switch (error_code) {
 			case SYSTEMALARMS_MANUALCONTROL_NONE:
-				SystemAlarmsManualControlSet(&code);
+				SystemAlarmsManualControlSet(&error_code);
 				AlarmsClear(SYSTEMALARMS_ALARM_MANUALCONTROL);
 				break;
 			case SYSTEMALARMS_MANUALCONTROL_NORX:
-				SystemAlarmsManualControlSet(&code);
+				SystemAlarmsManualControlSet(&error_code);
 				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
 				break;
 			case SYSTEMALARMS_MANUALCONTROL_SETTINGS:
-				SystemAlarmsManualControlSet(&code);
+				SystemAlarmsManualControlSet(&error_code);
 				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
 				break;
 			case SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD:
-				SystemAlarmsManualControlSet(&code);
+				SystemAlarmsManualControlSet(&error_code);
 				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_ERROR);
 				break;
-			case UNDEFINED:
+			case SYSTEMALARMS_MANUALCONTROL_UNDEFINED:
 			default:
-				code = SYSTEMALARMS_MANUALCONTROL_UNDEFINED;
-				SystemAlarmsManualControlSet(&code);        
+				error_code = SYSTEMALARMS_MANUALCONTROL_UNDEFINED;
+				SystemAlarmsManualControlSet(&error_code);        
 				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
 				break;
 		}
-		SystemAlarmsManualControlSet(&errorCode);
+		SystemAlarmsManualControlSet(&error_code);
 		return 0;
 	}
 	else{
 		return -1;
-	}	
+	}
 }
 
 
