@@ -11,6 +11,7 @@
  * AttitudeDesired object (stabilized mode)
  *
  * @file       manualcontrol.c
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2013.
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @brief      ManualControl module. Handles safety R/C link and flight mode.
  *
@@ -262,8 +263,7 @@ static void manualControlTask(void *parameters)
 					cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] == (uint16_t) PIOS_RCVR_INVALID ||
 					cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] == (uint16_t) PIOS_RCVR_NODRIVER))) {
 
-				setManualControlErrorCode(SYSTEMALARMS_MANUALCONTROL_SETTINGS);
-				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
+				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_SETTINGS);
 				
 				cmd.Connected = MANUALCONTROLCOMMAND_CONNECTED_FALSE;
 				ManualControlCommandSet(&cmd);
@@ -301,8 +301,7 @@ static void manualControlTask(void *parameters)
 				//cmd.FlightMode = MANUALCONTROLCOMMAND_FLIGHTMODE_AUTO; // don't do until AUTO implemented and functioning
 				// Important: Throttle < 0 will reset Stabilization coefficients among other things. Either change this,
 				// or leave throttle at IDLE speed or above when going into AUTO-failsafe.
-				setManualControlErrorCode(SYSTEMALARMS_MANUALCONTROL_NORX);
-				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
+				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_NORX);
 				
 				AccessoryDesiredData accessory;
 				// Set Accessory 0
@@ -325,8 +324,7 @@ static void manualControlTask(void *parameters)
 				}
 
 			} else if (valid_input_detected) {
-				AlarmsClear(SYSTEMALARMS_ALARM_MANUALCONTROL);
-				setManualControlErrorCode(SYSTEMALARMS_MANUALCONTROL_NONE);
+				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_NONE);
 
 				// Scale channels to -1 -> +1 range
 				cmd.Roll           = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL];
@@ -398,8 +396,7 @@ static void manualControlTask(void *parameters)
 			case FLIGHTMODE_UNDEFINED:
 				{
 					// This reflects a bug in the code architecture!
-					setManualControlErrorCode(SYSTEMALARMS_MANUALCONTROL_UNDEFINED);
-					AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
+					set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_UNDEFINED);
 				}
 				break;
 			case FLIGHTMODE_MANUAL:
@@ -425,8 +422,7 @@ static void manualControlTask(void *parameters)
 						break;
 					default:
 						{
-							setManualControlErrorCode(SYSTEMALARMS_MANUALCONTROL_UNDEFINED);
-							AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
+							set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_UNDEFINED);
 						}
 				}
 				break;
@@ -609,8 +605,7 @@ static void updateStabilizationDesired(ManualControlCommandData * cmd, ManualCon
 		default:
 			{
 				// Major error, this should not occur because only enter this block when one of these is true
-				setManualControlErrorCode(SYSTEMALARMS_MANUALCONTROL_UNDEFINED);
-				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
+				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_UNDEFINED);
 			}
 			return;
 	}
@@ -749,8 +744,7 @@ static void altitudeHoldDesired(ManualControlCommandData * cmd, bool flightModeC
 #else
 static void altitudeHoldDesired(ManualControlCommandData * cmd, bool flightModeChanged)
 {
-	setManualControlErrorCode(SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD);
-	AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_ERROR);
+	set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD);
 }
 #endif
 /**
@@ -1019,15 +1013,39 @@ static void applyDeadband(float *value, float deadband)
 }
 
 /**
- * Set the error code in the UAVO
+ * Set the error code and alarm state
  * @param[in] error code
- * @returns -1 on no change of error code, 0 on change of error code
+ * @returns -1 on no change of error code and alarm state, 0 on change of error code and alarm state
  */
-static int8_t setManualControlErrorCode(uint8_t errorCode)
+static int8_t set_manual_control_error(uint8_t error_code)
 {
 	uint8_t currentErrorCode;
 	SystemAlarmsManualControlGet(&currentErrorCode);
 	if (currentErrorCode != errorCode) {
+		switch (error_code) {
+			case SYSTEMALARMS_MANUALCONTROL_NONE:
+				SystemAlarmsManualControlSet(&code);
+				AlarmsClear(SYSTEMALARMS_ALARM_MANUALCONTROL);
+				break;
+			case SYSTEMALARMS_MANUALCONTROL_NORX:
+				SystemAlarmsManualControlSet(&code);
+				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
+				break;
+			case SYSTEMALARMS_MANUALCONTROL_SETTINGS:
+				SystemAlarmsManualControlSet(&code);
+				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
+				break;
+			case SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD:
+				SystemAlarmsManualControlSet(&code);
+				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_ERROR);
+				break;
+			case UNDEFINED:
+			default:
+				code = SYSTEMALARMS_MANUALCONTROL_UNDEFINED;
+				SystemAlarmsManualControlSet(&code);        
+				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
+				break;
+		}
 		SystemAlarmsManualControlSet(&errorCode);
 		return 0;
 	}
