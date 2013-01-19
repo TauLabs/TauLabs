@@ -1049,7 +1049,7 @@ static int8_t set_manual_control_error(uint8_t error_code)
 		SystemAlarmsManualControlSet(&error_code);
 		return 0;
 	}
-	else{
+	else {
 		return -1;
 	}
 }
