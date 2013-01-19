@@ -90,6 +90,11 @@ public class TabletInformation {
 			else
 				field.setValue("NAN");
 
+			field = obj.getField("TabletModeDesired");
+			if (field != null) {
+				field.setValue("CameraPOI");
+			}
+
 			obj.updated();
 		}
 
