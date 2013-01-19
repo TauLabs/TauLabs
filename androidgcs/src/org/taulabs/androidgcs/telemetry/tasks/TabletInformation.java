@@ -28,7 +28,6 @@ import org.taulabs.uavtalk.UAVObjectField;
 import org.taulabs.uavtalk.UAVObjectManager;
 
 import android.content.Context;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -50,23 +49,16 @@ public class TabletInformation {
 
 		locationManager = (LocationManager)service.getSystemService(Context.LOCATION_SERVICE);
 
-		Criteria criteria = new Criteria();
-		criteria.setAccuracy(Criteria.ACCURACY_FINE);
-		criteria.setAltitudeRequired(false);
-		criteria.setBearingRequired(false);
-		criteria.setCostAllowed(true);
-		criteria.setPowerRequirement(Criteria.POWER_LOW);
-
-		String provider = locationManager.getBestProvider(criteria, true);
-
-		locationManager.requestLocationUpdates(provider,
+		Log.d(TAG, "Connecting to location updates");
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 1000, // 1 second
-                100,   // 1km
+                0,    // 1 m
                 locationListener);
 	}
 
 	public void disconnect() {
-		locationManager.removeUpdates(locationListener);
+		if (locationManager != null)
+			locationManager.removeUpdates(locationListener);
 	}
 
 	LocationListener locationListener = new LocationListener() {
@@ -103,20 +95,17 @@ public class TabletInformation {
 
 		@Override
 		public void onProviderDisabled(String provider) {
-			// TODO Auto-generated method stub
-
+			Log.d(TAG, "Provider disabled");
 		}
 
 		@Override
 		public void onProviderEnabled(String provider) {
-			// TODO Auto-generated method stub
-
+			Log.d(TAG, "Provider enabled");
 		}
 
 		@Override
 		public void onStatusChanged(String provider, int status, Bundle extras) {
-			// TODO Auto-generated method stub
-
+			Log.d(TAG, "Status changed");
 		}
 
 	};
