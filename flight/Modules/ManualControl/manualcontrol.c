@@ -92,7 +92,7 @@ static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeCha
 static void processFlightMode(ManualControlSettingsData * settings, float flightMode);
 static void processArm(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
 static void setArmedIfChanged(uint8_t val);
-static int8_t set_manual_control_error(uint8_t errorCode);
+static int8_t set_manual_control_error(SystemAlarmsManualControlOptions errorCode);
 
 static void manualControlTask(void *parameters);
 static float scaleChannel(int16_t value, int16_t max, int16_t min, int16_t neutral);
@@ -394,10 +394,8 @@ static void manualControlTask(void *parameters)
 		static uint8_t lastFlightMode = FLIGHTSTATUS_FLIGHTMODE_MANUAL;
 		switch(PARSE_FLIGHT_MODE(flightStatus.FlightMode)) {
 			case FLIGHTMODE_UNDEFINED:
-				{
-					// This reflects a bug in the code architecture!
-					set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_UNDEFINED);
-				}
+				// This reflects a bug in the code architecture!
+				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_UNDEFINED);
 				break;
 			case FLIGHTMODE_MANUAL:
 				updateActuatorDesired(&cmd);
@@ -421,9 +419,7 @@ static void manualControlTask(void *parameters)
 						updatePathDesired(&cmd, lastFlightMode != flightStatus.FlightMode, true);
 						break;
 					default:
-						{
-							set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_UNDEFINED);
-						}
+						set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_UNDEFINED);
 				}
 				break;
 		}
@@ -1017,7 +1013,7 @@ static void applyDeadband(float *value, float deadband)
  * @param[in] error code
  * @returns -1 on no change of error code and alarm state, 0 on change of error code and alarm state
  */
-static int8_t set_manual_control_error(uint8_t error_code)
+static int8_t set_manual_control_error(SystemAlarmsManualControlOptions error_code)
 {
 	uint8_t current_error_code;
 	SystemAlarmsManualControlGet(&current_error_code);

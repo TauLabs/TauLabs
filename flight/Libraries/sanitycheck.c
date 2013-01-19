@@ -5,7 +5,7 @@
  * @addtogroup OpenPilot Libraries OpenPilot System Libraries
  * @{
  * @file       sanitycheck.c
- * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2013.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2012-2013.
  * @brief      Utilities to validate a flight configuration
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -44,7 +44,7 @@
 static int32_t check_stabilization_settings(int index, bool multirotor);
 
 //!  Set the error code and alarm state
-static int8_t set_config_error(uint8_t error_code);
+static int8_t set_config_error(SystemAlarmsConfigErrorOptions error_code);
 
 /**
  * Run a preflight check over the hardware configuration
@@ -111,8 +111,13 @@ int32_t configuration_check()
 				error_code = (error_code == SYSTEMALARMS_CONFIGERROR_NONE) ? check_stabilization_settings(3, multirotor) : error_code;
 				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_AUTOTUNE:
-				if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_AUTOTUNE))
+				if (coptercontrol)
 					error_code = SYSTEMALARMS_CONFIGERROR_AUTOTUNE;
+				else {
+					// Revo supports altitude hold
+					if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_AUTOTUNE))
+						error_code = SYSTEMALARMS_CONFIGERROR_AUTOTUNE;
+				}
 				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_ALTITUDEHOLD:
 				if (coptercontrol)
@@ -216,7 +221,7 @@ static int32_t check_stabilization_settings(int index, bool multirotor)
  * @param[in] error code
  * @returns -1 on no change of error code and alarm state, 0 on change of error code and alarm state
  */
-static int8_t set_config_error(uint8_t error_code)
+static int8_t set_config_error(SystemAlarmsConfigErrorOptions error_code)
 {
 	uint8_t current_error_code;
 	SystemAlarmsManualControlGet(&current_error_code);
