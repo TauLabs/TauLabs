@@ -48,16 +48,20 @@
 #include "attitudeactual.h"
 #include "camerastabsettings.h"
 #include "cameradesired.h"
+#include "homelocation.h"
 #include "modulesettings.h"
 #include "misc_math.h"
 #include "poilocation.h"
 #include "positionactual.h"
+#include "tabletinfo.h"
 
 //
 // Configuration
 //
 #define SAMPLE_PERIOD_MS     10
 #define LOAD_DELAY           7000
+
+#define CAMERASTAB_POI_MODE
 
 // Private types
 enum {ROLL,PITCH,YAW,MAX_AXES};
@@ -78,6 +82,10 @@ static struct CameraStab_data {
 static void attitudeUpdated(UAVObjEvent* ev);
 static void settings_updated_cb(UAVObjEvent * ev);
 static void applyFF(uint8_t index, float dT_ms, float *attitude, CameraStabSettingsData* cameraStab);
+
+#if defined(CAMERASTAB_POI_MODE)
+static void tabletInfoUpdated(UAVObjEvent * ev);
+#endif /* CAMERASTAB_POI_MODE */
 
 /**
  * Initialise the module, called on startup
@@ -120,6 +128,7 @@ int32_t CameraStabInitialize(void)
 		settings_updated_cb(NULL);
 #if defined(CAMERASTAB_POI_MODE)
 		PoiLocationInitialize();
+		TabletInfoInitialize();
 #endif /* CAMERASTAB_POI_MODE */
 
 		UAVObjEvent ev = {
@@ -138,6 +147,9 @@ int32_t CameraStabInitialize(void)
 /* stub: module has no module thread */
 int32_t CameraStabStart(void)
 {
+#if defined(CAMERASTAB_POI_MODE)
+	TabletInfoConnectCallback(tabletInfoUpdated);
+#endif /* CAMERASTAB_POI_MODE */
 	return 0;
 }
 
@@ -185,7 +197,7 @@ static void attitudeUpdated(UAVObjEvent* ev)
 		csd->attitude_filtered[i] = (rt_ms / (rt_ms + dT_ms)) * csd->attitude_filtered[i] + (dT_ms / (rt_ms + dT_ms)) * attitude;
 		attitude = csd->attitude_filtered[i];
 
-		if (settings->Input[i] != CAMERASTABSETTINGS_INPUT_NONE && cameraStab.Input[i] != CAMERASTABSETTINGS_INPUT_POI) {
+		if (settings->Input[i] != CAMERASTABSETTINGS_INPUT_NONE && settings->Input[i] != CAMERASTABSETTINGS_INPUT_POI) {
 			if (AccessoryDesiredInstGet(settings->Input[i] - CAMERASTABSETTINGS_INPUT_ACCESSORY0, &accessory) == 0) {
 				float input;
 				float input_rate;
@@ -206,7 +218,7 @@ static void attitudeUpdated(UAVObjEvent* ev)
 			}
 		}
 #if defined(CAMERASTAB_POI_MODE)		
-		else if (cameraStab.Input[i] == CAMERASTABSETTINGS_INPUT_POI) {
+		else if (settings->Input[i] == CAMERASTABSETTINGS_INPUT_POI) {
 			PositionActualData positionActual;
 			PositionActualGet(&positionActual);
 			PoiLocationData poi;
@@ -302,6 +314,48 @@ static void applyFF(uint8_t index, float dT_ms, float *attitude, CameraStabSetti
 static void settings_updated_cb(UAVObjEvent * ev)
 {
 	CameraStabSettingsGet(&csd->settings);
+}
+
+/**
+ * When the tablet info changes update the POI location to match
+ * the current tablet location
+ */
+static void tabletInfoUpdated(UAVObjEvent * ev)
+{
+	const float DEG2RAD = M_PI / 180.0f;
+
+	if (ev->obj == NULL || ev->obj != TabletInfoHandle())
+		return;
+
+	TabletInfoData tablet;
+	TabletInfoGet(&tablet);
+	if (tablet.TabletModeDesired != TABLETINFO_TABLETMODEDESIRED_CAMERAPOI)
+		return;
+
+	HomeLocationData homeLocation;
+	HomeLocationGet(&homeLocation);
+
+	PoiLocationData poi;
+	PoiLocationGet(&poi);
+
+	float lat, alt;
+	lat = homeLocation.Latitude / 10.0e6f * DEG2RAD;
+	alt = homeLocation.Altitude;
+
+	float T[3];
+	T[0] = alt+6.378137E6f;
+	T[1] = cosf(lat)*(alt+6.378137E6f);
+	T[2] = -1.0f;
+
+	float dL[3] = {(tablet.Latitude - homeLocation.Latitude) / 10.0e6f * DEG2RAD,
+		(tablet.Longitude - homeLocation.Longitude) / 10.0e6f * DEG2RAD,
+		(tablet.Altitude - homeLocation.Altitude)};
+
+	poi.North = T[0] * dL[0];
+	poi.East = T[1] * dL[1];
+	poi.Down = T[2] * dL[2];
+	poi.North = poi.North + 0.1f;
+	PoiLocationSet(&poi);
 }
 
 /**

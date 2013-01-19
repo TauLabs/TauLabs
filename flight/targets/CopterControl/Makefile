@@ -238,6 +238,7 @@ SRC += $(OPUAVSYNTHDIR)/pathdesired.c
 SRC += $(OPUAVSYNTHDIR)/homelocation.c
 SRC += $(OPUAVSYNTHDIR)/poilocation.c
 SRC += $(OPUAVSYNTHDIR)/positionactual.c
+SRC += $(OPUAVSYNTHDIR)/tabletinfo.c
 SRC += $(OPUAVSYNTHDIR)/velocityactual.c
 SRC += $(OPUAVSYNTHDIR)/airspeedactual.c
 SRC += $(OPUAVSYNTHDIR)/sensorsettings.c
