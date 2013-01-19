@@ -230,6 +230,10 @@ static int8_t set_config_error(uint8_t error_code)
 				SystemAlarmsManualControlSet(&error_code);
 				AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, SYSTEMALARMS_ALARM_ERROR);
 				break;
+			case SYSTEMALARMS_CONFIGERROR_MULTIROTOR:
+				SystemAlarmsManualControlSet(&error_code);
+				AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, SYSTEMALARMS_ALARM_ERROR);
+				break;
 			case SYSTEMALARMS_CONFIGERROR_AUTOTUNE:
 				SystemAlarmsManualControlSet(&error_code);
 				AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, SYSTEMALARMS_ALARM_ERROR);
