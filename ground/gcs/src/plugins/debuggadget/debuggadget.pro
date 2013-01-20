@@ -1,7 +1,7 @@
 TEMPLATE = lib 
 TARGET = DebugGadget
 
-include(../../abovegroundlabsgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
 HEADERS += debugplugin.h \
     debugengine.h

@@ -46,7 +46,7 @@ const char * const GCS_VERSION_CODENAME = "Phoenix";
     "." STRINGIFY(GCS_VERSION_RELEASE)
 
 const char * const GCS_VERSION_LONG      = GCS_VERSION;
-const char * const GCS_AUTHOR            = "Above Ground Labs";
+const char * const GCS_AUTHOR            = "Tau Labs";
 const char * const GCS_YEAR              = "2012";
 
 const char * const GCS_HELP              = "http://github.com/PhoenixPilot";

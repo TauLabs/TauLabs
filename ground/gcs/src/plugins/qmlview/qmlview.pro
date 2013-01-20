@@ -4,7 +4,7 @@ QT += svg
 QT += opengl
 QT += declarative
 
-include(../../abovegroundlabsgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
 include(qmlview_dependencies.pri)
 

@@ -1,4 +1,4 @@
-include(../../abovegroundlabsgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(../../libs/utils/utils.pri)
 include(../../plugins/uavtalk/uavtalk.pri)
 include(../../plugins/coreplugin/coreplugin.pri)

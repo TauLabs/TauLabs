@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = GLC_lib
 DEFINES += GLC_LIB_LIBRARY
-include(../../abovegroundlabslibrary.pri)
+include(../../taulabslibrary.pri)
 
 # GLC_lib qmake configuration
 #TEMPLATE = lib

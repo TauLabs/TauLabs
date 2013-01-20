@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = QExtSerialPort
 DEFINES += QEXTSERIALPORT_LIBRARY
-include(../../../abovegroundlabslibrary.pri)
+include(../../../taulabslibrary.pri)
 
 #VERSION                 = 1.2.0
 

@@ -1,6 +1,6 @@
 TEMPLATE = lib
 TARGET = ModelViewGadget
-include(../../abovegroundlabsgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
 include(../../libs/glc_lib/glc_lib.pri)
 include(modelview_dependencies.pri)

@@ -6,7 +6,7 @@ QT += xml \
     script \
     svg \
     sql
-include(../../abovegroundlabsgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(../../libs/utils/utils.pri)
 include(../../shared/scriptwrapper/scriptwrapper.pri)
 include(coreplugin_dependencies.pri)
@@ -146,7 +146,7 @@ FORMS += dialogs/settingsdialog.ui \
 RESOURCES += core.qrc \
     fancyactionbar.qrc
 unix:!macx { 
-    images.files = images/abovegroundlabs_logo_*.png
+    images.files = images/taulabs_logo_*.png
     images.files = images/qtcreator_logo_*.png
     images.path = /share/pixmaps
     INSTALLS += images

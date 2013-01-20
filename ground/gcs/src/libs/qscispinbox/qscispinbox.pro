@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = QScienceSpinBox
 
-include(../../abovegroundlabslibrary.pri)
+include(../../taulabslibrary.pri)
 
 DEFINES += QSCIENCESPINBOX
 

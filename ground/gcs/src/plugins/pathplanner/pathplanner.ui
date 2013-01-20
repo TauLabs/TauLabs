@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../coreplugin/core.qrc">
-    <normaloff>:/core/images/abovegroundlabs_logo_64.png</normaloff>:/core/images/abovegroundlabs_logo_64.png</iconset>
+    <normaloff>:/core/images/taulabs_logo_64.png</normaloff>:/core/images/taulabs_logo_64.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

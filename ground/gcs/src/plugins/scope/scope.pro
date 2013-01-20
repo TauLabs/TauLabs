@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = ScopeGadget
 DEFINES += SCOPE_LIBRARY
-include(../../abovegroundlabsgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include (scope_dependencies.pri)
 HEADERS += scopeplugin.h \
     plotdata.h \

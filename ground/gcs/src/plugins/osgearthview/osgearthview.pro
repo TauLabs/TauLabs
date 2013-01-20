@@ -2,7 +2,7 @@ TEMPLATE = lib
 TARGET = OsgEarthviewGadget
 
 QT += opengl
-include(../../abovegroundlabsgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
 include(osgearthview_dependencies.pri)
 include(osg.pri)

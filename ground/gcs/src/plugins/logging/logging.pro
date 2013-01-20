@@ -2,7 +2,7 @@ TEMPLATE = lib
 TARGET = LoggingGadget
 DEFINES += LOGGING_LIBRARY
 QT += svg
-include(../../abovegroundlabsgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(logging_dependencies.pri)
 HEADERS += loggingplugin.h \
     logfile.h \
