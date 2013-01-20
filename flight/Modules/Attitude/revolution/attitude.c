@@ -9,7 +9,8 @@
  *
  * @file       attitude.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Module to handle all comms to the AHRS on a periodic basis.
+ * @author     Tau Labs, http://taulabs.org Copyright (C) 2012-2013.
+ * @brief      Module to handle attitude estimation on the pro systems.
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -105,6 +106,12 @@ const uint32_t SENSOR_QUEUE_SIZE = 10;
 bool accel_filter_enabled;
 float accel_alpha;
 
+// For computing the average gyro during arming
+static bool accumulating_gyro = false;
+static uint32_t accumulated_gyro_samples = 0;
+static float accumulated_gyro[3];
+
+
 // Private functions
 static void AttitudeTask(void *parameters);
 
@@ -115,6 +122,15 @@ static void settingsUpdatedCb(UAVObjEvent * objEv);
 //! A low pass filter on the accels which helps with vibration resistance
 static void apply_accel_filter(const float * raw, float * filtered);
 static int32_t getNED(GPSPositionData * gpsPosition, float * NED);
+
+//! Compute the mean gyro accumulated and assign the bias
+static void accumulate_gyro_compute();
+
+//! Zero the gyro accumulators
+static void accumulate_gyro_zero();
+
+//! Store a gyro sample
+static void accumulate_gyro(GyrosData *gyrosData);
 
 /**
  * API for sensor fusion algorithms:
@@ -260,7 +276,6 @@ float qmag;
 float attitudeDt;
 float mag_err[3];
 float magKi = 0.000001f;
-float magKp = 0.01f;
 
 static int32_t updateAttitudeComplementary(bool first_run)
 {
@@ -269,12 +284,21 @@ static int32_t updateAttitudeComplementary(bool first_run)
 	AccelsData accelsData;
 	static int32_t timeval;
 	float dT;
-	static uint8_t init = 0;
 
 	static float accels_filtered[3] = {0,0,0};
 	static float grot_filtered[3] = {0,0,0};
 
-	// Wait until the AttitudeRaw object is updated, if a timeout then go to failsafe
+	static uint32_t arming_count = 0;
+
+	// Track the initialization state of the complimentary filter
+	static enum complimentary_filter_status {
+		CF_POWERON,
+		CF_INITIALIZING,
+		CF_ARMING,
+		CF_NORMAL
+	} complimentary_filter_status = CF_POWERON;
+
+	// Wait until the accel and gyro object is updated, if a timeout then go to failsafe
 	if ( xQueueReceive(gyroQueue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS) != pdTRUE ||
 	     xQueueReceive(accelQueue, &ev, 1 / portTICK_RATE_MS) != pdTRUE )
 	{
@@ -288,58 +312,101 @@ static int32_t updateAttitudeComplementary(bool first_run)
 
 	AccelsGet(&accelsData);
 
-	// During initialization and 
-	FlightStatusData flightStatus;
-	FlightStatusGet(&flightStatus);
+	// When this algorithm is first run force it to a known condition
 	if(first_run) {
-#if defined(PIOS_INCLUDE_HMC5883) || defined(PIOS_INCLUDE_LSM303)
-		// To initialize we need a valid mag reading
-		if ( xQueueReceive(magQueue, &ev, 0 / portTICK_RATE_MS) != pdTRUE )
-			return -1;
-		MagnetometerData magData;
-		MagnetometerGet(&magData);
-#else
 		MagnetometerData magData;
 		magData.x = 100;
 		magData.y = 0;
 		magData.z = 0;
-#endif
+
+		// Wait for a mag reading if a magnetometer was registered
+		if (PIOS_SENSORS_GetQueue(PIOS_SENSOR_MAG) != NULL) {
+			if ( xQueueReceive(magQueue, &ev, 0 / portTICK_RATE_MS) != pdTRUE ) {
+				return -1;
+			}
+			MagnetometerGet(&magData);
+		}
+
+		// Pick initial attitude based on accel and mag data
 		AttitudeActualData attitudeActual;
 		AttitudeActualGet(&attitudeActual);
-		init = 0;
 		attitudeActual.Roll = atan2f(-accelsData.y, -accelsData.z) * 180.0f / F_PI;
 		attitudeActual.Pitch = atan2f(accelsData.x, -accelsData.z) * 180.0f / F_PI;
 		attitudeActual.Yaw = atan2f(-magData.y, magData.x) * 180.0f / F_PI;
-
 		RPY2Quaternion(&attitudeActual.Roll,&attitudeActual.q1);
 		AttitudeActualSet(&attitudeActual);
 
+		complimentary_filter_status = CF_POWERON;
 		timeval = PIOS_DELAY_GetRaw();
 
-		return 0;
+		arming_count = 0;
 
+		return 0;
 	}
 
-	if((init == 0 && xTaskGetTickCount() < 7000) && (xTaskGetTickCount() > 1000)) {
+	FlightStatusData flightStatus;
+	FlightStatusGet(&flightStatus);
+
+	if (complimentary_filter_status == CF_POWERON) {
+		complimentary_filter_status = (xTaskGetTickCount() > 1000) ?
+			CF_INITIALIZING : CF_POWERON;
+	} else if(complimentary_filter_status == CF_INITIALIZING &&
+		(xTaskGetTickCount() < 7000) && 
+		(xTaskGetTickCount() > 1000)) {
+
 		// For first 7 seconds use accels to get gyro bias
-		attitudeSettings.AccelKp = 1;
-		attitudeSettings.AccelKi = 0.9;
-		attitudeSettings.YawBiasRate = 0.23;
-		magKp = 1;
-	} else if ((attitudeSettings.ZeroDuringArming == ATTITUDESETTINGS_ZERODURINGARMING_TRUE) && (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMING)) {
-		attitudeSettings.AccelKp = 1;
-		attitudeSettings.AccelKi = 0.9;
-		attitudeSettings.YawBiasRate = 0.23;
-		magKp = 1;
-		init = 0;
-	} else if (init == 0) {
-		// Reload settings (all the rates)
+		attitudeSettings.AccelKp = 0.1f + 0.1f * (xTaskGetTickCount() < 4000);
+		attitudeSettings.AccelKi = 0.1f;
+		attitudeSettings.YawBiasRate = 0.1f;
+		attitudeSettings.MagKp = 0.1f;
+	} else if ((attitudeSettings.ZeroDuringArming == ATTITUDESETTINGS_ZERODURINGARMING_TRUE) && 
+	           (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMING)) {
+
+		// Use a rapidly decrease accelKp to force the attitude to snap back
+		// to level and then converge more smoothly
+		if (arming_count < 20)
+			attitudeSettings.AccelKp = 1.0f;
+		else if (attitudeSettings.AccelKp > 0.1f)
+			attitudeSettings.AccelKp -= 0.01f;
+		arming_count++;
+
+		// Set the other parameters to drive faster convergence
+		attitudeSettings.AccelKi = 0.1f;
+		attitudeSettings.YawBiasRate = 0.1f;
+		attitudeSettings.MagKp = 0.1f;
+
+		// Don't apply LPF to the accels during arming
+		accel_filter_enabled = false;
+
+		// Indicate arming so that after arming it reloads
+		// the normal settings
+		if (complimentary_filter_status != CF_ARMING) {
+			accumulate_gyro_zero();
+			complimentary_filter_status = CF_ARMING;
+			accumulating_gyro = true;
+		}
+
+	} else if (complimentary_filter_status == CF_ARMING ||
+	           complimentary_filter_status == CF_INITIALIZING) {
+
 		AttitudeSettingsGet(&attitudeSettings);
-		magKp = attitudeSettings.MagKp;
-		init = 1;
+		if(accel_alpha > 0.0f)
+			accel_filter_enabled = true;
+
+		// If arming that means we were accumulating gyro
+		// samples.  Compute new bias.
+		if (complimentary_filter_status == CF_ARMING) {
+			accumulate_gyro_compute();
+			accumulating_gyro = false;
+			arming_count = 0;
+		}
+
+		// Indicate normal mode to prevent rerunning this code
+		complimentary_filter_status = CF_NORMAL;
 	}
 
 	GyrosGet(&gyrosData);
+	accumulate_gyro(&gyrosData);
 
 	// Compute the dT using the cpu clock
 	dT = PIOS_DELAY_DiffuS(timeval) / 1000000.0f;
@@ -436,7 +503,7 @@ static int32_t updateAttitudeComplementary(bool first_run)
 	// Correct rates based on error, integral component dealt with in updateSensors
 	gyrosData.x += accel_err[0] * attitudeSettings.AccelKp / dT;
 	gyrosData.y += accel_err[1] * attitudeSettings.AccelKp / dT;
-	gyrosData.z += accel_err[2] * attitudeSettings.AccelKp / dT + mag_err[2] * magKp / dT;
+	gyrosData.z += accel_err[2] * attitudeSettings.AccelKp / dT + mag_err[2] * attitudeSettings.MagKp / dT;
 
 	// Work out time derivative from INSAlgo writeup
 	// Also accounts for the fact that gyros are in deg/s
@@ -524,6 +591,69 @@ static int32_t updateAttitudeComplementary(bool first_run)
 
 	return 0;
 }
+
+/**
+ * If accumulating data and enough samples acquired then recompute
+ * the gyro bias based on the mean accumulated
+ */
+static void accumulate_gyro_compute()
+{
+	if (accumulating_gyro && 
+		accumulated_gyro_samples > 100) {
+
+		// Accumulate integral of error.  Scale here so that units are (deg/s) but Ki has units of s
+		GyrosBiasData gyrosBias;
+		GyrosBiasGet(&gyrosBias);
+		gyrosBias.x = accumulated_gyro[0] / accumulated_gyro_samples;
+		gyrosBias.y = accumulated_gyro[1] / accumulated_gyro_samples;
+		gyrosBias.z = accumulated_gyro[2] / accumulated_gyro_samples;
+		GyrosBiasSet(&gyrosBias);
+
+		accumulate_gyro_zero();
+
+		accumulating_gyro = false;
+	}
+}
+
+/**
+ * Zero the accumulation of gyro data
+ */
+static void accumulate_gyro_zero()
+{
+	accumulated_gyro_samples = 0;
+	accumulated_gyro[0] = 0;
+	accumulated_gyro[1] = 0;
+	accumulated_gyro[2] = 0;
+}
+
+/**
+ * Accumulate a set of gyro samples for computing the
+ * bias
+ * @param [in] gyrosData The samples of data to accumulate
+ */
+static void accumulate_gyro(GyrosData *gyrosData)
+{
+	if (!accumulating_gyro)
+		return;
+
+	accumulated_gyro_samples++;
+
+	// bias_correct_gyro
+	if (true) {
+		// Apply bias correction to the gyros from the state estimator
+		GyrosBiasData gyrosBias;
+		GyrosBiasGet(&gyrosBias);
+
+		accumulated_gyro[0] += gyrosData->x + gyrosBias.x;
+		accumulated_gyro[1] += gyrosData->y + gyrosBias.y;
+		accumulated_gyro[2] += gyrosData->z + gyrosBias.z;
+	} else {
+		accumulated_gyro[0] += gyrosData->x;
+		accumulated_gyro[1] += gyrosData->y;
+		accumulated_gyro[2] += gyrosData->z;
+	}
+}
+
 
 #include "insgps.h"
 int32_t ins_failed = 0;
