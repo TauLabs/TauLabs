@@ -439,11 +439,11 @@ $$(UAVO_COLLECTION_DIR)/$(1)/java-build/uavobjects.jar: $$(UAVO_COLLECTION_DIR)/
 		HASH=$$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash) && \
 		cd $$(UAVO_COLLECTION_DIR)/$(1)/java-build && \
 		javac java/*.java \
-		   $$(ROOT_DIR)/androidgcs/src/org/abovegroundlabs/uavtalk/UAVDataObject.java \
-		   $$(ROOT_DIR)/androidgcs/src/org/abovegroundlabs/uavtalk/UAVObject*.java \
-		   $$(ROOT_DIR)/androidgcs/src/org/abovegroundlabs/uavtalk/UAVMetaObject.java \
+		   $$(ROOT_DIR)/androidgcs/src/org/taulabs/uavtalk/UAVDataObject.java \
+		   $$(ROOT_DIR)/androidgcs/src/org/taulabs/uavtalk/UAVObject*.java \
+		   $$(ROOT_DIR)/androidgcs/src/org/taulabs/uavtalk/UAVMetaObject.java \
 		   -d . && \
-		find ./org/abovegroundlabs/uavtalk/uavobjects -type f -name '*.class' > classlist.txt && \
+		find ./org/taulabs/uavtalk/uavobjects -type f -name '*.class' > classlist.txt && \
 		jar cf tmp_uavobjects.jar @classlist.txt && \
 		$$(ANDROID_DX) \
 			--dex \

@@ -12,7 +12,7 @@
 TEMPLATE = lib
 TARGET = Qwt
 DEFINES += QWT_LIBRARY
-include(../../../abovegroundlabslibrary.pri)
+include(../../../taulabslibrary.pri)
 include( ../qwtconfig.pri )
 
 #VVERSION = $$[QT_VERSION]

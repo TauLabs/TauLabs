@@ -5,11 +5,11 @@
 NSIS_CMD      := makensis.exe
 NSIS_OPTS     := /V3
 NSIS_DIR      := $(ROOT_DIR)/package/winx86
-NSIS_SCRIPT   := $(NSIS_DIR)/abovegroundlabs.nsi
-NSIS_TEMPLATE := $(NSIS_DIR)/abovegroundlabs.tpl
-NSIS_HEADER   := $(BUILD_DIR)/ground/gcs/abovegroundlabs.nsh
+NSIS_SCRIPT   := $(NSIS_DIR)/taulabs.nsi
+NSIS_TEMPLATE := $(NSIS_DIR)/taulabs.tpl
+NSIS_HEADER   := $(BUILD_DIR)/ground/gcs/taulabs.nsh
 
-win_package: gcs package_flight
+win_package: gcs package_flight package_matlab
 	$(V1) mkdir -p "$(dir $(NSIS_HEADER))"
 	$(VERSION_CMD) --template="$(NSIS_TEMPLATE)" --outfile="$(NSIS_HEADER)" PACKAGE_LBL="$(PACKAGE_LBL)"
 	$(V1) echo "Building Windows installer, please wait..."

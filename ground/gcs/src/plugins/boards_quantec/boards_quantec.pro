@@ -1,6 +1,6 @@
 TEMPLATE = lib
 TARGET = Quantec
-include(../../abovegroundlabsgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
 
 OTHER_FILES += Quantec.pluginspec

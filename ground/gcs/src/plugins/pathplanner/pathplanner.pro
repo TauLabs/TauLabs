@@ -2,7 +2,7 @@ QT += xml
 TEMPLATE = lib
 TARGET = PathPlanner
 
-include(../../abovegroundlabsgcsplugin.pri) 
+include(../../taulabsgcsplugin.pri) 
 include(../../plugins/coreplugin/coreplugin.pri) 
 include(../../plugins/uavobjects/uavobjects.pri)
 

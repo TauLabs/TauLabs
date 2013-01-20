@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = opmapwidget
 DEFINES += OPMAPWIDGET_LIBRARY
-include(../../../../abovegroundlabslibrary.pri)
+include(../../../../taulabslibrary.pri)
 
 # DESTDIR = ../build
 SOURCES += mapgraphicitem.cpp \

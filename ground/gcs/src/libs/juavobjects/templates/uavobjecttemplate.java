@@ -3,6 +3,7 @@
  *
  * @file       uavobjecttemplate.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org Copyright (C) 2012-2013.
  * @brief      Template for an uavobject in java
  *             $(GENERATEDWARNING)
  *             $(DESCRIPTION)
@@ -26,17 +27,17 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package org.abovegroundlabs.uavtalk.uavobjects;
+package org.taulabs.uavtalk.uavobjects;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.abovegroundlabs.uavtalk.UAVObjectManager;
-import org.abovegroundlabs.uavtalk.UAVObject;
-import org.abovegroundlabs.uavtalk.UAVDataObject;
-import org.abovegroundlabs.uavtalk.UAVObjectField;
+import org.taulabs.uavtalk.UAVObjectManager;
+import org.taulabs.uavtalk.UAVObject;
+import org.taulabs.uavtalk.UAVDataObject;
+import org.taulabs.uavtalk.UAVObjectField;
 
 /**
 $(DESCRIPTION)

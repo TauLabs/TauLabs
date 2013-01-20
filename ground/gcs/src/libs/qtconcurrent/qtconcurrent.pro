@@ -2,7 +2,7 @@ TEMPLATE = lib
 TARGET = QtConcurrent
 DEFINES += BUILD_QTCONCURRENT
 
-include(../../abovegroundlabslibrary.pri)
+include(../../taulabslibrary.pri)
 
 HEADERS += \
     qtconcurrent_global.h \

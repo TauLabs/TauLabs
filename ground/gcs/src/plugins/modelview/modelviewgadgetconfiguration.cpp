@@ -30,7 +30,7 @@
 
 ModelViewGadgetConfiguration::ModelViewGadgetConfiguration(QString classId, QSettings* qSettings, QObject *parent) :
     IUAVGadgetConfiguration(classId, parent),
-    m_acFilename("../share/abovegroundlabs/models/planes/Easystar/EasyStar.3ds"),
+    m_acFilename("../share/taulabs/models/planes/Easystar/EasyStar.3ds"),
     m_bgFilename(""),
     m_enableVbo(false)
 {

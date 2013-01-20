@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Above Ground Labs</string>
+	<string name="app_name">Tau Labs GCS</string>
 	<string name="object_browser_name">Browser</string>
 	<string name="controller_name">Controller</string>
 	<string name="pfd_name">PFD</string>

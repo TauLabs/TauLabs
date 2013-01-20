@@ -2,7 +2,7 @@ TEMPLATE = lib
 TARGET = MotionCapture
 QT += network
 
-include(../../abovegroundlabsgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(mocap_dependencies.pri)
 
 HEADERS += mocapplugin.h \

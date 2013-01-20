@@ -1,9 +1,9 @@
 <plugin name="SetupWizard" version="1.0.0" compatVersion="1.0.0">
-    <vendor>Above Ground Labs</vendor>
+    <vendor>Tau Labs</vendor>
     <copyright>(C) 2012 OpenPilot Project</copyright>
     <license>The GNU Public License (GPL) Version 3</license>
     <description>A plugin that provides a setup wizard for easy initial setup of airframes.</description>
-    <url>http://abovegroundlabs.org</url>
+    <url>http://taulabs.org</url>
     <dependencyList>
         <dependency name="Core" version="1.0.0"/>
         <dependency name="Config" version="1.0.0"/>

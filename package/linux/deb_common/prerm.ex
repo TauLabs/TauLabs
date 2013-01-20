@@ -1,5 +1,5 @@
 #!/bin/sh
-# prerm script for abovegroundlabs
+# prerm script for taulabs
 #
 # see: dh_installdeb(1)
 

@@ -2,7 +2,7 @@
 TEMPLATE = lib 
 TARGET = NotifyPlugin 
  
-include(../../abovegroundlabsgcsplugin.pri) 
+include(../../taulabsgcsplugin.pri) 
 include(../../plugins/coreplugin/coreplugin.pri) 
 include(notifyplugin_dependencies.pri)
 
