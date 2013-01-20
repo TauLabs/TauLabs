@@ -6,6 +6,7 @@
  * @{
  * @file       sanitycheck.c
  * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2012-2013.
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @brief      Utilities to validate a flight configuration
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -52,7 +53,7 @@ static int8_t set_config_error(SystemAlarmsConfigErrorOptions error_code);
  */
 int32_t configuration_check()
 {
-	uint8_t error_code = SYSTEMALARMS_CONFIGERROR_NONE;
+	SystemAlarmsConfigErrorOptions error_code = SYSTEMALARMS_CONFIGERROR_NONE;
 	
 	// Get board type
 	const struct pios_board_info * bdinfo = &pios_board_info_blob;	
@@ -223,7 +224,7 @@ static int32_t check_stabilization_settings(int index, bool multirotor)
  */
 static int8_t set_config_error(SystemAlarmsConfigErrorOptions error_code)
 {
-	uint8_t current_error_code;
+	SystemAlarmsConfigErrorOptions current_error_code;
 	SystemAlarmsManualControlGet(&current_error_code);
 	if (current_error_code != error_code) {
 		switch (error_code) {

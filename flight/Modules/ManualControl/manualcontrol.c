@@ -11,7 +11,7 @@
  * AttitudeDesired object (stabilized mode)
  *
  * @file       manualcontrol.c
- * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2013.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2012-2013.
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @brief      ManualControl module. Handles safety R/C link and flight mode.
  *
@@ -1015,7 +1015,7 @@ static void applyDeadband(float *value, float deadband)
  */
 static int8_t set_manual_control_error(SystemAlarmsManualControlOptions error_code)
 {
-	uint8_t current_error_code;
+	SystemAlarmsManualControlOptions current_error_code;
 	SystemAlarmsManualControlGet(&current_error_code);
 	if (current_error_code != error_code) {
 		switch (error_code) {
