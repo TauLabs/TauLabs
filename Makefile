@@ -439,11 +439,11 @@ $$(UAVO_COLLECTION_DIR)/$(1)/java-build/uavobjects.jar: $$(UAVO_COLLECTION_DIR)/
 		HASH=$$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash) && \
 		cd $$(UAVO_COLLECTION_DIR)/$(1)/java-build && \
 		javac java/*.java \
-		   $$(ROOT_DIR)/androidgcs/src/org/abovegroundlabs/uavtalk/UAVDataObject.java \
-		   $$(ROOT_DIR)/androidgcs/src/org/abovegroundlabs/uavtalk/UAVObject*.java \
-		   $$(ROOT_DIR)/androidgcs/src/org/abovegroundlabs/uavtalk/UAVMetaObject.java \
+		   $$(ROOT_DIR)/androidgcs/src/org/taulabs/uavtalk/UAVDataObject.java \
+		   $$(ROOT_DIR)/androidgcs/src/org/taulabs/uavtalk/UAVObject*.java \
+		   $$(ROOT_DIR)/androidgcs/src/org/taulabs/uavtalk/UAVMetaObject.java \
 		   -d . && \
-		find ./org/abovegroundlabs/uavtalk/uavobjects -type f -name '*.class' > classlist.txt && \
+		find ./org/taulabs/uavtalk/uavobjects -type f -name '*.class' > classlist.txt && \
 		jar cf tmp_uavobjects.jar @classlist.txt && \
 		$$(ANDROID_DX) \
 			--dex \
@@ -852,8 +852,14 @@ $(UT_OUT_DIR):
 .PHONY: all_ut
 all_ut: $(addsuffix _elf, $(addprefix ut_, $(ALL_UNITTESTS)))
 
+# The all_ut_tap goal is a legacy alias for the all_ut_xml target so that Jenkins
+# can still build old branches.  This can be deleted in a few months when all
+# branches are using the newer targets.
 .PHONY: all_ut_tap
-all_ut_tap: $(addsuffix _tap, $(addprefix ut_, $(ALL_UNITTESTS)))
+all_ut_tap: all_ut_xml
+
+.PHONY: all_ut_xml
+all_ut_xml: $(addsuffix _xml, $(addprefix ut_, $(ALL_UNITTESTS)))
 
 .PHONY: all_ut_run
 all_ut_run: $(addsuffix _run, $(addprefix ut_, $(ALL_UNITTESTS)))

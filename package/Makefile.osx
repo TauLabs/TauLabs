@@ -2,7 +2,7 @@
 # MacOSX-specific packaging
 #
 
-osx_package: gcs package_flight
+osx_package: gcs package_flight package_matlab
 	( \
 	  ROOT_DIR="$(ROOT_DIR)" \
 	  BUILD_DIR="$(BUILD_DIR)" \

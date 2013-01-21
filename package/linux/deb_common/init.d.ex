@@ -1,6 +1,6 @@
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides:          abovegroundlabs
+# Provides:          taulabs
 # Required-Start:    $network $local_fs
 # Required-Stop:
 # Default-Start:     2 3 4 5
@@ -15,9 +15,9 @@
 
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
-DESC=abovegroundlabs             # Introduce a short description here
-NAME=abovegroundlabs             # Introduce the short server's name here
-DAEMON=/usr/sbin/abovegroundlabs # Introduce the server's location here
+DESC=taulabs             # Introduce a short description here
+NAME=taulabs             # Introduce the short server's name here
+DAEMON=/usr/sbin/taulabs # Introduce the server's location here
 DAEMON_ARGS=""             # Arguments to run the daemon with
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME

@@ -6,14 +6,14 @@
 
     <fragment
         android:id="@+id/pfd"
-        android:name="org.abovegroundlabs.androidgcs.fragments.PFD"
+        android:name="org.taulabs.androidgcs.fragments.PFD"
         android:layout_width="400dp"
         android:layout_height="400dp"
         tools:layout="@layout/pfd" />
 
     <fragment
         android:id="@+id/map"
-        android:name="org.abovegroundlabs.androidgcs.fragments.UavMapView"
+        android:name="org.taulabs.androidgcs.fragments.UavMapView"
         android:layout_width="400dp"
         android:layout_height="400dp"
         android:layout_alignParentTop="true"
@@ -40,7 +40,7 @@
 
     <fragment
         android:id="@+id/viewer"
-        android:name="org.abovegroundlabs.androidgcs.fragments.SystemAlarmsFragment"
+        android:name="org.taulabs.androidgcs.fragments.SystemAlarmsFragment"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignLeft="@+id/map"

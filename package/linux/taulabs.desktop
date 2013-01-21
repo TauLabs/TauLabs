@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=0.1.0
+Encoding=UTF-8
+Name=Tau Labs GCS
+Exec=taulabs-gcs
+TryExec=taulabs-gcs
+Comment=Configure, Tune, Diagnose, Track, & Upgrade FW for Tau Ground Labs solutions
+Terminal=false
+Categories=TauLabsMenu;Qt;Other;
+Icon=taulabs
+Type=Application
+MimeType=application/taulabs.snapshot;

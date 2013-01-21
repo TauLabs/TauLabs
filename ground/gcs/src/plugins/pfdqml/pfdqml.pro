@@ -7,7 +7,7 @@ OSG {
     DEFINES += USE_OSG
 }
 
-include(../../abovegroundlabsgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
 include(pfdqml_dependencies.pri)
 

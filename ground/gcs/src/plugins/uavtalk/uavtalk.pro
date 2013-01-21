@@ -1,7 +1,7 @@
 QT += network
 TEMPLATE = lib
 TARGET = UAVTalk
-include(../../abovegroundlabsgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(uavtalk_dependencies.pri)
 HEADERS += uavtalk.h \
     uavtalkplugin.h \

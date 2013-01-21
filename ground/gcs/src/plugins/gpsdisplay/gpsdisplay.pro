@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = GpsDisplayGadget
 QT += svg
-include(../../abovegroundlabsgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
 include(gpsdisplay_dependencies.pri)
 include(../../libs/qwt/qwt.pri)

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="org.abovegroundlabs.androidgcs" android:versionCode="1"
+	package="org.taulabs.androidgcs" android:versionCode="1"
 	android:versionName="Phoenix Beta">
 	<uses-sdk android:minSdkVersion="14" />
 
@@ -66,13 +66,13 @@
 				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
 			</intent-filter>
 			<intent-filter>
-				<action android:name="org.abovegroundlabs.intent.action.CONNECTED" />
-				<action android:name="org.abovegroundlabs.intent.action.DISCONNECTED" />
+				<action android:name="org.taulabs.intent.action.CONNECTED" />
+				<action android:name="org.taulabs.intent.action.DISCONNECTED" />
 			</intent-filter>
 			<meta-data android:name="android.appwidget.provider"
 				android:resource="@xml/telemetry_widget_info" />
 		</receiver>
 
-		<service android:name="org.abovegroundlabs.androidgcs.telemetry.OPTelemetryService"></service>
+		<service android:name="org.taulabs.androidgcs.telemetry.OPTelemetryService"></service>
 	</application>
 </manifest>

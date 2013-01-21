@@ -8,7 +8,7 @@
   	android:layout_width="fill_parent"
   	android:layout_height="fill_parent"
   	android:layout_weight="1">
-  	<org.abovegroundlabs.osg.EGLview android:id="@+id/surfaceGLES"
+  	<org.taulabs.osg.EGLview android:id="@+id/surfaceGLES"
   		android:visibility="visible"
   		android:layout_width="fill_parent"
   		android:layout_height="fill_parent"
