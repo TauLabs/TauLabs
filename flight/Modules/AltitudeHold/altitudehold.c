@@ -123,7 +123,8 @@ static void altitudeHoldTask(void *parameters)
 	AltitudeHoldDesiredData altitudeHoldDesired;
 	StabilizationDesiredData stabilizationDesired;
 
-	portTickType thisTime, lastUpdateTime;
+	portTickType this_time_ms;
+	portTickType last_update_time_ms = xTaskGetTickCount() * portTICK_RATE_MS;
 	UAVObjEvent ev;
 	
 	// Force update of the settings
@@ -211,7 +212,7 @@ static void altitudeHoldTask(void *parameters)
 			accels.z = accels_accum[2] / ACCEL_DOWNSAMPLE;
 			accels_accum[0] = accels_accum[1] = accels_accum[2] = 0;
 
-			thisTime = xTaskGetTickCount();
+			this_time_ms = xTaskGetTickCount() * portTICK_RATE_MS;
 
 			if (init == WAITIING_INIT) {
 				z[0] = baro.Altitude;
@@ -350,10 +351,10 @@ static void altitudeHoldTask(void *parameters)
 			throttleIntegral += error * altitudeHoldSettings.Ki * dT;
 
 			// Only update stabilizationDesired less frequently
-			if((thisTime - lastUpdateTime) < 20)
+			if((this_time_ms - last_update_time_ms) < 20)
 				continue;
 
-			lastUpdateTime = thisTime;
+			last_update_time_ms = this_time_ms;
 
 			// Instead of explicit limit on integral you output limit feedback
 			StabilizationDesiredGet(&stabilizationDesired);
