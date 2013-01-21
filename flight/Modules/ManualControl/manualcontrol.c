@@ -1016,33 +1016,33 @@ static void applyDeadband(float *value, float deadband)
 static int8_t set_manual_control_error(SystemAlarmsManualControlOptions error_code)
 {
 	SystemAlarmsManualControlOptions current_error_code;
-	SystemAlarmsManualControlGet(&current_error_code);
+	SystemAlarmsManualControlGet((uint8_t *) &current_error_code);
 	if (current_error_code != error_code) {
 		switch (error_code) {
 			case SYSTEMALARMS_MANUALCONTROL_NONE:
-				SystemAlarmsManualControlSet(&error_code);
+				SystemAlarmsManualControlSet((uint8_t *) &error_code);
 				AlarmsClear(SYSTEMALARMS_ALARM_MANUALCONTROL);
 				break;
 			case SYSTEMALARMS_MANUALCONTROL_NORX:
-				SystemAlarmsManualControlSet(&error_code);
+				SystemAlarmsManualControlSet((uint8_t *) &error_code);
 				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
 				break;
 			case SYSTEMALARMS_MANUALCONTROL_SETTINGS:
-				SystemAlarmsManualControlSet(&error_code);
+				SystemAlarmsManualControlSet((uint8_t *) &error_code);
 				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
 				break;
 			case SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD:
-				SystemAlarmsManualControlSet(&error_code);
+				SystemAlarmsManualControlSet((uint8_t *) &error_code);
 				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_ERROR);
 				break;
 			case SYSTEMALARMS_MANUALCONTROL_UNDEFINED:
 			default:
 				error_code = SYSTEMALARMS_MANUALCONTROL_UNDEFINED;
-				SystemAlarmsManualControlSet(&error_code);        
+				SystemAlarmsManualControlSet((uint8_t *) &error_code);        
 				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
 				break;
 		}
-		SystemAlarmsManualControlSet(&error_code);
+		SystemAlarmsManualControlSet((uint8_t *) &error_code);
 		return 0;
 	}
 	else {
