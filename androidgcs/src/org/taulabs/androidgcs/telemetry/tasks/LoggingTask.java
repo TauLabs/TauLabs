@@ -34,6 +34,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import org.taulabs.uavtalk.UAVObject;
+import org.taulabs.uavtalk.UAVObjectField;
 import org.taulabs.uavtalk.UAVObjectManager;
 import org.taulabs.uavtalk.UAVTalk;
 
@@ -50,6 +51,7 @@ public class LoggingTask implements ITelemTask {
 	private UAVObjectManager objMngr;
 	private final List<UAVObject> listeningList = new ArrayList<UAVObject>();
 	private boolean loggingActive = false;
+	private boolean headerWritten = false;
 
 
 	private File file;
@@ -114,7 +116,7 @@ public class LoggingTask implements ITelemTask {
 
 	//! Write an updated object to the log file
 	private void logObject(UAVObject obj) {
-		if (loggingActive) {
+		if (loggingActive && headerWritten) {
 			if (VERBOSE) Log.v(TAG,"Updated: " + obj.toString());
 			try {
 				long time = System.currentTimeMillis();
@@ -178,6 +180,12 @@ public class LoggingTask implements ITelemTask {
 
 		loggingActive = file.canWrite();
 
+		// Add listener to write the version header when available
+		UAVObject firmwareIapObj = objMngr.getObject("FirmwareIAPObj");
+		if (firmwareIapObj != null) {
+			firmwareIapObj.addUpdatedObserver(firmwareIapUpdated);
+		}
+
 		return loggingActive;
 	}
 
@@ -228,5 +236,47 @@ public class LoggingTask implements ITelemTask {
 		s.writtenObjects = writtenObjects;
 		return s;
 	}
+
+	private final Observer firmwareIapUpdated = new Observer() {
+
+		@Override
+		public void update(Observable observable, Object data) {
+			UAVObject firmwareIapObj = (UAVObject) data;
+			if (firmwareIapObj == null)
+				return;
+
+			UAVObjectField description = firmwareIapObj.getField("Description");
+			if (description == null || description.getNumElements() < 100) {
+				Log.d(TAG, "Failed to determine description for logging");
+			} else {
+				final int GITASH_SIZE_USED = 4;
+				final int UAVOHASH_SIZE_USED = 8;
+
+				String gitHash = new String();
+				String uavoHash = new String();
+
+				for (int i = 0; i < GITASH_SIZE_USED; i++) {
+					gitHash += String.format("%02x", (int) description.getDouble(7 - i));
+				}
+				for (int i = 0; i < UAVOHASH_SIZE_USED; i++) {
+					uavoHash += String.format("%02x", (int) description.getDouble(i + 60));
+				}
+
+				if (VERBOSE) Log.v(TAG, "Git hash: " + gitHash);
+				if (VERBOSE) Log.v(TAG, "UAVO hash: " + uavoHash);
+
+				try {
+					fileStream.write(String.format("Tau Labs git hash: %s\n%s\n##\n", gitHash, uavoHash).getBytes());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			headerWritten = true;
+			firmwareIapObj.removeUpdatedObserver(this);
+		}
+
+	};
 
 }
