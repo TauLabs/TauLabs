@@ -225,45 +225,45 @@ static int32_t check_stabilization_settings(int index, bool multirotor)
 static int8_t set_config_error(SystemAlarmsConfigErrorOptions error_code)
 {
 	SystemAlarmsConfigErrorOptions current_error_code;
-	SystemAlarmsManualControlGet((uint8_t *) &current_error_code);
+	SystemAlarmsConfigErrorGet((uint8_t *) &current_error_code);
 	if (current_error_code != error_code) {
 		switch (error_code) {
 			case SYSTEMALARMS_CONFIGERROR_NONE:
-				SystemAlarmsManualControlSet((uint8_t *) &error_code);
+				SystemAlarmsConfigErrorSet((uint8_t *) &error_code);
 				AlarmsClear(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION);
 				break;				
 			case SYSTEMALARMS_CONFIGERROR_STABILIZATION:
-				SystemAlarmsManualControlSet((uint8_t *) &error_code);
+				SystemAlarmsConfigErrorSet((uint8_t *) &error_code);
 				AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, SYSTEMALARMS_ALARM_ERROR);
 				break;
 			case SYSTEMALARMS_CONFIGERROR_MULTIROTOR:
-				SystemAlarmsManualControlSet((uint8_t *) &error_code);
+				SystemAlarmsConfigErrorSet((uint8_t *) &error_code);
 				AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, SYSTEMALARMS_ALARM_ERROR);
 				break;
 			case SYSTEMALARMS_CONFIGERROR_AUTOTUNE:
-				SystemAlarmsManualControlSet((uint8_t *) &error_code);
+				SystemAlarmsConfigErrorSet((uint8_t *) &error_code);
 				AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, SYSTEMALARMS_ALARM_ERROR);
 				break;
 			case SYSTEMALARMS_CONFIGERROR_ALTITUDEHOLD:
-				SystemAlarmsManualControlSet((uint8_t *) &error_code);
+				SystemAlarmsConfigErrorSet((uint8_t *) &error_code);
 				AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, SYSTEMALARMS_ALARM_ERROR);
 				break;
 			case SYSTEMALARMS_CONFIGERROR_VELOCITYCONTROL:
-				SystemAlarmsManualControlSet((uint8_t *) &error_code);
+				SystemAlarmsConfigErrorSet((uint8_t *) &error_code);
 				AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, SYSTEMALARMS_ALARM_ERROR);
 				break;
 			case SYSTEMALARMS_CONFIGERROR_POSITIONHOLD:
-				SystemAlarmsManualControlSet((uint8_t *) &error_code);
+				SystemAlarmsConfigErrorSet((uint8_t *) &error_code);
 				AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, SYSTEMALARMS_ALARM_ERROR);
 				break;
 			case SYSTEMALARMS_CONFIGERROR_UNDEFINED:
 			default:
 				error_code = SYSTEMALARMS_CONFIGERROR_UNDEFINED;
-				SystemAlarmsManualControlSet((uint8_t *) &error_code);        
+				SystemAlarmsConfigErrorSet((uint8_t *) &error_code);        
 				AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, SYSTEMALARMS_ALARM_ERROR);
 				break;
 		}
-		SystemAlarmsManualControlSet((uint8_t *) &error_code);
+		SystemAlarmsConfigErrorSet((uint8_t *) &error_code);
 		return 0;
 	}
 	else {
