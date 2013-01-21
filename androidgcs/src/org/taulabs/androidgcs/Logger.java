@@ -79,8 +79,8 @@ public class Logger extends ObjectManagerActivity {
 
 		    	Intent intent = new Intent(Intent.ACTION_SEND);
 	               intent.setType("application/octet-stream");
-	               intent.putExtra(Intent.EXTRA_EMAIL, "noreply@abovegroundlabs");
-	               intent.putExtra(Intent.EXTRA_SUBJECT, "AboveGroundLabs log file");
+	               intent.putExtra(Intent.EXTRA_EMAIL, "noreply@taulabs");
+	               intent.putExtra(Intent.EXTRA_SUBJECT, "Tau Labs log file");
 	               intent.putExtra(Intent.EXTRA_TEXT, fileArray[position].getName());
 	               intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://"+ fileArray[position].getAbsolutePath()));
 	               startActivity(Intent.createChooser(intent, "Choice app to send file:"));
@@ -116,7 +116,7 @@ public class Logger extends ObjectManagerActivity {
 
 	private File[] getLogFiles() {
 		File root = Environment.getExternalStorageDirectory();
-		File logDirectory = new File(root, "/AboveGroundLabs");
+		File logDirectory = new File(root, "/TauLabs");
 		return logDirectory.listFiles(new FilenameFilter() {
 
 			@Override
