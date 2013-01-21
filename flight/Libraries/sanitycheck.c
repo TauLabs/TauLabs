@@ -263,7 +263,6 @@ static int8_t set_config_error(SystemAlarmsConfigErrorOptions error_code)
 				AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, SYSTEMALARMS_ALARM_ERROR);
 				break;
 		}
-		SystemAlarmsConfigErrorSet((uint8_t *) &error_code);
 		return 0;
 	}
 	else {

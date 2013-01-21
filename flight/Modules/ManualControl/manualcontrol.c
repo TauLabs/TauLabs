@@ -1052,7 +1052,6 @@ static int8_t set_manual_control_error(SystemAlarmsManualControlOptions error_co
 				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
 				break;
 		}
-		SystemAlarmsManualControlSet((uint8_t *) &error_code);
 		return 0;
 	}
 	else {
