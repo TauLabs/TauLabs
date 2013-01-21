@@ -77,7 +77,8 @@
 #define TASK_PRIORITY (tskIDLE_PRIORITY+3)
 #define FAILSAFE_TIMEOUT_MS 10
 
-#define PI_MOD(x) (fmodf(x + PI, PI * 2) - PI)
+#define F_PI   ((float) M_PI)
+#define PI_MOD(x) (fmodf(x + F_PI, F_PI * 2) - F_PI)
 
 // low pass filter configuration to calculate offset
 // of barometric altitude sensor
@@ -918,11 +919,14 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 
 	// Because the sensor module remove the bias we need to add it
 	// back in here so that the INS algorithm can track it correctly
-	float gyros[3] = {gyrosData.x * DEG2RAD, gyrosData.y * DEG2RAD, gyrosData.z * DEG2RAD};
-	if (attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE) {
-		gyros[0] += gyrosBias.x * DEG2RAD;
-		gyros[1] += gyrosBias.y * DEG2RAD;
-		gyros[2] += gyrosBias.z * DEG2RAD;
+	float gyros[3] = {gyrosData.x * F_PI / 180.0f, gyrosData.y * F_PI / 180.0f, gyrosData.z * F_PI / 180.0f};
+	if (insSettings.ComputeGyroBias == INSSETTINGS_COMPUTEGYROBIAS_TRUE && 
+	    (attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE)) {
+		gyros[0] += gyrosBias.x * F_PI / 180.0f;
+		gyros[1] += gyrosBias.y * F_PI / 180.0f;
+		gyros[2] += gyrosBias.z * F_PI / 180.0f;
+	} else {
+		INSSetGyroBias(zeros);
 	}
 
 	// Advance the state estimate
@@ -1015,7 +1019,9 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	velocityActual.Down = Nav->Vel[2];
 	VelocityActualSet(&velocityActual);
 
-	if (attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE && !gyroBiasSettingsUpdated) {
+	if (insSettings.ComputeGyroBias == INSSETTINGS_COMPUTEGYROBIAS_TRUE && 
+	    (attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE && 
+	    !gyroBiasSettingsUpdated)) {
 		// Copy the gyro bias into the UAVO except when it was updated
 		// from the settings during the calculation, then consume it
 		// next cycle
