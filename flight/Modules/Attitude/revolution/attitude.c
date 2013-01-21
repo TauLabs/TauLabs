@@ -116,6 +116,9 @@ struct complimentary_filter_state {
 	//! Indicate if currently acquiring gyro samples
 	bool       accumulating_gyro;
 
+	//! Store when the function is initialized to time arming and convergence
+	uint32_t   reset_timeval;
+
 	//! Tracks the initialization state of the complimentary filter
 	enum complimentary_filter_status     initialization;
 };
@@ -347,6 +350,7 @@ static int32_t updateAttitudeComplementary(bool first_run)
 		AttitudeActualSet(&attitudeActual);
 
 		complimentary_filter_state.initialization = CF_POWERON;
+		complimentary_filter_state.reset_timeval = PIOS_DELAY_GetRaw();
 		timeval = PIOS_DELAY_GetRaw();
 
 		complimentary_filter_state.arming_count = 0;
@@ -357,12 +361,16 @@ static int32_t updateAttitudeComplementary(bool first_run)
 	FlightStatusData flightStatus;
 	FlightStatusGet(&flightStatus);
 
+	uint32_t ms_since_reset = PIOS_DELAY_DiffuS(complimentary_filter_state.reset_timeval) / 1000;
 	if (complimentary_filter_state.initialization == CF_POWERON) {
-		complimentary_filter_state.initialization = (xTaskGetTickCount() > 1000) ?
-			CF_INITIALIZING : CF_POWERON;
+		// Wait one second before starting to initialize
+		complimentary_filter_state.initialization = 
+		    (ms_since_reset  > 1000) ?
+			CF_INITIALIZING : 
+			CF_POWERON;
 	} else if(complimentary_filter_state.initialization == CF_INITIALIZING &&
-		(xTaskGetTickCount() < 7000) && 
-		(xTaskGetTickCount() > 1000)) {
+		(ms_since_reset < 7000) && 
+		(ms_since_reset > 1000)) {
 
 		// For first 7 seconds use accels to get gyro bias
 		attitudeSettings.AccelKp = 0.1f + 0.1f * (xTaskGetTickCount() < 4000);
