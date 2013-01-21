@@ -84,7 +84,15 @@
 // reasoning: updates at: 10 Hz, tau= 300 s settle time
 // exp(-(1/f) / tau ) ~=~ 0.9997
 #define BARO_OFFSET_LOWPASS_ALPHA 0.9997f 
+
 // Private types
+
+//! Structure containing the information to zero the gyros
+struct gyro_bias_estimation {
+	float      accumulated_gyro[3];
+	uint32_t   accumulated_gyro_samples;
+	bool       accumulating_gyro;
+};
 
 // Private variables
 static xTaskHandle attitudeTaskHandle;
@@ -106,11 +114,7 @@ const uint32_t SENSOR_QUEUE_SIZE = 10;
 bool accel_filter_enabled;
 float accel_alpha;
 
-// For computing the average gyro during arming
-static bool accumulating_gyro = false;
-static uint32_t accumulated_gyro_samples = 0;
-static float accumulated_gyro[3];
-
+static struct gyro_bias_estimation gyro_bias_estimation;
 
 // Private functions
 static void AttitudeTask(void *parameters);
@@ -383,7 +387,7 @@ static int32_t updateAttitudeComplementary(bool first_run)
 		if (complimentary_filter_status != CF_ARMING) {
 			accumulate_gyro_zero();
 			complimentary_filter_status = CF_ARMING;
-			accumulating_gyro = true;
+			gyro_bias_estimation.accumulating_gyro = true;
 		}
 
 	} else if (complimentary_filter_status == CF_ARMING ||
@@ -397,7 +401,7 @@ static int32_t updateAttitudeComplementary(bool first_run)
 		// samples.  Compute new bias.
 		if (complimentary_filter_status == CF_ARMING) {
 			accumulate_gyro_compute();
-			accumulating_gyro = false;
+			gyro_bias_estimation.accumulating_gyro = false;
 			arming_count = 0;
 		}
 
@@ -598,20 +602,20 @@ static int32_t updateAttitudeComplementary(bool first_run)
  */
 static void accumulate_gyro_compute()
 {
-	if (accumulating_gyro && 
-		accumulated_gyro_samples > 100) {
+	if (gyro_bias_estimation.accumulating_gyro && 
+		gyro_bias_estimation.accumulated_gyro_samples > 100) {
 
 		// Accumulate integral of error.  Scale here so that units are (deg/s) but Ki has units of s
 		GyrosBiasData gyrosBias;
 		GyrosBiasGet(&gyrosBias);
-		gyrosBias.x = accumulated_gyro[0] / accumulated_gyro_samples;
-		gyrosBias.y = accumulated_gyro[1] / accumulated_gyro_samples;
-		gyrosBias.z = accumulated_gyro[2] / accumulated_gyro_samples;
+		gyrosBias.x = gyro_bias_estimation.accumulated_gyro[0] / gyro_bias_estimation.accumulated_gyro_samples;
+		gyrosBias.y = gyro_bias_estimation.accumulated_gyro[1] / gyro_bias_estimation.accumulated_gyro_samples;
+		gyrosBias.z = gyro_bias_estimation.accumulated_gyro[2] / gyro_bias_estimation.accumulated_gyro_samples;
 		GyrosBiasSet(&gyrosBias);
 
 		accumulate_gyro_zero();
 
-		accumulating_gyro = false;
+		gyro_bias_estimation.accumulating_gyro = false;
 	}
 }
 
@@ -620,10 +624,10 @@ static void accumulate_gyro_compute()
  */
 static void accumulate_gyro_zero()
 {
-	accumulated_gyro_samples = 0;
-	accumulated_gyro[0] = 0;
-	accumulated_gyro[1] = 0;
-	accumulated_gyro[2] = 0;
+	gyro_bias_estimation.accumulated_gyro_samples = 0;
+	gyro_bias_estimation.accumulated_gyro[0] = 0;
+	gyro_bias_estimation.accumulated_gyro[1] = 0;
+	gyro_bias_estimation.accumulated_gyro[2] = 0;
 }
 
 /**
@@ -633,10 +637,10 @@ static void accumulate_gyro_zero()
  */
 static void accumulate_gyro(GyrosData *gyrosData)
 {
-	if (!accumulating_gyro)
+	if (!gyro_bias_estimation.accumulating_gyro)
 		return;
 
-	accumulated_gyro_samples++;
+	gyro_bias_estimation.accumulated_gyro_samples++;
 
 	// bias_correct_gyro
 	if (true) {
@@ -644,13 +648,13 @@ static void accumulate_gyro(GyrosData *gyrosData)
 		GyrosBiasData gyrosBias;
 		GyrosBiasGet(&gyrosBias);
 
-		accumulated_gyro[0] += gyrosData->x + gyrosBias.x;
-		accumulated_gyro[1] += gyrosData->y + gyrosBias.y;
-		accumulated_gyro[2] += gyrosData->z + gyrosBias.z;
+		gyro_bias_estimation.accumulated_gyro[0] += gyrosData->x + gyrosBias.x;
+		gyro_bias_estimation.accumulated_gyro[1] += gyrosData->y + gyrosBias.y;
+		gyro_bias_estimation.accumulated_gyro[2] += gyrosData->z + gyrosBias.z;
 	} else {
-		accumulated_gyro[0] += gyrosData->x;
-		accumulated_gyro[1] += gyrosData->y;
-		accumulated_gyro[2] += gyrosData->z;
+		gyro_bias_estimation.accumulated_gyro[0] += gyrosData->x;
+		gyro_bias_estimation.accumulated_gyro[1] += gyrosData->y;
+		gyro_bias_estimation.accumulated_gyro[2] += gyrosData->z;
 	}
 }
 
