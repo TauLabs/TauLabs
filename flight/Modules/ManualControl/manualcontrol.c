@@ -353,19 +353,22 @@ static void manualControlTask(void *parameters)
 				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY0] != 
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 					accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY0];
-					AccessoryDesiredInstSet(0, &accessory);
+					if(AccessoryDesiredInstSet(0, &accessory) != 0) //These are allocated later and that allocation might fail
+						set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
 				}
 				// Set Accessory 1
 				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY1] != 
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 					accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY1];
-					AccessoryDesiredInstSet(1, &accessory);
+					if(AccessoryDesiredInstSet(1, &accessory) != 0) //These are allocated later and that allocation might fail
+						set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
 				}
 				// Set Accessory 2
 				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY2] != 
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 					accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY2];
-					AccessoryDesiredInstSet(2, &accessory);
+					if(AccessoryDesiredInstSet(2, &accessory) != 0) //These are allocated later and that allocation might fail
+						set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
 				}
 
 				processFlightMode(&settings, flightMode);
