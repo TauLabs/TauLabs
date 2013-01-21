@@ -307,8 +307,7 @@ static void manualControlTask(void *parameters)
 				// Set Accessory 0
 				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY0] != 
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
-					accessory.AccessoryVal = 0;
-					
+					accessory.AccessoryVal = 0;					
 					if(AccessoryDesiredInstSet(0, &accessory) != 0) //These are allocated later and that allocation might fail
 						set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
 				}
