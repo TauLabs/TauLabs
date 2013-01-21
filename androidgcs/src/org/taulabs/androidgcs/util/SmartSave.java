@@ -49,6 +49,7 @@ public class SmartSave {
 	private final static String TAG = SmartSave.class.getSimpleName();
 	private final static boolean DEBUG = false;
 	private final Activity parentActivity;
+	private boolean validObject = true;
 
 	//! Create a smart save button attached to the object manager and an apply and ave button
 	public SmartSave(UAVObjectManager objMngr, Activity parent, UAVObject obj, Button saveButton, Button applyButton, Button loadButton) {
@@ -59,11 +60,21 @@ public class SmartSave {
 		this.obj = obj;
 
 		Assert.assertNotNull(objMngr);
-		Assert.assertNotNull(obj);
-
-		obj.addUpdatedObserver(ObjectUpdated);
 
 		controlFieldMapping = new HashMap<ObjectFieldMappable,FieldPairing>();
+
+		if (obj == null) {
+			validObject = false;
+			if (saveButton != null)
+				saveButton.setEnabled(false);
+			if (applyButton != null)
+				applyButton.setEnabled(false);
+			if (loadButton != null)
+				loadButton.setEnabled(false);
+			return;
+		}
+
+		obj.addUpdatedObserver(ObjectUpdated);
 
 		if (saveButton != null) {
 			saveBtn = saveButton;
@@ -111,7 +122,8 @@ public class SmartSave {
 
 	//! Disconnect any listeners when this object is destroyed
 	public void disconnect() {
-		obj.removeUpdatedObserver(ObjectUpdated);
+		if (validObject)
+			obj.removeUpdatedObserver(ObjectUpdated);
 	}
 
 	/**
@@ -129,6 +141,9 @@ public class SmartSave {
 
 	//! Update the settings in the UI from the mappings
 	public void refreshSettingsDisplay() {
+		if (!validObject)
+			return;
+
 		if (DEBUG) Log.d(TAG, "Refreshing display");
 
 		Set<ObjectFieldMappable> keys = controlFieldMapping.keySet();
