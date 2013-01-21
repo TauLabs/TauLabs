@@ -3,6 +3,7 @@
  *
  * @file       rawhid.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup RawHIDPlugin Raw HID Plugin
@@ -81,7 +82,6 @@ protected:
     RawHID *m_hid;
 
     pjrc_rawhid *hiddev;
-    int hidno;
 
     bool m_running;
 };
@@ -125,7 +125,6 @@ protected:
     RawHID *m_hid;
 
     pjrc_rawhid *hiddev;
-    int hidno;
 
     bool m_running;
 };
@@ -135,7 +134,6 @@ protected:
 RawHIDReadThread::RawHIDReadThread(RawHID *hid)
     : m_hid(hid),
     hiddev(&hid->dev),
-    hidno(hid->m_deviceNo),
     m_running(true)
 {
     hid->m_startedMutex->lock();
@@ -163,7 +161,7 @@ void RawHIDReadThread::run()
         // configure this
         char buffer[READ_SIZE] = {0};
 
-        int ret = hiddev->receive(hidno, buffer, READ_SIZE, READ_TIMEOUT);
+        int ret = hiddev->receive(m_hid->m_deviceNo, buffer, READ_SIZE, READ_TIMEOUT);
 
         if(ret > 0) //read some data
         {
@@ -207,7 +205,6 @@ qint64 RawHIDReadThread::getBytesAvailable()
 RawHIDWriteThread::RawHIDWriteThread(RawHID *hid)
     : m_hid(hid),
     hiddev(&hid->dev),
-    hidno(hid->m_deviceNo),
     m_running(true)
 {
 }
@@ -251,7 +248,7 @@ void RawHIDWriteThread::run()
         m_writeBufMtx.unlock();
 
         // must hold lock through the send to know how much was sent
-        int ret = hiddev->send(hidno, buffer, WRITE_SIZE, WRITE_TIMEOUT);
+        int ret = hiddev->send(m_hid->m_deviceNo, buffer, WRITE_SIZE, WRITE_TIMEOUT);
 
         if(ret > 0)
         {
@@ -330,8 +327,8 @@ RawHID::RawHID(USBDevice *deviceStructure)
  * thread (usually UI)
  */
 bool RawHID::openDevice() {
-    int opened = dev.open(USB_MAX_DEVICES, deviceInfo->getVendorID(), deviceInfo->getProductID(), USB_USAGE_PAGE, USB_USAGE);
-    for (int i =0; i< opened; i++) {
+    int num_devices = dev.open(USB_MAX_DEVICES, deviceInfo->getVendorID(), deviceInfo->getProductID(), USB_USAGE_PAGE, USB_USAGE);
+    for (int i = 0; i < num_devices; i++) {
         if (serialNumber == dev.getserial(i))
             m_deviceNo = i;
         else
@@ -342,8 +339,8 @@ bool RawHID::openDevice() {
     m_startedMutex->unlock();
 
     //didn't find the device we are trying to open (shouldnt happen)
-    device_open = opened >= 0;
-    if (opened < 0)
+    device_open = m_deviceNo >= 0;
+    if (m_deviceNo < 0)
     {
         return false;
     }

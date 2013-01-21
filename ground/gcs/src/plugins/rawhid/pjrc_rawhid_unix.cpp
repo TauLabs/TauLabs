@@ -1,39 +1,28 @@
-/* @file pjrc_rawhid_unix.cpp
+/**
+ ******************************************************************************
+ * @file       pjrc_rawhid_unix.c
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup RawHIDPlugin Raw HID Plugin
  * @{
  * @brief Impliments a HID USB connection to the flight hardware as a QIODevice
  *****************************************************************************/
-
-/* Simple Raw HID functions for Linux - for use with Teensy RawHID example
- * http://www.pjrc.com/teensy/rawhid.html
- * Copyright (c) 2009 PJRC.COM, LLC
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
  *
- *  rawhid_open - open 1 or more devices
- *  rawhid_recv - receive a packet
- *  rawhid_send - send a packet
- *  rawhid_close - close a device
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+ * for more details.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above description, website URL and copyright notice and this permission
- * notice shall be included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- *
- * Version 1.0: Initial Release
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
 #include "pjrc_rawhid.h"
@@ -42,333 +31,298 @@
 
 pjrc_rawhid::pjrc_rawhid()
 {
-    first_hid = NULL;
-    last_hid = NULL;
+    int result;
+    result = libusb_init(&m_pLibraryContext);
+    if (result != 0) {
+        fprintf(stderr, "pjrc_rawhid_unix: Unable to initialize libusb-1.0 %d\n", result);
+        m_pLibraryContext = NULL;
+        return;
+    }
+
+    libusb_set_debug(m_pLibraryContext, DEBUG_LEVEL);
 }
 
 pjrc_rawhid::~pjrc_rawhid()
 {
+    for (std::size_t iDevice = 0; iDevice < m_DeviceHandles.size(); ++iDevice) {
+        if (m_DeviceHandles[iDevice] != NULL)
+            close(iDevice);
+    }
+
+    if (m_pLibraryContext != NULL)
+        libusb_exit(m_pLibraryContext);
 }
 
 //  open - open 1 or more devices
 //
 //    Inputs:
-//	max = maximum number of devices to open
-//	vid = Vendor ID, or -1 if any
-//	pid = Product ID, or -1 if any
-//	usage_page = top level usage page, or -1 if any
-//	usage = top level usage number, or -1 if any
+//    max = maximum number of devices to open
+//    vid = Vendor ID, or -1 if any
+//    pid = Product ID, or -1 if any
+//    usage_page = unused, argument kept for api consistency
+//    usage = unused, argument kept for api consistency
 //    Output:
-//	actual number of devices opened
+//    actual number of devices opened
 //
-int pjrc_rawhid::open(int max, int vid, int pid, int usage_page, int usage)
+int pjrc_rawhid::open(int max, int vid, int pid, int /* usage_page */, int /* usage */)
 {
-	struct usb_bus *bus;
-	struct usb_device *dev;
-	struct usb_interface *iface;
-	struct usb_interface_descriptor *desc;
-	struct usb_endpoint_descriptor *ep;
-	usb_dev_handle *u;
-	uint8_t buf[1024], *p;
-	int i, n, len, tag, ep_in, ep_out, count=0, claimed;
-	uint32_t val=0, parsed_usage, parsed_usage_page;
-	hid_t *hid;
+    //check if there are still open devices and close them
+    if (!m_DeviceHandles.empty()) {
+        for (std::size_t iDevice = 0; iDevice < m_DeviceHandles.size(); ++iDevice) {
+            if (m_DeviceHandles[iDevice] != NULL)
+                close(iDevice);
+        }
+        m_DeviceHandles.clear();
+        m_DeviceInterfaces.clear();
+    }
 
-	if (first_hid) free_all_hid();
-    //printf("pjrc_rawhid_open, max=%d\n", max);
+    int retval;
 
-	if (max < 1) return 0;
+    //enumerate all devices
+    libusb_device** list = NULL;
+    ssize_t num_devices;
+    num_devices = libusb_get_device_list(m_pLibraryContext, &list);
 
-	usb_init();
-	usb_find_busses();
-	usb_find_devices();
+    for (ssize_t iDevice = 0;
+        iDevice < num_devices && m_DeviceHandles.size() < (std::size_t)max;
+        ++iDevice)
+    {
+        libusb_device_descriptor device_desc;
+        retval = libusb_get_device_descriptor(list[iDevice], &device_desc);
+        if (retval < 0) {
+            fprintf(stderr, "pjrc_rawhid_unix: Failed to get device descriptor (%d)\n", retval);
+            continue;
+        }
 
-	for (bus = usb_get_busses(); bus; bus = bus->next)
-	{
-		for (dev = bus->devices; dev; dev = dev->next)
-		{
-			if (vid > 0 && dev->descriptor.idVendor != vid) continue;
-			if (pid > 0 && dev->descriptor.idProduct != pid) continue;
-			if (!dev->config) continue;
-			if (dev->config->bNumInterfaces < 1) continue;
-			printf("device: vid=%04X, pic=%04X, with %d iface",
-                   dev->descriptor.idVendor,
-                   dev->descriptor.idProduct,
-                   dev->config->bNumInterfaces);
-			iface = dev->config->interface;
-			u = NULL;
-			claimed = 0;
-			for (i=0; i<dev->config->bNumInterfaces && iface; i++, iface++)
-			{
-				desc = iface->altsetting;
-				if (!desc) continue;
+        //check if we are interested in this device
+        if (device_desc.idVendor != vid || device_desc.idProduct != pid)
+            continue;
 
-				printf("  type %d, %d, %d", desc->bInterfaceClass, desc->bInterfaceSubClass, desc->bInterfaceProtocol);
+        //search for proper interface
+        libusb_config_descriptor* config_desc;
+        retval = libusb_get_config_descriptor(list[iDevice], 0, &config_desc);
+        if (retval != 0) {
+            fprintf(stderr, "pjrc_rawhid_unix: libusb_get_config_descriptor error (%d)\n", retval);
+            continue;
+        }
 
-				if (desc->bInterfaceClass != 3) continue;
-				if (desc->bInterfaceSubClass != 0) continue;
-				if (desc->bInterfaceProtocol != 0) continue;
+        int device_interface = -1;
+        const libusb_interface* interface;
+        const libusb_interface_descriptor* interface_desc;
+        for (ssize_t iInterface = 0;
+            iInterface < config_desc->bNumInterfaces && device_interface == -1;
+            ++iInterface)
+        {
+            interface = &config_desc->interface[iInterface];
 
-				ep = desc->endpoint;
-				ep_in = ep_out = 0;
-				for (n = 0; n < desc->bNumEndpoints; n++, ep++)
-				{
-					if (ep->bEndpointAddress & 0x80)
-					{
-						if (!ep_in) ep_in = ep->bEndpointAddress & 0x7F;
-						qDebug() <<  "    IN endpoint " << ep_in;
-					}
-					else
-					{
-						if (!ep_out) ep_out = ep->bEndpointAddress;
-						qDebug() << "    OUT endpoint " <<  ep_out;
-					}
-				}
-				if (!ep_in) continue;
+            for (ssize_t iAltSetting = 0;
+                    iAltSetting < interface->num_altsetting && device_interface == -1;
+                    ++iAltSetting)
+            {
+                interface_desc = &interface->altsetting[iAltSetting];
 
-				if (!u)
-				{
-					u = usb_open(dev);
-					if (!u)
-					{
-						qDebug() << "  unable to open device";
-						break;
-					}
-				}
-				qDebug() << "  hid interface (generic)";
-				if (usb_get_driver_np(u, i, (char *)buf, sizeof(buf)) >= 0)
-				{
-					printf("  in use by driver \"%s\"", buf);
-					if (usb_detach_kernel_driver_np(u, i) < 0)
-					{
-						printf("  unable to detach from kernel");
-						continue;
-					}
-				}
+                if (interface_desc->bInterfaceClass == LIBUSB_CLASS_HID &&
+                        interface_desc->bInterfaceSubClass == 0 &&
+                        interface_desc->bInterfaceProtocol == 0)
+                {
+                    device_interface = iInterface;
+                }
+            }
+        }
 
-				if (usb_claim_interface(u, i) < 0)
-				{
-					printf("  unable claim interface %d", i);
-					continue;
-				}
+        libusb_free_config_descriptor(config_desc);
 
-				len = usb_control_msg(u, 0x81, 6, 0x2200, i, (char *)buf, sizeof(buf), 250);
-				printf("  descriptor, len=%d", len);
-				if (len < 2)
-				{
-					usb_release_interface(u, i);
-					continue;
-				}
+        //check if we found an interface, if not, skip device
+        if (device_interface == -1)
+            continue;
 
-				p = buf;
-				parsed_usage_page = parsed_usage = 0;
-				while ((tag = hid_parse_item(&val, &p, buf + len)) >= 0)
-				{
-					printf("  tag: %X, val %X", tag, val);
-					if (tag == 4) parsed_usage_page = val;
-					if (tag == 8) parsed_usage = val;
-					if (parsed_usage_page && parsed_usage) break;
-				}
-				if ((!parsed_usage_page) || (!parsed_usage) ||
-                    (usage_page > 0 && parsed_usage_page != (uint32_t)usage_page) ||
-					(usage > 0 && parsed_usage != (uint32_t)usage))
-				{
-					usb_release_interface(u, i);
-					continue;
-				}
+        libusb_device_handle* device_handle;
+        retval = libusb_open(list[iDevice], &device_handle);
+        //skip if device cant be opened
+        if (retval != 0) {
+            fprintf(stderr, "pjrc_rawhid_unix: Failed to open device (%d)\n", retval);
+            continue;
+        }
 
-				hid = (struct hid_struct *)malloc(sizeof(struct hid_struct));
-				if (!hid)
-				{
-					usb_release_interface(u, i);
-					continue;
-				}
+        //detach kernel
+        retval = libusb_detach_kernel_driver(device_handle, device_interface);
+        if (retval != 0 && retval != LIBUSB_ERROR_NOT_FOUND) {
+            fprintf(stderr, "pjrc_rawhid_unix: Unable to detach kernel driver (%d)\n", retval);
+            libusb_close(device_handle);
+            continue;
+        }
 
-				hid->usb = u;
-				hid->iface = i;
-				hid->ep_in = ep_in;
-				hid->ep_out = ep_out;
-				hid->open = 1;
-				add_hid(hid);
+        //claim interface
+        retval = libusb_claim_interface(device_handle, device_interface);
+        if (retval != 0) {
+            fprintf(stderr, "pjrc_rawhid_unix: libusb_claim_interface error (%d)\n", retval);
+            libusb_close(device_handle);
+            continue;
+        }
 
-				claimed++;
-				count++;
-				if (count >= max) return count;
-			}
+        m_DeviceHandles.push_back(device_handle);
+        m_DeviceInterfaces.push_back(device_interface);
+    }
 
-			if (u && !claimed) usb_close(u);
-		}
-	}
+    libusb_free_device_list(list, 1);
 
-	return count;
+    return m_DeviceHandles.size();
 }
 
 //  recveive - receive a packet
 //    Inputs:
-//	num = device to receive from (zero based)
-//	buf = buffer to receive packet
-//	len = buffer's size
-//	timeout = time to wait, in milliseconds
+//    num = device to receive from (zero based)
+//    buf = buffer to receive packet
+//    len = buffer's size
+//    timeout = time to wait, in milliseconds
 //    Output:
-//	number of bytes received, or -1 on error
+//    number of bytes received, or -1 on error
 //
 int pjrc_rawhid::receive(int num, void *buf, int len, int timeout)
 {
-	if (!buf) return -1;
+    if ((std::size_t)num >= m_DeviceHandles.size()) {
+        fprintf(stderr, "pjrc_rawhid_unix: Invalid device number used (%d)\n", num);
+        return -1;
+    }
+    if (m_DeviceHandles[num] == NULL) {
+        fprintf(stderr, "pjrc_rawhid_unix: Tried to use a device which is not open (%d)\n", num);
+        return -1;
+    }
 
-	hid_t *hid = get_hid(num);
-    if (!hid || !hid->open) return -1;
+    int bytes_transferred;
+    int retval;
 
-	int r = usb_interrupt_read(hid->usb, hid->ep_in, (char *)buf, len, timeout);
-    if (r >= 0) return r;
-    if (r == -110) return 0;  // timeout
+    // Read data from the device.
+    retval = libusb_interrupt_transfer(
+        m_DeviceHandles[num],
+        INTERRUPT_IN_ENDPOINT,
+        (unsigned char*)buf,
+        len > MAX_INTERRUPT_IN_TRANSFER_SIZE ? MAX_INTERRUPT_IN_TRANSFER_SIZE : len,
+        &bytes_transferred,
+        timeout);
 
-    return -1;
+    if (retval >= 0) {
+        if (bytes_transferred > 0) {
+            return bytes_transferred;
+        }
+        else {
+            fprintf(stderr, "pjrc_rawhid_unix: No data received in interrupt transfer (%d)\n", retval);
+            return -1;
+        }
+    }
+    else {
+        if (retval == LIBUSB_ERROR_TIMEOUT)
+            return 0;
+        fprintf(stderr, "pjrc_rawhid_unix: Error receiving data via interrupt transfer (%d)\n", retval);
+        return -1;
+    }
 }
 
 //  send - send a packet
 //    Inputs:
-//	num = device to transmit to (zero based)
-//	buf = buffer containing packet to send
-//	len = number of bytes to transmit
-//	timeout = time to wait, in milliseconds
+//    num = device to transmit to (zero based)
+//    buf = buffer containing packet to send
+//    len = number of bytes to transmit
+//    timeout = time to wait, in milliseconds
 //    Output:
-//	number of bytes sent, or -1 on error
+//    number of bytes sent, or -1 on error
 //
 int pjrc_rawhid::send(int num, void *buf, int len, int timeout)
 {
-    hid_t *hid;
+    if ((std::size_t)num >= m_DeviceHandles.size()) {
+        fprintf(stderr, "pjrc_rawhid_unix: Invalid device number used (%d)\n", num);
+        return -1;
+    }
+    if (m_DeviceHandles[num] == NULL) {
+        fprintf(stderr, "pjrc_rawhid_unix: Tried to use a device which is not open (%d)\n", num);
+        return -1;
+    }
 
-    hid = get_hid(num);
-    if (!hid || !hid->open) return -1;
-    if (hid->ep_out) {
-        return usb_interrupt_write(hid->usb, hid->ep_out, (char *)buf, len, timeout);
-    } else {
-        return usb_control_msg(hid->usb, 0x21, 9, 0, hid->iface, (char *)buf, len, timeout);
+    int bytes_transferred;
+    int retval;
+
+    // Write data to the device.
+    retval = libusb_interrupt_transfer(
+        m_DeviceHandles[num],
+        INTERRUPT_OUT_ENDPOINT,
+        (unsigned char*)buf,
+        len > MAX_INTERRUPT_OUT_TRANSFER_SIZE ? MAX_INTERRUPT_OUT_TRANSFER_SIZE : len,
+        &bytes_transferred,
+        timeout);
+
+    if (retval >= 0) {
+        return bytes_transferred;
+    }
+    else {
+        fprintf(stderr, "pjrc_rawhid_unix: Error sending data via interrupt transfer (%d)\n", retval);
+        return -1;
     }
 }
 
 //  getserial - get the serialnumber of the device
 //
 //    Inputs:
-//	num = device to close (zero based)
-//      buf = buffer to read the serialnumber into
+//    num = device to get serial from
 //    Output
-//	number of bytes in found, or -1 on error
+//    QString conatining device serial or empty QString
 //
-QString pjrc_rawhid::getserial(int num) {
-    hid_t *hid;
-    char buf[128];
-    hid = get_hid(num);
-    if (!hid || !hid->open) return QString("");
+QString pjrc_rawhid::getserial(int num)
+{
+    if ((std::size_t)num >= m_DeviceHandles.size()) {
+        fprintf(stderr, "pjrc_rawhid_unix: Invalid device number used (%d)\n", num);
+        return "";
+    }
+    if (m_DeviceHandles[num] == NULL) {
+        fprintf(stderr, "pjrc_rawhid_unix: Tried to use a device which is not open (%d)\n", num);
+        return "";
+    }
 
-    int retlen = usb_get_string_simple(hid->usb, 3, buf, 128);
-    return QString().fromAscii(buf,-1);
+    struct libusb_device_descriptor desc;
+    struct libusb_device * dev = libusb_get_device(m_DeviceHandles[num]);
+    int retval;
+
+    retval = libusb_get_device_descriptor(dev, &desc);
+    if (retval < 0) {
+        fprintf(stderr, "pjrc_rawhid_unix: Failed to get device descriptor (%d)\n", retval);
+        return "";
+    }
+
+    unsigned char buf[128];
+    retval = libusb_get_string_descriptor_ascii(m_DeviceHandles[num], desc.iSerialNumber, buf, sizeof(buf));
+    if (retval < 0) {
+        fprintf(stderr, "pjrc_rawhid_unix: Coudn't get serial string (%d)\n", retval);
+        return "";
+    }
+
+    return QString().fromAscii((char*)buf,-1);
 }
 
 //  close - close a device
 //
 //    Inputs:
-//	num = device to close (zero based)
+//    num = device to close (zero based)
 //    Output
-//	(nothing)
+//    (nothing)
 //
 void pjrc_rawhid::close(int num)
 {
-	hid_close(get_hid(num));
-}
-
-// Chuck Robey wrote a real HID report parser
-// (chuckr@telenix.org) chuckr@chuckr.org
-// http://people.freebsd.org/~chuckr/code/python/uhidParser-0.2.tbz
-// this tiny thing only needs to extract the top-level usage page
-// and usage, and even then is may not be truly correct, but it does
-// work with the Teensy Raw HID example.
-int pjrc_rawhid::hid_parse_item(uint32_t *val, uint8_t **data, const uint8_t *end)
-{
-    const uint8_t *p = *data;
-    uint8_t tag;
-    int table[4] = {0, 1, 2, 4};
-    int len;
-
-    if (p >= end) return -1;
-    if (p[0] == 0xFE) {
-        // long item, HID 1.11, 6.2.2.3, page 27
-        if (p + 5 >= end || p + p[1] >= end) return -1;
-        tag = p[2];
-        *val = 0;
-        len = p[1] + 5;
-    } else {
-        // short item, HID 1.11, 6.2.2.2, page 26
-        tag = p[0] & 0xFC;
-        len = table[p[0] & 0x03];
-        if (p + len + 1 >= end) return -1;
-        switch (p[0] & 0x03) {
-        case 3: *val = p[1] | (p[2] << 8) | (p[3] << 16) | (p[4] << 24); break;
-        case 2: *val = p[1] | (p[2] << 8); break;
-        case 1: *val = p[1]; break;
-        case 0: *val = 0; break;
-        }
-    }
-    *data += len + 1;
-    return tag;
-}
-
-void pjrc_rawhid::add_hid(hid_t *h)
-{
-	if (!h) return;
-
-	if (!first_hid || !last_hid)
-	{
-        first_hid = last_hid = h;
-        h->next = h->prev = NULL;
+    if ((std::size_t)num >= m_DeviceHandles.size()) {
+        fprintf(stderr, "pjrc_rawhid_unix: Invalid device number used (%d)\n", num);
         return;
     }
-    last_hid->next = h;
-    h->prev = last_hid;
-    h->next = NULL;
-    last_hid = h;
-}
-
-hid_t * pjrc_rawhid::get_hid(int num)
-{
-	hid_t *p = NULL;
-    for (p = first_hid; p && num > 0; p = p->next, num--) ;
-    return p;
-}
-
-void pjrc_rawhid::free_all_hid(void)
-{
-	for (hid_t *p = first_hid; p; p = p->next)
-        hid_close(p);
-
-	hid_t *p = first_hid;
-	while (p)
-	{
-		hid_t *q = p;
-        p = p->next;
-        free(q);
+    if (m_DeviceHandles[num] == NULL) {
+        fprintf(stderr, "pjrc_rawhid_unix: Tried to use a device which is not open (%d)\n", num);
+        return;
     }
 
-    first_hid = last_hid = NULL;
-}
-
-void pjrc_rawhid::hid_close(hid_t *hid)
-{
-	if (!hid) return;
-	if (!hid->open) return;
-
-        usb_release_interface(hid->usb, hid->iface);
-
-	int others = 0;
-	for (hid_t *p = first_hid; p; p = p->next)
-	{
-		if (p->open && p->usb == hid->usb)
-			others++;
+    int retval;
+    retval = libusb_release_interface(m_DeviceHandles[num], m_DeviceInterfaces[num]);
+    if (retval != 0) {
+        fprintf(stderr, "pjrc_rawhid_unix: Unable to release interface (%d)\n", retval != 0);
     }
-	if (!others)
-		usb_close(hid->usb);
 
-    hid->usb = NULL;
-    hid->open = 0;
+    libusb_close(m_DeviceHandles[num]);
+
+    m_DeviceHandles[num] = NULL;
 }
+
