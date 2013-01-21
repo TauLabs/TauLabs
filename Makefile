@@ -346,7 +346,7 @@ androidgcs: $(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk
 $(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk: uavo-collections_java
 	$(V0) @echo " ANDROID   $(call toprel, $(ANDROIDGCS_OUT_DIR))"
 	$(V1) mkdir -p $(ANDROIDGCS_OUT_DIR)
-	$(V1) $(ANDROID) $(ANDROID_SILENT) update project --subprojects --target 'Google Inc.:Google APIs:16' --name androidgcs --path ./androidgcs
+	$(V1) $(ANDROID) $(ANDROID_SILENT) update project --subprojects --target 'Google Inc.:Google APIs:14' --name androidgcs --path ./androidgcs
 	$(V1) ant -f ./androidgcs/google-play-services_lib/build.xml \
 		$(ANT_QUIET) debug               
 	$(V1) ant -f ./androidgcs/build.xml \
