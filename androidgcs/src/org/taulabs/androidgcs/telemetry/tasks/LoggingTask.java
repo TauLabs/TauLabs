@@ -149,7 +149,7 @@ public class LoggingTask implements ITelemTask {
 		File root = Environment.getExternalStorageDirectory();
 
 		// Make the directory if it doesn't exist
-		File logDirectory = new File(root, "/AboveGroundLabs");
+		File logDirectory = new File(root, "/TauLabs");
 		logDirectory.mkdirs();
 
 		Date d = new Date();
