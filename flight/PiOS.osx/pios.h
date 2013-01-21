@@ -64,6 +64,7 @@
 #include <pios_udp.h>
 #include <pios_tcp.h>
 #include <pios_com.h>
+#include <pios_sensors.h>
 #include <pios_servo.h>
 #include <pios_wdg.h>
 #include <pios_debug.h>

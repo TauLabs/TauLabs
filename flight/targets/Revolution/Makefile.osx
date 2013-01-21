@@ -195,6 +195,7 @@ SRC += $(PIOSPOSIX)/pios_udp.c
 SRC += $(PIOSPOSIX)/pios_tcp.c
 SRC += $(PIOSPOSIX)/pios_com.c
 SRC += $(PIOSPOSIX)/pios_servo.c
+SRC += $(PIOSPOSIX)/pios_sensors.c
 SRC += $(PIOSPOSIX)/pios_wdg.c
 SRC += $(PIOSPOSIX)/pios_debug.c
 SRC += $(PIOSPOSIX)/pios_bl_helper.c

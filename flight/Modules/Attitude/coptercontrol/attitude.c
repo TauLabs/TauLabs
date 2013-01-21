@@ -61,15 +61,20 @@
 #include <pios_board_info.h>
  
 // Private constants
-#define STACK_SIZE_BYTES 540
+#define STACK_SIZE_BYTES 580
 #define TASK_PRIORITY (tskIDLE_PRIORITY+3)
 
 #define SENSOR_PERIOD 4
 #define UPDATE_RATE  25.0f
 #define GYRO_NEUTRAL 1665
 
-#define PI_MOD(x) (fmod(x + M_PI, M_PI * 2) - M_PI)
 // Private types
+enum complimentary_filter_status {
+	CF_POWERON,
+	CF_INITIALIZING,
+	CF_ARMING,
+	CF_NORMAL
+};
 
 // Private variables
 static xTaskHandle taskHandle;
@@ -89,6 +94,15 @@ static void update_accels(struct pios_sensor_accel_data *accels, AccelsData * ac
 static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosData);
 static void update_trimming(AccelsData * accelsData);
 
+//! Compute the mean gyro accumulated and assign the bias
+static void accumulate_gyro_compute();
+
+//! Zero the gyro accumulators
+static void accumulate_gyro_zero();
+
+//! Store a gyro sample
+static void accumulate_gyro(GyrosData *gyrosData);
+
 static float accelKi = 0;
 static float accelKp = 0;
 static float accel_alpha = 0;
@@ -101,11 +115,16 @@ static int8_t rotate = 0;
 static bool zero_during_arming = false;
 static bool bias_correct_gyro = true;
 
+// For computing the average gyro during arming
+static bool accumulating_gyro = false;
+static uint32_t accumulated_gyro_samples = 0;
+static float accumulated_gyro[3];
+
 // For running trim flights
 static volatile bool trim_requested = false;
 static volatile int32_t trim_accels[3];
 static volatile int32_t trim_samples;
-int32_t const MAX_TRIM_FLIGHT_SAMPLES = 65535;
+static int32_t const MAX_TRIM_FLIGHT_SAMPLES = 65535;
 
 #define GRAV         9.81f
 #define ADXL345_ACCEL_SCALE  (GRAV * 0.004f)
@@ -173,12 +192,8 @@ MODULE_INITCALL(AttitudeInitialize, AttitudeStart)
 /**
  * Module thread, should not return.
  */
- 
-int32_t accel_test;
-int32_t gyro_test;
 static void AttitudeTask(void *parameters)
 {
-	uint8_t init = 0;
 	AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
 	
 	// Set critical error and wait until the accel is producing data
@@ -191,15 +206,7 @@ static void AttitudeTask(void *parameters)
 	
 	bool cc3d = bdinfo->board_rev == 0x02;
 
-	if(cc3d) {
-#if defined(PIOS_INCLUDE_MPU6000)
-		gyro_test = PIOS_MPU6000_Test();
-#endif
-	} else {
-#if defined(PIOS_INCLUDE_ADXL345)
-		accel_test = PIOS_ADXL345_Test();
-#endif
-
+	if (!cc3d) {
 #if defined(PIOS_INCLUDE_ADC)
 		// Create queue for passing gyro data, allow 2 back samples in case
 		gyro_queue = xQueueCreate(1, sizeof(float) * 4);
@@ -207,39 +214,80 @@ static void AttitudeTask(void *parameters)
 		PIOS_ADC_SetQueue(gyro_queue);
 		PIOS_ADC_Config((PIOS_ADC_RATE / 1000.0f) * UPDATE_RATE);
 #endif
-
 	}
+
 	// Force settings update to make sure rotation loaded
 	settingsUpdatedCb(AttitudeSettingsHandle());
 	
+	enum complimentary_filter_status complimentary_filter_status;
+	complimentary_filter_status = CF_POWERON;
+
+	uint32_t arming_count = 0;
+
 	// Main task loop
 	while (1) {
-		
+
 		FlightStatusData flightStatus;
 		FlightStatusGet(&flightStatus);
-		
-		if((xTaskGetTickCount() < 7000) && (xTaskGetTickCount() > 1000)) {
+
+		if (complimentary_filter_status == CF_POWERON) {
+
+			complimentary_filter_status = (xTaskGetTickCount() > 1000) ?
+				CF_INITIALIZING : CF_POWERON;
+
+		} else if(complimentary_filter_status == CF_INITIALIZING &&
+			(xTaskGetTickCount() < 7000) && 
+			(xTaskGetTickCount() > 1000)) {
+
 			// For first 7 seconds use accels to get gyro bias
-			accelKp = 1;
-			accelKi = 0.9;
-			yawBiasRate = 0.23;
+			accelKp = 0.1f + 0.1f * (xTaskGetTickCount() < 4000);
+			accelKi = 0.1;
+			yawBiasRate = 0.1;
 			accel_filter_enabled = false;
-			init = 0;
-		}
-		else if (zero_during_arming && (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMING)) {
-			accelKp = 1;
-			accelKi = 0.9;
-			yawBiasRate = 0.23;
+
+		} else if (zero_during_arming && 
+			       (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMING)) {
+
+			// Use a rapidly decrease accelKp to force the attitude to snap back
+			// to level and then converge more smoothly
+			if (arming_count < 20)
+				accelKp = 1.0f;
+			else if (accelKp > 0.1f)
+				accelKp -= 0.01f;
+			arming_count++;
+
+			accelKi = 0.1f;
+			yawBiasRate = 0.1f;
 			accel_filter_enabled = false;
-			init = 0;
-		} else if (init == 0) {
+
+			// Indicate arming so that after arming it reloads
+			// the normal settings
+			if (complimentary_filter_status != CF_ARMING) {
+				accumulate_gyro_zero();
+				complimentary_filter_status = CF_ARMING;
+				accumulating_gyro = true;
+			}
+
+		} else if (complimentary_filter_status == CF_ARMING ||
+			complimentary_filter_status == CF_INITIALIZING) {
+
 			// Reload settings (all the rates)
 			AttitudeSettingsAccelKiGet(&accelKi);
 			AttitudeSettingsAccelKpGet(&accelKp);
 			AttitudeSettingsYawBiasRateGet(&yawBiasRate);
 			if(accel_alpha > 0.0f)
 				accel_filter_enabled = true;
-			init = 1;
+
+			// If arming that means we were accumulating gyro
+			// samples.  Compute new bias.
+			if (complimentary_filter_status == CF_ARMING) {
+				accumulate_gyro_compute();
+				accumulating_gyro = false;
+				arming_count = 0;
+			}
+
+			// Indicate normal mode to prevent rerunning this code
+			complimentary_filter_status = CF_NORMAL;
 		}
 		
 		PIOS_WDG_UpdateFlag(PIOS_WDG_ATTITUDE);
@@ -416,7 +464,10 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosD
 		gyrosData->y = gyros_out[1];
 		gyrosData->z = gyros_out[2];
 	}
-	
+
+	// When computing the bias accumulate samples
+	accumulate_gyro(gyrosData);
+
 	if(bias_correct_gyro) {
 		// Applying integral component here so it can be seen on the gyros and correct bias
 		gyrosData->x -= gyro_correct_int[0];
@@ -429,6 +480,52 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosD
 	gyro_correct_int[2] += gyrosData->z * yawBiasRate;
 
 	gyrosData->temperature = gyros->temperature;
+}
+
+/**
+ * If accumulating data and enough samples acquired then recompute
+ * the gyro bias based on the mean accumulated
+ */
+static void accumulate_gyro_compute()
+{
+	if (accumulating_gyro && 
+		accumulated_gyro_samples > 100) {
+
+		gyro_correct_int[0] = accumulated_gyro[0] / accumulated_gyro_samples;
+		gyro_correct_int[1] = accumulated_gyro[1] / accumulated_gyro_samples;
+		gyro_correct_int[2] = accumulated_gyro[2] / accumulated_gyro_samples;
+
+		accumulate_gyro_zero();
+
+		accumulating_gyro = false;
+	}
+}
+
+/**
+ * Zero the accumulation of gyro data
+ */
+static void accumulate_gyro_zero()
+{
+	accumulated_gyro_samples = 0;
+	accumulated_gyro[0] = 0;
+	accumulated_gyro[1] = 0;
+	accumulated_gyro[2] = 0;
+}
+
+/**
+ * Accumulate a set of gyro samples for computing the
+ * bias
+ * @param [in] gyrosData The samples of data to accumulate
+ */
+static void accumulate_gyro(GyrosData *gyrosData)
+{
+	if (!accumulating_gyro)
+		return;
+
+	accumulated_gyro_samples++;
+	accumulated_gyro[0] += gyrosData->x;
+	accumulated_gyro[1] += gyrosData->y;
+	accumulated_gyro[2] += gyrosData->z;
 }
 
 /**
