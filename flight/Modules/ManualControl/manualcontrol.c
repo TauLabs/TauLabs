@@ -308,19 +308,23 @@ static void manualControlTask(void *parameters)
 				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY0] != 
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 					accessory.AccessoryVal = 0;
-					AccessoryDesiredInstSet(0, &accessory);
+					
+					if(AccessoryDesiredInstSet(0, &accessory) != 0) //These are allocated later and that allocation might fail
+						set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
 				}
 				// Set Accessory 1
 				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY1] != 
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 					accessory.AccessoryVal = 0;
-					AccessoryDesiredInstSet(1, &accessory);
+					if(AccessoryDesiredInstSet(1, &accessory) != 0) //These are allocated later and that allocation might fail
+						set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
 				}
 				// Set Accessory 2
 				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY2] != 
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 					accessory.AccessoryVal = 0;
-					AccessoryDesiredInstSet(2, &accessory);
+					if(AccessoryDesiredInstSet(2, &accessory) != 0) //These are allocated later and that allocation might fail
+						set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
 				}
 
 			} else if (valid_input_detected) {
@@ -1024,6 +1028,10 @@ static int8_t set_manual_control_error(SystemAlarmsManualControlOptions error_co
 				AlarmsClear(SYSTEMALARMS_ALARM_MANUALCONTROL);
 				break;
 			case SYSTEMALARMS_MANUALCONTROL_NORX:
+				SystemAlarmsManualControlSet((uint8_t *) &error_code);
+				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
+				break;
+			case SYSTEMALARMS_MANUALCONTROL_ACCESSORY:
 				SystemAlarmsManualControlSet((uint8_t *) &error_code);
 				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
 				break;
