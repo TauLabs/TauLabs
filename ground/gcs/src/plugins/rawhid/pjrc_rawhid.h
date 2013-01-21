@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <vector>
 #include <QDebug>
 #include <QMutex>
 #include <QString>
@@ -43,8 +44,7 @@
 #include <CoreFoundation/CFString.h>
 
 #elif defined(Q_OS_UNIX)
-//#elif defined(Q_OS_LINUX)
-#include <usb.h>
+#include <libusb-1.0/libusb.h>
 #include <QDebug>
 #include <QString>
 #elif defined(Q_OS_WIN32)
@@ -61,19 +61,7 @@
 // todo:
 
 #elif defined(Q_OS_UNIX)
-//#elif defined(Q_OS_LINUX)
 
-typedef struct hid_struct hid_t;
-struct hid_struct
-{
-    usb_dev_handle *usb;
-    int open;
-    int iface;
-    int ep_in;
-    int ep_out;
-    struct hid_struct *prev;
-    struct hid_struct *next;
-};
 
 #elif defined(Q_OS_WIN32)
 
@@ -137,15 +125,27 @@ private:
      QMutex *m_writeMutex;
      QMutex *m_readMutex;
 #elif defined(Q_OS_UNIX)
+     // Assumes interrupt endpoint 2 IN and OUT:
+     static const int INTERRUPT_IN_ENDPOINT = 0x81;
+     static const int INTERRUPT_OUT_ENDPOINT = 0x01;
 
-    hid_t *first_hid;
-    hid_t *last_hid;
+     // With firmware support, transfers can be > the endpoint's max packet size.
+     static const int MAX_INTERRUPT_IN_TRANSFER_SIZE = 64;
+     static const int MAX_INTERRUPT_OUT_TRANSFER_SIZE = 64;
 
-    void add_hid(hid_t *h);
-    hid_t * get_hid(int num);
-    void free_all_hid(void);
-    void hid_close(hid_t *hid);
-    int hid_parse_item(uint32_t *val, uint8_t **data, const uint8_t *end);
+     //libusb debug level
+     //Level 0: no messages ever printed by the library (default)
+     //Level 1: error messages are printed to stderr
+     //Level 2: warning and error messages are printed to stderr
+     //Level 3: informational messages are printed to stdout, warning and error messages are printed to stderr
+     static const int DEBUG_LEVEL = 1;
+
+     libusb_context* m_pLibraryContext;
+     std::vector<libusb_device_handle*> m_DeviceHandles;
+     std::vector<ssize_t> m_DeviceInterfaces;
+
+
+     int hid_parse_item(uint32_t *val, uint8_t **data, const uint8_t *end);
 
 #elif defined(Q_OS_WIN32)
 
