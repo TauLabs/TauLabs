@@ -1,9 +1,5 @@
 <RCC>
     <qresource prefix="/core">
-        <file>images/abovegroundlabs_logo_256.png</file>
-        <file>images/abovegroundlabs_logo_128.png</file>
-        <file>images/abovegroundlabs_logo_64.png</file>
-        <file>images/abovegroundlabs_logo_32.png</file>
         <file>images/clean_pane_small.png</file>
         <file>images/clear.png</file>
         <file>images/closebutton.png</file>
@@ -62,5 +58,9 @@
         <file>images/helpicon.svg</file>
         <file>images/cpu.png</file>
         <file>images/tx-rx.svg</file>
+        <file>images/taulabs_logo_256.png</file>
+        <file>images/taulabs_logo_32.png</file>
+        <file>images/taulabs_logo_64.png</file>
+        <file>images/taulabs_logo_128.png</file>
     </qresource>
 </RCC>

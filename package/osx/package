@@ -4,16 +4,16 @@
 : ${ROOT_DIR?} ${BUILD_DIR?} ${PACKAGE_LBL?} ${PACKAGE_DIR?} ${FW_DIR?}
 
 # more variables
-APP_PATH="${BUILD_DIR}/ground/gcs/bin/Above Ground Labs.app"
-TEMP_FILE="${PACKAGE_DIR}/AboveGroundLabs-temp.dmg"
-OUT_FILE="${PACKAGE_DIR}/AboveGroundLabs-${PACKAGE_LBL}.dmg"
-VOL_NAME="Above Ground Labs"
+APP_PATH="${BUILD_DIR}/ground/gcs/bin/Tau Labs GCS.app"
+TEMP_FILE="${PACKAGE_DIR}/TauLabs-temp.dmg"
+OUT_FILE="${PACKAGE_DIR}/TauLabs-${PACKAGE_LBL}.dmg"
+VOL_NAME="Tau Labs"
 
 # prepare the stage
 rm -f "${TEMP_FILE}"
 rm -f "${OUT_FILE}"
 
-hdiutil convert "${ROOT_DIR}/package/osx/AboveGroundLabs.dmg" \
+hdiutil convert "${ROOT_DIR}/package/osx/TauLabs.dmg" \
 	-format UDRW -o "${TEMP_FILE}"
 device=$(hdiutil attach  "${TEMP_FILE}" | \
          egrep '^/dev/' | sed 1q | awk '{print $1}')
@@ -35,7 +35,7 @@ cp "${BUILD_DIR}/matlab/OPLogConvert.m" "/Volumes/${VOL_NAME}/Utilities/OPLogCon
 cp "${ROOT_DIR}/HISTORY.txt" "/Volumes/${VOL_NAME}"
 
 "${ROOT_DIR}/package/osx/libraries" \
-	"/Volumes/${VOL_NAME}/Above Ground Labs.app" || exit 1
+	"/Volumes/${VOL_NAME}/Tau Labs GCS.app" || exit 1
 
 hdiutil detach ${device}
 

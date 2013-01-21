@@ -38,7 +38,7 @@ endif
 ALL_DEB_FILES  = $(foreach f, $(DEB_CFG_CMN_FILES), $(DEB_BUILD_DIR)/$(f))
 ALL_DEB_FILES += $(foreach f, $(DEB_MACHINE_FILES), $(DEB_BUILD_DIR)/$(f))
 
-DEB_PACKAGE_NAME	:= abovegroundlabs_$(VERSION_FULL)_$(DEB_PLATFORM)
+DEB_PACKAGE_NAME	:= taulabs_$(VERSION_FULL)_$(DEB_PLATFORM)
 
 linux_deb_package: deb_build gcs
 	@echo $@ starting
@@ -52,7 +52,7 @@ deb_build: | $(DEB_BUILD_DIR) $(ALL_DEB_FILES) $(BUILD_DIR)/build
 	$(V1)$(shell echo $(FW_DIR) > $(BUILD_DIR)/package_dir)
 	$(V1)sed -i -e "$(SED_SCRIPT)" $(DEB_BUILD_DIR)/changelog
 
-$(BUILD_DIR)/build: package_flight
+$(BUILD_DIR)/build: package_flight package_matlab
 
 $(DEB_BUILD_DIR): 
 	@echo $@ starting

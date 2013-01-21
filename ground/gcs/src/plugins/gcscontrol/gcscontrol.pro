@@ -4,7 +4,7 @@ QT += svg
 QT += opengl
 QT += network
 
-include(../../abovegroundlabsgcsplugin.pri) 
+include(../../taulabsgcsplugin.pri) 
 include(../../plugins/coreplugin/coreplugin.pri) 
 include(../../plugins/uavobjects/uavobjects.pri)
 include(../../libs/sdlgamepad/sdlgamepad.pri)

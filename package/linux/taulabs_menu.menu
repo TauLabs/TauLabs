@@ -1,0 +1,12 @@
+<!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
+ "http://www.freedesktop.org/standards/menu-spec/1.0/menu.dtd">
+<Menu>
+  <Name>Applications</Name>
+  <Menu>
+    <Name>Tau Labs</Name>
+    <Directory>taulabs_menu.directory</Directory>
+    <Include>
+        <Category>TauLabsMenu</Category>
+    </Include>
+  </Menu> <!-- End Tau Labs Menu-->
+</Menu>

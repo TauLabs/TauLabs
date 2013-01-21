@@ -2,7 +2,7 @@ TEMPLATE = lib
 TARGET = Welcome
 QT += network declarative
 
-include(../../abovegroundlabsgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(welcome_dependencies.pri)
 
 HEADERS += welcomeplugin.h \

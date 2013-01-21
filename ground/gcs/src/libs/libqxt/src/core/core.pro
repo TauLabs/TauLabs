@@ -2,7 +2,7 @@ TEMPLATE = lib
 TARGET = QxtCore
 
 DEFINES += QXTCORE_LIBRARY
-include(../../../../abovegroundlabslibrary.pri)
+include(../../../../taulabslibrary.pri)
 
 DEFINES += BUILD_QXT_CORE
 

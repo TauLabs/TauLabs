@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = PowerLog
 DEFINES += POWERLOG_LIBRARY
-include(../../abovegroundlabsgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(powerlog_dependencies.pri)
 HEADERS += powerlogplugin.h
 

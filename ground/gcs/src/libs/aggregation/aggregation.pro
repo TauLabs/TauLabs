@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = Aggregation
 
-include(../../abovegroundlabslibrary.pri)
+include(../../taulabslibrary.pri)
 
 DEFINES += AGGREGATION_LIBRARY
 

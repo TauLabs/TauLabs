@@ -1,6 +1,6 @@
 TEMPLATE = lib
 TARGET = RawHID
-include(../../abovegroundlabsgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(rawhid_dependencies.pri)
 HEADERS += rawhid_global.h \
     rawhidplugin.h \
