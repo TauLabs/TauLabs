@@ -65,8 +65,10 @@ public class Logger extends ObjectManagerActivity {
 
 		fileList.clear();
 		fileArray = getLogFiles();
-		for(File file : fileArray)
-			fileList.add(file.getName());
+		if (fileArray != null) {
+			for(File file : fileArray)
+				fileList.add(file.getName());
+		}
 
 		ArrayAdapter<String> logFileListAdapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, fileList);
@@ -74,7 +76,7 @@ public class Logger extends ObjectManagerActivity {
 
 		getFileListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
 		    @Override
-			public void onItemClick(AdapterView parent, View v, int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 		    	Log.d(TAG, fileArray[position].getAbsolutePath());
 
 		    	Intent intent = new Intent(Intent.ACTION_SEND);
