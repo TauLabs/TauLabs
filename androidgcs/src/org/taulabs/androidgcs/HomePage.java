@@ -22,10 +22,10 @@
  */
 package org.taulabs.androidgcs;
 
-import org.taulabs.androidgcs.R;
-
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapFactory.Options;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -67,11 +67,20 @@ public class HomePage extends ObjectManagerActivity {
 
 	//! Class that shows an icon with a label below
 	public class LabeledImageView extends LinearLayout {
-		final int WIDTH = 250;
-		final int HEIGHT = 220;
 
 		public LabeledImageView(Context context, int image, String text) {
 			super(context);
+
+			final Options opt = new BitmapFactory.Options();
+			opt.inJustDecodeBounds = true;
+			BitmapFactory.decodeResource(getResources(), image, opt);
+
+			int mPaddingInPixels;
+			float scale = context.getResources().getDisplayMetrics().density;
+			mPaddingInPixels = (int) (5 * scale + 0.5f);
+
+			int HEIGHT = (int) (30 * scale) + opt.outHeight;
+			int WIDTH = (int) (10 * scale) + opt.outWidth;
 
 			setOrientation(LinearLayout.VERTICAL);
 			setLayoutParams(new AbsListView.LayoutParams(WIDTH, HEIGHT));
@@ -79,14 +88,14 @@ public class HomePage extends ObjectManagerActivity {
 			// Show the icon for this activity
 			ImageView imageView = new ImageView(context);
 			imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-			imageView.setPadding(8, 8, 8, 8);
+			imageView.setPadding(mPaddingInPixels, mPaddingInPixels, mPaddingInPixels, mPaddingInPixels);
 			imageView.setImageResource(image);
 			addView(imageView);
 
 			// Show a label for it
 			TextView textView = new TextView(context);
 			textView.setText(text);
-			textView.setWidth(WIDTH);
+			textView.setWidth(opt.outWidth);
 			textView.setGravity(Gravity.CENTER);
 			addView(textView);
 		}
@@ -151,7 +160,7 @@ public class HomePage extends ObjectManagerActivity {
 		};
 
 		private final String[] names = {
-				"Object Browser", "PFD",
+				"Browser", "PFD",
 				"Map", "Controller",
 				"Logging", "Alarms",
 				"Tuning", "OSG"
