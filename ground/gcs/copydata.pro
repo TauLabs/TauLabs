@@ -76,7 +76,7 @@ equals(copydata, 1) {
         #   xcopy /s /e <SDL>\include\SDL\* C:\QtSDK\Desktop\Qt\4.7.3\mingw\include\SDL
         #   xcopy /s /e <SDL>\lib\*         C:\QtSDK\Desktop\Qt\4.7.3\mingw\lib
         SDL_DLL = SDL.dll
-        data_copy.commands += $(COPY_FILE) $$targetPath(\"$$(QTMINGW)/$$SDL_DLL\") $$targetPath(\"$$GCS_APP_PATH/$$SDL_DLL\") $$addNewline()
+        data_copy.commands += $(COPY_FILE) $$targetPath(\"$$(QTMINGW)$$SDL_DLL\") $$targetPath(\"$$GCS_APP_PATH$$SDL_DLL\") $$addNewline()
 
         data_copy.target = FORCE
         QMAKE_EXTRA_TARGETS += data_copy
