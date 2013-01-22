@@ -112,13 +112,9 @@ int32_t configuration_check()
 				error_code = (error_code == SYSTEMALARMS_CONFIGERROR_NONE) ? check_stabilization_settings(3, multirotor) : error_code;
 				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_AUTOTUNE:
-				if (coptercontrol)
+				// Revo supports altitude hold
+				if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_AUTOTUNE))
 					error_code = SYSTEMALARMS_CONFIGERROR_AUTOTUNE;
-				else {
-					// Revo supports altitude hold
-					if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_AUTOTUNE))
-						error_code = SYSTEMALARMS_CONFIGERROR_AUTOTUNE;
-				}
 				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_ALTITUDEHOLD:
 				if (coptercontrol)
