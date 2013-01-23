@@ -29,7 +29,8 @@ equals(copydata, 1) {
 
         # copy MinGW DLLs
         MINGW_DLLS = libgcc_s_dw2-1.dll \
-                     mingwm10.dll
+                     mingwm10.dll \
+                     libstdc++-6.dll
         for(dll, MINGW_DLLS) {
             data_copy.commands += $(COPY_FILE) $$targetPath(\"$$(QTMINGW)/$$dll\") $$targetPath(\"$$GCS_APP_PATH/$$dll\") $$addNewline()
         }
