@@ -152,7 +152,11 @@ static void VibrationTestTask(void *parameters)
 	lastSysTime = xTaskGetTickCount();
 	while(1)
 	{
-		vTaskDelayUntil(&lastSysTime, UPDATE_PERIOD_MS / portTICK_RATE_MS);
+		uint16_t sampleRate_ms;
+		VibrationTestSettingsSampleRateGet(&sampleRate_ms);
+		sampleRate_ms = sampleRate_ms > 0 ? sampleRate_ms : 1; //Ensure sampleRate never is 0.
+		
+		vTaskDelayUntil(&lastSysTime, sampleRate_ms / portTICK_RATE_MS);
 
 		AccelsGet(&accels_data);
 		accel_buffer_x[sample_count*2]=accels_data.x;
