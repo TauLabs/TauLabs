@@ -55,6 +55,7 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
 
     options_page->cmbPlotType->addItem("Sequential Plot","");
     options_page->cmbPlotType->addItem("Chronological Plot","");
+    options_page->cmbPlotType->addItem("Histogram Plot","");
 
     // Fills the combo boxes for the UAVObjects
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();

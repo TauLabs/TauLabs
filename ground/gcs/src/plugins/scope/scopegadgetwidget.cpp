@@ -385,6 +385,35 @@ void ScopeGadgetWidget::setupChronoPlot()
 //	scaleWidget->setMinBorderDist(0, fmw);
 }
 
+void ScopeGadgetWidget::setupHistoPlot(){
+
+        preparePlot(HistoPlot);
+
+    //	QwtText title("Index");
+    ////	title.setFont(QFont("Helvetica", 20));
+    //	title.font().setPointSize(title.font().pointSize() / 2);
+    //	setAxisTitle(QwtPlot::xBottom, title);
+    ////    setAxisTitle(QwtPlot::xBottom, "Index");
+
+        setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());
+        setAxisScale(QwtPlot::xBottom, 0, m_xWindowSize);
+        setAxisLabelRotation(QwtPlot::xBottom, 0.0);
+        setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom);
+
+        QwtScaleWidget *scaleWidget = axisWidget(QwtPlot::xBottom);
+
+        // reduce the gap between the scope canvas and the axis scale
+        scaleWidget->setMargin(0);
+
+        // reduce the axis font size
+        QFont fnt(axisFont(QwtPlot::xBottom));
+        fnt.setPointSize(7);
+        setAxisFont(QwtPlot::xBottom, fnt);	// x-axis
+        setAxisFont(QwtPlot::yLeft, fnt);	// y-axis
+}
+
+
+
 void ScopeGadgetWidget::addCurvePlot(QString uavObject, QString uavFieldSubField, int scaleOrderFactor, int meanSamples, QString mathFunction, QPen pen)
 {
     PlotData* plotData;
@@ -393,6 +422,8 @@ void ScopeGadgetWidget::addCurvePlot(QString uavObject, QString uavFieldSubField
         plotData = new SequentialPlotData(uavObject, uavFieldSubField);
     else if (m_plotType == ChronoPlot)
         plotData = new ChronoPlotData(uavObject, uavFieldSubField);
+    else if (m_plotType == HistoPlot)
+        plotData = new HistoPlotData(uavObject, uavFieldSubField);
     //else if (m_plotType == UAVObjectPlot)
     //    plotData = new UAVObjectPlotData(uavObject, uavField);
 
@@ -496,6 +527,9 @@ void ScopeGadgetWidget::replotNewData()
     toTime += NOW.time().msec() / 1000.0;
 	if (m_plotType == ChronoPlot)
         setAxisScale(QwtPlot::xBottom, toTime - m_xWindowSize, toTime);
+    else if(m_plotType == HistoPlot){
+        //TODO: Set x-axis to frequencies
+    }
 
 //	qDebug() << "replotNewData from " << NOW.addSecs(- m_xWindowSize) << " to " << NOW;
 

@@ -25,16 +25,24 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include "extensionsystem/pluginmanager.h"
+
 
 #include "plotdata.h"
+#include "histogram.h"
+#include "vibrationtestsettings.h"
 #include <math.h>
 #include <QDebug>
+
+//Global variable for cycling the axes in the FFT output
+quint32 accHistIdx=0;
 
 PlotData::PlotData(QString p_uavObject, QString p_uavFieldName)
 {    
     uavObjectName = p_uavObject;
 
-    if(p_uavField.contains("-"))
+    //TODO: This needs a comment here. How can a `-` appear in a UAVO field name? Is this automatic in certain instances, or is it user-defined?
+    if(p_uavFieldName.contains("-"))
     {
         QStringList fieldSubfield = p_uavFieldName.split("-", QString::SkipEmptyParts);
         uavFieldName = fieldSubfield.at(0);
@@ -245,6 +253,65 @@ void ChronoPlotData::removeStaleDataTimeout()
     removeStaleData();
     //dataChanged();
     //qDebug() << "removeStaleDataTimeout";
+}
+
+bool HistoPlotData::append(UAVObject* obj)
+{
+
+    //Empty histogram data set
+    xData->clear();
+    yData->clear();
+
+    qDebug() << "uavObject by name of " << obj->getName() << " is calling HistoPlot::append???";
+
+    if (uavObjectName == obj->getName()) {
+
+        //Get the field of interest
+        UAVObjectField* field =  obj->getField(uavFieldName);
+
+        if (field) {
+            double currentValue;
+
+            UAVObjectManager *objManager;
+
+            ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+            Q_ASSERT(pm != NULL);
+            objManager = pm->getObject<UAVObjectManager>();
+            Q_ASSERT(objManager != NULL);
+
+            Histogram *histogramObj = Histogram::GetInstance(objManager);
+            Q_ASSERT(histogramObj != NULL);
+
+            VibrationTestSettings *vibrationTestSettingsObj = VibrationTestSettings::GetInstance(objManager);
+            Q_ASSERT(vibrationTestSettingsObj != NULL);
+            VibrationTestSettings::DataFields vibrationTestSettingsData = vibrationTestSettingsObj->getData();
+
+            quint32 fftSize;
+//            fftSize = objManager->getNumInstances(Histogram::OBJID); //<-- WHICH ONE OF THESE TWO IS THE "CORRECT" METHOD?
+            fftSize = (objManager->getNumInstances(histogramObj->getObjID())) / 3; //<-- WHICH ONE OF THESE TWO IS THE "CORRECT" METHOD?
+
+            double samplingFrequency = vibrationTestSettingsData.SampleRate; //in [Samples/sec]
+
+            for (quint32 i=0; i< fftSize; i++){
+                histogramObj = Histogram::GetInstance(objManager,i + accHistIdx * fftSize);
+                Histogram::DataFields histogramData = histogramObj->getData();
+                currentValue = histogramData.BinValue;
+                float tickFreq=i/((double)fftSize) * samplingFrequency;
+                xData->append( tickFreq );
+                yData->append( currentValue );
+            }
+
+            //Wrap the histogram index
+            accHistIdx++;
+            if (accHistIdx >=3 ){
+                accHistIdx=0;
+            }
+
+        return true;
+        }
+    }
+
+    return false;
 }
 
 bool UAVObjectPlotData::append(UAVObject* obj)

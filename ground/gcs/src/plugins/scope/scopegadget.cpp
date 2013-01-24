@@ -53,6 +53,9 @@ void ScopeGadget::loadConfiguration(IUAVGadgetConfiguration* config)
         widget->setupSequentialPlot();
     else if(sgConfig->plotType() == ChronoPlot)
         widget->setupChronoPlot();
+    else if(sgConfig->plotType() == HistoPlot)
+        widget->setupHistoPlot();
+
     //    else if(sgConfig->plotType() == UAVObjectPlot)
     //        widget->setupUAVObjectPlot();
 
