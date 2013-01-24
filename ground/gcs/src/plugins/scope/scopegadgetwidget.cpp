@@ -333,21 +333,21 @@ void ScopeGadgetWidget::setupChronoPlot()
 {
     preparePlot(ChronoPlot);
 
-//	QwtText title("Time [h:m:s]");
+//    QwtText title("Time [h:m:s]");
 ////	title.setFont(QFont("Helvetica", 20));
-//	title.font().setPointSize(title.font().pointSize() / 2);
-//	setAxisTitle(QwtPlot::xBottom, title);
+//    title.font().setPointSize(title.font().pointSize() / 2);
+//    setAxisTitle(QwtPlot::xBottom, title);
 ////	setAxisTitle(QwtPlot::xBottom, "Time [h:m:s]");
 
     setAxisScaleDraw(QwtPlot::xBottom, new TimeScaleDraw());
     uint NOW = QDateTime::currentDateTime().toTime_t();
     setAxisScale(QwtPlot::xBottom, NOW - m_xWindowSize / 1000, NOW);
 //	setAxisLabelRotation(QwtPlot::xBottom, -15.0);
-	setAxisLabelRotation(QwtPlot::xBottom, 0.0);
-	setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom);
+    setAxisLabelRotation(QwtPlot::xBottom, 0.0);
+    setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom);
 //	setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignCenter | Qt::AlignBottom);
 
-	QwtScaleWidget *scaleWidget = axisWidget(QwtPlot::xBottom);
+    QwtScaleWidget *scaleWidget = axisWidget(QwtPlot::xBottom);
 //	QwtScaleDraw *scaleDraw = axisScaleDraw();
 
 	// reduce the gap between the scope canvas and the axis scale
@@ -408,21 +408,21 @@ void ScopeGadgetWidget::addCurvePlot(QString uavObject, QString uavFieldSubField
 	}
 
     //Create the curve    
-    QString curveName = (plotData->uavObject) + "." + (plotData->uavField);
+    QString curveName = (plotData->uavObjectName) + "." + (plotData->uavFieldName);
     if(plotData->haveSubField)
-        curveName = curveName.append("." + plotData->uavSubField);
+        curveName = curveName.append("." + plotData->uavSubFieldName);
 
     //Get the uav object
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-    UAVDataObject* obj = dynamic_cast<UAVDataObject*>(objManager->getObject((plotData->uavObject)));
+    UAVDataObject* obj = dynamic_cast<UAVDataObject*>(objManager->getObject((plotData->uavObjectName)));
     if(!obj) {
-        qDebug() << "Object " << plotData->uavObject << " is missing";
+        qDebug() << "Object " << plotData->uavObjectName << " is missing";
         return;
     }
-    UAVObjectField* field = obj->getField(plotData->uavField);
+    UAVObjectField* field = obj->getField(plotData->uavFieldName);
     if(!field) {
-        qDebug() << "In scope gadget, in fields loaded from GCS config file, field" << plotData->uavField << " of object " << plotData->uavObject << " is missing";
+        qDebug() << "In scope gadget, in fields loaded from GCS config file, field" << plotData->uavFieldName << " of object " << plotData->uavObjectName << " is missing";
         return;
     }
     QString units = field->getUnits();
@@ -475,7 +475,8 @@ void ScopeGadgetWidget::addCurvePlot(QString uavObject, QString uavFieldSubField
 void ScopeGadgetWidget::uavObjectReceived(UAVObject* obj)
 {
     foreach(PlotData* plotData, m_curvesData.values()) {
-        if (plotData->append(obj)) m_csvLoggingDataUpdated=1;
+        if (plotData->append(obj))
+            m_csvLoggingDataUpdated=1;
     }
     csvLoggingAddData();
 }
@@ -638,9 +639,9 @@ int ScopeGadgetWidget::csvLoggingInsertHeader()
         foreach(PlotData* plotData2, m_curvesData.values())
         {
             ts  << ", ";
-            ts  << plotData2->uavObject;
-            ts  << "." << plotData2->uavField;
-            if (plotData2->haveSubField) ts  << "." << plotData2->uavSubField;
+            ts  << plotData2->uavObjectName;
+            ts  << "." << plotData2->uavFieldName;
+            if (plotData2->haveSubField) ts  << "." << plotData2->uavSubFieldName;
         }
         ts << endl;
         m_csvLoggingFile.close();

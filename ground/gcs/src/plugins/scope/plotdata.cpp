@@ -30,20 +30,20 @@
 #include <math.h>
 #include <QDebug>
 
-PlotData::PlotData(QString p_uavObject, QString p_uavField)
+PlotData::PlotData(QString p_uavObject, QString p_uavFieldName)
 {    
-    uavObject = p_uavObject;
+    uavObjectName = p_uavObject;
 
     if(p_uavField.contains("-"))
     {
-        QStringList fieldSubfield = p_uavField.split("-", QString::SkipEmptyParts);
-        uavField = fieldSubfield.at(0);
-        uavSubField = fieldSubfield.at(1);
+        QStringList fieldSubfield = p_uavFieldName.split("-", QString::SkipEmptyParts);
+        uavFieldName = fieldSubfield.at(0);
+        uavSubFieldName = fieldSubfield.at(1);
         haveSubField = true;
     }
     else
     {
-        uavField =  p_uavField;
+        uavFieldName =  p_uavFieldName;
         haveSubField = false;
     }
 
@@ -70,7 +70,7 @@ double PlotData::valueAsDouble(UAVObject* obj, UAVObjectField* field)
     QVariant value;
 
     if(haveSubField){
-        int indexOfSubField = field->getElementNames().indexOf(QRegExp(uavSubField, Qt::CaseSensitive, QRegExp::FixedString));
+        int indexOfSubField = field->getElementNames().indexOf(QRegExp(uavSubFieldName, Qt::CaseSensitive, QRegExp::FixedString));
         value = field->getValue(indexOfSubField);
     }else
         value = field->getValue();
@@ -90,10 +90,10 @@ PlotData::~PlotData()
 
 bool SequentialPlotData::append(UAVObject* obj)
 {
-    if (uavObject == obj->getName()) {
+    if (uavObjectName == obj->getName()) {
 
         //Get the field of interest
-        UAVObjectField* field =  obj->getField(uavField);
+        UAVObjectField* field =  obj->getField(uavFieldName);
 
         if (field) {
 
@@ -154,10 +154,10 @@ bool SequentialPlotData::append(UAVObject* obj)
 
 bool ChronoPlotData::append(UAVObject* obj)
 {
-    if (uavObject == obj->getName()) {
+    if (uavObjectName == obj->getName()) {
         //Get the field of interest
-        UAVObjectField* field =  obj->getField(uavField);
-        //qDebug() << "uavObject: " << uavObject << ", uavField: " << uavField;
+        UAVObjectField* field =  obj->getField(uavFieldName);
+        //qDebug() << "uavObject: " << uavObject << ", uavField: " << uavFieldName;
 
         if (field) {
             QDateTime NOW = QDateTime::currentDateTime(); //THINK ABOUT REIMPLEMENTING THIS TO SHOW UAVO TIME, NOT SYSTEM TIME

@@ -62,9 +62,9 @@ public:
     PlotData(QString uavObject, QString uavField);
     ~PlotData();
 
-    QString uavObject;
-    QString uavField;
-    QString uavSubField;
+    QString uavObjectName;
+    QString uavFieldName;
+    QString uavSubFieldName;
     bool haveSubField;
     int scalePower; //This is the power to which each value must be raised
     int meanSamples;
