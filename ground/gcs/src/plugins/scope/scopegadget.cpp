@@ -58,16 +58,16 @@ void ScopeGadget::loadConfiguration(IUAVGadgetConfiguration* config)
 
     foreach (PlotCurveConfiguration* plotCurveConfig,  sgConfig->plotCurveConfigs()) {
 
-        QString uavObject = plotCurveConfig->uavObject;
-        QString uavField = plotCurveConfig->uavField;
+        QString uavObjectName = plotCurveConfig->uavObjectName;
+        QString uavFieldName = plotCurveConfig->uavFieldName;
         int scale = plotCurveConfig->yScalePower;
         int mean = plotCurveConfig->yMeanSamples;
         QString mathFunction = plotCurveConfig->mathFunction;
         QRgb color = plotCurveConfig->color;
 
         widget->addCurvePlot(
-                uavObject,
-                uavField,
+                uavObjectName,
+                uavFieldName,
                 scale,
                 mean,
                 mathFunction,

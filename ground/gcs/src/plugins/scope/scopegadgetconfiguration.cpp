@@ -52,17 +52,17 @@ ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* q
 
         for(int plotDatasLoadIndex = 0; plotDatasLoadIndex < plotCurveCount; plotDatasLoadIndex++)
         {
-            QString uavObject;
-            QString uavField;
+            QString uavObjectName;
+            QString uavFieldName;
             QRgb color;
 
             qSettings->beginGroup(QString("plotCurve") + QString().number(plotDatasLoadIndex));
 
             PlotCurveConfiguration* plotCurveConf = new PlotCurveConfiguration();
-            uavObject = qSettings->value("uavObject").toString();
-            plotCurveConf->uavObject = uavObject;
-            uavField = qSettings->value("uavField").toString();
-            plotCurveConf->uavField = uavField;
+            uavObjectName = qSettings->value("uavObject").toString();
+            plotCurveConf->uavObjectName = uavObjectName;
+            uavFieldName = qSettings->value("uavField").toString();
+            plotCurveConf->uavFieldName = uavFieldName;
             color = qSettings->value("color").value<QRgb>();
             plotCurveConf->color = color;
             plotCurveConf->yScalePower = qSettings->value("yScalePower").toInt();
@@ -121,8 +121,8 @@ IUAVGadgetConfiguration *ScopeGadgetConfiguration::clone()
         PlotCurveConfiguration* currentPlotCurveConf = m_PlotCurveConfigs.at(plotDatasLoadIndex);
 
         PlotCurveConfiguration* newPlotCurveConf = new PlotCurveConfiguration();
-        newPlotCurveConf->uavObject = currentPlotCurveConf->uavObject;
-        newPlotCurveConf->uavField = currentPlotCurveConf->uavField;
+        newPlotCurveConf->uavObjectName = currentPlotCurveConf->uavObjectName;
+        newPlotCurveConf->uavFieldName = currentPlotCurveConf->uavFieldName;
         newPlotCurveConf->color = currentPlotCurveConf->color;
         newPlotCurveConf->yScalePower = currentPlotCurveConf->yScalePower;
         newPlotCurveConf->yMeanSamples = currentPlotCurveConf->yMeanSamples;
@@ -164,8 +164,8 @@ void ScopeGadgetConfiguration::saveConfig(QSettings* qSettings) const {
         qSettings->beginGroup(QString("plotCurve") + QString().number(plotDatasLoadIndex));
 
         PlotCurveConfiguration* plotCurveConf = m_PlotCurveConfigs.at(plotDatasLoadIndex);
-        qSettings->setValue("uavObject",  plotCurveConf->uavObject);
-        qSettings->setValue("uavField",  plotCurveConf->uavField);
+        qSettings->setValue("uavObject",  plotCurveConf->uavObjectName);
+        qSettings->setValue("uavField",  plotCurveConf->uavFieldName);
         qSettings->setValue("color",  plotCurveConf->color);
         qSettings->setValue("mathFunction",  plotCurveConf->mathFunction);
         qSettings->setValue("yScalePower",  plotCurveConf->yScalePower);

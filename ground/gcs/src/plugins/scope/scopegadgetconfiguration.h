@@ -37,8 +37,8 @@ using namespace Core;
 
 struct PlotCurveConfiguration
 {
-    QString uavObject;
-    QString uavField;
+    QString uavObjectName;
+    QString uavFieldName;
     int yScalePower; //This is the power to which each value must be raised
     QRgb color;
     int yMeanSamples;
