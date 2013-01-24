@@ -133,6 +133,15 @@ void ConfigPlugin::eraseAllSettings()
             return;
 
     settingsErased = false;
+
+    //TODO: Replace the second and third [in eraseDone()] pop-up dialogs with a progress indicator,
+    // counter, or infinite chain of `......` tied to the original dialog box
+    msgBox.setText(tr("Settings will now erase."));
+    msgBox.setInformativeText(tr("Press <OK> and then please wait until a completion box appears. This can take up to 90 seconds."));
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.exec();
+
+
     ObjectPersistence* objper = ObjectPersistence::GetInstance(getObjectManager());
     Q_ASSERT(objper);
 
@@ -190,7 +199,7 @@ void ConfigPlugin::eraseDone(UAVObject * obj)
     if (data.Operation == ObjectPersistence::OPERATION_COMPLETED) {
         settingsErased = true;
         msgBox.setText(tr("Settings are now erased."));
-        msgBox.setInformativeText(tr("Please wait for the status LED to begin flashing regularly (up to a minute) then power-cycle your board to complete reset."));
+        msgBox.setInformativeText(tr("Please ensure that the status LED is flashing regularly and then power-cycle your board."));
     } else {
         msgBox.setText(tr("Error trying to erase settings."));
         msgBox.setInformativeText(tr("Power-cycle your board after removing all blades. Settings might be inconsistent."));
