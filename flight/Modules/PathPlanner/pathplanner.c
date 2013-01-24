@@ -28,6 +28,7 @@
 
 #include "openpilot.h"
 #include "paths.h"
+#include "path_calculation_simple.h"
 
 #include "flightstatus.h"
 #include "pathdesired.h"
@@ -50,25 +51,33 @@ static xTaskHandle taskHandle;
 static xQueueHandle queue;
 static PathPlannerSettingsData pathPlannerSettings;
 static WaypointActiveData waypointActive;
-static WaypointData waypoint;
+
+//! Flag to indicate the status for the @ref VtolPathFollower or @ref FixedWingFollower
+//! has been updated but not processed (in the main task thread)
 static bool path_status_updated;
+
+//! Store which waypoint has actually been pushed into PathDesired
+static int32_t active_waypoint = -1;
+
+//! Store the previous waypoint which is used to determine the path trajectory
+static int32_t previous_waypoint = -1;
+
+//! Flag to track if the waypoints have changed since it was activated
+bool waypoints_dirty = false;
+
 
 // Private functions
 static void advanceWaypoint();
 static void checkTerminationCondition();
-static void activateWaypoint();
-
+static void holdCurrentPosition();
 static void pathPlannerTask(void *parameters);
 static void settingsUpdated(UAVObjEvent * ev);
+static void waypointsActiveUpdated(UAVObjEvent * ev);
 static void waypointsUpdated(UAVObjEvent * ev);
 static void pathStatusUpdated(UAVObjEvent * ev);
 static void createPathBox();
 static void createPathLogo();
 
-//! Store which waypoint has actually been pushed into PathDesired
-static int32_t active_waypoint = -1;
-//! Store the previous waypoint which is used to determine the path trajectory
-static int32_t previous_waypoint = -1;
 /**
  * Module initialization
  */
@@ -118,7 +127,7 @@ static void pathPlannerTask(void *parameters)
 	settingsUpdated(PathPlannerSettingsHandle());
 
 	WaypointConnectCallback(waypointsUpdated);
-	WaypointActiveConnectCallback(waypointsUpdated);
+	WaypointActiveConnectCallback(waypointsActiveUpdated);
 
 	PathStatusConnectCallback(pathStatusUpdated);
 
@@ -133,46 +142,62 @@ static void pathPlannerTask(void *parameters)
 
 		vTaskDelay(UPDATE_RATE_MS / portTICK_RATE_MS);
 
-		// When not running the path planner short circuit and wait
+		/* When not running the path planner short circuit and wait */
 		FlightStatusGet(&flightStatus);
-		if (flightStatus.FlightMode != FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER) {
-			pathplanner_active = false;
-			continue;
-		}
+		pathplanner_active = flightStatus.FlightMode == FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER;
 		
 		if(pathplanner_active == false) {
-			// This triggers callback to update variable
+			/* When the path planner is not active reset to a known initial state */
+
 			WaypointActiveGet(&waypointActive);
 			waypointActive.Index = 0;
 			WaypointActiveSet(&waypointActive);
 
-			// Reset the state.  Active waypoint sholud be set to an invalid
-			// value to force waypoint 0 to become activated when starting
+			/* Reset the state.  Active waypoint sholud be set to an invalid */
+			/* value to force waypoint 0 to become activated when starting   */
 			active_waypoint = -1;
 			previous_waypoint = -1;
+		} else {
 
-			pathplanner_active = true;
-			continue;
+			/* The logic for the path planner is mixed between callbacks (events)  */
+			/* from the UAVOs and the code which runs here which might take longer */
+			/* to execute.  path_status_updated indicates the PathFollower has     */
+			/* update its information and we sholud determine whether to change    */
+			/* the waypoint.  If that happens, the active_waypoint will change and */
+			/* we should activate that waypoint (which in the future might involve */
+			/* calculating a specific trajectory)                                  */
+
+			if (path_status_updated)
+				checkTerminationCondition();
+
+			if (active_waypoint != waypointActive.Index || waypoints_dirty == true) {
+				int32_t activated_waypoint = select_waypoint_simple(waypointActive.Index, previous_waypoint);
+				if (activated_waypoint != waypointActive.Index) {
+					/* If the path calculation does not make the desired waypoint active something went    */
+					/* wrong.  Current solution is to fire an alarm and try to stay where we are currently */
+					/* so the operator can deal with this.  Note that select_waypoint_simple will be       */
+					/* repeatedly called */
+					holdCurrentPosition();
+					AlarmsSet(SYSTEMALARMS_ALARM_PATHPLANNER, SYSTEMALARMS_ALARM_ERROR);
+				} else {
+					active_waypoint = activated_waypoint;
+
+					/* Invalidate any pending path status updates */
+					path_status_updated = false;
+
+					/* We are synced up to the waypoints */
+					waypoints_dirty = false;
+				}
+			}
 		}
-
-		/* This method determines if we have achieved the goal of the active */
-		/* waypoint */
-		if (path_status_updated)
-			checkTerminationCondition();
-
-		/* If advance waypoint takes a long time to calculate then it should */
-		/* be called from here when the active_waypoints does not equal the  */
-		/* WaypointActive.Index                                              */
-		/* if (active_waypoint != WaypointActive.Index)                      */
-		/*     advanceWaypoint(WaypointActive.Index)                         */
 	}
 }
 
 /**
- * On changed waypoints or active waypoint update position desired
- * if we are in charge
+ * When the active waypoint is changed refresh the object.  This allows
+ * changing the active waypoint during flight from other places (e.g. GCS)
  */
-static void waypointsUpdated(UAVObjEvent * ev)
+static void waypointsActiveUpdated(UAVObjEvent * ev)
 {
 	FlightStatusData flightStatus;
 	FlightStatusGet(&flightStatus);
@@ -180,8 +205,15 @@ static void waypointsUpdated(UAVObjEvent * ev)
 		return;
 	
 	WaypointActiveGet(&waypointActive);
-	if(active_waypoint != waypointActive.Index)
-		activateWaypoint(waypointActive.Index);
+}
+
+/**
+ * When the waypoints are changed mark them as dirty so the path can be
+ * refreshed in flight
+ */
+static void waypointsUpdated(UAVObjEvent * ev)
+{
+	waypoints_dirty = true;
 }
 
 /**
@@ -213,7 +245,7 @@ static void checkTerminationCondition()
 static void holdCurrentPosition()
 {
 	// TODO: Define a separate error condition method which can select RTH versus PH
-		PositionActualData position;
+	PositionActualData position;
 	PositionActualGet(&position);
 
 	PathDesiredData pathDesired;
@@ -231,107 +263,27 @@ static void advanceWaypoint()
 {
 	WaypointActiveGet(&waypointActive);
 
-	// Store the currently active waypoint.  This is used in activeWaypoint to plot
-	// a waypoint from this (previous) waypoint to the newly selected one
+	/* Store the currently active waypoint.  This is used in activeWaypoint to plot */
+	/* a waypoint from this (previous) waypoint to the newly selected one           */
 	previous_waypoint = waypointActive.Index;
 
-	// Default implementation simply jumps to the next possible waypoint.  Insert any
-	// conditional logic desired here.
-	// Note: In the case of conditional logic it is the responsibilty of the implementer
-	// to ensure all possible paths are valid.
+	/* Default implementation simply jumps to the next possible waypoint.  Insert any     */
+	/* conditional logic desired here.                                                    */
+	/* Note: In the case of conditional logic it is the responsibilty of the implementer  */
+	/* to ensure all possible paths are valid.                                            */
 	waypointActive.Index++;
 
 	if (waypointActive.Index >= UAVObjGetNumInstances(WaypointHandle())) {
 		holdCurrentPosition();
 
-		// Do not reset path_status_updated here to avoid this method constantly being called
+		/* Do not reset path_status_updated here to avoid this method constantly being called */
 		return;
 	} else {
 		WaypointActiveSet(&waypointActive);
 	}
 
-	// Invalidate any pending path status updates
+	/* Invalidate any pending path status updates */
 	path_status_updated = false;
-}
-
-/**
- * This method is called when a new waypoint is activated
- *
- * Note: The way this is called, it runs in an object callback.  This is safe because
- * the execution time is extremely short.  If it starts to take a longer time then
- * the main task look should monitor a flag (such as the waypoint changing) and call
- * this method from the main task.
- */
-static void activateWaypoint(int idx)
-{	
-	active_waypoint = idx;
-
-	if (idx >= UAVObjGetNumInstances(WaypointHandle())) {
-		// Attempting to access invalid waypoint.  Fall back to position hold at current location
-		AlarmsSet(SYSTEMALARMS_ALARM_PATHPLANNER, SYSTEMALARMS_ALARM_ERROR);
-		holdCurrentPosition();
-		return;
-	}
-
-	// Get the activated waypoint
-	WaypointInstGet(idx, &waypoint);
-
-	PathDesiredData pathDesired;
-
-	pathDesired.End[PATHDESIRED_END_NORTH] = waypoint.Position[WAYPOINT_POSITION_NORTH];
-	pathDesired.End[PATHDESIRED_END_EAST] = waypoint.Position[WAYPOINT_POSITION_EAST];
-	pathDesired.End[PATHDESIRED_END_DOWN] = waypoint.Position[WAYPOINT_POSITION_DOWN];
-	pathDesired.ModeParameters = waypoint.ModeParameters;
-
-	// Use this to ensure the cases match up (catastrophic if not) and to cover any cases
-	// that don't make sense to come from the path planner
-	switch(waypoint.Mode) {
-		case WAYPOINT_MODE_FLYVECTOR:
-			pathDesired.Mode = PATHDESIRED_MODE_FLYVECTOR;
-			break;
-		case WAYPOINT_MODE_FLYENDPOINT:
-			pathDesired.Mode = PATHDESIRED_MODE_FLYENDPOINT;
-			break;
-		case WAYPOINT_MODE_FLYCIRCLELEFT:
-			pathDesired.Mode = PATHDESIRED_MODE_FLYCIRCLELEFT;
-			break;
-		case WAYPOINT_MODE_FLYCIRCLERIGHT:
-			pathDesired.Mode = PATHDESIRED_MODE_FLYCIRCLERIGHT;
-			break;
-		default:
-			holdCurrentPosition();
-			AlarmsSet(SYSTEMALARMS_ALARM_PATHPLANNER, SYSTEMALARMS_ALARM_ERROR);
-			return;
-	}
-
-	pathDesired.EndingVelocity = waypoint.Velocity;
-
-	if(previous_waypoint < 0) {
-		// For first waypoint, get current position as start point
-		PositionActualData positionActual;
-		PositionActualGet(&positionActual);
-		
-		pathDesired.Start[PATHDESIRED_START_NORTH] = positionActual.North;
-		pathDesired.Start[PATHDESIRED_START_EAST] = positionActual.East;
-		pathDesired.Start[PATHDESIRED_START_DOWN] = positionActual.Down - 1;
-		pathDesired.StartingVelocity = waypoint.Velocity;
-	} else {
-		// Get previous waypoint as start point
-		WaypointData waypointPrev;
-		WaypointInstGet(previous_waypoint, &waypointPrev);
-		
-		pathDesired.Start[PATHDESIRED_END_NORTH] = waypointPrev.Position[WAYPOINT_POSITION_NORTH];
-		pathDesired.Start[PATHDESIRED_END_EAST] = waypointPrev.Position[WAYPOINT_POSITION_EAST];
-		pathDesired.Start[PATHDESIRED_END_DOWN] = waypointPrev.Position[WAYPOINT_POSITION_DOWN];
-		pathDesired.StartingVelocity = waypointPrev.Velocity;
-	}
-
-	PathDesiredSet(&pathDesired);
-
-	// Invalidate any pending path status updates
-	path_status_updated = false;
-
-	AlarmsClear(SYSTEMALARMS_ALARM_PATHPLANNER);
 }
 
 void settingsUpdated(UAVObjEvent * ev) {
