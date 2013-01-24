@@ -5,6 +5,7 @@
 			<elementnames>
 				<elementname>Airspeed</elementname>
 				<elementname>Altitude</elementname>
+				<elementname>AltitudeHold</elementname>
 				<elementname>Autotune</elementname>
 				<elementname>Battery</elementname>
 				<elementname>CameraStab</elementname>

@@ -55,6 +55,7 @@
 #include "flightstatus.h"
 #include "stabilizationdesired.h"
 #include "accels.h"
+#include "modulesettings.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 2
@@ -67,6 +68,7 @@
 static xTaskHandle altitudeHoldTaskHandle;
 static xQueueHandle queue;
 static AltitudeHoldSettingsData altitudeHoldSettings;
+static bool module_enabled;
 
 // Private functions
 static void altitudeHoldTask(void *parameters);
@@ -78,10 +80,11 @@ static void SettingsUpdatedCb(UAVObjEvent * ev);
  */
 int32_t AltitudeHoldStart()
 {
-	// Start main task
-	xTaskCreate(altitudeHoldTask, (signed char *)"AltitudeHold", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &altitudeHoldTaskHandle);
-	TaskMonitorAdd(TASKINFO_RUNNING_ALTITUDEHOLD, altitudeHoldTaskHandle);
-
+	// Start main task if it is enabled
+	if (module_enabled) {
+		xTaskCreate(altitudeHoldTask, (signed char *)"AltitudeHold", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &altitudeHoldTaskHandle);
+		TaskMonitorAdd(TASKINFO_RUNNING_ALTITUDEHOLD, altitudeHoldTaskHandle);
+	}
 	return 0;
 }
 
@@ -91,14 +94,29 @@ int32_t AltitudeHoldStart()
  */
 int32_t AltitudeHoldInitialize()
 {
-	AltitudeHoldSettingsInitialize();
-	AltitudeHoldDesiredInitialize();
-	AltHoldSmoothedInitialize();
+#ifdef MODULE_ALTITUDEHOLD_BUILTIN
+	module_enabled = true;
+#else
+	ModuleSettingsInitialize();
+	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+	ModuleSettingsStateGet(module_state);
+	if (module_state[MODULESETTINGS_STATE_ALTITUDEHOLD] == MODULESETTINGS_STATE_ENABLED) {
+		module_enabled = true;
+	} else {
+		module_enabled = false;
+	}
+#endif
 
-	// Create object queue
-	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	if(module_enabled) {
+		AltitudeHoldSettingsInitialize();
+		AltitudeHoldDesiredInitialize();
+		AltHoldSmoothedInitialize();
 
-	AltitudeHoldSettingsConnectCallback(&SettingsUpdatedCb);
+		// Create object queue
+		queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+
+		AltitudeHoldSettingsConnectCallback(&SettingsUpdatedCb);
+	}
 
 	return 0;
 }
