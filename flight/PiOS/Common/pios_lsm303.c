@@ -493,7 +493,7 @@ static float PIOS_LSM303_Accel_GetScale()
 		case PIOS_LSM303_ACCEL_8G:
 			return GRAV / 4096.0f;
 		case PIOS_LSM303_ACCEL_16G:
-			return GRAV / (4096.0f/3);
+			return GRAV / (4096.0f / 3);
 	}
 	return 0;
 }
