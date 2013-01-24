@@ -53,7 +53,7 @@ MODULES += Stabilization
 #MODULES += Airspeed/revolution
 MODULES += FirmwareIAP
 MODULES += Telemetry
-#MODULES += PathPlanner
+MODULES += PathPlanner
 
 OPTMODULES += GPS
 OPTMODULES += CameraStab

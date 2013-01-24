@@ -36,6 +36,7 @@
 #include "positionactual.h"
 #include "waypoint.h"
 #include "waypointactive.h"
+#include "modulesettings.h"
 
 // Private constants
 #define STACK_SIZE_BYTES 1024
@@ -65,6 +66,8 @@ static void pathStatusUpdated(UAVObjEvent * ev);
 static void createPathBox();
 static void createPathLogo();
 
+static bool module_enabled;
+
 //! Store which waypoint has actually been pushed into PathDesired
 static int32_t active_waypoint = -1;
 //! Store the previous waypoint which is used to determine the path trajectory
@@ -74,11 +77,13 @@ static int32_t previous_waypoint = -1;
  */
 int32_t PathPlannerStart()
 {
-	taskHandle = NULL;
+	if(module_enabled) {
+		taskHandle = NULL;
 
-	// Start VM thread
-	xTaskCreate(pathPlannerTask, (signed char *)"PathPlanner", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
-	TaskMonitorAdd(TASKINFO_RUNNING_PATHPLANNER, taskHandle);
+		// Start VM thread
+		xTaskCreate(pathPlannerTask, (signed char *)"PathPlanner", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
+		TaskMonitorAdd(TASKINFO_RUNNING_PATHPLANNER, taskHandle);
+	}
 
 	return 0;
 }
@@ -89,14 +94,29 @@ int32_t PathPlannerStart()
 int32_t PathPlannerInitialize()
 {
 	taskHandle = NULL;
-
-	PathPlannerSettingsInitialize();
-	WaypointInitialize();
-	WaypointActiveInitialize();
 	
-	// Create object queue
-	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
-
+#ifdef MODULE_ALTITUDEHOLD_BUILTIN
+	module_enabled = true;
+#else
+	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+	ModuleSettingsStateGet(module_state);
+	if (module_state[MODULESETTINGS_STATE_PATHPLANNER] == MODULESETTINGS_STATE_ENABLED) {
+		module_enabled = true;
+	} else {
+		module_enabled = false;
+	}
+#endif
+	
+	if(module_enabled) {
+		ModuleSettingsInitialize();
+		PathPlannerSettingsInitialize();
+		WaypointInitialize();
+		WaypointActiveInitialize();
+		
+		// Create object queue
+		queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	}
+	
 	return 0;
 }
 
