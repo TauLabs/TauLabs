@@ -156,6 +156,9 @@ namespace Utils {
 
     int WorldMagModel::GetMagVector(double LLA[3], int Month, int Day, int Year, double Be[3])
     {
+        qDebug() << "Start GetMagVector( LLA:" << LLA[0] << "," << LLA[1] << "," << LLA[2] << " Month: " << Month
+                 << " Day " << Day << " Year" << Year;
+
         double Lat = LLA[0];
         double Lon = LLA[1];
         double AltEllipsoid = LLA[2]/1000.0; // convert to km
@@ -195,6 +198,8 @@ namespace Utils {
         Be[0] = GeoMagneticElements.X * 1e-2;
         Be[1] = GeoMagneticElements.Y * 1e-2;
         Be[2] = GeoMagneticElements.Z * 1e-2;
+
+        qDebug() << "Calculated Be( " << Be[0] << ", " << Be[1] << ", " << Be[2] << ")";
 
         // ***********
 

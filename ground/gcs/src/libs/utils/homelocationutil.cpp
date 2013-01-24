@@ -50,6 +50,7 @@ HomeLocationUtil::HomeLocationUtil()
      */
     int HomeLocationUtil::getDetails(double LLA[3], double Be[3])
     {
+        qDebug() << "getDetails()";
         // *************
         // check input parms
 
