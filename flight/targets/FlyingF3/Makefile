@@ -52,8 +52,8 @@ MODULES += ManualControl
 MODULES += Stabilization
 #MODULES += Airspeed/revolution
 MODULES += FirmwareIAP
-MODULES += Telemetry
 #MODULES += PathPlanner
+MODULES += Telemetry
 
 OPTMODULES += GPS
 OPTMODULES += CameraStab
@@ -65,6 +65,7 @@ OPTMODULES += GenericI2CSensor
 #OPTMODULES += FixedWingPathFollower
 #OPTMODULES += Battery
 #OPTMODULES += ComUsbBridge
+OPTMODULES += VibrationTest
 
 # Paths
 OPSYSTEM = ./System
@@ -91,6 +92,7 @@ DEBUG_CM3_DIR_INC = $(DEBUG_CM3_DIR)/inc
 OPUAVOBJINC = $(OPUAVOBJ)/inc
 FLIGHTPLANLIB = $(OPMODULEDIR)/FlightPlan/lib
 FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
+CMSISDIR = $(PIOSCOMMONLIB)/CMSIS3
 
 # optional component libraries
 include $(PIOSCOMMONLIB)/FreeRTOS/library.mk
@@ -318,7 +320,7 @@ ALLSRC     =  $(ASRC) $(SRC) $(CPPSRC)
 # List of all source files without directory and file-extension.
 ALLSRCBASE = $(notdir $(basename $(ALLSRC)))
 # Define all object files.
-ALLOBJ     = $(addprefix $(OUTDIR)/, $(addsuffix .o, $(ALLSRCBASE)))
+ALLOBJ     = $(addprefix $(OUTDIR)/, $(addsuffix .o, $(ALLSRCBASE))) $(FLIGHTLIB)/CMSIS3_DSP/libarm_cortexM4lf_math.a
 # Define all listing files (used for make clean).
 LSTFILES   = $(addprefix $(OUTDIR)/, $(addsuffix .lst, $(ALLSRCBASE)))
 # Define all depedency-files (used for make clean).

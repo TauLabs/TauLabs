@@ -58,13 +58,14 @@ PYMODULES =
 #FlightPlan
 
 OPTMODULES += GPS
-OPTMODULES += AltitudeHold 
-OPTMODULES += VtolPathFollower 
-OPTMODULES += FixedWingPathFollower
+#OPTMODULES += AltitudeHold 
+#OPTMODULES += VtolPathFollower 
+#OPTMODULES += FixedWingPathFollower
 OPTMODULES += CameraStab
 OPTMODULES += Autotune
 OPTMODULES += TxPID
 OPTMODULES += Battery
+OPTMODULES += VibrationTest
 
 # Paths
 OPSYSTEM = ./System
@@ -404,7 +405,7 @@ ALLSRC     = $(ASRCARM) $(ASRC) $(SRCARM) $(SRC) $(CPPSRCARM) $(CPPSRC)
 ALLSRCBASE = $(notdir $(basename $(ALLSRC)))
 
 # Define all object files.
-ALLOBJ     = $(addprefix $(OUTDIR)/, $(addsuffix .o, $(ALLSRCBASE)))
+ALLOBJ     = $(addprefix $(OUTDIR)/, $(addsuffix .o, $(ALLSRCBASE))) $(FLIGHTLIB)/CMSIS3_DSP/libarm_cortexM4lf_math.a
 
 # Define all listing files (used for make clean).
 LSTFILES   = $(addprefix $(OUTDIR)/, $(addsuffix .lst, $(ALLSRCBASE)))
