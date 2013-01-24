@@ -134,9 +134,10 @@ void ConfigPlugin::eraseAllSettings()
 
     settingsErased = false;
 
-    //TODO: Replace the second and third [in eraseDone()] pop-up dialogs with a progress indicator tied to the original dialog box
+    //TODO: Replace the second and third [in eraseDone()] pop-up dialogs with a progress indicator,
+    // counter, or infinite chain of `......` tied to the original dialog box
     msgBox.setText(tr("Settings will now erase."));
-    msgBox.setInformativeText(tr("Press <OK> and then please wait until a completion box appears."));
+    msgBox.setInformativeText(tr("Press <OK> and then please wait until a completion box appears. This can take up to 90 seconds."));
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.exec();
 
