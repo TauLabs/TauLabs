@@ -286,17 +286,17 @@ bool HistoPlotData::append(UAVObject* obj)
             Q_ASSERT(vibrationTestSettingsObj != NULL);
             VibrationTestSettings::DataFields vibrationTestSettingsData = vibrationTestSettingsObj->getData();
 
-            quint32 fftSize;
-//            fftSize = objManager->getNumInstances(Histogram::OBJID); //<-- WHICH ONE OF THESE TWO IS THE "CORRECT" METHOD?
-            fftSize = (objManager->getNumInstances(histogramObj->getObjID())) / 3; //<-- WHICH ONE OF THESE TWO IS THE "CORRECT" METHOD?
+            quint32 fftHalfSize;
+//            fftHalfSize = objManager->getNumInstances(Histogram::OBJID); //<-- WHICH ONE OF THESE TWO IS THE "CORRECT" METHOD?
+            fftHalfSize = (objManager->getNumInstances(histogramObj->getObjID())) / 3; //<-- WHICH ONE OF THESE TWO IS THE "CORRECT" METHOD?
 
             double samplingFrequency = 1000.0/(vibrationTestSettingsData.SampleRate); //Convert from [ms/Sample] to [Samples/sec]
 
-            for (quint32 i=0; i< fftSize; i++){
-                histogramObj = Histogram::GetInstance(objManager,i + accHistIdx * fftSize);
+            for (quint32 i=0; i< fftHalfSize; i++){
+                histogramObj = Histogram::GetInstance(objManager,i + accHistIdx * fftHalfSize);
                 Histogram::DataFields histogramData = histogramObj->getData();
                 currentValue = histogramData.BinValue;
-                float tickFreq=i/((double)fftSize) * samplingFrequency;
+                float tickFreq=i/((double)2.0*fftHalfSize) * samplingFrequency;
                 xData->append( tickFreq );
                 yData->append( currentValue );
             }
