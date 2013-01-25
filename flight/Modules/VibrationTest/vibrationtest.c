@@ -56,16 +56,22 @@
 // Private constants
 #define ACCEL_COMPLEX_BUFFER_LENGTH (fft_window_size*2)   // The buffer is complex, so it needs to have twice the elements as its length
 
-#define STACK_SIZE_BYTES (200 + 472 + (13*ACCEL_COMPLEX_BUFFER_LENGTH)) //This value has been calculated to leave 200 bytes of stack space, no matter the fft_window_size
+#define STACK_SIZE_BYTES (200 + 460 + (13*ACCEL_COMPLEX_BUFFER_LENGTH)) //This value has been calculated to leave 200 bytes of stack space, no matter the fft_window_size
 #define TASK_PRIORITY (tskIDLE_PRIORITY+1)
 
 // Private variables
 static xTaskHandle taskHandle;
 static bool module_enabled = false;
 static uint16_t fft_window_size;
+static bool access_accels=false;
+static uint16_t accels_sum_count=0;
+static float accels_data_sum_x=0;
+static float accels_data_sum_y=0;
+static float accels_data_sum_z=0;
 
 // Private functions
 static void VibrationTestTask(void *parameters);
+static void accelsUpdatedCb(UAVObjEvent * objEv);
 
 /**
  * Start the module, called on startup
@@ -75,6 +81,9 @@ static int32_t VibrationTestStart(void)
 	
 	if (!module_enabled)
 		return -1;
+
+	//Add callback for averaging accelerometer data
+	AccelsConnectCallback(&accelsUpdatedCb);
 	
 	// Start main task
 	xTaskCreate(VibrationTestTask, (signed char *)"VibrationTest", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
@@ -144,7 +153,7 @@ static void VibrationTestTask(void *parameters)
 	portTickType lastSysTime;
 	uint8_t sample_count;
 	
-	AccelsData accels_data;
+//	AccelsData accels_data;
 	
 //	struct  {
 //		float x[ACCEL_BUFFER_LENGTH];
@@ -156,15 +165,11 @@ static void VibrationTestTask(void *parameters)
 	float accel_buffer_y[ACCEL_COMPLEX_BUFFER_LENGTH]; // as long as the number of samples, and  complex part 
 	float accel_buffer_z[ACCEL_COMPLEX_BUFFER_LENGTH]; // is always 0.
 
+//	float *accel_buffer_x = (float *) pvPortMalloc(sizeof(float) * ACCEL_COMPLEX_BUFFER_LENGTH);
+//	float *accel_buffer_y = (float *) pvPortMalloc(sizeof(float) * ACCEL_COMPLEX_BUFFER_LENGTH);
+//	float *accel_buffer_z = (float *) pvPortMalloc(sizeof(float) * ACCEL_COMPLEX_BUFFER_LENGTH);
+//	float *fft_output = (float *) pvPortMalloc(sizeof(float) * fft_window_size/2);//Output is symmetric, so no need to store second half of output
 	
-	if(0){
-//		float *accel_buffer_x = (float *) pvPortMalloc(sizeof(float) * ACCEL_COMPLEX_BUFFER_LENGTH);
-//		float *accel_buffer_y = (float *) pvPortMalloc(sizeof(float) * ACCEL_COMPLEX_BUFFER_LENGTH);
-//		float *accel_buffer_z = (float *) pvPortMalloc(sizeof(float) * ACCEL_COMPLEX_BUFFER_LENGTH);
-//		float *fft_output = (float *) pvPortMalloc(sizeof(float) * fft_window_size/2);//Output is symmetric, so no need to store second half of output
-	}
-	else{
-	}
 	
 /*
 	float f_s = 1.0f/(sampleRate_ms / portTICK_RATE_MS);
@@ -192,10 +197,26 @@ static void VibrationTestTask(void *parameters)
 		
 		vTaskDelayUntil(&lastSysTime, sampleRate_ms / portTICK_RATE_MS);
 
-		AccelsGet(&accels_data);
-		accel_buffer_x[sample_count*2]=accels_data.x;
-		accel_buffer_y[sample_count*2]=accels_data.y;
-		accel_buffer_z[sample_count*2]=accels_data.z;
+		//Only read the samples if there are new ones
+		if(accels_sum_count){
+			access_accels=true; //This keeps the callback from altering the accelerometer sums
+			
+			accel_buffer_x[sample_count*2]=accels_data_sum_x/accels_sum_count;
+			accel_buffer_y[sample_count*2]=accels_data_sum_y/accels_sum_count;
+			accel_buffer_z[sample_count*2]=accels_data_sum_z/accels_sum_count;
+				
+			//Reset the accumulators
+			accels_data_sum_x=0;
+			accels_data_sum_y=0;
+			accels_data_sum_z=0;
+			accels_sum_count=0;
+				
+			access_accels=false; //Return control to the callback
+			}
+		else {
+			//If there are no new samples, go back to the beginning
+			continue;
+		}
 		
 		//Set complex part to 0
 		accel_buffer_x[sample_count*2+1]=0;
@@ -263,5 +284,23 @@ static void VibrationTestTask(void *parameters)
 				}
 			}
 		}
+	}
+}
+
+/*
+ * Accumulate accelerometer data. This would be a great place to add a high-pass filter, in order to eliminate the DC bias from gravity
+ */
+
+static void accelsUpdatedCb(UAVObjEvent * objEv) 
+{
+	if(!access_accels){
+		AccelsData accels_data;
+		AccelsGet(&accels_data);
+		
+		accels_data_sum_x+=accels_data.x;
+		accels_data_sum_y+=accels_data.y;
+		accels_data_sum_z+=accels_data.z;
+		
+		accels_sum_count++;
 	}
 }
