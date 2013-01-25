@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		32A9082016B28AF800D879B6 /* board-info.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "board-info.mk"; path = "flyingf3/board-info.mk"; sourceTree = "<group>"; };
+		32A9082116B28B0000D879B6 /* board-info.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "board-info.mk"; path = "quanton/board-info.mk"; sourceTree = "<group>"; };
 		4354B66314FED9FE004BA3B4 /* flight */ = {isa = PBXFileReference; lastKnownFileType = folder; name = flight; path = ../..; sourceTree = SOURCE_ROOT; };
 		65173C9F12EBFD1700D6A7CB /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = Makefile; path = ../../../Makefile; sourceTree = SOURCE_ROOT; };
 		65904F1814632C1700FD9482 /* firmware-defs.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "firmware-defs.mk"; sourceTree = "<group>"; };
@@ -14,7 +16,6 @@
 		65904F2314632C1700FD9482 /* board-info.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "board-info.mk"; sourceTree = "<group>"; };
 		65904F2414632C1700FD9482 /* board-info.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "board-info.mk"; sourceTree = "<group>"; };
 		65904F2514632C1700FD9482 /* board-info.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "board-info.mk"; sourceTree = "<group>"; };
-		65904F2614632C1700FD9482 /* board-info.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "board-info.mk"; sourceTree = "<group>"; };
 		65904F2714632C1700FD9482 /* board-info.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "board-info.mk"; sourceTree = "<group>"; };
 		65904F2814632C1700FD9482 /* version-info.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = "version-info.py"; sourceTree = "<group>"; };
 		65904F2914632C1700FD9482 /* firmwareinfotemplate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = firmwareinfotemplate.c; sourceTree = "<group>"; };
@@ -30,7 +31,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
-		08FB7794FE84155DC02AAC07 /* OpenPilotOSX */ = {
+		08FB7794FE84155DC02AAC07 /* Xcode.OSX */ = {
 			isa = PBXGroup;
 			children = (
 				4354B66314FED9FE004BA3B4 /* flight */,
@@ -38,7 +39,23 @@
 				65C35E4E12EFB2F3004811C2 /* shared */,
 				65173C9F12EBFD1700D6A7CB /* Makefile */,
 			);
-			name = OpenPilotOSX;
+			name = Xcode.OSX;
+			sourceTree = "<group>";
+		};
+		32A907FF16B289B000D879B6 /* flyingf4 */ = {
+			isa = PBXGroup;
+			children = (
+				32A9082016B28AF800D879B6 /* board-info.mk */,
+			);
+			name = flyingf4;
+			sourceTree = "<group>";
+		};
+		32A9081C16B28A3800D879B6 /* quanton */ = {
+			isa = PBXGroup;
+			children = (
+				32A9082116B28B0000D879B6 /* board-info.mk */,
+			);
+			name = quanton;
 			sourceTree = "<group>";
 		};
 		65904F1614632C1700FD9482 /* make */ = {
@@ -51,19 +68,20 @@
 				65904F1B14632C1700FD9482 /* winx86 */,
 			);
 			name = make;
-			path = OpenPilotOSX.xcodeproj/../../../../make;
+			path = Xcode.OSX.xcodeproj/../../../../make;
 			sourceTree = "<group>";
 		};
 		65904F1714632C1700FD9482 /* boards */ = {
 			isa = PBXGroup;
 			children = (
-				65904F33146362F300FD9482 /* revolution */,
-				65904F1C14632C1700FD9482 /* ahrs */,
 				65904F1D14632C1700FD9482 /* coptercontrol */,
 				65904F1E14632C1700FD9482 /* esc */,
-				65904F1F14632C1700FD9482 /* ins */,
-				65904F2014632C1700FD9482 /* openpilot */,
+				65904F1F14632C1700FD9482 /* flyingf3 */,
+				32A907FF16B289B000D879B6 /* flyingf4 */,
 				65904F2114632C1700FD9482 /* pipxtreme */,
+				32A9081C16B28A3800D879B6 /* quanton */,
+				65904F33146362F300FD9482 /* revolution */,
+				65904F1C14632C1700FD9482 /* revomini */,
 			);
 			path = boards;
 			sourceTree = "<group>";
@@ -96,12 +114,12 @@
 			path = winx86;
 			sourceTree = "<group>";
 		};
-		65904F1C14632C1700FD9482 /* ahrs */ = {
+		65904F1C14632C1700FD9482 /* revomini */ = {
 			isa = PBXGroup;
 			children = (
 				65904F2214632C1700FD9482 /* board-info.mk */,
 			);
-			path = ahrs;
+			path = revomini;
 			sourceTree = "<group>";
 		};
 		65904F1D14632C1700FD9482 /* coptercontrol */ = {
@@ -120,20 +138,12 @@
 			path = esc;
 			sourceTree = "<group>";
 		};
-		65904F1F14632C1700FD9482 /* ins */ = {
+		65904F1F14632C1700FD9482 /* flyingf3 */ = {
 			isa = PBXGroup;
 			children = (
 				65904F2514632C1700FD9482 /* board-info.mk */,
 			);
-			path = ins;
-			sourceTree = "<group>";
-		};
-		65904F2014632C1700FD9482 /* openpilot */ = {
-			isa = PBXGroup;
-			children = (
-				65904F2614632C1700FD9482 /* board-info.mk */,
-			);
-			path = openpilot;
+			path = flyingf3;
 			sourceTree = "<group>";
 		};
 		65904F2114632C1700FD9482 /* pipxtreme */ = {
@@ -182,19 +192,19 @@
 /* End PBXGroup section */
 
 /* Begin PBXLegacyTarget section */
-		6581071511DE809D0049FB12 /* OpenPilotOSX */ = {
+		6581071511DE809D0049FB12 /* Xcode.OSX */ = {
 			isa = PBXLegacyTarget;
 			buildArgumentsString = "$(ACTION) -f Makefile.posix";
-			buildConfigurationList = 6581071A11DE80A30049FB12 /* Build configuration list for PBXLegacyTarget "OpenPilotOSX" */;
+			buildConfigurationList = 6581071A11DE80A30049FB12 /* Build configuration list for PBXLegacyTarget "Xcode.OSX" */;
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/make;
-			buildWorkingDirectory = ../../OpenPilot;
+			buildWorkingDirectory = ../../TauLabs;
 			dependencies = (
 			);
-			name = OpenPilotOSX;
+			name = Xcode.OSX;
 			passBuildSettingsInEnvironment = 1;
-			productName = OpenPilotOSX;
+			productName = Xcode.OSX;
 		};
 /* End PBXLegacyTarget section */
 
@@ -202,9 +212,9 @@
 		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				ORGANIZATIONNAME = OpenPilot;
+				ORGANIZATIONNAME = TauLabs;
 			};
-			buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "OpenPilotOSX" */;
+			buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "firmware" */;
 			compatibilityVersion = "Xcode 3.1";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -214,11 +224,11 @@
 				French,
 				German,
 			);
-			mainGroup = 08FB7794FE84155DC02AAC07 /* OpenPilotOSX */;
+			mainGroup = 08FB7794FE84155DC02AAC07 /* Xcode.OSX */;
 			projectDirPath = "";
 			projectRoot = ../../..;
 			targets = (
-				6581071511DE809D0049FB12 /* OpenPilotOSX */,
+				6581071511DE809D0049FB12 /* Xcode.OSX */,
 			);
 		};
 /* End PBXProject section */
@@ -256,7 +266,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = OpenPilotOSX;
+				PRODUCT_NAME = Xcode.OSX;
 			};
 			name = Debug;
 		};
@@ -266,7 +276,7 @@
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				PRODUCT_NAME = OpenPilotOSX;
+				PRODUCT_NAME = Xcode.OSX;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -274,7 +284,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "OpenPilotOSX" */ = {
+		1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "firmware" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB928A08733DD80010E9CD /* Debug */,
@@ -283,7 +293,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6581071A11DE80A30049FB12 /* Build configuration list for PBXLegacyTarget "OpenPilotOSX" */ = {
+		6581071A11DE80A30049FB12 /* Build configuration list for PBXLegacyTarget "Xcode.OSX" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6581071611DE809D0049FB12 /* Debug */,
