@@ -290,7 +290,7 @@ bool HistoPlotData::append(UAVObject* obj)
 //            fftSize = objManager->getNumInstances(Histogram::OBJID); //<-- WHICH ONE OF THESE TWO IS THE "CORRECT" METHOD?
             fftSize = (objManager->getNumInstances(histogramObj->getObjID())) / 3; //<-- WHICH ONE OF THESE TWO IS THE "CORRECT" METHOD?
 
-            double samplingFrequency = vibrationTestSettingsData.SampleRate; //in [Samples/sec]
+            double samplingFrequency = 1000.0/(vibrationTestSettingsData.SampleRate); //Convert from [ms/Sample] to [Samples/sec]
 
             for (quint32 i=0; i< fftSize; i++){
                 histogramObj = Histogram::GetInstance(objManager,i + accHistIdx * fftSize);
