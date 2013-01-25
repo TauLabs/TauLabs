@@ -54,18 +54,16 @@
 
 
 // Private constants
-#define FFT_PARAM 1 //Some integer between 1 and 5. This defines the size of the FFT by 2^(FFT_PARAM-1)
-
-#define ACCEL_COMPLEX_BUFFER_LENGTH (1<<(2*FFT_PARAM+3)) //Raise power of two by FFT_PARAM
-#define FFT_BUFFER_LENGTH (ACCEL_COMPLEX_BUFFER_LENGTH/2) // The buffer is complex, so the fft length is only half the number of elements in the buffer
+#define ACCEL_COMPLEX_BUFFER_LENGTH (fft_window_size*2)   // The buffer is complex, so it needs to have twice the elements as its length
+#define FFT_BUFFER_LENGTH (fft_window_size) // The buffer is complex, so the fft length is only half the number of elements in the buffer
 
 #define STACK_SIZE_BYTES (200 + 420 + (14*ACCEL_COMPLEX_BUFFER_LENGTH)) //This value has been precisely calculated to leave 200 bytes of stack space, no matter the FFT_PARAM value
 #define TASK_PRIORITY (tskIDLE_PRIORITY+1)
-#define UPDATE_PERIOD_MS 50
 
 // Private variables
 static xTaskHandle taskHandle;
 static bool module_enabled = false;
+static uint16_t fft_window_size;
 
 // Private functions
 static void VibrationTestTask(void *parameters);
@@ -112,6 +110,29 @@ static int32_t VibrationTestInitialize(void)
 	VibrationTestSettingsInitialize();
 	HistogramInitialize();
 	
+	//Get the FFT window size
+	VibrationTestSettingsFFTWindowSizeOptions fft_window_size_enum;
+	VibrationTestSettingsFFTWindowSizeGet(&fft_window_size_enum);
+	switch (fft_window_size) {
+		case VIBRATIONTESTSETTINGS_FFTWINDOWSIZE_16:
+			fft_window_size = 16;
+			break;
+		case VIBRATIONTESTSETTINGS_FFTWINDOWSIZE_64:
+			fft_window_size = 64;
+			break;
+		case VIBRATIONTESTSETTINGS_FFTWINDOWSIZE_256:
+			fft_window_size = 256;
+			break;
+		case VIBRATIONTESTSETTINGS_FFTWINDOWSIZE_1024:
+			fft_window_size = 1024;
+			break;
+		default:
+			//This represents a serious configuration error. Do not start module.
+			module_enabled = false;
+			return -1;
+			break;
+	}
+	
 	return 0;
 	
 }
@@ -131,9 +152,14 @@ static void VibrationTestTask(void *parameters)
 //		float y[ACCEL_BUFFER_LENGTH];
 //		float z[ACCEL_BUFFER_LENGTH];
 //	} accel_buffer;
-	float accel_buffer_x[ACCEL_COMPLEX_BUFFER_LENGTH]; //These buffers are complex numbers, so they are twice
-	float accel_buffer_y[ACCEL_COMPLEX_BUFFER_LENGTH]; // as long as the number of samples, and  complex part 
-	float accel_buffer_z[ACCEL_COMPLEX_BUFFER_LENGTH]; // is always 0.
+	
+	float *accel_buffer_x; //These buffers are complex numbers, so they are twice
+	float *accel_buffer_y; // as long as the number of samples, and  complex part 
+	float *accel_buffer_z; // is always 0.
+
+	accel_buffer_x = (float *) pvPortMalloc(sizeof(float) * ACCEL_COMPLEX_BUFFER_LENGTH);
+	accel_buffer_y = (float *) pvPortMalloc(sizeof(float) * ACCEL_COMPLEX_BUFFER_LENGTH);
+	accel_buffer_z = (float *) pvPortMalloc(sizeof(float) * ACCEL_COMPLEX_BUFFER_LENGTH);
 	
 //	float f_s = 1.0f/(UPDATE_PERIOD_MS / portTICK_RATE_MS);
 //	float f_nyq = f_s/2.0f;
