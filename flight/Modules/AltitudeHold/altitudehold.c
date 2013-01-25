@@ -3,7 +3,7 @@
  *
  * @file       guidance.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      This module compared @ref PositionActuatl to @ref ActiveWaypoint 
+ * @brief      This module compared @ref PositionActuatl to @ref ActiveWaypoint
  * and sets @ref AttitudeDesired.  It only does this when the FlightMode field
  * of @ref ManualControlCommand is Auto.
  *
@@ -84,8 +84,10 @@ int32_t AltitudeHoldStart()
 	if (module_enabled) {
 		xTaskCreate(altitudeHoldTask, (signed char *)"AltitudeHold", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &altitudeHoldTaskHandle);
 		TaskMonitorAdd(TASKINFO_RUNNING_ALTITUDEHOLD, altitudeHoldTaskHandle);
+		return 0;
 	}
-	return 0;
+	return -1;
+
 }
 
 /**
@@ -116,9 +118,11 @@ int32_t AltitudeHoldInitialize()
 		queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 
 		AltitudeHoldSettingsConnectCallback(&SettingsUpdatedCb);
+
+		return 0;
 	}
 
-	return 0;
+	return -1;
 }
 MODULE_INITCALL(AltitudeHoldInitialize, AltitudeHoldStart)
 
@@ -144,7 +148,7 @@ static void altitudeHoldTask(void *parameters)
 	portTickType this_time_ms;
 	portTickType last_update_time_ms = xTaskGetTickCount() * portTICK_RATE_MS;
 	UAVObjEvent ev;
-	
+
 	// Force update of the settings
 	SettingsUpdatedCb(&ev);
 
@@ -153,14 +157,14 @@ static void altitudeHoldTask(void *parameters)
 	BaroAltitudeConnectQueue(queue);
 	FlightStatusConnectQueue(queue);
 	AccelsConnectQueue(queue);
-	
+
 	BaroAltitudeAltitudeGet(&smoothed_altitude);
 	running = false;
 	enum init_state {WAITING_BARO, WAITIING_INIT, INITED} init = WAITING_BARO;
 
 	// Main task loop
 	bool baro_updated = false;
-	while (1) {		
+	while (1) {
 		// Wait until the AttitudeRaw object is updated, if a timeout then go to failsafe
 		if ( xQueueReceive(queue, &ev, 100 / portTICK_RATE_MS) != pdTRUE )
 		{
@@ -171,7 +175,7 @@ static void altitudeHoldTask(void *parameters)
 			continue;
 		} else if (ev.obj == BaroAltitudeHandle()) {
 			baro_updated = true;
-			
+
 			init = (init == WAITING_BARO) ? WAITIING_INIT : init;
 		} else if (ev.obj == FlightStatusHandle()) {
 			FlightStatusData flightStatus;
@@ -192,7 +196,7 @@ static void altitudeHoldTask(void *parameters)
 				running = false;
 		} else if (ev.obj == AccelsHandle()) {
 			static uint32_t timeval;
-			
+
 			static float z[4] = {0, 0, 0, 0};
 			float z_new[4];
 			float P[4][4], K[4][2], x[2];
@@ -206,7 +210,7 @@ static void altitudeHoldTask(void *parameters)
 			/* Somehow this always assigns to zero.  Compiler bug? Race condition? */
 			S[0] = altitudeHoldSettings.PressureNoise;
 			S[1] = altitudeHoldSettings.AccelNoise;
-			G[2] = altitudeHoldSettings.AccelDrift; 
+			G[2] = altitudeHoldSettings.AccelDrift;
 
 			AccelsData accels;
 			AccelsGet(&accels);
@@ -284,14 +288,14 @@ static void altitudeHoldTask(void *parameters)
 				K[2][1] = (V[0][0]*G[2]+V[2][2]*G[0]+V[2][3]*G[0]+V[2][2]*S[0]+V[2][3]*S[0]+V[0][0]*V[2][2]-V[0][2]*V[2][0]+V[0][0]*V[2][3]-V[2][0]*V[0][3]+G[0]*G[2]+G[2]*S[0]+(dT*dT)*V[1][1]*V[2][2]-(dT*dT)*V[1][2]*V[2][1]+(dT*dT)*V[1][1]*V[2][3]-(dT*dT)*V[2][1]*V[1][3]+dT*V[0][1]*G[2]+dT*V[1][0]*G[2]+(dT*dT)*V[1][1]*G[2]+dT*V[0][1]*V[2][2]+dT*V[1][0]*V[2][2]-dT*V[0][2]*V[2][1]-dT*V[2][0]*V[1][2]+dT*V[0][1]*V[2][3]+dT*V[1][0]*V[2][3]-dT*V[2][0]*V[1][3]-dT*V[0][3]*V[2][1])/(V[0][0]*G[2]+V[0][0]*G[3]+V[2][2]*G[0]+V[2][3]*G[0]+V[3][2]*G[0]+V[3][3]*G[0]+V[0][0]*S[1]+V[2][2]*S[0]+V[2][3]*S[0]+V[3][2]*S[0]+V[3][3]*S[0]+V[0][0]*V[2][2]-V[0][2]*V[2][0]+V[0][0]*V[2][3]+V[0][0]*V[3][2]-V[0][2]*V[3][0]-V[2][0]*V[0][3]+V[0][0]*V[3][3]-V[0][3]*V[3][0]+G[0]*G[2]+G[0]*G[3]+G[0]*S[1]+G[2]*S[0]+G[3]*S[0]+S[0]*S[1]+(dT*dT)*V[1][1]*V[2][2]-(dT*dT)*V[1][2]*V[2][1]+(dT*dT)*V[1][1]*V[2][3]+(dT*dT)*V[1][1]*V[3][2]-(dT*dT)*V[1][2]*V[3][1]-(dT*dT)*V[2][1]*V[1][3]+(dT*dT)*V[1][1]*V[3][3]-(dT*dT)*V[1][3]*V[3][1]+dT*V[0][1]*G[2]+dT*V[1][0]*G[2]+dT*V[0][1]*G[3]+dT*V[1][0]*G[3]+dT*V[0][1]*S[1]+dT*V[1][0]*S[1]+(dT*dT)*V[1][1]*G[2]+(dT*dT)*V[1][1]*G[3]+(dT*dT)*V[1][1]*S[1]+dT*V[0][1]*V[2][2]+dT*V[1][0]*V[2][2]-dT*V[0][2]*V[2][1]-dT*V[2][0]*V[1][2]+dT*V[0][1]*V[2][3]+dT*V[0][1]*V[3][2]+dT*V[1][0]*V[2][3]+dT*V[1][0]*V[3][2]-dT*V[0][2]*V[3][1]-dT*V[2][0]*V[1][3]-dT*V[0][3]*V[2][1]-dT*V[1][2]*V[3][0]+dT*V[0][1]*V[3][3]+dT*V[1][0]*V[3][3]-dT*V[0][3]*V[3][1]-dT*V[3][0]*V[1][3]);
 				K[3][0] = (-V[2][0]*G[3]+V[3][0]*G[2]+V[3][0]*S[1]-V[2][0]*V[3][2]+V[3][0]*V[2][2]-V[2][0]*V[3][3]+V[3][0]*V[2][3]-dT*V[2][1]*G[3]+dT*V[3][1]*G[2]+dT*V[3][1]*S[1]-dT*V[2][1]*V[3][2]+dT*V[2][2]*V[3][1]-dT*V[2][1]*V[3][3]+dT*V[3][1]*V[2][3])/(V[0][0]*G[2]+V[0][0]*G[3]+V[2][2]*G[0]+V[2][3]*G[0]+V[3][2]*G[0]+V[3][3]*G[0]+V[0][0]*S[1]+V[2][2]*S[0]+V[2][3]*S[0]+V[3][2]*S[0]+V[3][3]*S[0]+V[0][0]*V[2][2]-V[0][2]*V[2][0]+V[0][0]*V[2][3]+V[0][0]*V[3][2]-V[0][2]*V[3][0]-V[2][0]*V[0][3]+V[0][0]*V[3][3]-V[0][3]*V[3][0]+G[0]*G[2]+G[0]*G[3]+G[0]*S[1]+G[2]*S[0]+G[3]*S[0]+S[0]*S[1]+(dT*dT)*V[1][1]*V[2][2]-(dT*dT)*V[1][2]*V[2][1]+(dT*dT)*V[1][1]*V[2][3]+(dT*dT)*V[1][1]*V[3][2]-(dT*dT)*V[1][2]*V[3][1]-(dT*dT)*V[2][1]*V[1][3]+(dT*dT)*V[1][1]*V[3][3]-(dT*dT)*V[1][3]*V[3][1]+dT*V[0][1]*G[2]+dT*V[1][0]*G[2]+dT*V[0][1]*G[3]+dT*V[1][0]*G[3]+dT*V[0][1]*S[1]+dT*V[1][0]*S[1]+(dT*dT)*V[1][1]*G[2]+(dT*dT)*V[1][1]*G[3]+(dT*dT)*V[1][1]*S[1]+dT*V[0][1]*V[2][2]+dT*V[1][0]*V[2][2]-dT*V[0][2]*V[2][1]-dT*V[2][0]*V[1][2]+dT*V[0][1]*V[2][3]+dT*V[0][1]*V[3][2]+dT*V[1][0]*V[2][3]+dT*V[1][0]*V[3][2]-dT*V[0][2]*V[3][1]-dT*V[2][0]*V[1][3]-dT*V[0][3]*V[2][1]-dT*V[1][2]*V[3][0]+dT*V[0][1]*V[3][3]+dT*V[1][0]*V[3][3]-dT*V[0][3]*V[3][1]-dT*V[3][0]*V[1][3]);
 				K[3][1] = (V[0][0]*G[3]+V[3][2]*G[0]+V[3][3]*G[0]+V[3][2]*S[0]+V[3][3]*S[0]+V[0][0]*V[3][2]-V[0][2]*V[3][0]+V[0][0]*V[3][3]-V[0][3]*V[3][0]+G[0]*G[3]+G[3]*S[0]+(dT*dT)*V[1][1]*V[3][2]-(dT*dT)*V[1][2]*V[3][1]+(dT*dT)*V[1][1]*V[3][3]-(dT*dT)*V[1][3]*V[3][1]+dT*V[0][1]*G[3]+dT*V[1][0]*G[3]+(dT*dT)*V[1][1]*G[3]+dT*V[0][1]*V[3][2]+dT*V[1][0]*V[3][2]-dT*V[0][2]*V[3][1]-dT*V[1][2]*V[3][0]+dT*V[0][1]*V[3][3]+dT*V[1][0]*V[3][3]-dT*V[0][3]*V[3][1]-dT*V[3][0]*V[1][3])/(V[0][0]*G[2]+V[0][0]*G[3]+V[2][2]*G[0]+V[2][3]*G[0]+V[3][2]*G[0]+V[3][3]*G[0]+V[0][0]*S[1]+V[2][2]*S[0]+V[2][3]*S[0]+V[3][2]*S[0]+V[3][3]*S[0]+V[0][0]*V[2][2]-V[0][2]*V[2][0]+V[0][0]*V[2][3]+V[0][0]*V[3][2]-V[0][2]*V[3][0]-V[2][0]*V[0][3]+V[0][0]*V[3][3]-V[0][3]*V[3][0]+G[0]*G[2]+G[0]*G[3]+G[0]*S[1]+G[2]*S[0]+G[3]*S[0]+S[0]*S[1]+(dT*dT)*V[1][1]*V[2][2]-(dT*dT)*V[1][2]*V[2][1]+(dT*dT)*V[1][1]*V[2][3]+(dT*dT)*V[1][1]*V[3][2]-(dT*dT)*V[1][2]*V[3][1]-(dT*dT)*V[2][1]*V[1][3]+(dT*dT)*V[1][1]*V[3][3]-(dT*dT)*V[1][3]*V[3][1]+dT*V[0][1]*G[2]+dT*V[1][0]*G[2]+dT*V[0][1]*G[3]+dT*V[1][0]*G[3]+dT*V[0][1]*S[1]+dT*V[1][0]*S[1]+(dT*dT)*V[1][1]*G[2]+(dT*dT)*V[1][1]*G[3]+(dT*dT)*V[1][1]*S[1]+dT*V[0][1]*V[2][2]+dT*V[1][0]*V[2][2]-dT*V[0][2]*V[2][1]-dT*V[2][0]*V[1][2]+dT*V[0][1]*V[2][3]+dT*V[0][1]*V[3][2]+dT*V[1][0]*V[2][3]+dT*V[1][0]*V[3][2]-dT*V[0][2]*V[3][1]-dT*V[2][0]*V[1][3]-dT*V[0][3]*V[2][1]-dT*V[1][2]*V[3][0]+dT*V[0][1]*V[3][3]+dT*V[1][0]*V[3][3]-dT*V[0][3]*V[3][1]-dT*V[3][0]*V[1][3]);
-				
+
 				z_new[0] = -K[0][0]*(dT*z[1]-x[0]+z[0])+dT*z[1]-K[0][1]*(-x[1]+z[2]+z[3])+z[0];
 				z_new[1] = -K[1][0]*(dT*z[1]-x[0]+z[0])+dT*z[2]-K[1][1]*(-x[1]+z[2]+z[3])+z[1];
 				z_new[2] = -K[2][0]*(dT*z[1]-x[0]+z[0])-K[2][1]*(-x[1]+z[2]+z[3])+z[2];
 				z_new[3] = -K[3][0]*(dT*z[1]-x[0]+z[0])-K[3][1]*(-x[1]+z[2]+z[3])+z[3];
 
 				memcpy(z, z_new, sizeof(z_new));
-				
+
 				V[0][0] = -K[0][1]*P[2][0]-K[0][1]*P[3][0]-P[0][0]*(K[0][0]-1.0f);
 				V[0][1] = -K[0][1]*P[2][1]-K[0][1]*P[3][2]-P[0][1]*(K[0][0]-1.0f);
 				V[0][2] = -K[0][1]*P[2][2]-K[0][1]*P[3][2]-P[0][2]*(K[0][0]-1.0f);
@@ -308,7 +312,7 @@ static void altitudeHoldTask(void *parameters)
 				V[3][1] = -K[3][0]*P[0][1]-K[3][1]*P[2][1]-P[3][2]*(K[3][1]-1.0f);
 				V[3][2] = -K[3][0]*P[0][2]-K[3][1]*P[2][2]-P[3][2]*(K[3][1]-1.0f);
 				V[3][3] = -K[3][0]*P[0][3]-K[3][1]*P[2][3]-P[3][3]*(K[3][1]-1.0f);
-				
+
 
 				baro_updated = false;
 			} else {
@@ -316,7 +320,7 @@ static void altitudeHoldTask(void *parameters)
 				K[1][0] = (V[1][2]+V[1][3]+dT*V[2][2]+dT*V[2][3])/(V[2][2]+V[2][3]+V[3][2]+V[3][3]+G[2]+G[3]+S[1]);
 				K[2][0] = (V[2][2]+V[2][3]+G[2])/(V[2][2]+V[2][3]+V[3][2]+V[3][3]+G[2]+G[3]+S[1]);
 				K[3][0] = (V[3][2]+V[3][3]+G[3])/(V[2][2]+V[2][3]+V[3][2]+V[3][3]+G[2]+G[3]+S[1]);
-				
+
 
 				z_new[0] = dT*z[1]-K[0][0]*(-x[1]+z[2]+z[3])+z[0];
 				z_new[1] = dT*z[2]-K[1][0]*(-x[1]+z[2]+z[3])+z[1];
@@ -389,7 +393,7 @@ static void altitudeHoldTask(void *parameters)
 
 			stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 			stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
-			stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK;		
+			stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK;
 			stabilizationDesired.Roll = altitudeHoldDesired.Roll;
 			stabilizationDesired.Pitch = altitudeHoldDesired.Pitch;
 			stabilizationDesired.Yaw = altitudeHoldDesired.Yaw;

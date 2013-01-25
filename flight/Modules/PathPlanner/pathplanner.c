@@ -83,9 +83,10 @@ int32_t PathPlannerStart()
 		// Start VM thread
 		xTaskCreate(pathPlannerTask, (signed char *)"PathPlanner", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
 		TaskMonitorAdd(TASKINFO_RUNNING_PATHPLANNER, taskHandle);
+		return 0;
 	}
 
-	return 0;
+	return -1;
 }
 
 /**
@@ -94,7 +95,7 @@ int32_t PathPlannerStart()
 int32_t PathPlannerInitialize()
 {
 	taskHandle = NULL;
-	
+
 #ifdef MODULE_ALTITUDEHOLD_BUILTIN
 	module_enabled = true;
 #else
@@ -106,18 +107,20 @@ int32_t PathPlannerInitialize()
 		module_enabled = false;
 	}
 #endif
-	
+
 	if(module_enabled) {
 		ModuleSettingsInitialize();
 		PathPlannerSettingsInitialize();
 		WaypointInitialize();
 		WaypointActiveInitialize();
-		
+
 		// Create object queue
 		queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+
+		return 0;
 	}
-	
-	return 0;
+
+	return -1;
 }
 
 MODULE_INITCALL(PathPlannerInitialize, PathPlannerStart)
@@ -143,7 +146,7 @@ static void pathPlannerTask(void *parameters)
 	PathStatusConnectCallback(pathStatusUpdated);
 
 	FlightStatusData flightStatus;
-	
+
 	// Main thread loop
 	bool pathplanner_active = false;
 	path_status_updated = false;
@@ -159,7 +162,7 @@ static void pathPlannerTask(void *parameters)
 			pathplanner_active = false;
 			continue;
 		}
-		
+
 		if(pathplanner_active == false) {
 			// This triggers callback to update variable
 			WaypointActiveGet(&waypointActive);
@@ -198,7 +201,7 @@ static void waypointsUpdated(UAVObjEvent * ev)
 	FlightStatusGet(&flightStatus);
 	if (flightStatus.FlightMode != FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER)
 		return;
-	
+
 	WaypointActiveGet(&waypointActive);
 	if(active_waypoint != waypointActive.Index)
 		activateWaypoint(waypointActive.Index);
@@ -283,7 +286,7 @@ static void advanceWaypoint()
  * this method from the main task.
  */
 static void activateWaypoint(int idx)
-{	
+{
 	active_waypoint = idx;
 
 	if (idx >= UAVObjGetNumInstances(WaypointHandle())) {
@@ -330,7 +333,7 @@ static void activateWaypoint(int idx)
 		// For first waypoint, get current position as start point
 		PositionActualData positionActual;
 		PositionActualGet(&positionActual);
-		
+
 		pathDesired.Start[PATHDESIRED_START_NORTH] = positionActual.North;
 		pathDesired.Start[PATHDESIRED_START_EAST] = positionActual.East;
 		pathDesired.Start[PATHDESIRED_START_DOWN] = positionActual.Down - 1;
@@ -339,7 +342,7 @@ static void activateWaypoint(int idx)
 		// Get previous waypoint as start point
 		WaypointData waypointPrev;
 		WaypointInstGet(previous_waypoint, &waypointPrev);
-		
+
 		pathDesired.Start[PATHDESIRED_END_NORTH] = waypointPrev.Position[WAYPOINT_POSITION_NORTH];
 		pathDesired.Start[PATHDESIRED_END_EAST] = waypointPrev.Position[WAYPOINT_POSITION_EAST];
 		pathDesired.Start[PATHDESIRED_END_DOWN] = waypointPrev.Position[WAYPOINT_POSITION_DOWN];
@@ -367,7 +370,7 @@ void settingsUpdated(UAVObjEvent * ev) {
 			case PATHPLANNERSETTINGS_PREPROGRAMMEDPATH_LOGO:
 				createPathLogo();
 				break;
-				
+
 		}
 	}
 }
@@ -379,7 +382,7 @@ static void createPathBox()
 	WaypointCreateInstance();
 	WaypointCreateInstance();
 	WaypointCreateInstance();
-	
+
 	// Draw O
 	WaypointData waypoint;
 	waypoint.Velocity = 5; // Since for now this isn't directional just set a mag
@@ -423,7 +426,7 @@ static void createPathBox()
 static void createPathLogo()
 {
 	float scale = 1;
-	
+
 	// Draw O
 	WaypointData waypoint;
 	waypoint.Velocity = 5; // Since for now this isn't directional just set a mag
@@ -434,7 +437,7 @@ static void createPathLogo()
 		waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
 		WaypointCreateInstance();
 	}
-	
+
 	// Draw P
 	for(uint32_t i = 20; i < 35; i++) {
 		waypoint.Position[1] = scale * (55 + 20 * cos(i / 10.0 * M_PI - M_PI / 2));
@@ -443,14 +446,14 @@ static void createPathLogo()
 		waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
 		WaypointCreateInstance();
 	}
-		
+
 	waypoint.Position[1] = scale * 35;
 	waypoint.Position[0] = scale * -50;
 	waypoint.Position[2] = -50;
 	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
 	WaypointCreateInstance();
 	WaypointInstSet(35, &waypoint);
-	
+
 	// Draw Box
 	waypoint.Position[1] = scale * 35;
 	waypoint.Position[0] = scale * -60;
@@ -472,7 +475,7 @@ static void createPathLogo()
 	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
 	WaypointCreateInstance();
 	WaypointInstSet(38, &waypoint);
-	
+
 	waypoint.Position[1] = scale * -40;
 	waypoint.Position[0] = scale * 60;
 	waypoint.Position[2] = -30;
