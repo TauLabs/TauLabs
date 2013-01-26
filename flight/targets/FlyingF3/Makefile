@@ -2,9 +2,9 @@
 # @file       Makefile
 # @author     The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2009.
 # @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
-# @addtogroup 
+# @addtogroup
 # @{
-# @addtogroup 
+# @addtogroup
 # @{
 # @brief Makefile to build firmware for flying f3 board.
 ###############################################################################
@@ -53,15 +53,15 @@ MODULES += Stabilization
 #MODULES += Airspeed/revolution
 MODULES += FirmwareIAP
 MODULES += Telemetry
-#MODULES += PathPlanner
 
 OPTMODULES += GPS
 OPTMODULES += CameraStab
 OPTMODULES += Autotune
 OPTMODULES += TxPID
 OPTMODULES += GenericI2CSensor
-#OPTMODULES += AltitudeHold 
-#OPTMODULES += VtolPathFollower 
+OPTMODULES += AltitudeHold
+OPTMODULES += PathPlanner
+#OPTMODULES += VtolPathFollower
 #OPTMODULES += FixedWingPathFollower
 #OPTMODULES += Battery
 #OPTMODULES += ComUsbBridge
@@ -306,7 +306,7 @@ LDFLAGS += -lc -lgcc -lm
 LDFLAGS += -Wl,--warn-common
 LDFLAGS += -Wl,--fatal-warnings
 
-#Linker scripts                                                                                                                                                                                                              
+#Linker scripts
 LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_APP))
 
 
