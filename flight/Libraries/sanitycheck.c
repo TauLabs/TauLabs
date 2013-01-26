@@ -147,6 +147,18 @@ int32_t configuration_check()
 					}
 				}
 				break;
+			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_PATHPLANNER:
+				if (coptercontrol) {
+					error_code = SYSTEMALARMS_CONFIGERROR_PATHPLANNER;
+				}
+				else {
+					// Revo supports altitude hold
+					if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER) ||
+						!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHPLANNER)) {
+						error_code = SYSTEMALARMS_CONFIGERROR_PATHPLANNER;
+					}
+				}
+				break;
 			default:
 				// Uncovered modes are automatically an error
 				error_code = SYSTEMALARMS_CONFIGERROR_UNDEFINED;
@@ -249,6 +261,10 @@ static int8_t set_config_error(SystemAlarmsConfigErrorOptions error_code)
 				AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, SYSTEMALARMS_ALARM_ERROR);
 				break;
 			case SYSTEMALARMS_CONFIGERROR_POSITIONHOLD:
+				SystemAlarmsConfigErrorSet((uint8_t *) &error_code);
+				AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, SYSTEMALARMS_ALARM_ERROR);
+				break;
+			case SYSTEMALARMS_CONFIGERROR_PATHPLANNER:
 				SystemAlarmsConfigErrorSet((uint8_t *) &error_code);
 				AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, SYSTEMALARMS_ALARM_ERROR);
 				break;
