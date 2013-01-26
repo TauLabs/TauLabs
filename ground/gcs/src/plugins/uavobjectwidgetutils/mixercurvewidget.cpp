@@ -36,7 +36,8 @@
 /*
  * Initialize the widget
  */
-MixerCurveWidget::MixerCurveWidget(QWidget *parent) : QGraphicsView(parent)
+MixerCurveWidget::MixerCurveWidget(QWidget *parent) : QGraphicsView(parent),
+    curveMin(0.0), curveMax(1.0), curveUpdating(false)
 {
 
     // Create a layout, add a QGraphicsView and put the SVG inside.
@@ -54,9 +55,6 @@ MixerCurveWidget::MixerCurveWidget(QWidget *parent) : QGraphicsView(parent)
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setRenderHint(QPainter::Antialiasing);
-
-    curveMin=0.0;
-    curveMax=1.0;
 
     setFrameStyle(QFrame::NoFrame);
     setStyleSheet("background:transparent");
