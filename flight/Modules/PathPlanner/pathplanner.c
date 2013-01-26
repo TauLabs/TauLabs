@@ -96,7 +96,7 @@ int32_t PathPlannerInitialize()
 {
 	taskHandle = NULL;
 
-#ifdef MODULE_ALTITUDEHOLD_BUILTIN
+#ifdef MODULE_PathPlanner_BUILTIN
 	module_enabled = true;
 #else
 	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];

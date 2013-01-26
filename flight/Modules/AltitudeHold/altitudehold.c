@@ -96,7 +96,7 @@ int32_t AltitudeHoldStart()
  */
 int32_t AltitudeHoldInitialize()
 {
-#ifdef MODULE_ALTITUDEHOLD_BUILTIN
+#ifdef MODULE_AltitudeHold_BUILTIN
 	module_enabled = true;
 #else
 	ModuleSettingsInitialize();
