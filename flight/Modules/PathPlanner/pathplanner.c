@@ -100,6 +100,7 @@ int32_t PathPlannerInitialize()
 	module_enabled = true;
 #else
 	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+	ModuleSettingsInitialize();
 	ModuleSettingsStateGet(module_state);
 	if (module_state[MODULESETTINGS_STATE_PATHPLANNER] == MODULESETTINGS_STATE_ENABLED) {
 		module_enabled = true;
@@ -109,7 +110,6 @@ int32_t PathPlannerInitialize()
 #endif
 
 	if(module_enabled) {
-		ModuleSettingsInitialize();
 		PathPlannerSettingsInitialize();
 		WaypointInitialize();
 		WaypointActiveInitialize();
