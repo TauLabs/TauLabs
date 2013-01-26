@@ -69,9 +69,10 @@ HomeLocationUtil::HomeLocationUtil()
         QDateTime dt = QDateTime::currentDateTime().toUTC();
 
         //Fetch world magnetic model
-        Q_ASSERT(WorldMagModel().GetMagVector(LLA, dt.date().month(), dt.date().day(), dt.date().year(), Be) >= 0);
+        int retval = WorldMagModel().GetMagVector(LLA, dt.date().month(), dt.date().day(), dt.date().year(), Be);
+        Q_ASSERT(retval >= 0);
 
-        return 0;	// OK
+        return retval;
     }
 
 }
