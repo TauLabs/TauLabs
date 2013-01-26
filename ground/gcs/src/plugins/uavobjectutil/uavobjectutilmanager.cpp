@@ -312,6 +312,7 @@ int UAVObjectUtilManager::setHomeLocation(double LLA[3], bool save_to_sdcard)
 
     Q_ASSERT (Utils::HomeLocationUtil().getDetails(LLA, Be) >= 0);
 
+    qDebug() << "Got Be: " << Be[0] << " " << Be[1] << " " << Be[2];
     // ******************
     // save the new settings
 
