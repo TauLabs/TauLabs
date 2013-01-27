@@ -68,8 +68,8 @@ enum {ROLL,PITCH,YAW,MAX_AXES};
 static struct CameraStab_data {
 	portTickType lastSysTime;
 	uint8_t AttitudeFilter;
-	float inputs[CAMERASTABSETTINGS_INPUT_NUMELEM];
 	float attitude_filtered[MAX_AXES];
+	float inputs[CAMERASTABSETTINGS_INPUT_NUMELEM];
 	float FFlastAttitude[MAX_AXES];
 	float FFlastFilteredAttitude[MAX_AXES];
 	float FFfilterAccumulator[MAX_AXES];	
@@ -179,10 +179,13 @@ static void attitudeUpdated(UAVObjEvent* ev)
 
 		if (cameraStab.Input[i] != CAMERASTABSETTINGS_INPUT_NONE) {
 			if (AccessoryDesiredInstGet(cameraStab.Input[i] - CAMERASTABSETTINGS_INPUT_ACCESSORY0, &accessory) == 0) {
+				float input;
 				float input_rate;
+				rt = (float) cameraStab.InputFilter;
 				switch (cameraStab.StabilizationMode[i]) {
 				case CAMERASTABSETTINGS_STABILIZATIONMODE_ATTITUDE:
-					csd->inputs[i] = accessory.AccessoryVal * cameraStab.InputRange[i];
+					input = accessory.AccessoryVal * cameraStab.InputRange[i];
+					csd->inputs[i] = (rt / (rt + dT)) * csd->inputs[i] + (dT / (rt + dT)) * input;
 					break;
 				case CAMERASTABSETTINGS_STABILIZATIONMODE_AXISLOCK:
 					input_rate = accessory.AccessoryVal * cameraStab.InputRate[i];
