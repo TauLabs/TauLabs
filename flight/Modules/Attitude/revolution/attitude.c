@@ -788,7 +788,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	if (!inited && mag_updated && baro_updated && (gps_updated || !outdoor_mode)) {
 		// Don't initialize until all sensors are read
 		if (init_stage == 0 && !outdoor_mode) {
-			float Pdiag[16]={25.0f,25.0f,25.0f,5.0f,5.0f,5.0f,1e-5f,1e-5f,1e-5f,1e-5f,1e-5f,1e-5f,1e-5f,1e-4f,1e-4f,1e-4f};
+			float Pdiag[16]={25.0f,25.0f,25.0f,5.0f,5.0f,5.0f,1e-5f,1e-5f,1e-5f,1e-5f,1e-9f,1e-9f,1e-9f,1e-4f,1e-4f,1e-4f};
 			float q[4];
 			float pos[3] = {0.0f, 0.0f, 0.0f};
 
@@ -873,10 +873,18 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 			// Run prediction a bit before any corrections
 			dT = PIOS_DELAY_DiffuS(ins_last_time) / 1.0e6f;
 
-			GyrosBiasGet(&gyrosBias);
-			float gyros[3] = {(gyrosData.x + gyrosBias.x) * DEG2RAD, 
-				(gyrosData.y + gyrosBias.y) * DEG2RAD, 
-				(gyrosData.z + gyrosBias.z) * DEG2RAD};
+			// Because the sensor module remove the bias we need to add it
+			// back in here so that the INS algorithm can track it correctly
+			float gyros[3] = {gyrosData.x * F_PI / 180.0f, gyrosData.y * F_PI / 180.0f, gyrosData.z * F_PI / 180.0f};
+			if (insSettings.ComputeGyroBias == INSSETTINGS_COMPUTEGYROBIAS_TRUE && 
+			    (attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE)) {
+				gyros[0] += gyrosBias.x * F_PI / 180.0f;
+				gyros[1] += gyrosBias.y * F_PI / 180.0f;
+				gyros[2] += gyrosBias.z * F_PI / 180.0f;
+			} else {
+				INSSetGyroBias(zeros);
+			}
+
 			INSStatePrediction(gyros, &accelsData.x, dT);
 			
 			AttitudeActualData attitude;
