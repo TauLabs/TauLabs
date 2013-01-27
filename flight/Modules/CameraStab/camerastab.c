@@ -52,8 +52,6 @@
 #include "camerastabsettings.h"
 #include "cameradesired.h"
 #include "modulesettings.h"
-// New - Feed Forward
-#include "mixersettings.h"
 
 //
 // Configuration
@@ -105,8 +103,10 @@ int32_t CameraStabInitialize(void)
 
 		// allocate and initialize the static data storage only if module is enabled
 		csd = (struct CameraStab_data *) pvPortMalloc(sizeof(struct CameraStab_data));
-		if (!csd)
+		if (csd == NULL) {
+			module_enabled = false;
 			return -1;
+		}
 
 		// make sure that all inputs[] are zeroed
 		memset(csd, 0, sizeof(struct CameraStab_data));
@@ -138,7 +138,7 @@ int32_t CameraStabStart(void)
 MODULE_INITCALL(CameraStabInitialize, CameraStabStart)
 
 static void attitudeUpdated(UAVObjEvent* ev)
-{
+{	
 	if (ev->obj != AttitudeActualHandle())
 		return;
 
@@ -153,7 +153,6 @@ static void attitudeUpdated(UAVObjEvent* ev)
 			(thisSysTime - csd->lastSysTime) / portTICK_RATE_MS :
 			(float)SAMPLE_PERIOD_MS / 1000.0f;
 	csd->lastSysTime = thisSysTime;
-
 
 	float attitude;
 	float output;
@@ -171,11 +170,9 @@ static void attitudeUpdated(UAVObjEvent* ev)
 			AttitudeActualYawGet(&attitude);
 			break;
 		}
-
 		float rt = (float)cameraStab.AttitudeFilter;
 		csd->attitude_filtered[i] = (rt / (rt + dT)) * csd->attitude_filtered[i] + (dT / (rt + dT)) * attitude;
 		attitude = csd->attitude_filtered[i];
-
 
 		if (cameraStab.Input[i] != CAMERASTABSETTINGS_INPUT_NONE) {
 			if (AccessoryDesiredInstGet(cameraStab.Input[i] - CAMERASTABSETTINGS_INPUT_ACCESSORY0, &accessory) == 0) {
@@ -193,7 +190,7 @@ static void attitudeUpdated(UAVObjEvent* ev)
 						csd->inputs[i] = bound(csd->inputs[i] + input_rate * dT / 1000.0f, cameraStab.InputRange[i]);
 					break;
 				default:
-					PIOS_Assert(0);
+					input = 0;
 				}
 			}
 		}
@@ -228,8 +225,6 @@ float bound(float val, float limit)
 
 static void applyFF(uint8_t index, float dT, float *attitude, CameraStabSettingsData* cameraStab)
 {
-	MixerSettingsData mixerSettings;
-	MixerSettingsGet (&mixerSettings);
 	float k = 1;
 	if (index == ROLL) {
 		float pattitude;
@@ -246,7 +241,7 @@ static void applyFF(uint8_t index, float dT, float *attitude, CameraStabSettings
 	{
 		if(accumulator > 0)
 		{
-			float filter = mixerSettings.AccelTime / period;
+			float filter = cameraStab->AccelTime / period;
 			if(filter <1)
 			{
 				filter = 1;
@@ -254,7 +249,7 @@ static void applyFF(uint8_t index, float dT, float *attitude, CameraStabSettings
 			accumulator -= accumulator / filter;
 		}else
 		{
-			float filter = mixerSettings.DecelTime / period;
+			float filter = cameraStab->DecelTime / period;
 			if(filter <1)
 			{
 				filter = 1;
@@ -267,7 +262,7 @@ static void applyFF(uint8_t index, float dT, float *attitude, CameraStabSettings
 
 	//acceleration and decceleration limit
 	float delta = *attitude - csd->FFlastFilteredAttitude[index];
-	float maxDelta = mixerSettings.MaxAccel * period;
+	float maxDelta = cameraStab->MaxAccel * period;
 	if(fabs(delta) > maxDelta) //we are accelerating too hard
 	{
 		*attitude = csd->FFlastFilteredAttitude[index] + (delta > 0 ? maxDelta : - maxDelta);
