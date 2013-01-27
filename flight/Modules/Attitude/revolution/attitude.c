@@ -959,12 +959,6 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		INSSetPosVelVar(insSettings.gps_var[INSSETTINGS_GPS_VAR_POS], insSettings.gps_var[INSSETTINGS_GPS_VAR_VEL]);
 		sensors |= POS_SENSORS;
 
-		if (0) { // Old code to take horizontal velocity from GPS Position update
-			sensors |= HORIZ_SENSORS;
-			vel[0] = gpsData.Groundspeed * cosf(gpsData.Heading * DEG2RAD);
-			vel[1] = gpsData.Groundspeed * sinf(gpsData.Heading * DEG2RAD);
-			vel[2] = 0;
-		}
 		// Transform the GPS position into NED coordinates
 		getNED(&gpsData, NED);
 
