@@ -75,9 +75,18 @@ USE_ALTITUDE ?= NO
 USE_AUTOTUNE ?= YES
 TEST_FAULTS ?= NO
 USE_UAVOMAVLINKBRIDGE ?= YES
+USE_GENERIC_I2C_SENSOR ?= NO
 
 # List of optional modules to include
 OPTMODULES =
+
+ifeq ($(USE_GENERIC_I2C_SENSOR), YES)
+ifeq ($(USE_I2C), YES)
+OPTMODULES += GenericI2CSensor
+else
+$(error "GenericI2CSensor module (USE_GENERIC_I2C_SENSOR=YES) requires i2c (USE_I2C=YES)")
+endif
+endif
 ifeq ($(USE_CAMERASTAB), YES)
 OPTMODULES += CameraStab
 endif
@@ -239,6 +248,10 @@ SRC += $(OPUAVSYNTHDIR)/airspeedactual.c
 SRC += $(OPUAVSYNTHDIR)/inertialsensorsettings.c
 SRC += $(OPUAVSYNTHDIR)/flightbatterystate.c
 SRC += $(OPUAVSYNTHDIR)/flightbatterysettings.c
+ifeq ($(USE_GENERIC_I2C_SENSOR), YES)
+SRC += $(OPUAVSYNTHDIR)/i2cvm.c
+SRC += $(OPUAVSYNTHDIR)/i2cvmuserprogram.c
+endif
 endif
 
 ## PIOS Hardware (STM32F10x)
