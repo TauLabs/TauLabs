@@ -65,6 +65,7 @@
 #include "homelocation.h"
 #include "sensorsettings.h"
 #include "inssettings.h"
+#include "insstate.h"
 #include "magnetometer.h"
 #include "nedposition.h"
 #include "positionactual.h"
@@ -182,6 +183,7 @@ int32_t AttitudeInitialize(void)
 	AttitudeSettingsInitialize();
 	SensorSettingsInitialize();
 	INSSettingsInitialize();
+	INSStateInitialize();
 	NEDPositionInitialize();
 	PositionActualInitialize();
 	RevoSettingsInitialize();
@@ -611,7 +613,6 @@ static int32_t updateAttitudeComplementary(bool first_run)
 		VelocityActualSet(&velocityActual);
 	}
 
-
 	AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
 
 	return 0;
@@ -1031,6 +1032,14 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		gyrosBias.z = Nav->gyro_bias[2] * RAD2DEG;
 		GyrosBiasSet(&gyrosBias);
 	}
+
+	INSStateData state;
+	extern float P[13][13], X[13];
+	for (uint32_t i = 0; i < 13; i++) {
+		state.State[i] = X[i];
+		state.Var[i] = P[i][i];
+	}
+	INSStateSet(&state);
 
 	return 0;
 }
