@@ -70,11 +70,13 @@ static struct CameraStab_data {
 	float inputs[CAMERASTABSETTINGS_INPUT_NUMELEM];
 	float FFlastAttitude[MAX_AXES];
 	float FFlastFilteredAttitude[MAX_AXES];
-	float FFfilterAccumulator[MAX_AXES];	
+	float FFfilterAccumulator[MAX_AXES];
+	CameraStabSettingsData settings;
 } *csd;
 
 // Private functions
 static void attitudeUpdated(UAVObjEvent* ev);
+static void settings_updated_cb(UAVObjEvent * ev);
 static float bound(float val, float limit);
 static void applyFF(uint8_t index, float dT, float *attitude, CameraStabSettingsData* cameraStab);
 
@@ -116,6 +118,9 @@ int32_t CameraStabInitialize(void)
 		CameraStabSettingsInitialize();
 		CameraDesiredInitialize();
 
+		CameraStabSettingsConnectCallback(settings_updated_cb);
+		settings_updated_cb(NULL);
+
 		UAVObjEvent ev = {
 			.obj = AttitudeActualHandle(),
 			.instId = 0,
@@ -144,8 +149,7 @@ static void attitudeUpdated(UAVObjEvent* ev)
 
 	AccessoryDesiredData accessory;
 
-	CameraStabSettingsData cameraStab;
-	CameraStabSettingsGet(&cameraStab);
+	CameraStabSettingsData *settings = &csd->settings;
 
 	// Check how long since last update, time delta between calls in ms
 	portTickType thisSysTime = xTaskGetTickCount();
@@ -170,24 +174,24 @@ static void attitudeUpdated(UAVObjEvent* ev)
 			AttitudeActualYawGet(&attitude);
 			break;
 		}
-		float rt = (float)cameraStab.AttitudeFilter;
+		float rt = (float)settings->AttitudeFilter;
 		csd->attitude_filtered[i] = (rt / (rt + dT)) * csd->attitude_filtered[i] + (dT / (rt + dT)) * attitude;
 		attitude = csd->attitude_filtered[i];
 
-		if (cameraStab.Input[i] != CAMERASTABSETTINGS_INPUT_NONE) {
-			if (AccessoryDesiredInstGet(cameraStab.Input[i] - CAMERASTABSETTINGS_INPUT_ACCESSORY0, &accessory) == 0) {
+		if (settings->Input[i] != CAMERASTABSETTINGS_INPUT_NONE) {
+			if (AccessoryDesiredInstGet(settings->Input[i] - CAMERASTABSETTINGS_INPUT_ACCESSORY0, &accessory) == 0) {
 				float input;
 				float input_rate;
-				rt = (float) cameraStab.InputFilter;
-				switch (cameraStab.StabilizationMode[i]) {
+				rt = (float) settings->InputFilter;
+				switch (settings->StabilizationMode[i]) {
 				case CAMERASTABSETTINGS_STABILIZATIONMODE_ATTITUDE:
-					input = accessory.AccessoryVal * cameraStab.InputRange[i];
+					input = accessory.AccessoryVal * settings->InputRange[i];
 					csd->inputs[i] = (rt / (rt + dT)) * csd->inputs[i] + (dT / (rt + dT)) * input;
 					break;
 				case CAMERASTABSETTINGS_STABILIZATIONMODE_AXISLOCK:
-					input_rate = accessory.AccessoryVal * cameraStab.InputRate[i];
-					if (fabs(input_rate) > cameraStab.MaxAxisLockRate)
-						csd->inputs[i] = bound(csd->inputs[i] + input_rate * dT / 1000.0f, cameraStab.InputRange[i]);
+					input_rate = accessory.AccessoryVal * settings->InputRate[i];
+					if (fabs(input_rate) > settings->MaxAxisLockRate)
+						csd->inputs[i] = bound(csd->inputs[i] + input_rate * dT / 1000.0f, settings->InputRange[i]);
 					break;
 				default:
 					input = 0;
@@ -196,10 +200,10 @@ static void attitudeUpdated(UAVObjEvent* ev)
 		}
 
 		// Add Servo FeedForward
-		applyFF(i, dT, &attitude, &cameraStab);
+		applyFF(i, dT, &attitude, settings);
 
 		// Set output channels
-		output = bound((attitude + csd->inputs[i]) / cameraStab.OutputRange[i], 1.0f);
+		output = bound((attitude + csd->inputs[i]) / settings->OutputRange[i], 1.0f);
 		if (thisSysTime / portTICK_RATE_MS > LOAD_DELAY) {
 			switch (i) {
 			case ROLL:
@@ -251,6 +255,16 @@ static void applyFF(uint8_t index, float dT, float *attitude, CameraStabSettings
 	}
 	csd->FFlastFilteredAttitude[index] = *attitude;
 }
+
+/**
+ * Called when the settings are updated to store a local copy
+ * @param[in] ev The update event
+ */
+static void settings_updated_cb(UAVObjEvent * ev)
+{
+	CameraStabSettingsGet(&csd->settings);
+}
+
 /**
   * @}
   */
