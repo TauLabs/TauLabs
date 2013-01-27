@@ -225,38 +225,20 @@ float bound(float val, float limit)
 
 static void applyFF(uint8_t index, float dT, float *attitude, CameraStabSettingsData* cameraStab)
 {
-	float k = 1;
-	if (index == ROLL) {
-		float pattitude;
-		AttitudeActualPitchGet(&pattitude);
-		k = (cameraStab->OutputRange[PITCH] - fabs(pattitude)) / cameraStab->OutputRange[PITCH];
-	}
 	float accumulator = csd->FFfilterAccumulator[index];
 	float period = dT / 1000.0f;
-	accumulator += (*attitude - csd->FFlastAttitude[index]) * cameraStab->FeedForward[index] * k;
+
+	accumulator += (*attitude - csd->FFlastAttitude[index]) * cameraStab->FeedForward[index];
 	csd->FFlastAttitude[index] = *attitude;
 	*attitude += accumulator;
 
-	if(period !=0)
-	{
-		if(accumulator > 0)
-		{
-			float filter = cameraStab->AccelTime / period;
-			if(filter <1)
-			{
-				filter = 1;
-			}
-			accumulator -= accumulator / filter;
-		}else
-		{
-			float filter = cameraStab->DecelTime / period;
-			if(filter <1)
-			{
-				filter = 1;
-			}
-			accumulator -= accumulator / filter;
-		}
-	}
+	float filter = (float) cameraStab->FeedForwardTime / dT;
+	if (filter > 1)
+		accumulator -= accumulator / filter;
+	else
+		accumulator = 0;
+
+	// For non-zero filter times store accumulation
 	csd->FFfilterAccumulator[index] = accumulator;
 	*attitude += accumulator;
 
