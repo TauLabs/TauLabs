@@ -487,13 +487,13 @@ static float PIOS_LSM303_Accel_GetScale()
 
 	switch (dev->accel_range) {
 		case PIOS_LSM303_ACCEL_2G:
-			return GRAV / (16*1000.0f);    //1mg/LSB, left shifted by four bits
+			return GRAV / (16 * 1000.0f);    //1mg/LSB, left shifted by four bits
 		case PIOS_LSM303_ACCEL_4G:
-			return GRAV / (16*500.0f);     //2mg/LSB, left shifted by four bits
+			return GRAV / (16 * 500.0f);     //2mg/LSB, left shifted by four bits
 		case PIOS_LSM303_ACCEL_8G:
-			return GRAV / (16*250.0f);     //4mg/LSB, left shifted by four bits
+			return GRAV / (16 * 250.0f);     //4mg/LSB, left shifted by four bits
 		case PIOS_LSM303_ACCEL_16G:
-			return GRAV / (16*250.0f / 3); //12mg/LSB, left shifted by four bits
+			return GRAV / (16 * 250.0f / 3); //12mg/LSB, left shifted by four bits
 	}
 	return 0;
 }
