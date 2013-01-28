@@ -55,6 +55,15 @@ int32_t PIOS_Flash_UT_Init(uintptr_t * flash_id, const struct pios_flash_ut_cfg 
 	return 0;
 }
 
+void PIOS_Flash_UT_Destroy(uintptr_t flash_id)
+{
+	struct flash_ut_dev * flash_dev = (struct flash_ut_dev *)flash_id;
+
+	fclose(flash_dev->flash_file);
+
+	free(flash_dev);
+}
+
 /**********************************
  *
  * Provide a PIOS flash driver API
