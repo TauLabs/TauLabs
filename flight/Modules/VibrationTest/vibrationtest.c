@@ -63,15 +63,19 @@
 static xTaskHandle taskHandle;
 static bool module_enabled = false;
 static uint16_t fft_window_size;
-static bool access_accels=false;
-static uint16_t accels_sum_count=0;
-static float accels_data_sum_x=0;
-static float accels_data_sum_y=0;
-static float accels_data_sum_z=0;
 
-static float accels_static_x=0;    // In all likelyhood, the initial values will be close to 
-static float accels_static_y=0;    // (0,0,g). In the case where they are not, this will still  
-static float accels_static_z=9.81; // converge to the true bias in a few thousand measurements.
+static struct VibrationTest_data {
+	bool access_accels;
+	uint16_t accels_sum_count;
+	float accels_data_sum_x;
+	float accels_data_sum_y;
+	float accels_data_sum_z;
+	
+	float accels_static_x; // In all likelyhood, the initial values will be close to 
+	float accels_static_y; // (0,0,g). In the case where they are not, this will still  
+	float accels_static_z; // converge to the true bias in a few thousand measurements.	
+} *vtd;
+
 
 // Private functions
 static void VibrationTestTask(void *parameters);
@@ -88,6 +92,18 @@ static int32_t VibrationTestStart(void)
 
 	//Add callback for averaging accelerometer data
 	AccelsConnectCallback(&accelsUpdatedCb);
+	
+	// Allocate and initialize the static data storage only if module is enabled
+	vtd = (struct VibrationTest_data *) pvPortMalloc(sizeof(struct VibrationTest_data));
+	if (vtd == NULL) {
+		module_enabled = false;
+		return -1;
+	}
+	
+	// make sure that all inputs[] are zeroed...
+	memset(vtd, 0, sizeof(struct VibrationTest_data));
+	//... except for Z axis static bias
+	vtd->accels_static_z=9.81; // [See note in definition of VibrationTest_data structure]
 	
 	// Start main task
 	xTaskCreate(VibrationTestTask, (signed char *)"VibrationTest", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
@@ -188,32 +204,32 @@ static void VibrationTestTask(void *parameters)
 		vTaskDelayUntil(&lastSysTime, sampleRate_ms / portTICK_RATE_MS);
 
 		//Only read the samples if there are new ones
-		if(accels_sum_count){
-			access_accels=true; //This keeps the callback from altering the accelerometer sums
+		if(vtd->accels_sum_count){
+			vtd->access_accels=true; //This keeps the callback from altering the accelerometer sums
 
 			//Calculate averaged values
-			float accels_avg_x=accels_data_sum_x/accels_sum_count;
-			float accels_avg_y=accels_data_sum_y/accels_sum_count;
-			float accels_avg_z=accels_data_sum_z/accels_sum_count;
+			float accels_avg_x=vtd->accels_data_sum_x/vtd->accels_sum_count;
+			float accels_avg_y=vtd->accels_data_sum_y/vtd->accels_sum_count;
+			float accels_avg_z=vtd->accels_data_sum_z/vtd->accels_sum_count;
 			
 			//Calculate DC bias
 			float alpha=.01; //Hard coded drift very slowly
-			accels_static_x=alpha*accels_avg_x + (1-alpha)*accels_static_x;
-			accels_static_y=alpha*accels_avg_y + (1-alpha)*accels_static_y;
-			accels_static_z=alpha*accels_avg_z + (1-alpha)*accels_static_z;
+			vtd->accels_static_x=alpha*accels_avg_x + (1-alpha)*vtd->accels_static_x;
+			vtd->accels_static_y=alpha*accels_avg_y + (1-alpha)*vtd->accels_static_y;
+			vtd->accels_static_z=alpha*accels_avg_z + (1-alpha)*vtd->accels_static_z;
 			
 			// Add averaged values to the buffer, and remove DC bias
-			accel_buffer_x[sample_count*2]=accels_avg_x - accels_static_x;
-			accel_buffer_y[sample_count*2]=accels_avg_y - accels_static_y;
-			accel_buffer_z[sample_count*2]=accels_avg_z - accels_static_z;
+			accel_buffer_x[sample_count*2]=accels_avg_x - vtd->accels_static_x;
+			accel_buffer_y[sample_count*2]=accels_avg_y - vtd->accels_static_y;
+			accel_buffer_z[sample_count*2]=accels_avg_z - vtd->accels_static_z;
 				
 			//Reset the accumulators
-			accels_data_sum_x=0;
-			accels_data_sum_y=0;
-			accels_data_sum_z=0;
-			accels_sum_count=0;
+			vtd->accels_data_sum_x=0;
+			vtd->accels_data_sum_y=0;
+			vtd->accels_data_sum_z=0;
+			vtd->accels_sum_count=0;
 				
-			access_accels=false; //Return control to the callback
+			vtd->access_accels=false; //Return control to the callback
 			}
 		else {
 			//If there are no new samples, go back to the beginning
@@ -296,14 +312,14 @@ static void VibrationTestTask(void *parameters)
 
 static void accelsUpdatedCb(UAVObjEvent * objEv) 
 {
-	if(!access_accels){
+	if(!vtd->access_accels){
 		AccelsData accels_data;
 		AccelsGet(&accels_data);
 		
-		accels_data_sum_x+=accels_data.x;
-		accels_data_sum_y+=accels_data.y;
-		accels_data_sum_z+=accels_data.z;
+		vtd->accels_data_sum_x+=accels_data.x;
+		vtd->accels_data_sum_y+=accels_data.y;
+		vtd->accels_data_sum_z+=accels_data.z;
 		
-		accels_sum_count++;
+		vtd->accels_sum_count++;
 	}
 }
