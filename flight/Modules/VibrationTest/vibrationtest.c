@@ -69,6 +69,10 @@ static float accels_data_sum_x=0;
 static float accels_data_sum_y=0;
 static float accels_data_sum_z=0;
 
+static float accels_static_x=0;    // In all likelyhood, the initial values will be close to 
+static float accels_static_y=0;    // (0,0,g). In the case where they are not, this will still  
+static float accels_static_z=9.81; // converge to the true bias in a few thousand measurements.
+
 // Private functions
 static void VibrationTestTask(void *parameters);
 static void accelsUpdatedCb(UAVObjEvent * objEv);
@@ -186,10 +190,22 @@ static void VibrationTestTask(void *parameters)
 		//Only read the samples if there are new ones
 		if(accels_sum_count){
 			access_accels=true; //This keeps the callback from altering the accelerometer sums
+
+			//Calculate averaged values
+			float accels_avg_x=accels_data_sum_x/accels_sum_count;
+			float accels_avg_y=accels_data_sum_y/accels_sum_count;
+			float accels_avg_z=accels_data_sum_z/accels_sum_count;
 			
-			accel_buffer_x[sample_count*2]=accels_data_sum_x/accels_sum_count;
-			accel_buffer_y[sample_count*2]=accels_data_sum_y/accels_sum_count;
-			accel_buffer_z[sample_count*2]=accels_data_sum_z/accels_sum_count;
+			//Calculate DC bias
+			float alpha=.01; //Hard coded drift very slowly
+			accels_static_x=alpha*accels_avg_x + (1-alpha)*accels_static_x;
+			accels_static_y=alpha*accels_avg_y + (1-alpha)*accels_static_y;
+			accels_static_z=alpha*accels_avg_z + (1-alpha)*accels_static_z;
+			
+			// Add averaged values to the buffer, and remove DC bias
+			accel_buffer_x[sample_count*2]=accels_avg_x - accels_static_x;
+			accel_buffer_y[sample_count*2]=accels_avg_y - accels_static_y;
+			accel_buffer_z[sample_count*2]=accels_avg_z - accels_static_z;
 				
 			//Reset the accumulators
 			accels_data_sum_x=0;
@@ -275,6 +291,7 @@ static void VibrationTestTask(void *parameters)
 /**
  * Accumulate accelerometer data. This would be a great place to add a 
  * high-pass filter, in order to eliminate the DC bias from gravity.
+ * Until then, a DC bias subtraction has been added in the main loop.
  */
 
 static void accelsUpdatedCb(UAVObjEvent * objEv) 
