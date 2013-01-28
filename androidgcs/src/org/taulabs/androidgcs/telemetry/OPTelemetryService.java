@@ -185,7 +185,7 @@ public class OPTelemetryService extends Service {
 	 * and based on the stored preference will send itself a connect signal if needed.
 	 */
 	public void startup() {
-		Toast.makeText(getApplicationContext(), "Telemetry service starting", Toast.LENGTH_SHORT).show();
+		if (DEBUG) Log.d(TAG, "Telemetry service starting");
 
 		thread = new HandlerThread("TelemetryServiceHandler", Process.THREAD_PRIORITY_BACKGROUND);
 		thread.start();
@@ -228,7 +228,7 @@ public class OPTelemetryService extends Service {
 	public void onDestroy() {
 
 		if (telemTask != null) {
-			Log.d(TAG, "onDestroy() shutting down telemetry task");
+			if (DEBUG) Log.d(TAG, "onDestroy() shutting down telemetry task");
 			telemTask.disconnect();
 			telemTask = null;
 
@@ -238,8 +238,7 @@ public class OPTelemetryService extends Service {
 				e.printStackTrace();
 			}
 		}
-		Log.d(TAG, "onDestory() shut down telemetry task");
-		Toast.makeText(this, "Telemetry service done", Toast.LENGTH_SHORT).show();
+		if (DEBUG) Log.d(TAG, "onDestory() shut down telemetry task");
 	}
 
 	public class LocalBinder extends Binder {
