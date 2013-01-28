@@ -79,6 +79,7 @@ public class OPTelemetryService extends Service {
 	static final int MSG_START        = 0;
 	static final int MSG_CONNECT      = 1;
 	static final int MSG_DISCONNECT   = 3;
+	static final int MSG_CON_BROKEN   = 4;
 	static final int MSG_TOAST        = 100;
 
 	private Thread activeTelem;
@@ -110,6 +111,17 @@ public class OPTelemetryService extends Service {
 			stopSelf(msg.arg2);
 			break;
 		case MSG_CONNECT:
+			// Check we are not connected
+			if (telemTask != null && telemTask.getConnected() == false) {
+				// Previous connection task handle still around but connection must have failed
+				// TODO: verify this isn't during connection attempt;
+				telemTask = null;
+			} else if (telemTask != null) {
+				Toast.makeText(getApplicationContext(), "Connection already exists.  Disconnect first.", Toast.LENGTH_SHORT).show();
+				if (DEBUG) Log.d(TAG, "Attempted to connect while already connected");
+				return;
+			}
+
 			int connection_type;
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(OPTelemetryService.this);
 			try {
@@ -142,6 +154,20 @@ public class OPTelemetryService extends Service {
 			activeTelem.start();
 			break;
 		case MSG_DISCONNECT:
+			// Check we are connected
+			if (telemTask == null) {
+				Toast.makeText(getApplicationContext(), "Not connected", Toast.LENGTH_SHORT).show();
+				if (DEBUG) Log.d(TAG, "Attempted to disconnect while not connected");
+				return;
+			}
+
+			// Telemetry not connected due to a connection failure
+			if (telemTask != null && telemTask.getConnected() == false) {
+				if (DEBUG) Log.d(TAG, "Connection appears to have disconnected.  Clearing the task");
+				// TODO: Verify that this is not done while actively connecting
+				telemTask = null;
+			}
+
 			Toast.makeText(getApplicationContext(), "Disconnect requested", Toast.LENGTH_SHORT).show();
 			if (DEBUG) Log.d(TAG, "Calling disconnect");
 			if (telemTask != null) {
@@ -167,6 +193,44 @@ public class OPTelemetryService extends Service {
 			Intent intent = new Intent();
 			intent.setAction(INTENT_ACTION_DISCONNECTED);
 			sendBroadcast(intent,null);
+
+			stopSelf();
+
+			break;
+		case MSG_CON_BROKEN:
+			// Check we are connected
+			if (telemTask == null) {
+				Toast.makeText(getApplicationContext(), "Not connected", Toast.LENGTH_SHORT).show();
+				if (DEBUG) Log.d(TAG, "Attempted to disconnect while not connected");
+				return;
+			}
+
+			Toast.makeText(getApplicationContext(), "Connection broken", Toast.LENGTH_SHORT).show();
+
+			if (DEBUG) Log.d(TAG, "Calling disconnect because of broken connection");
+			if (telemTask != null) {
+				telemTask.disconnect();
+				telemTask = null;
+
+				try {
+					activeTelem.join();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			else  if (activeTelem != null) {
+				activeTelem.interrupt();
+				try {
+					activeTelem.join();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				activeTelem = null;
+			}
+			if (DEBUG) Log.d(TAG, "Telemetry thread terminated");
+			Intent brokenIntent = new Intent();
+			brokenIntent.setAction(INTENT_ACTION_DISCONNECTED);
+			sendBroadcast(brokenIntent,null);
 
 			stopSelf();
 
@@ -262,6 +326,12 @@ public class OPTelemetryService extends Service {
 			return (activeTelem != null) && (telemTask != null) && (telemTask.getConnected());
 		}
 	};
+
+	public void connectionBroken() {
+		Message msg = mServiceHandler.obtainMessage();
+		msg.arg1 = MSG_CON_BROKEN;
+		mServiceHandler.sendMessage(msg);
+	}
 
 	public void toastMessage(String msgText) {
 		Message msg = mServiceHandler.obtainMessage();

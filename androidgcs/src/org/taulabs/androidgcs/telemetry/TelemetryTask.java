@@ -201,6 +201,8 @@ public abstract class TelemetryTask implements Runnable {
 		// TODO: Make sure the input and output stream is closed
 
 		// TODO: Make sure any threads for input and output are closed
+
+		connected = false;
 	}
 
 	/**
@@ -225,6 +227,7 @@ public abstract class TelemetryTask implements Runnable {
 				} catch (IOException e) {
 					e.printStackTrace();
 					telemService.toastMessage("Telemetry input stream interrupted");
+					telemService.connectionBroken();
 					break;
 				}
 			}
