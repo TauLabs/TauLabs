@@ -20,9 +20,6 @@
 /flight/OpenPilot/Build
 /flight/OpenPilot/Build.win32
 
-#flight/Project/OpenPilotOSX
-flight/Project/OpenPilotOSX/build
-
 # /flight/PipBee/
 /flight/PipBee/Build
 
@@ -58,8 +55,11 @@ flight/Project/OpenPilotOSX/build
 /build
 
 openpilotgcs-build-desktop
-flight/Project/OpenPilotOSX/OpenPilotOSX.xcodeproj/*.mode1v3
-flight/Project/OpenPilotOSX/OpenPilotOSX.xcodeproj/*.pbxuser
+
+#flight/Project/Xcode.OSX
+flight/Project/Xcode.OSX/build
+flight/Project/Xcode.OSX/firmware.xcodeproj/*.mode1v3
+flight/Project/Xcode.OSX/firmware.xcodeproj/*.pbxuser
 
 # Ignore some of the .pro.user files
 ground/openpilotgcs/openpilotgcs.pro.user

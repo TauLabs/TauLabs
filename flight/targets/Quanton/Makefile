@@ -52,12 +52,12 @@ MODULES += ManualControl
 MODULES += Stabilization
 MODULES += FirmwareIAP
 MODULES += Telemetry
-MODULES += PathPlanner
 
 OPTMODULES += GPS
 OPTMODULES += AltitudeHold 
 OPTMODULES += VtolPathFollower 
 OPTMODULES += FixedWingPathFollower
+OPTMODULES += PathPlanner
 OPTMODULES += CameraStab
 OPTMODULES += Autotune
 OPTMODULES += TxPID

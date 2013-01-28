@@ -52,13 +52,13 @@ MODULES += Stabilization
 MODULES += Actuator
 MODULES += FirmwareIAP
 #MODULES += Airspeed/revolution
-MODULES += PathPlanner
 MODULES += Telemetry
 PYMODULES = 
 #FlightPlan
 
 OPTMODULES += GPS
 #OPTMODULES += AltitudeHold 
+#OPTMODULES += PathPlanner
 #OPTMODULES += VtolPathFollower 
 #OPTMODULES += FixedWingPathFollower
 OPTMODULES += CameraStab
