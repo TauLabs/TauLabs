@@ -58,6 +58,7 @@
 #include "camerastabsettings.h"
 #include "cameradesired.h"
 #include "modulesettings.h"
+#include "misc_math.h"
 
 //
 // Configuration
@@ -83,7 +84,6 @@ static struct CameraStab_data {
 // Private functions
 static void attitudeUpdated(UAVObjEvent* ev);
 static void settings_updated_cb(UAVObjEvent * ev);
-static float bound(float val, float limit);
 static void applyFF(uint8_t index, float dT, float *attitude, CameraStabSettingsData* cameraStab);
 
 /**
@@ -201,7 +201,7 @@ static void attitudeUpdated(UAVObjEvent* ev)
 				case CAMERASTABSETTINGS_STABILIZATIONMODE_AXISLOCK:
 					input_rate = accessory.AccessoryVal * settings->InputRate[i];
 					if (fabs(input_rate) > settings->MaxAxisLockRate)
-						csd->inputs[i] = bound(csd->inputs[i] + input_rate * dT / 1000.0f, settings->InputRange[i]);
+						csd->inputs[i] = bound_sym(csd->inputs[i] + input_rate * dT / 1000.0f, settings->InputRange[i]);
 					break;
 				default:
 					input = 0;
@@ -213,7 +213,7 @@ static void attitudeUpdated(UAVObjEvent* ev)
 		applyFF(i, dT, &attitude, settings);
 
 		// Set output channels
-		output = bound((attitude + csd->inputs[i]) / settings->OutputRange[i], 1.0f);
+		output = bound_sym((attitude + csd->inputs[i]) / settings->OutputRange[i], 1.0f);
 		if (thisSysTime / portTICK_RATE_MS > LOAD_DELAY) {
 			switch (i) {
 			case ROLL:
@@ -228,13 +228,6 @@ static void attitudeUpdated(UAVObjEvent* ev)
 			}
 		}
 	}
-}
-
-float bound(float val, float limit)
-{
-	return (val > limit) ? limit :
-		(val < -limit) ? -limit :
-		val;
 }
 
 /**
