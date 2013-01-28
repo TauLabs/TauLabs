@@ -84,7 +84,7 @@ static struct CameraStab_data {
 // Private functions
 static void attitudeUpdated(UAVObjEvent* ev);
 static void settings_updated_cb(UAVObjEvent * ev);
-static void applyFF(uint8_t index, float dT, float *attitude, CameraStabSettingsData* cameraStab);
+static void applyFF(uint8_t index, float dT_ms, float *attitude, CameraStabSettingsData* cameraStab);
 
 /**
  * Initialise the module, called on startup
@@ -118,7 +118,7 @@ int32_t CameraStabInitialize(void)
 
 		// make sure that all inputs[] are zeroed
 		memset(csd, 0, sizeof(struct CameraStab_data));
-		csd->lastSysTime = xTaskGetTickCount();
+		csd->lastSysTime = xTaskGetTickCount() - SAMPLE_PERIOD_MS / portTICK_RATE_MS;
 
 		AttitudeActualInitialize();
 		CameraStabSettingsInitialize();
@@ -163,10 +163,11 @@ static void attitudeUpdated(UAVObjEvent* ev)
 
 	// Check how long since last update, time delta between calls in ms
 	portTickType thisSysTime = xTaskGetTickCount();
-	float dT = (thisSysTime > csd->lastSysTime) ?
-			(thisSysTime - csd->lastSysTime) / portTICK_RATE_MS :
-			(float)SAMPLE_PERIOD_MS / 1000.0f;
+	float dT_ms = (thisSysTime - csd->lastSysTime) * portTICK_RATE_MS;
 	csd->lastSysTime = thisSysTime;
+
+	if (dT_ms <= 0)
+		return;
 
 	float attitude;
 	float output;
@@ -184,24 +185,24 @@ static void attitudeUpdated(UAVObjEvent* ev)
 			AttitudeActualYawGet(&attitude);
 			break;
 		}
-		float rt = (float)settings->AttitudeFilter;
-		csd->attitude_filtered[i] = (rt / (rt + dT)) * csd->attitude_filtered[i] + (dT / (rt + dT)) * attitude;
+		float rt_ms = (float)settings->AttitudeFilter;
+		csd->attitude_filtered[i] = (rt_ms / (rt_ms + dT_ms)) * csd->attitude_filtered[i] + (dT_ms / (rt_ms + dT_ms)) * attitude;
 		attitude = csd->attitude_filtered[i];
 
 		if (settings->Input[i] != CAMERASTABSETTINGS_INPUT_NONE) {
 			if (AccessoryDesiredInstGet(settings->Input[i] - CAMERASTABSETTINGS_INPUT_ACCESSORY0, &accessory) == 0) {
 				float input;
 				float input_rate;
-				rt = (float) settings->InputFilter;
+				rt_ms = (float) settings->InputFilter;
 				switch (settings->StabilizationMode[i]) {
 				case CAMERASTABSETTINGS_STABILIZATIONMODE_ATTITUDE:
 					input = accessory.AccessoryVal * settings->InputRange[i];
-					csd->inputs[i] = (rt / (rt + dT)) * csd->inputs[i] + (dT / (rt + dT)) * input;
+					csd->inputs[i] = (rt_ms / (rt_ms + dT_ms)) * csd->inputs[i] + (dT_ms / (rt_ms + dT_ms)) * input;
 					break;
 				case CAMERASTABSETTINGS_STABILIZATIONMODE_AXISLOCK:
 					input_rate = accessory.AccessoryVal * settings->InputRate[i];
 					if (fabs(input_rate) > settings->MaxAxisLockRate)
-						csd->inputs[i] = bound_sym(csd->inputs[i] + input_rate * dT / 1000.0f, settings->InputRange[i]);
+						csd->inputs[i] = bound_sym(csd->inputs[i] + input_rate * dT_ms / 1000.0f, settings->InputRange[i]);
 					break;
 				default:
 					input = 0;
@@ -210,7 +211,7 @@ static void attitudeUpdated(UAVObjEvent* ev)
 		}
 
 		// Add Servo FeedForward
-		applyFF(i, dT, &attitude, settings);
+		applyFF(i, dT_ms, &attitude, settings);
 
 		// Set output channels
 		output = bound_sym((attitude + csd->inputs[i]) / settings->OutputRange[i], 1.0f);
@@ -237,16 +238,15 @@ static void attitudeUpdated(UAVObjEvent* ev)
  * The code tracks the difference in the attitude between calls and adds a scaling
  * of the difference to the accumulated "boost".
  */
-static void applyFF(uint8_t index, float dT, float *attitude, CameraStabSettingsData* cameraStab)
+static void applyFF(uint8_t index, float dT_ms, float *attitude, CameraStabSettingsData* cameraStab)
 {
 	float accumulator = csd->FFfilterAccumulator[index];
-	float period = dT / 1000.0f;
 
 	accumulator += (*attitude - csd->FFlastAttitude[index]) * cameraStab->FeedForward[index];
 	csd->FFlastAttitude[index] = *attitude;
 	*attitude += accumulator;
 
-	float filter = (float) cameraStab->FeedForwardTime / dT;
+	float filter = (float) cameraStab->FeedForwardTime / dT_ms;
 	if (filter > 1)
 		accumulator -= accumulator / filter;
 	else
@@ -258,7 +258,7 @@ static void applyFF(uint8_t index, float dT, float *attitude, CameraStabSettings
 
 	//acceleration and deceleration limit
 	float delta = *attitude - csd->FFlastFilteredAttitude[index];
-	float maxDelta = cameraStab->MaxAccel * period;
+	float maxDelta = cameraStab->MaxAccel * dT_ms / 1000.0f;
 	if(fabs(delta) > maxDelta) //we are accelerating too hard
 	{
 		*attitude = csd->FFlastFilteredAttitude[index] + (delta > 0 ? maxDelta : - maxDelta);
