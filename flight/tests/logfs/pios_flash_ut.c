@@ -110,6 +110,8 @@ static int32_t PIOS_Flash_UT_EraseSector(uintptr_t flash_id, uint32_t addr)
 	size_t s;
 	s = fwrite (buf, 1, flash_dev->cfg->size_of_sector, flash_dev->flash_file);
 
+	free(buf);
+
 	assert (s == flash_dev->cfg->size_of_sector);
 
 	return 0;
