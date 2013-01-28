@@ -42,6 +42,32 @@
        <property name="margin">
         <number>12</number>
        </property>
+       <item row="2" column="0" colspan="3">
+        <widget class="QGroupBox" name="groupBox_5">
+         <property name="title">
+          <string>Module Control</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <widget class="QCheckBox" name="enableAutoTune">
+            <property name="text">
+             <string>Enable Autotune Module</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_13">
+            <property name="text">
+             <string>After enabling the module, you must power cycle before using and configuring.</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
        <item row="3" column="0" colspan="3">
         <widget class="QTextEdit" name="textEdit">
          <property name="frameShape">
@@ -71,38 +97,11 @@ p, li { white-space: pre-wrap; }
 &lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;then finally the oscillations will stop and the flight phase is completed.&lt;/li&gt;&lt;/ol&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Land and disarm.  (Note - you &lt;span style=&quot; font-weight:600;&quot;&gt;MUST&lt;/span&gt; stay in autotune mode through this point, leaving autotune before disarming aborts the process.) Once you disarm, leave autotune mode. Do not power off or otherwise reboot the controller board, or else you will have to repeat the procedure.&lt;br /&gt;&lt;/li&gt;
-&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;On the &lt;span style=&quot; font-style:italic;&quot;&gt;Autotune Setup&lt;/span&gt; screen, check your stabilization settings before trying them out (i.e., compare to what you currently use. If they are vastly different, this is probably a good indication bad things will happen).&lt;br /&gt;&lt;/li&gt;
+&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;On the &lt;span style=&quot; font-style:italic;&quot;&gt;Stabilization&lt;/span&gt; configuration screen, check your settings before trying them out (i.e., compare to what you currently use. If they are vastly different, this is probably a good indication bad things will happen).&lt;br /&gt;&lt;/li&gt;
 &lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Test fly the new settings. Remember to leave autotune flight mode before taking off.&lt;/li&gt;
-&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;If you feel that the model could be a little more or less snappy, then slide the &lt;span style=&quot; font-weight:600;&quot;&gt;Rate Tuning&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;Attitude Tuning&lt;/span&gt; sliders to the right and left, respectively. Click &lt;span style=&quot; font-style:italic;&quot;&gt;Apply Computer Values&lt;/span&gt; and do a test flight.&lt;/li&gt;
 &lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Once you are happy with the vehicle's tuning, click &lt;span style=&quot; font-style:italic;&quot;&gt;Save&lt;/span&gt;. You may now power down the controller board.&lt;/li&gt;&lt;/ol&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Once you have understood the above steps, proceed to the &lt;span style=&quot; font-style:italic;&quot;&gt;Autotune Setup&lt;/span&gt; tab and begin the procedure.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Once you have understood the above steps, begin the procedure. Advanced users can proceed to the &lt;span style=&quot; font-style:italic;&quot;&gt;Autotune Setup&lt;/span&gt; tab for more options.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
-        </widget>
-       </item>
-       <item row="2" column="0" colspan="3">
-        <widget class="QGroupBox" name="groupBox_5">
-         <property name="title">
-          <string>Module Control</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_4">
-          <item>
-           <widget class="QCheckBox" name="enableAutoTune">
-            <property name="text">
-             <string>Enable Autotune Module</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_13">
-            <property name="text">
-             <string>After enabling the module, you must power cycle before using and configuring.</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
         </widget>
        </item>
       </layout>
@@ -558,8 +557,11 @@ p, li { white-space: pre-wrap; }
                 <item row="2" column="0" colspan="4">
                  <widget class="QLabel" name="label_22">
                   <property name="text">
-                   <string>The Apply and Save buttons below save the autotuning settings which
-will alter settings for the next autotuning flight</string>
+                   <string>
+If you feel that the model could be a little more or less snappy, then slide the
+ Rate Tuning and Attitude Tuning sliders to the right and left, respectively.
+Click Apply Computer Values and do a test flight.
+</string>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
