@@ -63,7 +63,6 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/groundtruth.h \
     $$UAVOBJECT_SYNTHETICS/gyros.h \
     $$UAVOBJECT_SYNTHETICS/gyrosbias.h \
-    $$UAVOBJECT_SYNTHETICS/histogram.h \
     $$UAVOBJECT_SYNTHETICS/homelocation.h \
     $$UAVOBJECT_SYNTHETICS/hwcoptercontrol.h \
     $$UAVOBJECT_SYNTHETICS/hwdiscoveryf4.h \
@@ -114,6 +113,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/txpidsettings.h \
     $$UAVOBJECT_SYNTHETICS/velocitydesired.h \
     $$UAVOBJECT_SYNTHETICS/velocityactual.h \
+    $$UAVOBJECT_SYNTHETICS/vibrationtestoutput.h \
     $$UAVOBJECT_SYNTHETICS/vibrationtestsettings.h \
     $$UAVOBJECT_SYNTHETICS/vtolpathfollowersettings.h \
     $$UAVOBJECT_SYNTHETICS/watchdogstatus.h \
@@ -160,7 +160,6 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/groundtruth.cpp \
     $$UAVOBJECT_SYNTHETICS/gyros.cpp \
     $$UAVOBJECT_SYNTHETICS/gyrosbias.cpp \
-    $$UAVOBJECT_SYNTHETICS/histogram.cpp \
     $$UAVOBJECT_SYNTHETICS/homelocation.cpp \
     $$UAVOBJECT_SYNTHETICS/hwcoptercontrol.cpp \
     $$UAVOBJECT_SYNTHETICS/hwdiscoveryf4.cpp \
@@ -212,6 +211,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/uavobjectsinit.cpp \
     $$UAVOBJECT_SYNTHETICS/velocitydesired.cpp \
     $$UAVOBJECT_SYNTHETICS/velocityactual.cpp \
+    $$UAVOBJECT_SYNTHETICS/vibrationtestoutput.cpp \
     $$UAVOBJECT_SYNTHETICS/vibrationtestsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/vtolpathfollowersettings.cpp \
     $$UAVOBJECT_SYNTHETICS/watchdogstatus.cpp \

@@ -110,7 +110,7 @@ UAVOBJSRCFILENAMES += txpidsettings
 UAVOBJSRCFILENAMES += i2cvm
 UAVOBJSRCFILENAMES += i2cvmuserprogram
 
-UAVOBJSRCFILENAMES += histogram
+UAVOBJSRCFILENAMES += vibrationtestoutput
 UAVOBJSRCFILENAMES += vibrationtestsettings
 
 

@@ -29,7 +29,7 @@
 
 
 #include "plotdata.h"
-#include "histogram.h"
+#include "vibrationtestoutput.h"
 #include "vibrationtestsettings.h"
 #include <math.h>
 #include <QDebug>
@@ -279,23 +279,20 @@ bool HistoPlotData::append(UAVObject* obj)
             objManager = pm->getObject<UAVObjectManager>();
             Q_ASSERT(objManager != NULL);
 
-            Histogram *histogramObj = Histogram::GetInstance(objManager);
-            Q_ASSERT(histogramObj != NULL);
+            VibrationTestOutput *vibrationTestOutputObj = VibrationTestOutput::GetInstance(objManager);
+            Q_ASSERT(vibrationTestOutputObj != NULL);
 
             VibrationTestSettings *vibrationTestSettingsObj = VibrationTestSettings::GetInstance(objManager);
             Q_ASSERT(vibrationTestSettingsObj != NULL);
             VibrationTestSettings::DataFields vibrationTestSettingsData = vibrationTestSettingsObj->getData();
 
-            quint32 fftHalfSize;
-//            fftHalfSize = objManager->getNumInstances(Histogram::OBJID); //<-- WHICH ONE OF THESE TWO IS THE "CORRECT" METHOD?
-            fftHalfSize = (objManager->getNumInstances(histogramObj->getObjID())) / 3; //<-- WHICH ONE OF THESE TWO IS THE "CORRECT" METHOD?
-
+            quint32 fftHalfSize = vibrationTestSettingsData.FFTWindowSize / 2;
             double samplingFrequency = 1000.0/(vibrationTestSettingsData.SampleRate); //Convert from [ms/Sample] to [Samples/sec]
 
             for (quint32 i=0; i< fftHalfSize; i++){
-                histogramObj = Histogram::GetInstance(objManager,i + accHistIdx * fftHalfSize);
-                Histogram::DataFields histogramData = histogramObj->getData();
-                currentValue = histogramData.BinValue;
+                vibrationTestOutputObj = VibrationTestOutput::GetInstance(objManager,i + accHistIdx * fftHalfSize);
+                VibrationTestOutput::DataFields vibrationTestOutputData = vibrationTestOutputObj->getData();
+                currentValue = vibrationTestOutputData.BinValue;
                 float tickFreq=i/((double)2.0*fftHalfSize) * samplingFrequency;
                 xData->append( tickFreq );
                 yData->append( currentValue );
