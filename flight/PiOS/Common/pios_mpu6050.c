@@ -450,7 +450,7 @@ static void PIOS_MPU6050_Task(void *parameters)
 			continue;
 
 		int32_t status = PIOS_MPU6050_GetStatus();
-		if (status & 0x10) {
+		if (status & PIOS_MPU60X0_INT_STATUS_OVERFLOW) {
 			dev->configured = false;
 			continue;
 		}

@@ -433,7 +433,7 @@ bool PIOS_MPU6000_IRQHandler(void)
 		return false;
 
 	int32_t status = PIOS_MPU6000_GetStatus();
-	if (status & 0x10) {
+	if (status & PIOS_MPU60X0_INT_STATUS_OVERFLOW) {
 		dev->configured = false;
 		return false;
 	}
