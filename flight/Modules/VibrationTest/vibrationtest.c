@@ -54,9 +54,8 @@
 
 
 // Private constants
-#define ACCEL_COMPLEX_BUFFER_LENGTH (fft_window_size*2)   // The buffer is complex, so it needs to have twice the elements as its length
 
-#define STACK_SIZE_BYTES (200 + 460 + (13*ACCEL_COMPLEX_BUFFER_LENGTH)) //This value has been calculated to leave 200 bytes of stack space, no matter the fft_window_size
+#define STACK_SIZE_BYTES (200 + 460 + (26*fft_window_size)) //This value has been calculated to leave 200 bytes of stack space, no matter the fft_window_size
 #define TASK_PRIORITY (tskIDLE_PRIORITY+1)
 
 // Private variables
@@ -160,7 +159,7 @@ static int32_t VibrationTestInitialize(void)
 			return -1;
 			break;
 	}
-	
+		
 	return 0;
 	
 }
@@ -173,11 +172,12 @@ static void VibrationTestTask(void *parameters)
 	portTickType lastSysTime;
 	uint8_t sample_count;
 		
-	float accel_buffer_x[ACCEL_COMPLEX_BUFFER_LENGTH]; //These buffers are complex numbers, so they are twice
-	float accel_buffer_y[ACCEL_COMPLEX_BUFFER_LENGTH]; // as long as the number of samples, and  complex part 
-	float accel_buffer_z[ACCEL_COMPLEX_BUFFER_LENGTH]; // is always 0.
+	//Create the buffers
+	float accel_buffer_complex_x[fft_window_size*2]; //These buffers are complex numbers, so they are twice
+	float accel_buffer_complex_y[fft_window_size*2]; // as long as the number of samples, and  complex part 
+	float accel_buffer_complex_z[fft_window_size*2]; // is always 0.
 	
-/** These values are useful to understand about the fourier transform performed by this module.
+/** These values are useful for insight into the Fourier transform performed by this module.
 	float freq_sample = 1.0f/(sampleRate_ms / portTICK_RATE_MS);
 	float freq_nyquist = f_s/2.0f;
 	uint16_t num_samples = fft_window_size;
@@ -219,9 +219,9 @@ static void VibrationTestTask(void *parameters)
 			vtd->accels_static_z=alpha*accels_avg_z + (1-alpha)*vtd->accels_static_z;
 			
 			// Add averaged values to the buffer, and remove DC bias
-			accel_buffer_x[sample_count*2]=accels_avg_x - vtd->accels_static_x;
-			accel_buffer_y[sample_count*2]=accels_avg_y - vtd->accels_static_y;
-			accel_buffer_z[sample_count*2]=accels_avg_z - vtd->accels_static_z;
+			accel_buffer_complex_x[sample_count*2]=accels_avg_x - vtd->accels_static_x;
+			accel_buffer_complex_y[sample_count*2]=accels_avg_y - vtd->accels_static_y;
+			accel_buffer_complex_z[sample_count*2]=accels_avg_z - vtd->accels_static_z;
 				
 			//Reset the accumulators
 			vtd->accels_data_sum_x=0;
@@ -237,9 +237,9 @@ static void VibrationTestTask(void *parameters)
 		}
 		
 		//Set complex part to 0
-		accel_buffer_x[sample_count*2+1]=0;
-		accel_buffer_y[sample_count*2+1]=0;
-		accel_buffer_z[sample_count*2+1]=0;
+		accel_buffer_complex_x[sample_count*2+1]=0;
+		accel_buffer_complex_y[sample_count*2+1]=0;
+		accel_buffer_complex_z[sample_count*2+1]=0;
 
 		//Advance sample and reset when at buffer end
 		sample_count++;
@@ -247,20 +247,20 @@ static void VibrationTestTask(void *parameters)
 			sample_count=0;
 		}
 		
-		//Only process once the samples are filled. This could be done continuously, but this way is probably easier on the processor
+		//Only process once the buffers are filled. This could be done continuously, but this way is probably easier on the processor
 		if (sample_count==0) {
-			
+			// Decalare variables
 			float fft_output[fft_window_size>>1]; //Output is symmetric, so no need to store second half of output
 			arm_cfft_radix4_instance_f32 cfft_instance;
 			arm_status status;
 			
-			/* Initialize the CFFT/CIFFT module */
+			// Initialize the CFFT/CIFFT module
 			status = ARM_MATH_SUCCESS;
 			bool ifftFlag = false;
 			bool doBitReverse = 1;
 			status = arm_cfft_radix4_init_f32(&cfft_instance, fft_window_size, ifftFlag, doBitReverse);
 			
-			//Perform the DFT on each of three axes
+			// Perform the DFT on each of the three axes
 			for (int i=0; i < 3; i++) {
 				if (status == ARM_MATH_SUCCESS) {
 					
@@ -269,27 +269,34 @@ static void VibrationTestTask(void *parameters)
 					
 					switch (i) {
 						case 0:
-							ptrCmplxVec=accel_buffer_x;
+							ptrCmplxVec=accel_buffer_complex_x;
 							break;
 						case 1:
-							ptrCmplxVec=accel_buffer_y;
+							ptrCmplxVec=accel_buffer_complex_y;
 							break;
 						case 2:
-							ptrCmplxVec=accel_buffer_z;
+							ptrCmplxVec=accel_buffer_complex_z;
 							break;
 						default:
 							//Whoops, this is a major error, leave before we overwrite memory
 							continue;
 					}
 					
-					// Process the data through the CFFT/CIFFT module
+					// Process the data through the CFFT/CIFFT module. This is an in-place
+					// operation, so the FFT output is saved onto the input buffer. Moving
+					// forward from this point, ptrCmplxVec contains the DFT of the
+					// acceleration signal.
 					arm_cfft_radix4_f32(&cfft_instance, ptrCmplxVec);
 					
-					// Process the data through the Complex Magnitude Module for calculating the magnitude at each bin.
+					// Process the data through the Complex Magnitude Module. This calculates
+					// the magnitude of each complex number, so that the output is a scalar
+					// magnitude without complex phase. Only the first half of the values are
+					// calculated because in a Fourier transform the second half is symmetric.
 					arm_cmplx_mag_f32(ptrCmplxVec, fft_output, fft_window_size>>1);
 					
 					//Write output to UAVO
-					for (int j=0; j<(fft_window_size>>1); j++) { //Only output the first half of the object, since the second half is symmetric
+					for (int j=0; j<(fft_window_size>>1); j++) 
+					{
 						//Assertion check that we are not trying to write to instances that don't exist
 						if (j+i*(fft_window_size>>1) >= UAVObjGetNumInstances(VibrationTestOutputHandle()))
 							continue;
