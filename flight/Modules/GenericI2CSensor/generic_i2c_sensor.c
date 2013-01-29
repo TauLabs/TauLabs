@@ -123,6 +123,14 @@ static int32_t GenericI2CSensorInitialize(void)
 		i2cvm_program_len = vmprog_mathtest_len;
 		}
 		break;
+	case MODULESETTINGS_I2CVMPROGRAMSELECT_PCF8591:
+		{
+		extern const uint32_t vmprog_pcf8591[];
+		extern const uint32_t vmprog_pcf8591_len;
+		i2cvm_program = vmprog_pcf8591;
+		i2cvm_program_len = vmprog_pcf8591_len;
+		}
+		break;
 	case MODULESETTINGS_I2CVMPROGRAMSELECT_NONE:
 	default:
 		/* No program selected, module will not start */

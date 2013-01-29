@@ -39,6 +39,7 @@
 				<option>MathTest</option>
 				<option>None</option>
 				<option>OPBaroAltimeter</option>
+				<option>PCF8591</option>
 				<option>User</option>
 			</options>
 		</field>
