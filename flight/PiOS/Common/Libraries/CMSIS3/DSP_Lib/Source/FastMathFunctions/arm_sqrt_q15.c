@@ -74,12 +74,22 @@ arm_status arm_sqrt_q15(
 
     /*Convert to float */
     temp_float1 = number * 3.051757812500000e-005f;
+
+#if defined  (__GNUC__)
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wstrict-aliasing"
+#endif
     /*Store as integer */
     bits_val1 = *(int *) &temp_float1;
     /* Subtract the shifted value from the magic number to give intial guess */
     bits_val1 = 0x5f3759df - (bits_val1 >> 1);  // gives initial guess  
     /* Store as float */
     temp_float1 = *(float *) &bits_val1;
+
+#if defined  (__GNUC__)
+  #pragma GCC diagnostic pop
+#endif
+
     /* Convert to integer format */
     var1 = (q31_t) (temp_float1 * 16384);
 

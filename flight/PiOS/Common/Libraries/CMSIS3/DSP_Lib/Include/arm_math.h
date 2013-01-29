@@ -5311,8 +5311,17 @@ extern "C"
 
 #else
 
+#if defined  (__GNUC__)
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wstrict-aliasing"
+#endif
+
     /* acc += A1 * x[n-1] + A2 * x[n-2]  */
     acc = __SMLALD(S->A1, (q31_t) __SIMD32(S->state), acc);
+
+#if defined  (__GNUC__)
+  #pragma GCC diagnostic pop
+#endif
 
 #endif
 
