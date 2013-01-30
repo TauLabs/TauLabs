@@ -68,7 +68,7 @@ MagicWaypointGadgetWidget::~MagicWaypointGadgetWidget()
 }
 
 /*!
-  \brief Returns the @ref PositionDesired UAVObject
+  \brief Returns the @ref PathDesired UAVObject
   */
 PathDesired* MagicWaypointGadgetWidget::getPathDesired()
 {

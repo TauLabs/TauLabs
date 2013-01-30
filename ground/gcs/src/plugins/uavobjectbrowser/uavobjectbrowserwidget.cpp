@@ -56,7 +56,7 @@ UAVObjectBrowserWidget::UAVObjectBrowserWidget(QWidget *parent) : QWidget(parent
     m_browser->treeView->setEditTriggers(QAbstractItemView::AllEditTriggers);
     m_browser->treeView->setSelectionBehavior(QAbstractItemView::SelectItems);
     showMetaData(m_viewoptions->cbMetaData->isChecked());
-    connect(m_browser->treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(currentChanged(QModelIndex,QModelIndex)));
+    connect(m_browser->treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(currentChanged(QModelIndex,QModelIndex))); //WHY IS THE SLOT THE SAME AS THE SIGNAL?
     connect(m_viewoptions->cbMetaData, SIGNAL(toggled(bool)), this, SLOT(showMetaData(bool)));
     connect(m_viewoptions->cbCategorized, SIGNAL(toggled(bool)), this, SLOT(categorize(bool)));
     connect(m_browser->saveSDButton, SIGNAL(clicked()), this, SLOT(saveObject()));
@@ -69,7 +69,7 @@ UAVObjectBrowserWidget::UAVObjectBrowserWidget(QWidget *parent) : QWidget(parent
     connect(m_viewoptions->cbScientific, SIGNAL(toggled(bool)), this, SLOT(viewOptionsChangedSlot()));
     connect(m_viewoptions->cbMetaData, SIGNAL(toggled(bool)), this, SLOT(viewOptionsChangedSlot()));
     connect(m_viewoptions->cbCategorized, SIGNAL(toggled(bool)), this, SLOT(viewOptionsChangedSlot()));
-    enableSendRequest(false);
+    enableUAVOBrowserButtons(true);
 }
 
 UAVObjectBrowserWidget::~UAVObjectBrowserWidget()
@@ -77,6 +77,13 @@ UAVObjectBrowserWidget::~UAVObjectBrowserWidget()
     delete m_browser;
 }
 
+
+/**
+ * @brief UAVObjectBrowserWidget::setViewOptions Sets the viewing options
+ * @param categorized true turns on categorized view
+ * @param scientific true turns on scientific notation view
+ * @param metadata true turns on metadata view
+ */
 void UAVObjectBrowserWidget::setViewOptions(bool categorized, bool scientific, bool metadata)
 {
     m_viewoptions->cbCategorized->setChecked(categorized);
@@ -84,6 +91,11 @@ void UAVObjectBrowserWidget::setViewOptions(bool categorized, bool scientific, b
     m_viewoptions->cbScientific->setChecked(scientific);
 }
 
+
+/**
+ * @brief UAVObjectBrowserWidget::showMetaData Shows UAVO metadata
+ * @param show true shows the metadata, false hides metadata
+ */
 void UAVObjectBrowserWidget::showMetaData(bool show)
 {
     QList<QModelIndex> metaIndexes = m_model->getMetaDataIndexes();
@@ -93,6 +105,11 @@ void UAVObjectBrowserWidget::showMetaData(bool show)
     }
 }
 
+
+/**
+ * @brief UAVObjectBrowserWidget::categorize Enable grouping UAVOs into categories
+ * @param categorize true enables categorization, false disable categorization
+ */
 void UAVObjectBrowserWidget::categorize(bool categorize)
 {
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
@@ -101,7 +118,7 @@ void UAVObjectBrowserWidget::categorize(bool categorize)
     Q_ASSERT(objManager);
 
     UAVObjectTreeModel* tmpModel = m_model;
-    m_model = new UAVObjectTreeModel(0, categorize,m_viewoptions->cbScientific->isChecked());
+    m_model = new UAVObjectTreeModel(0, categorize, m_viewoptions->cbScientific->isChecked());
     m_model->setRecentlyUpdatedColor(m_recentlyUpdatedColor);
     m_model->setManuallyChangedColor(m_manuallyChangedColor);
     m_model->setRecentlyUpdatedTimeout(m_recentlyUpdatedTimeout);
@@ -112,6 +129,11 @@ void UAVObjectBrowserWidget::categorize(bool categorize)
     delete tmpModel;
 }
 
+
+/**
+ * @brief UAVObjectBrowserWidget::useScientificNotation Enable scientific notation. Displays 6 significant digits
+ * @param scientific true enable scientific notation output, false disables scientific notation output
+ */
 void UAVObjectBrowserWidget::useScientificNotation(bool scientific)
 {
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
@@ -120,7 +142,7 @@ void UAVObjectBrowserWidget::useScientificNotation(bool scientific)
     Q_ASSERT(objManager);
 
     UAVObjectTreeModel* tmpModel = m_model;
-    m_model = new UAVObjectTreeModel(0, m_viewoptions->cbCategorized,scientific);
+    m_model = new UAVObjectTreeModel(0, m_viewoptions->cbCategorized->isChecked(), scientific);
     m_model->setRecentlyUpdatedColor(m_recentlyUpdatedColor);
     m_model->setManuallyChangedColor(m_manuallyChangedColor);
     m_model->setRecentlyUpdatedTimeout(m_recentlyUpdatedTimeout);
@@ -130,6 +152,10 @@ void UAVObjectBrowserWidget::useScientificNotation(bool scientific)
     delete tmpModel;
 }
 
+
+/**
+ * @brief UAVObjectBrowserWidget::sendUpdate Sends a UAVO to board RAM. Does not affect board NVRAM
+ */
 void UAVObjectBrowserWidget::sendUpdate()
 {
     this->setFocus();
@@ -144,6 +170,10 @@ void UAVObjectBrowserWidget::sendUpdate()
     obj->updated();
 }
 
+
+/**
+ * @brief UAVObjectBrowserWidget::requestUpdate Requests a UAVO from board RAM. Does not affect board NVRAM
+ */
 void UAVObjectBrowserWidget::requestUpdate()
 {
     ObjectTreeItem *objItem = findCurrentObjectTreeItem();
@@ -167,6 +197,10 @@ ObjectTreeItem *UAVObjectBrowserWidget::findCurrentObjectTreeItem()
     return objItem;
 }
 
+
+/**
+ * @brief UAVObjectBrowserWidget::saveObject Save UAVO to board NVRAM. THis loads the UAVO into board RAM.
+ */
 void UAVObjectBrowserWidget::saveObject()
 {
     this->setFocus();
@@ -183,6 +217,10 @@ void UAVObjectBrowserWidget::saveObject()
     updateObjectPersistance(ObjectPersistence::OPERATION_SAVE, obj);
 }
 
+
+/**
+ * @brief UAVObjectBrowserWidget::loadObject  Retrieve UAVO from board NVRAM. This loads the UAVO into board RAM
+ */
 void UAVObjectBrowserWidget::loadObject()
 {
     // Load object
@@ -195,6 +233,10 @@ void UAVObjectBrowserWidget::loadObject()
     requestUpdate();
 }
 
+
+/**
+ * @brief UAVObjectBrowserWidget::eraseObject Erases the selected UAVO from board NVRAM
+ */
 void UAVObjectBrowserWidget::eraseObject()
 {
     ObjectTreeItem *objItem = findCurrentObjectTreeItem();
@@ -221,6 +263,14 @@ void UAVObjectBrowserWidget::updateObjectPersistance(ObjectPersistence::Operatio
     }
 }
 
+/**
+ * @brief UAVObjectBrowserWidget::currentChanged What does this do? Signify that the tree has changes? What exactly does that mean, and why would it be triggered?
+
+ // Can we rename this to currentTreeChanged, so it doesn't have an identical name to the Qt signal "currentChanged"?
+
+ * @param current
+ * @param previous
+ */
 void UAVObjectBrowserWidget::currentChanged(const QModelIndex &current, const QModelIndex &previous)
 {
     Q_UNUSED(previous);
@@ -233,7 +283,7 @@ void UAVObjectBrowserWidget::currentChanged(const QModelIndex &current, const QM
     ObjectTreeItem *data = dynamic_cast<ObjectTreeItem*>(item);
     if (top || (data && !data->object()))
         enable = false;
-    enableSendRequest(enable);
+    enableUAVOBrowserButtons(enable);
 }
 
 void UAVObjectBrowserWidget::viewSlot()
@@ -254,13 +304,17 @@ void UAVObjectBrowserWidget::viewOptionsChangedSlot()
     emit viewOptionsChanged(m_viewoptions->cbCategorized->isChecked(),m_viewoptions->cbScientific->isChecked(),m_viewoptions->cbMetaData->isChecked());
 }
 
-void UAVObjectBrowserWidget::enableSendRequest(bool enable)
+/**
+ * @brief UAVObjectBrowserWidget::enableUAVOBrowserButtons Enables or disables UAVO browser buttons
+ * @param enableState true enables buttons, false disables them.
+ */
+void UAVObjectBrowserWidget::enableUAVOBrowserButtons(bool enableState)
 {
-    m_browser->sendButton->setEnabled(enable);
-    m_browser->requestButton->setEnabled(enable);
-    m_browser->saveSDButton->setEnabled(enable);
-    m_browser->readSDButton->setEnabled(enable);
-    m_browser->eraseSDButton->setEnabled(enable);
+    m_browser->sendButton->setEnabled(enableState);
+    m_browser->requestButton->setEnabled(enableState);
+    m_browser->saveSDButton->setEnabled(enableState);
+    m_browser->readSDButton->setEnabled(enableState);
+    m_browser->eraseSDButton->setEnabled(enableState);
 }
 
 

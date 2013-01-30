@@ -80,7 +80,7 @@ private:
     bool m_onlyHilightChangedValues;
 
     void updateObjectPersistance(ObjectPersistence::OperationOptions op, UAVObject *obj);
-    void enableSendRequest(bool enable);
+    void enableUAVOBrowserButtons(bool enableState);
     ObjectTreeItem *findCurrentObjectTreeItem();
 };
 
