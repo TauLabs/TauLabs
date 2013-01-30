@@ -100,7 +100,7 @@ UAVOBJSRCFILENAMES += altitudeholdsettings
 UAVOBJSRCFILENAMES += altitudeholddesired
 UAVOBJSRCFILENAMES += waypoint
 UAVOBJSRCFILENAMES += waypointactive
-
+UAVOBJSRCFILENAMES += i2cvm
 UAVOBJSRCFILENAMES += txpidsettings
 
 #Support for radio module on RM
