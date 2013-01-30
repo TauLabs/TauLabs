@@ -28,7 +28,9 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#define PCF8591 (0x90 >> 1)      // Deviceadresse = 7
+#include "pios.h"
+
+#define PCF8591 (0x90 >> 1)
 #define PCF8591_DAC_ENABLE 0x40
 #define PCF8591_ADC_CH0 0x00
 #define PCF8591_ADC_CH1 0x01

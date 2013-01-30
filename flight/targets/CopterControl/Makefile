@@ -76,6 +76,7 @@ USE_AUTOTUNE ?= YES
 TEST_FAULTS ?= NO
 USE_UAVOMAVLINKBRIDGE ?= YES
 USE_GENERIC_I2C_SENSOR ?= NO
+USE_BATTERY ?= NO
 
 # List of optional modules to include
 OPTMODULES =
@@ -86,6 +87,9 @@ OPTMODULES += GenericI2CSensor
 else
 $(error "GenericI2CSensor module (USE_GENERIC_I2C_SENSOR=YES) requires i2c (USE_I2C=YES)")
 endif
+endif
+ifeq ($(USE_BATTERY), YES)
+OPTMODULES += Battery
 endif
 ifeq ($(USE_CAMERASTAB), YES)
 OPTMODULES += CameraStab
@@ -251,6 +255,9 @@ SRC += $(OPUAVSYNTHDIR)/flightbatterysettings.c
 ifeq ($(USE_GENERIC_I2C_SENSOR), YES)
 SRC += $(OPUAVSYNTHDIR)/i2cvm.c
 SRC += $(OPUAVSYNTHDIR)/i2cvmuserprogram.c
+endif
+ifeq ($(USE_BATTERY), YES)
+SRC += $(OPUAVSYNTHDIR)/adcrouting.c
 endif
 endif
 

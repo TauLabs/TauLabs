@@ -51,7 +51,7 @@
 #include "flightbatterysettings.h"
 #include "modulesettings.h"
 #include "adcrouting.h"
-
+#include "i2cvm.h"
 //
 // Configuration
 //
@@ -60,6 +60,7 @@
 
 // Private variables
 static bool module_enabled = false;
+static uint8_t adc_source;
 
 //THESE COULD BE BETTER AS SOME KIND OF UNION OR STRUCT, BY WHICH 4 BITS ARE USED FOR EACH 
 //PIN VARIABLE, ONE OF WHICH INDICATES SIGN, AND THE OTHER 3 BITS INDICATE POSITION. THIS WILL
@@ -91,7 +92,22 @@ int32_t BatteryInitialize(void)
 		module_enabled = false;
 	}
 #endif
-
+	ADCRoutingADCSourceGet(&adc_source);
+	if(adc_source == ADCROUTING_ADCSOURCE_PCF8591) {
+		if( module_state[MODULESETTINGS_STATE_GENERICI2CSENSOR] == MODULESETTINGS_STATE_ENABLED) {
+			uint8_t i2cvm_program_select;
+			ModuleSettingsI2CVMProgramSelectGet(&i2cvm_program_select);
+			if(i2cvm_program_select == MODULESETTINGS_I2CVMPROGRAMSELECT_PCF8591) {
+				module_enabled = true;
+			}
+			else {
+				module_enabled = false;
+			}
+		}
+		else {
+			module_enabled = false;
+		}
+	}
 	uint8_t adc_channel_map[ADCROUTING_CHANNELMAP_NUMELEM];	
 	ADCRoutingChannelMapGet(adc_channel_map);
 	
@@ -128,23 +144,40 @@ MODULE_INITCALL(BatteryInitialize, 0)
 static void onTimer(UAVObjEvent* ev)
 {
 	static FlightBatteryStateData flightBatteryData;
+	static float temp;
 	FlightBatterySettingsData batterySettings;
 
 	FlightBatterySettingsGet(&batterySettings);
+
+	I2CVMData i2cvm_data;
 
 	static float dT = SAMPLE_PERIOD_MS / 1000.0f;
 	float energyRemaining;
 
 	//calculate the battery parameters
 	if (voltageADCPin >=0) {
-		flightBatteryData.Voltage = ((float)PIOS_ADC_PinGet(voltageADCPin)) * batterySettings.SensorCalibrations[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONS_VOLTAGEFACTOR]; //in Volts
+		if(adc_source == ADCROUTING_ADCSOURCE_PCF8591) {
+			I2CVMGet(&i2cvm_data);
+			temp = (float) i2cvm_data.ram[voltageADCPin];
+		}
+		else {
+			temp = (float)PIOS_ADC_PinGet(voltageADCPin);
+		}
+		flightBatteryData.Voltage = temp * batterySettings.SensorCalibrations[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONS_VOLTAGEFACTOR] + batterySettings.SensorCalibrations[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONS_VOLTAGEOFFSET]; //in Volts
 	}
 	else {
 		flightBatteryData.Voltage=1234; //Dummy placeholder value. This is in case we get another source of battery current which is not from the ADC
 	}
 
 	if (currentADCPin >=0) {
-		flightBatteryData.Current = ((float)PIOS_ADC_PinGet(currentADCPin)) * batterySettings.SensorCalibrations[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONS_CURRENTFACTOR]; //in Amps
+		if(adc_source == ADCROUTING_ADCSOURCE_PCF8591) {
+			I2CVMGet(&i2cvm_data);
+			temp = (float) i2cvm_data.ram[currentADCPin];
+		}
+		else {
+			temp = (float)PIOS_ADC_PinGet(currentADCPin);
+		}
+		flightBatteryData.Current = temp * batterySettings.SensorCalibrations[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONS_CURRENTFACTOR] + batterySettings.SensorCalibrations[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONS_CURRENTOFFSET]; //in Amps
 		if (flightBatteryData.Current > flightBatteryData.PeakCurrent) 
 			flightBatteryData.PeakCurrent = flightBatteryData.Current; //in Amps
 	}
