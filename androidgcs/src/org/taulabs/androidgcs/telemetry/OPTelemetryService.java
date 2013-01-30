@@ -312,7 +312,6 @@ public class OPTelemetryService extends Service {
 			return null;
 		}
 		public void openConnection() {
-			Toast.makeText(getApplicationContext(), "Requested open connection", Toast.LENGTH_SHORT).show();
 			Message msg = mServiceHandler.obtainMessage();
 			msg.arg1 = MSG_CONNECT;
 			mServiceHandler.sendMessage(msg);

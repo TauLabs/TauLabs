@@ -46,9 +46,10 @@ public abstract class TelemetryTask implements Runnable {
 
 	// Logging settings
 	private final String TAG = TelemetryTask.class.getSimpleName();
-	public static final int LOGLEVEL = 2;
-	public static final boolean WARN = LOGLEVEL > 1;
-	public static final boolean DEBUG = LOGLEVEL > 0;
+	public static final int LOGLEVEL = 1;
+	public static final boolean WARN = LOGLEVEL > 2;
+	public static final boolean DEBUG = LOGLEVEL > 1;
+	public static final boolean ERROR = LOGLEVEL > 0;
 
 	/*
 	 * This is a self contained runnable that will establish (if possible)
@@ -101,6 +102,9 @@ public abstract class TelemetryTask implements Runnable {
 
 	//! Indicate a physical connection is established
 	private boolean connected;
+
+	//! Check if the looper is still running
+	private boolean looperRunning = false;
 
 	//! An object which can log the telemetry stream
 	private final LoggingTask logger = new LoggingTask();
@@ -182,13 +186,15 @@ public abstract class TelemetryTask implements Runnable {
 			tel = null;
 		}
 
-		// Stop the master telemetry thread
-		handler.post(new Runnable() {
-			@Override
-			public void run() {
-				Looper.myLooper().quit();
-			}
-		});
+		// Stop the master telemetry thread if the looper is still running
+		if (looperRunning) {
+			handler.post(new Runnable() {
+				@Override
+				public void run() {
+					Looper.myLooper().quit();
+				}
+			});
+		}
 
 		if (inputProcessThread != null) {
 			inputProcessThread.interrupt();
@@ -242,22 +248,29 @@ public abstract class TelemetryTask implements Runnable {
 
 	@Override
 	public void run() {
-		try {
+		looperRunning = true;
 
-			Looper.prepare();
-			handler = new Handler();
+		Looper.prepare();
+		handler = new Handler();
 
-			if (DEBUG) Log.d(TAG, "Attempting connection");
-			if( attemptConnection() == false )
-				return; // Attempt failed
-
-			Looper.loop();
-
-			if (DEBUG) Log.d(TAG, "TelemetryTask runnable finished");
-
-		} catch (Throwable t) {
-			Log.e(TAG, "halted due to an error", t);
+		if (DEBUG) Log.d(TAG, "Attempting connection");
+		if( attemptConnection() == false ) {
+			if (ERROR) Log.e(TAG, "run() called when no valid connection found");
+			return; // Attempt failed
 		}
+
+		Looper.loop();
+
+		looperRunning = false;
+
+		if (!shutdown) {
+			// The looper ended without a requested shutdown indicating a link
+			// error.  Terminate the rest of telemetry.
+			if (DEBUG) Log.d(TAG, "Link failure detected");
+			disconnect();
+		}
+
+		if (DEBUG) Log.d(TAG, "TelemetryTask runnable finished");
 
 		telemService.toastMessage("Telemetry Thread finished");
 	}
