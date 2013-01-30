@@ -119,6 +119,7 @@ public class Telemetry {
 	public Telemetry(UAVTalk utalkIn, UAVObjectManager objMngr, Looper l) {
 		this.utalk = utalkIn;
 		this.objMngr = objMngr;
+		this.looper = l;
 
 		// Create a handler for object messages
 		handler = new ObjectUpdateHandler(l);
@@ -475,6 +476,7 @@ public class Telemetry {
 	 */
 	private final UAVObjectManager objMngr;
 	private final UAVTalk utalk;
+	private final Looper looper;
 	private UAVObject gcsStatsObj;
 	private final List<ObjectTimeInfo> objList = new ArrayList<ObjectTimeInfo>();
 	private ObjectTransactionInfo transInfo = new ObjectTransactionInfo();
@@ -656,7 +658,8 @@ public class Telemetry {
 
 					} catch (IOException e) {
 						if (ERROR) Log.e(TAG, "Unable to send UAVTalk message");
-						e.printStackTrace();
+						if (DEBUG) e.printStackTrace();
+						looper.quit();
 					}
 
 					// Store this as the active transaction.  However in the case
