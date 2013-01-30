@@ -1,7 +1,7 @@
 /*****************************************************************************
  * @file       pios_board.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2012-2013
  * @addtogroup OpenPilotSystem OpenPilot System
  * @{
  * @addtogroup OpenPilotCore OpenPilot Core
@@ -39,6 +39,7 @@
 #include <uavobjectsinit.h>
 #include "hwflyingf3.h"
 #include "manualcontrolsettings.h"
+#include "modulesettings.h"
 
 /* This file defines the what and where regarding all hardware connected to the
  * FlyingF3 board. Please see hardware/Production/FlyingF3/pinout.txt for
@@ -323,6 +324,7 @@ void PIOS_Board_Init(void) {
 	} else {
 		/* Too many failed boot attempts, force hw config to defaults */
 		HwFlyingF3SetDefaults(HwFlyingF3Handle(), 0);
+		ModuleSettingsSetDefaults(ModuleSettingsHandle(),0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
 

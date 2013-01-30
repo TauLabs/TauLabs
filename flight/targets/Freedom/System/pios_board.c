@@ -1,7 +1,7 @@
 /**
  *****************************************************************************
  * @file       pios_board.c
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2012-2013
  * @addtogroup Freedom Freedom configuration files
  * @{
  * @addtogroup 
@@ -349,6 +349,7 @@ void PIOS_Board_Init(void) {
 	} else {
 		/* Too many failed boot attempts, force hw config to defaults */
 		HwFreedomSetDefaults(HwFreedomHandle(), 0);
+		ModuleSettingsSetDefaults(ModuleSettingsHandle(),0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
 

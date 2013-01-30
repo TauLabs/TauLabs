@@ -2,7 +2,7 @@
  *****************************************************************************
  * @file       pios_board.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2012-2013
  * @addtogroup OpenPilotSystem OpenPilot System
  * @{
  * @addtogroup OpenPilotCore OpenPilot Core
@@ -38,6 +38,7 @@
 #include <openpilot.h>
 #include <uavobjectsinit.h>
 #include <hwcoptercontrol.h>
+#include <modulesettings.h>
 #include <manualcontrolsettings.h>
 #include <gcsreceiver.h>
 
@@ -205,6 +206,7 @@ void PIOS_Board_Init(void) {
 	} else {
 		/* Too many failed boot attempts, force hw configuration to defaults */
 		HwCopterControlSetDefaults(HwCopterControlHandle(), 0);
+		ModuleSettingsSetDefaults(ModuleSettingsHandle(),0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
 
