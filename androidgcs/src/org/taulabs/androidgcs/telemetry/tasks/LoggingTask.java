@@ -195,7 +195,10 @@ public class LoggingTask implements ITelemTask {
 
 		if (DEBUG) Log.d(TAG, "Stop logging");
 		try {
-			fileStream.close();
+			if (fileStream != null) {
+				fileStream.close();
+				fileStream = null;
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
