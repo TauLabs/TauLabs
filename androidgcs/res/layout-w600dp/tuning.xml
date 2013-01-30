@@ -21,6 +21,14 @@
         android:layout_toLeftOf="@+id/saveBtn"
         android:text="@string/apply" />
 
+	<Button
+	    android:id="@+id/loadBtn"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/applyBtn"
+	    android:text="@string/load" />
+    
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
