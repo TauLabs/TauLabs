@@ -206,6 +206,7 @@ void PIOS_Board_Init(void) {
 	} else {
 		/* Too many failed boot attempts, force hw configuration to defaults */
 		HwCopterControlSetDefaults(HwCopterControlHandle(), 0);
+		ModuleSettingsInitialize();
 		ModuleSettingsSetDefaults(ModuleSettingsHandle(),0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
