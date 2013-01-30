@@ -9,6 +9,7 @@
  *
  * @file       camerastab.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2012-2013
  * @brief      Stabilize camera against the roll pitch and yaw of aircraft
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -92,9 +93,9 @@ int32_t CameraStabInitialize(void)
 	module_enabled = true;
 #else
 	ModuleSettingsInitialize();
-	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
-	ModuleSettingsStateGet(module_state);
-	if (module_state[MODULESETTINGS_STATE_CAMERASTAB] == MODULESETTINGS_STATE_ENABLED) {
+	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
+	ModuleSettingsAdminStateGet(module_state);
+	if (module_state[MODULESETTINGS_ADMINSTATE_CAMERASTAB] == MODULESETTINGS_ADMINSTATE_ENABLED) {
 		module_enabled = true;
 	} else {
 		module_enabled = false;

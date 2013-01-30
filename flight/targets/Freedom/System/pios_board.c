@@ -683,9 +683,9 @@ void PIOS_Board_Init(void) {
 		overo_enabled = true;
 #else
 		ModuleSettingsInitialize();
-		uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
-		ModuleSettingsStateGet(module_state);
-		if (module_state[MODULESETTINGS_STATE_OVEROSYNC] == MODULESETTINGS_STATE_ENABLED) {
+		uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
+		ModuleSettingsAdminStateGet(module_state);
+		if (module_state[MODULESETTINGS_ADMINSTATE_OVEROSYNC] == MODULESETTINGS_ADMINSTATE_ENABLED) {
 			overo_enabled = true;
 		} else {
 			overo_enabled = false;

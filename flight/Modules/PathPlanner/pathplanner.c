@@ -99,10 +99,10 @@ int32_t PathPlannerInitialize()
 #ifdef MODULE_PathPlanner_BUILTIN
 	module_enabled = true;
 #else
-	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
 	ModuleSettingsInitialize();
-	ModuleSettingsStateGet(module_state);
-	if (module_state[MODULESETTINGS_STATE_PATHPLANNER] == MODULESETTINGS_STATE_ENABLED) {
+	ModuleSettingsAdminStateGet(module_state);
+	if (module_state[MODULESETTINGS_ADMINSTATE_PATHPLANNER] == MODULESETTINGS_ADMINSTATE_ENABLED) {
 		module_enabled = true;
 	} else {
 		module_enabled = false;

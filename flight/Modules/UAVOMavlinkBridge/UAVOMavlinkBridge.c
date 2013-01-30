@@ -107,11 +107,11 @@ static int32_t uavoMavlinkBridgeInitialize(void) {
 	mavlink_port = PIOS_COM_MAVLINK;
 
 	ModuleSettingsInitialize();
-	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
-	ModuleSettingsStateGet(module_state);
+	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
+	ModuleSettingsAdminStateGet(module_state);
 	if (mavlink_port
-			&& (module_state[MODULESETTINGS_STATE_UAVOMAVLINKBRIDGE]
-					== MODULESETTINGS_STATE_ENABLED)) {
+			&& (module_state[MODULESETTINGS_ADMINSTATE_UAVOMAVLINKBRIDGE]
+					== MODULESETTINGS_ADMINSTATE_ENABLED)) {
 		module_enabled = true;
 		PIOS_COM_ChangeBaud(mavlink_port, 57600);
 
