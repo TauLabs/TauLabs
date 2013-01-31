@@ -56,7 +56,7 @@ UAVObjectBrowserWidget::UAVObjectBrowserWidget(QWidget *parent) : QWidget(parent
     m_browser->treeView->setEditTriggers(QAbstractItemView::AllEditTriggers);
     m_browser->treeView->setSelectionBehavior(QAbstractItemView::SelectItems);
     showMetaData(m_viewoptions->cbMetaData->isChecked());
-    connect(m_browser->treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(currentChanged(QModelIndex,QModelIndex))); //WHY IS THE SLOT THE SAME AS THE SIGNAL?
+    connect(m_browser->treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(enableUAVOButtons(QModelIndex,QModelIndex)));
     connect(m_viewoptions->cbMetaData, SIGNAL(toggled(bool)), this, SLOT(showMetaData(bool)));
     connect(m_viewoptions->cbCategorized, SIGNAL(toggled(bool)), this, SLOT(categorize(bool)));
     connect(m_browser->saveSDButton, SIGNAL(clicked()), this, SLOT(saveObject()));
@@ -264,26 +264,29 @@ void UAVObjectBrowserWidget::updateObjectPersistance(ObjectPersistence::Operatio
 }
 
 /**
- * @brief UAVObjectBrowserWidget::currentChanged What does this do? Signify that the tree has changes? What exactly does that mean, and why would it be triggered?
-
- // Can we rename this to currentTreeChanged, so it doesn't have an identical name to the Qt signal "currentChanged"?
-
- * @param current
- * @param previous
+ * @brief UAVObjectBrowserWidget::enableUAVOButtons Toggles the UAVO buttons depending on
+ * 1) which branch of the UAVO tree is selected or 2) if there is no data in the current tree(?)
+ * @param current Current model index
+ * @param previous unused
  */
-void UAVObjectBrowserWidget::currentChanged(const QModelIndex &current, const QModelIndex &previous)
+void UAVObjectBrowserWidget::enableUAVOButtons(const QModelIndex &currentIndex, const QModelIndex &previousIndex)
 {
-    Q_UNUSED(previous);
+    Q_UNUSED(previousIndex);
 
-    TreeItem *item = static_cast<TreeItem*>(current.internalPointer());
-    bool enable = true;
-    if (current == QModelIndex())
-        enable = false;
+    TreeItem *item = static_cast<TreeItem*>(currentIndex.internalPointer());
     TopTreeItem *top = dynamic_cast<TopTreeItem*>(item);
     ObjectTreeItem *data = dynamic_cast<ObjectTreeItem*>(item);
+    bool enableState = true;
+
+    //Check if current index refers to an empty index?
+    if (currentIndex == QModelIndex())
+        enableState = false;
+
+    //Check if current tree index is the top tree item
     if (top || (data && !data->object()))
-        enable = false;
-    enableUAVOBrowserButtons(enable);
+        enableState = false;
+
+    enableUAVOBrowserButtons(enableState);
 }
 
 void UAVObjectBrowserWidget::viewSlot()

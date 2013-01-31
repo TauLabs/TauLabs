@@ -61,7 +61,7 @@ private slots:
     void saveObject();
     void loadObject();
     void eraseObject();
-    void currentChanged(const QModelIndex &current, const QModelIndex &previous);
+    void enableUAVOButtons(const QModelIndex &current, const QModelIndex &previous);
     void viewSlot();
     void viewOptionsChangedSlot();
 signals:
