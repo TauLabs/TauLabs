@@ -44,9 +44,9 @@ static int32_t fault_initialize(void)
 	module_enabled = true;
 #else
 	ModuleSettingsInitialize();
-	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
 	ModuleSettingsEnabledGet(module_state);
-	if (module_state[MODULESETTINGS_STATE_FAULT] == MODULESETTINGS_STATE_ENABLED) {
+	if (module_state[MODULESETTINGS_ADMINSTATE_FAULT] == MODULESETTINGS_ADMINSTATE_ENABLED) {
 		module_enabled = true;
 	} else {
 		module_enabled = false;

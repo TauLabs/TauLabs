@@ -121,7 +121,7 @@ void ConfigCameraStabilizationWidget::refreshWidgetsValues(UAVObject *obj)
     ModuleSettings::DataFields moduleSettingsData = moduleSettings->getData();
 
     m_camerastabilization->enableCameraStabilization->setChecked(
-        moduleSettingsData.State[ModuleSettings::STATE_CAMERASTAB] == ModuleSettings::STATE_ENABLED);
+        moduleSettingsData.AdminState[ModuleSettings::ADMINSTATE_CAMERASTAB] == ModuleSettings::ADMINSTATE_ENABLED);
 
     // Load mixer outputs which are mapped to camera controls
     MixerSettings *mixerSettings = MixerSettings::GetInstance(getObjectManager());
@@ -176,9 +176,9 @@ void ConfigCameraStabilizationWidget::updateObjectsFromWidgets()
     // Do not use setData() member on whole object, if possible, since it triggers
     // unnessesary UAVObect update.
     quint8 enableModule = m_camerastabilization->enableCameraStabilization->isChecked() ?
-            ModuleSettings::STATE_ENABLED : ModuleSettings::STATE_DISABLED;
+            ModuleSettings::ADMINSTATE_ENABLED : ModuleSettings::ADMINSTATE_DISABLED;
     ModuleSettings *moduleSettings = ModuleSettings::GetInstance(getObjectManager());
-    moduleSettings->setState(ModuleSettings::STATE_CAMERASTAB, enableModule);
+    moduleSettings->setAdminState(ModuleSettings::ADMINSTATE_CAMERASTAB, enableModule);
 
     // Update mixer channels which were mapped to camera outputs in case they are
     // not used for other function yet

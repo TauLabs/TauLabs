@@ -2,7 +2,7 @@
  ******************************************************************************
  * @file       pios_board.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2012-2013
  * @addtogroup 
  * @{
  * @addtogroup 
@@ -40,6 +40,7 @@
 #include "hwdiscoveryf4.h"
 #include "manualcontrolsettings.h"
 #include "gcsreceiver.h"
+#include "modulesettings.h"
 
 /* One slot per selectable receiver group.
  *  eg. PWM, PPM, GCS, DSMMAINPORT, DSMFLEXIPORT, SBUS
@@ -149,6 +150,7 @@ void PIOS_Board_Init(void) {
 	} else {
 		/* Too many failed boot attempts, force hw config to defaults */
 		HwDiscoveryF4SetDefaults(HwDiscoveryF4Handle(), 0);
+		ModuleSettingsSetDefaults(ModuleSettingsHandle(),0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
 
