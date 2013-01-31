@@ -792,6 +792,8 @@ void PIOS_Board_Init(void) {
 	if (PIOS_I2C_Init(&pios_i2c_mag_pressure_adapter_id, &pios_i2c_mag_pressure_adapter_cfg)) {
 		PIOS_DEBUG_Assert(0);
 	}
+	if (PIOS_I2C_CheckClear(pios_i2c_mag_pressure_adapter_id) != 0)
+		panic(5);
 	
 	PIOS_DELAY_WaitmS(50);
 
