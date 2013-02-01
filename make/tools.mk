@@ -243,7 +243,7 @@ openocd_git_install: openocd_clean
 	$(V1) ( \
 	  cd $(OPENOCD_BUILD_DIR) ; \
 	  ./bootstrap ; \
-	  ./configure --enable-maintainer-mode --prefix="$(OPENOCD_DIR)" --enable-ft2232_libftdi --enable-buspirate --enable-stlink ; \
+	  ./configure --enable-maintainer-mode --prefix="$(OPENOCD_DIR)" --enable-ft2232_libftdi --enable-buspirate --enable-stlink --disable-option-checking; \
 	  $(MAKE) ; \
 	  $(MAKE) install ; \
 	)
