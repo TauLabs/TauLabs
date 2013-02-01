@@ -103,6 +103,8 @@ openocd_install: openocd_clean
 	  cd $(OPENOCD_BUILD_DIR)/openocd-0.6.1 ; \
 	  patch -p1 < $(ROOT_DIR)/flight/Project/OpenOCD/0001-armv7m-remove-dummy-FP-regs-for-new-gdb.patch ; \
 	  patch -p1 < $(ROOT_DIR)/flight/Project/OpenOCD/0002-rtos-add-stm32_stlink-to-FreeRTOS-targets.patch ; \
+	  git apply < $(ROOT_DIR)/flight/Project/OpenOCD/0003-freertos-cm4f-fpu-support.patch ; \
+	  git apply < $(ROOT_DIR)/flight/Project/OpenOCD/0004-st-icdi-disable.patch ; \
 	)
 
         # build and install
@@ -243,7 +245,7 @@ openocd_git_install: openocd_clean
 	$(V1) ( \
 	  cd $(OPENOCD_BUILD_DIR) ; \
 	  ./bootstrap ; \
-	  ./configure --enable-maintainer-mode --prefix="$(OPENOCD_DIR)" --enable-ft2232_libftdi --enable-buspirate --enable-stlink ; \
+	  ./configure --enable-maintainer-mode --prefix="$(OPENOCD_DIR)" --enable-stlink --disable-option-checking ; \
 	  $(MAKE) ; \
 	  $(MAKE) install ; \
 	)
@@ -255,6 +257,11 @@ openocd_git_install: openocd_clean
 openocd_clean:
 	$(V0) @echo " CLEAN        $(OPENOCD_DIR)"
 	$(V1) [ ! -d "$(OPENOCD_DIR)" ] || $(RM) -r "$(OPENOCD_DIR)"
+#	$(V1) ( \
+#	  cd $(OPENOCD_BUILD_DIR) ; \
+#	  rm -Rf *; \
+#	  git reset --hard cf1418e9a85013bbf8dbcc2d2e9985695993d9f4; \
+#	)
 
 STM32FLASH_DIR := $(TOOLS_DIR)/stm32flash
 
