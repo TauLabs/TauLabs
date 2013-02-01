@@ -43,7 +43,6 @@ static int32_t fault_initialize(void)
 #ifdef MODULE_Fault_BUILTIN
 	module_enabled = true;
 #else
-	ModuleSettingsInitialize();
 	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
 	ModuleSettingsEnabledGet(module_state);
 	if (module_state[MODULESETTINGS_STATE_FAULT] == MODULESETTINGS_STATE_ENABLED) {
