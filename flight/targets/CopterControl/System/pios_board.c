@@ -539,10 +539,31 @@ void PIOS_Board_Init(void) {
 					PIOS_Assert(0);
 				}
 			}
-	#endif	/* PIOS_INCLUDE_MAVLINK */
-			break;
+			#endif	/* PIOS_INCLUDE_MAVLINK */
+	break;
+	case HWCOPTERCONTROL_MAINPORT_MAVLINKTX_GPS_RX:
+#if defined(PIOS_INCLUDE_GPS)
+#if defined(PIOS_INCLUDE_MAVLINK)
+	{
+		uint32_t pios_usart_generic_id;
+		if (PIOS_USART_Init(&pios_usart_generic_id, &pios_usart_generic_main_cfg)) {
+			PIOS_Assert(0);
+		}
+		uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_GPS_RX_BUF_LEN);
+		uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_MAVLINK_TX_BUF_LEN);
+		PIOS_Assert(rx_buffer);
+		PIOS_Assert(tx_buffer);
+		if (PIOS_COM_Init(&pios_com_gps_id, &pios_usart_com_driver, pios_usart_generic_id,
+				rx_buffer, PIOS_COM_GPS_RX_BUF_LEN,
+				tx_buffer, PIOS_COM_MAVLINK_TX_BUF_LEN)) {
+			PIOS_Assert(0);
+		}
+		pios_com_mavlink_id = pios_com_gps_id;
 	}
-
+#endif	/* PIOS_INCLUDE_MAVLINK */
+#endif	/* PIOS_INCLUDE_GPS */
+	break;
+}
 	/* Configure the flexi port */
 	uint8_t hw_flexiport;
 	HwCopterControlFlexiPortGet(&hw_flexiport);
