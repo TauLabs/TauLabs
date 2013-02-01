@@ -681,6 +681,12 @@ void PIOS_Board_Init(void) {
 			break;
 	}
 
+	if (hw_rcvrport != HWFREEDOM_RCVRPORT_SBUS) {
+		GPIO_Init(pios_sbus_cfg.inv.gpio, (GPIO_InitTypeDef*)&pios_sbus_cfg.inv.init);
+		GPIO_WriteBit(pios_sbus_cfg.inv.gpio, pios_sbus_cfg.inv.init.GPIO_Pin, pios_sbus_cfg.gpio_inv_disable);
+	}
+
+
 #if defined(PIOS_OVERO_SPI)
 	/* Set up the SPI based PIOS_COM interface to the overo */
 	{
