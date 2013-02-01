@@ -330,6 +330,7 @@ void PIOS_Board_Init(void) {
 	UAVObjInitialize();
 	
 	HwRevoMiniInitialize();
+	ModuleSettingsInitialize();
 	
 #if defined(PIOS_INCLUDE_RTC)
 	PIOS_RTC_Init(&pios_rtc_main_cfg);
@@ -360,7 +361,6 @@ void PIOS_Board_Init(void) {
 	} else {
 		/* Too many failed boot attempts, force hw config to defaults */
 		HwRevoMiniSetDefaults(HwRevoMiniHandle(), 0);
-		ModuleSettingsInitialize();
 		ModuleSettingsSetDefaults(ModuleSettingsHandle(),0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}

@@ -292,6 +292,7 @@ void PIOS_Board_Init(void) {
 	UAVObjInitialize();
 
 	HwFlyingF4Initialize();
+	ModuleSettingsInitialize();
 
 #if defined(PIOS_INCLUDE_RTC)
 	/* Initialize the real-time clock and its associated tick */
@@ -332,7 +333,6 @@ void PIOS_Board_Init(void) {
 	} else {
 		/* Too many failed boot attempts, force hw config to defaults */
 		HwFlyingF4SetDefaults(HwFlyingF4Handle(), 0);
-		ModuleSettingsInitialize();
 		ModuleSettingsSetDefaults(ModuleSettingsHandle(),0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}

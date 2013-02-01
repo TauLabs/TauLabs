@@ -397,6 +397,7 @@ void PIOS_Board_Init(void) {
 	UAVObjInitialize();
 	
 	HwRevolutionInitialize();
+	ModuleSettingsInitialize();
 	
 #if defined(PIOS_INCLUDE_RTC)
 	PIOS_RTC_Init(&pios_rtc_main_cfg);
@@ -427,7 +428,6 @@ void PIOS_Board_Init(void) {
 	} else {
 		/* Too many failed boot attempts, force hw config to defaults */
 		HwRevolutionSetDefaults(HwRevolutionHandle(), 0);
-		ModuleSettingsInitialize();
 		ModuleSettingsSetDefaults(ModuleSettingsHandle(),0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
@@ -779,7 +779,6 @@ void PIOS_Board_Init(void) {
 #ifdef MODULE_OveroSync_BUILTIN
 		overo_enabled = true;
 #else
-		ModuleSettingsInitialize();
 		uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
 		ModuleSettingsStateGet(module_state);
 		if (module_state[MODULESETTINGS_STATE_OVEROSYNC] == MODULESETTINGS_STATE_ENABLED) {
