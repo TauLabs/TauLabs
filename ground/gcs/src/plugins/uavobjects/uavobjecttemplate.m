@@ -121,7 +121,7 @@ end
 timestampAccumulator = 0;
 lastTimestamp = [];
 
-while (1)
+while bufferIdx < (length(buffer) - 20)
 	%% Read message header
 	% get sync field (0x3C, 1 byte)
     if ~overo
