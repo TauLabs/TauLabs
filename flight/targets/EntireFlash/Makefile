@@ -65,3 +65,6 @@ dfu: $(OUTDIR)/$(TARGET).bin
 		sudo $(DFU_CMD) -d 0483:df11 -c 1 -i 0 -a 0 -D $< -s $(BL_BANK_BASE) ; \
 		)
 
+# Add jtag targets (program and wipe)
+EF_SIZE := $(shell wc -c < $(OUTDIR)/$(TARGET).bin)
+$(eval $(call JTAG_TEMPLATE,$(OUTDIR)/$(TARGET).bin,$(BL_BANK_BASE),$(EF_SIZE),$(OPENOCD_JTAG_CONFIG),$(OPENOCD_CONFIG)))
