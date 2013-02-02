@@ -23,7 +23,6 @@
 
 package org.taulabs.androidgcs;
 
-import org.taulabs.androidgcs.R;
 import org.taulabs.androidgcs.util.SmartSave;
 import org.taulabs.androidgcs.views.ScrollBarView;
 import org.taulabs.uavtalk.UAVDataObject;
@@ -69,6 +68,8 @@ public class TuningActivity extends ObjectManagerActivity {
 		smartSave.addControlMapping((ScrollBarView) findViewById(R.id.pitchRateKi), "PitchRatePID", 1);
 		smartSave.addControlMapping((ScrollBarView) findViewById(R.id.rollKp), "RollPI", 0);
 		smartSave.addControlMapping((ScrollBarView) findViewById(R.id.pitchKp), "PitchPI", 0);
+		smartSave.addControlMapping((ScrollBarView) findViewById(R.id.rollRateKd), "RollRatePID", 2);
+		smartSave.addControlMapping((ScrollBarView) findViewById(R.id.pitchRateKd), "PitchRatePID", 2);
 		smartSave.refreshSettingsDisplay();
 	}
 

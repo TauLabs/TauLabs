@@ -82,8 +82,8 @@ const struct pios_led_cfg * PIOS_BOARD_HW_DEFS_GetLedCfg (uint32_t board_revisio
  *      - Used for flash communications
  */
 void PIOS_SPI_flash_irq_handler(void);
-void DMA1_Stream0_IRQHandler(void) __attribute__((alias("PIOS_SPI_flash_irq_handler")));
-void DMA1_Stream5_IRQHandler(void) __attribute__((alias("PIOS_SPI_flash_irq_handler")));
+void DMA1_Stream3_IRQHandler(void) __attribute__((alias("PIOS_SPI_flash_irq_handler")));
+
 static const struct pios_spi_cfg pios_spi_flash_cfg = {
 	.regs = SPI2,
 	.remap = GPIO_AF_SPI2,
@@ -102,9 +102,9 @@ static const struct pios_spi_cfg pios_spi_flash_cfg = {
 	.dma = {
 		.irq = {
 			// Note this is the stream ID that triggers interrupts (in this case RX)
-			.flags = (DMA_IT_TCIF0 | DMA_IT_TEIF0 | DMA_IT_HTIF0),
+			.flags = (DMA_IT_TCIF3 | DMA_IT_TEIF3 | DMA_IT_HTIF3),
 			.init = {
-				.NVIC_IRQChannel = DMA1_Stream0_IRQn,
+				.NVIC_IRQChannel = DMA1_Stream3_IRQn,
 				.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH,
 				.NVIC_IRQChannelSubPriority = 0,
 				.NVIC_IRQChannelCmd = ENABLE,
@@ -112,7 +112,7 @@ static const struct pios_spi_cfg pios_spi_flash_cfg = {
 		},
 		
 		.rx = {
-			.channel = DMA1_Stream0,
+			.channel = DMA1_Stream3,
 			.init = {
 				.DMA_Channel            = DMA_Channel_0,
 				.DMA_PeripheralBaseAddr = (uint32_t) & (SPI2->DR),
@@ -131,7 +131,7 @@ static const struct pios_spi_cfg pios_spi_flash_cfg = {
 			},
 		},
 		.tx = {
-			.channel = DMA1_Stream5,
+			.channel = DMA1_Stream4,
 			.init = {
 				.DMA_Channel            = DMA_Channel_0,
 				.DMA_PeripheralBaseAddr = (uint32_t) & (SPI2->DR),
@@ -207,8 +207,8 @@ void PIOS_SPI_flash_irq_handler(void)
  *      - Used for gyro communications
  */
 void PIOS_SPI_gyro_accel_irq_handler(void);
-void DMA1_Stream3_IRQHandler(void) __attribute__((alias("PIOS_SPI_gyro_accel_irq_handler")));
-void DMA1_Stream4_IRQHandler(void) __attribute__((alias("PIOS_SPI_gyro_accel_irq_handler")));
+void DMA2_Stream0_IRQHandler(void) __attribute__((alias("PIOS_SPI_gyro_accel_irq_handler")));
+
 static const struct pios_spi_cfg pios_spi_gyro_accel_cfg = {
 	.regs = SPI1,
 	.remap = GPIO_AF_SPI1,
@@ -227,9 +227,9 @@ static const struct pios_spi_cfg pios_spi_gyro_accel_cfg = {
 	.dma = {
 		.irq = {
 			// Note this is the stream ID that triggers interrupts (in this case RX)
-			.flags = (DMA_IT_TCIF3 | DMA_IT_TEIF3 | DMA_IT_HTIF3),
+			.flags = (DMA_IT_TCIF0 | DMA_IT_TEIF0 | DMA_IT_HTIF0),
 			.init = {
-				.NVIC_IRQChannel = DMA1_Stream3_IRQn,
+				.NVIC_IRQChannel = DMA2_Stream0_IRQn,
 				.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH,
 				.NVIC_IRQChannelSubPriority = 0,
 				.NVIC_IRQChannelCmd = ENABLE,
@@ -237,9 +237,9 @@ static const struct pios_spi_cfg pios_spi_gyro_accel_cfg = {
 		},
 
 		.rx = {
-			.channel = DMA1_Stream3,
+			.channel = DMA2_Stream0,
 			.init = {
-				.DMA_Channel            = DMA_Channel_0,
+				.DMA_Channel            = DMA_Channel_3,
 				.DMA_PeripheralBaseAddr = (uint32_t) & (SPI1->DR),
 				.DMA_DIR                = DMA_DIR_PeripheralToMemory,
 				.DMA_PeripheralInc      = DMA_PeripheralInc_Disable,
@@ -256,9 +256,9 @@ static const struct pios_spi_cfg pios_spi_gyro_accel_cfg = {
 			},
 		},
 		.tx = {
-			.channel = DMA1_Stream4,
+			.channel = DMA2_Stream3,
 			.init = {
-				.DMA_Channel            = DMA_Channel_0,
+				.DMA_Channel            = DMA_Channel_3,
 				.DMA_PeripheralBaseAddr = (uint32_t) & (SPI1->DR),
 				.DMA_DIR                = DMA_DIR_MemoryToPeripheral,
 				.DMA_PeripheralInc      = DMA_PeripheralInc_Disable,

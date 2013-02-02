@@ -99,7 +99,6 @@ int32_t AltitudeHoldInitialize()
 #ifdef MODULE_AltitudeHold_BUILTIN
 	module_enabled = true;
 #else
-	ModuleSettingsInitialize();
 	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
 	ModuleSettingsStateGet(module_state);
 	if (module_state[MODULESETTINGS_STATE_ALTITUDEHOLD] == MODULESETTINGS_STATE_ENABLED) {

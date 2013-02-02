@@ -2,7 +2,7 @@
  *****************************************************************************
  * @file       pios_board.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2012-2013
  * @addtogroup OpenPilotSystem OpenPilot System
  * @{
  * @addtogroup OpenPilotCore OpenPilot Core
@@ -40,6 +40,7 @@
 #include <uavobjectsinit.h>
 #include "hwquanton.h"
 #include "manualcontrolsettings.h"
+#include "modulesettings.h"
 
 
 #if defined(PIOS_INCLUDE_HMC5883)
@@ -281,6 +282,7 @@ void PIOS_Board_Init(void) {
 	UAVObjInitialize();
 
 	HwQuantonInitialize();
+	ModuleSettingsInitialize();
 
 #if defined(PIOS_INCLUDE_RTC)
 	/* Initialize the real-time clock and its associated tick */
@@ -323,6 +325,7 @@ void PIOS_Board_Init(void) {
 	} else {
 		/* Too many failed boot attempts, force hw config to defaults */
 		HwQuantonSetDefaults(HwQuantonHandle(), 0);
+		ModuleSettingsSetDefaults(ModuleSettingsHandle(),0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
 

@@ -45,10 +45,20 @@ public class UAVObjectManager {
 			newInstance.addObserver(o);
 		}
 	}
+	public void deleteNewInstanceObserver(Observer o) {
+		synchronized(newInstance) {
+			newInstance.deleteObserver(o);
+		}
+	}
 	private final CallbackListener newObject = new CallbackListener();
 	public void addNewObjectObserver(Observer o) {
 		synchronized(newObject) {
 			newObject.addObserver(o);
+		}
+	}
+	public void deleteNewObjectObserver(Observer o) {
+		synchronized(newObject) {
+			newObject.deleteObserver(o);
 		}
 	}
 	private final int MAX_INSTANCES = 10;
