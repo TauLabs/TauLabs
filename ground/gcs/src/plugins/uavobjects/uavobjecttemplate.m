@@ -100,8 +100,10 @@ startTime=clock;
 overo = false;
 
 if overo
+    instanceIdOffset = -2;
     timestampWraparound = 2^16;
 else
+    instanceIdOffset = 0;
     timestampWraparound = 2^32;
 end
 
@@ -132,7 +134,7 @@ while (1)
         %     Message type (1 byte)
         %     Length (2 bytes)
         %     Object ID (4 bytes)
-        %     Instance ID (optional, 4 bytes)
+        %     Instance ID (optional, 2 bytes)
         %     Data (variable length)
         %     Checksum (1 byte)
       	
@@ -152,7 +154,7 @@ while (1)
         %     Message type (1 byte, adds 0x80)
         %     Length (2 bytes)
         %     Object ID (4 bytes)
-        %     Instance ID (optional, 4 bytes)
+        %     Instance ID (optional, 2 bytes)
         %     Timestamp (2 bytes)
         %     Data (variable length)
         %     Checksum (1 byte)
@@ -169,13 +171,12 @@ while (1)
         else
             timestamp = double(typecast(buffer(bufferIdx+12:bufferIdx+14-1),'uint16'));
         end
-    
-        % Advance buffer past header to where data is (or instance ID)
-        bufferIdx = bufferIdx + 8;            
         
-        % Cheat right now because data is two further back for overo
-        % with the timestamp
-        bufferIdx = bufferIdx + 2;
+        % Advance buffer past header to where data is.  In the case of a
+        % multiple instance object this will be where the timstamp is but
+        % the parsing code will advance by two more.
+        bufferIdx = bufferIdx + 10;
+
     end
 
     if ~isempty(lastTimestamp) && timestamp < lastTimestamp

@@ -151,8 +151,8 @@ bool UAVObjectGeneratorMatlab::process_object(ObjectInfo* info, int numBytes)
     //Add Instance ID, if necessary
     if(!info->isSingleInst){
         allocationFields.append("\t" + objectName + ".instanceID = " +
-                          "double(typecast(buffer(mcolon(" + objectName + "FidIdx "
-                          ", " + objectName + "FidIdx + 2-1)), 'uint16'))';\n");
+                          "double(typecast(buffer(mcolon(" + objectName + "FidIdx + instanceIdOffset "
+                          ", " + objectName + "FidIdx  + instanceIdOffset + 2-1)), 'uint16'))';\n");
         currentIdx+=2;
     }
 
