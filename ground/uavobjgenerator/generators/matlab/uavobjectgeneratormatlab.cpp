@@ -116,7 +116,7 @@ bool UAVObjectGeneratorMatlab::process_object(ObjectInfo* info, int numBytes)
     matlabInstantiationCode.append("\t" + objectTableName.toUpper() + "_OBJID=" + objectID + ";\n");
     matlabInstantiationCode.append("\t" + objectTableName.toUpper() + "_NUMBYTES=" + numBytesString + ";\n");
     matlabInstantiationCode.append("\t" + objectName + "FidIdx = [];\n");
-
+    matlabInstantiationCode.append("\n\tmultipleInstanceLookup(end+1,:) = [" + objectID + ", " + (info->isSingleInst ? "true" : "false") + "];\n");
 
     //==============================================================//
     // Generate 'Switch:' code (will replace the $(SWITCHCODE) tag) //
@@ -124,6 +124,7 @@ bool UAVObjectGeneratorMatlab::process_object(ObjectInfo* info, int numBytes)
     matlabSwitchCode.append("\t\tcase " + objectTableName.toUpper() + "_OBJID\n");
     matlabSwitchCode.append("\t\t\t" + tableIdxName + " = " + tableIdxName +" + 1;\n");
     matlabSwitchCode.append("\t\t\t" + objectTableName + "FidIdx(" + tableIdxName + ") = bufferIdx; %#ok<*AGROW>\n");
+    matlabSwitchCode.append("\t\t\t" + objectTableName + ".timestamp(" + tableIdxName + ") = timestamp; %#ok<*AGROW>\n");
     matlabSwitchCode.append("\t\t\tbufferIdx=bufferIdx + " +  objectTableName.toUpper() + "_NUMBYTES+1; %+1 is for CRC\n");
     if(!info->isSingleInst){
         matlabSwitchCode.append("\t\t\tbufferIdx = bufferIdx + 2; %An extra two bytes for the instance ID\n");
@@ -144,11 +145,6 @@ bool UAVObjectGeneratorMatlab::process_object(ObjectInfo* info, int numBytes)
     //Generate function description comment
     matlabAllocationCode.append("% " + objectName + " typecasting\n");
     QString allocationFields;
-
-    //Add timestamp
-    allocationFields.append("\t" + objectName + ".timestamp = " +
-                      "double(typecast(buffer(mcolon(" + objectName + "FidIdx "
-                      "+ timestampOffset, " + objectName + "FidIdx+ timestampLength-1 +timestampOffset)), timestampType))';\n");
 
     int currentIdx=0;
 

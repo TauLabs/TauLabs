@@ -17,6 +17,7 @@ str2=[];
 str3=[];
 str4=[];
 str5=[];
+multipleInstanceLookup = zeros(0,2);
 
 fprintf('\n\n***OpenPilot log parser***\n\n');
 global crc_table;
@@ -98,16 +99,14 @@ startTime=clock;
 % default to expecting GCS logs
 overo = false;
 
-% Set where the timestamp is and how it is formatted (relative to data)
 if overo
-    timestampOffset = -2;
-    timestampLength = 2;
-    timestampType = 'uint16';
+    timestampWraparound = 2^16;
 else
-    timestampOffset = -20;
-    timestampLength = 4;
-    timestampType = 'uint32';
+    timestampWraparound = 2^32;
 end
+
+timestampAccumulator = 0;
+lastTimestamp = [];
 
 while (1)
 	%% Read message header
@@ -142,6 +141,7 @@ while (1)
         datasizeLength = 4;
         msgType = buffer(bufferIdx+13); % get msg type (quint8 1 byte ) should be 0x20, ignore the rest?
         objID = typecast(buffer(bufferIdx+16:bufferIdx+ 16+4-1), 'uint32'); % get obj id (quint32 4 bytes)
+        timestamp = double(typecast(buffer(bufferIdx:bufferIdx+4-1),'uint32'));
 
         % Advance buffer past header to where data is (or instance ID)
         bufferIdx=bufferIdx + 20;
@@ -162,14 +162,27 @@ while (1)
         datasizeLength = 2;
         msgType = buffer(bufferIdx+1) - 128;
         objID = typecast(buffer(bufferIdx+4:bufferIdx+ 4+4-1), 'uint32');
+        
+        singleInstance = multipleInstanceLookup(multipleInstanceLookup(:,1) == objID, 2);
+        if singleInstance
+            timestamp = double(typecast(buffer(bufferIdx+8:bufferIdx+10-1),'uint16'));
+        else
+            timestamp = double(typecast(buffer(bufferIdx+12:bufferIdx+14-1),'uint16'));
+        end
     
         % Advance buffer past header to where data is (or instance ID)
-        bufferIdx = bufferIdx + 8;
+        bufferIdx = bufferIdx + 8;            
         
         % Cheat right now because data is two further back for overo
         % with the timestamp
         bufferIdx = bufferIdx + 2;
     end
+
+    if ~isempty(lastTimestamp) && timestamp < lastTimestamp
+        timestampAccumulator = timestampAccumulator + timestampWraparound;
+    end
+    lastTimestamp = timestamp;    
+    timestamp = timestamp + timestampAccumulator;
 
 	%Check that message type is correct
 	if msgType ~= correctMsgByte
