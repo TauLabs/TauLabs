@@ -5,6 +5,7 @@
 			<elementnames>
 				<elementname>Airspeed</elementname>
 				<elementname>Altitude</elementname>
+				<elementname>AltitudeHold</elementname>
 				<elementname>Autotune</elementname>
 				<elementname>Battery</elementname>
 				<elementname>CameraStab</elementname>
@@ -13,6 +14,7 @@
 				<elementname>Fault</elementname>
 				<elementname>GPS</elementname>
 				<elementname>OveroSync</elementname>
+				<elementname>PathPlanner</elementname>
 				<elementname>Radio</elementname>
 				<elementname>TxPID</elementname>
 				<elementname>VtolPathFollower</elementname>
@@ -43,7 +45,7 @@
 			</options>
 		</field>
 
-		<access gcs="readwrite" flight="readonly"/>
+		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
 		<telemetryflight acked="true" updatemode="onchange" period="0"/>
 		<logging updatemode="manual" period="0"/>

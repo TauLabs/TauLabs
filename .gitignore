@@ -10,62 +10,37 @@
 /flight/.settings
 /flight/Build
 
-# /flight/AHRS/
-/flight/AHRS/Build
-
-# /flight/Bootloaders/OpenPilot.old/
-/flight/Bootloaders/OpenPilot.old/Build
-
-# /flight/OpenPilot/
-/flight/OpenPilot/Build
-/flight/OpenPilot/Build.win32
-
-#flight/Project/OpenPilotOSX
-flight/Project/OpenPilotOSX/build
-
-# /flight/PipBee/
-/flight/PipBee/Build
-
 # /flight/Project/OpenPilotOSX/
 /flight/Project/OpenPilotOSX/build/
 
 # /ground/
 /ground/Build
 
-/ground/openpilotgcs/share/openpilotgcs/models/Easystar/Thumbs.db
+/ground/gcs/share/taulabs/translations/extract-mimetypes.xq
 
-/ground/openpilotgcs/share/openpilotgcs/sounds/normalize.exe
+/ground/gcs/src/experimental/tools/DocumentationHelper/ui_mainwindow.h
 
-/ground/openpilotgcs/share/openpilotgcs/sounds/default/normalize.exe
+/ground/gcs/src/libs/qwt/qwt.prf
+/ground/gcs/src/libs/qwt/designer
 
-/ground/openpilotgcs/share/openpilotgcs/translations/extract-mimetypes.xq
-
-/ground/openpilotgcs/src/experimental/OPMapWidget/core/header.h
-
-/ground/openpilotgcs/src/experimental/tools/DocumentationHelper/ui_mainwindow.h
-
-/ground/openpilotgcs/src/libs/qextserialport/.hg
-/ground/openpilotgcs/src/libs/qextserialport/.hgtags
-
-/ground/openpilotgcs/src/libs/qwt/qwt.prf
-/ground/openpilotgcs/src/libs/qwt/designer
-
-/ground/openpilotgcs/src/plugins/ipconnection/ui_ipconnectionoptionspage.h
+/ground/gcs/src/plugins/ipconnection/ui_ipconnectionoptionspage.h
 
 # Ignore artifacts of top-level Makefile
 /downloads
 /tools
 /build
 
-openpilotgcs-build-desktop
-flight/Project/OpenPilotOSX/OpenPilotOSX.xcodeproj/*.mode1v3
-flight/Project/OpenPilotOSX/OpenPilotOSX.xcodeproj/*.pbxuser
+#flight/Project/Xcode.OSX
+flight/Project/Xcode.OSX/build
+flight/Project/Xcode.OSX/firmware.xcodeproj/*.mode1v3
+flight/Project/Xcode.OSX/firmware.xcodeproj/*.pbxuser
 
 # Ignore some of the .pro.user files
-ground/openpilotgcs/openpilotgcs.pro.user
+ground/gcs/gcs.pro.user
 ground/uavobjgenerator/uavobjgenerator.pro.user
 ground/uavobjects/uavobjects.pro.user
 ground/ground.pro.user
+ground/ground.pro.user.*
 
 GPATH
 GRTAGS

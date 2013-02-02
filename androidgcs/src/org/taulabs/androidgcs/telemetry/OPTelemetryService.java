@@ -35,6 +35,7 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.taulabs.androidgcs.telemetry.tasks.LoggingTask;
 import org.taulabs.uavtalk.UAVObjectManager;
 
 import android.app.Service;
@@ -275,6 +276,7 @@ public class OPTelemetryService extends Service {
 	 */
 	public interface TelemTask {
 		public UAVObjectManager getObjectManager();
+		public LoggingTask getLoggingTask();
 	};
 
 

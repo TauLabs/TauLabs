@@ -103,7 +103,6 @@ static int32_t comUsbBridgeInitialize(void)
 #ifdef MODULE_ComUsbBridge_BUILTIN
 	module_enabled = true;
 #else
-	ModuleSettingsInitialize();
 	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
 	ModuleSettingsStateGet(module_state);
 	if (module_state[MODULESETTINGS_STATE_COMUSBBRIDGE] == MODULESETTINGS_STATE_ENABLED) {

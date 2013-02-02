@@ -122,8 +122,8 @@
 /* Accel Ctrl4 flags */
 #define PIOS_LSM303_CTRL4_BDU			0x80
 #define PIOS_LSM303_CTRL4_BLE			0x40
-#define PIOS_LSM303_CTRL4_HR			0x04
-#define PIOS_LSM303_CTRL4_SIM			0x02
+#define PIOS_LSM303_CTRL4_HR			0x08
+#define PIOS_LSM303_CTRL4_SIM			0x01
 
 /* Accel Ctrl5 flags */
 #define PIOS_LSM303_CTRL5_BOOT			0x80

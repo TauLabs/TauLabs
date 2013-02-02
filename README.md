@@ -1,9 +1,9 @@
-# Above Ground Labs
+# Tau Labs
 
 A friendly fork of OpenPilot by some of the former OP developers.
 
 ## Goals
-The goal of Above Ground Labs is to focus on writing high quality open source code for autopilots that can easily provide the basis for research projects or further development by anyone.  The project focuses on high quality code, robust testing, and ease of use. Our target audience is professionals, researchers, and students, but we want to make those more advanced techniques easy and accessible for anyone.
+The goal of Tau Labs is to focus on writing high quality open source code for autopilots that can easily provide the basis for research projects or further development by anyone.  The project focuses on high quality code, robust testing, and ease of use. Our target audience is professionals, researchers, and students, but we want to make those more advanced techniques easy and accessible for anyone.
 
 By “research”, we mean not only universities or institutions focused on research on UAVs, but any group who might have use for UAVs for their research purpose. Examples include UAVs used for agricultural surveys, air quality logging. By “students” we mean aiming the use of our project in the classroom, especially thanks to the availability of an entry-level reference platform (see below).
 

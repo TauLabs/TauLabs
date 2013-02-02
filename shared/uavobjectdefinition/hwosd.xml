@@ -1,5 +1,5 @@
 <xml>
-	<object name="HwOSD" singleinstance="true" settings="true">
+	<object name="HwOSD" singleinstance="true" settings="true" category="HardwareSettings">
 		<description>Selection of optional hardware configurations.</description>
 
 		<field name="USB_HIDPort" units="function" type="enum" elements="1" options="USBTelemetry,RCTransmitter,Disabled" defaultvalue="USBTelemetry"/>

@@ -23,8 +23,8 @@
 
 package org.taulabs.androidgcs.fragments;
 
-import org.taulabs.androidgcs.R;
 import org.taulabs.androidgcs.AttitudeView;
+import org.taulabs.androidgcs.R;
 import org.taulabs.uavtalk.UAVObject;
 import org.taulabs.uavtalk.UAVObjectManager;
 
@@ -58,9 +58,10 @@ public class PFD extends ObjectManagerFragment {
 			Log.d(TAG, "On connected");
 
 		UAVObject obj = objMngr.getObject("AttitudeActual");
-		if (obj != null)
+		if (obj != null) {
 			registerObjectUpdates(obj);
-		objectUpdated(obj);
+			objectUpdated(obj);
+		}
 	}
 
 	/**
@@ -70,6 +71,11 @@ public class PFD extends ObjectManagerFragment {
 	public void objectUpdated(UAVObject obj) {
 		if (DEBUG)
 			Log.d(TAG, "Updated");
+
+		if (obj == null)
+			return;
+		if (obj.getName().compareTo("AttitudeActual") != 0)
+			return;
 
 		double pitch = obj.getField("Pitch").getDouble();
 		double roll = obj.getField("Roll").getDouble();

@@ -198,7 +198,7 @@
 #endif
 
 /****************** USB OTG MISC CONFIGURATION ********************************/
-//#define VBUS_SENSING_ENABLED
+#define VBUS_SENSING_ENABLED
 
 /****************** USB OTG MODE CONFIGURATION ********************************/
 //#define USE_HOST_MODE

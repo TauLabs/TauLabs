@@ -89,7 +89,6 @@ static int32_t MagBaroInitialize()
 #ifdef MODULE_MagBaro_BUILTIN
 	module_enabled = true;
 #else
-	ModuleSettingsInitialize();
 	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
 	ModuleSettingsStateGet(module_state);
 	if (module_state[MODULESETTINGS_STATE_MAGBARO] == MODULESETTINGS_STATE_ENABLED) {

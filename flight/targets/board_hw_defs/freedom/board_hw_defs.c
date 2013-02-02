@@ -89,7 +89,6 @@ const struct pios_led_cfg * PIOS_BOARD_HW_DEFS_GetLedCfg (uint32_t board_revisio
  */
 void PIOS_SPI_GYRO_irq_handler(void);
 void DMA1_Stream3_IRQHandler(void) __attribute__((alias("PIOS_SPI_gyro_irq_handler")));
-void DMA1_Stream4_IRQHandler(void) __attribute__((alias("PIOS_SPI_gyro_irq_handler")));
 static const struct pios_spi_cfg pios_spi_gyro_cfg = {
 	.regs = SPI2,
 	.remap = GPIO_AF_SPI2,
@@ -334,7 +333,6 @@ void PIOS_SPI_overo_irq_handler(void)
  */
 void PIOS_SPI_telem_flash_irq_handler(void);
 void DMA1_Stream0_IRQHandler(void) __attribute__((alias("PIOS_SPI_telem_flash_irq_handler")));
-void DMA1_Stream5_IRQHandler(void) __attribute__((alias("PIOS_SPI_telem_flash_irq_handler")));
 static const struct pios_spi_cfg pios_spi_telem_flash_cfg = {
 	.regs = SPI3,
 	.remap = GPIO_AF_SPI3,

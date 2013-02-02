@@ -406,6 +406,22 @@ static int32_t PIOS_MPU6050_FifoDepth(void)
 }
 
 /**
+ * @brief Get the status code.
+ * \return the status code if successful
+ * \return negative value if failed
+ */
+static int32_t PIOS_MPU6050_GetStatus(void)
+{
+	uint8_t mpu6050_rec_buf[1];
+
+	if (PIOS_MPU6050_Read(PIOS_MPU60X0_INT_STATUS_REG, mpu6050_rec_buf, sizeof(mpu6050_rec_buf)) < 0) {
+		return -1;
+	}
+
+	return mpu6050_rec_buf[0];
+}
+
+/**
 * @brief IRQ Handler.  Read all the data from onboard buffer
 */
 bool PIOS_MPU6050_IRQHandler(void)
@@ -432,6 +448,12 @@ static void PIOS_MPU6050_Task(void *parameters)
 
 		if(!dev->configured)
 			continue;
+
+		int32_t status = PIOS_MPU6050_GetStatus();
+		if (status & PIOS_MPU60X0_INT_STATUS_OVERFLOW) {
+			dev->configured = false;
+			continue;
+		}
 
 		int32_t mpu6050_count = PIOS_MPU6050_FifoDepth();
 		if(mpu6050_count < sizeof(struct pios_mpu60x0_data))

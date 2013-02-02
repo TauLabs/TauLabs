@@ -29,6 +29,8 @@ import java.io.OutputStream;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.taulabs.androidgcs.telemetry.tasks.LoggingTask;
+import org.taulabs.androidgcs.telemetry.tasks.TabletInformation;
 import org.taulabs.uavtalk.Telemetry;
 import org.taulabs.uavtalk.TelemetryMonitor;
 import org.taulabs.uavtalk.UAVObjectManager;
@@ -94,15 +96,17 @@ public abstract class TelemetryTask implements Runnable {
 	//! Thread to process the input stream
 	Thread inputProcessThread;
 
-	// TODO: Generalize this into a framework for background processing
-	//! Background process to update the TabletInformation object
-	private TabletInformation tabletInfoTask;
-
 	//! Flag to indicate a shut down was requested.  Derived classes should take care to respect this.
 	boolean shutdown;
 
 	//! Indicate a physical connection is established
 	private boolean connected;
+
+	//! An object which can log the telemetry stream
+	private final LoggingTask logger = new LoggingTask();
+
+	//! Background process to update the TabletInformation object
+	private final TabletInformation tabletInfoTask = new TabletInformation();
 
 	TelemetryTask(OPTelemetryService s) {
 		telemService = s;
@@ -144,7 +148,11 @@ public abstract class TelemetryTask implements Runnable {
 		// Create a new thread that processes the input bytes
 		startInputProcessing();
 
-		tabletInfoTask = new TabletInformation(objMngr, telemService);
+		// Connect the tablet information task
+		tabletInfoTask.connect(objMngr, telemService);
+
+		// Connect the logger
+		logger.connect(objMngr, telemService);
 
 		connected = true;
 		return connected;
@@ -160,7 +168,8 @@ public abstract class TelemetryTask implements Runnable {
 		shutdown = true;
 
 		// Stop updating the tablet information
-		tabletInfoTask.stop();
+		tabletInfoTask.disconnect();
+		logger.disconnect();
 
 		// Shut down all the attached
 		if (mon != null) {
@@ -223,6 +232,11 @@ public abstract class TelemetryTask implements Runnable {
 		}
 	};
 
+	//! Accessor to get the logging task
+	public final LoggingTask getLoggingTask() {
+		return logger;
+	}
+
 	@Override
 	public void run() {
 		try {
@@ -273,7 +287,13 @@ public abstract class TelemetryTask implements Runnable {
 			public UAVObjectManager getObjectManager() {
 				return objMngr;
 			}
+
+			@Override
+			public LoggingTask getLoggingTask() {
+				return logger;
+			}
 		};
+
 	}
 
 }

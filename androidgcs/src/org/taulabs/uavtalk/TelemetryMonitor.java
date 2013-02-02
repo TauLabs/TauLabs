@@ -35,6 +35,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.taulabs.androidgcs.telemetry.OPTelemetryService;
+import org.taulabs.uavtalk.UAVObject.TransactionResult;
 
 import android.util.Log;
 
@@ -68,6 +69,8 @@ public class TelemetryMonitor extends Observable {
 	private OPTelemetryService telemService;
 	private boolean connected = false;
 	private boolean objects_updated = false;
+
+	private int gcsTransactionFailCount = 0;
 
 	public boolean getConnected() {
 		return connected;
@@ -112,6 +115,20 @@ public class TelemetryMonitor extends Observable {
 					flightStatsObj.removeUpdatedObserver(this);
 				}
 			}
+		});
+
+		gcsStatsObj.addTransactionCompleted(new Observer() {
+
+			@Override
+			public void update(Observable observable, Object data) {
+				TransactionResult result = (TransactionResult) data;
+				if (DEBUG) Log.d(TAG, "Result: " + result.success + " count " + gcsTransactionFailCount);
+				if (result.success)
+					gcsTransactionFailCount = 0;
+				else
+					gcsTransactionFailCount = gcsTransactionFailCount + 1;
+			}
+
 		});
 
 		// Start update timer
@@ -349,13 +366,28 @@ public class TelemetryMonitor extends Observable {
 			}
 		}
 
-		// Force telemetry update if not yet connected
-		boolean gcsStatusChanged = !oldStatus.equals(statusField.getValue());
-
 		boolean gcsConnected = statusField.getValue().equals("Connected");
 		boolean gcsDisconnected = statusField.getValue().equals("Disconnected");
-		boolean flightConnected = flightStatsObj.getField("Status").equals(
-				"Connected");
+		boolean flightConnected = flightStatsObj.getField("Status").getValue()
+				.equals("Connected");
+
+		if (flightConnected && !gcsConnected && (gcsTransactionFailCount >= 3)) {
+			Log.d(TAG, "GCS was not connected but flight is.  GCS status: "
+					+ statusField.getValue());
+			// For the case of telemetry pass through in we force the local
+			// connection to be true.  We detect this because attempts to set
+			// GCSTelemetryStatus to handshake requested fail multiple times
+			// and the flight controller thinks a connection is already
+			// estabilished
+
+			statusField.setValue("Connected");
+			gcsStatsObj.updated();
+			gcsConnected = true;
+			gcsDisconnected = false;
+		}
+
+		// Force telemetry update if not yet connected
+		boolean gcsStatusChanged = !oldStatus.equals(statusField.getValue());
 
 		if (!gcsConnected || !flightConnected) {
 			if (DEBUG)

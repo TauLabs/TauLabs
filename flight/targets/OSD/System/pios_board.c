@@ -3,6 +3,7 @@
  *
  * @file       pios_board.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2012-2013
  * @brief      Defines board specific static initializers for hardware for the OPOSD board.
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -39,6 +40,7 @@
 #include <hwosd.h>
 #include <manualcontrolsettings.h>
 #include <gcsreceiver.h>
+#include <modulesettings.h>
 
 /* Private macro -------------------------------------------------------------*/
 #define countof(a)   (sizeof(a) / sizeof(*(a)))
@@ -129,6 +131,7 @@ void PIOS_Board_Init(void) {
 	UAVObjInitialize();
 
 	HwOSDInitialize();
+	ModuleSettingsInitialize();
 
 	/* Initialize the alarms library */
 	AlarmsInitialize();
@@ -145,6 +148,7 @@ void PIOS_Board_Init(void) {
 	} else {
 		/* Too many failed boot attempts, force hw config to defaults */
 		HwOSDSetDefaults(HwOSDHandle(), 0);
+		ModuleSettingsSetDefaults(ModuleSettingsHandle(),0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
 

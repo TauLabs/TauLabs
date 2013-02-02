@@ -106,7 +106,6 @@ static int32_t uavoMavlinkBridgeStart(void) {
 static int32_t uavoMavlinkBridgeInitialize(void) {
 	mavlink_port = PIOS_COM_MAVLINK;
 
-	ModuleSettingsInitialize();
 	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
 	ModuleSettingsStateGet(module_state);
 	if (mavlink_port

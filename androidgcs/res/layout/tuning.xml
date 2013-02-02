@@ -57,6 +57,21 @@
                 android:layout_height="wrap_content"
                 setting_attributes:setting_name="Pitch Kp"
                 setting_attributes:max_value="5" />
+            
+            <org.taulabs.androidgcs.views.ScrollBarView
+                android:id="@+id/rollRateKd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                setting_attributes:setting_name="Roll Rate Kd"
+                setting_attributes:max_value="0.001" />
+
+            <org.taulabs.androidgcs.views.ScrollBarView
+                android:id="@+id/pitchRateKd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                setting_attributes:setting_name="Pitch Rate Kd"
+                setting_attributes:max_value="0.001" />
+
         </LinearLayout>
     </ScrollView>
 
