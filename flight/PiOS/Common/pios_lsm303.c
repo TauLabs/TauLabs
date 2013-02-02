@@ -205,10 +205,14 @@ static void PIOS_LSM303_Config(struct pios_lsm303_cfg const * cfg)
 	// Set INT1 to go high on data ready
 	while (PIOS_LSM303_Accel_SetReg(PIOS_LSM303_CTRL_REG3_A, PIOS_LSM303_CTRL3_I1_DRDY1) != 0);
 
+	// Set High Resolution mode
+	while (PIOS_LSM303_Accel_SetReg(PIOS_LSM303_CTRL_REG4_A, PIOS_LSM303_CTRL4_HR) != 0);
+
 	// Set the accel scale
 	PIOS_LSM303_Accel_SetRange(PIOS_LSM303_ACCEL_8G);
 
 	// Enabling the FIFO reduces resolution to 10-bits. It's default behaviour is disabled.
+	// This was found through trial and error. Is not documented in datasheet. 
 	// Enable FIFO
 	//while (PIOS_LSM303_Accel_SetReg(PIOS_LSM303_CTRL_REG5_A, PIOS_LSM303_CTRL5_FIFO_EN) != 0);
 
@@ -465,8 +469,13 @@ void PIOS_LSM303_Accel_SetRange(enum pios_lsm303_accel_range accel_range)
 {
 	if (PIOS_LSM303_Validate(dev) != 0)
 		return;
+	uint8_t buf;
+	PIOS_LSM303_Accel_Read(PIOS_LSM303_CTRL_REG4_A, &buf, 1);
 
-	while (PIOS_LSM303_Accel_SetReg(PIOS_LSM303_CTRL_REG4_A, accel_range | PIOS_LSM303_CTRL4_HR) != 0);
+	// We reset the scale bits, so when OR'ing new value it won't get OR'd with old scale
+	buf &= 0xCF;
+
+	while (PIOS_LSM303_Accel_SetReg(PIOS_LSM303_CTRL_REG4_A, accel_range | buf) != 0);
 	dev->accel_range = accel_range;
 }
 
