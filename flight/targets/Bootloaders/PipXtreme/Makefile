@@ -47,8 +47,6 @@ else
 REMOVE_CMD = rm
 endif
 
-FLASH_TOOL = OPENOCD
-
 # Paths
 OPSYSTEM = .
 OPSYSTEMINC = $(OPSYSTEM)/inc

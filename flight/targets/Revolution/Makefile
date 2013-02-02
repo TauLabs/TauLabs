@@ -42,8 +42,6 @@ else
 REMOVE_CMD = rm
 endif
 
-FLASH_TOOL = OPENOCD
-
 # Optional module and driver defaults
 USE_COMUSBBRIDGE ?= NO
 USE_TXPID ?= NO

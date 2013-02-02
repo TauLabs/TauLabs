@@ -61,8 +61,6 @@ else
 REMOVE_CMD = rm
 endif
 
-FLASH_TOOL = OPENOCD
-
 NAVIGATION ?= NO
 
 # Optional module and driver defaults

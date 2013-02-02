@@ -40,8 +40,6 @@ else
 REMOVE_CMD = rm
 endif
 
-FLASH_TOOL = OPENOCD
-
 # Optional module and driver defaults
 USE_CAMERASTAB ?= NO
 USE_COMUSBBRIDGE ?= NO

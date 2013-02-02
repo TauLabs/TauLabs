@@ -9,7 +9,7 @@
 # @brief Makefile to build firmware for the Quanton board.
 ###############################################################################
 #
-# This program is free software; you can redistribute it and/or modify
+# This f is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 3 of the License, or
 # (at your option) any later version.
@@ -41,8 +41,6 @@ REMOVE_CMD = cs-rm
 else
 REMOVE_CMD = rm
 endif
-
-FLASH_TOOL = OPENOCD
 
 # List of modules to include
 MODULES = Sensors
