@@ -208,11 +208,12 @@ static void PIOS_LSM303_Config(struct pios_lsm303_cfg const * cfg)
 	// Set the accel scale
 	PIOS_LSM303_Accel_SetRange(PIOS_LSM303_ACCEL_8G);
 
+	// Enabling the FIFO reduces resolution to 10-bits. It's default behaviour is disabled.
 	// Enable FIFO
-	while (PIOS_LSM303_Accel_SetReg(PIOS_LSM303_CTRL_REG5_A, PIOS_LSM303_CTRL5_FIFO_EN) != 0);
+	//while (PIOS_LSM303_Accel_SetReg(PIOS_LSM303_CTRL_REG5_A, PIOS_LSM303_CTRL5_FIFO_EN) != 0);
 
 	// Fifo stream mode
-	while (PIOS_LSM303_Accel_SetReg(PIOS_LSM303_FIFO_CTRL_REG_A, PIOS_LSM303_FIFO_MODE_STREAM) != 0);
+	//while (PIOS_LSM303_Accel_SetReg(PIOS_LSM303_FIFO_CTRL_REG_A, PIOS_LSM303_FIFO_MODE_STREAM) != 0);
 
 	/*
 	 * mag
@@ -465,7 +466,7 @@ void PIOS_LSM303_Accel_SetRange(enum pios_lsm303_accel_range accel_range)
 	if (PIOS_LSM303_Validate(dev) != 0)
 		return;
 
-	while (PIOS_LSM303_Accel_SetReg(PIOS_LSM303_CTRL_REG4_A, accel_range) != 0);
+	while (PIOS_LSM303_Accel_SetReg(PIOS_LSM303_CTRL_REG4_A, accel_range | PIOS_LSM303_CTRL4_HR) != 0);
 	dev->accel_range = accel_range;
 }
 
