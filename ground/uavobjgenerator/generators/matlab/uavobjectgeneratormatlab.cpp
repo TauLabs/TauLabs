@@ -64,7 +64,7 @@ bool UAVObjectGeneratorMatlab::generate(UAVObjectParser* parser,QString template
     matlabCodeTemplate.replace( QString("$(ALLOCATIONCODE)"), matlabAllocationCode);
     matlabCodeTemplate.replace( QString("$(EXPORTCSVCODE)"), matlabExportCsvCode);
 
-    bool res = writeFile( matlabOutputPath.absolutePath() + "/OPLogConvert.m.pass1", matlabCodeTemplate );
+    bool res = writeFile( matlabOutputPath.absolutePath() + "/LogConvert.m.pass1", matlabCodeTemplate );
     if (!res) {
         cout << "Error: Could not write output files" << endl;
         return false;

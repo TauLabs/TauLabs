@@ -305,15 +305,15 @@ $(MATLAB_OUT_DIR):
 	$(V1) mkdir -p $@
 
 FORCE:
-$(MATLAB_OUT_DIR)/OPLogConvert.m: $(MATLAB_OUT_DIR) uavobjects_matlab FORCE
+$(MATLAB_OUT_DIR)/LogConvert.m: $(MATLAB_OUT_DIR) uavobjects_matlab FORCE
 	$(V1) python $(ROOT_DIR)/make/scripts/version-info.py \
 		--path=$(ROOT_DIR) \
-		--template=$(BUILD_DIR)/uavobject-synthetics/matlab/OPLogConvert.m.pass1 \
+		--template=$(BUILD_DIR)/uavobject-synthetics/matlab/LogConvert.m.pass1 \
 		--outfile=$@ \
 		--uavodir=$(ROOT_DIR)/shared/uavobjectdefinition
 
 .PHONY: matlab
-matlab: uavobjects_matlab $(MATLAB_OUT_DIR)/OPLogConvert.m
+matlab: uavobjects_matlab $(MATLAB_OUT_DIR)/LogConvert.m
 
 ################################
 #
@@ -463,14 +463,14 @@ $$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/matlab: $$(UAVO_COLLECTION_DIR)/$(1)/u
 	)
 
 # Build a jar file for this UAVO collection
-$$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/OPLogConvert.m: $$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/matlab
+$$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/LogConvert.m: $$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/matlab
 	$$(V0) @echo " UAVOMAT   $(1)   " $$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash)
 	$$(V1) ( \
 		HASH=$$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash) && \
 		cd $$(UAVO_COLLECTION_DIR)/$(1)/matlab-build && \
 		python $(ROOT_DIR)/make/scripts/version-info.py \
 			--path=$$(ROOT_DIR) \
-			--template=$$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/matlab/OPLogConvert.m.pass1 \
+			--template=$$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/matlab/LogConvert.m.pass1 \
 		--outfile=$$@ \
 		--uavodir=$$(UAVO_COLLECTION_DIR)/$(1)/uavo-xml/shared/uavobjectdefinition \
 	)
@@ -487,7 +487,7 @@ $(foreach githash, $(UAVO_ALL_VERSIONS), $(eval $(call UAVO_COLLECTION_BUILD_TEM
 uavo-collections_java: $(foreach githash, $(UAVO_ALL_VERSIONS), $(UAVO_COLLECTION_DIR)/$(githash)/java-build/uavobjects.jar)
 
 .PHONY: uavo-collections_matlab
-uavo-collections_matlab: $(foreach githash, $(UAVO_ALL_VERSIONS), $(UAVO_COLLECTION_DIR)/$(githash)/matlab-build/OPLogConvert.m)
+uavo-collections_matlab: $(foreach githash, $(UAVO_ALL_VERSIONS), $(UAVO_COLLECTION_DIR)/$(githash)/matlab-build/LogConvert.m)
 
 .PHONY: uavo-collections
 uavo-collections: uavo-collections_java
