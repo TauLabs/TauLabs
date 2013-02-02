@@ -368,7 +368,7 @@ androidgcs_clean:
 #
 # Find the git hashes of each commit that changes uavobjects with:
 #   git log --format=%h -- shared/uavobjectdefinition/ | head -n 2
-UAVO_GIT_VERSIONS := 93c76ec4 33e3552fe55ebca
+UAVO_GIT_VERSIONS := next 
 
 # All versions includes a pseudo collection called "working" which represents
 # the UAVOs in the source tree
