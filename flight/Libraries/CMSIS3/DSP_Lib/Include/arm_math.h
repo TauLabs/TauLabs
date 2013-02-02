@@ -264,6 +264,9 @@
 #include "core_cm3.h"
 #elif defined (ARM_MATH_CM0)
 #include "core_cm0.h"
+#elif defined (ARM_MATH_SIM)
+#include "core_sim.h"
+#define ARM_MATH_CM0
 #else
 #include "ARMCM4.h"
 #warning "Define either ARM_MATH_CM4 OR ARM_MATH_CM3...By Default building on ARM_MATH_CM4....."
