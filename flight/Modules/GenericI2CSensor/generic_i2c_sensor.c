@@ -65,7 +65,6 @@ static int32_t GenericI2CSensorStart(void)
 */
 static int32_t GenericI2CSensorInitialize(void)
 {
-	ModuleSettingsInitialize();
 
 #ifdef MODULE_GenericI2CSensor_BUILTIN
 	module_enabled = true;

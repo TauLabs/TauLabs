@@ -82,7 +82,6 @@ int32_t BatteryInitialize(void)
 #ifdef MODULE_BATTERY_BUILTIN
 	module_enabled = true;
 #else
-	ModuleSettingsInitialize();
 	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
 	ModuleSettingsStateGet(module_state);
 	if (module_state[MODULESETTINGS_STATE_BATTERY] == MODULESETTINGS_STATE_ENABLED) {
