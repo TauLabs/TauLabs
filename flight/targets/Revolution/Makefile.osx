@@ -146,6 +146,10 @@ FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
 UAVOBJSYNTHDIR = $(OUTDIR)/../uavobject-synthetics/flight
 UAVOBJPYTHONSYNTHDIR = $(OUTDIR)/../uavobject-synthetics/python
 
+SRC = 
+# optional component libraries
+include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
+
 # List C source files here. (C dependencies are automatically generated.)
 # use file-extension c for "c-only"-files
 
@@ -317,6 +321,11 @@ endif
 
 # Make sure the build knows we're building a sim version
 CDEFS += -DSIM_OSX
+
+# configure CMSIS DSP Library
+CDEFS += -DARM_MATH_SIM
+CDEFS += -DARM_MATH_MATRIX_CHECK
+CDEFS += -DARM_MATH_ROUNDING
 
 # Declare all non-optional modules as built-in to force inclusion
 get_mod_name = $(shell echo $(1) | sed "s/\/[^\/]*$///")
