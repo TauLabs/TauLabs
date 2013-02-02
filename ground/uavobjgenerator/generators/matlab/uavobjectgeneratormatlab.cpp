@@ -148,7 +148,7 @@ bool UAVObjectGeneratorMatlab::process_object(ObjectInfo* info, int numBytes)
     //Add timestamp
     allocationFields.append("\t" + objectName + ".timestamp = " +
                       "double(typecast(buffer(mcolon(" + objectName + "FidIdx "
-                      "- 20, " + objectName + "FidIdx + 4-1 -20)), 'uint32'))';\n");
+                      "+ timestampOffset, " + objectName + "FidIdx+ timestampLength-1 +timestampOffset)), timestampType))';\n");
 
     int currentIdx=0;
 

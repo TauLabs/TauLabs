@@ -95,28 +95,81 @@ last_print = -1e10;
 
 startTime=clock;
 
+% default to expecting GCS logs
+overo = false;
+
+% Set where the timestamp is and how it is formatted (relative to data)
+if overo
+    timestampOffset = -2;
+    timestampLength = 2;
+    timestampType = 'uint16';
+else
+    timestampOffset = -20;
+    timestampLength = 4;
+    timestampType = 'uint32';
+end
+
 while (1)
 	%% Read message header
 	% get sync field (0x3C, 1 byte)
-	sync = buffer(bufferIdx+12);
+    if ~overo
+        sync = buffer(bufferIdx+12);
+    else
+        sync = buffer(bufferIdx);
+    end
 	
-	
-	if buffer(bufferIdx+12) ~= correctSyncByte
+	if sync ~= correctSyncByte
 		bufferIdx=bufferIdx+1;
 		wrongSyncByte = wrongSyncByte + 1;
 		continue
-	end
+    end
 	
-  	%% Process header, if we are aligned
-% 	timestamp = typecast(buffer(bufferIdx:bufferIdx + 4-1), 'uint32'); %We do this one later
-	datasizeBufferIdx = bufferIdx; %Just grab the index. We'll do a typecast later, if necessary
-% 	sync = buffer(bufferIdx+12); %This one has already been done
-	msgType = buffer(bufferIdx+13); % get msg type (quint8 1 byte ) should be 0x20, ignore the rest?
-% 	msgSize = typecast(buffer(bufferIdx+14:bufferIdx+ 14+2-1), 'uint16'); % NOT USED: get msg size (quint16 2 bytes) excludes crc, include msg header and data payload
-	objID = typecast(buffer(bufferIdx+16:bufferIdx+ 16+4-1), 'uint32'); % get obj id (quint32 4 bytes)
+    if ~overo
+        % For GCS logging the format is as follows
+        % 4 bytes timestamp (milliseconds)
+        % 8 bytes data size
+        % UAVTalk packet (always without timestamped packets)
+        %     Sync val (0x3c)
+        %     Message type (1 byte)
+        %     Length (2 bytes)
+        %     Object ID (4 bytes)
+        %     Instance ID (optional, 4 bytes)
+        %     Data (variable length)
+        %     Checksum (1 byte)
+      	
+        % Process header, if we are aligned        
+        datasizeBufferIdx = bufferIdx; %Just grab the index. We'll do a typecast later, if necessary
+        datasizeLength = 4;
+        msgType = buffer(bufferIdx+13); % get msg type (quint8 1 byte ) should be 0x20, ignore the rest?
+        objID = typecast(buffer(bufferIdx+16:bufferIdx+ 16+4-1), 'uint32'); % get obj id (quint32 4 bytes)
 
-	%Advance buffer past header
-	bufferIdx=bufferIdx+20;
+        % Advance buffer past header to where data is (or instance ID)
+        bufferIdx=bufferIdx + 20;
+    else
+        % For Overo logging the format is
+        % UAVTalk packet (with timestamped packet)
+        %     Sync val (0x3c)
+        %     Message type (1 byte, adds 0x80)
+        %     Length (2 bytes)
+        %     Object ID (4 bytes)
+        %     Instance ID (optional, 4 bytes)
+        %     Timestamp (2 bytes)
+        %     Data (variable length)
+        %     Checksum (1 byte)
+    
+        % Process header for overo
+        datasizeBufferIdx = bufferIdx + 2;
+        datasizeLength = 2;
+        msgType = buffer(bufferIdx+1) - 128;
+        objID = typecast(buffer(bufferIdx+4:bufferIdx+ 4+4-1), 'uint32');
+    
+        % Advance buffer past header to where data is (or instance ID)
+        bufferIdx = bufferIdx + 8;
+        
+        % Cheat right now because data is two further back for overo
+        % with the timestamp
+        bufferIdx = bufferIdx + 2;
+    end
 
 	%Check that message type is correct
 	if msgType ~= correctMsgByte
