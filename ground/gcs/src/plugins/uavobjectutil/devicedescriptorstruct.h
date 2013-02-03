@@ -12,7 +12,7 @@ public:
        QByteArray uavoHash;
        int boardType;
        int boardRevision;
-       static QString idToBoardName(int id)
+       static QString idToBoardName(quint16 id)
        {
            switch (id) {
            case 0x0101://MB
