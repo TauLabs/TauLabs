@@ -1,5 +1,5 @@
-BOARD_TYPE          := 0x09		# necessary to match revo to get proper tabs in gcs
-BOARD_REVISION      := 0x04		# necessary to select sensors in sensors module
+BOARD_TYPE          := 0x83
+BOARD_REVISION      := 0x01
 BOOTLOADER_VERSION  := 0x01
 HW_TYPE             := 0x00		# seems to be unused
 
