@@ -107,7 +107,7 @@ namespace OP_DFU {
 
     struct device
     {
-            int ID;
+            quint16 ID;
             quint32 FW_CRC;
             int BL_Version;
             int SizeOfDesc;
