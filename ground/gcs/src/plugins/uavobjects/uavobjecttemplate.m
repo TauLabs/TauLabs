@@ -1,4 +1,4 @@
-function [] = OPLogConvert(varargin)
+function [] = LogConvert(varargin)
 % Convert log files into matlab structures
 %
 % If called with no arguements this function will present a
@@ -6,7 +6,7 @@ function [] = OPLogConvert(varargin)
 % process that file name.
 %
 % To process Overo files call with
-% OPLogConvert(path_to_file, true)
+% LogConvert(path_to_file, true)
 %
 % Tau Labs (C) 2012-2013
 
@@ -55,7 +55,7 @@ crc_table = [ ...
 if nargin==0
 	%%
 	if (exist('uigetfile')) %#ok<EXIST>
-		[FileName, PathName]=uigetfile('*.opl');
+		[FileName, PathName]=uigetfile('*.tll');
 		logfile=fullfile(PathName, FileName);
 		
 	else
@@ -119,7 +119,7 @@ else
 end
 
 timestampAccumulator = 0;
-lastTimestamp = [];
+lastTimestamp = 0;
 
 while bufferIdx < (length(buffer) - 20)
 	%% Read message header
@@ -190,7 +190,7 @@ while bufferIdx < (length(buffer) - 20)
 
     end
 
-	if ~isempty(lastTimestamp) && timestamp < lastTimestamp
+	if timestamp < lastTimestamp
 		timestampAccumulator = timestampAccumulator + timestampWraparound;
 	end
 	lastTimestamp = timestamp;    
