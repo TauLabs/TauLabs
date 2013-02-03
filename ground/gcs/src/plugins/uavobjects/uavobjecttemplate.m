@@ -124,77 +124,77 @@ lastTimestamp = [];
 while bufferIdx < (length(buffer) - 20)
 	%% Read message header
 	% get sync field (0x3C, 1 byte)
-    if ~overo
-        sync = buffer(bufferIdx+12);
-    else
-        sync = buffer(bufferIdx);
-    end
+	if ~overo
+		sync = buffer(bufferIdx+12);
+	else
+		sync = buffer(bufferIdx);
+	end
 	
 	if sync ~= correctSyncByte
 		bufferIdx=bufferIdx+1;
 		wrongSyncByte = wrongSyncByte + 1;
 		continue
-    end
+	end
 	
-    if ~overo
-        % For GCS logging the format is as follows
-        % 4 bytes timestamp (milliseconds)
-        % 8 bytes data size
-        % UAVTalk packet (always without timestamped packets)
-        %     Sync val (0x3c)
-        %     Message type (1 byte)
-        %     Length (2 bytes)
-        %     Object ID (4 bytes)
-        %     Instance ID (optional, 2 bytes)
-        %     Data (variable length)
-        %     Checksum (1 byte)
-      	
-        % Process header, if we are aligned        
-        datasizeBufferIdx = bufferIdx; %Just grab the index. We'll do a typecast later, if necessary
-        datasizeLength = 4;
-        msgType = buffer(bufferIdx+13); % get msg type (quint8 1 byte ) should be 0x20, ignore the rest?
-        objID = typecast(buffer(bufferIdx+16:bufferIdx+ 16+4-1), 'uint32'); % get obj id (quint32 4 bytes)
-        timestamp = double(typecast(buffer(bufferIdx:bufferIdx+4-1),'uint32'));
+	if ~overo
+		% For GCS logging the format is as follows
+		% 4 bytes timestamp (milliseconds)
+		% 8 bytes data size
+		% UAVTalk packet (always without timestamped packets)
+		%     Sync val (0x3c)
+		%     Message type (1 byte)
+		%     Length (2 bytes)
+		%     Object ID (4 bytes)
+		%     Instance ID (optional, 2 bytes)
+		%     Data (variable length)
+		%     Checksum (1 byte)
+	
+		% Process header, if we are aligned        
+		datasizeBufferIdx = bufferIdx; %Just grab the index. We'll do a typecast later, if necessary
+		datasizeLength = 4;
+		msgType = buffer(bufferIdx+13); % get msg type (quint8 1 byte ) should be 0x20, ignore the rest?
+		objID = typecast(buffer(bufferIdx+16:bufferIdx+ 16+4-1), 'uint32'); % get obj id (quint32 4 bytes)
+		timestamp = double(typecast(buffer(bufferIdx:bufferIdx+4-1),'uint32'));
 
-        % Advance buffer past header to where data is (or instance ID)
-        bufferIdx=bufferIdx + 20;
-    else
-        % For Overo logging the format is
-        % UAVTalk packet (with timestamped packet)
-        %     Sync val (0x3c)
-        %     Message type (1 byte, adds 0x80)
-        %     Length (2 bytes)
-        %     Object ID (4 bytes)
-        %     Instance ID (optional, 2 bytes)
-        %     Timestamp (2 bytes)
-        %     Data (variable length)
-        %     Checksum (1 byte)
+		% Advance buffer past header to where data is (or instance ID)
+		bufferIdx=bufferIdx + 20;
+	else
+		% For Overo logging the format is
+		% UAVTalk packet (with timestamped packet)
+		%     Sync val (0x3c)
+		%     Message type (1 byte, adds 0x80)
+		%     Length (2 bytes)
+		%     Object ID (4 bytes)
+		%     Instance ID (optional, 2 bytes)
+		%     Timestamp (2 bytes)
+		%     Data (variable length)
+		%     Checksum (1 byte)
     
-        % Process header for overo
-        datasizeBufferIdx = bufferIdx + 2;
-        datasizeLength = 2;
-        msgType = buffer(bufferIdx+1) - 128;
-        objID = typecast(buffer(bufferIdx+4:bufferIdx+ 4+4-1), 'uint32');
+		% Process header for overo
+		datasizeBufferIdx = bufferIdx + 2;
+		datasizeLength = 2;
+		msgType = buffer(bufferIdx+1) - 128;
+		objID = typecast(buffer(bufferIdx+4:bufferIdx+ 4+4-1), 'uint32');
         
-        singleInstance = multipleInstanceLookup(multipleInstanceLookup(:,1) == objID, 2);
-        if singleInstance
-            timestamp = double(typecast(buffer(bufferIdx+8:bufferIdx+10-1),'uint16'));
-        else
-            timestamp = double(typecast(buffer(bufferIdx+12:bufferIdx+14-1),'uint16'));
-        end
+		singleInstance = multipleInstanceLookup(multipleInstanceLookup(:,1) == objID, 2);
+		if singleInstance
+			timestamp = double(typecast(buffer(bufferIdx+8:bufferIdx+10-1),'uint16'));
+		else
+			timestamp = double(typecast(buffer(bufferIdx+12:bufferIdx+14-1),'uint16'));
+		end
         
-        % Advance buffer past header to where data is.  In the case of a
-        % multiple instance object this will be where the timstamp is but
-        % the parsing code will advance by two more.
-        bufferIdx = bufferIdx + 10;
+		% Advance buffer past header to where data is.  In the case of a
+		% multiple instance object this will be where the timstamp is but
+		% the parsing code will advance by two more.
+		bufferIdx = bufferIdx + 10;
 
     end
 
-    if ~isempty(lastTimestamp) && timestamp < lastTimestamp
-        timestampAccumulator = timestampAccumulator + timestampWraparound;
-    end
-    lastTimestamp = timestamp;    
-    timestamp = timestamp + timestampAccumulator;
+	if ~isempty(lastTimestamp) && timestamp < lastTimestamp
+		timestampAccumulator = timestampAccumulator + timestampWraparound;
+	end
+	lastTimestamp = timestamp;    
+	timestamp = timestamp + timestampAccumulator;
 
 	%Check that message type is correct
 	if msgType ~= correctMsgByte
@@ -202,7 +202,7 @@ while bufferIdx < (length(buffer) - 20)
 		continue
 	end
 	
-	if (isempty(objID)) 	%End of file
+	if (isempty(objID))	%End of file
 		break;
 	end
 	
@@ -246,7 +246,7 @@ $(SWITCHCODE)
 		
 		str4=sprintf('Completed bytes: % 9d of % 9d\n', bufferIdx, length(buffer));
 		
-	        % Arbitrary times two so that it is at least as long	
+		% Arbitrary times two so that it is at least as long	
 		estTimeRemaining=(length(buffer)-bufferIdx)/(bufferIdx/etime(clock,startTime)) * 2;
 		h=floor(estTimeRemaining/3600);
 		m=floor((estTimeRemaining-h*3600)/60);
@@ -263,7 +263,7 @@ $(SWITCHCODE)
 	if bufferIdx+12-1 > length(buffer)
 		break;
 	end
-% 	bufferIdx=bufferIdx+12;
+%	bufferIdx=bufferIdx+12;
 
 end
 
