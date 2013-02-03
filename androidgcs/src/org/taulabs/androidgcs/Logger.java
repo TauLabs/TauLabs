@@ -24,18 +24,23 @@
 package org.taulabs.androidgcs;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.FilenameFilter;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.taulabs.androidgcs.R;
+import org.taulabs.androidgcs.telemetry.OPTelemetryService.TelemTask;
+import org.taulabs.androidgcs.telemetry.tasks.LoggingTask;
 import org.taulabs.uavtalk.UAVObject;
-import org.taulabs.uavtalk.UAVTalk;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
@@ -46,122 +51,82 @@ public class Logger extends ObjectManagerActivity {
 	final boolean VERBOSE = false;
 	final boolean DEBUG = true;
 
-	private File file;
-	private boolean logging;
-	private FileOutputStream fileStream;
-	private UAVTalk uavTalk;
-
 	private int writtenBytes;
 	private int writtenObjects;
+
+	private final List<String> fileList = new ArrayList<String>();
+	private File[] fileArray;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.logger);
-	}
 
-	private void onStartLogging() {
-
-		File root = Environment.getExternalStorageDirectory();
-
-		Date d = new Date();
-		String date = (new SimpleDateFormat("yyyyMMdd_hhmmss")).format(d);
-		String fileName = "/logs/logs_" + date + ".opl";
-
-		file = new File(root, fileName);
-		if (DEBUG) Log.d(TAG, "Trying for file: " + file.getAbsolutePath());
-		try {
-			if (root.canWrite()){
-				fileStream = new FileOutputStream(file);
-				uavTalk = new UAVTalk(null, fileStream, objMngr);
-				logging = true;
-				writtenBytes = 0;
-				writtenObjects = 0;
-			} else {
-				Log.e(TAG, "Unwriteable address");
-			}
-		} catch (IOException e) {
-			Log.e(TAG, "Could not write file " + e.getMessage());
+		fileList.clear();
+		fileArray = getLogFiles();
+		if (fileArray != null) {
+			for(File file : fileArray)
+				fileList.add(file.getName());
 		}
 
-		// TODO: if logging succeeded then retrieve all settings
+		ArrayAdapter<String> logFileListAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1, fileList);
+		getFileListView().setAdapter(logFileListAdapter);
+
+		getFileListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		    @Override
+			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+		    	Log.d(TAG, fileArray[position].getAbsolutePath());
+
+		    	Intent intent = new Intent(Intent.ACTION_SEND);
+	               intent.setType("application/octet-stream");
+	               intent.putExtra(Intent.EXTRA_EMAIL, "noreply@taulabs");
+	               intent.putExtra(Intent.EXTRA_SUBJECT, "Tau Labs log file");
+	               intent.putExtra(Intent.EXTRA_TEXT, fileArray[position].getName());
+	               intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://"+ fileArray[position].getAbsolutePath()));
+	               startActivity(Intent.createChooser(intent, "Choice app to send file:"));
+		    }
+		});
+
 	}
 
-	private void onStopLogging() {
-		if (DEBUG) Log.d(TAG, "Stop logging");
-		logging = false;
-		try {
-			fileStream.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	//! Return the file list view
+	private ListView getFileListView() {
+		return (ListView) findViewById(R.id.logger_file_list);
 	}
 
 	@Override
 	void onOPConnected() {
 		super.onOPConnected();
 
-		if (DEBUG) Log.d(TAG, "onOPConnected()");
-		onStartLogging();
-		registerObjectUpdates(objMngr.getObjects());
-	}
-
-	@Override
-	void onOPDisconnected() {
-		if (DEBUG) Log.d(TAG, "onOPDisconnected()");
-		onStopLogging();
-	}
-
-	@Override
-	public void onPause()
-	{
-	    super.onPause();
-	    onStopLogging();
-	}
-
-	@Override
-	public void onResume()
-	{
-	    super.onResume();
-	    onStartLogging();
-	}
-	/**
-	 * Called whenever any objects subscribed to via registerObjects
-	 */
-	@Override
-	protected void objectUpdated(UAVObject obj) {
-		if (logging) {
-			if (VERBOSE) Log.v(TAG,"Updated: " + obj.toString());
-			try {
-				long time = System.currentTimeMillis();
-				fileStream.write((byte)(time & 0xff));
-				fileStream.write((byte)((time & 0x0000ff00) >> 8));
-				fileStream.write((byte)((time & 0x00ff0000) >> 16));
-				fileStream.write((byte)((time & 0xff000000) >> 24));
-
-				long size = obj.getNumBytes();
-				fileStream.write((byte)(size & 0x00000000000000ffl) >> 0);
-				fileStream.write((byte)(size & 0x000000000000ff00l) >> 8);
-				fileStream.write((byte)(size & 0x0000000000ff0000l) >> 16);
-				fileStream.write((byte)(size & 0x00000000ff000000l) >> 24);
-				fileStream.write((byte)(size & 0x000000ff00000000l) >> 32);
-				fileStream.write((byte)(size & 0x0000ff0000000000l) >> 40);
-				fileStream.write((byte)(size & 0x00ff000000000000l) >> 48);
-				fileStream.write((byte)(size & 0xff00000000000000l) >> 56);
-
-				uavTalk.sendObject(obj, false, false);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			writtenBytes += obj.getNumBytes();
-			writtenObjects ++;
-
-			((TextView) findViewById(R.id.logger_number_of_bytes)).setText(Integer.valueOf(writtenBytes).toString());
-			((TextView) findViewById(R.id.logger_number_of_objects)).setText(Integer.valueOf(writtenObjects).toString());
+		UAVObject stats = objMngr.getObject("FlightTelemetryStats");
+		if (stats != null) {
+			registerObjectUpdates(stats);
 		}
 	}
+
+	@Override
+	public void objectUpdated(UAVObject obj) {
+		TelemTask task = binder.getTelemTask(0);
+		LoggingTask logger = task.getLoggingTask();
+		writtenBytes = logger.getWrittenBytes();
+		writtenObjects = logger.getWrittenObjects();
+		((TextView) findViewById(R.id.logger_number_of_bytes)).setText(Integer.valueOf(writtenBytes).toString());
+		((TextView) findViewById(R.id.logger_number_of_objects)).setText(Integer.valueOf(writtenObjects).toString());
+	}
+
+	private File[] getLogFiles() {
+		File root = Environment.getExternalStorageDirectory();
+		File logDirectory = new File(root, "/TauLabs");
+		return logDirectory.listFiles(new FilenameFilter() {
+
+			@Override
+			public boolean accept(File dir, String filename) {
+				return filename.contains(".opl");
+			}
+		});
+	}
+
+
 }

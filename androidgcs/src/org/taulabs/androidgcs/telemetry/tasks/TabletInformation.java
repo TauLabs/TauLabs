@@ -21,14 +21,13 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-package org.taulabs.androidgcs.telemetry;
+package org.taulabs.androidgcs.telemetry.tasks;
 
 import org.taulabs.uavtalk.UAVObject;
 import org.taulabs.uavtalk.UAVObjectField;
 import org.taulabs.uavtalk.UAVObjectManager;
 
 import android.content.Context;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -39,32 +38,27 @@ public class TabletInformation {
 	@SuppressWarnings("unused")
 	private final static String TAG = TabletInformation.class.getSimpleName();
 
-	private final UAVObjectManager objMngr;
-	private final LocationManager locationManager;
+	private UAVObjectManager objMngr;
+	private LocationManager locationManager;
 
-	public TabletInformation(UAVObjectManager objMngr, Context service) {
+	public TabletInformation() {}
+
+	public void connect(UAVObjectManager objMngr, Context service) {
 
 		this.objMngr = objMngr;
 
 		locationManager = (LocationManager)service.getSystemService(Context.LOCATION_SERVICE);
 
-		Criteria criteria = new Criteria();
-		criteria.setAccuracy(Criteria.ACCURACY_FINE);
-		criteria.setAltitudeRequired(false);
-		criteria.setBearingRequired(false);
-		criteria.setCostAllowed(true);
-		criteria.setPowerRequirement(Criteria.POWER_LOW);
-
-		String provider = locationManager.getBestProvider(criteria, true);
-
-		locationManager.requestLocationUpdates(provider,
+		Log.d(TAG, "Connecting to location updates");
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 1000, // 1 second
-                100,   // 1km
+                0,    // 1 m
                 locationListener);
 	}
 
-	public void stop() {
-		locationManager.removeUpdates(locationListener);
+	public void disconnect() {
+		if (locationManager != null)
+			locationManager.removeUpdates(locationListener);
 	}
 
 	LocationListener locationListener = new LocationListener() {
@@ -96,25 +90,27 @@ public class TabletInformation {
 			else
 				field.setValue("NAN");
 
+			field = obj.getField("TabletModeDesired");
+			if (field != null) {
+				field.setValue("CameraPOI");
+			}
+
 			obj.updated();
 		}
 
 		@Override
 		public void onProviderDisabled(String provider) {
-			// TODO Auto-generated method stub
-
+			Log.d(TAG, "Provider disabled");
 		}
 
 		@Override
 		public void onProviderEnabled(String provider) {
-			// TODO Auto-generated method stub
-
+			Log.d(TAG, "Provider enabled");
 		}
 
 		@Override
 		public void onStatusChanged(String provider, int status, Bundle extras) {
-			// TODO Auto-generated method stub
-
+			Log.d(TAG, "Status changed");
 		}
 
 	};

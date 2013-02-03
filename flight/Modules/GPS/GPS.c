@@ -128,8 +128,6 @@ int32_t GPSInitialize(void)
 	gpsPort = PIOS_COM_GPS;
 	uint8_t	gpsProtocol;
 
-	ModuleSettingsInitialize();
-
 #ifdef MODULE_GPS_BUILTIN
 	module_enabled = true;
 #else
@@ -172,7 +170,6 @@ int32_t GPSInitialize(void)
 #endif
 
 	if (gpsPort && module_enabled) {
-		ModuleSettingsInitialize();
 		ModuleSettingsGPSDataProtocolGet(&gpsProtocol);
 		switch (gpsProtocol) {
 			case MODULESETTINGS_GPSDATAPROTOCOL_NMEA:
