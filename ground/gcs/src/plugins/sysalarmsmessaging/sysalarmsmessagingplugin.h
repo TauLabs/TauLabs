@@ -59,6 +59,7 @@ private:
     QMap<QString,GlobalMessage*> warningMessages;
 private slots:
     void updateAlarms(UAVObject*);
+    void onAutopilotDisconnect();
 
 };
 
