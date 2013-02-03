@@ -64,7 +64,7 @@ bool UAVObjectGeneratorMatlab::generate(UAVObjectParser* parser,QString template
     matlabCodeTemplate.replace( QString("$(ALLOCATIONCODE)"), matlabAllocationCode);
     matlabCodeTemplate.replace( QString("$(EXPORTCSVCODE)"), matlabExportCsvCode);
 
-    bool res = writeFile( matlabOutputPath.absolutePath() + "/OPLogConvert.m.pass1", matlabCodeTemplate );
+    bool res = writeFile( matlabOutputPath.absolutePath() + "/LogConvert.m.pass1", matlabCodeTemplate );
     if (!res) {
         cout << "Error: Could not write output files" << endl;
         return false;
@@ -116,7 +116,7 @@ bool UAVObjectGeneratorMatlab::process_object(ObjectInfo* info, int numBytes)
     matlabInstantiationCode.append("\t" + objectTableName.toUpper() + "_OBJID=" + objectID + ";\n");
     matlabInstantiationCode.append("\t" + objectTableName.toUpper() + "_NUMBYTES=" + numBytesString + ";\n");
     matlabInstantiationCode.append("\t" + objectName + "FidIdx = [];\n");
-
+    matlabInstantiationCode.append("\n\tmultipleInstanceLookup(end+1,:) = [" + objectID + ", " + (info->isSingleInst ? "true" : "false") + "];\n");
 
     //==============================================================//
     // Generate 'Switch:' code (will replace the $(SWITCHCODE) tag) //
@@ -124,6 +124,7 @@ bool UAVObjectGeneratorMatlab::process_object(ObjectInfo* info, int numBytes)
     matlabSwitchCode.append("\t\tcase " + objectTableName.toUpper() + "_OBJID\n");
     matlabSwitchCode.append("\t\t\t" + tableIdxName + " = " + tableIdxName +" + 1;\n");
     matlabSwitchCode.append("\t\t\t" + objectTableName + "FidIdx(" + tableIdxName + ") = bufferIdx; %#ok<*AGROW>\n");
+    matlabSwitchCode.append("\t\t\t" + objectTableName + ".timestamp(" + tableIdxName + ") = timestamp; %#ok<*AGROW>\n");
     matlabSwitchCode.append("\t\t\tbufferIdx=bufferIdx + " +  objectTableName.toUpper() + "_NUMBYTES+1; %+1 is for CRC\n");
     if(!info->isSingleInst){
         matlabSwitchCode.append("\t\t\tbufferIdx = bufferIdx + 2; %An extra two bytes for the instance ID\n");
@@ -145,18 +146,13 @@ bool UAVObjectGeneratorMatlab::process_object(ObjectInfo* info, int numBytes)
     matlabAllocationCode.append("% " + objectName + " typecasting\n");
     QString allocationFields;
 
-    //Add timestamp
-    allocationFields.append("\t" + objectName + ".timestamp = " +
-                      "double(typecast(buffer(mcolon(" + objectName + "FidIdx "
-                      "- 20, " + objectName + "FidIdx + 4-1 -20)), 'uint32'))';\n");
-
     int currentIdx=0;
 
     //Add Instance ID, if necessary
     if(!info->isSingleInst){
         allocationFields.append("\t" + objectName + ".instanceID = " +
-                          "double(typecast(buffer(mcolon(" + objectName + "FidIdx "
-                          ", " + objectName + "FidIdx + 2-1)), 'uint16'))';\n");
+                          "double(typecast(buffer(mcolon(" + objectName + "FidIdx + instanceIdOffset "
+                          ", " + objectName + "FidIdx  + instanceIdOffset + 2-1)), 'uint16'))';\n");
         currentIdx+=2;
     }
 
