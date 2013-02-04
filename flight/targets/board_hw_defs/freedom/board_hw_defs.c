@@ -222,8 +222,8 @@ static const struct pios_overo_cfg pios_overo_cfg = {
 		.SPI_NSS               = SPI_NSS_Hard,
 		.SPI_FirstBit          = SPI_FirstBit_MSB,
 		.SPI_CRCPolynomial     = 7,
-		.SPI_CPOL              = SPI_CPOL_High,
-		.SPI_CPHA              = SPI_CPHA_2Edge,
+		.SPI_CPOL              = SPI_CPOL_Low,
+		.SPI_CPHA              = SPI_CPHA_1Edge,
 		.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_2,
 	},
 	.use_crc = false,
@@ -283,7 +283,7 @@ static const struct pios_overo_cfg pios_overo_cfg = {
 			.GPIO_Speed = GPIO_Speed_100MHz,
 			.GPIO_Mode  = GPIO_Mode_AF,
 			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd = GPIO_PuPd_NOPULL
+			.GPIO_PuPd = GPIO_PuPd_DOWN
 		},
 	},
 	.miso = {
