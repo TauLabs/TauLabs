@@ -67,7 +67,14 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
     QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
     foreach (QList<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
-            options_page->cmbUAVObjects->addItem(obj->getName());
+            if (obj->isSingleInstance())
+            {
+                options_page->cmbUAVObjects->addItem(obj->getName());
+            }
+            else if(obj->getName() != options_page->cmbUAVObjects->itemText(options_page->cmbUAVObjects->count()-1))
+            { //Checks to see if we're duplicating UAVOs because of multiple instances
+                options_page->cmbUAVObjects->addItem(obj->getName());
+            }
         }
     }
 
