@@ -75,7 +75,7 @@ arm_status arm_sqrt_q15(
     /*Convert to float */
     temp_float1 = number * 3.051757812500000e-005f;
 
-#if defined  (__GNUC__)
+#if defined  (__GNUC__) && !defined (__llvm__)
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif
@@ -86,7 +86,7 @@ arm_status arm_sqrt_q15(
     /* Store as float */
     temp_float1 = *(float *) &bits_val1;
 
-#if defined  (__GNUC__)
+#if defined  (__GNUC__) && !defined (__llvm__)
   #pragma GCC diagnostic pop
 #endif
 
