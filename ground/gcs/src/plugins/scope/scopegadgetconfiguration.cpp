@@ -99,9 +99,10 @@ void ScopeGadgetConfiguration::clearPlotData()
     }
 }
 
+
 /**
- * Clones a configuration.
- *
+ * @brief ScopeGadgetConfiguration::clone Clones a configuration.
+ * @return
  */
 IUAVGadgetConfiguration *ScopeGadgetConfiguration::clone()
 {
@@ -145,8 +146,8 @@ IUAVGadgetConfiguration *ScopeGadgetConfiguration::clone()
 
 
 /**
- * Saves a configuration. //REDEFINES saveConfig CHILD BEHAVIOR?
- *
+ * @brief ScopeGadgetConfiguration::saveConfig Saves a configuration. //REDEFINES saveConfig CHILD BEHAVIOR?
+ * @param qSettings
  */
 void ScopeGadgetConfiguration::saveConfig(QSettings* qSettings) const {
 

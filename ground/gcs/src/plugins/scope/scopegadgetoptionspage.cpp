@@ -42,7 +42,11 @@ ScopeGadgetOptionsPage::ScopeGadgetOptionsPage(ScopeGadgetConfiguration *config,
     //nothing to do here...
 }
 
-//creates options page widget (uses the UI file)
+/**
+ * @brief ScopeGadgetOptionsPage::createPage creates options page widget (uses the UI file)
+ * @param parent Parent QWidghet
+ * @return Returns options page widget
+ */
 QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
 {
     Q_UNUSED(parent);
@@ -153,6 +157,13 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
     return optionsPageWidget;
 }
 
+
+/**
+ * @brief ScopeGadgetOptionsPage::eventFilter Filters all wheel events.
+ * @param obj
+ * @param evt
+ * @return
+ */
 bool ScopeGadgetOptionsPage::eventFilter( QObject * obj, QEvent * evt ) {
     //Filter all wheel events, and ignore them
     if ( evt->type() == QEvent::Wheel &&
@@ -185,9 +196,12 @@ void ScopeGadgetOptionsPage::on_btnColor_clicked()
  }
 
 /*!
-  \brief Populate the widgets that containts the configs for the Y-Axis from
-  the selected plot curve
+  \brief
   */
+/**
+ * @brief ScopeGadgetOptionsPage::setYAxisWidgetFromPlotCurve Populate the widgets that
+ * contains the configs for the Y-Axis from the selected plot curve
+ */
 void ScopeGadgetOptionsPage::setYAxisWidgetFromPlotCurve()
 {
     bool parseOK = false;
@@ -227,9 +241,12 @@ void ScopeGadgetOptionsPage::setButtonColor(const QColor &color)
     options_page->btnColor->setPalette(QPalette(color));
 }
 
-/*!
-  \brief When a new UAVObject is selected, populate the UAVObject field combo box with the correct values.
-  */
+
+/**
+ * @brief ScopeGadgetOptionsPage::on_cmbUAVObjects_currentIndexChanged When a new UAVObject is selected, populate
+ * the UAVObject field combo box with the correct values.
+ * @param val
+ */
 void ScopeGadgetOptionsPage::on_cmbUAVObjects_currentIndexChanged(QString val)
 {
     options_page->cmbUAVField->clear();
@@ -258,11 +275,9 @@ void ScopeGadgetOptionsPage::on_cmbUAVObjects_currentIndexChanged(QString val)
     }
 }
 
+
 /**
- * Called when the user presses apply or OK.
- *
- * Saves the current values
- *
+ * @brief ScopeGadgetOptionsPage::apply Called when the user presses apply or OK. Saves the current values
  */
 void ScopeGadgetOptionsPage::apply()
 {
@@ -311,9 +326,10 @@ void ScopeGadgetOptionsPage::apply()
 
 }
 
-/*!
-  \brief Add a new curve to the plot.
-*/
+
+/**
+ * @brief ScopeGadgetOptionsPage::on_btnAddCurve_clicked Add a new data source to the plot.
+ */
 void ScopeGadgetOptionsPage::on_btnAddCurve_clicked()
 {
     bool parseOK = false;
@@ -376,9 +392,10 @@ void ScopeGadgetOptionsPage::setCurvePlotProperties(QListWidgetItem *listWidgetI
     listWidgetItem->setData(Qt::UserRole + 5,QVariant(mathFunction));
 }
 
-/*!
-  Remove a curve config from the plot.
-  */
+
+/**
+ * @brief ScopeGadgetOptionsPage::on_btnRemoveCurve_clicked Remove a curve config from the plot.
+ */
 void ScopeGadgetOptionsPage::on_btnRemoveCurve_clicked()
 {
     options_page->lstCurves->takeItem(options_page->lstCurves->currentIndex().row());
@@ -389,9 +406,12 @@ void ScopeGadgetOptionsPage::finish()
 
 }
 
-/*!
-  When a different plot curve config is selected, populate its values into the widgets.
-  */
+
+/**
+ * @brief ScopeGadgetOptionsPage::on_lstCurves_currentRowChanged When a different plot
+ * curve config is selected, populate its values into the widgets.
+ * @param currentRow
+ */
 void ScopeGadgetOptionsPage::on_lstCurves_currentRowChanged(int currentRow)
 {
     Q_UNUSED(currentRow);

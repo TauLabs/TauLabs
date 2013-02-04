@@ -73,6 +73,7 @@ ScopeGadgetWidget::ScopeGadgetWidget(QWidget *parent) : QwtPlot(parent)
     connect(cm, SIGNAL(deviceAboutToDisconnect()), this, SLOT(stopPlotting()));
     connect(cm, SIGNAL(deviceConnected(QIODevice*)), this, SLOT(startPlotting()));
 
+    //Set default variables
     m_csvLoggingStarted=0;
     m_csvLoggingEnabled=0;
     m_csvLoggingHeaderSaved=0;
@@ -89,6 +90,9 @@ ScopeGadgetWidget::ScopeGadgetWidget(QWidget *parent) : QwtPlot(parent)
     connect(cm, SIGNAL(deviceConnected(QIODevice*)), this, SLOT(csvLoggingConnect()));
 }
 
+/**
+ * @brief ScopeGadgetWidget::~ScopeGadgetWidget Destructor
+ */
 ScopeGadgetWidget::~ScopeGadgetWidget()
 {
 	if (replotTimer)
@@ -113,16 +117,30 @@ ScopeGadgetWidget::~ScopeGadgetWidget()
 
 // ******************************************************************
 
+/**
+ * @brief ScopeGadgetWidget::mousePressEvent Pass mouse press event to QwtPlot
+ * @param e
+ */
 void ScopeGadgetWidget::mousePressEvent(QMouseEvent *e)
 {
 	QwtPlot::mousePressEvent(e);
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::mouseReleaseEvent Pass mouse release event to QwtPlot
+ * @param e
+ */
 void ScopeGadgetWidget::mouseReleaseEvent(QMouseEvent *e)
 {
 	QwtPlot::mouseReleaseEvent(e);
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::mouseDoubleClickEvent Turn legend on and off, then pass double-click even to QwtPlot
+ * @param e
+ */
 void ScopeGadgetWidget::mouseDoubleClickEvent(QMouseEvent *e)
 {
     //On double-click, toggle legend
@@ -141,11 +159,21 @@ void ScopeGadgetWidget::mouseDoubleClickEvent(QMouseEvent *e)
 	QwtPlot::mouseDoubleClickEvent(e);
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::mouseMoveEvent Pass mouse move event to QwtPlot
+ * @param e
+ */
 void ScopeGadgetWidget::mouseMoveEvent(QMouseEvent *e)
 {
 	QwtPlot::mouseMoveEvent(e);
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::wheelEvent Zoom in or out, then pass mouse wheel event to QwtPlot
+ * @param e
+ */
 void ScopeGadgetWidget::wheelEvent(QWheelEvent *e)
 {
     //Change zoom on scroll wheel event
@@ -178,8 +206,9 @@ void ScopeGadgetWidget::wheelEvent(QWheelEvent *e)
     QwtPlot::wheelEvent(e);
 }
 
+
 /**
- * Starts/stops telemetry
+ * @brief ScopeGadgetWidget::startPlotting Starts/stops telemetry
  */
 void ScopeGadgetWidget::startPlotting()
 {
@@ -190,6 +219,10 @@ void ScopeGadgetWidget::startPlotting()
         replotTimer->start(m_refreshInterval);
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::stopPlotting Stops plotting timer
+ */
 void ScopeGadgetWidget::stopPlotting()
 {
 	if (!replotTimer)
@@ -198,6 +231,10 @@ void ScopeGadgetWidget::stopPlotting()
 	replotTimer->stop();
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::deleteLegend Delete legend from plot
+ */
 void ScopeGadgetWidget::deleteLegend()
 {
 	if (!legend())
@@ -209,6 +246,10 @@ void ScopeGadgetWidget::deleteLegend()
 //	insertLegend(NULL, QwtPlot::ExternalLegend);
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::addLegend Add legend to plot
+ */
 void ScopeGadgetWidget::addLegend()
 {
 	if (legend())
@@ -249,6 +290,11 @@ void ScopeGadgetWidget::addLegend()
     connect(this, SIGNAL(legendChecked(QwtPlotItem *, bool)), this, SLOT(showCurve(QwtPlotItem *, bool)));
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::preparePlot Prepare plot background, color, etc...
+ * @param plotType Type of plot as supported by GCS.
+ */
 void ScopeGadgetWidget::preparePlot(PlotType plotType)
 {
     m_plotType = plotType;
@@ -290,6 +336,12 @@ void ScopeGadgetWidget::preparePlot(PlotType plotType)
     }
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::showCurve
+ * @param item
+ * @param on
+ */
 void ScopeGadgetWidget::showCurve(QwtPlotItem *item, bool on)
 {
     item->setVisible(!on);
@@ -302,6 +354,10 @@ void ScopeGadgetWidget::showCurve(QwtPlotItem *item, bool on)
 	mutex.unlock();
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::setupSequentialPlot
+ */
 void ScopeGadgetWidget::setupSequentialPlot()
 {
     preparePlot(SequentialPlot);
@@ -329,6 +385,10 @@ void ScopeGadgetWidget::setupSequentialPlot()
 	setAxisFont(QwtPlot::yLeft, fnt);	// y-axis
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::setupChronoPlot
+ */
 void ScopeGadgetWidget::setupChronoPlot()
 {
     preparePlot(ChronoPlot);
@@ -413,7 +473,15 @@ void ScopeGadgetWidget::setupHistoPlot(){
 }
 
 
-
+/**
+ * @brief ScopeGadgetWidget::addCurvePlot
+ * @param uavObject
+ * @param uavFieldSubField
+ * @param scaleOrderFactor
+ * @param meanSamples
+ * @param mathFunction
+ * @param pen
+ */
 void ScopeGadgetWidget::addCurvePlot(QString uavObject, QString uavFieldSubField, int scaleOrderFactor, int meanSamples, QString mathFunction, QPen pen)
 {
     PlotData* plotData;
@@ -503,6 +571,11 @@ void ScopeGadgetWidget::addCurvePlot(QString uavObject, QString uavFieldSubField
 //	mutex.unlock();
 //}
 
+
+/**
+ * @brief ScopeGadgetWidget::uavObjectReceived
+ * @param obj
+ */
 void ScopeGadgetWidget::uavObjectReceived(UAVObject* obj)
 {
     foreach(PlotData* plotData, m_curvesData.values()) {
@@ -512,6 +585,10 @@ void ScopeGadgetWidget::uavObjectReceived(UAVObject* obj)
     csvLoggingAddData();
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::replotNewData
+ */
 void ScopeGadgetWidget::replotNewData()
 {
 	QMutexLocker locker(&mutex);
@@ -585,6 +662,10 @@ void ScopeGadgetWidget::setupExamplePlot()
 }
 */
 
+
+/**
+ * @brief ScopeGadgetWidget::clearCurvePlots
+ */
 void ScopeGadgetWidget::clearCurvePlots()
 {
     foreach(PlotData* plotData, m_curvesData.values()) {
@@ -598,13 +679,10 @@ void ScopeGadgetWidget::clearCurvePlots()
 }
 
 
-/*
-int csvLoggingEnable;
-int csvLoggingHeaderSaved;
-int csvLoggingDataSaved;
-QString csvLoggingPath;
-QFile csvLoggingFile;
-*/
+/**
+ * @brief ScopeGadgetWidget::csvLoggingStart
+ * @return
+ */
 int ScopeGadgetWidget::csvLoggingStart()
 {
     if (!m_csvLoggingStarted)
@@ -647,6 +725,11 @@ int ScopeGadgetWidget::csvLoggingStart()
     return 0;
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::csvLoggingStop
+ * @return
+ */
 int ScopeGadgetWidget::csvLoggingStop()
 {
     m_csvLoggingStarted=0;
@@ -654,6 +737,11 @@ int ScopeGadgetWidget::csvLoggingStop()
     return 0;
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::csvLoggingInsertHeader
+ * @return
+ */
 int ScopeGadgetWidget::csvLoggingInsertHeader()
 {
     if (!m_csvLoggingStarted) return -1;
@@ -683,6 +771,11 @@ int ScopeGadgetWidget::csvLoggingInsertHeader()
     return 0;
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::csvLoggingAddData
+ * @return
+ */
 int ScopeGadgetWidget::csvLoggingAddData()
 {
     if (!m_csvLoggingStarted) return -1;
@@ -732,6 +825,11 @@ int ScopeGadgetWidget::csvLoggingAddData()
     return 0;
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::csvLoggingInsertData
+ * @return
+ */
 int ScopeGadgetWidget::csvLoggingInsertData()
 {
     if (!m_csvLoggingStarted) return -1;
@@ -752,18 +850,32 @@ int ScopeGadgetWidget::csvLoggingInsertData()
     return 0;
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::csvLoggingSetName
+ * @param newName
+ */
 void ScopeGadgetWidget::csvLoggingSetName(QString newName)
 {
     m_csvLoggingName = newName;
     m_csvLoggingNameSet=1;
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::csvLoggingConnect
+ */
 void ScopeGadgetWidget::csvLoggingConnect()
 {
     m_csvLoggingConnected=1;
     if (m_csvLoggingNewFileOnConnect)csvLoggingStart();
     return;
 }
+
+
+/**
+ * @brief ScopeGadgetWidget::csvLoggingDisconnect
+ */
 void ScopeGadgetWidget::csvLoggingDisconnect()
 {
     m_csvLoggingHeaderSaved=0;
