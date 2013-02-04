@@ -134,6 +134,12 @@ help:
 	@echo "     bl_<board>_clean     - Remove bootloader for <board>"
 	@echo "     bl_<board>_program   - Use OpenOCD + JTAG to write bootloader to <board>"
 	@echo
+	@echo "   [Entire Flash]"
+	@echo "     ef_<board>           - Build entire flash image for <board>"
+	@echo "                            supported boards are ($(EF_BOARDS))"
+	@echo "     ef_<board>_clean     - Remove entire flash image for <board>"
+	@echo "     ef_<board>_program   - Use OpenOCD + JTAG to write entire flash image to <board>"
+	@echo
 	@echo "   [Bootloader Updater]"
 	@echo "     bu_<board>           - Build bootloader updater for <board>"
 	@echo "                            supported boards are ($(BU_BOARDS))"
@@ -695,6 +701,7 @@ ef_$(1)_%: bl_$(1)_bin fw_$(1)_opfw
 		BOARD_SHORT_NAME=$(3) \
 		BUILD_TYPE=ef \
 		TCHAIN_PREFIX="$(ARM_SDK_PREFIX)" \
+		REMOVE_CMD="$(RM)" OOCD_EXE="$(OPENOCD)" \
 		DFU_CMD="$(DFUUTIL_DIR)/bin/dfu-util" \
 		\
 		TARGET=ef_$(1) \
