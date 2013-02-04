@@ -102,7 +102,7 @@ static void accumulate_gyro_compute();
 static void accumulate_gyro_zero();
 
 //! Store a gyro sample
-static void accumulate_gyro(GyrosData *gyrosData);
+static void accumulate_gyro(GyrosData *gyrosData, float *gyro_temp_bias);
 
 static float accelKi = 0;
 static float accelKp = 0;
@@ -469,7 +469,7 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosD
 	}
 
 	// When computing the bias accumulate samples
-	accumulate_gyro(gyrosData);
+	accumulate_gyro(gyrosData, gyro_temp_bias);
 
 	// Update the bias due to the temperature
 	updateTemperatureComp(gyrosData->temperature, gyro_temp_bias);
@@ -522,16 +522,17 @@ static void accumulate_gyro_zero()
  * Accumulate a set of gyro samples for computing the
  * bias
  * @param [in] gyrosData The samples of data to accumulate
+ * @param [in] gyro_temp_bias The current temperature bias to account for
  */
-static void accumulate_gyro(GyrosData *gyrosData)
+static void accumulate_gyro(GyrosData *gyrosData, float *gyro_temp_bias)
 {
 	if (!accumulating_gyro)
 		return;
 
 	accumulated_gyro_samples++;
-	accumulated_gyro[0] += gyrosData->x;
-	accumulated_gyro[1] += gyrosData->y;
-	accumulated_gyro[2] += gyrosData->z;
+	accumulated_gyro[0] += (gyrosData->x - gyro_temp_bias[0]);
+	accumulated_gyro[1] += (gyrosData->y - gyro_temp_bias[1]);
+	accumulated_gyro[2] += (gyrosData->z - gyro_temp_bias[2]);
 }
 
 /**
