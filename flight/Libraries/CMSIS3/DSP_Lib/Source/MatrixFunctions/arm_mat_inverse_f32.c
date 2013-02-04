@@ -583,27 +583,15 @@ arm_status arm_mat_inverse_f32(
       {
         /* Divide each element of the row of the input matrix     
          * by the pivot element */
-#if defined  (__GNUC__)
-  #pragma GCC diagnostic push
-  #pragma GCC diagnostic ignored "-Wsequence-point"
-#endif
-        *pInT1++ = *pInT1 / in;
-#if defined  (__GNUC__)
-  #pragma GCC diagnostic pop
-#endif
+	*pInT1 /= in;
+	pInT1++;
       }
       for (j = 0u; j < numCols; j++)
       {
         /* Divide each element of the row of the destination matrix     
          * by the pivot element */
-#if defined  (__GNUC__)
-  #pragma GCC diagnostic push
-  #pragma GCC diagnostic ignored "-Wsequence-point"
-#endif
-        *pInT2++ = *pInT2 / in;
-#if defined  (__GNUC__)
-  #pragma GCC diagnostic pop
-#endif
+	*pInT2 /= in;
+	pInT2++;
       }
 
       /* Replace the rows with the sum of that row and a multiple of row i     
@@ -638,14 +626,8 @@ arm_status arm_mat_inverse_f32(
           {
             /* Replace the element by the sum of that row     
                and a multiple of the reference row  */
-#if defined  (__GNUC__)
-  #pragma GCC diagnostic push
-  #pragma GCC diagnostic ignored "-Wsequence-point"
-#endif
-            *pInT1++ = *pInT1 - (in * *pPRT_in++);
-#if defined  (__GNUC__)
-  #pragma GCC diagnostic pop
-#endif
+            *pInT1 = *pInT1 - (in * *pPRT_in++);
+            pInT1++;
           }
           /* Loop over the number of columns to     
              replace the elements in the destination matrix */
@@ -653,14 +635,8 @@ arm_status arm_mat_inverse_f32(
           {
             /* Replace the element by the sum of that row     
                and a multiple of the reference row  */
-#if defined  (__GNUC__)
-  #pragma GCC diagnostic push
-  #pragma GCC diagnostic ignored "-Wsequence-point"
-#endif
-            *pInT2++ = *pInT2 - (in * *pPRT_pDst++);
-#if defined  (__GNUC__)
-  #pragma GCC diagnostic pop
-#endif
+            *pInT2 = *pInT2 - (in * *pPRT_pDst++);
+            pInT2++;
           }
 
         }
