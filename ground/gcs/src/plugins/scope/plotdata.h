@@ -41,21 +41,24 @@
 #include <QTime>
 #include <QVector>
 
-/*!
-\brief Defines the different type of plots.
-  */
+
+/**
+ * @brief The PlotType enum Defines the different type of plots.
+ */
 enum PlotType {
     SequentialPlot,
     ChronoPlot,
     HistoPlot,
+    SpectroPlot,
     UAVObjectPlot,
 
     NPlotTypes
 };
 
-/*!
-  \brief Base class that keeps the data for each curve in the plot.
-  */
+
+/**
+ * @brief The PlotData class Base class that keeps the data for each curve in the plot.
+ */
 class PlotData : public QObject
 {
     Q_OBJECT
@@ -95,10 +98,11 @@ signals:
     void dataChanged();
 };
 
-/*!
-  \brief The sequential plot have a fixed size buffer of data. All the curves in one plot
-  have the same size buffer.
-  */
+
+/**
+ * @brief The SequentialPlotData class The sequential plot have a fixed size
+ * buffer of data. All the curves in one plot have the same size buffer.
+ */
 class SequentialPlotData : public PlotData
 {
     Q_OBJECT
@@ -125,9 +129,11 @@ public:
     virtual void removeStaleData(){}
 };
 
-/*!
-  \brief The chrono plot has a variable sized buffer of data, where the data is for a specified time period.
-  */
+
+/**
+ * @brief The ChronoPlotData class The chrono plot has a variable sized buffer of data,
+ * where the data is for a specified time period.
+ */
 class ChronoPlotData : public PlotData
 {
     Q_OBJECT
@@ -153,9 +159,11 @@ private slots:
     void removeStaleDataTimeout();
 };
 
-/*!
-  \brief The histogram plot has a variable sized buffer of data, where the data is for a specified histogram data set.
-  */
+
+/**
+ * @brief The HistoPlotData class The histogram plot has a variable sized buffer of data,
+ *  where the data is for a specified histogram data set.
+ */
 class HistoPlotData : public PlotData
 {
     Q_OBJECT
@@ -183,10 +191,11 @@ private slots:
 
 };
 
-/*!
-  \brief UAVObject plot use a fixed size buffer of data, where the horizontal axis values come from
-  a UAVObject field.
-  */
+
+/**
+ * @brief The UAVObjectPlotData class UAVObject plot use a fixed size buffer of data,
+ * where the horizontal axis values come from a UAVObject field.
+ */
 class UAVObjectPlotData : public PlotData
 {
     Q_OBJECT
