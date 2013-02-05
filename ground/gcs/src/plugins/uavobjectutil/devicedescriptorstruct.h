@@ -44,11 +44,8 @@ public:
            case 0x8102:
                return QString("Freedom");
                break;
-           case 0x8201:
-               return QString("FlyingF3");
-               break;
            case 0x8301:
-               return QString("DiscoveryF3");
+               return QString("FlyingF3");
                break;
            case 0x8401:
                return QString("FlyingF4");

@@ -107,7 +107,7 @@ void deviceWidget::populate()
     case 0x8102:
         devicePic.load(":/uploader/images/gcs-board-freedom.png");
         break;
-    case 0x8201:
+    case 0x8301:
         devicePic.load(":/uploader/images/gcs-board-flyingf3.png");
         break;
     case 0x8601:
