@@ -134,6 +134,12 @@ help:
 	@echo "     bl_<board>_clean     - Remove bootloader for <board>"
 	@echo "     bl_<board>_program   - Use OpenOCD + JTAG to write bootloader to <board>"
 	@echo
+	@echo "   [Entire Flash]"
+	@echo "     ef_<board>           - Build entire flash image for <board>"
+	@echo "                            supported boards are ($(EF_BOARDS))"
+	@echo "     ef_<board>_clean     - Remove entire flash image for <board>"
+	@echo "     ef_<board>_program   - Use OpenOCD + JTAG to write entire flash image to <board>"
+	@echo
 	@echo "   [Bootloader Updater]"
 	@echo "     bu_<board>           - Build bootloader updater for <board>"
 	@echo "                            supported boards are ($(BU_BOARDS))"
@@ -305,15 +311,15 @@ $(MATLAB_OUT_DIR):
 	$(V1) mkdir -p $@
 
 FORCE:
-$(MATLAB_OUT_DIR)/OPLogConvert.m: $(MATLAB_OUT_DIR) uavobjects_matlab FORCE
+$(MATLAB_OUT_DIR)/LogConvert.m: $(MATLAB_OUT_DIR) uavobjects_matlab FORCE
 	$(V1) python $(ROOT_DIR)/make/scripts/version-info.py \
 		--path=$(ROOT_DIR) \
-		--template=$(BUILD_DIR)/uavobject-synthetics/matlab/OPLogConvert.m.pass1 \
+		--template=$(BUILD_DIR)/uavobject-synthetics/matlab/LogConvert.m.pass1 \
 		--outfile=$@ \
 		--uavodir=$(ROOT_DIR)/shared/uavobjectdefinition
 
 .PHONY: matlab
-matlab: uavobjects_matlab $(MATLAB_OUT_DIR)/OPLogConvert.m
+matlab: uavobjects_matlab $(MATLAB_OUT_DIR)/LogConvert.m
 
 ################################
 #
@@ -368,7 +374,7 @@ androidgcs_clean:
 #
 # Find the git hashes of each commit that changes uavobjects with:
 #   git log --format=%h -- shared/uavobjectdefinition/ | head -n 2
-UAVO_GIT_VERSIONS := 93c76ec4 33e3552fe55ebca
+UAVO_GIT_VERSIONS := next 
 
 # All versions includes a pseudo collection called "working" which represents
 # the UAVOs in the source tree
@@ -463,14 +469,14 @@ $$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/matlab: $$(UAVO_COLLECTION_DIR)/$(1)/u
 	)
 
 # Build a jar file for this UAVO collection
-$$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/OPLogConvert.m: $$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/matlab
+$$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/LogConvert.m: $$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/matlab
 	$$(V0) @echo " UAVOMAT   $(1)   " $$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash)
 	$$(V1) ( \
 		HASH=$$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash) && \
 		cd $$(UAVO_COLLECTION_DIR)/$(1)/matlab-build && \
 		python $(ROOT_DIR)/make/scripts/version-info.py \
 			--path=$$(ROOT_DIR) \
-			--template=$$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/matlab/OPLogConvert.m.pass1 \
+			--template=$$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/matlab/LogConvert.m.pass1 \
 		--outfile=$$@ \
 		--uavodir=$$(UAVO_COLLECTION_DIR)/$(1)/uavo-xml/shared/uavobjectdefinition \
 	)
@@ -487,7 +493,7 @@ $(foreach githash, $(UAVO_ALL_VERSIONS), $(eval $(call UAVO_COLLECTION_BUILD_TEM
 uavo-collections_java: $(foreach githash, $(UAVO_ALL_VERSIONS), $(UAVO_COLLECTION_DIR)/$(githash)/java-build/uavobjects.jar)
 
 .PHONY: uavo-collections_matlab
-uavo-collections_matlab: $(foreach githash, $(UAVO_ALL_VERSIONS), $(UAVO_COLLECTION_DIR)/$(githash)/matlab-build/OPLogConvert.m)
+uavo-collections_matlab: $(foreach githash, $(UAVO_ALL_VERSIONS), $(UAVO_COLLECTION_DIR)/$(githash)/matlab-build/LogConvert.m)
 
 .PHONY: uavo-collections
 uavo-collections: uavo-collections_java
@@ -695,6 +701,7 @@ ef_$(1)_%: bl_$(1)_bin fw_$(1)_opfw
 		BOARD_SHORT_NAME=$(3) \
 		BUILD_TYPE=ef \
 		TCHAIN_PREFIX="$(ARM_SDK_PREFIX)" \
+		REMOVE_CMD="$(RM)" OOCD_EXE="$(OPENOCD)" \
 		DFU_CMD="$(DFUUTIL_DIR)/bin/dfu-util" \
 		\
 		TARGET=ef_$(1) \

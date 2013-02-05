@@ -148,8 +148,9 @@ static void GenericI2CSensorTask(void *parameters)
 	while (1) {
 		/* Run the selected program */
 		if (i2c_vm_run(i2cvm_program, i2cvm_program_len, PIOS_I2C_MAIN_ADAPTER)) {
-			/* Program ran to completion
-			 * Delay to prevent empty/short programs from consuming all CPU
+			/* Program ran to completion. This could be because the program is 
+			 * empty or does not infinitely loop.
+			 * Delay in order to prevent these programs from consuming all CPU.
 			 */
 			vTaskDelay(10 / portTICK_RATE_MS);
 		} else {

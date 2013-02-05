@@ -47,6 +47,7 @@ signals:
 public slots:
     void processAlerts();
     void updateMessages();
+    void updateNeeded();
 private:
     AlarmsMonitorWidget();
     AlarmsMonitorWidget(AlarmsMonitorWidget const&);              // Don't Implement.
@@ -61,6 +62,7 @@ private:
     bool hasWarnings;
     bool hasInfos;
     QTimer alertTimer;
+    bool needsUpdate;
 };
 
 #endif // ALARMSMONITORWIDGET_H

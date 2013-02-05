@@ -30,7 +30,7 @@
 
 #define DIMMED_SYMBOL 0.1
 
-AlarmsMonitorWidget::AlarmsMonitorWidget():hasErrors(false),hasWarnings(false),hasInfos(false)
+AlarmsMonitorWidget::AlarmsMonitorWidget():hasErrors(false),hasWarnings(false),hasInfos(false),needsUpdate(false)
 {
 }
 
@@ -105,7 +105,7 @@ void AlarmsMonitorWidget::init(QSvgRenderer *renderer,QGraphicsSvgItem *graph)
     connect(&alertTimer,SIGNAL(timeout()),this,SLOT(processAlerts()));
     connect(Core::ICore::instance()->globalMessaging(),SIGNAL(newMessage(GlobalMessage*)),this,SLOT(updateMessages()));
     connect(Core::ICore::instance()->globalMessaging(),SIGNAL(deletedMessage()),this,SLOT(updateMessages()));
-    connect(Core::ICore::instance()->globalMessaging(),SIGNAL(changedMessage(GlobalMessage*)),this,SLOT(updateMessages()));
+    connect(Core::ICore::instance()->globalMessaging(),SIGNAL(changedMessage(GlobalMessage*)),this,SLOT(updateNeeded()));
 
     alertTimer.start(1000);
 
@@ -188,8 +188,16 @@ void AlarmsMonitorWidget::updateMessages()
     info_sym->setToolTip(info);
 }
 
+void AlarmsMonitorWidget::updateNeeded()
+{
+    needsUpdate=true;
+}
+
 void AlarmsMonitorWidget::processAlerts()
 {
+    if(needsUpdate)
+        updateMessages();;
+    needsUpdate=false;
     static bool flag=true;
     flag = flag ^ true;
     if(hasErrors)

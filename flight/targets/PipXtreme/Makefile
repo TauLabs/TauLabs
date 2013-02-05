@@ -63,8 +63,6 @@ else
 REMOVE_CMD = rm
 endif
 
-FLASH_TOOL = OPENOCD
-
 # List of modules to include
 OPTMODULES = 
 MODULES = RadioComBridge
