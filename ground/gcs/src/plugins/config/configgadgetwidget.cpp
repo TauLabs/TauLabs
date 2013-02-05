@@ -221,9 +221,9 @@ void ConfigGadgetWidget::onAutopilotConnect() {
             ftw->insertTab(ConfigGadgetWidget::hardware, qwd, *icon, QString("Hardware"));
             ftw->setCurrentIndex(ConfigGadgetWidget::hardware);
         } else if ((board & 0xff00) == 0x0900 || // RevoMini
-                   (board & 0xff00) == 0x7F00 || // Freedom
+                   (board & 0xff00) == 0x7F00 || // Revolution
                    (board & 0xff00) == 0x8100 || // Freedom
-                   (board & 0xff00) == 0x8200 || // FlyingF3
+                   (board & 0xff00) == 0x8300 || // FlyingF3
                    (board & 0xff00) == 0x8400 || // FlyingF4
                    (board & 0xff00) == 0x8600    // Quanton
                    ) {
