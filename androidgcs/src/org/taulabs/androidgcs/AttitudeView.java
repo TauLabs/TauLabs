@@ -22,8 +22,6 @@
  */
 package org.taulabs.androidgcs;
 
-import org.taulabs.androidgcs.R;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -132,8 +130,8 @@ public class AttitudeView extends View {
 		final int PX = getMeasuredWidth();
 		final int PY = getMeasuredHeight();
 
-		// Want 60 deg to move the horizon all the way off the screen
-		final int DEG_TO_PX = (PY/2) / 60; // Magic number for how to scale pitch
+		// Magic value calibrated for this image
+		final float DEG_TO_PX = ((float) PY/2) / 39.0f; // Magic number for how to scale pitch
 
 		canvas.save();
 		canvas.rotate(-roll, PX / 2, PY / 2);
@@ -148,15 +146,17 @@ public class AttitudeView extends View {
 				R.drawable.im_pfd_fixed);
 
 		// Starting with a square image, want to size it equally
-		double margin = 0.2;
 		int screenSize = Math.min(PX, PY);
-		int imageHalfSize = (int) ((screenSize + screenSize * margin) / 2);
+		int imageHalfSize = screenSize;
 
 		// This puts the image at the center of the PFD canvas (after it was
 		// translated)
 		horizon.setBounds( PX/2 - imageHalfSize, PY/2 - imageHalfSize, PX/2 + imageHalfSize, PY/2 + imageHalfSize);
 		horizon.draw(canvas);
 		canvas.restore();
+
+		// Scale the roll indicator appropriately
+		imageHalfSize = (int) ((screenSize) * 0.7);
 
 		// Draw the overlay that only rolls
 		reticule.setBounds( PX/2 - imageHalfSize, PY/2 - imageHalfSize, PX/2 + imageHalfSize, PY/2 + imageHalfSize);
