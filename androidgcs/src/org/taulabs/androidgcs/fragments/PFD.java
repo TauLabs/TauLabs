@@ -24,6 +24,7 @@
 package org.taulabs.androidgcs.fragments;
 
 import org.taulabs.androidgcs.R;
+import org.taulabs.androidgcs.views.AltitudeView;
 import org.taulabs.androidgcs.views.AttitudeView;
 import org.taulabs.androidgcs.views.GpsView;
 import org.taulabs.androidgcs.views.HeadingView;
@@ -66,6 +67,12 @@ public class PFD extends ObjectManagerFragment {
 		}
 
 		obj = objMngr.getObject("GPSPosition");
+		if (obj != null) {
+			registerObjectUpdates(obj);
+			objectUpdated(obj);
+		}
+
+		obj = objMngr.getObject("PositionActual");
 		if (obj != null) {
 			registerObjectUpdates(obj);
 			objectUpdated(obj);
@@ -122,6 +129,20 @@ public class PFD extends ObjectManagerFragment {
 			if (gpsView != null) {
 				gpsView.setSatellites(satellites);
 				gpsView.setPDOP(pdop);
+			}
+		}
+
+		if (obj.getName().compareTo("PositionActual") == 0) {
+
+			int down = (int) obj.getField("Down").getDouble();
+
+			Activity parent = getActivity();
+			AltitudeView altitudeView = null;
+			if (parent != null) {
+				altitudeView = (AltitudeView) parent.findViewById(R.id.altitude_view);
+			}
+			if (altitudeView != null) {
+				altitudeView.setAltitude(-down);
 			}
 		}
 
