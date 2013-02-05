@@ -159,6 +159,7 @@ public class AltitudeView extends View {
 	private double altitude = 33;
 	public void setAltitude(double altitude) {
 		this.altitude = altitude;
+		invalidate();
 	}
 
 	// Drawing related code

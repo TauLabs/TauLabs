@@ -156,11 +156,13 @@ public class GpsView extends View {
 	private double pdop;
 	public void setPDOP(double pdop) {
 		this.pdop = pdop;
+		invalidate();
 	}
 
 	private int satellites;
 	public void setSatellites(int satellites) {
 		this.satellites = satellites;
+		invalidate();
 	}
 
 	// Drawing related code

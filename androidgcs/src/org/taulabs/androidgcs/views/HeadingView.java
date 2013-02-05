@@ -155,6 +155,7 @@ public class HeadingView extends View {
 	private double bearing;
 	public void setBearing(double bearing) {
 		this.bearing = bearing;
+		invalidate();
 	}
 
 	// Drawing related code
