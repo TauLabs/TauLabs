@@ -37,6 +37,7 @@ import java.util.Set;
 
 import org.taulabs.androidgcs.fragments.ObjectManagerFragment;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService;
+import org.taulabs.androidgcs.telemetry.OPTelemetryService.ConnectionState;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService.LocalBinder;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService.TelemTask;
 import org.taulabs.uavtalk.UAVObject;
@@ -66,8 +67,6 @@ public abstract class ObjectManagerActivity extends Activity {
 
 	//! Object manager, populated by parent for the children to use
 	UAVObjectManager objMngr;
-	//! Indicates if the activity is bound to the service
-	boolean mBound = false;
 	//! Indicates if telemetry is connected
 	boolean mConnected = false;
 	//! The binder to access the telemetry task, and thus the object manager
@@ -78,8 +77,6 @@ public abstract class ObjectManagerActivity extends Activity {
 	private boolean telemetryStatsConnected = false;
 	//! Maintain a list of all the UAVObject listeners for this activity
 	private HashMap<Observer, UAVObject> listeners;
-	//! Current connected state
-	private boolean channelOpen = false;
 
 
 	/** Called when the activity is first created. */
@@ -242,7 +239,6 @@ public abstract class ObjectManagerActivity extends Activity {
 					Log.d(TAG, "Received intent");
 				TelemTask task;
 				if(intent.getAction().compareTo(OPTelemetryService.INTENT_CHANNEL_OPENED) == 0) {
-					channelOpen = true;
 					mConnected = false;
 					invalidateOptionsMenu();
 				} else if(intent.getAction().compareTo(OPTelemetryService.INTENT_ACTION_CONNECTED) == 0) {
@@ -254,7 +250,6 @@ public abstract class ObjectManagerActivity extends Activity {
 					mConnected = true;
 					onOPConnected();
 					Log.d(TAG, "Connected()");
-					channelOpen = true;
 					invalidateOptionsMenu();
 				} else if (intent.getAction().compareTo(OPTelemetryService.INTENT_ACTION_DISCONNECTED) == 0) {
 					// Do not call onOPDisconnected if a connection wasn't made
@@ -263,7 +258,6 @@ public abstract class ObjectManagerActivity extends Activity {
 					objMngr = null;
 					mConnected = false;
 					Log.d(TAG, "Disonnected()");
-					channelOpen = false;
 					invalidateOptionsMenu();
 				}
 			}
@@ -476,7 +470,6 @@ public abstract class ObjectManagerActivity extends Activity {
 		public void onServiceConnected(ComponentName arg0, IBinder service) {
 			// We've bound to LocalService, cast the IBinder and attempt to open a connection
 			if (DEBUG) Log.d(TAG,"Service bound");
-			mBound = true;
 			binder = (LocalBinder) service;
 
 			if(binder.isConnected()) {
@@ -484,7 +477,6 @@ public abstract class ObjectManagerActivity extends Activity {
 				if((task = binder.getTelemTask(0)) != null) {
 					objMngr = task.getObjectManager();
 					mConnected = true;
-					channelOpen = true;
 					onOPConnected();
 					invalidateOptionsMenu();
 				}
@@ -496,13 +488,9 @@ public abstract class ObjectManagerActivity extends Activity {
 		public void onServiceDisconnected(ComponentName name) {
 			if (mConnected)
 				onOPDisconnected();
-			mBound = false;
 			binder = null;
 			mConnected = false;
-			channelOpen = false;
 			objMngr = null;
-			objMngr = null;
-			mConnected = false;
 			invalidateOptionsMenu();
 		}
 	};
@@ -510,7 +498,7 @@ public abstract class ObjectManagerActivity extends Activity {
 	/************* Deals with menus *****************/
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (!mBound || binder == null) {
+		if (binder == null) {
 			Log.e(TAG, "Unable to connect to service");
 			return super.onOptionsItemSelected(item);
 		}
@@ -532,6 +520,12 @@ public abstract class ObjectManagerActivity extends Activity {
 
 	@Override
 	public boolean onPrepareOptionsMenu (Menu menu) {
+
+		// Query the telemetry service for the current state
+		boolean channelOpen = getConnectionState() != ConnectionState.DISCONNECTED;
+
+		// Show the connect button based on the status reported by the telemetry
+		// service
 		MenuItem connectionButton = menu.findItem(R.id.menu_connect);
 		if (connectionButton != null) {
 			connectionButton.setEnabled(!channelOpen).setVisible(!channelOpen);
@@ -545,6 +539,13 @@ public abstract class ObjectManagerActivity extends Activity {
 		return true;
 	}
 
+	//! Get the current connection state
+	private ConnectionState getConnectionState() {
+		if (binder == null)
+			return ConnectionState.DISCONNECTED;
+		return binder.getConnectionState();
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -554,8 +555,10 @@ public abstract class ObjectManagerActivity extends Activity {
 		// Update the telemetry stats here because we need to access via
 		// menu context and updateStats fails
 		org.taulabs.androidgcs.views.TelemetryStats status = (org.taulabs.androidgcs.views.TelemetryStats) (menu.findItem(R.id.telemetry_status).getActionView());
-		if (status != null) {
-			status.setConnected(mConnected);
+		if (getConnectionState() == ConnectionState.DISCONNECTED) {
+			status.setConnected(false);
+		} else {
+			status.setConnected(true);
 
 			if (!mConnected) {
 				status.setTxRate(0);
