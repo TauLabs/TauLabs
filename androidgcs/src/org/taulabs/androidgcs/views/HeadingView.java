@@ -208,7 +208,7 @@ public class HeadingView extends View {
 		for (int i = 0; i < textAngles.length; i++) {
 			float centerX = px - smallTextBounds.width() / 2;
 			float angle = textAngles[i];
-			String text = Integer.toString((int) angle + center_angle);
+			String text = Integer.toString(((int) angle + center_angle + 360) % 360);
 			canvas.drawText(text,
 					centerX + angle / deg_per_px - smallTextBounds.width() / 2,
 					py + smallTextBounds.height() / 2, smallTextPaint);
