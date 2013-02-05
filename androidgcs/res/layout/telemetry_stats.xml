@@ -4,28 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal" >
-    
-	<TextView
+
+    <TextView
         android:id="@+id/telemetry_stats_rx_rate_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:text="@string/rxrate" />
-    
-	<TextView
+
+    <TextView
         android:id="@+id/telemetry_stats_rx_rate"
         android:layout_width="64dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:text="" />
-    
+
     <TextView
         android:id="@+id/telemetry_stats_tx_rate_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:text="@string/txrate" />
 
-   	<TextView
+    <TextView
         android:id="@+id/telemetry_stats_tx_rate"
         android:layout_width="64dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:text="" />
+
 </LinearLayout>
