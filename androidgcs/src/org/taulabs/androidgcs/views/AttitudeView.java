@@ -25,10 +25,12 @@ package org.taulabs.androidgcs.views;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Shader.TileMode;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -92,9 +94,10 @@ public class AttitudeView extends View {
 		horizonPaint.setColor(Color.WHITE);
 		horizonPaint.setStrokeWidth(3);
 
-		//Shader shader = new LinearGradient(0, 0, 0, 40, Color.WHITE, Color.BLACK, TileMode.CLAMP); Paint paint = new Paint();
-		//paint.setShader(shader);
-		//canvas.drawRect(new RectF(0, 0, 100, 40), paint);
+		LinearGradient skyShader = new LinearGradient(0, -400, 0, 400, Color.WHITE, 0xFF6589E2, TileMode.CLAMP);
+		skyPaint.setShader(skyShader);
+		LinearGradient groundShader = new LinearGradient(0, 400, 0, 1000, 0xFFA56030, Color.BLACK, TileMode.CLAMP);
+		groundPaint.setShader(groundShader);
 
 		triangle = new Path();
 	}
