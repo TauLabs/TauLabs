@@ -179,7 +179,8 @@ public class HeadingView extends View {
 		if (i_letter >= 8)
 			i_letter = 7;
 
-		String middleLabel = headingsLabels[i_letter % 8];
+		// Funny math forces it to end up positive
+		String middleLabel = headingsLabels[((i_letter) % 8 + 8) % 8];
 		String rightLabel = headingsLabels[((i_letter + 1) % 8 + 8) % 8];
 		String leftLabel = headingsLabels[((i_letter - 1) % 8 + 8) % 8];
 
