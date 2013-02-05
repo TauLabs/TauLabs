@@ -23,8 +23,8 @@
 
 package org.taulabs.androidgcs.fragments;
 
-import org.taulabs.androidgcs.AttitudeView;
 import org.taulabs.androidgcs.R;
+import org.taulabs.androidgcs.views.AttitudeView;
 import org.taulabs.uavtalk.UAVObject;
 import org.taulabs.uavtalk.UAVObjectManager;
 

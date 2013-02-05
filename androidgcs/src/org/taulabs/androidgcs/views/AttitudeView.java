@@ -20,7 +20,9 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-package org.taulabs.androidgcs;
+package org.taulabs.androidgcs.views;
+
+import org.taulabs.androidgcs.R;
 
 import android.content.Context;
 import android.graphics.Canvas;
