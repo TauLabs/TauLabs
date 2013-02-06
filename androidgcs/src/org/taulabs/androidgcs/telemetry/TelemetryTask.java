@@ -133,6 +133,11 @@ public abstract class TelemetryTask implements Runnable {
 	 * created a valid inStream and outStream
 	 */
 	boolean attemptSucceeded() {
+
+		Intent intent = new Intent();
+		intent.setAction(OPTelemetryService.INTENT_CHANNEL_OPENED);
+		telemService.sendBroadcast(intent,null);
+
 		// Create a new object manager and register all objects
 		// in the future the particular register method should
 		// be dependent on what is connected (e.g. board and

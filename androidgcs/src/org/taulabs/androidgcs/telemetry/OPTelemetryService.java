@@ -67,6 +67,7 @@ public class OPTelemetryService extends Service {
 	public final static String INTENT_CATEGORY_GCS        = "org.taulabs.intent.category.GCS";
 
 	// Intent actions
+	public final static String INTENT_CHANNEL_OPENED      = "org.taulabs.intent.action.CHANNEL_OPENED";
 	public final static String INTENT_ACTION_CONNECTED    = "org.taulabs.intent.action.CONNECTED";
 	public final static String INTENT_ACTION_DISCONNECTED = "org.taulabs.intent.action.DISCONNECTED";
 
