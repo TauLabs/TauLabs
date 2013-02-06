@@ -35,7 +35,6 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
-import org.taulabs.androidgcs.R;
 import org.taulabs.androidgcs.fragments.ObjectManagerFragment;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService.LocalBinder;
@@ -226,7 +225,9 @@ public abstract class ObjectManagerActivity extends Activity {
 				if (DEBUG)
 					Log.d(TAG, "Received intent");
 				TelemTask task;
-				if(intent.getAction().compareTo(OPTelemetryService.INTENT_ACTION_CONNECTED) == 0) {
+				if(intent.getAction().compareTo(OPTelemetryService.INTENT_CHANNEL_OPENED) == 0) {
+					Log.d(TAG, "Received Channel Opened()");
+				} else if(intent.getAction().compareTo(OPTelemetryService.INTENT_ACTION_CONNECTED) == 0) {
 					if(binder  == null)
 						return;
 					if((task = binder.getTelemTask(0)) == null)
@@ -247,6 +248,7 @@ public abstract class ObjectManagerActivity extends Activity {
 		// Set up the filters
 		IntentFilter filter = new IntentFilter();
 		filter.addCategory(OPTelemetryService.INTENT_CATEGORY_GCS);
+		filter.addAction(OPTelemetryService.INTENT_CHANNEL_OPENED);
 		filter.addAction(OPTelemetryService.INTENT_ACTION_CONNECTED);
 		filter.addAction(OPTelemetryService.INTENT_ACTION_DISCONNECTED);
 		registerReceiver(connectedReceiver, filter);
