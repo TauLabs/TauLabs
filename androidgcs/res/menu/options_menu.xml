@@ -2,7 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:title="@string/menu_item_settings" android:id="@+id/menu_settings"></item>
     <item android:title="@string/menu_item_connect" android:id="@+id/menu_connect"
-        android:showAsAction="ifRoom"
-        android:icon="@drawable/ic_telemetry"></item>
-    <item android:title="@string/menu_item_disconnect" android:id="@+id/menu_disconnect"></item>
+        android:showAsAction="ifRoom"></item>
+    <item android:title="@string/menu_item_disconnect" 
+        android:id="@+id/menu_disconnect"
+        android:showAsAction="ifRoom"></item>
 </menu>
