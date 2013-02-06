@@ -473,7 +473,9 @@ public abstract class ObjectManagerActivity extends Activity {
 				if((task = binder.getTelemTask(0)) != null) {
 					objMngr = task.getObjectManager();
 					mConnected = true;
+					channelOpen = true;
 					onOPConnected();
+					invalidateOptionsMenu();
 				}
 
 			}
@@ -481,13 +483,16 @@ public abstract class ObjectManagerActivity extends Activity {
 
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
-			onOPDisconnected();
+			if (mConnected)
+				onOPDisconnected();
 			mBound = false;
 			binder = null;
 			mConnected = false;
+			channelOpen = false;
 			objMngr = null;
 			objMngr = null;
 			mConnected = false;
+			invalidateOptionsMenu();
 		}
 	};
 
