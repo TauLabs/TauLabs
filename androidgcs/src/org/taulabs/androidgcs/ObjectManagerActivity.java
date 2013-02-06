@@ -56,7 +56,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 public abstract class ObjectManagerActivity extends Activity {
 
@@ -81,8 +80,6 @@ public abstract class ObjectManagerActivity extends Activity {
 	private HashMap<Observer, UAVObject> listeners;
 	//! Current connected state
 	private boolean channelOpen = false;
-	//! Current connected state
-	private boolean telemetryConnected = false;
 
 
 	/** Called when the activity is first created. */
@@ -100,13 +97,34 @@ public abstract class ObjectManagerActivity extends Activity {
 	}
 
 	private void updateStats() {
+		org.taulabs.androidgcs.views.TelemetryStats status = (org.taulabs.androidgcs.views.TelemetryStats) findViewById(R.id.telemetry_status);
+		if (status == null) {
+			Log.d(TAG, "Control not found");
+			return;
+		}
+
+		status.setConnected(mConnected);
+
+		if (!mConnected) {
+			Log.d(TAG, "updateStas not connected");
+			status.setTxRate(0);
+			status.setRxRate(0);
+			return;
+		}
+
+		if (objMngr == null) {
+			Log.d(TAG, "updateStas objmngr null");
+			return;
+		}
+
 		UAVObject stats = objMngr.getObject("GCSTelemetryStats");
-		TextView rxRate = (TextView) findViewById(R.id.telemetry_stats_rx_rate);
-		TextView txRate = (TextView) findViewById(R.id.telemetry_stats_tx_rate);
-		if (rxRate != null)
-			rxRate.setText(Integer.valueOf((int) stats.getField("RxDataRate").getDouble()).toString());
-		if (rxRate != null)
-			txRate.setText(Integer.valueOf((int) stats.getField("TxDataRate").getDouble()).toString());
+		if (stats == null) {
+			Log.d(TAG, "updateStas stats null");
+			return;
+		}
+
+		status.setTxRate((int) stats.getField("TxDataRate").getDouble());
+		status.setRxRate((int) stats.getField("RxDataRate").getDouble());
 	}
 
 	final Observer telemetryObserver = new Observer() {
@@ -128,9 +146,6 @@ public abstract class ObjectManagerActivity extends Activity {
 	 * This should be called by all inherited classes if they want the telemetry bar etc
 	 */
 	void onOPConnected() {
-		if ( telemetryStatsConnected )
-			return;
-
 		// Create a map for all the object updates register for this activity.  If anyone
 		// tries to register an object update before this a null exception will occur
 		listeners = new HashMap<Observer,UAVObject>();
@@ -158,12 +173,6 @@ public abstract class ObjectManagerActivity extends Activity {
 	 * This should be called by all inherited classes if they want the telemetry bar etc
 	 */
 	void onOPDisconnected() {
-		// Indicate no connection
-		TextView rxRate = (TextView) findViewById(R.id.telemetry_stats_rx_rate);
-		TextView txRate = (TextView) findViewById(R.id.telemetry_stats_tx_rate);
-		rxRate.setText("");
-		txRate.setText("");
-
 		// Providing a null update triggers a disconnect on fragments
 		connectionListeners.disconnected();
 
@@ -179,6 +188,7 @@ public abstract class ObjectManagerActivity extends Activity {
 			}
 			telemetryStatsConnected = false;
 		}
+		updateStats();
 
 		// Disconnect from any UAVO updates
 		if (DEBUG) Log.d(TAG, "onOpDisconnected(): Pausing the listeners and deleting the list");
@@ -201,6 +211,7 @@ public abstract class ObjectManagerActivity extends Activity {
 		}
 
 		resumeObjectUpdates();
+		invalidateOptionsMenu();
 	}
 
 	@Override
@@ -232,7 +243,7 @@ public abstract class ObjectManagerActivity extends Activity {
 				TelemTask task;
 				if(intent.getAction().compareTo(OPTelemetryService.INTENT_CHANNEL_OPENED) == 0) {
 					channelOpen = true;
-					telemetryConnected = false;
+					mConnected = false;
 					invalidateOptionsMenu();
 				} else if(intent.getAction().compareTo(OPTelemetryService.INTENT_ACTION_CONNECTED) == 0) {
 					if(binder  == null)
@@ -537,11 +548,34 @@ public abstract class ObjectManagerActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		if (mConnected) {
-			inflater.inflate(R.menu.status_menu, menu);
-		}
+		inflater.inflate(R.menu.status_menu, menu);
 		inflater.inflate(R.menu.options_menu, menu);
 
+		// Update the telemetry stats here because we need to access via
+		// menu context and updateStats fails
+		org.taulabs.androidgcs.views.TelemetryStats status = (org.taulabs.androidgcs.views.TelemetryStats) (menu.findItem(R.id.telemetry_status).getActionView());
+		if (status != null) {
+			status.setConnected(mConnected);
+
+			if (!mConnected) {
+				status.setTxRate(0);
+				status.setRxRate(0);
+			} else if (objMngr != null && status != null) {
+				UAVObject stats = objMngr.getObject("GCSTelemetryStats");
+				if (stats != null) {
+					status.setTxRate((int) stats.getField("TxDataRate").getDouble());
+					status.setRxRate((int) stats.getField("RxDataRate").getDouble());
+				}
+			}
+		}
+
+		return true;
+	}
+
+	@Override
+	public boolean onMenuOpened(int featureId, Menu menu)
+	{
+		updateStats();
 		return true;
 	}
 
