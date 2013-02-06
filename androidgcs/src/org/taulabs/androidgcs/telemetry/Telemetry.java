@@ -22,7 +22,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-package org.taulabs.uavtalk;
+package org.taulabs.androidgcs.telemetry;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,6 +36,12 @@ import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import junit.framework.Assert;
+
+import org.taulabs.uavtalk.UAVMetaObject;
+import org.taulabs.uavtalk.UAVObject;
+import org.taulabs.uavtalk.UAVObjectManager;
+import org.taulabs.uavtalk.UAVTalk;
+
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -48,7 +54,7 @@ public class Telemetry {
 	 */
 
 	private final String TAG = "Telemetry";
-	public static int LOGLEVEL = 0;
+	public static int LOGLEVEL = 3;
 	public static boolean DEBUG = LOGLEVEL > 2;
 	public static boolean WARN  = LOGLEVEL > 1;
 	public static boolean ERROR = LOGLEVEL > 0;
@@ -148,12 +154,12 @@ public class Telemetry {
 		// Listen to transaction completions from uavtalk
 		utalk.setOnTransactionCompletedListener(utalk.new OnTransactionCompletedListener() {
 			@Override
-			void TransactionSucceeded(UAVObject data) {
+			public void TransactionSucceeded(UAVObject data) {
 				transactionCompleted(data, true);
 			}
 
 			@Override
-			void TransactionFailed(UAVObject data) {
+			public void TransactionFailed(UAVObject data) {
 				if (DEBUG)
 					Log.d(TAG, "TransactionFailed(" + data.getName() + ")");
 

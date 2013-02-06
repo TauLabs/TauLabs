@@ -916,11 +916,11 @@ public class UAVTalk {
 	}
 
 	private OnTransactionCompletedListener transactionListener = null;
-	abstract class OnTransactionCompletedListener {
-    	abstract void TransactionSucceeded(UAVObject data);
-    	abstract void TransactionFailed(UAVObject data);
+	public abstract class OnTransactionCompletedListener {
+    	public abstract void TransactionSucceeded(UAVObject data);
+    	public abstract void TransactionFailed(UAVObject data);
     };
-    void setOnTransactionCompletedListener(OnTransactionCompletedListener onTransactionListener) {
+    public void setOnTransactionCompletedListener(OnTransactionCompletedListener onTransactionListener) {
     	this.transactionListener = onTransactionListener;
     }
 
