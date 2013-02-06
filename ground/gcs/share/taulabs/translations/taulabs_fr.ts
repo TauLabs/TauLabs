@@ -7045,7 +7045,7 @@ specific calibration button on top of the screen.</source>
     <message>
         <location/>
         <source>Clears the HomeLocation: only makes sense if you save
-to SD. This will force the AHRS to use the next GPS fix as the
+to non volatile memory. This will force the AHRS to use the next GPS fix as the
 new home location unless it is in indoor mode.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7229,7 +7229,7 @@ new home location unless it is in indoor mode.</source>
     </message>
     <message>
         <location/>
-        <source>Send to Tau Labs but don&apos;t write in SD.</source>
+        <source>Send to Tau Labs but don&apos;t write to non volatile memory.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -7311,7 +7311,7 @@ Applies and Saves all settings to SD</source>
     </message>
     <message>
         <location/>
-        <source>Send to Tau Labs but don&apos;t write in SD.
+        <source>Send to Tau Labs but don&apos;t write to non volatile memory.
 Be sure to set the Neutral position on all sliders before sending!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7522,7 +7522,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location/>
-        <source>Send to Tau Labs but don&apos;t write in SD.
+        <source>Send to Tau Labs but don&apos;t write to non volatile memory.
 Beware of not locking yourself out!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7543,7 +7543,7 @@ Beware of not locking yourself out!</source>
     </message>
     <message>
         <location/>
-        <source>Applies and Saves all settings to SD.
+        <source>Applies and Saves all settings to non volatile memory.
 Beware of not locking yourself out!</source>
         <translation type="unfinished"></translation>
     </message>

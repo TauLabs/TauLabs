@@ -398,7 +398,7 @@
     </message>
     <message>
         <location/>
-        <source>Send to Tau Labs but don&apos;t write in SD.</source>
+        <source>Send to Tau Labs but don&apos;t write to non volatile memory.</source>
         <translation>Передать в Tau Labs но не записывать на SD.</translation>
     </message>
     <message>
@@ -802,7 +802,7 @@ Applies and Saves all settings to SD</source>
     </message>
     <message>
         <location/>
-        <source>Send to Tau Labs but don&apos;t write in SD.
+        <source>Send to Tau Labs but don&apos;t write to non volatile memory.
 Be sure to set the Neutral position on all sliders before sending!</source>
         <translation>Настройки передаются в Tau Labs, но не сохраняются на SD
 Не забудьте установить все ползунки в нейтральное положение перед сохранением!</translation>
@@ -1033,7 +1033,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location/>
-        <source>Send to Tau Labs but don&apos;t write in SD.
+        <source>Send to Tau Labs but don&apos;t write to non volatile memory.
 Beware of not locking yourself out!</source>
         <translation>Передать в автопилот, но не записывать на SD.
 Осторожно, не отключите сами себя!</translation>
@@ -1055,7 +1055,7 @@ Beware of not locking yourself out!</source>
     </message>
     <message>
         <location/>
-        <source>Applies and Saves all settings to SD.
+        <source>Applies and Saves all settings to non volatile memory.
 Beware of not locking yourself out!</source>
         <translation>Принять изменения и сохранить на SD
 Осторожно, не отключите сами себя!</translation>
@@ -7863,7 +7863,7 @@ Only makes sense with the &quot;INSGPS&quot; algorithm.</source>
     <message>
         <location/>
         <source>Clears the HomeLocation: only makes sense if you save
-to SD. This will force the AHRS to use the next GPS fix as the
+to non volatile memory. This will force the AHRS to use the next GPS fix as the
 new home location unless it is in indoor mode.</source>
         <translation type="unfinished"></translation>
     </message>
