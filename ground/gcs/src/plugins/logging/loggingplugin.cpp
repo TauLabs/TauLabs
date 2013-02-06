@@ -78,7 +78,7 @@ QIODevice* LoggingConnection::openDevice(IDevice *deviceName)
     if (logFile.isOpen()){
         logFile.close();
     }
-    QString fileName = QFileDialog::getOpenFileName(NULL, tr("Open file"), QString(""), tr("OpenPilot Log (*.tll)"));
+    QString fileName = QFileDialog::getOpenFileName(NULL, tr("Open file"), QString(""), tr("Tau Labs Log (*.tll)"));
     if (!fileName.isNull()) {
         startReplay(fileName);
     }
