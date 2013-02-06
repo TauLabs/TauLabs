@@ -79,6 +79,8 @@ public abstract class ObjectManagerActivity extends Activity {
 	private boolean telemetryStatsConnected = false;
 	//! Maintain a list of all the UAVObject listeners for this activity
 	private HashMap<Observer, UAVObject> listeners;
+	//! Current connected state
+	private boolean channelOpen = false;
 	/** Called when the activity is first created. */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -226,7 +228,8 @@ public abstract class ObjectManagerActivity extends Activity {
 					Log.d(TAG, "Received intent");
 				TelemTask task;
 				if(intent.getAction().compareTo(OPTelemetryService.INTENT_CHANNEL_OPENED) == 0) {
-					Log.d(TAG, "Received Channel Opened()");
+					channelOpen = true;
+					invalidateOptionsMenu();
 				} else if(intent.getAction().compareTo(OPTelemetryService.INTENT_ACTION_CONNECTED) == 0) {
 					if(binder  == null)
 						return;
@@ -236,11 +239,15 @@ public abstract class ObjectManagerActivity extends Activity {
 					mConnected = true;
 					onOPConnected();
 					Log.d(TAG, "Connected()");
+					channelOpen = true;
+					invalidateOptionsMenu();
 				} else if (intent.getAction().compareTo(OPTelemetryService.INTENT_ACTION_DISCONNECTED) == 0) {
 					onOPDisconnected();
 					objMngr = null;
 					mConnected = false;
 					Log.d(TAG, "Disonnected()");
+					channelOpen = false;
+					invalidateOptionsMenu();
 				}
 			}
 		};
@@ -499,6 +506,20 @@ public abstract class ObjectManagerActivity extends Activity {
 			return super.onOptionsItemSelected(item);
 		}
 
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu (Menu menu) {
+		MenuItem connectionButton = menu.findItem(R.id.menu_connect);
+		if (connectionButton != null) {
+			connectionButton.setEnabled(!channelOpen).setVisible(!channelOpen);
+		}
+
+		MenuItem disconnectionButton = menu.findItem(R.id.menu_disconnect);
+		if (disconnectionButton != null) {
+			disconnectionButton.setEnabled(channelOpen).setVisible(channelOpen);
+		}
+		return true;
 	}
 
 	@Override
