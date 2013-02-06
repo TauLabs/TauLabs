@@ -271,6 +271,14 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
 	pios_rcvr_group_map[channelgroup] = pios_dsm_rcvr_id;
 }
 
+/**
+ * Indicate a target-specific error code when a component fails to initialize
+ * 1 pulse - flash chip
+ * 2 pulses - MPU6000
+ * 3 pulses - HMC5883
+ * 4 pulses - MS5611
+ * 5 pulses - I2C bus locked
+ */
 void panic(int32_t code) {
 	while(1){
 		for (int32_t i = 0; i < code; i++) {
