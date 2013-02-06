@@ -243,15 +243,15 @@ public abstract class ObjectManagerActivity extends Activity {
 					mConnected = true;
 					onOPConnected();
 					Log.d(TAG, "Connected()");
-					telemetryConnected = true;
 					channelOpen = true;
 					invalidateOptionsMenu();
 				} else if (intent.getAction().compareTo(OPTelemetryService.INTENT_ACTION_DISCONNECTED) == 0) {
-					onOPDisconnected();
+					// Do not call onOPDisconnected if a connection wasn't made
+					if (mConnected)
+						onOPDisconnected();
 					objMngr = null;
 					mConnected = false;
 					Log.d(TAG, "Disonnected()");
-					telemetryConnected = false;
 					channelOpen = false;
 					invalidateOptionsMenu();
 				}
@@ -532,7 +532,7 @@ public abstract class ObjectManagerActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		if (telemetryConnected) {
+		if (mConnected) {
 			inflater.inflate(R.menu.status_menu, menu);
 		}
 		inflater.inflate(R.menu.options_menu, menu);
