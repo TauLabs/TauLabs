@@ -136,19 +136,28 @@ public class HidUAVTalk extends TelemetryTask {
 		try {
 			if (DEBUG) Log.d(TAG, "Waiting for read thread to end");
 			if(readThread != null) {
-				readThread.interrupt(); // Make sure not blocking for data
-				readThread.join();
-				readThread = null;
-			}
-			if (DEBUG) Log.d(TAG, "Waiting for write thread to end");
-			if(writeThread != null) {
-				writeThread.interrupt();
-				writeThread.join();
-				writeThread = null;
+				if (readThread.isAlive()) {
+					readThread.interrupt(); // Make sure not blocking for data
+					readThread.join();
+				}
 			}
 		} catch (InterruptedException e) {
 			if (ERROR) Log.e(TAG, "Unable to stop HID threads", e);
 		}
+		readThread = null;
+
+		try {
+			if (DEBUG) Log.d(TAG, "Waiting for write thread to end");
+			if(writeThread != null) {
+				if (writeThread.isAlive()) {
+					writeThread.interrupt();
+					writeThread.join();
+				}
+			}
+		} catch (InterruptedException e) {
+			if (ERROR) Log.e(TAG, "Unable to stop HID threads", e);
+		}
+		writeThread = null;
 
 		if (readRequest != null) {
 			readRequest.cancel();
