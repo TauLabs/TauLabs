@@ -1494,7 +1494,7 @@ Set to 0 to disable (recommended for soaring fixed wings).</string>
         </size>
        </property>
        <property name="toolTip">
-        <string>Send to OpenPilot but don't write in SD.
+        <string>Send to Tau Labs but don't write in SD.
 Be sure to set the Neutral position on all sliders before sending!</string>
        </property>
        <property name="styleSheet">
