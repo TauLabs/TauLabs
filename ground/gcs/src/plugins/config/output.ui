@@ -709,7 +709,7 @@ Leave at 50Hz for fixed wing.</string>
         </size>
        </property>
        <property name="toolTip">
-        <string>Send to Tau Labs but don't write in SD.
+        <string>Send to flight controller but don't write in SD.
 Be sure to set the Neutral position on all sliders before sending!</string>
        </property>
        <property name="styleSheet">
