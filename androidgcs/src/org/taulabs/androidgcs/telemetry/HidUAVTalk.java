@@ -84,6 +84,8 @@ public class HidUAVTalk extends TelemetryTask {
 	private UsbRequest readRequest = null;
 	private Thread readThread;
 	private Thread writeThread;
+	private boolean disconnecting = false;
+	private boolean receiversRegistered = false;
 
 	private boolean readPending = false;
 	private boolean writePending = false;
@@ -96,11 +98,19 @@ public class HidUAVTalk extends TelemetryTask {
 	@Override
 	public void disconnect() {
 
-		CleanUpAndClose();
-		telemService.unregisterReceiver(usbReceiver);
-		telemService.unregisterReceiver(usbPermissionReceiver);
+		if (disconnecting)
+			return;
+
+		disconnecting = true;
 
 		super.disconnect();
+
+		CleanUpAndClose();
+		if (receiversRegistered) {
+			telemService.unregisterReceiver(usbReceiver);
+			telemService.unregisterReceiver(usbPermissionReceiver);
+			receiversRegistered = false;
+		}
 
 		try {
 			if(readThread != null) {
@@ -114,7 +124,7 @@ public class HidUAVTalk extends TelemetryTask {
 				writeThread = null;
 			}
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			if (DEBUG) e.printStackTrace();
 		}
 
 		if (readRequest != null) {
@@ -138,6 +148,8 @@ public class HidUAVTalk extends TelemetryTask {
 		deviceAttachedFilter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
 		deviceAttachedFilter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
 		telemService.registerReceiver(usbReceiver, deviceAttachedFilter);
+
+		receiversRegistered = true;
 
 		// Go through all the devices plugged in
 		HashMap<String, UsbDevice> deviceList = usbManager.getDeviceList();
@@ -230,6 +242,7 @@ public class HidUAVTalk extends TelemetryTask {
 						if (DEBUG) Log.d(TAG, "Matching device disconnected");
 						// call your method that cleans up and closes communication with the device
 						disconnect();
+						telemService.connectionBroken();
 					}
 				}
 			}
@@ -323,6 +336,10 @@ public class HidUAVTalk extends TelemetryTask {
 
 		// Claim the interface
 		usbDeviceConnection = usbManager.openDevice(connectDevice);
+		if (usbDeviceConnection == null) {
+			if (ERROR) Log.e(TAG, "Unable to open the device");
+			return false;
+		}
 		usbDeviceConnection.claimInterface(usbInterface, true);
 
 
@@ -354,7 +371,9 @@ public class HidUAVTalk extends TelemetryTask {
 						if (DEBUG) Log.d(TAG, "Received read request");
 						readData();
 					} else {
-						Log.e(TAG, "Received unknown USB response");
+						if (DEBUG) Log.e(TAG, "Received unknown USB response");
+						disconnect();
+						telemService.connectionBroken();
 						break;
 					}
 				}
@@ -372,6 +391,9 @@ public class HidUAVTalk extends TelemetryTask {
 						if (sendDataSynchronous() == false)
 							break;
 					} catch (InterruptedException e) {
+						if (DEBUG) Log.d(TAG, "Failure writing to HID device");
+						disconnect();
+						telemService.connectionBroken();
 						break;
 					}
 				}
@@ -572,7 +594,9 @@ public class HidUAVTalk extends TelemetryTask {
 				return data.getByteBlocking();
 			} catch (InterruptedException e) {
 				Log.e(TAG, "Timed out");
-				e.printStackTrace();
+				if (DEBUG) e.printStackTrace();
+				disconnect();
+				telemService.connectionBroken();
 			}
 			return -1;
 		}
