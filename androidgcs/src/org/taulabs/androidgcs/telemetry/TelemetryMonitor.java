@@ -35,7 +35,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.taulabs.uavtalk.UAVObject.TransactionResult;
-import org.taulabs.uavtalk.Telemetry;
 import org.taulabs.uavtalk.UAVDataObject;
 import org.taulabs.uavtalk.UAVObject;
 import org.taulabs.uavtalk.UAVObjectField;

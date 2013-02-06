@@ -31,8 +31,6 @@ import java.util.Observer;
 
 import org.taulabs.androidgcs.telemetry.tasks.LoggingTask;
 import org.taulabs.androidgcs.telemetry.tasks.TabletInformation;
-import org.taulabs.uavtalk.Telemetry;
-import org.taulabs.uavtalk.TelemetryMonitor;
 import org.taulabs.uavtalk.UAVObjectManager;
 import org.taulabs.uavtalk.UAVTalk;
 import org.taulabs.uavtalk.uavobjects.TelemObjectsInitialize;
@@ -148,7 +146,7 @@ public abstract class TelemetryTask implements Runnable {
 		// Create the required telemetry objects attached to this
 		// data stream
 		uavTalk = new UAVTalk(inStream, outStream, objMngr);
-		tel = new Telemetry(uavTalk, objMngr, Looper.myLooper());
+		tel = new Telemetry(uavTalk, objMngr, Looper.myLooper(), telemetryFailureRunnable);
 		mon = new TelemetryMonitor(objMngr,tel, telemService);
 
 		// Create an observer to notify system of connection
@@ -289,6 +287,21 @@ public abstract class TelemetryTask implements Runnable {
 				intent.setAction(OPTelemetryService.INTENT_ACTION_CONNECTED);
 				telemService.sendBroadcast(intent,null);
 			}
+		}
+	};
+
+	/**
+	 *  Posted by telemetry when there is a connection failure on writing
+	 *  This is because telemetry doesn't (and shouldn't) have a handle to
+	 *  the telemetry task to trigger the disconnection when a write
+	 *  failure occurs.
+	 */
+	private final Runnable telemetryFailureRunnable = new Runnable() {
+		@Override
+		public void run() {
+			Log.d(TAG, "Telemetry failure runnable called");
+			disconnect();
+			telemService.connectionBroken();
 		}
 	};
 
