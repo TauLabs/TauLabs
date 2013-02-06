@@ -570,7 +570,7 @@
         </palette>
        </property>
        <property name="toolTip">
-        <string>Send to OpenPilot but don't write in SD.
+        <string>Send to flight controller but don't write to non volatile memory.
 Beware of not locking yourself out!</string>
        </property>
        <property name="autoFillBackground">
