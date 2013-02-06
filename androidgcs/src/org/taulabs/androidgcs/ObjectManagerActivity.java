@@ -81,6 +81,10 @@ public abstract class ObjectManagerActivity extends Activity {
 	private HashMap<Observer, UAVObject> listeners;
 	//! Current connected state
 	private boolean channelOpen = false;
+	//! Current connected state
+	private boolean telemetryConnected = false;
+
+
 	/** Called when the activity is first created. */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +107,6 @@ public abstract class ObjectManagerActivity extends Activity {
 			rxRate.setText(Integer.valueOf((int) stats.getField("RxDataRate").getDouble()).toString());
 		if (rxRate != null)
 			txRate.setText(Integer.valueOf((int) stats.getField("TxDataRate").getDouble()).toString());
-
 	}
 
 	final Observer telemetryObserver = new Observer() {
@@ -229,6 +232,7 @@ public abstract class ObjectManagerActivity extends Activity {
 				TelemTask task;
 				if(intent.getAction().compareTo(OPTelemetryService.INTENT_CHANNEL_OPENED) == 0) {
 					channelOpen = true;
+					telemetryConnected = false;
 					invalidateOptionsMenu();
 				} else if(intent.getAction().compareTo(OPTelemetryService.INTENT_ACTION_CONNECTED) == 0) {
 					if(binder  == null)
@@ -239,6 +243,7 @@ public abstract class ObjectManagerActivity extends Activity {
 					mConnected = true;
 					onOPConnected();
 					Log.d(TAG, "Connected()");
+					telemetryConnected = true;
 					channelOpen = true;
 					invalidateOptionsMenu();
 				} else if (intent.getAction().compareTo(OPTelemetryService.INTENT_ACTION_DISCONNECTED) == 0) {
@@ -246,6 +251,7 @@ public abstract class ObjectManagerActivity extends Activity {
 					objMngr = null;
 					mConnected = false;
 					Log.d(TAG, "Disonnected()");
+					telemetryConnected = false;
 					channelOpen = false;
 					invalidateOptionsMenu();
 				}
@@ -519,14 +525,18 @@ public abstract class ObjectManagerActivity extends Activity {
 		if (disconnectionButton != null) {
 			disconnectionButton.setEnabled(channelOpen).setVisible(channelOpen);
 		}
+
 		return true;
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.status_menu, menu);
+		if (telemetryConnected) {
+			inflater.inflate(R.menu.status_menu, menu);
+		}
 		inflater.inflate(R.menu.options_menu, menu);
+
 		return true;
 	}
 
