@@ -83,8 +83,10 @@ public class LoggingTask implements ITelemTask {
 	@Override
 	public void disconnect() {
 		endLogging();
-		objMngr.deleteNewObjectObserver(newObjObserver);
-		objMngr.deleteNewInstanceObserver(newObjObserver);
+		if (objMngr != null) {
+			objMngr.deleteNewObjectObserver(newObjObserver);
+			objMngr.deleteNewInstanceObserver(newObjObserver);
+		}
 		unregisterAllObjects();
 	}
 
