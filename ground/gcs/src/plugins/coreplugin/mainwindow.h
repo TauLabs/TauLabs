@@ -157,9 +157,9 @@ private slots:
     void openRecentFile();
     void setFocusToEditor();
     void saveAll();
-    void aboutOpenPilotGCS();
+    void aboutTauLabsGCS();
     void aboutPlugins();
-    void aboutOpenPilotAuthors();
+    void aboutTauLabsAuthors();
     void updateFocusWidget(QWidget *old, QWidget *now);
     void destroyVersionDialog();
     void destroyAuthorsDialog();
