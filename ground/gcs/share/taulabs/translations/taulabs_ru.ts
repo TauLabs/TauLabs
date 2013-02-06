@@ -2801,7 +2801,7 @@ Update</source>
     </message>
     <message>
         <location line="+8"/>
-        <source>http://forums.Tau Labs.org/blog/rss/4-Tau Labs-development-blog</source>
+        <source>https://github.com/TauLabs/TauLabs/commits/next.atom</source>
         <extracomment>Add localized feed here only if one exists</extracomment>
         <translation></translation>
     </message>
