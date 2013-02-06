@@ -481,6 +481,9 @@ public class HidUAVTalk extends TelemetryTask {
 		synchronized(readRequest) {
 			if(!readRequest.queue(readBuffer, MAX_HID_PACKET_SIZE)) {
 				if (ERROR) Log.e(TAG, "Failed to queue request");
+				boolean cleared = readRequest.cancel();
+				if (cleared)
+					Log.d(TAG, "Managed to clear request");
 			} else
 				readPending = true;
 		}
