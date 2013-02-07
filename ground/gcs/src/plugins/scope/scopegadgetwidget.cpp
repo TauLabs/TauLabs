@@ -441,27 +441,6 @@ void ScopeGadgetWidget::setupSeriesPlot()
  */
 void ScopeGadgetWidget::setupTimeSeriesPlot()
 {
-//{    preparePlot2d(Scatterplot2d, TimeSeries2d);
-
-//    setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());
-//    setAxisScale(QwtPlot::xBottom, 0, m_xWindowSize);
-//    setAxisLabelRotation(QwtPlot::xBottom, 0.0);
-//    setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom);
-
-//    QwtScaleWidget *scaleWidget = axisWidget(QwtPlot::xBottom);
-
-//    // reduce the gap between the scope canvas and the axis scale
-//    scaleWidget->setMargin(0);
-
-//    // reduce the axis font size
-//    QFont fnt(axisFont(QwtPlot::xBottom));
-//    fnt.setPointSize(7);
-//    setAxisFont(QwtPlot::xBottom, fnt);	// x-axis
-//    setAxisFont(QwtPlot::yLeft, fnt);	// y-axis
-//    setAxisFont(QwtPlot::yRight, fnt);	// y-axis
-//}
-//return;
-
     preparePlot2d(Scatterplot2d, TimeSeries2d);
 
 //    QwtText title("Time [h:m:s]");
@@ -521,12 +500,6 @@ void ScopeGadgetWidget::setupHistogramPlot(){
 
         preparePlot2d(Histogram);
 
-    //	QwtText title("Index");
-    ////	title.setFont(QFont("Helvetica", 20));
-    //	title.font().setPointSize(title.font().pointSize() / 2);
-    //	setAxisTitle(QwtPlot::xBottom, title);
-    ////    setAxisTitle(QwtPlot::xBottom, "Index");
-
         setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());
         setAxisAutoScale(QwtPlot::xBottom);
         setAxisLabelRotation(QwtPlot::xBottom, 0.0);
@@ -550,22 +523,8 @@ void ScopeGadgetWidget::setupSpectrogramPlot(){
 
         preparePlot3d(Spectrogram);
 
-//        setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());
         setAxisAutoScale(QwtPlot::xBottom);
         setAxisAutoScale(QwtPlot::yLeft);
-//        setAxisLabelRotation(QwtPlot::xBottom, 0.0);
-//        setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom);
-
-//        QwtScaleWidget *scaleWidget = axisWidget(QwtPlot::xBottom);
-
-//        // reduce the gap between the scope canvas and the axis scale
-//        scaleWidget->setMargin(0);
-
-//        // reduce the axis font size
-//        QFont fnt(axisFont(QwtPlot::xBottom));
-//        fnt.setPointSize(7);
-//        setAxisFont(QwtPlot::xBottom, fnt);	// x-axis
-//        setAxisFont(QwtPlot::yLeft, fnt);	// y-axis
 }
 
 
