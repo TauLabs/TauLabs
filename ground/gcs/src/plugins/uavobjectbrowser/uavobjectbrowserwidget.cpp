@@ -3,6 +3,7 @@
  *
  * @file       uavobjectbrowserwidget.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVObjectBrowserPlugin UAVObject Browser Plugin
@@ -64,12 +65,13 @@ UAVObjectBrowserWidget::UAVObjectBrowserWidget(QWidget *parent) : QWidget(parent
     connect(m_browser->eraseSDButton, SIGNAL(clicked()), this, SLOT(eraseObject()));
     connect(m_browser->sendButton, SIGNAL(clicked()), this, SLOT(sendUpdate()));
     connect(m_browser->requestButton, SIGNAL(clicked()), this, SLOT(requestUpdate()));
-    connect(m_browser->tbView,SIGNAL(clicked()),this,SLOT(viewSlot()));
+    connect(m_browser->viewSettingsButton,SIGNAL(clicked()),this,SLOT(viewSlot()));
     connect(m_viewoptions->cbScientific, SIGNAL(toggled(bool)), this, SLOT(useScientificNotation(bool)));
     connect(m_viewoptions->cbScientific, SIGNAL(toggled(bool)), this, SLOT(viewOptionsChangedSlot()));
     connect(m_viewoptions->cbMetaData, SIGNAL(toggled(bool)), this, SLOT(viewOptionsChangedSlot()));
     connect(m_viewoptions->cbCategorized, SIGNAL(toggled(bool)), this, SLOT(viewOptionsChangedSlot()));
-    enableUAVOBrowserButtons(true);
+    enableUAVOBrowserButtons(false);
+    }
 }
 
 UAVObjectBrowserWidget::~UAVObjectBrowserWidget()
@@ -154,7 +156,7 @@ void UAVObjectBrowserWidget::useScientificNotation(bool scientific)
 
 
 /**
- * @brief UAVObjectBrowserWidget::sendUpdate Sends a UAVO to board RAM. Does not affect board NVRAM
+ * @brief UAVObjectBrowserWidget::sendUpdate Sends a UAVO to board RAM. Does not affect board NVRAM.
  */
 void UAVObjectBrowserWidget::sendUpdate()
 {
@@ -172,7 +174,7 @@ void UAVObjectBrowserWidget::sendUpdate()
 
 
 /**
- * @brief UAVObjectBrowserWidget::requestUpdate Requests a UAVO from board RAM. Does not affect board NVRAM
+ * @brief UAVObjectBrowserWidget::requestUpdate Requests a UAVO from board RAM. Does not affect board NVRAM.
  */
 void UAVObjectBrowserWidget::requestUpdate()
 {
@@ -183,11 +185,18 @@ void UAVObjectBrowserWidget::requestUpdate()
     obj->requestUpdate();
 }
 
+
+/**
+ * @brief UAVObjectBrowserWidget::findCurrentObjectTreeItem Finds the UAVO selected in the object tree
+ * @return Object tree item corresponding to UAVO name
+ */
 ObjectTreeItem *UAVObjectBrowserWidget::findCurrentObjectTreeItem()
 {
     QModelIndex current = m_browser->treeView->currentIndex();
     TreeItem *item = static_cast<TreeItem*>(current.internalPointer());
     ObjectTreeItem *objItem = 0;
+
+    //What is this doing?
     while (item) {
         objItem = dynamic_cast<ObjectTreeItem*>(item);
         if (objItem)
@@ -219,7 +228,7 @@ void UAVObjectBrowserWidget::saveObject()
 
 
 /**
- * @brief UAVObjectBrowserWidget::loadObject  Retrieve UAVO from board NVRAM. This loads the UAVO into board RAM
+ * @brief UAVObjectBrowserWidget::loadObject  Retrieve UAVO from board NVRAM. This loads the UAVO into board RAM.
  */
 void UAVObjectBrowserWidget::loadObject()
 {
@@ -235,7 +244,7 @@ void UAVObjectBrowserWidget::loadObject()
 
 
 /**
- * @brief UAVObjectBrowserWidget::eraseObject Erases the selected UAVO from board NVRAM
+ * @brief UAVObjectBrowserWidget::eraseObject Erases the selected UAVO from board NVRAM.
  */
 void UAVObjectBrowserWidget::eraseObject()
 {
@@ -246,6 +255,12 @@ void UAVObjectBrowserWidget::eraseObject()
     updateObjectPersistance(ObjectPersistence::OPERATION_DELETE, obj);
 }
 
+
+/**
+ * @brief UAVObjectBrowserWidget::updateObjectPersistance Sends an object persistance command to the flight controller
+ * @param op  ObjectPersistence::OperationOptions enum
+ * @param obj UAVObject that will be operated on
+ */
 void UAVObjectBrowserWidget::updateObjectPersistance(ObjectPersistence::OperationOptions op, UAVObject *obj)
 {
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
@@ -262,6 +277,7 @@ void UAVObjectBrowserWidget::updateObjectPersistance(ObjectPersistence::Operatio
         objper->updated();
     }
 }
+
 
 /**
  * @brief UAVObjectBrowserWidget::enableUAVOButtons Toggles the UAVO buttons depending on
@@ -289,6 +305,10 @@ void UAVObjectBrowserWidget::enableUAVOButtons(const QModelIndex &currentIndex, 
     enableUAVOBrowserButtons(enableState);
 }
 
+
+/**
+ * @brief UAVObjectBrowserWidget::viewSlot Trigger view options dialog
+ */
 void UAVObjectBrowserWidget::viewSlot()
 {
     if(m_viewoptionsDialog->isVisible())
@@ -302,10 +322,15 @@ void UAVObjectBrowserWidget::viewSlot()
     }
 }
 
+
+/**
+ * @brief UAVObjectBrowserWidget::viewOptionsChangedSlot Triggers when the "view options" checkboxes are toggled
+ */
 void UAVObjectBrowserWidget::viewOptionsChangedSlot()
 {
     emit viewOptionsChanged(m_viewoptions->cbCategorized->isChecked(),m_viewoptions->cbScientific->isChecked(),m_viewoptions->cbMetaData->isChecked());
 }
+
 
 /**
  * @brief UAVObjectBrowserWidget::enableUAVOBrowserButtons Enables or disables UAVO browser buttons
