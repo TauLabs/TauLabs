@@ -3,6 +3,7 @@
  *
  * @file       scopegadgetfactory.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ScopePlugin Scope Gadget Plugin
@@ -49,14 +50,15 @@ void ScopeGadgetFactory::stopPlotting()
 
 void ScopeGadgetFactory::startPlotting()
 {
-    emit onStartPlotting();
+    emit onStartPlotting(); //<-- [2]: Isn't this circular with [2]?
 }
 
 
 Core::IUAVGadget* ScopeGadgetFactory::createGadget(QWidget *parent)
 {
     ScopeGadgetWidget* gadgetWidget = new ScopeGadgetWidget(parent);
-    connect(this,SIGNAL(onStartPlotting()), gadgetWidget, SLOT(startPlotting()));
+
+    connect(this,SIGNAL(onStartPlotting()), gadgetWidget, SLOT(startPlotting())); //<--[2]: Isn't this circular with [1]?
     connect(this,SIGNAL(onStopPlotting()), gadgetWidget, SLOT(stopPlotting()));
     return new ScopeGadget(QString("ScopeGadget"), gadgetWidget, parent);
 }

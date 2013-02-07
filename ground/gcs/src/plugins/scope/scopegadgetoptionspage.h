@@ -3,6 +3,7 @@
  *
  * @file       scopegadgetoptionspage.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ScopePlugin Scope Gadget Plugin
@@ -66,22 +67,27 @@ private:
     Ui::ScopeGadgetOptionsPage *options_page;
     ScopeGadgetConfiguration *m_config;
 
-    void addPlotCurveConfig(QString uavObject, QString uavField, int scale, int mean, QString mathFunction, QVariant varColor);
-    void setCurvePlotProperties(QListWidgetItem *listWidgetItem, QString uavObject, QString uavField, int scale, int mean, QString mathFunction, QVariant varColor);
-    void setYAxisWidgetFromPlotCurve();
+    void addPlot2dCurveConfig(QString uavObject, QString uavField, int scale, int mean, QString mathFunction, QVariant varColor);
+    void addPlot3dCurveConfig(QString uavObject, QString uavField, int scale, int mean, QString mathFunction, QVariant varColor);
+    void setPlot2dCurveProperties(QListWidgetItem *listWidgetItem, QString uavObject, QString uavField, int scale, int mean, QString mathFunction, QVariant varColor);
+    void set2dYAxisWidgetFromDataSource();
     void setButtonColor(const QColor &color);
-    void validateRefreshInterval();
     bool eventFilter( QObject * obj, QEvent * evt );
 
 private slots:
-    void on_spnRefreshInterval_valueChanged(int );
-    void on_lstCurves_currentRowChanged(int currentRow);
-    void on_btnRemoveCurve_clicked();
-    void on_btnAddCurve_clicked();
-    void on_cmbUAVObjects_currentIndexChanged(QString val);    
+    void on_lst2dCurves_currentRowChanged(int currentRow);
+    void on_btnAdd2dCurve_clicked();
+    void on_btnApply2dCurve_clicked();
+    void on_btnRemove2dCurve_clicked();
+    void on_cmbUAVObjects_currentIndexChanged(QString val);
+    void on_cmbUAVObjectsSpectrogram_currentIndexChanged(QString val);
     void on_btnColor_clicked();
     void on_mathFunctionComboBox_currentIndexChanged(int currentIndex);
-    void on_loggingEnable_clicked();
+    void on_cmbXAxisScatterplot2d_currentIndexChanged(QString currentText);
+    void on_cmbSpectrogramSource_currentIndexChanged(QString currentIndex);
+    void on_cmb2dPlotType_currentIndexChanged(QString);
+    void on_cmb3dPlotType_currentIndexChanged(QString);
+    void on_tabWidget2d3d_currentIndexChanged(int);
 
 };
 

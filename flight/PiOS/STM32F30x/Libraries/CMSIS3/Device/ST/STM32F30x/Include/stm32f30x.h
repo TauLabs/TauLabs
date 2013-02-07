@@ -152,10 +152,11 @@
  * @brief Configuration of the Cortex-M4 Processor and Core Peripherals 
  */
 #define __CM4_REV                 0x0001  /*!< Core revision r0p1                            */
-#define __MPU_PRESENT             1         /*!< STM32F30X provide an MPU */
-#define __NVIC_PRIO_BITS          4         /*!< STM32F30X uses 4 Bits for the Priority Levels */
-#define __Vendor_SysTickConfig    0         /*!< Set to 1 if different SysTick Config is used */
-#define __FPU_PRESENT             1         /*!< STM32F30X provide an FPU */
+#define __MPU_PRESENT             1       /*!< STM32F30X provide an MPU                      */
+#define __NVIC_PRIO_BITS          4       /*!< STM32F30X use 4 Bits for the Priority Levels  */
+#define __Vendor_SysTickConfig    0       /*!< Set to 1 if different SysTick Config is used  */
+#define __FPU_PRESENT             1       /*!< STM32F30X provide an FPU                      */
+#define ARM_MATH_CM4                      /*!< Use CM4 math in CMSIS3 DSP_Lib                */
 
 
 /**

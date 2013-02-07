@@ -132,6 +132,7 @@
 #define __NVIC_PRIO_BITS          4       /*!< STM32F4XX uses 4 Bits for the Priority Levels */
 #define __Vendor_SysTickConfig    0       /*!< Set to 1 if different SysTick Config is used  */
 #define __FPU_PRESENT             1       /*!< FPU present                                   */
+#define ARM_MATH_CM4                      /*!< Use CM4 math in CMSIS3 DSP_Lib                */
 
 /**
  * @brief STM32F4XX Interrupt Number Definition, according to the selected device 

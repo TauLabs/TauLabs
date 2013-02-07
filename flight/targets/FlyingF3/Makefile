@@ -1,8 +1,8 @@
 ###############################################################################
 # @file       Makefile
 # @author     The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2009.
-# @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
-# @addtogroup
+# @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2012-2013
+# @addtogroup 
 # @{
 # @addtogroup
 # @{
@@ -57,12 +57,13 @@ OPTMODULES += CameraStab
 OPTMODULES += Autotune
 OPTMODULES += TxPID
 OPTMODULES += GenericI2CSensor
-OPTMODULES += AltitudeHold
-OPTMODULES += PathPlanner
-OPTMODULES += VtolPathFollower
-OPTMODULES += FixedWingPathFollower
+#OPTMODULES += AltitudeHold
+#OPTMODULES += PathPlanner
+#OPTMODULES += VtolPathFollower
+#OPTMODULES += FixedWingPathFollower
 #OPTMODULES += Battery
 #OPTMODULES += ComUsbBridge
+OPTMODULES += VibrationTest
 
 # Paths
 OPSYSTEM = ./System
@@ -89,6 +90,7 @@ DEBUG_CM3_DIR_INC = $(DEBUG_CM3_DIR)/inc
 OPUAVOBJINC = $(OPUAVOBJ)/inc
 FLIGHTPLANLIB = $(OPMODULEDIR)/FlightPlan/lib
 FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
+CMSISDIR = $(PIOSCOMMONLIB)/CMSIS3
 
 # optional component libraries
 include $(PIOSCOMMONLIB)/FreeRTOS/library.mk
@@ -316,7 +318,7 @@ ALLSRC     =  $(ASRC) $(SRC) $(CPPSRC)
 # List of all source files without directory and file-extension.
 ALLSRCBASE = $(notdir $(basename $(ALLSRC)))
 # Define all object files.
-ALLOBJ     = $(addprefix $(OUTDIR)/, $(addsuffix .o, $(ALLSRCBASE)))
+ALLOBJ     = $(addprefix $(OUTDIR)/, $(addsuffix .o, $(ALLSRCBASE))) $(FLIGHTLIB)/CMSIS3_DSP/libarm_cortexM4lf_math.a
 # Define all listing files (used for make clean).
 LSTFILES   = $(addprefix $(OUTDIR)/, $(addsuffix .lst, $(ALLSRCBASE)))
 # Define all depedency-files (used for make clean).
