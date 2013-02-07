@@ -35,6 +35,7 @@
 #include <math.h>
 #include <QDebug>
 
+#define MAX_NUMBER_OF_INTERVALS 1000
 
 Plot2dData::Plot2dData(QString p_uavObject, QString p_uavFieldName):
     curve(0),
@@ -404,20 +405,37 @@ bool HistogramData::append(UAVObject* obj)
 
         //Bad place to do this
         double step = binWidth;
+        if (step < 1e-6) //Don't allow step size to be 0.
+            step =1e-6;
+
+        if (numberOfBins > MAX_NUMBER_OF_INTERVALS)
+            numberOfBins = MAX_NUMBER_OF_INTERVALS;
 
         if (field) {
             double currentValue = valueAsDouble(obj, field, haveSubField, uavSubFieldName) * pow(10, scalePower);
 
             // Extend interval, if necessary
             if(!histogramInterval->empty()){
-
-                while (currentValue < histogramInterval->front().minValue()){
+                while (currentValue < histogramInterval->front().minValue()
+                       && histogramInterval->size() <= numberOfBins){
                     histogramInterval->prepend(QwtInterval(histogramInterval->front().minValue() - step, histogramInterval->front().minValue()));
                     histogramBins->prepend(QwtIntervalSample(0,histogramInterval->front()));
                 }
-                while (currentValue > histogramInterval->back().maxValue()){
+
+                while (currentValue > histogramInterval->back().maxValue()
+                       && histogramInterval->size() <= numberOfBins){
                     histogramInterval->append(QwtInterval(histogramInterval->back().maxValue(), histogramInterval->back().maxValue() + step));
                     histogramBins->append(QwtIntervalSample(0,histogramInterval->back()));
+                }
+
+                // If the histogram reaches its max size, pop one off the end and return
+                // This is a graceful way not to lock up the GCS if the bin width
+                // is inappropriate, or if there is an extremely distant outlier.
+                if (histogramInterval->size() > numberOfBins )
+                {
+                    histogramBins->pop_back();
+                    histogramInterval->pop_back();
+                    return false;
                 }
 
                 // Test all intervals. This isn't particularly effecient, especially if we have just

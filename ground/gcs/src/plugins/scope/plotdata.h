@@ -254,10 +254,11 @@ class HistogramData : public Plot2dData
 {
     Q_OBJECT
 public:
-    HistogramData(QString uavObject, QString uavField, double binWidth) :
+    HistogramData(QString uavObject, QString uavField, double binWidth, uint numberOfBins) :
         Plot2dData(uavObject, uavField)
     {
         this->binWidth = binWidth;
+        this->numberOfBins = numberOfBins;
         scalePower = 1;
     }
 
@@ -277,6 +278,7 @@ public:
 
 private:
     double binWidth;
+    uint numberOfBins;
 
 private slots:
 

@@ -777,10 +777,10 @@ void ScopeGadgetWidget::add2dCurvePlot(QString uavObjectName, QString uavFieldSu
     mutex.unlock();
 }
 
-void ScopeGadgetWidget::addHistogram(QString uavObjectName, QString uavFieldSubFieldName, double binWidth, int scaleOrderFactor, int meanSamples, QString mathFunction, QBrush brush)
+void ScopeGadgetWidget::addHistogram(QString uavObjectName, QString uavFieldSubFieldName, double binWidth, uint numberOfBins, int scaleOrderFactor, int meanSamples, QString mathFunction, QBrush brush)
 {
     Plot2dData* plot2dData;
-    plot2dData = new HistogramData(uavObjectName, uavFieldSubFieldName, binWidth);
+    plot2dData = new HistogramData(uavObjectName, uavFieldSubFieldName, binWidth, numberOfBins);
 
     plot2dData->setXWindowSize(m_xWindowSize);
     plot2dData->scalePower = scaleOrderFactor;

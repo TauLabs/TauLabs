@@ -153,7 +153,7 @@
                      <string>bins</string>
                     </property>
                     <property name="maximum">
-                     <number>5000</number>
+                     <number>1000</number>
                     </property>
                     <property name="singleStep">
                      <number>30</number>
