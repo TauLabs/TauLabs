@@ -3,6 +3,7 @@
  *
  * @file       scopegadgetwidget.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      Scope Plugin Gadget Widget
  * @see        The GNU Public License (GPL) Version 3
  * @defgroup   scopeplugin
@@ -31,11 +32,10 @@
 #include "plotdata.h"
 
 #include "qwt/src/qwt.h"
-#include "qwt/src/qwt_plot.h"
-#include "qwt/src/qwt_plot_curve.h"
-#include "qwt/src/qwt_scale_draw.h"
-#include "qwt/src/qwt_scale_widget.h"
-#include "qwt/src/qwt_plot_histogram.h"
+#include "qwt/src/qwt_color_map.h"
+#include "qwt/src/qwt_plot_grid.h"
+#include "qwt/src/qwt_plot_layout.h"
+
 
 #include <QTimer>
 #include <QTime>
@@ -71,27 +71,28 @@ public:
     ScopeGadgetWidget(QWidget *parent = 0);
     ~ScopeGadgetWidget();
 
-    void setupSequentialPlot();
-    void setupChronoPlot();
-    void setupHistoPlot();
-    void setupUAVObjectPlot();
-    PlotType plotType(){return m_plotType;}
+    QString getUavObjectFieldUnits(QString uavObjectName, QString uavObjectFieldName);
+
+    void setupSeriesPlot();
+    void setupTimeSeriesPlot();
+    void setupHistogramPlot();
+    void setupSpectrogramPlot();
+    Plot2dType plotType(){return m_plot2dType;}
+    Scatterplot2dType scatterplot2dType(){return m_Scatterplot2dType;}
 
     void setXWindowSize(double xWindowSize){m_xWindowSize = xWindowSize;}
-    double xWindowSize(){return m_xWindowSize;}
+    void setTimeHorizon(double timeHorizon){m_timeHorizon = timeHorizon;}
     void setRefreshInterval(double refreshInterval){m_refreshInterval = refreshInterval;}
+    double getXWindowSize(){return m_xWindowSize;}
+    double getTimeHorizon(){return m_timeHorizon;}
     int refreshInterval(){return m_refreshInterval;}
 
 
-    void addCurvePlot(QString uavObject, QString uavFieldSubField, int scaleOrderFactor = 0, int meanSamples = 1, QString mathFunction= "None", QPen pen = QPen(Qt::black));
+    void add2dCurvePlot(QString uavObject, QString uavFieldSubField, int scaleOrderFactor = 0, int meanSamples = 1, QString mathFunction = "None", QPen pen = QPen(Qt::black));
+    void addHistogram(QString uavObject, QString uavFieldSubField, int scaleOrderFactor = 0, int meanSamples = 1, QString mathFunction = "None", QBrush brush = QBrush(Qt::red));
     //void removeCurvePlot(QString uavObject, QString uavField);
+    void addWaterfallPlot(QString uavObject, QString uavFieldSubField, int scaleOrderFactor = 0, int meanSamples = 1, QString mathFunction = "None", double samplingFrequency=100, int windowWidth=8, double timeHorizon=60);
     void clearCurvePlots();
-    int csvLoggingStart();
-    int csvLoggingStop();
-    void csvLoggingSetName(QString);
-    void setLoggingEnabled(bool value){m_csvLoggingEnabled=value;};
-    void setLoggingNewFileOnConnect(bool value){m_csvLoggingNewFileOnConnect=value;};
-    void setLoggingPath(QString value){m_csvLoggingPath=value;};
 
 protected:
     void mousePressEvent(QMouseEvent *e);
@@ -107,49 +108,46 @@ private slots:
     void showCurve(QwtPlotItem *item, bool on);
     void startPlotting();
     void stopPlotting();
-    void csvLoggingConnect();
-    void csvLoggingDisconnect();
 
 private:
 
-    void preparePlot(PlotType plotType);
+    void preparePlot2d(Plot2dType plotType, Scatterplot2dType scatterplot2dType = (Scatterplot2dType) -1);
+    void preparePlot3d(Plot3dType plotType);
     void setupExamplePlot();
 
-    PlotType m_plotType;
+    Plot2dType m_plot2dType;
+    Plot3dType m_plot3dType;
+
+    Scatterplot2dType m_Scatterplot2dType;
 
     double m_xWindowSize;
+    double m_timeHorizon;
     int m_refreshInterval;
     QList<QString> m_connectedUAVObjects;
-    QMap<QString, PlotData*> m_curvesData;
+    QMap<QString, Plot2dData*> m_curves2dData;
+    QMap<QString, Plot3dData*> m_curves3dData;
 
-    QTimer *replotTimer;
+    static QTimer *replotTimer;
 
-    bool m_csvLoggingStarted;
-    bool m_csvLoggingEnabled;
-    bool m_csvLoggingHeaderSaved;
-    bool m_csvLoggingDataSaved;
-    bool m_csvLoggingNameSet;
-    bool m_csvLoggingDataValid;
-    bool m_csvLoggingDataUpdated;
-    bool m_csvLoggingConnected;
-    bool m_csvLoggingNewFileOnConnect;
-
-    QDateTime m_csvLoggingStartTime;
-
-    QString m_csvLoggingName;
-    QString m_csvLoggingPath;
-    QString m_csvLoggingBuffer;
-    QFile m_csvLoggingFile;
+    QwtPlotGrid *m_grid;
+    QwtLegend *m_legend;
 
 	QMutex mutex;
-
-    int csvLoggingInsertHeader();
-    int csvLoggingAddData();
-    int csvLoggingInsertData();
 
 	void deleteLegend();
 	void addLegend();
 };
 
+class ColorMap: public QwtLinearColorMap
+{
+public:
+    ColorMap():
+        QwtLinearColorMap( Qt::darkCyan, Qt::red )
+    {
+        addColorStop( 0.1, Qt::cyan );
+        addColorStop( 0.6, Qt::green );
+        addColorStop( 0.95, Qt::yellow );
+    }
+};
 
 #endif /* SCOPEGADGETWIDGET_H_ */
