@@ -33,6 +33,7 @@
 #include "qwt/src/qwt.h"
 #include "qwt/src/qwt_plot.h"
 #include "qwt/src/qwt_plot_curve.h"
+#include "qwt/src/qwt_plot_histogram.h"
 #include "qwt/src/qwt_scale_draw.h"
 #include "qwt/src/qwt_scale_widget.h"
 
@@ -46,6 +47,7 @@
 enum PlotType {
     SequentialPlot,
     ChronoPlot,
+    HistoPlot,
     UAVObjectPlot,
 
     NPlotTypes
@@ -62,9 +64,9 @@ public:
     PlotData(QString uavObject, QString uavField);
     ~PlotData();
 
-    QString uavObject;
-    QString uavField;
-    QString uavSubField;
+    QString uavObjectName;
+    QString uavFieldName;
+    QString uavSubFieldName;
     bool haveSubField;
     int scalePower; //This is the power to which each value must be raised
     int meanSamples;
@@ -124,7 +126,7 @@ public:
 };
 
 /*!
-  \brief The chrono plot have a variable sized buffer of data, where the data is for a specified time period.
+  \brief The chrono plot has a variable sized buffer of data, where the data is for a specified time period.
   */
 class ChronoPlotData : public PlotData
 {
@@ -152,6 +154,36 @@ private slots:
 };
 
 /*!
+  \brief The histogram plot has a variable sized buffer of data, where the data is for a specified histogram data set.
+  */
+class HistoPlotData : public PlotData
+{
+    Q_OBJECT
+public:
+    HistoPlotData(QString uavObject, QString uavField) :
+        PlotData(uavObject, uavField)
+    {
+        scalePower = 1;
+    }
+
+    ~HistoPlotData() {
+    }
+
+    bool append(UAVObject* obj);
+
+    virtual PlotType plotType() {
+        return HistoPlot;
+    }
+
+    virtual void removeStaleData(){}
+
+private:
+
+private slots:
+
+};
+
+/*!
   \brief UAVObject plot use a fixed size buffer of data, where the horizontal axis values come from
   a UAVObject field.
   */
@@ -167,7 +199,7 @@ public:
 
     virtual PlotType plotType() {
         return UAVObjectPlot;
-    }    
+    }
 
     virtual void removeStaleData(){}
 };

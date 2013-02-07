@@ -49,25 +49,28 @@ void ScopeGadget::loadConfiguration(IUAVGadgetConfiguration* config)
     widget->setXWindowSize(sgConfig->dataSize());
     widget->setRefreshInterval(sgConfig->refreshInterval());
 
-    if(sgConfig->plotType() == SequentialPlot )
+    if(sgConfig->plotType() == SequentialPlot)
         widget->setupSequentialPlot();
     else if(sgConfig->plotType() == ChronoPlot)
         widget->setupChronoPlot();
+    else if(sgConfig->plotType() == HistoPlot)
+        widget->setupHistoPlot();
+
     //    else if(sgConfig->plotType() == UAVObjectPlot)
     //        widget->setupUAVObjectPlot();
 
     foreach (PlotCurveConfiguration* plotCurveConfig,  sgConfig->plotCurveConfigs()) {
 
-        QString uavObject = plotCurveConfig->uavObject;
-        QString uavField = plotCurveConfig->uavField;
+        QString uavObjectName = plotCurveConfig->uavObjectName;
+        QString uavFieldName = plotCurveConfig->uavFieldName;
         int scale = plotCurveConfig->yScalePower;
         int mean = plotCurveConfig->yMeanSamples;
         QString mathFunction = plotCurveConfig->mathFunction;
         QRgb color = plotCurveConfig->color;
 
         widget->addCurvePlot(
-                uavObject,
-                uavField,
+                uavObjectName,
+                uavFieldName,
                 scale,
                 mean,
                 mathFunction,

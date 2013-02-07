@@ -25,25 +25,33 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include "extensionsystem/pluginmanager.h"
+
 
 #include "plotdata.h"
+#include "vibrationtestoutput.h"
+#include "vibrationtestsettings.h"
 #include <math.h>
 #include <QDebug>
 
-PlotData::PlotData(QString p_uavObject, QString p_uavField)
-{    
-    uavObject = p_uavObject;
+//Global variable for cycling the axes in the FFT output
+quint32 accHistIdx=0;
 
-    if(p_uavField.contains("-"))
+PlotData::PlotData(QString p_uavObject, QString p_uavFieldName)
+{    
+    uavObjectName = p_uavObject;
+
+    //TODO: This needs a comment here. How can a `-` appear in a UAVO field name? Is this automatic in certain instances, or is it user-defined?
+    if(p_uavFieldName.contains("-"))
     {
-        QStringList fieldSubfield = p_uavField.split("-", QString::SkipEmptyParts);
-        uavField = fieldSubfield.at(0);
-        uavSubField = fieldSubfield.at(1);
+        QStringList fieldSubfield = p_uavFieldName.split("-", QString::SkipEmptyParts);
+        uavFieldName = fieldSubfield.at(0);
+        uavSubFieldName = fieldSubfield.at(1);
         haveSubField = true;
     }
     else
     {
-        uavField =  p_uavField;
+        uavFieldName =  p_uavFieldName;
         haveSubField = false;
     }
 
@@ -70,7 +78,7 @@ double PlotData::valueAsDouble(UAVObject* obj, UAVObjectField* field)
     QVariant value;
 
     if(haveSubField){
-        int indexOfSubField = field->getElementNames().indexOf(QRegExp(uavSubField, Qt::CaseSensitive, QRegExp::FixedString));
+        int indexOfSubField = field->getElementNames().indexOf(QRegExp(uavSubFieldName, Qt::CaseSensitive, QRegExp::FixedString));
         value = field->getValue(indexOfSubField);
     }else
         value = field->getValue();
@@ -90,10 +98,10 @@ PlotData::~PlotData()
 
 bool SequentialPlotData::append(UAVObject* obj)
 {
-    if (uavObject == obj->getName()) {
+    if (uavObjectName == obj->getName()) {
 
         //Get the field of interest
-        UAVObjectField* field =  obj->getField(uavField);
+        UAVObjectField* field =  obj->getField(uavFieldName);
 
         if (field) {
 
@@ -154,10 +162,10 @@ bool SequentialPlotData::append(UAVObject* obj)
 
 bool ChronoPlotData::append(UAVObject* obj)
 {
-    if (uavObject == obj->getName()) {
+    if (uavObjectName == obj->getName()) {
         //Get the field of interest
-        UAVObjectField* field =  obj->getField(uavField);
-        //qDebug() << "uavObject: " << uavObject << ", uavField: " << uavField;
+        UAVObjectField* field =  obj->getField(uavFieldName);
+        //qDebug() << "uavObject: " << uavObject << ", uavField: " << uavFieldName;
 
         if (field) {
             QDateTime NOW = QDateTime::currentDateTime(); //THINK ABOUT REIMPLEMENTING THIS TO SHOW UAVO TIME, NOT SYSTEM TIME
@@ -245,6 +253,62 @@ void ChronoPlotData::removeStaleDataTimeout()
     removeStaleData();
     //dataChanged();
     //qDebug() << "removeStaleDataTimeout";
+}
+
+bool HistoPlotData::append(UAVObject* obj)
+{
+
+    //Empty histogram data set
+    xData->clear();
+    yData->clear();
+
+    qDebug() << "uavObject by name of " << obj->getName() << " is calling HistoPlot::append???";
+
+    if (uavObjectName == obj->getName()) {
+
+        //Get the field of interest
+        UAVObjectField* field =  obj->getField(uavFieldName);
+
+        if (field) {
+            double currentValue;
+
+            UAVObjectManager *objManager;
+
+            ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+            Q_ASSERT(pm != NULL);
+            objManager = pm->getObject<UAVObjectManager>();
+            Q_ASSERT(objManager != NULL);
+
+            VibrationTestOutput *vibrationTestOutputObj = VibrationTestOutput::GetInstance(objManager);
+            Q_ASSERT(vibrationTestOutputObj != NULL);
+
+            VibrationTestSettings *vibrationTestSettingsObj = VibrationTestSettings::GetInstance(objManager);
+            Q_ASSERT(vibrationTestSettingsObj != NULL);
+            VibrationTestSettings::DataFields vibrationTestSettingsData = vibrationTestSettingsObj->getData();
+
+            quint32 fftHalfSize = vibrationTestSettingsData.FFTWindowSize / 2;
+            double samplingFrequency = 1000.0/(vibrationTestSettingsData.SampleRate); //Convert from [ms/Sample] to [Samples/sec]
+
+            for (quint32 i=0; i< fftHalfSize; i++){
+                vibrationTestOutputObj = VibrationTestOutput::GetInstance(objManager,i + accHistIdx * fftHalfSize);
+                VibrationTestOutput::DataFields vibrationTestOutputData = vibrationTestOutputObj->getData();
+                currentValue = vibrationTestOutputData.BinValue;
+                float tickFreq=i/((double)2.0*fftHalfSize) * samplingFrequency;
+                xData->append( tickFreq );
+                yData->append( currentValue );
+            }
+
+            //Wrap the histogram index
+            accHistIdx++;
+            if (accHistIdx >=3 ){
+                accHistIdx=0;
+            }
+
+        return true;
+        }
+    }
+
+    return false;
 }
 
 bool UAVObjectPlotData::append(UAVObject* obj)

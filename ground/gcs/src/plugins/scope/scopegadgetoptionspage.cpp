@@ -55,6 +55,7 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
 
     options_page->cmbPlotType->addItem("Sequential Plot","");
     options_page->cmbPlotType->addItem("Chronological Plot","");
+    options_page->cmbPlotType->addItem("Histogram Plot","");
 
     // Fills the combo boxes for the UAVObjects
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
@@ -103,14 +104,14 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
     //add the configured curves
     foreach (PlotCurveConfiguration* plotData,  m_config->plotCurveConfigs()) {
 
-        QString uavObject = plotData->uavObject;
-        QString uavField = plotData->uavField;
+        QString uavObjectName = plotData->uavObjectName;
+        QString uavFieldName = plotData->uavFieldName;
         int scale = plotData->yScalePower;
         int mean = plotData->yMeanSamples;
         QString mathFunction = plotData->mathFunction;
         QVariant varColor = plotData->color;
 
-        addPlotCurveConfig(uavObject,uavField,scale,mean,mathFunction,varColor);
+        addPlotCurveConfig(uavObjectName,uavFieldName,scale,mean,mathFunction,varColor);
     }
 
     if(m_config->plotCurveConfigs().count() > 0)
@@ -278,8 +279,8 @@ void ScopeGadgetOptionsPage::apply()
         QListWidgetItem* listItem = options_page->lstCurves->item(iIndex);
 
         PlotCurveConfiguration* newPlotCurveConfigs = new PlotCurveConfiguration();
-        newPlotCurveConfigs->uavObject = listItem->data(Qt::UserRole + 0).toString();
-        newPlotCurveConfigs->uavField  = listItem->data(Qt::UserRole + 1).toString();
+        newPlotCurveConfigs->uavObjectName = listItem->data(Qt::UserRole + 0).toString();
+        newPlotCurveConfigs->uavFieldName  = listItem->data(Qt::UserRole + 1).toString();
         newPlotCurveConfigs->yScalePower  = listItem->data(Qt::UserRole + 2).toInt(&parseOK);
         if(!parseOK)
             newPlotCurveConfigs->yScalePower = 0;
