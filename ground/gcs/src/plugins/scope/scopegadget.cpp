@@ -131,6 +131,7 @@ void ScopeGadget::loadConfiguration(IUAVGadgetConfiguration* config)
         default:
             //We should never get this far. Do something of interest
             Q_ASSERT(0);
+            break;
         }
     }
     else if (sgConfig->getPlotDimensions() == Plot3d)
@@ -196,6 +197,7 @@ void ScopeGadget::loadConfiguration(IUAVGadgetConfiguration* config)
         default:
             //We should never get this far. Do something of interest
             Q_ASSERT(0);
+            break;
         }
     }
 }
