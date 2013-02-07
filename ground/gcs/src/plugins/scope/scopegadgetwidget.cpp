@@ -92,9 +92,6 @@ ScopeGadgetWidget::~ScopeGadgetWidget()
     }
 
     clearCurvePlots();
-
-    delete m_legend;
-
 }
 
 // ******************************************************************
@@ -226,7 +223,6 @@ void ScopeGadgetWidget::deleteLegend()
 
     m_legend->clear();
     insertLegend(NULL, QwtPlot::TopLegend);
-//	insertLegend(NULL, QwtPlot::ExternalLegend);
 }
 
 
