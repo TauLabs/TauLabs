@@ -242,8 +242,6 @@ bool SpectrogramData::append(UAVObject* multiObj)
         if (multiObj->isSingleInstance())
             return false;
 
-        int instNum = 0;
-
         //Instantiate object manager
         UAVObjectManager *objManager;
 
@@ -267,8 +265,8 @@ bool SpectrogramData::append(UAVObject* multiObj)
             return false;
         }
 
+        //Initialize vector where we will read out an entire row of multiple instance UAVO
         QVector<double> values;
-//        values.reserve(spectrogramWidth);
 
         timeDataHistory->append(NOW.toTime_t() + NOW.time().msec() / 1000.0);
         UAVObjectField* multiField =  multiObj->getField(uavFieldName);
@@ -277,52 +275,13 @@ bool SpectrogramData::append(UAVObject* multiObj)
 
             // Get the field of interest
             foreach (UAVObject *obj, list) {
-                instNum++;
-
                 UAVObjectField* field =  obj->getField(uavFieldName);
 
                 double currentValue = valueAsDouble(obj, field, haveSubField, uavSubFieldName) * pow(10, scalePower);
 
-            //Perform scope math, if necessary
                 double vecVal = currentValue;
-/*
-            if (mathFunction  == "Boxcar average" || mathFunction  == "Standard deviation"){
-                //Put the new value at the front
+                //Normally some math would go here, modifying vecVal before appending it to values
 
-                // calculate average value
-                meanSum += currentValue;
-//                if(zDataHistory->size() > meanSamples) {
-//                    meanSum -= zDataHistory->first();
-//                    zDataHistory->pop_front();
-//                }
-
-                // make sure to correct the sum every meanSamples steps to prevent it
-                // from running away due to floating point rounding errors
-                correctionSum += currentValue;
-                if (++correctionCount >= meanSamples) {
-                    meanSum = correctionSum;
-                    correctionSum = 0.0f;
-                    correctionCount = 0;
-                }
-
-                double boxcarAvg=meanSum/zDataHistory->size();
-
-                if ( mathFunction  == "Standard deviation" ){
-                    //Calculate square of sample standard deviation, with Bessel's correction
-                    double stdSum = 0;
-                    for (int i=0; i < zDataHistory->size(); i++){
-                        stdSum += pow(zDataHistory->at(i)- boxcarAvg,2)/(meanSamples-1);
-                    }
-                    vecVal = sqrt(stdSum);
-                }
-                else  {
-                    vecVal = boxcarAvg;
-                }
-            }
-            else{
-                vecVal = currentValue;
-            }
-*/
                 values += vecVal;
             }
 
@@ -424,8 +383,6 @@ void TimeSeriesPlotData::removeStaleData()
         } else
             break;
     }
-
-    //qDebug() << "removeStaleData ";
 }
 
 void TimeSeriesPlotData::removeStaleDataTimeout()
