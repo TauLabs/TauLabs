@@ -416,13 +416,13 @@ bool HistogramData::append(UAVObject* obj)
             // Extend interval, if necessary
             if(!histogramInterval->empty()){
                 while (currentValue < histogramInterval->front().minValue()
-                       && histogramInterval->size() <= numberOfBins){
+                       && histogramInterval->size() <= (int) numberOfBins){
                     histogramInterval->prepend(QwtInterval(histogramInterval->front().minValue() - step, histogramInterval->front().minValue()));
                     histogramBins->prepend(QwtIntervalSample(0,histogramInterval->front()));
                 }
 
                 while (currentValue > histogramInterval->back().maxValue()
-                       && histogramInterval->size() <= numberOfBins){
+                       && histogramInterval->size() <= (int) numberOfBins){
                     histogramInterval->append(QwtInterval(histogramInterval->back().maxValue(), histogramInterval->back().maxValue() + step));
                     histogramBins->append(QwtIntervalSample(0,histogramInterval->back()));
                 }
@@ -430,7 +430,7 @@ bool HistogramData::append(UAVObject* obj)
                 // If the histogram reaches its max size, pop one off the end and return
                 // This is a graceful way not to lock up the GCS if the bin width
                 // is inappropriate, or if there is an extremely distant outlier.
-                if (histogramInterval->size() > numberOfBins )
+                if (histogramInterval->size() > (int) numberOfBins )
                 {
                     histogramBins->pop_back();
                     histogramInterval->pop_back();
