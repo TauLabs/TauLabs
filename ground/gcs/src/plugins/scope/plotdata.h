@@ -131,6 +131,7 @@ public:
     QVector<QwtInterval> *histogramInterval;
     QwtIntervalSeriesData *intervalSeriesData;
 
+
     void setYMinimum(double val){yMinimum=val;}
     void setYMaximum(double val){yMaximum=val;}
     void setXWindowSize(double val){m_xWindowSize=val;}
@@ -142,18 +143,18 @@ public:
     virtual bool append(UAVObject* obj) = 0;
     virtual Plot2dType plotType() = 0;
     virtual void removeStaleData() = 0;
+    virtual void setUpdatedFlagToTrue(){dataUpdated = true;}
+    virtual bool readAndResetUpdatedFlag(){bool tmp = dataUpdated; dataUpdated = false; return tmp;}
 
-
-    void updatePlotCurveData();
 
 protected:
-//    double valueAsDouble(UAVObject* obj, UAVObjectField* field);
 
 private:
     double yMinimum;
     double yMaximum;
     double m_xWindowSize;
 
+    bool dataUpdated;
 
 signals:
     void dataChanged();
@@ -189,6 +190,7 @@ public:
     QVector<double>* zDataHistory;
     QVector<double>* timeDataHistory;
 
+
     SpectrogramType spectrogramType;
 
     QwtMatrixRasterData *rasterData;
@@ -210,11 +212,10 @@ public:
     virtual bool append(UAVObject* obj) = 0;
     virtual Plot3dType plotType() = 0;
     virtual void removeStaleData() = 0;
-
-    void updatePlotCurveData();
+    virtual void setUpdatedFlagToTrue(){dataUpdated = true;}
+    virtual bool readAndResetUpdatedFlag(){bool tmp = dataUpdated; dataUpdated = false; return tmp;}
 
 protected:
-//    double valueAsDouble(UAVObject* obj, UAVObjectField* field);
 
 private:
     double xMinimum;
@@ -224,6 +225,7 @@ private:
     double zMinimum;
     double zMaximum;
 
+    bool dataUpdated;
 
 signals:
     void dataChanged();

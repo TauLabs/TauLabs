@@ -875,11 +875,16 @@ void ScopeGadgetWidget::addHistogram(QString uavObjectName, QString uavFieldSubF
 void ScopeGadgetWidget::uavObjectReceived(UAVObject* obj)
 {
     foreach(Plot2dData* plot2dData, m_curves2dData.values()) {
-        plot2dData->append(obj);
+        bool ret = plot2dData->append(obj);
+        if (ret)
+            plot2dData->setUpdatedFlagToTrue();
+
     }
 
     foreach(Plot3dData* plot3dData, m_curves3dData.values()) {
-        plot3dData->append(obj);
+        bool ret = plot3dData->append(obj);
+        if (ret)
+            plot3dData->setUpdatedFlagToTrue();
     }
 }
 
@@ -903,7 +908,8 @@ void ScopeGadgetWidget::replotNewData()
             switch (m_plot2dType){
             case Scatterplot2d:
                 //Plot new data
-                plot2dData->curve->setSamples(*plot2dData->xData, *plot2dData->yData);
+                if (plot2dData->readAndResetUpdatedFlag() == true)
+                    plot2dData->curve->setSamples(*plot2dData->xData, *plot2dData->yData);
 
                 // Advance axis in case of time series plot
                 if (m_Scatterplot2dType == TimeSeries2d){
@@ -920,11 +926,10 @@ void ScopeGadgetWidget::replotNewData()
             }
         }
         else if (plot2dData->histogram != NULL){
-            plot2dData->removeStaleData();
-            plot2dData->histogram->setData(plot2dData->intervalSeriesData);
             switch (m_plot2dType){
             case Histogram:
                 //Plot new data
+                plot2dData->histogram->setData(plot2dData->intervalSeriesData);
                 plot2dData->intervalSeriesData->setSamples(*plot2dData->histogramBins); // <-- Is this a memory leak?
                 break;
             default:
@@ -949,8 +954,10 @@ void ScopeGadgetWidget::replotNewData()
             if (m_plot3dType == Spectrogram){
                 // Load spectrogram parameters
                 SpectrogramData *spectrogramData = (SpectrogramData*) plot3dData;
+
                 // Plot new data
-                plot3dData->rasterData->setValueMatrix(*plot3dData->zDataHistory, spectrogramData->windowWidth);
+                if (plot3dData->readAndResetUpdatedFlag() == true)
+                    plot3dData->rasterData->setValueMatrix(*plot3dData->zDataHistory, spectrogramData->windowWidth);
             }
         }
     }
