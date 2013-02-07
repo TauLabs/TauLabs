@@ -27,11 +27,10 @@
  */
 
 #include "extensionsystem/pluginmanager.h"
+#include "uavobjectmanager.h"
 
 
 #include "plotdata.h"
-#include "vibrationtestoutput.h"
-#include "vibrationtestsettings.h"
 #include <math.h>
 #include <QDebug>
 
