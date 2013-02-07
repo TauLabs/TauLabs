@@ -302,21 +302,7 @@ void ConfigOutputWidget::refreshWidgetsValues(UAVObject * obj)
             }
             m_config->cb_outputRate3->setCurrentIndex(m_config->cb_outputRate3->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[2])));
             m_config->cb_outputRate4->setCurrentIndex(m_config->cb_outputRate4->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[3])));
-        } else if ((board & 0xff00) == 256 ) {
-            // Mainboard family
-            m_config->cb_outputRate1->setEnabled(true);
-            m_config->cb_outputRate2->setEnabled(true);
-            m_config->cb_outputRate3->setEnabled(false);
-            m_config->cb_outputRate4->setEnabled(false);
-            m_config->chBank1->setText("1-4");
-            m_config->chBank2->setText("5-8");
-            m_config->chBank3->setText("-");
-            m_config->chBank4->setText("-");
-            m_config->cb_outputRate3->addItem("0");
-            m_config->cb_outputRate3->setCurrentIndex(m_config->cb_outputRate3->findText("0"));
-            m_config->cb_outputRate4->addItem("0");
-            m_config->cb_outputRate4->setCurrentIndex(m_config->cb_outputRate4->findText("0"));
-        } else if ((board & 0xff00) == (9 << 8)) {
+        } else if ((board & 0xff00) == 0x0900 ) {
             // Revolution/RevoMini family
             m_config->cb_outputRate1->setEnabled(true);
             m_config->cb_outputRate2->setEnabled(true);
@@ -326,6 +312,86 @@ void ConfigOutputWidget::refreshWidgetsValues(UAVObject * obj)
             m_config->chBank2->setText("3");
             m_config->chBank3->setText("4");
             m_config->chBank4->setText("5-6");
+            if(m_config->cb_outputRate3->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[2]))==-1)
+            {
+                m_config->cb_outputRate3->addItem(QString::number(actuatorSettingsData.ChannelUpdateFreq[2]));
+            }
+            if(m_config->cb_outputRate4->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[3]))==-1)
+            {
+                m_config->cb_outputRate4->addItem(QString::number(actuatorSettingsData.ChannelUpdateFreq[3]));
+            }
+            m_config->cb_outputRate3->setCurrentIndex(m_config->cb_outputRate3->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[2])));
+            m_config->cb_outputRate4->setCurrentIndex(m_config->cb_outputRate4->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[3])));
+        } else if ((board & 0xff00) == 0x8100 ) {
+            // Freedom
+            m_config->cb_outputRate1->setEnabled(true);
+            m_config->cb_outputRate2->setEnabled(true);
+            m_config->cb_outputRate3->setEnabled(true);
+            m_config->cb_outputRate4->setEnabled(true);
+            m_config->chBank1->setText("1-2");
+            m_config->chBank2->setText("3");
+            m_config->chBank3->setText("4-5");
+            m_config->chBank4->setText("6");
+            if(m_config->cb_outputRate3->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[2]))==-1)
+            {
+                m_config->cb_outputRate3->addItem(QString::number(actuatorSettingsData.ChannelUpdateFreq[2]));
+            }
+            if(m_config->cb_outputRate4->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[3]))==-1)
+            {
+                m_config->cb_outputRate4->addItem(QString::number(actuatorSettingsData.ChannelUpdateFreq[3]));
+            }
+            m_config->cb_outputRate3->setCurrentIndex(m_config->cb_outputRate3->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[2])));
+            m_config->cb_outputRate4->setCurrentIndex(m_config->cb_outputRate4->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[3])));
+        } else if ((board & 0xff00) == 0x8200 ) {
+            // FlyingF3
+            m_config->cb_outputRate1->setEnabled(true);
+            m_config->cb_outputRate2->setEnabled(true);
+            m_config->cb_outputRate3->setEnabled(true);
+            m_config->cb_outputRate4->setEnabled(true);
+            m_config->chBank1->setText("1-4");
+            m_config->chBank2->setText("5-7");
+            m_config->chBank3->setText("8-10");
+            m_config->chBank4->setText("11");
+            if(m_config->cb_outputRate3->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[2]))==-1)
+            {
+                m_config->cb_outputRate3->addItem(QString::number(actuatorSettingsData.ChannelUpdateFreq[2]));
+            }
+            if(m_config->cb_outputRate4->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[3]))==-1)
+            {
+                m_config->cb_outputRate4->addItem(QString::number(actuatorSettingsData.ChannelUpdateFreq[3]));
+            }
+            m_config->cb_outputRate3->setCurrentIndex(m_config->cb_outputRate3->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[2])));
+            m_config->cb_outputRate4->setCurrentIndex(m_config->cb_outputRate4->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[3])));
+        } else if ((board & 0xff00) == 0x8600 ) {
+            // Quanton
+            m_config->cb_outputRate1->setEnabled(true);
+            m_config->cb_outputRate2->setEnabled(true);
+            m_config->cb_outputRate3->setEnabled(true);
+            m_config->cb_outputRate4->setEnabled(true);
+            m_config->chBank1->setText("1-4");
+            m_config->chBank2->setText("5-6");
+            m_config->chBank3->setText("7");
+            m_config->chBank4->setText("8");
+            if(m_config->cb_outputRate3->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[2]))==-1)
+            {
+                m_config->cb_outputRate3->addItem(QString::number(actuatorSettingsData.ChannelUpdateFreq[2]));
+            }
+            if(m_config->cb_outputRate4->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[3]))==-1)
+            {
+                m_config->cb_outputRate4->addItem(QString::number(actuatorSettingsData.ChannelUpdateFreq[3]));
+            }
+            m_config->cb_outputRate3->setCurrentIndex(m_config->cb_outputRate3->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[2])));
+            m_config->cb_outputRate4->setCurrentIndex(m_config->cb_outputRate4->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[3])));
+        } else {
+            // Unknown
+            m_config->cb_outputRate1->setEnabled(true);
+            m_config->cb_outputRate2->setEnabled(true);
+            m_config->cb_outputRate3->setEnabled(true);
+            m_config->cb_outputRate4->setEnabled(true);
+            m_config->chBank1->setText("?");
+            m_config->chBank2->setText("?");
+            m_config->chBank3->setText("?");
+            m_config->chBank4->setText("?");
             if(m_config->cb_outputRate3->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[2]))==-1)
             {
                 m_config->cb_outputRate3->addItem(QString::number(actuatorSettingsData.ChannelUpdateFreq[2]));

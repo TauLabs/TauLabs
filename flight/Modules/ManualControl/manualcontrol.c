@@ -92,7 +92,7 @@ static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeCha
 static void processFlightMode(ManualControlSettingsData * settings, float flightMode);
 static void processArm(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
 static void setArmedIfChanged(uint8_t val);
-static int8_t set_manual_control_error(SystemAlarmsManualControlOptions errorCode);
+static void set_manual_control_error(SystemAlarmsManualControlOptions errorCode);
 
 static void manualControlTask(void *parameters);
 static float scaleChannel(int16_t value, int16_t max, int16_t min, int16_t neutral);
@@ -676,7 +676,7 @@ static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeCha
 		pathDesired.End[PATHDESIRED_END_DOWN] = positionActual.Down - 10;
 		pathDesired.StartingVelocity=10;
 		pathDesired.EndingVelocity=10;
-		pathDesired.Mode = PATHDESIRED_MODE_FLYENDPOINT;
+		pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
 		PathDesiredSet(&pathDesired);
 	} else if(flightModeChanged) {
 		// Simple position hold - stay at present altitude and position
@@ -693,7 +693,7 @@ static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeCha
 		pathDesired.End[PATHDESIRED_END_DOWN] = positionActual.Down;
 		pathDesired.StartingVelocity=10;
 		pathDesired.EndingVelocity=10;
-		pathDesired.Mode = PATHDESIRED_MODE_FLYENDPOINT;
+		pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
 		PathDesiredSet(&pathDesired);
 	}
 }
@@ -1017,46 +1017,40 @@ static void applyDeadband(float *value, float deadband)
 /**
  * Set the error code and alarm state
  * @param[in] error code
- * @returns -1 on no change of error code and alarm state, 0 on change of error code and alarm state
  */
-static int8_t set_manual_control_error(SystemAlarmsManualControlOptions error_code)
+static void set_manual_control_error(SystemAlarmsManualControlOptions error_code)
 {
+	// Get the severity of the alarm given the error code
+	SystemAlarmsAlarmOptions severity;
+	switch (error_code) {
+	case SYSTEMALARMS_MANUALCONTROL_NONE:
+		severity = SYSTEMALARMS_ALARM_OK;
+		break;
+	case SYSTEMALARMS_MANUALCONTROL_NORX:
+	case SYSTEMALARMS_MANUALCONTROL_ACCESSORY:
+		severity = SYSTEMALARMS_ALARM_WARNING;
+		break;
+	case SYSTEMALARMS_MANUALCONTROL_SETTINGS:
+		severity = SYSTEMALARMS_ALARM_CRITICAL;
+		break;
+	case SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD:
+		severity = SYSTEMALARMS_ALARM_ERROR;
+		break;
+	case SYSTEMALARMS_MANUALCONTROL_UNDEFINED:
+	default:
+		severity = SYSTEMALARMS_ALARM_CRITICAL;
+		error_code = SYSTEMALARMS_MANUALCONTROL_UNDEFINED;
+	}
+
+	// Make sure not to set the error code if it didn't change
 	SystemAlarmsManualControlOptions current_error_code;
 	SystemAlarmsManualControlGet((uint8_t *) &current_error_code);
 	if (current_error_code != error_code) {
-		switch (error_code) {
-			case SYSTEMALARMS_MANUALCONTROL_NONE:
-				SystemAlarmsManualControlSet((uint8_t *) &error_code);
-				AlarmsClear(SYSTEMALARMS_ALARM_MANUALCONTROL);
-				break;
-			case SYSTEMALARMS_MANUALCONTROL_NORX:
-				SystemAlarmsManualControlSet((uint8_t *) &error_code);
-				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
-				break;
-			case SYSTEMALARMS_MANUALCONTROL_ACCESSORY:
-				SystemAlarmsManualControlSet((uint8_t *) &error_code);
-				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
-				break;
-			case SYSTEMALARMS_MANUALCONTROL_SETTINGS:
-				SystemAlarmsManualControlSet((uint8_t *) &error_code);
-				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
-				break;
-			case SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD:
-				SystemAlarmsManualControlSet((uint8_t *) &error_code);
-				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_ERROR);
-				break;
-			case SYSTEMALARMS_MANUALCONTROL_UNDEFINED:
-			default:
-				error_code = SYSTEMALARMS_MANUALCONTROL_UNDEFINED;
-				SystemAlarmsManualControlSet((uint8_t *) &error_code);        
-				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
-				break;
-		}
-		return 0;
+		SystemAlarmsManualControlSet((uint8_t *) &error_code);
 	}
-	else {
-		return -1;
-	}
+
+	// AlarmSet checks only updates on toggle
+	AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, (uint8_t) severity);
 }
 
 

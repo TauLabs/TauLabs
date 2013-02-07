@@ -220,7 +220,7 @@ SectionEnd
 ; Copy utility files
 Section "-Utilities" InSecUtilities
   SetOutPath "$INSTDIR\utilities"
-  File "/oname=OPLogConvert-${PACKAGE_LBL}.m" "${MATLAB_TREE}\OPLogConvert.m"
+  File "/oname=LogConvert-${PACKAGE_LBL}.m" "${MATLAB_TREE}\LogConvert.m"
 SectionEnd
 
 ; Copy driver files

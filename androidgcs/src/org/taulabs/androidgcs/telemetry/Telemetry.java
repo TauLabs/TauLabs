@@ -22,7 +22,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-package org.taulabs.uavtalk;
+package org.taulabs.androidgcs.telemetry;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,6 +36,12 @@ import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import junit.framework.Assert;
+
+import org.taulabs.uavtalk.UAVMetaObject;
+import org.taulabs.uavtalk.UAVObject;
+import org.taulabs.uavtalk.UAVObjectManager;
+import org.taulabs.uavtalk.UAVTalk;
+
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -48,7 +54,7 @@ public class Telemetry {
 	 */
 
 	private final String TAG = "Telemetry";
-	public static int LOGLEVEL = 0;
+	public static int LOGLEVEL = 3;
 	public static boolean DEBUG = LOGLEVEL > 2;
 	public static boolean WARN  = LOGLEVEL > 1;
 	public static boolean ERROR = LOGLEVEL > 0;
@@ -116,10 +122,11 @@ public class Telemetry {
 	/**
 	 * Constructor
 	 */
-	public Telemetry(UAVTalk utalkIn, UAVObjectManager objMngr, Looper l) {
+	public Telemetry(UAVTalk utalkIn, UAVObjectManager objMngr, Looper l, Runnable telemetryFailureRunnable) {
 		this.utalk = utalkIn;
 		this.objMngr = objMngr;
 		this.looper = l;
+		this.telemetryFailureRunnable = telemetryFailureRunnable;
 
 		// Create a handler for object messages
 		handler = new ObjectUpdateHandler(l);
@@ -148,12 +155,12 @@ public class Telemetry {
 		// Listen to transaction completions from uavtalk
 		utalk.setOnTransactionCompletedListener(utalk.new OnTransactionCompletedListener() {
 			@Override
-			void TransactionSucceeded(UAVObject data) {
+			public void TransactionSucceeded(UAVObject data) {
 				transactionCompleted(data, true);
 			}
 
 			@Override
-			void TransactionFailed(UAVObject data) {
+			public void TransactionFailed(UAVObject data) {
 				if (DEBUG)
 					Log.d(TAG, "TransactionFailed(" + data.getName() + ")");
 
@@ -193,6 +200,7 @@ public class Telemetry {
 				} catch (IOException e) {
 					updateTimerTask.cancel();
 					updateTimer.cancel();
+					handler.post(telemetryFailureRunnable);
 				}
 			}
 		};
@@ -477,6 +485,7 @@ public class Telemetry {
 	private final UAVObjectManager objMngr;
 	private final UAVTalk utalk;
 	private final Looper looper;
+	private Runnable telemetryFailureRunnable = null;
 	private UAVObject gcsStatsObj;
 	private final List<ObjectTimeInfo> objList = new ArrayList<ObjectTimeInfo>();
 	private ObjectTransactionInfo transInfo = new ObjectTransactionInfo();
@@ -659,7 +668,7 @@ public class Telemetry {
 					} catch (IOException e) {
 						if (ERROR) Log.e(TAG, "Unable to send UAVTalk message");
 						if (DEBUG) e.printStackTrace();
-						looper.quit();
+						handler.post(telemetryFailureRunnable);
 					}
 
 					// Store this as the active transaction.  However in the case
@@ -716,7 +725,8 @@ public class Telemetry {
 						}
 					} catch (IOException e) {
 						if (ERROR) Log.e(TAG, "Unable to send UAVTalk message");
-						e.printStackTrace();
+						if (DEBUG) e.printStackTrace();
+						handler.post(telemetryFailureRunnable);
 					}
 
 					handler.postDelayed(transactionTimeout, REQ_TIMEOUT_MS);

@@ -23,7 +23,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-package org.taulabs.uavtalk;
+package org.taulabs.androidgcs.telemetry;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,8 +34,11 @@ import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.taulabs.androidgcs.telemetry.OPTelemetryService;
+import org.taulabs.uavtalk.UAVDataObject;
+import org.taulabs.uavtalk.UAVObject;
 import org.taulabs.uavtalk.UAVObject.TransactionResult;
+import org.taulabs.uavtalk.UAVObjectField;
+import org.taulabs.uavtalk.UAVObjectManager;
 
 import android.util.Log;
 

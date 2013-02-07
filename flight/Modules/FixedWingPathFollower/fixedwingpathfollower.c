@@ -120,7 +120,6 @@ int32_t FixedWingPathFollowerInitialize()
 #ifdef MODULE_FixedWingPathFollower_BUILTIN
 	module_enabled = true;
 #else
-	ModuleSettingsInitialize();
 	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
 	ModuleSettingsStateGet(module_state);
 	if (module_state[MODULESETTINGS_STATE_FIXEDWINGPATHFOLLOWER] == MODULESETTINGS_STATE_ENABLED) {
@@ -206,7 +205,8 @@ static void pathfollowerTask(void *parameters)
 		switch(flightStatus.FlightMode) {
 			case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
 			case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
-				if (pathDesired.Mode == PATHDESIRED_MODE_FLYENDPOINT) {
+				pathStatus.Status = PATHSTATUS_STATUS_INPROGRESS;
+				if (pathDesired.Mode == PATHDESIRED_MODE_HOLDPOSITION) {
 					updatePathVelocity();
 					result = updateFixedDesiredAttitude();
 					if (result) {

@@ -852,10 +852,22 @@ int Calibration::computeScaleBias()
 }
 
 /**
- * @brief Calibration::resetToOriginalValues Resets the accelerometer and magnetometer setting to their original values
+ * @brief Calibration::resetToOriginalValues Resets the accelerometer and magnetometer setting to their pre-calibration values
  */
 void Calibration::resetSensorCalibrationToOriginalValues()
 {
+
+    // Write original board rotation settings back to device
+    AttitudeSettings * attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
+    Q_ASSERT(attitudeSettings);
+    AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
+
+    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] = initialBoardRotation[0];
+    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] = initialBoardRotation[1];
+    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] = initialBoardRotation[2];
+    attitudeSettings->setData(attitudeSettingsData);
+
+
     //Write the original accelerometer values back to the device
     InertialSensorSettings * inertialSettings = InertialSensorSettings::GetInstance(getObjectManager());
     Q_ASSERT(inertialSettings);

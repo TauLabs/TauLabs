@@ -36,32 +36,47 @@
  * board connection is established or when there is no board
  * @param parent The main configuration widget
  */
-DefaultHwSettingsWidget::DefaultHwSettingsWidget(QWidget *parent) :
+DefaultHwSettingsWidget::DefaultHwSettingsWidget(QWidget *parent, bool autopilotConnected) :
         ConfigTaskWidget(parent),
         ui(new Ui_defaulthwsettings),
         hwSettingsObject(NULL),
         settingSelected(false)
 {
     ui->setupUi(this);
+
+    //TODO: This is a bit ugly. It sets up a form with no elements. The
+    //result is that there is no formatting-- such as scrolling and stretching behavior--, so
+    //this has to be manually added in the code.
+    //Ideally, there would be a generic hardware page which is filled in either with a board-specific subform, or with
+    //generic elements based on the hardware UAVO.
     fieldWidgets.clear();
 
-    addApplySaveButtons(ui->applyButton,ui->saveButton);
-    addReloadButton(ui->reloadButton, 0);
+    if (autopilotConnected){
+        addApplySaveButtons(ui->applyButton,ui->saveButton);
+        addReloadButton(ui->reloadButton, 0);
 
-    allHwSettings.append("HwFlyingF3");
-    allHwSettings.append("HwFlyingF4");
-    allHwSettings.append("HwFreedom");
-    allHwSettings.append("HwRevolution");
-    allHwSettings.append("HwRevoMini");
-    allHwSettings.append("HwQuanton");
+        //List of supported boards which do not currently have board-specific pages
+        allHwSettings.append("HwFlyingF3");
+        allHwSettings.append("HwFlyingF4");
+        allHwSettings.append("HwFreedom");
+        allHwSettings.append("HwRevolution");
+        allHwSettings.append("HwRevoMini");
+        allHwSettings.append("HwQuanton");
 
-    foreach (QString str, allHwSettings) {
-        UAVObject *obj = getObjectManager()->getObject(str);
-        if (obj != NULL) {
-            qDebug() << "Checking object " << obj->getName();
-            connect(obj,SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(settingsUpdated(UAVObject*,bool)));
-            obj->requestUpdate();
+        //Connect all forms to slots
+        foreach (QString str, allHwSettings) {
+            UAVObject *obj = getObjectManager()->getObject(str);
+            if (obj != NULL) {
+                qDebug() << "Checking object " << obj->getName();
+                connect(obj,SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(settingsUpdated(UAVObject*,bool)));
+                obj->requestUpdate();
+            }
         }
+    }
+    else{
+        qDebug() << "No hardware attached. Showing placeholder text/graphic.";
+        QLabel *label = new QLabel("  No board detected.\n  Hardware tab will refresh once board is detected.", this);
+        label->resize(335,200);
     }
 }
 

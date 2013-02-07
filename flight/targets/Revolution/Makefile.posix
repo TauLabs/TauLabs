@@ -86,8 +86,6 @@ else
 REMOVE_CMD = rm
 endif
 
-FLASH_TOOL = OPENOCD
-
 # List of modules to include
 MODULES += Actuator ManualControl Stabilization 
 MODULES += PathPlanner

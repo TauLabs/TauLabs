@@ -38,6 +38,7 @@ namespace core {
     public:
                 enum Types
         {
+            None=0,
             GoogleMap=1,
             GoogleSatellite=4,
             GoogleLabels=8,

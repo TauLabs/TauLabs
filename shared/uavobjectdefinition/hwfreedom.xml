@@ -1,5 +1,5 @@
 <xml>
-	<object name="HwFreedom" singleinstance="true" settings="true">
+	<object name="HwFreedom" singleinstance="true" settings="true" category="HardwareSettings">
 		<description>Selection of optional hardware configurations.</description>
 
 		<field name="Output" units="function" type="enum" elements="1" options="Disabled,PWM" defaultvalue="PWM"/>

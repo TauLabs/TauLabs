@@ -128,7 +128,6 @@ int32_t TelemetryInitialize(void)
 
 	// Update telemetry settings
 	telemetryPort = PIOS_COM_TELEM_RF;
-	ModuleSettingsInitialize();
 	updateSettings();
     
 	// Initialise UAVTalk

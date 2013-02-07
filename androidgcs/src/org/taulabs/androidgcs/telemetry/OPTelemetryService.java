@@ -67,6 +67,7 @@ public class OPTelemetryService extends Service {
 	public final static String INTENT_CATEGORY_GCS        = "org.taulabs.intent.category.GCS";
 
 	// Intent actions
+	public final static String INTENT_CHANNEL_OPENED      = "org.taulabs.intent.action.CHANNEL_OPENED";
 	public final static String INTENT_ACTION_CONNECTED    = "org.taulabs.intent.action.CONNECTED";
 	public final static String INTENT_ACTION_DISCONNECTED = "org.taulabs.intent.action.DISCONNECTED";
 
@@ -74,6 +75,18 @@ public class OPTelemetryService extends Service {
 	private Looper mServiceLooper;
 	private ServiceHandler mServiceHandler;
 	private static HandlerThread thread;
+
+	//! States for connectivity
+	public enum ConnectionState {
+		//! Telemetry is idle
+		DISCONNECTED,
+		//! Attempting to open a physical channel
+		OPENING,
+		//! Channel is opening, attempting to establish link
+		CONNECTING,
+		//! Telemetry connected and running
+		CONNECTED
+	};
 
 	// Message ids
 	static final int MSG_START        = 0;
@@ -305,6 +318,11 @@ public class OPTelemetryService extends Service {
 		if (DEBUG) Log.d(TAG, "onDestory() shut down telemetry task");
 	}
 
+	public ConnectionState getConnectionState()
+	{
+		return ConnectionState.DISCONNECTED;
+	}
+
 	public class LocalBinder extends Binder {
 		public TelemTask getTelemTask(int id) {
 			if (telemTask != null)
@@ -323,6 +341,18 @@ public class OPTelemetryService extends Service {
 		}
 		public boolean isConnected() {
 			return (activeTelem != null) && (telemTask != null) && (telemTask.getConnected());
+		}
+		/**
+		 * Query the telemetry service for the current connection state
+		 * @return @ref ConnectionState of the current state
+		 */
+		public ConnectionState getConnectionState() {
+			if (telemTask != null) {
+				if (telemTask.getConnected())
+					return ConnectionState.CONNECTED;
+				return ConnectionState.OPENING;
+			}
+			return ConnectionState.DISCONNECTED;
 		}
 	};
 

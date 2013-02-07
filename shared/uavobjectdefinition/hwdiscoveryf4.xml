@@ -1,5 +1,5 @@
 <xml>
-	<object name="HwDiscoveryF4" singleinstance="true" settings="true">
+	<object name="HwDiscoveryF4" singleinstance="true" settings="true" category="HardwareSettings">
 		<description>Selection of optional hardware configurations.</description>
 
 		<field name="MainPort" units="function" type="enum" elements="1" options="Disabled,DebugConsole" defaultvalue="DebugConsole"/>

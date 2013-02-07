@@ -487,13 +487,13 @@ static float PIOS_LSM303_Accel_GetScale()
 
 	switch (dev->accel_range) {
 		case PIOS_LSM303_ACCEL_2G:
-			return GRAV / 16384.0f;
+			return GRAV / (16 * 1000.0f);    //1mg/LSB, left shifted by four bits
 		case PIOS_LSM303_ACCEL_4G:
-			return GRAV / 8192.0f;
+			return GRAV / (16 * 500.0f);     //2mg/LSB, left shifted by four bits
 		case PIOS_LSM303_ACCEL_8G:
-			return GRAV / 4096.0f;
+			return GRAV / (16 * 250.0f);     //4mg/LSB, left shifted by four bits
 		case PIOS_LSM303_ACCEL_16G:
-			return GRAV / 2048.0f;
+			return GRAV / (16 * 250.0f / 3); //12mg/LSB, left shifted by four bits
 	}
 	return 0;
 }
@@ -504,19 +504,19 @@ static float PIOS_LSM303_Mag_GetScaleXY()
 
 	switch (dev->mag_range) {
 		case PIOS_LSM303_MAG_1_3GA:
-			return 1000.0f / 1100.0f;
+			return 1000.0f / 1100.0f; //[mg/LSB]
 		case PIOS_LSM303_MAG_1_9GA:
-			return 1000.0f / 855.0f;
+			return 1000.0f / 855.0f;  //[mg/LSB]
 		case PIOS_LSM303_MAG_2_5GA:
-			return 1000.0f / 670.0f;
+			return 1000.0f / 670.0f;  //[mg/LSB]
 		case PIOS_LSM303_MAG_4_0GA:
-			return 1000.0f / 450.0f;
+			return 1000.0f / 450.0f;  //[mg/LSB]
 		case PIOS_LSM303_MAG_4_7GA:
-			return 1000.0f / 400.0f;
+			return 1000.0f / 400.0f;  //[mg/LSB]
 		case PIOS_LSM303_MAG_5_6GA:
-			return 1000.0f / 330.0f;
+			return 1000.0f / 330.0f;  //[mg/LSB]
 		case PIOS_LSM303_MAG_8_1GA:
-			return 1000.0f / 230.0f;
+			return 1000.0f / 230.0f;  //[mg/LSB]
 	}
 	return 0;
 }
@@ -527,19 +527,19 @@ static float PIOS_LSM303_Mag_GetScaleZ()
 
 	switch (dev->mag_range) {
 		case PIOS_LSM303_MAG_1_3GA:
-			return 1000.0f / 980.0f;
+			return 1000.0f / 980.0f;  //[mg/LSB]
 		case PIOS_LSM303_MAG_1_9GA:
-			return 1000.0f / 760.0f;
+			return 1000.0f / 760.0f;  //[mg/LSB]
 		case PIOS_LSM303_MAG_2_5GA:
-			return 1000.0f / 600.0f;
+			return 1000.0f / 600.0f;  //[mg/LSB]
 		case PIOS_LSM303_MAG_4_0GA:
-			return 1000.0f / 400.0f;
+			return 1000.0f / 400.0f;  //[mg/LSB]
 		case PIOS_LSM303_MAG_4_7GA:
-			return 1000.0f / 355.0f;
+			return 1000.0f / 355.0f;  //[mg/LSB]
 		case PIOS_LSM303_MAG_5_6GA:
-			return 1000.0f / 295.0f;
+			return 1000.0f / 295.0f;  //[mg/LSB]
 		case PIOS_LSM303_MAG_8_1GA:
-			return 1000.0f / 205.0f;
+			return 1000.0f / 205.0f;  //[mg/LSB]
 	}
 	return 0;
 }

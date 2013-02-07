@@ -42,8 +42,6 @@ else
 REMOVE_CMD = rm
 endif
 
-FLASH_TOOL = OPENOCD
-
 # List of modules to include
 MODULES = Sensors
 MODULES += Attitude/revolution 
@@ -52,10 +50,10 @@ MODULES += ManualControl
 MODULES += Stabilization
 MODULES += FirmwareIAP
 #MODULES += Airspeed/revolution
-MODULES += PathPlanner
 MODULES += Telemetry
 
 OPTMODULES += GPS
+OPTMODULES += PathPlanner
 OPTMODULES += AltitudeHold 
 OPTMODULES += VtolPathFollower 
 OPTMODULES += FixedWingPathFollower

@@ -42,8 +42,6 @@ else
 REMOVE_CMD = rm
 endif
 
-FLASH_TOOL = OPENOCD
-
 # Optional module and driver defaults
 USE_COMUSBBRIDGE ?= NO
 USE_TXPID ?= NO
@@ -79,11 +77,11 @@ MODULES += Stabilization
 MODULES += Actuator
 MODULES += FirmwareIAP
 MODULES += Airspeed/revolution
-MODULES += PathPlanner
 MODULES += Telemetry
 
 OPTMODULES += GPS
 OPTMODULES += AltitudeHold 
+OPTMODULES += PathPlanner
 OPTMODULES += VtolPathFollower 
 OPTMODULES += FixedWingPathFollower
 OPTMODULES += CameraStab
