@@ -1899,7 +1899,8 @@
         </configInfo>
         <data>
           <plot2d>
-            <dataSize>300</dataSize>
+            <binWidth>0.2</binWidth>
+            <dataSize>120</dataSize>
             <plot2dCurveCount>3</plot2dCurveCount>
             <plot2dHistogram0>
               <color>4294901760</color>
@@ -1932,6 +1933,7 @@
               <yScalePower>0</yScalePower>
             </plot2dHistogram2>
             <plot2dType>2</plot2dType>
+            <windowWidth>300</windowWidth>
           </plot2d>
           <plotDimensions>0</plotDimensions>
           <refreshInterval>50</refreshInterval>
@@ -2123,7 +2125,7 @@
         </configInfo>
         <data>
           <plot2d>
-            <dataSize>300</dataSize>
+            <dataSize>120</dataSize>
             <plot2dCurveCount>3</plot2dCurveCount>
             <plot2dScatterplot0>
               <color>4294901760</color>
@@ -2170,7 +2172,7 @@
         </configInfo>
         <data>
           <plot2d>
-            <dataSize>300</dataSize>
+            <dataSize>120</dataSize>
             <plot2dCurveCount>3</plot2dCurveCount>
             <plot2dScatterplot0>
               <color>4294901760</color>

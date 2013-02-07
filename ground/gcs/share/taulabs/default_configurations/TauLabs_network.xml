@@ -1949,6 +1949,7 @@
         </configInfo>
         <data>
           <plot2d>
+            <binWidth>0.2</binWidth>
             <dataSize>300</dataSize>
             <plot2dCurveCount>3</plot2dCurveCount>
             <plot2dScatterplot0>
@@ -1983,6 +1984,7 @@
             </plot2dScatterplot2>
             <plot2dType>1</plot2dType>
             <scatterplot2dType>1</scatterplot2dType>
+            <windowWidth>300</windowWidth>
           </plot2d>
           <plotDimensions>0</plotDimensions>
           <refreshInterval>50</refreshInterval>
