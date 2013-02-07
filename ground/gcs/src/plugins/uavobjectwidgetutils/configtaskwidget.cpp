@@ -791,14 +791,19 @@ void ConfigTaskWidget::autoLoadWidgets()
     }
     refreshWidgetsValues();
     forceShadowUpdates();
+
+    //Send debug information to console
     foreach(objectToWidget * ow,objOfInterest)
     {
-        if(ow->widget)
-            qDebug()<<"Master:"<<ow->widget->objectName();
+        if(ow->widget){
+//            qDebug()<<"Master:"<<ow->widget->objectName();
+        }
+
         foreach(shadow * sh,ow->shadowsList)
         {
-            if(sh->widget)
-                qDebug()<<"Child"<<sh->widget->objectName();
+            if(sh->widget){
+//                qDebug()<<"Child"<<sh->widget->objectName();
+            }
         }
     }
 }

@@ -119,7 +119,7 @@ void UAVGadgetInstanceManager::readConfigs_1_2_0(QSettings *qs)
 
         configs = qs->childGroups();
         foreach (QString configName, configs) {
-            qDebug() << "Loading config: " << classId << "," <<  configName;
+//            qDebug() << "Loading config: " << classId << "," <<  configName;
             qs->beginGroup(configName);
             configInfo.read(qs);
             configInfo.setNameOfConfigurable(classId+"-"+configName);
@@ -170,7 +170,7 @@ void UAVGadgetInstanceManager::readConfigs_1_1_0(QSettings *qs)
 
         configs = qs->childGroups();
         foreach (QString configName, configs) {
-            qDebug() << "Loading config: " << classId << "," <<  configName;
+//            qDebug() << "Loading config: " << classId << "," <<  configName;
             qs->beginGroup(configName);
             bool locked = qs->value("config.locked").toBool();
             configInfo.setNameOfConfigurable(classId+"-"+configName);

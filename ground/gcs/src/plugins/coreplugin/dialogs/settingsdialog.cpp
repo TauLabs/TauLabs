@@ -92,12 +92,12 @@ SettingsDialog::SettingsDialog(QWidget *parent, const QString &categoryId,
 #endif
     QString initialCategory = categoryId;
     QString initialPage = pageId;
-    qDebug() << "SettingsDialog constructor initial category: " << initialCategory << ", initial page: " << initialPage;
+//    qDebug() << "SettingsDialog constructor initial category: " << initialCategory << ", initial page: " << initialPage;
     if (initialCategory.isEmpty() && initialPage.isEmpty()) {
         QSettings *settings = ICore::instance()->settings();
         initialCategory = settings->value("General/LastPreferenceCategory", QVariant(QString())).toString();
         initialPage = settings->value("General/LastPreferencePage", QVariant(QString())).toString();
-        qDebug() << "SettingsDialog settings initial category: " << initialCategory << ", initial page: " << initialPage;
+//        qDebug() << "SettingsDialog settings initial category: " << initialCategory << ", initial page: " << initialPage;
         m_windowWidth = settings->value("General/SettingsWindowWidth", 0).toInt();
         m_windowHeight = settings->value("General/SettingsWindowHeight", 0).toInt();
     }
