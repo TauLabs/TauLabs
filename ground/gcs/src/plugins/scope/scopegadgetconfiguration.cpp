@@ -3,11 +3,12 @@
  *
  * @file       scopegadgetconfiguration.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ScopePlugin Scope Gadget Plugin
  * @{
- * @brief The scope Gadget, graphically plots the states of UAVObjects
+ * @brief The scope gadget configuration, sets up the configuration for one single scope.
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -29,74 +30,176 @@
 
 ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* qSettings, QObject *parent) :
         IUAVGadgetConfiguration(classId, parent),
-        m_plotType((int)ChronoPlot),
-        m_dataSize(60),
-        m_refreshInterval(1000),
-        m_mathFunctionType(0)
+        m_SpectrogramConfig(0),
+        m_HistogramConfig(0)
 {
-    uint currentStreamVersion = 0;
-    int plotCurveCount = 0;
-
+    //Defaults for unconfigured scope
+    m_plot2dType = No2dPlot;
+    m_scatterplot2dType = TimeSeries2d;
+    m_dataSize = 60;
+    m_refreshInterval = 50;
+    m_timeHorizon = 60;
+    m_plotDimensions = Plot2d;
 
     //if a saved configuration exists load it
-    if(qSettings != 0) {
-        currentStreamVersion = qSettings->value("configurationStreamVersion").toUInt();
+    if(qSettings != 0)
+    {
+        m_plotDimensions =  (PlotDimensions) qSettings->value("plotDimensions").toInt();
+        m_timeHorizon = qSettings->value("timeHorizon").toDouble();
 
-        if(currentStreamVersion != m_configurationStreamVersion)
-            return;
-
-        m_plotType = qSettings->value("plotType").toInt();
-        m_dataSize = qSettings->value("dataSize").toInt();
-        m_refreshInterval = qSettings->value("refreshInterval").toInt();
-        plotCurveCount = qSettings->value("plotCurveCount").toInt();
-
-        for(int plotDatasLoadIndex = 0; plotDatasLoadIndex < plotCurveCount; plotDatasLoadIndex++)
+        if(m_plotDimensions == Plot2d)
         {
-            QString uavObjectName;
-            QString uavFieldName;
-            QRgb color;
+            //Start reading new XML block
+            qSettings->beginGroup(QString("plot2d"));
 
-            qSettings->beginGroup(QString("plotCurve") + QString().number(plotDatasLoadIndex));
+            m_plot2dType = (Plot2dType) qSettings->value("plot2dType").toUInt();
+            m_dataSize = qSettings->value("dataSize").toInt();
+            m_scatterplot2dType = (Scatterplot2dType) qSettings->value("scatterplot2dType").toUInt();
 
-            PlotCurveConfiguration* plotCurveConf = new PlotCurveConfiguration();
-            uavObjectName = qSettings->value("uavObject").toString();
-            plotCurveConf->uavObjectName = uavObjectName;
-            uavFieldName = qSettings->value("uavField").toString();
-            plotCurveConf->uavFieldName = uavFieldName;
-            color = qSettings->value("color").value<QRgb>();
-            plotCurveConf->color = color;
-            plotCurveConf->yScalePower = qSettings->value("yScalePower").toInt();
-            plotCurveConf->mathFunction = qSettings->value("mathFunction").toString();
-            plotCurveConf->yMeanSamples = qSettings->value("yMeanSamples").toInt();
+            int plot2dCurveCount = qSettings->value("plot2dCurveCount").toInt();
+            for(int i = 0; i < plot2dCurveCount; i++)
+            {
+                Plot2dCurveConfiguration *plotCurveConf = new Plot2dCurveConfiguration();
 
-            if (!plotCurveConf->yMeanSamples) plotCurveConf->yMeanSamples = 1; // fallback for backward compatibility with earlier versions //IS THIS STILL NECESSARY?
+                if (m_plot2dType == Scatterplot2d){
 
-            plotCurveConf->yMinimum = qSettings->value("yMinimum").toDouble();
-            plotCurveConf->yMaximum = qSettings->value("yMaximum").toDouble();
+                    //Start reading new XML block
+                    qSettings->beginGroup(QString("plot2dScatterplot") + QString().number(i));
 
-            m_PlotCurveConfigs.append(plotCurveConf);
+                    plotCurveConf->uavObjectName = qSettings->value("uavObject").toString();
+                    plotCurveConf->uavFieldName  = qSettings->value("uavField").toString();
+                    plotCurveConf->color         = qSettings->value("color").value<QRgb>();
+                    plotCurveConf->yScalePower   = qSettings->value("yScalePower").toInt();
+                    plotCurveConf->mathFunction  = qSettings->value("mathFunction").toString();
+                    plotCurveConf->yMeanSamples  = qSettings->value("yMeanSamples").toInt();
+                    plotCurveConf->yMinimum      = qSettings->value("yMinimum").toDouble();
+                    plotCurveConf->yMaximum      = qSettings->value("yMaximum").toDouble();
 
+                    //End XML block
+                    qSettings->endGroup();
+                }
+                else if (m_plot2dType == Histogram){
+                    m_HistogramConfig = new HistogramDataConfiguration();
+                    m_HistogramConfig->binWidth    = qSettings->value("binWidth").toDouble();
+                    m_HistogramConfig->windowWidth = qSettings->value("windowWidth").toInt();
+
+                    qSettings->beginGroup(QString("plot2dHistogram") + QString().number(i));
+
+                    plotCurveConf->uavObjectName = qSettings->value("uavObject").toString();
+                    plotCurveConf->uavFieldName  = qSettings->value("uavField").toString();
+                    plotCurveConf->color         = qSettings->value("color").value<QRgb>();
+                    plotCurveConf->yScalePower   = qSettings->value("yScalePower").toInt();
+                    plotCurveConf->mathFunction  = qSettings->value("mathFunction").toString();
+                    plotCurveConf->yMeanSamples  = qSettings->value("yMeanSamples").toInt();
+                    plotCurveConf->yMinimum      = qSettings->value("yMinimum").toDouble();
+                    plotCurveConf->yMaximum      = qSettings->value("yMaximum").toDouble();
+
+                    //Stop reading XML block
+                    qSettings->endGroup();
+                }
+                else{
+                    //We shouldn't be able to get this far
+                    Q_ASSERT(0);
+                }
+
+                m_Plot2dCurveConfigs.append(plotCurveConf);
+            }
+            //Stop reading XML block
             qSettings->endGroup();
         }
+        else if(m_plotDimensions == Plot3d){
+            //Start reading new XML block
+            qSettings->beginGroup(QString("plot3d"));
 
-        m_LoggingEnabled = qSettings->value("LoggingEnabled").toBool();
-        m_LoggingNewFileOnConnect = qSettings->value("LoggingNewFileOnConnect").toBool();
-        m_LoggingPath = qSettings->value("LoggingPath").toString();
+            int plot3dCurveCount = qSettings->value("plot3dCurveCount").toInt();
+            m_plot3dType = (Plot3dType) qSettings->value("plot3dType").toInt(); //<--TODO: This requires that the enum values be defined at 0,1,...n
+
+
+            if(m_plot3dType == Spectrogram){
+                m_SpectrogramConfig = new SpectrogramDataConfiguration();
+                m_SpectrogramConfig->samplingFrequency = qSettings->value("samplingFrequency").toDouble();
+                m_SpectrogramConfig->windowWidth       = qSettings->value("windowWidth").toInt();
+
+                for(int i = 0; i < plot3dCurveCount; i++){
+                    Plot3dCurveConfiguration *plotCurveConf = new Plot3dCurveConfiguration();
+
+                    qSettings->beginGroup(QString("plotSpectrogram") + QString().number(i));
+
+                    plotCurveConf->uavObjectName = qSettings->value("uavObject").toString();
+                    plotCurveConf->uavFieldName  = qSettings->value("uavField").toString();
+                    plotCurveConf->color         = qSettings->value("color").value<QRgb>();
+                    plotCurveConf->yScalePower   = qSettings->value("yScalePower").toInt();
+                    plotCurveConf->mathFunction  = qSettings->value("mathFunction").toString();
+                    plotCurveConf->yMeanSamples  = qSettings->value("yMeanSamples").toInt();
+
+                    plotCurveConf->yMinimum = qSettings->value("yMinimum").toDouble();
+                    plotCurveConf->yMaximum = qSettings->value("yMaximum").toDouble();
+
+                    //Stop reading XML block
+                    qSettings->endGroup();
+
+                    m_Plot3dCurveConfigs.append(plotCurveConf);
+                }
+            }
+            else if(m_plot3dType == Scatterplot3d){
+                for(int i = 0; i < plot3dCurveCount; i++)
+                {
+                    Plot3dCurveConfiguration *plotCurveConf = new Plot3dCurveConfiguration();
+
+                    qSettings->beginGroup(QString("plot3dCurve") + QString().number(i));
+
+                    plotCurveConf->uavObjectName = qSettings->value("uavObject").toString();
+                    plotCurveConf->uavFieldName  = qSettings->value("uavField").toString();
+                    plotCurveConf->color         = qSettings->value("color").value<QRgb>();
+                    plotCurveConf->yScalePower   = qSettings->value("yScalePower").toInt();
+                    plotCurveConf->mathFunction  = qSettings->value("mathFunction").toString();
+                    plotCurveConf->yMeanSamples  = qSettings->value("yMeanSamples").toInt();
+
+                    plotCurveConf->yMinimum = qSettings->value("yMinimum").toDouble();
+                    plotCurveConf->yMaximum = qSettings->value("yMaximum").toDouble();
+
+                    //Stop reading XML block
+                    qSettings->endGroup();
+
+                    m_Plot3dCurveConfigs.append(plotCurveConf);
+                }
+            }
+
+
+
+            //Stop reading XML block
+            qSettings->endGroup();
+        }
+        else{
+            //Whoops, the file must have been corrupted. Set to default.
+            m_plotDimensions = Plot2d;
+        }
+    }
+    else{
+        //Nothing to do here...
+//        // Default config is just a simple 2D scatterplot
+
+//        Plot2dCurveConfiguration *plotCurveConf = new Plot2dCurveConfiguration();
+//        plotCurveConf->color = 4294945407;
+//        plotCurveConf->mathFunction = "None";
+//        plotCurveConf->yMinimum = 0;
+//        plotCurveConf->yMaximum = 100;
+//        plotCurveConf->yMeanSamples = 1;
+//        plotCurveConf->yScalePower = 1;
+
+//        m_Plot2dCurveConfigs.append(plotCurveConf);
 
     }
 }
 
-void ScopeGadgetConfiguration::clearPlotData()
+
+/**
+ * @brief ScopeGadgetConfiguration::~ScopeGadgetConfiguration Destructor clears 2D and 3D plot data
+ */
+ScopeGadgetConfiguration::~ScopeGadgetConfiguration()
 {
-    PlotCurveConfiguration* poltCurveConfig;
-
-    while(m_PlotCurveConfigs.size() > 0)
-    {
-        poltCurveConfig = m_PlotCurveConfigs.first();
-        m_PlotCurveConfigs.pop_front();
-
-        delete poltCurveConfig;
-    }
+    clearPlot2dData();
+    clearPlot3dData();
 }
 
 
@@ -106,40 +209,112 @@ void ScopeGadgetConfiguration::clearPlotData()
  */
 IUAVGadgetConfiguration *ScopeGadgetConfiguration::clone()
 {
-    int plotCurveCount = 0;
-    int plotDatasLoadIndex = 0;
-
     ScopeGadgetConfiguration *m = new ScopeGadgetConfiguration(this->classId());
-    m->setPlotType( m_plotType);
-    m->setDataSize( m_dataSize);
-    m->setMathFunctionType( m_mathFunctionType);
-    m->setRefreashInterval( m_refreshInterval);
 
-    plotCurveCount = m_PlotCurveConfigs.size();
+    if(m_plotDimensions == Plot2d){
 
-    for(plotDatasLoadIndex = 0; plotDatasLoadIndex < plotCurveCount; plotDatasLoadIndex++)
-    {
-        PlotCurveConfiguration* currentPlotCurveConf = m_PlotCurveConfigs.at(plotDatasLoadIndex);
+        m->setPlot2dType( m_plot2dType);
+        m->setDataSize( m_dataSize);
+        m->setTimeHorizon( m_timeHorizon);
+        m->setRefreshInterval( m_refreshInterval);
 
-        PlotCurveConfiguration* newPlotCurveConf = new PlotCurveConfiguration();
-        newPlotCurveConf->uavObjectName = currentPlotCurveConf->uavObjectName;
-        newPlotCurveConf->uavFieldName = currentPlotCurveConf->uavFieldName;
-        newPlotCurveConf->color = currentPlotCurveConf->color;
-        newPlotCurveConf->yScalePower = currentPlotCurveConf->yScalePower;
-        newPlotCurveConf->yMeanSamples = currentPlotCurveConf->yMeanSamples;
-        newPlotCurveConf->mathFunction = currentPlotCurveConf->mathFunction;
+        int plotCurveCount = m_Plot2dCurveConfigs.size();
 
-        newPlotCurveConf->yMinimum = currentPlotCurveConf->yMinimum;
-        newPlotCurveConf->yMaximum = currentPlotCurveConf->yMaximum;
+        if (m_plot2dType == Scatterplot2d){
+            m->setScatterplot2dType(m_scatterplot2dType);
 
-        m->addPlotCurveConfig(newPlotCurveConf);
+            for(int i = 0; i < plotCurveCount; i++)
+            {
+                Plot2dCurveConfiguration *currentPlotCurveConf = m_Plot2dCurveConfigs.at(i);
+                Plot2dCurveConfiguration *newPlotCurveConf     = new Plot2dCurveConfiguration();
+
+                newPlotCurveConf->uavObjectName = currentPlotCurveConf->uavObjectName;
+                newPlotCurveConf->uavFieldName  = currentPlotCurveConf->uavFieldName;
+                newPlotCurveConf->color         = currentPlotCurveConf->color;
+                newPlotCurveConf->yScalePower   = currentPlotCurveConf->yScalePower;
+                newPlotCurveConf->yMeanSamples  = currentPlotCurveConf->yMeanSamples;
+                newPlotCurveConf->mathFunction  = currentPlotCurveConf->mathFunction;
+                newPlotCurveConf->yMinimum = currentPlotCurveConf->yMinimum;
+                newPlotCurveConf->yMaximum = currentPlotCurveConf->yMaximum;
+
+                m->addPlot2dCurveConfig(newPlotCurveConf);
+            }
+        }
+        else if (m_plot2dType == Histogram){
+            HistogramDataConfiguration *newHistogramConfig = new HistogramDataConfiguration();
+            newHistogramConfig->binWidth = m_HistogramConfig->binWidth;
+            newHistogramConfig->windowWidth = m_HistogramConfig->windowWidth;
+            m->replaceHistogramConfig(newHistogramConfig);
+
+            for(int i = 0; i < plotCurveCount; i++)
+            {
+                Plot2dCurveConfiguration *currentPlotCurveConf = m_Plot2dCurveConfigs.at(i);
+                Plot2dCurveConfiguration *newPlotCurveConf     = new Plot2dCurveConfiguration();
+
+                newPlotCurveConf->uavObjectName = currentPlotCurveConf->uavObjectName;
+                newPlotCurveConf->uavFieldName  = currentPlotCurveConf->uavFieldName;
+                newPlotCurveConf->color         = currentPlotCurveConf->color;
+                newPlotCurveConf->yScalePower   = currentPlotCurveConf->yScalePower;
+                newPlotCurveConf->yMeanSamples  = currentPlotCurveConf->yMeanSamples;
+                newPlotCurveConf->mathFunction  = currentPlotCurveConf->mathFunction;
+                newPlotCurveConf->yMinimum = currentPlotCurveConf->yMinimum;
+                newPlotCurveConf->yMaximum = currentPlotCurveConf->yMaximum;
+
+                m->addPlot2dCurveConfig(newPlotCurveConf);
+            }
+        }
+        else{
+            Q_ASSERT(0);
+        }
+
     }
+    else if (m_plotDimensions == Plot3d){
+        m->setTimeHorizon( m_timeHorizon);
+        m->setPlot3dType( m_plot3dType);
 
-    m->setLoggingEnabled(m_LoggingEnabled);
-    m->setLoggingNewFileOnConnect(m_LoggingNewFileOnConnect);
-    m->setLoggingPath(m_LoggingPath);
+        int plotCurveCount = m_Plot3dCurveConfigs.size();
+
+        if (m_plot3dType == Spectrogram){
+            SpectrogramDataConfiguration *newSpectrogramConfig = new SpectrogramDataConfiguration();
+            newSpectrogramConfig->samplingFrequency = m_SpectrogramConfig->samplingFrequency;
+            newSpectrogramConfig->windowWidth = m_SpectrogramConfig->windowWidth;
+            m->replaceSpectrogramConfig(newSpectrogramConfig);
+
+            for(int i = 0; i < plotCurveCount; i++)
+            {
+                Plot3dCurveConfiguration *currentPlotCurveConf = m_Plot3dCurveConfigs.at(i);
+                Plot3dCurveConfiguration *newPlotCurveConf     = new Plot3dCurveConfiguration();
 
 
+                newPlotCurveConf->uavObjectName = currentPlotCurveConf->uavObjectName;
+                newPlotCurveConf->uavFieldName  = currentPlotCurveConf->uavFieldName;
+                newPlotCurveConf->color         = currentPlotCurveConf->color;
+                newPlotCurveConf->yScalePower   = currentPlotCurveConf->yScalePower;
+                newPlotCurveConf->yMeanSamples  = currentPlotCurveConf->yMeanSamples;
+                newPlotCurveConf->mathFunction  = currentPlotCurveConf->mathFunction;
+
+                newPlotCurveConf->yMinimum = currentPlotCurveConf->yMinimum;
+                newPlotCurveConf->yMaximum = currentPlotCurveConf->yMaximum;
+            }
+        }
+        else if (m_plot3dType == Scatterplot3d){
+            for (int i = 0; i < plotCurveCount; i++){
+                Plot3dCurveConfiguration *currentPlotCurveConf = m_Plot3dCurveConfigs.at(i);
+                Plot3dCurveConfiguration *newPlotCurveConf     = new Plot3dCurveConfiguration();
+
+                newPlotCurveConf->uavObjectName = currentPlotCurveConf->uavObjectName;
+                newPlotCurveConf->uavFieldName  = currentPlotCurveConf->uavFieldName;
+                newPlotCurveConf->color         = currentPlotCurveConf->color;
+                newPlotCurveConf->yScalePower   = currentPlotCurveConf->yScalePower;
+                newPlotCurveConf->yMeanSamples  = currentPlotCurveConf->yMeanSamples;
+                newPlotCurveConf->mathFunction  = currentPlotCurveConf->mathFunction;
+
+                newPlotCurveConf->yMinimum = currentPlotCurveConf->yMinimum;
+                newPlotCurveConf->yMaximum = currentPlotCurveConf->yMaximum;
+            }
+        }
+//            m->addPlot3dCurveConfig(newPlotCurveConf);
+    }
 
     return m;
 }
@@ -150,48 +325,174 @@ IUAVGadgetConfiguration *ScopeGadgetConfiguration::clone()
  * @param qSettings
  */
 void ScopeGadgetConfiguration::saveConfig(QSettings* qSettings) const {
-
-    int plotCurveCount = m_PlotCurveConfigs.size();
-    int plotDatasLoadIndex = 0;
-
-    qSettings->setValue("configurationStreamVersion", m_configurationStreamVersion);
-    qSettings->setValue("plotType", m_plotType);
-    qSettings->setValue("dataSize", m_dataSize);
+    qSettings->setValue("plotDimensions", m_plotDimensions);
     qSettings->setValue("refreshInterval", m_refreshInterval);
-    qSettings->setValue("plotCurveCount", plotCurveCount);
+    qSettings->setValue("timeHorizon", m_timeHorizon);
 
-    for(plotDatasLoadIndex = 0; plotDatasLoadIndex < plotCurveCount; plotDatasLoadIndex++)
+    if(m_plotDimensions == Plot2d)
     {
-        qSettings->beginGroup(QString("plotCurve") + QString().number(plotDatasLoadIndex));
+        //Start writing new XML block
+        qSettings->beginGroup(QString("plot2d"));
 
-        PlotCurveConfiguration* plotCurveConf = m_PlotCurveConfigs.at(plotDatasLoadIndex);
-        qSettings->setValue("uavObject",  plotCurveConf->uavObjectName);
-        qSettings->setValue("uavField",  plotCurveConf->uavFieldName);
-        qSettings->setValue("color",  plotCurveConf->color);
-        qSettings->setValue("mathFunction",  plotCurveConf->mathFunction);
-        qSettings->setValue("yScalePower",  plotCurveConf->yScalePower);
-        qSettings->setValue("yMeanSamples",  plotCurveConf->yMeanSamples);
-        qSettings->setValue("yMinimum",  plotCurveConf->yMinimum);
-        qSettings->setValue("yMaximum",  plotCurveConf->yMaximum);
+        int plot2dCurveCount = m_Plot2dCurveConfigs.size();
 
+        qSettings->setValue("plot2dType", m_plot2dType);
+        qSettings->setValue("dataSize", m_dataSize);
+        qSettings->setValue("plot2dCurveCount", plot2dCurveCount);
+
+
+        if (m_plot2dType == Scatterplot2d){
+            qSettings->setValue("scatterplot2dType", m_scatterplot2dType);
+
+            // For each curve source in the plot
+            for(int i = 0; i < plot2dCurveCount; i++)
+            {
+                Plot2dCurveConfiguration *plotCurveConf = m_Plot2dCurveConfigs.at(i);
+                qSettings->beginGroup(QString("plot2dScatterplot") + QString().number(i));
+
+                qSettings->setValue("uavObject",  plotCurveConf->uavObjectName);
+                qSettings->setValue("uavField",  plotCurveConf->uavFieldName);
+                qSettings->setValue("color",  plotCurveConf->color);
+                qSettings->setValue("mathFunction",  plotCurveConf->mathFunction);
+                qSettings->setValue("yScalePower",  plotCurveConf->yScalePower);
+                qSettings->setValue("yMeanSamples",  plotCurveConf->yMeanSamples);
+                qSettings->setValue("yMinimum",  plotCurveConf->yMinimum);
+                qSettings->setValue("yMaximum",  plotCurveConf->yMaximum);
+
+                //Stop writing XML block
+                qSettings->endGroup();
+            }
+        }
+        else if (m_plot2dType == Histogram){
+            qSettings->value("binWidth", m_HistogramConfig->binWidth);
+            qSettings->value("windowWidth", m_HistogramConfig->windowWidth);
+
+            // For each curve source in the plot
+            for(int i = 0; i < plot2dCurveCount; i++)
+            {
+                Plot2dCurveConfiguration *plotCurveConf = m_Plot2dCurveConfigs.at(i);
+                qSettings->beginGroup(QString("plot2dHistogram") + QString().number(i));
+
+                qSettings->setValue("uavObject",  plotCurveConf->uavObjectName);
+                qSettings->setValue("uavField",  plotCurveConf->uavFieldName);
+                qSettings->setValue("color",  plotCurveConf->color);
+                qSettings->setValue("mathFunction",  plotCurveConf->mathFunction);
+                qSettings->setValue("yScalePower",  plotCurveConf->yScalePower);
+                qSettings->setValue("yMeanSamples",  plotCurveConf->yMeanSamples);
+                qSettings->setValue("yMinimum",  plotCurveConf->yMinimum);
+                qSettings->setValue("yMaximum",  plotCurveConf->yMaximum);
+
+                //Stop writing XML block
+                qSettings->endGroup();
+            }
+        }
+        else{
+            Q_ASSERT(0);
+        }
+
+        //Stop writing XML block
+        qSettings->endGroup();
+    }
+    else if(m_plotDimensions == Plot3d)
+    {
+        //Start writing new XML block
+        qSettings->beginGroup(QString("plot3d"));
+
+        int plot3dCurveCount = m_Plot3dCurveConfigs.size();
+        qSettings->setValue("plot3dType", m_plot3dType);
+        qSettings->setValue("plot3dCurveCount", plot3dCurveCount);
+
+        if(m_plot3dType == Spectrogram){
+            qSettings->setValue("samplingFrequency", m_SpectrogramConfig->samplingFrequency);
+            qSettings->setValue("windowWidth", m_SpectrogramConfig->windowWidth);
+
+            for(int i = 0; i < plot3dCurveCount; i++){
+                Plot3dCurveConfiguration *plotCurveConf = m_Plot3dCurveConfigs.at(i);
+
+                //Start new XML block
+                qSettings->beginGroup(QString("plotSpectrogram") + QString().number(i));
+
+                qSettings->setValue("uavObject",  plotCurveConf->uavObjectName);
+                qSettings->setValue("uavField",  plotCurveConf->uavFieldName);
+                qSettings->setValue("colormap",  plotCurveConf->color);
+
+                //Stop writing XML block
+                qSettings->endGroup();
+            }
+
+        }
+        else if(m_plot3dType == Scatterplot3d){
+            for(int i = 0; i < plot3dCurveCount; i++){
+                Plot3dCurveConfiguration *plotCurveConf = m_Plot3dCurveConfigs.at(i);
+            //Start new XML block
+            qSettings->beginGroup(QString("plot3dCurve") + QString().number(i));
+
+            qSettings->setValue("uavObject",  plotCurveConf->uavObjectName);
+            qSettings->setValue("uavField",  plotCurveConf->uavFieldName);
+            qSettings->setValue("color",  plotCurveConf->color);
+            qSettings->setValue("mathFunction",  plotCurveConf->mathFunction);
+            qSettings->setValue("yScalePower",  plotCurveConf->yScalePower);
+            qSettings->setValue("yMeanSamples",  plotCurveConf->yMeanSamples);
+            qSettings->setValue("yMinimum",  plotCurveConf->yMinimum);
+            qSettings->setValue("yMaximum",  plotCurveConf->yMaximum);
+
+            //Stop writing XML block
+            qSettings->endGroup();
+            }
+        }
+        else{
+            Q_ASSERT(0);
+        }
+
+        //Stop writing XML block
         qSettings->endGroup();
     }
 
-    qSettings->setValue("LoggingEnabled",  m_LoggingEnabled);
-    qSettings->setValue("LoggingNewFileOnConnect",  m_LoggingNewFileOnConnect);
-    qSettings->setValue("LoggingPath",  m_LoggingPath);
-
-
 }
 
-void ScopeGadgetConfiguration::replacePlotCurveConfig(QList<PlotCurveConfiguration*> newPlotCurveConfigs)
+void ScopeGadgetConfiguration::replacePlot2dCurveConfig(QList<Plot2dCurveConfiguration*> newPlot2dCurveConfigs)
 {
-    clearPlotData();
+    clearPlot2dData();
 
-    m_PlotCurveConfigs.append(newPlotCurveConfigs);
+    m_Plot2dCurveConfigs.append(newPlot2dCurveConfigs);
 }
 
-ScopeGadgetConfiguration::~ScopeGadgetConfiguration()
+
+void ScopeGadgetConfiguration::replacePlot3dCurveConfig(QList<Plot3dCurveConfiguration*> newPlot3dCurveConfigs)
 {
-    clearPlotData();
+    clearPlot3dData();
+
+    m_Plot3dCurveConfigs.append(newPlot3dCurveConfigs);
+}
+
+
+//TODO: What is this function doing? Why create the configuration only to deleted it?
+// Why can't we accomplish the same thing with a simple m_Plot2dCurveConfigs.clear()?
+void ScopeGadgetConfiguration::clearPlot2dData()
+{
+    Plot2dCurveConfiguration *plotCurveConfig;
+
+    while(m_Plot2dCurveConfigs.size() > 0)
+    {
+        plotCurveConfig = m_Plot2dCurveConfigs.first();
+        m_Plot2dCurveConfigs.pop_front();
+
+        delete plotCurveConfig;
+    }
+}
+
+
+//TODO: What is this function doing? Why create the configuration only to deleted it?
+// Why can't we accomplish the same thing with a simple m_Plot3dCurveConfigs.clear()?
+void ScopeGadgetConfiguration::clearPlot3dData()
+{
+    Plot3dCurveConfiguration *plotCurveConfig;
+
+    while(m_Plot3dCurveConfigs.size() > 0)
+    {
+        plotCurveConfig = m_Plot3dCurveConfigs.first();
+        m_Plot3dCurveConfigs.pop_front();
+
+        delete plotCurveConfig;
+    }
 }

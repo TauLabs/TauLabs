@@ -3,6 +3,7 @@
  *
  * @file       plotdata.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ScopePlugin Scope Gadget Plugin
@@ -34,11 +35,17 @@
 #include <math.h>
 #include <QDebug>
 
-//Global variable for cycling the axes in the FFT output
-quint32 accHistIdx=0;
 
-PlotData::PlotData(QString p_uavObject, QString p_uavFieldName)
-{    
+Plot2dData::Plot2dData(QString p_uavObject, QString p_uavFieldName):
+    curve(0),
+    histogram(0),
+    xData(0),
+    yData(0),
+    yDataHistory(0),
+    histogramBins(0),
+    histogramInterval(0),
+    intervalSeriesData(0)
+{
     uavObjectName = p_uavObject;
 
     //TODO: This needs a comment here. How can a `-` appear in a UAVO field name? Is this automatic in certain instances, or is it user-defined?
@@ -63,16 +70,90 @@ PlotData::PlotData(QString p_uavObject, QString p_uavFieldName)
     scalePower = 0;
     meanSamples = 1;
     meanSum = 0.0f;
-//    mathFunction=0;
     correctionSum = 0.0f;
     correctionCount = 0;
     yMinimum = 0;
-    yMaximum = 0;
+    yMaximum = 120;
 
     m_xWindowSize = 0;
 }
 
-double PlotData::valueAsDouble(UAVObject* obj, UAVObjectField* field)
+
+Plot3dData::Plot3dData(QString p_uavObject, QString p_uavFieldName):
+    curve(0),
+    spectrogram(0),
+    xData(0),
+    yData(0),
+    zData(0),
+    zDataHistory(0),
+    timeDataHistory(0),
+    rasterData(0)
+{
+    uavObjectName = p_uavObject;
+
+    //TODO: This needs a comment here. How can a `-` appear in a UAVO field name? Is this automatic in certain instances, or is it user-defined?
+    if(p_uavFieldName.contains("-"))
+    {
+        QStringList fieldSubfield = p_uavFieldName.split("-", QString::SkipEmptyParts);
+        uavFieldName = fieldSubfield.at(0);
+        uavSubFieldName = fieldSubfield.at(1);
+        haveSubField = true;
+    }
+    else
+    {
+        uavFieldName =  p_uavFieldName;
+        haveSubField = false;
+    }
+
+    xData = new QVector<double>();
+    yData = new QVector<double>();
+    zData = new QVector<double>();
+    zDataHistory = new QVector<double>();
+    timeDataHistory = new QVector<double>();
+
+    curve = 0;
+    scalePower = 0;
+    meanSamples = 1;
+    meanSum = 0.0f;
+    correctionSum = 0.0f;
+    correctionCount = 0;
+    xMinimum = 0;
+    xMaximum = 16;
+    yMinimum = 0;
+    yMaximum = 60;
+    zMinimum = 0;
+    zMaximum = 10;
+
+}
+
+
+Plot2dData::~Plot2dData()
+{
+    if (xData != NULL)
+        delete xData;
+    if (yData != NULL)
+        delete yData;
+    if (yDataHistory != NULL)
+        delete yDataHistory;
+}
+
+
+Plot3dData::~Plot3dData()
+{
+    if (xData != NULL)
+        delete xData;
+    if (yData != NULL)
+        delete yData;
+    if (zData != NULL)
+        delete zData;
+    if (zDataHistory != NULL)
+        delete zDataHistory;
+    if (timeDataHistory != NULL)
+        delete timeDataHistory;
+}
+
+
+double valueAsDouble(UAVObject* obj, UAVObjectField* field, bool haveSubField, QString uavSubFieldName)
 {
     Q_UNUSED(obj);
     QVariant value;
@@ -83,20 +164,11 @@ double PlotData::valueAsDouble(UAVObject* obj, UAVObjectField* field)
     }else
         value = field->getValue();
 
-    // qDebug() << "Data  (" << value.typeName() << ") " <<  value.toString();
-
     return value.toDouble();
 }
 
-PlotData::~PlotData()
-{
-    delete xData;
-    delete yData;
-    delete yDataHistory;
-}
 
-
-bool SequentialPlotData::append(UAVObject* obj)
+bool SeriesPlotData::append(UAVObject* obj)
 {
     if (uavObjectName == obj->getName()) {
 
@@ -105,7 +177,7 @@ bool SequentialPlotData::append(UAVObject* obj)
 
         if (field) {
 
-            double currentValue = valueAsDouble(obj, field) * pow(10, scalePower);
+            double currentValue = valueAsDouble(obj, field, haveSubField, uavSubFieldName) * pow(10, scalePower);
 
             //Perform scope math, if necessary
             if (mathFunction  == "Boxcar average" || mathFunction  == "Standard deviation"){
@@ -146,13 +218,11 @@ bool SequentialPlotData::append(UAVObject* obj)
                 yData->append( currentValue );
             }
 
-            if (yData->size() > m_xWindowSize) { //If new data overflows the window, remove old data...
+            if (yData->size() > getXWindowSize()) { //If new data overflows the window, remove old data...
                 yData->pop_front();
             } else //...otherwise, add a new y point at position xData
                 xData->insert(xData->size(), xData->size());
 
-            //notify the gui of changes in the data
-            //dataChanged();
             return true;
         }
     }
@@ -160,7 +230,121 @@ bool SequentialPlotData::append(UAVObject* obj)
     return false;
 }
 
-bool ChronoPlotData::append(UAVObject* obj)
+
+bool SpectrogramData::append(UAVObject* multiObj)
+{
+    QDateTime NOW = QDateTime::currentDateTime(); //TODO: This should show UAVO time and not system time
+
+    // Check to make sure it's the correct UAVO
+    if (uavObjectName == multiObj->getName()) {
+
+        // Only run on UAVOs that have multiple instances
+        if (multiObj->isSingleInstance())
+            return false;
+
+        int instNum = 0;
+
+        //Instantiate object manager
+        UAVObjectManager *objManager;
+
+        ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+        Q_ASSERT(pm != NULL);
+        objManager = pm->getObject<UAVObjectManager>();
+        Q_ASSERT(objManager != NULL);
+
+
+        // Get list of object instances
+        QList<UAVObject*> list = objManager->getObjectInstances(multiObj->getName());
+
+        // Remove a row's worth of data.
+        unsigned int spectrogramWidth = list.length();
+
+        // Check that there is a full window worth of data. While GCS is starting up, the size of
+        // multiple instance UAVOs is 1, so it's possible for spurious data to come in before
+        // the flight controller board has had time to initialize the UAVO size.
+        if (spectrogramWidth != windowWidth){
+            qDebug() << "Incomplete data set in" << multiObj->getName() << "." << uavFieldName <<  "spectrogram: " << spectrogramWidth << " samples provided, but expected " << windowWidth;
+            return false;
+        }
+
+        QVector<double> values;
+//        values.reserve(spectrogramWidth);
+
+        timeDataHistory->append(NOW.toTime_t() + NOW.time().msec() / 1000.0);
+        UAVObjectField* multiField =  multiObj->getField(uavFieldName);
+        Q_ASSERT(multiField);
+        if (multiField ) {
+
+            // Get the field of interest
+            foreach (UAVObject *obj, list) {
+                instNum++;
+
+                UAVObjectField* field =  obj->getField(uavFieldName);
+
+                double currentValue = valueAsDouble(obj, field, haveSubField, uavSubFieldName) * pow(10, scalePower);
+
+            //Perform scope math, if necessary
+                double vecVal = currentValue;
+/*
+            if (mathFunction  == "Boxcar average" || mathFunction  == "Standard deviation"){
+                //Put the new value at the front
+
+                // calculate average value
+                meanSum += currentValue;
+//                if(zDataHistory->size() > meanSamples) {
+//                    meanSum -= zDataHistory->first();
+//                    zDataHistory->pop_front();
+//                }
+
+                // make sure to correct the sum every meanSamples steps to prevent it
+                // from running away due to floating point rounding errors
+                correctionSum += currentValue;
+                if (++correctionCount >= meanSamples) {
+                    meanSum = correctionSum;
+                    correctionSum = 0.0f;
+                    correctionCount = 0;
+                }
+
+                double boxcarAvg=meanSum/zDataHistory->size();
+
+                if ( mathFunction  == "Standard deviation" ){
+                    //Calculate square of sample standard deviation, with Bessel's correction
+                    double stdSum = 0;
+                    for (int i=0; i < zDataHistory->size(); i++){
+                        stdSum += pow(zDataHistory->at(i)- boxcarAvg,2)/(meanSamples-1);
+                    }
+                    vecVal = sqrt(stdSum);
+                }
+                else  {
+                    vecVal = boxcarAvg;
+                }
+            }
+            else{
+                vecVal = currentValue;
+            }
+*/
+                values += vecVal;
+            }
+
+            while (timeDataHistory->back() - timeDataHistory->front() > timeHorizon){
+                timeDataHistory->pop_front();
+                zDataHistory->remove(0, fminl(spectrogramWidth, zDataHistory->size()));
+            }
+
+            // Doublecheck that there are the right number of samples. This can occur if the "field" assert fails
+            if(values.size() == (int) windowWidth){
+                *zDataHistory << values;
+            }
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+bool TimeSeriesPlotData::append(UAVObject* obj)
 {
     if (uavObjectName == obj->getName()) {
         //Get the field of interest
@@ -169,7 +353,7 @@ bool ChronoPlotData::append(UAVObject* obj)
 
         if (field) {
             QDateTime NOW = QDateTime::currentDateTime(); //THINK ABOUT REIMPLEMENTING THIS TO SHOW UAVO TIME, NOT SYSTEM TIME
-            double currentValue = valueAsDouble(obj, field) * pow(10, scalePower);
+            double currentValue = valueAsDouble(obj, field, haveSubField, uavSubFieldName) * pow(10, scalePower);
 
             //Perform scope math, if necessary
             if (mathFunction  == "Boxcar average" || mathFunction  == "Standard deviation"){
@@ -192,7 +376,7 @@ bool ChronoPlotData::append(UAVObject* obj)
                 }
 
                 double boxcarAvg=meanSum/yDataHistory->size();
-//qDebug()<<mathFunction;
+
                 if ( mathFunction  == "Standard deviation" ){
                     //Calculate square of sample standard deviation, with Bessel's correction
                     double stdSum=0;
@@ -212,13 +396,9 @@ bool ChronoPlotData::append(UAVObject* obj)
             double valueX = NOW.toTime_t() + NOW.time().msec() / 1000.0;
             xData->append(valueX);
 
-            //qDebug() << "Data  " << uavObject << "." << field->getName() << " X,Y:" << valueX << "," <<  valueY;
-
             //Remove stale data
             removeStaleData();
 
-            //notify the gui of chages in the data
-            //dataChanged();
             return true;
         }
     }
@@ -226,7 +406,7 @@ bool ChronoPlotData::append(UAVObject* obj)
     return false;
 }
 
-void ChronoPlotData::removeStaleData()
+void TimeSeriesPlotData::removeStaleData()
 {
     double newestValue;
     double oldestValue;
@@ -238,7 +418,7 @@ void ChronoPlotData::removeStaleData()
         newestValue = xData->last();
         oldestValue = xData->first();
 
-        if (newestValue - oldestValue > m_xWindowSize) {
+        if (newestValue - oldestValue > getXWindowSize()) {
             yData->pop_front();
             xData->pop_front();
         } else
@@ -248,71 +428,75 @@ void ChronoPlotData::removeStaleData()
     //qDebug() << "removeStaleData ";
 }
 
-void ChronoPlotData::removeStaleDataTimeout()
+void TimeSeriesPlotData::removeStaleDataTimeout()
 {
     removeStaleData();
-    //dataChanged();
-    //qDebug() << "removeStaleDataTimeout";
 }
 
-bool HistoPlotData::append(UAVObject* obj)
+bool HistogramData::append(UAVObject* obj)
 {
 
     //Empty histogram data set
     xData->clear();
     yData->clear();
 
-    qDebug() << "uavObject by name of " << obj->getName() << " is calling HistoPlot::append???";
-
     if (uavObjectName == obj->getName()) {
 
         //Get the field of interest
         UAVObjectField* field =  obj->getField(uavFieldName);
 
+        //Bad place to do this
+        double step = .16;
+
         if (field) {
-            double currentValue;
+            double currentValue = valueAsDouble(obj, field, haveSubField, uavSubFieldName) * pow(10, scalePower);
 
-            UAVObjectManager *objManager;
+            // Extend interval, if necessary
+            if(!histogramInterval->empty()){
 
-            ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-            Q_ASSERT(pm != NULL);
-            objManager = pm->getObject<UAVObjectManager>();
-            Q_ASSERT(objManager != NULL);
+                while (currentValue < histogramInterval->front().minValue()){
+                    histogramInterval->prepend(QwtInterval(histogramInterval->front().minValue() - step, histogramInterval->front().minValue()));
+                    histogramBins->prepend(QwtIntervalSample(0,histogramInterval->front()));
+                }
+                while (currentValue > histogramInterval->back().maxValue()){
+                    histogramInterval->append(QwtInterval(histogramInterval->back().maxValue(), histogramInterval->back().maxValue() + step));
+                    histogramBins->append(QwtIntervalSample(0,histogramInterval->back()));
+                }
 
-            VibrationTestOutput *vibrationTestOutputObj = VibrationTestOutput::GetInstance(objManager);
-            Q_ASSERT(vibrationTestOutputObj != NULL);
+                // Test all intervals. This isn't particularly effecient, especially if we have just
+                // extended the interval and thus know for sure that the point lies on the extremity.
+                // On top of that, some kind of search by bisection would be better.
+                for (int i=0; i < histogramInterval->size(); i++ ){
+                    if(histogramInterval->at(i).contains(currentValue)){
+                        histogramBins->replace(i, QwtIntervalSample(histogramBins->at(i).value + 1, histogramInterval->at(i)));
+                        break;
+                    }
 
-            VibrationTestSettings *vibrationTestSettingsObj = VibrationTestSettings::GetInstance(objManager);
-            Q_ASSERT(vibrationTestSettingsObj != NULL);
-            VibrationTestSettings::DataFields vibrationTestSettingsData = vibrationTestSettingsObj->getData();
+                }
+            }
+            else{
+                // Create first interval
+                double tmp=0;
+                if (tmp < currentValue){
+                    while (tmp < currentValue){
+                        tmp+=step;
+                    }
+                    histogramInterval->append(QwtInterval(tmp-step, tmp));
+                }
+                else{
+                    while (tmp > step){
+                        tmp-=step;
+                    }
+                    histogramInterval->append(QwtInterval(tmp, tmp+step));
+                }
 
-            quint32 fftHalfSize = vibrationTestSettingsData.FFTWindowSize / 2;
-            double samplingFrequency = 1000.0/(vibrationTestSettingsData.SampleRate); //Convert from [ms/Sample] to [Samples/sec]
-
-            for (quint32 i=0; i< fftHalfSize; i++){
-                vibrationTestOutputObj = VibrationTestOutput::GetInstance(objManager,i + accHistIdx * fftHalfSize);
-                VibrationTestOutput::DataFields vibrationTestOutputData = vibrationTestOutputObj->getData();
-                currentValue = vibrationTestOutputData.BinValue;
-                float tickFreq=i/((double)2.0*fftHalfSize) * samplingFrequency;
-                xData->append( tickFreq );
-                yData->append( currentValue );
+                histogramBins->append(QwtIntervalSample(0,histogramInterval->front()));
             }
 
-            //Wrap the histogram index
-            accHistIdx++;
-            if (accHistIdx >=3 ){
-                accHistIdx=0;
-            }
 
-        return true;
+            return true;
         }
     }
 
-    return false;
-}
-
-bool UAVObjectPlotData::append(UAVObject* obj)
-{
-    Q_UNUSED(obj);
     return false;
 }
