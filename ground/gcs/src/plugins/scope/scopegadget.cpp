@@ -75,6 +75,8 @@ void ScopeGadget::loadConfiguration(IUAVGadgetConfiguration* config)
                 sgConfig->setHistogramUnits(units);
 
                 double binWidth = sgConfig->getHistogramConfiguration()->binWidth;
+                if (binWidth < 1e-3)
+                    binWidth = 1e-3;
 
                 // Create the Qwt histogram plot
                 widget->addHistogram(
