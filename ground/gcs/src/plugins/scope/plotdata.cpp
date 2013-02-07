@@ -403,7 +403,7 @@ bool HistogramData::append(UAVObject* obj)
         UAVObjectField* field =  obj->getField(uavFieldName);
 
         //Bad place to do this
-        double step = .16;
+        double step = binWidth;
 
         if (field) {
             double currentValue = valueAsDouble(obj, field, haveSubField, uavSubFieldName) * pow(10, scalePower);

@@ -89,7 +89,7 @@ public:
 
 
     void add2dCurvePlot(QString uavObject, QString uavFieldSubField, int scaleOrderFactor = 0, int meanSamples = 1, QString mathFunction = "None", QPen pen = QPen(Qt::black));
-    void addHistogram(QString uavObject, QString uavFieldSubField, int scaleOrderFactor = 0, int meanSamples = 1, QString mathFunction = "None", QBrush brush = QBrush(Qt::red));
+    void addHistogram(QString uavObject, QString uavFieldSubField, double binWidth, int scaleOrderFactor = 0, int meanSamples = 1, QString mathFunction = "None", QBrush brush = QBrush(Qt::red));
     //void removeCurvePlot(QString uavObject, QString uavField);
     void addWaterfallPlot(QString uavObject, QString uavFieldSubField, int scaleOrderFactor = 0, int meanSamples = 1, QString mathFunction = "None", double samplingFrequency=100, int windowWidth=8, double timeHorizon=60);
     void clearCurvePlots();
