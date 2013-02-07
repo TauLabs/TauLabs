@@ -68,7 +68,7 @@ public abstract class ObjectManagerActivity extends Activity {
 	//! Object manager, populated by parent for the children to use
 	UAVObjectManager objMngr;
 	//! Indicates if telemetry is connected
-	boolean mConnected = false;
+	boolean connectedCalled = false;
 	//! The binder to access the telemetry task, and thus the object manager
 	LocalBinder binder;
 	//! Store the broadcast receiver to unregister it
@@ -100,9 +100,9 @@ public abstract class ObjectManagerActivity extends Activity {
 			return;
 		}
 
-		status.setConnected(mConnected);
+		status.setConnected(getConnectionState() == ConnectionState.CONNECTED);
 
-		if (!mConnected) {
+		if (getConnectionState() != ConnectionState.CONNECTED) {
 			Log.d(TAG, "updateStas not connected");
 			status.setTxRate(0);
 			status.setRxRate(0);
@@ -143,6 +143,12 @@ public abstract class ObjectManagerActivity extends Activity {
 	 * This should be called by all inherited classes if they want the telemetry bar etc
 	 */
 	void onOPConnected() {
+
+		// Cannot be called repeatedly
+		if (connectedCalled)
+			return;
+		connectedCalled = true;
+
 		// Create a map for all the object updates register for this activity.  If anyone
 		// tries to register an object update before this a null exception will occur
 		listeners = new HashMap<Observer,UAVObject>();
@@ -170,6 +176,10 @@ public abstract class ObjectManagerActivity extends Activity {
 	 * This should be called by all inherited classes if they want the telemetry bar etc
 	 */
 	void onOPDisconnected() {
+		if (!connectedCalled)
+			return;
+		connectedCalled = false;
+
 		// Providing a null update triggers a disconnect on fragments
 		connectionListeners.disconnected();
 
@@ -198,7 +208,10 @@ public abstract class ObjectManagerActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 
-		if (mConnected && !telemetryStatsConnected) {
+		if (getConnectionState() == ConnectionState.CONNECTED &&
+				objMngr != null &&
+				!telemetryStatsConnected) {
+
 			UAVObject stats = objMngr.getObject("GCSTelemetryStats");
 			if (stats == null)
 				return;
@@ -239,7 +252,6 @@ public abstract class ObjectManagerActivity extends Activity {
 					Log.d(TAG, "Received intent");
 				TelemTask task;
 				if(intent.getAction().compareTo(OPTelemetryService.INTENT_CHANNEL_OPENED) == 0) {
-					mConnected = false;
 					invalidateOptionsMenu();
 				} else if(intent.getAction().compareTo(OPTelemetryService.INTENT_ACTION_CONNECTED) == 0) {
 					if(binder  == null)
@@ -247,16 +259,12 @@ public abstract class ObjectManagerActivity extends Activity {
 					if((task = binder.getTelemTask(0)) == null)
 						return;
 					objMngr = task.getObjectManager();
-					mConnected = true;
 					onOPConnected();
 					Log.d(TAG, "Connected()");
 					invalidateOptionsMenu();
 				} else if (intent.getAction().compareTo(OPTelemetryService.INTENT_ACTION_DISCONNECTED) == 0) {
-					// Do not call onOPDisconnected if a connection wasn't made
-					if (mConnected)
-						onOPDisconnected();
+					onOPDisconnected();
 					objMngr = null;
-					mConnected = false;
 					Log.d(TAG, "Disonnected()");
 					invalidateOptionsMenu();
 				}
@@ -457,7 +465,7 @@ public abstract class ObjectManagerActivity extends Activity {
 	public void addOnConnectionListenerFragment(ObjectManagerFragment frag) {
 		connectionListeners.addObserver(new OnConnectionListener(frag));
 		if (DEBUG) Log.d(TAG, "Connecting " + frag + " there are now " + connectionListeners.countObservers());
-		if (mConnected)
+		if (getConnectionState() == ConnectionState.CONNECTED)
 			frag.onOPConnected(objMngr);
 	}
 
@@ -476,7 +484,6 @@ public abstract class ObjectManagerActivity extends Activity {
 				TelemTask task;
 				if((task = binder.getTelemTask(0)) != null) {
 					objMngr = task.getObjectManager();
-					mConnected = true;
 					onOPConnected();
 					invalidateOptionsMenu();
 				}
@@ -486,10 +493,8 @@ public abstract class ObjectManagerActivity extends Activity {
 
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
-			if (mConnected)
-				onOPDisconnected();
+			onOPDisconnected();
 			binder = null;
-			mConnected = false;
 			objMngr = null;
 			invalidateOptionsMenu();
 		}
@@ -560,7 +565,7 @@ public abstract class ObjectManagerActivity extends Activity {
 		} else {
 			status.setConnected(true);
 
-			if (!mConnected) {
+			if (getConnectionState() != ConnectionState.CONNECTED) {
 				status.setTxRate(0);
 				status.setRxRate(0);
 			} else if (objMngr != null && status != null) {
