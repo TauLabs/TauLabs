@@ -74,10 +74,13 @@ void ScopeGadget::loadConfiguration(IUAVGadgetConfiguration* config)
                 QString units = widget->getUavObjectFieldUnits(uavObjectName, uavFieldName);
                 sgConfig->setHistogramUnits(units);
 
+                double binWidth = sgConfig->getHistogramConfiguration()->binWidth;
+
                 // Create the Qwt histogram plot
                 widget->addHistogram(
                         uavObjectName,
                             uavFieldName,
+                            binWidth,
                             scale,
                             mean,
                             mathFunction,

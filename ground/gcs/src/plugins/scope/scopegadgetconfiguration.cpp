@@ -340,7 +340,6 @@ void ScopeGadgetConfiguration::saveConfig(QSettings* qSettings) const {
         qSettings->setValue("dataSize", m_dataSize);
         qSettings->setValue("plot2dCurveCount", plot2dCurveCount);
 
-
         if (m_plot2dType == Scatterplot2d){
             qSettings->setValue("scatterplot2dType", m_scatterplot2dType);
 
@@ -364,8 +363,8 @@ void ScopeGadgetConfiguration::saveConfig(QSettings* qSettings) const {
             }
         }
         else if (m_plot2dType == Histogram){
-            qSettings->value("binWidth", m_HistogramConfig->binWidth);
-            qSettings->value("windowWidth", m_HistogramConfig->windowWidth);
+            qSettings->setValue("binWidth", m_HistogramConfig->binWidth);
+            qSettings->setValue("windowWidth", m_HistogramConfig->windowWidth);
 
             // For each curve source in the plot
             for(int i = 0; i < plot2dCurveCount; i++)
