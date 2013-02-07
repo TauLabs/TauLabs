@@ -1,8 +1,8 @@
 /**
  ******************************************************************************
- * @file       AttitudeView.java
+ * @file       GpsView.java
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @brief      A view for UAV attitude.
+ * @brief      A view of the compass heading.
  * @see        The GNU Public License (GPL) Version 3
  *****************************************************************************/
 /*
@@ -20,41 +20,77 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-package org.taulabs.androidgcs;
+
+package org.taulabs.androidgcs.views;
 
 import org.taulabs.androidgcs.R;
 
+import android.R.color;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class AttitudeView extends View {
+/**
+ * @class GpsView show the current GPS status with the
+ * number of satellites and PDOP
+ */
+public class GpsView extends View {
 
-	private Paint markerPaint;
-	public AttitudeView(Context context) {
+	private static final String GPS_FORMAT = "GPS: %d   PDOP: %.2f";
+
+	public GpsView(Context context) {
 		super(context);
-		initAttitudeView();
+		initGpsView();
 	}
 
-	public AttitudeView(Context context, AttributeSet ats, int defaultStyle) {
+	public GpsView(Context context, AttributeSet ats, int defaultStyle) {
 		super(context, ats, defaultStyle);
-		initAttitudeView();
+		initGpsView();
 	}
 
-	public AttitudeView(Context context, AttributeSet ats) {
+	public GpsView(Context context, AttributeSet ats) {
 		super(context, ats);
-		initAttitudeView();
+		initGpsView();
 	}
 
-	protected void initAttitudeView() {
-		setFocusable(true);
-		markerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		markerPaint.setColor(getContext().getResources().getColor(
-				R.color.marker_color));
+	private final Rect textBounds = new Rect();
+	private final Rect smallTextBounds = new Rect();
 
+	protected void initGpsView() {
+		setFocusable(true);
+
+		// Set a slightly dark background with white border
+		Resources res = this.getResources();
+		Drawable drawable = res.getDrawable(R.drawable.overlay_background);
+		setBackgroundDrawable(drawable);
+
+		// Pick the line style to box the center letter
+		centerLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		centerLinePaint.setColor(getResources().getColor(color.white));
+		centerLinePaint.setStrokeWidth(3);
+		centerLinePaint.setStyle(Paint.Style.FILL_AND_STROKE);
+		Resources r = this.getResources();
+
+		// Text for the cardinal directions
+		textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		textPaint.setColor(r.getColor(R.color.text_color));
+		textPaint.setTextSize(35);
+		textPaint.getTextBounds("W", 0, 1, textBounds);
+
+		// Text for numeric headings in between
+		smallTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		smallTextPaint.setColor(r.getColor(R.color.text_color));
+		smallTextPaint.setTextSize(20);
+		smallTextPaint.getTextBounds("W", 0, 1, smallTextBounds);
+
+		// Marker for the 5 deg heading marks
+		markerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		markerPaint.setColor(r.getColor(R.color.marker_color));
 	}
 
     /**
@@ -65,7 +101,6 @@ public class AttitudeView extends View {
         setMeasuredDimension(measureWidth(widthMeasureSpec),
                 measureHeight(heightMeasureSpec));
     }
-
 
     /**
      * Determines the height of this view
@@ -82,7 +117,7 @@ public class AttitudeView extends View {
             result = specSize;
         } else {
             // Measure the text (beware: ascent is a negative number)
-            result = 1600;
+            result = 2 * textBounds.height();
             if (specMode == MeasureSpec.AT_MOST) {
                 // Respect AT_MOST value if that was what is called for by measureSpec
                 result = Math.min(result, specSize);
@@ -106,7 +141,9 @@ public class AttitudeView extends View {
             result = specSize;
         } else {
             // Measure the text
-            result = 800;
+        	String gpsMessage = String.format(GPS_FORMAT, 3, 3.4f);
+    		int textWidth = (int)textPaint.measureText(gpsMessage);
+            result = textWidth + 50;
             if (specMode == MeasureSpec.AT_MOST) {
                 // Respect AT_MOST value if that was what is called for by measureSpec
                 result = Math.min(result, specSize);
@@ -116,56 +153,35 @@ public class AttitudeView extends View {
         return result;
     }
 
-	private float roll;
-	public void setRoll(double roll) {
-		this.roll = (float) roll;
+	private double pdop;
+	public void setPDOP(double pdop) {
+		this.pdop = pdop;
+		invalidate();
 	}
 
-	private float pitch;
-	public void setPitch(double d) {
-		this.pitch = (float) d;
+	private int satellites;
+	public void setSatellites(int satellites) {
+		this.satellites = satellites;
+		invalidate();
 	}
+
+	// Drawing related code
+	private Paint markerPaint;
+	private Paint textPaint;
+	private Paint smallTextPaint;
+	private Paint centerLinePaint;
 
 	@Override
 	protected void onDraw(Canvas canvas) {
+		int px = getMeasuredWidth() / 2;
+		int py = getMeasuredHeight() / 2;
 
-		final int PX = getMeasuredWidth();
-		final int PY = getMeasuredHeight();
+		String gpsMessage = String.format(GPS_FORMAT, satellites, pdop);
+		int textWidth = (int)textPaint.measureText(gpsMessage);
 
-		// Want 60 deg to move the horizon all the way off the screen
-		final int DEG_TO_PX = (PY/2) / 60; // Magic number for how to scale pitch
+		int textHeight = textBounds.height();
 
-		canvas.save();
-		canvas.rotate(-roll, PX / 2, PY / 2);
-		canvas.save();
+		canvas.drawText(gpsMessage, px - textWidth / 2, py + textHeight / 2, textPaint);
 
-		canvas.translate(0, pitch * DEG_TO_PX);
-		Drawable horizon = getContext().getResources().getDrawable(
-				R.drawable.im_pfd_horizon);
-		Drawable reticule = getContext().getResources().getDrawable(
-				R.drawable.im_pfd_reticule);
-		Drawable fixed = getContext().getResources().getDrawable(
-				R.drawable.im_pfd_fixed);
-
-		// Starting with a square image, want to size it equally
-		double margin = 0.2;
-		int screenSize = Math.min(PX, PY);
-		int imageHalfSize = (int) ((screenSize + screenSize * margin) / 2);
-
-		// This puts the image at the center of the PFD canvas (after it was
-		// translated)
-		horizon.setBounds( PX/2 - imageHalfSize, PY/2 - imageHalfSize, PX/2 + imageHalfSize, PY/2 + imageHalfSize);
-		horizon.draw(canvas);
-		canvas.restore();
-
-		// Draw the overlay that only rolls
-		reticule.setBounds( PX/2 - imageHalfSize, PY/2 - imageHalfSize, PX/2 + imageHalfSize, PY/2 + imageHalfSize);
-		reticule.draw(canvas);
-		canvas.restore();
-
-		// Draw the overlay that never moves
-		fixed.setBounds( PX/2 - imageHalfSize, PY/2 - imageHalfSize, PX/2 + imageHalfSize, PY/2 + imageHalfSize);
-		fixed.draw(canvas);
-}
-
+	}
 }

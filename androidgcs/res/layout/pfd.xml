@@ -1,12 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <org.taulabs.androidgcs.AttitudeView
-        android:id="@+id/attitude_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+     <org.taulabs.androidgcs.views.AttitudeView
+         android:id="@+id/attitude_view"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentTop="true"
+         android:layout_centerHorizontal="true" />
 
-</LinearLayout>
+     <org.taulabs.androidgcs.views.HeadingView
+         android:id="@+id/heading_view"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentTop="true"
+         android:layout_marginTop="5dp"
+         android:layout_centerHorizontal="true" />
+     
+	<org.taulabs.androidgcs.views.GpsView
+	    android:id="@+id/gps_view"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:layout_marginBottom="5dp"
+	    android:layout_centerHorizontal="true" />
+
+	<org.taulabs.androidgcs.views.AltitudeView
+	    android:id="@+id/altitude_view"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignRight="@+id/attitude_view"
+	    android:layout_centerVertical="true" />
+     
+</RelativeLayout>

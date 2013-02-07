@@ -23,8 +23,11 @@
 
 package org.taulabs.androidgcs.fragments;
 
-import org.taulabs.androidgcs.AttitudeView;
 import org.taulabs.androidgcs.R;
+import org.taulabs.androidgcs.views.AltitudeView;
+import org.taulabs.androidgcs.views.AttitudeView;
+import org.taulabs.androidgcs.views.GpsView;
+import org.taulabs.androidgcs.views.HeadingView;
 import org.taulabs.uavtalk.UAVObject;
 import org.taulabs.uavtalk.UAVObjectManager;
 
@@ -62,7 +65,19 @@ public class PFD extends ObjectManagerFragment {
 			registerObjectUpdates(obj);
 			objectUpdated(obj);
 		}
-	}
+
+		obj = objMngr.getObject("GPSPosition");
+		if (obj != null) {
+			registerObjectUpdates(obj);
+			objectUpdated(obj);
+		}
+
+		obj = objMngr.getObject("PositionActual");
+		if (obj != null) {
+			registerObjectUpdates(obj);
+			objectUpdated(obj);
+		}
+}
 
 	/**
 	 * Called whenever any objects subscribed to via registerObjects
@@ -74,23 +89,61 @@ public class PFD extends ObjectManagerFragment {
 
 		if (obj == null)
 			return;
-		if (obj.getName().compareTo("AttitudeActual") != 0)
-			return;
 
-		double pitch = obj.getField("Pitch").getDouble();
-		double roll = obj.getField("Roll").getDouble();
+		if (obj.getName().compareTo("AttitudeActual") == 0) {
 
-		// TODO: These checks, while sensible, are necessary because the
-		// callbacks aren't
-		// removed when we switch to different activities sharing this fragment
-		Activity parent = getActivity();
-		AttitudeView attitude = null;
-		if (parent != null)
-			attitude = (AttitudeView) parent.findViewById(R.id.attitude_view);
-		if (attitude != null) {
-			attitude.setRoll(roll);
-			attitude.setPitch(pitch);
-			attitude.invalidate();
+			double pitch = obj.getField("Pitch").getDouble();
+			double roll = obj.getField("Roll").getDouble();
+			double yaw = obj.getField("Yaw").getDouble();
+
+			// TODO: These checks, while sensible, are necessary because the
+			// callbacks aren't
+			// removed when we switch to different activities sharing this fragment
+			Activity parent = getActivity();
+			AttitudeView attitude = null;
+			HeadingView heading = null;
+			if (parent != null) {
+				attitude = (AttitudeView) parent.findViewById(R.id.attitude_view);
+				heading = (HeadingView) parent.findViewById(R.id.heading_view);
+			}
+			if (attitude != null) {
+				attitude.setRoll(roll);
+				attitude.setPitch(pitch);
+				attitude.invalidate();
+			}
+			if (heading != null) {
+				heading.setBearing(yaw);
+			}
+		}
+
+		if (obj.getName().compareTo("GPSPosition") == 0) {
+
+			int satellites = (int) obj.getField("Satellites").getDouble();
+			double pdop = obj.getField("PDOP").getDouble();
+
+			Activity parent = getActivity();
+			GpsView gpsView = null;
+			if (parent != null) {
+				gpsView = (GpsView) parent.findViewById(R.id.gps_view);
+			}
+			if (gpsView != null) {
+				gpsView.setSatellites(satellites);
+				gpsView.setPDOP(pdop);
+			}
+		}
+
+		if (obj.getName().compareTo("PositionActual") == 0) {
+
+			int down = (int) obj.getField("Down").getDouble();
+
+			Activity parent = getActivity();
+			AltitudeView altitudeView = null;
+			if (parent != null) {
+				altitudeView = (AltitudeView) parent.findViewById(R.id.altitude_view);
+			}
+			if (altitudeView != null) {
+				altitudeView.setAltitude(-down);
+			}
 		}
 
 	}
