@@ -130,6 +130,7 @@ SRC =
 include $(PIOSCOMMONLIB)/FreeRTOS/library.mk
 #include $(PIOSCOMMONLIB)/dosfs/library.mk
 include $(PIOSCOMMONLIB)/msheap/library.mk
+include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
 
 # List C source files here. (C dependencies are automatically generated.)
@@ -304,6 +305,13 @@ CFLAGS += -DMIXERSTATUS_DIAGNOSTICS
 CFLAGS += -DRATEDESIRED_DIAGNOSTICS
 CFLAGS += -DI2C_WDG_STATS_DIAGNOSTICS
 CFLAGS += -DDIAG_TASKS
+
+# configure CMSIS DSP Library
+CDEFS += -DARM_MATH_CM4
+CDEFS += -DARM_MATH_MATRIX_CHECK
+CDEFS += -DARM_MATH_ROUNDING
+CDEFS += -D__FPU_PRESENT=1
+CDEFS += -DUNALIGNED_SUPPORT_DISABLE
 
 # This is not the best place for these.  Really should abstract out
 # to the board file or something
