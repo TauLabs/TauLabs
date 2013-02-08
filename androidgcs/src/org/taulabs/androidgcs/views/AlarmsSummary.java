@@ -23,11 +23,15 @@
 package org.taulabs.androidgcs.views;
 
 import org.taulabs.androidgcs.R;
+import org.taulabs.androidgcs.SystemAlarmActivity;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -60,8 +64,24 @@ public class AlarmsSummary extends LinearLayout {
 		LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.alarms_summary, this);
 		setAlarmsStatus(AlarmsStatus.GOOD);
+		TextView alarmsIcon = (TextView) findViewById(R.id.alarms_icon);
+		alarmsIcon.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Activity activity = ((Activity)getContext());
+				String currentActivity = activity.getClass().getSimpleName();
+
+				// Do not nest multiple of the alarm activities
+				if(!currentActivity.equals("SystemAlarmActivity"))
+					activity.startActivity(new Intent(getContext(), SystemAlarmActivity.class));
+			}
+
+		});
 		invalidate();
 	}
+
+
 
 	//! Set the icon based on the alarm level
 	public void setAlarmsStatus(AlarmsStatus status) {
@@ -84,5 +104,4 @@ public class AlarmsSummary extends LinearLayout {
 		if (alarmsIcon != null && img != null)
 			alarmsIcon.setCompoundDrawablesWithIntrinsicBounds( img, null, null, null );
 	}
-
 }
