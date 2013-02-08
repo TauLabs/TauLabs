@@ -659,6 +659,14 @@ define BU_TEMPLATE
 bu_$(1): bu_$(1)_opfw
 
 bu_$(1)_%: bl_$(1)_bino
+ifneq ($(1), coptercontrol)
+ifneq ($(1), pipxtreme)
+	$(V0) @echo "======================================"
+	$(V0) @echo "ERROR: $(1) has no bootloader updater."
+	$(V0) @echo "======================================"
+	@exit -1
+endif
+endif
 	$(V1) mkdir -p $(BUILD_DIR)/bu_$(1)/dep
 	$(V1) cd $(ROOT_DIR)/flight/targets/Bootloaders/BootloaderUpdater && \
 		$$(MAKE) -r --no-print-directory \
