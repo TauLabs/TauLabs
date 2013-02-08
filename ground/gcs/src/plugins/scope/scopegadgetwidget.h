@@ -32,7 +32,6 @@
 #include "plotdata.h"
 
 #include "qwt/src/qwt.h"
-#include "qwt/src/qwt_color_map.h"
 #include "qwt/src/qwt_plot_grid.h"
 #include "qwt/src/qwt_plot_layout.h"
 
@@ -138,16 +137,5 @@ private:
 	void addLegend();
 };
 
-class ColorMap: public QwtLinearColorMap
-{
-public:
-    ColorMap():
-        QwtLinearColorMap( Qt::darkCyan, Qt::red )
-    {
-        addColorStop( 0.1, Qt::cyan );
-        addColorStop( 0.6, Qt::green );
-        addColorStop( 0.95, Qt::yellow );
-    }
-};
 
 #endif /* SCOPEGADGETWIDGET_H_ */
