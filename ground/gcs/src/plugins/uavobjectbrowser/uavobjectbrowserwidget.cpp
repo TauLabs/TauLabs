@@ -71,7 +71,6 @@ UAVObjectBrowserWidget::UAVObjectBrowserWidget(QWidget *parent) : QWidget(parent
     connect(m_viewoptions->cbMetaData, SIGNAL(toggled(bool)), this, SLOT(viewOptionsChangedSlot()));
     connect(m_viewoptions->cbCategorized, SIGNAL(toggled(bool)), this, SLOT(viewOptionsChangedSlot()));
     enableUAVOBrowserButtons(false);
-    }
 }
 
 UAVObjectBrowserWidget::~UAVObjectBrowserWidget()
@@ -124,7 +123,7 @@ void UAVObjectBrowserWidget::categorize(bool categorize)
     m_model->setRecentlyUpdatedColor(m_recentlyUpdatedColor);
     m_model->setManuallyChangedColor(m_manuallyChangedColor);
     m_model->setRecentlyUpdatedTimeout(m_recentlyUpdatedTimeout);
-    m_model->setOnlyHilightChangedValues(m_onlyHilightChangedValues);
+    m_model->setOnlyHighlightChangedValues(m_onlyHighlightChangedValues);
     m_browser->treeView->setModel(m_model);
     showMetaData(m_viewoptions->cbMetaData->isChecked());
 
