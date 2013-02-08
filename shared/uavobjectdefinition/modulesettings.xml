@@ -20,6 +20,7 @@
 				<elementname>VtolPathFollower</elementname>
 				<elementname>GenericI2CSensor</elementname>
 				<elementname>UAVOMavlinkBridge</elementname>
+				<elementname>VibrationTest</elementname>
 			</elementnames>
 		</field>
 
