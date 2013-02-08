@@ -414,11 +414,11 @@ void UAVObjectTreeModel::highlightUpdatedObject(UAVObject *obj)
     Q_ASSERT(obj);
     ObjectTreeItem *item = findObjectTreeItem(obj);
     Q_ASSERT(item);
-    if(!m_onlyHilightChangedValues){
+    if(!m_onlyHighlightChangedValues){
         item->setHighlight(true);
     }
     item->update();
-    if(!m_onlyHilightChangedValues){
+    if(!m_onlyHighlightChangedValues){
         QModelIndex itemIndex = index(item);
         Q_ASSERT(itemIndex != QModelIndex());
         emit dataChanged(itemIndex, itemIndex);
