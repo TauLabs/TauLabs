@@ -30,6 +30,7 @@
 #define SCOPEGADGETWIDGET_H_
 
 #include "plotdata.h"
+#include "scopegadgetconfiguration.h"
 
 #include "qwt/src/qwt.h"
 #include "qwt/src/qwt_plot_grid.h"
@@ -90,7 +91,7 @@ public:
     void add2dCurvePlot(QString uavObject, QString uavFieldSubField, int scaleOrderFactor = 0, int meanSamples = 1, QString mathFunction = "None", QPen pen = QPen(Qt::black));
     void addHistogram(QString uavObject, QString uavFieldSubField, double binWidth, uint numberOfBins, int scaleOrderFactor = 0, int meanSamples = 1, QString mathFunction = "None", QBrush brush = QBrush(Qt::red));
     //void removeCurvePlot(QString uavObject, QString uavField);
-    void addWaterfallPlot(QString uavObject, QString uavFieldSubField, int scaleOrderFactor = 0, int meanSamples = 1, QString mathFunction = "None", double samplingFrequency=100, int windowWidth=8, double timeHorizon=60);
+    void addWaterfallPlot(QString uavObject, QString uavFieldSubField, int scaleOrderFactor = 0, int meanSamples = 1, QString mathFunction = "None", double timeHorizon=60, SpectrogramDataConfiguration *spectrogramDataConfiguration = new SpectrogramDataConfiguration());
     void clearCurvePlots();
 
 protected:

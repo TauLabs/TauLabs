@@ -44,7 +44,8 @@ Plot2dData::Plot2dData(QString p_uavObject, QString p_uavFieldName):
     yDataHistory(0),
     histogramBins(0),
     histogramInterval(0),
-    intervalSeriesData(0)
+    intervalSeriesData(0),
+    dataUpdated(false)
 {
     uavObjectName = p_uavObject;
 
@@ -87,7 +88,8 @@ Plot3dData::Plot3dData(QString p_uavObject, QString p_uavFieldName):
     zData(0),
     zDataHistory(0),
     timeDataHistory(0),
-    rasterData(0)
+    rasterData(0),
+    dataUpdated(false)
 {
     uavObjectName = p_uavObject;
 
@@ -122,7 +124,7 @@ Plot3dData::Plot3dData(QString p_uavObject, QString p_uavFieldName):
     yMinimum = 0;
     yMaximum = 60;
     zMinimum = 0;
-    zMaximum = 10;
+    zMaximum = 100;
 
 }
 
@@ -281,7 +283,18 @@ bool SpectrogramData::append(UAVObject* multiObj)
 
                 double vecVal = currentValue;
                 //Normally some math would go here, modifying vecVal before appending it to values
+                // .
+                // .
+                // .
 
+
+                // Second to last step, see if autoscale is turned on and if the value exceeds the maximum for the scope.
+                if ( getZMaximum() == 0 &&  vecVal > rasterData->interval(Qt::ZAxis).maxValue()){
+                    // Change scope maximum and color depth
+                    rasterData->setInterval(Qt::ZAxis, QwtInterval(0, vecVal) );
+                    autoscaleValueUpdated = vecVal;
+                }
+                // Last step, assign value to vector
                 values += vecVal;
             }
 

@@ -119,6 +119,7 @@ ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* q
                 m_SpectrogramConfig = new SpectrogramDataConfiguration();
                 m_SpectrogramConfig->samplingFrequency = qSettings->value("samplingFrequency").toDouble();
                 m_SpectrogramConfig->windowWidth       = qSettings->value("windowWidth").toInt();
+                m_SpectrogramConfig->zMaximum = qSettings->value("zMaximum").toDouble();
 
                 for(int i = 0; i < plot3dCurveCount; i++){
                     Plot3dCurveConfiguration *plotCurveConf = new Plot3dCurveConfiguration();
@@ -278,6 +279,7 @@ IUAVGadgetConfiguration *ScopeGadgetConfiguration::clone()
             SpectrogramDataConfiguration *newSpectrogramConfig = new SpectrogramDataConfiguration();
             newSpectrogramConfig->samplingFrequency = m_SpectrogramConfig->samplingFrequency;
             newSpectrogramConfig->windowWidth = m_SpectrogramConfig->windowWidth;
+            newSpectrogramConfig->zMaximum = m_SpectrogramConfig->zMaximum;
             m->replaceSpectrogramConfig(newSpectrogramConfig);
 
             for(int i = 0; i < plotCurveCount; i++)
@@ -404,6 +406,7 @@ void ScopeGadgetConfiguration::saveConfig(QSettings* qSettings) const {
         if(m_plot3dType == Spectrogram){
             qSettings->setValue("samplingFrequency", m_SpectrogramConfig->samplingFrequency);
             qSettings->setValue("windowWidth", m_SpectrogramConfig->windowWidth);
+            qSettings->setValue("zMaximum",  m_SpectrogramConfig->zMaximum);
 
             for(int i = 0; i < plot3dCurveCount; i++){
                 Plot3dCurveConfiguration *plotCurveConf = m_Plot3dCurveConfigs.at(i);

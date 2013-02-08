@@ -35,7 +35,7 @@
 
 ScopeGadget::ScopeGadget(QString classId, ScopeGadgetWidget *widget, QWidget *parent) :
         IUAVGadget(classId, parent),
-        m_widget(widget),
+        scopeGadgetWidget(widget),
         configLoaded(false)
 {
 
@@ -46,18 +46,17 @@ int sally=0;
 void ScopeGadget::loadConfiguration(IUAVGadgetConfiguration* config)
 {
     ScopeGadgetConfiguration *sgConfig = qobject_cast<ScopeGadgetConfiguration*>(config);
-    ScopeGadgetWidget* widget = qobject_cast<ScopeGadgetWidget*>(m_widget);
 
-    widget->setRefreshInterval(sgConfig->refreshInterval());
+    scopeGadgetWidget->setRefreshInterval(sgConfig->refreshInterval());
 
     if (sgConfig->getPlotDimensions() == Plot2d)
     {
-        widget->setXWindowSize(sgConfig->dataSize());
+        scopeGadgetWidget->setXWindowSize(sgConfig->dataSize());
 
         switch (sgConfig->getPlot2dType()){
         case Histogram:
         {
-            widget->setupHistogramPlot();
+            scopeGadgetWidget->setupHistogramPlot();
 
             // Configured each data source
             foreach (Plot2dCurveConfiguration* plotCurveConfig,  sgConfig->plot2dCurveConfigs())
@@ -69,9 +68,9 @@ void ScopeGadget::loadConfiguration(IUAVGadgetConfiguration* config)
                 QString mathFunction = plotCurveConfig->mathFunction;
                 QRgb color = plotCurveConfig->color;
 
-                // TODO: It bothers me that I have to have the ScopeGadgetWidget widget in order to call getUavObjectFieldUnits()
+                // TODO: It bothers me that I have to have the ScopeGadgetWidget scopeGadgetWidget in order to call getUavObjectFieldUnits()
                 // Get and store the units
-                QString units = widget->getUavObjectFieldUnits(uavObjectName, uavFieldName);
+                QString units = scopeGadgetWidget->getUavObjectFieldUnits(uavObjectName, uavFieldName);
                 sgConfig->setHistogramUnits(units);
 
                 double binWidth = sgConfig->getHistogramConfiguration()->binWidth;
@@ -81,7 +80,7 @@ void ScopeGadget::loadConfiguration(IUAVGadgetConfiguration* config)
                 uint numberOfBins = sgConfig->getHistogramConfiguration()->windowWidth;
 
                 // Create the Qwt histogram plot
-                widget->addHistogram(
+                scopeGadgetWidget->addHistogram(
                         uavObjectName,
                             uavFieldName,
                             binWidth,
@@ -99,10 +98,10 @@ void ScopeGadget::loadConfiguration(IUAVGadgetConfiguration* config)
             switch (sgConfig->getScatterplot2dType())
             {
             case Series2d:
-                widget->setupSeriesPlot();
+                scopeGadgetWidget->setupSeriesPlot();
                 break;
             case TimeSeries2d:
-                widget->setupTimeSeriesPlot();
+                scopeGadgetWidget->setupTimeSeriesPlot();
                 break;
             default:
                 //We shouldn't be able to get here.
@@ -121,7 +120,7 @@ void ScopeGadget::loadConfiguration(IUAVGadgetConfiguration* config)
                 QRgb color = plotCurveConfig->color;
 
                 // Create the Qwt curve plot
-                widget->add2dCurvePlot(
+                scopeGadgetWidget->add2dCurvePlot(
                         uavObjectName,
                             uavFieldName,
                             scale,
@@ -144,10 +143,10 @@ void ScopeGadget::loadConfiguration(IUAVGadgetConfiguration* config)
     }
     else if (sgConfig->getPlotDimensions() == Plot3d)
     {
-        widget->setTimeHorizon(sgConfig->getTimeHorizon());
+        scopeGadgetWidget->setTimeHorizon(sgConfig->getTimeHorizon());
 
         if(sgConfig->getPlot3dType() == Spectrogram)
-            widget->setupSpectrogramPlot();
+            scopeGadgetWidget->setupSpectrogramPlot();
 
         switch(sgConfig->getPlot3dType())
         {
@@ -166,25 +165,22 @@ void ScopeGadget::loadConfiguration(IUAVGadgetConfiguration* config)
             QString mathFunction = plotSpectrogramConfig->mathFunction;
             qDebug() << "Generating waterfall plot for UAVO " << uavObjectName;
 
-            // TODO: It bothers me that I have to have the ScopeGadgetWidget widget in order to call getUavObjectFieldUnits()
+            // TODO: It bothers me that I have to have the ScopeGadgetWidget scopeGadgetWidget in order to call getUavObjectFieldUnits()
             // Get and store the units
-            QString units = widget->getUavObjectFieldUnits(uavObjectName, uavFieldName);
+            QString units = scopeGadgetWidget->getUavObjectFieldUnits(uavObjectName, uavFieldName);
             sgConfig->setSpectrogramUnits(units);
 
             double timeHorizon       = sgConfig->getTimeHorizon();
-            double samplingFrequency = sgConfig->getSpectrogramConfiguration()->samplingFrequency;
-            int windowWidth          = sgConfig->getSpectrogramConfiguration()->windowWidth;
 
             // Create the Qwt waterfall plot
-            widget->addWaterfallPlot(
+            scopeGadgetWidget->addWaterfallPlot(
                         uavObjectName,
                         uavFieldName,
                         scale,
                         mean,
                         mathFunction,
-                        samplingFrequency,
-                        windowWidth,
-                        timeHorizon
+                        timeHorizon,
+                        sgConfig->getSpectrogramConfiguration()
                         );
             break;
         }
@@ -213,10 +209,10 @@ void ScopeGadget::loadConfiguration(IUAVGadgetConfiguration* config)
 /**
   */
 /**
- * @brief ScopeGadget::~ScopeGadget   Scope gadget destructor: should delete the
- * associated scope gadget widget too! <-- (Does it?[KDS])
+ * @brief ScopeGadget::~ScopeGadget   Scope gadget destructor: deletes the
+ * associated scope gadget widget too.
  */
 ScopeGadget::~ScopeGadget()
 {
-   delete m_widget;
+   delete scopeGadgetWidget;
 }
