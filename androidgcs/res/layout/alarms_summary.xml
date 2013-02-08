@@ -6,9 +6,9 @@
 
     <TextView
         android:id="@+id/alarms_icon"
-        android:layout_width="24dp"
+		android:drawableLeft="@drawable/ic_alarms_critical"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="C" />
+        android:gravity="center_horizontal" />
 
 </LinearLayout>
