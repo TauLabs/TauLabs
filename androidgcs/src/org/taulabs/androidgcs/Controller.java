@@ -133,12 +133,15 @@ public class Controller extends ObjectManagerActivity {
 
 		// Subscribe to updates from ManualControlCommand and show the values for crude feedback
 		UAVDataObject manualControl = (UAVDataObject) objMngr.getObject("ManualControlCommand");
-		registerObjectUpdates(manualControl);
+		if (manualControl != null)
+			registerObjectUpdates(manualControl);
 
 		// Request a one time update before configuring for GCS control mode
 		UAVDataObject manualSettings = (UAVDataObject) objMngr.getObject("ManualControlSettings");
-		manualSettings.addUpdatedObserver(settingsUpdated);
-		manualSettings.updateRequested();
+		if (manualSettings != null) {
+			manualSettings.addUpdatedObserver(settingsUpdated);
+			manualSettings.updateRequested();
+		}
 
 		//! This timer task actually periodically sends updates to the UAV
 		TimerTask controllerTask = new TimerTask() {
