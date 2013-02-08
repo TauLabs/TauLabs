@@ -26,6 +26,7 @@
 		<options>
 			<option>Disabled</option>
 			<option>Motor</option>
+			<option>CarMotor</option>
 			<option>Servo</option>
 			<option>CameraRoll</option>
 			<option>CameraPitch</option>
