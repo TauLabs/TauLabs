@@ -108,6 +108,7 @@ void inputChannelForm::groupUpdated()
         count = 8; // Need to make this 6 for CC
         break;
     case ManualControlSettings::CHANNELGROUPS_PPM:
+    case ManualControlSettings::CHANNELGROUPS_OPLINK:
     case ManualControlSettings::CHANNELGROUPS_DSMMAINPORT:
     case ManualControlSettings::CHANNELGROUPS_DSMFLEXIPORT:
         count = 12;
@@ -116,7 +117,7 @@ void inputChannelForm::groupUpdated()
         count = 18;
         break;
     case ManualControlSettings::CHANNELGROUPS_GCS:
-        count = GCSReceiver::CHANNEL_NUMELEM;
+        count = 8;
         break;
     case ManualControlSettings::CHANNELGROUPS_NONE:
         count = 0;
