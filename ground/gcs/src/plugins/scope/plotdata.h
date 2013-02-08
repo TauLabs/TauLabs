@@ -32,6 +32,7 @@
 #include "uavobject.h"
 
 #include "qwt/src/qwt.h"
+#include "qwt/src/qwt_color_map.h"
 #include "qwt/src/qwt_matrix_raster_data.h"
 #include "qwt/src/qwt_plot.h"
 #include "qwt/src/qwt_plot_curve.h"
@@ -406,5 +407,23 @@ private:
 private slots:
     void removeStaleDataTimeout();
 };
+
+
+/**
+ * @brief The ColorMap class Defines a program-wide colormap
+ */
+class ColorMap: public QwtLinearColorMap
+{
+public:
+    ColorMap():
+        QwtLinearColorMap( Qt::darkCyan, Qt::red )
+    {
+        // Values given normalized to 1.
+        addColorStop( 0.1, Qt::cyan );
+        addColorStop( 0.6, Qt::green );
+        addColorStop( 0.95, Qt::yellow );
+    }
+};
+
 
 #endif // PLOTDATA_H
