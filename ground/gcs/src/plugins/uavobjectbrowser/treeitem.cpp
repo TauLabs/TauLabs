@@ -185,9 +185,11 @@ void TreeItem::apply() {
 /*
  * Called after a value has changed to trigger highlightning of tree item.
  */
-void TreeItem::setHighlight(bool highlight) {
+bool TreeItem::setHighlight(bool highlight) {
     m_highlight = highlight;
     m_changed = false;
+
+    bool retChild = false;
     if (highlight) {
         // Update the expires timestamp
         m_highlightExpires = QTime::currentTime().addMSecs(m_highlightTimeMs);
@@ -196,22 +198,29 @@ void TreeItem::setHighlight(bool highlight) {
         if(m_highlightManager->add(this))
         {
             // Only emit signal if it was added
-            emit updateHighlight(this);
+            retChild = true;
         }
     }
     else if(m_highlightManager->remove(this))
     {
         // Only emit signal if it was removed
-        emit updateHighlight(this);
+        retChild = true;
     }
 
     // If we have a parent, call recursively to update highlight status of parents.
     // This will ensure that the root of a leaf that is changed also is highlighted.
     // Only updates that really changes values will trigger highlight of parents.
-    if(m_parent)
+    bool retParent = false;
+    if (m_parent)
     {
-        m_parent->setHighlight(highlight);
+        retParent = m_parent->setHighlight(highlight); //<-- Each time through the loop emits lots of signals!
     }
+    else if (retParent || retChild){
+        emit updateHighlight(this);
+    }
+
+    return (retParent || retChild);
+
 }
 
 void TreeItem::setUpdatedOnly(bool updated)
