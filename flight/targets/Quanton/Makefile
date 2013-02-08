@@ -59,6 +59,7 @@ OPTMODULES += PathPlanner
 OPTMODULES += CameraStab
 OPTMODULES += Autotune
 OPTMODULES += TxPID
+OPTMODULES += VibrationTest
 #OPTMODULES += Battery
 #OPTMODULES += ComUsbBridge
 

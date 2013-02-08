@@ -61,6 +61,7 @@ OPTMODULES += AltitudeHold
 OPTMODULES += PathPlanner
 OPTMODULES += VtolPathFollower
 OPTMODULES += FixedWingPathFollower
+OPTMODULES += VibrationTest
 #OPTMODULES += Battery
 #OPTMODULES += ComUsbBridge
 
