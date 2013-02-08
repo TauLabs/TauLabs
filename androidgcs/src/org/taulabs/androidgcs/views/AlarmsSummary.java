@@ -25,6 +25,7 @@ package org.taulabs.androidgcs.views;
 import org.taulabs.androidgcs.R;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
@@ -62,22 +63,26 @@ public class AlarmsSummary extends LinearLayout {
 		invalidate();
 	}
 
+	//! Set the icon based on the alarm level
 	public void setAlarmsStatus(AlarmsStatus status) {
 		TextView alarmsIcon = (TextView) findViewById(R.id.alarms_icon);
+		Drawable img = null;
 		switch (status) {
 		case GOOD:
-			alarmsIcon.setText("G");
+			img = getContext().getResources().getDrawable( R.drawable.ic_alarms_good);
 			break;
 		case WARNING:
-			alarmsIcon.setText("W");
+			img = getContext().getResources().getDrawable( R.drawable.ic_alarms_warning);
 			break;
 		case ERROR:
-			alarmsIcon.setText("E");
+			img = getContext().getResources().getDrawable( R.drawable.ic_alarms_error);
 			break;
 		case CRITICAL:
-			alarmsIcon.setText("C");
+			img = getContext().getResources().getDrawable( R.drawable.ic_alarms_critical);
 			break;
 		}
+		if (alarmsIcon != null && img != null)
+			alarmsIcon.setCompoundDrawablesWithIntrinsicBounds( img, null, null, null );
 	}
 
 }
