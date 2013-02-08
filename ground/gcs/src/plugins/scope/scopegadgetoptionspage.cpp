@@ -213,6 +213,7 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
         if(m_config->getPlot3dType() == Spectrogram){
             options_page->sbSpectrogramTimeHorizon->setValue(m_config->getTimeHorizon());
             options_page->sbSpectrogramFrequency->setValue(m_config->getSpectrogramConfiguration()->samplingFrequency);
+            options_page->spnMaxSpectrogramZ->setValue(m_config->getSpectrogramConfiguration()->zMaximum);
 
             foreach (Plot3dCurveConfiguration* plot3dData,  m_config->plot3dCurveConfigs()) {
                 int uavoIdx= options_page->cmbUAVObjectsSpectrogram->findText(plot3dData->uavObjectName);
@@ -552,15 +553,17 @@ void ScopeGadgetOptionsPage::apply()
 //            m_config->setPlot3dType(Spectrogram); //[2] HUH?-->[1,3]
 
             SpectrogramDataConfiguration *newSpectrogramConfig = new SpectrogramDataConfiguration();
-            newSpectrogramConfig->samplingFrequency=options_page->sbSpectrogramFrequency->value();
-            newSpectrogramConfig->windowWidth=options_page->sbSpectrogramWidth->value();
+            newSpectrogramConfig->samplingFrequency = options_page->sbSpectrogramFrequency->value();
+            newSpectrogramConfig->windowWidth       = options_page->sbSpectrogramWidth->value();
+            newSpectrogramConfig->zMaximum          = options_page->spnMaxSpectrogramZ->value();
+
             m_config->replaceSpectrogramConfig(newSpectrogramConfig);
 
             Plot3dCurveConfiguration* newPlotCurveConfigs = new Plot3dCurveConfiguration();
             newPlotCurveConfigs->uavObjectName = options_page->cmbUAVObjectsSpectrogram->currentText();
             newPlotCurveConfigs->uavFieldName  = options_page->cmbUavoFieldSpectrogram->currentText();
-            newPlotCurveConfigs->yScalePower  = options_page->sbSpectrogramDataMultiplier->value();
-            newPlotCurveConfigs->yMeanSamples = options_page->spnMeanSamplesSpectrogram->value();
+            newPlotCurveConfigs->yScalePower   = options_page->sbSpectrogramDataMultiplier->value();
+            newPlotCurveConfigs->yMeanSamples  = options_page->spnMeanSamplesSpectrogram->value();
             newPlotCurveConfigs->mathFunction  = options_page->cmbMathFunctionSpectrogram->currentText();
 
             QVariant varColor = (int)QColor(options_page->btnColorSpectrogram->text()).rgb();
@@ -582,7 +585,7 @@ void ScopeGadgetOptionsPage::apply()
                 Plot3dCurveConfiguration* newPlotCurveConfigs = new Plot3dCurveConfiguration();
                 newPlotCurveConfigs->uavObjectName = listItem->data(Qt::UserRole + 0).toString();
                 newPlotCurveConfigs->uavFieldName  = listItem->data(Qt::UserRole + 1).toString();
-                newPlotCurveConfigs->yScalePower  = listItem->data(Qt::UserRole + 2).toInt(&parseOK);
+                newPlotCurveConfigs->yScalePower   = listItem->data(Qt::UserRole + 2).toInt(&parseOK);
                 if(!parseOK)
                     newPlotCurveConfigs->yScalePower = 0;
 

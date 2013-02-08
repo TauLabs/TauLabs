@@ -53,14 +53,14 @@ public:
         return m_context;
     }
     QWidget *widget() {
-        return m_widget;
+        return scopeGadgetWidget;
     }
     QString contextHelpId() const {
         return QString();
     }
 
 private:
-    ScopeGadgetWidget *m_widget;
+    ScopeGadgetWidget *scopeGadgetWidget;
     QList<int> m_context;
 
     bool configLoaded;

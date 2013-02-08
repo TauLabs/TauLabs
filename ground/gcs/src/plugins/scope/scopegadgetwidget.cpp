@@ -40,6 +40,7 @@
 
 #include "qwt/src/qwt_legend.h"
 #include "qwt/src/qwt_legend_item.h"
+#include "qwt/src/qwt_double_range.h"
 
 #include <iostream>
 #include <math.h>
@@ -519,10 +520,11 @@ void ScopeGadgetWidget::setupHistogramPlot(){
 }
 
 
-void ScopeGadgetWidget::setupSpectrogramPlot(){
-
+void ScopeGadgetWidget::setupSpectrogramPlot()
+{
         preparePlot3d(Spectrogram);
 
+        // Spectrograms use autoscale
         setAxisAutoScale(QwtPlot::xBottom);
         setAxisAutoScale(QwtPlot::yLeft);
 }
@@ -539,14 +541,20 @@ void ScopeGadgetWidget::setupSpectrogramPlot(){
  * @param windowWidth
  * @param timeHorizon
  */
-void ScopeGadgetWidget::addWaterfallPlot(QString uavObjectName, QString uavFieldSubFieldName, int scaleOrderFactor, int meanSamples, QString mathFunction, double samplingFrequency, int windowWidth, double timeHorizon)
+void ScopeGadgetWidget::addWaterfallPlot(QString uavObjectName, QString uavFieldSubFieldName, int scaleOrderFactor, int meanSamples,
+                                         QString mathFunction, double timeHorizon, SpectrogramDataConfiguration *spectrogramDataConfig)
 {
+    double samplingFrequency = spectrogramDataConfig->samplingFrequency;
+    int windowWidth          = spectrogramDataConfig->windowWidth;
+    double zMaximum          = spectrogramDataConfig->zMaximum;
+
     Plot3dData* plot3dData = new SpectrogramData(uavObjectName, uavFieldSubFieldName, samplingFrequency, windowWidth, timeHorizon);
 
     plot3dData->setXMinimum(0);
     plot3dData->setXMaximum(samplingFrequency/2);
     plot3dData->setYMinimum(0);
     plot3dData->setYMaximum(timeHorizon);
+    plot3dData->setZMaximum(zMaximum);
     plot3dData->scalePower = scaleOrderFactor;
     plot3dData->meanSamples = meanSamples;
     plot3dData->mathFunction = mathFunction;
@@ -557,13 +565,6 @@ void ScopeGadgetWidget::addWaterfallPlot(QString uavObjectName, QString uavField
     else if (plot3dData->spectrogramType != VibrationTest)
     {
 
-    }
-
-
-    //If the y-bounds are supplied, set them
-    if (plot3dData->getYMinimum() != plot3dData->getYMaximum())
-    {
-//        setAxisScale(QwtPlot::yLeft, plot3dData->getYMinimum(), plot3dData->getYMaximum());
     }
 
     //Generate the waterfall name
@@ -594,7 +595,7 @@ void ScopeGadgetWidget::addWaterfallPlot(QString uavObjectName, QString uavField
     QwtPlotSpectrogram* plotSpectrogram = new QwtPlotSpectrogram(waterfallNameScaled);
     plotSpectrogram->setRenderThreadCount( 0 ); // use system specific thread count
     plotSpectrogram->setRenderHint(QwtPlotItem::RenderAntialiased);
-    plotSpectrogram->setColorMap( new ColorMap() );
+    plotSpectrogram->setColorMap(new ColorMap() );
 
     // Initial raster data
     plot3dData->rasterData = new QwtMatrixRasterData();
@@ -621,7 +622,17 @@ void ScopeGadgetWidget::addWaterfallPlot(QString uavObjectName, QString uavField
     //Set the ranges for the plot
     plot3dData->rasterData->setInterval( Qt::XAxis, QwtInterval(plot3dData->getXMinimum(), plot3dData->getXMaximum()));
     plot3dData->rasterData->setInterval( Qt::YAxis, QwtInterval(plot3dData->getYMinimum(), plot3dData->getYMaximum()));
-    plot3dData->rasterData->setInterval( Qt::ZAxis, QwtInterval(plot3dData->getZMinimum(), plot3dData->getZMaximum()));
+    plot3dData->rasterData->setInterval( Qt::ZAxis, QwtInterval(0, zMaximum));
+
+    //Set up colorbar on right axis
+    plot3dData->rightAxis = axisWidget( QwtPlot::yRight );
+    plot3dData->rightAxis->setTitle( "Intensity" );
+    plot3dData->rightAxis->setColorBarEnabled( true );
+    plot3dData->rightAxis->setColorMap( QwtInterval(0, zMaximum), new ColorMap() );
+    setAxisScale( QwtPlot::yRight, 0, zMaximum);
+    enableAxis( QwtPlot::yRight );
+
+
 
     plotSpectrogram->setData(plot3dData->rasterData);
 
@@ -669,7 +680,7 @@ void ScopeGadgetWidget::add2dCurvePlot(QString uavObjectName, QString uavFieldSu
     plot2dData->meanSamples = meanSamples;
     plot2dData->mathFunction = mathFunction;
 
-    //If the y-bounds are supplied, set them
+    //If the y-bounds are provided, set them
     if (plot2dData->getYMinimum() != plot2dData->getYMaximum())
 	{
 //        setAxisScale(QwtPlot::yLeft, plot2dData->getYMinimum(), plot2dData->getYMaximum());
@@ -746,7 +757,7 @@ void ScopeGadgetWidget::addHistogram(QString uavObjectName, QString uavFieldSubF
     plot2dData->meanSamples = meanSamples;
     plot2dData->mathFunction = mathFunction;
 
-    //If the y-bounds are supplied, set them
+    //If the y-bounds are provided, set them
     if (plot2dData->getYMinimum() != plot2dData->getYMaximum())
     {
 //        setAxisScale(QwtPlot::yLeft, plot2dData->getYMinimum(), plot2dData->getYMaximum());
@@ -905,9 +916,21 @@ void ScopeGadgetWidget::replotNewData()
                 // Load spectrogram parameters
                 SpectrogramData *spectrogramData = (SpectrogramData*) plot3dData;
 
-                // Plot new data
-                if (plot3dData->readAndResetUpdatedFlag() == true)
-                    plot3dData->rasterData->setValueMatrix(*plot3dData->zDataHistory, spectrogramData->windowWidth);
+                // Check for new data
+                if (spectrogramData->readAndResetUpdatedFlag() == true){
+                    // Plot new data
+                    spectrogramData->rasterData->setValueMatrix(*plot3dData->zDataHistory, spectrogramData->windowWidth);
+
+                    // Check autoscale. (For some reason, QwtSpectrogram doesn't support autoscale)
+                    if (plot3dData->getZMaximum() == 0){
+                        double newVal = spectrogramData->readAndResetAutoscaleValue();
+                        if (newVal != 0){
+                            spectrogramData->rightAxis->setColorMap( QwtInterval(0, newVal), new ColorMap() );
+                            setAxisScale( QwtPlot::yRight, 0, newVal);
+                        }
+                    }
+                }
+
             }
         }
     }

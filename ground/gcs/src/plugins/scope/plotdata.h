@@ -132,6 +132,7 @@ public:
     QVector<QwtInterval> *histogramInterval;
     QwtIntervalSeriesData *intervalSeriesData;
 
+    QwtScaleWidget *rightAxis;
 
     void setYMinimum(double val){yMinimum=val;}
     void setYMaximum(double val){yMaximum=val;}
@@ -195,6 +196,7 @@ public:
     SpectrogramType spectrogramType;
 
     QwtMatrixRasterData *rasterData;
+    QwtScaleWidget *rightAxis;
 
     void setXMinimum(double val){xMinimum=val;}
     void setXMaximum(double val){xMaximum=val;}
@@ -300,6 +302,7 @@ public:
         this->samplingFrequency = samplingFrequency;
         this->timeHorizon = timeHorizon;
         this->windowWidth = windowWidth;
+        autoscaleValueUpdated = 0;
     }
     ~SpectrogramData() {}
 
@@ -320,9 +323,17 @@ public:
       */
     virtual void removeStaleData(){}
 
+    /*!
+     * \brief readAndResetAutoscaleFlag reads the flag value and resets it
+     * \return
+     */
+    double readAndResetAutoscaleValue(){double tmpVal = autoscaleValueUpdated; autoscaleValueUpdated = 0; return tmpVal;}
+
     double samplingFrequency;
     double timeHorizon;
     unsigned int windowWidth;
+
+    double autoscaleValueUpdated;
 };
 
 

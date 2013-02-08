@@ -70,6 +70,7 @@ struct SpectrogramDataConfiguration
     double samplingFrequency;
     unsigned int windowWidth;
     QString yAxisUnits;
+    double zMaximum;
 };
 
 
