@@ -57,7 +57,7 @@ UAVObjectBrowserWidget::UAVObjectBrowserWidget(QWidget *parent) : QWidget(parent
     m_browser->treeView->setEditTriggers(QAbstractItemView::AllEditTriggers);
     m_browser->treeView->setSelectionBehavior(QAbstractItemView::SelectItems);
     showMetaData(m_viewoptions->cbMetaData->isChecked());
-    connect(m_browser->treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(enableUAVOButtons(QModelIndex,QModelIndex)));
+    connect(m_browser->treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(toggleUAVOButtons(QModelIndex,QModelIndex)));
     connect(m_viewoptions->cbMetaData, SIGNAL(toggled(bool)), this, SLOT(showMetaData(bool)));
     connect(m_viewoptions->cbCategorized, SIGNAL(toggled(bool)), this, SLOT(categorize(bool)));
     connect(m_browser->saveSDButton, SIGNAL(clicked()), this, SLOT(saveObject()));
@@ -279,12 +279,12 @@ void UAVObjectBrowserWidget::updateObjectPersistance(ObjectPersistence::Operatio
 
 
 /**
- * @brief UAVObjectBrowserWidget::enableUAVOButtons Toggles the UAVO buttons depending on
+ * @brief UAVObjectBrowserWidget::toggleUAVOButtons Toggles the UAVO buttons depending on
  * 1) which branch of the UAVO tree is selected or 2) if there is no data in the current tree(?)
  * @param current Current model index
  * @param previous unused
  */
-void UAVObjectBrowserWidget::enableUAVOButtons(const QModelIndex &currentIndex, const QModelIndex &previousIndex)
+void UAVObjectBrowserWidget::toggleUAVOButtons(const QModelIndex &currentIndex, const QModelIndex &previousIndex)
 {
     Q_UNUSED(previousIndex);
 
