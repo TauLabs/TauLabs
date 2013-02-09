@@ -284,10 +284,6 @@ void PIOS_Board_Init(void) {
 	}
 	if (PIOS_I2C_CheckClear(pios_i2c_internal_adapter_id) != 0)
 		panic(5);
-
-	PIOS_WDG_Clear();
-	PIOS_DELAY_WaitmS(50);
-	PIOS_WDG_Clear();
 #endif
 
 #if defined(PIOS_INCLUDE_SPI)
@@ -499,10 +495,6 @@ void PIOS_Board_Init(void) {
 		}
 		if (PIOS_I2C_CheckClear(pios_i2c_usart1_adapter_id) != 0)
 			panic(6);
-
-		PIOS_WDG_Clear();
-		PIOS_DELAY_WaitmS(50);
-		PIOS_WDG_Clear();
 #endif	/* PIOS_INCLUDE_I2C */
 		break;
 	case HWQUANTON_UART1_DSM2:
@@ -638,10 +630,6 @@ void PIOS_Board_Init(void) {
 		}
 		if (PIOS_I2C_CheckClear(pios_i2c_usart3_adapter_id) != 0)
 			panic(7);
-
-		PIOS_WDG_Clear();
-		PIOS_DELAY_WaitmS(50);
-		PIOS_WDG_Clear();
 #endif	/* PIOS_INCLUDE_I2C */
 		break;
 	case HWQUANTON_UART3_DSM2:
