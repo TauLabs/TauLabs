@@ -928,6 +928,39 @@ out_fail:
 }
 
 /**
+ * @brief Check the I2C bus is clear and in a properly reset state
+ * @returns  0 Bus is clear 
+ * @returns -1 Bus is in use
+ * @returns -2 Bus not clear
+ */
+int32_t PIOS_I2C_CheckClear(uint32_t i2c_id)
+{
+	struct pios_i2c_adapter * i2c_adapter = (struct pios_i2c_adapter *)i2c_id;
+
+	bool valid = PIOS_I2C_validate(i2c_adapter);
+	PIOS_Assert(valid)
+
+#ifdef USE_FREERTOS
+	if (xSemaphoreTake(i2c_adapter->sem_busy, 0) == pdFALSE)
+		return -1;
+
+	xSemaphoreGive(i2c_adapter->sem_busy);
+#else
+	if (i2c_adapter->busy)
+		return -1;
+#endif
+
+	if (i2c_adapter->curr_state != I2C_STATE_STOPPED)
+		return -2;
+
+	if (GPIO_ReadInputDataBit(i2c_adapter->cfg->sda.gpio, i2c_adapter->cfg->sda.init.GPIO_Pin) == Bit_RESET ||
+		GPIO_ReadInputDataBit(i2c_adapter->cfg->scl.gpio, i2c_adapter->cfg->scl.init.GPIO_Pin) == Bit_RESET)
+		return -3;
+
+	return 0;
+}
+
+/**
  * @brief Perform a series of I2C transactions
  * @returns 0 if success or error code
  * @retval -1 for failed transaction 

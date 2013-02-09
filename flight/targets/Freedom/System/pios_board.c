@@ -271,10 +271,23 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
 	pios_rcvr_group_map[channelgroup] = pios_dsm_rcvr_id;
 }
 
-void panic() {
+/**
+ * Indicate a target-specific error code when a component fails to initialize
+ * 1 pulse - flash chip
+ * 2 pulses - MPU6000
+ * 3 pulses - HMC5883
+ * 4 pulses - MS5611
+ * 5 pulses - I2C bus locked
+ */
+void panic(int32_t code) {
 	while(1){
-		PIOS_LED_Toggle(PIOS_LED_ALARM);
-		PIOS_DELAY_WaitmS(200);
+		for (int32_t i = 0; i < code; i++) {
+			PIOS_LED_Toggle(PIOS_LED_ALARM);
+			PIOS_DELAY_WaitmS(200);
+			PIOS_LED_Toggle(PIOS_LED_ALARM);
+			PIOS_DELAY_WaitmS(200);
+		}
+		PIOS_DELAY_WaitmS(500);
 	}
 }
 
@@ -313,10 +326,10 @@ void PIOS_Board_Init(void) {
 	/* Connect flash to the approrpiate interface and configure it */
 	uintptr_t flash_id;
 	if (PIOS_Flash_Jedec_Init(&flash_id, pios_spi_telem_flash_id, 1, &flash_m25p_cfg) != 0)
-		panic();
+		panic(1);
 	uintptr_t fs_id;
 	if (PIOS_FLASHFS_Logfs_Init(&fs_id, &flashfs_m25p_cfg, &pios_jedec_flash_driver, flash_id) != 0)
-		panic();
+		panic(1);
 #endif
 
 	/* Initialize UAVObject libraries */
@@ -676,6 +689,12 @@ void PIOS_Board_Init(void) {
 			break;
 	}
 
+	if (hw_rcvrport != HWFREEDOM_RCVRPORT_SBUS) {
+		GPIO_Init(pios_sbus_cfg.inv.gpio, (GPIO_InitTypeDef*)&pios_sbus_cfg.inv.init);
+		GPIO_WriteBit(pios_sbus_cfg.inv.gpio, pios_sbus_cfg.inv.init.GPIO_Pin, pios_sbus_cfg.gpio_inv_disable);
+	}
+
+
 #if defined(PIOS_OVERO_SPI)
 	/* Set up the SPI based PIOS_COM interface to the overo */
 	{
@@ -743,9 +762,9 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_MPU6000)
 	if (PIOS_MPU6000_Init(pios_spi_gyro_id,0, &pios_mpu6000_cfg) != 0)
-		panic();
+		panic(2);
 	if (PIOS_MPU6000_Test() != 0)
-		panic();
+		panic(2);
 	
 	// To be safe map from UAVO enum to driver enum
 	uint8_t hw_gyro_range;
@@ -787,6 +806,8 @@ void PIOS_Board_Init(void) {
 	if (PIOS_I2C_Init(&pios_i2c_mag_pressure_adapter_id, &pios_i2c_mag_pressure_adapter_cfg)) {
 		PIOS_DEBUG_Assert(0);
 	}
+	if (PIOS_I2C_CheckClear(pios_i2c_mag_pressure_adapter_id) != 0)
+		panic(5);
 	
 	PIOS_DELAY_WaitmS(50);
 
@@ -796,13 +817,15 @@ void PIOS_Board_Init(void) {
 
 	PIOS_LED_On(0);
 #if defined(PIOS_INCLUDE_HMC5883)
-	PIOS_HMC5883_Init(PIOS_I2C_MAIN_ADAPTER, &pios_hmc5883_cfg);
+	if (PIOS_HMC5883_Init(pios_i2c_mag_pressure_adapter_id, &pios_hmc5883_cfg) != 0)
+		panic(3);
 #endif
 	PIOS_LED_On(1);
 
 	
 #if defined(PIOS_INCLUDE_MS5611)
-	PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_mag_pressure_adapter_id);
+	if (PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_mag_pressure_adapter_id) != 0)
+		panic(4);
 #endif
 	PIOS_LED_On(2);
 }

@@ -139,7 +139,9 @@ int32_t PIOS_MS5611_Init(const struct pios_ms5611_cfg *cfg, int32_t i2c_device)
 	dev->temperature_interleaving = (cfg->temperature_interleaving) == 0 ? 1 : cfg->temperature_interleaving;
 	dev->cfg = cfg;
 
-	PIOS_MS5611_WriteCommand(MS5611_RESET);
+	if (PIOS_MS5611_WriteCommand(MS5611_RESET) != 0)
+		return -2;
+
 	PIOS_DELAY_WaitmS(20);			
 
 	uint8_t data[2];
