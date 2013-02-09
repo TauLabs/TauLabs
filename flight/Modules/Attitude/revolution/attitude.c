@@ -788,55 +788,60 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
 			
 	if (!inited && mag_updated && baro_updated && (gps_updated || !outdoor_mode)) {
+
+		INSGPSInit();
+		INSSetMagVar(insSettings.mag_var);
+		INSSetAccelVar(insSettings.accel_var);
+		INSSetGyroVar(insSettings.gyro_var);
+		INSSetBaroVar(insSettings.baro_var);
+
+		// Set initial variances
+		float Pdiag[16]={25.0f,25.0f,25.0f,5.0f,5.0f,5.0f,1e-5f,1e-5f,1e-5f,1e-5f,1e-5f,1e-5f,1e-5f,1e-4f,1e-4f,1e-4f};
+		INSResetP(Pdiag);
+
+		// Initialize the gyro bias from the settings
+		float gyro_bias[3] = {gyrosBias.x * F_PI / 180.0f, gyrosBias.y * F_PI / 180.0f, gyrosBias.z * F_PI / 180.0f};
+		INSSetGyroBias(gyro_bias);
+
+		MagnetometerGet(&magData);
+
+		// Set initial attitude
+		AttitudeActualData attitudeActual;
+		attitudeActual.Roll = atan2f(-accelsData.y, -accelsData.z) * 180.0f / F_PI;
+		attitudeActual.Pitch = atan2f(accelsData.x, -accelsData.z) * 180.0f / F_PI;
+		attitudeActual.Yaw = atan2f(-magData.y, magData.x) * 180.0f / F_PI;
+		RPY2Quaternion(&attitudeActual.Roll,&attitudeActual.q1);
+		AttitudeActualSet(&attitudeActual);
+		float q[4];
+		q[0] = attitudeActual.q1;
+		q[1] = attitudeActual.q2;
+		q[2] = attitudeActual.q3;
+		q[3] = attitudeActual.q4;
+
 		// Don't initialize until all sensors are read
 		if (init_stage == 0 && !outdoor_mode) {
-			float Pdiag[16]={25.0f,25.0f,25.0f,5.0f,5.0f,5.0f,1e-5f,1e-5f,1e-5f,1e-5f,1e-9f,1e-9f,1e-9f,1e-4f,1e-4f,1e-4f};
-			float q[4];
 			float pos[3] = {0.0f, 0.0f, 0.0f};
 
-			// Initialize barometric offset to homelocation altitude
+			// Initialize barometric offset to current altitude
 			baroOffset = -baroData.Altitude;
 			pos[2] = -(baroData.Altitude + baroOffset);
 
-			// Reset the INS algorithm
-			INSGPSInit();
-			INSSetMagVar(insSettings.mag_var);
-			INSSetAccelVar(insSettings.accel_var);
-			INSSetGyroVar(insSettings.gyro_var);
-			INSSetBaroVar(insSettings.baro_var);
+			// Hard coded fake variances for indoor mode
+			INSSetPosVelVar(0.1f, 0.1f);
 
-			// Initialize the gyro bias from the settings
-			float gyro_bias[3] = {gyrosBias.x * DEG2RAD, gyrosBias.y * DEG2RAD, gyrosBias.z * DEG2RAD};
-			INSSetGyroBias(gyro_bias);
+			if (homeLocation.Set == HOMELOCATION_SET_TRUE)
+				INSSetMagNorth(homeLocation.Be);
+			else {
+				float Be[3] = {100,0,500};
+				INSSetMagNorth(Be);
+			}
 
-			xQueueReceive(magQueue, &ev, 100 / portTICK_RATE_MS);
-			MagnetometerGet(&magData);
-
-			// Set initial attitude
-			AttitudeActualData attitudeActual;
-			attitudeActual.Roll = atan2f(-accelsData.y, -accelsData.z) * RAD2DEG;
-			attitudeActual.Pitch = atan2f(accelsData.x, -accelsData.z) * RAD2DEG;
-			attitudeActual.Yaw = atan2f(-magData.y, magData.x) * RAD2DEG;
-			RPY2Quaternion(&attitudeActual.Roll,&attitudeActual.q1);
-			AttitudeActualSet(&attitudeActual);
-
-			q[0] = attitudeActual.q1;
-			q[1] = attitudeActual.q2;
-			q[2] = attitudeActual.q3;
-			q[3] = attitudeActual.q4;
 			INSSetState(pos, zeros, q, zeros, zeros);
-			INSResetP(Pdiag);
 		} else if (init_stage == 0 && outdoor_mode) {
-			float Pdiag[16]={25.0f,25.0f,25.0f,5.0f,5.0f,5.0f,1e-5f,1e-5f,1e-5f,1e-5f,1e-5f,1e-5f,1e-5f,1e-4f,1e-4f,1e-4f};
-			float q[4];
 			float NED[3];
 
-			// Reset the INS algorithm
-			INSGPSInit();
-			INSSetMagVar(insSettings.mag_var);
-			INSSetAccelVar(insSettings.accel_var);
-			INSSetGyroVar(insSettings.gyro_var);
-			INSSetBaroVar(insSettings.baro_var);
+			// Use the UAVO for the position variance	
+			INSSetPosVelVar(insSettings.gps_var[INSSETTINGS_GPS_VAR_POS], insSettings.gps_var[INSSETTINGS_GPS_VAR_VEL]);
 
 			INSSetMagNorth(homeLocation.Be);
 
@@ -844,64 +849,18 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 			float gyro_bias[3] = {gyrosBias.x * DEG2RAD, gyrosBias.y * DEG2RAD, gyrosBias.z * DEG2RAD};
 			INSSetGyroBias(gyro_bias);
 
+			// Initialize to current location
 			GPSPositionData gpsPosition;
 			GPSPositionGet(&gpsPosition);
-
-			// Transform the GPS position into NED coordinates
 			getNED(&gpsPosition, NED);
 			
 			// Initialize barometric offset to cirrent GPS NED coordinate
 			baroOffset = -NED[2] - baroData.Altitude;
 
-			xQueueReceive(magQueue, &ev, 100 / portTICK_RATE_MS);
-			MagnetometerGet(&magData);
-
-			// Set initial attitude
-			AttitudeActualData attitudeActual;
-			attitudeActual.Roll = atan2f(-accelsData.y, -accelsData.z) * RAD2DEG;
-			attitudeActual.Pitch = atan2f(accelsData.x, -accelsData.z) * RAD2DEG;
-			attitudeActual.Yaw = atan2f(-magData.y, magData.x) * RAD2DEG;
-			RPY2Quaternion(&attitudeActual.Roll,&attitudeActual.q1);
-			AttitudeActualSet(&attitudeActual);
-
-			q[0] = attitudeActual.q1;
-			q[1] = attitudeActual.q2;
-			q[2] = attitudeActual.q3;
-			q[3] = attitudeActual.q4;
-
 			INSSetState(NED, zeros, q, zeros, zeros);
-			INSResetP(Pdiag);
-		} else if (init_stage > 0) {
-			// Run prediction a bit before any corrections
-			dT = PIOS_DELAY_DiffuS(ins_last_time) / 1.0e6f;
+		} 
 
-			// Because the sensor module remove the bias we need to add it
-			// back in here so that the INS algorithm can track it correctly
-			float gyros[3] = {gyrosData.x * F_PI / 180.0f, gyrosData.y * F_PI / 180.0f, gyrosData.z * F_PI / 180.0f};
-			if (insSettings.ComputeGyroBias == INSSETTINGS_COMPUTEGYROBIAS_TRUE && 
-			    (attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE)) {
-				gyros[0] += gyrosBias.x * F_PI / 180.0f;
-				gyros[1] += gyrosBias.y * F_PI / 180.0f;
-				gyros[2] += gyrosBias.z * F_PI / 180.0f;
-			} else {
-				INSSetGyroBias(zeros);
-			}
-
-			INSStatePrediction(gyros, &accelsData.x, dT);
-			
-			AttitudeActualData attitude;
-			AttitudeActualGet(&attitude);
-			attitude.q1 = Nav->q[0];
-			attitude.q2 = Nav->q[1];
-			attitude.q3 = Nav->q[2];
-			attitude.q4 = Nav->q[3];
-			Quaternion2RPY(&attitude.q1,&attitude.Roll);
-			AttitudeActualSet(&attitude);
-		}
-
-		init_stage++;
-		if(init_stage > 10)
-			inited = true;
+		inited = true;
 
 		ins_last_time = PIOS_DELAY_GetRaw();	
 
@@ -962,11 +921,8 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	if(baro_updated)
 		sensors |= BARO_SENSOR;
 
-	INSSetMagNorth(homeLocation.Be);
-	
 	if (gps_updated && outdoor_mode)
 	{
-		INSSetPosVelVar(insSettings.gps_var[INSSETTINGS_GPS_VAR_POS], insSettings.gps_var[INSSETTINGS_GPS_VAR_VEL]);
 		sensors |= POS_SENSORS;
 
 		// Transform the GPS position into NED coordinates
@@ -986,8 +942,6 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		NEDPositionSet(&nedPos);
 
 	} else if (!outdoor_mode) {
-		baroOffset = 0;
-		INSSetPosVelVar(1e2f, 1e2f);
 		vel[0] = vel[1] = vel[2] = 0;
 		NED[0] = NED[1] = 0;
 		NED[2] = -(baroData.Altitude + baroOffset);
