@@ -44,7 +44,7 @@ VehicleConfig::VehicleConfig(QWidget *parent) : ConfigTaskWidget(parent)
         channelNames << QString("Channel%1").arg(i+1);
     }
 
-    mixerTypeDescriptions << "Disabled" << "Motor" << "Servo" << "CameraRoll" << "CameraPitch"
+    mixerTypeDescriptions << "Disabled" << "Motor" << "CarMotor" << "Servo" << "CameraRoll" << "CameraPitch"
                           << "CameraYaw" << "Accessory0" << "Accessory1" << "Accessory2"
                           << "Accessory3" << "Accessory4" << "Accessory5";
 
