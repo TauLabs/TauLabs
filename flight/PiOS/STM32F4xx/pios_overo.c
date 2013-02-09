@@ -284,9 +284,6 @@ int32_t PIOS_OVERO_Init(uint32_t * overo_id, const struct pios_overo_cfg * cfg)
 	
 	SPI_CalculateCRC(overo_dev->cfg->regs, DISABLE);
 	
-	/* Enable SPI */
-	SPI_Cmd(overo_dev->cfg->regs, ENABLE);
-	
 	/* Enable SPI interrupts to DMA */
 	SPI_I2S_DMACmd(overo_dev->cfg->regs, SPI_I2S_DMAReq_Tx | SPI_I2S_DMAReq_Rx, ENABLE);
 
@@ -297,7 +294,7 @@ int32_t PIOS_OVERO_Init(uint32_t * overo_id, const struct pios_overo_cfg * cfg)
 	/* Enable the DMA channels */
 	DMA_Cmd(overo_dev->cfg->dma.tx.channel, ENABLE);
 	DMA_Cmd(overo_dev->cfg->dma.rx.channel, ENABLE);
-	
+
 	*overo_id = (uint32_t) overo_dev;
 
 	return(0);
@@ -305,6 +302,41 @@ int32_t PIOS_OVERO_Init(uint32_t * overo_id, const struct pios_overo_cfg * cfg)
 out_fail:
 	return(-1);
 }
+
+//! Enable the SPI peripheral
+int32_t PIOS_OVERO_Enable(uint32_t overo_id)
+{
+	struct pios_overo_dev * overo_dev = (struct pios_overo_dev *)overo_id;
+	
+	bool valid = PIOS_OVERO_validate(overo_dev);
+	PIOS_Assert(valid);
+
+	/* Enable SPI */
+	SPI_Cmd(overo_dev->cfg->regs, ENABLE);
+	return 0;
+}
+
+/**
+ * @brief Disable the SPI peripheral
+ *
+ * @Note This should be exanded more to follow the steps in the datasheet
+ * - wait for RXNE to get set
+ * - wait for TXNE to get set
+ * - wait for BSY flag to desassert
+ * this needs to be done via callbacks to avoid blocking too long
+ */
+int32_t PIOS_OVERO_Disable(uint32_t overo_id)
+{
+	struct pios_overo_dev * overo_dev = (struct pios_overo_dev *)overo_id;
+	
+	bool valid = PIOS_OVERO_validate(overo_dev);
+	PIOS_Assert(valid);
+
+	/* Enable SPI */
+	SPI_Cmd(overo_dev->cfg->regs, DISABLE);
+	return 0;
+}
+
 
 static void PIOS_OVERO_RxStart(uint32_t overo_id, uint16_t rx_bytes_avail)
 {

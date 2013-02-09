@@ -167,10 +167,21 @@ static void overoSyncTask(void *parameters)
 	portTickType lastUpdateTime = xTaskGetTickCount();
 	portTickType updateTime;
 
+	bool initialized = false;
+
 	// Loop forever
 	while (1) {
 		// Wait for queue message
 		if (xQueueReceive(queue, &ev, portMAX_DELAY) == pdTRUE) {
+
+			// For the first seconds do not send updates to allow the
+			// overo to boot.  Then enable it and act normally.
+			if (!initialized && xTaskGetTickCount() < 5000) {
+				continue;
+			} else if (!initialized) {
+				initialized = true;
+				PIOS_OVERO_Enable(pios_overo_id);
+			}
 
 			// Process event.  This calls transmitData
 			UAVTalkSendObjectTimestamped(uavTalkCon, ev.obj, ev.instId, false, 0);
