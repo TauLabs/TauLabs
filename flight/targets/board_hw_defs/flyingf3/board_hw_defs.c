@@ -1034,17 +1034,6 @@ static const struct pios_usart_cfg pios_usart2_cfg = {
 	.rx = {
 		.gpio = GPIOD,
 		.init = {
-			.GPIO_Pin   = GPIO_Pin_5,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_AF,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd  = GPIO_PuPd_UP
-		},
-		.pin_source = GPIO_PinSource5,
-	},
-	.tx = {
-		.gpio = GPIOD,
-		.init = {
 			.GPIO_Pin   = GPIO_Pin_6,
 			.GPIO_Speed = GPIO_Speed_2MHz,
 			.GPIO_Mode  = GPIO_Mode_AF,
@@ -1052,6 +1041,17 @@ static const struct pios_usart_cfg pios_usart2_cfg = {
 			.GPIO_PuPd  = GPIO_PuPd_UP
 		},
 		.pin_source = GPIO_PinSource6,
+	},
+	.tx = {
+		.gpio = GPIOD,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_5,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_UP
+		},
+		.pin_source = GPIO_PinSource5,
 	},
 };
 
