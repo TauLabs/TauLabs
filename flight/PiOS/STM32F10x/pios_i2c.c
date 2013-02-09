@@ -1020,8 +1020,10 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 		return false;
 	
 	PIOS_IRQ_Disable();
-	if(i2c_adapter->busy)
+	if(i2c_adapter->busy) {
+		PIOS_IRQ_Enable();
 		return false;
+	}
 	i2c_adapter->busy = 1;
 	PIOS_IRQ_Enable();
 #endif /* USE_FREERTOS */
