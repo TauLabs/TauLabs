@@ -235,11 +235,25 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
 }
 #endif
 
-void panic() {
+/**
+ * Indicate a target-specific error code when a component fails to initialize
+ * 1 pulse - flash chip
+ * 2 pulses - MPU6000
+ * 3 pulses - HMC5883
+ * 4 pulses - MS5611
+ * 5 pulses - internal I2C bus locked
+ * 6 pulses - uart1 I2C bus locked
+ * 7 pulses - uart3 I2C bus locked
+ */
+void panic(int32_t code) {
 	while(1){
-		PIOS_WDG_Clear();
-		PIOS_LED_Toggle(PIOS_LED_ALARM);
-		PIOS_DELAY_WaitmS(200);
+		for (int32_t i = 0; i < code; i++) {
+			PIOS_LED_Toggle(PIOS_LED_ALARM);
+			PIOS_DELAY_WaitmS(200);
+			PIOS_LED_Toggle(PIOS_LED_ALARM);
+			PIOS_DELAY_WaitmS(200);
+		}
+		PIOS_DELAY_WaitmS(500);
 	}
 }
 
@@ -264,17 +278,34 @@ void PIOS_Board_Init(void) {
 	PIOS_LED_Init(led_cfg);
 #endif	/* PIOS_INCLUDE_LED */
 
-#if defined(PIOS_INCLUDE_FLASH)
+#if defined(PIOS_INCLUDE_I2C)
+	if (PIOS_I2C_Init(&pios_i2c_internal_adapter_id, &pios_i2c_internal_adapter_cfg)) {
+		PIOS_DEBUG_Assert(0);
+	}
+	if (PIOS_I2C_CheckClear(pios_i2c_internal_adapter_id) != 0)
+		panic(5);
+
+	PIOS_WDG_Clear();
+	PIOS_DELAY_WaitmS(50);
+	PIOS_WDG_Clear();
+#endif
+
+#if defined(PIOS_INCLUDE_SPI)
 	if (PIOS_SPI_Init(&pios_spi_flash_id, &pios_spi_flash_cfg)) {
 		PIOS_DEBUG_Assert(0);
 	}
+	if (PIOS_SPI_Init(&pios_spi_gyro_accel_id, &pios_spi_gyro_accel_cfg)) {
+		PIOS_Assert(0);
+	}
+#endif
 
+#if defined(PIOS_INCLUDE_FLASH)
 	uintptr_t flash_id;
 	if (PIOS_Flash_Jedec_Init(&flash_id, pios_spi_flash_id, 0, &flash_mx25_cfg) != 0)
-		panic();
+		panic(1);
 	uintptr_t fs_id;
 	if (PIOS_FLASHFS_Logfs_Init(&fs_id, &flashfs_mx25_cfg, &pios_jedec_flash_driver, flash_id) != 0)
-		panic();
+		panic(1);
 #endif
 	
 	/* Initialize UAVObject libraries */
@@ -466,6 +497,12 @@ void PIOS_Board_Init(void) {
 		if (PIOS_I2C_Init(&pios_i2c_usart1_adapter_id, &pios_i2c_usart1_adapter_cfg)) {
 			PIOS_Assert(0);
 		}
+		if (PIOS_I2C_CheckClear(pios_i2c_usart1_adapter_id) != 0)
+			panic(6);
+
+		PIOS_WDG_Clear();
+		PIOS_DELAY_WaitmS(50);
+		PIOS_WDG_Clear();
 #endif	/* PIOS_INCLUDE_I2C */
 		break;
 	case HWQUANTON_UART1_DSM2:
@@ -599,6 +636,12 @@ void PIOS_Board_Init(void) {
 		if (PIOS_I2C_Init(&pios_i2c_usart3_adapter_id, &pios_i2c_usart3_adapter_cfg)) {
 			PIOS_Assert(0);
 		}
+		if (PIOS_I2C_CheckClear(pios_i2c_usart3_adapter_id) != 0)
+			panic(7);
+
+		PIOS_WDG_Clear();
+		PIOS_DELAY_WaitmS(50);
+		PIOS_WDG_Clear();
 #endif	/* PIOS_INCLUDE_I2C */
 		break;
 	case HWQUANTON_UART3_DSM2:
@@ -847,14 +890,10 @@ void PIOS_Board_Init(void) {
 	PIOS_WDG_Clear();
 
 #if defined(PIOS_INCLUDE_MPU6000)
-	if (PIOS_SPI_Init(&pios_spi_gyro_accel_id, &pios_spi_gyro_accel_cfg)) {
-		PIOS_Assert(0);
-	}
-
 	if (PIOS_MPU6000_Init(pios_spi_gyro_accel_id, 0, &pios_mpu6000_cfg) != 0)
-		panic();
+		panic(2);
 	if (PIOS_MPU6000_Test() != 0)
-		panic();
+		panic(2);
 
 	// To be safe map from UAVO enum to driver enum
 	uint8_t hw_gyro_range;
@@ -893,18 +932,10 @@ void PIOS_Board_Init(void) {
 #endif
 
 #if defined(PIOS_INCLUDE_I2C)
-	if (PIOS_I2C_Init(&pios_i2c_internal_adapter_id, &pios_i2c_internal_adapter_cfg)) {
-		PIOS_DEBUG_Assert(0);
-	}
-
-	PIOS_WDG_Clear();
-	PIOS_DELAY_WaitmS(50);
-	PIOS_WDG_Clear();
-
 #if defined(PIOS_INCLUDE_HMC5883)
 	PIOS_HMC5883_Init(PIOS_I2C_MAIN_ADAPTER, &pios_hmc5883_cfg);
 	if (PIOS_HMC5883_Test() != 0)
-		panic();
+		panic(3);
 #endif
 
 	//I2C is slow, sensor init as well, reset watchdog to prevent reset here
@@ -913,7 +944,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_MS5611)
 	PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_internal_adapter_id);
 	if (PIOS_MS5611_Test() != 0)
-		panic();
+		panic(4);
 #endif
 
 	//I2C is slow, sensor init as well, reset watchdog to prevent reset here
