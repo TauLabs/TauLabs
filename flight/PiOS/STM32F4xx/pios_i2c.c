@@ -986,20 +986,48 @@ int32_t PIOS_I2C_CheckClear(uint32_t i2c_id)
 #ifdef USE_FREERTOS
 	if (xSemaphoreTake(i2c_adapter->sem_busy, 0) == pdFALSE)
 		return -1;
-
-	xSemaphoreGive(i2c_adapter->sem_busy);
 #else
-	if (i2c_adapter->busy)
+	PIOS_IRQ_Disable();
+	if (i2c_adapter->busy == true) {
+		PIOS_IRQ_Enable();
 		return -1;
+	}
+	i2c_adapter->busy = true;
+	PIOS_IRQ_Enable();
 #endif
 
 	if (i2c_adapter->curr_state != I2C_STATE_STOPPED)
+	{
+#ifdef USE_FREERTOS
+		xSemaphoreGive(i2c_adapter->sem_busy);
+#else
+		PIOS_IRQ_Disable();
+		i2c_adapter->busy = false;
+		PIOS_IRQ_Enable();
+#endif
 		return -2;
+	}
 
 	if (GPIO_ReadInputDataBit(i2c_adapter->cfg->sda.gpio, i2c_adapter->cfg->sda.init.GPIO_Pin) == Bit_RESET ||
 		GPIO_ReadInputDataBit(i2c_adapter->cfg->scl.gpio, i2c_adapter->cfg->scl.init.GPIO_Pin) == Bit_RESET)
+	{
+#ifdef USE_FREERTOS
+		xSemaphoreGive(i2c_adapter->sem_busy);
+#else
+		PIOS_IRQ_Disable();
+		i2c_adapter->busy = false;
+		PIOS_IRQ_Enable();
+#endif
 		return -3;
+	}
 
+#ifdef USE_FREERTOS
+	xSemaphoreGive(i2c_adapter->sem_busy);
+#else
+	PIOS_IRQ_Disable();
+	i2c_adapter->busy = false;
+	PIOS_IRQ_Enable();
+#endif
 	return 0;
 }
 
