@@ -337,7 +337,7 @@ static int32_t updateAttitudeComplementary(bool first_run)
 
 		// Wait for a mag reading if a magnetometer was registered
 		if (PIOS_SENSORS_GetQueue(PIOS_SENSOR_MAG) != NULL) {
-			if ( xQueueReceive(magQueue, &ev, 0 / portTICK_RATE_MS) != pdTRUE ) {
+			if ( xQueueReceive(magQueue, &ev, 20 / portTICK_RATE_MS) != pdTRUE ) {
 				return -1;
 			}
 			MagnetometerGet(&magData);
@@ -346,10 +346,12 @@ static int32_t updateAttitudeComplementary(bool first_run)
 		// Pick initial attitude based on accel and mag data
 		AttitudeActualData attitudeActual;
 		AttitudeActualGet(&attitudeActual);
-		attitudeActual.Roll = atan2f(-accelsData.y, -accelsData.z) * RAD2DEG;
-		attitudeActual.Pitch = atan2f(accelsData.x, -accelsData.z) * RAD2DEG;
-		attitudeActual.Yaw = atan2f(-magData.y, magData.x) * RAD2DEG;
+		float theta = atan2f(accelsData.x, -accelsData.z);
+		attitudeActual.Pitch = theta * 180.0f / F_PI;
+		attitudeActual.Roll = atan2f(-accelsData.y, -accelsData.z / cosf(theta)) * 180.0f / F_PI;
+		attitudeActual.Yaw = atan2f(-magData.y, magData.x) * 180.0f / F_PI;
 		RPY2Quaternion(&attitudeActual.Roll,&attitudeActual.q1);
+		Quaternion2RPY(&attitudeActual.q1,&attitudeActual.Roll);
 		AttitudeActualSet(&attitudeActual);
 
 		complimentary_filter_state.initialization = CF_POWERON;
