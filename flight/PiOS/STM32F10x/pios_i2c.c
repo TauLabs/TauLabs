@@ -959,9 +959,7 @@ int32_t PIOS_I2C_CheckClear(uint32_t i2c_id)
 #ifdef USE_FREERTOS
 		xSemaphoreGive(i2c_adapter->sem_busy);
 #else
-		PIOS_IRQ_Disable();
 		i2c_adapter->busy = false;
-		PIOS_IRQ_Enable();
 #endif
 		return -2;
 	}
@@ -972,9 +970,7 @@ int32_t PIOS_I2C_CheckClear(uint32_t i2c_id)
 #ifdef USE_FREERTOS
 		xSemaphoreGive(i2c_adapter->sem_busy);
 #else
-		PIOS_IRQ_Disable();
 		i2c_adapter->busy = false;
-		PIOS_IRQ_Enable();
 #endif
 		return -3;
 	}
@@ -982,9 +978,7 @@ int32_t PIOS_I2C_CheckClear(uint32_t i2c_id)
 #ifdef USE_FREERTOS
 	xSemaphoreGive(i2c_adapter->sem_busy);
 #else
-	PIOS_IRQ_Disable();
 	i2c_adapter->busy = false;
-	PIOS_IRQ_Enable();
 #endif
 	return 0;
 }
@@ -1047,9 +1041,7 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 	semaphore_success &= (xSemaphoreTake(i2c_adapter->sem_ready, timeout) == pdTRUE);
 	xSemaphoreGive(i2c_adapter->sem_ready);
 #else
-	PIOS_IRQ_Disable();
 	i2c_adapter->busy = 0;
-	PIOS_IRQ_Enable();
 #endif /* USE_FREERTOS */
 
 	/* Spin waiting for the transfer to finish */
