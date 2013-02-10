@@ -248,12 +248,19 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
 void panic(int32_t code) {
 	while(1){
 		for (int32_t i = 0; i < code; i++) {
+			PIOS_WDG_Clear();
 			PIOS_LED_Toggle(PIOS_LED_ALARM);
 			PIOS_DELAY_WaitmS(200);
+			PIOS_WDG_Clear();
 			PIOS_LED_Toggle(PIOS_LED_ALARM);
 			PIOS_DELAY_WaitmS(200);
 		}
-		PIOS_DELAY_WaitmS(500);
+		PIOS_WDG_Clear();
+		PIOS_DELAY_WaitmS(200);
+		PIOS_WDG_Clear();
+		PIOS_DELAY_WaitmS(200);
+		PIOS_WDG_Clear();
+		PIOS_DELAY_WaitmS(100);
 	}
 }
 
