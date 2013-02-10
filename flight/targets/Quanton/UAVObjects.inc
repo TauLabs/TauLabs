@@ -107,8 +107,8 @@ UAVOBJSRCFILENAMES += waypointactive
 
 UAVOBJSRCFILENAMES += txpidsettings
 
-UAVOBJSRCFILENAMES += vibrationtestsettings
-UAVOBJSRCFILENAMES += vibrationtestoutput
+UAVOBJSRCFILENAMES += vibrationanalysissettings
+UAVOBJSRCFILENAMES += vibrationanalysisoutput
 
 
 UAVOBJSRC = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),$(OPUAVSYNTHDIR)/$(UAVOBJSRCFILE).c )
