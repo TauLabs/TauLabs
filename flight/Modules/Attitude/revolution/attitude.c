@@ -765,11 +765,14 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	// Get most recent data
 	GyrosGet(&gyrosData);
 	AccelsGet(&accelsData);
-	MagnetometerGet(&magData);
-	BaroAltitudeGet(&baroData);
-	GPSPositionGet(&gpsData);
-	GPSVelocityGet(&gpsVelData);
 	GyrosBiasGet(&gyrosBias);
+
+	// Need to get these values before initializing
+	if (mag_updated)
+       MagnetometerGet(&magData);
+
+	if (gps_updated)
+		GPSPositionGet(&gpsData);
 
 	// Discard mag if it has NAN (normally from bad calibration)
 	mag_updated &= (magData.x == magData.x && magData.y == magData.y && magData.z == magData.z);
@@ -803,7 +806,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		float gyro_bias[3] = {gyrosBias.x * F_PI / 180.0f, gyrosBias.y * F_PI / 180.0f, gyrosBias.z * F_PI / 180.0f};
 		INSSetGyroBias(gyro_bias);
 
-		MagnetometerGet(&magData);
+		BaroAltitudeGet(&baroData);
 
 		// Set initial attitude
 		AttitudeActualData attitudeActual;
@@ -842,7 +845,6 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 
 			// Use the UAVO for the position variance	
 			INSSetPosVelVar(insSettings.gps_var[INSSETTINGS_GPS_VAR_POS], insSettings.gps_var[INSSETTINGS_GPS_VAR_VEL]);
-
 			INSSetMagNorth(homeLocation.Be);
 
 			// Initialize the gyro bias from the settings
@@ -850,9 +852,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 			INSSetGyroBias(gyro_bias);
 
 			// Initialize to current location
-			GPSPositionData gpsPosition;
-			GPSPositionGet(&gpsPosition);
-			getNED(&gpsPosition, NED);
+			getNED(&gpsData, NED);
 			
 			// Initialize barometric offset to cirrent GPS NED coordinate
 			baroOffset = -NED[2] - baroData.Altitude;
@@ -915,15 +915,21 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	// Advance the covariance estimate
 	INSCovariancePrediction(dT);
 
-	if(mag_updated)
+	if(mag_updated) {
 		sensors |= MAG_SENSORS;
-
-	if(baro_updated)
+		mag_updated = false;
+	}
+	
+	if(baro_updated) {
 		sensors |= BARO_SENSOR;
+		BaroAltitudeGet(&baroData);
+		baro_updated = false;
+	}
 
+	// GPS Position update
 	if (gps_updated && outdoor_mode)
 	{
-		sensors |= POS_SENSORS;
+		sensors |= HORIZ_POS_SENSORS | VERT_POS_SENSORS;
 
 		// Transform the GPS position into NED coordinates
 		getNED(&gpsData, NED);
@@ -941,19 +947,27 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		nedPos.Down = NED[2];
 		NEDPositionSet(&nedPos);
 
-	} else if (!outdoor_mode) {
+		gps_updated = false;
+	}
+
+	// GPS Velocity update
+	if (gps_vel_updated && outdoor_mode) {
+		sensors |= HORIZ_SENSORS | VERT_SENSORS;
+		GPSVelocityGet(&gpsVelData);
+		vel[0] = gpsVelData.North;
+		vel[1] = gpsVelData.East;
+		vel[2] = gpsVelData.Down;
+
+		gps_vel_updated = false;
+	}
+
+	// When not runnning in indoor mode force the position to zero
+	if (!outdoor_mode) {
 		vel[0] = vel[1] = vel[2] = 0;
 		NED[0] = NED[1] = 0;
 		NED[2] = -(baroData.Altitude + baroOffset);
 		sensors |= HORIZ_SENSORS | HORIZ_POS_SENSORS;
-		sensors |= POS_SENSORS |VERT_SENSORS;
-	}
-
-	if (gps_vel_updated && outdoor_mode) {
-		sensors |= HORIZ_SENSORS | VERT_SENSORS;
-		vel[0] = gpsVelData.North;
-		vel[1] = gpsVelData.East;
-		vel[2] = gpsVelData.Down;
+		sensors |= VERT_SENSORS | VERT_POS_SENSORS;
 	}
 	
 	/*
