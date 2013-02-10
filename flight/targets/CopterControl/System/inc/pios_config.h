@@ -40,6 +40,9 @@
 #define PIOS_INCLUDE_I2C
 //#define PIOS_INCLUDE_I2C_ESC
 #endif
+#if defined(USE_PCF8591)
+#define PIOS_INCLUDE_PCF8591
+#endif
 #define PIOS_INCLUDE_IRQ
 #define PIOS_INCLUDE_LED
 #define PIOS_INCLUDE_IAP

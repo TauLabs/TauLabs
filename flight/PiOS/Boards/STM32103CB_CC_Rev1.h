@@ -104,6 +104,7 @@ extern uint32_t pios_i2c_flexi_adapter_id;
 #define PIOS_I2C_MAIN_ADAPTER			(pios_i2c_flexi_adapter_id)
 #define PIOS_I2C_ESC_ADAPTER			(pios_i2c_flexi_adapter_id)
 #define PIOS_I2C_BMP085_ADAPTER			(pios_i2c_flexi_adapter_id)
+#define PIOS_I2C_PCF8591_ADAPTER		(pios_i2c_flexi_adapter_id)
 
 //------------------------
 // PIOS_BMP085
@@ -217,7 +218,7 @@ extern uintptr_t pios_com_mavlink_id;
 // ADCCLK = PCLK2 / 2
 #define PIOS_ADC_RATE		(72.0e6 / 1.0 / 8.0 / 252.0 / (PIOS_ADC_NUM_CHANNELS >> PIOS_ADC_USE_ADC2))
 #define PIOS_ADC_MAX_OVERSAMPLING               36
-
+#define PIOS_INTERNAL_ADC_UPDATE_RATE  25.0f
 //------------------------
 // PIOS_RCVR
 // See also pios_board.c

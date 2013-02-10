@@ -126,7 +126,7 @@ static struct pios_internal_adc_dev * PIOS_INTERNAL_ADC_Allocate()
 /**
   * @brief Initializes an internal ADC device
   * \param[out] internal_adc_id handle to the device
-  * \param[in] driver drive to use with the device
+  * \param[in] cfg device configuration
   * \return < 0 if deviced initialization failed
   */
 int32_t PIOS_INTERNAL_ADC_Init(uint32_t * internal_adc_id, const struct pios_internal_adc_cfg * cfg)
