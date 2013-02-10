@@ -283,7 +283,9 @@ static void actuatorTask(void* parameters)
 				continue;
 			}
 
-			if((mixers[ct].type == MIXERSETTINGS_MIXER1TYPE_MOTOR) || (mixers[ct].type == MIXERSETTINGS_MIXER1TYPE_SERVO))
+			if((mixers[ct].type == MIXERSETTINGS_MIXER1TYPE_MOTOR) || 
+			   (mixers[ct].type == MIXERSETTINGS_MIXER1TYPE_CARMOTOR) ||
+			   (mixers[ct].type == MIXERSETTINGS_MIXER1TYPE_SERVO))
 				status[ct] = ProcessMixer(ct, curve1, curve2, &mixerSettings, &desired, dT);
 			else
 				status[ct] = -1;
@@ -305,6 +307,14 @@ static void actuatorTask(void* parameters)
 				else if ((spinWhileArmed && !positiveThrottle) ||
 					 (status[ct] < 0) )
 					status[ct] = 0;
+			} else if(mixers[ct].type == MIXERSETTINGS_MIXER1TYPE_CARMOTOR) {
+				// If not armed car motors should go to neutral
+				if( !armed )
+				{
+					filterAccumulator[ct] = 0;
+					lastResult[ct] = 0;
+					status[ct] = 0;  //force neutral throttle
+				}
 			}
 
 			// If an accessory channel is selected for direct bypass mode
@@ -530,7 +540,8 @@ static void setFailsafe(const ActuatorSettingsData * actuatorSettings, const Mix
 		{
 			Channel[n] = actuatorSettings->ChannelMin[n];
 		}
-		else if(mixers[n].type == MIXERSETTINGS_MIXER1TYPE_SERVO)
+		else if(mixers[n].type == MIXERSETTINGS_MIXER1TYPE_SERVO ||
+		        mixers[n].type == MIXERSETTINGS_MIXER1TYPE_CARMOTOR)
 		{
 			Channel[n] = actuatorSettings->ChannelNeutral[n];
 		}
