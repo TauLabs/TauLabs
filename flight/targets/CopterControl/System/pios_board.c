@@ -74,6 +74,7 @@ uintptr_t pios_com_gps_id;
 uintptr_t pios_com_bridge_id;
 uintptr_t pios_com_mavlink_id;
 uint32_t pios_usb_rctx_id;
+uintptr_t pios_internal_adc_id;
 
 /**
  * Configuration for MPU6000 chip
@@ -799,7 +800,11 @@ void PIOS_Board_Init(void) {
 		case BOARD_REVISION_CC:
 			// Revision 1 with invensense gyros, start the ADC
 #if defined(PIOS_INCLUDE_ADC)
-			PIOS_ADC_Init(&pios_adc_cfg);
+		{
+			uint32_t internal_adc_id;
+			PIOS_INTERNAL_ADC_Init(&internal_adc_id, &internal_adc_cfg);
+			PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);
+		}
 #endif
 #if defined(PIOS_INCLUDE_ADXL345)
 			PIOS_ADXL345_Init(pios_spi_flash_accel_id, 0);

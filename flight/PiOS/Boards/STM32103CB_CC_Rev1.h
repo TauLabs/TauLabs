@@ -146,6 +146,11 @@ extern uintptr_t pios_com_vcp_id;
 extern uintptr_t pios_com_telem_usb_id;
 #define PIOS_COM_TELEM_USB              (pios_com_telem_usb_id)
 
+#if defined(PIOS_INCLUDE_ADC)
+extern uintptr_t pios_internal_adc_id;
+#define PIOS_INTERNAL_ADC				(pios_internal_adc_id)
+#endif
+
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 extern uintptr_t pios_com_debug_id;
 #define PIOS_COM_DEBUG                  (pios_com_debug_id)
@@ -161,6 +166,7 @@ extern uintptr_t pios_com_mavlink_id;
 // PIOS_ADC_PinGet(2) = Gyro X
 //-------------------------
 //#define PIOS_ADC_OVERSAMPLING_RATE		1
+#define PIOS_ADC_SUB_DRIVER_MAX_INSTANCES	5
 #define PIOS_ADC_USE_TEMP_SENSOR		1
 #define PIOS_ADC_TEMP_SENSOR_ADC		ADC1
 #define PIOS_ADC_TEMP_SENSOR_ADC_CHANNEL	1

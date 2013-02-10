@@ -3,11 +3,11 @@
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
  * @addtogroup   PIOS_ADC ADC Functions
- * @brief PIOS interface for USART port
+ * @brief PIOS Upper level interface for ADC devices
  * @{
  *
  * @file       pios_adc_priv.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     The Tau Labs Team, http://www.taulabs.org Copyright (C) 2013.
  * @brief      ADC private definitions.
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -34,17 +34,8 @@
 #include <pios.h>
 #include <pios_stm32.h>
 #include <pios_adc.h>
-#include <fifo_buffer.h>
 
-struct pios_adc_cfg {
-	ADC_TypeDef* adc_dev;
-	struct stm32_dma dma;
-	uint32_t half_flag;
-	uint32_t full_flag;
-	uint16_t max_downsample;
-};
-
-int32_t PIOS_ADC_Init(const struct pios_adc_cfg * cfg);
+extern int32_t PIOS_ADC_Init(uintptr_t * adc_id, const struct pios_adc_driver * driver, uint32_t lower_id);
 
 #endif /* PIOS_ADC_PRIV_H */
 

@@ -36,10 +36,10 @@
 /* Enable/Disable PiOS Modules */
 #define PIOS_INCLUDE_ADC
 #define PIOS_INCLUDE_DELAY
-//#if defined(USE_I2C)
-//#define PIOS_INCLUDE_I2C
+#if defined(USE_I2C)
+#define PIOS_INCLUDE_I2C
 //#define PIOS_INCLUDE_I2C_ESC
-//#endif
+#endif
 #define PIOS_INCLUDE_IRQ
 #define PIOS_INCLUDE_LED
 #define PIOS_INCLUDE_IAP
