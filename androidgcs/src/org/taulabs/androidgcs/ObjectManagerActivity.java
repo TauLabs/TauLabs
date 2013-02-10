@@ -409,13 +409,18 @@ public abstract class ObjectManagerActivity extends Activity {
 
 	/*********** Deals with the default visualization of all activities *******/
 
+	//! Store reference to alarm widget from menu inflation
+	private AlarmsSummary summary;
+
 	/**
 	 * @brief Look for the worst alarm level and update the
 	 * widget view accordingly
 	 */
 	private void updateAlarmSummary() {
-		AlarmsSummary summary = (AlarmsSummary) findViewById(R.id.alarms_status);
 		if (summary == null)
+			return;
+
+		if (objMngr == null)
 			return;
 
 		UAVObject alarms = objMngr.getObject("SystemAlarms");
@@ -656,6 +661,8 @@ public abstract class ObjectManagerActivity extends Activity {
 			}
 		}
 
+		summary = (AlarmsSummary) menu.findItem(R.id.alarms_status).getActionView();
+		updateAlarmSummary();
 		return true;
 	}
 
