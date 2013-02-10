@@ -186,6 +186,10 @@
 #endif
 #endif
 
+#if defined(PIOS_INCLUDE_PCF8591)
+#include <pios_pcf8591_adc_priv.h>
+#endif
+
 #include <pios_crc.h>
 
 #define NELEMENTS(x) (sizeof(x) / sizeof(*(x)))

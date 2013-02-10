@@ -75,6 +75,7 @@ uintptr_t pios_com_bridge_id;
 uintptr_t pios_com_mavlink_id;
 uint32_t pios_usb_rctx_id;
 uintptr_t pios_internal_adc_id;
+uintptr_t pios_pcf8591_adc_id;
 
 /**
  * Configuration for MPU6000 chip
@@ -813,7 +814,6 @@ void PIOS_Board_Init(void) {
 		case BOARD_REVISION_CC3D:
 			// Revision 2 with L3GD20 gyros, start a SPI interface and connect to it
 			GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
-
 #if defined(PIOS_INCLUDE_MPU6000)
 			// Set up the SPI interface to the serial flash 
 			if (PIOS_SPI_Init(&pios_spi_gyro_id, &pios_spi_gyro_cfg)) {
@@ -866,6 +866,16 @@ void PIOS_Board_Init(void) {
 
 	/* Make sure we have at least one telemetry link configured or else fail initialization */
 	PIOS_Assert(pios_com_telem_rf_id || pios_com_telem_usb_id);
+
+
+#if defined(PIOS_INCLUDE_PCF8591)
+		{
+			uint32_t pcf8591_adc_id;
+			PIOS_PCF8591_ADC_Init(&pcf8591_adc_id, &pios_8591_cfg);
+			PIOS_ADC_Init(&pios_pcf8591_adc_id, &pios_pcf8591_adc_driver, pcf8591_adc_id);
+		}
+#endif
+
 }
 
 /**
