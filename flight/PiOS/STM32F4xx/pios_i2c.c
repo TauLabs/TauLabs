@@ -986,11 +986,11 @@ int32_t PIOS_I2C_CheckClear(uint32_t i2c_id)
 		return -1;
 #else
 	PIOS_IRQ_Disable();
-	if (i2c_adapter->busy == true) {
+	if (i2c_adapter->busy == 1) {
 		PIOS_IRQ_Enable();
 		return -1;
 	}
-	i2c_adapter->busy = true;
+	i2c_adapter->busy = 1;
 	PIOS_IRQ_Enable();
 #endif
 
@@ -999,7 +999,7 @@ int32_t PIOS_I2C_CheckClear(uint32_t i2c_id)
 #ifdef USE_FREERTOS
 		xSemaphoreGive(i2c_adapter->sem_busy);
 #else
-		i2c_adapter->busy = false;
+		i2c_adapter->busy = 0;
 #endif
 		return -2;
 	}
@@ -1010,7 +1010,7 @@ int32_t PIOS_I2C_CheckClear(uint32_t i2c_id)
 #ifdef USE_FREERTOS
 		xSemaphoreGive(i2c_adapter->sem_busy);
 #else
-		i2c_adapter->busy = false;
+		i2c_adapter->busy = 0;
 #endif
 		return -3;
 	}
@@ -1018,7 +1018,7 @@ int32_t PIOS_I2C_CheckClear(uint32_t i2c_id)
 #ifdef USE_FREERTOS
 	xSemaphoreGive(i2c_adapter->sem_busy);
 #else
-	i2c_adapter->busy = false;
+	i2c_adapter->busy = 0;
 #endif
 	return 0;
 }
@@ -1041,7 +1041,7 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 		return -2;
 #else	
 	PIOS_IRQ_Disable();
-	if(i2c_adapter->busy) {
+	if(i2c_adapter->busy == 1) {
 		PIOS_IRQ_Enable();
 		return -2;
 	}
@@ -1115,7 +1115,7 @@ int32_t PIOS_I2C_Transfer_Callback(uint32_t i2c_id, const struct pios_i2c_txn tx
 	if (xSemaphoreTake(i2c_adapter->sem_busy, timeout) == pdFALSE)
 		return -2;
 #else
-	if(i2c_adapter->busy) {
+	if(i2c_adapter->busy == 1) {
 		PIOS_IRQ_Enable();
 		return -2;
 	}
