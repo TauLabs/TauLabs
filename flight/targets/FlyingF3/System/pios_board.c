@@ -222,11 +222,29 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
 }
 #endif
 
-void panic() {
+/**
+ * Indicate a target-specific error code when a component fails to initialize
+ * 1 pulse - L3GD20
+ * 2 pulses - LSM303
+ * 3 pulses - internal I2C bus locked
+ * 4 pulses - external I2C bus locked
+ */
+void panic(int32_t code) {
 	while(1){
+		for (int32_t i = 0; i < code; i++) {
+			PIOS_WDG_Clear();
+			PIOS_LED_Toggle(PIOS_LED_ALARM);
+			PIOS_DELAY_WaitmS(200);
+			PIOS_WDG_Clear();
+			PIOS_LED_Toggle(PIOS_LED_ALARM);
+			PIOS_DELAY_WaitmS(200);
+		}
 		PIOS_WDG_Clear();
-		PIOS_LED_Toggle(PIOS_LED_ALARM);
 		PIOS_DELAY_WaitmS(200);
+		PIOS_WDG_Clear();
+		PIOS_DELAY_WaitmS(200);
+		PIOS_WDG_Clear();
+		PIOS_DELAY_WaitmS(100);
 	}
 }
 
@@ -264,9 +282,14 @@ void PIOS_Board_Init(void) {
 	if (PIOS_I2C_Init(&pios_i2c_internal_id, &pios_i2c_internal_cfg)) {
 		PIOS_DEBUG_Assert(0);
 	}
+	if (PIOS_I2C_CheckClear(pios_i2c_internal_id) != 0)
+		panic(3);
+
 	if (PIOS_I2C_Init(&pios_i2c_external_id, &pios_i2c_external_cfg)) {
 		PIOS_DEBUG_Assert(0);
 	}
+	if (PIOS_I2C_CheckClear(pios_i2c_external_id) != 0)
+		panic(4);
 #endif
 
 #if defined(PIOS_INCLUDE_FLASH)
@@ -945,9 +968,9 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_L3GD20) && defined(PIOS_INCLUDE_SPI)
 	if (PIOS_L3GD20_Init(pios_spi_internal_id, 0, &pios_l3gd20_cfg) != 0)
-		panic();
+		panic(1);
 	if (PIOS_L3GD20_Test() != 0)
-		panic();
+		panic(1);
 
 	// To be safe map from UAVO enum to driver enum
 	/*
@@ -978,11 +1001,11 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_LSM303) && defined(PIOS_INCLUDE_I2C)
 	if (PIOS_LSM303_Init(pios_i2c_internal_id, &pios_lsm303_cfg) != 0)
-		panic();
+		panic(2);
 	if (PIOS_LSM303_Accel_Test() != 0)
-		panic();
+		panic(2);
 	if (PIOS_LSM303_Mag_Test() != 0)
-		panic();
+		panic(2);
 
 	uint8_t hw_accel_range;
 	HwFlyingF3AccelRangeGet(&hw_accel_range);
