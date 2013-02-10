@@ -42,6 +42,7 @@ import org.taulabs.androidgcs.telemetry.OPTelemetryService.LocalBinder;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService.TelemTask;
 import org.taulabs.androidgcs.views.AlarmsSummary;
 import org.taulabs.androidgcs.views.AlarmsSummary.AlarmsStatus;
+import org.taulabs.androidgcs.views.TelemetryStats;
 import org.taulabs.uavtalk.UAVObject;
 import org.taulabs.uavtalk.UAVObjectField;
 import org.taulabs.uavtalk.UAVObjectManager;
@@ -465,36 +466,31 @@ public abstract class ObjectManagerActivity extends Activity {
 		}
 	};
 
+	//! Store local reference from inflation
+	private TelemetryStats telemetryStats;
+
 	//!Show the telemetry rate in the task bar
 	private void updateTelemetryStats() {
-		org.taulabs.androidgcs.views.TelemetryStats status = (org.taulabs.androidgcs.views.TelemetryStats) findViewById(R.id.telemetry_status);
-		if (status == null) {
-			Log.d(TAG, "Control not found");
+		if (telemetryStats == null)
 			return;
-		}
 
-		status.setConnected(getConnectionState() == ConnectionState.CONNECTED);
+		telemetryStats.setConnected(getConnectionState() == ConnectionState.CONNECTED);
 
 		if (getConnectionState() != ConnectionState.CONNECTED) {
-			Log.d(TAG, "updateStas not connected");
-			status.setTxRate(0);
-			status.setRxRate(0);
+			telemetryStats.setTxRate(0);
+			telemetryStats.setRxRate(0);
 			return;
 		}
 
-		if (objMngr == null) {
-			Log.d(TAG, "updateStas objmngr null");
+		if (objMngr == null)
 			return;
-		}
 
 		UAVObject stats = objMngr.getObject("GCSTelemetryStats");
-		if (stats == null) {
-			Log.d(TAG, "updateStas stats null");
+		if (stats == null)
 			return;
-		}
 
-		status.setTxRate((int) stats.getField("TxDataRate").getDouble());
-		status.setRxRate((int) stats.getField("RxDataRate").getDouble());
+		telemetryStats.setTxRate((int) stats.getField("TxDataRate").getDouble());
+		telemetryStats.setRxRate((int) stats.getField("RxDataRate").getDouble());
 	}
 
 	//! Called whenever telemetry stats are updated
@@ -641,28 +637,12 @@ public abstract class ObjectManagerActivity extends Activity {
 		inflater.inflate(R.menu.status_menu, menu);
 		inflater.inflate(R.menu.options_menu, menu);
 
-		// Update the telemetry stats here because we need to access via
-		// menu context and updateStats fails
-		org.taulabs.androidgcs.views.TelemetryStats status = (org.taulabs.androidgcs.views.TelemetryStats) (menu.findItem(R.id.telemetry_status).getActionView());
-		if (getConnectionState() == ConnectionState.DISCONNECTED) {
-			status.setConnected(false);
-		} else {
-			status.setConnected(true);
-
-			if (getConnectionState() != ConnectionState.CONNECTED) {
-				status.setTxRate(0);
-				status.setRxRate(0);
-			} else if (objMngr != null && status != null) {
-				UAVObject stats = objMngr.getObject("GCSTelemetryStats");
-				if (stats != null) {
-					status.setTxRate((int) stats.getField("TxDataRate").getDouble());
-					status.setRxRate((int) stats.getField("RxDataRate").getDouble());
-				}
-			}
-		}
+		telemetryStats = (TelemetryStats) (menu.findItem(R.id.telemetry_status).getActionView());
+		updateTelemetryStats();
 
 		summary = (AlarmsSummary) menu.findItem(R.id.alarms_status).getActionView();
 		updateAlarmSummary();
+
 		return true;
 	}
 
