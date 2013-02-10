@@ -65,7 +65,6 @@
 #define TASK_PRIORITY (tskIDLE_PRIORITY+3)
 
 #define SENSOR_PERIOD 4
-#define UPDATE_RATE  25.0f
 #define GYRO_NEUTRAL 1665
 
 // Private types
@@ -211,8 +210,7 @@ static void AttitudeTask(void *parameters)
 		// Create queue for passing gyro data, allow 2 back samples in case
 		gyro_queue = xQueueCreate(1, sizeof(float) * 4);
 		PIOS_Assert(gyro_queue != NULL);
-		PIOS_ADC_SetQueue(gyro_queue);
-		PIOS_ADC_Config((PIOS_ADC_RATE / 1000.0f) * UPDATE_RATE);
+		PIOS_ADC_SetQueue(PIOS_INTERNAL_ADC,gyro_queue);
 #endif
 	}
 
@@ -325,7 +323,7 @@ static int32_t updateSensors(AccelsData * accelsData, GyrosData * gyrosData)
 	float gyro[4];
 	
 	// Only wait the time for two nominal updates before setting an alarm
-	if(xQueueReceive(gyro_queue, (void * const) gyro, UPDATE_RATE * 2) == errQUEUE_EMPTY) {
+	if(xQueueReceive(gyro_queue, (void * const) gyro, PIOS_INTERNAL_ADC_UPDATE_RATE * 2) == errQUEUE_EMPTY) {
 		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_ERROR);
 		return -1;
 	}
