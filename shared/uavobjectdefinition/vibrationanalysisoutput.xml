@@ -1,5 +1,5 @@
 <xml>
-    <object name="VibrationTestOutput" singleinstance="false" settings="false">
+    <object name="VibrationAnalysisOutput" singleinstance="false" settings="false">
         <description>FFT output from @VibrationTest module.</description>
         <field name="x" units="" type="float" elements="1"/>
         <field name="y" units="" type="float" elements="1"/>

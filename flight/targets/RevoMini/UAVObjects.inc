@@ -102,8 +102,8 @@ UAVOBJSRCFILENAMES += waypoint
 UAVOBJSRCFILENAMES += waypointactive
 
 UAVOBJSRCFILENAMES += txpidsettings
-UAVOBJSRCFILENAMES += vibrationtestsettings
-UAVOBJSRCFILENAMES += vibrationtestoutput
+UAVOBJSRCFILENAMES += vibrationanalysissettings
+UAVOBJSRCFILENAMES += vibrationanalysisoutput
 
 #Support for radio module on RM
 UAVOBJSRCFILENAMES += oplinkstatus

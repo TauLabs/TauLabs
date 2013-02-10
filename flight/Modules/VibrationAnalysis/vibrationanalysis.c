@@ -1,9 +1,9 @@
 /**
  ******************************************************************************
  *
- * @file       vibrationtest.c
+ * @file       vibrationanalysis.c
  * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
- * @brief      VibrationTest module to be used as a template for actual modules.
+ * @brief      VibrationAnalysis module to be used as a template for actual modules.
  *             Event callback version.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -50,8 +50,8 @@
 #include "accels.h"
 #include "accessorydesired.h"
 #include "modulesettings.h"
-#include "vibrationtestoutput.h"
-#include "vibrationtestsettings.h"
+#include "vibrationanalysisoutput.h"
+#include "vibrationanalysissettings.h"
 
 
 // Private constants
@@ -64,7 +64,7 @@ static xTaskHandle taskHandle;
 static bool module_enabled = false;
 static uint16_t fft_window_size;
 
-static struct VibrationTest_data {
+static struct VibrationAnalysis_data {
 	bool access_accels;
 	uint16_t accels_sum_count;
 	float accels_data_sum_x;
@@ -78,13 +78,13 @@ static struct VibrationTest_data {
 
 
 // Private functions
-static void VibrationTestTask(void *parameters);
+static void VibrationAnalysisTask(void *parameters);
 static void accelsUpdatedCb(UAVObjEvent * objEv);
 
 /**
  * Start the module, called on startup
  */
-static int32_t VibrationTestStart(void)
+static int32_t VibrationAnalysisStart(void)
 {
 	
 	if (!module_enabled)
@@ -94,20 +94,20 @@ static int32_t VibrationTestStart(void)
 	AccelsConnectCallback(&accelsUpdatedCb);
 	
 	// Allocate and initialize the static data storage only if module is enabled
-	vtd = (struct VibrationTest_data *) pvPortMalloc(sizeof(struct VibrationTest_data));
+	vtd = (struct VibrationAnalysis_data *) pvPortMalloc(sizeof(struct VibrationAnalysis_data));
 	if (vtd == NULL) {
 		module_enabled = false;
 		return -1;
 	}
 	
 	// make sure that all inputs[] are zeroed...
-	memset(vtd, 0, sizeof(struct VibrationTest_data));
+	memset(vtd, 0, sizeof(struct VibrationAnalysis_data));
 	//... except for Z axis static bias
-	vtd->accels_static_bias_z=9.81; // [See note in definition of VibrationTest_data structure]
+	vtd->accels_static_bias_z=9.81; // [See note in definition of VibrationAnalysis_data structure]
 	
 	// Start main task
-	xTaskCreate(VibrationTestTask, (signed char *)"VibrationTest", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
-	TaskMonitorAdd(TASKINFO_RUNNING_VIBRATIONTEST, taskHandle);
+	xTaskCreate(VibrationAnalysisTask, (signed char *)"VibrationAnalysis", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
+	TaskMonitorAdd(TASKINFO_RUNNING_VIBRATIONANALYSIS, taskHandle);
 	return 0;
 }
 
@@ -115,16 +115,16 @@ static int32_t VibrationTestStart(void)
  * Initialise the module, called on startup
  */
 
-static int32_t VibrationTestInitialize(void)
+static int32_t VibrationAnalysisInitialize(void)
 {
 	ModuleSettingsInitialize();
 	
-#ifdef MODULE_VibrationTest_BUILTIN
+#ifdef MODULE_VibrationAnalysis_BUILTIN
 	module_enabled = true;
 #else
 	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
 	ModuleSettingsStateGet(module_state);
-	if (module_state[MODULESETTINGS_STATE_VIBRATIONTEST] == MODULESETTINGS_STATE_ENABLED) {
+	if (module_state[MODULESETTINGS_STATE_VIBRATIONANALYSIS] == MODULESETTINGS_STATE_ENABLED) {
 		module_enabled = true;
 	} else {
 		module_enabled = false;
@@ -135,23 +135,23 @@ static int32_t VibrationTestInitialize(void)
 		return -1;
 
 	// Initialize UAVOs
-	VibrationTestSettingsInitialize();
-	VibrationTestOutputInitialize();
+	VibrationAnalysisSettingsInitialize();
+	VibrationAnalysisOutputInitialize();
 	
 	//Get the FFT window size
-	VibrationTestSettingsFFTWindowSizeOptions fft_window_size_enum;
-	VibrationTestSettingsFFTWindowSizeGet(&fft_window_size_enum);
+	VibrationAnalysisSettingsFFTWindowSizeOptions fft_window_size_enum;
+	VibrationAnalysisSettingsFFTWindowSizeGet(&fft_window_size_enum);
 	switch (fft_window_size_enum) {
-		case VIBRATIONTESTSETTINGS_FFTWINDOWSIZE_16:
+		case VIBRATIONANALYSISSETTINGS_FFTWINDOWSIZE_16:
 			fft_window_size = 16;
 			break;
-		case VIBRATIONTESTSETTINGS_FFTWINDOWSIZE_64:
+		case VIBRATIONANALYSISSETTINGS_FFTWINDOWSIZE_64:
 			fft_window_size = 64;
 			break;
-		case VIBRATIONTESTSETTINGS_FFTWINDOWSIZE_256:
+		case VIBRATIONANALYSISSETTINGS_FFTWINDOWSIZE_256:
 			fft_window_size = 256;
 			break;
-		case VIBRATIONTESTSETTINGS_FFTWINDOWSIZE_1024:
+		case VIBRATIONANALYSISSETTINGS_FFTWINDOWSIZE_1024:
 			fft_window_size = 1024;
 			break;
 		default:
@@ -164,9 +164,9 @@ static int32_t VibrationTestInitialize(void)
 	return 0;
 	
 }
-MODULE_INITCALL(VibrationTestInitialize, VibrationTestStart)
+MODULE_INITCALL(VibrationAnalysisInitialize, VibrationAnalysisStart)
 
-static void VibrationTestTask(void *parameters)
+static void VibrationAnalysisTask(void *parameters)
 {
 #define MAX_BLOCKSIZE   2048
 	
@@ -184,32 +184,32 @@ static void VibrationTestTask(void *parameters)
 	uint16_t num_samples = fft_window_size;
  */
 
-	// Create histogram bin instances for vibration test. Start from i=1 because the first instance is 
-	// generated by VibrationTestOutputInitialize(). Generate three times the length because there are 
+	// Create histogram bin instances for vibration analysis. Start from i=1 because the first instance is 
+	// generated by VibrationAnalysisOutputInitialize(). Generate three times the length because there are 
 	// three vectors. Generate half the length because the FFT output is symmetric about the mid-frequency, 
 	// so there's no point in using memory additional memory.
 	for (int i=1; i<(fft_window_size>>1); i++) {
-		VibrationTestOutputCreateInstance();
+		VibrationAnalysisOutputCreateInstance();
 	}
 	
 	// Main task loop
-	VibrationTestOutputData vibrationTestOutputData;
+	VibrationAnalysisOutputData vibrationAnalysisOutputData;
 	sample_count = 0;
 	lastSysTime = xTaskGetTickCount();
 	while(1)
 	{
-		//First check if the test is active
-		uint8_t runTest;
-		VibrationTestSettingsTestingStatusGet(&runTest);
+		//First check if the analysis is active
+		uint8_t runAnalysis;
+		VibrationAnalysisSettingsTestingStatusGet(&runAnalysis);
 		
-		if (runTest == VIBRATIONTESTSETTINGS_TESTINGSTATUS_OFF) {
+		if (runAnalysis == VIBRATIONANALYSISSETTINGS_TESTINGSTATUS_OFF) {
 			vTaskDelay(100);
 			continue;
 		}
 		
 		
 		uint16_t sampleRate_ms;
-		VibrationTestSettingsSampleRateGet(&sampleRate_ms);
+		VibrationAnalysisSettingsSampleRateGet(&sampleRate_ms);
 		sampleRate_ms = sampleRate_ms > 0 ? sampleRate_ms : 1; //Ensure sampleRate never is 0.
 		
 		
@@ -313,13 +313,13 @@ static void VibrationTestTask(void *parameters)
 			for (int j=0; j<(fft_window_size>>1); j++) 
 			{
 				//Assertion check that we are not trying to write to instances that don't exist
-				if (j >= UAVObjGetNumInstances(VibrationTestOutputHandle()))
+				if (j >= UAVObjGetNumInstances(VibrationAnalysisOutputHandle()))
 					continue;
 				
-				vibrationTestOutputData.x = accel_buffer_complex_x[j];
-				vibrationTestOutputData.y = accel_buffer_complex_y[j];
-				vibrationTestOutputData.z = accel_buffer_complex_z[j];
-				VibrationTestOutputInstSet(j, &vibrationTestOutputData);
+				vibrationAnalysisOutputData.x = accel_buffer_complex_x[j];
+				vibrationAnalysisOutputData.y = accel_buffer_complex_y[j];
+				vibrationAnalysisOutputData.z = accel_buffer_complex_z[j];
+				VibrationAnalysisOutputInstSet(j, &vibrationAnalysisOutputData);
 			}
 			
 			
