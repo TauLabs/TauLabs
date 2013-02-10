@@ -546,12 +546,14 @@ public class Telemetry {
 			}
 		}
 
+		//! Remove element from the transaction queue
 		public boolean removeActivatedQueue(ObjectQueueInfo objInfo) {
 			synchronized(objQueue) {
-				if (objQueue.remove(objInfo)) {
-					if (WARN) Log.w(TAG, "Unable to find queue element to remove");
+				if (objQueue.remove(objInfo) == false) {
+					if (WARN) Log.w(TAG, "Unable to find queue element to remove: " + objInfo.obj.getName());
 					return false;
 				}
+				else if (DEBUG) Log.d(TAG, "Removed queue element: " + objInfo.obj.getName());
 			}
 			return true;
 		}
