@@ -2,13 +2,13 @@
  ******************************************************************************
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
- * @addtogroup PIOS_ADC ADC layer functions
- * @brief Upper level Analog to Digital converter layer
+ * @addtogroup   PIOS_INTERNAL_ADC ADC Functions
+ * @brief PIOS interface for INTERNAL ADC port
  * @{
  *
- * @file       pios_adc.h
+ * @file       pios_internal_adc_priv.h
  * @author     The Tau Labs Team, http://www.taulabs.org Copyright (C) 2013.
- * @brief      ADC layer functions header
+ * @brief      ADC private definitions.
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -28,31 +28,31 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef PIOS_ADC_H
-#define PIOS_ADC_H
+#ifndef PIOS_INTERNAL_ADC_PRIV_H
+#define PIOS_INTERNAL_ADC_PRIV_H
 
-#include <stdint.h>		/* uint*_t */
-#include <stdbool.h>	/* bool */
+#include <pios.h>
+#include <pios_stm32.h>
+#include <pios_internal_adc.h>
+#include <fifo_buffer.h>
 
-typedef uint16_t (*pios_com_callback)(uint32_t context, uint8_t * buf, uint16_t buf_len, uint16_t * headroom, bool * task_woken);
+extern const struct pios_adc_driver pios_internal_adc_driver;
 
-struct pios_adc_driver {
-	void (*init)(uint32_t id);
-	int32_t (*get_pin)(uint32_t id, uint32_t pin);
-	bool (*available)(uint32_t id, uint32_t device_pin);
-	void (*set_queue)(uint32_t id, xQueueHandle data_queue);
-	uint8_t (*number_of_channels)(uint32_t id);
+struct pios_internal_adc_cfg {
+	ADC_TypeDef* adc_dev;
+	struct stm32_dma dma;
+	uint32_t half_flag;
+	uint32_t full_flag;
+	uint16_t max_downsample;
+	uint32_t oversampling;
 };
 
-/* Public Functions */
-extern int32_t PIOS_ADC_PinGet(uint32_t pin);
-extern int32_t PIOS_ADC_DevicePinGet(uintptr_t adc_id, uint32_t device_pin);
-extern bool PIOS_ADC_Available(uintptr_t adc_id, uint32_t device_pin);
-extern void PIOS_ADC_SetQueue(uintptr_t adc_id, xQueueHandle data_queue);
-extern int32_t PIOS_ADC_GetChannel(uint32_t channel);
-#endif /* PIOS_ADC_H */
+extern int32_t PIOS_INTERNAL_ADC_Init(uint32_t * internal_adc_id, const struct pios_internal_adc_cfg * cfg);
+
+#endif /* PIOS_INTERNAL_ADC_PRIV_H */
 
 /**
-  * @}
-  * @}
-  */
+ * @}
+ * @}
+ */
+
