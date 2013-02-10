@@ -198,9 +198,20 @@ static void VibrationTestTask(void *parameters)
 	lastSysTime = xTaskGetTickCount();
 	while(1)
 	{
+		//First check if the test is active
+		uint8_t runTest;
+		VibrationTestSettingsTestingStatusGet(&runTest);
+		
+		if (runTest == VIBRATIONTESTSETTINGS_TESTINGSTATUS_OFF) {
+			vTaskDelay(100);
+			continue;
+		}
+		
+		
 		uint16_t sampleRate_ms;
 		VibrationTestSettingsSampleRateGet(&sampleRate_ms);
 		sampleRate_ms = sampleRate_ms > 0 ? sampleRate_ms : 1; //Ensure sampleRate never is 0.
+		
 		
 		vTaskDelayUntil(&lastSysTime, sampleRate_ms / portTICK_RATE_MS);
 
