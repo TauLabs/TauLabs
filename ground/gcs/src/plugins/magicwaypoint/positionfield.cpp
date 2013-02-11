@@ -49,7 +49,10 @@ PositionField::PositionField(QWidget *parent) :
     setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
     m_renderer = new QSvgRenderer();
-    Q_ASSERT( m_renderer->load(QString(":/magicwaypoint/images/positionfield.svg")) != 0 );
+    bool retval = m_renderer->load(QString(":/magicwaypoint/images/positionfield.svg"));
+    Q_ASSERT(retval);
+    if (!retval)
+        return;
 
     m_background = new QGraphicsSvgItem();
     m_background->setSharedRenderer(m_renderer);
