@@ -338,7 +338,7 @@ float * PIOS_INTERNAL_ADC_GetBuffer(uint32_t internal_adc_id)
 	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *)internal_adc_id;
 	if(!PIOS_INTERNAL_ADC_validate(adc_dev))
 	{
-		return -1;
+		return NULL;
 	}
 	return adc_dev->downsampled_buffer;
 }
