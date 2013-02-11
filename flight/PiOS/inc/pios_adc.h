@@ -48,7 +48,9 @@ struct pios_adc_driver {
 extern int32_t PIOS_ADC_PinGet(uint32_t pin);
 extern int32_t PIOS_ADC_DevicePinGet(uintptr_t adc_id, uint32_t device_pin);
 extern bool PIOS_ADC_Available(uintptr_t adc_id, uint32_t device_pin);
+#if defined(PIOS_INCLUDE_FREERTOS)
 extern void PIOS_ADC_SetQueue(uintptr_t adc_id, xQueueHandle data_queue);
+#endif
 extern int32_t PIOS_ADC_GetChannel(uint32_t channel);
 #endif /* PIOS_ADC_H */
 
