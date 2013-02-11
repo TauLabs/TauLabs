@@ -64,10 +64,10 @@ uintptr_t pios_com_telem_usb_id;
 uintptr_t pios_com_vcp_id;
 
 /*
- * Setup a com port based on the passed cfg, driver and buffer sizes. tx size of -1 make the port rx only
+ * Setup a com port based on the passed cfg, driver and buffer sizes. rx or tx size of 0 disables rx or tx
  */
-#ifdef PIOS_INCLUDE_USART
-static void PIOS_Board_configure_com(const struct pios_usart_cfg *usart_port_cfg, size_t rx_buf_len, size_t tx_buf_len,
+#if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+static void PIOS_Board_configure_com (const struct pios_usart_cfg *usart_port_cfg, size_t rx_buf_len, size_t tx_buf_len,
 		const struct pios_com_driver *com_driver, uintptr_t *pios_com_id)
 {
 	uint32_t pios_usart_id;
@@ -75,27 +75,29 @@ static void PIOS_Board_configure_com(const struct pios_usart_cfg *usart_port_cfg
 		PIOS_Assert(0);
 	}
 
-	uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(rx_buf_len);
-	PIOS_Assert(rx_buffer);
-	if(tx_buf_len!= -1){ // this is the case for rx/tx ports
-		uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(tx_buf_len);
-		PIOS_Assert(tx_buffer);
+	uint8_t * rx_buffer;
+	if (rx_buf_len > 0) {
+		rx_buffer = (uint8_t *) pvPortMalloc(rx_buf_len);
+		PIOS_Assert(rx_buffer);
+	} else {
+		rx_buffer = NULL;
+	}
 
-		if (PIOS_COM_Init(pios_com_id, com_driver, pios_usart_id,
+	uint8_t * tx_buffer;
+	if (tx_buf_len > 0) {
+		tx_buffer = (uint8_t *) pvPortMalloc(tx_buf_len);
+		PIOS_Assert(tx_buffer);
+	} else {
+		tx_buffer = NULL;
+	}
+
+	if (PIOS_COM_Init(pios_com_id, com_driver, pios_usart_id,
 				rx_buffer, rx_buf_len,
 				tx_buffer, tx_buf_len)) {
-			PIOS_Assert(0);
-		}
-	}
-	else{ //rx only port
-		if (PIOS_COM_Init(pios_com_id, com_driver, pios_usart_id,
-				rx_buffer, rx_buf_len,
-				NULL, 0)) {
-			PIOS_Assert(0);
-		}
+		PIOS_Assert(0);
 	}
 }
-#endif
+#endif	/* PIOS_INCLUDE_USART && PIOS_INCLUDE_COM */
 
 #include <pios_board_info.h>
 /**

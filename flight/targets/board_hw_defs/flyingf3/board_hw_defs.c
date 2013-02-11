@@ -677,7 +677,7 @@ static const struct pios_dsm_cfg pios_usart3_dsm_aux_cfg = {
 	},
 };
 
-static const struct pios_usart_cfg pios_uart4_dsm_cfg = {
+static const struct pios_usart_cfg pios_usart4_dsm_cfg = {
 	.regs = UART4,
 	.remap = GPIO_AF_5,
 	.init = {
@@ -709,7 +709,7 @@ static const struct pios_usart_cfg pios_uart4_dsm_cfg = {
 	},
 };
 
-static const struct pios_dsm_cfg pios_uart4_dsm_aux_cfg = {
+static const struct pios_dsm_cfg pios_usart4_dsm_aux_cfg = {
 	.bind = {
 		.gpio = GPIOC,
 		.init = {
@@ -722,7 +722,7 @@ static const struct pios_dsm_cfg pios_uart4_dsm_aux_cfg = {
 	},
 };
 
-static const struct pios_usart_cfg pios_uart5_dsm_cfg = {
+static const struct pios_usart_cfg pios_usart5_dsm_cfg = {
 	.regs = UART5,
 	.remap = GPIO_AF_5,
 	.init = {
@@ -754,7 +754,7 @@ static const struct pios_usart_cfg pios_uart5_dsm_cfg = {
 	},
 };
 
-static const struct pios_dsm_cfg pios_uart5_dsm_aux_cfg = {
+static const struct pios_dsm_cfg pios_usart5_dsm_aux_cfg = {
 	.bind = {
 		.gpio = GPIOD,
 		.init = {
@@ -891,7 +891,7 @@ static const struct pios_sbus_cfg pios_usart3_sbus_aux_cfg = {
 };
 
 
-static const struct pios_usart_cfg pios_uart4_sbus_cfg = {
+static const struct pios_usart_cfg pios_usart4_sbus_cfg = {
 	.regs = UART4,
 	.remap = GPIO_AF_5,
 	.rx_invert = true,
@@ -924,12 +924,12 @@ static const struct pios_usart_cfg pios_uart4_sbus_cfg = {
 	},
 };
 
-static const struct pios_sbus_cfg pios_uart4_sbus_aux_cfg = {
+static const struct pios_sbus_cfg pios_usart4_sbus_aux_cfg = {
 	/* No inverter configuration, f3 uart subsystem already does this for us */
 };
 
 
-static const struct pios_usart_cfg pios_uart5_sbus_cfg = {
+static const struct pios_usart_cfg pios_usart5_sbus_cfg = {
 	.regs = UART5,
 	.remap = GPIO_AF_5,
 	.rx_invert = true,
@@ -962,7 +962,7 @@ static const struct pios_usart_cfg pios_uart5_sbus_cfg = {
 	},
 };
 
-static const struct pios_sbus_cfg pios_uart5_sbus_aux_cfg = {
+static const struct pios_sbus_cfg pios_usart5_sbus_aux_cfg = {
 	/* No inverter configuration, f3 uart subsystem already does this for us */
 };
 
@@ -1098,7 +1098,7 @@ static const struct pios_usart_cfg pios_usart3_cfg = {
 	},
 };
 
-static const struct pios_usart_cfg pios_uart4_cfg = {
+static const struct pios_usart_cfg pios_usart4_cfg = {
 	.regs = UART4,
 	.remap = GPIO_AF_5,
 	.init = {
@@ -1141,7 +1141,7 @@ static const struct pios_usart_cfg pios_uart4_cfg = {
 	},
 };
 
-static const struct pios_usart_cfg pios_uart5_cfg = {
+static const struct pios_usart_cfg pios_usart5_cfg = {
 	.regs = UART5,
 	.remap = GPIO_AF_5,
 	.init = {
