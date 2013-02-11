@@ -598,7 +598,7 @@ void PIOS_Board_Init(void) {
 		case HWREVOLUTION_TELEMETRYPORT_TELEMETRY:
 			PIOS_Board_configure_com(&pios_usart_telem_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
 			break;
-		case HWREVOLUTION_TELEMETRYPORT_COMAUX:
+		case HWREVOLUTION_TELEMETRYPORT_DEBUGCONSOLE:
 			PIOS_Board_configure_com(&pios_usart_telem_cfg, PIOS_COM_AUX_RX_BUF_LEN, PIOS_COM_AUX_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
 			break;
 		case HWREVOLUTION_TELEMETRYPORT_COMBRIDGE:
@@ -622,7 +622,7 @@ void PIOS_Board_Init(void) {
 			PIOS_Board_configure_com(&pios_usart_gps_cfg, PIOS_COM_GPS_RX_BUF_LEN, 0,  &pios_usart_com_driver, &pios_com_gps_id);
 			break;
 		
-		case HWREVOLUTION_GPSPORT_COMAUX:
+		case HWREVOLUTION_GPSPORT_DEBUGCONSOLE:
 			PIOS_Board_configure_com(&pios_usart_gps_cfg, PIOS_COM_AUX_RX_BUF_LEN, PIOS_COM_AUX_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
 			break;
 			
@@ -667,7 +667,7 @@ void PIOS_Board_Init(void) {
 											 &pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT,&hw_DSMxBind);
 		}
 			break;
-		case HWREVOLUTION_AUXPORT_COMAUX:
+		case HWREVOLUTION_AUXPORT_DEBUGCONSOLE:
 			PIOS_Board_configure_com(&pios_usart_aux_cfg, PIOS_COM_AUX_RX_BUF_LEN, PIOS_COM_AUX_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
 			break;
 		case HWREVOLUTION_AUXPORT_COMBRIDGE:
@@ -729,7 +729,7 @@ void PIOS_Board_Init(void) {
 											 &pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT,&hw_DSMxBind);
 		}
 			break;
-		case HWREVOLUTION_AUXSBUSPORT_COMAUX:
+		case HWREVOLUTION_AUXSBUSPORT_DEBUGCONSOLE:
 			PIOS_Board_configure_com(&pios_usart_auxsbus_cfg, PIOS_COM_AUX_RX_BUF_LEN, PIOS_COM_AUX_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
 			break;
 		case HWREVOLUTION_AUXSBUSPORT_COMBRIDGE:
@@ -779,7 +779,7 @@ void PIOS_Board_Init(void) {
 											 &pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT,&hw_DSMxBind);
 		}
 			break;
-		case HWREVOLUTION_FLEXIPORT_COMAUX:
+		case HWREVOLUTION_FLEXIPORT_DEBUGCONSOLE:
 			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_AUX_RX_BUF_LEN, PIOS_COM_AUX_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
 			break;
 		case HWREVOLUTION_FLEXIPORT_COMBRIDGE:
