@@ -209,7 +209,6 @@ uint32_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 uintptr_t pios_com_debug_id;
 #endif /* PIOS_INCLUDE_DEBUG_CONSOLE */
 
-uintptr_t pios_com_aux_id = 0;
 uintptr_t pios_com_gps_id = 0;
 uintptr_t pios_com_telem_usb_id = 0;
 uintptr_t pios_com_telem_rf_id = 0;
@@ -558,7 +557,7 @@ void PIOS_Board_Init(void) {
 		case HWFREEDOM_MAINPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 			{
-				PIOS_Board_configure_com(&pios_usart_main_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
+				PIOS_Board_configure_com(&pios_usart_main_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_debug_id);
 			}
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 			break;
@@ -616,7 +615,7 @@ void PIOS_Board_Init(void) {
 		case HWFREEDOM_FLEXIPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 			{
-				PIOS_Board_configure_com(&pios_usart_flexi_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
+				PIOS_Board_configure_com(&pios_usart_flexi_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_debug_id);
 			}
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 			break;

@@ -224,7 +224,6 @@ uint32_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 uintptr_t pios_com_debug_id;
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 
-uintptr_t pios_com_aux_id = 0;
 uintptr_t pios_com_gps_id = 0;
 uintptr_t pios_com_telem_usb_id = 0;
 uintptr_t pios_com_telem_rf_id = 0;

@@ -286,15 +286,11 @@ uint32_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 #define PIOS_COM_BRIDGE_RX_BUF_LEN 65
 #define PIOS_COM_BRIDGE_TX_BUF_LEN 12
 
-#define PIOS_COM_AUX_RX_BUF_LEN 512
-#define PIOS_COM_AUX_TX_BUF_LEN 512
-
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 #define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
 uintptr_t pios_com_debug_id;
 #endif /* PIOS_INCLUDE_DEBUG_CONSOLE */
 
-uintptr_t pios_com_aux_id = 0;
 uintptr_t pios_com_gps_id = 0;
 uintptr_t pios_com_telem_usb_id = 0;
 uintptr_t pios_com_telem_rf_id = 0;
@@ -599,7 +595,9 @@ void PIOS_Board_Init(void) {
 			PIOS_Board_configure_com(&pios_usart_telem_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
 			break;
 		case HWREVOLUTION_TELEMETRYPORT_DEBUGCONSOLE:
-			PIOS_Board_configure_com(&pios_usart_telem_cfg, PIOS_COM_AUX_RX_BUF_LEN, PIOS_COM_AUX_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
+#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
+			PIOS_Board_configure_com(&pios_usart_telem_cfg, 0, PIOS_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_debug_id);
+#endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 			break;
 		case HWREVOLUTION_TELEMETRYPORT_COMBRIDGE:
 			PIOS_Board_configure_com(&pios_usart_telem_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
@@ -623,7 +621,9 @@ void PIOS_Board_Init(void) {
 			break;
 		
 		case HWREVOLUTION_GPSPORT_DEBUGCONSOLE:
-			PIOS_Board_configure_com(&pios_usart_gps_cfg, PIOS_COM_AUX_RX_BUF_LEN, PIOS_COM_AUX_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
+#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
+			PIOS_Board_configure_com(&pios_usart_gps_cfg, 0, PIOS_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_debug_id);
+#endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 			break;
 			
 		case HWREVOLUTION_GPSPORT_COMBRIDGE:
@@ -668,7 +668,9 @@ void PIOS_Board_Init(void) {
 		}
 			break;
 		case HWREVOLUTION_AUXPORT_DEBUGCONSOLE:
-			PIOS_Board_configure_com(&pios_usart_aux_cfg, PIOS_COM_AUX_RX_BUF_LEN, PIOS_COM_AUX_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
+#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
+			PIOS_Board_configure_com(&pios_usart_aux_cfg, 0, PIOS_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_debug_id);
+#endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 			break;
 		case HWREVOLUTION_AUXPORT_COMBRIDGE:
 			PIOS_Board_configure_com(&pios_usart_aux_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
@@ -730,7 +732,9 @@ void PIOS_Board_Init(void) {
 		}
 			break;
 		case HWREVOLUTION_AUXSBUSPORT_DEBUGCONSOLE:
-			PIOS_Board_configure_com(&pios_usart_auxsbus_cfg, PIOS_COM_AUX_RX_BUF_LEN, PIOS_COM_AUX_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
+#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
+			PIOS_Board_configure_com(&pios_usart_auxsbus_cfg, 0, PIOS_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_debug_id);
+#endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 			break;
 		case HWREVOLUTION_AUXSBUSPORT_COMBRIDGE:
 			PIOS_Board_configure_com(&pios_usart_auxsbus_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
@@ -780,7 +784,9 @@ void PIOS_Board_Init(void) {
 		}
 			break;
 		case HWREVOLUTION_FLEXIPORT_DEBUGCONSOLE:
-			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_AUX_RX_BUF_LEN, PIOS_COM_AUX_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
+#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
+			PIOS_Board_configure_com(&pios_usart_flexi_cfg, 0, PIOS_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
+#endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 			break;
 		case HWREVOLUTION_FLEXIPORT_COMBRIDGE:
 			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
