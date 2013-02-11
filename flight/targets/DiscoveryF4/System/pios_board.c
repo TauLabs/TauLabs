@@ -311,6 +311,7 @@ void PIOS_Board_Init(void) {
 		break;
 	case HWDISCOVERYF4_MAINPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_USART)
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 		{
 			uint32_t pios_usart_generic_id;
@@ -327,6 +328,7 @@ void PIOS_Board_Init(void) {
 			}
 		}
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
+#endif	/* PIOS_INCLUDE_USART */
 #endif	/* PIOS_INCLUDE_COM */
 		break;
 	}
