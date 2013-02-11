@@ -88,7 +88,7 @@ static bool PIOS_PCF8591_ADC_validate(struct pios_pcf8591_adc_dev * dev)
  */
 int32_t PIOS_PCF8591_ADC_DevicePinGet(uint32_t adc_id, uint32_t device_pin) {
 	struct pios_pcf8591_adc_dev * adc_dev =	(struct pios_pcf8591_adc_dev *) adc_id;
-	if(!PIOS_PCF8591_ADC_validate)
+	if(!PIOS_PCF8591_ADC_validate(adc_dev))
 	{
 		return -1;
 	}
