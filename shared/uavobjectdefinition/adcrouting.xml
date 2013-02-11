@@ -3,7 +3,7 @@
 		<description>Selection of optional hardware configurations.</description>
 
 		<field name="ChannelMap" units="" type="enum" elementnames="ADC0,ADC1,ADC2,ADC3" options="Disabled,BatteryVoltage,BatteryCurrent,AnalogAirspeed,Generic" defaultvalue="Disabled"/>
-
+		<field name="ADCSource" units="" type="enum" elements="1" options="Internal, PCF8591" defaultvalue="Internal"/>
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
 		<telemetryflight acked="true" updatemode="onchange" period="0"/>
