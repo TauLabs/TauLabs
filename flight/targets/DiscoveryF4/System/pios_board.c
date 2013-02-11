@@ -51,6 +51,9 @@ uint32_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 #define PIOS_COM_TELEM_USB_RX_BUF_LEN 65
 #define PIOS_COM_TELEM_USB_TX_BUF_LEN 65
 
+#define PIOS_COM_BRIDGE_RX_BUF_LEN 65
+#define PIOS_COM_BRIDGE_TX_BUF_LEN 12
+
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 #define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
 uintptr_t pios_com_debug_id;
@@ -163,13 +166,95 @@ void PIOS_Board_Init(void) {
 	bool usb_hid_present = false;
 	bool usb_cdc_present = false;
 
+#if defined(PIOS_INCLUDE_USB_CDC)
+	if (PIOS_USB_DESC_HID_CDC_Init()) {
+		PIOS_Assert(0);
+	}
+	usb_hid_present = true;
+	usb_cdc_present = true;
+#else
 	if (PIOS_USB_DESC_HID_ONLY_Init()) {
 		PIOS_Assert(0);
 	}
 	usb_hid_present = true;
+#endif
 
 	uint32_t pios_usb_id;
 	PIOS_USB_Init(&pios_usb_id, &pios_usb_main_cfg);
+
+#if defined(PIOS_INCLUDE_USB_CDC)
+
+	uint8_t hw_usb_vcpport;
+	/* Configure the USB VCP port */
+	HwDiscoveryF4USB_VCPPortGet(&hw_usb_vcpport);
+
+	if (!usb_cdc_present) {
+		/* Force VCP port function to disabled if we haven't advertised VCP in our USB descriptor */
+		hw_usb_vcpport = HWDISCOVERYF4_USB_VCPPORT_DISABLED;
+	}
+
+	switch (hw_usb_vcpport) {
+	case HWDISCOVERYF4_USB_VCPPORT_DISABLED:
+		break;
+	case HWDISCOVERYF4_USB_VCPPORT_USBTELEMETRY:
+#if defined(PIOS_INCLUDE_COM)
+		{
+			uint32_t pios_usb_cdc_id;
+			if (PIOS_USB_CDC_Init(&pios_usb_cdc_id, &pios_usb_cdc_cfg, pios_usb_id)) {
+				PIOS_Assert(0);
+			}
+			uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
+			uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
+			PIOS_Assert(rx_buffer);
+			PIOS_Assert(tx_buffer);
+			if (PIOS_COM_Init(&pios_com_telem_usb_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
+						rx_buffer, PIOS_COM_TELEM_USB_RX_BUF_LEN,
+						tx_buffer, PIOS_COM_TELEM_USB_TX_BUF_LEN)) {
+				PIOS_Assert(0);
+			}
+		}
+#endif	/* PIOS_INCLUDE_COM */
+		break;
+	case HWDISCOVERYF4_USB_VCPPORT_COMBRIDGE:
+#if defined(PIOS_INCLUDE_COM)
+		{
+			uint32_t pios_usb_cdc_id;
+			if (PIOS_USB_CDC_Init(&pios_usb_cdc_id, &pios_usb_cdc_cfg, pios_usb_id)) {
+				PIOS_Assert(0);
+			}
+			uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_BRIDGE_RX_BUF_LEN);
+			uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_BRIDGE_TX_BUF_LEN);
+			PIOS_Assert(rx_buffer);
+			PIOS_Assert(tx_buffer);
+			if (PIOS_COM_Init(&pios_com_vcp_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
+						rx_buffer, PIOS_COM_BRIDGE_RX_BUF_LEN,
+						tx_buffer, PIOS_COM_BRIDGE_TX_BUF_LEN)) {
+				PIOS_Assert(0);
+			}
+		}
+#endif	/* PIOS_INCLUDE_COM */
+		break;
+	case HWDISCOVERYF4_USB_VCPPORT_DEBUGCONSOLE:
+#if defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
+		{
+			uint32_t pios_usb_cdc_id;
+			if (PIOS_USB_CDC_Init(&pios_usb_cdc_id, &pios_usb_cdc_cfg, pios_usb_id)) {
+				PIOS_Assert(0);
+			}
+			uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN);
+			PIOS_Assert(tx_buffer);
+			if (PIOS_COM_Init(&pios_com_debug_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
+						NULL, 0,
+						tx_buffer, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN)) {
+				PIOS_Assert(0);
+			}
+		}
+#endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
+#endif	/* PIOS_INCLUDE_COM */
+		break;
+	}
+#endif	/* PIOS_INCLUDE_USB_CDC */
 
 #if defined(PIOS_INCLUDE_USB_HID)
 	/* Configure the usb HID port */
