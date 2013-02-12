@@ -85,9 +85,9 @@ int32_t AutotuneInitialize(void)
 #ifdef MODULE_Autotune_BUILTIN
 	module_enabled = true;
 #else
-	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
-	ModuleSettingsStateGet(module_state);
-	if (module_state[MODULESETTINGS_STATE_AUTOTUNE] == MODULESETTINGS_STATE_ENABLED)
+	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
+	ModuleSettingsAdminStateGet(module_state);
+	if (module_state[MODULESETTINGS_ADMINSTATE_AUTOTUNE] == MODULESETTINGS_ADMINSTATE_ENABLED)
 		module_enabled = true;
 	else
 		module_enabled = false;
