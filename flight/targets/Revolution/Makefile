@@ -89,6 +89,7 @@ OPTMODULES += OveroSync
 OPTMODULES += Autotune
 OPTMODULES += TxPID
 OPTMODULES += Battery
+OPTMODULES += VibrationAnalysis
 
 PYMODULES = 
 #FlightPlan

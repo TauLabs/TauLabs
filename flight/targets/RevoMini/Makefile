@@ -63,6 +63,7 @@ OPTMODULES += CameraStab
 OPTMODULES += Autotune
 OPTMODULES += TxPID
 OPTMODULES += Battery
+OPTMODULES += VibrationAnalysis
 
 # Paths
 OPSYSTEM = ./System
