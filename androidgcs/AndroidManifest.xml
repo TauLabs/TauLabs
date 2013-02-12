@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="org.taulabs.androidgcs" android:versionCode="4"
+	package="org.taulabs.androidgcs" android:versionCode="5"
 	android:versionName="Phoenix Beta">
 	<uses-sdk android:minSdkVersion="14" />
 
