@@ -120,7 +120,7 @@ public:
     virtual void apply();
 
     inline bool highlighted() { return m_highlight; }
-    void setHighlight(bool highlight);
+    bool setHighlight(bool highlight);
     static void setHighlightTime(int time) { m_highlightTimeMs = time; }
 
     inline bool changed() { return m_changed; }
