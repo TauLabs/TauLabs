@@ -305,7 +305,9 @@ static void AttitudeTask(void *parameters)
 		           (stateEstimation.NavigationFilter == STATEESTIMATION_NAVIGATIONFILTER_INS);
 
 		//! INS outdoor mode when used for navigation OR explicit outdoor mode
-		bool outdoor = (stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_INSOUTDOOR);
+		bool outdoor = (stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_INSOUTDOOR) ||
+		               (stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_COMPLEMENTARY &&
+		                stateEstimation.NavigationFilter == STATEESTIMATION_NAVIGATIONFILTER_INS);
 
 		//! Complimentary filter only needed when used for attitude
 		bool complimentary = stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_COMPLEMENTARY;
@@ -334,6 +336,8 @@ static void AttitudeTask(void *parameters)
 		// Use the selected source for position and velocity
 		switch (stateEstimation.NavigationFilter) {
 		case STATEESTIMATION_NAVIGATIONFILTER_INS:
+				// TODO: When running in dual mode and the INS is not initialized set
+				// an error here
 				setNavigationINSGPS();
 				break;
 		default:
@@ -362,9 +366,9 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 	float dT;
 
 	// Wait until the accel and gyro object is updated, if a timeout then go to failsafe
-	if ( secondary ||
-	     xQueueReceive(gyroQueue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS) != pdTRUE ||
-	     xQueueReceive(accelQueue, &ev, 1 / portTICK_RATE_MS) != pdTRUE )
+	if (!secondary && (
+		 xQueueReceive(gyroQueue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS) != pdTRUE ||
+	     xQueueReceive(accelQueue, &ev, 1 / portTICK_RATE_MS) != pdTRUE ) )
 	{
 		// When one of these is updated so should the other
 		// Do not set attitude timeout warnings in simulation mode
@@ -385,7 +389,7 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 
 		// Wait for a mag reading if a magnetometer was registered
 		if (PIOS_SENSORS_GetQueue(PIOS_SENSOR_MAG) != NULL) {
-			if ( xQueueReceive(magQueue, &ev, 20 / portTICK_RATE_MS) != pdTRUE ) {
+			if ( !secondary && xQueueReceive(magQueue, &ev, 20 / portTICK_RATE_MS) != pdTRUE ) {
 				return -1;
 			}
 			MagnetometerGet(&magData);
@@ -520,7 +524,7 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 	}
 
 	float mag_err[3];
-	if ( xQueueReceive(magQueue, &ev, 0) != pdTRUE )
+	if ( secondary || xQueueReceive(magQueue, &ev, 0) == pdTRUE )
 	{
 		// Rotate gravity to body frame and cross with accels
 		float brot[3];
@@ -606,7 +610,8 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 		cf_q[3] = 0;
 	}
 
-	AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
+	if (!secondary)
+		AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
 
 	return 0;
 }
@@ -746,10 +751,12 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	GyrosData gyrosData;
 	AccelsData accelsData;
 	MagnetometerData magData;
-	static BaroAltitudeData baroData;
-	GPSPositionData gpsData;
 	GPSVelocityData gpsVelData;
 	GyrosBiasData gyrosBias;
+
+	// These should be static as their values are checked multiple times per update
+	static BaroAltitudeData baroData;
+	static GPSPositionData gpsData;
 
 	struct NavStruct *Nav = INSGPSGetNav();
 	if (Nav == NULL)
