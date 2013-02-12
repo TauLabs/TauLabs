@@ -21,7 +21,7 @@ EE_BANK_SIZE        := 0x00008000  # (32kb)
 
 # Leave the remaining 16KB and 64KB sectors for other uses
 FW_BANK_BASE        := 0x0800C000  # Start of firmware flash @48kB
-FW_BANK_SIZE        := 0x00040000  # Should include FW_DESC_SIZE (208kB)
+FW_BANK_SIZE        := 0x00034000  # Should include FW_DESC_SIZE (208kB)
 
 FW_DESC_SIZE        := 0x00000064
 
