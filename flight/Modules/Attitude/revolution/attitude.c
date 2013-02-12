@@ -69,7 +69,7 @@
 #include "magnetometer.h"
 #include "nedposition.h"
 #include "positionactual.h"
-#include "revosettings.h"
+#include "stateestimation.h"
 #include "velocityactual.h"
 #include "CoordinateConversions.h"
 
@@ -138,7 +138,7 @@ static xQueueHandle gpsVelQueue;
 static AttitudeSettingsData attitudeSettings;
 static HomeLocationData homeLocation;
 static INSSettingsData insSettings;
-static RevoSettingsData revoSettings;
+static StateEstimationData stateEstimation;
 static bool gyroBiasSettingsUpdated = false;
 const uint32_t SENSOR_QUEUE_SIZE = 10;
 
@@ -186,7 +186,7 @@ int32_t AttitudeInitialize(void)
 	INSStateInitialize();
 	NEDPositionInitialize();
 	PositionActualInitialize();
-	RevoSettingsInitialize();
+	StateEstimationInitialize();
 	VelocityActualInitialize();
 
 	// Initialize this here while we aren't setting the homelocation in GPS
@@ -196,7 +196,7 @@ int32_t AttitudeInitialize(void)
 	HomeLocationConnectCallback(&settingsUpdatedCb);
 	InertialSensorSettingsConnectCallback(&settingsUpdatedCb);
 	INSSettingsConnectCallback(&settingsUpdatedCb);
-	RevoSettingsConnectCallback(&settingsUpdatedCb);
+	StateEstimationConnectCallback(&settingsUpdatedCb);
 
 	return 0;
 }
@@ -276,20 +276,20 @@ static void AttitudeTask(void *parameters)
 
 		int32_t ret_val = -1;
 
-		if (last_algorithm != revoSettings.FusionAlgorithm) {
-			last_algorithm = revoSettings.FusionAlgorithm;
+		if (last_algorithm != stateEstimation.AttitudeFilter) {
+			last_algorithm = stateEstimation.AttitudeFilter;
 			first_run = true;
 		}
 
 		// This  function blocks on data queue
-		switch (revoSettings.FusionAlgorithm ) {
-			case REVOSETTINGS_FUSIONALGORITHM_COMPLEMENTARY:
+		switch (stateEstimation.AttitudeFilter ) {
+			case STATEESTIMATION_ATTITUDEFILTER_COMPLEMENTARY:
 				ret_val = updateAttitudeComplementary(first_run);
 				break;
-			case REVOSETTINGS_FUSIONALGORITHM_INSOUTDOOR:
+			case STATEESTIMATION_ATTITUDEFILTER_INSOUTDOOR:
 				ret_val = updateAttitudeINSGPS(first_run, true);
 				break;
-			case REVOSETTINGS_FUSIONALGORITHM_INSINDOOR:
+			case STATEESTIMATION_ATTITUDEFILTER_INSINDOOR:
 				ret_val = updateAttitudeINSGPS(first_run, false);
 				break;
 			default:
@@ -1100,8 +1100,8 @@ static void settingsUpdatedCb(UAVObjEvent * ev)
 			complimentary_filter_state.accel_filter_enabled = true;
 		}
 	}
-	if (ev == NULL || ev->obj == RevoSettingsHandle())
-		RevoSettingsGet(&revoSettings);
+	if (ev == NULL || ev->obj == StateEstimationHandle())
+		StateEstimationGet(&stateEstimation);
 }
 /**
  * @}
