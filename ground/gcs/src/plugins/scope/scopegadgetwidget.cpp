@@ -482,6 +482,10 @@ void ScopeGadgetWidget::uavObjectReceived(UAVObject* obj)
 
 void ScopeGadgetWidget::replotNewData()
 {
+    // If the plot is not visible, do not replot
+    if (!isVisible())
+        return;
+
 	QMutexLocker locker(&mutex);
 
 	foreach(PlotData* plotData, m_curvesData.values())
@@ -735,4 +739,10 @@ void ScopeGadgetWidget::csvLoggingDisconnect()
     m_csvLoggingConnected=0;
     if (m_csvLoggingNewFileOnConnect)csvLoggingStop();
     return;
+}
+
+void ScopeGadgetWidget::showEvent(QShowEvent *event)
+{
+    replotNewData();
+    QwtPlot::showEvent(event);
 }
