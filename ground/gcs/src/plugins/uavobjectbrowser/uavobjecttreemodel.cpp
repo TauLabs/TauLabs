@@ -39,12 +39,20 @@
 #include <QtCore/QDebug>
 
 UAVObjectTreeModel::UAVObjectTreeModel(QObject *parent, bool categorize, bool useScientificNotation) :
-        QAbstractItemModel(parent),
-        m_useScientificFloatNotation(useScientificNotation),
-        m_recentlyUpdatedTimeout(500), // ms
-        m_recentlyUpdatedColor(QColor(255, 230, 230)),
-        m_manuallyChangedColor(QColor(230, 230, 255)),
-        m_updatedOnlyColor(QColor(255,255,0))
+    QAbstractItemModel(parent),
+    m_recentlyUpdatedTimeout(500), // ms
+    m_recentlyUpdatedColor(QColor(255, 230, 230)),
+    m_manuallyChangedColor(QColor(230, 230, 255)),
+    m_updatedOnlyColor(QColor(255,255,0)),
+    m_useScientificFloatNotation(useScientificNotation),
+    topmostData(-1),
+    leftmostData(-1),
+    bottommostData(-1),
+    rightmostData(-1),
+    topmostSettings(-1),
+    leftmostSettings(-1),
+    bottommostSettings(-1),
+    rightmostSettings(-1)
 {
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
@@ -56,6 +64,8 @@ UAVObjectTreeModel::UAVObjectTreeModel(QObject *parent, bool categorize, bool us
 
     TreeItem::setHighlightTime(m_recentlyUpdatedTimeout);
     setupModelData(objManager, categorize);
+
+    m_updateViewTimer.start(100);
 }
 
 UAVObjectTreeModel::~UAVObjectTreeModel()
@@ -80,6 +90,7 @@ void UAVObjectTreeModel::setupModelData(UAVObjectManager *objManager, bool categ
     m_rootItem->setHighlightManager(m_highlightManager);
     connect(m_settingsTree, SIGNAL(updateHighlight(TreeItem*)), this, SLOT(updateHighlight(TreeItem*)));
     connect(m_nonSettingsTree, SIGNAL(updateHighlight(TreeItem*)), this, SLOT(updateHighlight(TreeItem*)));
+    connect(&m_updateViewTimer, SIGNAL(timeout()), this, SLOT(onTimeout_updateView()));
 
     QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
     foreach (QList<UAVDataObject*> list, objList) {
@@ -99,6 +110,7 @@ void UAVObjectTreeModel::newObject(UAVObject *obj)
 
 void UAVObjectTreeModel::addDataObject(UAVDataObject *obj, bool categorize)
 {
+    //Determine if the root tree is the settings or dynamic data tree
     TopTreeItem *root = obj->isSettings() ? m_settingsTree : m_nonSettingsTree;
 
     TreeItem* parent = root;
@@ -421,11 +433,11 @@ void UAVObjectTreeModel::highlightUpdatedObject(UAVObject *obj)
     if(!m_onlyHighlightChangedValues){
         QModelIndex itemIndex = index(item);
         Q_ASSERT(itemIndex != QModelIndex());
-        emit dataChanged(itemIndex, itemIndex);
+        updateDataView(itemIndex, itemIndex);
     }
 }
 
-ObjectTreeItem *UAVObjectTreeModel::findObjectTreeItem(UAVObject *object)
+ObjectTreeItem* UAVObjectTreeModel::findObjectTreeItem(UAVObject *object)
 {
     UAVDataObject *dataObject = qobject_cast<UAVDataObject*>(object);
     UAVMetaObject *metaObject = qobject_cast<UAVMetaObject*>(object);
@@ -440,6 +452,7 @@ ObjectTreeItem *UAVObjectTreeModel::findObjectTreeItem(UAVObject *object)
 
 DataObjectTreeItem* UAVObjectTreeModel::findDataObjectTreeItem(UAVDataObject *obj)
 {
+    //Determine if the root tree is the settings or dynamic data tree
     TopTreeItem *root = obj->isSettings() ? m_settingsTree : m_nonSettingsTree;
     return root->findDataObjectTreeItemByObjectId(obj->getObjID());
 }
@@ -448,6 +461,8 @@ MetaObjectTreeItem* UAVObjectTreeModel::findMetaObjectTreeItem(UAVMetaObject *ob
 {
     UAVDataObject *dataObject = qobject_cast<UAVDataObject*>(obj->getParentObject());
     Q_ASSERT(dataObject);
+
+    //Determine if the root tree is the settings or dynamic data tree
     TopTreeItem *root = dataObject->isSettings() ? m_settingsTree : m_nonSettingsTree;
     return root->findMetaObjectTreeItemByObjectId(obj->getObjID());
 }
@@ -456,7 +471,77 @@ void UAVObjectTreeModel::updateHighlight(TreeItem *item)
 {
     QModelIndex itemIndex = index(item);
     Q_ASSERT(itemIndex != QModelIndex());
-    emit dataChanged(itemIndex, itemIndex.sibling(itemIndex.row(), TreeItem::dataColumn));
+    updateDataView(itemIndex, itemIndex.sibling(itemIndex.row(), TreeItem::dataColumn));
 }
 
+
+/**
+ * @brief UAVObjectTreeModel::updateDataView Determines if a data updates lies outside the
+ * range of updates queued for update
+ * @param topLeft Top left index from data tree update
+ * @param bottomRight Bottom right index from data tree update
+ */
+void UAVObjectTreeModel::updateDataView(QModelIndex topLeft, QModelIndex bottomRight)
+{
+    TopTreeItem *treeItemPtr = static_cast<TopTreeItem*>(topLeft.internalPointer());
+
+    // Determine if the new indices lie outside of the set of indices queued for update
+    if (treeItemPtr->parent() == m_nonSettingsTree){
+        if (topmostData < 0 || topmostData > topLeft.row())
+            topmostData = topLeft.row();
+        if (bottommostData < 0 || bottommostData < bottomRight.row())
+            bottommostData = bottomRight.row();
+        if (leftmostData < 0 || leftmostData > topLeft.column())
+            leftmostData = topLeft.column();
+        if (rightmostData < 0 || rightmostData < bottomRight.column())
+            rightmostData = bottomRight.column();
+    }
+    else if(treeItemPtr->parent() == m_settingsTree){
+        if (topmostSettings < 0 || topmostSettings > topLeft.row())
+            topmostSettings = topLeft.row();
+        if (bottommostSettings < 0 || bottommostSettings < bottomRight.row())
+            bottommostSettings = bottomRight.row();
+        if (leftmostSettings < 0 || leftmostSettings > topLeft.column())
+            leftmostSettings = topLeft.column();
+        if (rightmostSettings < 0 || rightmostSettings < bottomRight.column())
+            rightmostSettings = bottomRight.column();
+    }
+    else{
+        // Do nothing. These QModelIndices are generated by the highlight manager or for individual
+        // UAVO fields, which are both updated when updating that UAVO's branch of the settings or
+        // dynamic data tree.
+    }
+}
+
+
+/**
+ * @brief UAVObjectTreeModel::onTimeout_updateView On timeout, emits dataChanged() SIGNAL for
+ * all data tree indices that have changed since last timeout.
+ */
+void UAVObjectTreeModel::onTimeout_updateView()
+{
+    if (topmostData > -1){
+        QModelIndex topLeft = createIndex(topmostData, leftmostData, m_nonSettingsTree);
+        QModelIndex bottomRight = createIndex(bottommostData, rightmostData, m_nonSettingsTree);
+
+        emit dataChanged(topLeft, bottomRight);
+
+        topmostData = -1;
+        leftmostData = -1;
+        bottommostData = -1;
+        rightmostData = -1;
+    }
+
+    if (topmostSettings > -1){
+        QModelIndex topLeft = createIndex(topmostSettings, leftmostSettings, m_settingsTree);
+        QModelIndex bottomRight = createIndex(bottommostSettings, rightmostSettings, m_settingsTree);
+
+        emit dataChanged(topLeft, bottomRight);
+
+        topmostSettings = -1;
+        leftmostSettings = -1;
+        bottommostSettings = -1;
+        rightmostSettings = -1;
+    }
+}
 

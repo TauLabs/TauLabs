@@ -81,8 +81,11 @@ public slots:
 private slots:
     void highlightUpdatedObject(UAVObject *obj);
     void updateHighlight(TreeItem*);
+    void onTimeout_updateView();
 
 private:
+    void updateDataView(QModelIndex, QModelIndex);
+
     void setupModelData(UAVObjectManager *objManager, bool categorize = true);
     QModelIndex index(TreeItem *item);
     void addDataObject(UAVDataObject *obj, bool categorize = true);
@@ -110,6 +113,21 @@ private:
 
     // Highlight manager to handle highlighting of tree items.
     HighLightManager *m_highlightManager;
+
+    QList <QModelIndex> dataColumnUpdate;
+    QList <QModelIndex> dataRowsUpdate;
+    int topmostData;
+    int leftmostData;
+    int bottommostData;
+    int rightmostData;
+    int topmostSettings;
+    int leftmostSettings;
+    int bottommostSettings;
+    int rightmostSettings;
+
+//    QModelIndex m_parent;
+
+    QTimer m_updateViewTimer;
 };
 
 #endif // UAVOBJECTTREEMODEL_H
