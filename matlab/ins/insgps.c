@@ -136,14 +136,14 @@ void INSPosVelReset(float pos[3], float vel[3])
 	X[5] = vel[2];	
 }
 
-void INSSetPosVelVar(float PosVar)
+void INSSetPosVelVar(float PosVar, float VelVar)
 {
 	R[0] = PosVar;
 	R[1] = PosVar;
 	R[2] = PosVar;
-	R[3] = PosVar;
-	R[4] = PosVar;
-//    R[5] = PosVar;  // Don't change vertical velocity, not measured
+	R[3] = VelVar;
+	R[4] = VelVar;
+    R[5] = VelVar;  // Don't change vertical velocity, not measured
 }
 
 void INSSetGyroBias(float gyro_bias[3])
@@ -238,7 +238,7 @@ void BaroCorrection(float baro)
 void GpsCorrection(float Pos[3], float Vel[3])
 {
     INSCorrection(zeros, Pos, Vel, zeros[0],
-		      POS_SENSORS); // | HORIZ_SENSORS | VERT_SENSORS);
+		      47);
 }
 
 
