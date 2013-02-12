@@ -33,6 +33,7 @@
 #include "qwt/src/qwt.h"
 #include "qwt/src/qwt_plot.h"
 #include "qwt/src/qwt_plot_curve.h"
+#include "qwt/src/qwt_plot_histogram.h"
 #include "qwt/src/qwt_scale_draw.h"
 #include "qwt/src/qwt_scale_widget.h"
 
@@ -40,20 +41,24 @@
 #include <QTime>
 #include <QVector>
 
-/*!
-\brief Defines the different type of plots.
-  */
+
+/**
+ * @brief The PlotType enum Defines the different type of plots.
+ */
 enum PlotType {
     SequentialPlot,
     ChronoPlot,
+    HistoPlot,
+    SpectroPlot,
     UAVObjectPlot,
 
     NPlotTypes
 };
 
-/*!
-  \brief Base class that keeps the data for each curve in the plot.
-  */
+
+/**
+ * @brief The PlotData class Base class that keeps the data for each curve in the plot.
+ */
 class PlotData : public QObject
 {
     Q_OBJECT
@@ -62,9 +67,9 @@ public:
     PlotData(QString uavObject, QString uavField);
     ~PlotData();
 
-    QString uavObject;
-    QString uavField;
-    QString uavSubField;
+    QString uavObjectName;
+    QString uavFieldName;
+    QString uavSubFieldName;
     bool haveSubField;
     int scalePower; //This is the power to which each value must be raised
     int meanSamples;
@@ -93,10 +98,11 @@ signals:
     void dataChanged();
 };
 
-/*!
-  \brief The sequential plot have a fixed size buffer of data. All the curves in one plot
-  have the same size buffer.
-  */
+
+/**
+ * @brief The SequentialPlotData class The sequential plot have a fixed size
+ * buffer of data. All the curves in one plot have the same size buffer.
+ */
 class SequentialPlotData : public PlotData
 {
     Q_OBJECT
@@ -123,9 +129,11 @@ public:
     virtual void removeStaleData(){}
 };
 
-/*!
-  \brief The chrono plot have a variable sized buffer of data, where the data is for a specified time period.
-  */
+
+/**
+ * @brief The ChronoPlotData class The chrono plot has a variable sized buffer of data,
+ * where the data is for a specified time period.
+ */
 class ChronoPlotData : public PlotData
 {
     Q_OBJECT
@@ -151,10 +159,43 @@ private slots:
     void removeStaleDataTimeout();
 };
 
-/*!
-  \brief UAVObject plot use a fixed size buffer of data, where the horizontal axis values come from
-  a UAVObject field.
-  */
+
+/**
+ * @brief The HistoPlotData class The histogram plot has a variable sized buffer of data,
+ *  where the data is for a specified histogram data set.
+ */
+class HistoPlotData : public PlotData
+{
+    Q_OBJECT
+public:
+    HistoPlotData(QString uavObject, QString uavField) :
+        PlotData(uavObject, uavField)
+    {
+        scalePower = 1;
+    }
+
+    ~HistoPlotData() {
+    }
+
+    bool append(UAVObject* obj);
+
+    virtual PlotType plotType() {
+        return HistoPlot;
+    }
+
+    virtual void removeStaleData(){}
+
+private:
+
+private slots:
+
+};
+
+
+/**
+ * @brief The UAVObjectPlotData class UAVObject plot use a fixed size buffer of data,
+ * where the horizontal axis values come from a UAVObject field.
+ */
 class UAVObjectPlotData : public PlotData
 {
     Q_OBJECT
@@ -167,7 +208,7 @@ public:
 
     virtual PlotType plotType() {
         return UAVObjectPlot;
-    }    
+    }
 
     virtual void removeStaleData(){}
 };

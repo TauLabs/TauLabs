@@ -35,6 +35,7 @@
 #include "qwt/src/qwt_plot_curve.h"
 #include "qwt/src/qwt_scale_draw.h"
 #include "qwt/src/qwt_scale_widget.h"
+#include "qwt/src/qwt_plot_histogram.h"
 
 #include <QTimer>
 #include <QTime>
@@ -72,6 +73,7 @@ public:
 
     void setupSequentialPlot();
     void setupChronoPlot();
+    void setupHistoPlot();
     void setupUAVObjectPlot();
     PlotType plotType(){return m_plotType;}
 
