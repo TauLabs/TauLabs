@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @addtogroup AHRS 
+ * @addtogroup Math 
  * @{
  * @addtogroup INSGPS
  * @{
@@ -8,7 +8,7 @@
  *
  * @file       insgps.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
+ * @author     Tau Labs, http://github.com/TauLabs Copyright (C) 2012-2013.
  * @brief      An INS/GPS algorithm implemented with an EKF.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -132,7 +132,7 @@ struct NavStruct *INSGPSGetNav()
 	return &Nav;
 }
 
-void INSResetP(float PDiag[NUMX])
+void INSResetP(const float PDiag[NUMX])
 {
 	uint8_t i,j;
 
@@ -146,7 +146,7 @@ void INSResetP(float PDiag[NUMX])
 	}
 }
 
-void INSSetState(float pos[3], float vel[3], float q[4], float gyro_bias[3], float accel_bias[3])
+void INSSetState(const float pos[3], const float vel[3], const float q[4], const float gyro_bias[3], const float accel_bias[3])
 {
 	/* Note: accel_bias not used in 13 state INS */
 	X[0] = pos[0];
@@ -164,7 +164,7 @@ void INSSetState(float pos[3], float vel[3], float q[4], float gyro_bias[3], flo
 	X[12] = gyro_bias[2];
 }
 
-void INSPosVelReset(float pos[3], float vel[3]) 
+void INSPosVelReset(const float pos[3], const float vel[3]) 
 {
 	for (int i = 0; i < 6; i++) {
 		for(int j = i; j < NUMX; j++) {
@@ -194,40 +194,40 @@ void INSSetPosVelVar(float PosVar, float VelVar)
 	R[5] = VelVar;
 }
 
-void INSSetGyroBias(float gyro_bias[3])
+void INSSetGyroBias(const float gyro_bias[3])
 {
 	X[10] = gyro_bias[0];
 	X[11] = gyro_bias[1];
 	X[12] = gyro_bias[2];
 }
 
-void INSSetAccelVar(float accel_var[3])
+void INSSetAccelVar(const float accel_var[3])
 {
 	Q[3] = accel_var[0];
 	Q[4] = accel_var[1];
 	Q[5] = accel_var[2];
 }
 
-void INSSetGyroVar(float gyro_var[3])
+void INSSetGyroVar(const float gyro_var[3])
 {
 	Q[0] = gyro_var[0];
 	Q[1] = gyro_var[1];
 	Q[2] = gyro_var[2];
 }
 
-void INSSetMagVar(float scaled_mag_var[3])
+void INSSetMagVar(const float scaled_mag_var[3])
 {
 	R[6] = scaled_mag_var[0];
 	R[7] = scaled_mag_var[1];
 	R[8] = scaled_mag_var[2];
 }
 
-void INSSetBaroVar(float baro_var)
+void INSSetBaroVar(const float baro_var)
 {
 	R[9] = baro_var;
 }
 
-void INSSetMagNorth(float B[3])
+void INSSetMagNorth(const float B[3])
 {
 	float mag = sqrtf(B[0] * B[0] + B[1] * B[1] + B[2] * B[2]);
 	Be[0] = B[0] / mag;
@@ -235,7 +235,7 @@ void INSSetMagNorth(float B[3])
 	Be[2] = B[2] / mag;
 }
 
-void INSStatePrediction(float gyro_data[3], float accel_data[3], float dT)
+void INSStatePrediction(const float gyro_data[3], const float accel_data[3], float dT)
 {
 	float U[6];
 	float qmag;
@@ -283,43 +283,43 @@ void INSCovariancePrediction(float dT)
 
 float zeros[3] = { 0, 0, 0 };
 
-void MagCorrection(float mag_data[3])
+void MagCorrection(const float mag_data[3])
 {
 	INSCorrection(mag_data, zeros, zeros, zeros[0], MAG_SENSORS);
 }
 
-void MagVelBaroCorrection(float mag_data[3], float Vel[3], float BaroAlt)
+void MagVelBaroCorrection(const float mag_data[3], const float Vel[3], float BaroAlt)
 {
 	INSCorrection(mag_data, zeros, Vel, BaroAlt,
 		      MAG_SENSORS | HORIZ_SENSORS | VERT_SENSORS |
 		      BARO_SENSOR);
 }
 
-void GpsBaroCorrection(float Pos[3], float Vel[3], float BaroAlt)
+void GpsBaroCorrection(const float Pos[3], const float Vel[3], float BaroAlt)
 {
 	INSCorrection(zeros, Pos, Vel, BaroAlt,
 		      HORIZ_SENSORS | VERT_SENSORS | BARO_SENSOR);
 }
 
-void FullCorrection(float mag_data[3], float Pos[3], float Vel[3],
+void FullCorrection(const float mag_data[3], const float Pos[3], const float Vel[3],
 		    float BaroAlt)
 {
 	INSCorrection(mag_data, Pos, Vel, BaroAlt, FULL_SENSORS);
 }
 
-void GpsMagCorrection(float mag_data[3], float Pos[3], float Vel[3])
+void GpsMagCorrection(const float mag_data[3], const float Pos[3], const float Vel[3])
 {
 	INSCorrection(mag_data, Pos, Vel, zeros[0],
 		      POS_SENSORS | HORIZ_SENSORS | MAG_SENSORS);
 }
 
-void VelBaroCorrection(float Vel[3], float BaroAlt)
+void VelBaroCorrection(const float Vel[3], float BaroAlt)
 {
 	INSCorrection(zeros, zeros, Vel, BaroAlt,
 		      HORIZ_SENSORS | VERT_SENSORS | BARO_SENSOR);
 }
 
-void INSCorrection(float mag_data[3], float Pos[3], float Vel[3],
+void INSCorrection(const float mag_data[3], const float Pos[3], const float Vel[3],
 		   float BaroAlt, uint16_t SensorsUsed)
 {
 	float Z[10], Y[10];
