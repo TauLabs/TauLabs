@@ -132,7 +132,9 @@ while bufferIdx < (length(buffer) - 20)
 	
 	if sync ~= correctSyncByte
 		bufferIdx=bufferIdx+1;
-		wrongSyncByte = wrongSyncByte + 1;
+		if ~overo || sync ~= 255
+			wrongSyncByte = wrongSyncByte + 1;
+		end
 		continue
 	end
 	
