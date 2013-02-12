@@ -290,31 +290,55 @@ static void AttitudeTask(void *parameters)
 
 		int32_t ret_val = -1;
 
+		// When changing the attitude filter reinitialize
 		if (last_algorithm != stateEstimation.AttitudeFilter) {
 			last_algorithm = stateEstimation.AttitudeFilter;
 			first_run = true;
 		}
-		
+
+		// There are two options to select:
+		//   Attitude filter - what sets the attitude
+		//   Navigation filter - what sets the position and velocity
+		// If the INS is used for either then it should run
+		bool ins = (stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_INSOUTDOOR) ||
+		           (stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_INSINDOOR) ||
+		           (stateEstimation.NavigationFilter == STATEESTIMATION_NAVIGATIONFILTER_INS);
+
+		//! INS outdoor mode when used for navigation OR explicit outdoor mode
+		bool outdoor = (stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_INSOUTDOOR) ||
+		               (stateEstimation.NavigationFilter == STATEESTIMATION_NAVIGATIONFILTER_INS);
+
+		//! Complimentary filter only needed when used for attitude
+		bool complimentary = stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_COMPLEMENTARY;
+
+		// Update one or both filters
+		if (ins) {
+			ret_val = updateAttitudeINSGPS(first_run, outdoor);
+			if (complimentary)
+				 updateAttitudeComplementary(first_run, true);
+		} else {
+			ret_val = updateAttitudeComplementary(first_run, false);
+		}
+
+		// Get the requested data
 		// This  function blocks on data queue
 		switch (stateEstimation.AttitudeFilter ) {
-			case STATEESTIMATION_ATTITUDEFILTER_COMPLEMENTARY:
-				ret_val = updateAttitudeComplementary(first_run, false);
-				setAttitudeComplementary();
-				setNavigationRaw();
-				break;
-			case STATEESTIMATION_ATTITUDEFILTER_INSOUTDOOR:
-				ret_val = updateAttitudeINSGPS(first_run, true);
-				setAttitudeINSGPS();
+		case STATEESTIMATION_ATTITUDEFILTER_COMPLEMENTARY:
+			setAttitudeComplementary();
+			break;
+		case STATEESTIMATION_ATTITUDEFILTER_INSOUTDOOR:
+		case STATEESTIMATION_ATTITUDEFILTER_INSINDOOR:
+			setAttitudeINSGPS();
+			break;
+		}
+
+		// Use the selected source for position and velocity
+		switch (stateEstimation.NavigationFilter) {
+		case STATEESTIMATION_NAVIGATIONFILTER_INS:
 				setNavigationINSGPS();
 				break;
-			case STATEESTIMATION_ATTITUDEFILTER_INSINDOOR:
-				ret_val = updateAttitudeINSGPS(first_run, false);
-				setAttitudeINSGPS();
-				setNavigationINSGPS();
-				break;
-			default:
-				AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_CRITICAL);
-				break;
+		default:
+				setNavigationRaw();		
 		}
 
 		if(ret_val == 0)
