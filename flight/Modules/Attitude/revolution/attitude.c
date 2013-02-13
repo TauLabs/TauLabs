@@ -274,6 +274,7 @@ static void AttitudeTask(void *parameters)
 {
 	bool first_run = true;
 	uint32_t last_algorithm;
+	bool     last_complimentary;
 	AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
 
 	// Force settings update to make sure rotation loaded
@@ -284,6 +285,7 @@ static void AttitudeTask(void *parameters)
 
 	// Invalidate previous algorithm to trigger a first run
 	last_algorithm = 0xfffffff;
+	last_complimentary = false;
 
 	// Main task loop
 	while (1) {
@@ -306,8 +308,8 @@ static void AttitudeTask(void *parameters)
 
 		//! INS outdoor mode when used for navigation OR explicit outdoor mode
 		bool outdoor = (stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_INSOUTDOOR) ||
-		               (stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_COMPLEMENTARY &&
-		                stateEstimation.NavigationFilter == STATEESTIMATION_NAVIGATIONFILTER_INS);
+		               ((stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_COMPLEMENTARY) &&
+		                (stateEstimation.NavigationFilter == STATEESTIMATION_NAVIGATIONFILTER_INS));
 
 		//! Complimentary filter only needed when used for attitude
 		bool complimentary = stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_COMPLEMENTARY;
@@ -316,10 +318,12 @@ static void AttitudeTask(void *parameters)
 		if (ins) {
 			ret_val = updateAttitudeINSGPS(first_run, outdoor);
 			if (complimentary)
-				 updateAttitudeComplementary(first_run, true);
+				 updateAttitudeComplementary(first_run || complimentary != last_complimentary, true);
 		} else {
 			ret_val = updateAttitudeComplementary(first_run, false);
 		}
+
+		last_complimentary = complimentary;
 
 		// Get the requested data
 		// This  function blocks on data queue
