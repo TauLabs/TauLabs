@@ -22,7 +22,7 @@ EE_BANK_SIZE        := 0x00008000  # Size of EEPROM storage area
 # Leave the 64KB sector for other uses
 
 FW_BANK_BASE        := 0x08020000  # Start of firmware flash
-FW_BANK_SIZE        := 0x00050000  # Should include FW_DESC_SIZE
+FW_BANK_SIZE        := 0x00050000  # Should include FW_DESC_SIZE (320kb)
 
 FW_DESC_SIZE        := 0x00000064
 
