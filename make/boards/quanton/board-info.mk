@@ -18,7 +18,7 @@ BL_BANK_SIZE        := 0x00008000  # Should include BD_INFO region (32kb)
 
 # Leave the remaining 16KB and 64KB sectors for other uses
 FW_BANK_BASE        := 0x08020000  # Start of firmware flash (128kb)
-FW_BANK_SIZE        := 0x00040000  # Should include FW_DESC_SIZE (256kb)
+FW_BANK_SIZE        := 0x00050000  # Should include FW_DESC_SIZE (256kb)
 
 FW_DESC_SIZE        := 0x00000064
 
