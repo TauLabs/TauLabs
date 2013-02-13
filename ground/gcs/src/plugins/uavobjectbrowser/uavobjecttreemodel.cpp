@@ -64,8 +64,6 @@ UAVObjectTreeModel::UAVObjectTreeModel(QObject *parent, bool categorize, bool us
 
     TreeItem::setHighlightTime(m_recentlyUpdatedTimeout);
     setupModelData(objManager, categorize);
-
-    m_updateViewTimer.start(100);
 }
 
 UAVObjectTreeModel::~UAVObjectTreeModel()
@@ -90,7 +88,6 @@ void UAVObjectTreeModel::setupModelData(UAVObjectManager *objManager, bool categ
     m_rootItem->setHighlightManager(m_highlightManager);
     connect(m_settingsTree, SIGNAL(updateHighlight(TreeItem*)), this, SLOT(updateHighlight(TreeItem*)));
     connect(m_nonSettingsTree, SIGNAL(updateHighlight(TreeItem*)), this, SLOT(updateHighlight(TreeItem*)));
-    connect(&m_updateViewTimer, SIGNAL(timeout()), this, SLOT(onTimeout_updateView()));
 
     QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
     foreach (QList<UAVDataObject*> list, objList) {
@@ -434,6 +431,7 @@ void UAVObjectTreeModel::highlightUpdatedObject(UAVObject *obj)
         QModelIndex itemIndex = index(item);
         Q_ASSERT(itemIndex != QModelIndex());
         updateDataView(itemIndex, itemIndex);
+        emit dataChanged(itemIndex, itemIndex);
     }
 }
 
@@ -472,6 +470,7 @@ void UAVObjectTreeModel::updateHighlight(TreeItem *item)
     QModelIndex itemIndex = index(item);
     Q_ASSERT(itemIndex != QModelIndex());
     updateDataView(itemIndex, itemIndex.sibling(itemIndex.row(), TreeItem::dataColumn));
+    emit dataChanged(itemIndex, itemIndex.sibling(itemIndex.row(), TreeItem::dataColumn));
 }
 
 
@@ -512,36 +511,3 @@ void UAVObjectTreeModel::updateDataView(QModelIndex topLeft, QModelIndex bottomR
         // dynamic data tree.
     }
 }
-
-
-/**
- * @brief UAVObjectTreeModel::onTimeout_updateView On timeout, emits dataChanged() SIGNAL for
- * all data tree indices that have changed since last timeout.
- */
-void UAVObjectTreeModel::onTimeout_updateView()
-{
-    if (topmostData > -1){
-        QModelIndex topLeft = createIndex(topmostData, leftmostData, m_nonSettingsTree);
-        QModelIndex bottomRight = createIndex(bottommostData, rightmostData, m_nonSettingsTree);
-
-        emit dataChanged(topLeft, bottomRight);
-
-        topmostData = -1;
-        leftmostData = -1;
-        bottommostData = -1;
-        rightmostData = -1;
-    }
-
-    if (topmostSettings > -1){
-        QModelIndex topLeft = createIndex(topmostSettings, leftmostSettings, m_settingsTree);
-        QModelIndex bottomRight = createIndex(bottommostSettings, rightmostSettings, m_settingsTree);
-
-        emit dataChanged(topLeft, bottomRight);
-
-        topmostSettings = -1;
-        leftmostSettings = -1;
-        bottommostSettings = -1;
-        rightmostSettings = -1;
-    }
-}
-

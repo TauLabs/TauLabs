@@ -43,21 +43,33 @@
 
 UAVObjectBrowserWidget::UAVObjectBrowserWidget(QWidget *parent) : QWidget(parent)
 {
+    // Create browser and configuration GUIs
     m_browser = new Ui_UAVObjectBrowser();
     m_viewoptions = new Ui_viewoptions();
     m_viewoptionsDialog = new QDialog(this);
     m_viewoptions->setupUi(m_viewoptionsDialog);
     m_browser->setupUi(this);
+
+    // Create tree view and add to layout
+    treeView = new UAVOBrowserTreeView();
+    treeView->setObjectName(QString::fromUtf8("treeView"));
+    m_browser->verticalLayout->addWidget(treeView);
+
+    // Create data model
     m_model = new UAVObjectTreeModel();
-    m_browser->treeView->setModel(m_model);
-    m_browser->treeView->setColumnWidth(0, 300);
-    //m_browser->treeView->expandAll();
+    treeView->setModel(m_model);
+    treeView->setColumnWidth(0, 300);
+    treeView->setEditTriggers(QAbstractItemView::AllEditTriggers);
+    treeView->setSelectionBehavior(QAbstractItemView::SelectItems);
+    treeView->setUniformRowHeights(true);
+
     BrowserItemDelegate *m_delegate = new BrowserItemDelegate();
-    m_browser->treeView->setItemDelegate(m_delegate);
-    m_browser->treeView->setEditTriggers(QAbstractItemView::AllEditTriggers);
-    m_browser->treeView->setSelectionBehavior(QAbstractItemView::SelectItems);
+    treeView->setItemDelegate(m_delegate);
+
     showMetaData(m_viewoptions->cbMetaData->isChecked());
-    connect(m_browser->treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(toggleUAVOButtons(QModelIndex,QModelIndex)));
+
+    // Connect signals
+    connect(treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(toggleUAVOButtons(QModelIndex,QModelIndex)));
     connect(m_viewoptions->cbMetaData, SIGNAL(toggled(bool)), this, SLOT(showMetaData(bool)));
     connect(m_viewoptions->cbCategorized, SIGNAL(toggled(bool)), this, SLOT(categorize(bool)));
     connect(m_browser->saveSDButton, SIGNAL(clicked()), this, SLOT(saveObject()));
@@ -70,6 +82,12 @@ UAVObjectBrowserWidget::UAVObjectBrowserWidget(QWidget *parent) : QWidget(parent
     connect(m_viewoptions->cbScientific, SIGNAL(toggled(bool)), this, SLOT(viewOptionsChangedSlot()));
     connect(m_viewoptions->cbMetaData, SIGNAL(toggled(bool)), this, SLOT(viewOptionsChangedSlot()));
     connect(m_viewoptions->cbCategorized, SIGNAL(toggled(bool)), this, SLOT(viewOptionsChangedSlot()));
+    connect(&m_updateViewTimer, SIGNAL(timeout()), this, SLOT(onTimeout_updateView()));
+
+    // Start timer at 100ms
+    m_updateViewTimer.start(100);
+
+    // Set browser buttons to disabled
     enableUAVOBrowserButtons(false);
 }
 
@@ -102,7 +120,7 @@ void UAVObjectBrowserWidget::showMetaData(bool show)
     QList<QModelIndex> metaIndexes = m_model->getMetaDataIndexes();
     foreach(QModelIndex index , metaIndexes)
     {
-        m_browser->treeView->setRowHidden(index.row(), index.parent(), !show);
+        treeView->setRowHidden(index.row(), index.parent(), !show);
     }
 }
 
@@ -124,7 +142,7 @@ void UAVObjectBrowserWidget::categorize(bool categorize)
     m_model->setManuallyChangedColor(m_manuallyChangedColor);
     m_model->setRecentlyUpdatedTimeout(m_recentlyUpdatedTimeout);
     m_model->setOnlyHighlightChangedValues(m_onlyHighlightChangedValues);
-    m_browser->treeView->setModel(m_model);
+    treeView->setModel(m_model);
     showMetaData(m_viewoptions->cbMetaData->isChecked());
 
     delete tmpModel;
@@ -147,7 +165,7 @@ void UAVObjectBrowserWidget::useScientificNotation(bool scientific)
     m_model->setRecentlyUpdatedColor(m_recentlyUpdatedColor);
     m_model->setManuallyChangedColor(m_manuallyChangedColor);
     m_model->setRecentlyUpdatedTimeout(m_recentlyUpdatedTimeout);
-    m_browser->treeView->setModel(m_model);
+    treeView->setModel(m_model);
     showMetaData(m_viewoptions->cbMetaData->isChecked());
 
     delete tmpModel;
@@ -191,7 +209,7 @@ void UAVObjectBrowserWidget::requestUpdate()
  */
 ObjectTreeItem *UAVObjectBrowserWidget::findCurrentObjectTreeItem()
 {
-    QModelIndex current = m_browser->treeView->currentIndex();
+    QModelIndex current = treeView->currentIndex();
     TreeItem *item = static_cast<TreeItem*>(current.internalPointer());
     ObjectTreeItem *objItem = 0;
 
@@ -345,3 +363,27 @@ void UAVObjectBrowserWidget::enableUAVOBrowserButtons(bool enableState)
 }
 
 
+/**
+ * @brief UAVObjectBrowserWidget::onTimeout_updateView On timeout, emits dataChanged() SIGNAL for
+ * all data tree indices that have changed since last timeout.
+ */
+void UAVObjectBrowserWidget::onTimeout_updateView()
+{
+    if (m_model->getTopmostData() > -1){
+        emit treeView->dataChanged(m_model->getTopLeftData(), m_model->getBottomRightData(), true);
+
+        m_model->resetTopmostData();
+        m_model->resetLeftmostData();
+        m_model->resetBottommostData();
+        m_model->resetRightmostData();
+    }
+
+    if (m_model->getTopmostSettings() > -1){
+        emit treeView->dataChanged(m_model->getTopLeftSettings(), m_model->getBottomRightSettings(), true);
+
+        m_model->resetTopmostSettings();
+        m_model->resetLeftmostSettings();
+        m_model->resetBottommostSettings();
+        m_model->resetRightmostSettings();
+    }
+}

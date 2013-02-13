@@ -38,6 +38,20 @@ class ObjectTreeItem;
 class Ui_UAVObjectBrowser;
 class Ui_viewoptions;
 
+class UAVOBrowserTreeView : public QTreeView
+{
+    Q_OBJECT
+
+public slots:
+    /**
+     * @brief dataChanged Reimplements QTreeView::dataChanged signal
+     * @param topLeft
+     * @param bottomRight
+     * @param updateFlag If true, send dataChanged signal. If false, do nothing.
+     */
+    virtual void dataChanged(const QModelIndex & topLeft, const QModelIndex & bottomRight, bool updateFlag = false){ if(updateFlag) QTreeView::dataChanged(topLeft, bottomRight);}
+};
+
 class UAVObjectBrowserWidget : public QWidget
 {
     Q_OBJECT
@@ -64,6 +78,7 @@ private slots:
     void toggleUAVOButtons(const QModelIndex &current, const QModelIndex &previous);
     void viewSlot();
     void viewOptionsChangedSlot();
+    void onTimeout_updateView();
 signals:
     void viewOptionsChanged(bool categorized,bool scientific,bool metadata);
 private:
@@ -82,6 +97,12 @@ private:
     void updateObjectPersistance(ObjectPersistence::OperationOptions op, UAVObject *obj);
     void enableUAVOBrowserButtons(bool enableState);
     ObjectTreeItem *findCurrentObjectTreeItem();
+
+    UAVOBrowserTreeView *treeView;
+    QTimer m_updateViewTimer;
+
+    QList <QModelIndex> dataColumnUpdate;
+    QList <QModelIndex> dataRowsUpdate;
 };
 
 #endif /* UAVOBJECTBROWSERWIDGET_H_ */

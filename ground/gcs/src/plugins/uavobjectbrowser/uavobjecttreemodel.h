@@ -63,6 +63,33 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
+    TopTreeItem* getSettingsTree(){return m_settingsTree;}
+    TopTreeItem* getNonSettingsTree(){return m_nonSettingsTree;}
+
+    QModelIndex getTopLeftData(){return createIndex(topmostData, leftmostData, m_nonSettingsTree);}
+    QModelIndex getBottomRightData(){return createIndex(bottommostData, rightmostData, m_nonSettingsTree);}
+
+    QModelIndex getTopLeftSettings(){return createIndex(topmostSettings, leftmostSettings, m_settingsTree);}
+    QModelIndex getBottomRightSettings(){return createIndex(bottommostSettings, rightmostSettings, m_settingsTree);}
+
+    int getTopmostData(){return topmostData;}
+    int getLeftmostData(){return leftmostData;}
+    int getBottommostData(){return bottommostData;}
+    int getRightmostData(){return rightmostData;}
+    int getTopmostSettings(){return topmostSettings;}
+    int getLeftmostSettings(){return leftmostSettings;}
+    int getBottommostSettings(){return bottommostSettings;}
+    int getRightmostSettings(){return rightmostSettings;}
+
+    void resetTopmostData() {topmostData = -1;}
+    void resetLeftmostData() {leftmostData = -1;}
+    void resetBottommostData(){bottommostData = -1;}
+    void resetRightmostData(){rightmostData = -1;}
+    void resetTopmostSettings() {topmostSettings = -1;}
+    void resetLeftmostSettings() {leftmostSettings = -1;}
+    void resetBottommostSettings(){bottommostSettings = -1;}
+    void resetRightmostSettings(){rightmostSettings = -1;}
+
     void setRecentlyUpdatedColor(QColor color) { m_recentlyUpdatedColor = color; }
     void setManuallyChangedColor(QColor color) { m_manuallyChangedColor = color; }
     void setRecentlyUpdatedTimeout(int timeout) {
@@ -81,7 +108,6 @@ public slots:
 private slots:
     void highlightUpdatedObject(UAVObject *obj);
     void updateHighlight(TreeItem*);
-    void onTimeout_updateView();
 
 private:
     void updateDataView(QModelIndex, QModelIndex);
@@ -124,10 +150,6 @@ private:
     int leftmostSettings;
     int bottommostSettings;
     int rightmostSettings;
-
-//    QModelIndex m_parent;
-
-    QTimer m_updateViewTimer;
 };
 
 #endif // UAVOBJECTTREEMODEL_H
