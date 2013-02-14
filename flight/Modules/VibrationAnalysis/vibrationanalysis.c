@@ -54,14 +54,19 @@
 // Private constants
 
 #define MAX_QUEUE_SIZE 2
-#define STACK_SIZE_BYTES (200 + 460 + (26*fft_window_size)) //This value has been calculated to leave 200 bytes of stack space, no matter the fft_window_size
+#define STACK_SIZE_BYTES (200 + 484 + (13*fft_window_size)) //This value has been calculated to leave 200 bytes of stack space, no matter the fft_window_size
 #define TASK_PRIORITY (tskIDLE_PRIORITY+1)
+
+#define GRAV 9.805                                  // Gravity in [m/s^2]
+#define MAX_ACCEL_RANGE 16                          // Maximum accelerometer resolution in [g]
+#define FLOAT_TO_Q15 (32768/(MAX_ACCEL_RANGE*GRAV)) // This is the scaling constant that scales all input floats to +-
 
 // Private variables
 static xTaskHandle taskHandle;
 static xQueueHandle queue;
 static bool module_enabled = false;
 static uint16_t fft_window_size;
+uint8_t num_upscale_bits;
 
 static struct VibrationAnalysis_data {
 	uint16_t accels_sum_count;
@@ -117,7 +122,7 @@ static int32_t VibrationAnalysisStart(void)
 	// make sure that all inputs[] are zeroed...
 	memset(vtd, 0, sizeof(struct VibrationAnalysis_data));
 	//... except for Z axis static bias
-	vtd->accels_static_bias_z=-9.805; // [See note in definition of VibrationAnalysis_data structure]
+	vtd->accels_static_bias_z=-GRAV; // [See note in definition of VibrationAnalysis_data structure]
 
 	// Start main task
 	xTaskCreate(VibrationAnalysisTask, (signed char *)"VibrationAnalysis", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
@@ -158,15 +163,19 @@ static int32_t VibrationAnalysisInitialize(void)
 	switch (fft_window_size_enum) {
 		case VIBRATIONANALYSISSETTINGS_FFTWINDOWSIZE_16:
 			fft_window_size = 16;
+			num_upscale_bits = 4;
 			break;
 		case VIBRATIONANALYSISSETTINGS_FFTWINDOWSIZE_64:
 			fft_window_size = 64;
+			num_upscale_bits = 6;
 			break;
 		case VIBRATIONANALYSISSETTINGS_FFTWINDOWSIZE_256:
 			fft_window_size = 256;
+			num_upscale_bits = 8;
 			break;
 		case VIBRATIONANALYSISSETTINGS_FFTWINDOWSIZE_1024:
 			fft_window_size = 1024;
+			num_upscale_bits = 10;
 			break;
 		default:
 			//This represents a serious configuration error. Do not start module.
@@ -197,10 +206,10 @@ static void VibrationAnalysisTask(void *parameters)
 	// Listen for updates.
 	AccelsConnectQueue(queue);
 		
-	//Create the buffers
-	float accel_buffer_complex_x[fft_window_size*2]; //These buffers are complex numbers, so they are twice
-	float accel_buffer_complex_y[fft_window_size*2]; // as long as the number of samples, and  complex part 
-	float accel_buffer_complex_z[fft_window_size*2]; // is always 0.
+	//Create the buffers. They are in Q15 format.
+	int16_t accel_buffer_complex_x_q15[fft_window_size*2]; //These buffers are complex numbers, so they are twice
+	int16_t accel_buffer_complex_y_q15[fft_window_size*2]; // as long as the number of samples, and  complex part 
+	int16_t accel_buffer_complex_z_q15[fft_window_size*2]; // is always 0.
 	
 /** These values are useful for insight into the Fourier transform performed by this module.
 	float freq_sample = 1.0f/(sampleRate_ms / portTICK_RATE_MS);
@@ -278,9 +287,9 @@ static void VibrationAnalysisTask(void *parameters)
 		vtd->accels_static_bias_z = alpha*accels_avg_z + (1-alpha)*vtd->accels_static_bias_z;
 		
 		// Add averaged values to the buffer, and remove DC bias
-		accel_buffer_complex_x[sample_count*2] = accels_avg_x - vtd->accels_static_bias_x;
-		accel_buffer_complex_y[sample_count*2] = accels_avg_y - vtd->accels_static_bias_y;
-		accel_buffer_complex_z[sample_count*2] = accels_avg_z - vtd->accels_static_bias_z;
+		accel_buffer_complex_x_q15[sample_count*2] = (accels_avg_x - vtd->accels_static_bias_x)*FLOAT_TO_Q15 + 0.5; // Extra +0.5 rounds value when casting to int
+		accel_buffer_complex_y_q15[sample_count*2] = (accels_avg_y - vtd->accels_static_bias_y)*FLOAT_TO_Q15 + 0.5; // Extra +0.5 rounds value when casting to int
+		accel_buffer_complex_z_q15[sample_count*2] = (accels_avg_z - vtd->accels_static_bias_z)*FLOAT_TO_Q15 + 0.5; // Extra +0.5 rounds value when casting to int
 		
 		//Reset the accumulators
 		vtd->accels_data_sum_x = 0;
@@ -289,9 +298,9 @@ static void VibrationAnalysisTask(void *parameters)
 		vtd->accels_sum_count = 0;
 		
 		//Set complex part to 0
-		accel_buffer_complex_x[sample_count*2+1] = 0;
-		accel_buffer_complex_y[sample_count*2+1] = 0;
-		accel_buffer_complex_z[sample_count*2+1] = 0;
+		accel_buffer_complex_x_q15[sample_count*2+1] = 0;
+		accel_buffer_complex_y_q15[sample_count*2+1] = 0;
+		accel_buffer_complex_z_q15[sample_count*2+1] = 0;
 
 		//Advance sample and reset when at buffer end
 		sample_count++;
@@ -302,32 +311,32 @@ static void VibrationAnalysisTask(void *parameters)
 		//Only process once the buffers are filled. This could be done continuously, but this way is probably easier on the processor
 		if (sample_count==0) {
 			// Decalare variables
-			float fft_output[fft_window_size>>1]; //Output is symmetric, so no need to store second half of output
-			arm_cfft_radix4_instance_f32 cfft_instance;
+			int16_t fft_output[fft_window_size>>1]; //Output is symmetric, so no need to store second half of output
+			arm_cfft_radix4_instance_q15 cfft_instance;
 			arm_status status;
 			
 			// Initialize the CFFT/CIFFT module
 			status = ARM_MATH_SUCCESS;
 			bool ifftFlag = false;
 			bool doBitReverse = 1;
-			status = arm_cfft_radix4_init_f32(&cfft_instance, fft_window_size, ifftFlag, doBitReverse);
+			status = arm_cfft_radix4_init_q15(&cfft_instance, fft_window_size, ifftFlag, doBitReverse);
 			
 			// Perform the DFT on each of the three axes
 			for (int i=0; i < 3; i++) {
 				if (status == ARM_MATH_SUCCESS) {
 					
 					//Create pointer and assign buffer vectors to it
-					float *ptr_cmplx_vec;
+					int16_t *ptr_cmplx_vec;
 					
 					switch (i) {
 						case 0:
-							ptr_cmplx_vec=accel_buffer_complex_x;
+							ptr_cmplx_vec=accel_buffer_complex_x_q15;
 							break;
 						case 1:
-							ptr_cmplx_vec=accel_buffer_complex_y;
+							ptr_cmplx_vec=accel_buffer_complex_y_q15;
 							break;
 						case 2:
-							ptr_cmplx_vec=accel_buffer_complex_z;
+							ptr_cmplx_vec=accel_buffer_complex_z_q15;
 							break;
 						default:
 							//Whoops, this is a major error, leave before we overwrite memory
@@ -335,17 +344,27 @@ static void VibrationAnalysisTask(void *parameters)
 					}
 					
 					// Process the data through the CFFT/CIFFT module. This is an in-place
-					// operation, so the FFT output is saved onto the input buffer. Moving
-					// forward from this point, ptr_cmplx_vec contains the DFT of the
-					// acceleration signal.
-					arm_cfft_radix4_f32(&cfft_instance, ptr_cmplx_vec);
+					// operation, so the FFT output is saved onto the accelerometer input buffer. 
+					// Moving forward from this point, ptr_cmplx_vec contains the DFT of the
+					// acceleration signal. 
+					// While the input is Q15, the output is not (see next comment)
+					arm_cfft_radix4_q15(&cfft_instance, ptr_cmplx_vec);
+					
+					// Upscale ptr_cmplx_vec back into Q15 format. The number of bits necessary is defined in 
+					// ARM's arm_cfft_radix4_q15 documentation, figure CFFTQ15.gif
+					arm_shift_q15(ptr_cmplx_vec, num_upscale_bits, ptr_cmplx_vec, fft_window_size * sizeof(accel_buffer_complex_x_q15[0]));
 					
 					// Process the data through the Complex Magnitude Module. This calculates
 					// the magnitude of each complex number, so that the output is a scalar
 					// magnitude without complex phase. Only the first half of the values are
 					// calculated because in a Fourier transform the second half is symmetric.
-					arm_cmplx_mag_f32(ptr_cmplx_vec, fft_output, fft_window_size>>1);
-					memcpy(ptr_cmplx_vec, fft_output, (fft_window_size>>1) * sizeof(float));					
+					arm_cmplx_mag_q15(ptr_cmplx_vec, fft_output, fft_window_size>>1);
+					
+					// Upscale fft_output back into Q15 format
+					arm_shift_q15(fft_output, 1, fft_output, (fft_window_size>>1) * sizeof(accel_buffer_complex_x_q15[0]));
+					
+					// Save RAM by copying back onto original input value vector.
+					memcpy(ptr_cmplx_vec, fft_output, (fft_window_size>>1) * sizeof(accel_buffer_complex_x_q15[0]));
 				}
 			}
 			
@@ -356,17 +375,17 @@ static void VibrationAnalysisTask(void *parameters)
 				if (j >= UAVObjGetNumInstances(VibrationAnalysisOutputHandle()))
 					continue;
 				
-				vibrationAnalysisOutputData.x = accel_buffer_complex_x[j];
-				vibrationAnalysisOutputData.y = accel_buffer_complex_y[j];
-				vibrationAnalysisOutputData.z = accel_buffer_complex_z[j];
+				vibrationAnalysisOutputData.x = accel_buffer_complex_x_q15[j]/FLOAT_TO_Q15;
+				vibrationAnalysisOutputData.y = accel_buffer_complex_y_q15[j]/FLOAT_TO_Q15;
+				vibrationAnalysisOutputData.z = accel_buffer_complex_z_q15[j]/FLOAT_TO_Q15;
 				VibrationAnalysisOutputInstSet(j, &vibrationAnalysisOutputData);
 			}
 			
 			
 			// Erase buffer, which has the effect of setting the complex part to 0.
-			memset(accel_buffer_complex_x, 0, sizeof(accel_buffer_complex_x));
-			memset(accel_buffer_complex_y, 0, sizeof(accel_buffer_complex_y));
-			memset(accel_buffer_complex_z, 0, sizeof(accel_buffer_complex_z));			
+			memset(accel_buffer_complex_x_q15, 0, sizeof(accel_buffer_complex_x_q15));
+			memset(accel_buffer_complex_y_q15, 0, sizeof(accel_buffer_complex_y_q15));
+			memset(accel_buffer_complex_z_q15, 0, sizeof(accel_buffer_complex_z_q15));			
 		}
 	}
 }
