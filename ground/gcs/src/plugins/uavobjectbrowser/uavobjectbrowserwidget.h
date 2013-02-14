@@ -41,15 +41,36 @@ class Ui_viewoptions;
 class UAVOBrowserTreeView : public QTreeView
 {
     Q_OBJECT
+public:
+    UAVOBrowserTreeView(UAVObjectTreeModel *m_model);
+    void updateView(QModelIndex topLeft, QModelIndex bottomRight);
 
-public slots:
+//public slots:
     /**
      * @brief dataChanged Reimplements QTreeView::dataChanged signal
      * @param topLeft
      * @param bottomRight
      * @param updateFlag If true, send dataChanged signal. If false, do nothing.
      */
-    virtual void dataChanged(const QModelIndex & topLeft, const QModelIndex & bottomRight, bool updateFlag = false){ if(updateFlag) QTreeView::dataChanged(topLeft, bottomRight);}
+    virtual void dataChanged(const QModelIndex & topLeft, const QModelIndex & bottomRight);
+
+
+private slots:
+    void onTimeout_updateView();
+
+private:
+    UAVObjectTreeModel *m_model;
+
+    int topmostData;
+    int bottommostData;
+    int topmostSettings;
+    int bottommostSettings;
+
+    bool m_updateViewFlagData;
+    bool m_updateViewFlagSettings;
+
+    QTimer m_updateViewTimer;
+
 };
 
 class UAVObjectBrowserWidget : public QWidget
@@ -64,6 +85,7 @@ public:
     void setRecentlyUpdatedTimeout(int timeout) { m_recentlyUpdatedTimeout = timeout; m_model->setRecentlyUpdatedTimeout(timeout); }
     void setOnlyHighlightChangedValues(bool highlight) { m_onlyHighlightChangedValues = highlight; m_model->setOnlyHighlightChangedValues(highlight); }
     void setViewOptions(bool categorized,bool scientific,bool metadata);
+
 public slots:
     void showMetaData(bool show);
     void categorize(bool categorize);
@@ -78,7 +100,6 @@ private slots:
     void toggleUAVOButtons(const QModelIndex &current, const QModelIndex &previous);
     void viewSlot();
     void viewOptionsChangedSlot();
-    void onTimeout_updateView();
 signals:
     void viewOptionsChanged(bool categorized,bool scientific,bool metadata);
 private:
@@ -99,10 +120,6 @@ private:
     ObjectTreeItem *findCurrentObjectTreeItem();
 
     UAVOBrowserTreeView *treeView;
-    QTimer m_updateViewTimer;
-
-    QList <QModelIndex> dataColumnUpdate;
-    QList <QModelIndex> dataRowsUpdate;
 };
 
 #endif /* UAVOBJECTBROWSERWIDGET_H_ */

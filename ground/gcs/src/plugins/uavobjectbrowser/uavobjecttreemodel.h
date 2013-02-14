@@ -66,30 +66,6 @@ public:
     TopTreeItem* getSettingsTree(){return m_settingsTree;}
     TopTreeItem* getNonSettingsTree(){return m_nonSettingsTree;}
 
-    QModelIndex getTopLeftData(){return createIndex(topmostData, leftmostData, m_nonSettingsTree);}
-    QModelIndex getBottomRightData(){return createIndex(bottommostData, rightmostData, m_nonSettingsTree);}
-
-    QModelIndex getTopLeftSettings(){return createIndex(topmostSettings, leftmostSettings, m_settingsTree);}
-    QModelIndex getBottomRightSettings(){return createIndex(bottommostSettings, rightmostSettings, m_settingsTree);}
-
-    int getTopmostData(){return topmostData;}
-    int getLeftmostData(){return leftmostData;}
-    int getBottommostData(){return bottommostData;}
-    int getRightmostData(){return rightmostData;}
-    int getTopmostSettings(){return topmostSettings;}
-    int getLeftmostSettings(){return leftmostSettings;}
-    int getBottommostSettings(){return bottommostSettings;}
-    int getRightmostSettings(){return rightmostSettings;}
-
-    void resetTopmostData() {topmostData = -1;}
-    void resetLeftmostData() {leftmostData = -1;}
-    void resetBottommostData(){bottommostData = -1;}
-    void resetRightmostData(){rightmostData = -1;}
-    void resetTopmostSettings() {topmostSettings = -1;}
-    void resetLeftmostSettings() {leftmostSettings = -1;}
-    void resetBottommostSettings(){bottommostSettings = -1;}
-    void resetRightmostSettings(){rightmostSettings = -1;}
-
     void setRecentlyUpdatedColor(QColor color) { m_recentlyUpdatedColor = color; }
     void setManuallyChangedColor(QColor color) { m_manuallyChangedColor = color; }
     void setRecentlyUpdatedTimeout(int timeout) {
@@ -99,6 +75,8 @@ public:
     void setOnlyHighlightChangedValues(bool highlight) {m_onlyHighlightChangedValues = highlight; }
 
     QList<QModelIndex> getMetaDataIndexes();
+
+    QModelIndex getIndex(int indexRow, int indexCol, TopTreeItem *topTreeItem){return createIndex(indexRow, indexCol, topTreeItem);}
 
 signals:
 
@@ -110,8 +88,6 @@ private slots:
     void updateHighlight(TreeItem*);
 
 private:
-    void updateDataView(QModelIndex, QModelIndex);
-
     void setupModelData(UAVObjectManager *objManager, bool categorize = true);
     QModelIndex index(TreeItem *item);
     void addDataObject(UAVDataObject *obj, bool categorize = true);
@@ -139,17 +115,6 @@ private:
 
     // Highlight manager to handle highlighting of tree items.
     HighLightManager *m_highlightManager;
-
-    QList <QModelIndex> dataColumnUpdate;
-    QList <QModelIndex> dataRowsUpdate;
-    int topmostData;
-    int leftmostData;
-    int bottommostData;
-    int rightmostData;
-    int topmostSettings;
-    int leftmostSettings;
-    int bottommostSettings;
-    int rightmostSettings;
 };
 
 #endif // UAVOBJECTTREEMODEL_H
