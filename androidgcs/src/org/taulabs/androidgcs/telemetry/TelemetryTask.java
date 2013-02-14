@@ -167,6 +167,7 @@ public abstract class TelemetryTask implements Runnable {
 
 	boolean attemptedFailed() {
 		connected = false;
+		telemService.connectionBroken();
 		return connected;
 	}
 
