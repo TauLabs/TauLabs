@@ -215,7 +215,7 @@ SECTIONS
          _init_stack_top = _irq_stack_top;
          . = ALIGN(4);
     } >RAM
-	
+    
 
     /* This is the initialized data section
     The program executes knowing that the data is in the RAM
@@ -305,9 +305,9 @@ SECTIONS
     
     .boardinfo :
     {
-	. = ALIGN(4);
-	KEEP(*(.boardinfo))
-	. = ALIGN(4);
+    . = ALIGN(4);
+    KEEP(*(.boardinfo))
+    . = ALIGN(4);
     } > BD_INFO
 
     /* after that it's only debugging information. */

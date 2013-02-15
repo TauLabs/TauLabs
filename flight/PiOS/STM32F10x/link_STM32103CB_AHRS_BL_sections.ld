@@ -49,8 +49,8 @@ SECTIONS
 
     .boardinfo :
     {
-	. = ALIGN(4);
-	KEEP(*(.boardinfo))
-	. = ALIGN(4);
+    . = ALIGN(4);
+    KEEP(*(.boardinfo))
+    . = ALIGN(4);
     } > BD_INFO
 }

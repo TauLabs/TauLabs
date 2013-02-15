@@ -186,10 +186,10 @@ SECTIONS
     .initcallmodule.init :
     {
         . = ALIGN(4);
-	__module_initcall_start = .;
+    __module_initcall_start = .;
         KEEP(*(.initcallmodule.init))
-	. = ALIGN(4);
-	__module_initcall_end   = .;
+    . = ALIGN(4);
+    __module_initcall_end   = .;
     } >FLASH
 
     /* the program code is stored in the .text section, which goes to Flash */
@@ -226,7 +226,7 @@ SECTIONS
          _irq_stack_top = . - 4 ;
          . = ALIGN(4);
     } >RAM
-	
+    
 
     /* This is the initialized data section
     The program executes knowing that the data is in the RAM

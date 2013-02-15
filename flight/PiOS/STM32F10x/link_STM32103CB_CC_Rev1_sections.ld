@@ -26,10 +26,10 @@ SECTIONS
     .initcallmodule.init :
     {
         . = ALIGN(4);
-	__module_initcall_start = .;
+    __module_initcall_start = .;
         KEEP(*(.initcallmodule.init))
-	. = ALIGN(4);
-	__module_initcall_end   = .;
+    . = ALIGN(4);
+    __module_initcall_end   = .;
     } >FLASH
 
     .ARM.extab :
