@@ -182,8 +182,8 @@ SECTIONS
     /* the program code is stored in the .text section, which goes to Flash */
     .text :
     {
-            . = ALIGN(4);
-            
+        . = ALIGN(4);
+        
         *(.text)                   /* remaining code */
         *(.text.*)                   /* remaining code */
         *(.rodata)                 /* read-only data (constants) */
@@ -191,10 +191,10 @@ SECTIONS
         *(.glue_7)
         *(.glue_7t)
 
-            . = ALIGN(4);
-         _etext = .;
-            /* This is used by the startup in order to initialize the .data secion */
-         _sidata = _etext;
+        . = ALIGN(4);
+        _etext = .;
+        /* This is used by the startup in order to initialize the .data secion */
+        _sidata = _etext;
     } > BL_FLASH
     
 
@@ -207,13 +207,13 @@ SECTIONS
      */
     .irq_stack :
     {
-         . = ALIGN(4);
-         _irq_stack_end = . ;
-         . = . + _irq_stack_size ;
-         . = ALIGN(4);
-         _irq_stack_top = . - 4 ;
-         _init_stack_top = _irq_stack_top;
-         . = ALIGN(4);
+        . = ALIGN(4);
+        _irq_stack_end = . ;
+        . = . + _irq_stack_size ;
+        . = ALIGN(4);
+        _irq_stack_top = . - 4 ;
+        _init_stack_top = _irq_stack_top;
+        . = ALIGN(4);
     } >RAM
     
 
@@ -223,15 +223,15 @@ SECTIONS
     It is one task of the startup to copy the initial values from FLASH to RAM. */
     .data  : AT ( _sidata )
     {
-            . = ALIGN(4);
+        . = ALIGN(4);
         /* This is used by the startup in order to initialize the .data secion */
         _sdata = . ;
         
         *(.data)
         *(.data.*)
-            . = ALIGN(4);
-            /* This is used by the startup in order to initialize the .data secion */
-         _edata = . ;
+        . = ALIGN(4);
+        /* This is used by the startup in order to initialize the .data secion */
+        _edata = . ;
     } >RAM
     
     
@@ -239,16 +239,16 @@ SECTIONS
     /* This is the uninitialized data section */
     .bss :
     {
-            . = ALIGN(4);
+        . = ALIGN(4);
         /* This is used by the startup in order to initialize the .bss secion */
         _sbss = .;
         
         *(.bss)
         *(COMMON)
         
-            . = ALIGN(4);
-            /* This is used by the startup in order to initialize the .bss secion */
-         _ebss = . ;
+        . = ALIGN(4);
+        /* This is used by the startup in order to initialize the .bss secion */
+        _ebss = . ;
     } >RAM
     
     PROVIDE ( end = _ebss );
@@ -305,9 +305,9 @@ SECTIONS
     
     .boardinfo :
     {
-    . = ALIGN(4);
-    KEEP(*(.boardinfo))
-    . = ALIGN(4);
+        . = ALIGN(4);
+        KEEP(*(.boardinfo))
+        . = ALIGN(4);
     } > BD_INFO
 
     /* after that it's only debugging information. */
@@ -315,10 +315,10 @@ SECTIONS
     /* remove the debugging information from the standard libraries */
     /DISCARD/ :
     {
-     libc.a ( * )
-     libm.a ( * )
-     libgcc.a ( * )
-     }
+        libc.a ( * )
+        libm.a ( * )
+        libgcc.a ( * )
+    }
 
     /* Stabs debugging sections.  */
     .stab          0 : { *(.stab) }

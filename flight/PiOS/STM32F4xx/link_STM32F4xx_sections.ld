@@ -77,9 +77,9 @@ SECTIONS
         * Place the IRQ/bootstrap stack at the bottom of SRAM so that an overflow
         * results in a hard fault.
         */
-       .istack (NOLOAD) :
-       {
-           . = ALIGN(4);
+    .istack (NOLOAD) :
+    {
+       . = ALIGN(4);
         _irq_stack_end = . ;
         *(.irqstack)
         _irq_stack_top = . ;

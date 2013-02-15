@@ -26,10 +26,10 @@ SECTIONS
     .initcallmodule.init :
     {
         . = ALIGN(4);
-    __module_initcall_start = .;
+        __module_initcall_start = .;
         KEEP(*(.initcallmodule.init))
-    . = ALIGN(4);
-    __module_initcall_end   = .;
+        . = ALIGN(4);
+        __module_initcall_end   = .;
     } >FLASH
 
     .ARM.extab :
@@ -55,12 +55,12 @@ SECTIONS
      */
     .irq_stack :
     {
-         . = ALIGN(4);
-         _irq_stack_end = . ;
-         . = . + _irq_stack_size ;
-         . = ALIGN(4);
-         _irq_stack_top = . - 4 ;
-         . = ALIGN(4);
+        . = ALIGN(4);
+        _irq_stack_end = . ;
+        . = . + _irq_stack_size ;
+        . = ALIGN(4);
+        _irq_stack_top = . - 4 ;
+        . = ALIGN(4);
     } > SRAM
 
     .data : AT (_etext)

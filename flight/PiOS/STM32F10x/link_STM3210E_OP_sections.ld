@@ -186,17 +186,17 @@ SECTIONS
     .initcallmodule.init :
     {
         . = ALIGN(4);
-    __module_initcall_start = .;
+        __module_initcall_start = .;
         KEEP(*(.initcallmodule.init))
-    . = ALIGN(4);
-    __module_initcall_end   = .;
+        . = ALIGN(4);
+        __module_initcall_end   = .;
     } >FLASH
 
     /* the program code is stored in the .text section, which goes to Flash */
     .text :
     {
-            . = ALIGN(4);
-            
+        . = ALIGN(4);
+        
         *(.text)                   /* remaining code */
         *(.text.*)                   /* remaining code */
         *(.rodata)                 /* read-only data (constants) */
@@ -204,10 +204,10 @@ SECTIONS
         *(.glue_7)
         *(.glue_7t)
 
-            . = ALIGN(4);
+        . = ALIGN(4);
          _etext = .;
-            /* This is used by the startup in order to initialize the .data secion */
-         _sidata = _etext;
+        /* This is used by the startup in order to initialize the .data secion */
+        _sidata = _etext;
     } >FLASH
     
     /* 
@@ -219,12 +219,12 @@ SECTIONS
      */
     .irq_stack :
     {
-         . = ALIGN(4);
-         _irq_stack_end = . ;
-         . = . + _irq_stack_size ;
-         . = ALIGN(4);
-         _irq_stack_top = . - 4 ;
-         . = ALIGN(4);
+        . = ALIGN(4);
+        _irq_stack_end = . ;
+        . = . + _irq_stack_size ;
+        . = ALIGN(4);
+        _irq_stack_top = . - 4 ;
+        . = ALIGN(4);
     } >RAM
     
 
@@ -234,15 +234,15 @@ SECTIONS
     It is one task of the startup to copy the initial values from FLASH to RAM. */
     .data  : AT ( _sidata )
     {
-            . = ALIGN(4);
+        . = ALIGN(4);
         /* This is used by the startup in order to initialize the .data secion */
         _sdata = . ;
         
         *(.data)
         *(.data.*)
-            . = ALIGN(4);
-            /* This is used by the startup in order to initialize the .data secion */
-         _edata = . ;
+        . = ALIGN(4);
+        /* This is used by the startup in order to initialize the .data secion */
+        _edata = . ;
     } >RAM
     
     
@@ -250,7 +250,7 @@ SECTIONS
     /* This is the uninitialized data section */
     .bss :
     {
-            . = ALIGN(4);
+        . = ALIGN(4);
         /* This is used by the startup in order to initialize the .bss section */
         _sbss = .;
         
@@ -340,10 +340,10 @@ SECTIONS
     /* remove the debugging information from the standard libraries */
     /DISCARD/ :
     {
-     libc.a ( * )
-     libm.a ( * )
-     libgcc.a ( * )
-     }
+        libc.a ( * )
+        libm.a ( * )
+        libgcc.a ( * )
+    }
 
     /* Stabs debugging sections.  */
     .stab          0 : { *(.stab) }
