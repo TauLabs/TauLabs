@@ -30,7 +30,7 @@
 #define configCPU_CLOCK_HZ						(SYSCLK_FREQ)	// really the NVIC clock ...
 #define configTICK_RATE_HZ						((portTickType )1000)
 #define configMAX_PRIORITIES					((unsigned portBASE_TYPE)5)
-#define configMINIMAL_STACK_SIZE				((unsigned short)512)
+#define configMINIMAL_STACK_SIZE				((unsigned short)48)
 #define configMAX_TASK_NAME_LEN					(16)
 
 #define configUSE_PREEMPTION					1
