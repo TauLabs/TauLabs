@@ -14,7 +14,7 @@ OPENOCD_CONFIG      := stm32f4xx.stlink.cfg
 
 # Note: These must match the values in link_$(BOARD)_memory.ld
 BL_BANK_BASE        := 0x08000000  # Start of bootloader flash
-BL_BANK_SIZE        := 0x00008000  # Should include BD_INFO region
+BL_BANK_SIZE        := 0x00008000  # Should include BD_INFO region (32kb)
 
 EE_BANK_BASE        := 0x08008000  # EEPROM storage area
 EE_BANK_SIZE        := 0x00008000  # Size of EEPROM storage area
@@ -22,7 +22,7 @@ EE_BANK_SIZE        := 0x00008000  # Size of EEPROM storage area
 # Leave the 64KB sector for other uses
 
 FW_BANK_BASE        := 0x08020000  # Start of firmware flash
-FW_BANK_SIZE        := 0x00050000  # Should include FW_DESC_SIZE (320kb)
+FW_BANK_SIZE        := 0x00040000  # Should include FW_DESC_SIZE (256kb)
 
 FW_DESC_SIZE        := 0x00000064
 
