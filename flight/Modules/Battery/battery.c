@@ -185,16 +185,7 @@ static void batteryTask(void * parameters) {
                 float alpha = 1.0f - dT / (dT + 2.0f);
                 flightBatteryData.AvgCurrent = alpha * flightBatteryData.AvgCurrent + (1 - alpha) * flightBatteryData.Current; //in Amps
 
-                /*The motor could regenerate power. Or we could have solar cells.
-                 In short, is there any likelihood of measuring negative current? If it's a bad current reading we want to check, then
-                 it makes sense to saturate at max and min values, because a misreading could as easily be very large, as negative. The simple
-                 sign check doesn't catch this.*/
-//	//sanity checks 
-//	if (flightBatteryData.AvgCurrent<0) flightBatteryData.AvgCurrent=0.0f;
-//	if (flightBatteryData.PeakCurrent<0) flightBatteryData.PeakCurrent=0.0f;
-//	if (flightBatteryData.ConsumedEnergy<0) flightBatteryData.ConsumedEnergy=0.0f;
-
-                energyRemaining = batterySettings.Capacity - flightBatteryData.ConsumedEnergy; // in mAh
+               energyRemaining = batterySettings.Capacity - flightBatteryData.ConsumedEnergy; // in mAh
                 if (flightBatteryData.AvgCurrent > 0)
                         flightBatteryData.EstimatedFlightTime = (energyRemaining / (flightBatteryData.AvgCurrent * 1000.0f)) * 3600.0f; //in Sec
                 else

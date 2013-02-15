@@ -7,6 +7,7 @@
  * @{
  *
  * @file       pios_adc.c
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @author     The Tau Labs Team, http://www.taulabs.org Copyright (C) 2013.
  * @brief      Analog to Digital conversion routines
  * @see        The GNU Public License (GPL) Version 3
@@ -32,170 +33,168 @@
 
 // Private types
 enum pios_adc_dev_magic {
-	PIOS_ADC_DEV_MAGIC = 0x58375169,
+        PIOS_ADC_DEV_MAGIC = 0x58375169,
 };
 
 struct pios_adc_dev {
-	enum pios_adc_dev_magic magic;
-	uint32_t lower_id;
-	const struct pios_adc_driver * driver;
+        enum pios_adc_dev_magic magic;
+        uint32_t lower_id;
+        const struct pios_adc_driver *driver;
 };
 
 #if defined(PIOS_INCLUDE_FREERTOS)
 struct pios_adc_dev * pios_adc_dev;
+#else
+#error "PIOS_ADC only works with freeRTOS"
 #endif
 
 // Private functions
-static struct pios_adc_dev * PIOS_ADC_Allocate();
-static bool PIOS_ADC_validate(struct pios_adc_dev *);
+static struct pios_adc_dev *
+PIOS_ADC_Allocate(void);
+static bool
+PIOS_ADC_validate(struct pios_adc_dev *);
 
 /* Local Variables */
-static struct sub_device_list_
-{
-	uint8_t number_of_devices;
-	uintptr_t sub_device_pointers[PIOS_ADC_SUB_DRIVER_MAX_INSTANCES];
-}__attribute__((packed)) __attribute__((aligned(4))) sub_device_list;
+static struct sub_device_list_ {
+        uint8_t number_of_devices;
+        uintptr_t sub_device_pointers[PIOS_ADC_SUB_DRIVER_MAX_INSTANCES];
+} sub_device_list;
 
 /**
-  * @brief Validates the ADC device
-  * \param[in] dev pointer to device structure
-  * \return true if valid
-  */
-static bool PIOS_ADC_validate(struct pios_adc_dev * dev)
+ * @brief Validates the ADC device
+ * \param[in] dev pointer to device structure
+ * \return true if valid
+ */
+static bool PIOS_ADC_validate(struct pios_adc_dev *dev)
 {
-	if (dev == NULL)
-		return false;
+        if (dev == NULL )
+                return false;
 
-	return (dev->magic == PIOS_ADC_DEV_MAGIC);
+        return (dev->magic == PIOS_ADC_DEV_MAGIC);
 }
 
 #if defined(PIOS_INCLUDE_FREERTOS)
 /**
-  * @brief Allocates an ADC device in memory
-  * \param[out] pointer to the newly created device
-  *
-  */
-static struct pios_adc_dev * PIOS_ADC_Allocate()
+ * @brief Allocates an ADC device in memory
+ * \param[out] pointer to the newly created device
+ *
+ */
+static struct pios_adc_dev *PIOS_ADC_Allocate(void)
 {
-	struct pios_adc_dev * adc_dev;
+        struct pios_adc_dev *adc_dev;
 
-	adc_dev = (struct pios_adc_dev *)pvPortMalloc(sizeof(*adc_dev));
-	if (!adc_dev) return (NULL);
+        adc_dev = (struct pios_adc_dev *) pvPortMalloc(sizeof(*adc_dev));
+        if (!adc_dev)
+                return (NULL );
 
-	adc_dev->magic = PIOS_ADC_DEV_MAGIC;
-	return(adc_dev);
+        adc_dev->magic = PIOS_ADC_DEV_MAGIC;
+        return (adc_dev);
 }
 #else
 #error Not implemented
 #endif
 
 /**
-  * @brief Initializes an ADC device
-  * \param[out] adc_id handle to the device
-  * \param[in] driver drive to use with the device
-  * \param[in] lower_id handle to the lower level device
-  * \return < 0 if deviced initialization failed
-  */
-int32_t PIOS_ADC_Init(uintptr_t * adc_id, const struct pios_adc_driver * driver, uint32_t lower_id)
+ * @brief Initializes an ADC device
+ * \param[out] adc_id handle to the device
+ * \param[in] driver drive to use with the device
+ * \param[in] lower_id handle to the lower level device
+ * \return < 0 if deviced initialization failed
+ */
+int32_t PIOS_ADC_Init(uintptr_t *adc_id, const struct pios_adc_driver *driver, uint32_t lower_id)
 {
-	PIOS_Assert(adc_id);
-	PIOS_Assert(driver);
+        PIOS_Assert(adc_id);
+        PIOS_Assert(driver);
+        if (sub_device_list.number_of_devices >= PIOS_ADC_SUB_DRIVER_MAX_INSTANCES)
+                return -1;
+        struct pios_adc_dev * adc_dev;
 
-	struct pios_adc_dev * adc_dev;
+        adc_dev = (struct pios_adc_dev *) PIOS_ADC_Allocate();
 
-	adc_dev=(struct pios_adc_dev *) PIOS_ADC_Allocate();
+        if (!adc_dev)
+                return -1;
 
-	if(!adc_dev)
-		return -1;
+        adc_dev->driver = driver;
+        adc_dev->lower_id = lower_id;
 
-	adc_dev->driver = driver;
-	adc_dev->lower_id = lower_id;
+        *adc_id = (uintptr_t) adc_dev;
 
-	*adc_id = (uintptr_t)adc_dev;
-	if(sub_device_list.number_of_devices > PIOS_ADC_SUB_DRIVER_MAX_INSTANCES - 1)
-		return -1;
-	sub_device_list.sub_device_pointers[sub_device_list.number_of_devices]=*adc_id;
-	sub_device_list.number_of_devices++;
-	return 0;
+        sub_device_list.sub_device_pointers[sub_device_list.number_of_devices] = *adc_id;
+        sub_device_list.number_of_devices++;
+        return 0;
 }
 
 /**
-  * @brief Gets the ADC value of the given pin of the device
-  * \param[in] adc_id pointer to the device to read from
-  * \param[in] device_pin pin from device to be read
-  * \return the value of the pin or -1 if error
-  */
+ * @brief Gets the ADC value of the given pin of the device
+ * \param[in] adc_id pointer to the device to read from
+ * \param[in] device_pin pin from device to be read
+ * \return the value of the pin or -1 if error
+ */
 int32_t PIOS_ADC_DevicePinGet(uintptr_t adc_id, uint32_t device_pin)
 {
-	struct pios_adc_dev * adc_dev = (struct pios_adc_dev *)adc_id;
+        struct pios_adc_dev * adc_dev = (struct pios_adc_dev *) adc_id;
 
-	if(!PIOS_ADC_validate(adc_dev))
-	{
-		return -1;
-	}
-	return (adc_dev->driver->get_pin)(adc_dev->lower_id, device_pin);
+        if (!PIOS_ADC_validate(adc_dev)) {
+                return -1;
+        }
+        return (adc_dev->driver->get_pin)(adc_dev->lower_id, device_pin);
 }
 
-
 /**
-  * @brief Checks if a given pin is available on the given device
-  * \param[in] adc_id handle of the device to read
-  * \param[in] device_pin pin to check if available
-  * \return true if available
-  */
-bool PIOS_ADC_Available(uintptr_t adc_id, uint32_t device_pin)
+ * @brief Checks if a given pin is available on the given device
+ * \param[in] adc_id handle of the device to read
+ * \param[in] device_pin pin to check if available
+ * \return true if available
+ */bool PIOS_ADC_Available(uintptr_t adc_id, uint32_t device_pin)
 {
-	struct pios_adc_dev * adc_dev = (struct pios_adc_dev *)adc_id;
+        struct pios_adc_dev *adc_dev = (struct pios_adc_dev *) adc_id;
 
-	if(!PIOS_ADC_validate(adc_dev))
-	{
-		return false;
-	}
-	return (adc_dev->driver->available)(adc_dev->lower_id,device_pin);
+        if (!PIOS_ADC_validate(adc_dev)) {
+                return false;
+        }
+        return (adc_dev->driver->available)(adc_dev->lower_id, device_pin);
 }
 
-
 /**
-  * @brief Set the queue to write to
-  * \param[in] adc_id handle to the device
-  * \param[in] data_queue handle to the queue to be used
-  */
+ * @brief Set the queue to write to
+ * \param[in] adc_id handle to the device
+ * \param[in] data_queue handle to the queue to be used
+ */
 void PIOS_ADC_SetQueue(uintptr_t adc_id, xQueueHandle data_queue)
 {
-	struct pios_adc_dev * adc_dev = (struct pios_adc_dev *)adc_id;
+        struct pios_adc_dev *adc_dev = (struct pios_adc_dev *) adc_id;
 
-	if(!PIOS_ADC_validate(adc_dev))
-	{
-		return;
-	}
-	(adc_dev->driver->set_queue)(adc_dev->lower_id,data_queue);
+        if (!PIOS_ADC_validate(adc_dev)) {
+                return;
+        }
+        if (!adc_dev->driver->set_queue)
+                return;
+        (adc_dev->driver->set_queue)(adc_dev->lower_id, data_queue);
 }
 
-
 /**
-  * @brief Reads from an ADC channel
-  * this is an abstraction of the lower devices
-  * channels are sequentially added from the lower devices available pins
-  * in the order of initialization
-  * \param[in] channel channel to read from
-  * \return value of the channel or -1 if error
-  */
+ * @brief Reads from an ADC channel
+ * this is an abstraction of the lower devices
+ * channels are sequentially added from the lower devices available pins
+ * Warning this function is not as efficient as directly getting the device channel
+ * in the order of initialization
+ * \param[in] channel channel to read from
+ * \return value of the channel or -1 if error
+ */
 int32_t PIOS_ADC_GetChannel(uint32_t channel)
 {
-	uint8_t offset = 0;
-	for(int x=0; x < sub_device_list.number_of_devices;++x)
-	{
-		uintptr_t temp= (sub_device_list.sub_device_pointers[x]);
-		struct pios_adc_dev * adc_dev = (struct pios_adc_dev *)temp;
-		if(!PIOS_ADC_validate(adc_dev))
-			continue;
-		if((adc_dev->driver->number_of_channels)(adc_dev->lower_id) >= channel +1 - offset)
-		{
-			return (adc_dev->driver->get_pin)(adc_dev->lower_id,channel - offset);
-		}
-		offset += (adc_dev->driver->number_of_channels)(adc_dev->lower_id);
-	}
-	return -1;
+        uint8_t offset = 0;
+        for (int x = 0; x < sub_device_list.number_of_devices; ++x) {
+                uintptr_t temp = (sub_device_list.sub_device_pointers[x]);
+                struct pios_adc_dev * adc_dev = (struct pios_adc_dev *) temp;
+                if (!PIOS_ADC_validate(adc_dev))
+                        continue;
+                if ((adc_dev->driver->number_of_channels)(adc_dev->lower_id) >= channel + 1 - offset) {
+                        return (adc_dev->driver->get_pin)(adc_dev->lower_id, channel - offset);
+                }
+                offset += (adc_dev->driver->number_of_channels)(adc_dev->lower_id);
+        }
+        return -1;
 }
 
 /**

@@ -74,8 +74,6 @@ uintptr_t pios_com_gps_id;
 uintptr_t pios_com_bridge_id;
 uintptr_t pios_com_mavlink_id;
 uint32_t pios_usb_rctx_id;
-uintptr_t pios_internal_adc_id;
-uintptr_t pios_pcf8591_adc_id;
 
 /**
  * Configuration for MPU6000 chip
@@ -680,6 +678,13 @@ void PIOS_Board_Init(void) {
 			}
 		}
 #endif	/* PIOS_INCLUDE_I2C */
+#if defined(PIOS_INCLUDE_PCF8591)
+                {
+                        uint32_t pcf8591_adc_id;
+                        PIOS_PCF8591_ADC_Init(&pcf8591_adc_id, &pios_8591_cfg);
+                        PIOS_ADC_Init(&pios_pcf8591_adc_id, &pios_pcf8591_adc_driver, pcf8591_adc_id);
+                }
+#endif
 		break;
 	case HWCOPTERCONTROL_FLEXIPORT_MAVLINKTX:
 	#if defined(PIOS_INCLUDE_MAVLINK)
@@ -866,16 +871,6 @@ void PIOS_Board_Init(void) {
 
 	/* Make sure we have at least one telemetry link configured or else fail initialization */
 	PIOS_Assert(pios_com_telem_rf_id || pios_com_telem_usb_id);
-
-
-#if defined(PIOS_INCLUDE_PCF8591)
-		{
-			uint32_t pcf8591_adc_id;
-			PIOS_PCF8591_ADC_Init(&pcf8591_adc_id, &pios_8591_cfg);
-			PIOS_ADC_Init(&pios_pcf8591_adc_id, &pios_pcf8591_adc_driver, pcf8591_adc_id);
-		}
-#endif
-
 }
 
 /**

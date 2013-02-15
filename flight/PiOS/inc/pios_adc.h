@@ -7,6 +7,7 @@
  * @{
  *
  * @file       pios_adc.h
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @author     The Tau Labs Team, http://www.taulabs.org Copyright (C) 2013.
  * @brief      ADC layer functions header
  * @see        The GNU Public License (GPL) Version 3
@@ -34,18 +35,17 @@
 #include <stdint.h>		/* uint*_t */
 #include <stdbool.h>	/* bool */
 
-typedef uint16_t (*pios_com_callback)(uint32_t context, uint8_t * buf, uint16_t buf_len, uint16_t * headroom, bool * task_woken);
-
 struct pios_adc_driver {
 	void (*init)(uint32_t id);
 	int32_t (*get_pin)(uint32_t id, uint32_t pin);
 	bool (*available)(uint32_t id, uint32_t device_pin);
+#if defined(PIOS_INCLUDE_FREERTOS)
 	void (*set_queue)(uint32_t id, xQueueHandle data_queue);
+#endif
 	uint8_t (*number_of_channels)(uint32_t id);
 };
 
 /* Public Functions */
-extern int32_t PIOS_ADC_PinGet(uint32_t pin);
 extern int32_t PIOS_ADC_DevicePinGet(uintptr_t adc_id, uint32_t device_pin);
 extern bool PIOS_ADC_Available(uintptr_t adc_id, uint32_t device_pin);
 #if defined(PIOS_INCLUDE_FREERTOS)
