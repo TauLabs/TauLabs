@@ -7,6 +7,7 @@
  * @{
  *
  * @file       pios_internal_adc.c
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @author     The Tau Labs Team, http://www.taulabls.org Copyright (C) 2013.
  * @brief      Analog to Digital conversion routines
  * @see        The GNU Public License (GPL) Version 3
@@ -31,19 +32,19 @@
 #include <pios_internal_adc_priv.h>
 
 // Private functions
-void PIOS_INTERNAL_ADC_downsample_data(uint32_t internal_adc_id);
+static void PIOS_INTERNAL_ADC_downsample_data(uint32_t internal_adc_id);
 static struct pios_internal_adc_dev * PIOS_INTERNAL_ADC_Allocate();
 static bool PIOS_INTERNAL_ADC_validate(struct pios_internal_adc_dev *);
-int16_t * PIOS_INTERNAL_ADC_GetRawBuffer(uint32_t internal_adc_id);
-uint8_t PIOS_INTERNAL_ADC_GetOverSampling(uint32_t internal_adc_id);
-void PIOS_INTERNAL_ADC_Config(uint32_t internal_adc_id, uint32_t oversampling);
-int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin);
-void PIOS_INTERNAL_ADC_SetCallback(uint32_t internal_adc_id, ADCCallback new_function);
+static int16_t * PIOS_INTERNAL_ADC_GetRawBuffer(uint32_t internal_adc_id);
+static uint8_t PIOS_INTERNAL_ADC_GetOverSampling(uint32_t internal_adc_id);
+static void PIOS_INTERNAL_ADC_Config(uint32_t internal_adc_id, uint32_t oversampling);
+static int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin);
+static void PIOS_INTERNAL_ADC_SetCallback(uint32_t internal_adc_id, ADCCallback new_function);
 #if defined(PIOS_INCLUDE_FREERTOS)
-void PIOS_INTERNAL_ADC_SetQueue(uint32_t internal_adc_id, xQueueHandle data_queue);
+void static PIOS_INTERNAL_ADC_SetQueue(uint32_t internal_adc_id, xQueueHandle data_queue);
 #endif
-uint8_t PIOS_INTERNAL_ADC_Number_of_Channels(uint32_t internal_adc_id);
-bool PIOS_INTERNAL_ADC_Available(uint32_t adc_id, uint32_t device_pin);
+uint8_t static PIOS_INTERNAL_ADC_Number_of_Channels(uint32_t internal_adc_id);
+bool static PIOS_INTERNAL_ADC_Available(uint32_t adc_id, uint32_t device_pin);
 
 // Private types
 enum pios_internal_adc_dev_magic {
@@ -298,7 +299,7 @@ int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin)
 
 /**
  * @brief Set a callback function that is executed whenever
- * the ADC double buffer swaps 
+ * the ADC double buffer swaps
  * \param[in] internal_adc_id handle to the device
  *
  */
@@ -333,7 +334,7 @@ void PIOS_INTERNAL_ADC_SetQueue(uint32_t internal_adc_id, xQueueHandle data_queu
  * \param[in] internal_adc_id handle to the device
  *
  */
-float * PIOS_INTERNAL_ADC_GetBuffer(uint32_t internal_adc_id)
+static float * PIOS_INTERNAL_ADC_GetBuffer(uint32_t internal_adc_id)
 {
 	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *)internal_adc_id;
 	if(!PIOS_INTERNAL_ADC_validate(adc_dev))
@@ -344,10 +345,10 @@ float * PIOS_INTERNAL_ADC_GetBuffer(uint32_t internal_adc_id)
 }
 
 /**
- * @brief Return the address of the raw data data buffer 
+ * @brief Return the address of the raw data data buffer
  * \param[in] internal_adc_id handle to the device
  */
-int16_t * PIOS_INTERNAL_ADC_GetRawBuffer(uint32_t internal_adc_id)
+static int16_t * PIOS_INTERNAL_ADC_GetRawBuffer(uint32_t internal_adc_id)
 {
 	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *)internal_adc_id;
 	if(!PIOS_INTERNAL_ADC_validate(adc_dev))
@@ -361,7 +362,7 @@ int16_t * PIOS_INTERNAL_ADC_GetRawBuffer(uint32_t internal_adc_id)
  * @brief Return the amount of over sampling
  * \param[in] internal_adc_id handle to the device
  */
-uint8_t PIOS_INTERNAL_ADC_GetOverSampling(uint32_t internal_adc_id)
+static uint8_t PIOS_INTERNAL_ADC_GetOverSampling(uint32_t internal_adc_id)
 {
 	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *)internal_adc_id;
 	if(!PIOS_INTERNAL_ADC_validate(adc_dev))
