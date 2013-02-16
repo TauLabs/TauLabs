@@ -269,8 +269,8 @@ static void VibrationAnalysisTask(void *parameters)
 			continue;
 		}
 		
-		// Wait until the Accels object is updated, if a 100ms timeout then do nothing
-		if ( xQueueReceive(queue, &ev, 100 * portTICK_RATE_MS) == pdTRUE )
+		// Wait until the Accels object is updated, and never time out
+		if ( xQueueReceive(queue, &ev, portMAX_DELAY) == pdTRUE )
 		{
 			/**
 			 * Accumulate accelerometer data. This would be a great place to add a 
@@ -288,10 +288,6 @@ static void VibrationAnalysisTask(void *parameters)
 			vtd->accels_sum_count++;
 			
 		}
-		else {
-			// Do nothing, as a timeout in this module isn't critical.
-			continue;
-		}		
 		
 		// If not enough time has passed, keep accumulating data
 		if(xTaskGetTickCount() - lastSysTime < sampleRate_ms * portTICK_RATE_MS){
