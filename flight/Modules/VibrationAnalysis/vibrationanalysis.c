@@ -212,7 +212,7 @@ static void VibrationAnalysisTask(void *parameters)
 	int16_t accel_buffer_complex_z_q15[fft_window_size*2]; // is always 0.
 	
 /** These values are useful for insight into the Fourier transform performed by this module.
-	float freq_sample = 1.0f/(sampleRate_ms / portTICK_RATE_MS);
+	float freq_sample = 1.0f/(sampleRate_ms * portTICK_RATE_MS);
 	float freq_nyquist = f_s/2.0f;
 	uint16_t num_samples = fft_window_size;
  */
@@ -221,12 +221,12 @@ static void VibrationAnalysisTask(void *parameters)
 	VibrationAnalysisOutputData vibrationAnalysisOutputData;
 	sample_count = 0;
 	lastSysTime = xTaskGetTickCount();
-	lastSettingsUpdateTime = xTaskGetTickCount() - 100 / portTICK_RATE_MS;
+	lastSettingsUpdateTime = xTaskGetTickCount() - 100 * portTICK_RATE_MS;
 	
 	while(1)
 	{
 		// Only check settings once every 100ms
-		if(xTaskGetTickCount() - lastSettingsUpdateTime > 100 / portTICK_RATE_MS){
+		if(xTaskGetTickCount() - lastSettingsUpdateTime > 100 * portTICK_RATE_MS){
 			//First check if the analysis is active
 			VibrationAnalysisSettingsTestingStatusGet(&runAnalysisFlag);
 			
@@ -244,7 +244,7 @@ static void VibrationAnalysisTask(void *parameters)
 		}
 		
 		// Wait until the Accels object is updated, if a 100ms timeout then do nothing
-		if ( xQueueReceive(queue, &ev, 100 / portTICK_RATE_MS) == pdTRUE )
+		if ( xQueueReceive(queue, &ev, 100 * portTICK_RATE_MS) == pdTRUE )
 		{
 			/**
 			 * Accumulate accelerometer data. This would be a great place to add a 
@@ -268,11 +268,11 @@ static void VibrationAnalysisTask(void *parameters)
 		}		
 		
 		// If not enough time has passed, keep accumulating data
-		if(xTaskGetTickCount() - lastSysTime < sampleRate_ms / portTICK_RATE_MS){
+		if(xTaskGetTickCount() - lastSysTime < sampleRate_ms * portTICK_RATE_MS){
 			continue;
 		}
 		
-		lastSysTime += sampleRate_ms / portTICK_RATE_MS;
+		lastSysTime += sampleRate_ms * portTICK_RATE_MS;
 		
 		
 		//Calculate averaged values
