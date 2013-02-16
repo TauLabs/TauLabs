@@ -56,8 +56,9 @@
 #define MAX_QUEUE_SIZE 2
 #define STACK_SIZE_BYTES (200 + 484 + (13*fft_window_size)) //This value has been calculated to leave 200 bytes of stack space, no matter the fft_window_size
 #define TASK_PRIORITY (tskIDLE_PRIORITY+1)
+#define SETTINGS_THROTTLING_MS 100
 
-#define GRAV 9.805                                  // Gravity in [m/s^2]
+#define GRAV 9.805f                                 // Gravity in [m/s^2]
 #define MAX_ACCEL_RANGE 16                          // Maximum accelerometer resolution in [g]
 #define FLOAT_TO_Q15 (32768/(MAX_ACCEL_RANGE*GRAV)) // This is the scaling constant that scales all input floats to +-
 
@@ -130,7 +131,7 @@ static int32_t VibrationAnalysisStart(void)
 	// by VibrationAnalysisOutputInitialize(). Generate three times the length because there are three
 	// vectors. Generate half the length because the FFT output is symmetric about the mid-frequency, 
 	// so there's no point in using memory additional memory.
-	for (int i=1; i<(fft_window_size>>1); i++) {
+	for (int i=1; i < (fft_window_size>>1); i++) {
 		uint16_t ret = VibrationAnalysisOutputCreateInstance();
 		if (ret == 0) {
 			// This fails when it's a metaobject. Not a very helpful test.
@@ -246,12 +247,12 @@ static void VibrationAnalysisTask(void *parameters)
 	VibrationAnalysisOutputData vibrationAnalysisOutputData;
 	sample_count = 0;
 	lastSysTime = xTaskGetTickCount();
-	lastSettingsUpdateTime = xTaskGetTickCount() - 100 * portTICK_RATE_MS;
+	lastSettingsUpdateTime = xTaskGetTickCount() - SETTINGS_THROTTLING_MS * portTICK_RATE_MS;
 	
 	while(1)
 	{
 		// Only check settings once every 100ms
-		if(xTaskGetTickCount() - lastSettingsUpdateTime > 100 * portTICK_RATE_MS){
+		if(xTaskGetTickCount() - lastSettingsUpdateTime > SETTINGS_THROTTLING_MS * portTICK_RATE_MS){
 			//First check if the analysis is active
 			VibrationAnalysisSettingsTestingStatusGet(&runAnalysisFlag);
 			
@@ -280,9 +281,9 @@ static void VibrationAnalysisTask(void *parameters)
 			AccelsData accels_data;
 			AccelsGet(&accels_data);
 			
-			vtd->accels_data_sum_x+=accels_data.x;
-			vtd->accels_data_sum_y+=accels_data.y;
-			vtd->accels_data_sum_z+=accels_data.z;
+			vtd->accels_data_sum_x += accels_data.x;
+			vtd->accels_data_sum_y += accels_data.y;
+			vtd->accels_data_sum_z += accels_data.z;
 			
 			vtd->accels_sum_count++;
 			
@@ -301,9 +302,9 @@ static void VibrationAnalysisTask(void *parameters)
 		
 		
 		//Calculate averaged values
-		float accels_avg_x = vtd->accels_data_sum_x/vtd->accels_sum_count;
-		float accels_avg_y = vtd->accels_data_sum_y/vtd->accels_sum_count;
-		float accels_avg_z = vtd->accels_data_sum_z/vtd->accels_sum_count;
+		float accels_avg_x = vtd->accels_data_sum_x / vtd->accels_sum_count;
+		float accels_avg_y = vtd->accels_data_sum_y / vtd->accels_sum_count;
+		float accels_avg_z = vtd->accels_data_sum_z / vtd->accels_sum_count;
 		
 		//Calculate DC bias
 		float alpha=.005; //Hard-coded to drift very slowly
@@ -311,7 +312,8 @@ static void VibrationAnalysisTask(void *parameters)
 		vtd->accels_static_bias_y = alpha*accels_avg_y + (1-alpha)*vtd->accels_static_bias_y;
 		vtd->accels_static_bias_z = alpha*accels_avg_z + (1-alpha)*vtd->accels_static_bias_z;
 		
-		// Add averaged values to the buffer, and remove DC bias
+		// Add averaged values to the buffer, and remove DC bias. Only add real component, the
+		// complex component was already set to zero by a memset operation
 		vtd->accel_buffer_complex_x_q15[sample_count*2] = (accels_avg_x - vtd->accels_static_bias_x)*FLOAT_TO_Q15 + 0.5; // Extra +0.5 rounds value when casting to int
 		vtd->accel_buffer_complex_y_q15[sample_count*2] = (accels_avg_y - vtd->accels_static_bias_y)*FLOAT_TO_Q15 + 0.5; // Extra +0.5 rounds value when casting to int
 		vtd->accel_buffer_complex_z_q15[sample_count*2] = (accels_avg_z - vtd->accels_static_bias_z)*FLOAT_TO_Q15 + 0.5; // Extra +0.5 rounds value when casting to int
@@ -321,15 +323,16 @@ static void VibrationAnalysisTask(void *parameters)
 		vtd->accels_data_sum_y = 0;
 		vtd->accels_data_sum_z = 0;
 		vtd->accels_sum_count = 0;
-		
-		//Advance sample and reset when at buffer end
+
+		// Advance sample and reset when at buffer end
 		sample_count++;
-		if (sample_count >= vtd->fft_window_size) {
-			sample_count = 0;
-		}
 		
-		//Only process once the buffers are filled. This could be done continuously, but this way is probably easier on the processor
-		if (sample_count==0) {
+		// Only process once the buffers are filled. This could be done continuously, 
+		// but this way is probably easier on the processor
+		if (sample_count >= vtd->fft_window_size) {
+			//Reset sample count
+			sample_count = 0;
+			
 			// Decalare variables
 			int16_t fft_output[vtd->fft_window_size>>1]; //Output is symmetric, so no need to store second half of output
 			arm_cfft_radix4_instance_q15 cfft_instance;
@@ -350,13 +353,13 @@ static void VibrationAnalysisTask(void *parameters)
 					
 					switch (i) {
 						case 0:
-							ptr_cmplx_vec=vtd->accel_buffer_complex_x_q15;
+							ptr_cmplx_vec = vtd->accel_buffer_complex_x_q15;
 							break;
 						case 1:
-							ptr_cmplx_vec=vtd->accel_buffer_complex_y_q15;
+							ptr_cmplx_vec = vtd->accel_buffer_complex_y_q15;
 							break;
 						case 2:
-							ptr_cmplx_vec=vtd->accel_buffer_complex_z_q15;
+							ptr_cmplx_vec = vtd->accel_buffer_complex_z_q15;
 							break;
 						default:
 							//Whoops, this is a major error, leave before we overwrite memory
@@ -389,7 +392,7 @@ static void VibrationAnalysisTask(void *parameters)
 			}
 			
 			//Write output to UAVO
-			for (int j=0; j<(vtd->fft_window_size>>1); j++) 
+			for (int j=0; j < (vtd->fft_window_size>>1); j++) 
 			{
 				//Assertion check that we are not trying to write to instances that don't exist
 				if (j >= UAVObjGetNumInstances(VibrationAnalysisOutputHandle()))
