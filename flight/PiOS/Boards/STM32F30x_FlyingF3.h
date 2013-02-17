@@ -152,8 +152,8 @@ extern uintptr_t pios_com_debug_id;
 //------------------------
 // TELEMETRY
 //------------------------
-#define TELEM_QUEUE_SIZE				20
-#define PIOS_TELEM_STACK_SIZE			500
+#define TELEM_QUEUE_SIZE				40
+#define PIOS_TELEM_STACK_SIZE			768
 
 
 //-------------------------
