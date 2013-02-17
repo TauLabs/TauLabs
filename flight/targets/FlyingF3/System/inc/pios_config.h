@@ -102,6 +102,9 @@
 #define CPULOAD_LIMIT_WARNING		80
 #define CPULOAD_LIMIT_CRITICAL		95
 
+/* Task stack sizes */
+#define PIOS_EVENTDISPATCHER_STACK_SIZE	130
+
 // This actually needs calibrating
 #define IDLE_COUNTS_PER_SEC_AT_NO_LOAD (1995998) //FIXME: this is wrong for sure
 
