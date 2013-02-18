@@ -361,7 +361,7 @@ $(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk: uavo-collecti
 		$(ANDROIDGCS_BUILD_CONF)
 
 .PHONY: androidgcs_run
-androidgcs_run: 
+androidgcs_run: androidgcs_install
 	$(V0) @echo " AGCS RUN "
 	$(V1) $(ANDROID_ADB) shell am start -n org.taulabs.androidgcs/.HomePage
 
