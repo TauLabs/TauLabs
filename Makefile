@@ -168,6 +168,7 @@ help:
 	@echo "   [AndroidGCS]"
 	@echo "     androidgcs           - Build the Ground Control System (GCS) application"
 	@echo "     androidgcs_install   - Use ADB to install the Ground Control System (GCS) application"
+	@echo "     androidgcs_run       - Run the Ground Control System (GCS) application"
 	@echo "     androidgcs_clean     - Remove the Ground Control System (GCS) application"
 	@echo
 	@echo "   [UAVObjects]"
@@ -358,6 +359,11 @@ $(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk: uavo-collecti
 		-Dout.dir="../$(call toprel, $(ANDROIDGCS_OUT_DIR)/bin)" \
 		-Dgen.absolute.dir="$(ANDROIDGCS_OUT_DIR)/gen" \
 		$(ANDROIDGCS_BUILD_CONF)
+
+.PHONY: androidgcs_run
+androidgcs_run: 
+	$(V0) @echo " AGCS RUN "
+	$(V1) $(ANDROID_ADB) shell am start -n org.taulabs.androidgcs/.HomePage
 
 .PHONY: androidgcs_install
 androidgcs_install: $(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk
