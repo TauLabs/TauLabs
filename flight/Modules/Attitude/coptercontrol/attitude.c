@@ -690,6 +690,14 @@ static void updateTemperatureComp(float temperature, float *temp_bias)
 	static int temp_counter = 0;
 	static float temp_accum = 0;
 
+	static const float TEMP_MIN = -10;
+	static const float TEMP_MAX = 60;
+
+	if (temperature < TEMP_MIN)
+		temperature = TEMP_MIN;
+	if (temperature > TEMP_MAX)
+		temperature = TEMP_MAX;
+
 	if (temp_counter < 500) {
 		temp_accum += temperature;
 		temp_counter ++;
