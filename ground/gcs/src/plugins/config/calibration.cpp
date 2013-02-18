@@ -40,16 +40,6 @@
 #include <Eigen/QR>
 #include <cstdlib>
 
-#if defined(__APPLE__) || defined(_WIN32)
-  // Qt bug work around
-  #ifndef isnan
-    extern "C" int isnan(double);
-  #endif
-  #ifndef isinf
-    extern "C" int isinf(double);
-  #endif
-#endif
-
 class Thread : public QThread
 {
 public:
