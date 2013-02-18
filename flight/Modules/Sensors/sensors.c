@@ -308,9 +308,9 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros)
 		// Apply bias correction to the gyros from the state estimator
 		GyrosBiasData gyrosBias;
 		GyrosBiasGet(&gyrosBias);
-		gyrosData.x -= gyrosBias.x - gyro_temp_bias[0];
-		gyrosData.y -= gyrosBias.y - gyro_temp_bias[1];
-		gyrosData.z -= gyrosBias.z - gyro_temp_bias[2];
+		gyrosData.x -= gyrosBias.x + gyro_temp_bias[0];
+		gyrosData.y -= gyrosBias.y + gyro_temp_bias[1];
+		gyrosData.z -= gyrosBias.z + gyro_temp_bias[2];
 	}
 
 	gyrosData.temperature = gyros->temperature;
