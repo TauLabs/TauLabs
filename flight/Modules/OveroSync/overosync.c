@@ -50,10 +50,10 @@ static xTaskHandle overoSyncTaskHandle;
 static bool module_enabled;
 
 // Private functions
-static void overoSyncTask(void *parameters);
-static int32_t packData(uint8_t * data, int32_t length);
-static void registerObject(UAVObjHandle obj);
-static void sendSettings(UAVObjHandle obj);
+static void    overoSyncTask(void *parameters);
+static int32_t pack_data(uint8_t * data, int32_t length);
+static void    register_object(UAVObjHandle obj);
+static void    send_settings(UAVObjHandle obj);
 
 // External variables
 extern uint32_t pios_com_overo_id;
@@ -96,7 +96,7 @@ int32_t OveroSyncInitialize(void)
 	OveroSyncStatsInitialize();
 
 	// Initialise UAVTalk
-	uavTalkCon = UAVTalkInitialize(&packData);
+	uavTalkCon = UAVTalkInitialize(&pack_data);
 
 	return 0;
 }
@@ -120,7 +120,7 @@ int32_t OveroSyncStart(void)
 	overosync->sent_bytes = 0;
 
 	// Process all registered objects and connect queue for updates
-	UAVObjIterate(&registerObject);
+	UAVObjIterate(&register_object);
 	
 	// Start telemetry tasks
 	xTaskCreate(overoSyncTask, (signed char *)"OveroSync", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &overoSyncTaskHandle);
@@ -137,7 +137,7 @@ MODULE_INITCALL(OveroSyncInitialize, OveroSyncStart)
  * telemetry settings.
  * \param[in] obj Object to connect
  */
-static void registerObject(UAVObjHandle obj)
+static void register_object(UAVObjHandle obj)
 {
 	int32_t eventMask;
 	eventMask = EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ;
@@ -152,7 +152,7 @@ static void registerObject(UAVObjHandle obj)
  * telemetry settings.
  * \param[in] obj Object to connect
  */
-static void sendSettings(UAVObjHandle obj)
+static void send_settings(UAVObjHandle obj)
 {
 	if (UAVObjIsSettings(obj)) {
 		UAVTalkSendObjectTimestamped(uavTalkCon, obj, 0, false, 0);
@@ -217,7 +217,7 @@ static void overoSyncTask(void *parameters)
 				// will fail since all the settings will overfill the buffer and
 				if (last_connected == OVEROSYNCSTATS_CONNECTED_FALSE &&
 					syncStats.Connected == OVEROSYNCSTATS_CONNECTED_TRUE) {
-					UAVObjIterate(&sendSettings);
+					UAVObjIterate(&send_settings);
 				}
 
 				last_connected = syncStats.Connected;
@@ -235,7 +235,7 @@ static void overoSyncTask(void *parameters)
  * \return -1 on failure
  * \return number of bytes transmitted on success
  */
-static int32_t packData(uint8_t * data, int32_t length)
+static int32_t pack_data(uint8_t * data, int32_t length)
 {
 	if( PIOS_COM_SendBufferNonBlocking(pios_com_overo_id, data, length) < 0)
 		goto fail;
