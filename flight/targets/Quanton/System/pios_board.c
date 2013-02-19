@@ -2,7 +2,7 @@
  *****************************************************************************
  * @file       pios_board.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2012-2013
  * @addtogroup OpenPilotSystem OpenPilot System
  * @{
  * @addtogroup OpenPilotCore OpenPilot Core
@@ -40,6 +40,7 @@
 #include <uavobjectsinit.h>
 #include "hwquanton.h"
 #include "manualcontrolsettings.h"
+#include "modulesettings.h"
 
 
 #if defined(PIOS_INCLUDE_HMC5883)
@@ -234,11 +235,32 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
 }
 #endif
 
-void panic() {
+/**
+ * Indicate a target-specific error code when a component fails to initialize
+ * 1 pulse - flash chip
+ * 2 pulses - MPU6000
+ * 3 pulses - HMC5883
+ * 4 pulses - MS5611
+ * 5 pulses - internal I2C bus locked
+ * 6 pulses - uart1 I2C bus locked
+ * 7 pulses - uart3 I2C bus locked
+ */
+void panic(int32_t code) {
 	while(1){
+		for (int32_t i = 0; i < code; i++) {
+			PIOS_WDG_Clear();
+			PIOS_LED_Toggle(PIOS_LED_ALARM);
+			PIOS_DELAY_WaitmS(200);
+			PIOS_WDG_Clear();
+			PIOS_LED_Toggle(PIOS_LED_ALARM);
+			PIOS_DELAY_WaitmS(200);
+		}
 		PIOS_WDG_Clear();
-		PIOS_LED_Toggle(PIOS_LED_ALARM);
 		PIOS_DELAY_WaitmS(200);
+		PIOS_WDG_Clear();
+		PIOS_DELAY_WaitmS(200);
+		PIOS_WDG_Clear();
+		PIOS_DELAY_WaitmS(100);
 	}
 }
 
@@ -263,17 +285,30 @@ void PIOS_Board_Init(void) {
 	PIOS_LED_Init(led_cfg);
 #endif	/* PIOS_INCLUDE_LED */
 
-#if defined(PIOS_INCLUDE_FLASH)
+#if defined(PIOS_INCLUDE_I2C)
+	if (PIOS_I2C_Init(&pios_i2c_internal_adapter_id, &pios_i2c_internal_adapter_cfg)) {
+		PIOS_DEBUG_Assert(0);
+	}
+	if (PIOS_I2C_CheckClear(pios_i2c_internal_adapter_id) != 0)
+		panic(5);
+#endif
+
+#if defined(PIOS_INCLUDE_SPI)
 	if (PIOS_SPI_Init(&pios_spi_flash_id, &pios_spi_flash_cfg)) {
 		PIOS_DEBUG_Assert(0);
 	}
+	if (PIOS_SPI_Init(&pios_spi_gyro_accel_id, &pios_spi_gyro_accel_cfg)) {
+		PIOS_Assert(0);
+	}
+#endif
 
+#if defined(PIOS_INCLUDE_FLASH)
 	uintptr_t flash_id;
 	if (PIOS_Flash_Jedec_Init(&flash_id, pios_spi_flash_id, 0, &flash_mx25_cfg) != 0)
-		panic();
+		panic(1);
 	uintptr_t fs_id;
 	if (PIOS_FLASHFS_Logfs_Init(&fs_id, &flashfs_mx25_cfg, &pios_jedec_flash_driver, flash_id) != 0)
-		panic();
+		panic(1);
 #endif
 	
 	/* Initialize UAVObject libraries */
@@ -281,6 +316,7 @@ void PIOS_Board_Init(void) {
 	UAVObjInitialize();
 
 	HwQuantonInitialize();
+	ModuleSettingsInitialize();
 
 #if defined(PIOS_INCLUDE_RTC)
 	/* Initialize the real-time clock and its associated tick */
@@ -323,6 +359,7 @@ void PIOS_Board_Init(void) {
 	} else {
 		/* Too many failed boot attempts, force hw config to defaults */
 		HwQuantonSetDefaults(HwQuantonHandle(), 0);
+		ModuleSettingsSetDefaults(ModuleSettingsHandle(),0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
 
@@ -463,6 +500,8 @@ void PIOS_Board_Init(void) {
 		if (PIOS_I2C_Init(&pios_i2c_usart1_adapter_id, &pios_i2c_usart1_adapter_cfg)) {
 			PIOS_Assert(0);
 		}
+		if (PIOS_I2C_CheckClear(pios_i2c_usart1_adapter_id) != 0)
+			panic(6);
 #endif	/* PIOS_INCLUDE_I2C */
 		break;
 	case HWQUANTON_UART1_DSM2:
@@ -596,6 +635,8 @@ void PIOS_Board_Init(void) {
 		if (PIOS_I2C_Init(&pios_i2c_usart3_adapter_id, &pios_i2c_usart3_adapter_cfg)) {
 			PIOS_Assert(0);
 		}
+		if (PIOS_I2C_CheckClear(pios_i2c_usart3_adapter_id) != 0)
+			panic(7);
 #endif	/* PIOS_INCLUDE_I2C */
 		break;
 	case HWQUANTON_UART3_DSM2:
@@ -844,14 +885,10 @@ void PIOS_Board_Init(void) {
 	PIOS_WDG_Clear();
 
 #if defined(PIOS_INCLUDE_MPU6000)
-	if (PIOS_SPI_Init(&pios_spi_gyro_accel_id, &pios_spi_gyro_accel_cfg)) {
-		PIOS_Assert(0);
-	}
-
 	if (PIOS_MPU6000_Init(pios_spi_gyro_accel_id, 0, &pios_mpu6000_cfg) != 0)
-		panic();
+		panic(2);
 	if (PIOS_MPU6000_Test() != 0)
-		panic();
+		panic(2);
 
 	// To be safe map from UAVO enum to driver enum
 	uint8_t hw_gyro_range;
@@ -890,18 +927,10 @@ void PIOS_Board_Init(void) {
 #endif
 
 #if defined(PIOS_INCLUDE_I2C)
-	if (PIOS_I2C_Init(&pios_i2c_internal_adapter_id, &pios_i2c_internal_adapter_cfg)) {
-		PIOS_DEBUG_Assert(0);
-	}
-
-	PIOS_WDG_Clear();
-	PIOS_DELAY_WaitmS(50);
-	PIOS_WDG_Clear();
-
 #if defined(PIOS_INCLUDE_HMC5883)
 	PIOS_HMC5883_Init(PIOS_I2C_MAIN_ADAPTER, &pios_hmc5883_cfg);
 	if (PIOS_HMC5883_Test() != 0)
-		panic();
+		panic(3);
 #endif
 
 	//I2C is slow, sensor init as well, reset watchdog to prevent reset here
@@ -910,7 +939,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_MS5611)
 	PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_internal_adapter_id);
 	if (PIOS_MS5611_Test() != 0)
-		panic();
+		panic(4);
 #endif
 
 	//I2C is slow, sensor init as well, reset watchdog to prevent reset here

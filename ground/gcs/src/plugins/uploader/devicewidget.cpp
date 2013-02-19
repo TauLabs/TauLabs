@@ -103,6 +103,16 @@ void deviceWidget::populate()
     case 0x0402:
         devicePic.load(":/uploader/images/gcs-board-cc3d.png");
         break;
+    case 0x8101:
+    case 0x8102:
+        devicePic.load(":/uploader/images/gcs-board-freedom.png");
+        break;
+    case 0x8301:
+        devicePic.load(":/uploader/images/gcs-board-flyingf3.png");
+        break;
+    case 0x8601:
+        devicePic.load(":/uploader/images/gcs-board-quanton.png");
+        break;
     default:
         break;
     }
@@ -320,13 +330,13 @@ void deviceWidget::loadFirmware()
         }
         else
         {
-            myDevice->statusLabel->setText(tr("This is the tagged officially released OpenPilot firmware"));
+            myDevice->statusLabel->setText(tr("This is the tagged officially released Tau Labs firmware"));
             px.load(QString(":/uploader/images/gtk-info.svg"));
         }
     }
     else
     {
-        myDevice->statusLabel->setText(tr("WARNING: the loaded firmware was not packaged with the OpenPilot format. Do not update unless you know what you are doing"));
+        myDevice->statusLabel->setText(tr("WARNING: the loaded firmware was not packaged with the Tau Labs format. Do not update unless you know what you are doing"));
         px.load(QString(":/uploader/images/error.svg"));
         myDevice->youdont->setChecked(false);
         myDevice->youdont->setVisible(true);

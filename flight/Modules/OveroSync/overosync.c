@@ -77,7 +77,6 @@ int32_t OveroSyncInitialize(void)
 #ifdef MODULE_OveroSync_BUILTIN
 	module_enabled = true;
 #else
-	ModuleSettingsInitialize();
 	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
 	ModuleSettingsStateGet(module_state);
 	if (module_state[MODULESETTINGS_STATE_OVEROSYNC] == MODULESETTINGS_STATE_ENABLED) {
@@ -168,10 +167,21 @@ static void overoSyncTask(void *parameters)
 	portTickType lastUpdateTime = xTaskGetTickCount();
 	portTickType updateTime;
 
+	bool initialized = false;
+
 	// Loop forever
 	while (1) {
 		// Wait for queue message
 		if (xQueueReceive(queue, &ev, portMAX_DELAY) == pdTRUE) {
+
+			// For the first seconds do not send updates to allow the
+			// overo to boot.  Then enable it and act normally.
+			if (!initialized && xTaskGetTickCount() < 5000) {
+				continue;
+			} else if (!initialized) {
+				initialized = true;
+				PIOS_OVERO_Enable(pios_overo_id);
+			}
 
 			// Process event.  This calls transmitData
 			UAVTalkSendObjectTimestamped(uavTalkCon, ev.obj, ev.instId, false, 0);

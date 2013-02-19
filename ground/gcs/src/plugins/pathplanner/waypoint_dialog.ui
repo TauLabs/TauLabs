@@ -23,7 +23,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>OpenPilot GCS Edit Waypoint</string>
+   <string>Tau Labs GCS Edit Waypoint</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../coreplugin/core.qrc">

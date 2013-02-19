@@ -45,7 +45,7 @@
 static int32_t check_stabilization_settings(int index, bool multirotor);
 
 //!  Set the error code and alarm state
-static int8_t set_config_error(SystemAlarmsConfigErrorOptions error_code);
+static void set_config_error(SystemAlarmsConfigErrorOptions error_code);
 
 /**
  * Run a preflight check over the hardware configuration
@@ -112,7 +112,6 @@ int32_t configuration_check()
 				error_code = (error_code == SYSTEMALARMS_CONFIGERROR_NONE) ? check_stabilization_settings(3, multirotor) : error_code;
 				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_AUTOTUNE:
-				// Revo supports altitude hold
 				if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_AUTOTUNE))
 					error_code = SYSTEMALARMS_CONFIGERROR_AUTOTUNE;
 				break;
@@ -120,7 +119,6 @@ int32_t configuration_check()
 				if (coptercontrol)
 					error_code = SYSTEMALARMS_CONFIGERROR_ALTITUDEHOLD;
 				else {
-					// Revo supports altitude hold
 					if ( !TaskMonitorQueryRunning(TASKINFO_RUNNING_ALTITUDEHOLD) )
 						error_code = SYSTEMALARMS_CONFIGERROR_ALTITUDEHOLD;
 				}
@@ -130,7 +128,6 @@ int32_t configuration_check()
 					error_code = SYSTEMALARMS_CONFIGERROR_VELOCITYCONTROL;
 				}
 				else {
-					// Revo supports altitude hold
 					if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER)) {
 						error_code = SYSTEMALARMS_CONFIGERROR_VELOCITYCONTROL;
 					}
@@ -141,9 +138,19 @@ int32_t configuration_check()
 					error_code = SYSTEMALARMS_CONFIGERROR_POSITIONHOLD;
 				}
 				else {
-					// Revo supports altitude hold
 					if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER)) {
 						error_code = SYSTEMALARMS_CONFIGERROR_POSITIONHOLD;
+					}
+				}
+				break;
+			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_PATHPLANNER:
+				if (coptercontrol) {
+					error_code = SYSTEMALARMS_CONFIGERROR_PATHPLANNER;
+				}
+				else {
+					if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER) ||
+						!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHPLANNER)) {
+						error_code = SYSTEMALARMS_CONFIGERROR_PATHPLANNER;
 					}
 				}
 				break;
@@ -153,7 +160,6 @@ int32_t configuration_check()
 		}
 	}
 
-	// TODO: Check on a multirotor no axis supports "None"
 	set_config_error(error_code);
 
 	return 0;
@@ -216,52 +222,37 @@ static int32_t check_stabilization_settings(int index, bool multirotor)
 /**
  * Set the error code and alarm state
  * @param[in] error code
- * @returns -1 on no change of error code and alarm state, 0 on change of error code and alarm state
  */
-static int8_t set_config_error(SystemAlarmsConfigErrorOptions error_code)
+static void set_config_error(SystemAlarmsConfigErrorOptions error_code)
 {
+	// Get the severity of the alarm given the error code
+	SystemAlarmsAlarmOptions severity;
+	switch (error_code) {
+	case SYSTEMALARMS_CONFIGERROR_NONE:
+		severity = SYSTEMALARMS_ALARM_OK;
+		break;
+	case SYSTEMALARMS_CONFIGERROR_STABILIZATION:
+	case SYSTEMALARMS_CONFIGERROR_MULTIROTOR:
+	case SYSTEMALARMS_CONFIGERROR_AUTOTUNE:
+	case SYSTEMALARMS_CONFIGERROR_ALTITUDEHOLD:
+	case SYSTEMALARMS_CONFIGERROR_VELOCITYCONTROL:
+	case SYSTEMALARMS_CONFIGERROR_POSITIONHOLD:
+	case SYSTEMALARMS_CONFIGERROR_PATHPLANNER:
+		severity = SYSTEMALARMS_ALARM_ERROR;
+		break;
+	default:
+		severity = SYSTEMALARMS_ALARM_ERROR;
+		error_code = SYSTEMALARMS_CONFIGERROR_UNDEFINED;
+		break;
+	}
+
+	// Make sure not to set the error code if it didn't change
 	SystemAlarmsConfigErrorOptions current_error_code;
 	SystemAlarmsConfigErrorGet((uint8_t *) &current_error_code);
 	if (current_error_code != error_code) {
-		switch (error_code) {
-			case SYSTEMALARMS_CONFIGERROR_NONE:
-				SystemAlarmsConfigErrorSet((uint8_t *) &error_code);
-				AlarmsClear(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION);
-				break;				
-			case SYSTEMALARMS_CONFIGERROR_STABILIZATION:
-				SystemAlarmsConfigErrorSet((uint8_t *) &error_code);
-				AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, SYSTEMALARMS_ALARM_ERROR);
-				break;
-			case SYSTEMALARMS_CONFIGERROR_MULTIROTOR:
-				SystemAlarmsConfigErrorSet((uint8_t *) &error_code);
-				AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, SYSTEMALARMS_ALARM_ERROR);
-				break;
-			case SYSTEMALARMS_CONFIGERROR_AUTOTUNE:
-				SystemAlarmsConfigErrorSet((uint8_t *) &error_code);
-				AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, SYSTEMALARMS_ALARM_ERROR);
-				break;
-			case SYSTEMALARMS_CONFIGERROR_ALTITUDEHOLD:
-				SystemAlarmsConfigErrorSet((uint8_t *) &error_code);
-				AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, SYSTEMALARMS_ALARM_ERROR);
-				break;
-			case SYSTEMALARMS_CONFIGERROR_VELOCITYCONTROL:
-				SystemAlarmsConfigErrorSet((uint8_t *) &error_code);
-				AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, SYSTEMALARMS_ALARM_ERROR);
-				break;
-			case SYSTEMALARMS_CONFIGERROR_POSITIONHOLD:
-				SystemAlarmsConfigErrorSet((uint8_t *) &error_code);
-				AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, SYSTEMALARMS_ALARM_ERROR);
-				break;
-			case SYSTEMALARMS_CONFIGERROR_UNDEFINED:
-			default:
-				error_code = SYSTEMALARMS_CONFIGERROR_UNDEFINED;
-				SystemAlarmsConfigErrorSet((uint8_t *) &error_code);        
-				AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, SYSTEMALARMS_ALARM_ERROR);
-				break;
-		}
-		return 0;
+		SystemAlarmsConfigErrorSet((uint8_t *) &error_code);
 	}
-	else {
-		return -1;
-	}	
+
+	// AlarmSet checks only updates on toggle
+	AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, (uint8_t) severity);
 }

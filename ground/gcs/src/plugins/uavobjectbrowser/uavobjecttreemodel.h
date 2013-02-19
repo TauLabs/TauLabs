@@ -69,7 +69,7 @@ public:
         m_recentlyUpdatedTimeout = timeout;
         TreeItem::setHighlightTime(timeout);
     }
-    void setOnlyHilightChangedValues(bool hilight) {m_onlyHilightChangedValues = hilight; }
+    void setOnlyHighlightChangedValues(bool highlight) {m_onlyHighlightChangedValues = highlight; }
 
     QList<QModelIndex> getMetaDataIndexes();
 
@@ -105,7 +105,7 @@ private:
     QColor m_recentlyUpdatedColor;
     QColor m_manuallyChangedColor;
     QColor m_updatedOnlyColor;
-    bool m_onlyHilightChangedValues;
+    bool m_onlyHighlightChangedValues;
     bool m_useScientificFloatNotation;
 
     // Highlight manager to handle highlighting of tree items.

@@ -42,8 +42,6 @@ else
 REMOVE_CMD = rm
 endif
 
-FLASH_TOOL = OPENOCD
-
 # List of modules to include
 MODULES = Sensors
 MODULES += Attitude/revolution 
@@ -51,12 +49,12 @@ MODULES += Actuator
 MODULES += ManualControl
 MODULES += Stabilization
 MODULES += FirmwareIAP
-MODULES += PathPlanner
 #MODULES += Airspeed/revolution
 MODULES += Telemetry
 
 OPTMODULES += GPS
 OPTMODULES += AltitudeHold 
+OPTMODULES += PathPlanner
 OPTMODULES += VtolPathFollower 
 OPTMODULES += FixedWingPathFollower
 OPTMODULES += CameraStab
@@ -108,6 +106,7 @@ SRC =
 include $(PIOSCOMMONLIB)/FreeRTOS/library.mk
 #include $(PIOSCOMMONLIB)/dosfs/library.mk
 include $(PIOSCOMMONLIB)/msheap/library.mk
+include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
 
 # List C source files here. (C dependencies are automatically generated.)
@@ -286,6 +285,13 @@ CFLAGS += $(ARCHFLAGS)
 CFLAGS += -DDIAGNOSTICS
 CFLAGS += -DDIAG_TASKS
 
+# configure CMSIS DSP Library
+CDEFS += -DARM_MATH_CM4
+CDEFS += -DARM_MATH_MATRIX_CHECK
+CDEFS += -DARM_MATH_ROUNDING
+CDEFS += -D__FPU_PRESENT=1
+CDEFS += -DUNALIGNED_SUPPORT_DISABLE
+
 # This is not the best place for these.  Really should abstract out
 # to the board file or something
 CFLAGS += -DSTM32F4XX
@@ -357,6 +363,7 @@ CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS)) -I.
 
 CFLAGS += -mapcs-frame
 CFLAGS += -fomit-frame-pointer
+CFLAGS += -ffunction-sections -fdata-sections
 ifeq ($(CODE_SOURCERY), YES)
 CFLAGS += -fpromote-loop-indices
 endif

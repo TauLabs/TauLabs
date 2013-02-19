@@ -128,16 +128,16 @@
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_6">
               <property name="leftMargin">
-               <number>12</number>
+               <number>0</number>
               </property>
               <property name="topMargin">
                <number>0</number>
               </property>
               <property name="rightMargin">
-               <number>12</number>
+               <number>0</number>
               </property>
               <property name="bottomMargin">
-               <number>0</number>
+               <number>12</number>
               </property>
               <item>
                <widget class="QStackedWidget" name="stackedWidget">
@@ -1494,7 +1494,7 @@ Set to 0 to disable (recommended for soaring fixed wings).</string>
         </size>
        </property>
        <property name="toolTip">
-        <string>Send to OpenPilot but don't write in SD.
+        <string>Send to flight controller but don't write to non volatile memory.
 Be sure to set the Neutral position on all sliders before sending!</string>
        </property>
        <property name="styleSheet">

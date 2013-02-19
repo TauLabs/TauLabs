@@ -34,7 +34,7 @@ Item {
 
     XmlListModel {
         id: xmlModel
-        source: "http://github.com/PhoenixPilot/PhoenixPilot/commits/next.atom"
+        source: "http://github.com/TauLabs/TauLabs/commits/next.atom"
         query: "/feed/entry"
         namespaceDeclarations: "declare default element namespace 'http://www.w3.org/2005/Atom';"
 

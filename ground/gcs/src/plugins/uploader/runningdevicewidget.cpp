@@ -62,7 +62,7 @@ void runningDeviceWidget::populate()
 
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectUtilManager* utilMngr = pm->getObject<UAVObjectUtilManager>();
-    unsigned int id = utilMngr->getBoardModel();
+    qint16 id = utilMngr->getBoardModel();
 
     myDevice->lblDeviceID->setText(QString("Device ID: ") + QString::number(id & 0xFFFF, 16));
     myDevice->lblBoardName->setText(deviceDescriptorStruct::idToBoardName(id));

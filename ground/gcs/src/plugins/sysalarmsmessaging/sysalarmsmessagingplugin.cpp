@@ -38,7 +38,6 @@
 
 SysAlarmsMessagingPlugin::SysAlarmsMessagingPlugin()
 {
-
 }
 
 SysAlarmsMessagingPlugin::~SysAlarmsMessagingPlugin()
@@ -78,6 +77,8 @@ bool SysAlarmsMessagingPlugin::initialize(const QStringList &arguments, QString 
             warningMessages.insert(element,msg);
         }
     }
+    TelemetryManager* telMngr = pm->getObject<TelemetryManager>();
+    connect(telMngr, SIGNAL(disconnected()), this, SLOT(onAutopilotDisconnect()));
     return true;
 }
 
@@ -126,6 +127,14 @@ void SysAlarmsMessagingPlugin::updateAlarms(UAVObject* systemAlarm)
             }
         }
     }
+}
+
+void SysAlarmsMessagingPlugin::onAutopilotDisconnect()
+{
+    foreach(GlobalMessage * msg,errorMessages.values())
+        msg->setActive(false);
+    foreach(GlobalMessage * msg,warningMessages.values())
+        msg->setActive(false);
 }
 
 Q_EXPORT_PLUGIN(SysAlarmsMessagingPlugin)

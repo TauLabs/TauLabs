@@ -2,7 +2,7 @@
  *****************************************************************************
  * @file       pios_board.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2012-2013
  * @addtogroup OpenPilotSystem OpenPilot System
  * @{
  * @addtogroup OpenPilotCore OpenPilot Core
@@ -38,6 +38,7 @@
 #include <openpilot.h>
 #include <uavobjectsinit.h>
 #include <hwcoptercontrol.h>
+#include <modulesettings.h>
 #include <manualcontrolsettings.h>
 #include <gcsreceiver.h>
 
@@ -187,6 +188,7 @@ void PIOS_Board_Init(void) {
 #endif
 
 	HwCopterControlInitialize();
+	ModuleSettingsInitialize();
 
 #ifndef ERASE_FLASH
 	/* Initialize watchdog as early as possible to catch faults during init */
@@ -205,6 +207,7 @@ void PIOS_Board_Init(void) {
 	} else {
 		/* Too many failed boot attempts, force hw configuration to defaults */
 		HwCopterControlSetDefaults(HwCopterControlHandle(), 0);
+		ModuleSettingsSetDefaults(ModuleSettingsHandle(),0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
 
@@ -539,10 +542,31 @@ void PIOS_Board_Init(void) {
 					PIOS_Assert(0);
 				}
 			}
-	#endif	/* PIOS_INCLUDE_MAVLINK */
-			break;
+			#endif	/* PIOS_INCLUDE_MAVLINK */
+	break;
+	case HWCOPTERCONTROL_MAINPORT_MAVLINKTX_GPS_RX:
+#if defined(PIOS_INCLUDE_GPS)
+#if defined(PIOS_INCLUDE_MAVLINK)
+	{
+		uint32_t pios_usart_generic_id;
+		if (PIOS_USART_Init(&pios_usart_generic_id, &pios_usart_generic_main_cfg)) {
+			PIOS_Assert(0);
+		}
+		uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_GPS_RX_BUF_LEN);
+		uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_MAVLINK_TX_BUF_LEN);
+		PIOS_Assert(rx_buffer);
+		PIOS_Assert(tx_buffer);
+		if (PIOS_COM_Init(&pios_com_gps_id, &pios_usart_com_driver, pios_usart_generic_id,
+				rx_buffer, PIOS_COM_GPS_RX_BUF_LEN,
+				tx_buffer, PIOS_COM_MAVLINK_TX_BUF_LEN)) {
+			PIOS_Assert(0);
+		}
+		pios_com_mavlink_id = pios_com_gps_id;
 	}
-
+#endif	/* PIOS_INCLUDE_MAVLINK */
+#endif	/* PIOS_INCLUDE_GPS */
+	break;
+}
 	/* Configure the flexi port */
 	uint8_t hw_flexiport;
 	HwCopterControlFlexiPortGet(&hw_flexiport);

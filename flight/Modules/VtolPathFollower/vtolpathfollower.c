@@ -122,7 +122,6 @@ int32_t VtolPathFollowerInitialize()
 #ifdef MODULE_VtolPathFollower_BUILTIN
 	module_enabled = true;
 #else
-	ModuleSettingsInitialize();
 	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
 	ModuleSettingsStateGet(module_state);
 	if (module_state[MODULESETTINGS_STATE_VTOLPATHFOLLOWER] == MODULESETTINGS_STATE_ENABLED) {

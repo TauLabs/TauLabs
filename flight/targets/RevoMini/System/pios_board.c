@@ -2,7 +2,7 @@
  ******************************************************************************
  * @file       pios_board.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2012-2013
  * @addtogroup OpenPilotSystem OpenPilot System
  * @{
  * @addtogroup OpenPilotCore OpenPilot Core
@@ -39,6 +39,7 @@
 #include <uavobjectsinit.h>
 #include "hwrevomini.h"
 #include "manualcontrolsettings.h"
+#include "modulesettings.h"
 
 /**
  * Sensor configurations 
@@ -329,6 +330,7 @@ void PIOS_Board_Init(void) {
 	UAVObjInitialize();
 	
 	HwRevoMiniInitialize();
+	ModuleSettingsInitialize();
 	
 #if defined(PIOS_INCLUDE_RTC)
 	PIOS_RTC_Init(&pios_rtc_main_cfg);
@@ -359,6 +361,7 @@ void PIOS_Board_Init(void) {
 	} else {
 		/* Too many failed boot attempts, force hw config to defaults */
 		HwRevoMiniSetDefaults(HwRevoMiniHandle(), 0);
+		ModuleSettingsSetDefaults(ModuleSettingsHandle(),0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
 

@@ -520,7 +520,16 @@ Leave at 50Hz for fixed wing.</string>
               <string/>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout">
-              <property name="margin">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>12</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
                <number>12</number>
               </property>
               <item>
@@ -700,7 +709,7 @@ Leave at 50Hz for fixed wing.</string>
         </size>
        </property>
        <property name="toolTip">
-        <string>Send to OpenPilot but don't write in SD.
+        <string>Send to flight controller but don't write to non volatile memory.
 Be sure to set the Neutral position on all sliders before sending!</string>
        </property>
        <property name="styleSheet">

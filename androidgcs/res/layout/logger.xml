@@ -1,59 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:layout_alignParentLeft="true"
     android:layout_gravity="center_horizontal" >
 
     <TextView
         android:id="@+id/logger_number_of_objects_title"
-        android:layout_width="132dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
-        android:layout_column="0"
-        android:layout_gravity="center"
-        android:layout_row="0"
-        android:layout_rowSpan="1"
-        android:text="@string/number_of_objects" />
+        android:text="@string/number_of_objects" 
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    <TextView
+        android:id="@+id/logger_number_of_bytes_title"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/logger_number_of_objects_title"
+        android:text="@string/number_of_bytes" 
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
 
     <TextView
         android:id="@+id/logger_number_of_objects"
-        android:layout_width="132dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
-        android:layout_column="1"
-        android:layout_gravity="center"
-        android:layout_row="0"
-        android:layout_rowSpan="1"
-        android:text="" />
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/logger_number_of_bytes_title" 
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
     
-    <TextView
-        android:id="@+id/logger_number_of_bytes_title"
-        android:layout_width="132dp"
-        android:layout_height="wrap_content"
-        android:layout_column="0"
-        android:layout_gravity="center"
-        android:layout_row="1"
-        android:layout_rowSpan="1"
-        android:text="@string/number_of_bytes" />
- 
     <TextView
         android:id="@+id/logger_number_of_bytes"
         android:layout_width="132dp"
         android:layout_height="wrap_content"
-        android:layout_column="1"
-        android:layout_gravity="center"
-        android:layout_row="1"
-        android:layout_rowSpan="1"
-        android:text="" />
+        android:layout_alignBaseline="@+id/logger_number_of_bytes_title"
+        android:layout_alignBottom="@+id/logger_number_of_bytes_title"
+        android:layout_alignLeft="@+id/logger_number_of_objects" 
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    <Space
+        android:id="@+id/logger_space"
+        android:layout_width="fill_parent"
+        android:layout_height="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/logger_number_of_bytes_title"
+        android:layout_marginLeft="16dp" />
+
+	<TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/logger_space"
+        android:layout_below="@+id/logger_space"
+        android:text="@string/select_file_to_email_it"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
     
-    <Space
-        android:layout_width="1dp"
-        android:layout_height="32dp"
-        android:layout_column="0"
-        android:layout_row="0" />
+    <ListView
+        android:id="@+id/logger_file_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView1" 
+        >
+    </ListView>
 
-    <Space
-        android:layout_width="100dp"
-        android:layout_height="69dp"
-        android:layout_row="1" />
 
-</GridLayout>
+</RelativeLayout>

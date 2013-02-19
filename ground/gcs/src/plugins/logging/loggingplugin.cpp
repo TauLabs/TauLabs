@@ -78,7 +78,7 @@ QIODevice* LoggingConnection::openDevice(IDevice *deviceName)
     if (logFile.isOpen()){
         logFile.close();
     }
-    QString fileName = QFileDialog::getOpenFileName(NULL, tr("Open file"), QString(""), tr("OpenPilot Log (*.opl)"));
+    QString fileName = QFileDialog::getOpenFileName(NULL, tr("Open file"), QString(""), tr("Tau Labs Log (*.tll)"));
     if (!fileName.isNull()) {
         startReplay(fileName);
     }
@@ -365,8 +365,8 @@ void LoggingPlugin::toggleLogging()
     {
 
         QString fileName = QFileDialog::getSaveFileName(NULL, tr("Start Log"),
-                                    tr("OP-%0.opl").arg(QDateTime::currentDateTime().toString("yyyy-MM-dd_hh-mm-ss")),
-                                    tr("OpenPilot Log (*.opl)"));
+                                    tr("TauLabs-%0.tll").arg(QDateTime::currentDateTime().toString("yyyy-MM-dd_hh-mm-ss")),
+                                    tr("Tau Labs Log (*.tll)"));
         if (fileName.isEmpty())
             return;
 

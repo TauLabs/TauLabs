@@ -35,6 +35,7 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.taulabs.androidgcs.telemetry.tasks.LoggingTask;
 import org.taulabs.uavtalk.UAVObjectManager;
 
 import android.app.Service;
@@ -66,6 +67,7 @@ public class OPTelemetryService extends Service {
 	public final static String INTENT_CATEGORY_GCS        = "org.taulabs.intent.category.GCS";
 
 	// Intent actions
+	public final static String INTENT_CHANNEL_OPENED      = "org.taulabs.intent.action.CHANNEL_OPENED";
 	public final static String INTENT_ACTION_CONNECTED    = "org.taulabs.intent.action.CONNECTED";
 	public final static String INTENT_ACTION_DISCONNECTED = "org.taulabs.intent.action.DISCONNECTED";
 
@@ -74,10 +76,23 @@ public class OPTelemetryService extends Service {
 	private ServiceHandler mServiceHandler;
 	private static HandlerThread thread;
 
+	//! States for connectivity
+	public enum ConnectionState {
+		//! Telemetry is idle
+		DISCONNECTED,
+		//! Attempting to open a physical channel
+		OPENING,
+		//! Channel is opening, attempting to establish link
+		CONNECTING,
+		//! Telemetry connected and running
+		CONNECTED
+	};
+
 	// Message ids
 	static final int MSG_START        = 0;
 	static final int MSG_CONNECT      = 1;
 	static final int MSG_DISCONNECT   = 3;
+	static final int MSG_CON_BROKEN   = 4;
 	static final int MSG_TOAST        = 100;
 
 	private Thread activeTelem;
@@ -109,6 +124,17 @@ public class OPTelemetryService extends Service {
 			stopSelf(msg.arg2);
 			break;
 		case MSG_CONNECT:
+			// Check we are not connected
+			if (telemTask != null && telemTask.getConnected() == false) {
+				// Previous connection task handle still around but connection must have failed
+				// TODO: verify this isn't during connection attempt;
+				telemTask = null;
+			} else if (telemTask != null) {
+				Toast.makeText(getApplicationContext(), "Connection already exists.  Disconnect first.", Toast.LENGTH_SHORT).show();
+				if (DEBUG) Log.d(TAG, "Attempted to connect while already connected");
+				return;
+			}
+
 			int connection_type;
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(OPTelemetryService.this);
 			try {
@@ -141,6 +167,20 @@ public class OPTelemetryService extends Service {
 			activeTelem.start();
 			break;
 		case MSG_DISCONNECT:
+			// Check we are connected
+			if (telemTask == null) {
+				Toast.makeText(getApplicationContext(), "Not connected", Toast.LENGTH_SHORT).show();
+				if (DEBUG) Log.d(TAG, "Attempted to disconnect while not connected");
+				return;
+			}
+
+			// Telemetry not connected due to a connection failure
+			if (telemTask != null && telemTask.getConnected() == false) {
+				if (DEBUG) Log.d(TAG, "Connection appears to have disconnected.  Clearing the task");
+				// TODO: Verify that this is not done while actively connecting
+				telemTask = null;
+			}
+
 			Toast.makeText(getApplicationContext(), "Disconnect requested", Toast.LENGTH_SHORT).show();
 			if (DEBUG) Log.d(TAG, "Calling disconnect");
 			if (telemTask != null) {
@@ -170,6 +210,44 @@ public class OPTelemetryService extends Service {
 			stopSelf();
 
 			break;
+		case MSG_CON_BROKEN:
+			// Check we are connected
+			if (telemTask == null) {
+				Toast.makeText(getApplicationContext(), "Not connected", Toast.LENGTH_SHORT).show();
+				if (DEBUG) Log.d(TAG, "Attempted to disconnect while not connected");
+				return;
+			}
+
+			Toast.makeText(getApplicationContext(), "Connection broken", Toast.LENGTH_SHORT).show();
+
+			if (DEBUG) Log.d(TAG, "Calling disconnect because of broken connection");
+			if (telemTask != null) {
+				telemTask.disconnect();
+				telemTask = null;
+
+				try {
+					activeTelem.join();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			else  if (activeTelem != null) {
+				activeTelem.interrupt();
+				try {
+					activeTelem.join();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				activeTelem = null;
+			}
+			if (DEBUG) Log.d(TAG, "Telemetry thread terminated");
+			Intent brokenIntent = new Intent();
+			brokenIntent.setAction(INTENT_ACTION_DISCONNECTED);
+			sendBroadcast(brokenIntent,null);
+
+			stopSelf();
+
+			break;
 		case MSG_TOAST:
 			Toast.makeText(this, (String) msg.obj, Toast.LENGTH_SHORT).show();
 			break;
@@ -184,7 +262,7 @@ public class OPTelemetryService extends Service {
 	 * and based on the stored preference will send itself a connect signal if needed.
 	 */
 	public void startup() {
-		Toast.makeText(getApplicationContext(), "Telemetry service starting", Toast.LENGTH_SHORT).show();
+		if (DEBUG) Log.d(TAG, "Telemetry service starting");
 
 		thread = new HandlerThread("TelemetryServiceHandler", Process.THREAD_PRIORITY_BACKGROUND);
 		thread.start();
@@ -227,7 +305,7 @@ public class OPTelemetryService extends Service {
 	public void onDestroy() {
 
 		if (telemTask != null) {
-			Log.d(TAG, "onDestroy() shutting down telemetry task");
+			if (DEBUG) Log.d(TAG, "onDestroy() shutting down telemetry task");
 			telemTask.disconnect();
 			telemTask = null;
 
@@ -237,8 +315,12 @@ public class OPTelemetryService extends Service {
 				e.printStackTrace();
 			}
 		}
-		Log.d(TAG, "onDestory() shut down telemetry task");
-		Toast.makeText(this, "Telemetry service done", Toast.LENGTH_SHORT).show();
+		if (DEBUG) Log.d(TAG, "onDestory() shut down telemetry task");
+	}
+
+	public ConnectionState getConnectionState()
+	{
+		return ConnectionState.DISCONNECTED;
 	}
 
 	public class LocalBinder extends Binder {
@@ -248,7 +330,6 @@ public class OPTelemetryService extends Service {
 			return null;
 		}
 		public void openConnection() {
-			Toast.makeText(getApplicationContext(), "Requested open connection", Toast.LENGTH_SHORT).show();
 			Message msg = mServiceHandler.obtainMessage();
 			msg.arg1 = MSG_CONNECT;
 			mServiceHandler.sendMessage(msg);
@@ -261,7 +342,25 @@ public class OPTelemetryService extends Service {
 		public boolean isConnected() {
 			return (activeTelem != null) && (telemTask != null) && (telemTask.getConnected());
 		}
+		/**
+		 * Query the telemetry service for the current connection state
+		 * @return @ref ConnectionState of the current state
+		 */
+		public ConnectionState getConnectionState() {
+			if (telemTask != null) {
+				if (telemTask.getConnected())
+					return ConnectionState.CONNECTED;
+				return ConnectionState.OPENING;
+			}
+			return ConnectionState.DISCONNECTED;
+		}
 	};
+
+	public void connectionBroken() {
+		Message msg = mServiceHandler.obtainMessage();
+		msg.arg1 = MSG_CON_BROKEN;
+		mServiceHandler.sendMessage(msg);
+	}
 
 	public void toastMessage(String msgText) {
 		Message msg = mServiceHandler.obtainMessage();
@@ -275,6 +374,7 @@ public class OPTelemetryService extends Service {
 	 */
 	public interface TelemTask {
 		public UAVObjectManager getObjectManager();
+		public LoggingTask getLoggingTask();
 	};
 
 

@@ -375,9 +375,9 @@ int32_t PIOS_MPU6000_Test(void)
 }
 
 /**
- * @brief Run self-test operation.
- * \return 0 if test succeeded
- * \return non-zero value if test succeeded
+ * @brief Get the number of elements in the FIFO.
+ * \return number of elements if successful
+ * \return negative value if failed
  */
 static int32_t PIOS_MPU6000_FifoDepth(void)
 {
@@ -393,8 +393,32 @@ static int32_t PIOS_MPU6000_FifoDepth(void)
 	}
 
 	PIOS_MPU6000_ReleaseBus();
-	
+
 	return (mpu6000_rec_buf[1] << 8) | mpu6000_rec_buf[2];
+}
+
+
+/**
+ * @brief Get the status code.
+ * \return the status code if successful
+ * \return negative value if failed
+ */
+static int32_t PIOS_MPU6000_GetStatus(void)
+{
+	uint8_t mpu6000_send_buf[2] = {PIOS_MPU60X0_INT_STATUS_REG | 0x80, 0};
+	uint8_t mpu6000_rec_buf[2];
+
+	if(PIOS_MPU6000_ClaimBus() != 0)
+		return -1;
+
+	if(PIOS_SPI_TransferBlock(dev->spi_id, &mpu6000_send_buf[0], &mpu6000_rec_buf[0], sizeof(mpu6000_send_buf), NULL) < 0) {
+		PIOS_MPU6000_ReleaseBus();
+		return -1;
+	}
+
+	PIOS_MPU6000_ReleaseBus();
+
+	return mpu6000_rec_buf[1];
 }
 
 /**
@@ -408,16 +432,22 @@ bool PIOS_MPU6000_IRQHandler(void)
 	if(!dev->configured)
 		return false;
 
+	int32_t status = PIOS_MPU6000_GetStatus();
+	if (status & PIOS_MPU60X0_INT_STATUS_OVERFLOW) {
+		dev->configured = false;
+		return false;
+	}
+
 	uint32_t mpu6000_count = PIOS_MPU6000_FifoDepth();
 	if(mpu6000_count < sizeof(struct pios_mpu60x0_data))
 		return false;
-		
+
 	if(PIOS_MPU6000_ClaimBus() != 0)
 		return false;
-		
+
 	uint8_t mpu6000_send_buf[1+sizeof(struct pios_mpu60x0_data)] = {PIOS_MPU60X0_FIFO_REG | 0x80, 0, 0, 0, 0, 0, 0, 0, 0};
 	uint8_t mpu6000_rec_buf[1+sizeof(struct pios_mpu60x0_data)];
-	
+
 	if(PIOS_SPI_TransferBlock(dev->spi_id, &mpu6000_send_buf[0], &mpu6000_rec_buf[0], sizeof(mpu6000_send_buf), NULL) < 0) {
 		PIOS_MPU6000_ReleaseBus();
 		return false;
