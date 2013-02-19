@@ -90,7 +90,7 @@
 
 /* Flags that alter behaviors - mostly to lower resources for CC */
 #define PIOS_INCLUDE_INITCALL           /* Include init call structures */
-#define PIOS_TELEM_PRIORITY_QUEUE       /* Enable a priority queue in telemetry */
+//#define PIOS_TELEM_PRIORITY_QUEUE       /* Enable a priority queue in telemetry */
 //#define PIOS_QUATERNION_STABILIZATION   /* Stabilization options */
 #define PIOS_GPS_SETS_HOMELOCATION      /* GPS options */
 
@@ -101,6 +101,9 @@
 #define IRQSTACK_LIMIT_CRITICAL		80
 #define CPULOAD_LIMIT_WARNING		80
 #define CPULOAD_LIMIT_CRITICAL		95
+
+/* Task stack sizes */
+#define PIOS_EVENTDISPATCHER_STACK_SIZE	130
 
 // This actually needs calibrating
 #define IDLE_COUNTS_PER_SEC_AT_NO_LOAD (1995998) //FIXME: this is wrong for sure
