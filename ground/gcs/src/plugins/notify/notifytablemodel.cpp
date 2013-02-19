@@ -226,14 +226,12 @@ bool NotifyTableModel::dropMimeData( const QMimeData * data, Qt::DropAction acti
         // addiional check in case dropping of multiple rows
         if(rows + direction > _list.size()) continue;
 
-        //Do something [BCH]
         if (!insertRows(rows + direction, 1, QModelIndex())){
             Q_ASSERT(0);
             return false; // escape from function gracefully
         }
 
         _list.replace(rows + direction, item);
-        //Do something else [BCH]
         if (!removeRows(dragged, 1, QModelIndex())){
             Q_ASSERT(0);
             return false; // escape from function gracefully

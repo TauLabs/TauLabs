@@ -278,10 +278,9 @@ QGLFramebufferObject *OsgEarthItemRenderer::lastFrame()
 
 void OsgEarthItemRenderer::initScene()
 {
-    //Get something [BCH]
-    if (m_viewer.get()){
+    if (m_viewer.get()) {
         Q_ASSERT(0);
-        return; // escape from function gracefully
+        return; // No viewer pointer available, exit
     }
 
     int w = m_currentSize.width();
