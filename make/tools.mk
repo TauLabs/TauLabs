@@ -11,6 +11,9 @@
 QT_SDK_DIR := $(TOOLS_DIR)/qtsdk-v1.2.1
 QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/Desktop/Qt/4.8.1/gcc/bin/qmake
 
+# Build openocd without FTDI (yes | no)
+OPENOCD_FTDI ?= yes
+
 .PHONY: qt_sdk_install
 
 ifeq ($(UNAME), Linux)
@@ -228,7 +231,11 @@ openocd_win_clean:
 openocd_git_install: | $(DL_DIR) $(TOOLS_DIR)
 openocd_git_install: OPENOCD_URL     := git://git.code.sf.net/p/openocd/code
 openocd_git_install: OPENOCD_REV     := cf1418e9a85013bbf8dbcc2d2e9985695993d9f4
-openocd_git_install: OPENOCD_OPTIONS := --enable-maintainer-mode --prefix="$(OPENOCD_DIR)" --enable-ft2232_libftdi --enable-buspirate --enable-stlink
+openocd_git_install: OPENOCD_OPTIONS := --enable-maintainer-mode --prefix="$(OPENOCD_DIR)" --enable-buspirate --enable-stlink
+
+ifeq ($(OPENOCD_FTDI), yes)
+openocd_git_install: OPENOCD_OPTIONS := $(OPENOCD_OPTIONS) --enable-ft2232_libftdi
+endif
 
 ifeq ($(UNAME), Darwin)
 openocd_git_install: OPENOCD_OPTIONS := $(OPENOCD_OPTIONS) --disable-option-checking
