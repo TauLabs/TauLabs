@@ -30,27 +30,21 @@
 #include "uavobjectmanager.h"
 
 
-#include "plotdata.h"
+#include "scopes2d/histogramdata.h"
+#include "plotdata2d.h"
+#include "plotdata3d.h"
 #include <math.h>
 #include <QDebug>
 
 #define MAX_NUMBER_OF_INTERVALS 1000
 
 Plot2dData::Plot2dData(QString p_uavObject, QString p_uavFieldName):
-    curve(0),
-    histogram(0),
-    xData(0),
-    yData(0),
     yDataHistory(0),
-    histogramBins(0),
-    histogramInterval(0),
-    intervalSeriesData(0),
     dataUpdated(false)
 {
     uavObjectName = p_uavObject;
 
-    //TODO: This needs a comment here. How can a `-` appear in a UAVO field name? Is this automatic in certain instances, or is it user-defined?
-    if(p_uavFieldName.contains("-"))
+    if(p_uavFieldName.contains("-")) //For fields with multiple indices, '-' followed by an index indicates which one
     {
         QStringList fieldSubfield = p_uavFieldName.split("-", QString::SkipEmptyParts);
         uavFieldName = fieldSubfield.at(0);
@@ -67,7 +61,6 @@ Plot2dData::Plot2dData(QString p_uavObject, QString p_uavFieldName):
     yData = new QVector<double>();
     yDataHistory = new QVector<double>();
 
-    curve = 0;
     scalePower = 0;
     meanSamples = 1;
     meanSum = 0.0f;
@@ -81,14 +74,6 @@ Plot2dData::Plot2dData(QString p_uavObject, QString p_uavFieldName):
 
 
 Plot3dData::Plot3dData(QString p_uavObject, QString p_uavFieldName):
-    curve(0),
-    spectrogram(0),
-    xData(0),
-    yData(0),
-    zData(0),
-    zDataHistory(0),
-    timeDataHistory(0),
-    rasterData(0),
     dataUpdated(false)
 {
     uavObjectName = p_uavObject;

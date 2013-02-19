@@ -60,21 +60,21 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
     options_page->setupUi(optionsPageWidget);
 
     //Set up 2D plots tab
-    options_page->cmb2dPlotType->addItem("Scatter plot", Scatterplot2d);
-    options_page->cmb2dPlotType->addItem("Histogram", Histogram);
-//    options_page->cmb2dPlotType->addItem("Polar plot", PolarPlot);
+    options_page->cmb2dPlotType->addItem("Scatter plot", SCATTERPLOT2D);
+    options_page->cmb2dPlotType->addItem("Histogram", HISTOGRAM);
+//    options_page->cmb2dPlotType->addItem("Polar plot", POLARPLOT);
 
     //Set up x-axis combo box
-    options_page->cmbXAxisScatterplot2d->addItem("Series", Series2d);
-    options_page->cmbXAxisScatterplot2d->addItem("Time series", TimeSeries2d);
+    options_page->cmbXAxisScatterplot2d->addItem("Series", SERIES2D);
+    options_page->cmbXAxisScatterplot2d->addItem("Time series", TIMESERIES2D);
 
 
     //Set up 3D plots tab
 //    options_page->cmb3dPlotType->addItem("Time series", TimeSeries3d);
-    options_page->cmb3dPlotType->addItem("Spectrogram", Spectrogram);
+    options_page->cmb3dPlotType->addItem("Spectrogram", SPECTROGRAM);
 
-    options_page->cmbSpectrogramSource->addItem("Custom", Custom);
-    options_page->cmbSpectrogramSource->addItem("Vibration Test", VibrationTest);
+    options_page->cmbSpectrogramSource->addItem("Custom", CUSTOM);
+    options_page->cmbSpectrogramSource->addItem("Vibration Test", VIBRATIONTEST);
 
     // Fills the combo boxes for the UAVObjects
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
@@ -100,12 +100,10 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
     options_page->mathFunctionComboBox->addItems(mathFunctions);
     options_page->cmbMathFunctionSpectrogram->addItems(mathFunctions);
 
-    if(options_page->cmbUAVObjects->currentIndex() >= 0) //TODO: Figure out how this could evaluate as false, i.e. could *not* be >=0
+    // Check that an index is currently selected, and update if true
+    if(options_page->cmbUAVObjects->currentIndex() >= 0){
         on_cmbUAVObjects_currentIndexChanged(options_page->cmbUAVObjects->currentText());
-
-//    if(options_page->cmbUAVObjectsSpectrogram->currentIndex() >= 0) //TODO: Figure out how this could *not* be >=0
-//        on_cmbUAVObjectsSpectrogram_currentIndexChanged(options_page->cmbUAVObjectsSpectrogram->currentText());
-
+    }
 
     // Add scaling items for
     options_page->cmbScale->addItem("10^-9", -9);
@@ -153,7 +151,7 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
 
 
     //Set widget elements to reflect plot configurations
-    if(m_config->getPlotDimensions() == Plot2d)
+    if(m_config->getPlotDimensions() == PLOT2D)
     {
         //Set the tab widget to 2D
         options_page->tabWidget2d3d->setCurrentWidget(options_page->tabPlot2d);
@@ -168,7 +166,7 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
         //add the configured 2D curves
         options_page->lst2dCurves->clear();  //Clear list first
         foreach (Plot2dCurveConfiguration* plotData,  m_config->plot2dCurveConfigs()) {
-            if (m_config->getPlot2dType() == Scatterplot2d){
+            if (m_config->getPlot2dType() == SCATTERPLOT2D){
                 options_page->cmbXAxisScatterplot2d->setCurrentIndex(m_config->getScatterplot2dType());
                 options_page->spnDataSize->setValue(m_config->dataSize());
 
@@ -181,7 +179,7 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
 
                 addPlot2dCurveConfig(uavObjectName,uavFieldName,scale,mean,mathFunction,varColor);
             }
-            else if (m_config->getPlot2dType() == Histogram){
+            else if (m_config->getPlot2dType() == HISTOGRAM){
                 options_page->spnMaxNumBins->setValue(m_config->getHistogramConfiguration()->windowWidth);
                 options_page->spnBinWidth->setValue(m_config->getHistogramConfiguration()->binWidth);
 
@@ -202,7 +200,7 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
         //Select row 1st row in list
         options_page->lst2dCurves->setCurrentRow(0, QItemSelectionModel::ClearAndSelect);
     }
-    else if(m_config->getPlotDimensions() == Plot3d)
+    else if(m_config->getPlotDimensions() == PLOT3D)
     {
         //Set the tab widget to 3D
         options_page->tabWidget2d3d->setCurrentWidget(options_page->tabPlot3d);
@@ -210,7 +208,7 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
         //Set the plot type
         options_page->cmb3dPlotType->setCurrentIndex(options_page->cmb3dPlotType->findData(m_config->getPlot3dType()));
 
-        if(m_config->getPlot3dType() == Spectrogram){
+        if(m_config->getPlot3dType() == SPECTROGRAM){
             options_page->sbSpectrogramTimeHorizon->setValue(m_config->getTimeHorizon());
             options_page->sbSpectrogramFrequency->setValue(m_config->getSpectrogramConfiguration()->samplingFrequency);
             options_page->spnMaxSpectrogramZ->setValue(m_config->getSpectrogramConfiguration()->zMaximum);
@@ -461,11 +459,11 @@ void ScopeGadgetOptionsPage::apply()
 
         Plot2dType current2dType = (Plot2dType) options_page->cmb2dPlotType->itemData(options_page->cmb2dPlotType->currentIndex()).toUInt();
         m_config->setPlot2dType(current2dType);
-        m_config->setPlotDimensions(Plot2d);
+        m_config->setPlotDimensions(PLOT2D);
 
         QList<Plot2dCurveConfiguration*> plot2dCurveConfigs;
 
-        if (current2dType == Histogram){
+        if (current2dType == HISTOGRAM){
             HistogramDataConfiguration *newHistogramConfig = new HistogramDataConfiguration();
             newHistogramConfig->binWidth=options_page->spnBinWidth->value();
             newHistogramConfig->windowWidth=options_page->spnMaxNumBins->value();
@@ -500,7 +498,7 @@ void ScopeGadgetOptionsPage::apply()
                 plot2dCurveConfigs.append(newPlotCurveConfigs);
             }
         }
-        else if (current2dType == Scatterplot2d){
+        else if (current2dType == SCATTERPLOT2D){
             m_config->setDataSize(options_page->spnDataSize->value());
 
             Scatterplot2dType currentScatterplotType = (Scatterplot2dType) options_page->cmbXAxisScatterplot2d->itemData(options_page->cmbXAxisScatterplot2d->currentIndex()).toUInt();
@@ -545,7 +543,7 @@ void ScopeGadgetOptionsPage::apply()
 
         Plot3dType current3dType = (Plot3dType) options_page->cmb3dPlotType->itemData(options_page->cmb3dPlotType->currentIndex()).toUInt(); //[1]HUH?-->[2]
         m_config->setPlot3dType(current3dType);
-        m_config->setPlotDimensions(Plot3d);
+        m_config->setPlotDimensions(PLOT3D);
         m_config->setTimeHorizon(options_page->sbSpectrogramTimeHorizon->value());
 
         if (options_page->stackedWidget3dPlots->currentWidget() == options_page->sw3dSpectrogramStack)
@@ -798,7 +796,7 @@ void ScopeGadgetOptionsPage::on_cmb3dPlotType_currentIndexChanged(QString curren
         options_page->stackedWidget3dPlots->setCurrentWidget(options_page->sw3dSpectrogramStack);
 
         //Set the spectrogram source combobox to vibration test by default
-        options_page->cmbSpectrogramSource->setCurrentIndex(options_page->cmbSpectrogramSource->findData(VibrationTest));
+        options_page->cmbSpectrogramSource->setCurrentIndex(options_page->cmbSpectrogramSource->findData(VIBRATIONTEST));
     }
     else if (currentText == "Time series"){
         options_page->stackedWidget3dPlots->setCurrentWidget(options_page->sw3dTimeSeriesStack);

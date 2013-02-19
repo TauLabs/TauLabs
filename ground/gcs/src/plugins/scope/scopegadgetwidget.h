@@ -29,7 +29,8 @@
 #ifndef SCOPEGADGETWIDGET_H_
 #define SCOPEGADGETWIDGET_H_
 
-#include "plotdata.h"
+//#include "plotdata2d.h"
+//#include "plotdata3d.h"
 #include "scopegadgetconfiguration.h"
 
 #include "qwt/src/qwt.h"

@@ -29,7 +29,8 @@
 #ifndef SCOPEGADGETCONFIGURATION_H
 #define SCOPEGADGETCONFIGURATION_H
 
-#include "plotdata.h"
+#include "plotdata2d.h"
+#include "plotdata3d.h"
 #include <coreplugin/iuavgadgetconfiguration.h>
 
 #include <QVector>
@@ -103,9 +104,9 @@ public:
     void addPlot2dCurveConfig(Plot2dCurveConfiguration* value){m_Plot2dCurveConfigs.append(value);}
     void replacePlot2dCurveConfig(QList<Plot2dCurveConfiguration*> m_Plot2dCurveConfigs);
     void replacePlot3dCurveConfig(QList<Plot3dCurveConfiguration*> m_Plot3dCurveConfigs);
-    void replaceSpectrogramConfig(SpectrogramDataConfiguration *val){if(m_SpectrogramConfig !=NULL) delete m_SpectrogramConfig; m_SpectrogramConfig = val;}
+    void replaceSpectrogramConfig(SpectrogramDataConfiguration *val){if(m_spectrogramConfig !=NULL) delete m_spectrogramConfig; m_spectrogramConfig = val;}
     void replaceHistogramConfig(HistogramDataConfiguration *val){if(m_HistogramConfig !=NULL) delete m_HistogramConfig; m_HistogramConfig = val;}
-    void setSpectrogramUnits(QString units){m_SpectrogramConfig->yAxisUnits = units;}
+    void setSpectrogramUnits(QString units){m_spectrogramConfig->yAxisUnits = units;}
     void setHistogramUnits(QString units){m_HistogramConfig->xAxisUnits = units;}
 
     //configurations getter functions
@@ -119,7 +120,7 @@ public:
     int refreshInterval(){return m_refreshInterval;}
     QList<Plot2dCurveConfiguration*> plot2dCurveConfigs(){return m_Plot2dCurveConfigs;}
     QList<Plot3dCurveConfiguration*> plot3dCurveConfigs(){return m_Plot3dCurveConfigs;}
-    SpectrogramDataConfiguration *getSpectrogramConfiguration() {return m_SpectrogramConfig;}
+    SpectrogramDataConfiguration *getSpectrogramConfiguration() {return m_spectrogramConfig;}
     HistogramDataConfiguration *getHistogramConfiguration() {return m_HistogramConfig;}
 
     void saveConfig(QSettings* settings) const; //THIS SEEMS TO BE UNUSED
@@ -135,7 +136,7 @@ private:
     int m_refreshInterval; //The interval to replot the curve widget. The data buffer is refresh as the data comes in.
     QList<Plot2dCurveConfiguration*> m_Plot2dCurveConfigs;
     QList<Plot3dCurveConfiguration*> m_Plot3dCurveConfigs;
-    SpectrogramDataConfiguration *m_SpectrogramConfig;
+    SpectrogramDataConfiguration *m_spectrogramConfig;
     HistogramDataConfiguration *m_HistogramConfig;
 
     void clearPlot2dData();

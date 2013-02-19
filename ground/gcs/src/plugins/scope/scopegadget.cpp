@@ -41,20 +41,24 @@ ScopeGadget::ScopeGadget(QString classId, ScopeGadgetWidget *widget, QWidget *pa
 
 }
 
-int sally=0;
-
+/**
+ * @brief ScopeGadget::loadConfiguration Loads the plugin configuration
+ * @param config
+ */
 void ScopeGadget::loadConfiguration(IUAVGadgetConfiguration* config)
 {
     ScopeGadgetConfiguration *sgConfig = qobject_cast<ScopeGadgetConfiguration*>(config);
+    if (sgConfig == NULL) //Check that the case succeeded
+        return;
 
     scopeGadgetWidget->setRefreshInterval(sgConfig->refreshInterval());
 
-    if (sgConfig->getPlotDimensions() == Plot2d)
+    if (sgConfig->getPlotDimensions() == PLOT2D)
     {
         scopeGadgetWidget->setXWindowSize(sgConfig->dataSize());
 
         switch (sgConfig->getPlot2dType()){
-        case Histogram:
+        case HISTOGRAM:
         {
             scopeGadgetWidget->setupHistogramPlot();
 
@@ -93,14 +97,14 @@ void ScopeGadget::loadConfiguration(IUAVGadgetConfiguration* config)
             }
             break;
         }
-        case Scatterplot2d:
+        case SCATTERPLOT2D:
         {
             switch (sgConfig->getScatterplot2dType())
             {
-            case Series2d:
+            case SERIES2D:
                 scopeGadgetWidget->setupSeriesPlot();
                 break;
-            case TimeSeries2d:
+            case TIMESERIES2D:
                 scopeGadgetWidget->setupTimeSeriesPlot();
                 break;
             default:
@@ -141,16 +145,16 @@ void ScopeGadget::loadConfiguration(IUAVGadgetConfiguration* config)
             break;
         }
     }
-    else if (sgConfig->getPlotDimensions() == Plot3d)
+    else if (sgConfig->getPlotDimensions() == PLOT3D)
     {
         scopeGadgetWidget->setTimeHorizon(sgConfig->getTimeHorizon());
 
-        if(sgConfig->getPlot3dType() == Spectrogram)
+        if(sgConfig->getPlot3dType() == SPECTROGRAM)
             scopeGadgetWidget->setupSpectrogramPlot();
 
         switch(sgConfig->getPlot3dType())
         {
-        case Spectrogram:
+        case SPECTROGRAM:
         {
             QList<Plot3dCurveConfiguration*> plotSpectrogramConfigs = sgConfig->plot3dCurveConfigs();
 
@@ -184,7 +188,7 @@ void ScopeGadget::loadConfiguration(IUAVGadgetConfiguration* config)
                         );
             break;
         }
-        case Scatterplot3d:
+        case SCATTERPLOT3D:
             foreach (Plot3dCurveConfiguration* plotSpectrogramConfig,  sgConfig->plot3dCurveConfigs()) {
                 QString uavObjectName = plotSpectrogramConfig->uavObjectName;
                 QString uavFieldName = plotSpectrogramConfig->uavFieldName;

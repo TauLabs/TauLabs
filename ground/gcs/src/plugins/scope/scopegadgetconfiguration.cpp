@@ -30,16 +30,16 @@
 
 ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* qSettings, QObject *parent) :
         IUAVGadgetConfiguration(classId, parent),
-        m_SpectrogramConfig(0),
+        m_spectrogramConfig(0),
         m_HistogramConfig(0)
 {
     //Defaults for unconfigured scope
-    m_plot2dType = No2dPlot;
-    m_scatterplot2dType = TimeSeries2d;
+    m_plot2dType = NO2DPLOT;
+    m_scatterplot2dType = TIMESERIES2D;
     m_dataSize = 60;
     m_refreshInterval = 50;
     m_timeHorizon = 60;
-    m_plotDimensions = Plot2d;
+    m_plotDimensions = PLOT2D;
 
     //if a saved configuration exists load it
     if(qSettings != 0)
@@ -47,7 +47,7 @@ ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* q
         m_plotDimensions =  (PlotDimensions) qSettings->value("plotDimensions").toInt();
         m_timeHorizon = qSettings->value("timeHorizon").toDouble();
 
-        if(m_plotDimensions == Plot2d)
+        if(m_plotDimensions == PLOT2D)
         {
             //Start reading new XML block
             qSettings->beginGroup(QString("plot2d"));
@@ -61,7 +61,7 @@ ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* q
             {
                 Plot2dCurveConfiguration *plotCurveConf = new Plot2dCurveConfiguration();
 
-                if (m_plot2dType == Scatterplot2d){
+                if (m_plot2dType == SCATTERPLOT2D){
 
                     //Start reading new XML block
                     qSettings->beginGroup(QString("plot2dScatterplot") + QString().number(i));
@@ -78,7 +78,7 @@ ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* q
                     //End XML block
                     qSettings->endGroup();
                 }
-                else if (m_plot2dType == Histogram){
+                else if (m_plot2dType == HISTOGRAM){
                     m_HistogramConfig = new HistogramDataConfiguration();
                     m_HistogramConfig->binWidth    = qSettings->value("binWidth").toDouble();
                     m_HistogramConfig->windowWidth = qSettings->value("windowWidth").toInt();
@@ -107,7 +107,7 @@ ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* q
             //Stop reading XML block
             qSettings->endGroup();
         }
-        else if(m_plotDimensions == Plot3d){
+        else if(m_plotDimensions == PLOT3D){
             //Start reading new XML block
             qSettings->beginGroup(QString("plot3d"));
 
@@ -115,11 +115,11 @@ ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* q
             m_plot3dType = (Plot3dType) qSettings->value("plot3dType").toInt(); //<--TODO: This requires that the enum values be defined at 0,1,...n
 
 
-            if(m_plot3dType == Spectrogram){
-                m_SpectrogramConfig = new SpectrogramDataConfiguration();
-                m_SpectrogramConfig->samplingFrequency = qSettings->value("samplingFrequency").toDouble();
-                m_SpectrogramConfig->windowWidth       = qSettings->value("windowWidth").toInt();
-                m_SpectrogramConfig->zMaximum = qSettings->value("zMaximum").toDouble();
+            if(m_plot3dType == SPECTROGRAM){
+                m_spectrogramConfig = new SpectrogramDataConfiguration();
+                m_spectrogramConfig->samplingFrequency = qSettings->value("samplingFrequency").toDouble();
+                m_spectrogramConfig->windowWidth       = qSettings->value("windowWidth").toInt();
+                m_spectrogramConfig->zMaximum = qSettings->value("zMaximum").toDouble();
 
                 for(int i = 0; i < plot3dCurveCount; i++){
                     Plot3dCurveConfiguration *plotCurveConf = new Plot3dCurveConfiguration();
@@ -142,7 +142,7 @@ ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* q
                     m_Plot3dCurveConfigs.append(plotCurveConf);
                 }
             }
-            else if(m_plot3dType == Scatterplot3d){
+            else if(m_plot3dType == SCATTERPLOT3D){
                 for(int i = 0; i < plot3dCurveCount; i++)
                 {
                     Plot3dCurveConfiguration *plotCurveConf = new Plot3dCurveConfiguration();
@@ -173,7 +173,7 @@ ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* q
         }
         else{
             //Whoops, the file must have been corrupted. Set to default.
-            m_plotDimensions = Plot2d;
+            m_plotDimensions = PLOT2D;
         }
     }
     else{
@@ -212,7 +212,7 @@ IUAVGadgetConfiguration *ScopeGadgetConfiguration::clone()
 {
     ScopeGadgetConfiguration *m = new ScopeGadgetConfiguration(this->classId());
 
-    if(m_plotDimensions == Plot2d){
+    if(m_plotDimensions == PLOT2D){
 
         m->setPlot2dType( m_plot2dType);
         m->setDataSize( m_dataSize);
@@ -221,7 +221,7 @@ IUAVGadgetConfiguration *ScopeGadgetConfiguration::clone()
 
         int plotCurveCount = m_Plot2dCurveConfigs.size();
 
-        if (m_plot2dType == Scatterplot2d){
+        if (m_plot2dType == SCATTERPLOT2D){
             m->setScatterplot2dType(m_scatterplot2dType);
 
             for(int i = 0; i < plotCurveCount; i++)
@@ -241,7 +241,7 @@ IUAVGadgetConfiguration *ScopeGadgetConfiguration::clone()
                 m->addPlot2dCurveConfig(newPlotCurveConf);
             }
         }
-        else if (m_plot2dType == Histogram){
+        else if (m_plot2dType == HISTOGRAM){
             HistogramDataConfiguration *newHistogramConfig = new HistogramDataConfiguration();
             newHistogramConfig->binWidth = m_HistogramConfig->binWidth;
             newHistogramConfig->windowWidth = m_HistogramConfig->windowWidth;
@@ -269,17 +269,17 @@ IUAVGadgetConfiguration *ScopeGadgetConfiguration::clone()
         }
 
     }
-    else if (m_plotDimensions == Plot3d){
+    else if (m_plotDimensions == PLOT3D){
         m->setTimeHorizon( m_timeHorizon);
         m->setPlot3dType( m_plot3dType);
 
         int plotCurveCount = m_Plot3dCurveConfigs.size();
 
-        if (m_plot3dType == Spectrogram){
+        if (m_plot3dType == SPECTROGRAM){
             SpectrogramDataConfiguration *newSpectrogramConfig = new SpectrogramDataConfiguration();
-            newSpectrogramConfig->samplingFrequency = m_SpectrogramConfig->samplingFrequency;
-            newSpectrogramConfig->windowWidth = m_SpectrogramConfig->windowWidth;
-            newSpectrogramConfig->zMaximum = m_SpectrogramConfig->zMaximum;
+            newSpectrogramConfig->samplingFrequency = m_spectrogramConfig->samplingFrequency;
+            newSpectrogramConfig->windowWidth = m_spectrogramConfig->windowWidth;
+            newSpectrogramConfig->zMaximum = m_spectrogramConfig->zMaximum;
             m->replaceSpectrogramConfig(newSpectrogramConfig);
 
             for(int i = 0; i < plotCurveCount; i++)
@@ -299,7 +299,7 @@ IUAVGadgetConfiguration *ScopeGadgetConfiguration::clone()
                 newPlotCurveConf->yMaximum = currentPlotCurveConf->yMaximum;
             }
         }
-        else if (m_plot3dType == Scatterplot3d){
+        else if (m_plot3dType == SCATTERPLOT3D){
             for (int i = 0; i < plotCurveCount; i++){
                 Plot3dCurveConfiguration *currentPlotCurveConf = m_Plot3dCurveConfigs.at(i);
                 Plot3dCurveConfiguration *newPlotCurveConf     = new Plot3dCurveConfiguration();
@@ -331,7 +331,7 @@ void ScopeGadgetConfiguration::saveConfig(QSettings* qSettings) const {
     qSettings->setValue("refreshInterval", m_refreshInterval);
     qSettings->setValue("timeHorizon", m_timeHorizon);
 
-    if(m_plotDimensions == Plot2d)
+    if(m_plotDimensions == PLOT2D)
     {
         //Start writing new XML block
         qSettings->beginGroup(QString("plot2d"));
@@ -342,7 +342,7 @@ void ScopeGadgetConfiguration::saveConfig(QSettings* qSettings) const {
         qSettings->setValue("dataSize", m_dataSize);
         qSettings->setValue("plot2dCurveCount", plot2dCurveCount);
 
-        if (m_plot2dType == Scatterplot2d){
+        if (m_plot2dType == SCATTERPLOT2D){
             qSettings->setValue("scatterplot2dType", m_scatterplot2dType);
 
             // For each curve source in the plot
@@ -364,7 +364,7 @@ void ScopeGadgetConfiguration::saveConfig(QSettings* qSettings) const {
                 qSettings->endGroup();
             }
         }
-        else if (m_plot2dType == Histogram){
+        else if (m_plot2dType == HISTOGRAM){
             qSettings->setValue("binWidth", m_HistogramConfig->binWidth);
             qSettings->setValue("windowWidth", m_HistogramConfig->windowWidth);
 
@@ -394,7 +394,7 @@ void ScopeGadgetConfiguration::saveConfig(QSettings* qSettings) const {
         //Stop writing XML block
         qSettings->endGroup();
     }
-    else if(m_plotDimensions == Plot3d)
+    else if(m_plotDimensions == PLOT3D)
     {
         //Start writing new XML block
         qSettings->beginGroup(QString("plot3d"));
@@ -403,10 +403,10 @@ void ScopeGadgetConfiguration::saveConfig(QSettings* qSettings) const {
         qSettings->setValue("plot3dType", m_plot3dType);
         qSettings->setValue("plot3dCurveCount", plot3dCurveCount);
 
-        if(m_plot3dType == Spectrogram){
-            qSettings->setValue("samplingFrequency", m_SpectrogramConfig->samplingFrequency);
-            qSettings->setValue("windowWidth", m_SpectrogramConfig->windowWidth);
-            qSettings->setValue("zMaximum",  m_SpectrogramConfig->zMaximum);
+        if(m_plot3dType == SPECTROGRAM){
+            qSettings->setValue("samplingFrequency", m_spectrogramConfig->samplingFrequency);
+            qSettings->setValue("windowWidth", m_spectrogramConfig->windowWidth);
+            qSettings->setValue("zMaximum",  m_spectrogramConfig->zMaximum);
 
             for(int i = 0; i < plot3dCurveCount; i++){
                 Plot3dCurveConfiguration *plotCurveConf = m_Plot3dCurveConfigs.at(i);
@@ -423,7 +423,7 @@ void ScopeGadgetConfiguration::saveConfig(QSettings* qSettings) const {
             }
 
         }
-        else if(m_plot3dType == Scatterplot3d){
+        else if(m_plot3dType == SCATTERPLOT3D){
             for(int i = 0; i < plot3dCurveCount; i++){
                 Plot3dCurveConfiguration *plotCurveConf = m_Plot3dCurveConfigs.at(i);
             //Start new XML block
