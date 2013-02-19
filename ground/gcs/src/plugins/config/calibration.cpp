@@ -120,7 +120,7 @@ void Calibration::connectSensor(sensor_type sensor, bool con)
             Q_ASSERT(gyros);
 
             initialGyrosMdata = gyros->getMetadata();
-            mdata = initialMagMdata;
+            mdata = initialGyrosMdata;
             UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
             mdata.flightTelemetryUpdatePeriod = SENSOR_UPDATE_PERIOD;
             gyros->setMetadata(mdata);
