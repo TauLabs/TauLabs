@@ -64,6 +64,7 @@ struct overosync {
 	uint32_t sent_objects;
 	uint32_t failed_objects;
 	uint32_t received_objects;
+	bool     sending_settings;
 };
 
 struct overosync *overosync;
@@ -220,6 +221,14 @@ static void overoSyncTask(void *parameters)
 					UAVObjIterate(&send_settings);
 				}
 
+				// Because the previous code only happens on connection and the
+				// remote logging program doesn't send the settings to the log
+				// when arming starts we send all settings every thirty seconds
+				static uint32_t second_count = 0;
+				if (second_count ++ > 30) {
+					UAVObjIterate(&send_settings);
+					second_count = 0;
+				}
 				last_connected = syncStats.Connected;
 			}
 
