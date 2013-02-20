@@ -272,7 +272,6 @@ static void vtolPathFollowerTask(void *parameters)
 static void updatePathVelocity()
 {
 	float dT = guidanceSettings.UpdatePeriod / 1000.0f;
-	float downCommand;
 
 	PositionActualData positionActual;
 	PositionActualGet(&positionActual);
@@ -319,10 +318,8 @@ static void updatePathVelocity()
 	    bound_min_max(progress.fractional_progress,0,1);
 
 	float downError = altitudeSetpoint - positionActual.Down;
-	downCommand = pid_apply(&vtol_pids[DOWN_POSITION], downError, dT);
-	velocityDesired.Down = bound_min_max(downCommand,
-								 -guidanceSettings.VerticalVelMax,
-								 guidanceSettings.VerticalVelMax);
+	velocityDesired.Down = pid_apply_antiwindup(&vtol_pids[DOWN_POSITION], downError,
+		-guidanceSettings.VerticalVelMax, guidanceSettings.VerticalVelMax, dT);
 
 	VelocityDesiredSet(&velocityDesired);
 }
@@ -348,7 +345,6 @@ void updateEndpointVelocity()
 	float downError;
 	float northCommand;
 	float eastCommand;
-	float downCommand;
 	
 	float northPos = 0;
 	float eastPos = 0;
@@ -376,11 +372,13 @@ void updateEndpointVelocity()
 
 	// Compute desired north command velocity from position error
 	northError = pathDesired.End[PATHDESIRED_END_NORTH] - northPos;
-	northCommand = pid_apply(&vtol_pids[NORTH_POSITION], northError, dT);
+	northCommand = pid_apply_antiwindup(&vtol_pids[NORTH_POSITION], northError,
+	    -guidanceSettings.HorizontalVelMax, guidanceSettings.HorizontalVelMax, dT);
 
 	// Compute desired east command velocity from position error
 	eastError = pathDesired.End[PATHDESIRED_END_EAST] - eastPos;
-	eastCommand = pid_apply(&vtol_pids[EAST_POSITION], eastError, dT);
+	eastCommand = pid_apply_antiwindup(&vtol_pids[EAST_POSITION], eastError,
+	    -guidanceSettings.HorizontalVelMax, guidanceSettings.HorizontalVelMax, dT);
 
 	// Limit the maximum velocity any direction (not north and east separately)
 	float total_vel = sqrtf(powf(northCommand,2) + powf(eastCommand,2));
@@ -393,10 +391,8 @@ void updateEndpointVelocity()
 
 	// Compute the desired velocity from the position difference
 	downError = pathDesired.End[PATHDESIRED_END_DOWN] - downPos;
-	downCommand = pid_apply(&vtol_pids[DOWN_POSITION], downError, dT);
-	velocityDesired.Down = bound_min_max(downCommand,
-				     -guidanceSettings.VerticalVelMax, 
-				     guidanceSettings.VerticalVelMax);
+	velocityDesired.Down = pid_apply_antiwindup(&vtol_pids[DOWN_POSITION], downError,
+	    -guidanceSettings.VerticalVelMax, guidanceSettings.VerticalVelMax, dT);
 	
 	VelocityDesiredSet(&velocityDesired);	
 
@@ -489,24 +485,28 @@ static void updateVtolDesiredAttitude()
 	
 	// Compute desired north command from velocity error
 	northError = velocityDesired.North - northVel;
-	northCommand = pid_apply(&vtol_pids[NORTH_VELOCITY], northError, dT) + velocityDesired.North * guidanceSettings.VelocityFeedforward;
+	northCommand = pid_apply_antiwindup(&vtol_pids[NORTH_VELOCITY], northError, 
+	    -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch, dT) + velocityDesired.North * guidanceSettings.VelocityFeedforward;
 	
 	// Compute desired east command from velocity error
 	eastError = velocityDesired.East - eastVel;
-	eastCommand = pid_apply(&vtol_pids[NORTH_VELOCITY], eastError, dT) + velocityDesired.East * guidanceSettings.VelocityFeedforward;
+	eastCommand = pid_apply_antiwindup(&vtol_pids[NORTH_VELOCITY], eastError,
+	    -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch, dT) + velocityDesired.East * guidanceSettings.VelocityFeedforward;
 	
 	// Compute desired down command.  Using NED accel as the damping term
 	downError = velocityDesired.Down - downVel;
 	// Negative is critical here since throttle is negative with down
-	downCommand = -pid_apply(&vtol_pids[DOWN_VELOCITY], downError, dT) +
+	downCommand = -pid_apply_antiwindup(&vtol_pids[DOWN_VELOCITY], downError, 0, 1, dT) +
 	    nedAccel.Down * guidanceSettings.VerticalVelPID[VTOLPATHFOLLOWERSETTINGS_VERTICALVELPID_KD];
-
 	stabDesired.Throttle = bound_min_max(downCommand + throttleOffset, 0, 1);
 	
-	// Project the north and east command signals into the pitch and roll based on yaw.  For this to behave well the
-	// craft should move similarly for 5 deg roll versus 5 deg pitch
-	stabDesired.Pitch = bound_min_max(-northCommand * cosf(attitudeActual.Yaw * DEG2RAD) + 
-				      -eastCommand * sinf(attitudeActual.Yaw * DEG2RAD),
+	// Project the north and east command signals into the pitch and roll based on yaw.
+	// For this to behave well the craft should move similarly for 5 deg roll versus 5 deg pitch.
+	// Notice the inputs are crudely bounded by the anti-winded but if both N and E were
+	// saturated and the craft were at 45 degrees that would result in a value greater than
+	// the limit, so apply limit again here.
+	stabDesired.Pitch = bound_min_max(-northCommand * cosf(attitudeActual.Yaw * M_PI / 180) + 
+				      -eastCommand * sinf(attitudeActual.Yaw * M_PI / 180),
 				      -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch);
 	stabDesired.Roll = bound_min_max(-northCommand * sinf(attitudeActual.Yaw * DEG2RAD) + 
 				     eastCommand * cosf(attitudeActual.Yaw * DEG2RAD),
