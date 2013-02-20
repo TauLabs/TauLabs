@@ -146,13 +146,6 @@ int32_t VtolPathFollowerInitialize()
 
 MODULE_INITCALL(VtolPathFollowerInitialize, VtolPathFollowerStart)
 
-static float northVelIntegral = 0;
-static float eastVelIntegral = 0;
-static float downVelIntegral = 0;
-
-static float northPosIntegral = 0;
-static float eastPosIntegral = 0;
-static float downPosIntegral = 0;
 
 static float throttleOffset = 0;
 /**
@@ -242,13 +235,9 @@ static void vtolPathFollowerTask(void *parameters)
 				}
 				break;
 			default:
-				// Be cleaner and get rid of global variables
-				northVelIntegral = 0;
-				eastVelIntegral = 0;
-				downVelIntegral = 0;
-				northPosIntegral = 0;
-				eastPosIntegral = 0;
-				downPosIntegral = 0;
+
+				for (uint32_t i = 0; i < VTOL_PID_NUM; i++)
+					pid_zero(&vtol_pids[i]);
 
 				// Track throttle before engaging this mode.  Cheap system ident
 				StabilizationDesiredData stabDesired;
