@@ -54,7 +54,13 @@
 // Private constants
 
 #define MAX_QUEUE_SIZE 2
-#define STACK_SIZE_BYTES (200 + 484 + (13*fft_window_size)) //This value has been calculated to leave 200 bytes of stack space, no matter the fft_window_size
+#define STACK_SIZE_BYTES (200 + 484 + (13*fft_window_size)*0) // The fft memory requirement grows linearly 
+																				  // with window size. The constant is multiplied
+																				  // by 0 in order to reflect the fact that the
+																				  // malloc'ed memory is not taken from the module 
+																				  // but instead from the heap. Nonetheless, we 
+																				  // can know a priori how much RAM this module 
+																				  // will take.
 #define TASK_PRIORITY (tskIDLE_PRIORITY+1)
 #define SETTINGS_THROTTLING_MS 100
 
