@@ -29,8 +29,12 @@
 
 #include <QDir>
 #include "scopes2d/histogramdata.h"
+#include "scopes2d/scatterplotdata.h"
+#include "scopes3d/spectrogramdata.h"
 #include "scopegadgetwidget.h"
 #include "utils/stylehelper.h"
+
+#include "scopegadgetconfiguration.h"
 
 #include "uavtalk/telemetrymanager.h"
 #include "extensionsystem/pluginmanager.h"
@@ -546,12 +550,8 @@ void ScopeGadgetWidget::setupSpectrogramPlot()
  * @param timeHorizon
  */
 void ScopeGadgetWidget::addWaterfallPlot(QString uavObjectName, QString uavFieldSubFieldName, int scaleOrderFactor, int meanSamples,
-                                         QString mathFunction, double timeHorizon, SpectrogramDataConfiguration *spectrogramDataConfig)
+                                         QString mathFunction, double timeHorizon, double samplingFrequency, int windowWidth, double zMaximum)
 {
-    double samplingFrequency = spectrogramDataConfig->samplingFrequency;
-    int windowWidth          = spectrogramDataConfig->windowWidth;
-    double zMaximum          = spectrogramDataConfig->zMaximum;
-
     SpectrogramData* spectrogramData = new SpectrogramData(uavObjectName, uavFieldSubFieldName, samplingFrequency, windowWidth, timeHorizon);
 
     spectrogramData->setXMinimum(0);
@@ -756,7 +756,6 @@ void ScopeGadgetWidget::addHistogram(QString uavObjectName, QString uavFieldSubF
     HistogramData* histogramData;
     histogramData = new HistogramData(uavObjectName, uavFieldSubFieldName, binWidth, numberOfBins);
 
-    histogramData->setXWindowSize(m_xWindowSize);
     histogramData->scalePower = scaleOrderFactor;
     histogramData->meanSamples = meanSamples;
     histogramData->mathFunction = mathFunction;

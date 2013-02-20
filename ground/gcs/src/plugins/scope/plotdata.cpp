@@ -31,6 +31,8 @@
 
 
 #include "scopes2d/histogramdata.h"
+#include "scopes2d/scatterplotdata.h"
+#include "scopes3d/spectrogramdata.h"
 #include "plotdata2d.h"
 #include "plotdata3d.h"
 #include <math.h>

@@ -29,9 +29,8 @@
 #ifndef SCOPEGADGETWIDGET_H_
 #define SCOPEGADGETWIDGET_H_
 
-//#include "plotdata2d.h"
-//#include "plotdata3d.h"
-#include "scopegadgetconfiguration.h"
+#include "plotdata2d.h"
+#include "plotdata3d.h"
 
 #include "qwt/src/qwt.h"
 #include "qwt/src/qwt_plot_grid.h"
@@ -82,17 +81,14 @@ public:
     Scatterplot2dType scatterplot2dType(){return m_Scatterplot2dType;}
 
     void setXWindowSize(double xWindowSize){m_xWindowSize = xWindowSize;}
-    void setTimeHorizon(double timeHorizon){m_timeHorizon = timeHorizon;}
     void setRefreshInterval(double refreshInterval){m_refreshInterval = refreshInterval;}
     double getXWindowSize(){return m_xWindowSize;}
-    double getTimeHorizon(){return m_timeHorizon;}
-    int refreshInterval(){return m_refreshInterval;}
+    int getRefreshInterval(){return m_refreshInterval;}
 
 
     void add2dCurvePlot(QString uavObject, QString uavFieldSubField, int scaleOrderFactor = 0, int meanSamples = 1, QString mathFunction = "None", QPen pen = QPen(Qt::black));
     void addHistogram(QString uavObject, QString uavFieldSubField, double binWidth, uint numberOfBins, int scaleOrderFactor = 0, int meanSamples = 1, QString mathFunction = "None", QBrush brush = QBrush(Qt::red));
-    //void removeCurvePlot(QString uavObject, QString uavField);
-    void addWaterfallPlot(QString uavObject, QString uavFieldSubField, int scaleOrderFactor = 0, int meanSamples = 1, QString mathFunction = "None", double timeHorizon=60, SpectrogramDataConfiguration *spectrogramDataConfiguration = new SpectrogramDataConfiguration());
+    void addWaterfallPlot(QString uavObject, QString uavFieldSubField, int scaleOrderFactor = 0, int meanSamples = 1, QString mathFunction = "None", double timeHorizon=60, double samplingFrequency=50, int windowWidth=64, double zMaximum=100);
     void clearCurvePlots();
 
 protected:
@@ -122,7 +118,6 @@ private:
     Scatterplot2dType m_Scatterplot2dType;
 
     double m_xWindowSize;
-    double m_timeHorizon;
     int m_refreshInterval;
     QList<QString> m_connectedUAVObjects;
     QMap<QString, Plot2dData*> m_curves2dData;

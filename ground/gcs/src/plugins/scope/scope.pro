@@ -4,8 +4,15 @@ DEFINES += SCOPE_LIBRARY
 include(../../taulabsgcsplugin.pri)
 include (scope_dependencies.pri)
 HEADERS += scopeplugin.h \
+    scopes2d/scatterplotdata.h \
+    scopes2d/scatterplotscopeconfig.h \
     scopes2d/histogramdata.h \
-#    scopes2d/spectrogram.h \
+    scopes2d/histogramscopeconfig.h \
+    scopes2d/scopes2dconfig.h \
+    scopes3d/spectrogramdata.h \
+    scopes3d/spectrogramscopeconfig.h \
+    scopes3d/scopes3dconfig.h \
+    scopesconfig.h \
     plotdata.h \
     plotdata2d.h \
     plotdata3d.h \
@@ -16,8 +23,9 @@ HEADERS += scopegadget.h
 HEADERS += scopegadgetwidget.h
 HEADERS += scopegadgetfactory.h
 SOURCES += scopeplugin.cpp \
-    scopes2d/histogramdata.cpp \
-#    scopes2d/spectrogram.cpp \
+    scopes2d/histogramscopeconfig.cpp \
+    scopes2d/scatterplotscopeconfig.cpp \
+    scopes3d/spectrogramscopeconfig.cpp \
     plotdata.cpp
 SOURCES += scopegadgetoptionspage.cpp
 SOURCES += scopegadgetconfiguration.cpp

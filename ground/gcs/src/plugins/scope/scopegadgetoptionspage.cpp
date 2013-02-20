@@ -32,6 +32,9 @@
 #include "uavobjectmanager.h"
 #include "uavdataobject.h"
 
+#include "scopes2d/histogramscopeconfig.h"
+#include "scopes2d/scatterplotscopeconfig.h"
+#include "scopes3d/spectrogramscopeconfig.h"
 
 #include <QtGui/qpalette.h>
 #include <QtGui/QMessageBox>
@@ -151,24 +154,26 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
 
 
     //Set widget elements to reflect plot configurations
-    if(m_config->getPlotDimensions() == PLOT2D)
+    if(m_config->getScope()->getScopeDimensions() == PLOT2D)
     {
         //Set the tab widget to 2D
         options_page->tabWidget2d3d->setCurrentWidget(options_page->tabPlot2d);
         on_tabWidget2d3d_currentIndexChanged(options_page->tabWidget2d3d->currentIndex());
 
         //Set the plot type
-        options_page->cmb2dPlotType->setCurrentIndex(options_page->cmb2dPlotType->findData(m_config->getPlot2dType()));
+        options_page->cmb2dPlotType->setCurrentIndex(options_page->cmb2dPlotType->findData(m_config->getScopeType()));
         on_cmb2dPlotType_currentIndexChanged(options_page->cmb2dPlotType->currentText());
 
         //Set widget values from settings
 
         //add the configured 2D curves
         options_page->lst2dCurves->clear();  //Clear list first
-        foreach (Plot2dCurveConfiguration* plotData,  m_config->plot2dCurveConfigs()) {
-            if (m_config->getPlot2dType() == SCATTERPLOT2D){
-                options_page->cmbXAxisScatterplot2d->setCurrentIndex(m_config->getScatterplot2dType());
-                options_page->spnDataSize->setValue(m_config->dataSize());
+        if (m_config->getScopeType() == SCATTERPLOT2D){
+            Scatterplot2dScope* configBob = (Scatterplot2dScope*) m_config->getScope();
+
+            foreach (Plot2dCurveConfiguration* plotData, configBob->getScatterplotDataSource()) {
+                options_page->cmbXAxisScatterplot2d->setCurrentIndex(configBob->getScatterplot2dType());
+                options_page->spnDataSize->setValue(configBob->getTimeHorizon());
 
                 QString uavObjectName = plotData->uavObjectName;
                 QString uavFieldName = plotData->uavFieldName;
@@ -179,45 +184,50 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
 
                 addPlot2dCurveConfig(uavObjectName,uavFieldName,scale,mean,mathFunction,varColor);
             }
-            else if (m_config->getPlot2dType() == HISTOGRAM){
-                options_page->spnMaxNumBins->setValue(m_config->getHistogramConfiguration()->windowWidth);
-                options_page->spnBinWidth->setValue(m_config->getHistogramConfiguration()->binWidth);
+        }
+        else if (m_config->getScopeType() == HISTOGRAM){
+            HistogramScope* configBob = (HistogramScope*) m_config->getScope();
 
-                QString uavObjectName = plotData->uavObjectName;
-                QString uavFieldName = plotData->uavFieldName;
-                int scale = plotData->yScalePower;
-                int mean = plotData->yMeanSamples;
-                QString mathFunction = plotData->mathFunction;
-                QVariant varColor = plotData->color;
+            foreach (Plot2dCurveConfiguration* dataSource,  configBob->getHistogramDataSource()) {
+                options_page->spnMaxNumBins->setValue(configBob->getMaxNumberOfBins());
+                options_page->spnBinWidth->setValue(configBob->getBinWidth());
+
+                QString uavObjectName = dataSource->uavObjectName;
+                QString uavFieldName = dataSource->uavFieldName;
+                int scale = dataSource->yScalePower;
+                int mean = dataSource->yMeanSamples;
+                QString mathFunction = dataSource->mathFunction;
+                QVariant varColor = dataSource->color;
 
                 addPlot2dCurveConfig(uavObjectName,uavFieldName,scale,mean,mathFunction,varColor);
             }
-            else{
-                Q_ASSERT(0);
-            }
+        }
+        else{
+            Q_ASSERT(0);
         }
 
         //Select row 1st row in list
         options_page->lst2dCurves->setCurrentRow(0, QItemSelectionModel::ClearAndSelect);
     }
-    else if(m_config->getPlotDimensions() == PLOT3D)
+    else if(m_config->getScope()->getScopeDimensions() == PLOT3D)
     {
         //Set the tab widget to 3D
         options_page->tabWidget2d3d->setCurrentWidget(options_page->tabPlot3d);
 
         //Set the plot type
-        options_page->cmb3dPlotType->setCurrentIndex(options_page->cmb3dPlotType->findData(m_config->getPlot3dType()));
+        options_page->cmb3dPlotType->setCurrentIndex(options_page->cmb3dPlotType->findData(m_config->getScope()->getScopeType()));
 
-        if(m_config->getPlot3dType() == SPECTROGRAM){
-            options_page->sbSpectrogramTimeHorizon->setValue(m_config->getTimeHorizon());
-            options_page->sbSpectrogramFrequency->setValue(m_config->getSpectrogramConfiguration()->samplingFrequency);
-            options_page->spnMaxSpectrogramZ->setValue(m_config->getSpectrogramConfiguration()->zMaximum);
+        if(m_config->getScopeType() == SPECTROGRAM){
+            SpectrogramScope* configBob = (SpectrogramScope*) m_config->getScope();
+            options_page->sbSpectrogramTimeHorizon->setValue(configBob->getTimeHorizon());
+            options_page->sbSpectrogramFrequency->setValue(configBob->getSamplingFrequency());
+            options_page->spnMaxSpectrogramZ->setValue(configBob->getZMaximum());
 
-            foreach (Plot3dCurveConfiguration* plot3dData,  m_config->plot3dCurveConfigs()) {
+            foreach (Plot3dCurveConfiguration* plot3dData,  configBob->getSpectrogramDataSource()) {
                 int uavoIdx= options_page->cmbUAVObjectsSpectrogram->findText(plot3dData->uavObjectName);
                 options_page->cmbUAVObjectsSpectrogram->setCurrentIndex(uavoIdx);
                 on_cmbUAVObjectsSpectrogram_currentIndexChanged(plot3dData->uavObjectName);
-                options_page->sbSpectrogramWidth->setValue(m_config->getSpectrogramConfiguration()->windowWidth);
+                options_page->sbSpectrogramWidth->setValue(configBob->getWindowWidth());
 
                 int uavoFieldIdx= options_page->cmbUavoFieldSpectrogram->findText(plot3dData->uavFieldName);
                 options_page->cmbUavoFieldSpectrogram->setCurrentIndex(uavoFieldIdx);
@@ -225,20 +235,20 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
         }
 
 
-        //Set widget values from settings
+//        //Set widget values from settings
 
-        //add the configured 3D curves
-        foreach (Plot3dCurveConfiguration* plotData,  m_config->plot3dCurveConfigs()) {
+//        //add the configured 3D curves
+//        foreach (Plot3dCurveConfiguration* plotData,  m_config->plot3dCurveConfigs()) {
 
-            QString uavObjectName = plotData->uavObjectName;
-            QString uavFieldName = plotData->uavFieldName;
-            int scale = plotData->yScalePower;
-            int mean = plotData->yMeanSamples;
-            QString mathFunction = plotData->mathFunction;
-            QVariant varColor = plotData->color;
+//            QString uavObjectName = plotData->uavObjectName;
+//            QString uavFieldName = plotData->uavFieldName;
+//            int scale = plotData->yScalePower;
+//            int mean = plotData->yMeanSamples;
+//            QString mathFunction = plotData->mathFunction;
+//            QVariant varColor = plotData->color;
 
-            addPlot3dCurveConfig(uavObjectName,uavFieldName,scale,mean,mathFunction,varColor);
-        }
+//            addPlot3dCurveConfig(uavObjectName,uavFieldName,scale,mean,mathFunction,varColor);
+//        }
     }
 
     //Disable mouse wheel events //TODO: DOES NOT WORK
@@ -458,17 +468,16 @@ void ScopeGadgetOptionsPage::apply()
     {   //--- 2D ---//
 
         Plot2dType current2dType = (Plot2dType) options_page->cmb2dPlotType->itemData(options_page->cmb2dPlotType->currentIndex()).toUInt();
-        m_config->setPlot2dType(current2dType);
-        m_config->setPlotDimensions(PLOT2D);
+        m_config->getScope()->setScopeType(current2dType);
+        m_config->getScope()->setScopeDimensions(PLOT2D);
 
-        QList<Plot2dCurveConfiguration*> plot2dCurveConfigs;
 
         if (current2dType == HISTOGRAM){
-            HistogramDataConfiguration *newHistogramConfig = new HistogramDataConfiguration();
-            newHistogramConfig->binWidth=options_page->spnBinWidth->value();
-            newHistogramConfig->windowWidth=options_page->spnMaxNumBins->value();
-            m_config->replaceHistogramConfig(newHistogramConfig);
+            QList<Plot2dCurveConfiguration*> histogramConfigs;
+            HistogramScope* configBob = (HistogramScope*) m_config;
 
+            configBob->setBinWidth(options_page->spnBinWidth->value());
+            configBob->setMaxNumberOfBins(options_page->spnMaxNumBins->value());
 
             //For each y-data source in the list
             for(int iIndex = 0; iIndex < options_page->lst2dCurves->count();iIndex++) {
@@ -495,14 +504,19 @@ void ScopeGadgetOptionsPage::apply()
                 newPlotCurveConfigs->mathFunction  = listItem->data(Qt::UserRole + 5).toString();
 
 
-                plot2dCurveConfigs.append(newPlotCurveConfigs);
+                histogramConfigs.append(newPlotCurveConfigs);
             }
+
+            configBob->replaceHistogramDataSource(histogramConfigs);
         }
         else if (current2dType == SCATTERPLOT2D){
-            m_config->setDataSize(options_page->spnDataSize->value());
+            QList<Plot2dCurveConfiguration*> plot2dCurveConfigs;
+            Scatterplot2dScope* configBob = (Scatterplot2dScope*) m_config;
+
+            configBob->setTimeHorizon(options_page->spnDataSize->value());
 
             Scatterplot2dType currentScatterplotType = (Scatterplot2dType) options_page->cmbXAxisScatterplot2d->itemData(options_page->cmbXAxisScatterplot2d->currentIndex()).toUInt();
-            m_config->setScatterplot2dType(currentScatterplotType);
+            configBob->setScatterplot2dType(currentScatterplotType);
 
             for(int iIndex = 0; iIndex < options_page->lst2dCurves->count();iIndex++) {
                 QListWidgetItem* listItem = options_page->lst2dCurves->item(iIndex);
@@ -530,32 +544,32 @@ void ScopeGadgetOptionsPage::apply()
 
                 plot2dCurveConfigs.append(newPlotCurveConfigs);
             }
+
+            configBob->replaceScatterplotDataSource(plot2dCurveConfigs);
         }
         else{
             Q_ASSERT(0);
         }
 
-        m_config->replacePlot2dCurveConfig(plot2dCurveConfigs);
     }
     else
     {   //--- 3D ---//
         QList<Plot3dCurveConfiguration*> plot3dCurveConfigs;
 
+        //TODO: Investigage how the type can be decided ahead of time, before checking the Stack
         Plot3dType current3dType = (Plot3dType) options_page->cmb3dPlotType->itemData(options_page->cmb3dPlotType->currentIndex()).toUInt(); //[1]HUH?-->[2]
-        m_config->setPlot3dType(current3dType);
-        m_config->setPlotDimensions(PLOT3D);
-        m_config->setTimeHorizon(options_page->sbSpectrogramTimeHorizon->value());
+        m_config->getScope()->setScopeType(current3dType);
+        m_config->getScope()->setScopeDimensions(PLOT3D);
 
         if (options_page->stackedWidget3dPlots->currentWidget() == options_page->sw3dSpectrogramStack)
         {
-//            m_config->setPlot3dType(Spectrogram); //[2] HUH?-->[1,3]
+            SpectrogramScope* configBob = (SpectrogramScope*) m_config;
 
-            SpectrogramDataConfiguration *newSpectrogramConfig = new SpectrogramDataConfiguration();
-            newSpectrogramConfig->samplingFrequency = options_page->sbSpectrogramFrequency->value();
-            newSpectrogramConfig->windowWidth       = options_page->sbSpectrogramWidth->value();
-            newSpectrogramConfig->zMaximum          = options_page->spnMaxSpectrogramZ->value();
+            configBob->setWindowWidth(options_page->sbSpectrogramWidth->value());
+            configBob->setSamplingFrequency(options_page->sbSpectrogramFrequency->value());
+            configBob->setTimeHorizon(options_page->sbSpectrogramTimeHorizon->value());
+            configBob->setZMaximum(options_page->spnMaxSpectrogramZ->value());
 
-            m_config->replaceSpectrogramConfig(newSpectrogramConfig);
 
             Plot3dCurveConfiguration* newPlotCurveConfigs = new Plot3dCurveConfiguration();
             newPlotCurveConfigs->uavObjectName = options_page->cmbUAVObjectsSpectrogram->currentText();
@@ -572,6 +586,8 @@ void ScopeGadgetOptionsPage::apply()
                 newPlotCurveConfigs->color = (QRgb) rgb;
 
             plot3dCurveConfigs.append(newPlotCurveConfigs);
+
+            configBob->replaceSpectrogramDataSource(plot3dCurveConfigs);
         }
         else if (options_page->stackedWidget3dPlots->currentWidget() == options_page->sw3dTimeSeriesStack)
         {
@@ -606,7 +622,6 @@ void ScopeGadgetOptionsPage::apply()
         else{
             Q_ASSERT(0);
         }
-        m_config->replacePlot3dCurveConfig(plot3dCurveConfigs);
     }
 }
 

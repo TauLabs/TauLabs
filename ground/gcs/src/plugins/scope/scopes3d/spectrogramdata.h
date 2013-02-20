@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       histogramdata.h
+ * @file       spectrogramdata.h
  * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -25,17 +25,17 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef HISTOGRAMDATA_H
-#define HISTOGRAMDATA_H
+#ifndef SPECTROGRAMDATA_H
+#define SPECTROGRAMDATA_H
 
-#include "plotdata2d.h"
+#include "plotdata3d.h"
 #include "uavobject.h"
 
 #include "qwt/src/qwt.h"
 #include "qwt/src/qwt_color_map.h"
+#include "qwt/src/qwt_matrix_raster_data.h"
 #include "qwt/src/qwt_plot.h"
-#include "qwt/src/qwt_plot_curve.h"
-#include "qwt/src/qwt_plot_histogram.h"
+#include "qwt/src/qwt_plot_spectrogram.h"
 #include "qwt/src/qwt_scale_draw.h"
 #include "qwt/src/qwt_scale_widget.h"
 
@@ -45,48 +45,63 @@
 
 
 /**
- * @brief The HistogramData class The histogram plot has a variable sized buffer of data,
+ * @brief The SpectrogramData class The histogram plot has a variable sized buffer of data,
  *  where the data is for a specified histogram data set.
  */
-class HistogramData : public Plot2dData
+/**
+ * @brief The SpectrogramData class The spectrogram plot has a fixed size
+ * data buffer. All the curves in one plot have the same size buffer.
+ */
+class SpectrogramData : public Plot3dData
 {
     Q_OBJECT
 public:
-    HistogramData(QString uavObject, QString uavField, double binWidth, uint numberOfBins) :
-        Plot2dData(uavObject, uavField),
-        histogram(0),
-        histogramBins(0),
-        histogramInterval(0),
-        intervalSeriesData(0)
+    SpectrogramData(QString uavObject, QString uavField, double samplingFrequency, unsigned int windowWidth, double timeHorizon)
+            : Plot3dData(uavObject, uavField),
+              spectrogram(0),
+              rasterData(0)
     {
-        this->binWidth = binWidth;
-        this->numberOfBins = numberOfBins;
-        scalePower = 1;
+        this->samplingFrequency = samplingFrequency;
+        this->timeHorizon = timeHorizon;
+        this->windowWidth = windowWidth;
+        autoscaleValueUpdated = 0;
     }
-    ~HistogramData() {}
+    ~SpectrogramData() {}
 
+    /*!
+      \brief Append new data to the plot
+      */
     bool append(UAVObject* obj);
 
     /*!
       \brief The type of plot
       */
-    virtual Plot2dType plotType() {
-        return HISTOGRAM;
+    virtual Plot3dType plotType() {
+        return SPECTROGRAM;
     }
 
+    /*!
+      \brief Removes the old data from the buffer
+      */
     virtual void removeStaleData(){}
 
-    QwtPlotHistogram* histogram;
-    QVector<QwtIntervalSample> *histogramBins; //Used for histograms
-    QVector<QwtInterval> *histogramInterval;
-    QwtIntervalSeriesData *intervalSeriesData;
+    /*!
+     * \brief readAndResetAutoscaleFlag reads the flag value and resets it
+     * \return
+     */
+    double readAndResetAutoscaleValue(){double tmpVal = autoscaleValueUpdated; autoscaleValueUpdated = 0; return tmpVal;}
 
-private:
-    double binWidth;
-    uint numberOfBins;
+    double samplingFrequency;
+    double timeHorizon;
+    unsigned int windowWidth;
 
-private slots:
+    double autoscaleValueUpdated;
+
+    QwtPlotSpectrogram *spectrogram;
+    SpectrogramType spectrogramType;
+
+    QwtMatrixRasterData *rasterData;
 
 };
 
-#endif // HISTOGRAMDATA_H
+#endif // SPECTROGRAMDATA_H
