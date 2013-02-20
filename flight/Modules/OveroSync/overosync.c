@@ -50,9 +50,10 @@ static xTaskHandle overoSyncTaskHandle;
 static bool module_enabled;
 
 // Private functions
-static void overoSyncTask(void *parameters);
-static int32_t packData(uint8_t * data, int32_t length);
-static void registerObject(UAVObjHandle obj);
+static void    overoSyncTask(void *parameters);
+static int32_t pack_data(uint8_t * data, int32_t length);
+static void    register_object(UAVObjHandle obj);
+static void    send_settings(UAVObjHandle obj);
 
 // External variables
 extern uint32_t pios_com_overo_id;
@@ -63,6 +64,7 @@ struct overosync {
 	uint32_t sent_objects;
 	uint32_t failed_objects;
 	uint32_t received_objects;
+	bool     sending_settings;
 };
 
 struct overosync *overosync;
@@ -95,7 +97,7 @@ int32_t OveroSyncInitialize(void)
 	OveroSyncStatsInitialize();
 
 	// Initialise UAVTalk
-	uavTalkCon = UAVTalkInitialize(&packData);
+	uavTalkCon = UAVTalkInitialize(&pack_data);
 
 	return 0;
 }
@@ -119,7 +121,7 @@ int32_t OveroSyncStart(void)
 	overosync->sent_bytes = 0;
 
 	// Process all registered objects and connect queue for updates
-	UAVObjIterate(&registerObject);
+	UAVObjIterate(&register_object);
 	
 	// Start telemetry tasks
 	xTaskCreate(overoSyncTask, (signed char *)"OveroSync", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &overoSyncTaskHandle);
@@ -130,13 +132,13 @@ int32_t OveroSyncStart(void)
 }
 
 MODULE_INITCALL(OveroSyncInitialize, OveroSyncStart)
-
+;
 /**
  * Register a new object, adds object to local list and connects the queue depending on the object's
  * telemetry settings.
  * \param[in] obj Object to connect
  */
-static void registerObject(UAVObjHandle obj)
+static void register_object(UAVObjHandle obj)
 {
 	int32_t eventMask;
 	eventMask = EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ;
@@ -144,6 +146,18 @@ static void registerObject(UAVObjHandle obj)
 		eventMask |= EV_UNPACKED;	// we also need to act on remote updates (unpack events)
 	}
 	UAVObjConnectQueue(obj, queue, eventMask);
+}
+
+/**
+ * Register a new object, adds object to local list and connects the queue depending on the object's
+ * telemetry settings.
+ * \param[in] obj Object to connect
+ */
+static void send_settings(UAVObjHandle obj)
+{
+	if (UAVObjIsSettings(obj)) {
+		UAVTalkSendObjectTimestamped(uavTalkCon, obj, 0, false, 0);
+	}
 }
 
 /**
@@ -168,6 +182,7 @@ static void overoSyncTask(void *parameters)
 	portTickType updateTime;
 
 	bool initialized = false;
+	uint8_t last_connected = OVEROSYNCSTATS_CONNECTED_FALSE;
 
 	// Loop forever
 	while (1) {
@@ -198,6 +213,23 @@ static void overoSyncTask(void *parameters)
 				overosync->failed_objects = 0;
 				overosync->sent_bytes = 0;
 				lastUpdateTime = updateTime;
+
+				// When first connected, send all the settings.  Right now this
+				// will fail since all the settings will overfill the buffer and
+				if (last_connected == OVEROSYNCSTATS_CONNECTED_FALSE &&
+					syncStats.Connected == OVEROSYNCSTATS_CONNECTED_TRUE) {
+					UAVObjIterate(&send_settings);
+				}
+
+				// Because the previous code only happens on connection and the
+				// remote logging program doesn't send the settings to the log
+				// when arming starts we send all settings every thirty seconds
+				static uint32_t second_count = 0;
+				if (second_count ++ > 30) {
+					UAVObjIterate(&send_settings);
+					second_count = 0;
+				}
+				last_connected = syncStats.Connected;
 			}
 
 			// TODO: Check the receive buffer
@@ -212,7 +244,7 @@ static void overoSyncTask(void *parameters)
  * \return -1 on failure
  * \return number of bytes transmitted on success
  */
-static int32_t packData(uint8_t * data, int32_t length)
+static int32_t pack_data(uint8_t * data, int32_t length)
 {
 	if( PIOS_COM_SendBufferNonBlocking(pios_com_overo_id, data, length) < 0)
 		goto fail;
