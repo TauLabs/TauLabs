@@ -71,7 +71,7 @@ static struct VibrationAnalysis_data {
 	uint16_t accels_sum_count;
 	uint16_t fft_window_size;
 	uint8_t num_upscale_bits;
-	
+
 	float accels_data_sum_x;
 	float accels_data_sum_y;
 	float accels_data_sum_z;
@@ -83,6 +83,8 @@ static struct VibrationAnalysis_data {
 	int16_t *accel_buffer_complex_x_q15;
 	int16_t *accel_buffer_complex_y_q15;
 	int16_t *accel_buffer_complex_z_q15;
+	
+	int16_t *fft_output;
 } *vtd;
 
 
@@ -127,6 +129,7 @@ static int32_t VibrationAnalysisStart(void)
 			break;
 	}
 	
+
 	// Create instances for vibration analysis. Start from i=1 because the first instance is generated
 	// by VibrationAnalysisOutputInitialize(). Generate three times the length because there are three
 	// vectors. Generate half the length because the FFT output is symmetric about the mid-frequency, 
@@ -154,25 +157,7 @@ static int32_t VibrationAnalysisStart(void)
 		return -1;
 	}
 	
-	//Create the buffers. They are in Q15 format.
-	vtd->accel_buffer_complex_x_q15 = (int16_t *) pvPortMalloc(fft_window_size*2*sizeof(*vtd->accel_buffer_complex_x_q15)); //These buffers are complex numbers, so they are twice
-	vtd->accel_buffer_complex_y_q15 = (int16_t *) pvPortMalloc(fft_window_size*2*sizeof(*vtd->accel_buffer_complex_y_q15)); // as long as the number of samples, and  complex part 
-	vtd->accel_buffer_complex_z_q15 = (int16_t *) pvPortMalloc(fft_window_size*2*sizeof(*vtd->accel_buffer_complex_z_q15)); // is always 0.
-	
-	if (vtd->accel_buffer_complex_x_q15 == NULL) {
-		module_enabled = false;
-		return -1;
-	}
-	if (vtd->accel_buffer_complex_y_q15 == NULL) {
-		module_enabled = false;
-		return -1;
-	}
-	if (vtd->accel_buffer_complex_z_q15 == NULL) {
-		module_enabled = false;
-		return -1;
-	}
-	
-	// make sure that all inputs[] are zeroed...
+	// make sure that all struct values are zeroed...
 	memset(vtd, 0, sizeof(struct VibrationAnalysis_data));
 	//... except for Z axis static bias
 	vtd->accels_static_bias_z=-GRAV; // [See note in definition of VibrationAnalysis_data structure]
@@ -181,21 +166,43 @@ static int32_t VibrationAnalysisStart(void)
 	vtd->fft_window_size = fft_window_size;
 	vtd->num_upscale_bits = num_upscale_bits;
 	
+	// Allocate ouput vector
+	vtd->fft_output = (int16_t *) pvPortMalloc(fft_window_size*2*sizeof(typeof(*(vtd->fft_output))));
+	if (vtd->fft_output == NULL) {
+		module_enabled = false; //Check if allocation succeeded
+		return -1;
+	}
+	
+	//Create the buffers. They are in Q15 format.
+	vtd->accel_buffer_complex_x_q15 = (int16_t *) pvPortMalloc(fft_window_size*2*sizeof(typeof(*vtd->accel_buffer_complex_x_q15)));
+	if (vtd->accel_buffer_complex_x_q15 == NULL) {
+		module_enabled = false; //Check if allocation succeeded
+		return -1;
+	}
+	vtd->accel_buffer_complex_y_q15 = (int16_t *) pvPortMalloc(fft_window_size*2*sizeof(typeof(*vtd->accel_buffer_complex_y_q15)));
+	if (vtd->accel_buffer_complex_y_q15 == NULL) {
+		module_enabled = false; //Check if allocation succeeded
+		return -1;
+	}
+	vtd->accel_buffer_complex_z_q15 = (int16_t *) pvPortMalloc(fft_window_size*2*sizeof(typeof(*vtd->accel_buffer_complex_z_q15)));
+	if (vtd->accel_buffer_complex_z_q15 == NULL) {
+		module_enabled = false; //Check if allocation succeeded
+		return -1;
+	}
+	
 	// Start main task
 	xTaskCreate(VibrationAnalysisTask, (signed char *)"VibrationAnalysis", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
 	TaskMonitorAdd(TASKINFO_RUNNING_VIBRATIONANALYSIS, taskHandle);
 	return 0;
 }
 
+
 /**
  * Initialise the module, called on startup
  */
-
 static int32_t VibrationAnalysisInitialize(void)
 {
-	// Initialize UAVOs
 	ModuleSettingsInitialize();
-	VibrationAnalysisSettingsInitialize();
 	
 #ifdef MODULE_VibrationAnalysis_BUILTIN
 	module_enabled = true;
@@ -212,9 +219,10 @@ static int32_t VibrationAnalysisInitialize(void)
 	if (!module_enabled) //If module not enabled...
 		return -1;
 
-	// Initialize Output UAVO
+	// Initialize UAVOs
+	VibrationAnalysisSettingsInitialize();
 	VibrationAnalysisOutputInitialize();
-	
+		
 	// Create object queue
 	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 		
@@ -222,6 +230,7 @@ static int32_t VibrationAnalysisInitialize(void)
 	
 }
 MODULE_INITCALL(VibrationAnalysisInitialize, VibrationAnalysisStart)
+
 
 static void VibrationAnalysisTask(void *parameters)
 {
@@ -237,6 +246,17 @@ static void VibrationAnalysisTask(void *parameters)
 	// Listen for updates.
 	AccelsConnectQueue(queue);
 	
+	// Declare FFT structure and status variable
+	arm_cfft_radix4_instance_q15 cfft_instance;
+	arm_status status;
+	
+	// Initialize the CFFT/CIFFT module
+	status = ARM_MATH_SUCCESS;
+	bool ifftFlag = false;
+	bool doBitReverse = 1;
+	status = arm_cfft_radix4_init_q15(&cfft_instance, vtd->fft_window_size, ifftFlag, doBitReverse);
+	
+	
 /** These values are useful for insight into the Fourier transform performed by this module.
 	float freq_sample = 1.0f/(sampleRate_ms * portTICK_RATE_MS);
 	float freq_nyquist = f_s/2.0f;
@@ -248,7 +268,9 @@ static void VibrationAnalysisTask(void *parameters)
 	sample_count = 0;
 	lastSysTime = xTaskGetTickCount();
 	lastSettingsUpdateTime = xTaskGetTickCount() - SETTINGS_THROTTLING_MS * portTICK_RATE_MS;
+
 	
+	// Main module task, never exit from while loop
 	while(1)
 	{
 		// Only check settings once every 100ms
@@ -286,7 +308,6 @@ static void VibrationAnalysisTask(void *parameters)
 			vtd->accels_data_sum_z += accels_data.z;
 			
 			vtd->accels_sum_count++;
-			
 		}
 		
 		// If not enough time has passed, keep accumulating data
@@ -329,17 +350,6 @@ static void VibrationAnalysisTask(void *parameters)
 			//Reset sample count
 			sample_count = 0;
 			
-			// Decalare variables
-			int16_t fft_output[vtd->fft_window_size>>1]; //Output is symmetric, so no need to store second half of output
-			arm_cfft_radix4_instance_q15 cfft_instance;
-			arm_status status;
-			
-			// Initialize the CFFT/CIFFT module
-			status = ARM_MATH_SUCCESS;
-			bool ifftFlag = false;
-			bool doBitReverse = 1;
-			status = arm_cfft_radix4_init_q15(&cfft_instance, vtd->fft_window_size, ifftFlag, doBitReverse);
-			
 			// Perform the DFT on each of the three axes
 			for (int i=0; i < 3; i++) {
 				if (status == ARM_MATH_SUCCESS) {
@@ -371,19 +381,19 @@ static void VibrationAnalysisTask(void *parameters)
 					
 					// Upscale ptr_cmplx_vec back into Q15 format. The number of bits necessary is defined in 
 					// ARM's arm_cfft_radix4_q15 documentation, figure CFFTQ15.gif
-					arm_shift_q15(ptr_cmplx_vec, vtd->num_upscale_bits, ptr_cmplx_vec, vtd->fft_window_size * sizeof(vtd->accel_buffer_complex_x_q15[0]));
+					arm_shift_q15(ptr_cmplx_vec, vtd->num_upscale_bits, ptr_cmplx_vec, vtd->fft_window_size);
 					
 					// Process the data through the Complex Magnitude Module. This calculates
 					// the magnitude of each complex number, so that the output is a scalar
 					// magnitude without complex phase. Only the first half of the values are
 					// calculated because in a Fourier transform the second half is symmetric.
-					arm_cmplx_mag_q15(ptr_cmplx_vec, fft_output, vtd->fft_window_size>>1);
+					arm_cmplx_mag_q15(ptr_cmplx_vec, vtd->fft_output, vtd->fft_window_size>>1);
 					
 					// Upscale fft_output back into Q15 format
-					arm_shift_q15(fft_output, 1, fft_output, (vtd->fft_window_size>>1) * sizeof(vtd->accel_buffer_complex_x_q15[0]));
+					arm_shift_q15(vtd->fft_output, 1, vtd->fft_output, vtd->fft_window_size>>1);
 					
-					// Save RAM by copying back onto original input value vector.
-					memcpy(ptr_cmplx_vec, fft_output, (vtd->fft_window_size>>1) * sizeof(vtd->accel_buffer_complex_x_q15[0]));
+					// Save RAM by copying back onto original input vector.
+					memcpy(ptr_cmplx_vec, vtd->fft_output, (vtd->fft_window_size>>1) * sizeof(typeof(*vtd->accel_buffer_complex_x_q15)));
 				}
 			}
 			
@@ -402,9 +412,9 @@ static void VibrationAnalysisTask(void *parameters)
 			
 			
 			// Erase buffer, which has the effect of setting the complex part to 0.
-			memset(vtd->accel_buffer_complex_x_q15, 0, sizeof(vtd->accel_buffer_complex_x_q15));
-			memset(vtd->accel_buffer_complex_y_q15, 0, sizeof(vtd->accel_buffer_complex_y_q15));
-			memset(vtd->accel_buffer_complex_z_q15, 0, sizeof(vtd->accel_buffer_complex_z_q15));			
+			memset(vtd->accel_buffer_complex_x_q15, 0, vtd->fft_window_size*2*sizeof(typeof(*(vtd->accel_buffer_complex_x_q15))));
+			memset(vtd->accel_buffer_complex_y_q15, 0, vtd->fft_window_size*2*sizeof(typeof(*(vtd->accel_buffer_complex_y_q15))));
+			memset(vtd->accel_buffer_complex_z_q15, 0, vtd->fft_window_size*2*sizeof(typeof(*(vtd->accel_buffer_complex_z_q15))));
 		}
 	}
 }
