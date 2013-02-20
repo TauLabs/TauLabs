@@ -7,7 +7,7 @@
  *
  * @file       pid.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
+ * @author     Tau Labs, http://github.com/TauLabs Copyright (C) 2012-2013. 
  * @brief      Methods to work with PID structure
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -49,9 +49,14 @@ static float deriv_gamma = 1.0;
  */
 float pid_apply(struct pid *pid, const float err, float dT)
 {	
-	// Scale up accumulator by 1000 while computing to avoid losing precision
-	pid->iAccumulator += err * (pid->i * dT * 1000.0f);
-	pid->iAccumulator = bound_sym(pid->iAccumulator, pid->iLim * 1000.0f);
+	if (pid->i == 0) {
+		// If Ki is zero, reset the integrator
+		pid->iAccumulator = 0;
+	} else {
+		// Scale up accumulator by 1000 while computing to avoid losing precision
+		pid->iAccumulator += err * (pid->i * dT * 1000.0f);
+		pid->iAccumulator = bound_sym(pid->iAccumulator, pid->iLim * 1000.0f);
+	}
 
 	// Calculate DT1 term
 	float diff = (err - pid->lastErr);
@@ -81,9 +86,14 @@ float pid_apply_setpoint(struct pid *pid, const float setpoint, const float meas
 {
 	float err = setpoint - measured;
 	
-	// Scale up accumulator by 1000 while computing to avoid losing precision
-	pid->iAccumulator += err * (pid->i * dT * 1000.0f);
-	pid->iAccumulator = bound_sym(pid->iAccumulator, pid->iLim * 1000.0f);
+	if (pid->i == 0) {
+		// If Ki is zero, reset the integrator
+		pid->iAccumulator = 0;
+	} else {
+		// Scale up accumulator by 1000 while computing to avoid losing precision
+		pid->iAccumulator += err * (pid->i * dT * 1000.0f);
+		pid->iAccumulator = bound_sym(pid->iAccumulator, pid->iLim * 1000.0f);
+	}
 
 	// Calculate DT1 term,
 	float dterm = 0;
