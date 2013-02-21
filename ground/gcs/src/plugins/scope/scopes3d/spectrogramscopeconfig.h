@@ -54,6 +54,7 @@ class SpectrogramScope : public Scopes3d
 public:
     SpectrogramScope();
     SpectrogramScope(QSettings *qSettings);
+    SpectrogramScope(Ui::ScopeGadgetOptionsPage *options_page);
     ~SpectrogramScope();
 
     virtual void saveConfiguration(QSettings* qSettings);
@@ -75,6 +76,7 @@ public:
     void setZMaximum(double val){zMaximum = val;}
     void setWindowWidth(unsigned int val){windowWidth = val;}
     void setTimeHorizon(double val){timeHorizon = val;}
+    virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page);
 
     virtual void clone(ScopesGeneric *spectrogramSourceConfigs);
 

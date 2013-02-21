@@ -33,6 +33,7 @@
 
 #include <coreplugin/iuavgadgetconfiguration.h>
 #include "scopegadgetwidget.h"
+#include "ui_scopegadgetoptionspage.h"
 
 // This struct holds the configuration for individual 2D data sources
 struct Plot2dCurveConfiguration
@@ -60,13 +61,12 @@ public:
     virtual int getScopeType(){} //TODO: Fix this. It should return the true value, not HISTOGRAM
     virtual QList<Plot2dCurveConfiguration*> getDataSourceConfigs(){}
     virtual void loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget){}
-    Plot2dType getPlot2dType(){return m_plot2dType;}
-    virtual void setScopeType(Plot2dType val){m_plot2dType = val;}
-   virtual void clone(ScopesGeneric *){}
+    virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *){}
+    virtual void clone(ScopesGeneric *){}
+    virtual int getScopeDimensions(){return PLOT2D;}
 
 protected:
     PlotDimensions m_plotDimensions;
-    Plot2dType m_plot2dType; //The type of 2d plot
 private:
 };
 

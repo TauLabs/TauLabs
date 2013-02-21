@@ -68,8 +68,6 @@ ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* q
             //Stop reading XML block
             qSettings->endGroup();
 
-            m_scope->setScopeDimensions(PLOT2D);
-            m_scope->setScopeType(plot2dType);
             break;
         }
         case PLOT3D:
@@ -96,9 +94,6 @@ ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* q
 
             //Stop reading XML block
             qSettings->endGroup();
-
-            m_scope->setScopeDimensions(PLOT3D);
-            m_scope->setScopeType(plot3dType);
 
             break;
         }
@@ -129,6 +124,58 @@ ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* q
 }
 
 
+void ScopeGadgetConfiguration::applyGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page)
+{
+    delete m_scope;
+
+    //Default for scopes
+    int refreshInterval = 50;
+
+    if(options_page->tabWidget2d3d->currentWidget() == options_page->tabPlot2d)
+    {   //--- 2D ---//
+        Plot2dType plot2dType = (Plot2dType) options_page->cmb2dPlotType->itemData(options_page->cmb2dPlotType->currentIndex()).toUInt(); //This is safe because the int value is defined from the enum.
+        switch (plot2dType){
+        case SCATTERPLOT2D: {
+            m_scope = new Scatterplot2dScope(options_page);
+            break;
+        }
+        case HISTOGRAM: {
+            m_scope = new HistogramScope(options_page);
+            break;
+        }
+        default:
+            //We shouldn't be able to get this far
+            Q_ASSERT(0);
+        }
+
+    }
+    else if(options_page->tabWidget2d3d->currentWidget() == options_page->tabPlot3d)
+    {   //--- 3D ---//
+
+        Plot3dType plot3dType = (Plot3dType) options_page->cmb3dPlotType->itemData(options_page->cmb3dPlotType->currentIndex()).toUInt(); //This is safe because the int value is defined from the enum
+
+        if (options_page->stackedWidget3dPlots->currentWidget() == options_page->sw3dSpectrogramStack)
+        {
+            m_scope = new SpectrogramScope(options_page);
+        }
+        else if (options_page->stackedWidget3dPlots->currentWidget() == options_page->sw3dTimeSeriesStack)
+        {
+//            m_scope = new Scatterplot3dScope(options_page);
+        }
+        else{
+            Q_ASSERT(0);
+        }
+
+    }
+    else{
+        Q_ASSERT(0);
+    }
+
+    m_scope->setRefreshInterval(refreshInterval);
+
+}
+
+
 /**
  * @brief ScopeGadgetConfiguration::~ScopeGadgetConfiguration Destructor clears 2D and 3D plot data
  */
@@ -145,7 +192,6 @@ IUAVGadgetConfiguration *ScopeGadgetConfiguration::clone()
 {
     ScopeGadgetConfiguration *m = new ScopeGadgetConfiguration(this->classId());
     m->clone(m_scope); //TODO: Fix this, it's broken. I need to instantiate the m Class properly.
-
 
     return m;
 }

@@ -33,6 +33,7 @@
 
 #include <coreplugin/iuavgadgetconfiguration.h>
 #include "scopegadgetwidget.h"
+#include "ui_scopegadgetoptionspage.h"
 
 // This struct holds the configuration for individual 2D data sources
 struct Plot3dCurveConfiguration
@@ -60,13 +61,12 @@ public:
     virtual int getScopeType(){return (int) HISTOGRAM;} //FIX THIS
     virtual QList<Plot3dCurveConfiguration*> getDataSourceConfigs(){}
     virtual void loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget){}
-    Plot3dType getPlot3dType(){return m_plot3dType;}
-    virtual void setScopeType(Plot3dType val){m_plot3dType = val;}
-   virtual void clone(ScopesGeneric *){}
+    virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *){}
+    virtual int getScopeDimensions(){return PLOT3D;}
+    virtual void clone(ScopesGeneric *){}
 
 protected:
     PlotDimensions m_plotDimensions;
-    Plot3dType m_plot3dType; //The type of 3d plot
 private:
 };
 

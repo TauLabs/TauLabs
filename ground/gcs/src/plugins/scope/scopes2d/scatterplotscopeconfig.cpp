@@ -67,6 +67,42 @@ Scatterplot2dScope::Scatterplot2dScope(QSettings *qSettings) //TODO: Understand 
     }
 }
 
+Scatterplot2dScope::Scatterplot2dScope(Ui::ScopeGadgetOptionsPage *options_page)
+{
+    bool parseOK = false;
+
+    timeHorizon = options_page->spnDataSize->value();
+    scatterplot2dType = (Scatterplot2dType) options_page->cmbXAxisScatterplot2d->itemData(options_page->cmbXAxisScatterplot2d->currentIndex()).toUInt();
+
+    for(int iIndex = 0; iIndex < options_page->lst2dCurves->count();iIndex++) {
+        QListWidgetItem* listItem = options_page->lst2dCurves->item(iIndex);
+
+        Plot2dCurveConfiguration* newPlotCurveConfigs = new Plot2dCurveConfiguration();
+        newPlotCurveConfigs->uavObjectName = listItem->data(Qt::UserRole + 0).toString();
+        newPlotCurveConfigs->uavFieldName  = listItem->data(Qt::UserRole + 1).toString();
+        newPlotCurveConfigs->yScalePower  = listItem->data(Qt::UserRole + 2).toInt(&parseOK);
+        if(!parseOK)
+            newPlotCurveConfigs->yScalePower = 0;
+
+        QVariant varColor  = listItem->data(Qt::UserRole + 3);
+        int rgb = varColor.toInt(&parseOK);
+        if(!parseOK)
+            newPlotCurveConfigs->color = QColor(Qt::black).rgb();
+        else
+            newPlotCurveConfigs->color = (QRgb)rgb;
+
+        newPlotCurveConfigs->yMeanSamples = listItem->data(Qt::UserRole + 4).toInt(&parseOK);
+        if(!parseOK)
+            newPlotCurveConfigs->yMeanSamples = 1;
+
+        newPlotCurveConfigs->mathFunction  = listItem->data(Qt::UserRole + 5).toString();
+
+
+        m_scatterplotSourceConfigs.append(newPlotCurveConfigs);
+    }
+
+}
+
 
 Scatterplot2dScope::~Scatterplot2dScope()
 {
@@ -112,10 +148,8 @@ void Scatterplot2dScope::saveConfiguration(QSettings* qSettings)
 //    qSettings->beginGroup(QString("scatterplot"));
 
     qSettings->setValue("timeHorizon", timeHorizon);
-    qSettings->setValue("plot2dType", m_plot2dType);
+    qSettings->setValue("plot2dType", SCATTERPLOT2D);
     qSettings->setValue("scatterplot2dType", scatterplot2dType);
-
-    int bob = m_plot2dType;
 
     int dataSourceCount = m_scatterplotSourceConfigs.size();
     qSettings->setValue("dataSourceCount", dataSourceCount);
@@ -202,3 +236,80 @@ void Scatterplot2dScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget
                     );
     }
 }
+
+
+void Scatterplot2dScope::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page)
+{
+    //Set the tab widget to 2D
+    options_page->tabWidget2d3d->setCurrentWidget(options_page->tabPlot2d);
+//    on_tabWidget2d3d_currentIndexChanged(options_page->tabWidget2d3d->currentIndex());
+
+    //Set the plot type
+    options_page->cmb2dPlotType->setCurrentIndex(options_page->cmb2dPlotType->findData(getScopeType()));
+//    on_cmb2dPlotType_currentIndexChanged(options_page->cmb2dPlotType->currentText());
+
+    //add the configured 2D curves
+    options_page->lst2dCurves->clear();  //Clear list first
+
+    foreach (Plot2dCurveConfiguration* plotData, m_scatterplotSourceConfigs) {
+        options_page->cmbXAxisScatterplot2d->setCurrentIndex(scatterplot2dType);
+        options_page->spnDataSize->setValue(timeHorizon);
+
+        QString uavObjectName = plotData->uavObjectName;
+        QString uavFieldName = plotData->uavFieldName;
+        int scale = plotData->yScalePower;
+        int mean = plotData->yMeanSamples;
+        QString mathFunction = plotData->mathFunction;
+        QVariant varColor = plotData->color;
+
+        //TODO: Refer this back to scopegadgetoptionspage.
+//        addPlot2dCurveConfig(uavObjectName,uavFieldName,scale,mean,mathFunction,varColor);
+        {
+            QString listItemDisplayText = uavObjectName + "." + uavFieldName; // Generate the name
+            options_page->lst2dCurves->addItem(listItemDisplayText);  // Add the name to the list
+            int itemIdx = options_page->lst2dCurves->count() - 1; // Get the index number for the new value
+            QListWidgetItem *listWidgetItem = options_page->lst2dCurves->item(itemIdx); //Find the widget item
+
+            //Apply all settings to curve
+//            setPlot2dCurveProperties(listWidgetItem, uavObjectName, uavFieldName, scale, mean, mathFunction, varColor);
+            {
+                bool parseOK = false;
+                QString listItemDisplayText;
+                QRgb rgbColor;
+
+                if(uavObjectName!="")
+                {
+                    //Set the properties of the newly added list item
+                    listItemDisplayText = uavObjectName + "." + uavFieldName;
+                    rgbColor = (QRgb)varColor.toInt(&parseOK);
+                    if(!parseOK)
+                        rgbColor = qRgb(255,0,0);
+                }
+                else{
+                    listItemDisplayText = "New graph";
+                    rgbColor = qRgb(255,0,0);
+                }
+
+                QColor color = QColor( rgbColor );
+                listWidgetItem->setText(listItemDisplayText);
+                listWidgetItem->setTextColor( color );
+
+                //Store some additional data for the plot curve on the list item
+                listWidgetItem->setData(Qt::UserRole + 0,QVariant(uavObjectName));
+                listWidgetItem->setData(Qt::UserRole + 1,QVariant(uavFieldName));
+                listWidgetItem->setData(Qt::UserRole + 2,QVariant(scale));
+                listWidgetItem->setData(Qt::UserRole + 3,varColor);
+                listWidgetItem->setData(Qt::UserRole + 4,QVariant(mean));
+                listWidgetItem->setData(Qt::UserRole + 5,QVariant(mathFunction));
+            }
+
+            //Select the row with the new name
+            options_page->lst2dCurves->setCurrentRow(itemIdx);
+        }
+    }
+
+    //Select row 1st row in list
+    options_page->lst2dCurves->setCurrentRow(0, QItemSelectionModel::ClearAndSelect);
+
+}
+

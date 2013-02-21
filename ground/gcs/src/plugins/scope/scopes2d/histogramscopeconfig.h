@@ -45,6 +45,7 @@ class HistogramScope : public Scopes2d
 public:
     HistogramScope();
     HistogramScope(QSettings *qSettings);
+    HistogramScope(Ui::ScopeGadgetOptionsPage *options_page);
     ~HistogramScope();
 
     virtual void saveConfiguration(QSettings* qSettings);
@@ -65,8 +66,10 @@ public:
     void setMaxNumberOfBins(unsigned int val){maxNumberOfBins = val;}
 
     virtual void clone(ScopesGeneric *histogramSourceConfigs);
+    virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page);
 
     virtual void loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget);
+
 
 private:
     double binWidth;

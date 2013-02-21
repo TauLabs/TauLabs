@@ -71,6 +71,34 @@ SpectrogramScope::SpectrogramScope(QSettings *qSettings) //TODO: Understand wher
 }
 
 
+SpectrogramScope::SpectrogramScope(Ui::ScopeGadgetOptionsPage *options_page)
+{
+    bool parseOK = false;
+
+    windowWidth = options_page->sbSpectrogramWidth->value();
+    samplingFrequency = options_page->sbSpectrogramFrequency->value();
+    timeHorizon = options_page->sbSpectrogramTimeHorizon->value();
+    zMaximum = options_page->spnMaxSpectrogramZ->value();
+
+
+    Plot3dCurveConfiguration* newPlotCurveConfigs = new Plot3dCurveConfiguration();
+    newPlotCurveConfigs->uavObjectName = options_page->cmbUAVObjectsSpectrogram->currentText();
+    newPlotCurveConfigs->uavFieldName  = options_page->cmbUavoFieldSpectrogram->currentText();
+    newPlotCurveConfigs->yScalePower   = options_page->sbSpectrogramDataMultiplier->value();
+    newPlotCurveConfigs->yMeanSamples  = options_page->spnMeanSamplesSpectrogram->value();
+    newPlotCurveConfigs->mathFunction  = options_page->cmbMathFunctionSpectrogram->currentText();
+
+    QVariant varColor = (int)QColor(options_page->btnColorSpectrogram->text()).rgb();
+    int rgb = varColor.toInt(&parseOK);
+    if(!parseOK)
+        newPlotCurveConfigs->color = QColor(Qt::red).rgb();
+    else
+        newPlotCurveConfigs->color = (QRgb) rgb;
+
+    m_spectrogramSourceConfigs.append(newPlotCurveConfigs);
+
+}
+
 SpectrogramScope::~SpectrogramScope()
 {
 
@@ -113,7 +141,7 @@ void SpectrogramScope::saveConfiguration(QSettings* qSettings)
 
     int plot3dCurveCount = m_spectrogramSourceConfigs.size();
 
-    qSettings->setValue("plot3dType", m_plot3dType);
+    qSettings->setValue("plot3dType", SPECTROGRAM);
     qSettings->setValue("dataSourceCount", plot3dCurveCount);
 
     qSettings->setValue("samplingFrequency", samplingFrequency);
@@ -187,4 +215,32 @@ void SpectrogramScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget)
                         windowWidth,
                         zMaximum
                         );
+}
+
+
+void SpectrogramScope::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page)
+{
+
+
+
+    //Set the tab widget to 3D
+    options_page->tabWidget2d3d->setCurrentWidget(options_page->tabPlot3d);
+
+    //Set the plot type
+    options_page->cmb3dPlotType->setCurrentIndex(options_page->cmb3dPlotType->findData(getScopeType()));
+
+    options_page->sbSpectrogramTimeHorizon->setValue(timeHorizon);
+    options_page->sbSpectrogramFrequency->setValue(samplingFrequency);
+    options_page->spnMaxSpectrogramZ->setValue(zMaximum);
+
+    foreach (Plot3dCurveConfiguration* plot3dData,  m_spectrogramSourceConfigs) {
+        int uavoIdx= options_page->cmbUAVObjectsSpectrogram->findText(plot3dData->uavObjectName);
+        options_page->cmbUAVObjectsSpectrogram->setCurrentIndex(uavoIdx);
+//        on_cmbUAVObjectsSpectrogram_currentIndexChanged(plot3dData->uavObjectName);
+        options_page->sbSpectrogramWidth->setValue(windowWidth);
+
+        int uavoFieldIdx= options_page->cmbUavoFieldSpectrogram->findText(plot3dData->uavFieldName);
+        options_page->cmbUavoFieldSpectrogram->setCurrentIndex(uavoFieldIdx);
+    }
+
 }

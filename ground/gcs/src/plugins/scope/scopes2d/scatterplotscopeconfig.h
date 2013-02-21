@@ -31,6 +31,7 @@
 //#include "scopes2d/scatterplotdata.h"
 //#include <coreplugin/iuavgadgetconfiguration.h>
 
+#include "ui_scopegadgetoptionspage.h"
 #include "scopes2d/scopes2dconfig.h"
 #include "plotdata2d.h"
 
@@ -54,6 +55,7 @@ class Scatterplot2dScope : public Scopes2d
 public:
     Scatterplot2dScope();
     Scatterplot2dScope(QSettings *qSettings);
+    Scatterplot2dScope(Ui::ScopeGadgetOptionsPage *options_page);
     ~Scatterplot2dScope();
 
     virtual void saveConfiguration(QSettings* qSettings);
@@ -75,8 +77,10 @@ public:
     void setXAxisUnits(QString val){xAxisUnits = val;}
     void setScatterplot2dType(Scatterplot2dType val){scatterplot2dType = val;}
     virtual void loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget);
+    virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page);
 
     virtual void clone(ScopesGeneric *Scatterplot2dScope);
+
 
 private:
     Scatterplot2dType scatterplot2dType;

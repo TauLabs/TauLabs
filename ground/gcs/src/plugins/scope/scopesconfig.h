@@ -29,9 +29,9 @@
 #define SCOPES_H
 
 #include <coreplugin/iuavgadgetconfiguration.h>
-//#include "scopegadgetwidget.h"
 #include "qwt/src/qwt_color_map.h"
 #include "scopegadgetwidget.h"
+#include "ui_scopegadgetoptionspage.h"
 
 /**
  * @brief The HistogramScope class The histogram scope has a variable sized list of
@@ -42,20 +42,17 @@ class ScopesGeneric : public QObject
 {
     Q_OBJECT
 public:
-    int getScopeDimensions(){return m_plotDimensions;}
-    void setScopeDimensions(int val){m_plotDimensions = val;}
+    virtual int getScopeDimensions(){}
     virtual void saveConfiguration(QSettings *qSettings) = 0;
     virtual int getScopeType(){}
-    virtual void setScopeType(int){}
     virtual void loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget){}
+    virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *){}
     virtual void clone(ScopesGeneric *){}
 
     int getRefreshInterval(){return m_refreshInterval;}
     void setRefreshInterval(int val){m_refreshInterval = val;}
-//    virtual QList<Plot2dCurveConfiguration*> getDataSourceConfigs(){}
 
 protected:
-    int m_plotDimensions;
     int m_refreshInterval; //The interval to replot the curve widget. The data buffer is refresh as the data comes in.
 private:
 };

@@ -35,6 +35,7 @@
 #include "plotdata2d.h"
 #include "plotdata3d.h"
 #include <coreplugin/iuavgadgetconfiguration.h>
+#include "ui_scopegadgetoptionspage.h"
 
 #include <QVector>
 
@@ -63,6 +64,8 @@ public:
 
     void saveConfig(QSettings* settings) const; //THIS SEEMS TO BE UNUSED
     IUAVGadgetConfiguration *clone();
+
+    void applyGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page);
 
 private:
     ScopesGeneric *m_scope;
