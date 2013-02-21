@@ -385,7 +385,7 @@ static int32_t logfs_raw_copy_bytes (uintptr_t src_addr, uint16_t src_size, uint
  */
 static bool logfs_fs_is_full(void)
 {
-	return (logfs.num_active_slots == (logfs.cfg->arena_size / logfs.cfg->slot_size));
+	return (logfs.num_active_slots == (logfs.cfg->arena_size / logfs.cfg->slot_size) - 1);
 }
 
 /*
@@ -663,6 +663,8 @@ static int8_t logfs_delete_object (uint32_t obj_id, uint16_t obj_inst_id)
 				rc = -2;
 				goto out_exit;
 			}
+			/* Object has been successfully obsoleted and is no longer active */
+			logfs.num_active_slots--;
 			break;
 		case -1:
 			/* Search completed, object not found */
@@ -914,14 +916,16 @@ int32_t PIOS_FLASHFS_ObjLoad(uint32_t fs_id, uint32_t obj_id, uint16_t obj_inst_
 	}
 
 	/* Read the contents of the object from the log */
-	uintptr_t slot_addr = logfs_get_addr (logfs.active_arena_id, slot_id);
-	if (logfs.driver->read_data(logfs.flash_id,
-					slot_addr + sizeof(slot_hdr),
-					(uint8_t *)obj_data,
-					obj_size) != 0) {
-		/* Failed to read object data from the log */
-		rc = -4;
-		goto out_end_trans;
+	if (obj_size > 0) {
+		uintptr_t slot_addr = logfs_get_addr (logfs.active_arena_id, slot_id);
+		if (logfs.driver->read_data(logfs.flash_id,
+						slot_addr + sizeof(slot_hdr),
+						(uint8_t *)obj_data,
+						obj_size) != 0) {
+			/* Failed to read object data from the log */
+			rc = -4;
+			goto out_end_trans;
+		}
 	}
 
 	/* Object successfully loaded */

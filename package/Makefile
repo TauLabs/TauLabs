@@ -36,7 +36,7 @@ CLEAN_FLIGHT := YES
 endif
 
 # Set up targets
-ALL_BOARDS        := coptercontrol pipxtreme revolution revomini osd
+ALL_BOARDS        := coptercontrol pipxtreme revolution revomini osd freedom quanton flyingf3 flyingf4
 ALL_BOARDS_BU     := coptercontrol pipxtreme
 FW_TARGETS        := $(addprefix fw_, $(ALL_BOARDS))
 FW_TARGETS_TOOLS  := $(addprefix fw_, $(ALL_BOARDS))
@@ -64,6 +64,9 @@ help:
 
 # Clean and build uavobjects since all parts depend on them
 uavobjects: all_clean
+	$(V1) $(MAKE) -C $(ROOT_DIR) $@
+
+matlab: uavobjects
 	$(V1) $(MAKE) -C $(ROOT_DIR) $@
 
 all_clean:
@@ -104,9 +107,11 @@ $(eval $(call INSTALL_TEMPLATE,all_bu,all_bl,$(BU_DIR),,-$(PACKAGE_LBL),,,$(BU_T
 # Order-only dependencies
 package_flight: | all_fw all_bu
 
+package_matlab: | matlab
+
 package_ground: | ground_package
 
-package: | package_flight package_ground
+package: | package_flight package_ground package_matlab
 
 .PHONY: help uavobjects all_clean package_flight package_ground package
 

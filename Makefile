@@ -116,6 +116,10 @@ help:
 	@echo "     all_<board>          - Build all available images for <board>"
 	@echo "     all_<board>_clean    - Remove all available images for <board>"
 	@echo
+	@echo "     all_ut               - Build all unit tests"
+	@echo "     all_ut_tap           - Run all unit tests and capture all TAP output to files"
+	@echo "     all_ut_run           - Run all unit tests and dump TAP output to console"
+	@echo
 	@echo "   [Firmware]"
 	@echo "     <board>              - Build firmware for <board>"
 	@echo "                            supported boards are ($(ALL_BOARDS))"
@@ -130,6 +134,12 @@ help:
 	@echo "     bl_<board>_clean     - Remove bootloader for <board>"
 	@echo "     bl_<board>_program   - Use OpenOCD + JTAG to write bootloader to <board>"
 	@echo
+	@echo "   [Entire Flash]"
+	@echo "     ef_<board>           - Build entire flash image for <board>"
+	@echo "                            supported boards are ($(EF_BOARDS))"
+	@echo "     ef_<board>_clean     - Remove entire flash image for <board>"
+	@echo "     ef_<board>_program   - Use OpenOCD + JTAG to write entire flash image to <board>"
+	@echo
 	@echo "   [Bootloader Updater]"
 	@echo "     bu_<board>           - Build bootloader updater for <board>"
 	@echo "                            supported boards are ($(BU_BOARDS))"
@@ -138,6 +148,10 @@ help:
 	@echo "   [Unbrick a board]"
 	@echo "     unbrick_<board>      - Use the STM32's built in boot ROM to write a bootloader to <board>"
 	@echo "                            supported boards are ($(BL_BOARDS))"
+	@echo "   [Unittests]"
+	@echo "     ut_<test>            - Build unit test <test>"
+	@echo "     ut_<test>_tap        - Run test and capture TAP output into a file"
+	@echo "     ut_<test>_run        - Run test and dump TAP output to console"
 	@echo
 	@echo "   [Simulation]"
 	@echo "     sim_<os>_<board>     - Build host simulation firmware for <os> and <board>"
@@ -153,6 +167,8 @@ help:
 	@echo
 	@echo "   [AndroidGCS]"
 	@echo "     androidgcs           - Build the Ground Control System (GCS) application"
+	@echo "     androidgcs_install   - Use ADB to install the Ground Control System (GCS) application"
+	@echo "     androidgcs_run       - Run the Ground Control System (GCS) application"
 	@echo "     androidgcs_clean     - Remove the Ground Control System (GCS) application"
 	@echo
 	@echo "   [UAVObjects]"
@@ -211,12 +227,14 @@ else
 endif
 
 ifeq ($(shell [ -d "$(ANDROID_SDK_DIR)" ] && echo "exists"), exists)
-  ANDROID := $(ANDROID_SDK_DIR)/tools/android
-  ANDROID_DX := $(ANDROID_SDK_DIR)/platform-tools/dx
+  ANDROID     := $(ANDROID_SDK_DIR)/tools/android
+  ANDROID_DX  := $(ANDROID_SDK_DIR)/platform-tools/dx
+  ANDROID_ADB := $(ANDROID_SDK_DIR)/platform-tools/adb
 else
   # not installed, hope it's in the path...
-  ANDROID ?= android
-  ANDROID_DX ?= dx
+  ANDROID     ?= android
+  ANDROID_DX  ?= dx
+  ANDROID_ADB ?= adb
 endif
 
 ##############################
@@ -294,15 +312,15 @@ $(MATLAB_OUT_DIR):
 	$(V1) mkdir -p $@
 
 FORCE:
-$(MATLAB_OUT_DIR)/OPLogConvert.m: $(MATLAB_OUT_DIR) uavobjects_matlab FORCE
+$(MATLAB_OUT_DIR)/LogConvert.m: $(MATLAB_OUT_DIR) uavobjects_matlab FORCE
 	$(V1) python $(ROOT_DIR)/make/scripts/version-info.py \
 		--path=$(ROOT_DIR) \
-		--template=$(BUILD_DIR)/uavobject-synthetics/matlab/OPLogConvert.m.pass1 \
+		--template=$(BUILD_DIR)/uavobject-synthetics/matlab/LogConvert.m.pass1 \
 		--outfile=$@ \
 		--uavodir=$(ROOT_DIR)/shared/uavobjectdefinition
 
 .PHONY: matlab
-matlab: uavobjects_matlab $(MATLAB_OUT_DIR)/OPLogConvert.m
+matlab: uavobjects_matlab $(MATLAB_OUT_DIR)/LogConvert.m
 
 ################################
 #
@@ -310,6 +328,7 @@ matlab: uavobjects_matlab $(MATLAB_OUT_DIR)/OPLogConvert.m
 #
 ################################
 
+ANDROIDGCS_BUILD_CONF ?= debug
 
 # Build the output directory for the Android GCS build
 ANDROIDGCS_OUT_DIR := $(BUILD_DIR)/androidgcs
@@ -329,15 +348,27 @@ ANT_QUIET := -q
 ANDROID_SILENT := -s
 endif
 .PHONY: androidgcs
-androidgcs: uavo-collections_java
+androidgcs: $(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk
+
+$(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk: uavo-collections_java
 	$(V0) @echo " ANDROID   $(call toprel, $(ANDROIDGCS_OUT_DIR))"
 	$(V1) mkdir -p $(ANDROIDGCS_OUT_DIR)
-	$(V1) $(ANDROID) $(ANDROID_SILENT) update project --target 'Google Inc.:Google APIs:16' --name androidgcs --path ./androidgcs
+	$(V1) $(ANDROID) $(ANDROID_SILENT) update project --subprojects --target 'Google Inc.:Google APIs:14' --name androidgcs --path ./androidgcs
 	$(V1) ant -f ./androidgcs/build.xml \
 		$(ANT_QUIET) \
 		-Dout.dir="../$(call toprel, $(ANDROIDGCS_OUT_DIR)/bin)" \
 		-Dgen.absolute.dir="$(ANDROIDGCS_OUT_DIR)/gen" \
-		debug
+		$(ANDROIDGCS_BUILD_CONF)
+
+.PHONY: androidgcs_run
+androidgcs_run: androidgcs_install
+	$(V0) @echo " AGCS RUN "
+	$(V1) $(ANDROID_ADB) shell am start -n org.taulabs.androidgcs/.HomePage
+
+.PHONY: androidgcs_install
+androidgcs_install: $(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk
+	$(V0) @echo " AGCS INST "
+	$(V1) $(ANDROID_ADB) install -r $(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk
 
 .PHONY: androidgcs_clean
 androidgcs_clean:
@@ -349,7 +380,7 @@ androidgcs_clean:
 #
 # Find the git hashes of each commit that changes uavobjects with:
 #   git log --format=%h -- shared/uavobjectdefinition/ | head -n 2
-UAVO_GIT_VERSIONS := 684620d 43f85d9
+UAVO_GIT_VERSIONS := next 
 
 # All versions includes a pseudo collection called "working" which represents
 # the UAVOs in the source tree
@@ -420,17 +451,40 @@ $$(UAVO_COLLECTION_DIR)/$(1)/java-build/uavobjects.jar: $$(UAVO_COLLECTION_DIR)/
 		HASH=$$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash) && \
 		cd $$(UAVO_COLLECTION_DIR)/$(1)/java-build && \
 		javac java/*.java \
-		   $$(ROOT_DIR)/androidgcs/src/org/abovegroundlabs/uavtalk/UAVDataObject.java \
-		   $$(ROOT_DIR)/androidgcs/src/org/abovegroundlabs/uavtalk/UAVObject*.java \
-		   $$(ROOT_DIR)/androidgcs/src/org/abovegroundlabs/uavtalk/UAVMetaObject.java \
+		   $$(ROOT_DIR)/androidgcs/src/org/taulabs/uavtalk/UAVDataObject.java \
+		   $$(ROOT_DIR)/androidgcs/src/org/taulabs/uavtalk/UAVObject*.java \
+		   $$(ROOT_DIR)/androidgcs/src/org/taulabs/uavtalk/UAVMetaObject.java \
 		   -d . && \
-		find ./org/abovegroundlabs/uavtalk/uavobjects -type f -name '*.class' > classlist.txt && \
+		find ./org/taulabs/uavtalk/uavobjects -type f -name '*.class' > classlist.txt && \
 		jar cf tmp_uavobjects.jar @classlist.txt && \
 		$$(ANDROID_DX) \
 			--dex \
 			--output $$(ANDROIDGCS_ASSETS_DIR)/uavos/$$$${HASH}.jar \
 			tmp_uavobjects.jar && \
 		ln -sf $$(ANDROIDGCS_ASSETS_DIR)/uavos/$$$${HASH}.jar uavobjects.jar \
+	)
+
+
+# Generate the matlab uavobjects for this UAVO collection
+$$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/matlab: $$(UAVO_COLLECTION_DIR)/$(1)/uavohash uavobjgenerator
+	$$(V0) @echo " UAVOMATLAB $(1)  " $$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash)
+	$$(V1) mkdir -p $$@
+	$$(V1) ( \
+		cd $$(UAVO_COLLECTION_DIR)/$(1)/matlab-build && \
+		$$(UAVOBJGENERATOR) -matlab $$(UAVO_COLLECTION_DIR)/$(1)/uavo-xml/shared/uavobjectdefinition $$(ROOT_DIR) ; \
+	)
+
+# Build a jar file for this UAVO collection
+$$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/LogConvert.m: $$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/matlab
+	$$(V0) @echo " UAVOMAT   $(1)   " $$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash)
+	$$(V1) ( \
+		HASH=$$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash) && \
+		cd $$(UAVO_COLLECTION_DIR)/$(1)/matlab-build && \
+		python $(ROOT_DIR)/make/scripts/version-info.py \
+			--path=$$(ROOT_DIR) \
+			--template=$$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/matlab/LogConvert.m.pass1 \
+		--outfile=$$@ \
+		--uavodir=$$(UAVO_COLLECTION_DIR)/$(1)/uavo-xml/shared/uavobjectdefinition \
 	)
 
 endef
@@ -443,6 +497,9 @@ $(foreach githash, $(UAVO_ALL_VERSIONS), $(eval $(call UAVO_COLLECTION_BUILD_TEM
 
 .PHONY: uavo-collections_java
 uavo-collections_java: $(foreach githash, $(UAVO_ALL_VERSIONS), $(UAVO_COLLECTION_DIR)/$(githash)/java-build/uavobjects.jar)
+
+.PHONY: uavo-collections_matlab
+uavo-collections_matlab: $(foreach githash, $(UAVO_ALL_VERSIONS), $(UAVO_COLLECTION_DIR)/$(githash)/matlab-build/LogConvert.m)
 
 .PHONY: uavo-collections
 uavo-collections: uavo-collections_java
@@ -467,6 +524,7 @@ OPUAVOBJ      := $(ROOT_DIR)/flight/targets/UAVObjects
 OPUAVTALK     := $(ROOT_DIR)/flight/targets/UAVTalk
 HWDEFS        := $(ROOT_DIR)/flight/targets/board_hw_defs
 DOXYGENDIR    := $(ROOT_DIR)/flight/Doc/Doxygen
+SHAREDAPIDIR  := $(ROOT_DIR)/shared/api
 OPUAVSYNTHDIR := $(BUILD_DIR)/uavobject-synthetics/flight
 
 # $(1) = Canonical board name all in lower case (e.g. coptercontrol)
@@ -539,6 +597,7 @@ fw_$(1)_%: uavobjects_flight
 		HWDEFSINC=$(HWDEFS)/$(1) \
 		DOXYGENDIR=$(DOXYGENDIR) \
 		OPUAVSYNTHDIR=$(OPUAVSYNTHDIR) \
+		SHAREDAPIDIR=$(SHAREDAPIDIR) \
 		\
 		$$*
 
@@ -648,6 +707,7 @@ ef_$(1)_%: bl_$(1)_bin fw_$(1)_opfw
 		BOARD_SHORT_NAME=$(3) \
 		BUILD_TYPE=ef \
 		TCHAIN_PREFIX="$(ARM_SDK_PREFIX)" \
+		REMOVE_CMD="$(RM)" OOCD_EXE="$(OPENOCD)" \
 		DFU_CMD="$(DFUUTIL_DIR)/bin/dfu-util" \
 		\
 		TARGET=ef_$(1) \
@@ -692,7 +752,7 @@ all_$(1)_clean: $$(addsuffix _clean, $$(filter bu_$(1), $$(BU_TARGETS)))
 all_$(1)_clean: $$(addsuffix _clean, $$(filter ef_$(1), $$(EF_TARGETS)))
 endef
 
-ALL_BOARDS := coptercontrol pipxtreme revolution revomini osd freedom quanton flyingf4 discoveryf4
+ALL_BOARDS := coptercontrol pipxtreme revolution revomini osd freedom quanton discoveryf4 flyingf4 flyingf3
 
 # Friendly names of each board (used to find source tree)
 coptercontrol_friendly := CopterControl
@@ -704,6 +764,7 @@ osd_friendly           := OSD
 quanton_friendly       := Quanton
 flyingf4_friendly      := FlyingF4
 discoveryf4_friendly   := DiscoveryF4
+flyingf3_friendly      := FlyingF3
 
 # Short names of each board (used to display board name in parallel builds)
 coptercontrol_short    := 'cc  '
@@ -715,6 +776,7 @@ osd_short              := 'osd '
 quanton_short          := 'quan'
 flyingf4_short         := 'fly4'
 discoveryf4_short      := 'dif4'
+flyingf3_short         := 'fly3'
 
 # Start out assuming that we'll build fw, bl and bu for all boards
 FW_BOARDS  := $(ALL_BOARDS)
@@ -735,7 +797,7 @@ endif
 
 # FIXME: The BU image doesn't work for F4 boards so we need to
 #        filter them out to prevent errors.
-BU_BOARDS  := $(filter-out revolution revomini osd freedom quanton flyingf4 discoveryf4, $(BU_BOARDS))
+BU_BOARDS  := $(filter-out revolution revomini osd freedom quanton flyingf4 discoveryf4 flyingf3, $(BU_BOARDS))
 
 # Generate the targets for whatever boards are left in each list
 FW_TARGETS := $(addprefix fw_, $(FW_BOARDS))
@@ -771,16 +833,16 @@ all_flight_clean: all_fw_clean all_bl_clean all_bu_clean all_ef_clean all_sim_cl
 $(foreach board, $(ALL_BOARDS), $(eval $(call BOARD_PHONY_TEMPLATE,$(board))))
 
 # Expand the bootloader updater rules
-$(foreach board, $(ALL_BOARDS), $(eval $(call BU_TEMPLATE,$(board),$($(board)_friendly),$($(board)_short))))
+$(foreach board, $(BU_BOARDS), $(eval $(call BU_TEMPLATE,$(board),$($(board)_friendly),$($(board)_short))))
 
 # Expand the firmware rules
-$(foreach board, $(ALL_BOARDS), $(eval $(call FW_TEMPLATE,$(board),$($(board)_friendly),$($(board)_short))))
+$(foreach board, $(FW_BOARDS), $(eval $(call FW_TEMPLATE,$(board),$($(board)_friendly),$($(board)_short))))
 
 # Expand the bootloader rules
-$(foreach board, $(ALL_BOARDS), $(eval $(call BL_TEMPLATE,$(board),$($(board)_friendly),$($(board)_short))))
+$(foreach board, $(BL_BOARDS), $(eval $(call BL_TEMPLATE,$(board),$($(board)_friendly),$($(board)_short))))
 
 # Expand the entire-flash rules
-$(foreach board, $(ALL_BOARDS), $(eval $(call EF_TEMPLATE,$(board),$($(board)_friendly),$($(board)_short))))
+$(foreach board, $(EF_BOARDS), $(eval $(call EF_TEMPLATE,$(board),$($(board)_friendly),$($(board)_short))))
 
 # Expand the available simulator rules
 $(eval $(call SIM_TEMPLATE,revolution,Revolution,'revo',osx,elf))
@@ -793,38 +855,77 @@ $(eval $(call SIM_TEMPLATE,openpilot,OpenPilot,'op  ',win32,exe))
 #
 ##############################
 
-UT_TARGETS := logfs
-.PHONY: ut_all
-ut_all: $(addprefix ut_, $(UT_TARGETS))
+ALL_UNITTESTS := logfs i2c_vm
 
 UT_OUT_DIR := $(BUILD_DIR)/unit_tests
 
 $(UT_OUT_DIR):
 	$(V1) mkdir -p $@
 
-ut_%: $(UT_OUT_DIR)
-	$(V1) cd $(ROOT_DIR)/flight/tests/$* && \
-		$(MAKE) --no-print-directory \
+.PHONY: all_ut
+all_ut: $(addsuffix _elf, $(addprefix ut_, $(ALL_UNITTESTS)))
+
+# The all_ut_tap goal is a legacy alias for the all_ut_xml target so that Jenkins
+# can still build old branches.  This can be deleted in a few months when all
+# branches are using the newer targets.
+.PHONY: all_ut_tap
+all_ut_tap: all_ut_xml
+
+.PHONY: all_ut_xml
+all_ut_xml: $(addsuffix _xml, $(addprefix ut_, $(ALL_UNITTESTS)))
+
+.PHONY: all_ut_run
+all_ut_run: $(addsuffix _run, $(addprefix ut_, $(ALL_UNITTESTS)))
+
+.PHONY: all_ut_clean
+all_ut_clean:
+	$(V0) @echo " CLEAN      $@"
+	$(V1) [ ! -d "$(UT_OUT_DIR)" ] || $(RM) -r "$(UT_OUT_DIR)"
+
+# $(1) = Unit test name
+define UT_TEMPLATE
+.PHONY: ut_$(1)
+ut_$(1): ut_$(1)_run
+
+ut_$(1)_%: $$(UT_OUT_DIR)
+	$(V1) mkdir -p $(UT_OUT_DIR)/$(1)
+	$(V1) cd $(ROOT_DIR)/flight/tests/$(1) && \
+		$$(MAKE) -r --no-print-directory \
 		BUILD_TYPE=ut \
-		BOARD_SHORT_NAME=$* \
+		BOARD_SHORT_NAME=$(1) \
 		TCHAIN_PREFIX="" \
 		REMOVE_CMD="$(RM)" \
 		\
-		TARGET=$* \
-		OUTDIR="$(UT_OUT_DIR)/$*" \
+		TARGET=$(1) \
+		OUTDIR="$(UT_OUT_DIR)/$(1)" \
 		\
 		PIOS=$(PIOS) \
 		OPUAVOBJ=$(OPUAVOBJ) \
 		OPUAVTALK=$(OPUAVTALK) \
+		OPMODULEDIR=$(OPMODULEDIR) \
 		FLIGHTLIB=$(FLIGHTLIB) \
+		SHAREDAPIDIR=$(SHAREDAPIDIR) \
 		\
-		$*
+		GTEST_DIR=$(GTEST_DIR) \
+		\
+		$$*
 
-.PHONY: ut_clean
-ut_clean:
-	$(V0) @echo " CLEAN      $@"
-	$(V1) [ ! -d "$(UT_OUT_DIR)" ] || $(RM) -r "$(UT_OUT_DIR)"
+.PHONY: ut_$(1)_clean
+ut_$(1)_clean:
+	$(V0) @echo " CLEAN      $(1)"
+	$(V1) [ ! -d "$(UT_OUT_DIR)/$(1)" ] || $(RM) -r "$(UT_OUT_DIR)/$(1)"
 
+endef
+
+# Expand the unittest rules
+$(foreach ut, $(ALL_UNITTESTS), $(eval $(call UT_TEMPLATE,$(ut))))
+
+# Disable parallel make when the all_ut_run target is requested otherwise the TAP
+# output is interleaved with the rest of the make output.
+ifneq ($(strip $(filter all_ut_run,$(MAKECMDGOALS))),)
+.NOTPARALLEL:
+$(info *NOTE*     Parallel make disabled by all_ut_run target so we have sane console output)
+endif
 
 ##############################
 #

@@ -47,4 +47,5 @@ OsgEarthviewGadget::~OsgEarthviewGadget()
 void OsgEarthviewGadget::loadConfiguration(IUAVGadgetConfiguration* config)
 {
     OsgEarthviewGadgetConfiguration *m = qobject_cast<OsgEarthviewGadgetConfiguration*>(config);
+    Q_UNUSED(m);
 }

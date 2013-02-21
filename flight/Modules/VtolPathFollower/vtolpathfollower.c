@@ -55,7 +55,7 @@
 
 #include "accels.h"
 #include "attitudeactual.h"
-#include "hwsettings.h"
+#include "modulesettings.h"
 #include "pathdesired.h"        // object that will be updated by the module
 #include "positionactual.h"
 #include "manualcontrol.h"
@@ -93,7 +93,7 @@ static void updateNedAccel();
 static void updatePathVelocity();
 static void updateEndpointVelocity();
 static void updateVtolDesiredAttitude();
-static bool vtolpathfollower_enabled;
+static bool module_enabled = false;
 
 enum vtol_pid {NORTH_VELOCITY, EAST_VELOCITY, DOWN_VELOCITY, NORTH_POSITION, EAST_POSITION, DOWN_POSITION, VTOL_PID_NUM};
 static struct pid vtol_pids[VTOL_PID_NUM];
@@ -104,7 +104,7 @@ static struct pid vtol_pids[VTOL_PID_NUM];
  */
 int32_t VtolPathFollowerStart()
 {
-	if (vtolpathfollower_enabled) {
+	if (module_enabled) {
 		// Start main task
 		xTaskCreate(vtolPathFollowerTask, (signed char *)"VtolPathFollower", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &pathfollowerTaskHandle);
 		TaskMonitorAdd(TASKINFO_RUNNING_PATHFOLLOWER, pathfollowerTaskHandle);
@@ -119,27 +119,27 @@ int32_t VtolPathFollowerStart()
  */
 int32_t VtolPathFollowerInitialize()
 {
-	vtolpathfollower_enabled = false;
-
-#ifdef MODULE_VTOLPATHFOLLOWER_BUILTIN
-	vtolpathfollower_enabled = true;
+#ifdef MODULE_VtolPathFollower_BUILTIN
+	module_enabled = true;
 #else
-	uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
-	
-	HwSettingsOptionalModulesGet(optionalModules);
-	
-	if (optionalModules[HWSETTINGS_OPTIONALMODULES_VTOLPATHFOLLOWER] == HWSETTINGS_OPTIONALMODULES_ENABLED) {
-		vtolpathfollower_enabled = true;
+	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+	ModuleSettingsStateGet(module_state);
+	if (module_state[MODULESETTINGS_STATE_VTOLPATHFOLLOWER] == MODULESETTINGS_STATE_ENABLED) {
+		module_enabled = true;
+	} else {
+		module_enabled = false;
 	}
 #endif
 
-	if (vtolpathfollower_enabled == true) {
-		VtolPathFollowerSettingsInitialize();
-		PathStatusInitialize();
-		NedAccelInitialize();
-		PathDesiredInitialize();
-		VelocityDesiredInitialize();
+	if (!module_enabled) {
+		return -1;
 	}
+
+	VtolPathFollowerSettingsInitialize();
+	PathStatusInitialize();
+	NedAccelInitialize();
+	PathDesiredInitialize();
+	VelocityDesiredInitialize();
 	
 	return 0;
 }

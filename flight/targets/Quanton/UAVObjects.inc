@@ -32,6 +32,7 @@ UAVOBJSRCFILENAMES += accessorydesired
 UAVOBJSRCFILENAMES += actuatorcommand
 UAVOBJSRCFILENAMES += actuatordesired
 UAVOBJSRCFILENAMES += actuatorsettings
+UAVOBJSRCFILENAMES += adcrouting
 UAVOBJSRCFILENAMES += altholdsmoothed
 UAVOBJSRCFILENAMES += attitudesettings
 UAVOBJSRCFILENAMES += inssettings
@@ -46,6 +47,9 @@ UAVOBJSRCFILENAMES += baroaltitude
 UAVOBJSRCFILENAMES += baroairspeed
 UAVOBJSRCFILENAMES += airspeedsettings
 UAVOBJSRCFILENAMES += airspeedactual
+UAVOBJSRCFILENAMES += fixedwingairspeeds
+UAVOBJSRCFILENAMES += fixedwingpathfollowersettings
+UAVOBJSRCFILENAMES += fixedwingpathfollowerstatus
 UAVOBJSRCFILENAMES += flightbatterysettings
 UAVOBJSRCFILENAMES += firmwareiapobj
 UAVOBJSRCFILENAMES += flightbatterystate
@@ -91,7 +95,8 @@ UAVOBJSRCFILENAMES += velocityactual
 UAVOBJSRCFILENAMES += velocitydesired
 UAVOBJSRCFILENAMES += watchdogstatus
 UAVOBJSRCFILENAMES += flightstatus
-UAVOBJSRCFILENAMES += hwsettings
+UAVOBJSRCFILENAMES += hwquanton
+UAVOBJSRCFILENAMES += modulesettings
 UAVOBJSRCFILENAMES += receiveractivity
 UAVOBJSRCFILENAMES += cameradesired
 UAVOBJSRCFILENAMES += camerastabsettings
@@ -101,11 +106,6 @@ UAVOBJSRCFILENAMES += waypoint
 UAVOBJSRCFILENAMES += waypointactive
 
 UAVOBJSRCFILENAMES += txpidsettings
-
-#Support for radio module on RM
-UAVOBJSRCFILENAMES += pipxstatus
-UAVOBJSRCFILENAMES += pipxsettings
-
 
 
 UAVOBJSRC = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),$(OPUAVSYNTHDIR)/$(UAVOBJSRCFILE).c )

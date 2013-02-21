@@ -3,7 +3,7 @@ TARGET = DebugGadget
 
 QT += widgets
 
-include(../../openpilotgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
 HEADERS += debugplugin.h \
     debugengine.h

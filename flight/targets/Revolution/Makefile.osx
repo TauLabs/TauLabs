@@ -49,14 +49,18 @@ CODE_SOURCERY ?= NO
 # Remove command is different for Code Sourcery on Windows
 REMOVE_CMD ?= rm
 
-FLASH_TOOL = OPENOCD
-
 # List of modules to include
-MODULES +=  Actuator ManualControl Stabilization 
-MODULES += AltitudeHold VtolPathFollower PathPlanner
+MODULES += Actuator ManualControl Stabilization 
+MODULES += PathPlanner
 MODULES += Attitude/revolution
 MODULES += FirmwareIAP
-#MODULES += OveroSync/simulated
+
+OPTMODULES += AltitudeHold 
+OPTMODULES += VtolPathFollower 
+OPTMODULES += FixedWingPathFollower
+OPTMODULES += CameraStab
+OPTMODULES += OveroSync/simulated
+OPTMODULES += Autotune
 
 # To run simulation instead of connect to SITL
 MODULES += Sensors/simulated
@@ -126,34 +130,23 @@ RTOSDIR = $(APPLIBDIR)/FreeRTOS
 RTOSSRCDIR = $(RTOSDIR)/Source
 RTOSINCDIR = $(RTOSSRCDIR)/include
 DOXYGENDIR = ../Doc/Doxygen
-PYMITE = $(FLIGHTLIB)/PyMite
-PYMITELIB = $(PYMITE)/lib
-PYMITEPLAT = $(PYMITE)/platform/openpilot_sitl
-PYMITETOOLS = $(PYMITE)/tools
-PYMITEVM = $(PYMITE)/vm
-PYMITEINC = $(PYMITEVM)
-PYMITEINC += $(PYMITEPLAT)
-PYMITEINC += $(OUTDIR)
 FLIGHTPLANLIB = $(OPMODULEDIR)/FlightPlan/lib
 FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
 
 UAVOBJSYNTHDIR = $(OUTDIR)/../uavobject-synthetics/flight
 UAVOBJPYTHONSYNTHDIR = $(OUTDIR)/../uavobject-synthetics/python
 
+SRC = 
+# optional component libraries
+include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
+
 # List C source files here. (C dependencies are automatically generated.)
 # use file-extension c for "c-only"-files
 
 MODNAMES = $(notdir ${MODULES})
 
-## PyMite files
-SRC += $(OUTDIR)/pmlib_img.c
-SRC += $(OUTDIR)/pmlib_nat.c
-SRC += $(OUTDIR)/pmlibusr_img.c
-SRC += $(OUTDIR)/pmlibusr_nat.c
-SRC += $(wildcard ${PYMITEVM}/*.c)
-SRC += $(wildcard ${PYMITEPLAT}/*.c)
-
 ## MODULES
+SRC += ${foreach MOD, ${OPTMODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
 SRC += ${foreach MOD, ${MODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
 SRC += ${OUTDIR}/InitMods.c
 ## OPENPILOT CORE:
@@ -188,6 +181,7 @@ SRC += $(PIOSPOSIX)/pios_udp.c
 SRC += $(PIOSPOSIX)/pios_tcp.c
 SRC += $(PIOSPOSIX)/pios_com.c
 SRC += $(PIOSPOSIX)/pios_servo.c
+SRC += $(PIOSPOSIX)/pios_sensors.c
 SRC += $(PIOSPOSIX)/pios_wdg.c
 SRC += $(PIOSPOSIX)/pios_debug.c
 SRC += $(PIOSPOSIX)/pios_bl_helper.c
@@ -238,7 +232,7 @@ CPPSRCARM =
 
 # List any extra directories to look for include files here.
 #    Each directory must be seperated by a space.
-EXTRAINCDIRS  =  $(OPSYSTEM)
+EXTRAINCDIRS  += $(OPSYSTEM)
 EXTRAINCDIRS  += $(OPSYSTEMINC)
 EXTRAINCDIRS  += $(OPUAVTALK)
 EXTRAINCDIRS  += $(OPUAVTALKINC)
@@ -254,10 +248,8 @@ EXTRAINCDIRS  += $(PIOSPOSIX)
 EXTRAINCDIRS  += $(RTOSINCDIR)
 EXTRAINCDIRS  += $(APPLIBDIR)
 EXTRAINCDIRS  += $(RTOSSRCDIR)/portable/GCC/Posix
-EXTRAINCDIRS  += $(PYMITEINC)
 
-EXTRAINCDIRS += ${foreach MOD, ${MODULES}, $(OPMODULEDIR)/${MOD}/inc} ${OPMODULEDIR}/System/inc
-
+EXTRAINCDIRS += ${foreach MOD, ${OPTMODULES} ${MODULES} ${PYMODULES}, $(OPMODULEDIR)/${MOD}/inc} ${OPMODULEDIR}/System/inc
 
 # List any extra directories to look for library files here.
 # Also add directories where the linker should search for
@@ -310,6 +302,16 @@ endif
 
 # Make sure the build knows we're building a sim version
 CDEFS += -DSIM_OSX
+
+# configure CMSIS DSP Library
+CDEFS += -DARM_MATH_SIM
+CDEFS += -DARM_MATH_MATRIX_CHECK
+CDEFS += -DARM_MATH_ROUNDING
+
+# Declare all non-optional modules as built-in to force inclusion
+get_mod_name = $(shell echo $(1) | sed "s/\/[^\/]*$///")
+BUILTIN_DEFS := ${foreach MOD, ${MODULES}, -DMODULE_$(call get_mod_name, $(MOD))_BUILTIN }
+CDEFS += ${BUILTIN_DEFS}
 
 # Compiler flag to set the C Standard level.
 # c89   - "ANSI" C
@@ -461,7 +463,7 @@ gencode: ${OUTDIR}/InitMods.c ${OUTDIR}/pmlib_img.c ${OUTDIR}/pmlib_nat.c ${OUTD
 
 getmodname = $(firstword $(subst /, ,$1))
 
-MOD_GEN := $(foreach MOD,$(MODULES),$(call getmodname,$(MOD)))
+MOD_GEN := $(foreach MOD,$(MODULES) $(OPTMODULES),$(call getmodname,$(MOD)))
 
 # Generate code for module initialization
 ${OUTDIR}/InitMods.c: Makefile.osx

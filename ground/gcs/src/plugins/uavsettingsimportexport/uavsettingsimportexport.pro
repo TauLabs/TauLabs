@@ -4,7 +4,7 @@ QT += xml
 QT += widgets
 TARGET = UAVSettingsImportExport
 DEFINES += UAVSETTINGSIMPORTEXPORT_LIBRARY
-include(../../openpilotgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(uavsettingsimportexport_dependencies.pri)
 
 HEADERS += uavsettingsimportexport.h \

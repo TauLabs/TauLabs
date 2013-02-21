@@ -1,7 +1,7 @@
 TEMPLATE = lib 
 TARGET = EmptyGadget
 QT += widgets
-include(../../openpilotgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri) 
 
 HEADERS += emptyplugin.h

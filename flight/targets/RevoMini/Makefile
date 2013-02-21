@@ -42,24 +42,27 @@ else
 REMOVE_CMD = rm
 endif
 
-FLASH_TOOL = OPENOCD
-
 # List of modules to include
 MODULES = Sensors
 MODULES += Attitude/revolution 
-MODULES += ManualControl Stabilization Actuator
-MODULES += Battery
-MODULES += Altitude/revolution
-MODULES += GPS FirmwareIAP
+MODULES += ManualControl
+MODULES += Stabilization
+MODULES += Actuator
+MODULES += FirmwareIAP
 #MODULES += Airspeed/revolution
-MODULES += AltitudeHold VtolPathFollower PathPlanner TxPID
-#MODULES += FixedWingPathFollower
-MODULES += Autotune
-MODULES += CameraStab
-MODULES += Radio
 MODULES += Telemetry
 PYMODULES = 
 #FlightPlan
+
+OPTMODULES += GPS
+OPTMODULES += AltitudeHold 
+OPTMODULES += PathPlanner
+OPTMODULES += VtolPathFollower 
+OPTMODULES += FixedWingPathFollower
+OPTMODULES += CameraStab
+OPTMODULES += Autotune
+OPTMODULES += TxPID
+OPTMODULES += Battery
 
 # Paths
 OPSYSTEM = ./System
@@ -100,6 +103,7 @@ SRC =
 include $(PIOSCOMMONLIB)/FreeRTOS/library.mk
 #include $(PIOSCOMMONLIB)/dosfs/library.mk
 include $(PIOSCOMMONLIB)/msheap/library.mk
+include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
 
 # List C source files here. (C dependencies are automatically generated.)
@@ -116,7 +120,7 @@ PYSRC += ${foreach MOD, ${PYMODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
 SRC += $(PYSRC)
 
 ## MODULES
-SRC += ${foreach MOD, ${MODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
+SRC += ${foreach MOD, ${MODULES} ${OPTMODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
 ## OPENPILOT CORE:
 SRC += ${OPMODULEDIR}/System/systemmod.c
 SRC += $(OPSYSTEM)/revolution.c
@@ -144,7 +148,6 @@ SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/pid.c
 
 ## For RFM22b
-SRC += $(FLIGHTLIB)/packet_handler.c
 SRC += $(RSCODE)/berlekamp.c
 SRC += $(RSCODE)/crcgen.c
 SRC += $(RSCODE)/galois.c
@@ -164,7 +167,9 @@ SRC += $(PIOSCOMMON)/pios_ms5611.c
 SRC += $(PIOSCOMMON)/pios_crc.c
 SRC += $(PIOSCOMMON)/pios_com.c
 SRC += $(PIOSCOMMON)/pios_rfm22b.c
+SRC += $(PIOSCOMMON)/pios_rfm22b_com.c
 SRC += $(PIOSCOMMON)/pios_rcvr.c
+SRC += $(PIOSCOMMON)/pios_sensors.c
 SRC += $(PIOSCOMMON)/pios_flash_jedec.c
 SRC += $(PIOSCOMMON)/pios_flashfs_logfs.c
 SRC += $(PIOSCOMMON)/printf-stdarg.c
@@ -203,6 +208,7 @@ ASRCARM =
 
 # List any extra directories to look for include files here.
 #    Each directory must be seperated by a space.
+EXTRAINCDIRS  += $(SHAREDAPIDIR)
 EXTRAINCDIRS  += $(PIOS)
 EXTRAINCDIRS  += $(PIOSINC)
 EXTRAINCDIRS  += $(OPSYSTEMINC)
@@ -238,7 +244,7 @@ ${OUTDIR}/pmlib_img.c ${OUTDIR}/pmlib_nat.c ${OUTDIR}/pmlibusr_img.c ${OUTDIR}/p
 	@$(PYTHON) $(PYMITETOOLS)/pmImgCreator.py -f $(PYMITEPLAT)/pmfeatures.py -c -s --memspace=flash -o $(OUTDIR)/pmlib_img.c --native-file=$(OUTDIR)/pmlib_nat.c $(PYMITELIB)/list.py $(PYMITELIB)/dict.py $(PYMITELIB)/__bi.py $(PYMITELIB)/sys.py $(PYMITELIB)/string.py $(wildcard $(FLIGHTPLANLIB)/*.py)
 	@$(PYTHON) $(PYMITETOOLS)/pmGenPmFeatures.py $(PYMITEPLAT)/pmfeatures.py > $(OUTDIR)/pmfeatures.h
 	@$(PYTHON) $(PYMITETOOLS)/pmImgCreator.py -f $(PYMITEPLAT)/pmfeatures.py -c -u -o $(OUTDIR)/pmlibusr_img.c --native-file=$(OUTDIR)/pmlibusr_nat.c $(FLIGHTPLANS)/test.py
-EXTRAINCDIRS += ${foreach MOD, ${MODULES} ${PYMODULES}, $(OPMODULEDIR)/${MOD}/inc} ${OPMODULEDIR}/System/inc
+EXTRAINCDIRS += ${foreach MOD, ${MODULES} ${OPTMODULES} ${PYMODULES}, $(OPMODULEDIR)/${MOD}/inc} ${OPMODULEDIR}/System/inc
 
 # List any extra directories to look for library files here.
 # Also add directories where the linker should search for
@@ -277,6 +283,13 @@ CFLAGS += $(ARCHFLAGS)
 CFLAGS += -DDIAGNOSTICS
 CFLAGS += -DDIAG_TASKS
 
+# configure CMSIS DSP Library
+CDEFS += -DARM_MATH_CM4
+CDEFS += -DARM_MATH_MATRIX_CHECK
+CDEFS += -DARM_MATH_ROUNDING
+CDEFS += -D__FPU_PRESENT=1
+CDEFS += -DUNALIGNED_SUPPORT_DISABLE
+
 # This is not the best place for these.  Really should abstract out
 # to the board file or something
 CFLAGS += -DSTM32F4XX
@@ -305,6 +318,11 @@ endif
 ifeq ($(ENABLE_DEBUG_CONSOLE), YES)
 CDEFS += -DPIOS_INCLUDE_DEBUG_CONSOLE
 endif
+
+# Declare all non-optional modules as built-in to force inclusion
+get_mod_name = $(shell echo $(1) | sed "s/\/[^\/]*$///")
+BUILTIN_DEFS := ${foreach MOD, ${MODULES}, -DMODULE_$(call get_mod_name, $(MOD))_BUILTIN }
+CDEFS += ${BUILTIN_DEFS}
 
 # Place project-specific -D and/or -U options for
 # Assembler with preprocessor here.
@@ -341,12 +359,13 @@ CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS)) -I.
 
 CFLAGS += -mapcs-frame
 CFLAGS += -fomit-frame-pointer
+CFLAGS += -ffunction-sections -fdata-sections
 ifeq ($(CODE_SOURCERY), YES)
 CFLAGS += -fpromote-loop-indices
 endif
 
 CFLAGS += -Wall
-#CFLAGS += -Werror
+CFLAGS += -Werror
 CFLAGS += -Wa,-adhlns=$(addprefix $(OUTDIR)/, $(notdir $(addsuffix .lst, $(basename $<))))
 # Compiler flags to generate dependency files:
 CFLAGS += -MD -MP -MF $(OUTDIR)/dep/$(@F).d
@@ -375,6 +394,8 @@ LDFLAGS += -lc
 LDFLAGS += $(patsubst %,-l%,$(EXTRA_LIBS))
 LDFLAGS += $(MATH_LIB)
 LDFLAGS += -lc -lgcc
+LDFLAGS += -Wl,--warn-common
+LDFLAGS += -Wl,--fatal-warnings
 
 #Linker scripts                                                                                                                                                                                                              
 LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_APP))

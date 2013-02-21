@@ -8,21 +8,35 @@
 ###############################################################
 
 # Set up QT toolchain
-QT_SDK_DIR := $(TOOLS_DIR)/Qt5.0.0
+QT_SDK_DIR := $(TOOLS_DIR)/qtsdk-v1.2.1
+QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/Desktop/Qt/4.8.1/gcc/bin/qmake
 
 .PHONY: qt_sdk_install
+
+ifeq ($(UNAME), Linux)
+
 # Choose the appropriate installer based on host architecture
 ifneq (,$(filter $(ARCH), x86_64 amd64))
-# 64-bit
-QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.0.0/gcc_64/bin/qmake
-qt_sdk_install: QT_SDK_URL := http://releases.qt-project.org/qt5/5.0.0/qt-linux-opensource-5.0.0-x86_64-offline.run
-qt_sdk_install: QT_SDK_FILE := $(notdir $(QT_SDK_URL))
+# Linux 64-bit
+qt_sdk_install: QT_SDK_URL  := http://jenkins.taulabs.org/distfiles/QtSdk-offline-linux-x86_64-v1.2.1.run
 else
-# 32-bit
-QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.0.0/gcc/bin/qmake
-qt_sdk_install: QT_SDK_URL  := http://releases.qt-project.org/qt5/5.0.0/qt-linux-opensource-5.0.0-x86-offline.run
-qt_sdk_install: QT_SDK_FILE := $(notdir $(QT_SDK_URL))
+# Linux 32-bit
+qt_sdk_install: QT_SDK_URL  := http://jenkins.taulabs.org/distfiles/QtSdk-offline-linux-x86-v1.2.1.run
+
 endif
+
+else ifeq ($(UNAME), Darwin)
+
+qt_sdk_install: QT_SDK_URL  := http://jenkins.taulabs.org/distfiles/QtSdk-offline-mac-x86-v1.2.1.dmg
+
+else ifeq ($(UNAME), MINGW32_NT-6.1) # Windows 7
+
+qt_sdk_install: QT_SDK_URL  := http://jenkins.taulabs.org/distfiles/QtSdk-offline-win-x86-v1.2.1.exe
+
+endif
+
+qt_sdk_install: QT_SDK_FILE := $(notdir $(QT_SDK_URL))
+
 # order-only prereq on directory existance:
 qt_sdk_install : | $(DL_DIR) $(TOOLS_DIR)
 qt_sdk_install: qt_sdk_clean
@@ -36,19 +50,30 @@ qt_sdk_install: qt_sdk_clean
 	$(V1) echo "*"
 	$(V1) echo "*** NOTE NOTE NOTE ***"
 
+ifneq (,$(filter $(UNAME), Linux))
         #installer is an executable, make it executable and run it
 	$(V1) chmod u+x "$(DL_DIR)/$(QT_SDK_FILE)"
 	$(V1) "$(DL_DIR)/$(QT_SDK_FILE)" -style cleanlooks
+endif
 
 .PHONY: qt_sdk_clean
 qt_sdk_clean:
 	$(V1) [ ! -d "$(QT_SDK_DIR)" ] || $(RM) -rf $(QT_SDK_DIR)
 
 # Set up ARM (STM32) SDK
-ARM_SDK_DIR := $(TOOLS_DIR)/gcc-arm-none-eabi-4_6-2012q4
+ARM_SDK_DIR := $(TOOLS_DIR)/gcc-arm-none-eabi-4_7-2012q4
 
 .PHONY: arm_sdk_install
-arm_sdk_install: ARM_SDK_URL  := https://launchpad.net/gcc-arm-embedded/4.6/4.6-2012-q4-update/+download/gcc-arm-none-eabi-4_6-2012q4-20121016.tar.bz2
+ifeq ($(UNAME), Linux)
+# Linux
+arm_sdk_install: ARM_SDK_URL  := https://launchpad.net/gcc-arm-embedded/4.7/4.7-2012-q4-major/+download/gcc-arm-none-eabi-4_7-2012q4-20121208-linux.tar.bz2
+endif
+
+ifeq ($(UNAME), Darwin)
+# Mac
+arm_sdk_install: ARM_SDK_URL  := https://launchpad.net/gcc-arm-embedded/4.7/4.7-2012-q4-major/+download/gcc-arm-none-eabi-4_7-2012q4-20121208-mac.tar.bz2
+endif
+
 arm_sdk_install: ARM_SDK_FILE := $(notdir $(ARM_SDK_URL))
 # order-only prereq on directory existance:
 arm_sdk_install: | $(DL_DIR) $(TOOLS_DIR)
@@ -152,8 +177,8 @@ libusb_win_clean:
 .PHONY: openocd_git_win_install
 
 openocd_git_win_install: | $(DL_DIR) $(TOOLS_DIR)
-openocd_git_win_install: OPENOCD_URL  := git://openocd.git.sourceforge.net/gitroot/openocd/openocd
-openocd_git_win_install: OPENOCD_REV  := f1c0133321c8fcadadd10bba5537c0a634eb183b
+openocd_git_win_install: OPENOCD_URL  := git://git.code.sf.net/p/openocd/code
+openocd_git_win_install: OPENOCD_REV  := cf1418e9a85013bbf8dbcc2d2e9985695993d9f4
 openocd_git_win_install: openocd_win_clean libusb_win_install ftd2xx_install
         # download the source
 	$(V0) @echo " DOWNLOAD     $(OPENOCD_URL) @ $(OPENOCD_REV)"
@@ -169,8 +194,8 @@ openocd_git_win_install: openocd_win_clean libusb_win_install ftd2xx_install
 	$(V0) @echo " PATCH        $(OPENOCD_BUILD_DIR)"
 	$(V1) ( \
 	  cd $(OPENOCD_BUILD_DIR) ; \
-	  git apply < $(ROOT_DIR)/flight/Project/OpenOCD/0001-armv7m-remove-dummy-FP-regs-for-new-gdb.patch ; \
-	  git apply < $(ROOT_DIR)/flight/Project/OpenOCD/0002-rtos-add-stm32_stlink-to-FreeRTOS-targets.patch ; \
+	  git apply < $(ROOT_DIR)/flight/Project/OpenOCD/0003-freertos-cm4f-fpu-support.patch ; \
+	  git apply < $(ROOT_DIR)/flight/Project/OpenOCD/0004-st-icdi-disable.patch ; \
 	)
 
         # build and install
@@ -201,9 +226,17 @@ openocd_win_clean:
 .PHONY: openocd_git_install
 
 openocd_git_install: | $(DL_DIR) $(TOOLS_DIR)
-openocd_git_install: OPENOCD_URL  := git://openocd.git.sourceforge.net/gitroot/openocd/openocd
-openocd_git_install: OPENOCD_REV  := f1c0133321c8fcadadd10bba5537c0a634eb183b
+openocd_git_install: OPENOCD_URL     := git://git.code.sf.net/p/openocd/code
+openocd_git_install: OPENOCD_REV     := cf1418e9a85013bbf8dbcc2d2e9985695993d9f4
+openocd_git_install: OPENOCD_OPTIONS := --enable-maintainer-mode --prefix="$(OPENOCD_DIR)" --enable-ft2232_libftdi --enable-buspirate --enable-stlink
+
+ifeq ($(UNAME), Darwin)
+openocd_git_install: OPENOCD_OPTIONS := $(OPENOCD_OPTIONS) --disable-option-checking
+endif
+
 openocd_git_install: openocd_clean
+
+
         # download the source
 	$(V0) @echo " DOWNLOAD     $(OPENOCD_URL) @ $(OPENOCD_REV)"
 	$(V1) [ ! -d "$(OPENOCD_BUILD_DIR)" ] || $(RM) -rf "$(OPENOCD_BUILD_DIR)"
@@ -218,8 +251,7 @@ openocd_git_install: openocd_clean
 	$(V0) @echo " PATCH        $(OPENOCD_DIR)"
 	$(V1) ( \
 	  cd $(OPENOCD_BUILD_DIR) ; \
-	  git apply < $(ROOT_DIR)/flight/Project/OpenOCD/0001-armv7m-remove-dummy-FP-regs-for-new-gdb.patch ; \
-	  git apply < $(ROOT_DIR)/flight/Project/OpenOCD/0002-rtos-add-stm32_stlink-to-FreeRTOS-targets.patch ; \
+	  git apply < $(ROOT_DIR)/flight/Project/OpenOCD/0003-freertos-cm4f-fpu-support.patch ; \
 	)
 
         # build and install
@@ -228,7 +260,7 @@ openocd_git_install: openocd_clean
 	$(V1) ( \
 	  cd $(OPENOCD_BUILD_DIR) ; \
 	  ./bootstrap ; \
-	  ./configure --enable-maintainer-mode --prefix="$(OPENOCD_DIR)" --enable-ft2232_libftdi --enable-buspirate --enable-stlink ; \
+	  ./configure  $(OPENOCD_OPTIONS) ; \
 	  $(MAKE) ; \
 	  $(MAKE) install ; \
 	)
@@ -295,7 +327,7 @@ dfuutil_clean:
 # see http://developer.android.com/sdk/ for latest versions
 ANDROID_SDK_DIR := $(TOOLS_DIR)/android-sdk-linux
 .PHONY: android_sdk_install
-android_sdk_install: ANDROID_SDK_URL  := http://dl.google.com/android/android-sdk_r20.0.3-linux.tgz
+android_sdk_install: ANDROID_SDK_URL  := http://dl.google.com/android/android-sdk_r21.0.1-linux.tgz
 android_sdk_install: ANDROID_SDK_FILE := $(notdir $(ANDROID_SDK_URL))
 # order-only prereq on directory existance:
 android_sdk_install: | $(DL_DIR) $(TOOLS_DIR)
@@ -316,5 +348,28 @@ android_sdk_clean:
 .PHONY: android_sdk_update
 android_sdk_update:
 	$(V0) @echo " UPDATE       $(ANDROID_SDK_DIR)"
-	$(ANDROID_SDK_DIR)/tools/android update sdk --no-ui -t platform-tools,android-16,addon-google_apis-google-16
+	$(ANDROID_SDK_DIR)/tools/android update sdk --no-ui -t platform-tools,android-14,addon-google_apis-google-14
+
+# Set up Google Test (gtest) tools
+GTEST_DIR       := $(TOOLS_DIR)/gtest-1.6.0
+
+.PHONY: gtest_install
+gtest_install: | $(DL_DIR) $(TOOLS_DIR)
+gtest_install: GTEST_URL  := http://googletest.googlecode.com/files/gtest-1.6.0.zip
+gtest_install: GTEST_FILE := $(notdir $(GTEST_URL))
+gtest_install: gtest_clean
+        # download the file unconditionally since google code gives back 404
+        # for HTTP HEAD requests which are used when using the wget -N option
+	$(V1) [ ! -f "$(DL_DIR)/$(GTEST_FILE)" ] || $(RM) -f "$(DL_DIR)/$(GTEST_FILE)"
+	$(V1) wget -P "$(DL_DIR)" --trust-server-name "$(GTEST_URL)"
+
+        # extract the source
+	$(V1) [ ! -d "$(GTEST_DIR)" ] || $(RM) -rf "$(GTEST_DIR)"
+	$(V1) mkdir -p "$(GTEST_DIR)"
+	$(V1) unzip -q -d "$(TOOLS_DIR)" "$(DL_DIR)/$(GTEST_FILE)"
+
+.PHONY: gtest_clean
+gtest_clean:
+	$(V0) @echo " CLEAN        $(GTEST_DIR)"
+	$(V1) [ ! -d "$(GTEST_DIR)" ] || $(RM) -rf "$(GTEST_DIR)"
 

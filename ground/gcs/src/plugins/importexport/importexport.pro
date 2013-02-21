@@ -3,7 +3,7 @@ QT += widgets
 TARGET = ImportExportGadget
 DEFINES += IMPORTEXPORT_LIBRARY
 QT += xml
-include(../../openpilotgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(importexport_dependencies.pri)
 HEADERS += importexportplugin.h \
     importexportgadgetwidget.h \

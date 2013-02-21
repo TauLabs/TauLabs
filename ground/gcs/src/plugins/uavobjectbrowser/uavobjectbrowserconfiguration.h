@@ -39,7 +39,7 @@ Q_OBJECT
 Q_PROPERTY(QColor m_recentlyUpdatedColor READ recentlyUpdatedColor WRITE setRecentlyUpdatedColor)
 Q_PROPERTY(QColor m_manuallyChangedColor READ manuallyChangedColor WRITE setManuallyChangedColor)
 Q_PROPERTY(int m_recentlyUpdatedTimeout READ recentlyUpdatedTimeout WRITE setRecentlyUpdatedTimeout)
-Q_PROPERTY(bool m_onlyHilightChangedValues READ onlyHighlightChangedValues WRITE setOnlyHighlightChangedValues)
+Q_PROPERTY(bool m_onlyHighlightChangedValues READ onlyHighlightChangedValues WRITE setOnlyHighlightChangedValues)
 Q_PROPERTY(bool m_useCategorizedView READ categorizedView WRITE setCategorizedView)
 Q_PROPERTY(bool m_useScientificView READ scientificView WRITE setScientificView)
 Q_PROPERTY(bool m_showMetaData READ showMetaData WRITE setShowMetaData)
@@ -52,7 +52,7 @@ public:
     QColor recentlyUpdatedColor() const { return m_recentlyUpdatedColor; }
     QColor manuallyChangedColor() const { return m_manuallyChangedColor; }
     int recentlyUpdatedTimeout() const { return m_recentlyUpdatedTimeout; }
-    bool onlyHighlightChangedValues() const {return m_onlyHilightChangedValues;}
+    bool onlyHighlightChangedValues() const {return m_onlyHighlightChangedValues;}
     bool categorizedView() const { return m_useCategorizedView; }
     bool scientificView() const { return m_useScientificView; }
     bool showMetaData() const { return m_showMetaData; }
@@ -63,7 +63,7 @@ public slots:
     void setRecentlyUpdatedColor(QColor color) { m_recentlyUpdatedColor = color; }
     void setManuallyChangedColor(QColor color) { m_manuallyChangedColor = color; }
     void setRecentlyUpdatedTimeout(int timeout) { m_recentlyUpdatedTimeout = timeout; }
-    void setOnlyHighlightChangedValues(bool hilight) { m_onlyHilightChangedValues = hilight; }
+    void setOnlyHighlightChangedValues(bool highlight) { m_onlyHighlightChangedValues = highlight; }
     void setCategorizedView(bool value) { m_useCategorizedView = value; }
     void setScientificView(bool value) { m_useScientificView = value; }
     void setShowMetaData(bool value) { m_showMetaData = value; }
@@ -72,7 +72,7 @@ private:
     QColor m_recentlyUpdatedColor;
     QColor m_manuallyChangedColor;
     int m_recentlyUpdatedTimeout;
-    bool m_onlyHilightChangedValues;
+    bool m_onlyHighlightChangedValues;
     bool m_useCategorizedView;
     bool m_useScientificView;
     bool m_showMetaData;

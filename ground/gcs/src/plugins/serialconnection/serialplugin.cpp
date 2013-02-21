@@ -26,6 +26,7 @@
  */
 
 #include "serialplugin.h"
+#include "serialdevice.h"
 
 #include <extensionsystem/pluginmanager.h>
 #include <coreplugin/icore.h>
@@ -53,27 +54,37 @@ SerialEnumerationThread::~SerialEnumerationThread()
 
 void SerialEnumerationThread::run()
 {
-    QList <Core::IConnection::device> devices = m_serial->availableDevices();
+    QList <Core::IDevice*> devices = m_serial->availableDevices();
 
     while(m_running)
     {
         if(!m_serial->deviceOpened())
         {
-            QList <Core::IConnection::device> newDev = m_serial->availableDevices();
-            if(devices != newDev)
-            {
+            QList <Core::IDevice*> newDev = m_serial->availableDevices();
+            // Note: if(devices != newDev) does not work here (QList of pointers)...
+            bool different = false;
+            if (newDev.length()!= devices.length()) {
+                different = true;
+            } else {
+                for (int i= 0; i< newDev.length(); i++) {
+                    Core::IDevice* oldd = devices.at(i);
+                    Core::IDevice* newd = newDev.at(i);
+                    different |= !(oldd->equals(newd));
+                }
+            }
+            if (different) {
                 devices = newDev;
                 emit enumerationChanged();
             }
         }
-
         msleep(2000); //update available devices every two seconds (doesn't need more)
     }
 }
 
 
 SerialConnection::SerialConnection()
-    : enablePolling(true), m_enumerateThread(this)
+    : enablePolling(true), m_enumerateThread(this),
+      m_deviceOpened(false)
 {
     serialHandle = NULL;
     m_config = new SerialPluginConfiguration("Serial Telemetry", NULL, this);
@@ -116,9 +127,9 @@ bool sortPorts(const QextPortInfo &s1,const QextPortInfo &s2)
     return s1.portName<s2.portName;
 }
 
-QList <Core::IConnection::device> SerialConnection::availableDevices()
+QList <IDevice *> SerialConnection::availableDevices()
 {
-    QList <Core::IConnection::device> list;
+    QList <Core::IDevice*> list;
 
     if (enablePolling) {
         QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
@@ -126,9 +137,9 @@ QList <Core::IConnection::device> SerialConnection::availableDevices()
         //sort the list by port number (nice idea from PT_Dreamer :))
         qSort(ports.begin(), ports.end(),sortPorts);
         foreach( QextPortInfo port, ports ) {
-           device d;
-           d.displayName=port.friendName;
-           d.name=port.physName;
+            SerialDevice* d = new SerialDevice();
+           d->setDisplayName(port.friendName);
+           d->setName(port.physName);
            list.append(d);
         }
     }
@@ -136,14 +147,14 @@ QList <Core::IConnection::device> SerialConnection::availableDevices()
     return list;
 }
 
-QIODevice *SerialConnection::openDevice(const device deviceName)
+QIODevice *SerialConnection::openDevice(IDevice *deviceName)
 {
     if (serialHandle){
-        closeDevice(deviceName.name);
+        closeDevice(deviceName->getName());
     }
     QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
     foreach( QextPortInfo port, ports ) {
-           if(port.physName == deviceName.name)
+        if(port.physName == deviceName->getName())
             {
             //we need to handle port settings here...
             PortSettings set;

@@ -2,7 +2,7 @@ TEMPLATE = lib
 TARGET = HITL
 QT += network
 QT += widgets
-include(../../openpilotgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(hitl_dependencies.pri)
 
 HEADERS += hitlplugin.h \

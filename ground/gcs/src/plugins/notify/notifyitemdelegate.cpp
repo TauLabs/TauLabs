@@ -144,6 +144,8 @@ void NotifyItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model
 
 void NotifyItemDelegate::selectRow(const QString& text)
 {
+    Q_UNUSED(text);
+
     QComboBox* combo = qobject_cast<QComboBox*>(sender());
     QTableWidget* table = new QTableWidget;
     table = (QTableWidget*)(combo->parent());

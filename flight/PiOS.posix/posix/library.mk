@@ -33,10 +33,10 @@ EXTRAINCDIRS		+=	$(PIOS_DEVLIB)/inc
 #
 # CMSIS for the F4
 #
-#include $(PIOSCOMMONLIB)/CMSIS2/library.mk
-#CMSIS2_DEVICEDIR	:=	$(PIOS_DEVLIB)/Libraries/CMSIS2/Device/ST/STM32F4xx
-#SRC					+=	$(wildcard $(CMSIS2_DEVICEDIR)/Source/*.c)
-#EXTRAINCDIRS		+=	$(CMSIS2_DEVICEDIR)/Include
+#include $(PIOSCOMMONLIB)/CMSIS3/library.mk
+#CMSIS3_DEVICEDIR	:=	$(PIOS_DEVLIB)/Libraries/CMSIS3/Device/ST/STM32F4xx
+#SRC					+=	$(wildcard $(CMSIS3_DEVICEDIR)/Source/*.c)
+#EXTRAINCDIRS		+=	$(CMSIS3_DEVICEDIR)/Include
 
 #
 # ST Peripheral library

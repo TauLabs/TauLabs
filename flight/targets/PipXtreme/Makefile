@@ -63,11 +63,9 @@ else
 REMOVE_CMD = rm
 endif
 
-FLASH_TOOL = OPENOCD
-
 # List of modules to include
 OPTMODULES = 
-MODULES = Radio RadioComBridge
+MODULES = RadioComBridge
 
 # Paths
 OPSYSTEM = ./System
@@ -129,8 +127,8 @@ endif
 ## UAVOBJECTS
 ifndef TESTAPP
 SRC += $(OPUAVSYNTHDIR)/gcsreceiver.c
-SRC += $(OPUAVSYNTHDIR)/pipxstatus.c
-SRC += $(OPUAVSYNTHDIR)/pipxsettings.c
+SRC += $(OPUAVSYNTHDIR)/oplinkstatus.c
+SRC += $(OPUAVSYNTHDIR)/oplinksettings.c
 SRC += $(OPUAVSYNTHDIR)/objectpersistence.c
 
 endif
@@ -172,12 +170,12 @@ SRC += $(PIOSCOMMON)/pios_i2c_esc.c
 SRC += $(PIOSCOMMON)/pios_rcvr.c
 SRC += $(PIOSCOMMON)/printf-stdarg.c
 SRC += $(PIOSCOMMON)/pios_rfm22b.c
+SRC += $(PIOSCOMMON)/pios_rfm22b_com.c
 ## Libraries for flight calculations
 SRC += $(FLIGHTLIB)/fifo_buffer.c
 SRC += $(FLIGHTLIB)/CoordinateConversions.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
 SRC += $(FLIGHTLIB)/aes.c
-SRC += $(FLIGHTLIB)/packet_handler.c
 ## The Reed-Solomon FEC library
 SRC += $(FLIGHTLIB)/rscode/rs.c
 SRC += $(FLIGHTLIB)/rscode/berlekamp.c
@@ -252,6 +250,7 @@ ASRCARM =
 # List any extra directories to look for include files here.
 #    Each directory must be seperated by a space.
 EXTRAINCDIRS  =  $(OPSYSTEM)
+EXTRAINCDIRS  += $(SHAREDAPIDIR)
 EXTRAINCDIRS  += $(OPSYSTEMINC)
 EXTRAINCDIRS  += $(OPUAVTALK)
 EXTRAINCDIRS  += $(OPUAVTALKINC)
@@ -340,6 +339,9 @@ ifeq ($(USE_I2C), YES)
 CDEFS += -DUSE_I2C
 endif
 
+# Declare all non-optional modules as built-in to force inclusion
+CDEFS += $(foreach MOD, $(notdir $(MODULES)), -DMODULE_$(MOD)_BUILTIN)
+
 # Place project-specific -D and/or -U options for
 # Assembler with preprocessor here.
 #ADEFS = -DUSE_IRQ_ASM_WRAPPER
@@ -404,6 +406,7 @@ CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS)) -I.
 
 CFLAGS += -mapcs-frame
 CFLAGS += -fomit-frame-pointer
+CFLAGS += -ffunction-sections -fdata-sections
 ifeq ($(CODE_SOURCERY), YES)
 CFLAGS += -fpromote-loop-indices
 endif
@@ -438,6 +441,8 @@ LDFLAGS += -lc
 LDFLAGS += $(patsubst %,-l%,$(EXTRA_LIBS))
 LDFLAGS += $(MATH_LIB)
 LDFLAGS += -lc -lgcc
+LDFLAGS += -Wl,--warn-common
+LDFLAGS += -Wl,--fatal-warnings
 
 # Set linker-script name depending on selected submodel name
 LDFLAGS += -T$(LINKERSCRIPTPATH)/link_$(BOARD)_memory.ld

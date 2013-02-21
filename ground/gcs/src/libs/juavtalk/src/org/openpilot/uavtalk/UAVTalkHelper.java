@@ -14,15 +14,16 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package org.abovegroundlabs.uavtalk;
-import org.abovegroundlabs.uavtalk.CRC8;
-import org.abovegroundlabs.uavtalk.UAVObject;
+package org.taulabs.uavtalk;
+import org.taulabs.uavtalk.CRC8;
+import org.taulabs.uavtalk.UAVObject;
 
 /**
  ******************************************************************************
  *
  * @file       UAVTalkHelper.java
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
+ * @author     Tau Labs, http://taulabs.org Copyright (C) 2012-2013.
  * @brief      misc static helper functions to deal with UAVTalk
  *
  ****************************************************************************

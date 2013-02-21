@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:setting_attributes="http://schemas.android.com/apk/res/org.abovegroundlabs.androidgcs"
+    xmlns:setting_attributes="http://schemas.android.com/apk/res/org.taulabs.androidgcs"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -21,6 +21,14 @@
         android:layout_toLeftOf="@+id/saveBtn"
         android:text="@string/apply" />
 
+	<Button
+	    android:id="@+id/loadBtn"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/applyBtn"
+	    android:text="@string/load" />
+    
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
@@ -28,23 +36,23 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" >
 
-        <org.abovegroundlabs.androidgcs.views.ScrollBarView
+        <org.taulabs.androidgcs.views.ScrollBarView
             android:id="@+id/rollRateKp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             setting_attributes:max_value="0.01"
             setting_attributes:setting_name="Roll Rate Kp" >
-        </org.abovegroundlabs.androidgcs.views.ScrollBarView>
+        </org.taulabs.androidgcs.views.ScrollBarView>
 
-        <org.abovegroundlabs.androidgcs.views.ScrollBarView
+        <org.taulabs.androidgcs.views.ScrollBarView
             android:id="@+id/pitchRateKp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             setting_attributes:max_value="0.01"
             setting_attributes:setting_name="Pitch Rate Kp" >
-        </org.abovegroundlabs.androidgcs.views.ScrollBarView>
+        </org.taulabs.androidgcs.views.ScrollBarView>
 
     </LinearLayout>
 
@@ -55,23 +63,23 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/linearLayout3" >
 
-        <org.abovegroundlabs.androidgcs.views.ScrollBarView
+        <org.taulabs.androidgcs.views.ScrollBarView
             android:id="@+id/rollRateKi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             setting_attributes:max_value="0.05"
             setting_attributes:setting_name="Roll Rate Ki" >
-        </org.abovegroundlabs.androidgcs.views.ScrollBarView>
+        </org.taulabs.androidgcs.views.ScrollBarView>
 
-        <org.abovegroundlabs.androidgcs.views.ScrollBarView
+        <org.taulabs.androidgcs.views.ScrollBarView
             android:id="@+id/pitchRateKi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             setting_attributes:max_value="0.05"
             setting_attributes:setting_name="Pitch Rate Ki" >
-        </org.abovegroundlabs.androidgcs.views.ScrollBarView>
+        </org.taulabs.androidgcs.views.ScrollBarView>
     </LinearLayout>
 
     <LinearLayout
@@ -81,23 +89,47 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/linearLayout1" >
 
-        <org.abovegroundlabs.androidgcs.views.ScrollBarView
+        <org.taulabs.androidgcs.views.ScrollBarView
             android:id="@+id/rollKp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             setting_attributes:max_value="5"
             setting_attributes:setting_name="Roll Kp" >
-        </org.abovegroundlabs.androidgcs.views.ScrollBarView>
+        </org.taulabs.androidgcs.views.ScrollBarView>
 
-        <org.abovegroundlabs.androidgcs.views.ScrollBarView
+        <org.taulabs.androidgcs.views.ScrollBarView
             android:id="@+id/pitchKp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             setting_attributes:max_value="5"
             setting_attributes:setting_name="Pitch Kp" >
-        </org.abovegroundlabs.androidgcs.views.ScrollBarView>
+        </org.taulabs.androidgcs.views.ScrollBarView>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/linearLayout2" >
+        
+        <org.taulabs.androidgcs.views.ScrollBarView
+            android:id="@+id/rollRateKd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            setting_attributes:max_value="0.001"
+            setting_attributes:setting_name="Roll Rate Kd" />
+
+        <org.taulabs.androidgcs.views.ScrollBarView
+            android:id="@+id/pitchRateKd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            setting_attributes:max_value="0.001"
+            setting_attributes:setting_name="Pitch Rate Kd" />
+	</LinearLayout>
+    
 </RelativeLayout>

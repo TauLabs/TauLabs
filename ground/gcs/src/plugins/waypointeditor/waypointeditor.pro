@@ -2,7 +2,7 @@ TEMPLATE = lib
 QT += widgets
 TARGET = WaypointEditor 
 
-include(../../openpilotgcsplugin.pri) 
+include(../../taulabsgcsplugin.pri) 
 include(../../plugins/coreplugin/coreplugin.pri) 
 include(../../plugins/uavobjects/uavobjects.pri)
 

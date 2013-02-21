@@ -46,10 +46,10 @@ const char * const GCS_VERSION_CODENAME = "Phoenix";
     "." STRINGIFY(GCS_VERSION_RELEASE)
 
 const char * const GCS_VERSION_LONG      = GCS_VERSION;
-const char * const GCS_AUTHOR            = "Above Ground Labs";
+const char * const GCS_AUTHOR            = "Tau Labs";
 const char * const GCS_YEAR              = "2012";
 
-const char * const GCS_HELP              = "http://github.com/PhoenixPilot";
+const char * const GCS_HELP              = "http://github.com/TauLabs";
 #ifdef GCS_REVISION
 const char * const GCS_REVISION_STR      = STRINGIFY(GCS_REVISION);
 const char * const UAVOSHA1_STR          = STRINGIFY(UAVO_HASH);
@@ -140,7 +140,7 @@ const char * const GO_FORWARD            = "GCS.GoForward";
 const char * const GOTOPREVIOUSGROUP     = "GCS.GotoPreviousTabGroup";
 const char * const GOTONEXTGROUP         = "GCS.GotoNextTabGroup";
 const char * const WINDOWSLIST           = "GCS.WindowsList";
-const char * const ABOUT_OPENPILOTGCS    = "GCS.AboutOpenPilotGCS";
+const char * const ABOUT_TAULABSGCS      = "GCS.AboutTauLabsGCS";
 const char * const ABOUT_PLUGINS         = "GCS.AboutPlugins";
 const char * const ABOUT_AUTHORS         = "GCS.AboutAuthors";
 const char * const ABOUT_QT              = "GCS.AboutQt";
@@ -222,7 +222,7 @@ const char * const ICON_PLUGIN           = ":/core/images/pluginicon.png";
 const char * const ICON_EXIT             = ":/core/images/exiticon.png";
 const char * const ICON_OPTIONS          = ":/core/images/optionsicon.png";
 const char * const ICON_HELP             = ":/core/images/helpicon.png";
-const char * const ICON_OPENPILOT        = ":/core/images/openpiloticon.png";
+const char * const ICON_TAULABS          = ":/core/images/openpiloticon.png";
 
 
 // wizard kind

@@ -1,6 +1,6 @@
 TEMPLATE = lib
 TARGET = OpenPilot
-include(../../openpilotgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
 
 OTHER_FILES += OpenPilot.pluginspec \

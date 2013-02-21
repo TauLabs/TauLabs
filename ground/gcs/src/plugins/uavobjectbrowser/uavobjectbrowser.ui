@@ -185,7 +185,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QToolButton" name="tbView">
+      <widget class="QToolButton" name="viewSettingsButton">
        <property name="toolTip">
         <string>View Options</string>
        </property>

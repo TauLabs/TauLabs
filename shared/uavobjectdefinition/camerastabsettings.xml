@@ -9,6 +9,9 @@
         <field name="StabilizationMode" units="" type="enum" elementnames="Roll,Pitch,Yaw" options="Attitude,AxisLock" defaultvalue="Attitude"/>
         <field name="MaxAxisLockRate" units="deg/s" type="float" elements="1" defaultvalue="1"/>
         <field name="AttitudeFilter" units="ms" type="uint8" elements="1" defaultvalue="0"/>
+        <field name="InputFilter" units="ms" type="uint8" elements="1" defaultvalue="0"/>
+        <field name="FeedForwardTime" units="ms" type="uint8" elements="1" defaultvalue="0"/>
+        <field name="MaxAccel" units="units/sec" type="float" elements="1" defaultvalue="1000"/>
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="true" updatemode="onchange" period="0"/>
         <telemetryflight acked="true" updatemode="onchange" period="0"/>

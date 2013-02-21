@@ -25,11 +25,14 @@ equals(copydata, 1) {
             data_copy.commands += $(COPY_FILE) $$targetPath(\"$$[QT_INSTALL_BINS]/$$dll\") $$targetPath(\"$$GCS_APP_PATH/$$dll\") $$addNewline()
         }
 
+	message($$MINGW_PATH)
+
         # copy MinGW DLLs
         MINGW_DLLS = libgcc_s_dw2-1.dll \
-                     mingwm10.dll
+                     mingwm10.dll \
+                     libstdc++-6.dll
         for(dll, MINGW_DLLS) {
-            data_copy.commands += $(COPY_FILE) $$targetPath(\"$$[QT_INSTALL_BINS]/../../../../../mingw/bin/$$dll\") $$targetPath(\"$$GCS_APP_PATH/$$dll\") $$addNewline()
+            data_copy.commands += $(COPY_FILE) $$targetPath(\"$$(QTMINGW)/$$dll\") $$targetPath(\"$$GCS_APP_PATH/$$dll\") $$addNewline()
         }
 
         # copy iconengines
@@ -74,7 +77,7 @@ equals(copydata, 1) {
         #   xcopy /s /e <SDL>\include\SDL\* C:\QtSDK\Desktop\Qt\4.7.3\mingw\include\SDL
         #   xcopy /s /e <SDL>\lib\*         C:\QtSDK\Desktop\Qt\4.7.3\mingw\lib
         SDL_DLL = SDL.dll
-        data_copy.commands += $(COPY_FILE) $$targetPath(\"$$[QT_INSTALL_BINS]/../../mingw/bin/$$SDL_DLL\") $$targetPath(\"$$GCS_APP_PATH/$$SDL_DLL\") $$addNewline()
+        data_copy.commands += $(COPY_FILE) $$targetPath(\"$$(QTMINGW)$$SDL_DLL\") $$targetPath(\"$$GCS_APP_PATH/$$SDL_DLL\") $$addNewline()
 
         data_copy.target = FORCE
         QMAKE_EXTRA_TARGETS += data_copy

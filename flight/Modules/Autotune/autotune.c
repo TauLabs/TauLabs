@@ -51,7 +51,7 @@
 #include "openpilot.h"
 #include "pios.h"
 #include "flightstatus.h"
-#include "hwsettings.h"
+#include "modulesettings.h"
 #include "manualcontrolcommand.h"
 #include "manualcontrolsettings.h"
 #include "relaytuning.h"
@@ -69,7 +69,7 @@ enum AUTOTUNE_STATE {AT_INIT, AT_START, AT_ROLL, AT_PITCH, AT_FINISHED, AT_SET};
 
 // Private variables
 static xTaskHandle taskHandle;
-static bool autotuneEnabled;
+static bool module_enabled;
 
 // Private functions
 static void AutotuneTask(void *parameters);
@@ -82,21 +82,18 @@ static void update_stabilization_settings();
 int32_t AutotuneInitialize(void)
 {
 	// Create a queue, connect to manual control command and flightstatus
-#ifdef MODULE_AUTOTUNE_BUILTIN
-	autotuneEnabled = true;
+#ifdef MODULE_Autotune_BUILTIN
+	module_enabled = true;
 #else
-	HwSettingsInitialize();
-	uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
-
-	HwSettingsOptionalModulesGet(optionalModules);
-
-	if (optionalModules[HWSETTINGS_OPTIONALMODULES_AUTOTUNE] == HWSETTINGS_OPTIONALMODULES_ENABLED)
-		autotuneEnabled = true;
+	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+	ModuleSettingsStateGet(module_state);
+	if (module_state[MODULESETTINGS_STATE_AUTOTUNE] == MODULESETTINGS_STATE_ENABLED)
+		module_enabled = true;
 	else
-		autotuneEnabled = false;
+		module_enabled = false;
 #endif
 
-	if (autotuneEnabled) {
+	if (module_enabled) {
 		RelayTuningSettingsInitialize();
 		RelayTuningInitialize();
 	}
@@ -111,7 +108,7 @@ int32_t AutotuneInitialize(void)
 int32_t AutotuneStart(void)
 {
 	// Start main task if it is enabled
-	if(autotuneEnabled) {
+	if(module_enabled) {
 		xTaskCreate(AutotuneTask, (signed char *)"Autotune", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
 
 		TaskMonitorAdd(TASKINFO_RUNNING_AUTOTUNE, taskHandle);
@@ -285,7 +282,7 @@ static void update_stabilization_settings()
 	const float zero_ratio_p = 1.0f / 5.0f;
 
 	// For now just run over roll and pitch
-	for (uint i = 0; i < 2; i++) {
+	for (uint32_t i = 0; i < 2; i++) {
 		float wu = 1000.0f * 2 * M_PI / relayTuning.Period[i]; // ultimate freq = output osc freq (rad/s)
 
 		float wc = wu * gain_ratio_r;      // target openloop crossover frequency (rad/s)

@@ -47,7 +47,6 @@
 #include "fixedwingairspeeds.h"
 #include "fixedwingpathfollowersettingscc.h"
 #include "flightstatus.h"
-#include "hwsettings.h"
 #include "pathdesired.h"
 #include "systemsettings.h"
 

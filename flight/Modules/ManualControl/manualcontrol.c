@@ -11,6 +11,7 @@
  * AttitudeDesired object (stabilized mode)
  *
  * @file       manualcontrol.c
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2012-2013.
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @brief      ManualControl module. Handles safety R/C link and flight mode.
  *
@@ -91,6 +92,7 @@ static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeCha
 static void processFlightMode(ManualControlSettingsData * settings, float flightMode);
 static void processArm(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
 static void setArmedIfChanged(uint8_t val);
+static void set_manual_control_error(SystemAlarmsManualControlOptions errorCode);
 
 static void manualControlTask(void *parameters);
 static float scaleChannel(int16_t value, int16_t max, int16_t min, int16_t neutral);
@@ -261,7 +263,8 @@ static void manualControlTask(void *parameters)
 					cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] == (uint16_t) PIOS_RCVR_INVALID ||
 					cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] == (uint16_t) PIOS_RCVR_NODRIVER))) {
 
-				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
+				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_SETTINGS);
+				
 				cmd.Connected = MANUALCONTROLCOMMAND_CONNECTED_FALSE;
 				ManualControlCommandSet(&cmd);
 
@@ -298,33 +301,33 @@ static void manualControlTask(void *parameters)
 				//cmd.FlightMode = MANUALCONTROLCOMMAND_FLIGHTMODE_AUTO; // don't do until AUTO implemented and functioning
 				// Important: Throttle < 0 will reset Stabilization coefficients among other things. Either change this,
 				// or leave throttle at IDLE speed or above when going into AUTO-failsafe.
-				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
+				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_NORX);
 				
 				AccessoryDesiredData accessory;
 				// Set Accessory 0
 				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY0] != 
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
-					accessory.AccessoryVal = 0;
-					if(AccessoryDesiredInstSet(0, &accessory) != 0)
-						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
+					accessory.AccessoryVal = 0;					
+					if(AccessoryDesiredInstSet(0, &accessory) != 0) //These are allocated later and that allocation might fail
+						set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
 				}
 				// Set Accessory 1
 				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY1] != 
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 					accessory.AccessoryVal = 0;
-					if(AccessoryDesiredInstSet(1, &accessory) != 0)
-						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
+					if(AccessoryDesiredInstSet(1, &accessory) != 0) //These are allocated later and that allocation might fail
+						set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
 				}
 				// Set Accessory 2
 				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY2] != 
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 					accessory.AccessoryVal = 0;
-					if(AccessoryDesiredInstSet(2, &accessory) != 0)
-						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
+					if(AccessoryDesiredInstSet(2, &accessory) != 0) //These are allocated later and that allocation might fail
+						set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
 				}
 
 			} else if (valid_input_detected) {
-				AlarmsClear(SYSTEMALARMS_ALARM_MANUALCONTROL);
+				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_NONE);
 
 				// Scale channels to -1 -> +1 range
 				cmd.Roll           = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL];
@@ -350,22 +353,22 @@ static void manualControlTask(void *parameters)
 				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY0] != 
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 					accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY0];
-					if(AccessoryDesiredInstSet(0, &accessory) != 0)
-						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
+					if(AccessoryDesiredInstSet(0, &accessory) != 0) //These are allocated later and that allocation might fail
+						set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
 				}
 				// Set Accessory 1
 				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY1] != 
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 					accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY1];
-					if(AccessoryDesiredInstSet(1, &accessory) != 0)
-						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
+					if(AccessoryDesiredInstSet(1, &accessory) != 0) //These are allocated later and that allocation might fail
+						set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
 				}
 				// Set Accessory 2
 				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY2] != 
 					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 					accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY2];
-					if(AccessoryDesiredInstSet(2, &accessory) != 0)
-						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_WARNING);
+					if(AccessoryDesiredInstSet(2, &accessory) != 0) //These are allocated later and that allocation might fail
+						set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
 				}
 
 				processFlightMode(&settings, flightMode);
@@ -398,7 +401,7 @@ static void manualControlTask(void *parameters)
 		switch(PARSE_FLIGHT_MODE(flightStatus.FlightMode)) {
 			case FLIGHTMODE_UNDEFINED:
 				// This reflects a bug in the code architecture!
-				AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
+				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_UNDEFINED);
 				break;
 			case FLIGHTMODE_MANUAL:
 				updateActuatorDesired(&cmd);
@@ -422,7 +425,7 @@ static void manualControlTask(void *parameters)
 						updatePathDesired(&cmd, lastFlightMode != flightStatus.FlightMode, true);
 						break;
 					default:
-						AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
+						set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_UNDEFINED);
 				}
 				break;
 		}
@@ -602,8 +605,10 @@ static void updateStabilizationDesired(ManualControlCommandData * cmd, ManualCon
 			stab_settings = settings->Stabilization3Settings;
 			break;
 		default:
-			// Major error, this should not occur because only enter this block when one of these is true
-			AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_CRITICAL);
+			{
+				// Major error, this should not occur because only enter this block when one of these is true
+				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_UNDEFINED);
+			}
 			return;
 	}
 
@@ -671,7 +676,7 @@ static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeCha
 		pathDesired.End[PATHDESIRED_END_DOWN] = positionActual.Down - 10;
 		pathDesired.StartingVelocity=10;
 		pathDesired.EndingVelocity=10;
-		pathDesired.Mode = PATHDESIRED_MODE_FLYENDPOINT;
+		pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
 		PathDesiredSet(&pathDesired);
 	} else if(flightModeChanged) {
 		// Simple position hold - stay at present altitude and position
@@ -688,7 +693,7 @@ static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeCha
 		pathDesired.End[PATHDESIRED_END_DOWN] = positionActual.Down;
 		pathDesired.StartingVelocity=10;
 		pathDesired.EndingVelocity=10;
-		pathDesired.Mode = PATHDESIRED_MODE_FLYENDPOINT;
+		pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
 		PathDesiredSet(&pathDesired);
 	}
 }
@@ -741,7 +746,7 @@ static void altitudeHoldDesired(ManualControlCommandData * cmd, bool flightModeC
 #else
 static void altitudeHoldDesired(ManualControlCommandData * cmd, bool flightModeChanged)
 {
-	AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_ERROR);
+	set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD);
 }
 #endif
 /**
@@ -1008,6 +1013,46 @@ static void applyDeadband(float *value, float deadband)
 		else
 			*value += deadband;
 }
+
+/**
+ * Set the error code and alarm state
+ * @param[in] error code
+ */
+static void set_manual_control_error(SystemAlarmsManualControlOptions error_code)
+{
+	// Get the severity of the alarm given the error code
+	SystemAlarmsAlarmOptions severity;
+	switch (error_code) {
+	case SYSTEMALARMS_MANUALCONTROL_NONE:
+		severity = SYSTEMALARMS_ALARM_OK;
+		break;
+	case SYSTEMALARMS_MANUALCONTROL_NORX:
+	case SYSTEMALARMS_MANUALCONTROL_ACCESSORY:
+		severity = SYSTEMALARMS_ALARM_WARNING;
+		break;
+	case SYSTEMALARMS_MANUALCONTROL_SETTINGS:
+		severity = SYSTEMALARMS_ALARM_CRITICAL;
+		break;
+	case SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD:
+		severity = SYSTEMALARMS_ALARM_ERROR;
+		break;
+	case SYSTEMALARMS_MANUALCONTROL_UNDEFINED:
+	default:
+		severity = SYSTEMALARMS_ALARM_CRITICAL;
+		error_code = SYSTEMALARMS_MANUALCONTROL_UNDEFINED;
+	}
+
+	// Make sure not to set the error code if it didn't change
+	SystemAlarmsManualControlOptions current_error_code;
+	SystemAlarmsManualControlGet((uint8_t *) &current_error_code);
+	if (current_error_code != error_code) {
+		SystemAlarmsManualControlSet((uint8_t *) &error_code);
+	}
+
+	// AlarmSet checks only updates on toggle
+	AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, (uint8_t) severity);
+}
+
 
 /**
   * @}

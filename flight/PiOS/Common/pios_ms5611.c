@@ -8,6 +8,7 @@
  *
  * @file       pios_ms5611.c  
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2012.
  * @brief      MS5611 Pressure Sensor Routines
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -29,74 +30,163 @@
  */
 
 /* Project Includes */
-// TODO: Clean this up.  Getting around old constant.
-#define PIOS_MS5611_OVERSAMPLING oversampling
-
 #include "pios.h"
 
 #if defined(PIOS_INCLUDE_MS5611)
 
-/* Glocal Variables */
-ConversionTypeTypeDef CurrentRead;
+#include "pios_ms5611_priv.h"
 
-/* Local Variables */
-MS5611CalibDataTypeDef CalibData;
+/* Private constants */
+#define PIOS_MS5611_OVERSAMPLING oversampling
+#define MS5611_TASK_PRIORITY	(tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
+#define MS5611_TASK_STACK		(512 / 4)
 
-/* Straight from the datasheet */
-static uint32_t RawTemperature;
-static uint32_t RawPressure;
-static int64_t Pressure;
-static int64_t Temperature;
+/* MS5611 Addresses */
+#define MS5611_I2C_ADDR	        0x77
+#define MS5611_RESET            0x1E
+#define MS5611_CALIB_ADDR       0xA2  /* First sample is factory stuff */
+#define MS5611_CALIB_LEN        16
+#define MS5611_ADC_READ         0x00
+#define MS5611_PRES_ADDR        0x40
+#define MS5611_TEMP_ADDR        0x50
+#define MS5611_ADC_MSB          0xF6
+#define MS5611_P0               101.3250f
 
+/* Private methods */
 static int32_t PIOS_MS5611_Read(uint8_t address, uint8_t * buffer, uint8_t len);
 static int32_t PIOS_MS5611_WriteCommand(uint8_t command);
+static void PIOS_MS5611_Task(void *parameters);
 
-// Move into proper driver structure with cfg stored
-static uint32_t oversampling;
-static const struct pios_ms5611_cfg * dev_cfg;
-static int32_t i2c_id;
+/* Private types */
 
+/* Local Types */
+
+enum pios_ms5611_dev_magic {
+	PIOS_MS5611_DEV_MAGIC = 0xefba8e1d,
+};
+
+enum conversion_type {
+	PRESSURE_CONV,
+	TEMPERATURE_CONV
+};
+
+struct ms5611_dev {
+	const struct pios_ms5611_cfg * cfg;
+	uint32_t i2c_id;
+	xTaskHandle task;
+	xQueueHandle queue;
+
+	int64_t pressure_unscaled;
+	int64_t temperature_unscaled;
+	uint16_t calibration[6];
+	enum conversion_type current_conversion_type;
+	enum pios_ms5611_osr oversampling;
+	uint32_t temperature_interleaving;
+	int32_t ms5611_read_flag;
+	enum pios_ms5611_dev_magic magic;
+};
+
+static struct ms5611_dev *dev;
+
+/**
+ * @brief Allocate a new device
+ */
+static struct ms5611_dev * PIOS_MS5611_alloc(void)
+{
+	struct ms5611_dev *ms5611_dev;
+	
+	ms5611_dev = (struct ms5611_dev *)pvPortMalloc(sizeof(*ms5611_dev));
+	if (!ms5611_dev) return (NULL);
+	
+	ms5611_dev->queue = xQueueCreate(1, sizeof(struct pios_sensor_baro_data));
+	if (ms5611_dev->queue == NULL) {
+		vPortFree(ms5611_dev);
+		return NULL;
+	}
+
+	ms5611_dev->magic = PIOS_MS5611_DEV_MAGIC;
+	
+	return(ms5611_dev);
+}
+
+/**
+ * @brief Validate the handle to the i2c device
+ * @returns 0 for valid device or <0 otherwise
+ */
+static int32_t PIOS_MS5611_Validate(struct ms5611_dev *dev)
+{
+	if (dev == NULL) 
+		return -1;
+	if (dev->magic != PIOS_MS5611_DEV_MAGIC)
+		return -2;
+	if (dev->i2c_id == 0)
+		return -3;
+	return 0;
+}
 
 /**
  * Initialise the MS5611 sensor
  */
-int32_t ms5611_read_flag;
-void PIOS_MS5611_Init(const struct pios_ms5611_cfg * cfg, int32_t i2c_device)
+int32_t PIOS_MS5611_Init(const struct pios_ms5611_cfg *cfg, int32_t i2c_device)
 {
-	i2c_id = i2c_device;
+	dev = (struct ms5611_dev *) PIOS_MS5611_alloc();
+	if (dev == NULL)
+		return -1;
 
-	oversampling = cfg->oversampling;
-	dev_cfg = cfg;	// Store cfg before enabling interrupt
+	dev->i2c_id = i2c_device;
 
-	PIOS_MS5611_WriteCommand(MS5611_RESET);
+	dev->oversampling = cfg->oversampling;
+	dev->temperature_interleaving = (cfg->temperature_interleaving) == 0 ? 1 : cfg->temperature_interleaving;
+	dev->cfg = cfg;
+
+	if (PIOS_MS5611_WriteCommand(MS5611_RESET) != 0)
+		return -2;
+
 	PIOS_DELAY_WaitmS(20);			
 
 	uint8_t data[2];
 
 	/* Calibration parameters */
-	for (int i = 0; i < 6; i++) {
+	for (int i = 0; i < NELEMENTS(dev->calibration); i++) {
 		PIOS_MS5611_Read(MS5611_CALIB_ADDR + i * 2, data, 2);
-		CalibData.C[i] = (data[0] << 8) | data[1];
+		dev->calibration[i] = (data[0] << 8) | data[1];
 	}
+
+	portBASE_TYPE result = xTaskCreate(PIOS_MS5611_Task, (const signed char *)"pios_ms5611",
+						 MS5611_TASK_STACK, NULL, MS5611_TASK_PRIORITY,
+						 &dev->task);
+	PIOS_Assert(result == pdPASS);
+
+	PIOS_SENSORS_Register(PIOS_SENSOR_BARO, dev->queue);
+
+	return 0;
 }
 
 /**
 * Start the ADC conversion
-* \param[in] PresOrTemp BMP085_PRES_ADDR or BMP085_TEMP_ADDR
+* \param[in] PRESSURE_CONV or TEMPERATURE_CONV to select which measurement to make
 * \return 0 for success, -1 for failure (conversion completed and not read)
 */
-int32_t PIOS_MS5611_StartADC(ConversionTypeTypeDef Type)
+static int32_t PIOS_MS5611_StartADC(enum conversion_type type)
 {
+	if (PIOS_MS5611_Validate(dev) != 0)
+		return -1;
+
 	/* Start the conversion */
-	if (Type == TemperatureConv) {
-		while (PIOS_MS5611_WriteCommand(MS5611_TEMP_ADDR + oversampling) != 0)
+	switch(type) {
+	case TEMPERATURE_CONV:
+		while (PIOS_MS5611_WriteCommand(MS5611_TEMP_ADDR + dev->oversampling) != 0)
 			continue;
-	} else if (Type == PressureConv) {
-		while (PIOS_MS5611_WriteCommand(MS5611_PRES_ADDR + oversampling) != 0)
+		break;
+	case PRESSURE_CONV:
+		while (PIOS_MS5611_WriteCommand(MS5611_PRES_ADDR + dev->oversampling) != 0)
 			continue;
+		break;
+	default:
+		return -1;
 	}
 
-	CurrentRead = Type;
+	dev->current_conversion_type = type;
 	
 	return 0;
 }
@@ -104,8 +194,11 @@ int32_t PIOS_MS5611_StartADC(ConversionTypeTypeDef Type)
 /**
  * @brief Return the delay for the current osr
  */
-int32_t PIOS_MS5611_GetDelay() {
-	switch(oversampling) {
+static int32_t PIOS_MS5611_GetDelay() {
+	if (PIOS_MS5611_Validate(dev) != 0)
+		return 100;
+
+	switch(dev->oversampling) {
 		case MS5611_OSR_256:
 			return 2;
 		case MS5611_OSR_512:
@@ -121,63 +214,52 @@ int32_t PIOS_MS5611_GetDelay() {
 	}
 	return 10;
 }
+
 /**
 * Read the ADC conversion value (once ADC conversion has completed)
-* \param[in] PresOrTemp BMP085_PRES_ADDR or BMP085_TEMP_ADDR
 * \return 0 if successfully read the ADC, -1 if failed
 */
-int32_t PIOS_MS5611_ReadADC(void)
+static int32_t PIOS_MS5611_ReadADC(void)
 {
-	uint8_t Data[3];
-	Data[0] = 0;
-	Data[1] = 0;
-	Data[2] = 0;
+	if (PIOS_MS5611_Validate(dev) != 0)
+		return -1;
+
+	uint8_t data[3];
+	data[0] = 0;
+	data[1] = 0;
+	data[2] = 0;
 	
-	static int64_t deltaTemp;
+	static int64_t delta_temp;
 
 	/* Read and store the 16bit result */
-	if (CurrentRead == TemperatureConv) {
+	if (dev->current_conversion_type == TEMPERATURE_CONV) {
+		uint32_t raw_temperature;
 		/* Read the temperature conversion */
-		if (PIOS_MS5611_Read(MS5611_ADC_READ, Data, 3) != 0)
+		if (PIOS_MS5611_Read(MS5611_ADC_READ, data, 3) != 0)
 			return -1;
 
-		RawTemperature = (Data[0] << 16) | (Data[1] << 8) | Data[2];
+		raw_temperature = (data[0] << 16) | (data[1] << 8) | data[2];
 		
-		deltaTemp = ((int32_t) RawTemperature) - (CalibData.C[4] << 8);
-		Temperature = 2000l + ((deltaTemp * CalibData.C[5]) >> 23);
+		delta_temp = ((int32_t) raw_temperature) - (dev->calibration[4] << 8);
+		dev->temperature_unscaled = 2000l + ((delta_temp * dev->calibration[5]) >> 23);
 
 	} else {	
-		int64_t Offset;
-		int64_t Sens;
+		int64_t offset;
+		int64_t sens;
+		uint32_t raw_pressure;
 
 		/* Read the pressure conversion */
-		if (PIOS_MS5611_Read(MS5611_ADC_READ, Data, 3) != 0)
+		if (PIOS_MS5611_Read(MS5611_ADC_READ, data, 3) != 0)
 			return -1;
-		RawPressure = ((Data[0] << 16) | (Data[1] << 8) | Data[2]);
+		raw_pressure = ((data[0] << 16) | (data[1] << 8) | data[2]);
 		
-		Offset = (((int64_t) CalibData.C[1]) << 16) + ((((int64_t) CalibData.C[3]) * deltaTemp) >> 7);
-		Sens = ((int64_t) CalibData.C[0]) << 15;
-		Sens = Sens + ((((int64_t) CalibData.C[2]) * deltaTemp) >> 8);
+		offset = (((int64_t) dev->calibration[1]) << 16) + ((((int64_t) dev->calibration[3]) * delta_temp) >> 7);
+		sens = ((int64_t) dev->calibration[0]) << 15;
+		sens = sens + ((((int64_t) dev->calibration[2]) * delta_temp) >> 8);
 		
-		Pressure = (((((int64_t) RawPressure) * Sens) >> 21) - Offset) >> 15; 
+		dev->pressure_unscaled = (((((int64_t) raw_pressure) * sens) >> 21) - offset) >> 15; 
 	}
 	return 0;
-}
-
-/**
- * Return the most recently computed temperature in kPa
- */
-float PIOS_MS5611_GetTemperature(void)
-{
-	return ((float) Temperature) / 100.0f;
-}
-
-/**
- * Return the most recently computed pressure in kPa
- */
-float PIOS_MS5611_GetPressure(void)
-{
-	return ((float) Pressure) / 1000.0f;
 }
 
 /**
@@ -188,8 +270,11 @@ float PIOS_MS5611_GetPressure(void)
 * \return 0 if operation was successful
 * \return -1 if error during I2C transfer
 */
-int32_t PIOS_MS5611_Read(uint8_t address, uint8_t * buffer, uint8_t len)
+static int32_t PIOS_MS5611_Read(uint8_t address, uint8_t * buffer, uint8_t len)
 {
+
+	if (PIOS_MS5611_Validate(dev) != 0)
+		return -1;
 
 	const struct pios_i2c_txn txn_list[] = {
 		{
@@ -209,7 +294,7 @@ int32_t PIOS_MS5611_Read(uint8_t address, uint8_t * buffer, uint8_t len)
 		 }
 	};
 
-	return PIOS_I2C_Transfer(i2c_id, txn_list, NELEMENTS(txn_list));
+	return PIOS_I2C_Transfer(dev->i2c_id, txn_list, NELEMENTS(txn_list));
 }
 
 /**
@@ -219,8 +304,11 @@ int32_t PIOS_MS5611_Read(uint8_t address, uint8_t * buffer, uint8_t len)
 * \return 0 if operation was successful
 * \return -1 if error during I2C transfer
 */
-int32_t PIOS_MS5611_WriteCommand(uint8_t command)
+static int32_t PIOS_MS5611_WriteCommand(uint8_t command)
 {
+	if (PIOS_MS5611_Validate(dev) != 0)
+		return -1;
+
 	const struct pios_i2c_txn txn_list[] = {
 		{
 		 .info = __func__,
@@ -232,7 +320,7 @@ int32_t PIOS_MS5611_WriteCommand(uint8_t command)
 		,
 	};
 
-	return PIOS_I2C_Transfer(i2c_id, txn_list, NELEMENTS(txn_list));
+	return PIOS_I2C_Transfer(dev->i2c_id, txn_list, NELEMENTS(txn_list));
 }
 
 /**
@@ -241,25 +329,70 @@ int32_t PIOS_MS5611_WriteCommand(uint8_t command)
 */
 int32_t PIOS_MS5611_Test()
 {
+	if (PIOS_MS5611_Validate(dev) != 0)
+		return -1;
+
 	// TODO: Is there a better way to test this than just checking that pressure/temperature has changed?
 	int32_t cur_value = 0;
 
-	cur_value = Temperature;
-	PIOS_MS5611_StartADC(TemperatureConv);
+	cur_value = dev->temperature_unscaled;
+	PIOS_MS5611_StartADC(TEMPERATURE_CONV);
 	PIOS_DELAY_WaitmS(5);
 	PIOS_MS5611_ReadADC();
-	if (cur_value == Temperature)
+	if (cur_value == dev->temperature_unscaled)
 		return -1;
 
-	cur_value=Pressure;
-	PIOS_MS5611_StartADC(PressureConv);
+	cur_value = dev->pressure_unscaled;
+	PIOS_MS5611_StartADC(PRESSURE_CONV);
 	PIOS_DELAY_WaitmS(26);
 	PIOS_MS5611_ReadADC();
-	if (cur_value == Pressure)
+	if (cur_value == dev->pressure_unscaled)
 		return -1;
 	
 	return 0;
 }
+
+static void PIOS_MS5611_Task(void *parameters)
+{
+	int32_t temp_press_interleave_count;
+	if (PIOS_MS5611_Validate(dev) != 0)
+		temp_press_interleave_count = 1;
+	else
+		temp_press_interleave_count = dev->temperature_interleaving;
+
+	// If device handle isn't validate pause
+	while (PIOS_MS5611_Validate(dev) != 0) {
+		vTaskDelay(1000);
+	}
+
+	while (1) {
+
+		temp_press_interleave_count --;
+		if(temp_press_interleave_count <= 0)
+		{
+			// Update the temperature data
+			PIOS_MS5611_StartADC(TEMPERATURE_CONV);
+			vTaskDelay(PIOS_MS5611_GetDelay());
+			PIOS_MS5611_ReadADC();
+			
+			temp_press_interleave_count = dev->temperature_interleaving;
+		}
+
+		// Update the pressure data
+		PIOS_MS5611_StartADC(PRESSURE_CONV);
+		vTaskDelay(PIOS_MS5611_GetDelay());
+		PIOS_MS5611_ReadADC();
+
+		// Compute the altitude from the pressure and temperature and send it out
+		struct pios_sensor_baro_data data;		
+		data.temperature = ((float) dev->temperature_unscaled) / 100.0f;
+		data.pressure = ((float) dev->pressure_unscaled) / 1000.0f;
+		data.altitude = 44330.0f * (1.0f - powf(data.pressure / MS5611_P0, (1.0f / 5.255f)));
+
+		xQueueSend(dev->queue, (void*)&data, 0);
+	}
+}
+
 
 #endif
 

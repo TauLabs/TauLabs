@@ -5,6 +5,7 @@
  * @addtogroup OpenPilot Libraries OpenPilot System Libraries
  * @{
  * @file       sanitycheck.c
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2012-2013.
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @brief      Utilities to validate a flight configuration
  * @see        The GNU Public License (GPL) Version 3
@@ -43,14 +44,17 @@
 //! Check a stabilization mode switch position for safety
 static int32_t check_stabilization_settings(int index, bool multirotor);
 
+//!  Set the error code and alarm state
+static void set_config_error(SystemAlarmsConfigErrorOptions error_code);
+
 /**
  * Run a preflight check over the hardware configuration
  * and currently active modules
  */
 int32_t configuration_check()
 {
-	int32_t status = SYSTEMALARMS_ALARM_OK;
-
+	SystemAlarmsConfigErrorOptions error_code = SYSTEMALARMS_CONFIGERROR_NONE;
+	
 	// Get board type
 	const struct pios_board_info * bdinfo = &pios_board_info_blob;	
 	bool coptercontrol = bdinfo->board_type == 0x04;
@@ -89,80 +93,91 @@ int32_t configuration_check()
 	uint8_t modes[MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_NUMELEM];
 	ManualControlSettingsFlightModeNumberGet(&num_modes);
 	ManualControlSettingsFlightModePositionGet(modes);
+	
 
 	for(uint32_t i = 0; i < num_modes; i++) {
 		switch(modes[i]) {
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_MANUAL:
-				if (multirotor)
-					status = SYSTEMALARMS_ALARM_ERROR;
+				if (multirotor) {
+					error_code = SYSTEMALARMS_CONFIGERROR_STABILIZATION;
+				}
 				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_STABILIZED1:
-				status = (status == SYSTEMALARMS_ALARM_OK) ? check_stabilization_settings(1, multirotor) : status;
+				error_code = (error_code == SYSTEMALARMS_CONFIGERROR_NONE) ? check_stabilization_settings(1, multirotor) : error_code;
 				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_STABILIZED2:
-				status = (status == SYSTEMALARMS_ALARM_OK) ? check_stabilization_settings(2, multirotor) : status;
+				error_code = (error_code == SYSTEMALARMS_CONFIGERROR_NONE) ? check_stabilization_settings(2, multirotor) : error_code;
 				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_STABILIZED3:
-				status = (status == SYSTEMALARMS_ALARM_OK) ? check_stabilization_settings(3, multirotor) : status;
+				error_code = (error_code == SYSTEMALARMS_CONFIGERROR_NONE) ? check_stabilization_settings(3, multirotor) : error_code;
 				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_AUTOTUNE:
 				if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_AUTOTUNE))
-					status = SYSTEMALARMS_ALARM_ERROR;
+					error_code = SYSTEMALARMS_CONFIGERROR_AUTOTUNE;
 				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_ALTITUDEHOLD:
 				if (coptercontrol)
-					status = SYSTEMALARMS_ALARM_ERROR;
+					error_code = SYSTEMALARMS_CONFIGERROR_ALTITUDEHOLD;
 				else {
-					// Revo supports altitude hold
-				if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_ALTITUDEHOLD))
-						status = SYSTEMALARMS_ALARM_ERROR;
+					if ( !TaskMonitorQueryRunning(TASKINFO_RUNNING_ALTITUDEHOLD) )
+						error_code = SYSTEMALARMS_CONFIGERROR_ALTITUDEHOLD;
 				}
 				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_VELOCITYCONTROL:
-				if (coptercontrol)
-					status = SYSTEMALARMS_ALARM_ERROR;
+				if (coptercontrol) {
+					error_code = SYSTEMALARMS_CONFIGERROR_VELOCITYCONTROL;
+				}
 				else {
-					// Revo supports altitude hold
-					if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER))
-						status = SYSTEMALARMS_ALARM_ERROR;
+					if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER)) {
+						error_code = SYSTEMALARMS_CONFIGERROR_VELOCITYCONTROL;
+					}
 				}
 				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_POSITIONHOLD:
-				if (coptercontrol)
-					status = SYSTEMALARMS_ALARM_ERROR;
+				if (coptercontrol) {
+					error_code = SYSTEMALARMS_CONFIGERROR_POSITIONHOLD;
+				}
 				else {
-					// Revo supports altitude hold
-					if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER))
-						status = SYSTEMALARMS_ALARM_ERROR;
+					if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER)) {
+						error_code = SYSTEMALARMS_CONFIGERROR_POSITIONHOLD;
+					}
+				}
+				break;
+			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_PATHPLANNER:
+				if (coptercontrol) {
+					error_code = SYSTEMALARMS_CONFIGERROR_PATHPLANNER;
+				}
+				else {
+					if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER) ||
+						!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHPLANNER)) {
+						error_code = SYSTEMALARMS_CONFIGERROR_PATHPLANNER;
+					}
 				}
 				break;
 			default:
 				// Uncovered modes are automatically an error
-				status = SYSTEMALARMS_ALARM_ERROR;
+				error_code = SYSTEMALARMS_CONFIGERROR_UNDEFINED;
 		}
 	}
 
-	// TODO: Check on a multirotor no axis supports "None"
-	if(status != SYSTEMALARMS_ALARM_OK)
-		AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, status);
-	else
-		AlarmsClear(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION);
+	set_config_error(error_code);
 
 	return 0;
 }
+
 
 /**
  * Checks the stabiliation settings for a paritcular mode and makes
  * sure it is appropriate for the airframe
  * @param[in] index Which stabilization mode to check
- * @returns SYSTEMALARMS_ALARM_OK or SYSTEMALARMS_ALARM_ERROR
+ * @returns SYSTEMALARMS_CONFIGERROR_NONE or SYSTEMALARMS_CONFIGERROR_MULTIROTOR
  */
 static int32_t check_stabilization_settings(int index, bool multirotor)
 {
 	// Make sure the modes have identical sizes
 	if (MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_NUMELEM != MANUALCONTROLSETTINGS_STABILIZATION2SETTINGS_NUMELEM ||
 		MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_NUMELEM != MANUALCONTROLSETTINGS_STABILIZATION3SETTINGS_NUMELEM)
-		return SYSTEMALARMS_ALARM_ERROR;
+		return SYSTEMALARMS_CONFIGERROR_MULTIROTOR;
 
 	uint8_t modes[MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_NUMELEM];
 
@@ -178,14 +193,14 @@ static int32_t check_stabilization_settings(int index, bool multirotor)
 			ManualControlSettingsStabilization3SettingsGet(modes);
 			break;
 		default:
-			return SYSTEMALARMS_ALARM_ERROR;
+			return SYSTEMALARMS_CONFIGERROR_NONE;
 	}
 
 	// For multirotors verify that nothing is set to "none"
 	if (multirotor) {
 		for(uint32_t i = 0; i < NELEMENTS(modes); i++) {
 			if (modes[i] == MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_NONE)
-				return SYSTEMALARMS_ALARM_ERROR;
+				return SYSTEMALARMS_CONFIGERROR_MULTIROTOR;
 
 			// If this axis allows enabling an autotune behavior without the module
 			// running then set an alarm now that aututune module initializes the
@@ -193,7 +208,7 @@ static int32_t check_stabilization_settings(int index, bool multirotor)
 			if ((modes[i] == MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_RELAYRATE || 
 				modes[i] == MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_RELAYATTITUDE) &&
 				(!TaskMonitorQueryRunning(TASKINFO_RUNNING_AUTOTUNE)))
-				return SYSTEMALARMS_ALARM_ERROR;
+				return SYSTEMALARMS_CONFIGERROR_MULTIROTOR;
 		}
 	}
 
@@ -201,5 +216,43 @@ static int32_t check_stabilization_settings(int index, bool multirotor)
 	// MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_NONE has the same numeric value for each channel
 	// and is the same for STABILIZATIONDESIRED_STABILIZATIONMODE_NONE
 
-	return SYSTEMALARMS_ALARM_OK;
+	return SYSTEMALARMS_CONFIGERROR_NONE;
+}
+
+/**
+ * Set the error code and alarm state
+ * @param[in] error code
+ */
+static void set_config_error(SystemAlarmsConfigErrorOptions error_code)
+{
+	// Get the severity of the alarm given the error code
+	SystemAlarmsAlarmOptions severity;
+	switch (error_code) {
+	case SYSTEMALARMS_CONFIGERROR_NONE:
+		severity = SYSTEMALARMS_ALARM_OK;
+		break;
+	case SYSTEMALARMS_CONFIGERROR_STABILIZATION:
+	case SYSTEMALARMS_CONFIGERROR_MULTIROTOR:
+	case SYSTEMALARMS_CONFIGERROR_AUTOTUNE:
+	case SYSTEMALARMS_CONFIGERROR_ALTITUDEHOLD:
+	case SYSTEMALARMS_CONFIGERROR_VELOCITYCONTROL:
+	case SYSTEMALARMS_CONFIGERROR_POSITIONHOLD:
+	case SYSTEMALARMS_CONFIGERROR_PATHPLANNER:
+		severity = SYSTEMALARMS_ALARM_ERROR;
+		break;
+	default:
+		severity = SYSTEMALARMS_ALARM_ERROR;
+		error_code = SYSTEMALARMS_CONFIGERROR_UNDEFINED;
+		break;
+	}
+
+	// Make sure not to set the error code if it didn't change
+	SystemAlarmsConfigErrorOptions current_error_code;
+	SystemAlarmsConfigErrorGet((uint8_t *) &current_error_code);
+	if (current_error_code != error_code) {
+		SystemAlarmsConfigErrorSet((uint8_t *) &error_code);
+	}
+
+	// AlarmSet checks only updates on toggle
+	AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, (uint8_t) severity);
 }

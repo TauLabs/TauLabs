@@ -37,10 +37,10 @@
  */
 
 #include "openpilot.h"
-#include "hwsettings.h"
 #include "magbaro.h"
 #include "baroaltitude.h"	// object that will be updated by the module
 #include "magnetometer.h"
+#include "modulesettings.h"
 
 // Private constants
 #define STACK_SIZE_BYTES 620
@@ -58,21 +58,20 @@ static int32_t alt_ds_temp = 0;
 static int32_t alt_ds_pres = 0;
 static int alt_ds_count = 0;
 int32_t mag_test;
-static bool magbaroEnabled;
-static float mag_bias[3] = {0,0,0};
-static float mag_scale[3] = {1,1,1};
+static bool module_enabled;
 
-        // Private functions
+// Private functions
 static void magbaroTask(void *parameters);
+static void update_mags(struct pios_sensor_mag_data *mag);
 
 /**
  * Initialise the module, called on startup
  * \returns 0 on success or -1 if initialisation failed
  */
-int32_t MagBaroStart()
+static int32_t MagBaroStart()
 {
 
-	if (magbaroEnabled) {
+	if (module_enabled) {
 		// Start main task
 		xTaskCreate(magbaroTask, (signed char *)"MagBaro", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
 		//TaskMonitorAdd(TASKINFO_RUNNING_MAGBARO, taskHandle);
@@ -85,22 +84,21 @@ int32_t MagBaroStart()
  * Initialise the module, called on startup
  * \returns 0 on success or -1 if initialisation failed
  */
-int32_t MagBaroInitialize()
+static int32_t MagBaroInitialize()
 {
 #ifdef MODULE_MagBaro_BUILTIN
-	magbaroEnabled = 1;
+	module_enabled = true;
 #else
-	HwSettingsInitialize();
-	uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
-	HwSettingsOptionalModulesGet(optionalModules);
-	if (optionalModules[HWSETTINGS_OPTIONALMODULES_MAGBARO] == HWSETTINGS_OPTIONALMODULES_ENABLED) {
-		magbaroEnabled = 1;
+	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+	ModuleSettingsStateGet(module_state);
+	if (module_state[MODULESETTINGS_STATE_MAGBARO] == MODULESETTINGS_STATE_ENABLED) {
+		module_enabled = true;
 	} else {
-		magbaroEnabled = 0;
+		module_enabled = false;
 	}
 #endif
 
-	if(magbaroEnabled)
+	if (module_enabled)
 	{
 		MagnetometerInitialize();
 		BaroAltitudeInitialize();
@@ -137,17 +135,12 @@ static void magbaroTask(void *parameters)
 	PIOS_BMP085_Init();
 #endif
 #if defined(PIOS_INCLUDE_HMC5883)
-	PIOS_HMC5883_Init(&pios_hmc5883_cfg);
+	PIOS_HMC5883_Init(PIOS_I2C_MAIN_ADAPTER, &pios_hmc5883_cfg);
 #endif
 
-#if defined(PIOS_INCLUDE_HMC5883)
-	//mag_test = PIOS_HMC5883_Test();
-#else
 	mag_test = 0;
-#endif
 	// Main task loop
 	lastSysTime = xTaskGetTickCount();
-	uint32_t mag_update_time = PIOS_DELAY_GetRaw();
 	while (1)
 	{
 #if defined(PIOS_INCLUDE_BMP085)
@@ -192,19 +185,10 @@ static void magbaroTask(void *parameters)
 #endif
 
 #if defined(PIOS_INCLUDE_HMC5883)
-		MagnetometerData mag;
-		if (PIOS_HMC5883_NewDataAvailable() || PIOS_DELAY_DiffuS(mag_update_time) > 100000) {
-			int16_t values[3];
-			struct pios_hmc5883_data hmc5883_data;
-			PIOS_HMC5883_ReadMag(&hmc5883_data);
-			float mags[3] = {(float) hmc5883_data.mag_y * mag_scale[0] - mag_bias[0],
-			                (float) hmc5883_data.mag_x * mag_scale[1] - mag_bias[1],
-			                -(float) hmc5883_data.mag_z * mag_scale[2] - mag_bias[2]};
-			mag.x = mags[0];
-			mag.y = mags[1];
-			mag.z = mags[2];
-			MagnetometerSet(&mag);
-			mag_update_time = PIOS_DELAY_GetRaw();
+		struct pios_sensor_mag_data mags;
+		xQueueHandle queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_MAG);
+		if (queue != NULL && xQueueReceive(queue, (void *) &mags, 0) != errQUEUE_EMPTY) {
+			update_mags(&mags);
 		}
 #endif
 
@@ -212,6 +196,22 @@ static void magbaroTask(void *parameters)
 		vTaskDelayUntil(&lastSysTime, UPDATE_PERIOD / portTICK_RATE_MS);
 	}
 }
+
+/**
+ * @brief Apply calibration and rotation to the raw mag data
+ * @param[in] mag The raw mag data
+ */
+static void update_mags(struct pios_sensor_mag_data *mag)
+{
+	float mags[3] = {mag->x, mag->y, mag->z};
+
+	MagnetometerData magData;
+	magData.x = mags[0];
+	magData.y = mags[1];
+	magData.z = mags[2];
+	MagnetometerSet(&magData);
+}
+
 
 /**
  * @}

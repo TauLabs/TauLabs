@@ -295,7 +295,7 @@ void UAVSettingsImportExportFactory::importWaypoints()
                 qDebug() << "Object unknown:" << uavObjectName << uavObjectID;
             } else {
 
-                int numInstances = objManager->getNumInstances(obj->getObjID());
+                unsigned int numInstances = objManager->getNumInstances(obj->getObjID());
                 if (instId >= numInstances) {
                     obj = obj->clone(instId);
                     objManager->registerObject(obj);

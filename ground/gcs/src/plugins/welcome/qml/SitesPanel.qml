@@ -10,7 +10,7 @@ Item {
 
     Text {
         id: header
-        text: "Above Ground Labs Links"
+        text: "Tau Labs Links"
         width: parent.width
         color: "#44515c"
         font {
@@ -21,11 +21,11 @@ Item {
 
     ListModel {
         id: sitesModel
-        ListElement { title: "Above Ground Labs Home"; link: "http://abovegroundlabs.org" }
-        ListElement { title: "Above Ground Labs Wiki"; link: "https://github.com/PhoenixPilot/PhoenixPilot/wiki" }
-        ListElement { title: "Above Ground Labs Forums"; link: "https://groups.google.com/forum/#!forum/phoenixpilot" }
-        ListElement { title: "Above Ground Labs Code"; link: "https://github.com/PhoenixPilot/PhoenixPilot" }
-        ListElement { title: "Above Ground Labs Issues"; link: "https://github.com/PhoenixPilot/PhoenixPilot/issues" }
+        ListElement { title: "Tau Labs Home"; link: "http://taulabs.org" }
+        ListElement { title: "Tau Labs Wiki"; link: "https://github.com/TauLabs/TauLabs/wiki" }
+        ListElement { title: "Tau Labs Forums"; link: "https://groups.google.com/forum/#!forum/phoenixpilot" }
+        ListElement { title: "Tau Labs Code"; link: "https://github.com/TauLabs/TauLabs" }
+        ListElement { title: "Tau Labs Issues"; link: "https://github.com/TauLabs/TauLabs/issues" }
     }
 
     ListView {

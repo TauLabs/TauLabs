@@ -14,7 +14,7 @@ TARGET = Qwt
 DEFINES += QWT_LIBRARY
 QT += printsupport
 
-include(../../../abovegroundlabslibrary.pri)
+include(../../../taulabslibrary.pri)
 include( ../qwtconfig.pri )
 
 #VVERSION = $$[QT_VERSION]

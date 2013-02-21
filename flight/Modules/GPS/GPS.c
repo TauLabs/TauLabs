@@ -39,10 +39,9 @@
 #include "gpstime.h"
 #include "gpssatellites.h"
 #include "gpsvelocity.h"
-#include "systemsettings.h"
 #include "WorldMagModel.h"
 #include "CoordinateConversions.h"
-#include "hwsettings.h"
+#include "modulesettings.h"
 
 #include "NMEA.h"
 #include "UBX.h"
@@ -86,7 +85,7 @@ static float GravityAccel(float latitude, float longitude, float altitude);
 // Private variables
 
 static uint32_t gpsPort;
-static bool gpsEnabled = false;
+static bool module_enabled = false;
 
 static xTaskHandle gpsTaskHandle;
 
@@ -106,7 +105,7 @@ static struct GPS_RX_STATS gpsRxStats;
 
 int32_t GPSStart(void)
 {
-	if (gpsEnabled) {
+	if (module_enabled) {
 		if (gpsPort) {
 			// Start gps task
 			xTaskCreate(gpsTask, (signed char *)"GPS", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &gpsTaskHandle);
@@ -130,17 +129,15 @@ int32_t GPSInitialize(void)
 	uint8_t	gpsProtocol;
 
 #ifdef MODULE_GPS_BUILTIN
-	gpsEnabled = true;
+	module_enabled = true;
 #else
-	HwSettingsInitialize();
-	uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
-
-	HwSettingsOptionalModulesGet(optionalModules);
-
-	if (optionalModules[HWSETTINGS_OPTIONALMODULES_GPS] == HWSETTINGS_OPTIONALMODULES_ENABLED)
-		gpsEnabled = true;
-	else
-		gpsEnabled = false;
+	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+	ModuleSettingsStateGet(module_state);
+	if (module_state[MODULESETTINGS_STATE_GPS] == MODULESETTINGS_STATE_ENABLED) {
+		module_enabled = true;
+	} else {
+		module_enabled = false;
+	}
 #endif
 
 #if defined(REVOLUTION)
@@ -155,7 +152,7 @@ int32_t GPSInitialize(void)
 	updateSettings();
 
 #else
-	if (gpsPort && gpsEnabled) {
+	if (gpsPort && module_enabled) {
 		GPSPositionInitialize();
 		GPSVelocityInitialize();
 #if !defined(PIOS_GPS_MINIMAL)
@@ -172,14 +169,13 @@ int32_t GPSInitialize(void)
 	}
 #endif
 
-	if (gpsPort && gpsEnabled) {
-		SystemSettingsInitialize();
-		SystemSettingsGPSDataProtocolGet(&gpsProtocol);
+	if (gpsPort && module_enabled) {
+		ModuleSettingsGPSDataProtocolGet(&gpsProtocol);
 		switch (gpsProtocol) {
-			case SYSTEMSETTINGS_GPSDATAPROTOCOL_NMEA:
+			case MODULESETTINGS_GPSDATAPROTOCOL_NMEA:
 				gps_rx_buffer = pvPortMalloc(NMEA_MAX_PACKET_LENGTH);
 				break;
-			case SYSTEMSETTINGS_GPSDATAPROTOCOL_UBX:
+			case MODULESETTINGS_GPSDATAPROTOCOL_UBX:
 				gps_rx_buffer = pvPortMalloc(sizeof(struct UBXPacket));
 				break;
 			default:
@@ -208,7 +204,7 @@ static void gpsTask(void *parameters)
 	GPSPositionData gpsposition;
 	uint8_t	gpsProtocol;
 
-	SystemSettingsGPSDataProtocolGet(&gpsProtocol);
+	ModuleSettingsGPSDataProtocolGet(&gpsProtocol);
 
 #if defined(PIOS_GPS_PROVIDES_AIRSPEED)
 	gps_airspeed_initialize();
@@ -229,12 +225,12 @@ static void gpsTask(void *parameters)
 			int res;
 			switch (gpsProtocol) {
 #if defined(PIOS_INCLUDE_GPS_NMEA_PARSER)
-				case SYSTEMSETTINGS_GPSDATAPROTOCOL_NMEA:
+				case MODULESETTINGS_GPSDATAPROTOCOL_NMEA:
 					res = parse_nmea_stream (c,gps_rx_buffer, &gpsposition, &gpsRxStats);
 					break;
 #endif
 #if defined(PIOS_INCLUDE_GPS_UBX_PARSER)
-				case SYSTEMSETTINGS_GPSDATAPROTOCOL_UBX:
+				case MODULESETTINGS_GPSDATAPROTOCOL_UBX:
 					res = parse_ubx_stream (c,gps_rx_buffer, &gpsposition, &gpsRxStats);
 					break;
 #endif
@@ -335,7 +331,7 @@ static void setHomeLocation(GPSPositionData * gpsData)
  * Update the GPS settings, called on startup.
  * FIXME: This should be in the GPSSettings object. But objects have
  * too much overhead yet. Also the GPS has no any specific settings
- * like protocol, etc. Thus the HwSettings object which contains the
+ * like protocol, etc. Thus the ModuleSettings object which contains the
  * GPS port speed is used for now.
  */
 static void updateSettings()
@@ -344,29 +340,29 @@ static void updateSettings()
 
 		// Retrieve settings
 		uint8_t speed;
-		HwSettingsGPSSpeedGet(&speed);
+		ModuleSettingsGPSSpeedGet(&speed);
 
 		// Set port speed
 		switch (speed) {
-		case HWSETTINGS_GPSSPEED_2400:
+		case MODULESETTINGS_GPSSPEED_2400:
 			PIOS_COM_ChangeBaud(gpsPort, 2400);
 			break;
-		case HWSETTINGS_GPSSPEED_4800:
+		case MODULESETTINGS_GPSSPEED_4800:
 			PIOS_COM_ChangeBaud(gpsPort, 4800);
 			break;
-		case HWSETTINGS_GPSSPEED_9600:
+		case MODULESETTINGS_GPSSPEED_9600:
 			PIOS_COM_ChangeBaud(gpsPort, 9600);
 			break;
-		case HWSETTINGS_GPSSPEED_19200:
+		case MODULESETTINGS_GPSSPEED_19200:
 			PIOS_COM_ChangeBaud(gpsPort, 19200);
 			break;
-		case HWSETTINGS_GPSSPEED_38400:
+		case MODULESETTINGS_GPSSPEED_38400:
 			PIOS_COM_ChangeBaud(gpsPort, 38400);
 			break;
-		case HWSETTINGS_GPSSPEED_57600:
+		case MODULESETTINGS_GPSSPEED_57600:
 			PIOS_COM_ChangeBaud(gpsPort, 57600);
 			break;
-		case HWSETTINGS_GPSSPEED_115200:
+		case MODULESETTINGS_GPSSPEED_115200:
 			PIOS_COM_ChangeBaud(gpsPort, 115200);
 			break;
 		}

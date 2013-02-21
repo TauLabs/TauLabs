@@ -2,27 +2,29 @@
     <object name="SystemAlarms" singleinstance="true" settings="false">
         <description>Alarms from OpenPilot to indicate failure conditions or warnings.  Set by various modules.</description>
         <field name="Alarm" units="" type="enum" options="Uninitialised,OK,Warning,Error,Critical" defaultvalue="Uninitialised">
-		<elementnames>
-			<elementname>OutOfMemory</elementname>
-			<elementname>CPUOverload</elementname>
-			<elementname>StackOverflow</elementname>
-			<elementname>SystemConfiguration</elementname>
-			<elementname>EventSystem</elementname>
-			<elementname>Telemetry</elementname>
-			<elementname>ManualControl</elementname>
-			<elementname>Actuator</elementname>
-			<elementname>Attitude</elementname>
-			<elementname>Sensors</elementname>
-			<elementname>Stabilization</elementname>
-			<elementname>Guidance</elementname>
-			<elementname>PathPlanner</elementname>
-			<elementname>Battery</elementname>
-			<elementname>FlightTime</elementname>
-			<elementname>I2C</elementname>
-			<elementname>GPS</elementname>
-			<elementname>BootFault</elementname>
-		</elementnames>
-	</field>
+            <elementnames>
+                <elementname>OutOfMemory</elementname>
+                <elementname>CPUOverload</elementname>
+                <elementname>StackOverflow</elementname>
+                <elementname>SystemConfiguration</elementname>
+                <elementname>EventSystem</elementname>
+                <elementname>Telemetry</elementname>
+                <elementname>ManualControl</elementname>
+                <elementname>Actuator</elementname>
+                <elementname>Attitude</elementname>
+                <elementname>Sensors</elementname>
+                <elementname>Stabilization</elementname>
+                <elementname>Guidance</elementname>
+                <elementname>PathPlanner</elementname>
+                <elementname>Battery</elementname>
+                <elementname>FlightTime</elementname>
+                <elementname>I2C</elementname>
+                <elementname>GPS</elementname>
+              <elementname>BootFault</elementname>
+            </elementnames>
+        </field>
+        <field name="ConfigError" units="" type="enum" elements="1" options="Stabilization,Multirotor,AutoTune,AltitudeHold,VelocityControl,PositionHold,PathPlanner,Undefined,None" defaultvalue="None" />
+        <field name="ManualControl" units="" type="enum" elements="1" options="Settings,NoRx,Accessory,AltitudeHold,Undefined,None" defaultvalue="None" />
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="true" updatemode="onchange" period="0"/>
         <telemetryflight acked="true" updatemode="onchange" period="0"/>

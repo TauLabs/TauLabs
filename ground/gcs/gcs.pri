@@ -76,7 +76,7 @@ GCS_APP_PATH = $$GCS_BUILD_TREE/bin
 macx {
     QMAKE_CFLAGS_X86_64 += -mmacosx-version-min=10.7
     QMAKE_CXXFLAGS_X86_64 = $$QMAKE_CFLAGS_X86_64
-    GCS_APP_TARGET   = "Above Ground Labs"
+    GCS_APP_TARGET   = "Tau Labs GCS"
     GCS_LIBRARY_PATH = $$GCS_APP_PATH/$${GCS_APP_TARGET}.app/Contents/Plugins
     GCS_PLUGIN_PATH  = $$GCS_LIBRARY_PATH
     GCS_LIBEXEC_PATH = $$GCS_APP_PATH/$${GCS_APP_TARGET}.app/Contents/Resources
@@ -87,16 +87,16 @@ macx {
 } else {
     win32 {
         contains(TEMPLATE, vc.*)|contains(TEMPLATE_PREFIX, vc):vcproj = 1
-        GCS_APP_TARGET   = abovegroundlabs
+        GCS_APP_TARGET   = taulabsgcs
     } else {
-        GCS_APP_WRAPPER  = abovegroundlabs
-        GCS_APP_TARGET   = abovegroundlabs.bin
+        GCS_APP_WRAPPER  = taulabsgcs
+        GCS_APP_TARGET   = taulabsgcs.bin
     }
-    GCS_LIBRARY_PATH = $$GCS_BUILD_TREE/$$GCS_LIBRARY_BASENAME/abovegroundlabs
+    GCS_LIBRARY_PATH = $$GCS_BUILD_TREE/$$GCS_LIBRARY_BASENAME/taulabs
     GCS_PLUGIN_PATH  = $$GCS_LIBRARY_PATH/plugins
     GCS_LIBEXEC_PATH = $$GCS_APP_PATH # FIXME
-    GCS_DATA_PATH    = $$GCS_BUILD_TREE/share/abovegroundlabs
-    GCS_DATA_BASENAME = share/abovegroundlabs
+    GCS_DATA_PATH    = $$GCS_BUILD_TREE/share/taulabs
+    GCS_DATA_BASENAME = share/taulabs
     GCS_DOC_PATH     = $$GCS_BUILD_TREE/share/doc
     !isEqual(GCS_SOURCE_TREE, $$GCS_BUILD_TREE):copydata = 1
 }

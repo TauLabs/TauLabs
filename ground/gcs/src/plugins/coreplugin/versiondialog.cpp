@@ -52,9 +52,9 @@ VersionDialog::VersionDialog(QWidget *parent)
 {
     // We need to set the window icon explicitly here since for some reason the
     // application icon isn't used when the size of the dialog is fixed (at least not on X11/GNOME)
-    setWindowIcon(QIcon(":/core/images/openpilot_logo_32.png"));
+    setWindowIcon(QIcon(":/core/images/taulabs_logo_32.png"));
 
-    setWindowTitle(tr("About Above Ground Labs GCS"));
+    setWindowTitle(tr("About Tau Labs GCS"));
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     QGridLayout *layout = new QGridLayout(this);
     layout->setSizeConstraint(QLayout::SetFixedSize);
@@ -89,7 +89,7 @@ VersionDialog::VersionDialog(QWidget *parent)
  #endif
 
      const QString description = tr(
-        "<h3>Above Ground Labs GCS %1 %9 (%10)</h3>"
+        "<h3>Tau Labs GCS %1 %9 (%10)</h3>"
         "Based on Qt %2 (%3 bit)<br/>"
         "<br/>"
         "Built on %4 at %5<br />"
@@ -98,8 +98,12 @@ VersionDialog::VersionDialog(QWidget *parent)
         "<br/>"
         "%11"
         "<br/>"
-        "Copyright 2010-%6 %7. All rights reserved.<br/>"
+        "Copyright 2012-%6 %7, 2010-2012 OpenPilot. All rights reserved.<br/>"
         "<br/>"
+         "Between 2010 and 2012, a significant part of this application was designed<br/>"
+         "and implemented within the OpenPilot project. This work was further based<br/>"
+         "on work from the Nokia Corporation for Qt Creator.<br/>"
+         "<br/>"
          "<small>This program is free software; you can redistribute it and/or modify<br/>"
          "it under the terms of the GNU General Public License as published by<br/>"
          "the Free Software Foundation; either version 3 of the License, or<br/>"
@@ -123,7 +127,7 @@ VersionDialog::VersionDialog(QWidget *parent)
     connect(buttonBox , SIGNAL(rejected()), this, SLOT(reject()));
 
     QLabel *logoLabel = new QLabel;
-    logoLabel->setPixmap(QPixmap(QLatin1String(":/core/images/openpilot_logo_128.png")));
+    logoLabel->setPixmap(QPixmap(QLatin1String(":/core/images/taulabs_logo_128.png")));
     layout->addWidget(logoLabel , 0, 0, 1, 1);
     layout->addWidget(copyRightLabel, 0, 1, 4, 4);
     layout->addWidget(buttonBox, 4, 0, 1, 5);

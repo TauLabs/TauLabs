@@ -65,7 +65,7 @@ class ThreadManager;
 class ViewManagerInterface;
 class UAVGadgetManager;
 class UAVGadgetInstanceManager;
-
+class GlobalMessaging;
 
 namespace Internal {
 
@@ -104,6 +104,7 @@ public:
     Core::ActionManager *actionManager() const;
     Core::UniqueIDManager *uniqueIDManager() const;
     Core::MessageManager *messageManager() const;
+    Core::GlobalMessaging *globalMessaging() const;
     QList<UAVGadgetManager*> uavGadgetManagers() const;
     UAVGadgetInstanceManager *uavGadgetInstanceManager() const;
     Core::ConnectionManager *connectionManager() const;
@@ -156,9 +157,9 @@ private slots:
     void openRecentFile();
     void setFocusToEditor();
     void saveAll();
-    void aboutOpenPilotGCS();
+    void aboutTauLabsGCS();
     void aboutPlugins();
-    void aboutOpenPilotAuthors();
+    void aboutTauLabsAuthors();
     void updateFocusWidget(QWidget *old, QWidget *now);
     void destroyVersionDialog();
     void destroyAuthorsDialog();
@@ -184,6 +185,7 @@ private:
     bool m_dontSaveSettings; // In case of an Error or if we reset the settings, never save them.
     ActionManagerPrivate *m_actionManager;
     MessageManager *m_messageManager;
+    GlobalMessaging * m_globalMessaging;
     VariableManager *m_variableManager;
     ThreadManager *m_threadManager;
     ModeManager *m_modeManager;
@@ -213,7 +215,6 @@ private:
     QAction *m_saveAllAction;
     QAction *m_exitAction;
     QAction *m_optionsAction;
-    QAction *m_toggleFullScreenAction;
     // UavGadgetManager actions
     QAction *m_showToolbarsAction;
     QAction *m_splitAction;
@@ -229,6 +230,7 @@ private:
     QAction *m_minimizeAction;
     QAction *m_zoomAction;
 #endif
+    QAction *m_toggleFullScreenAction;
 
 };
 

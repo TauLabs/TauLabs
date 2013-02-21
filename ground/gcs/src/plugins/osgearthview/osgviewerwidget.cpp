@@ -34,6 +34,7 @@
 #include <QApplication>
 #include <QLabel>
 #include <QDebug>
+#include <QDir>
 
 #include <QtCore/QTimer>
 #include <QApplication>
@@ -103,13 +104,26 @@ using namespace osgEarth::Annotation;
 
 using namespace Utils;
 
+#define MULTIROTOR_MODEL ":/osgearthview/models/joecnc.3ds"
+#define MULTIROTOR_TEXTURE ":/osgearthview/models/joecnc_texture.png"
+#define AIRPLANE_MODEL ":/osgearthview/models/easystar.3ds"
+#define AIRPLANE_TEXTURE ":/osgearthview/models/easystar_texture.jpg"
+#define OSGEARTH_FILE ":/osgearthview/models/world.earth"
+
 OsgViewerWidget::OsgViewerWidget(QWidget *parent) : QWidget(parent)
 {
     setThreadingModel(osgViewer::ViewerBase::CullThreadPerCameraDrawThreadPerContext);
     setAttribute(Qt::WA_PaintOnScreen, true);
 
     osg::Group* root = new osg::Group;
-    osg::Node* earth = osgDB::readNodeFile("/Users/Cotton/Programming/osg/osgearth/tests/boston.earth");
+
+    // Copy earth out of the resource file into a temporary file
+    QString earthFile = QDir::temp().filePath("world.earth");
+    QFile::copy(OSGEARTH_FILE, earthFile);
+    qDebug() << "Copying earth to " << earthFile;
+    osg::Node* earth = osgDB::readNodeFile(earthFile.toUtf8().constData());
+    QFile::remove(earthFile);
+
     mapNode = osgEarth::MapNode::findMapNode( earth );
     if (!mapNode)
     {
@@ -123,6 +137,13 @@ OsgViewerWidget::OsgViewerWidget(QWidget *parent) : QWidget(parent)
     uavPos->getLocator()->setPosition( osg::Vec3d(-71.100549, 42.349273, 150) );
     uavPos->addChild(airplane);
 
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    Q_ASSERT(pm);
+    UAVObjectManager * objMngr = pm->getObject<UAVObjectManager>();
+    Q_ASSERT(objMngr);
+    SystemSettings *systemSettingsObj = SystemSettings::GetInstance(objMngr);
+    connect(systemSettingsObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateAirframe(UAVObject*)));
+
     root->addChild(uavPos);
 
     osgUtil::Optimizer optimizer;
@@ -135,9 +156,10 @@ OsgViewerWidget::OsgViewerWidget(QWidget *parent) : QWidget(parent)
     viewWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     layout()->addWidget(viewWidget);
 
-
     connect( &_timer, SIGNAL(timeout()), this, SLOT(update()) );
     _timer.start( 10 );
+
+
 }
 
 OsgViewerWidget::~OsgViewerWidget()
@@ -158,21 +180,8 @@ QWidget* OsgViewerWidget::createViewWidget( osg::Camera* camera, osg::Node* scen
     manip = new EarthManipulator();
     view->setCameraManipulator( manip );
 
-//    osgGA::NodeTrackerManipulator *camTracker = new osgGA::NodeTrackerManipulator();
-//    camTracker->setTrackNode(uavPos);
-//    camTracker->setMinimumDistance(0.0001f);
-//    camTracker->setDistance(0.001f);
-//    camTracker->setTrackerMode(osgGA::NodeTrackerManipulator::NODE_CENTER);
-//    view->setCameraManipulator(camTracker);
-
-    Grid* grid = new Grid();
-    grid->setControl(0,0,new LabelControl("OpenPilot"));
-    ControlCanvas::get(view, true)->addControl(grid);
-
     // zoom to a good startup position
     manip->setViewpoint( Viewpoint(-71.100549, 42.349273, 0, 24.261, -21.6, 350.0), 5.0 );
-    //manip->setViewpoint( Viewpoint(-71.100549, 42.349273, 0, 24.261, -81.6, 650.0), 5.0 );
-    //manip->setHomeViewpoint(Viewpoint("Boston", osg::Vec3d(-71.0763, 42.34425, 0), 24.261, -21.6, 3450.0));
 
     manip->setTetherNode(uavPos);
 
@@ -206,10 +215,63 @@ osg::Camera* OsgViewerWidget::createCamera( int x, int y, int w, int h, const st
     return camera.release();
 }
 
+/**
+ * @brief OsgViewerWidget::updateAirframe Called when the SystemSettings object is updated
+ * to show an appropriate model
+ * @param obj Should be the SystemSettings UAVO
+ */
+void OsgViewerWidget::updateAirframe(UAVObject *obj)
+{
+    if (obj->getObjID() == SystemSettings::OBJID && rotateModelNED != NULL) {
+        SystemSettings *systemSettingsObj = dynamic_cast<SystemSettings *>(obj);
+        if (systemSettingsObj == NULL)
+            return;
+        SystemSettings::DataFields systemSettings = systemSettingsObj->getData();
+
+        osg::Node *uav;
+
+        QString modelFile;
+        QString textureFile;
+        switch(systemSettings.AirframeType) {
+        case SystemSettings::AIRFRAMETYPE_FIXEDWING:
+        case SystemSettings::AIRFRAMETYPE_FIXEDWINGELEVON:
+        case  SystemSettings::AIRFRAMETYPE_FIXEDWINGVTAIL:
+            modelFile = QDir::temp().filePath("model.3ds");
+            QFile::copy( AIRPLANE_MODEL, modelFile );
+            qDebug() << "Copied to " << modelFile;
+
+            textureFile = QDir::temp().filePath("texture.jpg");
+            QFile::copy( AIRPLANE_TEXTURE, textureFile );
+            qDebug() << "Copied to " << textureFile;
+            break;
+        default:
+            modelFile = QDir::temp().filePath("model.3ds");
+            QFile::copy( MULTIROTOR_MODEL, modelFile );
+            qDebug() << "Copied to " << modelFile;
+
+            textureFile = QDir::temp().filePath("TEXTURE.PNG");
+            QFile::copy( MULTIROTOR_TEXTURE, textureFile );
+            qDebug() << "Copied to " << textureFile;
+        }
+
+        uav = osgDB::readNodeFile(modelFile.toUtf8().constData());
+
+        QFile::remove(modelFile);
+        QFile::remove(modelFile);
+
+        if (uav) {
+            rotateModelNED->removeChild(0,1);
+            rotateModelNED->addChild(uav);
+        } else {
+            qDebug() << "Unable to load the model file";
+        }
+
+    }
+}
+
 osg::Node* OsgViewerWidget::createAirplane()
 {
     osg::Group* model = new osg::Group;
-    osg::Node *uav;
 
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     Q_ASSERT(pm);
@@ -217,34 +279,21 @@ osg::Node* OsgViewerWidget::createAirplane()
     Q_ASSERT(objMngr);
 
     SystemSettings *systemSettingsObj = SystemSettings::GetInstance(objMngr);
-    SystemSettings::DataFields systemSettings = systemSettingsObj->getData();
 
-    qDebug() << "Frame type:" << systemSettingsObj->getField("AirframeType")->getValue().toString();
-    // Get model that matches airframe type
-    switch(systemSettings.AirframeType) {
-    case SystemSettings::AIRFRAMETYPE_FIXEDWING:
-    case SystemSettings::AIRFRAMETYPE_FIXEDWINGELEVON:
-    case  SystemSettings::AIRFRAMETYPE_FIXEDWINGVTAIL:
-        uav = osgDB::readNodeFile("/Users/Cotton/Programming/OpenPilot/artwork/3D Model/planes/Easystar/easystar.3ds");
-        break;
-    default:
-        uav = osgDB::readNodeFile("/Users/Cotton/Programming/OpenPilot/artwork/3D Model/multi/joes_cnc/J14-QT_+.3DS");
-    }
+    uavAttitudeAndScale = new osg::MatrixTransform();
+    uavAttitudeAndScale->setMatrix(osg::Matrixd::scale(0.2e0,0.2e0,0.2e0));
 
-    if(uav) {
-        uavAttitudeAndScale = new osg::MatrixTransform();
-        uavAttitudeAndScale->setMatrix(osg::Matrixd::scale(0.2e0,0.2e0,0.2e0));
+    // Apply a rotation so model is NED before any other rotations
+    rotateModelNED = new osg::MatrixTransform();
+    rotateModelNED->setMatrix(osg::Matrixd::scale(0.05e0,0.05e0,0.05e0) * osg::Matrixd::rotate(M_PI, osg::Vec3d(0,0,1)));
 
-        // Apply a rotation so model is NED before any other rotations
-        osg::MatrixTransform *rotateModelNED = new osg::MatrixTransform();
-        rotateModelNED->setMatrix(osg::Matrixd::scale(0.05e0,0.05e0,0.05e0) * osg::Matrixd::rotate(M_PI, osg::Vec3d(0,0,1)));
-        rotateModelNED->addChild( uav );
+    uavAttitudeAndScale->addChild( rotateModelNED );
 
-        uavAttitudeAndScale->addChild( rotateModelNED );
+    model->addChild(uavAttitudeAndScale);
 
-        model->addChild(uavAttitudeAndScale);
-    } else
-        qDebug() << "Bad model file";
+    // Attach the specific airframe
+    updateAirframe(systemSettingsObj);
+
     return model;
 }
 
@@ -265,7 +314,7 @@ void OsgViewerWidget::paintEvent( QPaintEvent* event )
         double homeLLA[3] = {homeLocation.Latitude / 10.0e6, homeLocation.Longitude / 10.0e6, homeLocation.Altitude};
 
         double LLA[3];
-        CoordinateConversions().GetLLA(homeLLA, NED, LLA);
+        CoordinateConversions().NED2LLA_HomeLLA(homeLLA, NED, LLA);
         uavPos->getLocator()->setPosition( osg::Vec3d(LLA[1], LLA[0], LLA[2]) );  // Note this takes longtitude first
     } else {
         GPSPosition *gpsPosObj = GPSPosition::GetInstance(objMngr);

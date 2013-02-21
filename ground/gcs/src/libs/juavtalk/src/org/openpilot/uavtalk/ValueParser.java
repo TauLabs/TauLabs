@@ -1,4 +1,4 @@
-package org.abovegroundlabs.uavtalk;
+package org.taulabs.uavtalk;
 /**
  * class with static functions to parse values from the UAVTalk protocol 
  * 

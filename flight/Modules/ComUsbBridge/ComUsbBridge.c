@@ -31,7 +31,7 @@
 // ****************
 
 #include "openpilot.h"
-#include "hwsettings.h"
+#include "modulesettings.h"
 
 #include <stdbool.h>
 
@@ -62,7 +62,7 @@ static uint8_t * usb2com_buf;
 static uint32_t usart_port;
 static uint32_t vcp_port;
 
-static bool bridge_enabled = false;
+static bool module_enabled = false;
 
 /**
  * Initialise the module
@@ -72,7 +72,7 @@ static bool bridge_enabled = false;
 
 static int32_t comUsbBridgeStart(void)
 {
-	if (bridge_enabled) {
+	if (module_enabled) {
 		// Start tasks
 		xTaskCreate(com2UsbBridgeTask, (signed char *)"Com2UsbBridge", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &com2UsbBridgeTaskHandle);
 		TaskMonitorAdd(TASKINFO_RUNNING_COM2USBBRIDGE, com2UsbBridgeTaskHandle);
@@ -94,22 +94,25 @@ static int32_t comUsbBridgeInitialize(void)
 	usart_port = PIOS_COM_BRIDGE;
 	vcp_port = PIOS_COM_VCP;
 
+	/* Only run the module if we have a VCP port and a selected USART port */
+	if (!usart_port || !vcp_port) {
+		module_enabled = false;
+		return 0;
+	}
+
 #ifdef MODULE_ComUsbBridge_BUILTIN
-	bridge_enabled = true;
+	module_enabled = true;
 #else
-	HwSettingsInitialize();
-	uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
-
-	HwSettingsOptionalModulesGet(optionalModules);
-
-	if (usart_port && vcp_port &&
-		(optionalModules[HWSETTINGS_OPTIONALMODULES_COMUSBBRIDGE] == HWSETTINGS_OPTIONALMODULES_ENABLED))
-		bridge_enabled = true;
-	else
-		bridge_enabled = false;
+	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+	ModuleSettingsStateGet(module_state);
+	if (module_state[MODULESETTINGS_STATE_COMUSBBRIDGE] == MODULESETTINGS_STATE_ENABLED) {
+		module_enabled = true;
+	} else {
+		module_enabled = false;
+	}
 #endif
 
-	if (bridge_enabled) {
+	if (module_enabled) {
 		com2usb_buf = pvPortMalloc(BRIDGE_BUF_LEN);
 		PIOS_Assert(com2usb_buf);
 		usb2com_buf = pvPortMalloc(BRIDGE_BUF_LEN);
@@ -169,29 +172,29 @@ static void updateSettings()
 
 		// Retrieve settings
 		uint8_t speed;
-		HwSettingsComUsbBridgeSpeedGet(&speed);
+		ModuleSettingsComUsbBridgeSpeedGet(&speed);
 
 		// Set port speed
 		switch (speed) {
-		case HWSETTINGS_COMUSBBRIDGESPEED_2400:
+		case MODULESETTINGS_COMUSBBRIDGESPEED_2400:
 			PIOS_COM_ChangeBaud(usart_port, 2400);
 			break;
-		case HWSETTINGS_COMUSBBRIDGESPEED_4800:
+		case MODULESETTINGS_COMUSBBRIDGESPEED_4800:
 			PIOS_COM_ChangeBaud(usart_port, 4800);
 			break;
-		case HWSETTINGS_COMUSBBRIDGESPEED_9600:
+		case MODULESETTINGS_COMUSBBRIDGESPEED_9600:
 			PIOS_COM_ChangeBaud(usart_port, 9600);
 			break;
-		case HWSETTINGS_COMUSBBRIDGESPEED_19200:
+		case MODULESETTINGS_COMUSBBRIDGESPEED_19200:
 			PIOS_COM_ChangeBaud(usart_port, 19200);
 			break;
-		case HWSETTINGS_COMUSBBRIDGESPEED_38400:
+		case MODULESETTINGS_COMUSBBRIDGESPEED_38400:
 			PIOS_COM_ChangeBaud(usart_port, 38400);
 			break;
-		case HWSETTINGS_COMUSBBRIDGESPEED_57600:
+		case MODULESETTINGS_COMUSBBRIDGESPEED_57600:
 			PIOS_COM_ChangeBaud(usart_port, 57600);
 			break;
-		case HWSETTINGS_COMUSBBRIDGESPEED_115200:
+		case MODULESETTINGS_COMUSBBRIDGESPEED_115200:
 			PIOS_COM_ChangeBaud(usart_port, 115200);
 			break;
 		}

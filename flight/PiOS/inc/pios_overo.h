@@ -33,6 +33,8 @@
 extern void PIOS_OVERO_DMA_irq_handler(uint32_t overo_id);
 extern int32_t PIOS_OVERO_GetPacketCount(uint32_t overo_id);
 extern int32_t PIOS_OVERO_GetWrittenBytes(uint32_t overo_id);
+extern int32_t PIOS_OVERO_Enable(uint32_t overo_id);
+extern int32_t PIOS_OVERO_Disable(uint32_t overo_id);
 
 #endif /* PIOS_OVERO_H */
 

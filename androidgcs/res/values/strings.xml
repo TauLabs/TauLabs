@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Above Ground Labs</string>
+	<string name="app_name">Tau Labs GCS</string>
 	<string name="object_browser_name">Browser</string>
 	<string name="controller_name">Controller</string>
 	<string name="pfd_name">PFD</string>
@@ -44,4 +44,11 @@
 	<string name="waypoint">waypoint</string>
 	<string name="tablet_control">Tablet Control</string>
 	<string name="path_planner">Path Planner</string>
+
+	<string name="uiToastNavPrincipal">Main navigation</string>
+	<string name="uiToastNavSecond">Second Navigation</string>
+	<string name="uiToastLightOn">Light ON</string>
+	<string name="uiToastLightOff">Light OFF</string>
+
+	<string name="select_file_to_email_it">Select file to email it</string>
 </resources>

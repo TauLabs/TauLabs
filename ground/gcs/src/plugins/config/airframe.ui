@@ -869,7 +869,7 @@ margin:1px;</string>
                  </property>
                  <layout class="QVBoxLayout" name="verticalLayout_9">
                   <property name="margin">
-                   <number>12</number>
+                   <number>0</number>
                   </property>
                   <item>
                    <widget class="MixerCurve" name="multiThrottleCurve" native="true">

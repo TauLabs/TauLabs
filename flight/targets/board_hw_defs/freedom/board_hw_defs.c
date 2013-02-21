@@ -89,7 +89,6 @@ const struct pios_led_cfg * PIOS_BOARD_HW_DEFS_GetLedCfg (uint32_t board_revisio
  */
 void PIOS_SPI_GYRO_irq_handler(void);
 void DMA1_Stream3_IRQHandler(void) __attribute__((alias("PIOS_SPI_gyro_irq_handler")));
-void DMA1_Stream4_IRQHandler(void) __attribute__((alias("PIOS_SPI_gyro_irq_handler")));
 static const struct pios_spi_cfg pios_spi_gyro_cfg = {
 	.regs = SPI2,
 	.remap = GPIO_AF_SPI2,
@@ -223,8 +222,8 @@ static const struct pios_overo_cfg pios_overo_cfg = {
 		.SPI_NSS               = SPI_NSS_Hard,
 		.SPI_FirstBit          = SPI_FirstBit_MSB,
 		.SPI_CRCPolynomial     = 7,
-		.SPI_CPOL              = SPI_CPOL_High,
-		.SPI_CPHA              = SPI_CPHA_2Edge,
+		.SPI_CPOL              = SPI_CPOL_Low,
+		.SPI_CPHA              = SPI_CPHA_1Edge,
 		.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_2,
 	},
 	.use_crc = false,
@@ -284,7 +283,7 @@ static const struct pios_overo_cfg pios_overo_cfg = {
 			.GPIO_Speed = GPIO_Speed_100MHz,
 			.GPIO_Mode  = GPIO_Mode_AF,
 			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd = GPIO_PuPd_NOPULL
+			.GPIO_PuPd = GPIO_PuPd_DOWN
 		},
 	},
 	.miso = {
@@ -334,7 +333,6 @@ void PIOS_SPI_overo_irq_handler(void)
  */
 void PIOS_SPI_telem_flash_irq_handler(void);
 void DMA1_Stream0_IRQHandler(void) __attribute__((alias("PIOS_SPI_telem_flash_irq_handler")));
-void DMA1_Stream5_IRQHandler(void) __attribute__((alias("PIOS_SPI_telem_flash_irq_handler")));
 static const struct pios_spi_cfg pios_spi_telem_flash_cfg = {
 	.regs = SPI3,
 	.remap = GPIO_AF_SPI3,
@@ -498,12 +496,7 @@ static const struct pios_exti_cfg pios_exti_rfm22b_cfg __exti_config = {
 const struct pios_rfm22b_cfg pios_rfm22b_freedom_cfg = {
 	.spi_cfg = &pios_spi_telem_flash_cfg,
 	.exti_cfg = &pios_exti_rfm22b_cfg,
-	.frequencyHz = 434000000,
-	.minFrequencyHz = 434000000 - 2000000,
-	.maxFrequencyHz = 434000000 + 2000000,
 	.RFXtalCap = 0x7f,
-	.maxRFBandwidth = 64000,
-	.maxTxPower = RFM22_tx_pwr_txpow_7, // +20dBm .. 100mW
 	.slave_num = 0,
 	.gpio_direction = GPIO0_TX_GPIO1_RX,
 };
@@ -771,8 +764,8 @@ static const struct pios_dsm_cfg pios_dsm_main_cfg = {
 
 #include "pios_dsm_priv.h"
 static const struct pios_usart_cfg pios_usart_dsm_rcvr_cfg = {
-	.regs = UART5,
-	.remap = GPIO_AF_UART5,
+	.regs = USART1,
+	.remap = GPIO_AF_USART1,
 	.init = {
 		.USART_BaudRate            = 115200,
 		.USART_WordLength          = USART_WordLength_8b,
@@ -783,16 +776,16 @@ static const struct pios_usart_cfg pios_usart_dsm_rcvr_cfg = {
 	},
 	.irq = {
 		.init = {
-			.NVIC_IRQChannel                   = UART5_IRQn,
+			.NVIC_IRQChannel                   = USART1_IRQn,
 			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH,
 			.NVIC_IRQChannelSubPriority        = 0,
 			.NVIC_IRQChannelCmd                = ENABLE,
 		},
 	},
 	.rx = {
-		.gpio = GPIOD,
+		.gpio = GPIOA,
 		.init = {
-			.GPIO_Pin   = GPIO_Pin_2,
+			.GPIO_Pin   = GPIO_Pin_10,
 			.GPIO_Speed = GPIO_Speed_2MHz,
 			.GPIO_Mode  = GPIO_Mode_AF,
 			.GPIO_OType = GPIO_OType_PP,
@@ -818,7 +811,7 @@ static const struct pios_dsm_cfg pios_dsm_rcvr_cfg = {
  * S.Bus USART
  */
 static const struct pios_usart_cfg pios_usart_sbus_rcvr_cfg = {
-	.regs = UART5,
+	.regs = USART1,
 	.init = {
 		.USART_BaudRate            = 100000,
 		.USART_WordLength          = USART_WordLength_8b,
@@ -829,16 +822,16 @@ static const struct pios_usart_cfg pios_usart_sbus_rcvr_cfg = {
 	},
 	.irq = {
 		.init = {
-			.NVIC_IRQChannel                   = UART5_IRQn,
+			.NVIC_IRQChannel                   = USART1_IRQn,
 			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH,
 			.NVIC_IRQChannelSubPriority        = 0,
 			.NVIC_IRQChannelCmd                = ENABLE,
 		  },
 	},
 	.rx = {
-		.gpio = GPIOD,
+		.gpio = GPIA,
 		.init = {
-			.GPIO_Pin   = GPIO_Pin_2,
+			.GPIO_Pin   = GPIO_Pin_10,
 			.GPIO_Speed = GPIO_Speed_2MHz,
 			.GPIO_Mode  = GPIO_Mode_IPU,
 		},
@@ -854,9 +847,9 @@ static const struct pios_usart_cfg pios_usart_sbus_rcvr_cfg = {
 static const struct pios_sbus_cfg pios_sbus_cfg = {
 	/* Inverter configuration */
 	.inv = {
-		.gpio = GPIOC,
+		.gpio = GPIOD,
 		.init = {
-			.GPIO_Pin   = GPIO_Pin_0,
+			.GPIO_Pin   = GPIO_Pin_2,
 			.GPIO_Speed = GPIO_Speed_2MHz,
 			.GPIO_Mode  = GPIO_Mode_OUT,
 			.GPIO_OType = GPIO_OType_PP,
@@ -1230,7 +1223,39 @@ static const struct pios_tim_clock_cfg tim_12_cfg = {
  */
 #include <pios_servo_priv.h>
 static const struct pios_tim_channel pios_tim_servoport_all_pins[] = {
-	{	// PWM1 TIM1_CH1 PA8
+	{       // PWM1 TIM8_CH3 PC8
+		.timer = TIM8,
+		.timer_chan = TIM_Channel_3,
+		.pin = {
+			.gpio = GPIOC,
+			.init = {
+				.GPIO_Pin = GPIO_Pin_8,
+				.GPIO_Speed = GPIO_Speed_2MHz,
+				.GPIO_Mode  = GPIO_Mode_AF,
+				.GPIO_OType = GPIO_OType_PP,
+				.GPIO_PuPd  = GPIO_PuPd_UP
+			},
+			.pin_source = GPIO_PinSource8,
+		},
+		.remap = GPIO_AF_TIM8,
+	},
+	{	// PWM2 TIM8_CH4 PC9
+		.timer = TIM8,
+		.timer_chan = TIM_Channel_4,
+		.pin = {
+			.gpio = GPIOC,
+			.init = {
+				.GPIO_Pin = GPIO_Pin_9,
+				.GPIO_Speed = GPIO_Speed_2MHz,
+				.GPIO_Mode  = GPIO_Mode_AF,
+				.GPIO_OType = GPIO_OType_PP,
+				.GPIO_PuPd  = GPIO_PuPd_UP
+			},
+			.pin_source = GPIO_PinSource9,
+		},
+		.remap = GPIO_AF_TIM8,
+	},
+	{	// PWM3 TIM1_CH3 PA10
 		.timer = TIM1,
 		.timer_chan = TIM_Channel_1,
 		.pin = {
@@ -1246,39 +1271,23 @@ static const struct pios_tim_channel pios_tim_servoport_all_pins[] = {
 		},
 		.remap = GPIO_AF_TIM1,
 	},
-	{	// PWM2 TIM1_CH3 PA10
-		.timer = TIM1,
-		.timer_chan = TIM_Channel_3,
-		.pin = {
-			.gpio = GPIOA,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_10,
-				.GPIO_Speed = GPIO_Speed_2MHz,
-				.GPIO_Mode  = GPIO_Mode_AF,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd  = GPIO_PuPd_UP
-			},
-			.pin_source = GPIO_PinSource10,
-		},
-		.remap = GPIO_AF_TIM1,
-	},
-	{	// PWM3 TIM2_CH2 PB3
-		.timer = TIM2,
+	{	// PWM4 TIM3_CH2 PB5
+		.timer = TIM3,
 		.timer_chan = TIM_Channel_2,
 		.pin = {
 			.gpio = GPIOB,
 			.init = {
-				.GPIO_Pin = GPIO_Pin_3,
+				.GPIO_Pin = GPIO_Pin_5,
 				.GPIO_Speed = GPIO_Speed_2MHz,
 				.GPIO_Mode  = GPIO_Mode_AF,
 				.GPIO_OType = GPIO_OType_PP,
 				.GPIO_PuPd  = GPIO_PuPd_UP
 			},
-			.pin_source = GPIO_PinSource3,
+			.pin_source = GPIO_PinSource5,
 		},
-		.remap = GPIO_AF_TIM2,
+		.remap = GPIO_AF_TIM3,
 	},
-	{	// PWM4 TIM3_CH1 PB4
+	{	// PWM5 TIM1_CH3 PB4
 		.timer = TIM3,
 		.timer_chan = TIM_Channel_1,
 		.pin = {
@@ -1293,6 +1302,22 @@ static const struct pios_tim_channel pios_tim_servoport_all_pins[] = {
 			.pin_source = GPIO_PinSource4,
 		},
 		.remap = GPIO_AF_TIM3,
+	},
+	{	// PWM4 TIM3_CH2 PB3
+		.timer = TIM2,
+		.timer_chan = TIM_Channel_2,
+		.pin = {
+			.gpio = GPIOB,
+			.init = {
+				.GPIO_Pin = GPIO_Pin_3,
+				.GPIO_Speed = GPIO_Speed_2MHz,
+				.GPIO_Mode  = GPIO_Mode_AF,
+				.GPIO_OType = GPIO_OType_PP,
+				.GPIO_PuPd  = GPIO_PuPd_UP
+			},
+			.pin_source = GPIO_PinSource3,
+		},
+		.remap = GPIO_AF_TIM2,
 	},
 };
 
@@ -1314,26 +1339,26 @@ const struct pios_servo_cfg pios_servo_cfg = {
 
 /*
  * PWM Inputs
- * TIM1, TIM8, TIM12
+ * TIM1
  */
 #if defined(PIOS_INCLUDE_PWM) || defined(PIOS_INCLUDE_PPM)
 #include <pios_pwm_priv.h>
 static const struct pios_tim_channel pios_tim_rcvrport_all_channels[] = {
 	{
-		.timer = TIM3,
-		.timer_chan = TIM_Channel_2,
+		.timer = TIM1,
+		.timer_chan = TIM_Channel_3,
 		.pin = {
-			.gpio = GPIOB,
+			.gpio = GPIOA,
 			.init = {
-				.GPIO_Pin = GPIO_Pin_5,
+				.GPIO_Pin = GPIO_Pin_10,
 				.GPIO_Speed = GPIO_Speed_2MHz,
 				.GPIO_Mode  = GPIO_Mode_AF,
 				.GPIO_OType = GPIO_OType_PP,
 				.GPIO_PuPd  = GPIO_PuPd_UP
 			},
-			.pin_source = GPIO_PinSource5,
+			.pin_source = GPIO_PinSource10,
 		},
-		.remap = GPIO_AF_TIM3,
+		.remap = GPIO_AF_TIM1,
 	},
 };
 #endif
@@ -1373,7 +1398,7 @@ static const struct pios_usb_cfg pios_usb_main_cfg = {
 	.irq = {
 		.init    = {
 			.NVIC_IRQChannel                   = OTG_FS_IRQn,
-			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_LOW,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGHEST,
 			.NVIC_IRQChannelSubPriority        = 3,
 			.NVIC_IRQChannelCmd                = ENABLE,
 		},

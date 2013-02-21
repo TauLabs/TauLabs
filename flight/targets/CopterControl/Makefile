@@ -61,8 +61,6 @@ else
 REMOVE_CMD = rm
 endif
 
-FLASH_TOOL = OPENOCD
-
 NAVIGATION ?= NO
 
 # Optional module and driver defaults
@@ -74,6 +72,7 @@ USE_I2C ?= NO
 USE_ALTITUDE ?= NO
 USE_AUTOTUNE ?= YES
 TEST_FAULTS ?= NO
+USE_UAVOMAVLINKBRIDGE ?= YES
 
 # List of optional modules to include
 OPTMODULES =
@@ -102,6 +101,9 @@ endif
 ifeq ($(USE_AUTOTUNE), YES)
 OPTMODULES += Autotune
 endif
+ifeq ($(USE_UAVOMAVLINKBRIDGE), YES)
+OPTMODULES += UAVOMavlinkBridge
+endif
 
 # List of mandatory modules to include
 ifeq ($(NAVIGATION), YES)
@@ -109,7 +111,7 @@ MODULES += State/coptercontrol
 MODULES += PathFollower
 CFLAGS += -DNAVIGATION
 else
-MODULES += Attitude
+MODULES += Attitude/coptercontrol
 endif
 MODULES += Stabilization Actuator ManualControl FirmwareIAP
 # MODULES += PathFollower/coptercontrol
@@ -147,6 +149,7 @@ RTOSSRCDIR = $(RTOSDIR)/Source
 RTOSINCDIR = $(RTOSSRCDIR)/include
 RTOSPORTDIR = $(APPLIBDIR)/FreeRTOS/Source
 DOXYGENDIR = ../Doc/Doxygen
+MAVLINKINC  = $(FLIGHTLIB)/mavlink/v1.0/common
 PYMITE = $(FLIGHTLIB)/PyMite
 PYMITELIB = $(PYMITE)/lib
 PYMITEPLAT = $(PYMITE)/platform/openpilot
@@ -211,7 +214,8 @@ SRC += $(OPUAVSYNTHDIR)/camerastabsettings.c
 SRC += $(OPUAVSYNTHDIR)/cameradesired.c
 SRC += $(OPUAVSYNTHDIR)/gpsposition.c
 SRC += $(OPUAVSYNTHDIR)/gpsvelocity.c
-SRC += $(OPUAVSYNTHDIR)/hwsettings.c
+SRC += $(OPUAVSYNTHDIR)/hwcoptercontrol.c
+SRC += $(OPUAVSYNTHDIR)/modulesettings.c
 SRC += $(OPUAVSYNTHDIR)/gcsreceiver.c
 SRC += $(OPUAVSYNTHDIR)/receiveractivity.c
 SRC += $(OPUAVSYNTHDIR)/relaytuningsettings.c
@@ -231,7 +235,8 @@ SRC += $(OPUAVSYNTHDIR)/positionactual.c
 SRC += $(OPUAVSYNTHDIR)/velocityactual.c
 SRC += $(OPUAVSYNTHDIR)/airspeedactual.c
 SRC += $(OPUAVSYNTHDIR)/inertialsensorsettings.c
-
+SRC += $(OPUAVSYNTHDIR)/flightbatterystate.c
+SRC += $(OPUAVSYNTHDIR)/flightbatterysettings.c
 endif
 
 ## PIOS Hardware (STM32F10x)
@@ -276,10 +281,9 @@ SRC += $(PIOSCOMMON)/pios_flash_jedec.c
 SRC += $(PIOSCOMMON)/pios_adxl345.c
 SRC += $(PIOSCOMMON)/pios_mpu6000.c
 SRC += $(PIOSCOMMON)/pios_com.c
-#SRC += $(PIOSCOMMON)/pios_i2c_esc.c
-#SRC += $(PIOSCOMMON)/pios_bmp085.c
 SRC += $(PIOSCOMMON)/pios_rcvr.c
 SRC += $(PIOSCOMMON)/pios_sbus.c
+SRC += $(PIOSCOMMON)/pios_sensors.c
 SRC += $(PIOSCOMMON)/pios_gcsrcvr.c
 SRC += $(PIOSCOMMON)/printf-stdarg.c
 ## Libraries for flight calculations
@@ -386,6 +390,7 @@ ASRCARM =
 # List any extra directories to look for include files here.
 #    Each directory must be seperated by a space.
 EXTRAINCDIRS  =  $(OPSYSTEM)
+EXTRAINCDIRS  += $(SHAREDAPIDIR)
 EXTRAINCDIRS  += $(OPSYSTEMINC)
 EXTRAINCDIRS  += $(OPUAVTALK)
 EXTRAINCDIRS  += $(OPUAVTALKINC)
@@ -412,6 +417,7 @@ EXTRAINCDIRS  += $(RTOSPORTDIR)/portable/GCC/ARM_CM3
 EXTRAINCDIRS  += $(AHRSBOOTLOADERINC)
 EXTRAINCDIRS  += $(PYMITEINC)
 EXTRAINCDIRS  += $(HWDEFSINC)
+EXTRAINCDIRS  += $(MAVLINKINC)
 
 EXTRAINCDIRS += ${foreach MOD, ${OPTMODULES} ${MODULES}, ${OPMODULEDIR}/${MOD}/inc} ${OPMODULEDIR}/System/inc
 
@@ -583,6 +589,8 @@ LDFLAGS += -lc
 LDFLAGS += $(patsubst %,-l%,$(EXTRA_LIBS))
 LDFLAGS += $(MATH_LIB)
 LDFLAGS += -lc -lgcc
+LDFLAGS += -Wl,--warn-common
+LDFLAGS += -Wl,--fatal-warnings
 
 # Set linker-script name depending on selected submodel name
 LDFLAGS += -T$(LINKERSCRIPTPATH)/link_$(BOARD)_memory.ld

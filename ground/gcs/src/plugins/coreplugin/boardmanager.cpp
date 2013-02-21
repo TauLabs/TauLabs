@@ -99,7 +99,6 @@ void BoardManager::objectAdded(QObject *obj)
     IBoardType *board = Aggregation::query<IBoardType>(obj);
     if (!board) return;
 
-    // qDebug() << "[boardManager] New board type registered: " << board->shortName();
     // Keep track of the registration
     m_boardTypesList.append(board);
 

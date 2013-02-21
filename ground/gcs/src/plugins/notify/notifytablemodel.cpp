@@ -3,6 +3,7 @@
  *
  * @file       notifytablemodel.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://github.com/TauLabs Copyright (C) 2013.
  * @brief
  * @see        The GNU Public License (GPL) Version 3
  * @defgroup   notifyplugin
@@ -184,6 +185,7 @@ QStringList NotifyTableModel::mimeTypes() const
 bool NotifyTableModel::dropMimeData( const QMimeData * data, Qt::DropAction action, int row,
                    int column, const QModelIndex& parent)
 {
+    Q_UNUSED(column);
     if (action == Qt::IgnoreAction)
         return true;
 
@@ -225,9 +227,9 @@ bool NotifyTableModel::dropMimeData( const QMimeData * data, Qt::DropAction acti
         // addiional check in case dropping of multiple rows
         if(rows + direction > _list.size()) continue;
 
-        Q_ASSERT(insertRows(rows + direction, 1, QModelIndex()));
+        insertRows(rows + direction, 1, QModelIndex());
         _list.replace(rows + direction, item);
-        Q_ASSERT(removeRows(dragged, 1, QModelIndex()));
+        removeRows(dragged, 1, QModelIndex());
         if (direction == UP_DIRECTION)
             ++rows;
     };

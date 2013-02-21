@@ -98,12 +98,6 @@ TIM8  |           |           |           |
 //------------------------
 #define PIOS_WATCHDOG_TIMEOUT			250
 #define PIOS_WDG_REGISTER				RTC_BKP_DR4
-#define PIOS_WDG_ACTUATOR				0x0001
-#define PIOS_WDG_STABILIZATION			0x0002
-#define PIOS_WDG_ATTITUDE				0x0004
-#define PIOS_WDG_MANUAL					0x0008
-#define PIOS_WDG_SENSORS				0x0010
-#define PIOS_WDG_AUTOTUNE				0x0020
 
 //------------------------
 // PIOS_I2C
@@ -128,11 +122,11 @@ extern uint32_t pios_i2c_usart2_adapter_id;
 // See also pios_board.c
 //-------------------------
 #define PIOS_COM_MAX_DEVS               4
-extern uint32_t pios_com_telem_rf_id;
-extern uint32_t pios_com_gps_id;
-extern uint32_t pios_com_telem_usb_id;
-extern uint32_t pios_com_bridge_id;
-extern uint32_t pios_com_vcp_id;
+extern uintptr_t pios_com_telem_rf_id;
+extern uintptr_t pios_com_gps_id;
+extern uintptr_t pios_com_telem_usb_id;
+extern uintptr_t pios_com_bridge_id;
+extern uintptr_t pios_com_vcp_id;
 #define PIOS_COM_GPS                    (pios_com_gps_id)
 #define PIOS_COM_TELEM_USB              (pios_com_telem_usb_id)
 #define PIOS_COM_TELEM_RF               (pios_com_telem_rf_id)
@@ -140,7 +134,7 @@ extern uint32_t pios_com_vcp_id;
 #define PIOS_COM_VCP                    (pios_com_vcp_id)
 
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
-extern uint32_t pios_com_debug_id;
+extern uintptr_t pios_com_debug_id;
 #define PIOS_COM_DEBUG                  (pios_com_debug_id)
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 

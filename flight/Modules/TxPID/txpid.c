@@ -57,7 +57,7 @@
 #include "manualcontrolcommand.h"
 #include "stabilizationsettings.h"
 #include "flightstatus.h"
-#include "hwsettings.h"
+#include "modulesettings.h"
 
 //
 // Configuration
@@ -87,18 +87,21 @@ static float scale(float val, float inMin, float inMax, float outMin, float outM
  */
 int32_t TxPIDInitialize(void)
 {
-	bool txPIDEnabled;
-	uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
+	bool module_enabled;
 
-	HwSettingsInitialize();
-	HwSettingsOptionalModulesGet(optionalModules);
+#ifdef MODULE_TxPID_BUILTIN
+	module_enabled = true;
+#else
+	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
+	ModuleSettingsStateGet(module_state);
+	if (module_state[MODULESETTINGS_STATE_TXPID] == MODULESETTINGS_STATE_ENABLED) {
+		module_enabled = true;
+	} else {
+		module_enabled = false;
+	}
+#endif
 
-	if (optionalModules[HWSETTINGS_OPTIONALMODULES_TXPID] == HWSETTINGS_OPTIONALMODULES_ENABLED)
-		txPIDEnabled = true;
-	else
-		txPIDEnabled = false;
-
-	if (txPIDEnabled) {
+	if (module_enabled) {
 
 		TxPIDSettingsInitialize();
 		AccessoryDesiredInitialize();
@@ -132,13 +135,7 @@ int32_t TxPIDInitialize(void)
 	return -1;
 }
 
-/* stub: module has no module thread */
-int32_t TxPIDStart(void)
-{
-	return 0;
-}
-
-MODULE_INITCALL(TxPIDInitialize, TxPIDStart)
+MODULE_INITCALL(TxPIDInitialize, NULL)
 
 /**
  * Update PIDs callback function

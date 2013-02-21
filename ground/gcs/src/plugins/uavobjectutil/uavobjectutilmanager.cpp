@@ -262,11 +262,8 @@ FirmwareIAPObj::DataFields UAVObjectUtilManager::getFirmwareIap()
 int UAVObjectUtilManager::getBoardModel()
 {
     FirmwareIAPObj::DataFields firmwareIapData = getFirmwareIap();
-    qDebug()<<"Board type="<<firmwareIapData.BoardType;
-    qDebug()<<"Board revision="<<firmwareIapData.BoardRevision;
     int ret=firmwareIapData.BoardType <<8;
     ret = ret + firmwareIapData.BoardRevision;
-    qDebug()<<"Board info="<<ret;
     return ret;
 }
 
@@ -313,7 +310,11 @@ int UAVObjectUtilManager::setHomeLocation(double LLA[3], bool save_to_sdcard)
 {
     double Be[3];
 
-    Q_ASSERT (Utils::HomeLocationUtil().getDetails(LLA, Be) >= 0);
+    int retval = Utils::HomeLocationUtil().getDetails(LLA, Be);
+    Q_ASSERT(retval >= 0);
+
+    if (retval < 0)
+        return -1;
 
     // ******************
     // save the new settings
@@ -459,18 +460,7 @@ bool UAVObjectUtilManager::descriptionToStructure(QByteArray desc, deviceDescrip
        struc.fwHash=desc.mid(40,20);
        struc.uavoHash.clear();
        struc.uavoHash=desc.mid(60,20);
-       qDebug()<<__FUNCTION__<<":description from board:";
-       foreach(char x,desc)
-       {
-           qDebug()<<QString::number(x,16);
-       }
 
-       qDebug()<<__FUNCTION__<<":uavoHash:";
-       QByteArray array2=struc.uavoHash.data();
-       foreach(char x,array2)
-       {
-           qDebug()<<QString::number(x,16);
-       }
        return true;
    }
    return false;

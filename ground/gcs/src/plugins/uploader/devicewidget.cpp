@@ -103,6 +103,16 @@ void deviceWidget::populate()
     case 0x0402:
         devicePic.load(":/uploader/images/gcs-board-cc3d.png");
         break;
+    case 0x8101:
+    case 0x8102:
+        devicePic.load(":/uploader/images/gcs-board-freedom.png");
+        break;
+    case 0x8301:
+        devicePic.load(":/uploader/images/gcs-board-flyingf3.png");
+        break;
+    case 0x8601:
+        devicePic.load(":/uploader/images/gcs-board-quanton.png");
+        break;
     default:
         break;
     }
@@ -143,9 +153,20 @@ void deviceWidget::populate()
   */
 void deviceWidget::freeze()
 {
-    myDevice->description->setEnabled(false);
+    myDevice->pbLoad->setEnabled(false);
     myDevice->updateButton->setEnabled(false);
     myDevice->retrieveButton->setEnabled(false);
+}
+
+/**
+  Unfreezes the contents of the widget so that a user can again
+  try to modify the contents
+  */
+void deviceWidget::unfreeze()
+{
+    myDevice->pbLoad->setEnabled(true);
+    myDevice->updateButton->setEnabled(true);
+    myDevice->retrieveButton->setEnabled(true);
 }
 
 /**
@@ -309,13 +330,13 @@ void deviceWidget::loadFirmware()
         }
         else
         {
-            myDevice->statusLabel->setText(tr("This is the tagged officially released OpenPilot firmware"));
+            myDevice->statusLabel->setText(tr("This is the tagged officially released Tau Labs firmware"));
             px.load(QString(":/uploader/images/gtk-info.svg"));
         }
     }
     else
     {
-        myDevice->statusLabel->setText(tr("WARNING: the loaded firmware was not packaged with the OpenPilot format. Do not update unless you know what you are doing"));
+        myDevice->statusLabel->setText(tr("WARNING: the loaded firmware was not packaged with the Tau Labs format. Do not update unless you know what you are doing"));
         px.load(QString(":/uploader/images/error.svg"));
         myDevice->youdont->setChecked(false);
         myDevice->youdont->setVisible(true);
@@ -323,8 +344,6 @@ void deviceWidget::loadFirmware()
         myDevice->groupCustom->setVisible(true);
     }
     myDevice->statusIcon->setPixmap(px);
-    //myDevice->updateButton->setEnabled(true);
-
 }
 
 /**
@@ -332,10 +351,10 @@ void deviceWidget::loadFirmware()
   */
 void deviceWidget::uploadFirmware()
 {
-    myDevice->updateButton->setEnabled(false);
+    freeze();
     if (!m_dfu->devices[deviceID].Writable) {
         status("Device not writable!", STATUSICON_FAIL);
-        myDevice->updateButton->setEnabled(true);
+        unfreeze();
         return;
     }
 
@@ -359,7 +378,7 @@ void deviceWidget::uploadFirmware()
             // These firmwares are designed to be backwards compatible
         } else if (firmwareBoard != board) {
             status("Error: firmware does not match board", STATUSICON_FAIL);
-            myDevice->updateButton->setEnabled(true);
+            unfreeze();
             return;
         }
         // Check the firmware embedded in the file:
@@ -367,7 +386,7 @@ void deviceWidget::uploadFirmware()
         QByteArray fileHash = QCryptographicHash::hash(loadedFW.left(loadedFW.length()-100), QCryptographicHash::Sha1);
         if (firmwareHash != fileHash) {
             status("Error: firmware file corrupt", STATUSICON_FAIL);
-            myDevice->updateButton->setEnabled(true);
+            unfreeze();
             return;
         }
     } else {
@@ -384,7 +403,7 @@ void deviceWidget::uploadFirmware()
     if(!m_dfu->enterDFU(deviceID))
     {
         status("Error:Could not enter DFU mode", STATUSICON_FAIL);
-        myDevice->updateButton->setEnabled(true);
+        unfreeze();
         emit uploadEnded(false);
         return;
     }
@@ -398,7 +417,7 @@ void deviceWidget::uploadFirmware()
     bool retstatus = m_dfu->UploadFirmware(filename,verify, deviceID);
     if(!retstatus ) {
         status("Could not start upload", STATUSICON_FAIL);
-        myDevice->updateButton->setEnabled(true);
+        unfreeze();
         emit uploadEnded(false);
         return;
     }
@@ -453,7 +472,7 @@ void deviceWidget::downloadFinished()
   */
 void deviceWidget::uploadFinished(OP_DFU::Status retstatus)
 {
-    myDevice->updateButton->setEnabled(true);
+    unfreeze();
     disconnect(m_dfu, SIGNAL(uploadFinished(OP_DFU::Status)), this, SLOT(uploadFinished(OP_DFU::Status)));
     disconnect(m_dfu, SIGNAL(progressUpdated(int)), this, SLOT(setProgress(int)));
     disconnect(m_dfu, SIGNAL(operationProgress(QString)), this, SLOT(dfuStatus(QString)));

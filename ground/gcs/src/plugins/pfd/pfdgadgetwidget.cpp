@@ -34,9 +34,32 @@
 #include <QtOpenGL/QGLWidget>
 #include <cmath>
 
-PFDGadgetWidget::PFDGadgetWidget(QWidget *parent) : QGraphicsView(parent)
+PFDGadgetWidget::PFDGadgetWidget(QWidget *parent) : QGraphicsView(parent),
+    rollTarget(0),
+    rollValue(0),
+    pitchTarget(0),
+    pitchValue(0),
+    headingTarget(0),
+    headingValue(0),
+    groundspeedTarget(0),
+    groundspeedValue(0),
+    airspeedTarget(0),
+    airspeedValue(0),
+    altitudeTarget(0),
+    altitudeValue(0),
+    compassBandWidth(0),
+    airspeedObj(NULL),
+    altitudeObj(NULL),
+    attitudeObj(NULL),
+    groundspeedObj(NULL),
+    headingObj(NULL),
+    gpsObj(NULL),
+    gcsTelemetryObj(NULL),
+    gcsBatteryObj(NULL),
+    pfdError(true),
+    hqFonts(false),
+    beSmooth(false)
 {
-
     setMinimumSize(64,64);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     setScene(new QGraphicsScene(this));
@@ -49,32 +72,12 @@ PFDGadgetWidget::PFDGadgetWidget(QWidget *parent) : QGraphicsView(parent)
 
     m_renderer = new QSvgRenderer();
 
-    attitudeObj = NULL;
-    headingObj = NULL;
-    gcsBatteryObj = NULL;
-    gpsObj = NULL;
-    compassBandWidth = 0;
-    pfdError = true;
-    hqFonts = false;
-    rollTarget = 0;
-    rollValue = 0;
-    pitchTarget = 0;
-    pitchValue = 0;
-    headingTarget = 0;
-    headingValue = 0;
-    groundspeedTarget = 0;
-    groundspeedValue = 0;
-    altitudeTarget = 0;
-    altitudeValue = 0;
-
     // This timer mechanism makes needles rotate smoothly
     connect(&dialTimer, SIGNAL(timeout()), this, SLOT(moveNeedles()));
     dialTimer.start(30);
 
     connect(&skyDialTimer, SIGNAL(timeout()), this, SLOT(moveSky()));
     skyDialTimer.start(30);
-
-
 }
 
 PFDGadgetWidget::~PFDGadgetWidget()

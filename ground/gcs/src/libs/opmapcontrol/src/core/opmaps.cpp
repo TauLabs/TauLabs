@@ -44,7 +44,7 @@ namespace core {
         return m_pInstance;
     }
     OPMaps::OPMaps():
-        RetryLoadTile(2),useMemoryCache(true),lastZoom(0),quadCoordBottom(0),quadCoordRight(0)
+        RetryLoadTile(2),useMemoryCache(true),lastZoom(0),quadCoordRight(0),quadCoordBottom(0)
     {
         accessmode=AccessMode::ServerAndCache;
         Language=LanguageType::PortuguesePortugal;

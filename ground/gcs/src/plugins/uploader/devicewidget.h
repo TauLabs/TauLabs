@@ -54,6 +54,7 @@ public:
     void setDfu(DFUObject* dfu);
     void populate();
     void freeze();
+    void unfreeze();
     typedef enum { STATUSICON_OK, STATUSICON_RUNNING, STATUSICON_FAIL, STATUSICON_INFO} StatusIcon;
     QString setOpenFileName();
     QString setSaveFileName();

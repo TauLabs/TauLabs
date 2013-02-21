@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = UAVObjects
 DEFINES += UAVOBJECTS_LIBRARY
-include(../../openpilotgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(uavobjects_dependencies.pri)
 
 HEADERS += uavobjects_global.h \
@@ -29,6 +29,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/actuatorcommand.h \
     $$UAVOBJECT_SYNTHETICS/actuatordesired.h \
     $$UAVOBJECT_SYNTHETICS/actuatorsettings.h \
+    $$UAVOBJECT_SYNTHETICS/adcrouting.h \
     $$UAVOBJECT_SYNTHETICS/airspeedsettings.h \
     $$UAVOBJECT_SYNTHETICS/airspeedactual.h \
     $$UAVOBJECT_SYNTHETICS/altholdsmoothed.h \
@@ -45,7 +46,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/firmwareiapobj.h \
     $$UAVOBJECT_SYNTHETICS/fixedwingairspeeds.h \
     $$UAVOBJECT_SYNTHETICS/fixedwingpathfollowersettingscc.h \
-    $$UAVOBJECT_SYNTHETICS/fixedwingpathfollowersettingsrevolution.h \
+    $$UAVOBJECT_SYNTHETICS/fixedwingpathfollowersettings.h \
     $$UAVOBJECT_SYNTHETICS/fixedwingpathfollowerstatus.h \
     $$UAVOBJECT_SYNTHETICS/flightbatterysettings.h \
     $$UAVOBJECT_SYNTHETICS/flightbatterystate.h \
@@ -64,8 +65,18 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/gyros.h \
     $$UAVOBJECT_SYNTHETICS/gyrosbias.h \
     $$UAVOBJECT_SYNTHETICS/homelocation.h \
-    $$UAVOBJECT_SYNTHETICS/hwsettings.h \
+    $$UAVOBJECT_SYNTHETICS/hwcoptercontrol.h \
+    $$UAVOBJECT_SYNTHETICS/hwdiscoveryf4.h \
+    $$UAVOBJECT_SYNTHETICS/hwfreedom.h \
+    $$UAVOBJECT_SYNTHETICS/hwflyingf3.h \
+    $$UAVOBJECT_SYNTHETICS/hwflyingf4.h \
+    $$UAVOBJECT_SYNTHETICS/hwosd.h \
+    $$UAVOBJECT_SYNTHETICS/hwquanton.h \
+    $$UAVOBJECT_SYNTHETICS/hwrevolution.h \
+    $$UAVOBJECT_SYNTHETICS/hwrevomini.h \
     $$UAVOBJECT_SYNTHETICS/i2cstats.h \
+    $$UAVOBJECT_SYNTHETICS/i2cvm.h \
+    $$UAVOBJECT_SYNTHETICS/i2cvmuserprogram.h \
     $$UAVOBJECT_SYNTHETICS/inertialsensorsettings.h \
     $$UAVOBJECT_SYNTHETICS/inssettings.h \
     $$UAVOBJECT_SYNTHETICS/magbias.h \
@@ -74,17 +85,18 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/manualcontrolcommand.h \
     $$UAVOBJECT_SYNTHETICS/mixersettings.h \
     $$UAVOBJECT_SYNTHETICS/mixerstatus.h \
+    $$UAVOBJECT_SYNTHETICS/modulesettings.h \
     $$UAVOBJECT_SYNTHETICS/nedaccel.h \
     $$UAVOBJECT_SYNTHETICS/nedposition.h \
     $$UAVOBJECT_SYNTHETICS/objectpersistence.h \
+    $$UAVOBJECT_SYNTHETICS/oplinksettings.h \
+    $$UAVOBJECT_SYNTHETICS/oplinkstatus.h \
     $$UAVOBJECT_SYNTHETICS/osdsettings.h \
     $$UAVOBJECT_SYNTHETICS/overosyncsettings.h \
     $$UAVOBJECT_SYNTHETICS/overosyncstats.h \
     $$UAVOBJECT_SYNTHETICS/pathdesired.h \
     $$UAVOBJECT_SYNTHETICS/pathplannersettings.h \
     $$UAVOBJECT_SYNTHETICS/pathstatus.h \
-    $$UAVOBJECT_SYNTHETICS/pipxsettings.h \
-    $$UAVOBJECT_SYNTHETICS/pipxstatus.h \
     $$UAVOBJECT_SYNTHETICS/positionactual.h \
     $$UAVOBJECT_SYNTHETICS/ratedesired.h \
     $$UAVOBJECT_SYNTHETICS/receiveractivity.h \
@@ -112,6 +124,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/actuatorcommand.cpp \
     $$UAVOBJECT_SYNTHETICS/actuatordesired.cpp \
     $$UAVOBJECT_SYNTHETICS/actuatorsettings.cpp \
+    $$UAVOBJECT_SYNTHETICS/adcrouting.cpp \
     $$UAVOBJECT_SYNTHETICS/airspeedsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/airspeedactual.cpp \
     $$UAVOBJECT_SYNTHETICS/altholdsmoothed.cpp \
@@ -128,7 +141,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/firmwareiapobj.cpp \
     $$UAVOBJECT_SYNTHETICS/fixedwingairspeeds.cpp \
     $$UAVOBJECT_SYNTHETICS/fixedwingpathfollowersettingscc.cpp \
-    $$UAVOBJECT_SYNTHETICS/fixedwingpathfollowersettingsrevolution.cpp \
+    $$UAVOBJECT_SYNTHETICS/fixedwingpathfollowersettings.cpp \
     $$UAVOBJECT_SYNTHETICS/fixedwingpathfollowerstatus.cpp \
     $$UAVOBJECT_SYNTHETICS/flightbatterysettings.cpp \
     $$UAVOBJECT_SYNTHETICS/flightbatterystate.cpp \
@@ -147,8 +160,18 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/gyros.cpp \
     $$UAVOBJECT_SYNTHETICS/gyrosbias.cpp \
     $$UAVOBJECT_SYNTHETICS/homelocation.cpp \
-    $$UAVOBJECT_SYNTHETICS/hwsettings.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwcoptercontrol.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwdiscoveryf4.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwfreedom.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwflyingf3.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwflyingf4.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwosd.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwquanton.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwrevolution.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwrevomini.cpp \
     $$UAVOBJECT_SYNTHETICS/i2cstats.cpp \
+    $$UAVOBJECT_SYNTHETICS/i2cvm.cpp \
+    $$UAVOBJECT_SYNTHETICS/i2cvmuserprogram.cpp \
     $$UAVOBJECT_SYNTHETICS/inertialsensorsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/inssettings.cpp \
     $$UAVOBJECT_SYNTHETICS/magbias.cpp \
@@ -157,17 +180,18 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/manualcontrolcommand.cpp \
     $$UAVOBJECT_SYNTHETICS/mixersettings.cpp \
     $$UAVOBJECT_SYNTHETICS/mixerstatus.cpp \
+    $$UAVOBJECT_SYNTHETICS/modulesettings.cpp \
     $$UAVOBJECT_SYNTHETICS/nedaccel.cpp \
     $$UAVOBJECT_SYNTHETICS/nedposition.cpp \
     $$UAVOBJECT_SYNTHETICS/objectpersistence.cpp \
     $$UAVOBJECT_SYNTHETICS/osdsettings.cpp \
+    $$UAVOBJECT_SYNTHETICS/oplinksettings.cpp \
+    $$UAVOBJECT_SYNTHETICS/oplinkstatus.cpp \
     $$UAVOBJECT_SYNTHETICS/overosyncsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/overosyncstats.cpp \
     $$UAVOBJECT_SYNTHETICS/pathdesired.cpp \
     $$UAVOBJECT_SYNTHETICS/pathplannersettings.cpp \
     $$UAVOBJECT_SYNTHETICS/pathstatus.cpp \
-    $$UAVOBJECT_SYNTHETICS/pipxsettings.cpp \
-    $$UAVOBJECT_SYNTHETICS/pipxstatus.cpp \
     $$UAVOBJECT_SYNTHETICS/positionactual.cpp \
     $$UAVOBJECT_SYNTHETICS/ratedesired.cpp \
     $$UAVOBJECT_SYNTHETICS/receiveractivity.cpp \

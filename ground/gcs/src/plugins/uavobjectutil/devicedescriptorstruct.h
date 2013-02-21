@@ -12,7 +12,7 @@ public:
        QByteArray uavoHash;
        int boardType;
        int boardRevision;
-       static QString idToBoardName(int id)
+       static QString idToBoardName(quint16 id)
        {
            switch (id) {
            case 0x0101://MB
@@ -32,10 +32,29 @@ public:
                // for firmware compatibility and the filename path that would break
                return QString("CopterControl");
                break;
+           case 0x0903: //RevoMini
+               return QString("RevoMini");
+               break;
            case 0x0901://Revolution
-               // It would be nice to say CC3D here but since currently we use string comparisons
-               // for firmware compatibility and the filename path that would break
+           case 0x0902:
+           case 0x7F01:
                return QString("Revolution");
+               break;
+           case 0x8101:
+           case 0x8102:
+               return QString("Freedom");
+               break;
+           case 0x8301:
+               return QString("FlyingF3");
+               break;
+           case 0x8401:
+               return QString("FlyingF4");
+               break;
+           case 0x8501:
+               return QString("DiscoveryF4");
+               break;
+           case 0x8601:
+               return QString("Quanton");
                break;
            default:
                return QString("");

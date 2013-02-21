@@ -1,7 +1,7 @@
 TEMPLATE = lib
 QT+=widgets
 TARGET = UAVObjectBrowser
-include(../../openpilotgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(uavobjectbrowser_dependencies.pri)
 HEADERS += browserplugin.h \
     uavobjectbrowserconfiguration.h \

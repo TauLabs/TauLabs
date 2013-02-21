@@ -337,9 +337,6 @@ QVariant UAVObjectTreeModel::data(const QModelIndex &index, int role) const
         return item->data(index.column());
     }
 
-//    if (role == Qt::DecorationRole)
-//        return QIcon(":/core/images/openpilot_logo_128.png");
-
     if (role == Qt::ToolTipRole) {
         TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
         return item->description();
@@ -417,11 +414,11 @@ void UAVObjectTreeModel::highlightUpdatedObject(UAVObject *obj)
     Q_ASSERT(obj);
     ObjectTreeItem *item = findObjectTreeItem(obj);
     Q_ASSERT(item);
-    if(!m_onlyHilightChangedValues){
+    if(!m_onlyHighlightChangedValues){
         item->setHighlight(true);
     }
     item->update();
-    if(!m_onlyHilightChangedValues){
+    if(!m_onlyHighlightChangedValues){
         QModelIndex itemIndex = index(item);
         Q_ASSERT(itemIndex != QModelIndex());
         emit dataChanged(itemIndex, itemIndex);

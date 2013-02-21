@@ -42,8 +42,6 @@ else
 REMOVE_CMD = rm
 endif
 
-FLASH_TOOL = OPENOCD
-
 # List of modules to include
 MODULES += FirmwareIAP 
 MODULES += Telemetry
@@ -75,6 +73,7 @@ SRC =
 # optional component libraries
 include $(PIOSCOMMONLIB)/FreeRTOS/library.mk
 include $(PIOSCOMMONLIB)/msheap/library.mk
+include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
 
 # List C source files here. (C dependencies are automatically generated.)
@@ -120,6 +119,7 @@ SRC += $(UAVOBJSRC)
 
 # List any extra directories to look for include files here.
 #    Each directory must be seperated by a space.
+EXTRAINCDIRS += $(SHAREDAPIDIR)
 EXTRAINCDIRS += $(PIOS)
 EXTRAINCDIRS += $(PIOSINC)
 EXTRAINCDIRS += $(OPSYSTEMINC)
@@ -176,6 +176,13 @@ endif
 CFLAGS += $(ARCHFLAGS)
 CFLAGS += -DDIAGNOSTICS
 CFLAGS += -DDIAG_TASKS
+
+# configure CMSIS DSP Library
+CDEFS += -DARM_MATH_CM4
+CDEFS += -DARM_MATH_MATRIX_CHECK
+CDEFS += -DARM_MATH_ROUNDING
+CDEFS += -D__FPU_PRESENT=1
+CDEFS += -DUNALIGNED_SUPPORT_DISABLE
 
 # This is not the best place for these.  Really should abstract out
 # to the board file or something
@@ -240,7 +247,7 @@ CFLAGS += -fpromote-loop-indices
 endif
 
 CFLAGS += -Wall
-#CFLAGS += -Werror
+CFLAGS += -Werror
 CFLAGS += -Wa,-adhlns=$(addprefix $(OUTDIR)/, $(notdir $(addsuffix .lst, $(basename $<))))
 # Compiler flags to generate dependency files:
 CFLAGS += -MD -MP -MF $(OUTDIR)/dep/$(@F).d
@@ -265,6 +272,8 @@ LDFLAGS = -nostartfiles -Wl,-Map=$(OUTDIR)/$(TARGET).map,--cref,--gc-sections
 LDFLAGS += $(patsubst %,-L%,$(EXTRA_LIBDIRS))
 LDFLAGS += $(patsubst %,-l%,$(EXTRA_LIBS))
 LDFLAGS += -lc -lgcc -lm
+LDFLAGS += -Wl,--warn-common
+LDFLAGS += -Wl,--fatal-warnings
 
 #Linker scripts                                                                                                                                                                                                              
 LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_APP))

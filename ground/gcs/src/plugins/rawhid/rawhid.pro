@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = RawHID
 QT +=widgets
-include(../../openpilotgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(rawhid_dependencies.pri)
 HEADERS += rawhid_global.h \
     rawhidplugin.h \
@@ -9,10 +9,12 @@ HEADERS += rawhid_global.h \
     pjrc_rawhid.h \
     rawhid_const.h \
     usbmonitor.h \
-    usbsignalfilter.h
+    usbsignalfilter.h \
+    usbdevice.h
 SOURCES += rawhidplugin.cpp \
     rawhid.cpp \
-    usbsignalfilter.cpp
+    usbsignalfilter.cpp \
+    usbdevice.cpp
 FORMS += 
 RESOURCES += 
 DEFINES += RAWHID_LIBRARY
@@ -35,10 +37,10 @@ macx {
 linux-g++ {
     SOURCES += pjrc_rawhid_unix.cpp \
             usbmonitor_linux.cpp
-    LIBS += -lusb -ludev
+    LIBS += -lusb-1.0 -ludev
 }
 linux-g++-64 {
     SOURCES += pjrc_rawhid_unix.cpp \
             usbmonitor_linux.cpp
-    LIBS += -lusb -ludev
+    LIBS += -lusb-1.0 -ludev
 }

@@ -33,11 +33,7 @@
 #include "openpilot.h"
 #include "flighttelemetrystats.h"
 #include "gcstelemetrystats.h"
-#include "hwsettings.h"
-#if defined(PIOS_PACKET_HANDLER)
-#include "pipxstatus.h"
-#include "packet_handler.h"
-#endif
+#include "modulesettings.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE   TELEM_QUEUE_SIZE
@@ -83,9 +79,6 @@ static void updateTelemetryStats();
 static void gcsTelemetryStatsUpdated();
 static void updateSettings();
 static uint32_t getComPort();
-#ifdef PIOS_PACKET_HANDLER
-static void receivePacketData(uint8_t *buf, uint8_t len, int8_t rssi, int8_t afc);
-#endif
 
 /**
  * Initialise the telemetry module
@@ -99,13 +92,6 @@ int32_t TelemetryStart(void)
     
 	// Listen to objects of interest
 	GCSTelemetryStatsConnectQueue(priorityQueue);
-
-	// Register to receive data from the radio packet handler.
-	// This must be after the radio module is initialized.
-#ifdef PIOS_PACKET_HANDLER
-	if (PIOS_PACKET_HANDLER)
-		PHRegisterDataHandler(PIOS_PACKET_HANDLER, receivePacketData);
-#endif
     
 	// Start telemetry tasks
 	xTaskCreate(telemetryTxTask, (signed char *)"TelTx", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY_TX, &telemetryTxTaskHandle);
@@ -142,7 +128,6 @@ int32_t TelemetryInitialize(void)
 
 	// Update telemetry settings
 	telemetryPort = PIOS_COM_TELEM_RF;
-	HwSettingsInitialize();
 	updateSettings();
     
 	// Initialise UAVTalk
@@ -280,11 +265,6 @@ static void processObjEvent(UAVObjEvent * ev)
 		retries = 0;
 		success = -1;
 		if (ev->event == EV_UPDATED || ev->event == EV_UPDATED_MANUAL || ((ev->event == EV_UPDATED_PERIODIC) && (updateMode != UPDATEMODE_THROTTLED))) {
-#if defined(PIOS_PACKET_HANDLER)
-			// Don't send PipXStatus objects over the radio link.
-			if (PIOS_PACKET_HANDLER && (ev->obj == PipXStatusHandle()) && (getComPort() == 0))
-				return;
-#endif
 			// Send update to GCS (with retries)
 			while (retries < MAX_RETRIES && success == -1) {
 				success = UAVTalkSendObject(uavTalkCon, ev->obj, ev->instId, UAVObjGetTelemetryAcked(&metadata), REQ_TIMEOUT_MS);	// call blocks until ack is received or timeout
@@ -393,14 +373,9 @@ static int32_t transmitData(uint8_t * data, int32_t length)
 {
 	uint32_t outputPort = getComPort();
 
-	if (outputPort) {
+	if (outputPort)
 		return PIOS_COM_SendBuffer(outputPort, data, length);
-	}
-#ifdef PIOS_PACKET_HANDLER
-	if (PIOS_PACKET_HANDLER)
-		if (PHTransmitData(PIOS_PACKET_HANDLER, data, length))
-			return length;
-#endif
+
 	return -1;
 }
 
@@ -532,7 +507,7 @@ static void updateTelemetryStats()
  * Update the telemetry settings, called on startup.
  * FIXME: This should be in the TelemetrySettings object. But objects
  * have too much overhead yet. Also the telemetry has no any specific
- * settings, etc. Thus the HwSettings object which contains the
+ * settings, etc. Thus the ModuleSettings object which contains the
  * telemetry port speed is used for now.
  */
 static void updateSettings()
@@ -541,29 +516,29 @@ static void updateSettings()
 	if (telemetryPort) {
 		// Retrieve settings
 		uint8_t speed;
-		HwSettingsTelemetrySpeedGet(&speed);
+		ModuleSettingsTelemetrySpeedGet(&speed);
 
 		// Set port speed
 		switch (speed) {
-		case HWSETTINGS_TELEMETRYSPEED_2400:
+		case MODULESETTINGS_TELEMETRYSPEED_2400:
 			PIOS_COM_ChangeBaud(telemetryPort, 2400);
 			break;
-		case HWSETTINGS_TELEMETRYSPEED_4800:
+		case MODULESETTINGS_TELEMETRYSPEED_4800:
 			PIOS_COM_ChangeBaud(telemetryPort, 4800);
 			break;
-		case HWSETTINGS_TELEMETRYSPEED_9600:
+		case MODULESETTINGS_TELEMETRYSPEED_9600:
 			PIOS_COM_ChangeBaud(telemetryPort, 9600);
 			break;
-		case HWSETTINGS_TELEMETRYSPEED_19200:
+		case MODULESETTINGS_TELEMETRYSPEED_19200:
 			PIOS_COM_ChangeBaud(telemetryPort, 19200);
 			break;
-		case HWSETTINGS_TELEMETRYSPEED_38400:
+		case MODULESETTINGS_TELEMETRYSPEED_38400:
 			PIOS_COM_ChangeBaud(telemetryPort, 38400);
 			break;
-		case HWSETTINGS_TELEMETRYSPEED_57600:
+		case MODULESETTINGS_TELEMETRYSPEED_57600:
 			PIOS_COM_ChangeBaud(telemetryPort, 57600);
 			break;
-		case HWSETTINGS_TELEMETRYSPEED_115200:
+		case MODULESETTINGS_TELEMETRYSPEED_115200:
 			PIOS_COM_ChangeBaud(telemetryPort, 115200);
 			break;
 		}
@@ -571,29 +546,19 @@ static void updateSettings()
 }
 
 /**
- * Determine input/output com port (USB takes priority over telemetry port)
+ * Determine input/output com port as highest priority available 
  */
 static uint32_t getComPort() {
 #if defined(PIOS_INCLUDE_USB)
-	if (PIOS_USB_CheckAvailable(0) && PIOS_COM_TELEM_USB)
+	if ( PIOS_COM_Available(PIOS_COM_TELEM_USB) )
 		return PIOS_COM_TELEM_USB;
 	else
 #endif /* PIOS_INCLUDE_USB */
-		return telemetryPort;
+		if ( PIOS_COM_Available(telemetryPort) )
+			return telemetryPort;
+		else
+			return 0;
 }
-
-#ifdef PIOS_PACKET_HANDLER
-/**
- * Receive a packet
- * \param[in] buf The received data buffer
- * \param[in] length Length of buffer
- */
-static void receivePacketData(uint8_t *buf, uint8_t len, int8_t rssi, int8_t afc)
-{
-	for (uint8_t i = 0; i < len; ++i)
-		UAVTalkProcessInputStream(uavTalkCon, buf[i]);
-}
-#endif
 
 /**
   * @}

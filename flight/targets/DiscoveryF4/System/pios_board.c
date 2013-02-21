@@ -2,7 +2,7 @@
  ******************************************************************************
  * @file       pios_board.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2012-2013
  * @addtogroup 
  * @{
  * @addtogroup 
@@ -37,9 +37,10 @@
 #include <pios.h>
 #include <openpilot.h>
 #include <uavobjectsinit.h>
-#include "hwsettings.h"
+#include "hwdiscoveryf4.h"
 #include "manualcontrolsettings.h"
 #include "gcsreceiver.h"
+#include "modulesettings.h"
 
 /* One slot per selectable receiver group.
  *  eg. PWM, PPM, GCS, DSMMAINPORT, DSMFLEXIPORT, SBUS
@@ -52,31 +53,31 @@ uint32_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 #define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
-uint32_t pios_com_debug_id;
+uintptr_t pios_com_debug_id;
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 
-uint32_t pios_com_telem_rf_id;
-uint32_t pios_com_telem_usb_id;
-uint32_t pios_com_vcp_id;
+uintptr_t pios_com_telem_rf_id;
+uintptr_t pios_com_telem_usb_id;
+uintptr_t pios_com_vcp_id;
 
-/* 
+/*
  * Setup a com port based on the passed cfg, driver and buffer sizes. tx size of -1 make the port rx only
  */
 #ifdef PIOS_INCLUDE_USART
 static void PIOS_Board_configure_com(const struct pios_usart_cfg *usart_port_cfg, size_t rx_buf_len, size_t tx_buf_len,
-		const struct pios_com_driver *com_driver, uint32_t *pios_com_id) 
+		const struct pios_com_driver *com_driver, uintptr_t *pios_com_id)
 {
 	uint32_t pios_usart_id;
 	if (PIOS_USART_Init(&pios_usart_id, usart_port_cfg)) {
 		PIOS_Assert(0);
 	}
-	
+
 	uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(rx_buf_len);
 	PIOS_Assert(rx_buffer);
 	if(tx_buf_len!= -1){ // this is the case for rx/tx ports
 		uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(tx_buf_len);
 		PIOS_Assert(tx_buffer);
-		
+
 		if (PIOS_COM_Init(pios_com_id, com_driver, pios_usart_id,
 				rx_buffer, rx_buf_len,
 				tx_buffer, tx_buf_len)) {
@@ -125,7 +126,8 @@ void PIOS_Board_Init(void) {
 	PIOS_RTC_Init(&pios_rtc_main_cfg);
 #endif
 
-	HwSettingsInitialize();
+	HwDiscoveryF4Initialize();
+	ModuleSettingsInitialize();
 
 #ifndef ERASE_FLASH
 	/* Initialize watchdog as early as possible to catch faults during init */
@@ -147,8 +149,9 @@ void PIOS_Board_Init(void) {
 		PIOS_IAP_WriteBootCount(++boot_count);
 		AlarmsClear(SYSTEMALARMS_ALARM_BOOTFAULT);
 	} else {
-		/* Too many failed boot attempts, force hwsettings to defaults */
-		HwSettingsSetDefaults(HwSettingsHandle(), 0);
+		/* Too many failed boot attempts, force hw config to defaults */
+		HwDiscoveryF4SetDefaults(HwDiscoveryF4Handle(), 0);
+		ModuleSettingsSetDefaults(ModuleSettingsHandle(),0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
 
@@ -170,18 +173,18 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_USB_HID)
 	/* Configure the usb HID port */
-	uint8_t hwsettings_usb_hidport;
-	HwSettingsUSB_HIDPortGet(&hwsettings_usb_hidport);
+	uint8_t hw_usb_hidport;
+	HwDiscoveryF4USB_HIDPortGet(&hw_usb_hidport);
 
 	if (!usb_hid_present) {
 		/* Force HID port function to disabled if we haven't advertised HID in our USB descriptor */
-		hwsettings_usb_hidport = HWSETTINGS_USB_HIDPORT_DISABLED;
+		hw_usb_hidport = HWDISCOVERYF4_USB_HIDPORT_DISABLED;
 	}
 
-	switch (hwsettings_usb_hidport) {
-	case HWSETTINGS_USB_HIDPORT_DISABLED:
+	switch (hw_usb_hidport) {
+	case HWDISCOVERYF4_USB_HIDPORT_DISABLED:
 		break;
-	case HWSETTINGS_USB_HIDPORT_USBTELEMETRY:
+	case HWDISCOVERYF4_USB_HIDPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uint32_t pios_usb_hid_id;
@@ -213,13 +216,13 @@ void PIOS_Board_Init(void) {
 
 
 	/* Configure the main IO port */
-	uint8_t hwsettings_dif4_mainport;
-	HwSettingsDIF4_MainPortGet(&hwsettings_dif4_mainport);
+	uint8_t hw_mainport;
+	HwDiscoveryF4MainPortGet(&hw_mainport);
 
-	switch (hwsettings_dif4_mainport) {
-	case HWSETTINGS_DIF4_MAINPORT_DISABLED:
+	switch (hw_mainport) {
+	case HWDISCOVERYF4_MAINPORT_DISABLED:
 		break;
-	case HWSETTINGS_CC_MAINPORT_DEBUGCONSOLE:
+	case HWDISCOVERYF4_MAINPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 		{

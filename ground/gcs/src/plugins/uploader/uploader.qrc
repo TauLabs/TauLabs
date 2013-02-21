@@ -16,5 +16,8 @@
         <file>images/gcs-board-cc.png</file>
         <file>images/gcs-board-cc3d.png</file>
         <file>images/pipx.png</file>
+        <file>images/gcs-board-freedom.png</file>
+        <file>images/gcs-board-quanton.png</file>
+        <file>images/gcs-board-flyingf3.png</file>
     </qresource>
 </RCC>

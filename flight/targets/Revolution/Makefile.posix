@@ -86,19 +86,23 @@ else
 REMOVE_CMD = rm
 endif
 
-FLASH_TOOL = OPENOCD
-
 # List of modules to include
-MODULES +=  Actuator ManualControl Stabilization 
-MODULES += AltitudeHold VtolPathFollower PathPlanner
+MODULES += Actuator ManualControl Stabilization 
+MODULES += PathPlanner
 MODULES += Attitude/revolution
 MODULES += FirmwareIAP
-#MODULES += OveroSync/simulated
+MODULES += Telemetry
+
+OPTMODULES += AltitudeHold 
+OPTMODULES += VtolPathFollower 
+OPTMODULES += FixedWingPathFollower
+OPTMODULES += CameraStab
+OPTMODULES += OveroSync/simulated
+OPTMODULES += Autotune
+OPTMODULES += Battery
 
 # To run simulation instead of connect to SITL
 MODULES += Sensors/simulated
-
-MODULES += Telemetry
 
 # Paths
 OPSYSTEM = ./System
@@ -132,6 +136,7 @@ SRC =
 include $(PIOSCOMMONLIB)/FreeRTOS/library.mk
 #include $(PIOSCOMMONLIB)/dosfs/library.mk
 #include $(PIOSCOMMONLIB)/msheap/library.mk
+include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
 
 # List C source files here. (C dependencies are automatically generated.)
@@ -294,8 +299,12 @@ endif
    
 # common architecture-specific flags from the device-specific library makefile
 CFLAGS += $(ARCHFLAGS)
-
 CFLAGS += $(UAVOBJDEFINE)
+
+# configure CMSIS DSP Library
+CDEFS += -DARM_MATH_SIM
+CDEFS += -DARM_MATH_MATRIX_CHECK
+CDEFS += -DARM_MATH_ROUNDING
 
 # This is not the best place for these.  Really should abstract out
 # to the board file or something
@@ -322,6 +331,10 @@ CDEFS += -DUSE_SIM_POSIX
 # Make sure the build knows we're building a sim version
 CDEFS += -DSIM_POSIX
 
+# Declare all non-optional modules as built-in to force inclusion
+get_mod_name = $(shell echo $(1) | sed "s/\/[^\/]*$///")
+BUILTIN_DEFS := ${foreach MOD, ${MODULES}, -DMODULE_$(call get_mod_name, $(MOD))_BUILTIN }
+CDEFS += ${BUILTIN_DEFS}
 
 # Place project-specific -D and/or -U options for
 # Assembler with preprocessor here.
@@ -363,7 +376,7 @@ CFLAGS += -fpromote-loop-indices
 endif
 
 CFLAGS += -Wall
-#CFLAGS += -Werror
+CFLAGS += -Werror
 # Compiler flags to generate dependency files:
 CFLAGS += -MD -MP -MF $(OUTDIR)/dep/$(@F).d
 

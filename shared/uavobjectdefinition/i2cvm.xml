@@ -1,0 +1,22 @@
+<xml>
+	<object name="I2CVM" singleinstance="true" settings="false">
+		<description>Snapshot of the register and RAM state of the I2C Virtual Machine</description>
+
+		<field name="ram" units="" type="uint8" elements="8"/>
+
+		<field name="pc"  units="" type="uint16" elements="1"/>
+
+		<field name="r0"  units="" type="int32" elements="1"/>
+		<field name="r1"  units="" type="int32" elements="1"/>
+		<field name="r2"  units="" type="int32" elements="1"/>
+		<field name="r3"  units="" type="int32" elements="1"/>
+		<field name="r4"  units="" type="int32" elements="1"/>
+		<field name="r5"  units="" type="int32" elements="1"/>
+		<field name="r6"  units="" type="int32" elements="1"/>
+
+		<access gcs="readonly" flight="readwrite"/>
+		<telemetrygcs acked="false" updatemode="manual" period="0"/>
+		<telemetryflight acked="false" updatemode="onchange" period="100"/>
+		<logging updatemode="onchange" period="0"/>
+	</object>
+</xml>

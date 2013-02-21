@@ -49,7 +49,7 @@
 
 enum { OptionIndent = 4, DescriptionIndent = 24 };
 
-static const char *appNameC = "Above Ground Labs GCS";
+static const char *appNameC = "Tau Labs GCS";
 static const char *corePluginNameC = "Core";
 static const char *fixedOptionsC =
 " [OPTION]... [FILE]...\n"
@@ -154,7 +154,7 @@ static inline QString prepareRemoteArgument(const QString &a)
     return a;
 }
 
-// Send the arguments to an already running instance of OpenPilot GCS
+// Send the arguments to an already running instance of Tau Labs GCS
 static bool sendArguments(SharedTools::QtSingleApplication &app, const QStringList &arguments)
 {
     if (!arguments.empty()) {
@@ -187,7 +187,7 @@ static inline QStringList getPluginPaths()
     pluginPath += QLatin1Char('/');
     pluginPath += QLatin1String(GCS_LIBRARY_BASENAME);
     pluginPath += QLatin1Char('/');
-    pluginPath += QLatin1String("abovegroundlabs");
+    pluginPath += QLatin1String("taulabs");
     pluginPath += QLatin1Char('/');
     pluginPath += QLatin1String("plugins");
     rc.push_back(pluginPath);
@@ -202,7 +202,7 @@ static inline QStringList getPluginPaths()
 #ifdef Q_OS_MAC
 #  define SHARE_PATH "/../Resources"
 #else
-#  define SHARE_PATH "/../share/abovegroundlabs"
+#  define SHARE_PATH "/../share/taulabs"
 #endif
 
 static void overrideSettings(QSettings &settings, int argc, char **argv){
@@ -252,7 +252,7 @@ int main(int argc, char **argv)
             QCoreApplication::applicationDirPath()+QLatin1String(SHARE_PATH));
     // keep this in sync with the MainWindow ctor in coreplugin/mainwindow.cpp
     QSettings settings(XmlConfig::XmlSettingsFormat, QSettings::UserScope,
-                                 QLatin1String("AboveGroundLabs"), QLatin1String("AboveGroundLabs_config"));
+                                 QLatin1String("TauLabs"), QLatin1String("TauLabs_config"));
 
     overrideSettings(settings, argc, argv);
     locale = settings.value("General/OverrideLanguage", locale).toString();
@@ -262,7 +262,7 @@ int main(int argc, char **argv)
 
     const QString &creatorTrPath = QCoreApplication::applicationDirPath()
                                    + QLatin1String(SHARE_PATH "/translations");
-    if (translator.load(QLatin1String("abovegroundlabs_") + locale, creatorTrPath)) {
+    if (translator.load(QLatin1String("taulabs_") + locale, creatorTrPath)) {
         const QString &qtTrPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
         const QString &qtTrFile = QLatin1String("qt_") + locale;
         // Binary installer puts Qt tr files into creatorTrPath
@@ -354,7 +354,7 @@ int main(int argc, char **argv)
                 errors.append(p->errorString());
         if (!errors.isEmpty())
             QMessageBox::warning(0,
-                QCoreApplication::translate("Application", "Above Ground Labs - Plugin loader messages"),
+                QCoreApplication::translate("Application", "Tau Labs - Plugin loader messages"),
                 errors.join(QString::fromLatin1("\n\n")));
     }
 

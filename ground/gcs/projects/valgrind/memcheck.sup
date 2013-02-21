@@ -1,0 +1,23 @@
+{
+   Libssl and libcrypto are known for this kind of behavior. Can be safely ignored.
+   Memcheck:Cond
+   fun:ASN1_STRING_set
+   fun:ASN1_mbstring_ncopy
+   fun:ASN1_mbstring_copy
+   fun:ASN1_STRING_to_UTF8
+   ...
+}
+{
+   Pixmap overrun Point. This might still be a bug.
+   Memcheck:Addr8
+   ...
+   fun:_ZN8QPainter10drawPixmapERK7QPointFRK7QPixmap
+   ...
+}
+{
+   Pixmap overrun Rect. This might still be a bug.
+   Memcheck:Addr8
+   ...
+   fun:_ZN8QPainter10drawPixmapERK6QRectFRK7QPixmapS2_
+   ...
+}

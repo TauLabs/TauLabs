@@ -2,7 +2,7 @@ TEMPLATE = lib
 QT+=widgets
 TARGET = ScopeGadget
 DEFINES += SCOPE_LIBRARY
-include(../../openpilotgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include (scope_dependencies.pri)
 HEADERS += scopeplugin.h \
     plotdata.h \

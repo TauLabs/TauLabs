@@ -2,7 +2,7 @@ TEMPLATE = lib
 QT+=widgets
 TARGET = PowerLog
 DEFINES += POWERLOG_LIBRARY
-include(../../openpilotgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(powerlog_dependencies.pri)
 HEADERS += powerlogplugin.h
 

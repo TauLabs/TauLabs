@@ -25,6 +25,7 @@
  */
 #include "pathplannergadgetwidget.h"
 #include "waypointdialog.h"
+#include "waypointdelegate.h"
 #include "ui_pathplanner.h"
 
 #include <QDebug>
@@ -68,20 +69,11 @@ void PathPlannerGadgetWidget::setModel(FlightDataModel *model, QItemSelectionMod
     ui->tableView->setModel(model);
     ui->tableView->setSelectionModel(selection);
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-    //ui->tableView->setItemDelegate(new MapDataDelegate(this));
-    connect(model,SIGNAL(rowsInserted(const QModelIndex&,int,int)),this,SLOT(rowsInserted(const QModelIndex&,int,int)));
-    ui->tableView->resizeColumnsToContents();
-}
 
-void PathPlannerGadgetWidget::rowsInserted ( const QModelIndex & parent, int start, int end )
-{
-    Q_UNUSED(parent);
-    for(int x=start;x<end+1;x++)
-    {
-        QModelIndex index=ui->tableView->model()->index(x,FlightDataModel::MODE);
-        ui->tableView->openPersistentEditor(index);
-        ui->tableView->size().setHeight(10);
-    }
+    ui->tableView->setItemDelegate(new WaypointDelegate(this));
+    ui->tableView->resizeColumnsToContents();
+
+    ui->tableView->resizeColumnsToContents();
 }
 
 void PathPlannerGadgetWidget::on_tbAdd_clicked()
@@ -148,6 +140,7 @@ void PathPlannerGadgetWidget::on_tbSendToUAV_clicked()
 void PathPlannerGadgetWidget::on_tbFetchFromUAV_clicked()
 {
     proxy->objectsToModel();
+    ui->tableView->resizeColumnsToContents();
 }
 
 /**

@@ -2,7 +2,7 @@ QT += network
 QT+=widgets
 TEMPLATE = lib
 TARGET = UAVTalk
-include(../../openpilotgcsplugin.pri)
+include(../../taulabsgcsplugin.pri)
 include(uavtalk_dependencies.pri)
 HEADERS += uavtalk.h \
     uavtalkplugin.h \

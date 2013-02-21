@@ -13,12 +13,12 @@ include(../libs/utils/utils.pri)
 LIBS *= -l$$qtLibraryName(ExtensionSystem) -l$$qtLibraryName(Aggregation)
 
 win32 {
-    RC_FILE = abovegroundlabs.rc
+    RC_FILE = taulabs.rc
     target.path = /bin
     INSTALLS += target
 } else:macx {
     LIBS += -framework CoreFoundation
-    ICON = abovegroundlabs.icns
+    ICON = taulabs.icns
     QMAKE_INFO_PLIST = Info.plist
     FILETYPES.files = profile.icns prifile.icns
     FILETYPES.path = Contents/Resources
@@ -28,4 +28,4 @@ win32 {
     INSTALLS    += target
 }
 
-OTHER_FILES += abovegroundlabs.rc
+OTHER_FILES += taulabs.rc

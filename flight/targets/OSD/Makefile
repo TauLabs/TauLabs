@@ -40,8 +40,6 @@ else
 REMOVE_CMD = rm
 endif
 
-FLASH_TOOL = OPENOCD
-
 # Optional module and driver defaults
 USE_CAMERASTAB ?= NO
 USE_COMUSBBRIDGE ?= NO
@@ -173,7 +171,8 @@ SRC += $(OPUAVSYNTHDIR)/firmwareiapobj.c
 #SRC += $(OPUAVSYNTHDIR)/attitudesettings.c
 #SRC += $(OPUAVSYNTHDIR)/camerastabsettings.c
 #SRC += $(OPUAVSYNTHDIR)/cameradesired.c
-SRC += $(OPUAVSYNTHDIR)/hwsettings.c
+SRC += $(OPUAVSYNTHDIR)/hwosd.c
+SRC += $(OPUAVSYNTHDIR)/modulesettings.c
 #SRC += $(OPUAVSYNTHDIR)/gcsreceiver.c
 #SRC += $(OPUAVSYNTHDIR)/receiveractivity.c
 SRC += $(OPUAVSYNTHDIR)/taskinfo.c
@@ -195,6 +194,7 @@ SRC += $(PIOSCOMMON)/pios_hmc5883.c
 #SRC += $(PIOSCOMMON)/printf-stdarg.c
 SRC += $(PIOSCOMMON)/printf2.c
 SRC += $(PIOSCOMMON)/pios_crc.c
+SRC += $(PIOSCOMMON)/pios_sensors.c
 SRC += $(PIOSCOMMON)/pios_video.c
 SRC += $(PIOSCOMMON)/pios_wavplay.c
 SRC += $(PIOSCOMMON)/pios_usb_desc_hid_cdc.c
@@ -239,6 +239,7 @@ ASRCARM =
 
 # List any extra directories to look for include files here.
 #    Each directory must be seperated by a space.
+EXTRAINCDIRS  += $(SHAREDAPIDIR)
 EXTRAINCDIRS  +=  $(OPSYSTEM)
 EXTRAINCDIRS  += $(OPSYSTEMINC)
 EXTRAINCDIRS  += $(OPUAVTALK)
@@ -368,7 +369,7 @@ CFLAGS += -fpromote-loop-indices
 endif
 
 CFLAGS += -Wall
-#CFLAGS += -Werror
+CFLAGS += -Werror
 CFLAGS += -Wa,-adhlns=$(addprefix $(OUTDIR)/, $(notdir $(addsuffix .lst, $(basename $<))))
 # Compiler flags to generate dependency files:
 CFLAGS += -MD -MP -MF $(OUTDIR)/dep/$(@F).d
@@ -397,6 +398,8 @@ LDFLAGS += -lc
 LDFLAGS += $(patsubst %,-l%,$(EXTRA_LIBS))
 LDFLAGS += $(MATH_LIB)
 LDFLAGS += -lc -lgcc
+LDFLAGS += -Wl,--warn-common
+LDFLAGS += -Wl,--fatal-warnings
 
 #Linker scripts
 LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_APP))

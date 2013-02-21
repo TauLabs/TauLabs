@@ -56,7 +56,7 @@ bool LogFile::open(OpenMode mode) {
         QString uavoHash = QString::fromLatin1(Core::Constants::UAVOSHA1_STR).replace("\"{ ", "").replace(" }\"", "").replace(",", "").replace("0x", "");
         QTextStream out(&file);
 
-        out << "OpenPilot git hash:\n" <<  gitHash << "\n" << uavoHash << "\n##\n";
+        out << "Tau Labs git hash:\n" <<  gitHash << "\n" << uavoHash << "\n##\n";
     }
     else if(mode == QIODevice::ReadOnly)
     {

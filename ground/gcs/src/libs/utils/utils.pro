@@ -11,7 +11,7 @@ QT += gui \
 
 DEFINES += QTCREATOR_UTILS_LIB
 
-include(../../abovegroundlabslibrary.pri)
+include(../../taulabslibrary.pri)
 
 SOURCES += reloadpromptutils.cpp \
     settingsutils.cpp \

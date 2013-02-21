@@ -1,0 +1,2 @@
+shlibs:Depends=libc6 (>= 2.3.6-6~), libc6 (>= 2.4), libgcc1 (>= 1:4.1.1), libgl1-mesa-glx | libgl1, libglu1-mesa | libglu1, libphonon4 (>= 4:4.8.0), libqt4-network (>= 4:4.8.0), libqt4-opengl (>= 4:4.8.0), libqt4-script (>= 4:4.8.0), libqt4-sql-sqlite (>= 4:4.8.0), libqt4-svg (>= 4:4.8.0), libqt4-test (>= 4:4.8.0), libqt4-xml (>= 4:4.8.0), libqtcore4 (>= 4:4.8.0), libqtgui4 (>= 4:4.8.0), libsdl1.2debian (>= 1.2.10-1), libstdc++6 (>= 4.1.1), libudev0 (>= 147), libusb-1.0-0 (>= 2:1.0.12), phonon, libjpeg8, libicu48 (>= 4:4.8.0)
+misc:Depends=

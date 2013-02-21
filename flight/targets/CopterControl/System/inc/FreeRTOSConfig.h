@@ -2,6 +2,10 @@
 #ifndef FREERTOS_CONFIG_H
 #define FREERTOS_CONFIG_H
 
+#if !defined(SIM_OSX) && !defined(SIM_POSIX)
+#include <stm32f10x.h>
+#endif
+
 /*-----------------------------------------------------------
  * Application specific definitions.
  *
@@ -40,7 +44,7 @@
 #define configUSE_RECURSIVE_MUTEXES	1
 #define configUSE_COUNTING_SEMAPHORES	0
 #define configUSE_ALTERNATIVE_API	0
-#define configQUEUE_REGISTRY_SIZE	10
+#define configQUEUE_REGISTRY_SIZE	0
 
 /* Co-routine definitions. */
 #define configUSE_CO_ROUTINES 		0
@@ -81,12 +85,14 @@ NVIC value of 255. */
 
 #define configGENERATE_RUN_TIME_STATS 1
 #define INCLUDE_uxTaskGetRunTime 1
-#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()\
-do {\
-(*(unsigned long *)0xe000edfc) |= (1<<24);/* DEMCR |= DEMCR_TRCENA */\
-(*(unsigned long *)0xe0001000) |= 1; /* DWT_CTRL |= DWT_CYCCNT_ENA */\
-} while(0)
-#define portGET_RUN_TIME_COUNTER_VALUE() (*(unsigned long *)0xe0001004)/* DWT_CYCCNT */
+
+#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()			\
+	do {													\
+		CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk; 	\
+		DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;				\
+	} while(0)
+#define portGET_RUN_TIME_COUNTER_VALUE()		DWT->CYCCNT
+
 #else
 #define configCHECK_FOR_STACK_OVERFLOW	1
 #endif

@@ -1,4 +1,3 @@
-
 TEMPLATE = lib 
 QT += widgets
 TARGET = NotifyPlugin 
@@ -29,5 +28,4 @@ FORMS += \
 
 RESOURCES += \
     res.qrc
-
 

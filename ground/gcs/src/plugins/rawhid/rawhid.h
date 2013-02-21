@@ -38,6 +38,7 @@
 
 #include "pjrc_rawhid.h"
 #include "usbmonitor.h"
+#include "usbdevice.h"
 
 //helper classes
 class RawHIDReadThread;
@@ -56,7 +57,7 @@ class RAWHID_EXPORT RawHID : public QIODevice
 
 public:
     RawHID();
-    RawHID(const Core::IConnection::device deviceName);
+    RawHID(USBDevice *deviceName);
     virtual ~RawHID();
 
     virtual bool open(OpenMode mode);
@@ -82,7 +83,7 @@ protected:
     bool closeDevice();
 
     QString serialNumber;
-    Core::IConnection::device deviceInfo;
+    USBDevice* deviceInfo;
 
     int m_deviceNo;
     pjrc_rawhid dev;

@@ -2,6 +2,7 @@ TEMPLATE = lib
 TARGET = Uploader
 DEFINES += UPLOADER_LIBRARY
 QT += svg
+
 include(uploader_dependencies.pri)
 INCLUDEPATH += ../../libs/qextserialport/src
 

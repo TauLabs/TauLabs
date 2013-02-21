@@ -42,8 +42,6 @@ else
 REMOVE_CMD = rm
 endif
 
-FLASH_TOOL = OPENOCD
-
 # Optional module and driver defaults
 USE_COMUSBBRIDGE ?= NO
 USE_TXPID ?= NO
@@ -72,15 +70,26 @@ endif
 endif
 
 # List of modules to include
-MODULES = Sensors Attitude/revolution ManualControl Stabilization Actuator
-MODULES += Altitude/revolution FirmwareIAP
+MODULES = Sensors 
+MODULES += Attitude/revolution
+MODULES += ManualControl
+MODULES += Stabilization
+MODULES += Actuator
+MODULES += FirmwareIAP
 MODULES += Airspeed/revolution
-MODULES += GPS AltitudeHold VtolPathFollower PathPlanner
-#MODULES += FixedWingPathFollower
-MODULES += Autotune
-MODULES += CameraStab
-MODULES += OveroSync
 MODULES += Telemetry
+
+OPTMODULES += GPS
+OPTMODULES += AltitudeHold 
+OPTMODULES += PathPlanner
+OPTMODULES += VtolPathFollower 
+OPTMODULES += FixedWingPathFollower
+OPTMODULES += CameraStab
+OPTMODULES += OveroSync
+OPTMODULES += Autotune
+OPTMODULES += TxPID
+OPTMODULES += Battery
+
 PYMODULES = 
 #FlightPlan
 
@@ -121,6 +130,7 @@ SRC =
 include $(PIOSCOMMONLIB)/FreeRTOS/library.mk
 #include $(PIOSCOMMONLIB)/dosfs/library.mk
 include $(PIOSCOMMONLIB)/msheap/library.mk
+include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
 
 # List C source files here. (C dependencies are automatically generated.)
@@ -182,6 +192,7 @@ SRC += $(PIOSCOMMON)/pios_ms5611.c
 SRC += $(PIOSCOMMON)/pios_crc.c
 SRC += $(PIOSCOMMON)/pios_com.c
 SRC += $(PIOSCOMMON)/pios_rcvr.c
+SRC += $(PIOSCOMMON)/pios_sensors.c
 SRC += $(PIOSCOMMON)/pios_flash_jedec.c
 SRC += $(PIOSCOMMON)/pios_flashfs_logfs.c
 SRC += $(PIOSCOMMON)/printf-stdarg.c
@@ -220,6 +231,7 @@ ASRCARM =
 
 # List any extra directories to look for include files here.
 #    Each directory must be seperated by a space.
+EXTRAINCDIRS  += $(SHAREDAPIDIR)
 EXTRAINCDIRS  += $(PIOS)
 EXTRAINCDIRS  += $(PIOSINC)
 EXTRAINCDIRS  += $(OPSYSTEMINC)
@@ -294,6 +306,13 @@ CFLAGS += -DRATEDESIRED_DIAGNOSTICS
 CFLAGS += -DI2C_WDG_STATS_DIAGNOSTICS
 CFLAGS += -DDIAG_TASKS
 
+# configure CMSIS DSP Library
+CDEFS += -DARM_MATH_CM4
+CDEFS += -DARM_MATH_MATRIX_CHECK
+CDEFS += -DARM_MATH_ROUNDING
+CDEFS += -D__FPU_PRESENT=1
+CDEFS += -DUNALIGNED_SUPPORT_DISABLE
+
 # This is not the best place for these.  Really should abstract out
 # to the board file or something
 CFLAGS += -DSTM32F4XX
@@ -354,12 +373,13 @@ CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS)) -I.
 
 CFLAGS += -mapcs-frame
 CFLAGS += -fomit-frame-pointer
+CFLAGS += -ffunction-sections -fdata-sections
 ifeq ($(CODE_SOURCERY), YES)
 CFLAGS += -fpromote-loop-indices
 endif
 
 CFLAGS += -Wall
-#CFLAGS += -Werror
+CFLAGS += -Werror
 CFLAGS += -Wa,-adhlns=$(addprefix $(OUTDIR)/, $(notdir $(addsuffix .lst, $(basename $<))))
 # Compiler flags to generate dependency files:
 CFLAGS += -MD -MP -MF $(OUTDIR)/dep/$(@F).d
@@ -388,6 +408,8 @@ LDFLAGS += -lc
 LDFLAGS += $(patsubst %,-l%,$(EXTRA_LIBS))
 LDFLAGS += $(MATH_LIB)
 LDFLAGS += -lc -lgcc
+LDFLAGS += -Wl,--warn-common
+LDFLAGS += -Wl,--fatal-warnings
 
 #Linker scripts                                                                                                                                                                                                              
 LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_APP))

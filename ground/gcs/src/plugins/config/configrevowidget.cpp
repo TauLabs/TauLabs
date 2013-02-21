@@ -225,6 +225,7 @@ ConfigRevoWidget::ConfigRevoWidget(QWidget *parent) :
     // will be dealing with some null pointers
     addUAVObject("RevoCalibration");
     addUAVObject("INSSettings");
+    addUAVObject("InertialSensorSettings");
     addUAVObject("AttitudeSettings");
     autoLoadWidgets();
 

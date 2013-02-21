@@ -1,5 +1,5 @@
 #!/bin/sh
-# postinst script for openpilot
+# postinst script for taulabs
 #
 # see: dh_installdeb(1)
 
@@ -20,7 +20,7 @@ set -e
 
 case "$1" in
     configure)
-        sudo udevadm control --reload-rules >&2
+        udevadm control --reload-rules >&2
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

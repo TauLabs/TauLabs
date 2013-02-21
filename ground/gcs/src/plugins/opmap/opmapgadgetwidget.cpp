@@ -1781,7 +1781,9 @@ void OPMapGadgetWidget::onOpenWayPointEditorAct_triggered()
 {
     //create dialog
     pathPlannerDialog = new QDialog(this);
+    pathPlannerDialog->setModal(true);
     pathPlannerDialog->show();
+
     //create layout dialog
     QHBoxLayout *dialogLayout = new QHBoxLayout(pathPlannerDialog);
     pathPlannerDialog->setLayout(dialogLayout);

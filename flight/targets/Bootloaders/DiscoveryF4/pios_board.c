@@ -37,7 +37,7 @@
 #include <pios_board_info.h>
 #include <pios.h>
 
-uint32_t pios_com_telem_usb_id;
+uintptr_t pios_com_telem_usb_id;
 
 static bool board_init_complete = false;
 void PIOS_Board_Init() {

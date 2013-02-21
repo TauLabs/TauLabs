@@ -1,5 +1,5 @@
 #!/bin/sh
-# postinst script for openpilot
+# postinst script for taulabs
 #
 # see: dh_installdeb(1)
 

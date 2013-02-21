@@ -58,7 +58,7 @@
 //#define PIOS_INCLUDE_SERVO
 #define PIOS_INCLUDE_SPI
 #define PIOS_INCLUDE_SYS
-#define PIOS_INCLUDE_USART
+//#define PIOS_INCLUDE_USART
 #define PIOS_INCLUDE_USB
 #define PIOS_INCLUDE_USB_HID
 //#define PIOS_INCLUDE_USB_CDC  //not implemented for f4xx yet

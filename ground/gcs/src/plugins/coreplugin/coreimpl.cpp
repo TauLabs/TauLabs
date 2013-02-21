@@ -97,6 +97,11 @@ BoardManager *CoreImpl::boardManager() const
     return m_mainwindow->boardManager();
 }
 
+GlobalMessaging *CoreImpl::globalMessaging() const
+{
+    return m_mainwindow->globalMessaging();
+}
+
 UAVGadgetInstanceManager *CoreImpl::uavGadgetInstanceManager() const
 {
     return m_mainwindow->uavGadgetInstanceManager();
@@ -135,7 +140,7 @@ SettingsDatabase *CoreImpl::settingsDatabase() const
 #ifdef Q_OS_MAC
 #  define SHARE_PATH "/../Resources"
 #else
-#  define SHARE_PATH "/../share/abovegroundlabs"
+#  define SHARE_PATH "/../share/taulabs"
 #endif
 
 QString CoreImpl::resourcePath() const
