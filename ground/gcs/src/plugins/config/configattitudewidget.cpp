@@ -1,8 +1,9 @@
 /**
  ******************************************************************************
  *
- * @file       ConfigRevoWidget.h
+ * @file       configattitudewidget.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     PhoenixPilot, http://github.com/PhoenixPIlot Copyright (C) 2012.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -24,7 +25,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#include "configrevowidget.h"
+#include "configattitudewidget.h"
 
 #include "math.h"
 #include <QDebug>
@@ -59,7 +60,7 @@
 // Uncomment this to enable 6 point calibration on the accels
 #define SIX_POINT_CAL_ACCEL
 
-const double ConfigRevoWidget::maxVarValue = 0.1;
+const double ConfigAttitudeWidget::maxVarValue = 0.1;
 
 // *****************
 
@@ -74,9 +75,9 @@ public:
 
 // *****************
 
-ConfigRevoWidget::ConfigRevoWidget(QWidget *parent) :
+ConfigAttitudeWidget::ConfigAttitudeWidget(QWidget *parent) :
     ConfigTaskWidget(parent),
-    m_ui(new Ui_RevoSensorsWidget())
+    m_ui(new Ui_AttitudeWidget())
 {
     m_ui->setupUi(this);
 
@@ -221,25 +222,39 @@ ConfigRevoWidget::ConfigRevoWidget(QWidget *parent) :
     baro->setPos(startX,startY);
     baro->setTransform(QTransform::fromScale(1,0),true);
 
+    bool full_hardware = false;
+
     // Must set up the UI (above) before setting up the UAVO mappings or refreshWidgetValues
     // will be dealing with some null pointers
-    addUAVObject("RevoCalibration");
-    addUAVObject("INSSettings");
-    addUAVObject("InertialSensorSettings");
     addUAVObject("AttitudeSettings");
+    addUAVObject("InertialSensorSettings");
+    if (full_hardware) {
+        addUAVObject("RevoCalibration");
+        addUAVObject("INSSettings");
+    }
     autoLoadWidgets();
 
     // Configure the calibration object
-    calibration.initialize(true);
+    calibration.initialize(full_hardware);
+
+    // Must connect the graphs to the calibration object to see the calibration results
+    calibration.configureTempCurves(m_ui->xGyroTemp, m_ui->yGyroTemp, m_ui->zGyroTemp);
 
     // Connect the signals
     connect(m_ui->accelBiasStart, SIGNAL(clicked()), &calibration, SLOT(doStartLeveling()));
     connect(m_ui->sixPointStart, SIGNAL(clicked()), &calibration ,SLOT(doStartSixPoint()));
     connect(m_ui->sixPointSave, SIGNAL(clicked()), &calibration ,SLOT(doSaveSixPointPosition()));
     connect(m_ui->sixPointCancel, SIGNAL(clicked()), &calibration ,SLOT(doCancelSixPoint()));
+    connect(m_ui->startTempCal, SIGNAL(clicked()), &calibration, SLOT(doStartTempCal()));
+    connect(m_ui->acceptTempCal, SIGNAL(clicked()), &calibration, SLOT(doAcceptTempCal()));
+    connect(m_ui->cancelTempCal, SIGNAL(clicked()), &calibration, SLOT(doCancelTempCalPoint()));
+    connect(m_ui->tempCalRange, SIGNAL(valueChanged(int)), &calibration, SLOT(setTempCalRange(int)));
+    calibration.setTempCalRange(m_ui->tempCalRange->value());
 
     // Let calibration update the UI
     connect(&calibration, SIGNAL(levelingProgressChanged(int)), m_ui->accelBiasProgress, SLOT(setValue(int)));
+    connect(&calibration, SIGNAL(tempCalProgressChanged(int)), m_ui->tempCalProgress, SLOT(setValue(int)));
+    connect(&calibration, SIGNAL(showTempCalMessage(QString)), m_ui->tempCalMessage, SLOT(setText(QString)));
     connect(&calibration, SIGNAL(sixPointProgressChanged(int)), m_ui->sixPointProgress, SLOT(setValue(int)));
     connect(&calibration, SIGNAL(showSixPointMessage(QString)), m_ui->sixPointCalibInstructions, SLOT(setText(QString)));
     connect(&calibration, SIGNAL(updatePlane(int)), this, SLOT(displayPlane(int)));
@@ -250,6 +265,9 @@ ConfigRevoWidget::ConfigRevoWidget(QWidget *parent) :
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->sixPointCancel, SLOT(setDisabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->noiseMeasurementStart, SLOT(setEnabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->accelBiasStart, SLOT(setEnabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->startTempCal, SLOT(setEnabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->acceptTempCal, SLOT(setDisabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->cancelTempCal, SLOT(setDisabled(bool)));
 
     m_ui->noiseMeasurementStart->setEnabled(true);
     m_ui->sixPointStart->setEnabled(true);
@@ -261,13 +279,13 @@ ConfigRevoWidget::ConfigRevoWidget(QWidget *parent) :
     refreshWidgetsValues();
 }
 
-ConfigRevoWidget::~ConfigRevoWidget()
+ConfigAttitudeWidget::~ConfigAttitudeWidget()
 {
     // Do nothing
 }
 
 
-void ConfigRevoWidget::showEvent(QShowEvent *event)
+void ConfigAttitudeWidget::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event)
     // Thit fitInView method should only be called now, once the
@@ -277,7 +295,7 @@ void ConfigRevoWidget::showEvent(QShowEvent *event)
     m_ui->sixPointHelp->fitInView(paperplane,Qt::KeepAspectRatio);
 }
 
-void ConfigRevoWidget::resizeEvent(QResizeEvent *event)
+void ConfigAttitudeWidget::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event)
     m_ui->sensorsBargraph->fitInView(sensorsBargraph, Qt::KeepAspectRatio);
@@ -287,7 +305,7 @@ void ConfigRevoWidget::resizeEvent(QResizeEvent *event)
 /**
   Rotate the paper plane
   */
-void ConfigRevoWidget::displayPlane(int position)
+void ConfigAttitudeWidget::displayPlane(int position)
 {
     QString displayElement;
     switch(position) {
@@ -322,7 +340,7 @@ void ConfigRevoWidget::displayPlane(int position)
 /**
   * Connect sensor updates and timeout for measuring the noise
   */
-void ConfigRevoWidget::doStartNoiseMeasurement()
+void ConfigAttitudeWidget::doStartNoiseMeasurement()
 {
     QMutexLocker lock(&sensorsUpdateLock);
     Q_UNUSED(lock);
@@ -385,7 +403,7 @@ void ConfigRevoWidget::doStartNoiseMeasurement()
   * Called when any of the sensors are updated.  Stores the sample for measuring the
   * variance at the end
   */
-void ConfigRevoWidget::doGetNoiseSample(UAVObject * obj)
+void ConfigAttitudeWidget::doGetNoiseSample(UAVObject * obj)
 {
     QMutexLocker lock(&sensorsUpdateLock);
     Q_UNUSED(lock);
@@ -486,7 +504,7 @@ void ConfigRevoWidget::doGetNoiseSample(UAVObject * obj)
 /**
   Draws the sensor variances bargraph
   */
-void ConfigRevoWidget::drawVariancesGraph()
+void ConfigAttitudeWidget::drawVariancesGraph()
 {
     INSSettings * insSettings = INSSettings::GetInstance(getObjectManager());
     Q_ASSERT(insSettings);
@@ -537,7 +555,7 @@ void ConfigRevoWidget::drawVariancesGraph()
   * Called by the ConfigTaskWidget parent when RevoCalibration is updated
   * to update the UI
   */
-void ConfigRevoWidget::refreshWidgetsValues(UAVObject *)
+void ConfigAttitudeWidget::refreshWidgetsValues(UAVObject *)
 {
     drawVariancesGraph();
 
