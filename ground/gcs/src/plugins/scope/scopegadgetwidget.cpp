@@ -559,26 +559,26 @@ void ScopeGadgetWidget::addWaterfallPlot(QString uavObjectName, QString uavField
     spectrogramData->setYMinimum(0);
     spectrogramData->setYMaximum(timeHorizon);
     spectrogramData->setZMaximum(zMaximum);
-    spectrogramData->scalePower = scaleOrderFactor;
-    spectrogramData->meanSamples = meanSamples;
-    spectrogramData->mathFunction = mathFunction;
+    spectrogramData->setScalePower(scaleOrderFactor);
+    spectrogramData->setMeanSamples(meanSamples);
+    spectrogramData->setMathFunction(mathFunction);
 
     //Generate the waterfall name
-    QString waterfallName = (spectrogramData->uavObjectName) + "." + (spectrogramData->uavFieldName);
-    if(spectrogramData->haveSubField)
-        waterfallName = waterfallName.append("." + spectrogramData->uavSubFieldName);
+    QString waterfallName = (spectrogramData->getUavoName()) + "." + (spectrogramData->getUavoFieldName());
+    if(spectrogramData->getHaveSubFieldFlag())
+        waterfallName = waterfallName.append("." + spectrogramData->getUavoSubFieldName());
 
     //Get the uav object
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-    UAVDataObject* obj = dynamic_cast<UAVDataObject*>(objManager->getObject((spectrogramData->uavObjectName)));
+    UAVDataObject* obj = dynamic_cast<UAVDataObject*>(objManager->getObject((spectrogramData->getUavoName())));
     if(!obj) {
-        qDebug() << "Object " << spectrogramData->uavObjectName << " is missing";
+        qDebug() << "Object " << spectrogramData->getUavoName() << " is missing";
         return;
     }
 
     //Get the units
-    QString units = ScopeGadgetWidget::getUavObjectFieldUnits(spectrogramData->uavObjectName, spectrogramData->uavFieldName);
+    QString units = ScopeGadgetWidget::getUavObjectFieldUnits(spectrogramData->getUavoName(), spectrogramData->getUavoFieldName());
 
     //Generate name with scaling factor appeneded
     QString waterfallNameScaled;
@@ -672,9 +672,9 @@ void ScopeGadgetWidget::add2dCurvePlot(QString uavObjectName, QString uavFieldSu
     }
 
     scatterplotData->setXWindowSize(m_xWindowSize);
-    scatterplotData->scalePower = scaleOrderFactor;
-    scatterplotData->meanSamples = meanSamples;
-    scatterplotData->mathFunction = mathFunction;
+    scatterplotData->setScalePower(scaleOrderFactor);
+    scatterplotData->setMeanSamples(meanSamples);
+    scatterplotData->setMathFunction(mathFunction);
 
     //If the y-bounds are provided, set them
     if (scatterplotData->getYMinimum() != scatterplotData->getYMaximum())
@@ -683,21 +683,21 @@ void ScopeGadgetWidget::add2dCurvePlot(QString uavObjectName, QString uavFieldSu
 	}
 
     //Generate the curve name
-    QString curveName = (scatterplotData->uavObjectName) + "." + (scatterplotData->uavFieldName);
-    if(scatterplotData->haveSubField)
-        curveName = curveName.append("." + scatterplotData->uavSubFieldName);
+    QString curveName = (scatterplotData->getUavoName()) + "." + (scatterplotData->getUavoFieldName());
+    if(scatterplotData->getHaveSubFieldFlag())
+        curveName = curveName.append("." + scatterplotData->getUavoSubFieldName());
 
     //Get the uav object
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-    UAVDataObject* obj = dynamic_cast<UAVDataObject*>(objManager->getObject((scatterplotData->uavObjectName)));
+    UAVDataObject* obj = dynamic_cast<UAVDataObject*>(objManager->getObject((scatterplotData->getUavoName())));
     if(!obj) {
-        qDebug() << "Object " << scatterplotData->uavObjectName << " is missing";
+        qDebug() << "Object " << scatterplotData->getUavoName() << " is missing";
         return;
     }
 
     //Get the units
-    QString units = ScopeGadgetWidget::getUavObjectFieldUnits(scatterplotData->uavObjectName, scatterplotData->uavFieldName);
+    QString units = ScopeGadgetWidget::getUavObjectFieldUnits(scatterplotData->getUavoName(), scatterplotData->getUavoFieldName());
 
     //Generate name with scaling factor appeneded
     QString curveNameScaled;
@@ -725,7 +725,7 @@ void ScopeGadgetWidget::add2dCurvePlot(QString uavObjectName, QString uavFieldSu
     //Create the curve plot
     QwtPlotCurve* plotCurve = new QwtPlotCurve(curveNameScaledMath);
     plotCurve->setPen(pen);
-    plotCurve->setSamples(*scatterplotData->xData, *scatterplotData->yData);
+    plotCurve->setSamples(*(scatterplotData->getXData()), *(scatterplotData->getYData()));
     plotCurve->attach(this);
     scatterplotData->curve = plotCurve;
 
@@ -748,9 +748,9 @@ void ScopeGadgetWidget::addHistogram(QString uavObjectName, QString uavFieldSubF
     HistogramData* histogramData;
     histogramData = new HistogramData(uavObjectName, uavFieldSubFieldName, binWidth, numberOfBins);
 
-    histogramData->scalePower = scaleOrderFactor;
-    histogramData->meanSamples = meanSamples;
-    histogramData->mathFunction = mathFunction;
+    histogramData->setScalePower(scaleOrderFactor);
+    histogramData->setMeanSamples(meanSamples);
+    histogramData->setMathFunction(mathFunction);
 
     //If the y-bounds are provided, set them
     if (histogramData->getYMinimum() != histogramData->getYMaximum())
@@ -759,21 +759,21 @@ void ScopeGadgetWidget::addHistogram(QString uavObjectName, QString uavFieldSubF
     }
 
     //Generate the curve name
-    QString curveName = (histogramData->uavObjectName) + "." + (histogramData->uavFieldName);
-    if(histogramData->haveSubField)
-        curveName = curveName.append("." + histogramData->uavSubFieldName);
+    QString curveName = (histogramData->getUavoName()) + "." + (histogramData->getUavoFieldName());
+    if(histogramData->getHaveSubFieldFlag())
+        curveName = curveName.append("." + histogramData->getUavoSubFieldName());
 
     //Get the uav object
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-    UAVDataObject* obj = dynamic_cast<UAVDataObject*>(objManager->getObject((histogramData->uavObjectName)));
+    UAVDataObject* obj = dynamic_cast<UAVDataObject*>(objManager->getObject((histogramData->getUavoName())));
     if(!obj) {
-        qDebug() << "Object " << histogramData->uavObjectName << " is missing";
+        qDebug() << "Object " << histogramData->getUavoName() << " is missing";
         return;
     }
 
     //Get the units
-    QString units = ScopeGadgetWidget::getUavObjectFieldUnits(histogramData->uavObjectName, histogramData->uavFieldName);
+    QString units = ScopeGadgetWidget::getUavObjectFieldUnits(histogramData->getUavoName(), histogramData->getUavoFieldName());
 
     //Generate name with scaling factor appeneded
     QString histogramNameScaled;
@@ -872,7 +872,7 @@ void ScopeGadgetWidget::replotNewData()
                 ScatterplotData *scatterplotData = (ScatterplotData*) plot2dData;
                 //Plot new data
                 if (scatterplotData->readAndResetUpdatedFlag() == true)
-                    scatterplotData->curve->setSamples(*scatterplotData->xData, *scatterplotData->yData);
+                    scatterplotData->curve->setSamples(*(scatterplotData->getXData()), *(scatterplotData->getYData()));
 
                 // Advance axis in case of time series plot
                 if (m_Scatterplot2dType == TIMESERIES2D){

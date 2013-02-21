@@ -59,45 +59,60 @@ class PlotData : public QObject
 {
     Q_OBJECT
 public:
+    //Setter functions
     void setXMinimum(double val){xMinimum=val;}
     void setXMaximum(double val){xMaximum=val;}
     void setYMinimum(double val){yMinimum = val;}
     void setYMaximum(double val){yMaximum = val;}
     void setXWindowSize(double val){m_xWindowSize=val;}
+    void setScalePower(int val){scalePower = val;}
+    void setMeanSamples(int val){meanSamples = val;}
+    void setMathFunction(QString val){mathFunction = val;}
 
+    //Getter functions
     double getXMinimum(){return xMinimum;}
     double getXMaximum(){return xMaximum;}
     double getYMinimum(){return yMinimum;}
     double getYMaximum(){return yMaximum;}
     double getXWindowSize(){return m_xWindowSize;}
 
+    QString getUavoName(){return uavObjectName;}
+    QString getUavoFieldName(){return uavFieldName;}
+    QString getUavoSubFieldName(){return uavSubFieldName;}
+    bool getHaveSubFieldFlag(){return haveSubField;}
 
-    QString uavObjectName;
-    QString uavFieldName;
-    QString uavSubFieldName;
+    int getScalePower(){return scalePower;}
+    int getMeanSamples(){return meanSamples;}
+    QString getMathFunction(){return mathFunction;}
 
-    bool haveSubField;
-
-    int scalePower; //This is the power to which each value must be raised
-    int meanSamples;
-    double meanSum;
-    QString mathFunction;
-
-    double correctionSum;
-    int correctionCount;
-
-    QVector<double>* xData;        //Used for scatterplots
-    QVector<double>* yData;        //Used for scatterplots
+    QVector<double>* getXData(){return xData;}
+    QVector<double>* getYData(){return yData;}
 
     QwtScaleWidget *rightAxis;
 
 protected:
+    QVector<double>* xData;    //Data vector for plots
+    QVector<double>* yData;    //Used vector for plots
+
+    double m_xWindowSize;
     double xMinimum;
     double xMaximum;
     double yMinimum;
     double yMaximum;
 
-    double m_xWindowSize;
+    QString uavObjectName;
+    QString uavFieldName;
+    QString uavSubFieldName;
+    bool haveSubField;
+
+    int scalePower; //This is the power to which each value must be raised
+    int meanSamples;
+    QString mathFunction;
+    double meanSum;
+
+    double correctionSum;
+    int correctionCount;
+
 private:
 
 };

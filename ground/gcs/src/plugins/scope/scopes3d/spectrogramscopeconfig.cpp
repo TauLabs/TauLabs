@@ -203,18 +203,18 @@ void SpectrogramScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget)
     // Get and store the units
     units = (*scopeGadgetWidget)->getUavObjectFieldUnits(uavObjectName, uavFieldName);
 
-            // Create the Qwt waterfall plot
-            (*scopeGadgetWidget)->addWaterfallPlot(
-                        uavObjectName,
-                        uavFieldName,
-                        scale,
-                        mean,
-                        mathFunction,
-                        timeHorizon,
-                        samplingFrequency,
-                        windowWidth,
-                        zMaximum
-                        );
+    // Create the Qwt waterfall plot
+    (*scopeGadgetWidget)->addWaterfallPlot(
+                uavObjectName,
+                uavFieldName,
+                scale,
+                mean,
+                mathFunction,
+                timeHorizon,
+                samplingFrequency,
+                windowWidth,
+                zMaximum
+                );
 }
 
 
