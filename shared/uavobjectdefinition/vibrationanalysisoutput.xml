@@ -1,0 +1,14 @@
+<xml>
+    <object name="VibrationAnalysisOutput" singleinstance="false" settings="false">
+        <description>FFT output from @VibrationTest module.</description>
+        <!-- Discrete Fourier Transform units are the same as the original units. To 
+        get signal per Hz, each sample must be multiplied by the period step.-->
+        <field name="x" units="m/s^2" type="float" elements="1"/>
+        <field name="y" units="m/s^2" type="float" elements="1"/>
+        <field name="z" units="m/s^2" type="float" elements="1"/>
+        <access gcs="readwrite" flight="readwrite"/>
+        <telemetrygcs acked="false" updatemode="manual" period="0"/>
+        <telemetryflight acked="false" updatemode="manual" period="1000"/>
+        <logging updatemode="manual" period="0"/>
+    </object>
+</xml>
