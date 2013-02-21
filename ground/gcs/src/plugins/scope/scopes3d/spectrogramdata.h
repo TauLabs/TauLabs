@@ -45,10 +45,6 @@
 
 
 /**
- * @brief The SpectrogramData class The histogram plot has a variable sized buffer of data,
- *  where the data is for a specified histogram data set.
- */
-/**
  * @brief The SpectrogramData class The spectrogram plot has a fixed size
  * data buffer. All the curves in one plot have the same size buffer.
  */
@@ -98,7 +94,6 @@ public:
     double autoscaleValueUpdated;
 
     QwtPlotSpectrogram *spectrogram;
-    SpectrogramType spectrogramType;
 
     QwtMatrixRasterData *rasterData;
 

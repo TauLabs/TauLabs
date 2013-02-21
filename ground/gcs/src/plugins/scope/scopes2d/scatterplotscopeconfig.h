@@ -27,12 +27,21 @@
 
 #ifndef SCATTERPLOTSCOPE_H
 #define SCATTERPLOTSCOPE_H
+//#include "scopes2d/scatterplotdata.h"
+//#include <coreplugin/iuavgadgetconfiguration.h>
 
 #include "scopes2d/scopes2dconfig.h"
-#include "scopes2d/scatterplotdata.h"
 #include "plotdata2d.h"
-#include <coreplugin/iuavgadgetconfiguration.h>
 #include "scopegadgetwidget.h"
+
+
+///**
+// * @brief The Scatterplot2dType enum Defines the different type of plots.
+// */
+//enum Scatterplot2dType {
+//    SERIES2D,
+//    TIMESERIES2D
+//};
 
 
 /**

@@ -563,14 +563,6 @@ void ScopeGadgetWidget::addWaterfallPlot(QString uavObjectName, QString uavField
     spectrogramData->meanSamples = meanSamples;
     spectrogramData->mathFunction = mathFunction;
 
-    if (spectrogramData->spectrogramType == VIBRATIONTEST)
-    {
-    }
-    else if (spectrogramData->spectrogramType != VIBRATIONTEST)
-    {
-
-    }
-
     //Generate the waterfall name
     QString waterfallName = (spectrogramData->uavObjectName) + "." + (spectrogramData->uavFieldName);
     if(spectrogramData->haveSubField)

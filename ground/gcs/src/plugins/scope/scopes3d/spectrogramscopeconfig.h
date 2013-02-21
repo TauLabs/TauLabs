@@ -28,11 +28,21 @@
 #ifndef SPECTROGRAMSCOPE_H
 #define SPECTROGRAMSCOPE_H
 
+//#include "scopes3d/spectrogramdata.h"
+//#include "plotdata3d.h"
+//#include <coreplugin/iuavgadgetconfiguration.h>
+
 #include "scopes3d/scopes3dconfig.h"
-#include "scopes3d/spectrogramdata.h"
-#include "plotdata3d.h"
-#include <coreplugin/iuavgadgetconfiguration.h>
 #include "scopegadgetwidget.h"
+
+
+/**
+ * @brief The SpectrogramType enum Defines the different type of spectrogram plots.
+ */
+enum SpectrogramType {
+    VIBRATIONTEST,
+    CUSTOM
+};
 
 
 /**
@@ -59,7 +69,6 @@ public:
     double getZMaximum(){return zMaximum;}
     unsigned int getWindowWidth(){return windowWidth;}
     double getTimeHorizon(){return timeHorizon;}
-//    unsigned int getMaxNumberOfBins(){return maxNumberOfBins;}
     virtual QList<Plot3dCurveConfiguration*> getDataSourceConfigs(){return m_spectrogramSourceConfigs;}
 
     //Setter functions
@@ -67,7 +76,6 @@ public:
     void setZMaximum(double val){zMaximum = val;}
     void setWindowWidth(unsigned int val){windowWidth = val;}
     void setTimeHorizon(double val){timeHorizon = val;}
-//    void setMaxNumberOfBins(unsigned int val){maxNumberOfBins = val;}
 
     virtual void clone(ScopesGeneric *spectrogramSourceConfigs);
 
@@ -75,8 +83,9 @@ public:
 private slots:
 
 private:
+    SpectrogramType spectrogramType;
+
     double timeHorizon;
-//    unsigned int maxNumberOfBins;
     QString units;
 
     QList<Plot3dCurveConfiguration*> m_spectrogramSourceConfigs;

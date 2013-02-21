@@ -57,21 +57,12 @@ enum Plot3dType {
     SPECTROGRAM
 };
 
-/**
- * @brief The Scatterplot3dType enum Defines the different type of plots.
- */
-enum Scatterplot3dType {
-    TIMESERIES3D
-};
-
-
-/**
- * @brief The SpectrogramType enum Defines the different type of spectrogram plots.
- */
-enum SpectrogramType {
-    VIBRATIONTEST,
-    CUSTOM
-};
+///**
+// * @brief The Scatterplot3dType enum Defines the different type of plots.
+// */
+//enum Scatterplot3dType {
+//    TIMESERIES3D
+//};
 
 
 /**
