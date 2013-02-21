@@ -35,7 +35,7 @@ class PFDGadgetFactory;
 class PFDPlugin : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "AboveGroundLabs.plugins.PFDGadget" FILE "PFDGadget.json")
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.PFDGadget" FILE "PFDGadget.json")
 public:
         PFDPlugin();
    ~PFDPlugin();

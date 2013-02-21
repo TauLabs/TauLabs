@@ -35,7 +35,7 @@ class DebugGadgetFactory;
 class DebugPlugin : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "AboveGroundLabs.plugins.DebugPlugin" FILE "DebugGadget.json")
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.DebugPlugin" FILE "DebugGadget.json")
 
 public:
         DebugPlugin();

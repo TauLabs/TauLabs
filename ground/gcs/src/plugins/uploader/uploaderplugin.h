@@ -36,7 +36,7 @@ class UploaderGadgetFactory;
 class UPLOADER_EXPORT UploaderPlugin : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "AboveGroundLabs.plugins.Uploader" FILE "Uploader.json")
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.Uploader" FILE "Uploader.json")
 public:
         UploaderPlugin();
    ~UploaderPlugin();

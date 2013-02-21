@@ -113,7 +113,7 @@ private:
 class LoggingPlugin : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "AboveGroundLabs.plugins.LoggingGadget" FILE "LoggingGadget.json")
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.LoggingGadget" FILE "LoggingGadget.json")
 public:
     LoggingPlugin();
     ~LoggingPlugin();

@@ -35,7 +35,7 @@ class EmptyGadgetFactory;
 class EmptyPlugin : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "AboveGroundLabs.plugins.EmptyGadget" FILE "EmptyGadget.json")
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.EmptyGadget" FILE "EmptyGadget.json")
 
 public:
         EmptyPlugin();

@@ -21,7 +21,7 @@
 # files when it generates GCS Makefiles. But we do not have
 # uavobjgenerator at that time (on the 1st build). So we use the
 # following trick: at make stage in uavobjects we rerun qmake for
-# abovegroundlabs.pro and regenerate GCS Makefiles using just built
+# taulabs.pro and regenerate GCS Makefiles using just built
 # synthetic files. It takes some extra time but solves the
 # dependency problem.
 

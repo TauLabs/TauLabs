@@ -35,7 +35,7 @@ class OsgEarthviewGadgetFactory;
 class OsgEarthviewPlugin : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "AboveGroundLabs.plugins.OsgEarthviewGadget" FILE "OsgEarthviewGadget.json")
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.OsgEarthviewGadget" FILE "OsgEarthviewGadget.json")
 public:
         OsgEarthviewPlugin();
    ~OsgEarthviewPlugin();

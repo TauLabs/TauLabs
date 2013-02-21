@@ -32,6 +32,9 @@
 
 class QuantecPlugin : public ExtensionSystem::IPlugin
 {
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.Quantec" FILE "Quantec.json")
+
 public:
    QuantecPlugin();
    ~QuantecPlugin();

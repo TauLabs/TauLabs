@@ -38,7 +38,7 @@ class MoCapFactory;
 class MoCapPlugin : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "AboveGroundLabs.plugins.motioncapture" FILE "motioncapture.json")
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.motioncapture" FILE "motioncapture.json")
 public:
     MoCapPlugin();
    ~MoCapPlugin();

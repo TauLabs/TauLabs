@@ -34,7 +34,7 @@
 class UAVOBJECTWIDGETUTILS_EXPORT UAVObjectWidgetUtilsPlugin: public ExtensionSystem::IPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "AboveGroundLabs.plugins.UAVObjectWidgetUtils" FILE "UAVObjectWidgetUtils.json")
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.UAVObjectWidgetUtils" FILE "UAVObjectWidgetUtils.json")
 
 public:
     UAVObjectWidgetUtilsPlugin();

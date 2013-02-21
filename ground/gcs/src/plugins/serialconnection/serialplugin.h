@@ -115,7 +115,7 @@ class SerialPlugin
     : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "AboveGroundLabs.plugins.Serial" FILE "Serial.json")
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.Serial" FILE "Serial.json")
 
 public:
     SerialPlugin();
