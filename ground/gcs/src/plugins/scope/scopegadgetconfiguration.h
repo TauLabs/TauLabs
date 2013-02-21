@@ -59,11 +59,12 @@ public:
     ScopesGeneric* getScope(){return m_scope;}
     virtual int getScopeType(){}
 
+    virtual ScopesGeneric* cloneScope(ScopesGeneric*){}
 
     virtual PlotDimensions getPlotDimensions(){}
 
     void saveConfig(QSettings* settings) const; //THIS SEEMS TO BE UNUSED
-    IUAVGadgetConfiguration *clone();
+    IUAVGadgetConfiguration* clone();
 
     void applyGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page);
 

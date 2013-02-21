@@ -65,7 +65,8 @@ public:
     void setBinWidth(double val){binWidth = val;}
     void setMaxNumberOfBins(unsigned int val){maxNumberOfBins = val;}
 
-    virtual void clone(ScopesGeneric *histogramSourceConfigs);
+    virtual ScopesGeneric* cloneScope(ScopesGeneric *histogramSourceConfigs);
+
     virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page);
 
     virtual void loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget);

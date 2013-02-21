@@ -79,7 +79,7 @@ public:
     virtual void loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget);
     virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page);
 
-    virtual void clone(ScopesGeneric *Scatterplot2dScope);
+    virtual ScopesGeneric* cloneScope(ScopesGeneric *Scatterplot2dScope);
 
 
 private:

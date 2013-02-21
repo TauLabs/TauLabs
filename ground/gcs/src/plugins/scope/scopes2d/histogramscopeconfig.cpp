@@ -114,16 +114,15 @@ HistogramScope::~HistogramScope()
 
 }
 
-//TODO: This should probably be a constructor, too.
-void HistogramScope::clone(ScopesGeneric *originalScope)
+
+ScopesGeneric* HistogramScope::cloneScope(ScopesGeneric *originalScope)
 {
-//    this->parent() = new HistogramScope();
-
     HistogramScope *originalHistogramScope = (HistogramScope*) originalScope;
+    HistogramScope *cloneObj = new HistogramScope();
 
-    binWidth = originalHistogramScope->binWidth;
-    maxNumberOfBins = originalHistogramScope->maxNumberOfBins;
-    m_refreshInterval = originalHistogramScope->m_refreshInterval;
+    cloneObj->binWidth = originalHistogramScope->binWidth;
+    cloneObj->maxNumberOfBins = originalHistogramScope->maxNumberOfBins;
+    cloneObj->m_refreshInterval = originalHistogramScope->m_refreshInterval;
 
     int histogramSourceCount = originalHistogramScope->m_HistogramSourceConfigs.size();
 
@@ -141,8 +140,10 @@ void HistogramScope::clone(ScopesGeneric *originalScope)
         newHistogramSourceConf->yMinimum = currentHistogramSourceConf->yMinimum;
         newHistogramSourceConf->yMaximum = currentHistogramSourceConf->yMaximum;
 
-        m_HistogramSourceConfigs.append(newHistogramSourceConf);
+        cloneObj->m_HistogramSourceConfigs.append(newHistogramSourceConf);
     }
+
+    return cloneObj;
 }
 
 void HistogramScope::saveConfiguration(QSettings* qSettings)

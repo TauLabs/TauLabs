@@ -104,14 +104,13 @@ SpectrogramScope::~SpectrogramScope()
 
 }
 
-//TODO: This should probably be a constructor, too.
-void SpectrogramScope::clone(ScopesGeneric *originalScope)
+
+ScopesGeneric* SpectrogramScope::cloneScope(ScopesGeneric *originalScope)
 {
-//    this->parent() = new SpectrogramScope();
-
     SpectrogramScope *originalHistogramScope = (SpectrogramScope*) originalScope;
+    SpectrogramScope *cloneObj = new SpectrogramScope();
 
-    timeHorizon = originalHistogramScope->timeHorizon;
+    cloneObj->timeHorizon = originalHistogramScope->timeHorizon;
 
     int plotCurveCount = originalHistogramScope->m_spectrogramSourceConfigs.size();
 
@@ -129,8 +128,10 @@ void SpectrogramScope::clone(ScopesGeneric *originalScope)
         newSpectrogramConf->yMinimum = currentPlotCurveConf->yMinimum;
         newSpectrogramConf->yMaximum = currentPlotCurveConf->yMaximum;
 
-        m_spectrogramSourceConfigs.append(newSpectrogramConf);
+        cloneObj->m_spectrogramSourceConfigs.append(newSpectrogramConf);
     }
+
+    return cloneObj;
 }
 
 
@@ -220,9 +221,6 @@ void SpectrogramScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget)
 
 void SpectrogramScope::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page)
 {
-
-
-
     //Set the tab widget to 3D
     options_page->tabWidget2d3d->setCurrentWidget(options_page->tabPlot3d);
 

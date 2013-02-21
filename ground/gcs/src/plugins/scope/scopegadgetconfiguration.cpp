@@ -32,7 +32,8 @@
 #include "scopegadgetconfiguration.h"
 
 ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* qSettings, QObject *parent) :
-        IUAVGadgetConfiguration(classId, parent)
+        IUAVGadgetConfiguration(classId, parent),
+        m_scope(0)
 {
     //Default for scopes
     int refreshInterval = 50;
@@ -101,26 +102,12 @@ ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* q
             //We shouldn't be able to get this far
             Q_ASSERT(0);
         }
-
         m_scope->setRefreshInterval(refreshInterval);
-
     }
     else{
-        //Nothing to do here...
-//        // Default config is just a simple 2D scatterplot
-
-//        Plot2dCurveConfiguration *plotCurveConf = new Plot2dCurveConfiguration();
-//        plotCurveConf->color = 4294945407;
-//        plotCurveConf->mathFunction = "None";
-//        plotCurveConf->yMinimum = 0;
-//        plotCurveConf->yMaximum = 100;
-//        plotCurveConf->yMeanSamples = 1;
-//        plotCurveConf->yScalePower = 1;
-
-//        m_Plot2dCurveConfigs.append(plotCurveConf);
-
+        // Default config is just a simple 2D scatterplot
+        m_scope = new Scatterplot2dScope();
     }
-
 }
 
 
@@ -191,7 +178,7 @@ ScopeGadgetConfiguration::~ScopeGadgetConfiguration()
 IUAVGadgetConfiguration *ScopeGadgetConfiguration::clone()
 {
     ScopeGadgetConfiguration *m = new ScopeGadgetConfiguration(this->classId());
-    m->clone(m_scope); //TODO: Fix this, it's broken. I need to instantiate the m Class properly.
+    m->m_scope=this->getScope()->cloneScope(m_scope); //TODO: Fix this, it's broken. I need to instantiate the m Class properly.
 
     return m;
 }

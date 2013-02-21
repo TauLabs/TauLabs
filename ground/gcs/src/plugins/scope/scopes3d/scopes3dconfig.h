@@ -58,12 +58,13 @@ class Scopes3d : public ScopesGeneric
 public:
     virtual void saveConfiguration(QSettings *qSettings) = 0;
     virtual PlotDimensions getPlotDimensions() {return PLOT3D;}
-    virtual int getScopeType(){return (int) HISTOGRAM;} //FIX THIS
+    virtual int getScopeType(){}
+    virtual int getScopeDimensions(){return PLOT3D;}
     virtual QList<Plot3dCurveConfiguration*> getDataSourceConfigs(){}
     virtual void loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget){}
     virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *){}
-    virtual int getScopeDimensions(){return PLOT3D;}
     virtual void clone(ScopesGeneric *){}
+    virtual ScopesGeneric* cloneScope(ScopesGeneric *){}
 
 protected:
     PlotDimensions m_plotDimensions;

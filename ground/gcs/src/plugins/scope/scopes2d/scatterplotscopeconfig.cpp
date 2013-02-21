@@ -109,16 +109,15 @@ Scatterplot2dScope::~Scatterplot2dScope()
 
 }
 
-//TODO: This should probably be a constructor, too.
-void Scatterplot2dScope::clone(ScopesGeneric *originalScope)
+
+ScopesGeneric* Scatterplot2dScope::cloneScope(ScopesGeneric *originalScope)
 {
-//    this->parent() = new Scatterplot2dScope();
-
     Scatterplot2dScope *originalScatterplot2dScope = (Scatterplot2dScope*) originalScope;
+    Scatterplot2dScope *cloneObj = new Scatterplot2dScope();
 
-    m_refreshInterval = originalScatterplot2dScope->m_refreshInterval;
-    timeHorizon = originalScatterplot2dScope->timeHorizon;
-    scatterplot2dType = originalScatterplot2dScope->scatterplot2dType;
+    cloneObj->m_refreshInterval = originalScatterplot2dScope->m_refreshInterval;
+    cloneObj->timeHorizon = originalScatterplot2dScope->timeHorizon;
+    cloneObj->scatterplot2dType = originalScatterplot2dScope->scatterplot2dType;
 
     int histogramSourceCount = originalScatterplot2dScope->m_scatterplotSourceConfigs.size();
 
@@ -136,7 +135,7 @@ void Scatterplot2dScope::clone(ScopesGeneric *originalScope)
         newScatterplotSourceConf->yMinimum = currentScatterplotSourceConf->yMinimum;
         newScatterplotSourceConf->yMaximum = currentScatterplotSourceConf->yMaximum;
 
-        m_scatterplotSourceConfigs.append(newScatterplotSourceConf);
+        cloneObj->m_scatterplotSourceConfigs.append(newScatterplotSourceConf);
     }
 
 }

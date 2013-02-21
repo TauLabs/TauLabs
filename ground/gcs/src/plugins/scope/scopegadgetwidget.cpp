@@ -952,7 +952,6 @@ void ScopeGadgetWidget::clearCurvePlots()
 {
     m_grid->detach();
 
-    qDebug() << "length: " << m_curves2dData.size();
     foreach(Plot2dData* plot2dData, m_curves2dData.values()) {
 
         if (plot2dData->plotType() == SCATTERPLOT2D){

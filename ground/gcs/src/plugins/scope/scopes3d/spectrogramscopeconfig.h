@@ -28,10 +28,6 @@
 #ifndef SPECTROGRAMSCOPE_H
 #define SPECTROGRAMSCOPE_H
 
-//#include "scopes3d/spectrogramdata.h"
-//#include "plotdata3d.h"
-//#include <coreplugin/iuavgadgetconfiguration.h>
-
 #include "scopes3d/scopes3dconfig.h"
 
 
@@ -77,8 +73,7 @@ public:
     void setWindowWidth(unsigned int val){windowWidth = val;}
     void setTimeHorizon(double val){timeHorizon = val;}
     virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page);
-
-    virtual void clone(ScopesGeneric *spectrogramSourceConfigs);
+    virtual ScopesGeneric* cloneScope(ScopesGeneric*);
 
     virtual void loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget);
 private slots:

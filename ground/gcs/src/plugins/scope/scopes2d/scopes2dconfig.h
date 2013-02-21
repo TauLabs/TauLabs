@@ -58,12 +58,13 @@ class Scopes2d : public ScopesGeneric
 public:
     virtual void saveConfiguration(QSettings *qSettings) = 0;
     virtual PlotDimensions getPlotDimensions() {return PLOT2D;}
-    virtual int getScopeType(){} //TODO: Fix this. It should return the true value, not HISTOGRAM
+    virtual int getScopeType(){}
+    virtual int getScopeDimensions(){return PLOT2D;}
     virtual QList<Plot2dCurveConfiguration*> getDataSourceConfigs(){}
     virtual void loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget){}
     virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *){}
     virtual void clone(ScopesGeneric *){}
-    virtual int getScopeDimensions(){return PLOT2D;}
+    virtual ScopesGeneric* cloneScope(ScopesGeneric *){}
 
 protected:
     PlotDimensions m_plotDimensions;

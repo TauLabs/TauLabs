@@ -52,6 +52,8 @@ public:
     int getRefreshInterval(){return m_refreshInterval;}
     void setRefreshInterval(int val){m_refreshInterval = val;}
 
+    virtual ScopesGeneric* cloneScope(ScopesGeneric *histogramSourceConfigs){}
+
 protected:
     int m_refreshInterval; //The interval to replot the curve widget. The data buffer is refresh as the data comes in.
 private:
