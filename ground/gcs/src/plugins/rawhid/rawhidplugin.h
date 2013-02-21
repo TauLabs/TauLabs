@@ -86,7 +86,7 @@ class RAWHID_EXPORT RawHIDPlugin
     : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "AboveGroundLabs.plugins.RawHID" FILE "RawHID.json")
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.RawHID" FILE "RawHID.json")
 
 public:
     RawHIDPlugin();
