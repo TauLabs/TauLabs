@@ -26,5 +26,6 @@
         <file>html/Stabilization-Warning.html</file>
         <file>html/Stack-Critical.html</file>
         <file>html/Telemetry-Error.html</file>
+        <file>html/SystemConfiguration-Error.html</file>
     </qresource>
 </RCC>
