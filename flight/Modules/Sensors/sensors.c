@@ -89,6 +89,8 @@ static void update_baro(struct pios_sensor_baro_data *baro);
 static void mag_calibration_prelemari(MagnetometerData *mag);
 static void mag_calibration_fix_length(MagnetometerData *mag);
 
+static void updateTemperatureComp(float temperature, float *temp_bias);
+
 // Private variables
 static xTaskHandle sensorsTaskHandle;
 static RevoCalibrationData revoCal;
@@ -102,7 +104,10 @@ static float mag_scale[3] = {0,0,0};
 static float accel_bias[3] = {0,0,0};
 static float accel_scale[3] = {0,0,0};
 static float gyro_scale[3] = {0,0,0};
-
+static float gyro_coeff_x[4] = {0,0,0,0};
+static float gyro_coeff_y[4] = {0,0,0,0};
+static float gyro_coeff_z[4] = {0,0,0,0};
+static float gyro_temp_bias[3] = {0,0,0};
 static float Rbs[3][3] = {{0}};
 static int8_t rotate = 0;
 
@@ -295,14 +300,17 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros)
 		gyrosData.y = gyros_out[1];
 		gyrosData.z = gyros_out[2];
 	}
+
+	// Update the bias due to the temperature
+	updateTemperatureComp(gyrosData.temperature, gyro_temp_bias);
 	
 	if (bias_correct_gyro) {
 		// Apply bias correction to the gyros from the state estimator
 		GyrosBiasData gyrosBias;
 		GyrosBiasGet(&gyrosBias);
-		gyrosData.x -= gyrosBias.x;
-		gyrosData.y -= gyrosBias.y;
-		gyrosData.z -= gyrosBias.z;
+		gyrosData.x -= gyrosBias.x + gyro_temp_bias[0];
+		gyrosData.y -= gyrosBias.y + gyro_temp_bias[1];
+		gyrosData.z -= gyrosBias.z + gyro_temp_bias[2];
 	}
 
 	gyrosData.temperature = gyros->temperature;
@@ -352,6 +360,10 @@ static void update_mags(struct pios_sensor_mag_data *mag)
 	MagnetometerSet(&magData);
 }
 
+/**
+ * Update the baro uavo from the data from the baro queue
+ * @param [in] baro raw baro data
+ */
 static void update_baro(struct pios_sensor_baro_data *baro)
 {
 	BaroAltitudeData baroAltitude;
@@ -360,6 +372,40 @@ static void update_baro(struct pios_sensor_baro_data *baro)
 	baroAltitude.Pressure = baro->pressure;
 	baroAltitude.Altitude = baro->altitude;
 	BaroAltitudeSet(&baroAltitude);
+}
+
+/**
+ * Compute the bias expected from temperature variation for each gyro
+ * channel
+ */
+static void updateTemperatureComp(float temperature, float *temp_bias)
+{
+	static int temp_counter = -1;
+	static float temp_accum = 0;
+	static const float TEMP_MIN = -10;
+	static const float TEMP_MAX = 60;
+
+	if (temperature < TEMP_MIN)
+		temperature = TEMP_MIN;
+	if (temperature > TEMP_MAX)
+		temperature = TEMP_MAX;
+
+	if (temp_counter < 500) {
+		temp_accum += temperature;
+		temp_counter ++;
+	} else {
+		float t = temp_accum / temp_counter;
+		temp_accum = 0;
+		temp_counter = 0;
+
+		// Compute a third order polynomial for each chanel after each 500 samples
+		temp_bias[0] = gyro_coeff_x[0] + gyro_coeff_x[1] * t + 
+		               gyro_coeff_x[2] * powf(t,2) + gyro_coeff_x[3] * powf(t,3);
+		temp_bias[1] = gyro_coeff_y[0] + gyro_coeff_y[1] * t + 
+		               gyro_coeff_y[2] * powf(t,2) + gyro_coeff_y[3] * powf(t,3);
+		temp_bias[2] = gyro_coeff_z[0] + gyro_coeff_z[1] * t + 
+		               gyro_coeff_z[2] * powf(t,2) + gyro_coeff_z[3] * powf(t,3);
+	}
 }
 
 /**
@@ -471,7 +517,8 @@ static void mag_calibration_fix_length(MagnetometerData *mag)
 /**
  * Locally cache some variables from the AtttitudeSettings object
  */
-static void settingsUpdatedCb(UAVObjEvent * objEv) {
+static void settingsUpdatedCb(UAVObjEvent * objEv)
+{
 	RevoCalibrationGet(&revoCal);
 	InertialSensorSettingsData inertialSensorSettings;
 	InertialSensorSettingsGet(&inertialSensorSettings);
@@ -492,6 +539,18 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	gyro_scale[0] = inertialSensorSettings.GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_X];
 	gyro_scale[1] = inertialSensorSettings.GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_Y];
 	gyro_scale[2] = inertialSensorSettings.GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_Z];
+	gyro_coeff_x[0] =  inertialSensorSettings.XGyroTempCoeff[0];
+	gyro_coeff_x[1] =  inertialSensorSettings.XGyroTempCoeff[1];
+	gyro_coeff_x[2] =  inertialSensorSettings.XGyroTempCoeff[2];
+	gyro_coeff_x[3] =  inertialSensorSettings.XGyroTempCoeff[3];
+	gyro_coeff_y[0] =  inertialSensorSettings.YGyroTempCoeff[0];
+	gyro_coeff_y[1] =  inertialSensorSettings.YGyroTempCoeff[1];
+	gyro_coeff_y[2] =  inertialSensorSettings.YGyroTempCoeff[2];
+	gyro_coeff_y[3] =  inertialSensorSettings.YGyroTempCoeff[3];
+	gyro_coeff_z[0] =  inertialSensorSettings.ZGyroTempCoeff[0];
+	gyro_coeff_z[1] =  inertialSensorSettings.ZGyroTempCoeff[1];
+	gyro_coeff_z[2] =  inertialSensorSettings.ZGyroTempCoeff[2];
+	gyro_coeff_z[3] =  inertialSensorSettings.ZGyroTempCoeff[3];
 	
 	// Zero out any adaptive tracking
 	MagBiasData magBias;
