@@ -77,8 +77,6 @@ public:
     void setupTimeSeriesPlot();
     void setupHistogramPlot();
     void setupSpectrogramPlot();
-    Plot2dType plotType(){return m_plot2dType;}
-    Scatterplot2dType scatterplot2dType(){return m_Scatterplot2dType;}
 
     void setXWindowSize(double xWindowSize){m_xWindowSize = xWindowSize;}
     void setRefreshInterval(double refreshInterval){m_refreshInterval = refreshInterval;}

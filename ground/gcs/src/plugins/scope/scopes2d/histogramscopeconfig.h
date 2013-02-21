@@ -33,7 +33,6 @@
 
 #include "scopes2d/scopes2dconfig.h"
 #include "plotdata2d.h"
-#include "scopegadgetwidget.h"
 
 
 /**

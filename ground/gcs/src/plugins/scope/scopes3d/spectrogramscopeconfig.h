@@ -33,7 +33,6 @@
 //#include <coreplugin/iuavgadgetconfiguration.h>
 
 #include "scopes3d/scopes3dconfig.h"
-#include "scopegadgetwidget.h"
 
 
 /**

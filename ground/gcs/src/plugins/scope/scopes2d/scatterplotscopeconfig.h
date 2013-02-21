@@ -27,12 +27,12 @@
 
 #ifndef SCATTERPLOTSCOPE_H
 #define SCATTERPLOTSCOPE_H
+
 //#include "scopes2d/scatterplotdata.h"
 //#include <coreplugin/iuavgadgetconfiguration.h>
 
 #include "scopes2d/scopes2dconfig.h"
 #include "plotdata2d.h"
-#include "scopegadgetwidget.h"
 
 
 ///**

@@ -28,7 +28,6 @@
 #ifndef SCOPES_H
 #define SCOPES_H
 
-#include "plotdata.h"
 #include <coreplugin/iuavgadgetconfiguration.h>
 //#include "scopegadgetwidget.h"
 #include "qwt/src/qwt_color_map.h"
