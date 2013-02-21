@@ -1900,9 +1900,8 @@
         <data>
           <plot2d>
             <binWidth>0.2</binWidth>
-            <dataSize>120</dataSize>
-            <plot2dCurveCount>3</plot2dCurveCount>
-            <plot2dHistogram0>
+            <dataSourceCount>3</dataSourceCount>
+            <histogramDataSource0>
               <color>4294901760</color>
               <mathFunction>None</mathFunction>
               <uavField>x</uavField>
@@ -1911,8 +1910,8 @@
               <yMeanSamples>1</yMeanSamples>
               <yMinimum>2.56983914931922e+161</yMinimum>
               <yScalePower>0</yScalePower>
-            </plot2dHistogram0>
-            <plot2dHistogram1>
+            </histogramDataSource0>
+            <histogramDataSource1>
               <color>4278255360</color>
               <mathFunction>None</mathFunction>
               <uavField>y</uavField>
@@ -1921,8 +1920,8 @@
               <yMeanSamples>1</yMeanSamples>
               <yMinimum>3.86203233966055e-312</yMinimum>
               <yScalePower>0</yScalePower>
-            </plot2dHistogram1>
-            <plot2dHistogram2>
+            </histogramDataSource1>
+            <histogramDataSource2>
               <color>4278190335</color>
               <mathFunction>None</mathFunction>
               <uavField>z</uavField>
@@ -1931,13 +1930,12 @@
               <yMeanSamples>1</yMeanSamples>
               <yMinimum>7.21478569792807e-313</yMinimum>
               <yScalePower>0</yScalePower>
-            </plot2dHistogram2>
+            </histogramDataSource2>
+            <maxNumberOfBins>300</maxNumberOfBins>
             <plot2dType>2</plot2dType>
-            <windowWidth>300</windowWidth>
           </plot2d>
           <plotDimensions>0</plotDimensions>
           <refreshInterval>50</refreshInterval>
-          <timeHorizon>60</timeHorizon>
         </data>
       </Accel__PCT__20histogram>
       <Accel>
@@ -1947,9 +1945,10 @@
         </configInfo>
         <data>
           <plot2d>
-            <dataSize>300</dataSize>
-            <plot2dCurveCount>3</plot2dCurveCount>
-            <plot2dScatterplot0>
+            <dataSourceCount>3</dataSourceCount>
+            <plot2dType>1</plot2dType>
+            <scatterplot2dType>1</scatterplot2dType>
+            <scatterplotDataSource0>
               <color>4294901760</color>
               <mathFunction>None</mathFunction>
               <uavField>x</uavField>
@@ -1958,8 +1957,8 @@
               <yMeanSamples>1</yMeanSamples>
               <yMinimum>2.28218909845168e-314</yMinimum>
               <yScalePower>0</yScalePower>
-            </plot2dScatterplot0>
-            <plot2dScatterplot1>
+            </scatterplotDataSource0>
+            <scatterplotDataSource1>
               <color>4278255360</color>
               <mathFunction>None</mathFunction>
               <uavField>y</uavField>
@@ -1968,8 +1967,8 @@
               <yMeanSamples>1</yMeanSamples>
               <yMinimum>0</yMinimum>
               <yScalePower>0</yScalePower>
-            </plot2dScatterplot1>
-            <plot2dScatterplot2>
+            </scatterplotDataSource1>
+            <scatterplotDataSource2>
               <color>4278190335</color>
               <mathFunction>None</mathFunction>
               <uavField>z</uavField>
@@ -1978,13 +1977,11 @@
               <yMeanSamples>1</yMeanSamples>
               <yMinimum>2.34705713517292e-314</yMinimum>
               <yScalePower>0</yScalePower>
-            </plot2dScatterplot2>
-            <plot2dType>1</plot2dType>
-            <scatterplot2dType>1</scatterplot2dType>
+            </scatterplotDataSource2>
+            <timeHorizon>60</timeHorizon>
           </plot2d>
           <plotDimensions>0</plotDimensions>
           <refreshInterval>50</refreshInterval>
-          <timeHorizon>60</timeHorizon>
         </data>
       </Accel>
       <Actuators>
@@ -1994,9 +1991,10 @@
         </configInfo>
         <data>
           <plot2d>
-            <dataSize>300</dataSize>
-            <plot2dCurveCount>4</plot2dCurveCount>
-            <plot2dScatterplot0>
+            <dataSourceCount>4</dataSourceCount>
+            <plot2dType>1</plot2dType>
+            <scatterplot2dType>1</scatterplot2dType>
+            <scatterplotDataSource0>
               <color>4294934528</color>
               <mathFunction>None</mathFunction>
               <uavField>Channel-4</uavField>
@@ -2005,8 +2003,8 @@
               <yMeanSamples>1</yMeanSamples>
               <yMinimum>2.35210520545526e-314</yMinimum>
               <yScalePower>0</yScalePower>
-            </plot2dScatterplot0>
-            <plot2dScatterplot1>
+            </scatterplotDataSource0>
+            <scatterplotDataSource1>
               <color>4278255360</color>
               <mathFunction>None</mathFunction>
               <uavField>Channel-5</uavField>
@@ -2015,8 +2013,8 @@
               <yMeanSamples>1</yMeanSamples>
               <yMinimum>1.81845366409114e-306</yMinimum>
               <yScalePower>0</yScalePower>
-            </plot2dScatterplot1>
-            <plot2dScatterplot2>
+            </scatterplotDataSource1>
+            <scatterplotDataSource2>
               <color>4278223103</color>
               <mathFunction>None</mathFunction>
               <uavField>Channel-6</uavField>
@@ -2025,8 +2023,8 @@
               <yMeanSamples>1</yMeanSamples>
               <yMinimum>2.35093423825442e-314</yMinimum>
               <yScalePower>0</yScalePower>
-            </plot2dScatterplot2>
-            <plot2dScatterplot3>
+            </scatterplotDataSource2>
+            <scatterplotDataSource3>
               <color>4294902015</color>
               <mathFunction>None</mathFunction>
               <uavField>Channel-6</uavField>
@@ -2035,13 +2033,11 @@
               <yMeanSamples>1</yMeanSamples>
               <yMinimum>2.35077768663761e-314</yMinimum>
               <yScalePower>0</yScalePower>
-            </plot2dScatterplot3>
-            <plot2dType>1</plot2dType>
-            <scatterplot2dType>1</scatterplot2dType>
+            </scatterplotDataSource3>
+            <timeHorizon>60</timeHorizon>
           </plot2d>
           <plotDimensions>0</plotDimensions>
           <refreshInterval>50</refreshInterval>
-          <timeHorizon>60</timeHorizon>
         </data>
       </Actuators>
       <Attitude>
@@ -2051,9 +2047,10 @@
         </configInfo>
         <data>
           <plot2d>
-            <dataSize>300</dataSize>
-            <plot2dCurveCount>3</plot2dCurveCount>
-            <plot2dScatterplot0>
+            <dataSourceCount>3</dataSourceCount>
+            <plot2dType>1</plot2dType>
+            <scatterplot2dType>1</scatterplot2dType>
+            <scatterplotDataSource0>
               <color>4294901760</color>
               <mathFunction>None</mathFunction>
               <uavField>Roll</uavField>
@@ -2062,8 +2059,8 @@
               <yMeanSamples>1</yMeanSamples>
               <yMinimum>2.35185073397998e-314</yMinimum>
               <yScalePower>0</yScalePower>
-            </plot2dScatterplot0>
-            <plot2dScatterplot1>
+            </scatterplotDataSource0>
+            <scatterplotDataSource1>
               <color>4278255360</color>
               <mathFunction>None</mathFunction>
               <uavField>Pitch</uavField>
@@ -2072,8 +2069,8 @@
               <yMeanSamples>1</yMeanSamples>
               <yMinimum>nan</yMinimum>
               <yScalePower>0</yScalePower>
-            </plot2dScatterplot1>
-            <plot2dScatterplot2>
+            </scatterplotDataSource1>
+            <scatterplotDataSource2>
               <color>4278190335</color>
               <mathFunction>None</mathFunction>
               <uavField>Yaw</uavField>
@@ -2082,13 +2079,11 @@
               <yMeanSamples>1</yMeanSamples>
               <yMinimum>4.22277162500408e-312</yMinimum>
               <yScalePower>0</yScalePower>
-            </plot2dScatterplot2>
-            <plot2dType>1</plot2dType>
-            <scatterplot2dType>1</scatterplot2dType>
+            </scatterplotDataSource2>
+            <timeHorizon>60</timeHorizon>
           </plot2d>
           <plotDimensions>0</plotDimensions>
           <refreshInterval>50</refreshInterval>
-          <timeHorizon>60</timeHorizon>
         </data>
       </Attitude>
       <Barometer>
@@ -2098,9 +2093,10 @@
         </configInfo>
         <data>
           <plot2d>
-            <dataSize>300</dataSize>
-            <plot2dCurveCount>1</plot2dCurveCount>
-            <plot2dScatterplot0>
+            <dataSourceCount>1</dataSourceCount>
+            <plot2dType>1</plot2dType>
+            <scatterplot2dType>1</scatterplot2dType>
+            <scatterplotDataSource0>
               <color>4294902015</color>
               <mathFunction>None</mathFunction>
               <uavField>Pressure</uavField>
@@ -2109,13 +2105,11 @@
               <yMeanSamples>1</yMeanSamples>
               <yMinimum>3.86203233966055e-312</yMinimum>
               <yScalePower>0</yScalePower>
-            </plot2dScatterplot0>
-            <plot2dType>1</plot2dType>
-            <scatterplot2dType>1</scatterplot2dType>
+            </scatterplotDataSource0>
+            <timeHorizon>60</timeHorizon>
           </plot2d>
           <plotDimensions>0</plotDimensions>
           <refreshInterval>50</refreshInterval>
-          <timeHorizon>0</timeHorizon>
         </data>
       </Barometer>
       <Gyros>
@@ -2125,9 +2119,10 @@
         </configInfo>
         <data>
           <plot2d>
-            <dataSize>120</dataSize>
-            <plot2dCurveCount>3</plot2dCurveCount>
-            <plot2dScatterplot0>
+            <dataSourceCount>3</dataSourceCount>
+            <plot2dType>1</plot2dType>
+            <scatterplot2dType>1</scatterplot2dType>
+            <scatterplotDataSource0>
               <color>4294901760</color>
               <mathFunction>None</mathFunction>
               <uavField>x</uavField>
@@ -2136,8 +2131,8 @@
               <yMeanSamples>1</yMeanSamples>
               <yMinimum>3.86203233966055e-312</yMinimum>
               <yScalePower>0</yScalePower>
-            </plot2dScatterplot0>
-            <plot2dScatterplot1>
+            </scatterplotDataSource0>
+            <scatterplotDataSource1>
               <color>4278255360</color>
               <mathFunction>None</mathFunction>
               <uavField>y</uavField>
@@ -2146,8 +2141,8 @@
               <yMeanSamples>1</yMeanSamples>
               <yMinimum>7.21478569792807e-313</yMinimum>
               <yScalePower>0</yScalePower>
-            </plot2dScatterplot1>
-            <plot2dScatterplot2>
+            </scatterplotDataSource1>
+            <scatterplotDataSource2>
               <color>4278190335</color>
               <mathFunction>None</mathFunction>
               <uavField>z</uavField>
@@ -2156,13 +2151,11 @@
               <yMeanSamples>1</yMeanSamples>
               <yMinimum>4.22277162500408e-312</yMinimum>
               <yScalePower>0</yScalePower>
-            </plot2dScatterplot2>
-            <plot2dType>1</plot2dType>
-            <scatterplot2dType>1</scatterplot2dType>
+            </scatterplotDataSource2>
+            <timeHorizon>60</timeHorizon>
           </plot2d>
           <plotDimensions>0</plotDimensions>
           <refreshInterval>50</refreshInterval>
-          <timeHorizon>60</timeHorizon>
         </data>
       </Gyros>
       <Magnetometers>
@@ -2172,9 +2165,10 @@
         </configInfo>
         <data>
           <plot2d>
-            <dataSize>120</dataSize>
-            <plot2dCurveCount>3</plot2dCurveCount>
-            <plot2dScatterplot0>
+            <dataSourceCount>3</dataSourceCount>
+            <plot2dType>1</plot2dType>
+            <scatterplot2dType>1</scatterplot2dType>
+            <scatterplotDataSource0>
               <color>4294901760</color>
               <mathFunction>None</mathFunction>
               <uavField>x</uavField>
@@ -2183,8 +2177,8 @@
               <yMeanSamples>1</yMeanSamples>
               <yMinimum>3.86203233966055e-312</yMinimum>
               <yScalePower>0</yScalePower>
-            </plot2dScatterplot0>
-            <plot2dScatterplot1>
+            </scatterplotDataSource0>
+            <scatterplotDataSource1>
               <color>4278255360</color>
               <mathFunction>None</mathFunction>
               <uavField>y</uavField>
@@ -2193,8 +2187,8 @@
               <yMeanSamples>1</yMeanSamples>
               <yMinimum>7.21478569792807e-313</yMinimum>
               <yScalePower>0</yScalePower>
-            </plot2dScatterplot1>
-            <plot2dScatterplot2>
+            </scatterplotDataSource1>
+            <scatterplotDataSource2>
               <color>4278190335</color>
               <mathFunction>None</mathFunction>
               <uavField>z</uavField>
@@ -2203,13 +2197,11 @@
               <yMeanSamples>1</yMeanSamples>
               <yMinimum>4.22277162500408e-312</yMinimum>
               <yScalePower>0</yScalePower>
-            </plot2dScatterplot2>
-            <plot2dType>1</plot2dType>
-            <scatterplot2dType>1</scatterplot2dType>
+            </scatterplotDataSource2>
+            <timeHorizon>60</timeHorizon>
           </plot2d>
           <plotDimensions>0</plotDimensions>
           <refreshInterval>50</refreshInterval>
-          <timeHorizon>60</timeHorizon>
         </data>
       </Magnetometers>
       <Telemetry__PCT__20quality>
@@ -2219,9 +2211,10 @@
         </configInfo>
         <data>
           <plot2d>
-            <dataSize>300</dataSize>
-            <plot2dCurveCount>3</plot2dCurveCount>
-            <plot2dScatterplot0>
+            <dataSourceCount>3</dataSourceCount>
+            <plot2dType>1</plot2dType>
+            <scatterplot2dType>1</scatterplot2dType>
+            <scatterplotDataSource0>
               <color>4286611456</color>
               <mathFunction>None</mathFunction>
               <uavField>TxFailures</uavField>
@@ -2230,8 +2223,8 @@
               <yMeanSamples>1</yMeanSamples>
               <yMinimum>2.35154876896229e-314</yMinimum>
               <yScalePower>0</yScalePower>
-            </plot2dScatterplot0>
-            <plot2dScatterplot1>
+            </scatterplotDataSource0>
+            <scatterplotDataSource1>
               <color>4284901119</color>
               <mathFunction>None</mathFunction>
               <uavField>RxFailures</uavField>
@@ -2240,8 +2233,8 @@
               <yMeanSamples>1</yMeanSamples>
               <yMinimum>4.22277162500408e-312</yMinimum>
               <yScalePower>0</yScalePower>
-            </plot2dScatterplot1>
-            <plot2dScatterplot2>
+            </scatterplotDataSource1>
+            <scatterplotDataSource2>
               <color>4294901760</color>
               <mathFunction>None</mathFunction>
               <uavField>TxRetries</uavField>
@@ -2250,13 +2243,11 @@
               <yMeanSamples>1</yMeanSamples>
               <yMinimum>7.21478569792807e-313</yMinimum>
               <yScalePower>0</yScalePower>
-            </plot2dScatterplot2>
-            <plot2dType>1</plot2dType>
-            <scatterplot2dType>1</scatterplot2dType>
+            </scatterplotDataSource2>
+            <timeHorizon>60</timeHorizon>
           </plot2d>
           <plotDimensions>0</plotDimensions>
           <refreshInterval>50</refreshInterval>
-          <timeHorizon>60</timeHorizon>
         </data>
       </Telemetry__PCT__20quality>
       <Uptimes>
@@ -2266,9 +2257,10 @@
         </configInfo>
         <data>
           <plot2d>
-            <dataSize>300</dataSize>
-            <plot2dCurveCount>1</plot2dCurveCount>
-            <plot2dScatterplot0>
+            <dataSourceCount>1</dataSourceCount>
+            <plot2dType>1</plot2dType>
+            <scatterplot2dType>1</scatterplot2dType>
+            <scatterplotDataSource0>
               <color>4294901760</color>
               <mathFunction>None</mathFunction>
               <uavField>FlightTime</uavField>
@@ -2277,13 +2269,11 @@
               <yMeanSamples>1</yMeanSamples>
               <yMinimum>2.35153391537271e-314</yMinimum>
               <yScalePower>0</yScalePower>
-            </plot2dScatterplot0>
-            <plot2dType>1</plot2dType>
-            <scatterplot2dType>1</scatterplot2dType>
+            </scatterplotDataSource0>
+            <timeHorizon>60</timeHorizon>
           </plot2d>
           <plotDimensions>0</plotDimensions>
           <refreshInterval>50</refreshInterval>
-          <timeHorizon>60</timeHorizon>
         </data>
       </Uptimes>
       <Vibration>
@@ -2293,19 +2283,20 @@
         </configInfo>
         <data>
           <plot3d>
-            <plot3dCurveCount>1</plot3dCurveCount>
+            <dataSourceCount>1</dataSourceCount>
             <plot3dType>2</plot3dType>
-            <plotSpectrogram0>
-              <colormap>4278190080</colormap>
-              <uavField>x</uavField>
-              <uavObject>VibrationTestOutput</uavObject>
-            </plotSpectrogram0>
             <samplingFrequency>100</samplingFrequency>
+            <spectrogramDataSource0>
+              <colormap>0</colormap>
+              <uavField>x</uavField>
+              <uavObject>VibrationAnalysisOutput</uavObject>
+            </spectrogramDataSource0>
+            <timeHorizon>60</timeHorizon>
             <windowWidth>8</windowWidth>
+            <zMaximum>150</zMaximum>
           </plot3d>
           <plotDimensions>1</plotDimensions>
           <refreshInterval>50</refreshInterval>
-          <timeHorizon>60</timeHorizon>
         </data>
       </Vibration>
     </ScopeGadget>
