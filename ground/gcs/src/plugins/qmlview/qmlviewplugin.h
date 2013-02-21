@@ -35,7 +35,7 @@ class QmlViewGadgetFactory;
 class QmlViewPlugin : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "AboveGroundLabs.plugins.QMLView" FILE "QMLView.json")
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.QMLView" FILE "QMLView.json")
 public:
    QmlViewPlugin();
    ~QmlViewPlugin();

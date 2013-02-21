@@ -35,7 +35,7 @@ class UAVObjectBrowserFactory;
 class BrowserPlugin : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "AboveGroundLabs.plugins.UAVObjectBrowser" FILE "UAVObjectBrowser.json")
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.UAVObjectBrowser" FILE "UAVObjectBrowser.json")
 public:
         BrowserPlugin();
    ~BrowserPlugin();

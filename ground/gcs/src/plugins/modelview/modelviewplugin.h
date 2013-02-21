@@ -35,7 +35,7 @@ class ModelViewGadgetFactory;
 class ModelViewPlugin : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "AboveGroundLabs.plugins.ModelViewGadget" FILE "ModelViewGadget.json")
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.ModelViewGadget" FILE "ModelViewGadget.json")
 public:
    ModelViewPlugin();
    ~ModelViewPlugin();

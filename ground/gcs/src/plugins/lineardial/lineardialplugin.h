@@ -35,7 +35,7 @@ class LineardialGadgetFactory;
 class LineardialPlugin : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "AboveGroundLabs.plugins.LineardialGadget" FILE "LineardialGadget.json")
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.LineardialGadget" FILE "LineardialGadget.json")
 
 public:
         LineardialPlugin();

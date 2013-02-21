@@ -40,7 +40,7 @@ class PathPlannerGadgetFactory;
 class PathPlannerPlugin : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "AboveGroundLabs.plugins.PathPlanner" FILE "PathPlanner.json")
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.PathPlanner" FILE "PathPlanner.json")
 public:
     PathPlannerPlugin();
    ~PathPlannerPlugin();
