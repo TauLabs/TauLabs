@@ -51,10 +51,10 @@ REMOVE_CMD ?= rm
 
 # List of modules to include
 MODULES += Actuator ManualControl Stabilization 
-MODULES += PathPlanner
 MODULES += Attitude/revolution
 MODULES += FirmwareIAP
 
+OPTMODULES += PathPlanner
 OPTMODULES += AltitudeHold 
 OPTMODULES += VtolPathFollower 
 OPTMODULES += FixedWingPathFollower
