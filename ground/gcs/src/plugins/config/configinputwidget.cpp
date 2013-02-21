@@ -295,7 +295,7 @@ void ConfigInputWidget::openHelp()
 void ConfigInputWidget::goToWizard()
 {
     QMessageBox msgBox;
-    msgBox.setText(tr("Arming Settings are now set to Always Disarmed for your safety."));
+    msgBox.setText(tr("Arming Settings will be set to Always Disarmed for your safety."));
     msgBox.setDetailedText(tr("You will have to reconfigure the arming settings manually "
                               "when the wizard is finished. After the last step of the "
                               "wizard you will be taken to the Arming Settings screen."));
