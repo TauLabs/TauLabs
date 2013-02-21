@@ -221,11 +221,12 @@ void SystemHealthGadgetWidget::mousePressEvent ( QMouseEvent * event )
                         // Warning, error or critical alarm
                         showAlarmDescriptionForItemId(itemId, event->globalPos());
                     }
-                }else if(!haveAlarmItem){
-                    // Clicked foreground or background
-                    showAllAlarmDescriptions(event->globalPos());
                 }
             }
+        }
+        if(!haveAlarmItem){
+            // Clicked foreground or background
+            showAllAlarmDescriptions(event->globalPos());
         }
     }
 }
