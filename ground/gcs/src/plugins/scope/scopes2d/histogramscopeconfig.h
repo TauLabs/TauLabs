@@ -28,11 +28,7 @@
 #ifndef HISTOGRAMSCOPE_H
 #define HISTOGRAMSCOPE_H
 
-//#include "scopes2d/histogramdata.h"
-//#include <coreplugin/iuavgadgetconfiguration.h>
-
 #include "scopes2d/scopes2dconfig.h"
-#include "plotdata2d.h"
 
 
 /**

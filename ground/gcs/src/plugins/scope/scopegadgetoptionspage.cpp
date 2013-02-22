@@ -360,10 +360,11 @@ void ScopeGadgetOptionsPage::on_cmbUAVObjectsSpectrogram_currentIndexChanged(QSt
 
 
 /**
- * @brief ScopeGadgetOptionsPage::apply Called when the user presses OK. Applies the current values to the scope
+ * @brief ScopeGadgetOptionsPage::apply Called when the user presses OK. Applies the current values to the scope.
  */
 void ScopeGadgetOptionsPage::apply()
 {
+    //The GUI settings are read by the appropriate subclass
     m_config->applyGuiConfiguration(options_page);
 }
 

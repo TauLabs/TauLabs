@@ -30,10 +30,6 @@
 #define SCOPEGADGETCONFIGURATION_H
 
 #include "scopesconfig.h"
-#include "scopes2d/scopes2dconfig.h"
-#include "scopes3d/scopes3dconfig.h"
-#include "plotdata2d.h"
-#include "plotdata3d.h"
 #include <coreplugin/iuavgadgetconfiguration.h>
 #include "ui_scopegadgetoptionspage.h"
 
@@ -42,7 +38,6 @@
 #include "qwt/src/qwt_color_map.h"
 
 using namespace Core;
-
 
 
 class ScopeGadgetConfiguration : public IUAVGadgetConfiguration

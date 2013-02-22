@@ -57,13 +57,6 @@ enum Plot3dType {
     SPECTROGRAM
 };
 
-///**
-// * @brief The Scatterplot3dType enum Defines the different type of plots.
-// */
-//enum Scatterplot3dType {
-//    TIMESERIES3D
-//};
-
 
 /**
  * @brief The Plot3dData class Base class that keeps the data for each curve in the plot.
