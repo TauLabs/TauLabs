@@ -58,13 +58,13 @@ class Scopes2d : public ScopesGeneric
 public:
     virtual void saveConfiguration(QSettings *qSettings) = 0;
     virtual PlotDimensions getPlotDimensions() {return PLOT2D;}
-    virtual int getScopeType(){}
+    virtual int getScopeType() = 0;
     virtual int getScopeDimensions(){return PLOT2D;}
-    virtual QList<Plot2dCurveConfiguration*> getDataSourceConfigs(){}
-    virtual void loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget){}
-    virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *){}
+    virtual QList<Plot2dCurveConfiguration*> getDataSourceConfigs() = 0;
+    virtual void loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget) = 0;
+    virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *) = 0;
     virtual void clone(ScopesGeneric *){}
-    virtual ScopesGeneric* cloneScope(ScopesGeneric *){}
+    virtual ScopesGeneric* cloneScope(ScopesGeneric *) = 0;
 
 protected:
     PlotDimensions m_plotDimensions;

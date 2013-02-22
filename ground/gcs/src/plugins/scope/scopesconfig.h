@@ -42,17 +42,17 @@ class ScopesGeneric : public QObject
 {
     Q_OBJECT
 public:
-    virtual int getScopeDimensions(){}
+    virtual int getScopeDimensions() = 0;
     virtual void saveConfiguration(QSettings *qSettings) = 0;
-    virtual int getScopeType(){}
-    virtual void loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget){}
-    virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *){}
-    virtual void clone(ScopesGeneric *){}
+    virtual int getScopeType() = 0;
+    virtual void loadConfiguration(ScopeGadgetWidget **) = 0;
+    virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *) = 0;
+    virtual void clone(ScopesGeneric *) = 0;
 
     int getRefreshInterval(){return m_refreshInterval;}
     void setRefreshInterval(int val){m_refreshInterval = val;}
 
-    virtual ScopesGeneric* cloneScope(ScopesGeneric *histogramSourceConfigs){}
+    virtual ScopesGeneric* cloneScope(ScopesGeneric *histogramSourceConfigs) = 0;
 
 protected:
     int m_refreshInterval; //The interval to replot the curve widget. The data buffer is refresh as the data comes in.
