@@ -47,16 +47,8 @@ public:
     explicit ScopeGadgetConfiguration(QString classId, QSettings* qSettings = 0, QObject *parent = 0);
     ~ScopeGadgetConfiguration();
 
-    //configuration setter functions
-    virtual void clone(ScopesGeneric*){}
-
     //configurations getter functions
     ScopesGeneric* getScope(){return m_scope;}
-    virtual int getScopeType(){}
-
-    virtual ScopesGeneric* cloneScope(ScopesGeneric*){}
-
-    virtual PlotDimensions getPlotDimensions(){}
 
     void saveConfig(QSettings* settings) const; //THIS SEEMS TO BE UNUSED
     IUAVGadgetConfiguration* clone();
@@ -65,7 +57,6 @@ public:
 
 private:
     ScopesGeneric *m_scope;
-
 
 };
 

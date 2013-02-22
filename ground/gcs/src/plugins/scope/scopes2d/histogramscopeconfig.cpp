@@ -25,7 +25,10 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include "histogramdata.h"
 #include "scopes2d/histogramscopeconfig.h"
+#include "coreplugin/icore.h"
+#include "coreplugin/connectionmanager.h"
 
 
 HistogramScope::HistogramScope()
@@ -202,7 +205,7 @@ void HistogramScope::replaceHistogramDataSource(QList<Plot2dCurveConfiguration*>
  */
 void HistogramScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget)
 {
-    (*scopeGadgetWidget)->setupHistogramPlot();
+    (*scopeGadgetWidget)->setupHistogramPlot(this);
     (*scopeGadgetWidget)->setRefreshInterval(m_refreshInterval);
 
     // Configured each data source
@@ -210,27 +213,91 @@ void HistogramScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget)
     {
         QString uavObjectName = histogramDataSourceConfig->uavObjectName;
         QString uavFieldName = histogramDataSourceConfig->uavFieldName;
-        int scale = histogramDataSourceConfig->yScalePower;
-        int mean = histogramDataSourceConfig->yMeanSamples;
+        int scaleOrderFactor = histogramDataSourceConfig->yScalePower;
+        int meanSamples = histogramDataSourceConfig->yMeanSamples;
         QString mathFunction = histogramDataSourceConfig->mathFunction;
         QRgb color = histogramDataSourceConfig->color;
 
-        // TODO: It bothers me that I have to have the ScopeGadgetWidget scopeGadgetWidget in order to call getUavObjectFieldUnits()
         // Get and store the units
-        units = (*scopeGadgetWidget)->getUavObjectFieldUnits(uavObjectName, uavFieldName);
+        units = getUavObjectFieldUnits(uavObjectName, uavFieldName);
 
-        // Create the Qwt histogram plot
-        (*scopeGadgetWidget)->addHistogram(
-                uavObjectName,
-                    uavFieldName,
-                    binWidth,
-                    maxNumberOfBins,
-                    scale,
-                    mean,
-                    mathFunction,
-                    QBrush(QColor(color))
-                    );
+
+
+//        // Create the Qwt histogram plot
+//        (*scopeGadgetWidget)->addHistogram(
+//                uavObjectName,
+//                    uavFieldName,
+//                    binWidth,
+//                    maxNumberOfBins,
+//                    scaleOrderFactor,
+//                    meanSamples,
+//                    mathFunction,
+//                    QBrush(QColor(color))
+//                    );
+
+        {
+            HistogramData* histogramData;
+            histogramData = new HistogramData(uavObjectName, uavFieldName, binWidth, maxNumberOfBins);
+
+            histogramData->setScalePower(scaleOrderFactor);
+            histogramData->setMeanSamples(meanSamples);
+            histogramData->setMathFunction(mathFunction);
+
+            //Generate the curve name
+            QString curveName = (histogramData->getUavoName()) + "." + (histogramData->getUavoFieldName());
+            if(histogramData->getHaveSubFieldFlag())
+                curveName = curveName.append("." + histogramData->getUavoSubFieldName());
+
+            //Get the uav object
+            ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+            UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
+            UAVDataObject* obj = dynamic_cast<UAVDataObject*>(objManager->getObject((histogramData->getUavoName())));
+            if(!obj) {
+                qDebug() << "Object " << histogramData->getUavoName() << " is missing";
+                return;
+            }
+
+            //Get the units
+            QString units = getUavObjectFieldUnits(histogramData->getUavoName(), histogramData->getUavoFieldName());
+
+            //Generate name with scaling factor appeneded
+            QString histogramNameScaled;
+            if(scaleOrderFactor == 0)
+                histogramNameScaled = curveName + "(" + units + ")";
+            else
+                histogramNameScaled = curveName + "(x10^" + QString::number(scaleOrderFactor) + " " + units + ")";
+
+            //Create histogram data set
+            histogramData->histogramBins = new QVector<QwtIntervalSample>();
+            histogramData->histogramInterval = new QVector<QwtInterval>();
+
+            // Generate the interval series
+            histogramData->intervalSeriesData = new QwtIntervalSeriesData(*histogramData->histogramBins);
+
+            // Create the histogram
+            QwtPlotHistogram* plotHistogram = new QwtPlotHistogram(histogramNameScaled);
+            plotHistogram->setStyle( QwtPlotHistogram::Columns );
+            plotHistogram->setBrush(QBrush(QColor(color)));
+            plotHistogram->setData( histogramData->intervalSeriesData);
+
+            plotHistogram->attach((*scopeGadgetWidget));
+            histogramData->histogram = plotHistogram;
+
+            //Keep the curve details for later
+            m_curves2dData.insert(histogramNameScaled, histogramData);
+
+            //Link to the new signal data only if this UAVObject has not been connected yet
+            if (!(*scopeGadgetWidget)->m_connectedUAVObjects.contains(obj->getName())) {
+                (*scopeGadgetWidget)->m_connectedUAVObjects.append(obj->getName());
+                connect(obj, SIGNAL(objectUpdated(UAVObject*)), (*scopeGadgetWidget), SLOT(uavObjectReceived(UAVObject*)));
+            }
+
+        }
+
     }
+    mutex.lock();
+    (*scopeGadgetWidget)->replot();
+    mutex.unlock();
 }
 
 
@@ -307,4 +374,89 @@ void HistogramScope::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_pag
     //Select row 1st row in list
     options_page->lst2dCurves->setCurrentRow(0, QItemSelectionModel::ClearAndSelect);
 
+}
+
+
+
+void HistogramScope::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
+{
+    scopeGadgetWidget->setMinimumSize(64, 64);
+    scopeGadgetWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+
+    scopeGadgetWidget->setCanvasBackground(QColor(64, 64, 64));
+
+    scopeGadgetWidget->plotLayout()->setAlignCanvasToScales( false );
+
+    scopeGadgetWidget->m_grid->enableX( false );
+    scopeGadgetWidget->m_grid->enableY( true );
+    scopeGadgetWidget->m_grid->enableXMin( false );
+    scopeGadgetWidget->m_grid->enableYMin( false );
+    scopeGadgetWidget->m_grid->setMajPen( QPen( Qt::black, 0, Qt::DotLine ) );
+    scopeGadgetWidget->m_grid->setMinPen(QPen(Qt::lightGray, 0, Qt::DotLine));
+    scopeGadgetWidget->m_grid->setPen(QPen(Qt::darkGray, 1, Qt::DotLine));
+    scopeGadgetWidget->m_grid->attach( scopeGadgetWidget );
+
+    // Add the legend
+    scopeGadgetWidget->addLegend();
+
+    // Only start the timer if we are already connected
+    Core::ConnectionManager *cm = Core::ICore::instance()->connectionManager();
+    if (cm->getCurrentConnection() && scopeGadgetWidget->replotTimer)
+    {
+        if (!scopeGadgetWidget->replotTimer->isActive())
+            scopeGadgetWidget->replotTimer->start(m_refreshInterval);
+        else
+            scopeGadgetWidget->replotTimer->setInterval(m_refreshInterval);
+    }
+}
+
+
+void HistogramScope::plotNewData(ScopeGadgetWidget *scopeGadgetWidget)
+{
+    Q_UNUSED(scopeGadgetWidget);
+
+    foreach(Plot2dData* plot2dData, m_curves2dData.values())
+    {
+        //Plot new data
+        HistogramData *histogramData = (HistogramData*) plot2dData;
+        histogramData->histogram->setData(histogramData->intervalSeriesData);
+        histogramData->intervalSeriesData->setSamples(*histogramData->histogramBins); // <-- Is this a memory leak?
+    }
+}
+
+void HistogramScope::clearPlots()
+{
+    foreach(Plot2dData* plot2dData, m_curves2dData.values()) {
+        HistogramData *histogramData = (HistogramData*) plot2dData;
+
+        histogramData->histogram->detach();
+
+        // Delete data bins
+        if (histogramData->histogramInterval != NULL)
+            delete histogramData->histogramInterval;
+        if (histogramData->histogramBins != NULL)
+            delete histogramData->histogramBins;
+        // Don't delete intervalSeriesData, this is done by the histogram's destructor
+        /* delete histogramData->intervalSeriesData; */
+
+        // Delete histogram (also deletes intervalSeriesData)
+        delete histogramData->histogram;
+
+        delete histogramData;
+    }
+
+    // Clear the data
+    m_curves2dData.clear();
+
+}
+
+
+void HistogramScope::uavObjectReceived(UAVObject* obj)
+{
+    foreach(Plot2dData* plot2dData, m_curves2dData.values()) {
+        bool ret = plot2dData->append(obj);
+        if (ret)
+            plot2dData->setUpdatedFlagToTrue();
+
+    }
 }

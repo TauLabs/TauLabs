@@ -30,14 +30,8 @@
 
 #include "plotdata3d.h"
 #include "uavobject.h"
-
-#include "qwt/src/qwt.h"
-#include "qwt/src/qwt_color_map.h"
-#include "qwt/src/qwt_matrix_raster_data.h"
-#include "qwt/src/qwt_plot.h"
 #include "qwt/src/qwt_plot_spectrogram.h"
-#include "qwt/src/qwt_scale_draw.h"
-#include "qwt/src/qwt_scale_widget.h"
+#include "qwt/src/qwt_matrix_raster_data.h"
 
 #include <QTimer>
 #include <QTime>
@@ -68,13 +62,6 @@ public:
       \brief Append new data to the plot
       */
     bool append(UAVObject* obj);
-
-    /*!
-      \brief The type of plot
-      */
-    virtual Plot3dType plotType() {
-        return SPECTROGRAM;
-    }
 
     /*!
       \brief Removes the old data from the buffer

@@ -31,14 +31,7 @@
 
 #include "uavobject.h"
 
-#include "qwt/src/qwt.h"
 #include "qwt/src/qwt_color_map.h"
-#include "qwt/src/qwt_matrix_raster_data.h"
-#include "qwt/src/qwt_plot.h"
-#include "qwt/src/qwt_plot_curve.h"
-#include "qwt/src/qwt_plot_histogram.h"
-#include "qwt/src/qwt_plot_spectrogram.h"
-#include "qwt/src/qwt_scale_draw.h"
 #include "qwt/src/qwt_scale_widget.h"
 
 #include <QTimer>
@@ -46,13 +39,6 @@
 #include <QVector>
 
 
-/**
- * @brief The Plot3dType enum Defines the different type of plots.
- */
-enum PlotDimensions {
-    PLOT2D,
-    PLOT3D
-};
 
 
 class PlotData : public QObject

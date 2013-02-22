@@ -178,7 +178,7 @@ ScopeGadgetConfiguration::~ScopeGadgetConfiguration()
 IUAVGadgetConfiguration *ScopeGadgetConfiguration::clone()
 {
     ScopeGadgetConfiguration *m = new ScopeGadgetConfiguration(this->classId());
-    m->m_scope=this->getScope()->cloneScope(m_scope); //TODO: Fix this, it's broken. I need to instantiate the m Class properly.
+    m->m_scope=this->getScope()->cloneScope(m_scope);
 
     return m;
 }

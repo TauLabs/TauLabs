@@ -66,6 +66,7 @@ public:
     unsigned int getWindowWidth(){return windowWidth;}
     double getTimeHorizon(){return timeHorizon;}
     virtual QList<Plot3dCurveConfiguration*> getDataSourceConfigs(){return m_spectrogramSourceConfigs;}
+    virtual int getScopeType(){return SPECTROGRAM;}
 
     //Setter functions
     void setSamplingFrequency(double val){samplingFrequency = val;}
@@ -76,6 +77,12 @@ public:
     virtual ScopesGeneric* cloneScope(ScopesGeneric*);
 
     virtual void loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget);
+
+    virtual void preparePlot(ScopeGadgetWidget *);
+    virtual void plotNewData(ScopeGadgetWidget *);
+    virtual void clearPlots();
+    virtual void uavObjectReceived(UAVObject* obj);
+
 private slots:
 
 private:

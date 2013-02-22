@@ -31,13 +31,8 @@
 #include "plotdata2d.h"
 #include "uavobject.h"
 
-#include "qwt/src/qwt.h"
-#include "qwt/src/qwt_color_map.h"
-#include "qwt/src/qwt_plot.h"
-#include "qwt/src/qwt_plot_curve.h"
 #include "qwt/src/qwt_plot_histogram.h"
-#include "qwt/src/qwt_scale_draw.h"
-#include "qwt/src/qwt_scale_widget.h"
+
 
 #include <QTimer>
 #include <QTime>
@@ -66,13 +61,6 @@ public:
     ~HistogramData() {}
 
     bool append(UAVObject* obj);
-
-    /*!
-      \brief The type of plot
-      */
-    virtual Plot2dType plotType() {
-        return HISTOGRAM;
-    }
 
     virtual void removeStaleData(){}
 

@@ -30,16 +30,7 @@
 
 #include "plotdata2d.h"
 #include "uavobject.h"
-
-#include "qwt/src/qwt.h"
-#include "qwt/src/qwt_color_map.h"
-#include "qwt/src/qwt_matrix_raster_data.h"
-#include "qwt/src/qwt_plot.h"
 #include "qwt/src/qwt_plot_curve.h"
-#include "qwt/src/qwt_plot_histogram.h"
-#include "qwt/src/qwt_plot_spectrogram.h"
-#include "qwt/src/qwt_scale_draw.h"
-#include "qwt/src/qwt_scale_widget.h"
 
 #include <QTimer>
 #include <QTime>
@@ -58,7 +49,6 @@ public:
     ~ScatterplotData(){}
 
     QwtPlotCurve* curve;
-
 };
 
 
@@ -80,19 +70,6 @@ public:
       */
     bool append(UAVObject* obj);
 
-    /*!
-      \brief The type of plot
-      */
-    virtual Plot2dType plotType() {
-        return SCATTERPLOT2D;
-    }
-
-    /*!
-      \brief The type of scatterplot
-      */
-    virtual Scatterplot2dType scatterplotType() {
-        return SERIES2D;
-    }
 
     /*!
       \brief Removes the old data from the buffer
@@ -117,20 +94,6 @@ public:
     }
 
     bool append(UAVObject* obj);
-
-    /*!
-      \brief The type of plot
-      */
-    virtual Plot2dType plotType() {
-        return SCATTERPLOT2D;
-    }
-
-    /*!
-      \brief The type of scatterplot
-      */
-    virtual Scatterplot2dType scatterplotType() {
-        return TIMESERIES2D;
-    }
 
     virtual void removeStaleData();
 

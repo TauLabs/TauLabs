@@ -25,7 +25,15 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include "scatterplotdata.h"
 #include "scopes2d/scatterplotscopeconfig.h"
+
+#include "uavtalk/telemetrymanager.h"
+#include "extensionsystem/pluginmanager.h"
+#include "uavobjectmanager.h"
+#include "uavobject.h"
+#include "coreplugin/icore.h"
+#include "coreplugin/connectionmanager.h"
 
 
 Scatterplot2dScope::Scatterplot2dScope()
@@ -138,6 +146,7 @@ ScopesGeneric* Scatterplot2dScope::cloneScope(ScopesGeneric *originalScope)
         cloneObj->m_scatterplotSourceConfigs.append(newScatterplotSourceConf);
     }
 
+    return cloneObj;
 }
 
 void Scatterplot2dScope::saveConfiguration(QSettings* qSettings)
@@ -197,10 +206,10 @@ void Scatterplot2dScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget
     switch (scatterplot2dType)
     {
     case SERIES2D:
-        (*scopeGadgetWidget)->setupSeriesPlot();
+        (*scopeGadgetWidget)->setupSeriesPlot(this);
         break;
     case TIMESERIES2D:
-        (*scopeGadgetWidget)->setupTimeSeriesPlot();
+        (*scopeGadgetWidget)->setupTimeSeriesPlot(this);
         break;
     default:
         //We shouldn't be able to get here.
@@ -215,25 +224,102 @@ void Scatterplot2dScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget
     {
         QString uavObjectName = plotCurveConfig->uavObjectName;
         QString uavFieldName = plotCurveConfig->uavFieldName;
-        int scale = plotCurveConfig->yScalePower;
-        int mean = plotCurveConfig->yMeanSamples;
+        int scaleOrderFactor = plotCurveConfig->yScalePower;
+        int meanSamples = plotCurveConfig->yMeanSamples;
         QString mathFunction = plotCurveConfig->mathFunction;
         QRgb color = plotCurveConfig->color;
 
-        // Create the Qwt curve plot
-        (*scopeGadgetWidget)->add2dCurvePlot(
-                    uavObjectName,
-                    uavFieldName,
-                    scale,
-                    mean,
-                    mathFunction,
-                    QPen(  QBrush(QColor(color),Qt::SolidPattern),
-                       (qreal)1,
-                       Qt::SolidLine,
-                       Qt::SquareCap,
-                       Qt::BevelJoin)
-                    );
+        QPen pen(  QBrush(QColor(color),Qt::SolidPattern),
+           (qreal)1,
+           Qt::SolidLine,
+           Qt::SquareCap,
+           Qt::BevelJoin);
+
+        // This used to be a separate function called add2dCurvePlot(). It probably still could/should be.
+        {
+            ScatterplotData* scatterplotData;
+
+            switch(scatterplot2dType){
+            case SERIES2D:
+                scatterplotData = new SeriesPlotData(uavObjectName, uavFieldName);
+                break;
+            case TIMESERIES2D:
+                scatterplotData = new TimeSeriesPlotData(uavObjectName, uavFieldName);
+                break;
+            }
+
+            scatterplotData->setXWindowSize((*scopeGadgetWidget)->m_xWindowSize);
+            scatterplotData->setScalePower(scaleOrderFactor);
+            scatterplotData->setMeanSamples(meanSamples);
+            scatterplotData->setMathFunction(mathFunction);
+
+            //If the y-bounds are provided, set them
+            if (scatterplotData->getYMinimum() != scatterplotData->getYMaximum())
+            {
+        //        setAxisScale(QwtPlot::yLeft, scatterplotData->getYMinimum(), scatterplotData->getYMaximum());
+            }
+
+            //Generate the curve name
+            QString curveName = (scatterplotData->getUavoName()) + "." + (scatterplotData->getUavoFieldName());
+            if(scatterplotData->getHaveSubFieldFlag())
+                curveName = curveName.append("." + scatterplotData->getUavoSubFieldName());
+
+            //Get the uav object
+            ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+            UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
+            UAVDataObject* obj = dynamic_cast<UAVDataObject*>(objManager->getObject((scatterplotData->getUavoName())));
+            if(!obj) {
+                qDebug() << "Object " << scatterplotData->getUavoName() << " is missing";
+                return;
+            }
+
+            //Get the units
+            QString units = getUavObjectFieldUnits(scatterplotData->getUavoName(), scatterplotData->getUavoFieldName());
+
+            //Generate name with scaling factor appeneded
+            QString curveNameScaled;
+            if(scaleOrderFactor == 0)
+                curveNameScaled = curveName + "(" + units + ")";
+            else
+                curveNameScaled = curveName + "(x10^" + QString::number(scaleOrderFactor) + " " + units + ")";
+
+            QString curveNameScaledMath;
+            if (mathFunction == "None")
+                curveNameScaledMath = curveNameScaled;
+            else if (mathFunction == "Boxcar average"){
+                curveNameScaledMath = curveNameScaled + " (avg)";
+            }
+            else if (mathFunction == "Standard deviation"){
+                curveNameScaledMath = curveNameScaled + " (std)";
+            }
+            else
+            {
+                //Shouldn't be able to get here. Perhaps a new math function was added without
+                // updating this list?
+                Q_ASSERT(0);
+            }
+
+            //Create the curve plot
+            QwtPlotCurve* plotCurve = new QwtPlotCurve(curveNameScaledMath);
+            plotCurve->setPen(pen);
+            plotCurve->setSamples(*(scatterplotData->getXData()), *(scatterplotData->getYData()));
+            plotCurve->attach((*scopeGadgetWidget));
+            scatterplotData->curve = plotCurve;
+
+            //Keep the curve details for later
+            m_curves2dData.insert(curveNameScaledMath, scatterplotData);
+
+            //Link to the new signal data only if this UAVObject has not been connected yet
+            if (!(*scopeGadgetWidget)->m_connectedUAVObjects.contains(obj->getName())) {
+                (*scopeGadgetWidget)->m_connectedUAVObjects.append(obj->getName());
+                connect(obj, SIGNAL(objectUpdated(UAVObject*)), (*scopeGadgetWidget), SLOT(uavObjectReceived(UAVObject*)));
+            }
+
+        }
     }
+    mutex.lock();
+    (*scopeGadgetWidget)->replot();
+    mutex.unlock();
 }
 
 
@@ -312,3 +398,102 @@ void Scatterplot2dScope::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options
 
 }
 
+
+
+void Scatterplot2dScope::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
+{
+    scopeGadgetWidget->setMinimumSize(64, 64);
+    scopeGadgetWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+
+    scopeGadgetWidget->setCanvasBackground(QColor(64, 64, 64));
+
+
+
+    //Add grid lines
+    scopeGadgetWidget->m_grid->enableX( true );
+    scopeGadgetWidget->m_grid->enableY( true );
+    scopeGadgetWidget->m_grid->enableXMin( false );
+    scopeGadgetWidget->m_grid->enableYMin( false );
+    scopeGadgetWidget->m_grid->setMajPen(QPen(Qt::gray, 0, Qt::DashLine));
+    scopeGadgetWidget->m_grid->setMinPen(QPen(Qt::lightGray, 0, Qt::DotLine));
+    scopeGadgetWidget->m_grid->setPen(QPen(Qt::darkGray, 1, Qt::DotLine));
+    scopeGadgetWidget->m_grid->attach(scopeGadgetWidget);
+
+    // Add the legend
+    scopeGadgetWidget->addLegend();
+
+    // Only start the timer if we are already connected
+    Core::ConnectionManager *cm = Core::ICore::instance()->connectionManager();
+    if (cm->getCurrentConnection() && scopeGadgetWidget->replotTimer)
+    {
+        if (!scopeGadgetWidget->replotTimer->isActive())
+            scopeGadgetWidget->replotTimer->start(m_refreshInterval);
+        else
+            scopeGadgetWidget->replotTimer->setInterval(m_refreshInterval);
+    }
+}
+
+void Scatterplot2dScope::plotNewData(ScopeGadgetWidget *scopeGadgetWidget)
+{
+
+    bool updateXAxisFlag = true;
+
+    foreach(Plot2dData* plot2dData, m_curves2dData.values())
+    {
+        ScatterplotData *scatterplotData = (ScatterplotData*) plot2dData;
+        //Plot new data
+        if (scatterplotData->readAndResetUpdatedFlag() == true)
+            scatterplotData->curve->setSamples(*(scatterplotData->getXData()), *(scatterplotData->getYData()));
+
+        // Advance axis in case of time series plot. // TODO: Do this just once.
+        if (scatterplot2dType == TIMESERIES2D && updateXAxisFlag == true)
+        {
+            QDateTime NOW = QDateTime::currentDateTime();
+            double toTime = NOW.toTime_t();
+            toTime += NOW.time().msec() / 1000.0;
+
+            scopeGadgetWidget->setAxisScale(QwtPlot::xBottom, toTime - scopeGadgetWidget->m_xWindowSize, toTime);
+            updateXAxisFlag = false;
+        }
+//        else if (plot2dData->plotType() == HISTOGRAM)
+//        {
+//            switch (m_plot2dType){
+//            case HISTOGRAMs:
+//            {
+//                //Plot new data
+//                HistogramData *histogramData = (HistogramData*) plot2dData;
+//                histogramData->histogram->setData(histogramData->intervalSeriesData);
+//                histogramData->intervalSeriesData->setSamples(*histogramData->histogramBins); // <-- Is this a memory leak?
+//                break;
+//            }
+//        }
+
+    }
+
+}
+
+
+void Scatterplot2dScope::clearPlots()
+{
+    foreach(Plot2dData* plot2dData, m_curves2dData.values()) {
+        ScatterplotData *scatterplotData = (ScatterplotData*) plot2dData;
+        scatterplotData->curve->detach();
+
+        delete scatterplotData->curve;
+        delete scatterplotData;
+    }
+
+    // Clear the data
+    m_curves2dData.clear();
+}
+
+
+
+void Scatterplot2dScope::uavObjectReceived(UAVObject* obj)
+{
+    foreach(Plot2dData* plot2dData, m_curves2dData.values()) {
+        bool ret = plot2dData->append(obj);
+        if (ret)
+            plot2dData->setUpdatedFlagToTrue();
+    }
+}

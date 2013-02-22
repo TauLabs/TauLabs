@@ -32,8 +32,17 @@
 #include "plotdata3d.h"
 
 #include <coreplugin/iuavgadgetconfiguration.h>
-#include "scopegadgetwidget.h"
 #include "ui_scopegadgetoptionspage.h"
+
+/**
+ * @brief The Plot3dType enum Defines the different type of plots.
+ */
+enum Plot3dType {
+    NO3DPLOT,
+    SCATTERPLOT3D,
+    SPECTROGRAM
+};
+
 
 // This struct holds the configuration for individual 2D data sources
 struct Plot3dCurveConfiguration
@@ -57,17 +66,21 @@ class Scopes3d : public ScopesGeneric
     Q_OBJECT
 public:
     virtual void saveConfiguration(QSettings *qSettings) = 0;
-    virtual PlotDimensions getPlotDimensions() {return PLOT3D;}
-    virtual int getScopeType(){};
+    virtual int getScopeType() = 0;
     virtual int getScopeDimensions(){return PLOT3D;}
     virtual QList<Plot3dCurveConfiguration*> getDataSourceConfigs() = 0;
     virtual void loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget) = 0;
     virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *) = 0;
-    virtual void clone(ScopesGeneric *){};
     virtual ScopesGeneric* cloneScope(ScopesGeneric *) = 0;
 
+    virtual void preparePlot(ScopeGadgetWidget *) = 0;
+    virtual void plotNewData(ScopeGadgetWidget *) = 0;
+    virtual void clearPlots() = 0;
+    virtual void uavObjectReceived(UAVObject* obj) = 0;
+
 protected:
-    PlotDimensions m_plotDimensions;
+    QMap<QString, Plot3dData*> m_curves3dData;
+
 private:
 };
 

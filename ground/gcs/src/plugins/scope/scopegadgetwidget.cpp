@@ -28,14 +28,11 @@
 
 
 #include <QDir>
-#include "scopes2d/histogramdata.h"
-#include "scopes2d/scatterplotdata.h"
-#include "scopes3d/spectrogramdata.h"
-#include "scopegadgetwidget.h"
-#include "utils/stylehelper.h"
 
+#include "scopegadgetwidget.h"
 #include "scopegadgetconfiguration.h"
 
+#include "utils/stylehelper.h"
 #include "uavtalk/telemetrymanager.h"
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
@@ -46,7 +43,7 @@
 #include "qwt/src/qwt_legend.h"
 #include "qwt/src/qwt_legend_item.h"
 #include "qwt/src/qwt_double_range.h"
-
+#include "qwt/src/qwt_scale_widget.h"
 
 #include <iostream>
 #include <math.h>
@@ -63,8 +60,7 @@
 QTimer *ScopeGadgetWidget::replotTimer=0;
 
 ScopeGadgetWidget::ScopeGadgetWidget(QWidget *parent) : QwtPlot(parent),
-  m_plot2dType(NO2DPLOT),
-  m_plot3dType(NO3DPLOT)
+    m_scope(0)
 {
     m_grid = new QwtPlotGrid;
 
@@ -98,7 +94,8 @@ ScopeGadgetWidget::~ScopeGadgetWidget()
         disconnect(obj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(uavObjectReceived(UAVObject*)));
     }
 
-    clearCurvePlots();
+    // Clear the plot
+    clearPlotWidget();
 }
 
 // ******************************************************************
@@ -271,130 +268,6 @@ void ScopeGadgetWidget::addLegend()
 
 
 /**
- * @brief ScopeGadgetWidget::preparePlot2d Prepare plot background, color, etc...
- * @param plotType Type of plot as supported by GCS.
- */
-void ScopeGadgetWidget::preparePlot2d(Plot2dType plotType, Scatterplot2dType scatterplot2dType)
-{
-    m_plot2dType = plotType;
-
-    clearCurvePlots();
-
-    setMinimumSize(64, 64);
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-
-    setCanvasBackground(QColor(64, 64, 64));
-
-    switch(m_plot2dType)
-    {
-    case HISTOGRAM:
-        plotLayout()->setAlignCanvasToScales( false );
-
-        m_grid->enableX( false );
-        m_grid->enableY( true );
-        m_grid->enableXMin( false );
-        m_grid->enableYMin( false );
-        m_grid->setMajPen( QPen( Qt::black, 0, Qt::DotLine ) );
-        m_grid->setMinPen(QPen(Qt::lightGray, 0, Qt::DotLine));
-        m_grid->setPen(QPen(Qt::darkGray, 1, Qt::DotLine));
-        m_grid->attach( this );
-
-        break;
-    case SCATTERPLOT2D:
-        m_Scatterplot2dType = scatterplot2dType;
-
-        //Add grid lines
-        m_grid->enableX( true );
-        m_grid->enableY( true );
-        m_grid->enableXMin( false );
-        m_grid->enableYMin( false );
-        m_grid->setMajPen(QPen(Qt::gray, 0, Qt::DashLine));
-        m_grid->setMinPen(QPen(Qt::lightGray, 0, Qt::DotLine));
-        m_grid->setPen(QPen(Qt::darkGray, 1, Qt::DotLine));
-        m_grid->attach(this);
-
-        break;
-    default:
-        // We shouldn't be able to get this far
-        Q_ASSERT(0);
-    }
-
-    // Add the legend
-    addLegend();
-
-    // Only start the timer if we are already connected
-    Core::ConnectionManager *cm = Core::ICore::instance()->connectionManager();
-    if (cm->getCurrentConnection() && replotTimer)
-    {
-        if (!replotTimer->isActive())
-            replotTimer->start(m_refreshInterval);
-        else
-            replotTimer->setInterval(m_refreshInterval);
-    }
-
-}
-
-
-/**
- * @brief ScopeGadgetWidget::preparePlot3d Prepare plot background, color, etc...
- * @param plotType Type of plot as supported by GCS.
- */
-void ScopeGadgetWidget::preparePlot3d(Plot3dType plotType)
-{
-    m_plot3dType = plotType;
-
-    clearCurvePlots();
-
-    setMinimumSize(64, 64);
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-    setCanvasBackground(QColor(64, 64, 64));
-
-    switch(m_plot3dType)
-    {
-    case SPECTROGRAM:
-        //Remove grid lines
-        m_grid->enableX( false );
-        m_grid->enableY( false );
-        m_grid->enableXMin( false );
-        m_grid->enableYMin( false );
-        m_grid->setMajPen(QPen(Qt::gray, 0, Qt::DashLine));
-        m_grid->setMinPen(QPen(Qt::lightGray, 0, Qt::DotLine));
-        m_grid->setPen(QPen(Qt::darkGray, 1, Qt::DotLine));
-        m_grid->attach(this);
-
-        break;
-    case SCATTERPLOT3D:
-        //Add grid lines
-        m_grid->enableX( true );
-        m_grid->enableY( true );
-        m_grid->enableXMin( false );
-        m_grid->enableYMin( false );
-        m_grid->setMajPen(QPen(Qt::gray, 0, Qt::DashLine));
-        m_grid->setMinPen(QPen(Qt::lightGray, 0, Qt::DotLine));
-        m_grid->setPen(QPen(Qt::darkGray, 1, Qt::DotLine));
-        m_grid->attach(this);
-
-        // Add the legend
-        addLegend();
-        break;
-    default:
-        //Shouldn't be able to get here
-        Q_ASSERT(0);
-    }
-
-    // Only start the timer if we are already connected
-    Core::ConnectionManager *cm = Core::ICore::instance()->connectionManager();
-    if (cm->getCurrentConnection() && replotTimer)
-    {
-        if (!replotTimer->isActive())
-            replotTimer->start(m_refreshInterval);
-        else
-            replotTimer->setInterval(m_refreshInterval);
-    }
-}
-
-
-/**
  * @brief ScopeGadgetWidget::showCurve
  * @param item
  * @param on
@@ -415,9 +288,11 @@ void ScopeGadgetWidget::showCurve(QwtPlotItem *item, bool on)
 /**
  * @brief ScopeGadgetWidget::setupSeriesPlot
  */
-void ScopeGadgetWidget::setupSeriesPlot()
+void ScopeGadgetWidget::setupSeriesPlot(ScopesGeneric* scope)
 {
-    preparePlot2d(SCATTERPLOT2D, SERIES2D);
+    m_scope = scope;
+
+    scope->preparePlot(this);
 
 //	QwtText title("Index");
 ////	title.setFont(QFont("Helvetica", 20));
@@ -448,9 +323,11 @@ void ScopeGadgetWidget::setupSeriesPlot()
 /**
  * @brief ScopeGadgetWidget::setupTimeSeriesPlot
  */
-void ScopeGadgetWidget::setupTimeSeriesPlot()
+void ScopeGadgetWidget::setupTimeSeriesPlot(ScopesGeneric* scope)
 {
-    preparePlot2d(SCATTERPLOT2D, TIMESERIES2D);
+    m_scope = scope;
+
+    scope->preparePlot(this);
 
 //    QwtText title("Time [h:m:s]");
 ////	title.setFont(QFont("Helvetica", 20));
@@ -505,313 +382,39 @@ void ScopeGadgetWidget::setupTimeSeriesPlot()
 //	scaleWidget->setMinBorderDist(0, fmw);
 }
 
-void ScopeGadgetWidget::setupHistogramPlot(){
-
-        preparePlot2d(HISTOGRAM);
-
-        setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());
-        setAxisAutoScale(QwtPlot::xBottom);
-        setAxisLabelRotation(QwtPlot::xBottom, 0.0);
-        setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom);
-
-        QwtScaleWidget *scaleWidget = axisWidget(QwtPlot::xBottom);
-
-        // reduce the gap between the scope canvas and the axis scale
-        scaleWidget->setMargin(0);
-
-        // reduce the axis font size
-        QFont fnt(axisFont(QwtPlot::xBottom));
-        fnt.setPointSize(7);
-        setAxisFont(QwtPlot::xBottom, fnt);	// x-axis
-        setAxisFont(QwtPlot::yLeft, fnt);	// y-axis
-
-}
-
-
-void ScopeGadgetWidget::setupSpectrogramPlot()
+void ScopeGadgetWidget::setupHistogramPlot(ScopesGeneric *scope)
 {
-        preparePlot3d(SPECTROGRAM);
+    m_scope = scope;
 
-        // Spectrograms use autoscale
-        setAxisAutoScale(QwtPlot::xBottom);
-        setAxisAutoScale(QwtPlot::yLeft);
+    scope->preparePlot(this);
+
+    setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());
+    setAxisAutoScale(QwtPlot::xBottom);
+    setAxisLabelRotation(QwtPlot::xBottom, 0.0);
+    setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom);
+
+    QwtScaleWidget *scaleWidget = axisWidget(QwtPlot::xBottom);
+
+    // reduce the gap between the scope canvas and the axis scale
+    scaleWidget->setMargin(0);
+
+    // reduce the axis font size
+    QFont fnt(axisFont(QwtPlot::xBottom));
+    fnt.setPointSize(7);
+    setAxisFont(QwtPlot::xBottom, fnt);	// x-axis
+    setAxisFont(QwtPlot::yLeft, fnt);	// y-axis
+
 }
 
 
-/**
- * @brief ScopeGadgetWidget::addWaterfallPlot Adds a waterfall-style spectrogram
- * @param uavObjectName
- * @param uavFieldSubFieldName
- * @param scaleOrderFactor
- * @param meanSamples
- * @param mathFunction
- * @param samplingFrequency
- * @param windowWidth
- * @param timeHorizon
- */
-void ScopeGadgetWidget::addWaterfallPlot(QString uavObjectName, QString uavFieldSubFieldName, int scaleOrderFactor, int meanSamples,
-                                         QString mathFunction, double timeHorizon, double samplingFrequency, int windowWidth, double zMaximum)
+void ScopeGadgetWidget::setupSpectrogramPlot(ScopesGeneric *scope)
 {
-    SpectrogramData* spectrogramData = new SpectrogramData(uavObjectName, uavFieldSubFieldName, samplingFrequency, windowWidth, timeHorizon);
+    m_scope = scope;
 
-    spectrogramData->setXMinimum(0);
-    spectrogramData->setXMaximum(samplingFrequency/2);
-    spectrogramData->setYMinimum(0);
-    spectrogramData->setYMaximum(timeHorizon);
-    spectrogramData->setZMaximum(zMaximum);
-    spectrogramData->setScalePower(scaleOrderFactor);
-    spectrogramData->setMeanSamples(meanSamples);
-    spectrogramData->setMathFunction(mathFunction);
-
-    //Generate the waterfall name
-    QString waterfallName = (spectrogramData->getUavoName()) + "." + (spectrogramData->getUavoFieldName());
-    if(spectrogramData->getHaveSubFieldFlag())
-        waterfallName = waterfallName.append("." + spectrogramData->getUavoSubFieldName());
-
-    //Get the uav object
-    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-    UAVDataObject* obj = dynamic_cast<UAVDataObject*>(objManager->getObject((spectrogramData->getUavoName())));
-    if(!obj) {
-        qDebug() << "Object " << spectrogramData->getUavoName() << " is missing";
-        return;
-    }
-
-    //Get the units
-    QString units = ScopeGadgetWidget::getUavObjectFieldUnits(spectrogramData->getUavoName(), spectrogramData->getUavoFieldName());
-
-    //Generate name with scaling factor appeneded
-    QString waterfallNameScaled;
-    if(scaleOrderFactor == 0)
-        waterfallNameScaled = waterfallName + "(" + units + ")";
-    else
-        waterfallNameScaled = waterfallName + "(x10^" + QString::number(scaleOrderFactor) + " " + units + ")";
-
-    //Create the waterfall plot
-    QwtPlotSpectrogram* plotSpectrogram = new QwtPlotSpectrogram(waterfallNameScaled);
-    plotSpectrogram->setRenderThreadCount( 0 ); // use system specific thread count
-    plotSpectrogram->setRenderHint(QwtPlotItem::RenderAntialiased);
-    plotSpectrogram->setColorMap(new ColorMap() );
-
-    // Initial raster data
-    spectrogramData->rasterData = new QwtMatrixRasterData();
-
-    QDateTime NOW = QDateTime::currentDateTime(); //TODO: This should show UAVO time and not system time
-    for ( uint i = 0; i < timeHorizon; i++ ){
-        spectrogramData->timeDataHistory->append(NOW.toTime_t() + NOW.time().msec() / 1000.0 + i);
-    }
-
-    if (((double) windowWidth) * timeHorizon < (double) 10000000.0 * sizeof(spectrogramData->zDataHistory->front())){ //Don't exceed 10MB for memory
-        for ( uint i = 0; i < windowWidth*timeHorizon; i++ ){
-            spectrogramData->zDataHistory->append(0);
-        }
-    }
-    else{
-        qDebug() << "For some reason, we're trying to allocate a gigantic spectrogram. This probably represents a problem in the configuration file. TimeHorizion: "<< timeHorizon << ", windowWidth: "<< windowWidth;
-        Q_ASSERT(0);
-        return;
-    }
-
-    int numColumns = windowWidth;
-    spectrogramData->rasterData->setValueMatrix( *(spectrogramData->zDataHistory), numColumns );
-
-    //Set the ranges for the plot
-    spectrogramData->rasterData->setInterval( Qt::XAxis, QwtInterval(spectrogramData->getXMinimum(), spectrogramData->getXMaximum()));
-    spectrogramData->rasterData->setInterval( Qt::YAxis, QwtInterval(spectrogramData->getYMinimum(), spectrogramData->getYMaximum()));
-    spectrogramData->rasterData->setInterval( Qt::ZAxis, QwtInterval(0, zMaximum));
-
-    //Set up colorbar on right axis
-    spectrogramData->rightAxis = axisWidget( QwtPlot::yRight );
-    spectrogramData->rightAxis->setTitle( "Intensity" );
-    spectrogramData->rightAxis->setColorBarEnabled( true );
-    spectrogramData->rightAxis->setColorMap( QwtInterval(0, zMaximum), new ColorMap() );
-    setAxisScale( QwtPlot::yRight, 0, zMaximum);
-    enableAxis( QwtPlot::yRight );
-
-
-
-    plotSpectrogram->setData(spectrogramData->rasterData);
-
-    plotSpectrogram->attach(this);
-    spectrogramData->spectrogram = plotSpectrogram;
-
-    //Keep the curve details for later
-    m_curves3dData.insert(waterfallNameScaled, spectrogramData);
-
-    //Link to the new signal data only if this UAVObject has not been connected yet
-    if (!m_connectedUAVObjects.contains(obj->getName())) {
-        m_connectedUAVObjects.append(obj->getName());
-        connect(obj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(uavObjectReceived(UAVObject*)));
-    }
-
-    mutex.lock();
-        replot();
-    mutex.unlock();
+    scope->preparePlot(this);
 }
 
-/**
- * @brief ScopeGadgetWidget::add2dCurvePlot
- * @param uavObject
- * @param uavFieldSubField
- * @param scaleOrderFactor
- * @param meanSamples
- * @param mathFunction
- * @param pen
- */
-void ScopeGadgetWidget::add2dCurvePlot(QString uavObjectName, QString uavFieldSubFieldName, int scaleOrderFactor, int meanSamples, QString mathFunction, QPen pen)
-{
-    ScatterplotData* scatterplotData;
 
-    switch(m_Scatterplot2dType){
-    case SERIES2D:
-        scatterplotData = new SeriesPlotData(uavObjectName, uavFieldSubFieldName);
-        break;
-    case TIMESERIES2D:
-        scatterplotData = new TimeSeriesPlotData(uavObjectName, uavFieldSubFieldName);
-        break;
-    }
-
-    scatterplotData->setXWindowSize(m_xWindowSize);
-    scatterplotData->setScalePower(scaleOrderFactor);
-    scatterplotData->setMeanSamples(meanSamples);
-    scatterplotData->setMathFunction(mathFunction);
-
-    //If the y-bounds are provided, set them
-    if (scatterplotData->getYMinimum() != scatterplotData->getYMaximum())
-	{
-//        setAxisScale(QwtPlot::yLeft, scatterplotData->getYMinimum(), scatterplotData->getYMaximum());
-	}
-
-    //Generate the curve name
-    QString curveName = (scatterplotData->getUavoName()) + "." + (scatterplotData->getUavoFieldName());
-    if(scatterplotData->getHaveSubFieldFlag())
-        curveName = curveName.append("." + scatterplotData->getUavoSubFieldName());
-
-    //Get the uav object
-    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-    UAVDataObject* obj = dynamic_cast<UAVDataObject*>(objManager->getObject((scatterplotData->getUavoName())));
-    if(!obj) {
-        qDebug() << "Object " << scatterplotData->getUavoName() << " is missing";
-        return;
-    }
-
-    //Get the units
-    QString units = ScopeGadgetWidget::getUavObjectFieldUnits(scatterplotData->getUavoName(), scatterplotData->getUavoFieldName());
-
-    //Generate name with scaling factor appeneded
-    QString curveNameScaled;
-    if(scaleOrderFactor == 0)
-        curveNameScaled = curveName + "(" + units + ")";
-    else
-        curveNameScaled = curveName + "(x10^" + QString::number(scaleOrderFactor) + " " + units + ")";
-
-    QString curveNameScaledMath;
-    if (mathFunction == "None")
-        curveNameScaledMath = curveNameScaled;
-    else if (mathFunction == "Boxcar average"){
-        curveNameScaledMath = curveNameScaled + " (avg)";
-    }
-    else if (mathFunction == "Standard deviation"){
-        curveNameScaledMath = curveNameScaled + " (std)";
-    }
-    else
-    {
-        //Shouldn't be able to get here. Perhaps a new math function was added without
-        // updating this list?
-        Q_ASSERT(0);
-    }
-
-    //Create the curve plot
-    QwtPlotCurve* plotCurve = new QwtPlotCurve(curveNameScaledMath);
-    plotCurve->setPen(pen);
-    plotCurve->setSamples(*(scatterplotData->getXData()), *(scatterplotData->getYData()));
-    plotCurve->attach(this);
-    scatterplotData->curve = plotCurve;
-
-    //Keep the curve details for later
-    m_curves2dData.insert(curveNameScaledMath, scatterplotData);
-
-    //Link to the new signal data only if this UAVObject has not been connected yet
-    if (!m_connectedUAVObjects.contains(obj->getName())) {
-        m_connectedUAVObjects.append(obj->getName());
-        connect(obj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(uavObjectReceived(UAVObject*)));
-    }
-
-    mutex.lock();
-    replot();
-    mutex.unlock();
-}
-
-void ScopeGadgetWidget::addHistogram(QString uavObjectName, QString uavFieldSubFieldName, double binWidth, uint numberOfBins, int scaleOrderFactor, int meanSamples, QString mathFunction, QBrush brush)
-{
-    HistogramData* histogramData;
-    histogramData = new HistogramData(uavObjectName, uavFieldSubFieldName, binWidth, numberOfBins);
-
-    histogramData->setScalePower(scaleOrderFactor);
-    histogramData->setMeanSamples(meanSamples);
-    histogramData->setMathFunction(mathFunction);
-
-    //If the y-bounds are provided, set them
-    if (histogramData->getYMinimum() != histogramData->getYMaximum())
-    {
-//        setAxisScale(QwtPlot::yLeft, histogramData->getYMinimum(), histogramData->getYMaximum());
-    }
-
-    //Generate the curve name
-    QString curveName = (histogramData->getUavoName()) + "." + (histogramData->getUavoFieldName());
-    if(histogramData->getHaveSubFieldFlag())
-        curveName = curveName.append("." + histogramData->getUavoSubFieldName());
-
-    //Get the uav object
-    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-    UAVDataObject* obj = dynamic_cast<UAVDataObject*>(objManager->getObject((histogramData->getUavoName())));
-    if(!obj) {
-        qDebug() << "Object " << histogramData->getUavoName() << " is missing";
-        return;
-    }
-
-    //Get the units
-    QString units = ScopeGadgetWidget::getUavObjectFieldUnits(histogramData->getUavoName(), histogramData->getUavoFieldName());
-
-    //Generate name with scaling factor appeneded
-    QString histogramNameScaled;
-    if(scaleOrderFactor == 0)
-        histogramNameScaled = curveName + "(" + units + ")";
-    else
-        histogramNameScaled = curveName + "(x10^" + QString::number(scaleOrderFactor) + " " + units + ")";
-
-    //Create histogram data set
-    histogramData->histogramBins = new QVector<QwtIntervalSample>();
-    histogramData->histogramInterval = new QVector<QwtInterval>();
-
-    // Generate the interval series
-    histogramData->intervalSeriesData = new QwtIntervalSeriesData(*histogramData->histogramBins);
-
-    // Create the histogram
-    QwtPlotHistogram* plotHistogram = new QwtPlotHistogram(histogramNameScaled);
-    plotHistogram->setStyle( QwtPlotHistogram::Columns );
-    plotHistogram->setBrush(brush);
-    plotHistogram->setData( histogramData->intervalSeriesData);
-
-    plotHistogram->attach(this);
-    histogramData->histogram = plotHistogram;
-
-    //Keep the curve details for later
-    m_curves2dData.insert(histogramNameScaled, histogramData);
-
-    //Link to the new signal data only if this UAVObject has not been connected yet
-    if (!m_connectedUAVObjects.contains(obj->getName())) {
-        m_connectedUAVObjects.append(obj->getName());
-        connect(obj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(uavObjectReceived(UAVObject*)));
-    }
-
-    mutex.lock();
-    replot();
-    mutex.unlock();
-
-}
 //void ScopeGadgetWidget::removeCurvePlot(QString uavObjectName, QString uavFieldName)
 //{
 //    QString curveName = uavObjectName + "." + uavFieldName;
@@ -835,18 +438,7 @@ void ScopeGadgetWidget::addHistogram(QString uavObjectName, QString uavFieldSubF
  */
 void ScopeGadgetWidget::uavObjectReceived(UAVObject* obj)
 {
-    foreach(Plot2dData* plot2dData, m_curves2dData.values()) {
-        bool ret = plot2dData->append(obj);
-        if (ret)
-            plot2dData->setUpdatedFlagToTrue();
-
-    }
-
-    foreach(Plot3dData* plot3dData, m_curves3dData.values()) {
-        bool ret = plot3dData->append(obj);
-        if (ret)
-            plot3dData->setUpdatedFlagToTrue();
-    }
+    m_scope->uavObjectReceived(obj);
 }
 
 
@@ -856,151 +448,28 @@ void ScopeGadgetWidget::uavObjectReceived(UAVObject* obj)
  */
 void ScopeGadgetWidget::replotNewData()
 {
-    // If the plot is not visible, do not replot
-    if (!isVisible())
+    // If the plot is not visible or there is no scope, do not replot
+    if (!isVisible() || m_scope == NULL)
         return;
 
     QMutexLocker locker(&mutex);
 
-    foreach(Plot2dData* plot2dData, m_curves2dData.values())
-    {
-        if (plot2dData->plotType() == SCATTERPLOT2D){
-            plot2dData->removeStaleData();
-            switch (m_plot2dType){
-            case SCATTERPLOT2D:
-            {
-                ScatterplotData *scatterplotData = (ScatterplotData*) plot2dData;
-                //Plot new data
-                if (scatterplotData->readAndResetUpdatedFlag() == true)
-                    scatterplotData->curve->setSamples(*(scatterplotData->getXData()), *(scatterplotData->getYData()));
+    // Update the data in the scopes
+    m_scope->plotNewData(this);
 
-                // Advance axis in case of time series plot
-                if (m_Scatterplot2dType == TIMESERIES2D){
-                    QDateTime NOW = QDateTime::currentDateTime();
-                    double toTime = NOW.toTime_t();
-                    toTime += NOW.time().msec() / 1000.0;
-
-                    setAxisScale(QwtPlot::xBottom, toTime - m_xWindowSize, toTime);
-                }
-                break;
-            }
-            default:
-                //We shouldn't be able to get this far. This means that somewhere the plot types and plot dimensions have gotten out of sync
-                Q_ASSERT(0);
-            }
-        }
-        else if (plot2dData->plotType() == HISTOGRAM){
-            switch (m_plot2dType){
-            case HISTOGRAM:
-            {
-                //Plot new data
-                HistogramData *histogramData = (HistogramData*) plot2dData;
-                histogramData->histogram->setData(histogramData->intervalSeriesData);
-                histogramData->intervalSeriesData->setSamples(*histogramData->histogramBins); // <-- Is this a memory leak?
-                break;
-            }
-            default:
-                //We shouldn't be able to get this far. This means that somewhere the plot types and plot dimensions have gotten out of sync
-                Q_ASSERT(0);
-            }
-        }
-
-    }
-
-    foreach(Plot3dData* plot3dData, m_curves3dData.values())
-    {
-        if (plot3dData->plotType() == SCATTERPLOT3D){
-            plot3dData->removeStaleData();
-            if (m_plot3dType == SCATTERPLOT3D){
-                //Plot new data
-//                plot3dData->curve->setSamples(*plot3dData->xData, *plot3dData->yData);
-            }
-        }
-        if (plot3dData->plotType() == SPECTROGRAM){
-            plot3dData->removeStaleData();
-            if (m_plot3dType == SPECTROGRAM){
-                // Load spectrogram parameters
-                SpectrogramData *spectrogramData = (SpectrogramData*) plot3dData;
-
-                // Check for new data
-                if (spectrogramData->readAndResetUpdatedFlag() == true){
-                    // Plot new data
-                    spectrogramData->rasterData->setValueMatrix(*plot3dData->zDataHistory, spectrogramData->windowWidth);
-
-                    // Check autoscale. (For some reason, QwtSpectrogram doesn't support autoscale)
-                    if (plot3dData->getZMaximum() == 0){
-                        double newVal = spectrogramData->readAndResetAutoscaleValue();
-                        if (newVal != 0){
-                            spectrogramData->rightAxis->setColorMap( QwtInterval(0, newVal), new ColorMap() );
-                            setAxisScale( QwtPlot::yRight, 0, newVal);
-                        }
-                    }
-                }
-
-            }
-        }
-    }
-
+    // Repaint the scopes
     replot();
 }
 
 
 /**
- * @brief ScopeGadgetWidget::clearCurvePlots
+ * @brief ScopeGadgetWidget::clearPlotWidget
  */
-void ScopeGadgetWidget::clearCurvePlots()
+void ScopeGadgetWidget::clearPlotWidget()
 {
     m_grid->detach();
 
-    foreach(Plot2dData* plot2dData, m_curves2dData.values()) {
-
-        if (plot2dData->plotType() == SCATTERPLOT2D){
-            ScatterplotData *scatterplotData = (ScatterplotData*) plot2dData;
-            scatterplotData->curve->detach();
-
-            delete scatterplotData->curve;
-            delete scatterplotData;
-        }
-        else if (plot2dData->plotType() == HISTOGRAM){
-            HistogramData *histogramData = (HistogramData*) plot2dData;
-
-            histogramData->histogram->detach();
-
-            // Delete data bins
-            delete histogramData->histogramBins;
-            delete histogramData->histogramInterval;
-            // Don't delete intervalSeriesData, this is done by the histogram's destructor
-            /* delete histogramData->intervalSeriesData; */
-
-            // Delete histogram (also deletes intervalSeriesData)
-            delete histogramData->histogram;
-
-            delete histogramData;
-        }
-    }
-
-    foreach(Plot3dData* plot3dData, m_curves3dData.values()) {
-        if (plot3dData->plotType() == SCATTERPLOT3D){
-            plot3dData->curve->detach();
-
-            delete plot3dData->curve;
-            delete plot3dData;
-        }
-        else if (plot3dData->plotType() == SPECTROGRAM){
-            SpectrogramData* spectrogramData = (SpectrogramData*) plot3dData;
-            spectrogramData->spectrogram->detach();
-
-            // Don't delete raster data, this is done by the spectrogram's destructor
-            /* delete plot3dData->rasterData; */
-
-            // Delete spectrogram (also deletes raster data)
-            delete spectrogramData->spectrogram;
-            delete spectrogramData;
-        }
-    }
-
-    m_curves2dData.clear();
-    m_curves3dData.clear();
+    m_scope->clearPlots();
 }
 
 

@@ -28,12 +28,23 @@
 #ifndef SCOPES2D_H
 #define SCOPES2D_H
 
+
 #include "scopesconfig.h"
 #include "plotdata2d.h"
 
 #include <coreplugin/iuavgadgetconfiguration.h>
-#include "scopegadgetwidget.h"
 #include "ui_scopegadgetoptionspage.h"
+
+/**
+ * @brief The Plot2dType enum Defines the different type of plots.
+ */
+enum Plot2dType {
+    NO2DPLOT, //Signifies that there is no 2D plot configured
+    SCATTERPLOT2D,
+    HISTOGRAM,
+    POLARPLOT
+};
+
 
 // This struct holds the configuration for individual 2D data sources
 struct Plot2dCurveConfiguration
@@ -57,17 +68,21 @@ class Scopes2d : public ScopesGeneric
     Q_OBJECT
 public:
     virtual void saveConfiguration(QSettings *qSettings) = 0;
-    virtual PlotDimensions getPlotDimensions() {return PLOT2D;}
     virtual int getScopeType() = 0;
     virtual int getScopeDimensions(){return PLOT2D;}
     virtual QList<Plot2dCurveConfiguration*> getDataSourceConfigs() = 0;
     virtual void loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget) = 0;
     virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *) = 0;
-    virtual void clone(ScopesGeneric *){}
     virtual ScopesGeneric* cloneScope(ScopesGeneric *) = 0;
 
+    virtual void preparePlot(ScopeGadgetWidget *) = 0;
+    virtual void plotNewData(ScopeGadgetWidget *) = 0;
+    virtual void clearPlots() = 0;
+    virtual void uavObjectReceived(UAVObject* obj) = 0;
+
 protected:
-    PlotDimensions m_plotDimensions;
+    QMap<QString, Plot2dData*> m_curves2dData;
+
 private:
 };
 

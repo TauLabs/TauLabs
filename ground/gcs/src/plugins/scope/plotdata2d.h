@@ -29,38 +29,10 @@
 #define PLOTDATA2D_H
 
 #include "plotdata.h"
-#include "uavobject.h"
-
-#include "qwt/src/qwt.h"
-#include "qwt/src/qwt_color_map.h"
-#include "qwt/src/qwt_plot.h"
-#include "qwt/src/qwt_plot_curve.h"
-#include "qwt/src/qwt_scale_draw.h"
-#include "qwt/src/qwt_scale_widget.h"
 
 #include <QTimer>
 #include <QTime>
 #include <QVector>
-
-
-/**
- * @brief The Plot2dType enum Defines the different type of plots.
- */
-enum Plot2dType {
-    NO2DPLOT, //Signifies that there is no 2D plot configured
-    SCATTERPLOT2D,
-    HISTOGRAM,
-    POLARPLOT
-};
-
-
-/**
- * @brief The Scatterplot2dType enum Defines the different type of plots.
- */
-enum Scatterplot2dType {
-    SERIES2D,
-    TIMESERIES2D
-};
 
 
 /**
@@ -77,7 +49,6 @@ public:
     QVector<double>* yDataHistory; //Used for scatterplots
 
     virtual bool append(UAVObject* obj) = 0;
-    virtual Plot2dType plotType() = 0;
     virtual void removeStaleData() = 0;
     virtual void setUpdatedFlagToTrue(){dataUpdated = true;}
     virtual bool readAndResetUpdatedFlag(){bool tmp = dataUpdated; dataUpdated = false; return tmp;}

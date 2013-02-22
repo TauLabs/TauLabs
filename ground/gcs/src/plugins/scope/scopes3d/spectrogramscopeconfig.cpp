@@ -25,7 +25,10 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include "spectrogramdata.h"
 #include "scopes3d/spectrogramscopeconfig.h"
+#include "coreplugin/icore.h"
+#include "coreplugin/connectionmanager.h"
 
 
 SpectrogramScope::SpectrogramScope()
@@ -186,7 +189,7 @@ void SpectrogramScope::replaceSpectrogramDataSource(QList<Plot3dCurveConfigurati
  */
 void SpectrogramScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget)
 {
-    (*scopeGadgetWidget)->setupSpectrogramPlot();
+    (*scopeGadgetWidget)->setupSpectrogramPlot(this);
     (*scopeGadgetWidget)->setRefreshInterval(m_refreshInterval);
 
     //There should be only one spectrogram per plot //TODO: Change this to handle multiple spectrograms
@@ -196,27 +199,125 @@ void SpectrogramScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget)
     Plot3dCurveConfiguration* spectrogramSourceConfigs = m_spectrogramSourceConfigs.front();
     QString uavObjectName = spectrogramSourceConfigs->uavObjectName;
     QString uavFieldName = spectrogramSourceConfigs->uavFieldName;
-    int scale = spectrogramSourceConfigs->yScalePower;
-    int mean = spectrogramSourceConfigs->yMeanSamples;
+    int scaleOrderFactor = spectrogramSourceConfigs->yScalePower;
+    int meanSamples = spectrogramSourceConfigs->yMeanSamples;
     QString mathFunction = spectrogramSourceConfigs->mathFunction;
 
-    // TODO: It bothers me that I have to have the ScopeGadgetWidget scopeGadgetWidget in order to call getUavObjectFieldUnits()
     // Get and store the units
-    units = (*scopeGadgetWidget)->getUavObjectFieldUnits(uavObjectName, uavFieldName);
+    units = getUavObjectFieldUnits(uavObjectName, uavFieldName);
 
-    // Create the Qwt waterfall plot
-    (*scopeGadgetWidget)->addWaterfallPlot(
-                uavObjectName,
-                uavFieldName,
-                scale,
-                mean,
-                mathFunction,
-                timeHorizon,
-                samplingFrequency,
-                windowWidth,
-                zMaximum
-                );
+//    // Create the Qwt waterfall plot
+//    (*scopeGadgetWidget)->addWaterfallPlot(
+//                uavObjectName,
+//                uavFieldName,
+//                scale,
+//                mean,
+//                mathFunction,
+//                timeHorizon,
+//                samplingFrequency,
+//                windowWidth,
+//                zMaximum
+//                );
+
+    {
+        SpectrogramData* spectrogramData = new SpectrogramData(uavObjectName, uavFieldName, samplingFrequency, windowWidth, timeHorizon);
+
+        spectrogramData->setXMinimum(0);
+        spectrogramData->setXMaximum(samplingFrequency/2);
+        spectrogramData->setYMinimum(0);
+        spectrogramData->setYMaximum(timeHorizon);
+        spectrogramData->setZMaximum(zMaximum);
+        spectrogramData->setScalePower(scaleOrderFactor);
+        spectrogramData->setMeanSamples(meanSamples);
+        spectrogramData->setMathFunction(mathFunction);
+
+        //Generate the waterfall name
+        QString waterfallName = (spectrogramData->getUavoName()) + "." + (spectrogramData->getUavoFieldName());
+        if(spectrogramData->getHaveSubFieldFlag())
+            waterfallName = waterfallName.append("." + spectrogramData->getUavoSubFieldName());
+
+        //Get the uav object
+        ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+        UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
+        UAVDataObject* obj = dynamic_cast<UAVDataObject*>(objManager->getObject((spectrogramData->getUavoName())));
+        if(!obj) {
+            qDebug() << "Object " << spectrogramData->getUavoName() << " is missing";
+            return;
+        }
+
+        //Get the units
+        QString units = getUavObjectFieldUnits(spectrogramData->getUavoName(), spectrogramData->getUavoFieldName());
+
+        //Generate name with scaling factor appeneded
+        QString waterfallNameScaled;
+        if(scaleOrderFactor == 0)
+            waterfallNameScaled = waterfallName + "(" + units + ")";
+        else
+            waterfallNameScaled = waterfallName + "(x10^" + QString::number(scaleOrderFactor) + " " + units + ")";
+
+        //Create the waterfall plot
+        QwtPlotSpectrogram* plotSpectrogram = new QwtPlotSpectrogram(waterfallNameScaled);
+        plotSpectrogram->setRenderThreadCount( 0 ); // use system specific thread count
+        plotSpectrogram->setRenderHint(QwtPlotItem::RenderAntialiased);
+        plotSpectrogram->setColorMap(new ColorMap() );
+
+        // Initial raster data
+        spectrogramData->rasterData = new QwtMatrixRasterData();
+
+        QDateTime NOW = QDateTime::currentDateTime(); //TODO: This should show UAVO time and not system time
+        for ( uint i = 0; i < timeHorizon; i++ ){
+            spectrogramData->timeDataHistory->append(NOW.toTime_t() + NOW.time().msec() / 1000.0 + i);
+        }
+
+        if (((double) windowWidth) * timeHorizon < (double) 10000000.0 * sizeof(spectrogramData->zDataHistory->front())){ //Don't exceed 10MB for memory
+            for ( uint i = 0; i < windowWidth*timeHorizon; i++ ){
+                spectrogramData->zDataHistory->append(0);
+            }
+        }
+        else{
+            qDebug() << "For some reason, we're trying to allocate a gigantic spectrogram. This probably represents a problem in the configuration file. TimeHorizion: "<< timeHorizon << ", windowWidth: "<< windowWidth;
+            Q_ASSERT(0);
+            return;
+        }
+
+        int numColumns = windowWidth;
+        spectrogramData->rasterData->setValueMatrix( *(spectrogramData->zDataHistory), numColumns );
+
+        //Set the ranges for the plot
+        spectrogramData->rasterData->setInterval( Qt::XAxis, QwtInterval(spectrogramData->getXMinimum(), spectrogramData->getXMaximum()));
+        spectrogramData->rasterData->setInterval( Qt::YAxis, QwtInterval(spectrogramData->getYMinimum(), spectrogramData->getYMaximum()));
+        spectrogramData->rasterData->setInterval( Qt::ZAxis, QwtInterval(0, zMaximum));
+
+        //Set up colorbar on right axis
+        spectrogramData->rightAxis = (*scopeGadgetWidget)->axisWidget( QwtPlot::yRight );
+        spectrogramData->rightAxis->setTitle( "Intensity" );
+        spectrogramData->rightAxis->setColorBarEnabled( true );
+        spectrogramData->rightAxis->setColorMap( QwtInterval(0, zMaximum), new ColorMap() );
+        (*scopeGadgetWidget)->setAxisScale( QwtPlot::yRight, 0, zMaximum);
+        (*scopeGadgetWidget)->enableAxis( QwtPlot::yRight );
+
+
+
+        plotSpectrogram->setData(spectrogramData->rasterData);
+
+        plotSpectrogram->attach((*scopeGadgetWidget));
+        spectrogramData->spectrogram = plotSpectrogram;
+
+        //Keep the curve details for later
+        m_curves3dData.insert(waterfallNameScaled, spectrogramData);
+
+        //Link to the new signal data only if this UAVObject has not been connected yet
+        if (!(*scopeGadgetWidget)->m_connectedUAVObjects.contains(obj->getName())) {
+            (*scopeGadgetWidget)->m_connectedUAVObjects.append(obj->getName());
+            connect(obj, SIGNAL(objectUpdated(UAVObject*)), (*scopeGadgetWidget), SLOT(uavObjectReceived(UAVObject*)));
+        }
+
+    }
+    mutex.lock();
+    (*scopeGadgetWidget)->replot();
+    mutex.unlock();
 }
+
 
 
 void SpectrogramScope::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page)
@@ -241,4 +342,92 @@ void SpectrogramScope::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_p
         options_page->cmbUavoFieldSpectrogram->setCurrentIndex(uavoFieldIdx);
     }
 
+}
+
+
+void SpectrogramScope::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
+{
+    scopeGadgetWidget->setMinimumSize(64, 64);
+    scopeGadgetWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    scopeGadgetWidget->setCanvasBackground(QColor(64, 64, 64));
+
+    //Remove grid lines
+    scopeGadgetWidget->m_grid->enableX( false );
+    scopeGadgetWidget->m_grid->enableY( false );
+    scopeGadgetWidget->m_grid->enableXMin( false );
+    scopeGadgetWidget->m_grid->enableYMin( false );
+    scopeGadgetWidget->m_grid->setMajPen(QPen(Qt::gray, 0, Qt::DashLine));
+    scopeGadgetWidget->m_grid->setMinPen(QPen(Qt::lightGray, 0, Qt::DotLine));
+    scopeGadgetWidget->m_grid->setPen(QPen(Qt::darkGray, 1, Qt::DotLine));
+    scopeGadgetWidget->m_grid->attach(scopeGadgetWidget);
+
+    // Only start the timer if we are already connected
+    Core::ConnectionManager *cm = Core::ICore::instance()->connectionManager();
+    if (cm->getCurrentConnection() && scopeGadgetWidget->replotTimer)
+    {
+        if (!scopeGadgetWidget->replotTimer->isActive())
+            scopeGadgetWidget->replotTimer->start(m_refreshInterval);
+        else
+            scopeGadgetWidget->replotTimer->setInterval(m_refreshInterval);
+    }
+
+    // Spectrograms use autoscale
+    scopeGadgetWidget->setAxisAutoScale(QwtPlot::xBottom);
+    scopeGadgetWidget->setAxisAutoScale(QwtPlot::yLeft);
+
+}
+
+
+void SpectrogramScope::plotNewData(ScopeGadgetWidget *scopeGadgetWidget)
+{
+    foreach(Plot3dData* plot3dData, m_curves3dData.values())
+    {
+        plot3dData->removeStaleData();
+        // Load spectrogram parameters
+        SpectrogramData *spectrogramData = (SpectrogramData*) plot3dData;
+
+        // Check for new data
+        if (spectrogramData->readAndResetUpdatedFlag() == true){
+            // Plot new data
+            spectrogramData->rasterData->setValueMatrix(*plot3dData->zDataHistory, spectrogramData->windowWidth);
+
+            // Check autoscale. (For some reason, QwtSpectrogram doesn't support autoscale)
+            if (plot3dData->getZMaximum() == 0){
+                double newVal = spectrogramData->readAndResetAutoscaleValue();
+                if (newVal != 0){
+                    spectrogramData->rightAxis->setColorMap( QwtInterval(0, newVal), new ColorMap() );
+                    scopeGadgetWidget->setAxisScale( QwtPlot::yRight, 0, newVal);
+                }
+            }
+        }
+    }
+}
+
+
+void SpectrogramScope::clearPlots()
+{
+    foreach(Plot3dData* plot3dData, m_curves3dData.values()) {
+        SpectrogramData* spectrogramData = (SpectrogramData*) plot3dData;
+        spectrogramData->spectrogram->detach();
+
+        // Don't delete raster data, this is done by the spectrogram's destructor
+        /* delete plot3dData->rasterData; */
+
+        // Delete spectrogram (also deletes raster data)
+        delete spectrogramData->spectrogram;
+        delete spectrogramData;
+    }
+
+    // Clear the data
+    m_curves3dData.clear();
+}
+
+
+void SpectrogramScope::uavObjectReceived(UAVObject* obj)
+{
+    foreach(Plot3dData* plot3dData, m_curves3dData.values()) {
+        bool ret = plot3dData->append(obj);
+        if (ret)
+            plot3dData->setUpdatedFlagToTrue();
+    }
 }

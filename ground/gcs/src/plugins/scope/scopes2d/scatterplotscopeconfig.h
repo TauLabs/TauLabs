@@ -31,13 +31,13 @@
 #include "scopes2d/scopes2dconfig.h"
 
 
-///**
-// * @brief The Scatterplot2dType enum Defines the different type of plots.
-// */
-//enum Scatterplot2dType {
-//    SERIES2D,
-//    TIMESERIES2D
-//};
+/**
+ * @brief The Scatterplot2dType enum Defines the different type of plots.
+ */
+enum Scatterplot2dType {
+    SERIES2D,
+    TIMESERIES2D
+};
 
 
 /**
@@ -61,7 +61,7 @@ public:
     void replaceScatterplotDataSource(QList<Plot2dCurveConfiguration*> scatterplotSourceConfigs);
 
     //Getter functions
-    virtual int getScopeType(){return (int) SCATTERPLOT2D;} //TODO: Fix this. It should return the true value, not HISTOGRAM
+    virtual int getScopeType(){return (int) SCATTERPLOT2D;}
     double getTimeHorizon(){return timeHorizon;}
     QString getXAxisUnits(){return xAxisUnits;}
     virtual QList<Plot2dCurveConfiguration*> getDataSourceConfigs(){return m_scatterplotSourceConfigs;}
@@ -76,6 +76,10 @@ public:
 
     virtual ScopesGeneric* cloneScope(ScopesGeneric *Scatterplot2dScope);
 
+    virtual void preparePlot(ScopeGadgetWidget *);
+    virtual void plotNewData(ScopeGadgetWidget *);
+    virtual void clearPlots();
+    virtual void uavObjectReceived(UAVObject* obj);
 
 private:
     Scatterplot2dType scatterplot2dType;

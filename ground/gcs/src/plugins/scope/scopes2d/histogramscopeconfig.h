@@ -52,7 +52,7 @@ public:
     void replaceHistogramDataSource(QList<Plot2dCurveConfiguration*> histogramSourceConfigs);
 
     //Getter functions
-    virtual int getScopeType(){return (int) HISTOGRAM;} //TODO: Fix this. It should return the true value, not HISTOGRAM
+    virtual int getScopeType(){return (int) HISTOGRAM;}
     double getBinWidth(){return binWidth;}
     unsigned int getMaxNumberOfBins(){return maxNumberOfBins;}
     virtual QList<Plot2dCurveConfiguration*> getDataSourceConfigs(){return m_HistogramSourceConfigs;}
@@ -67,6 +67,10 @@ public:
 
     virtual void loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget);
 
+    virtual void preparePlot(ScopeGadgetWidget *);
+    virtual void plotNewData(ScopeGadgetWidget *);
+    virtual void clearPlots();
+    virtual void uavObjectReceived(UAVObject* obj);
 
 private:
     double binWidth;

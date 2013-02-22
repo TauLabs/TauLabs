@@ -29,13 +29,16 @@
 #ifndef SCOPEGADGETWIDGET_H_
 #define SCOPEGADGETWIDGET_H_
 
-#include "plotdata2d.h"
-#include "plotdata3d.h"
+
+class ScopesGeneric;
 
 #include "qwt/src/qwt.h"
+#include "qwt/src/qwt_plot.h"
 #include "qwt/src/qwt_plot_grid.h"
 #include "qwt/src/qwt_plot_layout.h"
+#include "qwt/src/qwt_scale_draw.h"
 
+#include "uavobject.h"
 
 #include <QTimer>
 #include <QTime>
@@ -73,10 +76,10 @@ public:
 
     QString getUavObjectFieldUnits(QString uavObjectName, QString uavObjectFieldName);
 
-    void setupSeriesPlot();
-    void setupTimeSeriesPlot();
-    void setupHistogramPlot();
-    void setupSpectrogramPlot();
+    void setupSeriesPlot(ScopesGeneric *);
+    void setupTimeSeriesPlot(ScopesGeneric *);
+    void setupHistogramPlot(ScopesGeneric *);
+    void setupSpectrogramPlot(ScopesGeneric *);
 
     void setXWindowSize(double xWindowSize){m_xWindowSize = xWindowSize;}
     void setRefreshInterval(double refreshInterval){m_refreshInterval = refreshInterval;}
@@ -84,10 +87,14 @@ public:
     int getRefreshInterval(){return m_refreshInterval;}
 
 
-    void add2dCurvePlot(QString uavObject, QString uavFieldSubField, int scaleOrderFactor = 0, int meanSamples = 1, QString mathFunction = "None", QPen pen = QPen(Qt::black));
-    void addHistogram(QString uavObject, QString uavFieldSubField, double binWidth, uint numberOfBins, int scaleOrderFactor = 0, int meanSamples = 1, QString mathFunction = "None", QBrush brush = QBrush(Qt::red));
-    void addWaterfallPlot(QString uavObject, QString uavFieldSubField, int scaleOrderFactor = 0, int meanSamples = 1, QString mathFunction = "None", double timeHorizon=60, double samplingFrequency=50, int windowWidth=64, double zMaximum=100);
-    void clearCurvePlots();
+    void clearPlotWidget();
+
+    static QTimer *replotTimer;
+    QwtPlotGrid *m_grid;
+    QwtLegend *m_legend;
+    void addLegend();
+    QList<QString> m_connectedUAVObjects;
+    double m_xWindowSize;
 
 protected:
     void mousePressEvent(QMouseEvent *e);
@@ -106,30 +113,12 @@ private slots:
 
 private:
 
-    void preparePlot2d(Plot2dType plotType, Scatterplot2dType scatterplot2dType = (Scatterplot2dType) -1);
-    void preparePlot3d(Plot3dType plotType);
+    void deleteLegend();
     void setupExamplePlot();
 
-    Plot2dType m_plot2dType;
-    Plot3dType m_plot3dType;
-
-    Scatterplot2dType m_Scatterplot2dType;
-
-    double m_xWindowSize;
     int m_refreshInterval;
-    QList<QString> m_connectedUAVObjects;
-    QMap<QString, Plot2dData*> m_curves2dData;
-    QMap<QString, Plot3dData*> m_curves3dData;
-
-    static QTimer *replotTimer;
-
-    QwtPlotGrid *m_grid;
-    QwtLegend *m_legend;
-
+    ScopesGeneric *m_scope;
 	QMutex mutex;
-
-	void deleteLegend();
-	void addLegend();
 };
 
 

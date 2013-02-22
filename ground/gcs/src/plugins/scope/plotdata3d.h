@@ -29,33 +29,13 @@
 #define PLOTDATA3D_H
 
 #include "plotdata.h"
-#include "uavobject.h"
+//#include "scopes3d/scopes3dconfig.h"
 
-#include "qwt/src/qwt.h"
-#include "qwt/src/qwt_color_map.h"
-#include "qwt/src/qwt_matrix_raster_data.h"
-#include "qwt/src/qwt_plot.h"
 #include "qwt/src/qwt_plot_curve.h"
-#include "qwt/src/qwt_plot_histogram.h"
-#include "qwt/src/qwt_plot_spectrogram.h"
-#include "qwt/src/qwt_scale_draw.h"
-#include "qwt/src/qwt_scale_widget.h"
 
 #include <QTimer>
 #include <QTime>
 #include <QVector>
-
-
-
-
-/**
- * @brief The Plot3dType enum Defines the different type of plots.
- */
-enum Plot3dType {
-    NO3DPLOT,
-    SCATTERPLOT3D,
-    SPECTROGRAM
-};
 
 
 /**
@@ -80,7 +60,6 @@ public:
     double getZMaximum(){return zMaximum;}
 
     virtual bool append(UAVObject* obj) = 0;
-    virtual Plot3dType plotType() = 0;
     virtual void removeStaleData() = 0;
     virtual void setUpdatedFlagToTrue(){dataUpdated = true;}
     virtual bool readAndResetUpdatedFlag(){bool tmp = dataUpdated; dataUpdated = false; return tmp;}
