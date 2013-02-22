@@ -40,12 +40,12 @@ Scatterplot2dScope::Scatterplot2dScope()
 {
     scatterplot2dType = TIMESERIES2D;
     xAxisUnits = "";
-    m_refreshInterval = 50; //TODO: This should not be set here. Probably should come from a define somewhere.
+    m_refreshInterval = 50;
     timeHorizon = 60;
 }
 
 
-Scatterplot2dScope::Scatterplot2dScope(QSettings *qSettings) //TODO: Understand where to put m_refreshInterval default values
+Scatterplot2dScope::Scatterplot2dScope(QSettings *qSettings)
 {
     this->m_refreshInterval = m_refreshInterval;
     scatterplot2dType =  (Scatterplot2dType) qSettings->value("scatterplot2dType").toUInt();
@@ -165,7 +165,7 @@ void Scatterplot2dScope::saveConfiguration(QSettings* qSettings)
     // For each curve source in the plot
     for(int i = 0; i < dataSourceCount; i++)
     {
-        Plot2dCurveConfiguration *plotCurveConf = m_scatterplotSourceConfigs.at(i); //TODO: Understand why this seems to be grabbing i-1
+        Plot2dCurveConfiguration *plotCurveConf = m_scatterplotSourceConfigs.at(i);
         qSettings->beginGroup(QString("scatterplotDataSource") + QString().number(i));
 
         qSettings->setValue("uavObject",  plotCurveConf->uavObjectName);

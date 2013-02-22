@@ -42,7 +42,7 @@ SpectrogramScope::SpectrogramScope()
 }
 
 
-SpectrogramScope::SpectrogramScope(QSettings *qSettings) //TODO: Understand where to put m_refreshInterval default values
+SpectrogramScope::SpectrogramScope(QSettings *qSettings)
 {
     timeHorizon = qSettings->value("timeHorizon").toDouble();
     samplingFrequency = qSettings->value("samplingFrequency").toDouble();

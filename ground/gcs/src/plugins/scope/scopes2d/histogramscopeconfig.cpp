@@ -35,11 +35,11 @@ HistogramScope::HistogramScope()
 {
     binWidth = 1;
     maxNumberOfBins = 1000;
-    m_refreshInterval = 50; //TODO: This should not be set here. Probably should come from a define somewhere.
+    m_refreshInterval = 50;
 }
 
 
-HistogramScope::HistogramScope(QSettings *qSettings) //TODO: Understand where to put m_refreshInterval default values
+HistogramScope::HistogramScope(QSettings *qSettings)
 {
     binWidth    = qSettings->value("binWidth").toDouble();
     //Ensure binWidth is not too small
@@ -165,7 +165,7 @@ void HistogramScope::saveConfiguration(QSettings* qSettings)
     // For each curve source in the plot
     for(int i = 0; i < dataSourceCount; i++)
     {
-        Plot2dCurveConfiguration *plotCurveConf = m_HistogramSourceConfigs.at(i); //TODO: Understand why this seems to be grabbing i-1
+        Plot2dCurveConfiguration *plotCurveConf = m_HistogramSourceConfigs.at(i);
         qSettings->beginGroup(QString("histogramDataSource") + QString().number(i));
 
         qSettings->setValue("uavObject",  plotCurveConf->uavObjectName);
