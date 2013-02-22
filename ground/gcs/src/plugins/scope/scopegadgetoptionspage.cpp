@@ -32,6 +32,9 @@
 #include "uavobjectmanager.h"
 #include "uavdataobject.h"
 
+#include "vibrationanalysissettings.h"
+#include "vibrationanalysisoutput.h"
+
 #include "scopes2d/histogramscopeconfig.h"
 #include "scopes2d/scatterplotscopeconfig.h"
 #include "scopes3d/spectrogramscopeconfig.h"
@@ -76,8 +79,8 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
 //    options_page->cmb3dPlotType->addItem("Time series", TimeSeries3d);
     options_page->cmb3dPlotType->addItem("Spectrogram", SPECTROGRAM);
 
-    options_page->cmbSpectrogramSource->addItem("Custom", CUSTOM);
-    options_page->cmbSpectrogramSource->addItem("Vibration Test", VIBRATIONTEST);
+    options_page->cmbSpectrogramSource->addItem("Custom", CUSTOM_SPECTROGRAM);
+    options_page->cmbSpectrogramSource->addItem("Vibration Analysis", VIBRATIONANALYSIS);
 
     // Fills the combo boxes for the UAVObjects
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
@@ -155,6 +158,11 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
     // Configuration the GUI elements to reflect the scope settings
     m_config->getScope()->setGuiConfiguration(options_page);
 
+    // Update the
+    emit on_tabWidget2d3d_currentIndexChanged(options_page->tabWidget2d3d->currentIndex());
+    emit on_cmb2dPlotType_currentIndexChanged(options_page->cmb2dPlotType->currentText());
+    emit on_cmb3dPlotType_currentIndexChanged(options_page->cmb3dPlotType->currentText());
+
     //Disable mouse wheel events //TODO: DOES NOT WORK
     foreach( QSpinBox * sp, findChildren<QSpinBox*>() ) {
         sp->installEventFilter( this );
@@ -205,10 +213,51 @@ void ScopeGadgetOptionsPage::on_mathFunctionComboBox_currentIndexChanged(int cur
 
 void ScopeGadgetOptionsPage::on_cmbSpectrogramSource_currentIndexChanged(QString currentText)
 {
-    if (currentText == "Vibration Test" ){
+    if (currentText == options_page->cmbSpectrogramSource->itemText(options_page->cmbSpectrogramSource->findData(VIBRATIONANALYSIS))){
         int vibrationTestIdx = options_page->cmbUAVObjectsSpectrogram->findText("VibrationTestOutput");
         options_page->cmbUAVObjectsSpectrogram->setCurrentIndex(vibrationTestIdx);
         options_page->cmbUAVObjectsSpectrogram->setEnabled(false);
+
+        // Load UAVO
+        ExtensionSystem::PluginManager* pm = ExtensionSystem::PluginManager::instance();
+        UAVObjectManager* objManager = pm->getObject<UAVObjectManager>();
+        VibrationAnalysisOutput* vibrationAnalysisOutput = VibrationAnalysisOutput::GetInstance(objManager);
+        VibrationAnalysisSettings* vibrationAnalysisSettings = VibrationAnalysisSettings::GetInstance(objManager);
+        VibrationAnalysisSettings::DataFields vibrationAnalysisSettingsData = vibrationAnalysisSettings->getData();
+
+        // Set combobox field to UAVO name
+        options_page->cmbUAVObjectsSpectrogram->setCurrentIndex(options_page->cmbUAVObjectsSpectrogram->findText(vibrationAnalysisOutput->getName()));
+        // Get the window size
+        int fftWindowSize;
+        switch(vibrationAnalysisSettingsData.FFTWindowSize)
+        {
+        case VibrationAnalysisSettings::FFTWINDOWSIZE_16 :
+            fftWindowSize = 16;
+            break;
+        case VibrationAnalysisSettings::FFTWINDOWSIZE_64 :
+            fftWindowSize = 64;
+            break;
+        case VibrationAnalysisSettings::FFTWINDOWSIZE_256 :
+            fftWindowSize = 256;
+            break;
+        case VibrationAnalysisSettings::FFTWINDOWSIZE_1024 :
+            fftWindowSize = 1024;
+            break;
+        default:
+            qDebug() << "Invalid FFT size.";
+            Q_ASSERT(0);
+        }
+
+        // Set spinbox range before setting value
+        options_page->sbSpectrogramWidth->setRange(0, fftWindowSize / 2);
+
+        // Set values to UAVO
+        options_page->sbSpectrogramWidth->setValue(fftWindowSize / 2);
+        options_page->sbSpectrogramFrequency->setValue(1000.0f/vibrationAnalysisSettingsData.SampleRate); // Sample rate is in ms
+
+        options_page->sbSpectrogramFrequency->setEnabled(false);
+        options_page->sbSpectrogramWidth->setEnabled(false);
+
     }
     else{
         options_page->cmbUAVObjectsSpectrogram->setEnabled(true);
@@ -555,7 +604,7 @@ void ScopeGadgetOptionsPage::on_cmb3dPlotType_currentIndexChanged(QString curren
         options_page->stackedWidget3dPlots->setCurrentWidget(options_page->sw3dSpectrogramStack);
 
         //Set the spectrogram source combobox to vibration test by default
-        options_page->cmbSpectrogramSource->setCurrentIndex(options_page->cmbSpectrogramSource->findData(VIBRATIONTEST));
+        options_page->cmbSpectrogramSource->setCurrentIndex(options_page->cmbSpectrogramSource->findData(CUSTOM_SPECTROGRAM));
     }
     else if (currentText == "Time series"){
         options_page->stackedWidget3dPlots->setCurrentWidget(options_page->sw3dTimeSeriesStack);

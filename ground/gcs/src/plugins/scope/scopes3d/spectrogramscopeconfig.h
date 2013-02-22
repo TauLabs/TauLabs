@@ -35,8 +35,8 @@
  * @brief The SpectrogramType enum Defines the different type of spectrogram plots.
  */
 enum SpectrogramType {
-    VIBRATIONTEST,
-    CUSTOM
+    VIBRATIONANALYSIS,
+    CUSTOM_SPECTROGRAM
 };
 
 

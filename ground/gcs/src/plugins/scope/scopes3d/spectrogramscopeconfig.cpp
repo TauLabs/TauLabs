@@ -305,7 +305,7 @@ void SpectrogramScope::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_p
     options_page->tabWidget2d3d->setCurrentWidget(options_page->tabPlot3d);
 
     //Set the plot type
-    options_page->cmb3dPlotType->setCurrentIndex(options_page->cmb3dPlotType->findData(getScopeType()));
+    options_page->cmb3dPlotType->setCurrentIndex(options_page->cmb3dPlotType->findData(SPECTROGRAM));
 
     options_page->sbSpectrogramTimeHorizon->setValue(timeHorizon);
     options_page->sbSpectrogramFrequency->setValue(samplingFrequency);

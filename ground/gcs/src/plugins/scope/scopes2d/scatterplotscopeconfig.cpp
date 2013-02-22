@@ -308,11 +308,9 @@ void Scatterplot2dScope::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options
 {
     //Set the tab widget to 2D
     options_page->tabWidget2d3d->setCurrentWidget(options_page->tabPlot2d);
-//    on_tabWidget2d3d_currentIndexChanged(options_page->tabWidget2d3d->currentIndex());
 
     //Set the plot type
-    options_page->cmb2dPlotType->setCurrentIndex(options_page->cmb2dPlotType->findData(getScopeType()));
-//    on_cmb2dPlotType_currentIndexChanged(options_page->cmb2dPlotType->currentText());
+    options_page->cmb2dPlotType->setCurrentIndex(options_page->cmb2dPlotType->findData(SCATTERPLOT2D));
 
     //add the configured 2D curves
     options_page->lst2dCurves->clear();  //Clear list first
