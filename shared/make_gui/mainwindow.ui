@@ -215,8 +215,8 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset>
-            <normaloff>../../../../Downloads/sandwich.JPG</normaloff>../../../../Downloads/sandwich.JPG</iconset>
+           <iconset resource="resource.qrc">
+            <normaloff>:/new/prefix1/sandwich.JPG</normaloff>:/new/prefix1/sandwich.JPG</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -398,6 +398,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
  <connections/>
 </ui>
