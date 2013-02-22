@@ -51,12 +51,8 @@ public:
     IOptionsPage *createOptionsPage(IUAVGadgetConfiguration *config);
 
 public slots:
-    void stopPlotting();
-    void startPlotting();
 
 signals:
-    void onStopPlotting();
-    void onStartPlotting();
 
 };
 
