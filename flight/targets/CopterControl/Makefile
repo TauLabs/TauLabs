@@ -29,11 +29,12 @@ TOP      := $(realpath $(WHEREAMI)/../../../)
 include $(TOP)/make/firmware-defs.mk
 include $(TOP)/make/boards/$(BOARD_NAME)/board-info.mk
 
-# Set developer code and compile options
-# Set to YES to compile for debugging
+# @startgroup Compile Options
+# @groupbrief Set developer code and compile options
+# @optbrief Set to YES to compile for debugging
 DEBUG ?= NO
 
-# Include objects that are just nice information to show
+# @optbrief Include objects that are just nice information to show
 STACK_DIAGNOSTICS ?= NO
 MIXERSTATUS_DIAGNOSTICS ?= NO
 RATEDESIRED_DIAGNOSTICS ?= NO
@@ -43,16 +44,19 @@ DIAG_TASKS ?= NO
 #Or just turn on all the above diagnostics. WARNING: This consumes massive amounts of memory.
 ALL_DIGNOSTICS ?=NO
 
-# Set to YES to build a FW version that will erase all flash memory
+# @optbrief Set to YES to build a FW version that will erase all flash memory
 ERASE_FLASH ?= NO
-# Set to YES to use the Servo output pins for debugging via scope or logic analyser
+
+# @optbrief Set to YES to use the Servo output pins for debugging via scope or logic analyser
 ENABLE_DEBUG_PINS ?= NO
 
-# Set to Yes to enable the AUX UART which is mapped on the S1 (Tx) and S2 (Rx) servo outputs
+# @optbrief Set to Yes to enable the AUX UART which is mapped on the S1 (Tx) and S2 (Rx) servo outputs
 ENABLE_AUX_UART ?= NO
 
-# Set to YES when using Code Sourcery toolchain
+# @optbrief Set to YES when using Code Sourcery toolchain
 CODE_SOURCERY ?= NO
+
+# @endgroup Compile Options
 
 # Remove command is different for Code Sourcery on Windows
 ifeq ($(CODE_SOURCERY), YES)
@@ -63,7 +67,8 @@ endif
 
 NAVIGATION ?= NO
 
-# Optional module and driver defaults
+# @startgroup  Optional modules
+# @groupbrief Optional module and driver defaults
 USE_CAMERASTAB ?= YES
 USE_COMUSBBRIDGE ?= YES
 USE_GPS ?= YES
@@ -73,6 +78,7 @@ USE_ALTITUDE ?= NO
 USE_AUTOTUNE ?= YES
 TEST_FAULTS ?= NO
 USE_UAVOMAVLINKBRIDGE ?= YES
+# @endgroup  Optional modules
 
 # List of optional modules to include
 OPTMODULES =

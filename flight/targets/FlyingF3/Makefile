@@ -29,12 +29,15 @@ TOP      := $(realpath $(WHEREAMI)/../../../)
 include $(TOP)/make/firmware-defs.mk
 include $(TOP)/make/boards/$(BOARD_NAME)/board-info.mk
 
-# Set developer code and compile options
-# Set to YES for debugging
+# @startgroup Compile Options
+# @groupbrief Set developer code and compile options
+# @optbrief Set to YES to compile for debugging
 DEBUG ?= NO
 
-# Set to YES when using Code Sourcery toolchain
+#  @optbrief Set to YES when using Code Sourcery toolchain
 CODE_SOURCERY ?= NO
+
+# @endgroup Compile Options
 
 ifeq ($(CODE_SOURCERY), YES)
 REMOVE_CMD = cs-rm
