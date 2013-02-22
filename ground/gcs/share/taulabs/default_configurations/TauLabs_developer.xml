@@ -2027,7 +2027,7 @@
             <scatterplotDataSource3>
               <color>4294902015</color>
               <mathFunction>None</mathFunction>
-              <uavField>Channel-6</uavField>
+              <uavField>Channel-7</uavField>
               <uavObject>ActuatorCommand</uavObject>
               <yMaximum>0</yMaximum>
               <yMeanSamples>1</yMeanSamples>
