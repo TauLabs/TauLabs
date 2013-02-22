@@ -247,6 +247,10 @@ void HistogramScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget)
         else
             histogramNameScaled = curveName + "(x10^" + QString::number(histogramDataSourceConfig->yScalePower) + " " + units + ")";
 
+        while(m_curves2dData.keys().contains(histogramNameScaled))
+            histogramNameScaled=histogramNameScaled+"*";
+
+
         //Create histogram data set
         histogramData->histogramBins = new QVector<QwtIntervalSample>();
         histogramData->histogramInterval = new QVector<QwtInterval>();

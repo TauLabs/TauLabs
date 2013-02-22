@@ -51,6 +51,7 @@ void ScopeGadget::loadConfiguration(IUAVGadgetConfiguration* config)
     if (sgConfig == NULL) //Check that the case succeeded.
         return;
 
+    scopeGadgetWidget->clearPlotWidget();
     sgConfig->getScope()->loadConfiguration(&scopeGadgetWidget);
 }
 

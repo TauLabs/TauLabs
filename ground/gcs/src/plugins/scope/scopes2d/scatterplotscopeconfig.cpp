@@ -282,6 +282,9 @@ void Scatterplot2dScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget
             Q_ASSERT(0);
         }
 
+        while(m_curves2dData.keys().contains(curveNameScaledMath))
+            curveNameScaledMath=curveNameScaledMath+"*";
+
         //Create the curve plot
         QwtPlotCurve* plotCurve = new QwtPlotCurve(curveNameScaledMath);
         plotCurve->setPen(QPen(QBrush(QColor(color), Qt::SolidPattern), (qreal)1, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin));

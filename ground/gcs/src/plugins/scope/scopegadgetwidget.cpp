@@ -467,9 +467,12 @@ void ScopeGadgetWidget::replotNewData()
  */
 void ScopeGadgetWidget::clearPlotWidget()
 {
-    m_grid->detach();
-
-    m_scope->clearPlots();
+    if(m_grid){
+        m_grid->detach();
+    }
+    if(m_scope){
+        m_scope->clearPlots();
+    }
 }
 
 

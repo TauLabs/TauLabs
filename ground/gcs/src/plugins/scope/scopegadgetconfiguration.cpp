@@ -113,7 +113,7 @@ ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* q
 
 void ScopeGadgetConfiguration::applyGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page)
 {
-    delete m_scope;
+    m_scope->clearPlots();
 
     //Default for scopes
     int refreshInterval = 50;
