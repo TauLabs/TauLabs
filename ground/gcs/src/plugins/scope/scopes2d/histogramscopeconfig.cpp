@@ -211,88 +211,67 @@ void HistogramScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget)
     // Configured each data source
     foreach (Plot2dCurveConfiguration* histogramDataSourceConfig,  m_HistogramSourceConfigs)
     {
-        QString uavObjectName = histogramDataSourceConfig->uavObjectName;
-        QString uavFieldName = histogramDataSourceConfig->uavFieldName;
-        int scaleOrderFactor = histogramDataSourceConfig->yScalePower;
-        int meanSamples = histogramDataSourceConfig->yMeanSamples;
-        QString mathFunction = histogramDataSourceConfig->mathFunction;
         QRgb color = histogramDataSourceConfig->color;
 
         // Get and store the units
-        units = getUavObjectFieldUnits(uavObjectName, uavFieldName);
+        units = getUavObjectFieldUnits(histogramDataSourceConfig->uavObjectName, histogramDataSourceConfig->uavFieldName);
 
+        HistogramData* histogramData;
+        histogramData = new HistogramData(histogramDataSourceConfig->uavObjectName, histogramDataSourceConfig->uavFieldName, binWidth, maxNumberOfBins);
 
+        histogramData->setScalePower(histogramDataSourceConfig->yScalePower);
+        histogramData->setMeanSamples(histogramDataSourceConfig->yMeanSamples);
+        histogramData->setMathFunction(histogramDataSourceConfig->mathFunction);
 
-//        // Create the Qwt histogram plot
-//        (*scopeGadgetWidget)->addHistogram(
-//                uavObjectName,
-//                    uavFieldName,
-//                    binWidth,
-//                    maxNumberOfBins,
-//                    scaleOrderFactor,
-//                    meanSamples,
-//                    mathFunction,
-//                    QBrush(QColor(color))
-//                    );
+        //Generate the curve name
+        QString curveName = (histogramData->getUavoName()) + "." + (histogramData->getUavoFieldName());
+        if(histogramData->getHaveSubFieldFlag())
+            curveName = curveName.append("." + histogramData->getUavoSubFieldName());
 
-        {
-            HistogramData* histogramData;
-            histogramData = new HistogramData(uavObjectName, uavFieldName, binWidth, maxNumberOfBins);
-
-            histogramData->setScalePower(scaleOrderFactor);
-            histogramData->setMeanSamples(meanSamples);
-            histogramData->setMathFunction(mathFunction);
-
-            //Generate the curve name
-            QString curveName = (histogramData->getUavoName()) + "." + (histogramData->getUavoFieldName());
-            if(histogramData->getHaveSubFieldFlag())
-                curveName = curveName.append("." + histogramData->getUavoSubFieldName());
-
-            //Get the uav object
-            ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-            UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-            UAVDataObject* obj = dynamic_cast<UAVDataObject*>(objManager->getObject((histogramData->getUavoName())));
-            if(!obj) {
-                qDebug() << "Object " << histogramData->getUavoName() << " is missing";
-                return;
-            }
-
-            //Get the units
-            QString units = getUavObjectFieldUnits(histogramData->getUavoName(), histogramData->getUavoFieldName());
-
-            //Generate name with scaling factor appeneded
-            QString histogramNameScaled;
-            if(scaleOrderFactor == 0)
-                histogramNameScaled = curveName + "(" + units + ")";
-            else
-                histogramNameScaled = curveName + "(x10^" + QString::number(scaleOrderFactor) + " " + units + ")";
-
-            //Create histogram data set
-            histogramData->histogramBins = new QVector<QwtIntervalSample>();
-            histogramData->histogramInterval = new QVector<QwtInterval>();
-
-            // Generate the interval series
-            histogramData->intervalSeriesData = new QwtIntervalSeriesData(*histogramData->histogramBins);
-
-            // Create the histogram
-            QwtPlotHistogram* plotHistogram = new QwtPlotHistogram(histogramNameScaled);
-            plotHistogram->setStyle( QwtPlotHistogram::Columns );
-            plotHistogram->setBrush(QBrush(QColor(color)));
-            plotHistogram->setData( histogramData->intervalSeriesData);
-
-            plotHistogram->attach((*scopeGadgetWidget));
-            histogramData->histogram = plotHistogram;
-
-            //Keep the curve details for later
-            m_curves2dData.insert(histogramNameScaled, histogramData);
-
-            //Link to the new signal data only if this UAVObject has not been connected yet
-            if (!(*scopeGadgetWidget)->m_connectedUAVObjects.contains(obj->getName())) {
-                (*scopeGadgetWidget)->m_connectedUAVObjects.append(obj->getName());
-                connect(obj, SIGNAL(objectUpdated(UAVObject*)), (*scopeGadgetWidget), SLOT(uavObjectReceived(UAVObject*)));
-            }
-
+        //Get the uav object
+        ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+        UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
+        UAVDataObject* obj = dynamic_cast<UAVDataObject*>(objManager->getObject((histogramData->getUavoName())));
+        if(!obj) {
+            qDebug() << "Object " << histogramData->getUavoName() << " is missing";
+            return;
         }
+
+        //Get the units
+        QString units = getUavObjectFieldUnits(histogramData->getUavoName(), histogramData->getUavoFieldName());
+
+        //Generate name with scaling factor appeneded
+        QString histogramNameScaled;
+        if(histogramDataSourceConfig->yScalePower == 0)
+            histogramNameScaled = curveName + "(" + units + ")";
+        else
+            histogramNameScaled = curveName + "(x10^" + QString::number(histogramDataSourceConfig->yScalePower) + " " + units + ")";
+
+        //Create histogram data set
+        histogramData->histogramBins = new QVector<QwtIntervalSample>();
+        histogramData->histogramInterval = new QVector<QwtInterval>();
+
+        // Generate the interval series
+        histogramData->intervalSeriesData = new QwtIntervalSeriesData(*histogramData->histogramBins);
+
+        // Create the histogram
+        QwtPlotHistogram* plotHistogram = new QwtPlotHistogram(histogramNameScaled);
+        plotHistogram->setStyle( QwtPlotHistogram::Columns );
+        plotHistogram->setBrush(QBrush(QColor(color)));
+        plotHistogram->setData( histogramData->intervalSeriesData);
+
+        plotHistogram->attach((*scopeGadgetWidget));
+        histogramData->histogram = plotHistogram;
+
+        //Keep the curve details for later
+        m_curves2dData.insert(histogramNameScaled, histogramData);
+
+        //Link to the new signal data only if this UAVObject has not been connected yet
+        if (!(*scopeGadgetWidget)->m_connectedUAVObjects.contains(obj->getName())) {
+            (*scopeGadgetWidget)->m_connectedUAVObjects.append(obj->getName());
+            connect(obj, SIGNAL(objectUpdated(UAVObject*)), (*scopeGadgetWidget), SLOT(uavObjectReceived(UAVObject*)));
+        }
+
 
     }
     mutex.lock();
@@ -432,10 +411,9 @@ void HistogramScope::clearPlots()
         histogramData->histogram->detach();
 
         // Delete data bins
-        if (histogramData->histogramInterval != NULL)
-            delete histogramData->histogramInterval;
-        if (histogramData->histogramBins != NULL)
-            delete histogramData->histogramBins;
+        delete histogramData->histogramInterval;
+        delete histogramData->histogramBins;
+
         // Don't delete intervalSeriesData, this is done by the histogram's destructor
         /* delete histogramData->intervalSeriesData; */
 

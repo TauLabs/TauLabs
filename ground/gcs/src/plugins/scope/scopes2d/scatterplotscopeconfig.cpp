@@ -127,9 +127,9 @@ ScopesGeneric* Scatterplot2dScope::cloneScope(ScopesGeneric *originalScope)
     cloneObj->timeHorizon = originalScatterplot2dScope->timeHorizon;
     cloneObj->scatterplot2dType = originalScatterplot2dScope->scatterplot2dType;
 
-    int histogramSourceCount = originalScatterplot2dScope->m_scatterplotSourceConfigs.size();
+    int scatterplotSourceCount = originalScatterplot2dScope->m_scatterplotSourceConfigs.size();
 
-    for(int i = 0; i < histogramSourceCount; i++)
+    for(int i = 0; i < scatterplotSourceCount; i++)
     {
         Plot2dCurveConfiguration *currentScatterplotSourceConf = originalScatterplot2dScope->m_scatterplotSourceConfigs.at(i);
         Plot2dCurveConfiguration *newScatterplotSourceConf     = new Plot2dCurveConfiguration();
@@ -187,7 +187,7 @@ void Scatterplot2dScope::saveConfiguration(QSettings* qSettings)
 
 
 /**
- * @brief Scatterplot2dScope::replaceScatterplotDataSource Replaces the list of histogram data sources
+ * @brief Scatterplot2dScope::replaceScatterplotDataSource Replaces the list of scatterplot data sources
  * @param scatterplotSourceConfigs
  */
 void Scatterplot2dScope::replaceScatterplotDataSource(QList<Plot2dCurveConfiguration*> scatterplotSourceConfigs)
@@ -224,97 +224,78 @@ void Scatterplot2dScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget
     {
         QString uavObjectName = plotCurveConfig->uavObjectName;
         QString uavFieldName = plotCurveConfig->uavFieldName;
-        int scaleOrderFactor = plotCurveConfig->yScalePower;
-        int meanSamples = plotCurveConfig->yMeanSamples;
-        QString mathFunction = plotCurveConfig->mathFunction;
         QRgb color = plotCurveConfig->color;
 
-        QPen pen(  QBrush(QColor(color),Qt::SolidPattern),
-           (qreal)1,
-           Qt::SolidLine,
-           Qt::SquareCap,
-           Qt::BevelJoin);
+        ScatterplotData* scatterplotData;
 
-        // This used to be a separate function called add2dCurvePlot(). It probably still could/should be.
+        switch(scatterplot2dType){
+        case SERIES2D:
+            scatterplotData = new SeriesPlotData(uavObjectName, uavFieldName);
+            break;
+        case TIMESERIES2D:
+            scatterplotData = new TimeSeriesPlotData(uavObjectName, uavFieldName);
+            break;
+        }
+
+        scatterplotData->setXWindowSize((*scopeGadgetWidget)->m_xWindowSize);
+        scatterplotData->setScalePower(plotCurveConfig->yScalePower);
+        scatterplotData->setMeanSamples(plotCurveConfig->yMeanSamples);
+        scatterplotData->setMathFunction(plotCurveConfig->mathFunction);
+
+        //Generate the curve name
+        QString curveName = (scatterplotData->getUavoName()) + "." + (scatterplotData->getUavoFieldName());
+        if(scatterplotData->getHaveSubFieldFlag())
+            curveName = curveName.append("." + scatterplotData->getUavoSubFieldName());
+
+        //Get the uav object
+        ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+        UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
+        UAVDataObject* obj = dynamic_cast<UAVDataObject*>(objManager->getObject((scatterplotData->getUavoName())));
+        if(!obj) {
+            qDebug() << "Object " << scatterplotData->getUavoName() << " is missing";
+            return;
+        }
+
+        //Get the units
+        QString units = getUavObjectFieldUnits(scatterplotData->getUavoName(), scatterplotData->getUavoFieldName());
+
+        //Generate name with scaling factor appeneded
+        QString curveNameScaled;
+        if(plotCurveConfig->yScalePower == 0)
+            curveNameScaled = curveName + "(" + units + ")";
+        else
+            curveNameScaled = curveName + "(x10^" + QString::number(plotCurveConfig->yScalePower) + " " + units + ")";
+
+        QString curveNameScaledMath;
+        if (plotCurveConfig->mathFunction == "None")
+            curveNameScaledMath = curveNameScaled;
+        else if (plotCurveConfig->mathFunction == "Boxcar average"){
+            curveNameScaledMath = curveNameScaled + " (avg)";
+        }
+        else if (plotCurveConfig->mathFunction == "Standard deviation"){
+            curveNameScaledMath = curveNameScaled + " (std)";
+        }
+        else
         {
-            ScatterplotData* scatterplotData;
+            //Shouldn't be able to get here. Perhaps a new math function was added without
+            // updating this list?
+            Q_ASSERT(0);
+        }
 
-            switch(scatterplot2dType){
-            case SERIES2D:
-                scatterplotData = new SeriesPlotData(uavObjectName, uavFieldName);
-                break;
-            case TIMESERIES2D:
-                scatterplotData = new TimeSeriesPlotData(uavObjectName, uavFieldName);
-                break;
-            }
+        //Create the curve plot
+        QwtPlotCurve* plotCurve = new QwtPlotCurve(curveNameScaledMath);
+        plotCurve->setPen(QPen(QBrush(QColor(color), Qt::SolidPattern), (qreal)1, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin));
+        plotCurve->setSamples(*(scatterplotData->getXData()), *(scatterplotData->getYData()));
+        plotCurve->attach((*scopeGadgetWidget));
+        scatterplotData->curve = plotCurve;
 
-            scatterplotData->setXWindowSize((*scopeGadgetWidget)->m_xWindowSize);
-            scatterplotData->setScalePower(scaleOrderFactor);
-            scatterplotData->setMeanSamples(meanSamples);
-            scatterplotData->setMathFunction(mathFunction);
+        //Keep the curve details for later
+        m_curves2dData.insert(curveNameScaledMath, scatterplotData);
 
-            //If the y-bounds are provided, set them
-            if (scatterplotData->getYMinimum() != scatterplotData->getYMaximum())
-            {
-        //        setAxisScale(QwtPlot::yLeft, scatterplotData->getYMinimum(), scatterplotData->getYMaximum());
-            }
-
-            //Generate the curve name
-            QString curveName = (scatterplotData->getUavoName()) + "." + (scatterplotData->getUavoFieldName());
-            if(scatterplotData->getHaveSubFieldFlag())
-                curveName = curveName.append("." + scatterplotData->getUavoSubFieldName());
-
-            //Get the uav object
-            ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-            UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-            UAVDataObject* obj = dynamic_cast<UAVDataObject*>(objManager->getObject((scatterplotData->getUavoName())));
-            if(!obj) {
-                qDebug() << "Object " << scatterplotData->getUavoName() << " is missing";
-                return;
-            }
-
-            //Get the units
-            QString units = getUavObjectFieldUnits(scatterplotData->getUavoName(), scatterplotData->getUavoFieldName());
-
-            //Generate name with scaling factor appeneded
-            QString curveNameScaled;
-            if(scaleOrderFactor == 0)
-                curveNameScaled = curveName + "(" + units + ")";
-            else
-                curveNameScaled = curveName + "(x10^" + QString::number(scaleOrderFactor) + " " + units + ")";
-
-            QString curveNameScaledMath;
-            if (mathFunction == "None")
-                curveNameScaledMath = curveNameScaled;
-            else if (mathFunction == "Boxcar average"){
-                curveNameScaledMath = curveNameScaled + " (avg)";
-            }
-            else if (mathFunction == "Standard deviation"){
-                curveNameScaledMath = curveNameScaled + " (std)";
-            }
-            else
-            {
-                //Shouldn't be able to get here. Perhaps a new math function was added without
-                // updating this list?
-                Q_ASSERT(0);
-            }
-
-            //Create the curve plot
-            QwtPlotCurve* plotCurve = new QwtPlotCurve(curveNameScaledMath);
-            plotCurve->setPen(pen);
-            plotCurve->setSamples(*(scatterplotData->getXData()), *(scatterplotData->getYData()));
-            plotCurve->attach((*scopeGadgetWidget));
-            scatterplotData->curve = plotCurve;
-
-            //Keep the curve details for later
-            m_curves2dData.insert(curveNameScaledMath, scatterplotData);
-
-            //Link to the new signal data only if this UAVObject has not been connected yet
-            if (!(*scopeGadgetWidget)->m_connectedUAVObjects.contains(obj->getName())) {
-                (*scopeGadgetWidget)->m_connectedUAVObjects.append(obj->getName());
-                connect(obj, SIGNAL(objectUpdated(UAVObject*)), (*scopeGadgetWidget), SLOT(uavObjectReceived(UAVObject*)));
-            }
-
+        //Link to the new signal data only if this UAVObject has not been connected yet
+        if (!(*scopeGadgetWidget)->m_connectedUAVObjects.contains(obj->getName())) {
+            (*scopeGadgetWidget)->m_connectedUAVObjects.append(obj->getName());
+            connect(obj, SIGNAL(objectUpdated(UAVObject*)), (*scopeGadgetWidget), SLOT(uavObjectReceived(UAVObject*)));
         }
     }
     mutex.lock();
@@ -455,19 +436,6 @@ void Scatterplot2dScope::plotNewData(ScopeGadgetWidget *scopeGadgetWidget)
             scopeGadgetWidget->setAxisScale(QwtPlot::xBottom, toTime - scopeGadgetWidget->m_xWindowSize, toTime);
             updateXAxisFlag = false;
         }
-//        else if (plot2dData->plotType() == HISTOGRAM)
-//        {
-//            switch (m_plot2dType){
-//            case HISTOGRAMs:
-//            {
-//                //Plot new data
-//                HistogramData *histogramData = (HistogramData*) plot2dData;
-//                histogramData->histogram->setData(histogramData->intervalSeriesData);
-//                histogramData->intervalSeriesData->setSamples(*histogramData->histogramBins); // <-- Is this a memory leak?
-//                break;
-//            }
-//        }
-
     }
 
 }
