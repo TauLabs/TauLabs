@@ -314,7 +314,6 @@ void SpectrogramScope::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_p
     foreach (Plot3dCurveConfiguration* plot3dData,  m_spectrogramSourceConfigs) {
         int uavoIdx= options_page->cmbUAVObjectsSpectrogram->findText(plot3dData->uavObjectName);
         options_page->cmbUAVObjectsSpectrogram->setCurrentIndex(uavoIdx);
-//        on_cmbUAVObjectsSpectrogram_currentIndexChanged(plot3dData->uavObjectName);
         options_page->sbSpectrogramWidth->setValue(windowWidth);
 
         int uavoFieldIdx= options_page->cmbUavoFieldSpectrogram->findText(plot3dData->uavFieldName);

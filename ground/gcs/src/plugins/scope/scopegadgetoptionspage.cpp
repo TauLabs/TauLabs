@@ -162,6 +162,8 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
     emit on_tabWidget2d3d_currentIndexChanged(options_page->tabWidget2d3d->currentIndex());
     emit on_cmb2dPlotType_currentIndexChanged(options_page->cmb2dPlotType->currentText());
     emit on_cmb3dPlotType_currentIndexChanged(options_page->cmb3dPlotType->currentText());
+    emit on_cmbUAVObjectsSpectrogram_currentIndexChanged(options_page->cmbUAVObjectsSpectrogram->currentText());
+
 
     //Disable mouse wheel events //TODO: DOES NOT WORK
     foreach( QSpinBox * sp, findChildren<QSpinBox*>() ) {
