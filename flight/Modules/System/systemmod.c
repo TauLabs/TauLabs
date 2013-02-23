@@ -296,13 +296,8 @@ static void objectUpdatedCb(UAVObjEvent * ev)
 			}
 		} else if (objper.Operation == OBJECTPERSISTENCE_OPERATION_DELETE) {
 			if (objper.Selection == OBJECTPERSISTENCE_SELECTION_SINGLEOBJECT) {
-				// Get selected object
-				obj = UAVObjGetByID(objper.ObjectID);
-				if (obj == 0) {
-					return;
-				}
 				// Delete selected instance
-				retval = UAVObjDelete(obj, objper.InstanceID);
+				retval = UAVObjDelete(objper.ObjectID, objper.InstanceID);
 			} else if (objper.Selection == OBJECTPERSISTENCE_SELECTION_ALLSETTINGS
 				   || objper.Selection == OBJECTPERSISTENCE_SELECTION_ALLOBJECTS) {
 				retval = UAVObjDeleteSettings();

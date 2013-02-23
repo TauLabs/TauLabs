@@ -159,7 +159,7 @@ static int32_t disconnectObj(UAVObjHandle obj_handle, xQueueHandle queue,
 			UAVObjEventCallback cb);
 
 #if defined(PIOS_INCLUDE_SDCARD)
-static void objectFilename(UAVObjHandle obj_handle, uint8_t * filename);
+static void objectFilename(uint32_t obj_id, uint8_t * filename);
 static void customSPrintf(uint8_t * buffer, uint8_t * format, ...);
 #endif
 
@@ -791,7 +791,7 @@ int32_t UAVObjSave(UAVObjHandle obj_handle, uint16_t instId)
 	xSemaphoreTakeRecursive(mutex, portMAX_DELAY);
 
 	// Get filename
-	objectFilename(obj_handle, filename);
+	objectFilename(UAVObjGetID(obj_handle), filename);
 
 	// Open file
 	if (PIOS_FOPEN_WRITE(filename, file)) {
@@ -952,7 +952,7 @@ int32_t UAVObjLoad(UAVObjHandle obj_handle, uint16_t instId)
 	xSemaphoreTakeRecursive(mutex, portMAX_DELAY);
 
 	// Get filename
-	objectFilename(obj_handle, filename);
+	objectFilename(UAVObjGetID(obj_handle), filename);
 
 	// Open file
 	if (PIOS_FOPEN_READ(filename, file)) {
@@ -981,15 +981,14 @@ int32_t UAVObjLoad(UAVObjHandle obj_handle, uint16_t instId)
 
 /**
  * Delete an object from the file system (SD card).
- * @param[in] obj The object handle.
- * @param[in] instId The object instance
+ * @param[in] obj_id The object id
+ * @param[in] inst_id The object instance
  * @return 0 if success or -1 if failure
  */
-int32_t UAVObjDelete(UAVObjHandle obj_handle, uint16_t instId)
+int32_t UAVObjDelete(uint32_t obj_id, uint16_t inst_id)
 {
-	PIOS_Assert(obj_handle);
 #if defined(PIOS_INCLUDE_FLASH_SECTOR_SETTINGS)
-	PIOS_FLASHFS_ObjDelete(0, UAVObjGetID(obj_handle), instId);
+	PIOS_FLASHFS_ObjDelete(0, obj_id, inst_id);
 #endif
 #if defined(PIOS_INCLUDE_SDCARD)
 	uint8_t filename[14];
@@ -1002,7 +1001,7 @@ int32_t UAVObjDelete(UAVObjHandle obj_handle, uint16_t instId)
 	xSemaphoreTakeRecursive(mutex, portMAX_DELAY);
 
 	// Get filename
-	objectFilename(obj_handle, filename);
+	objectFilename(obj_id, filename);
 
 	// Delete file
 	PIOS_FUNLINK(filename);
@@ -1095,7 +1094,7 @@ int32_t UAVObjDeleteSettings()
 		// Check if this is a settings object
 		if (UAVObjIsSettings(obj)) {
 			// Save object
-			if (UAVObjDelete((UAVObjHandle) obj, 0)
+			if (UAVObjDelete(UAVObjGetID(obj), 0)
 				== -1) {
 				goto unlock_exit;
 			}
@@ -1183,7 +1182,7 @@ int32_t UAVObjDeleteMetaobjects()
 	// Load all settings objects
 	LL_FOREACH(uavo_list, obj) {
 		// Load object
-		if (UAVObjDelete((UAVObjHandle) MetaObjectPtr(obj), 0)
+		if (UAVObjDelete(UAVObjGetID(MetaObjectPtr(obj)), 0)
 			== -1) {
 			goto unlock_exit;
 		}
@@ -2009,8 +2008,8 @@ static void customSPrintf(uint8_t * buffer, uint8_t * format, ...)
 /**
  * Get an 8 character (plus extension) filename for the object.
  */
-static void objectFilename(UAVObjHandle obj_handle, uint8_t * filename)
+static void objectFilename(uint32_t obj_id, uint8_t * filename)
 {
-	customSPrintf(filename, (uint8_t *) "%X.obj", UAVObjGetID(obj_handle));
+	customSPrintf(filename, (uint8_t *) "%X.obj", obj_id);
 }
 #endif /* PIOS_INCLUDE_SDCARD */
