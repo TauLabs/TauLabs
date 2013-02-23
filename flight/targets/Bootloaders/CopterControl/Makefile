@@ -37,15 +37,7 @@ ENABLE_DEBUG_PINS ?= NO
 # Set to Yes to enable the AUX UART which is mapped on the S1 (Tx) and S2 (Rx) servo outputs  
 ENABLE_AUX_UART ?= NO
 
-# Set to YES when using Code Sourcery toolchain
-CODE_SOURCERY ?= NO
-
-# Remove command is different for Code Sourcery on Windows
-ifeq ($(CODE_SOURCERY), YES)
-REMOVE_CMD = cs-rm
-else
 REMOVE_CMD = rm
-endif
 
 # Paths
 OPSYSTEM = .
@@ -285,9 +277,6 @@ CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS)) -I.
 
 CFLAGS += -mapcs-frame 
 CFLAGS += -fomit-frame-pointer
-ifeq ($(CODE_SOURCERY), YES)
-CFLAGS += -fpromote-loop-indices
-endif
 
 CFLAGS += -Wall 
 CFLAGS += -Werror

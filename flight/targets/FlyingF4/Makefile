@@ -33,14 +33,7 @@ include $(TOP)/make/boards/$(BOARD_NAME)/board-info.mk
 # Set to YES for debugging
 DEBUG ?= NO
 
-# Set to YES when using Code Sourcery toolchain
-CODE_SOURCERY ?= NO
-
-ifeq ($(CODE_SOURCERY), YES)
-REMOVE_CMD = cs-rm
-else
 REMOVE_CMD = rm
-endif
 
 # List of modules to include
 MODULES = Sensors
@@ -284,9 +277,6 @@ CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS)) -I.
 CFLAGS += -mapcs-frame
 CFLAGS += -fomit-frame-pointer
 CFLAGS += -ffunction-sections -fdata-sections
-ifeq ($(CODE_SOURCERY), YES)
-CFLAGS += -fpromote-loop-indices
-endif
 
 CFLAGS += -Wall
 CFLAGS += -Werror
