@@ -240,6 +240,13 @@
       </property>
      </widget>
     </item>
+    <item>
+     <widget class="QPushButton" name="cancelProcessPB">
+      <property name="text">
+       <string>Cancel Running process</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">

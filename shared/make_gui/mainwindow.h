@@ -83,6 +83,8 @@ private slots:
 
     void on_gcsCleanPB_clicked();
 
+    void on_cancelProcessPB_clicked();
+
 private:
     void processButtonsSetEnabled(bool val);
     void loadFlightGui();

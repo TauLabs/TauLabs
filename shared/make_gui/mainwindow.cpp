@@ -41,6 +41,11 @@ MainWindow::MainWindow(QWidget *parent) :
     projectRoot=toolPath;
     projectRoot.cdUp();
     projectRoot.cdUp();
+#ifdef Q_WS_MAC
+    projectRoot.cdUp();
+    projectRoot.cdUp();
+    projectRoot.cdUp();
+#endif
     flightTargetsPath=projectRoot;
     flightTargetsPath.cd("flight");
     flightTargetsPath.cd("targets");
@@ -490,6 +495,8 @@ void MainWindow::processButtonsSetEnabled(bool val)
     ui->tool_cleanPB->setEnabled(val);
     ui->buildAllPB->setEnabled(val);
     ui->cleanAllPB->setEnabled(val);
+    ui->gcsBuildPB->setEnabled(val);
+    ui->gcsCleanPB->setEnabled(val);
 }
 
 void MainWindow::onProcStarted()
@@ -544,4 +551,9 @@ void MainWindow::on_gcsCleanPB_clicked()
     arguments<<target;
     arguments<<QString("GCS_BUILD_CONF=%0").arg(ui->gcsReleaseRB->isChecked()?"release":"debug");
     proc->start("make",arguments);
+}
+
+void MainWindow::on_cancelProcessPB_clicked()
+{
+    proc->kill();
 }
