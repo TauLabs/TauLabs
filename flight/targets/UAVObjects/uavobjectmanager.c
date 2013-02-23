@@ -985,7 +985,7 @@ int32_t UAVObjLoad(UAVObjHandle obj_handle, uint16_t instId)
  * @param[in] inst_id The object instance
  * @return 0 if success or -1 if failure
  */
-int32_t UAVObjDelete(uint32_t obj_id, uint16_t inst_id)
+int32_t UAVObjDeleteById(uint32_t obj_id, uint16_t inst_id)
 {
 #if defined(PIOS_INCLUDE_FLASH_SECTOR_SETTINGS)
 	PIOS_FLASHFS_ObjDelete(0, obj_id, inst_id);
@@ -1094,7 +1094,7 @@ int32_t UAVObjDeleteSettings()
 		// Check if this is a settings object
 		if (UAVObjIsSettings(obj)) {
 			// Save object
-			if (UAVObjDelete(UAVObjGetID(obj), 0)
+			if (UAVObjDeleteById(UAVObjGetID(obj), 0)
 				== -1) {
 				goto unlock_exit;
 			}
@@ -1182,7 +1182,7 @@ int32_t UAVObjDeleteMetaobjects()
 	// Load all settings objects
 	LL_FOREACH(uavo_list, obj) {
 		// Load object
-		if (UAVObjDelete(UAVObjGetID(MetaObjectPtr(obj)), 0)
+		if (UAVObjDeleteById(UAVObjGetID(MetaObjectPtr(obj)), 0)
 			== -1) {
 			goto unlock_exit;
 		}

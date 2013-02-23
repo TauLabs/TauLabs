@@ -297,7 +297,7 @@ static void objectUpdatedCb(UAVObjEvent * ev)
 		} else if (objper.Operation == OBJECTPERSISTENCE_OPERATION_DELETE) {
 			if (objper.Selection == OBJECTPERSISTENCE_SELECTION_SINGLEOBJECT) {
 				// Delete selected instance
-				retval = UAVObjDelete(objper.ObjectID, objper.InstanceID);
+				retval = UAVObjDeleteById(objper.ObjectID, objper.InstanceID);
 			} else if (objper.Selection == OBJECTPERSISTENCE_SELECTION_ALLSETTINGS
 				   || objper.Selection == OBJECTPERSISTENCE_SELECTION_ALLOBJECTS) {
 				retval = UAVObjDeleteSettings();
