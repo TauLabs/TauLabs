@@ -295,20 +295,28 @@ void ConfigInputWidget::openHelp()
 void ConfigInputWidget::goToWizard()
 {
     QMessageBox msgBox;
-    msgBox.setText(tr("Arming Settings are now set to Always Disarmed for your safety."));
+    msgBox.setText(tr("Arming Settings will be set to Always Disarmed for your safety."));
     msgBox.setDetailedText(tr("You will have to reconfigure the arming settings manually "
                               "when the wizard is finished. After the last step of the "
                               "wizard you will be taken to the Arming Settings screen."));
-    msgBox.setStandardButtons(QMessageBox::Ok);
-    msgBox.setDefaultButton(QMessageBox::Ok);
-    msgBox.exec();
+    msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+    msgBox.setDefaultButton(QMessageBox::Cancel);
+    int ret = msgBox.exec();
 
-    // Set correct tab visible before starting wizard.
-    if(m_config->tabWidget->currentIndex() != 0) {
-        m_config->tabWidget->setCurrentIndex(0);
+    switch(ret) {
+    case QMessageBox::Ok:
+        // Set correct tab visible before starting wizard.
+        if(m_config->tabWidget->currentIndex() != 0) {
+            m_config->tabWidget->setCurrentIndex(0);
+        }
+        wizardSetUpStep(wizardWelcome);
+        m_config->graphicsView->fitInView(m_txBackground, Qt::KeepAspectRatio );
+        break;
+    case QMessageBox::Cancel:
+        break;
+    default:
+        break;
     }
-    wizardSetUpStep(wizardWelcome);
-    m_config->graphicsView->fitInView(m_txBackground, Qt::KeepAspectRatio );
 }
 
 void ConfigInputWidget::disableWizardButton(int value)
