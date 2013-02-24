@@ -28,6 +28,7 @@
 #ifndef UAVOBJECTBROWSERWIDGET_H_
 #define UAVOBJECTBROWSERWIDGET_H_
 
+#include <QModelIndex>
 #include <QtGui/QWidget>
 #include <QtGui/QTreeView>
 #include "objectpersistence.h"
@@ -42,10 +43,10 @@ class UAVOBrowserTreeView : public QTreeView
 {
     Q_OBJECT
 public:
-    UAVOBrowserTreeView(UAVObjectTreeModel *m_model);
+    UAVOBrowserTreeView(UAVObjectTreeModel *m_model, unsigned int updateTimerPeriod);
     void updateView(QModelIndex topLeft, QModelIndex bottomRight);
+    void updateTimerPeriod(unsigned int val);
 
-//public slots:
     /**
      * @brief dataChanged Reimplements QTreeView::dataChanged signal
      * @param topLeft
@@ -100,6 +101,10 @@ private slots:
     void toggleUAVOButtons(const QModelIndex &current, const QModelIndex &previous);
     void viewSlot();
     void viewOptionsChangedSlot();
+
+    void on_TreeItemCollapsed(QModelIndex);
+    void on_TreeItemExpanded(QModelIndex);
+
 signals:
     void viewOptionsChanged(bool categorized,bool scientific,bool metadata);
 private:
@@ -118,8 +123,13 @@ private:
     void updateObjectPersistance(ObjectPersistence::OperationOptions op, UAVObject *obj);
     void enableUAVOBrowserButtons(bool enableState);
     ObjectTreeItem *findCurrentObjectTreeItem();
+    void updateThrottlePeriod(UAVObject *);
 
     UAVOBrowserTreeView *treeView;
+
+    QMap<QString, unsigned int> expandedUavoItems;
+
+    unsigned int updatePeriod;
 };
 
 #endif /* UAVOBJECTBROWSERWIDGET_H_ */

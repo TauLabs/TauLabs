@@ -40,8 +40,12 @@
 #include <QtCore/QDebug>
 #include <QtGui/QItemEditorFactory>
 #include "extensionsystem/pluginmanager.h"
+#include <math.h>
 
-UAVObjectBrowserWidget::UAVObjectBrowserWidget(QWidget *parent) : QWidget(parent)
+#define MAXIMUM_UPDATE_PERIOD 200
+
+UAVObjectBrowserWidget::UAVObjectBrowserWidget(QWidget *parent) : QWidget(parent),
+    updatePeriod(MAXIMUM_UPDATE_PERIOD)
 {
     // Create browser and configuration GUIs
     m_browser = new Ui_UAVObjectBrowser();
@@ -54,7 +58,7 @@ UAVObjectBrowserWidget::UAVObjectBrowserWidget(QWidget *parent) : QWidget(parent
     m_model = new UAVObjectTreeModel();
 
     // Create tree view and add to layout
-    treeView = new UAVOBrowserTreeView(m_model);
+    treeView = new UAVOBrowserTreeView(m_model, MAXIMUM_UPDATE_PERIOD);
     treeView->setObjectName(QString::fromUtf8("treeView"));
     m_browser->verticalLayout->addWidget(treeView);
 
@@ -84,8 +88,168 @@ UAVObjectBrowserWidget::UAVObjectBrowserWidget(QWidget *parent) : QWidget(parent
     connect(m_viewoptions->cbMetaData, SIGNAL(toggled(bool)), this, SLOT(viewOptionsChangedSlot()));
     connect(m_viewoptions->cbCategorized, SIGNAL(toggled(bool)), this, SLOT(viewOptionsChangedSlot()));
 
+    connect((QTreeView*) treeView, SIGNAL(collapsed(QModelIndex)), this, SLOT(on_TreeItemCollapsed(QModelIndex) ));
+    connect((QTreeView*) treeView, SIGNAL(expanded(QModelIndex)), this, SLOT(on_TreeItemExpanded(QModelIndex) ));
+
     // Set browser buttons to disabled
     enableUAVOBrowserButtons(false);
+}
+
+void UAVObjectBrowserWidget::on_TreeItemExpanded(QModelIndex currentIndex)
+{
+    TreeItem *item = static_cast<TreeItem*>(currentIndex.internalPointer());
+    TopTreeItem *top = dynamic_cast<TopTreeItem*>(item->parent());
+
+    //Check if current tree index is the child of the top tree item
+    if (top)
+    {
+        ObjectTreeItem *objItem = dynamic_cast<ObjectTreeItem*>(item);
+        //If the cast succeeds, then this is a UAVO
+        if (objItem)
+        {
+            UAVObject *obj = objItem->object();
+            // Check for multiple instance UAVO
+            if(!obj){
+                objItem = dynamic_cast<ObjectTreeItem*>(item->getChild(0));
+                obj = objItem->object();
+            }
+            Q_ASSERT(obj);
+            UAVObject::Metadata mdata = obj->getMetadata();
+
+            // Determine fastest update
+            quint16 tmpUpdatePeriod = MAXIMUM_UPDATE_PERIOD;
+            int accessType = UAVObject::GetGcsTelemetryUpdateMode(mdata);
+            if (accessType != UAVObject::UPDATEMODE_MANUAL){
+                switch(accessType){
+                case UAVObject::UPDATEMODE_ONCHANGE:
+                    tmpUpdatePeriod = 0;
+                    break;
+                case UAVObject::UPDATEMODE_PERIODIC:
+                case UAVObject::UPDATEMODE_THROTTLED:
+                    tmpUpdatePeriod = std::min(mdata.gcsTelemetryUpdatePeriod, tmpUpdatePeriod);
+                    break;
+                }
+            }
+
+            accessType = UAVObject::GetFlightTelemetryUpdateMode(mdata);
+            if (accessType != UAVObject::UPDATEMODE_MANUAL){
+                switch(accessType){
+                case UAVObject::UPDATEMODE_ONCHANGE:
+                    tmpUpdatePeriod = 0;
+                    break;
+                case UAVObject::UPDATEMODE_PERIODIC:
+                case UAVObject::UPDATEMODE_THROTTLED:
+                    tmpUpdatePeriod = std::min(mdata.flightTelemetryUpdatePeriod, tmpUpdatePeriod);
+                    break;
+                }
+            }
+
+            expandedUavoItems.insert(obj->getName(), tmpUpdatePeriod);
+
+            if (tmpUpdatePeriod < updatePeriod){
+                updatePeriod = tmpUpdatePeriod;
+                treeView->updateTimerPeriod(updatePeriod);
+            }
+        }
+    }
+}
+
+void UAVObjectBrowserWidget::on_TreeItemCollapsed(QModelIndex currentIndex)
+{
+
+    TreeItem *item = static_cast<TreeItem*>(currentIndex.internalPointer());
+    TopTreeItem *top = dynamic_cast<TopTreeItem*>(item->parent());
+
+    //Check if current tree index is the child of the top tree item
+    if (top)
+    {
+        ObjectTreeItem *objItem = dynamic_cast<ObjectTreeItem*>(item);
+        //If the cast succeeds, then this is a UAVO
+        if (objItem)
+        {
+            UAVObject *obj = objItem->object();
+
+            // Check for multiple instance UAVO
+            if(!obj){
+                objItem = dynamic_cast<ObjectTreeItem*>(item->getChild(0));
+                obj = objItem->object();
+            }
+            Q_ASSERT(obj);
+
+            //Remove the UAVO, getting its stored value first.
+            quint16 tmpUpdatePeriod = expandedUavoItems.value(obj->getName());
+            expandedUavoItems.take(obj->getName());
+
+            // Check if this was the fastest UAVO
+            if (tmpUpdatePeriod == updatePeriod){
+                // If so, search for the new fastest UAVO
+                updatePeriod = MAXIMUM_UPDATE_PERIOD;
+                foreach(tmpUpdatePeriod, expandedUavoItems)
+                {
+                    if (tmpUpdatePeriod < updatePeriod)
+                        updatePeriod = tmpUpdatePeriod;
+                }
+                treeView->updateTimerPeriod(updatePeriod);
+            }
+
+
+        }
+    }
+}
+
+void UAVObjectBrowserWidget::updateThrottlePeriod(UAVObject *obj)
+{
+    // Test if this is a metadata object. A UAVO's metadata's object ID is the UAVO's object ID + 1
+    if (obj->getObjID() & 0x01 == 1){
+        ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+        Q_ASSERT(pm);
+        UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
+        Q_ASSERT(objManager);
+        QList<UAVObject*> list = objManager->getObjectInstances(obj->getObjID() - 1);
+        obj = list.at(0);
+    }
+
+
+    UAVObject::Metadata mdata = obj->getMetadata();
+
+    // Determine fastest update
+    quint16 tmpUpdatePeriod = MAXIMUM_UPDATE_PERIOD;
+    int accessType = UAVObject::GetGcsTelemetryUpdateMode(mdata);
+    if (accessType != UAVObject::UPDATEMODE_MANUAL){
+        switch(accessType){
+        case UAVObject::UPDATEMODE_ONCHANGE:
+            tmpUpdatePeriod = 0;
+            break;
+        case UAVObject::UPDATEMODE_PERIODIC:
+        case UAVObject::UPDATEMODE_THROTTLED:
+            tmpUpdatePeriod = std::min(mdata.gcsTelemetryUpdatePeriod, tmpUpdatePeriod);
+            break;
+        }
+    }
+
+    accessType = UAVObject::GetFlightTelemetryUpdateMode(mdata);
+    if (accessType != UAVObject::UPDATEMODE_MANUAL){
+        switch(accessType){
+        case UAVObject::UPDATEMODE_ONCHANGE:
+            tmpUpdatePeriod = 0;
+            break;
+        case UAVObject::UPDATEMODE_PERIODIC:
+        case UAVObject::UPDATEMODE_THROTTLED:
+            tmpUpdatePeriod = std::min(mdata.flightTelemetryUpdatePeriod, tmpUpdatePeriod);
+            break;
+        }
+    }
+
+    expandedUavoItems.insert(obj->getName(), tmpUpdatePeriod);
+
+
+    updatePeriod = MAXIMUM_UPDATE_PERIOD;
+    foreach(tmpUpdatePeriod, expandedUavoItems)
+    {
+        if (tmpUpdatePeriod < updatePeriod)
+            updatePeriod = tmpUpdatePeriod;
+    }
+    treeView->updateTimerPeriod(updatePeriod);
 }
 
 UAVObjectBrowserWidget::~UAVObjectBrowserWidget()
@@ -184,6 +348,9 @@ void UAVObjectBrowserWidget::sendUpdate()
     UAVObject *obj = objItem->object();
     Q_ASSERT(obj);
     obj->updated();
+
+    // Search for the new fastest UAVO
+    updateThrottlePeriod(obj);
 }
 
 
@@ -197,6 +364,9 @@ void UAVObjectBrowserWidget::requestUpdate()
     UAVObject *obj = objItem->object();
     Q_ASSERT(obj);
     obj->requestUpdate();
+
+    // Search for the new fastest UAVO
+    updateThrottlePeriod(obj);
 }
 
 
@@ -210,13 +380,19 @@ ObjectTreeItem *UAVObjectBrowserWidget::findCurrentObjectTreeItem()
     TreeItem *item = static_cast<TreeItem*>(current.internalPointer());
     ObjectTreeItem *objItem = 0;
 
-    //What is this doing?
+    // Recursively iterate over child branches until the parent UAVO branch is found
     while (item) {
+        //Attempt a dynamic cast
         objItem = dynamic_cast<ObjectTreeItem*>(item);
+
+        //If the cast succeeds, then this is a UAVO or UAVO metada. Stop the while loop.
         if (objItem)
             break;
+
+        //If it fails, then set item equal to the parent branch, and try again.
         item = item->parent();
     }
+
     return objItem;
 }
 
@@ -238,6 +414,9 @@ void UAVObjectBrowserWidget::saveObject()
     UAVObject *obj = objItem->object();
     Q_ASSERT(obj);
     updateObjectPersistance(ObjectPersistence::OPERATION_SAVE, obj);
+
+    // Search for the new fastest UAVO
+    updateThrottlePeriod(obj);
 }
 
 
@@ -254,6 +433,9 @@ void UAVObjectBrowserWidget::loadObject()
     updateObjectPersistance(ObjectPersistence::OPERATION_LOAD, obj);
     // Retrieve object so that latest value is displayed
     requestUpdate();
+
+    // Search for the new fastest UAVO
+    updateThrottlePeriod(obj);
 }
 
 
@@ -308,7 +490,7 @@ void UAVObjectBrowserWidget::toggleUAVOButtons(const QModelIndex &currentIndex, 
     ObjectTreeItem *data = dynamic_cast<ObjectTreeItem*>(item);
     bool enableState = true;
 
-    //Check if current index refers to an empty index?
+    //Check if current index refers to an empty index
     if (currentIndex == QModelIndex())
         enableState = false;
 
@@ -365,7 +547,7 @@ void UAVObjectBrowserWidget::enableUAVOBrowserButtons(bool enableState)
 /**
  * @brief UAVOBrowserTreeView::UAVOBrowserTreeView Constructor for reimplementation of QTreeView
  */
-UAVOBrowserTreeView::UAVOBrowserTreeView(UAVObjectTreeModel *m_model_new) : QTreeView(),
+UAVOBrowserTreeView::UAVOBrowserTreeView(UAVObjectTreeModel *m_model_new, unsigned int updateTimerPeriod) : QTreeView(),
     m_model(m_model_new),
     topmostData(-1),
     bottommostData(-1),
@@ -373,11 +555,29 @@ UAVOBrowserTreeView::UAVOBrowserTreeView(UAVObjectTreeModel *m_model_new) : QTre
     bottommostSettings(-1)
 {
     // Start timer at 100ms
-    m_updateViewTimer.start(100);
+    m_updateViewTimer.start(updateTimerPeriod);
 
     // Connect the timer
     connect(&m_updateViewTimer, SIGNAL(timeout()), this, SLOT(onTimeout_updateView()));
 }
+
+void UAVOBrowserTreeView::updateTimerPeriod(unsigned int val)
+{
+    if (val == 0){
+        // If val == 0, disable throttling by stopping the timer.
+        m_updateViewTimer.stop();
+    }
+    else
+    {
+        // If the UAVO has a very fast data rate, then don't go the full speed.
+        if (val < 100)
+        {
+            val = 100- powf((100-val),0.914); //This drives the throttled speed exponentially toward 30Hz.
+        }
+        m_updateViewTimer.start(val);
+    }
+}
+
 
 /**
  * @brief UAVOBrowserTreeView::onTimeout_updateView On timeout, emits dataChanged() SIGNAL for
@@ -438,5 +638,11 @@ void UAVOBrowserTreeView::updateView(QModelIndex topLeft, QModelIndex bottomRigh
 
 void UAVOBrowserTreeView::dataChanged(const QModelIndex & topLeft, const QModelIndex & bottomRight)
 {
-    updateView(topLeft, bottomRight);
+    // If the timer is active, then throttle updates...
+    if (m_updateViewTimer.isActive()){
+        updateView(topLeft, bottomRight);
+    }
+    else { // ... otherwise pass them directly on to the treeview.
+       QTreeView::dataChanged(topLeft, bottomRight);
+    }
 }
