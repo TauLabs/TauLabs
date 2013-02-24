@@ -139,6 +139,13 @@ public:
     void addHelpButton(QPushButton * button,QString url);
     void forceShadowUpdates();
     void forceConnectedState();
+
+    QMap<QString, UAVObject::Metadata> readAllMetadata();
+    QMap<QString, UAVObject::Metadata> readAllNonSettingsMetadata();
+    bool setAllMetadata(QMap<QString, UAVObject::Metadata>);
+    bool setAllNonSettingsMetadata(QMap<QString, UAVObject::Metadata>);
+    bool setAllNonSettingsMetadataFlightTelemetryPeriod(int);
+
 public slots:
     void onAutopilotDisconnect();
     void onAutopilotConnect();

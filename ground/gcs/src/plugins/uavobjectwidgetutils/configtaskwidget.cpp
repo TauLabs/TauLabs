@@ -259,6 +259,102 @@ UAVObjectManager* ConfigTaskWidget::getObjectManager() {
     Q_ASSERT(objMngr);
     return objMngr;
 }
+
+
+QMap<QString, UAVObject::Metadata> ConfigTaskWidget::readAllMetadata()
+{
+    QMap<QString, UAVObject::Metadata> metaDataList;
+
+    // Save all metadata objects.
+    UAVObjectManager *objManager = getObjectManager();
+    QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
+    foreach (QList<UAVDataObject*> list, objList) {
+        foreach (UAVDataObject* obj, list) {
+            metaDataList.insert(obj->getName(), obj->getMetadata());
+        }
+    }
+
+    return metaDataList;
+}
+
+/**
+ * @brief ConfigTaskWidget::readAllNonSettingsMetadata Only get dynamic data
+ * metadata
+ * @return
+ */
+QMap<QString, UAVObject::Metadata> ConfigTaskWidget::readAllNonSettingsMetadata()
+{
+    QMap<QString, UAVObject::Metadata> metaDataList;
+
+    // Save all metadata objects.
+    UAVObjectManager *objManager = getObjectManager();
+    QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
+    foreach (QList<UAVDataObject*> list, objList) {
+        foreach (UAVDataObject* obj, list) {
+            if(!obj->isSettings()) {
+                metaDataList.insert(obj->getName(), obj->getMetadata());
+            }
+        }
+    }
+
+    return metaDataList;
+}
+
+bool ConfigTaskWidget::setAllNonSettingsMetadataFlightTelemetryPeriod(int period)
+{
+    // Load all metadata objects.
+    UAVObjectManager *objManager = getObjectManager();
+    QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
+    foreach (QList<UAVDataObject*> list, objList) {
+        foreach (UAVDataObject* obj, list) {
+            if(!obj->isSettings()) {
+                UAVObject::Metadata mdata = obj->getMetadata();
+                UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
+                mdata.flightTelemetryUpdatePeriod = period;
+                obj->setMetadata(mdata);
+            }
+        }
+    }
+
+    return true;
+}
+
+bool ConfigTaskWidget::setAllNonSettingsMetadata(QMap<QString, UAVObject::Metadata> metaDataList)
+{
+    // Load all metadata objects.
+    UAVObjectManager *objManager = getObjectManager();
+    QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
+    foreach (QList<UAVDataObject*> list, objList) {
+        foreach (UAVDataObject* obj, list) {
+            if(!obj->isSettings()) {
+                if (metaDataList.contains(obj->getName())) {
+                    UAVObject::Metadata mdata = metaDataList.value(obj->getName());
+                    obj->setMetadata(mdata);
+                }
+            }
+        }
+    }
+
+    return true;
+}
+
+bool ConfigTaskWidget::setAllMetadata(QMap<QString, UAVObject::Metadata> metaDataList)
+{
+    // Load all metadata objects.
+    UAVObjectManager *objManager = getObjectManager();
+    QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
+    foreach (QList<UAVDataObject*> list, objList) {
+        foreach (UAVDataObject* obj, list) {
+            if (metaDataList.contains(obj->getName())){
+                obj->setMetadata(metaDataList.value(obj->getName()));
+            }
+        }
+    }
+
+    return true;
+}
+
+
 /**
  * Utility function which calculates the Mean value of a list of values
  * @param list list of double values
