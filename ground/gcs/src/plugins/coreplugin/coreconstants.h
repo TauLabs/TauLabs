@@ -46,6 +46,7 @@ const char * const GCS_VERSION_CODENAME = "Phoenix";
     "." STRINGIFY(GCS_VERSION_MINOR) \
     "." STRINGIFY(GCS_VERSION_RELEASE)
 
+const char * const GCS_NAME              = "Tau Labs GCS";
 const char * const GCS_VERSION_LONG      = GCS_VERSION;
 const char * const GCS_AUTHOR            = "Tau Labs";
 const char * const GCS_YEAR              = "2012";
