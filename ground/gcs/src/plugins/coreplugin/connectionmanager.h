@@ -54,8 +54,6 @@ namespace Core {
     class IDevice;
 
 namespace Internal {
-    class FancyTabWidget;
-    class FancyActionBar;
     class MainWindow;
 } // namespace Internal
 
