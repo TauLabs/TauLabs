@@ -77,7 +77,7 @@ public:
 
 protected:
     USBMonitor* qese;
-    bool winEvent( MSG* message, long* result );
+    bool nativeEvent(const QByteArray & /*eventType*/, void *msg, long *result);
 };
 #endif
 #endif
