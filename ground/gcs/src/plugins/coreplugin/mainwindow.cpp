@@ -138,12 +138,12 @@ MainWindow::MainWindow() :
 #endif
     m_toggleFullScreenAction(0)
 {
-    setWindowTitle(tr("Tau Labs GCS"));
+    setWindowTitle(QLatin1String(Core::Constants::GCS_NAME));
     if (!Utils::HostOsInfo::isMacHost())
         QApplication::setWindowIcon(QIcon(Core::Constants::ICON_TAULABS));
-    QCoreApplication::setApplicationName(QLatin1String("Tau Labs GCS"));
+    QCoreApplication::setApplicationName(QLatin1String(Core::Constants::GCS_NAME));
     QCoreApplication::setApplicationVersion(QLatin1String(Core::Constants::GCS_VERSION_LONG));
-    QCoreApplication::setOrganizationName(QLatin1String("TauLabs"));
+    QCoreApplication::setOrganizationName(QLatin1String(Core::Constants::GCS_AUTHOR));
     QCoreApplication::setOrganizationDomain(QLatin1String("taulabs.org"));
     QSettings::setDefaultFormat(XmlConfig::XmlSettingsFormat);
     QString baseName = qApp->style()->objectName();
