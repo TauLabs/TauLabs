@@ -22,8 +22,8 @@ ifdef OPENOCD_FTDI
 endif
 
 # Set up QT toolchain
-QT_SDK_DIR := $(TOOLS_DIR)/Qt5.0.0
-QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.0.0/gcc_64/bin/qmake
+QT_SDK_DIR := $(TOOLS_DIR)/Qt5.0.1
+QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.0.1/gcc_64/bin/qmake
 
 # Build openocd without FTDI (yes | no)
 OPENOCD_FTDI ?= yes
@@ -34,19 +34,19 @@ OPENOCD_FTDI ?= yes
 ifdef LINUX
   ifdef AMD64
     # Linux 64-bit
-    qt_sdk_install: QT_SDK_URL := http://releases.qt-project.org/qt5/5.0.0/qt-linux-opensource-5.0.0-x86_64-offline.run
+    qt_sdk_install: QT_SDK_URL := http://origin.releases.qt-project.org/qt5/5.0.1/qt-linux-opensource-5.0.1-x86_64-offline.run
   else
     # Linux 32-bit
-    qt_sdk_install: QT_SDK_URL := http://releases.qt-project.org/qt5/5.0.0/qt-linux-opensource-5.0.0-x86-offline.run
+    qt_sdk_install: QT_SDK_URL := http://origin.releases.qt-project.org/qt5/5.0.1/qt-linux-opensource-5.0.1-x86-offline.run
   endif
 endif
 
 ifdef MACOSX
-  qt_sdk_install: QT_SDK_URL  := http://jenkins.taulabs.org/distfiles/QtSdk-offline-mac-x86-v1.2.1.dmg
+  qt_sdk_install: QT_SDK_URL  := http://origin.releases.qt-project.org/qt5/5.0.1/qt-mac-opensource-5.0.1-clang-offline.dmg
 endif
 
 ifdef WINDOWS
-  qt_sdk_install: QT_SDK_URL  := http://jenkins.taulabs.org/distfiles/QtSdk-offline-win-x86-v1.2.1.exe
+  qt_sdk_install: QT_SDK_URL  := http://origin.releases.qt-project.org/qt5/5.0.1/qt-windows-opensource-5.0.1-mingw47_32-x86-offline.exe
 endif
 
 qt_sdk_install: QT_SDK_FILE := $(notdir $(QT_SDK_URL))
