@@ -153,7 +153,6 @@ void Scatterplot2dScope::saveConfiguration(QSettings* qSettings)
 {
     //Stop writing XML blocks
     qSettings->beginGroup(QString("plot2d"));
-//    qSettings->beginGroup(QString("scatterplot"));
 
     qSettings->setValue("timeHorizon", timeHorizon);
     qSettings->setValue("plot2dType", SCATTERPLOT2D);
@@ -181,7 +180,6 @@ void Scatterplot2dScope::saveConfiguration(QSettings* qSettings)
         qSettings->endGroup();
     }
     //Stop writing XML blocks
-//    qSettings->endGroup();
     qSettings->endGroup();
 }
 

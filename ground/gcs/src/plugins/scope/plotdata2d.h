@@ -55,8 +55,6 @@ public:
 
 private:
     bool dataUpdated;
-
-signals:
 };
 
 #endif // PLOTDATA2D_H

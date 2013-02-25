@@ -153,7 +153,6 @@ void HistogramScope::saveConfiguration(QSettings* qSettings)
 {
     //Stop writing XML blocks
     qSettings->beginGroup(QString("plot2d"));
-//    qSettings->beginGroup(QString("histogram"));
 
     qSettings->setValue("plot2dType", HISTOGRAM);
     qSettings->setValue("binWidth", binWidth);
@@ -182,7 +181,6 @@ void HistogramScope::saveConfiguration(QSettings* qSettings)
     }
 
     //Stop writing XML block
-//    qSettings->endGroup();
     qSettings->endGroup();
 
 }

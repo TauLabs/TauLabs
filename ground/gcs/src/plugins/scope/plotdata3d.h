@@ -72,9 +72,6 @@ protected:
 
 private:
     bool dataUpdated;
-
-signals:
-//    void dataChanged();
 };
 
 

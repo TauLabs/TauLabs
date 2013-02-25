@@ -415,23 +415,6 @@ void ScopeGadgetWidget::setupSpectrogramPlot(ScopesGeneric *scope)
 }
 
 
-//void ScopeGadgetWidget::removeCurvePlot(QString uavObjectName, QString uavFieldName)
-//{
-//    QString curveName = uavObjectName + "." + uavFieldName;
-//
-//    Plot2dData* plot2dData = m_curves2dData.take(curveName);
-//    m_curves2dData.remove(curveName);
-//    plot2dData->curve->detach();
-//
-//    delete plot2dData->curve;
-//    delete plot2dData;
-//
-//	mutex.lock();
-//  replot();
-//	mutex.unlock();
-//}
-
-
 /**
  * @brief ScopeGadgetWidget::uavObjectReceived
  * @param obj
