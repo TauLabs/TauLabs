@@ -158,6 +158,7 @@ MainWindow::MainWindow() :
             baseName = QLatin1String("cleanlooks");
     }
 #endif
+    qApp->setStyle(new ManhattanStyle(baseName));
 
     setDockNestingEnabled(true);
 
