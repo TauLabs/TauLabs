@@ -74,6 +74,7 @@ uintptr_t pios_com_gps_id;
 uintptr_t pios_com_bridge_id;
 uintptr_t pios_com_mavlink_id;
 uint32_t pios_usb_rctx_id;
+uintptr_t pios_internal_adc_id;
 
 uintptr_t pios_uavo_settings_fs_id;
 

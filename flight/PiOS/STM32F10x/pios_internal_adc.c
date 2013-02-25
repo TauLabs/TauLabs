@@ -35,11 +35,8 @@
 static void PIOS_INTERNAL_ADC_downsample_data(uint32_t internal_adc_id);
 static struct pios_internal_adc_dev * PIOS_INTERNAL_ADC_Allocate();
 static bool PIOS_INTERNAL_ADC_validate(struct pios_internal_adc_dev *);
-static int16_t * PIOS_INTERNAL_ADC_GetRawBuffer(uint32_t internal_adc_id);
-static uint8_t PIOS_INTERNAL_ADC_GetOverSampling(uint32_t internal_adc_id);
 static void PIOS_INTERNAL_ADC_Config(uint32_t internal_adc_id, uint32_t oversampling);
 static int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin);
-static void PIOS_INTERNAL_ADC_SetCallback(uint32_t internal_adc_id, ADCCallback new_function);
 #if defined(PIOS_INCLUDE_FREERTOS)
 void static PIOS_INTERNAL_ADC_SetQueue(uint32_t internal_adc_id, xQueueHandle data_queue);
 #endif
@@ -297,22 +294,6 @@ int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin)
 	return adc_dev->downsampled_buffer[pin];
 }
 
-/**
- * @brief Set a callback function that is executed whenever
- * the ADC double buffer swaps
- * \param[in] internal_adc_id handle to the device
- *
- */
-void PIOS_INTERNAL_ADC_SetCallback(uint32_t internal_adc_id, ADCCallback new_function)
-{
-	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *)internal_adc_id;
-	if(!PIOS_INTERNAL_ADC_validate(adc_dev))
-	{
-		return;
-	}
-	adc_dev->callback_function = new_function;
-}
-
 #if defined(PIOS_INCLUDE_FREERTOS)
 /**
  * @brief Register a queue to add data to when downsampled 
@@ -328,49 +309,6 @@ void PIOS_INTERNAL_ADC_SetQueue(uint32_t internal_adc_id, xQueueHandle data_queu
 	adc_dev->data_queue = data_queue;
 }
 #endif
-
-/**
- * @brief Return the address of the downsampled data buffer
- * \param[in] internal_adc_id handle to the device
- *
- */
-static float * PIOS_INTERNAL_ADC_GetBuffer(uint32_t internal_adc_id)
-{
-	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *)internal_adc_id;
-	if(!PIOS_INTERNAL_ADC_validate(adc_dev))
-	{
-		return NULL;
-	}
-	return adc_dev->downsampled_buffer;
-}
-
-/**
- * @brief Return the address of the raw data data buffer
- * \param[in] internal_adc_id handle to the device
- */
-static int16_t * PIOS_INTERNAL_ADC_GetRawBuffer(uint32_t internal_adc_id)
-{
-	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *)internal_adc_id;
-	if(!PIOS_INTERNAL_ADC_validate(adc_dev))
-	{
-		return NULL;
-	}
-	return (int16_t *) adc_dev->valid_data_buffer;
-}
-
-/**
- * @brief Return the amount of over sampling
- * \param[in] internal_adc_id handle to the device
- */
-static uint8_t PIOS_INTERNAL_ADC_GetOverSampling(uint32_t internal_adc_id)
-{
-	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *)internal_adc_id;
-	if(!PIOS_INTERNAL_ADC_validate(adc_dev))
-	{
-		return -1;
-	}
-	return adc_dev->adc_oversample;
-}
 
 /**
  * @brief Set the fir coefficients.  Takes as many samples as the 
