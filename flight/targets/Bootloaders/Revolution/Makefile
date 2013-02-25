@@ -31,8 +31,6 @@ include $(TOP)/make/boards/$(BOARD_NAME)/board-info.mk
 # Set to YES for debugging
 DEBUG ?= NO
 
-REMOVE_CMD = rm
-
 # Paths
 REVO_BL = $(WHEREAMI)
 REVO_BLINC = $(REVO_BL)/inc
@@ -235,7 +233,7 @@ LDFLAGS += -Wl,--fatal-warnings
 LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_BL))
 
 # Define programs and commands.
-REMOVE  = $(REMOVE_CMD) -f
+REMOVE  = rm -f
 
 # List of all source files.
 ALLSRC     = $(ASRCARM) $(ASRC) $(SRCARM) $(SRC) $(CPPSRCARM) $(CPPSRC)

@@ -42,8 +42,6 @@ ENABLE_AUX_UART ?= NO
 #
 USE_BOOTLOADER ?= NO
 
-REMOVE_CMD ?= rm
-
 # List of modules to include
 MODULES += Actuator ManualControl Stabilization 
 MODULES += Attitude/revolution
@@ -389,7 +387,7 @@ OBJCOPY = $(TCHAIN_PREFIX)objcopy
 OBJDUMP = $(TCHAIN_PREFIX)objdump
 SIZE    = $(TCHAIN_PREFIX)size
 NM      = $(TCHAIN_PREFIX)nm
-REMOVE  = $(REMOVE_CMD) -f
+REMOVE  = rm -f
 PYTHON  = python
 ###SHELL   = sh
 ###COPY    = cp

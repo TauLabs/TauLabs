@@ -53,8 +53,6 @@ USE_GPS ?= NO
 
 USE_I2C ?= YES
 
-REMOVE_CMD = rm
-
 # List of modules to include
 OPTMODULES = 
 MODULES = RadioComBridge
@@ -438,7 +436,7 @@ LDFLAGS += -T$(LINKERSCRIPTPATH)/link_$(BOARD)_memory.ld
 LDFLAGS += -T$(LINKERSCRIPTPATH)/link_$(BOARD)_sections.ld
 
 # Define programs and commands.
-REMOVE  = $(REMOVE_CMD) -f
+REMOVE  = rm -f
 PYTHON  = python
 
 # List of all source files.

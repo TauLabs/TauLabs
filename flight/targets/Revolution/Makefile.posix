@@ -77,8 +77,6 @@ BLONLY_CDEFS += -DFW_DESC_SIZE=$(FW_DESC_SIZE)
 
 CFLAGS += $(BLONLY_CDEFS)
 
-REMOVE_CMD = rm
-
 # List of modules to include
 MODULES += Actuator ManualControl Stabilization 
 MODULES += PathPlanner
@@ -400,7 +398,7 @@ LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_APP))
 
 
 # Define programs and commands.
-REMOVE  = $(REMOVE_CMD) -f
+REMOVE  = rm -f
 PYHON   = python
 
 $(OUTDIR)/sim_firmwareinfo.c: $(TOP)/make/templates/firmwareinfotemplate_sim.c

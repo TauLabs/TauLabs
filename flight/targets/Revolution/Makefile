@@ -33,8 +33,6 @@ include $(TOP)/make/boards/$(BOARD_NAME)/board-info.mk
 # Set to YES for debugging
 DEBUG ?= NO
 
-REMOVE_CMD = rm
-
 # Optional module and driver defaults
 USE_COMUSBBRIDGE ?= NO
 USE_TXPID ?= NO
@@ -407,7 +405,7 @@ LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_APP))
 
 
 # Define programs and commands.
-REMOVE  = $(REMOVE_CMD) -f
+REMOVE  = rm -f
 PYHON   = python
 
 # List of all source files.

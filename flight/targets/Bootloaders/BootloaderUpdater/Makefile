@@ -40,8 +40,6 @@ ENABLE_AUX_UART ?= NO
 # Toolchain prefix (i.e arm-elf- -> arm-elf-gcc.exe)
 TCHAIN_PREFIX ?= arm-none-eabi-
 
-REMOVE_CMD = rm
-
 FLASH_TOOL = OPENOCD
 
 # Paths
@@ -290,7 +288,7 @@ OOCD_CL+=-c shutdown
 
 
 # Define programs and commands.
-REMOVE  = $(REMOVE_CMD) -f
+REMOVE  = rm -f
 ###SHELL   = sh
 ###COPY    = cp
 

@@ -33,8 +33,6 @@ include $(TOP)/make/boards/$(BOARD_NAME)/board-info.mk
 # Set to YES for debugging
 DEBUG ?= NO
 
-REMOVE_CMD = rm
-
 # List of modules to include
 MODULES += FirmwareIAP 
 MODULES += Telemetry
@@ -270,7 +268,7 @@ LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_APP))
 
 
 # Define programs and commands.
-REMOVE  = $(REMOVE_CMD) -f
+REMOVE  = rm -f
 
 # List of all source files.
 ALLSRC     =  $(ASRC) $(SRC)
