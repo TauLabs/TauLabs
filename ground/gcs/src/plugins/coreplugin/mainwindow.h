@@ -71,7 +71,6 @@ namespace Internal {
 
 class ActionManagerPrivate;
 class CoreImpl;
-class FancyTabWidget;
 class GeneralSettings;
 class ShortcutSettings;
 class WorkspaceSettings;

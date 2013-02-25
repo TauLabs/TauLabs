@@ -28,8 +28,6 @@
 
 #include "modemanager.h"
 
-#include "fancytabwidget.h"
-#include "fancyactionbar.h"
 #include "utils/mytabwidget.h"
 #include "icore.h"
 #include "mainwindow.h"

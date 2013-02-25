@@ -49,8 +49,6 @@ class Command;
 class IMode;
 
 namespace Internal {
-class FancyTabWidget;
-class FancyActionBar;
 class MainWindow;
 } // namespace Internal
 
