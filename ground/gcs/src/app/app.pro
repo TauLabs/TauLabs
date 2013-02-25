@@ -23,9 +23,18 @@ win32 {
     FILETYPES.files = profile.icns prifile.icns
     FILETYPES.path = Contents/Resources
     QMAKE_BUNDLE_DATA += FILETYPES
+    info.input = Info.plist.in
+    info.output = $$GCS_BIN_PATH/../Info.plist
+    QMAKE_SUBSTITUTES += info
 } else {
     target.path  = /bin
     INSTALLS    += target
 }
 
 OTHER_FILES += taulabs.rc
+
+OTHER_FILES += qtcreator.rc \
+    Info.plist.in \
+    $$PWD/app_version.h.in
+
+QMAKE_SUBSTITUTES += $$PWD/app_version.h.in
