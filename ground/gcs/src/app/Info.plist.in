@@ -35,13 +35,13 @@
 	<key>CFBundleGetInfoString</key>
 	<string>Tau Labs GCS; Copyright Tau Labs</string>
 	<key>CFBundleIconFile</key>
-	<string>@ICON@</string>
+	<string>$$ICON</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleSignature</key>
-	<string>@TYPEINFO@</string>
+	<string>????</string>
 	<key>CFBundleExecutable</key>
-	<string>@EXECUTABLE@</string>
+	<string>$$EXECUTABLE</string>
 	<key>CFBundleIdentifier</key>
 	<string>org.taulabs.gcs</string>
 	<key>CFBundleVersion</key>
