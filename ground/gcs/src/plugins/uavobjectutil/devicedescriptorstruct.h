@@ -38,6 +38,7 @@ public:
            case 0x0901://Revolution
            case 0x0902:
            case 0x7F01:
+           case 0x7F02:
                return QString("Revolution");
                break;
            case 0x8101:
