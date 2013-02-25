@@ -2,9 +2,9 @@
  ******************************************************************************
  *
  * @file       mainwindow.cpp
- * @author     Tau Labs, http://taulabs.org Copyright (C) 2012
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
+ * @author     Tau Labs, http://taulabs.org Copyright (C) 2012-2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup CorePlugin Core Plugin
@@ -64,6 +64,7 @@
 #include <coreplugin/settingsdatabase.h>
 #include <extensionsystem/pluginmanager.h>
 #include "dialogs/iwizard.h"
+#include <utils/hostosinfo.h>
 #include <utils/pathchooser.h>
 #include <utils/stylehelper.h>
 #include <utils/xmlconfig.h>
@@ -138,9 +139,8 @@ MainWindow::MainWindow() :
     m_toggleFullScreenAction(0)
 {
     setWindowTitle(tr("Tau Labs GCS"));
-#ifndef Q_WS_MAC
-    qApp->setWindowIcon(QIcon(":/core/images/taulabs_logo_128.png"));
-#endif
+    if (!Utils::HostOsInfo::isMacHost())
+        QApplication::setWindowIcon(QIcon(Core::Constants::ICON_TAULABS));
     QCoreApplication::setApplicationName(QLatin1String("Tau Labs GCS"));
     QCoreApplication::setApplicationVersion(QLatin1String(Core::Constants::GCS_VERSION_LONG));
     QCoreApplication::setOrganizationName(QLatin1String("TauLabs"));
@@ -747,7 +747,7 @@ void MainWindow::registerDefaultActions()
     //Window menu separators
     QAction *tmpaction1 = new QAction(this);
     tmpaction1->setSeparator(true);
-    cmd = am->registerAction(tmpaction1, QLatin1String("OpenPilot.Window.Sep.Split"), uavGadgetManagerContext);
+    cmd = am->registerAction(tmpaction1, QLatin1String("TauLabs.Window.Sep.Split"), uavGadgetManagerContext);
     mwindow->addAction(cmd, Constants::G_WINDOW_HIDE_TOOLBAR);
 
     m_showToolbarsAction = new QAction(tr("Edit Gadgets Mode"), this);
@@ -759,7 +759,7 @@ void MainWindow::registerDefaultActions()
     //Window menu separators
     QAction *tmpaction2 = new QAction(this);
     tmpaction2->setSeparator(true);
-    cmd = am->registerAction(tmpaction2, QLatin1String("OpenPilot.Window.Sep.Split2"), uavGadgetManagerContext);
+    cmd = am->registerAction(tmpaction2, QLatin1String("TauLabs.Window.Sep.Split2"), uavGadgetManagerContext);
     mwindow->addAction(cmd, Constants::G_WINDOW_SPLIT);
 
 #ifdef Q_WS_MAC
