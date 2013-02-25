@@ -51,6 +51,13 @@ qt_sdk_install: qt_sdk_clean
 	$(V1) echo "*"
 	$(V1) echo "*** NOTE NOTE NOTE ***"
 
+ifneq (,$(filter $(UNAME), Darwin))
+	$(V1) hdiutil attach -quiet -private -mountpoint /tmp/qt-installer "$(DL_DIR)/$(QT_SDK_FILE)" 
+	$(V1) /tmp/qt-installer/qt-mac-opensource-5.0.1-clang-offline.app/Contents/MacOS/qt-mac-opensource-5.0.1-clang-offline
+	$(V1) hdiutil detach -quiet /tmp/qt-installer
+endif
+ 
+
 ifneq (,$(filter $(UNAME), Linux))
         #installer is an executable, make it executable and run it
 	$(V1) chmod u+x "$(DL_DIR)/$(QT_SDK_FILE)"
