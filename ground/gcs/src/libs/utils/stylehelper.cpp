@@ -1,32 +1,35 @@
-/**
- ******************************************************************************
- *
- * @file       stylehelper.cpp
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
- * @brief      
- * @see        The GNU Public License (GPL) Version 3
- * @defgroup   
- * @{
- * 
- *****************************************************************************/
-/* 
- * This program is free software; you can redistribute it and/or modify 
- * it under the terms of the GNU General Public License as published by 
- * the Free Software Foundation; either version 3 of the License, or 
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful, but 
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
- * for more details.
- * 
- * You should have received a copy of the GNU General Public License along 
- * with this program; if not, write to the Free Software Foundation, Inc., 
- * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
- */
+/****************************************************************************
+**
+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Contact: http://www.qt-project.org/legal
+**
+** This file is part of Qt Creator.
+**
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.  For licensing terms and
+** conditions see http://qt.digia.com/licensing.  For further information
+** use the contact form at http://qt.digia.com/contact-us.
+**
+** GNU Lesser General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU Lesser
+** General Public License version 2.1 as published by the Free Software
+** Foundation and appearing in the file LICENSE.LGPL included in the
+** packaging of this file.  Please review the following information to
+** ensure the GNU Lesser General Public License version 2.1 requirements
+** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+**
+** In addition, as a special exception, Digia gives you certain additional
+** rights.  These rights are described in the Digia Qt LGPL Exception
+** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
+**
+****************************************************************************/
 
 #include "stylehelper.h"
+
+#include "hostosinfo.h"
 
 #include <QPixmapCache>
 #include <QWidget>
@@ -36,7 +39,6 @@
 #include <QPalette>
 #include <QStyleOption>
 #include <QObject>
-
 
 // Clamps float color values within (0, 255)
 static int clamp(float x)
@@ -68,11 +70,7 @@ QColor StyleHelper::mergedColors(const QColor &colorA, const QColor &colorB, int
 
 qreal StyleHelper::sidebarFontSize()
 {
-#if defined(Q_WS_MAC)
-    return 9;
-#else
-    return 7.5;
-#endif
+    return HostOsInfo::isMacHost() ? 10 : 7.5;
 }
 
 QPalette StyleHelper::sidebarFontPalette(const QPalette &original)
@@ -87,48 +85,69 @@ QPalette StyleHelper::sidebarFontPalette(const QPalette &original)
 
 QColor StyleHelper::panelTextColor(bool lightColored)
 {
+    //qApp->palette().highlightedText().color();
     if (!lightColored)
         return Qt::white;
     else
         return Qt::black;
 }
 
-QColor StyleHelper::m_baseColor(0x666666);
+// Invalid by default, setBaseColor needs to be called at least once
+QColor StyleHelper::m_baseColor;
+QColor StyleHelper::m_requestedBaseColor;
 
-QColor StyleHelper::baseColor()
+QColor StyleHelper::baseColor(bool lightColored)
 {
-    return m_baseColor;
+    if (!lightColored)
+        return m_baseColor;
+    else
+        return m_baseColor.lighter(230);
 }
 
-QColor StyleHelper::highlightColor()
+QColor StyleHelper::highlightColor(bool lightColored)
 {
-    QColor result = baseColor();
-    result.setHsv(result.hue(),
+    QColor result = baseColor(lightColored);
+    if (!lightColored)
+        result.setHsv(result.hue(),
                   clamp(result.saturation()),
                   clamp(result.value() * 1.16));
+    else
+        result.setHsv(result.hue(),
+                  clamp(result.saturation()),
+                  clamp(result.value() * 1.06));
     return result;
 }
 
-QColor StyleHelper::shadowColor()
+QColor StyleHelper::shadowColor(bool lightColored)
 {
-    QColor result = baseColor();
+    QColor result = baseColor(lightColored);
     result.setHsv(result.hue(),
                   clamp(result.saturation() * 1.1),
                   clamp(result.value() * 0.70));
     return result;
 }
 
-QColor StyleHelper::borderColor()
+QColor StyleHelper::borderColor(bool lightColored)
 {
-    QColor result = baseColor();
+    QColor result = baseColor(lightColored);
     result.setHsv(result.hue(),
                   result.saturation(),
                   result.value() / 2);
     return result;
 }
 
-void StyleHelper::setBaseColor(const QColor &color)
+// We try to ensure that the actual color used are within
+// reasonalbe bounds while generating the actual baseColor
+// from the users request.
+void StyleHelper::setBaseColor(const QColor &newcolor)
 {
+    m_requestedBaseColor = newcolor;
+
+    QColor color;
+    color.setHsv(newcolor.hue(),
+                 newcolor.saturation() * 0.7,
+                 64 + newcolor.value() / 3);
+
     if (color.isValid() && color != m_baseColor) {
         m_baseColor = color;
         foreach (QWidget *w, QApplication::topLevelWidgets())
@@ -136,83 +155,96 @@ void StyleHelper::setBaseColor(const QColor &color)
     }
 }
 
-static void verticalGradientHelper(QPainter *p, const QRect &spanRect, const QRect &rect)
+static void verticalGradientHelper(QPainter *p, const QRect &spanRect, const QRect &rect, bool lightColored)
 {
-    QColor base = StyleHelper::baseColor();
+    QColor highlight = StyleHelper::highlightColor(lightColored);
+    QColor shadow = StyleHelper::shadowColor(lightColored);
     QLinearGradient grad(spanRect.topRight(), spanRect.topLeft());
-    grad.setColorAt(0, StyleHelper::highlightColor());
-    grad.setColorAt(0.301, base);
-    grad.setColorAt(1, StyleHelper::shadowColor());
+    grad.setColorAt(0, highlight.lighter(117));
+    grad.setColorAt(1, shadow.darker(109));
     p->fillRect(rect, grad);
 
     QColor light(255, 255, 255, 80);
     p->setPen(light);
     p->drawLine(rect.topRight() - QPoint(1, 0), rect.bottomRight() - QPoint(1, 0));
+    QColor dark(0, 0, 0, 90);
+    p->setPen(dark);
+    p->drawLine(rect.topLeft(), rect.bottomLeft());
 }
 
-void StyleHelper::verticalGradient(QPainter *painter, const QRect &spanRect,
-                                   const QRect &clipRect, bool lightColored)
+void StyleHelper::verticalGradient(QPainter *painter, const QRect &spanRect, const QRect &clipRect, bool lightColored)
 {
     if (StyleHelper::usePixmapCache()) {
         QString key;
+        QColor keyColor = baseColor(lightColored);
         key.sprintf("mh_vertical %d %d %d %d %d",
             spanRect.width(), spanRect.height(), clipRect.width(),
-            clipRect.height(), StyleHelper::baseColor().rgb());;
+            clipRect.height(), keyColor.rgb());;
 
         QPixmap pixmap;
         if (!QPixmapCache::find(key, pixmap)) {
             pixmap = QPixmap(clipRect.size());
             QPainter p(&pixmap);
             QRect rect(0, 0, clipRect.width(), clipRect.height());
-            verticalGradientHelper(&p, spanRect, rect);
+            verticalGradientHelper(&p, spanRect, rect, lightColored);
             p.end();
             QPixmapCache::insert(key, pixmap);
         }
 
         painter->drawPixmap(clipRect.topLeft(), pixmap);
     } else {
-        verticalGradientHelper(painter, spanRect, clipRect);
+        verticalGradientHelper(painter, spanRect, clipRect, lightColored);
     }
 }
 
-static void horizontalGradientHelper(QPainter *p, const QRect &spanRect,
-                                     const QRect &rect)
+static void horizontalGradientHelper(QPainter *p, const QRect &spanRect, const
+QRect &rect, bool lightColored)
 {
-    QColor base = StyleHelper::baseColor();
+    if (lightColored) {
+        QLinearGradient shadowGradient(rect.topLeft(), rect.bottomLeft());
+        shadowGradient.setColorAt(0, 0xf0f0f0);
+        shadowGradient.setColorAt(1, 0xcfcfcf);
+        p->fillRect(rect, shadowGradient);
+        return;
+    }
+
+    QColor base = StyleHelper::baseColor(lightColored);
+    QColor highlight = StyleHelper::highlightColor(lightColored);
+    QColor shadow = StyleHelper::shadowColor(lightColored);
     QLinearGradient grad(rect.topLeft(), rect.bottomLeft());
-    grad.setColorAt(0, StyleHelper::highlightColor().lighter(120));
+    grad.setColorAt(0, highlight.lighter(120));
     if (rect.height() == StyleHelper::navigationWidgetHeight()) {
-        grad.setColorAt(0.4, StyleHelper::highlightColor());
+        grad.setColorAt(0.4, highlight);
         grad.setColorAt(0.401, base);
     }
-    grad.setColorAt(1, StyleHelper::shadowColor());
+    grad.setColorAt(1, shadow);
     p->fillRect(rect, grad);
 
     QLinearGradient shadowGradient(spanRect.topLeft(), spanRect.topRight());
-    shadowGradient.setColorAt(0, QColor(0, 0, 0, 30));
-    QColor highlight = StyleHelper::highlightColor().lighter(130);
-    highlight.setAlpha(100);
-    shadowGradient.setColorAt(0.7, highlight);
-    shadowGradient.setColorAt(1, QColor(0, 0, 0, 40));
+        shadowGradient.setColorAt(0, QColor(0, 0, 0, 30));
+    QColor lighterHighlight;
+    lighterHighlight = highlight.lighter(130);
+    lighterHighlight.setAlpha(100);
+    shadowGradient.setColorAt(0.7, lighterHighlight);
+        shadowGradient.setColorAt(1, QColor(0, 0, 0, 40));
     p->fillRect(rect, shadowGradient);
-
 }
 
-void StyleHelper::horizontalGradient(QPainter *painter, const QRect &spanRect,
-                                     const QRect &clipRect, bool lightColored)
+void StyleHelper::horizontalGradient(QPainter *painter, const QRect &spanRect, const QRect &clipRect, bool lightColored)
 {
     if (StyleHelper::usePixmapCache()) {
         QString key;
-        key.sprintf("mh_horizontal %d %d %d %d %d",
+        QColor keyColor = baseColor(lightColored);
+        key.sprintf("mh_horizontal %d %d %d %d %d %d",
             spanRect.width(), spanRect.height(), clipRect.width(),
-            clipRect.height(), StyleHelper::baseColor().rgb());
+            clipRect.height(), keyColor.rgb(), spanRect.x());
 
         QPixmap pixmap;
         if (!QPixmapCache::find(key, pixmap)) {
             pixmap = QPixmap(clipRect.size());
             QPainter p(&pixmap);
             QRect rect = QRect(0, 0, clipRect.width(), clipRect.height());
-            horizontalGradientHelper(&p, spanRect, rect);
+            horizontalGradientHelper(&p, spanRect, rect, lightColored);
             p.end();
             QPixmapCache::insert(key, pixmap);
         }
@@ -220,7 +252,7 @@ void StyleHelper::horizontalGradient(QPainter *painter, const QRect &spanRect,
         painter->drawPixmap(clipRect.topLeft(), pixmap);
 
     } else {
-        horizontalGradientHelper(painter, spanRect, clipRect);
+        horizontalGradientHelper(painter, spanRect, clipRect, lightColored);
     }
 }
 
@@ -335,7 +367,76 @@ void StyleHelper::menuGradient(QPainter *painter, const QRect &spanRect, const Q
     }
 }
 
-//! Draws a CSS-like border image where the defined borders are not stretched
+// Draws a cached pixmap with shadow
+void StyleHelper::drawIconWithShadow(const QIcon &icon, const QRect &rect,
+                                     QPainter *p, QIcon::Mode iconMode, int radius, const QColor &color, const QPoint &offset)
+{
+    QPixmap cache;
+    QString pixmapName = QString::fromLatin1("icon %0 %1 %2").arg(icon.cacheKey()).arg(iconMode).arg(rect.height());
+
+    if (!QPixmapCache::find(pixmapName, cache)) {
+        QPixmap px = icon.pixmap(rect.size());
+        cache = QPixmap(px.size() + QSize(radius * 2, radius * 2));
+        cache.fill(Qt::transparent);
+
+        QPainter cachePainter(&cache);
+        if (iconMode == QIcon::Disabled) {
+            QImage im = px.toImage().convertToFormat(QImage::Format_ARGB32);
+            for (int y=0; y<im.height(); ++y) {
+                QRgb *scanLine = (QRgb*)im.scanLine(y);
+                for (int x=0; x<im.width(); ++x) {
+                    QRgb pixel = *scanLine;
+                    char intensity = qGray(pixel);
+                    *scanLine = qRgba(intensity, intensity, intensity, qAlpha(pixel));
+                    ++scanLine;
+                }
+            }
+            px = QPixmap::fromImage(im);
+        }
+
+        // Draw shadow
+        QImage tmp(px.size() + QSize(radius * 2, radius * 2 + 1), QImage::Format_ARGB32_Premultiplied);
+        tmp.fill(Qt::transparent);
+
+        QPainter tmpPainter(&tmp);
+        tmpPainter.setCompositionMode(QPainter::CompositionMode_Source);
+        tmpPainter.drawPixmap(QPoint(radius, radius), px);
+        tmpPainter.end();
+
+        // blur the alpha channel
+        QImage blurred(tmp.size(), QImage::Format_ARGB32_Premultiplied);
+        blurred.fill(Qt::transparent);
+        QPainter blurPainter(&blurred);
+        qt_blurImage(&blurPainter, tmp, radius, false, true);
+        blurPainter.end();
+
+        tmp = blurred;
+
+        // blacken the image...
+        tmpPainter.begin(&tmp);
+        tmpPainter.setCompositionMode(QPainter::CompositionMode_SourceIn);
+        tmpPainter.fillRect(tmp.rect(), color);
+        tmpPainter.end();
+
+        tmpPainter.begin(&tmp);
+        tmpPainter.setCompositionMode(QPainter::CompositionMode_SourceIn);
+        tmpPainter.fillRect(tmp.rect(), color);
+        tmpPainter.end();
+
+        // draw the blurred drop shadow...
+        cachePainter.drawImage(QRect(0, 0, cache.rect().width(), cache.rect().height()), tmp);
+
+        // Draw the actual pixmap...
+        cachePainter.drawPixmap(QPoint(radius, radius) + offset, px);
+        QPixmapCache::insert(pixmapName, cache);
+    }
+
+    QRect targetRect = cache.rect();
+    targetRect.moveCenter(rect.center());
+    p->drawPixmap(targetRect.topLeft() - offset, cache);
+}
+
+// Draws a CSS-like border image where the defined borders are not stretched
 void StyleHelper::drawCornerImage(const QImage &img, QPainter *painter, QRect rect,
                                   int left, int top, int right, int bottom)
 {
@@ -375,5 +476,29 @@ void StyleHelper::drawCornerImage(const QImage &img, QPainter *painter, QRect re
                            QRect(size.width() - right, size.height() - bottom, right, bottom));
     }
 }
+
+// Tints an image with tintColor, while preserving alpha and lightness
+void StyleHelper::tintImage(QImage &img, const QColor &tintColor)
+{
+    QPainter p(&img);
+    p.setCompositionMode(QPainter::CompositionMode_Screen);
+
+    for (int x = 0; x < img.width(); ++x) {
+        for (int y = 0; y < img.height(); ++y) {
+            QRgb rgbColor = img.pixel(x, y);
+            int alpha = qAlpha(rgbColor);
+            QColor c = QColor(rgbColor);
+
+            if (alpha > 0) {
+                c.toHsl();
+                qreal l = c.lightnessF();
+                QColor newColor = QColor::fromHslF(tintColor.hslHueF(), tintColor.hslSaturationF(), l);
+                newColor.setAlpha(alpha);
+                img.setPixel(x, y, newColor.rgba());
+            }
+        }
+    }
+}
+
 
 } // namespace Utils

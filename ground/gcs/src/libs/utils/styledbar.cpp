@@ -1,36 +1,37 @@
-/**
- ******************************************************************************
- *
- * @file       styledbar.cpp
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
- * @brief      
- * @see        The GNU Public License (GPL) Version 3
- * @defgroup   
- * @{
- * 
- *****************************************************************************/
-/* 
- * This program is free software; you can redistribute it and/or modify 
- * it under the terms of the GNU General Public License as published by 
- * the Free Software Foundation; either version 3 of the License, or 
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful, but 
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
- * for more details.
- * 
- * You should have received a copy of the GNU General Public License along 
- * with this program; if not, write to the Free Software Foundation, Inc., 
- * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
- */
+/****************************************************************************
+**
+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Contact: http://www.qt-project.org/legal
+**
+** This file is part of Qt Creator.
+**
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.  For licensing terms and
+** conditions see http://qt.digia.com/licensing.  For further information
+** use the contact form at http://qt.digia.com/contact-us.
+**
+** GNU Lesser General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU Lesser
+** General Public License version 2.1 as published by the Free Software
+** Foundation and appearing in the file LICENSE.LGPL included in the
+** packaging of this file.  Please review the following information to
+** ensure the GNU Lesser General Public License version 2.1 requirements
+** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+**
+** In addition, as a special exception, Digia gives you certain additional
+** rights.  These rights are described in the Digia Qt LGPL Exception
+** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
+**
+****************************************************************************/
 
 #include "styledbar.h"
 
 #include "stylehelper.h"
 
-#include <QtCore/QVariant>
+#include <QVariant>
 #include <QPainter>
 #include <QPixmapCache>
 #include <QStyle>
@@ -43,6 +44,7 @@ StyledBar::StyledBar(QWidget *parent)
 {
     setProperty("panelwidget", true);
     setProperty("panelwidget_singlerow", true);
+    setProperty("lightColored", false);
 }
 
 void StyledBar::setSingleRow(bool singleRow)
@@ -53,6 +55,16 @@ void StyledBar::setSingleRow(bool singleRow)
 bool StyledBar::isSingleRow() const
 {
     return property("panelwidget_singlerow").toBool();
+}
+
+void StyledBar::setLightColored(bool lightColored)
+{
+    setProperty("lightColored", lightColored);
+}
+
+bool StyledBar::isLightColored() const
+{
+    return property("lightColored").toBool();
 }
 
 void StyledBar::paintEvent(QPaintEvent *event)
