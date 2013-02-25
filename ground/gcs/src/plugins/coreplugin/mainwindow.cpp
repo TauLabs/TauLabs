@@ -147,6 +147,8 @@ MainWindow::MainWindow() :
     QCoreApplication::setOrganizationDomain(QLatin1String("taulabs.org"));
     QSettings::setDefaultFormat(XmlConfig::XmlSettingsFormat);
     QString baseName = qApp->style()->objectName();
+    if (Utils::HostOsInfo::isMacHost())
+        baseName = QLatin1String("fusion");
 #ifdef Q_WS_X11
     if (baseName == QLatin1String("windows")) {
         // Sometimes we get the standard windows 95 style as a fallback
@@ -169,11 +171,11 @@ MainWindow::MainWindow() :
     registerDefaultActions();
 
     m_modeStack = new MyTabWidget(this);
-    m_modeStack->setIconSize(QSize(24,24));
     m_modeStack->setTabPosition(QTabWidget::South);
     m_modeStack->setMovable(false);
     m_modeStack->setMinimumWidth(512);
     m_modeStack->setElideMode(Qt::ElideRight);
+    m_modeStack->setProperty("_q_custom_style_disabled",false);
 #ifndef Q_WS_MAC
     m_modeStack->setDocumentMode(true);
 #endif
@@ -462,7 +464,10 @@ IContext *MainWindow::currentContextObject() const
 
 QStatusBar *MainWindow::statusBar() const
 {
-    return new QStatusBar();// m_modeStack->statusBar();
+    // TODO: This is a memory leak waiting to happen.  We should try to use
+    // a real status bar and add the connection widgets there.  Unfortunately
+    // what is returned so returning NULL segfaults right now.
+    return new QStatusBar();
 }
 
 void MainWindow::registerDefaultContainers()
