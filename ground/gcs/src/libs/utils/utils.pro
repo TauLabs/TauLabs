@@ -20,6 +20,7 @@ SOURCES += reloadpromptutils.cpp \
     pathlisteditor.cpp \
     filewizardpage.cpp \
     filewizarddialog.cpp \
+    hostosinfo.cpp \
     projectintropage.cpp \
     basevalidatinglineedit.cpp \
     filenamevalidatinglineedit.cpp \
@@ -48,8 +49,8 @@ SOURCES += reloadpromptutils.cpp \
     detailswidget.cpp \
     coordinateconversions.cpp \
     pathutils.cpp \
-	worldmagmodel.cpp \
-	homelocationutil.cpp \
+    worldmagmodel.cpp \
+    homelocationutil.cpp \
     mytabbedstackwidget.cpp \
     mytabwidget.cpp \
     mylistwidget.cpp \
@@ -75,6 +76,7 @@ HEADERS += utils_global.h \
     pathlisteditor.h \
     filewizardpage.h \
     filewizarddialog.h \
+    hostosinfo.h \
     projectintropage.h \
     basevalidatinglineedit.h \
     filenamevalidatinglineedit.h \
@@ -105,8 +107,8 @@ HEADERS += utils_global.h \
     detailswidget.h \
     coordinateconversions.h \
     pathutils.h \
-	worldmagmodel.h \
-	homelocationutil.h \
+    worldmagmodel.h \
+    homelocationutil.h \
     mytabbedstackwidget.h \
     mytabwidget.h \
     mylistwidget.h \
