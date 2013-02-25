@@ -32,6 +32,7 @@
 #include "utils_global.h"
 
 #include <QColor>
+#include <QStyle>
 
 QT_BEGIN_NAMESPACE
 class QPalette;
@@ -52,24 +53,30 @@ public:
 
     // This is our color table, all colors derive from baseColor
     static QColor baseColor();
-    static QColor panelTextColor();
+    static QColor panelTextColor(bool lightColored = false);
     static QColor highlightColor();
     static QColor shadowColor();
     static QColor borderColor();
     static QColor buttonTextColor() { return QColor(0x4c4c4c); }
     static QColor mergedColors(const QColor &colorA, const QColor &colorB, int factor = 50);
+    static QColor sidebarHighlight() { return QColor(255, 255, 255, 40); }
 
     // Sets the base color and makes sure all top level widgets are updated
     static void setBaseColor(const QColor &color);
 
+    // Draws a shaded anti-aliased arrow
+    static void drawArrow(QStyle::PrimitiveElement element, QPainter *painter, const QStyleOption *option);
+
     // Gradients used for panels
-    static void horizontalGradient(QPainter *painter, const QRect &spanRect, const QRect &clipRect);
-    static void verticalGradient(QPainter *painter, const QRect &spanRect, const QRect &clipRect);
+    static void horizontalGradient(QPainter *painter, const QRect &spanRect, const QRect &clipRect, bool lightColored = false);
+    static void verticalGradient(QPainter *painter, const QRect &spanRect, const QRect &clipRect, bool lightColored = false);
     static void menuGradient(QPainter *painter, const QRect &spanRect, const QRect &clipRect);
 
     // Pixmap cache should only be enabled for X11 due to slow gradients
     static bool usePixmapCache() { return true; }
 
+    static void drawCornerImage(const QImage &img, QPainter *painter, QRect rect,
+                         int left = 0, int top = 0, int right = 0, int bottom = 0);
 private:
     static QColor m_baseColor;
 };

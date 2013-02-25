@@ -54,7 +54,7 @@
 #include "ioutputpane.h"
 #include "icorelistener.h"
 #include "iconfigurableplugin.h"
-//#include "manhattanstyle.h"
+#include "manhattanstyle.h"
 #include "rightpane.h"
 #include "settingsdialog.h"
 #include "threadmanager.h"
