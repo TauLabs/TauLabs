@@ -81,14 +81,13 @@ plugin_uavobjectbrowser.depends += plugin_uavobjects
 SUBDIRS += plugin_uavobjectbrowser
 
 # ModelView UAVGadget
-!LIGHTWEIGHT_GCS {
- !macx {
-  plugin_modelview.subdir = modelview
-  plugin_modelview.depends = plugin_coreplugin
-  plugin_modelview.depends += plugin_uavobjects
-  SUBDIRS += plugin_modelview
- }
-}
+# Disabled due to https://bugreports.qt-project.org/browse/QTBUG-29583
+#!LIGHTWEIGHT_GCS {
+#plugin_modelview.subdir = modelview
+#plugin_modelview.depends = plugin_coreplugin
+#plugin_modelview.depends += plugin_uavobjects
+#SUBDIRS += plugin_modelview
+#}
 
 # Notify gadget NEEDS PHONON UPGRADED TO QT5
 #!disable_notify_plugin {
