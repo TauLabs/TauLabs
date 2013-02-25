@@ -81,7 +81,6 @@ class PowerlogPlugin;
 class PowerlogThread : public QThread
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "TauLabs.plugins.PowerLog" FILE "PowerLog.json")
 
 public:
     bool openFile(QString file, PowerlogPlugin * parent);
@@ -106,7 +105,7 @@ private:
 class PowerlogPlugin : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
-
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.PowerLog" FILE "PowerLog.json")
 
 public:
     PowerlogPlugin();
