@@ -30,10 +30,13 @@
 
 #include <QPixmapCache>
 #include <QWidget>
-#include <QtCore/QRect>
+#include <QRect>
 #include <QPainter>
 #include <QApplication>
 #include <QPalette>
+#include <QStyleOption>
+#include <QObject>
+
 
 // Clamps float color values within (0, 255)
 static int clamp(float x)
@@ -82,10 +85,12 @@ QPalette StyleHelper::sidebarFontPalette(const QPalette &original)
     return palette;
 }
 
-QColor StyleHelper::panelTextColor()
+QColor StyleHelper::panelTextColor(bool lightColored)
 {
-    //qApp->palette().highlightedText().color();
-    return Qt::white;
+    if (!lightColored)
+        return Qt::white;
+    else
+        return Qt::black;
 }
 
 QColor StyleHelper::m_baseColor(0x666666);
@@ -145,7 +150,8 @@ static void verticalGradientHelper(QPainter *p, const QRect &spanRect, const QRe
     p->drawLine(rect.topRight() - QPoint(1, 0), rect.bottomRight() - QPoint(1, 0));
 }
 
-void StyleHelper::verticalGradient(QPainter *painter, const QRect &spanRect, const QRect &clipRect)
+void StyleHelper::verticalGradient(QPainter *painter, const QRect &spanRect,
+                                   const QRect &clipRect, bool lightColored)
 {
     if (StyleHelper::usePixmapCache()) {
         QString key;
@@ -169,8 +175,8 @@ void StyleHelper::verticalGradient(QPainter *painter, const QRect &spanRect, con
     }
 }
 
-static void horizontalGradientHelper(QPainter *p, const QRect &spanRect, const
-QRect &rect)
+static void horizontalGradientHelper(QPainter *p, const QRect &spanRect,
+                                     const QRect &rect)
 {
     QColor base = StyleHelper::baseColor();
     QLinearGradient grad(rect.topLeft(), rect.bottomLeft());
@@ -192,7 +198,8 @@ QRect &rect)
 
 }
 
-void StyleHelper::horizontalGradient(QPainter *painter, const QRect &spanRect, const QRect &clipRect)
+void StyleHelper::horizontalGradient(QPainter *painter, const QRect &spanRect,
+                                     const QRect &clipRect, bool lightColored)
 {
     if (StyleHelper::usePixmapCache()) {
         QString key;
@@ -226,6 +233,84 @@ static void menuGradientHelper(QPainter *p, const QRect &spanRect, const QRect &
     p->fillRect(rect, grad);
 }
 
+void StyleHelper::drawArrow(QStyle::PrimitiveElement element, QPainter *painter, const QStyleOption *option)
+{
+    // From windowsstyle but modified to enable AA
+    if (option->rect.width() <= 1 || option->rect.height() <= 1)
+        return;
+
+    QRect r = option->rect;
+    int size = qMin(r.height(), r.width());
+    QPixmap pixmap;
+    QString pixmapName;
+    pixmapName.sprintf("arrow-%s-%d-%d-%d-%lld",
+                       "$qt_ia",
+                       uint(option->state), element,
+                       size, option->palette.cacheKey());
+    if (!QPixmapCache::find(pixmapName, pixmap)) {
+        int border = size/5;
+        int sqsize = 2*(size/2);
+        QImage image(sqsize, sqsize, QImage::Format_ARGB32);
+        image.fill(Qt::transparent);
+        QPainter imagePainter(&image);
+        imagePainter.setRenderHint(QPainter::Antialiasing, true);
+        imagePainter.translate(0.5, 0.5);
+        QPolygon a;
+        switch (element) {
+            case QStyle::PE_IndicatorArrowUp:
+                a.setPoints(3, border, sqsize/2,  sqsize/2, border,  sqsize - border, sqsize/2);
+                break;
+            case QStyle::PE_IndicatorArrowDown:
+                a.setPoints(3, border, sqsize/2,  sqsize/2, sqsize - border,  sqsize - border, sqsize/2);
+                break;
+            case QStyle::PE_IndicatorArrowRight:
+                a.setPoints(3, sqsize - border, sqsize/2,  sqsize/2, border,  sqsize/2, sqsize - border);
+                break;
+            case QStyle::PE_IndicatorArrowLeft:
+                a.setPoints(3, border, sqsize/2,  sqsize/2, border,  sqsize/2, sqsize - border);
+                break;
+            default:
+                break;
+        }
+
+        int bsx = 0;
+        int bsy = 0;
+
+        if (option->state & QStyle::State_Sunken) {
+            bsx = qApp->style()->pixelMetric(QStyle::PM_ButtonShiftHorizontal);
+            bsy = qApp->style()->pixelMetric(QStyle::PM_ButtonShiftVertical);
+        }
+
+        QRect bounds = a.boundingRect();
+        int sx = sqsize / 2 - bounds.center().x() - 1;
+        int sy = sqsize / 2 - bounds.center().y() - 1;
+        imagePainter.translate(sx + bsx, sy + bsy);
+
+        if (!(option->state & QStyle::State_Enabled)) {
+            QColor foreGround(150, 150, 150, 150);
+            imagePainter.setBrush(option->palette.mid().color());
+            imagePainter.setPen(option->palette.mid().color());
+        } else {
+            QColor shadow(0, 0, 0, 100);
+            imagePainter.translate(0, 1);
+            imagePainter.setPen(shadow);
+            imagePainter.setBrush(shadow);
+            QColor foreGround(255, 255, 255, 210);
+            imagePainter.drawPolygon(a);
+            imagePainter.translate(0, -1);
+            imagePainter.setPen(foreGround);
+            imagePainter.setBrush(foreGround);
+        }
+        imagePainter.drawPolygon(a);
+        imagePainter.end();
+        pixmap = QPixmap::fromImage(image);
+        QPixmapCache::insert(pixmapName, pixmap);
+    }
+    int xOffset = r.x() + (r.width() - size)/2;
+    int yOffset = r.y() + (r.height() - size)/2;
+    painter->drawPixmap(xOffset, yOffset, pixmap);
+}
+
 void StyleHelper::menuGradient(QPainter *painter, const QRect &spanRect, const QRect &clipRect)
 {
     if (StyleHelper::usePixmapCache()) {
@@ -247,6 +332,47 @@ void StyleHelper::menuGradient(QPainter *painter, const QRect &spanRect, const Q
         painter->drawPixmap(clipRect.topLeft(), pixmap);
     } else {
         menuGradientHelper(painter, spanRect, clipRect);
+    }
+}
+
+//! Draws a CSS-like border image where the defined borders are not stretched
+void StyleHelper::drawCornerImage(const QImage &img, QPainter *painter, QRect rect,
+                                  int left, int top, int right, int bottom)
+{
+    QSize size = img.size();
+    if (top > 0) { //top
+        painter->drawImage(QRect(rect.left() + left, rect.top(), rect.width() -right - left, top), img,
+                           QRect(left, 0, size.width() -right - left, top));
+        if (left > 0) //top-left
+            painter->drawImage(QRect(rect.left(), rect.top(), left, top), img,
+                               QRect(0, 0, left, top));
+        if (right > 0) //top-right
+            painter->drawImage(QRect(rect.left() + rect.width() - right, rect.top(), right, top), img,
+                               QRect(size.width() - right, 0, right, top));
+    }
+    //left
+    if (left > 0)
+        painter->drawImage(QRect(rect.left(), rect.top()+top, left, rect.height() - top - bottom), img,
+                           QRect(0, top, left, size.height() - bottom - top));
+    //center
+    painter->drawImage(QRect(rect.left() + left, rect.top()+top, rect.width() -right - left,
+                             rect.height() - bottom - top), img,
+                       QRect(left, top, size.width() -right -left,
+                             size.height() - bottom - top));
+    if (right > 0) //right
+        painter->drawImage(QRect(rect.left() +rect.width() - right, rect.top()+top, right, rect.height() - top - bottom), img,
+                           QRect(size.width() - right, top, right, size.height() - bottom - top));
+    if (bottom > 0) { //bottom
+        painter->drawImage(QRect(rect.left() +left, rect.top() + rect.height() - bottom,
+                                 rect.width() - right - left, bottom), img,
+                           QRect(left, size.height() - bottom,
+                                 size.width() - right - left, bottom));
+    if (left > 0) //bottom-left
+        painter->drawImage(QRect(rect.left(), rect.top() + rect.height() - bottom, left, bottom), img,
+                           QRect(0, size.height() - bottom, left, bottom));
+    if (right > 0) //bottom-right
+        painter->drawImage(QRect(rect.left() + rect.width() - right, rect.top() + rect.height() - bottom, right, bottom), img,
+                           QRect(size.width() - right, size.height() - bottom, right, bottom));
     }
 }
 
