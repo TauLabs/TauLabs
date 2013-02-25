@@ -76,7 +76,7 @@ SIM_DLL_EXPORT void AeroSIMRC_Plugin_ReportStructSizes(quint32 *sizeSimToPlugin,
                                                        quint32 *sizePluginInit)
 {
     // debug redirection
-    qInstallMsgHandler(myQDebugHandler);
+    qInstallMessageHandler(myQDebugHandler);
 
     qDebug() << "AeroSIMRC_Plugin_ReportStructSizes";
     *sizeSimToPlugin = sizeof(simToPlugin);
