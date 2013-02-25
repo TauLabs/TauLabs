@@ -26,15 +26,14 @@ OpenPilot.
 2. How to install?
 ------------------
 Fortunately, it requires only few small text files since all others components
-should already be installed on your system as parts of msysGit, QtSDK and
-CodeSourcery G++ packages required to build the OpenPilot.
+should already be installed on your system as parts of msysGit and QtSDK 
+packages required to build the OpenPilot.
 
 It is expected that you have the following tools installed into the listed
 locations (but any other locations are fine as well):
 
  - Python            in C:\Python27
  - QtSDK             in C:\QtSDK (depending on SDK version)
- - CodeSourcery G++  in %ProgramFiles%\CodeSourcery\Sourcery G++ Lite
  - msysGit           in %ProgramFiles%\Git
  - Unicode NSIS      in %ProgramFiles%\NSIS\Unicode
  - OpenOCD           in C:\OpenOCD\0.4.0\bin (optional)

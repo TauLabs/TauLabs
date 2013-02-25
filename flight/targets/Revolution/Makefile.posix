@@ -77,15 +77,6 @@ BLONLY_CDEFS += -DFW_DESC_SIZE=$(FW_DESC_SIZE)
 
 CFLAGS += $(BLONLY_CDEFS)
 
-# Set to YES when using Code Sourcery toolchain
-CODE_SOURCERY ?= NO
-
-ifeq ($(CODE_SOURCERY), YES)
-REMOVE_CMD = cs-rm
-else
-REMOVE_CMD = rm
-endif
-
 # List of modules to include
 MODULES += Actuator ManualControl Stabilization 
 MODULES += PathPlanner
@@ -371,9 +362,6 @@ CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS)) -I.
 
 #CFLAGS += -mapcs-frame
 CFLAGS += -fomit-frame-pointer
-ifeq ($(CODE_SOURCERY), YES)
-CFLAGS += -fpromote-loop-indices
-endif
 
 CFLAGS += -Wall
 CFLAGS += -Werror
@@ -410,7 +398,7 @@ LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_APP))
 
 
 # Define programs and commands.
-REMOVE  = $(REMOVE_CMD) -f
+REMOVE  = rm -f
 PYHON   = python
 
 $(OUTDIR)/sim_firmwareinfo.c: $(TOP)/make/templates/firmwareinfotemplate_sim.c

@@ -33,15 +33,6 @@ include $(TOP)/make/boards/$(BOARD_NAME)/board-info.mk
 # Set to YES for debugging
 DEBUG ?= NO
 
-# Set to YES when using Code Sourcery toolchain
-CODE_SOURCERY ?= NO
-
-ifeq ($(CODE_SOURCERY), YES)
-REMOVE_CMD = cs-rm
-else
-REMOVE_CMD = rm
-endif
-
 # List of modules to include
 MODULES = Sensors
 MODULES += Attitude/revolution
@@ -61,6 +52,7 @@ OPTMODULES += AltitudeHold
 OPTMODULES += PathPlanner
 OPTMODULES += VtolPathFollower
 OPTMODULES += FixedWingPathFollower
+OPTMODULES += VibrationAnalysis
 #OPTMODULES += Battery
 #OPTMODULES += ComUsbBridge
 
@@ -279,9 +271,6 @@ CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS)) -I.
 CFLAGS += -mapcs-frame
 CFLAGS += -fomit-frame-pointer
 CFLAGS += -ffunction-sections -fdata-sections
-ifeq ($(CODE_SOURCERY), YES)
-CFLAGS += -fpromote-loop-indices
-endif
 
 CFLAGS += -Wall
 CFLAGS += -Werror
@@ -317,7 +306,7 @@ LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_APP))
 
 
 # Define programs and commands.
-REMOVE  = $(REMOVE_CMD) -f
+REMOVE  = rm -f
 
 # List of all source files.
 ALLSRC     =  $(ASRC) $(SRC) $(CPPSRC)
