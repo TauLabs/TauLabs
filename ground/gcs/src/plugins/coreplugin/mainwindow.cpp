@@ -374,7 +374,6 @@ void MainWindow::loadStyleSheet(QString name) {
         /* We'll use qApp macro to get the QApplication pointer
          * and set the style sheet application wide. */
         qApp->setStyleSheet(style);
-        qDebug()<<"Loaded stylesheet:"<<style;
     }
     else
         qDebug()<<"Failed to openstylesheet file"<<directory.absolutePath()<<name;
