@@ -8,7 +8,7 @@
 ###############################################################
 
 # Set up QT toolchain
-QT_SDK_DIR := $(TOOLS_DIR)/qtsdk-v1.2.1
+QT_SDK_DIR := $(TOOLS_DIR)/Qt5.0.1
 QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/Desktop/Qt/4.8.1/gcc/bin/qmake
 
 # Build openocd without FTDI (yes | no)
@@ -21,20 +21,18 @@ ifeq ($(UNAME), Linux)
 # Choose the appropriate installer based on host architecture
 ifneq (,$(filter $(ARCH), x86_64 amd64))
 # Linux 64-bit
-qt_sdk_install: QT_SDK_URL  := http://jenkins.taulabs.org/distfiles/QtSdk-offline-linux-x86_64-v1.2.1.run
+qt_sdk_install: QT_SDK_URL  := http://origin.releases.qt-project.org/qt5/5.0.1/qt-linux-opensource-5.0.1-x86_64-offline.run
 else
 # Linux 32-bit
-qt_sdk_install: QT_SDK_URL  := http://jenkins.taulabs.org/distfiles/QtSdk-offline-linux-x86-v1.2.1.run
-
+qt_sdk_install: QT_SDK_URL  := http://origin.releases.qt-project.org/qt5/5.0.1/qt-linux-opensource-5.0.1-x86-offline.run
 endif
 
 else ifeq ($(UNAME), Darwin)
 
-qt_sdk_install: QT_SDK_URL  := http://jenkins.taulabs.org/distfiles/QtSdk-offline-mac-x86-v1.2.1.dmg
-
+qt_sdk_install: QT_SDK_URL  := http://origin.releases.qt-project.org/qt5/5.0.1/qt-mac-opensource-5.0.1-clang-offline.dmg
 else ifeq ($(UNAME), MINGW32_NT-6.1) # Windows 7
 
-qt_sdk_install: QT_SDK_URL  := http://jenkins.taulabs.org/distfiles/QtSdk-offline-win-x86-v1.2.1.exe
+qt_sdk_install: QT_SDK_URL  := http://origin.releases.qt-project.org/qt5/5.0.1/qt-windows-opensource-5.0.1-mingw47_32-x86-offline.exe
 
 endif
 
