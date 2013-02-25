@@ -114,6 +114,7 @@ class LoggingPlugin : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "TauLabs.plugins.LoggingGadget" FILE "LoggingGadget.json")
+
 public:
     LoggingPlugin();
     ~LoggingPlugin();
@@ -122,7 +123,7 @@ public:
     bool initialize(const QStringList & arguments, QString * errorString);
     void shutdown();
 
-    LoggingConnection* getLogConnection() { return logConnection; };
+    LoggingConnection* getLogConnection() { return logConnection; }
     LogFile* getLogfile() { return logConnection->getLogfile();}
     void setLogMenuTitle(QString str);
 
