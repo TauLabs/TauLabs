@@ -29,10 +29,10 @@
 #ifndef MODEMANAGER_H
 #define MODEMANAGER_H
 
-#include <QtCore/QObject>
-#include <QtCore/QList>
-#include <QtCore/QMap>
-#include <QtCore/QVector>
+#include <QObject>
+#include <QList>
+#include <QMap>
+#include <QVector>
 
 #include <coreplugin/core_global.h>
 
