@@ -24,7 +24,7 @@ QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.0.1/gcc_64/bin/qmake
 qt_sdk_install: QT_SDK_URL  := http://origin.releases.qt-project.org/qt5/5.0.1/qt-linux-opensource-5.0.1-x86_64-offline.run
 else
 # Linux 32-bit
-QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.0.1/x86/bin/qmake
+QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.0.1/gcc/bin/qmake
 qt_sdk_install: QT_SDK_URL  := http://origin.releases.qt-project.org/qt5/5.0.1/qt-linux-opensource-5.0.1-x86-offline.run
 endif
 
