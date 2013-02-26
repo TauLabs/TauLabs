@@ -713,8 +713,8 @@ void ConfigVehicleTypeWidget::updateObjectsFromWidgets()
         if (fieldd) {
             //if (mixerType >= 0 && mixerType < mixerTypeDescriptions.count())
             //{
-            qDebug()<<"COMOBOBOX: "<<m_aircraft->customThrottle2Curve->getCBCurveSource()->itemData(m_aircraft->customThrottle2Curve->getCBCurveSource()->currentIndex()).toString();
-            fieldd->setValue("Roll");
+            int indexx = m_aircraft->customThrottle2Curve->getCBCurveSource()->currentIndex();
+            fieldd->setValue(m_aircraft->customThrottle2Curve->getCBCurveSource()->itemData(indexx,0).toString());
             //}
         }
 
