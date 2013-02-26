@@ -142,7 +142,7 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
     options_page->btnColor->setAutoFillBackground(true);
 
     // Generate style sheet for data sources list
-    dataSourceStyleSheetTemplate = "QListView::item:selected {border: 2px solid white; background: rgba(71,71,71,255); selection-color: rgba(%1,%2,%3,255) }";
+    dataSourceStyleSheetTemplate = "QListView::item:selected {border: 2px solid white; background: rgba(255,255,255,50); selection-color: rgba(%1,%2,%3,255) }";
 
 
     //Connect signals to slots
