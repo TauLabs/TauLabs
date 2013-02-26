@@ -60,28 +60,29 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
 {
     Q_UNUSED(parent);
 
-    options_page = new Ui::ScopeGadgetOptionsPage();
-    //main widget
+    // main widget
     QWidget *optionsPageWidget = new QWidget;
-    //main layout
+
+    // Generate UI layout
+    options_page = new Ui::ScopeGadgetOptionsPage();
     options_page->setupUi(optionsPageWidget);
 
     //Set up 2D plots tab
-    options_page->cmb2dPlotType->addItem("Scatter plot", SCATTERPLOT2D);
-    options_page->cmb2dPlotType->addItem("Histogram", HISTOGRAM);
+    options_page->cmb2dPlotType->addItem("Scatter plot", Scopes2d::SCATTERPLOT2D);
+    options_page->cmb2dPlotType->addItem("Histogram", Scopes2d::HISTOGRAM);
 //    options_page->cmb2dPlotType->addItem("Polar plot", POLARPLOT);
 
     //Set up x-axis combo box
-    options_page->cmbXAxisScatterplot2d->addItem("Series", SERIES2D);
-    options_page->cmbXAxisScatterplot2d->addItem("Time series", TIMESERIES2D);
+    options_page->cmbXAxisScatterplot2d->addItem("Series", Scatterplot2dScope::SERIES2D);
+    options_page->cmbXAxisScatterplot2d->addItem("Time series", Scatterplot2dScope::TIMESERIES2D);
 
 
     //Set up 3D plots tab
 //    options_page->cmb3dPlotType->addItem("Time series", TimeSeries3d);
-    options_page->cmb3dPlotType->addItem("Spectrogram", SPECTROGRAM);
+    options_page->cmb3dPlotType->addItem("Spectrogram", Scopes3d::SPECTROGRAM);
 
-    options_page->cmbSpectrogramSource->addItem("Custom", CUSTOM_SPECTROGRAM);
-    options_page->cmbSpectrogramSource->addItem("Vibration Analysis", VIBRATIONANALYSIS);
+    options_page->cmbSpectrogramSource->addItem("Custom", SpectrogramScope::CUSTOM_SPECTROGRAM);
+    options_page->cmbSpectrogramSource->addItem("Vibration Analysis", SpectrogramScope::VIBRATIONANALYSIS);
 
     // Fills the combo boxes for the UAVObjects
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
@@ -163,7 +164,7 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
     // Configuration the GUI elements to reflect the scope settings
     m_config->getScope()->setGuiConfiguration(options_page);
 
-    // Update the
+    // Cascading update on the UI elements
     emit on_tabWidget2d3d_currentIndexChanged(options_page->tabWidget2d3d->currentIndex());
     emit on_cmb2dPlotType_currentIndexChanged(options_page->cmb2dPlotType->currentText());
     emit on_cmb3dPlotType_currentIndexChanged(options_page->cmb3dPlotType->currentText());
@@ -220,7 +221,7 @@ void ScopeGadgetOptionsPage::on_mathFunctionComboBox_currentIndexChanged(int cur
 
 void ScopeGadgetOptionsPage::on_cmbSpectrogramSource_currentIndexChanged(QString currentText)
 {
-    if (currentText == options_page->cmbSpectrogramSource->itemText(options_page->cmbSpectrogramSource->findData(VIBRATIONANALYSIS))){
+    if (currentText == options_page->cmbSpectrogramSource->itemText(options_page->cmbSpectrogramSource->findData(SpectrogramScope::VIBRATIONANALYSIS))){
         int vibrationTestIdx = options_page->cmbUAVObjectsSpectrogram->findText("VibrationTestOutput");
         options_page->cmbUAVObjectsSpectrogram->setCurrentIndex(vibrationTestIdx);
         options_page->cmbUAVObjectsSpectrogram->setEnabled(false);
@@ -472,8 +473,6 @@ void ScopeGadgetOptionsPage::on_btnApply2dCurve_clicked()
     // Apply curve settings
     QListWidgetItem *listWidgetItem = options_page->lst2dCurves->currentItem();
     if(listWidgetItem == NULL){
-        //TODO: Replace the second and third [in eraseDone()] pop-up dialogs with a progress indicator,
-        // counter, or infinite chain of `......` tied to the original dialog box
         QMessageBox msgBox;
         msgBox.setText(tr("No curve selected."));
         msgBox.setInformativeText(tr("Please select a curve or generate one with the ""+"" symbol."));
@@ -631,7 +630,7 @@ void ScopeGadgetOptionsPage::on_cmb3dPlotType_currentIndexChanged(QString curren
         options_page->stackedWidget3dPlots->setCurrentWidget(options_page->sw3dSpectrogramStack);
 
         //Set the spectrogram source combobox to vibration test by default
-        options_page->cmbSpectrogramSource->setCurrentIndex(options_page->cmbSpectrogramSource->findData(CUSTOM_SPECTROGRAM));
+        options_page->cmbSpectrogramSource->setCurrentIndex(options_page->cmbSpectrogramSource->findData(SpectrogramScope::CUSTOM_SPECTROGRAM));
     }
     else if (currentText == "Time series"){
         options_page->stackedWidget3dPlots->setCurrentWidget(options_page->sw3dTimeSeriesStack);

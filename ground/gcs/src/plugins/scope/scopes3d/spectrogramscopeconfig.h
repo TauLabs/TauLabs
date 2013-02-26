@@ -31,14 +31,6 @@
 #include "scopes3d/scopes3dconfig.h"
 
 
-/**
- * @brief The SpectrogramType enum Defines the different type of spectrogram plots.
- */
-enum SpectrogramType {
-    VIBRATIONANALYSIS,
-    CUSTOM_SPECTROGRAM
-};
-
 
 /**
  * @brief The SpectrogramScope class The spectrogram scope has a variable sized list of
@@ -48,6 +40,14 @@ class SpectrogramScope : public Scopes3d
 {
     Q_OBJECT
 public:
+    /**
+     * @brief The SpectrogramType enum Defines the different type of spectrogram plots.
+     */
+    enum SpectrogramType {
+        VIBRATIONANALYSIS,
+        CUSTOM_SPECTROGRAM
+    };
+
     SpectrogramScope();
     SpectrogramScope(QSettings *qSettings);
     SpectrogramScope(Ui::ScopeGadgetOptionsPage *options_page);

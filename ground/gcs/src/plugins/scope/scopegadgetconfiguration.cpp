@@ -51,13 +51,13 @@ ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* q
             //Start reading new XML block
             qSettings->beginGroup(QString("plot2d"));
 
-            Plot2dType plot2dType = (Plot2dType) qSettings->value("plot2dType").toUInt();
+            Scopes2d::Plot2dType plot2dType = (Scopes2d::Plot2dType) qSettings->value("plot2dType").toUInt();
             switch (plot2dType){
-            case SCATTERPLOT2D: {
+            case Scopes2d::SCATTERPLOT2D: {
                 m_scope = new Scatterplot2dScope(qSettings);
                 break;
             }
-            case HISTOGRAM: {
+            case Scopes2d::HISTOGRAM: {
                 m_scope = new HistogramScope(qSettings);
                 break;
             }
@@ -76,14 +76,14 @@ ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* q
             //Start reading new XML block
             qSettings->beginGroup(QString("plot3d"));
 
-            Plot3dType plot3dType = (Plot3dType) qSettings->value("plot3dType").toUInt(); //<--TODO: This requires that the enum values be defined at 0,1,...n
+            Scopes3d::Plot3dType plot3dType = (Scopes3d::Plot3dType) qSettings->value("plot3dType").toUInt(); //<--TODO: This requires that the enum values be defined at 0,1,...n
             switch (plot3dType){
-            case SCATTERPLOT3D:
+            case Scopes3d::SCATTERPLOT3D:
             {
 //                m_scope = new Scatterplot3dScope(qSettings);
                 break;
             }
-            case SPECTROGRAM:
+            case Scopes3d::SPECTROGRAM:
             {
                 m_scope = new SpectrogramScope(qSettings);
                 break;
@@ -120,13 +120,13 @@ void ScopeGadgetConfiguration::applyGuiConfiguration(Ui::ScopeGadgetOptionsPage 
 
     if(options_page->tabWidget2d3d->currentWidget() == options_page->tabPlot2d)
     {   //--- 2D ---//
-        Plot2dType plot2dType = (Plot2dType) options_page->cmb2dPlotType->itemData(options_page->cmb2dPlotType->currentIndex()).toUInt(); //This is safe because the int value is defined from the enum.
+        Scopes2d::Plot2dType plot2dType = (Scopes2d::Plot2dType) options_page->cmb2dPlotType->itemData(options_page->cmb2dPlotType->currentIndex()).toUInt(); //This is safe because the int value is defined from the enum.
         switch (plot2dType){
-        case SCATTERPLOT2D: {
+        case Scopes2d::SCATTERPLOT2D: {
             m_scope = new Scatterplot2dScope(options_page);
             break;
         }
-        case HISTOGRAM: {
+        case Scopes2d::HISTOGRAM: {
             m_scope = new HistogramScope(options_page);
             break;
         }
@@ -139,7 +139,7 @@ void ScopeGadgetConfiguration::applyGuiConfiguration(Ui::ScopeGadgetOptionsPage 
     else if(options_page->tabWidget2d3d->currentWidget() == options_page->tabPlot3d)
     {   //--- 3D ---//
 
-        Plot3dType plot3dType = (Plot3dType) options_page->cmb3dPlotType->itemData(options_page->cmb3dPlotType->currentIndex()).toUInt(); //This is safe because the int value is defined from the enum
+        Scopes3d::Plot3dType plot3dType = (Scopes3d::Plot3dType) options_page->cmb3dPlotType->itemData(options_page->cmb3dPlotType->currentIndex()).toUInt(); //This is safe because the int value is defined from the enum
 
         if (options_page->stackedWidget3dPlots->currentWidget() == options_page->sw3dSpectrogramStack)
         {

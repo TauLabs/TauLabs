@@ -32,15 +32,6 @@
 
 
 /**
- * @brief The Scatterplot2dType enum Defines the different type of plots.
- */
-enum Scatterplot2dType {
-    SERIES2D,
-    TIMESERIES2D
-};
-
-
-/**
  * @brief The Scatterplot2dScope class The scatterplot scope has a variable sized list of
  * data sources
  */
@@ -48,6 +39,16 @@ class Scatterplot2dScope : public Scopes2d
 {
     Q_OBJECT
 public:
+    /**
+     * @brief The Scatterplot2dType enum Defines the different type of plots.
+     */
+    enum Scatterplot2dType {
+        SERIES2D,
+        TIMESERIES2D
+    };
+
+
+
     Scatterplot2dScope();
     Scatterplot2dScope(QSettings *qSettings);
     Scatterplot2dScope(Ui::ScopeGadgetOptionsPage *options_page);

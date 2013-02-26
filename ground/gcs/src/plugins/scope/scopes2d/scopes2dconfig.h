@@ -35,16 +35,6 @@
 #include <coreplugin/iuavgadgetconfiguration.h>
 #include "ui_scopegadgetoptionspage.h"
 
-/**
- * @brief The Plot2dType enum Defines the different type of plots.
- */
-enum Plot2dType {
-    NO2DPLOT, //Signifies that there is no 2D plot configured
-    SCATTERPLOT2D,
-    HISTOGRAM,
-    POLARPLOT
-};
-
 
 // This struct holds the configuration for individual 2D data sources
 struct Plot2dCurveConfiguration
@@ -67,6 +57,16 @@ class Scopes2d : public ScopesGeneric
 {
     Q_OBJECT
 public:
+    /**
+     * @brief The Plot2dType enum Defines the different type of plots.
+     */
+    enum Plot2dType {
+        NO2DPLOT, //Signifies that there is no 2D plot configured
+        SCATTERPLOT2D,
+        HISTOGRAM,
+        POLARPLOT
+    };
+
     virtual void saveConfiguration(QSettings *qSettings) = 0;
     virtual int getScopeType() = 0;
     virtual int getScopeDimensions(){return PLOT2D;}
