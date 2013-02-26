@@ -348,11 +348,6 @@ void SpectrogramScope::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
         else
             scopeGadgetWidget->replotTimer->setInterval(m_refreshInterval);
     }
-
-    // Spectrograms use autoscale
-    scopeGadgetWidget->setAxisAutoScale(QwtPlot::xBottom);
-    scopeGadgetWidget->setAxisAutoScale(QwtPlot::yLeft);
-
 }
 
 

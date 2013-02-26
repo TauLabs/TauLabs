@@ -294,12 +294,10 @@ void ScopeGadgetWidget::setupSeriesPlot(ScopesGeneric* scope)
 
     scope->preparePlot(this);
 
-//	QwtText title("Index");
-////	title.setFont(QFont("Helvetica", 20));
-//	title.font().setPointSize(title.font().pointSize() / 2);
-//	setAxisTitle(QwtPlot::xBottom, title);
-////    setAxisTitle(QwtPlot::xBottom, "Index");
-
+/*	QwtText title("Index");
+    title.font().setPointSize(title.font().pointSize() / 2);
+    setAxisTitle(QwtPlot::xBottom, title);
+*/
     setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());
     setAxisScale(QwtPlot::xBottom, 0, m_xWindowSize);
     setAxisAutoScale(QwtPlot::yLeft, true);
@@ -329,12 +327,7 @@ void ScopeGadgetWidget::setupTimeSeriesPlot(ScopesGeneric* scope)
 
     scope->preparePlot(this);
 
-//    QwtText title("Time [h:m:s]");
-////	title.setFont(QFont("Helvetica", 20));
-//    title.font().setPointSize(title.font().pointSize() / 2);
-//    setAxisTitle(QwtPlot::xBottom, title);
-////	setAxisTitle(QwtPlot::xBottom, "Time [h:m:s]");
-
+    // Configure axes
     setAxisScaleDraw(QwtPlot::xBottom, new TimeScaleDraw());
     uint NOW = QDateTime::currentDateTime().toTime_t();
     setAxisScale(QwtPlot::xBottom, NOW - m_xWindowSize / 1000, NOW);
@@ -343,27 +336,17 @@ void ScopeGadgetWidget::setupTimeSeriesPlot(ScopesGeneric* scope)
     setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom);
 //	setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignCenter | Qt::AlignBottom);
 
-    QwtScaleWidget *scaleWidget = axisWidget(QwtPlot::xBottom);
-//	QwtScaleDraw *scaleDraw = axisScaleDraw();
 
-    // reduce the gap between the scope canvas and the axis scale
+    // Reduce the gap between the scope canvas and the axis scale
+    QwtScaleWidget *scaleWidget = axisWidget(QwtPlot::xBottom);
     scaleWidget->setMargin(0);
 
-    // reduce the axis font size
+    // Reduce the axis font size
     QFont fnt(axisFont(QwtPlot::xBottom));
     fnt.setPointSize(7);
     setAxisFont(QwtPlot::xBottom, fnt);	// x-axis
     setAxisFont(QwtPlot::yLeft, fnt);	// y-axis
     setAxisFont(QwtPlot::yRight, fnt);	// y-axis
-
-    // set the axis colours .. can't seem to change the background colour :(
-//	QPalette pal = scaleWidget->palette();
-//	QPalette::ColorRole cr = scaleWidget->backgroundRole();
-//	pal.setColor(cr, QColor(128, 128, 128));				// background colour
-//	cr = scaleWidget->foregroundRole();
-//	pal.setColor(cr, QColor(255, 255, 255));				// tick colour
-//	pal.setColor(QPalette::Text, QColor(255, 255, 255));	// text colour
-//	scaleWidget->setPalette(pal);
 
     /*
      In situations, when there is a label at the most right position of the
@@ -388,17 +371,17 @@ void ScopeGadgetWidget::setupHistogramPlot(ScopesGeneric *scope)
 
     scope->preparePlot(this);
 
+    // Configure axes
     setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());
     setAxisAutoScale(QwtPlot::xBottom);
     setAxisLabelRotation(QwtPlot::xBottom, 0.0);
     setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom);
 
+    // Reduce the gap between the scope canvas and the axis scale
     QwtScaleWidget *scaleWidget = axisWidget(QwtPlot::xBottom);
-
-    // reduce the gap between the scope canvas and the axis scale
     scaleWidget->setMargin(0);
 
-    // reduce the axis font size
+    // Reduce the axis font size
     QFont fnt(axisFont(QwtPlot::xBottom));
     fnt.setPointSize(7);
     setAxisFont(QwtPlot::xBottom, fnt);	// x-axis
@@ -412,6 +395,20 @@ void ScopeGadgetWidget::setupSpectrogramPlot(ScopesGeneric *scope)
     m_scope = scope;
 
     scope->preparePlot(this);
+
+    // Configure axes
+    setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());
+    setAxisAutoScale(QwtPlot::xBottom);
+    setAxisAutoScale(QwtPlot::yLeft);
+    setAxisLabelRotation(QwtPlot::xBottom, 0.0);
+    setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom);
+
+    // reduce the axis font size
+    QFont fnt(axisFont(QwtPlot::xBottom));
+    fnt.setPointSize(7);
+    setAxisFont(QwtPlot::xBottom, fnt);	// x-axis
+    setAxisFont(QwtPlot::yLeft, fnt);	// y-axis
+
 }
 
 

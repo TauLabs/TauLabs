@@ -387,8 +387,6 @@ void Scatterplot2dScope::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
 
     scopeGadgetWidget->setCanvasBackground(QColor(64, 64, 64));
 
-
-
     //Add grid lines
     scopeGadgetWidget->m_grid->enableX( true );
     scopeGadgetWidget->m_grid->enableY( true );
@@ -415,7 +413,6 @@ void Scatterplot2dScope::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
 
 void Scatterplot2dScope::plotNewData(ScopeGadgetWidget *scopeGadgetWidget)
 {
-
     bool updateXAxisFlag = true;
 
     foreach(Plot2dData* plot2dData, m_curves2dData.values())
@@ -436,7 +433,6 @@ void Scatterplot2dScope::plotNewData(ScopeGadgetWidget *scopeGadgetWidget)
             updateXAxisFlag = false;
         }
     }
-
 }
 
 
