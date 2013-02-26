@@ -3,6 +3,7 @@
  *
  * @file       pjrc_rawhid.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup RawHIDPlugin Raw HID Plugin
@@ -50,7 +51,7 @@
 #elif defined(Q_OS_WIN32)
 #include <windows.h>
 #include <setupapi.h>
-#include <ddk/hidsdi.h>
+#include <hidsdi.h>
 #include <ddk/hidclass.h>
 #endif
 
