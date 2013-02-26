@@ -57,10 +57,32 @@
 #include <dbt.h>
 #include <setupapi.h>
 #include <hidsdi.h>
-#include <ddk/hidclass.h>
+#ifdef __cplusplus
+extern "C" {
 #endif
+// Some functions no longer included in hidsdi.h
 
+//HIDAPI BOOL NTAPI HidD_GetAttributes (HANDLE, PHIDD_ATTRIBUTES);
+HIDAPI VOID NTAPI HidD_GetHidGuid (LPGUID);
+HIDAPI BOOL NTAPI HidD_GetPreparsedData(HANDLE, PHIDP_PREPARSED_DATA  *);
+HIDAPI BOOL NTAPI HidD_FreePreparsedData(PHIDP_PREPARSED_DATA);
+HIDAPI BOOL NTAPI HidD_FlushQueue (HANDLE);
+HIDAPI BOOL NTAPI HidD_GetConfiguration (HANDLE, PHIDD_CONFIGURATION, ULONG);
+HIDAPI BOOL NTAPI HidD_SetConfiguration (HANDLE, PHIDD_CONFIGURATION, ULONG);
+//HIDAPI BOOL NTAPI HidD_GetFeature (HANDLE, PVOID, ULONG);
+//HIDAPI BOOL NTAPI HidD_SetFeature (HANDLE, PVOID, ULONG);
+HIDAPI BOOL NTAPI HidD_GetNumInputBuffers (HANDLE, PULONG);
+HIDAPI BOOL NTAPI HidD_SetNumInputBuffers (HANDLE HidDeviceObject, ULONG);
+HIDAPI BOOL NTAPI HidD_GetPhysicalDescriptor (HANDLE, PVOID, ULONG);
+HIDAPI BOOL NTAPI HidD_GetManufacturerString (HANDLE, PVOID, ULONG);
+HIDAPI BOOL NTAPI HidD_GetProductString ( HANDLE, PVOID, ULONG);
+HIDAPI BOOL NTAPI HidD_GetIndexedString ( HANDLE, ULONG, PVOID, ULONG);
+HIDAPI BOOL NTAPI HidD_GetSerialNumberString (HANDLE, PVOID, ULONG);
 
+#ifdef __cplusplus
+}
+#endif
+#endif
 
 #ifdef Q_OS_WIN
 #ifdef QT_GUI_LIB
