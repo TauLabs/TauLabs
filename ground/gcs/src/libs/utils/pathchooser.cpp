@@ -29,6 +29,7 @@
 #include "pathchooser.h"
 
 #include "basevalidatinglineedit.h"
+#include "hostosinfo.h"
 #include "qtcassert.h"
 
 #include <QtCore/QDebug>
@@ -37,6 +38,7 @@
 #include <QtCore/QSettings>
 
 #include <QDesktopServices>
+#include <QStandardPaths>
 #include <QFileDialog>
 #include <QHBoxLayout>
 #include <QLineEdit>
@@ -272,14 +274,12 @@ QString PathChooser::label()
 
 QString PathChooser::homePath()
 {
-#ifdef Q_OS_WIN
     // Return 'users/<name>/Documents' on Windows, since Windows explorer
     // does not let people actually display the contents of their home
     // directory. Alternatively, create a QtCreator-specific directory?
-    return QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
-#else
+    if (HostOsInfo::isWindowsHost())
+        return QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     return QDir::homePath();
-#endif
 }
 
 void PathChooser::setExpectedKind(Kind expected)
