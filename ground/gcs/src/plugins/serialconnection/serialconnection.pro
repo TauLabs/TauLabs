@@ -8,7 +8,7 @@ INCLUDEPATH += ../../libs/qextserialport/src
 HEADERS += serialplugin.h \
             serialpluginconfiguration.h \
             serialpluginoptionspage.h \
-            serialdevice.c
+            serialdevice.h
 SOURCES += serialplugin.cpp \
             serialpluginconfiguration.cpp \
             serialpluginoptionspage.cpp \
