@@ -114,7 +114,7 @@ void MixerCurve::setMixerType(MixerCurveType curveType, bool isCurve2Source)
 
     if(isCurve2Source){
         teste = new ConfigTaskWidget();
-        teste->addUAVObjectToWidgetRelation("MixerSettings","Curve2Source",m_mixerUI->CBCurve2Source);
+        //teste->addUAVObjectToWidgetRelation("MixerSettings","Curve2Source",m_mixerUI->CBCurve2Source);
         m_mixerUI->CBCurve2Source->show();
     }
 
