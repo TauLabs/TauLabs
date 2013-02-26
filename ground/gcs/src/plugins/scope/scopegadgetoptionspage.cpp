@@ -67,22 +67,26 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
     options_page = new Ui::ScopeGadgetOptionsPage();
     options_page->setupUi(optionsPageWidget);
 
-    //Set up 2D plots tab
+    // Set up 2D plots tab
     options_page->cmb2dPlotType->addItem("Scatter plot", Scopes2d::SCATTERPLOT2D);
     options_page->cmb2dPlotType->addItem("Histogram", Scopes2d::HISTOGRAM);
 //    options_page->cmb2dPlotType->addItem("Polar plot", POLARPLOT);
 
-    //Set up x-axis combo box
+    // Set up x-axis combo box
     options_page->cmbXAxisScatterplot2d->addItem("Series", Scatterplot2dScope::SERIES2D);
     options_page->cmbXAxisScatterplot2d->addItem("Time series", Scatterplot2dScope::TIMESERIES2D);
 
 
-    //Set up 3D plots tab
+    // Set up 3D plots tab
 //    options_page->cmb3dPlotType->addItem("Time series", TimeSeries3d);
     options_page->cmb3dPlotType->addItem("Spectrogram", Scopes3d::SPECTROGRAM);
 
     options_page->cmbSpectrogramSource->addItem("Custom", SpectrogramScope::CUSTOM_SPECTROGRAM);
     options_page->cmbSpectrogramSource->addItem("Vibration Analysis", SpectrogramScope::VIBRATIONANALYSIS);
+
+    // Populate colormap combobox.
+    options_page->cmbColorMapSpectrogram->addItem("Standard", ColorMap::STANDARD);
+    options_page->cmbColorMapSpectrogram->addItem("Jet", ColorMap::JET);
 
     // Fills the combo boxes for the UAVObjects
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();

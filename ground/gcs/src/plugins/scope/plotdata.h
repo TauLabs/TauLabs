@@ -109,15 +109,55 @@ private:
 class ColorMap: public QwtLinearColorMap
 {
 public:
-    ColorMap():
-        QwtLinearColorMap( Qt::darkCyan, Qt::red )
+    /**
+     * @brief The ColorMapType enum Defines the different type of color maps.
+     */
+    enum ColorMapType {
+        STANDARD,
+        JET
+    };
+
+    ColorMap(ColorMapType colorMapType = STANDARD):
+        QwtLinearColorMap()
     {
-        // Values given normalized to 1.
+        switch (colorMapType){
+        case JET:
+            createJet();
+            break;
+        case STANDARD:
+        default:
+            createStandard();
+            break;
+        }
+    }
+
+    void createJet(){
+        // The color interval must be created separately.
+        setColorInterval(QColor(0, 0, 30), QColor(0.5*255, 0, 0));
+
+        // Greyscale input values given normalized to 1.
+        addColorStop( 0.1, QColor(0.00000*255, 0.00000*255, 0.50000*255));
+        addColorStop( 0.2, QColor(0.00000*255, 0.00000*255, 0.94444*255));
+        addColorStop( 0.3, QColor(0.00000*255, 0.38889*255, 1.00000*255));
+        addColorStop( 0.4, QColor(0.00000*255, 0.83333*255, 1.00000*255));
+        addColorStop( 0.5, QColor(0.27778*255, 1.00000*255, 0.72222*255));
+        addColorStop( 0.6, QColor(0.72222*255, 1.00000*255, 0.27778*255));
+        addColorStop( 0.7, QColor(1.00000*255, 0.83333*255, 0.00000*255));
+        addColorStop( 0.8, QColor(1.00000*255, 0.38889*255, 0.00000*255));
+        addColorStop( 0.9, QColor(0.94444*255, 0.00000*255, 0.00000*255));
+
+    }
+
+    void createStandard(){
+        // The color interval must be created separately.
+        setColorInterval(Qt::darkCyan, Qt::red);
+
+        // Greyscale input values given normalized to 1.
         addColorStop( 0.1, Qt::cyan );
         addColorStop( 0.6, Qt::green );
         addColorStop( 0.95, Qt::yellow );
+
     }
 };
-
 
 #endif // PLOTDATA_H

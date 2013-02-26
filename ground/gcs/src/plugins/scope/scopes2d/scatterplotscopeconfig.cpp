@@ -80,7 +80,7 @@ Scatterplot2dScope::Scatterplot2dScope(Ui::ScopeGadgetOptionsPage *options_page)
     bool parseOK = false;
 
     timeHorizon = options_page->spnDataSize->value();
-    scatterplot2dType = (Scatterplot2dType) options_page->cmbXAxisScatterplot2d->itemData(options_page->cmbXAxisScatterplot2d->currentIndex()).toUInt();
+    scatterplot2dType = (Scatterplot2dType) options_page->cmbXAxisScatterplot2d->itemData(options_page->cmbXAxisScatterplot2d->currentIndex()).toInt();
 
     for(int iIndex = 0; iIndex < options_page->lst2dCurves->count();iIndex++) {
         QListWidgetItem* listItem = options_page->lst2dCurves->item(iIndex);

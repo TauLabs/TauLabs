@@ -39,6 +39,7 @@ SpectrogramScope::SpectrogramScope()
     samplingFrequency = 100;
     windowWidth = 64;
     zMaximum = 120;
+    colorMapType = ColorMap::STANDARD;
 }
 
 
@@ -48,6 +49,7 @@ SpectrogramScope::SpectrogramScope(QSettings *qSettings)
     samplingFrequency = qSettings->value("samplingFrequency").toDouble();
     windowWidth       = qSettings->value("windowWidth").toInt();
     zMaximum = qSettings->value("zMaximum").toDouble();
+    colorMapType = (ColorMap::ColorMapType) qSettings->value("colorMap").toInt();
 
     int plot3dCurveCount = qSettings->value("dataSourceCount").toInt();
 
@@ -82,7 +84,7 @@ SpectrogramScope::SpectrogramScope(Ui::ScopeGadgetOptionsPage *options_page)
     samplingFrequency = options_page->sbSpectrogramFrequency->value();
     timeHorizon = options_page->sbSpectrogramTimeHorizon->value();
     zMaximum = options_page->spnMaxSpectrogramZ->value();
-
+    colorMapType = (ColorMap::ColorMapType) options_page->cmbColorMapSpectrogram->itemData(options_page->cmbColorMapSpectrogram->currentIndex()).toInt();
 
     Plot3dCurveConfiguration* newPlotCurveConfigs = new Plot3dCurveConfiguration();
     newPlotCurveConfigs->uavObjectName = options_page->cmbUAVObjectsSpectrogram->currentText();
@@ -114,6 +116,7 @@ ScopesGeneric* SpectrogramScope::cloneScope(ScopesGeneric *originalScope)
     SpectrogramScope *cloneObj = new SpectrogramScope();
 
     cloneObj->timeHorizon = originalSpectrogramScope->timeHorizon;
+    cloneObj->colorMapType = originalSpectrogramScope->colorMapType;
 
     int plotCurveCount = originalSpectrogramScope->m_spectrogramSourceConfigs.size();
 
@@ -148,6 +151,7 @@ void SpectrogramScope::saveConfiguration(QSettings* qSettings)
     qSettings->setValue("plot3dType", SPECTROGRAM);
     qSettings->setValue("dataSourceCount", plot3dCurveCount);
 
+    qSettings->setValue("colorMap", colorMapType);
     qSettings->setValue("samplingFrequency", samplingFrequency);
     qSettings->setValue("timeHorizon", timeHorizon);
     qSettings->setValue("windowWidth", windowWidth);
@@ -241,7 +245,7 @@ void SpectrogramScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget)
     QwtPlotSpectrogram* plotSpectrogram = new QwtPlotSpectrogram(waterfallNameScaled);
     plotSpectrogram->setRenderThreadCount( 0 ); // use system specific thread count
     plotSpectrogram->setRenderHint(QwtPlotItem::RenderAntialiased);
-    plotSpectrogram->setColorMap(new ColorMap() );
+    plotSpectrogram->setColorMap(new ColorMap(colorMapType) );
 
     // Initial raster data
     spectrogramData->rasterData = new QwtMatrixRasterData();
@@ -274,7 +278,7 @@ void SpectrogramScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget)
     spectrogramData->rightAxis = (*scopeGadgetWidget)->axisWidget( QwtPlot::yRight );
     spectrogramData->rightAxis->setTitle( "Intensity" );
     spectrogramData->rightAxis->setColorBarEnabled( true );
-    spectrogramData->rightAxis->setColorMap( QwtInterval(0, zMaximum), new ColorMap() );
+    spectrogramData->rightAxis->setColorMap( QwtInterval(0, zMaximum), new ColorMap(colorMapType));
     (*scopeGadgetWidget)->setAxisScale( QwtPlot::yRight, 0, zMaximum);
     (*scopeGadgetWidget)->enableAxis( QwtPlot::yRight );
 
@@ -310,6 +314,7 @@ void SpectrogramScope::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_p
     options_page->sbSpectrogramTimeHorizon->setValue(timeHorizon);
     options_page->sbSpectrogramFrequency->setValue(samplingFrequency);
     options_page->spnMaxSpectrogramZ->setValue(zMaximum);
+    options_page->cmbColorMapSpectrogram->setCurrentIndex(options_page->cmbColorMapSpectrogram->findData(colorMapType));
 
     foreach (Plot3dCurveConfiguration* plot3dData,  m_spectrogramSourceConfigs) {
         int uavoIdx= options_page->cmbUAVObjectsSpectrogram->findText(plot3dData->uavObjectName);
@@ -368,7 +373,7 @@ void SpectrogramScope::plotNewData(ScopeGadgetWidget *scopeGadgetWidget)
             if (plot3dData->getZMaximum() == 0){
                 double newVal = spectrogramData->readAndResetAutoscaleValue();
                 if (newVal != 0){
-                    spectrogramData->rightAxis->setColorMap( QwtInterval(0, newVal), new ColorMap() );
+                    spectrogramData->rightAxis->setColorMap( QwtInterval(0, newVal), new ColorMap(colorMapType));
                     scopeGadgetWidget->setAxisScale( QwtPlot::yRight, 0, newVal);
                 }
             }

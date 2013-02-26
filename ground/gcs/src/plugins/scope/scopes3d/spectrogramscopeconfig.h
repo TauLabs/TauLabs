@@ -98,7 +98,7 @@ private:
     QString yAxisUnits;
     double zMaximum;
 
-
+    ColorMap::ColorMapType colorMapType;
 };
 
 #endif // SPECTROGRAMSCOPE_H
