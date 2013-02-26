@@ -33,7 +33,7 @@
 
 MixerCurve::MixerCurve(QWidget *parent) :
     QFrame(parent),
-    m_mixerUI(new Ui::MixerCurve)
+    m_mixerUI(new Ui::MixerCurvePlot)
 {
     m_mixerUI->setupUi(this);
 

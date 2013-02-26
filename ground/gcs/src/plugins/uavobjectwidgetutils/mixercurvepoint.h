@@ -42,6 +42,7 @@ QT_END_NAMESPACE
 class MixerNode : public QObject,public QGraphicsItem
 {
     Q_OBJECT
+
 public:
     MixerNode(MixerCurveWidget *graphWidget);
     void addEdge(Edge *edge);

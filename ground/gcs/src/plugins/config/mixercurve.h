@@ -40,7 +40,7 @@
 
 
 namespace Ui {
-class MixerCurve;
+class MixerCurvePlot;
 }
 
 class  MixerCurve : public QFrame
@@ -92,7 +92,7 @@ private slots:
     void UpdateCurveUI();
 
 private:
-    Ui::MixerCurve* m_mixerUI;
+    Ui::MixerCurvePlot* m_mixerUI;
     MixerCurveWidget* m_curve;
     QTableWidget* m_settings;
     MixerCurveType m_curveType;
