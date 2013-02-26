@@ -74,8 +74,12 @@ private:
     void setButtonColor(const QColor &color);
     bool eventFilter( QObject * obj, QEvent * evt );
 
+    QString dataSourceStyleSheetTemplate;
+    QListWidgetItem * selectedItem;
+
 private slots:
     void on_lst2dCurves_currentRowChanged(int currentRow);
+    void on_lst2dItem_clicked(QListWidgetItem *);
     void on_btnAdd2dCurve_clicked();
     void on_btnApply2dCurve_clicked();
     void on_btnRemove2dCurve_clicked();

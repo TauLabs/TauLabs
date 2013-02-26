@@ -45,7 +45,8 @@
 
 ScopeGadgetOptionsPage::ScopeGadgetOptionsPage(ScopeGadgetConfiguration *config, QObject *parent) :
         IOptionsPage(parent),
-        m_config(config)
+        m_config(config),
+        selectedItem(0)
 {
     //nothing to do here...
 }
@@ -139,8 +140,11 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
     // Configure color button
     options_page->btnColor->setAutoFillBackground(true);
 
-    //Connect signals to slots
+    // Generate style sheet for data sources list
+    dataSourceStyleSheetTemplate = "QListView::item:selected {border: 2px solid white; background: rgba(71,71,71,255); selection-color: rgba(%1,%2,%3,255) }";
 
+
+    //Connect signals to slots
     connect(options_page->cmbXAxisScatterplot2d, SIGNAL(currentIndexChanged(QString)), this, SLOT(on_cmbXAxisScatterplot2d_currentIndexChanged(QString)));
     connect(options_page->cmb2dPlotType, SIGNAL(currentIndexChanged(QString)), this, SLOT(on_cmb2dPlotType_currentIndexChanged(QString)));
     connect(options_page->cmb3dPlotType, SIGNAL(currentIndexChanged(QString)), this, SLOT(on_cmb3dPlotType_currentIndexChanged(QString)));
@@ -154,6 +158,7 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
     connect(options_page->mathFunctionComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(on_mathFunctionComboBox_currentIndexChanged(int)));
     connect(options_page->cmbSpectrogramSource, SIGNAL(currentIndexChanged(QString)), this, SLOT(on_cmbSpectrogramSource_currentIndexChanged(QString)));
     connect(options_page->tabWidget2d3d, SIGNAL(currentChanged(int)), this, SLOT(on_tabWidget2d3d_currentIndexChanged(int)));
+    connect(options_page->lst2dCurves, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(on_lst2dItem_clicked(QListWidgetItem *)));
 
     // Configuration the GUI elements to reflect the scope settings
     m_config->getScope()->setGuiConfiguration(options_page);
@@ -303,12 +308,18 @@ void ScopeGadgetOptionsPage::set2dYAxisWidgetFromDataSource()
     currentIndex = options_page->cmbScale->findData( listItem->data(Qt::UserRole + 2), Qt::UserRole, Qt::MatchExactly);
     options_page->cmbScale->setCurrentIndex(currentIndex);
 
+    // Get graph color
     QVariant varColor  = listItem->data(Qt::UserRole + 3);
     int rgb = varColor.toInt(&parseOK);
     if (!parseOK)
         rgb = QColor(Qt::red).rgb();
 
+    // Set button color
     setButtonColor(QColor((QRgb) rgb));
+
+    // Set selected color
+    QString styleSheet = dataSourceStyleSheetTemplate.arg(QColor((QRgb) rgb).red()).arg(QColor((QRgb) rgb).green()).arg(QColor((QRgb) rgb).blue());
+    options_page->lst2dCurves->setStyleSheet(styleSheet);
 
     int mean = listItem->data(Qt::UserRole + 4).toInt(&parseOK);
     if(!parseOK)
@@ -465,7 +476,7 @@ void ScopeGadgetOptionsPage::on_btnApply2dCurve_clicked()
         // counter, or infinite chain of `......` tied to the original dialog box
         QMessageBox msgBox;
         msgBox.setText(tr("No curve selected."));
-        msgBox.setInformativeText(tr("Please generate a curve with the ""+"" symbol."));
+        msgBox.setInformativeText(tr("Please select a curve or generate one with the ""+"" symbol."));
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.exec();
 
@@ -596,6 +607,20 @@ void ScopeGadgetOptionsPage::on_cmb2dPlotType_currentIndexChanged(QString curren
     else if (currentText == "Histogram"){
         options_page->spnMaxNumBins->setSuffix(" bins");
         options_page->sw2dXAxis->setCurrentWidget(options_page->sw2dHistogramStack);
+    }
+}
+
+
+void ScopeGadgetOptionsPage::on_lst2dItem_clicked(QListWidgetItem * listItem)
+{
+    if (listItem == selectedItem)
+    {
+        listItem->setSelected(false);
+        options_page->lst2dCurves->setCurrentRow(-1);
+        selectedItem = 0;
+    }
+    else{
+        selectedItem = listItem;
     }
 }
 
