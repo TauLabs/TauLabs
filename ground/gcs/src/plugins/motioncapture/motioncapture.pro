@@ -27,6 +27,3 @@ OTHER_FILES += motioncapture.pluginspec \
     motioncapture.json
 FORMS += mocapoptionspage.ui \
     mocapwidget.ui
-RESOURCES += mocapresources.qrc
-
-
