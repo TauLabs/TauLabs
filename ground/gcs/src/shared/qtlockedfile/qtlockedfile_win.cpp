@@ -4,6 +4,7 @@
  * @file       qtlockedfile_win.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
+ * @author     Tau Labs, http://github.com/TauLabs Copyright (C) 2013.
  * @brief      
  * @see        The GNU Public License (GPL) Version 3
  * @defgroup   
@@ -30,6 +31,8 @@
 
 #include <qt_windows.h>
 #include <QtCore/QFileInfo>
+
+#define QT_WA(unicode, ansi) unicode
 
 namespace SharedTools {
 
