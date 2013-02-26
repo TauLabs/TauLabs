@@ -70,11 +70,14 @@ ifneq (,$(filter $(UNAME), Darwin))
 	$(V1) hdiutil detach -quiet /tmp/qt-installer
 endif
  
-
 ifneq (,$(filter $(UNAME), Linux))
         #installer is an executable, make it executable and run it
 	$(V1) chmod u+x "$(DL_DIR)/$(QT_SDK_FILE)"
 	$(V1) "$(DL_DIR)/$(QT_SDK_FILE)" -style cleanlooks
+endif
+
+ifneq (,$(filter $(UNAME), MINGW32_NT-6.1))
+	$(V1) ./downloads/qt-windows-opensource-5.0.1-mingw47_32-x86-offline.exe
 endif
 
 .PHONY: qt_sdk_clean
