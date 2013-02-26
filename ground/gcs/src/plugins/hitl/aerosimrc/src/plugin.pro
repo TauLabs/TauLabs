@@ -58,9 +58,7 @@ equals(copydata, 1) {
         }
 
         # MinGW DLLs
-        MINGW_DLLS = \
-                     libgcc_s_djlj-1.dll \
-                     mingwm10.dll \
+        MINGW_DLLS = libgcc_s_sjlj-1.dll \
                      libstdc++-6.dll
         for(dll, MINGW_DLLS) {
             data_copy.commands += $(COPY_FILE) $$targetPath(\"$$(QTMINGW)/$$dll\") $$targetPath(\"$$SIM_DIR/$$dll\") $$addNewline()
