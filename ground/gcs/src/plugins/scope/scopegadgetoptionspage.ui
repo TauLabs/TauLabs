@@ -459,6 +459,12 @@
                   <height>25</height>
                  </size>
                 </property>
+                <property name="focusPolicy">
+                 <enum>Qt::StrongFocus</enum>
+                </property>
+                <property name="toolTip">
+                 <string>Add a new curve data source</string>
+                </property>
                 <property name="text">
                  <string>+</string>
                 </property>
@@ -477,6 +483,12 @@
                   <width>25</width>
                   <height>25</height>
                  </size>
+                </property>
+                <property name="focusPolicy">
+                 <enum>Qt::StrongFocus</enum>
+                </property>
+                <property name="toolTip">
+                 <string>Remove the selected curve data source</string>
                 </property>
                 <property name="text">
                  <string>-</string>
@@ -498,6 +510,12 @@
               </item>
               <item row="1" column="3">
                <widget class="QPushButton" name="btnApply2dCurve">
+                <property name="focusPolicy">
+                 <enum>Qt::StrongFocus</enum>
+                </property>
+                <property name="toolTip">
+                 <string>Apply the settings to the selected curve data source</string>
+                </property>
                 <property name="text">
                  <string>Apply</string>
                 </property>
@@ -1043,10 +1061,44 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>cmb2dPlotType</tabstop>
+  <tabstop>spnMaxNumBins</tabstop>
+  <tabstop>spnBinWidth</tabstop>
+  <tabstop>lst2dCurves</tabstop>
+  <tabstop>btnAdd2dCurve</tabstop>
+  <tabstop>btnRemove2dCurve</tabstop>
   <tabstop>cmbUAVObjects</tabstop>
   <tabstop>cmbUAVField</tabstop>
+  <tabstop>cmbScale</tabstop>
   <tabstop>mathFunctionComboBox</tabstop>
   <tabstop>spnMeanSamples</tabstop>
+  <tabstop>btnColor</tabstop>
+  <tabstop>btnApply2dCurve</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>tabWidget2d3d</tabstop>
+  <tabstop>spnDataSize</tabstop>
+  <tabstop>cmbXAxisScatterplot2d</tabstop>
+  <tabstop>cmb3dPlotType</tabstop>
+  <tabstop>cmbSpectrogramSource</tabstop>
+  <tabstop>cmbUAVObjectsSpectrogram</tabstop>
+  <tabstop>cmbUavoFieldSpectrogram</tabstop>
+  <tabstop>sbSpectrogramDataMultiplier</tabstop>
+  <tabstop>cmbMathFunctionSpectrogram</tabstop>
+  <tabstop>spnMeanSamplesSpectrogram</tabstop>
+  <tabstop>btnColorSpectrogram</tabstop>
+  <tabstop>cmbColorMapSpectrogram</tabstop>
+  <tabstop>sbSpectrogramFrequency</tabstop>
+  <tabstop>sbSpectrogramTimeHorizon</tabstop>
+  <tabstop>sbSpectrogramWidth</tabstop>
+  <tabstop>spnMaxSpectrogramZ</tabstop>
+  <tabstop>cmbUAVObjects_2</tabstop>
+  <tabstop>cmbUAVField_2</tabstop>
+  <tabstop>mathFunctionComboBox_2</tabstop>
+  <tabstop>spnMeanSamples_2</tabstop>
+  <tabstop>btnColor_2</tabstop>
+  <tabstop>cmbScale_2</tabstop>
+  <tabstop>spnDataSize_2</tabstop>
+  <tabstop>cmbXAxis_2</tabstop>
  </tabstops>
  <resources/>
  <connections/>
