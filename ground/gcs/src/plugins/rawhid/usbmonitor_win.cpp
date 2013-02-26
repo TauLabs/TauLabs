@@ -140,7 +140,7 @@ void USBMonitor::setUpNotifications( )
     dbh.dbcc_size = sizeof(dbh);
     dbh.dbcc_devicetype = DBT_DEVTYP_DEVICEINTERFACE;
     ::CopyMemory(&dbh.dbcc_classguid, &guid_hid, sizeof(GUID));
-    if( RegisterDeviceNotification( notificationWidget->winId( ), &dbh, DEVICE_NOTIFY_WINDOW_HANDLE ) == NULL)
+    if( RegisterDeviceNotification( (HWND)notificationWidget->winId( ), &dbh, DEVICE_NOTIFY_WINDOW_HANDLE ) == NULL)
         qWarning() << "RegisterDeviceNotification failed:" << GetLastError();
     // setting up notifications doesn't tell us about devices already connected
     // so get those manually
