@@ -113,30 +113,26 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
         on_cmbUAVObjects_currentIndexChanged(options_page->cmbUAVObjects->currentText());
     }
 
-    // Add scaling items for
+    // Add scaling items
     options_page->cmbScale->addItem("10^-9", -9);
     options_page->cmbScale->addItem("10^-6", -6);
     options_page->cmbScale->addItem("10^-5",-5);
     options_page->cmbScale->addItem("10^-4",-4);
     options_page->cmbScale->addItem("10^-3",-3);
-    options_page->cmbScale->addItem("10^-2",-2);
-    options_page->cmbScale->addItem("10^-1",-1);
+    options_page->cmbScale->addItem(".01",-2);
+    options_page->cmbScale->addItem(".1",-1);
     options_page->cmbScale->addItem("1",0);
-    options_page->cmbScale->addItem("10^1",1);
-    options_page->cmbScale->addItem("10^2",2);
+    options_page->cmbScale->addItem("10",1);
+    options_page->cmbScale->addItem("100",2);
     options_page->cmbScale->addItem("10^3",3);
     options_page->cmbScale->addItem("10^4",4);
     options_page->cmbScale->addItem("10^5",5);
     options_page->cmbScale->addItem("10^6",6);
     options_page->cmbScale->addItem("10^9",9);
     options_page->cmbScale->addItem("10^12",12);
-    options_page->cmbScale->setCurrentIndex(7);
 
-//    QStringList scaleTypes;
-//    scaleTypes << "10^-9" << "10^-6" << "10^-5" << "10^-4" << "10^-3" << "10^-2" << "10^-1"
-//               << "1" << "10^1" << "10^2" << "10^3" << "10^4" << "10^5" << "10^6" << "10^9" << "10^12";
-//    options_page->cmbScale->addItems(scaleTypes);
-//    options_page->cmbScale->setCurrentIndex(7);
+    // Set default scaling to 10^0
+    options_page->cmbScale->setCurrentIndex(options_page->cmbScale->findData(0));
 
     // Configure color button
     options_page->btnColor->setAutoFillBackground(true);
