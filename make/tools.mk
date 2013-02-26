@@ -23,7 +23,7 @@ endif
 
 # Set up QT toolchain
 QT_SDK_DIR := $(TOOLS_DIR)/Qt5.0.1
-QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.0.1/gcc_64/bin/qmake
+
 
 # Build openocd without FTDI (yes | no)
 OPENOCD_FTDI ?= yes
@@ -35,14 +35,17 @@ ifdef LINUX
   ifdef AMD64
     # Linux 64-bit
     qt_sdk_install: QT_SDK_URL := http://origin.releases.qt-project.org/qt5/5.0.1/qt-linux-opensource-5.0.1-x86_64-offline.run
+    QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.0.1/gcc_64/bin/qmake
   else
     # Linux 32-bit
     qt_sdk_install: QT_SDK_URL := http://origin.releases.qt-project.org/qt5/5.0.1/qt-linux-opensource-5.0.1-x86-offline.run
+    QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.0.1/gcc/bin/qmake
   endif
 endif
 
 ifdef MACOSX
   qt_sdk_install: QT_SDK_URL  := http://origin.releases.qt-project.org/qt5/5.0.1/qt-mac-opensource-5.0.1-clang-offline.dmg
+  QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.0.1/gcc_64/bin/qmake
 endif
 
 ifdef WINDOWS
