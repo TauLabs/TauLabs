@@ -299,18 +299,18 @@ void ScopeGadgetOptionsPage::set2dYAxisWidgetFromDataSource()
     if(listItem == 0)
         return;
 
-    //TODO: WHAT IS UserRole DOING?
-    int currentIndex = options_page->cmbUAVObjects->findText( listItem->data(Qt::UserRole + 0).toString());
+    // Fetch data from teh listItem. The data is stored by user role + offset
+    int currentIndex = options_page->cmbUAVObjects->findText( listItem->data(Qt::UserRole + UR_UAVOBJECT).toString());
     options_page->cmbUAVObjects->setCurrentIndex(currentIndex);
 
-    currentIndex = options_page->cmbUAVField->findText( listItem->data(Qt::UserRole + 1).toString());
+    currentIndex = options_page->cmbUAVField->findText( listItem->data(Qt::UserRole + UR_UAVFIELD).toString());
     options_page->cmbUAVField->setCurrentIndex(currentIndex);
 
-    currentIndex = options_page->cmbScale->findData( listItem->data(Qt::UserRole + 2), Qt::UserRole, Qt::MatchExactly);
+    currentIndex = options_page->cmbScale->findData( listItem->data(Qt::UserRole + UR_SCALE), Qt::UserRole, Qt::MatchExactly);
     options_page->cmbScale->setCurrentIndex(currentIndex);
 
     // Get graph color
-    QVariant varColor  = listItem->data(Qt::UserRole + 3);
+    QVariant varColor  = listItem->data(Qt::UserRole + UR_COLOR);
     int rgb = varColor.toInt(&parseOK);
     if (!parseOK)
         rgb = QColor(Qt::red).rgb();
@@ -322,12 +322,12 @@ void ScopeGadgetOptionsPage::set2dYAxisWidgetFromDataSource()
     QString styleSheet = dataSourceStyleSheetTemplate.arg(QColor((QRgb) rgb).red()).arg(QColor((QRgb) rgb).green()).arg(QColor((QRgb) rgb).blue());
     options_page->lst2dCurves->setStyleSheet(styleSheet);
 
-    int mean = listItem->data(Qt::UserRole + 4).toInt(&parseOK);
+    int mean = listItem->data(Qt::UserRole + UR_MEAN).toInt(&parseOK);
     if(!parseOK)
         mean = 1;
     options_page->spnMeanSamples->setValue(mean);
 
-    currentIndex = options_page->mathFunctionComboBox->findText( listItem->data(Qt::UserRole + 5).toString());
+    currentIndex = options_page->mathFunctionComboBox->findText( listItem->data(Qt::UserRole + UR_MATHFUNCTION).toString());
     options_page->mathFunctionComboBox->setCurrentIndex(currentIndex);
 }
 
@@ -556,12 +556,12 @@ void ScopeGadgetOptionsPage::setPlot2dCurveProperties(QListWidgetItem *listWidge
     listWidgetItem->setTextColor( color );
 
     //Store some additional data for the plot curve on the list item
-    listWidgetItem->setData(Qt::UserRole + 0,QVariant(uavObject));
-    listWidgetItem->setData(Qt::UserRole + 1,QVariant(uavField));
-    listWidgetItem->setData(Qt::UserRole + 2,QVariant(scale));
-    listWidgetItem->setData(Qt::UserRole + 3,varColor);
-    listWidgetItem->setData(Qt::UserRole + 4,QVariant(mean));
-    listWidgetItem->setData(Qt::UserRole + 5,QVariant(mathFunction));
+    listWidgetItem->setData(Qt::UserRole + UR_UAVOBJECT,QVariant(uavObject));
+    listWidgetItem->setData(Qt::UserRole + UR_UAVFIELD,QVariant(uavField));
+    listWidgetItem->setData(Qt::UserRole + UR_SCALE,QVariant(scale));
+    listWidgetItem->setData(Qt::UserRole + UR_COLOR,varColor);
+    listWidgetItem->setData(Qt::UserRole + UR_MEAN,QVariant(mean));
+    listWidgetItem->setData(Qt::UserRole + UR_MATHFUNCTION,QVariant(mathFunction));
 }
 
 

@@ -77,6 +77,16 @@ private:
     QString dataSourceStyleSheetTemplate;
     QListWidgetItem * selectedItem;
 
+    enum userRoleShift {
+        UR_UAVOBJECT,
+        UR_UAVFIELD,
+        UR_SCALE,
+        UR_COLOR,
+        UR_MEAN,
+        UR_MATHFUNCTION
+    };
+
+
 private slots:
     void on_lst2dCurves_currentRowChanged(int currentRow);
     void on_lst2dItem_clicked(QListWidgetItem *);
