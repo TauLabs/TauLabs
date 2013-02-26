@@ -31,9 +31,9 @@
 
 
 #include <extensionsystem/iplugin.h>
+#include <coreplugin/globalmessaging.h>
 #include "uavobject.h"
 #include "uavtalk/telemetrymanager.h"
-#include <coreplugin/globalmessaging.h>
 
 using namespace Core;
 
