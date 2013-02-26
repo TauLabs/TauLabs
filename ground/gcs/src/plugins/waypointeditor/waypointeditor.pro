@@ -22,7 +22,3 @@ OTHER_FILES += WaypointEditor.pluginspec \
     WaypointEditor.json
 
 FORMS += waypointeditor.ui
-
-RESOURCES += waypointeditor.qrc
-
-
