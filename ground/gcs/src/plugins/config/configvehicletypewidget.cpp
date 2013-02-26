@@ -632,9 +632,9 @@ void ConfigVehicleTypeWidget::updateCustomAirframeUI()
     if (MixerSettings* mxr = qobject_cast<MixerSettings *>(mixer)) {
         MixerSettings::DataFields mixerSettingsData = mxr->getData();
         if (mixerSettingsData.Curve2Source == MixerSettings::CURVE2SOURCE_THROTTLE)
-            m_aircraft->customThrottle2Curve->setMixerType(MixerCurve::MIXERCURVE_THROTTLE);
+            m_aircraft->customThrottle2Curve->setMixerType(MixerCurve::MIXERCURVE_THROTTLE, true);
         else {
-            m_aircraft->customThrottle2Curve->setMixerType(MixerCurve::MIXERCURVE_PITCH);
+            m_aircraft->customThrottle2Curve->setMixerType(MixerCurve::MIXERCURVE_PITCH, true);
         }
     }
 

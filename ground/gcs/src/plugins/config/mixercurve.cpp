@@ -41,6 +41,8 @@ MixerCurve::MixerCurve(QWidget *parent) :
     m_curve = m_mixerUI->CurveWidget;
     m_settings = m_mixerUI->CurveSettings;
 
+    // by dafault mixcurve isn't used for curve2source
+    m_mixerUI->CBCurve2Source->hide();
 
     m_mixerUI->SettingsGroup->hide();
     m_curve->showCommands(false);
@@ -83,7 +85,7 @@ MixerCurve::~MixerCurve()
     delete m_spinDelegate;
 }
 
-void MixerCurve::setMixerType(MixerCurveType curveType)
+void MixerCurve::setMixerType(MixerCurveType curveType, bool isCurve2Source)
 {
     m_curveType = curveType;
 
@@ -108,6 +110,12 @@ void MixerCurve::setMixerType(MixerCurveType curveType)
             m_mixerUI->CurveMax->setMinimum(-1.0);
             break;
         }
+    }
+
+    if(isCurve2Source){
+        teste = new ConfigTaskWidget();
+        teste->addUAVObjectToWidgetRelation("MixerSettings","Curve2Source",m_mixerUI->CBCurve2Source);
+        m_mixerUI->CBCurve2Source->show();
     }
 
     m_spinDelegate->setRange(m_mixerUI->CurveMin->minimum(), m_mixerUI->CurveMax->maximum());
