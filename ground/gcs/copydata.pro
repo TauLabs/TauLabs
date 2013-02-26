@@ -43,28 +43,28 @@ equals(copydata, 1) {
         }
 
         # copy iconengines
-        QT_ICONENGINE_DLLS = qsvgicon4.dll
+        QT_ICONENGINE_DLLS = qsvgicon.dll
         data_copy.commands += -@$(MKDIR) $$targetPath(\"$$GCS_APP_PATH/iconengines\") $$addNewline()
         for(dll, QT_ICONENGINE_DLLS) {
             data_copy.commands += $(COPY_FILE) $$targetPath(\"$$[QT_INSTALL_PLUGINS]/iconengines/$$dll\") $$targetPath(\"$$GCS_APP_PATH/iconengines/$$dll\") $$addNewline()
         }
 
         # copy imageformats
-        QT_IMAGEFORMAT_DLLS = qgif4.dll qico4.dll qjpeg4.dll qmng4.dll qsvg4.dll qtiff4.dll
+        QT_IMAGEFORMAT_DLLS = qgif.dll qico.dll qjpeg.dll qmng.dll qsvg.dll qtiff.dll
         data_copy.commands += -@$(MKDIR) $$targetPath(\"$$GCS_APP_PATH/imageformats\") $$addNewline()
         for(dll, QT_IMAGEFORMAT_DLLS) {
             data_copy.commands += $(COPY_FILE) $$targetPath(\"$$[QT_INSTALL_PLUGINS]/imageformats/$$dll\") $$targetPath(\"$$GCS_APP_PATH/imageformats/$$dll\") $$addNewline()
         }
 
         # copy phonon_backend
-        QT_PHONON_BACKEND_DLLS = phonon_ds94.dll
-        data_copy.commands += -@$(MKDIR) $$targetPath(\"$$GCS_APP_PATH/phonon_backend\") $$addNewline()
-        for(dll, QT_PHONON_BACKEND_DLLS) {
-            data_copy.commands += $(COPY_FILE) $$targetPath(\"$$[QT_INSTALL_PLUGINS]/phonon_backend/$$dll\") $$targetPath(\"$$GCS_APP_PATH/phonon_backend/$$dll\") $$addNewline()
-        }
+        #QT_PHONON_BACKEND_DLLS = phonon_ds94.dll
+        #data_copy.commands += -@$(MKDIR) $$targetPath(\"$$GCS_APP_PATH/phonon_backend\") $$addNewline()
+        #for(dll, QT_PHONON_BACKEND_DLLS) {
+        #    data_copy.commands += $(COPY_FILE) $$targetPath(\"$$[QT_INSTALL_PLUGINS]/phonon_backend/$$dll\") $$targetPath(\"$$GCS_APP_PATH/phonon_backend/$$dll\") $$addNewline()
+        #}
 
         # copy sqldrivers
-        QT_SQLDRIVERS_DLLS = qsqlite4.dll
+        QT_SQLDRIVERS_DLLS = qsqlite.dll
         data_copy.commands += -@$(MKDIR) $$targetPath(\"$$GCS_APP_PATH/sqldrivers\") $$addNewline()
         for(dll, QT_SQLDRIVERS_DLLS) {
             data_copy.commands += $(COPY_FILE) $$targetPath(\"$$[QT_INSTALL_PLUGINS]/sqldrivers/$$dll\") $$targetPath(\"$$GCS_APP_PATH/sqldrivers/$$dll\") $$addNewline()
