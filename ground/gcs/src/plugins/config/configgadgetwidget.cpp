@@ -209,6 +209,7 @@ void ConfigGadgetWidget::onAutopilotConnect() {
                    (board & 0xff00) == 0x8100 || // Freedom
                    (board & 0xff00) == 0x8300 || // FlyingF3
                    (board & 0xff00) == 0x8400 || // FlyingF4
+                   (board & 0xff00) == 0x8500 || // DiscoveryF4
                    (board & 0xff00) == 0x8600    // Quanton
                    ) {
             // Non-CopterControl family

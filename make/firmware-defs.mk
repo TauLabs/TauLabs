@@ -52,7 +52,7 @@ MSG_ASMFROMC         = ${quote} AS(C)     $(MSG_EXTRA) ${quote}
 MSG_ASMFROMC_ARM     = ${quote} AS(C)-ARM $(MSG_EXTRA) ${quote}
 MSG_PYMITEINIT       = ${quote} PY        $(MSG_EXTRA) ${quote}
 MSG_INSTALLING       = ${quote} INSTALL   $(MSG_EXTRA) ${quote}
-MSG_OPFIRMWARE       = ${quote} OPFW      $(MSG_EXTRA) ${quote}
+MSG_TLFIRMWARE       = ${quote} TLFW      $(MSG_EXTRA) ${quote}
 MSG_FWINFO           = ${quote} FWINFO    $(MSG_EXTRA) ${quote}
 MSG_JTAG_PROGRAM     = ${quote} JTAG-PGM  $(MSG_EXTRA) ${quote}
 MSG_JTAG_WIPE        = ${quote} JTAG-WIPE $(MSG_EXTRA) ${quote}
@@ -120,7 +120,7 @@ endef
 #  $(1) = path to bin file
 #  $(2) = boardtype in hex
 #  $(3) = board revision in hex
-define OPFW_TEMPLATE
+define TLFW_TEMPLATE
 FORCE:
 
 $(1).firmwareinfo.c: $(1) $(TOP)/make/templates/firmwareinfotemplate.c FORCE
@@ -136,8 +136,8 @@ $(1).firmwareinfo.c: $(1) $(TOP)/make/templates/firmwareinfotemplate.c FORCE
 
 $(eval $(call COMPILE_C_TEMPLATE, $(1).firmwareinfo.c))
 
-$(OUTDIR)/$(notdir $(basename $(1))).opfw : $(1) $(1).firmwareinfo.bin
-	@echo $(MSG_OPFIRMWARE) $$(call toprel, $$@)
+$(OUTDIR)/$(notdir $(basename $(1))).tlfw : $(1) $(1).firmwareinfo.bin
+	@echo $(MSG_TLFIRMWARE) $$(call toprel, $$@)
 	$(V1) cat $(1) $(1).firmwareinfo.bin > $$@
 endef
 

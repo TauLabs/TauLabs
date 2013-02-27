@@ -57,6 +57,7 @@ DefaultHwSettingsWidget::DefaultHwSettingsWidget(QWidget *parent, bool autopilot
         //List of supported boards which do not currently have board-specific pages
         allHwSettings.append("HwFlyingF3");
         allHwSettings.append("HwFlyingF4");
+        allHwSettings.append("HwDiscoveryF4");
         allHwSettings.append("HwFreedom");
         allHwSettings.append("HwRevolution");
         allHwSettings.append("HwRevoMini");
