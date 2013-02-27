@@ -17,6 +17,4 @@ SUBDIRS += sdlgamepad
 }
 
 #SUBDIRS += glc_lib
-}
-
 SUBDIRS +=
