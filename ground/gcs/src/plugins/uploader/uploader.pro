@@ -46,5 +46,5 @@ FORMS += \
 RESOURCES += \
     uploader.qrc
 exists( ../../../../../build/ground/opfw_resource/opfw_resource.qrc ) {
-RESOURCES += ../../../../build/ground/opfw_resource/opfw_resource.qrc
+RESOURCES += ../../../../../build/ground/opfw_resource/opfw_resource.qrc
 }
