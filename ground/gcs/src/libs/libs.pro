@@ -13,8 +13,4 @@ SUBDIRS   = \
     sdlgamepad \
     libqxt
 
-!LIGHTWEIGHT_GCS {
-#SUBDIRS += glc_lib
-}
-
 SUBDIRS +=
