@@ -225,10 +225,10 @@ void HistogramScope::replaceHistogramDataSource(QList<Plot2dCurveConfiguration*>
  * @brief HistogramScope::loadConfiguration loads the plot configuration into the scope gadget widget
  * @param scopeGadgetWidget
  */
-void HistogramScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget)
+void HistogramScope::loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget)
 {
-    (*scopeGadgetWidget)->setupHistogramPlot(this);
-    (*scopeGadgetWidget)->setRefreshInterval(m_refreshInterval);
+    scopeGadgetWidget->setupHistogramPlot(this);
+    scopeGadgetWidget->setRefreshInterval(m_refreshInterval);
 
     // Configured each data source
     foreach (Plot2dCurveConfiguration* histogramDataSourceConfig,  m_HistogramSourceConfigs)
@@ -286,22 +286,22 @@ void HistogramScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget)
         plotHistogram->setBrush(QBrush(QColor(color)));
         plotHistogram->setData( histogramData->intervalSeriesData);
 
-        plotHistogram->attach((*scopeGadgetWidget));
+        plotHistogram->attach(scopeGadgetWidget);
         histogramData->histogram = plotHistogram;
 
         //Keep the curve details for later
         m_curves2dData.insert(histogramNameScaled, histogramData);
 
         //Link to the new signal data only if this UAVObject has not been connected yet
-        if (!(*scopeGadgetWidget)->m_connectedUAVObjects.contains(obj->getName())) {
-            (*scopeGadgetWidget)->m_connectedUAVObjects.append(obj->getName());
-            connect(obj, SIGNAL(objectUpdated(UAVObject*)), (*scopeGadgetWidget), SLOT(uavObjectReceived(UAVObject*)));
+        if (!scopeGadgetWidget->m_connectedUAVObjects.contains(obj->getName())) {
+            scopeGadgetWidget->m_connectedUAVObjects.append(obj->getName());
+            connect(obj, SIGNAL(objectUpdated(UAVObject*)), scopeGadgetWidget, SLOT(uavObjectReceived(UAVObject*)));
         }
 
 
     }
     mutex.lock();
-    (*scopeGadgetWidget)->replot();
+    scopeGadgetWidget->replot();
     mutex.unlock();
 }
 

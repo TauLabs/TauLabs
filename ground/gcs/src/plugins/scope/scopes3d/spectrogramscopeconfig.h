@@ -76,7 +76,7 @@ public:
     virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page);
     virtual ScopesGeneric* cloneScope(ScopesGeneric*);
 
-    virtual void loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget);
+    virtual void loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget);
 
     virtual void preparePlot(ScopeGadgetWidget *);
     virtual void plotNewData(ScopeGadgetWidget *);

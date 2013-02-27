@@ -60,7 +60,7 @@ public:
     virtual int getScopeDimensions() = 0;
     virtual void saveConfiguration(QSettings *qSettings) = 0;
     virtual int getScopeType() = 0;
-    virtual void loadConfiguration(ScopeGadgetWidget **) = 0;
+    virtual void loadConfiguration(ScopeGadgetWidget *) = 0;
     virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *) = 0;
 
     int getRefreshInterval(){return m_refreshInterval;}

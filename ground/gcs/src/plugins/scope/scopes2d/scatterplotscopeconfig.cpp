@@ -222,21 +222,21 @@ void Scatterplot2dScope::replaceScatterplotDataSource(QList<Plot2dCurveConfigura
  * @brief Scatterplot2dScope::loadConfiguration loads the plot configuration into the scope gadget widget
  * @param scopeGadgetWidget
  */
-void Scatterplot2dScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget)
+void Scatterplot2dScope::loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget)
 {
     switch (scatterplot2dType)
     {
     default:
     case SERIES2D:
-        (*scopeGadgetWidget)->setupSeriesPlot(this);
+        scopeGadgetWidget->setupSeriesPlot(this);
         break;
     case TIMESERIES2D:
-        (*scopeGadgetWidget)->setupTimeSeriesPlot(this);
+        scopeGadgetWidget->setupTimeSeriesPlot(this);
         break;
     }
 
-    (*scopeGadgetWidget)->setRefreshInterval(m_refreshInterval);
-    (*scopeGadgetWidget)->setXWindowSize(timeHorizon);
+    scopeGadgetWidget->setRefreshInterval(m_refreshInterval);
+    scopeGadgetWidget->setXWindowSize(timeHorizon);
 
     // Configured each data source
     foreach (Plot2dCurveConfiguration* plotCurveConfig,  m_scatterplotSourceConfigs)
@@ -256,7 +256,7 @@ void Scatterplot2dScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget
             break;
         }
 
-        scatterplotData->setXWindowSize((*scopeGadgetWidget)->m_xWindowSize);
+        scatterplotData->setXWindowSize(scopeGadgetWidget->m_xWindowSize);
         scatterplotData->setScalePower(plotCurveConfig->yScalePower);
         scatterplotData->setMeanSamples(plotCurveConfig->yMeanSamples);
         scatterplotData->setMathFunction(plotCurveConfig->mathFunction);
@@ -308,20 +308,20 @@ void Scatterplot2dScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget
         QwtPlotCurve* plotCurve = new QwtPlotCurve(curveNameScaledMath);
         plotCurve->setPen(QPen(QBrush(QColor(color), Qt::SolidPattern), (qreal)1, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin));
         plotCurve->setSamples(*(scatterplotData->getXData()), *(scatterplotData->getYData()));
-        plotCurve->attach((*scopeGadgetWidget));
+        plotCurve->attach(scopeGadgetWidget);
         scatterplotData->curve = plotCurve;
 
         //Keep the curve details for later
         m_curves2dData.insert(curveNameScaledMath, scatterplotData);
 
         //Link to the new signal data only if this UAVObject has not been connected yet
-        if (!(*scopeGadgetWidget)->m_connectedUAVObjects.contains(obj->getName())) {
-            (*scopeGadgetWidget)->m_connectedUAVObjects.append(obj->getName());
-            connect(obj, SIGNAL(objectUpdated(UAVObject*)), (*scopeGadgetWidget), SLOT(uavObjectReceived(UAVObject*)));
+        if (!scopeGadgetWidget->m_connectedUAVObjects.contains(obj->getName())) {
+            scopeGadgetWidget->m_connectedUAVObjects.append(obj->getName());
+            connect(obj, SIGNAL(objectUpdated(UAVObject*)), scopeGadgetWidget, SLOT(uavObjectReceived(UAVObject*)));
         }
     }
     mutex.lock();
-    (*scopeGadgetWidget)->replot();
+    scopeGadgetWidget->replot();
     mutex.unlock();
 }
 

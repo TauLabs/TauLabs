@@ -65,7 +65,7 @@ public:
 
     virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page);
 
-    virtual void loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget);
+    virtual void loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget);
 
     virtual void preparePlot(ScopeGadgetWidget *);
     virtual void plotNewData(ScopeGadgetWidget *);

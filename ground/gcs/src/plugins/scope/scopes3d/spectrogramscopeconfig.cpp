@@ -211,10 +211,10 @@ void SpectrogramScope::replaceSpectrogramDataSource(QList<Plot3dCurveConfigurati
  * @brief SpectrogramScope::loadConfiguration loads the plot configuration into the scope gadget widget
  * @param scopeGadgetWidget
  */
-void SpectrogramScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget)
+void SpectrogramScope::loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget)
 {
-    (*scopeGadgetWidget)->setupSpectrogramPlot(this);
-    (*scopeGadgetWidget)->setRefreshInterval(m_refreshInterval);
+    scopeGadgetWidget->setupSpectrogramPlot(this);
+    scopeGadgetWidget->setRefreshInterval(m_refreshInterval);
 
     //There should be only one spectrogram per plot //TODO: Upgrade this to handle multiple spectrograms on a single axis
     if ( m_spectrogramSourceConfigs.length() != 1)
@@ -295,29 +295,29 @@ void SpectrogramScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget)
     spectrogramData->rasterData->setInterval( Qt::ZAxis, QwtInterval(0, zMaximum));
 
     //Set up colorbar on right axis
-    spectrogramData->rightAxis = (*scopeGadgetWidget)->axisWidget( QwtPlot::yRight );
+    spectrogramData->rightAxis = scopeGadgetWidget->axisWidget( QwtPlot::yRight );
     spectrogramData->rightAxis->setTitle( "Intensity" );
     spectrogramData->rightAxis->setColorBarEnabled( true );
     spectrogramData->rightAxis->setColorMap( QwtInterval(0, zMaximum), new ColorMap(colorMapType));
-    (*scopeGadgetWidget)->setAxisScale( QwtPlot::yRight, 0, zMaximum);
-    (*scopeGadgetWidget)->enableAxis( QwtPlot::yRight );
+    scopeGadgetWidget->setAxisScale( QwtPlot::yRight, 0, zMaximum);
+    scopeGadgetWidget->enableAxis( QwtPlot::yRight );
 
     plotSpectrogram->setData(spectrogramData->rasterData);
 
-    plotSpectrogram->attach((*scopeGadgetWidget));
+    plotSpectrogram->attach(scopeGadgetWidget);
     spectrogramData->spectrogram = plotSpectrogram;
 
     //Keep the curve details for later
     m_curves3dData.insert(waterfallNameScaled, spectrogramData);
 
     //Link to the new signal data only if this UAVObject has not been connected yet
-    if (!(*scopeGadgetWidget)->m_connectedUAVObjects.contains(obj->getName())) {
-        (*scopeGadgetWidget)->m_connectedUAVObjects.append(obj->getName());
-        connect(obj, SIGNAL(objectUpdated(UAVObject*)), (*scopeGadgetWidget), SLOT(uavObjectReceived(UAVObject*)));
+    if (!scopeGadgetWidget->m_connectedUAVObjects.contains(obj->getName())) {
+        scopeGadgetWidget->m_connectedUAVObjects.append(obj->getName());
+        connect(obj, SIGNAL(objectUpdated(UAVObject*)), scopeGadgetWidget, SLOT(uavObjectReceived(UAVObject*)));
     }
 
     mutex.lock();
-    (*scopeGadgetWidget)->replot();
+    scopeGadgetWidget->replot();
     mutex.unlock();
 }
 

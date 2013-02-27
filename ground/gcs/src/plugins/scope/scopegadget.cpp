@@ -53,7 +53,7 @@ void ScopeGadget::loadConfiguration(IUAVGadgetConfiguration* config)
         return;
 
     scopeGadgetWidget->clearPlotWidget();
-    sgConfig->getScope()->loadConfiguration(&scopeGadgetWidget);
+    sgConfig->getScope()->loadConfiguration(scopeGadgetWidget);
 }
 
 
