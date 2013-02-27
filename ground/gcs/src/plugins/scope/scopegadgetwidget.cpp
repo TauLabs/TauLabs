@@ -303,6 +303,8 @@ void ScopeGadgetWidget::setupSeriesPlot(ScopesGeneric* scope)
     setAxisAutoScale(QwtPlot::yLeft, true);
     setAxisLabelRotation(QwtPlot::xBottom, 0.0);
     setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom);
+    axisWidget( QwtPlot::yRight )->setColorBarEnabled( false );
+    enableAxis( QwtPlot::yRight, false );
 
     QwtScaleWidget *scaleWidget = axisWidget(QwtPlot::xBottom);
 
@@ -335,6 +337,8 @@ void ScopeGadgetWidget::setupTimeSeriesPlot(ScopesGeneric* scope)
     setAxisLabelRotation(QwtPlot::xBottom, 0.0);
     setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom);
 //	setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignCenter | Qt::AlignBottom);
+    axisWidget( QwtPlot::yRight )->setColorBarEnabled( false );
+    enableAxis( QwtPlot::yRight, false );
 
 
     // Reduce the gap between the scope canvas and the axis scale
@@ -381,6 +385,8 @@ void ScopeGadgetWidget::setupHistogramPlot(ScopesGeneric *scope)
     setAxisAutoScale(QwtPlot::xBottom);
     setAxisLabelRotation(QwtPlot::xBottom, 0.0);
     setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom);
+    axisWidget( QwtPlot::yRight )->setColorBarEnabled( false );
+    enableAxis( QwtPlot::yRight, false );
 
     // Reduce the gap between the scope canvas and the axis scale
     QwtScaleWidget *scaleWidget = axisWidget(QwtPlot::xBottom);
