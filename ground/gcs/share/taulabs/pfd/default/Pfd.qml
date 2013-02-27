@@ -1,6 +1,6 @@
-import Qt 4.7
+import QtQuick 1.1
 import "."
-import org.OpenPilot 1.0
+import org.TauLabs 1.0
 
 Rectangle {
     color: "#666666"

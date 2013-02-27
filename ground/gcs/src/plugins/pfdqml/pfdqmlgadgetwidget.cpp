@@ -85,11 +85,10 @@ PfdQmlGadgetWidget::PfdQmlGadgetWidget(QWidget *parent) :
     //to expose settings values
     engine()->rootContext()->setContextProperty("qmlWidget", this);
 #ifdef USE_OSG
-    qmlRegisterType<OsgEarthItem>("org.OpenPilot", 1, 0, "OsgEarth");
+    qmlRegisterType<OsgEarthItem>("org.TauLabs", 1, 0, "OsgEarth");
 #endif
-    qmlRegisterType<LowPassFilter>("org.OpenPilot", 1, 0, "LowPassFilter");
-    qmlRegisterUncreatableType<StabilizationDesired>("org.OpenPilot", 1, 0, "StabilizationDesiredType","");
-
+    qmlRegisterType<LowPassFilter>("org.TauLabs", 1, 0, "LowPassFilter");
+    qmlRegisterUncreatableType<StabilizationDesired>("org.TauLabs", 1, 0, "StabilizationDesiredType","");
 }
 
 PfdQmlGadgetWidget::~PfdQmlGadgetWidget()
