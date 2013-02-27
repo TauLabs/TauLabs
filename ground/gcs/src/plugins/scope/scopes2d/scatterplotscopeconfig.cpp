@@ -40,7 +40,6 @@
 Scatterplot2dScope::Scatterplot2dScope()
 {
     scatterplot2dType = TIMESERIES2D;
-    xAxisUnits = "";
     m_refreshInterval = 50;
     timeHorizon = 60;
 }
@@ -415,7 +414,7 @@ void Scatterplot2dScope::plotNewData(ScopeGadgetWidget *scopeGadgetWidget)
         if (scatterplotData->readAndResetUpdatedFlag() == true)
             scatterplotData->curve->setSamples(*(scatterplotData->getXData()), *(scatterplotData->getYData()));
 
-        // Advance axis in case of time series plot. // TODO: Do this just once.
+        // Advance axis in case of time series plot.
         if (scatterplot2dType == TIMESERIES2D && updateXAxisFlag == true)
         {
             QDateTime NOW = QDateTime::currentDateTime();

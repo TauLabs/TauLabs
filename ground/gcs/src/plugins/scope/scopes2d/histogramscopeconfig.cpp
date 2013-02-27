@@ -394,7 +394,7 @@ void HistogramScope::plotNewData(ScopeGadgetWidget *scopeGadgetWidget)
         //Plot new data
         HistogramData *histogramData = (HistogramData*) plot2dData;
         histogramData->histogram->setData(histogramData->intervalSeriesData);
-        histogramData->intervalSeriesData->setSamples(*histogramData->histogramBins); // <-- Is this a memory leak?
+        histogramData->intervalSeriesData->setSamples(*histogramData->histogramBins);
     }
 }
 

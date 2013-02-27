@@ -64,13 +64,11 @@ public:
     //Getter functions
     virtual int getScopeType(){return (int) SCATTERPLOT2D;}
     double getTimeHorizon(){return timeHorizon;}
-    QString getXAxisUnits(){return xAxisUnits;}
     virtual QList<Plot2dCurveConfiguration*> getDataSourceConfigs(){return m_scatterplotSourceConfigs;}
     Scatterplot2dType getScatterplot2dType(){return scatterplot2dType;}
 
     //Setter functions
     void setTimeHorizon(double val){timeHorizon = val;}
-    void setXAxisUnits(QString val){xAxisUnits = val;}
     void setScatterplot2dType(Scatterplot2dType val){scatterplot2dType = val;}
     virtual void loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget);
     virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page);
@@ -84,7 +82,6 @@ public:
 
 private:
     Scatterplot2dType scatterplot2dType;
-    QString xAxisUnits; //TODO: Remove this once 2d scatterplot is completed
     double timeHorizon;
 
     QList<Plot2dCurveConfiguration*> m_scatterplotSourceConfigs;

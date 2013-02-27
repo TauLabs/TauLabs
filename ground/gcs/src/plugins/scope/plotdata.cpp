@@ -88,8 +88,7 @@ Plot3dData::Plot3dData(QString p_uavObject, QString p_uavFieldName):
 {
     uavObjectName = p_uavObject;
 
-    //TODO: This needs a comment here. How can a `-` appear in a UAVO field name? Is this automatic in certain instances, or is it user-defined?
-    if(p_uavFieldName.contains("-"))
+    if(p_uavFieldName.contains("-")) //For fields with multiple indices, '-' followed by an index indicates which one
     {
         QStringList fieldSubfield = p_uavFieldName.split("-", QString::SkipEmptyParts);
         uavFieldName = fieldSubfield.at(0);
@@ -108,7 +107,6 @@ Plot3dData::Plot3dData(QString p_uavObject, QString p_uavFieldName):
     zDataHistory = new QVector<double>();
     timeDataHistory = new QVector<double>();
 
-    curve = 0;
     scalePower = 0;
     meanSamples = 1;
     meanSum = 0.0f;
@@ -230,7 +228,7 @@ bool SeriesPlotData::append(UAVObject* obj)
 
 bool SpectrogramData::append(UAVObject* multiObj)
 {
-    QDateTime NOW = QDateTime::currentDateTime(); //TODO: This should show UAVO time and not system time
+    QDateTime NOW = QDateTime::currentDateTime(); //TODO: Upgrade this to show UAVO time and not system time
 
     // Check to make sure it's the correct UAVO
     if (uavObjectName == multiObj->getName()) {
@@ -316,7 +314,6 @@ bool TimeSeriesPlotData::append(UAVObject* obj)
     if (uavObjectName == obj->getName()) {
         //Get the field of interest
         UAVObjectField* field =  obj->getField(uavFieldName);
-        //qDebug() << "uavObject: " << uavObject << ", uavField: " << uavFieldName;
 
         if (field) {
             QDateTime NOW = QDateTime::currentDateTime(); //THINK ABOUT REIMPLEMENTING THIS TO SHOW UAVO TIME, NOT SYSTEM TIME

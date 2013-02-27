@@ -196,7 +196,7 @@ void SpectrogramScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget)
     (*scopeGadgetWidget)->setupSpectrogramPlot(this);
     (*scopeGadgetWidget)->setRefreshInterval(m_refreshInterval);
 
-    //There should be only one spectrogram per plot //TODO: Change this to handle multiple spectrograms
+    //There should be only one spectrogram per plot //TODO: Upgrade this to handle multiple spectrograms on a single axis
     if ( m_spectrogramSourceConfigs.length() != 1)
         return;
 
@@ -250,7 +250,7 @@ void SpectrogramScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget)
     // Initial raster data
     spectrogramData->rasterData = new QwtMatrixRasterData();
 
-    QDateTime NOW = QDateTime::currentDateTime(); //TODO: This should show UAVO time and not system time
+    QDateTime NOW = QDateTime::currentDateTime(); //TODO: Upgrade this to show UAVO time and not system time
     for ( uint i = 0; i < timeHorizon; i++ ){
         spectrogramData->timeDataHistory->append(NOW.toTime_t() + NOW.time().msec() / 1000.0 + i);
     }

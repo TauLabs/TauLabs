@@ -64,8 +64,6 @@ public:
     virtual void setUpdatedFlagToTrue(){dataUpdated = true;}
     virtual bool readAndResetUpdatedFlag(){bool tmp = dataUpdated; dataUpdated = false; return tmp;}
 
-    QwtPlotCurve* curve; //TODO: This shouldn't be here, it should be in a ScatterplotData class
-
 protected:
     double zMinimum;
     double zMaximum;

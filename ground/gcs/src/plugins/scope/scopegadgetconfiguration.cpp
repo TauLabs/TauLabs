@@ -78,11 +78,6 @@ ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* q
 
             Scopes3d::Plot3dType plot3dType = (Scopes3d::Plot3dType) qSettings->value("plot3dType").toUInt(); //<--TODO: This requires that the enum values be defined at 0,1,...n
             switch (plot3dType){
-            case Scopes3d::SCATTERPLOT3D:
-            {
-//                m_scope = new Scatterplot3dScope(qSettings);
-                break;
-            }
             case Scopes3d::SPECTROGRAM:
             {
                 m_scope = new SpectrogramScope(qSettings);
@@ -90,6 +85,7 @@ ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* q
             }
             default:
                 //We shouldn't be able to get this far
+                return;
                 Q_ASSERT(0);
             }
 
@@ -120,26 +116,24 @@ void ScopeGadgetConfiguration::applyGuiConfiguration(Ui::ScopeGadgetOptionsPage 
 
     if(options_page->tabWidget2d3d->currentWidget() == options_page->tabPlot2d)
     {   //--- 2D ---//
-        Scopes2d::Plot2dType plot2dType = (Scopes2d::Plot2dType) options_page->cmb2dPlotType->itemData(options_page->cmb2dPlotType->currentIndex()).toUInt(); //This is safe because the int value is defined from the enum.
+        Scopes2d::Plot2dType plot2dType = (Scopes2d::Plot2dType) options_page->cmb2dPlotType->itemData(options_page->cmb2dPlotType->currentIndex()).toUInt(); //This is safe because the item data is defined from the enum.
         switch (plot2dType){
-        case Scopes2d::SCATTERPLOT2D: {
-            m_scope = new Scatterplot2dScope(options_page);
-            break;
-        }
         case Scopes2d::HISTOGRAM: {
             m_scope = new HistogramScope(options_page);
             break;
-        }
-        default:
-            //We shouldn't be able to get this far
-            Q_ASSERT(0);
+            }
+        case Scopes2d::SCATTERPLOT2D:
+        default: {
+            m_scope = new Scatterplot2dScope(options_page);
+            break;
+            }
         }
 
     }
     else if(options_page->tabWidget2d3d->currentWidget() == options_page->tabPlot3d)
     {   //--- 3D ---//
 
-        Scopes3d::Plot3dType plot3dType = (Scopes3d::Plot3dType) options_page->cmb3dPlotType->itemData(options_page->cmb3dPlotType->currentIndex()).toUInt(); //This is safe because the int value is defined from the enum
+        Scopes3d::Plot3dType plot3dType = (Scopes3d::Plot3dType) options_page->cmb3dPlotType->itemData(options_page->cmb3dPlotType->currentIndex()).toUInt(); //This is safe because the item data is defined from the enum
 
         if (options_page->stackedWidget3dPlots->currentWidget() == options_page->sw3dSpectrogramStack)
         {
@@ -147,19 +141,10 @@ void ScopeGadgetConfiguration::applyGuiConfiguration(Ui::ScopeGadgetOptionsPage 
         }
         else if (options_page->stackedWidget3dPlots->currentWidget() == options_page->sw3dTimeSeriesStack)
         {
-//            m_scope = new Scatterplot3dScope(options_page);
         }
-        else{
-            Q_ASSERT(0);
-        }
-
-    }
-    else{
-        Q_ASSERT(0);
     }
 
     m_scope->setRefreshInterval(refreshInterval);
-
 }
 
 

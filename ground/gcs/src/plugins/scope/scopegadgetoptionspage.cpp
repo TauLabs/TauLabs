@@ -70,7 +70,6 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
     // Set up 2D plots tab
     options_page->cmb2dPlotType->addItem("Scatter plot", Scopes2d::SCATTERPLOT2D);
     options_page->cmb2dPlotType->addItem("Histogram", Scopes2d::HISTOGRAM);
-//    options_page->cmb2dPlotType->addItem("Polar plot", POLARPLOT);
 
     // Set up x-axis combo box
     options_page->cmbXAxisScatterplot2d->addItem("Series", Scatterplot2dScope::SERIES2D);
@@ -78,7 +77,6 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
 
 
     // Set up 3D plots tab
-//    options_page->cmb3dPlotType->addItem("Time series", TimeSeries3d);
     options_page->cmb3dPlotType->addItem("Spectrogram", Scopes3d::SPECTROGRAM);
 
     options_page->cmbSpectrogramSource->addItem("Custom", SpectrogramScope::CUSTOM_SPECTROGRAM);
@@ -360,7 +358,7 @@ void ScopeGadgetOptionsPage::on_cmbUAVObjects_currentIndexChanged(QString val)
     UAVDataObject* objData = dynamic_cast<UAVDataObject*>( objManager->getObject(val) );
 
     if (objData == NULL)
-        return; // Rare case: the config contained a UAVObject name which does not exist anymore.
+        return;
 
     QList<UAVObjectField*> fieldList = objData->getFields();
     foreach (UAVObjectField* field, fieldList) {
@@ -395,7 +393,7 @@ void ScopeGadgetOptionsPage::on_cmbUAVObjectsSpectrogram_currentIndexChanged(QSt
     UAVDataObject* objData = dynamic_cast<UAVDataObject*>( objManager->getObject(val) );
 
     if (objData == NULL)
-        return; // Rare case: the config contained a UAVObject name which does not exist anymore.
+        return;
 
     QList<UAVObjectField*> fieldList = objData->getFields();
     foreach (UAVObjectField* field, fieldList) {
@@ -514,13 +512,6 @@ void ScopeGadgetOptionsPage::addPlot2dCurveConfig(QString uavObjectName, QString
 }
 
 
-//Add a new curve config to the list
-void ScopeGadgetOptionsPage::addPlot3dCurveConfig(QString uavObjectName, QString uavFieldName, int scale, int mean, QString mathFunction, QVariant varColor)
-{
-    // Do something here...
-}
-
-
 /**
  * @brief ScopeGadgetOptionsPage::setPlot2dCurveProperties Set the y-axis curve properties. Overwrites
  * the existing scope configuration.
@@ -532,7 +523,7 @@ void ScopeGadgetOptionsPage::addPlot3dCurveConfig(QString uavObjectName, QString
  * @param mathFunction
  * @param varColor
  */
-void ScopeGadgetOptionsPage::setPlot2dCurveProperties(QListWidgetItem *listWidgetItem,QString uavObject, QString uavField, int scale, int mean, QString mathFunction, QVariant varColor)
+void ScopeGadgetOptionsPage::setPlot2dCurveProperties(QListWidgetItem *listWidgetItem, QString uavObject, QString uavField, int scale, int mean, QString mathFunction, QVariant varColor)
 {
     bool parseOK = false;
     QString listItemDisplayText;
@@ -565,7 +556,7 @@ void ScopeGadgetOptionsPage::setPlot2dCurveProperties(QListWidgetItem *listWidge
 }
 
 
-//TODO: Understand why finish() is here and what it's supposed to do. Clearly nothing right now. Is this intentional?
+//TODO: Document why finish() is here and what it's supposed to do. Clearly nothing right now.
 void ScopeGadgetOptionsPage::finish()
 {
 
@@ -595,11 +586,7 @@ void ScopeGadgetOptionsPage::on_cmbXAxisScatterplot2d_currentIndexChanged(QStrin
 
 void ScopeGadgetOptionsPage::on_cmb2dPlotType_currentIndexChanged(QString currentText)
 {
-    if (currentText == "Polar plot"){
-//        options_page->spnDataSize->setSuffix(" samples");
-//        options_page->sw2dXAxis->setCurrentWidget(options_page->sw2dSeriesStack);
-    }
-    else if (currentText == "Scatter plot"){
+    if (currentText == "Scatter plot"){
         options_page->sw2dXAxis->setCurrentWidget(options_page->sw2dSeriesStack);
         on_cmbXAxisScatterplot2d_currentIndexChanged(options_page->cmbXAxisScatterplot2d->currentText());
     }
