@@ -47,6 +47,7 @@ private slots:
     void openHelp();
     void refreshValues();
     void widgetsContentsChanged();
+    void on_groupBoxGPS_toggled(bool onState);
 
 private:
     Ui_CC_HW_Widget *m_telemetry;

@@ -1,8 +1,9 @@
 /**
  ******************************************************************************
  *
- * @file       configtelemetrywidget.h
+ * @file       config_cc_hw_widget.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -26,6 +27,7 @@
  */
 #include "config_cc_hw_widget.h"
 #include "hwcoptercontrol.h"
+#include "modulesettings.h"
 
 #include <QDebug>
 #include <QStringList>
@@ -82,6 +84,18 @@ ConfigCCHWWidget::ConfigCCHWWidget(QWidget *parent) : ConfigTaskWidget(parent)
     addUAVObjectToWidgetRelation("ModuleSettings","TelemetrySpeed",m_telemetry->telemetrySpeed);
     addUAVObjectToWidgetRelation("ModuleSettings","GPSSpeed",m_telemetry->gpsSpeed);
     addUAVObjectToWidgetRelation("ModuleSettings","ComUsbBridgeSpeed",m_telemetry->comUsbBridgeSpeed);
+    connect(m_telemetry->groupBoxGPS, SIGNAL(toggled(bool)), this, SLOT(on_groupBoxGPS_toggled(bool)));
+
+    // Get required UAVObjects
+    UAVObjectManager* objManager = pm->getObject<UAVObjectManager>();
+
+    ModuleSettings* moduleSettings;
+    moduleSettings = ModuleSettings::GetInstance(objManager);
+    ModuleSettings::DataFields moduleSettingsData;
+    moduleSettingsData = moduleSettings->getData();
+
+    // Set UI elements
+    m_telemetry->groupBoxGPS->setChecked(moduleSettingsData.State[ModuleSettings::STATE_GPS] == ModuleSettings::STATE_ENABLED);
 
     // Load UAVObjects to widget relations from UI file
     // using objrelation dynamic property
@@ -92,6 +106,29 @@ ConfigCCHWWidget::ConfigCCHWWidget(QWidget *parent) : ConfigTaskWidget(parent)
     populateWidgets();
     refreshWidgetsValues();
     forceConnectedState();
+}
+
+void ConfigCCHWWidget::on_groupBoxGPS_toggled(bool onState)
+{
+    // Get required UAVObjects
+    ExtensionSystem::PluginManager* pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager* objManager = pm->getObject<UAVObjectManager>();
+
+    ModuleSettings* moduleSettings;
+    moduleSettings = ModuleSettings::GetInstance(objManager);
+    ModuleSettings::DataFields moduleSettingsData;
+    moduleSettingsData = moduleSettings->getData();
+
+    // If state is enabled, then turn on GPS. Otherwise, turn it off.
+    if (onState) {
+        moduleSettingsData.State[ModuleSettings::STATE_GPS] = ModuleSettings::STATE_ENABLED;
+    }
+    else {
+        moduleSettingsData.State[ModuleSettings::STATE_GPS] = ModuleSettings::STATE_DISABLED;
+    }
+
+    moduleSettings->setData(moduleSettingsData);
+
 }
 
 ConfigCCHWWidget::~ConfigCCHWWidget()
