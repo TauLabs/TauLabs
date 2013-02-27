@@ -31,6 +31,9 @@
 #include "coreplugin/connectionmanager.h"
 
 
+/**
+ * @brief SpectrogramScope::SpectrogramScope Default constructor
+ */
 SpectrogramScope::SpectrogramScope()
 {
     m_refreshInterval = 50; //TODO: This should not be set here. Probably should come from a define somewhere.
@@ -43,6 +46,10 @@ SpectrogramScope::SpectrogramScope()
 }
 
 
+/**
+ * @brief SpectrogramScope::SpectrogramScope Constructor using the XML settings
+ * @param qSettings settings XML object
+ */
 SpectrogramScope::SpectrogramScope(QSettings *qSettings)
 {
     timeHorizon = qSettings->value("timeHorizon").toDouble();
@@ -76,6 +83,10 @@ SpectrogramScope::SpectrogramScope(QSettings *qSettings)
 }
 
 
+/**
+ * @brief SpectrogramScope::SpectrogramScope Constructor using the GUI settings
+ * @param options_page GUI settings preference pane
+ */
 SpectrogramScope::SpectrogramScope(Ui::ScopeGadgetOptionsPage *options_page)
 {
     bool parseOK = false;
@@ -110,6 +121,11 @@ SpectrogramScope::~SpectrogramScope()
 }
 
 
+/**
+ * @brief SpectrogramScope::cloneScope Clones scope from existing GUI configuration
+ * @param originalScope
+ * @return
+ */
 ScopesGeneric* SpectrogramScope::cloneScope(ScopesGeneric *originalScope)
 {
     SpectrogramScope *originalSpectrogramScope = (SpectrogramScope*) originalScope;
@@ -141,6 +157,10 @@ ScopesGeneric* SpectrogramScope::cloneScope(ScopesGeneric *originalScope)
 }
 
 
+/**
+ * @brief SpectrogramScope::saveConfiguration Saves configuration to XML file
+ * @param qSettings
+ */
 void SpectrogramScope::saveConfiguration(QSettings* qSettings)
 {
     //Start writing new XML block
@@ -303,6 +323,10 @@ void SpectrogramScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget)
 
 
 
+/**
+ * @brief SpectrogramScope::setGuiConfiguration Set the GUI elements based on values from the XML settings file
+ * @param options_page
+ */
 void SpectrogramScope::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page)
 {
     //Set the tab widget to 3D
@@ -328,6 +352,10 @@ void SpectrogramScope::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_p
 }
 
 
+/**
+ * @brief SpectrogramScope::preparePlot Prepares the Qwt plot colors and axes
+ * @param scopeGadgetWidget
+ */
 void SpectrogramScope::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
 {
     scopeGadgetWidget->setMinimumSize(64, 64);
@@ -356,6 +384,10 @@ void SpectrogramScope::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
 }
 
 
+/**
+ * @brief SpectrogramScope::plotNewData Update plot with new data
+ * @param scopeGadgetWidget
+ */
 void SpectrogramScope::plotNewData(ScopeGadgetWidget *scopeGadgetWidget)
 {
     foreach(Plot3dData* plot3dData, m_curves3dData.values())
@@ -382,6 +414,9 @@ void SpectrogramScope::plotNewData(ScopeGadgetWidget *scopeGadgetWidget)
 }
 
 
+/**
+ * @brief SpectrogramScope::clearPlots Clear all plot data
+ */
 void SpectrogramScope::clearPlots()
 {
     foreach(Plot3dData* plot3dData, m_curves3dData.values()) {
@@ -401,6 +436,10 @@ void SpectrogramScope::clearPlots()
 }
 
 
+/**
+ * @brief SpectrogramScope::uavObjectReceived Handles UAVO received from updates
+ * @param obj
+ */
 void SpectrogramScope::uavObjectReceived(UAVObject* obj)
 {
     foreach(Plot3dData* plot3dData, m_curves3dData.values()) {

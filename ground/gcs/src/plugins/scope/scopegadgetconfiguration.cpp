@@ -31,6 +31,12 @@
 #include "scopes3d/spectrogramscopeconfig.h"
 #include "scopegadgetconfiguration.h"
 
+/**
+ * @brief ScopeGadgetConfiguration::ScopeGadgetConfiguration Constructor for scope gadget settings
+ * @param classId
+ * @param qSettings Settings file
+ * @param parent
+ */
 ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* qSettings, QObject *parent) :
         IUAVGadgetConfiguration(classId, parent),
         m_scope(0)
@@ -98,6 +104,10 @@ ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* q
 }
 
 
+/**
+ * @brief ScopeGadgetConfiguration::applyGuiConfiguration Uses GUI information to create new scopes
+ * @param options_page
+ */
 void ScopeGadgetConfiguration::applyGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page)
 {
     m_scope->clearPlots();

@@ -51,6 +51,7 @@ ScopeGadgetOptionsPage::ScopeGadgetOptionsPage(ScopeGadgetConfiguration *config,
     //nothing to do here...
 }
 
+
 /**
  * @brief ScopeGadgetOptionsPage::createPage creates options page widget (uses the UI file)
  * @param parent Parent QWidghet
@@ -163,7 +164,6 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
     m_config->getScope()->setGuiConfiguration(options_page);
 
     // Cascading update on the UI elements
-    emit on_tabWidget2d3d_currentIndexChanged(options_page->tabWidget2d3d->currentIndex());
     emit on_cmb2dPlotType_currentIndexChanged(options_page->cmb2dPlotType->currentText());
     emit on_cmb3dPlotType_currentIndexChanged(options_page->cmb3dPlotType->currentText());
     emit on_cmbUAVObjectsSpectrogram_currentIndexChanged(options_page->cmbUAVObjectsSpectrogram->currentText());
@@ -217,6 +217,11 @@ void ScopeGadgetOptionsPage::on_mathFunctionComboBox_currentIndexChanged(int cur
 
 }
 
+
+/**
+ * @brief ScopeGadgetOptionsPage::on_cmbSpectrogramSource_currentIndexChanged Handles special data sources for the spectrogram
+ * @param currentText
+ */
 void ScopeGadgetOptionsPage::on_cmbSpectrogramSource_currentIndexChanged(QString currentText)
 {
     if (currentText == options_page->cmbSpectrogramSource->itemText(options_page->cmbSpectrogramSource->findData(SpectrogramScope::VIBRATIONANALYSIS))){
@@ -451,6 +456,9 @@ void ScopeGadgetOptionsPage::on_btnAdd2dCurve_clicked()
 }
 
 
+/**
+ * @brief ScopeGadgetOptionsPage::on_btnApply2dCurve_clicked Creates new data sources
+ */
 void ScopeGadgetOptionsPage::on_btnApply2dCurve_clicked()
 {
     bool parseOK = false;
@@ -493,7 +501,15 @@ void ScopeGadgetOptionsPage::on_btnRemove2dCurve_clicked()
 }
 
 
-//Add a new curve config to the list
+/**
+ * @brief ScopeGadgetOptionsPage::addPlot2dCurveConfig Add a new curve config to the list
+ * @param uavObjectName UAVO name
+ * @param uavFieldName UAVO fiel
+ * @param scale Scale multiplier
+ * @param mean Number of samples in mean
+ * @param mathFunction Math function to be performed on data
+ * @param varColor Plotted color
+ */
 void ScopeGadgetOptionsPage::addPlot2dCurveConfig(QString uavObjectName, QString uavFieldName, int scale, int mean, QString mathFunction, QVariant varColor)
 {
     QString listItemDisplayText = uavObjectName + "." + uavFieldName; // Generate the name
@@ -577,6 +593,10 @@ void ScopeGadgetOptionsPage::on_lst2dCurves_currentRowChanged(int currentRow)
     set2dYAxisWidgetFromDataSource();
 }
 
+/**
+ * @brief ScopeGadgetOptionsPage::on_cmbXAxisScatterplot2d_currentIndexChanged Updates the combobox text
+ * @param currentText
+ */
 void ScopeGadgetOptionsPage::on_cmbXAxisScatterplot2d_currentIndexChanged(QString currentText)
 {
     if (currentText == "Series"){
@@ -587,6 +607,11 @@ void ScopeGadgetOptionsPage::on_cmbXAxisScatterplot2d_currentIndexChanged(QStrin
     }
 }
 
+
+/**
+ * @brief ScopeGadgetOptionsPage::on_cmb2dPlotType_currentIndexChanged Updates the combobox text
+ * @param currentText
+ */
 void ScopeGadgetOptionsPage::on_cmb2dPlotType_currentIndexChanged(QString currentText)
 {
     if (currentText == "Scatter plot"){
@@ -600,6 +625,10 @@ void ScopeGadgetOptionsPage::on_cmb2dPlotType_currentIndexChanged(QString curren
 }
 
 
+/**
+ * @brief ScopeGadgetOptionsPage::on_lst2dItem_clicked If a 2d data source is clicked in the listview, toggle its selected state
+ * @param listItem
+ */
 void ScopeGadgetOptionsPage::on_lst2dItem_clicked(QListWidgetItem * listItem)
 {
     if (listItem == selectedItem)
@@ -614,21 +643,19 @@ void ScopeGadgetOptionsPage::on_lst2dItem_clicked(QListWidgetItem * listItem)
 }
 
 
+/**
+ * @brief ScopeGadgetOptionsPage::on_cmb3dPlotType_currentIndexChanged
+ * @param currentText
+ */
 void ScopeGadgetOptionsPage::on_cmb3dPlotType_currentIndexChanged(QString currentText)
 {
     if (currentText == "Spectrogram"){
         options_page->stackedWidget3dPlots->setCurrentWidget(options_page->sw3dSpectrogramStack);
 
-        //Set the spectrogram source combobox to vibration test by default
+        //Set the spectrogram source combobox to custom spectrogram by default
         options_page->cmbSpectrogramSource->setCurrentIndex(options_page->cmbSpectrogramSource->findData(SpectrogramScope::CUSTOM_SPECTROGRAM));
     }
     else if (currentText == "Time series"){
         options_page->stackedWidget3dPlots->setCurrentWidget(options_page->sw3dTimeSeriesStack);
     }
-}
-
-
-void ScopeGadgetOptionsPage::on_tabWidget2d3d_currentIndexChanged(int)
-{
-
 }

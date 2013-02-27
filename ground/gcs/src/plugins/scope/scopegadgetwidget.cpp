@@ -319,7 +319,7 @@ void ScopeGadgetWidget::setupSeriesPlot(ScopesGeneric* scope)
 
 
 /**
- * @brief ScopeGadgetWidget::setupTimeSeriesPlot
+ * @brief ScopeGadgetWidget::setupTimeSeriesPlot Creates plot, as well as sets up axes and scales
  */
 void ScopeGadgetWidget::setupTimeSeriesPlot(ScopesGeneric* scope)
 {
@@ -365,6 +365,11 @@ void ScopeGadgetWidget::setupTimeSeriesPlot(ScopesGeneric* scope)
 //	scaleWidget->setMinBorderDist(0, fmw);
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::setupHistogramPlot Creates plot, as well as sets up axes and scales
+ * @param scope
+ */
 void ScopeGadgetWidget::setupHistogramPlot(ScopesGeneric *scope)
 {
     m_scope = scope;
@@ -390,6 +395,10 @@ void ScopeGadgetWidget::setupHistogramPlot(ScopesGeneric *scope)
 }
 
 
+/**
+ * @brief ScopeGadgetWidget::setupSpectrogramPlot Creates plot, as well as sets up axes and scales
+ * @param scope
+ */
 void ScopeGadgetWidget::setupSpectrogramPlot(ScopesGeneric *scope)
 {
     m_scope = scope;
@@ -456,6 +465,12 @@ void ScopeGadgetWidget::clearPlotWidget()
 }
 
 
+/**
+ * @brief ScopeGadgetWidget::getUavObjectFieldUnits Gets the UAVOs units, as defined in the XML
+ * @param uavObjectName
+ * @param uavObjectFieldName
+ * @return
+ */
 QString ScopeGadgetWidget::getUavObjectFieldUnits(QString uavObjectName, QString uavObjectFieldName)
 {
     //Get the uav object
@@ -480,6 +495,11 @@ QString ScopeGadgetWidget::getUavObjectFieldUnits(QString uavObjectName, QString
     return units;
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::showEvent Reimplemented from QwtPlot
+ * @param event
+ */
 void ScopeGadgetWidget::showEvent(QShowEvent *event)
 {
     replotNewData();

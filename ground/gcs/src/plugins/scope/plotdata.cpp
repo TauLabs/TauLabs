@@ -48,6 +48,11 @@
 
 #define MAX_NUMBER_OF_INTERVALS 1000
 
+/**
+ * @brief Plot2dData::Plot2dData Default 2d constructor
+ * @param p_uavObject The plotted UAVO name
+ * @param p_uavFieldName The plotted UAVO field name
+ */
 Plot2dData::Plot2dData(QString p_uavObject, QString p_uavFieldName):
     yDataHistory(0),
     dataUpdated(false)
@@ -83,6 +88,11 @@ Plot2dData::Plot2dData(QString p_uavObject, QString p_uavFieldName):
 }
 
 
+/**
+ * @brief Plot3dData::Plot3dData Default 3d constructor
+ * @param p_uavObject The plotted UAVO name
+ * @param p_uavFieldName The plotted UAVO field name
+ */
 Plot3dData::Plot3dData(QString p_uavObject, QString p_uavFieldName):
     dataUpdated(false)
 {
@@ -148,6 +158,14 @@ Plot3dData::~Plot3dData()
 }
 
 
+/**
+ * @brief valueAsDouble Fetch the value from the UAVO and return it as a double
+ * @param obj UAVO
+ * @param field UAVO field
+ * @param haveSubField TRUE if UAVO has subfield. FALSE if not.
+ * @param uavSubFieldName UAVO subfield, if it exists
+ * @return
+ */
 double valueAsDouble(UAVObject* obj, UAVObjectField* field, bool haveSubField, QString uavSubFieldName)
 {
     Q_UNUSED(obj);
@@ -163,6 +181,11 @@ double valueAsDouble(UAVObject* obj, UAVObjectField* field, bool haveSubField, Q
 }
 
 
+/**
+ * @brief SeriesPlotData::append Appends data to series plot
+ * @param obj UAVO with new data
+ * @return
+ */
 bool SeriesPlotData::append(UAVObject* obj)
 {
     if (uavObjectName == obj->getName()) {
@@ -226,6 +249,11 @@ bool SeriesPlotData::append(UAVObject* obj)
 }
 
 
+/**
+ * @brief SpectrogramData::append Appends data to spectrogram
+ * @param obj UAVO with new data
+ * @return
+ */
 bool SpectrogramData::append(UAVObject* multiObj)
 {
     QDateTime NOW = QDateTime::currentDateTime(); //TODO: Upgrade this to show UAVO time and not system time
@@ -309,6 +337,11 @@ bool SpectrogramData::append(UAVObject* multiObj)
 }
 
 
+/**
+ * @brief TimeSeriesPlotData::append Appends data to time series data
+ * @param obj UAVO with new data
+ * @return
+ */
 bool TimeSeriesPlotData::append(UAVObject* obj)
 {
     if (uavObjectName == obj->getName()) {
@@ -370,6 +403,10 @@ bool TimeSeriesPlotData::append(UAVObject* obj)
     return false;
 }
 
+
+/**
+ * @brief TimeSeriesPlotData::removeStaleData Removes stale data from time series plot
+ */
 void TimeSeriesPlotData::removeStaleData()
 {
     double newestValue;
@@ -390,11 +427,21 @@ void TimeSeriesPlotData::removeStaleData()
     }
 }
 
+
+/**
+ * @brief TimeSeriesPlotData::removeStaleDataTimeout On timer timeout, removes data that can no longer be seen on axes.
+ */
 void TimeSeriesPlotData::removeStaleDataTimeout()
 {
     removeStaleData();
 }
 
+
+/**
+ * @brief HistogramData::append Appends data to histogram
+ * @param obj UAVO with new data
+ * @return
+ */
 bool HistogramData::append(UAVObject* obj)
 {
 

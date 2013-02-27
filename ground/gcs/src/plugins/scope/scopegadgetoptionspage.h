@@ -99,7 +99,6 @@ private slots:
     void on_cmbSpectrogramSource_currentIndexChanged(QString currentIndex);
     void on_cmb2dPlotType_currentIndexChanged(QString);
     void on_cmb3dPlotType_currentIndexChanged(QString);
-    void on_tabWidget2d3d_currentIndexChanged(int);
 
 };
 

@@ -37,6 +37,9 @@
 #include "coreplugin/connectionmanager.h"
 
 
+/**
+ * @brief Scatterplot2dScope::Scatterplot2dScope Default constructor.
+ */
 Scatterplot2dScope::Scatterplot2dScope()
 {
     scatterplot2dType = TIMESERIES2D;
@@ -45,6 +48,10 @@ Scatterplot2dScope::Scatterplot2dScope()
 }
 
 
+/**
+ * @brief Scatterplot2dScope::Scatterplot2dScope Constructor using the XML settings
+ * @param qSettings settings XML object
+ */
 Scatterplot2dScope::Scatterplot2dScope(QSettings *qSettings)
 {
     this->m_refreshInterval = m_refreshInterval;
@@ -75,6 +82,11 @@ Scatterplot2dScope::Scatterplot2dScope(QSettings *qSettings)
     }
 }
 
+
+/**
+ * @brief Scatterplot2dScope::Scatterplot2dScope Constructor using the GUI settings
+ * @param options_page GUI settings preference pane
+ */
 Scatterplot2dScope::Scatterplot2dScope(Ui::ScopeGadgetOptionsPage *options_page)
 {
     bool parseOK = false;
@@ -119,6 +131,11 @@ Scatterplot2dScope::~Scatterplot2dScope()
 }
 
 
+/**
+ * @brief Scatterplot2dScope::cloneScope Clones scope from existing GUI configuration
+ * @param originalScope
+ * @return
+ */
 ScopesGeneric* Scatterplot2dScope::cloneScope(ScopesGeneric *originalScope)
 {
     Scatterplot2dScope *originalScatterplot2dScope = (Scatterplot2dScope*) originalScope;
@@ -150,6 +167,11 @@ ScopesGeneric* Scatterplot2dScope::cloneScope(ScopesGeneric *originalScope)
     return cloneObj;
 }
 
+
+/**
+ * @brief Scatterplot2dScope::saveConfiguration Saves configuration to XML file
+ * @param qSettings
+ */
 void Scatterplot2dScope::saveConfiguration(QSettings* qSettings)
 {
     //Stop writing XML blocks
@@ -304,6 +326,11 @@ void Scatterplot2dScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget
 }
 
 
+
+/**
+ * @brief Scatterplot2dScope::setGuiConfigurationSet the GUI elements based on values from the XML settings file
+ * @param options_page
+ */
 void Scatterplot2dScope::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page)
 {
     //Set the tab widget to 2D
@@ -369,7 +396,10 @@ void Scatterplot2dScope::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options
 }
 
 
-
+/**
+ * @brief Scatterplot2dScope::preparePlot Prepares the Qwt plot colors and axes
+ * @param scopeGadgetWidget
+ */
 void Scatterplot2dScope::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
 {
     scopeGadgetWidget->setMinimumSize(64, 64);
@@ -401,6 +431,11 @@ void Scatterplot2dScope::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
     }
 }
 
+
+/**
+ * @brief Scatterplot2dScope::plotNewData Update plot with new data
+ * @param scopeGadgetWidget
+ */
 void Scatterplot2dScope::plotNewData(ScopeGadgetWidget *scopeGadgetWidget)
 {
     bool updateXAxisFlag = true;
@@ -426,6 +461,9 @@ void Scatterplot2dScope::plotNewData(ScopeGadgetWidget *scopeGadgetWidget)
 }
 
 
+/**
+ * @brief Scatterplot2dScope::clearPlots Clear all plot data
+ */
 void Scatterplot2dScope::clearPlots()
 {
     foreach(Plot2dData* plot2dData, m_curves2dData.values()) {
@@ -441,7 +479,10 @@ void Scatterplot2dScope::clearPlots()
 }
 
 
-
+/**
+ * @brief Scatterplot2dScope::uavObjectReceived Handles UAVO received from updates
+ * @param obj
+ */
 void Scatterplot2dScope::uavObjectReceived(UAVObject* obj)
 {
     foreach(Plot2dData* plot2dData, m_curves2dData.values()) {

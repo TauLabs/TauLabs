@@ -33,6 +33,9 @@
 #include "coreplugin/connectionmanager.h"
 
 
+/**
+ * @brief HistogramScope::HistogramScope Default constructor
+ */
 HistogramScope::HistogramScope()
 {
     binWidth = 1;
@@ -40,7 +43,10 @@ HistogramScope::HistogramScope()
     m_refreshInterval = 50;
 }
 
-
+/**
+ * @brief HistogramScope::HistogramScope Constructor using the XML settings
+ * @param qSettings settings XML object
+ */
 HistogramScope::HistogramScope(QSettings *qSettings)
 {
     binWidth    = qSettings->value("binWidth").toDouble();
@@ -78,6 +84,10 @@ HistogramScope::HistogramScope(QSettings *qSettings)
 }
 
 
+/**
+ * @brief HistogramScope::HistogramScope Constructor using the GUI settings
+ * @param options_page GUI settings preference pane
+ */
 HistogramScope::HistogramScope(Ui::ScopeGadgetOptionsPage *options_page)
 {
     bool parseOK = false;
@@ -115,12 +125,18 @@ HistogramScope::HistogramScope(Ui::ScopeGadgetOptionsPage *options_page)
     }
 }
 
+
 HistogramScope::~HistogramScope()
 {
 
 }
 
 
+/**
+ * @brief HistogramScope::cloneScope Clones scope from existing GUI configuration
+ * @param originalScope
+ * @return
+ */
 ScopesGeneric* HistogramScope::cloneScope(ScopesGeneric *originalScope)
 {
     HistogramScope *originalHistogramScope = (HistogramScope*) originalScope;
@@ -152,6 +168,11 @@ ScopesGeneric* HistogramScope::cloneScope(ScopesGeneric *originalScope)
     return cloneObj;
 }
 
+
+/**
+ * @brief HistogramScope::saveConfiguration Saves configuration to XML file
+ * @param qSettings
+ */
 void HistogramScope::saveConfiguration(QSettings* qSettings)
 {
     //Stop writing XML blocks
@@ -285,6 +306,10 @@ void HistogramScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget)
 }
 
 
+/**
+ * @brief HistogramScope::setGuiConfiguration Set the GUI elements based on values from the XML settings file
+ * @param options_page
+ */
 void HistogramScope::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page)
 {
     //Set the tab widget to 2D
@@ -351,7 +376,10 @@ void HistogramScope::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_pag
 }
 
 
-
+/**
+ * @brief HistogramScope::preparePlot Prepares the Qwt plot colors and axes
+ * @param scopeGadgetWidget
+ */
 void HistogramScope::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
 {
     scopeGadgetWidget->setMinimumSize(64, 64);
@@ -385,6 +413,10 @@ void HistogramScope::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
 }
 
 
+/**
+ * @brief HistogramScope::plotNewData Update plot with new data
+ * @param scopeGadgetWidget
+ */
 void HistogramScope::plotNewData(ScopeGadgetWidget *scopeGadgetWidget)
 {
     Q_UNUSED(scopeGadgetWidget);
@@ -398,6 +430,10 @@ void HistogramScope::plotNewData(ScopeGadgetWidget *scopeGadgetWidget)
     }
 }
 
+
+/**
+ * @brief HistogramScope::clearPlots Clear all plot data
+ */
 void HistogramScope::clearPlots()
 {
     foreach(Plot2dData* plot2dData, m_curves2dData.values()) {
@@ -424,6 +460,10 @@ void HistogramScope::clearPlots()
 }
 
 
+/**
+ * @brief HistogramScope::uavObjectReceived Handles UAVO received from updates
+ * @param obj
+ */
 void HistogramScope::uavObjectReceived(UAVObject* obj)
 {
     foreach(Plot2dData* plot2dData, m_curves2dData.values()) {
