@@ -57,6 +57,15 @@ class ScopeGadgetOptionsPage :  public IOptionsPage
 {
     Q_OBJECT
 public:
+    enum userRoleShift {
+        UR_UAVOBJECT,
+        UR_UAVFIELD,
+        UR_SCALE,
+        UR_COLOR,
+        UR_MEAN,
+        UR_MATHFUNCTION
+    };
+
     explicit ScopeGadgetOptionsPage(ScopeGadgetConfiguration *config, QObject *parent = 0);
 
     QWidget *createPage(QWidget *parent);
@@ -76,16 +85,6 @@ private:
 
     QString dataSourceStyleSheetTemplate;
     QListWidgetItem * selectedItem;
-
-    enum userRoleShift {
-        UR_UAVOBJECT,
-        UR_UAVFIELD,
-        UR_SCALE,
-        UR_COLOR,
-        UR_MEAN,
-        UR_MATHFUNCTION
-    };
-
 
 private slots:
     void on_lst2dCurves_currentRowChanged(int currentRow);

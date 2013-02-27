@@ -27,6 +27,8 @@
 
 #include "histogramdata.h"
 #include "scopes2d/histogramscopeconfig.h"
+#include "scopegadgetoptionspage.h"
+
 #include "coreplugin/icore.h"
 #include "coreplugin/connectionmanager.h"
 
@@ -87,25 +89,26 @@ HistogramScope::HistogramScope(Ui::ScopeGadgetOptionsPage *options_page)
     for(int iIndex = 0; iIndex < options_page->lst2dCurves->count();iIndex++) {
         QListWidgetItem* listItem = options_page->lst2dCurves->item(iIndex);
 
+        //Store some additional data for the plot curve on the list item
         Plot2dCurveConfiguration* newPlotCurveConfigs = new Plot2dCurveConfiguration();
-        newPlotCurveConfigs->uavObjectName = listItem->data(Qt::UserRole + 0).toString();
-        newPlotCurveConfigs->uavFieldName  = listItem->data(Qt::UserRole + 1).toString();
-        newPlotCurveConfigs->yScalePower  = listItem->data(Qt::UserRole + 2).toInt(&parseOK);
+        newPlotCurveConfigs->uavObjectName = listItem->data(Qt::UserRole + ScopeGadgetOptionsPage::UR_UAVOBJECT).toString();
+        newPlotCurveConfigs->uavFieldName  = listItem->data(Qt::UserRole + ScopeGadgetOptionsPage::UR_UAVFIELD).toString();
+        newPlotCurveConfigs->yScalePower  = listItem->data(Qt::UserRole + ScopeGadgetOptionsPage::UR_SCALE).toInt(&parseOK);
         if(!parseOK)
             newPlotCurveConfigs->yScalePower = 0;
 
-        QVariant varColor  = listItem->data(Qt::UserRole + 3);
+        QVariant varColor  = listItem->data(Qt::UserRole + ScopeGadgetOptionsPage::UR_COLOR);
         int rgb = varColor.toInt(&parseOK);
         if(!parseOK)
             newPlotCurveConfigs->color = QColor(Qt::black).rgb();
         else
             newPlotCurveConfigs->color = (QRgb)rgb;
 
-        newPlotCurveConfigs->yMeanSamples = listItem->data(Qt::UserRole + 4).toInt(&parseOK);
+        newPlotCurveConfigs->yMeanSamples = listItem->data(Qt::UserRole + ScopeGadgetOptionsPage::UR_MEAN).toInt(&parseOK);
         if(!parseOK)
             newPlotCurveConfigs->yMeanSamples = 1;
 
-        newPlotCurveConfigs->mathFunction  = listItem->data(Qt::UserRole + 5).toString();
+        newPlotCurveConfigs->mathFunction  = listItem->data(Qt::UserRole + ScopeGadgetOptionsPage::UR_MATHFUNCTION).toString();
 
 
         m_HistogramSourceConfigs.append(newPlotCurveConfigs);
@@ -304,50 +307,42 @@ void HistogramScope::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_pag
         QString mathFunction = dataSource->mathFunction;
         QVariant varColor = dataSource->color;
 
-        //TODO: Refer this back to scopegadgetoptionspage.
-//        addPlot2dCurveConfig(uavObjectName,uavFieldName,scale,mean,mathFunction,varColor);
+        QString listItemDisplayText = uavObjectName + "." + uavFieldName; // Generate the name
+        options_page->lst2dCurves->addItem(listItemDisplayText);  // Add the name to the list
+        int itemIdx = options_page->lst2dCurves->count() - 1; // Get the index number for the new value
+        QListWidgetItem *listWidgetItem = options_page->lst2dCurves->item(itemIdx); //Find the widget item
+
+        bool parseOK = false;
+        QRgb rgbColor;
+
+        if(uavObjectName!="")
         {
-            QString listItemDisplayText = uavObjectName + "." + uavFieldName; // Generate the name
-            options_page->lst2dCurves->addItem(listItemDisplayText);  // Add the name to the list
-            int itemIdx = options_page->lst2dCurves->count() - 1; // Get the index number for the new value
-            QListWidgetItem *listWidgetItem = options_page->lst2dCurves->item(itemIdx); //Find the widget item
-
-            //Apply all settings to curve
-//            setPlot2dCurveProperties(listWidgetItem, uavObjectName, uavFieldName, scale, mean, mathFunction, varColor);
-            {
-                bool parseOK = false;
-                QString listItemDisplayText;
-                QRgb rgbColor;
-
-                if(uavObjectName!="")
-                {
-                    //Set the properties of the newly added list item
-                    listItemDisplayText = uavObjectName + "." + uavFieldName;
-                    rgbColor = (QRgb)varColor.toInt(&parseOK);
-                    if(!parseOK)
-                        rgbColor = qRgb(255,0,0);
-                }
-                else{
-                    listItemDisplayText = "New graph";
-                    rgbColor = qRgb(255,0,0);
-                }
-
-                QColor color = QColor( rgbColor );
-                listWidgetItem->setText(listItemDisplayText);
-                listWidgetItem->setTextColor( color );
-
-                //Store some additional data for the plot curve on the list item
-                listWidgetItem->setData(Qt::UserRole + 0,QVariant(uavObjectName));
-                listWidgetItem->setData(Qt::UserRole + 1,QVariant(uavFieldName));
-                listWidgetItem->setData(Qt::UserRole + 2,QVariant(scale));
-                listWidgetItem->setData(Qt::UserRole + 3,varColor);
-                listWidgetItem->setData(Qt::UserRole + 4,QVariant(mean));
-                listWidgetItem->setData(Qt::UserRole + 5,QVariant(mathFunction));
-            }
-
-            //Select the row with the new name
-            options_page->lst2dCurves->setCurrentRow(itemIdx);
+            //Set the properties of the newly added list item
+            listItemDisplayText = uavObjectName + "." + uavFieldName;
+            rgbColor = (QRgb)varColor.toInt(&parseOK);
+            if(!parseOK)
+                rgbColor = qRgb(255,0,0);
         }
+        else{
+            listItemDisplayText = "New graph";
+            rgbColor = qRgb(255,0,0);
+        }
+
+        QColor color = QColor( rgbColor );
+        listWidgetItem->setText(listItemDisplayText);
+        listWidgetItem->setTextColor( color );
+
+        //Store some additional data for the plot curve on the list item
+        //Store some additional data for the plot curve on the list item
+        listWidgetItem->setData(Qt::UserRole + ScopeGadgetOptionsPage::UR_UAVOBJECT, QVariant(uavObjectName));
+        listWidgetItem->setData(Qt::UserRole + ScopeGadgetOptionsPage::UR_UAVFIELD, QVariant(uavFieldName));
+        listWidgetItem->setData(Qt::UserRole + ScopeGadgetOptionsPage::UR_SCALE, QVariant(scale));
+        listWidgetItem->setData(Qt::UserRole + ScopeGadgetOptionsPage::UR_COLOR, varColor);
+        listWidgetItem->setData(Qt::UserRole + ScopeGadgetOptionsPage::UR_MEAN, QVariant(mean));
+        listWidgetItem->setData(Qt::UserRole + ScopeGadgetOptionsPage::UR_MATHFUNCTION, QVariant(mathFunction));
+
+        //Select the row with the new name
+        options_page->lst2dCurves->setCurrentRow(itemIdx);
     }
 
     //Select row 1st row in list
