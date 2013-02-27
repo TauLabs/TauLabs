@@ -421,10 +421,10 @@ deviceDescriptorStruct UAVObjectUtilManager::getBoardDescriptionStruct()
 
 bool UAVObjectUtilManager::descriptionToStructure(QByteArray desc, deviceDescriptorStruct & struc)
 {
-   if (desc.startsWith("OpFw")) {
+   if (desc.startsWith("TlFw") || desc.startsWith("OpFw")) {
        /*
         * This looks like a binary with a description at the end
-        *  4 bytes: header: "OpFw"
+        *  4 bytes: header: "TlFw"
         *  4 bytes: git commit hash (short version of SHA1)
         *  4 bytes: Unix timestamp of last git commit
         *  2 bytes: target platform. Should follow same rule as BOARD_TYPE and BOARD_REVISION in board define files.

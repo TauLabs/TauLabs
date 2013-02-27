@@ -573,8 +573,8 @@ endef
 # $(3) = Short name for board (e.g CC)
 define FW_TEMPLATE
 .PHONY: $(1) fw_$(1)
-$(1): fw_$(1)_opfw
-fw_$(1): fw_$(1)_opfw
+$(1): fw_$(1)_tlfw
+fw_$(1): fw_$(1)_tlfw
 
 fw_$(1)_%: uavobjects_flight
 	$(V1) mkdir -p $(BUILD_DIR)/fw_$(1)/dep
@@ -662,7 +662,7 @@ endef
 # $(1) = Canonical board name all in lower case (e.g. coptercontrol)
 define BU_TEMPLATE
 .PHONY: bu_$(1)
-bu_$(1): bu_$(1)_opfw
+bu_$(1): bu_$(1)_tlfw
 
 bu_$(1)_%: bl_$(1)_bino
 	$(V1) mkdir -p $(BUILD_DIR)/bu_$(1)/dep
@@ -699,7 +699,7 @@ define EF_TEMPLATE
 .PHONY: ef_$(1)
 ef_$(1): ef_$(1)_bin
 
-ef_$(1)_%: bl_$(1)_bin fw_$(1)_opfw
+ef_$(1)_%: bl_$(1)_bin fw_$(1)_tlfw
 	$(V1) mkdir -p $(BUILD_DIR)/ef_$(1)/dep
 	$(V1) cd $(ROOT_DIR)/flight/targets/EntireFlash && \
 		$$(MAKE) -r --no-print-directory \
@@ -806,7 +806,7 @@ BU_TARGETS := $(addprefix bu_, $(BU_BOARDS))
 EF_TARGETS := $(addprefix ef_, $(EF_BOARDS))
 
 .PHONY: all_fw all_fw_clean
-all_fw:        $(addsuffix _opfw,  $(FW_TARGETS))
+all_fw:        $(addsuffix _tlfw,  $(FW_TARGETS))
 all_fw_clean:  $(addsuffix _clean, $(FW_TARGETS))
 
 .PHONY: all_bl all_bl_clean
@@ -814,7 +814,7 @@ all_bl:        $(addsuffix _bin,   $(BL_TARGETS))
 all_bl_clean:  $(addsuffix _clean, $(BL_TARGETS))
 
 .PHONY: all_bu all_bu_clean
-all_bu:        $(addsuffix _opfw,  $(BU_TARGETS))
+all_bu:        $(addsuffix _tlfw,  $(BU_TARGETS))
 all_bu_clean:  $(addsuffix _clean, $(BU_TARGETS))
 
 .PHONY: all_ef all_ef_clean
@@ -939,4 +939,4 @@ package:
 
 .PHONY: package_resources
 package_resources:
-	$(V1) cd package && $(MAKE) --no-print-directory opfw_resource
+	$(V1) cd package && $(MAKE) --no-print-directory tlfw_resource
