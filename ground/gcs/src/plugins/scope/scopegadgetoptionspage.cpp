@@ -540,9 +540,14 @@ void ScopeGadgetOptionsPage::setPlot2dCurveProperties(QListWidgetItem *listWidge
         rgbColor = qRgb(255,0,0);
     }
 
-    QColor color = QColor( rgbColor );
+    // Set text
     listWidgetItem->setText(listItemDisplayText);
-    listWidgetItem->setTextColor( color );
+
+    // Set selected color. Both color sets are necessary.
+    QColor color = QColor( rgbColor );
+    QString styleSheet = dataSourceStyleSheetTemplate.arg(QColor(rgbColor).red()).arg(QColor(rgbColor).green()).arg(QColor(rgbColor).blue());
+    listWidgetItem->setTextColor( color ); // This one sets the text color when unselected...
+    options_page->lst2dCurves->setStyleSheet(styleSheet); //.. and this one sets the text color when selected
 
     //Store some additional data for the plot curve on the list item
     listWidgetItem->setData(Qt::UserRole + UR_UAVOBJECT,QVariant(uavObject));
