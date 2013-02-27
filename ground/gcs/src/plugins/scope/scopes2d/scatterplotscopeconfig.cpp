@@ -204,15 +204,13 @@ void Scatterplot2dScope::loadConfiguration(ScopeGadgetWidget **scopeGadgetWidget
 {
     switch (scatterplot2dType)
     {
+    default:
     case SERIES2D:
         (*scopeGadgetWidget)->setupSeriesPlot(this);
         break;
     case TIMESERIES2D:
         (*scopeGadgetWidget)->setupTimeSeriesPlot(this);
         break;
-    default:
-        //We shouldn't be able to get here.
-        Q_ASSERT(0);
     }
 
     (*scopeGadgetWidget)->setRefreshInterval(m_refreshInterval);

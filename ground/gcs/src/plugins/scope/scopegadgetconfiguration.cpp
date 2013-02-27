@@ -47,56 +47,47 @@ ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* q
         switch (plotDimensions)
         {
         case PLOT2D:
+        default:
         {
             //Start reading new XML block
             qSettings->beginGroup(QString("plot2d"));
 
             Scopes2d::Plot2dType plot2dType = (Scopes2d::Plot2dType) qSettings->value("plot2dType").toUInt();
             switch (plot2dType){
-            case Scopes2d::SCATTERPLOT2D: {
-                m_scope = new Scatterplot2dScope(qSettings);
-                break;
-            }
             case Scopes2d::HISTOGRAM: {
                 m_scope = new HistogramScope(qSettings);
                 break;
-            }
-            default:
-                //We shouldn't be able to get this far
-                Q_ASSERT(0);
+                }
+            case Scopes2d::SCATTERPLOT2D:
+            default: {
+                m_scope = new Scatterplot2dScope(qSettings);
+                break;
+                }
             }
 
             //Stop reading XML block
             qSettings->endGroup();
 
             break;
-        }
-        case PLOT3D:
-        {
+            }
+        case PLOT3D: {
             //Start reading new XML block
             qSettings->beginGroup(QString("plot3d"));
 
             Scopes3d::Plot3dType plot3dType = (Scopes3d::Plot3dType) qSettings->value("plot3dType").toUInt(); //<--TODO: This requires that the enum values be defined at 0,1,...n
             switch (plot3dType){
-            case Scopes3d::SPECTROGRAM:
-            {
+            default:
+            case Scopes3d::SPECTROGRAM: {
                 m_scope = new SpectrogramScope(qSettings);
                 break;
-            }
-            default:
-                //We shouldn't be able to get this far
-                return;
-                Q_ASSERT(0);
+                }
             }
 
             //Stop reading XML block
             qSettings->endGroup();
 
             break;
-        }
-        default:
-            //We shouldn't be able to get this far
-            Q_ASSERT(0);
+            }
         }
         m_scope->setRefreshInterval(refreshInterval);
     }

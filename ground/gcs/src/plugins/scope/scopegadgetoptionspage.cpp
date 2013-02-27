@@ -237,6 +237,7 @@ void ScopeGadgetOptionsPage::on_cmbSpectrogramSource_currentIndexChanged(QString
         int fftWindowSize;
         switch(vibrationAnalysisSettingsData.FFTWindowSize)
         {
+        default:
         case VibrationAnalysisSettings::FFTWINDOWSIZE_16 :
             fftWindowSize = 16;
             break;
@@ -249,9 +250,6 @@ void ScopeGadgetOptionsPage::on_cmbSpectrogramSource_currentIndexChanged(QString
         case VibrationAnalysisSettings::FFTWINDOWSIZE_1024 :
             fftWindowSize = 1024;
             break;
-        default:
-            qDebug() << "Invalid FFT size.";
-            Q_ASSERT(0);
         }
 
         // Set spinbox range before setting value
