@@ -30,8 +30,6 @@
 
 #include "plotdata.h"
 
-//#include "qwt/src/qwt_plot_curve.h"
-
 #include <QTimer>
 #include <QTime>
 #include <QVector>

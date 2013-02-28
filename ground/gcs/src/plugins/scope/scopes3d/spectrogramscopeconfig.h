@@ -31,7 +31,6 @@
 #include "scopes3d/scopes3dconfig.h"
 
 
-
 /**
  * @brief The SpectrogramScopeConfig class The spectrogram scope configuration
  */
