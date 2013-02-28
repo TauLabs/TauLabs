@@ -50,6 +50,9 @@ public:
 
     virtual void clearPlots(PlotData *);
 
+    void setCurve(QwtPlotCurve *val){curve = val;}
+
+protected:
     QwtPlotCurve* curve;
 };
 
@@ -100,8 +103,6 @@ public:
 
     virtual void removeStaleData();
     virtual void plotNewData(PlotData *, ScopeConfig *, ScopeGadgetWidget *);
-
-private:
 
 private slots:
     void removeStaleDataTimeout();

@@ -45,17 +45,19 @@
  */
 void TimeSeriesPlotData::plotNewData(PlotData *plot2dData, ScopeConfig *scopeConfig, ScopeGadgetWidget *scopeGadgetWidget)
 {
+    Q_UNUSED(plot2dData);
+    Q_UNUSED(scopeConfig);
+    Q_UNUSED(scopeGadgetWidget);
 
-    ScatterplotData *scatterplotData = (ScatterplotData*) plot2dData;
     //Plot new data
-    if (scatterplotData->readAndResetUpdatedFlag() == true)
-        scatterplotData->curve->setSamples(*(scatterplotData->getXData()), *(scatterplotData->getYData()));
+    if (readAndResetUpdatedFlag() == true)
+        curve->setSamples(*xData, *yData);
 
     QDateTime NOW = QDateTime::currentDateTime();
     double toTime = NOW.toTime_t();
     toTime += NOW.time().msec() / 1000.0;
 
-    scopeGadgetWidget->setAxisScale(QwtPlot::xBottom, toTime - scopeGadgetWidget->m_xWindowSize, toTime);
+    scopeGadgetWidget->setAxisScale(QwtPlot::xBottom, toTime - scopeGadgetWidget->getXWindowSize(), toTime);
 }
 
 
@@ -65,11 +67,13 @@ void TimeSeriesPlotData::plotNewData(PlotData *plot2dData, ScopeConfig *scopeCon
  */
 void SeriesPlotData::plotNewData(PlotData *plot2dData, ScopeConfig *scopeConfig, ScopeGadgetWidget *scopeGadgetWidget)
 {
+    Q_UNUSED(plot2dData);
+    Q_UNUSED(scopeConfig);
+    Q_UNUSED(scopeGadgetWidget);
 
-    ScatterplotData *scatterplotData = (ScatterplotData*) plot2dData;
     //Plot new data
-    if (scatterplotData->readAndResetUpdatedFlag() == true)
-        scatterplotData->curve->setSamples(*(scatterplotData->getXData()), *(scatterplotData->getYData()));
+    if (readAndResetUpdatedFlag() == true)
+        curve->setSamples(*xData, *yData);
 }
 
 
@@ -244,11 +248,10 @@ void TimeSeriesPlotData::removeStaleDataTimeout()
 /**
  * @brief ScatterplotData::clearPlots Clear all plot data
  */
-void ScatterplotData::clearPlots(PlotData *plot2dData)
+void ScatterplotData::clearPlots(PlotData *scatterplotData)
 {
-    ScatterplotData *scatterplotData = (ScatterplotData*) plot2dData;
-    scatterplotData->curve->detach();
+    curve->detach();
 
-    delete scatterplotData->curve;
+    delete curve;
     delete scatterplotData;
 }

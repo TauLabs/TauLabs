@@ -60,7 +60,8 @@
 QTimer *ScopeGadgetWidget::replotTimer=0;
 
 ScopeGadgetWidget::ScopeGadgetWidget(QWidget *parent) : QwtPlot(parent),
-    m_scope(0)
+    m_scope(0),
+    m_xWindowSize(60) // This is an arbitrary 1 minute window
 {
     m_grid = new QwtPlotGrid;
 
@@ -317,6 +318,9 @@ void ScopeGadgetWidget::setupSeriesPlot(ScopeConfig* scope)
     setAxisFont(QwtPlot::xBottom, fnt);	// x-axis
     setAxisFont(QwtPlot::yLeft, fnt);	// y-axis
     setAxisFont(QwtPlot::yRight, fnt);	// y-axis
+
+    // Start the scope timer
+    startTimer(m_refreshInterval);
 }
 
 
@@ -367,6 +371,9 @@ void ScopeGadgetWidget::setupTimeSeriesPlot(ScopeConfig* scope)
 //	const int fmw = QFontMetrics(scaleWidget->font()).width(" 00:00:00 ");
 //	const int fmw = QFontMetrics(scaleWidget->font()).width(" ");
 //	scaleWidget->setMinBorderDist(0, fmw);
+
+    // Start the scope timer
+    startTimer(m_refreshInterval);
 }
 
 
@@ -398,6 +405,8 @@ void ScopeGadgetWidget::setupHistogramPlot(ScopeConfig *scope)
     setAxisFont(QwtPlot::xBottom, fnt);	// x-axis
     setAxisFont(QwtPlot::yLeft, fnt);	// y-axis
 
+    // Start the scope timer
+    startTimer(m_refreshInterval);
 }
 
 
@@ -424,6 +433,8 @@ void ScopeGadgetWidget::setupSpectrogramPlot(ScopeConfig *scope)
     setAxisFont(QwtPlot::xBottom, fnt);	// x-axis
     setAxisFont(QwtPlot::yLeft, fnt);	// y-axis
 
+    // Start the scope timer
+    startTimer(m_refreshInterval);
 }
 
 
@@ -523,4 +534,35 @@ void ScopeGadgetWidget::showEvent(QShowEvent *event)
 {
     replotNewData();
     QwtPlot::showEvent(event);
+}
+
+
+/**
+ * @brief ScopeGadgetWidget::connectUAVO Connects UAVO update signal, but only if it hasn't yet been connected
+ * @param obj
+ */
+void ScopeGadgetWidget::connectUAVO(UAVDataObject* obj){
+    //Link to the new signal data only if this UAVObject has not been connected yet
+    if (!m_connectedUAVObjects.contains(obj->getName())) {
+        m_connectedUAVObjects.append(obj->getName());
+        connect(obj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(uavObjectReceived(UAVObject*)));
+    }
+
+}
+
+
+/**
+ * @brief ScopeGadgetWidget::startTimer Starts timer
+ * @param refreshInterval
+ */
+void ScopeGadgetWidget::startTimer(int refreshInterval){
+    // Only start the timer if we are already connected
+    Core::ConnectionManager *cm = Core::ICore::instance()->connectionManager();
+    if (cm->getCurrentConnection() && replotTimer)
+    {
+        if (!replotTimer->isActive())
+            replotTimer->start(refreshInterval);
+        else
+            replotTimer->setInterval(refreshInterval);
+    }
 }

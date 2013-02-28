@@ -272,33 +272,20 @@ void HistogramScopeConfig::loadConfiguration(ScopeGadgetWidget *scopeGadgetWidge
         while(scopeGadgetWidget->getDataSources().keys().contains(histogramNameScaled))
             histogramNameScaled=histogramNameScaled+"*";
 
-
-        //Create histogram data set
-        histogramData->histogramBins = new QVector<QwtIntervalSample>();
-        histogramData->histogramInterval = new QVector<QwtInterval>();
-
-        // Generate the interval series
-        histogramData->intervalSeriesData = new QwtIntervalSeriesData(*histogramData->histogramBins);
-
         // Create the histogram
         QwtPlotHistogram* plotHistogram = new QwtPlotHistogram(histogramNameScaled);
         plotHistogram->setStyle( QwtPlotHistogram::Columns );
         plotHistogram->setBrush(QBrush(QColor(color)));
-        plotHistogram->setData( histogramData->intervalSeriesData);
+        plotHistogram->setData( histogramData->getIntervalSeriesData());
 
         plotHistogram->attach(scopeGadgetWidget);
-        histogramData->histogram = plotHistogram;
+        histogramData->setHistogram(plotHistogram);
 
-        //Keep the curve details for later
+        // Keep the curve details for later
         scopeGadgetWidget->insertDataSources(histogramNameScaled, histogramData);
 
-        //Link to the new signal data only if this UAVObject has not been connected yet
-        if (!scopeGadgetWidget->m_connectedUAVObjects.contains(obj->getName())) {
-            scopeGadgetWidget->m_connectedUAVObjects.append(obj->getName());
-            connect(obj, SIGNAL(objectUpdated(UAVObject*)), scopeGadgetWidget, SLOT(uavObjectReceived(UAVObject*)));
-        }
-
-
+        // Connect the UAVO
+        scopeGadgetWidget->connectUAVO(obj);
     }
     mutex.lock();
     scopeGadgetWidget->replot();
@@ -400,14 +387,4 @@ void HistogramScopeConfig::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
 
     // Add the legend
     scopeGadgetWidget->addLegend();
-
-    // Only start the timer if we are already connected
-    Core::ConnectionManager *cm = Core::ICore::instance()->connectionManager();
-    if (cm->getCurrentConnection() && scopeGadgetWidget->replotTimer)
-    {
-        if (!scopeGadgetWidget->replotTimer->isActive())
-            scopeGadgetWidget->replotTimer->start(m_refreshInterval);
-        else
-            scopeGadgetWidget->replotTimer->setInterval(m_refreshInterval);
-    }
 }

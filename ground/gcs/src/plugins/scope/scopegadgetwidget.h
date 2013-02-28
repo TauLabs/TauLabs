@@ -31,6 +31,7 @@
 
 
 class ScopeConfig;
+class UAVDataObject;
 
 #include "qwt/src/qwt.h"
 #include "qwt/src/qwt_plot.h"
@@ -76,27 +77,25 @@ public:
     ~ScopeGadgetWidget();
 
     QString getUavObjectFieldUnits(QString uavObjectName, QString uavObjectFieldName);
-
+    void connectUAVO(UAVDataObject* obj);
     void setupSeriesPlot(ScopeConfig *);
     void setupTimeSeriesPlot(ScopeConfig *);
     void setupHistogramPlot(ScopeConfig *);
     void setupSpectrogramPlot(ScopeConfig *);
 
-    void setXWindowSize(double xWindowSize){m_xWindowSize = xWindowSize;}
+    void setXWindowSize(double val){m_xWindowSize = val;}
     void setRefreshInterval(double refreshInterval){m_refreshInterval = refreshInterval;}
     double getXWindowSize(){return m_xWindowSize;}
     int getRefreshInterval(){return m_refreshInterval;}
     QMap<QString, PlotData*> getDataSources(){return m_dataSources;}
     void insertDataSources(QString stringVal, PlotData* dataVal){m_dataSources.insert(stringVal, dataVal);}
 
+    void addLegend();
+    void deleteLegend();
     void clearPlotWidget();
-
-    static QTimer *replotTimer;
+    void startTimer(int);
     QwtPlotGrid *m_grid;
     QwtLegend *m_legend;
-    void addLegend();
-    QList<QString> m_connectedUAVObjects;
-    double m_xWindowSize;
 
 protected:
     void mousePressEvent(QMouseEvent *e);
@@ -114,14 +113,14 @@ private slots:
     void stopPlotting();
 
 private:
-    void deleteLegend();
-    void setupExamplePlot();
-
+    QMutex mutex;
     int m_refreshInterval;
     ScopeConfig *m_scope;
-	QMutex mutex;
-
     QMap<QString, PlotData*> m_dataSources;
+    double m_xWindowSize;
+    static QTimer *replotTimer;
+    QList<QString> m_connectedUAVObjects;
+
 };
 
 

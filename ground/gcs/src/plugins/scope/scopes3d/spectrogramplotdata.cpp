@@ -43,29 +43,60 @@
 
 
 /**
+ * @brief SpectrogramData
+ * @param uavObject
+ * @param uavField
+ * @param samplingFrequency
+ * @param windowWidth
+ * @param timeHorizon
+ */
+SpectrogramData::SpectrogramData(QString uavObject, QString uavField, double samplingFrequency, unsigned int windowWidth, double timeHorizon)
+        : Plot3dData(uavObject, uavField),
+          spectrogram(0),
+          rasterData(0)
+{
+    this->samplingFrequency = samplingFrequency;
+    this->timeHorizon = timeHorizon;
+    this->windowWidth = windowWidth;
+    autoscaleValueUpdated = 0;
+
+    // Create raster data
+    rasterData = new QwtMatrixRasterData();
+
+    rasterData->setValueMatrix( *zDataHistory, windowWidth );
+
+    // Set the ranges for the plot
+    rasterData->setInterval( Qt::XAxis, QwtInterval(xMinimum, xMaximum));
+    rasterData->setInterval( Qt::YAxis, QwtInterval(yMinimum, yMaximum));
+    rasterData->setInterval( Qt::ZAxis, QwtInterval(0, zMaximum));
+
+}
+
+
+/**
  * @brief SpectrogramScopeConfig::plotNewData Update plot with new data
  * @param scopeGadgetWidget
  */
 void SpectrogramData::plotNewData(PlotData *plot3dData, ScopeConfig *scopeConfig, ScopeGadgetWidget *scopeGadgetWidget)
 {
-        SpectrogramData *spectrogramData = (SpectrogramData*) plot3dData;
+    Q_UNUSED(plot3dData);
 
-        spectrogramData->removeStaleData();
+    removeStaleData();
 
-        // Check for new data
-        if (spectrogramData->readAndResetUpdatedFlag() == true){
-            // Plot new data
-            spectrogramData->rasterData->setValueMatrix(*(spectrogramData->zDataHistory), spectrogramData->windowWidth);
+    // Check for new data
+    if (readAndResetUpdatedFlag() == true){
+        // Plot new data
+        rasterData->setValueMatrix(*zDataHistory, windowWidth);
 
-            // Check autoscale. (For some reason, QwtSpectrogram doesn't support autoscale)
-            if (spectrogramData->getZMaximum() == 0){
-                double newVal = spectrogramData->readAndResetAutoscaleValue();
-                if (newVal != 0){
-                    spectrogramData->rightAxis->setColorMap( QwtInterval(0, newVal), new ColorMap(((SpectrogramScopeConfig*) scopeConfig)->getColorMap()));
-                    scopeGadgetWidget->setAxisScale( QwtPlot::yRight, 0, newVal);
-                }
+        // Check autoscale. (For some reason, QwtSpectrogram doesn't support autoscale)
+        if (getZMaximum() == 0){
+            double newVal = readAndResetAutoscaleValue();
+            if (newVal != 0){
+                rightAxis->setColorMap( QwtInterval(0, newVal), new ColorMap(((SpectrogramScopeConfig*) scopeConfig)->getColorMap()));
+                scopeGadgetWidget->setAxisScale( QwtPlot::yRight, 0, newVal);
             }
         }
+    }
 }
 
 
@@ -160,15 +191,14 @@ bool SpectrogramData::append(UAVObject* multiObj)
 /**
  * @brief SpectrogramScopeConfig::clearPlots Clear all plot data
  */
-void SpectrogramData::clearPlots(PlotData *plot3dData)
+void SpectrogramData::clearPlots(PlotData *spectrogramData)
 {
-    SpectrogramData* spectrogramData = (SpectrogramData*) plot3dData;
-    spectrogramData->spectrogram->detach();
+    spectrogram->detach();
 
     // Don't delete raster data, this is done by the spectrogram's destructor
-    /* delete plot3dData->rasterData; */
+    /* delete rasterData; */
 
     // Delete spectrogram (also deletes raster data)
-    delete spectrogramData->spectrogram;
+    delete spectrogram;
     delete spectrogramData;
 }

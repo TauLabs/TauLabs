@@ -46,16 +46,7 @@ class SpectrogramData : public Plot3dData
 {
     Q_OBJECT
 public:
-    SpectrogramData(QString uavObject, QString uavField, double samplingFrequency, unsigned int windowWidth, double timeHorizon)
-            : Plot3dData(uavObject, uavField),
-              spectrogram(0),
-              rasterData(0)
-    {
-        this->samplingFrequency = samplingFrequency;
-        this->timeHorizon = timeHorizon;
-        this->windowWidth = windowWidth;
-        autoscaleValueUpdated = 0;
-    }
+    SpectrogramData(QString uavObject, QString uavField, double samplingFrequency, unsigned int windowWidth, double timeHorizon);
     ~SpectrogramData() {}
 
     /*!
@@ -77,16 +68,17 @@ public:
     virtual void plotNewData(PlotData *, ScopeConfig *, ScopeGadgetWidget *);
     virtual void clearPlots(PlotData *);
 
+    QwtMatrixRasterData *getRasterData(){return rasterData;}
+    void setSpectrogram(QwtPlotSpectrogram *val){spectrogram = val;}
+
+private:
+    QwtPlotSpectrogram *spectrogram;
+    QwtMatrixRasterData *rasterData;
+
     double samplingFrequency;
     double timeHorizon;
     unsigned int windowWidth;
-
     double autoscaleValueUpdated;
-
-    QwtPlotSpectrogram *spectrogram;
-
-    QwtMatrixRasterData *rasterData;
-
 };
 
 #endif // SPECTROGRAMDATA_H

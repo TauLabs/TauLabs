@@ -268,7 +268,6 @@ void SpectrogramScopeConfig::loadConfiguration(ScopeGadgetWidget *scopeGadgetWid
     plotSpectrogram->setColorMap(new ColorMap(colorMapType) );
 
     // Initial raster data
-    spectrogramData->rasterData = new QwtMatrixRasterData();
 
     QDateTime NOW = QDateTime::currentDateTime(); //TODO: Upgrade this to show UAVO time and not system time
     for ( uint i = 0; i < timeHorizon; i++ ){
@@ -286,14 +285,6 @@ void SpectrogramScopeConfig::loadConfiguration(ScopeGadgetWidget *scopeGadgetWid
         return;
     }
 
-    int numColumns = windowWidth;
-    spectrogramData->rasterData->setValueMatrix( *(spectrogramData->zDataHistory), numColumns );
-
-    //Set the ranges for the plot
-    spectrogramData->rasterData->setInterval( Qt::XAxis, QwtInterval(spectrogramData->getXMinimum(), spectrogramData->getXMaximum()));
-    spectrogramData->rasterData->setInterval( Qt::YAxis, QwtInterval(spectrogramData->getYMinimum(), spectrogramData->getYMaximum()));
-    spectrogramData->rasterData->setInterval( Qt::ZAxis, QwtInterval(0, zMaximum));
-
     //Set up colorbar on right axis
     spectrogramData->rightAxis = scopeGadgetWidget->axisWidget( QwtPlot::yRight );
     spectrogramData->rightAxis->setTitle( "Intensity" );
@@ -302,19 +293,16 @@ void SpectrogramScopeConfig::loadConfiguration(ScopeGadgetWidget *scopeGadgetWid
     scopeGadgetWidget->setAxisScale( QwtPlot::yRight, 0, zMaximum);
     scopeGadgetWidget->enableAxis( QwtPlot::yRight );
 
-    plotSpectrogram->setData(spectrogramData->rasterData);
+    plotSpectrogram->setData(spectrogramData->getRasterData());
 
     plotSpectrogram->attach(scopeGadgetWidget);
-    spectrogramData->spectrogram = plotSpectrogram;
+    spectrogramData->setSpectrogram(plotSpectrogram);
 
     //Keep the curve details for later
     scopeGadgetWidget->insertDataSources(waterfallNameScaled, spectrogramData);
 
-    //Link to the new signal data only if this UAVObject has not been connected yet
-    if (!scopeGadgetWidget->m_connectedUAVObjects.contains(obj->getName())) {
-        scopeGadgetWidget->m_connectedUAVObjects.append(obj->getName());
-        connect(obj, SIGNAL(objectUpdated(UAVObject*)), scopeGadgetWidget, SLOT(uavObjectReceived(UAVObject*)));
-    }
+    // Connect the UAVO
+    scopeGadgetWidget->connectUAVO(obj);
 
     mutex.lock();
     scopeGadgetWidget->replot();
@@ -371,14 +359,4 @@ void SpectrogramScopeConfig::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
     scopeGadgetWidget->m_grid->setMinPen(QPen(Qt::lightGray, 0, Qt::DotLine));
     scopeGadgetWidget->m_grid->setPen(QPen(Qt::darkGray, 1, Qt::DotLine));
     scopeGadgetWidget->m_grid->attach(scopeGadgetWidget);
-
-    // Only start the timer if we are already connected
-    Core::ConnectionManager *cm = Core::ICore::instance()->connectionManager();
-    if (cm->getCurrentConnection() && scopeGadgetWidget->replotTimer)
-    {
-        if (!scopeGadgetWidget->replotTimer->isActive())
-            scopeGadgetWidget->replotTimer->start(m_refreshInterval);
-        else
-            scopeGadgetWidget->replotTimer->setInterval(m_refreshInterval);
-    }
 }

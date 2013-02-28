@@ -224,6 +224,9 @@ void Scatterplot2dScopeConfig::replaceScatterplotDataSource(QList<Plot2dCurveCon
  */
 void Scatterplot2dScopeConfig::loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget)
 {
+    scopeGadgetWidget->setRefreshInterval(m_refreshInterval);
+    scopeGadgetWidget->setXWindowSize(timeHorizon);
+
     switch (scatterplot2dType)
     {
     default:
@@ -234,9 +237,6 @@ void Scatterplot2dScopeConfig::loadConfiguration(ScopeGadgetWidget *scopeGadgetW
         scopeGadgetWidget->setupTimeSeriesPlot(this);
         break;
     }
-
-    scopeGadgetWidget->setRefreshInterval(m_refreshInterval);
-    scopeGadgetWidget->setXWindowSize(timeHorizon);
 
     // Configured each data source
     foreach (Plot2dCurveConfiguration* plotCurveConfig,  m_scatterplotSourceConfigs)
@@ -256,7 +256,7 @@ void Scatterplot2dScopeConfig::loadConfiguration(ScopeGadgetWidget *scopeGadgetW
             break;
         }
 
-        scatterplotData->setXWindowSize(scopeGadgetWidget->m_xWindowSize);
+        scatterplotData->setXWindowSize(timeHorizon);
         scatterplotData->setScalePower(plotCurveConfig->yScalePower);
         scatterplotData->setMeanSamples(plotCurveConfig->yMeanSamples);
         scatterplotData->setMathFunction(plotCurveConfig->mathFunction);
@@ -309,16 +309,13 @@ void Scatterplot2dScopeConfig::loadConfiguration(ScopeGadgetWidget *scopeGadgetW
         plotCurve->setPen(QPen(QBrush(QColor(color), Qt::SolidPattern), (qreal)1, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin));
         plotCurve->setSamples(*(scatterplotData->getXData()), *(scatterplotData->getYData()));
         plotCurve->attach(scopeGadgetWidget);
-        scatterplotData->curve = plotCurve;
+        scatterplotData->setCurve(plotCurve);
 
         //Keep the curve details for later
         scopeGadgetWidget->insertDataSources(curveNameScaledMath, scatterplotData);
 
-        //Link to the new signal data only if this UAVObject has not been connected yet
-        if (!scopeGadgetWidget->m_connectedUAVObjects.contains(obj->getName())) {
-            scopeGadgetWidget->m_connectedUAVObjects.append(obj->getName());
-            connect(obj, SIGNAL(objectUpdated(UAVObject*)), scopeGadgetWidget, SLOT(uavObjectReceived(UAVObject*)));
-        }
+        // Connect the UAVO
+        scopeGadgetWidget->connectUAVO(obj);
     }
     mutex.lock();
     scopeGadgetWidget->replot();
@@ -419,14 +416,4 @@ void Scatterplot2dScopeConfig::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
 
     // Add the legend
     scopeGadgetWidget->addLegend();
-
-    // Only start the timer if we are already connected
-    Core::ConnectionManager *cm = Core::ICore::instance()->connectionManager();
-    if (cm->getCurrentConnection() && scopeGadgetWidget->replotTimer)
-    {
-        if (!scopeGadgetWidget->replotTimer->isActive())
-            scopeGadgetWidget->replotTimer->start(m_refreshInterval);
-        else
-            scopeGadgetWidget->replotTimer->setInterval(m_refreshInterval);
-    }
 }

@@ -42,18 +42,45 @@
 
 
 /**
+ * @brief HistogramData::HistogramData
+ * @param uavObject
+ * @param uavField
+ * @param binWidth
+ * @param numberOfBins
+ */
+HistogramData::HistogramData(QString uavObject, QString uavField, double binWidth, uint numberOfBins) :
+    Plot2dData(uavObject, uavField),
+    histogram(0),
+    histogramBins(0),
+    histogramInterval(0),
+    intervalSeriesData(0)
+{
+    this->binWidth = binWidth;
+    this->numberOfBins = numberOfBins;
+    scalePower = 1;
+
+    //Create histogram data set
+    histogramBins = new QVector<QwtIntervalSample>();
+    histogramInterval = new QVector<QwtInterval>();
+
+    // Generate the interval series
+    intervalSeriesData = new QwtIntervalSeriesData(*histogramBins);
+}
+
+
+/**
  * @brief HistogramScopeConfig::plotNewData Update plot with new data
  * @param scopeGadgetWidget
  */
 void HistogramData::plotNewData(PlotData* plot2dData, ScopeConfig *scopeConfig, ScopeGadgetWidget *scopeGadgetWidget)
 {
+    Q_UNUSED(plot2dData);
     Q_UNUSED(scopeGadgetWidget);
     Q_UNUSED(scopeConfig);
 
     //Plot new data
-    HistogramData *histogramData = (HistogramData*) plot2dData;
-    histogramData->histogram->setData(histogramData->intervalSeriesData);
-    histogramData->intervalSeriesData->setSamples(*histogramData->histogramBins);
+    histogram->setData(intervalSeriesData);
+    intervalSeriesData->setSamples(*histogramBins);
 }
 
 
@@ -150,21 +177,19 @@ bool HistogramData::append(UAVObject* obj)
 /**
  * @brief HistogramScopeConfig::clearPlots Clear all plot data
  */
-void HistogramData::clearPlots(PlotData *plot2dData)
+void HistogramData::clearPlots(PlotData *histogramData)
 {
-    HistogramData *histogramData = (HistogramData*) plot2dData;
-
-    histogramData->histogram->detach();
+    histogram->detach();
 
     // Delete data bins
-    delete histogramData->histogramInterval;
-    delete histogramData->histogramBins;
+    delete histogramInterval;
+    delete histogramBins;
 
     // Don't delete intervalSeriesData, this is done by the histogram's destructor
-    /* delete histogramData->intervalSeriesData; */
+    /* delete intervalSeriesData; */
 
     // Delete histogram (also deletes intervalSeriesData)
-    delete histogramData->histogram;
+    delete histogram;
 
     delete histogramData;
 }

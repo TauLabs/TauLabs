@@ -47,30 +47,24 @@ class HistogramData : public Plot2dData
 {
     Q_OBJECT
 public:
-    HistogramData(QString uavObject, QString uavField, double binWidth, uint numberOfBins) :
-        Plot2dData(uavObject, uavField),
-        histogram(0),
-        histogramBins(0),
-        histogramInterval(0),
-        intervalSeriesData(0)
-    {
-        this->binWidth = binWidth;
-        this->numberOfBins = numberOfBins;
-        scalePower = 1;
-    }
+    HistogramData(QString uavObject, QString uavField, double binWidth, uint numberOfBins);
     ~HistogramData() {}
 
     bool append(UAVObject* obj);
 
     virtual void removeStaleData(){}
+    virtual void plotNewData(PlotData *, ScopeConfig *, ScopeGadgetWidget *);
+    virtual void clearPlots(PlotData *);
 
-    QwtPlotHistogram* histogram;
+    QwtIntervalSeriesData *getIntervalSeriesData(){return intervalSeriesData;}
+    void setHistogram(QwtPlotHistogram *val){histogram = val;}
+
+private:
+    QwtPlotHistogram *histogram;
     QVector<QwtIntervalSample> *histogramBins; //Used for histograms
     QVector<QwtInterval> *histogramInterval;
     QwtIntervalSeriesData *intervalSeriesData;
-    virtual void plotNewData(PlotData *, ScopeConfig *, ScopeGadgetWidget *);
-    virtual void clearPlots(PlotData *);
-private:
+
     double binWidth;
     uint numberOfBins;
 
