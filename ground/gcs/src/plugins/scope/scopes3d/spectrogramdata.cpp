@@ -32,6 +32,8 @@
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
 #include "scopes3d/spectrogramdata.h"
+#include "scopes3d/spectrogramscopeconfig.h"
+#include "scopegadgetwidget.h"
 
 #include "qwt/src/qwt.h"
 #include "qwt/src/qwt_color_map.h"
@@ -39,6 +41,33 @@
 #include "qwt/src/qwt_plot_spectrogram.h"
 #include "qwt/src/qwt_scale_draw.h"
 #include "qwt/src/qwt_scale_widget.h"
+
+
+/**
+ * @brief SpectrogramScope::plotNewData Update plot with new data
+ * @param scopeGadgetWidget
+ */
+void SpectrogramData::plotNewData(PlotData *plot3dData, ScopesGeneric *scopeConfig, ScopeGadgetWidget *scopeGadgetWidget)
+{
+        SpectrogramData *spectrogramData = (SpectrogramData*) plot3dData;
+
+        spectrogramData->removeStaleData();
+
+        // Check for new data
+        if (spectrogramData->readAndResetUpdatedFlag() == true){
+            // Plot new data
+            spectrogramData->rasterData->setValueMatrix(*(spectrogramData->zDataHistory), spectrogramData->windowWidth);
+
+            // Check autoscale. (For some reason, QwtSpectrogram doesn't support autoscale)
+            if (spectrogramData->getZMaximum() == 0){
+                double newVal = spectrogramData->readAndResetAutoscaleValue();
+                if (newVal != 0){
+                    spectrogramData->rightAxis->setColorMap( QwtInterval(0, newVal), new ColorMap(((SpectrogramScope*) scopeConfig)->getColorMap()));
+                    scopeGadgetWidget->setAxisScale( QwtPlot::yRight, 0, newVal);
+                }
+            }
+        }
+}
 
 
 /**
@@ -126,4 +155,21 @@ bool SpectrogramData::append(UAVObject* multiObj)
     }
 
     return false;
+}
+
+
+/**
+ * @brief SpectrogramScope::clearPlots Clear all plot data
+ */
+void SpectrogramData::clearPlots(PlotData *plot3dData)
+{
+    SpectrogramData* spectrogramData = (SpectrogramData*) plot3dData;
+    spectrogramData->spectrogram->detach();
+
+    // Don't delete raster data, this is done by the spectrogram's destructor
+    /* delete plot3dData->rasterData; */
+
+    // Delete spectrogram (also deletes raster data)
+    delete spectrogramData->spectrogram;
+    delete spectrogramData;
 }

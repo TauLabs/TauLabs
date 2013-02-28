@@ -454,7 +454,10 @@ void ScopeGadgetWidget::replotNewData()
     QMutexLocker locker(&mutex);
 
     // Update the data in the scopes
-    m_scope->plotNewData(this);
+    foreach(PlotData* plotData, m_dataSources.values())
+    {
+        plotData->plotNewData(plotData, m_scope, this);
+    }
 
     // Repaint the scopes
     replot();
@@ -470,7 +473,13 @@ void ScopeGadgetWidget::clearPlotWidget()
         m_grid->detach();
     }
     if(m_scope){
-        m_scope->clearPlots(this);
+        // Clear the plots
+        foreach(PlotData* plotData, m_dataSources.values()) {
+            plotData->clearPlots(plotData);
+        }
+
+        // Clear the data
+        m_dataSources.clear();
     }
 }
 

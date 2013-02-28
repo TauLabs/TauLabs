@@ -48,8 +48,6 @@ public:
 
     QVector<double>* yDataHistory; //Used for scatterplots
 
-    virtual bool append(UAVObject* obj) = 0;
-    virtual void removeStaleData() = 0;
     virtual void setUpdatedFlagToTrue(){dataUpdated = true;}
     virtual bool readAndResetUpdatedFlag(){bool tmp = dataUpdated; dataUpdated = false; return tmp;}
 

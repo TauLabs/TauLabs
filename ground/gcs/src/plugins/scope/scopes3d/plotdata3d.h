@@ -58,8 +58,6 @@ public:
     double getZMinimum(){return zMinimum;}
     double getZMaximum(){return zMaximum;}
 
-    virtual bool append(UAVObject* obj) = 0;
-    virtual void removeStaleData() = 0;
     virtual void setUpdatedFlagToTrue(){dataUpdated = true;}
     virtual bool readAndResetUpdatedFlag(){bool tmp = dataUpdated; dataUpdated = false; return tmp;}
 

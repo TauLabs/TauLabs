@@ -87,7 +87,6 @@ public:
     double getXWindowSize(){return m_xWindowSize;}
     int getRefreshInterval(){return m_refreshInterval;}
     QMap<QString, PlotData*> getDataSources(){return m_dataSources;}
-    void clearDataSources(){m_dataSources.clear();}
     void insertDataSources(QString stringVal, PlotData* dataVal){m_dataSources.insert(stringVal, dataVal);}
 
     void clearPlotWidget();

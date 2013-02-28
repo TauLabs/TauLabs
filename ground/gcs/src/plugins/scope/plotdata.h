@@ -29,6 +29,9 @@
 #ifndef PLOTDATA_H
 #define PLOTDATA_H
 
+class ScopeGadgetWidget;
+class ScopesGeneric;
+
 #include "uavobject.h"
 
 #include "qwt/src/qwt_color_map.h"
@@ -37,8 +40,6 @@
 #include <QTimer>
 #include <QTime>
 #include <QVector>
-
-
 
 
 class PlotData : public QObject
@@ -80,6 +81,8 @@ public:
     virtual void removeStaleData() = 0;
     virtual void setUpdatedFlagToTrue() = 0;
     virtual bool readAndResetUpdatedFlag() = 0;
+    virtual void plotNewData(PlotData *, ScopesGeneric *, ScopeGadgetWidget *) = 0;
+    virtual void clearPlots(PlotData *) = 0;
 
     QwtScaleWidget *rightAxis;
 

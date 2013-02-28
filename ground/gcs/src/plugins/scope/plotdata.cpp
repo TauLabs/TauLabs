@@ -46,8 +46,6 @@
 #include <math.h>
 #include <QDebug>
 
-#define MAX_NUMBER_OF_INTERVALS 1000
-
 /**
  * @brief Plot2dData::Plot2dData Default 2d constructor
  * @param p_uavObject The plotted UAVO name

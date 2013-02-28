@@ -32,10 +32,46 @@
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
 #include "scopes2d/scatterplotdata.h"
+#include "scopes2d/scatterplotscopeconfig.h"
+#include "scopegadgetwidget.h"
 
 #include "qwt/src/qwt.h"
 #include "qwt/src/qwt_plot.h"
 #include "qwt/src/qwt_plot_curve.h"
+
+
+/**
+ * @brief Scatterplot2dScope::plotNewData Update plot with new data
+ * @param scopeGadgetWidget
+ */
+void TimeSeriesPlotData::plotNewData(PlotData *plot2dData, ScopesGeneric *scopeConfig, ScopeGadgetWidget *scopeGadgetWidget)
+{
+
+    ScatterplotData *scatterplotData = (ScatterplotData*) plot2dData;
+    //Plot new data
+    if (scatterplotData->readAndResetUpdatedFlag() == true)
+        scatterplotData->curve->setSamples(*(scatterplotData->getXData()), *(scatterplotData->getYData()));
+
+    QDateTime NOW = QDateTime::currentDateTime();
+    double toTime = NOW.toTime_t();
+    toTime += NOW.time().msec() / 1000.0;
+
+    scopeGadgetWidget->setAxisScale(QwtPlot::xBottom, toTime - scopeGadgetWidget->m_xWindowSize, toTime);
+}
+
+
+/**
+ * @brief Scatterplot2dScope::plotNewData Update plot with new data
+ * @param scopeGadgetWidget
+ */
+void SeriesPlotData::plotNewData(PlotData *plot2dData, ScopesGeneric *scopeConfig, ScopeGadgetWidget *scopeGadgetWidget)
+{
+
+    ScatterplotData *scatterplotData = (ScatterplotData*) plot2dData;
+    //Plot new data
+    if (scatterplotData->readAndResetUpdatedFlag() == true)
+        scatterplotData->curve->setSamples(*(scatterplotData->getXData()), *(scatterplotData->getYData()));
+}
 
 
 /**
@@ -203,4 +239,17 @@ void TimeSeriesPlotData::removeStaleData()
 void TimeSeriesPlotData::removeStaleDataTimeout()
 {
     removeStaleData();
+}
+
+
+/**
+ * @brief ScatterplotData::clearPlots Clear all plot data
+ */
+void ScatterplotData::clearPlots(PlotData *plot2dData)
+{
+    ScatterplotData *scatterplotData = (ScatterplotData*) plot2dData;
+    scatterplotData->curve->detach();
+
+    delete scatterplotData->curve;
+    delete scatterplotData;
 }

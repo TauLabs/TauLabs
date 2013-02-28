@@ -67,17 +67,7 @@ public:
         POLARPLOT
     };
 
-    virtual void saveConfiguration(QSettings *qSettings) = 0;
-    virtual int getScopeType() = 0;
     virtual int getScopeDimensions(){return PLOT2D;}
-    virtual QList<Plot2dCurveConfiguration*> getDataSourceConfigs() = 0;
-    virtual void loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget) = 0;
-    virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *) = 0;
-    virtual ScopesGeneric* cloneScope(ScopesGeneric *) = 0;
-
-    virtual void preparePlot(ScopeGadgetWidget *) = 0;
-    virtual void plotNewData(ScopeGadgetWidget *) = 0;
-    virtual void clearPlots(ScopeGadgetWidget *scopeGadgetWidget) = 0;
 
 private:
 };

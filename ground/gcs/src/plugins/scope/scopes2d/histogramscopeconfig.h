@@ -68,8 +68,6 @@ public:
     virtual void loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget);
 
     virtual void preparePlot(ScopeGadgetWidget *);
-    virtual void plotNewData(ScopeGadgetWidget *);
-    virtual void clearPlots(ScopeGadgetWidget *scopeGadgetWidget);
 
 private:
     double binWidth;

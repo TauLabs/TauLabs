@@ -76,8 +76,6 @@ public:
     virtual ScopesGeneric* cloneScope(ScopesGeneric *Scatterplot2dScope);
 
     virtual void preparePlot(ScopeGadgetWidget *);
-    virtual void plotNewData(ScopeGadgetWidget *);
-    virtual void clearPlots(ScopeGadgetWidget *scopeGadgetWidget);
 
 private:
     Scatterplot2dType scatterplot2dType;

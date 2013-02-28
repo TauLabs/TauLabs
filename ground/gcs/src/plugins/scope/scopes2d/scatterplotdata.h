@@ -48,6 +48,8 @@ public:
         Plot2dData(uavObject, uavField){curve = 0;}
     ~ScatterplotData(){}
 
+    virtual void clearPlots(PlotData *);
+
     QwtPlotCurve* curve;
 };
 
@@ -75,6 +77,7 @@ public:
       \brief Removes the old data from the buffer
       */
     virtual void removeStaleData(){}
+    virtual void plotNewData(PlotData *, ScopesGeneric *, ScopeGadgetWidget *);
 };
 
 
@@ -96,6 +99,7 @@ public:
     bool append(UAVObject* obj);
 
     virtual void removeStaleData();
+    virtual void plotNewData(PlotData *, ScopesGeneric *, ScopeGadgetWidget *);
 
 private:
 

@@ -32,13 +32,30 @@
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
 #include "scopes2d/histogramdata.h"
+#include "scopes2d/histogramscopeconfig.h"
+#include "scopegadgetwidget.h"
 
 #include "qwt/src/qwt.h"
 #include "qwt/src/qwt_plot_histogram.h"
 
 
-
 #define MAX_NUMBER_OF_INTERVALS 1000
+
+
+/**
+ * @brief HistogramScope::plotNewData Update plot with new data
+ * @param scopeGadgetWidget
+ */
+void HistogramData::plotNewData(PlotData* plot2dData, ScopesGeneric *scopeConfig, ScopeGadgetWidget *scopeGadgetWidget)
+{
+    Q_UNUSED(scopeGadgetWidget);
+    Q_UNUSED(scopeConfig);
+
+    //Plot new data
+    HistogramData *histogramData = (HistogramData*) plot2dData;
+    histogramData->histogram->setData(histogramData->intervalSeriesData);
+    histogramData->intervalSeriesData->setSamples(*histogramData->histogramBins);
+}
 
 
 /**
@@ -129,4 +146,26 @@ bool HistogramData::append(UAVObject* obj)
     }
 
     return false;
+}
+
+/**
+ * @brief HistogramScope::clearPlots Clear all plot data
+ */
+void HistogramData::clearPlots(PlotData *plot2dData)
+{
+    HistogramData *histogramData = (HistogramData*) plot2dData;
+
+    histogramData->histogram->detach();
+
+    // Delete data bins
+    delete histogramData->histogramInterval;
+    delete histogramData->histogramBins;
+
+    // Don't delete intervalSeriesData, this is done by the histogram's destructor
+    /* delete histogramData->intervalSeriesData; */
+
+    // Delete histogram (also deletes intervalSeriesData)
+    delete histogramData->histogram;
+
+    delete histogramData;
 }
