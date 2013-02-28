@@ -29,9 +29,8 @@
 #define PLOTDATA3D_H
 
 #include "plotdata.h"
-//#include "scopes3d/scopes3dconfig.h"
 
-#include "qwt/src/qwt_plot_curve.h"
+//#include "qwt/src/qwt_plot_curve.h"
 
 #include <QTimer>
 #include <QTime>

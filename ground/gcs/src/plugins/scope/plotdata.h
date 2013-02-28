@@ -45,6 +45,8 @@ class PlotData : public QObject
 {
     Q_OBJECT
 public:
+    double valueAsDouble(UAVObject* obj, UAVObjectField* field, bool haveSubField, QString uavSubFieldName);
+
     //Setter functions
     void setXMinimum(double val){xMinimum=val;}
     void setXMaximum(double val){xMaximum=val;}

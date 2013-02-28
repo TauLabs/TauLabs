@@ -28,7 +28,7 @@
 #ifndef HISTOGRAMDATA_H
 #define HISTOGRAMDATA_H
 
-#include "plotdata2d.h"
+#include "scopes2d/plotdata2d.h"
 #include "uavobject.h"
 
 #include "qwt/src/qwt_plot_histogram.h"

@@ -30,7 +30,7 @@
 
 
 #include "scopesconfig.h"
-#include "plotdata2d.h"
+#include "scopes2d/plotdata2d.h"
 
 #include <coreplugin/iuavgadgetconfiguration.h>
 #include "ui_scopegadgetoptionspage.h"

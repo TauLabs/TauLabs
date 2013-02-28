@@ -29,7 +29,7 @@
 #define SCOPES3D_H
 
 #include "scopesconfig.h"
-#include "plotdata3d.h"
+#include "scopes3d/plotdata3d.h"
 
 #include <coreplugin/iuavgadgetconfiguration.h>
 #include "ui_scopegadgetoptionspage.h"
