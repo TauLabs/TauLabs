@@ -69,7 +69,6 @@ public:
     virtual void preparePlot(ScopeGadgetWidget *) = 0;
     virtual void plotNewData(ScopeGadgetWidget *) = 0;
     virtual void clearPlots(ScopeGadgetWidget *scopeGadgetWidget) = 0;
-    virtual void uavObjectReceived(UAVObject* obj, ScopeGadgetWidget *scopeGadgetWidget) = 0;
     virtual ScopesGeneric* cloneScope(ScopesGeneric *histogramSourceConfigs) = 0;
 
 protected:

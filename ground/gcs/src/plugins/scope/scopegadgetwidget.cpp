@@ -433,7 +433,11 @@ void ScopeGadgetWidget::setupSpectrogramPlot(ScopesGeneric *scope)
  */
 void ScopeGadgetWidget::uavObjectReceived(UAVObject* obj)
 {
-    m_scope->uavObjectReceived(obj, this);
+    foreach(PlotData* plotdData, m_dataSources.values()) {
+        bool ret = plotdData->append(obj);
+        if (ret)
+            plotdData->setUpdatedFlagToTrue();
+    }
 }
 
 

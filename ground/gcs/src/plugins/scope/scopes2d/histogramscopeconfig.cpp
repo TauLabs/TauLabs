@@ -459,17 +459,3 @@ void HistogramScope::clearPlots(ScopeGadgetWidget *scopeGadgetWidget)
 
 }
 
-
-/**
- * @brief HistogramScope::uavObjectReceived Handles UAVO received from updates
- * @param obj
- */
-void HistogramScope::uavObjectReceived(UAVObject* obj, ScopeGadgetWidget *scopeGadgetWidget)
-{
-    foreach(PlotData* plot2dData, scopeGadgetWidget->getDataSources().values()) {
-        bool ret = plot2dData->append(obj);
-        if (ret)
-            plot2dData->setUpdatedFlagToTrue();
-
-    }
-}

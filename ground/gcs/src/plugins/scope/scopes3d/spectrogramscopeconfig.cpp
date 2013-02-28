@@ -434,17 +434,3 @@ void SpectrogramScope::clearPlots(ScopeGadgetWidget *scopeGadgetWidget)
     // Clear the data
     scopeGadgetWidget->clearDataSources();
 }
-
-
-/**
- * @brief SpectrogramScope::uavObjectReceived Handles UAVO received from updates
- * @param obj
- */
-void SpectrogramScope::uavObjectReceived(UAVObject* obj, ScopeGadgetWidget *scopeGadgetWidget)
-{
-    foreach(PlotData* plot3dData, scopeGadgetWidget->getDataSources().values()) {
-        bool ret = plot3dData->append(obj);
-        if (ret)
-            plot3dData->setUpdatedFlagToTrue();
-    }
-}

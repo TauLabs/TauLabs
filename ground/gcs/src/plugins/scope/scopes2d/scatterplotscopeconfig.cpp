@@ -477,17 +477,3 @@ void Scatterplot2dScope::clearPlots(ScopeGadgetWidget *scopeGadgetWidget)
     // Clear the data
     scopeGadgetWidget->clearDataSources();
 }
-
-
-/**
- * @brief Scatterplot2dScope::uavObjectReceived Handles UAVO received from updates
- * @param obj
- */
-void Scatterplot2dScope::uavObjectReceived(UAVObject* obj, ScopeGadgetWidget *scopeGadgetWidget)
-{
-    foreach(PlotData* plot2dData, scopeGadgetWidget->getDataSources().values()) {
-        bool ret = plot2dData->append(obj);
-        if (ret)
-            plot2dData->setUpdatedFlagToTrue();
-    }
-}

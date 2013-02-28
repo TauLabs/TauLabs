@@ -78,7 +78,6 @@ public:
     virtual void preparePlot(ScopeGadgetWidget *);
     virtual void plotNewData(ScopeGadgetWidget *);
     virtual void clearPlots(ScopeGadgetWidget *scopeGadgetWidget);
-    virtual void uavObjectReceived(UAVObject* obj, ScopeGadgetWidget *scopeGadgetWidget);
 
 private:
     Scatterplot2dType scatterplot2dType;
