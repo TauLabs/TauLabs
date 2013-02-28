@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       histogramplotdata.h
+ * @file       histogramscopeconfig.h
  * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -25,24 +25,23 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef HISTOGRAMSCOPE_H
-#define HISTOGRAMSCOPE_H
+#ifndef HISTOGRAMSCOPECONFIG_H
+#define HISTOGRAMSCOPECONFIG_H
 
 #include "scopes2d/scopes2dconfig.h"
 
 
 /**
- * @brief The HistogramScope class The histogram scope has a variable sized list of
- * data sources
+ * @brief The HistogramScopeConfig class The histogram scope configuration
  */
-class HistogramScope : public Scopes2d
+class HistogramScopeConfig : public Scopes2dConfig
 {
     Q_OBJECT
 public:
-    HistogramScope();
-    HistogramScope(QSettings *qSettings);
-    HistogramScope(Ui::ScopeGadgetOptionsPage *options_page);
-    ~HistogramScope();
+    HistogramScopeConfig();
+    HistogramScopeConfig(QSettings *qSettings);
+    HistogramScopeConfig(Ui::ScopeGadgetOptionsPage *options_page);
+    ~HistogramScopeConfig();
 
     virtual void saveConfiguration(QSettings* qSettings);
     void create(QSettings qSettings);
@@ -61,7 +60,7 @@ public:
     void setBinWidth(double val){binWidth = val;}
     void setMaxNumberOfBins(unsigned int val){maxNumberOfBins = val;}
 
-    virtual ScopesGeneric* cloneScope(ScopesGeneric *histogramSourceConfigs);
+    virtual ScopeConfig* cloneScope(ScopeConfig *histogramSourceConfigs);
 
     virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page);
 
@@ -80,4 +79,4 @@ private slots:
 
 };
 
-#endif // HISTOGRAMSCOPE_H
+#endif // HISTOGRAMSCOPECONFIG_H

@@ -58,15 +58,15 @@ ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* q
             //Start reading new XML block
             qSettings->beginGroup(QString("plot2d"));
 
-            Scopes2d::Plot2dType plot2dType = (Scopes2d::Plot2dType) qSettings->value("plot2dType").toUInt();
+            Scopes2dConfig::Plot2dType plot2dType = (Scopes2dConfig::Plot2dType) qSettings->value("plot2dType").toUInt();
             switch (plot2dType){
-            case Scopes2d::HISTOGRAM: {
-                m_scope = new HistogramScope(qSettings);
+            case Scopes2dConfig::HISTOGRAM: {
+                m_scope = new HistogramScopeConfig(qSettings);
                 break;
                 }
-            case Scopes2d::SCATTERPLOT2D:
+            case Scopes2dConfig::SCATTERPLOT2D:
             default: {
-                m_scope = new Scatterplot2dScope(qSettings);
+                m_scope = new Scatterplot2dScopeConfig(qSettings);
                 break;
                 }
             }
@@ -80,11 +80,11 @@ ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* q
             //Start reading new XML block
             qSettings->beginGroup(QString("plot3d"));
 
-            Scopes3d::Plot3dType plot3dType = (Scopes3d::Plot3dType) qSettings->value("plot3dType").toUInt(); //<--TODO: This requires that the enum values be defined at 0,1,...n
+            Scopes3dConfig::Plot3dType plot3dType = (Scopes3dConfig::Plot3dType) qSettings->value("plot3dType").toUInt(); //<--TODO: This requires that the enum values be defined at 0,1,...n
             switch (plot3dType){
             default:
-            case Scopes3d::SPECTROGRAM: {
-                m_scope = new SpectrogramScope(qSettings);
+            case Scopes3dConfig::SPECTROGRAM: {
+                m_scope = new SpectrogramScopeConfig(qSettings);
                 break;
                 }
             }
@@ -99,7 +99,7 @@ ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* q
     }
     else{
         // Default config is just a simple 2D scatterplot
-        m_scope = new Scatterplot2dScope();
+        m_scope = new Scatterplot2dScopeConfig();
     }
 }
 
@@ -115,15 +115,15 @@ void ScopeGadgetConfiguration::applyGuiConfiguration(Ui::ScopeGadgetOptionsPage 
 
     if(options_page->tabWidget2d3d->currentWidget() == options_page->tabPlot2d)
     {   //--- 2D ---//
-        Scopes2d::Plot2dType plot2dType = (Scopes2d::Plot2dType) options_page->cmb2dPlotType->itemData(options_page->cmb2dPlotType->currentIndex()).toUInt(); //This is safe because the item data is defined from the enum.
+        Scopes2dConfig::Plot2dType plot2dType = (Scopes2dConfig::Plot2dType) options_page->cmb2dPlotType->itemData(options_page->cmb2dPlotType->currentIndex()).toUInt(); //This is safe because the item data is defined from the enum.
         switch (plot2dType){
-        case Scopes2d::HISTOGRAM: {
-            m_scope = new HistogramScope(options_page);
+        case Scopes2dConfig::HISTOGRAM: {
+            m_scope = new HistogramScopeConfig(options_page);
             break;
             }
-        case Scopes2d::SCATTERPLOT2D:
+        case Scopes2dConfig::SCATTERPLOT2D:
         default: {
-            m_scope = new Scatterplot2dScope(options_page);
+            m_scope = new Scatterplot2dScopeConfig(options_page);
             break;
             }
         }
@@ -132,11 +132,11 @@ void ScopeGadgetConfiguration::applyGuiConfiguration(Ui::ScopeGadgetOptionsPage 
     else if(options_page->tabWidget2d3d->currentWidget() == options_page->tabPlot3d)
     {   //--- 3D ---//
 
-        Scopes3d::Plot3dType plot3dType = (Scopes3d::Plot3dType) options_page->cmb3dPlotType->itemData(options_page->cmb3dPlotType->currentIndex()).toUInt(); //This is safe because the item data is defined from the enum
+        Scopes3dConfig::Plot3dType plot3dType = (Scopes3dConfig::Plot3dType) options_page->cmb3dPlotType->itemData(options_page->cmb3dPlotType->currentIndex()).toUInt(); //This is safe because the item data is defined from the enum
 
         if (options_page->stackedWidget3dPlots->currentWidget() == options_page->sw3dSpectrogramStack)
         {
-            m_scope = new SpectrogramScope(options_page);
+            m_scope = new SpectrogramScopeConfig(options_page);
         }
         else if (options_page->stackedWidget3dPlots->currentWidget() == options_page->sw3dTimeSeriesStack)
         {

@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       spectrogramscope.cpp
+ * @file       spectrogramscopeconfig.cpp
  * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -32,9 +32,9 @@
 
 
 /**
- * @brief SpectrogramScope::SpectrogramScope Default constructor
+ * @brief SpectrogramScopeConfig::SpectrogramScopeConfig Default constructor
  */
-SpectrogramScope::SpectrogramScope()
+SpectrogramScopeConfig::SpectrogramScopeConfig()
 {
     m_refreshInterval = 50; //TODO: This should not be set here. Probably should come from a define somewhere.
     yAxisUnits = "";
@@ -47,10 +47,10 @@ SpectrogramScope::SpectrogramScope()
 
 
 /**
- * @brief SpectrogramScope::SpectrogramScope Constructor using the XML settings
+ * @brief SpectrogramScopeConfig::SpectrogramScopeConfig Constructor using the XML settings
  * @param qSettings settings XML object
  */
-SpectrogramScope::SpectrogramScope(QSettings *qSettings)
+SpectrogramScopeConfig::SpectrogramScopeConfig(QSettings *qSettings)
 {
     timeHorizon = qSettings->value("timeHorizon").toDouble();
     samplingFrequency = qSettings->value("samplingFrequency").toDouble();
@@ -84,10 +84,10 @@ SpectrogramScope::SpectrogramScope(QSettings *qSettings)
 
 
 /**
- * @brief SpectrogramScope::SpectrogramScope Constructor using the GUI settings
+ * @brief SpectrogramScopeConfig::SpectrogramScopeConfig Constructor using the GUI settings
  * @param options_page GUI settings preference pane
  */
-SpectrogramScope::SpectrogramScope(Ui::ScopeGadgetOptionsPage *options_page)
+SpectrogramScopeConfig::SpectrogramScopeConfig(Ui::ScopeGadgetOptionsPage *options_page)
 {
     bool parseOK = false;
 
@@ -115,29 +115,29 @@ SpectrogramScope::SpectrogramScope(Ui::ScopeGadgetOptionsPage *options_page)
 
 }
 
-SpectrogramScope::~SpectrogramScope()
+SpectrogramScopeConfig::~SpectrogramScopeConfig()
 {
 
 }
 
 
 /**
- * @brief SpectrogramScope::cloneScope Clones scope from existing GUI configuration
+ * @brief SpectrogramScopeConfig::cloneScope Clones scope from existing GUI configuration
  * @param originalScope
  * @return
  */
-ScopesGeneric* SpectrogramScope::cloneScope(ScopesGeneric *originalScope)
+ScopeConfig* SpectrogramScopeConfig::cloneScope(ScopeConfig *originalScope)
 {
-    SpectrogramScope *originalSpectrogramScope = (SpectrogramScope*) originalScope;
-    SpectrogramScope *cloneObj = new SpectrogramScope();
+    SpectrogramScopeConfig *originalSpectrogramScopeConfig = (SpectrogramScopeConfig*) originalScope;
+    SpectrogramScopeConfig *cloneObj = new SpectrogramScopeConfig();
 
-    cloneObj->timeHorizon = originalSpectrogramScope->timeHorizon;
-    cloneObj->colorMapType = originalSpectrogramScope->colorMapType;
+    cloneObj->timeHorizon = originalSpectrogramScopeConfig->timeHorizon;
+    cloneObj->colorMapType = originalSpectrogramScopeConfig->colorMapType;
 
-    int plotCurveCount = originalSpectrogramScope->m_spectrogramSourceConfigs.size();
+    int plotCurveCount = originalSpectrogramScopeConfig->m_spectrogramSourceConfigs.size();
 
     for (int i = 0; i < plotCurveCount; i++){
-        Plot3dCurveConfiguration *currentPlotCurveConf = originalSpectrogramScope->m_spectrogramSourceConfigs.at(i);
+        Plot3dCurveConfiguration *currentPlotCurveConf = originalSpectrogramScopeConfig->m_spectrogramSourceConfigs.at(i);
         Plot3dCurveConfiguration *newSpectrogramConf     = new Plot3dCurveConfiguration();
 
         newSpectrogramConf->uavObjectName = currentPlotCurveConf->uavObjectName;
@@ -158,10 +158,10 @@ ScopesGeneric* SpectrogramScope::cloneScope(ScopesGeneric *originalScope)
 
 
 /**
- * @brief SpectrogramScope::saveConfiguration Saves configuration to XML file
+ * @brief SpectrogramScopeConfig::saveConfiguration Saves configuration to XML file
  * @param qSettings
  */
-void SpectrogramScope::saveConfiguration(QSettings* qSettings)
+void SpectrogramScopeConfig::saveConfiguration(QSettings* qSettings)
 {
     //Start writing new XML block
     qSettings->beginGroup(QString("plot3d"));
@@ -197,10 +197,10 @@ void SpectrogramScope::saveConfiguration(QSettings* qSettings)
 
 
 /**
- * @brief SpectrogramScope::replaceSpectrogramDataSource Replaces the list of spectrogram data sources
+ * @brief SpectrogramScopeConfig::replaceSpectrogramDataSource Replaces the list of spectrogram data sources
  * @param spectrogramSourceConfigs
  */
-void SpectrogramScope::replaceSpectrogramDataSource(QList<Plot3dCurveConfiguration*> spectrogramSourceConfigs)
+void SpectrogramScopeConfig::replaceSpectrogramDataSource(QList<Plot3dCurveConfiguration*> spectrogramSourceConfigs)
 {
     m_spectrogramSourceConfigs.clear();
     m_spectrogramSourceConfigs.append(spectrogramSourceConfigs);
@@ -208,10 +208,10 @@ void SpectrogramScope::replaceSpectrogramDataSource(QList<Plot3dCurveConfigurati
 
 
 /**
- * @brief SpectrogramScope::loadConfiguration loads the plot configuration into the scope gadget widget
+ * @brief SpectrogramScopeConfig::loadConfiguration loads the plot configuration into the scope gadget widget
  * @param scopeGadgetWidget
  */
-void SpectrogramScope::loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget)
+void SpectrogramScopeConfig::loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget)
 {
     scopeGadgetWidget->setupSpectrogramPlot(this);
     scopeGadgetWidget->setRefreshInterval(m_refreshInterval);
@@ -324,10 +324,10 @@ void SpectrogramScope::loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget)
 
 
 /**
- * @brief SpectrogramScope::setGuiConfiguration Set the GUI elements based on values from the XML settings file
+ * @brief SpectrogramScopeConfig::setGuiConfiguration Set the GUI elements based on values from the XML settings file
  * @param options_page
  */
-void SpectrogramScope::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page)
+void SpectrogramScopeConfig::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page)
 {
     //Set the tab widget to 3D
     options_page->tabWidget2d3d->setCurrentWidget(options_page->tabPlot3d);
@@ -353,10 +353,10 @@ void SpectrogramScope::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_p
 
 
 /**
- * @brief SpectrogramScope::preparePlot Prepares the Qwt plot colors and axes
+ * @brief SpectrogramScopeConfig::preparePlot Prepares the Qwt plot colors and axes
  * @param scopeGadgetWidget
  */
-void SpectrogramScope::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
+void SpectrogramScopeConfig::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
 {
     scopeGadgetWidget->setMinimumSize(64, 64);
     scopeGadgetWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);

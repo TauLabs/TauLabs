@@ -74,7 +74,7 @@ public:
      */
     double readAndResetAutoscaleValue(){double tmpVal = autoscaleValueUpdated; autoscaleValueUpdated = 0; return tmpVal;}
 
-    virtual void plotNewData(PlotData *, ScopesGeneric *, ScopeGadgetWidget *);
+    virtual void plotNewData(PlotData *, ScopeConfig *, ScopeGadgetWidget *);
     virtual void clearPlots(PlotData *);
 
     double samplingFrequency;

@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       scatterplotdata.h
+ * @file       scatterplotscopeconfig.h
  * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -25,17 +25,16 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef SCATTERPLOTSCOPE_H
-#define SCATTERPLOTSCOPE_H
+#ifndef SCATTERPLOTSCOPECONFIG_H
+#define SCATTERPLOTSCOPECONFIG_H
 
 #include "scopes2d/scopes2dconfig.h"
 
 
 /**
- * @brief The Scatterplot2dScope class The scatterplot scope has a variable sized list of
- * data sources
+ * @brief The Scatterplot2dScopeConfig class The scatterplot scope configuration
  */
-class Scatterplot2dScope : public Scopes2d
+class Scatterplot2dScopeConfig : public Scopes2dConfig
 {
     Q_OBJECT
 public:
@@ -49,10 +48,10 @@ public:
 
 
 
-    Scatterplot2dScope();
-    Scatterplot2dScope(QSettings *qSettings);
-    Scatterplot2dScope(Ui::ScopeGadgetOptionsPage *options_page);
-    ~Scatterplot2dScope();
+    Scatterplot2dScopeConfig();
+    Scatterplot2dScopeConfig(QSettings *qSettings);
+    Scatterplot2dScopeConfig(Ui::ScopeGadgetOptionsPage *options_page);
+    ~Scatterplot2dScopeConfig();
 
     virtual void saveConfiguration(QSettings* qSettings);
     void create(QSettings qSettings);
@@ -73,7 +72,7 @@ public:
     virtual void loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget);
     virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page);
 
-    virtual ScopesGeneric* cloneScope(ScopesGeneric *Scatterplot2dScope);
+    virtual ScopeConfig* cloneScope(ScopeConfig *Scatterplot2dScopeConfig);
 
     virtual void preparePlot(ScopeGadgetWidget *);
 
@@ -87,4 +86,4 @@ private slots:
 
 };
 
-#endif // SCATTERPLOTSCOPE_H
+#endif // SCATTERPLOTSCOPECONFIG_H

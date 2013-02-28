@@ -1,8 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       plotdata.cpp
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @file       histogramplotplotdata.cpp
  * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -43,10 +42,10 @@
 
 
 /**
- * @brief HistogramScope::plotNewData Update plot with new data
+ * @brief HistogramScopeConfig::plotNewData Update plot with new data
  * @param scopeGadgetWidget
  */
-void HistogramData::plotNewData(PlotData* plot2dData, ScopesGeneric *scopeConfig, ScopeGadgetWidget *scopeGadgetWidget)
+void HistogramData::plotNewData(PlotData* plot2dData, ScopeConfig *scopeConfig, ScopeGadgetWidget *scopeGadgetWidget)
 {
     Q_UNUSED(scopeGadgetWidget);
     Q_UNUSED(scopeConfig);
@@ -149,7 +148,7 @@ bool HistogramData::append(UAVObject* obj)
 }
 
 /**
- * @brief HistogramScope::clearPlots Clear all plot data
+ * @brief HistogramScopeConfig::clearPlots Clear all plot data
  */
 void HistogramData::clearPlots(PlotData *plot2dData)
 {

@@ -48,7 +48,7 @@ public:
     ~ScopeGadgetConfiguration();
 
     //configurations getter functions
-    ScopesGeneric* getScope(){return m_scope;}
+    ScopeConfig* getScope(){return m_scope;}
 
     void saveConfig(QSettings* settings) const; //THIS SEEMS TO BE UNUSED
     IUAVGadgetConfiguration* clone();
@@ -56,7 +56,7 @@ public:
     void applyGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page);
 
 private:
-    ScopesGeneric *m_scope;
+    ScopeConfig *m_scope;
 
 };
 

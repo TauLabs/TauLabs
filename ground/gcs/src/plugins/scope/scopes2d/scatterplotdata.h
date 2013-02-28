@@ -77,7 +77,7 @@ public:
       \brief Removes the old data from the buffer
       */
     virtual void removeStaleData(){}
-    virtual void plotNewData(PlotData *, ScopesGeneric *, ScopeGadgetWidget *);
+    virtual void plotNewData(PlotData *, ScopeConfig *, ScopeGadgetWidget *);
 };
 
 
@@ -99,7 +99,7 @@ public:
     bool append(UAVObject* obj);
 
     virtual void removeStaleData();
-    virtual void plotNewData(PlotData *, ScopesGeneric *, ScopeGadgetWidget *);
+    virtual void plotNewData(PlotData *, ScopeConfig *, ScopeGadgetWidget *);
 
 private:
 

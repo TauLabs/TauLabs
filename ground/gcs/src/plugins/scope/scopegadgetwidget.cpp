@@ -288,7 +288,7 @@ void ScopeGadgetWidget::showCurve(QwtPlotItem *item, bool on)
 /**
  * @brief ScopeGadgetWidget::setupSeriesPlot
  */
-void ScopeGadgetWidget::setupSeriesPlot(ScopesGeneric* scope)
+void ScopeGadgetWidget::setupSeriesPlot(ScopeConfig* scope)
 {
     m_scope = scope;
 
@@ -323,7 +323,7 @@ void ScopeGadgetWidget::setupSeriesPlot(ScopesGeneric* scope)
 /**
  * @brief ScopeGadgetWidget::setupTimeSeriesPlot Creates plot, as well as sets up axes and scales
  */
-void ScopeGadgetWidget::setupTimeSeriesPlot(ScopesGeneric* scope)
+void ScopeGadgetWidget::setupTimeSeriesPlot(ScopeConfig* scope)
 {
     m_scope = scope;
 
@@ -374,7 +374,7 @@ void ScopeGadgetWidget::setupTimeSeriesPlot(ScopesGeneric* scope)
  * @brief ScopeGadgetWidget::setupHistogramPlot Creates plot, as well as sets up axes and scales
  * @param scope
  */
-void ScopeGadgetWidget::setupHistogramPlot(ScopesGeneric *scope)
+void ScopeGadgetWidget::setupHistogramPlot(ScopeConfig *scope)
 {
     m_scope = scope;
 
@@ -405,7 +405,7 @@ void ScopeGadgetWidget::setupHistogramPlot(ScopesGeneric *scope)
  * @brief ScopeGadgetWidget::setupSpectrogramPlot Creates plot, as well as sets up axes and scales
  * @param scope
  */
-void ScopeGadgetWidget::setupSpectrogramPlot(ScopesGeneric *scope)
+void ScopeGadgetWidget::setupSpectrogramPlot(ScopeConfig *scope)
 {
     m_scope = scope;
 

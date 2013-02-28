@@ -30,7 +30,7 @@
 #define SCOPEGADGETWIDGET_H_
 
 
-class ScopesGeneric;
+class ScopeConfig;
 
 #include "qwt/src/qwt.h"
 #include "qwt/src/qwt_plot.h"
@@ -77,10 +77,10 @@ public:
 
     QString getUavObjectFieldUnits(QString uavObjectName, QString uavObjectFieldName);
 
-    void setupSeriesPlot(ScopesGeneric *);
-    void setupTimeSeriesPlot(ScopesGeneric *);
-    void setupHistogramPlot(ScopesGeneric *);
-    void setupSpectrogramPlot(ScopesGeneric *);
+    void setupSeriesPlot(ScopeConfig *);
+    void setupTimeSeriesPlot(ScopeConfig *);
+    void setupHistogramPlot(ScopeConfig *);
+    void setupSpectrogramPlot(ScopeConfig *);
 
     void setXWindowSize(double xWindowSize){m_xWindowSize = xWindowSize;}
     void setRefreshInterval(double refreshInterval){m_refreshInterval = refreshInterval;}
@@ -118,7 +118,7 @@ private:
     void setupExamplePlot();
 
     int m_refreshInterval;
-    ScopesGeneric *m_scope;
+    ScopeConfig *m_scope;
 	QMutex mutex;
 
     QMap<QString, PlotData*> m_dataSources;

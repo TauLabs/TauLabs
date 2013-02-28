@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       scopes2d.h
+ * @file       scopes2dconfig.h
  * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -50,10 +50,9 @@ struct Plot2dCurveConfiguration
 };
 
 /**
- * @brief The HistogramScope class The histogram scope has a variable sized list of
- * data sources
+ * @brief The Scopes2dConfig class  The parent class for 3D scope configurations
  */
-class Scopes2d : public ScopesGeneric
+class Scopes2dConfig : public ScopeConfig
 {
     Q_OBJECT
 public:

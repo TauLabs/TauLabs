@@ -69,19 +69,19 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
     options_page->setupUi(optionsPageWidget);
 
     // Set up 2D plots tab
-    options_page->cmb2dPlotType->addItem("Scatter plot", Scopes2d::SCATTERPLOT2D);
-    options_page->cmb2dPlotType->addItem("Histogram", Scopes2d::HISTOGRAM);
+    options_page->cmb2dPlotType->addItem("Scatter plot", Scopes2dConfig::SCATTERPLOT2D);
+    options_page->cmb2dPlotType->addItem("Histogram", Scopes2dConfig::HISTOGRAM);
 
     // Set up x-axis combo box
-    options_page->cmbXAxisScatterplot2d->addItem("Series", Scatterplot2dScope::SERIES2D);
-    options_page->cmbXAxisScatterplot2d->addItem("Time series", Scatterplot2dScope::TIMESERIES2D);
+    options_page->cmbXAxisScatterplot2d->addItem("Series", Scatterplot2dScopeConfig::SERIES2D);
+    options_page->cmbXAxisScatterplot2d->addItem("Time series", Scatterplot2dScopeConfig::TIMESERIES2D);
 
 
     // Set up 3D plots tab
-    options_page->cmb3dPlotType->addItem("Spectrogram", Scopes3d::SPECTROGRAM);
+    options_page->cmb3dPlotType->addItem("Spectrogram", Scopes3dConfig::SPECTROGRAM);
 
-    options_page->cmbSpectrogramSource->addItem("Custom", SpectrogramScope::CUSTOM_SPECTROGRAM);
-    options_page->cmbSpectrogramSource->addItem("Vibration Analysis", SpectrogramScope::VIBRATIONANALYSIS);
+    options_page->cmbSpectrogramSource->addItem("Custom", SpectrogramScopeConfig::CUSTOM_SPECTROGRAM);
+    options_page->cmbSpectrogramSource->addItem("Vibration Analysis", SpectrogramScopeConfig::VIBRATIONANALYSIS);
 
     // Populate colormap combobox.
     options_page->cmbColorMapSpectrogram->addItem("Standard", ColorMap::STANDARD);
@@ -224,7 +224,7 @@ void ScopeGadgetOptionsPage::on_mathFunctionComboBox_currentIndexChanged(int cur
  */
 void ScopeGadgetOptionsPage::on_cmbSpectrogramSource_currentIndexChanged(QString currentText)
 {
-    if (currentText == options_page->cmbSpectrogramSource->itemText(options_page->cmbSpectrogramSource->findData(SpectrogramScope::VIBRATIONANALYSIS))){
+    if (currentText == options_page->cmbSpectrogramSource->itemText(options_page->cmbSpectrogramSource->findData(SpectrogramScopeConfig::VIBRATIONANALYSIS))){
         int vibrationTestIdx = options_page->cmbUAVObjectsSpectrogram->findText("VibrationTestOutput");
         options_page->cmbUAVObjectsSpectrogram->setCurrentIndex(vibrationTestIdx);
         options_page->cmbUAVObjectsSpectrogram->setEnabled(false);
@@ -653,7 +653,7 @@ void ScopeGadgetOptionsPage::on_cmb3dPlotType_currentIndexChanged(QString curren
         options_page->stackedWidget3dPlots->setCurrentWidget(options_page->sw3dSpectrogramStack);
 
         //Set the spectrogram source combobox to custom spectrogram by default
-        options_page->cmbSpectrogramSource->setCurrentIndex(options_page->cmbSpectrogramSource->findData(SpectrogramScope::CUSTOM_SPECTROGRAM));
+        options_page->cmbSpectrogramSource->setCurrentIndex(options_page->cmbSpectrogramSource->findData(SpectrogramScopeConfig::CUSTOM_SPECTROGRAM));
     }
     else if (currentText == "Time series"){
         options_page->stackedWidget3dPlots->setCurrentWidget(options_page->sw3dTimeSeriesStack);

@@ -1,8 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       plotdata.cpp
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @file       spectrogramplotdata.cpp
  * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -44,10 +43,10 @@
 
 
 /**
- * @brief SpectrogramScope::plotNewData Update plot with new data
+ * @brief SpectrogramScopeConfig::plotNewData Update plot with new data
  * @param scopeGadgetWidget
  */
-void SpectrogramData::plotNewData(PlotData *plot3dData, ScopesGeneric *scopeConfig, ScopeGadgetWidget *scopeGadgetWidget)
+void SpectrogramData::plotNewData(PlotData *plot3dData, ScopeConfig *scopeConfig, ScopeGadgetWidget *scopeGadgetWidget)
 {
         SpectrogramData *spectrogramData = (SpectrogramData*) plot3dData;
 
@@ -62,7 +61,7 @@ void SpectrogramData::plotNewData(PlotData *plot3dData, ScopesGeneric *scopeConf
             if (spectrogramData->getZMaximum() == 0){
                 double newVal = spectrogramData->readAndResetAutoscaleValue();
                 if (newVal != 0){
-                    spectrogramData->rightAxis->setColorMap( QwtInterval(0, newVal), new ColorMap(((SpectrogramScope*) scopeConfig)->getColorMap()));
+                    spectrogramData->rightAxis->setColorMap( QwtInterval(0, newVal), new ColorMap(((SpectrogramScopeConfig*) scopeConfig)->getColorMap()));
                     scopeGadgetWidget->setAxisScale( QwtPlot::yRight, 0, newVal);
                 }
             }
@@ -159,7 +158,7 @@ bool SpectrogramData::append(UAVObject* multiObj)
 
 
 /**
- * @brief SpectrogramScope::clearPlots Clear all plot data
+ * @brief SpectrogramScopeConfig::clearPlots Clear all plot data
  */
 void SpectrogramData::clearPlots(PlotData *plot3dData)
 {

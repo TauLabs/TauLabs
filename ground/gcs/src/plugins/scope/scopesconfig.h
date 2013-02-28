@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       scopes2d.h
+ * @file       scopes2dconfig.h
  * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -25,8 +25,8 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef SCOPES_H
-#define SCOPES_H
+#ifndef SCOPESCONFIG_H
+#define SCOPESCONFIG_H
 
 
 #include "uavtalk/telemetrymanager.h"
@@ -50,10 +50,10 @@ enum PlotDimensions {
 };
 
 /**
- * @brief The HistogramScope class The histogram scope has a variable sized list of
+ * @brief The ScopeConfig class The parent class for scope configuration classes
  * data sources
  */
-class ScopesGeneric : public QObject
+class ScopeConfig : public QObject
 {
     Q_OBJECT
 public:
@@ -67,7 +67,7 @@ public:
     void setRefreshInterval(int val){m_refreshInterval = val;}
 
     virtual void preparePlot(ScopeGadgetWidget *) = 0;
-    virtual ScopesGeneric* cloneScope(ScopesGeneric *histogramSourceConfigs) = 0;
+    virtual ScopeConfig* cloneScope(ScopeConfig *histogramSourceConfigs) = 0;
 
 protected:
     int m_refreshInterval; //The interval to replot the curve widget. The data buffer is refresh as the data comes in.
@@ -99,4 +99,4 @@ protected:
     }
 };
 
-#endif // SCOPES_H
+#endif // SCOPESCONFIG_H

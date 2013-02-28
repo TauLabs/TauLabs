@@ -68,7 +68,7 @@ public:
     QVector<QwtIntervalSample> *histogramBins; //Used for histograms
     QVector<QwtInterval> *histogramInterval;
     QwtIntervalSeriesData *intervalSeriesData;
-    virtual void plotNewData(PlotData *, ScopesGeneric *, ScopeGadgetWidget *);
+    virtual void plotNewData(PlotData *, ScopeConfig *, ScopeGadgetWidget *);
     virtual void clearPlots(PlotData *);
 private:
     double binWidth;

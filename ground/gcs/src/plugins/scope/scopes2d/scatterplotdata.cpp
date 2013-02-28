@@ -1,8 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       plotdata.cpp
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @file       scatterplotdata.cpp
  * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -41,10 +40,10 @@
 
 
 /**
- * @brief Scatterplot2dScope::plotNewData Update plot with new data
+ * @brief Scatterplot2dScopeConfig::plotNewData Update plot with new data
  * @param scopeGadgetWidget
  */
-void TimeSeriesPlotData::plotNewData(PlotData *plot2dData, ScopesGeneric *scopeConfig, ScopeGadgetWidget *scopeGadgetWidget)
+void TimeSeriesPlotData::plotNewData(PlotData *plot2dData, ScopeConfig *scopeConfig, ScopeGadgetWidget *scopeGadgetWidget)
 {
 
     ScatterplotData *scatterplotData = (ScatterplotData*) plot2dData;
@@ -61,10 +60,10 @@ void TimeSeriesPlotData::plotNewData(PlotData *plot2dData, ScopesGeneric *scopeC
 
 
 /**
- * @brief Scatterplot2dScope::plotNewData Update plot with new data
+ * @brief Scatterplot2dScopeConfig::plotNewData Update plot with new data
  * @param scopeGadgetWidget
  */
-void SeriesPlotData::plotNewData(PlotData *plot2dData, ScopesGeneric *scopeConfig, ScopeGadgetWidget *scopeGadgetWidget)
+void SeriesPlotData::plotNewData(PlotData *plot2dData, ScopeConfig *scopeConfig, ScopeGadgetWidget *scopeGadgetWidget)
 {
 
     ScatterplotData *scatterplotData = (ScatterplotData*) plot2dData;

@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       histogramscope.cpp
+ * @file       histogramscopeconfig.cpp
  * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -34,9 +34,9 @@
 
 
 /**
- * @brief HistogramScope::HistogramScope Default constructor
+ * @brief HistogramScopeConfig::HistogramScopeConfig Default constructor
  */
-HistogramScope::HistogramScope()
+HistogramScopeConfig::HistogramScopeConfig()
 {
     binWidth = 1;
     maxNumberOfBins = 1000;
@@ -44,10 +44,10 @@ HistogramScope::HistogramScope()
 }
 
 /**
- * @brief HistogramScope::HistogramScope Constructor using the XML settings
+ * @brief HistogramScopeConfig::HistogramScopeConfig Constructor using the XML settings
  * @param qSettings settings XML object
  */
-HistogramScope::HistogramScope(QSettings *qSettings)
+HistogramScopeConfig::HistogramScopeConfig(QSettings *qSettings)
 {
     binWidth    = qSettings->value("binWidth").toDouble();
     //Ensure binWidth is not too small
@@ -85,10 +85,10 @@ HistogramScope::HistogramScope(QSettings *qSettings)
 
 
 /**
- * @brief HistogramScope::HistogramScope Constructor using the GUI settings
+ * @brief HistogramScopeConfig::HistogramScopeConfig Constructor using the GUI settings
  * @param options_page GUI settings preference pane
  */
-HistogramScope::HistogramScope(Ui::ScopeGadgetOptionsPage *options_page)
+HistogramScopeConfig::HistogramScopeConfig(Ui::ScopeGadgetOptionsPage *options_page)
 {
     bool parseOK = false;
 
@@ -126,31 +126,31 @@ HistogramScope::HistogramScope(Ui::ScopeGadgetOptionsPage *options_page)
 }
 
 
-HistogramScope::~HistogramScope()
+HistogramScopeConfig::~HistogramScopeConfig()
 {
 
 }
 
 
 /**
- * @brief HistogramScope::cloneScope Clones scope from existing GUI configuration
+ * @brief HistogramScopeConfig::cloneScope Clones scope from existing GUI configuration
  * @param originalScope
  * @return
  */
-ScopesGeneric* HistogramScope::cloneScope(ScopesGeneric *originalScope)
+ScopeConfig* HistogramScopeConfig::cloneScope(ScopeConfig *originalScope)
 {
-    HistogramScope *originalHistogramScope = (HistogramScope*) originalScope;
-    HistogramScope *cloneObj = new HistogramScope();
+    HistogramScopeConfig *originalHistogramScopeConfig = (HistogramScopeConfig*) originalScope;
+    HistogramScopeConfig *cloneObj = new HistogramScopeConfig();
 
-    cloneObj->binWidth = originalHistogramScope->binWidth;
-    cloneObj->maxNumberOfBins = originalHistogramScope->maxNumberOfBins;
-    cloneObj->m_refreshInterval = originalHistogramScope->m_refreshInterval;
+    cloneObj->binWidth = originalHistogramScopeConfig->binWidth;
+    cloneObj->maxNumberOfBins = originalHistogramScopeConfig->maxNumberOfBins;
+    cloneObj->m_refreshInterval = originalHistogramScopeConfig->m_refreshInterval;
 
-    int histogramSourceCount = originalHistogramScope->m_HistogramSourceConfigs.size();
+    int histogramSourceCount = originalHistogramScopeConfig->m_HistogramSourceConfigs.size();
 
     for(int i = 0; i < histogramSourceCount; i++)
     {
-        Plot2dCurveConfiguration *currentHistogramSourceConf = originalHistogramScope->m_HistogramSourceConfigs.at(i);
+        Plot2dCurveConfiguration *currentHistogramSourceConf = originalHistogramScopeConfig->m_HistogramSourceConfigs.at(i);
         Plot2dCurveConfiguration *newHistogramSourceConf     = new Plot2dCurveConfiguration();
 
         newHistogramSourceConf->uavObjectName = currentHistogramSourceConf->uavObjectName;
@@ -170,10 +170,10 @@ ScopesGeneric* HistogramScope::cloneScope(ScopesGeneric *originalScope)
 
 
 /**
- * @brief HistogramScope::saveConfiguration Saves configuration to XML file
+ * @brief HistogramScopeConfig::saveConfiguration Saves configuration to XML file
  * @param qSettings
  */
-void HistogramScope::saveConfiguration(QSettings* qSettings)
+void HistogramScopeConfig::saveConfiguration(QSettings* qSettings)
 {
     //Stop writing XML blocks
     qSettings->beginGroup(QString("plot2d"));
@@ -211,10 +211,10 @@ void HistogramScope::saveConfiguration(QSettings* qSettings)
 
 
 /**
- * @brief HistogramScope::replaceHistogramSource Replaces the list of histogram data sources
+ * @brief HistogramScopeConfig::replaceHistogramSource Replaces the list of histogram data sources
  * @param histogramSourceConfigs
  */
-void HistogramScope::replaceHistogramDataSource(QList<Plot2dCurveConfiguration*> histogramSourceConfigs)
+void HistogramScopeConfig::replaceHistogramDataSource(QList<Plot2dCurveConfiguration*> histogramSourceConfigs)
 {
     m_HistogramSourceConfigs.clear();
     m_HistogramSourceConfigs.append(histogramSourceConfigs);
@@ -222,10 +222,10 @@ void HistogramScope::replaceHistogramDataSource(QList<Plot2dCurveConfiguration*>
 
 
 /**
- * @brief HistogramScope::loadConfiguration loads the plot configuration into the scope gadget widget
+ * @brief HistogramScopeConfig::loadConfiguration loads the plot configuration into the scope gadget widget
  * @param scopeGadgetWidget
  */
-void HistogramScope::loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget)
+void HistogramScopeConfig::loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget)
 {
     scopeGadgetWidget->setupHistogramPlot(this);
     scopeGadgetWidget->setRefreshInterval(m_refreshInterval);
@@ -307,10 +307,10 @@ void HistogramScope::loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget)
 
 
 /**
- * @brief HistogramScope::setGuiConfiguration Set the GUI elements based on values from the XML settings file
+ * @brief HistogramScopeConfig::setGuiConfiguration Set the GUI elements based on values from the XML settings file
  * @param options_page
  */
-void HistogramScope::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page)
+void HistogramScopeConfig::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page)
 {
     //Set the tab widget to 2D
     options_page->tabWidget2d3d->setCurrentWidget(options_page->tabPlot2d);
@@ -377,10 +377,10 @@ void HistogramScope::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_pag
 
 
 /**
- * @brief HistogramScope::preparePlot Prepares the Qwt plot colors and axes
+ * @brief HistogramScopeConfig::preparePlot Prepares the Qwt plot colors and axes
  * @param scopeGadgetWidget
  */
-void HistogramScope::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
+void HistogramScopeConfig::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
 {
     scopeGadgetWidget->setMinimumSize(64, 64);
     scopeGadgetWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);

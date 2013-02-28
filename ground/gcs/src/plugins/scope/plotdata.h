@@ -30,7 +30,7 @@
 #define PLOTDATA_H
 
 class ScopeGadgetWidget;
-class ScopesGeneric;
+class ScopeConfig;
 
 #include "uavobject.h"
 
@@ -81,7 +81,7 @@ public:
     virtual void removeStaleData() = 0;
     virtual void setUpdatedFlagToTrue() = 0;
     virtual bool readAndResetUpdatedFlag() = 0;
-    virtual void plotNewData(PlotData *, ScopesGeneric *, ScopeGadgetWidget *) = 0;
+    virtual void plotNewData(PlotData *, ScopeConfig *, ScopeGadgetWidget *) = 0;
     virtual void clearPlots(PlotData *) = 0;
 
     QwtScaleWidget *rightAxis;

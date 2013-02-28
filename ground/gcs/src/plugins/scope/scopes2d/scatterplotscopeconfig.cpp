@@ -38,9 +38,9 @@
 
 
 /**
- * @brief Scatterplot2dScope::Scatterplot2dScope Default constructor.
+ * @brief Scatterplot2dScopeConfig::Scatterplot2dScopeConfig Default constructor.
  */
-Scatterplot2dScope::Scatterplot2dScope()
+Scatterplot2dScopeConfig::Scatterplot2dScopeConfig()
 {
     scatterplot2dType = TIMESERIES2D;
     m_refreshInterval = 50;
@@ -49,10 +49,10 @@ Scatterplot2dScope::Scatterplot2dScope()
 
 
 /**
- * @brief Scatterplot2dScope::Scatterplot2dScope Constructor using the XML settings
+ * @brief Scatterplot2dScopeConfig::Scatterplot2dScopeConfig Constructor using the XML settings
  * @param qSettings settings XML object
  */
-Scatterplot2dScope::Scatterplot2dScope(QSettings *qSettings)
+Scatterplot2dScopeConfig::Scatterplot2dScopeConfig(QSettings *qSettings)
 {
     this->m_refreshInterval = m_refreshInterval;
     scatterplot2dType =  (Scatterplot2dType) qSettings->value("scatterplot2dType").toUInt();
@@ -84,10 +84,10 @@ Scatterplot2dScope::Scatterplot2dScope(QSettings *qSettings)
 
 
 /**
- * @brief Scatterplot2dScope::Scatterplot2dScope Constructor using the GUI settings
+ * @brief Scatterplot2dScopeConfig::Scatterplot2dScopeConfig Constructor using the GUI settings
  * @param options_page GUI settings preference pane
  */
-Scatterplot2dScope::Scatterplot2dScope(Ui::ScopeGadgetOptionsPage *options_page)
+Scatterplot2dScopeConfig::Scatterplot2dScopeConfig(Ui::ScopeGadgetOptionsPage *options_page)
 {
     bool parseOK = false;
 
@@ -125,31 +125,31 @@ Scatterplot2dScope::Scatterplot2dScope(Ui::ScopeGadgetOptionsPage *options_page)
 }
 
 
-Scatterplot2dScope::~Scatterplot2dScope()
+Scatterplot2dScopeConfig::~Scatterplot2dScopeConfig()
 {
 
 }
 
 
 /**
- * @brief Scatterplot2dScope::cloneScope Clones scope from existing GUI configuration
+ * @brief Scatterplot2dScopeConfig::cloneScope Clones scope from existing GUI configuration
  * @param originalScope
  * @return
  */
-ScopesGeneric* Scatterplot2dScope::cloneScope(ScopesGeneric *originalScope)
+ScopeConfig* Scatterplot2dScopeConfig::cloneScope(ScopeConfig *originalScope)
 {
-    Scatterplot2dScope *originalScatterplot2dScope = (Scatterplot2dScope*) originalScope;
-    Scatterplot2dScope *cloneObj = new Scatterplot2dScope();
+    Scatterplot2dScopeConfig *originalScatterplot2dScopeConfig = (Scatterplot2dScopeConfig*) originalScope;
+    Scatterplot2dScopeConfig *cloneObj = new Scatterplot2dScopeConfig();
 
-    cloneObj->m_refreshInterval = originalScatterplot2dScope->m_refreshInterval;
-    cloneObj->timeHorizon = originalScatterplot2dScope->timeHorizon;
-    cloneObj->scatterplot2dType = originalScatterplot2dScope->scatterplot2dType;
+    cloneObj->m_refreshInterval = originalScatterplot2dScopeConfig->m_refreshInterval;
+    cloneObj->timeHorizon = originalScatterplot2dScopeConfig->timeHorizon;
+    cloneObj->scatterplot2dType = originalScatterplot2dScopeConfig->scatterplot2dType;
 
-    int scatterplotSourceCount = originalScatterplot2dScope->m_scatterplotSourceConfigs.size();
+    int scatterplotSourceCount = originalScatterplot2dScopeConfig->m_scatterplotSourceConfigs.size();
 
     for(int i = 0; i < scatterplotSourceCount; i++)
     {
-        Plot2dCurveConfiguration *currentScatterplotSourceConf = originalScatterplot2dScope->m_scatterplotSourceConfigs.at(i);
+        Plot2dCurveConfiguration *currentScatterplotSourceConf = originalScatterplot2dScopeConfig->m_scatterplotSourceConfigs.at(i);
         Plot2dCurveConfiguration *newScatterplotSourceConf     = new Plot2dCurveConfiguration();
 
         newScatterplotSourceConf->uavObjectName = currentScatterplotSourceConf->uavObjectName;
@@ -169,10 +169,10 @@ ScopesGeneric* Scatterplot2dScope::cloneScope(ScopesGeneric *originalScope)
 
 
 /**
- * @brief Scatterplot2dScope::saveConfiguration Saves configuration to XML file
+ * @brief Scatterplot2dScopeConfig::saveConfiguration Saves configuration to XML file
  * @param qSettings
  */
-void Scatterplot2dScope::saveConfiguration(QSettings* qSettings)
+void Scatterplot2dScopeConfig::saveConfiguration(QSettings* qSettings)
 {
     //Stop writing XML blocks
     qSettings->beginGroup(QString("plot2d"));
@@ -208,10 +208,10 @@ void Scatterplot2dScope::saveConfiguration(QSettings* qSettings)
 
 
 /**
- * @brief Scatterplot2dScope::replaceScatterplotDataSource Replaces the list of scatterplot data sources
+ * @brief Scatterplot2dScopeConfig::replaceScatterplotDataSource Replaces the list of scatterplot data sources
  * @param scatterplotSourceConfigs
  */
-void Scatterplot2dScope::replaceScatterplotDataSource(QList<Plot2dCurveConfiguration*> scatterplotSourceConfigs)
+void Scatterplot2dScopeConfig::replaceScatterplotDataSource(QList<Plot2dCurveConfiguration*> scatterplotSourceConfigs)
 {
     m_scatterplotSourceConfigs.clear();
     m_scatterplotSourceConfigs.append(scatterplotSourceConfigs);
@@ -219,10 +219,10 @@ void Scatterplot2dScope::replaceScatterplotDataSource(QList<Plot2dCurveConfigura
 
 
 /**
- * @brief Scatterplot2dScope::loadConfiguration loads the plot configuration into the scope gadget widget
+ * @brief Scatterplot2dScopeConfig::loadConfiguration loads the plot configuration into the scope gadget widget
  * @param scopeGadgetWidget
  */
-void Scatterplot2dScope::loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget)
+void Scatterplot2dScopeConfig::loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget)
 {
     switch (scatterplot2dType)
     {
@@ -328,10 +328,10 @@ void Scatterplot2dScope::loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget)
 
 
 /**
- * @brief Scatterplot2dScope::setGuiConfigurationSet the GUI elements based on values from the XML settings file
+ * @brief Scatterplot2dScopeConfig::setGuiConfigurationSet the GUI elements based on values from the XML settings file
  * @param options_page
  */
-void Scatterplot2dScope::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page)
+void Scatterplot2dScopeConfig::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page)
 {
     //Set the tab widget to 2D
     options_page->tabWidget2d3d->setCurrentWidget(options_page->tabPlot2d);
@@ -397,10 +397,10 @@ void Scatterplot2dScope::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options
 
 
 /**
- * @brief Scatterplot2dScope::preparePlot Prepares the Qwt plot colors and axes
+ * @brief Scatterplot2dScopeConfig::preparePlot Prepares the Qwt plot colors and axes
  * @param scopeGadgetWidget
  */
-void Scatterplot2dScope::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
+void Scatterplot2dScopeConfig::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
 {
     scopeGadgetWidget->setMinimumSize(64, 64);
     scopeGadgetWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);

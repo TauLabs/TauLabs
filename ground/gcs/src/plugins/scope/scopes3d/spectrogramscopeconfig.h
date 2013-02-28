@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       spectrogramplotdata.h
+ * @file       spectrogramplotconfig.h
  * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -25,18 +25,17 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef SPECTROGRAMSCOPE_H
-#define SPECTROGRAMSCOPE_H
+#ifndef SPECTROGRAMSCOPECONFIG_H
+#define SPECTROGRAMSCOPECONFIG_H
 
 #include "scopes3d/scopes3dconfig.h"
 
 
 
 /**
- * @brief The SpectrogramScope class The spectrogram scope has a variable sized list of
- * data sources
+ * @brief The SpectrogramScopeConfig class The spectrogram scope configuration
  */
-class SpectrogramScope : public Scopes3d
+class SpectrogramScopeConfig : public Scopes3dConfig
 {
     Q_OBJECT
 public:
@@ -48,10 +47,10 @@ public:
         CUSTOM_SPECTROGRAM
     };
 
-    SpectrogramScope();
-    SpectrogramScope(QSettings *qSettings);
-    SpectrogramScope(Ui::ScopeGadgetOptionsPage *options_page);
-    ~SpectrogramScope();
+    SpectrogramScopeConfig();
+    SpectrogramScopeConfig(QSettings *qSettings);
+    SpectrogramScopeConfig(Ui::ScopeGadgetOptionsPage *options_page);
+    ~SpectrogramScopeConfig();
 
     virtual void saveConfiguration(QSettings* qSettings);
     void create(QSettings qSettings);
@@ -74,7 +73,7 @@ public:
     void setWindowWidth(unsigned int val){windowWidth = val;}
     void setTimeHorizon(double val){timeHorizon = val;}
     virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page);
-    virtual ScopesGeneric* cloneScope(ScopesGeneric*);
+    virtual ScopeConfig* cloneScope(ScopeConfig*);
 
     virtual void loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget);
 
@@ -99,4 +98,4 @@ private:
     ColorMap::ColorMapType colorMapType;
 };
 
-#endif // SPECTROGRAMSCOPE_H
+#endif // SPECTROGRAMSCOPECONFIG_H
