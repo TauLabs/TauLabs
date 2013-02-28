@@ -301,7 +301,7 @@ void Scatterplot2dScope::loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget)
             Q_ASSERT(0);
         }
 
-        while(m_curves2dData.keys().contains(curveNameScaledMath))
+        while(scopeGadgetWidget->getDataSources().keys().contains(curveNameScaledMath))
             curveNameScaledMath=curveNameScaledMath+"*";
 
         //Create the curve plot
@@ -312,7 +312,7 @@ void Scatterplot2dScope::loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget)
         scatterplotData->curve = plotCurve;
 
         //Keep the curve details for later
-        m_curves2dData.insert(curveNameScaledMath, scatterplotData);
+        scopeGadgetWidget->insertDataSources(curveNameScaledMath, scatterplotData);
 
         //Link to the new signal data only if this UAVObject has not been connected yet
         if (!scopeGadgetWidget->m_connectedUAVObjects.contains(obj->getName())) {
@@ -440,7 +440,7 @@ void Scatterplot2dScope::plotNewData(ScopeGadgetWidget *scopeGadgetWidget)
 {
     bool updateXAxisFlag = true;
 
-    foreach(Plot2dData* plot2dData, m_curves2dData.values())
+    foreach(PlotData* plot2dData, scopeGadgetWidget->getDataSources().values())
     {
         ScatterplotData *scatterplotData = (ScatterplotData*) plot2dData;
         //Plot new data
@@ -464,9 +464,9 @@ void Scatterplot2dScope::plotNewData(ScopeGadgetWidget *scopeGadgetWidget)
 /**
  * @brief Scatterplot2dScope::clearPlots Clear all plot data
  */
-void Scatterplot2dScope::clearPlots()
+void Scatterplot2dScope::clearPlots(ScopeGadgetWidget *scopeGadgetWidget)
 {
-    foreach(Plot2dData* plot2dData, m_curves2dData.values()) {
+    foreach(PlotData* plot2dData, scopeGadgetWidget->getDataSources().values()) {
         ScatterplotData *scatterplotData = (ScatterplotData*) plot2dData;
         scatterplotData->curve->detach();
 
@@ -475,7 +475,7 @@ void Scatterplot2dScope::clearPlots()
     }
 
     // Clear the data
-    m_curves2dData.clear();
+    scopeGadgetWidget->clearDataSources();
 }
 
 
@@ -483,9 +483,9 @@ void Scatterplot2dScope::clearPlots()
  * @brief Scatterplot2dScope::uavObjectReceived Handles UAVO received from updates
  * @param obj
  */
-void Scatterplot2dScope::uavObjectReceived(UAVObject* obj)
+void Scatterplot2dScope::uavObjectReceived(UAVObject* obj, ScopeGadgetWidget *scopeGadgetWidget)
 {
-    foreach(Plot2dData* plot2dData, m_curves2dData.values()) {
+    foreach(PlotData* plot2dData, scopeGadgetWidget->getDataSources().values()) {
         bool ret = plot2dData->append(obj);
         if (ret)
             plot2dData->setUpdatedFlagToTrue();

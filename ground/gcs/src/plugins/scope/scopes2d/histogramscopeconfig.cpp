@@ -269,7 +269,7 @@ void HistogramScope::loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget)
         else
             histogramNameScaled = curveName + "(x10^" + QString::number(histogramDataSourceConfig->yScalePower) + " " + units + ")";
 
-        while(m_curves2dData.keys().contains(histogramNameScaled))
+        while(scopeGadgetWidget->getDataSources().keys().contains(histogramNameScaled))
             histogramNameScaled=histogramNameScaled+"*";
 
 
@@ -290,7 +290,7 @@ void HistogramScope::loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget)
         histogramData->histogram = plotHistogram;
 
         //Keep the curve details for later
-        m_curves2dData.insert(histogramNameScaled, histogramData);
+        scopeGadgetWidget->insertDataSources(histogramNameScaled, histogramData);
 
         //Link to the new signal data only if this UAVObject has not been connected yet
         if (!scopeGadgetWidget->m_connectedUAVObjects.contains(obj->getName())) {
@@ -421,7 +421,7 @@ void HistogramScope::plotNewData(ScopeGadgetWidget *scopeGadgetWidget)
 {
     Q_UNUSED(scopeGadgetWidget);
 
-    foreach(Plot2dData* plot2dData, m_curves2dData.values())
+    foreach(PlotData* plot2dData, scopeGadgetWidget->getDataSources().values())
     {
         //Plot new data
         HistogramData *histogramData = (HistogramData*) plot2dData;
@@ -434,9 +434,9 @@ void HistogramScope::plotNewData(ScopeGadgetWidget *scopeGadgetWidget)
 /**
  * @brief HistogramScope::clearPlots Clear all plot data
  */
-void HistogramScope::clearPlots()
+void HistogramScope::clearPlots(ScopeGadgetWidget *scopeGadgetWidget)
 {
-    foreach(Plot2dData* plot2dData, m_curves2dData.values()) {
+    foreach(PlotData* plot2dData, scopeGadgetWidget->getDataSources().values()) {
         HistogramData *histogramData = (HistogramData*) plot2dData;
 
         histogramData->histogram->detach();
@@ -455,7 +455,7 @@ void HistogramScope::clearPlots()
     }
 
     // Clear the data
-    m_curves2dData.clear();
+    scopeGadgetWidget->clearDataSources();
 
 }
 
@@ -464,9 +464,9 @@ void HistogramScope::clearPlots()
  * @brief HistogramScope::uavObjectReceived Handles UAVO received from updates
  * @param obj
  */
-void HistogramScope::uavObjectReceived(UAVObject* obj)
+void HistogramScope::uavObjectReceived(UAVObject* obj, ScopeGadgetWidget *scopeGadgetWidget)
 {
-    foreach(Plot2dData* plot2dData, m_curves2dData.values()) {
+    foreach(PlotData* plot2dData, scopeGadgetWidget->getDataSources().values()) {
         bool ret = plot2dData->append(obj);
         if (ret)
             plot2dData->setUpdatedFlagToTrue();

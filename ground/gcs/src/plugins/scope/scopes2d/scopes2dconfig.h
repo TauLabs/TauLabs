@@ -77,11 +77,8 @@ public:
 
     virtual void preparePlot(ScopeGadgetWidget *) = 0;
     virtual void plotNewData(ScopeGadgetWidget *) = 0;
-    virtual void clearPlots() = 0;
-    virtual void uavObjectReceived(UAVObject* obj) = 0;
-
-protected:
-    QMap<QString, Plot2dData*> m_curves2dData;
+    virtual void clearPlots(ScopeGadgetWidget *scopeGadgetWidget) = 0;
+    virtual void uavObjectReceived(UAVObject* obj, ScopeGadgetWidget *scopeGadgetWidget) = 0;
 
 private:
 };

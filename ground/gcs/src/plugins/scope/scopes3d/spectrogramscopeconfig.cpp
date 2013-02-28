@@ -308,7 +308,7 @@ void SpectrogramScope::loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget)
     spectrogramData->spectrogram = plotSpectrogram;
 
     //Keep the curve details for later
-    m_curves3dData.insert(waterfallNameScaled, spectrogramData);
+    scopeGadgetWidget->insertDataSources(waterfallNameScaled, spectrogramData);
 
     //Link to the new signal data only if this UAVObject has not been connected yet
     if (!scopeGadgetWidget->m_connectedUAVObjects.contains(obj->getName())) {
@@ -390,19 +390,19 @@ void SpectrogramScope::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
  */
 void SpectrogramScope::plotNewData(ScopeGadgetWidget *scopeGadgetWidget)
 {
-    foreach(Plot3dData* plot3dData, m_curves3dData.values())
+    foreach(PlotData* plot3dData, scopeGadgetWidget->getDataSources().values())
     {
-        plot3dData->removeStaleData();
-        // Load spectrogram parameters
         SpectrogramData *spectrogramData = (SpectrogramData*) plot3dData;
+
+        spectrogramData->removeStaleData();
 
         // Check for new data
         if (spectrogramData->readAndResetUpdatedFlag() == true){
             // Plot new data
-            spectrogramData->rasterData->setValueMatrix(*plot3dData->zDataHistory, spectrogramData->windowWidth);
+            spectrogramData->rasterData->setValueMatrix(*(spectrogramData->zDataHistory), spectrogramData->windowWidth);
 
             // Check autoscale. (For some reason, QwtSpectrogram doesn't support autoscale)
-            if (plot3dData->getZMaximum() == 0){
+            if (spectrogramData->getZMaximum() == 0){
                 double newVal = spectrogramData->readAndResetAutoscaleValue();
                 if (newVal != 0){
                     spectrogramData->rightAxis->setColorMap( QwtInterval(0, newVal), new ColorMap(colorMapType));
@@ -417,9 +417,9 @@ void SpectrogramScope::plotNewData(ScopeGadgetWidget *scopeGadgetWidget)
 /**
  * @brief SpectrogramScope::clearPlots Clear all plot data
  */
-void SpectrogramScope::clearPlots()
+void SpectrogramScope::clearPlots(ScopeGadgetWidget *scopeGadgetWidget)
 {
-    foreach(Plot3dData* plot3dData, m_curves3dData.values()) {
+    foreach(PlotData* plot3dData, scopeGadgetWidget->getDataSources().values()) {
         SpectrogramData* spectrogramData = (SpectrogramData*) plot3dData;
         spectrogramData->spectrogram->detach();
 
@@ -432,7 +432,7 @@ void SpectrogramScope::clearPlots()
     }
 
     // Clear the data
-    m_curves3dData.clear();
+    scopeGadgetWidget->clearDataSources();
 }
 
 
@@ -440,9 +440,9 @@ void SpectrogramScope::clearPlots()
  * @brief SpectrogramScope::uavObjectReceived Handles UAVO received from updates
  * @param obj
  */
-void SpectrogramScope::uavObjectReceived(UAVObject* obj)
+void SpectrogramScope::uavObjectReceived(UAVObject* obj, ScopeGadgetWidget *scopeGadgetWidget)
 {
-    foreach(Plot3dData* plot3dData, m_curves3dData.values()) {
+    foreach(PlotData* plot3dData, scopeGadgetWidget->getDataSources().values()) {
         bool ret = plot3dData->append(obj);
         if (ret)
             plot3dData->setUpdatedFlagToTrue();

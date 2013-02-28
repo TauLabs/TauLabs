@@ -433,7 +433,7 @@ void ScopeGadgetWidget::setupSpectrogramPlot(ScopesGeneric *scope)
  */
 void ScopeGadgetWidget::uavObjectReceived(UAVObject* obj)
 {
-    m_scope->uavObjectReceived(obj);
+    m_scope->uavObjectReceived(obj, this);
 }
 
 
@@ -466,7 +466,7 @@ void ScopeGadgetWidget::clearPlotWidget()
         m_grid->detach();
     }
     if(m_scope){
-        m_scope->clearPlots();
+        m_scope->clearPlots(this);
     }
 }
 

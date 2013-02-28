@@ -39,6 +39,7 @@ class ScopesGeneric;
 #include "qwt/src/qwt_scale_draw.h"
 
 #include "uavobject.h"
+#include "plotdata.h"
 
 #include <QTimer>
 #include <QTime>
@@ -85,7 +86,9 @@ public:
     void setRefreshInterval(double refreshInterval){m_refreshInterval = refreshInterval;}
     double getXWindowSize(){return m_xWindowSize;}
     int getRefreshInterval(){return m_refreshInterval;}
-
+    QMap<QString, PlotData*> getDataSources(){return m_dataSources;}
+    void clearDataSources(){m_dataSources.clear();}
+    void insertDataSources(QString stringVal, PlotData* dataVal){m_dataSources.insert(stringVal, dataVal);}
 
     void clearPlotWidget();
 
@@ -112,13 +115,14 @@ private slots:
     void stopPlotting();
 
 private:
-
     void deleteLegend();
     void setupExamplePlot();
 
     int m_refreshInterval;
     ScopesGeneric *m_scope;
 	QMutex mutex;
+
+    QMap<QString, PlotData*> m_dataSources;
 };
 
 

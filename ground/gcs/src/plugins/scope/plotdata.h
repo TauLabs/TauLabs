@@ -74,6 +74,11 @@ public:
     QVector<double>* getXData(){return xData;}
     QVector<double>* getYData(){return yData;}
 
+    virtual bool append(UAVObject* obj) = 0;
+    virtual void removeStaleData() = 0;
+    virtual void setUpdatedFlagToTrue() = 0;
+    virtual bool readAndResetUpdatedFlag() = 0;
+
     QwtScaleWidget *rightAxis;
 
 protected:
