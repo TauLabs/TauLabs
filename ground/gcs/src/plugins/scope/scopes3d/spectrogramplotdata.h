@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       spectrogramdata.h
+ * @file       spectrogramplotdata.h
  * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{

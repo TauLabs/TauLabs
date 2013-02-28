@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       histogramdata.h
+ * @file       histogramplotdata.h
  * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{

@@ -31,7 +31,7 @@
 
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
-#include "scopes3d/spectrogramdata.h"
+#include "scopes3d/spectrogramplotdata.h"
 #include "scopes3d/spectrogramscopeconfig.h"
 #include "scopegadgetwidget.h"
 

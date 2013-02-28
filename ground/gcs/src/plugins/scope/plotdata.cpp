@@ -40,9 +40,9 @@
 #include "qwt/src/qwt_scale_widget.h"
 
 
-#include "scopes2d/histogramdata.h"
+#include "scopes2d/histogramplotdata.h"
 #include "scopes2d/scatterplotdata.h"
-#include "scopes3d/spectrogramdata.h"
+#include "scopes3d/spectrogramplotdata.h"
 #include <math.h>
 #include <QDebug>
 

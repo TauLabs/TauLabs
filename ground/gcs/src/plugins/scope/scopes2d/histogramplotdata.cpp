@@ -31,7 +31,7 @@
 
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
-#include "scopes2d/histogramdata.h"
+#include "scopes2d/histogramplotdata.h"
 #include "scopes2d/histogramscopeconfig.h"
 #include "scopegadgetwidget.h"
 
