@@ -260,6 +260,14 @@ gcs:  uavobjects_gcs
 	  $(MAKE) -w ; \
 	)
 
+# Workaround for qmake bug that prevents copying the application icon
+ifneq (,$(filter $(UNAME), Darwin))
+	$(V1) ( cd $(BUILD_DIR)/ground/gcs/src/app && \
+	  $(MAKE) ../../bin/Tau\ Labs\ GCS.app/Contents/Resources/taulabs.icns && \
+	  $(MAKE) ../../bin/Tau\ Labs\ GCS.app/Contents/Info.plist ; \
+	)
+endif
+
 .PHONY: gcs_clean
 gcs_clean:
 	$(V0) @echo " CLEAN      $@"
