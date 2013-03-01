@@ -272,10 +272,10 @@ OPMapGadgetWidget::OPMapGadgetWidget(QWidget *parent) : QWidget(parent)
     connect(m_updateTimer, SIGNAL(timeout()), this, SLOT(updatePosition()));
     m_updateTimer->start();
 
-    m_statusUpdateTimer = new QTimer();
-	m_statusUpdateTimer->setInterval(200);
-	connect(m_statusUpdateTimer, SIGNAL(timeout()), this, SLOT(updateMousePos()));
-    m_statusUpdateTimer->start();
+//    m_statusUpdateTimer = new QTimer();
+//    m_statusUpdateTimer->setInterval(200);
+//    connect(m_statusUpdateTimer, SIGNAL(timeout()), this, SLOT(updateMousePos()));
+//    m_statusUpdateTimer->start();
     // **************
 
     m_map->setFocus();
@@ -607,15 +607,15 @@ void OPMapGadgetWidget::updatePosition()
     m_map->UAV->SetYawRate(psiRate_dps); //Not correct, but I'm being lazy right now.
 
     // *************
-	// display the UAV position
+    // display the UAV position
 
-    QString str =
-            "lat: " + QString::number(uav_pos.Lat(), 'f', 7) +
-            " lon: " + QString::number(uav_pos.Lng(), 'f', 7) +
-			" " + QString::number(uav_yaw, 'f', 1) + "deg" +
-			" " + QString::number(uav_altitude, 'f', 1) + "m";
-//            " " + QString::number(uav_ground_speed_meters_per_second, 'f', 1) + "m/s";
-    m_widget->labelUAVPos->setText(str);
+//    QString str =
+//            "lat: " + QString::number(uav_pos.Lat(), 'f', 7) +
+//            " lon: " + QString::number(uav_pos.Lng(), 'f', 7) +
+//            " " + QString::number(uav_yaw, 'f', 1) + "deg" +
+//            " " + QString::number(uav_altitude, 'f', 1) + "m";
+////            " " + QString::number(uav_ground_speed_meters_per_second, 'f', 1) + "m/s";
+//    m_widget->labelUAVPos->setText(str);
 
 	// *************
 	// set the UAV icon position on the map
