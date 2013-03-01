@@ -66,10 +66,23 @@ SpectrogramData::SpectrogramData(QString uavObject, QString uavField, double sam
     rasterData->setValueMatrix( *zDataHistory, windowWidth );
 
     // Set the ranges for the plot
+    rasterData->setInterval( Qt::XAxis, QwtInterval(0, samplingFrequency / 2));
+    rasterData->setInterval( Qt::YAxis, QwtInterval(0, timeHorizon));
+    rasterData->setInterval( Qt::ZAxis, QwtInterval(0, zMaximum));
+}
+
+void SpectrogramData::setXMaximum(double val)
+{
+    xMaximum=val;
     rasterData->setInterval( Qt::XAxis, QwtInterval(xMinimum, xMaximum));
     rasterData->setInterval( Qt::YAxis, QwtInterval(yMinimum, yMaximum));
-    rasterData->setInterval( Qt::ZAxis, QwtInterval(0, zMaximum));
+}
 
+void SpectrogramData::setYMaximum(double val)
+{
+    yMaximum=val;
+    rasterData->setInterval( Qt::XAxis, QwtInterval(xMinimum, xMaximum));
+    rasterData->setInterval( Qt::YAxis, QwtInterval(yMinimum, yMaximum));
 }
 
 

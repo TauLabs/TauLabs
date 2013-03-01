@@ -50,7 +50,7 @@ public:
 
     //Setter functions
     void setXMinimum(double val){xMinimum=val;}
-    void setXMaximum(double val){xMaximum=val;}
+    virtual void setXMaximum(double val){xMaximum=val;}
     void setYMinimum(double val){yMinimum = val;}
     void setYMaximum(double val){yMaximum = val;}
     void setXWindowSize(double val){m_xWindowSize=val;}

@@ -67,6 +67,8 @@ public:
 
     virtual void plotNewData(PlotData *, ScopeConfig *, ScopeGadgetWidget *);
     virtual void clearPlots(PlotData *);
+    virtual void setXMaximum(double val);
+    virtual void setYMaximum(double val);
 
     QwtMatrixRasterData *getRasterData(){return rasterData;}
     void setSpectrogram(QwtPlotSpectrogram *val){spectrogram = val;}
