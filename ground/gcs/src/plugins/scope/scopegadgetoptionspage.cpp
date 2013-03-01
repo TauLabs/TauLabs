@@ -323,7 +323,7 @@ void ScopeGadgetOptionsPage::set2dYAxisWidgetFromDataSource()
     QString styleSheet = dataSourceStyleSheetTemplate.arg(QColor((QRgb) rgb).red()).arg(QColor((QRgb) rgb).green()).arg(QColor((QRgb) rgb).blue());
     options_page->lst2dCurves->setStyleSheet(styleSheet);
 
-    int mean = listItem->data(Qt::UserRole + UR_MEAN).toInt(&parseOK);
+    unsigned int mean = listItem->data(Qt::UserRole + UR_MEAN).toUInt(&parseOK);
     if(!parseOK)
         mean = 1;
     options_page->spnMeanSamples->setValue(mean);
@@ -446,7 +446,7 @@ void ScopeGadgetOptionsPage::on_btnAdd2dCurve_clicked()
     if(!parseOK)
        scale = 0;
 
-    int mean = options_page->spnMeanSamples->value();
+    unsigned int mean = options_page->spnMeanSamples->value();
     QString mathFunction = options_page->mathFunctionComboBox->currentText();
 
     QVariant varColor = (int)QColor(options_page->btnColor->text()).rgb();
@@ -469,7 +469,7 @@ void ScopeGadgetOptionsPage::on_btnApply2dCurve_clicked()
     if(!parseOK)
        scale = 0;
 
-    int mean = options_page->spnMeanSamples->value();
+    unsigned int mean = options_page->spnMeanSamples->value();
     QString mathFunction = options_page->mathFunctionComboBox->currentText();
 
     QVariant varColor = (int)QColor(options_page->btnColor->text()).rgb();
@@ -510,7 +510,7 @@ void ScopeGadgetOptionsPage::on_btnRemove2dCurve_clicked()
  * @param mathFunction Math function to be performed on data
  * @param varColor Plotted color
  */
-void ScopeGadgetOptionsPage::addPlot2dCurveConfig(QString uavObjectName, QString uavFieldName, int scale, int mean, QString mathFunction, QVariant varColor)
+void ScopeGadgetOptionsPage::addPlot2dCurveConfig(QString uavObjectName, QString uavFieldName, int scale, unsigned int mean, QString mathFunction, QVariant varColor)
 {
     QString listItemDisplayText = uavObjectName + "." + uavFieldName; // Generate the name
     options_page->lst2dCurves->addItem(listItemDisplayText);  // Add the name to the list
@@ -537,7 +537,7 @@ void ScopeGadgetOptionsPage::addPlot2dCurveConfig(QString uavObjectName, QString
  * @param mathFunction
  * @param varColor
  */
-void ScopeGadgetOptionsPage::setPlot2dCurveProperties(QListWidgetItem *listWidgetItem, QString uavObject, QString uavField, int scale, int mean, QString mathFunction, QVariant varColor)
+void ScopeGadgetOptionsPage::setPlot2dCurveProperties(QListWidgetItem *listWidgetItem, QString uavObject, QString uavField, int scale, unsigned int mean, QString mathFunction, QVariant varColor)
 {
     bool parseOK = false;
     QString listItemDisplayText;

@@ -102,7 +102,7 @@ protected:
     bool haveSubField;
 
     int scalePower; //This is the power to which each value must be raised
-    int meanSamples;
+    unsigned int meanSamples;
     QString mathFunction;
     double meanSum;
 

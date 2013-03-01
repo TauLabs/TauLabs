@@ -76,8 +76,8 @@ private:
     Ui::ScopeGadgetOptionsPage *options_page;
     ScopeGadgetConfiguration *m_config;
 
-    void addPlot2dCurveConfig(QString uavObject, QString uavField, int scale, int mean, QString mathFunction, QVariant varColor);
-    void setPlot2dCurveProperties(QListWidgetItem *listWidgetItem, QString uavObject, QString uavField, int scale, int mean, QString mathFunction, QVariant varColor);
+    void addPlot2dCurveConfig(QString uavObject, QString uavField, int scale, unsigned int mean, QString mathFunction, QVariant varColor);
+    void setPlot2dCurveProperties(QListWidgetItem *listWidgetItem, QString uavObject, QString uavField, int scale, unsigned int mean, QString mathFunction, QVariant varColor);
     void set2dYAxisWidgetFromDataSource();
     void setButtonColor(const QColor &color);
     bool eventFilter( QObject * obj, QEvent * evt );

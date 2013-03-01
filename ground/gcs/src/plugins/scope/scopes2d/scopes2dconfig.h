@@ -43,7 +43,7 @@ struct Plot2dCurveConfiguration
     QString uavFieldName;
     int yScalePower; //This is the power to which each value must be raised
     QRgb color;
-    int yMeanSamples;
+    unsigned int yMeanSamples;
     QString mathFunction;
     double yMinimum;
     double yMaximum;

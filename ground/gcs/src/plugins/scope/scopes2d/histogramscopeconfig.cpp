@@ -71,7 +71,7 @@ HistogramScopeConfig::HistogramScopeConfig(QSettings *qSettings)
         plotCurveConf->color         = qSettings->value("color").value<QRgb>();
         plotCurveConf->yScalePower   = qSettings->value("yScalePower").toInt();
         plotCurveConf->mathFunction  = qSettings->value("mathFunction").toString();
-        plotCurveConf->yMeanSamples  = qSettings->value("yMeanSamples").toInt();
+        plotCurveConf->yMeanSamples  = qSettings->value("yMeanSamples").toUInt();
         plotCurveConf->yMinimum      = qSettings->value("yMinimum").toDouble();
         plotCurveConf->yMaximum      = qSettings->value("yMaximum").toDouble();
 
@@ -114,7 +114,7 @@ HistogramScopeConfig::HistogramScopeConfig(Ui::ScopeGadgetOptionsPage *options_p
         else
             newPlotCurveConfigs->color = (QRgb)rgb;
 
-        newPlotCurveConfigs->yMeanSamples = listItem->data(Qt::UserRole + ScopeGadgetOptionsPage::UR_MEAN).toInt(&parseOK);
+        newPlotCurveConfigs->yMeanSamples = listItem->data(Qt::UserRole + ScopeGadgetOptionsPage::UR_MEAN).toUInt(&parseOK);
         if(!parseOK)
             newPlotCurveConfigs->yMeanSamples = 1;
 
@@ -315,7 +315,7 @@ void HistogramScopeConfig::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *optio
         QString uavObjectName = dataSource->uavObjectName;
         QString uavFieldName = dataSource->uavFieldName;
         int scale = dataSource->yScalePower;
-        int mean = dataSource->yMeanSamples;
+        unsigned int mean = dataSource->yMeanSamples;
         QString mathFunction = dataSource->mathFunction;
         QVariant varColor = dataSource->color;
 

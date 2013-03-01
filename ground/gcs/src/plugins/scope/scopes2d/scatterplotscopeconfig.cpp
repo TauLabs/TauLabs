@@ -70,7 +70,7 @@ Scatterplot2dScopeConfig::Scatterplot2dScopeConfig(QSettings *qSettings)
         plotCurveConf->color         = qSettings->value("color").value<QRgb>();
         plotCurveConf->yScalePower   = qSettings->value("yScalePower").toInt();
         plotCurveConf->mathFunction  = qSettings->value("mathFunction").toString();
-        plotCurveConf->yMeanSamples  = qSettings->value("yMeanSamples").toInt();
+        plotCurveConf->yMeanSamples  = qSettings->value("yMeanSamples").toUInt();
         plotCurveConf->yMinimum      = qSettings->value("yMinimum").toDouble();
         plotCurveConf->yMaximum      = qSettings->value("yMaximum").toDouble();
 
@@ -112,7 +112,7 @@ Scatterplot2dScopeConfig::Scatterplot2dScopeConfig(Ui::ScopeGadgetOptionsPage *o
         else
             newPlotCurveConfigs->color = (QRgb)rgb;
 
-        newPlotCurveConfigs->yMeanSamples = listItem->data(Qt::UserRole + ScopeGadgetOptionsPage::UR_MEAN).toInt(&parseOK);
+        newPlotCurveConfigs->yMeanSamples = listItem->data(Qt::UserRole + ScopeGadgetOptionsPage::UR_MEAN).toUInt(&parseOK);
         if(!parseOK)
             newPlotCurveConfigs->yMeanSamples = 1;
 
@@ -346,7 +346,7 @@ void Scatterplot2dScopeConfig::setGuiConfiguration(Ui::ScopeGadgetOptionsPage *o
         QString uavObjectName = plotData->uavObjectName;
         QString uavFieldName = plotData->uavFieldName;
         int scale = plotData->yScalePower;
-        int mean = plotData->yMeanSamples;
+        unsigned int mean = plotData->yMeanSamples;
         QString mathFunction = plotData->mathFunction;
         QVariant varColor = plotData->color;
 
