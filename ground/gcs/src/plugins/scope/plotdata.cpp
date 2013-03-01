@@ -3,6 +3,7 @@
  *
  * @file       plotdata.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ScopePlugin Scope Gadget Plugin
@@ -25,25 +26,36 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include "extensionsystem/pluginmanager.h"
+#include "uavobjectmanager.h"
 
-#include "plotdata.h"
+#include "scopes2d/plotdata2d.h"
+#include "scopes3d/plotdata3d.h"
+
 #include <math.h>
 #include <QDebug>
 
-PlotData::PlotData(QString p_uavObject, QString p_uavField)
-{    
-    uavObject = p_uavObject;
+/**
+ * @brief Plot2dData::Plot2dData Default 2d constructor
+ * @param p_uavObject The plotted UAVO name
+ * @param p_uavFieldName The plotted UAVO field name
+ */
+Plot2dData::Plot2dData(QString p_uavObject, QString p_uavFieldName):
+    yDataHistory(0),
+    dataUpdated(false)
+{
+    uavObjectName = p_uavObject;
 
-    if(p_uavField.contains("-"))
+    if(p_uavFieldName.contains("-")) //For fields with multiple indices, '-' followed by an index indicates which one
     {
-        QStringList fieldSubfield = p_uavField.split("-", QString::SkipEmptyParts);
-        uavField = fieldSubfield.at(0);
-        uavSubField = fieldSubfield.at(1);
+        QStringList fieldSubfield = p_uavFieldName.split("-", QString::SkipEmptyParts);
+        uavFieldName = fieldSubfield.at(0);
+        uavSubFieldName = fieldSubfield.at(1);
         haveSubField = true;
     }
     else
     {
-        uavField =  p_uavField;
+        uavFieldName =  p_uavFieldName;
         haveSubField = false;
     }
 
@@ -51,204 +63,106 @@ PlotData::PlotData(QString p_uavObject, QString p_uavField)
     yData = new QVector<double>();
     yDataHistory = new QVector<double>();
 
-    curve = 0;
     scalePower = 0;
     meanSamples = 1;
     meanSum = 0.0f;
-//    mathFunction=0;
     correctionSum = 0.0f;
     correctionCount = 0;
     yMinimum = 0;
-    yMaximum = 0;
+    yMaximum = 120;
 
     m_xWindowSize = 0;
 }
 
-double PlotData::valueAsDouble(UAVObject* obj, UAVObjectField* field)
+
+/**
+ * @brief Plot3dData::Plot3dData Default 3d constructor
+ * @param p_uavObject The plotted UAVO name
+ * @param p_uavFieldName The plotted UAVO field name
+ */
+Plot3dData::Plot3dData(QString p_uavObject, QString p_uavFieldName):
+    dataUpdated(false)
+{
+    uavObjectName = p_uavObject;
+
+    if(p_uavFieldName.contains("-")) //For fields with multiple indices, '-' followed by an index indicates which one
+    {
+        QStringList fieldSubfield = p_uavFieldName.split("-", QString::SkipEmptyParts);
+        uavFieldName = fieldSubfield.at(0);
+        uavSubFieldName = fieldSubfield.at(1);
+        haveSubField = true;
+    }
+    else
+    {
+        uavFieldName =  p_uavFieldName;
+        haveSubField = false;
+    }
+
+    xData = new QVector<double>();
+    yData = new QVector<double>();
+    zData = new QVector<double>();
+    zDataHistory = new QVector<double>();
+    timeDataHistory = new QVector<double>();
+
+    scalePower = 0;
+    meanSamples = 1;
+    meanSum = 0.0f;
+    correctionSum = 0.0f;
+    correctionCount = 0;
+    xMinimum = 0;
+    xMaximum = 16;
+    yMinimum = 0;
+    yMaximum = 60;
+    zMinimum = 0;
+    zMaximum = 100;
+
+}
+
+
+Plot2dData::~Plot2dData()
+{
+    if (xData != NULL)
+        delete xData;
+    if (yData != NULL)
+        delete yData;
+    if (yDataHistory != NULL)
+        delete yDataHistory;
+}
+
+
+Plot3dData::~Plot3dData()
+{
+    if (xData != NULL)
+        delete xData;
+    if (yData != NULL)
+        delete yData;
+    if (zData != NULL)
+        delete zData;
+    if (zDataHistory != NULL)
+        delete zDataHistory;
+    if (timeDataHistory != NULL)
+        delete timeDataHistory;
+}
+
+
+/**
+ * @brief valueAsDouble Fetch the value from the UAVO and return it as a double
+ * @param obj UAVO
+ * @param field UAVO field
+ * @param haveSubField TRUE if UAVO has subfield. FALSE if not.
+ * @param uavSubFieldName UAVO subfield, if it exists
+ * @return
+ */
+double PlotData::valueAsDouble(UAVObject* obj, UAVObjectField* field, bool haveSubField, QString uavSubFieldName)
 {
     Q_UNUSED(obj);
     QVariant value;
 
     if(haveSubField){
-        int indexOfSubField = field->getElementNames().indexOf(QRegExp(uavSubField, Qt::CaseSensitive, QRegExp::FixedString));
+        int indexOfSubField = field->getElementNames().indexOf(QRegExp(uavSubFieldName, Qt::CaseSensitive, QRegExp::FixedString));
         value = field->getValue(indexOfSubField);
     }else
         value = field->getValue();
 
-    // qDebug() << "Data  (" << value.typeName() << ") " <<  value.toString();
-
     return value.toDouble();
-}
-
-PlotData::~PlotData()
-{
-    delete xData;
-    delete yData;
-    delete yDataHistory;
-}
-
-
-bool SequentialPlotData::append(UAVObject* obj)
-{
-    if (uavObject == obj->getName()) {
-
-        //Get the field of interest
-        UAVObjectField* field =  obj->getField(uavField);
-
-        if (field) {
-
-            double currentValue = valueAsDouble(obj, field) * pow(10, scalePower);
-
-            //Perform scope math, if necessary
-            if (mathFunction  == "Boxcar average" || mathFunction  == "Standard deviation"){
-                //Put the new value at the front
-                yDataHistory->append( currentValue );
-
-                // calculate average value
-                meanSum += currentValue;
-                if(yDataHistory->size() > meanSamples) {
-                    meanSum -= yDataHistory->first();
-                    yDataHistory->pop_front();
-                }
-
-                // make sure to correct the sum every meanSamples steps to prevent it
-                // from running away due to floating point rounding errors
-                correctionSum+=currentValue;
-                if (++correctionCount >= meanSamples) {
-                    meanSum = correctionSum;
-                    correctionSum = 0.0f;
-                    correctionCount = 0;
-                }
-
-                double boxcarAvg=meanSum/yDataHistory->size();
-
-                if ( mathFunction  == "Standard deviation" ){
-                    //Calculate square of sample standard deviation, with Bessel's correction
-                    double stdSum=0;
-                    for (int i=0; i < yDataHistory->size(); i++){
-                        stdSum+= pow(yDataHistory->at(i)- boxcarAvg,2)/(meanSamples-1);
-                    }
-                    yData->append(sqrt(stdSum));
-                }
-                else  {
-                    yData->append(boxcarAvg);
-                }
-            }
-            else{
-                yData->append( currentValue );
-            }
-
-            if (yData->size() > m_xWindowSize) { //If new data overflows the window, remove old data...
-                yData->pop_front();
-            } else //...otherwise, add a new y point at position xData
-                xData->insert(xData->size(), xData->size());
-
-            //notify the gui of changes in the data
-            //dataChanged();
-            return true;
-        }
-    }
-
-    return false;
-}
-
-bool ChronoPlotData::append(UAVObject* obj)
-{
-    if (uavObject == obj->getName()) {
-        //Get the field of interest
-        UAVObjectField* field =  obj->getField(uavField);
-        //qDebug() << "uavObject: " << uavObject << ", uavField: " << uavField;
-
-        if (field) {
-            QDateTime NOW = QDateTime::currentDateTime(); //THINK ABOUT REIMPLEMENTING THIS TO SHOW UAVO TIME, NOT SYSTEM TIME
-            double currentValue = valueAsDouble(obj, field) * pow(10, scalePower);
-
-            //Perform scope math, if necessary
-            if (mathFunction  == "Boxcar average" || mathFunction  == "Standard deviation"){
-                //Put the new value at the back
-                yDataHistory->append( currentValue );
-
-                // calculate average value
-                meanSum += currentValue;
-                if(yDataHistory->size() > meanSamples) {
-                    meanSum -= yDataHistory->first();
-                    yDataHistory->pop_front();
-                }
-                // make sure to correct the sum every meanSamples steps to prevent it
-                // from running away due to floating point rounding errors
-                correctionSum+=currentValue;
-                if (++correctionCount >= meanSamples) {
-                    meanSum = correctionSum;
-                    correctionSum = 0.0f;
-                    correctionCount = 0;
-                }
-
-                double boxcarAvg=meanSum/yDataHistory->size();
-//qDebug()<<mathFunction;
-                if ( mathFunction  == "Standard deviation" ){
-                    //Calculate square of sample standard deviation, with Bessel's correction
-                    double stdSum=0;
-                    for (int i=0; i < yDataHistory->size(); i++){
-                        stdSum+= pow(yDataHistory->at(i)- boxcarAvg,2)/(meanSamples-1);
-                    }
-                    yData->append(sqrt(stdSum));
-                }
-                else  {
-                    yData->append(boxcarAvg);
-                }
-            }
-            else{
-                yData->append( currentValue );
-            }
-
-            double valueX = NOW.toTime_t() + NOW.time().msec() / 1000.0;
-            xData->append(valueX);
-
-            //qDebug() << "Data  " << uavObject << "." << field->getName() << " X,Y:" << valueX << "," <<  valueY;
-
-            //Remove stale data
-            removeStaleData();
-
-            //notify the gui of chages in the data
-            //dataChanged();
-            return true;
-        }
-    }
-
-    return false;
-}
-
-void ChronoPlotData::removeStaleData()
-{
-    double newestValue;
-    double oldestValue;
-
-    while (1) {
-        if (xData->size() == 0)
-            break;
-
-        newestValue = xData->last();
-        oldestValue = xData->first();
-
-        if (newestValue - oldestValue > m_xWindowSize) {
-            yData->pop_front();
-            xData->pop_front();
-        } else
-            break;
-    }
-
-    //qDebug() << "removeStaleData ";
-}
-
-void ChronoPlotData::removeStaleDataTimeout()
-{
-    removeStaleData();
-    //dataChanged();
-    //qDebug() << "removeStaleDataTimeout";
-}
-
-bool UAVObjectPlotData::append(UAVObject* obj)
-{
-    Q_UNUSED(obj);
-    return false;
 }
