@@ -1,8 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       scopegadget.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @file       plotdata2d.h
  * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -26,46 +25,34 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#ifndef PLOTDATA2D_H
+#define PLOTDATA2D_H
 
-#ifndef SCOPEGADGET_H_
-#define SCOPEGADGET_H_
+#include "plotdata.h"
 
-#include <coreplugin/iuavgadget.h>
-#include "scopegadgetwidget.h"
+#include <QTimer>
+#include <QTime>
+#include <QVector>
 
-class IUAVGadget;
-//class QList<int>;
-class QWidget;
-class QString;
-class ScopeGadgetWidget;
 
-using namespace Core;
-
-class ScopeGadget : public Core::IUAVGadget
+/**
+ * @brief The Plot2dData class Base class that keeps the data for each curve in the plot.
+ */
+class Plot2dData : public PlotData
 {
     Q_OBJECT
+
 public:
-    ScopeGadget(QString classId, ScopeGadgetWidget *widget, QWidget *parent = 0);
-    ~ScopeGadget();
+    Plot2dData(QString uavObject, QString uavField);
+    ~Plot2dData();
 
-    void loadConfiguration(IUAVGadgetConfiguration* config);
+    QVector<double>* yDataHistory; //Used for scatterplots
 
-    QList<int> context() const {
-        return m_context;
-    }
-    QWidget *widget() {
-        return scopeGadgetWidget;
-    }
-    QString contextHelpId() const {
-        return QString();
-    }
+    virtual void setUpdatedFlagToTrue(){dataUpdated = true;}
+    virtual bool readAndResetUpdatedFlag(){bool tmp = dataUpdated; dataUpdated = false; return tmp;}
 
 private:
-    ScopeGadgetWidget *scopeGadgetWidget;
-    QList<int> m_context;
-
-    bool configLoaded;
+    bool dataUpdated;
 };
 
-
-#endif // SCOPEGADGET_H_
+#endif // PLOTDATA2D_H

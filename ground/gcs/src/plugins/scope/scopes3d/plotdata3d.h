@@ -1,8 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       scopegadget.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @file       plotdata3d.h
  * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -26,46 +25,48 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#ifndef PLOTDATA3D_H
+#define PLOTDATA3D_H
 
-#ifndef SCOPEGADGET_H_
-#define SCOPEGADGET_H_
+#include "plotdata.h"
 
-#include <coreplugin/iuavgadget.h>
-#include "scopegadgetwidget.h"
+#include <QTimer>
+#include <QTime>
+#include <QVector>
 
-class IUAVGadget;
-//class QList<int>;
-class QWidget;
-class QString;
-class ScopeGadgetWidget;
 
-using namespace Core;
-
-class ScopeGadget : public Core::IUAVGadget
+/**
+ * @brief The Plot3dData class Base class that keeps the data for each curve in the plot.
+ */
+class Plot3dData : public PlotData
 {
     Q_OBJECT
+
 public:
-    ScopeGadget(QString classId, ScopeGadgetWidget *widget, QWidget *parent = 0);
-    ~ScopeGadget();
+    Plot3dData(QString uavObject, QString uavField);
+    ~Plot3dData();
 
-    void loadConfiguration(IUAVGadgetConfiguration* config);
+    QVector<double>* zData;
+    QVector<double>* zDataHistory;
+    QVector<double>* timeDataHistory;
 
-    QList<int> context() const {
-        return m_context;
-    }
-    QWidget *widget() {
-        return scopeGadgetWidget;
-    }
-    QString contextHelpId() const {
-        return QString();
-    }
+    void setZMinimum(double val){zMinimum=val;}
+    void setZMaximum(double val){zMaximum=val;}
+
+    double getZMinimum(){return zMinimum;}
+    double getZMaximum(){return zMaximum;}
+
+    virtual void setUpdatedFlagToTrue(){dataUpdated = true;}
+    virtual bool readAndResetUpdatedFlag(){bool tmp = dataUpdated; dataUpdated = false; return tmp;}
+
+protected:
+    double zMinimum;
+    double zMaximum;
 
 private:
-    ScopeGadgetWidget *scopeGadgetWidget;
-    QList<int> m_context;
-
-    bool configLoaded;
+    bool dataUpdated;
 };
 
 
-#endif // SCOPEGADGET_H_
+
+#endif // PLOTDATA3D_H

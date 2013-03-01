@@ -3,11 +3,12 @@
  *
  * @file       scopegadgetconfiguration.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ScopePlugin Scope Gadget Plugin
  * @{
- * @brief The scope Gadget, graphically plots the states of UAVObjects
+ * @brief The scope gadget configuration, sets up the configuration for one single scope.
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -25,172 +26,155 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include "scopes2d/scatterplotscopeconfig.h"
+#include "scopes2d/histogramscopeconfig.h"
+#include "scopes3d/spectrogramscopeconfig.h"
 #include "scopegadgetconfiguration.h"
 
+/**
+ * @brief ScopeGadgetConfiguration::ScopeGadgetConfiguration Constructor for scope gadget settings
+ * @param classId
+ * @param qSettings Settings file
+ * @param parent
+ */
 ScopeGadgetConfiguration::ScopeGadgetConfiguration(QString classId, QSettings* qSettings, QObject *parent) :
         IUAVGadgetConfiguration(classId, parent),
-        m_plotType((int)ChronoPlot),
-        m_dataSize(60),
-        m_refreshInterval(1000),
-        m_mathFunctionType(0)
+        m_scope(0)
 {
-    uint currentStreamVersion = 0;
-    int plotCurveCount = 0;
-
+    //Default for scopes
+    int refreshInterval = 50;
 
     //if a saved configuration exists load it
-    if(qSettings != 0) {
-        currentStreamVersion = qSettings->value("configurationStreamVersion").toUInt();
-
-        if(currentStreamVersion != m_configurationStreamVersion)
-            return;
-
-        m_plotType = qSettings->value("plotType").toInt();
-        m_dataSize = qSettings->value("dataSize").toInt();
-        m_refreshInterval = qSettings->value("refreshInterval").toInt();
-        plotCurveCount = qSettings->value("plotCurveCount").toInt();
-
-        for(int plotDatasLoadIndex = 0; plotDatasLoadIndex < plotCurveCount; plotDatasLoadIndex++)
-        {
-            QString uavObject;
-            QString uavField;
-            QRgb color;
-
-            qSettings->beginGroup(QString("plotCurve") + QString().number(plotDatasLoadIndex));
-
-            PlotCurveConfiguration* plotCurveConf = new PlotCurveConfiguration();
-            uavObject = qSettings->value("uavObject").toString();
-            plotCurveConf->uavObject = uavObject;
-            uavField = qSettings->value("uavField").toString();
-            plotCurveConf->uavField = uavField;
-            color = qSettings->value("color").value<QRgb>();
-            plotCurveConf->color = color;
-            plotCurveConf->yScalePower = qSettings->value("yScalePower").toInt();
-            plotCurveConf->mathFunction = qSettings->value("mathFunction").toString();
-            plotCurveConf->yMeanSamples = qSettings->value("yMeanSamples").toInt();
-
-            if (!plotCurveConf->yMeanSamples) plotCurveConf->yMeanSamples = 1; // fallback for backward compatibility with earlier versions //IS THIS STILL NECESSARY?
-
-            plotCurveConf->yMinimum = qSettings->value("yMinimum").toDouble();
-            plotCurveConf->yMaximum = qSettings->value("yMaximum").toDouble();
-
-            m_PlotCurveConfigs.append(plotCurveConf);
-
-            qSettings->endGroup();
-        }
-
-        m_LoggingEnabled = qSettings->value("LoggingEnabled").toBool();
-        m_LoggingNewFileOnConnect = qSettings->value("LoggingNewFileOnConnect").toBool();
-        m_LoggingPath = qSettings->value("LoggingPath").toString();
-
-    }
-}
-
-void ScopeGadgetConfiguration::clearPlotData()
-{
-    PlotCurveConfiguration* poltCurveConfig;
-
-    while(m_PlotCurveConfigs.size() > 0)
+    if(qSettings != 0)
     {
-        poltCurveConfig = m_PlotCurveConfigs.first();
-        m_PlotCurveConfigs.pop_front();
 
-        delete poltCurveConfig;
+        PlotDimensions plotDimensions =  (PlotDimensions) qSettings->value("plotDimensions").toInt();
+
+        switch (plotDimensions)
+        {
+        case PLOT2D:
+        default:
+        {
+            //Start reading new XML block
+            qSettings->beginGroup(QString("plot2d"));
+
+            Scopes2dConfig::Plot2dType plot2dType = (Scopes2dConfig::Plot2dType) qSettings->value("plot2dType").toUInt();
+            switch (plot2dType){
+            case Scopes2dConfig::HISTOGRAM: {
+                m_scope = new HistogramScopeConfig(qSettings);
+                break;
+                }
+            case Scopes2dConfig::SCATTERPLOT2D:
+            default: {
+                m_scope = new Scatterplot2dScopeConfig(qSettings);
+                break;
+                }
+            }
+
+            //Stop reading XML block
+            qSettings->endGroup();
+
+            break;
+            }
+        case PLOT3D: {
+            //Start reading new XML block
+            qSettings->beginGroup(QString("plot3d"));
+
+            Scopes3dConfig::Plot3dType plot3dType = (Scopes3dConfig::Plot3dType) qSettings->value("plot3dType").toUInt(); //<--TODO: This requires that the enum values be defined at 0,1,...n
+            switch (plot3dType){
+            default:
+            case Scopes3dConfig::SPECTROGRAM: {
+                m_scope = new SpectrogramScopeConfig(qSettings);
+                break;
+                }
+            }
+
+            //Stop reading XML block
+            qSettings->endGroup();
+
+            break;
+            }
+        }
+        m_scope->setRefreshInterval(refreshInterval);
+    }
+    else{
+        // Default config is just a simple 2D scatterplot
+        m_scope = new Scatterplot2dScopeConfig();
     }
 }
+
 
 /**
- * Clones a configuration.
- *
+ * @brief ScopeGadgetConfiguration::applyGuiConfiguration Uses GUI information to create new scopes
+ * @param options_page
+ */
+void ScopeGadgetConfiguration::applyGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page)
+{
+    //Default for scopes
+    int refreshInterval = 50;
+
+    if(options_page->tabWidget2d3d->currentWidget() == options_page->tabPlot2d)
+    {   //--- 2D ---//
+        Scopes2dConfig::Plot2dType plot2dType = (Scopes2dConfig::Plot2dType) options_page->cmb2dPlotType->itemData(options_page->cmb2dPlotType->currentIndex()).toUInt(); //This is safe because the item data is defined from the enum.
+        switch (plot2dType){
+        case Scopes2dConfig::HISTOGRAM: {
+            m_scope = new HistogramScopeConfig(options_page);
+            break;
+            }
+        case Scopes2dConfig::SCATTERPLOT2D:
+        default: {
+            m_scope = new Scatterplot2dScopeConfig(options_page);
+            break;
+            }
+        }
+
+    }
+    else if(options_page->tabWidget2d3d->currentWidget() == options_page->tabPlot3d)
+    {   //--- 3D ---//
+
+        Scopes3dConfig::Plot3dType plot3dType = (Scopes3dConfig::Plot3dType) options_page->cmb3dPlotType->itemData(options_page->cmb3dPlotType->currentIndex()).toUInt(); //This is safe because the item data is defined from the enum
+
+        if (options_page->stackedWidget3dPlots->currentWidget() == options_page->sw3dSpectrogramStack)
+        {
+            m_scope = new SpectrogramScopeConfig(options_page);
+        }
+        else if (options_page->stackedWidget3dPlots->currentWidget() == options_page->sw3dTimeSeriesStack)
+        {
+        }
+    }
+
+    m_scope->setRefreshInterval(refreshInterval);
+}
+
+
+/**
+ * @brief ScopeGadgetConfiguration::~ScopeGadgetConfiguration Destructor clears 2D and 3D plot data
+ */
+ScopeGadgetConfiguration::~ScopeGadgetConfiguration()
+{
+}
+
+
+/**
+ * @brief ScopeGadgetConfiguration::clone Clones a configuration.
+ * @return
  */
 IUAVGadgetConfiguration *ScopeGadgetConfiguration::clone()
 {
-    int plotCurveCount = 0;
-    int plotDatasLoadIndex = 0;
-
     ScopeGadgetConfiguration *m = new ScopeGadgetConfiguration(this->classId());
-    m->setPlotType( m_plotType);
-    m->setDataSize( m_dataSize);
-    m->setMathFunctionType( m_mathFunctionType);
-    m->setRefreashInterval( m_refreshInterval);
-
-    plotCurveCount = m_PlotCurveConfigs.size();
-
-    for(plotDatasLoadIndex = 0; plotDatasLoadIndex < plotCurveCount; plotDatasLoadIndex++)
-    {
-        PlotCurveConfiguration* currentPlotCurveConf = m_PlotCurveConfigs.at(plotDatasLoadIndex);
-
-        PlotCurveConfiguration* newPlotCurveConf = new PlotCurveConfiguration();
-        newPlotCurveConf->uavObject = currentPlotCurveConf->uavObject;
-        newPlotCurveConf->uavField = currentPlotCurveConf->uavField;
-        newPlotCurveConf->color = currentPlotCurveConf->color;
-        newPlotCurveConf->yScalePower = currentPlotCurveConf->yScalePower;
-        newPlotCurveConf->yMeanSamples = currentPlotCurveConf->yMeanSamples;
-        newPlotCurveConf->mathFunction = currentPlotCurveConf->mathFunction;
-
-        newPlotCurveConf->yMinimum = currentPlotCurveConf->yMinimum;
-        newPlotCurveConf->yMaximum = currentPlotCurveConf->yMaximum;
-
-        m->addPlotCurveConfig(newPlotCurveConf);
-    }
-
-    m->setLoggingEnabled(m_LoggingEnabled);
-    m->setLoggingNewFileOnConnect(m_LoggingNewFileOnConnect);
-    m->setLoggingPath(m_LoggingPath);
-
-
+    m->m_scope=this->getScope()->cloneScope(m_scope);
 
     return m;
 }
 
 
 /**
- * Saves a configuration. //REDEFINES saveConfig CHILD BEHAVIOR?
- *
+ * @brief ScopeGadgetConfiguration::saveConfig Saves a configuration. //REDEFINES saveConfig CHILD BEHAVIOR?
+ * @param qSettings
  */
 void ScopeGadgetConfiguration::saveConfig(QSettings* qSettings) const {
+    qSettings->setValue("plotDimensions", m_scope->getScopeDimensions());
+    qSettings->setValue("refreshInterval", m_scope->getRefreshInterval());
 
-    int plotCurveCount = m_PlotCurveConfigs.size();
-    int plotDatasLoadIndex = 0;
-
-    qSettings->setValue("configurationStreamVersion", m_configurationStreamVersion);
-    qSettings->setValue("plotType", m_plotType);
-    qSettings->setValue("dataSize", m_dataSize);
-    qSettings->setValue("refreshInterval", m_refreshInterval);
-    qSettings->setValue("plotCurveCount", plotCurveCount);
-
-    for(plotDatasLoadIndex = 0; plotDatasLoadIndex < plotCurveCount; plotDatasLoadIndex++)
-    {
-        qSettings->beginGroup(QString("plotCurve") + QString().number(plotDatasLoadIndex));
-
-        PlotCurveConfiguration* plotCurveConf = m_PlotCurveConfigs.at(plotDatasLoadIndex);
-        qSettings->setValue("uavObject",  plotCurveConf->uavObject);
-        qSettings->setValue("uavField",  plotCurveConf->uavField);
-        qSettings->setValue("color",  plotCurveConf->color);
-        qSettings->setValue("mathFunction",  plotCurveConf->mathFunction);
-        qSettings->setValue("yScalePower",  plotCurveConf->yScalePower);
-        qSettings->setValue("yMeanSamples",  plotCurveConf->yMeanSamples);
-        qSettings->setValue("yMinimum",  plotCurveConf->yMinimum);
-        qSettings->setValue("yMaximum",  plotCurveConf->yMaximum);
-
-        qSettings->endGroup();
-    }
-
-    qSettings->setValue("LoggingEnabled",  m_LoggingEnabled);
-    qSettings->setValue("LoggingNewFileOnConnect",  m_LoggingNewFileOnConnect);
-    qSettings->setValue("LoggingPath",  m_LoggingPath);
-
-
-}
-
-void ScopeGadgetConfiguration::replacePlotCurveConfig(QList<PlotCurveConfiguration*> newPlotCurveConfigs)
-{
-    clearPlotData();
-
-    m_PlotCurveConfigs.append(newPlotCurveConfigs);
-}
-
-ScopeGadgetConfiguration::~ScopeGadgetConfiguration()
-{
-    clearPlotData();
+    m_scope->saveConfiguration(qSettings);
 }
