@@ -1896,7 +1896,7 @@
       </default>
     </QmlViewGadget>
     <ScopeGadget>
-<Accel__PCT__20histogram>
+      <Accel__PCT__20histogram>
         <configInfo>
           <locked>false</locked>
           <version>0.0.0</version>
@@ -1910,9 +1910,7 @@
               <mathFunction>None</mathFunction>
               <uavField>x</uavField>
               <uavObject>Accels</uavObject>
-              <yMaximum>2.68156158598852e+154</yMaximum>
               <yMeanSamples>1</yMeanSamples>
-              <yMinimum>2.56983914931922e+161</yMinimum>
               <yScalePower>0</yScalePower>
             </histogramDataSource0>
             <histogramDataSource1>
@@ -1920,9 +1918,7 @@
               <mathFunction>None</mathFunction>
               <uavField>y</uavField>
               <uavObject>Accels</uavObject>
-              <yMaximum>1.98910829015686e-320</yMaximum>
               <yMeanSamples>1</yMeanSamples>
-              <yMinimum>3.86203233966055e-312</yMinimum>
               <yScalePower>0</yScalePower>
             </histogramDataSource1>
             <histogramDataSource2>
@@ -1930,9 +1926,7 @@
               <mathFunction>None</mathFunction>
               <uavField>z</uavField>
               <uavObject>Accels</uavObject>
-              <yMaximum>8.65771566559794e-307</yMaximum>
               <yMeanSamples>1</yMeanSamples>
-              <yMinimum>7.21478569792807e-313</yMinimum>
               <yScalePower>0</yScalePower>
             </histogramDataSource2>
             <maxNumberOfBins>300</maxNumberOfBins>
@@ -1957,9 +1951,7 @@
               <mathFunction>None</mathFunction>
               <uavField>x</uavField>
               <uavObject>Accels</uavObject>
-              <yMaximum>2.33588803422142e-314</yMaximum>
               <yMeanSamples>1</yMeanSamples>
-              <yMinimum>2.28218909845168e-314</yMinimum>
               <yScalePower>0</yScalePower>
             </scatterplotDataSource0>
             <scatterplotDataSource1>
@@ -1967,9 +1959,7 @@
               <mathFunction>None</mathFunction>
               <uavField>y</uavField>
               <uavObject>Accels</uavObject>
-              <yMaximum>0</yMaximum>
               <yMeanSamples>1</yMeanSamples>
-              <yMinimum>0</yMinimum>
               <yScalePower>0</yScalePower>
             </scatterplotDataSource1>
             <scatterplotDataSource2>
@@ -1977,9 +1967,7 @@
               <mathFunction>None</mathFunction>
               <uavField>z</uavField>
               <uavObject>Accels</uavObject>
-              <yMaximum>0</yMaximum>
               <yMeanSamples>1</yMeanSamples>
-              <yMinimum>2.34705713517292e-314</yMinimum>
               <yScalePower>0</yScalePower>
             </scatterplotDataSource2>
             <timeHorizon>60</timeHorizon>
@@ -2003,9 +1991,7 @@
               <mathFunction>None</mathFunction>
               <uavField>Channel-4</uavField>
               <uavObject>ActuatorCommand</uavObject>
-              <yMaximum>0</yMaximum>
               <yMeanSamples>1</yMeanSamples>
-              <yMinimum>2.35210520545526e-314</yMinimum>
               <yScalePower>0</yScalePower>
             </scatterplotDataSource0>
             <scatterplotDataSource1>
@@ -2013,9 +1999,7 @@
               <mathFunction>None</mathFunction>
               <uavField>Channel-5</uavField>
               <uavObject>ActuatorCommand</uavObject>
-              <yMaximum>2.68156158598852e+154</yMaximum>
               <yMeanSamples>1</yMeanSamples>
-              <yMinimum>1.81845366409114e-306</yMinimum>
               <yScalePower>0</yScalePower>
             </scatterplotDataSource1>
             <scatterplotDataSource2>
@@ -2023,9 +2007,7 @@
               <mathFunction>None</mathFunction>
               <uavField>Channel-6</uavField>
               <uavObject>ActuatorCommand</uavObject>
-              <yMaximum>2.68156158598852e+154</yMaximum>
               <yMeanSamples>1</yMeanSamples>
-              <yMinimum>2.35093423825442e-314</yMinimum>
               <yScalePower>0</yScalePower>
             </scatterplotDataSource2>
             <scatterplotDataSource3>
@@ -2033,9 +2015,7 @@
               <mathFunction>None</mathFunction>
               <uavField>Channel-7</uavField>
               <uavObject>ActuatorCommand</uavObject>
-              <yMaximum>0</yMaximum>
               <yMeanSamples>1</yMeanSamples>
-              <yMinimum>2.35077768663761e-314</yMinimum>
               <yScalePower>0</yScalePower>
             </scatterplotDataSource3>
             <timeHorizon>60</timeHorizon>
@@ -2059,9 +2039,7 @@
               <mathFunction>None</mathFunction>
               <uavField>Roll</uavField>
               <uavObject>AttitudeActual</uavObject>
-              <yMaximum>2.35196242443614e-314</yMaximum>
               <yMeanSamples>1</yMeanSamples>
-              <yMinimum>2.35185073397998e-314</yMinimum>
               <yScalePower>0</yScalePower>
             </scatterplotDataSource0>
             <scatterplotDataSource1>
@@ -2069,9 +2047,7 @@
               <mathFunction>None</mathFunction>
               <uavField>Pitch</uavField>
               <uavObject>AttitudeActual</uavObject>
-              <yMaximum>2.68156158598852e+154</yMaximum>
               <yMeanSamples>1</yMeanSamples>
-              <yMinimum>nan</yMinimum>
               <yScalePower>0</yScalePower>
             </scatterplotDataSource1>
             <scatterplotDataSource2>
@@ -2079,9 +2055,7 @@
               <mathFunction>None</mathFunction>
               <uavField>Yaw</uavField>
               <uavObject>AttitudeActual</uavObject>
-              <yMaximum>2.0000000000119</yMaximum>
               <yMeanSamples>1</yMeanSamples>
-              <yMinimum>4.22277162500408e-312</yMinimum>
               <yScalePower>0</yScalePower>
             </scatterplotDataSource2>
             <timeHorizon>60</timeHorizon>
@@ -2105,9 +2079,7 @@
               <mathFunction>None</mathFunction>
               <uavField>Pressure</uavField>
               <uavObject>BaroAltitude</uavObject>
-              <yMaximum>-2.31584178474839e+77</yMaximum>
               <yMeanSamples>1</yMeanSamples>
-              <yMinimum>3.86203233966055e-312</yMinimum>
               <yScalePower>0</yScalePower>
             </scatterplotDataSource0>
             <timeHorizon>60</timeHorizon>
@@ -2131,9 +2103,7 @@
               <mathFunction>None</mathFunction>
               <uavField>x</uavField>
               <uavObject>Gyros</uavObject>
-              <yMaximum>2.68156158599092e+154</yMaximum>
               <yMeanSamples>1</yMeanSamples>
-              <yMinimum>3.86203233966055e-312</yMinimum>
               <yScalePower>0</yScalePower>
             </scatterplotDataSource0>
             <scatterplotDataSource1>
@@ -2141,9 +2111,7 @@
               <mathFunction>None</mathFunction>
               <uavField>y</uavField>
               <uavObject>Gyros</uavObject>
-              <yMaximum>-2.3158417847482e+77</yMaximum>
               <yMeanSamples>1</yMeanSamples>
-              <yMinimum>7.21478569792807e-313</yMinimum>
               <yScalePower>0</yScalePower>
             </scatterplotDataSource1>
             <scatterplotDataSource2>
@@ -2151,9 +2119,7 @@
               <mathFunction>None</mathFunction>
               <uavField>z</uavField>
               <uavObject>Gyros</uavObject>
-              <yMaximum>-2.31584178476011e+77</yMaximum>
               <yMeanSamples>1</yMeanSamples>
-              <yMinimum>4.22277162500408e-312</yMinimum>
               <yScalePower>0</yScalePower>
             </scatterplotDataSource2>
             <timeHorizon>60</timeHorizon>
@@ -2177,9 +2143,7 @@
               <mathFunction>None</mathFunction>
               <uavField>x</uavField>
               <uavObject>Magnetometer</uavObject>
-              <yMaximum>-2.00000000000179</yMaximum>
               <yMeanSamples>1</yMeanSamples>
-              <yMinimum>3.86203233966055e-312</yMinimum>
               <yScalePower>0</yScalePower>
             </scatterplotDataSource0>
             <scatterplotDataSource1>
@@ -2187,9 +2151,7 @@
               <mathFunction>None</mathFunction>
               <uavField>y</uavField>
               <uavObject>Magnetometer</uavObject>
-              <yMaximum>-2.00000000000162</yMaximum>
               <yMeanSamples>1</yMeanSamples>
-              <yMinimum>7.21478569792807e-313</yMinimum>
               <yScalePower>0</yScalePower>
             </scatterplotDataSource1>
             <scatterplotDataSource2>
@@ -2197,9 +2159,7 @@
               <mathFunction>None</mathFunction>
               <uavField>z</uavField>
               <uavObject>Magnetometer</uavObject>
-              <yMaximum>-2.0000000000119</yMaximum>
               <yMeanSamples>1</yMeanSamples>
-              <yMinimum>4.22277162500408e-312</yMinimum>
               <yScalePower>0</yScalePower>
             </scatterplotDataSource2>
             <timeHorizon>60</timeHorizon>
@@ -2223,9 +2183,7 @@
               <mathFunction>None</mathFunction>
               <uavField>TxFailures</uavField>
               <uavObject>GCSTelemetryStats</uavObject>
-              <yMaximum>2.68156158598852e+154</yMaximum>
               <yMeanSamples>1</yMeanSamples>
-              <yMinimum>2.35154876896229e-314</yMinimum>
               <yScalePower>0</yScalePower>
             </scatterplotDataSource0>
             <scatterplotDataSource1>
@@ -2233,9 +2191,7 @@
               <mathFunction>None</mathFunction>
               <uavField>RxFailures</uavField>
               <uavObject>GCSTelemetryStats</uavObject>
-              <yMaximum>2.68156158600448e+154</yMaximum>
               <yMeanSamples>1</yMeanSamples>
-              <yMinimum>4.22277162500408e-312</yMinimum>
               <yScalePower>0</yScalePower>
             </scatterplotDataSource1>
             <scatterplotDataSource2>
@@ -2243,9 +2199,7 @@
               <mathFunction>None</mathFunction>
               <uavField>TxRetries</uavField>
               <uavObject>GCSTelemetryStats</uavObject>
-              <yMaximum>2.68156158599069e+154</yMaximum>
               <yMeanSamples>1</yMeanSamples>
-              <yMinimum>7.21478569792807e-313</yMinimum>
               <yScalePower>0</yScalePower>
             </scatterplotDataSource2>
             <timeHorizon>60</timeHorizon>
@@ -2269,9 +2223,7 @@
               <mathFunction>None</mathFunction>
               <uavField>FlightTime</uavField>
               <uavObject>SystemStats</uavObject>
-              <yMaximum>2.68156158598852e+154</yMaximum>
               <yMeanSamples>1</yMeanSamples>
-              <yMinimum>2.35153391537271e-314</yMinimum>
               <yScalePower>0</yScalePower>
             </scatterplotDataSource0>
             <timeHorizon>60</timeHorizon>
@@ -2287,6 +2239,7 @@
         </configInfo>
         <data>
           <plot3d>
+            <colorMap>0</colorMap>
             <dataSourceCount>1</dataSourceCount>
             <plot3dType>2</plot3dType>
             <samplingFrequency>100</samplingFrequency>

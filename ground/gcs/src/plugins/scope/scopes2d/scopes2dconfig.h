@@ -45,8 +45,6 @@ struct Plot2dCurveConfiguration
     QRgb color;
     unsigned int yMeanSamples;
     QString mathFunction;
-    double yMinimum;
-    double yMaximum;
 };
 
 /**

@@ -63,6 +63,7 @@ SpectrogramScopeConfig::SpectrogramScopeConfig(QSettings *qSettings)
     for(int i = 0; i < plot3dCurveCount; i++){
         Plot3dCurveConfiguration *plotCurveConf = new Plot3dCurveConfiguration();
 
+        // Start reading XML block
         qSettings->beginGroup(QString("spectrogramDataSource") + QString().number(i));
 
         plotCurveConf->uavObjectName = qSettings->value("uavObject").toString();

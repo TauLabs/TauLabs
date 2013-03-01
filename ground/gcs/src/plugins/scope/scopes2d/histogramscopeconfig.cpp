@@ -62,6 +62,7 @@ HistogramScopeConfig::HistogramScopeConfig(QSettings *qSettings)
     int dataSourceCount = qSettings->value("dataSourceCount").toInt();
     for(int i = 0; i < dataSourceCount; i++)
     {
+        // Start reading XML block
         qSettings->beginGroup(QString("histogramDataSource") + QString().number(i));
 
         Plot2dCurveConfiguration *plotCurveConf = new Plot2dCurveConfiguration();
@@ -72,8 +73,6 @@ HistogramScopeConfig::HistogramScopeConfig(QSettings *qSettings)
         plotCurveConf->yScalePower   = qSettings->value("yScalePower").toInt();
         plotCurveConf->mathFunction  = qSettings->value("mathFunction").toString();
         plotCurveConf->yMeanSamples  = qSettings->value("yMeanSamples").toUInt();
-        plotCurveConf->yMinimum      = qSettings->value("yMinimum").toDouble();
-        plotCurveConf->yMaximum      = qSettings->value("yMaximum").toDouble();
 
         //Stop reading XML block
         qSettings->endGroup();
@@ -159,8 +158,6 @@ ScopeConfig* HistogramScopeConfig::cloneScope(ScopeConfig *originalScope)
         newHistogramSourceConf->yScalePower   = currentHistogramSourceConf->yScalePower;
         newHistogramSourceConf->yMeanSamples  = currentHistogramSourceConf->yMeanSamples;
         newHistogramSourceConf->mathFunction  = currentHistogramSourceConf->mathFunction;
-        newHistogramSourceConf->yMinimum = currentHistogramSourceConf->yMinimum;
-        newHistogramSourceConf->yMaximum = currentHistogramSourceConf->yMaximum;
 
         cloneObj->m_HistogramSourceConfigs.append(newHistogramSourceConf);
     }
@@ -197,8 +194,6 @@ void HistogramScopeConfig::saveConfiguration(QSettings* qSettings)
         qSettings->setValue("mathFunction",  plotCurveConf->mathFunction);
         qSettings->setValue("yScalePower",  plotCurveConf->yScalePower);
         qSettings->setValue("yMeanSamples",  plotCurveConf->yMeanSamples);
-        qSettings->setValue("yMinimum",  plotCurveConf->yMinimum);
-        qSettings->setValue("yMaximum",  plotCurveConf->yMaximum);
 
         //Stop writing XML blocks
         qSettings->endGroup();

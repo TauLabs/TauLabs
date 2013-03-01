@@ -61,6 +61,7 @@ Scatterplot2dScopeConfig::Scatterplot2dScopeConfig(QSettings *qSettings)
     int dataSourceCount = qSettings->value("dataSourceCount").toInt();
     for(int i = 0; i < dataSourceCount; i++)
     {
+        // Start reading XML block
         qSettings->beginGroup(QString("scatterplotDataSource") + QString().number(i));
 
         Plot2dCurveConfiguration *plotCurveConf = new Plot2dCurveConfiguration();
@@ -71,14 +72,11 @@ Scatterplot2dScopeConfig::Scatterplot2dScopeConfig(QSettings *qSettings)
         plotCurveConf->yScalePower   = qSettings->value("yScalePower").toInt();
         plotCurveConf->mathFunction  = qSettings->value("mathFunction").toString();
         plotCurveConf->yMeanSamples  = qSettings->value("yMeanSamples").toUInt();
-        plotCurveConf->yMinimum      = qSettings->value("yMinimum").toDouble();
-        plotCurveConf->yMaximum      = qSettings->value("yMaximum").toDouble();
 
-        //Stop reading XML block
+        // Stop reading XML block
         qSettings->endGroup();
 
         m_scatterplotSourceConfigs.append(plotCurveConf);
-
     }
 }
 
@@ -158,8 +156,6 @@ ScopeConfig* Scatterplot2dScopeConfig::cloneScope(ScopeConfig *originalScope)
         newScatterplotSourceConf->yScalePower   = currentScatterplotSourceConf->yScalePower;
         newScatterplotSourceConf->yMeanSamples  = currentScatterplotSourceConf->yMeanSamples;
         newScatterplotSourceConf->mathFunction  = currentScatterplotSourceConf->mathFunction;
-        newScatterplotSourceConf->yMinimum = currentScatterplotSourceConf->yMinimum;
-        newScatterplotSourceConf->yMaximum = currentScatterplotSourceConf->yMaximum;
 
         cloneObj->m_scatterplotSourceConfigs.append(newScatterplotSourceConf);
     }
@@ -196,8 +192,6 @@ void Scatterplot2dScopeConfig::saveConfiguration(QSettings* qSettings)
         qSettings->setValue("mathFunction",  plotCurveConf->mathFunction);
         qSettings->setValue("yScalePower",  plotCurveConf->yScalePower);
         qSettings->setValue("yMeanSamples",  plotCurveConf->yMeanSamples);
-        qSettings->setValue("yMinimum",  plotCurveConf->yMinimum);
-        qSettings->setValue("yMaximum",  plotCurveConf->yMaximum);
 
         //Stop writing XML blocks
         qSettings->endGroup();
