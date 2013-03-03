@@ -168,7 +168,7 @@ int32_t PIOS_INTERNAL_ADC_Init(uint32_t * internal_adc_id, const struct pios_int
  * @param[in] oversampling the amount of oversampling to run at
  * @param[in] internal_adc_id handle to the device
  */
-void PIOS_INTERNAL_ADC_Config(uint32_t internal_adc_id, uint32_t oversampling)
+static void PIOS_INTERNAL_ADC_Config(uint32_t internal_adc_id, uint32_t oversampling)
 {	
 	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *)internal_adc_id;
 	if(!PIOS_INTERNAL_ADC_validate(adc_dev))
@@ -278,7 +278,7 @@ void PIOS_INTERNAL_ADC_Config(uint32_t internal_adc_id, uint32_t oversampling)
  * \return ADC pin value - resolution depends on the selected oversampling rate
  * \return -1 if pin doesn't exist
  */
-int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin)
+static int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin)
 {
 	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *)internal_adc_id;
 	if(!PIOS_INTERNAL_ADC_validate(adc_dev))
