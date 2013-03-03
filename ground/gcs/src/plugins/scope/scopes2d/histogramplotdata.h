@@ -1,8 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       scopegadget.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @file       histogramplotdata.h
  * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -26,46 +25,51 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#ifndef HISTOGRAMDATA_H
+#define HISTOGRAMDATA_H
 
-#ifndef SCOPEGADGET_H_
-#define SCOPEGADGET_H_
+#include "scopes2d/plotdata2d.h"
+#include "uavobject.h"
 
-#include <coreplugin/iuavgadget.h>
-#include "scopegadgetwidget.h"
+#include "qwt/src/qwt_plot_histogram.h"
 
-class IUAVGadget;
-//class QList<int>;
-class QWidget;
-class QString;
-class ScopeGadgetWidget;
 
-using namespace Core;
+#include <QTimer>
+#include <QTime>
+#include <QVector>
 
-class ScopeGadget : public Core::IUAVGadget
+
+/**
+ * @brief The HistogramData class The histogram plot has a variable sized buffer of data,
+ *  where the data is for a specified histogram data set.
+ */
+class HistogramData : public Plot2dData
 {
     Q_OBJECT
 public:
-    ScopeGadget(QString classId, ScopeGadgetWidget *widget, QWidget *parent = 0);
-    ~ScopeGadget();
+    HistogramData(QString uavObject, QString uavField, double binWidth, uint numberOfBins);
+    ~HistogramData() {}
 
-    void loadConfiguration(IUAVGadgetConfiguration* config);
+    bool append(UAVObject* obj);
 
-    QList<int> context() const {
-        return m_context;
-    }
-    QWidget *widget() {
-        return scopeGadgetWidget;
-    }
-    QString contextHelpId() const {
-        return QString();
-    }
+    virtual void removeStaleData(){}
+    virtual void plotNewData(PlotData *, ScopeConfig *, ScopeGadgetWidget *);
+    virtual void clearPlots(PlotData *);
+
+    QwtIntervalSeriesData *getIntervalSeriesData(){return intervalSeriesData;}
+    void setHistogram(QwtPlotHistogram *val){histogram = val;}
 
 private:
-    ScopeGadgetWidget *scopeGadgetWidget;
-    QList<int> m_context;
+    QwtPlotHistogram *histogram;
+    QVector<QwtIntervalSample> *histogramBins; //Used for histograms
+    QVector<QwtInterval> *histogramInterval;
+    QwtIntervalSeriesData *intervalSeriesData;
 
-    bool configLoaded;
+    double binWidth;
+    uint numberOfBins;
+
+private slots:
+
 };
 
-
-#endif // SCOPEGADGET_H_
+#endif // HISTOGRAMDATA_H

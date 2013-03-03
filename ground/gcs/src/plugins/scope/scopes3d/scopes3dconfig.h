@@ -1,8 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       scopegadget.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @file       scopes3dconfig.h
  * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -26,46 +25,48 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#ifndef SCOPES3DCONFIG_H
+#define SCOPES3DCONFIG_H
 
-#ifndef SCOPEGADGET_H_
-#define SCOPEGADGET_H_
+#include "scopesconfig.h"
+#include "scopes3d/plotdata3d.h"
 
-#include <coreplugin/iuavgadget.h>
-#include "scopegadgetwidget.h"
+#include <coreplugin/iuavgadgetconfiguration.h>
+#include "ui_scopegadgetoptionspage.h"
 
-class IUAVGadget;
-//class QList<int>;
-class QWidget;
-class QString;
-class ScopeGadgetWidget;
 
-using namespace Core;
+// This struct holds the configuration for individual 2D data sources
+struct Plot3dCurveConfiguration
+{
+    QString uavObjectName;
+    QString uavFieldName;
+    int yScalePower; //This is the power to which each value must be raised
+    QRgb color;
+    int yMeanSamples;
+    QString mathFunction;
+    double yMinimum;
+    double yMaximum;
+};
 
-class ScopeGadget : public Core::IUAVGadget
+/**
+ * @brief The Scopes3dConfig class The parent class for 3D scope configurations
+ */
+class Scopes3dConfig : public ScopeConfig
 {
     Q_OBJECT
 public:
-    ScopeGadget(QString classId, ScopeGadgetWidget *widget, QWidget *parent = 0);
-    ~ScopeGadget();
+    /**
+     * @brief The Plot3dType enum Defines the different type of plots.
+     */
+    enum Plot3dType {
+        NO3DPLOT,
+        SCATTERPLOT3D,
+        SPECTROGRAM
+    };
 
-    void loadConfiguration(IUAVGadgetConfiguration* config);
-
-    QList<int> context() const {
-        return m_context;
-    }
-    QWidget *widget() {
-        return scopeGadgetWidget;
-    }
-    QString contextHelpId() const {
-        return QString();
-    }
+    virtual int getScopeDimensions(){return PLOT3D;}
 
 private:
-    ScopeGadgetWidget *scopeGadgetWidget;
-    QList<int> m_context;
-
-    bool configLoaded;
 };
 
-
-#endif // SCOPEGADGET_H_
+#endif // SCOPES3DCONFIG_H

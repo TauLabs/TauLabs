@@ -3,6 +3,7 @@
  *
  * @file       scopegadget.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ScopePlugin Scope Gadget Plugin
@@ -34,67 +35,33 @@
 
 ScopeGadget::ScopeGadget(QString classId, ScopeGadgetWidget *widget, QWidget *parent) :
         IUAVGadget(classId, parent),
-        m_widget(widget),
+        scopeGadgetWidget(widget),
         configLoaded(false)
 {
 
 }
 
-void ScopeGadget::loadConfiguration(IUAVGadgetConfiguration* config)
-{
-
-    ScopeGadgetConfiguration *sgConfig = qobject_cast<ScopeGadgetConfiguration*>(config);
-    ScopeGadgetWidget* widget = qobject_cast<ScopeGadgetWidget*>(m_widget);
-
-    widget->setXWindowSize(sgConfig->dataSize());
-    widget->setRefreshInterval(sgConfig->refreshInterval());
-
-    if(sgConfig->plotType() == SequentialPlot )
-        widget->setupSequentialPlot();
-    else if(sgConfig->plotType() == ChronoPlot)
-        widget->setupChronoPlot();
-    //    else if(sgConfig->plotType() == UAVObjectPlot)
-    //        widget->setupUAVObjectPlot();
-
-    foreach (PlotCurveConfiguration* plotCurveConfig,  sgConfig->plotCurveConfigs()) {
-
-        QString uavObject = plotCurveConfig->uavObject;
-        QString uavField = plotCurveConfig->uavField;
-        int scale = plotCurveConfig->yScalePower;
-        int mean = plotCurveConfig->yMeanSamples;
-        QString mathFunction = plotCurveConfig->mathFunction;
-        QRgb color = plotCurveConfig->color;
-
-        widget->addCurvePlot(
-                uavObject,
-                uavField,
-                scale,
-                mean,
-                mathFunction,
-                QPen(  QBrush(QColor(color),Qt::SolidPattern),
-//					   (qreal)2,
-					   (qreal)1,
-                       Qt::SolidLine,
-                       Qt::SquareCap,
-                       Qt::BevelJoin)
-                );
-    }   
-
-    widget->setLoggingEnabled(sgConfig->getLoggingEnabled());
-    widget->setLoggingNewFileOnConnect(sgConfig->getLoggingNewFileOnConnect());
-    widget->setLoggingPath(sgConfig->getLoggingPath());
-
-    widget->csvLoggingStop();
-    widget->csvLoggingSetName(sgConfig->name());
-    widget->csvLoggingStart();
-
-}
 
 /**
-  Scope gadget destructor: should delete the associated
-  scope gadget widget too!
-  */
+ * @brief ScopeGadget::loadConfiguration Loads the plugin configuration
+ * @param config
+ */
+void ScopeGadget::loadConfiguration(IUAVGadgetConfiguration* config)
+{
+    ScopeGadgetConfiguration *sgConfig = qobject_cast<ScopeGadgetConfiguration*>(config);
+    if (sgConfig == NULL) //Check that the case succeeded.
+        return;
+
+    scopeGadgetWidget->clearPlotWidget();
+    sgConfig->getScope()->loadConfiguration(scopeGadgetWidget);
+}
+
+
+/**
+ * @brief ScopeGadget::~ScopeGadget   Scope gadget destructor: deletes the
+ * associated scope gadget widget too.
+ */
 ScopeGadget::~ScopeGadget()
 {
-   delete m_widget;
+   delete scopeGadgetWidget;
 }

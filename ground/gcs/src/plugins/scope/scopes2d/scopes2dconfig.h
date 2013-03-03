@@ -1,8 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       scopegadget.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @file       scopes2dconfig.h
  * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -26,46 +25,48 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#ifndef SCOPES2D_H
+#define SCOPES2D_H
 
-#ifndef SCOPEGADGET_H_
-#define SCOPEGADGET_H_
 
-#include <coreplugin/iuavgadget.h>
-#include "scopegadgetwidget.h"
+#include "scopesconfig.h"
+#include "scopes2d/plotdata2d.h"
 
-class IUAVGadget;
-//class QList<int>;
-class QWidget;
-class QString;
-class ScopeGadgetWidget;
+#include <coreplugin/iuavgadgetconfiguration.h>
+#include "ui_scopegadgetoptionspage.h"
 
-using namespace Core;
 
-class ScopeGadget : public Core::IUAVGadget
+// This struct holds the configuration for individual 2D data sources
+struct Plot2dCurveConfiguration
+{
+    QString uavObjectName;
+    QString uavFieldName;
+    int yScalePower; //This is the power to which each value must be raised
+    QRgb color;
+    unsigned int yMeanSamples;
+    QString mathFunction;
+};
+
+/**
+ * @brief The Scopes2dConfig class  The parent class for 3D scope configurations
+ */
+class Scopes2dConfig : public ScopeConfig
 {
     Q_OBJECT
 public:
-    ScopeGadget(QString classId, ScopeGadgetWidget *widget, QWidget *parent = 0);
-    ~ScopeGadget();
+    /**
+     * @brief The Plot2dType enum Defines the different type of plots.
+     */
+    enum Plot2dType {
+        NO2DPLOT, //Signifies that there is no 2D plot configured
+        SCATTERPLOT2D,
+        HISTOGRAM,
+        POLARPLOT
+    };
 
-    void loadConfiguration(IUAVGadgetConfiguration* config);
-
-    QList<int> context() const {
-        return m_context;
-    }
-    QWidget *widget() {
-        return scopeGadgetWidget;
-    }
-    QString contextHelpId() const {
-        return QString();
-    }
+    virtual int getScopeDimensions(){return PLOT2D;}
 
 private:
-    ScopeGadgetWidget *scopeGadgetWidget;
-    QList<int> m_context;
-
-    bool configLoaded;
 };
 
-
-#endif // SCOPEGADGET_H_
+#endif // SCOPES2D_H
