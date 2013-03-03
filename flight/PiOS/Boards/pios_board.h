@@ -13,6 +13,8 @@
 #include "STM32F4xx_RevoMini.h"
 #elif USE_STM32F4xx_FREEDOM
 #include "STM32F4xx_Freedom.h"
+#elif USE_STM32F4xx_VB
+#include "STM32F4xx_Vbrain.h"
 #elif USE_STM32F4xx_QUANTON
 #include "STM32F4xx_Quanton.h"
 #elif USE_STM32F4xx_FLYINGF4
