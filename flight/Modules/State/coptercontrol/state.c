@@ -630,9 +630,9 @@ static void inertialSensorSettingsUpdatedCb(UAVObjEvent * objEv)
 	}
 
 	//Load initial gyrobias values into online-estimated gyro bias
-	gyrosBias.x = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_X];
-	gyrosBias.y = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_Y];
-	gyrosBias.z = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_Z];
+	gyrosBias.x = 0;
+	gyrosBias.y = 0;
+	gyrosBias.z = 0;
 
 	//Calculate sensor to board rotation matrix. If the matrix is the identity,
 	//don't expend cycles on rotation

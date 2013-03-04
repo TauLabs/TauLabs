@@ -3,6 +3,7 @@
  *
  * @file       scopegadgetfactory.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ScopePlugin Scope Gadget Plugin
@@ -51,12 +52,8 @@ public:
     IOptionsPage *createOptionsPage(IUAVGadgetConfiguration *config);
 
 public slots:
-    void stopPlotting();
-    void startPlotting();
 
 signals:
-    void onStopPlotting();
-    void onStartPlotting();
 
 };
 

@@ -73,7 +73,7 @@ public abstract class UAVObject {
 			transactionCompletedListeners.deleteObserver(o);
 		}
 	}
-	void transactionCompleted(boolean status) {
+	public void transactionCompleted(boolean status) {
 		synchronized(transactionCompletedListeners) {
 			transactionCompletedListeners.event(new TransactionResult(this,status));
 		}

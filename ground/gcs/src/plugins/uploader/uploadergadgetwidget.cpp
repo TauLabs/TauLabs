@@ -461,7 +461,7 @@ bool UploaderGadgetWidget::autoUpdate()
         }
 
          emit autoUpdateSignal(WAITING_DISCONNECT,QVariant());
-         if(QMessageBox::warning(this,tr("OpenPilot Uploader"),tr("Please disconnect all boards"),QMessageBox::Ok,QMessageBox::Cancel)==QMessageBox::Cancel)
+         if(QMessageBox::warning(this,tr("Tau Labs Uploader"),tr("Please disconnect all boards"),QMessageBox::Ok,QMessageBox::Cancel)==QMessageBox::Cancel)
          {
                  emit autoUpdateSignal(FAILURE,QVariant());
                  return false;
@@ -524,7 +524,7 @@ bool UploaderGadgetWidget::autoUpdate()
         return false;
         break;
     }
-    filename=":/build/"+filename+"/"+filename+".opfw";
+    filename=":/build/"+filename+"/"+filename+".tlfw";
     QByteArray firmware;
     if(!QFile::exists(filename))
     {
@@ -608,7 +608,7 @@ void UploaderGadgetWidget::systemRescue()
     }
     if(boardPresent)
     {
-        if(QMessageBox::warning(this,tr("PhoenixPilot Uploader"),tr("Please disconnect all boards"),QMessageBox::Ok,QMessageBox::Cancel)==QMessageBox::Cancel)
+        if(QMessageBox::warning(this,tr("Tau Labs Uploader"),tr("Please disconnect all boards"),QMessageBox::Ok,QMessageBox::Cancel)==QMessageBox::Cancel)
         {
             m_config->rescueButton->setEnabled(true);
             return;

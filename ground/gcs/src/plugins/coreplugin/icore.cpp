@@ -31,7 +31,7 @@
 /*!
     \namespace Core
     \brief The Core namespace contains all classes that make up the Core plugin
-    which constitute the basic functionality of the OpenPilot GCS.
+    which constitute the basic functionality of the Tau Labs GCS.
 */
 
 /*!
@@ -42,7 +42,7 @@
 /*!
     \class Core::ICore
     \brief The ICore class allows access to the different part that make up
-    the basic functionality of the OpenPilot GCS.
+    the basic functionality of the Tau Labs GCS.
 
     You should never create a subclass of this interface. The one and only
     instance is created by the Core plugin. You can access this instance
@@ -163,7 +163,7 @@
     The mode manager handles everything related to the instances of IMode
     that were added to the plugin manager's object pool as well as their
     buttons and the tool bar with the round buttons in the lower left
-    corner of the OpenPilot GCS.
+    corner of the Tau Labs GCS.
 */
 
 /*!
@@ -292,7 +292,7 @@
 /*!
     \fn void ICore::openFiles(const QStringList &fileNames)
     \brief Open all files from a list of \a fileNames like it would be
-    done if they were given to the OpenPilot GCS on the command line, or
+    done if they were given to the Tau Labs GCS on the command line, or
     they were opened via \gui{File|Open}.
 */
 

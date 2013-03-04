@@ -122,9 +122,8 @@ int32_t PIOS_HMC5883_Init(uint32_t i2c_id, const struct pios_hmc5883_cfg *cfg)
 	PIOS_EXTI_Init(cfg->exti_cfg);
 #endif
 
-	int32_t val = PIOS_HMC5883_Config(cfg);
-	
-	PIOS_Assert(val == 0);
+	if (PIOS_HMC5883_Config(cfg) != 0)
+		return -2;
 
 	PIOS_SENSORS_Register(PIOS_SENSOR_MAG, dev->queue);
 

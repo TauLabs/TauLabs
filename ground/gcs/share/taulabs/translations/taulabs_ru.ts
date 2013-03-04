@@ -398,8 +398,8 @@
     </message>
     <message>
         <location/>
-        <source>Send to OpenPilot but don&apos;t write in SD.</source>
-        <translation>Передать в OpenPilot но не записывать на SD.</translation>
+        <source>Send to Tau Labs but don&apos;t write to non volatile memory.</source>
+        <translation>Передать в Tau Labs но не записывать на SD.</translation>
     </message>
     <message>
         <location/>
@@ -408,8 +408,8 @@
     </message>
     <message>
         <location/>
-        <source>Retrieve settings from OpenPilot</source>
-        <translation>Получить настройки из OpenPilot</translation>
+        <source>Retrieve settings from Tau Labs</source>
+        <translation>Получить настройки из Tau Labs</translation>
     </message>
     <message>
         <location/>
@@ -780,8 +780,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location/>
-        <source>Retrieve settings from OpenPilot</source>
-        <translation>Получить настройки из OpenPilot</translation>
+        <source>Retrieve settings from Tau Labs</source>
+        <translation>Получить настройки из Tau Labs</translation>
     </message>
     <message>
         <location/>
@@ -802,9 +802,9 @@ Applies and Saves all settings to SD</source>
     </message>
     <message>
         <location/>
-        <source>Send to OpenPilot but don&apos;t write in SD.
+        <source>Send to Tau Labs but don&apos;t write to non volatile memory.
 Be sure to set the Neutral position on all sliders before sending!</source>
-        <translation>Настройки передаются в OpenPilot, но не сохраняются на SD
+        <translation>Настройки передаются в Tau Labs, но не сохраняются на SD
 Не забудьте установить все ползунки в нейтральное положение перед сохранением!</translation>
     </message>
     <message>
@@ -839,8 +839,8 @@ Uncheck/Check to restart calibration.</source>
     </message>
     <message>
         <location/>
-        <source>Indicates whether OpenPilot is getting a signal from the RC receiver.</source>
-        <translation>Показывает, получает ли OpenPilot сигнал от приемника.</translation>
+        <source>Indicates whether Tau Labs is getting a signal from the RC receiver.</source>
+        <translation>Показывает, получает ли Tau Labs сигнал от приемника.</translation>
     </message>
     <message>
         <location/>
@@ -1010,9 +1010,9 @@ p, li { white-space: pre-wrap; }
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Set the serial speed of your telemetry modem here. It is the speed between the OpenPilot board and the modem, and could be different from the radio link speed.&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Set the serial speed of your telemetry modem here. It is the speed between the Tau Labs board and the modem, and could be different from the radio link speed.&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Beware of not locking yourself out! You should only modify this setting when the OpenPilot board is connected through the USB port.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Beware of not locking yourself out! You should only modify this setting when the Tau Labs board is connected through the USB port.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1033,7 +1033,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location/>
-        <source>Send to OpenPilot but don&apos;t write in SD.
+        <source>Send to Tau Labs but don&apos;t write to non volatile memory.
 Beware of not locking yourself out!</source>
         <translation>Передать в автопилот, но не записывать на SD.
 Осторожно, не отключите сами себя!</translation>
@@ -1045,8 +1045,8 @@ Beware of not locking yourself out!</source>
     </message>
     <message>
         <location/>
-        <source>Retrieve settings from OpenPilot</source>
-        <translation>Получить настройки из OpenPilot</translation>
+        <source>Retrieve settings from Tau Labs</source>
+        <translation>Получить настройки из Tau Labs</translation>
     </message>
     <message>
         <location/>
@@ -1055,7 +1055,7 @@ Beware of not locking yourself out!</source>
     </message>
     <message>
         <location/>
-        <source>Applies and Saves all settings to SD.
+        <source>Applies and Saves all settings to non volatile memory.
 Beware of not locking yourself out!</source>
         <translation>Принять изменения и сохранить на SD
 Осторожно, не отключите сами себя!</translation>
@@ -2082,7 +2082,7 @@ p, li { white-space: pre-wrap; }
     <name>opmap_edit_waypoint_dialog</name>
     <message>
         <location filename="../../../src/plugins/opmap/opmap_edit_waypoint_dialog.ui"/>
-        <source>OpenPilot GCS Edit Waypoint</source>
+        <source>Tau Labs GCS Edit Waypoint</source>
         <translation>Редактирование точки пути</translation>
     </message>
     <message>
@@ -2186,7 +2186,7 @@ p, li { white-space: pre-wrap; }
     <name>opmap_waypointeditor_dialog</name>
     <message>
         <location filename="../../../src/plugins/opmap/opmap_waypointeditor_dialog.ui"/>
-        <source>OpenPilot GCS Waypoint Editor</source>
+        <source>Tau Labs GCS Waypoint Editor</source>
         <translation>Редактор точек маршрута</translation>
     </message>
     <message>
@@ -2791,43 +2791,43 @@ Update</source>
     </message>
     <message>
         <location filename="../../../src/plugins/welcome/communitywelcomepagewidget.cpp" line="+46"/>
-        <source>News From the OpenPilot Project</source>
+        <source>News From the Tau Labs Project</source>
         <translation>Новости проекта</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>OpenPilot Websites</source>
+        <source>Tau Labs Websites</source>
         <translation>Страницы проекта</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>http://forums.openpilot.org/blog/rss/4-openpilot-development-blog</source>
+        <source>https://github.com/TauLabs/TauLabs/commits/next.atom</source>
         <extracomment>Add localized feed here only if one exists</extracomment>
         <translation></translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>OpenPilot Home</source>
+        <source>Tau Labs Home</source>
         <translation>Домашняя страница</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>OpenPilot Wiki</source>
+        <source>Tau Labs Wiki</source>
         <translation>Вики</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>OpenPilot Store</source>
+        <source>Tau Labs Store</source>
         <translation>Магазин</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>OpenPilot Forums</source>
+        <source>Tau Labs Forums</source>
         <translation>Форум</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>OpenPilot Bug Tracker</source>
+        <source>Tau Labs Bug Tracker</source>
         <translation>Система отслеживания ошибок</translation>
     </message>
 </context>
@@ -2851,8 +2851,8 @@ Update</source>
     </message>
     <message>
         <location/>
-        <source>Help us make OpenPilot even better</source>
-        <translation>Помогите нам сделать OpenPilot еще лучше</translation>
+        <source>Help us make Tau Labs even better</source>
+        <translation>Помогите нам сделать Tau Labs еще лучше</translation>
     </message>
     <message>
         <location/>
@@ -2884,7 +2884,7 @@ Update</source>
     </message>
     <message>
         <location line="+36"/>
-        <source>OpenPilot GCS - Plugin loader messages</source>
+        <source>Tau Labs GCS - Plugin loader messages</source>
         <translation>Сообщения загрузчика плагинов</translation>
     </message>
 </context>
@@ -6711,8 +6711,8 @@ Reason: %3</source>
     <name>Core::Internal::MainWindow</name>
     <message>
         <location filename="../../../src/plugins/coreplugin/mainwindow.cpp" line="+143"/>
-        <source>OpenPilot GCS</source>
-        <translation>OpenPilot НСУ (Наземная Система Управления)</translation>
+        <source>Tau Labs GCS</source>
+        <translation>Tau Labs НСУ (Наземная Система Управления)</translation>
     </message>
     <message>
         <location line="+241"/>
@@ -6856,12 +6856,12 @@ Reason: %3</source>
     </message>
     <message>
         <location line="+11"/>
-        <source>About &amp;OpenPilot GCS</source>
-        <translation>О проекте &amp;OpenPilot</translation>
+        <source>About &amp;Tau Labs GCS</source>
+        <translation>О проекте &amp;Tau Labs</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>About &amp;OpenPilot GCS...</source>
+        <source>About &amp;Tau Labs GCS...</source>
         <translation>&amp;О программе...</translation>
     </message>
     <message>
@@ -7046,7 +7046,7 @@ Reason: %3</source>
     <name>Core::Internal::VersionDialog</name>
     <message>
         <location filename="../../../src/plugins/coreplugin/versiondialog.cpp" line="+57"/>
-        <source>About OpenPilot GCS</source>
+        <source>About Tau Labs GCS</source>
         <translation>О программе</translation>
     </message>
     <message>
@@ -7057,8 +7057,8 @@ Reason: %3</source>
     </message>
     <message>
         <location line="+3"/>
-        <source>&lt;h3&gt;OpenPilot GCS %1&lt;/h3&gt;Based on Qt %2 (%3 bit)&lt;br/&gt;&lt;br/&gt;Built on %4 at %5&lt;br /&gt;&lt;br/&gt;%8&lt;br/&gt;Copyright 2008-%6 %7. All rights reserved.&lt;br/&gt;&lt;br/&gt;The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.&lt;br/&gt;</source>
-        <translation>&lt;h3&gt;OpenPilot GCS %1&lt;/h3&gt;Основан на Qt %2 (%3 бит)&lt;br/&gt;&lt;br/&gt;Собран %4 at %5&lt;br /&gt;&lt;br/&gt;%8&lt;br/&gt;Copyright 2008-%6 %7. Все права защищены.&lt;br/&gt;&lt;br/&gt;The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.&lt;br/&gt;</translation>
+        <source>&lt;h3&gt;Tau Labs GCS %1&lt;/h3&gt;Based on Qt %2 (%3 bit)&lt;br/&gt;&lt;br/&gt;Built on %4 at %5&lt;br /&gt;&lt;br/&gt;%8&lt;br/&gt;Copyright 2008-%6 %7. All rights reserved.&lt;br/&gt;&lt;br/&gt;The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.&lt;br/&gt;</source>
+        <translation>&lt;h3&gt;Tau Labs GCS %1&lt;/h3&gt;Основан на Qt %2 (%3 бит)&lt;br/&gt;&lt;br/&gt;Собран %4 at %5&lt;br /&gt;&lt;br/&gt;%8&lt;br/&gt;Copyright 2008-%6 %7. Все права защищены.&lt;br/&gt;&lt;br/&gt;The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.&lt;br/&gt;</translation>
     </message>
 </context>
 <context>
@@ -7220,8 +7220,8 @@ Reason: %3</source>
     </message>
     <message>
         <location line="+268"/>
-        <source>OpenPilot GCS</source>
-        <translation>OpenPilot НСУ (Наземная Система Управления)</translation>
+        <source>Tau Labs GCS</source>
+        <translation>Tau Labs НСУ (Наземная Система Управления)</translation>
     </message>
     <message>
         <location line="+284"/>
@@ -7863,7 +7863,7 @@ Only makes sense with the &quot;INSGPS&quot; algorithm.</source>
     <message>
         <location/>
         <source>Clears the HomeLocation: only makes sense if you save
-to SD. This will force the AHRS to use the next GPS fix as the
+to non volatile memory. This will force the AHRS to use the next GPS fix as the
 new home location unless it is in indoor mode.</source>
         <translation type="unfinished"></translation>
     </message>

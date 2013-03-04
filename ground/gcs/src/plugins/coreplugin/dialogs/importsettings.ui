@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>OpenPilotGCS</string>
+   <string>TauLabsGCS</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

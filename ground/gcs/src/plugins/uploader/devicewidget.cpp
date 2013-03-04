@@ -330,13 +330,13 @@ void deviceWidget::loadFirmware()
         }
         else
         {
-            myDevice->statusLabel->setText(tr("This is the tagged officially released OpenPilot firmware"));
+            myDevice->statusLabel->setText(tr("This is the tagged officially released Tau Labs firmware"));
             px.load(QString(":/uploader/images/gtk-info.svg"));
         }
     }
     else
     {
-        myDevice->statusLabel->setText(tr("WARNING: the loaded firmware was not packaged with the OpenPilot format. Do not update unless you know what you are doing"));
+        myDevice->statusLabel->setText(tr("WARNING: the loaded firmware was not packaged with the Tau Labs format. Do not update unless you know what you are doing"));
         px.load(QString(":/uploader/images/error.svg"));
         myDevice->youdont->setChecked(false);
         myDevice->youdont->setVisible(true);
@@ -365,7 +365,7 @@ void deviceWidget::uploadFirmware()
      */
 
     QByteArray desc = loadedFW.right(100);
-    if (desc.startsWith("OpFw")) {
+    if (desc.startsWith("TlFw") || desc.startsWith("OpFw")) {
         descriptionArray = desc;
         // Now do sanity checking:
         // - Check whether board type matches firmware:
@@ -539,18 +539,18 @@ QString deviceWidget::setOpenFileName()
 	fwDirectory=QDir(fwDirectoryStr);
     fwDirectory.cd("../../..");
     fwDirectoryStr=fwDirectory.absolutePath();
-    fwDirectoryStr=fwDirectoryStr+"/fw_"+myDevice->lblBrdName->text().toLower()+"/fw_"+myDevice->lblBrdName->text().toLower()+".opfw";
+    fwDirectoryStr=fwDirectoryStr+"/fw_"+myDevice->lblBrdName->text().toLower()+"/fw_"+myDevice->lblBrdName->text().toLower()+".tlfw";
 #elif defined Q_OS_MAC
     fwDirectoryStr=QCoreApplication::applicationDirPath();
     fwDirectory=QDir(fwDirectoryStr);
     fwDirectory.cd("../../../../../..");
     fwDirectoryStr=fwDirectory.absolutePath();
-    fwDirectoryStr=fwDirectoryStr+"/fw_"+myDevice->lblBrdName->text().toLower()+"/fw_"+myDevice->lblBrdName->text().toLower()+".opfw";
+    fwDirectoryStr=fwDirectoryStr+"/fw_"+myDevice->lblBrdName->text().toLower()+"/fw_"+myDevice->lblBrdName->text().toLower()+".tlfw";
 #endif
     QString fileName = QFileDialog::getOpenFileName(this,
                                                     tr("Select firmware file"),
                                                     fwDirectoryStr,
-                                                    tr("Firmware Files (*.opfw *.bin)"),
+                                                    tr("Firmware Files (*.opfw *.tlfw *.bin)"),
                                                     &selectedFilter,
                                                     options);
     return fileName;

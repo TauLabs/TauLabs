@@ -243,8 +243,8 @@ SECTIONS
     /* the program code is stored in the .text section, which goes to Flash */
     .text :
     {
-            . = ALIGN(4);
-            
+        . = ALIGN(4);
+        
         *(.text)                   /* remaining code */
         *(.text.*)                   /* remaining code */
         *(.rodata)                 /* read-only data (constants) */
@@ -252,9 +252,9 @@ SECTIONS
         *(.glue_7)
         *(.glue_7t)
 
-            . = ALIGN(4);
+        . = ALIGN(4);
          _etext = .;
-            /* This is used by the startup in order to initialize the .data secion */
+        /* This is used by the startup in order to initialize the .data secion */
          _sidata = _etext;
     } >FLASH
     
@@ -266,15 +266,15 @@ SECTIONS
     It is one task of the startup to copy the initial values from FLASH to RAM. */
     .data  : AT ( _sidata )
     {
-            . = ALIGN(4);
+        . = ALIGN(4);
         /* This is used by the startup in order to initialize the .data secion */
         _sdata = . ;
         
         *(.data)
         *(.data.*)
-            . = ALIGN(4);
-            /* This is used by the startup in order to initialize the .data secion */
-         _edata = . ;
+        . = ALIGN(4);
+        /* This is used by the startup in order to initialize the .data secion */
+        _edata = . ;
     } >RAM
     
     
@@ -282,16 +282,16 @@ SECTIONS
     /* This is the uninitialized data section */
     .bss :
     {
-            . = ALIGN(4);
+        . = ALIGN(4);
         /* This is used by the startup in order to initialize the .bss secion */
         _sbss = .;
         
         *(.bss)
         *(COMMON)
         
-            . = ALIGN(4);
-            /* This is used by the startup in order to initialize the .bss secion */
-         _ebss = . ;
+        . = ALIGN(4);
+        /* This is used by the startup in order to initialize the .bss secion */
+        _ebss = . ;
     } >RAM
     
     PROVIDE ( end = _ebss );
@@ -303,12 +303,12 @@ SECTIONS
      */
     ._usrstack :
     {
-            . = ALIGN(4);
+        . = ALIGN(4);
         _susrstack = . ;
         
         . = . + _Minimum_Stack_Size ;
         
-            . = ALIGN(4);
+        . = ALIGN(4);
         _eusrstack = . ;
     } >RAM
     

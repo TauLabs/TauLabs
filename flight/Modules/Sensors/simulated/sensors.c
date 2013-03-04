@@ -325,6 +325,7 @@ static void simulateModelQuadcopter()
 	static float q[4] = {1,0,0,0};
 	static float rpy[3] = {0,0,0}; // Low pass filtered actuator
 	static float baro_offset = 0.0f;
+	static float temperature = 20;
 	float Rbe[3][3];
 	
 	const float ACTUATOR_ALPHA = 0.8;
@@ -371,10 +372,13 @@ static void simulateModelQuadcopter()
 	rpy[1] = (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED) * rateDesired.Pitch * (1 - ACTUATOR_ALPHA) + rpy[1] * ACTUATOR_ALPHA;
 	rpy[2] = (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED) * rateDesired.Yaw * (1 - ACTUATOR_ALPHA) + rpy[2] * ACTUATOR_ALPHA;
 	
+
+	temperature += rand_gauss() * 0.1;
 	GyrosData gyrosData; // Skip get as we set all the fields
-	gyrosData.x = rpy[0] + rand_gauss();
-	gyrosData.y = rpy[1] + rand_gauss();
-	gyrosData.z = rpy[2] + rand_gauss();
+	gyrosData.x = rpy[0] + rand_gauss() + (temperature - 20) * 1 + powf(temperature - 20,2) * 0.11; // - powf(temperature - 20,3) * 0.05;;
+	gyrosData.y = rpy[1] + rand_gauss() + (temperature - 20) * 1 + powf(temperature - 20,2) * 0.11;;
+	gyrosData.z = rpy[2] + rand_gauss() + (temperature - 20) * 1 + powf(temperature - 20,2) * 0.11;;
+	gyrosData.temperature = temperature;
 	GyrosSet(&gyrosData);
 	
 	// Predict the attitude forward in time

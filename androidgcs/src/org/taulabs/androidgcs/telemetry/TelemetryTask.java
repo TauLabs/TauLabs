@@ -31,8 +31,6 @@ import java.util.Observer;
 
 import org.taulabs.androidgcs.telemetry.tasks.LoggingTask;
 import org.taulabs.androidgcs.telemetry.tasks.TabletInformation;
-import org.taulabs.uavtalk.Telemetry;
-import org.taulabs.uavtalk.TelemetryMonitor;
 import org.taulabs.uavtalk.UAVObjectManager;
 import org.taulabs.uavtalk.UAVTalk;
 import org.taulabs.uavtalk.uavobjects.TelemObjectsInitialize;
@@ -46,9 +44,10 @@ public abstract class TelemetryTask implements Runnable {
 
 	// Logging settings
 	private final String TAG = TelemetryTask.class.getSimpleName();
-	public static final int LOGLEVEL = 2;
-	public static final boolean WARN = LOGLEVEL > 1;
-	public static final boolean DEBUG = LOGLEVEL > 0;
+	public static final int LOGLEVEL = 1;
+	public static final boolean WARN = LOGLEVEL > 2;
+	public static final boolean DEBUG = LOGLEVEL > 1;
+	public static final boolean ERROR = LOGLEVEL > 0;
 
 	/*
 	 * This is a self contained runnable that will establish (if possible)
@@ -102,6 +101,9 @@ public abstract class TelemetryTask implements Runnable {
 	//! Indicate a physical connection is established
 	private boolean connected;
 
+	//! Check if the looper is still running
+	private boolean looperRunning = false;
+
 	//! An object which can log the telemetry stream
 	private final LoggingTask logger = new LoggingTask();
 
@@ -129,6 +131,11 @@ public abstract class TelemetryTask implements Runnable {
 	 * created a valid inStream and outStream
 	 */
 	boolean attemptSucceeded() {
+
+		Intent intent = new Intent();
+		intent.setAction(OPTelemetryService.INTENT_CHANNEL_OPENED);
+		telemService.sendBroadcast(intent,null);
+
 		// Create a new object manager and register all objects
 		// in the future the particular register method should
 		// be dependent on what is connected (e.g. board and
@@ -139,7 +146,7 @@ public abstract class TelemetryTask implements Runnable {
 		// Create the required telemetry objects attached to this
 		// data stream
 		uavTalk = new UAVTalk(inStream, outStream, objMngr);
-		tel = new Telemetry(uavTalk, objMngr, Looper.myLooper());
+		tel = new Telemetry(uavTalk, objMngr, Looper.myLooper(), telemetryFailureRunnable);
 		mon = new TelemetryMonitor(objMngr,tel, telemService);
 
 		// Create an observer to notify system of connection
@@ -182,13 +189,15 @@ public abstract class TelemetryTask implements Runnable {
 			tel = null;
 		}
 
-		// Stop the master telemetry thread
-		handler.post(new Runnable() {
-			@Override
-			public void run() {
-				Looper.myLooper().quit();
-			}
-		});
+		// Stop the master telemetry thread if the looper is still running
+		if (looperRunning) {
+			handler.post(new Runnable() {
+				@Override
+				public void run() {
+					Looper.myLooper().quit();
+				}
+			});
+		}
 
 		if (inputProcessThread != null) {
 			inputProcessThread.interrupt();
@@ -201,6 +210,8 @@ public abstract class TelemetryTask implements Runnable {
 		// TODO: Make sure the input and output stream is closed
 
 		// TODO: Make sure any threads for input and output are closed
+
+		connected = false;
 	}
 
 	/**
@@ -225,6 +236,7 @@ public abstract class TelemetryTask implements Runnable {
 				} catch (IOException e) {
 					e.printStackTrace();
 					telemService.toastMessage("Telemetry input stream interrupted");
+					telemService.connectionBroken();
 					break;
 				}
 			}
@@ -239,22 +251,29 @@ public abstract class TelemetryTask implements Runnable {
 
 	@Override
 	public void run() {
-		try {
+		looperRunning = true;
 
-			Looper.prepare();
-			handler = new Handler();
+		Looper.prepare();
+		handler = new Handler();
 
-			if (DEBUG) Log.d(TAG, "Attempting connection");
-			if( attemptConnection() == false )
-				return; // Attempt failed
-
-			Looper.loop();
-
-			if (DEBUG) Log.d(TAG, "TelemetryTask runnable finished");
-
-		} catch (Throwable t) {
-			Log.e(TAG, "halted due to an error", t);
+		if (DEBUG) Log.d(TAG, "Attempting connection");
+		if( attemptConnection() == false ) {
+			if (ERROR) Log.e(TAG, "run() called when no valid connection found");
+			return; // Attempt failed
 		}
+
+		Looper.loop();
+
+		looperRunning = false;
+
+		if (!shutdown) {
+			// The looper ended without a requested shutdown indicating a link
+			// error.  Terminate the rest of telemetry.
+			if (DEBUG) Log.d(TAG, "Link failure detected");
+			disconnect();
+		}
+
+		if (DEBUG) Log.d(TAG, "TelemetryTask runnable finished");
 
 		telemService.toastMessage("Telemetry Thread finished");
 	}
@@ -268,6 +287,21 @@ public abstract class TelemetryTask implements Runnable {
 				intent.setAction(OPTelemetryService.INTENT_ACTION_CONNECTED);
 				telemService.sendBroadcast(intent,null);
 			}
+		}
+	};
+
+	/**
+	 *  Posted by telemetry when there is a connection failure on writing
+	 *  This is because telemetry doesn't (and shouldn't) have a handle to
+	 *  the telemetry task to trigger the disconnection when a write
+	 *  failure occurs.
+	 */
+	private final Runnable telemetryFailureRunnable = new Runnable() {
+		@Override
+		public void run() {
+			Log.d(TAG, "Telemetry failure runnable called");
+			disconnect();
+			telemService.connectionBroken();
 		}
 	};
 

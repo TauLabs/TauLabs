@@ -2,6 +2,10 @@
 #ifndef FREERTOS_CONFIG_H
 #define FREERTOS_CONFIG_H
 
+#if !defined(SIM_OSX) && !defined(SIM_POSIX)
+#include <stm32f4xx.h>
+#endif
+
 /*-----------------------------------------------------------
  * Application specific definitions.
  *
@@ -41,9 +45,9 @@
 #define configUSE_COUNTING_SEMAPHORES			0
 #define configUSE_ALTERNATIVE_API				0
 #define configCHECK_FOR_STACK_OVERFLOW			2
-#define configQUEUE_REGISTRY_SIZE				10
+#define configQUEUE_REGISTRY_SIZE				0
 
-#define configUSE_TIMERS						1
+#define configUSE_TIMERS						0
 #define configTIMER_TASK_PRIORITY				(configMAX_PRIORITIES - 1)	/* run timers at max priority */
 #define configTIMER_QUEUE_LENGTH				10
 #define configTIMER_TASK_STACK_DEPTH			configMINIMAL_STACK_SIZE
