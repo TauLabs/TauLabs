@@ -476,6 +476,8 @@ void ConfigVehicleTypeWidget::refreshWidgetsValues(UAVObject * o)
 {
     Q_UNUSED(o);
 
+    ConfigTaskWidget::refreshWidgetsValues(o);
+
     if(!allObjectsUpdated())
         return;
 	
@@ -692,6 +694,8 @@ void ConfigVehicleTypeWidget::updateCustomAirframeUI()
 */
 void ConfigVehicleTypeWidget::updateObjectsFromWidgets()
 {
+    ConfigTaskWidget::updateObjectsFromWidgets();
+
     UAVDataObject* mixer = dynamic_cast<UAVDataObject*>(getObjectManager()->getObject(QString("MixerSettings")));
     Q_ASSERT(mixer);
 
