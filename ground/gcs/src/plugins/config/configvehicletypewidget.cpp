@@ -112,6 +112,8 @@ ConfigVehicleTypeWidget::ConfigVehicleTypeWidget(QWidget *parent) : ConfigTaskWi
     addUAVObject("MixerSettings");
     addUAVObject("ActuatorSettings");
 
+    addUAVObjectToWidgetRelation("MixerSettings","Curve2Source",m_aircraft->customThrottle2Curve->getCBCurveSource());
+
     ffTuningInProgress = false;
     ffTuningPhase = false;
 
@@ -632,9 +634,9 @@ void ConfigVehicleTypeWidget::updateCustomAirframeUI()
     if (MixerSettings* mxr = qobject_cast<MixerSettings *>(mixer)) {
         MixerSettings::DataFields mixerSettingsData = mxr->getData();
         if (mixerSettingsData.Curve2Source == MixerSettings::CURVE2SOURCE_THROTTLE)
-            m_aircraft->customThrottle2Curve->setMixerType(MixerCurve::MIXERCURVE_THROTTLE);
+            m_aircraft->customThrottle2Curve->setMixerType(MixerCurve::MIXERCURVE_THROTTLE, true);
         else {
-            m_aircraft->customThrottle2Curve->setMixerType(MixerCurve::MIXERCURVE_PITCH);
+            m_aircraft->customThrottle2Curve->setMixerType(MixerCurve::MIXERCURVE_PITCH, true);
         }
     }
 
@@ -700,6 +702,23 @@ void ConfigVehicleTypeWidget::updateObjectsFromWidgets()
     vconfig->setMixerValue(mixer, "AccelTime", m_aircraft->accelTime->value());
     vconfig->setMixerValue(mixer, "DecelTime", m_aircraft->decelTime->value());
     vconfig->setMixerValue(mixer, "MaxAccel", m_aircraft->maxAccelSlider->value());
+
+    //------------------------ the code will be inserted in a vconfig method
+
+    Q_ASSERT(mixer);
+
+    UAVObjectField *fieldd = mixer->getField("Curve2Source");
+        Q_ASSERT(fieldd);
+
+        if (fieldd) {
+            //if (mixerType >= 0 && mixerType < mixerTypeDescriptions.count())
+            //{
+            int indexx = m_aircraft->customThrottle2Curve->getCBCurveSource()->currentIndex();
+            fieldd->setValue(m_aircraft->customThrottle2Curve->getCBCurveSource()->itemData(indexx,0).toString());
+            //}
+        }
+
+    //------------------------
 
     QString airframeType = "Custom"; //Sets airframe type default to "Custom"
     if (m_aircraft->aircraftType->currentText() == "Fixed Wing") {
