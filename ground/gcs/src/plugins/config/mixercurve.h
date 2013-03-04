@@ -70,6 +70,7 @@ public:
     double setRange(double min, double max);
 
     MixerCurveWidget* getCurveWidget() { return m_curve; }
+    QComboBox* getCBCurveSource() { return m_mixerUI->CBCurve2Source; }
 
 signals:
 

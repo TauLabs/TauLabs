@@ -112,6 +112,8 @@ ConfigVehicleTypeWidget::ConfigVehicleTypeWidget(QWidget *parent) : ConfigTaskWi
     addUAVObject("MixerSettings");
     addUAVObject("ActuatorSettings");
 
+    addUAVObjectToWidgetRelation("MixerSettings","Curve2Source",m_aircraft->customThrottle2Curve->getCBCurveSource());
+
     ffTuningInProgress = false;
     ffTuningPhase = false;
 
