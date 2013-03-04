@@ -38,13 +38,24 @@
 
 extern const struct pios_adc_driver pios_internal_adc_driver;
 
+typedef struct {
+        GPIO_TypeDef *port;
+        uint32_t pin;
+        uint8_t adc_channel;
+        bool is_master_channel;
+}adc_pin;
+
 struct pios_internal_adc_cfg {
-	ADC_TypeDef* adc_dev;
+        ADC_TypeDef* adc_dev_master;
+        ADC_TypeDef* adc_dev_slave;
+	TIM_TypeDef* timer;
 	struct stm32_dma dma;
 	uint32_t half_flag;
 	uint32_t full_flag;
 	uint16_t max_downsample;
 	uint32_t oversampling;
+	uint8_t number_of_used_pins;
+        adc_pin adc_pins[];
 };
 
 extern int32_t PIOS_INTERNAL_ADC_Init(uint32_t * internal_adc_id, const struct pios_internal_adc_cfg * cfg);
