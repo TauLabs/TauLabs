@@ -73,9 +73,6 @@ SpectrogramScopeConfig::SpectrogramScopeConfig(QSettings *qSettings)
         plotCurveConf->mathFunction  = qSettings->value("mathFunction").toString();
         plotCurveConf->yMeanSamples  = qSettings->value("yMeanSamples").toInt();
 
-        plotCurveConf->yMinimum = qSettings->value("yMinimum").toDouble();
-        plotCurveConf->yMaximum = qSettings->value("yMaximum").toDouble();
-
         //Stop reading XML block
         qSettings->endGroup();
 
@@ -148,9 +145,6 @@ ScopeConfig* SpectrogramScopeConfig::cloneScope(ScopeConfig *originalScope)
         newSpectrogramConf->yMeanSamples  = currentPlotCurveConf->yMeanSamples;
         newSpectrogramConf->mathFunction  = currentPlotCurveConf->mathFunction;
 
-        newSpectrogramConf->yMinimum = currentPlotCurveConf->yMinimum;
-        newSpectrogramConf->yMaximum = currentPlotCurveConf->yMaximum;
-
         cloneObj->m_spectrogramSourceConfigs.append(newSpectrogramConf);
     }
 
@@ -214,8 +208,9 @@ void SpectrogramScopeConfig::replaceSpectrogramDataSource(QList<Plot3dCurveConfi
  */
 void SpectrogramScopeConfig::loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget)
 {
-    scopeGadgetWidget->setupSpectrogramPlot(this);
-    scopeGadgetWidget->setRefreshInterval(m_refreshInterval);
+    preparePlot(scopeGadgetWidget);
+    scopeGadgetWidget->setScope(this);
+    scopeGadgetWidget->startTimer(m_refreshInterval);
 
     //There should be only one spectrogram per plot //TODO: Upgrade this to handle multiple spectrograms on a single axis
     if ( m_spectrogramSourceConfigs.length() != 1)
@@ -360,4 +355,28 @@ void SpectrogramScopeConfig::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
     scopeGadgetWidget->m_grid->setMinPen(QPen(Qt::lightGray, 0, Qt::DotLine));
     scopeGadgetWidget->m_grid->setPen(QPen(Qt::darkGray, 1, Qt::DotLine));
     scopeGadgetWidget->m_grid->attach(scopeGadgetWidget);
+
+    // Configure axes
+    setAxes(scopeGadgetWidget);
+}
+
+
+/**
+ * @brief SpectrogramScopeConfig::setAxes Configure the axes
+ * @param scopeGadgetWidget
+ */
+void SpectrogramScopeConfig::setAxes(ScopeGadgetWidget *scopeGadgetWidget)
+{
+    // Configure axes
+    scopeGadgetWidget->setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());
+    scopeGadgetWidget->setAxisScale(QwtPlot::xBottom, 0, (unsigned int) (samplingFrequency / 2.0 + 0.5));
+    scopeGadgetWidget->setAxisAutoScale(QwtPlot::yLeft);
+    scopeGadgetWidget->setAxisLabelRotation(QwtPlot::xBottom, 0.0);
+    scopeGadgetWidget->setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom);
+
+    // reduce the axis font size
+    QFont fnt(scopeGadgetWidget->axisFont(QwtPlot::xBottom));
+    fnt.setPointSize(7);
+    scopeGadgetWidget->setAxisFont(QwtPlot::xBottom, fnt);	// x-axis
+    scopeGadgetWidget->setAxisFont(QwtPlot::yLeft, fnt);	// y-axis
 }

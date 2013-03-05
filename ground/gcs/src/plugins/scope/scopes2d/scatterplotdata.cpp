@@ -57,7 +57,7 @@ void TimeSeriesPlotData::plotNewData(PlotData *plot2dData, ScopeConfig *scopeCon
     double toTime = NOW.toTime_t();
     toTime += NOW.time().msec() / 1000.0;
 
-    scopeGadgetWidget->setAxisScale(QwtPlot::xBottom, toTime - scopeGadgetWidget->getXWindowSize(), toTime);
+    scopeGadgetWidget->setAxisScale(QwtPlot::xBottom, toTime - m_xWindowSize, toTime);
 }
 
 

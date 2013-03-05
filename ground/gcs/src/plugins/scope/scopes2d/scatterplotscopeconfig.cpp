@@ -218,21 +218,12 @@ void Scatterplot2dScopeConfig::replaceScatterplotDataSource(QList<Plot2dCurveCon
  */
 void Scatterplot2dScopeConfig::loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget)
 {
-    scopeGadgetWidget->setRefreshInterval(m_refreshInterval);
-    scopeGadgetWidget->setXWindowSize(timeHorizon);
+    preparePlot(scopeGadgetWidget);
+    scopeGadgetWidget->setScope(this);
+    scopeGadgetWidget->startTimer(m_refreshInterval);
 
-    switch (scatterplot2dType)
-    {
-    default:
-    case SERIES2D:
-        scopeGadgetWidget->setupSeriesPlot(this);
-        break;
-    case TIMESERIES2D:
-        scopeGadgetWidget->setupTimeSeriesPlot(this);
-        break;
-    }
 
-    // Configured each data source
+    // Configure each data source
     foreach (Plot2dCurveConfiguration* plotCurveConfig,  m_scatterplotSourceConfigs)
     {
         QString uavObjectName = plotCurveConfig->uavObjectName;
@@ -410,4 +401,67 @@ void Scatterplot2dScopeConfig::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
 
     // Add the legend
     scopeGadgetWidget->addLegend();
+
+    // Configure axes
+    setAxes(scopeGadgetWidget);
+}
+
+
+/**
+ * @brief Scatterplot2dScopeConfig::setAxes Configure the axes
+ * @param scopeGadgetWidget
+ */
+void Scatterplot2dScopeConfig::setAxes(ScopeGadgetWidget *scopeGadgetWidget)
+{
+    switch (scatterplot2dType)
+    {
+    case TIMESERIES2D: {
+        // Configure axes
+        scopeGadgetWidget->setAxisScaleDraw(QwtPlot::xBottom, new TimeScaleDraw());
+        uint NOW = QDateTime::currentDateTime().toTime_t();
+        scopeGadgetWidget->setAxisScale(QwtPlot::xBottom, NOW - timeHorizon / 1000, NOW);
+        break;
+    }
+    case SERIES2D:
+    default:
+        scopeGadgetWidget->setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());
+        scopeGadgetWidget->setAxisScale(QwtPlot::xBottom, 0, timeHorizon);
+        break;
+    }
+
+    scopeGadgetWidget->setAxisAutoScale(QwtPlot::yLeft, true);
+    scopeGadgetWidget->setAxisLabelRotation(QwtPlot::xBottom, 0.0);
+    scopeGadgetWidget->setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom);
+    scopeGadgetWidget->axisWidget( QwtPlot::yRight )->setColorBarEnabled( false );
+    scopeGadgetWidget->enableAxis( QwtPlot::yRight, false );
+
+
+
+    // Reduce the gap between the scope canvas and the axis scale
+    QwtScaleWidget *scaleWidget = scopeGadgetWidget->axisWidget(QwtPlot::xBottom);
+    scaleWidget->setMargin(0);
+
+    // Reduce the axis font size
+    QFont fnt(scopeGadgetWidget->axisFont(QwtPlot::xBottom));
+    fnt.setPointSize(7);
+    scopeGadgetWidget->setAxisFont(QwtPlot::xBottom, fnt);	// x-axis
+    scopeGadgetWidget->setAxisFont(QwtPlot::yLeft, fnt);	// y-axis
+    scopeGadgetWidget->setAxisFont(QwtPlot::yRight, fnt);	// y-axis
+
+    /*
+     In situations, when there is a label at the most right position of the
+     scale, additional space is needed to display the overlapping part
+     of the label would be taken by reducing the width of scale and canvas.
+     To avoid this "jumping canvas" effect, we add a permanent margin.
+     We don't need to do the same for the left border, because there
+     is enough space for the overlapping label below the left scale.
+     */
+    /*
+    const int fmh = QFontMetrics(scaleWidget->font()).height();
+    scaleWidget->setMinBorderDist(0, fmh / 2);
+
+    const int fmw = QFontMetrics(scaleWidget->font()).width(" 00:00:00 ");
+    const int fmw = QFontMetrics(scaleWidget->font()).width(" ");
+    scaleWidget->setMinBorderDist(0, fmw);
+    */
 }

@@ -44,8 +44,6 @@ struct Plot3dCurveConfiguration
     QRgb color;
     int yMeanSamples;
     QString mathFunction;
-    double yMinimum;
-    double yMaximum;
 };
 
 /**

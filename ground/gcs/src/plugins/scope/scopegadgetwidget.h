@@ -78,15 +78,8 @@ public:
 
     QString getUavObjectFieldUnits(QString uavObjectName, QString uavObjectFieldName);
     void connectUAVO(UAVDataObject* obj);
-    void setupSeriesPlot(ScopeConfig *);
-    void setupTimeSeriesPlot(ScopeConfig *);
-    void setupHistogramPlot(ScopeConfig *);
-    void setupSpectrogramPlot(ScopeConfig *);
 
-    void setXWindowSize(double val){m_xWindowSize = val;}
-    void setRefreshInterval(double refreshInterval){m_refreshInterval = refreshInterval;}
-    double getXWindowSize(){return m_xWindowSize;}
-    int getRefreshInterval(){return m_refreshInterval;}
+    void setScope(ScopeConfig *val){m_scope = val;}
     QMap<QString, PlotData*> getDataSources(){return m_dataSources;}
     void insertDataSources(QString stringVal, PlotData* dataVal){m_dataSources.insert(stringVal, dataVal);}
 
