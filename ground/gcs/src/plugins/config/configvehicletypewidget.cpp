@@ -472,11 +472,10 @@ void ConfigVehicleTypeWidget::enableFFTest()
 /**
   Refreshes the current value of the SystemSettings which holds the aircraft type
   */
-void ConfigVehicleTypeWidget::refreshWidgetsValues(UAVObject * o)
+void ConfigVehicleTypeWidget::refreshWidgetsValues(UAVObject * obj)
 {
-    Q_UNUSED(o);
 
-    ConfigTaskWidget::refreshWidgetsValues(o);
+    ConfigTaskWidget::refreshWidgetsValues(obj);
 
     if(!allObjectsUpdated())
         return;
