@@ -45,6 +45,61 @@ static void NVIC_Configuration(void);
 */
 void PIOS_SYS_Init(void)
 {
+	static const uint32_t all_ahb_periph =
+		RCC_AHBPeriph_ADC34 |
+		RCC_AHBPeriph_ADC12 |
+		RCC_AHBPeriph_GPIOA |
+		RCC_AHBPeriph_GPIOB |
+		RCC_AHBPeriph_GPIOC |
+		RCC_AHBPeriph_GPIOD |
+		RCC_AHBPeriph_GPIOE |
+		RCC_AHBPeriph_GPIOF |
+		RCC_AHBPeriph_TS |
+		RCC_AHBPeriph_CRC |
+		RCC_AHBPeriph_FLITF |
+		RCC_AHBPeriph_SRAM |
+		RCC_AHBPeriph_DMA2 |
+		RCC_AHBPeriph_DMA1;
+
+	static const uint32_t all_apb1_periph =
+		RCC_APB1Periph_TIM2 |
+		RCC_APB1Periph_TIM3 |
+		RCC_APB1Periph_TIM4 |
+		RCC_APB1Periph_TIM6 |
+		RCC_APB1Periph_TIM7 |
+		RCC_APB1Periph_WWDG |
+		RCC_APB1Periph_SPI2 |
+		RCC_APB1Periph_SPI3 |
+		RCC_APB1Periph_USART2 |
+		RCC_APB1Periph_USART3 |
+		RCC_APB1Periph_UART4 |
+		RCC_APB1Periph_UART5 |
+		RCC_APB1Periph_I2C1 |
+		RCC_APB1Periph_I2C2 |
+		RCC_APB1Periph_USB |
+		RCC_APB1Periph_CAN1 |
+		RCC_APB1Periph_PWR |
+		RCC_APB1Periph_DAC;
+
+	static const uint32_t all_apb2_periph =
+		RCC_APB2Periph_SYSCFG |
+		RCC_APB2Periph_TIM1 |
+		RCC_APB2Periph_SPI1 |
+		RCC_APB2Periph_TIM8 |
+		RCC_APB2Periph_USART1 |
+		RCC_APB2Periph_TIM15 |
+		RCC_APB2Periph_TIM16 |
+		RCC_APB2Periph_TIM17;
+
+	/* Do a reset of all subsystems to prevent possible glitches after core reset */
+	RCC_AHBPeriphResetCmd(all_ahb_periph, ENABLE);
+	RCC_APB1PeriphResetCmd(all_apb1_periph, ENABLE);
+	RCC_APB2PeriphResetCmd(all_apb2_periph, ENABLE);
+
+	RCC_AHBPeriphResetCmd(all_ahb_periph, DISABLE);
+	RCC_APB1PeriphResetCmd(all_apb1_periph, DISABLE);
+	RCC_APB2PeriphResetCmd(all_apb2_periph, DISABLE);
+
 	/* Setup STM32 system (RCC, clock, PLL and Flash configuration) - CMSIS Function */
 	SystemInit();
 	SystemCoreClockUpdate();	/* update SystemCoreClock for use elsewhere */
@@ -66,54 +121,9 @@ void PIOS_SYS_Init(void)
 	 * Micromanaging clocks makes no sense given the power situation in the system, so
 	 * light up everything we might reasonably use here and just leave it on.
 	 */
-	RCC_AHBPeriphClockCmd(
-			       RCC_AHBPeriph_GPIOA |
-			       RCC_AHBPeriph_GPIOB |
-			       RCC_AHBPeriph_GPIOC |
-			       RCC_AHBPeriph_GPIOD |
-			       RCC_AHBPeriph_GPIOE |
-			       RCC_AHBPeriph_GPIOF |
-			       RCC_AHBPeriph_TS |
-			       RCC_AHBPeriph_CRC |
-			       RCC_AHBPeriph_FLITF |
-			       RCC_AHBPeriph_SRAM |
-			       RCC_AHBPeriph_DMA2 |
-			       RCC_AHBPeriph_DMA1 |
-			       RCC_AHBPeriph_ADC34 |
-			       RCC_AHBPeriph_ADC12 |
-			0, ENABLE);
-
-	RCC_APB1PeriphClockCmd(
-			       RCC_APB1Periph_TIM2 |
-			       RCC_APB1Periph_TIM3 |
-			       RCC_APB1Periph_TIM4 |
-			       RCC_APB1Periph_TIM6 |
-			       RCC_APB1Periph_TIM7 |
-			       RCC_APB1Periph_WWDG |
-			       RCC_APB1Periph_SPI2 |
-			       RCC_APB1Periph_SPI3 |
-			       RCC_APB1Periph_USART2 |
-			       RCC_APB1Periph_USART3 |
-			       RCC_APB1Periph_UART4 |
-			       RCC_APB1Periph_UART5 |
-			       RCC_APB1Periph_I2C1 |
-			       RCC_APB1Periph_I2C2 |
-			       RCC_APB1Periph_USB |
-			       RCC_APB1Periph_CAN1 |
-			       RCC_APB1Periph_PWR |
-			       RCC_APB1Periph_DAC |
-			0, ENABLE);
-
-	RCC_APB2PeriphClockCmd(
-			       RCC_APB2Periph_TIM1 |
-			       RCC_APB2Periph_TIM8 |
-			       RCC_APB2Periph_TIM15 |
-			       RCC_APB2Periph_TIM16 |
-			       RCC_APB2Periph_TIM17 |
-			       RCC_APB2Periph_USART1 |
-			       RCC_APB2Periph_SPI1 |
-			       RCC_APB2Periph_SYSCFG |
-			0, ENABLE);
+	RCC_AHBPeriphClockCmd(all_ahb_periph, ENABLE);
+	RCC_APB1PeriphClockCmd(all_apb1_periph, ENABLE);
+	RCC_APB2PeriphClockCmd(all_apb2_periph, ENABLE);
 
 	/*
 	 * Configure all pins as input / pullup to avoid issues with
