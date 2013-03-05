@@ -69,11 +69,14 @@ public:
     virtual void clearPlots(PlotData *);
     virtual void setXMaximum(double val);
     virtual void setYMaximum(double val);
+    virtual void setZMaximum(double val);
 
     QwtMatrixRasterData *getRasterData(){return rasterData;}
     void setSpectrogram(QwtPlotSpectrogram *val){spectrogram = val;}
 
 private:
+    void resetAxisRanges();
+
     QwtPlotSpectrogram *spectrogram;
     QwtMatrixRasterData *rasterData;
 
