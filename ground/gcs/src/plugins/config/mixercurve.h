@@ -53,7 +53,7 @@ public:
 
 
     /* Enumeration options for ThrottleCurves */
-    typedef enum { MIXERCURVE_THROTTLE=0, MIXERCURVE_OTHER=1 } MixerCurveType;
+    typedef enum { MIXERCURVE_THROTTLE, MIXERCURVE_OTHER } MixerCurveType;
 
     void setMixerType(MixerCurveType curveType, bool isCurve1 = true);
     void initCurve (const QList<double>* points);
