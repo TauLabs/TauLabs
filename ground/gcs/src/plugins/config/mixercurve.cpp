@@ -41,6 +41,8 @@ MixerCurve::MixerCurve(QWidget *parent) :
     m_curve = m_mixerUI->CurveWidget;
     m_settings = m_mixerUI->CurveSettings;
 
+    // by default mixcurve isn't used for curve2source
+    m_mixerUI->CBCurve2Source->hide();
 
     m_mixerUI->SettingsGroup->hide();
     m_curve->showCommands(false);
@@ -83,7 +85,7 @@ MixerCurve::~MixerCurve()
     delete m_spinDelegate;
 }
 
-void MixerCurve::setMixerType(MixerCurveType curveType)
+void MixerCurve::setMixerType(MixerCurveType curveType, bool isCurve1)
 {
     m_curveType = curveType;
 
@@ -99,7 +101,7 @@ void MixerCurve::setMixerType(MixerCurveType curveType)
             m_mixerUI->CurveMax->setMinimum(0.0);
             break;
         }
-        case MixerCurve::MIXERCURVE_PITCH:
+        case MixerCurve::MIXERCURVE_OTHER:
         {
             m_mixerUI->SettingsGroup->setTitle("Pitch Curve");
             m_curve->setRange(-1.0, 1.0);            
@@ -108,6 +110,13 @@ void MixerCurve::setMixerType(MixerCurveType curveType)
             m_mixerUI->CurveMax->setMinimum(-1.0);
             break;
         }
+    }
+
+    if(!isCurve1){
+        m_mixerUI->CBCurve2Source->show();
+        m_mixerUI->inputLabelCurve2Source->setText("Input:");
+    }else{
+        m_mixerUI->inputLabelCurve2Source->setText("Input: Throttle");
     }
 
     m_spinDelegate->setRange(m_mixerUI->CurveMin->minimum(), m_mixerUI->CurveMax->maximum());
