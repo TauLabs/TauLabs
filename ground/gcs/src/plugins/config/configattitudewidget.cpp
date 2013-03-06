@@ -3,7 +3,7 @@
  *
  * @file       configattitudewidget.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     PhoenixPilot, http://github.com/PhoenixPIlot Copyright (C) 2012.
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -26,6 +26,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 #include "configattitudewidget.h"
+#include "../../../../../shared/api/physical_constants.h" //<------ICK, UGLY
 
 #include "math.h"
 #include <QDebug>
@@ -51,7 +52,6 @@
 #include <magnetometer.h>
 #include <baroaltitude.h>
 
-#define GRAVITY 9.81f
 #include "assertions.h"
 #include "calibration.h"
 

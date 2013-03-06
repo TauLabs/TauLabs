@@ -3,6 +3,7 @@
  *
  * @file       exporter.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup MoCapPlugin Motion Capture Plugin
@@ -59,6 +60,7 @@
 #include "velocityactual.h"
 
 #include "utils/coordinateconversions.h"
+#include "../../../../../shared/api/physical_constants.h" //<------ICK, UGLY
 
 /**
  * just imagine this was a class without methods and all public properties
@@ -224,13 +226,10 @@ private slots:
     virtual void processUpdate(const QByteArray& data) = 0;
 
 protected:
-    static const float GEE;
     static const float FT2M;
     static const float KT2MPS;
     static const float INHG2KPA;
     static const float FPS2CMPS;
-    static const float DEG2RAD;
-    static const float RAD2DEG;
 
     QProcess* exporterProcess;
     QTime* time;

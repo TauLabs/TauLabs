@@ -3,6 +3,7 @@
  *
  * @file       uavobjectutilmanager.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
  * @see        The GNU Public License (GPL) Version 3
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -27,7 +28,7 @@
  */
 
 #include "uavobjectutilmanager.h"
-
+#include "../../../../../shared/api/physical_constants.h" //<------ICK, UGLY
 #include "utils/homelocationutil.h"
 
 #include <QMutexLocker>
@@ -335,7 +336,7 @@ int UAVObjectUtilManager::setHomeLocation(double LLA[3], bool save_to_sdcard)
     bool ok=true;
     while(homeLocationData.g_e < 3 || homeLocationData.g_e > 25 || !ok){ // 3 is Mars's gravity and 25 Jupiter's
         homeLocationData.g_e = QInputDialog::getDouble(0, tr("Gravity setting error"),
-                                          tr("Please set local gravity in [m/s^2]. If unsure, leave the default."), 9.805, 3, 25, 3, &ok);
+                                          tr("Please set local gravity in [m/s^2]. If unsure, leave the default."), GRAVITY, 3, 25, 3, &ok);
     }
 
     homeLocationData.Set = HomeLocation::SET_TRUE;

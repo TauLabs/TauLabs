@@ -3,6 +3,7 @@
  *
  * @file       il2simulator.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
  * @brief
  * @see        The GNU Public License (GPL) Version 3
  * @defgroup   hitlplugin
@@ -49,8 +50,6 @@ private:
     static const float MPS2KMH;
     static const float KMH2MPS;
     static const float INHG2KPA;
-    static const float RAD2DEG;
-    static const float DEG2RAD;
     static const float NM2DEG;
     static const float DEG2NM;
 
