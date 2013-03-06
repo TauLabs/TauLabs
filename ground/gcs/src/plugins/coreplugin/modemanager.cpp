@@ -173,7 +173,7 @@ void ModeManager::setDefaultKeyshortcuts() {
         Command *currentCmd = m_modeShortcuts.at(i);
         bool currentlyHasDefaultSequence = (currentCmd->keySequence()
                                             == currentCmd->defaultKeySequence());
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
         currentCmd->setDefaultKeySequence(QKeySequence(QString("Meta+%1").arg(i+1)));
 #else
         currentCmd->setDefaultKeySequence(QKeySequence(QString("Ctrl+%1").arg(i+1)));
