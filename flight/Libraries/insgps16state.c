@@ -30,6 +30,7 @@
  */
 
 #include "insgps.h"
+#include "physical_constants.h"
 #include <math.h>
 #include <stdint.h>
 
@@ -684,7 +685,7 @@ void StateEq(float X[NUMX], float U[NUMU], float Xdot[NUMX])
 	    az;
 	Xdot[5] =
 	    2.0f * (q1 * q3 - q0 * q2) * ax + 2.0f * (q2 * q3 + q0 * q1) * ay +
-	    (q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3) * az + 9.81f;
+	    (q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3) * az + GRAVITY;
 
 	// qdot = Q*w
 	Xdot[6] = (-q1 * wx - q2 * wy - q3 * wz) / 2.0f;
