@@ -29,9 +29,8 @@
  */
 
 // ****************
-#define PI					3.14159265358979f
-
 #include "openpilot.h"
+#include "physical_constants.h"
 #include "modulesettings.h"
 #include "flightbatterysettings.h"
 #include "flightbatterystate.h"

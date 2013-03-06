@@ -41,6 +41,7 @@
  */
 
 #include "pios.h"
+#include "physical_constants.h"
 #include "state.h"
 #include "sensorfetch.h"
 #include "CoordinateConversions.h"
@@ -50,8 +51,7 @@
 #define SENSOR_PERIOD     4
 #define LOOP_RATE_MS      25.0f
 #define GYRO_NEUTRAL_BIAS 1665
-#define GRAV         9.805f
-#define ACCEL_SCALE  (GRAV * 0.004f)
+#define ACCEL_SCALE  (GRAVITY * 0.004f)
 /* 0.004f is gravity / LSB */
 
 // Private types

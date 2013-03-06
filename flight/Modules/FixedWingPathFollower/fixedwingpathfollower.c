@@ -45,6 +45,7 @@
  */
 
 #include "openpilot.h"
+#include "physical_constants.h"
 #include "paths.h"
 
 #include "accels.h"
@@ -74,10 +75,6 @@
 #define MAX_QUEUE_SIZE 4
 #define STACK_SIZE_BYTES 1548
 #define TASK_PRIORITY (tskIDLE_PRIORITY+2)
-#define F_PI 3.14159265358979323846f
-#define RAD2DEG (180.0f/F_PI)
-#define DEG2RAD (F_PI/180.0f)
-#define GEE 9.81f
 // Private types
 
 // Private variables

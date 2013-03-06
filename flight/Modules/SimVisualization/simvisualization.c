@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       visualization.c
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup OpenPilotModules OpenPilot Modules
  * @{
  * @addtogroup Visualization
@@ -42,6 +42,7 @@
  */
 
 #include "pios.h"
+#include "physical_constants.h"
 #include "openpilot.h"
 
 #include "cameradesired.h"
@@ -61,8 +62,7 @@
 #define TASK_PRIORITY (tskIDLE_PRIORITY+2)
 #define VISUALIZATION_PERIOD 20
 
-#define F_PI 3.14159265358979323846f
-#define PI_MOD(x) (fmod(x + F_PI, F_PI * 2) - F_PI)
+#define PI_MOD(x) (fmod(x + PI, PI * 2) - PI)
 // Private types
 
 // Private variables
