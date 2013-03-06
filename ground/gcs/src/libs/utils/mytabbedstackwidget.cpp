@@ -36,7 +36,8 @@ MyTabbedStackWidget::MyTabbedStackWidget(QWidget *parent, bool isVertical, bool 
       m_vertical(isVertical),
       m_iconAbove(iconAbove)
 {
-    m_listWidget = new QListWidget(this);
+    m_listWidget = new MyListWidget(this);
+    m_listWidget->setIconAbove(m_iconAbove);
     m_stackWidget = new QStackedWidget();
     m_stackWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
