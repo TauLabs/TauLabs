@@ -53,9 +53,9 @@ public:
 
 
     /* Enumeration options for ThrottleCurves */
-    typedef enum { MIXERCURVE_THROTTLE=0, MIXERCURVE_PITCH=1 } MixerCurveType;
+    typedef enum { MIXERCURVE_THROTTLE, MIXERCURVE_OTHER } MixerCurveType;
 
-    void setMixerType(MixerCurveType curveType);
+    void setMixerType(MixerCurveType curveType, bool isCurve1 = true);
     void initCurve (const QList<double>* points);
     QList<double> getCurve();
     void initLinearCurve(int numPoints, double maxValue = 1, double minValue = 0);
@@ -70,6 +70,7 @@ public:
     double setRange(double min, double max);
 
     MixerCurveWidget* getCurveWidget() { return m_curve; }
+    QComboBox* getCBCurveSource() { return m_mixerUI->CBCurve2Source; }
 
 signals:
 
