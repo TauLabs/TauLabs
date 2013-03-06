@@ -988,6 +988,10 @@ void ConfigTaskWidget::connectWidgetUpdatesToSlot(QWidget * widget,const char* f
     {
         connect(cb,SIGNAL(valueChanged(double)),this,function);
     }
+    else if(QGroupBox * cb=qobject_cast<QGroupBox *>(widget))
+    {
+        connect(cb,SIGNAL(toggled(bool)),this,function);
+    }
     else if(QCheckBox * cb=qobject_cast<QCheckBox *>(widget))
     {
         connect(cb,SIGNAL(stateChanged(int)),this,function);
@@ -1030,6 +1034,10 @@ void ConfigTaskWidget::disconnectWidgetUpdatesToSlot(QWidget * widget,const char
     else if(QDoubleSpinBox * cb=qobject_cast<QDoubleSpinBox *>(widget))
     {
         disconnect(cb,SIGNAL(valueChanged(double)),this,function);
+    }
+    else if(QGroupBox * cb=qobject_cast<QGroupBox *>(widget))
+    {
+        disconnect(cb,SIGNAL(toggled(bool)),this,function);
     }
     else if(QCheckBox * cb=qobject_cast<QCheckBox *>(widget))
     {
@@ -1074,29 +1082,61 @@ bool ConfigTaskWidget::setFieldFromWidget(QWidget * widget,UAVObjectField * fiel
  */
 QVariant ConfigTaskWidget::getVariantFromWidget(QWidget * widget,double scale)
 {
-    if(QComboBox * cb=qobject_cast<QComboBox *>(widget))
+    if(QComboBox * comboBox=qobject_cast<QComboBox *>(widget))
     {
-        return (QString)cb->currentText();
+        return (QString)comboBox->currentText();
     }
-    else if(QDoubleSpinBox * cb=qobject_cast<QDoubleSpinBox *>(widget))
+    else if(QDoubleSpinBox * dblSpinBox=qobject_cast<QDoubleSpinBox *>(widget))
     {
-        return (double)(cb->value()* scale);
+        return (double)(dblSpinBox->value()* scale);
     }
-    else if(QSpinBox * cb=qobject_cast<QSpinBox *>(widget))
+    else if(QSpinBox * spinBox=qobject_cast<QSpinBox *>(widget))
     {
-        return (double)(cb->value()* scale);
+        return (double)(spinBox->value()* scale);
     }
-    else if(QSlider * cb=qobject_cast<QSlider *>(widget))
+    else if(QSlider * slider=qobject_cast<QSlider *>(widget))
     {
-        return(double)(cb->value()* scale);
+        return(double)(slider->value()* scale);
     }
-    else if(QCheckBox * cb=qobject_cast<QCheckBox *>(widget))
+    else if(QGroupBox * groupBox=qobject_cast<QGroupBox *>(widget))
     {
-        return (QString)(cb->isChecked()?"TRUE":"FALSE");
+        QString ret;
+        if(groupBox->property("TrueString").isValid() && groupBox->property("FalseString").isValid()){
+            if(groupBox->isChecked())
+                ret = groupBox->property("TrueString").toString();
+            else
+                ret = groupBox->property("FalseString").toString();
+        }
+        else{
+            if(groupBox->isChecked())
+                ret = "TRUE";
+            else
+                ret = "FALSE";
+        }
+
+        return ret;
     }
-    else if(QLineEdit * cb=qobject_cast<QLineEdit *>(widget))
+    else if(QCheckBox * checkBox=qobject_cast<QCheckBox *>(widget))
     {
-        return (QString)cb->displayText();
+        QString ret;
+        if(checkBox->property("TrueString").isValid() && checkBox->property("FalseString").isValid()){
+            if(checkBox->isChecked())
+                ret = checkBox->property("TrueString").toString();
+            else
+                ret = checkBox->property("FalseString").toString();
+        }
+        else{
+            if(checkBox->isChecked())
+                ret = "TRUE";
+            else
+                ret = "FALSE";
+        }
+
+        return ret;
+    }
+    else if(QLineEdit * lineEdit=qobject_cast<QLineEdit *>(widget))
+    {
+        return (QString)lineEdit->displayText();
     }
     else
         return QVariant();
@@ -1110,46 +1150,64 @@ QVariant ConfigTaskWidget::getVariantFromWidget(QWidget * widget,double scale)
  */
 bool ConfigTaskWidget::setWidgetFromVariant(QWidget *widget, QVariant value, double scale)
 {
-    if(QComboBox * cb=qobject_cast<QComboBox *>(widget))
+    if(QComboBox * comboBox=qobject_cast<QComboBox *>(widget))
     {
-        cb->setCurrentIndex(cb->findText(value.toString()));
+        comboBox->setCurrentIndex(comboBox->findText(value.toString()));
         return true;
     }
-    else if(QLabel * cb=qobject_cast<QLabel *>(widget))
+    else if(QLabel * label=qobject_cast<QLabel *>(widget))
     {
         if(scale==0)
-            cb->setText(value.toString());
+            label->setText(value.toString());
         else
-            cb->setText(QString::number((value.toDouble()/scale)));
+            label->setText(QString::number((value.toDouble()/scale)));
         return true;
     }
-    else if(QDoubleSpinBox * cb=qobject_cast<QDoubleSpinBox *>(widget))
+    else if(QDoubleSpinBox * dblSpinBox=qobject_cast<QDoubleSpinBox *>(widget))
     {
-        cb->setValue((double)(value.toDouble()/scale));
+        dblSpinBox->setValue((double)(value.toDouble()/scale));
         return true;
     }
-    else if(QSpinBox * cb=qobject_cast<QSpinBox *>(widget))
+    else if(QSpinBox * spinBox=qobject_cast<QSpinBox *>(widget))
     {
-        cb->setValue((int)qRound(value.toDouble()/scale));
+        spinBox->setValue((int)qRound(value.toDouble()/scale));
         return true;
     }
-    else if(QSlider * cb=qobject_cast<QSlider *>(widget))
+    else if(QSlider * slider=qobject_cast<QSlider *>(widget))
     {
-        cb->setValue((int)qRound(value.toDouble()/scale));
+        slider->setValue((int)qRound(value.toDouble()/scale));
         return true;
     }
-    else if(QCheckBox * cb=qobject_cast<QCheckBox *>(widget))
+    else if(QGroupBox * groupBox=qobject_cast<QGroupBox *>(widget))
     {
-        bool bvalue=value.toString()=="TRUE";
-        cb->setChecked(bvalue);
+        bool bvalue;
+        if(groupBox->property("TrueString").isValid() && groupBox->property("FalseString").isValid()){
+            bvalue = value.toString()==groupBox->property("TrueString").toString();
+        }
+        else{
+            bvalue = value.toString()=="TRUE";
+        }
+        groupBox->setChecked(bvalue);
         return true;
     }
-    else if(QLineEdit * cb=qobject_cast<QLineEdit *>(widget))
+    else if(QCheckBox * checkBox=qobject_cast<QCheckBox *>(widget))
+    {
+        bool bvalue;
+        if(checkBox->property("TrueString").isValid() && checkBox->property("FalseString").isValid()){
+            bvalue = value.toString()==checkBox->property("TrueString").toString();
+        }
+        else{
+            bvalue = value.toString()=="TRUE";
+        }
+        checkBox->setChecked(bvalue);
+        return true;
+    }
+    else if(QLineEdit * lineEdit=qobject_cast<QLineEdit *>(widget))
     {
         if(scale==0)
-            cb->setText(value.toString());
+            lineEdit->setText(value.toString());
         else
-            cb->setText(QString::number((value.toDouble()/scale)));
+            lineEdit->setText(QString::number((value.toDouble()/scale)));
         return true;
     }
     else

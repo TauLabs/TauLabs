@@ -42,6 +42,7 @@
 #include <QDoubleSpinBox>
 #include <QSpinBox>
 #include <QCheckBox>
+#include <QGroupBox>
 #include <QPushButton>
 #include "uavobjectwidgetutils_global.h"
 #include <QDesktopServices>
