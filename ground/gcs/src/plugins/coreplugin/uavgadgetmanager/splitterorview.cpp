@@ -35,10 +35,6 @@
 #include <QtCore/QDebug>
 
 
-#ifdef Q_WS_MAC
-#include <qmacstyle_mac.h>
-#endif
-
 using namespace Core;
 using namespace Core::Internal;
 

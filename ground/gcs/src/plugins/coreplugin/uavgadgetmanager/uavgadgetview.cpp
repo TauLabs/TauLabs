@@ -52,10 +52,6 @@
 #include <QMenu>
 #include <QClipboard>
 
-#ifdef Q_WS_MAC
-#include <qmacstyle_mac.h>
-#endif
-
 Q_DECLARE_METATYPE(Core::IUAVGadget *)
 
 using namespace Core;
