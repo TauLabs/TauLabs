@@ -1,8 +1,9 @@
 /**
  ******************************************************************************
  *
- * @file       configtelemetrywidget.h
+ * @file       config_cc_hw_widget.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -26,6 +27,7 @@
  */
 #include "config_cc_hw_widget.h"
 #include "hwcoptercontrol.h"
+#include "modulesettings.h"
 
 #include <QDebug>
 #include <QStringList>
@@ -82,6 +84,19 @@ ConfigCCHWWidget::ConfigCCHWWidget(QWidget *parent) : ConfigTaskWidget(parent)
     addUAVObjectToWidgetRelation("ModuleSettings","TelemetrySpeed",m_telemetry->telemetrySpeed);
     addUAVObjectToWidgetRelation("ModuleSettings","GPSSpeed",m_telemetry->gpsSpeed);
     addUAVObjectToWidgetRelation("ModuleSettings","ComUsbBridgeSpeed",m_telemetry->comUsbBridgeSpeed);
+
+    // Get required UAVObjects
+    UAVObjectManager* objManager = pm->getObject<UAVObjectManager>();
+
+    ModuleSettings* moduleSettings;
+    moduleSettings = ModuleSettings::GetInstance(objManager);
+    ModuleSettings::DataFields moduleSettingsData;
+    moduleSettingsData = moduleSettings->getData();
+
+    // Set UI elements
+    addUAVObjectToWidgetRelation(moduleSettings->getName(),"State",m_telemetry->groupBoxGPS, ModuleSettings::STATE_GPS); // TODO: Set the widget based on the UAVO getName() and getField() methods.
+    m_telemetry->groupBoxGPS->setProperty("TrueString", "Enabled"); // TODO: Get the string automatically
+    m_telemetry->groupBoxGPS->setProperty("FalseString", "Disabled");
 
     // Load UAVObjects to widget relations from UI file
     // using objrelation dynamic property
