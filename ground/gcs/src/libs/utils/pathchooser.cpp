@@ -46,7 +46,7 @@
 #include <QPushButton>
 
 /*static*/ const char * const Utils::PathChooser::browseButtonLabel =
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
                    QT_TRANSLATE_NOOP("Utils::PathChooser", "Choose...");
 #else
                    QT_TRANSLATE_NOOP("Utils::PathChooser", "Browse...");
@@ -129,7 +129,7 @@ PathChooser::~PathChooser()
 
 void PathChooser::addButton(const QString &text, QObject *receiver, const char *slotFunc)
 {
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
     QPushButton *button = new QPushButton;
 #else
     QToolButton *button = new QToolButton;

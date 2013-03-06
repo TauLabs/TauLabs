@@ -226,7 +226,7 @@ private:
     QString m_config_description;
     QString m_config_details;
     QString m_config_stylesheet;
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
     QAction *m_minimizeAction;
     QAction *m_zoomAction;
 #endif

@@ -66,7 +66,7 @@
 #include "qxttooltip.h"
 #include "qxttreewidget.h"
 #include "qxttreewidgetitem.h"
-#if !defined(Q_WS_QWS) && !defined(Q_WS_MAC)
+#if !defined(Q_WS_QWS) && !defined(Q_OS_MAC)
 #include "qxtwindowsystem.h"
 #endif
 #include "qxtsortfilterproxymodel.h"

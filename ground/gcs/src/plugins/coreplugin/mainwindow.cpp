@@ -132,10 +132,10 @@ MainWindow::MainWindow() :
     m_saveAllAction(0),
     m_exitAction(0),
     m_optionsAction(0),
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
     m_minimizeAction(0),
     m_zoomAction(0),
-#endif
+#endif /* Q_OS_MAC */
     m_toggleFullScreenAction(0)
 {
     setWindowTitle(QLatin1String(Core::Constants::GCS_NAME));
@@ -176,9 +176,9 @@ MainWindow::MainWindow() :
     m_modeStack->setMinimumWidth(512);
     m_modeStack->setElideMode(Qt::ElideRight);
     m_modeStack->setProperty("_q_custom_style_disabled",false);
-#ifndef Q_WS_MAC
+#ifndef Q_OS_MAC
     m_modeStack->setDocumentMode(true);
-#endif
+#endif /* Q_OS_MAC */
     m_globalMessaging = new GlobalMessaging(this);
 
     m_modeManager = new ModeManager(this, m_modeStack);
@@ -482,9 +482,9 @@ void MainWindow::registerDefaultContainers()
 
     ActionContainer *menubar = am->createMenuBar(Constants::MENU_BAR);
 
-#ifndef Q_WS_MAC // System menu bar on Mac
+#ifndef Q_OS_MAC // System menu bar on Mac
     setMenuBar(menubar->menuBar());
-#endif
+#endif /* Q_OS_MAC */
     menubar->appendGroup(Constants::G_FILE);
     menubar->appendGroup(Constants::G_EDIT);
     menubar->appendGroup(Constants::G_VIEW);
@@ -595,63 +595,10 @@ void MainWindow::registerDefaultActions()
     cmd->setDefaultKeySequence(QKeySequence(Qt::Key_Escape));
     connect(m_focusToEditor, SIGNAL(activated()), this, SLOT(setFocusToEditor()));
 
-    // New File Action
-
-    /*
-    m_newAction = new QAction(QIcon(Constants::ICON_NEWFILE), tr("&New File or Project..."), this);
-    cmd = am->registerAction(m_newAction, Constants::NEW, m_globalContext);
-    cmd->setDefaultKeySequence(QKeySequence::New);
-    mfile->addAction(cmd, Constants::G_FILE_NEW);
-    connect(m_newAction, SIGNAL(triggered()), this, SLOT(newFile()));
-*/
-
-    // Open Action
-/*
-    m_openAction = new QAction(QIcon(Constants::ICON_OPENFILE), tr("&Open File or Project..."), this);
-    cmd = am->registerAction(m_openAction, Constants::OPEN, m_globalContext);
-    cmd->setDefaultKeySequence(QKeySequence::Open);
-    mfile->addAction(cmd, Constants::G_FILE_OPEN);
-    connect(m_openAction, SIGNAL(triggered()), this, SLOT(openFile()));
-*/
-
-    // Open With Action
-/*
-    m_openWithAction = new QAction(tr("&Open File With..."), this);
-    cmd = am->registerAction(m_openWithAction, Constants::OPEN_WITH, m_globalContext);
-    mfile->addAction(cmd, Constants::G_FILE_OPEN);
-    connect(m_openWithAction, SIGNAL(triggered()), this, SLOT(openFileWith()));
-*/
-
-        // File->Recent Files Menu
-/*
-    ActionContainer *ac = am->createMenu(Constants::M_FILE_RECENTFILES);
-    mfile->addMenu(ac, Constants::G_FILE_OPEN);
-    ac->menu()->setTitle(tr("Recent Files"));
-*/
-/*
-    // Save Action
-    QAction *tmpaction = new QAction(QIcon(Constants::ICON_SAVEFILE), tr("&Save"), this);
-    cmd = am->registerAction(tmpaction, Constants::SAVE, m_globalContext);
-    cmd->setDefaultKeySequence(QKeySequence::Save);
-    cmd->setAttribute(Command::CA_UpdateText);
-    cmd->setDefaultText(tr("&Save"));
-    mfile->addAction(cmd, Constants::G_FILE_SAVE);
-
-    // Save As Action
-    tmpaction = new QAction(tr("Save &As..."), this);
-    cmd = am->registerAction(tmpaction, Constants::SAVEAS, m_globalContext);
-#ifdef Q_WS_MAC
-    cmd->setDefaultKeySequence(QKeySequence(tr("Ctrl+Shift+S")));
-#endif
-    cmd->setAttribute(Command::CA_UpdateText);
-    cmd->setDefaultText(tr("Save &As..."));
-    mfile->addAction(cmd, Constants::G_FILE_SAVE);
-    */
-
     // SaveAll Action
     m_saveAllAction = new QAction(tr("Save &GCS Default Settings"), this);
     cmd = am->registerAction(m_saveAllAction, Constants::SAVEALL, m_globalContext);
-#ifndef Q_WS_MAC
+#ifndef Q_OS_MAC
     cmd->setDefaultKeySequence(QKeySequence(tr("Ctrl+Shift+S")));
 #endif
     mfile->addAction(cmd, Constants::G_FILE_SAVE);
@@ -713,14 +660,14 @@ void MainWindow::registerDefaultActions()
     // Options Action
     m_optionsAction = new QAction(QIcon(Constants::ICON_OPTIONS), tr("&Options..."), this);
     cmd = am->registerAction(m_optionsAction, Constants::OPTIONS, m_globalContext);
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
     cmd->setDefaultKeySequence(QKeySequence("Ctrl+,"));
     cmd->action()->setMenuRole(QAction::PreferencesRole);
 #endif
     mtools->addAction(cmd, Constants::G_DEFAULT_THREE);
     connect(m_optionsAction, SIGNAL(triggered()), this, SLOT(showOptionsDialog()));
 
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
     // Minimize Action
     m_minimizeAction = new QAction(tr("Minimize"), this);
     cmd = am->registerAction(m_minimizeAction, Constants::MINIMIZE_WINDOW, m_globalContext);
@@ -739,7 +686,7 @@ void MainWindow::registerDefaultActions()
     mwindow->addAction(cmd, Constants::G_WINDOW_SIZE);
 #endif
 
-#ifndef Q_WS_MAC
+#ifndef Q_OS_MAC
     // Full Screen Action
     m_toggleFullScreenAction = new QAction(tr("Full Screen"), this);
     m_toggleFullScreenAction->setCheckable(true);
@@ -772,7 +719,7 @@ void MainWindow::registerDefaultActions()
     cmd = am->registerAction(tmpaction2, QLatin1String("TauLabs.Window.Sep.Split2"), uavGadgetManagerContext);
     mwindow->addAction(cmd, Constants::G_WINDOW_SPLIT);
 
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
     QString prefix = tr("Meta+Shift");
 #else
     QString prefix = tr("Ctrl+Shift");
@@ -811,7 +758,7 @@ void MainWindow::registerDefaultActions()
     connect(tmpaction, SIGNAL(triggered()), this,  SLOT(showHelp()));
 
     // About sep
-#ifndef Q_WS_MAC // doesn't have the "About" actions in the Help menu
+#ifndef Q_OS_MAC // doesn't have the "About" actions in the Help menu
     tmpaction = new QAction(this);
     tmpaction->setSeparator(true);
     cmd = am->registerAction(tmpaction, QLatin1String("QtCreator.Help.Sep.About"), m_globalContext);
@@ -823,13 +770,13 @@ void MainWindow::registerDefaultActions()
     cmd = am->registerAction(tmpaction, Constants::ABOUT_PLUGINS, m_globalContext);
     mhelp->addAction(cmd, Constants::G_HELP_ABOUT);
     tmpaction->setEnabled(true);
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
     cmd->action()->setMenuRole(QAction::ApplicationSpecificRole);
 #endif
     connect(tmpaction, SIGNAL(triggered()), this,  SLOT(aboutPlugins()));
 
     // About GCS Action
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
     tmpaction = new QAction(QIcon(Constants::ICON_TAULABS), tr("About &Tau Labs GCS"), this); // it's convention not to add dots to the about menu
 #else
     tmpaction = new QAction(QIcon(Constants::ICON_TAULABS), tr("About &Tau Labs GCS..."), this);
@@ -837,7 +784,7 @@ void MainWindow::registerDefaultActions()
     cmd = am->registerAction(tmpaction, Constants::ABOUT_TAULABSGCS, m_globalContext);
     mhelp->addAction(cmd, Constants::G_HELP_ABOUT);
     tmpaction->setEnabled(true);
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
     cmd->action()->setMenuRole(QAction::ApplicationSpecificRole);
 #endif
     connect(tmpaction, SIGNAL(triggered()), this,  SLOT(aboutTauLabsGCS()));
@@ -847,7 +794,7 @@ void MainWindow::registerDefaultActions()
     cmd = am->registerAction(tmpaction, Constants::ABOUT_AUTHORS, m_globalContext);
     mhelp->addAction(cmd, Constants::G_HELP_ABOUT);
     tmpaction->setEnabled(true);
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
     cmd->action()->setMenuRole(QAction::ApplicationSpecificRole);
 #endif
     connect(tmpaction, SIGNAL(triggered()), this,  SLOT(aboutTauLabsAuthors()));
@@ -1063,7 +1010,7 @@ void MainWindow::changeEvent(QEvent *e)
             emit windowActivated();
         }
     } else if (e->type() == QEvent::WindowStateChange) {
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
         bool minimized = isMinimized();
         if (debugMainWindow)
             qDebug() << "main window state changed to minimized=" << minimized;

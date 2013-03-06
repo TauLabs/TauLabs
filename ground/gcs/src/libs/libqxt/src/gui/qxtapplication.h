@@ -55,7 +55,7 @@ public:
     virtual bool x11EventFilter(XEvent* event);
 #elif defined(Q_WS_WIN)
     virtual bool winEventFilter(MSG* msg, long* result);
-#elif defined(Q_WS_MAC)
+#elif defined(Q_OS_MAC)
     virtual bool macEventFilter(EventHandlerCallRef caller, EventRef event);
 #endif // Q_WS_*
 
