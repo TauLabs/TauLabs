@@ -190,7 +190,7 @@ help:
 	@echo "   [Unbrick a board]"
 	@echo "     unbrick_<board>      - Use the STM32's built in boot ROM to write a bootloader to <board>"
 	@echo "                            supported boards are ($(BL_BOARDS))"
-	@echo "   [Unittests]"
+	@echo "   [Unit tests]"
 	@echo "     ut_<test>            - Build unit test <test>"
 	@echo "     ut_<test>_tap        - Run test and capture TAP output into a file"
 	@echo "     ut_<test>_run        - Run test and dump TAP output to console"
@@ -218,6 +218,9 @@ help:
 	@echo "     uavobjects_test      - parse xml-files - check for valid, duplicate ObjId's, ... "
 	@echo "     uavobjects_<group>   - Generate source files from a subset of the UAVObject definition XML files"
 	@echo "                            supported groups are ($(UAVOBJ_TARGETS))"
+	@echo "   [Package]"
+	@echo "     package              - Executes a make all_clean and then generates a complete package build for"
+	@echo "                            the GCS and all target board firmwares."
 	@echo
 	@echo "   Hint: Add V=1 to your command line to see verbose build output."
 	@echo
