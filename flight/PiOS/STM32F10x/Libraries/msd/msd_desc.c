@@ -102,15 +102,14 @@ const uint8_t MSD_MASS_StringVendor[MSD_MASS_SIZ_STRING_VENDOR] =
     MSD_MASS_SIZ_STRING_VENDOR, /* Size of manufaturer string */
     0x03,           /* bDescriptorType = String descriptor */
     /* Manufacturer */
-    'O', 0, 'p', 0, 'e', 0, 'n', 0, 'p', 0, 'i', 0, 'l', 0, 'o', 0,
-    't', 0,
+    'T', 0, 'a', 0, 'u', 0, ' ', 0, 'L', 0, 'a', 0, 'b', 0, 's', 0,
   };
 const uint8_t MSD_MASS_StringProduct[MSD_MASS_SIZ_STRING_PRODUCT] =
   {
     MSD_MASS_SIZ_STRING_PRODUCT,
     0x03,
     /* Product name */
-    'O', 0, 'p', 0, 'e', 0, 'n', 0, 'P', 0, 'i', 0, 'l', 0, 'o', 0, 't', 0,
+    'T', 0, 'a', 0, 'u', 0, ' ', 0, 'L', 0, 'a', 0, 'b', 0, 's', 0,
     ' ', 0, 'M', 0, 'a', 0, 's', 0, 's', 0, ' ', 0, 'S', 0, 't', 0, 'o', 0,
     'r', 0, 'a', 0, 'g', 0, 'e', 0
 
