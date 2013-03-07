@@ -1,4 +1,4 @@
-﻿#
+#
 # Project: TauLabs
 # NSIS configuration file for TauLabs GCS
 # Tau Labs, http://taulabs.org, Copyright (C) 2012-2013.

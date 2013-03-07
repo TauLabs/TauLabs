@@ -112,6 +112,8 @@ ConfigVehicleTypeWidget::ConfigVehicleTypeWidget(QWidget *parent) : ConfigTaskWi
     addUAVObject("MixerSettings");
     addUAVObject("ActuatorSettings");
 
+    addUAVObjectToWidgetRelation("MixerSettings","Curve2Source",m_aircraft->customThrottle2Curve->getCBCurveSource());
+
     ffTuningInProgress = false;
     ffTuningPhase = false;
 
@@ -470,9 +472,10 @@ void ConfigVehicleTypeWidget::enableFFTest()
 /**
   Refreshes the current value of the SystemSettings which holds the aircraft type
   */
-void ConfigVehicleTypeWidget::refreshWidgetsValues(UAVObject * o)
+void ConfigVehicleTypeWidget::refreshWidgetsValues(UAVObject * obj)
 {
-    Q_UNUSED(o);
+
+    ConfigTaskWidget::refreshWidgetsValues(obj);
 
     if(!allObjectsUpdated())
         return;
@@ -632,9 +635,9 @@ void ConfigVehicleTypeWidget::updateCustomAirframeUI()
     if (MixerSettings* mxr = qobject_cast<MixerSettings *>(mixer)) {
         MixerSettings::DataFields mixerSettingsData = mxr->getData();
         if (mixerSettingsData.Curve2Source == MixerSettings::CURVE2SOURCE_THROTTLE)
-            m_aircraft->customThrottle2Curve->setMixerType(MixerCurve::MIXERCURVE_THROTTLE);
+            m_aircraft->customThrottle2Curve->setMixerType(MixerCurve::MIXERCURVE_THROTTLE, false);
         else {
-            m_aircraft->customThrottle2Curve->setMixerType(MixerCurve::MIXERCURVE_PITCH);
+            m_aircraft->customThrottle2Curve->setMixerType(MixerCurve::MIXERCURVE_OTHER, false);
         }
     }
 
@@ -690,6 +693,8 @@ void ConfigVehicleTypeWidget::updateCustomAirframeUI()
 */
 void ConfigVehicleTypeWidget::updateObjectsFromWidgets()
 {
+    ConfigTaskWidget::updateObjectsFromWidgets();
+
     UAVDataObject* mixer = dynamic_cast<UAVDataObject*>(getObjectManager()->getObject(QString("MixerSettings")));
     Q_ASSERT(mixer);
 
