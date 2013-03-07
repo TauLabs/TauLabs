@@ -403,15 +403,15 @@ void Scatterplot2dScopeConfig::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
     scopeGadgetWidget->addLegend();
 
     // Configure axes
-    setAxes(scopeGadgetWidget);
+    configureAxes(scopeGadgetWidget);
 }
 
 
 /**
- * @brief Scatterplot2dScopeConfig::setAxes Configure the axes
+ * @brief Scatterplot2dScopeConfig::configureAxes Configure the axes
  * @param scopeGadgetWidget
  */
-void Scatterplot2dScopeConfig::setAxes(ScopeGadgetWidget *scopeGadgetWidget)
+void Scatterplot2dScopeConfig::configureAxes(ScopeGadgetWidget *scopeGadgetWidget)
 {
     switch (scatterplot2dType)
     {

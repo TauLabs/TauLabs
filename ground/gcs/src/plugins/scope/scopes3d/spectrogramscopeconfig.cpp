@@ -357,15 +357,15 @@ void SpectrogramScopeConfig::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
     scopeGadgetWidget->m_grid->attach(scopeGadgetWidget);
 
     // Configure axes
-    setAxes(scopeGadgetWidget);
+    configureAxes(scopeGadgetWidget);
 }
 
 
 /**
- * @brief SpectrogramScopeConfig::setAxes Configure the axes
+ * @brief SpectrogramScopeConfig::configureAxes Configure the axes
  * @param scopeGadgetWidget
  */
-void SpectrogramScopeConfig::setAxes(ScopeGadgetWidget *scopeGadgetWidget)
+void SpectrogramScopeConfig::configureAxes(ScopeGadgetWidget *scopeGadgetWidget)
 {
     // Configure axes
     scopeGadgetWidget->setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());

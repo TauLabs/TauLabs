@@ -385,15 +385,15 @@ void HistogramScopeConfig::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
     scopeGadgetWidget->addLegend();
 
     // Configure axes
-    setAxes(scopeGadgetWidget);
+    configureAxes(scopeGadgetWidget);
 }
 
 
 /**
- * @brief HistogramScopeConfig::setAxes Configure the axes
+ * @brief HistogramScopeConfig::configureAxes Configure the axes
  * @param scopeGadgetWidget
  */
-void HistogramScopeConfig::setAxes(ScopeGadgetWidget *scopeGadgetWidget)
+void HistogramScopeConfig::configureAxes(ScopeGadgetWidget *scopeGadgetWidget)
 {
     // Configure axes
     scopeGadgetWidget->setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());
