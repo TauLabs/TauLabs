@@ -43,7 +43,7 @@ min=`hdiutil resize ${TEMP_FILE} | awk \{print\ \$\1\}`
 echo "Resizing dmg to ${min}"
 
 hdiutil resize -sectors ${min} ${TEMP_FILE}
-hdiutil convert "${TEMP_FILE}" -format UDZO -o "${OUT_FILE}"
+hdiutil convert "${TEMP_FILE}" -format UDBZ -o "${OUT_FILE}"
 
 # cleanup
 rm "${TEMP_FILE}"
