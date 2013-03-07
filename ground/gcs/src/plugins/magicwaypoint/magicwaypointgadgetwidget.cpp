@@ -47,8 +47,8 @@ MagicWaypointGadgetWidget::MagicWaypointGadgetWidget(QWidget *parent) : QLabel(p
     m_magicwaypoint->setupUi(this);
 
     // Connect object updated event from UAVObject to also update check boxes
-    connect(getPathDesired(), SIGNAL(objectUpdated(UAVObject*)), this, SLOT(positionObjectChanged(UAVObject*)));
-    connect(getPositionActual(), SIGNAL(objectUpdated(UAVObject*)), this, SLOT(positionObjectChanged(UAVObject*)));
+    connect(getPathDesired(), SIGNAL(objectUpdated(UAVObject*)), this, SLOT(pathDesiredChanged(UAVObject*)));
+    connect(getPositionActual(), SIGNAL(objectUpdated(UAVObject*)), this, SLOT(positionActualChanged(UAVObject*)));
 
     // Connect updates from the position widget to this widget
     connect(m_magicwaypoint->widgetPosition, SIGNAL(positionClicked(double,double)), this, SLOT(positionSelected(double,double)));
