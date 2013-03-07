@@ -101,9 +101,9 @@ endif
 
 # Checking for $(ANDROIDGCS_BUILD_CONF) to be sane
 ifdef ($(ANDROIDGCS_BUILD_CONF))
- ifneq ($(ANDROIDGCS_BUILD_CONF),yes)
-  ifneq ($(ANDROIDGCS_BUILD_CONF),no)
-   $(error Only yes or no are allowed for ANDROIDGCS_BUILD_CONF)
+ ifneq ($(ANDROIDGCS_BUILD_CONF), release)
+  ifneq ($(ANDROIDGCS_BUILD_CONF), debug)
+   $(error Only debug or release are allowed for ANDROIDGCS_BUILD_CONF)
   endif
  endif
  $(info Okay, building using ANDROIDGCS_BUILD_CONF = $(ANDROIDGCS_BUILD_CONF))
@@ -111,9 +111,9 @@ endif
 
 # Checking for $(GCS_BUILD_CONF) to be sane
 ifdef ($(GCS_BUILD_CONF))
- ifneq ($(GCS_BUILD_CONF),yes)
-  ifneq ($(GCS_BUILD_CONF),no)
-   $(error Only yes or no are allowed for GCS_BUILD_CONF)
+ ifneq ($(GCS_BUILD_CONF), release)
+  ifneq ($(GCS_BUILD_CONF), debug)
+   $(error Only debug or release are allowed for GCS_BUILD_CONF)
   endif
  endif
  $(info Okay, building using GCS_BUILD_CONF = $(GCS_BUILD_CONF))
