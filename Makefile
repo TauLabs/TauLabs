@@ -238,6 +238,48 @@ $(BUILD_DIR):
 
 ##############################
 #
+# Set up paths to tools
+#
+##############################
+
+ifeq ($(shell [ -d "$(QT_SDK_DIR)" ] && echo "exists"), exists)
+  QMAKE = $(QT_SDK_QMAKE_PATH)
+ifeq ($(UNAME), MINGW32_NT-6.1) # Windows 7
+  # Windows needs to be told where to find Qt libraries
+  export PATH := $(QT_SDK_DIR)/5.0.1/mingw47_32/bin:$(PATH) 
+endif
+else
+  # not installed, hope it's in the path...
+  QMAKE = qmake
+endif
+
+ifeq ($(shell [ -d "$(ARM_SDK_DIR)" ] && echo "exists"), exists)
+  ARM_SDK_PREFIX := $(ARM_SDK_DIR)/bin/arm-none-eabi-
+else
+  # not installed, hope it's in the path...
+  ARM_SDK_PREFIX ?= arm-none-eabi-
+endif
+
+ifeq ($(shell [ -d "$(OPENOCD_DIR)" ] && echo "exists"), exists)
+  OPENOCD := $(OPENOCD_DIR)/bin/openocd
+else
+  # not installed, hope it's in the path...
+  OPENOCD ?= openocd
+endif
+
+ifeq ($(shell [ -d "$(ANDROID_SDK_DIR)" ] && echo "exists"), exists)
+  ANDROID     := $(ANDROID_SDK_DIR)/tools/android
+  ANDROID_DX  := $(ANDROID_SDK_DIR)/platform-tools/dx
+  ANDROID_ADB := $(ANDROID_SDK_DIR)/platform-tools/adb
+else
+  # not installed, hope it's in the path...
+  ANDROID     ?= android
+  ANDROID_DX  ?= dx
+  ANDROID_ADB ?= adb
+endif
+
+##############################
+#
 # GCS related components
 #
 ##############################
