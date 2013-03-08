@@ -1,0 +1,117 @@
+package org.taulabs.androidgcs.views;
+/**
+ ******************************************************************************
+ * @file       EnumFieldView.java
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Display and edit enum fields from UAVOs
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ *****************************************************************************/
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+ * for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+
+import org.taulabs.androidgcs.R;
+import org.taulabs.androidgcs.util.ObjectFieldMappable;
+import org.taulabs.uavtalk.UAVObjectField;
+
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.GridLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+public class EnumFieldView extends GridLayout implements ObjectFieldMappable {
+
+	private final static String TAG = EnumFieldView.class.getSimpleName();
+
+	private final TextView lbl;
+	private final Spinner  spin;
+	private double value;
+	private final String name;
+	private boolean localUpdate = false;
+
+	private Runnable changeListener = null;
+
+	public EnumFieldView(Context context, AttributeSet attrs, UAVObjectField field, int idx) {
+		super(context, attrs);
+
+		Log.d(TAG, "EnumFieldView init called");
+
+		lbl = new TextView(context);
+		TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.setting_attributes, 0, 0);
+		lbl.setText(ta.getString(R.styleable.setting_attributes_setting_name));
+		addView(lbl, new GridLayout.LayoutParams(spec(0), spec(0)));
+
+		spin = new Spinner(context);
+		addView(spin, new GridLayout.LayoutParams(spec(0), spec(1)));
+
+		name = field.getName();
+
+		Log.d(TAG, "Name: " + name);
+
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item);
+		adapter.addAll(field.getOptions());
+		spin.setAdapter(adapter);
+		spin.setSelection((int) field.getDouble(idx));
+
+		// Update the value when the edit box changes
+		spin.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				value = spin.getSelectedItemPosition();
+				if (changeListener != null && localUpdate == false)
+					changeListener.run();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
+		});
+
+
+		setPadding(5,5,5,5);
+
+		setMinimumWidth(300);
+		setValue(0);
+	}
+
+	@Override
+	public double getValue() {
+		return value;
+	}
+
+	@Override
+	public void setValue(double val) {
+		localUpdate = true;
+		Log.d(TAG, "Value set to: " + val);
+		value = val;
+		spin.setSelection((int) val);
+		localUpdate = false;
+	}
+
+	@Override
+	public void setOnChangedListener(Runnable run) {
+		changeListener = run;
+	}
+}

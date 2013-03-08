@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.taulabs.androidgcs.util.SmartSave;
+import org.taulabs.androidgcs.views.EnumFieldView;
 import org.taulabs.androidgcs.views.NumericalFieldView;
 import org.taulabs.uavtalk.UAVObjectField;
 
@@ -33,11 +34,9 @@ import android.content.Context;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 public class ObjectEditView extends GridLayout {
@@ -122,11 +121,9 @@ public class ObjectEditView extends GridLayout {
 				smartSave.addControlMapping((NumericalFieldView)fieldValue, field.getName(), idx);
 			break;
 		case ENUM:
-			fieldValue = new Spinner(context);
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item);
-			adapter.addAll(field.getOptions());
-			((Spinner) fieldValue).setAdapter(adapter);
-			((Spinner) fieldValue).setSelection((int) field.getDouble(idx));
+			fieldValue = new EnumFieldView(context, null, field, idx);
+			if (smartSave != null)
+				smartSave.addControlMapping((EnumFieldView)fieldValue, field.getName(), idx);
 			break;
 		case BITFIELD:
 			fieldValue = new EditText(context);
