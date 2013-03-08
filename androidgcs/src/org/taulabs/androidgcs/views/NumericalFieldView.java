@@ -31,6 +31,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.TextView;
@@ -54,6 +55,7 @@ public class NumericalFieldView extends GridLayout implements ObjectFieldMappabl
 
 		edit = new EditText(context);
 		edit.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+		edit.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
 
 		addView(edit, new GridLayout.LayoutParams(spec(0), spec(1)));
 		// Update the value when the edit box changes
