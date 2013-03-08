@@ -13,14 +13,14 @@ endef
 VERNUM				:= 0.1.0
 VERSION_FULL		:= $(VERNUM)-$(PACKAGE_LBL)
 
-FLIGHT_FW			:= coptercontrol revolution freedom revomini pipxtreme quanton flyingf3
+FLIGHT_FW		:= coptercontrol revolution vrbrain freedom revomini pipxtreme quanton flyingf3
 
 DEB_BUILD_DIR		:= $(ROOT_DIR)/debian
 
 SED_DATE_STRG		= $(shell date -R)
-SED_SCRIPT			= s/<VERSION>/$(VERSION_FULL)/;s/<DATE>/$(SED_DATE_STRG)/
+SED_SCRIPT		= s/<VERSION>/$(VERSION_FULL)/;s/<DATE>/$(SED_DATE_STRG)/
 
-DEB_CFG_CMN			:= $(ROOT_DIR)/package/linux/deb_common
+DEB_CFG_CMN		:= $(ROOT_DIR)/package/linux/deb_common
 DEB_CFG_CMN_FILES	:= $(shell ls $(DEB_CFG_CMN))
 DEB_CFG_I386_DIR	:= $(ROOT_DIR)/package/linux/deb_i386
 DEB_CFG_I386_FILES	:= $(shell ls $(DEB_CFG_I386_DIR))

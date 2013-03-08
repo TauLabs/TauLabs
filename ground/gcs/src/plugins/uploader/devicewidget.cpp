@@ -113,6 +113,10 @@ void deviceWidget::populate()
     case 0x8601:
         devicePic.load(":/uploader/images/gcs-board-quanton.png");
         break;
+    case 0x8701: 
+    case 0x8702:
+        devicePic.load(":/uploader/images/gcs-board-vrbrain.png");
+        break;
     default:
         break;
     }

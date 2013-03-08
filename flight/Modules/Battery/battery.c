@@ -136,14 +136,14 @@ static void onTimer(UAVObjEvent* ev)
 
 	//calculate the battery parameters
 	if (voltageADCPin >=0) {
-		flightBatteryData.Voltage = ((float)PIOS_ADC_PinGet(voltageADCPin)) * batterySettings.SensorCalibrations[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONS_VOLTAGEFACTOR]; //in Volts
+		flightBatteryData.Voltage = ((float)PIOS_ADC_PinGet(voltageADCPin)) * PIOS_ADC_VOLTAGE_SCALE * batterySettings.SensorCalibrations[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONS_VOLTAGEFACTOR] * 10; //in Volts
 	}
 	else {
 		flightBatteryData.Voltage=1234; //Dummy placeholder value. This is in case we get another source of battery current which is not from the ADC
 	}
 
 	if (currentADCPin >=0) {
-		flightBatteryData.Current = ((float)PIOS_ADC_PinGet(currentADCPin)) * batterySettings.SensorCalibrations[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONS_CURRENTFACTOR]; //in Amps
+		flightBatteryData.Current = ((float)PIOS_ADC_PinGet(currentADCPin)) * PIOS_ADC_VOLTAGE_SCALE * batterySettings.SensorCalibrations[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONS_CURRENTFACTOR] * 10; //in Amps
 		if (flightBatteryData.Current > flightBatteryData.PeakCurrent) 
 			flightBatteryData.PeakCurrent = flightBatteryData.Current; //in Amps
 	}
