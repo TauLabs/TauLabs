@@ -287,10 +287,13 @@ endif
 .PHONY: all_ground
 all_ground: gcs
 
+ifneq ($(UNAME), MINGW32_NT-6.1) # Windows 7
+# unfortunately the silent linking command is broken on windows
 ifeq ($(V), 1)
 GCS_SILENT := 
 else
 GCS_SILENT := silent
+endif
 endif
 
 .PHONY: gcs
@@ -314,12 +317,14 @@ gcs_clean:
 	$(V0) @echo " CLEAN      $@"
 	$(V1) [ ! -d "$(BUILD_DIR)/ground/gcs" ] || $(RM) -r "$(BUILD_DIR)/ground/gcs"
 
+ifneq ($(UNAME), MINGW32_NT-6.1) # Windows 7
+# unfortunately the silent linking command is broken on windows
 ifeq ($(V), 1)
 UAVOGEN_SILENT := 
 else
 UAVOGEN_SILENT := silent
 endif
-
+endif
 .PHONY: uavobjgenerator
 uavobjgenerator:
 	$(V1) mkdir -p $(BUILD_DIR)/ground/$@
