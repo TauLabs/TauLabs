@@ -31,7 +31,9 @@ import org.taulabs.uavtalk.UAVObjectField;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class ObjectEditor extends ObjectManagerActivity {
 
@@ -45,6 +47,7 @@ public class ObjectEditor extends ObjectManagerActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.object_editor);
 
 		// TODO: Figure out why this line is required so it doesn't
@@ -59,8 +62,8 @@ public class ObjectEditor extends ObjectManagerActivity {
 		objectID = extras.getLong("org.taulabs.androidgcs.ObjectId");
 		instID = extras.getLong("org.taulabs.androidgcs.InstId");
 
-		setTitle(objectName);
-
+		TextView objNameLbl = (TextView) findViewById(R.id.object_edit_object_name);
+		objNameLbl.setText(objectName);
 	}
 
 	@Override
