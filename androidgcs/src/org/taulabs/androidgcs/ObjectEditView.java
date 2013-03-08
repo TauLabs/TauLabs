@@ -25,23 +25,23 @@ package org.taulabs.androidgcs;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.taulabs.androidgcs.util.SmartSave;
+import org.taulabs.androidgcs.views.EnumFieldView;
+import org.taulabs.androidgcs.views.NumericalFieldView;
 import org.taulabs.uavtalk.UAVObjectField;
 
 import android.content.Context;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-public class ObjectEditView extends GridLayout {
+public class ObjectEditView extends LinearLayout {
 
 	String objectName;
 	public List<View> fields;
+	private SmartSave smartSave;
 
 	public ObjectEditView(Context context) {
 		super(context);
@@ -58,10 +58,13 @@ public class ObjectEditView extends GridLayout {
 		initObjectEditView();
 	}
 
+	public void setSmartSave(SmartSave s) {
+		smartSave = s;
+	}
+
 	public void initObjectEditView() {
 		// Set orientation of layout to vertical
 		setOrientation(LinearLayout.VERTICAL);
-		setColumnCount(2);
 		fields = new ArrayList<View>();
 	}
 
@@ -76,56 +79,50 @@ public class ObjectEditView extends GridLayout {
 
 
 	public void addRow(Context context, UAVObjectField field, int idx) {
-		int row = getRowCount();
-
-		TextView fieldName = new TextView(context);
-		if(field.getNumElements() == 1) {
-			fieldName.setText(field.getName());
-		} else {
-			fieldName.setText(field.getName() + "-" + field.getElementNames().get(idx));
-		}
-		addView(fieldName, new GridLayout.LayoutParams(spec(row), spec(0)));
 
 		View fieldValue = null;
 		switch(field.getType())
 		{
 		case FLOAT32:
-			fieldValue = new EditText(context);
-			((EditText)fieldValue).setText(field.getValue(idx).toString());
-			((EditText)fieldValue).setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+			fieldValue = new NumericalFieldView(context, null, field, idx);
+			((NumericalFieldView)fieldValue).setValue(Double.parseDouble(field.getValue(idx).toString()));
+			((NumericalFieldView)fieldValue).setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+			if (smartSave != null)
+				smartSave.addControlMapping((NumericalFieldView)fieldValue, field.getName(), idx);
 			break;
 		case INT8:
 		case INT16:
 		case INT32:
-			fieldValue = new EditText(context);
-			((EditText)fieldValue).setText(field.getValue(idx).toString());
-			((EditText)fieldValue).setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+			fieldValue = new NumericalFieldView(context, null, field, idx);
+			((NumericalFieldView)fieldValue).setValue(Double.parseDouble(field.getValue(idx).toString()));
+			((NumericalFieldView)fieldValue).setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+			if (smartSave != null)
+				smartSave.addControlMapping((NumericalFieldView)fieldValue, field.getName(), idx);
 			break;
 		case UINT8:
 		case UINT16:
 		case UINT32:
-			fieldValue = new EditText(context);
-			((EditText)fieldValue).setText(field.getValue(idx).toString());
-			((EditText)fieldValue).setInputType(InputType.TYPE_CLASS_NUMBER);
+			fieldValue = new NumericalFieldView(context, null, field, idx);
+			((NumericalFieldView)fieldValue).setValue(Double.parseDouble(field.getValue(idx).toString()));
+			((NumericalFieldView)fieldValue).setInputType(InputType.TYPE_CLASS_NUMBER);
+			if (smartSave != null)
+				smartSave.addControlMapping((NumericalFieldView)fieldValue, field.getName(), idx);
 			break;
 		case ENUM:
-			fieldValue = new Spinner(context);
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item);
-			adapter.addAll(field.getOptions());
-			((Spinner) fieldValue).setAdapter(adapter);
-			((Spinner) fieldValue).setSelection((int) field.getDouble(idx));
+			fieldValue = new EnumFieldView(context, null, field, idx);
+			if (smartSave != null)
+				smartSave.addControlMapping((EnumFieldView)fieldValue, field.getName(), idx);
 			break;
 		case BITFIELD:
-			fieldValue = new EditText(context);
-			((EditText)fieldValue).setText(field.getValue(idx).toString());
-			((EditText)fieldValue).setInputType(InputType.TYPE_CLASS_NUMBER);
+			fieldValue = new TextView(context);
+			((TextView)fieldValue).setText("Unsupported type: Bitfield");
 			break;
 		case STRING:
-			fieldValue = new EditText(context);
-			((EditText)fieldValue).setText(field.getValue(idx).toString());
+			fieldValue = new TextView(context);
+			((TextView)fieldValue).setText("Unsupported type: Bitfield");
 		}
 
-		addView(fieldValue, new GridLayout.LayoutParams(spec(row), spec(1)));
+		addView(fieldValue);
 		fields.add(fieldValue);
 	}
 
