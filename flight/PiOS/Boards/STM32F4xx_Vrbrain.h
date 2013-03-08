@@ -76,18 +76,18 @@ TIM8  |           |           |           |
 //------------------------
 // PIOS_LED
 //------------------------
-#define PIOS_LED_RED					0
-#define PIOS_LED_GREEN					1
-#define PIOS_LED_YELLOW					2
-#define PIOS_LED_1						3
-#define PIOS_LED_2						4
-#define PIOS_LED_3						5
-#define PIOS_LED_4						6
+#define PIOS_LED_RED				0
+#define PIOS_LED_GREEN				1
+#define PIOS_LED_YELLOW				2
+#define PIOS_LED_1				3
+#define PIOS_LED_2				4
+#define PIOS_LED_3				5
+#define PIOS_LED_4				6
 
-#define PIOS_LED_HEARTBEAT				PIOS_LED_GREEN
-#define PIOS_LED_ALARM					PIOS_LED_RED
+#define PIOS_LED_HEARTBEAT			PIOS_LED_GREEN
+#define PIOS_LED_ALARM				PIOS_LED_RED
 
-#define PIOS_BUZZER						PIOS_LED_1
+#define PIOS_BUZZER				PIOS_LED_1
 
 //------------------------
 // PIOS_SPI
@@ -156,37 +156,37 @@ extern uintptr_t pios_com_vcp_id;
 //#define PIOS_PERIPHERAL_CLOCK                   
 //#define PIOS_PERIPHERAL_CLOCK							
 
-#define PIOS_SYSCLK										168000000
+#define PIOS_SYSCLK		168000000
 //	Peripherals that belongs to APB1 are:
-//	DAC			|PWR				|CAN1,2
-//	I2C1,2,3		|UART4,5			|USART3,2
+//	DAC		|PWR			|CAN1,2
+//	I2C1,2,3	|UART4,5		|USART3,2
 //	I2S3Ext		|SPI3/I2S3		|SPI2/I2S2
-//	I2S2Ext		|IWDG				|WWDG
+//	I2S2Ext		|IWDG			|WWDG
 //	RTC/BKP reg	
 // TIM2,3,4,5,6,7,12,13,14
 
 // Calculated as SYSCLK / APBPresc * (APBPre == 1 ? 1 : 2)   
 // Default APB1 Prescaler = 4 
-#define PIOS_PERIPHERAL_APB1_CLOCK					(PIOS_SYSCLK / 2)
+#define PIOS_PERIPHERAL_APB1_CLOCK		(PIOS_SYSCLK / 2)
 
 //	Peripherals belonging to APB2
-//	SDIO			|EXTI				|SYSCFG			|SPI1
+//	SDIO		|EXTI	|SYSCFG	|SPI1
 //	ADC1,2,3				
 //	USART1,6
 //	TIM1,8,9,10,11
 //
 // Default APB2 Prescaler = 2
 //
-#define PIOS_PERIPHERAL_APB2_CLOCK					PIOS_SYSCLK
+#define PIOS_PERIPHERAL_APB2_CLOCK	PIOS_SYSCLK
 
 
 //-------------------------
 // Interrupt Priorities
 //-------------------------
-#define PIOS_IRQ_PRIO_LOW                       12              // lower than RTOS
-#define PIOS_IRQ_PRIO_MID                       8               // higher than RTOS
-#define PIOS_IRQ_PRIO_HIGH                      5               // for SPI, ADC, I2C etc...
-#define PIOS_IRQ_PRIO_HIGHEST                   4               // for USART etc...
+#define PIOS_IRQ_PRIO_LOW            12  // lower than RTOS
+#define PIOS_IRQ_PRIO_MID            8   // higher than RTOS
+#define PIOS_IRQ_PRIO_HIGH           5   // for SPI, ADC, I2C etc...
+#define PIOS_IRQ_PRIO_HIGHEST        4   // for USART etc...
 
 //------------------------
 // PIOS_RCVR
@@ -245,12 +245,12 @@ extern uintptr_t pios_com_vcp_id;
 // PIOS_ADC_PinGet(5) = Temperature sensor
 //-------------------------
 #define PIOS_DMA_PIN_CONFIG                                                                        \
-		{                                                                                           \
-			{GPIOC, GPIO_Pin_0,     ADC_Channel_10},                                                \
-			{GPIOA, GPIO_Pin_0,     ADC_Channel_0},                                                 \
-			{NULL,  0,              ADC_Channel_Vrefint},           /* Voltage reference */         \
-			{NULL,  0,              ADC_Channel_TempSensor}         /* Temperature sensor */        \
-		}
+	{                                                                                          \
+		{GPIOC, GPIO_Pin_0,     ADC_Channel_10},                                           \
+		{GPIOA, GPIO_Pin_0,     ADC_Channel_0},                                            \
+		{NULL,  0,              ADC_Channel_Vrefint},           /* Voltage reference */    \
+		{NULL,  0,              ADC_Channel_TempSensor}         /* Temperature sensor */   \
+	}
 
 /* we have to do all this to satisfy the PIOS_ADC_MAX_SAMPLES define in pios_adc.h */
 /* which is annoying because this then determines the rate at which we generate buffer turnover events */
@@ -263,9 +263,9 @@ extern uintptr_t pios_com_vcp_id;
 //-------------------------
 // USB
 //-------------------------
-#define PIOS_USB_MAX_DEVS                       1
-#define PIOS_USB_ENABLED                        1 /* Should remove all references to this */
-#define PIOS_USB_HID_MAX_DEVS                   1
+#define PIOS_USB_MAX_DEVS                1
+#define PIOS_USB_ENABLED                 1 /* Should remove all references to this */
+#define PIOS_USB_HID_MAX_DEVS            1
 
 #endif /* STM3210E_INS_H_ */
 /**
