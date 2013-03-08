@@ -5,20 +5,6 @@
     android:layout_height="500dp"
     android:orientation="vertical"
     tools:context=".ObjectEditor" >
-
-    <ScrollView
-        android:id="@+id/scrollView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.56" >
-
-        <org.taulabs.androidgcs.ObjectEditView
-            android:id="@+id/object_edit_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-        </org.taulabs.androidgcs.ObjectEditView>
-
-    </ScrollView>
     
     <!-- View android:layout_width="200dp" android:layout_height="1dip" android:background="#FFFFFFFF" / -->
 	
@@ -29,10 +15,16 @@
 	    android:gravity="right" >
 
 		<Button
-		    android:id="@+id/object_edit_send_button"
+		    android:id="@+id/object_edit_load_button"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:text="@string/send_button" />
+		    android:text="@string/load" />
+
+		<Button
+		    android:id="@+id/object_edit_apply_button"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="@string/apply_button" />
 
 		<Button
 		    android:id="@+id/object_edit_save_button"
@@ -41,5 +33,18 @@
 		    android:text="@string/save_button" />
 
 	</LinearLayout>
+
+	<ScrollView
+	    android:id="@+id/scrollView1"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="1.56" >
+
+	    <org.taulabs.androidgcs.ObjectEditView
+	        android:id="@+id/object_edit_view"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" >
+	    </org.taulabs.androidgcs.ObjectEditView>
+	</ScrollView>
     
 </LinearLayout>
