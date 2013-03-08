@@ -48,21 +48,16 @@ public class EnumFieldView extends GridLayout implements ObjectFieldMappable {
 
 	private Runnable changeListener = null;
 
-	public EnumFieldView(Context context, AttributeSet attrs, UAVObjectField field, int idx) {
+	//! This is the constructor used by the SDK for setting it up
+	public EnumFieldView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
 		lbl = new TextView(context);
-		lbl.setText(field.getName());
+		lbl.setText("Field: ");
 		addView(lbl, new GridLayout.LayoutParams(spec(0), spec(0)));
 
 		spin = new Spinner(context);
 		addView(spin, new GridLayout.LayoutParams(spec(0), spec(1)));
-
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		adapter.addAll(field.getOptions());
-		spin.setAdapter(adapter);
-		spin.setSelection((int) field.getDouble(idx));
 
 		// Update the value when the edit box changes
 		spin.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -80,11 +75,23 @@ public class EnumFieldView extends GridLayout implements ObjectFieldMappable {
 			}
 		});
 
-
 		setPadding(5,5,5,5);
 
 		setMinimumWidth(300);
 		setValue(0);
+	}
+
+	//! This is the constructor used by the code
+	public EnumFieldView(Context context, AttributeSet attrs, UAVObjectField field, int idx) {
+		this(context, attrs);
+
+		lbl.setText(field.getName());
+
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		adapter.addAll(field.getOptions());
+		spin.setAdapter(adapter);
+		spin.setSelection((int) field.getDouble(idx));
 	}
 
 	@Override

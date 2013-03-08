@@ -37,8 +37,6 @@ import android.widget.TextView;
 
 public class NumericalFieldView extends GridLayout implements ObjectFieldMappable {
 
-	private final static String TAG = NumericalFieldView.class.getSimpleName();
-
 	private final TextView lbl;
 	private final EditText edit;
 	private double value;
@@ -46,17 +44,18 @@ public class NumericalFieldView extends GridLayout implements ObjectFieldMappabl
 
 	private Runnable changeListener = null;
 
-	public NumericalFieldView(Context context, AttributeSet attrs, UAVObjectField field, int idx) {
+	//! This is the constructor used by the SDK for setting it up
+	public NumericalFieldView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
 		lbl = new TextView(context);
-		lbl.setText(field.getName());
+		lbl.setText("Field: ");
 		addView(lbl, new GridLayout.LayoutParams(spec(0), spec(0)));
 
 		edit = new EditText(context);
 		edit.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-		addView(edit, new GridLayout.LayoutParams(spec(0), spec(1)));
 
+		addView(edit, new GridLayout.LayoutParams(spec(0), spec(1)));
 		// Update the value when the edit box changes
 		edit.addTextChangedListener(new TextWatcher() {
 
@@ -82,6 +81,13 @@ public class NumericalFieldView extends GridLayout implements ObjectFieldMappabl
 
 		setMinimumWidth(300);
 		setValue(0);
+	}
+
+	//! This is the constructor used by the code
+	public NumericalFieldView(Context context, AttributeSet attrs, UAVObjectField field, int idx) {
+		this(context, attrs);
+
+		lbl.setText(field.getName());
 	}
 
 
