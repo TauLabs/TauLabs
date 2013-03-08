@@ -33,12 +33,13 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class NumericalFieldView extends GridLayout implements ObjectFieldMappable {
+public class NumericalFieldView extends LinearLayout implements ObjectFieldMappable {
 
 	private final TextView lbl;
 	private final EditText edit;
@@ -51,15 +52,17 @@ public class NumericalFieldView extends GridLayout implements ObjectFieldMappabl
 	public NumericalFieldView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
+		final int WIDTH = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
+
 		lbl = new TextView(context);
 		lbl.setText("Field: ");
-		addView(lbl, new GridLayout.LayoutParams(spec(0), spec(0)));
+		addView(lbl, new LinearLayout.LayoutParams(WIDTH, LayoutParams.WRAP_CONTENT, 1));
 
 		edit = new EditText(context);
 		edit.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
 		edit.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
 
-		addView(edit, new GridLayout.LayoutParams(spec(0), spec(1)));
+		addView(edit,  new LinearLayout.LayoutParams(WIDTH, LayoutParams.WRAP_CONTENT, 1));
 		// Update the value when the edit box changes
 		edit.addTextChangedListener(new TextWatcher() {
 
