@@ -25,18 +25,15 @@ package org.taulabs.androidgcs;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.taulabs.androidgcs.R;
+import org.taulabs.androidgcs.util.SmartSave;
 import org.taulabs.uavtalk.UAVObject;
 import org.taulabs.uavtalk.UAVObjectField;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.TextView;
 
 public class ObjectEditor extends ObjectManagerActivity {
 
@@ -44,10 +41,13 @@ public class ObjectEditor extends ObjectManagerActivity {
 	String objectName;
 	long objectID;
 	long instID;
+	private SmartSave smartSave;
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.object_editor);
 
 		// TODO: Figure out why this line is required so it doesn't
@@ -62,23 +62,8 @@ public class ObjectEditor extends ObjectManagerActivity {
 		objectID = extras.getLong("org.taulabs.androidgcs.ObjectId");
 		instID = extras.getLong("org.taulabs.androidgcs.InstId");
 
-		setTitle(objectName);
-
-		Button sendButton = (Button) findViewById(R.id.object_edit_send_button);
-		sendButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				updateObject();
-			}
-		});
-
-		Button saveButton = (Button) findViewById(R.id.object_edit_save_button);
-		saveButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				saveObject();
-			}
-		});
+		TextView objNameLbl = (TextView) findViewById(R.id.object_edit_object_name);
+		objNameLbl.setText(objectName);
 	}
 
 	@Override
@@ -89,78 +74,23 @@ public class ObjectEditor extends ObjectManagerActivity {
 			return;
 		}
 
+		smartSave = new SmartSave(objMngr, this,
+				obj,
+				(Button) findViewById(R.id.object_edit_save_button),
+				(Button) findViewById(R.id.object_edit_apply_button),
+				(Button) findViewById(R.id.object_edit_load_button));
+
 		ObjectEditView editView = (ObjectEditView) findViewById(R.id.object_edit_view);
+		editView.setSmartSave(smartSave);
 		editView.setName(obj.getName());
 
+		// When a field is added to the edit view then it is linked
+		// to the smart save button
 		List<UAVObjectField> fields = obj.getFields();
 		ListIterator<UAVObjectField> li = fields.listIterator();
 		while (li.hasNext()) {
 			editView.addField(li.next());
 		}
+		smartSave.refreshSettingsDisplay();
 	}
-
-	/**
-	 * Fetch the data back from the view and then send it to the UAV
-	 */
-	private void saveObject() {
-
-		UAVObject objPer = objMngr.getObject("ObjectPersistence");
-
-		if( !updateObject()  || objPer == null) {
-			Toast.makeText(this, "Save failed", Toast.LENGTH_LONG).show();
-			return;
-		}
-
-		long thisId = objectID < 0 ? 0x100000000l + objectID : objectID;
-		objPer.getField("Operation").setValue("Save");
-		objPer.getField("Selection").setValue("SingleObject");
-		Log.d(TAG,"Saving with object id: " + objectID + " swapped to " + thisId);
-		objPer.getField("ObjectID").setValue(thisId);
-		objPer.getField("InstanceID").setValue(instID);
-		objPer.updated();
-
-		Toast.makeText(this, "Save succeeded", Toast.LENGTH_LONG).show();
-	}
-
-	/**
-	 * Fetch the data back from the view and then send it to the UAV
-	 */
-	private boolean updateObject() {
-		UAVObject obj = objMngr.getObject(objectID, instID);
-		if (obj == null)
-			return false;
-
-		Log.d(TAG, "Updating object id " + obj.getObjID());
-		ObjectEditView editView = (ObjectEditView) findViewById(R.id.object_edit_view);
-
-		int field_idx = 0;
-
-		List<UAVObjectField> fields = obj.getFields();
-		ListIterator<UAVObjectField> li = fields.listIterator();
-		while (li.hasNext()) {
-			UAVObjectField field = li.next();
-			int num_fields = field.getNumElements();
-			for (int i = 0; i < num_fields; i++) {
-				switch (field.getType()) {
-				case ENUM:
-					int selected = ((Spinner)editView.fields.get(field_idx)).getSelectedItemPosition();
-					field.setValue(selected, i);
-					break;
-				default:
-					String val = ((EditText) editView.fields.get(field_idx)).getText().toString();
-					Double num = Double.parseDouble(val);
-
-					Log.e(TAG, "Updating field: " + field.getName() + " value: " + num);
-					field.setValue(num, i);
-					break;
-				}
-
-				field_idx++;
-			}
-		}
-		obj.updated();
-
-		return true;
-	}
-
 }
