@@ -28,6 +28,8 @@
 #include <QtCore/qglobal.h>
 
 #include <QDebug>
+#include <QClipboard>
+#include <QKeyEvent>
 #include <QString>
 #include <QStringList>
 #include <QMessageBox>
@@ -55,12 +57,20 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     m_telemetryeditor->setupUi(this);
 
 
+    telemetryScheduleView = new QTableViewWithCopyPaste(this);
+    telemetryScheduleView->setObjectName(QString::fromUtf8("telemetryScheduleView"));
+    telemetryScheduleView->setAlternatingRowColors(true);
+    telemetryScheduleView->horizontalHeader()->setCascadingSectionResizes(false);
+
+    m_telemetryeditor->gridLayout->addWidget(telemetryScheduleView, 0, 0, 1, 8);
+
     schedulerModel = new QStandardItemModel(4,2,this); //0 Rows and 0 Columns
-    m_telemetryeditor->waypoints->setModel(schedulerModel);
+    telemetryScheduleView->setModel(schedulerModel);
+
 
     // Sets the fields in the table to spinboxes
     SpinBoxDelegate *delegate = new SpinBoxDelegate();
-    m_telemetryeditor->waypoints->setItemDelegate(delegate);
+    telemetryScheduleView->setItemDelegate(delegate);
 
     // Generate the list of UAVOs on left side
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
@@ -86,7 +96,7 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     int columnIndex = 0;
     foreach(QString header, columnHeaders ){
         schedulerModel->setHorizontalHeaderItem(columnIndex, new QStandardItem(header));
-        m_telemetryeditor->waypoints->setColumnWidth(columnIndex, 65); // 65 pixels is wide enough for the string "65535"
+        telemetryScheduleView->setColumnWidth(columnIndex, 65); // 65 pixels is wide enough for the string "65535"
         columnIndex++;
     }
 
@@ -335,7 +345,7 @@ void TelemetrySchedulerGadgetWidget::importTelemetryConfiguration(const QString&
     schedulerModel->removeColumns(0, columnHeaders.length(), QModelIndex()); //Remove old columns
     schedulerModel->setHorizontalHeaderLabels(new_columnHeaders); // Add new ones
     for(int columnIndex = 0; columnIndex< new_columnHeaders.length(); columnIndex++){
-        m_telemetryeditor->waypoints->setColumnWidth(columnIndex, 65); // 65 pixels is wide enough for the string "65535"
+        telemetryScheduleView->setColumnWidth(columnIndex, 65); // 65 pixels is wide enough for the string "65535"
     }
 
     // Populate combobox
@@ -447,6 +457,118 @@ void SpinBoxDelegate::updateEditorGeometry(QWidget *editor,
     editor->setGeometry(option.rect);
 }
 
+
+//==========================
+
+void QTableViewWithCopyPaste::copy()
+{
+    QItemSelectionModel * selection = selectionModel();
+    QModelIndexList indexes = selection->selectedIndexes();
+
+    if(indexes.size() < 1)
+      return;
+
+    // QModelIndex::operator < sorts first by row, then by column.
+    // this is what we need
+    std::sort(indexes.begin(), indexes.end());
+
+    // You need a pair of indexes to find the row changes
+    QModelIndex previous = indexes.first();
+    indexes.removeFirst();
+    QString selected_text;
+    QModelIndex current;
+    foreach(current, indexes)
+    {
+        QVariant data = model()->data(previous);
+        QString text = data.toString();
+        // At this point `text` contains the text in one cell
+        selected_text.append(text);
+        // If you are at the start of the row the row number of the previous index
+        // isn't the same.  Text is followed by a row separator, which is a newline.
+        if (current.row() != previous.row())
+        {
+            selected_text.append(QLatin1Char('\n'));
+        }
+        // Otherwise it's the same row, so append a column separator, which is a tab.
+        else
+        {
+            selected_text.append(QLatin1Char('\t'));
+        }
+        previous = current;
+    }
+
+    // add last element
+    selected_text.append(model()->data(current).toString());
+    selected_text.append(QLatin1Char('\n'));
+    qApp->clipboard()->setText(selected_text);
+}
+
+void QTableViewWithCopyPaste::paste()
+{
+    QItemSelectionModel * selection = selectionModel();
+    QModelIndexList indexes = selection->selectedIndexes();
+
+    QString selected_text = qApp->clipboard()->text();
+    QStringList cells = selected_text.split(QRegExp(QLatin1String("\\n|\\t")));
+    while(!cells.empty() && cells.back().size() == 0)
+    {
+        cells.pop_back(); // strip empty trailing tokens
+    }
+    int rows = selected_text.count(QLatin1Char('\n'));
+    int cols = cells.size() / rows;
+    if(cells.size() % rows != 0)
+    {
+        // error, uneven number of columns, probably bad data
+        QMessageBox::critical(this, tr("Error"),
+                              tr("Invalid clipboard data, unable to perform paste operation."));
+        return;
+    }
+
+    // Give an error if there are too few rows. A better solution would be to expand the view size
+    if(indexes.front().row() + rows > model()->rowCount())
+    {
+        // error, clipboard does not match current number of rows
+        QMessageBox::critical(this, tr("Error"),
+                              tr("Invalid operation, pasting would exceed the number of rows."));
+        return;
+    }
+
+    // Give an error if there are too few columns. A better solution would be to expand the view size
+    if(indexes.front().column() + cols > model()->columnCount())
+    {
+        // error, clipboard does not match current number of columns
+        QMessageBox::critical(this, tr("Error"),
+                              tr("Invalid operation, pasting would exceed the number of columns."));
+        return;
+    }
+
+    // Paste the results into the appropriate cells
+    int cell = 0;
+    for(int row=0; row < rows; ++row)
+    {
+        for(int col=0; col < cols; ++col, ++cell)
+        {
+            QModelIndex index = model()->index(indexes.front().row() + row, indexes.front().column() + col,QModelIndex());
+            model()->setData(index, cells[cell]);
+        }
+    }
+}
+
+void QTableViewWithCopyPaste::keyPressEvent(QKeyEvent * event)
+{
+    if(event->matches(QKeySequence::Copy) )
+    {
+        copy();
+    }
+    else if(event->matches(QKeySequence::Paste) )
+    {
+        paste();
+    }
+    else
+    {
+        QTableView::keyPressEvent(event);
+    }
+}
 
 /**
   * @}

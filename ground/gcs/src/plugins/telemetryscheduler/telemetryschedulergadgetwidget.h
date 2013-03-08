@@ -29,6 +29,7 @@
 
 #include <QMap>
 #include <QSpinBox>
+#include <QTableView>
 #include <QStandardItemModel>
 #include <QItemDelegate>
 #include <QtGui/QLabel>
@@ -38,6 +39,29 @@
 #include "telemetryschedulergadgetconfiguration.h"
 
 class Ui_TelemetryScheduler;
+
+
+/**
+ * @brief The QTableViewWithCopyPaste class QTableView with support for copy and paste added
+ * Here copy and paste can copy/paste the entire grid of cells
+ * Modified from http://stackoverflow.com/questions/1230222/selected-rows-line-in-qtableview-copy-to-qclipboard
+ */
+class QTableViewWithCopyPaste : public QTableView
+{
+public:
+    QTableViewWithCopyPaste(QWidget *parent) :
+    QTableView(parent)
+    {}
+
+private:
+    void copy();
+    void paste();
+
+protected:
+    virtual void keyPressEvent(QKeyEvent * event);
+};
+
+
 
 class TelemetrySchedulerGadgetWidget : public QLabel
 {
@@ -75,6 +99,7 @@ private:
     QStringList rowHeaders;
 
     QStandardItemModel *schedulerModel;
+    QTableViewWithCopyPaste *telemetryScheduleView;
 };
 
 
@@ -96,4 +121,5 @@ public:
     void updateEditorGeometry(QWidget *editor,
         const QStyleOptionViewItem &option, const QModelIndex &index) const;
 };
+
 #endif /* TELEMETRYSCHEDULERGADGETWIDGET_H_ */
