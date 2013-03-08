@@ -23,6 +23,8 @@ package org.taulabs.androidgcs.views;
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+import java.util.List;
+
 import org.taulabs.androidgcs.util.ObjectFieldMappable;
 import org.taulabs.uavtalk.UAVObjectField;
 
@@ -89,7 +91,13 @@ public class NumericalFieldView extends GridLayout implements ObjectFieldMappabl
 	public NumericalFieldView(Context context, AttributeSet attrs, UAVObjectField field, int idx) {
 		this(context, attrs);
 
-		lbl.setText(field.getName());
+		// Set the label name
+		String name = field.getName();
+		List<String> elements = field.getElementNames();
+		if (elements != null && elements.size() > 1) {
+			name = name + "-" + elements.get(idx);
+		}
+		lbl.setText(name);
 	}
 
 
