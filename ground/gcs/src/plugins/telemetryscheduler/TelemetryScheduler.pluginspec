@@ -1,6 +1,6 @@
 <plugin name="TelemetryScheduler" version="0.0.1" compatVersion="1.0.0">
     <vendor>Tau Labs</vendor>
-    <copyright>(C) 2012 Tau Labs</copyright>
+    <copyright>(C) 2013 Tau Labs</copyright>
     <license>The GNU Public License (GPL) Version 3</license>
     <description>Allows editing a list of waypoints</description>
     <url>http://taulabs.org</url>

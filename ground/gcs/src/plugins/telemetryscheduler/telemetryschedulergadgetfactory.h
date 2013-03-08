@@ -36,7 +36,7 @@ class IUAVGadgetFactory;
 
 using namespace Core;
 
-class TelemetrySchedulerGadgetFactory : public IUAVGadgetFactory
+class Q_DECL_IMPORT TelemetrySchedulerGadgetFactory : public IUAVGadgetFactory
 {
     Q_OBJECT
 public:
@@ -44,6 +44,7 @@ public:
     ~TelemetrySchedulerGadgetFactory();
 
     IUAVGadget *createGadget(QWidget *parent);
+    IUAVGadgetConfiguration *createConfiguration(QSettings* qSettings);
 };
 
 #endif // TELEMETRYSCHEDULERGADGETFACTORY_H_

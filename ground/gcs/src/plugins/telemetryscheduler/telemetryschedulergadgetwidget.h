@@ -27,9 +27,15 @@
 #ifndef TELEMETRYSCHEDULERGADGETWIDGET_H_
 #define TELEMETRYSCHEDULERGADGETWIDGET_H_
 
+#include <QMap>
+#include <QSpinBox>
+#include <QStandardItemModel>
+#include <QItemDelegate>
 #include <QtGui/QLabel>
 #include <telemetrytable.h>
 #include <waypointactive.h>
+
+#include "telemetryschedulergadgetconfiguration.h"
 
 class Ui_TelemetryScheduler;
 
@@ -41,6 +47,7 @@ public:
     TelemetrySchedulerGadgetWidget(QWidget *parent = 0);
     ~TelemetrySchedulerGadgetWidget();
 
+    void setConfig(TelemetrySchedulerConfiguration *val){m_config = val;}
 signals:
 
 protected slots:
@@ -48,10 +55,45 @@ protected slots:
     void waypointActiveChanged(UAVObject *);
     void addInstance();
 
+private slots:
+    void on_bnSaveTelemetryToFile_clicked();
+    void on_bnLoadTelemetryFromFile_clicked();
+    void on_bnApplySchedule_clicked();
+
 private:
+    void importTelemetryConfiguration(const QString& fileName);
+
     Ui_TelemetryScheduler * m_telemetryeditor;
     TelemetryTable *waypointTable;
     Waypoint *waypointObj;
+
+    TelemetrySchedulerConfiguration *m_config;
+    UAVObjectManager *objManager;
+    QString filename;
+
+    QStringList columnHeaders;
+    QStringList rowHeaders;
+
+    QStandardItemModel *schedulerModel;
 };
 
+
+
+class SpinBoxDelegate : public QItemDelegate
+{
+    Q_OBJECT
+
+public:
+    SpinBoxDelegate(QObject *parent = 0);
+
+    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
+                          const QModelIndex &index) const;
+
+    void setEditorData(QWidget *editor, const QModelIndex &index) const;
+    void setModelData(QWidget *editor, QAbstractItemModel *model,
+                      const QModelIndex &index) const;
+
+    void updateEditorGeometry(QWidget *editor,
+        const QStyleOptionViewItem &option, const QModelIndex &index) const;
+};
 #endif /* TELEMETRYSCHEDULERGADGETWIDGET_H_ */

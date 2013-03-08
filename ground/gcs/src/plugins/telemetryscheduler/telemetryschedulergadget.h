@@ -51,8 +51,8 @@ public:
 
     void loadConfiguration(IUAVGadgetConfiguration* config);
 private:
-        QWidget *m_widget;
-	QList<int> m_context;
+    QWidget *m_widget;
+    QList<int> m_context;
 };
 
 
