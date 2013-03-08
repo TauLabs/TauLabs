@@ -77,23 +77,17 @@ public class ObjectEditor extends ObjectManagerActivity {
 				(Button) findViewById(R.id.object_edit_apply_button),
 				(Button) findViewById(R.id.object_edit_load_button));
 
-		/*smartSave.addControlMapping((ScrollBarView) findViewById(R.id.rollRateKp), "RollRatePID", 0);
-		smartSave.addControlMapping((ScrollBarView) findViewById(R.id.rollRateKi), "RollRatePID", 1);
-		smartSave.addControlMapping((ScrollBarView) findViewById(R.id.pitchRateKp), "PitchRatePID", 0);
-		smartSave.addControlMapping((ScrollBarView) findViewById(R.id.pitchRateKi), "PitchRatePID", 1);
-		smartSave.addControlMapping((ScrollBarView) findViewById(R.id.rollKp), "RollPI", 0);
-		smartSave.addControlMapping((ScrollBarView) findViewById(R.id.pitchKp), "PitchPI", 0);
-		smartSave.addControlMapping((ScrollBarView) findViewById(R.id.rollRateKd), "RollRatePID", 2);
-		smartSave.addControlMapping((ScrollBarView) findViewById(R.id.pitchRateKd), "PitchRatePID", 2); */
-		smartSave.refreshSettingsDisplay();
-
 		ObjectEditView editView = (ObjectEditView) findViewById(R.id.object_edit_view);
+		editView.setSmartSave(smartSave);
 		editView.setName(obj.getName());
 
+		// When a field is added to the edit view then it is linked
+		// to the smart save button
 		List<UAVObjectField> fields = obj.getFields();
 		ListIterator<UAVObjectField> li = fields.listIterator();
 		while (li.hasNext()) {
 			editView.addField(li.next());
 		}
+		smartSave.refreshSettingsDisplay();
 	}
 }
