@@ -431,8 +431,8 @@ static void createPathLogo()
 	WaypointData waypoint;
 	waypoint.Velocity = 5; // Since for now this isn't directional just set a mag
 	for(uint32_t i = 0; i < 20; i++) {
-		waypoint.Position[1] = scale * 30 * cos(i / 19.0 * 2 * PI);
-		waypoint.Position[0] = scale * 50 * sin(i / 19.0 * 2 * PI);
+		waypoint.Position[1] = scale * 30 * cosf(i / 19.0 * 2 * PI);
+		waypoint.Position[0] = scale * 50 * sinf(i / 19.0 * 2 * PI);
 		waypoint.Position[2] = -50;
 		waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
 		WaypointCreateInstance();
@@ -440,8 +440,8 @@ static void createPathLogo()
 
 	// Draw P
 	for(uint32_t i = 20; i < 35; i++) {
-		waypoint.Position[1] = scale * (55 + 20 * cos(i / 10.0 * PI - PI / 2));
-		waypoint.Position[0] = scale * (25 + 25 * sin(i / 10.0 * PI - PI / 2));
+		waypoint.Position[1] = scale * (55 + 20 * cosf(i / 10.0 * PI - PI / 2));
+		waypoint.Position[0] = scale * (25 + 25 * sinf(i / 10.0 * PI - PI / 2));
 		waypoint.Position[2] = -50;
 		waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
 		WaypointCreateInstance();

@@ -3,6 +3,7 @@
  *
  * @file       worldmagmodel.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      Utilities to find the location of openpilot GCS files:
  *             - Plugins Share directory path
  *
@@ -296,8 +297,8 @@ namespace Utils {
       float cos_mlambda[WMM_MAX_MODEL_DEGREES+1]; cp(m)  - cosine of (mspherical coord. longitude)
       float sin_mlambda[WMM_MAX_MODEL_DEGREES+1];  sp(m)  - sine of (mspherical coord. longitude)
     */
-        double cos_lambda = cos(CoordSpherical->lambda) * DEG2RAD;
-        double sin_lambda = sin(CoordSpherical->lambda) * DEG2RAD;
+        double cos_lambda = cos(CoordSpherical->lambda * DEG2RAD);
+        double sin_lambda = sin(CoordSpherical->lambda * DEG2RAD);
 
         /* for n = 0 ... model_order, compute (Radius of Earth / Spherica radius r)^(n+2)
            for n  1..nMax-1 (this is much faster than calling pow MAX_N+1 times).      */
@@ -340,7 +341,7 @@ namespace Utils {
            OUTPUT  LegendreFunction  Calculated Legendre variables in the data structure
          */
 
-        double sin_phi = sin(CoordSpherical->phig) * DEG2RAD;	// sin  (geocentric latitude)
+        double sin_phi = sin(CoordSpherical->phig * DEG2RAD);	// sin  (geocentric latitude)
 
         if (nMax <= 16 || (1 - fabs(sin_phi)) < 1.0e-10)	/* If nMax is less tha 16 or at the poles */
             PcupLow(LegendreFunction->Pcup, LegendreFunction->dPcup, sin_phi, nMax);
@@ -419,7 +420,7 @@ namespace Utils {
             }
         }
 
-        double cos_phi = cos(CoordSpherical->phig) * DEG2RAD;
+        double cos_phi = cos(CoordSpherical->phig * DEG2RAD);
         if (fabs(cos_phi) > 1.0e-10)
         {
             MagneticResults->By = MagneticResults->By / cos_phi;
@@ -492,7 +493,7 @@ namespace Utils {
             }
         }
 
-        double cos_phi = cos(CoordSpherical->phig) * DEG2RAD;
+        double cos_phi = cos(CoordSpherical->phig * DEG2RAD);
         if (fabs(cos_phi) > 1.0e-10)
         {
             MagneticResults->By = MagneticResults->By / cos_phi;
@@ -865,7 +866,7 @@ namespace Utils {
         double schmidtQuasiNorm1 = 1.0;
 
         MagneticResults->By = 0.0;
-        double sin_phi = sin(CoordSpherical->phig) * DEG2RAD;
+        double sin_phi = sin(CoordSpherical->phig * DEG2RAD);
 
         for (int n = 1; n <= MagneticModel.nMax; n++)
         {
@@ -916,7 +917,7 @@ namespace Utils {
         double schmidtQuasiNorm1 = 1.0;
 
         MagneticResults->By = 0.0;
-        double sin_phi = sin(CoordSpherical->phig) * DEG2RAD;
+        double sin_phi = sin(CoordSpherical->phig * DEG2RAD);
 
         for (int n = 1; n <= MagneticModel.nMaxSecVar; n++)
         {
@@ -1055,8 +1056,8 @@ namespace Utils {
         // reference ellipsoid), to Earth Centered Earth Fixed Cartesian
         // coordinates, and then to spherical coordinates.
 
-        double CosLat = cos(CoordGeodetic->phi) * DEG2RAD;
-        double SinLat = sin(CoordGeodetic->phi) * DEG2RAD;
+        double CosLat = cos(CoordGeodetic->phi * DEG2RAD);
+        double SinLat = sin(CoordGeodetic->phi * DEG2RAD);
 
         // compute the local radius of curvature on the WGS-84 reference ellipsoid
         double rc = Ellip.a / sqrt(1.0 - Ellip.epssq * SinLat * SinLat);
