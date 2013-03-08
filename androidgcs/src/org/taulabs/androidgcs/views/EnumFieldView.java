@@ -31,15 +31,16 @@ import org.taulabs.uavtalk.UAVObjectField;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class EnumFieldView extends GridLayout implements ObjectFieldMappable {
+public class EnumFieldView extends LinearLayout implements ObjectFieldMappable {
 
 	private final static String TAG = EnumFieldView.class.getSimpleName();
 
@@ -54,12 +55,14 @@ public class EnumFieldView extends GridLayout implements ObjectFieldMappable {
 	public EnumFieldView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
+		final int WIDTH = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
+
 		lbl = new TextView(context);
 		lbl.setText("Field: ");
-		addView(lbl, new GridLayout.LayoutParams(spec(0), spec(0)));
+		addView(lbl, new LinearLayout.LayoutParams(WIDTH, LayoutParams.WRAP_CONTENT, 1));
 
 		spin = new Spinner(context);
-		addView(spin, new GridLayout.LayoutParams(spec(0), spec(1)));
+		addView(spin, new LinearLayout.LayoutParams(WIDTH, LayoutParams.WRAP_CONTENT, 1));
 
 		// Update the value when the edit box changes
 		spin.setOnItemSelectedListener(new OnItemSelectedListener() {
