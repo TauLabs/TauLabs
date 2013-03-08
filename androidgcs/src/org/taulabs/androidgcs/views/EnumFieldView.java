@@ -23,12 +23,10 @@ package org.taulabs.androidgcs.views;
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-import org.taulabs.androidgcs.R;
 import org.taulabs.androidgcs.util.ObjectFieldMappable;
 import org.taulabs.uavtalk.UAVObjectField;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -46,7 +44,6 @@ public class EnumFieldView extends GridLayout implements ObjectFieldMappable {
 	private final TextView lbl;
 	private final Spinner  spin;
 	private double value;
-	private final String name;
 	private boolean localUpdate = false;
 
 	private Runnable changeListener = null;
@@ -54,21 +51,15 @@ public class EnumFieldView extends GridLayout implements ObjectFieldMappable {
 	public EnumFieldView(Context context, AttributeSet attrs, UAVObjectField field, int idx) {
 		super(context, attrs);
 
-		Log.d(TAG, "EnumFieldView init called");
-
 		lbl = new TextView(context);
-		TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.setting_attributes, 0, 0);
-		lbl.setText(ta.getString(R.styleable.setting_attributes_setting_name));
+		lbl.setText(field.getName());
 		addView(lbl, new GridLayout.LayoutParams(spec(0), spec(0)));
 
 		spin = new Spinner(context);
 		addView(spin, new GridLayout.LayoutParams(spec(0), spec(1)));
 
-		name = field.getName();
-
-		Log.d(TAG, "Name: " + name);
-
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		adapter.addAll(field.getOptions());
 		spin.setAdapter(adapter);
 		spin.setSelection((int) field.getDouble(idx));

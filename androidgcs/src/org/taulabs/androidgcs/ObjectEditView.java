@@ -37,7 +37,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 public class ObjectEditView extends GridLayout {
 
@@ -84,19 +83,19 @@ public class ObjectEditView extends GridLayout {
 	public void addRow(Context context, UAVObjectField field, int idx) {
 		int row = getRowCount();
 
-		TextView fieldName = new TextView(context);
+		/*TextView fieldName = new TextView(context);
 		if(field.getNumElements() == 1) {
 			fieldName.setText(field.getName());
 		} else {
 			fieldName.setText(field.getName() + "-" + field.getElementNames().get(idx));
 		}
-		addView(fieldName, new GridLayout.LayoutParams(spec(row), spec(0)));
+		addView(fieldName, new GridLayout.LayoutParams(spec(row), spec(0))); */
 
 		View fieldValue = null;
 		switch(field.getType())
 		{
 		case FLOAT32:
-			fieldValue = new NumericalFieldView(context, null);
+			fieldValue = new NumericalFieldView(context, null, field, idx);
 			((NumericalFieldView)fieldValue).setValue(Double.parseDouble(field.getValue(idx).toString()));
 			((NumericalFieldView)fieldValue).setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 			if (smartSave != null)
@@ -105,7 +104,7 @@ public class ObjectEditView extends GridLayout {
 		case INT8:
 		case INT16:
 		case INT32:
-			fieldValue = new NumericalFieldView(context, null);
+			fieldValue = new NumericalFieldView(context, null, field, idx);
 			((NumericalFieldView)fieldValue).setValue(Double.parseDouble(field.getValue(idx).toString()));
 			((NumericalFieldView)fieldValue).setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
 			if (smartSave != null)
@@ -114,7 +113,7 @@ public class ObjectEditView extends GridLayout {
 		case UINT8:
 		case UINT16:
 		case UINT32:
-			fieldValue = new NumericalFieldView(context, null);
+			fieldValue = new NumericalFieldView(context, null, field, idx);
 			((NumericalFieldView)fieldValue).setValue(Double.parseDouble(field.getValue(idx).toString()));
 			((NumericalFieldView)fieldValue).setInputType(InputType.TYPE_CLASS_NUMBER);
 			if (smartSave != null)
@@ -135,7 +134,7 @@ public class ObjectEditView extends GridLayout {
 			((EditText)fieldValue).setText(field.getValue(idx).toString());
 		}
 
-		addView(fieldValue, new GridLayout.LayoutParams(spec(row), spec(1)));
+		addView(fieldValue, new GridLayout.LayoutParams(spec(row), spec(0)));
 		fields.add(fieldValue);
 	}
 

@@ -23,16 +23,14 @@ package org.taulabs.androidgcs.views;
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-import org.taulabs.androidgcs.R;
 import org.taulabs.androidgcs.util.ObjectFieldMappable;
+import org.taulabs.uavtalk.UAVObjectField;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.TextView;
@@ -44,19 +42,15 @@ public class NumericalFieldView extends GridLayout implements ObjectFieldMappabl
 	private final TextView lbl;
 	private final EditText edit;
 	private double value;
-	private String name;
 	private boolean localUpdate = false;
 
 	private Runnable changeListener = null;
 
-	public NumericalFieldView(Context context, AttributeSet attrs) {
+	public NumericalFieldView(Context context, AttributeSet attrs, UAVObjectField field, int idx) {
 		super(context, attrs);
 
-		Log.d(TAG, "NumericalFieldView init called");
-
 		lbl = new TextView(context);
-		TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.setting_attributes, 0, 0);
-		lbl.setText(ta.getString(R.styleable.setting_attributes_setting_name));
+		lbl.setText(field.getName());
 		addView(lbl, new GridLayout.LayoutParams(spec(0), spec(0)));
 
 		edit = new EditText(context);
@@ -88,12 +82,6 @@ public class NumericalFieldView extends GridLayout implements ObjectFieldMappabl
 
 		setMinimumWidth(300);
 		setValue(0);
-	}
-
-	public void setName(String n)
-	{
-		name = n;
-		lbl.setText(name);
 	}
 
 
