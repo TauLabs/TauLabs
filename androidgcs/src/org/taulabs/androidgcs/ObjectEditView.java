@@ -25,6 +25,8 @@ package org.taulabs.androidgcs;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.taulabs.androidgcs.util.SmartSave;
+import org.taulabs.androidgcs.views.NumericalFieldView;
 import org.taulabs.uavtalk.UAVObjectField;
 
 import android.content.Context;
@@ -42,6 +44,7 @@ public class ObjectEditView extends GridLayout {
 
 	String objectName;
 	public List<View> fields;
+	private SmartSave smartSave;
 
 	public ObjectEditView(Context context) {
 		super(context);
@@ -56,6 +59,10 @@ public class ObjectEditView extends GridLayout {
 	public ObjectEditView(Context context, AttributeSet ats) {
 		super(context, ats);
 		initObjectEditView();
+	}
+
+	public void setSmartSave(SmartSave s) {
+		smartSave = s;
 	}
 
 	public void initObjectEditView() {
@@ -90,23 +97,29 @@ public class ObjectEditView extends GridLayout {
 		switch(field.getType())
 		{
 		case FLOAT32:
-			fieldValue = new EditText(context);
-			((EditText)fieldValue).setText(field.getValue(idx).toString());
-			((EditText)fieldValue).setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+			fieldValue = new NumericalFieldView(context, null);
+			((NumericalFieldView)fieldValue).setValue(Double.parseDouble(field.getValue(idx).toString()));
+			((NumericalFieldView)fieldValue).setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+			if (smartSave != null)
+				smartSave.addControlMapping((NumericalFieldView)fieldValue, field.getName(), idx);
 			break;
 		case INT8:
 		case INT16:
 		case INT32:
-			fieldValue = new EditText(context);
-			((EditText)fieldValue).setText(field.getValue(idx).toString());
-			((EditText)fieldValue).setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+			fieldValue = new NumericalFieldView(context, null);
+			((NumericalFieldView)fieldValue).setValue(Double.parseDouble(field.getValue(idx).toString()));
+			((NumericalFieldView)fieldValue).setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+			if (smartSave != null)
+				smartSave.addControlMapping((NumericalFieldView)fieldValue, field.getName(), idx);
 			break;
 		case UINT8:
 		case UINT16:
 		case UINT32:
-			fieldValue = new EditText(context);
-			((EditText)fieldValue).setText(field.getValue(idx).toString());
-			((EditText)fieldValue).setInputType(InputType.TYPE_CLASS_NUMBER);
+			fieldValue = new NumericalFieldView(context, null);
+			((NumericalFieldView)fieldValue).setValue(Double.parseDouble(field.getValue(idx).toString()));
+			((NumericalFieldView)fieldValue).setInputType(InputType.TYPE_CLASS_NUMBER);
+			if (smartSave != null)
+				smartSave.addControlMapping((NumericalFieldView)fieldValue, field.getName(), idx);
 			break;
 		case ENUM:
 			fieldValue = new Spinner(context);
