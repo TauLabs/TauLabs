@@ -28,6 +28,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include "control.h"
 #include "tablet_control.h"
 
 //! Initialize the tablet controller
@@ -46,4 +47,10 @@ int32_t tablet_control_update()
 int32_t tablet_control_select()
 {
 	return 0;
+}
+
+//! Get any control events
+enum control_events tablet_control_get_events()
+{
+	return CONTROL_EVENTS_DISARM;
 }

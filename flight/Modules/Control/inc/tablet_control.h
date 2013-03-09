@@ -42,4 +42,7 @@ int32_t tablet_control_update();
 //! Use the values for the tablet controller
 int32_t tablet_control_select();
 
+//! Get any control events
+enum control_events tablet_control_get_events();
+
  #endif /* TABLET_CONTROL_H */
