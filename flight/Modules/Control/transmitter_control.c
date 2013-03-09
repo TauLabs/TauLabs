@@ -84,19 +84,20 @@ static enum arm_state             arm_state;
 static FlightStatusData           flightStatus;
 static ManualControlCommandData   cmd;
 static ManualControlSettingsData  settings;
-static float                      flightMode = 0;
 static uint8_t                    disconnected_count = 0;
 static uint8_t                    connected_count = 0;
 static struct rcvr_activity_fsm   activity_fsm;
 static portTickType               lastActivityTime;
 static portTickType               lastSysTime;
+static double                     flight_mode_value;
 
 // Private functions
 static void update_actuator_desired(ManualControlCommandData * cmd);
 static void update_stabilization_desired(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
 static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightModeChanged);
 static void update_path_desired(ManualControlCommandData * cmd, bool flightModeChanged, bool home);
-static void processFlightMode(ManualControlSettingsData * settings, float flightMode);
+static uint8_t get_flight_mode();
+static void set_flight_mode();
 static void processArm(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
 static void setArmedIfChanged(uint8_t val);
 static void set_manual_control_error(SystemAlarmsManualControlOptions errorCode);
@@ -107,6 +108,7 @@ static bool validInputRange(int16_t min, int16_t max, uint16_t value);
 static void applyDeadband(float *value, float deadband);
 static void resetRcvrActivity(struct rcvr_activity_fsm * fsm);
 static bool updateRcvrActivity(struct rcvr_activity_fsm * fsm);
+static void manual_control_settings_updated(UAVObjEvent * ev);
 
 #define assumptions (assumptions1 && assumptions3 && assumptions5 && assumptions7 && assumptions8 && assumptions_flightmode && assumptions_channelcount)
 
@@ -139,6 +141,10 @@ int32_t transmitter_control_initialize()
 	lastActivityTime = xTaskGetTickCount();
 	resetRcvrActivity(&activity_fsm);
 
+	// Use callback to update the settings when they change
+	ManualControlSettingsConnectCallback(manual_control_settings_updated);
+	manual_control_settings_updated(NULL);
+
 	// Main task loop
 	lastSysTime = xTaskGetTickCount();
 	return 0;
@@ -155,10 +161,6 @@ int32_t transmitter_control_initialize()
 int32_t transmitter_control_update()
 {
 	float scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_NUMELEM];
-
-	// TODO: Add flag and callback to update this instead of main loop
-	// Read settings
-	ManualControlSettingsGet(&settings);
 
 	/* Update channel activity monitor */
 	if (flightStatus.Armed == ARM_STATE_DISARMED) {
@@ -303,7 +305,7 @@ int32_t transmitter_control_update()
 			cmd.Pitch          = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH];
 			cmd.Yaw            = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW];
 			cmd.Throttle       = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE];
-			flightMode         = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE];
+			flight_mode_value  = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE];
 
 			// Apply deadband for Roll/Pitch/Yaw stick inputs
 			if (settings.Deadband) {
@@ -340,9 +342,6 @@ int32_t transmitter_control_update()
 				if(AccessoryDesiredInstSet(2, &accessory) != 0) //These are allocated later and that allocation might fail
 					set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
 			}
-
-			processFlightMode(&settings, flightMode);
-
 		}
 
 		// Process arming outside conditional so system will disarm when disconnected
@@ -368,6 +367,8 @@ int32_t transmitter_control_update()
 //! Select and use transmitter control
 int32_t transmitter_control_select()
 {
+	set_flight_mode();
+
 	ManualControlCommandGet(&cmd);
 	FlightStatusGet(&flightStatus);
 
@@ -409,11 +410,40 @@ int32_t transmitter_control_select()
 enum control_selection transmitter_control_selected_controller()
 {
 	ManualControlCommandGet(&cmd);
-	if (cmd.Connected == MANUALCONTROLCOMMAND_CONNECTED_TRUE)
-		return TRANMITTER_PRESENT_AND_USED;
-	else
+	if (cmd.Connected != MANUALCONTROLCOMMAND_CONNECTED_TRUE) {
 		return TRANMITTER_MISSING;
+	} else if (get_flight_mode() == MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_TABLETCONTROL) {
+		return TRANSMITTER_PRESENT_SELECT_TABLET;
+	} else {
+		return TRANMITTER_PRESENT_AND_USED;
+	}
 }
+
+//! Determine which of N positions the flight mode switch is in but do not set it
+static uint8_t get_flight_mode()
+{
+	// Convert flightMode value into the switch position in the range [0..N-1]
+	uint8_t pos = ((int16_t)(flight_mode_value * 256.0f) + 256) * settings.FlightModeNumber >> 9;
+	if (pos >= settings.FlightModeNumber)
+		pos = settings.FlightModeNumber - 1;
+
+	return settings.FlightModePosition[pos];
+}
+
+//! Determine which of N positions the flight mode switch is in and set flight mode accordingly
+static void set_flight_mode()
+{
+	uint8_t new_mode = get_flight_mode();
+
+	FlightStatusData flightStatus;
+	FlightStatusGet(&flightStatus);
+
+	if (flightStatus.FlightMode != new_mode) {
+		flightStatus.FlightMode = new_mode;
+		FlightStatusSet(&flightStatus);
+	}
+}
+
 
 static void resetRcvrActivity(struct rcvr_activity_fsm * fsm)
 {
@@ -954,30 +984,6 @@ static void processArm(ManualControlCommandData * cmd, ManualControlSettingsData
 }
 
 /**
- * @brief Determine which of N positions the flight mode switch is in and set flight mode accordingly
- * @param[out] cmd Pointer to the command structure to set the flight mode in
- * @param[in] settings The settings which indicate which position is which mode
- * @param[in] flightMode the value of the switch position
- */
-static void processFlightMode(ManualControlSettingsData *settings, float flightMode)
-{
-	FlightStatusData flightStatus;
-	FlightStatusGet(&flightStatus);
-
-	// Convert flightMode value into the switch position in the range [0..N-1]
-	uint8_t pos = ((int16_t)(flightMode * 256.0f) + 256) * settings->FlightModeNumber >> 9;
-	if (pos >= settings->FlightModeNumber)
-		pos = settings->FlightModeNumber - 1;
-
-	uint8_t newMode = settings->FlightModePosition[pos];
-
-	if (flightStatus.FlightMode != newMode) {
-		flightStatus.FlightMode = newMode;
-		FlightStatusSet(&flightStatus);
-	}
-}
-
-/**
  * @brief Determine if the manual input value is within acceptable limits
  * @returns return TRUE if so, otherwise return FALSE
  */
@@ -1004,6 +1010,12 @@ static void applyDeadband(float *value, float deadband)
 			*value -= deadband;
 		else
 			*value += deadband;
+}
+
+//! Update the manual control settings
+static void manual_control_settings_updated(UAVObjEvent * ev)
+{
+	ManualControlSettingsGet(&settings);
 }
 
 /**
@@ -1044,7 +1056,6 @@ static void set_manual_control_error(SystemAlarmsManualControlOptions error_code
 	// AlarmSet checks only updates on toggle
 	AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, (uint8_t) severity);
 }
-
 
 /**
   * @}
