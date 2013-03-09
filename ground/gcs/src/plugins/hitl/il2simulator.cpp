@@ -69,14 +69,6 @@
 #include <math.h>
 #include <qxtlogger.h>
 
-const float IL2Simulator::FT2M = 12*.254;
-const float IL2Simulator::KT2MPS = 0.514444444;
-const float IL2Simulator::MPS2KMH = 3.6;
-const float IL2Simulator::KMH2MPS = (1.0/3.6);
-const float IL2Simulator::INHG2KPA = 3.386;
-const float IL2Simulator::NM2DEG =  60.*1852.; // 60 miles per degree times 1852 meters per mile
-const float IL2Simulator::DEG2NM = (1.0/(60.*1852.));
-
 IL2Simulator::IL2Simulator(const SimulatorSettings& params) :
     Simulator(params)
 {
@@ -140,7 +132,7 @@ void IL2Simulator::processUpdate(const QByteArray& inp)
             float value = values[1].toFloat();
             switch (id) {
             case 30:
-                current.cas=value * KMH2MPS;
+                current.cas=value * KM_PER_HOUR2METERS_PER_SECOND;
                 break;
             case 32:
                 current.dZ=value;
