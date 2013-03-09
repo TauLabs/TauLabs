@@ -6,14 +6,10 @@
  * @brief Provide manual control or allow it alter flight mode.
  * @{
  *
- * Reads in the ManualControlCommand FlightMode setting from receiver then either
- * pass the settings straght to ActuatorDesired object (manual mode) or to
- * AttitudeDesired object (stabilized mode)
- *
- * @file       control.c
+ * @file       transmitter_control.c
  * @author     Tau Labs, http://github.com/TauLabs Copyright (C) 2012-2013.
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      ManualControl module. Handles safety R/C link and flight mode.
+ * @brief      Handles R/C link and flight mode.
  *
  * @see        The GNU Public License (GPL) Version 3
  *
