@@ -116,11 +116,11 @@ static void controlTask(void *parameters)
 		// Control logic to select the valid controller
 		enum control_selection control_selection = transmitter_control_selected_controller();
 		switch(control_selection) {
-		case TRANMITTER_MISSING:
+		case TRANSMITTER_MISSING:
 			failsafe_control_select();
 			control_events = failsafe_control_get_events();
 			break;
-		case TRANMITTER_PRESENT_AND_USED:
+		case TRANSMITTER_PRESENT_AND_USED:
 			transmitter_control_select();
 			control_events = transmitter_control_get_events();
 			break;
@@ -191,7 +191,7 @@ static int32_t control_event_disarm()
 
 
 /**
- * @brief Determine if the aircraft is safe to arm
+ * @brief Determine if the aircraft is safe to arm based on alarms
  * @returns True if safe to arm, false otherwise
  */
 static bool ok_to_arm(void)
@@ -203,11 +203,10 @@ static bool ok_to_arm(void)
 	// Check each alarm
 	for (int i = 0; i < SYSTEMALARMS_ALARM_NUMELEM; i++)
 	{
-		if (alarms.Alarm[i] >= SYSTEMALARMS_ALARM_ERROR)
-		{	// found an alarm thats set
-			if (i == SYSTEMALARMS_ALARM_GPS || i == SYSTEMALARMS_ALARM_TELEMETRY)
-				continue;
-
+		if (alarms.Alarm[i] >= SYSTEMALARMS_ALARM_ERROR &&
+			i != SYSTEMALARMS_ALARM_GPS &&
+			i != SYSTEMALARMS_ALARM_TELEMETRY)
+		{
 			return false;
 		}
 	}
