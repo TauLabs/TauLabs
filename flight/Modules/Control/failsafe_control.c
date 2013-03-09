@@ -29,19 +29,21 @@
  */
 
 #include "openpilot.h"
+#include "failsafe_control.h"
+
 #include "flightstatus.h"
 #include "stabilizationdesired.h"
 
 //! Initialize the failsafe controller
 int32_t failsafe_control_initialize()
 {
-
+	return 0;
 }
 
 //! Perform any updates to the failsafe controller
 int32_t failsafe_control_update()
 {
-
+	return 0;
 }
 
 //! Use failsafe mode
@@ -60,4 +62,6 @@ int32_t failsafe_control_select()
 	stabilization_desired.Pitch = 0;
 	stabilization_desired.Yaw = 0;
 	StabilizationDesiredSet(&stabilization_desired);
+
+	return 0;
 }
