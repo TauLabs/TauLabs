@@ -71,14 +71,32 @@ typedef enum arm_state
 	ARM_STATE_DISARMING_TIMEOUT
 };
 
+#define RCVR_ACTIVITY_MONITOR_CHANNELS_PER_GROUP 12
+#define RCVR_ACTIVITY_MONITOR_MIN_RANGE 10
+struct rcvr_activity_fsm {
+	ManualControlSettingsChannelGroupsOptions group;
+	uint16_t prev[RCVR_ACTIVITY_MONITOR_CHANNELS_PER_GROUP];
+	uint8_t sample_count;
+};
+
+
 // Private variables
-static enum arm_state arm_state;
+static enum arm_state             arm_state;
+static FlightStatusData           flightStatus;
+static ManualControlCommandData   cmd;
+static ManualControlSettingsData  settings;
+static float                      flightMode = 0;
+static uint8_t                    disconnected_count = 0;
+static uint8_t                    connected_count = 0;
+static struct rcvr_activity_fsm   activity_fsm;
+static portTickType               lastActivityTime;
+static portTickType               lastSysTime;
 
 // Private functions
-static void updateActuatorDesired(ManualControlCommandData * cmd);
-static void updateStabilizationDesired(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
-static void altitudeHoldDesired(ManualControlCommandData * cmd, bool flightModeChanged);
-static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeChanged, bool home);
+static void update_actuator_desired(ManualControlCommandData * cmd);
+static void update_stabilization_desired(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
+static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightModeChanged);
+static void update_path_desired(ManualControlCommandData * cmd, bool flightModeChanged, bool home);
 static void processFlightMode(ManualControlSettingsData * settings, float flightMode);
 static void processArm(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
 static void setArmedIfChanged(uint8_t val);
@@ -88,16 +106,6 @@ static uint32_t timeDifferenceMs(portTickType start_time, portTickType end_time)
 static bool okToArm(void);
 static bool validInputRange(int16_t min, int16_t max, uint16_t value);
 static void applyDeadband(float *value, float deadband);
-
-#define RCVR_ACTIVITY_MONITOR_CHANNELS_PER_GROUP 12
-#define RCVR_ACTIVITY_MONITOR_MIN_RANGE 10
-struct rcvr_activity_fsm {
-	ManualControlSettingsChannelGroupsOptions group;
-	uint16_t prev[RCVR_ACTIVITY_MONITOR_CHANNELS_PER_GROUP];
-	uint8_t sample_count;
-};
-static struct rcvr_activity_fsm activity_fsm;
-
 static void resetRcvrActivity(struct rcvr_activity_fsm * fsm);
 static bool updateRcvrActivity(struct rcvr_activity_fsm * fsm);
 
@@ -117,28 +125,19 @@ int32_t transmitter_control_initialize()
 	ReceiverActivityInitialize();
 	ManualControlSettingsInitialize();
 
-	// Below this used to run in the task thread
-	ManualControlSettingsData settings;
-	ManualControlCommandData cmd;
-	FlightStatusData flightStatus;
-	float flightMode = 0;
-
-	uint8_t disconnected_count = 0;
-	uint8_t connected_count = 0;
-
-	// For now manual instantiate extra instances of Accessory Desired.  In future should be done dynamically
-	// this includes not even registering it if not used
+	/* For now manual instantiate extra instances of Accessory Desired.  In future  */
+	/* should be done dynamically this includes not even registering it if not used */
 	AccessoryDesiredCreateInstance();
 	AccessoryDesiredCreateInstance();
 
-	// Make sure unarmed on power up
+	/* Make sure unarmed on power up */
 	ManualControlCommandGet(&cmd);
 	FlightStatusGet(&flightStatus);
 	flightStatus.Armed = FLIGHTSTATUS_ARMED_DISARMED;
 	arm_state = ARM_STATE_DISARMED;
 
 	/* Initialize the RcvrActivty FSM */
-	portTickType lastActivityTime = xTaskGetTickCount();
+	lastActivityTime = xTaskGetTickCount();
 	resetRcvrActivity(&activity_fsm);
 
 	// Main task loop
@@ -146,15 +145,19 @@ int32_t transmitter_control_initialize()
 	return 0;
 }
 
-//! Process inputs and arming
+/**
+  * @brief Process inputs and arming
+  *
+  * This will always process the arming signals as for now the transmitter
+  * is always in charge.  When a transmitter is not detected control will
+  * fall back to the failsafe module.  If the flight mode is in tablet
+  * control position then control will be ceeded to that module.
+  */
 int32_t transmitter_control_update()
 {
 	float scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_NUMELEM];
 
-	// Wait until next update
-	vTaskDelayUntil(&lastSysTime, UPDATE_PERIOD_MS / portTICK_RATE_MS);
-	PIOS_WDG_UpdateFlag(PIOS_WDG_MANUAL);
-
+	// TODO: Add flag and callback to update this instead of main loop
 	// Read settings
 	ManualControlSettingsGet(&settings);
 
@@ -185,7 +188,7 @@ int32_t transmitter_control_update()
 	if (!ManualControlCommandReadOnly()) {
 
 		bool valid_input_detected = true;
-		
+
 		// Read channel values in us
 		for (uint8_t n = 0; 
 		     n < MANUALCONTROLSETTINGS_CHANNELGROUPS_NUMELEM && n < MANUALCONTROLCOMMAND_CHANNEL_NUMELEM;
@@ -198,7 +201,7 @@ int32_t transmitter_control_update()
 				cmd.Channel[n] = PIOS_RCVR_Read(pios_rcvr_group_map[settings.ChannelGroups[n]],
 								settings.ChannelNumber[n]);
 			}
-			
+
 			// If a channel has timed out this is not valid data and we shouldn't update anything
 			// until we decide to go to failsafe
 			if(cmd.Channel[n] == PIOS_RCVR_TIMEOUT)
@@ -231,7 +234,7 @@ int32_t transmitter_control_update()
 				cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] == (uint16_t) PIOS_RCVR_NODRIVER))) {
 
 			set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_SETTINGS);
-			
+
 			cmd.Connected = MANUALCONTROLCOMMAND_CONNECTED_FALSE;
 			ManualControlCommandSet(&cmd);
 
@@ -239,7 +242,7 @@ int32_t transmitter_control_update()
 			// immediately disarm
 			setArmedIfChanged(FLIGHTSTATUS_ARMED_DISARMED);
 
-			continue;
+			return -1;
 		}
 
 		// decide if we have valid manual input or not
@@ -312,8 +315,9 @@ int32_t transmitter_control_update()
 
 			if(cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE] != (uint16_t) PIOS_RCVR_INVALID &&
 			   cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE] != (uint16_t) PIOS_RCVR_NODRIVER &&
-			   cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE] != (uint16_t) PIOS_RCVR_TIMEOUT)
+			   cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE] != (uint16_t) PIOS_RCVR_TIMEOUT) {
 				cmd.Collective = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE];
+			}
 			   
 			AccessoryDesiredData accessory;
 			// Set Accessory 0
@@ -357,49 +361,45 @@ int32_t transmitter_control_update()
 		}
 #endif	/* PIOS_INCLUDE_USB_RCTX */
 
-	} else {
-		ManualControlCommandGet(&cmd);	/* Under GCS control */
 	}
 
+	return 0;
 }
 
 //! Select and use transmitter control
 int32_t transmitter_control_select()
 {
+	ManualControlCommandGet(&cmd);
 	FlightStatusGet(&flightStatus);
 
 	// Depending on the mode update the Stabilization or Actuator objects
 	static uint8_t lastFlightMode = FLIGHTSTATUS_FLIGHTMODE_MANUAL;
-	switch(PARSE_FLIGHT_MODE(flightStatus.FlightMode)) {
-		case FLIGHTMODE_UNDEFINED:
-			// This reflects a bug in the code architecture!
-			set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_UNDEFINED);
-			break;
-		case FLIGHTMODE_MANUAL:
-			updateActuatorDesired(&cmd);
-			break;
-		case FLIGHTMODE_STABILIZED:
-			updateStabilizationDesired(&cmd, &settings);
-			break;
-		case FLIGHTMODE_TUNING:
-			// Tuning takes settings directly from manualcontrolcommand.  No need to
-			// call anything else.  This just avoids errors.
-			break;
-		case FLIGHTMODE_GUIDANCE:
-			switch(flightStatus.FlightMode) {
-				case FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD:
-					altitudeHoldDesired(&cmd, lastFlightMode != flightStatus.FlightMode);
-					break;
-				case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
-					updatePathDesired(&cmd, lastFlightMode != flightStatus.FlightMode, false);
-					break;
-				case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
-					updatePathDesired(&cmd, lastFlightMode != flightStatus.FlightMode, true);
-					break;
-				default:
-					set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_UNDEFINED);
-			}
-			break;
+
+	switch(flightStatus.FlightMode) {
+	case FLIGHTSTATUS_FLIGHTMODE_MANUAL:
+		update_actuator_desired(&cmd);
+		break;
+	case FLIGHTSTATUS_FLIGHTMODE_STABILIZED1:
+	case FLIGHTSTATUS_FLIGHTMODE_STABILIZED2:
+	case FLIGHTSTATUS_FLIGHTMODE_STABILIZED3:
+		update_stabilization_desired(&cmd, &settings);
+		break;
+	case FLIGHTSTATUS_FLIGHTMODE_AUTOTUNE:
+		// Tuning takes settings directly from manualcontrolcommand.  No need to
+		// call anything else.  This just avoids errors.
+		break;
+	case FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD:
+		altitude_hold_desired(&cmd, lastFlightMode != flightStatus.FlightMode);
+		break;
+	case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
+		update_path_desired(&cmd, lastFlightMode != flightStatus.FlightMode, false);
+		break;
+	case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
+		update_path_desired(&cmd, lastFlightMode != flightStatus.FlightMode, true);
+		break;
+	default:
+		set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_UNDEFINED);
+		break;
 	}
 	lastFlightMode = flightStatus.FlightMode;
 }
@@ -407,7 +407,11 @@ int32_t transmitter_control_select()
 //! Choose the control source based on transmitter status
 enum control_selection transmitter_control_selected_controller()
 {
-	return TRANMITTER_PRESENT_AND_USED;
+	ManualControlCommandGet(&cmd);
+	if (cmd.Connected = MANUALCONTROLCOMMAND_CONNECTED_TRUE)
+		return TRANMITTER_PRESENT_AND_USED;
+	else
+		return TRANMITTER_MISSING;
 }
 
 static void resetRcvrActivity(struct rcvr_activity_fsm * fsm)
@@ -549,7 +553,8 @@ group_completed:
 	return (activity_updated);
 }
 
-static void updateActuatorDesired(ManualControlCommandData * cmd)
+//! In manual mode directly set actuator desired
+static void update_actuator_desired(ManualControlCommandData * cmd)
 {
 	ActuatorDesiredData actuator;
 	ActuatorDesiredGet(&actuator);
@@ -560,7 +565,8 @@ static void updateActuatorDesired(ManualControlCommandData * cmd)
 	ActuatorDesiredSet(&actuator);
 }
 
-static void updateStabilizationDesired(ManualControlCommandData * cmd, ManualControlSettingsData * settings)
+//! In stabilization mode, set stabilization desired
+static void update_stabilization_desired(ManualControlCommandData * cmd, ManualControlSettingsData * settings)
 {
 	StabilizationDesiredData stabilization;
 	StabilizationDesiredGet(&stabilization);
@@ -631,14 +637,15 @@ static void updateStabilizationDesired(ManualControlCommandData * cmd, ManualCon
 	StabilizationDesiredSet(&stabilization);
 }
 
+#if defined(REVOLUTION)
 
 /**
  * @brief Update the position desired to current location when
  * enabled and allow the waypoint to be moved by transmitter
  */
-static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeChanged, bool home)
+static void update_path_desired(ManualControlCommandData * cmd, bool flightModeChanged, bool home)
 {
-		if (home && flightModeChanged) {
+	if (home && flightModeChanged) {
 		// Simple Return To Home mode - climb 10 meters and fly to home position
 		PositionActualData positionActual;
 		PositionActualGet(&positionActual);
@@ -675,14 +682,12 @@ static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeCha
 	}
 }
 
-
-#if defined(REVOLUTION)
 /**
  * @brief Update the altitude desired to current altitude when
  * enabled and enable altitude mode for stabilization
  * @todo: Need compile flag to exclude this from copter control
  */
-static void altitudeHoldDesired(ManualControlCommandData * cmd, bool flightModeChanged)
+static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightModeChanged)
 {
 	const float DEADBAND_HIGH = 0.55;
 	const float DEADBAND_LOW = 0.45;
@@ -720,12 +725,21 @@ static void altitudeHoldDesired(ManualControlCommandData * cmd, bool flightModeC
 	
 	AltitudeHoldDesiredSet(&altitudeHoldDesired);
 }
-#else
+
+#else /* For boards that do not support navigation set error if these modes are selected */
+
+static void static void update_path_desired(ManualControlCommandData * cmd, bool flightModeChanged, bool home)
+{
+	set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD);
+}
+
 static void altitudeHoldDesired(ManualControlCommandData * cmd, bool flightModeChanged)
 {
 	set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD);
 }
-#endif
+
+#endif /* REVOLUTION */
+
 /**
  * Convert channel from servo pulse duration (microseconds) to scaled -1/+1 range.
  */
