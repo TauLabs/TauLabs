@@ -222,10 +222,11 @@ void HistogramScopeConfig::replaceHistogramDataSource(QList<Plot2dCurveConfigura
  */
 void HistogramScopeConfig::loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget)
 {
-    scopeGadgetWidget->setupHistogramPlot(this);
-    scopeGadgetWidget->setRefreshInterval(m_refreshInterval);
+    preparePlot(scopeGadgetWidget);
+    scopeGadgetWidget->setScope(this);
+    scopeGadgetWidget->startTimer(m_refreshInterval);
 
-    // Configured each data source
+    // Configure each data source
     foreach (Plot2dCurveConfiguration* histogramDataSourceConfig,  m_HistogramSourceConfigs)
     {
         QRgb color = histogramDataSourceConfig->color;
@@ -382,4 +383,33 @@ void HistogramScopeConfig::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
 
     // Add the legend
     scopeGadgetWidget->addLegend();
+
+    // Configure axes
+    configureAxes(scopeGadgetWidget);
+}
+
+
+/**
+ * @brief HistogramScopeConfig::configureAxes Configure the axes
+ * @param scopeGadgetWidget
+ */
+void HistogramScopeConfig::configureAxes(ScopeGadgetWidget *scopeGadgetWidget)
+{
+    // Configure axes
+    scopeGadgetWidget->setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());
+    scopeGadgetWidget->setAxisAutoScale(QwtPlot::xBottom);
+    scopeGadgetWidget->setAxisLabelRotation(QwtPlot::xBottom, 0.0);
+    scopeGadgetWidget->setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom);
+    scopeGadgetWidget->axisWidget( QwtPlot::yRight )->setColorBarEnabled( false );
+    scopeGadgetWidget->enableAxis( QwtPlot::yRight, false );
+
+    // Reduce the gap between the scope canvas and the axis scale
+    QwtScaleWidget *scaleWidget = scopeGadgetWidget->axisWidget(QwtPlot::xBottom);
+    scaleWidget->setMargin(0);
+
+    // reduce the axis font size
+    QFont fnt(scopeGadgetWidget->axisFont(QwtPlot::xBottom));
+    fnt.setPointSize(7);
+    scopeGadgetWidget->setAxisFont(QwtPlot::xBottom, fnt);	// x-axis
+    scopeGadgetWidget->setAxisFont(QwtPlot::yLeft, fnt);	// y-axis
 }
