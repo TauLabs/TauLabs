@@ -136,14 +136,14 @@ static void onTimer(UAVObjEvent* ev)
 
 	//calculate the battery parameters
 	if (voltageADCPin >=0) {
-		flightBatteryData.Voltage = ((float)PIOS_ADC_PinGet(voltageADCPin)) * batterySettings.SensorCalibrations[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONS_VOLTAGEFACTOR]; //in Volts
+		flightBatteryData.Voltage = ((float)PIOS_ADC_PinGet(voltageADCPin)) * PIOS_ADC_VOLTAGE_SCALE * batterySettings.SensorCalibrations[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONS_VOLTAGEFACTOR]; //in Volts
 	}
 	else {
 		flightBatteryData.Voltage=1234; //Dummy placeholder value. This is in case we get another source of battery current which is not from the ADC
 	}
 
 	if (currentADCPin >=0) {
-		flightBatteryData.Current = ((float)PIOS_ADC_PinGet(currentADCPin)) * batterySettings.SensorCalibrations[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONS_CURRENTFACTOR]; //in Amps
+		flightBatteryData.Current = ((float)PIOS_ADC_PinGet(currentADCPin)) * PIOS_ADC_VOLTAGE_SCALE * batterySettings.SensorCalibrations[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONS_CURRENTFACTOR]; //in Amps
 		if (flightBatteryData.Current > flightBatteryData.PeakCurrent) 
 			flightBatteryData.PeakCurrent = flightBatteryData.Current; //in Amps
 	}
@@ -191,17 +191,28 @@ static void onTimer(UAVObjEvent* ev)
 			AlarmsClear(SYSTEMALARMS_ALARM_FLIGHTTIME);
 
 		// FIXME: should make the battery voltage detection dependent on battery type. 
-		/*Not so sure. Some users will want to run their batteries harder than others, so it should be the user's choice. [KDS]*/
-		if (flightBatteryData.Voltage < batterySettings.VoltageThresholds[FLIGHTBATTERYSETTINGS_VOLTAGETHRESHOLDS_ALARM])
-			AlarmsSet(SYSTEMALARMS_ALARM_BATTERY, SYSTEMALARMS_ALARM_CRITICAL);
-		else if (flightBatteryData.Voltage < batterySettings.VoltageThresholds[FLIGHTBATTERYSETTINGS_VOLTAGETHRESHOLDS_WARNING])
-			AlarmsSet(SYSTEMALARMS_ALARM_BATTERY, SYSTEMALARMS_ALARM_WARNING);
-		else 
-			AlarmsClear(SYSTEMALARMS_ALARM_BATTERY);
-	}
-	
-	FlightBatteryStateSet(&flightBatteryData);
-}
+				/*Not so sure. Some users will want to run their batteries harder than others, so it should be the user's choice. [KDS]*/
+				if (flightBatteryData.Voltage < batterySettings.VoltageThresholds[FLIGHTBATTERYSETTINGS_VOLTAGETHRESHOLDS_ALARM]){
+					AlarmsSet(SYSTEMALARMS_ALARM_BATTERY, SYSTEMALARMS_ALARM_CRITICAL);
+		#if defined (PIOS_INCLUDE_BUZZER)
+					PIOS_LED_On(PIOS_BUZZER);
+		#endif
+				}else if (flightBatteryData.Voltage < batterySettings.VoltageThresholds[FLIGHTBATTERYSETTINGS_VOLTAGETHRESHOLDS_WARNING]){
+					AlarmsSet(SYSTEMALARMS_ALARM_BATTERY, SYSTEMALARMS_ALARM_WARNING);
+		#if defined (PIOS_INCLUDE_BUZZER)
+					PIOS_LED_Toggle(PIOS_BUZZER);
+		#endif
+
+				}else {
+					AlarmsClear(SYSTEMALARMS_ALARM_BATTERY);
+		#if defined (PIOS_INCLUDE_BUZZER)
+					PIOS_LED_Off(PIOS_BUZZER);
+		#endif
+				}
+			}
+
+			FlightBatteryStateSet(&flightBatteryData);
+		}
 
 /**
   * @}

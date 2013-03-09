@@ -50,7 +50,7 @@ OPTMODULES += FixedWingPathFollower
 OPTMODULES += CameraStab
 OPTMODULES += Autotune
 OPTMODULES += TxPID
-OPTMODULES += Battery
+OPTMODULES += Battery/vrbrain
 OPTMODULES += VibrationAnalysis
 
 PYMODULES = 
