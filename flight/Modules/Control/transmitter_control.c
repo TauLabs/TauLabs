@@ -35,6 +35,7 @@
  */
 
 #include "openpilot.h"
+#include "control.h"
 #include "transmitter_control.h"
 
 #include "accessorydesired.h"
@@ -90,6 +91,7 @@ static struct rcvr_activity_fsm   activity_fsm;
 static portTickType               lastActivityTime;
 static portTickType               lastSysTime;
 static double                     flight_mode_value;
+static enum control_events        pending_control_event;
 
 // Private functions
 static void update_actuator_desired(ManualControlCommandData * cmd);
@@ -99,11 +101,9 @@ static void update_path_desired(ManualControlCommandData * cmd, bool flightModeC
 static uint8_t get_flight_mode();
 static void set_flight_mode();
 static void processArm(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
-static void setArmedIfChanged(uint8_t val);
 static void set_manual_control_error(SystemAlarmsManualControlOptions errorCode);
 static float scaleChannel(int16_t value, int16_t max, int16_t min, int16_t neutral);
 static uint32_t timeDifferenceMs(portTickType start_time, portTickType end_time);
-static bool okToArm(void);
 static bool validInputRange(int16_t min, int16_t max, uint16_t value);
 static void applyDeadband(float *value, float deadband);
 static void resetRcvrActivity(struct rcvr_activity_fsm * fsm);
@@ -131,11 +131,11 @@ int32_t transmitter_control_initialize()
 	AccessoryDesiredCreateInstance();
 	AccessoryDesiredCreateInstance();
 
-	/* Make sure unarmed on power up */
-	ManualControlCommandGet(&cmd);
-	FlightStatusGet(&flightStatus);
-	flightStatus.Armed = FLIGHTSTATUS_ARMED_DISARMED;
+	/* Reset the state machine for processing stick movements */
 	arm_state = ARM_STATE_DISARMED;
+
+	/* No pending control events */
+	pending_control_event = CONTROL_EVENTS_NONE;
 
 	/* Initialize the RcvrActivty FSM */
 	lastActivityTime = xTaskGetTickCount();
@@ -241,7 +241,7 @@ int32_t transmitter_control_update()
 
 			// Need to do this here since we don't process armed status.  Since this shouldn't happen in flight (changed config) 
 			// immediately disarm
-			setArmedIfChanged(FLIGHTSTATUS_ARMED_DISARMED);
+			pending_control_event = CONTROL_EVENTS_DISARM;
 
 			return -1;
 		}
@@ -367,6 +367,7 @@ int32_t transmitter_control_update()
 //! Select and use transmitter control
 int32_t transmitter_control_select()
 {
+	// Activate the flight mode corresponding to the switch position
 	set_flight_mode();
 
 	ManualControlCommandGet(&cmd);
@@ -417,6 +418,14 @@ enum control_selection transmitter_control_selected_controller()
 	} else {
 		return TRANMITTER_PRESENT_AND_USED;
 	}
+}
+
+//! Get any control events and flush it
+enum control_events transmitter_control_get_events()
+{
+	enum control_events to_return = pending_control_event;
+	pending_control_event = CONTROL_EVENTS_NONE;
+	return to_return;
 }
 
 //! Determine which of N positions the flight mode switch is in but do not set it
@@ -809,79 +818,16 @@ static uint32_t timeDifferenceMs(portTickType start_time, portTickType end_time)
 }
 
 /**
- * @brief Determine if the aircraft is safe to arm
- * @returns True if safe to arm, false otherwise
- */
-static bool okToArm(void)
-{
-	// read alarms
-	SystemAlarmsData alarms;
-	SystemAlarmsGet(&alarms);
-
-
-	// Check each alarm
-	for (int i = 0; i < SYSTEMALARMS_ALARM_NUMELEM; i++)
-	{
-		if (alarms.Alarm[i] >= SYSTEMALARMS_ALARM_ERROR)
-		{	// found an alarm thats set
-			if (i == SYSTEMALARMS_ALARM_GPS || i == SYSTEMALARMS_ALARM_TELEMETRY)
-				continue;
-
-			return false;
-		}
-	}
-
-	return true;
-}
-/**
- * @brief Determine if the aircraft is forced to disarm by an explicit alarm
- * @returns True if safe to arm, false otherwise
- */
-static bool forcedDisarm(void)
-{
-	// read alarms
-	SystemAlarmsData alarms;
-	SystemAlarmsGet(&alarms);
-
-	if (alarms.Alarm[SYSTEMALARMS_ALARM_PATHFOLLOWER] == SYSTEMALARMS_ALARM_CRITICAL) {
-		return true;
-	}
-	return false;
-}
-
-/**
- * @brief Update the flightStatus object only if value changed.  Reduces callbacks
- * @param[in] val The new value
- */
-static void setArmedIfChanged(uint8_t val) {
-	FlightStatusData flightStatus;
-	FlightStatusGet(&flightStatus);
-
-	if(flightStatus.Armed != val) {
-		flightStatus.Armed = val;
-		FlightStatusSet(&flightStatus);
-	}
-}
-
-/**
  * @brief Process the inputs and determine whether to arm or not
  * @param[out] cmd The structure to set the armed in
  * @param[in] settings Settings indicating the necessary position
  */
 static void processArm(ManualControlCommandData * cmd, ManualControlSettingsData * settings) //<-- FOR SAFETY, ARMING NEEDS TO CHANGE SO THAT OTHER MODULES CAN'T OVERRULE IT
 {
-
 	bool lowThrottle = cmd->Throttle <= 0;
 
-	if (forcedDisarm()) { //<--TODO: The name makes little sense vs. what it is intended to do.
-		// PathPlanner forces explicit disarming due to error condition (crash, impact, fire, ...)
-		setArmedIfChanged(FLIGHTSTATUS_ARMED_DISARMED);
-		return;
-	}
-
 	if (settings->Arming == MANUALCONTROLSETTINGS_ARMING_ALWAYSDISARMED) {
-		// In this configuration we always disarm
-		setArmedIfChanged(FLIGHTSTATUS_ARMED_DISARMED);
+		pending_control_event = CONTROL_EVENTS_DISARM;
 	} else {
 		// Not really needed since this function not called when disconnected
 		if (cmd->Connected == MANUALCONTROLCOMMAND_CONNECTED_FALSE)
@@ -906,11 +852,12 @@ static void processArm(ManualControlCommandData * cmd, ManualControlSettingsData
 
 		// The rest of these cases throttle is low
 		if (settings->Arming == MANUALCONTROLSETTINGS_ARMING_ALWAYSARMED) {
-			// In this configuration, we go into armed state as soon as the throttle is low, never disarm
-			setArmedIfChanged(FLIGHTSTATUS_ARMED_ARMED);
+			uint8_t arm_status;
+			FlightStatusArmedGet(&arm_status);
+			if (arm_status != FLIGHTSTATUS_ARMED_ARMED)
+				pending_control_event = CONTROL_EVENTS_ARM;
 			return;
 		}
-
 
 		// When the configuration is not "Always armed" and no "Always disarmed",
 		// the state will not be changed when the throttle is not low
@@ -935,17 +882,14 @@ static void processArm(ManualControlCommandData * cmd, ManualControlSettingsData
 
 		switch(arm_state) {
 			case ARM_STATE_DISARMED:
-				setArmedIfChanged(FLIGHTSTATUS_ARMED_DISARMED);
+				pending_control_event = CONTROL_EVENTS_DISARM;
+				armedDisarmStart = lastSysTime;
+				arm_state = ARM_STATE_ARMING_MANUAL;
 
-				// only allow arming if it's OK too
-				if (manualArm && okToArm()) {
-					armedDisarmStart = lastSysTime;
-					arm_state = ARM_STATE_ARMING_MANUAL;
-				}
 				break;
 
 			case ARM_STATE_ARMING_MANUAL:
-				setArmedIfChanged(FLIGHTSTATUS_ARMED_ARMING);
+				pending_control_event = CONTROL_EVENTS_ARMING;
 
 				if (manualArm && (timeDifferenceMs(armedDisarmStart, lastSysTime) > ARMED_TIME_MS))
 					arm_state = ARM_STATE_ARMED;
@@ -958,7 +902,7 @@ static void processArm(ManualControlCommandData * cmd, ManualControlSettingsData
 				// we go immediately to disarming due to timeout, also when the disarming mechanism is not enabled
 				armedDisarmStart = lastSysTime;
 				arm_state = ARM_STATE_DISARMING_TIMEOUT;
-				setArmedIfChanged(FLIGHTSTATUS_ARMED_ARMED);
+				pending_control_event = CONTROL_EVENTS_ARM;
 				break;
 
 			case ARM_STATE_DISARMING_TIMEOUT:

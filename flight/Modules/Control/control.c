@@ -30,10 +30,14 @@
  */
 
 #include "openpilot.h"
+
 #include "control.h"
 #include "failsafe_control.h"
 #include "tablet_control.h"
 #include "transmitter_control.h"
+
+#include "flightstatus.h"
+#include "systemalarms.h"
 
 // Private constants
 #if defined(PIOS_CONTROL_STACK_SIZE)
@@ -52,7 +56,12 @@ static portTickType lastSysTime;
 
 // Private functions
 static void controlTask(void *parameters);
+static bool ok_to_arm(void);
 
+// Private functions for control events
+static int32_t control_event_arm();
+static int32_t control_event_arming();
+static int32_t control_event_disarm();
 
 /**
  * Module starting
@@ -87,6 +96,11 @@ MODULE_INITCALL(ControlInitialize, ControlStart);
  */
 static void controlTask(void *parameters)
 {
+	/* Make sure disarmed on power up */
+	FlightStatusData flightStatus;
+	FlightStatusGet(&flightStatus);
+	flightStatus.Armed = FLIGHTSTATUS_ARMED_DISARMED;
+
 	// Main task loop
 	lastSysTime = xTaskGetTickCount();
 	while (1) {
@@ -97,17 +111,37 @@ static void controlTask(void *parameters)
 		transmitter_control_update();
 		tablet_control_update();
 
+		enum control_events control_events = CONTROL_EVENTS_NONE;
+
 		// Control logic to select the valid controller
 		enum control_selection control_selection = transmitter_control_selected_controller();
 		switch(control_selection) {
 		case TRANMITTER_MISSING:
 			failsafe_control_select();
+			control_events = failsafe_control_get_events();
 			break;
 		case TRANMITTER_PRESENT_AND_USED:
 			transmitter_control_select();
+			control_events = transmitter_control_get_events();
 			break;
 		case TRANSMITTER_PRESENT_SELECT_TABLET:
 			tablet_control_select();
+			control_events = tablet_control_get_events();
+			break;
+		}
+
+		// TODO: This can evolve into a full FSM like I2C possibly
+		switch(control_events) {
+		case CONTROL_EVENTS_NONE:
+			break;
+		case CONTROL_EVENTS_ARM:
+			control_event_arm();
+			break;
+		case CONTROL_EVENTS_ARMING:
+			control_event_arming();
+			break;
+		case CONTROL_EVENTS_DISARM:
+			control_event_disarm();
 			break;
 		}
 
@@ -115,6 +149,70 @@ static void controlTask(void *parameters)
 		vTaskDelayUntil(&lastSysTime, UPDATE_PERIOD_MS / portTICK_RATE_MS);
 		PIOS_WDG_UpdateFlag(PIOS_WDG_MANUAL);
 	}
+}
+
+//! When the control system requests to arm the FC
+static int32_t control_event_arm()
+{
+	if(ok_to_arm()) {
+		FlightStatusData flightStatus;
+		FlightStatusGet(&flightStatus);
+		if (flightStatus.Armed != FLIGHTSTATUS_ARMED_ARMED) {
+			flightStatus.Armed = FLIGHTSTATUS_ARMED_ARMED;
+			FlightStatusSet(&flightStatus);
+		}
+	}
+	return 0;
+}
+
+//! When the control system requests to start arming the FC
+static int32_t control_event_arming()
+{
+	FlightStatusData flightStatus;
+	FlightStatusGet(&flightStatus);
+	if (flightStatus.Armed != FLIGHTSTATUS_ARMED_ARMING) {
+		flightStatus.Armed = FLIGHTSTATUS_ARMED_ARMING;
+		FlightStatusSet(&flightStatus);
+	}
+	return 0;
+}
+
+//! When the control system requests to disarm the FC
+static int32_t control_event_disarm()
+{
+	FlightStatusData flightStatus;
+	FlightStatusGet(&flightStatus);
+	if (flightStatus.Armed != FLIGHTSTATUS_ARMED_DISARMED) {
+		flightStatus.Armed = FLIGHTSTATUS_ARMED_DISARMED;
+		FlightStatusSet(&flightStatus);
+	}
+	return 0;
+}
+
+
+/**
+ * @brief Determine if the aircraft is safe to arm
+ * @returns True if safe to arm, false otherwise
+ */
+static bool ok_to_arm(void)
+{
+	// read alarms
+	SystemAlarmsData alarms;
+	SystemAlarmsGet(&alarms);
+
+	// Check each alarm
+	for (int i = 0; i < SYSTEMALARMS_ALARM_NUMELEM; i++)
+	{
+		if (alarms.Alarm[i] >= SYSTEMALARMS_ALARM_ERROR)
+		{	// found an alarm thats set
+			if (i == SYSTEMALARMS_ALARM_GPS || i == SYSTEMALARMS_ALARM_TELEMETRY)
+				continue;
+
+			return false;
+		}
+	}
+
+	return true;
 }
 
 /**

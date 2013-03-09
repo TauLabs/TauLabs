@@ -29,6 +29,7 @@
  */
 
 #include "openpilot.h"
+#include "control.h"
 #include "failsafe_control.h"
 
 #include "flightstatus.h"
@@ -64,4 +65,10 @@ int32_t failsafe_control_select()
 	StabilizationDesiredSet(&stabilization_desired);
 
 	return 0;
+}
+
+//! Get any control events
+enum control_events failsafe_control_get_events()
+{
+	return CONTROL_EVENTS_DISARM;
 }

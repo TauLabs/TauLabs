@@ -32,10 +32,7 @@
 #define TRANSMITTER_CONTROL_H
 
 #include "stdint.h"
-#include "control.h"
 #include "manualcontrolcommand.h"
-
-int32_t ControlInitialize();
 
 /*
  * These are assumptions we make in the flight code about the order of settings and their consistency between
@@ -115,5 +112,8 @@ int32_t transmitter_control_select();
 
 //! Choose the control source based on transmitter status
 enum control_selection transmitter_control_selected_controller();
+
+//! Get any control events
+enum control_events transmitter_control_get_events();
 
  #endif /* TRANSMITTER_CONTROL_H */
