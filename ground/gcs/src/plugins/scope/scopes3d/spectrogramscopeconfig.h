@@ -75,8 +75,9 @@ public:
     virtual ScopeConfig* cloneScope(ScopeConfig*);
 
     virtual void loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget);
-
     virtual void preparePlot(ScopeGadgetWidget *);
+    void configureAxes(ScopeGadgetWidget *);
+
     ColorMap::ColorMapType getColorMap(){return colorMapType;}
 
 private slots:

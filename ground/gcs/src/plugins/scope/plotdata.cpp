@@ -115,7 +115,6 @@ Plot3dData::Plot3dData(QString p_uavObject, QString p_uavFieldName):
     yMaximum = 60;
     zMinimum = 0;
     zMaximum = 100;
-
 }
 
 
