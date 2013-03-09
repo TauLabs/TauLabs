@@ -28,6 +28,10 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include "openpilot.h"
+#include "flightstatus.h"
+#include "stabilizationdesired.h"
+
 //! Initialize the failsafe controller
 int32_t failsafe_control_initialize()
 {
@@ -43,5 +47,17 @@ int32_t failsafe_control_update()
 //! Use failsafe mode
 int32_t failsafe_control_select()
 {
+	FlightStatusData flight_status;
+	FlightStatusGet(&flight_status);
+	flight_status.Armed = FLIGHTSTATUS_ARMED_DISARMED;
+	flight_status.FlightMode = FLIGHTSTATUS_FLIGHTMODE_STABILIZED1;
+	FlightStatusSet(&flight_status);
 
+	StabilizationDesiredData stabilization_desired;
+	StabilizationDesiredGet(&stabilization_desired);
+	stabilization_desired.Throttle = -1;
+	stabilization_desired.Roll = 0;
+	stabilization_desired.Pitch = 0;
+	stabilization_desired.Yaw = 0;
+	StabilizationDesiredSet(&stabilization_desired);
 }
