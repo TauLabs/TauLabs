@@ -85,7 +85,7 @@ static const struct pios_led pios_leds[] = {
 				},
 			},
 			.remap = 0,
-			.active_high = false,
+			.active_high = true,
 		},
 		[PIOS_LED_2] = {// OUT2
 			.pin = {
@@ -99,7 +99,7 @@ static const struct pios_led pios_leds[] = {
 				},
 			},
 			.remap = 0,
-			.active_high = false,
+			.active_high = true,
 		},
 		[PIOS_LED_3] = {// OUT3
 			.pin = {
@@ -113,7 +113,7 @@ static const struct pios_led pios_leds[] = {
 				},
 			},
 			.remap = 0,
-			.active_high = false,
+			.active_high = true,
 		},
 #if defined(PIOS_INCLUDE_CH4_OUT) // OUT4 or ADC0(PA0)
 		[PIOS_LED_4] = {
@@ -128,7 +128,7 @@ static const struct pios_led pios_leds[] = {
 				},
 			},
 			.remap = 0,
-			.active_high = false,
+			.active_high = true,
 		},
 #endif	/* PIOS_INCLUDE_CH4_OUT */
 	};
