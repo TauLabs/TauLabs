@@ -205,12 +205,12 @@ namespace Utils {
         //      UPDATES : Ellip and MagneticModel
 
         // Sets WGS-84 parameters
-        Ellip.a = 6378.137;	// semi-major axis of the ellipsoid in km
-        Ellip.b = 6356.7523142;	// semi-minor axis of the ellipsoid in km
-        Ellip.fla = 1 / 298.257223563;	// flattening
-        Ellip.eps = sqrt(1 - (Ellip.b * Ellip.b) / (Ellip.a * Ellip.a));	// first eccentricity
-        Ellip.epssq = (Ellip.eps * Ellip.eps);	// first eccentricity squared
-        Ellip.re = 6371.2;	// Earth's radius in km
+        Ellip.a     = WGS84_A;            // semi-major axis of the ellipsoid in km
+        Ellip.b     = WGS84_B;            // semi-minor axis of the ellipsoid in km
+        Ellip.fla   = WGS84_FLATTENING;	// flattening
+        Ellip.eps   = WGS84_EPS;          // first eccentricity
+        Ellip.epssq = WGS84_EPS2;         // first eccentricity squared
+        Ellip.re    = WGS84_RADIUS_EARTH_KM; // Earth's radius in km
 
         // Sets Magnetic Model parameters
         MagneticModel.nMax = WMM_MAX_MODEL_DEGREES;

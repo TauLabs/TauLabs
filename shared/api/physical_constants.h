@@ -50,7 +50,6 @@
 #define NM2DEG_LAT                         60.0f  // 60 nautical miles per degree latitude
 #define DEG_LAT2NM                     (1.0/60.f) // 1 degree latitude per 60 nautical miles
 
-
 // Standard atmospheric constants
 #define UNIVERSAL_GAS_CONSTANT          8.31447f //[J/(mol·K)]
 #define DRY_AIR_CONSTANT                287.058f //[J/(kg*K)]
@@ -60,6 +59,14 @@
 #define STANDARD_AIR_RELATIVE_HUMIDITY     20.0f //[%]
 #define STANDARD_AIR_SEA_LEVEL_PRESSURE 101.325f //[kPa]
 #define STANDARD_AIR_TEMPERATURE (15.0f + CELSIUS2KELVIN) // Standard temperatue in [K]
+
+// WGS-84 definitions (from http://home.online.no/~sigurdhu/WGS84_Eng.html)
+#define WGS84_RADIUS_EARTH_KM          6371.008f  // Earth's radius in km
+#define WGS84_A                        6378.137f  // semi-major axis of the ellipsoid in km
+#define WGS84_B                    6356.7523142f  // semi-minor axis of the ellipsoid in km
+#define WGS84_FLATTENING  (1.0f / 298.257223563f) // flattening
+#define WGS84_EPS  sqrtf(1.0f-(WGS84_B*WGS84_B)/(WGS84_A*WGS84_A)) // first eccentricity
+#define WGS84_EPS2 (WGS84_EPS*WGS84_EPS) // first eccentricity squared
 
 #endif /* PHYSICAL_CONSTANTS_H_ */
 
