@@ -59,7 +59,7 @@
 #include "modulesettings.h"
 #include "pathdesired.h"        // object that will be updated by the module
 #include "positionactual.h"
-#include "manualcontrol.h"
+#include "manualcontrolcommand.h"
 #include "flightstatus.h"
 #include "gpsvelocity.h"
 #include "gpsposition.h"

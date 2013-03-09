@@ -35,13 +35,14 @@
  */
 
 #include "openpilot.h"
+#include "transmitter_control.h"
+
 #include "accessorydesired.h"
 #include "actuatordesired.h"
 #include "altitudeholddesired.h"
 #include "baroaltitude.h"
 #include "flighttelemetrystats.h"
 #include "flightstatus.h"
-#include "manualcontrol.h"
 #include "manualcontrolsettings.h"
 #include "manualcontrolcommand.h"
 #include "pathdesired.h"
@@ -49,7 +50,6 @@
 #include "receiveractivity.h"
 #include "stabilizationsettings.h"
 #include "stabilizationdesired.h"
-
 
 #if defined(PIOS_INCLUDE_USB_RCTX)
 #include "pios_usb_rctx.h"
@@ -62,8 +62,7 @@
 #define CONNECTION_OFFSET 250
 
 // Private types
-typedef enum arm_state
-{
+enum arm_state {
 	ARM_STATE_DISARMED,
 	ARM_STATE_ARMING_MANUAL,
 	ARM_STATE_ARMED,
@@ -402,13 +401,15 @@ int32_t transmitter_control_select()
 		break;
 	}
 	lastFlightMode = flightStatus.FlightMode;
+
+	return 0;
 }
 
 //! Choose the control source based on transmitter status
 enum control_selection transmitter_control_selected_controller()
 {
 	ManualControlCommandGet(&cmd);
-	if (cmd.Connected = MANUALCONTROLCOMMAND_CONNECTED_TRUE)
+	if (cmd.Connected == MANUALCONTROLCOMMAND_CONNECTED_TRUE)
 		return TRANMITTER_PRESENT_AND_USED;
 	else
 		return TRANMITTER_MISSING;

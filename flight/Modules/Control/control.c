@@ -30,6 +30,10 @@
  */
 
 #include "openpilot.h"
+#include "control.h"
+#include "failsafe_control.h"
+#include "tablet_control.h"
+#include "transmitter_control.h"
 
 // Private constants
 #if defined(PIOS_CONTROL_STACK_SIZE)
@@ -47,7 +51,7 @@ static xTaskHandle taskHandle;
 static portTickType lastSysTime;
 
 // Private functions
-static void controlTask(void *parameters)
+static void controlTask(void *parameters);
 
 
 /**
@@ -56,7 +60,7 @@ static void controlTask(void *parameters)
 int32_t ControlStart()
 {
 	// Start main task
-	xTaskCreate(ControlTask, (signed char *)"Control", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
+	xTaskCreate(controlTask, (signed char *)"Control", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
 	TaskMonitorAdd(TASKINFO_RUNNING_MANUALCONTROL, taskHandle);
 	PIOS_WDG_RegisterFlag(PIOS_WDG_MANUAL);
 
@@ -68,11 +72,6 @@ int32_t ControlStart()
  */
 int32_t ControlInitialize()
 {
-
-	/* Check the assumptions about uavobject enum's are correct */
-	if(!assumptions)
-		return -1;
-
 	failsafe_control_initialize();
 	transmitter_control_initialize();
 	tablet_control_initialize();

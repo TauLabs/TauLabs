@@ -41,7 +41,7 @@
 #include "attitudeactual.h"
 #include "gyros.h"
 #include "flightstatus.h"
-#include "manualcontrol.h" // Just to get the PARSE_FLIGHT_MODE macro
+#include "transmitter_control.h" // Just to get the PARSE_FLIGHT_MODE macro
 
 // Math libraries
 #include "CoordinateConversions.h"

@@ -28,8 +28,10 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
- #ifndef TABLET_CONTROL_H
- #define TABLET_CONTROL_H
+#ifndef TABLET_CONTROL_H
+#define TABLET_CONTROL_H
+
+#include "stdint.h"
 
 //! Initialize the tablet controller
 int32_t tablet_control_initialize();
