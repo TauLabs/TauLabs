@@ -70,14 +70,14 @@ Simulator::Simulator(const SimulatorSettings& params) :
     airspeedActualTime=currentTime;
 
     //Define standard atmospheric constants
-    airParameters.univGasConstant=8.31447; //[J/(mol·K)]
-    airParameters.dryAirConstant=287.058;  //[J/(kg*K)]
-    airParameters.groundDensity=1.225;     //[kg/m^3]
-    airParameters.groundTemp=15+273.15;    //[K]
-    airParameters.tempLapseRate=0.0065;    //[deg/m]
-    airParameters.M=0.0289644;             //[kg/mol]
-    airParameters.relativeHumidity=20;     //[%]
-    airParameters.seaLevelPress=101.325;   //[kPa]
+    airParameters.univGasConstant =UNIVERSAL_GAS_CONSTANT;         //[J/(mol·K)]
+    airParameters.dryAirConstant  =DRY_AIR_CONSTANT;               //[J/(kg*K)]
+    airParameters.groundDensity   =STANDARD_AIR_DENSITY;           //[kg/m^3]
+    airParameters.groundTemp      =STANDARD_AIR_TEMPERATURE;       //[K]
+    airParameters.tempLapseRate   =STANDARD_AIR_LAPSE_RATE;        //[deg/m]
+    airParameters.M               =STANDARD_AIR_MOLS2KG;           //[kg/mol]
+    airParameters.relativeHumidity=STANDARD_AIR_RELATIVE_HUMIDITY; //[%]
+    airParameters.seaLevelPress   =STANDARD_AIR_TEMPERATURE;       //[kPa]
 }
 
 Simulator::~Simulator()
