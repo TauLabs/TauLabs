@@ -170,6 +170,9 @@ static void pathfollowerTask(void *parameters)
 	FixedWingPathFollowerSettingsConnectCallback(SettingsUpdatedCb);
 	FixedWingAirspeedsConnectCallback(SettingsUpdatedCb);
 	PathDesiredConnectCallback(SettingsUpdatedCb);
+
+	// Force update of all the settings
+	SettingsUpdatedCb(NULL);
 	
 	FixedWingPathFollowerSettingsGet(&fixedwingpathfollowerSettings);
 	PathDesiredGet(&pathDesired);
@@ -597,25 +600,14 @@ static uint8_t updateFixedDesiredAttitude()
 	return result;
 }
 
-
-/**
- * Bound input value between limits
- */
-static float bound(float val, float min, float max)
-{
-	if (val < min) {
-		val = min;
-	} else if (val > max) {
-		val = max;
-	}
-	return val;
-}
-
 static void SettingsUpdatedCb(UAVObjEvent * ev)
 {
-	FixedWingPathFollowerSettingsGet(&fixedwingpathfollowerSettings);
-	FixedWingAirspeedsGet(&fixedWingAirspeeds);
-	PathDesiredGet(&pathDesired);
+	if (ev == NULL || ev->obj == FixedWingPathFollowerSettingsHandle())
+		FixedWingPathFollowerSettingsGet(&fixedwingpathfollowerSettings);
+	if (ev == NULL || ev->obj == FixedWingAirspeedsHandle())
+		FixedWingAirspeedsGet(&fixedWingAirspeeds);
+	if (ev == NULL || ev->obj == PathDesiredHandle())
+		PathDesiredGet(&pathDesired);
 }
 
 static void airspeedActualUpdatedCb(UAVObjEvent * ev)
