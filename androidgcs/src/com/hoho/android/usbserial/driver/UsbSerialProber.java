@@ -22,9 +22,14 @@ package com.hoho.android.usbserial.driver;
 
 import java.util.Map;
 
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
+import android.util.Log;
 
 /**
  * Helper class to assist in detecting and building {@link UsbSerialDriver}
@@ -94,6 +99,60 @@ public enum UsbSerialProber {
      *         no devices could be acquired
      */
     public abstract UsbSerialDriver getDevice(final UsbManager manager, final UsbDevice usbDevice);
+
+    private static final String ACTION_USB_PERMISSION = "com.access.device.USB_PERMISSION";
+	private PendingIntent permissionIntent;
+	private final String TAG = "UsbSerialProber";
+	private final boolean DEBUG = true;
+	private UsbDevice currentDevice;
+
+	/*
+	 * Receives a requested broadcast from the operating system.
+	 * In this case the following actions are handled:
+	 *   USB_PERMISSION
+	 *   UsbManager.ACTION_USB_DEVICE_DETACHED
+	 *   UsbManager.ACTION_USB_DEVICE_ATTACHED
+	 */
+	private final BroadcastReceiver usbPermissionReceiver = new BroadcastReceiver()
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			if (DEBUG) Log.d(TAG,"Broadcast receiver caught intent: " + intent);
+			String action = intent.getAction();
+			// Validate the action against the actions registered
+			if (ACTION_USB_PERMISSION.equals(action))
+			{
+				// A permission response has been received, validate if the user has
+				// GRANTED, or DENIED permission
+				synchronized (this)
+				{
+					UsbDevice deviceConnected = (UsbDevice)intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
+
+					if (DEBUG) Log.d(TAG, "Device Permission requested" + deviceConnected);
+					if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false))
+					{
+						// Permission has been granted, so connect to the device
+						// If this fails, then keep looking
+						if (deviceConnected != null)
+						{
+							// call method to setup device communication
+							currentDevice = deviceConnected;
+							if (DEBUG) Log.d(TAG, "Device Permission Acquired" + currentDevice);
+							Log.d(TAG, "Connect to device here");
+						}
+					}
+					else
+					{
+						// Permission has not been granted, so keep looking for another
+						// device to be attached....
+						if (DEBUG) Log.d(TAG, "Device Permission Denied" + deviceConnected);
+						currentDevice = null;
+					}
+				}
+			}
+		}
+	};
 
     /**
      * Acquires and returns the first available serial device among all
