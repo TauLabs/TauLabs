@@ -33,7 +33,6 @@
 #include <QStandardItemModel>
 #include <QItemDelegate>
 #include <QtGui/QLabel>
-#include <telemetrytable.h>
 #include <waypointactive.h>
 
 #include "telemetryschedulergadgetconfiguration.h"
@@ -48,17 +47,34 @@ class Ui_TelemetryScheduler;
  */
 class QTableViewWithCopyPaste : public QTableView
 {
+    Q_OBJECT
+
 public:
-    QTableViewWithCopyPaste(QWidget *parent) :
-    QTableView(parent)
-    {}
+    QTableViewWithCopyPaste(QAbstractItemModel * model);
+    ~QTableViewWithCopyPaste();
+
+    QStandardItemModel *getFrozenModel(){return frozenModel;}
+    QTableView *getFrozenTableView(){return frozenTableView;}
+
+protected:
+    virtual void keyPressEvent(QKeyEvent * event);
+
+    virtual void resizeEvent(QResizeEvent *event);
+    virtual QModelIndex moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers);
+    void scrollTo (const QModelIndex & index, ScrollHint hint = EnsureVisible);
+
+private slots:
+      void updateSectionWidth(int logicalIndex,int, int newSize);
+      void updateSectionHeight(int logicalIndex, int, int newSize);
 
 private:
     void copy();
     void paste();
 
-protected:
-    virtual void keyPressEvent(QKeyEvent * event);
+    void updateFrozenTableGeometry();
+    void init();
+    QTableView *frozenTableView;
+    QStandardItemModel *frozenModel;
 };
 
 
@@ -75,21 +91,19 @@ public:
 signals:
 
 protected slots:
-    void waypointChanged(UAVObject *);
-    void waypointActiveChanged(UAVObject *);
-    void addInstance();
 
 private slots:
     void on_bnSaveTelemetryToFile_clicked();
     void on_bnLoadTelemetryFromFile_clicked();
     void on_bnApplySchedule_clicked();
+    void dataModel_itemChanged(QStandardItem *);
 
 private:
     void importTelemetryConfiguration(const QString& fileName);
 
     Ui_TelemetryScheduler * m_telemetryeditor;
-    TelemetryTable *waypointTable;
-    Waypoint *waypointObj;
+//    TelemetryTable *waypointTable;
+//    Waypoint *waypointObj;
 
     TelemetrySchedulerConfiguration *m_config;
     UAVObjectManager *objManager;
@@ -100,6 +114,8 @@ private:
 
     QStandardItemModel *schedulerModel;
     QTableViewWithCopyPaste *telemetryScheduleView;
+    QStandardItemModel *frozenModel;
+
 };
 
 
