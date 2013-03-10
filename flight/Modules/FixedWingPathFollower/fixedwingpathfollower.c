@@ -46,6 +46,7 @@
 
 #include "openpilot.h"
 #include "paths.h"
+#include "misc_math.h"
 
 #include "accels.h"
 #include "modulesettings.h"
@@ -94,7 +95,6 @@ static void SettingsUpdatedCb(UAVObjEvent * ev);
 static void updatePathVelocity();
 static uint8_t updateFixedDesiredAttitude();
 static void airspeedActualUpdatedCb(UAVObjEvent * ev);
-static float bound(float val, float min, float max);
 
 /**
  * Initialise the module, called on startup
@@ -291,9 +291,9 @@ static void updatePathVelocity()
 		case PATHDESIRED_MODE_DRIVEVECTOR:
 		default:
 			groundspeed = pathDesired.StartingVelocity + (pathDesired.EndingVelocity - pathDesired.StartingVelocity) *
-				bound(progress.fractional_progress,0,1);
+				bound_min_max(progress.fractional_progress,0,1);
 			altitudeSetpoint = pathDesired.Start[2] + (pathDesired.End[2] - pathDesired.Start[2]) *
-				bound(progress.fractional_progress,0,1);
+				bound_min_max(progress.fractional_progress,0,1);
 			break;
 	}
 	// this ensures a significant forward component at least close to the real trajectory
@@ -393,7 +393,7 @@ static uint8_t updateFixedDesiredAttitude()
 
 	// Desired ground speed
 	groundspeedDesired = sqrtf(velocityDesired.North*velocityDesired.North + velocityDesired.East*velocityDesired.East);
-	indicatedAirspeedDesired    = bound( groundspeedDesired + indicatedAirspeedActualBias,
+	indicatedAirspeedDesired = bound_min_max( groundspeedDesired + indicatedAirspeedActualBias,
 							fixedWingAirspeeds.BestClimbRateSpeed,
 							fixedWingAirspeeds.CruiseSpeed);
 
@@ -401,7 +401,7 @@ static uint8_t updateFixedDesiredAttitude()
 	airspeedError = indicatedAirspeedDesired - indicatedAirspeedActual;
 
 	// Vertical speed error
-	descentspeedDesired = bound (
+	descentspeedDesired = bound_min_max (
 						velocityDesired.Down,
 						-fixedWingAirspeeds.VerticalVelMax,
 						fixedWingAirspeeds.VerticalVelMax);
@@ -449,7 +449,7 @@ static uint8_t updateFixedDesiredAttitude()
 	 */
 	// compute proportional throttle response
 	powerError = -descentspeedError +
-		bound (
+		bound_min_max(
 			 (airspeedError/fixedWingAirspeeds.BestClimbRateSpeed)* fixedwingpathfollowerSettings.AirspeedToVerticalCrossFeed[FIXEDWINGPATHFOLLOWERSETTINGS_AIRSPEEDTOVERTICALCROSSFEED_KP] ,
 			 -fixedwingpathfollowerSettings.AirspeedToVerticalCrossFeed[FIXEDWINGPATHFOLLOWERSETTINGS_AIRSPEEDTOVERTICALCROSSFEED_MAX],
 			 fixedwingpathfollowerSettings.AirspeedToVerticalCrossFeed[FIXEDWINGPATHFOLLOWERSETTINGS_AIRSPEEDTOVERTICALCROSSFEED_MAX]
@@ -457,14 +457,14 @@ static uint8_t updateFixedDesiredAttitude()
 	
 	// compute saturated integral error throttle response. Make integral leaky for better performance. Approximately 30s time constant.
 	if (fixedwingpathfollowerSettings.PowerPI[FIXEDWINGPATHFOLLOWERSETTINGS_POWERPI_KI] >0) {
-		powerIntegral =	bound(powerIntegral + -descentspeedError * dT, 
+		powerIntegral =	bound_min_max(powerIntegral + -descentspeedError * dT, 
 										-fixedwingpathfollowerSettings.PowerPI[FIXEDWINGPATHFOLLOWERSETTINGS_POWERPI_ILIMIT]/fixedwingpathfollowerSettings.PowerPI[FIXEDWINGPATHFOLLOWERSETTINGS_POWERPI_KI],
 										fixedwingpathfollowerSettings.PowerPI[FIXEDWINGPATHFOLLOWERSETTINGS_POWERPI_ILIMIT]/fixedwingpathfollowerSettings.PowerPI[FIXEDWINGPATHFOLLOWERSETTINGS_POWERPI_KI]
 										)*(1.0f-1.0f/(1.0f+30.0f/dT));
 	} else powerIntegral = 0;
 	
 	// Compute final throttle response
-	powerCommand = bound(
+	powerCommand = bound_min_max(
 			(powerError * fixedwingpathfollowerSettings.PowerPI[FIXEDWINGPATHFOLLOWERSETTINGS_POWERPI_KP] +
 			powerIntegral*	fixedwingpathfollowerSettings.PowerPI[FIXEDWINGPATHFOLLOWERSETTINGS_POWERPI_KI]) + fixedwingpathfollowerSettings.ThrottleLimit[FIXEDWINGPATHFOLLOWERSETTINGS_THROTTLELIMIT_NEUTRAL],
 			fixedwingpathfollowerSettings.ThrottleLimit[FIXEDWINGPATHFOLLOWERSETTINGS_THROTTLELIMIT_MIN],
@@ -510,13 +510,13 @@ static uint8_t updateFixedDesiredAttitude()
 		
 	if (fixedwingpathfollowerSettings.SpeedPI[FIXEDWINGPATHFOLLOWERSETTINGS_SPEEDPI_KI] > 0){
 		//Integrate with saturation
-		airspeedErrorInt=bound(airspeedErrorInt + airspeedError * dT, 
+		airspeedErrorInt=bound_min_max(airspeedErrorInt + airspeedError * dT, 
 				-fixedwingpathfollowerSettings.SpeedPI[FIXEDWINGPATHFOLLOWERSETTINGS_SPEEDPI_ILIMIT]/fixedwingpathfollowerSettings.SpeedPI[FIXEDWINGPATHFOLLOWERSETTINGS_SPEEDPI_KI],
 				fixedwingpathfollowerSettings.SpeedPI[FIXEDWINGPATHFOLLOWERSETTINGS_SPEEDPI_ILIMIT]/fixedwingpathfollowerSettings.SpeedPI[FIXEDWINGPATHFOLLOWERSETTINGS_SPEEDPI_KI]);
 	}				
 	
 	//Compute the cross feed from vertical speed to pitch, with saturation
-	float verticalSpeedToPitchCommandComponent=bound (-descentspeedError * fixedwingpathfollowerSettings.VerticalToPitchCrossFeed[FIXEDWINGPATHFOLLOWERSETTINGS_VERTICALTOPITCHCROSSFEED_KP],
+	float verticalSpeedToPitchCommandComponent=bound_min_max (-descentspeedError * fixedwingpathfollowerSettings.VerticalToPitchCrossFeed[FIXEDWINGPATHFOLLOWERSETTINGS_VERTICALTOPITCHCROSSFEED_KP],
 			 -fixedwingpathfollowerSettings.VerticalToPitchCrossFeed[FIXEDWINGPATHFOLLOWERSETTINGS_VERTICALTOPITCHCROSSFEED_MAX],
 			 fixedwingpathfollowerSettings.VerticalToPitchCrossFeed[FIXEDWINGPATHFOLLOWERSETTINGS_VERTICALTOPITCHCROSSFEED_MAX]
 			 );
@@ -530,7 +530,7 @@ static uint8_t updateFixedDesiredAttitude()
 	fixedwingpathfollowerStatus.ErrorInt[FIXEDWINGPATHFOLLOWERSTATUS_ERRORINT_SPEED] = airspeedErrorInt;
 	fixedwingpathfollowerStatus.Command[FIXEDWINGPATHFOLLOWERSTATUS_COMMAND_SPEED] = pitchCommand;
 
-	stabDesired.Pitch = bound(fixedwingpathfollowerSettings.PitchLimit[FIXEDWINGPATHFOLLOWERSETTINGS_PITCHLIMIT_NEUTRAL] +
+	stabDesired.Pitch = bound_min_max(fixedwingpathfollowerSettings.PitchLimit[FIXEDWINGPATHFOLLOWERSETTINGS_PITCHLIMIT_NEUTRAL] +
 		pitchCommand,
 		fixedwingpathfollowerSettings.PitchLimit[FIXEDWINGPATHFOLLOWERSETTINGS_PITCHLIMIT_MIN],
 		fixedwingpathfollowerSettings.PitchLimit[FIXEDWINGPATHFOLLOWERSETTINGS_PITCHLIMIT_MAX]);
@@ -561,7 +561,7 @@ static uint8_t updateFixedDesiredAttitude()
 	if (bearingError<-180.0f) bearingError+=360.0f;
 	if (bearingError>180.0f) bearingError-=360.0f;
 
-	bearingIntegral = bound(bearingIntegral + bearingError * dT * fixedwingpathfollowerSettings.BearingPI[FIXEDWINGPATHFOLLOWERSETTINGS_BEARINGPI_KI], 
+	bearingIntegral = bound_min_max(bearingIntegral + bearingError * dT * fixedwingpathfollowerSettings.BearingPI[FIXEDWINGPATHFOLLOWERSETTINGS_BEARINGPI_KI], 
 		-fixedwingpathfollowerSettings.BearingPI[FIXEDWINGPATHFOLLOWERSETTINGS_BEARINGPI_ILIMIT],
 		fixedwingpathfollowerSettings.BearingPI[FIXEDWINGPATHFOLLOWERSETTINGS_BEARINGPI_ILIMIT]);
 	bearingCommand = (bearingError * fixedwingpathfollowerSettings.BearingPI[FIXEDWINGPATHFOLLOWERSETTINGS_BEARINGPI_KP] +
@@ -571,7 +571,7 @@ static uint8_t updateFixedDesiredAttitude()
 	fixedwingpathfollowerStatus.ErrorInt[FIXEDWINGPATHFOLLOWERSTATUS_ERRORINT_BEARING] = bearingIntegral;
 	fixedwingpathfollowerStatus.Command[FIXEDWINGPATHFOLLOWERSTATUS_COMMAND_BEARING] = bearingCommand;
 	
-	stabDesired.Roll = bound( fixedwingpathfollowerSettings.RollLimit[FIXEDWINGPATHFOLLOWERSETTINGS_ROLLLIMIT_NEUTRAL] +
+	stabDesired.Roll = bound_min_max( fixedwingpathfollowerSettings.RollLimit[FIXEDWINGPATHFOLLOWERSETTINGS_ROLLLIMIT_NEUTRAL] +
 		bearingCommand,
 		fixedwingpathfollowerSettings.RollLimit[FIXEDWINGPATHFOLLOWERSETTINGS_ROLLLIMIT_MIN],
 		fixedwingpathfollowerSettings.RollLimit[FIXEDWINGPATHFOLLOWERSETTINGS_ROLLLIMIT_MAX] );
