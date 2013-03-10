@@ -91,16 +91,20 @@ static void settings_updated_cb(UAVObjEvent * ev);
 static void applyFF(uint8_t index, float dT_ms, float *attitude, CameraStabSettingsData* cameraStab);
 
 #if defined(CAMERASTAB_POI_MODE)
-static void tabletInfoUpdated(UAVObjEvent * ev);
+static void tablet_info_flag_update(UAVObjEvent * ev);
+static void tablet_info_process();
 #endif /* CAMERASTAB_POI_MODE */
 
+// Private variables
+static bool module_enabled;
+static bool tablet_info_updated = false;
 /**
  * Initialise the module, called on startup
  * \returns 0 on success or -1 if initialisation failed
  */
 int32_t CameraStabInitialize(void)
 {
-	bool module_enabled = false;
+	module_enabled = false;
 
 #ifdef MODULE_CameraStab_BUILTIN
 	module_enabled = true;
@@ -136,6 +140,7 @@ int32_t CameraStabInitialize(void)
 #if defined(CAMERASTAB_POI_MODE)
 		PoiLocationInitialize();
 		TabletInfoInitialize();
+		TabletInfoConnectCallback(tablet_info_flag_update);
 #endif /* CAMERASTAB_POI_MODE */
 
 		UAVObjEvent ev = {
@@ -154,9 +159,6 @@ int32_t CameraStabInitialize(void)
 /* stub: module has no module thread */
 int32_t CameraStabStart(void)
 {
-#if defined(CAMERASTAB_POI_MODE)
-	TabletInfoConnectCallback(tabletInfoUpdated);
-#endif /* CAMERASTAB_POI_MODE */
 	return 0;
 }
 
@@ -226,6 +228,9 @@ static void attitudeUpdated(UAVObjEvent* ev)
 		}
 #if defined(CAMERASTAB_POI_MODE)		
 		else if (settings->Input[i] == CAMERASTABSETTINGS_INPUT_POI) {
+			// Process any updates of the tablet location
+			tablet_info_process();
+
 			PositionActualData positionActual;
 			PositionActualGet(&positionActual);
 			PoiLocationData poi;
@@ -327,12 +332,22 @@ static void settings_updated_cb(UAVObjEvent * ev)
  * When the tablet info changes update the POI location to match
  * the current tablet location
  */
-static void tabletInfoUpdated(UAVObjEvent * ev)
+static void tablet_info_flag_update(UAVObjEvent * ev)
 {
-	const float DEG2RAD = M_PI / 180.0f;
-
 	if (ev->obj == NULL || ev->obj != TabletInfoHandle())
 		return;
+
+	tablet_info_updated = true;
+}
+
+static void tablet_info_process() {
+
+	// Only proecss new information
+	if (tablet_info_updated == false)
+		return;
+	tablet_info_updated = false;
+
+	const float DEG2RAD = M_PI / 180.0f;
 
 	TabletInfoData tablet;
 	TabletInfoGet(&tablet);
@@ -343,7 +358,6 @@ static void tabletInfoUpdated(UAVObjEvent * ev)
 	HomeLocationGet(&homeLocation);
 
 	PoiLocationData poi;
-	PoiLocationGet(&poi);
 
 	float lat, alt;
 	lat = homeLocation.Latitude / 10.0e6f * DEG2RAD;
