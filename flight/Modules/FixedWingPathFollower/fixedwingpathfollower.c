@@ -48,7 +48,6 @@
 #include "paths.h"
 #include "misc_math.h"
 
-#include "accels.h"
 #include "modulesettings.h"
 #include "attitudeactual.h"
 #include "pathdesired.h"	// object that will be updated by the module
@@ -347,9 +346,6 @@ static uint8_t updateFixedDesiredAttitude()
 	VelocityActualData velocityActual;
 	StabilizationDesiredData stabDesired;
 	AttitudeActualData attitudeActual;
-	AccelsData accels;
-	FixedWingPathFollowerSettingsData fixedwingpathfollowerSettings;
-	StabilizationSettingsData stabSettings;
 	FixedWingPathFollowerStatusData fixedwingpathfollowerStatus;
 	AirspeedActualData airspeedActual;
 	
@@ -369,17 +365,12 @@ static uint8_t updateFixedDesiredAttitude()
 	float bearingError;
 	float bearingCommand;
 
-	FixedWingPathFollowerSettingsGet(&fixedwingpathfollowerSettings);
-
 	FixedWingPathFollowerStatusGet(&fixedwingpathfollowerStatus);
 	
 	VelocityActualGet(&velocityActual);
-//	VelocityDesiredGet(&velocityDesired);
 	StabilizationDesiredGet(&stabDesired);
 	VelocityDesiredGet(&velocityDesired);
 	AttitudeActualGet(&attitudeActual);
-	AccelsGet(&accels);
-	StabilizationSettingsGet(&stabSettings);
 	AirspeedActualGet(&airspeedActual);
 
 
