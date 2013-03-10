@@ -206,7 +206,9 @@ static void pathfollowerTask(void *parameters)
 			case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
 			case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
 				pathStatus.Status = PATHSTATUS_STATUS_INPROGRESS;
-				if (pathDesired.Mode == PATHDESIRED_MODE_HOLDPOSITION) {
+				if (pathDesired.Mode == PATHDESIRED_MODE_HOLDPOSITION ||
+					pathDesired.Mode == PATHDESIRED_MODE_CIRCLEPOSITIONLEFT ||
+					pathDesired.Mode == PATHDESIRED_MODE_CIRCLEPOSITIONLEFT) {
 					updatePathVelocity();
 					result = updateFixedDesiredAttitude();
 					if (result) {
