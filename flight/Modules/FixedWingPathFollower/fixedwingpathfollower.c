@@ -391,7 +391,7 @@ static uint8_t updateFixedDesiredAttitude()
 							fixedWingAirspeeds.BestClimbRateSpeed,
 							fixedWingAirspeeds.CruiseSpeed);
 
-	// Airspeed error
+	// Airspeed error (positive means not enough airspeed)
 	airspeedError = indicatedAirspeedDesired - indicatedAirspeedActual;
 
 	// Vertical speed error
@@ -440,11 +440,13 @@ static uint8_t updateFixedDesiredAttitude()
 
 	/**
 	 * Compute desired throttle command
+	 * positive airspeed error means not enough airspeed
+	 * positive decent_speed_error means decending too fast
 	 */
 	// compute proportional throttle response
 	powerError = -descentspeedError +
 		bound_min_max(
-			 (airspeedError/fixedWingAirspeeds.BestClimbRateSpeed)* fixedwingpathfollowerSettings.AirspeedToVerticalCrossFeed[FIXEDWINGPATHFOLLOWERSETTINGS_AIRSPEEDTOVERTICALCROSSFEED_KP] ,
+			 (airspeedError / fixedWingAirspeeds.BestClimbRateSpeed)* fixedwingpathfollowerSettings.AirspeedToVerticalCrossFeed[FIXEDWINGPATHFOLLOWERSETTINGS_AIRSPEEDTOVERTICALCROSSFEED_KP] ,
 			 -fixedwingpathfollowerSettings.AirspeedToVerticalCrossFeed[FIXEDWINGPATHFOLLOWERSETTINGS_AIRSPEEDTOVERTICALCROSSFEED_MAX],
 			 fixedwingpathfollowerSettings.AirspeedToVerticalCrossFeed[FIXEDWINGPATHFOLLOWERSETTINGS_AIRSPEEDTOVERTICALCROSSFEED_MAX]
 			 );
@@ -455,7 +457,8 @@ static uint8_t updateFixedDesiredAttitude()
 										-fixedwingpathfollowerSettings.PowerPI[FIXEDWINGPATHFOLLOWERSETTINGS_POWERPI_ILIMIT]/fixedwingpathfollowerSettings.PowerPI[FIXEDWINGPATHFOLLOWERSETTINGS_POWERPI_KI],
 										fixedwingpathfollowerSettings.PowerPI[FIXEDWINGPATHFOLLOWERSETTINGS_POWERPI_ILIMIT]/fixedwingpathfollowerSettings.PowerPI[FIXEDWINGPATHFOLLOWERSETTINGS_POWERPI_KI]
 										)*(1.0f-1.0f/(1.0f+30.0f/dT));
-	} else powerIntegral = 0;
+	} else
+		powerIntegral = 0;
 	
 	// Compute final throttle response
 	powerCommand = bound_min_max(
@@ -507,7 +510,8 @@ static uint8_t updateFixedDesiredAttitude()
 		airspeedErrorInt=bound_min_max(airspeedErrorInt + airspeedError * dT, 
 				-fixedwingpathfollowerSettings.SpeedPI[FIXEDWINGPATHFOLLOWERSETTINGS_SPEEDPI_ILIMIT]/fixedwingpathfollowerSettings.SpeedPI[FIXEDWINGPATHFOLLOWERSETTINGS_SPEEDPI_KI],
 				fixedwingpathfollowerSettings.SpeedPI[FIXEDWINGPATHFOLLOWERSETTINGS_SPEEDPI_ILIMIT]/fixedwingpathfollowerSettings.SpeedPI[FIXEDWINGPATHFOLLOWERSETTINGS_SPEEDPI_KI]);
-	}				
+	} else
+		airspeedErrorInt = 0;
 	
 	//Compute the cross feed from vertical speed to pitch, with saturation
 	float verticalSpeedToPitchCommandComponent=bound_min_max (-descentspeedError * fixedwingpathfollowerSettings.VerticalToPitchCrossFeed[FIXEDWINGPATHFOLLOWERSETTINGS_VERTICALTOPITCHCROSSFEED_KP],
