@@ -1,11 +1,14 @@
 #!/bin/bash
 
+# Information about dmg generation: http://stackoverflow.com/questions/96882/how-do-i-create-a-nice-looking-dmg-for-mac-os-x-using-command-line-tools
+
 # the following environment variables must be set
 : ${ROOT_DIR?} ${BUILD_DIR?} ${PACKAGE_LBL?} ${PACKAGE_DIR?} ${FW_DIR?}
 
 # more variables
-APP_PATH="${BUILD_DIR}/ground/gcs/bin/Tau Labs GCS.app"
-TEMP_FILE="${PACKAGE_DIR}/TauLabs-temp.dmg"
+APP_NAME="Tau Labs GCS.app"
+APP_PATH="${BUILD_DIR}/ground/gcs/bin/"
+TEMP_FILE="${PACKAGE_DIR}/TauLabs-temp.dmg.sparseimage"
 OUT_FILE="${PACKAGE_DIR}/TauLabs-${PACKAGE_LBL}.dmg"
 VOL_NAME="Tau Labs"
 
@@ -13,14 +16,19 @@ VOL_NAME="Tau Labs"
 rm -f "${TEMP_FILE}"
 rm -f "${OUT_FILE}"
 
-hdiutil convert "${ROOT_DIR}/package/osx/TauLabs.dmg" \
-	-format UDRW -o "${TEMP_FILE}"
+#hdiutil convert "${ROOT_DIR}/package/osx/TauLabs.dmg" \
+#	-format UDSP -o "${TEMP_FILE}"
+
+hdiutil create -size 250M -type SPARSE -volname "${VOL_NAME}" -fs HFS+ "${TEMP_FILE}"
+
 device=$(hdiutil attach  "${TEMP_FILE}" | \
          egrep '^/dev/' | sed 1q | awk '{print $1}')
 
+
 # packaging goes here
-cp -r "${APP_PATH}" "/Volumes/${VOL_NAME}"
-#cp -r "${FW_DIR}" "/Volumes/${VOL_NAME}/firmware"
+mkdir "/Volumes/${VOL_NAME}/Firmware"
+mkdir "/Volumes/${VOL_NAME}/Utilities"
+cp -r "${APP_PATH}/${APP_NAME}" "/Volumes/${VOL_NAME}"
 cp "${FW_DIR}/fw_quanton-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
 cp "${FW_DIR}/fw_freedom-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
 cp "${FW_DIR}/fw_flyingf3-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
@@ -36,6 +44,39 @@ cp "${ROOT_DIR}/HISTORY.txt" "/Volumes/${VOL_NAME}"
 
 "${ROOT_DIR}/package/osx/libraries" \
 	"/Volumes/${VOL_NAME}/Tau Labs GCS.app" || exit 1
+	
+echo "Laying out dmg..."
+
+echo '
+   tell application "Finder"
+     tell disk "'${VOL_NAME}'"
+           open
+           set current view of container window to icon view
+           set toolbar visible of container window to false
+           set statusbar visible of container window to false
+           set the bounds of container window to {400, 100, 935, 430}
+           set theViewOptions to the icon view options of container window
+           set arrangement of theViewOptions to not arranged
+           set icon size of theViewOptions to 72
+#           set background picture of theViewOptions to file ".background:'${backgroundPictureName}'"
+           make new alias file at container window to POSIX file "/Applications" with properties {name:"Applications"}
+#           set position of item "'${APP_NAME}'" of container window to {100, 75}
+#           set position of item "Applications" of container window to {350, 75}
+#           set position of item "Firmware" of container window to {100, 250}
+#           set position of item "HISTORY.txt" of container window to {350, 250}
+#           
+#           close #Workaround for... 
+#           open  #... Snow Leopard bug
+
+           update without registering applications
+           delay 5
+     end tell
+   end tell
+' | osascript
+
+
+chmod -Rf go-w /Volumes/"${VOL_NAME}"
+sync
 
 hdiutil detach ${device}
 
