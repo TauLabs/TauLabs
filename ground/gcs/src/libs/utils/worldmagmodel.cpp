@@ -49,7 +49,7 @@
 #include <stdint.h>
 #include <QDebug>
 #include <math.h>
-#include "../../../../../shared/api/physical_constants.h" //<------ICK, UGLY
+#include "physical_constants.h"
 
 // updated coeffs available from http://www.ngdc.noaa.gov/geomag/WMM/wmm_ddownload.shtml
 const double CoeffFile[91][6] = {

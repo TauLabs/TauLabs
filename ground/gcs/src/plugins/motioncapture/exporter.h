@@ -60,7 +60,7 @@
 #include "velocityactual.h"
 
 #include "utils/coordinateconversions.h"
-#include "../../../../../shared/api/physical_constants.h" //<------ICK, UGLY
+#include "physical_constants.h"
 
 /**
  * just imagine this was a class without methods and all public properties

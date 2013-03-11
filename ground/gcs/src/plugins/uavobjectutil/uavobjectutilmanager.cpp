@@ -28,7 +28,7 @@
  */
 
 #include "uavobjectutilmanager.h"
-#include "../../../../../shared/api/physical_constants.h" //<------ICK, UGLY
+#include "physical_constants.h"
 #include "utils/homelocationutil.h"
 
 #include <QMutexLocker>
