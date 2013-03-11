@@ -51,6 +51,7 @@
 
 #include "accels.h"
 #include "actuatordesired.h"
+#include "airspeedactual.h"
 #include "attitudeactual.h"
 #include "attitudesimulated.h"
 #include "attitudesettings.h"
@@ -680,6 +681,11 @@ static void simulateModelAirplane()
 	double sidewaysAirspeed = Rbe[1][0] * airspeed[0] + Rbe[1][1] * airspeed[1] + Rbe[1][2] * airspeed[2];
 	double downwardAirspeed = Rbe[2][0] * airspeed[0] + Rbe[2][1] * airspeed[1] + Rbe[2][2] * airspeed[2];
 	
+	AirspeedActualData airspeedObj;
+	airspeedObj.CalibratedAirspeed = forwardAirspeed;
+	airspeedObj.TrueAirspeed = forwardAirspeed;
+	AirspeedActualSet(&airspeedObj);
+
 	/* Compute aerodynamic forces in body referenced frame.  Later use more sophisticated equations  */
 	/* TODO: This should become more accurate.  Use the force equations to calculate lift from the   */
 	/* various surfaces based on AoA and airspeed.  From that compute torques and forces.  For later */
