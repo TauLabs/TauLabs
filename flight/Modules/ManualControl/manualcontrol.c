@@ -39,6 +39,7 @@
 #include "actuatordesired.h"
 #include "altitudeholddesired.h"
 #include "baroaltitude.h"
+#include "fixedwingpathfollowersettings.h"
 #include "flighttelemetrystats.h"
 #include "flightstatus.h"
 #include "manualcontrol.h"
@@ -655,7 +656,7 @@ static void updateStabilizationDesired(ManualControlCommandData * cmd, ManualCon
 	StabilizationDesiredSet(&stabilization);
 }
 
-
+#if defined(REVOLUTION)
 /**
  * @brief Update the position desired to current location when
  * enabled and allow the waypoint to be moved by transmitter
@@ -697,8 +698,7 @@ static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeCha
 	if (vehicle_type == SYSTEMSETTINGS_AIRFRAMETYPE_FIXEDWING ||
 	    vehicle_type == SYSTEMSETTINGS_AIRFRAMETYPE_FIXEDWINGELEVON ||
 		vehicle_type == SYSTEMSETTINGS_AIRFRAMETYPE_FIXEDWINGVTAIL) {
-		// TODO: Make this aircraft type specific
-		pathDesired.ModeParameters = 50; // TODO: Make radius an option
+		FixedWingPathFollowerSettingsOrbitRadiusGet(&pathDesired.ModeParameters);
 		pathDesired.Mode = PATHDESIRED_MODE_CIRCLEPOSITIONLEFT;
 	} else {
 		pathDesired.ModeParameters = 0;
@@ -707,8 +707,6 @@ static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeCha
 	PathDesiredSet(&pathDesired);
 }
 
-
-#if defined(REVOLUTION)
 /**
  * @brief Update the altitude desired to current altitude when
  * enabled and enable altitude mode for stabilization
@@ -753,6 +751,11 @@ static void altitudeHoldDesired(ManualControlCommandData * cmd, bool flightModeC
 	AltitudeHoldDesiredSet(&altitudeHoldDesired);
 }
 #else
+static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeChanged, bool home)
+{
+
+}
+
 static void altitudeHoldDesired(ManualControlCommandData * cmd, bool flightModeChanged)
 {
 	set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD);
