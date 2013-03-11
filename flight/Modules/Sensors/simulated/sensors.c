@@ -683,6 +683,9 @@ static void simulateModelAirplane()
 	
 	AirspeedActualData airspeedObj;
 	airspeedObj.CalibratedAirspeed = forwardAirspeed;
+	// TODO: Factor in temp and pressure when simulated for true airspeed.
+	// This assume standard temperature and pressure which will be inaccurate
+	// at higher altitudes (http://en.wikipedia.org/wiki/Airspeed)
 	airspeedObj.TrueAirspeed = forwardAirspeed;
 	AirspeedActualSet(&airspeedObj);
 
