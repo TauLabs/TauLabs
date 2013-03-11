@@ -46,6 +46,15 @@ UAVGadgetDecorator::UAVGadgetDecorator(IUAVGadget *gadget, QList<IUAVGadgetConfi
     foreach (IUAVGadgetConfiguration *config, *m_configurations)
         m_toolbar->addItem(config->name());
     connect(m_toolbar, SIGNAL(activated(int)), this, SLOT(loadConfiguration(int)));
+
+    if (m_configurations->count() > 0){
+        // TODO: better document what this is doing. With this line removed,
+        // all widgets load normally, but in some specific instances-- e.g.
+        // analog dials--, GCS crashes when the user uses Edit Gadgets to
+        // load the new gadget.
+        loadConfiguration(0);
+    }
+
     updateToolbar();
 }
 

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item android:id="@+id/alarms_status"
+        android:title="AlarmsStatus"
+		android:actionViewClass="org.taulabs.androidgcs.views.AlarmsSummary"
+        android:showAsAction="always" />
+    
     <item android:id="@+id/telemetry_status"
         android:title="TelemetryStatus"
 		android:actionViewClass="org.taulabs.androidgcs.views.TelemetryStats"

@@ -60,6 +60,7 @@
 QTimer *ScopeGadgetWidget::replotTimer=0;
 
 ScopeGadgetWidget::ScopeGadgetWidget(QWidget *parent) : QwtPlot(parent),
+    m_refreshInterval(50), // Arbitrary 50ms refresh timer
     m_scope(0),
     m_xWindowSize(60) // This is an arbitrary 1 minute window
 {
@@ -287,158 +288,6 @@ void ScopeGadgetWidget::showCurve(QwtPlotItem *item, bool on)
 
 
 /**
- * @brief ScopeGadgetWidget::setupSeriesPlot
- */
-void ScopeGadgetWidget::setupSeriesPlot(ScopeConfig* scope)
-{
-    m_scope = scope;
-
-    scope->preparePlot(this);
-
-/*	QwtText title("Index");
-    title.font().setPointSize(title.font().pointSize() / 2);
-    setAxisTitle(QwtPlot::xBottom, title);
-*/
-    setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());
-    setAxisScale(QwtPlot::xBottom, 0, m_xWindowSize);
-    setAxisAutoScale(QwtPlot::yLeft, true);
-    setAxisLabelRotation(QwtPlot::xBottom, 0.0);
-    setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom);
-    axisWidget( QwtPlot::yRight )->setColorBarEnabled( false );
-    enableAxis( QwtPlot::yRight, false );
-
-    QwtScaleWidget *scaleWidget = axisWidget(QwtPlot::xBottom);
-
-    // reduce the gap between the scope canvas and the axis scale
-    scaleWidget->setMargin(0);
-
-    // reduce the axis font size
-    QFont fnt(axisFont(QwtPlot::xBottom));
-    fnt.setPointSize(7);
-    setAxisFont(QwtPlot::xBottom, fnt);	// x-axis
-    setAxisFont(QwtPlot::yLeft, fnt);	// y-axis
-    setAxisFont(QwtPlot::yRight, fnt);	// y-axis
-
-    // Start the scope timer
-    startTimer(m_refreshInterval);
-}
-
-
-/**
- * @brief ScopeGadgetWidget::setupTimeSeriesPlot Creates plot, as well as sets up axes and scales
- */
-void ScopeGadgetWidget::setupTimeSeriesPlot(ScopeConfig* scope)
-{
-    m_scope = scope;
-
-    scope->preparePlot(this);
-
-    // Configure axes
-    setAxisScaleDraw(QwtPlot::xBottom, new TimeScaleDraw());
-    uint NOW = QDateTime::currentDateTime().toTime_t();
-    setAxisScale(QwtPlot::xBottom, NOW - m_xWindowSize / 1000, NOW);
-//	setAxisLabelRotation(QwtPlot::xBottom, -15.0);
-    setAxisLabelRotation(QwtPlot::xBottom, 0.0);
-    setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom);
-//	setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignCenter | Qt::AlignBottom);
-    axisWidget( QwtPlot::yRight )->setColorBarEnabled( false );
-    enableAxis( QwtPlot::yRight, false );
-
-
-    // Reduce the gap between the scope canvas and the axis scale
-    QwtScaleWidget *scaleWidget = axisWidget(QwtPlot::xBottom);
-    scaleWidget->setMargin(0);
-
-    // Reduce the axis font size
-    QFont fnt(axisFont(QwtPlot::xBottom));
-    fnt.setPointSize(7);
-    setAxisFont(QwtPlot::xBottom, fnt);	// x-axis
-    setAxisFont(QwtPlot::yLeft, fnt);	// y-axis
-    setAxisFont(QwtPlot::yRight, fnt);	// y-axis
-
-    /*
-     In situations, when there is a label at the most right position of the
-     scale, additional space is needed to display the overlapping part
-     of the label would be taken by reducing the width of scale and canvas.
-     To avoid this "jumping canvas" effect, we add a permanent margin.
-     We don't need to do the same for the left border, because there
-     is enough space for the overlapping label below the left scale.
-     */
-
-//	const int fmh = QFontMetrics(scaleWidget->font()).height();
-//	scaleWidget->setMinBorderDist(0, fmh / 2);
-
-//	const int fmw = QFontMetrics(scaleWidget->font()).width(" 00:00:00 ");
-//	const int fmw = QFontMetrics(scaleWidget->font()).width(" ");
-//	scaleWidget->setMinBorderDist(0, fmw);
-
-    // Start the scope timer
-    startTimer(m_refreshInterval);
-}
-
-
-/**
- * @brief ScopeGadgetWidget::setupHistogramPlot Creates plot, as well as sets up axes and scales
- * @param scope
- */
-void ScopeGadgetWidget::setupHistogramPlot(ScopeConfig *scope)
-{
-    m_scope = scope;
-
-    scope->preparePlot(this);
-
-    // Configure axes
-    setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());
-    setAxisAutoScale(QwtPlot::xBottom);
-    setAxisLabelRotation(QwtPlot::xBottom, 0.0);
-    setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom);
-    axisWidget( QwtPlot::yRight )->setColorBarEnabled( false );
-    enableAxis( QwtPlot::yRight, false );
-
-    // Reduce the gap between the scope canvas and the axis scale
-    QwtScaleWidget *scaleWidget = axisWidget(QwtPlot::xBottom);
-    scaleWidget->setMargin(0);
-
-    // Reduce the axis font size
-    QFont fnt(axisFont(QwtPlot::xBottom));
-    fnt.setPointSize(7);
-    setAxisFont(QwtPlot::xBottom, fnt);	// x-axis
-    setAxisFont(QwtPlot::yLeft, fnt);	// y-axis
-
-    // Start the scope timer
-    startTimer(m_refreshInterval);
-}
-
-
-/**
- * @brief ScopeGadgetWidget::setupSpectrogramPlot Creates plot, as well as sets up axes and scales
- * @param scope
- */
-void ScopeGadgetWidget::setupSpectrogramPlot(ScopeConfig *scope)
-{
-    m_scope = scope;
-
-    scope->preparePlot(this);
-
-    // Configure axes
-    setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());
-    setAxisAutoScale(QwtPlot::xBottom);
-    setAxisAutoScale(QwtPlot::yLeft);
-    setAxisLabelRotation(QwtPlot::xBottom, 0.0);
-    setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom);
-
-    // reduce the axis font size
-    QFont fnt(axisFont(QwtPlot::xBottom));
-    fnt.setPointSize(7);
-    setAxisFont(QwtPlot::xBottom, fnt);	// x-axis
-    setAxisFont(QwtPlot::yLeft, fnt);	// y-axis
-
-    // Start the scope timer
-    startTimer(m_refreshInterval);
-}
-
-
-/**
  * @brief ScopeGadgetWidget::uavObjectReceived
  * @param obj
  */
@@ -556,6 +405,8 @@ void ScopeGadgetWidget::connectUAVO(UAVDataObject* obj){
  * @param refreshInterval
  */
 void ScopeGadgetWidget::startTimer(int refreshInterval){
+    m_refreshInterval = refreshInterval;
+
     // Only start the timer if we are already connected
     Core::ConnectionManager *cm = Core::ICore::instance()->connectionManager();
     if (cm->getCurrentConnection() && replotTimer)
