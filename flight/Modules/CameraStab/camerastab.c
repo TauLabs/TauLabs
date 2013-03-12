@@ -68,8 +68,6 @@
 #define SAMPLE_PERIOD_MS     10
 #define LOAD_DELAY           7000
 
-#define CAMERASTAB_POI_MODE
-
 // Private types
 enum {ROLL,PITCH,YAW,MAX_AXES};
 

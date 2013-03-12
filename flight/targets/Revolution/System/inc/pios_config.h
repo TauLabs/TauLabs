@@ -104,6 +104,8 @@
 #define PIOS_TELEM_PRIORITY_QUEUE       /* Enable a priority queue in telemetry */
 //#define PIOS_QUATERNION_STABILIZATION   /* Stabilization options */
 
+#define CAMERASTAB_POI_MODE
+
 /* Alarm Thresholds */
 #define HEAP_LIMIT_WARNING		1000
 #define HEAP_LIMIT_CRITICAL		500
