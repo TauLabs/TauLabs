@@ -202,9 +202,6 @@ void GCSControlGadget::sticksChangedLocally(double leftX, double leftY, double r
 void GCSControlGadget::gamepads(quint8 count)
 {
     Q_UNUSED(count);
-
-//    sdlGamepad.setGamepad(0);
-//    sdlGamepad.setTickRate(JOYSTICK_UPDATE_RATE);
 }
 
 void GCSControlGadget::readUDPCommand()
