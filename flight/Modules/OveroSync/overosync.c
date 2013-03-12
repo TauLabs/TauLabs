@@ -141,10 +141,7 @@ MODULE_INITCALL(OveroSyncInitialize, OveroSyncStart)
 static void register_object(UAVObjHandle obj)
 {
 	int32_t eventMask;
-	eventMask = EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ;
-	if (UAVObjIsMetaobject(obj)) {
-		eventMask |= EV_UNPACKED;	// we also need to act on remote updates (unpack events)
-	}
+	eventMask = EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ | EV_UNPACKED;
 	UAVObjConnectQueue(obj, queue, eventMask);
 }
 
