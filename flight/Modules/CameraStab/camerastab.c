@@ -248,7 +248,9 @@ static void attitudeUpdated(UAVObjEvent* ev)
 			float yaw = atan2f(dLoc[1],dLoc[0]) * 180.0f / (float) M_PI;
 			if (yaw < 0) yaw += 360.0;
 
-			switch (i) {
+			// Only try and track objects more than 2 m away
+			if (distance > 2) {
+				switch (i) {
 				case CAMERASTABSETTINGS_INPUT_ROLL:
 					// Does not make sense to use position to control yaw
 					break;
@@ -259,6 +261,7 @@ static void attitudeUpdated(UAVObjEvent* ev)
 					CameraDesiredBearingSet(&yaw);
 					csd->inputs[CAMERASTABSETTINGS_INPUT_YAW] = yaw;
 					break;
+				}
 			}
 		}
 #endif /* CAMERASTAB_POI_MODE */		
