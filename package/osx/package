@@ -10,14 +10,12 @@ APP_NAME="Tau Labs GCS.app"
 APP_PATH="${BUILD_DIR}/ground/gcs/bin/"
 TEMP_FILE="${PACKAGE_DIR}/TauLabs-temp.dmg.sparseimage"
 OUT_FILE="${PACKAGE_DIR}/TauLabs-${PACKAGE_LBL}.dmg"
+ICON_FILE="${ROOT_DIR}/package/linux/taulabs.png"
 VOL_NAME="Tau Labs"
 
 # prepare the stage
 rm -f "${TEMP_FILE}"
 rm -f "${OUT_FILE}"
-
-#hdiutil convert "${ROOT_DIR}/package/osx/TauLabs.dmg" \
-#	-format UDSP -o "${TEMP_FILE}"
 
 hdiutil create -size 250M -type SPARSE -volname "${VOL_NAME}" -fs HFS+ "${TEMP_FILE}"
 
@@ -44,6 +42,12 @@ cp "${ROOT_DIR}/HISTORY.txt" "/Volumes/${VOL_NAME}"
 
 "${ROOT_DIR}/package/osx/libraries" \
 	"/Volumes/${VOL_NAME}/Tau Labs GCS.app" || exit 1
+
+echo "Changing mounted folder icons"
+# Set the icon for the mounted DMG.
+# Inspired from http://stackoverflow.com/questions/988920/where-to-find-volume-mount-icon-on-leopard
+cp "${ROOT_DIR}/package/osx/VolumeIcon.icns" "/Volumes/${VOL_NAME}/.VolumeIcon.icns"
+SetFile -a C "/Volumes/${VOL_NAME}"
 	
 echo "Laying out dmg..."
 
@@ -85,6 +89,9 @@ echo "Resizing dmg to ${min}"
 
 hdiutil resize -sectors ${min} ${TEMP_FILE}
 hdiutil convert "${TEMP_FILE}" -format UDBZ -o "${OUT_FILE}"
+
+#Assign the icon to the DMG. Script found here: http://hasseg.org/stuff/assignIconScript/assignIcon.py
+"${ROOT_DIR}/package/osx/assignIcon.py" "${ICON_FILE}" "${OUT_FILE}"
 
 # cleanup
 rm "${TEMP_FILE}"
