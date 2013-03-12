@@ -39,10 +39,9 @@ GCSControlGadgetOptionsPage::GCSControlGadgetOptionsPage(GCSControlGadgetConfigu
 {
     options_page = NULL;
 
+#if defined(USE_SDL)
    sdlGamepad = dynamic_cast<GCSControlPlugin*>(parent)->sdlGamepad;
-
-
-
+#endif
 }
 
 GCSControlGadgetOptionsPage::~GCSControlGadgetOptionsPage()
@@ -212,9 +211,11 @@ QWidget *GCSControlGadgetOptionsPage::createPage(QWidget *parent)
         chRevList.at(i)->setChecked(qlChRev.at(i));;
     }
 
+#if defined(USE_SDL)
     connect(sdlGamepad,SIGNAL(axesValues(QListInt16)),this,SLOT(axesValues(QListInt16)));
     connect(sdlGamepad,SIGNAL(buttonState(ButtonNumber,bool)),this,SLOT(buttonState(ButtonNumber,bool)));
     connect(sdlGamepad,SIGNAL(gamepads(quint8)),this,SLOT(gamepads(quint8)));
+#endif
 
     return optionsPageWidget;
 }
@@ -286,7 +287,9 @@ void GCSControlGadgetOptionsPage::apply()
 
 void GCSControlGadgetOptionsPage::finish()
 {
+#if defined(USE_SDL)
     disconnect(sdlGamepad,0,this,0);
+#endif
     delete options_page;
     options_page = NULL;
 }
