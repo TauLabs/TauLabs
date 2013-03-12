@@ -105,8 +105,18 @@
 #define CPULOAD_LIMIT_WARNING		80
 #define CPULOAD_LIMIT_CRITICAL		95
 
-// This actually needs calibrating
-#define IDLE_COUNTS_PER_SEC_AT_NO_LOAD (8379692)
+/*
+ * This has been calibrated 2013/03/11 using next @ 6d21c7a590619ebbc074e60cab5e134e65c9d32b.
+ * Calibration has been done by disabling the init task, breaking into debugger after
+ * approximately after 60 seconds, then doing the following math:
+ *
+ * IDLE_COUNTS_PER_SEC_AT_NO_LOAD = (uint32_t)((double)idleCounter / xTickCount * 1000 + 0.5)
+ *
+ * This has to be redone every time the toolchain, toolchain flags or FreeRTOS
+ * configuration like number of task priorities or similar changes.
+ * A change in the cpu load calculation or the idle task handler will invalidate this as well.
+ */
+#define IDLE_COUNTS_PER_SEC_AT_NO_LOAD (6984538)
 
 #define REVOLUTION
 
