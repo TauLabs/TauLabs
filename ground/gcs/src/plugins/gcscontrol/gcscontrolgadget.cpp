@@ -76,16 +76,12 @@ void GCSControlGadget::loadConfiguration(IUAVGadgetConfiguration* config)
     yawChannel = ql.at(2);
     throttleChannel = ql.at(3);
 
- //   if(control_sock->isOpen())
- //       control_sock->close();
     control_sock->bind(GCSControlConfig->getUDPControlHost(), GCSControlConfig->getUDPControlPort(),QUdpSocket::ShareAddress);
 
-
-
     controlsMode = GCSControlConfig->getControlsMode();
+    gcsReceiverMode = GCSControlConfig->getGcsReceiverMode();
 
-    int i;
-    for (i=0;i<8;i++)
+    for (unsigned int i = 0; i < 8; i++)
     {
         buttonSettings[i].ActionID=GCSControlConfig->getbuttonSettings(i).ActionID;
         buttonSettings[i].FunctionID=GCSControlConfig->getbuttonSettings(i).FunctionID;
@@ -102,7 +98,18 @@ ManualControlCommand* GCSControlGadget::getManualControlCommand() {
     return dynamic_cast<ManualControlCommand*>( objManager->getObject(QString("ManualControlCommand")) );
 }
 
+GCSReceiver* GCSControlGadget::getGcsReceiver() {
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
+    return dynamic_cast<GCSReceiver*>( objManager->getObject(QString("GCSReceiver")) );
+}
+
 void GCSControlGadget::manualControlCommandUpdated(UAVObject * obj) {
+
+    // In GCS Receiver mode do not show the updates from ManualControl
+    if (gcsReceiverMode)
+        return;
+
     double roll = obj->getField("Roll")->getDouble();
     double pitch = obj->getField("Pitch")->getDouble();
     double yaw = obj->getField("Yaw")->getDouble();
@@ -132,6 +139,89 @@ void GCSControlGadget::manualControlCommandUpdated(UAVObject * obj) {
   Update the manual commands - maps depending on mode
   */
 void GCSControlGadget::sticksChangedLocally(double leftX, double leftY, double rightX, double rightY) {
+
+    if (gcsReceiverMode)
+        setGcsReceiver(leftX, leftY, rightX, rightY);
+    else
+        setManualControl(leftX, leftY, rightX, rightY);
+}
+
+//! Set the GCS Receiver object
+void GCSControlGadget::setGcsReceiver(double leftX, double leftY, double rightX, double rightY)
+{
+    GCSReceiver *obj = getGcsReceiver();
+    Q_ASSERT(obj);
+    if (obj == NULL)
+        return;
+
+    double newRoll;
+    double newPitch;
+    double newYaw;
+    double newThrottle;
+
+    // Remap left X/Y and right X/Y to RPYT depending on mode
+    switch (controlsMode) {
+    case 1:
+        // Mode 1: LeftX = Yaw, LeftY = Pitch, RightX = Roll, RightY = Throttle
+        newRoll = rightX;
+        newPitch = -leftY;
+        newYaw = leftX;
+        newThrottle = rightY;
+        break;
+    case 2:
+        // Mode 2: LeftX = Yaw, LeftY = Throttle, RightX = Roll, RightY = Pitch
+        newRoll = rightX;
+        newPitch = -rightY;
+        newYaw = leftX;
+        newThrottle = leftY;
+        break;
+    case 3:
+        // Mode 3: LeftX = Roll, LeftY = Pitch, RightX = Yaw, RightY = Throttle
+        newRoll = leftX;
+        newPitch = -leftY;
+        newYaw = rightX;
+        newThrottle = rightY;
+        break;
+    case 4:
+        // Mode 4: LeftX = Roll, LeftY = Throttle, RightX = Yaw, RightY = Pitch;
+        newRoll = leftX;
+        newPitch = -rightY;
+        newYaw = rightX;
+        newThrottle = leftY;
+        break;
+    }
+
+    GCSReceiver::DataFields gcsReceiverData = obj->getData();
+    gcsReceiverData.Channel[0] = 1500 + 500 * newThrottle;
+    gcsReceiverData.Channel[1] = 1500 + 500 * newRoll;
+    gcsReceiverData.Channel[2] = 1500 + 500 * newPitch;
+    gcsReceiverData.Channel[3] = 1500 + 500 * newYaw;
+    obj->setData(gcsReceiverData);
+    obj->updated();
+
+    switch (controlsMode) {
+    case 1:
+        // Mode 1: LeftX = Yaw, LeftY = Pitch, RightX = Roll, RightY = Throttle
+        emit sticksChangedRemotely(newYaw,-newPitch,newRoll,newThrottle);
+        break;
+    case 2:
+        // Mode 2: LeftX = Yaw, LeftY = Throttle, RightX = Roll, RightY = Pitch
+        emit sticksChangedRemotely(newYaw,newThrottle,newRoll,-newPitch);
+        break;
+    case 3:
+        // Mode 3: LeftX = Roll, LeftY = Pitch, RightX = Yaw, RightY = Throttle
+        emit sticksChangedRemotely(newRoll,-newPitch,newYaw,newThrottle);
+        break;
+    case 4:
+        // Mode 4: LeftX = Roll, LeftY = Throttle, RightX = Yaw, RightY = Pitch;
+        emit sticksChangedRemotely(newRoll,newThrottle,newYaw,-newPitch);
+        break;
+    }
+}
+
+//! Set the ManualControlCommand object
+void GCSControlGadget::setManualControl(double leftX, double leftY, double rightX, double rightY)
+{
     ManualControlCommand * obj = getManualControlCommand();
     double oldRoll = obj->getField("Roll")->getDouble();
     double oldPitch = obj->getField("Pitch")->getDouble();
