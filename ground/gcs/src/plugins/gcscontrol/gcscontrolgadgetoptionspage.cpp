@@ -106,7 +106,7 @@ QWidget *GCSControlGadgetOptionsPage::createPage(QWidget *parent)
     QWidget *optionsPageWidget = new QWidget;
     options_page->setupUi(optionsPageWidget);
 
-
+    options_page->gcsReceiverCB->setChecked(m_config->getGcsReceiverMode());
 
     //QList<QComboBox*> chList;
     chList.clear();
@@ -244,9 +244,9 @@ void GCSControlGadgetOptionsPage::apply()
 
    m_config->setUDPControlSettings(options_page->udp_port->text().toInt(),options_page->udp_host->text());
 
+   m_config->setGcsReceiverMode(options_page->gcsReceiverCB->checkState());
 
-   int j;
-   for (j=0;j<8;j++)
+   for (unsigned int j = 0; j < 8; j++)
    {
        m_config->setbuttonSettingsAction(j,buttonActionList.at(j)->currentIndex());
        m_config->setbuttonSettingsFunction(j,buttonFunctionList.at(j)->currentIndex());
@@ -297,41 +297,39 @@ void GCSControlGadgetOptionsPage::updateButtonFunction()
 
 void GCSControlGadgetOptionsPage::updateButtonAction(int controlID)
 {
-    int i;
     QStringList buttonOptions;
 
-    int i=controlID;
     {
-        if (buttonActionList.at(i)->currentText().compare("Does nothing")==0)
+        if (buttonActionList.at(controlID)->currentText().compare("Does nothing")==0)
         {
-            buttonFunctionList.at(i)->setVisible(0);
-            buttonLabelList.at(i)->setVisible(0);
-            buttonValueList.at(i)->setVisible(0);
+            buttonFunctionList.at(controlID)->setVisible(0);
+            buttonLabelList.at(controlID)->setVisible(0);
+            buttonValueList.at(controlID)->setVisible(0);
         }
         else
-        if (buttonActionList.at(i)->currentText().compare("Toggles")==0)
+        if (buttonActionList.at(controlID)->currentText().compare("Toggles")==0)
         {
-            disconnect(buttonFunctionList.at(i),SIGNAL(currentIndexChanged(int)),this,SLOT(updateButtonFunction()));
+            disconnect(buttonFunctionList.at(controlID),SIGNAL(currentIndexChanged(int)),this,SLOT(updateButtonFunction()));
             buttonOptions <<"-" << "Armed" << "GCS Control" << "UDP Control";
-            buttonFunctionList.at(i)->clear();
-            buttonFunctionList.at(i)->insertItems(-1,buttonOptions);
+            buttonFunctionList.at(controlID)->clear();
+            buttonFunctionList.at(controlID)->insertItems(-1,buttonOptions);
 
-            buttonFunctionList.at(i)->setVisible(1);
-            buttonLabelList.at(i)->setVisible(0);
-            buttonValueList.at(i)->setVisible(0);
-            connect(buttonFunctionList.at(i),SIGNAL(currentIndexChanged(int)),this,SLOT(updateButtonFunction()));
+            buttonFunctionList.at(controlID)->setVisible(1);
+            buttonLabelList.at(controlID)->setVisible(0);
+            buttonValueList.at(controlID)->setVisible(0);
+            connect(buttonFunctionList.at(controlID),SIGNAL(currentIndexChanged(int)),this,SLOT(updateButtonFunction()));
         }
         else
         {
-            disconnect(buttonFunctionList.at(i),SIGNAL(currentIndexChanged(int)),this,SLOT(updateButtonFunction()));
+            disconnect(buttonFunctionList.at(controlID),SIGNAL(currentIndexChanged(int)),this,SLOT(updateButtonFunction()));
             buttonOptions <<"-" << "Roll" << "Pitch" << "Yaw" << "Throttle" ;
-            buttonFunctionList.at(i)->clear();
-            buttonFunctionList.at(i)->addItems(buttonOptions);
+            buttonFunctionList.at(controlID)->clear();
+            buttonFunctionList.at(controlID)->addItems(buttonOptions);
 
-            buttonFunctionList.at(i)->setVisible(1);
-            buttonLabelList.at(i)->setVisible(1);
-            buttonValueList.at(i)->setVisible(1);
-            connect(buttonFunctionList.at(i),SIGNAL(currentIndexChanged(int)),this,SLOT(updateButtonFunction()));
+            buttonFunctionList.at(controlID)->setVisible(1);
+            buttonLabelList.at(controlID)->setVisible(1);
+            buttonValueList.at(controlID)->setVisible(1);
+            connect(buttonFunctionList.at(controlID),SIGNAL(currentIndexChanged(int)),this,SLOT(updateButtonFunction()));
         }
     }
 
