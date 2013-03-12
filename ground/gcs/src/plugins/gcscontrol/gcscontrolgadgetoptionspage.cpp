@@ -71,13 +71,6 @@ void GCSControlGadgetOptionsPage::buttonState(ButtonNumber number, bool pressed)
 void GCSControlGadgetOptionsPage::gamepads(quint8 count)
 {
     Q_UNUSED(count);
-
-    /*options_page->AvailableControllerList->clear();
-    for (int i=0;i<count;i++)
-    {
-       options_page->AvailableControllerList->addItem(QString().sprintf("%d",i));//SDL_JoystickName(i));
-    }*/
-
 }
 
 void GCSControlGadgetOptionsPage::axesValues(QListInt16 values)
@@ -229,27 +222,6 @@ QWidget *GCSControlGadgetOptionsPage::createPage(QWidget *parent)
 void GCSControlGadgetOptionsPage::apply()
 {
    m_config->setControlsMode(options_page->controlsMode->currentIndex()+1);
-   /*QList<QComboBox*> chList;
-   chList << options_page->channel0 << options_page->channel1 <<
-             options_page->channel2 << options_page->channel3 <<
-             options_page->channel4 << options_page->channel5 <<
-             options_page->channel6 << options_page->channel7;
-   QList<QComboBox*> buttonFunctionList;
-   buttonFunctionList << options_page->buttonFunction0 << options_page->buttonFunction1 <<
-             options_page->buttonFunction2 << options_page->buttonFunction3 <<
-             options_page->buttonFunction4 << options_page->buttonFunction5 <<
-             options_page->buttonFunction6 << options_page->buttonFunction7;
-   QList<QComboBox*> buttonActionList;
-   buttonActionList << options_page->buttonAction0 << options_page->buttonAction1 <<
-             options_page->buttonAction2 << options_page->buttonAction3 <<
-             options_page->buttonAction4 << options_page->buttonAction5 <<
-             options_page->buttonAction6 << options_page->buttonAction7;
-   QList<QDoubleSpinBox*> buttonValueList;
-   buttonValueList << options_page->buttonAmount0 << options_page->buttonAmount1 <<
-             options_page->buttonAmount2 << options_page->buttonAmount3 <<
-             options_page->buttonAmount4 << options_page->buttonAmount5 <<
-             options_page->buttonAmount6 << options_page->buttonAmount7;
-*/
 
    int roll=-1 , pitch=-1, yaw=-1, throttle=-1;
    for (int i=0; i<chList.length(); i++) {
@@ -297,29 +269,7 @@ void GCSControlGadgetOptionsPage::finish()
 
 void GCSControlGadgetOptionsPage::updateButtonFunction()
 {
-    int i;
-    /*QList<QComboBox*> buttonFunctionList;
-    buttonFunctionList << options_page->buttonFunction0 << options_page->buttonFunction1 <<
-              options_page->buttonFunction2 << options_page->buttonFunction3 <<
-              options_page->buttonFunction4 << options_page->buttonFunction5 <<
-              options_page->buttonFunction6 << options_page->buttonFunction7;
-    QList<QComboBox*> buttonActionList;
-    buttonActionList << options_page->buttonAction0 << options_page->buttonAction1 <<
-              options_page->buttonAction2 << options_page->buttonAction3 <<
-              options_page->buttonAction4 << options_page->buttonAction5 <<
-              options_page->buttonAction6 << options_page->buttonAction7;
-    QList<QDoubleSpinBox*> buttonValueList;
-    buttonValueList << options_page->buttonAmount0 << options_page->buttonAmount1 <<
-              options_page->buttonAmount2 << options_page->buttonAmount3 <<
-              options_page->buttonAmount4 << options_page->buttonAmount5 <<
-              options_page->buttonAmount6 << options_page->buttonAmount7;
-    QList<QLabel*> buttonLabelList;
-    buttonLabelList << options_page->buttonLabel0 << options_page->buttonLabel1 <<
-              options_page->buttonLabel2 << options_page->buttonLabel3 <<
-              options_page->buttonLabel4 << options_page->buttonLabel5 <<
-              options_page->buttonLabel6 << options_page->buttonLabel7;
-*/
-    for (i=0;i<8;i++)
+    for (unsigned int i=0;i<8;i++)
     {
         if (buttonActionList.at(i)->currentText().compare("Does nothing")==0)
         {
@@ -349,29 +299,8 @@ void GCSControlGadgetOptionsPage::updateButtonAction(int controlID)
 {
     int i;
     QStringList buttonOptions;
-    /*QList<QComboBox*> buttonFunctionList;
-    buttonFunctionList << options_page->buttonFunction0 << options_page->buttonFunction1 <<
-              options_page->buttonFunction2 << options_page->buttonFunction3 <<
-              options_page->buttonFunction4 << options_page->buttonFunction5 <<
-              options_page->buttonFunction6 << options_page->buttonFunction7;
-    QList<QComboBox*> buttonActionList;
-    buttonActionList << options_page->buttonAction0 << options_page->buttonAction1 <<
-              options_page->buttonAction2 << options_page->buttonAction3 <<
-              options_page->buttonAction4 << options_page->buttonAction5 <<
-              options_page->buttonAction6 << options_page->buttonAction7;
-    QList<QDoubleSpinBox*> buttonValueList;
-    buttonValueList << options_page->buttonAmount0 << options_page->buttonAmount1 <<
-              options_page->buttonAmount2 << options_page->buttonAmount3 <<
-              options_page->buttonAmount4 << options_page->buttonAmount5 <<
-              options_page->buttonAmount6 << options_page->buttonAmount7;
-    QList<QLabel*> buttonLabelList;
-    buttonLabelList << options_page->buttonLabel0 << options_page->buttonLabel1 <<
-              options_page->buttonLabel2 << options_page->buttonLabel3 <<
-              options_page->buttonLabel4 << options_page->buttonLabel5 <<
-              options_page->buttonLabel6 << options_page->buttonLabel7;
-*/
-    //for (i=0;i<8;i++)
-    i=controlID;
+
+    int i=controlID;
     {
         if (buttonActionList.at(i)->currentText().compare("Does nothing")==0)
         {
