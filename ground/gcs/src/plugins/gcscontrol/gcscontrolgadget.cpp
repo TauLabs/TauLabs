@@ -50,11 +50,13 @@ GCSControlGadget::GCSControlGadget(QString classId, GCSControlGadgetWidget *widg
     connect(control_sock,SIGNAL(readyRead()),this,SLOT(readUDPCommand()));
 
     joystickTime.start();
+
+#if defined(USE_SDL)
     GCSControlPlugin *pl = dynamic_cast<GCSControlPlugin*>(plugin);
     connect(pl->sdlGamepad,SIGNAL(gamepads(quint8)),this,SLOT(gamepads(quint8)));
     connect(pl->sdlGamepad,SIGNAL(buttonState(ButtonNumber,bool)),this,SLOT(buttonState(ButtonNumber,bool)));
     connect(pl->sdlGamepad,SIGNAL(axesValues(QListInt16)),this,SLOT(axesValues(QListInt16)));
-
+#endif
 }
 
 GCSControlGadget::~GCSControlGadget()

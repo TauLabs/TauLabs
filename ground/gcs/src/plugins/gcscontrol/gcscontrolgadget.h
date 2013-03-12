@@ -31,18 +31,19 @@
 #include <coreplugin/iuavgadget.h>
 #include "manualcontrolcommand.h"
 #include "gcscontrolgadgetconfiguration.h"
-#include "sdlgamepad/sdlgamepad.h"
-#include <QTime>
 #include "gcscontrolplugin.h"
+#include <QTime>
 #include <QUdpSocket>
 #include <QHostAddress>
 
+#if defined(USE_SDL)
+#include "sdlgamepad/sdlgamepad.h"
+#endif
 
 namespace Core {
 class IUAVGadget;
 }
-//class QWidget;
-//class QString;
+
 class GCSControlGadgetWidget;
 
 using namespace Core;
