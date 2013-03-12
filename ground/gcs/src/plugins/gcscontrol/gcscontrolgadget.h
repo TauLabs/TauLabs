@@ -90,8 +90,10 @@ protected slots:
 
     // signals from joystick
     void gamepads(quint8 count);
+#if defined(USE_SDL)
     void buttonState(ButtonNumber number, bool pressed);
     void axesValues(QListInt16 values);
+#endif
 };
 
 

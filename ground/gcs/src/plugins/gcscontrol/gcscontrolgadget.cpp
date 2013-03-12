@@ -56,6 +56,8 @@ GCSControlGadget::GCSControlGadget(QString classId, GCSControlGadgetWidget *widg
     connect(pl->sdlGamepad,SIGNAL(gamepads(quint8)),this,SLOT(gamepads(quint8)));
     connect(pl->sdlGamepad,SIGNAL(buttonState(ButtonNumber,bool)),this,SLOT(buttonState(ButtonNumber,bool)));
     connect(pl->sdlGamepad,SIGNAL(axesValues(QListInt16)),this,SLOT(axesValues(QListInt16)));
+#else
+    Q_UNUSED(plugin)
 #endif
 }
 
@@ -291,6 +293,7 @@ double GCSControlGadget::constrain(double value)
     return value;
 }
 
+#if defined(USE_SDL)
 void GCSControlGadget::buttonState(ButtonNumber number, bool pressed)
 {
     if ((buttonSettings[number].ActionID>0)&&(buttonSettings[number].FunctionID>0)&&(pressed))
@@ -429,7 +432,7 @@ void GCSControlGadget::axesValues(QListInt16 values)
         }
     }
 }
-
+#endif
 
 double GCSControlGadget::bound(double input)
 {
