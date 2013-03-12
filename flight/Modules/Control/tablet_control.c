@@ -166,7 +166,9 @@ int32_t tablet_control_select()
 		case TABLETINFO_TABLETMODEDESIRED_LAND:
 		default:
 			AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_ERROR);
-			break;
+
+			// Fail out.  This will trigger failsafe mode.
+			return -1;
 	}
 
 	// Update mode if changed
@@ -174,8 +176,6 @@ int32_t tablet_control_select()
 		flightStatus.FlightMode = mode;
 		FlightStatusSet(&flightStatus);
 	}		
-
-	return 0;
 
 	return 0;
 }

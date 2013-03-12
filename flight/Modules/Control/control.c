@@ -125,8 +125,14 @@ static void controlTask(void *parameters)
 			control_events = transmitter_control_get_events();
 			break;
 		case TRANSMITTER_PRESENT_SELECT_TABLET:
-			tablet_control_select();
-			control_events = tablet_control_get_events();
+			if (tablet_control_select() == 0) {
+				control_events = tablet_control_get_events();
+			} else {
+				// Failure in tablet control.  This would be better if done
+				// at the selection stage before the tablet is even used.
+				failsafe_control_select();
+				control_events = failsafe_control_get_events();
+			}
 			break;
 		}
 
