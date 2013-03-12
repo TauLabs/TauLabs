@@ -85,6 +85,7 @@
 #include <pios_usart.h>
 #include <pios_irq.h>
 #include <pios_adc.h>
+#include <pios_internal_adc.h>
 #include <pios_servo.h>
 #include <pios_rtc.h>
 #include <pios_i2c.h>
@@ -183,6 +184,10 @@
 #ifdef PIOS_INCLUDE_RFM22B_COM
 #include <pios_rfm22b_com.h>
 #endif
+#endif
+
+#if defined(PIOS_INCLUDE_PCF8591)
+#include <pios_pcf8591_adc_priv.h>
 #endif
 
 #include <pios_crc.h>
