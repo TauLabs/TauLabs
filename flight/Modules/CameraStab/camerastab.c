@@ -375,7 +375,6 @@ static void tablet_info_process() {
 	poi.North = T[0] * dL[0];
 	poi.East = T[1] * dL[1];
 	poi.Down = T[2] * dL[2];
-	poi.North = poi.North + 0.1f;
 	PoiLocationSet(&poi);
 }
 
