@@ -262,38 +262,16 @@ int32_t transmitter_control_update()
 		}
 
 		if (cmd.Connected == MANUALCONTROLCOMMAND_CONNECTED_FALSE) {
-			cmd.Throttle = -1;	// Shut down engine with no control
+			// These values are not used but just put ManualControlCommand in a sane state.  When
+			// Connected is false, then the failsafe submodule will be in control.
+
+			cmd.Throttle = -1;
 			cmd.Roll = 0;
 			cmd.Yaw = 0;
 			cmd.Pitch = 0;
 			cmd.Collective = 0;
-			//cmd.FlightMode = MANUALCONTROLCOMMAND_FLIGHTMODE_AUTO; // don't do until AUTO implemented and functioning
-			// Important: Throttle < 0 will reset Stabilization coefficients among other things. Either change this,
-			// or leave throttle at IDLE speed or above when going into AUTO-failsafe.
+
 			set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_NORX);
-			
-			AccessoryDesiredData accessory;
-			// Set Accessory 0
-			if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY0] != 
-				MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
-				accessory.AccessoryVal = 0;					
-				if(AccessoryDesiredInstSet(0, &accessory) != 0) //These are allocated later and that allocation might fail
-					set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
-			}
-			// Set Accessory 1
-			if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY1] != 
-				MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
-				accessory.AccessoryVal = 0;
-				if(AccessoryDesiredInstSet(1, &accessory) != 0) //These are allocated later and that allocation might fail
-					set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
-			}
-			// Set Accessory 2
-			if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY2] != 
-				MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
-				accessory.AccessoryVal = 0;
-				if(AccessoryDesiredInstSet(2, &accessory) != 0) //These are allocated later and that allocation might fail
-					set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
-			}
 
 		} else if (valid_input_detected) {
 			set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_NONE);
@@ -347,7 +325,9 @@ int32_t transmitter_control_update()
 		
 		// Update cmd object
 		ManualControlCommandSet(&cmd);
+
 #if defined(PIOS_INCLUDE_USB_RCTX)
+		// Optionally make the hardware behave like a USB HID joystick
 		if (pios_usb_rctx_id) {
 			PIOS_USB_RCTX_Update(pios_usb_rctx_id,
 					cmd.Channel,
