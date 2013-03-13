@@ -43,7 +43,7 @@ ENABLE_AUX_UART ?= NO
 USE_BOOTLOADER ?= NO
 
 # List of modules to include
-MODULES += Actuator ManualControl Stabilization 
+MODULES += Actuator Control Stabilization 
 MODULES += Attitude/revolution
 MODULES += FirmwareIAP
 
