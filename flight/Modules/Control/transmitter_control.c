@@ -98,7 +98,7 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 static void update_path_desired(ManualControlCommandData * cmd, bool flightModeChanged, bool home);
 static uint8_t get_flight_mode();
 static void set_flight_mode();
-static void processArm(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
+static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
 static void set_manual_control_error(SystemAlarmsManualControlOptions errorCode);
 static float scaleChannel(int16_t value, int16_t max, int16_t min, int16_t neutral);
 static uint32_t timeDifferenceMs(portTickType start_time, portTickType end_time);
@@ -158,6 +158,8 @@ int32_t transmitter_control_initialize()
   */
 int32_t transmitter_control_update()
 {
+	lastSysTime = xTaskGetTickCount();
+
 	float scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_NUMELEM];
 
 	/* Update channel activity monitor */
@@ -321,8 +323,10 @@ int32_t transmitter_control_update()
 		}
 	}
 
-	// Process arming outside conditional so system will disarm when disconnected
-	processArm(&cmd, &settings);
+	// Process arming outside conditional so system will disarm when disconnected.  Notice this
+	// is processed in the _update method instead of _select method so the state system is always
+	// evalulated, even if not detected.
+	process_transmitter_events(&cmd, &settings);
 	
 	// Update cmd object
 	ManualControlCommandSet(&cmd);
@@ -403,6 +407,138 @@ enum control_events transmitter_control_get_events()
 	enum control_events to_return = pending_control_event;
 	pending_control_event = CONTROL_EVENTS_NONE;
 	return to_return;
+}
+
+//! Schedule the appropriate event to change the arm status
+static void set_armed_if_changed(uint8_t new_arm) {
+	uint8_t arm_status;
+	FlightStatusArmedGet(&arm_status);
+	if (new_arm != arm_status) {
+		switch(new_arm) {
+		case FLIGHTSTATUS_ARMED_DISARMED:
+			pending_control_event = CONTROL_EVENTS_DISARM;
+			break;
+		case FLIGHTSTATUS_ARMED_ARMING:
+			pending_control_event = CONTROL_EVENTS_ARMING;
+			break;
+		case FLIGHTSTATUS_ARMED_ARMED:
+			pending_control_event = CONTROL_EVENTS_ARM;
+			break;
+		}
+	}
+}
+
+/**
+ * @brief Process the inputs and determine whether to arm or not
+ * @param[out] cmd The structure to set the armed in
+ * @param[in] settings Settings indicating the necessary position
+ */
+static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings)
+{
+	bool lowThrottle = cmd->Throttle <= 0;
+
+	uint8_t arm_status;
+	FlightStatusArmedGet(&arm_status);
+
+	if (settings->Arming == MANUALCONTROLSETTINGS_ARMING_ALWAYSDISARMED) {
+		set_armed_if_changed(FLIGHTSTATUS_ARMED_DISARMED);
+	} else {
+		// Not really needed since this function not called when disconnected
+		if (cmd->Connected == MANUALCONTROLCOMMAND_CONNECTED_FALSE)
+			lowThrottle = true;
+
+		// The throttle is not low, in case we where arming or disarming, abort
+		if (!lowThrottle) {
+			switch(arm_state) {
+				case ARM_STATE_DISARMING_MANUAL:
+				case ARM_STATE_DISARMING_TIMEOUT:
+					arm_state = ARM_STATE_ARMED;
+					break;
+				case ARM_STATE_ARMING_MANUAL:
+					arm_state = ARM_STATE_DISARMED;
+					break;
+				default:
+					// Nothing needs to be done in the other states
+					break;
+			}
+			return;
+		}
+
+		// The rest of these cases throttle is low
+		if (settings->Arming == MANUALCONTROLSETTINGS_ARMING_ALWAYSARMED) {
+			set_armed_if_changed(FLIGHTSTATUS_ARMED_ARMED);
+			return;
+		}
+
+		// When the configuration is not "Always armed" and no "Always disarmed",
+		// the state will not be changed when the throttle is not low
+		static portTickType armedDisarmStart;
+		float armingInputLevel = 0;
+
+		// Calc channel see assumptions7
+		int8_t sign = ((settings->Arming-MANUALCONTROLSETTINGS_ARMING_ROLLLEFT)%2) ? -1 : 1;
+		switch ( (settings->Arming-MANUALCONTROLSETTINGS_ARMING_ROLLLEFT)/2 ) {
+			case ARMING_CHANNEL_ROLL:    armingInputLevel = sign * cmd->Roll;    break;
+			case ARMING_CHANNEL_PITCH:   armingInputLevel = sign * cmd->Pitch;   break;
+			case ARMING_CHANNEL_YAW:     armingInputLevel = sign * cmd->Yaw;     break;
+		}
+
+		bool manualArm = false;
+		bool manualDisarm = false;
+
+		if (armingInputLevel <= -ARMED_THRESHOLD)
+			manualArm = true;
+		else if (armingInputLevel >= +ARMED_THRESHOLD)
+			manualDisarm = true;
+
+		switch(arm_state) {
+			case ARM_STATE_DISARMED:
+				set_armed_if_changed(FLIGHTSTATUS_ARMED_DISARMED);
+
+				if (manualArm) {
+					armedDisarmStart = lastSysTime;
+					arm_state = ARM_STATE_ARMING_MANUAL;
+				}
+
+				break;
+
+			case ARM_STATE_ARMING_MANUAL:
+				set_armed_if_changed(FLIGHTSTATUS_ARMED_ARMING);
+
+				if (manualArm && (timeDifferenceMs(armedDisarmStart, lastSysTime) > ARMED_TIME_MS))
+					arm_state = ARM_STATE_ARMED;
+				else if (!manualArm)
+					arm_state = ARM_STATE_DISARMED;
+				break;
+
+			case ARM_STATE_ARMED:
+				// When we get here, the throttle is low,
+				// we go immediately to disarming due to timeout, also when the disarming mechanism is not enabled
+				armedDisarmStart = lastSysTime;
+				arm_state = ARM_STATE_DISARMING_TIMEOUT;
+				set_armed_if_changed(FLIGHTSTATUS_ARMED_ARMED);
+				break;
+
+			case ARM_STATE_DISARMING_TIMEOUT:
+				// We get here when armed while throttle low, even when the arming timeout is not enabled
+				if ((settings->ArmedTimeout != 0) && (timeDifferenceMs(armedDisarmStart, lastSysTime) > settings->ArmedTimeout))
+					arm_state = ARM_STATE_DISARMED;
+
+				// Switch to disarming due to manual control when needed
+				if (manualDisarm) {
+					armedDisarmStart = lastSysTime;
+					arm_state = ARM_STATE_DISARMING_MANUAL;
+				}
+				break;
+
+			case ARM_STATE_DISARMING_MANUAL:
+				if (manualDisarm &&(timeDifferenceMs(armedDisarmStart, lastSysTime) > ARMED_TIME_MS))
+					arm_state = ARM_STATE_DISARMED;
+				else if (!manualDisarm)
+					arm_state = ARM_STATE_ARMED;
+				break;
+		}	// End Switch
+	}
 }
 
 //! Determine which of N positions the flight mode switch is in but do not set it
@@ -799,116 +935,6 @@ static uint32_t timeDifferenceMs(portTickType start_time, portTickType end_time)
 	if(end_time > start_time)
 		return (end_time - start_time) * portTICK_RATE_MS;
 	return ((((portTICK_RATE_MS) -1) - start_time) + end_time) * portTICK_RATE_MS;
-}
-
-/**
- * @brief Process the inputs and determine whether to arm or not
- * @param[out] cmd The structure to set the armed in
- * @param[in] settings Settings indicating the necessary position
- */
-static void processArm(ManualControlCommandData * cmd, ManualControlSettingsData * settings) //<-- FOR SAFETY, ARMING NEEDS TO CHANGE SO THAT OTHER MODULES CAN'T OVERRULE IT
-{
-	bool lowThrottle = cmd->Throttle <= 0;
-
-	if (settings->Arming == MANUALCONTROLSETTINGS_ARMING_ALWAYSDISARMED) {
-		pending_control_event = CONTROL_EVENTS_DISARM;
-	} else {
-		// Not really needed since this function not called when disconnected
-		if (cmd->Connected == MANUALCONTROLCOMMAND_CONNECTED_FALSE)
-			lowThrottle = true;
-
-		// The throttle is not low, in case we where arming or disarming, abort
-		if (!lowThrottle) {
-			switch(arm_state) {
-				case ARM_STATE_DISARMING_MANUAL:
-				case ARM_STATE_DISARMING_TIMEOUT:
-					arm_state = ARM_STATE_ARMED;
-					break;
-				case ARM_STATE_ARMING_MANUAL:
-					arm_state = ARM_STATE_DISARMED;
-					break;
-				default:
-					// Nothing needs to be done in the other states
-					break;
-			}
-			return;
-		}
-
-		// The rest of these cases throttle is low
-		if (settings->Arming == MANUALCONTROLSETTINGS_ARMING_ALWAYSARMED) {
-			uint8_t arm_status;
-			FlightStatusArmedGet(&arm_status);
-			if (arm_status != FLIGHTSTATUS_ARMED_ARMED)
-				pending_control_event = CONTROL_EVENTS_ARM;
-			return;
-		}
-
-		// When the configuration is not "Always armed" and no "Always disarmed",
-		// the state will not be changed when the throttle is not low
-		static portTickType armedDisarmStart;
-		float armingInputLevel = 0;
-
-		// Calc channel see assumptions7
-		int8_t sign = ((settings->Arming-MANUALCONTROLSETTINGS_ARMING_ROLLLEFT)%2) ? -1 : 1;
-		switch ( (settings->Arming-MANUALCONTROLSETTINGS_ARMING_ROLLLEFT)/2 ) {
-			case ARMING_CHANNEL_ROLL:    armingInputLevel = sign * cmd->Roll;    break;
-			case ARMING_CHANNEL_PITCH:   armingInputLevel = sign * cmd->Pitch;   break;
-			case ARMING_CHANNEL_YAW:     armingInputLevel = sign * cmd->Yaw;     break;
-		}
-
-		bool manualArm = false;
-		bool manualDisarm = false;
-
-		if (armingInputLevel <= -ARMED_THRESHOLD)
-			manualArm = true;
-		else if (armingInputLevel >= +ARMED_THRESHOLD)
-			manualDisarm = true;
-
-		switch(arm_state) {
-			case ARM_STATE_DISARMED:
-				pending_control_event = CONTROL_EVENTS_DISARM;
-				armedDisarmStart = lastSysTime;
-				arm_state = ARM_STATE_ARMING_MANUAL;
-
-				break;
-
-			case ARM_STATE_ARMING_MANUAL:
-				pending_control_event = CONTROL_EVENTS_ARMING;
-
-				if (manualArm && (timeDifferenceMs(armedDisarmStart, lastSysTime) > ARMED_TIME_MS))
-					arm_state = ARM_STATE_ARMED;
-				else if (!manualArm)
-					arm_state = ARM_STATE_DISARMED;
-				break;
-
-			case ARM_STATE_ARMED:
-				// When we get here, the throttle is low,
-				// we go immediately to disarming due to timeout, also when the disarming mechanism is not enabled
-				armedDisarmStart = lastSysTime;
-				arm_state = ARM_STATE_DISARMING_TIMEOUT;
-				pending_control_event = CONTROL_EVENTS_ARM;
-				break;
-
-			case ARM_STATE_DISARMING_TIMEOUT:
-				// We get here when armed while throttle low, even when the arming timeout is not enabled
-				if ((settings->ArmedTimeout != 0) && (timeDifferenceMs(armedDisarmStart, lastSysTime) > settings->ArmedTimeout))
-					arm_state = ARM_STATE_DISARMED;
-
-				// Switch to disarming due to manual control when needed
-				if (manualDisarm) {
-					armedDisarmStart = lastSysTime;
-					arm_state = ARM_STATE_DISARMING_MANUAL;
-				}
-				break;
-
-			case ARM_STATE_DISARMING_MANUAL:
-				if (manualDisarm &&(timeDifferenceMs(armedDisarmStart, lastSysTime) > ARMED_TIME_MS))
-					arm_state = ARM_STATE_DISARMED;
-				else if (!manualDisarm)
-					arm_state = ARM_STATE_ARMED;
-				break;
-		}	// End Switch
-	}
 }
 
 /**
