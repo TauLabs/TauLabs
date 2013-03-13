@@ -103,6 +103,7 @@ public:
 
     void saveObjectToSD(UAVObject *obj);
     UAVObjectManager* getObjectManager();
+    UAVObjectUtilManager* getObjectUtilManager();
     static double listMean(QList<double> list);
     static double listVar(QList<double> list);
 

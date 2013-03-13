@@ -249,8 +249,9 @@ void ConfigTaskWidget::saveObjectToSD(UAVObject *obj)
     utilMngr->saveObjectToSD(obj);
 }
 
+
 /**
- * Util function to get a pointer to the object manager
+ * @brief ConfigTaskWidget::getObjectManager Utility function to get a pointer to the object manager
  * @return pointer to the UAVObjectManager
  */
 UAVObjectManager* ConfigTaskWidget::getObjectManager() {
@@ -260,6 +261,17 @@ UAVObjectManager* ConfigTaskWidget::getObjectManager() {
     return objMngr;
 }
 
+
+/**
+ * @brief ConfigTaskWidget::getObjectUtilManager Utility function to get a pointer to the object manager utilities
+ * @return pointer to the UAVObjectUtilManager
+ */
+UAVObjectUtilManager* ConfigTaskWidget::getObjectUtilManager() {
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectUtilManager* utilMngr = pm->getObject<UAVObjectUtilManager>();
+    Q_ASSERT(utilMngr);
+    return utilMngr;
+}
 
 
 /**
