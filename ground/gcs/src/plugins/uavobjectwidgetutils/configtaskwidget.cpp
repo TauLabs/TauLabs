@@ -302,6 +302,7 @@ void ConfigTaskWidget::onAutopilotDisconnect()
     isConnected=false;
     enableControls(false);
     invalidateObjects();
+    setDirty(false);
 }
 
 void ConfigTaskWidget::forceConnectedState()//dynamic widgets don't recieve the connected signal. This should be called instead.
@@ -320,9 +321,9 @@ void ConfigTaskWidget::onAutopilotConnect()
     {
         loadWidgetLimits(ow->widget,ow->field,ow->index,ow->isLimited,ow->scale);
     }
-    setDirty(false);
     enableControls(true);
     refreshWidgetsValues();
+    setDirty(false);
 }
 /**
  * SLOT Function used to populate the widgets with the initial values
@@ -449,7 +450,7 @@ void ConfigTaskWidget::enableControls(bool enable)
     }
 }
 /**
- * SLOT function called when on of the widgets contents added to the framework changes
+ * @brief ConfigTaskWidget::forceShadowUpdates
  */
 void ConfigTaskWidget::forceShadowUpdates()
 {
@@ -465,7 +466,6 @@ void ConfigTaskWidget::forceShadowUpdates()
 
         }
     }
-    setDirty(true);
 }
 /**
  * SLOT function called when one of the widgets contents added to the framework changes
@@ -538,10 +538,7 @@ void ConfigTaskWidget::setDirty(bool value)
  */
 bool ConfigTaskWidget::isDirty()
 {
-    if(isConnected)
-        return dirty;
-    else
-        return false;
+    return dirty;
 }
 /**
  * SLOT function used to disable widget contents changes when related object field changes

@@ -21,6 +21,7 @@
  */
 
 #include "calibration.h"
+#include "configattitudewidget.h"
 
 #include "physical_constants.h"
 
@@ -769,6 +770,9 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
         attitudeSettings->setData(attitudeSettingsData);
         attitudeSettings->updated();
 
+        // Inform the tab that it has been changed
+        configAttitudeWidget->setDirty(true);
+
         return true;
     }
     return false;
@@ -1046,6 +1050,9 @@ int Calibration::computeTempCal()
 
     emit tempCalProgressChanged(0);
 
+    // Inform the tab that it has been changed
+    configAttitudeWidget->setDirty(true);
+
     return CALIBRATION_SUCCESS;
 }
 
@@ -1228,6 +1235,9 @@ int Calibration::computeScaleBias()
     } else {
         return ACCELEROMETER_FAILED;
     }
+
+    // Inform the tab that it has been changed
+    configAttitudeWidget->setDirty(true);
 
     return CALIBRATION_SUCCESS;
 }

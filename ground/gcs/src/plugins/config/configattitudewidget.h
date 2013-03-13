@@ -112,7 +112,7 @@ protected:
     void showEvent(QShowEvent *event);
     void resizeEvent(QResizeEvent *event);
 
-    Calibration calibration;
+    Calibration *calibration;
 
 };
 

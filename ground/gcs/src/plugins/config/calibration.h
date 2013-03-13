@@ -23,6 +23,8 @@
 #ifndef CALIBRATION_H
 #define CALIBRATION_H
 
+class ConfigAttitudeWidget;
+
 #include <uavobjectmanager.h>
 #include <extensionsystem/pluginmanager.h>
 #include <uavobject.h>
@@ -46,7 +48,7 @@ class Calibration : public QObject
     Q_OBJECT
 
 public:
-    explicit Calibration();
+    explicit Calibration(ConfigAttitudeWidget *);
     ~Calibration();
 
     void initialize(bool calibrateMags);
@@ -174,6 +176,8 @@ private:
     TempCompCurve *xCurve;
     TempCompCurve *yCurve;
     TempCompCurve *zCurve;
+
+    ConfigAttitudeWidget *configAttitudeWidget;
 protected:
 
     //! Get the object manager
