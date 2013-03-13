@@ -49,7 +49,12 @@ GCSControlGadgetOptionsPage::~GCSControlGadgetOptionsPage()
 
 }
 
+void GCSControlGadgetOptionsPage::gamepads(quint8 count)
+{
+    Q_UNUSED(count);
+}
 
+#if defined(USE_SDL)
 void GCSControlGadgetOptionsPage::buttonState(ButtonNumber number, bool pressed)
 {
     if (options_page) {
@@ -66,11 +71,6 @@ void GCSControlGadgetOptionsPage::buttonState(ButtonNumber number, bool pressed)
         }
     }
 
-}
-
-void GCSControlGadgetOptionsPage::gamepads(quint8 count)
-{
-    Q_UNUSED(count);
 }
 
 void GCSControlGadgetOptionsPage::axesValues(QListInt16 values)
@@ -94,7 +94,7 @@ void GCSControlGadgetOptionsPage::axesValues(QListInt16 values)
         }
     }
 }
-
+#endif
 
 //creates options page widget (uses the UI file)
 QWidget *GCSControlGadgetOptionsPage::createPage(QWidget *parent)
