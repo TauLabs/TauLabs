@@ -22,11 +22,15 @@ equals(copydata, 1) {
             Qt5Script.dll \
             Qt5Concurrent.dll \
             Qt5PrintSupport.dll \
+            Qt5Widgets.dll \
+            D3DCompiler_43.dll \
             libEGL.dll \
             libGLESv2.dll \
             icuin49.dll \
+            icudt49.dll \
             libstdc++-6.dll \
             icuuc49.dll \
+            D3DCompiler_43.dll \
             libwinpthread-1.dll
 
         for(dll, QT_DLLS) {
