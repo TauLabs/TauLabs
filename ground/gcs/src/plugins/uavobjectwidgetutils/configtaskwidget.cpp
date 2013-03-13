@@ -261,29 +261,24 @@ UAVObjectManager* ConfigTaskWidget::getObjectManager() {
 }
 
 
-QMap<QString, UAVObject::Metadata> ConfigTaskWidget::readAllMetadata()
-{
-    QMap<QString, UAVObject::Metadata> metaDataList;
-
-    // Save all metadata objects.
-    UAVObjectManager *objManager = getObjectManager();
-    QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
-    foreach (QList<UAVDataObject*> list, objList) {
-        foreach (UAVDataObject* obj, list) {
-            metaDataList.insert(obj->getName(), obj->getMetadata());
-        }
-    }
-
-    return metaDataList;
-}
-
 /**
- * @brief ConfigTaskWidget::readAllNonSettingsMetadata Only get dynamic data
- * metadata
- * @return
+ * @brief ConfigTaskWidget::readAllNonSettingsMetadata Convenience function for calling
+ * readMetadata
+ * @return QMap containing list of all requested UAVO metaadata
  */
 QMap<QString, UAVObject::Metadata> ConfigTaskWidget::readAllNonSettingsMetadata()
 {
+    return readMetadata(NONSETTINGS_METADATA_ONLY);
+}
+
+
+/**
+ * @brief ConfigTaskWidget::readMetadata Get metadata for UAVOs
+ * @param metadataReadType Defines if all UAVOs are read, only settings, or only data types
+ * @return QMap containing list of all requested UAVO metaadata
+ */
+QMap<QString, UAVObject::Metadata> ConfigTaskWidget::readMetadata(metadataSetEnum metadataReadType)
+{
     QMap<QString, UAVObject::Metadata> metaDataList;
 
     // Save all metadata objects.
@@ -291,7 +286,24 @@ QMap<QString, UAVObject::Metadata> ConfigTaskWidget::readAllNonSettingsMetadata(
     QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
     foreach (QList<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
-            if(!obj->isSettings()) {
+            bool updateMetadataFlag = false;
+            switch (metadataReadType){
+            case ALL_METADATA:
+                updateMetadataFlag = true;
+                break;
+            case SETTINGS_METADATA_ONLY:
+                if(obj->isSettings()) {
+                    updateMetadataFlag = true;
+                }
+                break;
+            case NONSETTINGS_METADATA_ONLY:
+                if(!obj->isSettings()) {
+                    updateMetadataFlag = true;
+                }
+                break;
+            }
+
+            if (updateMetadataFlag){
                 metaDataList.insert(obj->getName(), obj->getMetadata());
             }
         }
@@ -300,53 +312,62 @@ QMap<QString, UAVObject::Metadata> ConfigTaskWidget::readAllNonSettingsMetadata(
     return metaDataList;
 }
 
-bool ConfigTaskWidget::setAllNonSettingsMetadataFlightTelemetryPeriod(int period)
-{
-    // Load all metadata objects.
-    UAVObjectManager *objManager = getObjectManager();
-    QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
-    foreach (QList<UAVDataObject*> list, objList) {
-        foreach (UAVDataObject* obj, list) {
-            if(!obj->isSettings()) {
-                UAVObject::Metadata mdata = obj->getMetadata();
-                UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
-                mdata.flightTelemetryUpdatePeriod = period;
-                obj->setMetadata(mdata);
-            }
-        }
-    }
 
-    return true;
-}
-
+/**
+ * @brief ConfigTaskWidget::setAllNonSettingsMetadata Convenience function for calling setMetadata
+ * @param metaDataList QMap containing list of all UAVO metaadata to be updated
+ * @return
+ */
 bool ConfigTaskWidget::setAllNonSettingsMetadata(QMap<QString, UAVObject::Metadata> metaDataList)
 {
-    // Load all metadata objects.
-    UAVObjectManager *objManager = getObjectManager();
-    QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
-    foreach (QList<UAVDataObject*> list, objList) {
-        foreach (UAVDataObject* obj, list) {
-            if(!obj->isSettings()) {
-                if (metaDataList.contains(obj->getName())) {
-                    UAVObject::Metadata mdata = metaDataList.value(obj->getName());
-                    obj->setMetadata(mdata);
-                }
-            }
-        }
-    }
+    metadataSetEnum metadataSetType = NONSETTINGS_METADATA_ONLY;
+    setMetadata(metaDataList, metadataSetType);
 
     return true;
 }
 
-bool ConfigTaskWidget::setAllMetadata(QMap<QString, UAVObject::Metadata> metaDataList)
+
+/**
+ * @brief ConfigTaskWidget::setMetadata Sets the metadata for all metadata in QMap
+ * @param metaDataSetList QMap containing list of all UAVO metaadata to be updated
+ * @param metadataSetType Controls if all metadata is updated, only settings metadata,
+ * or only dynamic data metadata
+ * @return
+ */
+bool ConfigTaskWidget::setMetadata(QMap<QString, UAVObject::Metadata> metaDataSetList, metadataSetEnum metadataSetType)
 {
+    metadataChecklist = metaDataSetList;
+
     // Load all metadata objects.
     UAVObjectManager *objManager = getObjectManager();
     QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
     foreach (QList<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
-            if (metaDataList.contains(obj->getName())){
-                obj->setMetadata(metaDataList.value(obj->getName()));
+            bool updateMetadataFlag = false;
+            switch (metadataSetType){
+            case ALL_METADATA:
+                updateMetadataFlag = true;
+                break;
+            case SETTINGS_METADATA_ONLY:
+                if(obj->isSettings()) {
+                    updateMetadataFlag = true;
+                }
+                break;
+            case NONSETTINGS_METADATA_ONLY:
+                if(!obj->isSettings()) {
+                    updateMetadataFlag = true;
+                }
+                break;
+            }
+
+            if (metaDataSetList.contains(obj->getName()) && updateMetadataFlag){
+                obj->setMetadata(metaDataSetList.value(obj->getName()));
+
+                // Connect to object
+                connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(metadataTransactionCompleted(UAVObject*,bool)));
+                // Request update
+                obj->requestUpdate();
+
             }
         }
     }
@@ -354,6 +375,43 @@ bool ConfigTaskWidget::setAllMetadata(QMap<QString, UAVObject::Metadata> metaDat
     return true;
 }
 
+
+/**
+ * @brief ConfigTaskWidget::metadataTransactionCompleted Called by the retrieved object when a transaction is completed.
+ * @param uavoObject
+ * @param success
+ */
+void ConfigTaskWidget::metadataTransactionCompleted(UAVObject* uavoObject, bool success)
+{
+    Q_UNUSED(success);
+    // Disconnect from sending UAVO
+    disconnect(uavoObject, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(metadataTransactionCompleted(UAVObject*,bool)));
+
+
+    // If the UAVO is on the list, check that the data was set correctly
+    if(metadataChecklist.contains(uavoObject->getName()))
+    {
+        UAVObject::Metadata mdata = metadataChecklist.value(uavoObject->getName());
+        if( uavoObject->getMetadata().flags == mdata.flags &&
+                uavoObject->getMetadata().flightTelemetryUpdatePeriod == mdata.flightTelemetryUpdatePeriod &&
+                uavoObject->getMetadata().gcsTelemetryUpdatePeriod == mdata.gcsTelemetryUpdatePeriod &&
+                uavoObject->getMetadata().loggingUpdatePeriod == mdata.loggingUpdatePeriod)
+        {
+            metadataChecklist.take(uavoObject->getName());
+        }
+        else{
+            qDebug() << "Writing metadata failed on " << uavoObject->getName();
+            Q_ASSERT(0);
+        }
+    }
+
+   if(metadataChecklist.empty()){
+       //We're done, that was the last item checked off the list.
+       emit completedMetadataWrite();
+   }
+
+   // TODO: Implement a timeout
+}
 
 /**
  * Utility function which calculates the Mean value of a list of values

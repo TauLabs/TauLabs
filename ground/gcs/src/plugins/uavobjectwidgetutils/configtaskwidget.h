@@ -81,6 +81,8 @@ public:
     };
 
     enum buttonTypeEnum {none,save_button,apply_button,reload_button,default_button,help_button};
+    enum metadataSetEnum {ALL_METADATA, SETTINGS_METADATA_ONLY, NONSETTINGS_METADATA_ONLY};
+
     struct uiRelationAutomation
     {
         QString objname;
@@ -140,11 +142,10 @@ public:
     void forceShadowUpdates();
     void forceConnectedState();
 
-    QMap<QString, UAVObject::Metadata> readAllMetadata();
+    QMap<QString, UAVObject::Metadata> readMetadata(metadataSetEnum metadataReadType);
     QMap<QString, UAVObject::Metadata> readAllNonSettingsMetadata();
-    bool setAllMetadata(QMap<QString, UAVObject::Metadata>);
+    bool setMetadata(QMap<QString, UAVObject::Metadata>, metadataSetEnum metadataUpdateType);
     bool setAllNonSettingsMetadata(QMap<QString, UAVObject::Metadata>);
-    bool setAllNonSettingsMetadataFlightTelemetryPeriod(int);
 
 public slots:
     void onAutopilotDisconnect();
@@ -166,10 +167,13 @@ signals:
     //fired when the autopilot disconnects
     void autoPilotDisconnected();
     void defaultRequested(int group);
+    void completedMetadataWrite();
 private slots:
     void objectUpdated(UAVObject*);
     void defaultButtonClicked();
     void reloadButtonClicked();
+    void metadataTransactionCompleted(UAVObject*, bool);
+
 private:
     int currentBoard;
     bool isConnected;
@@ -195,6 +199,7 @@ private:
     void loadWidgetLimits(QWidget *widget, UAVObjectField *field, int index, bool hasLimits, double sclale);
     QString outOfLimitsStyle;
     QTimer * timeOut;
+    QMap<QString, UAVObject::Metadata> metadataChecklist;
 protected slots:
     virtual void disableObjUpdates();
     virtual void enableObjUpdates();
