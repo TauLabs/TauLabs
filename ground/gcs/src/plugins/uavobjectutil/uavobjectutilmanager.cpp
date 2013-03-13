@@ -331,13 +331,11 @@ int UAVObjectUtilManager::setHomeLocation(double LLA[3], bool save_to_sdcard)
     homeLocationData.Be[1] = Be[1];
     homeLocationData.Be[2] = Be[2];
 
-    //Check that gravity !=0
+    //Check that gravity !=0. Do not let user continue until valid gravity data is entered
     bool ok=true;
     while(homeLocationData.g_e < 3 || homeLocationData.g_e > 25 || !ok){ // 3 is Mars's gravity and 25 Jupiter's
-        homeLocationData.g_e=9.805;
-//        //THIS DOESN'T WORK BECAUSE `this` IS NOT A WIDGET AND I DON'T KNOW HOW TO FIND ONE
-//        homeLocationData.g_e = QInputDialog::getDouble(this, tr("Gravity setting error"),
-//                                          tr("Please set local gravity in [m/s^2]. If unsure, leave the default."), 9.805, 3, 25, 3, &ok);
+        homeLocationData.g_e = QInputDialog::getDouble(0, tr("Gravity setting error"),
+                                          tr("Please set local gravity in [m/s^2]. If unsure, leave the default."), 9.805, 3, 25, 3, &ok);
     }
 
     homeLocationData.Set = HomeLocation::SET_TRUE;
