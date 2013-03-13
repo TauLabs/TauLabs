@@ -142,11 +142,6 @@ public:
     void forceShadowUpdates();
     void forceConnectedState();
 
-    QMap<QString, UAVObject::Metadata> readMetadata(metadataSetEnum metadataReadType);
-    QMap<QString, UAVObject::Metadata> readAllNonSettingsMetadata();
-    bool setMetadata(QMap<QString, UAVObject::Metadata>, metadataSetEnum metadataUpdateType);
-    bool setAllNonSettingsMetadata(QMap<QString, UAVObject::Metadata>);
-
 public slots:
     void onAutopilotDisconnect();
     void onAutopilotConnect();
@@ -167,12 +162,11 @@ signals:
     //fired when the autopilot disconnects
     void autoPilotDisconnected();
     void defaultRequested(int group);
-    void completedMetadataWrite();
+
 private slots:
     void objectUpdated(UAVObject*);
     void defaultButtonClicked();
     void reloadButtonClicked();
-    void metadataTransactionCompleted(UAVObject*, bool);
 
 private:
     int currentBoard;
@@ -199,7 +193,6 @@ private:
     void loadWidgetLimits(QWidget *widget, UAVObjectField *field, int index, bool hasLimits, double sclale);
     QString outOfLimitsStyle;
     QTimer * timeOut;
-    QMap<QString, UAVObject::Metadata> metadataChecklist;
 protected slots:
     virtual void disableObjUpdates();
     virtual void enableObjUpdates();
