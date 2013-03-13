@@ -182,162 +182,161 @@ int32_t transmitter_control_update()
 			UAVObjSetAccess(&metadata, ACCESS_READWRITE);
 			ManualControlCommandSetMetadata(&metadata);
 		}
+
+		// Don't process anything else when GCS is overriding the objects
+		return 0;
 	}
 
-	if (!ManualControlCommandReadOnly()) {
+	bool valid_input_detected = true;
 
-		bool valid_input_detected = true;
+	// Read channel values in us
+	for (uint8_t n = 0; 
+	     n < MANUALCONTROLSETTINGS_CHANNELGROUPS_NUMELEM && n < MANUALCONTROLCOMMAND_CHANNEL_NUMELEM;
+	     ++n) {
+		extern uint32_t pios_rcvr_group_map[];
 
-		// Read channel values in us
-		for (uint8_t n = 0; 
-		     n < MANUALCONTROLSETTINGS_CHANNELGROUPS_NUMELEM && n < MANUALCONTROLCOMMAND_CHANNEL_NUMELEM;
-		     ++n) {
-			extern uint32_t pios_rcvr_group_map[];
-
-			if (settings.ChannelGroups[n] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
-				cmd.Channel[n] = PIOS_RCVR_INVALID;
-			} else {
-				cmd.Channel[n] = PIOS_RCVR_Read(pios_rcvr_group_map[settings.ChannelGroups[n]],
-								settings.ChannelNumber[n]);
-			}
-
-			// If a channel has timed out this is not valid data and we shouldn't update anything
-			// until we decide to go to failsafe
-			if(cmd.Channel[n] == PIOS_RCVR_TIMEOUT)
-				valid_input_detected = false;
-			else
-				scaledChannel[n] = scaleChannel(cmd.Channel[n], settings.ChannelMax[n],	settings.ChannelMin[n], settings.ChannelNeutral[n]);
+		if (settings.ChannelGroups[n] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
+			cmd.Channel[n] = PIOS_RCVR_INVALID;
+		} else {
+			cmd.Channel[n] = PIOS_RCVR_Read(pios_rcvr_group_map[settings.ChannelGroups[n]],
+							settings.ChannelNumber[n]);
 		}
 
-		// Check settings, if error raise alarm
-		if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE ||
-			settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE ||
-			settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE ||
-			settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE ||
-			// Check all channel mappings are valid
-			cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL] == (uint16_t) PIOS_RCVR_INVALID ||
-			cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH] == (uint16_t) PIOS_RCVR_INVALID ||
-			cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW] == (uint16_t) PIOS_RCVR_INVALID ||
-			cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE] == (uint16_t) PIOS_RCVR_INVALID ||
-			// Check the driver exists
-			cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL] == (uint16_t) PIOS_RCVR_NODRIVER ||
-			cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH] == (uint16_t) PIOS_RCVR_NODRIVER ||
-			cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW] == (uint16_t) PIOS_RCVR_NODRIVER ||
-			cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE] == (uint16_t) PIOS_RCVR_NODRIVER ||
-			// Check the FlightModeNumber is valid
-			settings.FlightModeNumber < 1 || settings.FlightModeNumber > MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_NUMELEM ||
-			// Similar checks for FlightMode channel but only if more than one flight mode has been set. Otherwise don't care
-			((settings.FlightModeNumber > 1) && (
-				settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE ||
-				cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] == (uint16_t) PIOS_RCVR_INVALID ||
-				cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] == (uint16_t) PIOS_RCVR_NODRIVER))) {
+		// If a channel has timed out this is not valid data and we shouldn't update anything
+		// until we decide to go to failsafe
+		if(cmd.Channel[n] == PIOS_RCVR_TIMEOUT)
+			valid_input_detected = false;
+		else
+			scaledChannel[n] = scaleChannel(cmd.Channel[n], settings.ChannelMax[n],	settings.ChannelMin[n], settings.ChannelNeutral[n]);
+	}
 
-			set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_SETTINGS);
+	// Check settings, if error raise alarm
+	if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE ||
+		settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE ||
+		settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE ||
+		settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE ||
+		// Check all channel mappings are valid
+		cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL] == (uint16_t) PIOS_RCVR_INVALID ||
+		cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH] == (uint16_t) PIOS_RCVR_INVALID ||
+		cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW] == (uint16_t) PIOS_RCVR_INVALID ||
+		cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE] == (uint16_t) PIOS_RCVR_INVALID ||
+		// Check the driver exists
+		cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL] == (uint16_t) PIOS_RCVR_NODRIVER ||
+		cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH] == (uint16_t) PIOS_RCVR_NODRIVER ||
+		cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW] == (uint16_t) PIOS_RCVR_NODRIVER ||
+		cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE] == (uint16_t) PIOS_RCVR_NODRIVER ||
+		// Check the FlightModeNumber is valid
+		settings.FlightModeNumber < 1 || settings.FlightModeNumber > MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_NUMELEM ||
+		// Similar checks for FlightMode channel but only if more than one flight mode has been set. Otherwise don't care
+		((settings.FlightModeNumber > 1) && (
+			settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE ||
+			cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] == (uint16_t) PIOS_RCVR_INVALID ||
+			cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] == (uint16_t) PIOS_RCVR_NODRIVER))) {
 
-			cmd.Connected = MANUALCONTROLCOMMAND_CONNECTED_FALSE;
-			ManualControlCommandSet(&cmd);
+		set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_SETTINGS);
 
-			// Need to do this here since we don't process armed status.  Since this shouldn't happen in flight (changed config) 
-			// immediately disarm
-			pending_control_event = CONTROL_EVENTS_DISARM;
-
-			return -1;
-		}
-
-		// decide if we have valid manual input or not
-		valid_input_detected &= validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE]) &&
-		     validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL]) &&
-		     validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW]) &&
-		     validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH]);
-
-		// Implement hysteresis loop on connection status
-		if (valid_input_detected && (++connected_count > 10)) {
-			cmd.Connected = MANUALCONTROLCOMMAND_CONNECTED_TRUE;
-			connected_count = 0;
-			disconnected_count = 0;
-		} else if (!valid_input_detected && (++disconnected_count > 10)) {
-			cmd.Connected = MANUALCONTROLCOMMAND_CONNECTED_FALSE;
-			connected_count = 0;
-			disconnected_count = 0;
-		}
-
-		if (cmd.Connected == MANUALCONTROLCOMMAND_CONNECTED_FALSE) {
-			// These values are not used but just put ManualControlCommand in a sane state.  When
-			// Connected is false, then the failsafe submodule will be in control.
-
-			cmd.Throttle = -1;
-			cmd.Roll = 0;
-			cmd.Yaw = 0;
-			cmd.Pitch = 0;
-			cmd.Collective = 0;
-
-			set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_NORX);
-
-		} else if (valid_input_detected) {
-			set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_NONE);
-
-			// Scale channels to -1 -> +1 range
-			cmd.Roll           = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL];
-			cmd.Pitch          = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH];
-			cmd.Yaw            = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW];
-			cmd.Throttle       = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE];
-			flight_mode_value  = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE];
-
-			// Apply deadband for Roll/Pitch/Yaw stick inputs
-			if (settings.Deadband) {
-				applyDeadband(&cmd.Roll, settings.Deadband);
-				applyDeadband(&cmd.Pitch, settings.Deadband);
-				applyDeadband(&cmd.Yaw, settings.Deadband);
-			}
-
-			if(cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE] != (uint16_t) PIOS_RCVR_INVALID &&
-			   cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE] != (uint16_t) PIOS_RCVR_NODRIVER &&
-			   cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE] != (uint16_t) PIOS_RCVR_TIMEOUT) {
-				cmd.Collective = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE];
-			}
-			   
-			AccessoryDesiredData accessory;
-			// Set Accessory 0
-			if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY0] != 
-				MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
-				accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY0];
-				if(AccessoryDesiredInstSet(0, &accessory) != 0) //These are allocated later and that allocation might fail
-					set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
-			}
-			// Set Accessory 1
-			if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY1] != 
-				MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
-				accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY1];
-				if(AccessoryDesiredInstSet(1, &accessory) != 0) //These are allocated later and that allocation might fail
-					set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
-			}
-			// Set Accessory 2
-			if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY2] != 
-				MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
-				accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY2];
-				if(AccessoryDesiredInstSet(2, &accessory) != 0) //These are allocated later and that allocation might fail
-					set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
-			}
-		}
-
-		// Process arming outside conditional so system will disarm when disconnected
-		processArm(&cmd, &settings);
-		
-		// Update cmd object
+		cmd.Connected = MANUALCONTROLCOMMAND_CONNECTED_FALSE;
 		ManualControlCommandSet(&cmd);
 
-#if defined(PIOS_INCLUDE_USB_RCTX)
-		// Optionally make the hardware behave like a USB HID joystick
-		if (pios_usb_rctx_id) {
-			PIOS_USB_RCTX_Update(pios_usb_rctx_id,
-					cmd.Channel,
-					settings.ChannelMin,
-					settings.ChannelMax,
-					NELEMENTS(cmd.Channel));
-		}
-#endif	/* PIOS_INCLUDE_USB_RCTX */
+		// Need to do this here since we don't process armed status.  Since this shouldn't happen in flight (changed config) 
+		// immediately disarm
+		pending_control_event = CONTROL_EVENTS_DISARM;
 
+		return -1;
 	}
+
+	// decide if we have valid manual input or not
+	valid_input_detected &= validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE]) &&
+	     validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL]) &&
+	     validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW]) &&
+	     validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH]);
+
+	// Implement hysteresis loop on connection status
+	if (valid_input_detected && (++connected_count > 10)) {
+		cmd.Connected = MANUALCONTROLCOMMAND_CONNECTED_TRUE;
+		connected_count = 0;
+		disconnected_count = 0;
+	} else if (!valid_input_detected && (++disconnected_count > 10)) {
+		cmd.Connected = MANUALCONTROLCOMMAND_CONNECTED_FALSE;
+		connected_count = 0;
+		disconnected_count = 0;
+	}
+
+	if (cmd.Connected == MANUALCONTROLCOMMAND_CONNECTED_FALSE) {
+		// These values are not used but just put ManualControlCommand in a sane state.  When
+		// Connected is false, then the failsafe submodule will be in control.
+
+		cmd.Throttle = -1;
+		cmd.Roll = 0;
+		cmd.Yaw = 0;
+		cmd.Pitch = 0;
+		cmd.Collective = 0;
+
+		set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_NORX);
+
+	} else if (valid_input_detected) {
+		set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_NONE);
+
+		// Scale channels to -1 -> +1 range
+		cmd.Roll           = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL];
+		cmd.Pitch          = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH];
+		cmd.Yaw            = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW];
+		cmd.Throttle       = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE];
+		flight_mode_value  = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE];
+
+		// Apply deadband for Roll/Pitch/Yaw stick inputs
+		if (settings.Deadband) {
+			applyDeadband(&cmd.Roll, settings.Deadband);
+			applyDeadband(&cmd.Pitch, settings.Deadband);
+			applyDeadband(&cmd.Yaw, settings.Deadband);
+		}
+
+		if(cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE] != (uint16_t) PIOS_RCVR_INVALID &&
+		   cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE] != (uint16_t) PIOS_RCVR_NODRIVER &&
+		   cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE] != (uint16_t) PIOS_RCVR_TIMEOUT) {
+			cmd.Collective = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE];
+		}
+		   
+		AccessoryDesiredData accessory;
+		// Set Accessory 0
+		if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY0] != 
+			MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
+			accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY0];
+			if(AccessoryDesiredInstSet(0, &accessory) != 0) //These are allocated later and that allocation might fail
+				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
+		}
+		// Set Accessory 1
+		if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY1] != 
+			MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
+			accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY1];
+			if(AccessoryDesiredInstSet(1, &accessory) != 0) //These are allocated later and that allocation might fail
+				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
+		}
+		// Set Accessory 2
+		if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY2] != 
+			MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
+			accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY2];
+			if(AccessoryDesiredInstSet(2, &accessory) != 0) //These are allocated later and that allocation might fail
+				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
+		}
+	}
+
+	// Process arming outside conditional so system will disarm when disconnected
+	processArm(&cmd, &settings);
+	
+	// Update cmd object
+	ManualControlCommandSet(&cmd);
+
+#if defined(PIOS_INCLUDE_USB_RCTX)
+	// Optionally make the hardware behave like a USB HID joystick
+	if (pios_usb_rctx_id) {
+		PIOS_USB_RCTX_Update(pios_usb_rctx_id,
+				cmd.Channel,
+				settings.ChannelMin,
+				settings.ChannelMax,
+				NELEMENTS(cmd.Channel));
+	}
+#endif	/* PIOS_INCLUDE_USB_RCTX */
 
 	return 0;
 }
