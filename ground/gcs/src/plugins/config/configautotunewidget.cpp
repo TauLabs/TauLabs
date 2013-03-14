@@ -146,7 +146,7 @@ void ConfigAutotuneWidget::refreshWidgetsValues(UAVObject *obj)
         bool dirtyBack=isDirty();
         ModuleSettings::DataFields moduleSettingsData = moduleSettings->getData();
         m_autotune->enableAutoTune->setChecked(
-            moduleSettingsData.State[ModuleSettings::STATE_AUTOTUNE] == ModuleSettings::STATE_ENABLED);
+            moduleSettingsData.AdminState[ModuleSettings::ADMINSTATE_AUTOTUNE] == ModuleSettings::ADMINSTATE_ENABLED);
         setDirty(dirtyBack);
     }
     ConfigTaskWidget::refreshWidgetsValues(obj);
@@ -155,8 +155,8 @@ void ConfigAutotuneWidget::updateObjectsFromWidgets()
 {
     ModuleSettings *moduleSettings = ModuleSettings::GetInstance(getObjectManager());
     ModuleSettings::DataFields moduleSettingsData = moduleSettings->getData();
-    moduleSettingsData.State[ModuleSettings::STATE_AUTOTUNE] =
-         m_autotune->enableAutoTune->isChecked() ? ModuleSettings::STATE_ENABLED : ModuleSettings::STATE_DISABLED;
+    moduleSettingsData.AdminState[ModuleSettings::ADMINSTATE_AUTOTUNE] =
+         m_autotune->enableAutoTune->isChecked() ? ModuleSettings::ADMINSTATE_ENABLED : ModuleSettings::ADMINSTATE_DISABLED;
     moduleSettings->setData(moduleSettingsData);
     ConfigTaskWidget::updateObjectsFromWidgets();
 }

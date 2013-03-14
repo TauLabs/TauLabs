@@ -94,29 +94,32 @@ void SystemHealthGadgetWidget::updateAlarms(UAVObject* systemAlarm)
         delete item; // removeItem does _not_ delete the item.
     }
 
-    foreach (UAVObjectField *field, systemAlarm->getFields()) {
-        for (uint i = 0; i < field->getNumElements(); ++i) {
-            QString element = field->getElementNames()[i];
-            QString value = field->getValue(i).toString();
-            if (m_renderer->elementExists(element)) {
-                QMatrix blockMatrix = m_renderer->matrixForElement(element);
-                qreal startX = blockMatrix.mapRect(m_renderer->boundsOnElement(element)).x();
-                qreal startY = blockMatrix.mapRect(m_renderer->boundsOnElement(element)).y();
-                QString element2 = element + "-" + value;
-                if (m_renderer->elementExists(element2)) {
-                    QGraphicsSvgItem *ind = new QGraphicsSvgItem();
-                    ind->setSharedRenderer(m_renderer);
-                    ind->setElementId(element2);
-                    ind->setParentItem(background);
-                    QTransform matrix;
-                    matrix.translate(startX,startY);
-                    ind->setTransform(matrix,false);
-                } else {
-                    if (value.compare("Uninitialised")!=0)qDebug() << "Warning: element " << element2 << " not found in SVG.";
-                }
+    UAVObjectField *field = systemAlarm->getField("Alarm");
+    Q_ASSERT(field);
+    if (field == NULL)
+        return;
+
+    for (uint i = 0; i < field->getNumElements(); ++i) {
+        QString element = field->getElementNames()[i];
+        QString value = field->getValue(i).toString();
+        if (m_renderer->elementExists(element)) {
+            QMatrix blockMatrix = m_renderer->matrixForElement(element);
+            qreal startX = blockMatrix.mapRect(m_renderer->boundsOnElement(element)).x();
+            qreal startY = blockMatrix.mapRect(m_renderer->boundsOnElement(element)).y();
+            QString element2 = element + "-" + value;
+            if (m_renderer->elementExists(element2)) {
+                QGraphicsSvgItem *ind = new QGraphicsSvgItem();
+                ind->setSharedRenderer(m_renderer);
+                ind->setElementId(element2);
+                ind->setParentItem(background);
+                QTransform matrix;
+                matrix.translate(startX,startY);
+                ind->setTransform(matrix,false);
             } else {
-                qDebug() << "Warning: Element " << element << " not found in SVG.";
+                if (value.compare("Uninitialised")!=0)qDebug() << "Warning: element " << element2 << " not found in SVG.";
             }
+        } else {
+            qDebug() << "Warning: Element " << element << " not found in SVG.";
         }
     }
 }
