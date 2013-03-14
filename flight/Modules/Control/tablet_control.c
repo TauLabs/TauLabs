@@ -31,6 +31,7 @@
 #include "openpilot.h"
 #include "control.h"
 #include "tablet_control.h"
+#include "transmitter_control.h"
 
 #include "flightstatus.h"
 #include "gpsposition.h"
@@ -183,7 +184,8 @@ int32_t tablet_control_select()
 //! Get any control events
 enum control_events tablet_control_get_events()
 {
-	return CONTROL_EVENTS_DISARM;
+	// For now ARM / DISARM events still come from the transmitter
+	return transmitter_control_get_events();
 }
 
 
