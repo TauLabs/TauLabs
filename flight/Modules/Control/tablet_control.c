@@ -89,7 +89,7 @@ int32_t tablet_control_select()
 				pathDesired.End[0] = positionActual.North;
 				pathDesired.End[1] = positionActual.East;
 				pathDesired.End[2] = -HOME_ALTITUDE_OFFSET;
-				pathDesired.Mode = PATHDESIRED_MODE_FLYENDPOINT;
+				pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
 				pathDesired.StartingVelocity = 5;
 				pathDesired.EndingVelocity = 5;
 
@@ -102,7 +102,7 @@ int32_t tablet_control_select()
 			pathDesired.End[0] = 0;
 			pathDesired.End[1] = 0;
 			pathDesired.End[2] = -HOME_ALTITUDE_OFFSET;
-			pathDesired.Mode = PATHDESIRED_MODE_FLYENDPOINT;
+			pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
 			pathDesired.StartingVelocity = 5;
 			pathDesired.EndingVelocity = 5;
 
@@ -119,7 +119,7 @@ int32_t tablet_control_select()
 			pathDesired.End[0] = NED[0];
 			pathDesired.End[1] = NED[1];
 			pathDesired.End[2] = -HOME_ALTITUDE_OFFSET;
-			pathDesired.Mode = PATHDESIRED_MODE_FLYENDPOINT;
+			pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
 			pathDesired.StartingVelocity = 5;
 			pathDesired.EndingVelocity = 5;
 
@@ -151,13 +151,12 @@ int32_t tablet_control_select()
 				pathDesired.End[0] = positionActual.North + frac * DeltaN;
 				pathDesired.End[1] = positionActual.East + frac * DeltaE;
 				pathDesired.End[2] = -HOME_ALTITUDE_OFFSET;
-				pathDesired.Mode = PATHDESIRED_MODE_FLYENDPOINT;
 			} else {
 				pathDesired.End[0] = positionActual.North;
 				pathDesired.End[1] = positionActual.East;
 				pathDesired.End[2] = -HOME_ALTITUDE_OFFSET;
-				pathDesired.Mode = PATHDESIRED_MODE_FLYENDPOINT;
 			}
+			pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
 			pathDesired.StartingVelocity = 5;
 			pathDesired.EndingVelocity = 5;
 
