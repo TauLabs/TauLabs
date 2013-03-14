@@ -3,6 +3,7 @@
  *
  * @file       guidance.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      This module compared @ref PositionActuatl to @ref ActiveWaypoint
  * and sets @ref AttitudeDesired.  It only does this when the FlightMode field
  * of @ref ManualControlCommand is Auto.
@@ -44,6 +45,7 @@
  */
 
 #include "openpilot.h"
+#include "physical_constants.h"
 #include <math.h>
 #include "CoordinateConversions.h"
 #include "altholdsmoothed.h"
@@ -253,9 +255,9 @@ static void altitudeHoldTask(void *parameters)
 				q[2]=attitudeActual.q3;
 				q[3]=attitudeActual.q4;
 				Quaternion2R(q, Rbe);
-				x[1] = -(Rbe[0][2]*accels.x+ Rbe[1][2]*accels.y + Rbe[2][2]*accels.z + 9.81f);
+				x[1] = -(Rbe[0][2]*accels.x+ Rbe[1][2]*accels.y + Rbe[2][2]*accels.z + GRAVITY);
 			} else {
-				x[1] = -accels.z + 9.81f;
+				x[1] = -accels.z + GRAVITY;
 			}
 
 			dT = PIOS_DELAY_DiffuS(timeval) / 1.0e6f;

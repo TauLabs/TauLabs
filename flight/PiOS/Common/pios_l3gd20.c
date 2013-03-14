@@ -8,6 +8,7 @@
  *
  * @file       pios_l3gd20.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      L3GD20 3-axis gyro chip
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -81,7 +82,6 @@ static int32_t PIOS_L3GD20_ReadGyros(struct pios_l3gd20_data * buffer);
 volatile bool l3gd20_configured = false;
 
 /* Local Variables */
-#define DEG_TO_RAD (M_PI / 180.0)
 
 /**
  * @brief Allocate a new device

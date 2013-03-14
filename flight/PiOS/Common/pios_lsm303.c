@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       pios_lsm303.c
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
  * @addtogroup PIOS_LSM303 LSM303 Functions
@@ -26,6 +26,7 @@
 
 /* Project Includes */
 #include "pios.h"
+#include "physical_constants.h"
 
 #if defined(PIOS_INCLUDE_LSM303)
 
@@ -84,8 +85,6 @@ static int32_t PIOS_LSM303_Mag_GetReg(uint8_t address);
 static int32_t PIOS_LSM303_Accel_ReadData(struct pios_lsm303_accel_data * data);
 static int32_t PIOS_LSM303_Mag_ReadData(struct pios_lsm303_mag_data * data);
 static void PIOS_LSM303_Task(void *parameters);
-
-#define GRAV 9.81f
 
 /**
  * @brief Allocate a new device
@@ -487,13 +486,13 @@ static float PIOS_LSM303_Accel_GetScale()
 
 	switch (dev->accel_range) {
 		case PIOS_LSM303_ACCEL_2G:
-			return GRAV / (16 * 1000.0f);    //1mg/LSB, left shifted by four bits
+			return GRAVITY / (16 * 1000.0f);    //1mg/LSB, left shifted by four bits
 		case PIOS_LSM303_ACCEL_4G:
-			return GRAV / (16 * 500.0f);     //2mg/LSB, left shifted by four bits
+			return GRAVITY / (16 * 500.0f);     //2mg/LSB, left shifted by four bits
 		case PIOS_LSM303_ACCEL_8G:
-			return GRAV / (16 * 250.0f);     //4mg/LSB, left shifted by four bits
+			return GRAVITY / (16 * 250.0f);     //4mg/LSB, left shifted by four bits
 		case PIOS_LSM303_ACCEL_16G:
-			return GRAV / (16 * 250.0f / 3); //12mg/LSB, left shifted by four bits
+			return GRAVITY / (16 * 250.0f / 3); //12mg/LSB, left shifted by four bits
 	}
 	return 0;
 }

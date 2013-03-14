@@ -9,6 +9,7 @@
  *
  * @file       virtualflybar.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      Attitude stabilization module.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -31,6 +32,7 @@
  */
 
 #include "openpilot.h"
+#include "physical_constants.h"
 #include "stabilization.h"
 #include "stabilizationsettings.h"
 
@@ -92,9 +94,8 @@ int stabilization_virtual_flybar(float gyro, float command, float *output, float
  */
 int stabilization_virtual_flybar_pirocomp(float z_gyro, float dT)
 {
-	const float F_PI = (float) M_PI;
-	float cy = cosf(z_gyro / 180.0f * F_PI * dT);
-	float sy = sinf(z_gyro / 180.0f * F_PI * dT);
+	float cy = cosf(z_gyro * DEG2RAD * dT);
+	float sy = sinf(z_gyro * DEG2RAD * dT);
 
 	float vbar_pitch = cy * vbar_integral[1] - sy * vbar_integral[0];
 	float vbar_roll = sy * vbar_integral[1] + cy * vbar_integral[0];
