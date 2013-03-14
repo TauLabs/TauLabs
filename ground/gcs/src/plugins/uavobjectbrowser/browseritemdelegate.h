@@ -29,6 +29,7 @@
 #define BROWSERITEMDELEGATE_H
 
 #include <QStyledItemDelegate>
+#include <QEvent>
 
 class BrowserItemDelegate : public QStyledItemDelegate
 {
@@ -38,6 +39,9 @@ public:
 
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
                           const QModelIndex &index) const;
+
+    //! This filter is required to make combo boxes work
+    bool eventFilter(QObject *object, QEvent *event);
 
     void setEditorData(QWidget *editor, const QModelIndex &index) const;
     void setModelData(QWidget *editor, QAbstractItemModel *model,
