@@ -275,6 +275,7 @@ bool ConfigFixedWingWidget::setupFrameFixedWing(QString airframeType)
     config.fixedwing.FixedWingRoll1 = m_aircraft->fwAileron1ChannelBox->currentIndex();
     config.fixedwing.FixedWingRoll2 = m_aircraft->fwAileron2ChannelBox->currentIndex();
     config.fixedwing.FixedWingYaw1 = m_aircraft->fwRudder1ChannelBox->currentIndex();
+    config.fixedwing.FixedWingYaw2 = m_aircraft->fwRudder2ChannelBox->currentIndex();
     config.fixedwing.FixedWingThrottle = m_aircraft->fwEngineChannelBox->currentIndex();
 
     SetConfigData(config);
@@ -296,8 +297,14 @@ bool ConfigFixedWingWidget::setupFrameFixedWing(QString airframeType)
 
     //rudder
     channel = m_aircraft->fwRudder1ChannelBox->currentIndex()-1;
-    setMixerType(mixer,channel,VehicleConfig::MIXERTYPE_SERVO);
-    setMixerVectorValue(mixer, channel, VehicleConfig::MIXERVECTOR_YAW, 127);
+    if (channel > -1) {
+        setMixerType(mixer,channel,VehicleConfig::MIXERTYPE_SERVO);
+        setMixerVectorValue(mixer, channel, VehicleConfig::MIXERVECTOR_YAW, 127);
+
+        channel = m_aircraft->fwRudder2ChannelBox->currentIndex()-1;
+        setMixerType(mixer,channel,VehicleConfig::MIXERTYPE_SERVO);
+        setMixerVectorValue(mixer, channel, VehicleConfig::MIXERVECTOR_YAW, 127);
+    }
 
     //ailerons
     channel = m_aircraft->fwAileron1ChannelBox->currentIndex()-1;
