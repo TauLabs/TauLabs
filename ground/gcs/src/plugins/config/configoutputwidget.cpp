@@ -59,9 +59,6 @@ ConfigOutputWidget::ConfigOutputWidget(QWidget *parent) : ConfigTaskWidget(paren
     if(!settings->useExpertMode())
         m_config->saveRCOutputToRAM->setVisible(false);
 
-
-
-
     UAVSettingsImportExportFactory * importexportplugin =  pm->getObject<UAVSettingsImportExportFactory>();
     connect(importexportplugin,SIGNAL(importAboutToBegin()),this,SLOT(stopTests()));
 
@@ -69,12 +66,13 @@ ConfigOutputWidget::ConfigOutputWidget(QWidget *parent) : ConfigTaskWidget(paren
     // Register for ActuatorSettings changes:
     for (unsigned int i = 0; i < ActuatorCommand::CHANNEL_NUMELEM; i++)
     {
-        OutputChannelForm *form = new OutputChannelForm(i, this, i==0);
-        connect(m_config->channelOutTest, SIGNAL(toggled(bool)),
-                form, SLOT(enableChannelTest(bool)));
-        connect(form, SIGNAL(channelChanged(int,int)),
-                this, SLOT(sendChannelTest(int,int)));
-        m_config->channelLayout->addWidget(form);
+        OutputChannelForm *outputForm = new OutputChannelForm(i, this, i==0);
+        m_config->channelLayout->addWidget(outputForm);
+
+        connect(m_config->channelOutTest, SIGNAL(toggled(bool)), outputForm, SLOT(enableChannelTest(bool)));
+        connect(outputForm, SIGNAL(channelChanged(int,int)), this, SLOT(sendChannelTest(int,int)));
+
+        connect(outputForm, SIGNAL(formChanged()), this, SLOT(setUpdated()));
     }
 
     connect(m_config->channelOutTest, SIGNAL(toggled(bool)), this, SLOT(runChannelTests(bool)));
@@ -259,7 +257,7 @@ void ConfigOutputWidget::refreshWidgetsValues(UAVObject * obj)
         outputChannelForm->minmax(minValue, maxValue);
 
         int neutral = actuatorSettingsData.ChannelNeutral[outputChannelForm->index()];
-        outputChannelForm->neutral(neutral);
+        outputChannelForm->setNeutral(neutral);
     }
 
     // Get the SpinWhileArmed setting
@@ -413,7 +411,7 @@ void ConfigOutputWidget::refreshWidgetsValues(UAVObject * obj)
         outputChannelForm->minmax(minValue, maxValue);
 
         int neutral = actuatorSettingsData.ChannelNeutral[outputChannelForm->index()];
-        outputChannelForm->neutral(neutral);
+        outputChannelForm->setNeutral(neutral);
     }
 }
 
@@ -474,4 +472,12 @@ void ConfigOutputWidget::disableIfNotMe(UAVObject* obj)
     }
     else
         this->setEnabled(true);
+}
+
+/**
+ * @brief OutputChannelForm::setUpdated Slot that receives signals indicating the UI is updated
+ */
+void ConfigOutputWidget::setUpdated()
+{
+    setDirty(true);
 }
