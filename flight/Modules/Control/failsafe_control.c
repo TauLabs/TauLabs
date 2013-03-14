@@ -31,6 +31,7 @@
 #include "openpilot.h"
 #include "control.h"
 #include "failsafe_control.h"
+#include "transmitter_control.h"
 
 #include "flightstatus.h"
 #include "stabilizationdesired.h"
@@ -75,5 +76,9 @@ int32_t failsafe_control_select()
 //! Get any control events
 enum control_events failsafe_control_get_events()
 {
-	return CONTROL_EVENTS_DISARM;
+	// For now ARM / DISARM events still come from the transmitter.  This
+	// means the normal disarm timeout still applies.  To be replaced later
+	// by a full state machine determining how long to stay in failsafe before
+	// disarming.
+	return transmitter_control_get_events();
 }
