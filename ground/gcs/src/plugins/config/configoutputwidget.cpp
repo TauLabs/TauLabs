@@ -77,7 +77,13 @@ ConfigOutputWidget::ConfigOutputWidget(QWidget *parent) : ConfigTaskWidget(paren
         m_config->channelLayout->addWidget(form);
     }
 
+    // Connect button for testing outputs
     connect(m_config->channelOutTest, SIGNAL(toggled(bool)), this, SLOT(runChannelTests(bool)));
+
+    // Connect button for triming outputs
+    SystemSettings *systemSettings = SystemSettings::GetInstance(getObjectManager());
+    connect(systemSettings, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(onSystemSettingsUpdate_toggleTrimButton(UAVObject*)));
+    connect(m_config->bnServoTrim, SIGNAL(clicked(bool)), this, SLOT(setTrimToOutputs(bool)));
 
     // Configure the task widget
     // Connect the help button
@@ -100,7 +106,9 @@ ConfigOutputWidget::ConfigOutputWidget(QWidget *parent) : ConfigTaskWidget(paren
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
     UAVObject* obj = objManager->getObject(QString("ActuatorCommand"));
     if(UAVObject::GetGcsTelemetryUpdateMode(obj->getMetadata()) == UAVObject::UPDATEMODE_ONCHANGE)
+    {
         this->setEnabled(false);
+    }
     connect(obj,SIGNAL(objectUpdated(UAVObject*)),this,SLOT(disableIfNotMe(UAVObject*)));
 
     refreshWidgetsValues();
@@ -120,6 +128,66 @@ ConfigOutputWidget::~ConfigOutputWidget()
 
 
 // ************************************
+
+/**
+ * @brief ConfigOutputWidget::setTrimToOutputs
+ * @param state
+ */
+void ConfigOutputWidget::setTrimToOutputs(bool state)
+{
+    Q_UNUSED(state);
+
+    // Get Actuator Command
+    ActuatorCommand * actuatorCommand = ActuatorCommand::GetInstance(getObjectManager());
+    Q_ASSERT(actuatorCommand);
+    ActuatorCommand::DataFields actuatorCommandData = actuatorCommand->getData();
+
+    // Iterate over output forms
+    QStringList ChannelDesc = ConfigVehicleTypeWidget::getChannelDescriptions();
+    QList<OutputChannelForm*> outputChannelForms = findChildren<OutputChannelForm*>();
+    foreach(OutputChannelForm *outputChannelForm, outputChannelForms)
+    {
+        if(ChannelDesc[outputChannelForm->index()] == "FixedWingRoll1" ||
+                ChannelDesc[outputChannelForm->index()] == "FixedWingRoll2")
+        {
+            int neutral = actuatorCommandData.Channel[outputChannelForm->index()];
+            outputChannelForm->neutral(neutral);
+        }
+        else if (ChannelDesc[outputChannelForm->index()] == "FixedWingPitch1" ||
+                 ChannelDesc[outputChannelForm->index()] == "FixedWingPitch2")
+        {
+            int neutral = actuatorCommandData.Channel[outputChannelForm->index()];
+            outputChannelForm->neutral(neutral);
+        }
+        else if (ChannelDesc[outputChannelForm->index()] == "FixedWingYaw1" ||
+                 ChannelDesc[outputChannelForm->index()] == "FixedWingYaw2")
+        {
+            int neutral = actuatorCommandData.Channel[outputChannelForm->index()];
+            outputChannelForm->neutral(neutral);
+        }
+    }
+}
+
+
+void ConfigOutputWidget::onSystemSettingsUpdate_toggleTrimButton(UAVObject * obj)
+{
+    Q_UNUSED(obj);
+
+    // Get System Settings
+    SystemSettings *systemSettings = SystemSettings::GetInstance(getObjectManager());
+    Q_ASSERT(systemSettings);
+    SystemSettings::DataFields systemSettingsData = systemSettings->getData();
+
+    if (systemSettingsData.AirframeType == SystemSettings::AIRFRAMETYPE_FIXEDWING ||
+            systemSettingsData.AirframeType == SystemSettings::AIRFRAMETYPE_FIXEDWINGELEVON ||
+            systemSettingsData.AirframeType == SystemSettings::AIRFRAMETYPE_FIXEDWINGVTAIL)
+    {
+        m_config->bnServoTrim->setEnabled(true);
+    }
+    else{
+        m_config->bnServoTrim->setEnabled(false);
+    }
+}
 
 /**
   Toggles the channel testing mode by making the GCS take over

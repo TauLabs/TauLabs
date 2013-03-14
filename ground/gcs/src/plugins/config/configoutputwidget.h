@@ -64,6 +64,8 @@ private:
 
         bool wasItMe;
 private slots:
+    void onSystemSettingsUpdate_toggleTrimButton(UAVObject*);
+    void setTrimToOutputs(bool);
         void stopTests();
         void disableIfNotMe(UAVObject *obj);
         virtual void refreshWidgetsValues(UAVObject * obj=NULL);
