@@ -23,8 +23,6 @@
 #ifndef CALIBRATION_H
 #define CALIBRATION_H
 
-class ConfigAttitudeWidget;
-
 #include <uavobjectmanager.h>
 #include <extensionsystem/pluginmanager.h>
 #include <uavobject.h>
@@ -48,7 +46,7 @@ class Calibration : public QObject
     Q_OBJECT
 
 public:
-    explicit Calibration(ConfigAttitudeWidget *);
+    explicit Calibration();
     ~Calibration();
 
     void initialize(bool calibrateMags);
@@ -129,6 +127,9 @@ signals:
     //! Indicate what the progress is for leveling
     void tempCalProgressChanged(int);
 
+    //! Indicate that a calibration process has successfully completed and the results saved to UAVO
+    void calibrationCompleted();
+
 private:
     QTimer timer;
 
@@ -177,7 +178,6 @@ private:
     TempCompCurve *yCurve;
     TempCompCurve *zCurve;
 
-    ConfigAttitudeWidget *configAttitudeWidget;
 protected:
 
     //! Get the object manager

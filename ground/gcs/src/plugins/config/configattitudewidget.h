@@ -107,12 +107,13 @@ private slots:
     // Slots for measuring the sensor noise
     void doStartNoiseMeasurement();
     void doGetNoiseSample(UAVObject *);
+    void setUpdated();
 
 protected:
     void showEvent(QShowEvent *event);
     void resizeEvent(QResizeEvent *event);
 
-    Calibration *calibration;
+    Calibration calibration;
 
 };
 

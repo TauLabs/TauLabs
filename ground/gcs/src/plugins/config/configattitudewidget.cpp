@@ -235,40 +235,42 @@ ConfigAttitudeWidget::ConfigAttitudeWidget(QWidget *parent) :
     autoLoadWidgets();
 
     // Configure the calibration object
-    Calibration *calibration = new Calibration(this);
-    calibration->initialize(full_hardware);
+    calibration.initialize(full_hardware);
 
     // Must connect the graphs to the calibration object to see the calibration results
-    calibration->configureTempCurves(m_ui->xGyroTemp, m_ui->yGyroTemp, m_ui->zGyroTemp);
+    calibration.configureTempCurves(m_ui->xGyroTemp, m_ui->yGyroTemp, m_ui->zGyroTemp);
 
     // Connect the signals
-    connect(m_ui->accelBiasStart, SIGNAL(clicked()), calibration, SLOT(doStartLeveling()));
-    connect(m_ui->sixPointStart, SIGNAL(clicked()), calibration ,SLOT(doStartSixPoint()));
-    connect(m_ui->sixPointSave, SIGNAL(clicked()), calibration ,SLOT(doSaveSixPointPosition()));
-    connect(m_ui->sixPointCancel, SIGNAL(clicked()), calibration ,SLOT(doCancelSixPoint()));
-    connect(m_ui->startTempCal, SIGNAL(clicked()), calibration, SLOT(doStartTempCal()));
-    connect(m_ui->acceptTempCal, SIGNAL(clicked()), calibration, SLOT(doAcceptTempCal()));
-    connect(m_ui->cancelTempCal, SIGNAL(clicked()), calibration, SLOT(doCancelTempCalPoint()));
-    connect(m_ui->tempCalRange, SIGNAL(valueChanged(int)), calibration, SLOT(setTempCalRange(int)));
-    calibration->setTempCalRange(m_ui->tempCalRange->value());
+    connect(m_ui->accelBiasStart, SIGNAL(clicked()), &calibration, SLOT(doStartLeveling()));
+    connect(m_ui->sixPointStart, SIGNAL(clicked()), &calibration ,SLOT(doStartSixPoint()));
+    connect(m_ui->sixPointSave, SIGNAL(clicked()), &calibration ,SLOT(doSaveSixPointPosition()));
+    connect(m_ui->sixPointCancel, SIGNAL(clicked()), &calibration ,SLOT(doCancelSixPoint()));
+    connect(m_ui->startTempCal, SIGNAL(clicked()), &calibration, SLOT(doStartTempCal()));
+    connect(m_ui->acceptTempCal, SIGNAL(clicked()), &calibration, SLOT(doAcceptTempCal()));
+    connect(m_ui->cancelTempCal, SIGNAL(clicked()), &calibration, SLOT(doCancelTempCalPoint()));
+    connect(m_ui->tempCalRange, SIGNAL(valueChanged(int)), &calibration, SLOT(setTempCalRange(int)));
+    calibration.setTempCalRange(m_ui->tempCalRange->value());
 
     // Let calibration update the UI
-    connect(calibration, SIGNAL(levelingProgressChanged(int)), m_ui->accelBiasProgress, SLOT(setValue(int)));
-    connect(calibration, SIGNAL(tempCalProgressChanged(int)), m_ui->tempCalProgress, SLOT(setValue(int)));
-    connect(calibration, SIGNAL(showTempCalMessage(QString)), m_ui->tempCalMessage, SLOT(setText(QString)));
-    connect(calibration, SIGNAL(sixPointProgressChanged(int)), m_ui->sixPointProgress, SLOT(setValue(int)));
-    connect(calibration, SIGNAL(showSixPointMessage(QString)), m_ui->sixPointCalibInstructions, SLOT(setText(QString)));
-    connect(calibration, SIGNAL(updatePlane(int)), this, SLOT(displayPlane(int)));
+    connect(&calibration, SIGNAL(levelingProgressChanged(int)), m_ui->accelBiasProgress, SLOT(setValue(int)));
+    connect(&calibration, SIGNAL(tempCalProgressChanged(int)), m_ui->tempCalProgress, SLOT(setValue(int)));
+    connect(&calibration, SIGNAL(showTempCalMessage(QString)), m_ui->tempCalMessage, SLOT(setText(QString)));
+    connect(&calibration, SIGNAL(sixPointProgressChanged(int)), m_ui->sixPointProgress, SLOT(setValue(int)));
+    connect(&calibration, SIGNAL(showSixPointMessage(QString)), m_ui->sixPointCalibInstructions, SLOT(setText(QString)));
+    connect(&calibration, SIGNAL(updatePlane(int)), this, SLOT(displayPlane(int)));
 
     // Let the calibration gadget control some control enables
-    connect(calibration, SIGNAL(toggleSavePosition(bool)), m_ui->sixPointSave, SLOT(setEnabled(bool)));
-    connect(calibration, SIGNAL(toggleControls(bool)), m_ui->sixPointStart, SLOT(setEnabled(bool)));
-    connect(calibration, SIGNAL(toggleControls(bool)), m_ui->sixPointCancel, SLOT(setDisabled(bool)));
-    connect(calibration, SIGNAL(toggleControls(bool)), m_ui->noiseMeasurementStart, SLOT(setEnabled(bool)));
-    connect(calibration, SIGNAL(toggleControls(bool)), m_ui->accelBiasStart, SLOT(setEnabled(bool)));
-    connect(calibration, SIGNAL(toggleControls(bool)), m_ui->startTempCal, SLOT(setEnabled(bool)));
-    connect(calibration, SIGNAL(toggleControls(bool)), m_ui->acceptTempCal, SLOT(setDisabled(bool)));
-    connect(calibration, SIGNAL(toggleControls(bool)), m_ui->cancelTempCal, SLOT(setDisabled(bool)));
+    connect(&calibration, SIGNAL(toggleSavePosition(bool)), m_ui->sixPointSave, SLOT(setEnabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->sixPointStart, SLOT(setEnabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->sixPointCancel, SLOT(setDisabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->noiseMeasurementStart, SLOT(setEnabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->accelBiasStart, SLOT(setEnabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->startTempCal, SLOT(setEnabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->acceptTempCal, SLOT(setDisabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->cancelTempCal, SLOT(setDisabled(bool)));
+
+    // Let the calibration gadget mark the tab as dirty, i.e. having unsaved data.
+    connect(&calibration, SIGNAL(calibrationCompleted()), this, SLOT(setUpdated()));
 
     m_ui->noiseMeasurementStart->setEnabled(true);
     m_ui->sixPointStart->setEnabled(true);
@@ -565,6 +567,15 @@ void ConfigAttitudeWidget::refreshWidgetsValues(UAVObject *)
 
     ConfigTaskWidget::refreshWidgetsValues();
 }
+
+/**
+ * @brief ConfigAttitudeWidget::setUpdated Slot that receives signals indicating the UI is updated
+ */
+void ConfigAttitudeWidget::setUpdated()
+{
+    setDirty(true);
+}
+
 
 /**
   @}
