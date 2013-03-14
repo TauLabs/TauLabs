@@ -192,20 +192,6 @@ OutputChannelForm* ConfigOutputWidget::getOutputChannelForm(const int index) con
     return NULL;
 }
 
-/**
-  * Set the label for a channel output assignement
-  */
-void ConfigOutputWidget::assignOutputChannel(UAVDataObject *obj, QString str)
-{
-    //FIXME: use signal/ slot approach
-    UAVObjectField* field = obj->getField(str);
-    QStringList options = field->getOptions();
-    int index = options.indexOf(field->getValue().toString());
-
-    OutputChannelForm *outputChannelForm = getOutputChannelForm(index);
-    if(outputChannelForm)
-        outputChannelForm->setAssignment(str);
-}
 
 /**
   Sends the channel value to the UAV to move the servo.
