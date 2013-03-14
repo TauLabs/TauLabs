@@ -321,7 +321,6 @@ bool UAVTalk::processInputByte(quint8 rxbyte)
                 {
                     rxLength = rxObj->getNumBytes();
                 }
-                rxInstanceLength = (rxObj->isSingleInstance() ? 0 : 2);
 
                 // Check length and determine next state
                 if (rxLength >= MAX_PAYLOAD_LENGTH)
@@ -332,16 +331,18 @@ bool UAVTalk::processInputByte(quint8 rxbyte)
                     break;
                 }
 
-                // Check the lengths match
-                if ((rxPacketLength + rxInstanceLength + rxLength) != packetSize)
-                {   // packet error - mismatched packet size
-                    stats.rxErrors++;
-                    rxState = STATE_SYNC;
-                    UAVTALK_QXTLOG_DEBUG("UAVTalk: ObjID->Sync (length mismatch)");
-                    break;
+                // Check the payload lenght is correct if we know about this type of object
+                if (rxObj != NULL) {
+                    quint8 rxInstanceLength = (rxObj->isSingleInstance() ? 0 : 2);
+                    if ((rxPacketLength + rxInstanceLength + rxLength) != packetSize)
+                    {   // packet error - mismatched packet size
+                        stats.rxErrors++;
+                        rxState = STATE_SYNC;
+                        UAVTALK_QXTLOG_DEBUG("UAVTalk: ObjID->Sync (length mismatch)");
+                        break;
+                    }
                 }
 
-                // Check if this is a single instance object (i.e. if the instance ID field is coming next)
                 if (rxObj == NULL)
                 {
                    // This is a non-existing object, just skip to checksum
@@ -352,7 +353,7 @@ bool UAVTalk::processInputByte(quint8 rxbyte)
                    rxCount = 0;
                 }
                 else if (rxObj->isSingleInstance())
-                {
+                {   // Check if this is a single instance object (i.e. if the instance ID field is coming next)
                     // If there is a payload get it, otherwise receive checksum
                     if (rxLength > 0)
                     {
