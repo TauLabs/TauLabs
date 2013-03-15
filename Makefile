@@ -86,19 +86,9 @@ RM=rm
 
 ##############################
 #
-# Check that all environmental variables are sane
+# Check that environmental variables are sane
 #
 ##############################
-# Checking for $(OPENOCD_FTDI) to be sane
-ifdef ($(OPENOCD_FTDI))
- ifneq ($(OPENOCD_FTDI),yes)
-  ifneq ($(OPENOCD_FTDI),no)
-   $(error Only yes or no are allowed for OPENOCD_FTDI)
-  endif
- endif
- $(info Okay, building using OPENOCD_FTDI = $(OPENOCD_FTDI))
-endif
-
 # Checking for $(ANDROIDGCS_BUILD_CONF) to be sane
 ifdef ($(ANDROIDGCS_BUILD_CONF))
  ifneq ($(ANDROIDGCS_BUILD_CONF), release)
