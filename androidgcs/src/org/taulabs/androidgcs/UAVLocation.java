@@ -23,9 +23,14 @@
 
 package org.taulabs.androidgcs;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.taulabs.uavtalk.UAVObject;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -55,7 +60,24 @@ public class UAVLocation extends ObjectManagerActivity
 		setContentView(R.layout.map_layout);
 		mapFrag = ((MapFragment) getFragmentManager().findFragmentById(R.id.map));
 		mMap = mapFrag.getMap();
-		mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		int map_type = Integer.decode(prefs.getString("map_type", "1"));
+
+        switch(map_type) {
+        case 0:
+        	mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        	break;
+        case 1:
+        	mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        	break;
+        case 2:
+        	mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+        	break;
+        case 3:
+        	mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        	break;
+        }
 		mMap.setMyLocationEnabled(true);
     }
 

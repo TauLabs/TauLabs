@@ -20,4 +20,16 @@
         <item>1</item>
         <item>2</item>
    </string-array>
+    <string-array name="mapTypeArray">
+        <item>Normal</item>
+        <item>Satellite</item>
+        <item>Terrain</item>
+        <item>Hybrid</item>
+    </string-array>
+    <string-array name="mapTypeValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+   </string-array>
 </resources>
