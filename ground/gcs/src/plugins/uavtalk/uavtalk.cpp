@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       uavtalk.cpp
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     TauLabs, http://github.com/TauLabs, Copyright (C) 2012-2013.
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
