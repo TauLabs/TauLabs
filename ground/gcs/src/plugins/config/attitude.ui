@@ -262,6 +262,19 @@ arming it in that case!</string>
             </property>
            </widget>
           </item>
+          <item row="3" column="0">
+           <widget class="QPushButton" name="useTransmitterLevel">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This will take the trim values from the transmitter to update the level offset. This requires the transmitter to be connected and in leveling mode for both roll and pitch&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Use Transmitter Trim</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>

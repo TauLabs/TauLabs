@@ -104,6 +104,8 @@ private slots:
     void doStartNoiseMeasurement();
     void doGetNoiseSample(UAVObject *);
 
+    //! Update the level rotation using the transmitter trim
+    void doUseTransmitterTrim();
 protected:
     void showEvent(QShowEvent *event);
     void resizeEvent(QResizeEvent *event);
