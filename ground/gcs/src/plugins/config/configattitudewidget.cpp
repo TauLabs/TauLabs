@@ -51,16 +51,11 @@
 #include <gyros.h>
 #include <magnetometer.h>
 #include <baroaltitude.h>
+#include <stabilizationdesired.h>
+#include <manualcontrolcommand.h>
 
 #include "assertions.h"
 #include "calibration.h"
-
-#define sign(x) ((x < 0) ? -1 : 1)
-
-// Uncomment this to enable 6 point calibration on the accels
-#define SIX_POINT_CAL_ACCEL
-
-const double ConfigAttitudeWidget::maxVarValue = 0.1;
 
 // *****************
 
@@ -268,13 +263,16 @@ ConfigAttitudeWidget::ConfigAttitudeWidget(QWidget *parent) :
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->startTempCal, SLOT(setEnabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->acceptTempCal, SLOT(setDisabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->cancelTempCal, SLOT(setDisabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->useTransmitterLevel, SLOT(setDisabled(bool)));
 
     m_ui->noiseMeasurementStart->setEnabled(true);
     m_ui->sixPointStart->setEnabled(true);
     m_ui->accelBiasStart->setEnabled(true);
+    m_ui->useTransmitterLevel->setEnabled(true);
 
     // Currently not in the calibration object
     connect(m_ui->noiseMeasurementStart, SIGNAL(clicked()), this, SLOT(doStartNoiseMeasurement()));
+    connect(m_ui->useTransmitterLevel, SIGNAL(clicked()), this, SLOT(doUseTransmitterTrim()));
 
     refreshWidgetsValues();
 }
@@ -284,6 +282,44 @@ ConfigAttitudeWidget::~ConfigAttitudeWidget()
     // Do nothing
 }
 
+/**
+ * @brief ConfigAttitudeWidget::doUseTransmitterTrim Use the transmitter
+ * trim values in attitude mode to update the roll and pitch angles for
+ * the board to get better in flight leveling.
+ */
+void ConfigAttitudeWidget::doUseTransmitterTrim()
+{
+    QMessageBox msgBox;
+
+    ManualControlCommand* manualControl = ManualControlCommand::GetInstance(getObjectManager());
+    Q_ASSERT(manualControl);
+    if (manualControl == NULL)
+        return;
+
+    StabilizationDesired* stabDesired = StabilizationDesired::GetInstance(getObjectManager());
+    Q_ASSERT(stabDesired);
+    if (stabDesired == NULL)
+        return;
+
+    ManualControlCommand::DataFields manualControlData = manualControl->getData();
+    StabilizationDesired::DataFields stabDesiredData = stabDesired->getData();
+
+    if (manualControlData.Connected != ManualControlCommand::CONNECTED_TRUE ||
+        stabDesiredData.StabilizationMode[StabilizationDesired::STABILIZATIONMODE_PITCH] != StabilizationDesired::STABILIZATIONMODE_ATTITUDE ||
+        stabDesiredData.StabilizationMode[StabilizationDesired::STABILIZATIONMODE_ROLL] != StabilizationDesired::STABILIZATIONMODE_ATTITUDE) {
+
+        msgBox.setText(tr("Either the transmitter is not connected or roll and pitch are not in attitude mode.  Aborting."));
+        msgBox.exec();
+
+        return;
+    }
+
+    m_ui->rollRotation->setValue(m_ui->rollRotation->value() - stabDesiredData.Roll);
+    m_ui->pitchRotation->setValue(m_ui->rollRotation->value() - stabDesiredData.Pitch);
+
+    msgBox.setText(tr("The rotation values have been applied.  If you are happy, press save and center the trim on your transmitter"));
+    msgBox.exec();
+}
 
 void ConfigAttitudeWidget::showEvent(QShowEvent *event)
 {
