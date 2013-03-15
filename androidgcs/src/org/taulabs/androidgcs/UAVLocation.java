@@ -51,6 +51,7 @@ public class UAVLocation extends ObjectManagerActivity
 	private MapFragment mapFrag;
 	private Marker mUavMarker;
 	private Marker mHomeMarker;
+	private final List<Marker> mWaypointMarkers = new ArrayList<Marker>();
 
     GeoPoint homeLocation;
     GeoPoint uavLocation;
@@ -98,8 +99,23 @@ public class UAVLocation extends ObjectManagerActivity
 			registerObjectUpdates(obj);
 			objectUpdated(obj);
 		}
+
+		obj = objMngr.getObject("Waypoint");
+		if (obj != null) {
+			obj.updateRequested(); // Make sure this is correct and been updated
+			registerObjectUpdates(obj);
+			objectUpdated(obj);
+		}
+
+		obj = objMngr.getObject("WaypointActive");
+		if (obj != null) {
+			obj.updateRequested(); // Make sure this is correct and been updated
+			registerObjectUpdates(obj);
+			objectUpdated(obj);
+		}
 	}
 
+	//! Convert position actual into a GeoPoint
 	private GeoPoint getUavLocation() {
 		UAVObject pos = objMngr.getObject("PositionActual");
 		if (pos == null)
@@ -131,6 +147,37 @@ public class UAVLocation extends ObjectManagerActivity
 		return new GeoPoint((int) (lat * 1e6), (int) (lon * 1e6));
 	}
 
+	//! Get a GeoPoint for a Waypoint
+	private GeoPoint getWaypointLocation(int idx) {
+		UAVObject pos = objMngr.getObject("Waypoint", idx);
+		if (pos == null)
+			return new GeoPoint(0,0);
+
+		UAVObject home = objMngr.getObject("HomeLocation");
+		if (home == null)
+			return new GeoPoint(0,0);
+
+		double lat, lon, alt;
+		lat = home.getField("Latitude").getDouble() / 10.0e6;
+		lon = home.getField("Longitude").getDouble() / 10.0e6;
+		alt = home.getField("Altitude").getDouble();
+
+		// Get the home coordinates
+		double T0, T1;
+		T0 = alt+6.378137E6;
+		T1 = Math.cos(lat * Math.PI / 180.0)*(alt+6.378137E6);
+
+		// Get the NED coordinates
+		double NED0, NED1;
+		NED0 = pos.getField("Position").getDouble(0);
+		NED1 = pos.getField("Position").getDouble(1);
+
+		// Compute the LLA coordinates
+		lat = lat + (NED0 / T0) * 180.0 / Math.PI;
+		lon = lon + (NED1 / T1) * 180.0 / Math.PI;
+
+		return new GeoPoint((int) (lat * 1e6), (int) (lon * 1e6));
+	}
 	/**
 	 * Called whenever any objects subscribed to via registerObjects
 	 * update the marker location for home and the UAV
@@ -162,6 +209,21 @@ public class UAVLocation extends ObjectManagerActivity
 			       .icon(BitmapDescriptorFactory.fromResource(R.drawable.im_map_uav)));
 			} else {
 				mUavMarker.setPosition((new LatLng(uavLocation.getLatitudeE6() / 1e6, uavLocation.getLongitudeE6() / 1e6)));
+			}
+		} else if (obj.getName().compareTo("Waypoint") == 0) {
+			int instances = objMngr.getNumInstances(obj.getObjID());
+			for (int idx = 0; idx < instances; idx++) {
+				GeoPoint pos = getWaypointLocation(idx);
+				if (idx >= mWaypointMarkers.size()) {
+					Marker waypointMarker = mMap.addMarker(new MarkerOptions().anchor(0.5f,0.5f)
+							.position(new LatLng(pos.getLatitudeE6() / 1e6, pos.getLongitudeE6() / 1e6))
+							.title(Integer.toString(idx))
+							.snippet(String.format("%g, %g", pos.getLatitudeE6() / 1e6, pos.getLongitudeE6() / 1e6))
+							.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_default)));
+					mWaypointMarkers.add(idx, waypointMarker);
+				} else {
+					mWaypointMarkers.get(idx).setPosition((new LatLng(pos.getLatitudeE6() / 1e6, pos.getLongitudeE6() / 1e6)));
+				}
 			}
 		}
 	}
