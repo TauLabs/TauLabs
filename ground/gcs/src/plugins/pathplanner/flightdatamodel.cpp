@@ -33,8 +33,6 @@
 #include <QMessageBox>
 #include <waypoint.h>
 
-#include <QDebug>
-
 QMap<int,QString> FlightDataModel::modeNames = QMap<int, QString>();
 
 //! Initialize an empty flight plan
