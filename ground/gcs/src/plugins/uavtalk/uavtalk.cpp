@@ -311,6 +311,16 @@ bool UAVTalk::processInputByte(quint8 rxbyte)
                     UAVTALK_QXTLOG_DEBUG("UAVTalk: ObjID->Sync (badtype)");
                     break;
                 }
+                else if (rxObj == NULL)
+                {
+                   // This is a non-existing object, just skip to checksum
+                   // and we'll send a NACK next.
+                   rxState   = STATE_CS;
+                   UAVTALK_QXTLOG_DEBUG("UAVTalk: ObjID->CSum (no obj)");
+                   rxInstId = 0;
+                   rxCount = 0;
+                   break;
+                }
 
                 // Determine data length
                 if (rxType == TYPE_OBJ_REQ || rxType == TYPE_ACK || rxType == TYPE_NACK)
@@ -331,28 +341,16 @@ bool UAVTalk::processInputByte(quint8 rxbyte)
                     break;
                 }
 
-                // Check the payload lenght is correct if we know about this type of object
-                if (rxObj != NULL) {
-                    quint8 rxInstanceLength = (rxObj->isSingleInstance() ? 0 : 2);
-                    if ((rxPacketLength + rxInstanceLength + rxLength) != packetSize)
-                    {   // packet error - mismatched packet size
-                        stats.rxErrors++;
-                        rxState = STATE_SYNC;
-                        UAVTALK_QXTLOG_DEBUG("UAVTalk: ObjID->Sync (length mismatch)");
-                        break;
-                    }
+                quint8 rxInstanceLength = (rxObj->isSingleInstance() ? 0 : 2);
+                if ((rxPacketLength + rxInstanceLength + rxLength) != packetSize)
+                {   // packet error - mismatched packet size
+                    stats.rxErrors++;
+                    rxState = STATE_SYNC;
+                    UAVTALK_QXTLOG_DEBUG("UAVTalk: ObjID->Sync (length mismatch)");
+                    break;
                 }
 
-                if (rxObj == NULL)
-                {
-                   // This is a non-existing object, just skip to checksum
-                   // and we'll send a NACK next.
-                   rxState   = STATE_CS;
-                   UAVTALK_QXTLOG_DEBUG("UAVTalk: ObjID->CSum (no obj)");
-                   rxInstId = 0;
-                   rxCount = 0;
-                }
-                else if (rxObj->isSingleInstance())
+                if (rxObj->isSingleInstance())
                 {   // Check if this is a single instance object (i.e. if the instance ID field is coming next)
                     // If there is a payload get it, otherwise receive checksum
                     if (rxLength > 0)
