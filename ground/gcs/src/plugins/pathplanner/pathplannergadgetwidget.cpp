@@ -28,7 +28,6 @@
 #include "waypointdelegate.h"
 #include "ui_pathplanner.h"
 
-#include <QDebug>
 #include <QFileDialog>
 #include <QString>
 #include <QStringList>
