@@ -3,7 +3,7 @@
  *
  * @file       fixedwingpathfollower.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2012.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      This module compared @ref PositionActual to @ref PathDesired 
  * and sets @ref StabilizationDesired.  It only does this when the FlightMode field
  * of @ref ManualControlCommand is Auto.
@@ -45,6 +45,7 @@
  */
 
 #include "openpilot.h"
+#include "physical_constants.h"
 #include "paths.h"
 
 #include "accels.h"
@@ -74,10 +75,6 @@
 #define MAX_QUEUE_SIZE 4
 #define STACK_SIZE_BYTES 1548
 #define TASK_PRIORITY (tskIDLE_PRIORITY+2)
-#define F_PI 3.14159265358979323846f
-#define RAD2DEG (180.0f/F_PI)
-#define DEG2RAD (F_PI/180.0f)
-#define GEE 9.81f
 // Private types
 
 // Private variables

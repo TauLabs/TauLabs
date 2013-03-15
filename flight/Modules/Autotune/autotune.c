@@ -9,6 +9,7 @@
  *
  * @file       autotune.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      Module to handle all comms to the AHRS on a periodic basis.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -50,6 +51,7 @@
 
 #include "openpilot.h"
 #include "pios.h"
+#include "physical_constants.h"
 #include "flightstatus.h"
 #include "modulesettings.h"
 #include "manualcontrolcommand.h"
@@ -283,11 +285,11 @@ static void update_stabilization_settings()
 
 	// For now just run over roll and pitch
 	for (uint32_t i = 0; i < 2; i++) {
-		float wu = 1000.0f * 2 * M_PI / relayTuning.Period[i]; // ultimate freq = output osc freq (rad/s)
+		float wu = 1000.0f * 2 * PI / relayTuning.Period[i]; // ultimate freq = output osc freq (rad/s)
 
 		float wc = wu * gain_ratio_r;      // target openloop crossover frequency (rad/s)
 		float zc = wc * zero_ratio_r;      // controller zero location (rad/s)
-		float kpu = 4.0f / M_PI / relayTuning.Gain[i];  // ultimate gain, i.e. the proportional gain for instablity
+		float kpu = 4.0f / PI / relayTuning.Gain[i];  // ultimate gain, i.e. the proportional gain for instablity
 		float kp = kpu * gain_ratio_r;     // proportional gain
 		float ki = zc * kp;                // integral gain
 

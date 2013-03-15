@@ -7,6 +7,7 @@
  *
  * @file       pid.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      Methods to work with PID structure
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -29,10 +30,9 @@
  */
 
 #include "openpilot.h"
+#include "physical_constants.h"
 #include "misc_math.h"
 #include "pid.h"
-
-#define F_PI ((float) M_PI)
 
 //! Store the shared time constant for the derivative cutoff.
 static float deriv_tau = 7.9577e-3f;
@@ -119,7 +119,7 @@ void pid_zero(struct pid *pid)
  */
 void pid_configure_derivative(float cutoff, float g)
 {
-	deriv_tau = 1.0f / (2 * F_PI * cutoff);
+	deriv_tau = 1.0f / (2 * PI * cutoff);
 	deriv_gamma = g;
 }
 
