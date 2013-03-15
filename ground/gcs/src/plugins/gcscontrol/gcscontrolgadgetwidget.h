@@ -48,10 +48,11 @@ public:
     bool getUDPControl(void);
 
 signals:
+    //! Emitted whenever the UI is clicked on to indicate the new stick positions
     void sticksChanged(double leftX, double leftY, double rightX, double rightY);
 
 public slots:
-    // signals from parent gadget indicating change from flight
+    //! Signals from parent gadget indicating change from the remote system
     void updateSticks(double leftX, double leftY, double rightX, double rightY);
 
     // signals from children widgets indicating a local change

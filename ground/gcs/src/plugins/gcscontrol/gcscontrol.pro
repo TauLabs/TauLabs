@@ -7,7 +7,11 @@ QT += network
 include(../../taulabsgcsplugin.pri) 
 include(../../plugins/coreplugin/coreplugin.pri) 
 include(../../plugins/uavobjects/uavobjects.pri)
-include(../../libs/sdlgamepad/sdlgamepad.pri)
+
+SDL {
+    DEFINES += USE_SDL
+    include(../../libs/sdlgamepad/sdlgamepad.pri)
+}
 
 HEADERS += gcscontrolgadget.h \
     gcscontrolgadgetconfiguration.h \

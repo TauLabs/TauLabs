@@ -10,7 +10,10 @@ SUBDIRS   = \
     opmapcontrol \
     qwt \
     qextserialport \
-    sdlgamepad \
     libqxt
+
+SDL {
+SUBDIRS += sdlgamepad
+}
 
 SUBDIRS +=
