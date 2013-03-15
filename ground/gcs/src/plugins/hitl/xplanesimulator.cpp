@@ -3,6 +3,7 @@
  *
  * @file       xplanesimulator.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
  * @brief
  * @see        The GNU Public License (GPL) Version 3
  * @defgroup   hitlplugin
@@ -291,9 +292,9 @@ void XplaneSimulator::processUpdate(const QByteArray& dataBuf)
                             break;
 
             case XplaneSimulator::Gload:
-                accX = *((float*)(buf.data()+4*6)) * GEE;
-                accY = *((float*)(buf.data()+4*7)) * GEE;
-                accZ = *((float*)(buf.data()+4*5)) * GEE;
+                accX = *((float*)(buf.data()+4*6)) * GRAVITY;
+                accY = *((float*)(buf.data()+4*7)) * GRAVITY;
+                accZ = *((float*)(buf.data()+4*5)) * GRAVITY;
                 break;
 
             default:

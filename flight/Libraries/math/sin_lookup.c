@@ -7,6 +7,7 @@
  *
  * @file       sin_lookup.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      Sine lookup table from flash with 1 degree resolution
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -29,6 +30,7 @@
  */
 
 #include "openpilot.h"
+#include "physical_constants.h"
 #include "math.h"
 #include "stdbool.h"
 #include "stdint.h"
@@ -81,7 +83,7 @@ int sin_lookup_initalize()
 		return -1;
 
 	for(uint32_t i = 0; i < 180; i++)
-		sin_table[i] = sinf((float)i * 2 * M_PI / 360.0f);
+		sin_table[i] = sinf((float)i * DEG2RAD);
 
 	return 0;
 }
@@ -126,7 +128,7 @@ float cos_lookup_deg(float angle)
  */
 float sin_lookup_rad(float angle)
 {
-	int degrees = angle * 180.0f / M_PI;
+	int degrees = angle * RAD2DEG;
 	return sin_lookup_deg(degrees);
 }
 
@@ -137,6 +139,6 @@ float sin_lookup_rad(float angle)
  */
 float cos_lookup_rad(float angle)
 {
-	int degrees = angle * 180.0f / M_PI;
+	int degrees = angle * RAD2DEG;
 	return cos_lookup_deg(degrees);
 }

@@ -3,6 +3,7 @@
  *
  * @file       flightgearbridge.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup HITLPlugin HITL Plugin
@@ -29,10 +30,6 @@
 #include "extensionsystem/pluginmanager.h"
 #include "coreplugin/icore.h"
 #include "coreplugin/threadmanager.h"
-
-#ifndef M_PI
-#define M_PI           3.14159265358979323846
-#endif
 
 //FGSimulator::FGSimulator(QString hostAddr, int outPort, int inPort, bool manual, QString binPath, QString dataPath) :
 //		Simulator(hostAddr, outPort, inPort,  manual, binPath, dataPath),
@@ -238,11 +235,11 @@ void FGSimulator::processUpdate(const QByteArray& inp)
     QString data(inp);
     QStringList fields = data.split(",");
     // Get xRate (deg/s)
-    //        float xRate = fields[0].toFloat() * 180.0/M_PI;
+    //        float xRate = fields[0].toFloat() * RAD2DEG;
     // Get yRate (deg/s)
-    //        float yRate = fields[1].toFloat() * 180.0/M_PI;
+    //        float yRate = fields[1].toFloat() * RAD2DEG;
     // Get zRate (deg/s)
-    //        float zRate = fields[2].toFloat() * 180.0/M_PI;
+    //        float zRate = fields[2].toFloat() * RAD2DEG;
     // Get xAccel (m/s^2)
     float xAccel = fields[3].toFloat() * FT2M;
     // Get yAccel (m/s^2)

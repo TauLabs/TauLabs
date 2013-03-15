@@ -3,6 +3,7 @@
  *
  * @file       configccpmwidget.cpp
  * @author     E. Lafargue & The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -25,6 +26,8 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 #include "configccpmwidget.h"
+#include "physical_constants.h"
+
 #include <QDebug>
 #include <QStringList>
 #include <QWidget>
@@ -38,9 +41,6 @@
 #include "mixersettings.h"
 #include "systemsettings.h"
 #include "actuatorcommand.h"
-
-#define  Pi 3.14159265358979323846
-
 
 ConfigCcpmWidget::ConfigCcpmWidget(QWidget *parent) : VehicleConfig(parent)
 {
@@ -517,10 +517,10 @@ void ConfigCcpmWidget::ccpmSwashplateRedraw()
     used[1]=((m_ccpm->ccpmServoXChannel->currentIndex()>0)&&(m_ccpm->ccpmServoXChannel->isEnabled()));
     used[2]=((m_ccpm->ccpmServoYChannel->currentIndex()>0)&&(m_ccpm->ccpmServoYChannel->isEnabled()));
     used[3]=((m_ccpm->ccpmServoZChannel->currentIndex()>0)&&(m_ccpm->ccpmServoZChannel->isEnabled()));
-    angle[0]=(CorrectionAngle+180+m_ccpm->ccpmAngleW->value())*Pi/180.00;
-    angle[1]=(CorrectionAngle+180+m_ccpm->ccpmAngleX->value())*Pi/180.00;
-    angle[2]=(CorrectionAngle+180+m_ccpm->ccpmAngleY->value())*Pi/180.00;
-    angle[3]=(CorrectionAngle+180+m_ccpm->ccpmAngleZ->value())*Pi/180.00;
+    angle[0]=(CorrectionAngle+180+m_ccpm->ccpmAngleW->value())*DEG2RAD;
+    angle[1]=(CorrectionAngle+180+m_ccpm->ccpmAngleX->value())*DEG2RAD;
+    angle[2]=(CorrectionAngle+180+m_ccpm->ccpmAngleY->value())*DEG2RAD;
+    angle[3]=(CorrectionAngle+180+m_ccpm->ccpmAngleZ->value())*DEG2RAD;
 
 
     for (i=0;i<CCPM_MAX_SWASH_SERVOS;i++)
@@ -687,8 +687,8 @@ void ConfigCcpmWidget::UpdateMixer()
                 {//Swashplate
                     m_ccpm->ccpmAdvancedSettingsTable->item(i,1)->setText(QString("%1").arg(0));//ThrottleCurve1
                     m_ccpm->ccpmAdvancedSettingsTable->item(i,2)->setText(QString("%1").arg((int)(127.0*CollectiveConstant)));//ThrottleCurve2
-                    m_ccpm->ccpmAdvancedSettingsTable->item(i,3)->setText(QString("%1").arg((int)(127.0*(RollConstant)*sin((180+config.heli.CorrectionAngle + ThisAngle[i])*Pi/180.00))));//Roll
-                    m_ccpm->ccpmAdvancedSettingsTable->item(i,4)->setText(QString("%1").arg((int)(127.0*(PitchConstant)*cos((config.heli.CorrectionAngle + ThisAngle[i])*Pi/180.00))));//Pitch
+                    m_ccpm->ccpmAdvancedSettingsTable->item(i,3)->setText(QString("%1").arg((int)(127.0*(RollConstant)*sin((180+config.heli.CorrectionAngle + ThisAngle[i])*DEG2RAD))));//Roll
+                    m_ccpm->ccpmAdvancedSettingsTable->item(i,4)->setText(QString("%1").arg((int)(127.0*(PitchConstant)*cos((config.heli.CorrectionAngle + ThisAngle[i])*DEG2RAD))));//Pitch
                     m_ccpm->ccpmAdvancedSettingsTable->item(i,5)->setText(QString("%1").arg(0));//Yaw
 
                 }

@@ -1,8 +1,8 @@
 /**
  ******************************************************************************
  * @file       vtolpathfollower.c
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      This module compared @ref PositionActual to @ref PathDesired 
  * and sets @ref Stabilization.  It only does this when the FlightMode field
  * of @ref FlightStatus is PathPlanner or RTH.
@@ -49,6 +49,7 @@
  */
 
 #include "openpilot.h"
+#include "physical_constants.h"
 #include "misc_math.h"
 #include "paths.h"
 #include "pid.h"
@@ -77,7 +78,6 @@
 #define MAX_QUEUE_SIZE 4
 #define STACK_SIZE_BYTES 1548
 #define TASK_PRIORITY (tskIDLE_PRIORITY+2)
-#define F_PI 3.14159265358979323846f
 
 // Private types
 
@@ -464,8 +464,8 @@ static void updateVtolDesiredAttitude()
 		{
 			GPSPositionData gpsPosition;
 			GPSPositionGet(&gpsPosition);
-			northVel = gpsPosition.Groundspeed * cosf(gpsPosition.Heading * F_PI / 180.0f);
-			eastVel = gpsPosition.Groundspeed * sinf(gpsPosition.Heading * F_PI / 180.0f);
+			northVel = gpsPosition.Groundspeed * cosf(gpsPosition.Heading * DEG2RAD);
+			eastVel = gpsPosition.Groundspeed * sinf(gpsPosition.Heading * DEG2RAD);
 			downVel = velocityActual.Down;
 		}
 			break;
@@ -497,11 +497,11 @@ static void updateVtolDesiredAttitude()
 	
 	// Project the north and east command signals into the pitch and roll based on yaw.  For this to behave well the
 	// craft should move similarly for 5 deg roll versus 5 deg pitch
-	stabDesired.Pitch = bound_min_max(-northCommand * cosf(attitudeActual.Yaw * M_PI / 180) + 
-				      -eastCommand * sinf(attitudeActual.Yaw * M_PI / 180),
+	stabDesired.Pitch = bound_min_max(-northCommand * cosf(attitudeActual.Yaw * DEG2RAD) + 
+				      -eastCommand * sinf(attitudeActual.Yaw * DEG2RAD),
 				      -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch);
-	stabDesired.Roll = bound_min_max(-northCommand * sinf(attitudeActual.Yaw * M_PI / 180) + 
-				     eastCommand * cosf(attitudeActual.Yaw * M_PI / 180),
+	stabDesired.Roll = bound_min_max(-northCommand * sinf(attitudeActual.Yaw * DEG2RAD) + 
+				     eastCommand * cosf(attitudeActual.Yaw * DEG2RAD),
 				     -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch);
 	
 	if(guidanceSettings.ThrottleControl == VTOLPATHFOLLOWERSETTINGS_THROTTLECONTROL_FALSE) {
@@ -548,7 +548,7 @@ static void updateNedAccel()
 		for (uint8_t j=0; j<3; j++)
 			accel_ned[i] += Rbe[j][i]*accel[j];
 	}
-	accel_ned[2] += 9.81f;
+	accel_ned[2] += GRAVITY;
 	
 	NedAccelData accelData;
 	NedAccelGet(&accelData);

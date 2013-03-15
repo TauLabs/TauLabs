@@ -576,6 +576,7 @@ sim_$(4)_$(1)_%: uavobjects_flight
 		HWDEFSINC=$(HWDEFS)/$(1) \
 		DOXYGENDIR=$(DOXYGENDIR) \
 		OPUAVSYNTHDIR=$(OPUAVSYNTHDIR) \
+		SHAREDAPIDIR=$(SHAREDAPIDIR) \
 		\
 		$$*
 

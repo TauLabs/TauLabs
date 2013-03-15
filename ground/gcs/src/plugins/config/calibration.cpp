@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       calibration.cpp
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
  * @brief      Gui-less support class for calibration
  *****************************************************************************/
 /*
@@ -21,6 +21,8 @@
  */
 
 #include "calibration.h"
+
+#include "physical_constants.h"
 
 #include "utils/coordinateconversions.h"
 #include <QMessageBox>
@@ -57,7 +59,7 @@ enum calibrationSuccessMessages{
 
 #define sign(x) ((x < 0) ? -1 : 1)
 
-Calibration::Calibration() : calibrateMag(false), accelLength(9.81),
+Calibration::Calibration() : calibrateMag(false), accelLength(GRAVITY),
     xCurve(NULL), yCurve(NULL), zCurve(NULL)
 {
 }
@@ -703,10 +705,6 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
         AttitudeSettings::DataFields attitudeSettingsData = AttitudeSettings::GetInstance(getObjectManager())->getData();
         InertialSensorSettings::DataFields inertialSensorSettingsData = InertialSensorSettings::GetInstance(getObjectManager())->getData();
 
-        const double DEG2RAD = M_PI / 180.0f;
-        const double RAD2DEG = 1.0 / DEG2RAD;
-        const double GRAV = -9.81;
-
         // Inverse rotation of sensor data, from body frame into sensor frame
         double a_body[3] = { listMean(accel_accum_x), listMean(accel_accum_y), listMean(accel_accum_z) };
         double a_sensor[3];
@@ -728,10 +726,10 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
 
         // In case psi is too small, we have to use a different equation to solve for theta
         if (fabs(psi) > M_PI / 2)
-            theta = atan((a_sensor[1] + cP * (sP * a_sensor[0] - cP * a_sensor[1])) / (sP * a_sensor[2]));
+            theta = atanf((a_sensor[1] + cP * (sP * a_sensor[0] - cP * a_sensor[1])) / (sP * a_sensor[2]));
         else
-            theta = atan((a_sensor[0] - sP * (sP * a_sensor[0] - cP * a_sensor[1])) / (cP * a_sensor[2]));
-        phi = atan2((sP * a_sensor[0] - cP * a_sensor[1]) / GRAV, a_sensor[2] / cos(theta) / GRAV);
+            theta = atanf((a_sensor[0] - sP * (sP * a_sensor[0] - cP * a_sensor[1])) / (cP * a_sensor[2]));
+        phi = atan2f((sP * a_sensor[0] - cP * a_sensor[1]) / (-GRAVITY), a_sensor[2] / cos(theta) / (-GRAVITY));
 
         attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] = phi * RAD2DEG * 100.0;
         attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] = theta * RAD2DEG * 100.0;

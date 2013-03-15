@@ -8,7 +8,8 @@
  *
  * @file       attitudedrift.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Module to handle all comms to the AHRS on a periodic basis.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
+ * @brief      Various filters for handling gyroscope drift
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -41,6 +42,7 @@
  */
 
 #include "pios.h"
+#include "physical_constants.h"
 #include "modulesettings.h"
 #include <pios_board_info.h>
 #include "attitudedrift.h"
@@ -96,7 +98,6 @@ struct GlobalDcmDriftVariables *drft;
 // Private types
 
 // Private variables
-#define GRAV -9.805f
 
 //#define DRIFT_TYPE CCC
 enum DRIFT_CORRECTION_ALGOS {
