@@ -525,7 +525,7 @@ static int32_t updateAttitudeComplementary(bool first_run)
 	// Correct rates based on error, integral component dealt with in updateSensors
 	gyrosData.x += accel_err[0] * attitudeSettings.AccelKp / dT;
 	gyrosData.y += accel_err[1] * attitudeSettings.AccelKp / dT;
-	gyrosData.z += accel_err[2] * attitudeSettings.AccelKp / dT + mag_err[2] * attitudeSettings.MagKp / dT;
+	gyrosData.z += mag_err[2] * attitudeSettings.MagKp / dT;
 
 	// Work out time derivative from INSAlgo writeup
 	// Also accounts for the fact that gyros are in deg/s
