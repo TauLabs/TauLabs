@@ -50,6 +50,7 @@
 
 #include "openpilot.h"
 #include "misc_math.h"
+#include "physical_constants.h"
 
 #include "accessorydesired.h"
 #include "attitudeactual.h"
@@ -95,7 +96,10 @@ static void tablet_info_process();
 
 // Private variables
 static bool module_enabled;
+#if defined(CAMERASTAB_POI_MODE)
 static bool tablet_info_updated = false;
+#endif /* CAMERASTAB_POI_MODE */
+
 /**
  * Initialise the module, called on startup
  * \returns 0 on success or -1 if initialisation failed
@@ -329,6 +333,7 @@ static void settings_updated_cb(UAVObjEvent * ev)
 	CameraStabSettingsGet(&csd->settings);
 }
 
+#if defined(CAMERASTAB_POI_MODE)
 /**
  * When the tablet info changes update the POI location to match
  * the current tablet location
@@ -347,8 +352,6 @@ static void tablet_info_process() {
 	if (tablet_info_updated == false)
 		return;
 	tablet_info_updated = false;
-
-	const float DEG2RAD = M_PI / 180.0f;
 
 	TabletInfoData tablet;
 	TabletInfoGet(&tablet);
@@ -378,6 +381,7 @@ static void tablet_info_process() {
 	poi.Down = T[2] * dL[2];
 	PoiLocationSet(&poi);
 }
+#endif
 
 /**
  * @}
