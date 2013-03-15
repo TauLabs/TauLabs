@@ -288,6 +288,8 @@ ConfigAttitudeWidget::~ConfigAttitudeWidget()
  */
 void ConfigAttitudeWidget::doUseTransmitterTrim()
 {
+    QMessageBox msgBox;
+
     ManualControlCommand* manualControl = ManualControlCommand::GetInstance(getObjectManager());
     Q_ASSERT(manualControl);
     if (manualControl == NULL)
@@ -304,14 +306,18 @@ void ConfigAttitudeWidget::doUseTransmitterTrim()
     if (manualControlData.Connected != ManualControlCommand::CONNECTED_TRUE ||
         stabDesiredData.StabilizationMode[StabilizationDesired::STABILIZATIONMODE_PITCH] != StabilizationDesired::STABILIZATIONMODE_ATTITUDE ||
         stabDesiredData.StabilizationMode[StabilizationDesired::STABILIZATIONMODE_ROLL] != StabilizationDesired::STABILIZATIONMODE_ATTITUDE) {
-        // TODO: Give abort message
+
+        msgBox.setText(tr("Either the transmitter is not connected or roll and pitch are not in attitude mode.  Aborting."));
+        msgBox.exec();
+
         return;
     }
 
     m_ui->rollRotation->setValue(m_ui->rollRotation->value() - stabDesiredData.Roll);
     m_ui->pitchRotation->setValue(m_ui->rollRotation->value() - stabDesiredData.Pitch);
 
-    // TODO: Give message that they should reset their trim and save settings if they like them.
+    msgBox.setText(tr("The rotation values have been applied.  If you are happy, press save and center the trim on your transmitter"));
+    msgBox.exec();
 }
 
 void ConfigAttitudeWidget::showEvent(QShowEvent *event)
