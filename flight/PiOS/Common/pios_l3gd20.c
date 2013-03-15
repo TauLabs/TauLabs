@@ -42,7 +42,7 @@ enum pios_l3gd20_dev_magic {
 	PIOS_L3GD20_DEV_MAGIC = 0x9d39bced,
 };
 
-#define PIOS_L3GD20_MAX_DOWNSAMPLE 1
+#define PIOS_L3GD20_MAX_DOWNSAMPLE 2
 
 //! Local types
 struct l3gd20_dev {
@@ -317,7 +317,6 @@ static int32_t PIOS_L3GD20_SetReg(uint8_t reg, uint8_t data)
  * \param[out] int16_t array of size 3 to store X, Z, and Y magnetometer readings
  * \returns The number of samples remaining in the fifo
  */
-uint32_t l3gd20_irq = 0;
 static int32_t PIOS_L3GD20_ReadGyros(struct pios_l3gd20_data * data)
 {
 	uint8_t buf[7] = {PIOS_L3GD20_GYRO_X_OUT_LSB | 0x80 | 0x40, 0, 0, 0, 0, 0, 0};
@@ -394,39 +393,51 @@ uint8_t PIOS_L3GD20_Test(void)
 */
 bool PIOS_L3GD20_IRQHandler(void)
 {
-	l3gd20_irq++;
+	bool woken = false;
+	float scale = PIOS_L3GD20_GetScale();
+
+	/* read the fifo_src_reg and set number of samples to read according to the watermark flag */
+	uint8_t fifo_src_reg = PIOS_L3GD20_GetRegIsr(PIOS_L3GD20_FIFO_SRC_REG, &woken);
+	uint8_t samples_to_read = fifo_src_reg & PIOS_L3GD20_FIFO_SRC_REG_FSS;
+	if (samples_to_read > PIOS_L3GD20_MAX_DOWNSAMPLE)
+		samples_to_read = PIOS_L3GD20_MAX_DOWNSAMPLE;
+
+	/* read the temperature first to be able to reuse it multiple times later */
+	uint8_t temperature = PIOS_L3GD20_GetRegIsr(PIOS_L3GD20_OUT_TEMP, &woken);
 
 	struct pios_l3gd20_data data;
-	uint8_t buf[7] = {PIOS_L3GD20_GYRO_X_OUT_LSB | 0x80 | 0x40, 0, 0, 0, 0, 0, 0};
+	uint8_t buf[7] = { PIOS_L3GD20_GYRO_X_OUT_LSB | 0x80 | 0x40, 0, 0, 0, 0, 0, 0 };
 	uint8_t rec[7];
 
-	/* This code duplicates ReadGyros above but uses ClaimBusIsr */
-	bool woken = false;
-	if(PIOS_L3GD20_ClaimBusIsr(&woken) != 0)
-		return woken;
-	
-	if(PIOS_SPI_TransferBlock(dev->spi_id, &buf[0], &rec[0], sizeof(buf), NULL) < 0) {
+	while (samples_to_read)
+	{
+		if (PIOS_L3GD20_ClaimBusIsr(&woken) != 0)
+			return woken;
+
+		if (PIOS_SPI_TransferBlock(dev->spi_id, &buf[0], &rec[0], sizeof(buf), NULL) < 0) {
+			PIOS_L3GD20_ReleaseBusIsr(&woken);
+			return woken;
+		}
+
 		PIOS_L3GD20_ReleaseBusIsr(&woken);
-		return woken;
+
+		memcpy((uint8_t*)&(data.gyro_x), &rec[1], 6);
+
+		// TODO: This reordering is specific to the FlyingF3 chip placement.  Whenever
+		// this code is used on another board add an orientation mapping to the configuration
+		struct pios_sensor_gyro_data normalized_data;
+		normalized_data.y = data.gyro_x * scale;
+		normalized_data.x = data.gyro_y * scale;
+		normalized_data.z = -data.gyro_z * scale;
+		normalized_data.temperature = temperature;
+
+		portBASE_TYPE xHigherPriorityTaskWoken;
+		xQueueSendToBackFromISR(dev->queue, (void*)&normalized_data, &xHigherPriorityTaskWoken);
+		woken = woken || xHigherPriorityTaskWoken == pdTRUE;
+
+		--samples_to_read;
 	}
-	
-	PIOS_L3GD20_ReleaseBusIsr(&woken);
-	
-	memcpy((uint8_t *) &(data.gyro_x), &rec[1], 6);
-
-	// TODO: This reordering is specific to the FlyingF3 chip placement.  Whenever
-	// this code is used on another board add an orientation mapping to the configuration
-	struct pios_sensor_gyro_data normalized_data;
-	float scale = PIOS_L3GD20_GetScale();
-	normalized_data.y = data.gyro_x * scale;
-	normalized_data.x = data.gyro_y * scale;
-	normalized_data.z = -data.gyro_z * scale;
-	normalized_data.temperature = PIOS_L3GD20_GetRegIsr(PIOS_L3GD20_OUT_TEMP, &woken);
-
-	portBASE_TYPE xHigherPriorityTaskWoken;
-	xQueueSendToBackFromISR(dev->queue, (void *) &normalized_data, &xHigherPriorityTaskWoken);
-	
-	return woken || (xHigherPriorityTaskWoken == pdTRUE);
+	return woken;
 }
 
 #endif /* PIOS_INCLUDE_L3GD20 */
