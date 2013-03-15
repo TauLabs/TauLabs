@@ -1,55 +1,49 @@
-/**
- ******************************************************************************
- *
- * @file       manhattanstyle.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
- * @addtogroup GCSPlugins GCS Plugins
- * @{
- * @addtogroup CorePlugin Core Plugin
- * @{
- * @brief The Core GCS plugin
- *****************************************************************************/
-/*
- * This program is free software; you can redistribute it and/or modify 
- * it under the terms of the GNU General Public License as published by 
- * the Free Software Foundation; either version 3 of the License, or 
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful, but 
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
- * for more details.
- * 
- * You should have received a copy of the GNU General Public License along 
- * with this program; if not, write to the Free Software Foundation, Inc., 
- * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
- */
+/****************************************************************************
+**
+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Contact: http://www.qt-project.org/legal
+**
+** This file is part of Qt Creator.
+**
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.  For licensing terms and
+** conditions see http://qt.digia.com/licensing.  For further information
+** use the contact form at http://qt.digia.com/contact-us.
+**
+** GNU Lesser General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU Lesser
+** General Public License version 2.1 as published by the Free Software
+** Foundation and appearing in the file LICENSE.LGPL included in the
+** packaging of this file.  Please review the following information to
+** ensure the GNU Lesser General Public License version 2.1 requirements
+** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+**
+** In addition, as a special exception, Digia gives you certain additional
+** rights.  These rights are described in the Digia Qt LGPL Exception
+** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
+**
+****************************************************************************/
 
 #ifndef MANHATTANSTYLE_H
 #define MANHATTANSTYLE_H
 
 #include "core_global.h"
 
-#include <QtGui/QWindowsStyle>
-
-QT_BEGIN_NAMESPACE
-class QLinearGradient;
-class QBrush;
-QT_END_NAMESPACE
+#include <QProxyStyle>
 
 class ManhattanStylePrivate;
 
-class CORE_EXPORT ManhattanStyle : public QWindowsStyle
+class CORE_EXPORT ManhattanStyle : public QProxyStyle
 {
     Q_OBJECT
 
 public:
-    ManhattanStyle(const QString &);
+    explicit ManhattanStyle(const QString &baseStyleName);
 
     ~ManhattanStyle();
-
-    QStyle *systemStyle() const;
 
     void drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget = 0) const;
     void drawControl(ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget = 0) const;
@@ -76,20 +70,13 @@ public:
     void unpolish(QWidget *widget);
     void unpolish(QApplication *app);
 
-protected:
-    bool event(QEvent *e);
-
-protected Q_SLOTS:
+protected slots:
     QIcon standardIconImplementation(StandardPixmap standardIcon, const QStyleOption *option, const QWidget *widget) const;
-    int layoutSpacingImplementation(QSizePolicy::ControlType control1,
-                                    QSizePolicy::ControlType control2,
-                                    Qt::Orientation orientation,
-                                    const QStyleOption *option = 0,
-                                    const QWidget *widget = 0) const;
 
 private:
+    void drawButtonSeparator(QPainter *painter, const QRect &rect, bool reverse) const;
+
     ManhattanStylePrivate *d;
-    Q_DISABLE_COPY(ManhattanStyle)
 };
 
 #endif // MANHATTANSTYLE_H

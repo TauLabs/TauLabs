@@ -29,7 +29,7 @@
 #define MOCAPCONFIGURATION_H
 
 #include <coreplugin/iuavgadgetconfiguration.h>
-#include <QtGui/QColor>
+#include <QColor>
 #include <QString>
 
 #include "exporter.h"

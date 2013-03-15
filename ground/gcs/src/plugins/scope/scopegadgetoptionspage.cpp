@@ -40,7 +40,7 @@
 #include "scopes3d/spectrogramscopeconfig.h"
 
 #include <QtGui/qpalette.h>
-#include <QtGui/QMessageBox>
+#include <QMessageBox>
 
 
 ScopeGadgetOptionsPage::ScopeGadgetOptionsPage(ScopeGadgetConfiguration *config, QObject *parent) :

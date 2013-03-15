@@ -59,6 +59,29 @@ QWidget *WaypointDelegate::createEditor(QWidget *parent,
 }
 
 /**
+ * @brief WaypointDelegate::eventFilter Filter any events that are
+ * on the combox box from going to the view.  This makes the combo
+ * box contents pop up and be selectable.
+ */
+bool WaypointDelegate::eventFilter(QObject *object, QEvent *event)
+{
+    QComboBox * comboBox = dynamic_cast<QComboBox*>(object);
+    if (comboBox)
+    {
+        if (event->type() == QEvent::MouseButtonRelease)
+        {
+            comboBox->showPopup();
+            return true;
+        }
+    }
+    else
+    {
+        return QStyledItemDelegate::eventFilter( object, event );
+    }
+    return false;
+}
+
+/**
  * @brief WaypointDelegate::setEditorData Set the data in the UI from the model
  * for a particular element index
  * @param editor The editor dialog

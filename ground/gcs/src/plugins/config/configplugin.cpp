@@ -209,4 +209,3 @@ void ConfigPlugin::eraseDone(UAVObject * obj)
     msgBox.exec();
 }
 
-Q_EXPORT_PLUGIN(ConfigPlugin)

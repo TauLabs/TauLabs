@@ -8,6 +8,7 @@
  *
  * @file       pios_bma180.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      PiOS BMA180 digital accelerometer driver.
  *                 - Driver for the BMA180 digital accelerometer on the SPI bus.
  * @see        The GNU Public License (GPL) Version 3
@@ -30,6 +31,7 @@
  */
 
 #include "pios.h"
+#include "physical_constants.h"
 
 #if defined(PIOS_INCLUDE_BMA180)
 
@@ -63,8 +65,6 @@ static int32_t PIOS_BMA180_SelectBW(enum bma180_bandwidth bw);
 static int32_t PIOS_BMA180_SetRange(enum bma180_range range);
 static int32_t PIOS_BMA180_Config();
 static int32_t PIOS_BMA180_EnableIrq();
-
-#define GRAV 9.81f
 
 /**
  * @brief Allocate a new device
@@ -377,19 +377,19 @@ float PIOS_BMA180_GetScale()
 
 	switch (dev->cfg->range) {
 		case BMA_RANGE_1G:
-			return GRAV / 8192.0f;
+			return GRAVITY / 8192.0f;
 		case BMA_RANGE_1_5G:
-			return GRAV / 5460.0f;
+			return GRAVITY / 5460.0f;
 		case BMA_RANGE_2G:
-			return GRAV / 4096.0f;
+			return GRAVITY / 4096.0f;
 		case BMA_RANGE_3G:
-			return GRAV / 2730.0f;
+			return GRAVITY / 2730.0f;
 		case BMA_RANGE_4G:
-			return GRAV / 2048.0f;
+			return GRAVITY / 2048.0f;
 		case BMA_RANGE_8G:
-			return GRAV / 1024.0f;
+			return GRAVITY / 1024.0f;
 		case BMA_RANGE_16G:
-			return GRAV / 512.0f;
+			return GRAVITY / 512.0f;
 	}
 	return 0;
 }

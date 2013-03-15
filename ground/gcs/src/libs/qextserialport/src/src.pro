@@ -7,6 +7,7 @@ include(../../../taulabslibrary.pri)
 
 # event driven device enumeration on windows requires the gui module
 !win32:QT               -= gui
+win32:QT                += widgets
 
 HEADERS                 = qextserialport.h \
                           qextserialenumerator.h \

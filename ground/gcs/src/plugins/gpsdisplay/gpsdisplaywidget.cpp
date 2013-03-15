@@ -31,9 +31,13 @@
 
 
 #include <iostream>
-#include <QtGui>
-#include <QDebug>
 
+// The following is needed to workaround the problem here:
+// https://bugreports.qt-project.org/browse/QTBUG-26000
+#undef B0
+
+#include <QDebug>
+#include <math.h>
 /*
  * Initialize the widget
  */

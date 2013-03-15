@@ -1,7 +1,7 @@
 #version check qt
-contains(QT_VERSION, ^4\\.[0-7]\\..*) {
+contains(QT_VERSION, ^[0-4]\\..*) {
     message("Cannot build GCS with Qt version $${QT_VERSION}.")
-    error("Cannot build GCS with Qt version $${QT_VERSION}. Use at least Qt 4.8!")
+    error("Cannot build GCS with Qt version $${QT_VERSION}. Use at least Qt 5.0.1!")
 }
 
 include(gcs.pri)

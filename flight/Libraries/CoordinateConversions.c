@@ -3,6 +3,7 @@
  *
  * @file       CoordinateConversions.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      General conversions with different coordinate systems.
  *             - all angles in deg
  *             - distances in meters
@@ -30,10 +31,7 @@
 #include <math.h>
 #include <stdint.h>
 #include "CoordinateConversions.h"
-
-#define F_PI 3.14159265358979323846f
-#define RAD2DEG (180.0f/ F_PI)
-#define DEG2RAD (F_PI /180.0f)
+#include "physical_constants.h"
 
 // ****** convert Lat,Lon,Alt to ECEF  ************
 void LLA2ECEF(float LLA[3], float ECEF[3])

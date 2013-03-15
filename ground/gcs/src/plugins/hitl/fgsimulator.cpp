@@ -3,6 +3,7 @@
  *
  * @file       flightgearbridge.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup HITLPlugin HITL Plugin
@@ -29,10 +30,6 @@
 #include "extensionsystem/pluginmanager.h"
 #include "coreplugin/icore.h"
 #include "coreplugin/threadmanager.h"
-
-#ifndef M_PI
-#define M_PI           3.14159265358979323846
-#endif
 
 //FGSimulator::FGSimulator(QString hostAddr, int outPort, int inPort, bool manual, QString binPath, QString dataPath) :
 //		Simulator(hostAddr, outPort, inPort,  manual, binPath, dataPath),
@@ -81,7 +78,7 @@ bool FGSimulator::setupProcess()
     //	xmlFile.close();
     //	QFile xmlFileOut(pathData + "/Protocol/opfgprotocol.xml");
     //	xmlFileOut.open(QIODevice::WriteOnly | QIODevice::Text);
-    //	xmlFileOut.write(xml.toAscii());
+    //	xmlFileOut.write(xml.toLatin1());
     //	xmlFileOut.close();
 
     Qt::HANDLE mainThread = QThread::currentThreadId();
@@ -126,7 +123,7 @@ bool FGSimulator::setupProcess()
     if (settings.startSim)
     {
         QString cmd("\"" + settings.binPath + "\" " + args + "\n");
-        simProcess->write(cmd.toAscii());
+        simProcess->write(cmd.toLatin1());
     }
     else
     {
@@ -204,7 +201,7 @@ void FGSimulator::transmitUpdate()
                 .arg(throttle) //throttle
                 .arg(udpCounterGCSsend); //UDP packet counter delay
 
-        QByteArray data = cmd.toAscii();
+        QByteArray data = cmd.toLatin1();
 
         if(outSocket->writeDatagram(data, QHostAddress(settings.remoteAddress), settings.outPort) == -1)
         {
@@ -238,11 +235,11 @@ void FGSimulator::processUpdate(const QByteArray& inp)
     QString data(inp);
     QStringList fields = data.split(",");
     // Get xRate (deg/s)
-    //        float xRate = fields[0].toFloat() * 180.0/M_PI;
+    //        float xRate = fields[0].toFloat() * RAD2DEG;
     // Get yRate (deg/s)
-    //        float yRate = fields[1].toFloat() * 180.0/M_PI;
+    //        float yRate = fields[1].toFloat() * RAD2DEG;
     // Get zRate (deg/s)
-    //        float zRate = fields[2].toFloat() * 180.0/M_PI;
+    //        float zRate = fields[2].toFloat() * RAD2DEG;
     // Get xAccel (m/s^2)
     float xAccel = fields[3].toFloat() * FT2M;
     // Get yAccel (m/s^2)

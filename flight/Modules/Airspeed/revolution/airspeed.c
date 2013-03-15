@@ -8,6 +8,7 @@
  *
  * @file       airspeed.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      Airspeed module
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -37,6 +38,7 @@
  */
 
 #include "openpilot.h"
+#include "physical_constants.h"
 #include "modulesettings.h"
 #include "adcrouting.h"
 #include "gpsvelocity.h"
@@ -81,8 +83,6 @@
 #define GPS_AIRSPEED_TIME_CONSTANT_MS        500.0f  //Needs to be settable in a UAVO
 #define BARO_TRUEAIRSPEED_TIME_CONSTANT_S      1.0f  //Needs to be settable in a UAVO
 
-#define F_PI 3.141526535897932f
-#define DEG2RAD (F_PI/180.0f)
 #define T0 288.15f
 #define BARO_TEMPERATURE_OFFSET 5
 
@@ -140,9 +140,9 @@ int32_t AirspeedInitialize()
 #ifdef MODULE_CameraStab_BUILTIN
 	module_enabled = true;
 #else
-	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
-	ModuleSettingsStateGet(module_state);
-	if (module_state[MODULESETTINGS_STATE_AIRSPEED] == MODULESETTINGS_STATE_ENABLED) {
+	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
+	ModuleSettingsAdminStateGet(module_state);
+	if (module_state[MODULESETTINGS_ADMINSTATE_AIRSPEED] == MODULESETTINGS_ADMINSTATE_ENABLED) {
 		module_enabled = true;
 	} else {
 		module_enabled = false;

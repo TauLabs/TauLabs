@@ -149,7 +149,7 @@ return true on success
 */
 bool QxtDaemon::daemonize(bool pidfile)
 {
-#if defined(Q_OS_UNIX) && !defined(Q_OS_SYMBIAN)
+#if defined(Q_OS_UNIX_) && !defined(Q_OS_SYMBIAN) //TODO FIX QT5
     if (!logfile->open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
         qFatal("cannot open logfile %s", qPrintable(logfile->fileName()));
     logfile->close();
@@ -211,7 +211,7 @@ bool QxtDaemon::daemonize(bool pidfile)
 
 
     assert(logfile->open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append));
-    qInstallMsgHandler(QxtDaemon::messageHandler);
+    qInstallMessageHandler(QxtDaemon::messageHandler);
 
     return true;
 #else

@@ -2,6 +2,7 @@ TEMPLATE = lib
 TARGET = Uploader
 DEFINES += UPLOADER_LIBRARY
 QT += svg
+
 include(uploader_dependencies.pri)
 INCLUDEPATH += ../../libs/qextserialport/src
 
@@ -35,6 +36,7 @@ SOURCES += uploadergadget.cpp \
     SSP/qsspt.cpp \
     runningdevicewidget.cpp
 OTHER_FILES += Uploader.pluginspec \
+    Uploader.json
 
 FORMS += \
     uploader.ui \

@@ -1,6 +1,6 @@
 TEMPLATE = lib
 TARGET = QScienceSpinBox
-
+QT += widgets
 include(../../taulabslibrary.pri)
 
 DEFINES += QSCIENCESPINBOX

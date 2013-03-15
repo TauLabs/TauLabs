@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/fancyactionbar">
-        <file>images/fancytoolbutton.svg</file>
-    </qresource>
-</RCC>

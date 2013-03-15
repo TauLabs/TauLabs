@@ -8,7 +8,7 @@
  *
  * @file       pios_mpu6050.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      MPU6050 6-axis gyro and accel chip
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -32,6 +32,7 @@
 
 /* Project Includes */
 #include "pios.h"
+#include "physical_constants.h"
 
 #if defined(PIOS_INCLUDE_MPU6050)
 
@@ -71,8 +72,6 @@ static int32_t PIOS_MPU6050_SetReg(uint8_t address, uint8_t buffer);
 static int32_t PIOS_MPU6050_GetReg(uint8_t address);
 static int32_t PIOS_MPU6050_ReadID();
 static void PIOS_MPU6050_Task(void *parameters);
-
-#define GRAV 9.81f
 
 /**
  * @brief Allocate a new device
@@ -359,13 +358,13 @@ static float PIOS_MPU6050_GetAccelScale()
 {
 	switch (dev->accel_range) {
 		case PIOS_MPU60X0_ACCEL_2G:
-			return GRAV / 16384.0f;
+			return GRAVITY / 16384.0f;
 		case PIOS_MPU60X0_ACCEL_4G:
-			return GRAV / 8192.0f;
+			return GRAVITY / 8192.0f;
 		case PIOS_MPU60X0_ACCEL_8G:
-			return GRAV / 4096.0f;
+			return GRAVITY / 4096.0f;
 		case PIOS_MPU60X0_ACCEL_16G:
-			return GRAV / 2048.0f;
+			return GRAVITY / 2048.0f;
 	}
 	return 0;
 }

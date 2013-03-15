@@ -41,7 +41,7 @@ defineReplace(stripSrcDir) {
         !contains(1, ^/.*):1 = $$OUT_PWD/$$1
     }
     out = $$cleanPath($$1)
-    out ~= s|^$$re_escape($$PWD/)||$$i_flag
+    out ~= s|^$$re_escape($$_PRO_FILE_PWD_/)||$$i_flag
     return($$out)
 }
 
@@ -83,6 +83,7 @@ macx {
     GCS_DATA_PATH    = $$GCS_APP_PATH/$${GCS_APP_TARGET}.app/Contents/Resources
     GCS_DATA_BASENAME = Resources
     GCS_DOC_PATH     = $$GCS_DATA_PATH/doc
+    GCS_BIN_PATH     = $$GCS_APP_PATH/$${GCS_APP_TARGET}.app/Contents/MacOS
     copydata = 1
 } else {
     win32 {
@@ -104,6 +105,9 @@ macx {
 
 DEFINES += GCS_DATA_BASENAME=\\\"$$GCS_DATA_BASENAME\\\"
 
+# Include path to shared API directory
+INCLUDEPATH += \
+    $$GCS_SOURCE_TREE/../../shared/api
 
 INCLUDEPATH += \
     $$GCS_SOURCE_TREE/src/libs
