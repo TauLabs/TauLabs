@@ -71,9 +71,6 @@ private:
     QGraphicsSvgItem *baro;
     QMutex sensorsUpdateLock;
     double maxBarHeight;
-    int phaseCounter;
-    const static double maxVarValue;
-    const static int calibrationDelay = 10;
 
     QList<double> gyro_accum_x;
     QList<double> gyro_accum_y;
@@ -93,7 +90,6 @@ private:
     UAVObject::Metadata initialGyrosMdata;
     UAVObject::Metadata initialMagMdata;
     UAVObject::Metadata initialBaroMdata;
-    float initialMagCorrectionRate;
 
     static const int NOISE_SAMPLES = 100;
 

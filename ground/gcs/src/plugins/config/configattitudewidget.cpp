@@ -51,16 +51,8 @@
 #include <magnetometer.h>
 #include <baroaltitude.h>
 
-#define GRAVITY 9.81f
 #include "assertions.h"
 #include "calibration.h"
-
-#define sign(x) ((x < 0) ? -1 : 1)
-
-// Uncomment this to enable 6 point calibration on the accels
-#define SIX_POINT_CAL_ACCEL
-
-const double ConfigAttitudeWidget::maxVarValue = 0.1;
 
 // *****************
 
