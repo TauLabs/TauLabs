@@ -109,7 +109,7 @@ CFLAGS += -DNAVIGATION
 else
 MODULES += Attitude/coptercontrol
 endif
-MODULES += Stabilization Actuator ManualControl FirmwareIAP
+MODULES += Stabilization Actuator Control FirmwareIAP
 # MODULES += PathFollower/coptercontrol
 # Telemetry must be last to grab the optional modules (why?)
 MODULES += Telemetry
