@@ -14,19 +14,19 @@
  *
  ******************************************************************************
  */
-/* 
- * This program is free software; you can redistribute it and/or modify 
- * it under the terms of the GNU General Public License as published by 
- * the Free Software Foundation; either version 3 of the License, or 
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful, but 
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
  * for more details.
- * 
- * You should have received a copy of the GNU General Public License along 
- * with this program; if not, write to the Free Software Foundation, Inc., 
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
@@ -38,24 +38,27 @@
 #include "fifo_buffer.h"
 
 /* Global Variables */
-enum pios_l3gd20_dev_magic {
-	PIOS_L3GD20_DEV_MAGIC = 0x9d39bced,
+enum pios_l3gd20_dev_magic
+{
+    PIOS_L3GD20_DEV_MAGIC = 0x9d39bced,
 };
 
 #define PIOS_L3GD20_MAX_DOWNSAMPLE 1
 
 //! Local types
-struct l3gd20_dev {
+struct l3gd20_dev
+{
 	uint32_t spi_id;
 	uint32_t slave_num;
 	xQueueHandle queue;
-	const struct pios_l3gd20_cfg * cfg;
+	const struct pios_l3gd20_cfg* cfg;
 	enum pios_l3gd20_filter bandwidth;
 	enum pios_l3gd20_range range;
 	enum pios_l3gd20_dev_magic magic;
 };
 
-struct pios_l3gd20_data {
+struct pios_l3gd20_data
+{
 	int16_t gyro_x;
 	int16_t gyro_y;
 	int16_t gyro_z;
@@ -63,20 +66,20 @@ struct pios_l3gd20_data {
 };
 
 //! Global structure for this device device
-static struct l3gd20_dev * dev;
+static struct l3gd20_dev* dev;
 
 //! Private functions
-static struct l3gd20_dev * PIOS_L3GD20_alloc(void);
-static int32_t PIOS_L3GD20_Validate(struct l3gd20_dev * dev);
-static void PIOS_L3GD20_Config(struct pios_l3gd20_cfg const * cfg);
+static struct l3gd20_dev* PIOS_L3GD20_alloc(void);
+static int32_t PIOS_L3GD20_Validate(struct l3gd20_dev* dev);
+static void PIOS_L3GD20_Config(struct pios_l3gd20_cfg const* cfg);
 static int32_t PIOS_L3GD20_SetReg(uint8_t address, uint8_t buffer);
 static int32_t PIOS_L3GD20_GetReg(uint8_t address);
-static int32_t PIOS_L3GD20_GetRegIsr(uint8_t address, bool *woken);
+static int32_t PIOS_L3GD20_GetRegIsr(uint8_t address, bool* woken);
 static int32_t PIOS_L3GD20_ClaimBus();
 static int32_t PIOS_L3GD20_ClaimBusIsr();
 static int32_t PIOS_L3GD20_ReleaseBus();
 static int32_t PIOS_L3GD20_ReleaseBusIsr();
-static int32_t PIOS_L3GD20_ReadGyros(struct pios_l3gd20_data * buffer);
+static int32_t PIOS_L3GD20_ReadGyros(struct pios_l3gd20_data* buffer);
 
 
 volatile bool l3gd20_configured = false;
@@ -86,36 +89,42 @@ volatile bool l3gd20_configured = false;
 /**
  * @brief Allocate a new device
  */
-static struct l3gd20_dev * PIOS_L3GD20_alloc(void)
+static struct l3gd20_dev* PIOS_L3GD20_alloc(void)
 {
-	struct l3gd20_dev * l3gd20_dev;
+	struct l3gd20_dev* l3gd20_dev;
 
-	l3gd20_dev = (struct l3gd20_dev *)pvPortMalloc(sizeof(*l3gd20_dev));
+	l3gd20_dev = (struct l3gd20_dev*)pvPortMalloc(sizeof(*l3gd20_dev));
+
 	if (!l3gd20_dev) return (NULL);
 
 	l3gd20_dev->magic = PIOS_L3GD20_DEV_MAGIC;
 
 	l3gd20_dev->queue = xQueueCreate(PIOS_L3GD20_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_gyro_data));
-	if(l3gd20_dev->queue == NULL) {
+
+	if (l3gd20_dev->queue == NULL)
+	{
 		vPortFree(l3gd20_dev);
 		return NULL;
 	}
 
-	return(l3gd20_dev);
+	return l3gd20_dev;
 }
 
 /**
  * @brief Validate the handle to the spi device
  * @returns 0 for valid device or -1 otherwise
  */
-static int32_t PIOS_L3GD20_Validate(struct l3gd20_dev * dev)
+static int32_t PIOS_L3GD20_Validate(struct l3gd20_dev* dev)
 {
-	if (dev == NULL) 
+	if (dev == NULL)
 		return -1;
+
 	if (dev->magic != PIOS_L3GD20_DEV_MAGIC)
 		return -2;
+
 	if (dev->spi_id == 0)
 		return -3;
+
 	return 0;
 }
 
@@ -124,10 +133,11 @@ static int32_t PIOS_L3GD20_Validate(struct l3gd20_dev * dev)
  * @return none
  */
 #include <pios_board_info.h>
-int32_t PIOS_L3GD20_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_l3gd20_cfg * cfg)
+int32_t PIOS_L3GD20_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_l3gd20_cfg* cfg)
 {
 	dev = PIOS_L3GD20_alloc();
-	if(dev == NULL)
+
+	if (dev == NULL)
 		return -1;
 
 	dev->spi_id = spi_id;
@@ -139,7 +149,7 @@ int32_t PIOS_L3GD20_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_
 
 	/* Set up EXTI */
 	PIOS_EXTI_Init(cfg->exti_cfg);
-	
+
 	// An initial read is needed to get it running
 	struct pios_l3gd20_data data;
 	PIOS_L3GD20_ReadGyros(&data);
@@ -155,23 +165,27 @@ int32_t PIOS_L3GD20_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_
  * \param[in] PIOS_L3GD20_ConfigTypeDef struct to be used to configure sensor.
 *
 */
-static void PIOS_L3GD20_Config(struct pios_l3gd20_cfg const * cfg)
+static void PIOS_L3GD20_Config(struct pios_l3gd20_cfg const* cfg)
 {
 	// This register enables the channels and sets the bandwidth
-	while(PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG1, PIOS_L3GD20_CTRL1_FASTEST |
-							 PIOS_L3GD20_CTRL1_PD | PIOS_L3GD20_CTRL1_ZEN |
-							 PIOS_L3GD20_CTRL1_YEN | PIOS_L3GD20_CTRL1_XEN) != 0);
-					   
+	while (PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG1, PIOS_L3GD20_CTRL1_FASTEST |
+	                          PIOS_L3GD20_CTRL1_PD | PIOS_L3GD20_CTRL1_ZEN |
+	                          PIOS_L3GD20_CTRL1_YEN | PIOS_L3GD20_CTRL1_XEN) != 0);
+
 	// Disable the high pass filters
-	while(PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG2, 0) != 0);
+	while (PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG2, 0) != 0);
+
 	// Set int2 to go high on data ready
-	while(PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG3, 0x08) != 0);
+	while (PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG3, 0x08) != 0);
+
 	// Select SPI interface, 500 deg/s, endianness?
-	while(PIOS_L3GD20_SetRange(cfg->range) != 0);
+	while (PIOS_L3GD20_SetRange(cfg->range) != 0);
+
 	// Enable FIFO, disable HPF
-	while(PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG5, 0x40) != 0);
+	while (PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG5, 0x40) != 0);
+
 	// Fifo stream mode
-	while(PIOS_L3GD20_SetReg(PIOS_L3GD20_FIFO_CTRL_REG, 0x40) != 0);
+	while (PIOS_L3GD20_SetReg(PIOS_L3GD20_FIFO_CTRL_REG, 0x40) != 0);
 }
 
 /**
@@ -180,13 +194,14 @@ static void PIOS_L3GD20_Config(struct pios_l3gd20_cfg const * cfg)
  */
 int32_t PIOS_L3GD20_SetRange(enum pios_l3gd20_range range)
 {
-	if(PIOS_L3GD20_Validate(dev) != 0)
+	if (PIOS_L3GD20_Validate(dev) != 0)
 		return -1;
 
 	dev->range = range;
-	if(PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG4, dev->range) != 0)
+
+	if (PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG4, dev->range) != 0)
 		return -2;
-	
+
 	return 0;
 }
 
@@ -196,13 +211,14 @@ int32_t PIOS_L3GD20_SetRange(enum pios_l3gd20_range range)
  */
 static int32_t PIOS_L3GD20_ClaimBus()
 {
-	if(PIOS_L3GD20_Validate(dev) != 0)
+	if (PIOS_L3GD20_Validate(dev) != 0)
 		return -1;
 
-	if(PIOS_SPI_ClaimBus(dev->spi_id) != 0)
+	if (PIOS_SPI_ClaimBus(dev->spi_id) != 0)
 		return -2;
 
-	PIOS_SPI_RC_PinSet(dev->spi_id,dev->slave_num,0);
+	PIOS_SPI_RC_PinSet(dev->spi_id, dev->slave_num, 0);
+
 	return 0;
 }
 
@@ -211,15 +227,16 @@ static int32_t PIOS_L3GD20_ClaimBus()
  * \param[in] pointer which receives if a task has been woken
  * @return 0 if successful, -1 for invalid device, -2 if unable to claim bus
  */
-static int32_t PIOS_L3GD20_ClaimBusIsr(bool *woken)
+static int32_t PIOS_L3GD20_ClaimBusIsr(bool* woken)
 {
-	if(PIOS_L3GD20_Validate(dev) != 0)
+	if (PIOS_L3GD20_Validate(dev) != 0)
 		return -1;
 
-	if(PIOS_SPI_ClaimBusISR(dev->spi_id, woken) < 0)
+	if (PIOS_SPI_ClaimBusISR(dev->spi_id, woken) < 0)
 		return -2;
 
-	PIOS_SPI_RC_PinSet(dev->spi_id,dev->slave_num,0);
+	PIOS_SPI_RC_PinSet(dev->spi_id, dev->slave_num, 0);
+
 	return 0;
 }
 
@@ -229,10 +246,10 @@ static int32_t PIOS_L3GD20_ClaimBusIsr(bool *woken)
  */
 static int32_t PIOS_L3GD20_ReleaseBus()
 {
-	if(PIOS_L3GD20_Validate(dev) != 0)
+	if (PIOS_L3GD20_Validate(dev) != 0)
 		return -1;
 
-	PIOS_SPI_RC_PinSet(dev->spi_id,dev->slave_num,1);
+	PIOS_SPI_RC_PinSet(dev->spi_id, dev->slave_num, 1);
 
 	return PIOS_SPI_ReleaseBus(dev->spi_id);
 }
@@ -242,12 +259,12 @@ static int32_t PIOS_L3GD20_ReleaseBus()
  * \param[in] pointer which receives if a task has been woken
  * @return 0 if successful, -1 for invalid device
  */
-static int32_t PIOS_L3GD20_ReleaseBusIsr(bool *woken)
+static int32_t PIOS_L3GD20_ReleaseBusIsr(bool* woken)
 {
-	if(PIOS_L3GD20_Validate(dev) != 0)
+	if (PIOS_L3GD20_Validate(dev) != 0)
 		return -1;
 
-	PIOS_SPI_RC_PinSet(dev->spi_id,dev->slave_num,1);
+	PIOS_SPI_RC_PinSet(dev->spi_id, dev->slave_num, 1);
 
 	return PIOS_SPI_ReleaseBusISR(dev->spi_id, woken);
 }
@@ -261,13 +278,14 @@ static int32_t PIOS_L3GD20_GetReg(uint8_t reg)
 {
 	uint8_t data;
 
-	if(PIOS_L3GD20_ClaimBus() != 0)
+	if (PIOS_L3GD20_ClaimBus() != 0)
 		return -1;
-	
-	PIOS_SPI_TransferByte(dev->spi_id,(0x80 | reg) ); // request byte
-	data = PIOS_SPI_TransferByte(dev->spi_id,0 );     // receive response
-	
+
+	PIOS_SPI_TransferByte(dev->spi_id, (0x80 | reg)); // request byte
+	data = PIOS_SPI_TransferByte(dev->spi_id, 0);     // receive response
+
 	PIOS_L3GD20_ReleaseBus();
+
 	return data;
 }
 
@@ -277,17 +295,18 @@ static int32_t PIOS_L3GD20_GetReg(uint8_t reg)
  * @param reg[in] Register address to be read
  * \param[in] task woken
  */
-static int32_t PIOS_L3GD20_GetRegIsr(uint8_t reg, bool *woken)
+static int32_t PIOS_L3GD20_GetRegIsr(uint8_t reg, bool* woken)
 {
 	uint8_t data;
 
-	if(PIOS_L3GD20_ClaimBusIsr(woken) != 0)
+	if (PIOS_L3GD20_ClaimBusIsr(woken) != 0)
 		return -1;
 
-	PIOS_SPI_TransferByte(dev->spi_id,(0x80 | reg) ); // request byte
-	data = PIOS_SPI_TransferByte(dev->spi_id,0 );     // receive response
+	PIOS_SPI_TransferByte(dev->spi_id, (0x80 | reg)); // request byte
+	data = PIOS_SPI_TransferByte(dev->spi_id, 0);     // receive response
 
 	PIOS_L3GD20_ReleaseBusIsr(woken);
+
 	return data;
 }
 
@@ -301,7 +320,7 @@ static int32_t PIOS_L3GD20_GetRegIsr(uint8_t reg, bool *woken)
  */
 static int32_t PIOS_L3GD20_SetReg(uint8_t reg, uint8_t data)
 {
-	if(PIOS_L3GD20_ClaimBus() != 0)
+	if (PIOS_L3GD20_ClaimBus() != 0)
 		return -1;
 
 	PIOS_SPI_TransferByte(dev->spi_id, 0x7f & reg);
@@ -318,15 +337,16 @@ static int32_t PIOS_L3GD20_SetReg(uint8_t reg, uint8_t data)
  * \returns The number of samples remaining in the fifo
  */
 uint32_t l3gd20_irq = 0;
-static int32_t PIOS_L3GD20_ReadGyros(struct pios_l3gd20_data * data)
+static int32_t PIOS_L3GD20_ReadGyros(struct pios_l3gd20_data* data)
 {
-	uint8_t buf[7] = {PIOS_L3GD20_GYRO_X_OUT_LSB | 0x80 | 0x40, 0, 0, 0, 0, 0, 0};
+	uint8_t buf[7] = { PIOS_L3GD20_GYRO_X_OUT_LSB | 0x80 | 0x40, 0, 0, 0, 0, 0, 0 };
 	uint8_t rec[7];
-	
-	if(PIOS_L3GD20_ClaimBus() != 0)
+
+	if (PIOS_L3GD20_ClaimBus() != 0)
 		return -1;
 
-	if(PIOS_SPI_TransferBlock(dev->spi_id, &buf[0], &rec[0], sizeof(buf), NULL) < 0) {
+	if (PIOS_SPI_TransferBlock(dev->spi_id, &buf[0], &rec[0], sizeof(buf), NULL) < 0)
+	{
 		PIOS_L3GD20_ReleaseBus();
 		data->gyro_x = 0;
 		data->gyro_y = 0;
@@ -334,12 +354,12 @@ static int32_t PIOS_L3GD20_ReadGyros(struct pios_l3gd20_data * data)
 		data->temperature = 0;
 		return -2;
 	}
-		
+
 	PIOS_L3GD20_ReleaseBus();
-	
-	memcpy((uint8_t *) &(data->gyro_x), &rec[1], 6);
+
+	memcpy((uint8_t*)&data->gyro_x, &rec[1], 6);
 	data->temperature = PIOS_L3GD20_GetReg(PIOS_L3GD20_OUT_TEMP);
-	
+
 	return 0;
 }
 
@@ -350,24 +370,30 @@ static int32_t PIOS_L3GD20_ReadGyros(struct pios_l3gd20_data * data)
 int32_t PIOS_L3GD20_ReadID()
 {
 	int32_t l3gd20_id = PIOS_L3GD20_GetReg(PIOS_L3GD20_WHOAMI);
-	if(l3gd20_id < 0)
+
+	if (l3gd20_id < 0)
 		return -1;
+
 	return l3gd20_id;
 }
 
-static float PIOS_L3GD20_GetScale() 
+static float PIOS_L3GD20_GetScale()
 {
-	if(PIOS_L3GD20_Validate(dev) != 0)
+	if (PIOS_L3GD20_Validate(dev) != 0)
 		return -1;
 
-	switch (dev->range) {
-		case PIOS_L3GD20_SCALE_250_DEG:
-			return 0.00875f;
-		case PIOS_L3GD20_SCALE_500_DEG:
-			return 0.01750f;
-		case PIOS_L3GD20_SCALE_2000_DEG:
-			return 0.070f;
+	switch (dev->range)
+	{
+	case PIOS_L3GD20_SCALE_250_DEG:
+		return 0.00875f;
+
+	case PIOS_L3GD20_SCALE_500_DEG:
+		return 0.01750f;
+
+	case PIOS_L3GD20_SCALE_2000_DEG:
+		return 0.070f;
 	}
+
 	return 0;
 }
 
@@ -379,11 +405,13 @@ static float PIOS_L3GD20_GetScale()
 uint8_t PIOS_L3GD20_Test(void)
 {
 	int32_t l3gd20_id = PIOS_L3GD20_ReadID();
-	if(l3gd20_id < 0)
+
+	if (l3gd20_id < 0)
 		return -1;
 
 	uint8_t id = l3gd20_id;
-	if(id == 0xD4)
+
+	if (id == 0xD4)
 		return 0;
 
 	return -2;
@@ -397,22 +425,24 @@ bool PIOS_L3GD20_IRQHandler(void)
 	l3gd20_irq++;
 
 	struct pios_l3gd20_data data;
-	uint8_t buf[7] = {PIOS_L3GD20_GYRO_X_OUT_LSB | 0x80 | 0x40, 0, 0, 0, 0, 0, 0};
+	uint8_t buf[7] = { PIOS_L3GD20_GYRO_X_OUT_LSB | 0x80 | 0x40, 0, 0, 0, 0, 0, 0 };
 	uint8_t rec[7];
 
 	/* This code duplicates ReadGyros above but uses ClaimBusIsr */
 	bool woken = false;
-	if(PIOS_L3GD20_ClaimBusIsr(&woken) != 0)
+
+	if (PIOS_L3GD20_ClaimBusIsr(&woken) != 0)
 		return woken;
-	
-	if(PIOS_SPI_TransferBlock(dev->spi_id, &buf[0], &rec[0], sizeof(buf), NULL) < 0) {
+
+	if (PIOS_SPI_TransferBlock(dev->spi_id, &buf[0], &rec[0], sizeof(buf), NULL) < 0)
+	{
 		PIOS_L3GD20_ReleaseBusIsr(&woken);
 		return woken;
 	}
-	
+
 	PIOS_L3GD20_ReleaseBusIsr(&woken);
-	
-	memcpy((uint8_t *) &(data.gyro_x), &rec[1], 6);
+
+	memcpy((uint8_t*)&data.gyro_x, &rec[1], 6);
 
 	// TODO: This reordering is specific to the FlyingF3 chip placement.  Whenever
 	// this code is used on another board add an orientation mapping to the configuration
@@ -424,8 +454,8 @@ bool PIOS_L3GD20_IRQHandler(void)
 	normalized_data.temperature = PIOS_L3GD20_GetRegIsr(PIOS_L3GD20_OUT_TEMP, &woken);
 
 	portBASE_TYPE xHigherPriorityTaskWoken;
-	xQueueSendToBackFromISR(dev->queue, (void *) &normalized_data, &xHigherPriorityTaskWoken);
-	
+	xQueueSendToBackFromISR(dev->queue, (void*)&normalized_data, &xHigherPriorityTaskWoken);
+
 	return woken || (xHigherPriorityTaskWoken == pdTRUE);
 }
 
