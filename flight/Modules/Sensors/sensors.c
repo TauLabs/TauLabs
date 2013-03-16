@@ -201,6 +201,7 @@ static void SensorsTask(void *parameters)
 
 		uint32_t timeval = PIOS_DELAY_GetRaw();
 
+		//Block on gyro data but nothing else
 		xQueueHandle queue;
 		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_GYRO);
 		if(queue == NULL || xQueueReceive(queue, (void *) &gyros, SENSOR_PERIOD) == errQUEUE_EMPTY) {
@@ -208,12 +209,12 @@ static void SensorsTask(void *parameters)
 			continue;
 		}
 
-		// As it says below, because the rest of the code expects the accel to be ready when
-		// the gyro is we must block here too
 		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_ACCEL);
-		if(queue == NULL || xQueueReceive(queue, (void *) &accels, SENSOR_PERIOD) == errQUEUE_EMPTY) {
-			good_runs = 0;
-			continue;
+		if(queue == NULL || xQueueReceive(queue, (void *) &accels, 0) == errQUEUE_EMPTY) {
+			//If no new accels data is ready, reuse the latest sample
+			AccelsData accelsData;
+			AccelsGet(&accelsData);
+			AccelsSet(&accelsData);
 		}
 		else
 			update_accels(&accels);
