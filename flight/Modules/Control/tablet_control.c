@@ -41,6 +41,8 @@
 #include "tabletinfo.h"
 #include "systemsettings.h"
 
+#if !defined(COPTERCONTROL)
+
 //! Private methods
 int32_t tabletInfo_to_ned(TabletInfoData *tabletInfo, float *NED);
 
@@ -225,3 +227,28 @@ int32_t tabletInfo_to_ned(TabletInfoData *tabletInfo, float *NED)
 
 	return 0;
 }
+#else
+
+int32_t tablet_control_initialize()
+{
+	return 0;
+}
+
+//! Process updates for the tablet controller
+int32_t tablet_control_update()
+{
+	return 0;
+}
+
+int32_t tablet_control_select()
+{
+	return 0;
+}
+
+//! When not supported force disarming
+enum control_events tablet_control_get_events()
+{
+	return CONTROL_EVENTS_DISARM;
+}
+
+#endif
