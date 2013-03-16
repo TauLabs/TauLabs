@@ -60,7 +60,6 @@ struct mpu6050_dev
 	xTaskHandle TaskHandle;
 	xSemaphoreHandle data_ready_sema;
 	const struct pios_mpu60x0_cfg* cfg;
-	volatile bool configured;
 	enum pios_mpu6050_dev_magic magic;
 };
 
@@ -88,8 +87,6 @@ static struct mpu6050_dev* PIOS_MPU6050_alloc(void)
 	if (!mpu6050_dev) return (NULL);
 
 	mpu6050_dev->magic = PIOS_MPU6050_DEV_MAGIC;
-
-	mpu6050_dev->configured = false;
 
 	mpu6050_dev->accel_queue = xQueueCreate(PIOS_MPU6000_MAX_QUEUESIZE, sizeof(struct pios_sensor_gyro_data));
 
@@ -215,8 +212,6 @@ static void PIOS_MPU6050_Config(struct pios_mpu60x0_cfg const* cfg)
 
 	// Interrupt configuration
 	PIOS_MPU6050_SetReg(PIOS_MPU60X0_INT_EN_REG, cfg->interrupt_en);
-
-	dev->configured = true;
 }
 
 /**
@@ -417,6 +412,9 @@ uint8_t PIOS_MPU6050_Test(void)
 */
 bool PIOS_MPU6050_IRQHandler(void)
 {
+	if (PIOS_MPU6050_Validate(dev) != 0)
+		return false;
+
 	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
 
 	xSemaphoreGiveFromISR(dev->data_ready_sema, &xHigherPriorityTaskWoken);
@@ -428,12 +426,6 @@ static void PIOS_MPU6050_Task(void* parameters)
 {
 	while (1)
 	{
-		if (PIOS_MPU6050_Validate(dev) != 0 || dev->configured == false)
-		{
-			vTaskDelay(100 * portTICK_RATE_MS);
-			continue;
-		}
-
 		//Wait for data ready interrupt
 		if (xSemaphoreTake(dev->data_ready_sema, portMAX_DELAY) != pdTRUE)
 			continue;

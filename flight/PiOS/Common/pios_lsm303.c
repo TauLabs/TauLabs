@@ -57,7 +57,6 @@ struct lsm303_dev
 	xTaskHandle TaskHandle;
 	xSemaphoreHandle data_ready_sema;
 	const struct pios_lsm303_cfg* cfg;
-	volatile bool configured;
 	enum pios_lsm303_dev_magic magic;
 };
 
@@ -103,8 +102,6 @@ static struct lsm303_dev* PIOS_LSM303_alloc(void)
 	if (!lsm303_dev) return (NULL);
 
 	lsm303_dev->magic = PIOS_LSM303_DEV_MAGIC;
-
-	lsm303_dev->configured = false;
 
 	lsm303_dev->queue_accel = xQueueCreate(PIOS_LSM303_MAX_QUEUESIZE, sizeof(struct pios_sensor_accel_data));
 
@@ -243,8 +240,6 @@ static void PIOS_LSM303_Config(struct pios_lsm303_cfg const* cfg)
 
 	// Set the mag range
 	PIOS_LSM303_Mag_SetRange(PIOS_LSM303_MAG_1_9GA);
-
-	dev->configured = true;
 }
 
 /**
@@ -635,6 +630,9 @@ int32_t PIOS_LSM303_Mag_Test(void)
 */
 bool PIOS_LSM303_IRQHandler(void)
 {
+	if (PIOS_LSM303_Validate(dev) != 0)
+		return false;
+
 	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
 
 	xSemaphoreGiveFromISR(dev->data_ready_sema, &xHigherPriorityTaskWoken);
@@ -646,13 +644,6 @@ static void PIOS_LSM303_Task(void* parameters)
 {
 	while (1)
 	{
-		// Do not try and process sensor until the device is valid
-		if (PIOS_LSM303_Validate(dev) != 0 || dev->configured == false)
-		{
-			vTaskDelay(100 * portTICK_RATE_MS);
-			continue;
-		}
-
 		//Wait for data ready interrupt
 		if (xSemaphoreTake(dev->data_ready_sema, 5 * portTICK_RATE_MS) != pdTRUE)
 		{
