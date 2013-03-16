@@ -395,11 +395,11 @@ enum control_selection transmitter_control_selected_controller()
 {
 	ManualControlCommandGet(&cmd);
 	if (cmd.Connected != MANUALCONTROLCOMMAND_CONNECTED_TRUE) {
-		return TRANSMITTER_MISSING;
+		return CONTROL_SELECTION_FAILSAFE;
 	} else if (get_flight_mode() == MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_TABLETCONTROL) {
-		return TRANSMITTER_PRESENT_SELECT_TABLET;
+		return CONTROL_SELECTION_TABLET;
 	} else {
-		return TRANSMITTER_PRESENT_AND_USED;
+		return CONTROL_SELECTION_TRANSMITTER;
 	}
 }
 
