@@ -161,7 +161,7 @@ int32_t PIOS_L3GD20_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_
  * \param[in] PIOS_L3GD20_ConfigTypeDef struct to be used to configure sensor.
 *
 */
-static void PIOS_L3GD20_Config(struct pios_l3gd20_cfg const* cfg)
+static void PIOS_L3GD20_Config(const struct pios_l3gd20_cfg* cfg)
 {
 	// This register enables the channels and sets the bandwidth
 	while (PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG1, PIOS_L3GD20_CTRL1_FASTEST |
