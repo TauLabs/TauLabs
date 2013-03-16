@@ -177,11 +177,8 @@ static void PIOS_L3GD20_Config(struct pios_l3gd20_cfg const* cfg)
 	// Select SPI interface, 500 deg/s, endianness?
 	while (PIOS_L3GD20_SetRange(cfg->range) != 0);
 
-	// Enable FIFO, disable HPF
-	while (PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG5, 0x40) != 0);
-
-	// Fifo stream mode
-	while (PIOS_L3GD20_SetReg(PIOS_L3GD20_FIFO_CTRL_REG, 0x40) != 0);
+	// disable HPF
+	while (PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG5, 0x00) != 0);
 }
 
 /**
