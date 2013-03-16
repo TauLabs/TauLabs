@@ -70,7 +70,7 @@ struct QxtFifoNode {
     }
    
     QByteArray content;
-    QBasicAtomicPointer<QxtFifoNode> next;
+    QAtomicPointer<QxtFifoNode> next;
 };
 
 class QxtFifoPrivate : public QxtPrivate<QxtFifo> {
@@ -81,8 +81,8 @@ public:
         available = 0;
     }
 
-    QBasicAtomicPointer<QxtFifoNode> head, tail;
-    QBasicAtomicInt available;
+    QAtomicPointer<QxtFifoNode> head, tail;
+    QAtomicInt available;
 };
 
 /*!

@@ -47,12 +47,12 @@ public:
         return false;
     }
 #endif // Q_WS_WIN
-#if defined(Q_WS_MAC) || defined(QXT_DOXYGEN_RUN)
+#if defined(Q_OS_MAC) || defined(QXT_DOXYGEN_RUN)
     virtual bool macEventFilter(EventHandlerCallRef, EventRef)
     {
         return false;
     }
-#endif // Q_WS_MAC
+#endif // Q_OS_MAC
 };
 
 #endif // QXTNATIVEEVENTFILTER_H

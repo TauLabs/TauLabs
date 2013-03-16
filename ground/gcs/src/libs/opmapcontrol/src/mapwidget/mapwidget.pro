@@ -1,6 +1,7 @@
 TEMPLATE = lib
 TARGET = opmapwidget
 DEFINES += OPMAPWIDGET_LIBRARY
+QT+=widgets
 include(../../../../taulabslibrary.pri)
 
 # DESTDIR = ../build

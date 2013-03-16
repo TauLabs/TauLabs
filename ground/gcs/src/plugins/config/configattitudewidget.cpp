@@ -3,7 +3,7 @@
  *
  * @file       configattitudewidget.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     PhoenixPilot, http://github.com/PhoenixPIlot Copyright (C) 2012.
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -26,15 +26,16 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 #include "configattitudewidget.h"
+#include "physical_constants.h"
 
 #include "math.h"
 #include <QDebug>
 #include <QTimer>
 #include <QStringList>
-#include <QtGui/QWidget>
-#include <QtGui/QTextEdit>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QPushButton>
+#include <QWidget>
+#include <QTextEdit>
+#include <QVBoxLayout>
+#include <QPushButton>
 #include <QMessageBox>
 #include <QThread>
 #include <QErrorMessage>
@@ -50,17 +51,11 @@
 #include <gyros.h>
 #include <magnetometer.h>
 #include <baroaltitude.h>
+#include <stabilizationdesired.h>
+#include <manualcontrolcommand.h>
 
-#define GRAVITY 9.81f
 #include "assertions.h"
 #include "calibration.h"
-
-#define sign(x) ((x < 0) ? -1 : 1)
-
-// Uncomment this to enable 6 point calibration on the accels
-#define SIX_POINT_CAL_ACCEL
-
-const double ConfigAttitudeWidget::maxVarValue = 0.1;
 
 // *****************
 
@@ -268,13 +263,16 @@ ConfigAttitudeWidget::ConfigAttitudeWidget(QWidget *parent) :
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->startTempCal, SLOT(setEnabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->acceptTempCal, SLOT(setDisabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->cancelTempCal, SLOT(setDisabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->useTransmitterLevel, SLOT(setDisabled(bool)));
 
     m_ui->noiseMeasurementStart->setEnabled(true);
     m_ui->sixPointStart->setEnabled(true);
     m_ui->accelBiasStart->setEnabled(true);
+    m_ui->useTransmitterLevel->setEnabled(true);
 
     // Currently not in the calibration object
     connect(m_ui->noiseMeasurementStart, SIGNAL(clicked()), this, SLOT(doStartNoiseMeasurement()));
+    connect(m_ui->useTransmitterLevel, SIGNAL(clicked()), this, SLOT(doUseTransmitterTrim()));
 
     refreshWidgetsValues();
 }
@@ -284,6 +282,44 @@ ConfigAttitudeWidget::~ConfigAttitudeWidget()
     // Do nothing
 }
 
+/**
+ * @brief ConfigAttitudeWidget::doUseTransmitterTrim Use the transmitter
+ * trim values in attitude mode to update the roll and pitch angles for
+ * the board to get better in flight leveling.
+ */
+void ConfigAttitudeWidget::doUseTransmitterTrim()
+{
+    QMessageBox msgBox;
+
+    ManualControlCommand* manualControl = ManualControlCommand::GetInstance(getObjectManager());
+    Q_ASSERT(manualControl);
+    if (manualControl == NULL)
+        return;
+
+    StabilizationDesired* stabDesired = StabilizationDesired::GetInstance(getObjectManager());
+    Q_ASSERT(stabDesired);
+    if (stabDesired == NULL)
+        return;
+
+    ManualControlCommand::DataFields manualControlData = manualControl->getData();
+    StabilizationDesired::DataFields stabDesiredData = stabDesired->getData();
+
+    if (manualControlData.Connected != ManualControlCommand::CONNECTED_TRUE ||
+        stabDesiredData.StabilizationMode[StabilizationDesired::STABILIZATIONMODE_PITCH] != StabilizationDesired::STABILIZATIONMODE_ATTITUDE ||
+        stabDesiredData.StabilizationMode[StabilizationDesired::STABILIZATIONMODE_ROLL] != StabilizationDesired::STABILIZATIONMODE_ATTITUDE) {
+
+        msgBox.setText(tr("Either the transmitter is not connected or roll and pitch are not in attitude mode.  Aborting."));
+        msgBox.exec();
+
+        return;
+    }
+
+    m_ui->rollRotation->setValue(m_ui->rollRotation->value() - stabDesiredData.Roll);
+    m_ui->pitchRotation->setValue(m_ui->rollRotation->value() - stabDesiredData.Pitch);
+
+    msgBox.setText(tr("The rotation values have been applied.  If you are happy, press save and center the trim on your transmitter"));
+    msgBox.exec();
+}
 
 void ConfigAttitudeWidget::showEvent(QShowEvent *event)
 {

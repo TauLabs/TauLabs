@@ -26,13 +26,13 @@
  */
 #include "uavtalkrelayplugin.h"
 #include "uavtalkrelayoptionspage.h"
-#include <QtGui/QLabel>
-#include <QtGui/QComboBox>
-#include <QtGui/QSpinBox>
-#include <QtGui/QDoubleSpinBox>
-#include <QtGui/QRadioButton>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QVBoxLayout>
+#include <QLabel>
+#include <QComboBox>
+#include <QSpinBox>
+#include <QDoubleSpinBox>
+#include <QRadioButton>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include "ui_uavtalkrelayoptionspage.h"
 
 UavTalkRelayOptionsPage::UavTalkRelayOptionsPage(QObject *parent) :

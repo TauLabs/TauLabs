@@ -34,6 +34,8 @@ class MagicWaypointGadgetFactory;
 
 class MagicWaypointPlugin : public ExtensionSystem::IPlugin
 {
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.MagicWaypoint" FILE "MagicWaypoint.json")
 public:
     MagicWaypointPlugin();
    ~MagicWaypointPlugin();

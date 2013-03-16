@@ -3,7 +3,8 @@ TARGET = OpenPilot
 include(../../taulabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
 
-OTHER_FILES += OpenPilot.pluginspec
+OTHER_FILES += OpenPilot.pluginspec \
+                OpenPilot.json
 
 HEADERS += \
     openpilotplugin.h \

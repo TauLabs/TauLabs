@@ -28,7 +28,7 @@
 #ifndef PathPlannerGADGETWIDGET_H_
 #define PathPlannerGADGETWIDGET_H_
 
-#include <QtGui/QLabel>
+#include <QLabel>
 #include <QItemSelectionModel>
 #include "flightdatamodel.h"
 #include "modeluavoproxy.h"

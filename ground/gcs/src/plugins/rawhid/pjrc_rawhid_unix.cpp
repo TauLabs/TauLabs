@@ -2,7 +2,7 @@
  ******************************************************************************
  * @file       pjrc_rawhid_unix.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2013
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup RawHIDPlugin Raw HID Plugin
@@ -294,7 +294,7 @@ QString pjrc_rawhid::getserial(int num)
         return "";
     }
 
-    return QString().fromAscii((char*)buf,-1);
+    return QString().fromUtf8((char*)buf,-1);
 }
 
 //  close - close a device

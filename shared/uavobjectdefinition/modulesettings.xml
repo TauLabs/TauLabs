@@ -1,7 +1,7 @@
 <xml>
 	<object name="ModuleSettings" singleinstance="true" settings="true">
 		<description>Optional module enable/disable configuration.</description>
-		<field name="State" units="" type="enum" options="Disabled,Enabled" defaultvalue="Disabled">
+		<field name="AdminState" units="" type="enum" options="Disabled,Enabled" defaultvalue="Disabled">
 			<elementnames>
 				<elementname>Airspeed</elementname>
 				<elementname>Altitude</elementname>

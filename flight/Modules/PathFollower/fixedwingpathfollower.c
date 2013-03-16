@@ -3,6 +3,7 @@
  *
  * @file       fixedwingpathfollower.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      This module compared @ref PositionActuatl to @ref ActiveWaypoint 
  * and sets @ref StabilizationDesired.  It only does this when the FlightMode field
  * of @ref ManualControlCommand is Auto.
@@ -42,6 +43,7 @@
  */
 
 #include "openpilot.h"
+#include "physical_constants.h"
 #include "fixedwingpathfollower.h"
 #include "fixedwingairspeeds.h"
 
@@ -59,10 +61,6 @@
 #define MAX_QUEUE_SIZE 4
 #define STACK_SIZE_BYTES 750
 #define TASK_PRIORITY (tskIDLE_PRIORITY+2)
-#define F_PI 3.14159265358979323846f
-#define RAD2DEG (180.0f/F_PI)
-#define DEG2RAD (F_PI/180.0f)
-#define GEE 9.805f
 #define CRITICAL_ERROR_THRESHOLD_MS 5000	//Time in [ms] before an error becomes a critical error
 
 // Private types
@@ -235,9 +233,9 @@ uint8_t waypointFollowing(uint8_t flightMode, FixedWingPathFollowerSettingsCCDat
 	//Proxy because instead of m*(1/2*v^2+g*h), it's v^2+2*gh. This saves processing power
 	float totalEnergyProxySetpoint = powf(pathDesired.EndingVelocity,
 					      2.0f) -
-	    2.0f * 9.8f * pathDesired.End[2];
+	    2.0f * GRAVITY * pathDesired.End[2];
 	float totalEnergyProxyActual =
-	    powf(trueAirspeed, 2.0f) - 2.0f * 9.8f * positionActual.Down;
+	    powf(trueAirspeed, 2.0f) - 2.0f * GRAVITY * positionActual.Down;
 	float errorTotalEnergy =
 	    totalEnergyProxySetpoint - totalEnergyProxyActual;
 
@@ -354,10 +352,10 @@ uint8_t waypointFollowing(uint8_t flightMode, FixedWingPathFollowerSettingsCCDat
 
 	bool direction;
 
-	float chi_inf = F_PI / 4.0f;	//THIS NEEDS TO BE A FUNCTION OF HOW LONG OUR PATH IS.
+	float chi_inf = PI / 4.0f;	//THIS NEEDS TO BE A FUNCTION OF HOW LONG OUR PATH IS.
 
 	//Saturate chi_inf. I.e., never approach the path at a steeper angle than 45 degrees
-	chi_inf = chi_inf < F_PI / 4.0f ? F_PI / 4.0f : chi_inf;
+	chi_inf = chi_inf < PI / 4.0f ? PI / 4.0f : chi_inf;
 //========================================      
 
 	float rho;
@@ -372,7 +370,7 @@ uint8_t waypointFollowing(uint8_t flightMode, FixedWingPathFollowerSettingsCCDat
 	//Calculate radius, rho, using r*omega=v and omega = g/V_g * tan(phi)
 	//THIS SHOULD ONLY BE CALCULATED ONCE, INSTEAD OF EVERY TIME
 	rho = powf(pathDesired.EndingVelocity,
-		 2) / (9.805f * tanf(fabs(ROLL_FOR_HOLDING_CIRCLE * DEG2RAD)));
+		 2) / (GRAVITY * tanf(fabs(ROLL_FOR_HOLDING_CIRCLE * DEG2RAD)));
 
 	typedef enum {
 		LINE,
@@ -450,10 +448,10 @@ uint8_t waypointFollowing(uint8_t flightMode, FixedWingPathFollowerSettingsCCDat
 	headingError_R = headingCommand_R - headingActual_R;
 
 	//Wrap heading error around circle
-	if (headingError_R < -F_PI)
-		headingError_R += 2.0f * F_PI;
-	if (headingError_R > F_PI)
-		headingError_R -= 2.0f * F_PI;
+	if (headingError_R < -PI)
+		headingError_R += 2.0f * PI;
+	if (headingError_R > PI)
+		headingError_R -= 2.0f * PI;
 
 	//GET RID OF THE RAD2DEG. IT CAN BE FACTORED INTO HeadingPI
 	float rolllimit_neutral =
@@ -520,16 +518,16 @@ float followStraightLine(float r[3], float q[3], float p[3], float psi,
 			 float delT)
 {
 	float chi_q = atan2f(q[1], q[0]);
-	while (chi_q - psi < -F_PI) {
-		chi_q += 2.0f * F_PI;
+	while (chi_q - psi < -PI) {
+		chi_q += 2.0f * PI;
 	}
-	while (chi_q - psi > F_PI) {
-		chi_q -= 2.0f * F_PI;
+	while (chi_q - psi > PI) {
+		chi_q -= 2.0f * PI;
 	}
 
 	float err_p = -sinf(chi_q) * (p[0] - r[0]) + cosf(chi_q) * (p[1] - r[1]);
 	integral->lineError += delT * err_p;
-	float psi_command = chi_q - chi_inf * 2.0f / F_PI * atanf(k_path * err_p) -
+	float psi_command = chi_q - chi_inf * 2.0f / PI * atanf(k_path * err_p) -
 	    k_psi_int * integral->lineError;
 
 	return psi_command;
@@ -550,16 +548,16 @@ float followOrbit(float c[3], float rho, bool direction, float p[3], float psi,
 	integral->circleError += err_orbit * delT;
 
 	float phi = atan2f(pece, pncn);
-	while (phi - psi < -F_PI) {
-		phi = phi + 2.0f * F_PI;
+	while (phi - psi < -PI) {
+		phi = phi + 2.0f * PI;
 	}
-	while (phi - psi > F_PI) {
-		phi = phi - 2.0f * F_PI;
+	while (phi - psi > PI) {
+		phi = phi - 2.0f * PI;
 	}
 
 	float psi_command = (direction == true) ?
-	    phi + (F_PI / 2.0f + atanf(k_orbit * err_orbit) +
-		   k_psi_int * integral->circleError) : phi - (F_PI / 2.0f +
+	    phi + (PI / 2.0f + atanf(k_orbit * err_orbit) +
+		   k_psi_int * integral->circleError) : phi - (PI / 2.0f +
 							       atanf(k_orbit *
 								     err_orbit) +
 							       k_psi_int *

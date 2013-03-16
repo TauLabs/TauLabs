@@ -43,9 +43,9 @@
 #include <QtCore/QSettings>
 #include <QtCore/QVariant>
 
-#include <QtGui/QMessageBox>
-#include <QtGui/QApplication>
-#include <QtGui/QMainWindow>
+#include <QMessageBox>
+#include <QApplication>
+#include <QMainWindow>
 
 enum { OptionIndent = 4, DescriptionIndent = 24 };
 
@@ -241,7 +241,6 @@ int main(int argc, char **argv)
 #ifdef Q_OS_LINUX
     QApplication::setAttribute(Qt::AA_X11InitThreads, true);
     // This should have faster performance on linux
-    QApplication::setGraphicsSystem("raster");
 #endif
 
     SharedTools::QtSingleApplication app((QLatin1String(appNameC)), argc, argv);

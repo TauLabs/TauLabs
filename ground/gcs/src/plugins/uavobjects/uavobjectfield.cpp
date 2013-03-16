@@ -191,17 +191,6 @@ void UAVObjectField::limitsInitialize(const QString &limits)
         ++index;
 
     }
-    foreach(QList<LimitStruct> limitList,elementLimits)
-    {
-        foreach(LimitStruct limit,limitList)
-        {
-            qDebug()<<"Limit type"<<limit.type<<"for board"<<limit.board<<"for field"<<getName();
-            foreach(QVariant var,limit.values)
-            {
-                qDebug()<<"value"<<var;
-            }
-        }
-    }
 }
 bool UAVObjectField::isWithinLimits(QVariant var,quint32 index, int board)
 {
@@ -1030,7 +1019,7 @@ void UAVObjectField::setValue(const QVariant& value, quint32 index)
         case STRING:
         {
             QString str = value.toString();
-            QByteArray barray = str.toAscii();
+            QByteArray barray = str.toLatin1();
             quint32 index;
             for (index = 0; index < (quint32)barray.length() && index < (numElements-1); ++index)
             {

@@ -7,7 +7,11 @@ QT += network
 include(../../taulabsgcsplugin.pri) 
 include(../../plugins/coreplugin/coreplugin.pri) 
 include(../../plugins/uavobjects/uavobjects.pri)
-include(../../libs/sdlgamepad/sdlgamepad.pri)
+
+SDL {
+    DEFINES += USE_SDL
+    include(../../libs/sdlgamepad/sdlgamepad.pri)
+}
 
 HEADERS += gcscontrolgadget.h \
     gcscontrolgadgetconfiguration.h \
@@ -25,7 +29,8 @@ SOURCES += gcscontrolgadgetfactory.cpp
 SOURCES += gcscontrolplugin.cpp
 SOURCES += joystickcontrol.cpp
 
-OTHER_FILES += GCSControl.pluginspec
+OTHER_FILES += GCSControl.pluginspec \
+                GCSControl.json
 
 FORMS += gcscontrol.ui \
     gcscontrolgadgetoptionspage.ui

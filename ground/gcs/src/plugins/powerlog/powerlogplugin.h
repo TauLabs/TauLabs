@@ -105,7 +105,7 @@ private:
 class PowerlogPlugin : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
-
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.PowerLog" FILE "PowerLog.json")
 
 public:
     PowerlogPlugin();

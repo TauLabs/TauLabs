@@ -8,6 +8,7 @@
  *
  * @file       osdgen.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      OSD gen module, handles OSD draw. Parts from CL-OSD and SUPEROSD projects
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -31,6 +32,7 @@
 // ****************
 
 #include "openpilot.h"
+#include "physical_constants.h"
 #include "osdgen.h"
 #include "attitudeactual.h"
 #include "gpsposition.h"
@@ -1897,7 +1899,7 @@ void draw_artificial_horizon(float angle, float pitch, int16_t l_x, int16_t l_y,
 	int16_t x1,x2;
 	int16_t y1,y2;
 	int16_t refx,refy;
-	alpha=DEG2RAD(angle);
+	alpha=angle * DEG2RAD;
 	refx=l_x + size/2;
 	refy=l_y + size/2;
 
@@ -2102,10 +2104,10 @@ void calcHomeArrow(int16_t m_yaw)
     float dAlt=uavAlt-gcsAlt; // Altitude difference
 
     // Convert to radians
-    lat1 = DEG2RAD(home.Latitude)/10000000.0f; // Home lat
-    lon1 = DEG2RAD(home.Longitude)/10000000.0f; // Home lon
-    lat2 = DEG2RAD(gpsData.Latitude)/10000000.0f; // UAV lat
-    lon2 = DEG2RAD(gpsData.Longitude)/10000000.0f; // UAV lon
+    lat1 = home.Latitude/10000000.0f * DEG2RAD; // Home lat
+    lon1 = home.Longitude/10000000.0f * DEG2RAD; // Home lon
+    lat2 = gpsData.Latitude/10000000.0f * DEG2RAD; // UAV lat
+    lon2 = gpsData.Longitude/10000000.0f * DEG2RAD; // UAV lon
 
     // Bearing
     /**
@@ -2116,7 +2118,7 @@ void calcHomeArrow(int16_t m_yaw)
     **/
     y = sinf(lon2-lon1) * cosf(lat2);
     x = cosf(lat1) * sinf(lat2) - sinf(lat1) * cosf(lat2) * cosf(lon2-lon1);
-    brng = RAD2DEG(atan2f(y,x));
+    brng = atan2f(y,x) * RAD2DEG;
     if(brng<0)
         brng+=360;
 
@@ -2144,7 +2146,7 @@ void calcHomeArrow(int16_t m_yaw)
 
     // Elevation  v depends servo direction
     if(d!=0)
-        elevation = 90-RAD2DEG(atanf(dAlt/d));
+        elevation = 90-(atanf(dAlt/d) * RAD2DEG);
     else
         elevation = 0;
     //! TODO: sanity check

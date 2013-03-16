@@ -29,12 +29,18 @@
 #define GCSControlPLUGIN_H_
 
 #include <extensionsystem/iplugin.h>
+
+#if defined(USE_SDL)
 #include "sdlgamepad/sdlgamepad.h"
+#endif
 
 class GCSControlGadgetFactory;
 
 class GCSControlPlugin : public ExtensionSystem::IPlugin
 {
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.GCSControlPlugin" FILE "GCSControl.json")
+
 public:
     GCSControlPlugin();
    ~GCSControlPlugin();
@@ -42,7 +48,10 @@ public:
    void extensionsInitialized();
    bool initialize(const QStringList & arguments, QString * errorString);
    void shutdown();
+
+#if defined(USE_SDL)
    SDLGamepad *sdlGamepad;
+#endif
 
 private:
    GCSControlGadgetFactory *mf;

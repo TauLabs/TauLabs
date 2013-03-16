@@ -34,6 +34,8 @@ class GpsDisplayGadgetFactory;
 
 class GpsDisplayPlugin : public ExtensionSystem::IPlugin
 {
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.GpsDisplayPlugin" FILE "GpsDisplayGadget.json")
 public:
         GpsDisplayPlugin();
         ~GpsDisplayPlugin();

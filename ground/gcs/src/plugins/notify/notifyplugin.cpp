@@ -38,7 +38,8 @@
 
 #include <iostream>
 #include "qxttimer.h"
-#include "backendcapabilities.h"
+#include <phonon/BackendCapabilities>
+#include <phonon/phonon>
 
 static const QString VERSION = "1.0.0";
 
@@ -525,5 +526,3 @@ bool SoundNotifyPlugin::playNotification(NotificationItem* notification)
 
     return false;
 }
-
-Q_EXPORT_PLUGIN(SoundNotifyPlugin)
