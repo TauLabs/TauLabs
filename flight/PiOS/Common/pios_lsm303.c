@@ -212,11 +212,6 @@ static void PIOS_LSM303_Config(struct pios_lsm303_cfg const * cfg)
 
 	// Enabling the FIFO reduces resolution to 10-bits. It's default behaviour is disabled.
 	// This was found through trial and error. Is not documented in datasheet. 
-	// Enable FIFO
-	//while (PIOS_LSM303_Accel_SetReg(PIOS_LSM303_CTRL_REG5_A, PIOS_LSM303_CTRL5_FIFO_EN) != 0);
-
-	// Fifo stream mode
-	//while (PIOS_LSM303_Accel_SetReg(PIOS_LSM303_FIFO_CTRL_REG_A, PIOS_LSM303_FIFO_MODE_STREAM) != 0);
 
 	/*
 	 * mag
