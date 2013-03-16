@@ -42,7 +42,8 @@ enum pios_lsm303_dev_magic {
 	PIOS_LSM303_DEV_MAGIC = 0xef8e9e1d,
 };
 
-#define PIOS_LSM303_MAX_DOWNSAMPLE 1
+#define PIOS_LSM303_MAX_QUEUESIZE 2
+
 struct lsm303_dev {
 	uint32_t i2c_id;
 	uint8_t i2c_addr_accel;
@@ -98,13 +99,13 @@ static struct lsm303_dev * PIOS_LSM303_alloc(void)
 	
 	lsm303_dev->magic = PIOS_LSM303_DEV_MAGIC;
 	
-	lsm303_dev->queue_accel = xQueueCreate(PIOS_LSM303_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_accel_data));
+	lsm303_dev->queue_accel = xQueueCreate(PIOS_LSM303_MAX_QUEUESIZE, sizeof(struct pios_sensor_accel_data));
 	if (lsm303_dev->queue_accel == NULL) {
 		vPortFree(lsm303_dev);
 		return NULL;
 	}
 
-	lsm303_dev->queue_mag = xQueueCreate(PIOS_LSM303_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_mag_data));
+	lsm303_dev->queue_mag = xQueueCreate(PIOS_LSM303_MAX_QUEUESIZE, sizeof(struct pios_sensor_mag_data));
 	vQueueAddToRegistry(lsm303_dev->queue_mag, (signed char*)"pios_lsm303_queue_mag");
 	if (lsm303_dev->queue_mag == NULL) {
 		vPortFree(lsm303_dev);
