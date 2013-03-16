@@ -663,12 +663,18 @@ static void updateStabilizationDesired(ManualControlCommandData * cmd, ManualCon
  */
 static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeChanged, bool home)
 {
+	if (!flightModeChanged)
+		return;
+
+	if (PathDesiredHandle() == NULL)
+		return;
+
 	PositionActualData positionActual;
 	PositionActualGet(&positionActual);
 	PathDesiredData pathDesired;
 	PathDesiredGet(&pathDesired);
 
-	if (home && flightModeChanged) {
+	if (home) {
 		// Simple Return To Home mode - climb 10 meters and fly to home position
 		pathDesired.Start[PATHDESIRED_START_NORTH] = positionActual.North;
 		pathDesired.Start[PATHDESIRED_START_EAST] = positionActual.East;
@@ -678,7 +684,7 @@ static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeCha
 		pathDesired.End[PATHDESIRED_END_DOWN] = positionActual.Down - 10;
 		pathDesired.StartingVelocity=10;
 		pathDesired.EndingVelocity=10;
-	} else if(flightModeChanged) {
+	} else  {
 		// Simple position hold - stay at present altitude and position
 		
 		pathDesired.Start[PATHDESIRED_START_NORTH] = positionActual.North;
