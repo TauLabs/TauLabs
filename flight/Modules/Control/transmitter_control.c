@@ -379,6 +379,8 @@ int32_t transmitter_control_select()
 	case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
 		update_path_desired(&cmd, lastFlightMode != flightStatus.FlightMode, true);
 		break;
+	case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
+		break;
 	default:
 		set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_UNDEFINED);
 		break;
