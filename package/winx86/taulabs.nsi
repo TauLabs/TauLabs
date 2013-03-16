@@ -215,6 +215,7 @@ Section "Firmware" InSecFirmware
   File "${PACKAGE_DIR}\${FIRMWARE_DIR}\fw_freedom-${PACKAGE_LBL}.tlfw"
   File "${PACKAGE_DIR}\${FIRMWARE_DIR}\fw_revolution-${PACKAGE_LBL}.tlfw"
   File "${PACKAGE_DIR}\${FIRMWARE_DIR}\fw_revomini-${PACKAGE_LBL}.tlfw"
+  File "${PACKAGE_DIR}\${FIRMWARE_DIR}\fw_vrbrain-${PACKAGE_LBL}.tlfw"
 SectionEnd
 
 ; Copy utility files

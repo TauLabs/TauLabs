@@ -505,26 +505,27 @@ bool PIOS_MPU6000_IRQHandler(void)
 		gyro_data.x  = (int16_t) (mpu6000_rec_buf[11] << 8 | mpu6000_rec_buf[12]);  // chip Y
 		break;
 	case PIOS_MPU60X0_TOP_90DEG:
-		accel_data.y = (int16_t) -(mpu6000_rec_buf[3] << 8 | mpu6000_rec_buf[4]);   // chip Y
-		accel_data.x = (int16_t)  (mpu6000_rec_buf[1] << 8 | mpu6000_rec_buf[2]);   // chip X
-		gyro_data.y  = (int16_t) -(mpu6000_rec_buf[11] << 8 | mpu6000_rec_buf[12]); // chip Y
-		gyro_data.x  = (int16_t)  (mpu6000_rec_buf[9] << 8  | mpu6000_rec_buf[10]); // chip X
+		// -1 to bring it back to -32768 +32767 range
+		accel_data.y = -1 -(int16_t) (mpu6000_rec_buf[3] << 8 | mpu6000_rec_buf[4]);   // chip Y
+		accel_data.x =     (int16_t) (mpu6000_rec_buf[1] << 8 | mpu6000_rec_buf[2]);   // chip X
+		gyro_data.y  = -1 -(int16_t) (mpu6000_rec_buf[11] << 8 | mpu6000_rec_buf[12]); // chip Y
+		gyro_data.x  =     (int16_t)  (mpu6000_rec_buf[9] << 8  | mpu6000_rec_buf[10]); // chip X
 		break;
 	case PIOS_MPU60X0_TOP_180DEG:
-		accel_data.y = (int16_t) -(mpu6000_rec_buf[1] << 8 | mpu6000_rec_buf[2]);   // chip X
-		accel_data.x = (int16_t) -(mpu6000_rec_buf[3] << 8 | mpu6000_rec_buf[4]);   // chip Y
-		gyro_data.y  = (int16_t) -(mpu6000_rec_buf[9] << 8  | mpu6000_rec_buf[10]); // chip X
-		gyro_data.x  = (int16_t) -(mpu6000_rec_buf[11] << 8 | mpu6000_rec_buf[12]); // chip Y
+		accel_data.y = -1 -(int16_t) (mpu6000_rec_buf[1] << 8 | mpu6000_rec_buf[2]);   // chip X
+		accel_data.x = -1 -(int16_t) (mpu6000_rec_buf[3] << 8 | mpu6000_rec_buf[4]);   // chip Y
+		gyro_data.y  = -1 -(int16_t) (mpu6000_rec_buf[9] << 8  | mpu6000_rec_buf[10]); // chip X
+		gyro_data.x  = -1 -(int16_t) (mpu6000_rec_buf[11] << 8 | mpu6000_rec_buf[12]); // chip Y
 		break;
 	case PIOS_MPU60X0_TOP_270DEG:
-		accel_data.y = (int16_t)  (mpu6000_rec_buf[3] << 8 | mpu6000_rec_buf[4]);   // chip Y
-		accel_data.x = (int16_t) -(mpu6000_rec_buf[1] << 8 | mpu6000_rec_buf[2]);   // chip X
-		gyro_data.y  = (int16_t)  (mpu6000_rec_buf[11] << 8 | mpu6000_rec_buf[12]); // chip Y
-		gyro_data.x  = (int16_t) -(mpu6000_rec_buf[9] << 8  | mpu6000_rec_buf[10]); // chip X
+		accel_data.y =     (int16_t) (mpu6000_rec_buf[3] << 8 | mpu6000_rec_buf[4]);   // chip Y
+		accel_data.x = -1 -(int16_t) (mpu6000_rec_buf[1] << 8 | mpu6000_rec_buf[2]);   // chip X
+		gyro_data.y  =     (int16_t) (mpu6000_rec_buf[11] << 8 | mpu6000_rec_buf[12]); // chip Y
+		gyro_data.x  = -1 -(int16_t) (mpu6000_rec_buf[9] << 8  | mpu6000_rec_buf[10]); // chip X
 		break;
 	}
-	gyro_data.z  = (int16_t) -(mpu6000_rec_buf[13] << 8 | mpu6000_rec_buf[14]);
-	accel_data.z = (int16_t) -(mpu6000_rec_buf[5] << 8 | mpu6000_rec_buf[6]);
+	gyro_data.z  = -1 -(int16_t) (mpu6000_rec_buf[13] << 8 | mpu6000_rec_buf[14]);
+	accel_data.z = -1 -(int16_t) (mpu6000_rec_buf[5] << 8  | mpu6000_rec_buf[6]);
 
 	int16_t raw_temp = mpu6000_rec_buf[7] << 8 | mpu6000_rec_buf[8];
 	float temperature = 35.0f + ((float) raw_temp + 512.0f) / 340.0f;
@@ -559,19 +560,19 @@ bool PIOS_MPU6000_IRQHandler(void)
 		gyro_data.x  = (int16_t) (mpu6000_rec_buf[5] << 8 | mpu6000_rec_buf[6]);
 		break;
 	case PIOS_MPU60X0_TOP_90DEG:
-		gyro_data.y  = (int16_t) -(mpu6000_rec_buf[5] << 8 | mpu6000_rec_buf[6]); // chip Y
-		gyro_data.x  = (int16_t)  (mpu6000_rec_buf[3] << 8 | mpu6000_rec_buf[4]); // chip X
+		gyro_data.y  = -1 -(int16_t) (mpu6000_rec_buf[5] << 8 | mpu6000_rec_buf[6]); // chip Y
+		gyro_data.x  =     (int16_t) (mpu6000_rec_buf[3] << 8 | mpu6000_rec_buf[4]); // chip X
 		break;
 	case PIOS_MPU60X0_TOP_180DEG:
-		gyro_data.y  = (int16_t) -(mpu6000_rec_buf[3] << 8 | mpu6000_rec_buf[4]);
-		gyro_data.x  = (int16_t) -(mpu6000_rec_buf[5] << 8 | mpu6000_rec_buf[6]);
+		gyro_data.y  = -1 -(int16_t) (mpu6000_rec_buf[3] << 8 | mpu6000_rec_buf[4]);
+		gyro_data.x  = -1 -(int16_t) (mpu6000_rec_buf[5] << 8 | mpu6000_rec_buf[6]);
 		break;
 	case PIOS_MPU60X0_TOP_270DEG:
-		gyro_data.y  = (int16_t)  (mpu6000_rec_buf[5] << 8 | mpu6000_rec_buf[6]); // chip Y
-		gyro_data.x  = (int16_t) -(mpu6000_rec_buf[3] << 8 | mpu6000_rec_buf[4]); // chip X
+		gyro_data.y  =     (int16_t) (mpu6000_rec_buf[5] << 8 | mpu6000_rec_buf[6]); // chip Y
+		gyro_data.x  = -1 -(int16_t) (mpu6000_rec_buf[3] << 8 | mpu6000_rec_buf[4]); // chip X
 		break;
 	}
-	gyro_data.z = (int16_t) -(mpu6000_rec_buf[7] << 8 | mpu6000_rec_buf[8]);
+	gyro_data.z = -1 -(int16_t) (mpu6000_rec_buf[7] << 8 | mpu6000_rec_buf[8]);
 
 	int32_t raw_temp = mpu6000_rec_buf[1] << 8 | mpu6000_rec_buf[2];
 	float temperature = 35.0f + ((float) raw_temp + 512.0f) / 340.0f;

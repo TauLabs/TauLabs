@@ -382,6 +382,26 @@ void ConfigOutputWidget::refreshWidgetsValues(UAVObject * obj)
             }
             m_config->cb_outputRate3->setCurrentIndex(m_config->cb_outputRate3->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[2])));
             m_config->cb_outputRate4->setCurrentIndex(m_config->cb_outputRate4->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[3])));
+        } else if ((board & 0xff00) == 0x8700 ) {
+            // VRBrain
+            m_config->cb_outputRate1->setEnabled(true);
+            m_config->cb_outputRate2->setEnabled(true);
+            m_config->cb_outputRate3->setEnabled(true);
+            m_config->cb_outputRate4->setEnabled(true);
+            m_config->chBank1->setText("1-2");
+            m_config->chBank2->setText("3");
+            m_config->chBank3->setText("4-5");
+            m_config->chBank4->setText("6");
+            if(m_config->cb_outputRate3->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[2]))==-1)
+            {
+                m_config->cb_outputRate3->addItem(QString::number(actuatorSettingsData.ChannelUpdateFreq[2]));
+            }
+            if(m_config->cb_outputRate4->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[3]))==-1)
+            {
+                m_config->cb_outputRate4->addItem(QString::number(actuatorSettingsData.ChannelUpdateFreq[3]));
+            }
+            m_config->cb_outputRate3->setCurrentIndex(m_config->cb_outputRate3->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[2])));
+            m_config->cb_outputRate4->setCurrentIndex(m_config->cb_outputRate4->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[3]))); 
         } else {
             // Unknown
             m_config->cb_outputRate1->setEnabled(true);

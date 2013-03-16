@@ -753,7 +753,7 @@ all_$(1)_clean: $$(addsuffix _clean, $$(filter bu_$(1), $$(BU_TARGETS)))
 all_$(1)_clean: $$(addsuffix _clean, $$(filter ef_$(1), $$(EF_TARGETS)))
 endef
 
-ALL_BOARDS := coptercontrol pipxtreme revolution revomini osd freedom quanton discoveryf4 flyingf4 flyingf3
+ALL_BOARDS := coptercontrol pipxtreme revolution revomini vrbrain osd freedom quanton discoveryf4 flyingf4 flyingf3
 
 # Friendly names of each board (used to find source tree)
 coptercontrol_friendly := CopterControl
@@ -761,6 +761,7 @@ pipxtreme_friendly     := PipXtreme
 revolution_friendly    := Revolution
 revomini_friendly      := RevoMini
 freedom_friendly       := Freedom
+vrbrain_friendly       := Vrbrain
 osd_friendly           := OSD
 quanton_friendly       := Quanton
 flyingf4_friendly      := FlyingF4
@@ -773,6 +774,7 @@ pipxtreme_short        := 'pipx'
 revolution_short       := 'revo'
 revomini_short         := 'rm  '
 freedom_short          := 'free'
+vrbrain_short          := 'vrb '
 osd_short              := 'osd '
 quanton_short          := 'quan'
 flyingf4_short         := 'fly4'
@@ -798,7 +800,7 @@ endif
 
 # FIXME: The BU image doesn't work for F4 boards so we need to
 #        filter them out to prevent errors.
-BU_BOARDS  := $(filter-out revolution revomini osd freedom quanton flyingf4 discoveryf4 flyingf3, $(BU_BOARDS))
+BU_BOARDS  := $(filter-out revolution revomini vrbrain osd freedom quanton flyingf4 discoveryf4 flyingf3, $(BU_BOARDS))
 
 # Generate the targets for whatever boards are left in each list
 FW_TARGETS := $(addprefix fw_, $(FW_BOARDS))
