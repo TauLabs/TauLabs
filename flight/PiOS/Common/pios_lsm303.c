@@ -106,7 +106,6 @@ static struct lsm303_dev * PIOS_LSM303_alloc(void)
 	}
 
 	lsm303_dev->queue_mag = xQueueCreate(PIOS_LSM303_MAX_QUEUESIZE, sizeof(struct pios_sensor_mag_data));
-	vQueueAddToRegistry(lsm303_dev->queue_mag, (signed char*)"pios_lsm303_queue_mag");
 	if (lsm303_dev->queue_mag == NULL) {
 		vPortFree(lsm303_dev);
 		return NULL;
