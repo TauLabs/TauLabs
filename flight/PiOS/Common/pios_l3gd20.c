@@ -81,9 +81,6 @@ static int32_t PIOS_L3GD20_ReleaseBus();
 static int32_t PIOS_L3GD20_ReleaseBusIsr();
 static int32_t PIOS_L3GD20_ReadGyros(struct pios_l3gd20_data* buffer);
 
-
-volatile bool l3gd20_configured = false;
-
 /* Local Variables */
 
 /**
@@ -132,7 +129,6 @@ static int32_t PIOS_L3GD20_Validate(struct l3gd20_dev* dev)
  * @brief Initialize the L3GD20 3-axis gyro sensor.
  * @return none
  */
-#include <pios_board_info.h>
 int32_t PIOS_L3GD20_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_l3gd20_cfg* cfg)
 {
 	dev = PIOS_L3GD20_alloc();
@@ -336,7 +332,6 @@ static int32_t PIOS_L3GD20_SetReg(uint8_t reg, uint8_t data)
  * \param[out] int16_t array of size 3 to store X, Z, and Y magnetometer readings
  * \returns The number of samples remaining in the fifo
  */
-uint32_t l3gd20_irq = 0;
 static int32_t PIOS_L3GD20_ReadGyros(struct pios_l3gd20_data* data)
 {
 	uint8_t buf[7] = { PIOS_L3GD20_GYRO_X_OUT_LSB | 0x80 | 0x40, 0, 0, 0, 0, 0, 0 };
@@ -422,8 +417,6 @@ uint8_t PIOS_L3GD20_Test(void)
 */
 bool PIOS_L3GD20_IRQHandler(void)
 {
-	l3gd20_irq++;
-
 	struct pios_l3gd20_data data;
 	uint8_t buf[7] = { PIOS_L3GD20_GYRO_X_OUT_LSB | 0x80 | 0x40, 0, 0, 0, 0, 0, 0 };
 	uint8_t rec[7];
