@@ -129,7 +129,7 @@ static int32_t PIOS_L3GD20_Validate(struct l3gd20_dev* dev)
 }
 
 /**
- * @brief Initialize the MPU6050 3-axis gyro sensor.
+ * @brief Initialize the L3GD20 3-axis gyro sensor.
  * @return none
  */
 #include <pios_board_info.h>
@@ -144,7 +144,7 @@ int32_t PIOS_L3GD20_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_
 	dev->slave_num = slave_num;
 	dev->cfg = cfg;
 
-	/* Configure the MPU6050 Sensor */
+	/* Configure the L3GD20 Sensor */
 	PIOS_L3GD20_Config(cfg);
 
 	/* Set up EXTI */
@@ -364,8 +364,8 @@ static int32_t PIOS_L3GD20_ReadGyros(struct pios_l3gd20_data* data)
 }
 
 /**
- * @brief Read the identification bytes from the MPU6050 sensor
- * \return ID read from MPU6050 or -1 if failure
+ * @brief Read the identification bytes from the L3GD20 sensor
+ * \return ID read from L3GD20 or -1 if failure
 */
 int32_t PIOS_L3GD20_ReadID()
 {
