@@ -40,7 +40,7 @@
 /* Global Variables */
 enum pios_l3gd20_dev_magic
 {
-    PIOS_L3GD20_DEV_MAGIC = 0x9d39bced,
+	PIOS_L3GD20_DEV_MAGIC = 0x9d39bced,
 };
 
 #define PIOS_L3GD20_QUEUESIZE 2
@@ -72,7 +72,7 @@ static struct l3gd20_dev* dev;
 //! Private functions
 static struct l3gd20_dev* PIOS_L3GD20_alloc(void);
 static int32_t PIOS_L3GD20_Validate(struct l3gd20_dev* dev);
-static void PIOS_L3GD20_Config(struct pios_l3gd20_cfg const* cfg);
+static void PIOS_L3GD20_Config(const struct pios_l3gd20_cfg* cfg);
 static int32_t PIOS_L3GD20_SetReg(uint8_t address, uint8_t buffer);
 static int32_t PIOS_L3GD20_GetReg(uint8_t address);
 static int32_t PIOS_L3GD20_GetRegIsr(uint8_t address, bool* woken);
