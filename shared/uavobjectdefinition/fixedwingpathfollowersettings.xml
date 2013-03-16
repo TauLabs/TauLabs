@@ -32,6 +32,9 @@
         <field name="ThrottleLimit" units="" type="float" elements="3" elementnames="Min,Neutral,Max" defaultvalue="0.0,0.5,1.0" />
                 <!-- minimum and maximum allowed throttle and setpoint for cruise speed -->
 
+	<!-- The default radius to use for PH and RTH -->
+        <field name="OrbitRadius" units="m" type="float" elements="1" defaultvalue="50" />
+
         <field name="UpdatePeriod" units="ms" type="int16" elements="1" defaultvalue="100"/>
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="true" updatemode="onchange" period="0"/>
