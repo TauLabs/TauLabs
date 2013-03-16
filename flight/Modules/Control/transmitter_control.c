@@ -445,7 +445,6 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 	if (settings->Arming == MANUALCONTROLSETTINGS_ARMING_ALWAYSDISARMED) {
 		set_armed_if_changed(FLIGHTSTATUS_ARMED_DISARMED);
 	} else {
-		// Not really needed since this function not called when disconnected
 		if (cmd->Connected == MANUALCONTROLCOMMAND_CONNECTED_FALSE)
 			lowThrottle = true;
 
