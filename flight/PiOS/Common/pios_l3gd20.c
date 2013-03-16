@@ -43,7 +43,7 @@ enum pios_l3gd20_dev_magic
     PIOS_L3GD20_DEV_MAGIC = 0x9d39bced,
 };
 
-#define PIOS_L3GD20_MAX_DOWNSAMPLE 1
+#define PIOS_L3GD20_QUEUESIZE 2
 
 //! Local types
 struct l3gd20_dev
@@ -99,7 +99,7 @@ static struct l3gd20_dev* PIOS_L3GD20_alloc(void)
 
 	l3gd20_dev->magic = PIOS_L3GD20_DEV_MAGIC;
 
-	l3gd20_dev->queue = xQueueCreate(PIOS_L3GD20_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_gyro_data));
+	l3gd20_dev->queue = xQueueCreate(PIOS_L3GD20_QUEUESIZE, sizeof(struct pios_sensor_gyro_data));
 
 	if (l3gd20_dev->queue == NULL)
 	{
