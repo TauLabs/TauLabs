@@ -51,11 +51,8 @@ int32_t failsafe_control_update()
 //! Use failsafe mode
 int32_t failsafe_control_select()
 {
-	FlightStatusData flight_status;
-	FlightStatusGet(&flight_status);
-	flight_status.Armed = FLIGHTSTATUS_ARMED_DISARMED;
-	flight_status.FlightMode = FLIGHTSTATUS_FLIGHTMODE_STABILIZED1;
-	FlightStatusSet(&flight_status);
+	uint8_t flight_status = FLIGHTSTATUS_FLIGHTMODE_STABILIZED1;
+	FlightStatusFlightModeSet(&flight_status);
 
 	// Pick default values that will roughly cause a plane to circle down
 	// and a quad to fall straight down
