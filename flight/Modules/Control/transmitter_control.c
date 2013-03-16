@@ -894,12 +894,12 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 
 #else /* For boards that do not support navigation set error if these modes are selected */
 
-static void static void update_path_desired(ManualControlCommandData * cmd, bool flightModeChanged, bool home)
+static void update_path_desired(ManualControlCommandData * cmd, bool flightModeChanged, bool home)
 {
 	set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD);
 }
 
-static void altitudeHoldDesired(ManualControlCommandData * cmd, bool flightModeChanged)
+static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightModeChanged)
 {
 	set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD);
 }
