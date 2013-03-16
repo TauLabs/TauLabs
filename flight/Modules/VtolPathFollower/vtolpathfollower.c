@@ -410,9 +410,7 @@ static void updateVtolDesiredAttitude()
 	StabilizationDesiredData stabDesired;
 	AttitudeActualData attitudeActual;
 	NedAccelData nedAccel;
-	VtolPathFollowerSettingsData guidanceSettings;
 	StabilizationSettingsData stabSettings;
-	SystemSettingsData systemSettings;
 
 	float northError;
 	float northCommand;
@@ -422,9 +420,6 @@ static void updateVtolDesiredAttitude()
 
 	float downError;
 	float upCommand;
-		
-	SystemSettingsGet(&systemSettings);
-	VtolPathFollowerSettingsGet(&guidanceSettings);
 	
 	VelocityActualGet(&velocityActual);
 	VelocityDesiredGet(&velocityDesired);
