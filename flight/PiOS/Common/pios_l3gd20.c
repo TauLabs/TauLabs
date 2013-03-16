@@ -55,6 +55,7 @@ struct l3gd20_dev
 	enum pios_l3gd20_filter bandwidth;
 	enum pios_l3gd20_range range;
 	enum pios_l3gd20_dev_magic magic;
+	volatile bool configured;
 };
 
 struct pios_l3gd20_data
@@ -95,6 +96,8 @@ static struct l3gd20_dev* PIOS_L3GD20_alloc(void)
 	if (!l3gd20_dev) return (NULL);
 
 	l3gd20_dev->magic = PIOS_L3GD20_DEV_MAGIC;
+
+	l3gd20_dev->configured = false;
 
 	l3gd20_dev->queue = xQueueCreate(PIOS_L3GD20_QUEUESIZE, sizeof(struct pios_sensor_gyro_data));
 
@@ -179,6 +182,8 @@ static void PIOS_L3GD20_Config(const struct pios_l3gd20_cfg* cfg)
 
 	// disable HPF
 	while (PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG5, 0x00) != 0);
+
+	dev->configured = true;
 }
 
 /**
@@ -414,6 +419,9 @@ uint8_t PIOS_L3GD20_Test(void)
 */
 bool PIOS_L3GD20_IRQHandler(void)
 {
+	if (PIOS_L3GD20_Validate(dev) != 0 || dev->configured == false)
+		return false;
+
 	struct pios_l3gd20_data data;
 	uint8_t buf[7] = { PIOS_L3GD20_GYRO_X_OUT_LSB | 0x80 | 0x40, 0, 0, 0, 0, 0, 0 };
 	uint8_t rec[7];

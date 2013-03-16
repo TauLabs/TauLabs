@@ -54,8 +54,8 @@ struct lsm303_dev {
 	xQueueHandle queue_mag;
 	xTaskHandle TaskHandle;
 	xSemaphoreHandle data_ready_sema;
-	volatile bool configured;
 	const struct pios_lsm303_cfg * cfg;
+	volatile bool configured;
 	enum pios_lsm303_dev_magic magic;
 };
 
@@ -99,6 +99,8 @@ static struct lsm303_dev * PIOS_LSM303_alloc(void)
 	
 	lsm303_dev->magic = PIOS_LSM303_DEV_MAGIC;
 	
+	lsm303_dev->configured = false;
+
 	lsm303_dev->queue_accel = xQueueCreate(PIOS_LSM303_MAX_QUEUESIZE, sizeof(struct pios_sensor_accel_data));
 	if (lsm303_dev->queue_accel == NULL) {
 		vPortFree(lsm303_dev);
@@ -588,13 +590,14 @@ bool PIOS_LSM303_IRQHandler(void)
 
 static void PIOS_LSM303_Task(void *parameters)
 {
-	// Do not try and process sensor until the device is valid
-	while (PIOS_LSM303_Validate(dev) != 0) {
-		vTaskDelay(100 * portTICK_RATE_MS);
-	}
-
 	while (1)
 	{
+		// Do not try and process sensor until the device is valid
+		if (PIOS_LSM303_Validate(dev) != 0 || dev->configured == false) {
+			vTaskDelay(100 * portTICK_RATE_MS);
+			continue;
+		}
+
 		//Wait for data ready interrupt
 		if (xSemaphoreTake(dev->data_ready_sema, 5 * portTICK_RATE_MS) != pdTRUE) {
 			// If this expires kick start the sensor
@@ -603,9 +606,6 @@ static void PIOS_LSM303_Task(void *parameters)
 			continue;
 		}
 
-		if (!dev->configured)
-			continue;
-	
 		/*
 		 * Process accel data
 		 */
