@@ -42,7 +42,7 @@ enum pios_mpu6000_dev_magic {
 	PIOS_MPU6000_DEV_MAGIC = 0x9da9b3ed,
 };
 
-#define PIOS_MPU6000_MAX_DOWNSAMPLE 1
+#define PIOS_MPU6000_MAX_QUEUESIZE 2
 struct mpu6000_dev {
 	uint32_t spi_id;
 	uint32_t slave_num;
@@ -81,13 +81,13 @@ static struct mpu6000_dev * PIOS_MPU6000_alloc(void)
 
 	mpu6000_dev->configured = false;
 	
-	mpu6000_dev->accel_queue = xQueueCreate(PIOS_MPU6000_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_gyro_data));
+	mpu6000_dev->accel_queue = xQueueCreate(PIOS_MPU6000_MAX_QUEUESIZE, sizeof(struct pios_sensor_gyro_data));
 	if(mpu6000_dev->accel_queue == NULL) {
 		vPortFree(mpu6000_dev);
 		return NULL;
 	}
 
-	mpu6000_dev->gyro_queue = xQueueCreate(PIOS_MPU6000_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_gyro_data));
+	mpu6000_dev->gyro_queue = xQueueCreate(PIOS_MPU6000_MAX_QUEUESIZE, sizeof(struct pios_sensor_gyro_data));
 	if(mpu6000_dev->gyro_queue == NULL) {
 		vPortFree(mpu6000_dev);
 		return NULL;

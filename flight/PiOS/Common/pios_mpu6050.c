@@ -46,7 +46,7 @@ enum pios_mpu6050_dev_magic {
 	PIOS_MPU6050_DEV_MAGIC = 0xf21d26a2,
 };
 
-#define PIOS_MPU6050_MAX_DOWNSAMPLE 2
+#define PIOS_MPU6000_MAX_QUEUESIZE 2
 struct mpu6050_dev {
 	uint32_t i2c_id;
 	uint8_t i2c_addr;
@@ -85,13 +85,13 @@ static struct mpu6050_dev * PIOS_MPU6050_alloc(void)
 	
 	mpu6050_dev->magic = PIOS_MPU6050_DEV_MAGIC;
 	
-	mpu6050_dev->accel_queue = xQueueCreate(PIOS_MPU6050_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_gyro_data));
+	mpu6050_dev->accel_queue = xQueueCreate(PIOS_MPU6000_MAX_QUEUESIZE, sizeof(struct pios_sensor_gyro_data));
 	if(mpu6050_dev->accel_queue == NULL) {
 		vPortFree(mpu6050_dev);
 		return NULL;
 	}
 
-	mpu6050_dev->gyro_queue = xQueueCreate(PIOS_MPU6050_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_gyro_data));
+	mpu6050_dev->gyro_queue = xQueueCreate(PIOS_MPU6000_MAX_QUEUESIZE, sizeof(struct pios_sensor_gyro_data));
 	if(mpu6050_dev->gyro_queue == NULL) {
 		vPortFree(mpu6050_dev);
 		return NULL;
