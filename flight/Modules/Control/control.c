@@ -116,15 +116,15 @@ static void controlTask(void *parameters)
 		// Control logic to select the valid controller
 		enum control_selection control_selection = transmitter_control_selected_controller();
 		switch(control_selection) {
-		case TRANSMITTER_MISSING:
+		case CONTROL_SELECTION_FAILSAFE:
 			failsafe_control_select();
 			control_events = failsafe_control_get_events();
 			break;
-		case TRANSMITTER_PRESENT_AND_USED:
+		case CONTROL_SELECTION_TRANSMITTER:
 			transmitter_control_select();
 			control_events = transmitter_control_get_events();
 			break;
-		case TRANSMITTER_PRESENT_SELECT_TABLET:
+		case CONTROL_SELECTION_TABLET:
 			if (tablet_control_select() == 0) {
 				control_events = tablet_control_get_events();
 			} else {
