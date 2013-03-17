@@ -374,7 +374,7 @@ static void StateTask(void *parameters)
 
 				// Convert from millibar to Pa
 				float staticAirDensity = staticPressure * 100 * 0.003483613507536f /
-				    (homeLocation.GroundTemperature + 273.15f);
+				    (homeLocation.GroundTemperature + CELSIUS2KELVIN);
 
 				gps_airspeed_update(&gpsVelocityData, staticAirDensity);
 #endif

@@ -228,7 +228,7 @@ void INSStatePrediction(float gyro_data[3], float accel_data[3], float dT)
 	// EKF prediction step
 	LinearizeFG(X, U, F, G);
 	RungeKutta(X, U, dT);
-	qmag = sqrt(X[6] * X[6] + X[7] * X[7] + X[8] * X[8] + X[9] * X[9]);
+	qmag = sqrtf(X[6] * X[6] + X[7] * X[7] + X[8] * X[8] + X[9] * X[9]);
 	X[6] /= qmag;
 	X[7] /= qmag;
 	X[8] /= qmag;
@@ -312,7 +312,7 @@ void INSCorrection(float mag_data[3], float Pos[3], float Vel[3],
 
 	// magnetometer data in any units (use unit vector) and in body frame
 	Bmag =
-	    sqrt(mag_data[0] * mag_data[0] + mag_data[1] * mag_data[1] +
+	    sqrtf(mag_data[0] * mag_data[0] + mag_data[1] * mag_data[1] +
 		 mag_data[2] * mag_data[2]);
 	Z[6] = mag_data[0] / Bmag;
 	Z[7] = mag_data[1] / Bmag;
@@ -325,7 +325,7 @@ void INSCorrection(float mag_data[3], float Pos[3], float Vel[3],
 	LinearizeH(X, Be, H);
 	MeasurementEq(X, Be, Y);
 	SerialUpdate(H, R, Z, Y, P, X, SensorsUsed);
-	qmag = sqrt(X[6] * X[6] + X[7] * X[7] + X[8] * X[8] + X[9] * X[9]);
+	qmag = sqrtf(X[6] * X[6] + X[7] * X[7] + X[8] * X[8] + X[9] * X[9]);
 	X[6] /= qmag;
 	X[7] /= qmag;
 	X[8] /= qmag;

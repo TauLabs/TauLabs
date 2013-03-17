@@ -45,14 +45,6 @@ private slots:
 	void transmitUpdate();
 
 private:
-    static const float FT2M;
-    static const float KT2MPS;
-    static const float MPS2KMH;
-    static const float KMH2MPS;
-    static const float INHG2KPA;
-    static const float NM2DEG;
-    static const float DEG2NM;
-
 	void processUpdate(const QByteArray& data);
 	float angleDifference(float a,float b);
 

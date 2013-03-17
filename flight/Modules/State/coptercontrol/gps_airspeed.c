@@ -45,8 +45,6 @@
 #define SAMPLING_DELAY_MS_GPS          100	//Needs to be settable in a UAVO
 #define GPS_AIRSPEED_TIME_CONSTANT_MS  500.0f	//Needs to be settable in a UAVO
 
-#define STANDARD_AIR_DENSITY 1.225f	//Density of sea level air, at 15C, 20% relative humidy, in [kg/m^3].
-
 // Private types
 struct GPSGlobals {
 	float RbeCol1_old[3];
