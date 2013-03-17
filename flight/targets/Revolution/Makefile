@@ -63,7 +63,7 @@ endif
 # List of modules to include
 MODULES = Sensors 
 MODULES += Attitude/revolution
-MODULES += ManualControl
+MODULES += Control
 MODULES += Stabilization
 MODULES += Actuator
 MODULES += FirmwareIAP

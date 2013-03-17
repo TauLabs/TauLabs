@@ -1,13 +1,13 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup Modules Tau Labs Modules
  * @{
- * @addtogroup ManualControlModule Manual Control Module
+ * @addtogroup Control Control Module
  * @{
  *
- * @file       manualcontrol.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      ManualControl module. Handles safety R/C link and flight mode.
+ * @file       transmitter_control.h
+ * @author     Tau Labs, http://github.org/TauLabs Copyright (C) 2013.
+ * @brief      Process transmitter inputs and use as control source
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -27,28 +27,12 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef MANUALCONTROL_H
-#define MANUALCONTROL_H
 
+#ifndef TRANSMITTER_CONTROL_H
+#define TRANSMITTER_CONTROL_H
+
+#include "stdint.h"
 #include "manualcontrolcommand.h"
-
-typedef enum {FLIGHTMODE_UNDEFINED = 0, FLIGHTMODE_MANUAL = 1, FLIGHTMODE_STABILIZED = 2, FLIGHTMODE_GUIDANCE = 3, FLIGHTMODE_TUNING = 4} flightmode_path;
-
-#define PARSE_FLIGHT_MODE(x) ( \
-	(x == FLIGHTSTATUS_FLIGHTMODE_MANUAL)          ? FLIGHTMODE_MANUAL : \
-	(x == FLIGHTSTATUS_FLIGHTMODE_STABILIZED1)     ? FLIGHTMODE_STABILIZED : \
-	(x == FLIGHTSTATUS_FLIGHTMODE_STABILIZED2)     ? FLIGHTMODE_STABILIZED : \
-	(x == FLIGHTSTATUS_FLIGHTMODE_STABILIZED3)     ? FLIGHTMODE_STABILIZED : \
-	(x == FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD)    ? FLIGHTMODE_GUIDANCE : \
-	(x == FLIGHTSTATUS_FLIGHTMODE_VELOCITYCONTROL) ? FLIGHTMODE_GUIDANCE : \
-	(x == FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD)    ? FLIGHTMODE_GUIDANCE : \
-	(x == FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME)    ? FLIGHTMODE_GUIDANCE : \
-	(x == FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER)     ? FLIGHTMODE_GUIDANCE : \
-	(x == FLIGHTSTATUS_FLIGHTMODE_AUTOTUNE)        ? FLIGHTMODE_TUNING : FLIGHTMODE_UNDEFINED \
-	)
-
-int32_t ManualControlInitialize();
-
 
 /*
  * These are assumptions we make in the flight code about the order of settings and their consistency between
@@ -117,4 +101,19 @@ int32_t ManualControlInitialize();
 ( (int)MANUALCONTROLCOMMAND_CHANNEL_NUMELEM == (int)MANUALCONTROLSETTINGS_CHANNELMAX_NUMELEM ) && \
 ( (int)MANUALCONTROLCOMMAND_CHANNEL_NUMELEM == (int)MANUALCONTROLSETTINGS_CHANNELNEUTRAL_NUMELEM ) )
 
-#endif // MANUALCONTROL_H
+//! Initialize the transmitter control mode
+int32_t transmitter_control_initialize();
+
+//! Process inputs and arming
+int32_t transmitter_control_update();
+
+//! Select and use transmitter control
+int32_t transmitter_control_select();
+
+//! Choose the control source based on transmitter status
+enum control_selection transmitter_control_selected_controller();
+
+//! Get any control events
+enum control_events transmitter_control_get_events();
+
+ #endif /* TRANSMITTER_CONTROL_H */
