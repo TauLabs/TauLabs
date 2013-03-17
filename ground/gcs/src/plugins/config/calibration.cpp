@@ -779,7 +779,7 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
         double sP = sin(psi);
 
         theta = atan2(-(cP * a_sensor[0] + sP * a_sensor[1]), -a_sensor[2]);
-        phi = atan2((sP * a_sensor[0] - cP * a_sensor[1]) / GRAVITY, a_sensor[2] / cos(theta) / GRAVITY);
+        phi = atan2((sP * a_sensor[0] - cP * a_sensor[1]) / -GRAVITY, a_sensor[2] / cos(theta) / -GRAVITY);
 
         attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] = phi * RAD2DEG * 100.0;
         attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] = theta * RAD2DEG * 100.0;
