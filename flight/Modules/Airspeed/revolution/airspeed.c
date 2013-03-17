@@ -226,10 +226,10 @@ static void airspeedTask(void *parameters)
 			baroTemperature-=BARO_TEMPERATURE_OFFSET; //Do this just because we suspect that the board heats up relative to its surroundings. THIS IS BAD(tm)
  #ifdef GPS_AIRSPEED_PRESENT
 			//GPS present, so use baro sensor to filter TAS
-			airspeed_tas_baro=airspeedData.CalibratedAirspeed * sqrtf((baroTemperature+CELSIUS2KELVIN)/STANDARD_AIR_TEMPERATURE) + airspeedErrInt * GPS_AIRSPEED_BIAS_KI;
+			airspeed_tas_baro = airspeedData.CalibratedAirspeed * sqrtf((baroTemperature + CELSIUS2KELVIN) / STANDARD_AIR_TEMPERATURE) + airspeedErrInt * GPS_AIRSPEED_BIAS_KI;
  #else
 			//No GPS, so TAS comes only from baro sensor
-			airspeedData.TrueAirspeed=airspeedData.CalibratedAirspeed * sqrtf((baroTemperature+CELSIUS2KELVIN)/STANDARD_AIR_TEMPERATURE) + airspeedErrInt * GPS_AIRSPEED_BIAS_KI;
+			airspeedData.TrueAirspeed = airspeedData.CalibratedAirspeed * sqrtf((baroTemperature + CELSIUS2KELVIN) / STANDARD_AIR_TEMPERATURE) + airspeedErrInt * GPS_AIRSPEED_BIAS_KI;
  #endif			
 			
 		}
@@ -302,7 +302,7 @@ static void airspeedTask(void *parameters)
 				float baroTemperature;
 				BaroAltitudeTemperatureGet(&baroTemperature);
 				baroTemperature-=BARO_TEMPERATURE_OFFSET; //Do this just because we suspect that the board heats up relative to its surroundings. THIS IS BAD(tm)
-				airspeedData.CalibratedAirspeed =airspeedData.TrueAirspeed / sqrtf((baroTemperature+CELSIUS2KELVIN)/STANDARD_AIR_TEMPERATURE);
+				airspeedData.CalibratedAirspeed = airspeedData.TrueAirspeed / sqrtf((baroTemperature + CELSIUS2KELVIN) / STANDARD_AIR_TEMPERATURE);
 			}			
 		}
  #ifdef BARO_AIRSPEED_PRESENT
