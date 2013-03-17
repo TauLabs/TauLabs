@@ -832,7 +832,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 
 	if (!inited)
 		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_ERROR);
-	else if (outdoor_mode && gpsData.Satellites < 7)
+	else if (outdoor_mode && (gpsData.Satellites < 6 || gpsData.PDOP > 4.0f))
 		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_ERROR);
 	else
 		AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
