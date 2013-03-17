@@ -827,8 +827,8 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	// switching between indoor and outdoor mode with Set = false)
 	mag_updated &= (homeLocation.Be[0] != 0 || homeLocation.Be[1] != 0 || homeLocation.Be[2]);
 
-	// Have a minimum requirement for gps usage
-	gps_updated &= (gpsData.Satellites >= 7) && (gpsData.PDOP <= 4.0f) && (homeLocation.Set == HOMELOCATION_SET_TRUE);
+	// A more stringent requirement for GPS to initialize the filter
+	bool gps_init_usable = gps_updated & (gpsData.Satellites >= 7) && (gpsData.PDOP <= 3.5f) && (homeLocation.Set == HOMELOCATION_SET_TRUE);
 
 	if (!inited)
 		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_ERROR);
@@ -837,7 +837,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	else
 		AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
 
-	if (!inited && mag_updated && baro_updated && (gps_updated || !outdoor_mode)) {
+	if (!inited && mag_updated && baro_updated && (gps_init_usable || !outdoor_mode)) {
 
 		INSGPSInit();
 		INSSetMagVar(insSettings.mag_var);
@@ -909,6 +909,9 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 
 	if (!inited)
 		return 0;
+
+	// Have a minimum requirement for gps usage a little more liberal than initialization
+	gps_updated &= (gpsData.Satellites >= 6) && (gpsData.PDOP <= 4.0f) && (homeLocation.Set == HOMELOCATION_SET_TRUE);
 
 	dT = PIOS_DELAY_DiffuS(ins_last_time) / 1.0e6f;
 	ins_last_time = PIOS_DELAY_GetRaw();
