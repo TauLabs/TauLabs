@@ -195,16 +195,17 @@ void PIOS_Board_Init(void) {
 		hw_usb_vcpport = HWDISCOVERYF4_USB_VCPPORT_DISABLED;
 	}
 
+	uint32_t pios_usb_cdc_id;
+	if (PIOS_USB_CDC_Init(&pios_usb_cdc_id, &pios_usb_cdc_cfg, pios_usb_id)) {
+		PIOS_Assert(0);
+	}
+
 	switch (hw_usb_vcpport) {
 	case HWDISCOVERYF4_USB_VCPPORT_DISABLED:
 		break;
 	case HWDISCOVERYF4_USB_VCPPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
-			uint32_t pios_usb_cdc_id;
-			if (PIOS_USB_CDC_Init(&pios_usb_cdc_id, &pios_usb_cdc_cfg, pios_usb_id)) {
-				PIOS_Assert(0);
-			}
 			uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
 			uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
 			PIOS_Assert(rx_buffer);
@@ -220,10 +221,6 @@ void PIOS_Board_Init(void) {
 	case HWDISCOVERYF4_USB_VCPPORT_COMBRIDGE:
 #if defined(PIOS_INCLUDE_COM)
 		{
-			uint32_t pios_usb_cdc_id;
-			if (PIOS_USB_CDC_Init(&pios_usb_cdc_id, &pios_usb_cdc_cfg, pios_usb_id)) {
-				PIOS_Assert(0);
-			}
 			uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_BRIDGE_RX_BUF_LEN);
 			uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_BRIDGE_TX_BUF_LEN);
 			PIOS_Assert(rx_buffer);
@@ -240,10 +237,6 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 		{
-			uint32_t pios_usb_cdc_id;
-			if (PIOS_USB_CDC_Init(&pios_usb_cdc_id, &pios_usb_cdc_cfg, pios_usb_id)) {
-				PIOS_Assert(0);
-			}
 			uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN);
 			PIOS_Assert(tx_buffer);
 			if (PIOS_COM_Init(&pios_com_debug_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
@@ -268,16 +261,17 @@ void PIOS_Board_Init(void) {
 		hw_usb_hidport = HWDISCOVERYF4_USB_HIDPORT_DISABLED;
 	}
 
+	uint32_t pios_usb_hid_id;
+	if (PIOS_USB_HID_Init(&pios_usb_hid_id, &pios_usb_hid_cfg, pios_usb_id)) {
+		PIOS_Assert(0);
+	}
+
 	switch (hw_usb_hidport) {
 	case HWDISCOVERYF4_USB_HIDPORT_DISABLED:
 		break;
 	case HWDISCOVERYF4_USB_HIDPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
-			uint32_t pios_usb_hid_id;
-			if (PIOS_USB_HID_Init(&pios_usb_hid_id, &pios_usb_hid_cfg, pios_usb_id)) {
-				PIOS_Assert(0);
-			}
 			uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
 			uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
 			PIOS_Assert(rx_buffer);
