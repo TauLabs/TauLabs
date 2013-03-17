@@ -270,11 +270,6 @@ private slots:
     virtual void processUpdate(const QByteArray& data) = 0;
 
 protected:
-    static const float FT2M;
-    static const float KT2MPS;
-    static const float INHG2KPA;
-    static const float FPS2CMPS;
-
     QProcess* simProcess;
     QTime* time;
     QUdpSocket* inSocket;//(new QUdpSocket());
