@@ -35,6 +35,11 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -87,6 +92,19 @@ public class UAVLocation extends ObjectManagerActivity
         }
 		mMap.setMyLocationEnabled(true);
 
+		// Pull up context menu on a long click
+		registerForContextMenu(mapFrag.getView());
+		mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+			@Override
+			public void onMapLongClick(LatLng arg0) {
+				Log.d(TAG, "Click");
+				mapFrag.getView().showContextMenu();
+				// Animating to the touched position
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(arg0));
+			}
+		});
+
+		//! If the current tablet location is available, jump straight to it
 		LocationManager locationManager =
 		        (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		Location tabletLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -243,5 +261,25 @@ public class UAVLocation extends ObjectManagerActivity
 		}
 	}
 
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+	                                ContextMenuInfo menuInfo) {
+	    super.onCreateContextMenu(menu, v, menuInfo);
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.map_click_actions, menu);
+	}
 
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case R.id.map_action_jump_to_uav:
+	            if (uavLocation != null) {
+	            	mMap.animateCamera(CameraUpdateFactory.newLatLng(
+	            			new LatLng(uavLocation.getLatitudeE6() / 1e6, uavLocation.getLongitudeE6() / 1e6)));
+	            }
+	            return true;
+	        default:
+	            return super.onContextItemSelected(item);
+	    }
+	}
 }
