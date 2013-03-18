@@ -57,7 +57,6 @@ private:
 	void updateChannelInSlider(QSlider *slider, QLabel *min, QLabel *max, QCheckBox *rev, int value);
 
 	void assignChannel(UAVDataObject *obj, QString str);
-	void assignOutputChannel(UAVDataObject *obj, QString str);
     OutputChannelForm* getOutputChannelForm(const int index) const;
 	int mccDataRate;
 
@@ -65,6 +64,8 @@ private:
 
         bool wasItMe;
 private slots:
+    void onSystemSettingsUpdate_toggleTrimButton(UAVObject*);
+    void setTrimToOutputs(bool);
         void stopTests();
         void disableIfNotMe(UAVObject *obj);
         virtual void refreshWidgetsValues(UAVObject * obj=NULL);
