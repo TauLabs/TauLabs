@@ -474,11 +474,6 @@ static void updateVtolDesiredAttitude()
 			break;
 	}
 	
-	/* This is awkward.  This allows the transmitter to control the yaw while flying navigation */
-	ManualControlCommandData manualControlData;
-	ManualControlCommandGet(&manualControlData);
-	stabDesired.Yaw = stabSettings.MaximumRate[STABILIZATIONSETTINGS_MAXIMUMRATE_YAW] * manualControlData.Yaw;	
-	
 	// Compute desired north command from velocity error
 	northError = velocityDesired.North - northVel;
 	northCommand = pid_apply(&vtol_pids[NORTH_VELOCITY], northError, dT) + velocityDesired.North * guidanceSettings.VelocityFeedforward;
@@ -513,7 +508,24 @@ static void updateVtolDesiredAttitude()
 	
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
-	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK;
+
+	ManualControlCommandData manualControlData;
+	switch(guidanceSettings.YawMode) {
+	case VTOLPATHFOLLOWERSETTINGS_YAWMODE_RATE:
+		/* This is awkward.  This allows the transmitter to control the yaw while flying navigation */
+		ManualControlCommandGet(&manualControlData);
+		stabDesired.Yaw = stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] * manualControlData.Yaw;      
+		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_RATE;
+		break;
+	case VTOLPATHFOLLOWERSETTINGS_YAWMODE_AXISLOCK:
+		ManualControlCommandGet(&manualControlData);
+		stabDesired.Yaw = stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] * manualControlData.Yaw;      
+		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK;
+		break;
+	case VTOLPATHFOLLOWERSETTINGS_YAWMODE_POI:
+		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_POI;
+		break;
+	}
 	
 	StabilizationDesiredSet(&stabDesired);
 }

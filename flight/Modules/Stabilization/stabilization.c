@@ -9,6 +9,7 @@
  * @{
  *
  * @file       stabilization.c
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2012.
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @brief      Attitude stabilization module.
  *
@@ -33,8 +34,12 @@
 
 #include "openpilot.h"
 #include "stabilization.h"
-#include "stabilizationsettings.h"
+
+#include "attitudeactual.h"
 #include "actuatordesired.h"
+#include "cameradesired.h"
+#include "flightstatus.h"
+#include "gyros.h"
 #include "ratedesired.h"
 #include "stabilizationdesired.h"
 #include "accels.h"
@@ -375,6 +380,33 @@ static void stabilizationTask(void* parameters)
 					
 					break;
 					
+				case STABILIZATIONDESIRED_STABILIZATIONMODE_POI:
+					// TODO: Make sure this only applies to yaw
+
+					if(reinit) {
+						pids[PID_ATT_ROLL + i].iAccumulator = 0;
+						pids[PID_RATE_ROLL + i].iAccumulator = 0;
+					}
+
+					if (CameraDesiredHandle() != NULL) {
+						float bearing;
+						CameraDesiredBearingGet(&bearing);
+						float bearing_error = bearing - attitudeActual.Yaw;
+	 					bearing_error = fmodf(bearing_error + 180, 360) - 180;
+
+						// Compute the outer loop
+						rateDesiredAxis[i] = pid_apply(&pids[PID_ATT_ROLL + i], bearing_error, dT);
+						rateDesiredAxis[i] = bound(rateDesiredAxis[i], settings.MaximumRate[i]);
+					} else {
+						rateDesiredAxis[i] = 0;
+						error = true;
+					}
+
+					// Compute the inner loop
+					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
+					actuatorDesiredAxis[i] = bound(actuatorDesiredAxis[i],1.0f);
+
+					break;
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_NONE:
 					actuatorDesiredAxis[i] = bound(stabDesiredAxis[i],1.0f);
 					break;
