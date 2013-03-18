@@ -28,10 +28,15 @@ import java.util.List;
 
 import org.taulabs.uavtalk.UAVObject;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -42,9 +47,8 @@ import com.google.android.maps.GeoPoint;
 
 public class UAVLocation extends ObjectManagerActivity
 {
-	private final String TAG = "UAVLocation";
-	private static int LOGLEVEL = 0;
-//	private static boolean WARN = LOGLEVEL > 1;
+	private final String TAG = UAVLocation.class.getSimpleName();
+	private static int LOGLEVEL = 1;
 	private static boolean DEBUG = LOGLEVEL > 0;
 
 	private GoogleMap mMap;
@@ -65,6 +69,8 @@ public class UAVLocation extends ObjectManagerActivity
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		int map_type = Integer.decode(prefs.getString("map_type", "1"));
 
+		if (DEBUG) Log.d(TAG, "Map type selected: " + map_type);
+
         switch(map_type) {
         case 0:
         	mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
@@ -80,6 +86,15 @@ public class UAVLocation extends ObjectManagerActivity
         	break;
         }
 		mMap.setMyLocationEnabled(true);
+
+		LocationManager locationManager =
+		        (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		Location tabletLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		if (tabletLocation != null)
+			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(tabletLocation.getLatitude(), tabletLocation.getLongitude()), 15));
+		else {
+			if (DEBUG) Log.d(TAG, "Could not get location");
+		}
     }
 
 	@Override
