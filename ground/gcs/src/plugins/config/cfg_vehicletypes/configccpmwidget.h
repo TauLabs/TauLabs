@@ -92,12 +92,12 @@ private:
         virtual void ResetActuators(GUIConfigDataUnion* configData);
         static QStringList getChannelDescriptions();
 
-        QString updateConfigObjects();
+        SystemSettings::AirframeTypeOptions updateConfigObjects();
     private slots:
-        virtual void setupUI(QString airframeType);
-        virtual void refreshWidgetsValues(QString frameType);
-        virtual QString updateConfigObjectsFromWidgets();
-        virtual bool throwConfigError(QString airframeType);
+        virtual void setupUI(SystemSettings::AirframeTypeOptions airframeType);
+        void refreshAirframeWidgetsValues(SystemSettings::AirframeTypeOptions frameType);
+        virtual SystemSettings::AirframeTypeOptions updateConfigObjectsFromWidgets();
+        virtual bool throwConfigError(SystemSettings::AirframeTypeOptions airframeType);
 
         void ccpmSwashplateUpdate();
         void ccpmSwashplateRedraw();
