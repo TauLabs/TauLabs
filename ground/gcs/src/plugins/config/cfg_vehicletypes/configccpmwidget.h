@@ -95,7 +95,7 @@ private:
         SystemSettings::AirframeTypeOptions updateConfigObjects();
     private slots:
         virtual void setupUI(SystemSettings::AirframeTypeOptions airframeType);
-        virtual void refreshWidgetsValues(uint16_t frameType);
+        void refreshAirframeWidgetsValues(SystemSettings::AirframeTypeOptions frameType);
         virtual SystemSettings::AirframeTypeOptions updateConfigObjectsFromWidgets();
         virtual bool throwConfigError(SystemSettings::AirframeTypeOptions airframeType);
 

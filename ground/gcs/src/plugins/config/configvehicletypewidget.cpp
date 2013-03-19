@@ -534,7 +534,7 @@ void ConfigVehicleTypeWidget::refreshWidgetsValues(UAVObject * obj)
     case SystemSettings::AIRFRAMETYPE_FIXEDWINGELEVON:
     case SystemSettings::AIRFRAMETYPE_FIXEDWINGVTAIL:
         // Retrieve fixed wing settings
-        m_fixedwing->refreshWidgetsValues(frameType);
+        m_fixedwing->refreshAirframeWidgetsValues(frameType);
         break;
     case SystemSettings::AIRFRAMETYPE_TRI:
     case SystemSettings::AIRFRAMETYPE_QUADX:
@@ -547,18 +547,18 @@ void ConfigVehicleTypeWidget::refreshWidgetsValues(UAVObject * obj)
     case SystemSettings::AIRFRAMETYPE_OCTOCOAXP:
     case SystemSettings::AIRFRAMETYPE_OCTOCOAXX:
         // Retrieve multirotor settings
-        m_multirotor->refreshWidgetsValues(frameType);
+        m_multirotor->refreshAirframeWidgetsValues(frameType);
         break;
     case SystemSettings::AIRFRAMETYPE_HELICP:
         // Retrieve helicopter settings
         setComboCurrentIndex(m_aircraft->aircraftType, m_aircraft->aircraftType->findText("Helicopter"));
-        m_heli->refreshWidgetsValues(frameType);
+        m_heli->refreshAirframeWidgetsValues(frameType);
         break;
     case SystemSettings::AIRFRAMETYPE_GROUNDVEHICLECAR:
     case SystemSettings::AIRFRAMETYPE_GROUNDVEHICLEDIFFERENTIAL:
     case SystemSettings::AIRFRAMETYPE_GROUNDVEHICLEMOTORCYCLE:
         // Retrieve ground vehicle settings
-        m_groundvehicle->refreshWidgetsValues(frameType);
+        m_groundvehicle->refreshAirframeWidgetsValues(frameType);
         break;
     default:
         // Retrieve custom settings

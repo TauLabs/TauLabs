@@ -224,7 +224,7 @@ SystemSettings::AirframeTypeOptions ConfigGroundVehicleWidget::updateConfigObjec
 /**
  Virtual function to refresh the UI widget values
  */
-void ConfigGroundVehicleWidget::refreshWidgetsValues(uint16_t frameType)
+void ConfigGroundVehicleWidget::refreshAirframeWidgetsValues(SystemSettings::AirframeTypeOptions frameType)
 {
     MixerSettings *mixerSettings = MixerSettings::GetInstance(getObjectManager());
     Q_ASSERT(mixerSettings);

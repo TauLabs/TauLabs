@@ -536,7 +536,7 @@ SystemSettings::AirframeTypeOptions ConfigMultiRotorWidget::updateConfigObjectsF
 /**
  Helper function to refresh the UI widget values
  */
-void ConfigMultiRotorWidget::refreshWidgetsValues(uint16_t frameType)
+void ConfigMultiRotorWidget::refreshAirframeWidgetsValues(SystemSettings::AirframeTypeOptions frameType)
 {
     int channel;
     double value;

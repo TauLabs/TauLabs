@@ -208,7 +208,7 @@ SystemSettings::AirframeTypeOptions ConfigFixedWingWidget::updateConfigObjectsFr
 /**
  Virtual function to refresh the UI widget values
  */
-void ConfigFixedWingWidget::refreshWidgetsValues(uint16_t frameType)
+void ConfigFixedWingWidget::refreshAirframeWidgetsValues(SystemSettings::AirframeTypeOptions frameType)
 {
     Q_ASSERT(m_aircraft);
 

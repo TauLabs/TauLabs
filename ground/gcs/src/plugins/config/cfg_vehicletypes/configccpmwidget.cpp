@@ -161,7 +161,7 @@ ConfigCcpmWidget::ConfigCcpmWidget(QWidget *parent) : VehicleConfig(parent)
     m_ccpm->ccpmType->addItems(Types);
     m_ccpm->ccpmType->setCurrentIndex(m_ccpm->ccpmType->count() - 1);
 
-    refreshWidgetsValues(SystemSettings::AIRFRAMETYPE_HELICP);
+    refreshAirframeWidgetsValues(SystemSettings::AIRFRAMETYPE_HELICP);
 
     UpdateType();
 
@@ -784,7 +784,7 @@ SystemSettings::AirframeTypeOptions ConfigCcpmWidget::updateConfigObjectsFromWid
     return airframeType;
 }
 
-void ConfigCcpmWidget::refreshWidgetsValues(uint16_t frameType) //UpdateCCPMUIFromOptions()
+void ConfigCcpmWidget::refreshAirframeWidgetsValues(SystemSettings::AirframeTypeOptions frameType) //UpdateCCPMUIFromOptions()
 {
     Q_UNUSED(frameType);
 
