@@ -42,19 +42,12 @@ ENABLE_AUX_UART ?= NO
 #
 USE_BOOTLOADER ?= NO
 
-
-# Set to YES when using Code Sourcery toolchain
-CODE_SOURCERY ?= NO
-
-# Remove command is different for Code Sourcery on Windows
-REMOVE_CMD ?= rm
-
 # List of modules to include
 MODULES += Actuator ManualControl Stabilization 
-MODULES += PathPlanner
 MODULES += Attitude/revolution
 MODULES += FirmwareIAP
 
+OPTMODULES += PathPlanner
 OPTMODULES += AltitudeHold 
 OPTMODULES += VtolPathFollower 
 OPTMODULES += FixedWingPathFollower
@@ -350,9 +343,6 @@ CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS)) -I.
 #CROSS_COMPILE=/usr/local/android-ndk-r5/toolchains/arm-linux-androideabi-4.4.3/prebuilt/darwin-x86/bin/arm-linux-androideabi-
 
 CFLAGS += -fomit-frame-pointer
-ifeq ($(CODE_SOURCERY), YES)
-CFLAGS += -fpromote-loop-indices
-endif
 
 CFLAGS += -Wall
 CFLAGS += -Werror
@@ -397,7 +387,7 @@ OBJCOPY = $(TCHAIN_PREFIX)objcopy
 OBJDUMP = $(TCHAIN_PREFIX)objdump
 SIZE    = $(TCHAIN_PREFIX)size
 NM      = $(TCHAIN_PREFIX)nm
-REMOVE  = $(REMOVE_CMD) -f
+REMOVE  = rm -f
 PYTHON  = python
 ###SHELL   = sh
 ###COPY    = cp

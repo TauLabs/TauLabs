@@ -193,7 +193,7 @@ static void vtolPathFollowerTask(void *parameters)
 			(systemSettings.AirframeType != SYSTEMSETTINGS_AIRFRAMETYPE_OCTOCOAXP) &&
 			(systemSettings.AirframeType != SYSTEMSETTINGS_AIRFRAMETYPE_TRI) )
 		{
-			AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE,SYSTEMALARMS_ALARM_WARNING);
+			AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_WARNING);
 			vTaskDelay(1000);
 			continue;
 		}
@@ -216,7 +216,7 @@ static void vtolPathFollowerTask(void *parameters)
 					updateEndpointVelocity();
 					updateVtolDesiredAttitude();
 				} else {
-					AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE,SYSTEMALARMS_ALARM_ERROR);
+					AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_ERROR);
 				}
 				break;
 			case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
@@ -224,7 +224,7 @@ static void vtolPathFollowerTask(void *parameters)
 					updateEndpointVelocity();
 					updateVtolDesiredAttitude();
 				} else {
-					AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE,SYSTEMALARMS_ALARM_ERROR);
+					AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_ERROR);
 				}
 				break;
 			case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
@@ -238,7 +238,7 @@ static void vtolPathFollowerTask(void *parameters)
 					updatePathVelocity();
 					updateVtolDesiredAttitude();
 				} else {
-					AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE,SYSTEMALARMS_ALARM_ERROR);
+					AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_ERROR);
 				}
 				break;
 			default:
@@ -258,7 +258,7 @@ static void vtolPathFollowerTask(void *parameters)
 				break;
 		}
 
-		AlarmsClear(SYSTEMALARMS_ALARM_GUIDANCE);
+		AlarmsClear(SYSTEMALARMS_ALARM_PATHFOLLOWER);
 
 	}
 }

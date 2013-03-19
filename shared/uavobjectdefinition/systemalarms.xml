@@ -14,7 +14,7 @@
                 <elementname>Attitude</elementname>
                 <elementname>Sensors</elementname>
                 <elementname>Stabilization</elementname>
-                <elementname>Guidance</elementname>
+                <elementname>PathFollower</elementname>
                 <elementname>PathPlanner</elementname>
                 <elementname>Battery</elementname>
                 <elementname>FlightTime</elementname>

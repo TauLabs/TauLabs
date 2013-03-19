@@ -365,7 +365,7 @@ void deviceWidget::uploadFirmware()
      */
 
     QByteArray desc = loadedFW.right(100);
-    if (desc.startsWith("OpFw")) {
+    if (desc.startsWith("TlFw") || desc.startsWith("OpFw")) {
         descriptionArray = desc;
         // Now do sanity checking:
         // - Check whether board type matches firmware:
@@ -539,18 +539,18 @@ QString deviceWidget::setOpenFileName()
 	fwDirectory=QDir(fwDirectoryStr);
     fwDirectory.cd("../../..");
     fwDirectoryStr=fwDirectory.absolutePath();
-    fwDirectoryStr=fwDirectoryStr+"/fw_"+myDevice->lblBrdName->text().toLower()+"/fw_"+myDevice->lblBrdName->text().toLower()+".opfw";
+    fwDirectoryStr=fwDirectoryStr+"/fw_"+myDevice->lblBrdName->text().toLower()+"/fw_"+myDevice->lblBrdName->text().toLower()+".tlfw";
 #elif defined Q_OS_MAC
     fwDirectoryStr=QCoreApplication::applicationDirPath();
     fwDirectory=QDir(fwDirectoryStr);
     fwDirectory.cd("../../../../../..");
     fwDirectoryStr=fwDirectory.absolutePath();
-    fwDirectoryStr=fwDirectoryStr+"/fw_"+myDevice->lblBrdName->text().toLower()+"/fw_"+myDevice->lblBrdName->text().toLower()+".opfw";
+    fwDirectoryStr=fwDirectoryStr+"/fw_"+myDevice->lblBrdName->text().toLower()+"/fw_"+myDevice->lblBrdName->text().toLower()+".tlfw";
 #endif
     QString fileName = QFileDialog::getOpenFileName(this,
                                                     tr("Select firmware file"),
                                                     fwDirectoryStr,
-                                                    tr("Firmware Files (*.opfw *.bin)"),
+                                                    tr("Firmware Files (*.opfw *.tlfw *.bin)"),
                                                     &selectedFilter,
                                                     options);
     return fileName;

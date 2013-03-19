@@ -11,6 +11,9 @@
 QT_SDK_DIR := $(TOOLS_DIR)/qtsdk-v1.2.1
 QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/Desktop/Qt/4.8.1/gcc/bin/qmake
 
+# Build openocd without FTDI (yes | no)
+OPENOCD_FTDI ?= yes
+
 .PHONY: qt_sdk_install
 
 ifeq ($(UNAME), Linux)
@@ -61,10 +64,19 @@ qt_sdk_clean:
 	$(V1) [ ! -d "$(QT_SDK_DIR)" ] || $(RM) -rf $(QT_SDK_DIR)
 
 # Set up ARM (STM32) SDK
-ARM_SDK_DIR := $(TOOLS_DIR)/gcc-arm-none-eabi-4_6-2012q4
+ARM_SDK_DIR := $(TOOLS_DIR)/gcc-arm-none-eabi-4_7-2012q4
 
 .PHONY: arm_sdk_install
-arm_sdk_install: ARM_SDK_URL  := https://launchpad.net/gcc-arm-embedded/4.6/4.6-2012-q4-update/+download/gcc-arm-none-eabi-4_6-2012q4-20121016.tar.bz2
+ifeq ($(UNAME), Linux)
+# Linux
+arm_sdk_install: ARM_SDK_URL  := https://launchpad.net/gcc-arm-embedded/4.7/4.7-2012-q4-major/+download/gcc-arm-none-eabi-4_7-2012q4-20121208-linux.tar.bz2
+endif
+
+ifeq ($(UNAME), Darwin)
+# Mac
+arm_sdk_install: ARM_SDK_URL  := https://launchpad.net/gcc-arm-embedded/4.7/4.7-2012-q4-major/+download/gcc-arm-none-eabi-4_7-2012q4-20121208-mac.tar.bz2
+endif
+
 arm_sdk_install: ARM_SDK_FILE := $(notdir $(ARM_SDK_URL))
 # order-only prereq on directory existance:
 arm_sdk_install: | $(DL_DIR) $(TOOLS_DIR)
@@ -88,6 +100,12 @@ OPENOCD_BUILD_DIR := $(DL_DIR)/openocd-build
 openocd_install: | $(DL_DIR) $(TOOLS_DIR)
 openocd_install: OPENOCD_URL  := http://sourceforge.net/projects/openocd/files/openocd/0.6.1/openocd-0.6.1.tar.bz2/download
 openocd_install: OPENOCD_FILE := openocd-0.6.1.tar.bz2
+openocd_install: OPENOCD_OPTIONS := --prefix="$(OPENOCD_DIR)" --enable-stlink
+
+ifeq ($(OPENOCD_FTDI), yes)
+openocd_install: OPENOCD_OPTIONS := $(OPENOCD_OPTIONS) --enable-ft2232_libftdi
+endif
+
 openocd_install: openocd_clean
         # download the source only if it's newer than what we already have
 	$(V1) wget -N -P "$(DL_DIR)" --trust-server-name "$(OPENOCD_URL)"
@@ -109,7 +127,7 @@ openocd_install: openocd_clean
 	$(V1) mkdir -p "$(OPENOCD_DIR)"
 	$(V1) ( \
 	  cd $(OPENOCD_BUILD_DIR)/openocd-0.6.1 ; \
-	  ./configure --prefix="$(OPENOCD_DIR)" --enable-ft2232_libftdi --enable-stlink ; \
+	  ./configure $(OPENOCD_OPTIONS) ; \
 	  $(MAKE) --silent ; \
 	  $(MAKE) --silent install ; \
 	)
@@ -170,7 +188,14 @@ libusb_win_clean:
 openocd_git_win_install: | $(DL_DIR) $(TOOLS_DIR)
 openocd_git_win_install: OPENOCD_URL  := git://git.code.sf.net/p/openocd/code
 openocd_git_win_install: OPENOCD_REV  := cf1418e9a85013bbf8dbcc2d2e9985695993d9f4
+openocd_git_win_install: OPENOCD_OPTIONS := 
+
+ifeq ($(OPENOCD_FTDI), yes)
+openocd_git_win_install: OPENOCD_OPTIONS := $(OPENOCD_OPTIONS) --enable-ft2232_ftd2xx --with-ftd2xx-win32-zipdir=$(FTD2XX_DIR)
+endif
+
 openocd_git_win_install: openocd_win_clean libusb_win_install ftd2xx_install
+
         # download the source
 	$(V0) @echo " DOWNLOAD     $(OPENOCD_URL) @ $(OPENOCD_REV)"
 	$(V1) [ ! -d "$(OPENOCD_BUILD_DIR)" ] || $(RM) -rf "$(OPENOCD_BUILD_DIR)"
@@ -199,7 +224,7 @@ openocd_git_win_install: openocd_win_clean libusb_win_install ftd2xx_install
 		--build=i686-pc-linux-gnu --host=i586-mingw32msvc \
 		CPPFLAGS=-I$(LIBUSB_WIN_DIR)/include \
 		LDFLAGS=-L$(LIBUSB_WIN_DIR)/lib/gcc \
-		--enable-ft2232_ftd2xx --with-ftd2xx-win32-zipdir=$(FTD2XX_DIR) \
+		$(OPENOCD_OPTIONS) \
 		--disable-werror \
 		--enable-stlink ; \
 	  $(MAKE) ; \
@@ -219,7 +244,11 @@ openocd_win_clean:
 openocd_git_install: | $(DL_DIR) $(TOOLS_DIR)
 openocd_git_install: OPENOCD_URL     := git://git.code.sf.net/p/openocd/code
 openocd_git_install: OPENOCD_REV     := cf1418e9a85013bbf8dbcc2d2e9985695993d9f4
-openocd_git_install: OPENOCD_OPTIONS := --enable-maintainer-mode --prefix="$(OPENOCD_DIR)" --enable-ft2232_libftdi --enable-buspirate --enable-stlink
+openocd_git_install: OPENOCD_OPTIONS := --enable-maintainer-mode --prefix="$(OPENOCD_DIR)" --enable-buspirate --enable-stlink
+
+ifeq ($(OPENOCD_FTDI), yes)
+openocd_git_install: OPENOCD_OPTIONS := $(OPENOCD_OPTIONS) --enable-ft2232_libftdi
+endif
 
 ifeq ($(UNAME), Darwin)
 openocd_git_install: OPENOCD_OPTIONS := $(OPENOCD_OPTIONS) --disable-option-checking

@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       calibration.h
- * @author     The PhoenixPilo Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     The PhoenixPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @brief      Gui-less support class for calibration
  *****************************************************************************/
 /*
@@ -26,7 +26,7 @@
 #include <uavobjectmanager.h>
 #include <extensionsystem/pluginmanager.h>
 #include <uavobject.h>
-//#include <uavobjectutilmanager.h>
+#include <tempcompcurve.h>
 
 #include <QObject>
 #include <QTimer>
@@ -50,7 +50,8 @@ private:
         SIX_POINT_WAIT3, SIX_POINT_COLLECT3,
         SIX_POINT_WAIT4, SIX_POINT_COLLECT4,
         SIX_POINT_WAIT5, SIX_POINT_COLLECT5,
-        SIX_POINT_WAIT6, SIX_POINT_COLLECT6
+        SIX_POINT_WAIT6, SIX_POINT_COLLECT6,
+        GYRO_TEMP_CAL
     } calibration_state;
 
 public slots:
@@ -66,12 +67,28 @@ public slots:
     //! Indicates UAV is in a position to collect data during 6pt calibration
     void doSaveSixPointPosition();
 
+    //! Start collecting gyro temp calibration data
+    void doStartTempCal();
+
+    //! Accept gyro temp calibration data
+    void doAcceptTempCal();
+
+    //! Cancels the temperature calibration routine
+    void doCancelTempCalPoint();
+
+    //! Set up the curves
+    void configureTempCurves(TempCompCurve *x, TempCompCurve *y, TempCompCurve *z);
+
 private slots:
     //! New data acquired
     void dataUpdated(UAVObject *);
 
     //! Data collection timed out
     void timeout();
+
+public slots:
+    //! Set temperature calibration range
+    void setTempCalRange(int r);
 
 signals:
     //! Indicate whether to enable or disable controls
@@ -95,6 +112,12 @@ signals:
     //! Indicate what the progress is for six point collection
     void sixPointProgressChanged(int);
 
+    //! Show an instruction or message from temperature calibration
+    void showTempCalMessage(QString message);
+
+    //! Indicate what the progress is for leveling
+    void tempCalProgressChanged(int);
+
 private:
     QTimer timer;
 
@@ -116,6 +139,7 @@ private:
     QList<double> gyro_accum_x;
     QList<double> gyro_accum_y;
     QList<double> gyro_accum_z;
+    QList<double> gyro_accum_temp;
     QList<double> accel_accum_x;
     QList<double> accel_accum_y;
     QList<double> accel_accum_z;
@@ -123,12 +147,14 @@ private:
     QList<double> mag_accum_y;
     QList<double> mag_accum_z;
 
+    double gyro_data_x[6], gyro_data_y[6], gyro_data_z[6];
     double accel_data_x[6], accel_data_y[6], accel_data_z[6];
     double mag_data_x[6], mag_data_y[6], mag_data_z[6];
 
     static const int NUM_SENSOR_UPDATES = 300;
-    static const int NUM_SENSOR_UPDATES_SIX_POINT = 50;
+    static const int NUM_SENSOR_UPDATES_SIX_POINT = 100;
     static const int SENSOR_UPDATE_PERIOD = 50;
+    double MIN_TEMPERATURE_RANGE;
 
     double initialBoardRotation[3];
     double initialAccelsScale[3];
@@ -136,6 +162,9 @@ private:
     double initialMagsScale[3];
     double initialMagsBias[3];
 
+    TempCompCurve *xCurve;
+    TempCompCurve *yCurve;
+    TempCompCurve *zCurve;
 protected:
 
     //! Get the object manager
@@ -167,8 +196,23 @@ protected:
     //! Compute the mean value of a list
     static double listMean(QList<double> list);
 
+    //! Compute the min value of a list
+    static double listMin(QList<double> list);
+
+    //! Compute the max value of a list
+    static double listMax(QList<double> list);
+
     //! Reset sensor settings to pre-calibration values
     void resetSensorCalibrationToOriginalValues();
+
+    //! Store a sample for temperature compensation
+    bool storeTempCalMeasurement(UAVObject *obj);
+
+    //! Compute temperature compensation factors
+    int computeTempCal();
+
+    //! Update the graphs with the temperature compensation
+    void updateTempCompCalibrationDisplay();
 
 };
 

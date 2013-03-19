@@ -32,7 +32,7 @@
  *
  *
  * Structure is:
- *   4 bytes: header: "OpFw".
+ *   4 bytes: header: "TlFw".
  *   4 bytes: GIT commit tag (short version of SHA1).
  *   4 bytes: Unix timestamp of compile time.
  *   2 bytes: target platform. Should follow same rule as BOARD_TYPE and BOARD_REVISION in board define files.
@@ -56,7 +56,7 @@ struct __attribute__((packed)) fw_version_info {
 };
 
 const struct fw_version_info fw_version_blob __attribute__((used)) __attribute__((__section__(".fw_version_blob"))) = {
-	.magic = { 'O','p','F','w' },
+	.magic = { 'T','l','F','w' },
 	.commit_hash_prefix = 0x${HASH8},
 	.timestamp = ${UNIXTIME},
 	.board_type = ${BOARD_TYPE},

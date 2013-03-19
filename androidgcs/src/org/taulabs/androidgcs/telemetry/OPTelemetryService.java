@@ -161,6 +161,11 @@ public class OPTelemetryService extends Service {
 				telemTask = new HidUAVTalk(this);
 				activeTelem = new Thread(telemTask, "Hid telemetry thread");
 				break;
+			case 5:
+				Toast.makeText(getApplicationContext(), "Attempting serial connection", Toast.LENGTH_SHORT).show();
+				telemTask = new SerialUAVTalk(this);
+				activeTelem = new Thread(telemTask, "Serial telemetry thread");
+				break;
 			default:
 				throw new Error("Unsupported");
 			}

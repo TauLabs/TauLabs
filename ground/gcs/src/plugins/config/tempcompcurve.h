@@ -1,13 +1,12 @@
 /**
  ******************************************************************************
- *
- * @file       defaultattitudewidget.cpp
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @file       tempcompcurve.h
+ * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
  * @{
- * @brief Placeholder for attitude panel until board is connected.
+ * @brief Display the results of temperature compensation
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -24,21 +23,38 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#include "defaultattitudewidget.h"
-#include "ui_defaultattitude.h"
-#include <QMutexLocker>
-#include <QErrorMessage>
-#include <QDebug>
 
-DefaultAttitudeWidget::DefaultAttitudeWidget(QWidget *parent) :
-        QWidget(parent),
-        ui(new Ui_defaultattitude)
+#ifndef TEMPCOMPCURVE_H
+#define TEMPCOMPCURVE_H
+
+#include <QWidget>
+
+#include "qwt/src/qwt.h"
+#include "qwt/src/qwt_plot.h"
+#include "qwt/src/qwt_plot_curve.h"
+#include "qwt/src/qwt_scale_draw.h"
+#include "qwt/src/qwt_scale_widget.h"
+#include "qwt/src/qwt_plot_grid.h"
+
+class TempCompCurve : public QwtPlot
 {
-    ui->setupUi(this);
-}
+    Q_OBJECT
+public:
+    explicit TempCompCurve(QWidget *parent = 0);
+    
+    //! Show calibration data for one of the channels
+    void plotData(QList<double> temp, QList<double> gyro, QList<double> coefficients);
+signals:
+    
+public slots:
 
-DefaultAttitudeWidget::~DefaultAttitudeWidget()
-{
-    delete ui;
-}
+private:
+    void clearCurves();
 
+    QVector<QPointF> points;
+    QVector<QPointF> fit;
+    QwtPlotCurve *dataCurve;
+    QwtPlotCurve *fitCurve;
+};
+
+#endif // TEMPCOMPCURVE_H

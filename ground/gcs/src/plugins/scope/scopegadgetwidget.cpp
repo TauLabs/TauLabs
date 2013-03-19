@@ -3,6 +3,7 @@
  *
  * @file       scopegadgetwidget.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ScopePlugin Scope Gadget Plugin
@@ -27,9 +28,11 @@
 
 
 #include <QDir>
-#include "scopegadgetwidget.h"
-#include "utils/stylehelper.h"
 
+#include "scopegadgetwidget.h"
+#include "scopegadgetconfiguration.h"
+
+#include "utils/stylehelper.h"
 #include "uavtalk/telemetrymanager.h"
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
@@ -37,10 +40,10 @@
 #include "coreplugin/icore.h"
 #include "coreplugin/connectionmanager.h"
 
-#include "qwt/src/qwt_plot_curve.h"
 #include "qwt/src/qwt_legend.h"
 #include "qwt/src/qwt_legend_item.h"
-#include "qwt/src/qwt_plot_grid.h"
+#include "qwt/src/qwt_double_range.h"
+#include "qwt/src/qwt_scale_widget.h"
 
 #include <iostream>
 #include <math.h>
@@ -53,17 +56,22 @@
 #include <QMutexLocker>
 #include <QWheelEvent>
 
-//using namespace Core;
 
-// ******************************************************************
+QTimer *ScopeGadgetWidget::replotTimer=0;
 
-ScopeGadgetWidget::ScopeGadgetWidget(QWidget *parent) : QwtPlot(parent)
+ScopeGadgetWidget::ScopeGadgetWidget(QWidget *parent) : QwtPlot(parent),
+    m_refreshInterval(50), // Arbitrary 50ms refresh timer
+    m_scope(0),
+    m_xWindowSize(60) // This is an arbitrary 1 minute window
 {
-	setMouseTracking(true);
+    m_grid = new QwtPlotGrid;
+
+    setMouseTracking(true);
 //	canvas()->setMouseTracking(true);
 
-    //Setup the timer that replots data
-    replotTimer = new QTimer(this);
+    //Set up the timer that replots data. Only set up one timer for entire class.
+    if (replotTimer == NULL)
+        replotTimer = new QTimer();
     connect(replotTimer, SIGNAL(timeout()), this, SLOT(replotNewData()));
 
     // Listen to telemetry connection/disconnection events, no point in
@@ -72,65 +80,62 @@ ScopeGadgetWidget::ScopeGadgetWidget(QWidget *parent) : QwtPlot(parent)
     Core::ConnectionManager *cm = Core::ICore::instance()->connectionManager();
     connect(cm, SIGNAL(deviceAboutToDisconnect()), this, SLOT(stopPlotting()));
     connect(cm, SIGNAL(deviceConnected(QIODevice*)), this, SLOT(startPlotting()));
-
-    m_csvLoggingStarted=0;
-    m_csvLoggingEnabled=0;
-    m_csvLoggingHeaderSaved=0;
-    m_csvLoggingDataSaved=0;
-    m_csvLoggingDataUpdated=0;
-    m_csvLoggingNameSet=0;
-    m_csvLoggingConnected=0;
-    m_csvLoggingNewFileOnConnect=0;
-    m_csvLoggingPath = QString("./csvlogging/");
-    m_csvLoggingStartTime = QDateTime::currentDateTime();
-
-    //Listen to autopilot connection events
-    connect(cm, SIGNAL(deviceAboutToDisconnect()), this, SLOT(csvLoggingDisconnect()));
-    connect(cm, SIGNAL(deviceConnected(QIODevice*)), this, SLOT(csvLoggingConnect()));
 }
 
+/**
+ * @brief ScopeGadgetWidget::~ScopeGadgetWidget Destructor
+ */
 ScopeGadgetWidget::~ScopeGadgetWidget()
 {
-	if (replotTimer)
-	{
-		replotTimer->stop();
+    // Get the object to de-monitor
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
+    foreach (QString uavObjName, m_connectedUAVObjects)
+    {
+        UAVDataObject *obj = dynamic_cast<UAVDataObject*>(objManager->getObject(uavObjName));
+        disconnect(obj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(uavObjectReceived(UAVObject*)));
+    }
 
-		delete replotTimer;
-		replotTimer = NULL;
-	}
-
-	// Get the object to de-monitor
-	ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-	UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-	foreach (QString uavObjName, m_connectedUAVObjects)
-	{
-		UAVDataObject *obj = dynamic_cast<UAVDataObject*>(objManager->getObject(uavObjName));
-		disconnect(obj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(uavObjectReceived(UAVObject*)));
-	}
-
-	clearCurvePlots();
+    // Clear the plot
+    clearPlotWidget();
 }
 
 // ******************************************************************
 
+/**
+ * @brief ScopeGadgetWidget::mousePressEvent Pass mouse press event to QwtPlot
+ * @param e
+ */
 void ScopeGadgetWidget::mousePressEvent(QMouseEvent *e)
 {
-	QwtPlot::mousePressEvent(e);
+    QwtPlot::mousePressEvent(e);
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::mouseReleaseEvent Pass mouse release event to QwtPlot
+ * @param e
+ */
 void ScopeGadgetWidget::mouseReleaseEvent(QMouseEvent *e)
 {
-	QwtPlot::mouseReleaseEvent(e);
+    QwtPlot::mouseReleaseEvent(e);
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::mouseDoubleClickEvent Turn legend on and off, then pass double-click even to QwtPlot
+ * @param e
+ */
 void ScopeGadgetWidget::mouseDoubleClickEvent(QMouseEvent *e)
 {
     //On double-click, toggle legend
     mutex.lock();
+
     if (legend())
         deleteLegend();
     else
         addLegend();
+
     mutex.unlock();
 
     //On double-click, reset plot zoom
@@ -138,14 +143,24 @@ void ScopeGadgetWidget::mouseDoubleClickEvent(QMouseEvent *e)
 
     update();
 
-	QwtPlot::mouseDoubleClickEvent(e);
+    QwtPlot::mouseDoubleClickEvent(e);
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::mouseMoveEvent Pass mouse move event to QwtPlot
+ * @param e
+ */
 void ScopeGadgetWidget::mouseMoveEvent(QMouseEvent *e)
 {
-	QwtPlot::mouseMoveEvent(e);
+    QwtPlot::mouseMoveEvent(e);
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::wheelEvent Zoom in or out, then pass mouse wheel event to QwtPlot
+ * @param e
+ */
 void ScopeGadgetWidget::wheelEvent(QWheelEvent *e)
 {
     //Change zoom on scroll wheel event
@@ -178,70 +193,74 @@ void ScopeGadgetWidget::wheelEvent(QWheelEvent *e)
     QwtPlot::wheelEvent(e);
 }
 
+
 /**
- * Starts/stops telemetry
+ * @brief ScopeGadgetWidget::startPlotting Starts/stops telemetry
  */
 void ScopeGadgetWidget::startPlotting()
 {
-	if (!replotTimer)
-		return;
+    if (!replotTimer)
+        return;
 
-	if (!replotTimer->isActive())
+    if (!replotTimer->isActive())
         replotTimer->start(m_refreshInterval);
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::stopPlotting Stops plotting timer
+ */
 void ScopeGadgetWidget::stopPlotting()
 {
-	if (!replotTimer)
-		return;
+    if (!replotTimer)
+        return;
 
-	replotTimer->stop();
+    replotTimer->stop();
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::deleteLegend Delete legend from plot
+ */
 void ScopeGadgetWidget::deleteLegend()
 {
-	if (!legend())
-		return;
+    if (!legend())
+        return;
 
-	disconnect(this, SIGNAL(legendChecked(QwtPlotItem *, bool)), this, 0);
+    disconnect(this, SIGNAL(legendChecked(QwtPlotItem *, bool)), this, 0);
 
-	insertLegend(NULL, QwtPlot::TopLegend);
-//	insertLegend(NULL, QwtPlot::ExternalLegend);
+    m_legend->clear();
+    insertLegend(NULL, QwtPlot::TopLegend);
 }
 
+
+/**
+ * @brief ScopeGadgetWidget::addLegend Add legend to plot
+ */
 void ScopeGadgetWidget::addLegend()
 {
-	if (legend())
-		return;
+    if (legend())
+        return;
 
-	// Show a legend at the top
-	QwtLegend *legend = new QwtLegend();
-	legend->setItemMode(QwtLegend::CheckableItem);
-	legend->setFrameStyle(QFrame::Box | QFrame::Sunken);
-	legend->setToolTip(tr("Click legend to show/hide scope trace"));
+    // Show a legend at the top
+    m_legend = new QwtLegend;
+    m_legend->setItemMode(QwtLegend::CheckableItem);
+    m_legend->setFrameStyle(QFrame::Box | QFrame::Sunken);
+    m_legend->setToolTip(tr("Click legend to show/hide scope trace"));
 
-	QPalette pal = legend->palette();
-	pal.setColor(legend->backgroundRole(), QColor(100, 100, 100));	// background colour
-//	pal.setColor(legend->backgroundRole(), Qt::transparent);		// background colour
-//	pal.setColor(QPalette::Text, QColor(255, 255, 255));			// text colour
-	pal.setColor(QPalette::Text, QColor(0, 0, 0));			// text colour
-	legend->setPalette(pal);
+    QPalette pal = m_legend->palette();
+    pal.setColor(m_legend->backgroundRole(), QColor(100, 100, 100));	// background colour
+    pal.setColor(QPalette::Text, QColor(0, 0, 0));			// text colour
+    m_legend->setPalette(pal);
 
-	insertLegend(legend, QwtPlot::TopLegend);
-//	insertLegend(legend, QwtPlot::ExternalLegend);
-
-//	// Show a legend at the bottom
-//	QwtLegend *legend = new QwtLegend();
-//	legend->setItemMode(QwtLegend::CheckableItem);
-//	legend->setFrameStyle(QFrame::Box | QFrame::Sunken);
-//	insertLegend(legend, QwtPlot::BottomLegend);
+    insertLegend(m_legend, QwtPlot::TopLegend);
 
     // Update the checked/unchecked state of the legend items
     // -> this is necessary when hiding a legend where some plots are
     //    not visible, and the un-hiding it.
     foreach (QwtPlotItem *item, this->itemList()) {
         bool on = item->isVisible();
-        QWidget *w = legend->find(item);
+        QWidget *w = m_legend->find(item);
         if ( w && w->inherits("QwtLegendItem") )
             ((QwtLegendItem *)w)->setChecked(!on);
     }
@@ -249,47 +268,12 @@ void ScopeGadgetWidget::addLegend()
     connect(this, SIGNAL(legendChecked(QwtPlotItem *, bool)), this, SLOT(showCurve(QwtPlotItem *, bool)));
 }
 
-void ScopeGadgetWidget::preparePlot(PlotType plotType)
-{
-    m_plotType = plotType;
 
-    clearCurvePlots();
-
-    setMinimumSize(64, 64);
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-
-//	setMargin(1);
-
-//	QPalette pal = palette();
-//	QPalette::ColorRole cr = backgroundRole();
-//	pal.setColor(cr, QColor(128, 128, 128));				// background colour
-//	pal.setColor(QPalette::Text, QColor(255, 255, 255));	// text colour
-//	setPalette(pal);
-
-//    setCanvasBackground(Utils::StyleHelper::baseColor());
-    setCanvasBackground(QColor(64, 64, 64));
-
-    //Add grid lines
-    QwtPlotGrid *grid = new QwtPlotGrid;
-    grid->setMajPen(QPen(Qt::gray, 0, Qt::DashLine));
-    grid->setMinPen(QPen(Qt::lightGray, 0, Qt::DotLine));
-    grid->setPen(QPen(Qt::darkGray, 1, Qt::DotLine));
-    grid->attach(this);
-
-    // Add the legend
-    addLegend();
-
-    // Only start the timer if we are already connected
-    Core::ConnectionManager *cm = Core::ICore::instance()->connectionManager();
-    if (cm->getCurrentConnection() && replotTimer)
-    {
-        if (!replotTimer->isActive())
-            replotTimer->start(m_refreshInterval);
-        else
-            replotTimer->setInterval(m_refreshInterval);
-    }
-}
-
+/**
+ * @brief ScopeGadgetWidget::showCurve
+ * @param item
+ * @param on
+ */
 void ScopeGadgetWidget::showCurve(QwtPlotItem *item, bool on)
 {
     item->setVisible(!on);
@@ -297,452 +281,139 @@ void ScopeGadgetWidget::showCurve(QwtPlotItem *item, bool on)
     if ( w && w->inherits("QwtLegendItem") )
         ((QwtLegendItem *)w)->setChecked(on);
 
-	mutex.lock();
-		replot();
-	mutex.unlock();
+    mutex.lock();
+        replot();
+    mutex.unlock();
 }
 
-void ScopeGadgetWidget::setupSequentialPlot()
+
+/**
+ * @brief ScopeGadgetWidget::uavObjectReceived
+ * @param obj
+ */
+void ScopeGadgetWidget::uavObjectReceived(UAVObject* obj)
 {
-    preparePlot(SequentialPlot);
-
-//	QwtText title("Index");
-////	title.setFont(QFont("Helvetica", 20));
-//	title.font().setPointSize(title.font().pointSize() / 2);
-//	setAxisTitle(QwtPlot::xBottom, title);
-////    setAxisTitle(QwtPlot::xBottom, "Index");
-
-    setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());
-    setAxisScale(QwtPlot::xBottom, 0, m_xWindowSize);
-    setAxisLabelRotation(QwtPlot::xBottom, 0.0);
-    setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom);
-
-	QwtScaleWidget *scaleWidget = axisWidget(QwtPlot::xBottom);
-
-	// reduce the gap between the scope canvas and the axis scale
-	scaleWidget->setMargin(0);
-
-	// reduce the axis font size
-	QFont fnt(axisFont(QwtPlot::xBottom));
-	fnt.setPointSize(7);
-	setAxisFont(QwtPlot::xBottom, fnt);	// x-axis
-	setAxisFont(QwtPlot::yLeft, fnt);	// y-axis
+    foreach(PlotData* plotdData, m_dataSources.values()) {
+        bool ret = plotdData->append(obj);
+        if (ret)
+            plotdData->setUpdatedFlagToTrue();
+    }
 }
 
-void ScopeGadgetWidget::setupChronoPlot()
+
+
+/**
+ * @brief ScopeGadgetWidget::replotNewData
+ */
+void ScopeGadgetWidget::replotNewData()
 {
-    preparePlot(ChronoPlot);
+    // If the plot is not visible or there is no scope, do not replot
+    if (!isVisible() || m_scope == NULL)
+        return;
 
-//	QwtText title("Time [h:m:s]");
-////	title.setFont(QFont("Helvetica", 20));
-//	title.font().setPointSize(title.font().pointSize() / 2);
-//	setAxisTitle(QwtPlot::xBottom, title);
-////	setAxisTitle(QwtPlot::xBottom, "Time [h:m:s]");
+    QMutexLocker locker(&mutex);
 
-    setAxisScaleDraw(QwtPlot::xBottom, new TimeScaleDraw());
-    uint NOW = QDateTime::currentDateTime().toTime_t();
-    setAxisScale(QwtPlot::xBottom, NOW - m_xWindowSize / 1000, NOW);
-//	setAxisLabelRotation(QwtPlot::xBottom, -15.0);
-	setAxisLabelRotation(QwtPlot::xBottom, 0.0);
-	setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom);
-//	setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignCenter | Qt::AlignBottom);
+    // Update the data in the scopes
+    foreach(PlotData* plotData, m_dataSources.values())
+    {
+        plotData->plotNewData(plotData, m_scope, this);
+    }
 
-	QwtScaleWidget *scaleWidget = axisWidget(QwtPlot::xBottom);
-//	QwtScaleDraw *scaleDraw = axisScaleDraw();
-
-	// reduce the gap between the scope canvas and the axis scale
-	scaleWidget->setMargin(0);
-
-	// reduce the axis font size
-	QFont fnt(axisFont(QwtPlot::xBottom));
-	fnt.setPointSize(7);
-	setAxisFont(QwtPlot::xBottom, fnt);	// x-axis
-	setAxisFont(QwtPlot::yLeft, fnt);	// y-axis
-
-	// set the axis colours .. can't seem to change the background colour :(
-//	QPalette pal = scaleWidget->palette();
-//	QPalette::ColorRole cr = scaleWidget->backgroundRole();
-//	pal.setColor(cr, QColor(128, 128, 128));				// background colour
-//	cr = scaleWidget->foregroundRole();
-//	pal.setColor(cr, QColor(255, 255, 255));				// tick colour
-//	pal.setColor(QPalette::Text, QColor(255, 255, 255));	// text colour
-//	scaleWidget->setPalette(pal);
-
-    /*
-     In situations, when there is a label at the most right position of the
-     scale, additional space is needed to display the overlapping part
-     of the label would be taken by reducing the width of scale and canvas.
-     To avoid this "jumping canvas" effect, we add a permanent margin.
-     We don't need to do the same for the left border, because there
-     is enough space for the overlapping label below the left scale.
-     */
-
-//	const int fmh = QFontMetrics(scaleWidget->font()).height();
-//	scaleWidget->setMinBorderDist(0, fmh / 2);
-
-//	const int fmw = QFontMetrics(scaleWidget->font()).width(" 00:00:00 ");
-//	const int fmw = QFontMetrics(scaleWidget->font()).width(" ");
-//	scaleWidget->setMinBorderDist(0, fmw);
+    // Repaint the scopes
+    replot();
 }
 
-void ScopeGadgetWidget::addCurvePlot(QString uavObject, QString uavFieldSubField, int scaleOrderFactor, int meanSamples, QString mathFunction, QPen pen)
+
+/**
+ * @brief ScopeGadgetWidget::clearPlotWidget
+ */
+void ScopeGadgetWidget::clearPlotWidget()
 {
-    PlotData* plotData;
+    if(m_grid){
+        m_grid->detach();
+    }
+    if(m_scope){
+        // Clear the plots
+        foreach(PlotData* plotData, m_dataSources.values()) {
+            plotData->clearPlots(plotData);
+        }
 
-    if (m_plotType == SequentialPlot)
-        plotData = new SequentialPlotData(uavObject, uavFieldSubField);
-    else if (m_plotType == ChronoPlot)
-        plotData = new ChronoPlotData(uavObject, uavFieldSubField);
-    //else if (m_plotType == UAVObjectPlot)
-    //    plotData = new UAVObjectPlotData(uavObject, uavField);
+        // Clear the data
+        m_dataSources.clear();
+    }
+}
 
-    plotData->m_xWindowSize = m_xWindowSize;
-    plotData->scalePower = scaleOrderFactor;
-    plotData->meanSamples = meanSamples;
-    plotData->mathFunction = mathFunction;
 
-    //If the y-bounds are supplied, set them
-    if (plotData->yMinimum != plotData->yMaximum)
-	{
-		setAxisScale(QwtPlot::yLeft, plotData->yMinimum, plotData->yMaximum);
-	}
-
-    //Create the curve    
-    QString curveName = (plotData->uavObject) + "." + (plotData->uavField);
-    if(plotData->haveSubField)
-        curveName = curveName.append("." + plotData->uavSubField);
-
+/**
+ * @brief ScopeGadgetWidget::getUavObjectFieldUnits Gets the UAVOs units, as defined in the XML
+ * @param uavObjectName
+ * @param uavObjectFieldName
+ * @return
+ */
+QString ScopeGadgetWidget::getUavObjectFieldUnits(QString uavObjectName, QString uavObjectFieldName)
+{
     //Get the uav object
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-    UAVDataObject* obj = dynamic_cast<UAVDataObject*>(objManager->getObject((plotData->uavObject)));
+    UAVDataObject* obj = dynamic_cast<UAVDataObject*>(objManager->getObject(uavObjectName));
     if(!obj) {
-        qDebug() << "Object " << plotData->uavObject << " is missing";
-        return;
+        qDebug() << "In scope gadget, UAVObject " << uavObjectName << " is missing";
+        return "";
     }
-    UAVObjectField* field = obj->getField(plotData->uavField);
+    UAVObjectField* field = obj->getField(uavObjectFieldName);
     if(!field) {
-        qDebug() << "In scope gadget, in fields loaded from GCS config file, field" << plotData->uavField << " of object " << plotData->uavObject << " is missing";
-        return;
+        qDebug() << "In scope gadget, in fields loaded from GCS config file, field" << uavObjectFieldName << " of UAVObject " << uavObjectName << " is missing";
+        return "";
     }
-    QString units = field->getUnits();
 
+    //Get the units
+    QString units = field->getUnits();
     if(units == 0)
         units = QString();
 
-    QString curveNameScaled;
-    if(scaleOrderFactor == 0)
-        curveNameScaled = curveName + "(" + units + ")";
-    else
-        curveNameScaled = curveName + "(x10^" + QString::number(scaleOrderFactor) + " " + units + ")";
+    return units;
+}
 
-    QwtPlotCurve* plotCurve = new QwtPlotCurve(curveNameScaled);
-    plotCurve->setPen(pen);
-    plotCurve->setSamples(*plotData->xData, *plotData->yData);
-    plotCurve->attach(this);
-    plotData->curve = plotCurve;
 
-    //Keep the curve details for later
-    m_curvesData.insert(curveNameScaled, plotData);
+/**
+ * @brief ScopeGadgetWidget::showEvent Reimplemented from QwtPlot
+ * @param event
+ */
+void ScopeGadgetWidget::showEvent(QShowEvent *event)
+{
+    replotNewData();
+    QwtPlot::showEvent(event);
+}
 
+
+/**
+ * @brief ScopeGadgetWidget::connectUAVO Connects UAVO update signal, but only if it hasn't yet been connected
+ * @param obj
+ */
+void ScopeGadgetWidget::connectUAVO(UAVDataObject* obj){
     //Link to the new signal data only if this UAVObject has not been connected yet
     if (!m_connectedUAVObjects.contains(obj->getName())) {
         m_connectedUAVObjects.append(obj->getName());
         connect(obj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(uavObjectReceived(UAVObject*)));
     }
 
-	mutex.lock();
-		replot();
-	mutex.unlock();
-}
-
-//void ScopeGadgetWidget::removeCurvePlot(QString uavObject, QString uavField)
-//{
-//    QString curveName = uavObject + "." + uavField;
-//
-//    PlotData* plotData = m_curvesData.take(curveName);
-//    m_curvesData.remove(curveName);
-//    plotData->curve->detach();
-//
-//    delete plotData->curve;
-//    delete plotData;
-//
-//	mutex.lock();
-//	    replot();
-//	mutex.unlock();
-//}
-
-void ScopeGadgetWidget::uavObjectReceived(UAVObject* obj)
-{
-    foreach(PlotData* plotData, m_curvesData.values()) {
-        if (plotData->append(obj)) m_csvLoggingDataUpdated=1;
-    }
-    csvLoggingAddData();
-}
-
-void ScopeGadgetWidget::replotNewData()
-{
-    // If the plot is not visible, do not replot
-    if (!isVisible())
-        return;
-
-	QMutexLocker locker(&mutex);
-
-	foreach(PlotData* plotData, m_curvesData.values())
-	{
-        plotData->removeStaleData();
-        plotData->curve->setSamples(*plotData->xData, *plotData->yData);
-    }
-
-    QDateTime NOW = QDateTime::currentDateTime();
-    double toTime = NOW.toTime_t();
-    toTime += NOW.time().msec() / 1000.0;
-	if (m_plotType == ChronoPlot)
-        setAxisScale(QwtPlot::xBottom, toTime - m_xWindowSize, toTime);
-
-//	qDebug() << "replotNewData from " << NOW.addSecs(- m_xWindowSize) << " to " << NOW;
-
-    csvLoggingInsertData();
-
-	replot();
-}
-
-/*
-void ScopeGadgetWidget::setupExamplePlot()
-{
-    preparePlot(SequentialPlot);
-
-    // Show the axes
-
-    setAxisTitle(xBottom, "x");
-    setAxisTitle(yLeft, "y");
-
-    // Calculate the data, 500 points each
-    const int points = 500;
-    double x[ points ];
-    double sn[ points ];
-    double cs[ points ];
-    double sg[ points ];
-
-    for (int i = 0; i < points; i++) {
-        x[i] = (3.0 * 3.14 / double(points)) * double(i);
-        sn[i] = 2.0 * sin(x[i]);
-        cs[i] = 3.0 * cos(x[i]);
-        sg[i] = (sn[i] > 0) ? 1 : ((sn[i] < 0) ? -1 : 0);
-    }
-
-    // add curves
-    QwtPlotCurve *curve1 = new QwtPlotCurve("Curve 1");
-    curve1->setPen(QPen(Qt::blue));
-    QwtPlotCurve *curve2 = new QwtPlotCurve("Curve 2");
-    curve2->setPen(QPen(Qt::red));
-    QwtPlotCurve *curve3 = new QwtPlotCurve("Curve 3");
-    curve3->setPen(QPen(Qt::green));
-
-    // copy the data into the curves
-    curve1->setSamples(x, sn, points);
-    curve2->setSamples(x, cs, points);
-    curve3->setSamples(x, sg, points);
-    curve1->attach(this);
-    curve2->attach(this);
-    curve3->attach(this);
-
-    // finally, refresh the plot
-	mutex.lock();
-		replot();
-	mutex.unlock();
-}
-*/
-
-void ScopeGadgetWidget::clearCurvePlots()
-{
-    foreach(PlotData* plotData, m_curvesData.values()) {
-        plotData->curve->detach();
-
-        delete plotData->curve;
-        delete plotData;
-    }
-
-    m_curvesData.clear();
 }
 
 
-/*
-int csvLoggingEnable;
-int csvLoggingHeaderSaved;
-int csvLoggingDataSaved;
-QString csvLoggingPath;
-QFile csvLoggingFile;
-*/
-int ScopeGadgetWidget::csvLoggingStart()
-{
-    if (!m_csvLoggingStarted)
-    if (m_csvLoggingEnabled)
-    if ((!m_csvLoggingNewFileOnConnect)||(m_csvLoggingNewFileOnConnect && m_csvLoggingConnected))
+/**
+ * @brief ScopeGadgetWidget::startTimer Starts timer
+ * @param refreshInterval
+ */
+void ScopeGadgetWidget::startTimer(int refreshInterval){
+    m_refreshInterval = refreshInterval;
+
+    // Only start the timer if we are already connected
+    Core::ConnectionManager *cm = Core::ICore::instance()->connectionManager();
+    if (cm->getCurrentConnection() && replotTimer)
     {
-        QDateTime NOW = QDateTime::currentDateTime();
-        m_csvLoggingStartTime = NOW;
-        m_csvLoggingHeaderSaved=0;
-        m_csvLoggingDataSaved=0;
-        m_csvLoggingBuffer.clear();
-        QDir PathCheck(m_csvLoggingPath);
-        if (!PathCheck.exists())
-        {
-            PathCheck.mkpath("./");
-        }
-
-
-        if (m_csvLoggingNameSet)
-        {
-            m_csvLoggingFile.setFileName(QString("%1/%2_%3_%4.csv").arg(m_csvLoggingPath).arg(m_csvLoggingName).arg(NOW.toString("yyyy-MM-dd")).arg(NOW.toString("hh-mm-ss")));
-        }
+        if (!replotTimer->isActive())
+            replotTimer->start(refreshInterval);
         else
-        {
-            m_csvLoggingFile.setFileName(QString("%1/Log_%2_%3.csv").arg(m_csvLoggingPath).arg(NOW.toString("yyyy-MM-dd")).arg(NOW.toString("hh-mm-ss")));
-        }
-        QDir FileCheck(m_csvLoggingFile.fileName());
-        if (FileCheck.exists())
-        {
-            m_csvLoggingFile.setFileName("");
-        }
-        else
-        {
-            m_csvLoggingStarted=1;
-            csvLoggingInsertHeader();
-        }
-
+            replotTimer->setInterval(refreshInterval);
     }
-
-    return 0;
-}
-
-int ScopeGadgetWidget::csvLoggingStop()
-{
-    m_csvLoggingStarted=0;
-
-    return 0;
-}
-
-int ScopeGadgetWidget::csvLoggingInsertHeader()
-{
-    if (!m_csvLoggingStarted) return -1;
-    if (m_csvLoggingHeaderSaved) return -2;
-    if (m_csvLoggingDataSaved) return -3;
-
-    m_csvLoggingHeaderSaved=1;
-    if(m_csvLoggingFile.open(QIODevice::WriteOnly | QIODevice::Append)== FALSE)
-    {
-        qDebug() << "Unable to open " << m_csvLoggingFile.fileName() << " for csv logging Header";
-    }
-    else
-    {
-        QTextStream ts( &m_csvLoggingFile );
-        ts << "date" << ", " << "Time"<< ", " << "Sec since start"<< ", " << "Connected" << ", " << "Data changed";
-
-        foreach(PlotData* plotData2, m_curvesData.values())
-        {
-            ts  << ", ";
-            ts  << plotData2->uavObject;
-            ts  << "." << plotData2->uavField;
-            if (plotData2->haveSubField) ts  << "." << plotData2->uavSubField;
-        }
-        ts << endl;
-        m_csvLoggingFile.close();
-    }
-    return 0;
-}
-
-int ScopeGadgetWidget::csvLoggingAddData()
-{
-    if (!m_csvLoggingStarted) return -1;
-    m_csvLoggingDataValid=0;
-    QDateTime NOW = QDateTime::currentDateTime();
-    QString tempString;
-
-    QTextStream ss( &tempString );
-    ss << NOW.toString("yyyy-MM-dd") << ", " << NOW.toString("hh:mm:ss.z") << ", " ;
-
-#if QT_VERSION >= 0x040700
-    ss <<(NOW.toMSecsSinceEpoch() - m_csvLoggingStartTime.toMSecsSinceEpoch())/1000.00;
-#else
-    ss <<(NOW.toTime_t() - m_csvLoggingStartTime.toTime_t());
-#endif
-    ss << ", " << m_csvLoggingConnected << ", " << m_csvLoggingDataUpdated;
-    m_csvLoggingDataUpdated=0;
-
-    foreach(PlotData* plotData2, m_curvesData.values())
-    {
-        ss  << ", ";
-        if (plotData2->xData->isEmpty ())
-        {
-            ss  << ", ";
-            if (plotData2->xData->isEmpty ())
-            {
-            }
-            else
-            {
-                ss  << QString().sprintf("%3.10g",plotData2->yData->last());
-                m_csvLoggingDataValid=1;
-            }
-        }
-        else
-        {
-            ss  << QString().sprintf("%3.10g",plotData2->yData->last());
-            m_csvLoggingDataValid=1;
-        }
-    }
-    ss << endl;
-    if (m_csvLoggingDataValid)
-    {
-        QTextStream ts( &m_csvLoggingBuffer );
-        ts << tempString;
-    }
-
-    return 0;
-}
-
-int ScopeGadgetWidget::csvLoggingInsertData()
-{
-    if (!m_csvLoggingStarted) return -1;
-    m_csvLoggingDataSaved=1;
-
-    if(m_csvLoggingFile.open(QIODevice::WriteOnly | QIODevice::Append)== FALSE)
-    {
-        qDebug() << "Unable to open " << m_csvLoggingFile.fileName() << " for csv logging Data";
-    }
-    else
-    {
-        QTextStream ts( &m_csvLoggingFile );
-        ts << m_csvLoggingBuffer;
-        m_csvLoggingFile.close();
-    }
-    m_csvLoggingBuffer.clear();
-
-    return 0;
-}
-
-void ScopeGadgetWidget::csvLoggingSetName(QString newName)
-{
-    m_csvLoggingName = newName;
-    m_csvLoggingNameSet=1;
-}
-
-void ScopeGadgetWidget::csvLoggingConnect()
-{
-    m_csvLoggingConnected=1;
-    if (m_csvLoggingNewFileOnConnect)csvLoggingStart();
-    return;
-}
-void ScopeGadgetWidget::csvLoggingDisconnect()
-{
-    m_csvLoggingHeaderSaved=0;
-    m_csvLoggingConnected=0;
-    if (m_csvLoggingNewFileOnConnect)csvLoggingStop();
-    return;
-}
-
-void ScopeGadgetWidget::showEvent(QShowEvent *event)
-{
-    replotNewData();
-    QwtPlot::showEvent(event);
 }

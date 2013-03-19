@@ -59,13 +59,13 @@ SECTIONS
      */
     .irq_stack :
     {
-         . = ALIGN(4);
-         _irq_stack_end = . ;
-         . = . + _irq_stack_size ;
-         . = ALIGN(4);
-         _irq_stack_top = . - 4 ;
-         _init_stack_top = _irq_stack_top;
-         . = ALIGN(4);
+        . = ALIGN(4);
+        _irq_stack_end = . ;
+        . = . + _irq_stack_size ;
+        . = ALIGN(4);
+        _irq_stack_top = . - 4 ;
+        _init_stack_top = _irq_stack_top;
+        . = ALIGN(4);
     } > SRAM
     
     . = ALIGN(4);
@@ -73,9 +73,9 @@ SECTIONS
 
     .boardinfo :
     {
-	. = ALIGN(4);
-	KEEP(*(.boardinfo))
-	. = ALIGN(ORIGIN(BD_INFO)+LENGTH(BD_INFO));
+        . = ALIGN(4);
+        KEEP(*(.boardinfo))
+        . = ALIGN(ORIGIN(BD_INFO)+LENGTH(BD_INFO));
     } > BD_INFO
 
     /* Stabs debugging sections.  */

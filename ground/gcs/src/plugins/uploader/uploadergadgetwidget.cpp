@@ -524,7 +524,7 @@ bool UploaderGadgetWidget::autoUpdate()
         return false;
         break;
     }
-    filename=":/build/"+filename+"/"+filename+".opfw";
+    filename=":/build/"+filename+"/"+filename+".tlfw";
     QByteArray firmware;
     if(!QFile::exists(filename))
     {

@@ -33,15 +33,6 @@ include $(TOP)/make/boards/$(BOARD_NAME)/board-info.mk
 # Set to YES for debugging
 DEBUG ?= NO
 
-# Set to YES when using Code Sourcery toolchain
-CODE_SOURCERY ?= NO
-
-ifeq ($(CODE_SOURCERY), YES)
-REMOVE_CMD = cs-rm
-else
-REMOVE_CMD = rm
-endif
-
 # List of modules to include
 MODULES = Sensors
 MODULES += Attitude/revolution
@@ -61,6 +52,7 @@ OPTMODULES += AltitudeHold
 OPTMODULES += PathPlanner
 OPTMODULES += VtolPathFollower
 OPTMODULES += FixedWingPathFollower
+OPTMODULES += VibrationAnalysis
 #OPTMODULES += Battery
 #OPTMODULES += ComUsbBridge
 
@@ -279,9 +271,6 @@ CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS)) -I.
 CFLAGS += -mapcs-frame
 CFLAGS += -fomit-frame-pointer
 CFLAGS += -ffunction-sections -fdata-sections
-ifeq ($(CODE_SOURCERY), YES)
-CFLAGS += -fpromote-loop-indices
-endif
 
 CFLAGS += -Wall
 CFLAGS += -Werror
@@ -317,7 +306,7 @@ LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_APP))
 
 
 # Define programs and commands.
-REMOVE  = $(REMOVE_CMD) -f
+REMOVE  = rm -f
 
 # List of all source files.
 ALLSRC     =  $(ASRC) $(SRC) $(CPPSRC)
@@ -352,19 +341,19 @@ $(eval $(call PARTIAL_COMPILE_TEMPLATE, SRC))
 
 $(OUTDIR)/$(TARGET).bin.o: $(OUTDIR)/$(TARGET).bin
 
-$(eval $(call OPFW_TEMPLATE,$(OUTDIR)/$(TARGET).bin,$(BOARD_TYPE),$(BOARD_REVISION)))
+$(eval $(call TLFW_TEMPLATE,$(OUTDIR)/$(TARGET).bin,$(BOARD_TYPE),$(BOARD_REVISION)))
 
 # Add jtag targets (program and wipe)
 $(eval $(call JTAG_TEMPLATE,$(OUTDIR)/$(TARGET).bin,$(FW_BANK_BASE),$(FW_BANK_SIZE),$(OPENOCD_JTAG_CONFIG),$(OPENOCD_CONFIG)))
 
-.PHONY: elf lss sym hex bin bino opfw
+.PHONY: elf lss sym hex bin bino tlfw
 elf: $(OUTDIR)/$(TARGET).elf
 lss: $(OUTDIR)/$(TARGET).lss
 sym: $(OUTDIR)/$(TARGET).sym
 hex: $(OUTDIR)/$(TARGET).hex
 bin: $(OUTDIR)/$(TARGET).bin
 bino: $(OUTDIR)/$(TARGET).bin.o
-opfw: $(OUTDIR)/$(TARGET).opfw
+tlfw: $(OUTDIR)/$(TARGET).tlfw
 
 # Display sizes of sections.
 $(eval $(call SIZE_TEMPLATE, $(OUTDIR)/$(TARGET).elf))
@@ -374,11 +363,11 @@ docs:
 	doxygen  $(DOXYGENDIR)/doxygen.cfg
 
 # Install: install binary file with prefix/suffix into install directory
-install: $(OUTDIR)/$(TARGET).opfw
+install: $(OUTDIR)/$(TARGET).tlfw
 ifneq ($(INSTALL_DIR),)
 	@echo $(MSG_INSTALLING) $(call toprel, $<)
 	$(V1) mkdir -p $(INSTALL_DIR)
-	$(V1) $(INSTALL) $< $(INSTALL_DIR)/$(INSTALL_PFX)$(TARGET)$(INSTALL_SFX).opfw
+	$(V1) $(INSTALL) $< $(INSTALL_DIR)/$(INSTALL_PFX)$(TARGET)$(INSTALL_SFX).tlfw
 else
 	$(error INSTALL_DIR must be specified for $@)
 endif

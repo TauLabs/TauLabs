@@ -16,7 +16,7 @@ OPENOCD_CONFIG      := stm32f1x.cfg
 BL_BANK_BASE        := 0x08000000  # Start of bootloader flash
 BL_BANK_SIZE        := 0x00003000  # Should include BD_INFO region
 FW_BANK_BASE        := 0x08003000  # Start of firmware flash
-FW_BANK_SIZE        := 0x0001D000  # Should include FW_DESC_SIZE
+FW_BANK_SIZE        := 0x0001D000  # Should include FW_DESC_SIZE (116kb)
 
 FW_DESC_SIZE        := 0x00000064
 

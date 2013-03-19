@@ -25,7 +25,6 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 #include "defaulthwsettingswidget.h"
-#include "ui_defaultattitude.h"
 #include "hwfieldselector.h"
 #include <QMutexLocker>
 #include <QErrorMessage>
@@ -58,6 +57,7 @@ DefaultHwSettingsWidget::DefaultHwSettingsWidget(QWidget *parent, bool autopilot
         //List of supported boards which do not currently have board-specific pages
         allHwSettings.append("HwFlyingF3");
         allHwSettings.append("HwFlyingF4");
+        allHwSettings.append("HwDiscoveryF4");
         allHwSettings.append("HwFreedom");
         allHwSettings.append("HwRevolution");
         allHwSettings.append("HwRevoMini");

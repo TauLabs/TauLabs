@@ -438,7 +438,7 @@ void Widget::asQuat2RPY(const QQuaternion &q, QVector3D &rpy)
 
     qreal test = -d2 * (q.x() * q.z() - q.scalar() * q.y());
     if (qFabs(test) > 0.998) {
-        // ~86.3°, gimbal lock
+        // ~86.3Â°, gimbal lock
         qreal R10 = d2 * (q.x() * q.y() - q.scalar() * q.z());
         qreal R11 = qss - qxx + qyy - qzz;
 
@@ -467,7 +467,7 @@ void Widget::asMatrix2RPY(const QMatrix4x4 &m, QVector3D &rpy)
     qreal yaw;
 
     if (qFabs(m(0, 2)) > 0.998) {
-        // ~86.3°, gimbal lock
+        // ~86.3Â°, gimbal lock
         roll  = 0.0;
         pitch = copysign(M_PI_2, -m(0, 2));
         yaw   = qAtan2(-m(1, 0), m(1, 1));

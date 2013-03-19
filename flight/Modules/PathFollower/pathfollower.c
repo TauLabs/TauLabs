@@ -145,7 +145,7 @@ int32_t PathFollowerInitialize()
 			break;
 		default:
 			// Cannot activate, prevent system arming
-			AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE, SYSTEMALARMS_ALARM_CRITICAL);
+			AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER, SYSTEMALARMS_ALARM_CRITICAL);
 			pathFollowerType = DISABLED;
 			return -1;
 			break;
@@ -218,23 +218,23 @@ static void PathFollowerTask(void *parameters)
 			break;
 //		case MULTIROTOR:
 //			// Set alarm, currently untested
-//			AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE, SYSTEMALARMS_ALARM_ERROR);
+//			AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER, SYSTEMALARMS_ALARM_ERROR);
 //			updateMultirotorDesiredStabilization(flightMode, fixedwingpathfollowerSettings);
 //			break;
 //		case HELICOPTER:
 //			// Unready
-//			AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE, SYSTEMALARMS_ALARM_CRITICAL);
+//			AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER, SYSTEMALARMS_ALARM_CRITICAL);
 //			//updateHelicopterDesiredStabilization(fixedwingpathfollowerSettings);
 //		case HOLONOMIC:
 //			// Unready
-//			AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE, SYSTEMALARMS_ALARM_CRITICAL);
+//			AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER, SYSTEMALARMS_ALARM_CRITICAL);
 //			break;
 //		case DUBINSCART:
 //			updateDubinsCartDesiredStabilization(flightMode, fixedwingpathfollowerSettings);
 //			break;
 		default:
 			//Something has gone wrong, we shouldn't be able to get to this point
-			AlarmsSet(SYSTEMALARMS_ALARM_GUIDANCE, SYSTEMALARMS_ALARM_CRITICAL);
+			AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER, SYSTEMALARMS_ALARM_CRITICAL);
 			break;
 		}
 	}

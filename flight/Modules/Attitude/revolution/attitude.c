@@ -1075,9 +1075,9 @@ static void settingsUpdatedCb(UAVObjEvent * ev)
 		/* When the revo calibration is updated, update the GyroBias object */
 		GyrosBiasData gyrosBias;
 		GyrosBiasGet(&gyrosBias);
-		gyrosBias.x = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_X];
-		gyrosBias.y = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_Y];
-		gyrosBias.z = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_Z];
+		gyrosBias.x = 0;
+		gyrosBias.y = 0;
+		gyrosBias.z = 0;
 		GyrosBiasSet(&gyrosBias);
 
 		gyroBiasSettingsUpdated = true;

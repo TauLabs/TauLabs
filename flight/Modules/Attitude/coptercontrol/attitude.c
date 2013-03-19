@@ -93,6 +93,7 @@ static void settingsUpdatedCb(UAVObjEvent * objEv);
 static void update_accels(struct pios_sensor_accel_data *accels, AccelsData * accelsData);
 static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosData);
 static void update_trimming(AccelsData * accelsData);
+static void updateTemperatureComp(float temperature, float *temp_bias);
 
 //! Compute the mean gyro accumulated and assign the bias
 static void accumulate_gyro_compute();
@@ -101,7 +102,7 @@ static void accumulate_gyro_compute();
 static void accumulate_gyro_zero();
 
 //! Store a gyro sample
-static void accumulate_gyro(GyrosData *gyrosData);
+static void accumulate_gyro(GyrosData *gyrosData, float *gyro_temp_bias);
 
 static float accelKi = 0;
 static float accelKp = 0;
@@ -448,6 +449,8 @@ static void update_accels(struct pios_sensor_accel_data *accels, AccelsData * ac
  */
 static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosData)
 {
+	static float gyro_temp_bias[3] = {0,0,0};
+
 	// Scale the gyros
 	float gyros_out[3] = {gyros->x * inertialSensorSettings.GyroScale[0],
 	                      gyros->y * inertialSensorSettings.GyroScale[1],
@@ -466,13 +469,16 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosD
 	}
 
 	// When computing the bias accumulate samples
-	accumulate_gyro(gyrosData);
+	accumulate_gyro(gyrosData, gyro_temp_bias);
+
+	// Update the bias due to the temperature
+	updateTemperatureComp(gyrosData->temperature, gyro_temp_bias);
 
 	if(bias_correct_gyro) {
 		// Applying integral component here so it can be seen on the gyros and correct bias
-		gyrosData->x -= gyro_correct_int[0];
-		gyrosData->y -= gyro_correct_int[1];
-		gyrosData->z -= gyro_correct_int[2];
+		gyrosData->x -= gyro_temp_bias[0] + gyro_correct_int[0];
+		gyrosData->y -= gyro_temp_bias[1] + gyro_correct_int[1];
+		gyrosData->z -= gyro_temp_bias[2] + gyro_correct_int[2];
 	}
 
 	// Because most crafts wont get enough information from gravity to zero yaw gyro, we try
@@ -516,16 +522,17 @@ static void accumulate_gyro_zero()
  * Accumulate a set of gyro samples for computing the
  * bias
  * @param [in] gyrosData The samples of data to accumulate
+ * @param [in] gyro_temp_bias The current temperature bias to account for
  */
-static void accumulate_gyro(GyrosData *gyrosData)
+static void accumulate_gyro(GyrosData *gyrosData, float *gyro_temp_bias)
 {
 	if (!accumulating_gyro)
 		return;
 
 	accumulated_gyro_samples++;
-	accumulated_gyro[0] += gyrosData->x;
-	accumulated_gyro[1] += gyrosData->y;
-	accumulated_gyro[2] += gyrosData->z;
+	accumulated_gyro[0] += (gyrosData->x - gyro_temp_bias[0]);
+	accumulated_gyro[1] += (gyrosData->y - gyro_temp_bias[1]);
+	accumulated_gyro[2] += (gyrosData->z - gyro_temp_bias[2]);
 }
 
 /**
@@ -674,6 +681,47 @@ static void updateAttitude(AccelsData * accelsData, GyrosData * gyrosData)
 	AttitudeActualSet(&attitudeActual);
 }
 
+/**
+ * Compute the bias expected from temperature variation for each gyro
+ * channel
+ */
+static void updateTemperatureComp(float temperature, float *temp_bias)
+{
+	static int temp_counter = 0;
+	static float temp_accum = 0;
+
+	static const float TEMP_MIN = -10;
+	static const float TEMP_MAX = 60;
+
+	if (temperature < TEMP_MIN)
+		temperature = TEMP_MIN;
+	if (temperature > TEMP_MAX)
+		temperature = TEMP_MAX;
+
+	if (temp_counter < 500) {
+		temp_accum += temperature;
+		temp_counter ++;
+	} else {
+		float t = temp_accum / temp_counter;
+		temp_accum = 0;
+		temp_counter = 0;
+
+		// Compute a third order polynomial for each chanel after each 500 samples
+		temp_bias[0] = inertialSensorSettings.XGyroTempCoeff[0] + 
+		               inertialSensorSettings.XGyroTempCoeff[1] * t + 
+		               inertialSensorSettings.XGyroTempCoeff[2] * powf(t,2) + 
+		               inertialSensorSettings.XGyroTempCoeff[3] * powf(t,3);
+		temp_bias[1] = inertialSensorSettings.YGyroTempCoeff[0] + 
+		               inertialSensorSettings.YGyroTempCoeff[1] * t + 
+		               inertialSensorSettings.YGyroTempCoeff[2] * powf(t,2) + 
+		               inertialSensorSettings.YGyroTempCoeff[3] * powf(t,3);
+		temp_bias[2] = inertialSensorSettings.ZGyroTempCoeff[0] + 
+		               inertialSensorSettings.ZGyroTempCoeff[1] * t + 
+		               inertialSensorSettings.ZGyroTempCoeff[2] * powf(t,2) + 
+		               inertialSensorSettings.ZGyroTempCoeff[3] * powf(t,3);
+	}
+}
+
 static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	AttitudeSettingsData attitudeSettings;
 	AttitudeSettingsGet(&attitudeSettings);
@@ -697,9 +745,9 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	zero_during_arming = attitudeSettings.ZeroDuringArming == ATTITUDESETTINGS_ZERODURINGARMING_TRUE;
 	bias_correct_gyro = attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE;
 		
-	gyro_correct_int[0] = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_X];
-	gyro_correct_int[1] = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_Y];
-	gyro_correct_int[2] = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_Z];
+	gyro_correct_int[0] = 0;
+	gyro_correct_int[1] = 0;
+	gyro_correct_int[2] = 0;
 	
 	// Indicates not to expend cycles on rotation
 	if(attitudeSettings.BoardRotation[0] == 0 && attitudeSettings.BoardRotation[1] == 0 &&
