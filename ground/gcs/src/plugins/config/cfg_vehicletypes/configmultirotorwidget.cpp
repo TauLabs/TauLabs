@@ -193,7 +193,7 @@ void ConfigMultiRotorWidget::setupUI(SystemSettings::AirframeTypeOptions frameTy
     drawAirframe(frameType);
 }
 
-void ConfigMultiRotorWidget::drawAirframe(uint16_t frameType){
+void ConfigMultiRotorWidget::drawAirframe(SystemSettings::AirframeTypeOptions frameType){
 
     invertMotors = m_aircraft->MultirotorRevMixercheckBox->isChecked() ? -1:1;
 
