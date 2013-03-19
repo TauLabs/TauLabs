@@ -330,13 +330,13 @@ void deviceWidget::loadFirmware()
         }
         else
         {
-            myDevice->statusLabel->setText(tr("This is the tagged officially released OpenPilot firmware"));
+            myDevice->statusLabel->setText(tr("This is the tagged officially released Tau Labs firmware"));
             px.load(QString(":/uploader/images/gtk-info.svg"));
         }
     }
     else
     {
-        myDevice->statusLabel->setText(tr("WARNING: the loaded firmware was not packaged with the OpenPilot format. Do not update unless you know what you are doing"));
+        myDevice->statusLabel->setText(tr("WARNING: the loaded firmware was not packaged with the Tau Labs format. Do not update unless you know what you are doing"));
         px.load(QString(":/uploader/images/error.svg"));
         myDevice->youdont->setChecked(false);
         myDevice->youdont->setVisible(true);

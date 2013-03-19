@@ -154,7 +154,7 @@ static inline QString prepareRemoteArgument(const QString &a)
     return a;
 }
 
-// Send the arguments to an already running instance of OpenPilot GCS
+// Send the arguments to an already running instance of Tau Labs GCS
 static bool sendArguments(SharedTools::QtSingleApplication &app, const QStringList &arguments)
 {
     if (!arguments.empty()) {

@@ -14,7 +14,7 @@ Click that big fork button on github and start coding!  We use pull requests as 
 
 In addition check out https://groups.google.com/forum/#!forum/phoenixpilot for more discussion
 
-Chat on freenode.net #phoenixpilot
+Chat on freenode.net #taulabs
 
 ## Code Layout
 

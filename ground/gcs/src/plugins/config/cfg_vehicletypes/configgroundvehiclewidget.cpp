@@ -3,6 +3,7 @@
  *
  * @file       configgroundvehiclemwidget.cpp
  * @author     K. Sebesta & The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://github.com/TauLabs Copyright 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -299,7 +300,7 @@ bool ConfigGroundVehicleWidget::setupGroundVehicleMotorcycle(QString airframeTyp
 
     //motor
     int channel = m_aircraft->gvMotor2ChannelBox->currentIndex()-1;
-    setMixerType(mixer, channel, VehicleConfig::MIXERTYPE_SERVO);
+    setMixerType(mixer, channel, VehicleConfig::MIXERTYPE_MOTOR);
     setMixerVectorValue(mixer, channel, VehicleConfig::MIXERVECTOR_THROTTLECURVE1, 127);
     setMixerVectorValue(mixer, channel, VehicleConfig::MIXERVECTOR_YAW, 127);
 
@@ -350,13 +351,13 @@ bool ConfigGroundVehicleWidget::setupGroundVehicleDifferential(QString airframeT
 
     //left motor
     int channel = m_aircraft->gvMotor1ChannelBox->currentIndex()-1;
-    setMixerType(mixer, channel, VehicleConfig::MIXERTYPE_SERVO);
+    setMixerType(mixer, channel, VehicleConfig::MIXERTYPE_MOTOR);
     setMixerVectorValue(mixer, channel, VehicleConfig::MIXERVECTOR_THROTTLECURVE1, 127);
     setMixerVectorValue(mixer, channel, VehicleConfig::MIXERVECTOR_YAW, 127);
 
     //right motor
     channel = m_aircraft->gvMotor2ChannelBox->currentIndex()-1;
-    setMixerType(mixer, channel, VehicleConfig::MIXERTYPE_SERVO);
+    setMixerType(mixer, channel, VehicleConfig::MIXERTYPE_MOTOR);
     setMixerVectorValue(mixer, channel, VehicleConfig::MIXERVECTOR_THROTTLECURVE2, 127);
     setMixerVectorValue(mixer, channel, VehicleConfig::MIXERVECTOR_YAW, -127);
 
@@ -406,11 +407,11 @@ bool ConfigGroundVehicleWidget::setupGroundVehicleCar(QString airframeType)
     setMixerVectorValue(mixer, channel, VehicleConfig::MIXERVECTOR_YAW, -127);
 
     channel = m_aircraft->gvMotor1ChannelBox->currentIndex()-1;
-    setMixerType(mixer,channel, VehicleConfig::MIXERTYPE_SERVO);
+    setMixerType(mixer,channel, VehicleConfig::MIXERTYPE_MOTOR);
     setMixerVectorValue(mixer, channel, VehicleConfig::MIXERVECTOR_THROTTLECURVE1, 127);
 
     channel = m_aircraft->gvMotor2ChannelBox->currentIndex()-1;
-    setMixerType(mixer,channel, VehicleConfig::MIXERTYPE_SERVO);
+    setMixerType(mixer,channel, VehicleConfig::MIXERTYPE_MOTOR);
     setMixerVectorValue(mixer, channel, VehicleConfig::MIXERVECTOR_THROTTLECURVE2, 127);
 
 	//Output success message

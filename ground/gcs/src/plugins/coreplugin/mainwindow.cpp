@@ -821,17 +821,17 @@ void MainWindow::registerDefaultActions()
 
     // About GCS Action
 #ifdef Q_WS_MAC
-    tmpaction = new QAction(QIcon(Constants::ICON_OPENPILOT), tr("About &Tau Labs GCS"), this); // it's convention not to add dots to the about menu
+    tmpaction = new QAction(QIcon(Constants::ICON_TAULABS), tr("About &Tau Labs GCS"), this); // it's convention not to add dots to the about menu
 #else
-    tmpaction = new QAction(QIcon(Constants::ICON_OPENPILOT), tr("About &Tau Labs GCS..."), this);
+    tmpaction = new QAction(QIcon(Constants::ICON_TAULABS), tr("About &Tau Labs GCS..."), this);
 #endif
-    cmd = am->registerAction(tmpaction, Constants::ABOUT_OPENPILOTGCS, m_globalContext);
+    cmd = am->registerAction(tmpaction, Constants::ABOUT_TAULABSGCS, m_globalContext);
     mhelp->addAction(cmd, Constants::G_HELP_ABOUT);
     tmpaction->setEnabled(true);
 #ifdef Q_WS_MAC
     cmd->action()->setMenuRole(QAction::ApplicationSpecificRole);
 #endif
-    connect(tmpaction, SIGNAL(triggered()), this,  SLOT(aboutOpenPilotGCS()));
+    connect(tmpaction, SIGNAL(triggered()), this,  SLOT(aboutTauLabsGCS()));
 
     //Credits Action
     tmpaction = new QAction(QIcon(Constants::ICON_PLUGIN), tr("About &Authors..."), this);
@@ -841,7 +841,7 @@ void MainWindow::registerDefaultActions()
 #ifdef Q_WS_MAC
     cmd->action()->setMenuRole(QAction::ApplicationSpecificRole);
 #endif
-    connect(tmpaction, SIGNAL(triggered()), this,  SLOT(aboutOpenPilotAuthors()));
+    connect(tmpaction, SIGNAL(triggered()), this,  SLOT(aboutTauLabsAuthors()));
 
 
 }
@@ -911,7 +911,7 @@ void MainWindow::saveAll()
     if ( m_dontSaveSettings) return;
 
     emit m_coreImpl->saveSettingsRequested();
-    saveSettings(); // OpenPilot-specific.
+    saveSettings(); // TauLabs-specific.
 }
 
 void MainWindow::exit()
@@ -1421,7 +1421,7 @@ void MainWindow::openRecentFile()
     }
 }
 
-void MainWindow::aboutOpenPilotGCS()
+void MainWindow::aboutTauLabsGCS()
 {
     if (!m_versionDialog) {
         m_versionDialog = new VersionDialog(this);
@@ -1439,7 +1439,7 @@ void MainWindow::destroyVersionDialog()
     }
 }
 
-void MainWindow::aboutOpenPilotAuthors()
+void MainWindow::aboutTauLabsAuthors()
 {
     if (!m_authorsDialog) {
         m_authorsDialog = new AuthorsDialog(this);

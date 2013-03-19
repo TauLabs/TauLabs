@@ -39,6 +39,7 @@ default_io_handler(void)
 /** prototypes an interrupt handler */
 #define HANDLER(_name)	extern vector _name __attribute__((weak, alias("default_io_handler")))
 
+HANDLER(Reserved_IRQHandler);             // Reserved
 HANDLER(WWDG_IRQHandler);                 // Window WatchDog
 HANDLER(PVD_IRQHandler);                  // PVD through EXTI Line detection
 HANDLER(TAMP_STAMP_IRQHandler);           // Tamper and TimeStamps through the EXTI line
@@ -70,15 +71,15 @@ HANDLER(TIM1_CC_IRQHandler);              // TIM1 Capture Compare
 HANDLER(TIM2_IRQHandler);                 // TIM2
 HANDLER(TIM3_IRQHandler);                 // TIM3
 HANDLER(TIM4_IRQHandler);                 // TIM4
-HANDLER(I2C1_EV_IRQHandler);              // I2C1 Event
+HANDLER(I2C1_EV_EXTI23_IRQHandler);       // I2C1 Event and EXTI23
 HANDLER(I2C1_ER_IRQHandler);              // I2C1 Error
-HANDLER(I2C2_EV_IRQHandler);              // I2C2 Event
+HANDLER(I2C2_EV_EXTI24_IRQHandler);       // I2C2 Event and EXTI24
 HANDLER(I2C2_ER_IRQHandler);              // I2C2 Error
 HANDLER(SPI1_IRQHandler);                 // SPI1
 HANDLER(SPI2_IRQHandler);                 // SPI2
-HANDLER(USART1_IRQHandler);               // USART1
-HANDLER(USART2_IRQHandler);               // USART2
-HANDLER(USART3_IRQHandler);               // USART3
+HANDLER(USART1_EXTI25_IRQHandler);        // USART1 and EXTI25
+HANDLER(USART2_EXTI26_IRQHandler);        // USART2 and EXTI26
+HANDLER(USART3_EXTI28_IRQHandler);        // USART3 and EXTI28
 HANDLER(EXTI15_10_IRQHandler);            // External Line[15:10]s
 HANDLER(RTC_Alarm_IRQHandler);            // RTC Alarm (A and B) through EXTI Line
 HANDLER(USB_WKUP_IRQHandler);             // USB FS Wakeup through EXTI line
@@ -88,8 +89,8 @@ HANDLER(TIM8_TRG_COM_IRQHandler);         // TIM8 Trigger and Commutation
 HANDLER(TIM8_CC_IRQHandler);              // TIM8 Capture Compare
 HANDLER(ADC3_IRQHandler);                 // ADC3
 HANDLER(SPI3_IRQHandler);                 // SPI3
-HANDLER(UART4_IRQHandler);                // UART4
-HANDLER(UART5_IRQHandler);                // UART5
+HANDLER(UART4_EXTI34_IRQHandler);         // UART4 and EXTI34
+HANDLER(UART5_EXTI35_IRQHandler);         // UART5 and EXTI35
 HANDLER(TIM6_DAC_IRQHandler);             // TIM6 and DAC1&2 underrun errors
 HANDLER(TIM7_IRQHandler);                 // TIM7
 HANDLER(DMA2_Channel1_IRQHandler);        // DMA2 Channel 1
@@ -139,15 +140,15 @@ vector *io_vectors[] __attribute__((section(".io_vectors"))) = {
 	TIM2_IRQHandler,                 // TIM2
 	TIM3_IRQHandler,                 // TIM3
 	TIM4_IRQHandler,                 // TIM4
-	I2C1_EV_IRQHandler,              // I2C1 Event
+	I2C1_EV_EXTI23_IRQHandler,       // I2C1 Event and EXTI23
 	I2C1_ER_IRQHandler,              // I2C1 Error
-	I2C2_EV_IRQHandler,              // I2C2 Event
+	I2C2_EV_EXTI24_IRQHandler,       // I2C2 Event and EXTI24
 	I2C2_ER_IRQHandler,              // I2C2 Error
 	SPI1_IRQHandler,                 // SPI1
 	SPI2_IRQHandler,                 // SPI2
-	USART1_IRQHandler,               // USART1
-	USART2_IRQHandler,               // USART2
-	USART3_IRQHandler,               // USART3
+	USART1_EXTI25_IRQHandler,        // USART1 and EXTI25
+	USART2_EXTI26_IRQHandler,        // USART2 and EXTI26
+	USART3_EXTI28_IRQHandler,        // USART3 and EXTI28
 	EXTI15_10_IRQHandler,            // External Line[15:10]s
 	RTC_Alarm_IRQHandler,            // RTC Alarm (A and B) through EXTI Line
 	USB_WKUP_IRQHandler,             // USB FS Wakeup through EXTI line
@@ -156,9 +157,12 @@ vector *io_vectors[] __attribute__((section(".io_vectors"))) = {
 	TIM8_TRG_COM_IRQHandler,         // TIM8 Trigger and Commutation
 	TIM8_CC_IRQHandler,              // TIM8 Capture Compare
 	ADC3_IRQHandler,                 // ADC3
+	Reserved_IRQHandler,             // reserved
+	Reserved_IRQHandler,             // reserved
+	Reserved_IRQHandler,             // reserved
 	SPI3_IRQHandler,                 // SPI3
-	UART4_IRQHandler,                // UART4
-	UART5_IRQHandler,                // UART5
+	UART4_EXTI34_IRQHandler,         // UART4 and EXTI34
+	UART5_EXTI35_IRQHandler,         // UART5 and EXTI35
 	TIM6_DAC_IRQHandler,             // TIM6 and DAC1&2 underrun errors
 	TIM7_IRQHandler,                 // TIM7
 	DMA2_Channel1_IRQHandler,        // DMA2 Channel 1
@@ -167,12 +171,25 @@ vector *io_vectors[] __attribute__((section(".io_vectors"))) = {
 	DMA2_Channel4_IRQHandler,        // DMA2 Channel 4
 	DMA2_Channel5_IRQHandler,        // DMA2 Channel 5
 	ADC4_IRQHandler,                 // ADC4
+	Reserved_IRQHandler,             // reserved
+	Reserved_IRQHandler,             // reserved
 	COMP1_2_3_IRQHandler,            // COMP1, COMP2 and COMP3
 	COMP4_5_6_IRQHandler,            // COMP4, COMP5 and COMP6
 	COMP7_IRQHandler,                // COMP7
+	Reserved_IRQHandler,             // reserved
+	Reserved_IRQHandler,             // reserved
+	Reserved_IRQHandler,             // reserved
+	Reserved_IRQHandler,             // reserved
+	Reserved_IRQHandler,             // reserved
+	Reserved_IRQHandler,             // reserved
+	Reserved_IRQHandler,             // reserved
 	USB_HP_IRQHandler,               // USB High Priority remap
 	USB_LP_IRQHandler,               // USB Low Priority remap
 	USB_WKUP_RMP_IRQHandler,         // USB Wakup remap
+	Reserved_IRQHandler,             // reserved
+	Reserved_IRQHandler,             // reserved
+	Reserved_IRQHandler,             // reserved
+	Reserved_IRQHandler,             // reserved
 	FPU_IRQHandler,                  // FPU
 };
 

@@ -79,7 +79,7 @@ int32_t BatteryInitialize(void)
 {
 	ADCRoutingInitialize();
 	
-#ifdef MODULE_BATTERY_BUILTIN
+#ifdef MODULE_Battery_BUILTIN
 	module_enabled = true;
 #else
 	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];

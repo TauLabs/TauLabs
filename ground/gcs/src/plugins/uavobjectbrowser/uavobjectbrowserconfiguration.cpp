@@ -31,7 +31,7 @@ UAVObjectBrowserConfiguration::UAVObjectBrowserConfiguration(QString classId, QS
     IUAVGadgetConfiguration(classId, parent),
     m_recentlyUpdatedColor(QColor(255, 230, 230)),
     m_manuallyChangedColor(QColor(230, 230, 255)),
-    m_onlyHilightChangedValues(false),
+    m_onlyHighlightChangedValues(false),
     m_recentlyUpdatedTimeout(500),
     m_useCategorizedView(false),
     m_useScientificView(false),
@@ -42,7 +42,7 @@ UAVObjectBrowserConfiguration::UAVObjectBrowserConfiguration(QString classId, QS
         QColor recent = qSettings->value("recentlyUpdatedColor").value<QColor>();
         QColor manual = qSettings->value("manuallyChangedColor").value<QColor>();
         int timeout = qSettings->value("recentlyUpdatedTimeout").toInt();
-        bool hilight = qSettings->value("onlyHilightChangedValues").toBool();
+        bool highlight = qSettings->value("onlyHighlightChangedValues").toBool();
 
         m_useCategorizedView = qSettings->value("CategorizedView").toBool();
         m_useScientificView = qSettings->value("ScientificView").toBool();
@@ -50,7 +50,7 @@ UAVObjectBrowserConfiguration::UAVObjectBrowserConfiguration(QString classId, QS
         m_recentlyUpdatedColor = recent;
         m_manuallyChangedColor = manual;
         m_recentlyUpdatedTimeout = timeout;
-        m_onlyHilightChangedValues = hilight;
+        m_onlyHighlightChangedValues = highlight;
     }
 }
 
@@ -60,7 +60,7 @@ IUAVGadgetConfiguration *UAVObjectBrowserConfiguration::clone()
     m->m_recentlyUpdatedColor = m_recentlyUpdatedColor;
     m->m_manuallyChangedColor = m_manuallyChangedColor;
     m->m_recentlyUpdatedTimeout = m_recentlyUpdatedTimeout;
-    m->m_onlyHilightChangedValues = m_onlyHilightChangedValues;
+    m->m_onlyHighlightChangedValues = m_onlyHighlightChangedValues;
     m->m_useCategorizedView = m_useCategorizedView;
     m->m_useScientificView = m_useScientificView;
     m->m_showMetaData = m_showMetaData;
@@ -75,7 +75,7 @@ void UAVObjectBrowserConfiguration::saveConfig(QSettings* qSettings) const {
     qSettings->setValue("recentlyUpdatedColor", m_recentlyUpdatedColor);
     qSettings->setValue("manuallyChangedColor", m_manuallyChangedColor);
     qSettings->setValue("recentlyUpdatedTimeout", m_recentlyUpdatedTimeout);
-    qSettings->setValue("onlyHilightChangedValues", m_onlyHilightChangedValues);
+    qSettings->setValue("onlyHighlightChangedValues", m_onlyHighlightChangedValues);
     qSettings->setValue("CategorizedView", m_useCategorizedView);
     qSettings->setValue("ScientificView", m_useScientificView);
     qSettings->setValue("showMetaData", m_showMetaData);

@@ -92,11 +92,12 @@ public:
     void setLoggingPath(QString value){m_csvLoggingPath=value;};
 
 protected:
-	void mousePressEvent(QMouseEvent *e);
-	void mouseReleaseEvent(QMouseEvent *e);
-	void mouseDoubleClickEvent(QMouseEvent *e);
-	void mouseMoveEvent(QMouseEvent *e);
-	void wheelEvent(QWheelEvent *e);
+    void mousePressEvent(QMouseEvent *e);
+    void mouseReleaseEvent(QMouseEvent *e);
+    void mouseDoubleClickEvent(QMouseEvent *e);
+    void mouseMoveEvent(QMouseEvent *e);
+    void wheelEvent(QWheelEvent *e);
+    void showEvent(QShowEvent *event);
 
 private slots:
     void uavObjectReceived(UAVObject*);

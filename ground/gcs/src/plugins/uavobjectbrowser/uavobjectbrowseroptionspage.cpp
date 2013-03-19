@@ -3,6 +3,7 @@
  *
  * @file       uavobjectbrowseroptionspage.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVObjectBrowserPlugin UAVObject Browser Plugin
@@ -52,7 +53,7 @@ QWidget *UAVObjectBrowserOptionsPage::createPage(QWidget *parent)
     m_page->recentlyUpdatedButton->setColor(m_config->recentlyUpdatedColor());
     m_page->manuallyChangedButton->setColor(m_config->manuallyChangedColor());
     m_page->recentlyUpdatedTimeoutSpinBox->setValue(m_config->recentlyUpdatedTimeout());
-    m_page->hilightBox->setChecked(m_config->onlyHighlightChangedValues());
+    m_page->highlightBox->setChecked(m_config->onlyHighlightChangedValues());
 
     return w;
 
@@ -63,7 +64,7 @@ void UAVObjectBrowserOptionsPage::apply()
     m_config->setRecentlyUpdatedColor(m_page->recentlyUpdatedButton->color());
     m_config->setManuallyChangedColor(m_page->manuallyChangedButton->color());
     m_config->setRecentlyUpdatedTimeout(m_page->recentlyUpdatedTimeoutSpinBox->value());
-    m_config->setOnlyHighlightChangedValues(m_page->hilightBox->isChecked());
+    m_config->setOnlyHighlightChangedValues(m_page->highlightBox->isChecked());
 }
 
 void UAVObjectBrowserOptionsPage::finish()

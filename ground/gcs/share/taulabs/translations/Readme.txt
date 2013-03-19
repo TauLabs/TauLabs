@@ -1,8 +1,8 @@
-How To add translations to OpenPilot GCS
+How To add translations to Tau Labs GCS
 ========================================
 
 - Coordinate over the forum to avoid duplicate work.
-	forums.openpilot.org
+	forums.taulabs.org
 
 - Add your language to the LANGUAGES line in translations.pro.
   Don't qualify it with a country unless it is reasonable to expect

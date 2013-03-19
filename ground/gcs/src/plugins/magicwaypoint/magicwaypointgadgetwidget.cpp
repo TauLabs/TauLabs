@@ -67,9 +67,11 @@ MagicWaypointGadgetWidget::~MagicWaypointGadgetWidget()
    // Do nothing
 }
 
-/*!
-  \brief Returns the @ref PositionDesired UAVObject
-  */
+
+/**
+ * @brief MagicWaypointGadgetWidget::getPathDesired Returns the @ref PathDesired UAVObject
+ * @return PathDesired
+ */
 PathDesired* MagicWaypointGadgetWidget::getPathDesired()
 {
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();

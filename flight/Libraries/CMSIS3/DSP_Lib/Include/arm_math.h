@@ -264,6 +264,9 @@
 #include "core_cm3.h"
 #elif defined (ARM_MATH_CM0)
 #include "core_cm0.h"
+#elif defined (ARM_MATH_SIM)
+#include "core_sim.h"
+#define ARM_MATH_CM0
 #else
 #include "ARMCM4.h"
 #warning "Define either ARM_MATH_CM4 OR ARM_MATH_CM3...By Default building on ARM_MATH_CM4....."
@@ -5311,8 +5314,17 @@ extern "C"
 
 #else
 
+#if defined  (__GNUC__)
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wstrict-aliasing"
+#endif
+
     /* acc += A1 * x[n-1] + A2 * x[n-2]  */
     acc = __SMLALD(S->A1, (q31_t) __SIMD32(S->state), acc);
+
+#if defined  (__GNUC__)
+  #pragma GCC diagnostic pop
+#endif
 
 #endif
 
@@ -6311,12 +6323,13 @@ extern "C"
   uint32_t blockSize)
   {
     uint32_t i = 0u;
-    int32_t rOffset, dst_end;
+    int32_t rOffset;
+    int32_t * dst_end;
 
     /* Copy the value of Index pointer that points
      * to the current location from where the input samples to be read */
     rOffset = *readOffset;
-    dst_end = (int32_t) (dst_base + dst_length);
+    dst_end = (dst_base + dst_length);
 
     /* Loop over the blockSize */
     i = blockSize;
@@ -6411,13 +6424,14 @@ extern "C"
   uint32_t blockSize)
   {
     uint32_t i = 0;
-    int32_t rOffset, dst_end;
+    int32_t rOffset;
+    q15_t * dst_end;
 
     /* Copy the value of Index pointer that points
      * to the current location from where the input samples to be read */
     rOffset = *readOffset;
 
-    dst_end = (int32_t) (dst_base + dst_length);
+    dst_end = (dst_base + dst_length);
 
     /* Loop over the blockSize */
     i = blockSize;
@@ -6513,13 +6527,14 @@ extern "C"
   uint32_t blockSize)
   {
     uint32_t i = 0;
-    int32_t rOffset, dst_end;
+    int32_t rOffset;
+    q7_t * dst_end;
 
     /* Copy the value of Index pointer that points
      * to the current location from where the input samples to be read */
     rOffset = *readOffset;
 
-    dst_end = (int32_t) (dst_base + dst_length);
+    dst_end = (dst_base + dst_length);
 
     /* Loop over the blockSize */
     i = blockSize;

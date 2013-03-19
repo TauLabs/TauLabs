@@ -48,7 +48,7 @@ public:
     void setRecentlyUpdatedColor(QColor color) { m_recentlyUpdatedColor = color; m_model->setRecentlyUpdatedColor(color); }
     void setManuallyChangedColor(QColor color) { m_manuallyChangedColor = color; m_model->setManuallyChangedColor(color); }
     void setRecentlyUpdatedTimeout(int timeout) { m_recentlyUpdatedTimeout = timeout; m_model->setRecentlyUpdatedTimeout(timeout); }
-    void setOnlyHilightChangedValues(bool hilight) { m_onlyHilightChangedValues = hilight; m_model->setOnlyHilightChangedValues(hilight); }
+    void setOnlyHighlightChangedValues(bool highlight) { m_onlyHighlightChangedValues = highlight; m_model->setOnlyHighlightChangedValues(highlight); }
     void setViewOptions(bool categorized,bool scientific,bool metadata);
 public slots:
     void showMetaData(bool show);
@@ -61,7 +61,7 @@ private slots:
     void saveObject();
     void loadObject();
     void eraseObject();
-    void currentChanged(const QModelIndex &current, const QModelIndex &previous);
+    void toggleUAVOButtons(const QModelIndex &current, const QModelIndex &previous);
     void viewSlot();
     void viewOptionsChangedSlot();
 signals:
@@ -77,10 +77,10 @@ private:
     int m_recentlyUpdatedTimeout;
     QColor m_recentlyUpdatedColor;
     QColor m_manuallyChangedColor;
-    bool m_onlyHilightChangedValues;
+    bool m_onlyHighlightChangedValues;
 
     void updateObjectPersistance(ObjectPersistence::OperationOptions op, UAVObject *obj);
-    void enableSendRequest(bool enable);
+    void enableUAVOBrowserButtons(bool enableState);
     ObjectTreeItem *findCurrentObjectTreeItem();
 };
 
