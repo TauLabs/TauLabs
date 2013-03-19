@@ -110,7 +110,6 @@ ConfigVehicleTypeWidget::ConfigVehicleTypeWidget(QWidget *parent) : ConfigTaskWi
 
     addUAVObject("SystemSettings");
     addUAVObject("MixerSettings");
-    addUAVObject("ActuatorSettings");
 
     addUAVObjectToWidgetRelation("MixerSettings","Curve2Source",m_aircraft->customThrottle2Curve->getCBCurveSource());
 
@@ -189,19 +188,19 @@ ConfigVehicleTypeWidget::ConfigVehicleTypeWidget(QWidget *parent) : ConfigTaskWi
     m_multirotor = new ConfigMultiRotorWidget(m_aircraft);
     m_multirotor->quad = quad;
     m_multirotor->uiowner = this;
-    m_multirotor->setupUI(m_aircraft->multirotorFrameType->currentText());
+    m_multirotor->setupUI(SystemSettings::AIRFRAMETYPE_QUADX);
 
     // create and setup a GroundVehicle config widget
     m_groundvehicle = new ConfigGroundVehicleWidget(m_aircraft);
-    m_groundvehicle->setupUI(m_aircraft->groundVehicleType->currentText() );
+    m_groundvehicle->setupUI(SystemSettings::AIRFRAMETYPE_GROUNDVEHICLECAR);
 
     // create and setup a FixedWing config widget
     m_fixedwing = new ConfigFixedWingWidget(m_aircraft);
-    m_fixedwing->setupUI(m_aircraft->fixedWingType->currentText() );
+    m_fixedwing->setupUI(SystemSettings::AIRFRAMETYPE_FIXEDWING);
 
     // create and setup a Helicopter config widget
-    m_heli = m_aircraft->widget_3;
-    m_heli->setupUI(QString("HeliCP"));
+    m_heli = m_aircraft->helicopterLayout;
+    m_heli->setupUI(SystemSettings::AIRFRAMETYPE_HELICP);
 
 	//Connect aircraft type selection dropbox to callback function
     connect(m_aircraft->aircraftType, SIGNAL(currentIndexChanged(int)), this, SLOT(switchAirframeType(int)));
@@ -309,9 +308,6 @@ QStringList ConfigVehicleTypeWidget::getChannelDescriptions()
         }
         break;
     }
-
-//    for (i=0; i < channelDesc.count(); i++)
-//        qDebug() << QString("Channel %0 = %1").arg(i).arg(channelDesc[i]);
 
     return channelDesc;
 }
@@ -431,17 +427,17 @@ void ConfigVehicleTypeWidget::enableFFTest()
         // Depending on phase, either move actuator or send FF settings:
         if (ffTuningPhase) {
             // Send FF settings to the board
-            UAVDataObject* mixer = dynamic_cast<UAVDataObject*>(getObjectManager()->getObject(QString("MixerSettings")));
-            Q_ASSERT(mixer);
+            MixerSettings *mixerSettings = MixerSettings::GetInstance(getObjectManager());
+            Q_ASSERT(mixerSettings);
 
             QPointer<VehicleConfig> vconfig = new VehicleConfig();
 
             // Update feed forward settings
-            vconfig->setMixerValue(mixer, "FeedForward", m_aircraft->feedForwardSlider->value() / 100.0);
-            vconfig->setMixerValue(mixer, "AccelTime", m_aircraft->accelTime->value());
-            vconfig->setMixerValue(mixer, "DecelTime", m_aircraft->decelTime->value());
-            vconfig->setMixerValue(mixer, "MaxAccel", m_aircraft->maxAccelSlider->value());
-            mixer->updated();
+            vconfig->setMixerValue(mixerSettings, "FeedForward", m_aircraft->feedForwardSlider->value() / 100.0);
+            vconfig->setMixerValue(mixerSettings, "AccelTime", m_aircraft->accelTime->value());
+            vconfig->setMixerValue(mixerSettings, "DecelTime", m_aircraft->decelTime->value());
+            vconfig->setMixerValue(mixerSettings, "MaxAccel", m_aircraft->maxAccelSlider->value());
+            mixerSettings->updated();
         } else  {
             // Toggle motor state
             UAVDataObject* obj = dynamic_cast<UAVDataObject*>(getObjectManager()->getObject(QString("ManualControlCommand")));
@@ -482,24 +478,23 @@ void ConfigVehicleTypeWidget::refreshWidgetsValues(UAVObject * obj)
 	
     bool dirty=isDirty();
 	
-    // Get the Airframe type from the system settings:
-    UAVDataObject* system = dynamic_cast<UAVDataObject*>(getObjectManager()->getObject(QString("SystemSettings")));
-    Q_ASSERT(system);
+    MixerSettings *mixerSettings = MixerSettings::GetInstance(getObjectManager());
+    Q_ASSERT(mixerSettings);
 
-    UAVObjectField *field = system->getField(QString("AirframeType"));
-    Q_ASSERT(field);
+    SystemSettings *systemSettings = SystemSettings::GetInstance(getObjectManager());
+    Q_ASSERT(systemSettings);
+    SystemSettings::DataFields systemSettingsData = systemSettings->getData();
+
+    // Get the Airframe type from the system settings:
     // At this stage, we will need to have some hardcoded settings in this code, this
     // is not ideal, but there you go.
-    QString frameType = field->getValue().toString();
+    frameType = systemSettingsData.AirframeType;
     setupAirframeUI(frameType);
-
-    UAVDataObject* mixer = dynamic_cast<UAVDataObject*>(getObjectManager()->getObject(QString("MixerSettings")));
-    Q_ASSERT(mixer);
 
     QPointer<VehicleConfig> vconfig = new VehicleConfig();
 
     QList<double> curveValues;    
-    vconfig->getThrottleCurve(mixer, VehicleConfig::MIXER_THROTTLECURVE1, &curveValues);
+    vconfig->getThrottleCurve(mixerSettings, VehicleConfig::MIXER_THROTTLECURVE1, &curveValues);
 
     // is at least one of the curve values != 0?
     if (vconfig->isValidThrottleCurve(&curveValues)) {
@@ -516,7 +511,7 @@ void ConfigVehicleTypeWidget::refreshWidgetsValues(UAVObject * obj)
     }
 	
     // Setup all Throttle2 curves for all types of airframes //AT THIS MOMENT, THAT MEANS ONLY GROUND VEHICLES
-    vconfig->getThrottleCurve(mixer, VehicleConfig::MIXER_THROTTLECURVE2, &curveValues);
+    vconfig->getThrottleCurve(mixerSettings, VehicleConfig::MIXER_THROTTLECURVE2, &curveValues);
 
     if (vconfig->isValidThrottleCurve(&curveValues)) {
         m_aircraft->groundVehicleThrottle2->initCurve(&curveValues);
@@ -525,33 +520,47 @@ void ConfigVehicleTypeWidget::refreshWidgetsValues(UAVObject * obj)
         m_aircraft->groundVehicleThrottle2->initLinearCurve(curveValues.count(), 1.0);
     }
 
-    // Load the Settings for fixed wing frames:
-    if (frameType.startsWith("FixedWing")) {
-		
+    // Load the Settings for vehicle frames:
+    switch(frameType) {
+    case SystemSettings::AIRFRAMETYPE_FIXEDWING:
+    case SystemSettings::AIRFRAMETYPE_FIXEDWINGELEVON:
+    case SystemSettings::AIRFRAMETYPE_FIXEDWINGVTAIL:
         // Retrieve fixed wing settings
         m_fixedwing->refreshWidgetsValues(frameType);
-
-    } else if (frameType == "Tri" || 
-			   frameType == "QuadX" || frameType == "QuadP" ||
-               frameType == "Hexa" || frameType == "HexaCoax" || frameType == "HexaX" || 
-			   frameType == "Octo" || frameType == "OctoV" || frameType == "OctoCoaxP" || frameType == "OctoCoaxX" ) {
-		
-		 // Retrieve multirotor settings
-         m_multirotor->refreshWidgetsValues(frameType);
-    } else if (frameType == "HeliCP") {
+        break;
+    case SystemSettings::AIRFRAMETYPE_TRI:
+    case SystemSettings::AIRFRAMETYPE_QUADX:
+    case SystemSettings::AIRFRAMETYPE_QUADP:
+    case SystemSettings::AIRFRAMETYPE_HEXA:
+    case SystemSettings::AIRFRAMETYPE_HEXAX:
+    case SystemSettings::AIRFRAMETYPE_HEXACOAX:
+    case SystemSettings::AIRFRAMETYPE_OCTO:
+    case SystemSettings::AIRFRAMETYPE_OCTOV:
+    case SystemSettings::AIRFRAMETYPE_OCTOCOAXP:
+    case SystemSettings::AIRFRAMETYPE_OCTOCOAXX:
+        // Retrieve multirotor settings
+        m_multirotor->refreshWidgetsValues(frameType);
+        break;
+    case SystemSettings::AIRFRAMETYPE_HELICP:
+        // Retrieve helicopter settings
         setComboCurrentIndex(m_aircraft->aircraftType, m_aircraft->aircraftType->findText("Helicopter"));
         m_heli->refreshWidgetsValues(frameType);
-
-	} else if (frameType.startsWith("GroundVehicle")) {
-
+        break;
+    case SystemSettings::AIRFRAMETYPE_GROUNDVEHICLECAR:
+    case SystemSettings::AIRFRAMETYPE_GROUNDVEHICLEDIFFERENTIAL:
+    case SystemSettings::AIRFRAMETYPE_GROUNDVEHICLEMOTORCYCLE:
         // Retrieve ground vehicle settings
         m_groundvehicle->refreshWidgetsValues(frameType);
-		
-	} else if (frameType == "Custom") {
+        break;
+    default:
+        // Retrieve custom settings
         setComboCurrentIndex(m_aircraft->aircraftType, m_aircraft->aircraftType->findText("Custom"));
-	}	
-	
+        break;
+    }
+
     updateCustomAirframeUI();
+
+    // Tell UI is has unsaved changes
     setDirty(dirty);
 }
 
@@ -559,35 +568,88 @@ void ConfigVehicleTypeWidget::refreshWidgetsValues(UAVObject * obj)
   \brief Sets up the mixer depending on Airframe type. Accepts either system settings or
   combo box entry from airframe type, as those do not overlap.
   */
-void ConfigVehicleTypeWidget::setupAirframeUI(QString frameType)
+void ConfigVehicleTypeWidget::setupAirframeUI(QString frameTypeString)
+{
+    frameType = SystemSettings::AIRFRAMETYPE_CUSTOM;
+
+    if(frameTypeString== "Elevator aileron rudder")
+        frameType = SystemSettings::AIRFRAMETYPE_FIXEDWING;
+    else if(frameTypeString== "Elevon")
+        frameType = SystemSettings::AIRFRAMETYPE_FIXEDWINGELEVON;
+    else if(frameTypeString== "Vtail")
+        frameType = SystemSettings::AIRFRAMETYPE_FIXEDWINGVTAIL;
+    else if (frameTypeString== "Tricopter Y")
+        frameType = SystemSettings::AIRFRAMETYPE_TRI;
+    else if (frameTypeString== "Quad X")
+        frameType = SystemSettings::AIRFRAMETYPE_QUADX;
+    else if (frameTypeString== "Quad +")
+        frameType = SystemSettings::AIRFRAMETYPE_QUADP;
+    else if (frameTypeString== "Hexacopter")
+        frameType = SystemSettings::AIRFRAMETYPE_HEXA;
+    else if (frameTypeString== "Hexacopter X")
+        frameType = SystemSettings::AIRFRAMETYPE_HEXAX;
+    else if (frameTypeString== "Hexacopter Y6")
+        frameType = SystemSettings::AIRFRAMETYPE_HEXACOAX;
+    else if (frameTypeString== "Octocopter" )
+        frameType = SystemSettings::AIRFRAMETYPE_OCTO;
+    else if (frameTypeString== "Octocopter V" )
+        frameType = SystemSettings::AIRFRAMETYPE_OCTOV;
+    else if (frameTypeString== "Octo Coax +" )
+        frameType = SystemSettings::AIRFRAMETYPE_OCTOCOAXP;
+    else if (frameTypeString== "Octo Coax X" )
+        frameType = SystemSettings::AIRFRAMETYPE_OCTOCOAXX;
+    else if (frameTypeString== "HeliCP")
+        frameType = SystemSettings::AIRFRAMETYPE_HELICP;
+    else if (frameTypeString== "Turnable (car)")
+        frameType = SystemSettings::AIRFRAMETYPE_GROUNDVEHICLECAR;
+    else if (frameTypeString== "Differential (tank)")
+        frameType = SystemSettings::AIRFRAMETYPE_GROUNDVEHICLEDIFFERENTIAL;
+    else if (frameTypeString== "Motorcycle")
+        frameType = SystemSettings::AIRFRAMETYPE_GROUNDVEHICLEMOTORCYCLE;
+
+    setupAirframeUI(frameType);
+}
+
+/**
+  \brief Sets up the mixer depending on Airframe type. Accepts either system settings or
+  combo box entry from airframe type, as those do not overlap.
+  */
+void ConfigVehicleTypeWidget::setupAirframeUI(uint16_t frameType)
 {
     bool dirty=isDirty();
-	if(frameType == "FixedWing" || frameType == "Elevator aileron rudder" || 
-			frameType == "FixedWingElevon" || frameType == "Elevon" ||
-            frameType == "FixedWingVtail" || frameType == "Vtail"){
+
+    switch(frameType) {
+    case SystemSettings::AIRFRAMETYPE_FIXEDWING:
+    case SystemSettings::AIRFRAMETYPE_FIXEDWINGELEVON:
+    case SystemSettings::AIRFRAMETYPE_FIXEDWINGVTAIL:
+        //Call fixed-wing setup UI
         m_fixedwing->setupUI(frameType);
-     }
-    else if (frameType == "Tri" || frameType == "Tricopter Y" ||
-				frameType == "QuadX" || frameType == "Quad X" ||
-				frameType == "QuadP" || frameType == "Quad +" ||
-				frameType == "Hexa" || frameType == "Hexacopter" ||
-				frameType == "HexaX" || frameType == "Hexacopter X" ||
-				frameType == "HexaCoax" || frameType == "Hexacopter Y6" ||
-				frameType == "Octo" || frameType == "Octocopter" ||
-				frameType == "OctoV" || frameType == "Octocopter V" ||
-				frameType == "OctoCoaxP" || frameType == "Octo Coax +" || 
-				frameType == "OctoCoaxX" || frameType == "Octo Coax X" ) {
-		 
-         //Call multi-rotor setup UI
-         m_multirotor->setupUI(frameType);
-	 }	 
-    else if (frameType == "HeliCP") {
+        break;
+    case SystemSettings::AIRFRAMETYPE_TRI:
+    case SystemSettings::AIRFRAMETYPE_QUADX:
+    case SystemSettings::AIRFRAMETYPE_QUADP:
+    case SystemSettings::AIRFRAMETYPE_HEXA:
+    case SystemSettings::AIRFRAMETYPE_HEXAX:
+    case SystemSettings::AIRFRAMETYPE_HEXACOAX:
+    case SystemSettings::AIRFRAMETYPE_OCTO:
+    case SystemSettings::AIRFRAMETYPE_OCTOV:
+    case SystemSettings::AIRFRAMETYPE_OCTOCOAXP:
+    case SystemSettings::AIRFRAMETYPE_OCTOCOAXX:
+        //Call multi-rotor setup UI
+        m_multirotor->setupUI(frameType);
+        break;
+    case SystemSettings::AIRFRAMETYPE_HELICP:
+        //Call helicopter setup UI
         m_heli->setupUI(frameType);
-    }
-    else if (frameType == "GroundVehicleCar" || frameType == "Turnable (car)" ||
-			 frameType == "GroundVehicleDifferential" || frameType == "Differential (tank)" || 
-             frameType == "GroundVehicleMotorcyle" || frameType == "Motorcycle") {
+        break;
+    case SystemSettings::AIRFRAMETYPE_GROUNDVEHICLECAR:
+    case SystemSettings::AIRFRAMETYPE_GROUNDVEHICLEDIFFERENTIAL:
+    case SystemSettings::AIRFRAMETYPE_GROUNDVEHICLEMOTORCYCLE:
+        //Call ground vehicle setup UI
         m_groundvehicle->setupUI(frameType);
+        break;
+    default:
+        break;
     }
 	
 	//SHOULDN'T THIS BE DONE ONLY IN QUAD SETUP, AND NOT ALL THE REST???
@@ -615,13 +677,13 @@ void ConfigVehicleTypeWidget::resetField(UAVObjectField * field)
   */
 void ConfigVehicleTypeWidget::updateCustomAirframeUI()
 {    
-    UAVDataObject* mixer = dynamic_cast<UAVDataObject*>(getObjectManager()->getObject(QString("MixerSettings")));
-    Q_ASSERT(mixer);
+    MixerSettings *mixerSettings = MixerSettings::GetInstance(getObjectManager());
+    Q_ASSERT(mixerSettings);
 
     QPointer<VehicleConfig> vconfig = new VehicleConfig();
 
     QList<double> curveValues;
-    vconfig->getThrottleCurve(mixer, VehicleConfig::MIXER_THROTTLECURVE1, &curveValues);
+    vconfig->getThrottleCurve(mixerSettings, VehicleConfig::MIXER_THROTTLECURVE1, &curveValues);
 
     // is at least one of the curve values != 0?
     if (vconfig->isValidThrottleCurve(&curveValues)) {
@@ -632,17 +694,15 @@ void ConfigVehicleTypeWidget::updateCustomAirframeUI()
         m_aircraft->customThrottle1Curve->initLinearCurve(curveValues.count(), 1.0);
     }
 
-    if (MixerSettings* mxr = qobject_cast<MixerSettings *>(mixer)) {
-        MixerSettings::DataFields mixerSettingsData = mxr->getData();
-        if (mixerSettingsData.Curve2Source == MixerSettings::CURVE2SOURCE_THROTTLE)
-            m_aircraft->customThrottle2Curve->setMixerType(MixerCurve::MIXERCURVE_THROTTLE, false);
-        else {
-            m_aircraft->customThrottle2Curve->setMixerType(MixerCurve::MIXERCURVE_OTHER, false);
-        }
+    MixerSettings::DataFields mixerSettingsData = mixerSettings->getData();
+    if (mixerSettingsData.Curve2Source == MixerSettings::CURVE2SOURCE_THROTTLE)
+        m_aircraft->customThrottle2Curve->setMixerType(MixerCurve::MIXERCURVE_THROTTLE, false);
+    else {
+        m_aircraft->customThrottle2Curve->setMixerType(MixerCurve::MIXERCURVE_OTHER, false);
     }
 
     // Setup all Throttle2 curves for all types of airframes
-    vconfig->getThrottleCurve(mixer, VehicleConfig::MIXER_THROTTLECURVE2, &curveValues);
+    vconfig->getThrottleCurve(mixerSettings, VehicleConfig::MIXER_THROTTLECURVE2, &curveValues);
 
     if (vconfig->isValidThrottleCurve(&curveValues)) {
         m_aircraft->customThrottle2Curve->initCurve(&curveValues);
@@ -653,7 +713,7 @@ void ConfigVehicleTypeWidget::updateCustomAirframeUI()
 
     // Update the mixer table:
     for (int channel=0; channel<(int)(VehicleConfig::CHANNEL_NUMELEM); channel++) {
-        UAVObjectField* field = mixer->getField(mixerTypes.at(channel));
+        UAVObjectField* field = mixerSettings->getField(mixerTypes.at(channel));
         if (field)
         {
             QComboBox* q = (QComboBox*)m_aircraft->customMixerTable->cellWidget(0,channel);
@@ -664,23 +724,23 @@ void ConfigVehicleTypeWidget::updateCustomAirframeUI()
             }
 
             m_aircraft->customMixerTable->item(1,channel)->setText(
-                QString::number(vconfig->getMixerVectorValue(mixer,channel,VehicleConfig::MIXERVECTOR_THROTTLECURVE1)));
+                QString::number(vconfig->getMixerVectorValue(mixerSettings,channel,VehicleConfig::MIXERVECTOR_THROTTLECURVE1)));
             m_aircraft->customMixerTable->item(2,channel)->setText(
-                QString::number(vconfig->getMixerVectorValue(mixer,channel,VehicleConfig::MIXERVECTOR_THROTTLECURVE2)));
+                QString::number(vconfig->getMixerVectorValue(mixerSettings,channel,VehicleConfig::MIXERVECTOR_THROTTLECURVE2)));
             m_aircraft->customMixerTable->item(3,channel)->setText(
-                QString::number(vconfig->getMixerVectorValue(mixer,channel,VehicleConfig::MIXERVECTOR_ROLL)));
+                QString::number(vconfig->getMixerVectorValue(mixerSettings,channel,VehicleConfig::MIXERVECTOR_ROLL)));
             m_aircraft->customMixerTable->item(4,channel)->setText(
-                QString::number(vconfig->getMixerVectorValue(mixer,channel,VehicleConfig::MIXERVECTOR_PITCH)));
+                QString::number(vconfig->getMixerVectorValue(mixerSettings,channel,VehicleConfig::MIXERVECTOR_PITCH)));
             m_aircraft->customMixerTable->item(5,channel)->setText(
-                QString::number(vconfig->getMixerVectorValue(mixer,channel,VehicleConfig::MIXERVECTOR_YAW)));
+                QString::number(vconfig->getMixerVectorValue(mixerSettings,channel,VehicleConfig::MIXERVECTOR_YAW)));
         }
     }
 
     // Update feed forward settings
-    m_aircraft->feedForwardSlider->setValue(vconfig->getMixerValue(mixer,"FeedForward") * 100);
-    m_aircraft->accelTime->setValue(vconfig->getMixerValue(mixer,"AccelTime"));
-    m_aircraft->decelTime->setValue(vconfig->getMixerValue(mixer,"DecelTime"));
-    m_aircraft->maxAccelSlider->setValue(vconfig->getMixerValue(mixer,"MaxAccel"));
+    m_aircraft->feedForwardSlider->setValue(vconfig->getMixerValue(mixerSettings,"FeedForward") * 100);
+    m_aircraft->accelTime->setValue(vconfig->getMixerValue(mixerSettings,"AccelTime"));
+    m_aircraft->decelTime->setValue(vconfig->getMixerValue(mixerSettings,"DecelTime"));
+    m_aircraft->maxAccelSlider->setValue(vconfig->getMixerValue(mixerSettings,"MaxAccel"));
 }
 
 
@@ -695,82 +755,84 @@ void ConfigVehicleTypeWidget::updateObjectsFromWidgets()
 {
     ConfigTaskWidget::updateObjectsFromWidgets();
 
-    UAVDataObject* mixer = dynamic_cast<UAVDataObject*>(getObjectManager()->getObject(QString("MixerSettings")));
-    Q_ASSERT(mixer);
+    MixerSettings *mixerSettings = MixerSettings::GetInstance(getObjectManager());
+    Q_ASSERT(mixerSettings);
 
     QPointer<VehicleConfig> vconfig = new VehicleConfig();
 
     // Update feed forward settings
-    vconfig->setMixerValue(mixer, "FeedForward", m_aircraft->feedForwardSlider->value() / 100.0);
-    vconfig->setMixerValue(mixer, "AccelTime", m_aircraft->accelTime->value());
-    vconfig->setMixerValue(mixer, "DecelTime", m_aircraft->decelTime->value());
-    vconfig->setMixerValue(mixer, "MaxAccel", m_aircraft->maxAccelSlider->value());
+    vconfig->setMixerValue(mixerSettings, "FeedForward", m_aircraft->feedForwardSlider->value() / 100.0);
+    vconfig->setMixerValue(mixerSettings, "AccelTime", m_aircraft->accelTime->value());
+    vconfig->setMixerValue(mixerSettings, "DecelTime", m_aircraft->decelTime->value());
+    vconfig->setMixerValue(mixerSettings, "MaxAccel", m_aircraft->maxAccelSlider->value());
 
-    QString airframeType = "Custom"; //Sets airframe type default to "Custom"
+    frameType = SystemSettings::AIRFRAMETYPE_CUSTOM; //Set airframe type default to "Custom"
+
     if (m_aircraft->aircraftType->currentText() == "Fixed Wing") {
-        airframeType = m_fixedwing->updateConfigObjectsFromWidgets();
+        frameType = m_fixedwing->updateConfigObjectsFromWidgets();
     }
     else if (m_aircraft->aircraftType->currentText() == "Multirotor") {
-         airframeType = m_multirotor->updateConfigObjectsFromWidgets();
+         frameType = m_multirotor->updateConfigObjectsFromWidgets();
     }
     else if (m_aircraft->aircraftType->currentText() == "Helicopter") {
-         airframeType = m_heli->updateConfigObjectsFromWidgets();
+         frameType = m_heli->updateConfigObjectsFromWidgets();
     }
     else if (m_aircraft->aircraftType->currentText() == "Ground") {
-         airframeType = m_groundvehicle->updateConfigObjectsFromWidgets();
+         frameType = m_groundvehicle->updateConfigObjectsFromWidgets();
     }
     else {
-        vconfig->setThrottleCurve(mixer, VehicleConfig::MIXER_THROTTLECURVE1, m_aircraft->customThrottle1Curve->getCurve());
-        vconfig->setThrottleCurve(mixer, VehicleConfig::MIXER_THROTTLECURVE2, m_aircraft->customThrottle2Curve->getCurve());
+        vconfig->setThrottleCurve(mixerSettings, VehicleConfig::MIXER_THROTTLECURVE1, m_aircraft->customThrottle1Curve->getCurve());
+        vconfig->setThrottleCurve(mixerSettings, VehicleConfig::MIXER_THROTTLECURVE2, m_aircraft->customThrottle2Curve->getCurve());
 
         // Update the table:
         for (int channel=0; channel<(int)(VehicleConfig::CHANNEL_NUMELEM); channel++) {
             QComboBox* q = (QComboBox*)m_aircraft->customMixerTable->cellWidget(0,channel);
             if(q->currentText()=="Disabled")
-                vconfig->setMixerType(mixer,channel,VehicleConfig::MIXERTYPE_DISABLED);
+                vconfig->setMixerType(mixerSettings,channel,VehicleConfig::MIXERTYPE_DISABLED);
             else if(q->currentText()=="Motor")
-                vconfig->setMixerType(mixer,channel,VehicleConfig::MIXERTYPE_MOTOR);
+                vconfig->setMixerType(mixerSettings,channel,VehicleConfig::MIXERTYPE_MOTOR);
             else if(q->currentText()=="Servo")
-                vconfig->setMixerType(mixer,channel,VehicleConfig::MIXERTYPE_SERVO);
+                vconfig->setMixerType(mixerSettings,channel,VehicleConfig::MIXERTYPE_SERVO);
             else if(q->currentText()=="CameraRoll")
-                vconfig->setMixerType(mixer,channel,VehicleConfig::MIXERTYPE_CAMERAROLL);
+                vconfig->setMixerType(mixerSettings,channel,VehicleConfig::MIXERTYPE_CAMERAROLL);
             else if(q->currentText()=="CameraPitch")
-                vconfig->setMixerType(mixer,channel,VehicleConfig::MIXERTYPE_CAMERAPITCH);
+                vconfig->setMixerType(mixerSettings,channel,VehicleConfig::MIXERTYPE_CAMERAPITCH);
             else if(q->currentText()=="CameraYaw")
-                vconfig->setMixerType(mixer,channel,VehicleConfig::MIXERTYPE_CAMERAYAW);
+                vconfig->setMixerType(mixerSettings,channel,VehicleConfig::MIXERTYPE_CAMERAYAW);
             else if(q->currentText()=="Accessory0")
-                vconfig->setMixerType(mixer,channel,VehicleConfig::MIXERTYPE_ACCESSORY0);
+                vconfig->setMixerType(mixerSettings,channel,VehicleConfig::MIXERTYPE_ACCESSORY0);
             else if(q->currentText()=="Accessory1")
-                vconfig->setMixerType(mixer,channel,VehicleConfig::MIXERTYPE_ACCESSORY1);
+                vconfig->setMixerType(mixerSettings,channel,VehicleConfig::MIXERTYPE_ACCESSORY1);
             else if(q->currentText()=="Accessory2")
-                vconfig->setMixerType(mixer,channel,VehicleConfig::MIXERTYPE_ACCESSORY2);
+                vconfig->setMixerType(mixerSettings,channel,VehicleConfig::MIXERTYPE_ACCESSORY2);
             else if(q->currentText()=="Accessory3")
-                vconfig->setMixerType(mixer,channel,VehicleConfig::MIXERTYPE_ACCESSORY3);
+                vconfig->setMixerType(mixerSettings,channel,VehicleConfig::MIXERTYPE_ACCESSORY3);
             else if(q->currentText()=="Accessory4")
-                vconfig->setMixerType(mixer,channel,VehicleConfig::MIXERTYPE_ACCESSORY4);
+                vconfig->setMixerType(mixerSettings,channel,VehicleConfig::MIXERTYPE_ACCESSORY4);
             else if(q->currentText()=="Accessory5")
-                vconfig->setMixerType(mixer,channel,VehicleConfig::MIXERTYPE_ACCESSORY5);
+                vconfig->setMixerType(mixerSettings,channel,VehicleConfig::MIXERTYPE_ACCESSORY5);
 
-            vconfig->setMixerVectorValue(mixer,channel,VehicleConfig::MIXERVECTOR_THROTTLECURVE1,
+            vconfig->setMixerVectorValue(mixerSettings,channel,VehicleConfig::MIXERVECTOR_THROTTLECURVE1,
                                             m_aircraft->customMixerTable->item(1,channel)->text().toDouble());
-            vconfig->setMixerVectorValue(mixer,channel,VehicleConfig::MIXERVECTOR_THROTTLECURVE2,
+            vconfig->setMixerVectorValue(mixerSettings,channel,VehicleConfig::MIXERVECTOR_THROTTLECURVE2,
                                             m_aircraft->customMixerTable->item(2,channel)->text().toDouble());
-            vconfig->setMixerVectorValue(mixer,channel,VehicleConfig::MIXERVECTOR_ROLL,
+            vconfig->setMixerVectorValue(mixerSettings,channel,VehicleConfig::MIXERVECTOR_ROLL,
                                             m_aircraft->customMixerTable->item(3,channel)->text().toDouble());
-            vconfig->setMixerVectorValue(mixer,channel,VehicleConfig::MIXERVECTOR_PITCH,
+            vconfig->setMixerVectorValue(mixerSettings,channel,VehicleConfig::MIXERVECTOR_PITCH,
                                             m_aircraft->customMixerTable->item(4,channel)->text().toDouble());
-            vconfig->setMixerVectorValue(mixer,channel,VehicleConfig::MIXERVECTOR_YAW,
+            vconfig->setMixerVectorValue(mixerSettings,channel,VehicleConfig::MIXERVECTOR_YAW,
                                             m_aircraft->customMixerTable->item(5,channel)->text().toDouble());
         }
     }
 
     // set the airframe type
-    UAVDataObject* system = dynamic_cast<UAVDataObject*>(getObjectManager()->getObject(QString("SystemSettings")));
-    Q_ASSERT(system);
+    SystemSettings *systemSettings = SystemSettings::GetInstance(getObjectManager());
+    Q_ASSERT(systemSettings);
+    SystemSettings::DataFields systemSettingsData = systemSettings->getData();
 
-    QPointer<UAVObjectField> field = system->getField(QString("AirframeType"));
-    if (field)
-        field->setValue(airframeType);
+    systemSettingsData.AirframeType = frameType;
+
+    systemSettings->setData(systemSettingsData);
 
     updateCustomAirframeUI();
 }
@@ -796,7 +858,6 @@ void ConfigVehicleTypeWidget::setComboCurrentIndex(QComboBox* box, int index)
 }
 
 void ConfigVehicleTypeWidget::reverseMultirotorMotor(){
-    QString frameType = m_aircraft->multirotorFrameType->currentText();
     m_multirotor->drawAirframe(frameType);
 }
 

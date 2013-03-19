@@ -1531,7 +1531,7 @@ margin:1px;</string>
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="ConfigCcpmWidget" name="widget_3" native="true"/>
+                  <widget class="ConfigCcpmWidget" name="helicopterLayout" native="true"/>
                  </item>
                 </layout>
                </item>

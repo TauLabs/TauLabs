@@ -52,19 +52,18 @@ public:
 private:
     Ui_AircraftWidget *m_aircraft;
 
-    bool setupGroundVehicleCar(QString airframeType);
-    bool setupGroundVehicleDifferential(QString airframeType);
-    bool setupGroundVehicleMotorcycle(QString airframeType);
+    bool setupGroundVehicleCar(SystemSettings::AirframeTypeOptions airframeType);
+    bool setupGroundVehicleDifferential(SystemSettings::AirframeTypeOptions airframeType);
+    bool setupGroundVehicleMotorcycle(SystemSettings::AirframeTypeOptions airframeType);
 
     virtual void ResetActuators(GUIConfigDataUnion* configData);
     static QStringList getChannelDescriptions();
 
 private slots:
-    virtual void setupUI(QString airframeType);
-    virtual void refreshWidgetsValues(QString frameType);
-    virtual QString updateConfigObjectsFromWidgets();
-    virtual bool throwConfigError(QString airframeType);
-
+    virtual void setupUI(uint16_t airframeType);
+    virtual void refreshWidgetsValues(uint16_t frameType);
+    virtual uint16_t updateConfigObjectsFromWidgets();
+    virtual bool throwConfigError(SystemSettings::AirframeTypeOptions airframeType);
 
 protected:
 

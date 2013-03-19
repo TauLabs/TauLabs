@@ -71,12 +71,12 @@ private:
     static const QString CHANNELBOXNAME;
     void setYawMixLevel(int);
 
-    void drawAirframe(QString multiRotorType);
+    void drawAirframe(uint16_t multiRotorType);
 
 private slots:
-    virtual void setupUI(QString airframeType);
-    virtual void refreshWidgetsValues(QString frameType);
-    virtual QString updateConfigObjectsFromWidgets();
+    virtual void setupUI(uint16_t airframeType);
+    virtual void refreshWidgetsValues(uint16_t frameType);
+    virtual uint16_t updateConfigObjectsFromWidgets();
     virtual bool throwConfigError(int numMotors);
 
 

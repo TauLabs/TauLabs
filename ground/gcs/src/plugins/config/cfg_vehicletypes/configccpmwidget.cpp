@@ -39,7 +39,6 @@
 #include <QMessageBox>
 
 #include "mixersettings.h"
-#include "systemsettings.h"
 #include "actuatorcommand.h"
 
 ConfigCcpmWidget::ConfigCcpmWidget(QWidget *parent) : VehicleConfig(parent)
@@ -162,7 +161,7 @@ ConfigCcpmWidget::ConfigCcpmWidget(QWidget *parent) : VehicleConfig(parent)
     m_ccpm->ccpmType->addItems(Types);
     m_ccpm->ccpmType->setCurrentIndex(m_ccpm->ccpmType->count() - 1);
 
-    refreshWidgetsValues(QString("HeliCP"));
+    refreshWidgetsValues(SystemSettings::AIRFRAMETYPE_HELICP);
 
     UpdateType();
 
@@ -204,7 +203,7 @@ ConfigCcpmWidget::~ConfigCcpmWidget()
    // Do nothing
 }
 
-void ConfigCcpmWidget::setupUI(QString frameType)
+void ConfigCcpmWidget::setupUI(uint16_t frameType)
 {
     Q_UNUSED(frameType);
 }
@@ -711,9 +710,9 @@ void ConfigCcpmWidget::UpdateMixer()
     }
 
 }
-QString ConfigCcpmWidget::updateConfigObjects()
+SystemSettings::AirframeTypeOptions ConfigCcpmWidget::updateConfigObjects()
 {
-    QString airframeType = "HeliCP";
+    SystemSettings::AirframeTypeOptions airframeType = SystemSettings::AIRFRAMETYPE_HELICP;
 
     bool useCCPM;
     bool useCyclic;
@@ -775,16 +774,16 @@ QString ConfigCcpmWidget::updateConfigObjects()
     return airframeType;
 }
 
-QString ConfigCcpmWidget::updateConfigObjectsFromWidgets() //UpdateCCPMOptionsFromUI()
+uint16_t ConfigCcpmWidget::updateConfigObjectsFromWidgets() //UpdateCCPMOptionsFromUI()
 {
-    QString airframeType = updateConfigObjects();
+    SystemSettings::AirframeTypeOptions airframeType = updateConfigObjects();
 
     setMixer();
 
     return airframeType;
 }
 
-void ConfigCcpmWidget::refreshWidgetsValues(QString frameType) //UpdateCCPMUIFromOptions()
+void ConfigCcpmWidget::refreshWidgetsValues(uint16_t frameType) //UpdateCCPMUIFromOptions()
 {
     Q_UNUSED(frameType);
 
@@ -858,7 +857,7 @@ void ConfigCcpmWidget::SetUIComponentVisibilities()
     }
 }
 /**
-  Request the current value of the SystemSettings which holds the ccpm type
+  Request the current value of the MixerSettings which holds the ccpm type
   */
 void ConfigCcpmWidget::getMixer()
 {
@@ -866,14 +865,14 @@ void ConfigCcpmWidget::getMixer()
     if (updatingToHardware)return;
 
     updatingFromHardware=TRUE;
-    
-    UAVDataObject* mixer = dynamic_cast<UAVDataObject*>(getObjectManager()->getObject(QString("MixerSettings")));
-    Q_ASSERT(mixer);
 
+    MixerSettings *mixerSettings = MixerSettings::GetInstance(getObjectManager());
+    Q_ASSERT(mixerSettings);
+
+    // set the airframe type
     QPointer<VehicleConfig> vconfig = new VehicleConfig();
-
     QList<double> curveValues;
-    vconfig->getThrottleCurve(mixer, VehicleConfig::MIXER_THROTTLECURVE1, &curveValues);
+    vconfig->getThrottleCurve(mixerSettings, VehicleConfig::MIXER_THROTTLECURVE1, &curveValues);
 
     // is at least one of the curve values != 0?
     if (vconfig->isValidThrottleCurve(&curveValues)) {
@@ -884,7 +883,7 @@ void ConfigCcpmWidget::getMixer()
     }
 
 
-    vconfig->getThrottleCurve(mixer, VehicleConfig::MIXER_THROTTLECURVE2, &curveValues);
+    vconfig->getThrottleCurve(mixerSettings, VehicleConfig::MIXER_THROTTLECURVE2, &curveValues);
     // is at least one of the curve values != 0?
     if (vconfig->isValidThrottleCurve(&curveValues)) {
         m_ccpm->PitchCurve->setCurve(&curveValues);
@@ -963,7 +962,7 @@ void ConfigCcpmWidget::setMixer()
 
             //Configure the vector
             for (j=0;j<5;j++)
-                mixers[MixerChannelData[i] - 1][j] = m_ccpm->ccpmAdvancedSettingsTable->item(i,j+1)->text().toInt();
+                mixers[MixerChannelData[i] - 1][j] = m_ccpm->ccpmAdvancedSettingsTable->item(i,j+1)->text().toInt(); //TODO: Fix crash here
         }
     }
 
@@ -999,9 +998,11 @@ void ConfigCcpmWidget::saveccpmUpdate()
     // Send update so that the latest value is saved
     //sendccpmUpdate();
     setMixer();
-    UAVDataObject* obj = dynamic_cast<UAVDataObject*>(getObjectManager()->getObject(QString("MixerSettings")));
-    Q_ASSERT(obj);
-    saveObjectToSD(obj);
+
+    MixerSettings *mixerSettings = MixerSettings::GetInstance(getObjectManager());
+    Q_ASSERT(mixerSettings);
+
+    saveObjectToSD(mixerSettings);
 }
 
 void ConfigCcpmWidget::resizeEvent(QResizeEvent* event)
