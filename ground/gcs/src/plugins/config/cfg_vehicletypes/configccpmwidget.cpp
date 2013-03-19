@@ -203,7 +203,7 @@ ConfigCcpmWidget::~ConfigCcpmWidget()
    // Do nothing
 }
 
-void ConfigCcpmWidget::setupUI(uint16_t frameType)
+void ConfigCcpmWidget::setupUI(SystemSettings::AirframeTypeOptions frameType)
 {
     Q_UNUSED(frameType);
 }
@@ -588,7 +588,7 @@ void ConfigCcpmWidget::UpdateMixer()
     float CollectiveConstant,PitchConstant,RollConstant,ThisAngle[6];
     QString Channel;
 
-    if (throwConfigError(QString("HeliCP")))
+    if (throwConfigError(SystemSettings::AIRFRAMETYPE_HELICP))
         return;
 
     GUIConfigDataUnion config = GetConfigData();
@@ -710,6 +710,7 @@ void ConfigCcpmWidget::UpdateMixer()
     }
 
 }
+
 SystemSettings::AirframeTypeOptions ConfigCcpmWidget::updateConfigObjects()
 {
     SystemSettings::AirframeTypeOptions airframeType = SystemSettings::AIRFRAMETYPE_HELICP;
@@ -774,7 +775,7 @@ SystemSettings::AirframeTypeOptions ConfigCcpmWidget::updateConfigObjects()
     return airframeType;
 }
 
-uint16_t ConfigCcpmWidget::updateConfigObjectsFromWidgets() //UpdateCCPMOptionsFromUI()
+SystemSettings::AirframeTypeOptions ConfigCcpmWidget::updateConfigObjectsFromWidgets() //UpdateCCPMOptionsFromUI()
 {
     SystemSettings::AirframeTypeOptions airframeType = updateConfigObjects();
 
@@ -1491,7 +1492,7 @@ void ConfigCcpmWidget::SwashLvlSpinBoxChanged(int value)
 /**
  This function displays text and color formatting in order to help the user understand what channels have not yet been configured.
  */
-bool ConfigCcpmWidget::throwConfigError(QString airframeType)
+bool ConfigCcpmWidget::throwConfigError(SystemSettings::AirframeTypeOptions airframeType)
 {
     Q_UNUSED(airframeType);
 

@@ -94,10 +94,10 @@ private:
 
         SystemSettings::AirframeTypeOptions updateConfigObjects();
     private slots:
-        virtual void setupUI(uint16_t airframeType);
+        virtual void setupUI(SystemSettings::AirframeTypeOptions airframeType);
         virtual void refreshWidgetsValues(uint16_t frameType);
-        virtual uint16_t updateConfigObjectsFromWidgets();
-        virtual bool throwConfigError(QString airframeType);
+        virtual SystemSettings::AirframeTypeOptions updateConfigObjectsFromWidgets();
+        virtual bool throwConfigError(SystemSettings::AirframeTypeOptions airframeType);
 
         void ccpmSwashplateUpdate();
         void ccpmSwashplateRedraw();

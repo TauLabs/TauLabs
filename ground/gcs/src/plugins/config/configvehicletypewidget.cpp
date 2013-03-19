@@ -488,7 +488,7 @@ void ConfigVehicleTypeWidget::refreshWidgetsValues(UAVObject * obj)
     // Get the Airframe type from the system settings:
     // At this stage, we will need to have some hardcoded settings in this code, this
     // is not ideal, but there you go.
-    frameType = systemSettingsData.AirframeType;
+    frameType = (SystemSettings::AirframeTypeOptions) systemSettingsData.AirframeType;
     setupAirframeUI(frameType);
 
     QPointer<VehicleConfig> vconfig = new VehicleConfig();
@@ -614,7 +614,7 @@ void ConfigVehicleTypeWidget::setupAirframeUI(QString frameTypeString)
   \brief Sets up the mixer depending on Airframe type. Accepts either system settings or
   combo box entry from airframe type, as those do not overlap.
   */
-void ConfigVehicleTypeWidget::setupAirframeUI(uint16_t frameType)
+void ConfigVehicleTypeWidget::setupAirframeUI(SystemSettings::AirframeTypeOptions frameType)
 {
     bool dirty=isDirty();
 

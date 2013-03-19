@@ -60,7 +60,7 @@ ConfigFixedWingWidget::~ConfigFixedWingWidget()
 /**
  Virtual function to setup the UI
  */
-void ConfigFixedWingWidget::setupUI(uint16_t frameType)
+void ConfigFixedWingWidget::setupUI(SystemSettings::AirframeTypeOptions frameType)
 {
     Q_ASSERT(m_aircraft);
 
@@ -170,14 +170,17 @@ QStringList ConfigFixedWingWidget::getChannelDescriptions()
     return channelDesc;
 }
 
+
 /**
- Virtual function to update the UI widget objects
+ * @brief ConfigFixedWingWidget::updateConfigObjectsFromWidgets update the UI widget objects
+ * @return airframe type
  */
-uint16_t ConfigFixedWingWidget::updateConfigObjectsFromWidgets()
+SystemSettings::AirframeTypeOptions ConfigFixedWingWidget::updateConfigObjectsFromWidgets()
 {
     MixerSettings *mixerSettings = MixerSettings::GetInstance(getObjectManager());
     Q_ASSERT(mixerSettings);
 
+    // Default fixed-wing type is classic airplane
     SystemSettings::AirframeTypeOptions airframeType = SystemSettings::AIRFRAMETYPE_FIXEDWING;
 
 	// Remove Feed Forward, it is pointless on a plane:

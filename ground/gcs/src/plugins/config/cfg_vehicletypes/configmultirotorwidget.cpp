@@ -60,7 +60,7 @@ ConfigMultiRotorWidget::~ConfigMultiRotorWidget()
 }
 
 
-void ConfigMultiRotorWidget::setupUI(uint16_t frameType)
+void ConfigMultiRotorWidget::setupUI(SystemSettings::AirframeTypeOptions frameType)
 {
     Q_ASSERT(m_aircraft);
     Q_ASSERT(uiowner);
@@ -331,7 +331,7 @@ void ConfigMultiRotorWidget::setYawMixLevel(int value)
 /**
  Helper function to update the UI widget objects
  */
-uint16_t ConfigMultiRotorWidget::updateConfigObjectsFromWidgets()
+SystemSettings::AirframeTypeOptions ConfigMultiRotorWidget::updateConfigObjectsFromWidgets()
 {
     SystemSettings::AirframeTypeOptions airframeType;
     QList<QString> motorList;

@@ -74,9 +74,9 @@ private:
     void drawAirframe(uint16_t multiRotorType);
 
 private slots:
-    virtual void setupUI(uint16_t airframeType);
+    virtual void setupUI(SystemSettings::AirframeTypeOptions airframeType);
     virtual void refreshWidgetsValues(uint16_t frameType);
-    virtual uint16_t updateConfigObjectsFromWidgets();
+    virtual SystemSettings::AirframeTypeOptions updateConfigObjectsFromWidgets();
     virtual bool throwConfigError(int numMotors);
 
 

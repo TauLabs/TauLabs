@@ -59,7 +59,7 @@ ConfigGroundVehicleWidget::~ConfigGroundVehicleWidget()
 /**
  Virtual function to setup the UI
  */
-void ConfigGroundVehicleWidget::setupUI(uint16_t frameType)
+void ConfigGroundVehicleWidget::setupUI(SystemSettings::AirframeTypeOptions frameType)
 {
 	m_aircraft->differentialSteeringMixBox->setHidden(true);			
 	//STILL NEEDS WORK
@@ -185,11 +185,11 @@ QStringList ConfigGroundVehicleWidget::getChannelDescriptions()
 }
 
 
-
 /**
- Virtual function to update the UI widget objects
+ * @brief ConfigFixedWingWidget::updateConfigObjectsFromWidgets update the UI widget objects
+ * @return airframe type
  */
-uint16_t ConfigGroundVehicleWidget::updateConfigObjectsFromWidgets()
+SystemSettings::AirframeTypeOptions ConfigGroundVehicleWidget::updateConfigObjectsFromWidgets()
 {
     SystemSettings::AirframeTypeOptions airframeType = SystemSettings::AIRFRAMETYPE_GROUNDVEHICLECAR;
 	
