@@ -52,18 +52,18 @@ public:
 private:
     Ui_AircraftWidget *m_aircraft;
 
-    bool setupFrameFixedWing(QString airframeType);
-    bool setupFrameElevon(QString airframeType);
-    bool setupFrameVtail(QString airframeType);
+    bool setupFrameFixedWing(SystemSettings::AirframeTypeOptions airframeType);
+    bool setupFrameElevon(SystemSettings::AirframeTypeOptions airframeType);
+    bool setupFrameVtail(SystemSettings::AirframeTypeOptions airframeType);
 
     virtual void ResetActuators(GUIConfigDataUnion* configData);
     static QStringList getChannelDescriptions();
 
 private slots:
-    virtual void setupUI(QString airframeType);
-    virtual void refreshWidgetsValues(QString frameType);
-    virtual QString updateConfigObjectsFromWidgets();
-    virtual bool throwConfigError(QString airframeType);
+    virtual void setupUI(SystemSettings::AirframeTypeOptions airframeType);
+    void refreshAirframeWidgetsValues(SystemSettings::AirframeTypeOptions frameType);
+    virtual SystemSettings::AirframeTypeOptions updateConfigObjectsFromWidgets();
+    virtual bool throwConfigError(SystemSettings::AirframeTypeOptions airframeType);
 
 
 protected:
