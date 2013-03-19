@@ -23,8 +23,6 @@
  */
 package org.taulabs.androidgcs.telemetry;
 
-import java.io.IOException;
-
 import android.content.Context;
 import android.hardware.usb.UsbManager;
 import android.util.Log;
@@ -40,6 +38,7 @@ public class SerialUAVTalk extends TelemetryTask {
 
 	private UsbManager mUsbManager;
 	private UsbSerialDriver mSerialDevice;
+	private final UsbSerialDriver driver = null;
 
 	/**
 	 * Construct a TcpUAVTalk object attached to the OPTelemetryService.  Gets the
@@ -55,39 +54,17 @@ public class SerialUAVTalk extends TelemetryTask {
 		if( getConnected() )
 			return true;
 
+		UsbSerialProber.setConnectedRunnable(new Runnable() {
+			@Override
+			public void run() {
+				Log.d(TAG, "Connected");
+				mSerialDevice = UsbSerialProber.driver;
+				attemptSucceeded();
+			}
+		}, handler);
+
 		mUsbManager = (UsbManager) telemService.getSystemService(Context.USB_SERVICE);
-		mSerialDevice = UsbSerialProber.acquire(mUsbManager);
-
-		Log.d(TAG, "Attempting to connect, mSerialDevice=" + mSerialDevice);
-        if (mSerialDevice == null) {
-        	Log.d(TAG, "No device found");
-        } else {
-            try {
-                mSerialDevice.open();
-            } catch (IOException e) {
-                Log.e(TAG, "Error setting up device: " + e.getMessage(), e);
-                try {
-                    mSerialDevice.close();
-                } catch (IOException e2) {
-                    // Ignore.
-                }
-                mSerialDevice = null;
-                return false;
-            }
-            Log.d(TAG, "Connected to device");
-        }
-
-//		// Post message to call attempt succeeded on the parent class
-//		handler.post(new Runnable() {
-//			@Override
-//			public void run() {
-//				SerialUAVTalk.this.attemptSucceeded();
-//			}
-//		});
-//
-//		return true;
-
-        return false;
+		return UsbSerialProber.acquire(mUsbManager, telemService);
 	}
 
 

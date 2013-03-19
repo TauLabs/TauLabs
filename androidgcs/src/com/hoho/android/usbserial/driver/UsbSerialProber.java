@@ -23,12 +23,15 @@ package com.hoho.android.usbserial.driver;
 import java.util.Map;
 
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
+import android.os.Handler;
 import android.util.Log;
 
 /**
@@ -48,43 +51,47 @@ public enum UsbSerialProber {
      */
     FTDI_SERIAL {
         @Override
-        public UsbSerialDriver getDevice(final UsbManager manager, final UsbDevice usbDevice) {
+        public boolean getDevice(final UsbManager manager, final Service service, final UsbDevice usbDevice) {
             if (!testIfSupported(usbDevice, FtdiSerialDriver.getSupportedDevices())) {
-                return null;
+                return false;
             }
-            final UsbDeviceConnection connection = manager.openDevice(usbDevice);
-            if (connection == null) {
-                return null;
-            }
-            return new FtdiSerialDriver(usbDevice, connection);
+
+    		permissionIntent = PendingIntent.getBroadcast(service, 0, new Intent(ACTION_USB_PERMISSION), 0);
+    		permissionFilter = new IntentFilter(ACTION_USB_PERMISSION);
+    		service.registerReceiver(usbPermissionReceiver, permissionFilter);
+
+    		UsbSerialProber.manager = manager;
+    		manager.requestPermission(usbDevice, permissionIntent);
+
+    		return true;
         }
     },
 
     CDC_ACM_SERIAL {
         @Override
-        public UsbSerialDriver getDevice(UsbManager manager, UsbDevice usbDevice) {
+        public boolean getDevice(UsbManager manager, final Service service, UsbDevice usbDevice) {
             if (!testIfSupported(usbDevice, CdcAcmSerialDriver.getSupportedDevices())) {
-               return null;
+               return false;
             }
             final UsbDeviceConnection connection = manager.openDevice(usbDevice);
             if (connection == null) {
-                return null;
+                return false;
             }
-            return new CdcAcmSerialDriver(usbDevice, connection);
+            return true; //new CdcAcmSerialDriver(usbDevice, connection);
         }
     },
-    
+
     SILAB_SERIAL {
         @Override
-        public UsbSerialDriver getDevice(final UsbManager manager, final UsbDevice usbDevice) {
+        public boolean getDevice(final UsbManager manager, final Service service, final UsbDevice usbDevice) {
             if (!testIfSupported(usbDevice, Cp2102SerialDriver.getSupportedDevices())) {
-                return null;
+                return false;
             }
             final UsbDeviceConnection connection = manager.openDevice(usbDevice);
             if (connection == null) {
-                return null;
+                return false;
             }
-            return new Cp2102SerialDriver(usbDevice, connection);
+            return true; //new Cp2102SerialDriver(usbDevice, connection);
         }
     };
 
@@ -98,13 +105,16 @@ public enum UsbSerialProber {
      * @return the first available {@link UsbSerialDriver}, or {@code null} if
      *         no devices could be acquired
      */
-    public abstract UsbSerialDriver getDevice(final UsbManager manager, final UsbDevice usbDevice);
+    public abstract boolean getDevice(final UsbManager manager, final Service service, final UsbDevice usbDevice);
 
     private static final String ACTION_USB_PERMISSION = "com.access.device.USB_PERMISSION";
-	private PendingIntent permissionIntent;
-	private final String TAG = "UsbSerialProber";
-	private final boolean DEBUG = true;
-	private UsbDevice currentDevice;
+	private static PendingIntent permissionIntent;
+	private static IntentFilter permissionFilter;
+	private final static String TAG = "UsbSerialProber";
+	private final static boolean DEBUG = true;
+	private static UsbDevice currentDevice;
+	protected static UsbManager manager;
+	public static FtdiSerialDriver driver = null;
 
 	/*
 	 * Receives a requested broadcast from the operating system.
@@ -113,12 +123,12 @@ public enum UsbSerialProber {
 	 *   UsbManager.ACTION_USB_DEVICE_DETACHED
 	 *   UsbManager.ACTION_USB_DEVICE_ATTACHED
 	 */
-	private final BroadcastReceiver usbPermissionReceiver = new BroadcastReceiver()
+	private final static BroadcastReceiver usbPermissionReceiver = new BroadcastReceiver()
 	{
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
-			if (DEBUG) Log.d(TAG,"Broadcast receiver caught intent: " + intent);
+			Log.d(TAG,"Broadcast receiver caught intent: " + intent);
 			String action = intent.getAction();
 			// Validate the action against the actions registered
 			if (ACTION_USB_PERMISSION.equals(action))
@@ -140,6 +150,11 @@ public enum UsbSerialProber {
 							currentDevice = deviceConnected;
 							if (DEBUG) Log.d(TAG, "Device Permission Acquired" + currentDevice);
 							Log.d(TAG, "Connect to device here");
+
+				            final UsbDeviceConnection connection = manager.openDevice(currentDevice);
+				            driver = new FtdiSerialDriver(currentDevice, connection);
+
+				            handler.post(connectedRunnable);
 						}
 					}
 					else
@@ -163,14 +178,15 @@ public enum UsbSerialProber {
      * @return the first available {@link UsbSerialDriver}, or {@code null} if
      *         no devices could be acquired
      */
-    public static UsbSerialDriver acquire(final UsbManager usbManager) {
+    public static boolean acquire(final UsbManager usbManager, final Service service) {
+    	driver = null;
         for (final UsbDevice usbDevice : usbManager.getDeviceList().values()) {
-            final UsbSerialDriver probedDevice = acquire(usbManager, usbDevice);
-            if (probedDevice != null) {
+            final boolean probedDevice = acquire(usbManager, service, usbDevice);
+            if (probedDevice != false) {
                 return probedDevice;
             }
         }
-        return null;
+        return false;
     }
 
     /**
@@ -183,14 +199,14 @@ public enum UsbSerialProber {
      * @return a new {@link UsbSerialDriver}, or {@code null} if no devices
      *         could be acquired
      */
-    public static UsbSerialDriver acquire(final UsbManager usbManager, final UsbDevice usbDevice) {
+    public static boolean acquire(final UsbManager usbManager, final Service service, final UsbDevice usbDevice) {
         for (final UsbSerialProber prober : values()) {
-            final UsbSerialDriver probedDevice = prober.getDevice(usbManager, usbDevice);
-            if (probedDevice != null) {
+            final boolean probedDevice = prober.getDevice(usbManager, service, usbDevice);
+            if (probedDevice != false) {
                 return probedDevice;
             }
         }
-        return null;
+        return false;
     }
 
     /**
@@ -217,4 +233,11 @@ public enum UsbSerialProber {
         return false;
     }
 
+    private static Runnable connectedRunnable;
+    private static Handler handler;
+    public static void setConnectedRunnable(Runnable r, Handler h)
+    {
+    	connectedRunnable = r;
+    	handler = h;
+    }
 }
