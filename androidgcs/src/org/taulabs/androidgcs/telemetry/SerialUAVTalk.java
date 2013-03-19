@@ -38,7 +38,7 @@ import com.hoho.android.usbserial.driver.UsbSerialProber;
 
 public class SerialUAVTalk extends TelemetryTask {
 	private final String TAG = SerialUAVTalk.class.getSimpleName();
-	public static int LOGLEVEL = 2;
+	public static int LOGLEVEL = 0;
 	public static boolean WARN = LOGLEVEL > 1;
 	public static boolean DEBUG = LOGLEVEL > 0;
 
@@ -82,6 +82,12 @@ public class SerialUAVTalk extends TelemetryTask {
 
 	public boolean openDevice(UsbSerialDriver driver) {
 		mSerialDevice = driver;
+		try {
+			driver.open();
+		} catch (IOException e1) {
+			if (DEBUG) Log.e(TAG, "Failed to open detected serial port");
+			return false;
+		}
 
 		inTalkStream = new TalkInputStream();
 		outTalkStream = new TalkOutputStream();
@@ -125,8 +131,11 @@ public class SerialUAVTalk extends TelemetryTask {
 						if (ERROR) Log.e(TAG, "Got unexpected interrupting in HID write", new Exception());
 					}
 				}
-				if (bytes > 0)
-					inTalkStream.write(Arrays.copyOfRange(d,0,bytes-1));
+				if (bytes > 0) {
+					byte valid[] = Arrays.copyOfRange(d,0,bytes);
+					if (DEBUG) Log.d(TAG, "Read " + bytes + " from serial device: " + bufToString(valid));
+					inTalkStream.write(valid);
+				}
 			}
 		}
 	};
@@ -151,7 +160,7 @@ public class SerialUAVTalk extends TelemetryTask {
 				}
 				if (bytes > 0)
 					try {
-						mSerialDevice.write(Arrays.copyOfRange(d,0,bytes-1),100);
+						mSerialDevice.write(Arrays.copyOfRange(d,0,bytes),100);
 					} catch (IOException e) {
 						if (shutdown) {
 							if (DEBUG) Log.d(TAG, "Thread interrupted.  Shutting down");
@@ -207,6 +216,14 @@ public class SerialUAVTalk extends TelemetryTask {
 		}
 
 	};
+
+	private String bufToString(byte [] buf) {
+		String retval = new String();
+		for (int i = 0; i < buf.length; i++) {
+			retval += String.format( "%02X", buf[i]);
+		}
+		return retval;
+	}
 
 	private class TalkInputStream extends InputStream {
 		// Uses ByteFifo.getByteBlocking()
