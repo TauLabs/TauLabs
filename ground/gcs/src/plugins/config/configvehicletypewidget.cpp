@@ -131,21 +131,29 @@ ConfigVehicleTypeWidget::ConfigVehicleTypeWidget(QWidget *parent) : ConfigTaskWi
     m_aircraft->aircraftType->setCurrentIndex(1);    //Set default vehicle to MultiRotor
     m_aircraft->airframesWidget->setCurrentIndex(1); // Force the tab index to match
 
-    QStringList fixedWingTypes;
-    fixedWingTypes << "Elevator aileron rudder" << "Elevon" << "Vtail";
-    m_aircraft->fixedWingType->addItems(fixedWingTypes);
+    // Setup fixed-wing combobox
+    m_aircraft->fixedWingType->addItem("Elevator aileron rudder", SystemSettings::AIRFRAMETYPE_FIXEDWING);
+    m_aircraft->fixedWingType->addItem("Elevon", SystemSettings::AIRFRAMETYPE_FIXEDWINGELEVON);
+    m_aircraft->fixedWingType->addItem("Vtail", SystemSettings::AIRFRAMETYPE_FIXEDWINGVTAIL);
     m_aircraft->fixedWingType->setCurrentIndex(0); //Set default model to "Elevator aileron rudder"
 
-	QStringList groundVehicleTypes;
-    groundVehicleTypes << "Turnable (car)" << "Differential (tank)" << "Motorcycle";
-    m_aircraft->groundVehicleType->addItems(groundVehicleTypes);
+    // Setup ground vehicle combobox
+    m_aircraft->groundVehicleType->addItem("Turnable (car)", SystemSettings::AIRFRAMETYPE_GROUNDVEHICLECAR);
+    m_aircraft->groundVehicleType->addItem("Differential (tank)", SystemSettings::AIRFRAMETYPE_GROUNDVEHICLEDIFFERENTIAL);
+    m_aircraft->groundVehicleType->addItem("Motorcycle", SystemSettings::AIRFRAMETYPE_GROUNDVEHICLEMOTORCYCLE);
     m_aircraft->groundVehicleType->setCurrentIndex(0); //Set default model to "Turnable (car)"
 
-    QStringList multiRotorTypes;
-    multiRotorTypes << "Tricopter Y"<< "Quad +" << "Quad X" <<
-					"Hexacopter" << "Hexacopter X" << "Hexacopter Y6" <<
-					"Octocopter" << "Octocopter V" << "Octo Coax +" << "Octo Coax X" ;
-    m_aircraft->multirotorFrameType->addItems(multiRotorTypes);
+    // Setup multirotor combobox
+    m_aircraft->multirotorFrameType->addItem("Tricopter Y", SystemSettings::AIRFRAMETYPE_TRI);
+    m_aircraft->multirotorFrameType->addItem("Quad X", SystemSettings::AIRFRAMETYPE_QUADX);
+    m_aircraft->multirotorFrameType->addItem("Quad +", SystemSettings::AIRFRAMETYPE_QUADP);
+    m_aircraft->multirotorFrameType->addItem("Hexacopter", SystemSettings::AIRFRAMETYPE_HEXA);
+    m_aircraft->multirotorFrameType->addItem("Hexacopter X", SystemSettings::AIRFRAMETYPE_HEXAX);
+    m_aircraft->multirotorFrameType->addItem("Hexacopter Y6", SystemSettings::AIRFRAMETYPE_HEXACOAX);
+    m_aircraft->multirotorFrameType->addItem("Octocopter", SystemSettings::AIRFRAMETYPE_OCTO);
+    m_aircraft->multirotorFrameType->addItem("Octocopter V", SystemSettings::AIRFRAMETYPE_OCTOV);
+    m_aircraft->multirotorFrameType->addItem("Octocopter Coax +", SystemSettings::AIRFRAMETYPE_OCTOCOAXP);
+    m_aircraft->multirotorFrameType->addItem("Octocopter Coax X", SystemSettings::AIRFRAMETYPE_OCTOCOAXX);
     m_aircraft->multirotorFrameType->setCurrentIndex(2); //Set default model to "Quad X"
 
 
@@ -206,9 +214,9 @@ ConfigVehicleTypeWidget::ConfigVehicleTypeWidget(QWidget *parent) : ConfigTaskWi
     connect(m_aircraft->aircraftType, SIGNAL(currentIndexChanged(int)), this, SLOT(switchAirframeType(int)));
 	
 	//Connect airframe selection dropbox to callback functions
-    connect(m_aircraft->fixedWingType, SIGNAL(currentIndexChanged(QString)), this, SLOT(setupAirframeUI(QString)));
-    connect(m_aircraft->multirotorFrameType, SIGNAL(currentIndexChanged(QString)), this, SLOT(setupAirframeUI(QString)));
-    connect(m_aircraft->groundVehicleType, SIGNAL(currentIndexChanged(QString)), this, SLOT(setupAirframeUI(QString)));
+    connect(m_aircraft->fixedWingType, SIGNAL(currentIndexChanged(int)), this, SLOT(doSetupAirframeUI(int)));
+    connect(m_aircraft->multirotorFrameType, SIGNAL(currentIndexChanged(int)), this, SLOT(doSetupAirframeUI(int)));
+    connect(m_aircraft->groundVehicleType, SIGNAL(currentIndexChanged(int)), this, SLOT(doSetupAirframeUI(int)));
     //mdl connect(m_heli->m_ccpm->ccpmType, SIGNAL(currentIndexChanged(QString)), this, SLOT(setupAirframeUI(QString)));
 
     //Connect the three feed forward test checkboxes
@@ -565,55 +573,37 @@ void ConfigVehicleTypeWidget::refreshWidgetsValues(UAVObject * obj)
 }
 
 /**
-  \brief Sets up the mixer depending on Airframe type. Accepts either system settings or
-  combo box entry from airframe type, as those do not overlap.
-  */
-void ConfigVehicleTypeWidget::setupAirframeUI(QString frameTypeString)
+ * @brief ConfigVehicleTypeWidget::doSetupAirframeUI Reads combobox value and then calls airframe UI setup method
+ * @param comboboxIndex
+ */
+void ConfigVehicleTypeWidget::doSetupAirframeUI(int comboboxIndex)
 {
-    frameType = SystemSettings::AIRFRAMETYPE_CUSTOM;
-
-    if(frameTypeString== "Elevator aileron rudder")
-        frameType = SystemSettings::AIRFRAMETYPE_FIXEDWING;
-    else if(frameTypeString== "Elevon")
-        frameType = SystemSettings::AIRFRAMETYPE_FIXEDWINGELEVON;
-    else if(frameTypeString== "Vtail")
-        frameType = SystemSettings::AIRFRAMETYPE_FIXEDWINGVTAIL;
-    else if (frameTypeString== "Tricopter Y")
-        frameType = SystemSettings::AIRFRAMETYPE_TRI;
-    else if (frameTypeString== "Quad X")
-        frameType = SystemSettings::AIRFRAMETYPE_QUADX;
-    else if (frameTypeString== "Quad +")
-        frameType = SystemSettings::AIRFRAMETYPE_QUADP;
-    else if (frameTypeString== "Hexacopter")
-        frameType = SystemSettings::AIRFRAMETYPE_HEXA;
-    else if (frameTypeString== "Hexacopter X")
-        frameType = SystemSettings::AIRFRAMETYPE_HEXAX;
-    else if (frameTypeString== "Hexacopter Y6")
-        frameType = SystemSettings::AIRFRAMETYPE_HEXACOAX;
-    else if (frameTypeString== "Octocopter" )
-        frameType = SystemSettings::AIRFRAMETYPE_OCTO;
-    else if (frameTypeString== "Octocopter V" )
-        frameType = SystemSettings::AIRFRAMETYPE_OCTOV;
-    else if (frameTypeString== "Octo Coax +" )
-        frameType = SystemSettings::AIRFRAMETYPE_OCTOCOAXP;
-    else if (frameTypeString== "Octo Coax X" )
-        frameType = SystemSettings::AIRFRAMETYPE_OCTOCOAXX;
-    else if (frameTypeString== "HeliCP")
+    // Check which tab page is currently selected, and get the item data from the appropriate combobox
+    if (m_aircraft->aircraftType->currentText() == "Multirotor"){
+        frameType = (SystemSettings::AirframeTypeOptions) m_aircraft->multirotorFrameType->itemData(comboboxIndex).toUInt();
+    }
+    else if (m_aircraft->aircraftType->currentText() == "Fixed Wing"){
+        frameType = (SystemSettings::AirframeTypeOptions) m_aircraft->fixedWingType->itemData(comboboxIndex).toUInt();
+    }
+    else if (m_aircraft->aircraftType->currentText() == "Helicopter"){
         frameType = SystemSettings::AIRFRAMETYPE_HELICP;
-    else if (frameTypeString== "Turnable (car)")
-        frameType = SystemSettings::AIRFRAMETYPE_GROUNDVEHICLECAR;
-    else if (frameTypeString== "Differential (tank)")
-        frameType = SystemSettings::AIRFRAMETYPE_GROUNDVEHICLEDIFFERENTIAL;
-    else if (frameTypeString== "Motorcycle")
-        frameType = SystemSettings::AIRFRAMETYPE_GROUNDVEHICLEMOTORCYCLE;
+    }
+    else if (m_aircraft->aircraftType->currentText() == "Ground"){
+        frameType = (SystemSettings::AirframeTypeOptions) m_aircraft->groundVehicleType->itemData(comboboxIndex).toUInt();
+    }
+    else if (m_aircraft->aircraftType->currentText() == "Custom"){
+        frameType = SystemSettings::AIRFRAMETYPE_CUSTOM;
+    }
 
+    // Setup the
     setupAirframeUI(frameType);
 }
 
+
 /**
-  \brief Sets up the mixer depending on Airframe type. Accepts either system settings or
-  combo box entry from airframe type, as those do not overlap.
-  */
+ * @brief ConfigVehicleTypeWidget::setupAirframeUI Sets up the mixer depending on Airframe type.
+ * @param frameType
+ */
 void ConfigVehicleTypeWidget::setupAirframeUI(SystemSettings::AirframeTypeOptions frameType)
 {
     bool dirty=isDirty();

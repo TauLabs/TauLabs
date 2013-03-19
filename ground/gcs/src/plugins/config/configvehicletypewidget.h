@@ -87,7 +87,7 @@ private slots:
 
     void setComboCurrentIndex(QComboBox* box, int index);
 
-    void setupAirframeUI(QString frameType);
+    void doSetupAirframeUI(int frameType);
     void setupAirframeUI(SystemSettings::AirframeTypeOptions frameType);
 	
     void toggleAileron2(int index);
