@@ -96,6 +96,7 @@ static void updateTemperatureComp(float temperature, float *temp_bias);
 static xTaskHandle sensorsTaskHandle;
 static RevoCalibrationData revoCal;
 static INSSettingsData insSettings;
+static AccelsData accelsData;
 
 // These values are initialized by settings but can be updated by the attitude algorithm
 static bool bias_correct_gyro = true;
@@ -212,8 +213,6 @@ static void SensorsTask(void *parameters)
 		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_ACCEL);
 		if(queue == NULL || xQueueReceive(queue, (void *) &accels, 0) == errQUEUE_EMPTY) {
 			//If no new accels data is ready, reuse the latest sample
-			AccelsData accelsData;
-			AccelsGet(&accelsData);
 			AccelsSet(&accelsData);
 		}
 		else
@@ -260,7 +259,6 @@ static void update_accels(struct pios_sensor_accel_data *accels)
 	    accels->z * accel_scale[2] - accel_bias[2]
 	};
 
-	AccelsData accelsData;
 	if (rotate) {
 		float accel_rotated[3];
 		rot_mult(Rbs, accels_out, accel_rotated, false);
