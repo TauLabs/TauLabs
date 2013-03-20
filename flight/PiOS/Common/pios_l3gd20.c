@@ -40,7 +40,7 @@
 /* Global Variables */
 enum pios_l3gd20_dev_magic
 {
-	PIOS_L3GD20_DEV_MAGIC = 0x9d39bced,
+    PIOS_L3GD20_DEV_MAGIC = 0x9d39bced,
 };
 
 #define PIOS_L3GD20_QUEUESIZE 2
@@ -51,7 +51,7 @@ struct l3gd20_dev
 	uint32_t spi_id;
 	uint32_t slave_num;
 	xQueueHandle queue;
-	const struct pios_l3gd20_cfg* cfg;
+	const struct pios_l3gd20_cfg *cfg;
 	enum pios_l3gd20_filter bandwidth;
 	enum pios_l3gd20_range range;
 	enum pios_l3gd20_dev_magic magic;
@@ -67,31 +67,31 @@ struct pios_l3gd20_data
 };
 
 //! Global structure for this device device
-static struct l3gd20_dev* dev;
+static struct l3gd20_dev *dev;
 
 //! Private functions
-static struct l3gd20_dev* PIOS_L3GD20_alloc(void);
-static int32_t PIOS_L3GD20_Validate(struct l3gd20_dev* dev);
-static void PIOS_L3GD20_Config(const struct pios_l3gd20_cfg* cfg);
+static struct l3gd20_dev *PIOS_L3GD20_alloc(void);
+static int32_t PIOS_L3GD20_Validate(struct l3gd20_dev *dev);
+static void PIOS_L3GD20_Config(const struct pios_l3gd20_cfg *cfg);
 static int32_t PIOS_L3GD20_SetReg(uint8_t address, uint8_t buffer);
 static int32_t PIOS_L3GD20_GetReg(uint8_t address);
-static int32_t PIOS_L3GD20_GetRegIsr(uint8_t address, bool* woken);
+static int32_t PIOS_L3GD20_GetRegIsr(uint8_t address, bool *woken);
 static int32_t PIOS_L3GD20_ClaimBus();
 static int32_t PIOS_L3GD20_ClaimBusIsr();
 static int32_t PIOS_L3GD20_ReleaseBus();
 static int32_t PIOS_L3GD20_ReleaseBusIsr();
-static int32_t PIOS_L3GD20_ReadGyros(struct pios_l3gd20_data* buffer);
+static int32_t PIOS_L3GD20_ReadGyros(struct pios_l3gd20_data *buffer);
 
 /* Local Variables */
 
 /**
  * @brief Allocate a new device
  */
-static struct l3gd20_dev* PIOS_L3GD20_alloc(void)
+static struct l3gd20_dev *PIOS_L3GD20_alloc(void)
 {
-	struct l3gd20_dev* l3gd20_dev;
+	struct l3gd20_dev *l3gd20_dev;
 
-	l3gd20_dev = (struct l3gd20_dev*)pvPortMalloc(sizeof(*l3gd20_dev));
+	l3gd20_dev = (struct l3gd20_dev *)pvPortMalloc(sizeof(*l3gd20_dev));
 
 	if (!l3gd20_dev) return (NULL);
 
@@ -114,7 +114,7 @@ static struct l3gd20_dev* PIOS_L3GD20_alloc(void)
  * @brief Validate the handle to the spi device
  * @returns 0 for valid device or -1 otherwise
  */
-static int32_t PIOS_L3GD20_Validate(struct l3gd20_dev* dev)
+static int32_t PIOS_L3GD20_Validate(struct l3gd20_dev *dev)
 {
 	if (dev == NULL)
 		return -1;
@@ -132,7 +132,7 @@ static int32_t PIOS_L3GD20_Validate(struct l3gd20_dev* dev)
  * @brief Initialize the L3GD20 3-axis gyro sensor.
  * @return none
  */
-int32_t PIOS_L3GD20_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_l3gd20_cfg* cfg)
+int32_t PIOS_L3GD20_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_l3gd20_cfg *cfg)
 {
 	dev = PIOS_L3GD20_alloc();
 
@@ -164,7 +164,7 @@ int32_t PIOS_L3GD20_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_
  * \param[in] PIOS_L3GD20_ConfigTypeDef struct to be used to configure sensor.
 *
 */
-static void PIOS_L3GD20_Config(const struct pios_l3gd20_cfg* cfg)
+static void PIOS_L3GD20_Config(const struct pios_l3gd20_cfg *cfg)
 {
 	// This register enables the channels and sets the bandwidth
 	while (PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG1, PIOS_L3GD20_CTRL1_FASTEST |
@@ -225,7 +225,7 @@ static int32_t PIOS_L3GD20_ClaimBus()
  * \param[in] pointer which receives if a task has been woken
  * @return 0 if successful, -1 for invalid device, -2 if unable to claim bus
  */
-static int32_t PIOS_L3GD20_ClaimBusIsr(bool* woken)
+static int32_t PIOS_L3GD20_ClaimBusIsr(bool *woken)
 {
 	if (PIOS_L3GD20_Validate(dev) != 0)
 		return -1;
@@ -257,7 +257,7 @@ static int32_t PIOS_L3GD20_ReleaseBus()
  * \param[in] pointer which receives if a task has been woken
  * @return 0 if successful, -1 for invalid device
  */
-static int32_t PIOS_L3GD20_ReleaseBusIsr(bool* woken)
+static int32_t PIOS_L3GD20_ReleaseBusIsr(bool *woken)
 {
 	if (PIOS_L3GD20_Validate(dev) != 0)
 		return -1;
@@ -293,7 +293,7 @@ static int32_t PIOS_L3GD20_GetReg(uint8_t reg)
  * @param reg[in] Register address to be read
  * \param[in] task woken
  */
-static int32_t PIOS_L3GD20_GetRegIsr(uint8_t reg, bool* woken)
+static int32_t PIOS_L3GD20_GetRegIsr(uint8_t reg, bool *woken)
 {
 	uint8_t data;
 
@@ -334,7 +334,7 @@ static int32_t PIOS_L3GD20_SetReg(uint8_t reg, uint8_t data)
  * \param[out] int16_t array of size 3 to store X, Z, and Y magnetometer readings
  * \returns The number of samples remaining in the fifo
  */
-static int32_t PIOS_L3GD20_ReadGyros(struct pios_l3gd20_data* data)
+static int32_t PIOS_L3GD20_ReadGyros(struct pios_l3gd20_data *data)
 {
 	uint8_t buf[7] = { PIOS_L3GD20_GYRO_X_OUT_LSB | 0x80 | 0x40, 0, 0, 0, 0, 0, 0 };
 	uint8_t rec[7];
@@ -354,7 +354,7 @@ static int32_t PIOS_L3GD20_ReadGyros(struct pios_l3gd20_data* data)
 
 	PIOS_L3GD20_ReleaseBus();
 
-	memcpy((uint8_t*)&data->gyro_x, &rec[1], 6);
+	memcpy((uint8_t *)&data->gyro_x, &rec[1], 6);
 	data->temperature = PIOS_L3GD20_GetReg(PIOS_L3GD20_OUT_TEMP);
 
 	return 0;
@@ -440,7 +440,7 @@ bool PIOS_L3GD20_IRQHandler(void)
 
 	PIOS_L3GD20_ReleaseBusIsr(&woken);
 
-	memcpy((uint8_t*)&data.gyro_x, &rec[1], 6);
+	memcpy((uint8_t *)&data.gyro_x, &rec[1], 6);
 
 	// TODO: This reordering is specific to the FlyingF3 chip placement.  Whenever
 	// this code is used on another board add an orientation mapping to the configuration
@@ -452,7 +452,7 @@ bool PIOS_L3GD20_IRQHandler(void)
 	normalized_data.temperature = PIOS_L3GD20_GetRegIsr(PIOS_L3GD20_OUT_TEMP, &woken);
 
 	portBASE_TYPE xHigherPriorityTaskWoken;
-	xQueueSendToBackFromISR(dev->queue, (void*)&normalized_data, &xHigherPriorityTaskWoken);
+	xQueueSendToBackFromISR(dev->queue, (void *)&normalized_data, &xHigherPriorityTaskWoken);
 
 	return woken || (xHigherPriorityTaskWoken == pdTRUE);
 }

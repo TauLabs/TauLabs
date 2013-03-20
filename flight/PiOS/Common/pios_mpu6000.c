@@ -40,7 +40,7 @@
 
 enum pios_mpu6000_dev_magic
 {
-	PIOS_MPU6000_DEV_MAGIC = 0x9da9b3ed,
+    PIOS_MPU6000_DEV_MAGIC = 0x9da9b3ed,
 };
 
 #define PIOS_MPU6000_MAX_QUEUESIZE 2
@@ -53,18 +53,18 @@ struct mpu6000_dev
 	enum pios_mpu60x0_range gyro_range;
 	xQueueHandle gyro_queue;
 	xQueueHandle accel_queue;
-	const struct pios_mpu60x0_cfg* cfg;
+	const struct pios_mpu60x0_cfg *cfg;
 	volatile bool configured;
 	enum pios_mpu6000_dev_magic magic;
 };
 
 //! Global structure for this device device
-static struct mpu6000_dev* dev;
+static struct mpu6000_dev *dev;
 
 //! Private functions
-static struct mpu6000_dev* PIOS_MPU6000_alloc(void);
-static int32_t PIOS_MPU6000_Validate(struct mpu6000_dev* dev);
-static void PIOS_MPU6000_Config(const struct pios_mpu60x0_cfg* cfg);
+static struct mpu6000_dev *PIOS_MPU6000_alloc(void);
+static int32_t PIOS_MPU6000_Validate(struct mpu6000_dev *dev);
+static void PIOS_MPU6000_Config(const struct pios_mpu60x0_cfg *cfg);
 static int32_t PIOS_MPU6000_ClaimBus();
 static int32_t PIOS_MPU6000_ReleaseBus();
 static int32_t PIOS_MPU6000_SetReg(uint8_t address, uint8_t buffer);
@@ -73,11 +73,11 @@ static int32_t PIOS_MPU6000_GetReg(uint8_t address);
 /**
  * @brief Allocate a new device
  */
-static struct mpu6000_dev* PIOS_MPU6000_alloc(void)
+static struct mpu6000_dev *PIOS_MPU6000_alloc(void)
 {
-	struct mpu6000_dev* mpu6000_dev;
+	struct mpu6000_dev *mpu6000_dev;
 
-	mpu6000_dev = (struct mpu6000_dev*)pvPortMalloc(sizeof(*mpu6000_dev));
+	mpu6000_dev = (struct mpu6000_dev *)pvPortMalloc(sizeof(*mpu6000_dev));
 
 	if (!mpu6000_dev) return (NULL);
 
@@ -108,7 +108,7 @@ static struct mpu6000_dev* PIOS_MPU6000_alloc(void)
  * @brief Validate the handle to the spi device
  * @returns 0 for valid device or -1 otherwise
  */
-static int32_t PIOS_MPU6000_Validate(struct mpu6000_dev* dev)
+static int32_t PIOS_MPU6000_Validate(struct mpu6000_dev *dev)
 {
 	if (dev == NULL)
 		return -1;
@@ -126,7 +126,7 @@ static int32_t PIOS_MPU6000_Validate(struct mpu6000_dev* dev)
  * @brief Initialize the MPU6000 3-axis gyro sensor.
  * @return 0 for success, -1 for failure
  */
-int32_t PIOS_MPU6000_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_mpu60x0_cfg* cfg)
+int32_t PIOS_MPU6000_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_mpu60x0_cfg *cfg)
 {
 	dev = PIOS_MPU6000_alloc();
 
@@ -157,14 +157,16 @@ int32_t PIOS_MPU6000_Init(uint32_t spi_id, uint32_t slave_num, const struct pios
  * \param[in] PIOS_MPU6000_ConfigTypeDef struct to be used to configure sensor.
 *
 */
-static void PIOS_MPU6000_Config(const struct pios_mpu60x0_cfg* cfg)
+static void PIOS_MPU6000_Config(const struct pios_mpu60x0_cfg *cfg)
 {
 	// Reset chip
 	PIOS_MPU6000_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, 0x80 | cfg->Pwr_mgmt_clk);
 
-	do {
+	do
+	{
 		PIOS_DELAY_WaitmS(5);
-	} while (PIOS_MPU6000_GetReg(PIOS_MPU60X0_PWR_MGMT_REG) & 0x80);
+	}
+	while (PIOS_MPU6000_GetReg(PIOS_MPU60X0_PWR_MGMT_REG) & 0x80);
 
 	PIOS_DELAY_WaitmS(25);
 
@@ -500,10 +502,10 @@ bool PIOS_MPU6000_IRQHandler(void)
 	gyro_data.temperature = temperature;
 
 	portBASE_TYPE xHigherPriorityTaskWoken_accel;
-	xQueueSendToBackFromISR(dev->accel_queue, (void*)&accel_data, &xHigherPriorityTaskWoken_accel);
+	xQueueSendToBackFromISR(dev->accel_queue, (void *)&accel_data, &xHigherPriorityTaskWoken_accel);
 
 	portBASE_TYPE xHigherPriorityTaskWoken_gyro;
-	xQueueSendToBackFromISR(dev->gyro_queue, (void*)&gyro_data, &xHigherPriorityTaskWoken_gyro);
+	xQueueSendToBackFromISR(dev->gyro_queue, (void *)&gyro_data, &xHigherPriorityTaskWoken_gyro);
 
 	return (xHigherPriorityTaskWoken_accel == pdTRUE) || (xHigherPriorityTaskWoken_gyro == pdTRUE);
 
@@ -547,7 +549,7 @@ bool PIOS_MPU6000_IRQHandler(void)
 	gyro_data.temperature = temperature;
 
 	portBASE_TYPE xHigherPriorityTaskWoken_gyro;
-	xQueueSendToBackFromISR(dev->gyro_queue, (void*)&gyro_data, &xHigherPriorityTaskWoken_gyro);
+	xQueueSendToBackFromISR(dev->gyro_queue, (void *)&gyro_data, &xHigherPriorityTaskWoken_gyro);
 
 	return (xHigherPriorityTaskWoken_gyro == pdTRUE);
 

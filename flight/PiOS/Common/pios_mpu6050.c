@@ -44,7 +44,7 @@
 
 enum pios_mpu6050_dev_magic
 {
-	PIOS_MPU6050_DEV_MAGIC = 0xf21d26a2,
+    PIOS_MPU6050_DEV_MAGIC = 0xf21d26a2,
 };
 
 #define PIOS_MPU6000_MAX_QUEUESIZE 2
@@ -59,30 +59,30 @@ struct mpu6050_dev
 	xQueueHandle accel_queue;
 	xTaskHandle TaskHandle;
 	xSemaphoreHandle data_ready_sema;
-	const struct pios_mpu60x0_cfg* cfg;
+	const struct pios_mpu60x0_cfg *cfg;
 	enum pios_mpu6050_dev_magic magic;
 };
 
 //! Global structure for this device device
-static struct mpu6050_dev* dev;
+static struct mpu6050_dev *dev;
 
 //! Private functions
-static struct mpu6050_dev* PIOS_MPU6050_alloc(void);
-static int32_t PIOS_MPU6050_Validate(struct mpu6050_dev* dev);
-static void PIOS_MPU6050_Config(const struct pios_mpu60x0_cfg* cfg);
+static struct mpu6050_dev *PIOS_MPU6050_alloc(void);
+static int32_t PIOS_MPU6050_Validate(struct mpu6050_dev *dev);
+static void PIOS_MPU6050_Config(const struct pios_mpu60x0_cfg *cfg);
 static int32_t PIOS_MPU6050_SetReg(uint8_t address, uint8_t buffer);
 static int32_t PIOS_MPU6050_GetReg(uint8_t address);
 static int32_t PIOS_MPU6050_ReadID();
-static void PIOS_MPU6050_Task(void* parameters);
+static void PIOS_MPU6050_Task(void *parameters);
 
 /**
  * @brief Allocate a new device
  */
-static struct mpu6050_dev* PIOS_MPU6050_alloc(void)
+static struct mpu6050_dev *PIOS_MPU6050_alloc(void)
 {
-	struct mpu6050_dev* mpu6050_dev;
+	struct mpu6050_dev *mpu6050_dev;
 
-	mpu6050_dev = (struct mpu6050_dev*)pvPortMalloc(sizeof(*mpu6050_dev));
+	mpu6050_dev = (struct mpu6050_dev *)pvPortMalloc(sizeof(*mpu6050_dev));
 
 	if (!mpu6050_dev) return (NULL);
 
@@ -119,7 +119,7 @@ static struct mpu6050_dev* PIOS_MPU6050_alloc(void)
  * @brief Validate the handle to the i2c device
  * @returns 0 for valid device or -1 otherwise
  */
-static int32_t PIOS_MPU6050_Validate(struct mpu6050_dev* dev)
+static int32_t PIOS_MPU6050_Validate(struct mpu6050_dev *dev)
 {
 	if (dev == NULL)
 		return -1;
@@ -137,7 +137,7 @@ static int32_t PIOS_MPU6050_Validate(struct mpu6050_dev* dev)
  * @brief Initialize the MPU6050 3-axis gyro sensor.
  * @return 0 for success, -1 for failure
  */
-int32_t PIOS_MPU6050_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_mpu60x0_cfg* cfg)
+int32_t PIOS_MPU6050_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_mpu60x0_cfg *cfg)
 {
 	dev = PIOS_MPU6050_alloc();
 
@@ -151,7 +151,7 @@ int32_t PIOS_MPU6050_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_m
 	/* Configure the MPU6050 Sensor */
 	PIOS_MPU6050_Config(cfg);
 
-	int result = xTaskCreate(PIOS_MPU6050_Task, (const signed char*)"pios_mpu6050",
+	int result = xTaskCreate(PIOS_MPU6050_Task, (const signed char *)"pios_mpu6050",
 	                         MPU6050_TASK_STACK, NULL, MPU6050_TASK_PRIORITY,
 	                         &dev->TaskHandle);
 	PIOS_Assert(result == pdPASS);
@@ -171,7 +171,7 @@ int32_t PIOS_MPU6050_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_m
  * \param[in] PIOS_MPU6050_ConfigTypeDef struct to be used to configure sensor.
 *
 */
-static void PIOS_MPU6050_Config(struct pios_mpu60x0_cfg const* cfg)
+static void PIOS_MPU6050_Config(struct pios_mpu60x0_cfg const *cfg)
 {
 	// Reset chip
 	PIOS_MPU6050_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, 0x80 | cfg->Pwr_mgmt_clk);
@@ -243,7 +243,7 @@ void PIOS_MPU6050_SetAccelRange(enum pios_mpu60x0_accel_range accel_range)
  * \return -1 if error during I2C transfer
  * \return -2 if unable to claim i2c device
  */
-static int32_t PIOS_MPU6050_Read(uint8_t address, uint8_t* buffer, uint8_t len)
+static int32_t PIOS_MPU6050_Read(uint8_t address, uint8_t *buffer, uint8_t len)
 {
 	uint8_t addr_buffer[] =
 	{
@@ -422,7 +422,7 @@ bool PIOS_MPU6050_IRQHandler(void)
 	return xHigherPriorityTaskWoken == pdTRUE;
 }
 
-static void PIOS_MPU6050_Task(void* parameters)
+static void PIOS_MPU6050_Task(void *parameters)
 {
 	while (1)
 	{
@@ -517,10 +517,10 @@ static void PIOS_MPU6050_Task(void* parameters)
 		gyro_data.temperature = temperature;
 
 		portBASE_TYPE xHigherPriorityTaskWoken_accel;
-		xQueueSendToBackFromISR(dev->accel_queue, (void*)&accel_data, &xHigherPriorityTaskWoken_accel);
+		xQueueSendToBackFromISR(dev->accel_queue, (void *)&accel_data, &xHigherPriorityTaskWoken_accel);
 
 		portBASE_TYPE xHigherPriorityTaskWoken_gyro;
-		xQueueSendToBackFromISR(dev->gyro_queue, (void*)&gyro_data, &xHigherPriorityTaskWoken_gyro);
+		xQueueSendToBackFromISR(dev->gyro_queue, (void *)&gyro_data, &xHigherPriorityTaskWoken_gyro);
 
 #else
 
@@ -562,7 +562,7 @@ static void PIOS_MPU6050_Task(void* parameters)
 		gyro_data.temperature = temperature;
 
 		portBASE_TYPE xHigherPriorityTaskWoken_gyro;
-		xQueueSendToBackFromISR(dev->gyro_queue, (void*)&gyro_data, &xHigherPriorityTaskWoken_gyro);
+		xQueueSendToBackFromISR(dev->gyro_queue, (void *)&gyro_data, &xHigherPriorityTaskWoken_gyro);
 
 #endif
 	}

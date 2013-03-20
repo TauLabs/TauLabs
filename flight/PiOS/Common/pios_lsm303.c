@@ -40,7 +40,7 @@
 
 enum pios_lsm303_dev_magic
 {
-	PIOS_LSM303_DEV_MAGIC = 0xef8e9e1d,
+    PIOS_LSM303_DEV_MAGIC = 0xef8e9e1d,
 };
 
 #define PIOS_LSM303_MAX_QUEUESIZE 2
@@ -56,7 +56,7 @@ struct lsm303_dev
 	xQueueHandle queue_mag;
 	xTaskHandle TaskHandle;
 	xSemaphoreHandle data_ready_sema;
-	const struct pios_lsm303_cfg* cfg;
+	const struct pios_lsm303_cfg *cfg;
 	enum pios_lsm303_dev_magic magic;
 };
 
@@ -77,27 +77,27 @@ struct pios_lsm303_mag_data
 };
 
 //! Global structure for this device device
-static struct lsm303_dev* dev;
+static struct lsm303_dev *dev;
 
 //! Private functions
-static struct lsm303_dev* PIOS_LSM303_alloc(void);
-static int32_t PIOS_LSM303_Validate(struct lsm303_dev* dev);
-static void PIOS_LSM303_Config(const struct pios_lsm303_cfg* cfg);
+static struct lsm303_dev *PIOS_LSM303_alloc(void);
+static int32_t PIOS_LSM303_Validate(struct lsm303_dev *dev);
+static void PIOS_LSM303_Config(const struct pios_lsm303_cfg *cfg);
 static int32_t PIOS_LSM303_Accel_SetReg(uint8_t address, uint8_t buffer);
 static int32_t PIOS_LSM303_Mag_SetReg(uint8_t address, uint8_t buffer);
 static int32_t PIOS_LSM303_Mag_GetReg(uint8_t address);
-static int32_t PIOS_LSM303_Accel_ReadData(struct pios_lsm303_accel_data* data);
-static int32_t PIOS_LSM303_Mag_ReadData(struct pios_lsm303_mag_data* data);
-static void PIOS_LSM303_Task(void* parameters);
+static int32_t PIOS_LSM303_Accel_ReadData(struct pios_lsm303_accel_data *data);
+static int32_t PIOS_LSM303_Mag_ReadData(struct pios_lsm303_mag_data *data);
+static void PIOS_LSM303_Task(void *parameters);
 
 /**
  * @brief Allocate a new device
  */
-static struct lsm303_dev* PIOS_LSM303_alloc(void)
+static struct lsm303_dev *PIOS_LSM303_alloc(void)
 {
-	struct lsm303_dev* lsm303_dev;
+	struct lsm303_dev *lsm303_dev;
 
-	lsm303_dev = (struct lsm303_dev*)pvPortMalloc(sizeof(*lsm303_dev));
+	lsm303_dev = (struct lsm303_dev *)pvPortMalloc(sizeof(*lsm303_dev));
 
 	if (!lsm303_dev) return (NULL);
 
@@ -134,7 +134,7 @@ static struct lsm303_dev* PIOS_LSM303_alloc(void)
  * @brief Validate the handle to the i2c device
  * @returns 0 for valid device or -1 otherwise
  */
-static int32_t PIOS_LSM303_Validate(struct lsm303_dev* dev)
+static int32_t PIOS_LSM303_Validate(struct lsm303_dev *dev)
 {
 	if (dev == NULL)
 		return -1;
@@ -152,7 +152,7 @@ static int32_t PIOS_LSM303_Validate(struct lsm303_dev* dev)
  * @brief Initialize the LSM303 3-axis gyro sensor.
  * @return 0 for success, -1 for failure
  */
-int32_t PIOS_LSM303_Init(uint32_t i2c_id, const struct pios_lsm303_cfg* cfg)
+int32_t PIOS_LSM303_Init(uint32_t i2c_id, const struct pios_lsm303_cfg *cfg)
 {
 	dev = PIOS_LSM303_alloc();
 
@@ -178,7 +178,7 @@ int32_t PIOS_LSM303_Init(uint32_t i2c_id, const struct pios_lsm303_cfg* cfg)
 	/* Configure the LSM303 Sensor */
 	PIOS_LSM303_Config(cfg);
 
-	int result = xTaskCreate(PIOS_LSM303_Task, (const signed char*)"pios_lsm303",
+	int result = xTaskCreate(PIOS_LSM303_Task, (const signed char *)"pios_lsm303",
 	                         LSM303_TASK_STACK, NULL, LSM303_TASK_PRIORITY,
 	                         &dev->TaskHandle);
 	PIOS_Assert(result == pdPASS);
@@ -198,7 +198,7 @@ int32_t PIOS_LSM303_Init(uint32_t i2c_id, const struct pios_lsm303_cfg* cfg)
  * \param[in] PIOS_LSM303_ConfigTypeDef struct to be used to configure sensor.
 *
 */
-static void PIOS_LSM303_Config(struct pios_lsm303_cfg const* cfg)
+static void PIOS_LSM303_Config(struct pios_lsm303_cfg const *cfg)
 {
 	/*
 	 * accel
@@ -251,7 +251,7 @@ static void PIOS_LSM303_Config(struct pios_lsm303_cfg const* cfg)
  * \return -1 if error during I2C transfer
  * \return -2 if unable to claim i2c device
  */
-static int32_t PIOS_LSM303_Accel_Read(uint8_t address, uint8_t* buffer, uint8_t len)
+static int32_t PIOS_LSM303_Accel_Read(uint8_t address, uint8_t *buffer, uint8_t len)
 {
 	if (PIOS_LSM303_Validate(dev) != 0)
 		return -1;
@@ -324,7 +324,7 @@ static int32_t PIOS_LSM303_Accel_Write(uint8_t address, uint8_t buffer)
  * \return -1 if error during I2C transfer
  * \return -2 if unable to claim i2c device
  */
-static int32_t PIOS_LSM303_Mag_Read(uint8_t address, uint8_t* buffer, uint8_t len)
+static int32_t PIOS_LSM303_Mag_Read(uint8_t address, uint8_t *buffer, uint8_t len)
 {
 	if (PIOS_LSM303_Validate(dev) != 0)
 		return -1;
@@ -436,9 +436,9 @@ static int32_t PIOS_LSM303_Mag_SetReg(uint8_t reg, uint8_t data)
  * \param[out] int16_t array of size 3 to store X, Z, and Y accelerometer readings
  * \returns The number of samples remaining in the fifo
  */
-static int32_t PIOS_LSM303_Accel_ReadData(struct pios_lsm303_accel_data* data)
+static int32_t PIOS_LSM303_Accel_ReadData(struct pios_lsm303_accel_data *data)
 {
-	if (PIOS_LSM303_Accel_Read(PIOS_LSM303_OUT_X_L_A, (uint8_t*)data, sizeof(*data)) < 0)
+	if (PIOS_LSM303_Accel_Read(PIOS_LSM303_OUT_X_L_A, (uint8_t *)data, sizeof(*data)) < 0)
 	{
 		return -2;
 	}
@@ -451,7 +451,7 @@ static int32_t PIOS_LSM303_Accel_ReadData(struct pios_lsm303_accel_data* data)
  * \param[out] int16_t array of size 3 to store X, Y, Z and temperature magnetometer readings
  * \returns The number of samples remaining in the fifo
  */
-static int32_t PIOS_LSM303_Mag_ReadData(struct pios_lsm303_mag_data* data)
+static int32_t PIOS_LSM303_Mag_ReadData(struct pios_lsm303_mag_data *data)
 {
 	uint8_t temp[6];
 
@@ -640,7 +640,7 @@ bool PIOS_LSM303_IRQHandler(void)
 	return xHigherPriorityTaskWoken == pdTRUE;
 }
 
-static void PIOS_LSM303_Task(void* parameters)
+static void PIOS_LSM303_Task(void *parameters)
 {
 	while (1)
 	{
@@ -695,7 +695,7 @@ static void PIOS_LSM303_Task(void* parameters)
 			normalized_data.z = -data.accel_z * accel_scale;
 			normalized_data.temperature = 0;
 
-			xQueueSend(dev->queue_accel, (void*)&normalized_data, 0);
+			xQueueSend(dev->queue_accel, (void *)&normalized_data, 0);
 		}
 
 		/*
@@ -741,7 +741,7 @@ static void PIOS_LSM303_Task(void* parameters)
 
 				normalized_data.z = -data.mag_z * mag_scale_z;
 
-				xQueueSend(dev->queue_mag, (void*)&normalized_data, 0);
+				xQueueSend(dev->queue_mag, (void *)&normalized_data, 0);
 			}
 		}
 	}
