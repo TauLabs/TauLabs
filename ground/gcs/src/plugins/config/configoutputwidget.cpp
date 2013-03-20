@@ -72,7 +72,7 @@ ConfigOutputWidget::ConfigOutputWidget(QWidget *parent) : ConfigTaskWidget(paren
         connect(m_config->channelOutTest, SIGNAL(toggled(bool)), outputForm, SLOT(enableChannelTest(bool)));
         connect(outputForm, SIGNAL(channelChanged(int,int)), this, SLOT(sendChannelTest(int,int)));
 
-        connect(outputForm, SIGNAL(formChanged()), this, SLOT(setUpdated()));
+        connect(outputForm, SIGNAL(formChanged()), this, SLOT(do_SetDirty()));
     }
 
     connect(m_config->channelOutTest, SIGNAL(toggled(bool)), this, SLOT(runChannelTests(bool)));
@@ -477,7 +477,7 @@ void ConfigOutputWidget::disableIfNotMe(UAVObject* obj)
 /**
  * @brief OutputChannelForm::setUpdated Slot that receives signals indicating the UI is updated
  */
-void ConfigOutputWidget::setUpdated()
+void ConfigOutputWidget::do_SetDirty()
 {
     setDirty(true);
 }

@@ -107,7 +107,7 @@ private slots:
     // Slots for measuring the sensor noise
     void doStartNoiseMeasurement();
     void doGetNoiseSample(UAVObject *);
-    void setUpdated();
+    void do_SetDirty();
 
 protected:
     void showEvent(QShowEvent *event);

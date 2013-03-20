@@ -68,7 +68,7 @@ private slots:
     void reverseChannel(bool state);
     void sendChannelTest(int value);
     void setChannelRange();
-    void outputFormChanged();
+    void notifyFormChanged();
 };
 
 inline int OutputChannelForm::index() const

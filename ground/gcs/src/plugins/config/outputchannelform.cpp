@@ -65,10 +65,10 @@ OutputChannelForm::OutputChannelForm(const int index, QWidget *parent, const boo
     connect(ui.actuatorNeutral, SIGNAL(valueChanged(int)), this, SLOT(sendChannelTest(int)));
 
     // Connect UI elements to dirty/clean (i.e. changed/unchanged) signal/slot
-    connect(ui.actuatorMin, SIGNAL(editingFinished()), this, SLOT(outputFormChanged()));
-    connect(ui.actuatorMax, SIGNAL(editingFinished()), this, SLOT(outputFormChanged()));
-    connect(ui.actuatorRev, SIGNAL(released()), this, SLOT(outputFormChanged()));
-    connect(ui.actuatorNeutral, SIGNAL(sliderReleased()), this, SLOT(outputFormChanged()));
+    connect(ui.actuatorMin, SIGNAL(editingFinished()), this, SLOT(notifyFormChanged()));
+    connect(ui.actuatorMax, SIGNAL(editingFinished()), this, SLOT(notifyFormChanged()));
+    connect(ui.actuatorRev, SIGNAL(released()), this, SLOT(notifyFormChanged()));
+    connect(ui.actuatorNeutral, SIGNAL(sliderReleased()), this, SLOT(notifyFormChanged()));
 
     ui.actuatorLink->setChecked(false);
     connect(ui.actuatorLink, SIGNAL(toggled(bool)), this, SLOT(linkToggled(bool)));
@@ -317,7 +317,7 @@ void OutputChannelForm::sendChannelTest(int value)
 /**
  * @brief OutputChannelForm::setUpdated Slot that receives signals indicating the UI is updated
  */
-void OutputChannelForm::outputFormChanged()
+void OutputChannelForm::notifyFormChanged()
 {
     // If we are not in Test Output mode, set form as dirty
     if (!m_inChannelTest){

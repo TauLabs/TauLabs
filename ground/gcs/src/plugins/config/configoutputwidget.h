@@ -72,7 +72,7 @@ private slots:
     void runChannelTests(bool state);
     void sendChannelTest(int index, int value);
     void openHelp();
-    void setUpdated();
+    void do_SetDirty();
 
 protected:
         void enableControls(bool enable);

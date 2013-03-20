@@ -270,7 +270,7 @@ ConfigAttitudeWidget::ConfigAttitudeWidget(QWidget *parent) :
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->cancelTempCal, SLOT(setDisabled(bool)));
 
     // Let the calibration gadget mark the tab as dirty, i.e. having unsaved data.
-    connect(&calibration, SIGNAL(calibrationCompleted()), this, SLOT(setUpdated()));
+    connect(&calibration, SIGNAL(calibrationCompleted()), this, SLOT(do_SetDirty()));
 
     m_ui->noiseMeasurementStart->setEnabled(true);
     m_ui->sixPointStart->setEnabled(true);
@@ -571,7 +571,7 @@ void ConfigAttitudeWidget::refreshWidgetsValues(UAVObject *)
 /**
  * @brief ConfigAttitudeWidget::setUpdated Slot that receives signals indicating the UI is updated
  */
-void ConfigAttitudeWidget::setUpdated()
+void ConfigAttitudeWidget::do_SetDirty()
 {
     setDirty(true);
 }
