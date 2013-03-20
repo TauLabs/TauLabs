@@ -244,11 +244,26 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
 }
 #endif
 
-void panic() {
+/**
+ * Indicate a target-specific error code when a component fails to initialize
+ * 1 pulse - flash chip
+ * 2 pulses - MPU6050
+ * 3 pulses - HMC5883
+ * 4 pulses - MS5611
+ * 5 pulses - gyro I2C bus locked
+ * 6 pulses - mag/baro I2C bus locked
+ */
+static void panic(int32_t code) {
 	while(1){
-		PIOS_WDG_Clear();
-		PIOS_LED_Toggle(PIOS_LED_ALARM);
-		PIOS_DELAY_WaitmS(200);
+		for (int32_t i = 0; i < code; i++) {
+			PIOS_WDG_Clear();
+			PIOS_LED_Toggle(PIOS_LED_ALARM);
+			PIOS_DELAY_WaitmS(200);
+			PIOS_WDG_Clear();
+			PIOS_LED_Toggle(PIOS_LED_ALARM);
+			PIOS_DELAY_WaitmS(200);
+		}
+		PIOS_DELAY_WaitmS(500);
 	}
 }
 
@@ -281,10 +296,10 @@ void PIOS_Board_Init(void) {
 	/* Connect flash to the appropriate interface and configure it */
 	uintptr_t flash_id;
 	if (PIOS_Flash_Jedec_Init(&flash_id, pios_spi_flash_id, 0, &flash_m25p_cfg) != 0)
-		panic();
+		panic(1);
 	uintptr_t fs_id;
 	if (PIOS_FLASHFS_Logfs_Init(&fs_id, &flashfs_m25p_cfg, &pios_jedec_flash_driver, flash_id) != 0)
-		panic();
+		panic(1);
 #endif
 	
 	/* Initialize UAVObject libraries */
@@ -727,12 +742,15 @@ void PIOS_Board_Init(void) {
 		PIOS_DEBUG_Assert(0);
 	}
 
+	if (PIOS_I2C_CheckClear(pios_i2c_10dof_adapter_id) != 0)
+		panic(5);
+
 #if defined(PIOS_INCLUDE_MPU6050)
 
 	if (PIOS_MPU6050_Init(pios_i2c_10dof_adapter_id, PIOS_MPU6050_I2C_ADD_A0_LOW, &pios_mpu6050_cfg) != 0)
-		panic();
+		panic(2);
 	if (PIOS_MPU6050_Test() != 0)
-		panic();
+		panic(2);
 
 	// To be safe map from UAVO enum to driver enum
 	uint8_t hw_gyro_range;
@@ -776,10 +794,13 @@ void PIOS_Board_Init(void) {
 	PIOS_DELAY_WaitmS(50);
 	PIOS_WDG_Clear();
 
+	if (PIOS_I2C_CheckClear(PIOS_I2C_MAIN_ADAPTER) != 0)
+		panic(6);
+
 #if defined(PIOS_INCLUDE_HMC5883)
 	PIOS_HMC5883_Init(PIOS_I2C_MAIN_ADAPTER, &pios_hmc5883_cfg);
 	if (PIOS_HMC5883_Test() != 0)
-		panic();
+		panic(3);
 #endif
 
 	//I2C is slow, sensor init as well, reset watchdog to prevent reset here
@@ -788,7 +809,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_MS5611)
 	PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_10dof_adapter_id);
 	if (PIOS_MS5611_Test() != 0)
-		panic();
+		panic(4);
 #endif
 
 	//I2C is slow, sensor init as well, reset watchdog to prevent reset here
