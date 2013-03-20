@@ -541,6 +541,15 @@ bool ConfigTaskWidget::isDirty()
     return dirty;
 }
 /**
+ * @brief ConfigTaskWidget::isAutopilotConnected Checks if the autopilot is connected
+ * @return true if an autopilot is connected
+ */
+bool ConfigTaskWidget::isAutopilotConnected()
+{
+    return isConnected;
+}
+
+/**
  * SLOT function used to disable widget contents changes when related object field changes
  */
 void ConfigTaskWidget::disableObjUpdates()
