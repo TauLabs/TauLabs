@@ -184,11 +184,11 @@ void INSPosVelReset(const float pos[3], const float vel[3])
 	X[5] = vel[2];	
 }
 
-void INSSetPosVelVar(float PosVar, float VelVar)
+void INSSetPosVelVar(float PosVar, float VelVar, float VertPosVar)
 {
 	R[0] = PosVar;
 	R[1] = PosVar;
-	R[2] = PosVar;
+	R[2] = VertPosVar;
 	R[3] = VelVar;
 	R[4] = VelVar;
 	R[5] = VelVar;
