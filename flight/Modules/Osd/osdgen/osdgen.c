@@ -2142,7 +2142,7 @@ void calcHomeArrow(int16_t m_yaw)
             cosf(lat1) * cosf(lat2) *
             sinf((lon2-lon1)/2) * sinf((lon2-lon1)/2);
     c = 2 * atan2f(sqrtf(a), sqrtf(1-a));
-    d = 6371 * 1000 * c;
+    d = WGS84_RADIUS_EARTH_KM * 1000 * c;
 
     // Elevation  v depends servo direction
     if(d!=0)

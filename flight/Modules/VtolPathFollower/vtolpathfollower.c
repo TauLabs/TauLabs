@@ -490,7 +490,7 @@ static void updateVtolDesiredAttitude()
 	// Compute desired down command.  Using NED accel as the damping term
 	downError = velocityDesired.Down - downVel;
 	// Negative is critical here since throttle is negative with down
-	downCommand = -pid_apply(&vtol_pids[NORTH_VELOCITY], downError, dT) +
+	downCommand = -pid_apply(&vtol_pids[DOWN_VELOCITY], downError, dT) +
 	    nedAccel.Down * guidanceSettings.VerticalVelPID[VTOLPATHFOLLOWERSETTINGS_VERTICALVELPID_KD];
 
 	stabDesired.Throttle = bound_min_max(downCommand + throttleOffset, 0, 1);

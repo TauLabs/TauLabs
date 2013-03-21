@@ -3,6 +3,7 @@
  *
  * @file       Antennatrackwidget.cpp
  * @author     Sami Korhonen & the OpenPilot team Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup AntennaTrackGadgetPlugin Antenna Track Gadget Plugin
@@ -28,7 +29,7 @@
 #include "antennatrackwidget.h"
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
-
+#include "physical_constants.h"
 
 #include <iostream>
 #include <QtGui>
@@ -173,7 +174,7 @@ void AntennaTrackWidget::calcAntennaPosition(void)
             cos(lat1) * cos(lat2) *
             sin((lon2-lon1)/2) * sin((lon2-lon1)/2);
     c = 2 * atan2(sqrt(a), sqrt(1-a));
-    d = 6371 * 1000 * c;
+    d = WGS84_RADIUS_EARTH_KM * 1000 * c;
 
     // Elevation  v depends servo direction
     if(d!=0)

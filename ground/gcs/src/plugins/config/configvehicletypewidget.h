@@ -78,6 +78,7 @@ private:
     bool ffTuningInProgress;
     bool ffTuningPhase;
     UAVObject::Metadata accInitialData;
+    SystemSettings::AirframeTypeOptions frameType;
 
 private slots:
 
@@ -86,7 +87,8 @@ private slots:
 
     void setComboCurrentIndex(QComboBox* box, int index);
 
-    void setupAirframeUI(QString type);
+    void doSetupAirframeUI(int frameType);
+    void setupAirframeUI(SystemSettings::AirframeTypeOptions frameType);
 	
     void toggleAileron2(int index);
     void toggleElevator2(int index);
