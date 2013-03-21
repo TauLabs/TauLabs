@@ -165,14 +165,14 @@ void INSPosVelReset(float pos[3], float vel[3])
 	X[5] = vel[2];	
 }
 
-void INSSetPosVelVar(float PosVar, float VelVar)
+void INSSetPosVelVar(float PosVar, float VelVar, float VertPosVar)
 {
 	R[0] = PosVar;
 	R[1] = PosVar;
-	R[2] = PosVar;
+	R[2] = VertPosVar;
 	R[3] = VelVar;
 	R[4] = VelVar;
-    R[5] = PosVar;  // Don't change vertical velocity, not measured
+	R[5] = VelVar;  // Don't change vertical velocity, not measured
 }
 
 void INSSetGyroBias(float gyro_bias[3])
