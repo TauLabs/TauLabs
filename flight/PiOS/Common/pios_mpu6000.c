@@ -248,6 +248,23 @@ static int32_t PIOS_MPU6000_ClaimBus()
 }
 
 /**
+ * @brief Claim the SPI bus for the accel communications and select this chip
+ * \param[in] pointer which receives if a task has been woken
+ * @return 0 if successful, -1 for invalid device, -2 if unable to claim bus
+ */
+static int32_t PIOS_MPU6000_ClaimBusISR(bool *woken)
+{
+	if (PIOS_MPU6000_Validate(dev) != 0)
+		return -1;
+
+	if (PIOS_SPI_ClaimBusISR(dev->spi_id, woken) != 0)
+		return -2;
+
+	PIOS_SPI_RC_PinSet(dev->spi_id, dev->slave_num, 0);
+	return 0;
+}
+
+/**
  * @brief Release the SPI bus for the accel communications and end the transaction
  * @return 0 if successful
  */
@@ -259,6 +276,21 @@ static int32_t PIOS_MPU6000_ReleaseBus()
 	PIOS_SPI_RC_PinSet(dev->spi_id, dev->slave_num, 1);
 
 	return PIOS_SPI_ReleaseBus(dev->spi_id);
+}
+
+/**
+ * @brief Release the SPI bus for the accel communications and end the transaction
+ * \param[in] pointer which receives if a task has been woken
+ * @return 0 if successful
+ */
+static int32_t PIOS_MPU6000_ReleaseBusISR(bool *woken)
+{
+	if (PIOS_MPU6000_Validate(dev) != 0)
+		return -1;
+
+	PIOS_SPI_RC_PinSet(dev->spi_id, dev->slave_num, 1);
+
+	return PIOS_SPI_ReleaseBusISR(dev->spi_id, woken);
 }
 
 /**
@@ -399,7 +431,9 @@ bool PIOS_MPU6000_IRQHandler(void)
 	if (PIOS_MPU6000_Validate(dev) != 0 || dev->configured == false)
 		return false;
 
-	if (PIOS_MPU6000_ClaimBus() != 0)
+	bool woken = false;
+
+	if (PIOS_MPU6000_ClaimBusISR(&woken) != 0)
 		return false;
 
 	enum
@@ -426,11 +460,11 @@ bool PIOS_MPU6000_IRQHandler(void)
 
 	if (PIOS_SPI_TransferBlock(dev->spi_id, mpu6000_send_buf, mpu6000_rec_buf, sizeof(mpu6000_send_buf), NULL) < 0)
 	{
-		PIOS_MPU6000_ReleaseBus();
+		PIOS_MPU6000_ReleaseBusISR(&woken);
 		return false;
 	}
 
-	PIOS_MPU6000_ReleaseBus();
+	PIOS_MPU6000_ReleaseBusISR(&woken);
 
 
 	// Rotate the sensor to OP convention.  The datasheet defines X as towards the right
@@ -499,7 +533,7 @@ bool PIOS_MPU6000_IRQHandler(void)
 	portBASE_TYPE xHigherPriorityTaskWoken_gyro;
 	xQueueSendToBackFromISR(dev->gyro_queue, (void *)&gyro_data, &xHigherPriorityTaskWoken_gyro);
 
-	return (xHigherPriorityTaskWoken_accel == pdTRUE) || (xHigherPriorityTaskWoken_gyro == pdTRUE);
+	return (xHigherPriorityTaskWoken_accel == pdTRUE) || (xHigherPriorityTaskWoken_gyro == pdTRUE) || woken == true;
 
 #else
 
@@ -543,7 +577,7 @@ bool PIOS_MPU6000_IRQHandler(void)
 	portBASE_TYPE xHigherPriorityTaskWoken_gyro;
 	xQueueSendToBackFromISR(dev->gyro_queue, (void *)&gyro_data, &xHigherPriorityTaskWoken_gyro);
 
-	return (xHigherPriorityTaskWoken_gyro == pdTRUE);
+	return (xHigherPriorityTaskWoken_gyro == pdTRUE || woken == true);
 
 #endif
 
