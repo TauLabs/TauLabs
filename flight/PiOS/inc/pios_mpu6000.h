@@ -37,7 +37,7 @@
 #include "pios_mpu60x0.h"
 
 /* Public Functions */
-extern int32_t PIOS_MPU6000_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_mpu60x0_cfg * new_cfg);
+extern int32_t PIOS_MPU6000_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_mpu60x0_cfg *new_cfg);
 extern int32_t PIOS_MPU6000_Test();
 extern void PIOS_MPU6000_SetGyroRange(enum pios_mpu60x0_range);
 extern void PIOS_MPU6000_SetAccelRange(enum pios_mpu60x0_accel_range);

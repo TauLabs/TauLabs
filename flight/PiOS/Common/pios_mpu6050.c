@@ -174,43 +174,35 @@ int32_t PIOS_MPU6050_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_m
 static void PIOS_MPU6050_Config(struct pios_mpu60x0_cfg const *cfg)
 {
 	// Reset chip
-	PIOS_MPU6050_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, 0x80 | cfg->Pwr_mgmt_clk);
+	PIOS_MPU6050_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, 0x80);
 
-	do
-	{
-		PIOS_DELAY_WaitmS(5);
-	}
-	while (PIOS_MPU6050_GetReg(PIOS_MPU60X0_PWR_MGMT_REG) & 0x80);
-
-	PIOS_DELAY_WaitmS(25);
+	// Give chip some time to initialize
+	PIOS_DELAY_WaitmS(10);
 
 	//Power management configuration
 	PIOS_MPU6050_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, cfg->Pwr_mgmt_clk);
+
+	// User control
+	PIOS_MPU6050_SetReg(PIOS_MPU60X0_USER_CTRL_REG, cfg->User_ctl);
+
+	// Sample rate divider
+	PIOS_MPU6050_SetDivisor(cfg->Smpl_rate_div);
+
+	// Digital low-pass filter and scale
+	PIOS_MPU6050_SetLPF(cfg->filter);
+
+	// Set the gyro scale
+	PIOS_MPU6050_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
 
 #if defined(PIOS_MPU6050_ACCEL)
 	// Set the accel scale
 	PIOS_MPU6050_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
 #endif
 
-	// Sample rate divider
-	PIOS_MPU6050_SetReg(PIOS_MPU60X0_SMPLRT_DIV_REG, cfg->Smpl_rate_div);
-
-	// Digital low-pass filter and scale
-	PIOS_MPU6050_SetReg(PIOS_MPU60X0_DLPF_CFG_REG, cfg->filter);
-
-	// Digital low-pass filter and scale
-	PIOS_MPU6050_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
-
-	// Interrupt configuration
-	PIOS_MPU6050_SetReg(PIOS_MPU60X0_USER_CTRL_REG, cfg->User_ctl);
-
-	//Power management configuration
-	PIOS_MPU6050_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, cfg->Pwr_mgmt_clk);
-
 	// Interrupt configuration
 	PIOS_MPU6050_SetReg(PIOS_MPU60X0_INT_CFG_REG, cfg->interrupt_cfg);
 
-	// Interrupt configuration
+	// Interrupt enable
 	PIOS_MPU6050_SetReg(PIOS_MPU60X0_INT_EN_REG, cfg->interrupt_en);
 }
 
@@ -219,7 +211,7 @@ static void PIOS_MPU6050_Config(struct pios_mpu60x0_cfg const *cfg)
  */
 void PIOS_MPU6050_SetGyroRange(enum pios_mpu60x0_range gyro_range)
 {
-	while (PIOS_MPU6050_SetReg(PIOS_MPU60X0_GYRO_CFG_REG, gyro_range) != 0);
+	PIOS_MPU6050_SetReg(PIOS_MPU60X0_GYRO_CFG_REG, gyro_range);
 
 	dev->gyro_range = gyro_range;
 }
@@ -229,9 +221,26 @@ void PIOS_MPU6050_SetGyroRange(enum pios_mpu60x0_range gyro_range)
  */
 void PIOS_MPU6050_SetAccelRange(enum pios_mpu60x0_accel_range accel_range)
 {
-	while (PIOS_MPU6050_SetReg(PIOS_MPU60X0_ACCEL_CFG_REG, accel_range) != 0);
+	PIOS_MPU6050_SetReg(PIOS_MPU60X0_ACCEL_CFG_REG, accel_range);
 
 	dev->accel_range = accel_range;
+}
+
+/**
+ * Set the sampling divisor
+ * @param[in] div The divisor to use
+ */
+void PIOS_MPU6050_SetDivisor(uint8_t div)
+{
+	PIOS_MPU6050_SetReg(PIOS_MPU60X0_SMPLRT_DIV_REG, div);
+}
+
+/**
+ * Configure the digital low-pass filter
+ */
+void PIOS_MPU6050_SetLPF(enum pios_mpu60x0_filter filter)
+{
+	PIOS_MPU6050_SetReg(PIOS_MPU60X0_DLPF_CFG_REG, filter);
 }
 
 /**
