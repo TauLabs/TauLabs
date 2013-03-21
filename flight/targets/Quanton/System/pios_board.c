@@ -136,13 +136,12 @@ static const struct pios_exti_cfg pios_exti_mpu6000_cfg __exti_config = {
 
 static const struct pios_mpu60x0_cfg pios_mpu6000_cfg = {
 	.exti_cfg = &pios_exti_mpu6000_cfg,
-	.Fifo_store = PIOS_MPU60X0_FIFO_TEMP_OUT | PIOS_MPU60X0_FIFO_GYRO_X_OUT | PIOS_MPU60X0_FIFO_GYRO_Y_OUT | PIOS_MPU60X0_FIFO_GYRO_Z_OUT,
 	// Clock at 8 khz, downsampled by 8 for 1khz
 	.Smpl_rate_div = 11,
 	.interrupt_cfg = PIOS_MPU60X0_INT_CLR_ANYRD,
 	.interrupt_en = PIOS_MPU60X0_INTEN_DATA_RDY,
-	.User_ctl = PIOS_MPU60X0_USERCTL_FIFO_EN | PIOS_MPU60X0_USERCTL_DIS_I2C,
-	.Pwr_mgmt_clk = PIOS_MPU60X0_PWRMGMT_PLL_X_CLK,
+	.User_ctl = PIOS_MPU60X0_USERCTL_DIS_I2C,
+	.Pwr_mgmt_clk = PIOS_MPU60X0_PWRMGMT_PLL_Z_CLK,
 	.filter = PIOS_MPU60X0_LOWPASS_256_HZ,
 	.orientation = PIOS_MPU60X0_TOP_180DEG
 };
