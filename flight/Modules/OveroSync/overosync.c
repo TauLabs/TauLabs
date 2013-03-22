@@ -79,9 +79,9 @@ int32_t OveroSyncInitialize(void)
 #ifdef MODULE_OveroSync_BUILTIN
 	module_enabled = true;
 #else
-	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
-	ModuleSettingsStateGet(module_state);
-	if (module_state[MODULESETTINGS_STATE_OVEROSYNC] == MODULESETTINGS_STATE_ENABLED) {
+	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
+	ModuleSettingsAdminStateGet(module_state);
+	if (module_state[MODULESETTINGS_ADMINSTATE_OVEROSYNC] == MODULESETTINGS_ADMINSTATE_ENABLED) {
 		module_enabled = true;
 	} else {
 		module_enabled = false;
@@ -141,10 +141,7 @@ MODULE_INITCALL(OveroSyncInitialize, OveroSyncStart)
 static void register_object(UAVObjHandle obj)
 {
 	int32_t eventMask;
-	eventMask = EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ;
-	if (UAVObjIsMetaobject(obj)) {
-		eventMask |= EV_UNPACKED;	// we also need to act on remote updates (unpack events)
-	}
+	eventMask = EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ | EV_UNPACKED;
 	UAVObjConnectQueue(obj, queue, eventMask);
 }
 

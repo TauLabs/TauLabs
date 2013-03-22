@@ -9,6 +9,7 @@
  *
  * @file       attitude.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      Module to handle all comms to the AHRS on a periodic basis.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -50,6 +51,7 @@
 
 #include "pios.h"
 #include "openpilot.h"
+#include "physical_constants.h"
 #include "gyros.h"
 #include "accels.h"
 #include "attitudeactual.h"
@@ -126,8 +128,7 @@ static volatile int32_t trim_accels[3];
 static volatile int32_t trim_samples;
 static int32_t const MAX_TRIM_FLIGHT_SAMPLES = 65535;
 
-#define GRAV         9.81f
-#define ADXL345_ACCEL_SCALE  (GRAV * 0.004f)
+#define ADXL345_ACCEL_SCALE  (GRAVITY * 0.004f)
 /* 0.004f is gravity / LSB */
 
 /**
@@ -633,10 +634,10 @@ static void updateAttitude(AccelsData * accelsData, GyrosData * gyrosData)
 		// Work out time derivative from INSAlgo writeup
 		// Also accounts for the fact that gyros are in deg/s
 		float qdot[4];
-		qdot[0] = (-q[1] * gyros[0] - q[2] * gyros[1] - q[3] * gyros[2]) * dT * M_PI / 180 / 2;
-		qdot[1] = (q[0] * gyros[0] - q[3] * gyros[1] + q[2] * gyros[2]) * dT * M_PI / 180 / 2;
-		qdot[2] = (q[3] * gyros[0] + q[0] * gyros[1] - q[1] * gyros[2]) * dT * M_PI / 180 / 2;
-		qdot[3] = (-q[2] * gyros[0] + q[1] * gyros[1] + q[0] * gyros[2]) * dT * M_PI / 180 / 2;
+		qdot[0] = (-q[1] * gyros[0] - q[2] * gyros[1] - q[3] * gyros[2]) * dT * DEG2RAD / 2;
+		qdot[1] = (q[0] * gyros[0] - q[3] * gyros[1] + q[2] * gyros[2]) * dT * DEG2RAD / 2;
+		qdot[2] = (q[3] * gyros[0] + q[0] * gyros[1] - q[1] * gyros[2]) * dT * DEG2RAD / 2;
+		qdot[3] = (-q[2] * gyros[0] + q[1] * gyros[1] + q[0] * gyros[2]) * dT * DEG2RAD / 2;
 		
 		// Take a time step
 		q[0] = q[0] + qdot[0];
@@ -774,9 +775,6 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	} else if (attitudeSettings.TrimFlight == ATTITUDESETTINGS_TRIMFLIGHT_LOAD) {
 		trim_requested = false;
 
-		const float DEG2RAD = (float) M_PI / 180.0f;
-		const float RAD2DEG = 1.0f / DEG2RAD;
-
 		// Get sensor data  mean 
 		float a_body[3] = { trim_accels[0] / trim_samples,
 			trim_accels[1] / trim_samples,
@@ -796,15 +794,15 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 		float sP = sinf(psi);
 
 		// In case psi is too small, we have to use a different equation to solve for theta
-		if (fabs(psi) > 3.1415f / 2)
+		if (fabs(psi) > PI / 2)
 			theta = atanf((a_sensor[1] + cP * (sP * a_sensor[0] -
 					 cP * a_sensor[1])) / (sP * a_sensor[2]));
 		else
 			theta = atanf((a_sensor[0] - sP * (sP * a_sensor[0] -
 					 cP * a_sensor[1])) / (cP * a_sensor[2]));
 
-		phi = atan2f((sP * a_sensor[0] - cP * a_sensor[1]) / GRAV,
-			   (a_sensor[2] / cosf(theta) / GRAV));
+		phi = atan2f((sP * a_sensor[0] - cP * a_sensor[1]) / GRAVITY,
+			   (a_sensor[2] / cosf(theta) / GRAVITY));
 
 		attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_ROLL] = phi * RAD2DEG * 100.0f;
 		attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_PITCH] = theta * RAD2DEG * 100.0f;

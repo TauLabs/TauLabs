@@ -32,6 +32,15 @@
 #include <QTimer>
 #include <QString>
 
+/**
+ * @brief The Calibration class is a UI free algorithm that can be connected
+ * to any interfaces.  As such it only communicates with the UI via signals
+ * and slots, but has no direct handles to any particular controls or widgets.
+ *
+ * It performs a number of calibration routines, including six-point calibration
+ * for accelerometers and magnetometers, temperature compensation for gyros and,
+ * calculating the rotation to level the accelerometers.
+ */
 class Calibration : public QObject
 {
     Q_OBJECT

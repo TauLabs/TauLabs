@@ -40,7 +40,11 @@ import org.taulabs.androidgcs.telemetry.OPTelemetryService;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService.ConnectionState;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService.LocalBinder;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService.TelemTask;
+import org.taulabs.androidgcs.views.AlarmsSummary;
+import org.taulabs.androidgcs.views.AlarmsSummary.AlarmsStatus;
+import org.taulabs.androidgcs.views.TelemetryStats;
 import org.taulabs.uavtalk.UAVObject;
+import org.taulabs.uavtalk.UAVObjectField;
 import org.taulabs.uavtalk.UAVObjectManager;
 
 import android.app.Activity;
@@ -93,48 +97,6 @@ public abstract class ObjectManagerActivity extends Activity {
 
 	}
 
-	private void updateStats() {
-		org.taulabs.androidgcs.views.TelemetryStats status = (org.taulabs.androidgcs.views.TelemetryStats) findViewById(R.id.telemetry_status);
-		if (status == null) {
-			Log.d(TAG, "Control not found");
-			return;
-		}
-
-		status.setConnected(getConnectionState() == ConnectionState.CONNECTED);
-
-		if (getConnectionState() != ConnectionState.CONNECTED) {
-			Log.d(TAG, "updateStas not connected");
-			status.setTxRate(0);
-			status.setRxRate(0);
-			return;
-		}
-
-		if (objMngr == null) {
-			Log.d(TAG, "updateStas objmngr null");
-			return;
-		}
-
-		UAVObject stats = objMngr.getObject("GCSTelemetryStats");
-		if (stats == null) {
-			Log.d(TAG, "updateStas stats null");
-			return;
-		}
-
-		status.setTxRate((int) stats.getField("TxDataRate").getDouble());
-		status.setRxRate((int) stats.getField("RxDataRate").getDouble());
-	}
-
-	final Observer telemetryObserver = new Observer() {
-		@Override
-		public void update(Observable observable, Object data) {
-			uavobjHandler.post(new Runnable() {
-				@Override
-				public void run() {
-					updateStats();
-				}
-			});
-		}
-	};
 
 	/**
 	 * Called when either the telemetry establishes a connection or
@@ -164,7 +126,12 @@ public abstract class ObjectManagerActivity extends Activity {
 			stats.addUpdatedObserver(telemetryObserver);
 			telemetryStatsConnected = true;
 		}
-		updateStats();
+		updateTelemetryStats();
+
+		UAVObject alarms = objMngr.getObject("SystemAlarms");
+		if (alarms != null)
+			alarms.addUpdatedObserver(alarmsObserver);
+		updateAlarmSummary();
 
 		if (DEBUG) Log.d(TAG, "Notifying listeners about connection.  There are " + connectionListeners.countObservers());
 		connectionListeners.connected();
@@ -194,8 +161,13 @@ public abstract class ObjectManagerActivity extends Activity {
 				stats.removeUpdatedObserver(telemetryObserver);
 			}
 			telemetryStatsConnected = false;
+			updateTelemetryStats();
+
+			UAVObject alarms = objMngr.getObject("SystemAlarms");
+			if (alarms != null) {
+				alarms.removeUpdatedObserver(alarmsObserver);
+			}
 		}
-		updateStats();
 
 		// Disconnect from any UAVO updates
 		if (DEBUG) Log.d(TAG, "onOpDisconnected(): Pausing the listeners and deleting the list");
@@ -218,6 +190,12 @@ public abstract class ObjectManagerActivity extends Activity {
 
 			stats.addUpdatedObserver(telemetryObserver);
 			telemetryStatsConnected = true;
+
+			UAVObject alarms = objMngr.getObject("SystemAlarms");
+			if (alarms != null)
+				alarms.addUpdatedObserver(alarmsObserver);
+			updateAlarmSummary();
+
 		}
 
 		resumeObjectUpdates();
@@ -233,6 +211,11 @@ public abstract class ObjectManagerActivity extends Activity {
 
 			stats.removeUpdatedObserver(telemetryObserver);
 			telemetryStatsConnected = false;
+
+			UAVObject alarms = objMngr.getObject("SystemAlarms");
+			if (alarms != null) {
+				alarms.removeUpdatedObserver(alarmsObserver);
+			}
 		}
 
 		pauseObjectUpdates();
@@ -425,6 +408,103 @@ public abstract class ObjectManagerActivity extends Activity {
 		}
 	}
 
+	/*********** Deals with the default visualization of all activities *******/
+
+	//! Store reference to alarm widget from menu inflation
+	private AlarmsSummary summary;
+
+	/**
+	 * @brief Look for the worst alarm level and update the
+	 * widget view accordingly
+	 */
+	private void updateAlarmSummary() {
+		if (summary == null)
+			return;
+
+		if (objMngr == null)
+			return;
+
+		UAVObject alarms = objMngr.getObject("SystemAlarms");
+		if (alarms == null)
+			return;
+		UAVObjectField alarmField = alarms.getField("Alarm");
+		if (alarmField == null)
+			return;
+
+		int worst = 0;
+		for (int i = 0; i < alarmField.getNumElements(); i++) {
+			if (alarmField.getDouble(i) > worst)
+				worst = (int) alarmField.getDouble(i);
+		}
+
+		String worstAlarm = alarmField.getOptions().get(worst);
+
+		// Map from string to the enum value
+		if (worstAlarm.equals("OK"))
+			summary.setAlarmsStatus(AlarmsStatus.GOOD);
+		else if (worstAlarm.equals("Warning"))
+			summary.setAlarmsStatus(AlarmsStatus.WARNING);
+		else if (worstAlarm.equals("Error"))
+			summary.setAlarmsStatus(AlarmsStatus.ERROR);
+		else if (worstAlarm.equals("Critical"))
+			summary.setAlarmsStatus(AlarmsStatus.CRITICAL);
+		else
+			// Should not happen (e.g. Uninitialized)
+			summary.setAlarmsStatus(AlarmsStatus.CRITICAL);
+	}
+
+	//! Updated whenever the alarms are
+	private final Observer alarmsObserver = new Observer() {
+		@Override
+		public void update(Observable observable, Object data) {
+			uavobjHandler.post(new Runnable() {
+				@Override
+				public void run() {
+					updateAlarmSummary();
+				}
+			});
+		}
+	};
+
+	//! Store local reference from inflation
+	private TelemetryStats telemetryStats;
+
+	//!Show the telemetry rate in the task bar
+	private void updateTelemetryStats() {
+		if (telemetryStats == null)
+			return;
+
+		telemetryStats.setConnected(getConnectionState() == ConnectionState.CONNECTED);
+
+		if (getConnectionState() != ConnectionState.CONNECTED) {
+			telemetryStats.setTxRate(0);
+			telemetryStats.setRxRate(0);
+			return;
+		}
+
+		if (objMngr == null)
+			return;
+
+		UAVObject stats = objMngr.getObject("GCSTelemetryStats");
+		if (stats == null)
+			return;
+
+		telemetryStats.setTxRate((int) stats.getField("TxDataRate").getDouble());
+		telemetryStats.setRxRate((int) stats.getField("RxDataRate").getDouble());
+	}
+
+	//! Called whenever telemetry stats are updated
+	final Observer telemetryObserver = new Observer() {
+		@Override
+		public void update(Observable observable, Object data) {
+			uavobjHandler.post(new Runnable() {
+				@Override
+				public void run() {
+					updateTelemetryStats();
+				}
+			});
+		}
+	};
 	/*********** Deals with fragments listening for connections ***************/
 
 	/**
@@ -557,25 +637,11 @@ public abstract class ObjectManagerActivity extends Activity {
 		inflater.inflate(R.menu.status_menu, menu);
 		inflater.inflate(R.menu.options_menu, menu);
 
-		// Update the telemetry stats here because we need to access via
-		// menu context and updateStats fails
-		org.taulabs.androidgcs.views.TelemetryStats status = (org.taulabs.androidgcs.views.TelemetryStats) (menu.findItem(R.id.telemetry_status).getActionView());
-		if (getConnectionState() == ConnectionState.DISCONNECTED) {
-			status.setConnected(false);
-		} else {
-			status.setConnected(true);
+		telemetryStats = (TelemetryStats) (menu.findItem(R.id.telemetry_status).getActionView());
+		updateTelemetryStats();
 
-			if (getConnectionState() != ConnectionState.CONNECTED) {
-				status.setTxRate(0);
-				status.setRxRate(0);
-			} else if (objMngr != null && status != null) {
-				UAVObject stats = objMngr.getObject("GCSTelemetryStats");
-				if (stats != null) {
-					status.setTxRate((int) stats.getField("TxDataRate").getDouble());
-					status.setRxRate((int) stats.getField("RxDataRate").getDouble());
-				}
-			}
-		}
+		summary = (AlarmsSummary) menu.findItem(R.id.alarms_status).getActionView();
+		updateAlarmSummary();
 
 		return true;
 	}
@@ -583,7 +649,7 @@ public abstract class ObjectManagerActivity extends Activity {
 	@Override
 	public boolean onMenuOpened(int featureId, Menu menu)
 	{
-		updateStats();
+		updateTelemetryStats();
 		return true;
 	}
 

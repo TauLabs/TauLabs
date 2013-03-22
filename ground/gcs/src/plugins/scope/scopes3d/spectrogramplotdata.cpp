@@ -66,23 +66,35 @@ SpectrogramData::SpectrogramData(QString uavObject, QString uavField, double sam
     rasterData->setValueMatrix( *zDataHistory, windowWidth );
 
     // Set the ranges for the plot
-    rasterData->setInterval( Qt::XAxis, QwtInterval(0, samplingFrequency / 2));
-    rasterData->setInterval( Qt::YAxis, QwtInterval(0, timeHorizon));
-    rasterData->setInterval( Qt::ZAxis, QwtInterval(0, zMaximum));
+    resetAxisRanges();
 }
 
 void SpectrogramData::setXMaximum(double val)
 {
     xMaximum=val;
-    rasterData->setInterval( Qt::XAxis, QwtInterval(xMinimum, xMaximum));
-    rasterData->setInterval( Qt::YAxis, QwtInterval(yMinimum, yMaximum));
+
+    resetAxisRanges();
 }
 
 void SpectrogramData::setYMaximum(double val)
 {
     yMaximum=val;
+
+    resetAxisRanges();
+}
+
+void SpectrogramData::setZMaximum(double val)
+{
+    zMaximum=val;
+
+    resetAxisRanges();
+}
+
+void SpectrogramData::resetAxisRanges()
+{
     rasterData->setInterval( Qt::XAxis, QwtInterval(xMinimum, xMaximum));
     rasterData->setInterval( Qt::YAxis, QwtInterval(yMinimum, yMaximum));
+    rasterData->setInterval( Qt::ZAxis, QwtInterval(0, zMaximum));
 }
 
 
@@ -102,7 +114,7 @@ void SpectrogramData::plotNewData(PlotData *plot3dData, ScopeConfig *scopeConfig
         rasterData->setValueMatrix(*zDataHistory, windowWidth);
 
         // Check autoscale. (For some reason, QwtSpectrogram doesn't support autoscale)
-        if (getZMaximum() == 0){
+        if (zMaximum == 0){
             double newVal = readAndResetAutoscaleValue();
             if (newVal != 0){
                 rightAxis->setColorMap( QwtInterval(0, newVal), new ColorMap(((SpectrogramScopeConfig*) scopeConfig)->getColorMap()));
@@ -174,7 +186,8 @@ bool SpectrogramData::append(UAVObject* multiObj)
 
 
                 // Second to last step, see if autoscale is turned on and if the value exceeds the maximum for the scope.
-                if ( getZMaximum() == 0 &&  vecVal > rasterData->interval(Qt::ZAxis).maxValue()){
+                float bob = rasterData->interval(Qt::ZAxis).maxValue();
+                if ( zMaximum == 0 &&  vecVal > rasterData->interval(Qt::ZAxis).maxValue()){
                     // Change scope maximum and color depth
                     rasterData->setInterval(Qt::ZAxis, QwtInterval(0, vecVal) );
                     autoscaleValueUpdated = vecVal;

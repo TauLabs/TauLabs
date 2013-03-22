@@ -8,7 +8,8 @@
  *
  * @file       attitudedrift.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Module to handle all comms to the AHRS on a periodic basis.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
+ * @brief      Various filters for handling gyroscope drift
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -41,6 +42,7 @@
  */
 
 #include "pios.h"
+#include "physical_constants.h"
 #include "modulesettings.h"
 #include <pios_board_info.h>
 #include "attitudedrift.h"
@@ -96,7 +98,6 @@ struct GlobalDcmDriftVariables *drft;
 // Private types
 
 // Private variables
-#define GRAV -9.805f
 
 //#define DRIFT_TYPE CCC
 enum DRIFT_CORRECTION_ALGOS {
@@ -125,8 +126,8 @@ void updateAttitudeDrift(AccelsData * accelsData, GyrosData * gyrosData, const f
 	} else if (attitudeSettings->FilterChoice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI || 
 		attitudeSettings->FilterChoice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI_GPS) {
 		if (firstpass_flag) {
-			uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
-			ModuleSettingsStateGet(module_state);
+			uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
+			ModuleSettingsAdminStateGet(module_state);
 
 			//Allocate memory for DCM drift globals
 			drft = (struct GlobalDcmDriftVariables *)
@@ -145,7 +146,7 @@ void updateAttitudeDrift(AccelsData * accelsData, GyrosData * gyrosData, const f
 			drft->gyroCalibTau = 100;
 
 			// Set flags
-			if (module_state[MODULESETTINGS_STATE_GPS] == MODULESETTINGS_STATE_ENABLED && PIOS_COM_GPS) {
+			if (module_state[MODULESETTINGS_ADMINSTATE_GPS] == MODULESETTINGS_ADMINSTATE_ENABLED && PIOS_COM_GPS) {
 				GPSVelocityConnectCallback(GPSVelocityUpdatedCb);
 				drft->gpsPresent_flag = true;
 				drft->gpsVelocityDataConsumption_flag = GPS_CONSUMED;

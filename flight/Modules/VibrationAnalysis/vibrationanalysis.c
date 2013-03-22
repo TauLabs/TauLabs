@@ -43,6 +43,7 @@
  */
 
 #include "openpilot.h"
+#include "physical_constants.h"
 #include "arm_math.h"
 
 #include "accels.h"
@@ -64,9 +65,8 @@
 #define TASK_PRIORITY (tskIDLE_PRIORITY+1)
 #define SETTINGS_THROTTLING_MS 100
 
-#define GRAV 9.805f                                 // Gravity in [m/s^2]
 #define MAX_ACCEL_RANGE 16                          // Maximum accelerometer resolution in [g]
-#define FLOAT_TO_Q15 (32768/(MAX_ACCEL_RANGE*GRAV)) // This is the scaling constant that scales all input floats to +-
+#define FLOAT_TO_Q15 (32768/(MAX_ACCEL_RANGE*GRAVITY)) // This is the scaling constant that scales all input floats to +-
 
 // Private variables
 static xTaskHandle taskHandle;
@@ -166,7 +166,7 @@ static int32_t VibrationAnalysisStart(void)
 	// make sure that all struct values are zeroed...
 	memset(vtd, 0, sizeof(struct VibrationAnalysis_data));
 	//... except for Z axis static bias
-	vtd->accels_static_bias_z=-GRAV; // [See note in definition of VibrationAnalysis_data structure]
+	vtd->accels_static_bias_z=-GRAVITY; // [See note in definition of VibrationAnalysis_data structure]
 
 	// Now place the fft window size and number of upscale bits variables into the buffer
 	vtd->fft_window_size = fft_window_size;
@@ -213,9 +213,9 @@ static int32_t VibrationAnalysisInitialize(void)
 #ifdef MODULE_VibrationAnalysis_BUILTIN
 	module_enabled = true;
 #else
-	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
-	ModuleSettingsStateGet(module_state);
-	if (module_state[MODULESETTINGS_STATE_VIBRATIONANALYSIS] == MODULESETTINGS_STATE_ENABLED) {
+	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
+	ModuleSettingsAdminStateGet(module_state);
+	if (module_state[MODULESETTINGS_ADMINSTATE_VIBRATIONANALYSIS] == MODULESETTINGS_ADMINSTATE_ENABLED) {
 		module_enabled = true;
 	} else {
 		module_enabled = false;

@@ -94,16 +94,13 @@ int32_t batteryInitialize(void) {
 #ifdef MODULE_Battery_BUILTIN
         module_enabled = true;
 #else
-        uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
-        ModuleSettingsStateGet(module_state);
-        if (module_state[MODULESETTINGS_STATE_BATTERY] == MODULESETTINGS_STATE_ENABLED)
-        {
-                module_enabled = true;
-        }
-        else
-        {
-                module_enabled = false;
-        }
+	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
+	ModuleSettingsAdminStateGet(module_state);
+	if (module_state[MODULESETTINGS_ADMINSTATE_BATTERY] == MODULESETTINGS_ADMINSTATE_ENABLED) {
+		module_enabled = true;
+	} else {
+		module_enabled = false;
+	}
 #endif
 
         uint8_t adc_channel_map[ADCROUTING_CHANNELMAP_NUMELEM];

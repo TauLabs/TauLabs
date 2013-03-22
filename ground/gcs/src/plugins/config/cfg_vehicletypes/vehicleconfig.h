@@ -32,6 +32,7 @@
 #include "uavobjectmanager.h"
 #include "uavobject.h"
 
+#include "systemsettings.h"
 
 typedef struct {
     uint VTOLMotorN:4;

@@ -69,12 +69,13 @@ public:
     //Setter functions
     void setTimeHorizon(double val){timeHorizon = val;}
     void setScatterplot2dType(Scatterplot2dType val){scatterplot2dType = val;}
-    virtual void loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget);
     virtual void setGuiConfiguration(Ui::ScopeGadgetOptionsPage *options_page);
 
     virtual ScopeConfig* cloneScope(ScopeConfig *Scatterplot2dScopeConfig);
 
+    virtual void loadConfiguration(ScopeGadgetWidget *scopeGadgetWidget);
     virtual void preparePlot(ScopeGadgetWidget *);
+    void configureAxes(ScopeGadgetWidget *);
 
 private:
     Scatterplot2dType scatterplot2dType;

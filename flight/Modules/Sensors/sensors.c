@@ -9,7 +9,7 @@
  *
  * @file       sensors.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      Module to handle all comms to the AHRS on a periodic basis.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -49,6 +49,7 @@
 
 #include "openpilot.h"
 #include "pios.h"
+#include "physical_constants.h"
 
 // UAVOs
 #include "accels.h"
@@ -494,8 +495,8 @@ static void mag_calibration_fix_length(MagnetometerData *mag)
 	B_e[1] = R[0][1] * mag->x + R[1][1] * mag->y + R[2][1] * mag->z;
 	B_e[2] = R[0][2] * mag->x + R[1][2] * mag->y + R[2][2] * mag->z;
 	
-	float cy = cosf(attitude.Yaw * M_PI / 180.0f);
-	float sy = sinf(attitude.Yaw * M_PI / 180.0f);
+	float cy = cosf(attitude.Yaw * DEG2RAD);
+	float sy = sinf(attitude.Yaw * DEG2RAD);
 	
 	xy[0] =  cy * B_e[0] + sy * B_e[1];
 	xy[1] = -sy * B_e[0] + cy * B_e[1];
