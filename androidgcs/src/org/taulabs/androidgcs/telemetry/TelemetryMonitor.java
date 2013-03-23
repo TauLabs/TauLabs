@@ -105,6 +105,21 @@ public class TelemetryMonitor extends Observable {
 		// The first update of the firmwareIapObj will trigger registering the objects
 		firmwareIapObj.addUpdatedObserver(firmwareIapUpdated);
 
+		firmwareIapObj.addTransactionCompleted(new Observer() {
+			@Override
+			public void update(Observable observable, Object data) {
+				TransactionResult transaction = (TransactionResult) data;
+				if (transaction != null) {
+					if (transaction.success == false) {
+						if (DEBUG) Log.d(TAG, "Firmware IAP transaction failed.  Retrying");
+						firmwareIapObj.updateRequested();
+					} else {
+						if (DEBUG) Log.d(TAG, "Firmware IAP transaction Succeeded");
+					}
+				}
+			}
+		});
+
 		flightStatsObj.addUpdatedObserver(new Observer() {
 			@Override
 			public void update(Observable observable, Object data) {
