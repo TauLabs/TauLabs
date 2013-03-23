@@ -145,12 +145,12 @@ static const struct pios_exti_cfg pios_exti_mpu6050_cfg __exti_config = {
 
 static const struct pios_mpu60x0_cfg pios_mpu6050_cfg = {
 	.exti_cfg = &pios_exti_mpu6050_cfg,
-	.samplerate = 666,
+	.default_samplerate = 666,
 	.interrupt_cfg = PIOS_MPU60X0_INT_CLR_ANYRD,
 	.interrupt_en = PIOS_MPU60X0_INTEN_DATA_RDY,
 	.User_ctl = 0,
 	.Pwr_mgmt_clk = PIOS_MPU60X0_PWRMGMT_PLL_Z_CLK,
-	.filter = PIOS_MPU60X0_LOWPASS_256_HZ,
+	.default_filter = PIOS_MPU60X0_LOWPASS_256_HZ,
 	.orientation = PIOS_MPU60X0_TOP_180DEG
 };
 #endif /* PIOS_INCLUDE_MPU6050 */
@@ -767,6 +767,33 @@ void PIOS_Board_Init(void) {
 			break;
 	}
 
+	// the filter has to be set before rate else divisor calculation will fail
+	uint8_t hw_mpu6050_dlpf;
+	HwFlyingF4MPU6050DLPFGet(&hw_mpu6050_dlpf);
+	enum pios_mpu60x0_filter mpu6050_dlpf = \
+	    (hw_mpu6050_dlpf == HWFLYINGF4_MPU6050DLPF_256) ? PIOS_MPU60X0_LOWPASS_256_HZ : \
+	    (hw_mpu6050_dlpf == HWFLYINGF4_MPU6050DLPF_188) ? PIOS_MPU60X0_LOWPASS_188_HZ : \
+	    (hw_mpu6050_dlpf == HWFLYINGF4_MPU6050DLPF_98) ? PIOS_MPU60X0_LOWPASS_98_HZ : \
+	    (hw_mpu6050_dlpf == HWFLYINGF4_MPU6050DLPF_42) ? PIOS_MPU60X0_LOWPASS_42_HZ : \
+	    (hw_mpu6050_dlpf == HWFLYINGF4_MPU6050DLPF_20) ? PIOS_MPU60X0_LOWPASS_20_HZ : \
+	    (hw_mpu6050_dlpf == HWFLYINGF4_MPU6050DLPF_10) ? PIOS_MPU60X0_LOWPASS_10_HZ : \
+	    (hw_mpu6050_dlpf == HWFLYINGF4_MPU6050DLPF_5) ? PIOS_MPU60X0_LOWPASS_5_HZ : \
+	    pios_mpu6050_cfg.default_filter;
+	PIOS_MPU6050_SetLPF(mpu6050_dlpf);
+
+	uint8_t hw_mpu6050_samplerate;
+	HwFlyingF4MPU6050RateGet(&hw_mpu6050_samplerate);
+	uint16_t mpu6050_samplerate = \
+	    (hw_mpu6050_samplerate == HWFLYINGF4_MPU6050RATE_200) ? 200 : \
+	    (hw_mpu6050_samplerate == HWFLYINGF4_MPU6050RATE_333) ? 333 : \
+	    (hw_mpu6050_samplerate == HWFLYINGF4_MPU6050RATE_500) ? 500 : \
+	    (hw_mpu6050_samplerate == HWFLYINGF4_MPU6050RATE_666) ? 666 : \
+	    (hw_mpu6050_samplerate == HWFLYINGF4_MPU6050RATE_1000) ? 1000 : \
+	    (hw_mpu6050_samplerate == HWFLYINGF4_MPU6050RATE_2000) ? 2000 : \
+	    (hw_mpu6050_samplerate == HWFLYINGF4_MPU6050RATE_4000) ? 4000 : \
+	    (hw_mpu6050_samplerate == HWFLYINGF4_MPU6050RATE_8000) ? 8000 : \
+	    pios_mpu6050_cfg.default_samplerate;
+	PIOS_MPU6050_SetSampleRate(mpu6050_samplerate);
 #endif /* PIOS_INCLUDE_MPU6050 */
 
 

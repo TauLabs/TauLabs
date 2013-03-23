@@ -147,12 +147,12 @@ struct pios_mpu60x0_data {
 struct pios_mpu60x0_cfg {
 	const struct pios_exti_cfg *exti_cfg; /* Pointer to the EXTI configuration */
 
-	uint16_t samplerate;	/* Sample to use in Hz (See datasheet page 32 for more details) */
-	uint8_t interrupt_cfg;	/* Interrupt configuration (See datasheet page 35 for more details) */
-	uint8_t interrupt_en;	/* Interrupt configuration (See datasheet page 35 for more details) */
-	uint8_t User_ctl;		/* User control settings (See datasheet page 41 for more details)  */
-	uint8_t Pwr_mgmt_clk;	/* Power management and clock selection (See datasheet page 32 for more details) */
-	enum pios_mpu60x0_filter filter;
+	uint16_t default_samplerate;	/* Sample to use in Hz (See datasheet page 32 for more details) */
+	uint8_t interrupt_cfg;			/* Interrupt configuration (See datasheet page 35 for more details) */
+	uint8_t interrupt_en;			/* Interrupt configuration (See datasheet page 35 for more details) */
+	uint8_t User_ctl;				/* User control settings (See datasheet page 41 for more details)  */
+	uint8_t Pwr_mgmt_clk;			/* Power management and clock selection (See datasheet page 32 for more details) */
+	enum pios_mpu60x0_filter default_filter;
 	enum pios_mpu60x0_orientation orientation;
 };
 

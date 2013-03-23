@@ -177,10 +177,10 @@ static void PIOS_MPU6000_Config(const struct pios_mpu60x0_cfg *cfg)
 
 	// Digital low-pass filter and scale
 	// set this before sample rate else sample rate calculation will fail
-	PIOS_MPU6000_SetLPF(cfg->filter);
+	PIOS_MPU6000_SetLPF(cfg->default_filter);
 
 	// Sample rate
-	PIOS_MPU6000_SetSampleRate(cfg->samplerate);
+	PIOS_MPU6000_SetSampleRate(cfg->default_samplerate);
 
 	// Set the gyro scale
 	PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
