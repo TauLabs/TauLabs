@@ -85,7 +85,7 @@ static struct mpu6000_dev *PIOS_MPU6000_alloc(void)
 
 	mpu6000_dev->configured = false;
 
-	mpu6000_dev->accel_queue = xQueueCreate(PIOS_MPU6000_MAX_QUEUESIZE, sizeof(struct pios_sensor_gyro_data));
+	mpu6000_dev->accel_queue = xQueueCreate(PIOS_MPU6000_MAX_QUEUESIZE, sizeof(struct pios_sensor_accel_data));
 
 	if (mpu6000_dev->accel_queue == NULL)
 	{
