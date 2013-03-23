@@ -215,8 +215,7 @@ static const struct pios_exti_cfg pios_exti_mpu6000_cfg __exti_config = {
 
 static const struct pios_mpu60x0_cfg pios_mpu6000_cfg = {
 	.exti_cfg = &pios_exti_mpu6000_cfg,
-	// Clock at 8 khz, downsampled by 12 for 666Hz
-	.Smpl_rate_div = 11,
+	.samplerate = 666,
 	.interrupt_cfg = PIOS_MPU60X0_INT_CLR_ANYRD,
 	.interrupt_en = PIOS_MPU60X0_INTEN_DATA_RDY,
 	.User_ctl = PIOS_MPU60X0_USERCTL_DIS_I2C,

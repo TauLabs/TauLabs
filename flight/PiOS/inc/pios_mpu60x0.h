@@ -147,7 +147,7 @@ struct pios_mpu60x0_data {
 struct pios_mpu60x0_cfg {
 	const struct pios_exti_cfg *exti_cfg; /* Pointer to the EXTI configuration */
 
-	uint8_t Smpl_rate_div;	/* Sample rate divider to use (See datasheet page 32 for more details) */
+	uint16_t samplerate;	/* Sample to use in Hz (See datasheet page 32 for more details) */
 	uint8_t interrupt_cfg;	/* Interrupt configuration (See datasheet page 35 for more details) */
 	uint8_t interrupt_en;	/* Interrupt configuration (See datasheet page 35 for more details) */
 	uint8_t User_ctl;		/* User control settings (See datasheet page 41 for more details)  */

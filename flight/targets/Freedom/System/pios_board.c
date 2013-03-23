@@ -175,8 +175,7 @@ static const struct pios_exti_cfg pios_exti_mpu6000_cfg __exti_config = {
 
 static const struct pios_mpu60x0_cfg pios_mpu6000_cfg = {
 	.exti_cfg = &pios_exti_mpu6000_cfg,
-	// Clock at 8 khz, downsampled by 12 for 666Hz
-	.Smpl_rate_div = 11,
+	.samplerate = 666,
 	.interrupt_cfg = PIOS_MPU60X0_INT_CLR_ANYRD,
 	.interrupt_en = PIOS_MPU60X0_INTEN_DATA_RDY,
 	.User_ctl = PIOS_MPU60X0_USERCTL_DIS_I2C,
@@ -800,18 +799,7 @@ void PIOS_Board_Init(void) {
 			break;
 	}
 
-	uint8_t hw_mpu6000_rate;
-	HwFreedomMPU6000RateGet(&hw_mpu6000_rate);
-	uint16_t hw_mpu6000_divisor = \
-	    (hw_mpu6000_rate == HWFREEDOM_MPU6000RATE_500) ? 15 : \
-	    (hw_mpu6000_rate == HWFREEDOM_MPU6000RATE_666) ? 11 : \
-	    (hw_mpu6000_rate == HWFREEDOM_MPU6000RATE_1000) ? 7 : \
-	    (hw_mpu6000_rate == HWFREEDOM_MPU6000RATE_2000) ? 3 : \
-	    (hw_mpu6000_rate == HWFREEDOM_MPU6000RATE_4000) ? 1 : \
-	    (hw_mpu6000_rate == HWFREEDOM_MPU6000RATE_8000) ? 0 : \
-	    15;
-	PIOS_MPU6000_SetDivisor(hw_mpu6000_divisor);
-
+	// the filter has to be set before rate else divisor calculation will fail
 	uint8_t hw_dlpf;
 	HwFreedomMPU6000DLPFGet(&hw_dlpf);
 	uint16_t hw_mpu6000_dlpf = \
@@ -824,6 +812,18 @@ void PIOS_Board_Init(void) {
 	    (hw_dlpf == HWFREEDOM_MPU6000DLPF_5) ? PIOS_MPU60X0_LOWPASS_5_HZ : \
 	    PIOS_MPU60X0_LOWPASS_256_HZ;
 	PIOS_MPU6000_SetLPF(hw_mpu6000_dlpf);
+
+	uint8_t hw_mpu6000_rate;
+	HwFreedomMPU6000RateGet(&hw_mpu6000_rate);
+	uint16_t hw_mpu6000_samplerate = \
+	    (hw_mpu6000_rate == HWFREEDOM_MPU6000RATE_500) ? 500 : \
+	    (hw_mpu6000_rate == HWFREEDOM_MPU6000RATE_666) ? 666 : \
+	    (hw_mpu6000_rate == HWFREEDOM_MPU6000RATE_1000) ? 1000 : \
+	    (hw_mpu6000_rate == HWFREEDOM_MPU6000RATE_2000) ? 2000 : \
+	    (hw_mpu6000_rate == HWFREEDOM_MPU6000RATE_4000) ? 4000 : \
+	    (hw_mpu6000_rate == HWFREEDOM_MPU6000RATE_8000) ? 8000 : \
+	    500;
+	PIOS_MPU6000_SetSampleRate(hw_mpu6000_samplerate);
 #endif
 	
 	if (PIOS_I2C_Init(&pios_i2c_mag_pressure_adapter_id, &pios_i2c_mag_pressure_adapter_cfg)) {

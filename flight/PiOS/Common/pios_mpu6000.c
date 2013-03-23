@@ -56,6 +56,7 @@ struct mpu6000_dev
 	const struct pios_mpu60x0_cfg *cfg;
 	volatile bool configured;
 	enum pios_mpu6000_dev_magic magic;
+	enum pios_mpu60x0_filter filter;
 };
 
 //! Global structure for this device device
@@ -174,11 +175,12 @@ static void PIOS_MPU6000_Config(const struct pios_mpu60x0_cfg *cfg)
 	// User control
 	PIOS_MPU6000_SetReg(PIOS_MPU60X0_USER_CTRL_REG, cfg->User_ctl);
 
-	// Sample rate divider
-	PIOS_MPU6000_SetDivisor(cfg->Smpl_rate_div);
-
 	// Digital low-pass filter and scale
+	// set this before sample rate else sample rate calculation will fail
 	PIOS_MPU6000_SetLPF(cfg->filter);
+
+	// Sample rate
+	PIOS_MPU6000_SetSampleRate(cfg->samplerate);
 
 	// Set the gyro scale
 	PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
@@ -218,12 +220,31 @@ void PIOS_MPU6000_SetAccelRange(enum pios_mpu60x0_accel_range accel_range)
 }
 
 /**
- * Set the sampling divisor
- * @param[in] div The divisor to use
+ * Set the sample rate in Hz by determining the nearest divisor
+ * @param[in] sample rate in Hz
  */
-void PIOS_MPU6000_SetDivisor(uint8_t div)
+void PIOS_MPU6000_SetSampleRate(uint16_t samplerate_hz)
 {
-	PIOS_MPU6000_SetReg(PIOS_MPU60X0_SMPLRT_DIV_REG, div);
+	uint16_t filter_frequency = 8000;
+
+	if (dev->filter != PIOS_MPU60X0_LOWPASS_256_HZ)
+		filter_frequency = 1000;
+
+	// limit samplerate to filter frequency
+	if (samplerate_hz > filter_frequency)
+		samplerate_hz = filter_frequency;
+
+	// calculate divisor, round to nearest integeter
+	int32_t divisor = (int32_t)(((float)filter_frequency / samplerate_hz) + 0.5f) - 1;
+
+	// limit resulting divisor to register value range
+	if (divisor < 0)
+		divisor = 0;
+
+	if (divisor > 0xff)
+		divisor = 0xff;
+
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_SMPLRT_DIV_REG, (uint8_t)divisor);
 }
 
 /**
@@ -232,6 +253,8 @@ void PIOS_MPU6000_SetDivisor(uint8_t div)
 void PIOS_MPU6000_SetLPF(enum pios_mpu60x0_filter filter)
 {
 	PIOS_MPU6000_SetReg(PIOS_MPU60X0_DLPF_CFG_REG, filter);
+
+	dev->filter = filter;
 }
 
 /**
