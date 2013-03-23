@@ -174,7 +174,10 @@ int32_t PIOS_MPU6050_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_m
 static void PIOS_MPU6050_Config(struct pios_mpu60x0_cfg const *cfg)
 {
 	// Reset chip
-	PIOS_MPU6050_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, 0x80);
+	PIOS_MPU6050_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, PIOS_MPU60X0_PWRMGMT_IMU_RST);
+
+	// Reset sensors signal path
+	PIOS_MPU6050_SetReg(PIOS_MPU60X0_USER_CTRL_REG, PIOS_MPU60X0_USERCTL_GYRO_RST);
 
 	// Give chip some time to initialize
 	PIOS_DELAY_WaitmS(10);
@@ -337,7 +340,14 @@ static int32_t PIOS_MPU6050_GetReg(uint8_t reg)
  */
 static int32_t PIOS_MPU6050_SetReg(uint8_t reg, uint8_t data)
 {
-	return PIOS_MPU6050_Write(reg, data);
+	int32_t result = PIOS_MPU6050_Write(reg, data);
+	if (result == 0)
+	{
+		// this delay is required else the mpu will not reliably keep the register content
+		PIOS_DELAY_WaitmS(1);
+	}
+
+	return result;
 }
 
 /*

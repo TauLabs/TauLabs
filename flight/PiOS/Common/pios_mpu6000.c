@@ -159,8 +159,11 @@ int32_t PIOS_MPU6000_Init(uint32_t spi_id, uint32_t slave_num, const struct pios
 */
 static void PIOS_MPU6000_Config(const struct pios_mpu60x0_cfg *cfg)
 {
-	// Reset chip
-	PIOS_MPU6000_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, 0x80);
+	// Reset chip registers
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, PIOS_MPU60X0_PWRMGMT_IMU_RST);
+
+	// Reset sensors signal path
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_USER_CTRL_REG, PIOS_MPU60X0_USERCTL_GYRO_RST);
 
 	// Give chip some time to initialize
 	PIOS_DELAY_WaitmS(10);
@@ -338,6 +341,9 @@ static int32_t PIOS_MPU6000_SetReg(uint8_t reg, uint8_t data)
 	}
 
 	PIOS_MPU6000_ReleaseBus();
+
+	// this delay is required else the mpu will not reliably keep the register content
+	PIOS_DELAY_WaitmS(1);
 
 	return 0;
 }
