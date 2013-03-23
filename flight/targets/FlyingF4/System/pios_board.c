@@ -263,7 +263,12 @@ static void panic(int32_t code) {
 			PIOS_LED_Toggle(PIOS_LED_ALARM);
 			PIOS_DELAY_WaitmS(200);
 		}
-		PIOS_DELAY_WaitmS(500);
+		PIOS_DELAY_WaitmS(200);
+		PIOS_WDG_Clear();
+		PIOS_DELAY_WaitmS(200);
+		PIOS_WDG_Clear();
+		PIOS_DELAY_WaitmS(100);
+		PIOS_WDG_Clear();
 	}
 }
 
