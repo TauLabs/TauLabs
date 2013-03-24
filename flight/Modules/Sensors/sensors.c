@@ -69,7 +69,7 @@
 // Private constants
 #define STACK_SIZE_BYTES 1000
 #define TASK_PRIORITY (tskIDLE_PRIORITY+3)
-#define SENSOR_PERIOD 4
+#define SENSOR_PERIOD 6		// this allows sensor data to arrive as slow as 166Hz
 #define REQUIRED_GOOD_CYCLES 50
 
 // Private types
