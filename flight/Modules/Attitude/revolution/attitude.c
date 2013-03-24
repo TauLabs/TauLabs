@@ -355,8 +355,6 @@ static void AttitudeTask(void *parameters)
 	}
 }
 
-float magKi = 0.000001f;
-
 //! The complimentary filter attitude estimate
 static float cf_q[4];
 
@@ -558,12 +556,17 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 				mag_err[0] = mag_err[1] = mag_err[2] = 0;
 			else
 				CrossProduct((const float *) &mag.x, (const float *) brot, mag_err);
-		}
+
+			if (mag_err[2] != mag_err[2])
+				mag_err[2] = 0;
+		} else
+			mag_err[2] = 0;
 	} else {
-		mag_err[0] = mag_err[1] = mag_err[2] = 0;
+		mag_err[2] = 0;
 	}
 
 	// Accumulate integral of error.  Scale here so that units are (deg/s) but Ki has units of s
+	const float magKi = 0.000001f;
 	GyrosBiasData gyrosBias;
 	GyrosBiasGet(&gyrosBias);
 	gyrosBias.x -= accel_err[0] * attitudeSettings.AccelKi;
