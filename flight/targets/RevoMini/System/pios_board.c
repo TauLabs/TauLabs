@@ -726,6 +726,8 @@ void PIOS_Board_Init(void) {
 	
 	PIOS_DELAY_WaitmS(50);
 
+	PIOS_SENSORS_Init();
+
 #if defined(PIOS_INCLUDE_ADC)
 	PIOS_ADC_Init(&pios_adc_cfg);
         // configure the pullup for PA8 (inhibit pullups from current/sonar shared pin)

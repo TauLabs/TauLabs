@@ -814,6 +814,8 @@ void PIOS_Board_Init(void) {
 	PIOS_DEBUG_Init(&pios_tim_servo_all_channels, NELEMENTS(pios_tim_servo_all_channels));
 #endif	/* PIOS_DEBUG_ENABLE_DEBUG_PINS */
 
+	PIOS_SENSORS_Init();
+
 	switch(bdinfo->board_rev) {
 		case BOARD_REVISION_CC:
 			// Revision 1 with invensense gyros, start the ADC
