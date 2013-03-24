@@ -335,29 +335,9 @@ void updateEndpointVelocity()
 	float northCommand;
 	float eastCommand;
 	
-	float northPos = 0;
-	float eastPos = 0;
-	float downPos = 0;
-
-	switch (guidanceSettings.PositionSource) {
-		case VTOLPATHFOLLOWERSETTINGS_POSITIONSOURCE_EKF:
-			northPos = positionActual.North;
-			eastPos = positionActual.East;
-			downPos = positionActual.Down;
-			break;
-		case VTOLPATHFOLLOWERSETTINGS_POSITIONSOURCE_GPSPOS:
-		{
-			NEDPositionData nedPosition;
-			NEDPositionGet(&nedPosition);
-			northPos = nedPosition.North;
-			eastPos = nedPosition.East;
-			downPos = nedPosition.Down;
-		}
-			break;
-		default:
-			PIOS_Assert(0);
-			break;
-	}
+	float northPos = positionActual.North;
+	float eastPos = positionActual.East;
+	float downPos = positionActual.Down;
 
 	// Compute desired north command velocity from position error
 	northError = pathDesired.End[PATHDESIRED_END_NORTH] - northPos;
@@ -421,39 +401,10 @@ static void updateVtolDesiredAttitude()
 	StabilizationSettingsGet(&stabSettings);
 	NedAccelGet(&nedAccel);
 	
-	float northVel = 0;
-	float eastVel = 0;
-	float downVel = 0;
+	float northVel = velocityActual.North;
+	float eastVel = velocityActual.East;
+	float downVel = velocityActual.Down;
 
-	switch (guidanceSettings.VelocitySource) {
-		case VTOLPATHFOLLOWERSETTINGS_VELOCITYSOURCE_EKF:
-			northVel = velocityActual.North;
-			eastVel = velocityActual.East;
-			downVel = velocityActual.Down;
-			break;
-		case VTOLPATHFOLLOWERSETTINGS_VELOCITYSOURCE_NEDVEL:
-		{
-			GPSVelocityData gpsVelocity;
-			GPSVelocityGet(&gpsVelocity);
-			northVel = gpsVelocity.North;
-			eastVel = gpsVelocity.East;
-			downVel = gpsVelocity.Down;
-		}
-			break;
-		case VTOLPATHFOLLOWERSETTINGS_VELOCITYSOURCE_GPSPOS:
-		{
-			GPSPositionData gpsPosition;
-			GPSPositionGet(&gpsPosition);
-			northVel = gpsPosition.Groundspeed * cosf(gpsPosition.Heading * DEG2RAD);
-			eastVel = gpsPosition.Groundspeed * sinf(gpsPosition.Heading * DEG2RAD);
-			downVel = velocityActual.Down;
-		}
-			break;
-		default:
-			PIOS_Assert(0);
-			break;
-	}
-	
 	// Compute desired north command from velocity error
 	northError = velocityDesired.North - northVel;
 	northCommand = pid_apply_antiwindup(&vtol_pids[NORTH_VELOCITY], northError, 
