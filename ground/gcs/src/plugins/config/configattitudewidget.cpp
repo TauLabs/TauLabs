@@ -218,7 +218,7 @@ ConfigAttitudeWidget::ConfigAttitudeWidget(QWidget *parent) :
     baro->setPos(startX,startY);
     baro->setTransform(QTransform::fromScale(1,0),true);
 
-    bool full_hardware = false;
+    bool full_hardware = true;
 
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectUtilManager* utilMngr = pm->getObject<UAVObjectUtilManager>();
