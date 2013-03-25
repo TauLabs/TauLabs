@@ -42,6 +42,7 @@ Revolution::Revolution(void)
 
     setUSBInfo(board);
 
+    boardType = 0x7f;
 }
 
 Revolution::~Revolution()

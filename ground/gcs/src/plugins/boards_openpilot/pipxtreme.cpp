@@ -41,6 +41,7 @@ PipXtreme::PipXtreme(void)
 
     setUSBInfo(board);
 
+    boardType = 0x03;
 }
 
 PipXtreme::~PipXtreme()

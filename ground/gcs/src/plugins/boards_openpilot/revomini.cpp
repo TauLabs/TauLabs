@@ -41,6 +41,7 @@ RevoMini::RevoMini(void)
 
     setUSBInfo(board);
 
+    boardType = 0x09;
 }
 
 RevoMini::~RevoMini()

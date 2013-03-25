@@ -41,6 +41,7 @@ CopterControl::CopterControl(void)
 
     setUSBInfo(board);
 
+    boardType = 0x04;
 }
 
 CopterControl::~CopterControl()

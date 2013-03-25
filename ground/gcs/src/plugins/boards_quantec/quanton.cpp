@@ -41,6 +41,7 @@ Quanton::Quanton(void)
 
     setUSBInfo(board);
 
+    boardType = 0x86;
 }
 
 Quanton::~Quanton()
