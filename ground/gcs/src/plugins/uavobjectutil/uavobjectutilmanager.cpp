@@ -269,12 +269,12 @@ int UAVObjectUtilManager::getBoardModel()
 }
 
 //! Get the IBoardType corresponding to the connected board
-IBoardType UAVObjectUtilManager::getBoardType()
+Core::IBoardType *UAVObjectUtilManager::getBoardType()
 {
     int boardTypeNum = (getBoardModel() >> 8) & 0x00ff;
-    QList <IBoardType> boards = pm->getObjects<IBoardType>();
-    foreach (IBoardType board, boards) {
-        if (board->getBoardTypeNum() == boardTypeNum)
+    QList <Core::IBoardType *> boards = pm->getObjects<Core::IBoardType>();
+    foreach (Core::IBoardType *board, boards) {
+        if (board->getBoardType() == boardTypeNum)
             return board;
     }
     return NULL;

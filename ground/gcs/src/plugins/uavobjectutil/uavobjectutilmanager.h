@@ -36,7 +36,7 @@
 #include "uavobject.h"
 #include "objectpersistence.h"
 #include "devicedescriptorstruct.h"
-#include "iboardtype.h"
+#include <coreplugin/iboardtype.h>
 #include <QtGlobal>
 #include <QObject>
 #include <QTimer>
@@ -60,7 +60,7 @@ public:
     int getGPSPosition(double LLA[3]);
 
     int getBoardModel();
-    IBoardType getBoardType();
+    Core::IBoardType* getBoardType();
     QByteArray getBoardCPUSerial();
     quint32 getFirmwareCRC();
     QByteArray getBoardDescription();
