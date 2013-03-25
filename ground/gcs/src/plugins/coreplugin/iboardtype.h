@@ -126,6 +126,9 @@ public:
      */
     bool isDFUSupported() { return dfuSupport; }
 
+    //! Get the board type number
+    int getBoardType() { return boardType; }
+
 signals:
 
 protected:
@@ -135,6 +138,9 @@ protected:
 
     USBInfo boardUSBInfo;
     bool dfuSupport;
+
+    //! The numerical board type ID
+    int boardType;
 };
 
 } //namespace Core
