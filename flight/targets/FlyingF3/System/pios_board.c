@@ -1037,7 +1037,8 @@ void PIOS_Board_Init(void) {
 #endif
 
 #if defined(PIOS_INCLUDE_ADC)
-//	PIOS_INTERNAL_ADC_Init(&pios_adc_cfg);
+	uint32_t internal_adc_id;
+	PIOS_INTERNAL_ADC_Init(&internal_adc_id, &internal_adc_cfg);
 #endif
 
 	/* Make sure we have at least one telemetry link configured or else fail initialization */
