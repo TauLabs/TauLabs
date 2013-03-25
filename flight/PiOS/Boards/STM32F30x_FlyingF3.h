@@ -242,5 +242,6 @@ extern uintptr_t pios_com_debug_id;
 // DMA
 //-------------------------
 #define PIOS_DMA_MAX_CHANNELS                   12
+#define PIOS_DMA_MAX_HANDLERS_PER_CHANNEL       3
 #define PIOS_DMA_CHANNELS {DMA1_Channel1, DMA1_Channel2, DMA1_Channel3, DMA1_Channel4, DMA1_Channel5, DMA1_Channel6, DMA1_Channel7, DMA2_Channel1, DMA2_Channel2, DMA2_Channel3, DMA2_Channel4, DMA2_Channel5}
 #endif /* STM3210E_INS_H_ */

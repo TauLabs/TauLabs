@@ -29,20 +29,27 @@
 
 #include <pios_dma_priv.h>
 
-static void PIOS_DMA_Default_Handler(void);
+void PIOS_DMA_Default_Handler(void);
 
-funcPtr pios_dma_handler_map[PIOS_DMA_MAX_CHANNELS]={PIOS_DMA_Default_Handler};
+funcPtr pios_dma_handler_map[PIOS_DMA_MAX_CHANNELS][PIOS_DMA_MAX_HANDLERS_PER_CHANNEL]={{NULL}};
 
 const static DMA_Channel_TypeDef * dma_channels[] = PIOS_DMA_CHANNELS;
 
-static void PIOS_DMA_Default_Handler(void){
+void PIOS_DMA_Default_Handler(void){
         while(true){};
 }
 
-void PIOS_DMA_Install_Hook(DMA_Channel_TypeDef *channel, void * function){
+int8_t PIOS_DMA_Install_Interrupt_handler(DMA_Channel_TypeDef *channel, void * function){
         for(uint8_t i=0;i<PIOS_DMA_MAX_CHANNELS;++i){
                 if(dma_channels[i]==channel){
-                        pios_dma_handler_map[i]=function;
+                        for(uint8_t ii=0;ii<PIOS_DMA_MAX_HANDLERS_PER_CHANNEL;++ii){
+                                if(pios_dma_handler_map[i][ii]==NULL){
+                                        pios_dma_handler_map[i][ii]=function;
+                                        return 0;
+                                }
+                        }
+                        return -1;
                 }
         }
+        return -2;
 }
