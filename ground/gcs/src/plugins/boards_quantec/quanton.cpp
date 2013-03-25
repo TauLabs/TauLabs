@@ -58,6 +58,24 @@ QString Quanton::boardDescription()
     return QString("quanton flight control rev. 1 by Quantec Networks GmbH");
 }
 
+//! Return which capabilities this board has
+bool Quanton::queryCapabilities(BoardCapabilities capability)
+{
+    switch(capability) {
+    case BOARD_CAPABILITIES_GYROS:
+        return true;
+    case BOARD_CAPABILITIES_ACCELS:
+        return true;
+    case BOARD_CAPABILITIES_MAGS:
+        return true;
+    case BOARD_CAPABILITIES_BAROS:
+        return true;
+    case BOARD_CAPABILITIES_RADIO:
+        return false;
+    }
+    return false;
+}
+
 /**
  * @brief Quanton::getSupportedProtocols
  *  TODO: this is just a stub, we'll need to extend this a lot with multi protocol support

@@ -59,6 +59,24 @@ QString PipXtreme::boardDescription()
     return QString("The OpenPilot project PipXtreme RF radio modem");
 }
 
+//! Return which capabilities this board has
+bool PipXtreme::queryCapabilities(BoardCapabilities capability)
+{
+    switch(capability) {
+    case BOARD_CAPABILITIES_GYROS:
+        return false;
+    case BOARD_CAPABILITIES_ACCELS:
+        return false;
+    case BOARD_CAPABILITIES_MAGS:
+        return false;
+    case BOARD_CAPABILITIES_BAROS:
+        return false;
+    case BOARD_CAPABILITIES_RADIO:
+        return true;
+    }
+    return false;
+}
+
 /**
  * @brief PipXtreme::getSupportedProtocols
  *  TODO: this is just a stub, we'll need to extend this a lot with multi protocol support

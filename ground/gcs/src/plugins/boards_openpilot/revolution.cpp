@@ -60,6 +60,24 @@ QString Revolution::boardDescription()
     return QString("The OpenPilot project Revolution boards");
 }
 
+//! Return which capabilities this board has
+bool Revolution::queryCapabilities(BoardCapabilities capability)
+{
+    switch(capability) {
+    case BOARD_CAPABILITIES_GYROS:
+        return true;
+    case BOARD_CAPABILITIES_ACCELS:
+        return true;
+    case BOARD_CAPABILITIES_MAGS:
+        return true;
+    case BOARD_CAPABILITIES_BAROS:
+        return true;
+    case BOARD_CAPABILITIES_RADIO:
+        return false;
+    }
+    return false;
+}
+
 /**
  * @brief Revolution::getSupportedProtocols
  *  TODO: this is just a stub, we'll need to extend this a lot with multi protocol support
