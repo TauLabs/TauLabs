@@ -92,6 +92,7 @@ static void SettingsUpdatedCb(UAVObjEvent * ev);
 static void updateNedAccel();
 static void updatePathVelocity();
 static void updateEndpointVelocity();
+static void updateEndpointVelocityLand();
 static void updateVtolDesiredAttitude();
 static bool module_enabled = false;
 
@@ -215,6 +216,14 @@ static void vtolPathFollowerTask(void *parameters)
 			case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
 				if (pathDesired.Mode == PATHDESIRED_MODE_HOLDPOSITION) {
 					updateEndpointVelocity();
+					updateVtolDesiredAttitude();
+				} else {
+					AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_ERROR);
+				}
+				break;
+			case FLIGHTSTATUS_FLIGHTMODE_LAND:
+				if (pathDesired.Mode == PATHDESIRED_MODE_LAND) {
+					updateEndpointVelocityLand();
 					updateVtolDesiredAttitude();
 				} else {
 					AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_ERROR);
@@ -366,6 +375,54 @@ void updateEndpointVelocity()
 	VelocityDesiredSet(&velocityDesired);	
 }
 
+/**
+ * Compute desired velocity from the current position
+ *
+ * Takes in @ref PositionActual and compares it to @ref PositionDesired 
+ * and computes @ref VelocityDesired
+ */
+void updateEndpointVelocityLand()
+{
+	float dT = guidanceSettings.UpdatePeriod / 1000.0f;
+
+	PositionActualData positionActual;
+	VelocityDesiredData velocityDesired;
+	
+	PositionActualGet(&positionActual);
+	VelocityDesiredGet(&velocityDesired);
+	
+	float northError;
+	float eastError;
+	float northCommand;
+	float eastCommand;
+	
+	float northPos = positionActual.North;
+	float eastPos = positionActual.East;
+
+	// Compute desired north command velocity from position error
+	northError = pathDesired.End[PATHDESIRED_END_NORTH] - northPos;
+	northCommand = pid_apply_antiwindup(&vtol_pids[NORTH_POSITION], northError,
+	    -guidanceSettings.HorizontalVelMax, guidanceSettings.HorizontalVelMax, dT);
+
+	// Compute desired east command velocity from position error
+	eastError = pathDesired.End[PATHDESIRED_END_EAST] - eastPos;
+	eastCommand = pid_apply_antiwindup(&vtol_pids[EAST_POSITION], eastError,
+	    -guidanceSettings.HorizontalVelMax, guidanceSettings.HorizontalVelMax, dT);
+
+	// Limit the maximum velocity any direction (not north and east separately)
+	float total_vel = sqrtf(powf(northCommand,2) + powf(eastCommand,2));
+	float scale = 1;
+	if(total_vel > guidanceSettings.HorizontalVelMax)
+		scale = guidanceSettings.HorizontalVelMax / total_vel;
+
+	velocityDesired.North = northCommand * scale;
+	velocityDesired.East = eastCommand * scale;
+
+	// Statically coded 1 m/s descent rate
+	velocityDesired.Down = guidanceSettings.LandingRate;
+	
+	VelocityDesiredSet(&velocityDesired);	
+}
 /**
  * Compute desired attitude from the desired velocity
  *

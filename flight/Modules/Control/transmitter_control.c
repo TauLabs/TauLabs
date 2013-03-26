@@ -96,6 +96,7 @@ static void update_actuator_desired(ManualControlCommandData * cmd);
 static void update_stabilization_desired(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
 static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightModeChanged);
 static void update_path_desired(ManualControlCommandData * cmd, bool flightModeChanged, bool home);
+static void update_path_desired_land(ManualControlCommandData * cmd, bool flightModeChanged);
 static uint8_t get_flight_mode();
 static void set_flight_mode();
 static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
@@ -378,6 +379,9 @@ int32_t transmitter_control_select()
 		break;
 	case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
 		update_path_desired(&cmd, lastFlightMode != flightStatus.FlightMode, true);
+		break;
+	case FLIGHTSTATUS_FLIGHTMODE_LAND:
+		update_path_desired_land(&cmd, lastFlightMode != flightStatus.FlightMode);
 		break;
 	case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
 		break;
@@ -845,6 +849,40 @@ static void update_path_desired(ManualControlCommandData * cmd, bool flightModeC
 		pathDesired.ModeParameters = 0;
 		pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
 	}
+	PathDesiredSet(&pathDesired);
+}
+
+/**
+ * @brief Update the position desired to current location when
+ * enabled and allow the waypoint to be moved by transmitter
+ */
+static void update_path_desired_land(ManualControlCommandData * cmd, bool flightModeChanged)
+{
+	if (!flightModeChanged)
+		return;
+
+	if (PathDesiredHandle() == NULL)
+		return;
+
+	PositionActualData positionActual;
+	PositionActualGet(&positionActual);
+	PathDesiredData pathDesired;
+	PathDesiredGet(&pathDesired);
+
+	// Simple position hold - stay at present altitude and position
+	
+	pathDesired.Start[PATHDESIRED_START_NORTH] = positionActual.North;
+	pathDesired.Start[PATHDESIRED_START_EAST] = positionActual.East;
+	pathDesired.Start[PATHDESIRED_START_DOWN] = positionActual.Down;
+	pathDesired.End[PATHDESIRED_END_NORTH] = positionActual.North;
+	pathDesired.End[PATHDESIRED_END_EAST] = positionActual.East;
+	pathDesired.End[PATHDESIRED_END_DOWN] = 100; // 100 m below ground should cover drift
+	pathDesired.StartingVelocity=10;
+	pathDesired.EndingVelocity=10;
+
+	pathDesired.ModeParameters = 0;
+	pathDesired.Mode = PATHDESIRED_MODE_LAND;
+
 	PathDesiredSet(&pathDesired);
 }
 
