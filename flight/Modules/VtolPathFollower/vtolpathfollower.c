@@ -479,7 +479,10 @@ static void updateVtolDesiredAttitude()
 	// Negative is critical here since throttle is negative with down
 	downCommand = -pid_apply_antiwindup(&vtol_pids[DOWN_VELOCITY], downError, -1, 1, dT) +
 	    nedAccel.Down * guidanceSettings.VerticalVelPID[VTOLPATHFOLLOWERSETTINGS_VERTICALVELPID_KD];
-	stabDesired.Throttle = bound_min_max(downCommand + throttleOffset, 0, 1);
+
+	// If this setting is zero then the throttle level available when enabled is used for hover:wq
+	float used_throttle_offset = (guidanceSettings.HoverThrottle == 0) ? throttleOffset : guidanceSettings.HoverThrottle;
+	stabDesired.Throttle = bound_min_max(downCommand + used_throttle_offset, 0, 1);
 	
 	// Project the north and east command signals into the pitch and roll based on yaw.
 	// For this to behave well the craft should move similarly for 5 deg roll versus 5 deg pitch.
