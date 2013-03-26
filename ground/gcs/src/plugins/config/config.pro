@@ -20,7 +20,6 @@ HEADERS += calibration.h \
     configvehicletypewidget.h \
     config_cc_hw_widget.h \
     configpipxtremewidget.h \
-    cfg_vehicletypes/configccpmwidget.h \
     configstabilizationwidget.h \
     assertions.h \
     calibration.h \
@@ -29,9 +28,10 @@ HEADERS += calibration.h \
     configcamerastabilizationwidget.h \
     configtxpidwidget.h \
     outputchannelform.h \    
-    cfg_vehicletypes/configmultirotorwidget.h \
-    cfg_vehicletypes/configgroundvehiclewidget.h \
+    cfg_vehicletypes/configccpmwidget.h \
     cfg_vehicletypes/configfixedwingwidget.h \
+    cfg_vehicletypes/configgroundvehiclewidget.h \
+    cfg_vehicletypes/configmultirotorwidget.h \
     cfg_vehicletypes/vehicleconfig.h \
     configattitudewidget.h \
     config_global.h \
@@ -39,7 +39,8 @@ HEADERS += calibration.h \
     dblspindelegate.h \
     configautotunewidget.h \
     hwfieldselector.h \
-    tempcompcurve.h
+    tempcompcurve.h \
+    vehicletrim.h
 SOURCES += calibration.cpp \
     configplugin.cpp \
     configgadgetconfiguration.cpp \
@@ -59,17 +60,18 @@ SOURCES += calibration.cpp \
     configcamerastabilizationwidget.cpp \
     configattitudewidget.cpp \
     configtxpidwidget.cpp \
-    cfg_vehicletypes/configmultirotorwidget.cpp \
-    cfg_vehicletypes/configgroundvehiclewidget.cpp \
-    cfg_vehicletypes/configfixedwingwidget.cpp \
     cfg_vehicletypes/configccpmwidget.cpp \
-    outputchannelform.cpp \
+    cfg_vehicletypes/configfixedwingwidget.cpp \
+    cfg_vehicletypes/configgroundvehiclewidget.cpp \
+    cfg_vehicletypes/configmultirotorwidget.cpp \
     cfg_vehicletypes/vehicleconfig.cpp \
+    outputchannelform.cpp \
     mixercurve.cpp \
     dblspindelegate.cpp \
     configautotunewidget.cpp \
     hwfieldselector.cpp \
-    tempcompcurve.cpp
+    tempcompcurve.cpp \
+    vehicletrim.cpp
 FORMS += airframe.ui \
     cc_hw_settings.ui \
     ccpm.ui \

@@ -215,7 +215,7 @@
               <enum>QFrame::NoFrame</enum>
              </property>
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="fixedWing">
               <property name="enabled">
@@ -649,6 +649,52 @@ margin:1px;</string>
                     </widget>
                    </item>
                   </layout>
+                 </item>
+                 <item>
+                  <widget class="QGroupBox" name="groupBox_11">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>60</height>
+                    </size>
+                   </property>
+                   <property name="title">
+                    <string>Airframe trimming</string>
+                   </property>
+                   <layout class="QGridLayout" name="gridLayout_10">
+                    <item row="0" column="0">
+                     <widget class="QPushButton" name="bnServoTrim">
+                      <property name="text">
+                       <string>Trim servos</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QPushButton" name="bnLevelTrim">
+                      <property name="text">
+                       <string>Set level angle</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="2">
+                     <spacer name="horizontalSpacer_14">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                   </layout>
+                   <zorder>horizontalSpacer_14</zorder>
+                   <zorder>bnServoTrim</zorder>
+                   <zorder>bnLevelTrim</zorder>
+                   <zorder>horizontalSpacer_14</zorder>
+                  </widget>
                  </item>
                  <item>
                   <spacer name="verticalSpacer">
@@ -1555,8 +1601,8 @@ margin:1px;</string>
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>800</width>
-                    <height>386</height>
+                    <width>742</width>
+                    <height>258</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -2832,8 +2878,8 @@ margin:1px;</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>287</width>
-            <height>326</height>
+            <width>850</width>
+            <height>508</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_18">
