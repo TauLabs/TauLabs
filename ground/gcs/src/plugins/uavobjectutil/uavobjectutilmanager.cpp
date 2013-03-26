@@ -364,6 +364,31 @@ bool UAVObjectUtilManager::setMetadata(QMap<QString, UAVObject::Metadata> metaDa
 
 
 /**
+ * @brief UAVObjectUtilManager::resetMetadata Resets all metadata to defaults (from XML definitions)
+ * @return
+ */
+bool UAVObjectUtilManager::resetMetadataToDefaults()
+{
+    QMap<QString, UAVObject::Metadata> metaDataList;
+
+    // Load all metadata object defaults
+    UAVObjectManager *objManager = getObjectManager();
+    QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
+    foreach (QList<UAVDataObject*> list, objList) {
+        foreach (UAVDataObject* obj, list) {
+            metaDataList.insert(obj->getName(), obj->getDefaultMetadata());
+        }
+    }
+
+    // Save metadata
+    metadataSetEnum metadataSetType = ALL_METADATA;
+    bool ret = setMetadata(metaDataList, metadataSetType);
+
+    return ret;
+}
+
+
+/**
  * @brief ConfigTaskWidget::metadataTransactionCompleted Called by the retrieved object when a transaction is completed.
  * @param uavoObject
  * @param success

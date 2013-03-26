@@ -75,6 +75,7 @@ public:
     QMap<QString, UAVObject::Metadata> readAllNonSettingsMetadata();
     bool setMetadata(QMap<QString, UAVObject::Metadata>, metadataSetEnum metadataUpdateType);
     bool setAllNonSettingsMetadata(QMap<QString, UAVObject::Metadata>);
+    bool resetMetadataToDefaults();
 
 protected:
     FirmwareIAPObj::DataFields getFirmwareIap();
