@@ -391,10 +391,8 @@ static void updateVtolDesiredAttitude()
 	float eastCommand;
 
 	float downError;
-	float upCommand;
 	float downCommand;
 		
-	SystemSettingsGet(&systemSettings);
 	VtolPathFollowerSettingsGet(&guidanceSettings);
 	
 	VelocityActualGet(&velocityActual);
