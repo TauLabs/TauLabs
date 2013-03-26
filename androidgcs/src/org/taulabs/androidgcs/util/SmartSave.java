@@ -51,6 +51,7 @@ public class SmartSave {
 	private final static boolean DEBUG = false;
 	private final Activity parentActivity;
 	private boolean validObject = true;
+	private final int MAX_FAIL_COUNTS = 3;
 
 	//! Create a smart save button attached to the object manager and an apply and ave button
 	public SmartSave(UAVObjectManager objMngr, Activity parent, UAVObject obj, Button saveButton, Button applyButton, Button loadButton) {
@@ -189,15 +190,19 @@ public class SmartSave {
 			persistence.getField("ObjectID").setValue(objId);
 			persistence.getField("Operation").setValue("Save");
 			persistence.getField("Selection").setValue("SingleObject");
-			persistence.updated();
 
 			// 4. Wait for ack
-			try {
-				ObjectPersistenceUpdated.wait(1000);
-			} catch (InterruptedException e) {
-				if (DEBUG) Log.d(TAG ,"No ack for object persistence");
-				persistence.removeUpdatedObserver(ObjectPersistenceUpdated);
-				return false;
+			int attempts = 0;
+			while (persistenceUpdated == false && attempts < MAX_FAIL_COUNTS) {
+				persistence.updated();
+				try {
+					ObjectPersistenceUpdated.wait(500);
+				} catch (InterruptedException e) {
+					if (DEBUG) Log.d(TAG ,"No ack for object persistence");
+					persistence.removeUpdatedObserver(ObjectPersistenceUpdated);
+					return false;
+				}
+				attempts = attempts + 1;
 			}
 
 			// 5. Remove listener
@@ -237,20 +242,68 @@ public class SmartSave {
 
 			// 3. Update the object
 			objectUpdated = false;
-			obj.updated();
 
 			// 4. Wait for acknowledgment
-			try {
-				ApplyCompleted.wait(1000);
-			} catch (InterruptedException e) {
-				if (DEBUG) Log.d(TAG ,"Apply failed");
-				obj.removeTransactionCompleted(ApplyCompleted);
-				return false;
+			int attempts = 0;
+			while (objectUpdated == false && attempts < MAX_FAIL_COUNTS) {
+				obj.updated();
+				try {
+					ApplyCompleted.wait(1000);
+				} catch (InterruptedException e) {
+					if (DEBUG) Log.d(TAG ,"Apply failed");
+					obj.removeTransactionCompleted(ApplyCompleted);
+					return false;
+				}
+				attempts = attempts + 1;
 			}
 
 			if (DEBUG) Log.d(TAG ,"Apply succeeded");
 
 			// 5. Uninstall the listener
+			obj.removeTransactionCompleted(ApplyCompleted);
+		}
+
+		return objectUpdated;
+	}
+
+	/**
+	 * Robustly fetch the settings in the UAV ram
+	 * @return True if the fetch is ack'd, False if not
+	 */
+	public boolean fetchSettings() {
+		/*
+		 * 1. Install listener on object
+		 * 2. Request update
+		 * 3. Wait for completion
+		 * 4. Uninstall the listener
+		 */
+
+		synchronized(ApplyCompleted) {
+			if (DEBUG) Log.d(TAG, "Requesting update");
+
+			// 1. Install the listener on the object
+			obj.addTransactionCompleted(ApplyCompleted);
+
+			// 2. Update the object
+			objectUpdated = false;
+
+			// 3. Wait for acknowledgment
+			int attempts = 0;
+			while (objectUpdated == false && attempts < MAX_FAIL_COUNTS) {
+				obj.updateRequested();
+				try {
+					ApplyCompleted.wait(1000);
+				} catch (InterruptedException e) {
+					if (DEBUG) Log.d(TAG ,"Apply failed");
+					obj.removeTransactionCompleted(ApplyCompleted);
+					return false;
+				}
+				attempts = attempts + 1;
+			}
+
+			if (DEBUG) Log.d(TAG ,"Fetch success: " + objectUpdated + ".  Attemps: " + attempts);
+
+			// 4. Uninstall the listener
 			obj.removeTransactionCompleted(ApplyCompleted);
 		}
 
@@ -279,21 +332,25 @@ public class SmartSave {
 			// 2. Install listener
 			persistence.addUpdatedObserver(ObjectPersistenceUpdated);
 
-			// 3. Send save operation
+			// 3. Send load operation
 			persistenceUpdated = false;
 			Long objId = obj.getObjID();
 			if (DEBUG) Log.d(TAG, "Load object ID: " + objId);
 			persistence.getField("ObjectID").setValue(objId);
 			persistence.getField("Operation").setValue("Load");
 			persistence.getField("Selection").setValue("SingleObject");
-			persistence.updated();
 
 			// 4. Wait for the update
-			try {
-				ObjectPersistenceUpdated.wait(1000);
-			} catch (InterruptedException e) {
-				persistence.removeUpdatedObserver(ObjectPersistenceUpdated);
-				return false;
+			int attempts = 0;
+			while (persistenceUpdated == false && attempts < MAX_FAIL_COUNTS) {
+				persistence.updated();
+				try {
+					ObjectPersistenceUpdated.wait(1000);
+				} catch (InterruptedException e) {
+					persistence.removeUpdatedObserver(ObjectPersistenceUpdated);
+					return false;
+				}
+				attempts = attempts + 1;
 			}
 
 			// 5. Remove the listener
@@ -304,32 +361,7 @@ public class SmartSave {
 		if (persistenceUpdated == false)
 			return false;
 
-		synchronized(ApplyCompleted) {
-			if (DEBUG) Log.d(TAG, "Requesting update");
-
-			// Install the listener on the object
-			obj.addTransactionCompleted(ApplyCompleted);
-
-			// 6. Update the object
-			objectUpdated = false;
-			obj.updateRequested();
-
-			// 7. Wait for acknowledgment
-			try {
-				ApplyCompleted.wait(1000);
-			} catch (InterruptedException e) {
-				if (DEBUG) Log.d(TAG ,"Apply failed");
-				obj.removeTransactionCompleted(ApplyCompleted);
-				return false;
-			}
-
-			if (DEBUG) Log.d(TAG ,"Apply succeeded");
-
-			// Uninstall the listener
-			obj.removeTransactionCompleted(ApplyCompleted);
-		}
-
-		return objectUpdated;
+		return fetchSettings();
 	}
 
 	//! Private class to store the field mapping information
@@ -365,8 +397,11 @@ public class SmartSave {
 		public void update(Observable observable, Object data) {
 			synchronized(this) {
 				TransactionResult transaction = (TransactionResult) data;
-				if (transaction != null && transaction.success == true)
-						objectUpdated = true;
+				if (transaction != null && transaction.success == true) {
+					objectUpdated = true;
+					if (DEBUG) Log.d(TAG, "ApplyCompleted succeeded transaction");
+				} else
+					if (DEBUG) Log.d(TAG, "ApplyCompleted failed transaction");
 				notify();
 			}
 		}
@@ -392,9 +427,14 @@ public class SmartSave {
 		public void update(Observable observable, Object data) {
 			if (DEBUG) Log.d(TAG, "Object persistence updated");
 			synchronized(this) {
-				TransactionResult transaction = (TransactionResult) data;
-				if (transaction != null && transaction.success == true)
+				UAVObject persistence = objMngr.getObject("ObjectPersistence");
+				Assert.assertNotNull(persistence);
+
+				// Check the correct operation succeeded
+				if (persistence.getField("Operation").getValue().equals("Completed") &&
+					((Long) persistence.getField("ObjectID").getValue()).equals(obj.getObjID())) {
 					persistenceUpdated = true;
+				}
 				notify();
 			}
 		}
