@@ -35,6 +35,7 @@ import java.util.Set;
 import junit.framework.Assert;
 
 import org.taulabs.uavtalk.UAVObject;
+import org.taulabs.uavtalk.UAVObject.TransactionResult;
 import org.taulabs.uavtalk.UAVObjectManager;
 
 import android.app.Activity;
@@ -363,7 +364,9 @@ public class SmartSave {
 		@Override
 		public void update(Observable observable, Object data) {
 			synchronized(this) {
-				objectUpdated = true;
+				TransactionResult transaction = (TransactionResult) data;
+				if (transaction != null && transaction.success == true)
+						objectUpdated = true;
 				notify();
 			}
 		}
@@ -389,7 +392,9 @@ public class SmartSave {
 		public void update(Observable observable, Object data) {
 			if (DEBUG) Log.d(TAG, "Object persistence updated");
 			synchronized(this) {
-				persistenceUpdated = true;
+				TransactionResult transaction = (TransactionResult) data;
+				if (transaction != null && transaction.success == true)
+					persistenceUpdated = true;
 				notify();
 			}
 		}
