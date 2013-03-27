@@ -55,7 +55,7 @@ struct pios_internal_adc_cfg {
 	uint16_t max_downsample;
 	uint32_t oversampling;
 	uint8_t number_of_used_pins;
-        adc_pin adc_pins[];
+        adc_pin *adc_pins;
 };
 
 extern int32_t PIOS_INTERNAL_ADC_Init(uint32_t * internal_adc_id, const struct pios_internal_adc_cfg * cfg);
