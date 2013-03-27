@@ -26,6 +26,7 @@ package org.taulabs.androidgcs.fragments;
 import org.taulabs.androidgcs.R;
 import org.taulabs.androidgcs.views.AltitudeView;
 import org.taulabs.androidgcs.views.AttitudeView;
+import org.taulabs.androidgcs.views.BatteryView;
 import org.taulabs.androidgcs.views.GpsView;
 import org.taulabs.androidgcs.views.HeadingView;
 import org.taulabs.uavtalk.UAVObject;
@@ -73,6 +74,12 @@ public class PFD extends ObjectManagerFragment {
 		}
 
 		obj = objMngr.getObject("PositionActual");
+		if (obj != null) {
+			registerObjectUpdates(obj);
+			objectUpdated(obj);
+		}
+
+		obj = objMngr.getObject("FlightBatteryState");
 		if (obj != null) {
 			registerObjectUpdates(obj);
 			objectUpdated(obj);
@@ -143,6 +150,26 @@ public class PFD extends ObjectManagerFragment {
 			}
 			if (altitudeView != null) {
 				altitudeView.setAltitude(-down);
+			}
+		}
+
+		if (obj.getName().compareTo("FlightBatteryState") == 0) {
+			double voltage = obj.getField("Voltage").getDouble();
+			double current = obj.getField("Current").getDouble();
+
+			Activity parent = getActivity();
+			BatteryView batteryView = null;
+			if (parent != null) {
+				batteryView = (BatteryView) parent.findViewById(R.id.battery_view);
+			}
+			if (batteryView != null) {
+				if (voltage == 0 && current == 0) {
+					batteryView.setVisibility(View.INVISIBLE);
+				} else {
+					batteryView.setVisibility(View.VISIBLE);
+					batteryView.setCurrent(current);
+					batteryView.setVoltage(voltage);
+				}
 			}
 		}
 
