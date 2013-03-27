@@ -4,7 +4,6 @@
 		<field name="AdminState" units="" type="enum" options="Disabled,Enabled" defaultvalue="Disabled">
 			<elementnames>
 				<elementname>Airspeed</elementname>
-				<elementname>Altitude</elementname>
 				<elementname>AltitudeHold</elementname>
 				<elementname>Autotune</elementname>
 				<elementname>Battery</elementname>
