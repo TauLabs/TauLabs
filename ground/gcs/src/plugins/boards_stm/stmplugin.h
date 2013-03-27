@@ -1,14 +1,14 @@
 /**
  ******************************************************************************
  *
- * @file       quantecplugin.h
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2013
+ * @file       stmplugin.h
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup Boards_QuantecPlugin Quantec boards support Plugin
+ * @addtogroup Boards_Stm STM boards support Plugin
  * @{
- * @brief Plugin to support boards by the OP project
+ * @brief Plugin to support boards from STM 
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
