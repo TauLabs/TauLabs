@@ -13,7 +13,7 @@
 #
 ##############################
 # Checking for $(OPENOCD_FTDI) to be sane
-ifdef ($(OPENOCD_FTDI))
+ifdef OPENOCD_FTDI
  ifneq ($(OPENOCD_FTDI),yes)
   ifneq ($(OPENOCD_FTDI),no)
    $(error Only yes or no are allowed for OPENOCD_FTDI)

@@ -90,7 +90,7 @@ RM=rm
 #
 ##############################
 # Checking for $(ANDROIDGCS_BUILD_CONF) to be sane
-ifdef ($(ANDROIDGCS_BUILD_CONF))
+ifdef ANDROIDGCS_BUILD_CONF
  ifneq ($(ANDROIDGCS_BUILD_CONF), release)
   ifneq ($(ANDROIDGCS_BUILD_CONF), debug)
    $(error Only debug or release are allowed for ANDROIDGCS_BUILD_CONF)
@@ -100,7 +100,7 @@ ifdef ($(ANDROIDGCS_BUILD_CONF))
 endif
 
 # Checking for $(GCS_BUILD_CONF) to be sane
-ifdef ($(GCS_BUILD_CONF))
+ifdef GCS_BUILD_CONF
  ifneq ($(GCS_BUILD_CONF), release)
   ifneq ($(GCS_BUILD_CONF), debug)
    $(error Only debug or release are allowed for GCS_BUILD_CONF)
