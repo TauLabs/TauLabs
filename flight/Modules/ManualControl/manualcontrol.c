@@ -38,6 +38,7 @@
 #include "accessorydesired.h"
 #include "actuatordesired.h"
 #include "altitudeholddesired.h"
+#include "attitudeactual.h"
 #include "baroaltitude.h"
 #include "flighttelemetrystats.h"
 #include "flightstatus.h"
@@ -100,6 +101,7 @@ static uint32_t timeDifferenceMs(portTickType start_time, portTickType end_time)
 static bool okToArm(void);
 static bool validInputRange(int16_t min, int16_t max, uint16_t value);
 static void applyDeadband(float *value, float deadband);
+static void updateVelocityControlDesired(ManualControlCommandData * cmd, bool flightModeChanged);
 
 
 
@@ -424,6 +426,9 @@ static void manualControlTask(void *parameters)
 					case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
 						updatePathDesired(&cmd, lastFlightMode != flightStatus.FlightMode, true);
 						break;
+					case FLIGHTSTATUS_FLIGHTMODE_VELOCITYCONTROL:
+						updateVelocityControlDesired(&cmd, lastFlightMode != flightStatus.FlightMode);
+						break;
 					default:
 						set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_UNDEFINED);
 				}
@@ -654,6 +659,24 @@ static void updateStabilizationDesired(ManualControlCommandData * cmd, ManualCon
 	StabilizationDesiredSet(&stabilization);
 }
 
+/**
+ * @brief Update the position desired to current location when
+ * enabled and allow the waypoint to be moved by transmitter
+ */
+static void updateVelocityControlDesired(ManualControlCommandData * cmd, bool flightModeChanged)
+{
+	if(flightModeChanged) {
+		AttitudeActualData attitudeActual;
+		AttitudeActualGet(&attitudeActual);
+
+		PathDesiredData pathDesired;
+		PathDesiredGet(&pathDesired);
+
+		pathDesired.InitialYaw= attitudeActual.Yaw;
+		pathDesired.Mode = PATHDESIRED_MODE_VELOCITYCONTROL;
+		PathDesiredSet(&pathDesired);
+	}
+}
 
 /**
  * @brief Update the position desired to current location when
