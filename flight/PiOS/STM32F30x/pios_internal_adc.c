@@ -58,9 +58,6 @@ void PIOS_INTERNAL_ADC_DMA_Handler2(void);
 void PIOS_INTERNAL_ADC_DMA_Handler3(void);
 void PIOS_INTERNAL_ADC_DMA_Handler4(void);
 
-static void test(void);
-static void test2(void);
-
 //void DMA1_Channel1_IRQHandler() __attribute__ ((alias ("test")));//TODO
 //void ADC1_2_IRQHandler() __attribute__ ((alias ("test2")));//TODO
 // Private types
@@ -87,31 +84,14 @@ struct pios_internal_adc_dev {
 #endif
         // volatile int16_t *valid_data_buffer;//TODO
         struct adc_accumulator **channel_map;
-        struct adc_accumulator *master_accumulator;
-        struct adc_accumulator *slave_accumulator;
-        volatile uint8_t adc_oversample;
+        struct adc_accumulator *accumulator;
+        uint8_t adc_oversample;
         uint8_t dma_block_size;
         uint16_t dma_half_buffer_size;
-        volatile uint16_t *raw_data_buffer;   // Double buffer that DMA just used
+        uint16_t *raw_data_buffer;   // Double buffer that DMA just used
         enum pios_internal_adc_dev_magic magic;
 };
-static void test(void)//TODO
-{
-        PIOS_LED_Toggle(PIOS_LED_GREEN_E);
-        PIOS_LED_Toggle(PIOS_LED_GREEN_W);
-        PIOS_LED_Toggle(PIOS_LED_ORANGE_NE);
 
-}
-static void test2(void)//TODO
-{
-        PIOS_LED_Toggle(PIOS_LED_GREEN_E);
-        PIOS_LED_Toggle(PIOS_LED_GREEN_W);
-        PIOS_LED_Toggle(PIOS_LED_ORANGE_NE);
-        volatile uint16_t result=ADC_GetConversionValue(ADC1);
-        ++result;
-        ADC_ClearFlag(ADC1, ADC_FLAG_EOC);
-
-}
 static bool PIOS_INTERNAL_ADC_validate(struct pios_internal_adc_dev * dev)
 {
         if (dev == NULL )
@@ -191,8 +171,16 @@ static void PIOS_INTERNAL_DMAConfig(uint32_t internal_adc_id)
         DMAInit.DMA_DIR = DMA_DIR_PeripheralSRC;
         DMAInit.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
         DMAInit.DMA_MemoryInc = DMA_MemoryInc_Enable;
-        DMAInit.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
-        DMAInit.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
+        if(adc_dev->cfg->adc_dev_slave)
+        {
+                DMAInit.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Word;
+                DMAInit.DMA_MemoryDataSize = DMA_MemoryDataSize_Word;
+        }
+        else
+        {
+                DMAInit.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
+                DMAInit.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
+        }
         DMAInit.DMA_Mode = DMA_Mode_Circular;
 
         DMA_Init(adc_dev->cfg->dma.rx.channel, &DMAInit); /* channel is actually stream ... */
@@ -211,7 +199,6 @@ static void PIOS_INTERNAL_DMAConfig(uint32_t internal_adc_id)
 
 static void PIOS_INTERNAL_ADC_Converter_Config(uint32_t internal_adc_id)
 {
-        PIOS_LED_Toggle(PIOS_LED_GREEN_E);
         struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *) internal_adc_id;
 
         ADC_DeInit(adc_dev->cfg->adc_dev_master);
@@ -231,8 +218,7 @@ static void PIOS_INTERNAL_ADC_Converter_Config(uint32_t internal_adc_id)
                 PIOS_DELAY_WaituS(10);
                 ADC_SelectCalibrationMode(adc_dev->cfg->adc_dev_slave, ADC_CalibrationMode_Single);
                 ADC_StartCalibration(adc_dev->cfg->adc_dev_slave);
-                while (ADC_GetCalibrationStatus(adc_dev->cfg->adc_dev_slave) != RESET)
-                        ;
+                while (ADC_GetCalibrationStatus(adc_dev->cfg->adc_dev_slave) != RESET);
         }
 
         /* Do common ADC init */
@@ -250,7 +236,8 @@ static void PIOS_INTERNAL_ADC_Converter_Config(uint32_t internal_adc_id)
         ADC_CommonInitStructure.ADC_Clock = ADC_Clock_AsynClkMode;   //TODO
         ADC_CommonInitStructure.ADC_DMAMode = ADC_DMAMode_Circular;
         ADC_CommonInitStructure.ADC_TwoSamplingDelay = 0;
-        ADC_DMAConfig(adc_dev->cfg->adc_dev_master,ADC_DMAMode_Circular);
+        if(adc_dev->cfg->adc_dev_slave == NULL)
+                ADC_DMAConfig(adc_dev->cfg->adc_dev_master,ADC_DMAMode_Circular);
         ADC_CommonInit(adc_dev->cfg->adc_dev_master, &ADC_CommonInitStructure);
 
         ADC_InitTypeDef ADC_InitStructure;
@@ -272,24 +259,57 @@ static void PIOS_INTERNAL_ADC_Converter_Config(uint32_t internal_adc_id)
         ADC_DMACmd(adc_dev->cfg->adc_dev_master, ENABLE);
 
         /* Configure input scan */
-        uint8_t master_index = 0;
-        uint8_t slave_index = 0;
-        for (int32_t i = 0; i < adc_dev->cfg->number_of_used_pins; i++) {
-                if (adc_dev->cfg->adc_pins[i].is_master_channel) {
-                        ADC_RegularChannelConfig(adc_dev->cfg->adc_dev_master, adc_dev->cfg->adc_pins[i].adc_channel,
-                                        master_index + 1, ADC_SampleTime_61Cycles5); /* XXX this is totally arbitrary... */
-                        ++master_index;
+        uint32_t current_index = 0;
+        if (!adc_dev->cfg->adc_dev_slave) {
+                for (uint32_t i = 0; i < adc_dev->cfg->number_of_used_pins; i++) {
+                        ADC_RegularChannelConfig(adc_dev->cfg->adc_dev_master, adc_dev->cfg->adc_pins[i].adc_channel, current_index + 1, ADC_SampleTime_61Cycles5); /* XXX this is totally arbitrary... */
+                        adc_dev->channel_map[current_index] = &adc_dev->accumulator[current_index];
+                        ++current_index;
                 }
-                else {
-                        ADC_RegularChannelConfig(adc_dev->cfg->adc_dev_slave, adc_dev->cfg->adc_pins[i].adc_channel,
-                                        slave_index + 1, ADC_SampleTime_61Cycles5); /* XXX this is totally arbitrary... */
-                        ++slave_index;
+        }
+        else {
+                bool again = true;
+                current_index = 0;
+                uint32_t acc_index = 0;
+                while (again) {
+                        for (uint32_t i = 0; i < adc_dev->cfg->number_of_used_pins; i++) {
+                                if (adc_dev->cfg->adc_pins[i].is_master_channel) {
+                                        ADC_RegularChannelConfig(adc_dev->cfg->adc_dev_master, adc_dev->cfg->adc_pins[i].adc_channel, current_index + 1, ADC_SampleTime_61Cycles5); /* XXX this is totally arbitrary... */
+                                        adc_dev->channel_map[acc_index] = &adc_dev->accumulator[i];
+                                        ++current_index;
+                                        acc_index += 2;
+                                        if (current_index == (adc_dev->number_used_master_channels > adc_dev->number_used_slave_channels ?
+                                                        adc_dev->number_used_master_channels : adc_dev->number_used_slave_channels)) {
+                                                again = false;
+                                                break;
+                                        }
+                                }
+                        }
                 }
+                again = true;
+                current_index = 0;
+                acc_index = 1;
+                while (again) {
+                            for (uint32_t i = 0; i < adc_dev->cfg->number_of_used_pins; i++) {
+                                    if (!adc_dev->cfg->adc_pins[i].is_master_channel) {
+                                            ADC_RegularChannelConfig(adc_dev->cfg->adc_dev_slave, adc_dev->cfg->adc_pins[i].adc_channel, current_index + 1, ADC_SampleTime_61Cycles5); /* XXX this is totally arbitrary... */
+                                            adc_dev->channel_map[acc_index] = &adc_dev->accumulator[i];
+                                            ++current_index;
+                                            acc_index += 2;
+                                            if (current_index == (adc_dev->number_used_master_channels > adc_dev->number_used_slave_channels ?
+                                                            adc_dev->number_used_master_channels : adc_dev->number_used_slave_channels)) {
+                                                    again = false;
+                                                    break;
+                                            }
+                                    }
+                            }
+                    }
         }
       //  ADC_ITConfig(ADC1,ADC_FLAG_EOC,ENABLE);//TODO
 
         ADC_Cmd(adc_dev->cfg->adc_dev_master, ENABLE);
-
+        if (adc_dev->cfg->adc_dev_slave)
+                ADC_Cmd(adc_dev->cfg->adc_dev_slave, ENABLE);
         while (!ADC_GetFlagStatus(ADC1, ADC_FLAG_RDY));
         ADC_StartConversion(adc_dev->cfg->adc_dev_master);
 
@@ -297,8 +317,8 @@ static void PIOS_INTERNAL_ADC_Converter_Config(uint32_t internal_adc_id)
 //        NVICInit.NVIC_IRQChannel = ADC1_2_IRQn;
 //        NVICInit.NVIC_IRQChannelSubPriority = 0;
 //        NVICInit.NVIC_IRQChannelCmd = ENABLE;
-//        NVIC_Init(&NVICInit);
-      //  ADC_ITConfig(ADC1,ADC_FLAG_EOS,ENABLE);
+     //   NVIC_Init(&NVICInit);
+       // ADC_ITConfig(ADC1,ADC_FLAG_EOS,ENABLE);
         //TODO
 }
 
@@ -334,43 +354,26 @@ int32_t PIOS_INTERNAL_ADC_Init(uint32_t * internal_adc_id, const struct pios_int
         if (adc_dev->cfg->adc_dev_slave) {
                 adc_dev->raw_data_buffer = pvPortMalloc(
                                 2 * adc_dev->cfg->oversampling * adc_dev->regular_group_size * 2 * sizeof(uint16_t));
-                adc_dev->dma_half_buffer_size = adc_dev->cfg->oversampling * adc_dev->regular_group_size * 2
-                                * sizeof(uint16_t);
+                adc_dev->dma_half_buffer_size = adc_dev->cfg->oversampling * adc_dev->regular_group_size * 2;//TODO tirar o vezes dois e por na config do dma. na verdade isto nao e o half size mas sim o full size
         }
         else {
                 // 2 * because double buffering
                 adc_dev->raw_data_buffer = pvPortMalloc(
                 2 * adc_dev->cfg->oversampling * adc_dev->cfg->number_of_used_pins * sizeof(uint16_t));
                 adc_dev->dma_half_buffer_size = adc_dev->cfg->oversampling * adc_dev->cfg->number_of_used_pins
-                                * sizeof(uint16_t);
+                                * 2;
         }
         if (adc_dev->raw_data_buffer == NULL )
                 return -1;
-
-        adc_dev->master_accumulator = pvPortMalloc(
-                        adc_dev->number_used_master_channels * sizeof(struct adc_accumulator));
-        if (adc_dev->master_accumulator == NULL )
+        adc_dev->accumulator = pvPortMalloc(adc_dev->cfg->number_of_used_pins * sizeof(struct adc_accumulator));
+        if (adc_dev->accumulator == NULL )
                 return -1;
-        if (adc_dev->cfg->adc_dev_slave) {
-                adc_dev->slave_accumulator = pvPortMalloc(
-                                adc_dev->number_used_slave_channels * sizeof(struct adc_accumulator));
-                if (adc_dev->slave_accumulator == NULL )
-                        return -1;
-        }
-
-        adc_dev->channel_map = pvPortMalloc(adc_dev->cfg->number_of_used_pins * sizeof(struct adc_accumulator *));
+        if(adc_dev->cfg->adc_dev_slave)
+                adc_dev->channel_map = pvPortMalloc(adc_dev->regular_group_size * 2 * sizeof(struct adc_accumulator *));
+        else
+                adc_dev->channel_map = pvPortMalloc(adc_dev->regular_group_size * sizeof(struct adc_accumulator *));
         if (adc_dev->channel_map == NULL )
                 return -1;
-        uint8_t m_index = 0;
-        uint8_t s_index = 0;
-
-        for (uint8_t i = 0; i < adc_dev->cfg->number_of_used_pins; ++i) {
-                if (adc_dev->cfg->adc_pins[i].is_master_channel) {
-                        adc_dev->channel_map[i] = &adc_dev->master_accumulator[m_index++];
-                }
-                else
-                        adc_dev->channel_map[i] = &adc_dev->slave_accumulator[s_index++];
-        }
 
         driver_instances[current_instances] = adc_dev;
         ++current_instances;
@@ -411,9 +414,9 @@ int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin)
         if (pin >= adc_dev->cfg->number_of_used_pins) {
                 return -1;
         }
-        result = adc_dev->channel_map[pin]->accumulator / (adc_dev->channel_map[pin]->count ? : 1);
-        adc_dev->channel_map[pin]->accumulator = 0;
-        adc_dev->channel_map[pin]->count = 0;
+        result = adc_dev->accumulator[pin].accumulator / (adc_dev->accumulator[pin].count ? : 1);
+        adc_dev->accumulator[pin].accumulator = 0;
+        adc_dev->accumulator[pin].count = 0;
         return result;
 }
 
@@ -481,54 +484,37 @@ void PIOS_INTERNAL_ADC_SetFIRCoefficients(float * new_filter)
 /**
  * @brief accumulate the data for each of the channels.
  */
-void accumulate(uint32_t internal_adc_id, volatile uint16_t *buffer)
+static void accumulate(struct pios_internal_adc_dev *adc_dev, uint16_t *buffer)
 {
-        struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *) internal_adc_id;
-        if (!PIOS_INTERNAL_ADC_validate(adc_dev)) {
-                return;
-        }
-
-        volatile uint16_t *sp;
+        uint16_t *sp;
         /*
          * Accumulate sampled values.
          */
-        uint8_t increment;
-        ++increment;
-        if (adc_dev->cfg->adc_dev_slave)
+        uint32_t increment;
+        uint32_t scan_size;
+        if (adc_dev->cfg->adc_dev_slave) {
                 increment = 2;
-        else
+                scan_size = adc_dev->regular_group_size * 2;
+        }
+        else {
                 increment = 1;
-        for (int i = 0; i < adc_dev->cfg->oversampling; ++i) {
+                scan_size = adc_dev->regular_group_size;
+        }
+        for (uint8_t i = 0; i < adc_dev->cfg->oversampling; ++i) {
                 sp = buffer + adc_dev->regular_group_size * i * increment;
-                for (int ii = 0; ii < adc_dev->number_used_master_channels; ii++) {
-                        adc_dev->master_accumulator[ii].accumulator += *sp;
-                        sp = sp + increment;
-                        adc_dev->master_accumulator[ii].count++;
+                for (uint8_t ii = 0; ii < scan_size; ii++) {
+                        adc_dev->channel_map[ii]->accumulator += *sp;
+                        adc_dev->channel_map[ii]->count++;
+                        sp++;
                         /*
                          * If the accumulator reaches half-full, rescale in order to
                          * make more space.
                          */
-                        if (adc_dev->master_accumulator[ii].accumulator >= (1 << 31)) {
-                                adc_dev->master_accumulator[ii].accumulator /= 2;
-                                adc_dev->master_accumulator[ii].count /= 2;
+                        if (adc_dev->channel_map[ii]->accumulator >= (1 << 31)) {
+                                adc_dev->channel_map[ii]->accumulator /= 2;
+                                adc_dev->channel_map[ii]->count /= 2;
                         }
-                }
 
-                if (adc_dev->cfg->adc_dev_slave) {
-                        sp = buffer + adc_dev->regular_group_size * i * increment + 1;
-                        for (int ii = 0; ii < adc_dev->number_used_slave_channels; ii++) {
-                                //adc_dev->slave_accumulator[ii].accumulator += *sp;
-                                sp = sp + increment;
-                                adc_dev->slave_accumulator[ii].count++;
-                                /*
-                                 * If the accumulator reaches half-full, rescale in order to
-                                 * make more space.
-                                 */
-                                if (adc_dev->slave_accumulator[ii].accumulator >= (1 << 31)) {
-                                        adc_dev->slave_accumulator[ii].accumulator /= 2;
-                                        adc_dev->slave_accumulator[ii].count /= 2;
-                                }
-                        }
                 }
         }
 }
@@ -540,14 +526,11 @@ void accumulate(uint32_t internal_adc_id, volatile uint16_t *buffer)
  */
 void PIOS_INTERNAL_ADC_DMA_Handler1(void)
 {
-       // test();
         PIOS_ADC_DMA_Handler(driver_instances[0]);
 }
 
 void PIOS_INTERNAL_ADC_DMA_Handler2(void)
 {
-        test();
-        test2();
         PIOS_ADC_DMA_Handler(driver_instances[1]);
 }
 
@@ -567,17 +550,17 @@ static void PIOS_ADC_DMA_Handler(struct pios_internal_adc_dev *adc_dev)
         if (DMA_GetFlagStatus(adc_dev->cfg->full_flag /*DMA1_IT_TC1*/)) {        // whole double buffer filled
                 if (adc_dev->cfg->adc_dev_slave)
                 {
-                        accumulate((uint32_t) adc_dev, (uint16_t *)((uint32_t)(adc_dev->raw_data_buffer) + (uint32_t)(adc_dev->cfg->oversampling * adc_dev->regular_group_size * 2
-                                                                        * sizeof(uint16_t))));
+                        DMA_ClearFlag(adc_dev->cfg->full_flag);
+                        accumulate(adc_dev, adc_dev->raw_data_buffer + adc_dev->dma_half_buffer_size);
                 }
                 else {
-                        accumulate((uint32_t) adc_dev, adc_dev->raw_data_buffer+adc_dev->cfg->oversampling * adc_dev->cfg->number_of_used_pins);
+                        DMA_ClearFlag(adc_dev->cfg->full_flag);
+                        accumulate(adc_dev, adc_dev->raw_data_buffer+adc_dev->cfg->oversampling * adc_dev->cfg->number_of_used_pins);
                 }
-                DMA_ClearFlag(adc_dev->cfg->full_flag);
         }
         else if (DMA_GetFlagStatus(adc_dev->cfg->half_flag /*DMA1_IT_HT1*/)) {
-                accumulate((uint32_t) adc_dev, adc_dev->raw_data_buffer);
                 DMA_ClearFlag(adc_dev->cfg->half_flag);
+                accumulate(adc_dev, adc_dev->raw_data_buffer);
         }
         else {
                 // This should not happen, probably due to transfer errors
