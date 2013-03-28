@@ -45,11 +45,8 @@
 #include "pios.h"
 #include <pios_internal_adc_priv.h>
 
-static struct pios_internal_adc_dev * PIOS_INTERNAL_ADC_Allocate();
-static bool PIOS_INTERNAL_ADC_validate(struct pios_internal_adc_dev *);
 static void PIOS_INTERNAL_ADC_PinConfig(uint32_t internal_adc_id);
 static void PIOS_INTERNAL_DMAConfig(uint32_t internal_adc_id);
-static void PIOS_ADC_DMA_Handler(struct pios_internal_adc_dev *);
 int32_t PIOS_INTERNAL_ADC_Init(uint32_t *internal_adc_id, const struct pios_internal_adc_cfg *cfg);
 static void PIOS_INTERNAL_ADC_Converter_Config(uint32_t internal_adc_id);
 
@@ -58,8 +55,6 @@ void PIOS_INTERNAL_ADC_DMA_Handler2(void);
 void PIOS_INTERNAL_ADC_DMA_Handler3(void);
 void PIOS_INTERNAL_ADC_DMA_Handler4(void);
 
-//void DMA1_Channel1_IRQHandler() __attribute__ ((alias ("test")));//TODO
-//void ADC1_2_IRQHandler() __attribute__ ((alias ("test2")));//TODO
 // Private types
 enum pios_internal_adc_dev_magic {
         PIOS_INTERNAL_ADC_DEV_MAGIC = 0x58375124,
@@ -78,20 +73,21 @@ struct pios_internal_adc_dev {
         uint8_t number_used_master_channels;
         uint8_t number_used_slave_channels;
         uint8_t regular_group_size;
-        ADCCallback callback_function;
-#if defined(PIOS_INCLUDE_FREERTOS)
-        xQueueHandle data_queue;
-#endif
-        // volatile int16_t *valid_data_buffer;//TODO
         struct adc_accumulator **channel_map;
         struct adc_accumulator *accumulator;
         uint8_t adc_oversample;
-        uint8_t dma_block_size;
         uint16_t dma_half_buffer_size;
         uint16_t *raw_data_buffer;   // Double buffer that DMA just used
         enum pios_internal_adc_dev_magic magic;
 };
+static void PIOS_ADC_DMA_Handler(struct pios_internal_adc_dev *);
 
+#if !defined(PIOS_INCLUDE_FREERTOS)
+        static uint16_t static_raw_data_buffer[ADC_NON_FREERTOS_NUMBER_OF_CONVERTION_SLOTS * ADC_NON_FREERTOS_OVERSAMPLE];
+        static struct adc_accumulator static_accumulator[ADC_NON_FREERTOS_NUMBER_OF_USED_PINS];
+        static struct adc_accumulator * static_channel_map[ADC_NON_FREERTOS_NUMBER_OF_CONVERTION_SLOTS];
+        static struct pios_internal_adc_dev static_adc_dev;
+#endif
 static bool PIOS_INTERNAL_ADC_validate(struct pios_internal_adc_dev * dev)
 {
         if (dev == NULL )
@@ -99,7 +95,7 @@ static bool PIOS_INTERNAL_ADC_validate(struct pios_internal_adc_dev * dev)
 
         return (dev->magic == PIOS_INTERNAL_ADC_DEV_MAGIC);
 }
-#if defined(PIOS_INCLUDE_ADC)
+#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_internal_adc_dev * PIOS_INTERNAL_ADC_Allocate()
 {
         struct pios_internal_adc_dev *adc_dev = (struct pios_internal_adc_dev *) pvPortMalloc(sizeof(*adc_dev));
@@ -258,7 +254,21 @@ static void PIOS_INTERNAL_ADC_Converter_Config(uint32_t internal_adc_id)
         /* Enable DMA request */
         ADC_DMACmd(adc_dev->cfg->adc_dev_master, ENABLE);
 
-        /* Configure input scan */
+        /* Configure input scan
+         * channel_map indexing corresponds to each convertion slot in order
+         * in single channel mode this corresponds to 0,1,2,3...
+         * in dual channel mode this corresponds to 0,2,4...
+         *                                          1,3,5...
+         * channel_map value is a pointer to an accumulator, if the same channel is used multiple times the same accumulator is used
+         *
+         * Input scan is setup to repeat channels if needed, i.e if a channel has more convertions to make the other will repeat convertions
+         * example:
+         * 2 ADC1 pins to convert pinA1, pinA2
+         * 3 ADC2 pins to convert pinB1, pinB2, pinB3
+         * input scan becomes:
+         * pinA1, pinA2, pinA1
+         * pinB1, pinB2, pinB3
+         */
         uint32_t current_index = 0;
         if (!adc_dev->cfg->adc_dev_slave) {
                 for (uint32_t i = 0; i < adc_dev->cfg->number_of_used_pins; i++) {
@@ -305,21 +315,11 @@ static void PIOS_INTERNAL_ADC_Converter_Config(uint32_t internal_adc_id)
                             }
                     }
         }
-      //  ADC_ITConfig(ADC1,ADC_FLAG_EOC,ENABLE);//TODO
-
         ADC_Cmd(adc_dev->cfg->adc_dev_master, ENABLE);
         if (adc_dev->cfg->adc_dev_slave)
                 ADC_Cmd(adc_dev->cfg->adc_dev_slave, ENABLE);
         while (!ADC_GetFlagStatus(ADC1, ADC_FLAG_RDY));
         ADC_StartConversion(adc_dev->cfg->adc_dev_master);
-
-//        NVIC_InitTypeDef NVICInit;
-//        NVICInit.NVIC_IRQChannel = ADC1_2_IRQn;
-//        NVICInit.NVIC_IRQChannelSubPriority = 0;
-//        NVICInit.NVIC_IRQChannelCmd = ENABLE;
-     //   NVIC_Init(&NVICInit);
-       // ADC_ITConfig(ADC1,ADC_FLAG_EOS,ENABLE);
-        //TODO
 }
 
 /**
@@ -332,11 +332,15 @@ int32_t PIOS_INTERNAL_ADC_Init(uint32_t * internal_adc_id, const struct pios_int
         PIOS_DEBUG_Assert(internal_adc_id);PIOS_DEBUG_Assert(cfg);
 
         struct pios_internal_adc_dev * adc_dev;
+#if !defined(PIOS_INCLUDE_FREERTOS)
+        if(current_instances > 0) return -1;
+        adc_dev = &static_adc_dev;
+#else
         adc_dev = PIOS_INTERNAL_ADC_Allocate();
+#endif
         if (adc_dev == NULL )
                 return -1;
         adc_dev->cfg = cfg;
-        adc_dev->callback_function = NULL;
 
         *internal_adc_id = (uint32_t) adc_dev;
         adc_dev->number_used_master_channels = 0;
@@ -352,29 +356,41 @@ int32_t PIOS_INTERNAL_ADC_Init(uint32_t * internal_adc_id, const struct pios_int
                         adc_dev->number_used_master_channels > adc_dev->number_used_slave_channels ?
                                         adc_dev->number_used_master_channels : adc_dev->number_used_slave_channels;
         if (adc_dev->cfg->adc_dev_slave) {
+#if !defined(PIOS_INCLUDE_FREERTOS)
+                adc_dev->raw_data_buffer = static_raw_data_buffer;
+#else
                 adc_dev->raw_data_buffer = pvPortMalloc(
                                 2 * adc_dev->cfg->oversampling * adc_dev->regular_group_size * 2 * sizeof(uint16_t));
+#endif
                 adc_dev->dma_half_buffer_size = adc_dev->cfg->oversampling * adc_dev->regular_group_size * 2;//TODO tirar o vezes dois e por na config do dma. na verdade isto nao e o half size mas sim o full size
         }
         else {
+#if !defined(PIOS_INCLUDE_FREERTOS)
+                adc_dev->raw_data_buffer = static_raw_data_buffer;
+#else
                 // 2 * because double buffering
                 adc_dev->raw_data_buffer = pvPortMalloc(
                 2 * adc_dev->cfg->oversampling * adc_dev->cfg->number_of_used_pins * sizeof(uint16_t));
+#endif
                 adc_dev->dma_half_buffer_size = adc_dev->cfg->oversampling * adc_dev->cfg->number_of_used_pins
                                 * 2;
         }
         if (adc_dev->raw_data_buffer == NULL )
                 return -1;
+#if !defined(PIOS_INCLUDE_FREERTOS)
+        adc_dev->accumulator = static_accumulator;
+        adc_dev->channel_map = static_channel_map;
+#else
         adc_dev->accumulator = pvPortMalloc(adc_dev->cfg->number_of_used_pins * sizeof(struct adc_accumulator));
         if (adc_dev->accumulator == NULL )
                 return -1;
         if(adc_dev->cfg->adc_dev_slave)
-                adc_dev->channel_map = pvPortMalloc(adc_dev->regular_group_size * 2 * sizeof(struct adc_accumulator *));
-        else
-                adc_dev->channel_map = pvPortMalloc(adc_dev->regular_group_size * sizeof(struct adc_accumulator *));
-        if (adc_dev->channel_map == NULL )
-                return -1;
-
+                      adc_dev->channel_map = pvPortMalloc(adc_dev->regular_group_size * 2 * sizeof(struct adc_accumulator *));
+              else
+                      adc_dev->channel_map = pvPortMalloc(adc_dev->regular_group_size * sizeof(struct adc_accumulator *));
+              if (adc_dev->channel_map == NULL )
+                      return -1;
+#endif
         driver_instances[current_instances] = adc_dev;
         ++current_instances;
 
@@ -383,10 +399,6 @@ int32_t PIOS_INTERNAL_ADC_Init(uint32_t * internal_adc_id, const struct pios_int
         PIOS_INTERNAL_DMAConfig((uint32_t) adc_dev);
 
         PIOS_INTERNAL_ADC_Converter_Config((uint32_t) adc_dev);
-        return 0;
-
-//#endif
-
         return 0;
 }
 
