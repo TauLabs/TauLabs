@@ -268,6 +268,18 @@ int UAVObjectUtilManager::getBoardModel()
     return ret;
 }
 
+//! Get the IBoardType corresponding to the connected board
+Core::IBoardType *UAVObjectUtilManager::getBoardType()
+{
+    int boardTypeNum = (getBoardModel() >> 8) & 0x00ff;
+    QList <Core::IBoardType *> boards = pm->getObjects<Core::IBoardType>();
+    foreach (Core::IBoardType *board, boards) {
+        if (board->getBoardType() == boardTypeNum)
+            return board;
+    }
+    return NULL;
+}
+
 /**
   * Get the UAV Board CPU Serial Number, for anyone interested. Return format is a byte array
   */

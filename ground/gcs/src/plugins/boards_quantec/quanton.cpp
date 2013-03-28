@@ -41,6 +41,7 @@ Quanton::Quanton(void)
 
     setUSBInfo(board);
 
+    boardType = 0x86;
 }
 
 Quanton::~Quanton()
@@ -56,6 +57,24 @@ QString Quanton::shortName()
 QString Quanton::boardDescription()
 {
     return QString("quanton flight control rev. 1 by Quantec Networks GmbH");
+}
+
+//! Return which capabilities this board has
+bool Quanton::queryCapabilities(BoardCapabilities capability)
+{
+    switch(capability) {
+    case BOARD_CAPABILITIES_GYROS:
+        return true;
+    case BOARD_CAPABILITIES_ACCELS:
+        return true;
+    case BOARD_CAPABILITIES_MAGS:
+        return true;
+    case BOARD_CAPABILITIES_BAROS:
+        return true;
+    case BOARD_CAPABILITIES_RADIO:
+        return false;
+    }
+    return false;
 }
 
 /**
