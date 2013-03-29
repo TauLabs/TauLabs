@@ -203,8 +203,8 @@ extern uintptr_t pios_com_telem_usb_id;
 
 //-------------------------
 // ADC
-// None.
 //-------------------------
+#define PIOS_ADC_SUB_DRIVER_MAX_INSTANCES       3
 
 //-------------------------
 // USB
