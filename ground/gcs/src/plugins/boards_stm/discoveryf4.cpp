@@ -1,14 +1,14 @@
 /**
  ******************************************************************************
  *
- * @file       pipxtreme.cpp
- * @author     The PhoenixPilot Team, http://github.com/PhoenixPilot Copyright (C) 2012.
+ * @file       discoveryf4.cpp
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup Boards_OpenPilotPlugin OpenPilot boards support Plugin
+ * @addtogroup Boards_Stm STM boards support Plugin
  * @{
- * @brief Plugin to support boards by the OP project
+ * @brief Plugin to support boards by STM
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -26,42 +26,41 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "pipxtreme.h"
+#include "discoveryf4.h"
 
 /**
- * @brief PipXtreme::PipXtreme
- *  This is the PipXtreme radio modem definition
+ * @brief DiscoveryF4::DiscoveryF4
+ *  This is the DiscoveryF4 board definition
  */
-PipXtreme::PipXtreme(void)
+DiscoveryF4::DiscoveryF4(void)
 {
     // Initialize our USB Structure definition here:
     USBInfo board;
     board.vendorID = 0x20A0;
-    board.productID = 0x415c;
+    board.productID = 0x415b;
 
     setUSBInfo(board);
 
-    boardType = 0x03;
+    boardType = 0x85;
 }
 
-PipXtreme::~PipXtreme()
+DiscoveryF4::~DiscoveryF4()
 {
 
 }
 
-
-QString PipXtreme::shortName()
+QString DiscoveryF4::shortName()
 {
-    return QString("PipXtreme");
+    return QString("discoveryf4");
 }
 
-QString PipXtreme::boardDescription()
+QString DiscoveryF4::boardDescription()
 {
-    return QString("The OpenPilot project PipXtreme RF radio modem");
+    return QString("DiscoveryF4");
 }
 
 //! Return which capabilities this board has
-bool PipXtreme::queryCapabilities(BoardCapabilities capability)
+bool DiscoveryF4::queryCapabilities(BoardCapabilities capability)
 {
     switch(capability) {
     case BOARD_CAPABILITIES_GYROS:
@@ -73,18 +72,17 @@ bool PipXtreme::queryCapabilities(BoardCapabilities capability)
     case BOARD_CAPABILITIES_BAROS:
         return false;
     case BOARD_CAPABILITIES_RADIO:
-        return true;
+        return false;
     }
     return false;
 }
 
 /**
- * @brief PipXtreme::getSupportedProtocols
+ * @brief DiscoveryF4::getSupportedProtocols
  *  TODO: this is just a stub, we'll need to extend this a lot with multi protocol support
- *  TODO: for the PipXtreme, depending on its configuration, it might offer several protocols (uavtalk and raw)
  * @return
  */
-QStringList PipXtreme::getSupportedProtocols()
+QStringList DiscoveryF4::getSupportedProtocols()
 {
 
     return QStringList("uavtalk");

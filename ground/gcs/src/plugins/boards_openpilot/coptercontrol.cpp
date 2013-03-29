@@ -41,6 +41,7 @@ CopterControl::CopterControl(void)
 
     setUSBInfo(board);
 
+    boardType = 0x04;
 }
 
 CopterControl::~CopterControl()
@@ -48,6 +49,23 @@ CopterControl::~CopterControl()
 
 }
 
+//! Return which capabilities this board has
+bool CopterControl::queryCapabilities(BoardCapabilities capability)
+{
+    switch(capability) {
+    case BOARD_CAPABILITIES_GYROS:
+        return true;
+    case BOARD_CAPABILITIES_ACCELS:
+        return true;
+    case BOARD_CAPABILITIES_MAGS:
+        return false;
+    case BOARD_CAPABILITIES_BAROS:
+        return false;
+    case BOARD_CAPABILITIES_RADIO:
+        return false;
+    }
+    return false;
+}
 
 QString CopterControl::shortName()
 {

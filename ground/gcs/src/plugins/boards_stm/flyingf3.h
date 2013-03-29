@@ -1,14 +1,14 @@
 /**
  ******************************************************************************
  *
- * @file       pipxtreme.h
- * @author     The PhoenixPilot Team, http://github.com/PhoenixPilot Copyright (C) 2012.
+ * @file       flyingf3.h
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup Boards_OpenPilotPlugin OpenPilot boards support Plugin
+ * @addtogroup Boards_Stm Stm boards support Plugin
  * @{
- * @brief Plugin to support boards by the OP project
+ * @brief Plugin to support boards from STM
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -25,18 +25,18 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef PIPXTREME_H
-#define PIPXTREME_H
+#ifndef FLYINGF3_H
+#define FLYINGF3_H
 
 #include <coreplugin/iboardtype.h>
 
 class IBoardType;
 
-class PipXtreme : public Core::IBoardType
+class FlyingF3 : public Core::IBoardType
 {
 public:
-    PipXtreme();
-    virtual ~PipXtreme();
+    FlyingF3();
+    virtual ~FlyingF3();
 
     virtual QString shortName();
     virtual QString boardDescription();
@@ -44,8 +44,7 @@ public:
     virtual QStringList getSupportedProtocols();
     virtual QPixmap* getBoardPicture() { return new QPixmap; }
 
-
 };
 
 
-#endif // PIPXTREME_H
+#endif // FLYINGF3_H
