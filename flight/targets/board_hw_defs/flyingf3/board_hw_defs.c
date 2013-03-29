@@ -2159,6 +2159,7 @@ const struct pios_usb_cdc_cfg pios_usb_cdc_cfg = {
  */
 #if defined(PIOS_INCLUDE_ADC)
 #include "pios_internal_adc_priv.h"
+#include "pios_adc_priv.h"
 #include "pios_dma.h"
 
 static const struct pios_internal_adc_cfg internal_adc_cfg = {
@@ -2188,9 +2189,12 @@ static const struct pios_internal_adc_cfg internal_adc_cfg = {
         },
         .half_flag = DMA1_IT_HT1,
         .full_flag = DMA1_IT_TC1,
-        .oversampling = 4,
+        .oversampling = 32,
         .number_of_used_pins = 1,
         .adc_pins = (adc_pin[]){{GPIOA,GPIO_Pin_1,ADC_Channel_2,true},},
         .adc_dev_master = ADC1,
+        //.number_of_used_pins = 2,
+        //.adc_pins = (adc_pin[]){{GPIOA,GPIO_Pin_1,ADC_Channel_2,true},{GPIOA,GPIO_Pin_4,ADC_Channel_1,false},},
+        //.adc_dev_slave = ADC2,
 };
-#endif
+#endif //PIOS_INCLUDE_ADC
