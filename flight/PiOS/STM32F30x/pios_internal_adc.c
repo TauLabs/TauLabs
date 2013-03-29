@@ -42,18 +42,28 @@
  * should stick to our lightweight subset until we have a better idea of what's needed.
  */
 
-#include "pios.h"
 #include <pios_internal_adc_priv.h>
+
+#if defined(PIOS_INCLUDE_ADC)
 
 static void PIOS_INTERNAL_ADC_PinConfig(uint32_t internal_adc_id);
 static void PIOS_INTERNAL_DMAConfig(uint32_t internal_adc_id);
 int32_t PIOS_INTERNAL_ADC_Init(uint32_t *internal_adc_id, const struct pios_internal_adc_cfg *cfg);
 static void PIOS_INTERNAL_ADC_Converter_Config(uint32_t internal_adc_id);
+static bool PIOS_INTERNAL_ADC_Available(uint32_t internal_adc_id, uint32_t pin);
+static int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin);
 
-void PIOS_INTERNAL_ADC_DMA_Handler1(void);
-void PIOS_INTERNAL_ADC_DMA_Handler2(void);
-void PIOS_INTERNAL_ADC_DMA_Handler3(void);
-void PIOS_INTERNAL_ADC_DMA_Handler4(void);
+const struct pios_adc_driver pios_internal_adc_driver = {
+                .available      = PIOS_INTERNAL_ADC_Available,
+                .get_pin        = PIOS_INTERNAL_ADC_PinGet,
+                .set_queue      = NULL,
+                .number_of_channels = NULL,
+};
+
+static void PIOS_INTERNAL_ADC_DMA_Handler1(void);
+static void PIOS_INTERNAL_ADC_DMA_Handler2(void);
+static void PIOS_INTERNAL_ADC_DMA_Handler3(void);
+static void PIOS_INTERNAL_ADC_DMA_Handler4(void);
 
 // Private types
 enum pios_internal_adc_dev_magic {
@@ -88,6 +98,11 @@ static void PIOS_ADC_DMA_Handler(struct pios_internal_adc_dev *);
         static struct adc_accumulator * static_channel_map[ADC_NON_FREERTOS_NUMBER_OF_CONVERTION_SLOTS];
         static struct pios_internal_adc_dev static_adc_dev;
 #endif
+
+/**
+ * @brief Validates an internal ADC device
+ * \return true if device is valid
+ */
 static bool PIOS_INTERNAL_ADC_validate(struct pios_internal_adc_dev * dev)
 {
         if (dev == NULL )
@@ -96,6 +111,9 @@ static bool PIOS_INTERNAL_ADC_validate(struct pios_internal_adc_dev * dev)
         return (dev->magic == PIOS_INTERNAL_ADC_DEV_MAGIC);
 }
 #if defined(PIOS_INCLUDE_FREERTOS)
+/**
+  * @brief Allocates an internal ADC device
+  */
 static struct pios_internal_adc_dev * PIOS_INTERNAL_ADC_Allocate()
 {
         struct pios_internal_adc_dev *adc_dev = (struct pios_internal_adc_dev *) pvPortMalloc(sizeof(*adc_dev));
@@ -105,6 +123,10 @@ static struct pios_internal_adc_dev * PIOS_INTERNAL_ADC_Allocate()
         return (adc_dev);
 }
 #endif
+/**
+  * @brief Configures the pins used on the ADC device
+  * \param[in] handle to the ADC device
+  */
 static void PIOS_INTERNAL_ADC_PinConfig(uint32_t internal_adc_id)
 {
         struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *) internal_adc_id;
@@ -124,7 +146,10 @@ static void PIOS_INTERNAL_ADC_PinConfig(uint32_t internal_adc_id)
                 GPIO_Init(adc_dev->cfg->adc_pins[i].port, (GPIO_InitTypeDef*) &GPIO_InitStructure);
         }
 }
-
+/**
+  * @brief Configures the DMA used on the ADC device
+  * \param[in] handle to the ADC device
+  */
 static void PIOS_INTERNAL_DMAConfig(uint32_t internal_adc_id)
 {
         struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *) internal_adc_id;
@@ -192,7 +217,10 @@ static void PIOS_INTERNAL_DMAConfig(uint32_t internal_adc_id)
         NVIC_InitTypeDef NVICInit = adc_dev->cfg->dma.irq.init;
         NVIC_Init(&NVICInit);
 }
-
+/**
+  * @brief Configures the ADC device
+  * \param[in] handle to the ADC device
+  */
 static void PIOS_INTERNAL_ADC_Converter_Config(uint32_t internal_adc_id)
 {
         struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *) internal_adc_id;
@@ -255,13 +283,13 @@ static void PIOS_INTERNAL_ADC_Converter_Config(uint32_t internal_adc_id)
         ADC_DMACmd(adc_dev->cfg->adc_dev_master, ENABLE);
 
         /* Configure input scan
-         * channel_map indexing corresponds to each convertion slot in order
+         * channel_map indexing corresponds to each conversion slot in order
          * in single channel mode this corresponds to 0,1,2,3...
          * in dual channel mode this corresponds to 0,2,4...
          *                                          1,3,5...
          * channel_map value is a pointer to an accumulator, if the same channel is used multiple times the same accumulator is used
          *
-         * Input scan is setup to repeat channels if needed, i.e if a channel has more convertions to make the other will repeat convertions
+         * Input scan is setup to repeat channels if needed, i.e if a channel has more conversions to make the other will repeat conversions
          * example:
          * 2 ADC1 pins to convert pinA1, pinA2
          * 3 ADC2 pins to convert pinB1, pinB2, pinB3
@@ -327,9 +355,8 @@ static void PIOS_INTERNAL_ADC_Converter_Config(uint32_t internal_adc_id)
  */
 int32_t PIOS_INTERNAL_ADC_Init(uint32_t * internal_adc_id, const struct pios_internal_adc_cfg * cfg)
 {
-
-//#if defined(PIOS_INCLUDE_ADC)
-        PIOS_DEBUG_Assert(internal_adc_id);PIOS_DEBUG_Assert(cfg);
+        PIOS_DEBUG_Assert(internal_adc_id);
+        PIOS_DEBUG_Assert(cfg);
 
         struct pios_internal_adc_dev * adc_dev;
 #if !defined(PIOS_INCLUDE_FREERTOS)
@@ -403,25 +430,31 @@ int32_t PIOS_INTERNAL_ADC_Init(uint32_t * internal_adc_id, const struct pios_int
 }
 
 /**
- * @brief Configure the ADC to run at a fixed oversampling
- * @param[in] oversampling the amount of oversampling to run at
- */
-void PIOS_INTERNAL_ADC_Config(uint32_t oversampling)
-{
-        /* we ignore this */
-}
-
-/**
- * Returns value of an ADC Pin
+ * Returns value of an ADC PinTODO
  * @param[in] pin number
  * @return ADC pin value averaged over the set of samples since the last reading.
  * @return -1 if pin doesn't exist
  */
-int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin)
+static bool PIOS_INTERNAL_ADC_Available(uint32_t internal_adc_id, uint32_t pin)
+{
+        struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *) internal_adc_id;
+        /* Check if pin exists */
+        if (pin >= adc_dev->cfg->number_of_used_pins) {
+                return false;
+        }
+        return true;
+}
+
+/**
+ * @brief Gets the value of an ADC pinn
+ * @param[in] pin number, acording to the order passed on the configuration
+ * @return ADC pin value averaged over the set of samples since the last reading.
+ * @return -1 if pin doesn't exist
+ */
+static int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin)
 {
         struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *) internal_adc_id;
         int32_t result;
-      //  return *(adc_dev->raw_data_buffer+1);
         /* Check if pin exists */
         if (pin >= adc_dev->cfg->number_of_used_pins) {
                 return -1;
@@ -430,67 +463,6 @@ int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin)
         adc_dev->accumulator[pin].accumulator = 0;
         adc_dev->accumulator[pin].count = 0;
         return result;
-}
-
-/**
- * @brief Set a callback function that is executed whenever
- * the ADC double buffer swaps 
- * @note Not currently supported.
- */
-void PIOS_INTERNAL_ADC_SetCallback(ADCCallback new_function)
-{
-        // XXX might be nice to do something here
-}
-
-#if defined(PIOS_INCLUDE_FREERTOS)
-/**
- * @brief Register a queue to add data to when downsampled 
- * @note Not currently supported.
- */
-void PIOS_INTERNAL_ADC_SetQueue(xQueueHandle data_queue)
-{
-        // XXX it might make sense? to do this
-}
-#endif
-
-/**
- * @brief Return the address of the downsampled data buffer
- * @note Not currently supported.
- */
-float * PIOS_INTERNAL_ADC_GetBuffer(void)
-{
-        return NULL ;
-}
-
-/**
- * @brief Return the address of the raw data data buffer 
- * @note Not currently supported.
- */
-int16_t * PIOS_INTERNAL_ADC_GetRawBuffer(void)
-{
-        return NULL ;
-}
-
-/**
- * @brief Return the amount of over sampling
- * @note Not currently supported (always returns 1)
- */
-uint8_t PIOS_INTERNAL_ADC_GetOverSampling(void)
-{
-        return 1;
-}
-
-/**
- * @brief Set the fir coefficients.  Takes as many samples as the 
- * current filter order plus one (normalization)
- *
- * @param new_filter Array of adc_oversampling floats plus one for the
- * filter coefficients
- * @note Not currently supported.
- */
-void PIOS_INTERNAL_ADC_SetFIRCoefficients(float * new_filter)
-{
-        // not implemented
 }
 
 /**
@@ -532,30 +504,33 @@ static void accumulate(struct pios_internal_adc_dev *adc_dev, uint16_t *buffer)
 }
 
 /**
- * @brief Interrupt on buffer flip.
- *
- * The hardware is done with the 'other' buffer, so we can pass it to the accumulator.
+ * @brief DMA Interrupt handlers
  */
-void PIOS_INTERNAL_ADC_DMA_Handler1(void)
+static void PIOS_INTERNAL_ADC_DMA_Handler1(void)
 {
         PIOS_ADC_DMA_Handler(driver_instances[0]);
 }
 
-void PIOS_INTERNAL_ADC_DMA_Handler2(void)
+static void PIOS_INTERNAL_ADC_DMA_Handler2(void)
 {
         PIOS_ADC_DMA_Handler(driver_instances[1]);
 }
 
-void PIOS_INTERNAL_ADC_DMA_Handler3(void)
+static void PIOS_INTERNAL_ADC_DMA_Handler3(void)
 {
         PIOS_ADC_DMA_Handler(driver_instances[2]);
 }
 
-void PIOS_INTERNAL_ADC_DMA_Handler4(void)
+static void PIOS_INTERNAL_ADC_DMA_Handler4(void)
 {
         PIOS_ADC_DMA_Handler(driver_instances[3]);
 }
 
+/**
+ * @brief Interrupt on buffer flip.
+ *
+ * The hardware is done with the 'other' buffer, so we can pass it to the accumulator.
+ */
 static void PIOS_ADC_DMA_Handler(struct pios_internal_adc_dev *adc_dev)
 {
         /* terminal count, buffer has flipped */
@@ -579,6 +554,7 @@ static void PIOS_ADC_DMA_Handler(struct pios_internal_adc_dev *adc_dev)
                 DMA_ClearFlag(adc_dev->cfg->dma.irq.flags /*DMA1_FLAG_GL1*/);
         }
 }
+#endif /* PIOS_INCLUDE_ADC */
 /** 
  * @}
  * @}
