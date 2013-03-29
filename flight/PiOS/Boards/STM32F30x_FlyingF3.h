@@ -37,8 +37,11 @@
 #define DEBUG_PRINTF(level, ...)
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 
-#define PIOS_ADC_MAX_OVERSAMPLING               1
-#define PIOS_ADC_USE_ADC2                       0
+#if defined(PIOS_INCLUDE_ADC)
+extern uintptr_t pios_internal_adc_id;
+#define PIOS_INTERNAL_ADC                               (pios_internal_adc_id)
+#endif
+#define PIOS_ADC_SUB_DRIVER_MAX_INSTANCES       3
 
 //------------------------
 // Timers and Channels Used

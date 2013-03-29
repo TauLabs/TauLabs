@@ -94,6 +94,9 @@
 #include <pios_ppm.h>
 #include <pios_pwm.h>
 #include <pios_rcvr.h>
+#if defined(PIOS_INCLUDE_DMA_CB_SUBSCRIBING_FUNCTION)
+#include <pios_dma.h>
+#endif
 #if defined(PIOS_INCLUDE_FREERTOS)
 #include <pios_sensors.h>
 #endif

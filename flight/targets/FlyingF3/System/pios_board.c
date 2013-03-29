@@ -162,7 +162,7 @@ uintptr_t pios_com_telem_rf_id = 0;
 uintptr_t pios_com_vcp_id = 0;
 uintptr_t pios_com_bridge_id = 0;
 uintptr_t pios_com_overo_id = 0;
-
+uintptr_t pios_internal_adc_id = 0;
 
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. rx or tx size of 0 disables rx or tx
@@ -1039,8 +1039,9 @@ void PIOS_Board_Init(void) {
 #endif
 
 #if defined(PIOS_INCLUDE_ADC)
-	uint32_t internal_adc_id;
+        uint32_t internal_adc_id;
 	PIOS_INTERNAL_ADC_Init(&internal_adc_id, &internal_adc_cfg);
+	PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);
 #endif
 
 	/* Make sure we have at least one telemetry link configured or else fail initialization */
