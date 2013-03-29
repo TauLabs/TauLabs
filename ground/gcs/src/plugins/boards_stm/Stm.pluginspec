@@ -1,4 +1,4 @@
-<plugin name="STM" version="1.0.0" compatVersion="1.0.0">
+<plugin name="Stm" version="1.0.0" compatVersion="1.0.0">
     <vendor>Tau Labs</vendor>
     <copyright>(C) 2013 Tau Labs</copyright>
     <license>The GNU Public License (GPL) Version 3</license>
