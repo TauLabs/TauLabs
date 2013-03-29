@@ -26,6 +26,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc., 
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+#if defined(PIOS_INCLUDE_DMA_CB_SUBSCRIBING_FUNCTION)
 #define HANDLER(X)      if(pios_dma_handler_map[X][0]==NULL)PIOS_DMA_Default_Handler();for(uint8_t i=0;i<PIOS_DMA_MAX_HANDLERS_PER_CHANNEL;++i){if(pios_dma_handler_map[X][i]==NULL){return;}else{pios_dma_handler_map[X][i]();}}
 #include <pios_dma.h>
 
@@ -91,3 +92,4 @@ static void PIOS_DMA_24_irq_handler(void){
 static void PIOS_DMA_25_irq_handler(void){
         HANDLER(11);
 }
+#endif /* PIOS_INCLUDE_DMA_CB_SUBSCRIBING_FUNCTION */
