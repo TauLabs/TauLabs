@@ -452,7 +452,8 @@ bool PIOS_MPU6000_IRQHandler(void)
 		return false;
 
 	enum {
-	    IDX_ACCEL_XOUT_H = 1,
+	    IDX_SPI_DUMMY_BYTE = 0,
+	    IDX_ACCEL_XOUT_H,
 	    IDX_ACCEL_XOUT_L,
 	    IDX_ACCEL_YOUT_H,
 	    IDX_ACCEL_YOUT_L,
