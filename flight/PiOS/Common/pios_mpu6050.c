@@ -51,10 +51,12 @@ enum pios_mpu6050_dev_magic {
 struct mpu6050_dev {
 	uint32_t i2c_id;
 	uint8_t i2c_addr;
-	enum pios_mpu60x0_accel_range accel_range;
 	enum pios_mpu60x0_range gyro_range;
 	xQueueHandle gyro_queue;
+#if defined(PIOS_MPU6050_ACCEL)
+	enum pios_mpu60x0_accel_range accel_range;
 	xQueueHandle accel_queue;
+#endif /* PIOS_MPU6050_ACCEL */
 	xTaskHandle TaskHandle;
 	xSemaphoreHandle data_ready_sema;
 	const struct pios_mpu60x0_cfg *cfg;
@@ -87,12 +89,14 @@ static struct mpu6050_dev *PIOS_MPU6050_alloc(void)
 
 	mpu6050_dev->magic = PIOS_MPU6050_DEV_MAGIC;
 
+#if defined(PIOS_MPU6050_ACCEL)
 	mpu6050_dev->accel_queue = xQueueCreate(PIOS_MPU6000_MAX_QUEUESIZE, sizeof(struct pios_sensor_accel_data));
 
 	if (mpu6050_dev->accel_queue == NULL) {
 		vPortFree(mpu6050_dev);
 		return NULL;
 	}
+#endif /* PIOS_MPU6050_ACCEL */
 
 	mpu6050_dev->gyro_queue = xQueueCreate(PIOS_MPU6000_MAX_QUEUESIZE, sizeof(struct pios_sensor_gyro_data));
 
@@ -108,7 +112,7 @@ static struct mpu6050_dev *PIOS_MPU6050_alloc(void)
 		return NULL;
 	}
 
-	return(mpu6050_dev);
+	return mpu6050_dev;
 }
 
 /**
@@ -155,7 +159,10 @@ int32_t PIOS_MPU6050_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_m
 	/* Set up EXTI line */
 	PIOS_EXTI_Init(cfg->exti_cfg);
 
+#if defined(PIOS_MPU6050_ACCEL)
 	PIOS_SENSORS_Register(PIOS_SENSOR_ACCEL, dev->accel_queue);
+#endif /* PIOS_MPU6050_ACCEL */
+
 	PIOS_SENSORS_Register(PIOS_SENSOR_GYRO, dev->gyro_queue);
 
 	return 0;
@@ -197,7 +204,7 @@ static void PIOS_MPU6050_Config(struct pios_mpu60x0_cfg const *cfg)
 #if defined(PIOS_MPU6050_ACCEL)
 	// Set the accel scale
 	PIOS_MPU6050_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
-#endif
+#endif /* PIOS_MPU6050_ACCEL */
 
 	// Interrupt configuration
 	PIOS_MPU6050_SetReg(PIOS_MPU60X0_INT_CFG_REG, cfg->interrupt_cfg);
@@ -219,12 +226,14 @@ void PIOS_MPU6050_SetGyroRange(enum pios_mpu60x0_range gyro_range)
 /**
  * Set the accel range and store it locally for scaling
  */
+#if defined(PIOS_MPU6050_ACCEL)
 void PIOS_MPU6050_SetAccelRange(enum pios_mpu60x0_accel_range accel_range)
 {
 	PIOS_MPU6050_SetReg(PIOS_MPU60X0_ACCEL_CFG_REG, accel_range);
 
 	dev->accel_range = accel_range;
 }
+#endif /* PIOS_MPU6050_ACCEL */
 
 /**
  * Set the sample rate in Hz by determining the nearest divisor
@@ -578,7 +587,7 @@ static void PIOS_MPU6050_Task(void *parameters)
 		portBASE_TYPE xHigherPriorityTaskWoken_gyro;
 		xQueueSendToBackFromISR(dev->gyro_queue, (void *)&gyro_data, &xHigherPriorityTaskWoken_gyro);
 
-#endif
+#endif /* PIOS_MPU6050_ACCEL */
 	}
 }
 

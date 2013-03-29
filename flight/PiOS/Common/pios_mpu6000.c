@@ -47,10 +47,12 @@ enum pios_mpu6000_dev_magic {
 struct mpu6000_dev {
 	uint32_t spi_id;
 	uint32_t slave_num;
-	enum pios_mpu60x0_accel_range accel_range;
 	enum pios_mpu60x0_range gyro_range;
 	xQueueHandle gyro_queue;
+#if defined(PIOS_MPU6000_ACCEL)
+	enum pios_mpu60x0_accel_range accel_range;
 	xQueueHandle accel_queue;
+#endif /* PIOS_MPU6000_ACCEL */
 	const struct pios_mpu60x0_cfg *cfg;
 	volatile bool configured;
 	enum pios_mpu6000_dev_magic magic;
@@ -84,12 +86,14 @@ static struct mpu6000_dev *PIOS_MPU6000_alloc(void)
 
 	mpu6000_dev->configured = false;
 
+#if defined(PIOS_MPU6000_ACCEL)
 	mpu6000_dev->accel_queue = xQueueCreate(PIOS_MPU6000_MAX_QUEUESIZE, sizeof(struct pios_sensor_accel_data));
 
 	if (mpu6000_dev->accel_queue == NULL) {
 		vPortFree(mpu6000_dev);
 		return NULL;
 	}
+#endif /* PIOS_MPU6000_ACCEL */
 
 	mpu6000_dev->gyro_queue = xQueueCreate(PIOS_MPU6000_MAX_QUEUESIZE, sizeof(struct pios_sensor_gyro_data));
 
@@ -98,7 +102,7 @@ static struct mpu6000_dev *PIOS_MPU6000_alloc(void)
 		return NULL;
 	}
 
-	return(mpu6000_dev);
+	return mpu6000_dev;
 }
 
 /**
@@ -142,7 +146,10 @@ int32_t PIOS_MPU6000_Init(uint32_t spi_id, uint32_t slave_num, const struct pios
 	/* Set up EXTI line */
 	PIOS_EXTI_Init(cfg->exti_cfg);
 
+#if defined(PIOS_MPU6000_ACCEL)
 	PIOS_SENSORS_Register(PIOS_SENSOR_ACCEL, dev->accel_queue);
+#endif /* PIOS_MPU6000_ACCEL */
+
 	PIOS_SENSORS_Register(PIOS_SENSOR_GYRO, dev->gyro_queue);
 
 	return 0;
@@ -184,7 +191,7 @@ static void PIOS_MPU6000_Config(const struct pios_mpu60x0_cfg *cfg)
 #if defined(PIOS_MPU6000_ACCEL)
 	// Set the accel scale
 	PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
-#endif
+#endif /* PIOS_MPU6000_ACCEL */
 
 	// Interrupt configuration
 	PIOS_MPU6000_SetReg(PIOS_MPU60X0_INT_CFG_REG, cfg->interrupt_cfg);
@@ -208,12 +215,14 @@ void PIOS_MPU6000_SetGyroRange(enum pios_mpu60x0_range gyro_range)
 /**
  * Set the accel range and store it locally for scaling
  */
+#if defined(PIOS_MPU6000_ACCEL)
 void PIOS_MPU6000_SetAccelRange(enum pios_mpu60x0_accel_range accel_range)
 {
 	PIOS_MPU6000_SetReg(PIOS_MPU60X0_ACCEL_CFG_REG, accel_range);
 
 	dev->accel_range = accel_range;
 }
+#endif /* PIOS_MPU6000_ACCEL */
 
 /**
  * Set the sample rate in Hz by determining the nearest divisor
@@ -403,6 +412,7 @@ static float PIOS_MPU6000_GetGyroScale()
  * Get the accel scale based on the active settings
  * @returns Scale in (m/s^2) / LSB
  */
+#if defined(PIOS_MPU6000_ACCEL)
 static float PIOS_MPU6000_GetAccelScale()
 {
 	switch (dev->accel_range) {
@@ -418,6 +428,7 @@ static float PIOS_MPU6000_GetAccelScale()
 
 	return 0;
 }
+#endif /* PIOS_MPU6000_ACCEL */
 
 /**
  * @brief Run self-test operation.
@@ -585,7 +596,7 @@ bool PIOS_MPU6000_IRQHandler(void)
 
 	return (xHigherPriorityTaskWoken_gyro == pdTRUE || woken == true);
 
-#endif
+#endif /* PIOS_MPU6000_ACCEL */
 
 }
 
