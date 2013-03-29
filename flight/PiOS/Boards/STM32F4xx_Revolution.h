@@ -256,6 +256,11 @@ extern uintptr_t pios_com_vcp_id;
 #define PIOS_USB_ENABLED                        1 /* Should remove all references to this */
 #define PIOS_USB_HID_MAX_DEVS                   1
 
+//-------------------------
+// ADC
+//-------------------------
+#define PIOS_ADC_SUB_DRIVER_MAX_INSTANCES       3
+
 #endif /* STM3210E_INS_H_ */
 /**
  * @}
