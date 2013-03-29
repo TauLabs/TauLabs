@@ -4,7 +4,6 @@
 		<field name="AdminState" units="" type="enum" options="Disabled,Enabled" defaultvalue="Disabled">
 			<elementnames>
 				<elementname>Airspeed</elementname>
-				<elementname>Altitude</elementname>
 				<elementname>AltitudeHold</elementname>
 				<elementname>Autotune</elementname>
 				<elementname>Battery</elementname>
@@ -15,7 +14,6 @@
 				<elementname>GPS</elementname>
 				<elementname>OveroSync</elementname>
 				<elementname>PathPlanner</elementname>
-				<elementname>Radio</elementname>
 				<elementname>TxPID</elementname>
 				<elementname>VtolPathFollower</elementname>
 				<elementname>GenericI2CSensor</elementname>
