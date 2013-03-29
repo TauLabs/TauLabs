@@ -43,7 +43,7 @@
  */
 
 #include "pios.h"
-#include <pios_adc_priv.h>
+#include <pios_internal_adc_priv.h>
 
 #if defined(PIOS_INCLUDE_ADC)
 
@@ -68,8 +68,8 @@ enum pios_adc_dev_magic {
 	PIOS_ADC_DEV_MAGIC = 0x58375124,
 };
 
-struct pios_adc_dev {
-	const struct pios_adc_cfg * cfg;	
+struct pios_internal_adc_dev {
+	const struct pios_internal_adc_cfg * cfg;
 	ADCCallback callback_function;
 #if defined(PIOS_INCLUDE_FREERTOS)
 	xQueueHandle data_queue;
@@ -84,18 +84,25 @@ struct pios_adc_dev {
 	enum pios_adc_dev_magic magic;
 };
 
-struct pios_adc_dev * pios_adc_dev;
+static struct pios_internal_adc_dev * pios_adc_dev;
 
 // Private functions
-void PIOS_ADC_downsample_data();
-static struct pios_adc_dev * PIOS_ADC_Allocate();
-static bool PIOS_ADC_validate(struct pios_adc_dev *);
+static struct pios_internal_adc_dev * PIOS_ADC_Allocate();
+static bool PIOS_ADC_validate(struct pios_internal_adc_dev *);
 
 #if defined(PIOS_INCLUDE_ADC)
 static void init_pins(void);
 static void init_dma(void);
 static void init_adc(void);
 #endif
+static int32_t PIOS_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin);
+
+const struct pios_adc_driver pios_internal_adc_driver = {
+                .available      = NULL,
+                .get_pin        = PIOS_ADC_PinGet,
+                .set_queue      = NULL,
+                .number_of_channels = NULL,
+};
 
 struct dma_config {
 	GPIO_TypeDef	*port;
@@ -202,29 +209,29 @@ init_adc(void)
 	ADC_InitStructure.ADC_ExternalTrigConvEdge		= ADC_ExternalTrigConvEdge_None;
 	ADC_InitStructure.ADC_DataAlign					= ADC_DataAlign_Right;
 	ADC_InitStructure.ADC_NbrOfConversion			= ((PIOS_ADC_NUM_PINS)/* >> 1*/);
-	ADC_Init(pios_adc_dev->cfg->adc_dev, &ADC_InitStructure);
+	ADC_Init(pios_adc_dev->cfg->adc_dev_master, &ADC_InitStructure);
 
 	/* Enable DMA request */
-	ADC_DMACmd(pios_adc_dev->cfg->adc_dev, ENABLE);
+	ADC_DMACmd(pios_adc_dev->cfg->adc_dev_master, ENABLE);
 
 	/* Configure input scan */
 	for (int32_t i = 0; i < PIOS_ADC_NUM_PINS; i++) {
-		ADC_RegularChannelConfig(pios_adc_dev->cfg->adc_dev,
+		ADC_RegularChannelConfig(pios_adc_dev->cfg->adc_dev_master,
 				config[i].channel,
 				i+1,
 				ADC_SampleTime_56Cycles);		/* XXX this is totally arbitrary... */
 	}
 
-	ADC_DMARequestAfterLastTransferCmd(pios_adc_dev->cfg->adc_dev, ENABLE);
+	ADC_DMARequestAfterLastTransferCmd(pios_adc_dev->cfg->adc_dev_master, ENABLE);
 
 	/* Finally start initial conversion */
-	ADC_Cmd(pios_adc_dev->cfg->adc_dev, ENABLE);
-	ADC_ContinuousModeCmd(pios_adc_dev->cfg->adc_dev, ENABLE);
-	ADC_SoftwareStartConv(pios_adc_dev->cfg->adc_dev);
+	ADC_Cmd(pios_adc_dev->cfg->adc_dev_master, ENABLE);
+	ADC_ContinuousModeCmd(pios_adc_dev->cfg->adc_dev_master, ENABLE);
+	ADC_SoftwareStartConv(pios_adc_dev->cfg->adc_dev_master);
 }
 #endif
 
-static bool PIOS_ADC_validate(struct pios_adc_dev * dev)
+static bool PIOS_ADC_validate(struct pios_internal_adc_dev * dev)
 {
 	if (dev == NULL)
 		return false;
@@ -233,11 +240,11 @@ static bool PIOS_ADC_validate(struct pios_adc_dev * dev)
 }
 
 #if defined(PIOS_INCLUDE_FREERTOS)
-static struct pios_adc_dev * PIOS_ADC_Allocate()
+static struct pios_internal_adc_dev * PIOS_ADC_Allocate()
 {
-	struct pios_adc_dev * adc_dev;
+	struct pios_internal_adc_dev * adc_dev;
 	
-	adc_dev = (struct pios_adc_dev *)pvPortMalloc(sizeof(*adc_dev));
+	adc_dev = (struct pios_internal_adc_dev *)pvPortMalloc(sizeof(*adc_dev));
 	if (!adc_dev) return (NULL);
 	
 	adc_dev->magic = PIOS_ADC_DEV_MAGIC;
@@ -256,9 +263,9 @@ static struct pios_adc_dev * PIOS_ADC_Allocate()
 /**
  * @brief Init the ADC.
  */
-int32_t PIOS_ADC_Init(const struct pios_adc_cfg * cfg)
+int32_t PIOS_INTERNAL_ADC_Init(uint32_t * internal_adc_id, const struct pios_internal_adc_cfg * cfg)
 {
-	pios_adc_dev = PIOS_ADC_Allocate();
+        pios_adc_dev = PIOS_ADC_Allocate();
 	if (pios_adc_dev == NULL)
 		return -1;
 	
@@ -274,7 +281,7 @@ int32_t PIOS_ADC_Init(const struct pios_adc_cfg * cfg)
 	init_dma();
 	init_adc();
 #endif
-
+	*internal_adc_id = (uint32_t)pios_adc_dev;
 	return 0;
 }
 
@@ -293,9 +300,11 @@ void PIOS_ADC_Config(uint32_t oversampling)
  * @return ADC pin value averaged over the set of samples since the last reading.
  * @return -1 if pin doesn't exist
  * @return -2 if no data acquired since last read
+ * TODO we currently ignore internal_adc_id since this driver doesn't support multiple instances
+ * TODO we should probably refactor this similarly to the new F3 driver
  */
 int32_t last_conv_value;
-int32_t PIOS_ADC_PinGet(uint32_t pin)
+static int32_t PIOS_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin)
 {
 #if defined(PIOS_INCLUDE_ADC)
 	int32_t	result;
@@ -327,17 +336,6 @@ void PIOS_ADC_SetCallback(ADCCallback new_function)
 {
 	pios_adc_dev->callback_function = new_function;
 }
-
-#if defined(PIOS_INCLUDE_FREERTOS)
-/**
- * @brief Register a queue to add data to when downsampled 
- * @note Not currently supported.
- */
-void PIOS_ADC_SetQueue(xQueueHandle data_queue) 
-{
-	pios_adc_dev->data_queue = data_queue;
-}
-#endif
 
 /**
  * @brief Return the address of the downsampled data buffer
@@ -426,7 +424,7 @@ void accumulate(uint16_t *buffer, uint32_t count)
  *
  * The hardware is done with the 'other' buffer, so we can pass it to the accumulator.
  */
-void PIOS_ADC_DMA_Handler(void)
+void PIOS_INTERNAL_ADC_DMA_Handler(void)
 {
 	if (!PIOS_ADC_validate(pios_adc_dev))
 		return;
