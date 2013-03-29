@@ -652,7 +652,7 @@ static void PIOS_LSM303_Task(void *parameters)
 			normalized_data.z = -data.accel_z * accel_scale;
 			normalized_data.temperature = 0;
 
-			xQueueSend(dev->queue_accel, (void *)&normalized_data, 0);
+			xQueueSendToBack(dev->queue_accel, (void *)&normalized_data, 0);
 		}
 
 		/*
@@ -692,7 +692,7 @@ static void PIOS_LSM303_Task(void *parameters)
 
 				normalized_data.z = -data.mag_z * mag_scale_z;
 
-				xQueueSend(dev->queue_mag, (void *)&normalized_data, 0);
+				xQueueSendToBack(dev->queue_mag, (void *)&normalized_data, 0);
 			}
 		}
 	}
