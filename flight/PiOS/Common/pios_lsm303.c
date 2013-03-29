@@ -38,15 +38,13 @@
 
 /* Global Variables */
 
-enum pios_lsm303_dev_magic
-{
+enum pios_lsm303_dev_magic {
     PIOS_LSM303_DEV_MAGIC = 0xef8e9e1d,
 };
 
 #define PIOS_LSM303_MAX_QUEUESIZE 2
 
-struct lsm303_dev
-{
+struct lsm303_dev {
 	uint32_t i2c_id;
 	uint8_t i2c_addr_accel;
 	uint8_t i2c_addr_mag;
@@ -61,16 +59,14 @@ struct lsm303_dev
 };
 
 //! Internal representation of unscaled accelerometer data
-struct pios_lsm303_accel_data
-{
+struct pios_lsm303_accel_data {
 	int16_t accel_x;
 	int16_t accel_y;
 	int16_t accel_z;
 };
 
 //! Internal representation of unscaled magnetometer data
-struct pios_lsm303_mag_data
-{
+struct pios_lsm303_mag_data {
 	int16_t mag_x;
 	int16_t mag_y;
 	int16_t mag_z;
@@ -105,24 +101,21 @@ static struct lsm303_dev *PIOS_LSM303_alloc(void)
 
 	lsm303_dev->queue_accel = xQueueCreate(PIOS_LSM303_MAX_QUEUESIZE, sizeof(struct pios_sensor_accel_data));
 
-	if (lsm303_dev->queue_accel == NULL)
-	{
+	if (lsm303_dev->queue_accel == NULL) {
 		vPortFree(lsm303_dev);
 		return NULL;
 	}
 
 	lsm303_dev->queue_mag = xQueueCreate(PIOS_LSM303_MAX_QUEUESIZE, sizeof(struct pios_sensor_mag_data));
 
-	if (lsm303_dev->queue_mag == NULL)
-	{
+	if (lsm303_dev->queue_mag == NULL) {
 		vPortFree(lsm303_dev);
 		return NULL;
 	}
 
 	lsm303_dev->data_ready_sema = xSemaphoreCreateMutex();
 
-	if (lsm303_dev->data_ready_sema == NULL)
-	{
+	if (lsm303_dev->data_ready_sema == NULL) {
 		vPortFree(lsm303_dev);
 		return NULL;
 	}
@@ -161,8 +154,7 @@ int32_t PIOS_LSM303_Init(uint32_t i2c_id, const struct pios_lsm303_cfg *cfg)
 
 	dev->i2c_id = i2c_id;
 
-	switch (cfg->devicetype)
-	{
+	switch (cfg->devicetype) {
 	case PIOS_LSM303DLHC_DEVICE:
 		dev->i2c_addr_accel = 0x19;
 		dev->i2c_addr_mag = 0x1e;
@@ -256,13 +248,11 @@ static int32_t PIOS_LSM303_Accel_Read(uint8_t address, uint8_t *buffer, uint8_t 
 	if (PIOS_LSM303_Validate(dev) != 0)
 		return -1;
 
-	uint8_t addr_buffer[] =
-	{
+	uint8_t addr_buffer[] = {
 		len <= 1 ? address : (address | 0x80),
 	};
 
-	const struct pios_i2c_txn txn_list[] =
-	{
+	const struct pios_i2c_txn txn_list[] = {
 		{
 			.info = __func__,
 			.addr = dev->i2c_addr_accel,
@@ -295,14 +285,12 @@ static int32_t PIOS_LSM303_Accel_Write(uint8_t address, uint8_t buffer)
 	if (PIOS_LSM303_Validate(dev) != 0)
 		return -1;
 
-	uint8_t data[] =
-	{
+	uint8_t data[] = {
 		address,
 		buffer,
 	};
 
-	const struct pios_i2c_txn txn_list[] =
-	{
+	const struct pios_i2c_txn txn_list[] = {
 		{
 			.info = __func__,
 			.addr = dev->i2c_addr_accel,
@@ -329,13 +317,11 @@ static int32_t PIOS_LSM303_Mag_Read(uint8_t address, uint8_t *buffer, uint8_t le
 	if (PIOS_LSM303_Validate(dev) != 0)
 		return -1;
 
-	uint8_t addr_buffer[] =
-	{
+	uint8_t addr_buffer[] = {
 		len <= 1 ? address : (address | 0x80),
 	};
 
-	const struct pios_i2c_txn txn_list[] =
-	{
+	const struct pios_i2c_txn txn_list[] = {
 		{
 			.info = __func__,
 			.addr = dev->i2c_addr_mag,
@@ -368,14 +354,12 @@ static int32_t PIOS_LSM303_Mag_Write(uint8_t address, uint8_t buffer)
 	if (PIOS_LSM303_Validate(dev) != 0)
 		return -1;
 
-	uint8_t data[] =
-	{
+	uint8_t data[] = {
 		address,
 		buffer,
 	};
 
-	const struct pios_i2c_txn txn_list[] =
-	{
+	const struct pios_i2c_txn txn_list[] = {
 		{
 			.info = __func__,
 			.addr = dev->i2c_addr_mag,
@@ -438,8 +422,7 @@ static int32_t PIOS_LSM303_Mag_SetReg(uint8_t reg, uint8_t data)
  */
 static int32_t PIOS_LSM303_Accel_ReadData(struct pios_lsm303_accel_data *data)
 {
-	if (PIOS_LSM303_Accel_Read(PIOS_LSM303_OUT_X_L_A, (uint8_t *)data, sizeof(*data)) < 0)
-	{
+	if (PIOS_LSM303_Accel_Read(PIOS_LSM303_OUT_X_L_A, (uint8_t *)data, sizeof(*data)) < 0) {
 		return -2;
 	}
 
@@ -455,8 +438,7 @@ static int32_t PIOS_LSM303_Mag_ReadData(struct pios_lsm303_mag_data *data)
 {
 	uint8_t temp[6];
 
-	if (PIOS_LSM303_Mag_Read(PIOS_LSM303_OUT_X_H_M, temp, sizeof(temp)) < 0)
-	{
+	if (PIOS_LSM303_Mag_Read(PIOS_LSM303_OUT_X_H_M, temp, sizeof(temp)) < 0) {
 		return -2;
 	}
 
@@ -518,17 +500,13 @@ static float PIOS_LSM303_Accel_GetScale()
 {
 	// Not validating device here for efficiency
 
-	switch (dev->accel_range)
-	{
+	switch (dev->accel_range) {
 	case PIOS_LSM303_ACCEL_2G:
 		return GRAVITY / (16 * 1000.0f);    //1mg/LSB, left shifted by four bits
-
 	case PIOS_LSM303_ACCEL_4G:
 		return GRAVITY / (16 * 500.0f);     //2mg/LSB, left shifted by four bits
-
 	case PIOS_LSM303_ACCEL_8G:
 		return GRAVITY / (16 * 250.0f);     //4mg/LSB, left shifted by four bits
-
 	case PIOS_LSM303_ACCEL_16G:
 		return GRAVITY / (16 * 250.0f / 3); //12mg/LSB, left shifted by four bits
 	}
@@ -540,26 +518,19 @@ static float PIOS_LSM303_Mag_GetScaleXY()
 {
 	// Not validating device here for efficiency
 
-	switch (dev->mag_range)
-	{
+	switch (dev->mag_range) {
 	case PIOS_LSM303_MAG_1_3GA:
 		return 1000.0f / 1100.0f; //[mg/LSB]
-
 	case PIOS_LSM303_MAG_1_9GA:
 		return 1000.0f / 855.0f;  //[mg/LSB]
-
 	case PIOS_LSM303_MAG_2_5GA:
 		return 1000.0f / 670.0f;  //[mg/LSB]
-
 	case PIOS_LSM303_MAG_4_0GA:
 		return 1000.0f / 450.0f;  //[mg/LSB]
-
 	case PIOS_LSM303_MAG_4_7GA:
 		return 1000.0f / 400.0f;  //[mg/LSB]
-
 	case PIOS_LSM303_MAG_5_6GA:
 		return 1000.0f / 330.0f;  //[mg/LSB]
-
 	case PIOS_LSM303_MAG_8_1GA:
 		return 1000.0f / 230.0f;  //[mg/LSB]
 	}
@@ -571,26 +542,19 @@ static float PIOS_LSM303_Mag_GetScaleZ()
 {
 	// Not validating device here for efficiency
 
-	switch (dev->mag_range)
-	{
+	switch (dev->mag_range) {
 	case PIOS_LSM303_MAG_1_3GA:
 		return 1000.0f / 980.0f;  //[mg/LSB]
-
 	case PIOS_LSM303_MAG_1_9GA:
 		return 1000.0f / 760.0f;  //[mg/LSB]
-
 	case PIOS_LSM303_MAG_2_5GA:
 		return 1000.0f / 600.0f;  //[mg/LSB]
-
 	case PIOS_LSM303_MAG_4_0GA:
 		return 1000.0f / 400.0f;  //[mg/LSB]
-
 	case PIOS_LSM303_MAG_4_7GA:
 		return 1000.0f / 355.0f;  //[mg/LSB]
-
 	case PIOS_LSM303_MAG_5_6GA:
 		return 1000.0f / 295.0f;  //[mg/LSB]
-
 	case PIOS_LSM303_MAG_8_1GA:
 		return 1000.0f / 205.0f;  //[mg/LSB]
 	}
@@ -642,11 +606,9 @@ bool PIOS_LSM303_IRQHandler(void)
 
 static void PIOS_LSM303_Task(void *parameters)
 {
-	while (1)
-	{
+	while (1) {
 		//Wait for data ready interrupt
-		if (xSemaphoreTake(dev->data_ready_sema, 5 * portTICK_RATE_MS) != pdTRUE)
-		{
+		if (xSemaphoreTake(dev->data_ready_sema, 5 * portTICK_RATE_MS) != pdTRUE) {
 			// If this expires kick start the sensor
 			struct pios_lsm303_accel_data data;
 			PIOS_LSM303_Accel_ReadData(&data);
@@ -659,8 +621,7 @@ static void PIOS_LSM303_Task(void *parameters)
 		{
 			struct pios_lsm303_accel_data data;
 
-			if (PIOS_LSM303_Accel_ReadData(&data) < 0)
-			{
+			if (PIOS_LSM303_Accel_ReadData(&data) < 0) {
 				continue;
 			}
 
@@ -668,24 +629,20 @@ static void PIOS_LSM303_Task(void *parameters)
 
 			struct pios_sensor_accel_data normalized_data;
 
-			switch (dev->cfg->orientation)
-			{
+			switch (dev->cfg->orientation) {
 			default:
 			case PIOS_LSM303_TOP_0DEG:
 				normalized_data.x = +data.accel_x * accel_scale;
 				normalized_data.y = -data.accel_y * accel_scale;
 				break;
-
 			case PIOS_LSM303_TOP_90DEG:
 				normalized_data.x = +data.accel_y * accel_scale;
 				normalized_data.y = +data.accel_x * accel_scale;
 				break;
-
 			case PIOS_LSM303_TOP_180DEG:
 				normalized_data.x = -data.accel_x * accel_scale;
 				normalized_data.y = +data.accel_y * accel_scale;
 				break;
-
 			case PIOS_LSM303_TOP_270DEG:
 				normalized_data.x = -data.accel_y * accel_scale;
 				normalized_data.y = -data.accel_x * accel_scale;
@@ -702,12 +659,10 @@ static void PIOS_LSM303_Task(void *parameters)
 		 * Process mag data
 		 */
 		{
-			if ((PIOS_LSM303_Mag_GetReg(PIOS_LSM303_SR_REG_M) & PIOS_LSM303_SR_DRDY) != 0)
-			{
+			if ((PIOS_LSM303_Mag_GetReg(PIOS_LSM303_SR_REG_M) & PIOS_LSM303_SR_DRDY) != 0) {
 				struct pios_lsm303_mag_data data;
 
-				if (PIOS_LSM303_Mag_ReadData(&data) < 0)
-				{
+				if (PIOS_LSM303_Mag_ReadData(&data) < 0) {
 					continue;
 				}
 
@@ -715,24 +670,20 @@ static void PIOS_LSM303_Task(void *parameters)
 				float mag_scale_z = PIOS_LSM303_Mag_GetScaleZ();
 				struct pios_sensor_mag_data normalized_data;
 
-				switch (dev->cfg->orientation)
-				{
+				switch (dev->cfg->orientation) {
 				default:
 				case PIOS_LSM303_TOP_0DEG:
 					normalized_data.x = +data.mag_x * mag_scale_xy;
 					normalized_data.y = -data.mag_y * mag_scale_xy;
 					break;
-
 				case PIOS_LSM303_TOP_90DEG:
 					normalized_data.x = +data.mag_y * mag_scale_xy;
 					normalized_data.y = +data.mag_x * mag_scale_xy;
 					break;
-
 				case PIOS_LSM303_TOP_180DEG:
 					normalized_data.x = -data.mag_x * mag_scale_xy;
 					normalized_data.y = +data.mag_y * mag_scale_xy;
 					break;
-
 				case PIOS_LSM303_TOP_270DEG:
 					normalized_data.x = -data.mag_y * mag_scale_xy;
 					normalized_data.y = -data.mag_x * mag_scale_xy;
