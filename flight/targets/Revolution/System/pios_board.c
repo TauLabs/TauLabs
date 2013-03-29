@@ -40,17 +40,19 @@
 #include "hwrevolution.h"
 #include "modulesettings.h"
 #include "manualcontrolsettings.h"
+#include "pios_internal_adc_priv.h"
+#include "pios_adc_priv.h"
 
 /**
  * Sensor configurations 
  */
 
 #if defined(PIOS_INCLUDE_ADC)
-#include "pios_adc_priv.h"
+uintptr_t pios_internal_adc_id;
 void PIOS_ADC_DMC_irq_handler(void);
 void DMA2_Stream4_IRQHandler(void) __attribute__((alias("PIOS_ADC_DMC_irq_handler")));
-struct pios_adc_cfg pios_adc_cfg = {
-	.adc_dev = ADC1,
+struct pios_internal_adc_cfg pios_adc_cfg = {
+	.adc_dev_master = ADC1,
 	.dma = {
 		.irq = {
 			.flags   = (DMA_FLAG_TCIF4 | DMA_FLAG_TEIF4 | DMA_FLAG_HTIF4),
@@ -76,7 +78,7 @@ struct pios_adc_cfg pios_adc_cfg = {
 void PIOS_ADC_DMC_irq_handler(void)
 {
 	/* Call into the generic code to handle the IRQ for this specific device */
-	PIOS_ADC_DMA_Handler();
+        PIOS_INTERNAL_ADC_DMA_Handler();
 }
 
 #endif
@@ -910,7 +912,9 @@ void PIOS_Board_Init(void) {
 	PIOS_DELAY_WaitmS(50);
 
 #if defined(PIOS_INCLUDE_ADC)
-	PIOS_ADC_Init(&pios_adc_cfg);
+	uint32_t internal_adc_id;
+	PIOS_INTERNAL_ADC_Init(&internal_adc_id, &pios_adc_cfg);
+	PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);
 #endif
 
 #if defined(PIOS_INCLUDE_HMC5883)
