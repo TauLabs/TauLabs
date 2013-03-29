@@ -38,16 +38,14 @@
 #include "fifo_buffer.h"
 
 /* Global Variables */
-enum pios_l3gd20_dev_magic
-{
+enum pios_l3gd20_dev_magic {
     PIOS_L3GD20_DEV_MAGIC = 0x9d39bced,
 };
 
 #define PIOS_L3GD20_QUEUESIZE 2
 
 //! Local types
-struct l3gd20_dev
-{
+struct l3gd20_dev {
 	uint32_t spi_id;
 	uint32_t slave_num;
 	xQueueHandle queue;
@@ -58,8 +56,7 @@ struct l3gd20_dev
 	volatile bool configured;
 };
 
-struct pios_l3gd20_data
-{
+struct pios_l3gd20_data {
 	int16_t gyro_x;
 	int16_t gyro_y;
 	int16_t gyro_z;
@@ -101,8 +98,7 @@ static struct l3gd20_dev *PIOS_L3GD20_alloc(void)
 
 	l3gd20_dev->queue = xQueueCreate(PIOS_L3GD20_QUEUESIZE, sizeof(struct pios_sensor_gyro_data));
 
-	if (l3gd20_dev->queue == NULL)
-	{
+	if (l3gd20_dev->queue == NULL) {
 		vPortFree(l3gd20_dev);
 		return NULL;
 	}
@@ -342,8 +338,7 @@ static int32_t PIOS_L3GD20_ReadGyros(struct pios_l3gd20_data *data)
 	if (PIOS_L3GD20_ClaimBus() != 0)
 		return -1;
 
-	if (PIOS_SPI_TransferBlock(dev->spi_id, &buf[0], &rec[0], sizeof(buf), NULL) < 0)
-	{
+	if (PIOS_SPI_TransferBlock(dev->spi_id, &buf[0], &rec[0], sizeof(buf), NULL) < 0) {
 		PIOS_L3GD20_ReleaseBus();
 		data->gyro_x = 0;
 		data->gyro_y = 0;
@@ -379,14 +374,11 @@ static float PIOS_L3GD20_GetScale()
 	if (PIOS_L3GD20_Validate(dev) != 0)
 		return -1;
 
-	switch (dev->range)
-	{
+	switch (dev->range) {
 	case PIOS_L3GD20_SCALE_250_DEG:
 		return 0.00875f;
-
 	case PIOS_L3GD20_SCALE_500_DEG:
 		return 0.01750f;
-
 	case PIOS_L3GD20_SCALE_2000_DEG:
 		return 0.070f;
 	}
@@ -432,8 +424,7 @@ bool PIOS_L3GD20_IRQHandler(void)
 	if (PIOS_L3GD20_ClaimBusIsr(&woken) != 0)
 		return woken;
 
-	if (PIOS_SPI_TransferBlock(dev->spi_id, &buf[0], &rec[0], sizeof(buf), NULL) < 0)
-	{
+	if (PIOS_SPI_TransferBlock(dev->spi_id, &buf[0], &rec[0], sizeof(buf), NULL) < 0) {
 		PIOS_L3GD20_ReleaseBusIsr(&woken);
 		return woken;
 	}
