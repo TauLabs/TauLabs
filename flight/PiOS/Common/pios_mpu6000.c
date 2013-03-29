@@ -38,15 +38,13 @@
 
 /* Global Variables */
 
-enum pios_mpu6000_dev_magic
-{
+enum pios_mpu6000_dev_magic {
     PIOS_MPU6000_DEV_MAGIC = 0x9da9b3ed,
 };
 
 #define PIOS_MPU6000_MAX_QUEUESIZE 2
 
-struct mpu6000_dev
-{
+struct mpu6000_dev {
 	uint32_t spi_id;
 	uint32_t slave_num;
 	enum pios_mpu60x0_accel_range accel_range;
@@ -88,16 +86,14 @@ static struct mpu6000_dev *PIOS_MPU6000_alloc(void)
 
 	mpu6000_dev->accel_queue = xQueueCreate(PIOS_MPU6000_MAX_QUEUESIZE, sizeof(struct pios_sensor_accel_data));
 
-	if (mpu6000_dev->accel_queue == NULL)
-	{
+	if (mpu6000_dev->accel_queue == NULL) {
 		vPortFree(mpu6000_dev);
 		return NULL;
 	}
 
 	mpu6000_dev->gyro_queue = xQueueCreate(PIOS_MPU6000_MAX_QUEUESIZE, sizeof(struct pios_sensor_gyro_data));
 
-	if (mpu6000_dev->gyro_queue == NULL)
-	{
+	if (mpu6000_dev->gyro_queue == NULL) {
 		vPortFree(mpu6000_dev);
 		return NULL;
 	}
@@ -351,14 +347,12 @@ static int32_t PIOS_MPU6000_SetReg(uint8_t reg, uint8_t data)
 	if (PIOS_MPU6000_ClaimBus() != 0)
 		return -1;
 
-	if (PIOS_SPI_TransferByte(dev->spi_id, 0x7f & reg) != 0)
-	{
+	if (PIOS_SPI_TransferByte(dev->spi_id, 0x7f & reg) != 0) {
 		PIOS_MPU6000_ReleaseBus();
 		return -2;
 	}
 
-	if (PIOS_SPI_TransferByte(dev->spi_id, data) != 0)
-	{
+	if (PIOS_SPI_TransferByte(dev->spi_id, data) != 0) {
 		PIOS_MPU6000_ReleaseBus();
 		return -3;
 	}
@@ -391,17 +385,13 @@ static int32_t PIOS_MPU6000_ReadID()
  */
 static float PIOS_MPU6000_GetGyroScale()
 {
-	switch (dev->gyro_range)
-	{
+	switch (dev->gyro_range) {
 	case PIOS_MPU60X0_SCALE_250_DEG:
 		return 1.0f / 131.0f;
-
 	case PIOS_MPU60X0_SCALE_500_DEG:
 		return 1.0f / 65.5f;
-
 	case PIOS_MPU60X0_SCALE_1000_DEG:
 		return 1.0f / 32.8f;
-
 	case PIOS_MPU60X0_SCALE_2000_DEG:
 		return 1.0f / 16.4f;
 	}
@@ -415,17 +405,13 @@ static float PIOS_MPU6000_GetGyroScale()
  */
 static float PIOS_MPU6000_GetAccelScale()
 {
-	switch (dev->accel_range)
-	{
+	switch (dev->accel_range) {
 	case PIOS_MPU60X0_ACCEL_2G:
 		return GRAVITY / 16384.0f;
-
 	case PIOS_MPU60X0_ACCEL_4G:
 		return GRAVITY / 8192.0f;
-
 	case PIOS_MPU60X0_ACCEL_8G:
 		return GRAVITY / 4096.0f;
-
 	case PIOS_MPU60X0_ACCEL_16G:
 		return GRAVITY / 2048.0f;
 	}
@@ -465,8 +451,7 @@ bool PIOS_MPU6000_IRQHandler(void)
 	if (PIOS_MPU6000_ClaimBusISR(&woken) != 0)
 		return false;
 
-	enum
-	{
+	enum {
 	    IDX_ACCEL_XOUT_H = 1,
 	    IDX_ACCEL_XOUT_L,
 	    IDX_ACCEL_YOUT_H,
@@ -487,8 +472,7 @@ bool PIOS_MPU6000_IRQHandler(void)
 	uint8_t mpu6000_send_buf[BUFFER_SIZE] = { PIOS_MPU60X0_ACCEL_X_OUT_MSB | 0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 	uint8_t mpu6000_rec_buf[BUFFER_SIZE];
 
-	if (PIOS_SPI_TransferBlock(dev->spi_id, mpu6000_send_buf, mpu6000_rec_buf, sizeof(mpu6000_send_buf), NULL) < 0)
-	{
+	if (PIOS_SPI_TransferBlock(dev->spi_id, mpu6000_send_buf, mpu6000_rec_buf, sizeof(mpu6000_send_buf), NULL) < 0) {
 		PIOS_MPU6000_ReleaseBusISR(&woken);
 		return false;
 	}
@@ -506,29 +490,25 @@ bool PIOS_MPU6000_IRQHandler(void)
 	struct pios_sensor_accel_data accel_data;
 	struct pios_sensor_gyro_data gyro_data;
 
-	switch (dev->cfg->orientation)
-	{
+	switch (dev->cfg->orientation) {
 	case PIOS_MPU60X0_TOP_0DEG:
 		accel_data.y = (int16_t)(mpu6000_rec_buf[IDX_ACCEL_XOUT_H] << 8 | mpu6000_rec_buf[IDX_ACCEL_XOUT_L]);
 		accel_data.x = (int16_t)(mpu6000_rec_buf[IDX_ACCEL_YOUT_H] << 8 | mpu6000_rec_buf[IDX_ACCEL_YOUT_L]);
 		gyro_data.y  = (int16_t)(mpu6000_rec_buf[IDX_GYRO_XOUT_H] << 8 | mpu6000_rec_buf[IDX_GYRO_XOUT_L]);
 		gyro_data.x  = (int16_t)(mpu6000_rec_buf[IDX_GYRO_YOUT_H] << 8 | mpu6000_rec_buf[IDX_GYRO_YOUT_L]);
 		break;
-
 	case PIOS_MPU60X0_TOP_90DEG:
 		accel_data.y = - (int16_t)(mpu6000_rec_buf[IDX_ACCEL_YOUT_H] << 8 | mpu6000_rec_buf[IDX_ACCEL_YOUT_L]);
 		accel_data.x = (int16_t)(mpu6000_rec_buf[IDX_ACCEL_XOUT_H] << 8 | mpu6000_rec_buf[IDX_ACCEL_XOUT_L]);
 		gyro_data.y  = - (int16_t)(mpu6000_rec_buf[IDX_GYRO_YOUT_H] << 8 | mpu6000_rec_buf[IDX_GYRO_YOUT_L]);
 		gyro_data.x  = (int16_t)(mpu6000_rec_buf[IDX_GYRO_XOUT_H] << 8 | mpu6000_rec_buf[IDX_GYRO_XOUT_L]);
 		break;
-
 	case PIOS_MPU60X0_TOP_180DEG:
 		accel_data.y = - (int16_t)(mpu6000_rec_buf[IDX_ACCEL_XOUT_H] << 8 | mpu6000_rec_buf[IDX_ACCEL_XOUT_L]);
 		accel_data.x = - (int16_t)(mpu6000_rec_buf[IDX_ACCEL_YOUT_H] << 8 | mpu6000_rec_buf[IDX_ACCEL_YOUT_L]);
 		gyro_data.y  = - (int16_t)(mpu6000_rec_buf[IDX_GYRO_XOUT_H] << 8 | mpu6000_rec_buf[IDX_GYRO_XOUT_L]);
 		gyro_data.x  = - (int16_t)(mpu6000_rec_buf[IDX_GYRO_YOUT_H] << 8 | mpu6000_rec_buf[IDX_GYRO_YOUT_L]);
 		break;
-
 	case PIOS_MPU60X0_TOP_270DEG:
 		accel_data.y = (int16_t)(mpu6000_rec_buf[IDX_ACCEL_YOUT_H] << 8 | mpu6000_rec_buf[IDX_ACCEL_YOUT_L]);
 		accel_data.x = - (int16_t)(mpu6000_rec_buf[IDX_ACCEL_XOUT_H] << 8 | mpu6000_rec_buf[IDX_ACCEL_XOUT_L]);
@@ -568,23 +548,19 @@ bool PIOS_MPU6000_IRQHandler(void)
 
 	struct pios_sensor_gyro_data gyro_data;
 
-	switch (dev->cfg->orientation)
-	{
+	switch (dev->cfg->orientation) {
 	case PIOS_MPU60X0_TOP_0DEG:
 		gyro_data.y  = (int16_t)(mpu6000_rec_buf[IDX_GYRO_XOUT_H] << 8 | mpu6000_rec_buf[IDX_GYRO_XOUT_L]);
 		gyro_data.x  = (int16_t)(mpu6000_rec_buf[IDX_GYRO_YOUT_H] << 8 | mpu6000_rec_buf[IDX_GYRO_YOUT_L]);
 		break;
-
 	case PIOS_MPU60X0_TOP_90DEG:
 		gyro_data.y  = - (int16_t)(mpu6000_rec_buf[IDX_GYRO_YOUT_H] << 8 | mpu6000_rec_buf[IDX_GYRO_YOUT_L]);
 		gyro_data.x  = (int16_t)(mpu6000_rec_buf[IDX_GYRO_XOUT_H] << 8 | mpu6000_rec_buf[IDX_GYRO_XOUT_L]);
 		break;
-
 	case PIOS_MPU60X0_TOP_180DEG:
 		gyro_data.y  = - (int16_t)(mpu6000_rec_buf[IDX_GYRO_XOUT_H] << 8 | mpu6000_rec_buf[IDX_GYRO_XOUT_L]);
 		gyro_data.x  = - (int16_t)(mpu6000_rec_buf[IDX_GYRO_YOUT_H] << 8 | mpu6000_rec_buf[IDX_GYRO_YOUT_L]);
 		break;
-
 	case PIOS_MPU60X0_TOP_270DEG:
 		gyro_data.y  = (int16_t)(mpu6000_rec_buf[IDX_GYRO_YOUT_H] << 8 | mpu6000_rec_buf[IDX_GYRO_YOUT_L]);
 		gyro_data.x  = - (int16_t)(mpu6000_rec_buf[IDX_GYRO_XOUT_H] << 8 | mpu6000_rec_buf[IDX_GYRO_XOUT_L]);
