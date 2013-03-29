@@ -30,10 +30,10 @@
 #define PIOS_DMA_H_
 
 #include <pios.h>
-
+#if defined(PIOS_INCLUDE_DMA_CB_SUBSCRIBING_FUNCTION)
 typedef void (* funcPtr)(void);
 extern void PIOS_DMA_Default_Handler();
 extern int8_t PIOS_DMA_Install_Interrupt_handler(DMA_Channel_TypeDef *channel, void * function);
 extern funcPtr pios_dma_handler_map[PIOS_DMA_MAX_CHANNELS][PIOS_DMA_MAX_HANDLERS_PER_CHANNEL];
-
+#endif /* PIOS_INCLUDE_DMA_CB_SUBSCRIBING_FUNCTION */
 #endif /* PIOS_DMA_H_ */
