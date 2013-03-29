@@ -166,7 +166,6 @@ extern uintptr_t pios_com_mavlink_id;
 // PIOS_ADC_PinGet(1) = Gyro Y
 // PIOS_ADC_PinGet(2) = Gyro X
 //-------------------------
-//#define PIOS_ADC_OVERSAMPLING_RATE		1
 #define PIOS_ADC_SUB_DRIVER_MAX_INSTANCES	5
 #define PIOS_ADC_USE_TEMP_SENSOR		1
 #define PIOS_ADC_TEMP_SENSOR_ADC		ADC1
@@ -280,4 +279,12 @@ extern uintptr_t pios_com_mavlink_id;
 #define PIOS_USB_DETECT_GPIO_PORT               GPIOC
 #define PIOS_USB_MAX_DEVS                       1
 #define PIOS_USB_DETECT_GPIO_PIN                GPIO_Pin_15
+
+//-------------------------
+// DMA
+//-------------------------
+#define PIOS_DMA_MAX_CHANNELS                   12
+#define PIOS_DMA_MAX_HANDLERS_PER_CHANNEL       3
+#define PIOS_DMA_CHANNELS {DMA1_Channel1, DMA1_Channel2, DMA1_Channel3, DMA1_Channel4, DMA1_Channel5, DMA1_Channel6, DMA1_Channel7, DMA2_Channel1, DMA2_Channel2, DMA2_Channel3, DMA2_Channel4, DMA2_Channel5}
+
 #endif /* STM32103CB_AHRS_H_ */
