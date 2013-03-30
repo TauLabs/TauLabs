@@ -163,6 +163,8 @@ int32_t PIOS_MPU6000_Init(uint32_t spi_id, uint32_t slave_num, const struct pios
 */
 static void PIOS_MPU6000_Config(const struct pios_mpu60x0_cfg *cfg)
 {
+#if defined(PIOS_MPU6000_SIMPLE_INIT_SEQUENCE)
+
 	// Reset chip registers
 	PIOS_MPU6000_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, PIOS_MPU60X0_PWRMGMT_IMU_RST);
 
@@ -198,6 +200,72 @@ static void PIOS_MPU6000_Config(const struct pios_mpu60x0_cfg *cfg)
 
 	// Interrupt enable
 	PIOS_MPU6000_SetReg(PIOS_MPU60X0_INT_EN_REG, cfg->interrupt_en);
+
+#else /* PIOS_MPU6000_SIMPLE_INIT_SEQUENCE */
+
+	/* This init sequence should really be dropped in favor of something
+	 * less redundant but it seems to be hard to get it running well
+	 * on all different targets.
+	 */
+
+	PIOS_MPU6000_ClaimBus();
+	PIOS_DELAY_WaitmS(1);
+	PIOS_MPU6000_ReleaseBus();
+	PIOS_DELAY_WaitmS(10);
+
+	// Reset chip
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, 0x80 | cfg->Pwr_mgmt_clk);
+	do {
+		PIOS_DELAY_WaitmS(5);
+	} while (PIOS_MPU6000_GetReg(PIOS_MPU60X0_PWR_MGMT_REG) & 0x80);
+
+	PIOS_DELAY_WaitmS(25);
+
+	// Reset chip and fifo
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_USER_CTRL_REG, 0x80 | 0x01 | 0x02 | 0x04);
+	do {
+		PIOS_DELAY_WaitmS(5);
+	} while (PIOS_MPU6000_GetReg(PIOS_MPU60X0_USER_CTRL_REG) & 0x07);
+
+	PIOS_DELAY_WaitmS(25);
+
+	//Power management configuration
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, cfg->Pwr_mgmt_clk);
+
+	// Interrupt configuration
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_INT_CFG_REG, cfg->interrupt_cfg);
+
+	// Interrupt configuration
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_INT_EN_REG, cfg->interrupt_en);
+
+#if defined(PIOS_MPU6000_ACCEL)
+	// Set the accel scale
+	PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
+#endif
+
+	// Digital low-pass filter and scale
+	// set this before sample rate else sample rate calculation will fail
+	PIOS_MPU6000_SetLPF(cfg->default_filter);
+
+	// Sample rate
+	PIOS_MPU6000_SetSampleRate(cfg->default_samplerate);
+
+	// Set the gyro scale
+	PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
+
+	// Interrupt configuration
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_USER_CTRL_REG, cfg->User_ctl);
+
+	//Power management configuration
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, cfg->Pwr_mgmt_clk);
+
+	// Interrupt configuration
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_INT_CFG_REG, cfg->interrupt_cfg);
+
+	// Interrupt configuration
+	PIOS_MPU6000_SetReg(PIOS_MPU60X0_INT_EN_REG, cfg->interrupt_en);
+
+#endif /* PIOS_MPU6000_SIMPLE_INIT_SEQUENCE */
 
 	pios_mpu6000_dev->configured = true;
 }
@@ -367,9 +435,6 @@ static int32_t PIOS_MPU6000_SetReg(uint8_t reg, uint8_t data)
 	}
 
 	PIOS_MPU6000_ReleaseBus();
-
-	// this delay is required else the mpu will not reliably keep the register content
-	PIOS_DELAY_WaitmS(1);
 
 	return 0;
 }
