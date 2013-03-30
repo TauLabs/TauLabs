@@ -46,7 +46,7 @@ enum pios_mpu6050_dev_magic {
     PIOS_MPU6050_DEV_MAGIC = 0xf21d26a2,
 };
 
-#define PIOS_MPU6000_MAX_QUEUESIZE 2
+#define PIOS_MPU6050_MAX_QUEUESIZE 2
 
 struct mpu6050_dev {
 	uint32_t i2c_id;
@@ -90,7 +90,7 @@ static struct mpu6050_dev *PIOS_MPU6050_alloc(void)
 	mpu6050_dev->magic = PIOS_MPU6050_DEV_MAGIC;
 
 #if defined(PIOS_MPU6050_ACCEL)
-	mpu6050_dev->accel_queue = xQueueCreate(PIOS_MPU6000_MAX_QUEUESIZE, sizeof(struct pios_sensor_accel_data));
+	mpu6050_dev->accel_queue = xQueueCreate(PIOS_MPU6050_MAX_QUEUESIZE, sizeof(struct pios_sensor_accel_data));
 
 	if (mpu6050_dev->accel_queue == NULL) {
 		vPortFree(mpu6050_dev);
@@ -98,7 +98,7 @@ static struct mpu6050_dev *PIOS_MPU6050_alloc(void)
 	}
 #endif /* PIOS_MPU6050_ACCEL */
 
-	mpu6050_dev->gyro_queue = xQueueCreate(PIOS_MPU6000_MAX_QUEUESIZE, sizeof(struct pios_sensor_gyro_data));
+	mpu6050_dev->gyro_queue = xQueueCreate(PIOS_MPU6050_MAX_QUEUESIZE, sizeof(struct pios_sensor_gyro_data));
 
 	if (mpu6050_dev->gyro_queue == NULL) {
 		vPortFree(mpu6050_dev);
@@ -176,6 +176,8 @@ int32_t PIOS_MPU6050_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_m
 */
 static void PIOS_MPU6050_Config(struct pios_mpu60x0_cfg const *cfg)
 {
+#if defined(PIOS_MPU6050_SIMPLE_INIT_SEQUENCE)
+
 	// Reset chip
 	PIOS_MPU6050_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, PIOS_MPU60X0_PWRMGMT_IMU_RST);
 
@@ -211,6 +213,67 @@ static void PIOS_MPU6050_Config(struct pios_mpu60x0_cfg const *cfg)
 
 	// Interrupt enable
 	PIOS_MPU6050_SetReg(PIOS_MPU60X0_INT_EN_REG, cfg->interrupt_en);
+
+#else /* PIOS_MPU6050_SIMPLE_INIT_SEQUENCE */
+
+	/* This init sequence should really be dropped in favor of something
+	 * less redundant but it seems to be hard to get it running well
+	 * on all different targets.
+	 */
+
+	// Reset chip
+	PIOS_MPU6050_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, 0x80 | cfg->Pwr_mgmt_clk);
+	do {
+		PIOS_DELAY_WaitmS(5);
+	} while (PIOS_MPU6050_GetReg(PIOS_MPU60X0_PWR_MGMT_REG) & 0x80);
+
+	PIOS_DELAY_WaitmS(25);
+
+	// Reset chip and fifo
+	PIOS_MPU6050_SetReg(PIOS_MPU60X0_USER_CTRL_REG, 0x80 | 0x01 | 0x02 | 0x04);
+	do {
+		PIOS_DELAY_WaitmS(5);
+	} while (PIOS_MPU6050_GetReg(PIOS_MPU60X0_USER_CTRL_REG) & 0x07);
+
+	PIOS_DELAY_WaitmS(25);
+
+	//Power management configuration
+	PIOS_MPU6050_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, cfg->Pwr_mgmt_clk);
+
+	// Interrupt configuration
+	PIOS_MPU6050_SetReg(PIOS_MPU60X0_INT_CFG_REG, cfg->interrupt_cfg);
+
+	// Interrupt enable
+	PIOS_MPU6050_SetReg(PIOS_MPU60X0_INT_EN_REG, cfg->interrupt_en);
+
+#if defined(PIOS_MPU6050_ACCEL)
+	// Set the accel scale
+	PIOS_MPU6050_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
+#endif
+
+	// Digital low-pass filter and scale
+	// set this before sample rate else sample rate calculation will fail
+	PIOS_MPU6050_SetLPF(cfg->default_filter);
+
+	// Sample rate
+	PIOS_MPU6050_SetSampleRate(cfg->default_samplerate);
+
+	// Set the gyro scale
+	PIOS_MPU6050_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
+
+	// User control
+	PIOS_MPU6050_SetReg(PIOS_MPU60X0_USER_CTRL_REG, cfg->User_ctl);
+
+	//Power management configuration
+	PIOS_MPU6050_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, cfg->Pwr_mgmt_clk);
+
+	// Interrupt configuration
+	PIOS_MPU6050_SetReg(PIOS_MPU60X0_INT_CFG_REG, cfg->interrupt_cfg);
+
+	// Interrupt enable
+	PIOS_MPU6050_SetReg(PIOS_MPU60X0_INT_EN_REG, cfg->interrupt_en);
+
+#endif /* PIOS_MPU6050_SIMPLE_INIT_SEQUENCE */
 }
 
 /**
@@ -363,14 +426,7 @@ static int32_t PIOS_MPU6050_GetReg(uint8_t reg)
  */
 static int32_t PIOS_MPU6050_SetReg(uint8_t reg, uint8_t data)
 {
-	int32_t result = PIOS_MPU6050_Write(reg, data);
-
-	if (result == 0) {
-		// this delay is required else the mpu will not reliably keep the register content
-		PIOS_DELAY_WaitmS(1);
-	}
-
-	return result;
+	return PIOS_MPU6050_Write(reg, data);
 }
 
 /*
