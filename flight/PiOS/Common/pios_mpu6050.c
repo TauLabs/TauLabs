@@ -481,7 +481,7 @@ static void PIOS_MPU6050_Task(void *parameters)
 		    BUFFER_SIZE,
 		};
 
-		static uint8_t mpu6050_rec_buf[BUFFER_SIZE];
+		uint8_t mpu6050_rec_buf[BUFFER_SIZE];
 
 		if (PIOS_MPU6050_Read(PIOS_MPU60X0_ACCEL_X_OUT_MSB, mpu6050_rec_buf, sizeof(mpu6050_rec_buf)) < 0) {
 			continue;
