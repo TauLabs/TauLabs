@@ -189,8 +189,6 @@ private:
     bool dirty;
     bool setFieldFromWidget(QWidget *widget, UAVObjectField *field, int index, double scale);
     bool setWidgetFromField(QWidget *widget, UAVObjectField *field, int index, double scale, bool hasLimits);
-    QVariant getVariantFromWidget(QWidget *widget, double scale);
-    bool setWidgetFromVariant(QWidget *widget,QVariant value,double scale);
     void connectWidgetUpdatesToSlot(QWidget *widget, const char *function);
     void disconnectWidgetUpdatesToSlot(QWidget *widget, const char *function);
     void loadWidgetLimits(QWidget *widget, UAVObjectField *field, int index, bool hasLimits, double sclale);
@@ -208,6 +206,8 @@ protected slots:
 protected:
     virtual void enableControls(bool enable);
     void checkWidgetsLimits(QWidget *widget, UAVObjectField *field, int index, bool hasLimits, QVariant value, double scale);
+    virtual QVariant getVariantFromWidget(QWidget *widget, double scale);
+    virtual bool setWidgetFromVariant(QWidget *widget,QVariant value,double scale);
 };
 
 #endif // CONFIGTASKWIDGET_H

@@ -1100,39 +1100,11 @@ QVariant ConfigTaskWidget::getVariantFromWidget(QWidget * widget,double scale)
     }
     else if(QGroupBox * groupBox=qobject_cast<QGroupBox *>(widget))
     {
-        QString ret;
-        if(groupBox->property("TrueString").isValid() && groupBox->property("FalseString").isValid()){
-            if(groupBox->isChecked())
-                ret = groupBox->property("TrueString").toString();
-            else
-                ret = groupBox->property("FalseString").toString();
-        }
-        else{
-            if(groupBox->isChecked())
-                ret = "TRUE";
-            else
-                ret = "FALSE";
-        }
-
-        return ret;
+        return (QString)(groupBox->isChecked() ? "TRUE":"FALSE");
     }
     else if(QCheckBox * checkBox=qobject_cast<QCheckBox *>(widget))
     {
-        QString ret;
-        if(checkBox->property("TrueString").isValid() && checkBox->property("FalseString").isValid()){
-            if(checkBox->isChecked())
-                ret = checkBox->property("TrueString").toString();
-            else
-                ret = checkBox->property("FalseString").toString();
-        }
-        else{
-            if(checkBox->isChecked())
-                ret = "TRUE";
-            else
-                ret = "FALSE";
-        }
-
-        return ret;
+        return (QString)(checkBox->isChecked() ? "TRUE":"FALSE");
     }
     else if(QLineEdit * lineEdit=qobject_cast<QLineEdit *>(widget))
     {
@@ -1180,25 +1152,13 @@ bool ConfigTaskWidget::setWidgetFromVariant(QWidget *widget, QVariant value, dou
     }
     else if(QGroupBox * groupBox=qobject_cast<QGroupBox *>(widget))
     {
-        bool bvalue;
-        if(groupBox->property("TrueString").isValid() && groupBox->property("FalseString").isValid()){
-            bvalue = value.toString()==groupBox->property("TrueString").toString();
-        }
-        else{
-            bvalue = value.toString()=="TRUE";
-        }
+        bool bvalue=value.toString()=="TRUE";
         groupBox->setChecked(bvalue);
         return true;
     }
     else if(QCheckBox * checkBox=qobject_cast<QCheckBox *>(widget))
     {
-        bool bvalue;
-        if(checkBox->property("TrueString").isValid() && checkBox->property("FalseString").isValid()){
-            bvalue = value.toString()==checkBox->property("TrueString").toString();
-        }
-        else{
-            bvalue = value.toString()=="TRUE";
-        }
+        bool bvalue=value.toString()=="TRUE";
         checkBox->setChecked(bvalue);
         return true;
     }
