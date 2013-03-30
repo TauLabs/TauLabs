@@ -1,14 +1,14 @@
 /**
  ******************************************************************************
  *
- * @file       stmplugin.cpp
+ * @file       vrbrain.h
  * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup Boards_Stm STM boards support Plugin
+ * @addtogroup Boards_Stm Stm boards support Plugin
  * @{
- * @brief Plugin to support boards by STM
+ * @brief Plugin to support boards from STM
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -25,53 +25,26 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+#ifndef VRBRAIN_H
+#define VRBRAIN_H
 
-#include "stmplugin.h"
-#include "flyingf3.h"
-#include "flyingf4.h"
-#include "discoveryf4.h"
-#include "vrbrain.h"
-#include <QtPlugin>
+#include <coreplugin/iboardtype.h>
 
+class IBoardType;
 
-StmPlugin::StmPlugin()
+class Vrbrain : public Core::IBoardType
 {
-   // Do nothing
-}
+public:
+    Vrbrain();
+    virtual ~Vrbrain();
 
-StmPlugin::~StmPlugin()
-{
-   // Do nothing
-}
+    virtual QString shortName();
+    virtual QString boardDescription();
+    virtual bool queryCapabilities(BoardCapabilities capability);
+    virtual QStringList getSupportedProtocols();
+    virtual QPixmap* getBoardPicture() { return new QPixmap; }
 
-bool StmPlugin::initialize(const QStringList& args, QString *errMsg)
-{
-   Q_UNUSED(args);
-   Q_UNUSED(errMsg);
-   return true;
-}
+};
 
-void StmPlugin::extensionsInitialized()
-{
-    /**
-     * Create the board objects here.
-     *
-     */
-    FlyingF3* flyingf3 = new FlyingF3();
-    addAutoReleasedObject(flyingf3);
 
-    FlyingF4* flyingf4 = new FlyingF4();
-    addAutoReleasedObject(flyingf4);
-
-    DiscoveryF4* discoveryf4 = new DiscoveryF4();
-    addAutoReleasedObject(discoveryf4);
-
-    Vrbrain* vrbrain = new Vrbrain();
-    addAutoReleasedObject(vrbrain);
-}
-
-void StmPlugin::shutdown()
-{
-}
-
-Q_EXPORT_PLUGIN(StmPlugin)
+#endif // VRBRAIN_H
