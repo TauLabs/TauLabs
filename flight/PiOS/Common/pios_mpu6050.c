@@ -543,11 +543,9 @@ static void PIOS_MPU6050_Task(void *parameters)
 		gyro_data.z *= gyro_scale;
 		gyro_data.temperature = temperature;
 
-		portBASE_TYPE xHigherPriorityTaskWoken_accel;
-		xQueueSendToBackFromISR(dev->accel_queue, (void *)&accel_data, &xHigherPriorityTaskWoken_accel);
+		xQueueSendToBack(dev->accel_queue, (void *)&accel_data, 0);
 
-		portBASE_TYPE xHigherPriorityTaskWoken_gyro;
-		xQueueSendToBackFromISR(dev->gyro_queue, (void *)&gyro_data, &xHigherPriorityTaskWoken_gyro);
+		xQueueSendToBack(dev->gyro_queue, (void *)&gyro_data, 0);
 
 #else
 
@@ -584,8 +582,7 @@ static void PIOS_MPU6050_Task(void *parameters)
 		gyro_data.z *= gyro_scale;
 		gyro_data.temperature = temperature;
 
-		portBASE_TYPE xHigherPriorityTaskWoken_gyro;
-		xQueueSendToBackFromISR(dev->gyro_queue, (void *)&gyro_data, &xHigherPriorityTaskWoken_gyro);
+		xQueueSendToBack(dev->gyro_queue, (void *)&gyro_data, 0);
 
 #endif /* PIOS_MPU6050_ACCEL */
 	}
