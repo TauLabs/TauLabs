@@ -431,16 +431,15 @@ static void updateGroundDesiredAttitude()
 
 	// Calculate direction from velocityDesired and set stabDesired.Yaw
 	stabDesired.Yaw = atan2f( velocityDesired.East, velocityDesired.North ) * RAD2DEG;
-	// TODO: Add possibility to nudge direction from manual input (if manual control is over a deadband then add to direction)
 
 	// Calculate throttle and set stabDesired.Throttle
 	float velDesired = sqrtf(powf(velocityDesired.East,2) + powf(velocityDesired.North,2));
 	float velActual = sqrtf(powf(eastVel,2) + powf(northVel,2));
+	ManualControlCommandData manualControlData;
+	ManualControlCommandGet(&manualControlData);
 	switch (guidanceSettings.ThrottleControl) {
 		case GROUNDPATHFOLLOWERSETTINGS_THROTTLECONTROL_MANUAL:
 		{
-			ManualControlCommandData manualControlData;
-			ManualControlCommandGet(&manualControlData);
 			stabDesired.Throttle = manualControlData.Throttle;
 			break;
 		}
@@ -448,12 +447,18 @@ static void updateGroundDesiredAttitude()
 		{
 			float velRatio = velDesired / guidanceSettings.HorizontalVelMax;
 			stabDesired.Throttle = guidanceSettings.MaxThrottle * velRatio;
+			if (guidanceSettings.ManualOverride == GROUNDPATHFOLLOWERSETTINGS_MANUALOVERRIDE_TRUE) {
+				stabDesired.Throttle = stabDesired.Throttle * manualControlData.Throttle;
+			}
 			break;
 		}
 		case GROUNDPATHFOLLOWERSETTINGS_THROTTLECONTROL_AUTO:
 		{
 			float velError = velDesired - velActual;
 			stabDesired.Throttle = pid_apply(&ground_pids[VELOCITY], velError, dT) + velDesired * guidanceSettings.VelocityFeedforward;
+			if (guidanceSettings.ManualOverride == GROUNDPATHFOLLOWERSETTINGS_MANUALOVERRIDE_TRUE) {
+				stabDesired.Throttle = stabDesired.Throttle * manualControlData.Throttle;
+			}
 			break;
 		}
 		default:
@@ -469,7 +474,7 @@ static void updateGroundDesiredAttitude()
 	// Set StabilizationDesired object
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
-	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK;
+	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 	StabilizationDesiredSet(&stabDesired);
 
 //	/* This is awkward.  This allows the transmitter to control the yaw while flying navigation */
