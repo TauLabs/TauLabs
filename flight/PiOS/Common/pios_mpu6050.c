@@ -65,7 +65,7 @@ struct mpu6050_dev {
 };
 
 //! Global structure for this device device
-static struct mpu6050_dev *dev;
+static struct mpu6050_dev *pios_mpu6050_dev;
 
 //! Private functions
 static struct mpu6050_dev *PIOS_MPU6050_alloc(void);
@@ -139,31 +139,31 @@ static int32_t PIOS_MPU6050_Validate(struct mpu6050_dev *dev)
  */
 int32_t PIOS_MPU6050_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_mpu60x0_cfg *cfg)
 {
-	dev = PIOS_MPU6050_alloc();
+	pios_mpu6050_dev = PIOS_MPU6050_alloc();
 
-	if (dev == NULL)
+	if (pios_mpu6050_dev == NULL)
 		return -1;
 
-	dev->i2c_id = i2c_id;
-	dev->i2c_addr = i2c_addr;
-	dev->cfg = cfg;
+	pios_mpu6050_dev->i2c_id = i2c_id;
+	pios_mpu6050_dev->i2c_addr = i2c_addr;
+	pios_mpu6050_dev->cfg = cfg;
 
 	/* Configure the MPU6050 Sensor */
 	PIOS_MPU6050_Config(cfg);
 
 	int result = xTaskCreate(PIOS_MPU6050_Task, (const signed char *)"pios_mpu6050",
 	                         MPU6050_TASK_STACK, NULL, MPU6050_TASK_PRIORITY,
-	                         &dev->TaskHandle);
+	                         &pios_mpu6050_dev->TaskHandle);
 	PIOS_Assert(result == pdPASS);
 
 	/* Set up EXTI line */
 	PIOS_EXTI_Init(cfg->exti_cfg);
 
 #if defined(PIOS_MPU6050_ACCEL)
-	PIOS_SENSORS_Register(PIOS_SENSOR_ACCEL, dev->accel_queue);
+	PIOS_SENSORS_Register(PIOS_SENSOR_ACCEL, pios_mpu6050_dev->accel_queue);
 #endif /* PIOS_MPU6050_ACCEL */
 
-	PIOS_SENSORS_Register(PIOS_SENSOR_GYRO, dev->gyro_queue);
+	PIOS_SENSORS_Register(PIOS_SENSOR_GYRO, pios_mpu6050_dev->gyro_queue);
 
 	return 0;
 }
@@ -220,7 +220,7 @@ void PIOS_MPU6050_SetGyroRange(enum pios_mpu60x0_range gyro_range)
 {
 	PIOS_MPU6050_SetReg(PIOS_MPU60X0_GYRO_CFG_REG, gyro_range);
 
-	dev->gyro_range = gyro_range;
+	pios_mpu6050_dev->gyro_range = gyro_range;
 }
 
 /**
@@ -231,7 +231,7 @@ void PIOS_MPU6050_SetAccelRange(enum pios_mpu60x0_accel_range accel_range)
 {
 	PIOS_MPU6050_SetReg(PIOS_MPU60X0_ACCEL_CFG_REG, accel_range);
 
-	dev->accel_range = accel_range;
+	pios_mpu6050_dev->accel_range = accel_range;
 }
 #endif /* PIOS_MPU6050_ACCEL */
 
@@ -243,7 +243,7 @@ void PIOS_MPU6050_SetSampleRate(uint16_t samplerate_hz)
 {
 	uint16_t filter_frequency = 8000;
 
-	if (dev->filter != PIOS_MPU60X0_LOWPASS_256_HZ)
+	if (pios_mpu6050_dev->filter != PIOS_MPU60X0_LOWPASS_256_HZ)
 		filter_frequency = 1000;
 
 	// limit samplerate to filter frequency
@@ -270,7 +270,7 @@ void PIOS_MPU6050_SetLPF(enum pios_mpu60x0_filter filter)
 {
 	PIOS_MPU6050_SetReg(PIOS_MPU60X0_DLPF_CFG_REG, filter);
 
-	dev->filter = filter;
+	pios_mpu6050_dev->filter = filter;
 }
 
 /**
@@ -291,21 +291,21 @@ static int32_t PIOS_MPU6050_Read(uint8_t address, uint8_t *buffer, uint8_t len)
 	const struct pios_i2c_txn txn_list[] = {
 		{
 			.info = __func__,
-			.addr = dev->i2c_addr,
+			.addr = pios_mpu6050_dev->i2c_addr,
 			.rw = PIOS_I2C_TXN_WRITE,
 			.len = sizeof(addr_buffer),
 			.buf = addr_buffer,
 		},
 		{
 			.info = __func__,
-			.addr = dev->i2c_addr,
+			.addr = pios_mpu6050_dev->i2c_addr,
 			.rw = PIOS_I2C_TXN_READ,
 			.len = len,
 			.buf = buffer,
 		}
 	};
 
-	return PIOS_I2C_Transfer(dev->i2c_id, txn_list, NELEMENTS(txn_list));
+	return PIOS_I2C_Transfer(pios_mpu6050_dev->i2c_id, txn_list, NELEMENTS(txn_list));
 }
 
 /**
@@ -326,14 +326,14 @@ static int32_t PIOS_MPU6050_Write(uint8_t address, uint8_t buffer)
 	const struct pios_i2c_txn txn_list[] = {
 		{
 			.info = __func__,
-			.addr = dev->i2c_addr,
+			.addr = pios_mpu6050_dev->i2c_addr,
 			.rw = PIOS_I2C_TXN_WRITE,
 			.len = sizeof(data),
 			.buf = data,
 		},
 	};
 
-	return PIOS_I2C_Transfer(dev->i2c_id, txn_list, NELEMENTS(txn_list));
+	return PIOS_I2C_Transfer(pios_mpu6050_dev->i2c_id, txn_list, NELEMENTS(txn_list));
 }
 
 /**
@@ -390,7 +390,7 @@ static int32_t PIOS_MPU6050_ReadID()
 
 static float PIOS_MPU6050_GetGyroScale()
 {
-	switch (dev->gyro_range) {
+	switch (pios_mpu6050_dev->gyro_range) {
 	case PIOS_MPU60X0_SCALE_250_DEG:
 		return 1.0f / 131.0f;
 	case PIOS_MPU60X0_SCALE_500_DEG:
@@ -407,7 +407,7 @@ static float PIOS_MPU6050_GetGyroScale()
 #if defined(PIOS_MPU6050_ACCEL)
 static float PIOS_MPU6050_GetAccelScale()
 {
-	switch (dev->accel_range) {
+	switch (pios_mpu6050_dev->accel_range) {
 	case PIOS_MPU60X0_ACCEL_2G:
 		return GRAVITY / 16384.0f;
 	case PIOS_MPU60X0_ACCEL_4G:
@@ -446,12 +446,12 @@ uint8_t PIOS_MPU6050_Test(void)
 */
 bool PIOS_MPU6050_IRQHandler(void)
 {
-	if (PIOS_MPU6050_Validate(dev) != 0)
+	if (PIOS_MPU6050_Validate(pios_mpu6050_dev) != 0)
 		return false;
 
 	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
 
-	xSemaphoreGiveFromISR(dev->data_ready_sema, &xHigherPriorityTaskWoken);
+	xSemaphoreGiveFromISR(pios_mpu6050_dev->data_ready_sema, &xHigherPriorityTaskWoken);
 
 	return xHigherPriorityTaskWoken == pdTRUE;
 }
@@ -460,7 +460,7 @@ static void PIOS_MPU6050_Task(void *parameters)
 {
 	while (1) {
 		//Wait for data ready interrupt
-		if (xSemaphoreTake(dev->data_ready_sema, portMAX_DELAY) != pdTRUE)
+		if (xSemaphoreTake(pios_mpu6050_dev->data_ready_sema, portMAX_DELAY) != pdTRUE)
 			continue;
 
 		enum {
@@ -497,7 +497,7 @@ static void PIOS_MPU6050_Task(void *parameters)
 		struct pios_sensor_accel_data accel_data;
 		struct pios_sensor_gyro_data gyro_data;
 
-		switch (dev->cfg->orientation) {
+		switch (pios_mpu6050_dev->cfg->orientation) {
 		case PIOS_MPU60X0_TOP_0DEG:
 			accel_data.y = (int16_t)(mpu6050_rec_buf[IDX_ACCEL_XOUT_H] << 8 | mpu6050_rec_buf[IDX_ACCEL_XOUT_L]);
 			accel_data.x = (int16_t)(mpu6050_rec_buf[IDX_ACCEL_YOUT_H] << 8 | mpu6050_rec_buf[IDX_ACCEL_YOUT_L]);
@@ -543,15 +543,15 @@ static void PIOS_MPU6050_Task(void *parameters)
 		gyro_data.z *= gyro_scale;
 		gyro_data.temperature = temperature;
 
-		xQueueSendToBack(dev->accel_queue, (void *)&accel_data, 0);
+		xQueueSendToBack(pios_mpu6050_dev->accel_queue, (void *)&accel_data, 0);
 
-		xQueueSendToBack(dev->gyro_queue, (void *)&gyro_data, 0);
+		xQueueSendToBack(pios_mpu6050_dev->gyro_queue, (void *)&gyro_data, 0);
 
 #else
 
 		struct pios_sensor_gyro_data gyro_data;
 
-		switch (dev->cfg->orientation) {
+		switch (pios_mpu6050_dev->cfg->orientation) {
 		case PIOS_MPU60X0_TOP_0DEG:
 			gyro_data.y  = (int16_t)(mpu6050_rec_buf[IDX_GYRO_XOUT_H] << 8 | mpu6050_rec_buf[IDX_GYRO_XOUT_L]);
 			gyro_data.x  = (int16_t)(mpu6050_rec_buf[IDX_GYRO_YOUT_H] << 8 | mpu6050_rec_buf[IDX_GYRO_YOUT_L]);
@@ -582,7 +582,7 @@ static void PIOS_MPU6050_Task(void *parameters)
 		gyro_data.z *= gyro_scale;
 		gyro_data.temperature = temperature;
 
-		xQueueSendToBack(dev->gyro_queue, (void *)&gyro_data, 0);
+		xQueueSendToBack(pios_mpu6050_dev->gyro_queue, (void *)&gyro_data, 0);
 
 #endif /* PIOS_MPU6050_ACCEL */
 	}
