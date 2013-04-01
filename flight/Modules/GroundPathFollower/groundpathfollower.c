@@ -476,49 +476,6 @@ static void updateGroundDesiredAttitude()
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 	StabilizationDesiredSet(&stabDesired);
-
-//	/* This is awkward.  This allows the transmitter to control the yaw while flying navigation */
-//	ManualControlCommandData manualControlData;
-//	ManualControlCommandGet(&manualControlData);
-//	stabDesired.Yaw = stabSettings.MaximumRate[STABILIZATIONSETTINGS_MAXIMUMRATE_YAW] * manualControlData.Yaw;
-//
-//	// Compute desired north command from velocity error
-//	northError = velocityDesired.North - northVel;
-//	northCommand = pid_apply(&ground_pids[NORTH_VELOCITY], northError, dT) + velocityDesired.North * guidanceSettings.VelocityFeedforward;
-//
-//	// Compute desired east command from velocity error
-//	eastError = velocityDesired.East - eastVel;
-//	eastCommand = pid_apply(&ground_pids[NORTH_VELOCITY], eastError, dT) + velocityDesired.East * guidanceSettings.VelocityFeedforward;
-//
-//	// Compute desired down command.  Using NED accel as the damping term
-//	downError = velocityDesired.Down - downVel;
-//	// Negative is critical here since throttle is negative with down
-//	downCommand = -pid_apply(&ground_pids[DOWN_VELOCITY], downError, dT) +
-//	    nedAccel.Down * guidanceSettings.VerticalVelPID[GROUNDPATHFOLLOWERSETTINGS_VERTICALVELPID_KD];
-//
-//	stabDesired.Throttle = bound_min_max(downCommand + throttleOffset, 0, 1);
-//
-//	// Project the north and east command signals into the pitch and roll based on yaw.  For this to behave well the
-//	// craft should move similarly for 5 deg roll versus 5 deg pitch
-//	stabDesired.Pitch = bound_min_max(-northCommand * cosf(attitudeActual.Yaw * DEG2RAD) +
-//				      -eastCommand * sinf(attitudeActual.Yaw * DEG2RAD),
-//				      -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch);
-//	stabDesired.Roll = bound_min_max(-northCommand * sinf(attitudeActual.Yaw * DEG2RAD) +
-//				     eastCommand * cosf(attitudeActual.Yaw * DEG2RAD),
-//				     -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch);
-//
-//	if(guidanceSettings.ThrottleControl == GROUNDPATHFOLLOWERSETTINGS_THROTTLECONTROL_FALSE) {
-//		// For now override throttle with manual control.  Disable at your risk, quad goes to China.
-//		ManualControlCommandData manualControl;
-//		ManualControlCommandGet(&manualControl);
-//		stabDesired.Throttle = manualControl.Throttle;
-//	}
-//
-//	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
-//	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
-//	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK;
-//
-//	StabilizationDesiredSet(&stabDesired);
 }
 
 /**
