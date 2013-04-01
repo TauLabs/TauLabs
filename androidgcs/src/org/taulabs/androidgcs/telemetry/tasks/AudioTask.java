@@ -30,6 +30,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import org.taulabs.uavtalk.UAVObject;
+import org.taulabs.uavtalk.UAVObjectField;
 import org.taulabs.uavtalk.UAVObjectManager;
 
 import android.content.Context;
@@ -117,7 +118,7 @@ public class AudioTask implements ITelemTask, TextToSpeech.OnInitListener {
 			}
 
 			if (obj.getName().compareTo("SystemAlarms") == 0) {
-				tts.speak("System Alarms " + obj.toString(), TextToSpeech.QUEUE_ADD, null);
+				alarmsUpdated(obj);
 			}
 }
 	};
@@ -127,6 +128,22 @@ public class AudioTask implements ITelemTask, TextToSpeech.OnInitListener {
 		ttsInit = true;
 		tts.setLanguage(Locale.US);
 		tts.speak("TTS running", TextToSpeech.QUEUE_ADD, null);
+	}
+
+	private void alarmsUpdated(UAVObject obj) {
+		UAVObjectField alarm = obj.getField("Alarms");
+		List<String> alarmNames = alarm.getElementNames();
+		int severity = 0;
+		for (int i = 0; i < alarm.getNumElements(); i++) {
+			int thisSeverity = (int) alarm.getDouble(i);
+			if (thisSeverity > severity)
+				severity = thisSeverity;
+			if (thisSeverity > 0) {
+				tts.speak(alarmNames.get(i) + " " + alarm.getValue(i).toString(), TextToSpeech.QUEUE_ADD, null);
+			}
+		}
+		if (severity == 0)
+			tts.speak("Alarms cleared", TextToSpeech.QUEUE_ADD, null);
 	}
 
 	private String armed = "Disarmed";
