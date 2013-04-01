@@ -131,18 +131,18 @@ public class AudioTask implements ITelemTask, TextToSpeech.OnInitListener {
 	}
 
 	private void alarmsUpdated(UAVObject obj) {
-		UAVObjectField alarm = obj.getField("Alarms");
+		UAVObjectField alarm = obj.getField("Alarm");
 		List<String> alarmNames = alarm.getElementNames();
 		int severity = 0;
 		for (int i = 0; i < alarm.getNumElements(); i++) {
 			int thisSeverity = (int) alarm.getDouble(i);
 			if (thisSeverity > severity)
 				severity = thisSeverity;
-			if (thisSeverity > 0) {
+			if (thisSeverity > 1) {
 				tts.speak(alarmNames.get(i) + " " + alarm.getValue(i).toString(), TextToSpeech.QUEUE_ADD, null);
 			}
 		}
-		if (severity == 0)
+		if (severity <= 1)
 			tts.speak("Alarms cleared", TextToSpeech.QUEUE_ADD, null);
 	}
 
