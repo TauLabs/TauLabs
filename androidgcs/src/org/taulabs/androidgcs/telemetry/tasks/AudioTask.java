@@ -134,17 +134,33 @@ public class AudioTask implements ITelemTask, TextToSpeech.OnInitListener {
 		tts.setLanguage(Locale.US);
 	}
 
+	List<String> alarmValues = null;
+
 	private void alarmsUpdated(UAVObject obj) {
 		UAVObjectField alarm = obj.getField("Alarm");
 		List<String> alarmNames = alarm.getElementNames();
+
+		if (alarmValues == null) {
+			alarmValues = new ArrayList<String>();
+			for (int i = 0; i < alarm.getNumElements(); i++) {
+				// Initialize all alarms to OK so any warnings are annouced
+				alarmValues.add("OK");
+			}
+		}
+
 		int severity = 0;
 		for (int i = 0; i < alarm.getNumElements(); i++) {
 			int thisSeverity = (int) alarm.getDouble(i);
+			String newAlarm = alarm.getValue(i).toString();
 			if (thisSeverity > severity)
 				severity = thisSeverity;
-			if (thisSeverity > 1) {
-				tts.speak(alarmNames.get(i) + " " + alarm.getValue(i).toString(), TextToSpeech.QUEUE_ADD, null);
-			}
+
+			// If alarm is set and previously wasn't described
+			if (thisSeverity > 1 && alarmValues.get(i).compareTo(newAlarm) != 0)
+				tts.speak(alarmNames.get(i) + " " + newAlarm, TextToSpeech.QUEUE_ADD, null);
+			else if (thisSeverity == 1 && alarmValues.get(i).compareTo(newAlarm) != 0)
+				tts.speak(alarmNames.get(i) + " alarm cleared", TextToSpeech.QUEUE_ADD, null);
+			alarmValues.set(i,newAlarm);
 		}
 		if (severity <= 1)
 			tts.speak("Alarms cleared", TextToSpeech.QUEUE_ADD, null);
