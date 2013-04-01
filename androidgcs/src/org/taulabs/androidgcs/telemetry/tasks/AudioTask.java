@@ -40,7 +40,7 @@ public class AudioTask implements ITelemTask, TextToSpeech.OnInitListener {
 
 	final String TAG = AudioTask.class.getSimpleName();
 	final boolean VERBOSE = false;
-	final boolean DEBUG = true;
+	final boolean DEBUG = false;
 
 	private UAVObjectManager objMngr;
 	private final List<UAVObject> listeningList = new ArrayList<UAVObject>();
@@ -109,13 +109,11 @@ public class AudioTask implements ITelemTask, TextToSpeech.OnInitListener {
 
 			UAVObject obj = (UAVObject) data;
 
-			if (DEBUG) Log.d(TAG, "Update received:" + obj.getName());
-
 			if (ttsInit == false)
 				return;
 
 			if (obj.getName().compareTo("FlightStatus") == 0) {
-				tts.speak("Flight Status" + obj.toString(), TextToSpeech.QUEUE_ADD, null);
+				flightStatusUpdated(obj);
 			}
 
 			if (obj.getName().compareTo("SystemAlarms") == 0) {
@@ -131,5 +129,23 @@ public class AudioTask implements ITelemTask, TextToSpeech.OnInitListener {
 		tts.speak("TTS running", TextToSpeech.QUEUE_ADD, null);
 	}
 
+	private String armed = "Disarmed";
+	private String flightMode = "Stabilized1";
+	private void flightStatusUpdated(UAVObject obj) {
 
+		// Announce when armed or disarmed
+		String newArmed = obj.getField("Armed").getValue().toString();
+		if (newArmed.compareTo(armed) != 0) {
+			armed = newArmed;
+			if (armed.compareTo("Arming") != 0)
+				tts.speak(newArmed, TextToSpeech.QUEUE_ADD, null);
+		}
+
+		// Announce change in flight mode
+		String newFlightMode = obj.getField("FlightMode").getValue().toString();
+		if (newFlightMode.compareTo(flightMode) != 0) {
+			flightMode = newFlightMode;
+			tts.speak("Flight Mode " + flightMode, TextToSpeech.QUEUE_ADD, null);
+		}
+	}
 }
