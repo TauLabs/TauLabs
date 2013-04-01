@@ -1,8 +1,8 @@
 /**
  ******************************************************************************
  * @file       pathplanner.c
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      Executes a series of waypoints
  * @addtogroup OpenPilotModules OpenPilot Modules
  * @{
@@ -27,6 +27,7 @@
  */
 
 #include "openpilot.h"
+#include "physical_constants.h"
 #include "paths.h"
 
 #include "flightstatus.h"
@@ -99,9 +100,9 @@ int32_t PathPlannerInitialize()
 #ifdef MODULE_PathPlanner_BUILTIN
 	module_enabled = true;
 #else
-	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
-	ModuleSettingsStateGet(module_state);
-	if (module_state[MODULESETTINGS_STATE_PATHPLANNER] == MODULESETTINGS_STATE_ENABLED) {
+	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
+	ModuleSettingsAdminStateGet(module_state);
+	if (module_state[MODULESETTINGS_ADMINSTATE_PATHPLANNER] == MODULESETTINGS_ADMINSTATE_ENABLED) {
 		module_enabled = true;
 	} else {
 		module_enabled = false;
@@ -430,8 +431,8 @@ static void createPathLogo()
 	WaypointData waypoint;
 	waypoint.Velocity = 5; // Since for now this isn't directional just set a mag
 	for(uint32_t i = 0; i < 20; i++) {
-		waypoint.Position[1] = scale * 30 * cos(i / 19.0 * 2 * M_PI);
-		waypoint.Position[0] = scale * 50 * sin(i / 19.0 * 2 * M_PI);
+		waypoint.Position[1] = scale * 30 * cosf(i / 19.0 * 2 * PI);
+		waypoint.Position[0] = scale * 50 * sinf(i / 19.0 * 2 * PI);
 		waypoint.Position[2] = -50;
 		waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
 		WaypointCreateInstance();
@@ -439,8 +440,8 @@ static void createPathLogo()
 
 	// Draw P
 	for(uint32_t i = 20; i < 35; i++) {
-		waypoint.Position[1] = scale * (55 + 20 * cos(i / 10.0 * M_PI - M_PI / 2));
-		waypoint.Position[0] = scale * (25 + 25 * sin(i / 10.0 * M_PI - M_PI / 2));
+		waypoint.Position[1] = scale * (55 + 20 * cosf(i / 10.0 * PI - PI / 2));
+		waypoint.Position[0] = scale * (25 + 25 * sinf(i / 10.0 * PI - PI / 2));
 		waypoint.Position[2] = -50;
 		waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
 		WaypointCreateInstance();

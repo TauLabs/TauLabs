@@ -59,7 +59,6 @@ static void updateSettings();
 
 #ifdef PIOS_GPS_SETS_HOMELOCATION
 static void setHomeLocation(GPSPositionData * gpsData);
-static float GravityAccel(float latitude, float longitude, float altitude);
 #endif
 
 // ****************
@@ -131,9 +130,9 @@ int32_t GPSInitialize(void)
 #ifdef MODULE_GPS_BUILTIN
 	module_enabled = true;
 #else
-	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
-	ModuleSettingsStateGet(module_state);
-	if (module_state[MODULESETTINGS_STATE_GPS] == MODULESETTINGS_STATE_ENABLED) {
+	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
+	ModuleSettingsAdminStateGet(module_state);
+	if (module_state[MODULESETTINGS_ADMINSTATE_GPS] == MODULESETTINGS_ADMINSTATE_ENABLED) {
 		module_enabled = true;
 	} else {
 		module_enabled = false;
@@ -278,20 +277,6 @@ static void gpsTask(void *parameters)
 }
 
 #ifdef PIOS_GPS_SETS_HOMELOCATION
-/*
- * Estimate the acceleration due to gravity for a particular location in LLA
- */
-static float GravityAccel(float latitude, float longitude, float altitude)
-{
-	// WGS84 gravity model.  The effect of gravity over latitude is strong
-	// enough to change the estimated accelerometer bias in those apps.
-	double sinsq = sin((double)latitude);
-	sinsq *= sinsq;
-	// Likewise, over the altitude range of a high-altitude balloon, the effect
-	// due to change in altitude can also affect the model.
-	return (float)(9.7803267714 * (1 + 0.00193185138639*sinsq) / sqrt(1 - 0.00669437999013*sinsq)
-		- 3.086e-6*altitude);
-}
 
 // ****************
 
@@ -319,7 +304,6 @@ static void setHomeLocation(GPSPositionData * gpsData)
 			// Compute local acceleration due to gravity.  Vehicles that span a very large
 			// range of altitude (say, weather balloons) may need to update this during the
 			// flight.
-			home.g_e = GravityAccel(LLA[0], LLA[1], LLA[2]);
 			home.Set = HOMELOCATION_SET_TRUE;
 			HomeLocationSet(&home);
 		}

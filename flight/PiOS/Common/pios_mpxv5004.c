@@ -10,6 +10,7 @@
  *
  * @file       pios_mpxv5004.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     TauLabs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      ETASV3 Airspeed Sensor Driver
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -88,7 +89,7 @@ float PIOS_MPXV5004_ReadAirspeed(uint8_t airspeedADCPin)
 	}
 	
 	//Compute calibraterd airspeed, as per http://en.wikipedia.org/wiki/Calibrated_airspeed
-	float calibratedAirspeed = A0*sqrt(5.0f*(pow(Qc/P0+1.0f,POWER)-1.0f));
+	float calibratedAirspeed = A0*sqrtf(5.0f*(pow(Qc/P0+1.0f,POWER)-1.0f));
 	
 	//Upper bound airspeed. No need to lower bound it, that comes from Qc
 	if (calibratedAirspeed > 80) { //in [m/s]

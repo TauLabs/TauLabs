@@ -3,7 +3,7 @@
  *
  * @file       configattitudewidget.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     PhoenixPilot, http://github.com/PhoenixPIlot Copyright (C) 2012.
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -26,6 +26,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 #include "configattitudewidget.h"
+#include "physical_constants.h"
 
 #include "math.h"
 #include <QDebug>
@@ -41,6 +42,7 @@
 #include <iostream>
 #include <QDesktopServices>
 #include <QUrl>
+#include <coreplugin/iboardtype.h>
 #include <attitudesettings.h>
 #include <inertialsensorsettings.h>
 #include <revocalibration.h>
@@ -51,7 +53,6 @@
 #include <magnetometer.h>
 #include <baroaltitude.h>
 
-#define GRAVITY 9.81f
 #include "assertions.h"
 #include "calibration.h"
 
@@ -223,6 +224,17 @@ ConfigAttitudeWidget::ConfigAttitudeWidget(QWidget *parent) :
     baro->setTransform(QTransform::fromScale(1,0),true);
 
     bool full_hardware = false;
+
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectUtilManager* utilMngr = pm->getObject<UAVObjectUtilManager>();
+    Q_ASSERT(utilMngr);
+    if (utilMngr != NULL) {
+        Core::IBoardType *board = utilMngr->getBoardType();
+        if (board != NULL)
+            full_hardware = board->queryCapabilities(Core::IBoardType::BOARD_CAPABILITIES_MAGS);
+        else
+            qDebug() << "Board not found";
+    }
 
     // Must set up the UI (above) before setting up the UAVO mappings or refreshWidgetValues
     // will be dealing with some null pointers

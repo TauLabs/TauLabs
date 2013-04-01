@@ -9,6 +9,7 @@
  *
  * @file       attitude.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      Module to handle all comms to the AHRS on a periodic basis.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -49,6 +50,7 @@
  */
 
 #include "pios.h"
+#include "physical_constants.h"
 #include "state.h"
 #include "sensorfetch.h"
 #include "attitudedrift.h"
@@ -78,11 +80,8 @@
 
 #define SENSOR_PERIOD 4
 #define LOOP_RATE_MS  25.0f
-#define GRAV         -9.805f
-#define DEG2RAD       (3.141592654f/180.0f)
-#define RAD2DEG       (180.0f/3.141592654f)
 
-#define PI_MOD(x) (fmod(x + M_PI, M_PI * 2) - M_PI)
+#define PI_MOD(x) (fmod(x + PI, PI * 2) - PI)
 // Private types
 
 // Private variables
@@ -375,7 +374,7 @@ static void StateTask(void *parameters)
 
 				// Convert from millibar to Pa
 				float staticAirDensity = staticPressure * 100 * 0.003483613507536f /
-				    (homeLocation.GroundTemperature + 273.15f);
+				    (homeLocation.GroundTemperature + CELSIUS2KELVIN);
 
 				gps_airspeed_update(&gpsVelocityData, staticAirDensity);
 #endif
@@ -554,16 +553,16 @@ static void updateSO3(float *gyros, float dT)
 		float qdot[4];
 		qdot[0] =
 		    (-glblAtt->q[1] * gyros[0] - glblAtt->q[2] * gyros[1] -
-		     glblAtt->q[3] * gyros[2]) * dT * M_PI / 180 / 2;
+		     glblAtt->q[3] * gyros[2]) * dT * DEG2RAD / 2;
 		qdot[1] =
 		    (glblAtt->q[0] * gyros[0] - glblAtt->q[3] * gyros[1] +
-		     glblAtt->q[2] * gyros[2]) * dT * M_PI / 180 / 2;
+		     glblAtt->q[2] * gyros[2]) * dT * DEG2RAD / 2;
 		qdot[2] =
 		    (glblAtt->q[3] * gyros[0] + glblAtt->q[0] * gyros[1] -
-		     glblAtt->q[1] * gyros[2]) * dT * M_PI / 180 / 2;
+		     glblAtt->q[1] * gyros[2]) * dT * DEG2RAD / 2;
 		qdot[3] =
 		    (-glblAtt->q[2] * gyros[0] + glblAtt->q[1] * gyros[1] +
-		     glblAtt->q[0] * gyros[2]) * dT * M_PI / 180 / 2;
+		     glblAtt->q[0] * gyros[2]) * dT * DEG2RAD / 2;
 
 		// Integrate a time step
 		glblAtt->q[0] = glblAtt->q[0] + qdot[0];
@@ -682,15 +681,15 @@ static void inertialSensorSettingsUpdatedCb(UAVObjEvent * objEv)
 		float sP = sinf(psi);
 
 		// In case psi is too small, we have to use a different equation to solve for theta
-		if (fabs(psi) > 3.1415f / 2)
+		if (fabs(psi) > PI / 2)
 			theta = atanf((a_sensor[1] + cP * (sP * a_sensor[0] -
 					 cP * a_sensor[1])) / (sP * a_sensor[2]));
 		else
 			theta = atanf((a_sensor[0] - sP * (sP * a_sensor[0] -
 					 cP * a_sensor[1])) / (cP * a_sensor[2]));
 
-		phi = atan2f((sP * a_sensor[0] - cP * a_sensor[1]) / GRAV,
-			   (a_sensor[2] / cosf(theta) / GRAV));
+		phi = atan2f((sP * a_sensor[0] - cP * a_sensor[1]) / (-GRAVITY),
+			   (a_sensor[2] / cosf(theta) / (-GRAVITY)));
 
 		attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_ROLL] = phi * RAD2DEG * 100.0f;
 		attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_PITCH] = theta * RAD2DEG * 100.0f;
@@ -776,7 +775,7 @@ static void HomeLocationUpdatedCb(UAVObjEvent * objEv)
 
 	// Constrain gravity to reasonable levels (Mars gravity < HomeLocation gravity < Jupiter gravity)
 	if (homeLocation.g_e < 3 || homeLocation.g_e > 25) {
-		homeLocation.g_e = 9.805;
+		homeLocation.g_e = GRAVITY;
 		HomeLocationSet(&homeLocation);
 	}
 }

@@ -92,9 +92,9 @@ int32_t TxPIDInitialize(void)
 #ifdef MODULE_TxPID_BUILTIN
 	module_enabled = true;
 #else
-	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
-	ModuleSettingsStateGet(module_state);
-	if (module_state[MODULESETTINGS_STATE_TXPID] == MODULESETTINGS_STATE_ENABLED) {
+	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
+	ModuleSettingsAdminStateGet(module_state);
+	if (module_state[MODULESETTINGS_ADMINSTATE_TXPID] == MODULESETTINGS_ADMINSTATE_ENABLED) {
 		module_enabled = true;
 	} else {
 		module_enabled = false;
