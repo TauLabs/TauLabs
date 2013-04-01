@@ -63,6 +63,9 @@ public class AudioTask implements ITelemTask, TextToSpeech.OnInitListener {
 	@Override
 	public void disconnect() {
 		unregisterAllObjects();
+		ttsInit = false;
+		tts.shutdown();
+		tts = null;
 	}
 
 	//! Register an object to inform this task on updates for logging
@@ -125,9 +128,10 @@ public class AudioTask implements ITelemTask, TextToSpeech.OnInitListener {
 
 	@Override
 	public void onInit(int status) {
+		if (tts == null && status != TextToSpeech.SUCCESS)
+			return;
 		ttsInit = true;
 		tts.setLanguage(Locale.US);
-		tts.speak("TTS running", TextToSpeech.QUEUE_ADD, null);
 	}
 
 	private void alarmsUpdated(UAVObject obj) {
