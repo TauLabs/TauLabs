@@ -161,7 +161,7 @@ void LogFile::timerFired()
         time = myTime.elapsed();
 
         //Read packets
-        while ((lastPlayTime + ((time - lastPlayTimeOffset)* playbackSpeed) > lastTimeStamp))
+        while ((lastPlayTime + ((time - lastPlayTimeOffset)* playbackSpeed) > (lastTimeStamp-firstTimestamp)))
         {
             lastPlayTime += ((time - lastPlayTimeOffset)* playbackSpeed);
             if(file.bytesAvailable() < 4) {
@@ -193,18 +193,9 @@ void LogFile::timerFired()
                 return;
             }
 
-            int save=lastTimeStamp;
-
-            lastTimeStampPos=timestampPos[timestampBufferIdx];
+            lastTimeStampPos = timestampPos[timestampBufferIdx];
             lastTimeStamp = timestampBuffer[timestampBufferIdx];
             timestampBufferIdx++;
-            // some validity checks
-            if (lastTimeStamp<save // logfile goies back in time
-                    || (lastTimeStamp-save) > (60*60*1000)) { // gap of more than 60 minutes)
-                qDebug() << "Error: Logfile corrupted! Unlikely timestamp " << lastTimeStamp << " after "<< save << "\n";
-                stopReplay();
-                return;
-            }
 
             lastPlayTimeOffset = time;
             time = myTime.elapsed();
@@ -226,9 +217,9 @@ bool LogFile::startReplay() {
     //Read all log timestamps into array
     timestampBuffer.clear(); //Save beginning of log for later use
     timestampPos.clear();
-    quint64 logFileStartIdx=file.pos();
-    timestampBufferIdx=0;
-    lastTimeStamp=0;
+    quint64 logFileStartIdx = file.pos();
+    timestampBufferIdx = 0;
+    lastTimeStamp = 0;
 
     while (!file.atEnd()){
         qint64 dataSize;
@@ -268,19 +259,20 @@ bool LogFile::startReplay() {
     if (timestampBuffer.size() == 0){
         QMessageBox msgBox;
         msgBox.setText("Empty logfile.");
-        msgBox.setInformativeText("No log data can be found."); //<--TODO: add hyperlink to webpage with better description.
+        msgBox.setInformativeText("No log data can be found.");
         msgBox.exec();
 
         stopReplay();
         return false;
     }
 
-    //Reset to log beginning. WHY DOES PLAYBACK FAIL IF I DON'T DO THIS?
+    //Reset to log beginning.
     file.seek(logFileStartIdx+sizeof(lastTimeStamp));
+    lastTimeStampPos = timestampPos[0];
+    lastTimeStamp = timestampBuffer[0];
+    firstTimestamp = timestampBuffer[0];
+    timestampBufferIdx = 1;
 
-    lastTimeStampPos=timestampPos[timestampBufferIdx];
-    lastTimeStamp = timestampBuffer[timestampBufferIdx];
-    timestampBufferIdx++;
     timer.setInterval(10);
     timer.start();
     emit replayStarted();

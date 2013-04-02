@@ -42,6 +42,7 @@
 #include <iostream>
 #include <QDesktopServices>
 #include <QUrl>
+#include <coreplugin/iboardtype.h>
 #include <attitudesettings.h>
 #include <inertialsensorsettings.h>
 #include <revocalibration.h>
@@ -218,6 +219,17 @@ ConfigAttitudeWidget::ConfigAttitudeWidget(QWidget *parent) :
     baro->setTransform(QTransform::fromScale(1,0),true);
 
     bool full_hardware = false;
+
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectUtilManager* utilMngr = pm->getObject<UAVObjectUtilManager>();
+    Q_ASSERT(utilMngr);
+    if (utilMngr != NULL) {
+        Core::IBoardType *board = utilMngr->getBoardType();
+        if (board != NULL)
+            full_hardware = board->queryCapabilities(Core::IBoardType::BOARD_CAPABILITIES_MAGS);
+        else
+            qDebug() << "Board not found";
+    }
 
     // Must set up the UI (above) before setting up the UAVO mappings or refreshWidgetValues
     // will be dealing with some null pointers

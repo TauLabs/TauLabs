@@ -1,14 +1,14 @@
 /**
  ******************************************************************************
  *
- * @file       pipxtreme.cpp
- * @author     The PhoenixPilot Team, http://github.com/PhoenixPilot Copyright (C) 2012.
+ * @file       flyingf3.cpp
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup Boards_OpenPilotPlugin OpenPilot boards support Plugin
+ * @addtogroup Boards_Stm STM boards support Plugin
  * @{
- * @brief Plugin to support boards by the OP project
+ * @brief Plugin to support boards by STM
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -26,65 +26,63 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "pipxtreme.h"
+#include "flyingf3.h"
 
 /**
- * @brief PipXtreme::PipXtreme
- *  This is the PipXtreme radio modem definition
+ * @brief FlyingF3::FlyingF3
+ *  This is the Flying F3 board definition
  */
-PipXtreme::PipXtreme(void)
+FlyingF3::FlyingF3(void)
 {
     // Initialize our USB Structure definition here:
     USBInfo board;
     board.vendorID = 0x20A0;
-    board.productID = 0x415c;
+    board.productID = 0x415b;
 
     setUSBInfo(board);
 
-    boardType = 0x03;
+    boardType = 0x83;
 }
 
-PipXtreme::~PipXtreme()
+FlyingF3::~FlyingF3()
 {
 
 }
 
-
-QString PipXtreme::shortName()
+QString FlyingF3::shortName()
 {
-    return QString("PipXtreme");
+    return QString("flyingf3");
 }
 
-QString PipXtreme::boardDescription()
+QString FlyingF3::boardDescription()
 {
-    return QString("The OpenPilot project PipXtreme RF radio modem");
+    return QString("FlyingF3");
 }
 
 //! Return which capabilities this board has
-bool PipXtreme::queryCapabilities(BoardCapabilities capability)
+bool FlyingF3::queryCapabilities(BoardCapabilities capability)
 {
     switch(capability) {
     case BOARD_CAPABILITIES_GYROS:
-        return false;
+        return true;
     case BOARD_CAPABILITIES_ACCELS:
-        return false;
+        return true;
     case BOARD_CAPABILITIES_MAGS:
-        return false;
+        return true;
     case BOARD_CAPABILITIES_BAROS:
         return false;
     case BOARD_CAPABILITIES_RADIO:
-        return true;
+        return false;
     }
     return false;
 }
 
 /**
- * @brief PipXtreme::getSupportedProtocols
+ * @brief FlyingF3::getSupportedProtocols
  *  TODO: this is just a stub, we'll need to extend this a lot with multi protocol support
- *  TODO: for the PipXtreme, depending on its configuration, it might offer several protocols (uavtalk and raw)
  * @return
  */
-QStringList PipXtreme::getSupportedProtocols()
+QStringList FlyingF3::getSupportedProtocols()
 {
 
     return QStringList("uavtalk");
