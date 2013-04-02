@@ -127,7 +127,9 @@ public class LoggingTask implements ITelemTask {
 				fileStream.write((byte)((time & 0x00ff0000) >> 16));
 				fileStream.write((byte)((time & 0xff000000) >> 24));
 
-				long size = obj.getNumBytes();
+				long size = obj.getNumBytes() + 8 + 1; // Account for size of header assuming no instance id
+				if (!obj.isSingleInstance())
+					size += 2;
 				fileStream.write((byte)(size & 0x00000000000000ffl) >> 0);
 				fileStream.write((byte)(size & 0x000000000000ff00l) >> 8);
 				fileStream.write((byte)(size & 0x0000000000ff0000l) >> 16);
