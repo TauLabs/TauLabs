@@ -255,7 +255,7 @@ public class LoggingTask implements ITelemTask {
 				Log.d(TAG, "Failed to determine description for logging");
 			} else {
 				final int GITASH_SIZE_USED = 4;
-				final int UAVOHASH_SIZE_USED = 8;
+				final int UAVOHASH_SIZE_USED = 20;
 
 				String gitHash = new String();
 				String uavoHash = new String();
@@ -271,7 +271,7 @@ public class LoggingTask implements ITelemTask {
 				if (VERBOSE) Log.v(TAG, "UAVO hash: " + uavoHash);
 
 				try {
-					fileStream.write(String.format("Tau Labs git hash: %s\n%s\n##\n", gitHash, uavoHash).getBytes());
+					fileStream.write(String.format("Tau Labs git hash:\n%s\n%s\n##\n", gitHash, uavoHash).getBytes());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
