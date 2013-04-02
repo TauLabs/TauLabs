@@ -162,8 +162,6 @@ public class AudioTask implements ITelemTask, TextToSpeech.OnInitListener {
 				tts.speak(alarmNames.get(i) + " alarm cleared", TextToSpeech.QUEUE_ADD, null);
 			alarmValues.set(i,newAlarm);
 		}
-		if (severity <= 1)
-			tts.speak("Alarms cleared", TextToSpeech.QUEUE_ADD, null);
 	}
 
 	private String armed = "Disarmed";
