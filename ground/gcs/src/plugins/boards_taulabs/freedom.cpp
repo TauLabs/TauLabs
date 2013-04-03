@@ -36,7 +36,6 @@ Freedom::Freedom(void)
     // Initialize our USB Structure definition here:
     USBInfo board;
     board.vendorID = 0x20A0;
-    // TODO: does the ProductID work here ?
     board.productID = 0x415b;
 
     setUSBInfo(board);
