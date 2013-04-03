@@ -1834,6 +1834,16 @@ static const struct pios_usb_cfg pios_usb_main_cfg = {
 			.NVIC_IRQChannelCmd                = ENABLE,
 		},
 	},
+	.vsense = {
+		.gpio = GPIOB,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_3,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_IN,
+			.GPIO_OType = GPIO_OType_OD,
+			.GPIO_PuPd  = GPIO_PuPd_NOPULL,
+		},
+	}	
 };
 
 const struct pios_usb_cfg * PIOS_BOARD_HW_DEFS_GetUsbCfg (uint32_t board_revision)
