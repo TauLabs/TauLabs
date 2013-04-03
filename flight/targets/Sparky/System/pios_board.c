@@ -1,7 +1,6 @@
 /*****************************************************************************
  * @file       pios_board.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013
  * @addtogroup OpenPilotSystem OpenPilot System
  * @{
  * @addtogroup OpenPilotCore OpenPilot Core
@@ -41,24 +40,30 @@
 #include "manualcontrolsettings.h"
 #include "modulesettings.h"
 
-/* This file defines the what and where regarding all hardware connected to the
- * FlyingF3 board. Please see hardware/Production/FlyingF3/pinout.txt for
- * an overview.
+/**
+ * Configuration for the MS5611 chip
  */
+#if defined(PIOS_INCLUDE_MS5611)
+#include "pios_ms5611_priv.h"
+static const struct pios_ms5611_cfg pios_ms5611_cfg = {
+	.oversampling = MS5611_OSR_512,
+	.temperature_interleaving = 1,
+};
+#endif /* PIOS_INCLUDE_MS5611 */
 
 /**
- * Configuration for L3GD20 chip
+ * Configuration for the MPU6050 chip
  */
-#if defined(PIOS_INCLUDE_L3GD20)
-#include "pios_l3gd20.h"
-static const struct pios_exti_cfg pios_exti_l3gd20_cfg __exti_config = {
-	.vector = PIOS_L3GD20_IRQHandler,
-	.line = EXTI_Line1,
+#if defined(PIOS_INCLUDE_MPU6050)
+#include "pios_mpu6050.h"
+static const struct pios_exti_cfg pios_exti_mpu6050_cfg __exti_config = {
+	.vector = PIOS_MPU6050_IRQHandler,
+	.line = EXTI_Line11,
 	.pin = {
-		.gpio = GPIOE,
+		.gpio = GPIOD,
 		.init = {
-			.GPIO_Pin = GPIO_Pin_1,
-			.GPIO_Speed = GPIO_Speed_50MHz,
+			.GPIO_Pin = GPIO_Pin_11,
+			.GPIO_Speed = GPIO_Speed_100MHz,
 			.GPIO_Mode = GPIO_Mode_IN,
 			.GPIO_OType = GPIO_OType_OD,
 			.GPIO_PuPd = GPIO_PuPd_NOPULL,
@@ -66,51 +71,7 @@ static const struct pios_exti_cfg pios_exti_l3gd20_cfg __exti_config = {
 	},
 	.irq = {
 		.init = {
-			.NVIC_IRQChannel = EXTI1_IRQn,
-			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH,
-			.NVIC_IRQChannelSubPriority = 0,
-			.NVIC_IRQChannelCmd = ENABLE,
-		},
-	},
-	.exti = {
-		.init = {
-			.EXTI_Line = EXTI_Line1, // matches above GPIO pin
-			.EXTI_Mode = EXTI_Mode_Interrupt,
-			.EXTI_Trigger = EXTI_Trigger_Rising,
-			.EXTI_LineCmd = ENABLE,
-		},
-	},
-};
-
-static const struct pios_l3gd20_cfg pios_l3gd20_cfg = {
-	.exti_cfg = &pios_exti_l3gd20_cfg,
-	.range = PIOS_L3GD20_SCALE_500_DEG,
-	//.orientation = PIOS_L3GD20_TOP_0DEG, FIXME
-};
-#endif /* PIOS_INCLUDE_L3GD20 */
-
-
-/**
- * Configuration for the LSM303 chip
- */
-#if defined(PIOS_INCLUDE_LSM303)
-#include "pios_lsm303.h"
-static const struct pios_exti_cfg pios_exti_lsm303_cfg __exti_config = {
-	.vector = PIOS_LSM303_IRQHandler,
-	.line = EXTI_Line4,
-	.pin = {
-		.gpio = GPIOE,
-		.init = {
-			.GPIO_Pin = GPIO_Pin_4,
-			.GPIO_Speed = GPIO_Speed_50MHz,
-			.GPIO_Mode = GPIO_Mode_IN,
-			.GPIO_OType = GPIO_OType_OD,
-			.GPIO_PuPd = GPIO_PuPd_NOPULL,
-		},
-	},
-	.irq = {
-		.init = {
-			.NVIC_IRQChannel = EXTI4_IRQn,
+			.NVIC_IRQChannel = EXTI15_10_IRQn,
 			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
 			.NVIC_IRQChannelSubPriority = 0,
 			.NVIC_IRQChannelCmd = ENABLE,
@@ -118,7 +79,7 @@ static const struct pios_exti_cfg pios_exti_lsm303_cfg __exti_config = {
 	},
 	.exti = {
 		.init = {
-			.EXTI_Line = EXTI_Line4, // matches above GPIO pin
+			.EXTI_Line = EXTI_Line11, // matches above GPIO pin
 			.EXTI_Mode = EXTI_Mode_Interrupt,
 			.EXTI_Trigger = EXTI_Trigger_Rising,
 			.EXTI_LineCmd = ENABLE,
@@ -126,12 +87,19 @@ static const struct pios_exti_cfg pios_exti_lsm303_cfg __exti_config = {
 	},
 };
 
-static const struct pios_lsm303_cfg pios_lsm303_cfg = {
-	.exti_cfg = &pios_exti_lsm303_cfg,
-	.devicetype = PIOS_LSM303DLHC_DEVICE,
-	.orientation = PIOS_LSM303_TOP_180DEG,
+static const struct pios_mpu60x0_cfg pios_mpu6050_cfg = {
+	.exti_cfg = &pios_exti_mpu6050_cfg,
+	.Fifo_store = PIOS_MPU60X0_FIFO_TEMP_OUT | PIOS_MPU60X0_FIFO_GYRO_X_OUT | PIOS_MPU60X0_FIFO_GYRO_Y_OUT | PIOS_MPU60X0_FIFO_GYRO_Z_OUT,
+	// Clock at 8 khz, downsampled by 8 for 1khz
+	.Smpl_rate_div = 11,
+	.interrupt_cfg = PIOS_MPU60X0_INT_CLR_ANYRD,
+	.interrupt_en = PIOS_MPU60X0_INTEN_DATA_RDY,
+	.User_ctl = PIOS_MPU60X0_USERCTL_FIFO_EN,
+	.Pwr_mgmt_clk = PIOS_MPU60X0_PWRMGMT_PLL_X_CLK,
+	.filter = PIOS_MPU60X0_LOWPASS_256_HZ,
+	.orientation = PIOS_MPU60X0_TOP_180DEG
 };
-#endif /* PIOS_INCLUDE_LSM303 */
+#endif /* PIOS_INCLUDE_MPU6050 */
 
 
 /* One slot per selectable receiver group.
@@ -268,15 +236,6 @@ void PIOS_Board_Init(void) {
 	PIOS_Assert(led_cfg);
 	PIOS_LED_Init(led_cfg);
 #endif	/* PIOS_INCLUDE_LED */
-
-#if defined(PIOS_INCLUDE_SPI)
-	if (PIOS_SPI_Init(&pios_spi_internal_id, &pios_spi_internal_cfg)) {
-		PIOS_DEBUG_Assert(0);
-	}
-	if (PIOS_SPI_Init(&pios_spi_external_id, &pios_spi_external_cfg)) {
-		PIOS_DEBUG_Assert(0);
-	}
-#endif
 
 #if defined(PIOS_INCLUDE_I2C)
 	if (PIOS_I2C_Init(&pios_i2c_internal_id, &pios_i2c_internal_cfg)) {
@@ -966,71 +925,49 @@ void PIOS_Board_Init(void) {
 	PIOS_DELAY_WaitmS(200);
 	PIOS_WDG_Clear();
 
-#if defined(PIOS_INCLUDE_L3GD20) && defined(PIOS_INCLUDE_SPI)
-	if (PIOS_L3GD20_Init(pios_spi_internal_id, 0, &pios_l3gd20_cfg) != 0)
-		panic(1);
-	if (PIOS_L3GD20_Test() != 0)
-		panic(1);
+#if defined(PIOS_INCLUDE_MPU6050)
+
+	if (PIOS_MPU6050_Init(pios_i2c_10dof_adapter_id, PIOS_MPU6050_I2C_ADD_A0_LOW, &pios_mpu6050_cfg) != 0)
+		panic(2);
+	if (PIOS_MPU6050_Test() != 0)
+		panic(2);
 
 	// To be safe map from UAVO enum to driver enum
-	/*
-	 * FIXME: add support for this to l3gd20 driver
 	uint8_t hw_gyro_range;
-	HwFlyingF3GyroRangeGet(&hw_gyro_range);
+	HwFlyingF4GyroRangeGet(&hw_gyro_range);
 	switch(hw_gyro_range) {
-		case HWFLYINGF3_GYRORANGE_250:
-			PIOS_L3GD20_SetRange(PIOS_L3GD20_SCALE_250_DEG);
+		case HWFLYINGF4_GYRORANGE_250:
+			PIOS_MPU6050_SetGyroRange(PIOS_MPU60X0_SCALE_250_DEG);
 			break;
-		case HWFLYINGF3_GYRORANGE_500:
-			PIOS_L3GD20_SetRange(PIOS_L3GD20_SCALE_500_DEG);
+		case HWFLYINGF4_GYRORANGE_500:
+			PIOS_MPU6050_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
 			break;
-		case HWFLYINGF3_GYRORANGE_1000:
-			//FIXME: how to behave in this case?
-			PIOS_L3GD20_SetRange(PIOS_L3GD20_SCALE_2000_DEG);
+		case HWFLYINGF4_GYRORANGE_1000:
+			PIOS_MPU6050_SetGyroRange(PIOS_MPU60X0_SCALE_1000_DEG);
 			break;
-		case HWFLYINGF3_GYRORANGE_2000:
-			PIOS_L3GD20_SetRange(PIOS_L3GD20_SCALE_2000_DEG);
+		case HWFLYINGF4_GYRORANGE_2000:
+			PIOS_MPU6050_SetGyroRange(PIOS_MPU60X0_SCALE_2000_DEG);
 			break;
 	}
-	*/
-
-	PIOS_WDG_Clear();
-	PIOS_DELAY_WaitmS(50);
-	PIOS_WDG_Clear();
-#endif /* PIOS_INCLUDE_L3GD20 && PIOS_INCLUDE_I2C*/
-
-#if defined(PIOS_INCLUDE_LSM303) && defined(PIOS_INCLUDE_I2C)
-	if (PIOS_LSM303_Init(pios_i2c_internal_id, &pios_lsm303_cfg) != 0)
-		panic(2);
-	if (PIOS_LSM303_Accel_Test() != 0)
-		panic(2);
-	if (PIOS_LSM303_Mag_Test() != 0)
-		panic(2);
 
 	uint8_t hw_accel_range;
-	HwFlyingF3AccelRangeGet(&hw_accel_range);
+	HwFlyingF4AccelRangeGet(&hw_accel_range);
 	switch(hw_accel_range) {
-		case HWFLYINGF3_ACCELRANGE_2G:
-			PIOS_LSM303_Accel_SetRange(PIOS_LSM303_ACCEL_2G);
+		case HWFLYINGF4_ACCELRANGE_2G:
+			PIOS_MPU6050_SetAccelRange(PIOS_MPU60X0_ACCEL_2G);
 			break;
-		case HWFLYINGF3_ACCELRANGE_4G:
-			PIOS_LSM303_Accel_SetRange(PIOS_LSM303_ACCEL_4G);
+		case HWFLYINGF4_ACCELRANGE_4G:
+			PIOS_MPU6050_SetAccelRange(PIOS_MPU60X0_ACCEL_4G);
 			break;
-		case HWFLYINGF3_ACCELRANGE_8G:
-			PIOS_LSM303_Accel_SetRange(PIOS_LSM303_ACCEL_8G);
+		case HWFLYINGF4_ACCELRANGE_8G:
+			PIOS_MPU6050_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
 			break;
-		case HWFLYINGF3_ACCELRANGE_16G:
-			PIOS_LSM303_Accel_SetRange(PIOS_LSM303_ACCEL_16G);
+		case HWFLYINGF4_ACCELRANGE_16G:
+			PIOS_MPU6050_SetAccelRange(PIOS_MPU60X0_ACCEL_16G);
 			break;
 	}
 
-	//there is no setting for the mag scale yet
-	PIOS_LSM303_Mag_SetRange(PIOS_LSM303_MAG_1_9GA);
-
-	PIOS_WDG_Clear();
-	PIOS_DELAY_WaitmS(50);
-	PIOS_WDG_Clear();
-#endif /* PIOS_INCLUDE_LSM303 && PIOS_INCLUDE_I2C*/
+#endif /* PIOS_INCLUDE_MPU6050 */
 
 #if defined(PIOS_INCLUDE_GPIO)
 	PIOS_GPIO_Init();
