@@ -86,7 +86,7 @@ void I2C2_ER_IRQHandler() __attribute__ ((alias ("PIOS_I2C_internal_er_irq_handl
 
 static const struct pios_i2c_adapter_cfg pios_i2c_internal_cfg = {
   .regs = I2C2,
-  .remap = GPIO_AF_I2C2,
+  .remap = GPIO_AF_4,
   .init = {
     .I2C_Mode                = I2C_Mode_I2C,
     .I2C_OwnAddress1         = 0,
@@ -161,7 +161,7 @@ void I2C1_ER_IRQHandler() __attribute__ ((alias ("PIOS_I2C_external_er_irq_handl
 
 static const struct pios_i2c_adapter_cfg pios_i2c_external_cfg = {
   .regs = I2C1,
-  .remap = GPIO_AF_I2C1,
+  .remap = GPIO_AF_4,
   .init = {
     .I2C_Mode                = I2C_Mode_I2C,
     .I2C_OwnAddress1         = 0,
