@@ -318,8 +318,8 @@ SUBDIRS += plugin_sysalarmsmessaging
 
 # Tau Labs project
 plugin_boards_taulabs.subdir = boards_taulabs
-plugin_boards_taulabs.depends = plugin_coreplugin
-plugin_boards_taulabs.depends = plugin_uavobjects
+plugin_boards_taulabs.depends += plugin_coreplugin
+plugin_boards_taulabs.depends += plugin_uavobjects
 SUBDIRS += plugin_boards_taulabs
 
 # OpenPilot project
