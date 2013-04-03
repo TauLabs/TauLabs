@@ -122,8 +122,7 @@ SRC += $(MATHLIB)/pid.c
 include $(PIOS)/STM32F30x/library.mk
 
 ## PIOS Hardware (Common)
-SRC += $(PIOSCOMMON)/pios_l3gd20.c
-SRC += $(PIOSCOMMON)/pios_lsm303.c
+SRC += $(PIOSCOMMON)/pios_mpu6050.c
 SRC += $(PIOSCOMMON)/pios_crc.c
 SRC += $(PIOSCOMMON)/pios_com.c
 SRC += $(PIOSCOMMON)/pios_rcvr.c
