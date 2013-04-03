@@ -243,12 +243,6 @@ void PIOS_Board_Init(void) {
 	}
 	if (PIOS_I2C_CheckClear(pios_i2c_internal_id) != 0)
 		panic(3);
-
-	if (PIOS_I2C_Init(&pios_i2c_external_id, &pios_i2c_external_cfg)) {
-		PIOS_DEBUG_Assert(0);
-	}
-	if (PIOS_I2C_CheckClear(pios_i2c_external_id) != 0)
-		panic(4);
 #endif
 
 #if defined(PIOS_INCLUDE_FLASH)
