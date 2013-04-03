@@ -33,9 +33,9 @@
 static const struct pios_led pios_leds[] = {
 	[PIOS_LED_HEARTBEAT] = {
 		.pin = {
-			.gpio = GPIOC,
+			.gpio = GPIOB,
 			.init = {
-				.GPIO_Pin   = GPIO_Pin_13,
+				.GPIO_Pin   = GPIO_Pin_4,
 				.GPIO_Speed = GPIO_Speed_50MHz,
 				.GPIO_Mode  = GPIO_Mode_OUT,
 				.GPIO_OType = GPIO_OType_PP,
@@ -46,9 +46,9 @@ static const struct pios_led pios_leds[] = {
 	},
 	[PIOS_LED_ALARM] = {
 		.pin = {
-			.gpio = GPIOC,
+			.gpio = GPIOB,
 			.init = {
-				.GPIO_Pin   = GPIO_Pin_14,
+				.GPIO_Pin   = GPIO_Pin_5,
 				.GPIO_Speed = GPIO_Speed_50MHz,
 				.GPIO_Mode  = GPIO_Mode_OUT,
 				.GPIO_OType = GPIO_OType_PP,
@@ -72,204 +72,6 @@ const struct pios_led_cfg * PIOS_BOARD_HW_DEFS_GetLedCfg (uint32_t board_revisio
 #endif	/* PIOS_INCLUDE_LED */
 
 
-#if defined(PIOS_INCLUDE_SPI)
-#include <pios_spi_priv.h>
-
-/* SPI1 Interface
- *      - Used for internal gyro
- */
-void PIOS_SPI_internal_irq_handler(void);
-void SPI1_IRQHandler(void) __attribute__((alias("PIOS_SPI_internal_irq_handler")));
-static const struct pios_spi_cfg pios_spi_internal_cfg = {
-	.regs = SPI1,
-	.remap = GPIO_AF_5,
-	.init = {
-		.SPI_Mode              = SPI_Mode_Master,
-		.SPI_Direction         = SPI_Direction_2Lines_FullDuplex,
-		.SPI_DataSize          = SPI_DataSize_8b,
-		.SPI_NSS               = SPI_NSS_Soft,
-		.SPI_FirstBit          = SPI_FirstBit_MSB,
-		.SPI_CRCPolynomial     = 7,
-		.SPI_CPOL              = SPI_CPOL_Low,
-		.SPI_CPHA              = SPI_CPHA_1Edge,
-		.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_8,
-	},
-	.use_crc = false,
-	.sclk = {
-		.gpio = GPIOA,
-		.init = {
-			.GPIO_Pin = GPIO_Pin_5,
-			.GPIO_Speed = GPIO_Speed_50MHz,
-			.GPIO_Mode = GPIO_Mode_AF,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd = GPIO_PuPd_NOPULL
-		},
-		.pin_source = GPIO_PinSource5,
-	},
-	.miso = {
-		.gpio = GPIOA,
-		.init = {
-			.GPIO_Pin = GPIO_Pin_6,
-			.GPIO_Speed = GPIO_Speed_50MHz,
-			.GPIO_Mode = GPIO_Mode_AF,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd = GPIO_PuPd_NOPULL
-		},
-		.pin_source = GPIO_PinSource6,
-	},
-	.mosi = {
-		.gpio = GPIOA,
-		.init = {
-			.GPIO_Pin = GPIO_Pin_7,
-			.GPIO_Speed = GPIO_Speed_50MHz,
-			.GPIO_Mode = GPIO_Mode_AF,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd = GPIO_PuPd_NOPULL
-		},
-		.pin_source = GPIO_PinSource7,
-	},
-	.slave_count = 1,
-	.ssel = { {
-		.gpio = GPIOE,
-		.init = {
-			.GPIO_Pin = GPIO_Pin_3,
-			.GPIO_Speed = GPIO_Speed_50MHz,
-			.GPIO_Mode  = GPIO_Mode_OUT,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd = GPIO_PuPd_UP
-		},
-	} },
-};
-
-uint32_t pios_spi_internal_id;
-void PIOS_SPI_internal_irq_handler(void)
-{
-	/* Call into the generic code to handle the IRQ for this specific device */
-	PIOS_SPI_IRQ_Handler(pios_spi_internal_id);
-}
-
-
-/* SPI3 Interface
- *      - Used for optional external components
- */
-void PIOS_SPI_external_irq_handler(void);
-void SPI3_IRQHandler(void) __attribute__((alias("PIOS_SPI_external_irq_handler")));
-static const struct pios_spi_cfg pios_spi_external_cfg = {
-	.regs = SPI3,
-	.remap = GPIO_AF_6,
-	.init = {
-		.SPI_Mode              = SPI_Mode_Master,
-		.SPI_Direction         = SPI_Direction_2Lines_FullDuplex,
-		.SPI_DataSize          = SPI_DataSize_8b,
-		.SPI_NSS               = SPI_NSS_Soft,
-		.SPI_FirstBit          = SPI_FirstBit_MSB,
-		.SPI_CRCPolynomial     = 7,
-		.SPI_CPOL              = SPI_CPOL_Low,
-		.SPI_CPHA              = SPI_CPHA_1Edge,
-		.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_8,
-	},
-	.use_crc = false,
-	.sclk = {
-		.gpio = GPIOB,
-		.init = {
-			.GPIO_Pin = GPIO_Pin_3,
-			.GPIO_Speed = GPIO_Speed_50MHz,
-			.GPIO_Mode = GPIO_Mode_AF,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd = GPIO_PuPd_NOPULL
-		},
-		.pin_source = GPIO_PinSource3,
-	},
-	.miso = {
-		.gpio = GPIOB,
-		.init = {
-			.GPIO_Pin = GPIO_Pin_4,
-			.GPIO_Speed = GPIO_Speed_50MHz,
-			.GPIO_Mode = GPIO_Mode_AF,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd = GPIO_PuPd_NOPULL
-		},
-		.pin_source = GPIO_PinSource4,
-	},
-	.mosi = {
-		.gpio = GPIOB,
-		.init = {
-			.GPIO_Pin = GPIO_Pin_5,
-			.GPIO_Speed = GPIO_Speed_50MHz,
-			.GPIO_Mode = GPIO_Mode_AF,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd = GPIO_PuPd_NOPULL
-		},
-		.pin_source = GPIO_PinSource5,
-	},
-	.slave_count = 5,
-	.ssel = {
-		{
-			.gpio = GPIOA,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_15,
-				.GPIO_Speed = GPIO_Speed_50MHz,
-				.GPIO_Mode  = GPIO_Mode_OUT,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd = GPIO_PuPd_UP
-			},
-		},
-		{
-			.gpio = GPIOB,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_10,
-				.GPIO_Speed = GPIO_Speed_50MHz,
-				.GPIO_Mode  = GPIO_Mode_OUT,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd = GPIO_PuPd_UP
-			},
-		},
-		{
-			.gpio = GPIOB,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_11,
-				.GPIO_Speed = GPIO_Speed_50MHz,
-				.GPIO_Mode  = GPIO_Mode_OUT,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd = GPIO_PuPd_UP
-			},
-		},
-		{
-			.gpio = GPIOB,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_12,
-				.GPIO_Speed = GPIO_Speed_50MHz,
-				.GPIO_Mode  = GPIO_Mode_OUT,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd = GPIO_PuPd_UP
-			},
-		},
-		{
-			.gpio = GPIOB,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_13,
-				.GPIO_Speed = GPIO_Speed_50MHz,
-				.GPIO_Mode  = GPIO_Mode_OUT,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd = GPIO_PuPd_UP
-			},
-		},
-	},
-};
-
-uint32_t pios_spi_external_id;
-void PIOS_SPI_external_irq_handler(void)
-{
-	/* Call into the generic code to handle the IRQ for this specific device */
-	PIOS_SPI_IRQ_Handler(pios_spi_external_id);
-}
-
-
-#endif	/* PIOS_INCLUDE_SPI */
-
-
-
-
 #if defined(PIOS_INCLUDE_I2C)
 
 #include <pios_i2c_priv.h>
@@ -279,12 +81,12 @@ void PIOS_SPI_external_irq_handler(void)
  */
 void PIOS_I2C_internal_ev_irq_handler(void);
 void PIOS_I2C_internal_er_irq_handler(void);
-void I2C1_EV_EXTI23_IRQHandler() __attribute__ ((alias ("PIOS_I2C_internal_ev_irq_handler")));
-void I2C1_ER_IRQHandler() __attribute__ ((alias ("PIOS_I2C_internal_er_irq_handler")));
+void I2C2_EV_EXTI23_IRQHandler() __attribute__ ((alias ("PIOS_I2C_internal_ev_irq_handler")));
+void I2C2_ER_IRQHandler() __attribute__ ((alias ("PIOS_I2C_internal_er_irq_handler")));
 
 static const struct pios_i2c_adapter_cfg pios_i2c_internal_cfg = {
-  .regs = I2C1,
-  .remap = GPIO_AF_4,
+  .regs = I2C2,
+  .remap = GPIO_AF_I2C2,
   .init = {
     .I2C_Mode                = I2C_Mode_I2C,
     .I2C_OwnAddress1         = 0,
@@ -296,9 +98,9 @@ static const struct pios_i2c_adapter_cfg pios_i2c_internal_cfg = {
   },
   .transfer_timeout_ms = 50,
   .scl = {
-    .gpio = GPIOB,
+    .gpio = GPIOA,
     .init = {
-			.GPIO_Pin = GPIO_Pin_6,
+			.GPIO_Pin = GPIO_Pin_9,
             .GPIO_Mode  = GPIO_Mode_AF,
             .GPIO_Speed = GPIO_Speed_50MHz,
             .GPIO_OType = GPIO_OType_PP,
@@ -307,9 +109,9 @@ static const struct pios_i2c_adapter_cfg pios_i2c_internal_cfg = {
 	.pin_source = GPIO_PinSource6,
   },
   .sda = {
-    .gpio = GPIOB,
+    .gpio = GPIOA,
     .init = {
-			.GPIO_Pin = GPIO_Pin_7,
+			.GPIO_Pin = GPIO_Pin_10,
             .GPIO_Mode  = GPIO_Mode_AF,
             .GPIO_Speed = GPIO_Speed_50MHz,
             .GPIO_OType = GPIO_OType_PP,
@@ -320,7 +122,7 @@ static const struct pios_i2c_adapter_cfg pios_i2c_internal_cfg = {
   .event = {
     .flags   = 0,		/* FIXME: check this */
     .init = {
-			.NVIC_IRQChannel = I2C1_EV_IRQn,
+			.NVIC_IRQChannel = I2C2_EV_IRQn,
 			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGHEST,
 			.NVIC_IRQChannelSubPriority = 0,
 			.NVIC_IRQChannelCmd = ENABLE,
@@ -329,7 +131,7 @@ static const struct pios_i2c_adapter_cfg pios_i2c_internal_cfg = {
   .error = {
     .flags   = 0,		/* FIXME: check this */
     .init = {
-			.NVIC_IRQChannel = I2C1_ER_IRQn,
+			.NVIC_IRQChannel = I2C2_ER_IRQn,
 			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGHEST,
 			.NVIC_IRQChannelSubPriority = 0,
 			.NVIC_IRQChannelCmd = ENABLE,
@@ -352,14 +154,14 @@ void PIOS_I2C_internal_er_irq_handler(void)
 
 
 
-void PIOS_I2C_external_ev_irq_handler(void);
-void PIOS_I2C_external_er_irq_handler(void);
-void I2C2_EV_EXTI24_IRQHandler() __attribute__ ((alias ("PIOS_I2C_external_ev_irq_handler")));
-void I2C2_ER_IRQHandler() __attribute__ ((alias ("PIOS_I2C_external_er_irq_handler")));
+void PIOS_I2C_internal_ev_irq_handler(void);
+void PIOS_I2C_internal_er_irq_handler(void);
+void I2C1_EV_EXTI24_IRQHandler() __attribute__ ((alias ("PIOS_I2C_external_ev_irq_handler")));
+void I2C1_ER_IRQHandler() __attribute__ ((alias ("PIOS_I2C_external_er_irq_handler")));
 
 static const struct pios_i2c_adapter_cfg pios_i2c_external_cfg = {
-  .regs = I2C2,
-  .remap = GPIO_AF_4,
+  .regs = I2C1,
+  .remap = GPIO_AF_I2C1,
   .init = {
     .I2C_Mode                = I2C_Mode_I2C,
     .I2C_OwnAddress1         = 0,
@@ -395,7 +197,7 @@ static const struct pios_i2c_adapter_cfg pios_i2c_external_cfg = {
   .event = {
     .flags   = 0,		/* FIXME: check this */
     .init = {
-			.NVIC_IRQChannel = I2C2_EV_IRQn,
+			.NVIC_IRQChannel = I2C1_EV_IRQn,
 			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGHEST,
 			.NVIC_IRQChannelSubPriority = 0,
 			.NVIC_IRQChannelCmd = ENABLE,
@@ -404,7 +206,7 @@ static const struct pios_i2c_adapter_cfg pios_i2c_external_cfg = {
   .error = {
     .flags   = 0,		/* FIXME: check this */
     .init = {
-			.NVIC_IRQChannel = I2C2_ER_IRQn,
+			.NVIC_IRQChannel = I2C1_ER_IRQn,
 			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGHEST,
 			.NVIC_IRQChannelSubPriority = 0,
 			.NVIC_IRQChannelCmd = ENABLE,
