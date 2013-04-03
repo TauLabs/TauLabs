@@ -58,12 +58,12 @@ static const struct pios_ms5611_cfg pios_ms5611_cfg = {
 #include "pios_mpu6050.h"
 static const struct pios_exti_cfg pios_exti_mpu6050_cfg __exti_config = {
 	.vector = PIOS_MPU6050_IRQHandler,
-	.line = EXTI_Line11,
+	.line = EXTI_Line15,
 	.pin = {
-		.gpio = GPIOD,
+		.gpio = GPIOA,
 		.init = {
-			.GPIO_Pin = GPIO_Pin_11,
-			.GPIO_Speed = GPIO_Speed_100MHz,
+			.GPIO_Pin = GPIO_Pin_15,
+			.GPIO_Speed = GPIO_Speed_50MHz,
 			.GPIO_Mode = GPIO_Mode_IN,
 			.GPIO_OType = GPIO_OType_OD,
 			.GPIO_PuPd = GPIO_PuPd_NOPULL,
@@ -79,7 +79,7 @@ static const struct pios_exti_cfg pios_exti_mpu6050_cfg __exti_config = {
 	},
 	.exti = {
 		.init = {
-			.EXTI_Line = EXTI_Line11, // matches above GPIO pin
+			.EXTI_Line = EXTI_Line15, // matches above GPIO pin
 			.EXTI_Mode = EXTI_Mode_Interrupt,
 			.EXTI_Trigger = EXTI_Trigger_Rising,
 			.EXTI_LineCmd = ENABLE,

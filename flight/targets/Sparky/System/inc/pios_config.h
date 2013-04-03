@@ -56,9 +56,10 @@
 #define PIOS_INCLUDE_WDG
 
 /* Select the sensors to include */
-#define PIOS_INCLUDE_L3GD20
-#define PIOS_INCLUDE_LSM303
+#define PIOS_INCLUDE_MPU6050
 #define FLASH_FREERTOS
+#define PIOS_MPU6050_ACCEL
+
 /* Com systems to include */
 #define PIOS_INCLUDE_COM
 #define PIOS_INCLUDE_COM_TELEM
