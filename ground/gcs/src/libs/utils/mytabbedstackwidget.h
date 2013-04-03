@@ -29,8 +29,10 @@
 #ifndef MYTABBEDSTACKWIDGET_H
 #define MYTABBEDSTACKWIDGET_H
 
-#include "utils/mylistwidget.h"
+#include "utils_global.h"
 #include <QStackedWidget>
+#include <QListWidget>
+
 
 /*
  * MyTabbedStackWidget is a MyListWidget combined with a QStackedWidget,
@@ -65,7 +67,7 @@ private slots:
     void showWidget(int index);
 
 private:
-    MyListWidget *m_listWidget;
+    QListWidget *m_listWidget;
     QStackedWidget *m_stackWidget;
     QWidget *m_selectionWidget;
     bool m_vertical;

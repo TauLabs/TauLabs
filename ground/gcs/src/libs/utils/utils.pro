@@ -53,7 +53,6 @@ SOURCES += reloadpromptutils.cpp \
     homelocationutil.cpp \
     mytabbedstackwidget.cpp \
     mytabwidget.cpp \
-    mylistwidget.cpp \
     cachedsvgitem.cpp \
     svgimageprovider.cpp
 
@@ -111,7 +110,6 @@ HEADERS += utils_global.h \
     homelocationutil.h \
     mytabbedstackwidget.h \
     mytabwidget.h \
-    mylistwidget.h \
     cachedsvgitem.h \
     svgimageprovider.h
 
