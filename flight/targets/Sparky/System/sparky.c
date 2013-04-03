@@ -3,15 +3,15 @@
  * @addtogroup OpenPilotSystem OpenPilot System
  * @brief These files are the core system files of OpenPilot.
  * They are the ground layer just above PiOS. In practice, OpenPilot actually starts
- * in the main() function of openpilot.c
+ * in the main() function of sparky.c
  * @{
  * @addtogroup OpenPilotCore OpenPilot Core
  * @brief This is where the OP firmware starts. Those files also define the compile-time
  * options of the firmware.
  * @{
- * @file       openpilot.c 
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Sets up and runs main OpenPilot tasks.
+ * @file       sparky.c 
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
+ * @brief      Sets up and runs main Sparky tasks.
  * @see        The GNU Public License (GPL) Version 3
  * 
  *****************************************************************************/
@@ -44,22 +44,8 @@
 
 /* Local Variables */
 #define INCLUDE_TEST_TASKS 0
-#if INCLUDE_TEST_TASKS
-static uint8_t sdcard_available;
-#endif
 char Buffer[1024];
 uint32_t Cache;
-
-/* Function Prototypes */
-#if INCLUDE_TEST_TASKS
-static void TaskTick(void *pvParameters);
-static void TaskTesting(void *pvParameters);
-static void TaskHIDTest(void *pvParameters);
-static void TaskServos(void *pvParameters);
-static void TaskSDCard(void *pvParameters);
-#endif
-int32_t CONSOLE_Parse(uint8_t port, char c);
-void OP_ADC_NotifyChange(uint32_t pin, uint32_t pin_value);
 
 /* Prototype of PIOS_Board_Init() function */
 extern void PIOS_Board_Init(void);

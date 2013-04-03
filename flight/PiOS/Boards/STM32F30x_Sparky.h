@@ -1,7 +1,6 @@
 /******************************************************************************
- * @file       STM32F4xx_FlyingF3.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @file       STM32F30x_Sparky.c
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013
  * @addtogroup PhoenixPilotSystem PhoenixPilot System
  * @{
  * @addtogroup OpenPilotCore OpenPilot Core
@@ -25,8 +24,8 @@
  */
 
 
-#ifndef STM3210E_INS_H_
-#define STM3210E_INS_H_
+#ifndef STM32F30X_SPARKY_H_
+#define STM32F30X_SPARKY_H_
 
 #include <stdbool.h>
 
@@ -233,4 +232,4 @@ extern uintptr_t pios_com_debug_id;
 #define PIOS_USB_HID_MAX_DEVS			1
 
 
-#endif /* STM3210E_INS_H_ */
+#endif /* STM32F30X_SPARKY_H_ */

@@ -5,7 +5,7 @@
 # @{
 # @addtogroup 
 # @{
-# @brief Makefile to build UAVObject code for flying f3 board.
+# @brief Makefile to build UAVObject code for Sparky board.
 ###############################################################################
 #
 # This program is free software; you can redistribute it and/or modify
@@ -92,6 +92,8 @@ UAVOBJSRCFILENAMES += systemstats
 UAVOBJSRCFILENAMES += taskinfo
 UAVOBJSRCFILENAMES += velocityactual
 UAVOBJSRCFILENAMES += velocitydesired
+UAVOBJSRCFILENAMES += vibrationanalysissettings
+UAVOBJSRCFILENAMES += vibrationanalysisoutput
 UAVOBJSRCFILENAMES += watchdogstatus
 UAVOBJSRCFILENAMES += flightstatus
 UAVOBJSRCFILENAMES += hwsparky

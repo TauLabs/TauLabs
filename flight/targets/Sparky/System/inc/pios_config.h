@@ -88,7 +88,7 @@
 
 /* Flags that alter behaviors - mostly to lower resources for CC */
 #define PIOS_INCLUDE_INITCALL           /* Include init call structures */
-#define PIOS_TELEM_PRIORITY_QUEUE       /* Enable a priority queue in telemetry */
+//#define PIOS_TELEM_PRIORITY_QUEUE       /* Enable a priority queue in telemetry */
 //#define PIOS_QUATERNION_STABILIZATION   /* Stabilization options */
 #define PIOS_GPS_SETS_HOMELOCATION      /* GPS options */
 
@@ -100,8 +100,21 @@
 #define CPULOAD_LIMIT_WARNING		80
 #define CPULOAD_LIMIT_CRITICAL		95
 
-// This actually needs calibrating
-#define IDLE_COUNTS_PER_SEC_AT_NO_LOAD (1995998) //FIXME: this is wrong for sure
+/* Task stack sizes */
+#define PIOS_EVENTDISPATCHER_STACK_SIZE	256
+
+/*
+ * This has been calibrated 2013/03/11 using next @ 6d21c7a590619ebbc074e60cab5e134e65c9d32b.
+ * Calibration has been done by disabling the init task, breaking into debugger after
+ * approximately after 60 seconds, then doing the following math:
+ *
+ * IDLE_COUNTS_PER_SEC_AT_NO_LOAD = (uint32_t)((double)idleCounter / xTickCount * 1000 + 0.5)
+ *
+ * This has to be redone every time the toolchain, toolchain flags or FreeRTOS
+ * configuration like number of task priorities or similar changes.
+ * A change in the cpu load calculation or the idle task handler will invalidate this as well.
+ */
+#define IDLE_COUNTS_PER_SEC_AT_NO_LOAD (1459667)
 
 #define REVOLUTION
 
