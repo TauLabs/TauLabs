@@ -67,7 +67,6 @@
 #include "magnetometer.h"
 #include "magbias.h"
 #include "ratedesired.h"
-#include "revocalibration.h"
 #include "systemsettings.h"
 
 #include "CoordinateConversions.h"
@@ -119,7 +118,6 @@ int32_t SensorsInitialize(void)
 	GPSVelocityInitialize();
 	MagnetometerInitialize();
 	MagBiasInitialize();
-	RevoCalibrationInitialize();
 
 	return 0;
 }
