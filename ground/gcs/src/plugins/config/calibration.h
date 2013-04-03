@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       calibration.h
- * @author     The PhoenixPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
  * @brief      Gui-less support class for calibration
  *****************************************************************************/
 /*
