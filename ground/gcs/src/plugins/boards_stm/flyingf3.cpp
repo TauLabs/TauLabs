@@ -88,8 +88,7 @@ QStringList FlyingF3::getSupportedProtocols()
     return QStringList("uavtalk");
 }
 
-QPixmap* FlyingF3::getBoardPicture()
+QPixmap FlyingF3::getBoardPicture()
 {
-    QPixmap* image = new QPixmap(":/images/flyingf3.png");
-    return image;
+    return QPixmap(":/images/flyingf3.png");
 }

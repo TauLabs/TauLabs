@@ -90,8 +90,7 @@ QStringList RevoMini::getSupportedProtocols()
 }
 
 
-QPixmap* RevoMini::getBoardPicture()
+QPixmap RevoMini::getBoardPicture()
 {
-    QPixmap* image = new QPixmap();
-    return image;
+    return QPixmap();
 }

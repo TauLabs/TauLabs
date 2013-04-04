@@ -73,11 +73,7 @@ void runningDeviceWidget::populate()
     // display a nice icon:
     myDevice->devicePicture->scene()->clear();
 
-    QPixmap *image = deviceDescriptorStruct::idToBoardPicture(id);
-    if (image != NULL)
-        devicePic.load(image);
-    else
-        devicePic.load("");
+    devicePic = deviceDescriptorStruct::idToBoardPicture(id);
 
     myDevice->devicePicture->scene()->addPixmap(devicePic);
     myDevice->devicePicture->setSceneRect(devicePic.rect());

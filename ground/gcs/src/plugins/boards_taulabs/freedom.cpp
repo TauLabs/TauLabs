@@ -87,8 +87,7 @@ QStringList Freedom::getSupportedProtocols()
     return QStringList("uavtalk");
 }
 
-QPixmap* Freedom::getBoardPicture()
+QPixmap Freedom::getBoardPicture()
 {
-    QPixmap* image = new QPixmap(":/images/freedom.png");
-    return image;
+    return QPixmap(":/images/freedom.png");
 }

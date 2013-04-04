@@ -102,7 +102,7 @@ public:
      *  TODO: this API is not stable yet.
      *
      */
-    virtual QPixmap* getBoardPicture() = 0;
+    virtual QPixmap getBoardPicture() = 0;
 
     /**
      * Get supported protocol(s) for this board

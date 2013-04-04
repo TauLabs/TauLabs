@@ -90,8 +90,7 @@ QStringList PipXtreme::getSupportedProtocols()
     return QStringList("uavtalk");
 }
 
-QPixmap* PipXtreme::getBoardPicture()
+QPixmap PipXtreme::getBoardPicture()
 {
-    QPixmap* image = new QPixmap(":/images/pipx.png");
-    return image;
+    return QPixmap(":/images/pipx.png");
 }
