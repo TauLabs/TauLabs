@@ -43,7 +43,7 @@ public:
     int boardType;
     int boardRevision;
     static QString idToBoardName(quint16 id);
-    static QPixmap idToBoardPicture(quint16 id);
+    static QPixmap* idToBoardPicture(quint16 id);
 
     deviceDescriptorStruct();
 };
