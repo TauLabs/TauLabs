@@ -38,7 +38,7 @@
 
 /* Private constants */
 #define MPU6050_TASK_PRIORITY	(tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
-#define MPU6050_TASK_STACK		(384 / 4)
+#define MPU6050_TASK_STACK		(484 / 4)
 
 /* Global Variables */
 
