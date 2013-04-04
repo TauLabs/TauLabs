@@ -56,6 +56,7 @@
 #define PIOS_INCLUDE_WDG
 
 /* Select the sensors to include */
+#define PIOS_INCLUDE_MS5611
 #define PIOS_INCLUDE_MPU6050
 #define FLASH_FREERTOS
 #define PIOS_MPU6050_ACCEL
