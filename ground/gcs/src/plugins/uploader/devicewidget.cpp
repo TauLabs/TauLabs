@@ -87,11 +87,7 @@ void deviceWidget::populate()
     myDevice->lblDevName->setText(deviceDescriptorStruct::idToBoardName(id));
     myDevice->lblHWRev->setText(QString(tr("HW Revision: "))+QString::number(id & 0x00FF, 16));
 
-    QPixmap *image = deviceDescriptorStruct::idToBoardPicture(id);
-    if (image != NULL)
-        devicePic.load(image);
-    else
-        devicePic.load("");
+    devicePic = deviceDescriptorStruct::idToBoardPicture(id);
 
     myDevice->gVDevice->scene()->addPixmap(devicePic);
     myDevice->gVDevice->setSceneRect(devicePic.rect());

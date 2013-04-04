@@ -41,7 +41,7 @@ public:
     virtual QString boardDescription();
     virtual bool queryCapabilities(BoardCapabilities capability);
     virtual QStringList getSupportedProtocols();
-    virtual QPixmap* getBoardPicture();
+    virtual QPixmap getBoardPicture();
 };
 
 

@@ -88,8 +88,7 @@ QStringList Sparky::getSupportedProtocols()
     return QStringList("uavtalk");
 }
 
-QPixmap* Sparky::getBoardPicture()
+QPixmap Sparky::getBoardPicture()
 {
-    QPixmap* image = new QPixmap(":/images/sparky.png");
-    return image;
+    return QPixmap(":/images/sparky.png");
 }

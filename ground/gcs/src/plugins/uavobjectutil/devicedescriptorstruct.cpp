@@ -51,11 +51,11 @@ QString deviceDescriptorStruct::idToBoardName(quint16 id)
     return "Unknown";
 }
 
-QPixmap* deviceDescriptorStruct::idToBoardPicture(quint16 id)
+QPixmap deviceDescriptorStruct::idToBoardPicture(quint16 id)
 {
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     if (pm == NULL)
-        return NULL;
+        return QPixmap();
 
     QList <Core::IBoardType *> boards = pm->getObjects<Core::IBoardType>();
     foreach (Core::IBoardType *board, boards) {
@@ -63,5 +63,5 @@ QPixmap* deviceDescriptorStruct::idToBoardPicture(quint16 id)
             return board->getBoardPicture();
     }
 
-    return NULL;
+    return QPixmap();
 }
