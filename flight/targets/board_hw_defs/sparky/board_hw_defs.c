@@ -81,7 +81,7 @@ const struct pios_led_cfg * PIOS_BOARD_HW_DEFS_GetLedCfg (uint32_t board_revisio
  */
 void PIOS_I2C_internal_ev_irq_handler(void);
 void PIOS_I2C_internal_er_irq_handler(void);
-void I2C2_EV_EXTI23_IRQHandler() __attribute__ ((alias ("PIOS_I2C_internal_ev_irq_handler")));
+void I2C2_EV_EXTI24_IRQHandler() __attribute__ ((alias ("PIOS_I2C_internal_ev_irq_handler")));
 void I2C2_ER_IRQHandler() __attribute__ ((alias ("PIOS_I2C_internal_er_irq_handler")));
 
 static const struct pios_i2c_adapter_cfg pios_i2c_internal_cfg = {
