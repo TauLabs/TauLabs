@@ -26,6 +26,8 @@
  */
 
 #include "sparky.h"
+#include <QFile>
+#include <QDebug>
 
 /**
  * @brief Sparky::Sparky
@@ -90,5 +92,5 @@ QStringList Sparky::getSupportedProtocols()
 
 QPixmap Sparky::getBoardPicture()
 {
-    return QPixmap(":/images/sparky.png");
+    return QPixmap(":/taulabs/images/sparky.png");
 }

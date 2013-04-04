@@ -29,6 +29,7 @@
 #include "uavobjectutilmanager.h"
 #include <QList>
 #include <QString>
+#include <QDebug>
 
 deviceDescriptorStruct::deviceDescriptorStruct()
 {
@@ -53,15 +54,19 @@ QString deviceDescriptorStruct::idToBoardName(quint16 id)
 
 QPixmap deviceDescriptorStruct::idToBoardPicture(quint16 id)
 {
+    qDebug() << "Getting board picture";
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     if (pm == NULL)
         return QPixmap();
 
     QList <Core::IBoardType *> boards = pm->getObjects<Core::IBoardType>();
     foreach (Core::IBoardType *board, boards) {
-        if (board->getBoardType() == (id >> 8))
+        if (board->getBoardType() == (id >> 8)) {
+            qDebug() << "Found board. " << board->getBoardPicture().isNull();
             return board->getBoardPicture();
+        }
     }
 
+    qDebug() << "Not found";
     return QPixmap();
 }

@@ -90,5 +90,5 @@ QStringList FlyingF3::getSupportedProtocols()
 
 QPixmap FlyingF3::getBoardPicture()
 {
-    return QPixmap(":/images/flyingf3.png");
+    return QPixmap(":/stm/images/flyingf3.png");
 }

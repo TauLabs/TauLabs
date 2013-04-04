@@ -89,5 +89,5 @@ QStringList Freedom::getSupportedProtocols()
 
 QPixmap Freedom::getBoardPicture()
 {
-    return QPixmap(":/images/freedom.png");
+    return QPixmap(":/taulabs/images/freedom.png");
 }
