@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @file       devicedescriptorstruct.h
+ * @file       devicedescriptorstruct.cpp
  * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
  * @see        The GNU Public License (GPL) Version 3
  * @addtogroup GCSPlugins GCS Plugins
@@ -25,23 +25,29 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef DEVICEDESCRIPTORSTRUCT_H
-#define DEVICEDESCRIPTORSTRUCT_H
-
+#include "devicedescriptorstruct.h"
+#include "uavobjectutilmanager.h"
+#include <QList>
 #include <QString>
-class deviceDescriptorStruct
+
+deviceDescriptorStruct::deviceDescriptorStruct()
 {
-public:
-    QString gitHash;
-    QString gitDate;
-    QString gitTag;
-    QByteArray fwHash;
-    QByteArray uavoHash;
-    int boardType;
-    int boardRevision;
-    static QString idToBoardName(quint16 id);
 
-    deviceDescriptorStruct();
-};
+}
 
-#endif // DEVICEDESCRIPTORSTRUCT_H
+//! Get the name for a board via the plugin system
+QString deviceDescriptorStruct::idToBoardName(quint16 id)
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    if (pm == NULL)
+        return "Unknown";
+
+    QList <Core::IBoardType *> boards = pm->getObjects<Core::IBoardType>();
+    foreach (Core::IBoardType *board, boards) {
+        if (board->getBoardType() == (id >> 8))
+            return board->shortName();
+    }
+
+    return "Unknown";
+}
+
