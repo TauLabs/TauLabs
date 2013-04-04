@@ -337,6 +337,47 @@ void PIOS_MPU6050_SetLPF(enum pios_mpu60x0_filter filter)
 }
 
 /**
+ * Check if an MPU6050 is detected at the requested address
+ * @return 0 if detected, -1 if successfully probed and not there
+ *  -2 if another device is there.
+ */
+int32_t PIOS_MPU6050_Probe(uint32_t i2c_id, uint8_t i2c_addr)
+{
+	uint8_t addr_buffer[] = {
+		PIOS_MPU60X0_WHOAMI,
+	};
+	uint8_t read_buffer[1] = {
+		0
+	};
+
+	const struct pios_i2c_txn txn_list[] = {
+		{
+			.info = __func__,
+			.addr = i2c_addr,
+			.rw = PIOS_I2C_TXN_WRITE,
+			.len = sizeof(addr_buffer),
+			.buf = addr_buffer,
+		},
+		{
+			.info = __func__,
+			.addr = i2c_addr,
+			.rw = PIOS_I2C_TXN_READ,
+			.len = sizeof(read_buffer),
+			.buf = read_buffer,
+		}
+	};
+
+	int32_t retval = PIOS_I2C_Transfer(i2c_id, txn_list, NELEMENTS(txn_list));
+	if (retval < 0)
+		return -2;
+
+	if (read_buffer[0] == 0x68)
+		return 0;
+
+	return -1;
+}
+
+/**
  * @brief Reads one or more bytes into a buffer
  * \param[in] address MPU6050 register address (depends on size)
  * \param[out] buffer destination buffer
