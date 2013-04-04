@@ -90,5 +90,5 @@ QStringList CopterControl::getSupportedProtocols()
 
 QPixmap CopterControl::getBoardPicture()
 {
-    return QPixmap(":/images/cc3d.png");
+    return QPixmap(":/openpilot/images/cc3d.png");
 }

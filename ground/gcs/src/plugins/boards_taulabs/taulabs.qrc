@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/images">
+    <qresource prefix="/taulabs">
         <file>images/freedom.png</file>
         <file>images/sparky.png</file>
     </qresource>
