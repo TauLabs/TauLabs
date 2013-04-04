@@ -208,21 +208,33 @@ static void stabilizationTask(void* parameters)
 		float rpy_desired[3];
 		float q_desired[4];
 		float q_error[4];
-		float local_error[3];
+		float local_attitude_error[3];
 		
 		// Essentially zero errors for anything in rate or none
 		if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
+			rpy_desired[0] = stabilizationDesired.Roll;
+		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ENHANCEDATTITUDE)
 			rpy_desired[0] = trimmedAttitudeSetpoint.Roll;
+		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
+			rpy_desired[0] = trimAngles.Roll;
 		else
 			rpy_desired[0] = attitudeActual.Roll;
 		
 		if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
+			rpy_desired[1] = stabilizationDesired.Pitch;
+		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ENHANCEDATTITUDE)
 			rpy_desired[1] = trimmedAttitudeSetpoint.Pitch;
+		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
+			rpy_desired[1] = trimAngles.Pitch;
 		else
 			rpy_desired[1] = attitudeActual.Pitch;
 		
 		if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
+			rpy_desired[2] = stabilizationDesired.Yaw;
+		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ENHANCEDATTITUDE)
 			rpy_desired[2] = trimmedAttitudeSetpoint.Yaw;
+		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
+			rpy_desired[2] = trimAngles.Yaw;
 		else
 			rpy_desired[2] = attitudeActual.Yaw;
 		
@@ -230,14 +242,40 @@ static void stabilizationTask(void* parameters)
 		quat_inverse(q_desired);
 		quat_mult(q_desired, &attitudeActual.q1, q_error);
 		quat_inverse(q_error);
-		Quaternion2RPY(q_error, local_error);
+		Quaternion2RPY(q_error, local_attitude_error);
 		
 #else
 		// Simpler algorithm for CC, less memory
-		float local_error[3] = {trimmedAttitudeSetpoint.Roll - attitudeActual.Roll,
-			trimmedAttitudeSetpoint.Pitch - attitudeActual.Pitch,
-			trimmedAttitudeSetpoint.Yaw - attitudeActual.Yaw};
-		local_error[2] = circular_modulus_deg(local_error[2]);
+		float local_attitude_error[3];
+		if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
+			local_attitude_error[0] = stabilizationDesired.Roll - attitudeActual.Roll;
+		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ENHANCEDATTITUDE)
+			local_attitude_error[0] = trimmedAttitudeSetpoint.Roll - attitudeActual.Roll;
+		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
+			local_attitude_error[0] = trimAngles.Roll - attitudeActual.Roll;
+		else
+			local_attitude_error[0] = 0;
+
+		if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
+			local_attitude_error[1] = stabilizationDesired.Pitch - attitudeActual.Pitch;
+		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ENHANCEDATTITUDE)
+			local_attitude_error[1] = trimmedAttitudeSetpoint.Pitch - attitudeActual.Pitch;
+		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
+			local_attitude_error[1] = trimAngles.Pitch - attitudeActual.Pitch;
+		else
+			local_attitude_error[1] = 0;
+
+		if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
+			local_attitude_error[2] = stabilizationDesired.Yaw - attitudeActual.Yaw;
+		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ENHANCEDATTITUDE)
+			local_attitude_error[2] = trimmedAttitudeSetpoint.Yaw - attitudeActual.Yaw;
+		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
+			local_attitude_error[2] = trimAngles.Yaw - attitudeActual.Yaw;
+		else
+			local_attitude_error[2] = 0;
+
+		// Wrap yaw error to [-180,180]
+		local_attitude_error[2] = circular_modulus_deg(local_error[2]);
 #endif
 
 		float gyro_filtered[3];
@@ -272,6 +310,7 @@ static void stabilizationTask(void* parameters)
 
 					break;
 
+				case STABILIZATIONDESIRED_STABILIZATIONMODE_ENHANCEDATTITUDE:
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE:
 					if(reinit) {
 						pids[PID_ATT_ROLL + i].iAccumulator = 0;
@@ -279,7 +318,7 @@ static void stabilizationTask(void* parameters)
 					}
 
 					// Compute the outer loop
-					rateDesiredAxis[i] = pid_apply(&pids[PID_ATT_ROLL + i], local_error[i], dT);
+					rateDesiredAxis[i] = pid_apply(&pids[PID_ATT_ROLL + i], local_attitude_error[i], dT);
 					rateDesiredAxis[i] = bound_sym(rateDesiredAxis[i], settings.MaximumRate[i]);
 
 					// Compute the inner loop
@@ -301,7 +340,7 @@ static void stabilizationTask(void* parameters)
 					if (reinit)
 						pids[PID_RATE_ROLL + i].iAccumulator = 0;
 
-					float weak_leveling = local_error[i] * weak_leveling_kp;
+					float weak_leveling = local_attitude_error[i] * weak_leveling_kp;
 					weak_leveling = bound_sym(weak_leveling, weak_leveling_max);
 
 					// Compute desired rate as input biased towards leveling
@@ -348,7 +387,7 @@ static void stabilizationTask(void* parameters)
 						pids[PID_ATT_ROLL + i].iAccumulator = 0;
 
 					// Compute the outer loop like attitude mode
-					rateDesiredAxis[i] = pid_apply(&pids[PID_ATT_ROLL + i], local_error[i], dT);
+					rateDesiredAxis[i] = pid_apply(&pids[PID_ATT_ROLL + i], local_attitude_error[i], dT);
 					rateDesiredAxis[i] = bound_sym(rateDesiredAxis[i], settings.MaximumRate[i]);
 
 					// Run the relay controller which also estimates the oscillation parameters
