@@ -29,6 +29,8 @@
 #define DEVICEDESCRIPTORSTRUCT_H
 
 #include <QString>
+#include <QPixmap>
+
 class deviceDescriptorStruct
 {
 public:
@@ -40,6 +42,7 @@ public:
     int boardType;
     int boardRevision;
     static QString idToBoardName(quint16 id);
+    static QPixmap* idToBoardPicture(quint16 id);
 
     deviceDescriptorStruct();
 };

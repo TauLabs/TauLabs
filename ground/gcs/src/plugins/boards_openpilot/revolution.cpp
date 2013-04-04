@@ -88,3 +88,9 @@ QStringList Revolution::getSupportedProtocols()
 
     return QStringList("uavtalk");
 }
+
+QPixmap* Revolution::getBoardPicture()
+{
+    QPixmap* image = new QPixmap();
+    return image;
+}

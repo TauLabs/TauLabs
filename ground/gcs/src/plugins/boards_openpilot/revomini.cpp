@@ -88,3 +88,10 @@ QStringList RevoMini::getSupportedProtocols()
 
     return QStringList("uavtalk");
 }
+
+
+QPixmap* RevoMini::getBoardPicture()
+{
+    QPixmap* image = new QPixmap();
+    return image;
+}

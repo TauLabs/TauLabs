@@ -19,3 +19,6 @@ SOURCES += \
     revolution.cpp \
     revomini.cpp \
     pipxtreme.cpp
+
+RESOURCES += \
+    openpilot.qrc

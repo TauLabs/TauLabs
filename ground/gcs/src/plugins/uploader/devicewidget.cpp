@@ -87,35 +87,12 @@ void deviceWidget::populate()
     myDevice->lblDevName->setText(deviceDescriptorStruct::idToBoardName(id));
     myDevice->lblHWRev->setText(QString(tr("HW Revision: "))+QString::number(id & 0x00FF, 16));
 
-    switch (id) {
-    case 0x0101:
-        devicePic.load("");//TODO
-        break;
-    case 0x0201:
-        devicePic.load("");//TODO
-        break;
-    case 0x0301:
-        devicePic.load(":/uploader/images/pipx.png");
-        break;
-    case 0x0401:
-        devicePic.load(":/uploader/images/gcs-board-cc.png");
-        break;
-    case 0x0402:
-        devicePic.load(":/uploader/images/gcs-board-cc3d.png");
-        break;
-    case 0x8101:
-    case 0x8102:
-        devicePic.load(":/uploader/images/gcs-board-freedom.png");
-        break;
-    case 0x8301:
-        devicePic.load(":/uploader/images/gcs-board-flyingf3.png");
-        break;
-    case 0x8601:
-        devicePic.load(":/uploader/images/gcs-board-quanton.png");
-        break;
-    default:
-        break;
-    }
+    QPixmap *image = deviceDescriptorStruct::idToBoardPicture(id);
+    if (image != NULL)
+        devicePic.load(image);
+    else
+        devicePic.load("");
+
     myDevice->gVDevice->scene()->addPixmap(devicePic);
     myDevice->gVDevice->setSceneRect(devicePic.rect());
     myDevice->gVDevice->fitInView(devicePic.rect(),Qt::KeepAspectRatio);

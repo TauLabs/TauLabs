@@ -73,25 +73,12 @@ void runningDeviceWidget::populate()
     // display a nice icon:
     myDevice->devicePicture->scene()->clear();
 
-    switch (id) {
-    case 0x0101:
-        devicePic.load("");//TODO
-        break;
-    case 0x0201:
-        devicePic.load("");//TODO
-        break;
-    case 0x0301:
-        devicePic.load(":/uploader/images/pipx.png");
-        break;
-    case 0x0401:
-        devicePic.load(":/uploader/images/gcs-board-cc.png");
-        break;
-    case 0x0402:
-        devicePic.load(":/uploader/images/gcs-board-cc3d.png");
-        break;
-    default:
-        break;
-    }
+    QPixmap *image = deviceDescriptorStruct::idToBoardPicture(id);
+    if (image != NULL)
+        devicePic.load(image);
+    else
+        devicePic.load("");
+
     myDevice->devicePicture->scene()->addPixmap(devicePic);
     myDevice->devicePicture->setSceneRect(devicePic.rect());
     myDevice->devicePicture->fitInView(devicePic.rect(),Qt::KeepAspectRatio);

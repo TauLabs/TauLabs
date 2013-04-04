@@ -87,3 +87,9 @@ QStringList CopterControl::getSupportedProtocols()
 
     return QStringList("uavtalk");
 }
+
+QPixmap* CopterControl::getBoardPicture()
+{
+    QPixmap* image = new QPixmap(":/images/cc3d.png");
+    return image;
+}

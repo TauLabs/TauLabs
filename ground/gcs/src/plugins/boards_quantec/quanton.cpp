@@ -87,3 +87,9 @@ QStringList Quanton::getSupportedProtocols()
 
     return QStringList("uavtalk");
 }
+
+QPixmap* Quanton::getBoardPicture()
+{
+    QPixmap* image = new QPixmap(":/images/quanton.png");
+    return image;
+}

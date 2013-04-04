@@ -6,18 +6,11 @@
         <file>images/dialog-apply.svg</file>
         <file>images/gtk-info.svg</file>
         <file>images/deviceID-0401.svg</file>
-        <file>images/deviceID-0301.svg</file>
         <file>images/deviceID-0201.svg</file>
         <file>images/deviceID-0101.svg</file>
         <file>images/application-certificate.svg</file>
         <file>images/warning.svg</file>
         <file>images/error.svg</file>
         <file>images/deviceID-0402.svg</file>
-        <file>images/gcs-board-cc.png</file>
-        <file>images/gcs-board-cc3d.png</file>
-        <file>images/pipx.png</file>
-        <file>images/gcs-board-freedom.png</file>
-        <file>images/gcs-board-quanton.png</file>
-        <file>images/gcs-board-flyingf3.png</file>
     </qresource>
 </RCC>
