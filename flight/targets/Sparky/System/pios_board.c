@@ -130,7 +130,6 @@ uintptr_t pios_com_telem_usb_id = 0;
 uintptr_t pios_com_telem_rf_id = 0;
 uintptr_t pios_com_vcp_id = 0;
 uintptr_t pios_com_bridge_id = 0;
-uintptr_t pios_com_overo_id = 0;
 
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. tx size of -1 make the port rx only
@@ -453,12 +452,12 @@ void PIOS_Board_Init(void) {
 		break;
 	case HWSPARKY_FLEXIPORT_TELEMETRY:
 #if defined(PIOS_INCLUDE_TELEMETRY_RF) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
-		PIOS_Board_configure_com(&pios_usart1_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
+		PIOS_Board_configure_com(&pios_flexi_usart_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
 #endif /* PIOS_INCLUDE_TELEMETRY_RF */
 		break;
 	case HWSPARKY_FLEXIPORT_GPS:
 #if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
-		PIOS_Board_configure_com(&pios_usart1_cfg, PIOS_COM_GPS_RX_BUF_LEN, -1, &pios_usart_com_driver, &pios_com_gps_id);
+		PIOS_Board_configure_com(&pios_flexi_usart_cfg, PIOS_COM_GPS_RX_BUF_LEN, -1, &pios_usart_com_driver, &pios_com_gps_id);
 #endif
 		break;
 	case HWSPARKY_FLEXIPORT_SBUS:
@@ -466,11 +465,11 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
 			uint32_t pios_usart_sbus_id;
-			if (PIOS_USART_Init(&pios_usart_sbus_id, &pios_usart1_sbus_cfg)) {
+			if (PIOS_USART_Init(&pios_usart_sbus_id, &pios_flexi_sbus_cfg)) {
 				PIOS_Assert(0);
 			}
 			uint32_t pios_sbus_id;
-			if (PIOS_SBus_Init(&pios_sbus_id, &pios_usart1_sbus_aux_cfg, &pios_usart_com_driver, pios_usart_sbus_id)) {
+			if (PIOS_SBus_Init(&pios_sbus_id, &pios_flexi_sbus_aux_cfg, &pios_usart_com_driver, pios_usart_sbus_id)) {
 				PIOS_Assert(0);
 			}
 			uint32_t pios_sbus_rcvr_id;
@@ -501,19 +500,19 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 				break;
 			}
-			PIOS_Board_configure_dsm(&pios_usart1_dsm_cfg, &pios_usart1_dsm_aux_cfg, &pios_usart_com_driver,
+			PIOS_Board_configure_dsm(&pios_flexi_dsm_cfg, &pios_flexi_dsm_aux_cfg, &pios_usart_com_driver,
 				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
 	case HWSPARKY_FLEXIPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
-		PIOS_Board_configure_com(&pios_usart_1_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
+		PIOS_Board_configure_com(&pios_flexi_usart_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 		break;
 	case HWSPARKY_FLEXIPORT_COMBRIDGE:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
-		PIOS_Board_configure_com(&pios_usart1_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
+		PIOS_Board_configure_com(&pios_flexi_usart_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
 #endif
 		break;
 	}
@@ -540,8 +539,50 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_PPM */
 		break;
 	case HWSPARKY_RCVRPORT_DSM2:
-	case HWSPARKY_RCVRPORT_SBUS:
+	case HWSPARKY_RCVRPORT_DSMX10BIT:
+	case HWSPARKY_RCVRPORT_DSMX11BIT:
+#if defined(PIOS_INCLUDE_DSM)
+		{
+			enum pios_dsm_proto proto;
+			switch (hw_rcvrport) {
+			case HWSPARKY_RCVRPORT_DSM2:
+				proto = PIOS_DSM_PROTO_DSM2;
+				break;
+			case HWSPARKY_RCVRPORT_DSMX10BIT:
+				proto = PIOS_DSM_PROTO_DSMX10BIT;
+				break;
+			case HWSPARKY_RCVRPORT_DSMX11BIT:
+				proto = PIOS_DSM_PROTO_DSMX11BIT;
+				break;
+			default:
+				PIOS_Assert(0);
+				break;
+			}
+			PIOS_Board_configure_dsm(&pios_rcvr_dsm_cfg, &pios_rcvr_dsm_aux_cfg, &pios_usart_com_driver,
+				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
+		}
+#endif	/* PIOS_INCLUDE_DSM */
 		break;
+	case HWSPARKY_RCVRPORT_SBUS:
+		//hardware signal inverter required
+#if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
+		{
+			uint32_t pios_usart_sbus_id;
+			if (PIOS_USART_Init(&pios_usart_sbus_id, &pios_rcvr_sbus_cfg)) {
+				PIOS_Assert(0);
+			}
+			uint32_t pios_sbus_id;
+			if (PIOS_SBus_Init(&pios_sbus_id, &pios_rcvr_sbus_aux_cfg, &pios_usart_com_driver, pios_usart_sbus_id)) {
+				PIOS_Assert(0);
+			}
+			uint32_t pios_sbus_rcvr_id;
+			if (PIOS_RCVR_Init(&pios_sbus_rcvr_id, &pios_sbus_rcvr_driver, pios_sbus_id)) {
+				PIOS_Assert(0);
+			}
+			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_SBUS] = pios_sbus_rcvr_id;
+		}
+#endif	/* PIOS_INCLUDE_SBUS */
+		break;		break;
 	}
 
 
