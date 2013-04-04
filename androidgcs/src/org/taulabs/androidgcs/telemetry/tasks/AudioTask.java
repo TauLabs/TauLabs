@@ -64,8 +64,10 @@ public class AudioTask implements ITelemTask, TextToSpeech.OnInitListener {
 	public void disconnect() {
 		unregisterAllObjects();
 		ttsInit = false;
-		tts.shutdown();
-		tts = null;
+		if (tts != null) {
+			tts.shutdown();
+			tts = null;
+		}
 	}
 
 	//! Register an object to inform this task on updates for logging
