@@ -17,3 +17,6 @@ SOURCES += \
     flyingf4.cpp \
     discoveryf4.cpp
 
+RESOURCES += \
+    stm.qrc
+

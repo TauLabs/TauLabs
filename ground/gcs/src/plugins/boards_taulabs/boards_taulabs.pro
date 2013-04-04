@@ -15,3 +15,6 @@ SOURCES += \
     taulabsplugin.cpp \
     freedom.cpp \
     sparky.cpp
+
+RESOURCES += \
+    taulabs.qrc

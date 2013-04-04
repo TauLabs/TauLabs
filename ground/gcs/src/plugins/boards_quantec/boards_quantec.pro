@@ -12,3 +12,6 @@ HEADERS += \
 SOURCES += \
     quantecplugin.cpp \
     quanton.cpp
+
+RESOURCES += \
+    quantec.qrc
