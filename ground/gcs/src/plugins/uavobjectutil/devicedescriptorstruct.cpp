@@ -1,7 +1,11 @@
 /**
  ******************************************************************************
  * @file       devicedescriptorstruct.cpp
+<<<<<<< HEAD
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+=======
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
+>>>>>>> Uploader: Use board plugin for getting the board name
  * @see        The GNU Public License (GPL) Version 3
  * @addtogroup GCSPlugins GCS Plugins
  * @{
