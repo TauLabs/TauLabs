@@ -92,3 +92,8 @@ QPixmap FlyingF4::getBoardPicture()
 {
     return QPixmap();
 }
+
+QString FlyingF4::getHwUAVO()
+{
+    return "HwFlyingF4";
+}

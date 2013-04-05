@@ -92,3 +92,8 @@ QPixmap FlyingF3::getBoardPicture()
 {
     return QPixmap(":/stm/images/flyingf3.png");
 }
+
+QString FlyingF3::getHwUAVO()
+{
+    return "HwFlyingF3";
+}

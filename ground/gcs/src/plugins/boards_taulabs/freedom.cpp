@@ -91,3 +91,8 @@ QPixmap Freedom::getBoardPicture()
 {
     return QPixmap(":/taulabs/images/freedom.png");
 }
+
+QString Freedom::getHwUAVO()
+{
+    return "HwFreedom";
+}

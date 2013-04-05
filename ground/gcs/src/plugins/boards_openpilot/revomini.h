@@ -43,7 +43,7 @@ public:
     virtual bool queryCapabilities(BoardCapabilities capability);
     virtual QStringList getSupportedProtocols();
     virtual QPixmap getBoardPicture();
-
+    virtual QString getHwUAVO();
 
 };
 
