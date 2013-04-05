@@ -123,6 +123,7 @@ include $(PIOS)/STM32F30x/library.mk
 
 ## PIOS Hardware (Common)
 SRC += $(PIOSCOMMON)/pios_mpu6050.c
+SRC += $(PIOSCOMMON)/pios_mpu9150.c
 SRC += $(PIOSCOMMON)/pios_ms5611.c
 SRC += $(PIOSCOMMON)/pios_crc.c
 SRC += $(PIOSCOMMON)/pios_com.c
