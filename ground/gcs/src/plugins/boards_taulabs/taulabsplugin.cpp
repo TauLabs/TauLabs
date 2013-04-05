@@ -1,13 +1,13 @@
 /**
  ******************************************************************************
- * @file       devicedescriptorstruct.h
- * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
- * @see        The GNU Public License (GPL) Version 3
+ * @file       taulabsplugin.cpp
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup UAVObjectUtilPlugin UAVObjectUtil Plugin
+ * @addtogroup Boards_TauLabsPlugin Tau Labs boards support Plugin
  * @{
- * @brief      The UAVUObjectUtil GCS plugin
+ * @brief Plugin to support boards by the Tau Labs project
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -25,26 +25,42 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef DEVICEDESCRIPTORSTRUCT_H
-#define DEVICEDESCRIPTORSTRUCT_H
+#include "taulabsplugin.h"
+#include "freedom.h"
+#include "sparky.h"
+#include <QtPlugin>
 
-#include <QString>
-#include <QPixmap>
 
-class deviceDescriptorStruct
+TauLabsPlugin::TauLabsPlugin()
 {
-public:
-    QString gitHash;
-    QString gitDate;
-    QString gitTag;
-    QByteArray fwHash;
-    QByteArray uavoHash;
-    int boardType;
-    int boardRevision;
-    static QString idToBoardName(quint16 id);
-    static QPixmap idToBoardPicture(quint16 id);
+   // Do nothing
+}
 
-    deviceDescriptorStruct();
-};
+TauLabsPlugin::~TauLabsPlugin()
+{
+   // Do nothing
+}
 
-#endif // DEVICEDESCRIPTORSTRUCT_H
+bool TauLabsPlugin::initialize(const QStringList& args, QString *errMsg)
+{
+   Q_UNUSED(args);
+   Q_UNUSED(errMsg);
+   return true;
+}
+
+void TauLabsPlugin::extensionsInitialized()
+{
+    /**
+     * Create the board objects here.
+     *
+     */
+    Sparky* sparky = new Sparky();
+    addAutoReleasedObject(sparky);
+
+    Freedom* freedom = new Freedom();
+    addAutoReleasedObject(freedom);
+}
+
+void TauLabsPlugin::shutdown()
+{
+}

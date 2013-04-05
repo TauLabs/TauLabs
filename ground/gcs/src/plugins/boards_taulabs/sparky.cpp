@@ -1,14 +1,13 @@
 /**
  ******************************************************************************
- *
- * @file       discoveryf4.cpp
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013
+ * @file       sparky.cpp
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup Boards_Stm STM boards support Plugin
+ * @addtogroup Boards_TauLabsPlugin Tau Labs boards support Plugin
  * @{
- * @brief Plugin to support boards by STM
+ * @brief Plugin to support boards by the Tau Labs project
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -26,13 +25,15 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "discoveryf4.h"
+#include "sparky.h"
+#include <QFile>
+#include <QDebug>
 
 /**
- * @brief DiscoveryF4::DiscoveryF4
- *  This is the DiscoveryF4 board definition
+ * @brief Sparky::Sparky
+ *  This is the Sparky board definition
  */
-DiscoveryF4::DiscoveryF4(void)
+Sparky::Sparky(void)
 {
     // Initialize our USB Structure definition here:
     USBInfo board;
@@ -41,36 +42,37 @@ DiscoveryF4::DiscoveryF4(void)
 
     setUSBInfo(board);
 
-    boardType = 0x85;
+    boardType = 0x88;
 }
 
-DiscoveryF4::~DiscoveryF4()
+Sparky::~Sparky()
 {
 
 }
 
-QString DiscoveryF4::shortName()
+
+QString Sparky::shortName()
 {
-    return QString("discoveryf4");
+    return QString("Sparky");
 }
 
-QString DiscoveryF4::boardDescription()
+QString Sparky::boardDescription()
 {
-    return QString("DiscoveryF4");
+    return QString("The Tau Labs project Sparky boards");
 }
 
 //! Return which capabilities this board has
-bool DiscoveryF4::queryCapabilities(BoardCapabilities capability)
+bool Sparky::queryCapabilities(BoardCapabilities capability)
 {
     switch(capability) {
     case BOARD_CAPABILITIES_GYROS:
-        return false;
+        return true;
     case BOARD_CAPABILITIES_ACCELS:
-        return false;
+        return true;
     case BOARD_CAPABILITIES_MAGS:
-        return false;
+        return true;
     case BOARD_CAPABILITIES_BAROS:
-        return false;
+        return true;
     case BOARD_CAPABILITIES_RADIO:
         return false;
     }
@@ -78,22 +80,22 @@ bool DiscoveryF4::queryCapabilities(BoardCapabilities capability)
 }
 
 /**
- * @brief DiscoveryF4::getSupportedProtocols
+ * @brief Sparky::getSupportedProtocols
  *  TODO: this is just a stub, we'll need to extend this a lot with multi protocol support
  * @return
  */
-QStringList DiscoveryF4::getSupportedProtocols()
+QStringList Sparky::getSupportedProtocols()
 {
 
     return QStringList("uavtalk");
 }
 
-QPixmap DiscoveryF4::getBoardPicture()
+QPixmap Sparky::getBoardPicture()
 {
-    return QPixmap();
+    return QPixmap(":/taulabs/images/sparky.png");
 }
 
-QString DiscoveryF4::getHwUAVO()
+QString Sparky::getHwUAVO()
 {
-    return "HwDiscoveryF4";
+    return "HwSparky";
 }

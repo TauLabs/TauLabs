@@ -1,13 +1,13 @@
 /**
  ******************************************************************************
- * @file       devicedescriptorstruct.h
- * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
- * @see        The GNU Public License (GPL) Version 3
+ * @file       freedom.h
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup UAVObjectUtilPlugin UAVObjectUtil Plugin
+ * @addtogroup Boards_TauLabsPlugin Tau Labs boards support Plugin
  * @{
- * @brief      The UAVUObjectUtil GCS plugin
+ * @brief Plugin to support boards by the Tau Labs project
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -24,27 +24,26 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+#ifndef FREEDOM_H
+#define FREEDOM_H
 
-#ifndef DEVICEDESCRIPTORSTRUCT_H
-#define DEVICEDESCRIPTORSTRUCT_H
+#include <coreplugin/iboardtype.h>
 
-#include <QString>
-#include <QPixmap>
+class IBoardType;
 
-class deviceDescriptorStruct
+class Freedom : public Core::IBoardType
 {
 public:
-    QString gitHash;
-    QString gitDate;
-    QString gitTag;
-    QByteArray fwHash;
-    QByteArray uavoHash;
-    int boardType;
-    int boardRevision;
-    static QString idToBoardName(quint16 id);
-    static QPixmap idToBoardPicture(quint16 id);
+    Freedom();
+    virtual ~Freedom();
 
-    deviceDescriptorStruct();
+    virtual QString shortName();
+    virtual QString boardDescription();
+    virtual bool queryCapabilities(BoardCapabilities capability);
+    virtual QStringList getSupportedProtocols();
+    virtual QPixmap getBoardPicture();
+    virtual QString getHwUAVO();
 };
 
-#endif // DEVICEDESCRIPTORSTRUCT_H
+
+#endif // FREEDOM_H

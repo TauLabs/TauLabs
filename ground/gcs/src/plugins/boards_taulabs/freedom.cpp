@@ -1,14 +1,13 @@
 /**
  ******************************************************************************
- *
- * @file       discoveryf4.cpp
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013
+ * @file       freedom.cpp
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup Boards_Stm STM boards support Plugin
+ * @addtogroup Boards_TauLabsPlugin Tau Labs boards support Plugin
  * @{
- * @brief Plugin to support boards by STM
+ * @brief Plugin to support boards by the Tau Labs project
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -26,13 +25,13 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "discoveryf4.h"
+#include "freedom.h"
 
 /**
- * @brief DiscoveryF4::DiscoveryF4
- *  This is the DiscoveryF4 board definition
+ * @brief Freedom::Freedom
+ *  This is the Freedom board definition
  */
-DiscoveryF4::DiscoveryF4(void)
+Freedom::Freedom(void)
 {
     // Initialize our USB Structure definition here:
     USBInfo board;
@@ -41,59 +40,59 @@ DiscoveryF4::DiscoveryF4(void)
 
     setUSBInfo(board);
 
-    boardType = 0x85;
+    boardType = 0x81;
 }
 
-DiscoveryF4::~DiscoveryF4()
+Freedom::~Freedom()
 {
 
 }
 
-QString DiscoveryF4::shortName()
+QString Freedom::shortName()
 {
-    return QString("discoveryf4");
+    return QString("Freedom");
 }
 
-QString DiscoveryF4::boardDescription()
+QString Freedom::boardDescription()
 {
-    return QString("DiscoveryF4");
+    return QString("The Tau Labs project Freedom boards");
 }
 
 //! Return which capabilities this board has
-bool DiscoveryF4::queryCapabilities(BoardCapabilities capability)
+bool Freedom::queryCapabilities(BoardCapabilities capability)
 {
     switch(capability) {
     case BOARD_CAPABILITIES_GYROS:
-        return false;
+        return true;
     case BOARD_CAPABILITIES_ACCELS:
-        return false;
+        return true;
     case BOARD_CAPABILITIES_MAGS:
-        return false;
+        return true;
     case BOARD_CAPABILITIES_BAROS:
-        return false;
+        return true;
     case BOARD_CAPABILITIES_RADIO:
-        return false;
+        return true;
     }
     return false;
 }
 
 /**
- * @brief DiscoveryF4::getSupportedProtocols
+ * @brief Freedom::getSupportedProtocols
  *  TODO: this is just a stub, we'll need to extend this a lot with multi protocol support
  * @return
  */
-QStringList DiscoveryF4::getSupportedProtocols()
+QStringList Freedom::getSupportedProtocols()
 {
 
     return QStringList("uavtalk");
 }
 
-QPixmap DiscoveryF4::getBoardPicture()
+QPixmap Freedom::getBoardPicture()
 {
-    return QPixmap();
+    return QPixmap(":/taulabs/images/freedom.png");
 }
 
-QString DiscoveryF4::getHwUAVO()
+QString Freedom::getHwUAVO()
 {
-    return "HwDiscoveryF4";
+    return "HwFreedom";
 }

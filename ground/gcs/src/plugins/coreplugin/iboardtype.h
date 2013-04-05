@@ -102,7 +102,7 @@ public:
      *  TODO: this API is not stable yet.
      *
      */
-    virtual QPixmap* getBoardPicture() = 0;
+    virtual QPixmap getBoardPicture() = 0;
 
     /**
      * Get supported protocol(s) for this board
@@ -110,6 +110,13 @@ public:
      * TODO: extend GCS to support multiple protocol types.
      */
     virtual QStringList getSupportedProtocols() = 0;
+
+    /**
+     * Get supported protocol(s) for this board
+     *
+     * TODO: extend GCS to support multiple protocol types.
+     */
+    virtual QString getHwUAVO() = 0;
 
     /**
      * Get USB descriptors to detect the board
