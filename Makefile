@@ -84,6 +84,34 @@ GCS_BUILD_CONF ?= debug
 # Set up misc host tools
 RM=rm
 
+##############################
+#
+# Check that environmental variables are sane
+#
+##############################
+# Checking for $(ANDROIDGCS_BUILD_CONF) to be sane
+ifdef ANDROIDGCS_BUILD_CONF
+ ifneq ($(ANDROIDGCS_BUILD_CONF), release)
+  ifneq ($(ANDROIDGCS_BUILD_CONF), debug)
+   $(error Only debug or release are allowed for ANDROIDGCS_BUILD_CONF)
+  endif
+ endif
+endif
+
+# Checking for $(GCS_BUILD_CONF) to be sane
+ifdef GCS_BUILD_CONF
+ ifneq ($(GCS_BUILD_CONF), release)
+  ifneq ($(GCS_BUILD_CONF), debug)
+   $(error Only debug or release are allowed for GCS_BUILD_CONF)
+  endif
+ endif
+endif
+
+##############################
+#
+# Help instructions
+#
+##############################
 .PHONY: help
 help:
 	@echo
@@ -95,7 +123,8 @@ help:
 	@echo "   [Tool Installers]"
 	@echo "     qt_sdk_install       - Install the QT v4.7.3 tools"
 	@echo "     arm_sdk_install      - Install the GNU ARM gcc toolchain"
-	@echo "     openocd_install      - Install the OpenOCD JTAG daemon"
+	@echo "     openocd_install      - Install the OpenOCD SWD/JTAG daemon"
+	@echo "        \$$OPENOCD_FTDI     - Set to no in order not to install legacy FTDI support for OpenOCD."
 	@echo "     stm32flash_install   - Install the stm32flash tool for unbricking boards"
 	@echo "     dfuutil_install      - Install the dfu-util tool for unbricking F4-based boards"
 	@echo "     android_sdk_install  - Install the Android SDK tools"
@@ -126,19 +155,20 @@ help:
 	@echo "     fw_<board>           - Build firmware for <board>"
 	@echo "                            supported boards are ($(FW_BOARDS))"
 	@echo "     fw_<board>_clean     - Remove firmware for <board>"
-	@echo "     fw_<board>_program   - Use OpenOCD + JTAG to write firmware to <board>"
+	@echo "     fw_<board>_program   - Use OpenOCD + SWD/JTAG to write firmware to <board>"
+	@echo "     fw_<board>_wipe      - Use OpenOCD + SWD/JTAG to wipe entire firmware section on <board>"
 	@echo
 	@echo "   [Bootloader]"
 	@echo "     bl_<board>           - Build bootloader for <board>"
 	@echo "                            supported boards are ($(BL_BOARDS))"
 	@echo "     bl_<board>_clean     - Remove bootloader for <board>"
-	@echo "     bl_<board>_program   - Use OpenOCD + JTAG to write bootloader to <board>"
+	@echo "     bl_<board>_program   - Use OpenOCD + SWD/JTAG to write bootloader to <board>"
 	@echo
 	@echo "   [Entire Flash]"
 	@echo "     ef_<board>           - Build entire flash image for <board>"
 	@echo "                            supported boards are ($(EF_BOARDS))"
 	@echo "     ef_<board>_clean     - Remove entire flash image for <board>"
-	@echo "     ef_<board>_program   - Use OpenOCD + JTAG to write entire flash image to <board>"
+	@echo "     ef_<board>_program   - Use OpenOCD + SWD/JTAG to write entire flash image to <board>"
 	@echo
 	@echo "   [Bootloader Updater]"
 	@echo "     bu_<board>           - Build bootloader updater for <board>"
@@ -148,7 +178,7 @@ help:
 	@echo "   [Unbrick a board]"
 	@echo "     unbrick_<board>      - Use the STM32's built in boot ROM to write a bootloader to <board>"
 	@echo "                            supported boards are ($(BL_BOARDS))"
-	@echo "   [Unittests]"
+	@echo "   [Unit tests]"
 	@echo "     ut_<test>            - Build unit test <test>"
 	@echo "     ut_<test>_tap        - Run test and capture TAP output into a file"
 	@echo "     ut_<test>_run        - Run test and dump TAP output to console"
@@ -176,6 +206,9 @@ help:
 	@echo "     uavobjects_test      - parse xml-files - check for valid, duplicate ObjId's, ... "
 	@echo "     uavobjects_<group>   - Generate source files from a subset of the UAVObject definition XML files"
 	@echo "                            supported groups are ($(UAVOBJ_TARGETS))"
+	@echo "   [Package]"
+	@echo "     package              - Executes a make all_clean and then generates a complete package build for"
+	@echo "                            the GCS and all target board firmwares."
 	@echo
 	@echo "   Hint: Add V=1 to your command line to see verbose build output."
 	@echo
