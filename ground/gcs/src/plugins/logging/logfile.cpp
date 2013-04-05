@@ -161,7 +161,7 @@ void LogFile::timerFired()
         time = myTime.elapsed();
 
         //Read packets
-        while ((lastPlayTime + ((time - lastPlayTimeOffset)* playbackSpeed) > lastTimeStamp))
+        while ((lastPlayTime + ((time - lastPlayTimeOffset) * playbackSpeed) > (lastTimeStamp-firstTimestamp)))
         {
             lastPlayTime += ((time - lastPlayTimeOffset)* playbackSpeed);
             if(file.bytesAvailable() < 4) {
@@ -198,13 +198,6 @@ void LogFile::timerFired()
             lastTimeStampPos=timestampPos[timestampBufferIdx];
             lastTimeStamp = timestampBuffer[timestampBufferIdx];
             timestampBufferIdx++;
-            // some validity checks
-            if (lastTimeStamp<save // logfile goies back in time
-                    || (lastTimeStamp-save) > (60*60*1000)) { // gap of more than 60 minutes)
-                qDebug() << "Error: Logfile corrupted! Unlikely timestamp " << lastTimeStamp << " after "<< save << "\n";
-                stopReplay();
-                return;
-            }
 
             lastPlayTimeOffset = time;
             time = myTime.elapsed();
@@ -280,6 +273,7 @@ bool LogFile::startReplay() {
 
     lastTimeStampPos=timestampPos[timestampBufferIdx];
     lastTimeStamp = timestampBuffer[timestampBufferIdx];
+    firstTimestamp = timestampBuffer[timestampBufferIdx];
     timestampBufferIdx++;
     timer.setInterval(10);
     timer.start();
