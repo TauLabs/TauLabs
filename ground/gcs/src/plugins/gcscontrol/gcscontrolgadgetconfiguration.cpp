@@ -57,9 +57,8 @@ GCSControlGadgetConfiguration::GCSControlGadgetConfiguration(QString classId, QS
         udp_port = qSettings->value("controlPortUDP").toUInt();
         udp_host = QHostAddress(qSettings->value("controlHostUDP").toString());
 
-        gcsReceiverMode = qSettings->value("gcsReceiverMode").toBool();
-
-        for (unsigned int i=0;i<8;i++)
+        int i;
+        for (i=0;i<8;i++)
         {
             buttonSettings[i].ActionID = qSettings->value(QString().sprintf("button%dAction",i)).toInt();
             buttonSettings[i].FunctionID = qSettings->value(QString().sprintf("button%dFunction",i)).toInt();
@@ -107,17 +106,6 @@ QList<bool> GCSControlGadgetConfiguration::getChannelsReverse()
     return ql;
 }
 
-bool GCSControlGadgetConfiguration::getGcsReceiverMode()
-{
-    return gcsReceiverMode;
-}
-
-void GCSControlGadgetConfiguration::setGcsReceiverMode(bool enable)
-{
-    gcsReceiverMode = enable;
-}
-
-
 /**
  * Clones a configuration.
  *
@@ -134,8 +122,6 @@ IUAVGadgetConfiguration *GCSControlGadgetConfiguration::clone()
 
     m->udp_host = udp_host;
     m->udp_port = udp_port;
-
-    m->gcsReceiverMode = gcsReceiverMode;
 
     int i;
     for (i=0;i<8;i++)
@@ -164,9 +150,8 @@ void GCSControlGadgetConfiguration::saveConfig(QSettings* settings) const {
     settings->setValue("controlPortUDP",QString::number(udp_port));
     settings->setValue("controlHostUDP",udp_host.toString());
 
-    settings->setValue("gcsReceiverMode", gcsReceiverMode);
-
-    for (unsigned int i=0;i<8;i++)
+    int i;
+    for (i=0;i<8;i++)
     {
         settings->setValue(QString().sprintf("button%dAction",i), buttonSettings[i].ActionID);
         settings->setValue(QString().sprintf("button%dFunction",i), buttonSettings[i].FunctionID);

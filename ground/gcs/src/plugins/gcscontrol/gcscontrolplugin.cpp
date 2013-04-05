@@ -44,22 +44,18 @@ GCSControlPlugin::~GCSControlPlugin()
 
 bool GCSControlPlugin::initialize(const QStringList& args, QString *errMsg)
 {
-    Q_UNUSED(args);
-    Q_UNUSED(errMsg);
-
-#if defined(USE_SDL)
+   Q_UNUSED(args);
+   Q_UNUSED(errMsg);
     sdlGamepad = new SDLGamepad();
-    if(sdlGamepad->init()) {
-        sdlGamepad->start();
-        qRegisterMetaType<QListInt16>("QListInt16");
-        qRegisterMetaType<ButtonNumber>("ButtonNumber");
-    }
-#endif
+   if(sdlGamepad->init()) {
+       sdlGamepad->start();
+       qRegisterMetaType<QListInt16>("QListInt16");
+       qRegisterMetaType<ButtonNumber>("ButtonNumber");
+   }
+   mf = new GCSControlGadgetFactory(this);
+   addAutoReleasedObject(mf);
 
-    mf = new GCSControlGadgetFactory(this);
-    addAutoReleasedObject(mf);
-
-    return true;
+   return true;
 }
 
 void GCSControlPlugin::extensionsInitialized()

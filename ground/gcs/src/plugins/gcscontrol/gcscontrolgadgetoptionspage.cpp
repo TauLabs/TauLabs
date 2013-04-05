@@ -39,9 +39,10 @@ GCSControlGadgetOptionsPage::GCSControlGadgetOptionsPage(GCSControlGadgetConfigu
 {
     options_page = NULL;
 
-#if defined(USE_SDL)
-    sdlGamepad = dynamic_cast<GCSControlPlugin*>(parent)->sdlGamepad;
-#endif
+   sdlGamepad = dynamic_cast<GCSControlPlugin*>(parent)->sdlGamepad;
+
+
+
 }
 
 GCSControlGadgetOptionsPage::~GCSControlGadgetOptionsPage()
@@ -49,12 +50,7 @@ GCSControlGadgetOptionsPage::~GCSControlGadgetOptionsPage()
 
 }
 
-void GCSControlGadgetOptionsPage::gamepads(quint8 count)
-{
-    Q_UNUSED(count);
-}
 
-#if defined(USE_SDL)
 void GCSControlGadgetOptionsPage::buttonState(ButtonNumber number, bool pressed)
 {
     if (options_page) {
@@ -70,6 +66,18 @@ void GCSControlGadgetOptionsPage::buttonState(ButtonNumber number, bool pressed)
             rbList.at(number)->setChecked(pressed);
         }
     }
+
+}
+
+void GCSControlGadgetOptionsPage::gamepads(quint8 count)
+{
+    Q_UNUSED(count);
+
+    /*options_page->AvailableControllerList->clear();
+    for (int i=0;i<count;i++)
+    {
+       options_page->AvailableControllerList->addItem(QString().sprintf("%d",i));//SDL_JoystickName(i));
+    }*/
 
 }
 
@@ -94,7 +102,7 @@ void GCSControlGadgetOptionsPage::axesValues(QListInt16 values)
         }
     }
 }
-#endif
+
 
 //creates options page widget (uses the UI file)
 QWidget *GCSControlGadgetOptionsPage::createPage(QWidget *parent)
@@ -106,7 +114,7 @@ QWidget *GCSControlGadgetOptionsPage::createPage(QWidget *parent)
     QWidget *optionsPageWidget = new QWidget;
     options_page->setupUi(optionsPageWidget);
 
-    options_page->gcsReceiverCB->setChecked(m_config->getGcsReceiverMode());
+
 
     //QList<QComboBox*> chList;
     chList.clear();
@@ -204,11 +212,9 @@ QWidget *GCSControlGadgetOptionsPage::createPage(QWidget *parent)
         chRevList.at(i)->setChecked(qlChRev.at(i));;
     }
 
-#if defined(USE_SDL)
     connect(sdlGamepad,SIGNAL(axesValues(QListInt16)),this,SLOT(axesValues(QListInt16)));
     connect(sdlGamepad,SIGNAL(buttonState(ButtonNumber,bool)),this,SLOT(buttonState(ButtonNumber,bool)));
     connect(sdlGamepad,SIGNAL(gamepads(quint8)),this,SLOT(gamepads(quint8)));
-#endif
 
     return optionsPageWidget;
 }
@@ -222,6 +228,27 @@ QWidget *GCSControlGadgetOptionsPage::createPage(QWidget *parent)
 void GCSControlGadgetOptionsPage::apply()
 {
    m_config->setControlsMode(options_page->controlsMode->currentIndex()+1);
+   /*QList<QComboBox*> chList;
+   chList << options_page->channel0 << options_page->channel1 <<
+             options_page->channel2 << options_page->channel3 <<
+             options_page->channel4 << options_page->channel5 <<
+             options_page->channel6 << options_page->channel7;
+   QList<QComboBox*> buttonFunctionList;
+   buttonFunctionList << options_page->buttonFunction0 << options_page->buttonFunction1 <<
+             options_page->buttonFunction2 << options_page->buttonFunction3 <<
+             options_page->buttonFunction4 << options_page->buttonFunction5 <<
+             options_page->buttonFunction6 << options_page->buttonFunction7;
+   QList<QComboBox*> buttonActionList;
+   buttonActionList << options_page->buttonAction0 << options_page->buttonAction1 <<
+             options_page->buttonAction2 << options_page->buttonAction3 <<
+             options_page->buttonAction4 << options_page->buttonAction5 <<
+             options_page->buttonAction6 << options_page->buttonAction7;
+   QList<QDoubleSpinBox*> buttonValueList;
+   buttonValueList << options_page->buttonAmount0 << options_page->buttonAmount1 <<
+             options_page->buttonAmount2 << options_page->buttonAmount3 <<
+             options_page->buttonAmount4 << options_page->buttonAmount5 <<
+             options_page->buttonAmount6 << options_page->buttonAmount7;
+*/
 
    int roll=-1 , pitch=-1, yaw=-1, throttle=-1;
    for (int i=0; i<chList.length(); i++) {
@@ -244,9 +271,9 @@ void GCSControlGadgetOptionsPage::apply()
 
    m_config->setUDPControlSettings(options_page->udp_port->text().toInt(),options_page->udp_host->text());
 
-   m_config->setGcsReceiverMode(options_page->gcsReceiverCB->checkState());
 
-   for (unsigned int j = 0; j < 8; j++)
+   int j;
+   for (j=0;j<8;j++)
    {
        m_config->setbuttonSettingsAction(j,buttonActionList.at(j)->currentIndex());
        m_config->setbuttonSettingsFunction(j,buttonFunctionList.at(j)->currentIndex());
@@ -259,9 +286,7 @@ void GCSControlGadgetOptionsPage::apply()
 
 void GCSControlGadgetOptionsPage::finish()
 {
-#if defined(USE_SDL)
     disconnect(sdlGamepad,0,this,0);
-#endif
     delete options_page;
     options_page = NULL;
 }
@@ -269,7 +294,29 @@ void GCSControlGadgetOptionsPage::finish()
 
 void GCSControlGadgetOptionsPage::updateButtonFunction()
 {
-    for (unsigned int i=0;i<8;i++)
+    int i;
+    /*QList<QComboBox*> buttonFunctionList;
+    buttonFunctionList << options_page->buttonFunction0 << options_page->buttonFunction1 <<
+              options_page->buttonFunction2 << options_page->buttonFunction3 <<
+              options_page->buttonFunction4 << options_page->buttonFunction5 <<
+              options_page->buttonFunction6 << options_page->buttonFunction7;
+    QList<QComboBox*> buttonActionList;
+    buttonActionList << options_page->buttonAction0 << options_page->buttonAction1 <<
+              options_page->buttonAction2 << options_page->buttonAction3 <<
+              options_page->buttonAction4 << options_page->buttonAction5 <<
+              options_page->buttonAction6 << options_page->buttonAction7;
+    QList<QDoubleSpinBox*> buttonValueList;
+    buttonValueList << options_page->buttonAmount0 << options_page->buttonAmount1 <<
+              options_page->buttonAmount2 << options_page->buttonAmount3 <<
+              options_page->buttonAmount4 << options_page->buttonAmount5 <<
+              options_page->buttonAmount6 << options_page->buttonAmount7;
+    QList<QLabel*> buttonLabelList;
+    buttonLabelList << options_page->buttonLabel0 << options_page->buttonLabel1 <<
+              options_page->buttonLabel2 << options_page->buttonLabel3 <<
+              options_page->buttonLabel4 << options_page->buttonLabel5 <<
+              options_page->buttonLabel6 << options_page->buttonLabel7;
+*/
+    for (i=0;i<8;i++)
     {
         if (buttonActionList.at(i)->currentText().compare("Does nothing")==0)
         {
@@ -297,39 +344,62 @@ void GCSControlGadgetOptionsPage::updateButtonFunction()
 
 void GCSControlGadgetOptionsPage::updateButtonAction(int controlID)
 {
+    int i;
     QStringList buttonOptions;
-
+    /*QList<QComboBox*> buttonFunctionList;
+    buttonFunctionList << options_page->buttonFunction0 << options_page->buttonFunction1 <<
+              options_page->buttonFunction2 << options_page->buttonFunction3 <<
+              options_page->buttonFunction4 << options_page->buttonFunction5 <<
+              options_page->buttonFunction6 << options_page->buttonFunction7;
+    QList<QComboBox*> buttonActionList;
+    buttonActionList << options_page->buttonAction0 << options_page->buttonAction1 <<
+              options_page->buttonAction2 << options_page->buttonAction3 <<
+              options_page->buttonAction4 << options_page->buttonAction5 <<
+              options_page->buttonAction6 << options_page->buttonAction7;
+    QList<QDoubleSpinBox*> buttonValueList;
+    buttonValueList << options_page->buttonAmount0 << options_page->buttonAmount1 <<
+              options_page->buttonAmount2 << options_page->buttonAmount3 <<
+              options_page->buttonAmount4 << options_page->buttonAmount5 <<
+              options_page->buttonAmount6 << options_page->buttonAmount7;
+    QList<QLabel*> buttonLabelList;
+    buttonLabelList << options_page->buttonLabel0 << options_page->buttonLabel1 <<
+              options_page->buttonLabel2 << options_page->buttonLabel3 <<
+              options_page->buttonLabel4 << options_page->buttonLabel5 <<
+              options_page->buttonLabel6 << options_page->buttonLabel7;
+*/
+    //for (i=0;i<8;i++)
+    i=controlID;
     {
-        if (buttonActionList.at(controlID)->currentText().compare("Does nothing")==0)
+        if (buttonActionList.at(i)->currentText().compare("Does nothing")==0)
         {
-            buttonFunctionList.at(controlID)->setVisible(0);
-            buttonLabelList.at(controlID)->setVisible(0);
-            buttonValueList.at(controlID)->setVisible(0);
+            buttonFunctionList.at(i)->setVisible(0);
+            buttonLabelList.at(i)->setVisible(0);
+            buttonValueList.at(i)->setVisible(0);
         }
         else
-        if (buttonActionList.at(controlID)->currentText().compare("Toggles")==0)
+        if (buttonActionList.at(i)->currentText().compare("Toggles")==0)
         {
-            disconnect(buttonFunctionList.at(controlID),SIGNAL(currentIndexChanged(int)),this,SLOT(updateButtonFunction()));
+            disconnect(buttonFunctionList.at(i),SIGNAL(currentIndexChanged(int)),this,SLOT(updateButtonFunction()));
             buttonOptions <<"-" << "Armed" << "GCS Control" << "UDP Control";
-            buttonFunctionList.at(controlID)->clear();
-            buttonFunctionList.at(controlID)->insertItems(-1,buttonOptions);
+            buttonFunctionList.at(i)->clear();
+            buttonFunctionList.at(i)->insertItems(-1,buttonOptions);
 
-            buttonFunctionList.at(controlID)->setVisible(1);
-            buttonLabelList.at(controlID)->setVisible(0);
-            buttonValueList.at(controlID)->setVisible(0);
-            connect(buttonFunctionList.at(controlID),SIGNAL(currentIndexChanged(int)),this,SLOT(updateButtonFunction()));
+            buttonFunctionList.at(i)->setVisible(1);
+            buttonLabelList.at(i)->setVisible(0);
+            buttonValueList.at(i)->setVisible(0);
+            connect(buttonFunctionList.at(i),SIGNAL(currentIndexChanged(int)),this,SLOT(updateButtonFunction()));
         }
         else
         {
-            disconnect(buttonFunctionList.at(controlID),SIGNAL(currentIndexChanged(int)),this,SLOT(updateButtonFunction()));
+            disconnect(buttonFunctionList.at(i),SIGNAL(currentIndexChanged(int)),this,SLOT(updateButtonFunction()));
             buttonOptions <<"-" << "Roll" << "Pitch" << "Yaw" << "Throttle" ;
-            buttonFunctionList.at(controlID)->clear();
-            buttonFunctionList.at(controlID)->addItems(buttonOptions);
+            buttonFunctionList.at(i)->clear();
+            buttonFunctionList.at(i)->addItems(buttonOptions);
 
-            buttonFunctionList.at(controlID)->setVisible(1);
-            buttonLabelList.at(controlID)->setVisible(1);
-            buttonValueList.at(controlID)->setVisible(1);
-            connect(buttonFunctionList.at(controlID),SIGNAL(currentIndexChanged(int)),this,SLOT(updateButtonFunction()));
+            buttonFunctionList.at(i)->setVisible(1);
+            buttonLabelList.at(i)->setVisible(1);
+            buttonValueList.at(i)->setVisible(1);
+            connect(buttonFunctionList.at(i),SIGNAL(currentIndexChanged(int)),this,SLOT(updateButtonFunction()));
         }
     }
 
