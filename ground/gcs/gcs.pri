@@ -138,3 +138,7 @@ linux-g++-* {
     QMAKE_LFLAGS += -Wl,--allow-shlib-undefined -Wl,--no-undefined
 }
 
+#Turn on SDL by default
+isEmpty(GCS_NO_SDL) {
+    CONFIG   += SDL
+}
