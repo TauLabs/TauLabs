@@ -186,7 +186,6 @@ bool SpectrogramData::append(UAVObject* multiObj)
 
 
                 // Second to last step, see if autoscale is turned on and if the value exceeds the maximum for the scope.
-                float bob = rasterData->interval(Qt::ZAxis).maxValue();
                 if ( zMaximum == 0 &&  vecVal > rasterData->interval(Qt::ZAxis).maxValue()){
                     // Change scope maximum and color depth
                     rasterData->setInterval(Qt::ZAxis, QwtInterval(0, vecVal) );

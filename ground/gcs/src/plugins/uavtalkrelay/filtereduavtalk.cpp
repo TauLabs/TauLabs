@@ -1,8 +1,8 @@
 /**
  ******************************************************************************
  * @file       filtereduavtalk.c
- * @author     The PhoenixPilot Team, http://github.com/PhoenixPilot
- * * @addtogroup GCSPlugins GCS Plugins
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVTalk relay plugin
  * @{

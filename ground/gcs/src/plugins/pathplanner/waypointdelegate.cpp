@@ -1,8 +1,8 @@
 /**
  ******************************************************************************
  * @file       waypointdelegate.cpp
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
- * @addtogroup PhoenixPilot GCS Plugins
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
+ * @addtogroup TauLabs GCS Plugins
  * @{
  * @addtogroup PathPlanner Map Plugin
  * @{
