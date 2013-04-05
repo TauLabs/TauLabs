@@ -94,3 +94,8 @@ QPixmap Sparky::getBoardPicture()
 {
     return QPixmap(":/taulabs/images/sparky.png");
 }
+
+QString Sparky::getHwUAVO()
+{
+    return "HwSparky";
+}

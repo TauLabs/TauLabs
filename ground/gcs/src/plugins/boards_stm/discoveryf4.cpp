@@ -92,3 +92,8 @@ QPixmap DiscoveryF4::getBoardPicture()
 {
     return QPixmap();
 }
+
+QString DiscoveryF4::getHwUAVO()
+{
+    return "HwDiscoveryF4";
+}

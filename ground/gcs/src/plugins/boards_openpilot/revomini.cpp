@@ -94,3 +94,8 @@ QPixmap RevoMini::getBoardPicture()
 {
     return QPixmap();
 }
+
+QString RevoMini::getHwUAVO()
+{
+    return "HwRevoMini";
+}

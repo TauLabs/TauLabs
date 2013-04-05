@@ -112,6 +112,13 @@ public:
     virtual QStringList getSupportedProtocols() = 0;
 
     /**
+     * Get supported protocol(s) for this board
+     *
+     * TODO: extend GCS to support multiple protocol types.
+     */
+    virtual QString getHwUAVO() = 0;
+
+    /**
      * Get USB descriptors to detect the board
      */
     USBInfo getUSBInfo() { return boardUSBInfo; }

@@ -94,3 +94,8 @@ QPixmap PipXtreme::getBoardPicture()
 {
     return QPixmap(":/images/pipx.png");
 }
+
+QString PipXtreme::getHwUAVO()
+{
+    return "PipXtreme";
+}

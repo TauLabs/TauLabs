@@ -93,3 +93,8 @@ QPixmap Revolution::getBoardPicture()
 {
     return QPixmap();
 }
+
+QString Revolution::getHwUAVO()
+{
+    return "HwRevolution";
+}
