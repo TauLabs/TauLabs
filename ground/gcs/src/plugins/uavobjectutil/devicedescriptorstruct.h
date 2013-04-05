@@ -57,6 +57,10 @@ public:
            case 0x8601:
                return QString("Quanton");
                break;
+           case 0x8701:
+           case 0x8702:
+               return QString("VR-Brain");
+               break;
            default:
                return QString("");
                break;

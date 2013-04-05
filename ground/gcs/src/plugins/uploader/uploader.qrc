@@ -18,6 +18,7 @@
         <file>images/pipx.png</file>
         <file>images/gcs-board-freedom.png</file>
         <file>images/gcs-board-quanton.png</file>
+        <file>images/gcs-board-vrbrain.png</file>
         <file>images/gcs-board-flyingf3.png</file>
     </qresource>
 </RCC>

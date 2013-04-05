@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       stmplugin.cpp
+ * @file       vrbrain.cpp
  * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013
  *
  * @addtogroup GCSPlugins GCS Plugins
@@ -26,52 +26,64 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "stmplugin.h"
-#include "flyingf3.h"
-#include "flyingf4.h"
-#include "discoveryf4.h"
 #include "vrbrain.h"
-#include <QtPlugin>
 
-
-StmPlugin::StmPlugin()
+/**
+ * @brief Vrbrain::Vrbrain
+ *  This is the Vrbrain board definition
+ */
+Vrbrain::Vrbrain(void)
 {
-   // Do nothing
+    // Initialize our USB Structure definition here:
+    USBInfo board;
+    board.vendorID = 0x20A0;
+    board.productID = 0x415b;
+
+    setUSBInfo(board);
+
+    boardType = 0x87;
 }
 
-StmPlugin::~StmPlugin()
+Vrbrain::~Vrbrain()
 {
-   // Do nothing
+
 }
 
-bool StmPlugin::initialize(const QStringList& args, QString *errMsg)
+QString Vrbrain::shortName()
 {
-   Q_UNUSED(args);
-   Q_UNUSED(errMsg);
-   return true;
+    return QString("vrbrain");
 }
 
-void StmPlugin::extensionsInitialized()
+QString Vrbrain::boardDescription()
 {
-    /**
-     * Create the board objects here.
-     *
-     */
-    FlyingF3* flyingf3 = new FlyingF3();
-    addAutoReleasedObject(flyingf3);
-
-    FlyingF4* flyingf4 = new FlyingF4();
-    addAutoReleasedObject(flyingf4);
-
-    DiscoveryF4* discoveryf4 = new DiscoveryF4();
-    addAutoReleasedObject(discoveryf4);
-
-    Vrbrain* vrbrain = new Vrbrain();
-    addAutoReleasedObject(vrbrain);
+    return QString("Vrbrain");
 }
 
-void StmPlugin::shutdown()
+//! Return which capabilities this board has
+bool Vrbrain::queryCapabilities(BoardCapabilities capability)
 {
+    switch(capability) {
+    case BOARD_CAPABILITIES_GYROS:
+        return true;
+    case BOARD_CAPABILITIES_ACCELS:
+        return true;
+    case BOARD_CAPABILITIES_MAGS:
+        return true;
+    case BOARD_CAPABILITIES_BAROS:
+        return true;
+    case BOARD_CAPABILITIES_RADIO:
+        return false;
+    }
+    return false;
 }
 
-Q_EXPORT_PLUGIN(StmPlugin)
+/**
+ * @brief Vrbrain::getSupportedProtocols
+ *  TODO: this is just a stub, we'll need to extend this a lot with multi protocol support
+ * @return
+ */
+QStringList Vrbrain::getSupportedProtocols()
+{
+
+    return QStringList("uavtalk");
+}

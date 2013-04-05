@@ -6,6 +6,8 @@
 		<field name="End" units="m" type="float" elementnames="North,East,Down" default="0"/>
 		<field name="StartingVelocity" units="m/s" type="float" elements="1" default="0"/>
 		<field name="EndingVelocity" units="m/s" type="float" elements="1" default="0"/>
+		<field name="InitialYaw" units="degrees" type="float" elements="1" default="0"/>
+
 
 		<!-- Endpoint mode - move directly towards endpoint regardless of position -->
 		<!-- Straight Mode - move across linear path through Start towards the waypoint end, adjusting velocity - continue straight -->
@@ -23,6 +25,7 @@
 				<option>HoldPosition</option>
 				<option>CirclePositionLeft</option>
 				<option>CirclePositionRight</option>
+				<option>VelocityControl</option>
 				<option>Land</option>
 			</options>
 		</field>

@@ -93,6 +93,7 @@ static void updateNedAccel();
 static void updatePathVelocity();
 static void updateEndpointVelocity();
 static void updateVtolDesiredAttitude();
+static void updateVtolDesiredVelocityAttitude();
 static bool module_enabled = false;
 
 enum vtol_pid {NORTH_VELOCITY, EAST_VELOCITY, DOWN_VELOCITY, NORTH_POSITION, EAST_POSITION, DOWN_POSITION, VTOL_PID_NUM};
@@ -237,6 +238,13 @@ static void vtolPathFollowerTask(void *parameters)
 					pathDesired.Mode == PATHDESIRED_MODE_FLYCIRCLERIGHT) {
 					updatePathVelocity();
 					updateVtolDesiredAttitude();
+				} else {
+					AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_ERROR);
+				}
+				break;
+			case FLIGHTSTATUS_FLIGHTMODE_VELOCITYCONTROL:
+				if (pathDesired.Mode == PATHDESIRED_MODE_VELOCITYCONTROL) {
+					updateVtolDesiredVelocityAttitude();
 				} else {
 					AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_ERROR);
 				}
@@ -515,6 +523,52 @@ static void updateVtolDesiredAttitude()
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK;
 	
+	StabilizationDesiredSet(&stabDesired);
+}
+
+/**
+ * Compute desired attitude from the manual control
+ * based on yaw
+ */
+static void updateVtolDesiredVelocityAttitude()
+{
+	StabilizationDesiredData stabDesired;
+	AttitudeActualData attitudeActual;
+	StabilizationSettingsData stabSettings;
+	ManualControlCommandData manualControlData;
+
+	ManualControlCommandGet(&manualControlData);
+	VtolPathFollowerSettingsGet(&guidanceSettings);
+	StabilizationDesiredGet(&stabDesired);
+	AttitudeActualGet(&attitudeActual);
+	StabilizationSettingsGet(&stabSettings);
+
+	float pitchVel = 0;
+	float rollVel = 0;
+	float yawVel = 0;
+
+	/* This allows the transmitter to control the Roll, Pitch, Yaw and Throttle */
+	rollVel = stabSettings.RollMax * manualControlData.Roll;
+	pitchVel = stabSettings.PitchMax * manualControlData.Pitch;
+
+	stabDesired.Yaw = stabSettings.MaximumRate[STABILIZATIONSETTINGS_MAXIMUMRATE_YAW] * manualControlData.Yaw;
+	stabDesired.Throttle = manualControlData.Throttle;
+
+	yawVel = attitudeActual.Yaw - pathDesired.InitialYaw;
+
+	// Project the pitch and roll manual command signals into the pitch and roll based on yaw.
+	stabDesired.Pitch = bound_min_max(pitchVel * cosf(yawVel * DEG2RAD) +
+				      -rollVel * sinf(yawVel * DEG2RAD),
+				      -stabSettings.PitchMax, stabSettings.PitchMax);
+	stabDesired.Roll = bound_min_max(pitchVel * sinf(yawVel * DEG2RAD) +
+	                  rollVel * cosf(yawVel * DEG2RAD),
+				      -stabSettings.RollMax, stabSettings.RollMax);
+
+	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
+	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
+	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_RATE;
+//	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK;
+
 	StabilizationDesiredSet(&stabDesired);
 }
 

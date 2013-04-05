@@ -62,6 +62,7 @@ DefaultHwSettingsWidget::DefaultHwSettingsWidget(QWidget *parent, bool autopilot
         allHwSettings.append("HwRevolution");
         allHwSettings.append("HwRevoMini");
         allHwSettings.append("HwQuanton");
+        allHwSettings.append("HwVrbrain");
 
         //Connect all forms to slots
         foreach (QString str, allHwSettings) {
