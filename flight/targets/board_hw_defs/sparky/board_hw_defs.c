@@ -620,10 +620,10 @@ static const struct pios_tim_clock_cfg tim_17_cfg = {
  */
 
 static const struct pios_tim_channel pios_tim_servoport_all_pins[] = {
-	{ // Ch1
+	/*{ // Ch1 -- Crap, conflicts with PPM input TIM15_CH2
 		.timer = TIM15,
 		.timer_chan = TIM_Channel_2,
-		.remap = GPIO_AF_2,
+		.remap = GPIO_AF_1,
 		.pin = {
 			.gpio = GPIOB,
 			.init = {
@@ -635,7 +635,7 @@ static const struct pios_tim_channel pios_tim_servoport_all_pins[] = {
 			},
 			.pin_source = GPIO_PinSource15,
 		},
-	},
+	},*/
 	{ // Ch2
 		.timer = TIM2,
 		.timer_chan = TIM_Channel_4,
@@ -657,15 +657,15 @@ static const struct pios_tim_channel pios_tim_servoport_all_pins[] = {
 		.timer_chan = TIM_Channel_4,
 		.remap = GPIO_AF_2,
 		.pin = {
-			.gpio = GPIOA,
+			.gpio = GPIOB,
 			.init = {
-				.GPIO_Pin = GPIO_Pin_7,
+				.GPIO_Pin = GPIO_Pin_1,
 				.GPIO_Speed = GPIO_Speed_2MHz,
 				.GPIO_Mode  = GPIO_Mode_AF,
 				.GPIO_OType = GPIO_OType_PP,
 				.GPIO_PuPd  = GPIO_PuPd_UP
 			},
-			.pin_source = GPIO_PinSource7,
+			.pin_source = GPIO_PinSource1,
 		},
 	},
 	{ // Ch4
@@ -720,23 +720,23 @@ static const struct pios_tim_channel pios_tim_servoport_all_pins[] = {
 	{ // Ch7
 		.timer = TIM1,
 		.timer_chan = TIM_Channel_1,
-		.remap = GPIO_AF_2,
+		.remap = GPIO_AF_6,
 		.pin = {
 			.gpio = GPIOA,
 			.init = {
-				.GPIO_Pin = GPIO_Pin_3,
+				.GPIO_Pin = GPIO_Pin_8,
 				.GPIO_Speed = GPIO_Speed_2MHz,
 				.GPIO_Mode  = GPIO_Mode_AF,
 				.GPIO_OType = GPIO_OType_PP,
 				.GPIO_PuPd  = GPIO_PuPd_UP
 			},
-			.pin_source = GPIO_PinSource3,
+			.pin_source = GPIO_PinSource8,
 		},
 	},
 	{ // Ch8  TIM12_CH1 (PB14)
-		.timer = TIM12,
+		.timer = TIM15,
 		.timer_chan = TIM_Channel_1,
-		.remap = GPIO_AF_2,
+		.remap = GPIO_AF_1,
 		.pin = {
 			.gpio = GPIOB,
 			.init = {
@@ -770,7 +770,7 @@ static const struct pios_tim_channel pios_tim_servoport_all_pins[] = {
 		.timer_chan = TIM_Channel_3,
 		.remap = GPIO_AF_2,
 		.pin = {
-			.gpio = GPIOA,
+			.gpio = GPIOB,
 			.init = {
 				.GPIO_Pin = GPIO_Pin_0,
 				.GPIO_Speed = GPIO_Speed_2MHz,
