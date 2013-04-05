@@ -45,8 +45,8 @@ protected:
     QTimer timer;
     QTime myTime;
     QFile file;
-    qint32 lastTimeStamp;
-    qint32 lastPlayTime;
+    quint32 lastTimeStamp;
+    quint32 lastPlayTime;
     QMutex mutex;
 
 
@@ -54,10 +54,11 @@ protected:
     double playbackSpeed;
 
 private:
-    QList<qint32> timestampBuffer;
-    QList<qint32> timestampPos;
+    QList<quint32> timestampBuffer;
+    QList<quint32> timestampPos;
     quint32 timestampBufferIdx;
-    qint32 lastTimeStampPos;
+    quint32 lastTimeStampPos;
+    quint32 firstTimestamp;
 };
 
 #endif // LOGFILE_H
