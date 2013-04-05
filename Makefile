@@ -96,7 +96,6 @@ ifdef ANDROIDGCS_BUILD_CONF
    $(error Only debug or release are allowed for ANDROIDGCS_BUILD_CONF)
   endif
  endif
- $(info Okay, building using ANDROIDGCS_BUILD_CONF = $(ANDROIDGCS_BUILD_CONF))
 endif
 
 # Checking for $(GCS_BUILD_CONF) to be sane
@@ -106,7 +105,6 @@ ifdef GCS_BUILD_CONF
    $(error Only debug or release are allowed for GCS_BUILD_CONF)
   endif
  endif
- $(info Okay, building using GCS_BUILD_CONF = $(GCS_BUILD_CONF))
 endif
 
 ##############################

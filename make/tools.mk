@@ -19,7 +19,6 @@ ifdef OPENOCD_FTDI
    $(error Only yes or no are allowed for OPENOCD_FTDI)
   endif
  endif
- $(info Okay, building using OPENOCD_FTDI = $(OPENOCD_FTDI))
 endif
 
 # Set up QT toolchain
