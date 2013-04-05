@@ -53,6 +53,12 @@ public:
     ConfigAttitudeWidget(QWidget *parent = 0);
     ~ConfigAttitudeWidget();
     
+protected:
+    void showEvent(QShowEvent *event);
+    void resizeEvent(QResizeEvent *event);
+
+    Calibration calibration;
+
 private:
     void drawVariancesGraph();
 
@@ -97,6 +103,8 @@ private:
 
     static const int NOISE_SAMPLES = 100;
 
+    QMap<QString, UAVObject::Metadata> originalMetaData;
+
 private slots:
     //! Overriden method from the configTaskWidget to update UI
     virtual void refreshWidgetsValues(UAVObject * obj=NULL);
@@ -107,12 +115,6 @@ private slots:
     // Slots for measuring the sensor noise
     void doStartNoiseMeasurement();
     void doGetNoiseSample(UAVObject *);
-
-protected:
-    void showEvent(QShowEvent *event);
-    void resizeEvent(QResizeEvent *event);
-
-    Calibration calibration;
 
 };
 
