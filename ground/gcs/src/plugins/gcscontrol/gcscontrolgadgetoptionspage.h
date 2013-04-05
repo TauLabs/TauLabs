@@ -68,7 +68,7 @@ public:
 private:
     Ui::GCSControlGadgetOptionsPage *options_page;
     GCSControlGadgetConfiguration *m_config;
-#if defined(USE_SDL)
+#if defined(USD_SDL)
     SDLGamepad *sdlGamepad;
 #endif
 
