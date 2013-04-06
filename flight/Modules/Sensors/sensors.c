@@ -59,11 +59,10 @@
 #include "gyros.h"
 #include "gyrosbias.h"
 #include "homelocation.h"
-#include "inertialsensorsettings.h"
+#include "sensorsettings.h"
 #include "inssettings.h"
 #include "magnetometer.h"
 #include "magbias.h"
-#include "revocalibration.h"
 #include "CoordinateConversions.h"
 
 // Private constants
@@ -94,7 +93,6 @@ static void updateTemperatureComp(float temperature, float *temp_bias);
 
 // Private variables
 static xTaskHandle sensorsTaskHandle;
-static RevoCalibrationData revoCal;
 static INSSettingsData insSettings;
 
 // These values are initialized by settings but can be updated by the attitude algorithm
@@ -136,16 +134,14 @@ static int32_t SensorsInitialize(void)
 	BaroAltitudeInitialize();
 	MagnetometerInitialize();
 	MagBiasInitialize();
-	RevoCalibrationInitialize();
 	AttitudeSettingsInitialize();
-	InertialSensorSettingsInitialize();
+	SensorSettingsInitialize();
 	INSSettingsInitialize();
 
 	rotate = 0;
 
-	RevoCalibrationConnectCallback(&settingsUpdatedCb);
 	AttitudeSettingsConnectCallback(&settingsUpdatedCb);
-	InertialSensorSettingsConnectCallback(&settingsUpdatedCb);
+	SensorSettingsConnectCallback(&settingsUpdatedCb);
 	INSSettingsConnectCallback(&settingsUpdatedCb);
 
 	return 0;
@@ -520,38 +516,37 @@ static void mag_calibration_fix_length(MagnetometerData *mag)
  */
 static void settingsUpdatedCb(UAVObjEvent * objEv)
 {
-	RevoCalibrationGet(&revoCal);
-	InertialSensorSettingsData inertialSensorSettings;
-	InertialSensorSettingsGet(&inertialSensorSettings);
+	SensorSettingsData sensorSettings;
+	SensorSettingsGet(&sensorSettings);
 	INSSettingsGet(&insSettings);
 	
-	mag_bias[0] = revoCal.MagBias[REVOCALIBRATION_MAGBIAS_X];
-	mag_bias[1] = revoCal.MagBias[REVOCALIBRATION_MAGBIAS_Y];
-	mag_bias[2] = revoCal.MagBias[REVOCALIBRATION_MAGBIAS_Z];
-	mag_scale[0] = revoCal.MagScale[REVOCALIBRATION_MAGSCALE_X];
-	mag_scale[1] = revoCal.MagScale[REVOCALIBRATION_MAGSCALE_Y];
-	mag_scale[2] = revoCal.MagScale[REVOCALIBRATION_MAGSCALE_Z];
-	accel_bias[0] = inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_X];
-	accel_bias[1] = inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_Y];
-	accel_bias[2] = inertialSensorSettings.AccelBias[INERTIALSENSORSETTINGS_ACCELBIAS_Z];
-	accel_scale[0] = inertialSensorSettings.AccelScale[INERTIALSENSORSETTINGS_ACCELSCALE_X];
-	accel_scale[1] = inertialSensorSettings.AccelScale[INERTIALSENSORSETTINGS_ACCELSCALE_Y];
-	accel_scale[2] = inertialSensorSettings.AccelScale[INERTIALSENSORSETTINGS_ACCELSCALE_Z];
-	gyro_scale[0] = inertialSensorSettings.GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_X];
-	gyro_scale[1] = inertialSensorSettings.GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_Y];
-	gyro_scale[2] = inertialSensorSettings.GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_Z];
-	gyro_coeff_x[0] =  inertialSensorSettings.XGyroTempCoeff[0];
-	gyro_coeff_x[1] =  inertialSensorSettings.XGyroTempCoeff[1];
-	gyro_coeff_x[2] =  inertialSensorSettings.XGyroTempCoeff[2];
-	gyro_coeff_x[3] =  inertialSensorSettings.XGyroTempCoeff[3];
-	gyro_coeff_y[0] =  inertialSensorSettings.YGyroTempCoeff[0];
-	gyro_coeff_y[1] =  inertialSensorSettings.YGyroTempCoeff[1];
-	gyro_coeff_y[2] =  inertialSensorSettings.YGyroTempCoeff[2];
-	gyro_coeff_y[3] =  inertialSensorSettings.YGyroTempCoeff[3];
-	gyro_coeff_z[0] =  inertialSensorSettings.ZGyroTempCoeff[0];
-	gyro_coeff_z[1] =  inertialSensorSettings.ZGyroTempCoeff[1];
-	gyro_coeff_z[2] =  inertialSensorSettings.ZGyroTempCoeff[2];
-	gyro_coeff_z[3] =  inertialSensorSettings.ZGyroTempCoeff[3];
+	mag_bias[0] = sensorSettings.MagBias[SENSORSETTINGS_MAGBIAS_X];
+	mag_bias[1] = sensorSettings.MagBias[SENSORSETTINGS_MAGBIAS_Y];
+	mag_bias[2] = sensorSettings.MagBias[SENSORSETTINGS_MAGBIAS_Z];
+	mag_scale[0] = sensorSettings.MagScale[SENSORSETTINGS_MAGSCALE_X];
+	mag_scale[1] = sensorSettings.MagScale[SENSORSETTINGS_MAGSCALE_Y];
+	mag_scale[2] = sensorSettings.MagScale[SENSORSETTINGS_MAGSCALE_Z];
+	accel_bias[0] = sensorSettings.AccelBias[SENSORSETTINGS_ACCELBIAS_X];
+	accel_bias[1] = sensorSettings.AccelBias[SENSORSETTINGS_ACCELBIAS_Y];
+	accel_bias[2] = sensorSettings.AccelBias[SENSORSETTINGS_ACCELBIAS_Z];
+	accel_scale[0] = sensorSettings.AccelScale[SENSORSETTINGS_ACCELSCALE_X];
+	accel_scale[1] = sensorSettings.AccelScale[SENSORSETTINGS_ACCELSCALE_Y];
+	accel_scale[2] = sensorSettings.AccelScale[SENSORSETTINGS_ACCELSCALE_Z];
+	gyro_scale[0] = sensorSettings.GyroScale[SENSORSETTINGS_GYROSCALE_X];
+	gyro_scale[1] = sensorSettings.GyroScale[SENSORSETTINGS_GYROSCALE_Y];
+	gyro_scale[2] = sensorSettings.GyroScale[SENSORSETTINGS_GYROSCALE_Z];
+	gyro_coeff_x[0] =  sensorSettings.XGyroTempCoeff[0];
+	gyro_coeff_x[1] =  sensorSettings.XGyroTempCoeff[1];
+	gyro_coeff_x[2] =  sensorSettings.XGyroTempCoeff[2];
+	gyro_coeff_x[3] =  sensorSettings.XGyroTempCoeff[3];
+	gyro_coeff_y[0] =  sensorSettings.YGyroTempCoeff[0];
+	gyro_coeff_y[1] =  sensorSettings.YGyroTempCoeff[1];
+	gyro_coeff_y[2] =  sensorSettings.YGyroTempCoeff[2];
+	gyro_coeff_y[3] =  sensorSettings.YGyroTempCoeff[3];
+	gyro_coeff_z[0] =  sensorSettings.ZGyroTempCoeff[0];
+	gyro_coeff_z[1] =  sensorSettings.ZGyroTempCoeff[1];
+	gyro_coeff_z[2] =  sensorSettings.ZGyroTempCoeff[2];
+	gyro_coeff_z[3] =  sensorSettings.ZGyroTempCoeff[3];
 	
 	// Zero out any adaptive tracking
 	MagBiasData magBias;
