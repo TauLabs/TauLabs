@@ -35,7 +35,6 @@ import org.taulabs.uavtalk.UAVObjectManager;
 
 import android.content.Context;
 import android.speech.tts.TextToSpeech;
-import android.util.Log;
 
 public class AudioTask implements ITelemTask, TextToSpeech.OnInitListener {
 
@@ -97,11 +96,14 @@ public class AudioTask implements ITelemTask, TextToSpeech.OnInitListener {
 			UAVObject obj = (UAVObject) data;
 
 			if (obj.getName().compareTo("FlightStatus") == 0) {
-				if (DEBUG) Log.d(TAG, "Registered FlightStatus");
 				registerObject(obj);
 			}
 
 			if (obj.getName().compareTo("SystemAlarms") == 0) {
+				registerObject(obj);
+			}
+
+			if (obj.getName().compareTo("WaypointActive") == 0) {
 				registerObject(obj);
 			}
 
@@ -115,7 +117,7 @@ public class AudioTask implements ITelemTask, TextToSpeech.OnInitListener {
 
 			UAVObject obj = (UAVObject) data;
 
-			if (ttsInit == false)
+			if (ttsInit == false || tts == null)
 				return;
 
 			if (obj.getName().compareTo("FlightStatus") == 0) {
@@ -125,7 +127,11 @@ public class AudioTask implements ITelemTask, TextToSpeech.OnInitListener {
 			if (obj.getName().compareTo("SystemAlarms") == 0) {
 				alarmsUpdated(obj);
 			}
-}
+
+			if (obj.getName().compareTo("WaypointActive") == 0) {
+				waypointActiveUpdated(obj);
+			}
+		}
 	};
 
 	@Override
@@ -183,6 +189,14 @@ public class AudioTask implements ITelemTask, TextToSpeech.OnInitListener {
 		if (newFlightMode.compareTo(flightMode) != 0) {
 			flightMode = newFlightMode;
 			tts.speak("Flight Mode " + flightMode, TextToSpeech.QUEUE_ADD, null);
+		}
+	}
+
+	// Announce the activated waypoint when in PathPlanner mode
+	private void waypointActiveUpdated(UAVObject obj) {
+		int index = (int) obj.getField("Index").getDouble();
+		if (flightMode.compareTo("PathPlanner") == 0) {
+			tts.speak("Activated waypoint " + index, TextToSpeech.QUEUE_ADD, null);
 		}
 	}
 }
