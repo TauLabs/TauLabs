@@ -182,7 +182,7 @@ static void PIOS_MPU9150_Config(struct pios_mpu60x0_cfg const * cfg)
 	while (PIOS_MPU9150_SetReg(PIOS_MPU60X0_INT_EN_REG, cfg->interrupt_en) != 0) ;
 
 	// FIFO storage
-#if defined(PIOS_MPU9150_ACCEL)
+#if defined(PIOS_MPU6050_ACCEL)
 	// Set the accel scale
 	PIOS_MPU9150_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
 	
@@ -397,7 +397,7 @@ static float PIOS_MPU9150_GetGyroScale()
 	return 0;
 }
 
-#if defined(PIOS_MPU9150_ACCEL)
+#if defined(PIOS_MPU6050_ACCEL)
 static float PIOS_MPU9150_GetAccelScale()
 {
 	switch (dev->accel_range) {
@@ -412,7 +412,7 @@ static float PIOS_MPU9150_GetAccelScale()
 	}
 	return 0;
 }
-#endif /* PIOS_MPU9150_ACCEL */
+#endif /* PIOS_MPU6050_ACCEL */
 
 /**
  * @brief Run self-test operation.
@@ -521,7 +521,7 @@ static void PIOS_MPU9150_Task(void *parameters)
 		// and Y as forward.  OP convention transposes this.  Also the Z is defined negatively
 		// to our convention
 
-#if defined(PIOS_MPU9150_ACCEL)
+#if defined(PIOS_MPU6050_ACCEL)
 
 		// Currently we only support rotations on top so switch X/Y accordingly
 		struct pios_sensor_accel_data accel_data;
