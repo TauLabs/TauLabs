@@ -385,7 +385,7 @@ static void createPathBox()
 
 	// Draw O
 	WaypointData waypoint;
-	waypoint.Velocity = 5; // Since for now this isn't directional just set a mag
+	waypoint.Velocity = 1;
 	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
 
 	waypoint.Position[0] = 0;
@@ -393,28 +393,28 @@ static void createPathBox()
 	waypoint.Position[2] = -10;
 	WaypointInstSet(0, &waypoint);
 
-	waypoint.Position[0] = 25;
-	waypoint.Position[1] = 25;
+	waypoint.Position[0] = 5;
+	waypoint.Position[1] = 5;
 	waypoint.Position[2] = -10;
 	WaypointInstSet(1, &waypoint);
 
-	waypoint.Position[0] = -25;
-	waypoint.Position[1] = 25;
-	waypoint.Mode = WAYPOINT_MODE_FLYCIRCLELEFT;
+	waypoint.Position[0] = -5;
+	waypoint.Position[1] = 5;
+	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
 	//waypoint.Mode = WAYPOINT_MODE_FLYCIRCLERIGHT;
 	waypoint.ModeParameters = 35;
 	WaypointInstSet(2, &waypoint);
 
-	waypoint.Position[0] = -25;
-	waypoint.Position[1] = -25;
+	waypoint.Position[0] = -5;
+	waypoint.Position[1] = -5;
 	WaypointInstSet(3, &waypoint);
 
-	waypoint.Position[0] = 25;
-	waypoint.Position[1] = -25;
+	waypoint.Position[0] = 5;
+	waypoint.Position[1] = -5;
 	WaypointInstSet(4, &waypoint);
 
-	waypoint.Position[0] = 25;
-	waypoint.Position[1] = 25;
+	waypoint.Position[0] = 5;
+	waypoint.Position[1] = 5;
 	WaypointInstSet(5, &waypoint);
 
 	waypoint.Position[0] = 0;
