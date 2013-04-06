@@ -81,6 +81,8 @@ public:
     };
 
     enum buttonTypeEnum {none,save_button,apply_button,reload_button,default_button,help_button};
+    enum metadataSetEnum {ALL_METADATA, SETTINGS_METADATA_ONLY, NONSETTINGS_METADATA_ONLY};
+
     struct uiRelationAutomation
     {
         QString objname;
@@ -101,6 +103,7 @@ public:
 
     void saveObjectToSD(UAVObject *obj);
     UAVObjectManager* getObjectManager();
+    UAVObjectUtilManager* getObjectUtilManager();
     static double listMean(QList<double> list);
     static double listVar(QList<double> list);
 
@@ -139,6 +142,7 @@ public:
     void addHelpButton(QPushButton * button,QString url);
     void forceShadowUpdates();
     void forceConnectedState();
+
 public slots:
     void onAutopilotDisconnect();
     void onAutopilotConnect();
@@ -159,10 +163,12 @@ signals:
     //fired when the autopilot disconnects
     void autoPilotDisconnected();
     void defaultRequested(int group);
+
 private slots:
     void objectUpdated(UAVObject*);
     void defaultButtonClicked();
     void reloadButtonClicked();
+
 private:
     int currentBoard;
     bool isConnected;

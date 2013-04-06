@@ -93,6 +93,8 @@ private:
 
     static const int NOISE_SAMPLES = 100;
 
+    QMap<QString, UAVObject::Metadata> originalMetaData;
+
 private slots:
     //! Overriden method from the configTaskWidget to update UI
     virtual void refreshWidgetsValues(UAVObject * obj=NULL);
