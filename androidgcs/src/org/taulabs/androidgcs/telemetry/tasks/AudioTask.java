@@ -158,6 +158,9 @@ public class AudioTask implements ITelemTask, TextToSpeech.OnInitListener {
 
 		int severity = 0;
 		for (int i = 0; i < alarm.getNumElements(); i++) {
+			if (alarmNames.get(i).compareTo("EventSystem")==0)
+				continue;
+
 			int thisSeverity = (int) alarm.getDouble(i);
 			String newAlarm = alarm.getValue(i).toString();
 			if (thisSeverity > severity)
