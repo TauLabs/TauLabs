@@ -101,6 +101,55 @@ static const struct pios_mpu60x0_cfg pios_mpu6050_cfg = {
 };
 #endif /* PIOS_INCLUDE_MPU6050 */
 
+/**
+ * Configuration for the MPU9150 chip
+ */
+#if defined(PIOS_INCLUDE_MPU9150)
+#include "pios_mpu6050.h"
+static const struct pios_exti_cfg pios_exti_mpu9150_cfg __exti_config = {
+	.vector = PIOS_MPU9150_IRQHandler,
+	.line = EXTI_Line15,
+	.pin = {
+		.gpio = GPIOA,
+		.init = {
+			.GPIO_Pin = GPIO_Pin_15,
+			.GPIO_Speed = GPIO_Speed_50MHz,
+			.GPIO_Mode = GPIO_Mode_IN,
+			.GPIO_OType = GPIO_OType_OD,
+			.GPIO_PuPd = GPIO_PuPd_NOPULL,
+		},
+	},
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel = EXTI15_10_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
+			.NVIC_IRQChannelSubPriority = 0,
+			.NVIC_IRQChannelCmd = ENABLE,
+		},
+	},
+	.exti = {
+		.init = {
+			.EXTI_Line = EXTI_Line15, // matches above GPIO pin
+			.EXTI_Mode = EXTI_Mode_Interrupt,
+			.EXTI_Trigger = EXTI_Trigger_Rising,
+			.EXTI_LineCmd = ENABLE,
+		},
+	},
+};
+
+static const struct pios_mpu60x0_cfg pios_mpu9150_cfg = {
+	.exti_cfg = &pios_exti_mpu9150_cfg,
+	.Fifo_store = PIOS_MPU60X0_FIFO_TEMP_OUT | PIOS_MPU60X0_FIFO_GYRO_X_OUT | PIOS_MPU60X0_FIFO_GYRO_Y_OUT | PIOS_MPU60X0_FIFO_GYRO_Z_OUT,
+	// Clock at 8 khz, downsampled by 8 for 1khz
+	.Smpl_rate_div = 11,
+	.interrupt_cfg = PIOS_MPU60X0_INT_CLR_ANYRD,
+	.interrupt_en = PIOS_MPU60X0_INTEN_DATA_RDY,
+	.User_ctl = PIOS_MPU60X0_USERCTL_FIFO_EN,
+	.Pwr_mgmt_clk = PIOS_MPU60X0_PWRMGMT_PLL_X_CLK,
+	.filter = PIOS_MPU60X0_LOWPASS_256_HZ,
+	.orientation = PIOS_MPU60X0_TOP_180DEG
+};
+#endif /* PIOS_INCLUDE_MPU6050 */
 
 /* One slot per selectable receiver group.
  *  eg. PWM, PPM, GCS, SPEKTRUM1, SPEKTRUM2, SBUS
@@ -609,10 +658,10 @@ void PIOS_Board_Init(void) {
 	bool mpu9150_found = false;
 #if defined(PIOS_INCLUDE_MPU9150)
 
-	if (PIOS_MPU9150_Probe(pios_i2c_internal_id, PIOS_MPU6050_I2C_ADD_A0_LOW) == 0) {
+	if (PIOS_MPU9150_Probe(pios_i2c_internal_id, PIOS_MPU9150_I2C_ADD_A0_LOW) == 0) {
 		mpu9150_found = true;
 
-		if (PIOS_MPU9150_Init(pios_i2c_internal_id, PIOS_MPU6050_I2C_ADD_A0_LOW, &pios_mpu6050_cfg) != 0)
+		if (PIOS_MPU9150_Init(pios_i2c_internal_id, PIOS_MPU9150_I2C_ADD_A0_LOW, &pios_mpu9150_cfg) != 0)
 			panic(2);
 		if (PIOS_MPU9150_Test() != 0)
 			panic(2);
