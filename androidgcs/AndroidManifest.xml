@@ -58,7 +58,8 @@
 		<activity android:name="TuningActivity" android:label="Tuning" />
 		<activity android:name="PathPlanner" android:label="Path Planner" />
 		<activity android:name="Transmitter" android:label="Transmitter"/> <!-- android:hardwareAccelerated="false" -->
-				<activity android:name="ObjectEditor" android:label="ObjectEditor"
+		<activity android:name="ObjectEditor" android:label="ObjectEditor"
+		    android:windowSoftInputMode="stateHidden"
 			android:theme="@android:style/Theme.Dialog" />
 		<activity android:name="Logger" android:label="Logger"/>
 
