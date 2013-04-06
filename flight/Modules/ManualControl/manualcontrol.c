@@ -39,6 +39,7 @@
 #include "actuatordesired.h"
 #include "altitudeholddesired.h"
 #include "baroaltitude.h"
+#include "fixedwingpathfollowersettings.h"
 #include "flighttelemetrystats.h"
 #include "flightstatus.h"
 #include "manualcontrol.h"
@@ -49,6 +50,7 @@
 #include "receiveractivity.h"
 #include "stabilizationsettings.h"
 #include "stabilizationdesired.h"
+#include "systemsettings.h"
 
 #if defined(PIOS_INCLUDE_USB_RCTX)
 #include "pios_usb_rctx.h"
@@ -654,20 +656,20 @@ static void updateStabilizationDesired(ManualControlCommandData * cmd, ManualCon
 	StabilizationDesiredSet(&stabilization);
 }
 
-
+#if defined(REVOLUTION)
 /**
  * @brief Update the position desired to current location when
  * enabled and allow the waypoint to be moved by transmitter
  */
 static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeChanged, bool home)
 {
-		if (home && flightModeChanged) {
+	PositionActualData positionActual;
+	PositionActualGet(&positionActual);
+	PathDesiredData pathDesired;
+	PathDesiredGet(&pathDesired);
+
+	if (home && flightModeChanged) {
 		// Simple Return To Home mode - climb 10 meters and fly to home position
-		PositionActualData positionActual;
-		PositionActualGet(&positionActual);
-		
-		PathDesiredData pathDesired;
-		PathDesiredGet(&pathDesired);
 		pathDesired.Start[PATHDESIRED_START_NORTH] = positionActual.North;
 		pathDesired.Start[PATHDESIRED_START_EAST] = positionActual.East;
 		pathDesired.Start[PATHDESIRED_START_DOWN] = positionActual.Down;
@@ -676,15 +678,9 @@ static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeCha
 		pathDesired.End[PATHDESIRED_END_DOWN] = positionActual.Down - 10;
 		pathDesired.StartingVelocity=10;
 		pathDesired.EndingVelocity=10;
-		pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
-		PathDesiredSet(&pathDesired);
 	} else if(flightModeChanged) {
 		// Simple position hold - stay at present altitude and position
-		PositionActualData positionActual;
-		PositionActualGet(&positionActual);
 		
-		PathDesiredData pathDesired;
-		PathDesiredGet(&pathDesired);
 		pathDesired.Start[PATHDESIRED_START_NORTH] = positionActual.North;
 		pathDesired.Start[PATHDESIRED_START_EAST] = positionActual.East;
 		pathDesired.Start[PATHDESIRED_START_DOWN] = positionActual.Down;
@@ -694,12 +690,23 @@ static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeCha
 		pathDesired.StartingVelocity=10;
 		pathDesired.EndingVelocity=10;
 		pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
-		PathDesiredSet(&pathDesired);
 	}
+
+	// Select how to hold position in a model type specific way
+	uint8_t vehicle_type;
+	SystemSettingsAirframeTypeGet(&vehicle_type);
+	if (vehicle_type == SYSTEMSETTINGS_AIRFRAMETYPE_FIXEDWING ||
+	    vehicle_type == SYSTEMSETTINGS_AIRFRAMETYPE_FIXEDWINGELEVON ||
+		vehicle_type == SYSTEMSETTINGS_AIRFRAMETYPE_FIXEDWINGVTAIL) {
+		FixedWingPathFollowerSettingsOrbitRadiusGet(&pathDesired.ModeParameters);
+		pathDesired.Mode = PATHDESIRED_MODE_CIRCLEPOSITIONLEFT;
+	} else {
+		pathDesired.ModeParameters = 0;
+		pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
+	}
+	PathDesiredSet(&pathDesired);
 }
 
-
-#if defined(REVOLUTION)
 /**
  * @brief Update the altitude desired to current altitude when
  * enabled and enable altitude mode for stabilization
@@ -744,6 +751,11 @@ static void altitudeHoldDesired(ManualControlCommandData * cmd, bool flightModeC
 	AltitudeHoldDesiredSet(&altitudeHoldDesired);
 }
 #else
+static void updatePathDesired(ManualControlCommandData * cmd, bool flightModeChanged, bool home)
+{
+
+}
+
 static void altitudeHoldDesired(ManualControlCommandData * cmd, bool flightModeChanged)
 {
 	set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD);
