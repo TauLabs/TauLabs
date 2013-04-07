@@ -38,12 +38,6 @@ copy2build.name = COPY ${QMAKE_FILE_IN}
 copy2build.CONFIG += no_link
 QMAKE_EXTRA_COMPILERS += copy2build
 
-isEmpty(vcproj):copy2build.variable_out = PRE_TARGETDEPS
-copy2build.commands = $$QMAKE_COPY ${QMAKE_FILE_IN} ${QMAKE_FILE_OUT}
-copy2build.name = COPY ${QMAKE_FILE_IN}
-copy2build.CONFIG += no_link
-QMAKE_EXTRA_COMPILERS += copy2build
-
 TARGET = $$qtLibraryName($$TARGET)
 
 macx {
@@ -59,9 +53,10 @@ macx {
 }
 
 
-contains(QT_CONFIG, reduce_exports):CONFIG += hGCS_symbols
+contains(QT_CONFIG, reduce_exports):CONFIG += hide_symbols
 
 CONFIG += plugin plugin_with_soname
+linux*:QMAKE_LFLAGS += $$QMAKE_LFLAGS_NOUNDEF
 
 !macx {
     target.path = /$$GCS_LIBRARY_BASENAME/taulabs/plugins/$$PROVIDER
