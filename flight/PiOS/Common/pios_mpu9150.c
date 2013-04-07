@@ -531,6 +531,12 @@ static float PIOS_MPU9150_GetAccelScale()
 }
 #endif /* PIOS_MPU6050_ACCEL */
 
+//! Return mGa / LSB
+static float PIOS_MPU9150_GetMagScale()
+{
+	return 3.0f; //(1229.0*10.0/4096.0)
+}
+
 /**
  * @brief Run self-test operation.
  * \return 0 if test succeeded
@@ -733,15 +739,42 @@ static void PIOS_MPU9150_Task(void *parameters)
 
 #endif
 
+		// Check for mag data ready.  Reading it clears this flag.
 		if (PIOS_MPU9150_Mag_GetReg(MPU9150_MAG_STATUS) > 0) {
 			struct pios_sensor_mag_data mag_data;
-			mag_data.x = (int16_t) (PIOS_MPU9150_Mag_GetReg(MPU9150_MAG_XH) << 0x08 | PIOS_MPU9150_Mag_GetReg(MPU9150_MAG_XL));
-			mag_data.y = (int16_t) (PIOS_MPU9150_Mag_GetReg(MPU9150_MAG_YH) << 0x08 | PIOS_MPU9150_Mag_GetReg(MPU9150_MAG_YL));
-			mag_data.z = (int16_t) (PIOS_MPU9150_Mag_GetReg(MPU9150_MAG_ZH) << 0x08 | PIOS_MPU9150_Mag_GetReg(MPU9150_MAG_ZL));
-			PIOS_MPU9150_Mag_SetReg(MPU9150_MAG_CNTR, 0x01); // Trigger another measurement
+			uint8_t mpu9150_mag_buffer[6];
+			if (PIOS_MPU9150_Mag_Read(MPU9150_MAG_XH, mpu9150_mag_buffer, sizeof(mpu9150_mag_buffer)) == 0) {
+				switch(dev->cfg->orientation) {
+				case PIOS_MPU60X0_TOP_0DEG:
+					mag_data.x = (int16_t) (mpu9150_mag_buffer[1] << 0x08 | mpu9150_mag_buffer[0]);
+					mag_data.y = (int16_t) (mpu9150_mag_buffer[3] << 0x08 | mpu9150_mag_buffer[2]);
+					break;
+				case PIOS_MPU60X0_TOP_90DEG:
+					mag_data.y = (int16_t)  (mpu9150_mag_buffer[1] << 0x08 | mpu9150_mag_buffer[0]);
+					mag_data.x = (int16_t) -(mpu9150_mag_buffer[3] << 0x08 | mpu9150_mag_buffer[2]);
+					break;
+				case PIOS_MPU60X0_TOP_180DEG:
+					mag_data.x = (int16_t) -(mpu9150_mag_buffer[1] << 0x08 | mpu9150_mag_buffer[0]);
+					mag_data.y = (int16_t) -(mpu9150_mag_buffer[3] << 0x08 | mpu9150_mag_buffer[2]);
+					break;
+				case PIOS_MPU60X0_TOP_270DEG:
+					mag_data.y = (int16_t) -(mpu9150_mag_buffer[1] << 0x08 | mpu9150_mag_buffer[0]);
+					mag_data.x = (int16_t)  (mpu9150_mag_buffer[3] << 0x08 | mpu9150_mag_buffer[2]);
+					break;
+				}
+				mag_data.z = (int16_t) (mpu9150_mag_buffer[5] << 0x08 | mpu9150_mag_buffer[4]);
 
-			portBASE_TYPE xHigherPriorityTaskWoken_mag;
-			xQueueSendToBackFromISR(dev->mag_queue, (void *) &mag_data, &xHigherPriorityTaskWoken_mag);
+				float mag_scale = PIOS_MPU9150_GetMagScale();
+				mag_data.x *= mag_scale;
+				mag_data.y *= mag_scale;
+				mag_data.z *= mag_scale;
+
+				// Trigger another measurement
+				PIOS_MPU9150_Mag_SetReg(MPU9150_MAG_CNTR, 0x01);
+
+				portBASE_TYPE xHigherPriorityTaskWoken_mag;
+				xQueueSendToBackFromISR(dev->mag_queue, (void *) &mag_data, &xHigherPriorityTaskWoken_mag);
+			}
 		}
 
 	}
