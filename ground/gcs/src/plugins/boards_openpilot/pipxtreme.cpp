@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       pipxtreme.cpp
- * @author     The PhoenixPilot Team, http://github.com/PhoenixPilot Copyright (C) 2012.
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -41,6 +41,7 @@ PipXtreme::PipXtreme(void)
 
     setUSBInfo(board);
 
+    boardType = 0x03;
 }
 
 PipXtreme::~PipXtreme()
@@ -57,6 +58,24 @@ QString PipXtreme::shortName()
 QString PipXtreme::boardDescription()
 {
     return QString("The OpenPilot project PipXtreme RF radio modem");
+}
+
+//! Return which capabilities this board has
+bool PipXtreme::queryCapabilities(BoardCapabilities capability)
+{
+    switch(capability) {
+    case BOARD_CAPABILITIES_GYROS:
+        return false;
+    case BOARD_CAPABILITIES_ACCELS:
+        return false;
+    case BOARD_CAPABILITIES_MAGS:
+        return false;
+    case BOARD_CAPABILITIES_BAROS:
+        return false;
+    case BOARD_CAPABILITIES_RADIO:
+        return true;
+    }
+    return false;
 }
 
 /**

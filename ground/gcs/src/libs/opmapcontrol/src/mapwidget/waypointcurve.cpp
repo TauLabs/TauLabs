@@ -2,7 +2,7 @@
 ******************************************************************************
 *
 * @file       waypointcurvele.cpp
-* @author     PhoenixPilot Project, http://github.com/PhoenixPilot Copyright (C) 2012.
+* @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
 * @brief      A graphicsItem representing a curve connecting 2 waypoints
 * @see        The GNU Public License (GPL) Version 3
 * @defgroup   OPMapWidget
