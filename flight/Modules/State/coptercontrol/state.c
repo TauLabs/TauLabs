@@ -91,7 +91,7 @@ static xQueueHandle gyro_queue;
 static bool gpsNew_flag;
 static HomeLocationData homeLocation;
 struct GlobalAttitudeVariables *glblAtt;
-InertialSensorSettingsData inertialSensorSettings;
+SensorSettingsData sensorSettings;
 AttitudeSettingsData attitudeSettings;
 GyrosBiasData gyrosBias;
 
@@ -148,7 +148,7 @@ int32_t StateInitialize(void)
 	//Initialize UAVOs
 	AttitudeActualInitialize();
 	AttitudeSettingsInitialize();
-	InertialSensorSettingsInitialize();
+	SensorSettingsInitialize();
 	AccelsInitialize();
 	GyrosInitialize();
 
@@ -193,7 +193,7 @@ int32_t StateInitialize(void)
 	glblAtt->trim_requested = false;
 
 	AttitudeSettingsConnectCallback(&inertialSensorSettingsUpdatedCb);
-	InertialSensorSettingsConnectCallback(&inertialSensorSettingsUpdatedCb);
+	SensorSettingsConnectCallback(&inertialSensorSettingsUpdatedCb);
 
 	HomeLocationConnectCallback(&HomeLocationUpdatedCb);
 	GPSPositionConnectCallback(&GPSPositionUpdatedCb);
@@ -227,8 +227,8 @@ static void StateTask(void *parameters)
 	bool cc3d_flag = (bdinfo->board_rev == 0x02);
 
 	// Force settings update to make sure rotation and home location are loaded
-	inertialSensorSettingsUpdatedCb(InertialSensorSettingsHandle());
-	inertialSensorSettingsUpdatedCb(AttitudeSettingsHandle());
+	SensorSettingsUpdatedCb(SensorSettingsHandle());
+	SensorSettingsUpdatedCb(AttitudeSettingsHandle());
 	HomeLocationUpdatedCb(HomeLocationHandle());
 
 	if (cc3d_flag) {
@@ -256,9 +256,9 @@ static void StateTask(void *parameters)
 		float prelim_accels[4];
 		float prelim_gyros[4];
 		if (cc3d_flag) {
-			getSensorsCC3D(prelim_accels, prelim_gyros, glblAtt, &gyrosBias, &inertialSensorSettings);
+			getSensorsCC3D(prelim_accels, prelim_gyros, glblAtt, &gyrosBias, &sensorSettings);
 		} else {
-			getSensorsCC(prelim_accels, prelim_gyros, &gyro_queue, glblAtt, &gyrosBias, &inertialSensorSettings);
+			getSensorsCC(prelim_accels, prelim_gyros, &gyro_queue, glblAtt, &gyrosBias, &sensorSettings);
 		}
 
 		int8_t groundTemperature = round(prelim_accels[3]);
@@ -339,7 +339,7 @@ static void StateTask(void *parameters)
 				
 				//Update attitude estimation with drift PI feedback on the rate gyroscopes
 				if (glblAtt->bias_correct_gyro) {
-					updateAttitudeDrift(&accels, &gyros, delT, glblAtt, &attitudeSettings, &inertialSensorSettings);
+					updateAttitudeDrift(&accels, &gyros, delT, glblAtt, &attitudeSettings, &sensorSettings);
 				}
 
 				updateSO3(&gyros.x, delT);
@@ -400,9 +400,9 @@ static int32_t updateIntertialSensors(AccelsData * accels, GyrosData * gyros, bo
 
 	// Get the sensor data in a board specific manner
 	if (cc3d_flag) {
-		retval = getSensorsCC3D(prelim_accels, prelim_gyros, glblAtt, &gyrosBias, &inertialSensorSettings);
+		retval = getSensorsCC3D(prelim_accels, prelim_gyros, glblAtt, &gyrosBias, &sensorSettings);
 	} else {
-		retval = getSensorsCC(prelim_accels, prelim_gyros, &gyro_queue, glblAtt, &gyrosBias, &inertialSensorSettings);
+		retval = getSensorsCC(prelim_accels, prelim_gyros, &gyro_queue, glblAtt, &gyrosBias, &sensorSettings);
 	}
 
 	if (retval < 0) {	// No sensor data.  Alarm set by calling method
@@ -612,7 +612,7 @@ static void updateSO3(float *gyros, float dT)
 static void inertialSensorSettingsUpdatedCb(UAVObjEvent * objEv)
 {
 	AttitudeSettingsGet(&attitudeSettings);
-	InertialSensorSettingsGet(&inertialSensorSettings);
+	SensorSettingsGet(&sensorSettings);
 
 	glblAtt->accelKp = attitudeSettings.AccelKp;
 	glblAtt->accelKi = attitudeSettings.AccelKi;
@@ -623,8 +623,8 @@ static void inertialSensorSettingsUpdatedCb(UAVObjEvent * objEv)
 
 	//Provide minimum for scale. This keeps the accels from accidentally being "turned off".
 	for (int i = 0; i < 3; i++) {
-		if (inertialSensorSettings.AccelScale[i] < .01f) {
-			inertialSensorSettings.AccelScale[i] = .01f;
+		if (sensorSettings.AccelScale[i] < .01f) {
+			sensorSettings.AccelScale[i] = .01f;
 		}
 	}
 
