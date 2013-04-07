@@ -102,8 +102,8 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
 
     // Set the header width to the table header width
     // TODO: Do this as a reimplemented function in the tableview subclass
-    int bob = telemetryScheduleView->verticalHeader()->sizeHint().width();
-    telemetryScheduleView->getFrozenTableView()->verticalHeader()->setFixedWidth(bob);
+    int width = telemetryScheduleView->verticalHeader()->sizeHint().width();
+    telemetryScheduleView->getFrozenTableView()->verticalHeader()->setFixedWidth(width);
 
     // Generate the list of column headers
     columnHeaders << "Current" << "USB" << "2400" << "4800" << "9600" << "19200" << "38400" << "57600" << "115200" << "250k" << "500k";
@@ -144,11 +144,11 @@ void TelemetrySchedulerGadgetWidget::dataModel_itemChanged(QStandardItem *item)
     int col = item->column();
 
     // Update the speed estimate
-    double bandwidthRequired = 0;
+    double bandwidthRequired_bps = 0;
     for (int i=1; i<schedulerModel->rowCount(); i++){
         QModelIndex index = schedulerModel->index(i, col, QModelIndex());
-        double rate = schedulerModel->data(index).toUInt() / 1000.0;
-        double frequency = rate > 0 ? 1.0 / rate : 0;
+        double updatePeriod_s = schedulerModel->data(index).toUInt() / 1000.0;
+        double updateFrequency_Hz = updatePeriod_s > 0 ? 1.0 / updatePeriod_s : 0;
 
         // Get UAVO size
         QString uavObjectName = schedulerModel->verticalHeaderItem(i)->text();
@@ -157,11 +157,11 @@ void TelemetrySchedulerGadgetWidget::dataModel_itemChanged(QStandardItem *item)
         uint16_t size = obj->getNumBytes();
 
         // Accumulate bandwidth
-        bandwidthRequired += frequency * size;
+        bandwidthRequired_bps += updateFrequency_Hz * size;
     }
 
     QModelIndex index = telemetryScheduleView->getFrozenModel()->index(0, col, QModelIndex());
-    telemetryScheduleView->getFrozenModel()->setData(index, (uint16_t) (bandwidthRequired+0.5));
+    telemetryScheduleView->getFrozenModel()->setData(index, (uint16_t) (bandwidthRequired_bps+0.5));
 
     // TODO: Set color as function of available speed
 }
@@ -289,8 +289,45 @@ void TelemetrySchedulerGadgetWidget::on_bnSaveTelemetryToFile_clicked()
  * @brief TelemetrySchedulerGadgetWidget::on_bnApplySchedule_clicked Uploads new settings to board
  */
 void TelemetrySchedulerGadgetWidget::on_bnApplySchedule_clicked(){
+    // Read selected column
+    QItemSelectionModel *selection = telemetryScheduleView->selectionModel();
 
+    int col = -1;
+
+    // Iterate over the list of columns, looking for the selected schedule
+    for (int j=0; j<schedulerModel->columnCount(); j++){
+        if (schedulerModel->horizontalHeaderItem(j)->text() == m_telemetryeditor->cmbScheduleList->currentText()){
+            col = j;
+            break;
+        }
+
+    }
+
+    // This shouldn't be possible. Leaving the check in just in case.
+    if (col == -1){
+        Q_ASSERT(0);
+        return;
+    }
+
+    QMap<QString, UAVObject::Metadata> metaDataList;
+    for (int i=1; i<schedulerModel->rowCount(); i++){
+        QModelIndex index = schedulerModel->index(i, col, QModelIndex());
+        double updatePeriod_ms = schedulerModel->data(index).toUInt();
+
+        // Get UAVO name and metadata
+        QString uavObjectName = schedulerModel->verticalHeaderItem(i)->text();
+        UAVObject *obj = objManager->getObject(uavObjectName);
+        UAVObject::Metadata mdata = obj->getMetadata();
+
+        // Set new update rate value
+        mdata.flightTelemetryUpdatePeriod = updatePeriod_ms;
+        metaDataList.insert(uavObjectName, mdata);
+    }
+
+    // Set new metadata
+    getObjectUtilManager()->setAllNonSettingsMetadata(metaDataList);
 }
+
 
 void TelemetrySchedulerGadgetWidget::on_bnLoadTelemetryFromFile_clicked()
 {
@@ -356,7 +393,7 @@ void TelemetrySchedulerGadgetWidget::importTelemetryConfiguration(const QString&
     telemetryScheduleView->getFrozenModel()->removeColumns(1, columnHeaders.length(), QModelIndex());
 
     // Add new ones
-    schedulerModel->setHorizontalHeaderLabels(new_columnHeaders);
+    schedulerModel->setHorizontalHeaderLabels(new_columnHeaders); //<-- TODO: Reimplement this function if possible, so that when a new column is added it automatically updates a list of columns
     for(int columnIndex = 0; columnIndex< new_columnHeaders.length(); columnIndex++){
         telemetryScheduleView->getFrozenModel()->setHorizontalHeaderItem(columnIndex, new QStandardItem(""));
         telemetryScheduleView->setColumnWidth(columnIndex, 65); // 65 pixels is wide enough for the string "65535"
@@ -440,6 +477,30 @@ void TelemetrySchedulerGadgetWidget::importTelemetryConfiguration(const QString&
 }
 
 
+/**
+ * @brief TelemetrySchedulerGadgetWidget::getObjectManager Utility function to get a pointer to the object manager
+ * @return pointer to the UAVObjectManager
+ */
+UAVObjectManager* TelemetrySchedulerGadgetWidget::getObjectManager() {
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *objMngr = pm->getObject<UAVObjectManager>();
+    Q_ASSERT(objMngr);
+    return objMngr;
+}
+
+
+/**
+ * @brief TelemetrySchedulerGadgetWidget::getObjectUtilManager Utility function to
+ * get a pointer to the object manager utilities
+ * @return pointer to the UAVObjectUtilManager
+ */
+UAVObjectUtilManager* TelemetrySchedulerGadgetWidget::getObjectUtilManager() {
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectUtilManager *utilMngr = pm->getObject<UAVObjectUtilManager>();
+    Q_ASSERT(utilMngr);
+    return utilMngr;
+}
+
 //=======================================
 
 SpinBoxDelegate::SpinBoxDelegate(QObject *parent)
@@ -488,7 +549,7 @@ void SpinBoxDelegate::updateEditorGeometry(QWidget *editor,
 
 void QTableViewWithCopyPaste::copy()
 {
-    QItemSelectionModel * selection = selectionModel();
+    QItemSelectionModel *selection = selectionModel();
     QModelIndexList indexes = selection->selectedIndexes();
 
     if(indexes.size() < 1)
@@ -531,7 +592,7 @@ void QTableViewWithCopyPaste::copy()
 
 void QTableViewWithCopyPaste::paste()
 {
-    QItemSelectionModel * selection = selectionModel();
+    QItemSelectionModel *selection = selectionModel();
     QModelIndexList indexes = selection->selectedIndexes();
 
     QString selected_text = qApp->clipboard()->text();
@@ -618,8 +679,10 @@ QTableViewWithCopyPaste::~QTableViewWithCopyPaste()
 }
 
 
-
-
+/**
+ * @brief QTableViewWithCopyPaste::init Initialize a QTableView that has been subclassed in
+ * order to support copy-paste, and to support a frozen row view.
+ */
 void QTableViewWithCopyPaste::init()
  {
        frozenModel = new QStandardItemModel(0, 0, this); //0 Rows and 0 Columns
@@ -631,7 +694,9 @@ void QTableViewWithCopyPaste::init()
 
        viewport()->stackUnder(frozenTableView);
 
+       // Set table color to green background and red text. This is ugly as sin, but functional for the moment.
        frozenTableView->setStyleSheet("QTableView { border: none;"
+                                      "color: #FF0000;"
                                       "background-color: #8EDE21;"
                                       "selection-background-color: #999}"); //for demo purposes
        frozenTableView->setSelectionModel(selectionModel());
@@ -649,6 +714,8 @@ void QTableViewWithCopyPaste::init()
        setHorizontalScrollMode(ScrollPerPixel);
        setVerticalScrollMode(ScrollPerPixel);
        frozenTableView->setHorizontalScrollMode(ScrollPerPixel);
+
+       // TODO: Make it so that the wheel events in the frozen table are passed to the main table.
  }
 
 void QTableViewWithCopyPaste::updateSectionWidth(int logicalIndex, int, int newSize)

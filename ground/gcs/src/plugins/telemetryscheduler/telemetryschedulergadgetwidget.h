@@ -34,6 +34,9 @@
 #include <QItemDelegate>
 #include <QtGui/QLabel>
 
+#include "uavobjectutil/uavobjectutilmanager.h"
+#include "extensionsystem/pluginmanager.h"
+#include "uavobject.h"
 
 #include "telemetryschedulergadgetconfiguration.h"
 
@@ -61,6 +64,8 @@ private slots:
 
 private:
     void importTelemetryConfiguration(const QString& fileName);
+    UAVObjectUtilManager *getObjectUtilManager();
+    UAVObjectManager *getObjectManager();
 
     Ui_TelemetryScheduler * m_telemetryeditor;
 
