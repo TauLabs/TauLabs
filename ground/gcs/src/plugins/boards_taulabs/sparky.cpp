@@ -70,7 +70,7 @@ bool Sparky::queryCapabilities(BoardCapabilities capability)
     case BOARD_CAPABILITIES_ACCELS:
         return true;
     case BOARD_CAPABILITIES_MAGS:
-        return false;
+        return true;
     case BOARD_CAPABILITIES_BAROS:
         return true;
     case BOARD_CAPABILITIES_RADIO:
