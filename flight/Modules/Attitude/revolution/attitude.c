@@ -81,7 +81,14 @@
 #define F_PI   ((float) M_PI)
 #define PI_MOD(x) (fmodf(x + F_PI, F_PI * 2) - F_PI)
 
+// low pass filter configuration to calculate offset
+// of barometric altitude sensor
+// reasoning: updates at: 10 Hz, tau= 300 s settle time
+// exp(-(1/f) / tau ) ~=~ 0.9997
+#define BARO_OFFSET_LOWPASS_ALPHA 0.9997f 
+
 // Private types
+
 
 // Track the initialization state of the complimentary filter
 enum complimentary_filter_status {
@@ -961,6 +968,11 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 
 		// Transform the GPS position into NED coordinates
 		getNED(&gpsData, NED);
+
+		// Track barometric altitude offset with a low pass filter
+		baro_offset = BARO_OFFSET_LOWPASS_ALPHA * baro_offset +
+		    (1.0f - BARO_OFFSET_LOWPASS_ALPHA )
+		    * ( -NED[2] - baroData.Altitude );
 
 		// Store this for inspecting offline
 		NEDPositionData nedPos;
