@@ -43,6 +43,14 @@
 #define MPU9150_TASK_STACK		(484 / 4)
 
 #define MPU9150_MAG_ADDR         0x0c
+#define MPU9150_MAG_STATUS       0x02
+#define MPU9150_MAG_XH           0x03
+#define MPU9150_MAG_XL           0x04
+#define MPU9150_MAG_YH           0x05
+#define MPU9150_MAG_YL           0x06
+#define MPU9150_MAG_ZH           0x07
+#define MPU9150_MAG_ZL           0x08
+#define MPU9150_MAG_CNTR         0x0a
 
 /* Global Variables */
 
@@ -223,7 +231,7 @@ static void PIOS_MPU9150_Config(struct pios_mpu60x0_cfg const * cfg)
 	// Interrupt configuration and enable the I2C bypass mode
 	while (PIOS_MPU9150_SetReg(PIOS_MPU60X0_INT_CFG_REG, cfg->interrupt_cfg | 0x02) != 0) ;
 	
-	if (0) PIOS_MPU9150_Mag_SetReg(0,0);
+	while (PIOS_MPU9150_Mag_SetReg(MPU9150_MAG_CNTR, 0x01) != 0) ;
 
 	// Interrupt configuration
 	while (PIOS_MPU9150_SetReg(PIOS_MPU60X0_INT_EN_REG, cfg->interrupt_en) != 0) ;
@@ -725,12 +733,16 @@ static void PIOS_MPU9150_Task(void *parameters)
 
 #endif
 
-		struct pios_sensor_mag_data mag_data;
-		mag_data.x = PIOS_MPU9150_Mag_GetReg(0);
-		mag_data.y = PIOS_MPU9150_Mag_GetReg(1);
-		mag_data.z = PIOS_MPU9150_Mag_GetReg(2);
-		portBASE_TYPE xHigherPriorityTaskWoken_mag;
-		xQueueSendToBackFromISR(dev->mag_queue, (void *) &mag_data, &xHigherPriorityTaskWoken_mag);
+		if (PIOS_MPU9150_Mag_GetReg(MPU9150_MAG_STATUS) > 0) {
+			struct pios_sensor_mag_data mag_data;
+			mag_data.x = (int16_t) (PIOS_MPU9150_Mag_GetReg(MPU9150_MAG_XH) << 0x08 | PIOS_MPU9150_Mag_GetReg(MPU9150_MAG_XL));
+			mag_data.y = (int16_t) (PIOS_MPU9150_Mag_GetReg(MPU9150_MAG_YH) << 0x08 | PIOS_MPU9150_Mag_GetReg(MPU9150_MAG_YL));
+			mag_data.z = (int16_t) (PIOS_MPU9150_Mag_GetReg(MPU9150_MAG_ZH) << 0x08 | PIOS_MPU9150_Mag_GetReg(MPU9150_MAG_ZL));
+			PIOS_MPU9150_Mag_SetReg(MPU9150_MAG_CNTR, 0x01); // Trigger another measurement
+
+			portBASE_TYPE xHigherPriorityTaskWoken_mag;
+			xQueueSendToBackFromISR(dev->mag_queue, (void *) &mag_data, &xHigherPriorityTaskWoken_mag);
+		}
 
 	}
 }
