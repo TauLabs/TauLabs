@@ -398,7 +398,7 @@ void Calibration::doStartLeveling() {
 
     // Set up timeout timer
     timer.setSingleShot(true);
-    timer.start(5000 + (NUM_SENSOR_UPDATES * SENSOR_UPDATE_PERIOD));
+    timer.start(5000 + (NUM_SENSOR_UPDATES_LEVELING * SENSOR_UPDATE_PERIOD));
     connect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
 }
 
@@ -668,7 +668,7 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
     Accels * accels = Accels::GetInstance(getObjectManager());
     Gyros * gyros = Gyros::GetInstance(getObjectManager());
 
-    // Accumulate samples until we have _at least_ NUM_SENSOR_UPDATES samples
+    // Accumulate samples until we have _at least_ NUM_SENSOR_UPDATES_LEVELING samples
     if(obj->getObjID() == Accels::OBJID) {
         Accels::DataFields accelsData = accels->getData();
         accel_accum_x.append(accelsData.x);
@@ -683,10 +683,10 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
     }
 
     // update the progress indicator
-    emit levelingProgressChanged((float) qMin(accel_accum_x.size(),  gyro_accum_x.size()) / NUM_SENSOR_UPDATES * 100);
+    emit levelingProgressChanged((float) qMin(accel_accum_x.size(),  gyro_accum_x.size()) / NUM_SENSOR_UPDATES_LEVELING * 100);
 
     // If we have enough samples, then stop sampling and compute the biases
-    if (accel_accum_x.size() >= NUM_SENSOR_UPDATES && gyro_accum_x.size() >= NUM_SENSOR_UPDATES) {
+    if (accel_accum_x.size() >= NUM_SENSOR_UPDATES_LEVELING && gyro_accum_x.size() >= NUM_SENSOR_UPDATES_LEVELING) {
         timer.stop();
         disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
 
