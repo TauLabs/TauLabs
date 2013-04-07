@@ -42,6 +42,8 @@
 #define MPU9150_TASK_PRIORITY	(tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
 #define MPU9150_TASK_STACK		(484 / 4)
 
+#define MPU9150_MAG_ADDR         0x0c
+
 /* Global Variables */
 
 enum pios_mpu9150_dev_magic {
@@ -74,6 +76,8 @@ static void PIOS_MPU9150_Config(struct pios_mpu60x0_cfg const * cfg);
 static int32_t PIOS_MPU9150_SetReg(uint8_t address, uint8_t buffer);
 static int32_t PIOS_MPU9150_GetReg(uint8_t address);
 static int32_t PIOS_MPU9150_ReadID();
+static int32_t PIOS_MPU9150_Mag_SetReg(uint8_t reg, uint8_t buffer);
+static int32_t PIOS_MPU9150_Mag_GetReg(uint8_t reg);
 static void PIOS_MPU9150_Task(void *parameters);
 
 /**
@@ -206,16 +210,21 @@ static void PIOS_MPU9150_Config(struct pios_mpu60x0_cfg const * cfg)
 	
 	// Digital low-pass filter and scale
 	PIOS_MPU9150_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
-	
+
 	// Interrupt configuration
 	while (PIOS_MPU9150_SetReg(PIOS_MPU60X0_USER_CTRL_REG, cfg->User_ctl) != 0) ;
 	
 	// Interrupt configuration
 	while (PIOS_MPU9150_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, cfg->Pwr_mgmt_clk) != 0) ;
 	
-	// Interrupt configuration
-	while (PIOS_MPU9150_SetReg(PIOS_MPU60X0_INT_CFG_REG, cfg->interrupt_cfg) != 0) ;
+	// To enable access to the mag on auxillary i2c we must set bit 0x02 in register 0x37
+	// and clear bit 0x40 in register 0x6a (default condition)
+
+	// Interrupt configuration and enable the I2C bypass mode
+	while (PIOS_MPU9150_SetReg(PIOS_MPU60X0_INT_CFG_REG, cfg->interrupt_cfg | 0x02) != 0) ;
 	
+	if (0) PIOS_MPU9150_Mag_SetReg(0,0);
+
 	// Interrupt configuration
 	while (PIOS_MPU9150_SetReg(PIOS_MPU60X0_INT_EN_REG, cfg->interrupt_en) != 0) ;
 	if((PIOS_MPU9150_GetReg(PIOS_MPU60X0_INT_EN_REG)) != cfg->interrupt_en)
@@ -374,6 +383,99 @@ static int32_t PIOS_MPU9150_GetReg(uint8_t reg)
 static int32_t PIOS_MPU9150_SetReg(uint8_t reg, uint8_t data)
 {
 	return PIOS_MPU9150_Write(reg, data);
+}
+
+/**
+ * @brief Reads one or more bytes into a buffer
+ * \param[in] address MPU9150 register address (depends on size)
+ * \param[out] buffer destination buffer
+ * \param[in] len number of bytes which should be read
+ * \return 0 if operation was successful
+ * \return -1 if error during I2C transfer
+ * \return -2 if unable to claim i2c device
+ */
+static int32_t PIOS_MPU9150_Mag_Read(uint8_t address, uint8_t * buffer, uint8_t len)
+{
+	uint8_t addr_buffer[] = {
+		address,
+	};
+
+	const struct pios_i2c_txn txn_list[] = {
+		{
+			.info = __func__,
+			.addr = MPU9150_MAG_ADDR,
+			.rw = PIOS_I2C_TXN_WRITE,
+			.len = sizeof(addr_buffer),
+			.buf = addr_buffer,
+		},
+		{
+			.info = __func__,
+			.addr = MPU9150_MAG_ADDR,
+			.rw = PIOS_I2C_TXN_READ,
+			.len = len,
+			.buf = buffer,
+		}
+	};
+
+	return PIOS_I2C_Transfer(dev->i2c_id, txn_list, NELEMENTS(txn_list));
+}
+
+/**
+ * @brief Writes one or more bytes to the MPU9150
+ * \param[in] address Register address
+ * \param[in] buffer source buffer
+ * \return 0 if operation was successful
+ * \return -1 if error during I2C transfer
+ * \return -2 if unable to claim i2c device
+ */
+static int32_t PIOS_MPU9150_Mag_Write(uint8_t address, uint8_t buffer)
+{
+	uint8_t data[] = {
+		address,
+		buffer,
+	};
+
+	const struct pios_i2c_txn txn_list[] = {
+		{
+			.info = __func__,
+			.addr = MPU9150_MAG_ADDR,
+			.rw = PIOS_I2C_TXN_WRITE,
+			.len = sizeof(data),
+			.buf = data,
+		},
+	};
+
+	return PIOS_I2C_Transfer(dev->i2c_id, txn_list, NELEMENTS(txn_list));
+}
+
+/**
+ * @brief Read a register from MPU9150
+ * @returns The register value or -1 if failure to get bus
+ * @param reg[in] Register address to be read
+ */
+static int32_t PIOS_MPU9150_Mag_GetReg(uint8_t reg)
+{
+	uint8_t data;
+
+	int32_t retval = PIOS_MPU9150_Mag_Read(reg, &data, sizeof(data));
+
+	if (retval != 0)
+		return retval;
+	else
+		return data;
+}
+
+/**
+ * @brief Writes one byte to the MPU9150
+ * \param[in] reg Register address
+ * \param[in] data Byte to write
+ * \return 0 if operation was successful
+ * \return -1 if unable to claim SPI bus
+ * \return -2 if unable to claim i2c device
+ */
+static int32_t PIOS_MPU9150_Mag_SetReg(uint8_t reg, uint8_t data)
+{
+	return PIOS_MPU9150_Mag_Write(reg, data);
 }
 
 /*
@@ -624,9 +726,9 @@ static void PIOS_MPU9150_Task(void *parameters)
 #endif
 
 		struct pios_sensor_mag_data mag_data;
-		mag_data.x = 1;
-		mag_data.y = 1;
-		mag_data.z = 0;
+		mag_data.x = PIOS_MPU9150_Mag_GetReg(0);
+		mag_data.y = PIOS_MPU9150_Mag_GetReg(1);
+		mag_data.z = PIOS_MPU9150_Mag_GetReg(2);
 		portBASE_TYPE xHigherPriorityTaskWoken_mag;
 		xQueueSendToBackFromISR(dev->mag_queue, (void *) &mag_data, &xHigherPriorityTaskWoken_mag);
 
