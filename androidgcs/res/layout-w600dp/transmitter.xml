@@ -113,6 +113,15 @@
             android:onClick="onToggle"
             android:textOff="Land"
             android:textOn="Land" />
+
+        <ToggleButton
+            android:id="@+id/cameraPoiButton"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:onClick="onToggle"
+            android:textOff="POI"
+            android:textOn="POI" />
+
     </RadioGroup>
 
     <TextView

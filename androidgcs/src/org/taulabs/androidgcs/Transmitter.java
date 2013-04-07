@@ -25,7 +25,6 @@ package org.taulabs.androidgcs;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.taulabs.androidgcs.R;
 import org.taulabs.uavtalk.UAVObject;
 import org.taulabs.uavtalk.UAVObjectField;
 
@@ -54,6 +53,7 @@ public class Transmitter extends ObjectManagerActivity {
 		modesToId.add("PathPlanner",R.id.pathPlannerButton);
 		modesToId.add("FollowMe",R.id.followTabletButton);
 		modesToId.add("Land",R.id.landButton);
+		modesToId.add("CameraPOI",R.id.cameraPoiButton);
 	}
 
 	@Override
