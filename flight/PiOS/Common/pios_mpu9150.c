@@ -99,7 +99,13 @@ static struct mpu9150_dev * PIOS_MPU9150_alloc(void)
 		vPortFree(mpu9150_dev);
 		return NULL;
 	}
-	
+
+	mpu9150_dev->mag_queue = xQueueCreate(PIOS_MPU9150_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_mag_data));
+	if(mpu9150_dev->mag_queue == NULL) {
+		vPortFree(mpu9150_dev);
+		return NULL;
+	}
+
 	mpu9150_dev->data_ready_sema = xSemaphoreCreateMutex();
 	if(mpu9150_dev->data_ready_sema == NULL) {
 		vPortFree(mpu9150_dev);
@@ -151,6 +157,7 @@ int32_t PIOS_MPU9150_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_m
 
 	PIOS_SENSORS_Register(PIOS_SENSOR_ACCEL, dev->accel_queue);
 	PIOS_SENSORS_Register(PIOS_SENSOR_GYRO, dev->gyro_queue);
+	PIOS_SENSORS_Register(PIOS_SENSOR_MAG, dev->mag_queue);
 
 	return 0;
 }
@@ -615,6 +622,14 @@ static void PIOS_MPU9150_Task(void *parameters)
 		xQueueSendToBackFromISR(dev->gyro_queue, (void *) &gyro_data, &xHigherPriorityTaskWoken_gyro);
 
 #endif
+
+		struct pios_sensor_mag_data mag_data;
+		mag_data.x = 1;
+		mag_data.y = 1;
+		mag_data.z = 0;
+		portBASE_TYPE xHigherPriorityTaskWoken_mag;
+		xQueueSendToBackFromISR(dev->mag_queue, (void *) &mag_data, &xHigherPriorityTaskWoken_mag);
+
 	}
 }
 
