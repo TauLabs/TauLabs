@@ -63,6 +63,9 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
+    TopTreeItem* getSettingsTree(){return m_settingsTree;}
+    TopTreeItem* getNonSettingsTree(){return m_nonSettingsTree;}
+
     void setRecentlyUpdatedColor(QColor color) { m_recentlyUpdatedColor = color; }
     void setManuallyChangedColor(QColor color) { m_manuallyChangedColor = color; }
     void setRecentlyUpdatedTimeout(int timeout) {
@@ -72,6 +75,8 @@ public:
     void setOnlyHighlightChangedValues(bool highlight) {m_onlyHighlightChangedValues = highlight; }
 
     QList<QModelIndex> getMetaDataIndexes();
+
+    QModelIndex getIndex(int indexRow, int indexCol, TopTreeItem *topTreeItem){return createIndex(indexRow, indexCol, topTreeItem);}
 
 signals:
 

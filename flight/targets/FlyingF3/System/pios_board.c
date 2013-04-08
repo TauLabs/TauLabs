@@ -966,6 +966,8 @@ void PIOS_Board_Init(void) {
 	PIOS_DELAY_WaitmS(200);
 	PIOS_WDG_Clear();
 
+	PIOS_SENSORS_Init();
+
 #if defined(PIOS_INCLUDE_L3GD20) && defined(PIOS_INCLUDE_SPI)
 	if (PIOS_L3GD20_Init(pios_spi_internal_id, 0, &pios_l3gd20_cfg) != 0)
 		panic(1);

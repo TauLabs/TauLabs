@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       calibration.h
- * @author     The PhoenixPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
  * @brief      Gui-less support class for calibration
  *****************************************************************************/
 /*
@@ -160,7 +160,7 @@ private:
     double accel_data_x[6], accel_data_y[6], accel_data_z[6];
     double mag_data_x[6], mag_data_y[6], mag_data_z[6];
 
-    static const int NUM_SENSOR_UPDATES = 300;
+    static const int NUM_SENSOR_UPDATES_LEVELING = 300;
     static const int NUM_SENSOR_UPDATES_SIX_POINT = 100;
     static const int SENSOR_UPDATE_PERIOD = 50;
     double MIN_TEMPERATURE_RANGE;

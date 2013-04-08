@@ -7,6 +7,20 @@
 #
 ###############################################################
 
+##############################
+#
+# Check that environmental variables are sane
+#
+##############################
+# Checking for $(OPENOCD_FTDI) to be sane
+ifdef OPENOCD_FTDI
+ ifneq ($(OPENOCD_FTDI),yes)
+  ifneq ($(OPENOCD_FTDI),no)
+   $(error Only yes or no are allowed for OPENOCD_FTDI)
+  endif
+ endif
+endif
+
 # Set up QT toolchain
 QT_SDK_DIR := $(TOOLS_DIR)/Qt5.0.1
 

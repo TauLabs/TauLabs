@@ -3,7 +3,7 @@
  * @file       telemetrymonitorwidget.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011-2012.
  *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup CorePlugin Core Plugin

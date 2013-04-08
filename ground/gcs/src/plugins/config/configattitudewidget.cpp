@@ -44,8 +44,7 @@
 #include <QUrl>
 #include <coreplugin/iboardtype.h>
 #include <attitudesettings.h>
-#include <inertialsensorsettings.h>
-#include <revocalibration.h>
+#include <sensorsettings.h>
 #include <inssettings.h>
 #include <homelocation.h>
 #include <accels.h>
@@ -239,9 +238,8 @@ ConfigAttitudeWidget::ConfigAttitudeWidget(QWidget *parent) :
     // Must set up the UI (above) before setting up the UAVO mappings or refreshWidgetValues
     // will be dealing with some null pointers
     addUAVObject("AttitudeSettings");
-    addUAVObject("InertialSensorSettings");
+    addUAVObject("SensorSettings");
     if (full_hardware) {
-        addUAVObject("RevoCalibration");
         addUAVObject("INSSettings");
     }
     autoLoadWidgets();
@@ -378,31 +376,43 @@ void ConfigAttitudeWidget::doStartNoiseMeasurement()
     BaroAltitude * baro = BaroAltitude::GetInstance(getObjectManager());
     Q_ASSERT(baro);
 
-    UAVObject::Metadata mdata;
+    // Store original metadata
+    UAVObjectUtilManager* utilMngr = getObjectUtilManager();
+    originalMetaData = utilMngr->readAllNonSettingsMetadata();
 
-    initialAccelsMdata = accels->getMetadata();
-    mdata = initialAccelsMdata;
-    UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
-    mdata.flightTelemetryUpdatePeriod = 100;
-    accels->setMetadata(mdata);
+    // Update data rates
+    uint16_t slowUpdate = 5000; // in [ms]
+    uint16_t fastUpdate =   50; // in [ms]
 
-    initialGyrosMdata = gyros->getMetadata();
-    mdata = initialGyrosMdata;
-    UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
-    mdata.flightTelemetryUpdatePeriod = 100;
-    gyros->setMetadata(mdata);
+    // Iterate over list of UAVObjects, configuring all dynamic data metadata objects.
+    UAVObjectManager *objManager = getObjectManager();
+    QMap<QString, UAVObject::Metadata> metaDataList;
+    QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
+    foreach (QList<UAVDataObject*> list, objList) {
+        foreach (UAVDataObject* obj, list) {
+            if(!obj->isSettings()) {
+                UAVObject::Metadata mdata = obj->getMetadata();
+                UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
 
-    initialMagMdata = mag->getMetadata();
-    mdata = initialMagMdata;
-    UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
-    mdata.flightTelemetryUpdatePeriod = 100;
-    mag->setMetadata(mdata);
+                switch(obj->getObjID()){
+                    case Accels::OBJID:
+                    case Gyros::OBJID:
+                    case Magnetometer::OBJID:
+                    case BaroAltitude::OBJID:
+                        mdata.flightTelemetryUpdatePeriod = fastUpdate;
+                        break;
+                    default:
+                        mdata.flightTelemetryUpdatePeriod = slowUpdate;
+                }
 
-    initialBaroMdata = baro->getMetadata();
-    mdata = initialBaroMdata;
-    UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
-    mdata.flightTelemetryUpdatePeriod = 100;
-    baro->setMetadata(mdata);
+                metaDataList.insert(obj->getName(), mdata);
+
+            }
+        }
+    }
+
+    // Set new metadata
+    utilMngr->setAllNonSettingsMetadata(metaDataList);
 
     /* Connect for updates */
     connect(accels, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(doGetNoiseSample(UAVObject*)));
@@ -492,6 +502,10 @@ void ConfigAttitudeWidget::doGetNoiseSample(UAVObject * obj)
         disconnect(mags, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(doGetNoiseSample(UAVObject*)));
         disconnect(baro, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(doGetNoiseSample(UAVObject*)));
 
+        // Restore all metadata objects to their original state.
+        UAVObjectUtilManager* utilMngr = getObjectUtilManager();
+        utilMngr->setAllNonSettingsMetadata(originalMetaData);
+
         //Store the variance
         INSSettings *insSettings = INSSettings::GetInstance(getObjectManager());
         Q_ASSERT(insSettings);
@@ -564,7 +578,7 @@ void ConfigAttitudeWidget::drawVariancesGraph()
 }
 
 /**
-  * Called by the ConfigTaskWidget parent when RevoCalibration is updated
+  * Called by the ConfigTaskWidget parent when variances are updated
   * to update the UI
   */
 void ConfigAttitudeWidget::refreshWidgetsValues(UAVObject *)

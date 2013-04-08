@@ -54,6 +54,8 @@ public:
     UAVObjectUtilManager();
     ~UAVObjectUtilManager();
 
+    enum metadataSetEnum {ALL_METADATA, SETTINGS_METADATA_ONLY, NONSETTINGS_METADATA_ONLY};
+
     int setHomeLocation(double LLA[3], bool save_to_sdcard);
     int getHomeLocation(bool &set, double LLA[3]);
 
@@ -68,13 +70,22 @@ public:
     static bool descriptionToStructure(QByteArray desc,deviceDescriptorStruct & struc);
     UAVObjectManager* getObjectManager();
     void saveObjectToSD(UAVObject *obj);
+
+    QMap<QString, UAVObject::Metadata> readMetadata(metadataSetEnum metadataReadType);
+    QMap<QString, UAVObject::Metadata> readAllNonSettingsMetadata();
+    bool setMetadata(QMap<QString, UAVObject::Metadata>, metadataSetEnum metadataUpdateType);
+    bool setAllNonSettingsMetadata(QMap<QString, UAVObject::Metadata>);
+    bool resetMetadataToDefaults();
+
 protected:
     FirmwareIAPObj::DataFields getFirmwareIap();
 
 signals:
     void saveCompleted(int objectID, bool status);
+    void completedMetadataWrite();
 
 private:
+
     QMutex *mutex;
     QQueue<UAVObject *> queue;
     enum {IDLE, AWAITING_ACK, AWAITING_COMPLETED} saveState;
@@ -84,6 +95,7 @@ private:
     ExtensionSystem::PluginManager *pm;
     UAVObjectManager *obm;
     UAVObjectUtilManager *obum;
+    QMap<QString, UAVObject::Metadata> metadataChecklist;
 
 private slots:
     //void transactionCompleted(UAVObject *obj, bool success);
@@ -91,7 +103,7 @@ private slots:
     void objectPersistenceUpdated(UAVObject * obj);
     void objectPersistenceOperationFailed();
 
-
+    void metadataTransactionCompleted(UAVObject*, bool);
 };
 
 

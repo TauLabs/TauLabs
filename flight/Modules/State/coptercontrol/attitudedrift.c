@@ -106,7 +106,7 @@ enum DRIFT_CORRECTION_ALGOS {
 };
 
 // Private functions
-static void calibrate_gyros_high_speed(float gyro[3], float omegaCorrP[3], float normOmegaScalar, float delT, InertialSensorSettingsData *inertialSensorSettings);
+static void calibrate_gyros_high_speed(float gyro[3], float omegaCorrP[3], float normOmegaScalar, float delT, SensorSettingsData *inertialSensorSettings);
 static void GPSVelocityUpdatedCb(UAVObjEvent * objEv);
 #if defined (PIOS_INCLUDE_MAGNETOMETER)
 static void MagnetometerUpdatedCb(UAVObjEvent * objEv);
@@ -115,7 +115,7 @@ static void MagnetometerUpdatedCb(UAVObjEvent * objEv);
 /**
  * Correct attitude drift. Choose from any of the following algorithms
  */
-void updateAttitudeDrift(AccelsData * accelsData, GyrosData * gyrosData, const float delT, GlobalAttitudeVariables *glblAtt, AttitudeSettingsData *attitudeSettings, InertialSensorSettingsData *inertialSensorSettings)
+void updateAttitudeDrift(AccelsData * accelsData, GyrosData * gyrosData, const float delT, GlobalAttitudeVariables *glblAtt, AttitudeSettingsData *attitudeSettings, SensorSettingsData *inertialSensorSettings)
 {
 	float *gyros = &gyrosData->x;
 	float *accels = &accelsData->x;
@@ -194,7 +194,7 @@ void updateAttitudeDrift(AccelsData * accelsData, GyrosData * gyrosData, const f
  * At high speeds, the gyro gains can be honed in on. 
  *  Taken from "Fast Rotations", William Premerlani
  */
-static void calibrate_gyros_high_speed(float gyro[3], float omegaCorrP[3], float normOmegaScalar, float delT, InertialSensorSettingsData *inertialSensorSettings)
+static void calibrate_gyros_high_speed(float gyro[3], float omegaCorrP[3], float normOmegaScalar, float delT, SensorSettingsData *inertialSensorSettings)
 {
 	if (normOmegaScalar > MINIMUM_SPIN_RATE_GYRO_CALIB) {
 		float normOmegaVector[3] = { gyro[0] / normOmegaScalar, gyro[1] / normOmegaScalar, gyro[2] / normOmegaScalar };
