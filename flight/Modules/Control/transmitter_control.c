@@ -942,6 +942,11 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 	set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD);
 }
 
+static void update_path_desired_land(ManualControlCommandData * cmd, bool flightModeChanged)
+{
+	set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD);
+}
+
 #endif /* REVOLUTION */
 
 /**
