@@ -151,7 +151,7 @@
 #endif
 #if defined(PIOS_INCLUDE_MS5611_SPI)
 #include <pios_ms5611.h>
-#include <pios_ms5611_SPI_priv.h>
+#include <pios_ms5611_spi_priv.h>
 #endif
 #if defined(PIOS_INCLUDE_IAP)
 #include <pios_iap.h>
@@ -175,8 +175,8 @@
 #endif
 
 #if defined(PIOS_INCLUDE_FLASH_AT45)
-#include <pios_AT45_flash_jedec.h>
-#include <pios_AT45_flashfs_objlist.h>
+#include <pios_at45_flash_jedec.h>
+#include <pios_at45_flashfs_objlist.h>
 #endif
 
 #if defined(PIOS_INCLUDE_BL_HELPER)
