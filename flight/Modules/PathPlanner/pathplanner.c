@@ -385,7 +385,7 @@ static void createPathBox()
 
 	// Draw O
 	WaypointData waypoint;
-	waypoint.Velocity = 1;
+	waypoint.Velocity = 2.5;
 	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
 
 	waypoint.Position[0] = 0;
