@@ -1,0 +1,27 @@
+0.12
+- Update objects
+- Fix crash on disconnect from audio
+- Updated map library
+
+0.11
+- Fixed generated logs to replace in GCS
+
+0.10
+- Audio alerts
+
+0.09
+- Added battery information to PFD when available
+- Make smart save more robust on worse links
+
+0.08
+- Support for RFD900 modems and 3DR modems
+- Selectable map type
+- Update of the supported object sets
+
+0.06
+- Improved UAVO browser including visual feedback of success loading and saving
+- Update of the supports object sets
+
+0.04:
+- Addition of alarm summary icon to the action bar
+
