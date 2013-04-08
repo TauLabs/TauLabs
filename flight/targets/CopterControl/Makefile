@@ -226,7 +226,7 @@ SRC += $(OPUAVSYNTHDIR)/positionactual.c
 SRC += $(OPUAVSYNTHDIR)/tabletinfo.c
 SRC += $(OPUAVSYNTHDIR)/velocityactual.c
 SRC += $(OPUAVSYNTHDIR)/airspeedactual.c
-SRC += $(OPUAVSYNTHDIR)/inertialsensorsettings.c
+SRC += $(OPUAVSYNTHDIR)/sensorsettings.c
 SRC += $(OPUAVSYNTHDIR)/flightbatterystate.c
 SRC += $(OPUAVSYNTHDIR)/flightbatterysettings.c
 endif

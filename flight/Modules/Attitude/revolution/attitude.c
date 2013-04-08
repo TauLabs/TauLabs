@@ -63,7 +63,7 @@
 #include "gyros.h"
 #include "gyrosbias.h"
 #include "homelocation.h"
-#include "inertialsensorsettings.h"
+#include "sensorsettings.h"
 #include "inssettings.h"
 #include "insstate.h"
 #include "magnetometer.h"
@@ -195,7 +195,7 @@ int32_t AttitudeInitialize(void)
 {
 	AttitudeActualInitialize();
 	AttitudeSettingsInitialize();
-	InertialSensorSettingsInitialize();
+	SensorSettingsInitialize();
 	INSSettingsInitialize();
 	INSStateInitialize();
 	NEDPositionInitialize();
@@ -208,7 +208,7 @@ int32_t AttitudeInitialize(void)
 
 	AttitudeSettingsConnectCallback(&settingsUpdatedCb);
 	HomeLocationConnectCallback(&settingsUpdatedCb);
-	InertialSensorSettingsConnectCallback(&settingsUpdatedCb);
+	SensorSettingsConnectCallback(&settingsUpdatedCb);
 	INSSettingsConnectCallback(&settingsUpdatedCb);
 	StateEstimationConnectCallback(&settingsUpdatedCb);
 
@@ -1116,9 +1116,9 @@ static int32_t getNED(GPSPositionData * gpsPosition, float * NED)
 
 static void settingsUpdatedCb(UAVObjEvent * ev) 
 {
-	if (ev == NULL || ev->obj == InertialSensorSettingsHandle()) {
-		InertialSensorSettingsData inertialSensorSettings;
-		InertialSensorSettingsGet(&inertialSensorSettings);
+	if (ev == NULL || ev->obj == SensorSettingsHandle()) {
+		SensorSettingsData sensorSettings;
+		SensorSettingsGet(&sensorSettings);
 		
 		/* When the revo calibration is updated, update the GyroBias object */
 		GyrosBiasData gyrosBias;

@@ -32,7 +32,7 @@
 
 #include "openpilot.h"
 #include "attitudesettings.h"
-#include "inertialsensorsettings.h"
+#include "sensorsettings.h"
 #include "gyrosbias.h"
 #include "state_struct.h"
 
