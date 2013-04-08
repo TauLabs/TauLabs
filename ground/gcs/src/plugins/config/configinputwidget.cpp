@@ -660,10 +660,14 @@ void ConfigInputWidget::wizardTearDownStep(enum wizardSteps step)
 }
 
 /**
- * @brief ConfigInputWidget::fastMdata Set manual control command to fast updates. Set all others to updates slowly
+ * @brief ConfigInputWidget::fastMdata Set manual control command to fast updates. Set all others to updates slowly.
  */
 void ConfigInputWidget::fastMdata()
 {
+    // Check that the metadata hasn't already been saved.
+    if (!originalMetaData.empty())
+        return;
+
     // Store original metadata
     UAVObjectUtilManager* utilMngr = getObjectUtilManager();
     originalMetaData = utilMngr->readAllNonSettingsMetadata();
@@ -683,6 +687,8 @@ void ConfigInputWidget::fastMdata()
                 UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
 
                 switch(obj->getObjID()){
+                    case AccessoryDesired::OBJID:
+                    case ReceiverActivity::OBJID:
                     case ManualControlCommand::OBJID:
                         mdata.flightTelemetryUpdatePeriod = fastUpdate;
                         break;
@@ -709,6 +715,7 @@ void ConfigInputWidget::restoreMdata()
 {
     UAVObjectUtilManager* utilMngr = getObjectUtilManager();
     utilMngr->setAllNonSettingsMetadata(originalMetaData);
+    originalMetaData.clear();
 }
 
 /**
@@ -782,6 +789,12 @@ void ConfigInputWidget::prevChannel()
     currentChannelNum = -1; // hit end of list
 }
 
+
+/**
+ * @brief ConfigInputWidget::identifyControls Triggers whenever a new ReceiverActivity UAVO is received.
+ * This function checks if the channel has already been identified, and if not assigns it to a new
+ * ManualControlSettings channel.
+ */
 void ConfigInputWidget::identifyControls()
 {
     static int debounce=0;
@@ -789,6 +802,7 @@ void ConfigInputWidget::identifyControls()
     receiverActivityData=receiverActivityObj->getData();
     if(receiverActivityData.ActiveChannel==255)
         return;
+
     if(channelDetected)
         return;
     else
@@ -800,7 +814,10 @@ void ConfigInputWidget::identifyControls()
             ++debounce;
         lastChannel.group= currentChannel.group;
         lastChannel.number=currentChannel.number;
-        if(!usedChannels.contains(lastChannel) && debounce>1)
+
+        // If this channel isn't already allocated, and the debounce passes the threshold, set
+        // the input channel as detected.
+        if(!usedChannels.contains(lastChannel) && debounce>DEBOUNCE_THRESHOLD_COUNT)
         {
             channelDetected = true;
             debounce=0;
@@ -814,10 +831,13 @@ void ConfigInputWidget::identifyControls()
             return;
     }
 
+    // At this point in the code, the channel has been successfully identified
     m_config->wzText->clear();
     setTxMovement(nothing);
 
-    QTimer::singleShot(2500, this, SLOT(wzNext()));
+    // Wait to ensure that the transmitter stick has settled down, in case the user
+    // released it abruptly.
+    QTimer::singleShot(CHANNEL_IDENTIFICATION_WAIT_TIME_MS, this, SLOT(wzNext()));
 }
 
 void ConfigInputWidget::identifyLimits()

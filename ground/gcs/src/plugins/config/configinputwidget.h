@@ -63,6 +63,12 @@ public:
         void startInputWizard() { goToWizard(); }
 
 private:
+        // It is currently unclear why the wait time was set to 2500ms. Extensive testing
+        // will have to be done in order to change it.
+        static const int DEBOUNCE_THRESHOLD_COUNT = 1;
+        // TODO: It is currently unclear why the DEBOUNCE_THRESHOLD_COUNT was set to 1.Extensive
+        // testing will have to be done in order to change it.
+        static const int CHANNEL_IDENTIFICATION_WAIT_TIME_MS = 2500;
         bool growing;
         bool reverse[ManualControlSettings::CHANNELNEUTRAL_NUMELEM];
         txMovements currentMovement;
