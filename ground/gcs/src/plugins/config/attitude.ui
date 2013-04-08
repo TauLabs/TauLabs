@@ -554,7 +554,7 @@ Tip: lower is better!</string>
               </property>
               <property name="objrelation" stdset="0">
                <stringlist>
-                <string>objname:InertialSensorSettings</string>
+                <string>objname:SensorSettings</string>
                 <string>fieldname:YGyroTempCoeff</string>
                 <string>element:T3</string>
                 <string>scale:1</string>
@@ -576,7 +576,7 @@ Tip: lower is better!</string>
               </property>
               <property name="objrelation" stdset="0">
                <stringlist>
-                <string>objname:InertialSensorSettings</string>
+                <string>objname:SensorSettings</string>
                 <string>fieldname:ZGyroTempCoeff</string>
                 <string>element:T</string>
                 <string>scale:1</string>
@@ -598,7 +598,7 @@ Tip: lower is better!</string>
               </property>
               <property name="objrelation" stdset="0">
                <stringlist>
-                <string>objname:InertialSensorSettings</string>
+                <string>objname:SensorSettings</string>
                 <string>fieldname:XGyroTempCoeff</string>
                 <string>element:T3</string>
                 <string>scale:1</string>
@@ -620,7 +620,7 @@ Tip: lower is better!</string>
               </property>
               <property name="objrelation" stdset="0">
                <stringlist>
-                <string>objname:InertialSensorSettings</string>
+                <string>objname:SensorSettings</string>
                 <string>fieldname:XGyroTempCoeff</string>
                 <string>element:T</string>
                 <string>scale:1</string>
@@ -652,7 +652,7 @@ Tip: lower is better!</string>
               </property>
               <property name="objrelation" stdset="0">
                <stringlist>
-                <string>objname:InertialSensorSettings</string>
+                <string>objname:SensorSettings</string>
                 <string>fieldname:ZGyroTempCoeff</string>
                 <string>element:1</string>
                 <string>scale:1</string>
@@ -674,7 +674,7 @@ Tip: lower is better!</string>
               </property>
               <property name="objrelation" stdset="0">
                <stringlist>
-                <string>objname:InertialSensorSettings</string>
+                <string>objname:SensorSettings</string>
                 <string>fieldname:XGyroTempCoeff</string>
                 <string>element:1</string>
                 <string>scale:1</string>
@@ -706,7 +706,7 @@ Tip: lower is better!</string>
               </property>
               <property name="objrelation" stdset="0">
                <stringlist>
-                <string>objname:InertialSensorSettings</string>
+                <string>objname:SensorSettings</string>
                 <string>fieldname:XGyroTempCoeff</string>
                 <string>element:T2</string>
                 <string>scale:1</string>
@@ -728,7 +728,7 @@ Tip: lower is better!</string>
               </property>
               <property name="objrelation" stdset="0">
                <stringlist>
-                <string>objname:InertialSensorSettings</string>
+                <string>objname:SensorSettings</string>
                 <string>fieldname:YGyroTempCoeff</string>
                 <string>element:1</string>
                 <string>scale:1</string>
@@ -750,7 +750,7 @@ Tip: lower is better!</string>
               </property>
               <property name="objrelation" stdset="0">
                <stringlist>
-                <string>objname:InertialSensorSettings</string>
+                <string>objname:SensorSettings</string>
                 <string>fieldname:YGyroTempCoeff</string>
                 <string>element:T</string>
                 <string>scale:1</string>
@@ -789,7 +789,7 @@ Tip: lower is better!</string>
               </property>
               <property name="objrelation" stdset="0">
                <stringlist>
-                <string>objname:InertialSensorSettings</string>
+                <string>objname:SensorSettings</string>
                 <string>fieldname:YGyroTempCoeff</string>
                 <string>element:T2</string>
                 <string>scale:1</string>
@@ -830,7 +830,7 @@ Tip: lower is better!</string>
               </property>
               <property name="objrelation" stdset="0">
                <stringlist>
-                <string>objname:InertialSensorSettings</string>
+                <string>objname:SensorSettings</string>
                 <string>fieldname:ZGyroTempCoeff</string>
                 <string>element:T3</string>
                 <string>scale:1</string>
@@ -862,7 +862,7 @@ Tip: lower is better!</string>
               </property>
               <property name="objrelation" stdset="0">
                <stringlist>
-                <string>objname:InertialSensorSettings</string>
+                <string>objname:SensorSettings</string>
                 <string>fieldname:ZGyroTempCoeff</string>
                 <string>element:T2</string>
                 <string>scale:1</string>

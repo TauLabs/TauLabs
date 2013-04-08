@@ -44,8 +44,7 @@
 #include <QUrl>
 #include <coreplugin/iboardtype.h>
 #include <attitudesettings.h>
-#include <inertialsensorsettings.h>
-#include <revocalibration.h>
+#include <sensorsettings.h>
 #include <inssettings.h>
 #include <homelocation.h>
 #include <accels.h>
@@ -234,9 +233,8 @@ ConfigAttitudeWidget::ConfigAttitudeWidget(QWidget *parent) :
     // Must set up the UI (above) before setting up the UAVO mappings or refreshWidgetValues
     // will be dealing with some null pointers
     addUAVObject("AttitudeSettings");
-    addUAVObject("InertialSensorSettings");
+    addUAVObject("SensorSettings");
     if (full_hardware) {
-        addUAVObject("RevoCalibration");
         addUAVObject("INSSettings");
     }
     autoLoadWidgets();
@@ -616,7 +614,7 @@ void ConfigAttitudeWidget::drawVariancesGraph()
 }
 
 /**
-  * Called by the ConfigTaskWidget parent when RevoCalibration is updated
+  * Called by the ConfigTaskWidget parent when variances are updated
   * to update the UI
   */
 void ConfigAttitudeWidget::refreshWidgetsValues(UAVObject *)

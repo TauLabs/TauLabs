@@ -77,7 +77,6 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/i2cstats.h \
     $$UAVOBJECT_SYNTHETICS/i2cvm.h \
     $$UAVOBJECT_SYNTHETICS/i2cvmuserprogram.h \
-    $$UAVOBJECT_SYNTHETICS/inertialsensorsettings.h \
     $$UAVOBJECT_SYNTHETICS/inssettings.h \
     $$UAVOBJECT_SYNTHETICS/magbias.h \
     $$UAVOBJECT_SYNTHETICS/magnetometer.h \
@@ -103,8 +102,8 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/receiveractivity.h \
     $$UAVOBJECT_SYNTHETICS/relaytuning.h \
     $$UAVOBJECT_SYNTHETICS/relaytuningsettings.h \
-    $$UAVOBJECT_SYNTHETICS/revocalibration.h \
     $$UAVOBJECT_SYNTHETICS/revosettings.h \
+    $$UAVOBJECT_SYNTHETICS/sensorsettings.h \
     $$UAVOBJECT_SYNTHETICS/sonaraltitude.h \
     $$UAVOBJECT_SYNTHETICS/stabilizationdesired.h \
     $$UAVOBJECT_SYNTHETICS/stabilizationsettings.h \
@@ -176,7 +175,6 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/i2cstats.cpp \
     $$UAVOBJECT_SYNTHETICS/i2cvm.cpp \
     $$UAVOBJECT_SYNTHETICS/i2cvmuserprogram.cpp \
-    $$UAVOBJECT_SYNTHETICS/inertialsensorsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/inssettings.cpp \
     $$UAVOBJECT_SYNTHETICS/magbias.cpp \
     $$UAVOBJECT_SYNTHETICS/magnetometer.cpp \
@@ -202,8 +200,8 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/receiveractivity.cpp \
     $$UAVOBJECT_SYNTHETICS/relaytuning.cpp \
     $$UAVOBJECT_SYNTHETICS/relaytuningsettings.cpp \
-    $$UAVOBJECT_SYNTHETICS/revocalibration.cpp \
     $$UAVOBJECT_SYNTHETICS/revosettings.cpp \
+    $$UAVOBJECT_SYNTHETICS/sensorsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/sonaraltitude.cpp \
     $$UAVOBJECT_SYNTHETICS/stabilizationdesired.cpp \
     $$UAVOBJECT_SYNTHETICS/stabilizationsettings.cpp \
