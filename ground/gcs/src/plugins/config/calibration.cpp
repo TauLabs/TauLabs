@@ -397,7 +397,7 @@ void Calibration::doStartLeveling() {
 
     // Set up timeout timer
     timer.setSingleShot(true);
-    timer.start(5000 + (NUM_SENSOR_UPDATES * SENSOR_UPDATE_PERIOD));
+    timer.start(5000 + (NUM_SENSOR_UPDATES_LEVELING * SENSOR_UPDATE_PERIOD));
     connect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
 }
 
@@ -469,9 +469,6 @@ void Calibration::doStartSixPoint()
     accel_accum_x.clear();
     accel_accum_y.clear();
     accel_accum_z.clear();
-    gyro_accum_x.clear();
-    gyro_accum_y.clear();
-    gyro_accum_z.clear();
     mag_accum_x.clear();
     mag_accum_y.clear();
     mag_accum_z.clear();
@@ -479,8 +476,6 @@ void Calibration::doStartSixPoint()
     Thread::usleep(100000);
 
     connectSensor(ACCEL, true);
-    connectSensor(GYRO, true);
-
     if(calibrateMag) {
         connectSensor(MAG, true);
     }
@@ -502,7 +497,6 @@ void Calibration::doCancelSixPoint(){
     resetSensorCalibrationToOriginalValues();
 
     connectSensor(ACCEL, false);
-    connectSensor(GYRO, false);
     if(calibrateMag) {
         connectSensor(MAG, false);
     }
@@ -668,7 +662,7 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
     Accels * accels = Accels::GetInstance(getObjectManager());
     Gyros * gyros = Gyros::GetInstance(getObjectManager());
 
-    // Accumulate samples until we have _at least_ NUM_SENSOR_UPDATES samples
+    // Accumulate samples until we have _at least_ NUM_SENSOR_UPDATES_LEVELING samples
     if(obj->getObjID() == Accels::OBJID) {
         Accels::DataFields accelsData = accels->getData();
         accel_accum_x.append(accelsData.x);
@@ -683,10 +677,10 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
     }
 
     // update the progress indicator
-    emit levelingProgressChanged((float) qMin(accel_accum_x.size(),  gyro_accum_x.size()) / NUM_SENSOR_UPDATES * 100);
+    emit levelingProgressChanged((float) qMin(accel_accum_x.size(),  gyro_accum_x.size()) / NUM_SENSOR_UPDATES_LEVELING * 100);
 
     // If we have enough samples, then stop sampling and compute the biases
-    if (accel_accum_x.size() >= NUM_SENSOR_UPDATES && gyro_accum_x.size() >= NUM_SENSOR_UPDATES) {
+    if (accel_accum_x.size() >= NUM_SENSOR_UPDATES_LEVELING && gyro_accum_x.size() >= NUM_SENSOR_UPDATES_LEVELING) {
         timer.stop();
         disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
 
@@ -799,20 +793,10 @@ bool Calibration::storeSixPointMeasurement(UAVObject * obj, int position)
         mag_accum_z.append(magData.z);
     }
 
-    if (obj->getObjID() == Gyros::OBJID) {
-        Gyros *gyros = Gyros::GetInstance(getObjectManager());
-        Q_ASSERT(gyros);
-        Gyros::DataFields gyrosData = gyros->getData();
-        gyro_accum_x.append(gyrosData.x);
-        gyro_accum_y.append(gyrosData.y);
-        gyro_accum_z.append(gyrosData.z);
-    }
-
     emit sixPointProgressChanged((float) accel_accum_x.size() / NUM_SENSOR_UPDATES_SIX_POINT * 100);
 
     // If enough data is collected, average it for this position
     if(accel_accum_x.size() >= NUM_SENSOR_UPDATES_SIX_POINT &&
-            gyro_accum_x.size() >= NUM_SENSOR_UPDATES_SIX_POINT &&
             (!calibrateMag || mag_accum_x.size() >= NUM_SENSOR_UPDATES_SIX_POINT)) {
 
         // Store the average accel value in that position
@@ -822,14 +806,6 @@ bool Calibration::storeSixPointMeasurement(UAVObject * obj, int position)
         accel_accum_x.clear();
         accel_accum_y.clear();
         accel_accum_z.clear();
-
-        // Store the average gyro value in that position
-        gyro_data_x[position] = listMean(gyro_accum_x);
-        gyro_data_y[position] = listMean(gyro_accum_y);
-        gyro_data_z[position] = listMean(gyro_accum_z);
-        gyro_accum_x.clear();
-        gyro_accum_y.clear();
-        gyro_accum_z.clear();
 
         if (calibrateMag) {
             mag_data_x[position] = listMean(mag_accum_x);
@@ -1110,12 +1086,12 @@ int Calibration::computeScaleBias()
 
     bool good_calibration = true;
 
-    qDebug() << "Gyro measurements";
-    for(int i = 0; i < 6; i++)
-        qDebug() << gyro_data_x[i] << ", " << gyro_data_y[i] << ", " << gyro_data_z[i] << ";";
     qDebug() << "Accel measurements";
     for(int i = 0; i < 6; i++)
         qDebug() << accel_data_x[i] << ", " << accel_data_y[i] << ", " << accel_data_z[i] << ";";
+    qDebug() << "Mag measurements";
+    for(int i = 0; i < 6; i++)
+        qDebug() << mag_data_x[i] << ", " << mag_data_y[i] << ", " << mag_data_z[i] << ";";
 
     // Calibrate accelerometer
     double S[3], b[3];
