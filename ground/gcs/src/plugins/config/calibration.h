@@ -127,6 +127,9 @@ signals:
     //! Indicate what the progress is for leveling
     void tempCalProgressChanged(int);
 
+    //! Indicate that a calibration process has successfully completed and the results saved to UAVO
+    void calibrationCompleted();
+
 private:
     QTimer timer;
 
@@ -174,6 +177,7 @@ private:
     TempCompCurve *xCurve;
     TempCompCurve *yCurve;
     TempCompCurve *zCurve;
+
 protected:
 
     //! Get the object manager
