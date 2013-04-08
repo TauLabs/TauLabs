@@ -28,6 +28,7 @@
 #ifndef UAVOBJECTBROWSERWIDGET_H_
 #define UAVOBJECTBROWSERWIDGET_H_
 
+#include <QModelIndex>
 #include <QtGui/QWidget>
 #include <QtGui/QTreeView>
 #include "objectpersistence.h"
@@ -37,6 +38,41 @@ class QPushButton;
 class ObjectTreeItem;
 class Ui_UAVObjectBrowser;
 class Ui_viewoptions;
+
+class UAVOBrowserTreeView : public QTreeView
+{
+    Q_OBJECT
+public:
+    UAVOBrowserTreeView(UAVObjectTreeModel *m_model, unsigned int updateTimerPeriod);
+    void updateView(QModelIndex topLeft, QModelIndex bottomRight);
+    void updateTimerPeriod(unsigned int val);
+
+    /**
+     * @brief dataChanged Reimplements QTreeView::dataChanged signal
+     * @param topLeft
+     * @param bottomRight
+     * @param updateFlag If true, send dataChanged signal. If false, do nothing.
+     */
+    virtual void dataChanged(const QModelIndex & topLeft, const QModelIndex & bottomRight);
+
+
+private slots:
+    void onTimeout_updateView();
+
+private:
+    UAVObjectTreeModel *m_model;
+
+    int topmostData;
+    int bottommostData;
+    int topmostSettings;
+    int bottommostSettings;
+
+    bool m_updateViewFlagData;
+    bool m_updateViewFlagSettings;
+
+    QTimer m_updateViewTimer;
+
+};
 
 class UAVObjectBrowserWidget : public QWidget
 {
@@ -50,6 +86,7 @@ public:
     void setRecentlyUpdatedTimeout(int timeout) { m_recentlyUpdatedTimeout = timeout; m_model->setRecentlyUpdatedTimeout(timeout); }
     void setOnlyHighlightChangedValues(bool highlight) { m_onlyHighlightChangedValues = highlight; m_model->setOnlyHighlightChangedValues(highlight); }
     void setViewOptions(bool categorized,bool scientific,bool metadata);
+
 public slots:
     void showMetaData(bool show);
     void categorize(bool categorize);
@@ -64,6 +101,10 @@ private slots:
     void toggleUAVOButtons(const QModelIndex &current, const QModelIndex &previous);
     void viewSlot();
     void viewOptionsChangedSlot();
+
+    void on_TreeItemCollapsed(QModelIndex);
+    void on_TreeItemExpanded(QModelIndex);
+
 signals:
     void viewOptionsChanged(bool categorized,bool scientific,bool metadata);
 private:
@@ -82,6 +123,13 @@ private:
     void updateObjectPersistance(ObjectPersistence::OperationOptions op, UAVObject *obj);
     void enableUAVOBrowserButtons(bool enableState);
     ObjectTreeItem *findCurrentObjectTreeItem();
+    void updateThrottlePeriod(UAVObject *);
+
+    UAVOBrowserTreeView *treeView;
+
+    QMap<QString, unsigned int> expandedUavoItems;
+
+    unsigned int updatePeriod;
 };
 
 #endif /* UAVOBJECTBROWSERWIDGET_H_ */

@@ -219,9 +219,6 @@
      </item>
     </layout>
    </item>
-   <item>
-    <widget class="QTreeView" name="treeView"/>
-   </item>
   </layout>
  </widget>
  <resources>
