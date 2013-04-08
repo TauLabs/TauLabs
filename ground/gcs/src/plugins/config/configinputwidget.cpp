@@ -58,8 +58,6 @@ ConfigInputWidget::ConfigInputWidget(QWidget *parent) : ConfigTaskWidget(parent)
     m_config = new Ui_InputWidget();
     m_config->setupUi(this);
     
-    addApplySaveButtons(m_config->saveRCInputToRAM,m_config->saveRCInputToSD);
-
     ExtensionSystem::PluginManager *pm=ExtensionSystem::PluginManager::instance();
     Core::Internal::GeneralSettings * settings=pm->getObject<Core::Internal::GeneralSettings>();
     if(!settings->useExpertMode())
@@ -67,7 +65,7 @@ ConfigInputWidget::ConfigInputWidget(QWidget *parent) : ConfigTaskWidget(parent)
     
     addApplySaveButtons(m_config->saveRCInputToRAM,m_config->saveRCInputToSD);
 
-	//Generate the rows of buttons in the input channel form GUI
+    //Generate the rows of buttons in the input channel form GUI
     unsigned int index=0;
     foreach (QString name, manualSettingsObj->getField("ChannelNumber")->getElementNames())
     {
