@@ -41,10 +41,16 @@
 #define PIOS_MPU6050_I2C_ADD_A0_HIGH      0x69
 
 /* Public Functions */
-extern int32_t PIOS_MPU6050_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_mpu60x0_cfg * new_cfg);
+extern int32_t PIOS_MPU6050_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_mpu60x0_cfg *new_cfg);
 extern uint8_t PIOS_MPU6050_Test();
 extern void PIOS_MPU6050_SetGyroRange(enum pios_mpu60x0_range);
+
+#if defined(PIOS_MPU6050_ACCEL)
 extern void PIOS_MPU6050_SetAccelRange(enum pios_mpu60x0_accel_range);
+#endif /* PIOS_MPU6000_ACCEL */
+
+extern void PIOS_MPU6050_SetSampleRate(uint16_t samplerate_hz);
+extern void PIOS_MPU6050_SetLPF(enum pios_mpu60x0_filter filter);
 extern bool PIOS_MPU6050_IRQHandler(void);
 
 #endif /* PIOS_MPU6050_H */
