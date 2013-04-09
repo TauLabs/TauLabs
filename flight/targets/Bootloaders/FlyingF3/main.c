@@ -172,13 +172,13 @@ void jump_to_app() {
 	const struct pios_board_info * bdinfo = &pios_board_info_blob;
 
 	PIOS_LED_On(PIOS_LED_HEARTBEAT);
-	if (((*(__IO uint32_t*) bdinfo->fw_base) & 0x2FFE0000) == 0x20000000) { /* Jump to user application */
+	if (((*(__IO uint32_t*) bdinfo->fw_base) & 0x2FFE0000) == 0x20000000 ||
+		((*(__IO uint32_t*) bdinfo->fw_base) & 0x1FFE0000) == 0x10000000) { /* Jump to user application */
 		FLASH_Lock();
 		RCC_APB2PeriphResetCmd(0xffffffff, ENABLE);
 		RCC_APB1PeriphResetCmd(0xffffffff, ENABLE);
 		RCC_APB2PeriphResetCmd(0xffffffff, DISABLE);
 		RCC_APB1PeriphResetCmd(0xffffffff, DISABLE);
-
 		//PIOS_USBHOOK_Deactivate();
 
 		JumpAddress = *(__IO uint32_t*) (bdinfo->fw_base + 4);

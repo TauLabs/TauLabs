@@ -97,9 +97,9 @@ int32_t CameraStabInitialize(void)
 #ifdef MODULE_CameraStab_BUILTIN
 	module_enabled = true;
 #else
-	uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
-	ModuleSettingsStateGet(module_state);
-	if (module_state[MODULESETTINGS_STATE_CAMERASTAB] == MODULESETTINGS_STATE_ENABLED) {
+	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
+	ModuleSettingsAdminStateGet(module_state);
+	if (module_state[MODULESETTINGS_ADMINSTATE_CAMERASTAB] == MODULESETTINGS_ADMINSTATE_ENABLED) {
 		module_enabled = true;
 	} else {
 		module_enabled = false;

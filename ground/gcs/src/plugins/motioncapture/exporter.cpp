@@ -35,8 +35,6 @@
 
 volatile bool Exporter::isStarted = false;
 
-const float Exporter::RAD2DEG = (180.0/M_PI);
-
 Exporter::Exporter(const MocapSettings& params) :
     exporterProcess(NULL),
 	time(NULL),

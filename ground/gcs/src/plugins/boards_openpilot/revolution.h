@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       revolution.h
- * @author     The PhoenixPilot Team, http://github.com/PhoenixPilot Copyright (C) 2012.
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -40,6 +40,7 @@ public:
 
     virtual QString shortName();
     virtual QString boardDescription();
+    virtual bool queryCapabilities(BoardCapabilities capability);
     virtual QStringList getSupportedProtocols();
     virtual QPixmap* getBoardPicture() { return new QPixmap; }
 

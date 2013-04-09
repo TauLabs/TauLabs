@@ -84,6 +84,34 @@ GCS_BUILD_CONF ?= debug
 # Set up misc host tools
 RM=rm
 
+##############################
+#
+# Check that environmental variables are sane
+#
+##############################
+# Checking for $(ANDROIDGCS_BUILD_CONF) to be sane
+ifdef ANDROIDGCS_BUILD_CONF
+ ifneq ($(ANDROIDGCS_BUILD_CONF), release)
+  ifneq ($(ANDROIDGCS_BUILD_CONF), debug)
+   $(error Only debug or release are allowed for ANDROIDGCS_BUILD_CONF)
+  endif
+ endif
+endif
+
+# Checking for $(GCS_BUILD_CONF) to be sane
+ifdef GCS_BUILD_CONF
+ ifneq ($(GCS_BUILD_CONF), release)
+  ifneq ($(GCS_BUILD_CONF), debug)
+   $(error Only debug or release are allowed for GCS_BUILD_CONF)
+  endif
+ endif
+endif
+
+##############################
+#
+# Help instructions
+#
+##############################
 .PHONY: help
 help:
 	@echo
@@ -95,7 +123,8 @@ help:
 	@echo "   [Tool Installers]"
 	@echo "     qt_sdk_install       - Install the QT v4.7.3 tools"
 	@echo "     arm_sdk_install      - Install the GNU ARM gcc toolchain"
-	@echo "     openocd_install      - Install the OpenOCD JTAG daemon"
+	@echo "     openocd_install      - Install the OpenOCD SWD/JTAG daemon"
+	@echo "        \$$OPENOCD_FTDI     - Set to no in order not to install legacy FTDI support for OpenOCD."
 	@echo "     stm32flash_install   - Install the stm32flash tool for unbricking boards"
 	@echo "     dfuutil_install      - Install the dfu-util tool for unbricking F4-based boards"
 	@echo "     android_sdk_install  - Install the Android SDK tools"
@@ -127,19 +156,20 @@ help:
 	@echo "     fw_<board>           - Build firmware for <board>"
 	@echo "                            supported boards are ($(FW_BOARDS))"
 	@echo "     fw_<board>_clean     - Remove firmware for <board>"
-	@echo "     fw_<board>_program   - Use OpenOCD + JTAG to write firmware to <board>"
+	@echo "     fw_<board>_program   - Use OpenOCD + SWD/JTAG to write firmware to <board>"
+	@echo "     fw_<board>_wipe      - Use OpenOCD + SWD/JTAG to wipe entire firmware section on <board>"
 	@echo
 	@echo "   [Bootloader]"
 	@echo "     bl_<board>           - Build bootloader for <board>"
 	@echo "                            supported boards are ($(BL_BOARDS))"
 	@echo "     bl_<board>_clean     - Remove bootloader for <board>"
-	@echo "     bl_<board>_program   - Use OpenOCD + JTAG to write bootloader to <board>"
+	@echo "     bl_<board>_program   - Use OpenOCD + SWD/JTAG to write bootloader to <board>"
 	@echo
 	@echo "   [Entire Flash]"
 	@echo "     ef_<board>           - Build entire flash image for <board>"
 	@echo "                            supported boards are ($(EF_BOARDS))"
 	@echo "     ef_<board>_clean     - Remove entire flash image for <board>"
-	@echo "     ef_<board>_program   - Use OpenOCD + JTAG to write entire flash image to <board>"
+	@echo "     ef_<board>_program   - Use OpenOCD + SWD/JTAG to write entire flash image to <board>"
 	@echo
 	@echo "   [Bootloader Updater]"
 	@echo "     bu_<board>           - Build bootloader updater for <board>"
@@ -149,7 +179,7 @@ help:
 	@echo "   [Unbrick a board]"
 	@echo "     unbrick_<board>      - Use the STM32's built in boot ROM to write a bootloader to <board>"
 	@echo "                            supported boards are ($(BL_BOARDS))"
-	@echo "   [Unittests]"
+	@echo "   [Unit tests]"
 	@echo "     ut_<test>            - Build unit test <test>"
 	@echo "     ut_<test>_tap        - Run test and capture TAP output into a file"
 	@echo "     ut_<test>_run        - Run test and dump TAP output to console"
@@ -169,6 +199,7 @@ help:
 	@echo "   [AndroidGCS]"
 	@echo "     androidgcs           - Build the Ground Control System (GCS) application"
 	@echo "     androidgcs_install   - Use ADB to install the Ground Control System (GCS) application"
+	@echo "     androidgcs_run       - Run the Ground Control System (GCS) application"
 	@echo "     androidgcs_clean     - Remove the Ground Control System (GCS) application"
 	@echo
 	@echo "   [UAVObjects]"
@@ -176,6 +207,9 @@ help:
 	@echo "     uavobjects_test      - parse xml-files - check for valid, duplicate ObjId's, ... "
 	@echo "     uavobjects_<group>   - Generate source files from a subset of the UAVObject definition XML files"
 	@echo "                            supported groups are ($(UAVOBJ_TARGETS))"
+	@echo "   [Package]"
+	@echo "     package              - Executes a make all_clean and then generates a complete package build for"
+	@echo "                            the GCS and all target board firmwares."
 	@echo
 	@echo "   Hint: Add V=1 to your command line to see verbose build output."
 	@echo
@@ -359,6 +393,11 @@ $(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk: uavo-collecti
 		-Dout.dir="../$(call toprel, $(ANDROIDGCS_OUT_DIR)/bin)" \
 		-Dgen.absolute.dir="$(ANDROIDGCS_OUT_DIR)/gen" \
 		$(ANDROIDGCS_BUILD_CONF)
+
+.PHONY: androidgcs_run
+androidgcs_run: androidgcs_install
+	$(V0) @echo " AGCS RUN "
+	$(V1) $(ANDROID_ADB) shell am start -n org.taulabs.androidgcs/.HomePage
 
 .PHONY: androidgcs_install
 androidgcs_install: $(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk
@@ -554,6 +593,7 @@ sim_$(4)_$(1)_%: uavobjects_flight
 		HWDEFSINC=$(HWDEFS)/$(1) \
 		DOXYGENDIR=$(DOXYGENDIR) \
 		OPUAVSYNTHDIR=$(OPUAVSYNTHDIR) \
+		SHAREDAPIDIR=$(SHAREDAPIDIR) \
 		\
 		$$*
 
@@ -568,8 +608,8 @@ endef
 # $(3) = Short name for board (e.g CC)
 define FW_TEMPLATE
 .PHONY: $(1) fw_$(1)
-$(1): fw_$(1)_opfw
-fw_$(1): fw_$(1)_opfw
+$(1): fw_$(1)_tlfw
+fw_$(1): fw_$(1)_tlfw
 
 fw_$(1)_%: uavobjects_flight
 	$(V1) mkdir -p $(BUILD_DIR)/fw_$(1)/dep
@@ -657,7 +697,7 @@ endef
 # $(1) = Canonical board name all in lower case (e.g. coptercontrol)
 define BU_TEMPLATE
 .PHONY: bu_$(1)
-bu_$(1): bu_$(1)_opfw
+bu_$(1): bu_$(1)_tlfw
 
 bu_$(1)_%: bl_$(1)_bino
 	$(V1) mkdir -p $(BUILD_DIR)/bu_$(1)/dep
@@ -694,7 +734,7 @@ define EF_TEMPLATE
 .PHONY: ef_$(1)
 ef_$(1): ef_$(1)_bin
 
-ef_$(1)_%: bl_$(1)_bin fw_$(1)_opfw
+ef_$(1)_%: bl_$(1)_bin fw_$(1)_tlfw
 	$(V1) mkdir -p $(BUILD_DIR)/ef_$(1)/dep
 	$(V1) cd $(ROOT_DIR)/flight/targets/EntireFlash && \
 		$$(MAKE) -r --no-print-directory \
@@ -801,7 +841,7 @@ BU_TARGETS := $(addprefix bu_, $(BU_BOARDS))
 EF_TARGETS := $(addprefix ef_, $(EF_BOARDS))
 
 .PHONY: all_fw all_fw_clean
-all_fw:        $(addsuffix _opfw,  $(FW_TARGETS))
+all_fw:        $(addsuffix _tlfw,  $(FW_TARGETS))
 all_fw_clean:  $(addsuffix _clean, $(FW_TARGETS))
 
 .PHONY: all_bl all_bl_clean
@@ -809,7 +849,7 @@ all_bl:        $(addsuffix _bin,   $(BL_TARGETS))
 all_bl_clean:  $(addsuffix _clean, $(BL_TARGETS))
 
 .PHONY: all_bu all_bu_clean
-all_bu:        $(addsuffix _opfw,  $(BU_TARGETS))
+all_bu:        $(addsuffix _tlfw,  $(BU_TARGETS))
 all_bu_clean:  $(addsuffix _clean, $(BU_TARGETS))
 
 .PHONY: all_ef all_ef_clean
@@ -934,4 +974,4 @@ package:
 
 .PHONY: package_resources
 package_resources:
-	$(V1) cd package && $(MAKE) --no-print-directory opfw_resource
+	$(V1) cd package && $(MAKE) --no-print-directory tlfw_resource

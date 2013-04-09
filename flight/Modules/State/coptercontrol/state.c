@@ -9,6 +9,7 @@
  *
  * @file       attitude.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      Module to handle all comms to the AHRS on a periodic basis.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -49,6 +50,7 @@
  */
 
 #include "pios.h"
+#include "physical_constants.h"
 #include "state.h"
 #include "sensorfetch.h"
 #include "attitudedrift.h"
@@ -78,11 +80,8 @@
 
 #define SENSOR_PERIOD 4
 #define LOOP_RATE_MS  25.0f
-#define GRAV         -9.805f
-#define DEG2RAD       (3.141592654f/180.0f)
-#define RAD2DEG       (180.0f/3.141592654f)
 
-#define PI_MOD(x) (fmod(x + M_PI, M_PI * 2) - M_PI)
+#define PI_MOD(x) (fmod(x + PI, PI * 2) - PI)
 // Private types
 
 // Private variables
@@ -92,7 +91,7 @@ static xQueueHandle gyro_queue;
 static bool gpsNew_flag;
 static HomeLocationData homeLocation;
 struct GlobalAttitudeVariables *glblAtt;
-InertialSensorSettingsData inertialSensorSettings;
+SensorSettingsData sensorSettings;
 AttitudeSettingsData attitudeSettings;
 GyrosBiasData gyrosBias;
 
@@ -149,7 +148,7 @@ int32_t StateInitialize(void)
 	//Initialize UAVOs
 	AttitudeActualInitialize();
 	AttitudeSettingsInitialize();
-	InertialSensorSettingsInitialize();
+	SensorSettingsInitialize();
 	AccelsInitialize();
 	GyrosInitialize();
 
@@ -194,7 +193,7 @@ int32_t StateInitialize(void)
 	glblAtt->trim_requested = false;
 
 	AttitudeSettingsConnectCallback(&inertialSensorSettingsUpdatedCb);
-	InertialSensorSettingsConnectCallback(&inertialSensorSettingsUpdatedCb);
+	SensorSettingsConnectCallback(&inertialSensorSettingsUpdatedCb);
 
 	HomeLocationConnectCallback(&HomeLocationUpdatedCb);
 	GPSPositionConnectCallback(&GPSPositionUpdatedCb);
@@ -228,8 +227,8 @@ static void StateTask(void *parameters)
 	bool cc3d_flag = (bdinfo->board_rev == 0x02);
 
 	// Force settings update to make sure rotation and home location are loaded
-	inertialSensorSettingsUpdatedCb(InertialSensorSettingsHandle());
-	inertialSensorSettingsUpdatedCb(AttitudeSettingsHandle());
+	SensorSettingsUpdatedCb(SensorSettingsHandle());
+	SensorSettingsUpdatedCb(AttitudeSettingsHandle());
 	HomeLocationUpdatedCb(HomeLocationHandle());
 
 	if (cc3d_flag) {
@@ -257,9 +256,9 @@ static void StateTask(void *parameters)
 		float prelim_accels[4];
 		float prelim_gyros[4];
 		if (cc3d_flag) {
-			getSensorsCC3D(prelim_accels, prelim_gyros, glblAtt, &gyrosBias, &inertialSensorSettings);
+			getSensorsCC3D(prelim_accels, prelim_gyros, glblAtt, &gyrosBias, &sensorSettings);
 		} else {
-			getSensorsCC(prelim_accels, prelim_gyros, &gyro_queue, glblAtt, &gyrosBias, &inertialSensorSettings);
+			getSensorsCC(prelim_accels, prelim_gyros, &gyro_queue, glblAtt, &gyrosBias, &sensorSettings);
 		}
 
 		int8_t groundTemperature = round(prelim_accels[3]);
@@ -340,7 +339,7 @@ static void StateTask(void *parameters)
 				
 				//Update attitude estimation with drift PI feedback on the rate gyroscopes
 				if (glblAtt->bias_correct_gyro) {
-					updateAttitudeDrift(&accels, &gyros, delT, glblAtt, &attitudeSettings, &inertialSensorSettings);
+					updateAttitudeDrift(&accels, &gyros, delT, glblAtt, &attitudeSettings, &sensorSettings);
 				}
 
 				updateSO3(&gyros.x, delT);
@@ -375,7 +374,7 @@ static void StateTask(void *parameters)
 
 				// Convert from millibar to Pa
 				float staticAirDensity = staticPressure * 100 * 0.003483613507536f /
-				    (homeLocation.GroundTemperature + 273.15f);
+				    (homeLocation.GroundTemperature + CELSIUS2KELVIN);
 
 				gps_airspeed_update(&gpsVelocityData, staticAirDensity);
 #endif
@@ -401,9 +400,9 @@ static int32_t updateIntertialSensors(AccelsData * accels, GyrosData * gyros, bo
 
 	// Get the sensor data in a board specific manner
 	if (cc3d_flag) {
-		retval = getSensorsCC3D(prelim_accels, prelim_gyros, glblAtt, &gyrosBias, &inertialSensorSettings);
+		retval = getSensorsCC3D(prelim_accels, prelim_gyros, glblAtt, &gyrosBias, &sensorSettings);
 	} else {
-		retval = getSensorsCC(prelim_accels, prelim_gyros, &gyro_queue, glblAtt, &gyrosBias, &inertialSensorSettings);
+		retval = getSensorsCC(prelim_accels, prelim_gyros, &gyro_queue, glblAtt, &gyrosBias, &sensorSettings);
 	}
 
 	if (retval < 0) {	// No sensor data.  Alarm set by calling method
@@ -554,16 +553,16 @@ static void updateSO3(float *gyros, float dT)
 		float qdot[4];
 		qdot[0] =
 		    (-glblAtt->q[1] * gyros[0] - glblAtt->q[2] * gyros[1] -
-		     glblAtt->q[3] * gyros[2]) * dT * M_PI / 180 / 2;
+		     glblAtt->q[3] * gyros[2]) * dT * DEG2RAD / 2;
 		qdot[1] =
 		    (glblAtt->q[0] * gyros[0] - glblAtt->q[3] * gyros[1] +
-		     glblAtt->q[2] * gyros[2]) * dT * M_PI / 180 / 2;
+		     glblAtt->q[2] * gyros[2]) * dT * DEG2RAD / 2;
 		qdot[2] =
 		    (glblAtt->q[3] * gyros[0] + glblAtt->q[0] * gyros[1] -
-		     glblAtt->q[1] * gyros[2]) * dT * M_PI / 180 / 2;
+		     glblAtt->q[1] * gyros[2]) * dT * DEG2RAD / 2;
 		qdot[3] =
 		    (-glblAtt->q[2] * gyros[0] + glblAtt->q[1] * gyros[1] +
-		     glblAtt->q[0] * gyros[2]) * dT * M_PI / 180 / 2;
+		     glblAtt->q[0] * gyros[2]) * dT * DEG2RAD / 2;
 
 		// Integrate a time step
 		glblAtt->q[0] = glblAtt->q[0] + qdot[0];
@@ -613,7 +612,7 @@ static void updateSO3(float *gyros, float dT)
 static void inertialSensorSettingsUpdatedCb(UAVObjEvent * objEv)
 {
 	AttitudeSettingsGet(&attitudeSettings);
-	InertialSensorSettingsGet(&inertialSensorSettings);
+	SensorSettingsGet(&sensorSettings);
 
 	glblAtt->accelKp = attitudeSettings.AccelKp;
 	glblAtt->accelKi = attitudeSettings.AccelKi;
@@ -624,15 +623,15 @@ static void inertialSensorSettingsUpdatedCb(UAVObjEvent * objEv)
 
 	//Provide minimum for scale. This keeps the accels from accidentally being "turned off".
 	for (int i = 0; i < 3; i++) {
-		if (inertialSensorSettings.AccelScale[i] < .01f) {
-			inertialSensorSettings.AccelScale[i] = .01f;
+		if (sensorSettings.AccelScale[i] < .01f) {
+			sensorSettings.AccelScale[i] = .01f;
 		}
 	}
 
 	//Load initial gyrobias values into online-estimated gyro bias
-	gyrosBias.x = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_X];
-	gyrosBias.y = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_Y];
-	gyrosBias.z = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_Z];
+	gyrosBias.x = 0;
+	gyrosBias.y = 0;
+	gyrosBias.z = 0;
 
 	//Calculate sensor to board rotation matrix. If the matrix is the identity,
 	//don't expend cycles on rotation
@@ -682,15 +681,15 @@ static void inertialSensorSettingsUpdatedCb(UAVObjEvent * objEv)
 		float sP = sinf(psi);
 
 		// In case psi is too small, we have to use a different equation to solve for theta
-		if (fabs(psi) > 3.1415f / 2)
+		if (fabs(psi) > PI / 2)
 			theta = atanf((a_sensor[1] + cP * (sP * a_sensor[0] -
 					 cP * a_sensor[1])) / (sP * a_sensor[2]));
 		else
 			theta = atanf((a_sensor[0] - sP * (sP * a_sensor[0] -
 					 cP * a_sensor[1])) / (cP * a_sensor[2]));
 
-		phi = atan2f((sP * a_sensor[0] - cP * a_sensor[1]) / GRAV,
-			   (a_sensor[2] / cosf(theta) / GRAV));
+		phi = atan2f((sP * a_sensor[0] - cP * a_sensor[1]) / (-GRAVITY),
+			   (a_sensor[2] / cosf(theta) / (-GRAVITY)));
 
 		attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_ROLL] = phi * RAD2DEG * 100.0f;
 		attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_PITCH] = theta * RAD2DEG * 100.0f;
@@ -776,7 +775,7 @@ static void HomeLocationUpdatedCb(UAVObjEvent * objEv)
 
 	// Constrain gravity to reasonable levels (Mars gravity < HomeLocation gravity < Jupiter gravity)
 	if (homeLocation.g_e < 3 || homeLocation.g_e > 25) {
-		homeLocation.g_e = 9.805;
+		homeLocation.g_e = GRAVITY;
 		HomeLocationSet(&homeLocation);
 	}
 }

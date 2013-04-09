@@ -249,8 +249,9 @@ void ConfigTaskWidget::saveObjectToSD(UAVObject *obj)
     utilMngr->saveObjectToSD(obj);
 }
 
+
 /**
- * Util function to get a pointer to the object manager
+ * @brief ConfigTaskWidget::getObjectManager Utility function to get a pointer to the object manager
  * @return pointer to the UAVObjectManager
  */
 UAVObjectManager* ConfigTaskWidget::getObjectManager() {
@@ -259,6 +260,20 @@ UAVObjectManager* ConfigTaskWidget::getObjectManager() {
     Q_ASSERT(objMngr);
     return objMngr;
 }
+
+
+/**
+ * @brief ConfigTaskWidget::getObjectUtilManager Utility function to get a pointer to the object manager utilities
+ * @return pointer to the UAVObjectUtilManager
+ */
+UAVObjectUtilManager* ConfigTaskWidget::getObjectUtilManager() {
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectUtilManager* utilMngr = pm->getObject<UAVObjectUtilManager>();
+    Q_ASSERT(utilMngr);
+    return utilMngr;
+}
+
+
 /**
  * Utility function which calculates the Mean value of a list of values
  * @param list list of double values
@@ -302,6 +317,7 @@ void ConfigTaskWidget::onAutopilotDisconnect()
     isConnected=false;
     enableControls(false);
     invalidateObjects();
+    setDirty(false);
 }
 
 void ConfigTaskWidget::forceConnectedState()//dynamic widgets don't recieve the connected signal. This should be called instead.
@@ -320,9 +336,9 @@ void ConfigTaskWidget::onAutopilotConnect()
     {
         loadWidgetLimits(ow->widget,ow->field,ow->index,ow->isLimited,ow->scale);
     }
-    setDirty(false);
     enableControls(true);
     refreshWidgetsValues();
+    setDirty(false);
 }
 /**
  * SLOT Function used to populate the widgets with the initial values
@@ -449,7 +465,7 @@ void ConfigTaskWidget::enableControls(bool enable)
     }
 }
 /**
- * SLOT function called when on of the widgets contents added to the framework changes
+ * @brief ConfigTaskWidget::forceShadowUpdates
  */
 void ConfigTaskWidget::forceShadowUpdates()
 {
@@ -465,7 +481,6 @@ void ConfigTaskWidget::forceShadowUpdates()
 
         }
     }
-    setDirty(true);
 }
 /**
  * SLOT function called when one of the widgets contents added to the framework changes
@@ -538,11 +553,17 @@ void ConfigTaskWidget::setDirty(bool value)
  */
 bool ConfigTaskWidget::isDirty()
 {
-    if(isConnected)
-        return dirty;
-    else
-        return false;
+    return dirty;
 }
+/**
+ * @brief ConfigTaskWidget::isAutopilotConnected Checks if the autopilot is connected
+ * @return true if an autopilot is connected
+ */
+bool ConfigTaskWidget::isAutopilotConnected()
+{
+    return isConnected;
+}
+
 /**
  * SLOT function used to disable widget contents changes when related object field changes
  */

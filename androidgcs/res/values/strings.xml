@@ -25,7 +25,7 @@
 	<string name="connected">Connected</string>
 	<string name="update_button">Update</string>
 	<string name="save_button">Save</string>
-	<string name="send_button">Send</string>
+	<string name="apply_button">Apply</string>
 	<string name="manual_control_values_">Manual control values:</string>
 	<string name="number_of_objects">Number of objects</string>
 	<string name="number_of_bytes">Number of bytes</string>

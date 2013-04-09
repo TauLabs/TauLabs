@@ -3,6 +3,7 @@
  *
  * @file       uavgadgetdecorator.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup CorePlugin Core Plugin
@@ -45,8 +46,15 @@ UAVGadgetDecorator::UAVGadgetDecorator(IUAVGadget *gadget, QList<IUAVGadgetConfi
     foreach (IUAVGadgetConfiguration *config, *m_configurations)
         m_toolbar->addItem(config->name());
     connect(m_toolbar, SIGNAL(activated(int)), this, SLOT(loadConfiguration(int)));
-    if (m_configurations->count() > 0)
+
+    // If a gadget configuration exists, use the first configuration when
+    // creating the gadget.
+    if (m_configurations->count() > 0){
+        // Must call loadConfiguration(), or else GCS crashes when
+        // changing widgets using Edit Gadgets mode.
         loadConfiguration(0);
+    }
+
     updateToolbar();
 }
 

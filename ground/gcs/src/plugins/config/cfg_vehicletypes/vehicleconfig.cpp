@@ -30,8 +30,6 @@
 #include "uavobjectmanager.h"
 #include "uavobject.h"
 
-#include "systemsettings.h"
-
 #include <QDebug>
 
 VehicleConfig::VehicleConfig(QWidget *parent) : ConfigTaskWidget(parent)

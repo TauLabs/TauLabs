@@ -208,7 +208,7 @@ static int32_t check_stabilization_settings(int index, bool multirotor)
 			if ((modes[i] == MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_RELAYRATE || 
 				modes[i] == MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_RELAYATTITUDE) &&
 				(!TaskMonitorQueryRunning(TASKINFO_RUNNING_AUTOTUNE)))
-				return SYSTEMALARMS_CONFIGERROR_MULTIROTOR;
+				return SYSTEMALARMS_CONFIGERROR_AUTOTUNE;
 		}
 	}
 

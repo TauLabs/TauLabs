@@ -26,7 +26,7 @@
 #define configCPU_CLOCK_HZ						(SYSCLK_FREQ)	// really the NVIC clock ...
 #define configTICK_RATE_HZ						((portTickType )1000)
 #define configMAX_PRIORITIES					((unsigned portBASE_TYPE)5)
-#define configMINIMAL_STACK_SIZE				((unsigned short)512)
+#define configMINIMAL_STACK_SIZE				((unsigned short)48)
 #define configTOTAL_HEAP_SIZE					((size_t)(180 * 1024))	// this is minimum, not total
 #define configMAX_TASK_NAME_LEN					(16)
 
@@ -41,9 +41,9 @@
 #define configUSE_COUNTING_SEMAPHORES			0
 #define configUSE_ALTERNATIVE_API				0
 #define configCHECK_FOR_STACK_OVERFLOW			2
-#define configQUEUE_REGISTRY_SIZE				10
+#define configQUEUE_REGISTRY_SIZE				0
 
-#define configUSE_TIMERS						1
+#define configUSE_TIMERS						0
 #define configTIMER_TASK_PRIORITY				(configMAX_PRIORITIES - 1)	/* run timers at max priority */
 #define configTIMER_QUEUE_LENGTH				10
 #define configTIMER_TASK_STACK_DEPTH			configMINIMAL_STACK_SIZE

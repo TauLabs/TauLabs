@@ -58,8 +58,6 @@ ConfigInputWidget::ConfigInputWidget(QWidget *parent) : ConfigTaskWidget(parent)
     m_config = new Ui_InputWidget();
     m_config->setupUi(this);
     
-    addApplySaveButtons(m_config->saveRCInputToRAM,m_config->saveRCInputToSD);
-
     ExtensionSystem::PluginManager *pm=ExtensionSystem::PluginManager::instance();
     Core::Internal::GeneralSettings * settings=pm->getObject<Core::Internal::GeneralSettings>();
     if(!settings->useExpertMode())
@@ -67,7 +65,7 @@ ConfigInputWidget::ConfigInputWidget(QWidget *parent) : ConfigTaskWidget(parent)
     
     addApplySaveButtons(m_config->saveRCInputToRAM,m_config->saveRCInputToSD);
 
-	//Generate the rows of buttons in the input channel form GUI
+    //Generate the rows of buttons in the input channel form GUI
     unsigned int index=0;
     foreach (QString name, manualSettingsObj->getField("ChannelNumber")->getElementNames())
     {
@@ -295,20 +293,28 @@ void ConfigInputWidget::openHelp()
 void ConfigInputWidget::goToWizard()
 {
     QMessageBox msgBox;
-    msgBox.setText(tr("Arming Settings are now set to Always Disarmed for your safety."));
+    msgBox.setText(tr("Arming Settings will be set to Always Disarmed for your safety."));
     msgBox.setDetailedText(tr("You will have to reconfigure the arming settings manually "
                               "when the wizard is finished. After the last step of the "
                               "wizard you will be taken to the Arming Settings screen."));
-    msgBox.setStandardButtons(QMessageBox::Ok);
-    msgBox.setDefaultButton(QMessageBox::Ok);
-    msgBox.exec();
+    msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+    msgBox.setDefaultButton(QMessageBox::Cancel);
+    int ret = msgBox.exec();
 
-    // Set correct tab visible before starting wizard.
-    if(m_config->tabWidget->currentIndex() != 0) {
-        m_config->tabWidget->setCurrentIndex(0);
+    switch(ret) {
+    case QMessageBox::Ok:
+        // Set correct tab visible before starting wizard.
+        if(m_config->tabWidget->currentIndex() != 0) {
+            m_config->tabWidget->setCurrentIndex(0);
+        }
+        wizardSetUpStep(wizardWelcome);
+        m_config->graphicsView->fitInView(m_txBackground, Qt::KeepAspectRatio );
+        break;
+    case QMessageBox::Cancel:
+        break;
+    default:
+        break;
     }
-    wizardSetUpStep(wizardWelcome);
-    m_config->graphicsView->fitInView(m_txBackground, Qt::KeepAspectRatio );
 }
 
 void ConfigInputWidget::disableWizardButton(int value)

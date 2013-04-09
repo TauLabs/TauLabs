@@ -3,6 +3,7 @@
  *
  * @file       configccpmwidget.cpp
  * @author     E. Lafargue & The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -25,6 +26,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 #include "configccpmwidget.h"
+#include "physical_constants.h"
 
 #include <QDebug>
 #include <QStringList>
@@ -37,11 +39,7 @@
 #include <QMessageBox>
 
 #include "mixersettings.h"
-#include "systemsettings.h"
 #include "actuatorcommand.h"
-
-#define  Pi 3.14159265358979323846
-
 
 ConfigCcpmWidget::ConfigCcpmWidget(QWidget *parent) : VehicleConfig(parent)
 {
@@ -137,7 +135,7 @@ ConfigCcpmWidget::ConfigCcpmWidget(QWidget *parent) : VehicleConfig(parent)
     m_ccpm->ThrottleCurve->initLinearCurve(5, 1.0, 0.0);
 
     // tell mixercurve this is a pitch curve
-    m_ccpm->PitchCurve->setMixerType(MixerCurve::MIXERCURVE_PITCH);
+    m_ccpm->PitchCurve->setMixerType(MixerCurve::MIXERCURVE_OTHER);
     m_ccpm->PitchCurve->initLinearCurve(5, 1.0, -1.0);
 
     //initialize channel names
@@ -163,7 +161,7 @@ ConfigCcpmWidget::ConfigCcpmWidget(QWidget *parent) : VehicleConfig(parent)
     m_ccpm->ccpmType->addItems(Types);
     m_ccpm->ccpmType->setCurrentIndex(m_ccpm->ccpmType->count() - 1);
 
-    refreshWidgetsValues(QString("HeliCP"));
+    refreshAirframeWidgetsValues(SystemSettings::AIRFRAMETYPE_HELICP);
 
     UpdateType();
 
@@ -205,7 +203,7 @@ ConfigCcpmWidget::~ConfigCcpmWidget()
    // Do nothing
 }
 
-void ConfigCcpmWidget::setupUI(QString frameType)
+void ConfigCcpmWidget::setupUI(SystemSettings::AirframeTypeOptions frameType)
 {
     Q_UNUSED(frameType);
 }
@@ -518,10 +516,10 @@ void ConfigCcpmWidget::ccpmSwashplateRedraw()
     used[1]=((m_ccpm->ccpmServoXChannel->currentIndex()>0)&&(m_ccpm->ccpmServoXChannel->isEnabled()));
     used[2]=((m_ccpm->ccpmServoYChannel->currentIndex()>0)&&(m_ccpm->ccpmServoYChannel->isEnabled()));
     used[3]=((m_ccpm->ccpmServoZChannel->currentIndex()>0)&&(m_ccpm->ccpmServoZChannel->isEnabled()));
-    angle[0]=(CorrectionAngle+180+m_ccpm->ccpmAngleW->value())*Pi/180.00;
-    angle[1]=(CorrectionAngle+180+m_ccpm->ccpmAngleX->value())*Pi/180.00;
-    angle[2]=(CorrectionAngle+180+m_ccpm->ccpmAngleY->value())*Pi/180.00;
-    angle[3]=(CorrectionAngle+180+m_ccpm->ccpmAngleZ->value())*Pi/180.00;
+    angle[0]=(CorrectionAngle+180+m_ccpm->ccpmAngleW->value())*DEG2RAD;
+    angle[1]=(CorrectionAngle+180+m_ccpm->ccpmAngleX->value())*DEG2RAD;
+    angle[2]=(CorrectionAngle+180+m_ccpm->ccpmAngleY->value())*DEG2RAD;
+    angle[3]=(CorrectionAngle+180+m_ccpm->ccpmAngleZ->value())*DEG2RAD;
 
 
     for (i=0;i<CCPM_MAX_SWASH_SERVOS;i++)
@@ -590,7 +588,7 @@ void ConfigCcpmWidget::UpdateMixer()
     float CollectiveConstant,PitchConstant,RollConstant,ThisAngle[6];
     QString Channel;
 
-    if (throwConfigError(QString("HeliCP")))
+    if (throwConfigError(SystemSettings::AIRFRAMETYPE_HELICP))
         return;
 
     GUIConfigDataUnion config = GetConfigData();
@@ -688,8 +686,8 @@ void ConfigCcpmWidget::UpdateMixer()
                 {//Swashplate
                     m_ccpm->ccpmAdvancedSettingsTable->item(i,1)->setText(QString("%1").arg(0));//ThrottleCurve1
                     m_ccpm->ccpmAdvancedSettingsTable->item(i,2)->setText(QString("%1").arg((int)(127.0*CollectiveConstant)));//ThrottleCurve2
-                    m_ccpm->ccpmAdvancedSettingsTable->item(i,3)->setText(QString("%1").arg((int)(127.0*(RollConstant)*sin((180+config.heli.CorrectionAngle + ThisAngle[i])*Pi/180.00))));//Roll
-                    m_ccpm->ccpmAdvancedSettingsTable->item(i,4)->setText(QString("%1").arg((int)(127.0*(PitchConstant)*cos((config.heli.CorrectionAngle + ThisAngle[i])*Pi/180.00))));//Pitch
+                    m_ccpm->ccpmAdvancedSettingsTable->item(i,3)->setText(QString("%1").arg((int)(127.0*(RollConstant)*sin((180+config.heli.CorrectionAngle + ThisAngle[i])*DEG2RAD))));//Roll
+                    m_ccpm->ccpmAdvancedSettingsTable->item(i,4)->setText(QString("%1").arg((int)(127.0*(PitchConstant)*cos((config.heli.CorrectionAngle + ThisAngle[i])*DEG2RAD))));//Pitch
                     m_ccpm->ccpmAdvancedSettingsTable->item(i,5)->setText(QString("%1").arg(0));//Yaw
 
                 }
@@ -712,9 +710,10 @@ void ConfigCcpmWidget::UpdateMixer()
     }
 
 }
-QString ConfigCcpmWidget::updateConfigObjects()
+
+SystemSettings::AirframeTypeOptions ConfigCcpmWidget::updateConfigObjects()
 {
-    QString airframeType = "HeliCP";
+    SystemSettings::AirframeTypeOptions airframeType = SystemSettings::AIRFRAMETYPE_HELICP;
 
     bool useCCPM;
     bool useCyclic;
@@ -776,16 +775,16 @@ QString ConfigCcpmWidget::updateConfigObjects()
     return airframeType;
 }
 
-QString ConfigCcpmWidget::updateConfigObjectsFromWidgets() //UpdateCCPMOptionsFromUI()
+SystemSettings::AirframeTypeOptions ConfigCcpmWidget::updateConfigObjectsFromWidgets() //UpdateCCPMOptionsFromUI()
 {
-    QString airframeType = updateConfigObjects();
+    SystemSettings::AirframeTypeOptions airframeType = updateConfigObjects();
 
     setMixer();
 
     return airframeType;
 }
 
-void ConfigCcpmWidget::refreshWidgetsValues(QString frameType) //UpdateCCPMUIFromOptions()
+void ConfigCcpmWidget::refreshAirframeWidgetsValues(SystemSettings::AirframeTypeOptions frameType) //UpdateCCPMUIFromOptions()
 {
     Q_UNUSED(frameType);
 
@@ -859,7 +858,7 @@ void ConfigCcpmWidget::SetUIComponentVisibilities()
     }
 }
 /**
-  Request the current value of the SystemSettings which holds the ccpm type
+  Request the current value of the MixerSettings which holds the ccpm type
   */
 void ConfigCcpmWidget::getMixer()
 {
@@ -867,14 +866,14 @@ void ConfigCcpmWidget::getMixer()
     if (updatingToHardware)return;
 
     updatingFromHardware=TRUE;
-    
-    UAVDataObject* mixer = dynamic_cast<UAVDataObject*>(getObjectManager()->getObject(QString("MixerSettings")));
-    Q_ASSERT(mixer);
 
+    MixerSettings *mixerSettings = MixerSettings::GetInstance(getObjectManager());
+    Q_ASSERT(mixerSettings);
+
+    // set the airframe type
     QPointer<VehicleConfig> vconfig = new VehicleConfig();
-
     QList<double> curveValues;
-    vconfig->getThrottleCurve(mixer, VehicleConfig::MIXER_THROTTLECURVE1, &curveValues);
+    vconfig->getThrottleCurve(mixerSettings, VehicleConfig::MIXER_THROTTLECURVE1, &curveValues);
 
     // is at least one of the curve values != 0?
     if (vconfig->isValidThrottleCurve(&curveValues)) {
@@ -885,7 +884,7 @@ void ConfigCcpmWidget::getMixer()
     }
 
 
-    vconfig->getThrottleCurve(mixer, VehicleConfig::MIXER_THROTTLECURVE2, &curveValues);
+    vconfig->getThrottleCurve(mixerSettings, VehicleConfig::MIXER_THROTTLECURVE2, &curveValues);
     // is at least one of the curve values != 0?
     if (vconfig->isValidThrottleCurve(&curveValues)) {
         m_ccpm->PitchCurve->setCurve(&curveValues);
@@ -964,7 +963,7 @@ void ConfigCcpmWidget::setMixer()
 
             //Configure the vector
             for (j=0;j<5;j++)
-                mixers[MixerChannelData[i] - 1][j] = m_ccpm->ccpmAdvancedSettingsTable->item(i,j+1)->text().toInt();
+                mixers[MixerChannelData[i] - 1][j] = m_ccpm->ccpmAdvancedSettingsTable->item(i,j+1)->text().toInt(); //TODO: Fix crash here
         }
     }
 
@@ -1000,9 +999,11 @@ void ConfigCcpmWidget::saveccpmUpdate()
     // Send update so that the latest value is saved
     //sendccpmUpdate();
     setMixer();
-    UAVDataObject* obj = dynamic_cast<UAVDataObject*>(getObjectManager()->getObject(QString("MixerSettings")));
-    Q_ASSERT(obj);
-    saveObjectToSD(obj);
+
+    MixerSettings *mixerSettings = MixerSettings::GetInstance(getObjectManager());
+    Q_ASSERT(mixerSettings);
+
+    saveObjectToSD(mixerSettings);
 }
 
 void ConfigCcpmWidget::resizeEvent(QResizeEvent* event)
@@ -1491,7 +1492,7 @@ void ConfigCcpmWidget::SwashLvlSpinBoxChanged(int value)
 /**
  This function displays text and color formatting in order to help the user understand what channels have not yet been configured.
  */
-bool ConfigCcpmWidget::throwConfigError(QString airframeType)
+bool ConfigCcpmWidget::throwConfigError(SystemSettings::AirframeTypeOptions airframeType)
 {
     Q_UNUSED(airframeType);
 

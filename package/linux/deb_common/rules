@@ -44,7 +44,7 @@ install:
 	cp -arp package/linux/taulabs_menu.menu debian/taulabs/etc/xdg/menus/applications-merged
 	cp -arp package/linux/taulabs_menu.directory debian/taulabs/usr/share/desktop-directories
 ifdef PACKAGE_DIR
-	cp -a $(PACKAGE_DIR)/*.opfw debian/taulabs/usr/local/TauLabs/firmware/
+	cp -a $(PACKAGE_DIR)/*.tlfw debian/taulabs/usr/local/TauLabs/firmware/
 else
 	$(error PACKAGE_DIR not defined! $(PACKAGE_DIR))
 endif

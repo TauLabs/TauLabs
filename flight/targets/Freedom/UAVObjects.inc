@@ -35,7 +35,7 @@ UAVOBJSRCFILENAMES += inssettings
 UAVOBJSRCFILENAMES += attitudeactual
 UAVOBJSRCFILENAMES += gyros
 UAVOBJSRCFILENAMES += gyrosbias
-UAVOBJSRCFILENAMES += inertialsensorsettings
+UAVOBJSRCFILENAMES += sensorsettings
 UAVOBJSRCFILENAMES += accels
 UAVOBJSRCFILENAMES += magnetometer
 UAVOBJSRCFILENAMES += magbias
@@ -80,7 +80,6 @@ UAVOBJSRCFILENAMES += positionactual
 UAVOBJSRCFILENAMES += ratedesired
 UAVOBJSRCFILENAMES += relaytuning
 UAVOBJSRCFILENAMES += relaytuningsettings
-UAVOBJSRCFILENAMES += revocalibration
 UAVOBJSRCFILENAMES += revosettings
 UAVOBJSRCFILENAMES += sonaraltitude
 UAVOBJSRCFILENAMES += stabilizationdesired
@@ -105,6 +104,8 @@ UAVOBJSRCFILENAMES += waypointactive
 
 UAVOBJSRCFILENAMES += txpidsettings
 
+UAVOBJSRCFILENAMES += vibrationanalysissettings
+UAVOBJSRCFILENAMES += vibrationanalysisoutput
 
 
 UAVOBJSRC = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),$(OPUAVSYNTHDIR)/$(UAVOBJSRCFILE).c )

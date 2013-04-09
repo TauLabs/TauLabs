@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       iboardtype.h
- * @author     The PhoenixPilot Team, Copyright (C) 2012.
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
  *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -85,6 +85,15 @@ public:
      */
     virtual QString boardDescription() = 0;
 
+    //! Types of capabilities boards can support
+    enum BoardCapabilities {BOARD_CAPABILITIES_GYROS, BOARD_CAPABILITIES_ACCELS,
+                            BOARD_CAPABILITIES_MAGS, BOARD_CAPABILITIES_BAROS,
+                            BOARD_CAPABILITIES_RADIO};
+    /**
+     * Query capabilities of the board
+     */
+    virtual bool queryCapabilities(BoardCapabilities capability) = 0;
+
     /**
      * @brief getBoardPicture
      * @return provides a picture for the board. Uploader gadget or
@@ -117,6 +126,9 @@ public:
      */
     bool isDFUSupported() { return dfuSupport; }
 
+    //! Get the board type number
+    int getBoardType() { return boardType; }
+
 signals:
 
 protected:
@@ -126,6 +138,9 @@ protected:
 
     USBInfo boardUSBInfo;
     bool dfuSupport;
+
+    //! The numerical board type ID
+    int boardType;
 };
 
 } //namespace Core

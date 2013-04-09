@@ -2,7 +2,7 @@
  ******************************************************************************
  * @file       DefaultHwSettingsWidget.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -25,7 +25,6 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 #include "defaulthwsettingswidget.h"
-#include "ui_defaultattitude.h"
 #include "hwfieldselector.h"
 #include <QMutexLocker>
 #include <QErrorMessage>
@@ -58,6 +57,7 @@ DefaultHwSettingsWidget::DefaultHwSettingsWidget(QWidget *parent, bool autopilot
         //List of supported boards which do not currently have board-specific pages
         allHwSettings.append("HwFlyingF3");
         allHwSettings.append("HwFlyingF4");
+        allHwSettings.append("HwDiscoveryF4");
         allHwSettings.append("HwFreedom");
         allHwSettings.append("HwRevolution");
         allHwSettings.append("HwRevoMini");
@@ -72,6 +72,7 @@ DefaultHwSettingsWidget::DefaultHwSettingsWidget(QWidget *parent, bool autopilot
                 obj->requestUpdate();
             }
         }
+
     }
     else{
         qDebug() << "No hardware attached. Showing placeholder text/graphic.";
@@ -99,6 +100,9 @@ void DefaultHwSettingsWidget::settingsUpdated(UAVObject *obj, bool success)
 
         addUAVObject(obj, &reloadGroups);
         refreshWidgetsValues();
+
+        // Have to force the form as clean (unedited by user) since refreshWidgetsValues forces it to dirty.
+        setDirty(false);
     }
 }
 

@@ -29,12 +29,12 @@ import java.util.ListIterator;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.taulabs.androidgcs.R;
 import org.taulabs.uavtalk.UAVDataObject;
 import org.taulabs.uavtalk.UAVObject;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.os.Handler;
@@ -83,6 +83,9 @@ public class ObjectBrowser extends ObjectManagerActivity implements OnSharedPref
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		prefs.registerOnSharedPreferenceChangeListener(this);
 		super.onCreate(savedInstanceState);
+
+		 ((CheckBox) findViewById(R.id.dataCheck)).setChecked(prefs.getBoolean("browser_show_data",true));
+		 ((CheckBox) findViewById(R.id.settingsCheck)).setChecked(prefs.getBoolean("browser_show_settings",true));
 	}
 
 	@Override
@@ -94,7 +97,12 @@ public class ObjectBrowser extends ObjectManagerActivity implements OnSharedPref
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
-				updateList();
+				prefs = PreferenceManager.getDefaultSharedPreferences(ObjectBrowser.this);
+				Editor editor = prefs.edit();
+				Log.d(TAG, "Writing settings");
+				editor.putBoolean("browser_show_data", ((CheckBox) findViewById(R.id.dataCheck)).isChecked());
+				editor.putBoolean("browser_show_settings", ((CheckBox) findViewById(R.id.settingsCheck)).isChecked());
+				editor.commit();
 			}
 		};
 
@@ -191,7 +199,14 @@ public class ObjectBrowser extends ObjectManagerActivity implements OnSharedPref
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
 			String key) {
-		// TODO Auto-generated method stub
-
+		Log.d(TAG, "Settings updated");
+		if (key.equals("browser_show_data")) {
+			((CheckBox) findViewById(R.id.dataCheck)).setChecked(prefs.getBoolean("browser_show_data",true));
+			updateList();
+		}
+		if (key.equals("browser_show_settings")) {
+			((CheckBox) findViewById(R.id.settingsCheck)).setChecked(prefs.getBoolean("browser_show_settings",true));
+			updateList();
+		}
 	}
 }

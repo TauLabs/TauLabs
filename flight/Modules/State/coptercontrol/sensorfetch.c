@@ -8,6 +8,7 @@
  *
  * @file       sensorfetch.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      Module to handle all comms to the AHRS on a periodic basis.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -41,6 +42,7 @@
  */
 
 #include "pios.h"
+#include "physical_constants.h"
 #include "state.h"
 #include "sensorfetch.h"
 #include "CoordinateConversions.h"
@@ -50,8 +52,7 @@
 #define SENSOR_PERIOD     4
 #define LOOP_RATE_MS      25.0f
 #define GYRO_NEUTRAL_BIAS 1665
-#define GRAV         9.805f
-#define ACCEL_SCALE  (GRAV * 0.004f)
+#define ACCEL_SCALE  (GRAVITY * 0.004f)
 /* 0.004f is gravity / LSB */
 
 // Private types
@@ -65,7 +66,7 @@
  * @param[in] attitudeRaw Populate the UAVO instead of saving right here
  * @return 0 if successfull, -1 if not
  */
-int8_t getSensorsCC(float *prelim_accels, float *prelim_gyros, xQueueHandle * gyro_queue, GlobalAttitudeVariables *glblAtt, GyrosBiasData *gyrosBias, InertialSensorSettingsData *inertialSensorSettings)
+int8_t getSensorsCC(float *prelim_accels, float *prelim_gyros, xQueueHandle * gyro_queue, GlobalAttitudeVariables *glblAtt, GyrosBiasData *gyrosBias, SensorSettingsData *inertialSensorSettings)
 {
 	struct pios_adxl345_data accel_data;
 	float gyro[4];
@@ -87,9 +88,9 @@ int8_t getSensorsCC(float *prelim_accels, float *prelim_gyros, xQueueHandle * gy
 
 	// Scale ADC data into deg/s. First sample is temperature, so ignore.
 	// Rotate data from internal gryoscope sensor frame into board sensor frame
-	prelim_gyros[0] = -(gyro[1] - GYRO_NEUTRAL_BIAS) * 0.42f * inertialSensorSettings->GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_X];
-	prelim_gyros[1] =  (gyro[2] - GYRO_NEUTRAL_BIAS) * 0.42f * inertialSensorSettings->GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_Y];
-	prelim_gyros[2] = -(gyro[3] - GYRO_NEUTRAL_BIAS) * 0.42f * inertialSensorSettings->GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_Z];
+	prelim_gyros[0] = -(gyro[1] - GYRO_NEUTRAL_BIAS) * 0.42f * inertialSensorSettings->GyroScale[SENSORSETTINGS_GYROSCALE_X];
+	prelim_gyros[1] =  (gyro[2] - GYRO_NEUTRAL_BIAS) * 0.42f * inertialSensorSettings->GyroScale[SENSORSETTINGS_GYROSCALE_Y];
+	prelim_gyros[2] = -(gyro[3] - GYRO_NEUTRAL_BIAS) * 0.42f * inertialSensorSettings->GyroScale[SENSORSETTINGS_GYROSCALE_Z];
 
 	// When this is enabled remove estimate of bias
 	if (glblAtt->bias_correct_gyro) {
@@ -127,7 +128,7 @@ int8_t getSensorsCC(float *prelim_accels, float *prelim_gyros, xQueueHandle * gy
  * @param[in] attitudeRaw Populate the UAVO instead of saving right here
  * @return 0 if successfull, -1 if not
  */
-int8_t getSensorsCC3D(float *prelim_accels, float *prelim_gyros, GlobalAttitudeVariables *glblAtt, GyrosBiasData *gyrosBias, InertialSensorSettingsData *inertialSensorSettings)
+int8_t getSensorsCC3D(float *prelim_accels, float *prelim_gyros, GlobalAttitudeVariables *glblAtt, GyrosBiasData *gyrosBias, SensorSettingsData *inertialSensorSettings)
 {
 	struct pios_mpu6000_data mpu6000_data;
 #if defined(PIOS_INCLUDE_MPU6000)
@@ -139,9 +140,9 @@ int8_t getSensorsCC3D(float *prelim_accels, float *prelim_gyros, GlobalAttitudeV
 		return -1;	// Error, no data
 
 	//Rotated data from internal gryoscope sensor frame into board sensor frame
-	prelim_gyros[0] = mpu6000_data.gyro_x * PIOS_MPU6000_GetScale() * inertialSensorSettings->GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_X];
-	prelim_gyros[1] = mpu6000_data.gyro_y * PIOS_MPU6000_GetScale() * inertialSensorSettings->GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_Y];
-	prelim_gyros[2] = mpu6000_data.gyro_z * PIOS_MPU6000_GetScale() * inertialSensorSettings->GyroScale[INERTIALSENSORSETTINGS_GYROSCALE_Z];
+	prelim_gyros[0] = mpu6000_data.gyro_x * PIOS_MPU6000_GetScale() * inertialSensorSettings->GyroScale[SENSORSETTINGS_GYROSCALE_X];
+	prelim_gyros[1] = mpu6000_data.gyro_y * PIOS_MPU6000_GetScale() * inertialSensorSettings->GyroScale[SENSORSETTINGS_GYROSCALE_Y];
+	prelim_gyros[2] = mpu6000_data.gyro_z * PIOS_MPU6000_GetScale() * inertialSensorSettings->GyroScale[SENSORSETTINGS_GYROSCALE_Z];
 	
 	// When this is enabled remove estimate of bias
 	if (glblAtt->bias_correct_gyro) {

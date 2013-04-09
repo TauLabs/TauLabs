@@ -3,6 +3,7 @@
  *
  * @file       simulator.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup HITLPlugin HITL Plugin
@@ -35,14 +36,6 @@
 
 volatile bool Simulator::isStarted = false;
 
-const float Simulator::GEE = 9.81;
-const float Simulator::FT2M = 0.3048;
-const float Simulator::KT2MPS = 0.514444444;
-const float Simulator::INHG2KPA = 3.386;
-const float Simulator::FPS2CMPS = 30.48;
-const float Simulator::DEG2RAD = (M_PI/180.0);
-const float Simulator::RAD2DEG = (180.0/M_PI);
-
 
 Simulator::Simulator(const SimulatorSettings& params) :
 	simProcess(NULL),
@@ -72,14 +65,14 @@ Simulator::Simulator(const SimulatorSettings& params) :
     airspeedActualTime=currentTime;
 
     //Define standard atmospheric constants
-    airParameters.univGasConstant=8.31447; //[J/(mol·K)]
-    airParameters.dryAirConstant=287.058;  //[J/(kg*K)]
-    airParameters.groundDensity=1.225;     //[kg/m^3]
-    airParameters.groundTemp=15+273.15;    //[K]
-    airParameters.tempLapseRate=0.0065;    //[deg/m]
-    airParameters.M=0.0289644;             //[kg/mol]
-    airParameters.relativeHumidity=20;     //[%]
-    airParameters.seaLevelPress=101.325;   //[kPa]
+    airParameters.univGasConstant =UNIVERSAL_GAS_CONSTANT;         //[J/(mol·K)]
+    airParameters.dryAirConstant  =DRY_AIR_CONSTANT;               //[J/(kg*K)]
+    airParameters.groundDensity   =STANDARD_AIR_DENSITY;           //[kg/m^3]
+    airParameters.groundTemp      =STANDARD_AIR_TEMPERATURE;       //[K]
+    airParameters.tempLapseRate   =STANDARD_AIR_LAPSE_RATE;        //[deg/m]
+    airParameters.M               =STANDARD_AIR_MOLS2KG;           //[kg/mol]
+    airParameters.relativeHumidity=STANDARD_AIR_RELATIVE_HUMIDITY; //[%]
+    airParameters.seaLevelPress   =STANDARD_AIR_TEMPERATURE;       //[kPa]
 }
 
 Simulator::~Simulator()
@@ -411,7 +404,6 @@ void Simulator::updateUAVOs(Output2Hardware out){
         homeData.Be[1]=0;
         homeData.Be[2]=0;
 
-        homeData.g_e=9.805;
         homeData.GroundTemperature=15;
         homeData.SeaLevelPressure=1013;
 

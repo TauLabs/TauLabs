@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       revolution.cpp
- * @author     The PhoenixPilot Team, http://github.com/PhoenixPilot Copyright (C) 2012.
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -42,6 +42,7 @@ Revolution::Revolution(void)
 
     setUSBInfo(board);
 
+    boardType = 0x7f;
 }
 
 Revolution::~Revolution()
@@ -58,6 +59,24 @@ QString Revolution::shortName()
 QString Revolution::boardDescription()
 {
     return QString("The OpenPilot project Revolution boards");
+}
+
+//! Return which capabilities this board has
+bool Revolution::queryCapabilities(BoardCapabilities capability)
+{
+    switch(capability) {
+    case BOARD_CAPABILITIES_GYROS:
+        return true;
+    case BOARD_CAPABILITIES_ACCELS:
+        return true;
+    case BOARD_CAPABILITIES_MAGS:
+        return true;
+    case BOARD_CAPABILITIES_BAROS:
+        return true;
+    case BOARD_CAPABILITIES_RADIO:
+        return false;
+    }
+    return false;
 }
 
 /**

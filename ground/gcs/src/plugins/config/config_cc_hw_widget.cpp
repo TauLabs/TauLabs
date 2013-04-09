@@ -82,6 +82,11 @@ ConfigCCHWWidget::ConfigCCHWWidget(QWidget *parent) : ConfigTaskWidget(parent)
     addUAVObjectToWidgetRelation("ModuleSettings","TelemetrySpeed",m_telemetry->telemetrySpeed);
     addUAVObjectToWidgetRelation("ModuleSettings","GPSSpeed",m_telemetry->gpsSpeed);
     addUAVObjectToWidgetRelation("ModuleSettings","ComUsbBridgeSpeed",m_telemetry->comUsbBridgeSpeed);
+
+    // Load UAVObjects to widget relations from UI file
+    // using objrelation dynamic property
+    autoLoadWidgets();
+
     connect(m_telemetry->cchwHelp,SIGNAL(clicked()),this,SLOT(openHelp()));
     enableControls(false);
     populateWidgets();

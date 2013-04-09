@@ -9,6 +9,7 @@
  *
  * @file       attitude.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      Module to handle all comms to the AHRS on a periodic basis.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -50,10 +51,11 @@
 
 #include "pios.h"
 #include "openpilot.h"
+#include "physical_constants.h"
 #include "gyros.h"
 #include "accels.h"
 #include "attitudeactual.h"
-#include "inertialsensorsettings.h"
+#include "sensorsettings.h"
 #include "attitudesettings.h"
 #include "flightstatus.h"
 #include "manualcontrolcommand.h"
@@ -78,7 +80,7 @@ enum complimentary_filter_status {
 
 // Private variables
 static xTaskHandle taskHandle;
-static InertialSensorSettingsData inertialSensorSettings;
+static SensorSettingsData sensorSettings;
 
 // Private functions
 static void AttitudeTask(void *parameters);
@@ -93,6 +95,7 @@ static void settingsUpdatedCb(UAVObjEvent * objEv);
 static void update_accels(struct pios_sensor_accel_data *accels, AccelsData * accelsData);
 static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosData);
 static void update_trimming(AccelsData * accelsData);
+static void updateTemperatureComp(float temperature, float *temp_bias);
 
 //! Compute the mean gyro accumulated and assign the bias
 static void accumulate_gyro_compute();
@@ -101,7 +104,7 @@ static void accumulate_gyro_compute();
 static void accumulate_gyro_zero();
 
 //! Store a gyro sample
-static void accumulate_gyro(GyrosData *gyrosData);
+static void accumulate_gyro(GyrosData *gyrosData, float *gyro_temp_bias);
 
 static float accelKi = 0;
 static float accelKp = 0;
@@ -126,8 +129,7 @@ static volatile int32_t trim_accels[3];
 static volatile int32_t trim_samples;
 static int32_t const MAX_TRIM_FLIGHT_SAMPLES = 65535;
 
-#define GRAV         9.81f
-#define ADXL345_ACCEL_SCALE  (GRAV * 0.004f)
+#define ADXL345_ACCEL_SCALE  (GRAVITY * 0.004f)
 /* 0.004f is gravity / LSB */
 
 /**
@@ -152,7 +154,7 @@ int32_t AttitudeStart(void)
 int32_t AttitudeInitialize(void)
 {
 	AttitudeActualInitialize();
-	InertialSensorSettingsInitialize();
+	SensorSettingsInitialize();
 	AttitudeSettingsInitialize();
 	AccelsInitialize();
 	GyrosInitialize();
@@ -182,7 +184,7 @@ int32_t AttitudeInitialize(void)
 	trim_requested = false;
 	
 	AttitudeSettingsConnectCallback(&settingsUpdatedCb);
-	InertialSensorSettingsConnectCallback(&settingsUpdatedCb);
+	SensorSettingsConnectCallback(&settingsUpdatedCb);
 	
 	return 0;
 }
@@ -423,9 +425,9 @@ static int32_t updateSensorsCC3D(AccelsData * accelsData, GyrosData * gyrosData)
 static void update_accels(struct pios_sensor_accel_data *accels, AccelsData * accelsData)
 {
 	// Average and scale the accels before rotation
-	float accels_out[3] = {accels->x * inertialSensorSettings.AccelScale[0] - inertialSensorSettings.AccelBias[0],
-	                       accels->y * inertialSensorSettings.AccelScale[1] - inertialSensorSettings.AccelBias[1],
-	                       accels->z * inertialSensorSettings.AccelScale[2] - inertialSensorSettings.AccelBias[2]};
+	float accels_out[3] = {accels->x * sensorSettings.AccelScale[0] - sensorSettings.AccelBias[0],
+	                       accels->y * sensorSettings.AccelScale[1] - sensorSettings.AccelBias[1],
+	                       accels->z * sensorSettings.AccelScale[2] - sensorSettings.AccelBias[2]};
 
 	if (rotate) {
 		float accel_rotated[3];
@@ -448,10 +450,12 @@ static void update_accels(struct pios_sensor_accel_data *accels, AccelsData * ac
  */
 static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosData)
 {
+	static float gyro_temp_bias[3] = {0,0,0};
+
 	// Scale the gyros
-	float gyros_out[3] = {gyros->x * inertialSensorSettings.GyroScale[0],
-	                      gyros->y * inertialSensorSettings.GyroScale[1],
-	                      gyros->z * inertialSensorSettings.GyroScale[2]};
+	float gyros_out[3] = {gyros->x * sensorSettings.GyroScale[0],
+	                      gyros->y * sensorSettings.GyroScale[1],
+	                      gyros->z * sensorSettings.GyroScale[2]};
 
 	if (rotate) {
 		float gyros[3];
@@ -466,13 +470,16 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosD
 	}
 
 	// When computing the bias accumulate samples
-	accumulate_gyro(gyrosData);
+	accumulate_gyro(gyrosData, gyro_temp_bias);
+
+	// Update the bias due to the temperature
+	updateTemperatureComp(gyrosData->temperature, gyro_temp_bias);
 
 	if(bias_correct_gyro) {
 		// Applying integral component here so it can be seen on the gyros and correct bias
-		gyrosData->x -= gyro_correct_int[0];
-		gyrosData->y -= gyro_correct_int[1];
-		gyrosData->z -= gyro_correct_int[2];
+		gyrosData->x -= gyro_temp_bias[0] + gyro_correct_int[0];
+		gyrosData->y -= gyro_temp_bias[1] + gyro_correct_int[1];
+		gyrosData->z -= gyro_temp_bias[2] + gyro_correct_int[2];
 	}
 
 	// Because most crafts wont get enough information from gravity to zero yaw gyro, we try
@@ -516,16 +523,17 @@ static void accumulate_gyro_zero()
  * Accumulate a set of gyro samples for computing the
  * bias
  * @param [in] gyrosData The samples of data to accumulate
+ * @param [in] gyro_temp_bias The current temperature bias to account for
  */
-static void accumulate_gyro(GyrosData *gyrosData)
+static void accumulate_gyro(GyrosData *gyrosData, float *gyro_temp_bias)
 {
 	if (!accumulating_gyro)
 		return;
 
 	accumulated_gyro_samples++;
-	accumulated_gyro[0] += gyrosData->x;
-	accumulated_gyro[1] += gyrosData->y;
-	accumulated_gyro[2] += gyrosData->z;
+	accumulated_gyro[0] += (gyrosData->x - gyro_temp_bias[0]);
+	accumulated_gyro[1] += (gyrosData->y - gyro_temp_bias[1]);
+	accumulated_gyro[2] += (gyrosData->z - gyro_temp_bias[2]);
 }
 
 /**
@@ -628,10 +636,10 @@ static void updateAttitude(AccelsData * accelsData, GyrosData * gyrosData)
 		// Work out time derivative from INSAlgo writeup
 		// Also accounts for the fact that gyros are in deg/s
 		float qdot[4];
-		qdot[0] = (-q[1] * gyros[0] - q[2] * gyros[1] - q[3] * gyros[2]) * dT * M_PI / 180 / 2;
-		qdot[1] = (q[0] * gyros[0] - q[3] * gyros[1] + q[2] * gyros[2]) * dT * M_PI / 180 / 2;
-		qdot[2] = (q[3] * gyros[0] + q[0] * gyros[1] - q[1] * gyros[2]) * dT * M_PI / 180 / 2;
-		qdot[3] = (-q[2] * gyros[0] + q[1] * gyros[1] + q[0] * gyros[2]) * dT * M_PI / 180 / 2;
+		qdot[0] = (-q[1] * gyros[0] - q[2] * gyros[1] - q[3] * gyros[2]) * dT * DEG2RAD / 2;
+		qdot[1] = (q[0] * gyros[0] - q[3] * gyros[1] + q[2] * gyros[2]) * dT * DEG2RAD / 2;
+		qdot[2] = (q[3] * gyros[0] + q[0] * gyros[1] - q[1] * gyros[2]) * dT * DEG2RAD / 2;
+		qdot[3] = (-q[2] * gyros[0] + q[1] * gyros[1] + q[0] * gyros[2]) * dT * DEG2RAD / 2;
 		
 		// Take a time step
 		q[0] = q[0] + qdot[0];
@@ -674,10 +682,51 @@ static void updateAttitude(AccelsData * accelsData, GyrosData * gyrosData)
 	AttitudeActualSet(&attitudeActual);
 }
 
+/**
+ * Compute the bias expected from temperature variation for each gyro
+ * channel
+ */
+static void updateTemperatureComp(float temperature, float *temp_bias)
+{
+	static int temp_counter = 0;
+	static float temp_accum = 0;
+
+	static const float TEMP_MIN = -10;
+	static const float TEMP_MAX = 60;
+
+	if (temperature < TEMP_MIN)
+		temperature = TEMP_MIN;
+	if (temperature > TEMP_MAX)
+		temperature = TEMP_MAX;
+
+	if (temp_counter < 500) {
+		temp_accum += temperature;
+		temp_counter ++;
+	} else {
+		float t = temp_accum / temp_counter;
+		temp_accum = 0;
+		temp_counter = 0;
+
+		// Compute a third order polynomial for each chanel after each 500 samples
+		temp_bias[0] = sensorSettings.XGyroTempCoeff[0] + 
+		               sensorSettings.XGyroTempCoeff[1] * t + 
+		               sensorSettings.XGyroTempCoeff[2] * powf(t,2) + 
+		               sensorSettings.XGyroTempCoeff[3] * powf(t,3);
+		temp_bias[1] = sensorSettings.YGyroTempCoeff[0] + 
+		               sensorSettings.YGyroTempCoeff[1] * t + 
+		               sensorSettings.YGyroTempCoeff[2] * powf(t,2) + 
+		               sensorSettings.YGyroTempCoeff[3] * powf(t,3);
+		temp_bias[2] = sensorSettings.ZGyroTempCoeff[0] + 
+		               sensorSettings.ZGyroTempCoeff[1] * t + 
+		               sensorSettings.ZGyroTempCoeff[2] * powf(t,2) + 
+		               sensorSettings.ZGyroTempCoeff[3] * powf(t,3);
+	}
+}
+
 static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	AttitudeSettingsData attitudeSettings;
 	AttitudeSettingsGet(&attitudeSettings);
-	InertialSensorSettingsGet(&inertialSensorSettings);
+	SensorSettingsGet(&sensorSettings);
 	
 	
 	accelKp = attitudeSettings.AccelKp;
@@ -697,9 +746,9 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	zero_during_arming = attitudeSettings.ZeroDuringArming == ATTITUDESETTINGS_ZERODURINGARMING_TRUE;
 	bias_correct_gyro = attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE;
 		
-	gyro_correct_int[0] = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_X];
-	gyro_correct_int[1] = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_Y];
-	gyro_correct_int[2] = inertialSensorSettings.InitialGyroBias[INERTIALSENSORSETTINGS_INITIALGYROBIAS_Z];
+	gyro_correct_int[0] = 0;
+	gyro_correct_int[1] = 0;
+	gyro_correct_int[2] = 0;
 	
 	// Indicates not to expend cycles on rotation
 	if(attitudeSettings.BoardRotation[0] == 0 && attitudeSettings.BoardRotation[1] == 0 &&
@@ -728,9 +777,6 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	} else if (attitudeSettings.TrimFlight == ATTITUDESETTINGS_TRIMFLIGHT_LOAD) {
 		trim_requested = false;
 
-		const float DEG2RAD = (float) M_PI / 180.0f;
-		const float RAD2DEG = 1.0f / DEG2RAD;
-
 		// Get sensor data  mean 
 		float a_body[3] = { trim_accels[0] / trim_samples,
 			trim_accels[1] / trim_samples,
@@ -750,15 +796,15 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 		float sP = sinf(psi);
 
 		// In case psi is too small, we have to use a different equation to solve for theta
-		if (fabs(psi) > 3.1415f / 2)
+		if (fabs(psi) > PI / 2)
 			theta = atanf((a_sensor[1] + cP * (sP * a_sensor[0] -
 					 cP * a_sensor[1])) / (sP * a_sensor[2]));
 		else
 			theta = atanf((a_sensor[0] - sP * (sP * a_sensor[0] -
 					 cP * a_sensor[1])) / (cP * a_sensor[2]));
 
-		phi = atan2f((sP * a_sensor[0] - cP * a_sensor[1]) / GRAV,
-			   (a_sensor[2] / cosf(theta) / GRAV));
+		phi = atan2f((sP * a_sensor[0] - cP * a_sensor[1]) / GRAVITY,
+			   (a_sensor[2] / cosf(theta) / GRAVITY));
 
 		attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_ROLL] = phi * RAD2DEG * 100.0f;
 		attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_PITCH] = theta * RAD2DEG * 100.0f;

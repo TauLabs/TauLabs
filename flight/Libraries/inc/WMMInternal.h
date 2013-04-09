@@ -3,6 +3,7 @@
  *
  * @file       WMMInternal.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      Include file of the WorldMagModel internal functionality.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -35,8 +36,6 @@
 #define	NUMTERMS 91		// ((WMM_MAX_MODEL_DEGREES+1)*(WMM_MAX_MODEL_DEGREES+2)/2);
 #define NUMPCUP 92		// NUMTERMS +1
 #define NUMPCUPS 13		// WMM_MAX_MODEL_DEGREES +1
-#define RAD2DEG(rad)    ((rad)*(180.0L/M_PI))
-#define DEG2RAD(deg)    ((deg)*(M_PI/180.0L))
 
 	// internal structure definitions
 typedef struct {

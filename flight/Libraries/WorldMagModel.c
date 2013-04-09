@@ -3,6 +3,7 @@
  *
  * @file       WorldMagModel.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      Source file for the World Magnetic Model
  *             This is a port of code available from the US NOAA.
  *
@@ -42,6 +43,7 @@
 
 // I don't want this dependency, but currently using pvPortMalloc
 #include "openpilot.h"
+#include "physical_constants.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -58,98 +60,7 @@
 //#define FREE(x) free(x)
 
 // const should hopefully keep them in the flash region
-static const float CoeffFile[91][6] = { {0, 0, 0, 0, 0, 0},
-	{1, 0, -29496.6, 0.0, 11.6, 0.0},
-	{1, 1, -1586.3, 4944.4, 16.5, -25.9},
-	{2, 0, -2396.6, 0.0, -12.1, 0.0},
-	{2, 1, 3026.1, -2707.7, -4.4, -22.5},
-	{2, 2, 1668.6, -576.1, 1.9, -11.8},
-	{3, 0, 1340.1, 0.0, 0.4, 0.0},
-	{3, 1, -2326.2, -160.2, -4.1, 7.3},
-	{3, 2, 1231.9, 251.9, -2.9, -3.9},
-	{3, 3, 634.0, -536.6, -7.7, -2.6},
-	{4, 0, 912.6, 0.0, -1.8, 0.0},
-	{4, 1, 808.9, 286.4, 2.3, 1.1},
-	{4, 2, 166.7, -211.2, -8.7, 2.7},
-	{4, 3, -357.1, 164.3, 4.6, 3.9},
-	{4, 4, 89.4, -309.1, -2.1, -0.8},
-	{5, 0, -230.9, 0.0, -1.0, 0.0},
-	{5, 1, 357.2, 44.6, 0.6, 0.4},
-	{5, 2, 200.3, 188.9, -1.8, 1.8},
-	{5, 3, -141.1, -118.2, -1.0, 1.2},
-	{5, 4, -163.0, 0.0, 0.9, 4.0},
-	{5, 5, -7.8, 100.9, 1.0, -0.6},
-	{6, 0, 72.8, 0.0, -0.2, 0.0},
-	{6, 1, 68.6, -20.8, -0.2, -0.2},
-	{6, 2, 76.0, 44.1, -0.1, -2.1},
-	{6, 3, -141.4, 61.5, 2.0, -0.4},
-	{6, 4, -22.8, -66.3, -1.7, -0.6},
-	{6, 5, 13.2, 3.1, -0.3, 0.5},
-	{6, 6, -77.9, 55.0, 1.7, 0.9},
-	{7, 0, 80.5, 0.0, 0.1, 0.0},
-	{7, 1, -75.1, -57.9, -0.1, 0.7},
-	{7, 2, -4.7, -21.1, -0.6, 0.3},
-	{7, 3, 45.3, 6.5, 1.3, -0.1},
-	{7, 4, 13.9, 24.9, 0.4, -0.1},
-	{7, 5, 10.4, 7.0, 0.3, -0.8},
-	{7, 6, 1.7, -27.7, -0.7, -0.3},
-	{7, 7, 4.9, -3.3, 0.6, 0.3},
-	{8, 0, 24.4, 0.0, -0.1, 0.0},
-	{8, 1, 8.1, 11.0, 0.1, -0.1},
-	{8, 2, -14.5, -20.0, -0.6, 0.2},
-	{8, 3, -5.6, 11.9, 0.2, 0.4},
-	{8, 4, -19.3, -17.4, -0.2, 0.4},
-	{8, 5, 11.5, 16.7, 0.3, 0.1},
-	{8, 6, 10.9, 7.0, 0.3, -0.1},
-	{8, 7, -14.1, -10.8, -0.6, 0.4},
-	{8, 8, -3.7, 1.7, 0.2, 0.3},
-	{9, 0, 5.4, 0.0, 0.0, 0.0},
-	{9, 1, 9.4, -20.5, -0.1, 0.0},
-	{9, 2, 3.4, 11.5, 0.0, -0.2},
-	{9, 3, -5.2, 12.8, 0.3, 0.0},
-	{9, 4, 3.1, -7.2, -0.4, -0.1},
-	{9, 5, -12.4, -7.4, -0.3, 0.1},
-	{9, 6, -0.7, 8.0, 0.1, 0.0},
-	{9, 7, 8.4, 2.1, -0.1, -0.2},
-	{9, 8, -8.5, -6.1, -0.4, 0.3},
-	{9, 9, -10.1, 7.0, -0.2, 0.2},
-	{10, 0, -2.0, 0.0, 0.0, 0.0},
-	{10, 1, -6.3, 2.8, 0.0, 0.1},
-	{10, 2, 0.9, -0.1, -0.1, -0.1},
-	{10, 3, -1.1, 4.7, 0.2, 0.0},
-	{10, 4, -0.2, 4.4, 0.0, -0.1},
-	{10, 5, 2.5, -7.2, -0.1, -0.1},
-	{10, 6, -0.3, -1.0, -0.2, 0.0},
-	{10, 7, 2.2, -3.9, 0.0, -0.1},
-	{10, 8, 3.1, -2.0, -0.1, -0.2},
-	{10, 9, -1.0, -2.0, -0.2, 0.0},
-	{10, 10, -2.8, -8.3, -0.2, -0.1},
-	{11, 0, 3.0, 0.0, 0.0, 0.0},
-	{11, 1, -1.5, 0.2, 0.0, 0.0},
-	{11, 2, -2.1, 1.7, 0.0, 0.1},
-	{11, 3, 1.7, -0.6, 0.1, 0.0},
-	{11, 4, -0.5, -1.8, 0.0, 0.1},
-	{11, 5, 0.5, 0.9, 0.0, 0.0},
-	{11, 6, -0.8, -0.4, 0.0, 0.1},
-	{11, 7, 0.4, -2.5, 0.0, 0.0},
-	{11, 8, 1.8, -1.3, 0.0, -0.1},
-	{11, 9, 0.1, -2.1, 0.0, -0.1},
-	{11, 10, 0.7, -1.9, -0.1, 0.0},
-	{11, 11, 3.8, -1.8, 0.0, -0.1},
-	{12, 0, -2.2, 0.0, 0.0, 0.0},
-	{12, 1, -0.2, -0.9, 0.0, 0.0},
-	{12, 2, 0.3, 0.3, 0.1, 0.0},
-	{12, 3, 1.0, 2.1, 0.1, 0.0},
-	{12, 4, -0.6, -2.5, -0.1, 0.0},
-	{12, 5, 0.9, 0.5, 0.0, 0.0},
-	{12, 6, -0.1, 0.6, 0.0, 0.1},
-	{12, 7, 0.5, 0.0, 0.0, 0.0},
-	{12, 8, -0.4, 0.1, 0.0, 0.0},
-	{12, 9, -0.4, 0.3, 0.0, 0.0},
-	{12, 10, 0.2, -0.9, 0.0, 0.0},
-	{12, 11, -0.8, -0.2, -0.1, 0.0},
-	{12, 12, 0.0, 0.9, 0.1, 0.0}
-};
+static const float CoeffFile[91][6] = COEFFS_FROM_NASA;
 
 static WMMtype_Ellipsoid        *Ellip = NULL;
 static WMMtype_MagneticModel    *MagneticModel = NULL;
@@ -174,22 +85,22 @@ int WMM_Initialize()
 	if (!MagneticModel) return -2;  // invalid pointer
 	
 	// Sets WGS-84 parameters
-	Ellip->a = 6378.137;	// semi-major axis of the ellipsoid in km
-	Ellip->b = 6356.7523142;	// semi-minor axis of the ellipsoid in km
-	Ellip->fla = 1 / 298.257223563;	// flattening
-	Ellip->eps = sqrt(1 - (Ellip->b * Ellip->b) / (Ellip->a * Ellip->a));	// first eccentricity
-	Ellip->epssq = (Ellip->eps * Ellip->eps);	// first eccentricity squared
-	Ellip->re = 6371.2;	// Earth's radius in km
+	Ellip->a     = WGS84_A;               // semi-major axis of the ellipsoid in km
+	Ellip->b     = WGS84_B;               // semi-minor axis of the ellipsoid in km
+	Ellip->fla   = WGS84_FLATTENING;      // flattening
+	Ellip->eps   = WGS84_EPS;             // first eccentricity
+	Ellip->epssq = WGS84_EPS2;            // first eccentricity squared
+	Ellip->re    = WGS84_RADIUS_EARTH_KM; // Earth's radius in km
 
 	// Sets Magnetic Model parameters
 	MagneticModel->nMax = WMM_MAX_MODEL_DEGREES;
 	MagneticModel->nMaxSecVar = WMM_MAX_SECULAR_VARIATION_MODEL_DEGREES;
 	MagneticModel->SecularVariationUsed = 0;
 
-	// Really, Really needs to be read from a file - out of date in 2015 at latest
-	MagneticModel->EditionDate = 5.7863328170559505e-307;
-	MagneticModel->epoch = 2010.0;
-	sprintf(MagneticModel->ModelName, "WMM-2010");
+	// Must be updated periodically. Last update expires in 2015
+	MagneticModel->EditionDate = MAGNETIC_MODEL_EDITION_DATE;
+	MagneticModel->epoch       = MAGNETIC_MODEL_EPOCH;
+	sprintf(MagneticModel->ModelName, MAGNETIC_MODEL_NAME);
 
 	return 0;                       // OK
 }
@@ -433,8 +344,8 @@ int WMM_ComputeSphericalHarmonicVariables(WMMtype_CoordSpherical *CoordSpherical
 	float cos_lambda, sin_lambda;
 	uint16_t m, n;
 
-	cos_lambda = cos(DEG2RAD(CoordSpherical->lambda));
-	sin_lambda = sin(DEG2RAD(CoordSpherical->lambda));
+	cos_lambda = cosf(CoordSpherical->lambda * DEG2RAD);
+	sin_lambda = sinf(CoordSpherical->lambda * DEG2RAD);
 
 	/* for n = 0 ... model_order, compute (Radius of Earth / Spherica radius r)^(n+2)
 	   for n  1..nMax-1 (this is much faster than calling pow MAX_N+1 times).      */
@@ -480,7 +391,7 @@ int WMM_AssociatedLegendreFunction(WMMtype_CoordSpherical * CoordSpherical, uint
 
 	 */
 {
-	float sin_phi = sin(DEG2RAD(CoordSpherical->phig));	/* sin  (geocentric latitude) */
+	float sin_phi = sinf(CoordSpherical->phig * DEG2RAD);	/* sin  (geocentric latitude) */
 
 	if (nMax <= 16 || (1 - fabs(sin_phi)) < 1.0e-10)	/* If nMax is less tha 16 or at the poles */
 	{
@@ -567,7 +478,7 @@ int WMM_Summation(WMMtype_LegendreFunction * LegendreFunction,
 		}
 	}
 
-	cos_phi = cos(DEG2RAD(CoordSpherical->phig));
+	cos_phi = cosf(CoordSpherical->phig * DEG2RAD);
 	if (fabs(cos_phi) > 1.0e-10)
 	{
 		MagneticResults->By = MagneticResults->By / cos_phi;
@@ -647,7 +558,7 @@ int WMM_SecVarSummation(WMMtype_LegendreFunction * LegendreFunction,
 			    * LegendreFunction->dPcup[index];
 		}
 	}
-	cos_phi = cos(DEG2RAD(CoordSpherical->phig));
+	cos_phi = cosf(CoordSpherical->phig * DEG2RAD);
 	if (fabs(cos_phi) > 1.0e-10)
 	{
 		MagneticResults->By = MagneticResults->By / cos_phi;
@@ -695,11 +606,11 @@ int WMM_RotateMagneticVector(WMMtype_CoordSpherical * CoordSpherical,
 	 */
 {
 	/* Difference between the spherical and Geodetic latitudes */
-	float Psi = (M_PI / 180) * (CoordSpherical->phig - CoordGeodetic->phi);
+	float Psi = (CoordSpherical->phig - CoordGeodetic->phi) * DEG2RAD;
 
 	/* Rotate spherical field components to the Geodeitic system */
-	MagneticResultsGeo->Bz = MagneticResultsSph->Bx * sin(Psi) + MagneticResultsSph->Bz * cos(Psi);
-	MagneticResultsGeo->Bx = MagneticResultsSph->Bx * cos(Psi) - MagneticResultsSph->Bz * sin(Psi);
+	MagneticResultsGeo->Bz = MagneticResultsSph->Bx * sinf(Psi) + MagneticResultsSph->Bz * cosf(Psi);
+	MagneticResultsGeo->Bx = MagneticResultsSph->Bx * cosf(Psi) - MagneticResultsSph->Bz * sinf(Psi);
 	MagneticResultsGeo->By = MagneticResultsSph->By;
 
     return 0;
@@ -727,10 +638,10 @@ int WMM_CalculateGeoMagneticElements(WMMtype_MagneticResults * MagneticResultsGe
 	GeoMagneticElements->Y = MagneticResultsGeo->By;
 	GeoMagneticElements->Z = MagneticResultsGeo->Bz;
 
-	GeoMagneticElements->H = sqrt(MagneticResultsGeo->Bx * MagneticResultsGeo->Bx + MagneticResultsGeo->By * MagneticResultsGeo->By);
-	GeoMagneticElements->F = sqrt(GeoMagneticElements->H * GeoMagneticElements->H + MagneticResultsGeo->Bz * MagneticResultsGeo->Bz);
-	GeoMagneticElements->Decl = RAD2DEG(atan2(GeoMagneticElements->Y, GeoMagneticElements->X));
-	GeoMagneticElements->Incl = RAD2DEG(atan2(GeoMagneticElements->Z, GeoMagneticElements->H));
+	GeoMagneticElements->H = sqrtf(MagneticResultsGeo->Bx * MagneticResultsGeo->Bx + MagneticResultsGeo->By * MagneticResultsGeo->By);
+	GeoMagneticElements->F = sqrtf(GeoMagneticElements->H * GeoMagneticElements->H + MagneticResultsGeo->Bz * MagneticResultsGeo->Bz);
+	GeoMagneticElements->Decl = atan2f(GeoMagneticElements->Y, GeoMagneticElements->X) * RAD2DEG;
+	GeoMagneticElements->Incl = atan2f(GeoMagneticElements->Z, GeoMagneticElements->H) * RAD2DEG;
 
     return 0;   // OK
 }
@@ -762,10 +673,10 @@ int WMM_CalculateSecularVariation(WMMtype_MagneticResults * MagneticVariation, W
 	    (MagneticElements->X * MagneticElements->Xdot +
 	     MagneticElements->Y * MagneticElements->Ydot + MagneticElements->Z * MagneticElements->Zdot) / MagneticElements->F;
 	MagneticElements->Decldot =
-	    180.0 / M_PI * (MagneticElements->X * MagneticElements->Ydot -
+	    RAD2DEG * (MagneticElements->X * MagneticElements->Ydot -
 			    MagneticElements->Y * MagneticElements->Xdot) / (MagneticElements->H * MagneticElements->H);
 	MagneticElements->Incldot =
-	    180.0 / M_PI * (MagneticElements->H * MagneticElements->Zdot -
+	    RAD2DEG * (MagneticElements->H * MagneticElements->Zdot -
 			    MagneticElements->Z * MagneticElements->Hdot) / (MagneticElements->F * MagneticElements->F);
 	MagneticElements->GVdot = MagneticElements->Decldot;
 
@@ -842,7 +753,7 @@ int WMM_PcupHigh(float *Pcup, float *dPcup, float x, uint16_t nMax)
 	scalef = 1.0e-280;
 
 	for (n = 0; n <= 2 * nMax + 1; ++n)
-		PreSqr[n] = sqrt((float)(n));
+		PreSqr[n] = sqrtf((float)(n));
 
 	k = 2;
 
@@ -861,7 +772,7 @@ int WMM_PcupHigh(float *Pcup, float *dPcup, float x, uint16_t nMax)
 	}
 
 	/*z = sin (geocentric latitude) */
-	z = sqrt((1.0 - x) * (1.0 + x));
+	z = sqrtf((1.0 - x) * (1.0 + x));
 	pm2 = 1.0;
 	Pcup[0] = 1.0;
 	dPcup[0] = 0.0;
@@ -976,7 +887,7 @@ int WMM_PcupLow(float *Pcup, float *dPcup, float x, uint16_t nMax)
 	dPcup[0] = 0.0;
 
 	/*sin (geocentric latitude) - sin_phi */
-	z = sqrt((1.0 - x) * (1.0 + x));
+	z = sqrtf((1.0 - x) * (1.0 + x));
 
 	/*       First, Compute the Gauss-normalized associated Legendre  functions */
 	for (n = 1; n <= nMax; n++)
@@ -1033,7 +944,7 @@ int WMM_PcupLow(float *Pcup, float *dPcup, float x, uint16_t nMax)
 		{
 			index = (n * (n + 1) / 2 + m);
 			index1 = (n * (n + 1) / 2 + m - 1);
-			schmidtQuasiNorm[index] = schmidtQuasiNorm[index1] * sqrt((float)((n - m + 1) * (m == 1 ? 2 : 1)) / (float)(n + m));
+			schmidtQuasiNorm[index] = schmidtQuasiNorm[index1] * sqrtf((float)((n - m + 1) * (m == 1 ? 2 : 1)) / (float)(n + m));
 		}
 
 	}
@@ -1086,7 +997,7 @@ int WMM_SummationSpecial(WMMtype_SphericalHarmonicVariables *
 	schmidtQuasiNorm1 = 1.0;
 
 	MagneticResults->By = 0.0;
-	sin_phi = sin(DEG2RAD(CoordSpherical->phig));
+	sin_phi = sinf(CoordSpherical->phig * DEG2RAD);
 
 	for (n = 1; n <= MagneticModel->nMax; n++)
 	{
@@ -1097,7 +1008,7 @@ int WMM_SummationSpecial(WMMtype_SphericalHarmonicVariables *
 
 		index = (n * (n + 1) / 2 + 1);
 		schmidtQuasiNorm2 = schmidtQuasiNorm1 * (float)(2 * n - 1) / (float)n;
-		schmidtQuasiNorm3 = schmidtQuasiNorm2 * sqrt((float)(n * 2) / (float)(n + 1));
+		schmidtQuasiNorm3 = schmidtQuasiNorm2 * sqrtf((float)(n * 2) / (float)(n + 1));
 		schmidtQuasiNorm1 = schmidtQuasiNorm2;
 		if (n == 1)
 		{
@@ -1152,13 +1063,13 @@ int WMM_SecVarSummationSpecial(WMMtype_SphericalHarmonicVariables *
 	schmidtQuasiNorm1 = 1.0;
 
 	MagneticResults->By = 0.0;
-	sin_phi = sin(DEG2RAD(CoordSpherical->phig));
+	sin_phi = sinf(CoordSpherical->phig * DEG2RAD);
 
 	for (n = 1; n <= MagneticModel->nMaxSecVar; n++)
 	{
 		index = (n * (n + 1) / 2 + 1);
 		schmidtQuasiNorm2 = schmidtQuasiNorm1 * (float)(2 * n - 1) / (float)n;
-		schmidtQuasiNorm3 = schmidtQuasiNorm2 * sqrt((float)(n * 2) / (float)(n + 1));
+		schmidtQuasiNorm3 = schmidtQuasiNorm2 * sqrtf((float)(n * 2) / (float)(n + 1));
 		schmidtQuasiNorm1 = schmidtQuasiNorm2;
 		if (n == 1)
 		{
@@ -1304,11 +1215,11 @@ int WMM_GeodeticToSpherical(WMMtype_CoordGeodetic * CoordGeodetic, WMMtype_Coord
 {
 	float CosLat, SinLat, rc, xp, zp;	// all local variables
 
-	CosLat = cos(DEG2RAD(CoordGeodetic->phi));
-	SinLat = sin(DEG2RAD(CoordGeodetic->phi));
+	CosLat = cosf(CoordGeodetic->phi * DEG2RAD);
+	SinLat = sinf(CoordGeodetic->phi * DEG2RAD);
 
 	// compute the local radius of curvature on the WGS-84 reference ellipsoid
-	rc = Ellip->a / sqrt(1.0 - Ellip->epssq * SinLat * SinLat);
+	rc = Ellip->a / sqrtf(1.0 - Ellip->epssq * SinLat * SinLat);
 
 	// compute ECEF Cartesian coordinates of specified point (for longitude=0)
 
@@ -1317,8 +1228,8 @@ int WMM_GeodeticToSpherical(WMMtype_CoordGeodetic * CoordGeodetic, WMMtype_Coord
 
 	// compute spherical radius and angle lambda and phi of specified point
 
-	CoordSpherical->r = sqrt(xp * xp + zp * zp);
-	CoordSpherical->phig = RAD2DEG(asin(zp / CoordSpherical->r));	// geocentric latitude
+	CoordSpherical->r = sqrtf(xp * xp + zp * zp);
+	CoordSpherical->phig = asinf(zp / CoordSpherical->r) * RAD2DEG;	// geocentric latitude
 	CoordSpherical->lambda = CoordGeodetic->lambda;	// longitude
 
 	return 0;   // OK
