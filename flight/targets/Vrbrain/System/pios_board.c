@@ -333,15 +333,6 @@ void PIOS_Board_Init(void) {
 	if (PIOS_I2C_CheckClear(pios_i2c_mag_adapter_id) != 0)
 		panic(5);
 #endif
-
-//	if (PIOS_I2C_Init(&pios_i2c_mag_adapter_id, &pios_i2c_mag_adapter_cfg)) {
-//		PIOS_DEBUG_Assert(0);
-//	}
-
-	/* Set up the SPI interface to the accelerometer*/
-	if (PIOS_SPI_Init(&pios_spi_baro_flash_id, &pios_spi_baro_flash_cfg)) {
-		PIOS_DEBUG_Assert(0);
-	}
 	
 	/* Set up the SPI interface to the gyro */
 	if (PIOS_SPI_Init(&pios_spi_gyro_id, &pios_spi_gyro_cfg)) {
