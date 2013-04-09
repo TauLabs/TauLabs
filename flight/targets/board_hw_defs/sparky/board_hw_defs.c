@@ -620,7 +620,7 @@ static const struct pios_tim_clock_cfg tim_17_cfg = {
  */
 
 static const struct pios_tim_channel pios_tim_servoport_all_pins[] = {
-	/*{ // Ch1 -- Crap, conflicts with PPM input TIM15_CH2
+	{ // Ch1 -- Crap, conflicts with PPM input TIM15_CH2
 		.timer = TIM15,
 		.timer_chan = TIM_Channel_2,
 		.remap = GPIO_AF_1,
@@ -635,7 +635,7 @@ static const struct pios_tim_channel pios_tim_servoport_all_pins[] = {
 			},
 			.pin_source = GPIO_PinSource15,
 		},
-	},*/
+	},
 	{ // Ch2
 		.timer = TIM2,
 		.timer_chan = TIM_Channel_4,
