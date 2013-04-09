@@ -90,6 +90,7 @@ static void simulateConstant();
 static void simulateModelAgnostic();
 static void simulateModelQuadcopter();
 static void simulateModelAirplane();
+static void simulateModelCar();
 
 static void magOffsetEstimation(MagnetometerData *mag);
 
@@ -97,7 +98,7 @@ static float accel_bias[3];
 
 static float rand_gauss();
 
-enum sensor_sim_type {CONSTANT, MODEL_AGNOSTIC, MODEL_QUADCOPTER, MODEL_AIRPLANE} sensor_sim_type;
+enum sensor_sim_type {CONSTANT, MODEL_AGNOSTIC, MODEL_QUADCOPTER, MODEL_AIRPLANE, MODEL_CAR} sensor_sim_type;
 
 /**
  * Initialise the module.  Called before the start function
@@ -181,6 +182,9 @@ static void SensorsTask(void *parameters)
 			case SYSTEMSETTINGS_AIRFRAMETYPE_OCTO:
 				sensor_sim_type = MODEL_QUADCOPTER;
 				break;
+			case SYSTEMSETTINGS_AIRFRAMETYPE_GROUNDVEHICLECAR:
+				sensor_sim_type = MODEL_CAR;
+				break;
 			default:
 				sensor_sim_type = MODEL_AGNOSTIC;
 		}
@@ -206,6 +210,9 @@ static void SensorsTask(void *parameters)
 				break;
 			case MODEL_AIRPLANE:
 				simulateModelAirplane();
+				break;
+			case MODEL_CAR:
+				simulateModelCar();
 		}
 
 		vTaskDelay(2 / portTICK_RATE_MS);
@@ -553,7 +560,7 @@ static void simulateModelQuadcopter()
 }
 
 /**
- * This method performs a simple simulation of a quadcopter
+ * This method performs a simple simulation of an airplane
  * 
  * It takes in the ActuatorDesired command to rotate the aircraft and performs
  * a simple kinetic model where the throttle increases the energy and drag decreases
@@ -840,6 +847,258 @@ static void simulateModelAirplane()
 	attitudeSimulated.Velocity[2] = vel[2];
 	AttitudeSimulatedSet(&attitudeSimulated);
 }
+
+/**
+ * This method performs a simple simulation of a car
+ * 
+ * It takes in the ActuatorDesired command to rotate the aircraft and performs
+ * a simple kinetic model where the throttle increases the energy and drag decreases
+ * it.  Changing altitude moves energy from kinetic to potential.
+ *
+ * 1. Update attitude based on ActuatorDesired
+ * 2. Update position based on velocity
+ */
+static void simulateModelCar()
+{
+	static double pos[3] = {0,0,0};
+	static double vel[3] = {0,0,0};
+	static double ned_accel[3] = {0,0,0};
+	static float q[4] = {1,0,0,0};
+	static float rpy[3] = {0,0,0}; // Low pass filtered actuator
+	static float baro_offset = 0.0f;
+	float Rbe[3][3];
+	
+	const float ACTUATOR_ALPHA = 0.8;
+	const float MAX_THRUST = 9.81 * 0.5;
+	const float K_FRICTION = 0.2;
+	const float GPS_PERIOD = 0.1;
+	const float MAG_PERIOD = 1.0 / 75.0;
+	const float BARO_PERIOD = 1.0 / 20.0;
+	
+	static uint32_t last_time;
+	
+	float dT = (PIOS_DELAY_DiffuS(last_time) / 1e6);
+	if(dT < 1e-3)
+		dT = 2e-3;
+	last_time = PIOS_DELAY_GetRaw();
+	
+	FlightStatusData flightStatus;
+	FlightStatusGet(&flightStatus);
+	ActuatorDesiredData actuatorDesired;
+	ActuatorDesiredGet(&actuatorDesired);
+	
+	float thrust = (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED) ? actuatorDesired.Throttle * MAX_THRUST : 0;
+	if (thrust < 0)
+		thrust = 0;
+	
+	if (thrust != thrust)
+		thrust = 0;
+	
+	//	float control_scaling = thrust * thrustToDegs;
+	//	// In rad/s
+	//	rpy[0] = control_scaling * actuatorDesired.Roll * (1 - ACTUATOR_ALPHA) + rpy[0] * ACTUATOR_ALPHA;
+	//	rpy[1] = control_scaling * actuatorDesired.Pitch * (1 - ACTUATOR_ALPHA) + rpy[1] * ACTUATOR_ALPHA;
+	//	rpy[2] = control_scaling * actuatorDesired.Yaw * (1 - ACTUATOR_ALPHA) + rpy[2] * ACTUATOR_ALPHA;
+	//	
+	//	GyrosData gyrosData; // Skip get as we set all the fields
+	//	gyrosData.x = rpy[0] * 180 / M_PI + rand_gauss();
+	//	gyrosData.y = rpy[1] * 180 / M_PI + rand_gauss();
+	//	gyrosData.z = rpy[2] * 180 / M_PI + rand_gauss();
+	
+	/**** 1. Update attitude ****/
+	RateDesiredData rateDesired;
+	RateDesiredGet(&rateDesired);
+	
+	// Need to get roll angle for easy cross coupling
+	AttitudeActualData attitudeActual;
+	AttitudeActualGet(&attitudeActual);
+
+	rpy[0] = 0; // cannot roll
+	rpy[1] = 0; // cannot pitch
+	rpy[2] = (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED) * rateDesired.Yaw * (1 - ACTUATOR_ALPHA) + rpy[2] * ACTUATOR_ALPHA;
+	
+
+	GyrosData gyrosData; // Skip get as we set all the fields
+	gyrosData.x = rpy[0] + rand_gauss();
+	gyrosData.y = rpy[1] + rand_gauss();
+	gyrosData.z = rpy[2] + rand_gauss();
+	GyrosSet(&gyrosData);
+	
+	// Predict the attitude forward in time
+	float qdot[4];
+	qdot[0] = (-q[1] * rpy[0] - q[2] * rpy[1] - q[3] * rpy[2]) * dT * DEG2RAD / 2;
+	qdot[1] = (q[0] * rpy[0] - q[3] * rpy[1] + q[2] * rpy[2]) * dT * DEG2RAD / 2;
+	qdot[2] = (q[3] * rpy[0] + q[0] * rpy[1] - q[1] * rpy[2]) * dT * DEG2RAD / 2;
+	qdot[3] = (-q[2] * rpy[0] + q[1] * rpy[1] + q[0] * rpy[2]) * dT * DEG2RAD / 2;
+	
+	// Take a time step
+	q[0] = q[0] + qdot[0];
+	q[1] = q[1] + qdot[1];
+	q[2] = q[2] + qdot[2];
+	q[3] = q[3] + qdot[3];
+	
+	float qmag = sqrtf(q[0]*q[0] + q[1]*q[1] + q[2]*q[2] + q[3]*q[3]);
+	q[0] = q[0] / qmag;
+	q[1] = q[1] / qmag;
+	q[2] = q[2] / qmag;
+	q[3] = q[3] / qmag;
+	
+	if(overideAttitude){
+		AttitudeActualData attitudeActual;
+		AttitudeActualGet(&attitudeActual);
+		attitudeActual.q1 = q[0];
+		attitudeActual.q2 = q[1];
+		attitudeActual.q3 = q[2];
+		attitudeActual.q4 = q[3];
+		AttitudeActualSet(&attitudeActual);
+	}
+	
+	/**** 2. Update position based on velocity ****/
+	// Rbe takes a vector from body to earth.  If we take (1,0,0)^T through this and then dot with airspeed
+	// we get forward airspeed		
+	Quaternion2R(q,Rbe);
+
+	double groundspeed[3] = {vel[0], vel[1], vel[2] };
+	double forwardSpeed = Rbe[0][0] * groundspeed[0] + Rbe[0][1] * groundspeed[1] + Rbe[0][2] * groundspeed[2];
+	double sidewaysSpeed = Rbe[1][0] * groundspeed[0] + Rbe[1][1] * groundspeed[1] + Rbe[1][2] * groundspeed[2];
+
+	/* Compute aerodynamic forces in body referenced frame.  Later use more sophisticated equations  */
+	/* TODO: This should become more accurate.  Use the force equations to calculate lift from the   */
+	/* various surfaces based on AoA and airspeed.  From that compute torques and forces.  For later */
+	double forces[3]; // X, Y, Z
+	forces[0] = thrust - forwardSpeed * K_FRICTION;         // Friction is applied in all directions in NED
+	forces[1] = 0 - sidewaysSpeed * K_FRICTION * 100;      // No side slip
+	forces[2] = 0;
+	
+	// Negate force[2] as NED defines down as possitive, aircraft convention is Z up is positive (?)
+	ned_accel[0] = forces[0] * Rbe[0][0] + forces[1] * Rbe[1][0] - forces[2] * Rbe[2][0];
+	ned_accel[1] = forces[0] * Rbe[0][1] + forces[1] * Rbe[1][1] - forces[2] * Rbe[2][1];
+	ned_accel[2] = 0;
+
+	// Apply acceleration based on velocity
+	ned_accel[0] -= K_FRICTION * (vel[0]);
+	ned_accel[1] -= K_FRICTION * (vel[1]);
+	
+	// Predict the velocity forward in time
+	vel[0] = vel[0] + ned_accel[0] * dT;
+	vel[1] = vel[1] + ned_accel[1] * dT;
+	vel[2] = vel[2] + ned_accel[2] * dT;
+	
+	// Predict the position forward in time
+	pos[0] = pos[0] + vel[0] * dT;
+	pos[1] = pos[1] + vel[1] * dT;
+	pos[2] = pos[2] + vel[2] * dT;
+	
+	// Simulate hitting ground
+	if(pos[2] > 0) {
+		pos[2] = 0;
+		vel[2] = 0;
+		ned_accel[2] = 0;
+	}
+	
+	// Sensor feels gravity (when not acceleration in ned frame e.g. ned_accel[2] = 0)
+	ned_accel[2] -= GRAVITY;
+	
+	// Transform the accels back in to body frame
+	AccelsData accelsData; // Skip get as we set all the fields
+	accelsData.x = ned_accel[0] * Rbe[0][0] + ned_accel[1] * Rbe[0][1] + ned_accel[2] * Rbe[0][2] + accel_bias[0];
+	accelsData.y = ned_accel[0] * Rbe[1][0] + ned_accel[1] * Rbe[1][1] + ned_accel[2] * Rbe[1][2] + accel_bias[1];
+	accelsData.z = ned_accel[0] * Rbe[2][0] + ned_accel[1] * Rbe[2][1] + ned_accel[2] * Rbe[2][2] + accel_bias[2];
+	accelsData.temperature = 30;
+	AccelsSet(&accelsData);
+	
+	if(baro_offset == 0) {
+		// Hacky initialization
+		baro_offset = 50;// * rand_gauss();
+	} else {
+		// Very small drift process
+		baro_offset += rand_gauss() / 100;
+	}
+	// Update baro periodically	
+	static uint32_t last_baro_time = 0;
+	if(PIOS_DELAY_DiffuS(last_baro_time) / 1.0e6 > BARO_PERIOD) {
+		BaroAltitudeData baroAltitude;
+		BaroAltitudeGet(&baroAltitude);
+		baroAltitude.Altitude = -pos[2] + baro_offset;
+		BaroAltitudeSet(&baroAltitude);
+		last_baro_time = PIOS_DELAY_GetRaw();
+	}
+	
+	HomeLocationData homeLocation;
+	HomeLocationGet(&homeLocation);
+	
+	static float gps_vel_drift[3] = {0,0,0};
+	gps_vel_drift[0] = gps_vel_drift[0] * 0.65 + rand_gauss() / 5.0;
+	gps_vel_drift[1] = gps_vel_drift[1] * 0.65 + rand_gauss() / 5.0;
+	gps_vel_drift[2] = gps_vel_drift[2] * 0.65 + rand_gauss() / 5.0;
+	
+	// Update GPS periodically	
+	static uint32_t last_gps_time = 0;
+	if(PIOS_DELAY_DiffuS(last_gps_time) / 1.0e6 > GPS_PERIOD) {
+		// Use double precision here as simulating what GPS produces
+		double T[3];
+		T[0] = homeLocation.Altitude+6.378137E6f * DEG2RAD;
+		T[1] = cosf(homeLocation.Latitude / 10e6 * DEG2RAD)*(homeLocation.Altitude+6.378137E6) * DEG2RAD;
+		T[2] = -1.0;
+		
+		static float gps_drift[3] = {0,0,0};
+		gps_drift[0] = gps_drift[0] * 0.95 + rand_gauss() / 10.0;
+		gps_drift[1] = gps_drift[1] * 0.95 + rand_gauss() / 10.0;
+		gps_drift[2] = gps_drift[2] * 0.95 + rand_gauss() / 10.0;
+		
+		GPSPositionData gpsPosition;
+		GPSPositionGet(&gpsPosition);
+		gpsPosition.Latitude = homeLocation.Latitude + ((pos[0] + gps_drift[0]) / T[0] * 10.0e6);
+		gpsPosition.Longitude = homeLocation.Longitude + ((pos[1] + gps_drift[1])/ T[1] * 10.0e6);
+		gpsPosition.Altitude = homeLocation.Altitude + ((pos[2] + gps_drift[2]) / T[2]);
+		gpsPosition.Groundspeed = sqrtf(pow(vel[0] + gps_vel_drift[0],2) + pow(vel[1] + gps_vel_drift[1],2));
+		gpsPosition.Heading = 180 / M_PI * atan2f(vel[1] + gps_vel_drift[1],vel[0] + gps_vel_drift[0]);
+		gpsPosition.Satellites = 7;
+		gpsPosition.PDOP = 1;
+		GPSPositionSet(&gpsPosition);
+		last_gps_time = PIOS_DELAY_GetRaw();
+	}
+	
+	// Update GPS Velocity measurements
+	static uint32_t last_gps_vel_time = 1000; // Delay by a millisecond
+	if(PIOS_DELAY_DiffuS(last_gps_vel_time) / 1.0e6 > GPS_PERIOD) {
+		GPSVelocityData gpsVelocity;
+		GPSVelocityGet(&gpsVelocity);
+		gpsVelocity.North = vel[0] + gps_vel_drift[0];
+		gpsVelocity.East = vel[1] + gps_vel_drift[1];
+		gpsVelocity.Down = vel[2] + gps_vel_drift[2];
+		GPSVelocitySet(&gpsVelocity);
+		last_gps_vel_time = PIOS_DELAY_GetRaw();
+	}
+	
+	// Update mag periodically
+	static uint32_t last_mag_time = 0;
+	if(PIOS_DELAY_DiffuS(last_mag_time) / 1.0e6 > MAG_PERIOD) {
+		MagnetometerData mag;
+		mag.x = 100+homeLocation.Be[0] * Rbe[0][0] + homeLocation.Be[1] * Rbe[0][1] + homeLocation.Be[2] * Rbe[0][2];
+		mag.y = 100+homeLocation.Be[0] * Rbe[1][0] + homeLocation.Be[1] * Rbe[1][1] + homeLocation.Be[2] * Rbe[1][2];
+		mag.z = 100+homeLocation.Be[0] * Rbe[2][0] + homeLocation.Be[1] * Rbe[2][1] + homeLocation.Be[2] * Rbe[2][2];
+		magOffsetEstimation(&mag);
+		MagnetometerSet(&mag);
+		last_mag_time = PIOS_DELAY_GetRaw();
+	}
+	
+	AttitudeSimulatedData attitudeSimulated;
+	AttitudeSimulatedGet(&attitudeSimulated);
+	attitudeSimulated.q1 = q[0];
+	attitudeSimulated.q2 = q[1];
+	attitudeSimulated.q3 = q[2];
+	attitudeSimulated.q4 = q[3];
+	Quaternion2RPY(q,&attitudeSimulated.Roll);
+	attitudeSimulated.Position[0] = pos[0];
+	attitudeSimulated.Position[1] = pos[1];
+	attitudeSimulated.Position[2] = pos[2];
+	attitudeSimulated.Velocity[0] = vel[0];
+	attitudeSimulated.Velocity[1] = vel[1];
+	attitudeSimulated.Velocity[2] = vel[2];
+	AttitudeSimulatedSet(&attitudeSimulated);
+}
+
 
 static float rand_gauss (void) {
 	float v1,v2,s;
