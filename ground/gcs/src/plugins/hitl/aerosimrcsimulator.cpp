@@ -3,6 +3,7 @@
  *
  * @file       aerosimrc.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010-2012.
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup HITLPlugin HITLv2 Plugin
@@ -178,7 +179,7 @@ void AeroSimRCSimulator::processUpdate(const QByteArray &data)
     /*************************************************************************************/
     // rotate gravity
     QVector3D acc = QVector3D(accY, accX, -accZ);   // accel (X,Y,Z) -> (+Y,+X,-Z)
-    QVector3D gee = QVector3D(0.0, 0.0, -GEE);
+    QVector3D gee = QVector3D(0.0, 0.0, -GRAVITY);
     QQuaternion qWorld = quat.conjugate();
     gee = qWorld.rotatedVector(gee);
     acc += gee;

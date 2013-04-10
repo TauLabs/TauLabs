@@ -8,6 +8,7 @@
  *
  * @file       insgps.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      An INS/GPS algorithm implemented with an EKF.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -30,6 +31,7 @@
  */
 
 #include "insgps.h"
+#include "physical_constants.h"
 #include <math.h>
 #include <stdint.h>
 
@@ -226,7 +228,7 @@ void INSStatePrediction(float gyro_data[3], float accel_data[3], float dT)
 	// EKF prediction step
 	LinearizeFG(X, U, F, G);
 	RungeKutta(X, U, dT);
-	qmag = sqrt(X[6] * X[6] + X[7] * X[7] + X[8] * X[8] + X[9] * X[9]);
+	qmag = sqrtf(X[6] * X[6] + X[7] * X[7] + X[8] * X[8] + X[9] * X[9]);
 	X[6] /= qmag;
 	X[7] /= qmag;
 	X[8] /= qmag;
@@ -310,7 +312,7 @@ void INSCorrection(float mag_data[3], float Pos[3], float Vel[3],
 
 	// magnetometer data in any units (use unit vector) and in body frame
 	Bmag =
-	    sqrt(mag_data[0] * mag_data[0] + mag_data[1] * mag_data[1] +
+	    sqrtf(mag_data[0] * mag_data[0] + mag_data[1] * mag_data[1] +
 		 mag_data[2] * mag_data[2]);
 	Z[6] = mag_data[0] / Bmag;
 	Z[7] = mag_data[1] / Bmag;
@@ -323,7 +325,7 @@ void INSCorrection(float mag_data[3], float Pos[3], float Vel[3],
 	LinearizeH(X, Be, H);
 	MeasurementEq(X, Be, Y);
 	SerialUpdate(H, R, Z, Y, P, X, SensorsUsed);
-	qmag = sqrt(X[6] * X[6] + X[7] * X[7] + X[8] * X[8] + X[9] * X[9]);
+	qmag = sqrtf(X[6] * X[6] + X[7] * X[7] + X[8] * X[8] + X[9] * X[9]);
 	X[6] /= qmag;
 	X[7] /= qmag;
 	X[8] /= qmag;
@@ -684,7 +686,7 @@ void StateEq(float X[NUMX], float U[NUMU], float Xdot[NUMX])
 	    az;
 	Xdot[5] =
 	    2.0f * (q1 * q3 - q0 * q2) * ax + 2.0f * (q2 * q3 + q0 * q1) * ay +
-	    (q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3) * az + 9.81f;
+	    (q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3) * az + GRAVITY;
 
 	// qdot = Q*w
 	Xdot[6] = (-q1 * wx - q2 * wy - q3 * wz) / 2.0f;

@@ -3,6 +3,7 @@
  *
  * @file       simulator.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup HITLPlugin HITL Plugin
@@ -59,6 +60,7 @@
 #include "velocityactual.h"
 
 #include "utils/coordinateconversions.h"
+#include "physical_constants.h"
 
 /**
  * just imagine this was a class without methods and all public properties
@@ -268,14 +270,6 @@ private slots:
     virtual void processUpdate(const QByteArray& data) = 0;
 
 protected:
-    static const float GEE;
-    static const float FT2M;
-    static const float KT2MPS;
-    static const float INHG2KPA;
-    static const float FPS2CMPS;
-    static const float DEG2RAD;
-    static const float RAD2DEG;
-
     QProcess* simProcess;
     QTime* time;
     QUdpSocket* inSocket;//(new QUdpSocket());

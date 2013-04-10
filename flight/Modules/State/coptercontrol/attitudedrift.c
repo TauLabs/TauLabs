@@ -8,7 +8,8 @@
  *
  * @file       attitudedrift.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Module to handle all comms to the AHRS on a periodic basis.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
+ * @brief      Various filters for handling gyroscope drift
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -41,6 +42,7 @@
  */
 
 #include "pios.h"
+#include "physical_constants.h"
 #include "modulesettings.h"
 #include <pios_board_info.h>
 #include "attitudedrift.h"
@@ -96,7 +98,6 @@ struct GlobalDcmDriftVariables *drft;
 // Private types
 
 // Private variables
-#define GRAV -9.805f
 
 //#define DRIFT_TYPE CCC
 enum DRIFT_CORRECTION_ALGOS {
@@ -105,7 +106,7 @@ enum DRIFT_CORRECTION_ALGOS {
 };
 
 // Private functions
-static void calibrate_gyros_high_speed(float gyro[3], float omegaCorrP[3], float normOmegaScalar, float delT, InertialSensorSettingsData *inertialSensorSettings);
+static void calibrate_gyros_high_speed(float gyro[3], float omegaCorrP[3], float normOmegaScalar, float delT, SensorSettingsData *inertialSensorSettings);
 static void GPSVelocityUpdatedCb(UAVObjEvent * objEv);
 #if defined (PIOS_INCLUDE_MAGNETOMETER)
 static void MagnetometerUpdatedCb(UAVObjEvent * objEv);
@@ -114,7 +115,7 @@ static void MagnetometerUpdatedCb(UAVObjEvent * objEv);
 /**
  * Correct attitude drift. Choose from any of the following algorithms
  */
-void updateAttitudeDrift(AccelsData * accelsData, GyrosData * gyrosData, const float delT, GlobalAttitudeVariables *glblAtt, AttitudeSettingsData *attitudeSettings, InertialSensorSettingsData *inertialSensorSettings)
+void updateAttitudeDrift(AccelsData * accelsData, GyrosData * gyrosData, const float delT, GlobalAttitudeVariables *glblAtt, AttitudeSettingsData *attitudeSettings, SensorSettingsData *inertialSensorSettings)
 {
 	float *gyros = &gyrosData->x;
 	float *accels = &accelsData->x;
@@ -125,8 +126,8 @@ void updateAttitudeDrift(AccelsData * accelsData, GyrosData * gyrosData, const f
 	} else if (attitudeSettings->FilterChoice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI || 
 		attitudeSettings->FilterChoice == ATTITUDESETTINGS_FILTERCHOICE_PREMERLANI_GPS) {
 		if (firstpass_flag) {
-			uint8_t module_state[MODULESETTINGS_STATE_NUMELEM];
-			ModuleSettingsStateGet(module_state);
+			uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
+			ModuleSettingsAdminStateGet(module_state);
 
 			//Allocate memory for DCM drift globals
 			drft = (struct GlobalDcmDriftVariables *)
@@ -145,7 +146,7 @@ void updateAttitudeDrift(AccelsData * accelsData, GyrosData * gyrosData, const f
 			drft->gyroCalibTau = 100;
 
 			// Set flags
-			if (module_state[MODULESETTINGS_STATE_GPS] == MODULESETTINGS_STATE_ENABLED && PIOS_COM_GPS) {
+			if (module_state[MODULESETTINGS_ADMINSTATE_GPS] == MODULESETTINGS_ADMINSTATE_ENABLED && PIOS_COM_GPS) {
 				GPSVelocityConnectCallback(GPSVelocityUpdatedCb);
 				drft->gpsPresent_flag = true;
 				drft->gpsVelocityDataConsumption_flag = GPS_CONSUMED;
@@ -193,7 +194,7 @@ void updateAttitudeDrift(AccelsData * accelsData, GyrosData * gyrosData, const f
  * At high speeds, the gyro gains can be honed in on. 
  *  Taken from "Fast Rotations", William Premerlani
  */
-static void calibrate_gyros_high_speed(float gyro[3], float omegaCorrP[3], float normOmegaScalar, float delT, InertialSensorSettingsData *inertialSensorSettings)
+static void calibrate_gyros_high_speed(float gyro[3], float omegaCorrP[3], float normOmegaScalar, float delT, SensorSettingsData *inertialSensorSettings)
 {
 	if (normOmegaScalar > MINIMUM_SPIN_RATE_GYRO_CALIB) {
 		float normOmegaVector[3] = { gyro[0] / normOmegaScalar, gyro[1] / normOmegaScalar, gyro[2] / normOmegaScalar };

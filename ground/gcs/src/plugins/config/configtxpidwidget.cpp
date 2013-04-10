@@ -90,15 +90,15 @@ void ConfigTxPIDWidget::refreshValues()
     ModuleSettings *moduleSettings = ModuleSettings::GetInstance(getObjectManager());
     ModuleSettings::DataFields moduleSettingsData = moduleSettings->getData();
     m_txpid->TxPIDEnable->setChecked(
-        moduleSettingsData.State[ModuleSettings::STATE_TXPID] == ModuleSettings::STATE_ENABLED);
+        moduleSettingsData.AdminState[ModuleSettings::ADMINSTATE_TXPID] == ModuleSettings::ADMINSTATE_ENABLED);
 }
 
 void ConfigTxPIDWidget::applySettings()
 {
     ModuleSettings *moduleSettings = ModuleSettings::GetInstance(getObjectManager());
     ModuleSettings::DataFields moduleSettingsData = moduleSettings->getData();
-    moduleSettingsData.State[ModuleSettings::STATE_TXPID] =
-        m_txpid->TxPIDEnable->isChecked() ? ModuleSettings::STATE_ENABLED : ModuleSettings::STATE_DISABLED;
+    moduleSettingsData.AdminState[ModuleSettings::ADMINSTATE_TXPID] =
+        m_txpid->TxPIDEnable->isChecked() ? ModuleSettings::ADMINSTATE_ENABLED : ModuleSettings::ADMINSTATE_DISABLED;
     moduleSettings->setData(moduleSettingsData);
 }
 

@@ -3,6 +3,7 @@
  *
  * @file       flightgearbridge.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup HITLPlugin HITL Plugin
@@ -29,10 +30,6 @@
 #include "extensionsystem/pluginmanager.h"
 #include "coreplugin/icore.h"
 #include "coreplugin/threadmanager.h"
-
-#ifndef M_PI
-#define M_PI           3.14159265358979323846
-#endif
 
 //FGSimulator::FGSimulator(QString hostAddr, int outPort, int inPort, bool manual, QString binPath, QString dataPath) :
 //		Simulator(hostAddr, outPort, inPort,  manual, binPath, dataPath),
@@ -238,17 +235,17 @@ void FGSimulator::processUpdate(const QByteArray& inp)
     QString data(inp);
     QStringList fields = data.split(",");
     // Get xRate (deg/s)
-    //        float xRate = fields[0].toFloat() * 180.0/M_PI;
+    //        float xRate = fields[0].toFloat() * RAD2DEG;
     // Get yRate (deg/s)
-    //        float yRate = fields[1].toFloat() * 180.0/M_PI;
+    //        float yRate = fields[1].toFloat() * RAD2DEG;
     // Get zRate (deg/s)
-    //        float zRate = fields[2].toFloat() * 180.0/M_PI;
+    //        float zRate = fields[2].toFloat() * RAD2DEG;
     // Get xAccel (m/s^2)
-    float xAccel = fields[3].toFloat() * FT2M;
+    float xAccel = fields[3].toFloat() * FEET2MILES;
     // Get yAccel (m/s^2)
-    float yAccel = fields[4].toFloat() * FT2M;
+    float yAccel = fields[4].toFloat() * FEET2MILES;
     // Get xAccel (m/s^2)
-    float zAccel = fields[5].toFloat() * FT2M;
+    float zAccel = fields[5].toFloat() * FEET2MILES;
     // Get pitch (deg)
     float pitch = fields[6].toFloat();
     // Get pitchRate (deg/s)
@@ -268,23 +265,23 @@ void FGSimulator::processUpdate(const QByteArray& inp)
     // Get heading (deg)
     float heading = fields[14].toFloat();
     // Get altitude (m)
-    float altitude_msl = fields[15].toFloat() * FT2M;
+    float altitude_msl = fields[15].toFloat() * FEET2MILES;
     // Get altitudeAGL (m)
-    float altitude_agl = fields[16].toFloat() * FT2M;
+    float altitude_agl = fields[16].toFloat() * FEET2MILES;
     // Get groundspeed (m/s)
-    float groundspeed = fields[17].toFloat() * KT2MPS;
+    float groundspeed = fields[17].toFloat() * KNOTS2M_PER_SECOND;
     // Get airspeed (m/s)
-    float airspeed = fields[18].toFloat() * KT2MPS;
+    float airspeed = fields[18].toFloat() * KNOTS2M_PER_SECOND;
     // Get temperature (degC)
     float temperature = fields[19].toFloat();
     // Get pressure (kpa)
-    float pressure = fields[20].toFloat() * INHG2KPA;
+    float pressure = fields[20].toFloat() * INCHES_MERCURY2KPA;
     // Get VelocityActual Down (cm/s)
-    float velocityActualDown = - fields[21].toFloat() * FPS2CMPS;
+    float velocityActualDown = - fields[21].toFloat() * FEET_PER_SECOND2CM_PER_SECOND;
     // Get VelocityActual East (cm/s)
-    float velocityActualEast = fields[22].toFloat() * FPS2CMPS;
+    float velocityActualEast = fields[22].toFloat() * FEET_PER_SECOND2CM_PER_SECOND;
     // Get VelocityActual Down (cm/s)
-    float velocityActualNorth = fields[23].toFloat() * FPS2CMPS;
+    float velocityActualNorth = fields[23].toFloat() * FEET_PER_SECOND2CM_PER_SECOND;
 
     // Get UDP packets received by FG
     int n = fields[24].toInt();

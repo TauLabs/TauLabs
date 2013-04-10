@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       calibration.h
- * @author     The PhoenixPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
  * @brief      Gui-less support class for calibration
  *****************************************************************************/
 /*
@@ -32,6 +32,15 @@
 #include <QTimer>
 #include <QString>
 
+/**
+ * @brief The Calibration class is a UI free algorithm that can be connected
+ * to any interfaces.  As such it only communicates with the UI via signals
+ * and slots, but has no direct handles to any particular controls or widgets.
+ *
+ * It performs a number of calibration routines, including six-point calibration
+ * for accelerometers and magnetometers, temperature compensation for gyros and,
+ * calculating the rotation to level the accelerometers.
+ */
 class Calibration : public QObject
 {
     Q_OBJECT
@@ -118,6 +127,9 @@ signals:
     //! Indicate what the progress is for leveling
     void tempCalProgressChanged(int);
 
+    //! Indicate that a calibration process has successfully completed and the results saved to UAVO
+    void calibrationCompleted();
+
 private:
     QTimer timer;
 
@@ -151,7 +163,7 @@ private:
     double accel_data_x[6], accel_data_y[6], accel_data_z[6];
     double mag_data_x[6], mag_data_y[6], mag_data_z[6];
 
-    static const int NUM_SENSOR_UPDATES = 300;
+    static const int NUM_SENSOR_UPDATES_LEVELING = 300;
     static const int NUM_SENSOR_UPDATES_SIX_POINT = 100;
     static const int SENSOR_UPDATE_PERIOD = 50;
     double MIN_TEMPERATURE_RANGE;
@@ -165,6 +177,7 @@ private:
     TempCompCurve *xCurve;
     TempCompCurve *yCurve;
     TempCompCurve *zCurve;
+
 protected:
 
     //! Get the object manager

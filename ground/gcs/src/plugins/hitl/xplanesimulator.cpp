@@ -3,6 +3,7 @@
  *
  * @file       xplanesimulator.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
  * @brief
  * @see        The GNU Public License (GPL) Version 3
  * @defgroup   hitlplugin
@@ -117,8 +118,10 @@ void XplaneSimulator::transmitUpdate()
 #if Q_BYTE_ORDER == Q_LITTLE_ENDIAN
         stream.setByteOrder(QDataStream::LittleEndian);
 #endif
-        
+
         // 11th data settings (flight con: ail/elv/rud)
+        /** From the X-Plane manual: "The proportion of the control surface
+            deflected." This is normalized between [-1,1] */
         buf.clear();
         code = 11;
         //quint8 header[] = "DATA";
@@ -243,8 +246,8 @@ void XplaneSimulator::processUpdate(const QByteArray& dataBuf)
             case XplaneSimulator::LatitudeLongitudeAltitude:
                 latitude = *((float*)(buf.data()+4*1));
                 longitude = *((float*)(buf.data()+4*2));
-                altitude_msl = *((float*)(buf.data()+4*3))* FT2M;
-                altitude_agl = *((float*)(buf.data()+4*4))* FT2M;
+                altitude_msl = *((float*)(buf.data()+4*3)) * FEET2MILES;
+                altitude_agl = *((float*)(buf.data()+4*4)) * FEET2MILES;
                 break;
 
             case XplaneSimulator::Speed:
@@ -271,7 +274,7 @@ void XplaneSimulator::processUpdate(const QByteArray& dataBuf)
                                 */
 
             case XplaneSimulator::AtmosphereWeather:
-                pressure = *((float*)(buf.data()+4*1)) * INHG2KPA;
+                pressure = *((float*)(buf.data()+4*1)) * INCHES_MERCURY2KPA;
                 temperature = *((float*)(buf.data()+4*2));
                 break;
 
@@ -284,16 +287,16 @@ void XplaneSimulator::processUpdate(const QByteArray& dataBuf)
                 velZ = *((float*)(buf.data()+4*5));
                 break;
 
-                        case XplaneSimulator::AngularVelocities: //In [rad/s]
-                            pitchRate_rad = *((float*)(buf.data()+4*1));
-                            rollRate_rad = *((float*)(buf.data()+4*2));
-                            yawRate_rad = *((float*)(buf.data()+4*3));
-                            break;
+            case XplaneSimulator::AngularVelocities: //In [rad/s]
+                pitchRate_rad = *((float*)(buf.data()+4*1));
+                rollRate_rad = *((float*)(buf.data()+4*2));
+                yawRate_rad = *((float*)(buf.data()+4*3));
+                break;
 
             case XplaneSimulator::Gload:
-                accX = *((float*)(buf.data()+4*6)) * GEE;
-                accY = *((float*)(buf.data()+4*7)) * GEE;
-                accZ = *((float*)(buf.data()+4*5)) * GEE;
+                accX = *((float*)(buf.data()+4*6)) * GRAVITY;
+                accY = *((float*)(buf.data()+4*7)) * GRAVITY;
+                accZ = *((float*)(buf.data()+4*5)) * GRAVITY;
                 break;
 
             default:

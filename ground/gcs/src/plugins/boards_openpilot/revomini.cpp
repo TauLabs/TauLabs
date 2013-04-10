@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       revomini.cpp
- * @author     The PhoenixPilot Team, http://github.com/PhoenixPilot Copyright (C) 2012.
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -41,6 +41,7 @@ RevoMini::RevoMini(void)
 
     setUSBInfo(board);
 
+    boardType = 0x09;
 }
 
 RevoMini::~RevoMini()
@@ -57,6 +58,24 @@ QString RevoMini::shortName()
 QString RevoMini::boardDescription()
 {
     return QString("The OpenPilot project Revolution Mini boards");
+}
+
+//! Return which capabilities this board has
+bool RevoMini::queryCapabilities(BoardCapabilities capability)
+{
+    switch(capability) {
+    case BOARD_CAPABILITIES_GYROS:
+        return true;
+    case BOARD_CAPABILITIES_ACCELS:
+        return true;
+    case BOARD_CAPABILITIES_MAGS:
+        return true;
+    case BOARD_CAPABILITIES_BAROS:
+        return true;
+    case BOARD_CAPABILITIES_RADIO:
+        return true;
+    }
+    return false;
 }
 
 /**

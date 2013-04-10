@@ -3,7 +3,7 @@
  *
  * @file       configattitudetwidget.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     PhoenixPilot, http://github.com/PhoenixPIlot Copyright (C) 2012.
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -53,6 +53,12 @@ public:
     ConfigAttitudeWidget(QWidget *parent = 0);
     ~ConfigAttitudeWidget();
     
+protected:
+    void showEvent(QShowEvent *event);
+    void resizeEvent(QResizeEvent *event);
+
+    Calibration calibration;
+
 private:
     void drawVariancesGraph();
 
@@ -97,6 +103,8 @@ private:
 
     static const int NOISE_SAMPLES = 100;
 
+    QMap<QString, UAVObject::Metadata> originalMetaData;
+
 private slots:
     //! Overriden method from the configTaskWidget to update UI
     virtual void refreshWidgetsValues(UAVObject * obj=NULL);
@@ -107,12 +115,7 @@ private slots:
     // Slots for measuring the sensor noise
     void doStartNoiseMeasurement();
     void doGetNoiseSample(UAVObject *);
-
-protected:
-    void showEvent(QShowEvent *event);
-    void resizeEvent(QResizeEvent *event);
-
-    Calibration calibration;
+    void do_SetDirty();
 
 };
 

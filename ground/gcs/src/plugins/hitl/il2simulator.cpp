@@ -3,6 +3,7 @@
  *
  * @file       il2simulator.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
  * @brief
  * @see        The GNU Public License (GPL) Version 3
  * @defgroup   hitlplugin
@@ -68,16 +69,6 @@
 #include <math.h>
 #include <qxtlogger.h>
 
-const float IL2Simulator::FT2M = 12*.254;
-const float IL2Simulator::KT2MPS = 0.514444444;
-const float IL2Simulator::MPS2KMH = 3.6;
-const float IL2Simulator::KMH2MPS = (1.0/3.6);
-const float IL2Simulator::INHG2KPA = 3.386;
-const float IL2Simulator::RAD2DEG = (180.0/M_PI);
-const float IL2Simulator::DEG2RAD = (M_PI/180.0);
-const float IL2Simulator::NM2DEG =  60.*1852.; // 60 miles per degree times 1852 meters per mile
-const float IL2Simulator::DEG2NM = (1.0/(60.*1852.));
-
 IL2Simulator::IL2Simulator(const SimulatorSettings& params) :
     Simulator(params)
 {
@@ -141,7 +132,7 @@ void IL2Simulator::processUpdate(const QByteArray& inp)
             float value = values[1].toFloat();
             switch (id) {
             case 30:
-                current.cas=value * KMH2MPS;
+                current.cas=value * KM_PER_HOUR2METERS_PER_SECOND;
                 break;
             case 32:
                 current.dZ=value;
@@ -177,8 +168,7 @@ void IL2Simulator::processUpdate(const QByteArray& inp)
     }
 
     // calculate TAS from alt and CAS
-    float gravity =9.805;
-    current.tas = cas2tas(current.cas, current.Z, airParameters, gravity);
+    current.tas = cas2tas(current.cas, current.Z, airParameters, GRAVITY);
 
     // assume the plane actually flies straight and no wind
     // groundspeed is horizontal vector of TAS
@@ -242,7 +232,7 @@ void IL2Simulator::processUpdate(const QByteArray& inp)
     out.groundspeed = current.groundspeed;
 
     out.calibratedAirspeed = current.cas;
-    out.trueAirspeed=cas2tas(current.cas, current.Z, airParameters, gravity);
+    out.trueAirspeed=cas2tas(current.cas, current.Z, airParameters, GRAVITY);
 
     out.dstN=current.Y;
     out.dstE=current.X;
@@ -252,7 +242,7 @@ void IL2Simulator::processUpdate(const QByteArray& inp)
     out.altitude = current.Z;
     out.agl = current.Z;
     out.temperature = airParameters.groundTemp + (current.Z * airParameters.tempLapseRate) - 273.0;
-    out.pressure = airPressureFromAltitude(current.Z, airParameters, gravity) ; // kpa
+    out.pressure = airPressureFromAltitude(current.Z, airParameters, GRAVITY) ; // kpa
 
 
     // Update attActual object
@@ -275,13 +265,13 @@ void IL2Simulator::processUpdate(const QByteArray& inp)
     //Update accelerometer sensor data
     out.accX = current.ddX*Rbe[0][0]
             +current.ddY*Rbe[0][1]
-            +(current.ddZ+GEE)*Rbe[0][2];
+            +(current.ddZ+GRAVITY)*Rbe[0][2];
     out.accY = current.ddX*Rbe[1][0]
             +current.ddY*Rbe[1][1]
-            +(current.ddZ+GEE)*Rbe[1][2];
+            +(current.ddZ+GRAVITY)*Rbe[1][2];
     out.accZ = - (current.ddX*Rbe[2][0]
                      +current.ddY*Rbe[2][1]
-                     +(current.ddZ+GEE)*Rbe[2][2]);
+                     +(current.ddZ+GRAVITY)*Rbe[2][2]);
 
     updateUAVOs(out);
 }

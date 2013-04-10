@@ -7,6 +7,20 @@
 #
 ###############################################################
 
+##############################
+#
+# Check that environmental variables are sane
+#
+##############################
+# Checking for $(OPENOCD_FTDI) to be sane
+ifdef OPENOCD_FTDI
+ ifneq ($(OPENOCD_FTDI),yes)
+  ifneq ($(OPENOCD_FTDI),no)
+   $(error Only yes or no are allowed for OPENOCD_FTDI)
+  endif
+ endif
+endif
+
 # Set up QT toolchain
 QT_SDK_DIR := $(TOOLS_DIR)/qtsdk-v1.2.1
 QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/Desktop/Qt/4.8.1/gcc/bin/qmake

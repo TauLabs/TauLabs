@@ -3,6 +3,7 @@
  *
  * @file       uavobjectutilmanager.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
  * @see        The GNU Public License (GPL) Version 3
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -27,7 +28,7 @@
  */
 
 #include "uavobjectutilmanager.h"
-
+#include "physical_constants.h"
 #include "utils/homelocationutil.h"
 
 #include <QMutexLocker>
@@ -92,9 +93,10 @@ UAVObjectManager* UAVObjectUtilManager::getObjectManager() {
 // SD card saving
 //
 
-/*
-  Add a new object to save in the queue
-  */
+/**
+ * @brief UAVObjectUtilManager::saveObjectToSD Add a new object to save in the queue
+ * @param obj
+ */
 void UAVObjectUtilManager::saveObjectToSD(UAVObject *obj)
 {
     // Add to queue
@@ -110,6 +112,10 @@ void UAVObjectUtilManager::saveObjectToSD(UAVObject *obj)
 
 }
 
+
+/**
+ * @brief UAVObjectUtilManager::saveNextObject
+ */
 void UAVObjectUtilManager::saveNextObject()
 {
     if ( queue.isEmpty() )
@@ -144,9 +150,10 @@ void UAVObjectUtilManager::saveNextObject()
     // operation we asked for (saved, other).
 }
 
+
 /**
   * @brief Process the transactionCompleted message from Telemetry indicating request sent successfully
-  * @param[in] The object just transsacted.  Must be ObjectPersistance
+  * @param[in] The object just transacted.  Must be ObjectPersistance
   * @param[in] success Indicates that the transaction did not time out
   *
   * After a failed transaction (usually timeout) resends the save request.  After a succesful
@@ -178,6 +185,7 @@ void UAVObjectUtilManager::objectPersistenceTransactionCompleted(UAVObject* obj,
     }
 }
 
+
 /**
   * @brief Object persistence operation failed, i.e. we never got an update
   * from the board saying "completed".
@@ -204,7 +212,6 @@ void UAVObjectUtilManager::objectPersistenceOperationFailed()
     }
 
 }
-
 
 
 /**
@@ -240,6 +247,185 @@ void UAVObjectUtilManager::objectPersistenceUpdated(UAVObject * obj)
     }
 }
 
+
+/**
+ * @brief UAVObjectUtilManager::readAllNonSettingsMetadata Convenience function for calling
+ * readMetadata
+ * @return QMap containing list of all requested UAVO metaadata
+ */
+QMap<QString, UAVObject::Metadata> UAVObjectUtilManager::readAllNonSettingsMetadata()
+{
+    return readMetadata(NONSETTINGS_METADATA_ONLY);
+}
+
+
+/**
+ * @brief UAVObjectUtilManager::readMetadata Get metadata for UAVOs
+ * @param metadataReadType Defines if all UAVOs are read, only settings, or only data types
+ * @return QMap containing list of all requested UAVO metaadata
+ */
+QMap<QString, UAVObject::Metadata> UAVObjectUtilManager::readMetadata(metadataSetEnum metadataReadType)
+{
+    QMap<QString, UAVObject::Metadata> metaDataList;
+
+    // Save all metadata objects.
+    UAVObjectManager *objManager = getObjectManager();
+    QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
+    foreach (QList<UAVDataObject*> list, objList) {
+        foreach (UAVDataObject* obj, list) {
+            bool updateMetadataFlag = false;
+            switch (metadataReadType){
+            case ALL_METADATA:
+                updateMetadataFlag = true;
+                break;
+            case SETTINGS_METADATA_ONLY:
+                if(obj->isSettings()) {
+                    updateMetadataFlag = true;
+                }
+                break;
+            case NONSETTINGS_METADATA_ONLY:
+                if(!obj->isSettings()) {
+                    updateMetadataFlag = true;
+                }
+                break;
+            }
+
+            if (updateMetadataFlag){
+                metaDataList.insert(obj->getName(), obj->getMetadata());
+            }
+        }
+    }
+
+    return metaDataList;
+}
+
+
+/**
+ * @brief UAVObjectUtilManager::setAllNonSettingsMetadata Convenience function for calling setMetadata
+ * @param metaDataList QMap containing list of all UAVO metaadata to be updated
+ * @return
+ */
+bool UAVObjectUtilManager::setAllNonSettingsMetadata(QMap<QString, UAVObject::Metadata> metaDataList)
+{
+    metadataSetEnum metadataSetType = NONSETTINGS_METADATA_ONLY;
+    setMetadata(metaDataList, metadataSetType);
+
+    return true;
+}
+
+
+/**
+ * @brief UAVObjectUtilManager::setMetadata Sets the metadata for all metadata in QMap
+ * @param metaDataSetList QMap containing list of all UAVO metaadata to be updated
+ * @param metadataSetType Controls if all metadata is updated, only settings metadata,
+ * or only dynamic data metadata
+ * @return
+ */
+bool UAVObjectUtilManager::setMetadata(QMap<QString, UAVObject::Metadata> metaDataSetList, metadataSetEnum metadataSetType)
+{
+    metadataChecklist = metaDataSetList;
+
+    // Load all metadata objects.
+    UAVObjectManager *objManager = getObjectManager();
+    QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
+    foreach (QList<UAVDataObject*> list, objList) {
+        foreach (UAVDataObject* obj, list) {
+            bool updateMetadataFlag = false;
+            switch (metadataSetType){
+            case ALL_METADATA:
+                updateMetadataFlag = true;
+                break;
+            case SETTINGS_METADATA_ONLY:
+                if(obj->isSettings()) {
+                    updateMetadataFlag = true;
+                }
+                break;
+            case NONSETTINGS_METADATA_ONLY:
+                if(!obj->isSettings()) {
+                    updateMetadataFlag = true;
+                }
+                break;
+            }
+
+            if (metaDataSetList.contains(obj->getName()) && updateMetadataFlag){
+                obj->setMetadata(metaDataSetList.value(obj->getName()));
+
+                // Connect to object
+                connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(metadataTransactionCompleted(UAVObject*,bool)));
+                // Request update
+                obj->requestUpdate();
+
+            }
+        }
+    }
+
+    return true;
+}
+
+
+/**
+ * @brief UAVObjectUtilManager::resetMetadata Resets all metadata to defaults (from XML definitions)
+ * @return
+ */
+bool UAVObjectUtilManager::resetMetadataToDefaults()
+{
+    QMap<QString, UAVObject::Metadata> metaDataList;
+
+    // Load all metadata object defaults
+    UAVObjectManager *objManager = getObjectManager();
+    QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
+    foreach (QList<UAVDataObject*> list, objList) {
+        foreach (UAVDataObject* obj, list) {
+            metaDataList.insert(obj->getName(), obj->getDefaultMetadata());
+        }
+    }
+
+    // Save metadata
+    metadataSetEnum metadataSetType = ALL_METADATA;
+    bool ret = setMetadata(metaDataList, metadataSetType);
+
+    return ret;
+}
+
+
+/**
+ * @brief ConfigTaskWidget::metadataTransactionCompleted Called by the retrieved object when a transaction is completed.
+ * @param uavoObject
+ * @param success
+ */
+void UAVObjectUtilManager::metadataTransactionCompleted(UAVObject* uavoObject, bool success)
+{
+    Q_UNUSED(success);
+    // Disconnect from sending UAVO
+    disconnect(uavoObject, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(metadataTransactionCompleted(UAVObject*,bool)));
+
+
+    // If the UAVO is on the list, check that the data was set correctly
+    if(metadataChecklist.contains(uavoObject->getName()))
+    {
+        UAVObject::Metadata mdata = metadataChecklist.value(uavoObject->getName());
+        if( uavoObject->getMetadata().flags == mdata.flags &&
+                uavoObject->getMetadata().flightTelemetryUpdatePeriod == mdata.flightTelemetryUpdatePeriod &&
+                uavoObject->getMetadata().gcsTelemetryUpdatePeriod == mdata.gcsTelemetryUpdatePeriod &&
+                uavoObject->getMetadata().loggingUpdatePeriod == mdata.loggingUpdatePeriod)
+        {
+            metadataChecklist.take(uavoObject->getName());
+        }
+        else{
+            qDebug() << "Writing metadata failed on " << uavoObject->getName();
+            Q_ASSERT(0);
+        }
+    }
+
+   if(metadataChecklist.empty()){
+       //We're done, that was the last item checked off the list.
+       emit completedMetadataWrite();
+   }
+
+   // TODO: Implement a timeout
+}
+
+
 /**
   * Helper function that makes sure FirmwareIAP is updated and then returns the data
   */
@@ -265,6 +451,18 @@ int UAVObjectUtilManager::getBoardModel()
     int ret=firmwareIapData.BoardType <<8;
     ret = ret + firmwareIapData.BoardRevision;
     return ret;
+}
+
+//! Get the IBoardType corresponding to the connected board
+Core::IBoardType *UAVObjectUtilManager::getBoardType()
+{
+    int boardTypeNum = (getBoardModel() >> 8) & 0x00ff;
+    QList <Core::IBoardType *> boards = pm->getObjects<Core::IBoardType>();
+    foreach (Core::IBoardType *board, boards) {
+        if (board->getBoardType() == boardTypeNum)
+            return board;
+    }
+    return NULL;
 }
 
 /**
@@ -330,15 +528,6 @@ int UAVObjectUtilManager::setHomeLocation(double LLA[3], bool save_to_sdcard)
     homeLocationData.Be[0] = Be[0];
     homeLocationData.Be[1] = Be[1];
     homeLocationData.Be[2] = Be[2];
-
-    //Check that gravity !=0
-    bool ok=true;
-    while(homeLocationData.g_e < 3 || homeLocationData.g_e > 25 || !ok){ // 3 is Mars's gravity and 25 Jupiter's
-        homeLocationData.g_e=9.805;
-//        //THIS DOESN'T WORK BECAUSE `this` IS NOT A WIDGET AND I DON'T KNOW HOW TO FIND ONE
-//        homeLocationData.g_e = QInputDialog::getDouble(this, tr("Gravity setting error"),
-//                                          tr("Please set local gravity in [m/s^2]. If unsure, leave the default."), 9.805, 3, 25, 3, &ok);
-    }
 
     homeLocationData.Set = HomeLocation::SET_TRUE;
 

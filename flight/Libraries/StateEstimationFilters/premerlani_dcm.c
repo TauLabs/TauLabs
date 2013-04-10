@@ -8,6 +8,7 @@
  *
  * @file       premerlani_dcm.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      Module to handle all comms to the AHRS on a periodic basis.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -41,6 +42,7 @@
  */
 
 #include "pios.h"
+#include "physical_constants.h"
 #include "premerlani_dcm.h"
 #include <pios_board_info.h>
 #include "CoordinateConversions.h"
@@ -55,7 +57,7 @@
 
 //Global variables
 extern AttitudeSettingsData attitudeSettings;
-extern InertialSensorSettingsData inertialSensorSettings;
+extern SensorSettingsData sensorSettings;
 extern GyrosBiasData gyrosBias;
 
 struct GlobalDcmDriftVariables {
@@ -91,7 +93,6 @@ extern struct GlobalDcmDriftVariables *drft;
 // Private types
 
 // Private variables
-#define GRAV -9.805f
 
 //#define DRIFT_TYPE CCC
 enum DRIFT_CORRECTION_ALGOS {
@@ -303,7 +304,7 @@ static void rollPitch_drift_GPS(float Rbe[3][3], float accels_e_int[3],
 	
 	dGPSdt_e[0] = (gpsVelocity.North - drft->GPSV_old[0]) / delT_between_updates;
 	dGPSdt_e[1] = (gpsVelocity.East - drft->GPSV_old[1]) / delT_between_updates;
-	dGPSdt_e[2] = GRAV + (gpsVelocity.Down - drft->GPSV_old[2]) / delT_between_updates;
+	dGPSdt_e[2] = -GRAVITY + (gpsVelocity.Down - drft->GPSV_old[2]) / delT_between_updates;
 	
 	drft->GPSV_old[0] = gpsVelocity.North;
 	drft->GPSV_old[1] = gpsVelocity.East;

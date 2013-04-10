@@ -8,6 +8,7 @@
  *
  * @file       gps_airspeed.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      Airspeed module, handles temperature and pressure readings from BMP085
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -31,11 +32,11 @@
 
 
 #include "openpilot.h"
+#include "physical_constants.h"
 #include "gps_airspeed.h"
 #include "gpsvelocity.h"
 #include "attitudeactual.h"
 #include "CoordinateConversions.h"
-
 
 
 // Private constants
@@ -43,9 +44,6 @@
 #define GPS_AIRSPEED_BIAS_KI           0.1f   //Needs to be settable in a UAVO
 #define SAMPLING_DELAY_MS_GPS          100    //Needs to be settable in a UAVO
 #define GPS_AIRSPEED_TIME_CONSTANT_MS  500.0f //Needs to be settable in a UAVO
-
-#define F_PI 3.141526535897932f
-#define DEG2RAD (F_PI/180.0f)
 
 // Private types
 struct GPSGlobals {
