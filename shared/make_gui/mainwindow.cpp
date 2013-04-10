@@ -62,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->action1_2->setChecked(true);
     proc=new QProcess(this);
     connect(proc,SIGNAL(started()),this,SLOT(onProcStarted()));
-    connect(proc,SIGNAL(finished(int)),this,SLOT(onProcFinish()));
+    connect(proc,SIGNAL(finished(int)),this,SLOT(onProcFinish(int)));
     proc->setWorkingDirectory(projectRoot.absolutePath());
     connect(proc,SIGNAL(readyReadStandardError()),this,SLOT(onProcErrorOutputAvail()));
     connect(proc,SIGNAL(readyReadStandardOutput()),this,SLOT(onProcStandardOutputAvail()));
@@ -504,8 +504,23 @@ void MainWindow::onProcStarted()
     processButtonsSetEnabled(false);
 }
 
-void MainWindow::onProcFinish()
+void MainWindow::onProcFinish(int result)
 {
+    QColor backup=ui->debugOutput->textColor();
+    if(result == 0)
+    {
+        ui->debugOutput->setTextColor(Qt::green);
+        ui->debugOutput->insertPlainText("BUILD SUCCEEDED");
+    }
+    else
+    {
+        ui->debugOutput->setTextColor(Qt::red);
+        ui->debugOutput->insertPlainText("BUILD FAILED");
+    }
+    ui->debugOutput->setTextColor(backup);
+    QTextCursor c =  ui->debugOutput->textCursor();
+    c.movePosition(QTextCursor::End);
+    ui->debugOutput->setTextCursor(c);
     processButtonsSetEnabled(true);
 }
 

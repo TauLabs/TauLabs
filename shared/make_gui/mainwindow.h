@@ -74,15 +74,12 @@ private slots:
     void onVerbosityAction(bool);
     void onJobsAction(bool);
     void onProcStarted();
-    void onProcFinish();
+    void onProcFinish(int);
     void on_pushButton_clicked();
     void on_buildAllPB_clicked();
     void on_cleanAllPB_clicked();
-
     void on_gcsBuildPB_clicked();
-
     void on_gcsCleanPB_clicked();
-
     void on_cancelProcessPB_clicked();
 
 private:
