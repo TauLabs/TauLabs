@@ -429,7 +429,7 @@ ifeq ($(shell [ -d "$(MAKE_GUI_DIR)" ] && echo "exists"), exists)
 ifeq ($(UNAME), Darwin)
 	$(MAKE_GUI_DIR)gui.app/Contents/MacOS/gui
 else
-	$(MAKE_GUI_DIR)/gui
+	$(MAKE_GUI_DIR)gui
 endif
 else
 	 @echo "make gui not installed, run make gui_install"
