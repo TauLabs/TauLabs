@@ -68,6 +68,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(proc,SIGNAL(readyReadStandardOutput()),this,SLOT(onProcStandardOutputAvail()));
     loadToolTargets();
     loadFlightTargets();
+    QFont font("Monospace");
+    font.setStyleHint(QFont::TypeWriter);
+    ui->debugOutput->setFont(font);
 }
 
 MainWindow::~MainWindow()
