@@ -81,7 +81,7 @@ private slots:
     void on_gcsBuildPB_clicked();
     void on_gcsCleanPB_clicked();
     void on_cancelProcessPB_clicked();
-
+    void startProcess(QStringList arguments);
 private:
     void processButtonsSetEnabled(bool val);
     void loadFlightGui();

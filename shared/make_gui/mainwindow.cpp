@@ -85,9 +85,21 @@ void MainWindow::on_tool_installPB_clicked()
         }
     }
     arguments<<verbStr<<jobsStr;
-    proc->start("make",arguments);
+    startProcess(arguments);
 }
 
+void MainWindow::startProcess(QStringList arguments)
+{
+    QString temp;
+    foreach(QString str, arguments)
+        temp +=str + " ";
+    temp += "\n\r";
+    ui->debugOutput->insertPlainText("make " + temp);
+    QTextCursor c =  ui->debugOutput->textCursor();
+    c.movePosition(QTextCursor::End);
+    ui->debugOutput->setTextCursor(c);
+    proc->start("make",arguments);
+}
 
 void MainWindow::onProcStandardOutputAvail()
 {
@@ -123,7 +135,7 @@ void MainWindow::on_tool_cleanPB_clicked()
         }
     }
     arguments<<verbStr<<jobsStr;
-    proc->start("make",arguments);
+    startProcess(arguments);
 }
 
 
@@ -326,7 +338,7 @@ void MainWindow::on_buildPB_clicked()
         arguments<<QString("%0=%1").arg(box->text()).arg(box->isChecked()?"YES":"NO");
     }
     arguments<<verbStr<<jobsStr;
-    proc->start("make",arguments);
+    startProcess(arguments);
 }
 
 
@@ -389,7 +401,7 @@ void MainWindow::on_cleanPB_clicked()
     QStringList arguments;
     arguments<<target+"_clean";
     arguments<<verbStr<<jobsStr;
-    proc->start("make",arguments);
+    startProcess(arguments);
 }
 
 void MainWindow::on_programPB_clicked()
@@ -402,7 +414,7 @@ void MainWindow::on_programPB_clicked()
         arguments<<QString("%0=%1").arg(box->text()).arg(box->isChecked()?"YES":"NO");
     }
     arguments<<verbStr<<jobsStr;
-    proc->start("make",arguments);
+    startProcess(arguments);
 }
 
 void MainWindow::on_actionSave_triggered()
@@ -528,7 +540,7 @@ void MainWindow::on_pushButton_clicked()
 {
     QStringList arguments;
     arguments<<"me a sandwich";
-    proc->start("make",arguments);
+    startProcess(arguments);
 }
 
 void MainWindow::on_buildAllPB_clicked()
@@ -537,7 +549,7 @@ void MainWindow::on_buildAllPB_clicked()
     QStringList arguments;
     arguments<<target;
     arguments<<verbStr<<jobsStr;
-    proc->start("make",arguments);
+    startProcess(arguments);
 }
 
 void MainWindow::on_cleanAllPB_clicked()
@@ -546,7 +558,7 @@ void MainWindow::on_cleanAllPB_clicked()
     QStringList arguments;
     arguments<<target;
     arguments<<verbStr<<jobsStr;
-    proc->start("make",arguments);
+    startProcess(arguments);
 }
 
 void MainWindow::on_gcsBuildPB_clicked()
@@ -556,7 +568,7 @@ void MainWindow::on_gcsBuildPB_clicked()
     arguments<<target;
     arguments<<QString("GCS_BUILD_CONF=%0").arg(ui->gcsReleaseRB->isChecked()?"release":"debug");
     arguments<<verbStr<<jobsStr;
-    proc->start("make",arguments);
+    startProcess(arguments);
 }
 
 void MainWindow::on_gcsCleanPB_clicked()
@@ -565,7 +577,7 @@ void MainWindow::on_gcsCleanPB_clicked()
     QStringList arguments;
     arguments<<target;
     arguments<<QString("GCS_BUILD_CONF=%0").arg(ui->gcsReleaseRB->isChecked()?"release":"debug");
-    proc->start("make",arguments);
+    startProcess(arguments);
 }
 
 void MainWindow::on_cancelProcessPB_clicked()
