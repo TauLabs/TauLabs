@@ -243,7 +243,7 @@
     <item>
      <widget class="QPushButton" name="cancelProcessPB">
       <property name="text">
-       <string>Cancel Running process</string>
+       <string>Cancel running process</string>
       </property>
      </widget>
     </item>

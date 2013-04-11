@@ -74,7 +74,7 @@ private slots:
     void onVerbosityAction(bool);
     void onJobsAction(bool);
     void onProcStarted();
-    void onProcFinish(int);
+    void onProcFinish(int, QProcess::ExitStatus exitStatus);
     void on_pushButton_clicked();
     void on_buildAllPB_clicked();
     void on_cleanAllPB_clicked();

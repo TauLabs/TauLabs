@@ -62,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->action1_2->setChecked(true);
     proc=new QProcess(this);
     connect(proc,SIGNAL(started()),this,SLOT(onProcStarted()));
-    connect(proc,SIGNAL(finished(int)),this,SLOT(onProcFinish(int)));
+    connect(proc,SIGNAL(finished(int,QProcess::ExitStatus)),this,SLOT(onProcFinish(int,QProcess::ExitStatus)));
     proc->setWorkingDirectory(projectRoot.absolutePath());
     connect(proc,SIGNAL(readyReadStandardError()),this,SLOT(onProcErrorOutputAvail()));
     connect(proc,SIGNAL(readyReadStandardOutput()),this,SLOT(onProcStandardOutputAvail()));
@@ -121,6 +121,7 @@ void MainWindow::onProcErrorOutputAvail()
     ui->debugOutput->setTextColor(Qt::red);
     ui->debugOutput->insertPlainText(str);
     ui->debugOutput->setTextColor(backup);
+    ui->debugOutput->insertPlainText("\r");
     QTextCursor c =  ui->debugOutput->textCursor();
     c.movePosition(QTextCursor::End);
     ui->debugOutput->setTextCursor(c);
@@ -219,6 +220,7 @@ void MainWindow::parseMakefile(QString path, QString target)
                 ui->debugOutput->setTextColor(Qt::red);
                 ui->debugOutput->append(QString("Problem parsing %0 @startgroup %1 tag found without @endgroup").arg(path).arg(groupID));
                 ui->debugOutput->setTextColor(backup);
+                ui->debugOutput->insertPlainText("\r");
             }
         }
     }
@@ -519,12 +521,16 @@ void MainWindow::onProcStarted()
     processButtonsSetEnabled(false);
 }
 
-void MainWindow::onProcFinish(int result)
+void MainWindow::onProcFinish(int result,QProcess::ExitStatus exitStatus)
 {
     QColor backup=ui->debugOutput->textColor();
-    if(result == 0)
+    if(exitStatus == QProcess::CrashExit)
     {
-        ui->debugOutput->setTextColor(Qt::green);
+        ui->debugOutput->setTextColor(Qt::red);
+        ui->debugOutput->insertPlainText("BUILD CANCELED");
+    }
+    else if(result == 0)
+    {
         ui->debugOutput->insertPlainText("BUILD SUCCEEDED");
     }
     else
@@ -533,7 +539,7 @@ void MainWindow::onProcFinish(int result)
         ui->debugOutput->insertPlainText("BUILD FAILED");
     }
     ui->debugOutput->setTextColor(backup);
-    ui->debugOutput->insertPlainText("\n\r");
+    ui->debugOutput->insertPlainText("\r");
     QTextCursor c =  ui->debugOutput->textCursor();
     c.movePosition(QTextCursor::End);
     ui->debugOutput->setTextCursor(c);
