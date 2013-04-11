@@ -139,6 +139,8 @@ int32_t tablet_control_select()
 			float NED[3];
 			tabletInfo_to_ned(&tabletInfo, NED);
 
+			mode = FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD;
+
 			PositionActualData positionActual;
 			PositionActualGet(&positionActual);
 
@@ -166,6 +168,27 @@ int32_t tablet_control_select()
 		}
 			break;
 		case TABLETINFO_TABLETMODEDESIRED_LAND:
+			if (mode != FLIGHTSTATUS_FLIGHTMODE_LAND) {
+				mode = FLIGHTSTATUS_FLIGHTMODE_LAND;
+
+				PositionActualData positionActual;
+				PositionActualGet(&positionActual);
+
+				pathDesired.Start[PATHDESIRED_START_NORTH] = positionActual.North;
+				pathDesired.Start[PATHDESIRED_START_EAST] = positionActual.East;
+				pathDesired.Start[PATHDESIRED_START_DOWN] = positionActual.Down;
+				pathDesired.End[PATHDESIRED_END_NORTH] = positionActual.North;
+				pathDesired.End[PATHDESIRED_END_EAST] = positionActual.East;
+				pathDesired.End[PATHDESIRED_END_DOWN] = 100; // 100 m below ground should cover drift
+				pathDesired.StartingVelocity=10;
+				pathDesired.EndingVelocity=10;
+
+				pathDesired.ModeParameters = 0;
+				pathDesired.Mode = PATHDESIRED_MODE_LAND;
+
+				PathDesiredSet(&pathDesired);
+			}
+			break;
 		default:
 			AlarmsSet(SYSTEMALARMS_ALARM_MANUALCONTROL, SYSTEMALARMS_ALARM_ERROR);
 

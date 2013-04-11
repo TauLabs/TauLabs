@@ -134,6 +134,7 @@ int32_t configuration_check()
 				}
 				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_POSITIONHOLD:
+			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_LAND:
 				if (coptercontrol) {
 					error_code = SYSTEMALARMS_CONFIGERROR_POSITIONHOLD;
 				}
