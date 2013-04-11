@@ -51,4 +51,20 @@
 	<string name="uiToastLightOff">Light OFF</string>
 
 	<string name="select_file_to_email_it">Select file to email it</string>
+
+	<string name="reset_home_location">Reset Home Location</string>
+
+	<string name="reset_home_altitude">Reset Home Altitude</string>
+
+	<string name="_android_attr_textappearancemedium">\?android:attr/textAppearanceMedium</string>
+
+	<string name="pfd">PFD</string>
+
+	<string name="transmitter">Transmitter</string>
+
+	<string name="attitude_adjustment">Attitude Adjustment</string>
+
+	<string name="objecteditor">ObjectEditor</string>
+
+	<string name="logger">Logger</string>
 </resources>

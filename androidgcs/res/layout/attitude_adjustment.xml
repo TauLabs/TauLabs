@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="These buttons only work while disarmed."
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/reset_home_altitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reset_home_altitude" />
+
+    <Button
+        android:id="@+id/reset_home_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reset_home_location" />
+
+    <Button
+        android:id="@+id/reset_home_to_tablet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset Home to Tablet" />
+    
+</LinearLayout>
