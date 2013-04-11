@@ -533,6 +533,7 @@ void MainWindow::onProcFinish(int result)
         ui->debugOutput->insertPlainText("BUILD FAILED");
     }
     ui->debugOutput->setTextColor(backup);
+    ui->debugOutput->insertPlainText("\n\r");
     QTextCursor c =  ui->debugOutput->textCursor();
     c.movePosition(QTextCursor::End);
     ui->debugOutput->setTextCursor(c);
