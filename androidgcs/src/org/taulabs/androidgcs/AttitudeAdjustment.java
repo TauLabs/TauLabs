@@ -25,6 +25,7 @@ package org.taulabs.androidgcs;
 import org.taulabs.uavtalk.UAVObject;
 
 import android.os.Bundle;
+import android.view.View;
 
 
 public class AttitudeAdjustment extends ObjectManagerActivity {
@@ -34,26 +35,75 @@ public class AttitudeAdjustment extends ObjectManagerActivity {
 	final boolean VERBOSE = false;
 	final boolean DEBUG = true;
 
-	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.attitude_adjustment);
-
-	}
-
-	@Override
-	void onOPConnected() {
-		super.onOPConnected();
-
-		UAVObject stats = objMngr.getObject("FlightTelemetryStats");
-		if (stats != null) {
-			registerObjectUpdates(stats);
-		}
 	}
 
 	@Override
 	public void objectUpdated(UAVObject obj) {
 	}
 
+	/**
+	 * Verify disarmed and if so force HomeLocation to unset.  This
+	 * triggers an update of the home location and should reset the
+	 * state estimator when required.
+	 * @param v The button pressed
+	 */
+	public void homeToUav(View v) {
+		if (!disarmed())
+			return;
+
+		UAVObject home = objMngr.getObject("HomeLocation");
+		if (home == null)
+			return;
+
+		// This will trigger the UAV to update the home location
+		home.getField("Set").setValue("False");
+		home.updated();
+	}
+
+	//! Set the home location altitude to the current GPS altitude
+	public void homeAltitudeToUav(View v) {
+		if (!disarmed())
+			return;
+
+		UAVObject home = objMngr.getObject("HomeLocation");
+		UAVObject gps = objMngr.getObject("GPSPosition");
+		if (home == null || gps == null)
+			return;
+
+		// TODO: for an update of GPS and perform the calculation
+		// based on new results
+
+		// The GPS altitude is consistently corrected by the
+		// geoid separation on the flight controller so must
+		// be done when setting the home location
+		double altitude = gps.getField("Altitude").getDouble() +
+				gps.getField("GeoidSeparation").getDouble();
+		home.getField("Altitude").setValue(altitude);
+		home.updated();
+	}
+
+	public void homeToTablet(View v) {
+
+	}
+
+	//! Verify the FC id disarmed
+	private boolean disarmed() {
+		if (objMngr == null)
+			return false;
+
+		// TODO: Force an update of the flight status object
+
+		// verify the UAV is not armed
+		UAVObject flightStatus = objMngr.getObject("FlightStatus");
+		if (flightStatus == null)
+			return false;
+		if (flightStatus.getField("Armed").getValue().toString().compareTo("Disarmed") != 0)
+			return false;
+
+		return true;
+	}
 }
