@@ -745,6 +745,7 @@ static void accumulate_gyro(GyrosData *gyrosData)
 
 
 #include "insgps.h"
+static bool home_location_updated;
 /**
  * @brief Use the INSGPS fusion algorithm in either indoor or outdoor mode (use GPS)
  * @params[in] first_run This is the first run so trigger reinitialization
@@ -785,13 +786,18 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	uint16_t sensors = 0;
 	float dT;
 
-	if (first_run) {
+	// When the home location is adjusted the filter should be
+	// reinitialized to correctly offset the baro and make sure it 
+	// does not blow up.  This flag should only be set when not armed.
+	if (first_run || home_location_updated) {
 		inited = false;
 
 		mag_updated = 0;
 		baro_updated = 0;
 		gps_updated = 0;
 		gps_vel_updated = 0;
+
+		home_location_updated = false;
 
 		ins_last_time = PIOS_DELAY_GetRaw();
 
@@ -1139,15 +1145,25 @@ static void settingsUpdatedCb(UAVObjEvent * ev)
 		INSSetBaroVar(insSettings.baro_var);
 	}
 	if(ev == NULL || ev->obj == HomeLocationHandle()) {
-		HomeLocationGet(&homeLocation);
-		// Compute matrix to convert deltaLLA to NED
-		float lat, alt;
-		lat = homeLocation.Latitude / 10.0e6f * DEG2RAD;
-		alt = homeLocation.Altitude;
+		uint8_t armed;
+		FlightStatusArmedGet(&armed);
 
-		T[0] = alt+6.378137E6f;
-		T[1] = cosf(lat)*(alt+6.378137E6f);
-		T[2] = -1.0f;
+		// Do not update the home location while armed as this can blow up the 
+		// filter.  This will need to be overhauled to handle long distance
+		// flights
+		if (armed == FLIGHTSTATUS_ARMED_DISARMED) {
+			HomeLocationGet(&homeLocation);
+			// Compute matrix to convert deltaLLA to NED
+			float lat, alt;
+			lat = homeLocation.Latitude / 10.0e6f * DEG2RAD;
+			alt = homeLocation.Altitude;
+
+			T[0] = alt+6.378137E6f;
+			T[1] = cosf(lat)*(alt+6.378137E6f);
+			T[2] = -1.0f;
+
+			home_location_updated = true;
+		}
 	}
 	if (ev == NULL || ev->obj == AttitudeSettingsHandle()) {
 		AttitudeSettingsGet(&attitudeSettings);
