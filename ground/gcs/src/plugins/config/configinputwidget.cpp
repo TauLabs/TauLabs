@@ -674,7 +674,7 @@ void ConfigInputWidget::fastMdata()
 
     // Update data rates
     uint16_t slowUpdate = 5000; // in [ms]
-    uint16_t fastUpdate =   50; // in [ms]
+    uint16_t fastUpdate =  150; // in [ms]
 
     // Iterate over list of UAVObjects, configuring all dynamic data metadata objects.
     UAVObjectManager *objManager = getObjectManager();
@@ -684,15 +684,20 @@ void ConfigInputWidget::fastMdata()
         foreach (UAVDataObject* obj, list) {
             if(!obj->isSettings()) {
                 UAVObject::Metadata mdata = obj->getMetadata();
-                UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
+                UAVObject::SetFlightAccess(mdata, UAVObject::ACCESS_READWRITE);
 
                 switch(obj->getObjID()){
-                    case AccessoryDesired::OBJID:
                     case ReceiverActivity::OBJID:
+                        UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_ONCHANGE);
+                        break;
+                    case AccessoryDesired::OBJID:
+                    case FlightStatus::OBJID:
                     case ManualControlCommand::OBJID:
+                        UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
                         mdata.flightTelemetryUpdatePeriod = fastUpdate;
                         break;
                     default:
+                        UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
                         mdata.flightTelemetryUpdatePeriod = slowUpdate;
                 }
 
@@ -835,8 +840,8 @@ void ConfigInputWidget::identifyControls()
     m_config->wzText->clear();
     setTxMovement(nothing);
 
-    // Wait to ensure that the transmitter stick has settled down, in case the user
-    // released it abruptly.
+    // Wait to ensure that the user is no longer moving the sticks. Empricially,
+    // this delay works well across a broad range of users and transmitters.
     QTimer::singleShot(CHANNEL_IDENTIFICATION_WAIT_TIME_MS, this, SLOT(wzNext()));
 }
 

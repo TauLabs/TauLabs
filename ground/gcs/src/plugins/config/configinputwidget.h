@@ -27,25 +27,28 @@
 #ifndef CONFIGINPUTWIDGET_H
 #define CONFIGINPUTWIDGET_H
 
+#include <QGraphicsView>
+#include <QList>
+#include <QPointer>
+#include <QRadioButton>
+#include <QtGui/QWidget>
+#include <QtSvg/QSvgRenderer>
+#include <QtSvg/QGraphicsSvgItem>
+
 #include "ui_input.h"
-#include "../uavobjectwidgetutils/configtaskwidget.h"
+#include "ui_inputchannelform.h"
+
+#include "uavobjectwidgetutils/configtaskwidget.h"
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
 #include "uavobject.h"
-#include <QtGui/QWidget>
-#include <QList>
 #include "inputchannelform.h"
-#include "ui_inputchannelform.h"
-#include <QRadioButton>
+
+#include "accessorydesired.h"
+#include "flightstatus.h"
 #include "manualcontrolcommand.h"
 #include "manualcontrolsettings.h"
 #include "receiveractivity.h"
-#include <QGraphicsView>
-#include <QtSvg/QSvgRenderer>
-#include <QtSvg/QGraphicsSvgItem>
-#include "flightstatus.h"
-#include "accessorydesired.h"
-#include <QPointer>
 
 class Ui_InputWidget;
 
@@ -63,12 +66,17 @@ public:
         void startInputWizard() { goToWizard(); }
 
 private:
-        // It is currently unclear why the wait time was set to 2500ms. Extensive testing
-        // will have to be done in order to change it.
+        // This was set through trial and error. Extensive testing
+        // will have to be done before changing it. At a minimum,
+        // this should include Turnigy9x, FrSky, S.BUS, and Spektrum
+        // transmitters.
         static const int DEBOUNCE_THRESHOLD_COUNT = 1;
-        // TODO: It is currently unclear why the DEBOUNCE_THRESHOLD_COUNT was set to 1.Extensive
-        // testing will have to be done in order to change it.
+        // This was set through trial and error. Extensive testing
+        // will have to be done before changing it. At a minimum,
+        // this should include Turnigy9x, FrSky, S.BUS, and Spektrum
+        // transmitters.
         static const int CHANNEL_IDENTIFICATION_WAIT_TIME_MS = 2500;
+
         bool growing;
         bool reverse[ManualControlSettings::CHANNELNEUTRAL_NUMELEM];
         txMovements currentMovement;
