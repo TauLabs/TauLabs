@@ -338,8 +338,11 @@ void ConfigInputWidget::wzCancel()
     wizardStep=wizardNone;
     m_config->stackedWidget->setCurrentIndex(0);
 
-    // Load settings back from beginning of wizard
+    // Load manual settings back from beginning of wizard
     manualSettingsObj->setData(previousManualSettingsData);
+
+    // Load original metadata
+    restoreMdata();
 }
 
 void ConfigInputWidget::wzNext()
@@ -492,11 +495,13 @@ void ConfigInputWidget::wizardSetUpStep(enum wizardSteps step)
         nextChannel();
         manualSettingsData=manualSettingsObj->getData();
         connect(receiverActivityObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(identifyControls()));
+        fastMdata();
         m_config->wzNext->setEnabled(false);
         break;
     case wizardIdentifyCenter:
         setTxMovement(centerAll);
         m_config->wzText->setText(QString(tr("Please center all controls and press next when ready (if your FlightMode switch has only two positions, leave it in either position).")));
+        fastMdata();
         break;
     case wizardIdentifyLimits:
     {
@@ -625,7 +630,6 @@ void ConfigInputWidget::wizardTearDownStep(enum wizardSteps step)
         disconnect(flightStatusObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
         disconnect(accessoryDesiredObj0, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
         manualSettingsObj->setData(manualSettingsData);
-        restoreMdata();
         setTxMovement(nothing);
         break;
     case wizardIdentifyInverted:
@@ -641,7 +645,6 @@ void ConfigInputWidget::wizardTearDownStep(enum wizardSteps step)
         }
         extraWidgets.clear();
         disconnect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
-        restoreMdata();
         break;
     case wizardFinish:
         dimOtherControls(false);
@@ -657,15 +660,46 @@ void ConfigInputWidget::wizardTearDownStep(enum wizardSteps step)
 }
 
 /**
-  * Set manual control command to fast updates
-  */
+ * @brief ConfigInputWidget::fastMdata Set manual control command to fast updates. Set all others to updates slowly
+ */
 void ConfigInputWidget::fastMdata()
 {
-    manualControlMdata = manualCommandObj->getMetadata();
-    UAVObject::Metadata mdata = manualControlMdata;
-    UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
-    mdata.flightTelemetryUpdatePeriod = 150;
-    manualCommandObj->setMetadata(mdata);
+    // Store original metadata
+    UAVObjectUtilManager* utilMngr = getObjectUtilManager();
+    originalMetaData = utilMngr->readAllNonSettingsMetadata();
+
+    // Update data rates
+    uint16_t slowUpdate = 5000; // in [ms]
+    uint16_t fastUpdate =   50; // in [ms]
+
+    // Iterate over list of UAVObjects, configuring all dynamic data metadata objects.
+    UAVObjectManager *objManager = getObjectManager();
+    QMap<QString, UAVObject::Metadata> metaDataList;
+    QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
+    foreach (QList<UAVDataObject*> list, objList) {
+        foreach (UAVDataObject* obj, list) {
+            if(!obj->isSettings()) {
+                UAVObject::Metadata mdata = obj->getMetadata();
+                UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
+
+                switch(obj->getObjID()){
+                    case ManualControlCommand::OBJID:
+                        mdata.flightTelemetryUpdatePeriod = fastUpdate;
+                        break;
+                    default:
+                        mdata.flightTelemetryUpdatePeriod = slowUpdate;
+                }
+
+                metaDataList.insert(obj->getName(), mdata);
+
+            }
+        }
+    }
+
+    // Set new metadata
+    utilMngr->setAllNonSettingsMetadata(metaDataList);
+
+
 }
 
 /**
@@ -673,7 +707,8 @@ void ConfigInputWidget::fastMdata()
   */
 void ConfigInputWidget::restoreMdata()
 {
-    manualCommandObj->setMetadata(manualControlMdata);
+    UAVObjectUtilManager* utilMngr = getObjectUtilManager();
+    utilMngr->setAllNonSettingsMetadata(originalMetaData);
 }
 
 /**

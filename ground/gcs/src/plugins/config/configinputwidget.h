@@ -108,6 +108,7 @@ private:
         ManualControlSettings::DataFields previousManualSettingsData;
         ReceiverActivity * receiverActivityObj;
         ReceiverActivity::DataFields receiverActivityData;
+        QMap<QString, UAVObject::Metadata> originalMetaData;
 
         QSvgRenderer *m_renderer;
 
