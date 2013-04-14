@@ -60,7 +60,7 @@ public class AttitudeAdjustment extends ObjectManagerActivity {
 			return;
 
 		// This will trigger the UAV to update the home location
-		home.getField("Set").setValue("False");
+		home.getField("Set").setValue("FALSE");
 		home.updated();
 	}
 
