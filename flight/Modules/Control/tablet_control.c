@@ -95,7 +95,7 @@ int32_t tablet_control_select(bool reset_controller)
 
 				pathDesired.End[0] = positionActual.North;
 				pathDesired.End[1] = positionActual.East;
-				pathDesired.End[2] = -HOME_ALTITUDE_OFFSET;
+				pathDesired.End[2] = positionActual.Down;
 				pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
 				pathDesired.StartingVelocity = 5;
 				pathDesired.EndingVelocity = 5;
