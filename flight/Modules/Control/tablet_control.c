@@ -85,7 +85,9 @@ int32_t tablet_control_select(bool reset_controller)
 
 	switch(tabletInfo.TabletModeDesired) {
 		case TABLETINFO_TABLETMODEDESIRED_POSITIONHOLD:
-			if (mode != FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD) {
+			// We must check reset_controller flag here in order to ensure that
+			// we grab the new position when toggling out of this mode
+			if (mode != FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD || reset_controller) {
 				mode = FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD;
 
 				PositionActualData positionActual;
@@ -171,7 +173,9 @@ int32_t tablet_control_select(bool reset_controller)
 		}
 			break;
 		case TABLETINFO_TABLETMODEDESIRED_LAND:
-			if (mode != FLIGHTSTATUS_FLIGHTMODE_LAND) {
+			// We must check reset_controller flag here in order to ensure that
+			// we grab the new position when toggling out of this mode
+			if (mode != FLIGHTSTATUS_FLIGHTMODE_LAND || reset_controller) {
 				mode = FLIGHTSTATUS_FLIGHTMODE_LAND;
 
 				PositionActualData positionActual;
