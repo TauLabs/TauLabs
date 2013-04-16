@@ -66,8 +66,11 @@ int32_t tablet_control_update()
 	return 0;
 }
 
-//! Use the values for the tablet controller
-int32_t tablet_control_select()
+/**
+ * Select and use tablet control
+ * @param [in] reset_controller True if previously another controller was used
+ */
+int32_t tablet_control_select(bool reset_controller)
 {
 	TabletInfoData tabletInfo;
 	TabletInfoGet(&tabletInfo);
