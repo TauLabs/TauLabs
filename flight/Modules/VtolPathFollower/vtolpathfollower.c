@@ -92,6 +92,7 @@ static void SettingsUpdatedCb(UAVObjEvent * ev);
 static void updateNedAccel();
 static void updatePathVelocity();
 static void updateEndpointVelocity();
+static void updateEndpointVelocityLand();
 static void updateVtolDesiredAttitude();
 static bool module_enabled = false;
 
@@ -146,13 +147,6 @@ int32_t VtolPathFollowerInitialize()
 
 MODULE_INITCALL(VtolPathFollowerInitialize, VtolPathFollowerStart)
 
-static float northVelIntegral = 0;
-static float eastVelIntegral = 0;
-static float downVelIntegral = 0;
-
-static float northPosIntegral = 0;
-static float eastPosIntegral = 0;
-static float downPosIntegral = 0;
 
 static float throttleOffset = 0;
 /**
@@ -227,6 +221,14 @@ static void vtolPathFollowerTask(void *parameters)
 					AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_ERROR);
 				}
 				break;
+			case FLIGHTSTATUS_FLIGHTMODE_LAND:
+				if (pathDesired.Mode == PATHDESIRED_MODE_LAND) {
+					updateEndpointVelocityLand();
+					updateVtolDesiredAttitude();
+				} else {
+					AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_ERROR);
+				}
+				break;
 			case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
 				if (pathDesired.Mode == PATHDESIRED_MODE_FLYENDPOINT ||
 					pathDesired.Mode == PATHDESIRED_MODE_HOLDPOSITION) {
@@ -242,13 +244,9 @@ static void vtolPathFollowerTask(void *parameters)
 				}
 				break;
 			default:
-				// Be cleaner and get rid of global variables
-				northVelIntegral = 0;
-				eastVelIntegral = 0;
-				downVelIntegral = 0;
-				northPosIntegral = 0;
-				eastPosIntegral = 0;
-				downPosIntegral = 0;
+
+				for (uint32_t i = 0; i < VTOL_PID_NUM; i++)
+					pid_zero(&vtol_pids[i]);
 
 				// Track throttle before engaging this mode.  Cheap system ident
 				StabilizationDesiredData stabDesired;
@@ -272,7 +270,6 @@ static void vtolPathFollowerTask(void *parameters)
 static void updatePathVelocity()
 {
 	float dT = guidanceSettings.UpdatePeriod / 1000.0f;
-	float downCommand;
 
 	PositionActualData positionActual;
 	PositionActualGet(&positionActual);
@@ -319,10 +316,8 @@ static void updatePathVelocity()
 	    bound_min_max(progress.fractional_progress,0,1);
 
 	float downError = altitudeSetpoint - positionActual.Down;
-	downCommand = pid_apply(&vtol_pids[DOWN_POSITION], downError, dT);
-	velocityDesired.Down = bound_min_max(downCommand,
-								 -guidanceSettings.VerticalVelMax,
-								 guidanceSettings.VerticalVelMax);
+	velocityDesired.Down = pid_apply_antiwindup(&vtol_pids[DOWN_POSITION], downError,
+		-guidanceSettings.VerticalVelMax, guidanceSettings.VerticalVelMax, dT);
 
 	VelocityDesiredSet(&velocityDesired);
 }
@@ -348,39 +343,20 @@ void updateEndpointVelocity()
 	float downError;
 	float northCommand;
 	float eastCommand;
-	float downCommand;
 	
-	float northPos = 0;
-	float eastPos = 0;
-	float downPos = 0;
-
-	switch (guidanceSettings.PositionSource) {
-		case VTOLPATHFOLLOWERSETTINGS_POSITIONSOURCE_EKF:
-			northPos = positionActual.North;
-			eastPos = positionActual.East;
-			downPos = positionActual.Down;
-			break;
-		case VTOLPATHFOLLOWERSETTINGS_POSITIONSOURCE_GPSPOS:
-		{
-			NEDPositionData nedPosition;
-			NEDPositionGet(&nedPosition);
-			northPos = nedPosition.North;
-			eastPos = nedPosition.East;
-			downPos = nedPosition.Down;
-		}
-			break;
-		default:
-			PIOS_Assert(0);
-			break;
-	}
+	float northPos = positionActual.North;
+	float eastPos = positionActual.East;
+	float downPos = positionActual.Down;
 
 	// Compute desired north command velocity from position error
 	northError = pathDesired.End[PATHDESIRED_END_NORTH] - northPos;
-	northCommand = pid_apply(&vtol_pids[NORTH_POSITION], northError, dT);
+	northCommand = pid_apply_antiwindup(&vtol_pids[NORTH_POSITION], northError,
+	    -guidanceSettings.HorizontalVelMax, guidanceSettings.HorizontalVelMax, dT);
 
 	// Compute desired east command velocity from position error
 	eastError = pathDesired.End[PATHDESIRED_END_EAST] - eastPos;
-	eastCommand = pid_apply(&vtol_pids[EAST_POSITION], eastError, dT);
+	eastCommand = pid_apply_antiwindup(&vtol_pids[EAST_POSITION], eastError,
+	    -guidanceSettings.HorizontalVelMax, guidanceSettings.HorizontalVelMax, dT);
 
 	// Limit the maximum velocity any direction (not north and east separately)
 	float total_vel = sqrtf(powf(northCommand,2) + powf(eastCommand,2));
@@ -393,14 +369,60 @@ void updateEndpointVelocity()
 
 	// Compute the desired velocity from the position difference
 	downError = pathDesired.End[PATHDESIRED_END_DOWN] - downPos;
-	downCommand = pid_apply(&vtol_pids[DOWN_POSITION], downError, dT);
-	velocityDesired.Down = bound_min_max(downCommand,
-				     -guidanceSettings.VerticalVelMax, 
-				     guidanceSettings.VerticalVelMax);
+	velocityDesired.Down = pid_apply_antiwindup(&vtol_pids[DOWN_POSITION], downError,
+	    -guidanceSettings.VerticalVelMax, guidanceSettings.VerticalVelMax, dT);
 	
 	VelocityDesiredSet(&velocityDesired);	
 }
 
+/**
+ * Compute desired velocity from the current position
+ *
+ * Takes in @ref PositionActual and compares it to @ref PositionDesired 
+ * and computes @ref VelocityDesired
+ */
+void updateEndpointVelocityLand()
+{
+	float dT = guidanceSettings.UpdatePeriod / 1000.0f;
+
+	PositionActualData positionActual;
+	VelocityDesiredData velocityDesired;
+	
+	PositionActualGet(&positionActual);
+	VelocityDesiredGet(&velocityDesired);
+	
+	float northError;
+	float eastError;
+	float northCommand;
+	float eastCommand;
+	
+	float northPos = positionActual.North;
+	float eastPos = positionActual.East;
+
+	// Compute desired north command velocity from position error
+	northError = pathDesired.End[PATHDESIRED_END_NORTH] - northPos;
+	northCommand = pid_apply_antiwindup(&vtol_pids[NORTH_POSITION], northError,
+	    -guidanceSettings.HorizontalVelMax, guidanceSettings.HorizontalVelMax, dT);
+
+	// Compute desired east command velocity from position error
+	eastError = pathDesired.End[PATHDESIRED_END_EAST] - eastPos;
+	eastCommand = pid_apply_antiwindup(&vtol_pids[EAST_POSITION], eastError,
+	    -guidanceSettings.HorizontalVelMax, guidanceSettings.HorizontalVelMax, dT);
+
+	// Limit the maximum velocity any direction (not north and east separately)
+	float total_vel = sqrtf(powf(northCommand,2) + powf(eastCommand,2));
+	float scale = 1;
+	if(total_vel > guidanceSettings.HorizontalVelMax)
+		scale = guidanceSettings.HorizontalVelMax / total_vel;
+
+	velocityDesired.North = northCommand * scale;
+	velocityDesired.East = eastCommand * scale;
+
+	// Statically coded 1 m/s descent rate
+	velocityDesired.Down = guidanceSettings.LandingRate;
+	
+	VelocityDesiredSet(&velocityDesired);	
+}
 /**
  * Compute desired attitude from the desired velocity
  *
@@ -417,9 +439,7 @@ static void updateVtolDesiredAttitude()
 	StabilizationDesiredData stabDesired;
 	AttitudeActualData attitudeActual;
 	NedAccelData nedAccel;
-	VtolPathFollowerSettingsData guidanceSettings;
 	StabilizationSettingsData stabSettings;
-	SystemSettingsData systemSettings;
 
 	float northError;
 	float northCommand;
@@ -430,7 +450,6 @@ static void updateVtolDesiredAttitude()
 	float downError;
 	float downCommand;
 		
-	SystemSettingsGet(&systemSettings);
 	VtolPathFollowerSettingsGet(&guidanceSettings);
 	
 	VelocityActualGet(&velocityActual);
@@ -441,59 +460,37 @@ static void updateVtolDesiredAttitude()
 	StabilizationSettingsGet(&stabSettings);
 	NedAccelGet(&nedAccel);
 	
-	float northVel = 0;
-	float eastVel = 0;
-	float downVel = 0;
+	float northVel = velocityActual.North;
+	float eastVel = velocityActual.East;
+	float downVel = velocityActual.Down;
 
-	switch (guidanceSettings.VelocitySource) {
-		case VTOLPATHFOLLOWERSETTINGS_VELOCITYSOURCE_EKF:
-			northVel = velocityActual.North;
-			eastVel = velocityActual.East;
-			downVel = velocityActual.Down;
-			break;
-		case VTOLPATHFOLLOWERSETTINGS_VELOCITYSOURCE_NEDVEL:
-		{
-			GPSVelocityData gpsVelocity;
-			GPSVelocityGet(&gpsVelocity);
-			northVel = gpsVelocity.North;
-			eastVel = gpsVelocity.East;
-			downVel = gpsVelocity.Down;
-		}
-			break;
-		case VTOLPATHFOLLOWERSETTINGS_VELOCITYSOURCE_GPSPOS:
-		{
-			GPSPositionData gpsPosition;
-			GPSPositionGet(&gpsPosition);
-			northVel = gpsPosition.Groundspeed * cosf(gpsPosition.Heading * DEG2RAD);
-			eastVel = gpsPosition.Groundspeed * sinf(gpsPosition.Heading * DEG2RAD);
-			downVel = velocityActual.Down;
-		}
-			break;
-		default:
-			PIOS_Assert(0);
-			break;
-	}
-	
 	// Compute desired north command from velocity error
 	northError = velocityDesired.North - northVel;
-	northCommand = pid_apply(&vtol_pids[NORTH_VELOCITY], northError, dT) + velocityDesired.North * guidanceSettings.VelocityFeedforward;
+	northCommand = pid_apply_antiwindup(&vtol_pids[NORTH_VELOCITY], northError, 
+	    -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch, dT) + velocityDesired.North * guidanceSettings.VelocityFeedforward;
 	
 	// Compute desired east command from velocity error
 	eastError = velocityDesired.East - eastVel;
-	eastCommand = pid_apply(&vtol_pids[NORTH_VELOCITY], eastError, dT) + velocityDesired.East * guidanceSettings.VelocityFeedforward;
+	eastCommand = pid_apply_antiwindup(&vtol_pids[NORTH_VELOCITY], eastError,
+	    -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch, dT) + velocityDesired.East * guidanceSettings.VelocityFeedforward;
 	
 	// Compute desired down command.  Using NED accel as the damping term
 	downError = velocityDesired.Down - downVel;
 	// Negative is critical here since throttle is negative with down
-	downCommand = -pid_apply(&vtol_pids[DOWN_VELOCITY], downError, dT) +
+	downCommand = -pid_apply_antiwindup(&vtol_pids[DOWN_VELOCITY], downError, -1, 1, dT) +
 	    nedAccel.Down * guidanceSettings.VerticalVelPID[VTOLPATHFOLLOWERSETTINGS_VERTICALVELPID_KD];
 
-	stabDesired.Throttle = bound_min_max(downCommand + throttleOffset, 0, 1);
+	// If this setting is zero then the throttle level available when enabled is used for hover:wq
+	float used_throttle_offset = (guidanceSettings.HoverThrottle == 0) ? throttleOffset : guidanceSettings.HoverThrottle;
+	stabDesired.Throttle = bound_min_max(downCommand + used_throttle_offset, 0, 1);
 	
-	// Project the north and east command signals into the pitch and roll based on yaw.  For this to behave well the
-	// craft should move similarly for 5 deg roll versus 5 deg pitch
-	stabDesired.Pitch = bound_min_max(-northCommand * cosf(attitudeActual.Yaw * DEG2RAD) + 
-				      -eastCommand * sinf(attitudeActual.Yaw * DEG2RAD),
+	// Project the north and east command signals into the pitch and roll based on yaw.
+	// For this to behave well the craft should move similarly for 5 deg roll versus 5 deg pitch.
+	// Notice the inputs are crudely bounded by the anti-winded but if both N and E were
+	// saturated and the craft were at 45 degrees that would result in a value greater than
+	// the limit, so apply limit again here.
+	stabDesired.Pitch = bound_min_max(-northCommand * cosf(attitudeActual.Yaw * M_PI / 180) + 
+				      -eastCommand * sinf(attitudeActual.Yaw * M_PI / 180),
 				      -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch);
 	stabDesired.Roll = bound_min_max(-northCommand * sinf(attitudeActual.Yaw * DEG2RAD) + 
 				     eastCommand * cosf(attitudeActual.Yaw * DEG2RAD),
@@ -509,18 +506,23 @@ static void updateVtolDesiredAttitude()
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 
-	ManualControlCommandData manualControlData;
+	float yaw;
 	switch(guidanceSettings.YawMode) {
 	case VTOLPATHFOLLOWERSETTINGS_YAWMODE_RATE:
 		/* This is awkward.  This allows the transmitter to control the yaw while flying navigation */
-		ManualControlCommandGet(&manualControlData);
-		stabDesired.Yaw = stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] * manualControlData.Yaw;      
+		ManualControlCommandYawGet(&yaw);
+		stabDesired.Yaw = stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] * yaw;      
 		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_RATE;
 		break;
 	case VTOLPATHFOLLOWERSETTINGS_YAWMODE_AXISLOCK:
-		ManualControlCommandGet(&manualControlData);
-		stabDesired.Yaw = stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] * manualControlData.Yaw;      
+		ManualControlCommandYawGet(&yaw);
+		stabDesired.Yaw = stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] * yaw;      
 		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK;
+		break;
+	case VTOLPATHFOLLOWERSETTINGS_YAWMODE_ATTITUDE:
+		ManualControlCommandYawGet(&yaw);
+		stabDesired.Yaw = stabSettings.YawMax * yaw;      
+		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 		break;
 	case VTOLPATHFOLLOWERSETTINGS_YAWMODE_POI:
 		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_POI;

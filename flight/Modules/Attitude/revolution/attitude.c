@@ -65,19 +65,21 @@
 #include "homelocation.h"
 #include "sensorsettings.h"
 #include "inssettings.h"
+#include "insstate.h"
 #include "magnetometer.h"
 #include "nedposition.h"
 #include "positionactual.h"
-#include "revosettings.h"
+#include "stateestimation.h"
 #include "velocityactual.h"
 #include "CoordinateConversions.h"
 
 // Private constants
-#define STACK_SIZE_BYTES 2048
+#define STACK_SIZE_BYTES 2448
 #define TASK_PRIORITY (tskIDLE_PRIORITY+3)
 #define FAILSAFE_TIMEOUT_MS 10
 
-#define PI_MOD(x) (fmodf(x + PI, PI * 2) - PI)
+#define F_PI   ((float) M_PI)
+#define PI_MOD(x) (fmodf(x + F_PI, F_PI * 2) - F_PI)
 
 // low pass filter configuration to calculate offset
 // of barometric altitude sensor
@@ -136,17 +138,31 @@ static xQueueHandle gpsVelQueue;
 static AttitudeSettingsData attitudeSettings;
 static HomeLocationData homeLocation;
 static INSSettingsData insSettings;
-static RevoSettingsData revoSettings;
+static StateEstimationData stateEstimation;
 static bool gyroBiasSettingsUpdated = false;
 const uint32_t SENSOR_QUEUE_SIZE = 10;
+static const float zeros[3] = {0.0f, 0.0f, 0.0f};
 
 static struct complimentary_filter_state complimentary_filter_state;
 
 // Private functions
 static void AttitudeTask(void *parameters);
 
-static int32_t updateAttitudeComplementary(bool first_run);
+//! Set the navigation information to the raw estimates
+static int32_t setNavigationRaw();
+
+//! Update the complimentary filter attitude estimate
+static int32_t updateAttitudeComplementary(bool first_run, bool secondary);
+//! Set the @ref AttitudeActual to the complimentary filter estimate
+static int32_t setAttitudeComplementary();
+
+//! Update the INSGPS attitude estimate
 static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode);
+//! Set the attitude to the current INSGPS estimate
+static int32_t setAttitudeINSGPS();
+//! Set the navigation to the current INSGPS estimate
+static int32_t setNavigationINSGPS();
+
 static void settingsUpdatedCb(UAVObjEvent * objEv);
 
 //! A low pass filter on the accels which helps with vibration resistance
@@ -181,9 +197,10 @@ int32_t AttitudeInitialize(void)
 	AttitudeSettingsInitialize();
 	SensorSettingsInitialize();
 	INSSettingsInitialize();
+	INSStateInitialize();
 	NEDPositionInitialize();
 	PositionActualInitialize();
-	RevoSettingsInitialize();
+	StateEstimationInitialize();
 	VelocityActualInitialize();
 
 	// Initialize this here while we aren't setting the homelocation in GPS
@@ -193,7 +210,7 @@ int32_t AttitudeInitialize(void)
 	HomeLocationConnectCallback(&settingsUpdatedCb);
 	SensorSettingsConnectCallback(&settingsUpdatedCb);
 	INSSettingsConnectCallback(&settingsUpdatedCb);
-	RevoSettingsConnectCallback(&settingsUpdatedCb);
+	StateEstimationConnectCallback(&settingsUpdatedCb);
 
 	return 0;
 }
@@ -257,6 +274,7 @@ static void AttitudeTask(void *parameters)
 {
 	bool first_run = true;
 	uint32_t last_algorithm;
+	bool     last_complimentary;
 	AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
 
 	// Force settings update to make sure rotation loaded
@@ -267,31 +285,67 @@ static void AttitudeTask(void *parameters)
 
 	// Invalidate previous algorithm to trigger a first run
 	last_algorithm = 0xfffffff;
+	last_complimentary = false;
 
 	// Main task loop
 	while (1) {
 
 		int32_t ret_val = -1;
 
-		if (last_algorithm != revoSettings.FusionAlgorithm) {
-			last_algorithm = revoSettings.FusionAlgorithm;
+		// When changing the attitude filter reinitialize
+		if (last_algorithm != stateEstimation.AttitudeFilter) {
+			last_algorithm = stateEstimation.AttitudeFilter;
 			first_run = true;
 		}
 
+		// There are two options to select:
+		//   Attitude filter - what sets the attitude
+		//   Navigation filter - what sets the position and velocity
+		// If the INS is used for either then it should run
+		bool ins = (stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_INSOUTDOOR) ||
+		           (stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_INSINDOOR) ||
+		           (stateEstimation.NavigationFilter == STATEESTIMATION_NAVIGATIONFILTER_INS);
+
+		//! INS outdoor mode when used for navigation OR explicit outdoor mode
+		bool outdoor = (stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_INSOUTDOOR) ||
+		               ((stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_COMPLEMENTARY) &&
+		                (stateEstimation.NavigationFilter == STATEESTIMATION_NAVIGATIONFILTER_INS));
+
+		//! Complimentary filter only needed when used for attitude
+		bool complimentary = stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_COMPLEMENTARY;
+
+		// Update one or both filters
+		if (ins) {
+			ret_val = updateAttitudeINSGPS(first_run, outdoor);
+			if (complimentary)
+				 updateAttitudeComplementary(first_run || complimentary != last_complimentary, true);
+		} else {
+			ret_val = updateAttitudeComplementary(first_run, false);
+		}
+
+		last_complimentary = complimentary;
+
+		// Get the requested data
 		// This  function blocks on data queue
-		switch (revoSettings.FusionAlgorithm ) {
-			case REVOSETTINGS_FUSIONALGORITHM_COMPLEMENTARY:
-				ret_val = updateAttitudeComplementary(first_run);
+		switch (stateEstimation.AttitudeFilter ) {
+		case STATEESTIMATION_ATTITUDEFILTER_COMPLEMENTARY:
+			setAttitudeComplementary();
+			break;
+		case STATEESTIMATION_ATTITUDEFILTER_INSOUTDOOR:
+		case STATEESTIMATION_ATTITUDEFILTER_INSINDOOR:
+			setAttitudeINSGPS();
+			break;
+		}
+
+		// Use the selected source for position and velocity
+		switch (stateEstimation.NavigationFilter) {
+		case STATEESTIMATION_NAVIGATIONFILTER_INS:
+				// TODO: When running in dual mode and the INS is not initialized set
+				// an error here
+				setNavigationINSGPS();
 				break;
-			case REVOSETTINGS_FUSIONALGORITHM_INSOUTDOOR:
-				ret_val = updateAttitudeINSGPS(first_run, true);
-				break;
-			case REVOSETTINGS_FUSIONALGORITHM_INSINDOOR:
-				ret_val = updateAttitudeINSGPS(first_run, false);
-				break;
-			default:
-				AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_CRITICAL);
-				break;
+		default:
+				setNavigationRaw();		
 		}
 
 		if(ret_val == 0)
@@ -301,9 +355,11 @@ static void AttitudeTask(void *parameters)
 	}
 }
 
-float magKi = 0.000001f;
+//! The complimentary filter attitude estimate
+static float cf_q[4];
 
-static int32_t updateAttitudeComplementary(bool first_run)
+//!Update the complimentary filter estimate of attitude
+static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 {
 	UAVObjEvent ev;
 	GyrosData gyrosData;
@@ -312,8 +368,9 @@ static int32_t updateAttitudeComplementary(bool first_run)
 	float dT;
 
 	// Wait until the accel and gyro object is updated, if a timeout then go to failsafe
-	if ( xQueueReceive(gyroQueue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS) != pdTRUE ||
-	     xQueueReceive(accelQueue, &ev, 1 / portTICK_RATE_MS) != pdTRUE )
+	if (!secondary && (
+		 xQueueReceive(gyroQueue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS) != pdTRUE ||
+	     xQueueReceive(accelQueue, &ev, 1 / portTICK_RATE_MS) != pdTRUE ) )
 	{
 		// When one of these is updated so should the other
 		// Do not set attitude timeout warnings in simulation mode
@@ -334,20 +391,18 @@ static int32_t updateAttitudeComplementary(bool first_run)
 
 		// Wait for a mag reading if a magnetometer was registered
 		if (PIOS_SENSORS_GetQueue(PIOS_SENSOR_MAG) != NULL) {
-			if ( xQueueReceive(magQueue, &ev, 0 / portTICK_RATE_MS) != pdTRUE ) {
+			if ( !secondary && xQueueReceive(magQueue, &ev, 20 / portTICK_RATE_MS) != pdTRUE ) {
 				return -1;
 			}
 			MagnetometerGet(&magData);
 		}
 
-		// Pick initial attitude based on accel and mag data
-		AttitudeActualData attitudeActual;
-		AttitudeActualGet(&attitudeActual);
-		attitudeActual.Roll = atan2f(-accelsData.y, -accelsData.z) * RAD2DEG;
-		attitudeActual.Pitch = atan2f(accelsData.x, -accelsData.z) * RAD2DEG;
-		attitudeActual.Yaw = atan2f(-magData.y, magData.x) * RAD2DEG;
-		RPY2Quaternion(&attitudeActual.Roll,&attitudeActual.q1);
-		AttitudeActualSet(&attitudeActual);
+		float RPY[3];
+		float theta = atan2f(accelsData.x, -accelsData.z);
+		RPY[1] = theta * 180.0f / F_PI;
+		RPY[0] = atan2f(-accelsData.y, -accelsData.z / cosf(theta)) * 180.0f / F_PI;
+		RPY[2] = atan2f(-magData.y, magData.x) * 180.0f / F_PI;
+		RPY2Quaternion(RPY, cf_q);
 
 		complimentary_filter_state.initialization = CF_POWERON;
 		complimentary_filter_state.reset_timeval = PIOS_DELAY_GetRaw();
@@ -430,26 +485,18 @@ static int32_t updateAttitudeComplementary(bool first_run)
 	dT = PIOS_DELAY_DiffuS(timeval) / 1000000.0f;
 	timeval = PIOS_DELAY_GetRaw();
 
-	float q[4];
-
-	AttitudeActualData attitudeActual;
-	AttitudeActualGet(&attitudeActual);
-
 	float grot[3];
 	float accel_err[3];
 	float *grot_filtered = complimentary_filter_state.grot_filtered;
 	float *accels_filtered = complimentary_filter_state.accels_filtered;
 
-	// Get the current attitude estimate
-	quat_copy(&attitudeActual.q1, q);
-
 	// Apply smoothing to accel values, to reduce vibration noise before main calculations.
 	apply_accel_filter(&accelsData.x,accels_filtered);
 
 	// Rotate gravity to body frame and cross with accels
-	grot[0] = -(2 * (q[1] * q[3] - q[0] * q[2]));
-	grot[1] = -(2 * (q[2] * q[3] + q[0] * q[1]));
-	grot[2] = -(q[0] * q[0] - q[1]*q[1] - q[2]*q[2] + q[3]*q[3]);
+	grot[0] = -(2 * (cf_q[1] * cf_q[3] - cf_q[0] * cf_q[2]));
+	grot[1] = -(2 * (cf_q[2] * cf_q[3] + cf_q[0] * cf_q[1]));
+	grot[2] = -(cf_q[0]*cf_q[0] - cf_q[1]*cf_q[1] - cf_q[2]*cf_q[2] + cf_q[3]*cf_q[3]);
 	CrossProduct((const float *) &accelsData.x, (const float *) grot, accel_err);
 
 	// Apply same filtering to the rotated attitude to match delays
@@ -479,14 +526,14 @@ static int32_t updateAttitudeComplementary(bool first_run)
 	}
 
 	float mag_err[3];
-	if ( xQueueReceive(magQueue, &ev, 0) != pdTRUE )
+	if ( secondary || xQueueReceive(magQueue, &ev, 0) == pdTRUE )
 	{
 		// Rotate gravity to body frame and cross with accels
 		float brot[3];
 		float Rbe[3][3];
 		MagnetometerData mag;
 		
-		Quaternion2R(q, Rbe);
+		Quaternion2R(cf_q, Rbe);
 		MagnetometerGet(&mag);
 
 		// If the mag is producing bad data don't use it (normally bad calibration)
@@ -509,9 +556,13 @@ static int32_t updateAttitudeComplementary(bool first_run)
 				mag_err[0] = mag_err[1] = mag_err[2] = 0;
 			else
 				CrossProduct((const float *) &mag.x, (const float *) brot, mag_err);
-		}
+
+			if (mag_err[2] != mag_err[2])
+				mag_err[2] = 0;
+		} else
+			mag_err[2] = 0;
 	} else {
-		mag_err[0] = mag_err[1] = mag_err[2] = 0;
+		mag_err[2] = 0;
 	}
 
 	// Accumulate integral of error.  Scale here so that units are (deg/s) but Ki has units of s
@@ -519,7 +570,7 @@ static int32_t updateAttitudeComplementary(bool first_run)
 	GyrosBiasGet(&gyrosBias);
 	gyrosBias.x -= accel_err[0] * attitudeSettings.AccelKi;
 	gyrosBias.y -= accel_err[1] * attitudeSettings.AccelKi;
-	gyrosBias.z -= mag_err[2] * magKi;
+	gyrosBias.z -= mag_err[2] * attitudeSettings.MagKi;
 	GyrosBiasSet(&gyrosBias);
 
 	// Correct rates based on error, integral component dealt with in updateSensors
@@ -530,47 +581,51 @@ static int32_t updateAttitudeComplementary(bool first_run)
 	// Work out time derivative from INSAlgo writeup
 	// Also accounts for the fact that gyros are in deg/s
 	float qdot[4];
-	qdot[0] = (-q[1] * gyrosData.x - q[2] * gyrosData.y - q[3] * gyrosData.z) * dT * DEG2RAD / 2;
-	qdot[1] = (q[0] * gyrosData.x - q[3] * gyrosData.y + q[2] * gyrosData.z) * dT * DEG2RAD / 2;
-	qdot[2] = (q[3] * gyrosData.x + q[0] * gyrosData.y - q[1] * gyrosData.z) * dT * DEG2RAD / 2;
-	qdot[3] = (-q[2] * gyrosData.x + q[1] * gyrosData.y + q[0] * gyrosData.z) * dT * DEG2RAD / 2;
+	qdot[0] = (-cf_q[1] * gyrosData.x - cf_q[2] * gyrosData.y - cf_q[3] * gyrosData.z) * dT * F_PI / 180 / 2;
+	qdot[1] = (cf_q[0] * gyrosData.x - cf_q[3] * gyrosData.y + cf_q[2] * gyrosData.z) * dT * F_PI / 180 / 2;
+	qdot[2] = (cf_q[3] * gyrosData.x + cf_q[0] * gyrosData.y - cf_q[1] * gyrosData.z) * dT * F_PI / 180 / 2;
+	qdot[3] = (-cf_q[2] * gyrosData.x + cf_q[1] * gyrosData.y + cf_q[0] * gyrosData.z) * dT * F_PI / 180 / 2;
 
 	// Take a time step
-	q[0] = q[0] + qdot[0];
-	q[1] = q[1] + qdot[1];
-	q[2] = q[2] + qdot[2];
-	q[3] = q[3] + qdot[3];
+	cf_q[0] = cf_q[0] + qdot[0];
+	cf_q[1] = cf_q[1] + qdot[1];
+	cf_q[2] = cf_q[2] + qdot[2];
+	cf_q[3] = cf_q[3] + qdot[3];
 
-	if(q[0] < 0) {
-		q[0] = -q[0];
-		q[1] = -q[1];
-		q[2] = -q[2];
-		q[3] = -q[3];
+	if(cf_q[0] < 0) {
+		cf_q[0] = -cf_q[0];
+		cf_q[1] = -cf_q[1];
+		cf_q[2] = -cf_q[2];
+		cf_q[3] = -cf_q[3];
 	}
 
 	// Renomalize
 	float qmag;
-	qmag = sqrtf(q[0]*q[0] + q[1]*q[1] + q[2]*q[2] + q[3]*q[3]);
-	q[0] = q[0] / qmag;
-	q[1] = q[1] / qmag;
-	q[2] = q[2] / qmag;
-	q[3] = q[3] / qmag;
+	qmag = sqrtf(cf_q[0]*cf_q[0] + cf_q[1]*cf_q[1] + cf_q[2]*cf_q[2] + cf_q[3]*cf_q[3]);
+	cf_q[0] = cf_q[0] / qmag;
+	cf_q[1] = cf_q[1] / qmag;
+	cf_q[2] = cf_q[2] / qmag;
+	cf_q[3] = cf_q[3] / qmag;
 
 	// If quaternion has become inappropriately short or is nan reinit.
 	// THIS SHOULD NEVER ACTUALLY HAPPEN
 	if((fabs(qmag) < 1.0e-3f) || (qmag != qmag)) {
-		q[0] = 1;
-		q[1] = 0;
-		q[2] = 0;
-		q[3] = 0;
+		cf_q[0] = 1;
+		cf_q[1] = 0;
+		cf_q[2] = 0;
+		cf_q[3] = 0;
 	}
 
-	quat_copy(q, &attitudeActual.q1);
+	if (!secondary)
+		AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
 
-	// Convert into eueler degrees (makes assumptions about RPY order)
-	Quaternion2RPY(&attitudeActual.q1,&attitudeActual.Roll);
+	return 0;
+}
 
-	AttitudeActualSet(&attitudeActual);
+//! Set the navigation information to the raw estimates
+static int32_t setNavigationRaw()
+{
+	UAVObjEvent ev;
 
 	// Flush these queues for avoid errors
 	xQueueReceive(baroQueue, &ev, 0);
@@ -580,7 +635,7 @@ static int32_t updateAttitudeComplementary(bool first_run)
 		GPSPositionData gpsPosition;
 		GPSPositionGet(&gpsPosition);
 		getNED(&gpsPosition, NED);
-		
+
 		NEDPositionData nedPosition;
 		NEDPositionGet(&nedPosition);
 		nedPosition.North = NED[0];
@@ -609,8 +664,19 @@ static int32_t updateAttitudeComplementary(bool first_run)
 		VelocityActualSet(&velocityActual);
 	}
 
+	return 0;
+}
 
-	AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
+/**
+ * Set the @ref AttitudeActual UAVO to the complimentary filter
+ * estimate
+ */
+static int32_t setAttitudeComplementary()
+{
+	AttitudeActualData attitude;
+	quat_copy(cf_q, &attitude.q1);
+	Quaternion2RPY(&attitude.q1,&attitude.Roll);
+	AttitudeActualSet(&attitude);
 
 	return 0;
 }
@@ -679,9 +745,7 @@ static void accumulate_gyro(GyrosData *gyrosData)
 
 
 #include "insgps.h"
-int32_t ins_failed = 0;
-int32_t init_stage = 0;
-
+static bool home_location_updated;
 /**
  * @brief Use the INSGPS fusion algorithm in either indoor or outdoor mode (use GPS)
  * @params[in] first_run This is the first run so trigger reinitialization
@@ -694,10 +758,12 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	GyrosData gyrosData;
 	AccelsData accelsData;
 	MagnetometerData magData;
-	BaroAltitudeData baroData;
-	GPSPositionData gpsData;
 	GPSVelocityData gpsVelData;
 	GyrosBiasData gyrosBias;
+
+	// These should be static as their values are checked multiple times per update
+	static BaroAltitudeData baroData;
+	static GPSPositionData gpsData;
 
 	struct NavStruct *Nav = INSGPSGetNav();
 	if (Nav == NULL)
@@ -708,45 +774,30 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	static bool gps_updated;
 	static bool gps_vel_updated;
 
-	static float baroOffset = 0;
+	static float baro_offset = 0;
 
 	static uint32_t ins_last_time = 0;
 	static bool inited;
 
 	float NED[3] = {0.0f, 0.0f, 0.0f};
 	float vel[3] = {0.0f, 0.0f, 0.0f};
-	float zeros[3] = {0.0f, 0.0f, 0.0f};
 
 	// Perform the update
 	uint16_t sensors = 0;
 	float dT;
 
-	// Wait until the gyro and accel object is updated, if a timeout then go to failsafe
-	if ( (xQueueReceive(gyroQueue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS) != pdTRUE) ||
-	     (xQueueReceive(accelQueue, &ev, 1 / portTICK_RATE_MS) != pdTRUE) )
-	{
-		// Do not set attitude timeout warnings in simulation mode
-		if (!AttitudeActualReadOnly()){
-			AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_WARNING);
-			return -1;
-		}
-	}
-
-	if (inited) {
-		mag_updated = 0;
-		baro_updated = 0;
-		gps_updated = 0;
-		gps_vel_updated = 0;
-	}
-
-	if (first_run) {
+	// When the home location is adjusted the filter should be
+	// reinitialized to correctly offset the baro and make sure it 
+	// does not blow up.  This flag should only be set when not armed.
+	if (first_run || home_location_updated) {
 		inited = false;
-		init_stage = 0;
 
 		mag_updated = 0;
 		baro_updated = 0;
 		gps_updated = 0;
 		gps_vel_updated = 0;
+
+		home_location_updated = false;
 
 		ins_last_time = PIOS_DELAY_GetRaw();
 
@@ -758,138 +809,106 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	gps_updated |= (xQueueReceive(gpsQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE) && outdoor_mode;
 	gps_vel_updated |= (xQueueReceive(gpsVelQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE) && outdoor_mode;
 
+	// Wait until the gyro and accel object is updated, if a timeout then go to failsafe
+	if ( (xQueueReceive(gyroQueue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS) != pdTRUE) ||
+	     (xQueueReceive(accelQueue, &ev, 1 / portTICK_RATE_MS) != pdTRUE) )
+	{
+		return -1;
+	}
+
 	// Get most recent data
 	GyrosGet(&gyrosData);
 	AccelsGet(&accelsData);
-	MagnetometerGet(&magData);
-	BaroAltitudeGet(&baroData);
-	GPSPositionGet(&gpsData);
-	GPSVelocityGet(&gpsVelData);
 	GyrosBiasGet(&gyrosBias);
+
+	// Need to get these values before initializing
+	if (mag_updated)
+       MagnetometerGet(&magData);
+
+	if (gps_updated)
+		GPSPositionGet(&gpsData);
 
 	// Discard mag if it has NAN (normally from bad calibration)
 	mag_updated &= (magData.x == magData.x && magData.y == magData.y && magData.z == magData.z);
+
 	// Don't require HomeLocation.Set to be true but at least require a mag configuration (allows easily
 	// switching between indoor and outdoor mode with Set = false)
 	mag_updated &= (homeLocation.Be[0] != 0 || homeLocation.Be[1] != 0 || homeLocation.Be[2]);
 
-	// Have a minimum requirement for gps usage
-	gps_updated &= (gpsData.Satellites >= 7) && (gpsData.PDOP <= 4.0f) && (homeLocation.Set == HOMELOCATION_SET_TRUE);
+	// A more stringent requirement for GPS to initialize the filter
+	bool gps_init_usable = gps_updated & (gpsData.Satellites >= 7) && (gpsData.PDOP <= 3.5f) && (homeLocation.Set == HOMELOCATION_SET_TRUE);
 
 	if (!inited)
 		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_ERROR);
-	else if (outdoor_mode && gpsData.Satellites < 7)
+	else if (outdoor_mode && (gpsData.Satellites < 6 || gpsData.PDOP > 4.0f))
 		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_ERROR);
 	else
 		AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
-			
-	if (!inited && mag_updated && baro_updated && (gps_updated || !outdoor_mode)) {
+
+	if (!inited && mag_updated && baro_updated && (gps_init_usable || !outdoor_mode)) {
+
+		INSGPSInit();
+		INSSetMagVar(insSettings.mag_var);
+		INSSetAccelVar(insSettings.accel_var);
+		INSSetGyroVar(insSettings.gyro_var);
+		INSSetBaroVar(insSettings.baro_var);
+
+		// Set initial variances
+		float Pdiag[16]={25.0f,25.0f,25.0f,5.0f,5.0f,5.0f,1e-5f,1e-5f,1e-5f,1e-5f,1e-5f,1e-5f,1e-5f,1e-4f,1e-4f,1e-4f};
+		INSResetP(Pdiag);
+
+		// Initialize the gyro bias from the settings
+		float gyro_bias[3] = {gyrosBias.x * F_PI / 180.0f, gyrosBias.y * F_PI / 180.0f, gyrosBias.z * F_PI / 180.0f};
+		INSSetGyroBias(gyro_bias);
+
+		BaroAltitudeGet(&baroData);
+
+		float RPY[3], q[4];
+		RPY[0] = atan2f(-accelsData.y, -accelsData.z) * 180.0f / F_PI;
+		RPY[1] = atan2f(accelsData.x, -accelsData.z) * 180.0f / F_PI;
+		RPY[2] = atan2f(-magData.y, magData.x) * 180.0f / F_PI;
+		RPY2Quaternion(RPY,q);
+
 		// Don't initialize until all sensors are read
-		if (init_stage == 0 && !outdoor_mode) {
-			float Pdiag[16]={25.0f,25.0f,25.0f,5.0f,5.0f,5.0f,1e-5f,1e-5f,1e-5f,1e-5f,1e-5f,1e-5f,1e-5f,1e-4f,1e-4f,1e-4f};
-			float q[4];
+		if (!outdoor_mode) {
 			float pos[3] = {0.0f, 0.0f, 0.0f};
 
-			// Initialize barometric offset to homelocation altitude
-			baroOffset = -baroData.Altitude;
-			pos[2] = -(baroData.Altitude + baroOffset);
+			// Initialize barometric offset to current altitude
+			baro_offset = -baroData.Altitude;
+			pos[2] = -(baroData.Altitude + baro_offset);
 
-			// Reset the INS algorithm
-			INSGPSInit();
-			INSSetMagVar(insSettings.mag_var);
-			INSSetAccelVar(insSettings.accel_var);
-			INSSetGyroVar(insSettings.gyro_var);
-			INSSetBaroVar(insSettings.baro_var);
+			// Hard coded fake variances for indoor mode
+			INSSetPosVelVar(0.1f, 0.1f, 0.1f);
 
-			// Initialize the gyro bias from the settings
-			float gyro_bias[3] = {gyrosBias.x * DEG2RAD, gyrosBias.y * DEG2RAD, gyrosBias.z * DEG2RAD};
-			INSSetGyroBias(gyro_bias);
+			if (homeLocation.Set == HOMELOCATION_SET_TRUE)
+				INSSetMagNorth(homeLocation.Be);
+			else {
+				float Be[3] = {100,0,500};
+				INSSetMagNorth(Be);
+			}
 
-			xQueueReceive(magQueue, &ev, 100 / portTICK_RATE_MS);
-			MagnetometerGet(&magData);
-
-			// Set initial attitude
-			AttitudeActualData attitudeActual;
-			attitudeActual.Roll = atan2f(-accelsData.y, -accelsData.z) * RAD2DEG;
-			attitudeActual.Pitch = atan2f(accelsData.x, -accelsData.z) * RAD2DEG;
-			attitudeActual.Yaw = atan2f(-magData.y, magData.x) * RAD2DEG;
-			RPY2Quaternion(&attitudeActual.Roll,&attitudeActual.q1);
-			AttitudeActualSet(&attitudeActual);
-
-			q[0] = attitudeActual.q1;
-			q[1] = attitudeActual.q2;
-			q[2] = attitudeActual.q3;
-			q[3] = attitudeActual.q4;
 			INSSetState(pos, zeros, q, zeros, zeros);
-			INSResetP(Pdiag);
-		} else if (init_stage == 0 && outdoor_mode) {
-			float Pdiag[16]={25.0f,25.0f,25.0f,5.0f,5.0f,5.0f,1e-5f,1e-5f,1e-5f,1e-5f,1e-5f,1e-5f,1e-5f,1e-4f,1e-4f,1e-4f};
-			float q[4];
+		} else {
 			float NED[3];
 
-			// Reset the INS algorithm
-			INSGPSInit();
-			INSSetMagVar(insSettings.mag_var);
-			INSSetAccelVar(insSettings.accel_var);
-			INSSetGyroVar(insSettings.gyro_var);
-			INSSetBaroVar(insSettings.baro_var);
-
+			// Use the UAVO for the position variance	
+			INSSetPosVelVar(insSettings.gps_var[INSSETTINGS_GPS_VAR_POS], insSettings.gps_var[INSSETTINGS_GPS_VAR_VEL], insSettings.gps_var[INSSETTINGS_GPS_VAR_VERTPOS]);
 			INSSetMagNorth(homeLocation.Be);
 
 			// Initialize the gyro bias from the settings
 			float gyro_bias[3] = {gyrosBias.x * DEG2RAD, gyrosBias.y * DEG2RAD, gyrosBias.z * DEG2RAD};
 			INSSetGyroBias(gyro_bias);
 
-			GPSPositionData gpsPosition;
-			GPSPositionGet(&gpsPosition);
+			// Initialize to current location
+			getNED(&gpsData, NED);
 
-			// Transform the GPS position into NED coordinates
-			getNED(&gpsPosition, NED);
-			
 			// Initialize barometric offset to cirrent GPS NED coordinate
-			baroOffset = -NED[2] - baroData.Altitude;
-
-			xQueueReceive(magQueue, &ev, 100 / portTICK_RATE_MS);
-			MagnetometerGet(&magData);
-
-			// Set initial attitude
-			AttitudeActualData attitudeActual;
-			attitudeActual.Roll = atan2f(-accelsData.y, -accelsData.z) * RAD2DEG;
-			attitudeActual.Pitch = atan2f(accelsData.x, -accelsData.z) * RAD2DEG;
-			attitudeActual.Yaw = atan2f(-magData.y, magData.x) * RAD2DEG;
-			RPY2Quaternion(&attitudeActual.Roll,&attitudeActual.q1);
-			AttitudeActualSet(&attitudeActual);
-
-			q[0] = attitudeActual.q1;
-			q[1] = attitudeActual.q2;
-			q[2] = attitudeActual.q3;
-			q[3] = attitudeActual.q4;
+			baro_offset = -NED[2] - baroData.Altitude;
 
 			INSSetState(NED, zeros, q, zeros, zeros);
-			INSResetP(Pdiag);
-		} else if (init_stage > 0) {
-			// Run prediction a bit before any corrections
-			dT = PIOS_DELAY_DiffuS(ins_last_time) / 1.0e6f;
+		} 
 
-			GyrosBiasGet(&gyrosBias);
-			float gyros[3] = {(gyrosData.x + gyrosBias.x) * DEG2RAD, 
-				(gyrosData.y + gyrosBias.y) * DEG2RAD, 
-				(gyrosData.z + gyrosBias.z) * DEG2RAD};
-			INSStatePrediction(gyros, &accelsData.x, dT);
-			
-			AttitudeActualData attitude;
-			AttitudeActualGet(&attitude);
-			attitude.q1 = Nav->q[0];
-			attitude.q2 = Nav->q[1];
-			attitude.q3 = Nav->q[2];
-			attitude.q4 = Nav->q[3];
-			Quaternion2RPY(&attitude.q1,&attitude.Roll);
-			AttitudeActualSet(&attitude);
-		}
-
-		init_stage++;
-		if(init_stage > 10)
-			inited = true;
+		inited = true;
 
 		ins_last_time = PIOS_DELAY_GetRaw();	
 
@@ -898,6 +917,9 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 
 	if (!inited)
 		return 0;
+
+	// Have a minimum requirement for gps usage a little more liberal than initialization
+	gps_updated &= (gpsData.Satellites >= 6) && (gpsData.PDOP <= 4.0f) && (homeLocation.Set == HOMELOCATION_SET_TRUE);
 
 	dT = PIOS_DELAY_DiffuS(ins_last_time) / 1.0e6f;
 	ins_last_time = PIOS_DELAY_GetRaw();
@@ -918,53 +940,43 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 
 	// Because the sensor module remove the bias we need to add it
 	// back in here so that the INS algorithm can track it correctly
-	float gyros[3] = {gyrosData.x * DEG2RAD, gyrosData.y * DEG2RAD, gyrosData.z * DEG2RAD};
-	if (attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE) {
-		gyros[0] += gyrosBias.x * DEG2RAD;
-		gyros[1] += gyrosBias.y * DEG2RAD;
-		gyros[2] += gyrosBias.z * DEG2RAD;
+	float gyros[3] = {gyrosData.x * F_PI / 180.0f, gyrosData.y * F_PI / 180.0f, gyrosData.z * F_PI / 180.0f};
+	if (insSettings.ComputeGyroBias == INSSETTINGS_COMPUTEGYROBIAS_TRUE && 
+	    (attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE)) {
+		gyros[0] += gyrosBias.x * F_PI / 180.0f;
+		gyros[1] += gyrosBias.y * F_PI / 180.0f;
+		gyros[2] += gyrosBias.z * F_PI / 180.0f;
+	} else {
+		INSSetGyroBias(zeros);
 	}
 
 	// Advance the state estimate
 	INSStatePrediction(gyros, &accelsData.x, dT);
 
-	// Copy the attitude into the UAVO
-	AttitudeActualData attitude;
-	AttitudeActualGet(&attitude);
-	attitude.q1 = Nav->q[0];
-	attitude.q2 = Nav->q[1];
-	attitude.q3 = Nav->q[2];
-	attitude.q4 = Nav->q[3];
-	Quaternion2RPY(&attitude.q1,&attitude.Roll);
-	AttitudeActualSet(&attitude);
-
 	// Advance the covariance estimate
 	INSCovariancePrediction(dT);
 
-	if(mag_updated)
+	if(mag_updated) {
 		sensors |= MAG_SENSORS;
-
-	if(baro_updated)
-		sensors |= BARO_SENSOR;
-
-	INSSetMagNorth(homeLocation.Be);
+		mag_updated = false;
+	}
 	
+	if(baro_updated) {
+		sensors |= BARO_SENSOR;
+		BaroAltitudeGet(&baroData);
+		baro_updated = false;
+	}
+
+	// GPS Position update
 	if (gps_updated && outdoor_mode)
 	{
-		INSSetPosVelVar(insSettings.gps_var[INSSETTINGS_GPS_VAR_POS], insSettings.gps_var[INSSETTINGS_GPS_VAR_VEL]);
-		sensors |= POS_SENSORS;
+		sensors |= HORIZ_POS_SENSORS | VERT_POS_SENSORS;
 
-		if (0) { // Old code to take horizontal velocity from GPS Position update
-			sensors |= HORIZ_SENSORS;
-			vel[0] = gpsData.Groundspeed * cosf(gpsData.Heading * DEG2RAD);
-			vel[1] = gpsData.Groundspeed * sinf(gpsData.Heading * DEG2RAD);
-			vel[2] = 0;
-		}
 		// Transform the GPS position into NED coordinates
 		getNED(&gpsData, NED);
 
 		// Track barometric altitude offset with a low pass filter
-		baroOffset = BARO_OFFSET_LOWPASS_ALPHA * baroOffset +
+		baro_offset = BARO_OFFSET_LOWPASS_ALPHA * baro_offset +
 		    (1.0f - BARO_OFFSET_LOWPASS_ALPHA )
 		    * ( -NED[2] - baroData.Altitude );
 
@@ -976,54 +988,97 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		nedPos.Down = NED[2];
 		NEDPositionSet(&nedPos);
 
-	} else if (!outdoor_mode) {
-		baroOffset = 0;
-		INSSetPosVelVar(1e2f, 1e2f);
-		vel[0] = vel[1] = vel[2] = 0;
-		NED[0] = NED[1] = 0;
-		NED[2] = -(baroData.Altitude + baroOffset);
-		sensors |= HORIZ_SENSORS | HORIZ_POS_SENSORS;
-		sensors |= POS_SENSORS |VERT_SENSORS;
+		gps_updated = false;
 	}
 
+	// GPS Velocity update
 	if (gps_vel_updated && outdoor_mode) {
 		sensors |= HORIZ_SENSORS | VERT_SENSORS;
+		GPSVelocityGet(&gpsVelData);
 		vel[0] = gpsVelData.North;
 		vel[1] = gpsVelData.East;
 		vel[2] = gpsVelData.Down;
+
+		gps_vel_updated = false;
 	}
-	
+
+	// When not runnning in indoor mode force the position to zero
+	if (!outdoor_mode) {
+		vel[0] = vel[1] = vel[2] = 0;
+		NED[0] = NED[1] = 0;
+		NED[2] = -(baroData.Altitude + baro_offset);
+		sensors |= HORIZ_SENSORS | HORIZ_POS_SENSORS;
+		sensors |= VERT_SENSORS | VERT_POS_SENSORS;
+	}
+
 	/*
 	 * TODO: Need to add a general sanity check for all the inputs to make sure their kosher
 	 * although probably should occur within INS itself
 	 */
 	if (sensors)
-		INSCorrection(&magData.x, NED, vel, ( baroData.Altitude + baroOffset ), sensors);
+		INSCorrection(&magData.x, NED, vel, ( baroData.Altitude + baro_offset ), sensors);
+
+	INSStateData state;
+	extern float P[13][13], X[13];
+	for (uint32_t i = 0; i < 13; i++) {
+		state.State[i] = X[i];
+		state.Var[i] = P[i][i];
+	}
+	INSStateSet(&state);
+
+	return 0;
+}
+
+//! Set the attitude to the current INSGPS estimate
+static int32_t setAttitudeINSGPS()
+{
+	struct NavStruct *Nav = INSGPSGetNav();
+	if (Nav == NULL)
+		return -1;
+
+	AttitudeActualData attitude;
+	attitude.q1 = Nav->q[0];
+	attitude.q2 = Nav->q[1];
+	attitude.q3 = Nav->q[2];
+	attitude.q4 = Nav->q[3];
+	Quaternion2RPY(&attitude.q1,&attitude.Roll);
+	AttitudeActualSet(&attitude);
+
+	if (insSettings.ComputeGyroBias == INSSETTINGS_COMPUTEGYROBIAS_TRUE && 
+	    (attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE && 
+	    !gyroBiasSettingsUpdated)) {
+		// Copy the gyro bias into the UAVO except when it was updated
+		// from the settings during the calculation, then consume it
+		// next cycle
+		GyrosBiasData gyrosBias;
+		gyrosBias.x = Nav->gyro_bias[0] * 180.0f / F_PI;
+		gyrosBias.y = Nav->gyro_bias[1] * 180.0f / F_PI;
+		gyrosBias.z = Nav->gyro_bias[2] * 180.0f / F_PI;
+		GyrosBiasSet(&gyrosBias);
+	}
+
+	return 0;
+}
+
+//! Set the navigation to the current INSGPS estimate
+static int32_t setNavigationINSGPS()
+{
+	struct NavStruct *Nav = INSGPSGetNav();
+	if (Nav == NULL)
+		return -1;
 
 	// Copy the position and velocity into the UAVO
 	PositionActualData positionActual;
-	PositionActualGet(&positionActual);
 	positionActual.North = Nav->Pos[0];
 	positionActual.East = Nav->Pos[1];
 	positionActual.Down = Nav->Pos[2];
 	PositionActualSet(&positionActual);
 	
 	VelocityActualData velocityActual;
-	VelocityActualGet(&velocityActual);
 	velocityActual.North = Nav->Vel[0];
 	velocityActual.East = Nav->Vel[1];
 	velocityActual.Down = Nav->Vel[2];
 	VelocityActualSet(&velocityActual);
-
-	if (attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE && !gyroBiasSettingsUpdated) {
-		// Copy the gyro bias into the UAVO except when it was updated
-		// from the settings during the calculation, then consume it
-		// next cycle
-		gyrosBias.x = Nav->gyro_bias[0] * RAD2DEG;
-		gyrosBias.y = Nav->gyro_bias[1] * RAD2DEG;
-		gyrosBias.z = Nav->gyro_bias[2] * RAD2DEG;
-		GyrosBiasSet(&gyrosBias);
-	}
 
 	return 0;
 }
@@ -1090,15 +1145,25 @@ static void settingsUpdatedCb(UAVObjEvent * ev)
 		INSSetBaroVar(insSettings.baro_var);
 	}
 	if(ev == NULL || ev->obj == HomeLocationHandle()) {
-		HomeLocationGet(&homeLocation);
-		// Compute matrix to convert deltaLLA to NED
-		float lat, alt;
-		lat = homeLocation.Latitude / 10.0e6f * DEG2RAD;
-		alt = homeLocation.Altitude;
+		uint8_t armed;
+		FlightStatusArmedGet(&armed);
 
-		T[0] = alt+6.378137E6f;
-		T[1] = cosf(lat)*(alt+6.378137E6f);
-		T[2] = -1.0f;
+		// Do not update the home location while armed as this can blow up the 
+		// filter.  This will need to be overhauled to handle long distance
+		// flights
+		if (armed == FLIGHTSTATUS_ARMED_DISARMED) {
+			HomeLocationGet(&homeLocation);
+			// Compute matrix to convert deltaLLA to NED
+			float lat, alt;
+			lat = homeLocation.Latitude / 10.0e6f * DEG2RAD;
+			alt = homeLocation.Altitude;
+
+			T[0] = alt+6.378137E6f;
+			T[1] = cosf(lat)*(alt+6.378137E6f);
+			T[2] = -1.0f;
+
+			home_location_updated = true;
+		}
 	}
 	if (ev == NULL || ev->obj == AttitudeSettingsHandle()) {
 		AttitudeSettingsGet(&attitudeSettings);
@@ -1113,8 +1178,8 @@ static void settingsUpdatedCb(UAVObjEvent * ev)
 			complimentary_filter_state.accel_filter_enabled = true;
 		}
 	}
-	if (ev == NULL || ev->obj == RevoSettingsHandle())
-		RevoSettingsGet(&revoSettings);
+	if (ev == NULL || ev->obj == StateEstimationHandle())
+		StateEstimationGet(&stateEstimation);
 }
 /**
  * @}
