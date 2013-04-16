@@ -82,12 +82,16 @@ int32_t tablet_control_select(bool reset_controller)
 	PathDesiredGet(&pathDesired);
 
 	uint8_t mode = flightStatus.FlightMode;
+	static TabletInfoTabletModeDesiredOptions last_tablet_mode;
 
 	switch(tabletInfo.TabletModeDesired) {
 		case TABLETINFO_TABLETMODEDESIRED_POSITIONHOLD:
 			// We must check reset_controller flag here in order to ensure that
 			// we grab the new position when toggling out of this mode
-			if (mode != FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD || reset_controller) {
+			if (mode != FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD ||
+			    last_tablet_mode != tabletInfo.TabletModeDesired ||
+			    reset_controller)
+			{
 				mode = FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD;
 
 				PositionActualData positionActual;
@@ -202,6 +206,8 @@ int32_t tablet_control_select(bool reset_controller)
 			// Fail out.  This will trigger failsafe mode.
 			return -1;
 	}
+
+	last_tablet_mode = tabletInfo.TabletModeDesired;
 
 	// Update mode if changed
 	if (mode != flightStatus.FlightMode) {
