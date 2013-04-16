@@ -346,8 +346,11 @@ int32_t transmitter_control_update()
 	return 0;
 }
 
-//! Select and use transmitter control
-int32_t transmitter_control_select()
+/**
+ * Select and use transmitter control
+ * @param [in] reset_controller True if previously another controller was used
+ */
+int32_t transmitter_control_select(bool reset_controller)
 {
 	// Activate the flight mode corresponding to the switch position
 	set_flight_mode();

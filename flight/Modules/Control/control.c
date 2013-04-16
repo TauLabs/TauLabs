@@ -103,6 +103,10 @@ static void controlTask(void *parameters)
 
 	// Main task loop
 	lastSysTime = xTaskGetTickCount();
+
+	// Select failsafe before run
+	failsafe_control_select(true);
+
 	while (1) {
 
 		// Process periodic data for each of the controllers, including reading
@@ -111,30 +115,34 @@ static void controlTask(void *parameters)
 		transmitter_control_update();
 		tablet_control_update();
 
+		static enum control_selection last_control_selection = CONTROL_SELECTION_FAILSAFE;
 		enum control_events control_events = CONTROL_EVENTS_NONE;
 
 		// Control logic to select the valid controller
 		enum control_selection control_selection = transmitter_control_selected_controller();
+		bool reset_controller = control_selection != last_control_selection;
+
 		switch(control_selection) {
 		case CONTROL_SELECTION_FAILSAFE:
-			failsafe_control_select();
+			failsafe_control_select(reset_controller);
 			control_events = failsafe_control_get_events();
 			break;
 		case CONTROL_SELECTION_TRANSMITTER:
-			transmitter_control_select();
+			transmitter_control_select(reset_controller);
 			control_events = transmitter_control_get_events();
 			break;
 		case CONTROL_SELECTION_TABLET:
-			if (tablet_control_select() == 0) {
+			if (tablet_control_select(reset_controller) == 0) {
 				control_events = tablet_control_get_events();
 			} else {
 				// Failure in tablet control.  This would be better if done
 				// at the selection stage before the tablet is even used.
-				failsafe_control_select();
+				failsafe_control_select(false);
 				control_events = failsafe_control_get_events();
 			}
 			break;
 		}
+		last_control_selection = control_selection;
 
 		// TODO: This can evolve into a full FSM like I2C possibly
 		switch(control_events) {
