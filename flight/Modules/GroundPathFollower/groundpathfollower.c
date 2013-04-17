@@ -102,7 +102,7 @@ static struct pid ground_pids[GROUND_PID_NUM];
  * Initialise the module, called on startup
  * \returns 0 on success or -1 if initialisation failed
  */
-int32_t GroundPathFollowerStart()
+static int32_t GroundPathFollowerStart()
 {
 	if (module_enabled) {
 		// Start main task
@@ -117,7 +117,7 @@ int32_t GroundPathFollowerStart()
  * Initialise the module, called on startup
  * \returns 0 on success or -1 if initialisation failed
  */
-int32_t GroundPathFollowerInitialize()
+static int32_t GroundPathFollowerInitialize()
 {
 #ifdef MODULE_GroundPathFollower_BUILTIN
 	module_enabled = true;
