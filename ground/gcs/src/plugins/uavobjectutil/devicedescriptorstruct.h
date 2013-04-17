@@ -28,10 +28,11 @@
 #ifndef DEVICEDESCRIPTORSTRUCT_H
 #define DEVICEDESCRIPTORSTRUCT_H
 
+#include "uavobjectutil_global.h"
 #include <QString>
 #include <QPixmap>
 
-class deviceDescriptorStruct
+class UAVOBJECTUTIL_EXPORT deviceDescriptorStruct
 {
 public:
     QString gitHash;
