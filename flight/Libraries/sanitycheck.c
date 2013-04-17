@@ -32,6 +32,7 @@
 #include <pios_board_info.h>
 #include "sanitycheck.h"
 #include "manualcontrolsettings.h"
+#include "stateestimation.h"
 #include "systemalarms.h"
 #include "systemsettings.h"
 
@@ -43,6 +44,9 @@
 
 //! Check a stabilization mode switch position for safety
 static int32_t check_stabilization_settings(int index, bool multirotor);
+
+//! Check that the system is safe to perform navigation
+static int32_t navigation_safe();
 
 //!  Set the error code and alarm state
 static void set_config_error(SystemAlarmsConfigErrorOptions error_code);
@@ -130,6 +134,8 @@ int32_t configuration_check()
 				else {
 					if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER)) {
 						error_code = SYSTEMALARMS_CONFIGERROR_VELOCITYCONTROL;
+					} else {
+						error_code = navigation_safe();
 					}
 				}
 				break;
@@ -141,6 +147,8 @@ int32_t configuration_check()
 				else {
 					if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER)) {
 						error_code = SYSTEMALARMS_CONFIGERROR_POSITIONHOLD;
+					} else {
+						error_code = navigation_safe();
 					}
 				}
 				break;
@@ -153,6 +161,8 @@ int32_t configuration_check()
 					if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER) ||
 						!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHPLANNER)) {
 						error_code = SYSTEMALARMS_CONFIGERROR_PATHPLANNER;
+					} else {
+						error_code = navigation_safe();
 					}
 				}
 				break;
@@ -231,6 +241,22 @@ static int32_t check_stabilization_settings(int index, bool multirotor)
 	// and is the same for STABILIZATIONDESIRED_STABILIZATIONMODE_NONE
 
 	return SYSTEMALARMS_CONFIGERROR_NONE;
+}
+
+/**
+ * Check that the system is safe to perform navigation
+ * @returns SYSTEMALARMS_CONFIGERROR_NONE or SYSTEMALARMS_CONFIGERROR_POSITIONHOLD
+ */
+static int32_t navigation_safe()
+{
+	StateEstimationData stateEstimation;
+	StateEstimationGet(&stateEstimation);
+
+	if (stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_INSOUTDOOR &&
+		stateEstimation.NavigationFilter == STATEESTIMATION_NAVIGATIONFILTER_INS)
+		return SYSTEMALARMS_CONFIGERROR_NONE;
+
+	return SYSTEMALARMS_CONFIGERROR_POSITIONHOLD;
 }
 
 /**
