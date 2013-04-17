@@ -243,6 +243,7 @@ static int32_t check_stabilization_settings(int index, bool multirotor)
 	return SYSTEMALARMS_CONFIGERROR_NONE;
 }
 
+#if defined(REVOLUTION)
 /**
  * Check that the system is safe to perform navigation
  * @returns SYSTEMALARMS_CONFIGERROR_NONE or SYSTEMALARMS_CONFIGERROR_POSITIONHOLD
@@ -258,6 +259,12 @@ static int32_t navigation_safe()
 
 	return SYSTEMALARMS_CONFIGERROR_POSITIONHOLD;
 }
+#else
+static int32_t navigation_safe()
+{
+	return SYSTEMALARMS_CONFIGERROR_POSITIONHOLD;
+}
+#endif
 
 /**
  * Set the error code and alarm state
