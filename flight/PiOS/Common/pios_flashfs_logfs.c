@@ -27,7 +27,6 @@
 #include "openpilot.h"
 
 #include "pios_flashfs_logfs_priv.h"
-#include "pios_wdg.h"
 
 #include <stdbool.h>
 
@@ -189,9 +188,6 @@ static int32_t logfs_erase_all_arenas()
 	uint16_t num_arenas = logfs.cfg->total_fs_size / logfs.cfg->arena_size;
 
 	for (uint16_t arena = 0; arena < num_arenas; arena++) {
-#if defined(PIOS_INCLUDE_WDG)
-		PIOS_WDG_Clear();
-#endif
 		if (logfs_erase_arena(arena) != 0)
 			return -1;
 	}
