@@ -88,6 +88,7 @@ TEST_F(LogfsTestRaw, LogfsInit) {
   uintptr_t fs_id;
   EXPECT_EQ(0, PIOS_FLASHFS_Logfs_Init(&fs_id, &flashfs_config, &pios_ut_flash_driver, flash_id));
 
+  PIOS_FLASHFS_Logfs_Destroy(fs_id);
   PIOS_Flash_UT_Destroy(flash_id);
 }
 
@@ -103,12 +104,27 @@ protected:
   }
 
   virtual void TearDown() {
+    PIOS_FLASHFS_Logfs_Destroy(fs_id);
     PIOS_Flash_UT_Destroy(flash_id);
   }
 
   uintptr_t flash_id;
   uintptr_t fs_id;
 };
+
+TEST_F(LogfsTestCooked, BadIdLogfsFormat) {
+  EXPECT_EQ(-1, PIOS_FLASHFS_Format(fs_id + 1));
+}
+
+TEST_F(LogfsTestCooked, BadIdSave) {
+  EXPECT_EQ(-1, PIOS_FLASHFS_ObjSave(fs_id + 1, OBJ1_ID, 0, obj1, sizeof(obj1)));
+}
+
+TEST_F(LogfsTestCooked, BadIdLoad) {
+  unsigned char obj1_check[OBJ1_SIZE];
+  memset(obj1_check, 0, sizeof(obj1_check));
+  EXPECT_EQ(-1, PIOS_FLASHFS_ObjLoad(fs_id + 1, OBJ1_ID, 0, obj1_check, sizeof(obj1_check)));
+}
 
 TEST_F(LogfsTestCooked, LogfsFormat) {
   EXPECT_EQ(0, PIOS_FLASHFS_Format(fs_id));
@@ -137,7 +153,7 @@ TEST_F(LogfsTestCooked, WriteVerifyDeleteVerifyOne) {
 
   EXPECT_EQ(0, PIOS_FLASHFS_ObjDelete(fs_id, OBJ1_ID, 0));
 
-  EXPECT_EQ(-2, PIOS_FLASHFS_ObjLoad(fs_id, OBJ1_ID, 0, obj1_check, sizeof(obj1_check)));
+  EXPECT_EQ(-3, PIOS_FLASHFS_ObjLoad(fs_id, OBJ1_ID, 0, obj1_check, sizeof(obj1_check)));
 }
 
 TEST_F(LogfsTestCooked, WriteTwoVerifyOneA) {
@@ -186,7 +202,7 @@ TEST_F(LogfsTestCooked, ReadNonexistent) {
   /* Read back a zero length object -- basically an existence check */
   unsigned char obj1_check[OBJ1_SIZE];
   memset(obj1_check, 0, sizeof(obj1_check));
-  EXPECT_EQ(-2, PIOS_FLASHFS_ObjLoad(fs_id, OBJ1_ID, 0, obj1_check, sizeof(obj1_check)));
+  EXPECT_EQ(-3, PIOS_FLASHFS_ObjLoad(fs_id, OBJ1_ID, 0, obj1_check, sizeof(obj1_check)));
 }
 
 TEST_F(LogfsTestCooked, WriteVerifyMultiInstance) {
@@ -216,7 +232,7 @@ TEST_F(LogfsTestCooked, FillFilesystemAndGarbageCollect) {
   }
 
   /* Should fail to add a new object since the filesystem is full */
-  EXPECT_EQ(-3, PIOS_FLASHFS_ObjSave(fs_id, OBJ2_ID, 0, obj2, sizeof(obj2)));
+  EXPECT_EQ(-4, PIOS_FLASHFS_ObjSave(fs_id, OBJ2_ID, 0, obj2, sizeof(obj2)));
 
   /* Now save a new version of an existing object which should trigger gc and succeed */
   EXPECT_EQ(0, PIOS_FLASHFS_ObjSave(fs_id, OBJ1_ID, 0, obj1_alt, sizeof(obj1_alt)));
