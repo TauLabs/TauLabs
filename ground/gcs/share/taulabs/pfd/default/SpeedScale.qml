@@ -83,14 +83,16 @@ Item {
         elementName: "setpoint-bug-offscale"
         sceneSize: sceneItem.sceneSize
 
-        rotation: ((speed_scale.topNumber-speed_desired.desiredSpeed) > 0) * 180
-        visible: (speed_scale.topNumber-speed_desired.desiredSpeed) < 0 || (speed_scale.bottomNumber-speed_desired.desiredSpeed) > 0
+        property int topVisibleNumber: sceneItem.calibratedAirspeed + 13
+        property int bottomVisibleNumber: sceneItem.calibratedAirspeed - 13
+
+        rotation: ((topVisibleNumber-speed_desired.desiredSpeed) > 0) * 180
+        visible: (topVisibleNumber-speed_desired.desiredSpeed) < 0 || (bottomVisibleNumber-speed_desired.desiredSpeed) > 0
 
         anchors.right: speed_bg.right
-        anchors.verticalCenter: ((speed_scale.topNumber-speed_desired.desiredSpeed) < 0 ? speed_bg.top : speed_bg.bottom)
-        anchors.verticalCenterOffset:  ((speed_scale.topNumber-speed_desired.desiredSpeed) < 0 ? -speed_desired_offscale.height/2.0-sceneItem.height*.003 : speed_desired_offscale.height/2.0+sceneItem.height*.003)
+        anchors.verticalCenter: ((topVisibleNumber-speed_desired.desiredSpeed) < 0 ? speed_bg.top : speed_bg.bottom)
+        anchors.verticalCenterOffset:  ((topVisibleNumber-speed_desired.desiredSpeed) < 0 ? -speed_desired_offscale.height/2.0-sceneItem.height*.003 : speed_desired_offscale.height/2.0+sceneItem.height*.003)
     }
-
 
     // Add text to speed ticker
     SvgElementImage {
