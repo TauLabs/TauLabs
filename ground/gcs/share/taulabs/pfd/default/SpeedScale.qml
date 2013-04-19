@@ -3,10 +3,10 @@ import Qt 4.7
 Item {
     id: sceneItem
     property variant sceneSize
-    property real groundSpeed : 3.6 * Math.sqrt(Math.pow(VelocityActual.North,2)+
-                                                Math.pow(VelocityActual.East,2))
-    property real airspeed : 3.6 * AirspeedActual.CalibratedAirspeed
+    property real calibratedAirspeed : 3.6 * AirspeedActual.CalibratedAirspeed
 
+
+    // Create speed ticker
     SvgElementImage {
         id: speed_bg
         elementName: "speed-bg"
@@ -16,6 +16,7 @@ Item {
         x: Math.floor(scaledBounds.x * sceneItem.width)
         y: Math.floor(scaledBounds.y * sceneItem.height)
 
+        // Create speed ticker
         SvgElementImage {
             id: speed_scale
 
@@ -23,12 +24,13 @@ Item {
             sceneSize: sceneItem.sceneSize
 
             anchors.verticalCenter: parent.verticalCenter
-            // The speed scale represents 30 meters,
-            // move it in 0..5m range
-            anchors.verticalCenterOffset: unitHeight * (sceneItem.airspeed-Math.floor(sceneItem.airspeed/5)*5)
+            // The speed scale shows 30 kph of range
+            // move it in 0..5m/s increments
+            anchors.verticalCenterOffset: unitHeight * (sceneItem.calibratedAirspeed-Math.floor(sceneItem.calibratedAirspeed/5)*5)
             anchors.right: parent.right
 
-            property int topNumber: Math.floor(sceneItem.airspeed/5)*5+15
+            property int topNumber: Math.floor(sceneItem.calibratedAirspeed/5)*5+15
+            property int bottomNumber: Math.floor(sceneItem.calibratedAirspeed/5)*5-15
             property real unitHeight: speed_scale.height / 30
 
             SvgElementImage {
@@ -37,6 +39,7 @@ Item {
                 elementName: "speed-desired"
                 sceneSize: sceneItem.sceneSize
 
+                // TODO: Update this to show desired calibrated airspeed
                 property real desiredSpeed : 3.6 * PathDesired.EndingVelocity
 
                 anchors.right: parent.right
@@ -73,7 +76,23 @@ Item {
         }
     }
 
+    // Add off-scale chevrons
+    SvgElementImage {
+        id: speed_desired_offscale
 
+        elementName: "setpoint-bug-offscale"
+        sceneSize: sceneItem.sceneSize
+
+        rotation: ((speed_scale.topNumber-speed_desired.desiredSpeed) > 0) * 180
+        visible: (speed_scale.topNumber-speed_desired.desiredSpeed) < 0 || (speed_scale.bottomNumber-speed_desired.desiredSpeed) > 0
+
+        anchors.right: speed_bg.right
+        anchors.verticalCenter: ((speed_scale.topNumber-speed_desired.desiredSpeed) < 0 ? speed_bg.top : speed_bg.bottom)
+        anchors.verticalCenterOffset:  ((speed_scale.topNumber-speed_desired.desiredSpeed) < 0 ? -speed_desired_offscale.height/2.0-sceneItem.height*.003 : speed_desired_offscale.height/2.0+sceneItem.height*.003)
+    }
+
+
+    // Add text to speed ticker
     SvgElementImage {
         id: speed_window
         clip: true
@@ -84,7 +103,7 @@ Item {
 
         Text {
             id: speed_text
-            text: Math.round(sceneItem.airspeed).toFixed()
+            text: Math.round(sceneItem.calibratedAirspeed).toFixed()
             color: "white"
             font {
                 family: "Arial"

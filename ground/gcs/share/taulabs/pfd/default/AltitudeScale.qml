@@ -27,7 +27,8 @@ Item {
             anchors.verticalCenterOffset: unitHeight * (altitude - Math.floor(altitude/5)*5)
             anchors.left: parent.left
 
-            property int topNumber: 15 + Math.floor(altitude/5)*5
+            property int topNumber: Math.floor(altitude/5)*5 + 15
+            property int bottomNumber: Math.floor(altitude/5)*5 - 15
             property real unitHeight: altitude_scale.height / 30
             property real altitude: -PositionActual.Down
 
@@ -66,6 +67,22 @@ Item {
             }
         }
     }
+
+    // Add off-scale chevrons
+    SvgElementImage {
+        id: altitude_desired_offscale
+
+        elementName: "setpoint-bug-offscale"
+        sceneSize: sceneItem.sceneSize
+
+        rotation: ((altitude_scale.topNumber-altitude_desired.desiredAltitude) > 0) * 180
+        visible: (altitude_scale.topNumber-altitude_desired.desiredAltitude) < 0 || (altitude_scale.bottomNumber-altitude_desired.desiredAltitude) > 0
+
+        anchors.left: altitude_bg.left
+        anchors.verticalCenter: ((altitude_scale.topNumber-altitude_desired.desiredAltitude) < 0 ? altitude_bg.top : altitude_bg.bottom)
+        anchors.verticalCenterOffset:  ((altitude_scale.topNumber-altitude_desired.desiredAltitude) < 0 ? -altitude_desired_offscale.height/2.0-sceneItem.height*.003 : altitude_desired_offscale.height/2.0+sceneItem.height*.003)
+    }
+
 
     SvgElementImage {
         id: altitude_window
