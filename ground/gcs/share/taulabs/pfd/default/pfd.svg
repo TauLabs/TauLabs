@@ -3875,7 +3875,37 @@
      inkscape:groupmode="layer"
      id="layer35"
      inkscape:label="desired_layers"
-     style="display:none">
+     style="display:inline">
+    <g
+       inkscape:groupmode="layer"
+       id="layer40"
+       inkscape:label="setpoint-bug-offscale"
+       sodipodi:insensitive="true">
+      <g
+         transform="matrix(-1,0,0,-1,1040.2116,461)"
+         style="display:inline"
+         id="setpoint-bug-offscale"
+         inkscape:label="#g7569">
+        <path
+           sodipodi:nodetypes="ccccc"
+           inkscape:connector-curvature="0"
+           id="path7549-4"
+           d="m 848,362 2,0 3,8 3,-8 2,0 -5,12 z"
+           style="fill:#ff00ff;stroke:#ff00ff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+        <path
+           sodipodi:nodetypes="ccccc"
+           inkscape:connector-curvature="0"
+           id="path7549-4"
+           d="m 848,349 2,0 3,8 3,-8 2,0 -5,12 z"
+           style="fill:#ff00ff;stroke:#ff00ff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+        <path
+           sodipodi:nodetypes="ccccc"
+           inkscape:connector-curvature="0"
+           id="path7549-9-4"
+           d="m 848,336 2,0 3,8 3,-8 2,0 -5,12 z"
+           style="fill:#ff00ff;stroke:#ff00ff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+      </g>
+    </g>
     <g
        inkscape:groupmode="layer"
        id="layer37"
