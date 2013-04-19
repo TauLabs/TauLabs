@@ -60,6 +60,8 @@ uintptr_t pios_com_telem_rf_id;
 uintptr_t pios_com_telem_usb_id;
 uintptr_t pios_com_vcp_id;
 
+uintptr_t pios_uavo_settings_fs_id;
+
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. tx size of -1 make the port rx only
  */
@@ -113,8 +115,7 @@ void PIOS_Board_Init(void) {
 	/* Connect flash to the appropriate interface and configure it */
 	uintptr_t flash_id;
 	PIOS_Flash_Internal_Init(&flash_id, &flash_internal_cfg);
-	uintptr_t fs_id;
-	PIOS_FLASHFS_Logfs_Init(&fs_id, &flashfs_internal_cfg, &pios_internal_flash_driver, flash_id);
+	PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_internal_cfg, &pios_internal_flash_driver, flash_id);
 #endif
 	
 	/* Initialize UAVObject libraries */
