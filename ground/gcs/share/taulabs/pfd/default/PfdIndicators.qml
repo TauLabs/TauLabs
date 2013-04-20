@@ -5,7 +5,7 @@ Item {
     property variant sceneSize
 
     //AttitudeActual.Yaw is converted to -180..180 range
-    property real yaw : (AttitudeActual.Yaw+180+720) % 360 - 180 //TODO: This doesn't look right, check the math
+    property real yaw : (AttitudeActual.Yaw+180+720) % 360 - 180
     property real pitch : (AttitudeActual.Pitch)
 
     //telemetry status arrow
