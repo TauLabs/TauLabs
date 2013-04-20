@@ -134,6 +134,7 @@ public:
 
     void autoLoadWidgets();
 
+    bool isAutopilotConnected();
     bool isDirty();
     void setDirty(bool value);
 

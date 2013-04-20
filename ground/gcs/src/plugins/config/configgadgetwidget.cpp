@@ -249,10 +249,15 @@ void ConfigGadgetWidget::tabAboutToChange(int i, bool * proceed)
     if(!wid) {
         return;
     }
-    if(wid->isDirty())
+
+    // Check if widget is dirty (i.e. has unsaved changes), and if it does, then check if
+    // either an autopilot or a PipX/OPLink telemetry unit is connected.
+    if(wid->isDirty() &&
+            (wid->isAutopilotConnected()||
+             QString(wid->metaObject()->className()) == "ConfigPipXtremeWidget"))
     {
         int ans=QMessageBox::warning(this,tr("Unsaved changes"),tr("The tab you are leaving has unsaved changes,"
-                                                           "if you proceed they will be lost."
+                                                           "if you proceed they may be lost."
                                                            "Do you still want to proceed?"),QMessageBox::Yes,QMessageBox::No);
         if(ans==QMessageBox::No) {
             *proceed=false;

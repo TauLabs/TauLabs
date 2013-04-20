@@ -757,6 +757,9 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
         attitudeSettings->setData(attitudeSettingsData);
         attitudeSettings->updated();
 
+        // Inform the system that the calibration process has completed
+        emit calibrationCompleted();
+
         return true;
     }
     return false;
@@ -1016,6 +1019,9 @@ int Calibration::computeTempCal()
 
     emit tempCalProgressChanged(0);
 
+    // Inform the system that the calibration process has completed
+    emit calibrationCompleted();
+
     return CALIBRATION_SUCCESS;
 }
 
@@ -1193,6 +1199,9 @@ int Calibration::computeScaleBias()
     } else {
         return ACCELEROMETER_FAILED;
     }
+
+    // Inform the system that the calibration process has completed
+    emit calibrationCompleted();
 
     return CALIBRATION_SUCCESS;
 }
