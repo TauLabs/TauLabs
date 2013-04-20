@@ -38,6 +38,9 @@
 #include "qscopedpointer.h"
 #include "uavtalk/telemetrymanager.h"
 #include "uavobjectmanager.h"
+#include "uavobjectutil/uavobjectutilmanager.h"
+#include "extensionsystem/pluginmanager.h"
+#include "uavobject.h"
 
 #include "accels.h"
 #include "actuatorcommand.h"
@@ -263,7 +266,6 @@ private slots:
     void onAutopilotConnect();
     void onAutopilotDisconnect();
     void onSimulatorConnectionTimeout();
-    void telStatsUpdated(UAVObject* obj);
     Q_INVOKABLE void onDeleteSimulator(void);
 
     virtual void transmitUpdate() = 0;
@@ -327,10 +329,14 @@ private:
     //QList<QScopedPointer<UAVDataObject> > requiredUAVObjects;
     void setupOutputObject(UAVObject* obj, quint32 updatePeriod);
     void setupInputObject(UAVObject* obj, quint32 updatePeriod);
-    void setupWatchedObject(UAVObject *obj, quint32 updatePeriod);
-    void setupObjects();
+    void setupUAVObjects();
+    UAVObjectUtilManager* getObjectUtilManager();
+    UAVObjectManager* getObjectManager();
 
     AirParameters airParameters;
+    static QMap<QString, UAVObject::Metadata> originalMetaData;
+    QMap<QString, UAVObject::Metadata> metaDataList;
+
 };
 
 

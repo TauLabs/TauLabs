@@ -122,8 +122,6 @@ void HITLWidget::startButtonClicked()
 	{
 		Simulator::setInstance(settings.simulatorId);
 
-		connect(this,SIGNAL(deleteSimulator()),simulator, SLOT(onDeleteSimulator()),Qt::QueuedConnection);
-
 		widget->startButton->setEnabled(false);
 		widget->stopButton->setEnabled(true);
 		qxtLog->info("HITL: Starting bridge, initializing flight simulator and Autopilot connections");
