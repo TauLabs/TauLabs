@@ -39,16 +39,6 @@ contains(DEFINES,USE_OSG) {
 }
 
 OTHER_FILES += PfdQml.pluginspec
-OTHER_FILES += ../../../share/taulabs/pfd/default/AltitudeScale.qml
-OTHER_FILES += ../../../share/taulabs/pfd/default/Compass.qml
-OTHER_FILES += ../../../share/taulabs/pfd/default/Pfd.qml
-OTHER_FILES += ../../../share/taulabs/pfd/default/PfdIndicators.qml
-OTHER_FILES += ../../../share/taulabs/pfd/default/PfdTerrainView.qml
-OTHER_FILES += ../../../share/taulabs/pfd/default/PfdWorldView.qml
-OTHER_FILES += ../../../share/taulabs/pfd/default/SpeedScale.qml
-OTHER_FILES += ../../../share/taulabs/pfd/default/SvgElementImage.qml
-OTHER_FILES += ../../../share/taulabs/pfd/default/VsiScale.qml
-
 
 FORMS += pfdqmlgadgetoptionspage.ui
 
