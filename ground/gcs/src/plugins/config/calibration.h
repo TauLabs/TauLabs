@@ -24,6 +24,7 @@
 #define CALIBRATION_H
 
 #include <uavobjectmanager.h>
+#include "uavobjectutil/uavobjectutilmanager.h"
 #include <extensionsystem/pluginmanager.h>
 #include <uavobject.h>
 #include <tempcompcurve.h>
@@ -131,6 +132,15 @@ signals:
     void calibrationCompleted();
 
 private:
+    //! Get the object manager
+    UAVObjectManager* getObjectManager();
+
+    //! Get the object manager utility
+    UAVObjectUtilManager* getObjectUtilManager();
+
+    //! Assign the metadata update rate
+    void assignUpdateRate(UAVObject* obj, quint32 updatePeriod);
+
     QTimer timer;
 
     //! Whether to attempt to calibrate the mag (normally if it is present)
@@ -139,14 +149,11 @@ private:
     //! The expected gravity amplitude
     double accelLength;
 
-    //! Store the initial accel meta data to restore it after calibration
-    UAVObject::Metadata initialAccelsMdata;
+    //! Store the initial metadata in order to restore it after calibration
+    QMap<QString, UAVObject::Metadata> originalMetaData;
 
-    //! Store the initial mag meta data to restore it after calibration
-    UAVObject::Metadata initialMagMdata;
-
-    //! Store the initial gyro meta data to restore it after calibration
-    UAVObject::Metadata initialGyrosMdata;
+    //! List of optimized metadata rates
+    QMap<QString, UAVObject::Metadata> metaDataList;
 
     QList<double> gyro_accum_x;
     QList<double> gyro_accum_y;
@@ -165,7 +172,8 @@ private:
 
     static const int NUM_SENSOR_UPDATES_LEVELING = 300;
     static const int NUM_SENSOR_UPDATES_SIX_POINT = 100;
-    static const int SENSOR_UPDATE_PERIOD = 50;
+    static const int SENSOR_UPDATE_PERIOD = 20;
+    static const int NON_SENSOR_UPDATE_PERIOD = 5000;
     double MIN_TEMPERATURE_RANGE;
 
     double initialBoardRotation[3];
@@ -179,10 +187,6 @@ private:
     TempCompCurve *zCurve;
 
 protected:
-
-    //! Get the object manager
-    UAVObjectManager* getObjectManager();
-
     enum sensor_type {ACCEL, GYRO, MAG};
 
     //! Connect and speed up or disconnect a sensor
