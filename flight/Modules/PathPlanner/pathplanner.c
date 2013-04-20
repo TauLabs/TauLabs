@@ -164,15 +164,16 @@ static void pathPlannerTask(void *parameters)
 		}
 
 		if(pathplanner_active == false) {
+			// Reset the state.  Active waypoint should be set to an invalid
+			// value to force waypoint 0 to become activated when starting
+			// Note: this needs to be done before the callback is triggered!
+			active_waypoint = -1;
+			previous_waypoint = -1;
+
 			// This triggers callback to update variable
 			WaypointActiveGet(&waypointActive);
 			waypointActive.Index = 0;
 			WaypointActiveSet(&waypointActive);
-
-			// Reset the state.  Active waypoint sholud be set to an invalid
-			// value to force waypoint 0 to become activated when starting
-			active_waypoint = -1;
-			previous_waypoint = -1;
 
 			pathplanner_active = true;
 			continue;
