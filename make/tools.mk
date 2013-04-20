@@ -24,7 +24,6 @@ endif
 # Set up QT toolchain
 QT_SDK_DIR := $(TOOLS_DIR)/Qt5.0.2
 
-
 # Build openocd without FTDI (yes | no)
 OPENOCD_FTDI ?= yes
 
