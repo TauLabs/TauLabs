@@ -242,7 +242,7 @@ ifeq ($(shell [ -d "$(QT_SDK_DIR)" ] && echo "exists"), exists)
   QMAKE = $(QT_SDK_QMAKE_PATH)
 ifeq ($(UNAME), MINGW32_NT-6.1) # Windows 7
   # Windows needs to be told where to find Qt libraries
-  export PATH := $(QT_SDK_DIR)/5.0.1/mingw47_32/bin:$(PATH) 
+  export PATH := $(QT_SDK_DIR)/5.0.2/mingw47_32/bin:$(PATH) 
 endif
 else
   # not installed, hope it's in the path...

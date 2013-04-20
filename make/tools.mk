@@ -22,7 +22,7 @@ ifdef OPENOCD_FTDI
 endif
 
 # Set up QT toolchain
-QT_SDK_DIR := $(TOOLS_DIR)/Qt5.0.1
+QT_SDK_DIR := $(TOOLS_DIR)/Qt5.0.2
 
 # Build openocd without FTDI (yes | no)
 OPENOCD_FTDI ?= yes
@@ -34,23 +34,23 @@ ifeq ($(UNAME), Linux)
 # Choose the appropriate installer based on host architecture
 ifneq (,$(filter $(ARCH), x86_64 amd64))
 # Linux 64-bit
-QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.0.1/gcc_64/bin/qmake
-qt_sdk_install: QT_SDK_URL  := http://origin.releases.qt-project.org/qt5/5.0.1/qt-linux-opensource-5.0.1-x86_64-offline.run
+QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.0.2/gcc_64/bin/qmake
+qt_sdk_install: QT_SDK_URL  := http://origin.releases.qt-project.org/qt5/5.0.2/qt-linux-opensource-5.0.2-x86_64-offline.run
 else
 # Linux 32-bit
-QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.0.1/gcc/bin/qmake
-qt_sdk_install: QT_SDK_URL  := http://origin.releases.qt-project.org/qt5/5.0.1/qt-linux-opensource-5.0.1-x86-offline.run
+QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.0.2/gcc/bin/qmake
+qt_sdk_install: QT_SDK_URL  := http://origin.releases.qt-project.org/qt5/5.0.2/qt-linux-opensource-5.0.2-x86-offline.run
 endif
 
 else ifeq ($(UNAME), Darwin)
 
-qt_sdk_install: QT_SDK_URL  := http://origin.releases.qt-project.org/qt5/5.0.1/qt-mac-opensource-5.0.1-clang-offline.dmg
-QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.0.1/clang_64/bin/qmake
+qt_sdk_install: QT_SDK_URL  := http://origin.releases.qt-project.org/qt5/5.0.2/qt-mac-opensource-5.0.2-clang-offline.dmg
+QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.0.2/clang_64/bin/qmake
 
 else ifeq ($(UNAME), MINGW32_NT-6.1) # Windows 7
 
-QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.0.1/mingw47_32/bin/qmake
-qt_sdk_install: QT_SDK_URL  := http://origin.releases.qt-project.org/qt5/5.0.1/qt-windows-opensource-5.0.1-mingw47_32-x86-offline.exe
+QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.0.2/mingw47_32/bin/qmake
+qt_sdk_install: QT_SDK_URL  := http://origin.releases.qt-project.org/qt5/5.0.2/qt-windows-opensource-5.0.2-mingw47_32-x86-offline.exe
 
 endif
 
@@ -71,7 +71,7 @@ qt_sdk_install: qt_sdk_clean
 
 ifneq (,$(filter $(UNAME), Darwin))
 	$(V1) hdiutil attach -quiet -private -mountpoint /tmp/qt-installer "$(DL_DIR)/$(QT_SDK_FILE)" 
-	$(V1) /tmp/qt-installer/qt-mac-opensource-5.0.1-clang-offline.app/Contents/MacOS/qt-mac-opensource-5.0.1-clang-offline
+	$(V1) /tmp/qt-installer/qt-mac-opensource-5.0.2-clang-offline.app/Contents/MacOS/qt-mac-opensource-5.0.2-clang-offline
 	$(V1) hdiutil detach -quiet /tmp/qt-installer
 endif
  
@@ -82,7 +82,7 @@ ifneq (,$(filter $(UNAME), Linux))
 endif
 
 ifneq (,$(filter $(UNAME), MINGW32_NT-6.1))
-	$(V1) ./downloads/qt-windows-opensource-5.0.1-mingw47_32-x86-offline.exe
+	$(V1) ./downloads/qt-windows-opensource-5.0.2-mingw47_32-x86-offline.exe
 endif
 
 .PHONY: qt_sdk_clean
