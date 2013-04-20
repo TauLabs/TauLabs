@@ -46,12 +46,12 @@ Item {
 
             visible: PositionActual.East != 0 || PositionActual.North != 0
 
-            property real bearing : Math.atan2(PositionActual.East, PositionActual.North)*180/Math.PI
+            property real bearing_D : Math.atan2(PositionActual.East, PositionActual.North)*180/Math.PI
 
             anchors.centerIn: parent
             //convert bearing-compass.yaw to -180..180 range as compass_band_composed
             //the band is 540 degrees wide
-            anchors.horizontalCenterOffset: ((bearing-compass.yaw+180+720) % 360 - 180)/540*compass_band_composed.width
+            anchors.horizontalCenterOffset: ((bearing_D-compass.yaw+180+720) % 360 - 180)/540*compass_band_composed.width
         }
 
         SvgElementImage {
@@ -65,12 +65,12 @@ Item {
 
             visible: Waypoint.Position_East != 0 || Waypoint.Position_North != 0
 
-            property real bearing : Math.atan2(Waypoint.Position_East, Waypoint.Position_North)*180/Math.PI
+            property real bearing_D : Math.atan2(Waypoint.Position_East - PositionActual.East, Waypoint.Position_North - PositionActual.North) - AttitudeActual.Yaw*Math.PI/180
 
             anchors.centerIn: parent
             //convert bearing-compass.yaw to -180..180 range as compass_band_composed
             //the band is 540 degrees wide
-            anchors.horizontalCenterOffset: ((bearing-compass.yaw+180+720) % 360 - 180)/540*compass_band_composed.width
+            anchors.horizontalCenterOffset: ((bearing_D-compass.yaw+180+720) % 360 - 180)/540*compass_band_composed.width
         }
     }
 }
