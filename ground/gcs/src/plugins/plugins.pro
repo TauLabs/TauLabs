@@ -283,6 +283,11 @@ SUBDIRS += plugin_uavobjectwidgetutils
 # needs to implement a manufacturer plugin that defines all their boards
 ############################
 
+# Tau Labs project
+plugin_boards_taulabs.subdir = boards_taulabs
+plugin_boards_taulabs.depends = plugin_coreplugin
+SUBDIRS += plugin_boards_taulabs
+
 # OpenPilot project
 plugin_boards_openpilot.subdir = boards_openpilot
 plugin_boards_openpilot.depends = plugin_coreplugin

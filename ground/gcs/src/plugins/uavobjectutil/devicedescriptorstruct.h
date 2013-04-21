@@ -1,68 +1,51 @@
+/**
+ ******************************************************************************
+ * @file       devicedescriptorstruct.h
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
+ * @see        The GNU Public License (GPL) Version 3
+ * @addtogroup GCSPlugins GCS Plugins
+ * @{
+ * @addtogroup UAVObjectUtilPlugin UAVObjectUtil Plugin
+ * @{
+ * @brief      The UAVUObjectUtil GCS plugin
+ *****************************************************************************/
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+ * for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+
 #ifndef DEVICEDESCRIPTORSTRUCT_H
 #define DEVICEDESCRIPTORSTRUCT_H
 
+#include "uavobjectutil_global.h"
 #include <QString>
-struct deviceDescriptorStruct
+#include <QPixmap>
+
+class UAVOBJECTUTIL_EXPORT deviceDescriptorStruct
 {
 public:
-       QString gitHash;
-       QString gitDate;
-       QString gitTag;
-       QByteArray fwHash;
-       QByteArray uavoHash;
-       int boardType;
-       int boardRevision;
-       static QString idToBoardName(quint16 id)
-       {
-           switch (id) {
-           case 0x0101://MB
-               return QString("OpenPilot MainBoard");
-               break;
-           case 0x0201://INS
-               return QString("OpenPilot INS");
-               break;
-           case 0x0301://PipX
-               return QString("PipXtreme");
-               break;
-           case 0x0401://Coptercontrol
-               return QString("CopterControl");
-               break;
-           case 0x0402://Coptercontrol
-               // It would be nice to say CC3D here but since currently we use string comparisons
-               // for firmware compatibility and the filename path that would break
-               return QString("CopterControl");
-               break;
-           case 0x0903: //RevoMini
-               return QString("RevoMini");
-               break;
-           case 0x0901://Revolution
-           case 0x0902:
-           case 0x7F01:
-           case 0x7F02:
-               return QString("Revolution");
-               break;
-           case 0x8101:
-           case 0x8102:
-               return QString("Freedom");
-               break;
-           case 0x8301:
-               return QString("FlyingF3");
-               break;
-           case 0x8401:
-               return QString("FlyingF4");
-               break;
-           case 0x8501:
-               return QString("DiscoveryF4");
-               break;
-           case 0x8601:
-               return QString("Quanton");
-               break;
-           default:
-               return QString("");
-               break;
-           }
-       }
-        deviceDescriptorStruct(){}
+    QString gitHash;
+    QString gitDate;
+    QString gitTag;
+    QByteArray fwHash;
+    QByteArray uavoHash;
+    int boardType;
+    int boardRevision;
+    static QString idToBoardName(quint16 id);
+    static QPixmap idToBoardPicture(quint16 id);
+
+    deviceDescriptorStruct();
 };
 
 #endif // DEVICEDESCRIPTORSTRUCT_H

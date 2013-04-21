@@ -87,3 +87,13 @@ QStringList Quanton::getSupportedProtocols()
 
     return QStringList("uavtalk");
 }
+
+QPixmap Quanton::getBoardPicture()
+{
+    return QPixmap(":/quantec/images/quanton.png");
+}
+
+QString Quanton::getHwUAVO()
+{
+    return "HwQuanton";
+}

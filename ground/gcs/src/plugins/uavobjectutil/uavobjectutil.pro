@@ -11,7 +11,8 @@ HEADERS += uavobjectutil_global.h \
    devicedescriptorstruct.h
 
 SOURCES += uavobjectutilmanager.cpp \
-    uavobjectutilplugin.cpp
+    uavobjectutilplugin.cpp \
+    devicedescriptorstruct.cpp
 
 OTHER_FILES += UAVObjectUtil.pluginspec \
     UAVObjectUtil.json
