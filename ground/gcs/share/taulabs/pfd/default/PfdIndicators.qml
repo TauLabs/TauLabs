@@ -73,11 +73,6 @@ Item {
         y: Math.floor(scaledBounds.y * sceneItem.height)
     }
 
-    // Define the field of view for the PFD. Normally this data would come
-    // from the C++ code.
-    property real fovX_D: 90 // In units of [deg]
-    property real fovY_D: 90 // In units of [deg]
-
     // Draw home location marker
     Item {
         id: homelocation
@@ -86,8 +81,8 @@ Item {
         transform: [
             Translate {
                 id: homeLocationTranslate
-                x: homelocation.parent.width/2*Math.sin(homewaypoint.bearing_R)*(Math.sin(Math.PI/2)/Math.sin(fovX_D*Math.PI/180/2))
-                y: -homelocation.parent.height/2*Math.sin(homewaypoint.elevation_R)*(Math.sin(Math.PI/2)/Math.sin(fovY_D*Math.PI/180/2))
+                x: homelocation.parent.width/2*Math.sin(homewaypoint.bearing_R)*(Math.sin(Math.PI/2)/Math.sin(parent.fovX_D*Math.PI/180/2))
+                y: -homelocation.parent.height/2*Math.sin(homewaypoint.elevation_R)*(Math.sin(Math.PI/2)/Math.sin(parent.fovY_D*Math.PI/180/2))
             },
             Rotation {
                 angle: -AttitudeActual.Roll
@@ -121,8 +116,8 @@ Item {
         transform: [
             Translate {
                 id: waypointTranslate
-                x: waypoint.parent.width/2*Math.sin(nextwaypoint.bearing_R)*(Math.sin(Math.PI/2)/Math.sin(fovX_D*Math.PI/180/2))
-                y: -waypoint.parent.height/2*Math.sin(nextwaypoint.elevation_R)*(Math.sin(Math.PI/2)/Math.sin(fovY_D*Math.PI/180/2))
+                x: waypoint.parent.width/2*Math.sin(nextwaypoint.bearing_R)*(Math.sin(Math.PI/2)/Math.sin(parent.fovX_D*Math.PI/180/2))
+                y: -waypoint.parent.height/2*Math.sin(nextwaypoint.elevation_R)*(Math.sin(Math.PI/2)/Math.sin(parent.fovY_D*Math.PI/180/2))
             },
             Rotation {
                 angle: -AttitudeActual.Roll
@@ -153,5 +148,4 @@ Item {
             anchors.centerIn: parent
         }
     }
-
 }
