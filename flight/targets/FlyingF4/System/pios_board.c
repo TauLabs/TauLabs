@@ -184,6 +184,8 @@ uintptr_t pios_com_telem_rf_id = 0;
 uintptr_t pios_com_bridge_id = 0;
 uintptr_t pios_com_overo_id = 0;
 
+uintptr_t pios_uavo_settings_fs_id;
+
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. tx size of -1 make the port rx only
  */
@@ -300,8 +302,7 @@ void PIOS_Board_Init(void) {
 	uintptr_t flash_id;
 	if (PIOS_Flash_Jedec_Init(&flash_id, pios_spi_flash_id, 0, &flash_m25p_cfg) != 0)
 		panic(1);
-	uintptr_t fs_id;
-	if (PIOS_FLASHFS_Logfs_Init(&fs_id, &flashfs_m25p_cfg, &pios_jedec_flash_driver, flash_id) != 0)
+	if (PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_m25p_cfg, &pios_jedec_flash_driver, flash_id) != 0)
 		panic(1);
 #endif
 	
