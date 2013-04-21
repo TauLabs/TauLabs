@@ -1469,7 +1469,7 @@ static const struct pios_tim_channel pios_tim_servoport_all_pins[] = {
 	{
 		.timer = TIM2,
 		.timer_chan = TIM_Channel_3,
-		.remap = GPIO_AF_2,
+		.remap = GPIO_AF_1,
 		.pin = {
 			.gpio = GPIOA,
 			.init = {
@@ -1485,7 +1485,7 @@ static const struct pios_tim_channel pios_tim_servoport_all_pins[] = {
 	{
 		.timer = TIM2,
 		.timer_chan = TIM_Channel_4,
-		.remap = GPIO_AF_2,
+		.remap = GPIO_AF_1,
 		.pin = {
 			.gpio = GPIOA,
 			.init = {

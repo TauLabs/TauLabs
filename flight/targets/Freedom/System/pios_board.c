@@ -175,14 +175,12 @@ static const struct pios_exti_cfg pios_exti_mpu6000_cfg __exti_config = {
 
 static const struct pios_mpu60x0_cfg pios_mpu6000_cfg = {
 	.exti_cfg = &pios_exti_mpu6000_cfg,
-	.Fifo_store = PIOS_MPU60X0_FIFO_TEMP_OUT | PIOS_MPU60X0_FIFO_GYRO_X_OUT | PIOS_MPU60X0_FIFO_GYRO_Y_OUT | PIOS_MPU60X0_FIFO_GYRO_Z_OUT,
-	// Clock at 8 khz, downsampled by 8 for 1khz
-	.Smpl_rate_div = 11,
+	.default_samplerate = 666,
 	.interrupt_cfg = PIOS_MPU60X0_INT_CLR_ANYRD,
 	.interrupt_en = PIOS_MPU60X0_INTEN_DATA_RDY,
-	.User_ctl = PIOS_MPU60X0_USERCTL_FIFO_EN | PIOS_MPU60X0_USERCTL_DIS_I2C,
-	.Pwr_mgmt_clk = PIOS_MPU60X0_PWRMGMT_PLL_X_CLK,
-	.filter = PIOS_MPU60X0_LOWPASS_256_HZ,
+	.User_ctl = PIOS_MPU60X0_USERCTL_DIS_I2C,
+	.Pwr_mgmt_clk = PIOS_MPU60X0_PWRMGMT_PLL_Z_CLK,
+	.default_filter = PIOS_MPU60X0_LOWPASS_256_HZ,
 	.orientation = PIOS_MPU60X0_TOP_180DEG
 };
 #endif /* PIOS_INCLUDE_MPU6000 */
@@ -216,6 +214,8 @@ uintptr_t pios_com_vcp_id = 0;
 uintptr_t pios_com_bridge_id = 0;
 uintptr_t pios_com_overo_id = 0;
 uint32_t pios_rfm22b_id = 0;
+
+uintptr_t pios_uavo_settings_fs_id;
 
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. rx or tx size of 0 disables rx or tx
@@ -331,8 +331,7 @@ void PIOS_Board_Init(void) {
 	uintptr_t flash_id;
 	if (PIOS_Flash_Jedec_Init(&flash_id, pios_spi_telem_flash_id, 1, &flash_m25p_cfg) != 0)
 		panic(1);
-	uintptr_t fs_id;
-	if (PIOS_FLASHFS_Logfs_Init(&fs_id, &flashfs_m25p_cfg, &pios_jedec_flash_driver, flash_id) != 0)
+	if (PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_m25p_cfg, &pios_jedec_flash_driver, flash_id) != 0)
 		panic(1);
 #endif
 
@@ -827,30 +826,33 @@ void PIOS_Board_Init(void) {
 			break;
 	}
 
-	uint8_t hw_mpu6000_rate;
-	HwFreedomMPU6000RateGet(&hw_mpu6000_rate);
-	uint16_t hw_mpu6000_divisor = \
-	    (hw_mpu6000_rate == HWFREEDOM_MPU6000RATE_500) ? 15 : \
-	    (hw_mpu6000_rate == HWFREEDOM_MPU6000RATE_666) ? 11 : \
-	    (hw_mpu6000_rate == HWFREEDOM_MPU6000RATE_1000) ? 7 : \
-	    (hw_mpu6000_rate == HWFREEDOM_MPU6000RATE_2000) ? 3 : \
-	    (hw_mpu6000_rate == HWFREEDOM_MPU6000RATE_4000) ? 1 : \
-	    (hw_mpu6000_rate == HWFREEDOM_MPU6000RATE_8000) ? 0 : \
-	    15;
-	PIOS_MPU6000_SetDivisor(hw_mpu6000_divisor);
+	// the filter has to be set before rate else divisor calculation will fail
+	uint8_t hw_mpu6000_dlpf;
+	HwFreedomMPU6000DLPFGet(&hw_mpu6000_dlpf);
+	enum pios_mpu60x0_filter mpu6000_dlpf = \
+	    (hw_mpu6000_dlpf == HWFREEDOM_MPU6000DLPF_256) ? PIOS_MPU60X0_LOWPASS_256_HZ : \
+	    (hw_mpu6000_dlpf == HWFREEDOM_MPU6000DLPF_188) ? PIOS_MPU60X0_LOWPASS_188_HZ : \
+	    (hw_mpu6000_dlpf == HWFREEDOM_MPU6000DLPF_98) ? PIOS_MPU60X0_LOWPASS_98_HZ : \
+	    (hw_mpu6000_dlpf == HWFREEDOM_MPU6000DLPF_42) ? PIOS_MPU60X0_LOWPASS_42_HZ : \
+	    (hw_mpu6000_dlpf == HWFREEDOM_MPU6000DLPF_20) ? PIOS_MPU60X0_LOWPASS_20_HZ : \
+	    (hw_mpu6000_dlpf == HWFREEDOM_MPU6000DLPF_10) ? PIOS_MPU60X0_LOWPASS_10_HZ : \
+	    (hw_mpu6000_dlpf == HWFREEDOM_MPU6000DLPF_5) ? PIOS_MPU60X0_LOWPASS_5_HZ : \
+	    pios_mpu6000_cfg.default_filter;
+	PIOS_MPU6000_SetLPF(mpu6000_dlpf);
 
-	uint8_t hw_dlpf;
-	HwFreedomMPU6000DLPFGet(&hw_dlpf);
-	uint16_t hw_mpu6000_dlpf = \
-	    (hw_dlpf == HWFREEDOM_MPU6000DLPF_256) ? PIOS_MPU60X0_LOWPASS_256_HZ : \
-	    (hw_dlpf == HWFREEDOM_MPU6000DLPF_188) ? PIOS_MPU60X0_LOWPASS_188_HZ : \
-	    (hw_dlpf == HWFREEDOM_MPU6000DLPF_98) ? PIOS_MPU60X0_LOWPASS_98_HZ : \
-	    (hw_dlpf == HWFREEDOM_MPU6000DLPF_42) ? PIOS_MPU60X0_LOWPASS_42_HZ : \
-	    (hw_dlpf == HWFREEDOM_MPU6000DLPF_20) ? PIOS_MPU60X0_LOWPASS_20_HZ : \
-	    (hw_dlpf == HWFREEDOM_MPU6000DLPF_10) ? PIOS_MPU60X0_LOWPASS_10_HZ : \
-	    (hw_dlpf == HWFREEDOM_MPU6000DLPF_5) ? PIOS_MPU60X0_LOWPASS_5_HZ : \
-	    PIOS_MPU60X0_LOWPASS_256_HZ;
-	PIOS_MPU6000_SetLPF(hw_mpu6000_dlpf);
+	uint8_t hw_mpu6000_samplerate;
+	HwFreedomMPU6000RateGet(&hw_mpu6000_samplerate);
+	uint16_t mpu6000_samplerate = \
+	    (hw_mpu6000_samplerate == HWFREEDOM_MPU6000RATE_200) ? 200 : \
+	    (hw_mpu6000_samplerate == HWFREEDOM_MPU6000RATE_333) ? 333 : \
+	    (hw_mpu6000_samplerate == HWFREEDOM_MPU6000RATE_500) ? 500 : \
+	    (hw_mpu6000_samplerate == HWFREEDOM_MPU6000RATE_666) ? 666 : \
+	    (hw_mpu6000_samplerate == HWFREEDOM_MPU6000RATE_1000) ? 1000 : \
+	    (hw_mpu6000_samplerate == HWFREEDOM_MPU6000RATE_2000) ? 2000 : \
+	    (hw_mpu6000_samplerate == HWFREEDOM_MPU6000RATE_4000) ? 4000 : \
+	    (hw_mpu6000_samplerate == HWFREEDOM_MPU6000RATE_8000) ? 8000 : \
+	    pios_mpu6000_cfg.default_samplerate;
+	PIOS_MPU6000_SetSampleRate(mpu6000_samplerate);
 #endif
 	
 	if (PIOS_I2C_Init(&pios_i2c_mag_pressure_adapter_id, &pios_i2c_mag_pressure_adapter_cfg)) {
