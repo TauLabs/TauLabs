@@ -212,7 +212,7 @@ static void stabilizationTask(void* parameters)
 		float local_error[3] = {stabDesired.Roll - attitudeActual.Roll,
 			stabDesired.Pitch - attitudeActual.Pitch,
 			stabDesired.Yaw - attitudeActual.Yaw};
-		local_error[2] = fmodf(local_error[2] + 180, 360) - 180;
+		local_error[2] = fmodf(local_error[2] + 180 + 360, 360) - 180;
 #endif
 
 		float gyro_filtered[3];
