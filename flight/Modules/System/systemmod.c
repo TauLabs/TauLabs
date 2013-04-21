@@ -42,6 +42,7 @@
 #include "systemmod.h"
 #include "sanitycheck.h"
 #include "objectpersistence.h"
+#include "stateestimation.h"
 #include "flightstatus.h"
 #include "manualcontrolsettings.h"
 #include "systemstats.h"
@@ -186,6 +187,11 @@ static void systemTask(void *parameters)
 	if (ManualControlSettingsHandle())
 		ManualControlSettingsConnectCallback(configurationUpdatedCb);
 #endif
+#if defined(REVOLUTION) || defined(SIM_OSX)
+	if (StateEstimationHandle())
+		StateEstimationConnectCallback(configurationUpdatedCb);
+#endif
+
 
 	// Main system loop
 	while (1) {
