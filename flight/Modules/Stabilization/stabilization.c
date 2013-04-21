@@ -392,7 +392,7 @@ static void stabilizationTask(void* parameters)
 						float bearing;
 						CameraDesiredBearingGet(&bearing);
 						float bearing_error = bearing - attitudeActual.Yaw;
-	 					bearing_error = fmodf(bearing_error + 180, 360) - 180;
+	 					bearing_error = fmodf(bearing_error + 180 + 360, 360) - 180;
 
 						// Compute the outer loop
 						rateDesiredAxis[i] = pid_apply(&pids[PID_ATT_ROLL + i], bearing_error, dT);
