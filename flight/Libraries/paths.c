@@ -34,7 +34,7 @@
 // private functions
 static void path_endpoint( float * start_point, float * end_point, float * cur_point, struct path_status * status);
 static void path_vector( float * start_point, float * end_point, float * cur_point, struct path_status * status);
-static void path_circle(float * start_point, float * end_point, float * cur_point, struct path_status * status, bool clockwise);
+static void path_circle(float * center_point, float radius, float * cur_point, struct path_status * status, bool clockwise);
 static void path_curve(float * start_point, float * end_point, float radius, float * cur_point, struct path_status * status, bool clockwise);
 
 /**
@@ -67,10 +67,10 @@ void path_progress(PathDesiredData *pathDesired,
 			return path_curve(start_point, end_point, pathDesired->ModeParameters, cur_point, status, 0);
 			break;
 		case PATHDESIRED_MODE_CIRCLEPOSITIONLEFT:
-			return path_circle(start_point, end_point, cur_point, status, 0);
+			return path_circle(end_point, pathDesired->ModeParameters, cur_point, status, 0);
 			break;
 		case PATHDESIRED_MODE_CIRCLEPOSITIONRIGHT:
-			return path_circle(start_point, end_point, cur_point, status, 1);
+			return path_circle(end_point, pathDesired->ModeParameters, cur_point, status, 1);
 			break;
 		case PATHDESIRED_MODE_FLYENDPOINT:
 		case PATHDESIRED_MODE_DRIVEENDPOINT:
@@ -184,31 +184,26 @@ static void path_vector(float *start_point,
 }
 
 /**
- * @brief Compute progress along circular path and deviation from it
+ * @brief Circle location continuously
  * @param[in] start_point Starting point
  * @param[in] end_point Center point
  * @param[in] cur_point Current location
  * @param[out] status Structure containing progress along path and deviation
  */
-static void path_circle(float *start_point,
-	                    float *end_point,
-	                    float *cur_point,
-	                    struct path_status *status,
-	                    bool clockwise)
+static void path_circle(float * center_point,
+                        float radius,
+                        float * cur_point,
+                        struct path_status * status, 
+                        bool clockwise)
 {
-	float radius_north, radius_east, diff_north, diff_east;
-	float radius,cradius;
+	float diff_north, diff_east;
+	float cradius;
 	float normal[2];
 
-	// Radius
-	radius_north = end_point[0] - start_point[0];
-	radius_east = end_point[1] - start_point[1];
-
 	// Current location relative to center
-	diff_north = cur_point[0] - end_point[0];
-	diff_east = cur_point[1] - end_point[1];
+	diff_north = cur_point[0] - center_point[0];
+	diff_east = cur_point[1] - center_point[1];
 
-	radius = sqrtf( radius_north * radius_north + radius_east * radius_east );
 	cradius = sqrtf(  diff_north * diff_north   +   diff_east * diff_east );
 
 	if (cradius < 1e-6) {
@@ -232,7 +227,7 @@ static void path_circle(float *start_point,
 		normal[1] = -diff_north / cradius;
 	}
 	
-	status->fractional_progress = (clockwise?1:-1) * atan2f( diff_north, diff_east) - atan2f( radius_north, radius_east);
+	status->fractional_progress = 0;
 
 	// error is current radius minus wanted radius - positive if too close
 	status->error = radius - cradius;

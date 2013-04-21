@@ -57,19 +57,21 @@ OutputChannelForm::OutputChannelForm(const int index, QWidget *parent, const boo
     ui.actuatorNumber->setText(QString("%1:").arg(m_index+1));
 
     // Register for ActuatorSettings changes:
-    connect(ui.actuatorMin, SIGNAL(editingFinished()),
-            this, SLOT(setChannelRange()));
-    connect(ui.actuatorMax, SIGNAL(editingFinished()),
-            this, SLOT(setChannelRange()));
-    connect(ui.actuatorRev, SIGNAL(toggled(bool)),
-            this, SLOT(reverseChannel(bool)));
-    // Now connect the channel out sliders to our signal to send updates in test mode
-    connect(ui.actuatorNeutral, SIGNAL(valueChanged(int)),
-            this, SLOT(sendChannelTest(int)));
+    connect(ui.actuatorMin, SIGNAL(editingFinished()), this, SLOT(setChannelRange()));
+    connect(ui.actuatorMax, SIGNAL(editingFinished()), this, SLOT(setChannelRange()));
+    connect(ui.actuatorRev, SIGNAL(toggled(bool)), this, SLOT(reverseChannel(bool)));
+
+    // Connect the channel out sliders to our signal in order to send updates in test mode
+    connect(ui.actuatorNeutral, SIGNAL(valueChanged(int)), this, SLOT(sendChannelTest(int)));
+
+    // Connect UI elements to dirty/clean (i.e. changed/unchanged) signal/slot
+    connect(ui.actuatorMin, SIGNAL(editingFinished()), this, SLOT(notifyFormChanged()));
+    connect(ui.actuatorMax, SIGNAL(editingFinished()), this, SLOT(notifyFormChanged()));
+    connect(ui.actuatorRev, SIGNAL(released()), this, SLOT(notifyFormChanged()));
+    connect(ui.actuatorNeutral, SIGNAL(sliderReleased()), this, SLOT(notifyFormChanged()));
 
     ui.actuatorLink->setChecked(false);
-    connect(ui.actuatorLink, SIGNAL(toggled(bool)),
-            this, SLOT(linkToggled(bool)));
+    connect(ui.actuatorLink, SIGNAL(toggled(bool)), this, SLOT(linkToggled(bool)));
 
     disableMouseWheelEvents();
 }
@@ -84,12 +86,13 @@ OutputChannelForm::~OutputChannelForm()
  */
 void OutputChannelForm::enableChannelTest(bool state)
 {
-    if (m_inChannelTest == state) return;
+    if (m_inChannelTest == state)
+        return;
     m_inChannelTest = state;
 
     if(m_inChannelTest)
     {
-        // Prevent stupid users from touching the minimum & maximum ranges while
+        // Prevent users from changing the minimum & maximum ranges while
         // moving the sliders. Thanks Ivan for the tip :)
         ui.actuatorMin->setEnabled(false);
         ui.actuatorMax->setEnabled(false);
@@ -176,7 +179,7 @@ void OutputChannelForm::minmax(int minimum, int maximum)
 /**
  * Set neutral of channel.
  */
-void OutputChannelForm::neutral(int value)
+void OutputChannelForm::setNeutral(int value)
 {
     ui.actuatorNeutral->setValue(value);
 }
@@ -274,7 +277,8 @@ void OutputChannelForm::sendChannelTest(int value)
     int in_value = value;
 
     QSlider *ob = (QSlider *)QObject::sender();
-    if (!ob) return;
+    if (!ob)
+        return;
 
     if (ui.actuatorRev->isChecked())
             value = ui.actuatorMin->value() - value + ui.actuatorMax->value();	// the channel is reversed
@@ -308,4 +312,15 @@ void OutputChannelForm::sendChannelTest(int value)
         return;	// we are not in Test Output mode
 
     emit channelChanged(index(), value);
+}
+
+/**
+ * @brief OutputChannelForm::setUpdated Slot that receives signals indicating the UI is updated
+ */
+void OutputChannelForm::notifyFormChanged()
+{
+    // If we are not in Test Output mode, set form as dirty
+    if (!m_inChannelTest){
+        emit formChanged();
+    }
 }

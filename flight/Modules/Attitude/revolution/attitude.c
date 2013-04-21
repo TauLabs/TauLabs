@@ -63,7 +63,7 @@
 #include "gyros.h"
 #include "gyrosbias.h"
 #include "homelocation.h"
-#include "inertialsensorsettings.h"
+#include "sensorsettings.h"
 #include "inssettings.h"
 #include "magnetometer.h"
 #include "nedposition.h"
@@ -179,7 +179,7 @@ int32_t AttitudeInitialize(void)
 {
 	AttitudeActualInitialize();
 	AttitudeSettingsInitialize();
-	InertialSensorSettingsInitialize();
+	SensorSettingsInitialize();
 	INSSettingsInitialize();
 	NEDPositionInitialize();
 	PositionActualInitialize();
@@ -191,7 +191,7 @@ int32_t AttitudeInitialize(void)
 
 	AttitudeSettingsConnectCallback(&settingsUpdatedCb);
 	HomeLocationConnectCallback(&settingsUpdatedCb);
-	InertialSensorSettingsConnectCallback(&settingsUpdatedCb);
+	SensorSettingsConnectCallback(&settingsUpdatedCb);
 	INSSettingsConnectCallback(&settingsUpdatedCb);
 	RevoSettingsConnectCallback(&settingsUpdatedCb);
 
@@ -312,8 +312,9 @@ static int32_t updateAttitudeComplementary(bool first_run)
 	float dT;
 
 	// Wait until the accel and gyro object is updated, if a timeout then go to failsafe
+	// accels always have to be updated first
 	if ( xQueueReceive(gyroQueue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS) != pdTRUE ||
-	     xQueueReceive(accelQueue, &ev, 1 / portTICK_RATE_MS) != pdTRUE )
+	     xQueueReceive(accelQueue, &ev, 0 / portTICK_RATE_MS) != pdTRUE )
 	{
 		// When one of these is updated so should the other
 		// Do not set attitude timeout warnings in simulation mode
@@ -1067,9 +1068,9 @@ static int32_t getNED(GPSPositionData * gpsPosition, float * NED)
 
 static void settingsUpdatedCb(UAVObjEvent * ev) 
 {
-	if (ev == NULL || ev->obj == InertialSensorSettingsHandle()) {
-		InertialSensorSettingsData inertialSensorSettings;
-		InertialSensorSettingsGet(&inertialSensorSettings);
+	if (ev == NULL || ev->obj == SensorSettingsHandle()) {
+		SensorSettingsData sensorSettings;
+		SensorSettingsGet(&sensorSettings);
 		
 		/* When the revo calibration is updated, update the GyroBias object */
 		GyrosBiasData gyrosBias;

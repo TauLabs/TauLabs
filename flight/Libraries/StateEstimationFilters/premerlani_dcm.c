@@ -57,7 +57,7 @@
 
 //Global variables
 extern AttitudeSettingsData attitudeSettings;
-extern InertialSensorSettingsData inertialSensorSettings;
+extern SensorSettingsData sensorSettings;
 extern GyrosBiasData gyrosBias;
 
 struct GlobalDcmDriftVariables {

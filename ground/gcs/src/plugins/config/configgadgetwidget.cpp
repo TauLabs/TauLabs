@@ -185,6 +185,9 @@ void ConfigGadgetWidget::onAutopilotDisconnect() {
 
 void ConfigGadgetWidget::onAutopilotConnect() {
 
+    QIcon* icon;
+    QWidget* qwd;
+
     qDebug()<<"ConfigGadgetWidget onAutopilotConnect";
     // First of all, check what Board type we are talking to, and
     // if necessary, remove/add tabs in the config gadget:
@@ -198,10 +201,10 @@ void ConfigGadgetWidget::onAutopilotConnect() {
 
             // Delete the current hardware panel, replace with CopterControl/CC3D hardware configuration
             ftw->removeTab(ConfigGadgetWidget::hardware);
-            QIcon *icon = new QIcon();
+            icon = new QIcon();
             icon->addFile(":/configgadget/images/hardware_normal.png", QSize(), QIcon::Normal, QIcon::Off);
             icon->addFile(":/configgadget/images/hardware_selected.png", QSize(), QIcon::Selected, QIcon::Off);
-            QWidget *qwd = new ConfigCCHWWidget(this);
+            qwd = new ConfigCCHWWidget(this);
             ftw->insertTab(ConfigGadgetWidget::hardware, qwd, *icon, QString("Hardware"));
             ftw->setCurrentIndex(ConfigGadgetWidget::hardware);
         } else if ((board & 0xff00) == 0x0900 || // RevoMini
@@ -226,6 +229,15 @@ void ConfigGadgetWidget::onAutopilotConnect() {
             qDebug() << "Unknown board " << board;
         }
     }
+
+    //! Remove and recreate the attitude widget to refresh board capabilities
+    ftw->removeTab(ConfigGadgetWidget::sensors);
+    icon = new QIcon();
+    icon->addFile(":/configgadget/images/ins_normal.png", QSize(), QIcon::Normal, QIcon::Off);
+    icon->addFile(":/configgadget/images/ins_selected.png", QSize(), QIcon::Selected, QIcon::Off);
+    qwd = new ConfigAttitudeWidget(this);
+    ftw->insertTab(ConfigGadgetWidget::sensors, qwd, *icon, QString("Attitude"));
+
     emit autopilotConnected();
 }
 
@@ -237,10 +249,15 @@ void ConfigGadgetWidget::tabAboutToChange(int i, bool * proceed)
     if(!wid) {
         return;
     }
-    if(wid->isDirty())
+
+    // Check if widget is dirty (i.e. has unsaved changes), and if it does, then check if
+    // either an autopilot or a PipX/OPLink telemetry unit is connected.
+    if(wid->isDirty() &&
+            (wid->isAutopilotConnected()||
+             QString(wid->metaObject()->className()) == "ConfigPipXtremeWidget"))
     {
         int ans=QMessageBox::warning(this,tr("Unsaved changes"),tr("The tab you are leaving has unsaved changes,"
-                                                           "if you proceed they will be lost."
+                                                           "if you proceed they may be lost."
                                                            "Do you still want to proceed?"),QMessageBox::Yes,QMessageBox::No);
         if(ans==QMessageBox::No) {
             *proceed=false;

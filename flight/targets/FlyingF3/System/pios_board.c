@@ -163,6 +163,7 @@ uintptr_t pios_com_vcp_id = 0;
 uintptr_t pios_com_bridge_id = 0;
 uintptr_t pios_com_overo_id = 0;
 uintptr_t pios_internal_adc_id = 0;
+uintptr_t pios_uavo_settings_fs_id;
 
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. rx or tx size of 0 disables rx or tx
@@ -298,8 +299,7 @@ void PIOS_Board_Init(void) {
 	/* Connect flash to the appropriate interface and configure it */
 	uintptr_t flash_id;
 	PIOS_Flash_Internal_Init(&flash_id, &flash_internal_cfg);
-	uintptr_t fs_id;
-	PIOS_FLASHFS_Logfs_Init(&fs_id, &flashfs_internal_cfg, &pios_internal_flash_driver, flash_id);
+	PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_internal_cfg, &pios_internal_flash_driver, flash_id);
 #endif
 	
 	/* Initialize UAVObject libraries */
@@ -967,6 +967,8 @@ void PIOS_Board_Init(void) {
 	PIOS_WDG_Clear();
 	PIOS_DELAY_WaitmS(200);
 	PIOS_WDG_Clear();
+
+	PIOS_SENSORS_Init();
 
 #if defined(PIOS_INCLUDE_L3GD20) && defined(PIOS_INCLUDE_SPI)
 	if (PIOS_L3GD20_Init(pios_spi_internal_id, 0, &pios_l3gd20_cfg) != 0)

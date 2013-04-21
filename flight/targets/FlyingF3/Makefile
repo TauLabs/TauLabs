@@ -29,10 +29,13 @@ TOP      := $(realpath $(WHEREAMI)/../../../)
 include $(TOP)/make/firmware-defs.mk
 include $(TOP)/make/boards/$(BOARD_NAME)/board-info.mk
 
-# Set developer code and compile options
-# Set to YES for debugging
+# @startgroup Compile Options
+# @groupbrief Set developer code and compile options
+# @optbrief Set to YES to compile for debugging
 DEBUG ?= NO
 
+
+# @endgroup Compile Options
 # List of modules to include
 MODULES = Sensors
 MODULES += Attitude/revolution
@@ -52,6 +55,7 @@ OPTMODULES += AltitudeHold
 OPTMODULES += PathPlanner
 OPTMODULES += VtolPathFollower
 OPTMODULES += FixedWingPathFollower
+OPTMODULES += GroundPathFollower
 OPTMODULES += VibrationAnalysis
 #OPTMODULES += Battery
 #OPTMODULES += ComUsbBridge

@@ -59,6 +59,7 @@ PfdQmlGadgetWidget::PfdQmlGadgetWidget(QWidget *parent) :
                        "AttitudeHoldDesired" <<
                        "StabilizationDesired" <<
                        "PathDesired" <<
+                       "HomeLocation" <<
                        "Waypoint" <<
                        "WaypointActive" <<
                        "GPSPosition" <<
