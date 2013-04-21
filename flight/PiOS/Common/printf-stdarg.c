@@ -44,7 +44,7 @@ static void printchar(char **str, int c)
 		**str = c;
 		++(*str);
 	}
-#ifdef PIOS_COM_DEBUG
+#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 	else
 		PIOS_COM_SendChar(PIOS_COM_DEBUG, c);
 #endif
