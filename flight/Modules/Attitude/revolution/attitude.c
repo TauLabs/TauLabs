@@ -79,7 +79,6 @@
 #define FAILSAFE_TIMEOUT_MS 10
 
 #define F_PI   ((float) M_PI)
-#define PI_MOD(x) (fmodf(x + F_PI, F_PI * 2) - F_PI)
 
 // low pass filter configuration to calculate offset
 // of barometric altitude sensor
