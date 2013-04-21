@@ -81,7 +81,6 @@
 #define SENSOR_PERIOD 4
 #define LOOP_RATE_MS  25.0f
 
-#define PI_MOD(x) (fmod(x + PI, PI * 2) - PI)
 // Private types
 
 // Private variables
