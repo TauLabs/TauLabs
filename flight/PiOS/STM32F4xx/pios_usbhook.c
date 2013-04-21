@@ -102,8 +102,8 @@ void OTG_FS_IRQHandler(void)
 }
 
 struct usb_if_entry {
-  struct pios_usb_ifops *ifops;
-  uint32_t context;
+	struct pios_usb_ifops *ifops;
+	uint32_t context;
 };
 static struct usb_if_entry usb_if_table[3];
 void PIOS_USBHOOK_RegisterIfOps(uint8_t ifnum, struct pios_usb_ifops * ifops, uint32_t context)
@@ -151,20 +151,34 @@ extern void PIOS_USBHOOK_DeRegisterEpInCallback(uint8_t epnum)
 static struct usb_ep_entry usb_epout_table[6];
 void PIOS_USBHOOK_RegisterEpOutCallback(uint8_t epnum, uint16_t max_len, pios_usbhook_epcb cb, uint32_t context)
 {
-  PIOS_Assert(epnum < NELEMENTS(usb_epout_table));
-  PIOS_Assert(cb);
+	PIOS_Assert(epnum < NELEMENTS(usb_epout_table));
+	PIOS_Assert(cb);
 
-  usb_epout_table[epnum].cb      = cb;
-  usb_epout_table[epnum].context = context;
-  usb_epout_table[epnum].max_len = max_len;
+	usb_epout_table[epnum].cb      = cb;
+	usb_epout_table[epnum].context = context;
+	usb_epout_table[epnum].max_len = max_len;
 
-  DCD_EP_Open(&pios_usb_otg_core_handle,
-	      epnum,
-	      max_len,
-	      USB_OTG_EP_INT);
+	DCD_EP_Open(&pios_usb_otg_core_handle,
+		epnum,
+		max_len,
+		USB_OTG_EP_INT);
 	/*
 	 * FIXME do not hardcode endpoint type
 	 */
+
+	/*
+	 * Make sure we refuse OUT transactions until we explicitly
+	 * connect a receive buffer with PIOS_USBHOOK_EndpointRx().
+	 *
+	 * Without this, the ST USB code will receive on this endpoint
+	 * and blindly write the data to a NULL pointer which will
+	 * have the side effect of placing the internal flash into an
+	 * errored state.  Address 0x0000_0000 is aliased into internal
+	 * flash via the "Section 2.4 Boot configuration" BOOT0/1 pins.
+	 */
+	DCD_SetEPStatus(&pios_usb_otg_core_handle,
+			epnum,
+			USB_OTG_EP_RX_NAK);
 }
 
 extern void PIOS_USBHOOK_DeRegisterEpOutCallback(uint8_t epnum)
@@ -305,26 +319,26 @@ static USBD_Usr_cb_TypeDef user_callbacks = {
 
 static uint8_t PIOS_USBHOOK_CLASS_Init(void *pdev, uint8_t cfgidx)
 {
-  /* Call all of the registered init callbacks */
-  for (uint8_t i = 0; i < NELEMENTS(usb_if_table); i++) {
-    struct usb_if_entry * usb_if = &(usb_if_table[i]);
-    if (usb_if->ifops && usb_if->ifops->init) {
-      usb_if->ifops->init(usb_if->context);
-    }
-  }
-  return USBD_OK;
+	/* Call all of the registered init callbacks */
+	for (uint8_t i = 0; i < NELEMENTS(usb_if_table); i++) {
+		struct usb_if_entry * usb_if = &(usb_if_table[i]);
+		if (usb_if->ifops && usb_if->ifops->init) {
+			usb_if->ifops->init(usb_if->context);
+		}
+	}
+	return USBD_OK;
 }
 
 static uint8_t PIOS_USBHOOK_CLASS_DeInit(void *pdev, uint8_t cfgidx)
 {
-  /* Call all of the registered deinit callbacks */
-  for (uint8_t i = 0; i < NELEMENTS(usb_if_table); i++) {
-    struct usb_if_entry * usb_if = &(usb_if_table[i]);
-    if (usb_if->ifops && usb_if->ifops->deinit) {
-      usb_if->ifops->deinit(usb_if->context);
-    }
-  }
-  return USBD_OK;
+	/* Call all of the registered deinit callbacks */
+	for (uint8_t i = 0; i < NELEMENTS(usb_if_table); i++) {
+		struct usb_if_entry * usb_if = &(usb_if_table[i]);
+		if (usb_if->ifops && usb_if->ifops->deinit) {
+			usb_if->ifops->deinit(usb_if->context);
+		}
+	}
+	return USBD_OK;
 }
 
 static struct usb_setup_request usb_ep0_active_req;
@@ -339,7 +353,7 @@ static uint8_t PIOS_USBHOOK_CLASS_Setup(void *pdev, USB_SETUP_REQ *req)
 		    (usb_if_table[ifnum].ifops && usb_if_table[ifnum].ifops->setup)) {
 			usb_if_table[ifnum].ifops->setup(usb_if_table[ifnum].context, 
 							 (struct usb_setup_request *)req);
-			if (req->bmRequest & 0x80 && req->wLength > 0) {
+			if (!(req->bmRequest & 0x80) && req->wLength > 0) {
 				/* Request is a host-to-device data setup packet, keep track of the request details for the EP0_RxReady call */
 				usb_ep0_active_req.bmRequestType = req->bmRequest;
 				usb_ep0_active_req.bRequest      = req->bRequest;
