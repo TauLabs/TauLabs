@@ -48,8 +48,11 @@ int32_t failsafe_control_update()
 	return 0;
 }
 
-//! Use failsafe mode
-int32_t failsafe_control_select()
+/**
+ * Select and use failsafe control
+ * @param [in] reset_controller True if previously another controller was used
+ */
+int32_t failsafe_control_select(bool reset_controller)
 {
 	uint8_t flight_status = FLIGHTSTATUS_FLIGHTMODE_STABILIZED1;
 	FlightStatusFlightModeSet(&flight_status);

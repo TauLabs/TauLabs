@@ -66,8 +66,11 @@ int32_t tablet_control_update()
 	return 0;
 }
 
-//! Use the values for the tablet controller
-int32_t tablet_control_select()
+/**
+ * Select and use tablet control
+ * @param [in] reset_controller True if previously another controller was used
+ */
+int32_t tablet_control_select(bool reset_controller)
 {
 	TabletInfoData tabletInfo;
 	TabletInfoGet(&tabletInfo);
@@ -79,10 +82,16 @@ int32_t tablet_control_select()
 	PathDesiredGet(&pathDesired);
 
 	uint8_t mode = flightStatus.FlightMode;
+	static TabletInfoTabletModeDesiredOptions last_tablet_mode;
 
 	switch(tabletInfo.TabletModeDesired) {
 		case TABLETINFO_TABLETMODEDESIRED_POSITIONHOLD:
-			if (mode != FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD) {
+			// We must check reset_controller flag here in order to ensure that
+			// we grab the new position when toggling out of this mode
+			if (mode != FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD ||
+			    last_tablet_mode != tabletInfo.TabletModeDesired ||
+			    reset_controller)
+			{
 				mode = FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD;
 
 				PositionActualData positionActual;
@@ -90,7 +99,7 @@ int32_t tablet_control_select()
 
 				pathDesired.End[0] = positionActual.North;
 				pathDesired.End[1] = positionActual.East;
-				pathDesired.End[2] = -HOME_ALTITUDE_OFFSET;
+				pathDesired.End[2] = positionActual.Down;
 				pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
 				pathDesired.StartingVelocity = 5;
 				pathDesired.EndingVelocity = 5;
@@ -168,7 +177,9 @@ int32_t tablet_control_select()
 		}
 			break;
 		case TABLETINFO_TABLETMODEDESIRED_LAND:
-			if (mode != FLIGHTSTATUS_FLIGHTMODE_LAND) {
+			// We must check reset_controller flag here in order to ensure that
+			// we grab the new position when toggling out of this mode
+			if (mode != FLIGHTSTATUS_FLIGHTMODE_LAND || reset_controller) {
 				mode = FLIGHTSTATUS_FLIGHTMODE_LAND;
 
 				PositionActualData positionActual;
@@ -195,6 +206,8 @@ int32_t tablet_control_select()
 			// Fail out.  This will trigger failsafe mode.
 			return -1;
 	}
+
+	last_tablet_mode = tabletInfo.TabletModeDesired;
 
 	// Update mode if changed
 	if (mode != flightStatus.FlightMode) {
@@ -263,7 +276,7 @@ int32_t tablet_control_update()
 	return 0;
 }
 
-int32_t tablet_control_select()
+int32_t tablet_control_select(bool reset_controller)
 {
 	return 0;
 }

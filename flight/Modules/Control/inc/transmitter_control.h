@@ -108,7 +108,7 @@ int32_t transmitter_control_initialize();
 int32_t transmitter_control_update();
 
 //! Select and use transmitter control
-int32_t transmitter_control_select();
+int32_t transmitter_control_select(bool reset_controller);
 
 //! Choose the control source based on transmitter status
 enum control_selection transmitter_control_selected_controller();
