@@ -187,7 +187,7 @@ static void systemTask(void *parameters)
 	if (ManualControlSettingsHandle())
 		ManualControlSettingsConnectCallback(configurationUpdatedCb);
 #endif
-#if defined(REVOLUTION) || defined(SIM_OSX)
+#if (defined(REVOLUTION) || defined(SIM_OSX)) && !(defined(SIM_POSIX))
 	if (StateEstimationHandle())
 		StateEstimationConnectCallback(configurationUpdatedCb);
 #endif
