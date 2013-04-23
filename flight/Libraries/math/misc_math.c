@@ -24,6 +24,8 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include <math.h>
+
 /**
  * Bound input value between min and max
  */
@@ -48,3 +50,17 @@ float bound_sym(float val, float range)
 	}
 	return val;
 }
+
+/**
+ * Circular modulus.  Compute the equivalent angle between [-180,180]
+ * for an input from [-360,360].  This is useful taking the difference
+ * between two headings and working out the relative rotation to get
+ * there quickest.
+ * @param[in] err error in degrees.  Must not be less than -540 degrees
+ * @returns The equivalent angle between -180 and 180
+ */
+float circular_modulus_deg(float err)
+{
+	return fmodf(err + 360.0f + 180.0f, 360.0f) - 180.0f;
+}
+

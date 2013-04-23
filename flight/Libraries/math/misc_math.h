@@ -33,4 +33,7 @@ float bound_sym(float val, float range);
 //! Bound input value between min and max
 float bound_min_max(float val, float min, float max);
 
+//! Circular modulus
+float circular_modulus_deg(float err);
+
 #endif /* MISC_MATH_H */
