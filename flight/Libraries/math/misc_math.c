@@ -64,12 +64,11 @@ float circular_modulus_deg(float err)
 
 	// fmodf converts negative values into the negative remainder
 	// so we must add 360 to make sure this ends up correct and
-	// behaves like normal modulus
+	// behaves like positive output modulus
 	if (val < 0)
-		val += 360;
-
-	// Must offset by -180 to get symmetrical output (i.e. direction)
-	val -= 180;
+		val += 180;
+	else
+		val -= 180;
 
 	return val;
 
