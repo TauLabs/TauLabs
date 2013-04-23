@@ -53,14 +53,25 @@ float bound_sym(float val, float range)
 
 /**
  * Circular modulus.  Compute the equivalent angle between [-180,180]
- * for an input from [-360,360].  This is useful taking the difference
- * between two headings and working out the relative rotation to get
- * there quickest.
- * @param[in] err error in degrees.  Must not be less than -540 degrees
+ * for the input angle.  This is useful taking the difference between
+ * two headings and working out the relative rotation to get there quickest.
+ * @param[in] err error in degrees.
  * @returns The equivalent angle between -180 and 180
  */
 float circular_modulus_deg(float err)
 {
-	return fmodf(err + 360.0f + 180.0f, 360.0f) - 180.0f;
+	float val = fmodf(err + 180.0f, 360.0f);
+
+	// fmodf converts negative values into the negative remainder
+	// so we must add 360 to make sure this ends up correct and
+	// behaves like normal modulus
+	if (val < 0)
+		val += 360;
+
+	// Must offset by -180 to get symmetrical output (i.e. direction)
+	val -= 180;
+
+	return val;
+
 }
 
