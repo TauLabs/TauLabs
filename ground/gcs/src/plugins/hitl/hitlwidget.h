@@ -43,8 +43,6 @@ public:
     ~HITLWidget();
 
 	void setSettingParameters(const SimulatorSettings& params) {settings = params;}
-signals:
-	void deleteSimulator();
 
 private slots:
     void startButtonClicked();

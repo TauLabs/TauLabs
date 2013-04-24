@@ -31,6 +31,7 @@
 #include "stm32f30x_flash.h"
 #include "pios_flash_internal_priv.h"
 #include "pios_flash.h"
+#include "pios_wdg.h"
 #include <stdbool.h>
 
 #define STM32F30X_FLASH_SECTOR_SIZE 2048
@@ -159,6 +160,10 @@ static int32_t PIOS_Flash_Internal_EraseSector(uintptr_t flash_id, uint32_t addr
 
 	if (!PIOS_Flash_Internal_Validate(flash_dev))
 		return -1;
+
+#if defined(PIOS_INCLUDE_WDG)
+	PIOS_WDG_Clear();
+#endif
 
 	uint32_t sector_start;
 	uint32_t sector_size;

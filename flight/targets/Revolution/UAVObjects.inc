@@ -57,6 +57,7 @@ UAVOBJSRCFILENAMES += gpsposition
 UAVOBJSRCFILENAMES += gpssatellites
 UAVOBJSRCFILENAMES += gpstime
 UAVOBJSRCFILENAMES += gpsvelocity
+UAVOBJSRCFILENAMES += groundpathfollowersettings
 UAVOBJSRCFILENAMES += vtolpathfollowersettings
 UAVOBJSRCFILENAMES += homelocation
 UAVOBJSRCFILENAMES += i2cstats

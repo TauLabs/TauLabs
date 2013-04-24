@@ -72,6 +72,8 @@ bool QextSerialPort::open(OpenMode mode) {
             Win_CommConfig.dcb.fOutX=FALSE;
             Win_CommConfig.dcb.fAbortOnError=FALSE;
             Win_CommConfig.dcb.fNull=FALSE;
+            Win_CommConfig.dcb.fDtrControl=DTR_CONTROL_ENABLE;
+            Win_CommConfig.dcb.fRtsControl=RTS_CONTROL_ENABLE;
             setBaudRate(Settings.BaudRate);
             setDataBits(Settings.DataBits);
             setStopBits(Settings.StopBits);

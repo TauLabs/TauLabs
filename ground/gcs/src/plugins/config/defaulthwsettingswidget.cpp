@@ -72,6 +72,7 @@ DefaultHwSettingsWidget::DefaultHwSettingsWidget(QWidget *parent, bool autopilot
                  qDebug() << "HwConfiguration object not found";
              }
         }
+
     }
     else{
         qDebug() << "No hardware attached. Showing placeholder text/graphic.";
@@ -99,6 +100,9 @@ void DefaultHwSettingsWidget::settingsUpdated(UAVObject *obj, bool success)
 
         addUAVObject(obj, &reloadGroups);
         refreshWidgetsValues();
+
+        // Have to force the form as clean (unedited by user) since refreshWidgetsValues forces it to dirty.
+        setDirty(false);
     }
 }
 

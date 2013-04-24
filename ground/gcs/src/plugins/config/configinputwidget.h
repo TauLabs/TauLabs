@@ -27,25 +27,29 @@
 #ifndef CONFIGINPUTWIDGET_H
 #define CONFIGINPUTWIDGET_H
 
+#include <QGraphicsView>
+#include <QList>
+#include <QPointer>
+#include <QRadioButton>
+#include <QtSvg/QSvgRenderer>
+#include <QtSvg/QGraphicsSvgItem>
+
 #include "ui_input.h"
-#include "../uavobjectwidgetutils/configtaskwidget.h"
+#include "ui_inputchannelform.h"
+
+#include "uavobjectwidgetutils/configtaskwidget.h"
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
 #include "uavobject.h"
 #include <QWidget>
 #include <QList>
 #include "inputchannelform.h"
-#include "ui_inputchannelform.h"
-#include <QRadioButton>
+
+#include "accessorydesired.h"
+#include "flightstatus.h"
 #include "manualcontrolcommand.h"
 #include "manualcontrolsettings.h"
 #include "receiveractivity.h"
-#include <QGraphicsView>
-#include <QtSvg/QSvgRenderer>
-#include <QtSvg/QGraphicsSvgItem>
-#include "flightstatus.h"
-#include "accessorydesired.h"
-#include <QPointer>
 
 class Ui_InputWidget;
 
@@ -63,6 +67,17 @@ public:
         void startInputWizard() { goToWizard(); }
 
 private:
+        // This was set through trial and error. Extensive testing
+        // will have to be done before changing it. At a minimum,
+        // this should include Turnigy9x, FrSky, S.BUS, and Spektrum
+        // transmitters.
+        static const int DEBOUNCE_THRESHOLD_COUNT = 1;
+        // This was set through trial and error. Extensive testing
+        // will have to be done before changing it. At a minimum,
+        // this should include Turnigy9x, FrSky, S.BUS, and Spektrum
+        // transmitters.
+        static const int CHANNEL_IDENTIFICATION_WAIT_TIME_MS = 2500;
+
         bool growing;
         bool reverse[ManualControlSettings::CHANNELNEUTRAL_NUMELEM];
         txMovements currentMovement;
@@ -108,6 +123,7 @@ private:
         ManualControlSettings::DataFields previousManualSettingsData;
         ReceiverActivity * receiverActivityObj;
         ReceiverActivity::DataFields receiverActivityData;
+        QMap<QString, UAVObject::Metadata> originalMetaData;
 
         QSvgRenderer *m_renderer;
 

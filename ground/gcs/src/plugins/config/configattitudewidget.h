@@ -29,10 +29,9 @@
 #define CONFIGATTITUDEWIDGET_H
 
 #include "ui_attitude.h"
-#include "configtaskwidget.h"
 #include "calibration.h"
 
-#include "../uavobjectwidgetutils/configtaskwidget.h"
+#include "configtaskwidget.h"
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
 #include "uavobject.h"
@@ -105,6 +104,7 @@ private slots:
     // Slots for measuring the sensor noise
     void doStartNoiseMeasurement();
     void doGetNoiseSample(UAVObject *);
+    void do_SetDirty();
 
     //! Update the level rotation using the transmitter trim
     void doUseTransmitterTrim();

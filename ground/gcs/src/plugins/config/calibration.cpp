@@ -82,7 +82,6 @@ void Calibration::initialize(bool calibrateMags) {
  */
 void Calibration::connectSensor(sensor_type sensor, bool con)
 {
-    UAVObject::Metadata mdata;
     if (con) {
         switch (sensor) {
         case ACCEL:
@@ -90,12 +89,7 @@ void Calibration::connectSensor(sensor_type sensor, bool con)
             Accels * accels = Accels::GetInstance(getObjectManager());
             Q_ASSERT(accels);
 
-            initialAccelsMdata = accels->getMetadata();
-            mdata = initialAccelsMdata;
-            UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
-            mdata.flightTelemetryUpdatePeriod = SENSOR_UPDATE_PERIOD;
-            accels->setMetadata(mdata);
-
+            assignUpdateRate(accels, SENSOR_UPDATE_PERIOD);
             connect(accels, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(dataUpdated(UAVObject *)));
         }
             break;
@@ -105,12 +99,7 @@ void Calibration::connectSensor(sensor_type sensor, bool con)
             Magnetometer * mag = Magnetometer::GetInstance(getObjectManager());
             Q_ASSERT(mag);
 
-            initialMagMdata = mag->getMetadata();
-            mdata = initialMagMdata;
-            UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
-            mdata.flightTelemetryUpdatePeriod = SENSOR_UPDATE_PERIOD;
-            mag->setMetadata(mdata);
-
+            assignUpdateRate(mag, SENSOR_UPDATE_PERIOD);
             connect(mag, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(dataUpdated(UAVObject *)));
         }
             break;
@@ -120,12 +109,7 @@ void Calibration::connectSensor(sensor_type sensor, bool con)
             Gyros * gyros = Gyros::GetInstance(getObjectManager());
             Q_ASSERT(gyros);
 
-            initialGyrosMdata = gyros->getMetadata();
-            mdata = initialGyrosMdata;
-            UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
-            mdata.flightTelemetryUpdatePeriod = SENSOR_UPDATE_PERIOD;
-            gyros->setMetadata(mdata);
-
+            assignUpdateRate(gyros, SENSOR_UPDATE_PERIOD);
             connect(gyros, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(dataUpdated(UAVObject *)));
         }
             break;
@@ -137,7 +121,6 @@ void Calibration::connectSensor(sensor_type sensor, bool con)
         {
             Accels * accels = Accels::GetInstance(getObjectManager());
             Q_ASSERT(accels);
-            accels->setMetadata(initialAccelsMdata);
             disconnect(accels, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(dataUpdated(UAVObject *)));
         }
             break;
@@ -146,7 +129,6 @@ void Calibration::connectSensor(sensor_type sensor, bool con)
         {
             Magnetometer * mag = Magnetometer::GetInstance(getObjectManager());
             Q_ASSERT(mag);
-            mag->setMetadata(initialMagMdata);
             disconnect(mag, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(dataUpdated(UAVObject *)));
         }
             break;
@@ -155,13 +137,32 @@ void Calibration::connectSensor(sensor_type sensor, bool con)
         {
             Gyros * gyros = Gyros::GetInstance(getObjectManager());
             Q_ASSERT(gyros);
-            gyros->setMetadata(initialGyrosMdata);
             disconnect(gyros, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(dataUpdated(UAVObject *)));
         }
             break;
 
         }
     }
+}
+
+/**
+ * @brief Calibration::assignUpdateRate Assign a new update rate. The new metadata is sent
+ * to the flight controller board in a separate operation.
+ * @param obj
+ * @param updatePeriod
+ */
+void Calibration::assignUpdateRate(UAVObject* obj, quint32 updatePeriod)
+{
+    // Fetch value from QMap
+    UAVObject::Metadata mdata = metaDataList.value(obj->getName());
+
+    // Fetch value from QMap, and change settings
+    mdata = metaDataList.value(obj->getName());
+    UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
+    mdata.flightTelemetryUpdatePeriod = updatePeriod;
+
+    // Update QMap value
+    metaDataList.insert(obj->getName(), mdata);
 }
 
 /**
@@ -191,8 +192,11 @@ void Calibration::dataUpdated(UAVObject * obj) {
         // Store data while computing the level attitude
         // and if completed go back to the idle state
         if(storeLevelingMeasurement(obj)) {
+            //Disconnect sensors and reset metadata
             connectSensor(GYRO, false);
             connectSensor(ACCEL, false);
+            getObjectUtilManager()->setAllNonSettingsMetadata(originalMetaData);
+
             calibration_state = IDLE;
 
             emit showLevelingMessage(tr("Level computed"));
@@ -258,11 +262,12 @@ void Calibration::dataUpdated(UAVObject * obj) {
         // has been computed attempt to calculate the scale and bias
         // for the accel and optionally the mag.
         if(storeSixPointMeasurement(obj,6)) {
-            // All data collected.  Disconnect everything and compute value
+            // All data collected.  Disconnect and reset all UAVOs, and compute value
             connectSensor(ACCEL, false);
             connectSensor(GYRO, false);
             if (calibrateMag)
                 connectSensor(MAG, false);
+            getObjectUtilManager()->setAllNonSettingsMetadata(originalMetaData);
 
             calibration_state = IDLE;
             emit toggleControls(true);
@@ -289,7 +294,9 @@ void Calibration::dataUpdated(UAVObject * obj) {
         break;
     case GYRO_TEMP_CAL:
         if (storeTempCalMeasurement(obj)) {
+            // Disconnect and reset metadata
             connectSensor(GYRO, false);
+            getObjectUtilManager()->setAllNonSettingsMetadata(originalMetaData);
 
             calibration_state = IDLE;
             emit toggleControls(true);
@@ -309,7 +316,10 @@ void Calibration::dataUpdated(UAVObject * obj) {
  * @brief Calibration::timeout When collecting data for leveling or six point calibration times out
  * clean up the state and reset
  */
-void Calibration::timeout() {
+void Calibration::timeout()
+{
+    // Reset metadata update rates
+    getObjectUtilManager()->setAllNonSettingsMetadata(originalMetaData);
 
     switch(calibration_state) {
     case IDLE:
@@ -388,9 +398,30 @@ void Calibration::doStartLeveling() {
 
     calibration_state = LEVELING;
 
-    // Connect to the sensor updates and speed them up
+    // Save previous sensor states
+    originalMetaData = getObjectUtilManager()->readAllNonSettingsMetadata();
+
+    // Set all UAVObject rates to update slowly
+    UAVObjectManager *objManager = getObjectManager();
+    QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
+    foreach (QList<UAVDataObject*> list, objList) {
+        foreach (UAVDataObject* obj, list) {
+            if(!obj->isSettings()) {
+                UAVObject::Metadata mdata = obj->getMetadata();
+                UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
+
+                mdata.flightTelemetryUpdatePeriod = NON_SENSOR_UPDATE_PERIOD;
+                metaDataList.insert(obj->getName(), mdata);
+            }
+        }
+    }
+
+    // Connect to the sensor updates and set higher rates
     connectSensor(ACCEL, true);
     connectSensor(GYRO, true);
+
+    // Set new metadata
+    getObjectUtilManager()->setAllNonSettingsMetadata(metaDataList);
 
     emit toggleControls(false);
     emit showLevelingMessage(tr("Leave board flat"));
@@ -473,12 +504,35 @@ void Calibration::doStartSixPoint()
     mag_accum_y.clear();
     mag_accum_z.clear();
 
+    // TODO: Document why the thread needs to wait 100ms.
     Thread::usleep(100000);
 
+    // Save previous sensor states
+    originalMetaData = getObjectUtilManager()->readAllNonSettingsMetadata();
+
+    // Make all UAVObject rates update slowly
+    UAVObjectManager *objManager = getObjectManager();
+    QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
+    foreach (QList<UAVDataObject*> list, objList) {
+        foreach (UAVDataObject* obj, list) {
+            if(!obj->isSettings()) {
+                UAVObject::Metadata mdata = obj->getMetadata();
+                UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
+
+                mdata.flightTelemetryUpdatePeriod = NON_SENSOR_UPDATE_PERIOD;
+                metaDataList.insert(obj->getName(), mdata);
+            }
+        }
+    }
+
+    // Connect sensors and set higher update rate
     connectSensor(ACCEL, true);
     if(calibrateMag) {
         connectSensor(MAG, true);
     }
+
+    // Set new metadata
+    getObjectUtilManager()->setAllNonSettingsMetadata(metaDataList);
 
     // Show UI parts and update the calibration state
     emit showSixPointMessage(tr("Place horizontally and click save position..."));
@@ -496,10 +550,12 @@ void Calibration::doCancelSixPoint(){
     //Return sensor calibration values to their original settings
     resetSensorCalibrationToOriginalValues();
 
+    // Disconnect sensors and reset UAVO update rates
     connectSensor(ACCEL, false);
     if(calibrateMag) {
         connectSensor(MAG, false);
     }
+    getObjectUtilManager()->setAllNonSettingsMetadata(originalMetaData);
 
     calibration_state = IDLE;
     emit toggleControls(true);
@@ -582,8 +638,14 @@ void Calibration::doStartTempCal()
 
     calibration_state = GYRO_TEMP_CAL;
 
+    // Save previous sensor states
+    originalMetaData = getObjectUtilManager()->readAllNonSettingsMetadata();
+
     // Connect to the sensor updates and speed them up
     connectSensor(GYRO, true);
+
+    // Set new metadata
+    getObjectUtilManager()->setAllNonSettingsMetadata(metaDataList);
 
     emit toggleControls(false);
     emit showTempCalMessage(tr("Leave board flat and very still while it changes temperature"));
@@ -602,7 +664,9 @@ void Calibration::doAcceptTempCal()
 {
     if (calibration_state == GYRO_TEMP_CAL) {
         qDebug() << "Accepting";
+        // Disconnect sensor and reset UAVO update rates
         connectSensor(GYRO, false);
+        getObjectUtilManager()->setAllNonSettingsMetadata(originalMetaData);
 
         calibration_state = IDLE;
         emit showTempCalMessage(tr("Temperature calibration accepted"));
@@ -623,7 +687,9 @@ void Calibration::doCancelTempCalPoint()
 {
     if (calibration_state == GYRO_TEMP_CAL) {
         qDebug() << "Canceling";
+        // Disconnect sensor and reset UAVO update rates
         connectSensor(GYRO, false);
+        getObjectUtilManager()->setAllNonSettingsMetadata(originalMetaData);
 
         // Disable gyro bias correction to see raw data
         AttitudeSettings *attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
@@ -752,6 +818,9 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
         attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_TRUE;
         attitudeSettings->setData(attitudeSettingsData);
         attitudeSettings->updated();
+
+        // Inform the system that the calibration process has completed
+        emit calibrationCompleted();
 
         return true;
     }
@@ -1012,6 +1081,9 @@ int Calibration::computeTempCal()
 
     emit tempCalProgressChanged(0);
 
+    // Inform the system that the calibration process has completed
+    emit calibrationCompleted();
+
     return CALIBRATION_SUCCESS;
 }
 
@@ -1024,6 +1096,17 @@ UAVObjectManager* Calibration::getObjectManager() {
     UAVObjectManager * objMngr = pm->getObject<UAVObjectManager>();
     Q_ASSERT(objMngr);
     return objMngr;
+}
+
+/**
+ * @brief Calibration::getObjectUtilManager Utility function to get a pointer to the object manager utilities
+ * @return pointer to the UAVObjectUtilManager
+ */
+UAVObjectUtilManager* Calibration::getObjectUtilManager() {
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectUtilManager *utilMngr = pm->getObject<UAVObjectUtilManager>();
+    Q_ASSERT(utilMngr);
+    return utilMngr;
 }
 
 /**
@@ -1189,6 +1272,9 @@ int Calibration::computeScaleBias()
     } else {
         return ACCELEROMETER_FAILED;
     }
+
+    // Inform the system that the calibration process has completed
+    emit calibrationCompleted();
 
     return CALIBRATION_SUCCESS;
 }

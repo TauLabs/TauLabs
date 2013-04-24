@@ -49,12 +49,13 @@ public slots:
     void min(int minimum);
     int min() const;
     void minmax(int minimum, int maximum);
-    void neutral(int value);
+    void setNeutral(int value);
     int neutral() const;
     void enableChannelTest(bool state);
 
 signals:
     void channelChanged(int index, int value);
+    void formChanged();
 
 private:
     Ui::outputChannelForm ui;
@@ -67,6 +68,7 @@ private slots:
     void reverseChannel(bool state);
     void sendChannelTest(int value);
     void setChannelRange();
+    void notifyFormChanged();
 };
 
 inline int OutputChannelForm::index() const

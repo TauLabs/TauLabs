@@ -68,7 +68,7 @@
 // Private constants
 #define STACK_SIZE_BYTES 1000
 #define TASK_PRIORITY (tskIDLE_PRIORITY+3)
-#define SENSOR_PERIOD 4
+#define SENSOR_PERIOD 6		// this allows sensor data to arrive as slow as 166Hz
 #define REQUIRED_GOOD_CYCLES 50
 
 // Private types
@@ -94,6 +94,7 @@ static void updateTemperatureComp(float temperature, float *temp_bias);
 // Private variables
 static xTaskHandle sensorsTaskHandle;
 static INSSettingsData insSettings;
+static AccelsData accelsData;
 
 // These values are initialized by settings but can be updated by the attitude algorithm
 static bool bias_correct_gyro = true;
@@ -197,6 +198,7 @@ static void SensorsTask(void *parameters)
 
 		uint32_t timeval = PIOS_DELAY_GetRaw();
 
+		//Block on gyro data but nothing else
 		xQueueHandle queue;
 		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_GYRO);
 		if(queue == NULL || xQueueReceive(queue, (void *) &gyros, SENSOR_PERIOD) == errQUEUE_EMPTY) {
@@ -204,12 +206,10 @@ static void SensorsTask(void *parameters)
 			continue;
 		}
 
-		// As it says below, because the rest of the code expects the accel to be ready when
-		// the gyro is we must block here too
 		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_ACCEL);
-		if(queue == NULL || xQueueReceive(queue, (void *) &accels, SENSOR_PERIOD) == errQUEUE_EMPTY) {
-			good_runs = 0;
-			continue;
+		if(queue == NULL || xQueueReceive(queue, (void *) &accels, 0) == errQUEUE_EMPTY) {
+			//If no new accels data is ready, reuse the latest sample
+			AccelsSet(&accelsData);
 		}
 		else
 			update_accels(&accels);
@@ -255,7 +255,6 @@ static void update_accels(struct pios_sensor_accel_data *accels)
 	    accels->z * accel_scale[2] - accel_bias[2]
 	};
 
-	AccelsData accelsData;
 	if (rotate) {
 		float accel_rotated[3];
 		rot_mult(Rbs, accels_out, accel_rotated, false);

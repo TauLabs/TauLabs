@@ -368,7 +368,7 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 
 	// Wait until the accel and gyro object is updated, if a timeout then go to failsafe
 	if (!secondary && (
-		 xQueueReceive(gyroQueue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS) != pdTRUE ||
+	     xQueueReceive(gyroQueue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS) != pdTRUE ||
 	     xQueueReceive(accelQueue, &ev, 1 / portTICK_RATE_MS) != pdTRUE ) )
 	{
 		// When one of these is updated so should the other
