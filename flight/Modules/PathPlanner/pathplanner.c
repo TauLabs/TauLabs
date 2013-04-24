@@ -69,6 +69,10 @@ static void createPathLogo();
 
 static bool module_enabled;
 
+// Functions from path_saving.c
+int32_t pathplanner_load_path(uint32_t path_id);
+int32_t pathplanner_save_path(uint32_t path_id);
+
 //! Store which waypoint has actually been pushed into PathDesired
 static int32_t active_waypoint = -1;
 //! Store the previous waypoint which is used to determine the path trajectory
@@ -361,7 +365,40 @@ static void activateWaypoint(int idx)
 void settingsUpdated(UAVObjEvent * ev) {
 	uint8_t preprogrammedPath = pathPlannerSettings.PreprogrammedPath;
 	PathPlannerSettingsGet(&pathPlannerSettings);
-	if (pathPlannerSettings.PreprogrammedPath != preprogrammedPath) {
+	switch (pathPlannerSettings.FlashOperation) {
+	case PATHPLANNERSETTINGS_FLASHOPERATION_LOAD1:
+		pathplanner_load_path(1);
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_LOAD2:
+		pathplanner_load_path(2);
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_LOAD3:
+		pathplanner_load_path(3);
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_LOAD4:
+		pathplanner_load_path(4);
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_LOAD5:
+		pathplanner_load_path(5);
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_SAVE1:
+		pathplanner_save_path(1);
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_SAVE2:
+		pathplanner_save_path(2);
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_SAVE3:
+		pathplanner_save_path(3);
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_SAVE4:
+		pathplanner_save_path(4);
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_SAVE5:
+		pathplanner_save_path(5);
+		break;
+	}
+	if (pathPlannerSettings.PreprogrammedPath != preprogrammedPath &&
+	    pathPlannerSettings.FlashOperation == PATHPLANNERSETTINGS_FLASHOPERATION_NONE) {
 		switch(pathPlannerSettings.PreprogrammedPath) {
 			case PATHPLANNERSETTINGS_PREPROGRAMMEDPATH_NONE:
 				break;
