@@ -65,6 +65,9 @@ int32_t pathplanner_save_path(uint32_t path_id)
 /**
  * Load a path from the waypoint filesystem into memory
  * @param[in] id The path id to load
+ * @return -30 waypoint object not registered
+ * @return -31 could not allocate waypoint in ram
+ * @return other indicates FlashFS error
  */
 int32_t pathplanner_load_path(uint32_t path_id)
 {
@@ -73,7 +76,6 @@ int32_t pathplanner_load_path(uint32_t path_id)
 	if (WaypointHandle() == 0)
 		return -30; // leave room for flashfs error codes
 
-	uint32_t num_current_waypoints = UAVObjGetNumInstances(WaypointHandle());
 	int32_t  waypoint_size = UAVObjGetNumBytes(WaypointHandle());
 	int32_t  retval = 0;
 
@@ -81,14 +83,15 @@ int32_t pathplanner_load_path(uint32_t path_id)
 		retval = PIOS_FLASHFS_ObjLoad(pios_waypoints_settings_fs_id, path_id, i, (uint8_t *) &waypoint, waypoint_size);
 		if (retval == 0) {
 			// Loaded waypoint locally, store in UAVO manager
-
-			if (i >= num_current_waypoints) {
+			if (i >= UAVObjGetNumInstances(WaypointHandle())) {
 				int32_t new_instance_id = WaypointCreateInstance();
-				if (new_instance_id == i)
-					WaypointInstSet(i, &waypoint);
-				else
-					return -1;
+				if (new_instance_id != i) {
+					retval = -31;
+					break;
+				}
 			}
+
+			WaypointInstSet(i, &waypoint);
 		}
 	}
 
