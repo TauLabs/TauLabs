@@ -69,6 +69,10 @@ static void createPathLogo();
 
 static bool module_enabled;
 
+// Functions from path_saving.c
+int32_t pathplanner_load_path(uint32_t path_id);
+int32_t pathplanner_save_path(uint32_t path_id);
+
 //! Store which waypoint has actually been pushed into PathDesired
 static int32_t active_waypoint = -1;
 //! Store the previous waypoint which is used to determine the path trajectory
@@ -360,8 +364,55 @@ static void activateWaypoint(int idx)
 
 void settingsUpdated(UAVObjEvent * ev) {
 	uint8_t preprogrammedPath = pathPlannerSettings.PreprogrammedPath;
+	int32_t retval = 0;
+	bool    operation = false;
+
 	PathPlannerSettingsGet(&pathPlannerSettings);
-	if (pathPlannerSettings.PreprogrammedPath != preprogrammedPath) {
+	switch (pathPlannerSettings.FlashOperation) {
+	case PATHPLANNERSETTINGS_FLASHOPERATION_LOAD1:
+		retval = pathplanner_load_path(1);
+		operation = true;
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_LOAD2:
+		retval = pathplanner_load_path(2);
+		operation = true;
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_LOAD3:
+		retval = pathplanner_load_path(3);
+		operation = true;
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_LOAD4:
+		retval = pathplanner_load_path(4);
+		operation = true;
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_LOAD5:
+		retval = pathplanner_load_path(5);
+		operation = true;
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_SAVE1:
+		retval = pathplanner_save_path(1);
+		operation = true;
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_SAVE2:
+		retval = pathplanner_save_path(2);
+		operation = true;
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_SAVE3:
+		retval = pathplanner_save_path(3);
+		operation = true;
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_SAVE4:
+		retval = pathplanner_save_path(4);
+		operation = true;
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_SAVE5:
+		retval = pathplanner_save_path(5);
+		operation = true;
+		break;
+	}
+
+	if (pathPlannerSettings.PreprogrammedPath != preprogrammedPath &&
+	    pathPlannerSettings.FlashOperation == PATHPLANNERSETTINGS_FLASHOPERATION_NONE) {
 		switch(pathPlannerSettings.PreprogrammedPath) {
 			case PATHPLANNERSETTINGS_PREPROGRAMMEDPATH_NONE:
 				break;
@@ -374,6 +425,15 @@ void settingsUpdated(UAVObjEvent * ev) {
 
 		}
 	}
+
+	if (operation && retval == 0) {
+		pathPlannerSettings.FlashOperation = PATHPLANNERSETTINGS_FLASHOPERATION_COMPLETED;
+		PathPlannerSettingsSet(&pathPlannerSettings);
+	} else if (retval != 0) {
+		pathPlannerSettings.FlashOperation = PATHPLANNERSETTINGS_FLASHOPERATION_FAILED;
+		PathPlannerSettingsSet(&pathPlannerSettings);
+	}
+
 }
 
 static void createPathBox()
