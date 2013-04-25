@@ -86,7 +86,9 @@ int32_t pathplanner_load_path(uint32_t path_id)
 	int32_t  waypoint_size = UAVObjGetNumBytes(WaypointHandle());
 	int32_t  retval = 0;
 
-	for (int32_t i = 0; retval == 0; i++) {
+	int32_t i;
+
+	for (i = 0; retval == 0; i++) {
 		retval = PIOS_FLASHFS_ObjLoad(pios_waypoints_settings_fs_id, path_id, i, (uint8_t *) &waypoint, waypoint_size);
 		if (retval == 0) {
 			// Loaded waypoint locally, store in UAVO manager
@@ -100,6 +102,15 @@ int32_t pathplanner_load_path(uint32_t path_id)
 
 			WaypointInstSet(i, &waypoint);
 		}
+	}
+
+	// Set any remaining waypoints to INVALID to indicate they should not be used
+	// at this point i will be the index of the first waypoint that could not be
+	// loaded from flash.
+	for (; i <  UAVObjGetNumInstances(WaypointHandle(); i++) {
+		WaypointInstGet(i, &waypoint);
+		waypoint.Mode = WAYPOINT_MODE_INVALID;
+		WaypointInstSet(i, &waypoint);
 	}
 
 	// Indicates instance not found. Successfully found end of path.
