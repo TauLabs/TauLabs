@@ -43,18 +43,25 @@ extern uintptr_t pios_waypoints_settings_fs_id;
  */
 int32_t pathplanner_save_path(uint32_t path_id)
 {
+	WaypointData waypoint;
+
 	if (WaypointHandle() == 0)
 		return -30; // leave room for flashfs error codes
-
-	// TODO: verify that all existing instances for this path are deleted first
-	// the current flashfs API doesn't allow us to do this short 
 
 	uint32_t num_waypoints = UAVObjGetNumInstances(WaypointHandle());
 	int32_t  waypoint_size = UAVObjGetNumBytes(WaypointHandle());
 	int32_t  retval = 0;
 
+	// Erase any existing (loadable) waypoints for this path sequence in flash
+	for (int32_t i = 0; retval == 0; i++) {
+		retval = PIOS_FLASHFS_ObjLoad(pios_waypoints_settings_fs_id, path_id, i, (uint8_t *) &waypoint, waypoint_size);
+		if (retval == 0) {
+			PIOS_FLASHFS_ObjDelete(pios_waypoints_settings_fs_id, path_id, i);
+		}
+	}
+
+	// Save all elements
 	for (int32_t i = 0; i < num_waypoints && retval == 0; i++) {
-		WaypointData waypoint;
 		WaypointInstGet(i, &waypoint);
 		retval = PIOS_FLASHFS_ObjSave(pios_waypoints_settings_fs_id, path_id, i, (uint8_t *) &waypoint, waypoint_size);
 	}
