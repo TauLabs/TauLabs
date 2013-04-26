@@ -29,6 +29,7 @@
 #include "openpilot.h"
 #include "physical_constants.h"
 #include "paths.h"
+#include "path_saving.h"
 
 #include "flightstatus.h"
 #include "pathdesired.h"
@@ -68,10 +69,6 @@ static void createPathBox();
 static void createPathLogo();
 
 static bool module_enabled;
-
-// Functions from path_saving.c
-int32_t pathplanner_load_path(uint32_t path_id);
-int32_t pathplanner_save_path(uint32_t path_id);
 
 //! Store which waypoint has actually been pushed into PathDesired
 static int32_t active_waypoint = -1;
