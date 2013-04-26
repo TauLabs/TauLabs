@@ -201,7 +201,10 @@ extern uintptr_t pios_com_telem_usb_id;
 extern uintptr_t pios_com_telem_usb_id;
 #define PIOS_COM_TELEM_USB              (pios_com_telem_usb_id)
 #endif
-
+#if defined(PIOS_INCLUDE_ADC)
+extern uintptr_t pios_internal_adc_id;
+#define PIOS_INTERNAL_ADC				(pios_internal_adc_id)
+#endif
 #if defined(PIOS_COM_DEBUG)
 //  #define DEBUG_PRINTF(...) PIOS_COM_SendFormattedString(PIOS_COM_DEBUG, __VA_ARGS__)
   #define DEBUG_PRINTF(...) PIOS_COM_SendFormattedStringNonBlocking(PIOS_COM_DEBUG, __VA_ARGS__)
@@ -232,6 +235,7 @@ extern uintptr_t pios_com_telem_usb_id;
 {NULL, 0, ADC_Channel_Vrefint}, /* Voltage reference */\
 {NULL, 0, ADC_Channel_TempSensor} /* Temperature sensor */\
 }
+#define PIOS_ADC_SUB_DRIVER_MAX_INSTANCES       3
 
 /* we have to do all this to satisfy the PIOS_ADC_MAX_SAMPLES define in pios_adc.h */
 /* which is annoying because this then determines the rate at which we generate buffer turnover events */

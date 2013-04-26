@@ -29,6 +29,7 @@
 			<elementname>EventDispatcher</elementname>
 			<elementname>GenericI2CSensor</elementname>
 			<elementname>UAVOMavlinkBridge</elementname>
+			<elementname>Battery</elementname>
 			<elementname>VibrationAnalysis</elementname>
 		</elementnames>
 	</field> 
@@ -60,6 +61,7 @@
 			<elementname>EventDispatcher</elementname>
 			<elementname>GenericI2CSensor</elementname>
 			<elementname>UAVOMavlinkBridge</elementname>
+			<elementname>Battery</elementname>
 			<elementname>VibrationAnalysis</elementname>
 		</elementnames>
 		<options>
@@ -95,6 +97,7 @@
 			<elementname>EventDispatcher</elementname>
 			<elementname>GenericI2CSensor</elementname>
 			<elementname>UAVOMavlinkBridge</elementname>
+			<elementname>Battery</elementname>
 			<elementname>VibrationAnalysis</elementname>
 		</elementnames>
 	</field> 

@@ -2153,3 +2153,48 @@ const struct pios_usb_cdc_cfg pios_usb_cdc_cfg = {
 	.data_tx_ep = 3,
 };
 #endif	/* PIOS_INCLUDE_USB_CDC */
+
+/*
+ * ADC system
+ */
+#if defined(PIOS_INCLUDE_ADC)
+#include "pios_internal_adc_priv.h"
+#include "pios_adc_priv.h"
+#include "pios_dma.h"
+
+static const struct pios_internal_adc_cfg internal_adc_cfg = {
+        .dma = {
+                .irq = {
+                        .flags   = (DMA1_FLAG_TC1 | DMA1_FLAG_TE1 | DMA1_FLAG_HT1 | DMA1_FLAG_GL1),
+                        .init    = {
+                                .NVIC_IRQChannel                   = DMA1_Channel1_IRQn,
+                                .NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH,
+                                .NVIC_IRQChannelSubPriority        = 0,
+                                .NVIC_IRQChannelCmd                = ENABLE,
+                        },
+                },
+                .rx = {
+                        .channel = DMA1_Channel1,
+                        .init    = {
+                                .DMA_DIR                = DMA_DIR_PeripheralSRC,
+                                .DMA_PeripheralInc      = DMA_PeripheralInc_Disable,
+                                .DMA_MemoryInc          = DMA_MemoryInc_Enable,
+                                .DMA_PeripheralDataSize = DMA_PeripheralDataSize_Word,
+                                .DMA_MemoryDataSize     = DMA_MemoryDataSize_Word,
+                                .DMA_Mode               = DMA_Mode_Circular,
+                                .DMA_Priority           = DMA_Priority_High,
+                                .DMA_M2M                = DMA_M2M_Disable,
+                        },
+                }
+        },
+        .half_flag = DMA1_IT_HT1,
+        .full_flag = DMA1_IT_TC1,
+        .oversampling = 32,
+        .number_of_used_pins = 1,
+        .adc_pins = (adc_pin[]){{GPIOA,GPIO_Pin_1,ADC_Channel_2,true},},
+        .adc_dev_master = ADC1,
+        //.number_of_used_pins = 2,
+        //.adc_pins = (adc_pin[]){{GPIOA,GPIO_Pin_1,ADC_Channel_2,true},{GPIOA,GPIO_Pin_4,ADC_Channel_1,false},},
+        //.adc_dev_slave = ADC2,
+};
+#endif //PIOS_INCLUDE_ADC

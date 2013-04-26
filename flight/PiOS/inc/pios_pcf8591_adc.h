@@ -2,14 +2,13 @@
  ******************************************************************************
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
- * @addtogroup PIOS_ADC ADC layer functions
- * @brief Upper level Analog to Digital converter layer
+ * @addtogroup   PIOS_PCF8591_ADC ADC Functions
+ * @brief PCF8591 ADC PIOS interface
  * @{
  *
- * @file       pios_adc.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @file       pios_pcf8591_adc.h
  * @author     The Tau Labs Team, http://www.taulabs.org Copyright (C) 2013.
- * @brief      ADC layer functions header
+ * @brief      PCF8591 ADC functions header.
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -29,32 +28,20 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef PIOS_ADC_H
-#define PIOS_ADC_H
+#ifndef PIOS_PCF8591_ADC_H_
+#define PIOS_PCF8591_ADC_H_
 
-#include <stdint.h>		/* uint*_t */
-#include <stdbool.h>	/* bool */
+#define PIOS_PCF8591_DAC_ENABLE							0x40
+#define PIOS_PCF8591_ADC_CH0							0x00
+#define PIOS_PCF8591_ADC_CH1							0x01
+#define PIOS_PCF8591_ADC_CH2							0x02
+#define PIOS_PCF8591_ADC_CH3							0x03
+#define PIOS_PCF8591_ADC_AUTO_INCREMENT					0x04
+#define PIOS_PCF8591_ADC_SINGLE_ENDED					0x00
+#define PIOS_PCF8591_ADC_THREE_DIFF_INPUTS				0x10
+#define PIOS_PCF8591_ADC_SINGLE_ENDED_AND_DIFF_MIXED	0X20
+#define PIOS_PCF8591_ADC_TWO_DIFF_INPUTS				0X30
+#define PIOS_PCF8591_NUMBER_OF_ADC_CHANNELS				4
+#define PIOS_PCF8591_CHANNELS { PIOS_PCF8591_ADC_CH0, PIOS_PCF8591_ADC_CH1, PIOS_PCF8591_ADC_CH2, PIOS_PCF8591_ADC_CH3 }
 
-struct pios_adc_driver {
-	void (*init)(uint32_t id);
-	int32_t (*get_pin)(uint32_t id, uint32_t pin);
-	bool (*available)(uint32_t id, uint32_t device_pin);
-#if defined(PIOS_INCLUDE_FREERTOS)
-	void (*set_queue)(uint32_t id, xQueueHandle data_queue);
-#endif
-	uint8_t (*number_of_channels)(uint32_t id);
-};
-
-/* Public Functions */
-extern int32_t PIOS_ADC_DevicePinGet(uintptr_t adc_id, uint32_t device_pin);
-extern bool PIOS_ADC_Available(uintptr_t adc_id, uint32_t device_pin);
-#if defined(PIOS_INCLUDE_FREERTOS)
-extern void PIOS_ADC_SetQueue(uintptr_t adc_id, xQueueHandle data_queue);
-#endif
-extern int32_t PIOS_ADC_GetChannel(uint32_t channel);
-#endif /* PIOS_ADC_H */
-
-/**
-  * @}
-  * @}
-  */
+#endif /* PIOS_PCF8591_ADC_H_ */
