@@ -107,7 +107,7 @@ int32_t pathplanner_load_path(uint32_t path_id)
 	// Set any remaining waypoints to INVALID to indicate they should not be used
 	// at this point i will be the index of the first waypoint that could not be
 	// loaded from flash.
-	for (; i <  UAVObjGetNumInstances(WaypointHandle(); i++) {
+	for (; i <  UAVObjGetNumInstances(WaypointHandle()); i++) {
 		WaypointInstGet(i, &waypoint);
 		waypoint.Mode = WAYPOINT_MODE_INVALID;
 		WaypointInstSet(i, &waypoint);
