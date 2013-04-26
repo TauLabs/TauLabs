@@ -2,7 +2,23 @@
     <object name="PathPlannerSettings" singleinstance="true" settings="true">
         <description>Settings for the @ref PathPlanner Module</description>
 	<field name="PreprogrammedPath" units="" type="enum" elements="1" options="NONE,10M_BOX,LOGO" defaultvalue="NONE"/>
-	<field name="FlashOperation" units="" type="enum" elements="1" options="NONE,FAILED,COMPLETED,Save1,Save2,Save3,Save4,Save5,Load1,Load2,Load3,Load4,Load5" defaultvalue="NONE"/>
+	<field name="FlashOperation" units="" type="enum" elements="1" defaultvalue="NONE">
+		<options>
+ 			<option>NONE</option>
+			<option>FAILED</option>
+			<option>COMPLETED</option>
+			<option>SAVE1</option>
+			<option>SAVE2</option>
+			<option>SAVE3</option>
+			<option>SAVE4</option>
+			<option>SAVE5</option>
+			<option>LOAD1</option>
+			<option>LOAD2</option>
+			<option>LOAD3</option>
+			<option>LOAD4</option>
+			<option>LOAD5</option>
+		</options>
+	</field>
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="true" updatemode="onchange" period="0"/>
         <telemetryflight acked="true" updatemode="onchange" period="0"/>
