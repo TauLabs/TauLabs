@@ -528,8 +528,8 @@ static const struct flashfs_logfs_cfg flashfs_m25p_settings_cfg = {
 static const struct flashfs_logfs_cfg flashfs_m25p_waypoints_cfg = {
 	.fs_magic      = 0x99abcecf,
 	.total_fs_size = 0x00100000, /* 1M bytes (16 sectors = half chip) */
-	.arena_size    = 0x00010000, /* 256 * slot size */
-	.slot_size     = 0x00000100, /* 256 bytes */
+	.arena_size    = 0x00010000, /* 2048 * slot size */
+	.slot_size     = 0x00000040, /* 64 bytes */
 
 	.start_offset  = 0x00100000, /* start at the beginning of the chip */
 	.sector_size   = 0x00010000, /* 64K bytes */
