@@ -124,7 +124,7 @@ int32_t StabilizationInitialize()
 #endif
 
 	// Code required for relay tuning
-	sin_lookup_initalize();
+	sin_lookup_initialize();
 
 	return 0;
 }
