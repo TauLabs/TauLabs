@@ -25,6 +25,7 @@
  */
 
 #include <math.h>
+#include "misc_math.h" 		/* API declarations */
 
 /**
  * Bound input value between min and max
