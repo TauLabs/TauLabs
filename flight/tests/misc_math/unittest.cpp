@@ -203,6 +203,7 @@ protected:
 
 TEST_F(CircularModulusDeg, NullError) {
   float error = 0.0f;
+  EXPECT_EQ(-error, circular_modulus_deg(error - 3600000));
   EXPECT_EQ(-error, circular_modulus_deg(error - 1080));
   EXPECT_EQ(-error, circular_modulus_deg(error - 720));
   EXPECT_EQ(-error, circular_modulus_deg(error - 360));
@@ -210,10 +211,12 @@ TEST_F(CircularModulusDeg, NullError) {
   EXPECT_EQ(-error, circular_modulus_deg(error + 360));
   EXPECT_EQ(-error, circular_modulus_deg(error + 720));
   EXPECT_EQ(-error, circular_modulus_deg(error + 1080));
+  EXPECT_EQ(-error, circular_modulus_deg(error + 3600000));
 };
 
 TEST_F(CircularModulusDeg, MaxPosError) {
   // Use fabs() for +/-180.0 to accept either -180.0 or +180.0 as valid and correct
+  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(180.0f - 3600000)));
   EXPECT_EQ(180.0f, fabs(circular_modulus_deg(180.0f - 1080)));
   EXPECT_EQ(180.0f, fabs(circular_modulus_deg(180.0f - 720)));
   EXPECT_EQ(180.0f, fabs(circular_modulus_deg(180.0f - 360)));
@@ -221,10 +224,12 @@ TEST_F(CircularModulusDeg, MaxPosError) {
   EXPECT_EQ(180.0f, fabs(circular_modulus_deg(180.0f + 360)));
   EXPECT_EQ(180.0f, fabs(circular_modulus_deg(180.0f + 720)));
   EXPECT_EQ(180.0f, fabs(circular_modulus_deg(180.0f + 1080)));
+  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(180.0f + 3600000)));
 };
 
 TEST_F(CircularModulusDeg, MaxNegError) {
   // Use fabs() for +/-180.0 to accept either -180.0 or +180.0 as valid and correct
+  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(-180.0f - 3600000)));
   EXPECT_EQ(180.0f, fabs(circular_modulus_deg(-180.0f - 1080)));
   EXPECT_EQ(180.0f, fabs(circular_modulus_deg(-180.0f - 720)));
   EXPECT_EQ(180.0f, fabs(circular_modulus_deg(-180.0f - 360)));
@@ -232,6 +237,7 @@ TEST_F(CircularModulusDeg, MaxNegError) {
   EXPECT_EQ(180.0f, fabs(circular_modulus_deg(-180.0f + 360)));
   EXPECT_EQ(180.0f, fabs(circular_modulus_deg(-180.0f + 720)));
   EXPECT_EQ(180.0f, fabs(circular_modulus_deg(-180.0f + 1080)));
+  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(-180.0f + 3600000)));
 };
 
 TEST_F(CircularModulusDeg, SweepError) {
