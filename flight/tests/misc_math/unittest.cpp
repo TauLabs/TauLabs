@@ -44,6 +44,8 @@ extern "C" {
 
 }
 
+#include <math.h>		/* fabs() */
+
 // To use a test fixture, derive a class from testing::Test.
 class MiscMath : public testing::Test {
 protected:
@@ -211,25 +213,25 @@ TEST_F(CircularModulusDeg, NullError) {
 };
 
 TEST_F(CircularModulusDeg, MaxPosError) {
-  float error = 180.0f;
-  EXPECT_EQ(-error, circular_modulus_deg(error - 1080));
-  EXPECT_EQ(-error, circular_modulus_deg(error - 720));
-  EXPECT_EQ(-error, circular_modulus_deg(error - 360));
-  EXPECT_EQ(-error, circular_modulus_deg(error));
-  EXPECT_EQ(-error, circular_modulus_deg(error + 360));
-  EXPECT_EQ(-error, circular_modulus_deg(error + 720));
-  EXPECT_EQ(-error, circular_modulus_deg(error + 1080));
+  // Use fabs() for +/-180.0 to accept either -180.0 or +180.0 as valid and correct
+  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(180.0f - 1080)));
+  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(180.0f - 720)));
+  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(180.0f - 360)));
+  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(180.0f)));
+  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(180.0f + 360)));
+  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(180.0f + 720)));
+  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(180.0f + 1080)));
 };
 
 TEST_F(CircularModulusDeg, MaxNegError) {
-  float error = -180.0f;
-  EXPECT_EQ(error, circular_modulus_deg(error - 1080));
-  EXPECT_EQ(error, circular_modulus_deg(error - 720));
-  EXPECT_EQ(error, circular_modulus_deg(error - 360));
-  EXPECT_EQ(error, circular_modulus_deg(error));
-  EXPECT_EQ(error, circular_modulus_deg(error + 360));
-  EXPECT_EQ(error, circular_modulus_deg(error + 720));
-  EXPECT_EQ(error, circular_modulus_deg(error + 1080));
+  // Use fabs() for +/-180.0 to accept either -180.0 or +180.0 as valid and correct
+  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(-180.0f - 1080)));
+  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(-180.0f - 720)));
+  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(-180.0f - 360)));
+  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(-180.0f)));
+  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(-180.0f + 360)));
+  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(-180.0f + 720)));
+  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(-180.0f + 1080)));
 };
 
 TEST_F(CircularModulusDeg, SweepError) {
