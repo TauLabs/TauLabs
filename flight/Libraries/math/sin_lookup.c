@@ -29,11 +29,10 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "openpilot.h"
 #include "physical_constants.h"
 #include "math.h"
-#include "stdbool.h"
 #include "stdint.h"
+#include "string.h"		/* NULL */
 
 #define FLASH_TABLE
 #ifdef FLASH_TABLE
@@ -91,9 +90,7 @@ int sin_lookup_initialize()
 #endif
 
 /**
- * Use the lookup table to return sine(angle) where angle is in radians
- * to save flash this cheats and uses trig functions to only save
- * 90 values
+ * Use the lookup table to return sine(angle) where angle is in degrees
  * @param[in] angle Angle in degrees
  * @returns sin(angle)
 */
