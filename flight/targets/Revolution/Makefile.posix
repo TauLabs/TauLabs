@@ -172,6 +172,7 @@ SRC += $(MATHLIB)/pid.c
 include $(PIOS)/posix/library.mk
 
 ## PIOS Hardware (Common)
+SRC += $(PIOSPOSIX)/pios_flashfs_logfs.c
 #SRC += $(PIOSCOMMON)/pios_mpu6000.c
 #SRC += $(PIOSCOMMON)/pios_bma180.c
 #SRC += $(PIOSCOMMON)/pios_l3gd20.c

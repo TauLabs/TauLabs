@@ -42,6 +42,8 @@
 #include "pios_rcvr_priv.h"
 #include "pios_gcsrcvr_priv.h"
 
+uintptr_t pios_waypoints_settings_fs_id;
+
 void Stack_Change() {
 }
 
