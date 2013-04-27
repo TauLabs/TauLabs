@@ -44,12 +44,7 @@ float bound_min_max(float val, float min, float max)
  */
 float bound_sym(float val, float range)
 {
-	if(val < -range) {
-		val = -range;
-	} else if(val > range) {
-		val = range;
-	}
-	return val;
+	return (bound_min_max(val, -range, range));
 }
 
 /**
