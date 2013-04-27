@@ -135,22 +135,6 @@ TEST_F(BoundMinMax, StraddleZeroMinMax) {
   EXPECT_EQ(max, bound_min_max(max + 1.0f, min, max));
 }
 
-TEST_F(BoundMinMax, DISABLED_ReversedMinMax) {
-  float min = 10.0f;
-  float max = -10.0f;
-
-  // Below Lower Bound
-  EXPECT_EQ(min, bound_min_max(min - 1.0f, min, max));
-  // At Lower Bound
-  EXPECT_EQ(min, bound_min_max(min, min, max));
-  // In Bounds
-  EXPECT_EQ(0.0f, bound_min_max(0.0f, min, max));
-  // At Upper Bound
-  EXPECT_EQ(max, bound_min_max(max, min, max));
-  // Above Upper Bound
-  EXPECT_EQ(max, bound_min_max(max + 1.0f, min, max));
-}
-
 // Test fixture for bound_sym()
 class BoundSym : public MiscMath {
 protected:
