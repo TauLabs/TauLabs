@@ -571,7 +571,8 @@ void SpinBoxDelegate::setEditorData(QWidget *editor,
     int value = index.model()->data(index, Qt::EditRole).toInt();
 
     QSpinBox *spinBox = static_cast<QSpinBox*>(editor);
-    spinBox->setValue(value);
+    if (value > 0)
+        spinBox->setValue(value);
 }
 
 void SpinBoxDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
@@ -581,7 +582,8 @@ void SpinBoxDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
     spinBox->interpretText();
     int value = spinBox->value();
 
-    model->setData(index, value, Qt::EditRole);
+    if (value > 0)
+        model->setData(index, value, Qt::EditRole);
 }
 
 void SpinBoxDelegate::updateEditorGeometry(QWidget *editor,
