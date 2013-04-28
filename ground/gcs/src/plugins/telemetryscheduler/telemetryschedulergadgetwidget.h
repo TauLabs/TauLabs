@@ -60,6 +60,7 @@ private slots:
     void saveTelemetryToFile();
     void loadTelemetryFromFile();
     void applySchedule();
+    void updateCurrentColumn(UAVObject *);
     void dataModel_itemChanged(QStandardItem *);
 
 private:
@@ -72,6 +73,8 @@ private:
     TelemetrySchedulerConfiguration *m_config;
     UAVObjectManager *objManager;
     QString filename;
+
+    QMap<QString, UAVObject::Metadata> defaultMdata;
 
     QStringList columnHeaders;
     QStringList rowHeaders;

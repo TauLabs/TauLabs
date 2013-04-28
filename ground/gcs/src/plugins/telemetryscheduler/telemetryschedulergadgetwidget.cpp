@@ -108,7 +108,7 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     telemetryScheduleView->getFrozenTableView()->verticalHeader()->setFixedWidth(width);
 
     // Generate the list of column headers
-    columnHeaders << "Current" << "USB" << "2400" << "4800" << "9600" << "19200" << "38400" << "57600" << "115200" << "250k" << "500k";
+    columnHeaders << "Default" << "Current" << "USB" << "2400" << "4800" << "9600" << "19200" << "38400" << "57600" << "115200" << "250k" << "500k";
 
     int columnIndex = 0;
     foreach(QString header, columnHeaders ){
@@ -118,14 +118,26 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
         columnIndex++;
     }
 
-    // Populate the first row with current update rates
+    // Populate the Current column with live update rates. Connect these values to the current
+    // metadata. At the same time, populate the default column.
     rowIndex = 1;
     foreach (QList<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
             if(!obj->isSettings()) {
-                UAVObject::Metadata mdata = obj->getMetadata();
+                // Add defaults
+                UAVObject::Metadata mdataDefault = obj->getDefaultMetadata();
                 QModelIndex index = schedulerModel->index(rowIndex,0, QModelIndex());
-                schedulerModel->setData(index, mdata.flightTelemetryUpdatePeriod);
+                schedulerModel->setData(index, mdataDefault.flightTelemetryUpdatePeriod);
+
+                // Save default metadata for later use
+                defaultMdata.insert(obj->getName().append("Meta"), mdataDefault);
+
+                // Add live values
+                UAVMetaObject *mobj = obj->getMetaObject();
+                connect(mobj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateCurrentColumn(UAVObject*)));
+
+                updateCurrentColumn(mobj);
+
                 rowIndex++;
             }
         }
@@ -140,6 +152,50 @@ TelemetrySchedulerGadgetWidget::~TelemetrySchedulerGadgetWidget()
 {
    // Do nothing
 }
+
+
+void TelemetrySchedulerGadgetWidget::updateCurrentColumn(UAVObject *obj)
+{
+    int rowIndex = -1;
+
+    UAVMetaObject* mobj = dynamic_cast<UAVMetaObject*>(obj);
+    if ( mobj == NULL ) {
+        Q_ASSERT(0);
+        return;
+    }
+
+    // Iterate over all headers, looking for the UAVO
+    for (int i=1; i < schedulerModel->rowCount(); i++)
+    {
+        QString bob = schedulerModel->verticalHeaderItem(i)->text().append("Meta");
+        QString fred = mobj->getName();
+
+        // Add "Meta" to the end of the header name, in order to match the UAVO
+        // metadata object name
+        if (schedulerModel->verticalHeaderItem(i)->text().append("Meta") == mobj->getName())
+        {
+            rowIndex = i;
+            break;
+        }
+    }
+
+    // This can only happen if something has gone wrong in the object manager
+    if (rowIndex == -1){
+        Q_ASSERT(0);
+        return;
+    }
+
+    // Use row index value to populate new data. Only populate data if it is differnt
+    UAVObject::Metadata mdataDefault = defaultMdata.value(mobj->getName());
+    UAVObject::Metadata mdata = mobj->getData();
+
+    if (mdata.flightTelemetryUpdatePeriod != mdataDefault.flightTelemetryUpdatePeriod)
+    {
+        QModelIndex index = schedulerModel->index(rowIndex, 1, QModelIndex());
+        schedulerModel->setData(index, mdata.flightTelemetryUpdatePeriod);
+    }
+}
+
 
 void TelemetrySchedulerGadgetWidget::dataModel_itemChanged(QStandardItem *item)
 {
@@ -197,8 +253,9 @@ void TelemetrySchedulerGadgetWidget::saveTelemetryToFile()
         QDomElement headings = doc.createElement("headings");
 
 
-        // Remove the "Current" header from the list
+        // Remove the "Current" and "Default" headers from the list
         QStringList tmpStringList = columnHeaders;
+        tmpStringList.pop_front();
         tmpStringList.pop_front();
 
         // append to the headings element
@@ -206,10 +263,9 @@ void TelemetrySchedulerGadgetWidget::saveTelemetryToFile()
         o.setAttribute("values", tmpStringList.join(","));
         root.appendChild(o);
 
-
         root.appendChild(settings);
-        // iterate over UAVObjects
 
+        // iterate over UAVObjects
         for(int row=1; row<schedulerModel->rowCount(); row++)
         {
             QString uavObjectName = schedulerModel->verticalHeaderItem(row)->text();
@@ -271,7 +327,6 @@ void TelemetrySchedulerGadgetWidget::applySchedule(){
             col = j;
             break;
         }
-
     }
 
     // This shouldn't be possible. Leaving the check in just in case.
@@ -281,14 +336,20 @@ void TelemetrySchedulerGadgetWidget::applySchedule(){
     }
 
     QMap<QString, UAVObject::Metadata> metaDataList;
-    for (int i=1; i<schedulerModel->rowCount(); i++){
-        QModelIndex index = schedulerModel->index(i, col, QModelIndex());
-        double updatePeriod_ms = schedulerModel->data(index).toUInt();
-
+    for (int i=1; i<schedulerModel->rowCount(); i++) {
         // Get UAVO name and metadata
         QString uavObjectName = schedulerModel->verticalHeaderItem(i)->text();
         UAVObject *obj = objManager->getObject(uavObjectName);
         UAVObject::Metadata mdata = obj->getMetadata();
+
+        // Get update period
+        double updatePeriod_ms;
+        QModelIndex index = schedulerModel->index(i, col, QModelIndex());
+        if (schedulerModel->data(index).isValid())
+            updatePeriod_ms = schedulerModel->data(index).toUInt();
+        else
+            updatePeriod_ms = defaultMdata.value(obj->getName().append("Meta")).flightTelemetryUpdatePeriod;
+
 
         // Set new update rate value
         mdata.flightTelemetryUpdatePeriod = updatePeriod_ms;
@@ -324,7 +385,7 @@ void TelemetrySchedulerGadgetWidget::loadTelemetryFromFile()
 
 void TelemetrySchedulerGadgetWidget::importTelemetryConfiguration(const QString& fileName)
 {
-    // Now open the file
+    // Open the file
     QFile file(fileName);
     QDomDocument doc("TelemetryScheduler");
     file.open(QFile::ReadOnly|QFile::Text);
@@ -357,11 +418,12 @@ void TelemetrySchedulerGadgetWidget::importTelemetryConfiguration(const QString&
 
     QDomElement f = root.toElement();
     QStringList new_columnHeaders = f.attribute("values").split(",");
-    new_columnHeaders.insert(0, "Current");
+    new_columnHeaders.insert(0, "Default");
+    new_columnHeaders.insert(1, "Current");
 
     //Remove old columns
-    schedulerModel->removeColumns(1, columnHeaders.length(), QModelIndex());
-    telemetryScheduleView->getFrozenModel()->removeColumns(1, columnHeaders.length(), QModelIndex());
+    schedulerModel->removeColumns(2, columnHeaders.length(), QModelIndex());
+    telemetryScheduleView->getFrozenModel()->removeColumns(2, columnHeaders.length(), QModelIndex());
 
     // Add new ones
     schedulerModel->setHorizontalHeaderLabels(new_columnHeaders); //<-- TODO: Reimplement this function if possible, so that when a new column is added it automatically updates a list of columns
@@ -472,6 +534,19 @@ UAVObjectUtilManager* TelemetrySchedulerGadgetWidget::getObjectUtilManager() {
     return utilMngr;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 //=======================================
 
 SpinBoxDelegate::SpinBoxDelegate(QObject *parent)
@@ -514,6 +589,19 @@ void SpinBoxDelegate::updateEditorGeometry(QWidget *editor,
 {
     editor->setGeometry(option.rect);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //==========================
