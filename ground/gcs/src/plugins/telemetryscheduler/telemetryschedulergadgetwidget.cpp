@@ -846,13 +846,17 @@ QModelIndex QFrozenTableViewWithCopyPaste::moveCursor(CursorAction cursorAction,
 {
     QModelIndex current = QTableView::moveCursor(cursorAction, modifiers);
 
-    if(cursorAction == MoveUp && current.row()>0
-       && visualRect(current).topLeft().x() < frozenTableView->columnWidth(0) )
+    // Keep cursor from entering the "Default" or "Current" columns
+    if(cursorAction == MoveLeft && current.column()-1 <= 0)
     {
-          const int newValue = verticalScrollBar()->value() + visualRect(current).topLeft().x()
-                               - frozenTableView->columnWidth(0);
-          verticalScrollBar()->setValue(newValue);
+        current = current.sibling(current.row(), 2);
     }
+
+    // Keep cursor from entering the frozen row
+    if(cursorAction == MoveUp && current.row() == 0){
+        current = current.sibling(current.row()+1, current.column());
+    }
+
     return current;
 }
 
