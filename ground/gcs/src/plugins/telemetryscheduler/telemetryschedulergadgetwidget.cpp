@@ -204,15 +204,22 @@ void TelemetrySchedulerGadgetWidget::dataModel_itemChanged(QStandardItem *item)
     // Update the speed estimate
     double bandwidthRequired_bps = 0;
     for (int i=1; i<schedulerModel->rowCount(); i++){
-        QModelIndex index = schedulerModel->index(i, col, QModelIndex());
-        double updatePeriod_s = schedulerModel->data(index).toUInt() / 1000.0;
-        double updateFrequency_Hz = updatePeriod_s > 0 ? 1.0 / updatePeriod_s : 0;
-
         // Get UAVO size
         QString uavObjectName = schedulerModel->verticalHeaderItem(i)->text();
         UAVObject *obj = objManager->getObject(uavObjectName);
         Q_ASSERT(obj);
         uint16_t size = obj->getNumBytes();
+
+        // Get UAVO speed
+        QModelIndex index = schedulerModel->index(i, col, QModelIndex());
+        double updatePeriod_s;
+        if (schedulerModel->data(index).isValid() && schedulerModel->data(index).toUInt() > 0)
+            updatePeriod_s = schedulerModel->data(index).toUInt() / 1000.0;
+        else
+            updatePeriod_s = defaultMdata.value(obj->getName().append("Meta")).flightTelemetryUpdatePeriod / 1000.0;
+
+        double updateFrequency_Hz = updatePeriod_s > 0 ? 1.0 / updatePeriod_s : 0;
+
 
         // Accumulate bandwidth
         bandwidthRequired_bps += updateFrequency_Hz * size;
@@ -345,7 +352,7 @@ void TelemetrySchedulerGadgetWidget::applySchedule(){
         // Get update period
         double updatePeriod_ms;
         QModelIndex index = schedulerModel->index(i, col, QModelIndex());
-        if (schedulerModel->data(index).isValid())
+        if (schedulerModel->data(index).isValid() && schedulerModel->data(index).toUInt() > 0)
             updatePeriod_ms = schedulerModel->data(index).toUInt();
         else
             updatePeriod_ms = defaultMdata.value(obj->getName().append("Meta")).flightTelemetryUpdatePeriod;
