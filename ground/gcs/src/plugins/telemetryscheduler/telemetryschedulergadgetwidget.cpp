@@ -718,23 +718,22 @@ void QTableViewWithCopyPaste::keyPressEvent(QKeyEvent * event)
 
 QTableViewWithCopyPaste::QTableViewWithCopyPaste(QAbstractItemModel * model)
 {
-      setModel(model);
-      frozenTableView = new QTableView(this);
+    setModel(model);
+    frozenTableView = new QTableView(this);
 
-      init();
+    init();
 
-      //connect the headers and scrollbars of both tableviews together
-      connect(horizontalHeader(),SIGNAL(sectionResized(int,int,int)), this, SLOT(updateSectionWidth(int,int,int)));
-      connect(verticalHeader(),SIGNAL(sectionResized(int,int,int)), this, SLOT(updateSectionHeight(int,int,int)));
+    //connect the headers and scrollbars of both tableviews together
+    connect(horizontalHeader(),SIGNAL(sectionResized(int,int,int)), this, SLOT(updateSectionWidth(int,int,int)));
+    connect(verticalHeader(),SIGNAL(sectionResized(int,int,int)), this, SLOT(updateSectionHeight(int,int,int)));
 
-      connect(frozenTableView->horizontalScrollBar(), SIGNAL(valueChanged(int)), horizontalScrollBar(), SLOT(setValue(int)));
-      connect(horizontalScrollBar(), SIGNAL(valueChanged(int)), frozenTableView->horizontalScrollBar(), SLOT(setValue(int)));
-
+    connect(frozenTableView->horizontalScrollBar(), SIGNAL(valueChanged(int)), horizontalScrollBar(), SLOT(setValue(int)));
+    connect(horizontalScrollBar(), SIGNAL(valueChanged(int)), frozenTableView->horizontalScrollBar(), SLOT(setValue(int)));
 }
 
 QTableViewWithCopyPaste::~QTableViewWithCopyPaste()
 {
-      delete frozenTableView;
+    delete frozenTableView;
 }
 
 
@@ -744,38 +743,38 @@ QTableViewWithCopyPaste::~QTableViewWithCopyPaste()
  */
 void QTableViewWithCopyPaste::init()
  {
-       frozenModel = new QStandardItemModel(0, 0, this); //0 Rows and 0 Columns
+    frozenModel = new QStandardItemModel(0, 0, this); //0 Rows and 0 Columns
 
-       frozenTableView->setModel(frozenModel);
-       frozenTableView->setFocusPolicy(Qt::NoFocus);
-       frozenTableView->horizontalHeader()->hide();
-       frozenTableView->verticalHeader()->setResizeMode(QHeaderView::Fixed);
+    frozenTableView->setModel(frozenModel);
+    frozenTableView->setFocusPolicy(Qt::NoFocus);
+    frozenTableView->horizontalHeader()->hide();
+    frozenTableView->verticalHeader()->setResizeMode(QHeaderView::Fixed);
 
-       viewport()->stackUnder(frozenTableView);
+    viewport()->stackUnder(frozenTableView);
 
-       // Set table color to green background and red text. This is ugly as sin, but functional for the moment.
-       frozenTableView->setStyleSheet("QTableView { border: none;"
-                                      "color: #FF0000;"
-                                      "background-color: #8EDE21;"
-                                      "selection-background-color: #999}"); //for demo purposes
-       frozenTableView->setSelectionModel(selectionModel());
-       for(int row=1; row<model()->rowCount(); row++)
-             frozenTableView->setRowHidden(row, true);
+    // Set table color to green background and red text. This is ugly as sin, but functional for the moment.
+    frozenTableView->setStyleSheet("QTableView { border: none;"
+                                   "color: #FF0000;"
+                                   "background-color: #8EDE21;"
+                                   "selection-background-color: #999}"); //for demo purposes
+    frozenTableView->setSelectionModel(selectionModel());
+    for(int row=1; row<model()->rowCount(); row++)
+          frozenTableView->setRowHidden(row, true);
 
-       frozenTableView->setRowHeight(rowHeight(0), 0 );
+    frozenTableView->setRowHeight(rowHeight(0), 0 );
 
-       frozenTableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-       frozenTableView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-       frozenTableView->show();
+    frozenTableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    frozenTableView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    frozenTableView->show();
 
-       updateFrozenTableGeometry();
+    updateFrozenTableGeometry();
 
-       setHorizontalScrollMode(ScrollPerPixel);
-       setVerticalScrollMode(ScrollPerPixel);
-       frozenTableView->setHorizontalScrollMode(ScrollPerPixel);
+    setHorizontalScrollMode(ScrollPerPixel);
+    setVerticalScrollMode(ScrollPerPixel);
+    frozenTableView->setHorizontalScrollMode(ScrollPerPixel);
 
-       // TODO: Make it so that the wheel events in the frozen table are passed to the main table.
- }
+    // TODO: Make it so that the wheel events in the frozen table are passed to the main table.
+}
 
 void QTableViewWithCopyPaste::updateSectionWidth(int logicalIndex, int, int newSize)
 {
@@ -792,23 +791,23 @@ void QTableViewWithCopyPaste::updateSectionHeight(int logicalIndex, int, int new
 
 void QTableViewWithCopyPaste::resizeEvent(QResizeEvent * event)
 {
-      QTableView::resizeEvent(event);
-      updateFrozenTableGeometry();
- }
+    QTableView::resizeEvent(event);
+    updateFrozenTableGeometry();
+}
 
 QModelIndex QTableViewWithCopyPaste::moveCursor(CursorAction cursorAction,
                                           Qt::KeyboardModifiers modifiers)
 {
-      QModelIndex current = QTableView::moveCursor(cursorAction, modifiers);
+    QModelIndex current = QTableView::moveCursor(cursorAction, modifiers);
 
-      if(cursorAction == MoveLeft && current.column()>0
-         && visualRect(current).topLeft().x() < frozenTableView->columnWidth(0) )
-      {
-            const int newValue = verticalScrollBar()->value() + visualRect(current).topLeft().x()
-                                 - frozenTableView->columnWidth(0);
-            verticalScrollBar()->setValue(newValue);
-      }
-      return current;
+    if(cursorAction == MoveUp && current.row()>0
+       && visualRect(current).topLeft().x() < frozenTableView->columnWidth(0) )
+    {
+          const int newValue = verticalScrollBar()->value() + visualRect(current).topLeft().x()
+                               - frozenTableView->columnWidth(0);
+          verticalScrollBar()->setValue(newValue);
+    }
+    return current;
 }
 
 void QTableViewWithCopyPaste::scrollTo (const QModelIndex & index, ScrollHint hint){
@@ -820,10 +819,10 @@ void QTableViewWithCopyPaste::scrollTo (const QModelIndex & index, ScrollHint hi
 
 void QTableViewWithCopyPaste::updateFrozenTableGeometry()
 {
-      frozenTableView->setGeometry( frameWidth(),
-                                    horizontalHeader()->height()+frameWidth(),
-                                    viewport()->width()+verticalHeader()->width(),
-                                    rowHeight(0));
+    frozenTableView->setGeometry( frameWidth(),
+                                  horizontalHeader()->height()+frameWidth(),
+                                  viewport()->width()+verticalHeader()->width(),
+                                  rowHeight(0));
 }
 
 /**
