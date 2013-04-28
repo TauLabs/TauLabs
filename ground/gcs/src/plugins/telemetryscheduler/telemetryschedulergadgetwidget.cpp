@@ -580,6 +580,8 @@ void SpinBoxDelegate::setEditorData(QWidget *editor,
     QSpinBox *spinBox = static_cast<QSpinBox*>(editor);
     if (value > 0)
         spinBox->setValue(value);
+    else
+        spinBox->clear();
 }
 
 void SpinBoxDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
@@ -591,6 +593,15 @@ void SpinBoxDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
 
     if (value > 0)
         model->setData(index, value, Qt::EditRole);
+//    else {
+//        QStandardItemModel* stdModel = dynamic_cast<QStandardItemModel*>(model);
+//        if ( stdModel == NULL ) {
+//            Q_ASSERT(0);
+//            return;
+//        }
+
+//        stdModel->takeItem(index.row(), index.column());
+//    }
 }
 
 void SpinBoxDelegate::updateEditorGeometry(QWidget *editor,
@@ -709,6 +720,28 @@ void QFrozenTableViewWithCopyPaste::paste()
     }
 }
 
+void QFrozenTableViewWithCopyPaste::deleteCells()
+{
+    QItemSelectionModel *selection = selectionModel();
+    QModelIndexList indices = selection->selectedIndexes();
+
+    if(indices.size() < 1)
+      return;
+
+    foreach (QModelIndex index, indices){
+        QStandardItemModel* stdModel = dynamic_cast<QStandardItemModel*>(model());
+        if ( stdModel == NULL ) {
+            Q_ASSERT(0);
+            return;
+        }
+
+        stdModel->takeItem(index.row(), index.column());
+    }
+
+    // Clear the selection. If this is not done, then the cells stay selected.
+    selection->clear();
+}
+
 void QFrozenTableViewWithCopyPaste::keyPressEvent(QKeyEvent * event)
 {
     if(event->matches(QKeySequence::Copy) )
@@ -718,6 +751,10 @@ void QFrozenTableViewWithCopyPaste::keyPressEvent(QKeyEvent * event)
     else if(event->matches(QKeySequence::Paste) )
     {
         paste();
+    }
+    else if(event->matches(QKeySequence::Delete) || event->key() == Qt::Key_Backspace)
+    {
+        deleteCells();
     }
     else
     {

@@ -116,6 +116,7 @@ private slots:
 private:
     void copy();
     void paste();
+    void deleteCells();
 
     void updateFrozenTableGeometry();
     void init();
