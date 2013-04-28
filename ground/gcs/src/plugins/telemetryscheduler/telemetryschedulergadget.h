@@ -30,10 +30,8 @@
 #include <coreplugin/iuavgadget.h>
 
 namespace Core {
-class IUAVGadget;
+    class IUAVGadget;
 }
-//class QWidget;
-//class QString;
 class TelemetrySchedulerGadgetWidget;
 
 using namespace Core;
