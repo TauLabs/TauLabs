@@ -41,7 +41,7 @@
 #include "telemetryschedulergadgetconfiguration.h"
 
 class Ui_TelemetryScheduler;
-class QTableViewWithCopyPaste;
+class QFrozenTableViewWithCopyPaste;
 
 class TelemetrySchedulerGadgetWidget : public QLabel
 {
@@ -80,24 +80,24 @@ private:
     QStringList rowHeaders;
 
     QStandardItemModel *schedulerModel;
-    QTableViewWithCopyPaste *telemetryScheduleView;
+    QFrozenTableViewWithCopyPaste *telemetryScheduleView;
     QStandardItemModel *frozenModel;
 
 };
 
 
 /**
- * @brief The QTableViewWithCopyPaste class QTableView with support for copy and paste added
- * Here copy and paste can copy/paste the entire grid of cells
+ * @brief The QFrozenTableViewWithCopyPaste class QTableView with support for a frozen row as well as
+ * copy and paste added. Here copy and paste can copy/paste the entire grid of cells.
  * Modified from http://stackoverflow.com/questions/1230222/selected-rows-line-in-qtableview-copy-to-qclipboard
  */
-class QTableViewWithCopyPaste : public QTableView
+class QFrozenTableViewWithCopyPaste : public QTableView
 {
     Q_OBJECT
 
 public:
-    QTableViewWithCopyPaste(QAbstractItemModel * model);
-    ~QTableViewWithCopyPaste();
+    QFrozenTableViewWithCopyPaste(QAbstractItemModel * model);
+    ~QFrozenTableViewWithCopyPaste();
 
     QStandardItemModel *getFrozenModel(){return frozenModel;}
     QTableView *getFrozenTableView(){return frozenTableView;}

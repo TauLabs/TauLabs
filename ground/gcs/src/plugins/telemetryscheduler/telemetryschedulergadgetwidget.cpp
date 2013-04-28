@@ -59,7 +59,7 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
 
     schedulerModel = new QStandardItemModel(0, 0, this); //0 Rows and 0 Columns
 
-    telemetryScheduleView = new QTableViewWithCopyPaste(schedulerModel);
+    telemetryScheduleView = new QFrozenTableViewWithCopyPaste(schedulerModel);
     telemetryScheduleView->setObjectName(QString::fromUtf8("telemetryScheduleView"));
     telemetryScheduleView->setAlternatingRowColors(true);
     telemetryScheduleView->horizontalHeader()->setCascadingSectionResizes(false);
@@ -606,7 +606,7 @@ void SpinBoxDelegate::updateEditorGeometry(QWidget *editor,
 
 //==========================
 
-void QTableViewWithCopyPaste::copy()
+void QFrozenTableViewWithCopyPaste::copy()
 {
     QItemSelectionModel *selection = selectionModel();
     QModelIndexList indexes = selection->selectedIndexes();
@@ -649,7 +649,7 @@ void QTableViewWithCopyPaste::copy()
     qApp->clipboard()->setText(selected_text);
 }
 
-void QTableViewWithCopyPaste::paste()
+void QFrozenTableViewWithCopyPaste::paste()
 {
     QItemSelectionModel *selection = selectionModel();
     QModelIndexList indexes = selection->selectedIndexes();
@@ -700,7 +700,7 @@ void QTableViewWithCopyPaste::paste()
     }
 }
 
-void QTableViewWithCopyPaste::keyPressEvent(QKeyEvent * event)
+void QFrozenTableViewWithCopyPaste::keyPressEvent(QKeyEvent * event)
 {
     if(event->matches(QKeySequence::Copy) )
     {
@@ -716,7 +716,7 @@ void QTableViewWithCopyPaste::keyPressEvent(QKeyEvent * event)
     }
 }
 
-QTableViewWithCopyPaste::QTableViewWithCopyPaste(QAbstractItemModel * model)
+QFrozenTableViewWithCopyPaste::QFrozenTableViewWithCopyPaste(QAbstractItemModel * model)
 {
     setModel(model);
     frozenTableView = new QTableView(this);
@@ -731,17 +731,17 @@ QTableViewWithCopyPaste::QTableViewWithCopyPaste(QAbstractItemModel * model)
     connect(horizontalScrollBar(), SIGNAL(valueChanged(int)), frozenTableView->horizontalScrollBar(), SLOT(setValue(int)));
 }
 
-QTableViewWithCopyPaste::~QTableViewWithCopyPaste()
+QFrozenTableViewWithCopyPaste::~QFrozenTableViewWithCopyPaste()
 {
     delete frozenTableView;
 }
 
 
 /**
- * @brief QTableViewWithCopyPaste::init Initialize a QTableView that has been subclassed in
+ * @brief QFrozenTableViewWithCopyPaste::init Initialize a QTableView that has been subclassed in
  * order to support copy-paste, and to support a frozen row view.
  */
-void QTableViewWithCopyPaste::init()
+void QFrozenTableViewWithCopyPaste::init()
  {
     frozenModel = new QStandardItemModel(0, 0, this); //0 Rows and 0 Columns
 
@@ -776,12 +776,12 @@ void QTableViewWithCopyPaste::init()
     // TODO: Make it so that the wheel events in the frozen table are passed to the main table.
 }
 
-void QTableViewWithCopyPaste::updateSectionWidth(int logicalIndex, int, int newSize)
+void QFrozenTableViewWithCopyPaste::updateSectionWidth(int logicalIndex, int, int newSize)
 {
     frozenTableView->setColumnWidth(logicalIndex,newSize);
 }
 
-void QTableViewWithCopyPaste::updateSectionHeight(int logicalIndex, int, int newSize)
+void QFrozenTableViewWithCopyPaste::updateSectionHeight(int logicalIndex, int, int newSize)
 {
     if(logicalIndex==0){
         frozenTableView->setRowHeight(0, newSize);
@@ -789,13 +789,13 @@ void QTableViewWithCopyPaste::updateSectionHeight(int logicalIndex, int, int new
     }
 }
 
-void QTableViewWithCopyPaste::resizeEvent(QResizeEvent * event)
+void QFrozenTableViewWithCopyPaste::resizeEvent(QResizeEvent * event)
 {
     QTableView::resizeEvent(event);
     updateFrozenTableGeometry();
 }
 
-QModelIndex QTableViewWithCopyPaste::moveCursor(CursorAction cursorAction,
+QModelIndex QFrozenTableViewWithCopyPaste::moveCursor(CursorAction cursorAction,
                                           Qt::KeyboardModifiers modifiers)
 {
     QModelIndex current = QTableView::moveCursor(cursorAction, modifiers);
@@ -810,14 +810,14 @@ QModelIndex QTableViewWithCopyPaste::moveCursor(CursorAction cursorAction,
     return current;
 }
 
-void QTableViewWithCopyPaste::scrollTo (const QModelIndex & index, ScrollHint hint){
+void QFrozenTableViewWithCopyPaste::scrollTo (const QModelIndex & index, ScrollHint hint){
     if(index.row()!=0)
     {
         QTableView::scrollTo(index, hint);
     }
 }
 
-void QTableViewWithCopyPaste::updateFrozenTableGeometry()
+void QFrozenTableViewWithCopyPaste::updateFrozenTableGeometry()
 {
     frozenTableView->setGeometry( frameWidth(),
                                   horizontalHeader()->height()+frameWidth(),
