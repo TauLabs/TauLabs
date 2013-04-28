@@ -63,6 +63,8 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     telemetryScheduleView->setObjectName(QString::fromUtf8("telemetryScheduleView"));
     telemetryScheduleView->setAlternatingRowColors(true);
     telemetryScheduleView->horizontalHeader()->setCascadingSectionResizes(false);
+    telemetryScheduleView->horizontalHeader()->setMovable(true);
+
 
     // The dummy table exists only to force the other widgets into the correct place.
     // It is removed and replaced tby the custom copy/paste-enabled table
@@ -74,9 +76,9 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     telemetryScheduleView->setItemDelegate(delegate);
 
     // Connect the before setting any signals
-    connect(m_telemetryeditor->bnSaveTelemetryToFile, SIGNAL(clicked()), this, SLOT(on_bnSaveTelemetryToFile_clicked()));
-    connect(m_telemetryeditor->bnLoadTelemetryFromFile, SIGNAL(clicked()), this, SLOT(on_bnLoadTelemetryFromFile_clicked()));
-    connect(m_telemetryeditor->bnApplySchedule, SIGNAL(clicked()), this, SLOT(on_bnApplySchedule_clicked()));
+    connect(m_telemetryeditor->bnSaveTelemetryToFile, SIGNAL(clicked()), this, SLOT(saveTelemetryToFile()));
+    connect(m_telemetryeditor->bnLoadTelemetryFromFile, SIGNAL(clicked()), this, SLOT(loadTelemetryFromFile()));
+    connect(m_telemetryeditor->bnApplySchedule, SIGNAL(clicked()), this, SLOT(applySchedule()));
     connect(schedulerModel, SIGNAL(itemChanged(QStandardItem *)), this, SLOT(dataModel_itemChanged(QStandardItem *)));
 
     // Generate the list of UAVOs on left side
@@ -167,7 +169,7 @@ void TelemetrySchedulerGadgetWidget::dataModel_itemChanged(QStandardItem *item)
 }
 
 
-void TelemetrySchedulerGadgetWidget::on_bnSaveTelemetryToFile_clicked()
+void TelemetrySchedulerGadgetWidget::saveTelemetryToFile()
 {
     QString file = filename;
     QString filter = tr("Telemetry Scheduler file (*.xml)");
@@ -258,12 +260,9 @@ void TelemetrySchedulerGadgetWidget::on_bnSaveTelemetryToFile_clicked()
 
 
 /**
- * @brief TelemetrySchedulerGadgetWidget::on_bnApplySchedule_clicked Uploads new settings to board
+ * @brief TelemetrySchedulerGadgetWidget::applySchedule Uploads new settings to board
  */
-void TelemetrySchedulerGadgetWidget::on_bnApplySchedule_clicked(){
-    // Read selected column
-    QItemSelectionModel *selection = telemetryScheduleView->selectionModel();
-
+void TelemetrySchedulerGadgetWidget::applySchedule(){
     int col = -1;
 
     // Iterate over the list of columns, looking for the selected schedule
@@ -301,7 +300,7 @@ void TelemetrySchedulerGadgetWidget::on_bnApplySchedule_clicked(){
 }
 
 
-void TelemetrySchedulerGadgetWidget::on_bnLoadTelemetryFromFile_clicked()
+void TelemetrySchedulerGadgetWidget::loadTelemetryFromFile()
 {
     // ask for file name
     QString file = filename;

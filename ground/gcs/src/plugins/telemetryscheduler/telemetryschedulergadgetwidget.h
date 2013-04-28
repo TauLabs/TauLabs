@@ -57,9 +57,9 @@ signals:
 protected slots:
 
 private slots:
-    void on_bnSaveTelemetryToFile_clicked();
-    void on_bnLoadTelemetryFromFile_clicked();
-    void on_bnApplySchedule_clicked();
+    void saveTelemetryToFile();
+    void loadTelemetryFromFile();
+    void applySchedule();
     void dataModel_itemChanged(QStandardItem *);
 
 private:
