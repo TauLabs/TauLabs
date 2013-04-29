@@ -35,6 +35,15 @@
 
 #if defined(PIOS_INCLUDE_PCF8591)
 
+#define PIOS_PCF8591_DAC_ENABLE                                                 0x40
+#define PIOS_PCF8591_ADC_CH0                                                    0x00
+#define PIOS_PCF8591_ADC_CH1                                                    0x01
+#define PIOS_PCF8591_ADC_CH2                                                    0x02
+#define PIOS_PCF8591_ADC_CH3                                                    0x03
+#define PIOS_PCF8591_ADC_AUTO_INCREMENT                                 0x04
+#define PIOS_PCF8591_NUMBER_OF_ADC_CHANNELS                             4
+#define PIOS_PCF8591_CHANNELS { PIOS_PCF8591_ADC_CH0, PIOS_PCF8591_ADC_CH1, PIOS_PCF8591_ADC_CH2, PIOS_PCF8591_ADC_CH3 }
+
 // Private functions
 static int32_t PIOS_PCF8591_ADC_DevicePinGet(uint32_t adc_id, uint32_t device_pin);
 static bool PIOS_PCF8591_ADC_Available(uint32_t adc_id, uint32_t device_pin);
@@ -173,8 +182,7 @@ static struct pios_pcf8591_adc_dev * PIOS_PCF8591_ADC_Allocate()
 static uint8_t PIOS_PCF8591_ADC_Number_of_Channels(uint32_t adc_id)
 {
         struct pios_pcf8591_adc_dev *adc_dev = (struct pios_pcf8591_adc_dev *)adc_id;
-        if(!PIOS_PCF8591_ADC_validate(adc_dev))
-        {
+        if(!PIOS_PCF8591_ADC_validate(adc_dev)) {
                 return 0;
         }
         return PIOS_PCF8591_NUMBER_OF_ADC_CHANNELS;

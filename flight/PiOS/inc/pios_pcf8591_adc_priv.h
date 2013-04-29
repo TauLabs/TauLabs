@@ -32,8 +32,11 @@
 #define PIOS_PCF8591_ADC_PRIV_H_
 
 #include <pios.h>
-#include <pios_stm32.h>
-#include <pios_pcf8591_adc.h>
+
+#define PIOS_PCF8591_ADC_SINGLE_ENDED                                   0x00
+#define PIOS_PCF8591_ADC_THREE_DIFF_INPUTS                              0x10
+#define PIOS_PCF8591_ADC_SINGLE_ENDED_AND_DIFF_MIXED    0X20
+#define PIOS_PCF8591_ADC_TWO_DIFF_INPUTS                                0X30
 
 extern const struct pios_adc_driver pios_pcf8591_adc_driver;
 
