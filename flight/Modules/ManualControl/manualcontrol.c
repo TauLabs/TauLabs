@@ -55,7 +55,7 @@ static xTaskHandle taskHandle;
 static portTickType lastSysTime;
 
 // Private functions
-static void controlTask(void *parameters);
+static void manualControlTask(void *parameters);
 static bool ok_to_arm(void);
 
 // Private functions for control events
@@ -66,10 +66,10 @@ static int32_t control_event_disarm();
 /**
  * Module starting
  */
-int32_t ControlStart()
+int32_t ManualControlStart()
 {
 	// Start main task
-	xTaskCreate(controlTask, (signed char *)"Control", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
+	xTaskCreate(manualControlTask, (signed char *)"Control", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
 	TaskMonitorAdd(TASKINFO_RUNNING_MANUALCONTROL, taskHandle);
 	PIOS_WDG_RegisterFlag(PIOS_WDG_MANUAL);
 
@@ -79,7 +79,7 @@ int32_t ControlStart()
 /**
  * Module initialization
  */
-int32_t ControlInitialize()
+int32_t ManualControlInitialize()
 {
 	failsafe_control_initialize();
 	transmitter_control_initialize();
@@ -89,12 +89,12 @@ int32_t ControlInitialize()
 	return 0;
 }
 
-MODULE_INITCALL(ControlInitialize, ControlStart);
+MODULE_INITCALL(ManualControlInitialize, ManualControlStart);
 
 /**
  * Module task
  */
-static void controlTask(void *parameters)
+static void manualControlTask(void *parameters)
 {
 	/* Make sure disarmed on power up */
 	FlightStatusData flightStatus;
