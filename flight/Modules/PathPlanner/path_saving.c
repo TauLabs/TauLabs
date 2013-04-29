@@ -65,6 +65,11 @@ int32_t pathplanner_save_path(uint32_t path_id)
 	// Save all elements
 	for (int32_t i = 0; i < num_waypoints && retval == 0; i++) {
 		WaypointInstGet(i, &waypoint);
+
+		// Stop saving when get to invalid waypoint.  Nothing after is valid
+		if (waypoint.Mode == WAYPOINT_MODE_INVALID)
+			break;
+
 		retval = PIOS_FLASHFS_ObjSave(pios_waypoints_settings_fs_id, path_id, i, (uint8_t *) &waypoint, waypoint_size);
 	}
 
