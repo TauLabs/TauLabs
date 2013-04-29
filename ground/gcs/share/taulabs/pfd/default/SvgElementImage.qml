@@ -9,15 +9,16 @@ Image {
     property int vSliceCount: 0
     property int hSlice: 0
     property int hSliceCount: 0
-    //border property is useful to extent the area of image e bit,
-    //so it looks well antialiased when rotated
+    // The border property is useful to extend the area of the image a
+    // bit, so it looks anti-aliased when rotated
     property int border: 0
     property variant scaledBounds: svgRenderer.scaledElementBounds(svgFileName, elementName)
 
     sourceSize.width: Math.round(sceneSize.width*scaledBounds.width)
     sourceSize.height: Math.round(sceneSize.height*scaledBounds.height)
 
-    Component.onCompleted: {
+    // Generates a source string and loads the corresponding image
+    function generateSource() {
         var params = ""
         if (hSliceCount > 1)
             params += "hslice="+hSlice+":"+hSliceCount+";"
@@ -29,6 +30,9 @@ Image {
         if (params != "")
             params = "?" + params
 
+        // Load source image
         source = "image://svg/"+svgFileName+"!"+elementName+params
     }
+
+    Component.onCompleted: { generateSource() }
 }

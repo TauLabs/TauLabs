@@ -44,7 +44,16 @@ PfdQmlGadgetWidget::PfdQmlGadgetWidget(QWidget *parent) :
 {
     setMinimumSize(64,64);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     setResizeMode(SizeRootObjectToView);
+
+    // Prevent flickering. http://blog.rburchell.com/2011/11/avoiding-graphics-flicker-in-qt-qml.html
+    // "Qt::WA_OpaquePaintEvent basically implies that you'll repaint
+    // everything as necessary yourself (which QML is well behaved with),
+    // and Qt::WA_NoSystemBackground tells Qt to nicely not paint the
+    // background."
+    setAttribute(Qt::WA_OpaquePaintEvent);
+    setAttribute(Qt::WA_NoSystemBackground);
 
     //setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
 
