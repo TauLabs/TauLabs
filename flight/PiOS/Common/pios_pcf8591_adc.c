@@ -61,7 +61,6 @@ struct pios_pcf8591_adc_dev {
 
 /* Local Variables */
 #define I2C_BUFFER_SIZE	2
-static uint8_t I2C_buffer[I2C_BUFFER_SIZE];
 static const uint8_t ADC_CHANNEL[PIOS_PCF8591_NUMBER_OF_ADC_CHANNELS] = PIOS_PCF8591_CHANNELS;
 
 /**
@@ -95,23 +94,25 @@ static int32_t PIOS_PCF8591_ADC_DevicePinGet(uint32_t adc_id, uint32_t device_pi
         if (device_pin >= PIOS_PCF8591_NUMBER_OF_ADC_CHANNELS) {
                 return -1;
         }
-        I2C_buffer[0] = ADC_CHANNEL[device_pin] | (adc_dev->cfg->use_auto_increment ? PIOS_PCF8591_ADC_AUTO_INCREMENT : 0x00) | adc_dev->cfg->adc_input_type | (adc_dev->cfg->enable_dac ? PIOS_PCF8591_DAC_ENABLE : 0x00);
+        uint8_t readBuffer[2];
+        uint8_t config;
+        config = ADC_CHANNEL[device_pin] | (adc_dev->cfg->use_auto_increment ? PIOS_PCF8591_ADC_AUTO_INCREMENT : 0x00) | adc_dev->cfg->adc_input_type | (adc_dev->cfg->enable_dac ? PIOS_PCF8591_DAC_ENABLE : 0x00);
 
-        struct pios_i2c_txn txn_list[] =
-        {
+        struct pios_i2c_txn txn_list[] = {
                 {
                         .info = __func__,
                         .addr = (adc_dev->cfg->i2c_adress >> 1),
                         .rw = PIOS_I2C_TXN_WRITE,
-                        .len = sizeof(I2C_buffer[0]),
-                        .buf = &I2C_buffer[0],
+                        .len = 1,
+                        .buf = &config,
                 },
         };
         PIOS_I2C_Transfer(PIOS_I2C_PCF8591_ADAPTER, txn_list, NELEMENTS(txn_list));
         txn_list[0].rw = PIOS_I2C_TXN_READ;
-        txn_list[0].len = 2 * sizeof(I2C_buffer[0]);
+        txn_list[0].len = 2;
+        txn_list[0].buf = readBuffer;
         PIOS_I2C_Transfer(PIOS_I2C_PCF8591_ADAPTER, txn_list, NELEMENTS(txn_list));
-        return I2C_buffer[1];
+        return readBuffer[1];
 }
 
 /**
