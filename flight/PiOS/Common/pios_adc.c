@@ -137,7 +137,10 @@ int32_t PIOS_ADC_DevicePinGet(uintptr_t adc_id, uint32_t device_pin)
         if (!PIOS_ADC_validate(adc_dev)) {
                 return -1;
         }
-        return (adc_dev->driver->get_pin)(adc_dev->lower_id, device_pin);
+        if(adc_dev->driver->get_pin)
+                return (adc_dev->driver->get_pin)(adc_dev->lower_id, device_pin);
+        else
+                return -1;
 }
 
 /**
@@ -152,7 +155,10 @@ int32_t PIOS_ADC_DevicePinGet(uintptr_t adc_id, uint32_t device_pin)
         if (!PIOS_ADC_validate(adc_dev)) {
                 return false;
         }
-        return (adc_dev->driver->available)(adc_dev->lower_id, device_pin);
+        if(adc_dev->driver->available)
+                return (adc_dev->driver->available)(adc_dev->lower_id, device_pin);
+        else
+                return false;
 }
 
 /**
@@ -183,16 +189,20 @@ void PIOS_ADC_SetQueue(uintptr_t adc_id, xQueueHandle data_queue)
  */
 int32_t PIOS_ADC_GetChannel(uint32_t channel)
 {
-        uint8_t offset = 0;
-        for (int x = 0; x < sub_device_list.number_of_devices; ++x) {
+        uint32_t offset = 0;
+        for (uint8_t x = 0; x < sub_device_list.number_of_devices; ++x) {
                 uintptr_t temp = (sub_device_list.sub_device_pointers[x]);
                 struct pios_adc_dev * adc_dev = (struct pios_adc_dev *) temp;
                 if (!PIOS_ADC_validate(adc_dev))
-                        continue;
-                if ((adc_dev->driver->number_of_channels)(adc_dev->lower_id) >= channel + 1 - offset) {
-                        return (adc_dev->driver->get_pin)(adc_dev->lower_id, channel - offset);
+                        return -1;
+                else if(adc_dev->driver->number_of_channels && adc_dev->driver->get_pin){
+                        uint32_t num_channels_for_this_device = adc_dev->driver->number_of_channels(adc_dev->lower_id);
+                        if (channel < offset + num_channels_for_this_device) {
+                                return (adc_dev->driver->get_pin)(adc_dev->lower_id, channel - offset);
+                        }
+                        else
+                                offset += (adc_dev->driver->number_of_channels)(adc_dev->lower_id);
                 }
-                offset += (adc_dev->driver->number_of_channels)(adc_dev->lower_id);
         }
         return -1;
 }
