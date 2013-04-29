@@ -36,10 +36,10 @@
 #if defined(PIOS_INCLUDE_PCF8591)
 
 // Private functions
-int32_t PIOS_PCF8591_ADC_DevicePinGet(uint32_t adc_id, uint32_t device_pin);
-bool PIOS_PCF8591_ADC_Available(uint32_t adc_id, uint32_t device_pin);
+static int32_t PIOS_PCF8591_ADC_DevicePinGet(uint32_t adc_id, uint32_t device_pin);
+static bool PIOS_PCF8591_ADC_Available(uint32_t adc_id, uint32_t device_pin);
 static struct pios_pcf8591_adc_dev * PIOS_PCF8591_ADC_Allocate(void);
-uint8_t PIOS_PCF8591_ADC_Number_of_Channels(uint32_t internal_adc_id);
+static uint8_t PIOS_PCF8591_ADC_Number_of_Channels(uint32_t internal_adc_id);
 static bool PIOS_PCF8591_ADC_validate(struct pios_pcf8591_adc_dev *);
 
 // Private types
@@ -85,7 +85,7 @@ static bool PIOS_PCF8591_ADC_validate(struct pios_pcf8591_adc_dev *dev)
  * \return ADC pin value
  * \return -1 if pin doesn't exist
  */
-int32_t PIOS_PCF8591_ADC_DevicePinGet(uint32_t adc_id, uint32_t device_pin) {
+static int32_t PIOS_PCF8591_ADC_DevicePinGet(uint32_t adc_id, uint32_t device_pin) {
         struct pios_pcf8591_adc_dev * adc_dev = (struct pios_pcf8591_adc_dev *) adc_id;
         if(!PIOS_PCF8591_ADC_validate(adc_dev))
         {
@@ -120,7 +120,7 @@ int32_t PIOS_PCF8591_ADC_DevicePinGet(uint32_t adc_id, uint32_t device_pin) {
  * \param[in] device_pin pin to check if available
  * \return true if available
  */
-bool PIOS_PCF8591_ADC_Available(uint32_t adc_id, uint32_t device_pin) {
+static bool PIOS_PCF8591_ADC_Available(uint32_t adc_id, uint32_t device_pin) {
         /* Check if pin exists */
         return (!(device_pin >= PIOS_PCF8591_NUMBER_OF_ADC_CHANNELS));
 }
@@ -170,7 +170,7 @@ static struct pios_pcf8591_adc_dev * PIOS_PCF8591_ADC_Allocate()
  * \param[in] adc_id handle of the device
  * \return number of ADC channels of the device
  */
-uint8_t PIOS_PCF8591_ADC_Number_of_Channels(uint32_t adc_id)
+static uint8_t PIOS_PCF8591_ADC_Number_of_Channels(uint32_t adc_id)
 {
         struct pios_pcf8591_adc_dev *adc_dev = (struct pios_pcf8591_adc_dev *)adc_id;
         if(!PIOS_PCF8591_ADC_validate(adc_dev))
