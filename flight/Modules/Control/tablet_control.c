@@ -243,7 +243,7 @@ int32_t tablet_control_update()
 	return 0;
 }
 
-int32_t tablet_control_select()
+int32_t tablet_control_select(bool reset_controller)
 {
 	return 0;
 }
