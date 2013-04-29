@@ -60,6 +60,8 @@ int32_t pathplanner_save_path(uint32_t path_id)
 		}
 	}
 
+	retval = 0;
+
 	// Save all elements
 	for (int32_t i = 0; i < num_waypoints && retval == 0; i++) {
 		WaypointInstGet(i, &waypoint);
