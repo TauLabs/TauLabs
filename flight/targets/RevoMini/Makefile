@@ -36,7 +36,7 @@ DEBUG ?= NO
 # List of modules to include
 MODULES = Sensors
 MODULES += Attitude/revolution 
-MODULES += Control
+MODULES += ManualControl
 MODULES += Stabilization
 MODULES += Actuator
 MODULES += FirmwareIAP
