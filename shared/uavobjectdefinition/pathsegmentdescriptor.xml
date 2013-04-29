@@ -1,0 +1,37 @@
+<xml>
+	<object name="PathSegmentDescriptor" singleinstance="false" settings="false" category="Navigation">
+		<description>An intermediate switching position the vehicle uses as part of a path segment.</description>
+
+		<!-- The location of the switching locus -->
+		<field name="SwitchingLocus" units="m" type="float" elementnames="North, East, Down"/>
+
+		<!-- The velocity and acceleration across the path segment -->
+		<field name="FinalVelocity" units="m/s" type="float" elements="1" default="0"/>
+		<field name="DesiredAcceleration" units="m/s^2" type="float" elements="1" default="0"/>
+		
+		<!-- The curvature of an arc, k, is 1/R, where R is the radius of the arc. This gives the happy 
+		result that for straight lines k = 0. Negative curvature means a negative turn. -->
+		<field name="PathCurvature" units="deg/m" type="float" elements="1" default="0"/>
+
+		<!-- The number of complete orbits the vehicle will travel on this arc. All values are permitted. 
+		 By taking advantage of the round-off error in float precision, we can define an infinite
+		 circling behavior by using a floating point number so large that x - 360 = x, up to a
+		 round-off error. With 32-bits of precision, this occurs at around 1e10. -->
+		<field name="NumberOfOrbits" units="deg" type="float" elements="1" default="0"/>
+
+		<!-- When defining an arc by only two points and a radius, there are in fact two solutions. We 
+		 define the Major solution to be the longer of the two arcs, and the Minor solution to be the
+		 shorter of the two. -->
+		<field name="ArcRank" units="" type="enum" elements="1">
+			<options>
+				<option>Major</option>
+				<option>Minor</option>
+			</options>
+		</field>
+
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="false" updatemode="manual" period="0"/>
+		<telemetryflight acked="false" updatemode="periodic" period="5000"/>
+		<logging updatemode="periodic" period="1000"/>
+	</object>
+</xml>

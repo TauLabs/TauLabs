@@ -1,0 +1,18 @@
+<xml>
+	<object name="PathManagerStatus" singleinstance="true" settings="false" category="Navigation">
+		<description>Status of the path manager</description>
+
+		<field name="Status" units="" type="enum" elements="1" options="InProgress,Completed,TimedOut,Overshoot,Warning,Critical" defaultvalue="Completed"/>
+		<field name="ActiveSegment" units="" type="uint8" elements="1"/>
+
+		<field name="PathCounter" units="" type="uint8" elements="1"/>
+
+		<!-- The amount of time the path follower has to finish the segment -->
+		<field name="Timeout" units="s" type="uint16" elements="1"/>
+
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="false" updatemode="manual" period="0"/>
+		<telemetryflight acked="false" updatemode="periodic" period="0"/>
+		<logging updatemode="onchange" period="0"/>
+	</object>
+</xml>

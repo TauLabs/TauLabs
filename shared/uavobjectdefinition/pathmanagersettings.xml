@@ -1,0 +1,13 @@
+<xml>
+	<object name="PathManagerSettings" singleinstance="true" settings="true">
+		<description>Settings for the @ref PathManager Module</description>
+		<field name="SwitchingStrategy" units="" type="enum" elements="1" options="HalfPlane,BBall" defaultvalue="HalfPlane"/>
+		<field name="HalfPlaneAdvanceTiming" units="ms" type="int16" elements="1" defaultvalue="0"/>
+		<field name="BBallThresholdDistance" units="m" type="float" elements="1" defaultvalue="10"/>
+
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+		<telemetryflight acked="true" updatemode="onchange" period="0"/>
+		<logging updatemode="manual" period="0"/>
+	</object>
+</xml>
