@@ -57,7 +57,7 @@ PIOS_ADC_validate(struct pios_adc_dev *);
 /* Local Variables */
 static struct sub_device_list_ {
         uint8_t number_of_devices;
-        uintptr_t sub_device_pointers[PIOS_ADC_SUB_DRIVER_MAX_INSTANCES];
+        struct pios_adc_dev * sub_device_pointers[PIOS_ADC_SUB_DRIVER_MAX_INSTANCES];
 } sub_device_list;
 
 /**
@@ -67,7 +67,7 @@ static struct sub_device_list_ {
  */
 static bool PIOS_ADC_validate(struct pios_adc_dev *dev)
 {
-        if (dev == NULL )
+        if (dev == NULL)
                 return false;
 
         return (dev->magic == PIOS_ADC_DEV_MAGIC);
@@ -117,9 +117,8 @@ int32_t PIOS_ADC_Init(uintptr_t *adc_id, const struct pios_adc_driver *driver, u
         adc_dev->driver = driver;
         adc_dev->lower_id = lower_id;
 
-        *adc_id = (uintptr_t) adc_dev;
 
-        sub_device_list.sub_device_pointers[sub_device_list.number_of_devices] = *adc_id;
+        sub_device_list.sub_device_pointers[sub_device_list.number_of_devices] = adc_dev;
         sub_device_list.number_of_devices++;
         return 0;
 }
@@ -191,8 +190,7 @@ int32_t PIOS_ADC_GetChannel(uint32_t channel)
 {
         uint32_t offset = 0;
         for (uint8_t x = 0; x < sub_device_list.number_of_devices; ++x) {
-                uintptr_t temp = (sub_device_list.sub_device_pointers[x]);
-                struct pios_adc_dev * adc_dev = (struct pios_adc_dev *) temp;
+                struct pios_adc_dev * adc_dev = sub_device_list.sub_device_pointers[x];
                 if (!PIOS_ADC_validate(adc_dev))
                         return -1;
                 else if(adc_dev->driver->number_of_channels && adc_dev->driver->get_pin){
