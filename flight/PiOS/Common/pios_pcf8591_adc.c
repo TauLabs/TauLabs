@@ -50,7 +50,6 @@ enum pios_pcf8591_adc_dev_magic {
 const struct pios_adc_driver pios_pcf8591_adc_driver = {
         .available = PIOS_PCF8591_ADC_Available,
         .get_pin = PIOS_PCF8591_ADC_DevicePinGet,
-        .set_queue = NULL ,
         .number_of_channels = PIOS_PCF8591_ADC_Number_of_Channels,
 };
 
@@ -71,7 +70,7 @@ static const uint8_t ADC_CHANNEL[PIOS_PCF8591_NUMBER_OF_ADC_CHANNELS] = PIOS_PCF
 static bool PIOS_PCF8591_ADC_validate(struct pios_pcf8591_adc_dev *dev)
 {
         if (dev == NULL)
-        return false;
+                return false;
 
         return (dev->magic == PIOS_PCF8591_ADC_DEV_MAGIC);
 }
