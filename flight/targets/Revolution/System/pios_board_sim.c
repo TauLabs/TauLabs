@@ -42,8 +42,6 @@
 #include "pios_rcvr_priv.h"
 #include "pios_gcsrcvr_priv.h"
 
-uintptr_t pios_waypoints_settings_fs_id;
-
 void Stack_Change() {
 }
 
@@ -84,36 +82,41 @@ const struct pios_tcp_cfg pios_tcp_aux_cfg = {
 #define PIOS_COM_TELEM_RF_TX_BUF_LEN 192
 #define PIOS_COM_GPS_RX_BUF_LEN 96
 
-/*
- * Board specific number of devices.
+/**
+ * Simulation of the flash filesystem
  */
-/*
-struct pios_udp_dev pios_udp_devs[] = {
-#define PIOS_UDP_TELEM  0
-  {
-    .cfg = &pios_udp0_cfg,
-  },
-#define PIOS_UDP_GPS    1
-  {
-    .cfg = &pios_udp1_cfg,
-  },
-#define PIOS_UDP_LOCAL    2
-  {
-    .cfg = &pios_udp2_cfg,
-  },
-#ifdef PIOS_COM_AUX
-#define PIOS_UDP_AUX    3
-  {
-    .cfg = &pios_udp3_cfg,
-  },
-#endif
+#include "../../../tests/logfs/pios_flash_ut_priv.h"
+const struct pios_flash_ut_cfg flash_config = {
+	.size_of_flash  = 0x00300000,
+	.size_of_sector = 0x00010000,
 };
 
-uint8_t pios_udp_num_devices = NELEMENTS(pios_udp_devs);
-*/
-/*
- * COM devices
- */
+#include "pios_flashfs_logfs_priv.h"
+
+const struct flashfs_logfs_cfg flashfs_config_partition_a = {
+	.fs_magic      = 0x89abceef,
+	.total_fs_size = 0x00200000, /* 2M bytes (32 sectors) */
+	.arena_size    = 0x00010000, /* 256 * slot size */
+	.slot_size     = 0x00000100, /* 256 bytes */
+
+	.start_offset  = 0,	     /* start at the beginning of the chip */
+	.sector_size   = 0x00010000, /* 64K bytes */
+	.page_size     = 0x00000100, /* 256 bytes */
+};
+
+const struct flashfs_logfs_cfg flashfs_config_partition_b = {
+	.fs_magic      = 0x89abceef,
+	.total_fs_size = 0x00100000, /* 1M bytes (16 sectors) */
+	.arena_size    = 0x00010000, /* 64 * slot size */
+	.slot_size     = 0x00000400, /* 256 bytes */
+
+	.start_offset  = 0x00200000, /* start after partition a */
+	.sector_size   = 0x00010000, /* 64K bytes */
+	.page_size     = 0x00000100, /* 256 bytes */
+};
+
+uintptr_t pios_uavo_settings_fs_id;
+uintptr_t pios_waypoints_settings_fs_id;
 
 /*
  * Board specific number of devices.
@@ -156,6 +159,15 @@ void PIOS_Board_Init(void) {
 
 	/* Initialize the task monitor library */
 	TaskMonitorInitialize();
+
+	uintptr_t flash_id;
+	int32_t retval = PIOS_Flash_UT_Init(&flash_id, &flash_config);
+  	if (retval != 0)
+		fprintf(stderr, "Unable to initialize flash ut simulator: %d\n", retval);
+
+  	if(PIOS_FLASHFS_Logfs_Init(&pios_waypoints_settings_fs_id, &flashfs_config_partition_b, &pios_ut_flash_driver, flash_id) != 0)
+		fprintf(stderr, "Unable to open the waypoints partition\n");
+
 
 #if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_TELEMETRY_RF) && 1
