@@ -149,7 +149,7 @@ int32_t PIOS_PCF8591_ADC_Init(uint32_t *pcf8591_adc_id, const struct pios_pcf859
         adc_dev = PIOS_PCF8591_ADC_Allocate();
 
         if (adc_dev == NULL)
-        return -1;
+                return -1;
 
         adc_dev->cfg = cfg;
         *pcf8591_adc_id = (uint32_t)adc_dev;
