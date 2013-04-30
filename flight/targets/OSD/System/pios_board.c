@@ -41,50 +41,11 @@
 #include <manualcontrolsettings.h>
 #include <gcsreceiver.h>
 #include <modulesettings.h>
-#include "pios_internal_adc_priv.h"
-#include "pios_adc_priv.h"
 
 /* Private macro -------------------------------------------------------------*/
 #define countof(a)   (sizeof(a) / sizeof(*(a)))
 
 /* Private variables ---------------------------------------------------------*/
-
-#if defined(PIOS_INCLUDE_ADC)
-uintptr_t pios_internal_adc_id;
-void PIOS_ADC_DMC_irq_handler(void);
-void DMA2_Stream4_IRQHandler(void) __attribute__((alias("PIOS_ADC_DMC_irq_handler")));
-struct pios_internal_adc_cfg pios_adc_cfg = {
-	.adc_dev_master = ADC1,
-	.dma = {
-		.irq = {
-			.flags   = (DMA_FLAG_TCIF4 | DMA_FLAG_TEIF4 | DMA_FLAG_HTIF4),
-			.init    = {
-				.NVIC_IRQChannel                   = DMA2_Stream4_IRQn,
-				.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_LOW,
-				.NVIC_IRQChannelSubPriority        = 0,
-				.NVIC_IRQChannelCmd                = ENABLE,
-			},
-		},
-		.rx = {
-			.channel = DMA2_Stream4,
-			.init    = {
-				.DMA_Channel                    = DMA_Channel_0,
-				.DMA_PeripheralBaseAddr = (uint32_t) & ADC1->DR
-			},
-		}
-	},
-	.half_flag = DMA_IT_HTIF4,
-	.full_flag = DMA_IT_TCIF4,
-
-};
-void PIOS_ADC_DMC_irq_handler(void)
-{
-	/* Call into the generic code to handle the IRQ for this specific device */
-	PIOS_INTERNAL_ADC_DMA_Handler();
-}
-
-#endif
-
 
 static void Clock(uint32_t spektrum_id);
 
@@ -107,7 +68,7 @@ uintptr_t pios_com_aux_id;
 uintptr_t pios_com_gps_id;
 uintptr_t pios_com_telem_usb_id;
 uintptr_t pios_com_telem_rf_id;
-
+uintptr_t pios_internal_adc_id = 0;
 
 
 void PIOS_Board_Init(void) {
