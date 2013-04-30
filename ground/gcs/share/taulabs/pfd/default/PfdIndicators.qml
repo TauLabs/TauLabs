@@ -8,7 +8,7 @@ Item {
     property real yaw : (AttitudeActual.Yaw+180+720) % 360 - 180
     property real pitch : (AttitudeActual.Pitch)
 
-    //telemetry status arrow
+    // Telemetry status arrow
     SvgElementImage {
         id: telemetry_status
         elementName: "gcstelemetry-"+statusName
@@ -16,12 +16,15 @@ Item {
 
         property string statusName : ["Disconnected","HandshakeReq","HandshakeAck","Connected"][GCSTelemetryStats.Status]
 
+        // Force refresh of the arrow image when elementName changes
+        onElementNameChanged: { generateSource() }
+
         scaledBounds: svgRenderer.scaledElementBounds("pfd.svg", "gcstelemetry-Disconnected")
         x: Math.floor(scaledBounds.x * sceneItem.width)
         y: Math.floor(scaledBounds.y * sceneItem.height)
     }
 
-    //telemetry rate text
+    // Telemetry rate text
     Text {
         id: telemetry_rate
         text: GCSTelemetryStats.TxDataRate.toFixed()+"/"+GCSTelemetryStats.RxDataRate.toFixed()
@@ -33,6 +36,7 @@ Item {
         anchors.horizontalCenter: telemetry_status.horizontalCenter
     }
 
+    // GPS status text
     Text {
         id: gps_text
         text: "GPS: " + GPSPosition.Satellites + "\nPDP: " + GPSPosition.PDOP
@@ -47,6 +51,7 @@ Item {
         y: Math.floor(scaledBounds.y * sceneItem.height)
     }
 
+    // Battery text
     Text {
         id: battery_text
 
