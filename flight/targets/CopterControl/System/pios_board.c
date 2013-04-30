@@ -75,7 +75,7 @@ uintptr_t pios_com_bridge_id;
 uintptr_t pios_com_mavlink_id;
 uint32_t pios_usb_rctx_id;
 uintptr_t pios_internal_adc_id;
-
+uintptr_t pios_pcf8591_adc_id;
 uintptr_t pios_uavo_settings_fs_id;
 
 /**
@@ -702,7 +702,8 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_PCF8591)
                 {
                         uint32_t pcf8591_adc_id;
-                        PIOS_PCF8591_ADC_Init(&pcf8591_adc_id, &pios_8591_cfg);
+                        if(PIOS_PCF8591_ADC_Init(&pcf8591_adc_id, &pios_8591_cfg) < 0)
+                                PIOS_Assert(0);
                         PIOS_ADC_Init(&pios_pcf8591_adc_id, &pios_pcf8591_adc_driver, pcf8591_adc_id);
                 }
 #endif
