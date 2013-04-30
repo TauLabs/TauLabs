@@ -32,6 +32,7 @@
 #include "control.h"
 #include "tablet_control.h"
 #include "transmitter_control.h"
+#include "physical_constants.h"
 
 #include "flightstatus.h"
 #include "gpsposition.h"
@@ -209,7 +210,6 @@ int32_t tabletInfo_to_ned(TabletInfoData *tabletInfo, float *NED)
 	GPSPositionData gpsPosition;
 	GPSPositionGet(&gpsPosition);
 
-	const float DEG2RAD = 3.141592653589793f / 180.0f;
 	float lat = homeLocation.Latitude / 10.0e6f * DEG2RAD;
 	float alt = homeLocation.Altitude;
 
