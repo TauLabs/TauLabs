@@ -191,8 +191,10 @@ int32_t PIOS_ADC_GetChannel(uint32_t channel)
         uint32_t offset = 0;
         for (uint8_t x = 0; x < sub_device_list.number_of_devices; ++x) {
                 struct pios_adc_dev * adc_dev = sub_device_list.sub_device_pointers[x];
-                if (!PIOS_ADC_validate(adc_dev))
-                        return -1;
+                if (!PIOS_ADC_validate(adc_dev)){
+                        PIOS_DEBUG_Assert(0);
+                        continue;
+                }
                 else if(adc_dev->driver->number_of_channels && adc_dev->driver->get_pin){
                         uint32_t num_channels_for_this_device = adc_dev->driver->number_of_channels(adc_dev->lower_id);
                         if (channel < offset + num_channels_for_this_device) {
