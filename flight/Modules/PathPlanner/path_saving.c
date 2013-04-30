@@ -50,27 +50,28 @@ int32_t pathplanner_save_path(uint32_t path_id)
 
 	uint32_t num_waypoints = UAVObjGetNumInstances(WaypointHandle());
 	int32_t  waypoint_size = UAVObjGetNumBytes(WaypointHandle());
-	int32_t  retval = 0;
-
-	// Erase any existing (loadable) waypoints for this path sequence in flash
-	for (int32_t i = 0; retval == 0; i++) {
-		retval = PIOS_FLASHFS_ObjLoad(pios_waypoints_settings_fs_id, path_id, i, (uint8_t *) &waypoint, waypoint_size);
-		if (retval == 0) {
-			PIOS_FLASHFS_ObjDelete(pios_waypoints_settings_fs_id, path_id, i);
-		}
-	}
-
-	retval = 0;
+	int32_t  erase_retval  = 0;
+	int32_t  last_save_id  = -1;
+	int32_t  retval        = 0;
 
 	// Save all elements
 	for (int32_t i = 0; i < num_waypoints && retval == 0; i++) {
 		WaypointInstGet(i, &waypoint);
 
-		// Stop saving when get to invalid waypoint.  Nothing after is valid
+		// Stop saving when get to invalid waypoint.  Nothing after or including is valid
 		if (waypoint.Mode == WAYPOINT_MODE_INVALID)
 			break;
 
 		retval = PIOS_FLASHFS_ObjSave(pios_waypoints_settings_fs_id, path_id, i, (uint8_t *) &waypoint, waypoint_size);
+		last_save_id = i; // Track the last valid waypoint id
+	}
+
+	// Check for any waypoints after the saved end of the path and erase them
+	for (int32_t i = last_save_id + 1; erase_retval == 0; i++) {
+		erase_retval = PIOS_FLASHFS_ObjLoad(pios_waypoints_settings_fs_id, path_id, i, (uint8_t *) &waypoint, waypoint_size);
+		if (erase_retval == 0) {
+			PIOS_FLASHFS_ObjDelete(pios_waypoints_settings_fs_id, path_id, i);
+		}
 	}
 
 	return retval;
