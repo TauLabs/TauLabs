@@ -13,6 +13,10 @@
         <field name="VelocitySource" units="" type="enum" elements="1" options="EKF,NEDVEL,GPSPOS" defaultvalue="EKF"/>
         <field name="PositionSource" units="" type="enum" elements="1" options="EKF,GPSPOS" defaultvalue="EKF"/>
         <field name="MaxRollPitch" units="deg" type="float" elements="1" defaultvalue="20"/>
+
+        <!-- The distance within the waypoint (horizontally) that should be achieved to mark completed -->
+        <field name="EndpointRadius" units="m" type="uint8" elements="1" defaultvalue="2"/>
+
         <field name="UpdatePeriod" units="ms" type="int32" elements="1" defaultvalue="100"/>
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="true" updatemode="onchange" period="0"/>
