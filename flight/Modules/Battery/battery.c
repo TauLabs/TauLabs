@@ -90,8 +90,6 @@ static int32_t BatteryStart(void)
  */
 int32_t BatteryInitialize(void)
 {
-        ADCRoutingInitialize();
-
 #ifdef MODULE_Battery_BUILTIN
         module_enabled = true;
 #else
@@ -102,9 +100,10 @@ int32_t BatteryInitialize(void)
         }
         else {
                 module_enabled = false;
+                return 0;
         }
 #endif
-
+        ADCRoutingInitialize();
         uint8_t adc_channel_map[ADCROUTING_CHANNELMAP_NUMELEM];
         ADCRoutingChannelMapGet(adc_channel_map);
 
