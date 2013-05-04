@@ -33,8 +33,9 @@ DEBUG ?= NO
 # List of modules to include
 MODULES = Sensors
 MODULES += Attitude/revolution
-MODULES += Actuator
-MODULES += ManualControl
+MODULES += BrushlessGimbal
+#MODULES += Actuator
+MODULES += Control
 MODULES += Stabilization
 MODULES += FirmwareIAP
 MODULES += Telemetry
