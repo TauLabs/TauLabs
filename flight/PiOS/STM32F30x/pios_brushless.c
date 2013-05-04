@@ -33,6 +33,7 @@
 #include "pios_tim_priv.h"
 
 /* Private Function Prototypes */
+static int32_t PIOS_Brushless_SetPhase(uint32_t channel, float phase_deg);
 
 static const struct pios_servo_cfg * servo_cfg;
 
@@ -124,6 +125,10 @@ void PIOS_Brushless_SetUpdateRate(uint32_t rate)
 	}
 }
 
+float    phases[3];
+int16_t  scale = 30;
+int32_t  center = 300;
+
 /**
 * Set servo position
 * \param[in] Servo Servo number (0-7)
@@ -131,25 +136,48 @@ void PIOS_Brushless_SetUpdateRate(uint32_t rate)
 */
 void PIOS_Brushless_SetSpeed(uint32_t channel, float speed)
 {
-	/* Make sure servo exists */
-	if (!servo_cfg || servo >= servo_cfg->num_channels) {
+	// TODO: Store the speed for that output in a structure and
+	// use the timer overflow event to time incrementing
+
+	phases[channel] += speed;
+	PIOS_Brushless_SetPhase(channel, phases[channel]);
+}
+
+/**
+ * PIOS_Brushless_SetPhase set the phase for one of the channel outputs
+ * @param[in] channel The channel to set
+ * @param[in] phase_deg The phase in degrees to use
+ */
+static int32_t PIOS_Brushless_SetPhase(uint32_t channel, float phase_deg)
+{
+	/* Make sure all the channels exist */
+	if (!servo_cfg || (3 * (channel + 1)) > servo_cfg->num_channels) {
 		return;
 	}
 
-	/* Update the position */
-	const struct pios_tim_channel * chan = &servo_cfg->channels[servo];
-	switch(chan->timer_chan) {
-		case TIM_Channel_1:
-			TIM_SetCompare1(chan->timer, position);
-			break;
-		case TIM_Channel_2:
-			TIM_SetCompare2(chan->timer, position);
-			break;
-		case TIM_Channel_3:
-			TIM_SetCompare3(chan->timer, position);
-			break;
-		case TIM_Channel_4:
-			TIM_SetCompare4(chan->timer, position);
-			break;
+	// Get the first output index
+	int32_t idx = channel * 3;
+	for (int32_t idx = channel * 3; idx < (channel + 1) * 3; idx++) {
+
+		int32_t position = center + scale * sinf(phase_deg * DEG2RAD);
+
+		/* Update the position */
+		const struct pios_tim_channel * chan = &servo_cfg->channels[idx];
+		switch(chan->timer_chan) {
+			case TIM_Channel_1:
+				TIM_SetCompare1(chan->timer, position);
+				break;
+			case TIM_Channel_2:
+				TIM_SetCompare2(chan->timer, position);
+				break;
+			case TIM_Channel_3:
+				TIM_SetCompare3(chan->timer, position);
+				break;
+			case TIM_Channel_4:
+				TIM_SetCompare4(chan->timer, position);
+				break;
+		}
+
+		phase_deg += 120;
 	}
 }
