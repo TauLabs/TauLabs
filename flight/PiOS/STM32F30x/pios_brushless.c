@@ -36,8 +36,15 @@
 
 /* Private Function Prototypes */
 static int32_t PIOS_Brushless_SetPhase(uint32_t channel, float phase_deg);
+static void PIOS_BRUSHLESS_Task(void* parameters);
 
+// Private variables
 static const struct pios_brushless_cfg * brushless_cfg;
+static xTaskHandle taskHandle;
+
+#define NUM_BGC_CHANNELS 2
+#define STACK_SIZE_BYTES 400
+#define TASK_PRIORITY  (tskIDLE_PRIORITY+4)
 
 /**
 * Initialise Servos
@@ -95,6 +102,9 @@ int32_t PIOS_Brushless_Init(const struct pios_brushless_cfg * cfg)
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
 	GPIO_Init(GPIOB, &GPIO_InitStructure);
 	GPIO_SetBits(GPIOB, GPIO_InitStructure.GPIO_Pin);
+
+	// Start main task
+	xTaskCreate(PIOS_BRUSHLESS_Task, (signed char*)"PIOS_BRUSHLESS", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
 
 	return 0;
 }
@@ -203,20 +213,23 @@ static int32_t PIOS_Brushless_SetPhase(uint32_t channel, float phase_deg)
  * Called whenver the PWM output timer wraps around which is quite frequenct (e.g. 30khz) to
  * update the phase on the outputs based on the current rate
  */
-static void PIOS_PWM_tim_overflow_cb (uint32_t id, uint32_t context, uint8_t channel, uint16_t count)
+static void PIOS_BRUSHLESS_Task(void* parameters)
 {
-	const int32_t UPDATE_DIVISOR = 60;
-	static int32_t update_count;
-	static int32_t last_update;
-	if (update_count++ > UPDATE_DIVISOR) {
-		update_count = 0;
+	while (1) {
 
-		// Track dt.  Can be calculated from timer and downsampling
-		const float dT = PIOS_DELAY_DiffuS(last_update) * 1e-6;
-		last_update = PIOS_DELAY_GetRaw();
+		vTaskDelay(1);
+
+		const float dT = 0.001f;
 
 		for (int channel = 0; channel < NUM_BGC_CHANNELS; channel++) {
+
+			// Update phase and keep within [0 360)
 			phases[channel] += speeds[channel] * dT;
+			if (phases[channel] < 0)
+				phases[channel] += 360;
+			if (phases[channel] >= 360)
+				phases[channel] -= 360;
+
 			PIOS_Brushless_SetPhase(channel, phases[channel]);
 		}
 	}
