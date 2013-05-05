@@ -198,3 +198,26 @@ static int32_t PIOS_Brushless_SetPhase(uint32_t channel, float phase_deg)
 
 	return 0;
 }
+
+/**
+ * Called whenver the PWM output timer wraps around which is quite frequenct (e.g. 30khz) to
+ * update the phase on the outputs based on the current rate
+ */
+static void PIOS_PWM_tim_overflow_cb (uint32_t id, uint32_t context, uint8_t channel, uint16_t count)
+{
+	const int32_t UPDATE_DIVISOR = 60;
+	static int32_t update_count;
+	static int32_t last_update;
+	if (update_count++ > UPDATE_DIVISOR) {
+		update_count = 0;
+
+		// Track dt.  Can be calculated from timer and downsampling
+		const float dT = PIOS_DELAY_DiffuS(last_update) * 1e-6;
+		last_update = PIOS_DELAY_GetRaw();
+
+		for (int channel = 0; channel < NUM_BGC_CHANNELS; channel++) {
+			phases[channel] += speeds[channel] * dT;
+			PIOS_Brushless_SetPhase(channel, phases[channel]);
+		}
+	}
+}
