@@ -871,6 +871,11 @@ void PIOS_Board_Init(void) {
 	pios_servo_cfg.num_channels = number_of_pwm_outputs;
 	PIOS_Servo_Init(&pios_servo_cfg);
 #endif
+
+#ifdef PIOS_INCLUDE_BRUSHLESS
+	PIOS_Brushless_Init(&pios_brushless_cfg);
+#endif
+
 #else
 	PIOS_DEBUG_Init(&pios_tim_servo_all_channels, NELEMENTS(pios_tim_servo_all_channels));
 #endif

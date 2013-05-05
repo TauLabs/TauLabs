@@ -1213,6 +1213,26 @@ struct pios_servo_cfg pios_servo_cfg = {
 #endif	/* PIOS_INCLUDE_SERVO && PIOS_INCLUDE_TIM */
 
 
+#if defined(PIOS_INCLUDE_BRUSHLESS)
+/* Brushless gimbal outputs */
+#include <pios_brushless_priv.h>
+
+const struct pios_brushless_cfg pios_brushless_cfg = {
+	.tim_oc_init = {
+		.TIM_OCMode = TIM_OCMode_PWM1,
+		.TIM_OutputState = TIM_OutputState_Enable,
+		.TIM_OutputNState = TIM_OutputNState_Disable,
+		.TIM_Pulse = PIOS_SERVOS_INITIAL_POSITION,
+		.TIM_OCPolarity = TIM_OCPolarity_High,
+		.TIM_OCNPolarity = TIM_OCPolarity_High,
+		.TIM_OCIdleState = TIM_OCIdleState_Reset,
+		.TIM_OCNIdleState = TIM_OCNIdleState_Reset,
+	},
+	.channels = pios_tim_servoport_all_pins,
+	.num_channels = NELEMENTS(pios_tim_servoport_all_pins),
+};
+
+#endif
 
 /*
  * PWM Inputs
