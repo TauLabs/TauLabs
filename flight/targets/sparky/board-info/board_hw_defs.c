@@ -1214,6 +1214,68 @@ struct pios_servo_cfg pios_servo_cfg = {
 
 
 #if defined(PIOS_INCLUDE_BRUSHLESS)
+
+static const TIM_TimeBaseInitTypeDef tim_2_3_15_17_brushless_time_base = {
+	.TIM_Prescaler = 0,
+	.TIM_ClockDivision = TIM_CKD_DIV1,
+	.TIM_CounterMode = TIM_CounterMode_Up,
+	.TIM_Period = ((72000000 / 30000) - 1),
+	.TIM_RepetitionCounter = 0x0000,
+};
+
+
+static const struct pios_tim_clock_cfg tim_2_brushless_cfg = {
+	.timer = TIM2,
+	.time_base_init = &tim_2_3_15_17_brushless_time_base,
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel                   = TIM2_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
+			.NVIC_IRQChannelSubPriority        = 0,
+			.NVIC_IRQChannelCmd                = ENABLE,
+		},
+	},
+};
+
+static const struct pios_tim_clock_cfg tim_3_brushless_cfg = {
+	.timer = TIM3,
+	.time_base_init = &tim_2_3_15_17_brushless_time_base,
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel                   = TIM3_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
+			.NVIC_IRQChannelSubPriority        = 0,
+			.NVIC_IRQChannelCmd                = ENABLE,
+		},
+	},
+};
+
+static const struct pios_tim_clock_cfg tim_15_brushless_cfg = {
+	.timer = TIM15,
+	.time_base_init = &tim_2_3_15_17_brushless_time_base,
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel                   = TIM1_BRK_TIM15_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
+			.NVIC_IRQChannelSubPriority        = 0,
+			.NVIC_IRQChannelCmd                = ENABLE,
+		},
+	},
+};
+
+static const struct pios_tim_clock_cfg tim_17_brushless_cfg = {
+	.timer = TIM17,
+	.time_base_init = &tim_2_3_15_17_brushless_time_base,
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel                   = TIM1_TRG_COM_TIM17_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
+			.NVIC_IRQChannelSubPriority        = 0,
+			.NVIC_IRQChannelCmd                = ENABLE,
+		},
+	},
+};
+
 /* Brushless gimbal outputs */
 #include <pios_brushless_priv.h>
 

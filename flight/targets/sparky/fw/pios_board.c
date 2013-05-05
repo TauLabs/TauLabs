@@ -401,12 +401,22 @@ void PIOS_Board_Init(void) {
 	//inputs
 
 	//outputs
+#ifndef PIOS_INCLUDE_BRUSHLESS
 	PIOS_TIM_InitClock(&tim_1_cfg);
 	PIOS_TIM_InitClock(&tim_2_cfg);
 	PIOS_TIM_InitClock(&tim_3_cfg);
 	PIOS_TIM_InitClock(&tim_15_cfg);
 	PIOS_TIM_InitClock(&tim_16_cfg);
 	PIOS_TIM_InitClock(&tim_17_cfg);
+#else
+	PIOS_TIM_InitClock(&tim_1_brushless_cfg);
+	PIOS_TIM_InitClock(&tim_2_brushless_cfg);
+	PIOS_TIM_InitClock(&tim_3_brushless_cfg);
+	PIOS_TIM_InitClock(&tim_15_brushless_cfg);
+	PIOS_TIM_InitClock(&tim_16_brushless_cfg);
+pen 
+#endif
+
 
 	/* IAP System Setup */
 	PIOS_IAP_Init();
