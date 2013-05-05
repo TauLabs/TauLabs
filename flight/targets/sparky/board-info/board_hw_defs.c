@@ -1215,7 +1215,15 @@ struct pios_servo_cfg pios_servo_cfg = {
 
 #if defined(PIOS_INCLUDE_BRUSHLESS)
 
-static const TIM_TimeBaseInitTypeDef tim_2_3_15_17_brushless_time_base = {
+static const TIM_TimeBaseInitTypeDef tim_1_16_brushless_time_base = {
+	.TIM_Prescaler = 0,
+	.TIM_ClockDivision = TIM_CKD_DIV1,
+	.TIM_CounterMode = TIM_CounterMode_Up,
+	.TIM_Period = ((72000000 / 30000) - 1),
+	.TIM_RepetitionCounter = 0x0000,
+};
+
+static const TIM_TimeBaseInitTypeDef tim_2_3_15_brushless_time_base = {
 	.TIM_Prescaler = 0,
 	.TIM_ClockDivision = TIM_CKD_DIV1,
 	.TIM_CounterMode = TIM_CounterMode_Up,
@@ -1226,7 +1234,7 @@ static const TIM_TimeBaseInitTypeDef tim_2_3_15_17_brushless_time_base = {
 
 static const struct pios_tim_clock_cfg tim_2_brushless_cfg = {
 	.timer = TIM2,
-	.time_base_init = &tim_2_3_15_17_brushless_time_base,
+	.time_base_init = &tim_2_3_15_brushless_time_base,
 	.irq = {
 		.init = {
 			.NVIC_IRQChannel                   = TIM2_IRQn,
@@ -1239,7 +1247,7 @@ static const struct pios_tim_clock_cfg tim_2_brushless_cfg = {
 
 static const struct pios_tim_clock_cfg tim_3_brushless_cfg = {
 	.timer = TIM3,
-	.time_base_init = &tim_2_3_15_17_brushless_time_base,
+	.time_base_init = &tim_2_3_15_brushless_time_base,
 	.irq = {
 		.init = {
 			.NVIC_IRQChannel                   = TIM3_IRQn,
@@ -1252,7 +1260,7 @@ static const struct pios_tim_clock_cfg tim_3_brushless_cfg = {
 
 static const struct pios_tim_clock_cfg tim_15_brushless_cfg = {
 	.timer = TIM15,
-	.time_base_init = &tim_2_3_15_17_brushless_time_base,
+	.time_base_init = &tim_2_3_15_brushless_time_base,
 	.irq = {
 		.init = {
 			.NVIC_IRQChannel                   = TIM1_BRK_TIM15_IRQn,
@@ -1263,12 +1271,25 @@ static const struct pios_tim_clock_cfg tim_15_brushless_cfg = {
 	},
 };
 
-static const struct pios_tim_clock_cfg tim_17_brushless_cfg = {
-	.timer = TIM17,
-	.time_base_init = &tim_2_3_15_17_brushless_time_base,
+static const struct pios_tim_clock_cfg tim_1_brushless_cfg = {
+	.timer = TIM1,
+	.time_base_init = &tim_1_16_brushless_time_base,
 	.irq = {
 		.init = {
-			.NVIC_IRQChannel                   = TIM1_TRG_COM_TIM17_IRQn,
+			.NVIC_IRQChannel                   = TIM1_CC_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
+			.NVIC_IRQChannelSubPriority        = 0,
+			.NVIC_IRQChannelCmd                = ENABLE,
+		},
+	},
+};
+
+static const struct pios_tim_clock_cfg tim_16_brushless_cfg = {
+	.timer = TIM16,
+	.time_base_init = &tim_1_16_brushless_time_base,
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel                   = TIM1_UP_TIM16_IRQn,
 			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
 			.NVIC_IRQChannelSubPriority        = 0,
 			.NVIC_IRQChannelCmd                = ENABLE,

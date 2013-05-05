@@ -84,17 +84,7 @@ int32_t BrushlessGimbalInitialize()
 MODULE_INITCALL(BrushlessGimbalInitialize, BrushlessGimbalStart)
 
 /**
- * @brief Main Actuator module task
- *
- * Universal matrix based mixer for VTOL, helis and fixed wing.
- * Converts desired roll,pitch,yaw and throttle to servo/ESC outputs.
- *
- * Because of how the Throttle ranges from 0 to 1, the motors should too!
- *
- * Note this code depends on the UAVObjects for the mixers being all being the same
- * and in sequence. If you change the object definition, make sure you check the code!
- *
- * @return -1 if error, 0 if success
+ * @brief Gimbal output control task
  */
 static void brushlessGimbalTask(void* parameters)
 {
@@ -112,8 +102,14 @@ static void brushlessGimbalTask(void* parameters)
 		ActuatorDesiredData actuatorDesired;
 		ActuatorDesiredGet(&actuatorDesired);
 
-		PIOS_Brushless_SetSpeed(0, actuatorDesired.Pitch * 30);
-		PIOS_Brushless_SetSpeed(1, actuatorDesired.Roll * 30);
+		// Set the rotation in electrical degrees per second.  Note these
+		// will be divided by the number of physical poles to get real
+		// mechanical degrees per second
+		const float MAX_DPS = 8000;
+		const float dT = 0.001;
+
+		PIOS_Brushless_SetSpeed(0, actuatorDesired.Pitch * MAX_DPS * dT);
+		PIOS_Brushless_SetSpeed(1, actuatorDesired.Roll  * MAX_DPS * dT);
 	}
 }
 
