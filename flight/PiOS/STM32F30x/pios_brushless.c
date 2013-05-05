@@ -29,13 +29,15 @@
 
 /* Project Includes */
 #include "pios.h"
-#include "pios_servo_priv.h"
+#include "pios_brushless_priv.h"
 #include "pios_tim_priv.h"
+
+#include "physical_constants.h"
 
 /* Private Function Prototypes */
 static int32_t PIOS_Brushless_SetPhase(uint32_t channel, float phase_deg);
 
-static const struct pios_servo_cfg * servo_cfg;
+static const struct pios_brushless_cfg * brushless_cfg;
 
 /**
 * Initialise Servos
@@ -48,7 +50,7 @@ int32_t PIOS_Brushless_Init(const struct pios_brushless_cfg * cfg)
 	}
 
 	/* Store away the requested configuration */
-	servo_cfg = cfg;
+	brushless_cfg = cfg;
 
 	/* Configure the channels to be in output compare mode */
 	for (uint8_t i = 0; i < cfg->num_channels; i++) {
@@ -79,34 +81,49 @@ int32_t PIOS_Brushless_Init(const struct pios_brushless_cfg * cfg)
 		TIM_Cmd(chan->timer, ENABLE);
 	}
 
+	// PB10 and PB1 enabled and on for SparkyBGC
+	// TODO put into configuration
+	GPIO_InitTypeDef GPIO_InitStructure;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
+	GPIO_Init(GPIOB, &GPIO_InitStructure);
+	GPIO_SetBits(GPIOB, GPIO_InitStructure.GPIO_Pin);
+
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
+	GPIO_Init(GPIOB, &GPIO_InitStructure);
+	GPIO_SetBits(GPIOB, GPIO_InitStructure.GPIO_Pin);
+
 	return 0;
 }
 
+float    phases[3];
+int16_t  scale = 30;
+int32_t  center = 300;
+
 /**
 * Set the servo update rate (Max 500Hz)
-* \param[in] array of rates in Hz
-* \param[in] maximum number of banks
+* \param[in] rate in Hz
 */
 void PIOS_Brushless_SetUpdateRate(uint32_t rate)
 {
-	if (!servo_cfg) {
+	if (!brushless_cfg) {
 		return;
 	}
 
-	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure = servo_cfg->tim_base_init;
+	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure = brushless_cfg->tim_base_init;
 	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-	//
 
-	uint8_t set = 0;
-
-	for(uint8_t i = 0; (i < servo_cfg->num_channels) && (set < banks); i++) {
+	for(uint8_t i = 0; i < brushless_cfg->num_channels; i++) {
 		bool new = true;
-		const struct pios_tim_channel * chan = &servo_cfg->channels[i];
+		const struct pios_tim_channel * chan = &brushless_cfg->channels[i];
 
 		/* See if any previous channels use that same timer */
 		for(uint8_t j = 0; (j < i) && new; j++)
-			new &= chan->timer != servo_cfg->channels[j].timer;
+			new &= chan->timer != brushless_cfg->channels[j].timer;
 
 		if(new) {
 			// Choose the correct prescaler value for the APB the timer is attached
@@ -118,16 +135,15 @@ void PIOS_Brushless_SetUpdateRate(uint32_t rate)
 				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB2_CLOCK / 1000000) - 1;
 			}
 
-			TIM_TimeBaseStructure.TIM_Period = ((1000000 / speeds[set]) - 1);
+			TIM_TimeBaseStructure.TIM_Period = ((1000000 / rate) - 1);
 			TIM_TimeBaseInit(chan->timer, &TIM_TimeBaseStructure);
-			set++;
 		}
 	}
-}
 
-float    phases[3];
-int16_t  scale = 30;
-int32_t  center = 300;
+	// Set some default reasonable parameters
+	center = TIM_TimeBaseStructure.TIM_Period / 2;
+	scale = center;
+}
 
 /**
 * Set servo position
@@ -151,18 +167,17 @@ void PIOS_Brushless_SetSpeed(uint32_t channel, float speed)
 static int32_t PIOS_Brushless_SetPhase(uint32_t channel, float phase_deg)
 {
 	/* Make sure all the channels exist */
-	if (!servo_cfg || (3 * (channel + 1)) > servo_cfg->num_channels) {
-		return;
+	if (!brushless_cfg || (3 * (channel + 1)) > brushless_cfg->num_channels) {
+		return -1;
 	}
 
 	// Get the first output index
-	int32_t idx = channel * 3;
 	for (int32_t idx = channel * 3; idx < (channel + 1) * 3; idx++) {
 
 		int32_t position = center + scale * sinf(phase_deg * DEG2RAD);
 
 		/* Update the position */
-		const struct pios_tim_channel * chan = &servo_cfg->channels[idx];
+		const struct pios_tim_channel * chan = &brushless_cfg->channels[idx];
 		switch(chan->timer_chan) {
 			case TIM_Channel_1:
 				TIM_SetCompare1(chan->timer, position);
@@ -180,4 +195,6 @@ static int32_t PIOS_Brushless_SetPhase(uint32_t channel, float phase_deg)
 
 		phase_deg += 120;
 	}
+
+	return 0;
 }
