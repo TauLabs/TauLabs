@@ -99,15 +99,21 @@ MODULE_INITCALL(BrushlessGimbalInitialize, BrushlessGimbalStart)
 static void brushlessGimbalTask(void* parameters)
 {
 	UAVObjEvent ev;
+
+	PIOS_Brushless_SetUpdateRate(30000);
+
 	while (1)
 	{
 		PIOS_WDG_UpdateFlag(PIOS_WDG_ACTUATOR);
 
 		// Wait until the ActuatorDesired object is updated
-		xQueueReceive(queue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS);
+		xQueueReceive(queue, &ev, 1);
 
 		ActuatorDesiredData actuatorDesired;
 		ActuatorDesiredGet(&actuatorDesired);
+
+		PIOS_Brushless_SetSpeed(0, actuatorDesired.Pitch * 30);
+		PIOS_Brushless_SetSpeed(1, actuatorDesired.Roll * 30);
 	}
 }
 
