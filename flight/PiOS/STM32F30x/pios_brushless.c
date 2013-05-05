@@ -184,6 +184,10 @@ static int32_t PIOS_Brushless_SetPhase(uint32_t channel, float phase_deg)
 	// Get the first output index
 	for (int32_t idx = channel * 3; idx < (channel + 1) * 3; idx++) {
 
+		// sin lookup expects between 0 and 360
+		if (phase_deg > 360)
+			phase_deg -= 360;
+
 		int32_t position = center + scale * sinf(phase_deg * DEG2RAD);
 
 		/* Update the position */
