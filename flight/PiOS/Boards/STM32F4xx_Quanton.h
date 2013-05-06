@@ -1,8 +1,8 @@
 /******************************************************************************
  * @file       STM32F4xx_Quanton.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
- * @addtogroup PhoenixPilotSystem PhoenixPilot System
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2012-2013
+ * @addtogroup TauLabsSystem TauLabs System
  * @{
  * @addtogroup OpenPilotCore OpenPilot Core
  * @{
