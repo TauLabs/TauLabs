@@ -142,7 +142,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 	if (FlightBatterySettingsHandle() != NULL )
 		FlightBatterySettingsGet(&batSettings);
 	else {
-		batSettings.Capacity=0;
+		batSettings.Capacity=1;
 		batSettings.NbCells=0;
 		batSettings.SensorCalibrations[0]=0;
 		batSettings.SensorCalibrations[1]=0;
