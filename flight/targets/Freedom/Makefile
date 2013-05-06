@@ -58,6 +58,7 @@ OPTMODULES += Autotune
 OPTMODULES += TxPID
 OPTMODULES += Battery
 OPTMODULES += VibrationAnalysis
+OPTMODULES += UAVOMavlinkBridge
 OPTMODULES += ComUsbBridge
 
 PYMODULES = 
@@ -96,6 +97,7 @@ PYMITEINC += $(PYMITEPLAT)
 PYMITEINC += $(OUTDIR)
 FLIGHTPLANLIB = $(OPMODULEDIR)/FlightPlan/lib
 FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
+MAVLINKINC = $(FLIGHTLIB)/mavlink/v1.0/common
 
 SRC = 
 # optional component libraries
@@ -228,6 +230,7 @@ EXTRAINCDIRS  += $(BOOTINC)
 EXTRAINCDIRS  += $(PYMITEINC)
 EXTRAINCDIRS  += $(HWDEFSINC)
 EXTRAINCDIRS  += $(DEBUG_CM3_DIR_INC)
+EXTRAINCDIRS  += $(MAVLINKINC)
 
 # Generate intermediate code
 gencode: ${OUTDIR}/pmlib_img.c ${OUTDIR}/pmlib_nat.c ${OUTDIR}/pmlibusr_img.c ${OUTDIR}/pmlibusr_nat.c ${OUTDIR}/pmfeatures.h 
