@@ -32,8 +32,13 @@ include $(BOARD_INFO_DIR)/board-info.mk
 # @optbrief Set to YES to compile for debugging
 DEBUG ?= NO
 
-
 # @endgroup Compile Options
+
+USE_PATHPLANNER ?= YES
+
+# @optbrief Include objects that are just nice information to show
+PATHDESIRED_DIAGNOSTICS ?= YES
+
 # List of modules to include
 MODULES = Sensors
 MODULES += Attitude/revolution
@@ -43,21 +48,26 @@ MODULES += Stabilization
 MODULES += FirmwareIAP
 MODULES += Telemetry
 
+# List of optional modules to include
 OPTMODULES += GPS
 OPTMODULES += CameraStab
 OPTMODULES += Autotune
 OPTMODULES += TxPID
 OPTMODULES += GenericI2CSensor
 OPTMODULES += AltitudeHold
-OPTMODULES += PathPlanner
-OPTMODULES += VtolPathFollower
-OPTMODULES += FixedWingPathFollower
-OPTMODULES += GroundPathFollower
+OPTMODULES += PathManager
+OPTMODULES += PathFollower
 OPTMODULES += VibrationAnalysis
 OPTMODULES += UAVOMavlinkBridge
 OPTMODULES += Battery
 OPTMODULES += ComUsbBridge
 OPTMODULES += Airspeed/revolution
+
+ifeq ($(USE_PATHPLANNER), YES)
+OPTMODULES += PathPlanner
+CFLAGS += -DPATH_PLANNER
+endif
+
 
 # Paths
 OPUAVTALKINC = $(OPUAVTALK)/inc
@@ -109,6 +119,12 @@ SRC += $(DEBUG_CM3_DIR)/cm3_fault_handlers.c
 endif
 
 SRC += $(FLIGHTLIB)/paths.c
+SRC += $(FLIGHTLIB)/CoordinateConversions.c
+SRC += $(FLIGHTLIB)/path_planners/direct.c
+SRC += $(FLIGHTLIB)/path_planners/direct_with_filleting.c
+SRC += $(FLIGHTLIB)/paths_library/example_program.c
+SRC += $(FLIGHTLIB)/paths_library/simple_return_to_home.c
+SRC += $(FLIGHTLIB)/paths_library/simple_hold_position.c
 SRC += $(FLIGHTLIB)/fifo_buffer.c
 SRC += $(FLIGHTLIB)/WorldMagModel.c
 SRC += $(FLIGHTLIB)/insgps13state.c
@@ -214,6 +230,10 @@ CFLAGS += $(ARCHFLAGS)
 CFLAGS += -DDIAGNOSTICS
 CFLAGS += -DDIAG_TASKS
 
+ifneq (,$(filter YES,$(PATHDESIRED_DIAGNOSTICS) $(ALL_DIGNOSTICS)))
+CFLAGS += -DPATHDESIRED_DIAGNOSTICS
+endif
+
 # configure CMSIS DSP Library
 CDEFS += -DARM_MATH_CM4
 CDEFS += -DARM_MATH_MATRIX_CHECK
@@ -237,6 +257,10 @@ CDEFS += -DUSE_STDPERIPH_DRIVER
 CDEFS += -DUSE_$(BOARD)
 ifeq ($(ENABLE_DEBUG_CONSOLE), YES)
 CDEFS += -DPIOS_INCLUDE_DEBUG_CONSOLE
+endif
+
+ifeq ($(PATH_PLANNER), YES)
+CFLAGS += -DPATH_PLANNER
 endif
 
 # Declare all non-optional modules as built-in to force inclusion, strip off any appended varieties of module
