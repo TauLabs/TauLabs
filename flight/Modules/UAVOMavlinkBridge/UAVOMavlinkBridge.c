@@ -147,7 +147,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 	if (FlightBatterySettingsHandle() != NULL )
 		FlightBatterySettingsGet(&batSettings);
 	else {
-		batSettings.Capacity=1;
+		batSettings.Capacity=0;
 		batSettings.NbCells=0;
 		batSettings.SensorCalibrations[0]=0;
 		batSettings.SensorCalibrations[1]=0;
@@ -185,6 +185,11 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		airspeedActual.alpha=0;
 		airspeedActual.beta=0;
 	}
+
+	// prevent division by zero
+	if (batSettings.Capacity == 0)
+		batSettings.Capacity = 1;
+
 	uint16_t msg_length;
 	uint8_t armed_mode;
 	portTickType lastSysTime;
