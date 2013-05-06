@@ -43,6 +43,7 @@
 #include "physical_constants.h"
 #include "paths.h"
 #include "misc_math.h"
+#include "atmospheric_math.h"
 
 #include "airspeedactual.h"
 #include "attitudeactual.h"
@@ -209,10 +210,9 @@ int8_t updateFixedWingDesiredStabilization()
 	// Set desired calibrated airspeed, bounded by airframe limits
 	calibrated_airspeed_desired = bound_min_max(pathDesired.EndingVelocity, fixedWingAirspeeds.StallSpeedDirty, fixedWingAirspeeds.AirSpeedMax);
 
-	// Set the desired true airspeed, using a simplified model that assumes STP atmospheric conditions. This isn't ideal, but we don't have a reliable source of temperature
-	float p =  STANDARD_AIR_SEA_LEVEL_PRESSURE * powf(1 - STANDARD_AIR_LAPSE_RATE*(-positionActual.Down)/STANDARD_AIR_TEMPERATURE, GRAVITY*STANDARD_AIR_MOLS2KG / (UNIVERSAL_GAS_CONSTANT*STANDARD_AIR_LAPSE_RATE));
-	float density_at_altitude=p*STANDARD_AIR_MOLS2KG / (UNIVERSAL_GAS_CONSTANT*(STANDARD_AIR_TEMPERATURE - STANDARD_AIR_LAPSE_RATE*(-positionActual.Down)));
-	true_airspeed_desired = calibrated_airspeed_desired	* sqrtf(STANDARD_AIR_DENSITY / density_at_altitude);
+	// Set the desired true airspeed, assuming STP atmospheric conditions. This isn't ideal, but we don't have a reliable source of temperature or pressure
+	AirParameters air_STP = initialize_air_structure();
+	true_airspeed_desired = cas2tas(calibrated_airspeed_desired, -positionActual.Down, &air_STP);
 
 	// Set the desired altitude
 	altitudeDesired_NED = pathDesired.End[2];
