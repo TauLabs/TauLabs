@@ -242,8 +242,8 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		if (stream_trigger(MAV_DATA_STREAM_EXTRA1)) {
 			AttitudeActualGet(&attActual);
 			mavlink_msg_attitude_pack(0, 200, &mavMsg, 0,
-					attActual.Roll * PI / 180, attActual.Pitch * PI / 180,
-					attActual.Yaw * PI / 180, 0, 0, 0);
+					attActual.Roll * DEG2RAD, attActual.Pitch * DEG2RAD,
+					attActual.Yaw * DEG2RAD, 0, 0, 0);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
 			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
 		}
