@@ -176,6 +176,7 @@ static void pathManagerTask(void *parameters)
 		// Wait
 		vTaskDelayUntil(&lastSysTime, UPDATE_RATE_MS * portTICK_RATE_MS);
 
+#if !defined PATH_PLANNER // If there is no path planner, it's probably because memory is too scarce, such as on CC/CC3D. In that case, provide a return to home and a position hold
 		// Check flight mode
 		FlightStatusData flightStatus;
 		FlightStatusGet(&flightStatus);
@@ -218,6 +219,26 @@ static void pathManagerTask(void *parameters)
 
 				continue;
 		}
+#else
+
+		PathPlannerStatusData pathPlannerStatus;
+		PathPlannerStatusGet(&pathPlannerStatus);
+
+		if (pathPlannerStatus.PathAvailability == PATHPLANNERSTATUS_PATHAVAILABILITY_PATHREADY)
+		{
+			if (guidanceType != PATHPLANNER) {
+				guidanceType = PATHPLANNER;
+				pathplanner_active = false;
+			}
+		}
+		else{
+			pathplanner_active = false;
+			guidanceType = NOMANAGER;
+			vTaskDelay(IDLE_UPDATE_RATE_MS * portTICK_RATE_MS);
+			continue;
+		}
+
+#endif //PATH_PLANNER
 
 		bool advanceSegment_flag = false;
 
@@ -358,12 +379,13 @@ static void advanceSegment()
 				powf(pathSegmentDescriptor_current.SwitchingLocus[1] - pathSegmentDescriptor_past.SwitchingLocus[1],2));
 	}
 	else // Arc
-		s = angularDistanceToComplete_D * DEG2RAD * pathSegmentDescriptor_current.PathCurvature;
+		s = angularDistanceToComplete_D * DEG2RAD / pathSegmentDescriptor_current.PathCurvature;
 
 	if (pathSegmentDescriptor_current.FinalVelocity > 0)
-		pathManagerStatus.Timeout = s/((float)pathSegmentDescriptor_current.FinalVelocity);
+		pathManagerStatus.Timeout = bound_min_max(ceilf(fabsf(s)/((float)pathSegmentDescriptor_current.FinalVelocity)), 0, 65535);
 	else
 		pathManagerStatus.Timeout = 65535; // Set this to maximum possible value for variable type
+
 
 	PathManagerStatusSet(&pathManagerStatus);
 
