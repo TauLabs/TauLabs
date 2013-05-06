@@ -51,7 +51,12 @@ static bool stream_trigger(enum MAV_DATA_STREAM stream_num);
 // ****************
 // Private constants
 
-#define STACK_SIZE_BYTES            600
+#if defined(PIOS_MAVLINK_STACK_SIZE)
+#define STACK_SIZE_BYTES PIOS_MAVLINK_STACK_SIZE
+#else
+#define STACK_SIZE_BYTES 800
+#endif
+
 #define TASK_PRIORITY               (tskIDLE_PRIORITY + 1)
 #define TASK_RATE_HZ				10
 
