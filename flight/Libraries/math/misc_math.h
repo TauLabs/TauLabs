@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       math_misc.h
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
  * @addtogroup OpenPilot Math Utilities
  * @{
  * @addtogroup MiscellaneousMath Math Various mathematical routines
@@ -35,5 +35,6 @@ float bound_min_max(float val, float min, float max);
 
 //! Circular modulus
 float circular_modulus_deg(float err);
+float circular_modulus_rad(float err);
 
 #endif /* MISC_MATH_H */
