@@ -185,11 +185,6 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		airspeedActual.alpha=0;
 		airspeedActual.beta=0;
 	}
-
-	// prevent division by zero
-	if (batSettings.Capacity == 0)
-		batSettings.Capacity = 1;
-
 	uint16_t msg_length;
 	uint8_t armed_mode;
 	portTickType lastSysTime;
@@ -202,9 +197,12 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 				FlightBatteryStateGet(&batState);
 			if (GPSPositionHandle() != NULL )
 				GPSPositionGet(&gpsPosData);
+			int8_t battery_remaining = 0;
+			if (batSettings.Capacity != 0)
+				battery_remaining = batState.ConsumedEnergy / batSettings.Capacity * 100;
 			mavlink_msg_sys_status_pack(0, 200, &mavMsg, 0, 0, 0, 0,
 					batState.Voltage * 1000, batState.Current * 100,
-					batState.ConsumedEnergy / batSettings.Capacity * 100, 0, 0,
+					battery_remaining, 0, 0,
 					0, 0, 0, 0);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
 			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
