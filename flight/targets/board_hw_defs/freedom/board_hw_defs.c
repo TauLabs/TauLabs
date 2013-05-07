@@ -1466,8 +1466,8 @@ const struct pios_usb_hid_cfg pios_usb_hid_cfg = {
 #if defined(PIOS_INCLUDE_ADC)
 #include "pios_adc_priv.h"
 #include "pios_internal_adc_priv.h"
-void PIOS_ADC_DMC_irq_handler(void);
-void DMA2_Stream4_IRQHandler(void) __attribute__((alias("PIOS_ADC_DMC_irq_handler")));
+void PIOS_ADC_DMA_irq_handler(void);
+void DMA2_Stream4_IRQHandler(void) __attribute__((alias("PIOS_ADC_DMA_irq_handler")));
 struct pios_internal_adc_cfg pios_adc_cfg = {
 	.adc_dev_master = ADC1,
 	.dma = {
@@ -1493,7 +1493,7 @@ struct pios_internal_adc_cfg pios_adc_cfg = {
 
 };
 
-void PIOS_ADC_DMC_irq_handler(void)
+void PIOS_ADC_DMA_irq_handler(void)
 {
 	/* Call into the generic code to handle the IRQ for this specific device */
 	PIOS_INTERNAL_ADC_DMA_Handler();
