@@ -1447,7 +1447,7 @@ const struct pios_usb_hid_cfg pios_usb_hid_cfg = {
 #include "pios_adc_priv.h"
 #include "pios_internal_adc_priv.h"
 
-void PIOS_ADC_DMA_irq_handler(void);
+static void PIOS_ADC_DMA_irq_handler(void);
 void DMA2_Stream4_IRQHandler(void) __attribute__((alias("PIOS_ADA_DMC_irq_handler")));
 struct pios_internal_adc_cfg pios_adc_cfg = {
 	.adc_dev_master = ADC1,
@@ -1486,7 +1486,7 @@ struct stm32_gpio pios_current_sonar_pin ={
 			.pin_source = GPIO_PinSource8,
 };
 
-void PIOS_ADC_DMA_irq_handler(void)
+static void PIOS_ADC_DMA_irq_handler(void)
 {
 	/* Call into the generic code to handle the IRQ for this specific device */
 	PIOS_INTERNAL_ADC_DMA_Handler();
