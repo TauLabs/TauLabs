@@ -97,8 +97,7 @@ int32_t BatteryInitialize(void)
 	ModuleSettingsAdminStateGet(module_state);
 	if (module_state[MODULESETTINGS_ADMINSTATE_BATTERY] == MODULESETTINGS_ADMINSTATE_ENABLED) {
 		module_enabled = true;
-	}
-	else {
+	} else {
 		module_enabled = false;
 		return 0;
 	}
@@ -153,8 +152,7 @@ static void batteryTask(void * parameters)
 		//calculate the battery parameters
 		if (voltageADCPin >= 0) {
 			flightBatteryData.Voltage = ((float) PIOS_ADC_GetChannel(voltageADCPin)) * batterySettings.SensorCalibrations[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONS_VOLTAGEFACTOR]; //in Volts
-		}
-		else {
+		} else {
 			flightBatteryData.Voltage = 1234; //Dummy placeholder value. This is in case we get another source of battery current which is not from the ADC
 		}
 
@@ -162,8 +160,7 @@ static void batteryTask(void * parameters)
 			flightBatteryData.Current = ((float) PIOS_ADC_GetChannel(currentADCPin)) * batterySettings.SensorCalibrations[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONS_CURRENTFACTOR]; //in Amps
 			if (flightBatteryData.Current > flightBatteryData.PeakCurrent)
 				flightBatteryData.PeakCurrent = flightBatteryData.Current; //in Amps
-		}
-		else { //If there's no current measurement, we still need to assign one. Make it negative, so it can never trigger an alarm
+		} else { //If there's no current measurement, we still need to assign one. Make it negative, so it can never trigger an alarm
 			flightBatteryData.Current = -0.1234f; //Dummy placeholder value. This is in case we get another source of battery current which is not from the ADC
 		}
 
@@ -185,8 +182,7 @@ static void batteryTask(void * parameters)
 			// check might fail, even when there's nothing attached.
 			AlarmsSet(SYSTEMALARMS_ALARM_BATTERY, SYSTEMALARMS_ALARM_ERROR);
 			AlarmsSet(SYSTEMALARMS_ALARM_FLIGHTTIME, SYSTEMALARMS_ALARM_ERROR);
-		}
-		else {
+		} else {
 			// FIXME: should make the timer alarms user configurable
 			if (flightBatteryData.EstimatedFlightTime < 30)
 				AlarmsSet(SYSTEMALARMS_ALARM_FLIGHTTIME, SYSTEMALARMS_ALARM_CRITICAL);
