@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules TauLabs Modules
  * @{ 
  * @addtogroup UAVOMavlinkBridge UAVO to Mavlink Bridge Module
  * @brief Bridge UAVObjects with MavLink data
