@@ -1206,7 +1206,7 @@ const struct pios_pwm_cfg pios_pwm_with_ppm_cfg = {
 #if defined(PIOS_INCLUDE_PCF8591)
 #include "pios_pcf8591_adc_priv.h"
 static const struct pios_pcf8591_adc_cfg pios_8591_cfg = {
-		.i2c_adress = PIOS_PCF8591_DEFAULT_ADRESS,
+		.i2c_adress = PIOS_PCF8591_DEFAULT_ADDRESS,
 		.use_auto_increment = false,
 		.enable_dac = false,
 		.adc_input_type = PIOS_PCF8591_ADC_SINGLE_ENDED,

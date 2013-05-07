@@ -37,11 +37,11 @@
 #define PIOS_PCF8591_ADC_THREE_DIFF_INPUTS                              0x10
 #define PIOS_PCF8591_ADC_SINGLE_ENDED_AND_DIFF_MIXED    0X20
 #define PIOS_PCF8591_ADC_TWO_DIFF_INPUTS                                0X30
-#define PIOS_PCF8591_DEFAULT_ADRESS                                     0x90
+#define PIOS_PCF8591_DEFAULT_ADDRESS                                     0x90
 extern const struct pios_adc_driver pios_pcf8591_adc_driver;
 
 struct pios_pcf8591_adc_cfg {
-	uint8_t	i2c_adress;
+	uint8_t	i2c_address;
 	bool	use_auto_increment;
 	bool	enable_dac;
 	uint8_t	adc_input_type;

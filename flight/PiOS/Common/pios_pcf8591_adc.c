@@ -109,7 +109,7 @@ static int32_t PIOS_PCF8591_ADC_DevicePinGet(uint32_t adc_id, uint32_t device_pi
         struct pios_i2c_txn txn_list[] = {
                 {
                         .info = __func__,
-                        .addr = (adc_dev->cfg->i2c_adress >> 1),
+                        .addr = (adc_dev->cfg->i2c_address >> 1),
                         .rw = PIOS_I2C_TXN_WRITE,
                         .len = sizeof(config),
                         .buf = &config,
