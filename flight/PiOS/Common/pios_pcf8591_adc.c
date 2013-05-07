@@ -69,7 +69,7 @@ struct pios_pcf8591_adc_dev {
 
 /* Local Variables */
 #define I2C_BUFFER_SIZE	2
-static const uint8_t ADC_CHANNEL[PIOS_PCF8591_NUMBER_OF_ADC_CHANNELS] = PIOS_PCF8591_CHANNELS;
+static const uint8_t ADC_CHANNEL[] = PIOS_PCF8591_CHANNELS;
 
 /**
  * @brief Validates the ADC device
@@ -99,7 +99,7 @@ static int32_t PIOS_PCF8591_ADC_DevicePinGet(uint32_t adc_id, uint32_t device_pi
                 return -1;
         }
         /* Check if pin exists */
-        if (device_pin >= PIOS_PCF8591_NUMBER_OF_ADC_CHANNELS) {
+        if (device_pin >= NELEMENTS(ADC_CHANNEL)) {
                 return -1;
         }
         uint8_t readBuffer[2];
@@ -131,7 +131,7 @@ static int32_t PIOS_PCF8591_ADC_DevicePinGet(uint32_t adc_id, uint32_t device_pi
  */
 static bool PIOS_PCF8591_ADC_Available(uint32_t adc_id, uint32_t device_pin) {
         /* Check if pin exists */
-        return (!(device_pin >= PIOS_PCF8591_NUMBER_OF_ADC_CHANNELS));
+        return (!(device_pin >= NELEMENTS(ADC_CHANNEL)));
 }
 
 /**
@@ -185,7 +185,7 @@ static uint8_t PIOS_PCF8591_ADC_Number_of_Channels(uint32_t adc_id)
         if(!PIOS_PCF8591_ADC_validate(adc_dev)) {
                 return 0;
         }
-        return PIOS_PCF8591_NUMBER_OF_ADC_CHANNELS;
+        return NELEMENTS(ADC_CHANNEL);
 }
 
 #endif
