@@ -6,7 +6,7 @@
  * @brief
  * @{
  *
- * @file       pios_dma.c
+ * @file       pios_dma_hooks.c
  * @author     The Tau Labs Team, http://www.taulabls.org Copyright (C) 2013.
  * @brief
  * @see        The GNU Public License (GPL) Version 3
