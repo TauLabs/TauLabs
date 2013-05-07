@@ -111,13 +111,13 @@ static int32_t PIOS_PCF8591_ADC_DevicePinGet(uint32_t adc_id, uint32_t device_pi
                         .info = __func__,
                         .addr = (adc_dev->cfg->i2c_adress >> 1),
                         .rw = PIOS_I2C_TXN_WRITE,
-                        .len = 1,
+                        .len = sizeof(config),
                         .buf = &config,
                 },
         };
         PIOS_I2C_Transfer(PIOS_I2C_PCF8591_ADAPTER, txn_list, NELEMENTS(txn_list));
         txn_list[0].rw = PIOS_I2C_TXN_READ;
-        txn_list[0].len = 2;
+        txn_list[0].len = sizeof(readBuffer);
         txn_list[0].buf = readBuffer;
         PIOS_I2C_Transfer(PIOS_I2C_PCF8591_ADAPTER, txn_list, NELEMENTS(txn_list));
         return readBuffer[1];
