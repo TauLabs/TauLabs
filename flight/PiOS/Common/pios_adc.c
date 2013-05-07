@@ -195,13 +195,13 @@ int32_t PIOS_ADC_GetChannel(uint32_t channel)
                         PIOS_DEBUG_Assert(0);
                         continue;
                 }
-                else if(adc_dev->driver->number_of_channels && adc_dev->driver->get_pin){
+                else if(adc_dev->driver->number_of_channels){
                         uint32_t num_channels_for_this_device = adc_dev->driver->number_of_channels(adc_dev->lower_id);
-                        if (channel < offset + num_channels_for_this_device) {
+                        if (adc_dev->driver->get_pin && (channel < offset + num_channels_for_this_device)) {
                                 return (adc_dev->driver->get_pin)(adc_dev->lower_id, channel - offset);
                         }
                         else
-                                offset += (adc_dev->driver->number_of_channels)(adc_dev->lower_id);
+                                offset += num_channels_for_this_device;
                 }
         }
         return -1;
