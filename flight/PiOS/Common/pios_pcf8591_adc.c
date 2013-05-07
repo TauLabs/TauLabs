@@ -131,7 +131,7 @@ static int32_t PIOS_PCF8591_ADC_DevicePinGet(uint32_t adc_id, uint32_t device_pi
  */
 static bool PIOS_PCF8591_ADC_Available(uint32_t adc_id, uint32_t device_pin) {
         /* Check if pin exists */
-        return (!(device_pin >= NELEMENTS(ADC_CHANNEL)));
+	return (device_pin < NELEMENTS(ADC_CHANNEL));
 }
 
 /**
