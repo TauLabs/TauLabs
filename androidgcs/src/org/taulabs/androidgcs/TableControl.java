@@ -35,15 +35,15 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-public class Transmitter extends ObjectManagerActivity {
+public class TableControl extends ObjectManagerActivity {
 
-	private final static String TAG = Transmitter.class.getSimpleName();
+	private final static String TAG = TableControl.class.getSimpleName();
 	private final TwoWayHashmap <String, Integer>modesToId = new TwoWayHashmap<String, Integer>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.transmitter);
+		setContentView(R.layout.tablet_control);
 
 		((RadioGroup) findViewById(R.id.modeSelector1)).setOnCheckedChangeListener(ToggleListener);
 

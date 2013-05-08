@@ -166,7 +166,7 @@ public class HomePage extends ObjectManagerActivity {
 			UAVLocation.class, Controller.class,
 			Logger.class, SystemAlarmActivity.class,
 			TuningActivity.class, OsgViewer.class,
-			Transmitter.class
+			TableControl.class
 		};
 
 		private final String[] names = {
