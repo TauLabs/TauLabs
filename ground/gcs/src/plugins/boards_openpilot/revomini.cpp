@@ -88,3 +88,14 @@ QStringList RevoMini::getSupportedProtocols()
 
     return QStringList("uavtalk");
 }
+
+
+QPixmap RevoMini::getBoardPicture()
+{
+    return QPixmap();
+}
+
+QString RevoMini::getHwUAVO()
+{
+    return "HwRevoMini";
+}

@@ -1,14 +1,13 @@
 /**
  ******************************************************************************
- *
- * @file       flyingf3.h
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013
+ * @file       taulabsplugin.h
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup Boards_Stm Stm boards support Plugin
+ * @addtogroup Boards_TauLabsPlugin Tau Labs boards support Plugin
  * @{
- * @brief Plugin to support boards from STM
+ * @brief Plugin to support boards by the Tau Labs project
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -25,26 +24,22 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef FLYINGF3_H
-#define FLYINGF3_H
+#ifndef TAULABSPLUGIN_H
+#define TAULABSPLUGIN_H
 
-#include <coreplugin/iboardtype.h>
+#include <extensionsystem/iplugin.h>
 
-class IBoardType;
-
-class FlyingF3 : public Core::IBoardType
+class TauLabsPlugin : public ExtensionSystem::IPlugin
 {
-public:
-    FlyingF3();
-    virtual ~FlyingF3();
 
-    virtual QString shortName();
-    virtual QString boardDescription();
-    virtual bool queryCapabilities(BoardCapabilities capability);
-    virtual QStringList getSupportedProtocols();
-    virtual QPixmap getBoardPicture();
-    virtual QString getHwUAVO();
+public:
+   TauLabsPlugin();
+   ~TauLabsPlugin();
+
+   void extensionsInitialized();
+   bool initialize(const QStringList & arguments, QString * errorString);
+   void shutdown();
+
 };
 
-
-#endif // FLYINGF3_H
+#endif // TAULABSPLUGIN_H
