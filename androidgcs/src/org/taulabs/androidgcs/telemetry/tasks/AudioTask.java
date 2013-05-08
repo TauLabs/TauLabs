@@ -36,17 +36,28 @@ import org.taulabs.uavtalk.UAVObjectManager;
 import android.content.Context;
 import android.speech.tts.TextToSpeech;
 
-public class AudioTask implements ITelemTask, TextToSpeech.OnInitListener {
+public class AudioTask implements ITelemTask, TextToSpeech.OnInitListener, TextToSpeech.OnUtteranceCompletedListener {
 
+	/* Debugging information */
 	final String TAG = AudioTask.class.getSimpleName();
 	final boolean VERBOSE = false;
 	final boolean DEBUG = false;
 
+	/* IDs for some of the messages */
+	final static String GPS_ALARM_MSG_ID     = "GPS_ALARM_MSG_ID";
+	final static String GPS_ALARM_CLR_MSG_ID = "GPS_ALARM_CLR_MSG_ID";
+	final static String UNTAGGED_MSG_ID      = "UNTAGGED_MSG_ID";
+
+	/* Private variables */
 	private UAVObjectManager objMngr;
 	private final List<UAVObject> listeningList = new ArrayList<UAVObject>();
 
 	private TextToSpeech tts = null;
 	private boolean ttsInit = false;
+
+	/* Track some pending announcements to stop them backing up */
+	private boolean gps_alarm_pending = false;
+	private boolean gps_clear_pending = false;
 
 	@Override
 	public void connect(UAVObjectManager o, Context context) {
@@ -166,6 +177,15 @@ public class AudioTask implements ITelemTask, TextToSpeech.OnInitListener {
 			if (thisSeverity > severity)
 				severity = thisSeverity;
 
+			// When GPS is near threshold this can start toggling
+			// very quickly.  Filter to prevent backing up the queue.
+			if (alarmNames.get(i).compareTo("GPS")==0) {
+				if (thisSeverity == 1 && gps_clear_pending)
+					continue;
+				if (thisSeverity > 1 && gps_alarm_pending)
+					continue;
+			}
+
 			// If alarm is set and previously wasn't described
 			if (thisSeverity > 1 && alarmValues.get(i).compareTo(newAlarm) != 0)
 				tts.speak(alarmNames.get(i) + " " + newAlarm, TextToSpeech.QUEUE_ADD, null);
@@ -201,5 +221,13 @@ public class AudioTask implements ITelemTask, TextToSpeech.OnInitListener {
 		if (flightMode.compareTo("PathPlanner") == 0) {
 			tts.speak("Activated waypoint " + index, TextToSpeech.QUEUE_ADD, null);
 		}
+	}
+
+	@Override
+	public void onUtteranceCompleted(String utteranceId) {
+		if (utteranceId.compareTo(GPS_ALARM_MSG_ID) == 0)
+			gps_alarm_pending = false;
+		if (utteranceId.compareTo(GPS_ALARM_CLR_MSG_ID) == 0)
+			gps_clear_pending = false;
 	}
 }
