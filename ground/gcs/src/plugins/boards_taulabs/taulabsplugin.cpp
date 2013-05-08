@@ -64,3 +64,5 @@ void TauLabsPlugin::extensionsInitialized()
 void TauLabsPlugin::shutdown()
 {
 }
+
+Q_EXPORT_PLUGIN(TauLabsPlugin)
