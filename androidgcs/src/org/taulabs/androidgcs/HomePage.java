@@ -24,9 +24,11 @@ package org.taulabs.androidgcs;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +54,10 @@ public class HomePage extends ObjectManagerActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.gcs_home);
 
-		adapt = new ImageAdapter(this);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		boolean advancedScreens = prefs.getBoolean("advanced_screens", false);
+
+		adapt = new ImageAdapter(this, advancedScreens);
 		GridView gridview = (GridView) findViewById(R.id.gridview);
 		gridview.setAdapter(adapt);
 
@@ -104,14 +109,17 @@ public class HomePage extends ObjectManagerActivity {
 	//! Map from a list of activities and icons to their views for display
 	public class ImageAdapter extends BaseAdapter {
 		private final Context mContext;
+		private final boolean advancedScreens;
 
-		public ImageAdapter(Context c) {
+		public ImageAdapter(Context c, boolean advancedScreens) {
 			mContext = c;
+			this.advancedScreens = advancedScreens;
 		}
 
 		@Override
 		public int getCount() {
-			return mThumbIds.length;
+			// The last screen is only shown when advanced is enabled
+			return (advancedScreens ? mThumbIds.length : mThumbIds.length - 1);
 		}
 
 		@Override
@@ -148,7 +156,8 @@ public class HomePage extends ObjectManagerActivity {
 				R.drawable.ic_browser, R.drawable.ic_pfd,
 				R.drawable.ic_map, R.drawable.ic_controller,
 				R.drawable.ic_logging, R.drawable.ic_alarms,
-				R.drawable.ic_tuning, R.drawable.ic_3dview
+				R.drawable.ic_tuning, R.drawable.ic_3dview,
+				R.drawable.ic_tabletcontrol
 		};
 
 		@SuppressWarnings("rawtypes")
@@ -156,14 +165,16 @@ public class HomePage extends ObjectManagerActivity {
 			ObjectBrowser.class, PfdActivity.class,
 			UAVLocation.class, Controller.class,
 			Logger.class, SystemAlarmActivity.class,
-			TuningActivity.class, OsgViewer.class
+			TuningActivity.class, OsgViewer.class,
+			Transmitter.class
 		};
 
 		private final String[] names = {
 				"Browser", "PFD",
 				"Map", "Controller",
 				"Logging", "Alarms",
-				"Tuning", "OSG"
+				"Tuning", "OSG",
+				"Table Control"
 		};
 	}
 

@@ -23,6 +23,8 @@
 			android:key="map_type" android:summary="@string/preference_connection_method_summary"
 			android:defaultValue="1" android:entries="@array/mapTypeArray"
 			android:entryValues="@array/mapTypeValues" />
-
+		<CheckBoxPreference android:title="Advanced Screens"
+			android:key="@string/advanced_screens" />
+		
 	</PreferenceCategory>
 </PreferenceScreen>
