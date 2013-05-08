@@ -103,7 +103,6 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/relaytuning.h \
     $$UAVOBJECT_SYNTHETICS/relaytuningsettings.h \
     $$UAVOBJECT_SYNTHETICS/sensorsettings.h \
-    $$UAVOBJECT_SYNTHETICS/revocalibration.h \
     $$UAVOBJECT_SYNTHETICS/sonaraltitude.h \
     $$UAVOBJECT_SYNTHETICS/stabilizationdesired.h \
     $$UAVOBJECT_SYNTHETICS/stabilizationsettings.h \
@@ -203,7 +202,6 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/relaytuning.cpp \
     $$UAVOBJECT_SYNTHETICS/relaytuningsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/sensorsettings.cpp \
-    $$UAVOBJECT_SYNTHETICS/revocalibration.cpp \
     $$UAVOBJECT_SYNTHETICS/sonaraltitude.cpp \
     $$UAVOBJECT_SYNTHETICS/stabilizationdesired.cpp \
     $$UAVOBJECT_SYNTHETICS/stabilizationsettings.cpp \
