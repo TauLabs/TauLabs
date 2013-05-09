@@ -37,6 +37,7 @@
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QPushButton>
 
+#include "algorithms/pathfillet.h"
 #include "extensionsystem/pluginmanager.h"
 
 PathPlannerGadgetWidget::PathPlannerGadgetWidget(QWidget *parent) : QLabel(parent)
@@ -51,6 +52,8 @@ PathPlannerGadgetWidget::PathPlannerGadgetWidget(QWidget *parent) : QLabel(paren
     QItemSelectionModel *selection = pm->getObject<QItemSelectionModel>();
     Q_ASSERT(selection);
     setModel(model, selection);
+
+    connect(ui->tbFilletPath, SIGNAL(clicked()), this, SLOT(on_tbFilletPath_clicked()));
 }
 
 PathPlannerGadgetWidget::~PathPlannerGadgetWidget()
@@ -141,6 +144,15 @@ void PathPlannerGadgetWidget::on_tbFetchFromUAV_clicked()
 {
     proxy->objectsToModel();
     ui->tableView->resizeColumnsToContents();
+}
+
+/**
+ * @brief PathPlannerGadgetWidget::on_tbFilletPath_clicked Apply fillets to the current path
+ */
+void PathPlannerGadgetWidget::on_tbFilletPath_clicked()
+{
+    IPathAlgorithm * algo = new PathFillet(this);
+    algo->processPath(model);
 }
 
 /**

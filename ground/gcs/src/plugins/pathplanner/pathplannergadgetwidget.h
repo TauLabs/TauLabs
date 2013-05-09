@@ -61,6 +61,8 @@ private slots:
 
     void on_tbFetchFromUAV_clicked();
 
+    void on_tbFilletPath_clicked();
+
 private:
     Ui_PathPlanner  *ui;
     FlightDataModel *model;
