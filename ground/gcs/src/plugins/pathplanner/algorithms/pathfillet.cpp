@@ -375,6 +375,11 @@ bool PathFillet::processPath(FlightDataModel *model)
         }
     }
 
+    // Migrate the data to the original model now it is complete
+    model->replaceData(new_model);
+    delete new_model;
+    new_model = NULL;
+
     return true;
 }
 
