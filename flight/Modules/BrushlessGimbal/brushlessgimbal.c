@@ -108,8 +108,8 @@ static void brushlessGimbalTask(void* parameters)
 		const float MAX_DPS = 8000;
 		const float dT = 0.001;
 
-		PIOS_Brushless_SetSpeed(0, actuatorDesired.Pitch * MAX_DPS * dT);
-		PIOS_Brushless_SetSpeed(1, actuatorDesired.Roll  * MAX_DPS * dT);
+		PIOS_Brushless_SetSpeed(0, actuatorDesired.Roll * MAX_DPS);
+		PIOS_Brushless_SetSpeed(1, actuatorDesired.Pitch  * MAX_DPS);
 	}
 }
 
