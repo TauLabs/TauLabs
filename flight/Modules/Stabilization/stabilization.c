@@ -340,10 +340,7 @@ static void stabilizationTask(void* parameters)
 					// Compute the outer loop
 					rateDesiredAxis[i] = pid_apply(&pids[PID_ATT_ROLL + i], local_error[i], dT);
 					rateDesiredAxis[i] = bound(rateDesiredAxis[i], settings.MaximumRate[i]);
-
-					// Compute the inner loop
-					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  0, dT);
-					actuatorDesiredAxis[i] = bound(actuatorDesiredAxis[i],1.0f);
+					actuatorDesiredAxis[i] = bound(rateDesiredAxis[i], 1);
 
 					break;
 
