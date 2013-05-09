@@ -10,7 +10,8 @@ DEFINES += PATHPLANNER_LIBRARY
 
 HEADERS += pathplannergadget.h \
     waypointdialog.h \
-    waypointdelegate.h
+    waypointdelegate.h \
+    ipathalgorithm.h
 HEADERS += pathplanner_global.h
 HEADERS += pathplannergadgetwidget.h
 HEADERS += pathplannergadgetfactory.h
@@ -20,7 +21,8 @@ HEADERS += modeluavoproxy.h
 
 SOURCES += pathplannergadget.cpp \
     waypointdialog.cpp \
-    waypointdelegate.cpp
+    waypointdelegate.cpp \
+    ipathalgorithm.cpp
 SOURCES += pathplannergadgetwidget.cpp
 SOURCES += pathplannergadgetfactory.cpp
 SOURCES += pathplannerplugin.cpp
