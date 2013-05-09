@@ -56,7 +56,19 @@ private:
 
     //! Fileting radius to use
     double radius;
+
+    //! New model being built up
+    FlightDataModel *new_model;
     
+private:
+    // Private functions
+
+    quint8 addNonCircleToSwitchingLoci(float position[3], float finalVelocity,
+                                        float radius, uint16_t index);
+    quint8 addCircleToSwitchingLoci(float position[3], float finalVelocity,
+                                     float radius, float number_of_orbits,
+                                     float fillet_radius, uint16_t index);
+
 };
 
 #endif // PATHFILET_H
