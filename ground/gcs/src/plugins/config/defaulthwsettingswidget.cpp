@@ -54,23 +54,23 @@ DefaultHwSettingsWidget::DefaultHwSettingsWidget(QWidget *parent, bool autopilot
         addApplySaveButtons(ui->applyButton,ui->saveButton);
         addReloadButton(ui->reloadButton, 0);
 
-        //List of supported boards which do not currently have board-specific pages
-        allHwSettings.append("HwFlyingF3");
-        allHwSettings.append("HwFlyingF4");
-        allHwSettings.append("HwDiscoveryF4");
-        allHwSettings.append("HwFreedom");
-        allHwSettings.append("HwRevolution");
-        allHwSettings.append("HwRevoMini");
-        allHwSettings.append("HwQuanton");
+        // Query the board plugin for the connected board to get the specific
+        // hw settings object
+        ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+        if (pm != NULL) {
+             UAVObjectUtilManager* uavoUtilManager = pm->getObject<UAVObjectUtilManager>();
+             Core::IBoardType* board = uavoUtilManager->getBoardType();
 
-        //Connect all forms to slots
-        foreach (QString str, allHwSettings) {
-            UAVObject *obj = getObjectManager()->getObject(str);
-            if (obj != NULL) {
-                qDebug() << "Checking object " << obj->getName();
-                connect(obj,SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(settingsUpdated(UAVObject*,bool)));
-                obj->requestUpdate();
-            }
+             QString hwSwettingsObject = board->getHwUAVO();
+
+             UAVObject *obj = getObjectManager()->getObject(hwSwettingsObject);
+             if (obj != NULL) {
+                 qDebug() << "Checking object " << obj->getName();
+                 connect(obj,SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(settingsUpdated(UAVObject*,bool)));
+                 obj->requestUpdate();
+             } else {
+                 qDebug() << "HwConfiguration object not found";
+             }
         }
 
     }

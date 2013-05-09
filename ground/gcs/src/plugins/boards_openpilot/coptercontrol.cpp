@@ -87,3 +87,13 @@ QStringList CopterControl::getSupportedProtocols()
 
     return QStringList("uavtalk");
 }
+
+QPixmap CopterControl::getBoardPicture()
+{
+    return QPixmap(":/openpilot/images/cc3d.png");
+}
+
+QString CopterControl::getHwUAVO()
+{
+    return "HwCopterControl";
+}

@@ -1,14 +1,13 @@
 /**
  ******************************************************************************
- *
- * @file       flyingf3.h
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013
+ * @file       taulabsplugin.cpp
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup Boards_Stm Stm boards support Plugin
+ * @addtogroup Boards_TauLabsPlugin Tau Labs boards support Plugin
  * @{
- * @brief Plugin to support boards from STM
+ * @brief Plugin to support boards by the Tau Labs project
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -25,26 +24,45 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef FLYINGF3_H
-#define FLYINGF3_H
 
-#include <coreplugin/iboardtype.h>
+#include "taulabsplugin.h"
+#include "freedom.h"
+#include "sparky.h"
+#include <QtPlugin>
 
-class IBoardType;
 
-class FlyingF3 : public Core::IBoardType
+TauLabsPlugin::TauLabsPlugin()
 {
-public:
-    FlyingF3();
-    virtual ~FlyingF3();
+   // Do nothing
+}
 
-    virtual QString shortName();
-    virtual QString boardDescription();
-    virtual bool queryCapabilities(BoardCapabilities capability);
-    virtual QStringList getSupportedProtocols();
-    virtual QPixmap getBoardPicture();
-    virtual QString getHwUAVO();
-};
+TauLabsPlugin::~TauLabsPlugin()
+{
+   // Do nothing
+}
 
+bool TauLabsPlugin::initialize(const QStringList& args, QString *errMsg)
+{
+   Q_UNUSED(args);
+   Q_UNUSED(errMsg);
+   return true;
+}
 
-#endif // FLYINGF3_H
+void TauLabsPlugin::extensionsInitialized()
+{
+    /**
+     * Create the board objects here.
+     *
+     */
+    Sparky* sparky = new Sparky();
+    addAutoReleasedObject(sparky);
+
+    Freedom* freedom = new Freedom();
+    addAutoReleasedObject(freedom);
+}
+
+void TauLabsPlugin::shutdown()
+{
+}
+
+Q_EXPORT_PLUGIN(TauLabsPlugin)
