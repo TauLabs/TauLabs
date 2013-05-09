@@ -32,6 +32,7 @@
 
 #include "openpilot.h"
 #include "actuatordesired.h"
+#include "brushlessgimbalsettings.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 2
@@ -79,6 +80,8 @@ int32_t BrushlessGimbalInitialize()
 	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 	ActuatorDesiredConnectQueue(queue);
 
+	BrushlessGimbalSettingsInitialize();
+
 	return 0;
 }
 MODULE_INITCALL(BrushlessGimbalInitialize, BrushlessGimbalStart)
@@ -105,11 +108,11 @@ static void brushlessGimbalTask(void* parameters)
 		// Set the rotation in electrical degrees per second.  Note these
 		// will be divided by the number of physical poles to get real
 		// mechanical degrees per second
-		const float MAX_DPS = 8000;
-		const float dT = 0.001;
+		BrushlessGimbalSettingsData settings;
+		BrushlessGimbalSettingsGet(&settings);
 
-		PIOS_Brushless_SetSpeed(0, actuatorDesired.Roll * MAX_DPS);
-		PIOS_Brushless_SetSpeed(1, actuatorDesired.Pitch  * MAX_DPS);
+		PIOS_Brushless_SetSpeed(0, actuatorDesired.Roll * settings.MaxDPS[BRUSHLESSGIMBALSETTINGS_MAXDPS_ROLL]);
+		PIOS_Brushless_SetSpeed(1, actuatorDesired.Pitch  * settings.MaxDPS[BRUSHLESSGIMBALSETTINGS_MAXDPS_PITCH]);
 	}
 }
 

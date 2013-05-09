@@ -37,6 +37,7 @@ UAVOBJSRCFILENAMES += attitudesettings
 UAVOBJSRCFILENAMES += insstate
 UAVOBJSRCFILENAMES += inssettings
 UAVOBJSRCFILENAMES += attitudeactual
+UAVOBJSRCFILENAMES += brushlessgimbalsettings
 UAVOBJSRCFILENAMES += gyros
 UAVOBJSRCFILENAMES += gyrosbias
 UAVOBJSRCFILENAMES += sensorsettings

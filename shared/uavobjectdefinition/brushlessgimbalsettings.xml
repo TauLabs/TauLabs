@@ -1,0 +1,10 @@
+<xml>
+    <object name="BrushlessGimbalSettings" singleinstance="true" settings="true">
+        <description>Settings for the @ref BrushlessGimbal module</description>
+        <field name="MaxDPS" units="deg/s" type="uint16" elementnames="Roll,Pitch,Yaw" options="" defaultvalue="8000"/>
+        <access gcs="readwrite" flight="readwrite"/>
+        <telemetrygcs acked="true" updatemode="onchange" period="0"/>
+        <telemetryflight acked="true" updatemode="onchange" period="0"/>
+        <logging updatemode="manual" period="0"/>
+	</object>
+</xml>
