@@ -24,6 +24,8 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include <QDebug>
+
 #include <algorithms/pathfillet.h>
 #include <waypoint.h>
 #include <math.h>
@@ -84,6 +86,12 @@ bool PathFillet::processPath(FlightDataModel *model)
         float ModeParameters = model->data(model->index(wpIdx, FlightDataModel::MODE_PARAMS)).toFloat();
         float finalVelocity = model->data(model->index(wpIdx, FlightDataModel::VELOCITY)).toFloat();
 
+        // First waypoint cannot be fileting since we don't have start.  Keep intact.
+        if (wpIdx == 0) {
+            setNewWaypoint(newWaypointIdx++, pos_current, finalVelocity, Mode, ModeParameters);
+            continue;
+        }
+
         // Determine if the path is a straight line or if it arcs
         bool path_is_circle = false;
         float curvature = 0;
@@ -114,7 +122,8 @@ bool PathFillet::processPath(FlightDataModel *model)
                 pos_prev[1] = new_model->data(new_model->index(newWaypointIdx-1, FlightDataModel::NED_EAST)).toDouble();
                 pos_prev[2] = new_model->data(new_model->index(newWaypointIdx-1, FlightDataModel::NED_DOWN)).toDouble();
                 // TODO: fix sign
-                previous_curvature = 1.0 / new_model->data(new_model->index(newWaypointIdx-1, FlightDataModel::MODE_PARAMS)).toDouble();
+                float previous_radius = new_model->data(new_model->index(newWaypointIdx-1, FlightDataModel::MODE_PARAMS)).toDouble();
+                previous_curvature = (previous_radius < 1e-4) ? 0 : 1.0 / previous_radius;
             } else {
                 // Use the home location as the starting point of paths.
                 // TODO: verify later logic is robust to this
@@ -131,6 +140,8 @@ bool PathFillet::processPath(FlightDataModel *model)
             quint8 NextMode = model->data(model->index(wpIdx + 1, FlightDataModel::MODE), Qt::UserRole).toInt();
             float NextModeParameter = model->data(model->index(wpIdx + 1, FlightDataModel::MODE_PARAMS), Qt::UserRole).toInt();
 
+            NextModeParameter = 0;
+            qDebug() << wpIdx << " NextModerParameter: " << NextModeParameter;
             bool future_path_is_circle = NextMode == Waypoint::MODE_CIRCLEPOSITIONRIGHT ||
                     NextMode == Waypoint::MODE_CIRCLEPOSITIONLEFT;
 
@@ -152,11 +163,12 @@ bool PathFillet::processPath(FlightDataModel *model)
                 q_future[0] = pos_next[0] - pos_current[0];
                 q_future[1] = pos_next[1] - pos_current[1];
 
+                qDebug() << wpIdx << " q_current: " << q_current[0] << " " << q_current[1] << " future " << q_future[0] << " " << q_future[1];
             }
             //In the case of line-arc intersections, calculate the tangent of the new section.
             else if (curvature == 0 &&
                      (NextModeParameter != 0 && !future_path_is_circle)) { // Fixme: waypoint_future.ModeParameters needs to be replaced by waypoint_future.Mode. FOr this, we probably need a new function to handle the switch(waypoint.Mode)
-
+                qDebug() << wpIdx << " is line-arc";
                 // Old segment: straight line
                 q_current[0] = pos_current[0] - pos_prev[0];
                 q_current[1] = pos_current[1] - pos_prev[1];
@@ -181,6 +193,7 @@ bool PathFillet::processPath(FlightDataModel *model)
             }
             //In the case of arc-line intersections, calculate the tangent of the old section.
             else if (curvature != 0 && (NextModeParameter == 0 || future_path_is_circle)) { // Fixme: waypoint_future.ModeParameters needs to be replaced by waypoint_future.Mode. FOr this, we probably need a new function to handle the switch(waypoint.Mode)
+                qDebug() << wpIdx << " is arc-line";
                 // Old segment: Vector perpendicular to the vector from arc center to tangent point
                 bool clockwise = previous_curvature > 0;
                 bool minor = true;
@@ -208,6 +221,7 @@ bool PathFillet::processPath(FlightDataModel *model)
             }
             //In the case of arc-arc intersections, calculate the tangent of the old and new sections.
             else if (curvature != 0 && (NextModeParameter != 0 && !future_path_is_circle)) { // Fixme: waypoint_future.ModeParameters needs to be replaced by waypoint_future.Mode. FOr this, we probably need a new function to handle the switch(waypoint.Mode)
+                qDebug() << wpIdx << " is arc-arc";
                 // Old segment: Vector perpendicular to the vector from arc center to tangent point
                 bool clockwise = previous_curvature > 0;
                 bool minor = true;
@@ -393,6 +407,7 @@ bool PathFillet::processPath(FlightDataModel *model)
  */
 void PathFillet::setNewWaypoint(int index, float *pos, float velocity, quint8 mode, float radius)
 {
+    qDebug() << "Inserting waypoint at " << pos[0] << " " << pos[1] << " with mode " << mode;
     if (index >= new_model->rowCount() - 1)
         new_model->insertRow(index);
     new_model->setData(new_model->index(index,FlightDataModel::NED_NORTH), pos[0]);
