@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @file       pathfilet.h
+ * @file       pathfillet.h
  * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
  * @brief      Algorithm to add filtets to path
  * @addtogroup GCSPlugins GCS Plugins
@@ -24,18 +24,18 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef PATHFILET_H
-#define PATHFILET_H
+#ifndef PATHFILLET_H
+#define PATHFILLET_H
 
 #include <ipathalgorithm.h>
 
-class PATHPLANNER_EXPORT PathFilet : public IPathAlgorithm
+class PATHPLANNER_EXPORT PathFillet : public IPathAlgorithm
 {
     Q_OBJECT
 
 public:
 
-    explicit PathFilet(QObject *parent = 0);
+    explicit PathFillet(QObject *parent = 0);
 
     /**
      * Verify the path is valid to run through this algorithm
@@ -93,4 +93,4 @@ private:
     float angle_between_2d_vectors(float a[2], float b[2]);
 };
 
-#endif // PATHFILET_H
+#endif // PATHFILLET_H

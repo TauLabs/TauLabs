@@ -18,7 +18,7 @@ HEADERS += pathplannerplugin.h
 HEADERS += flightdatamodel.h
 HEADERS += modeluavoproxy.h
 HEADERS += ipathalgorithm.h
-HEADERS += algorithms/pathfilet.h
+HEADERS += algorithms/pathfillet.h
 
 SOURCES += pathplannergadget.cpp \
     waypointdialog.cpp \
@@ -29,7 +29,7 @@ SOURCES += pathplannergadgetfactory.cpp
 SOURCES += pathplannerplugin.cpp
 SOURCES += flightdatamodel.cpp
 SOURCES += modeluavoproxy.cpp
-SOURCES += algorithms/pathfilet.cpp
+SOURCES += algorithms/pathfillet.cpp
 
 OTHER_FILES += PathPlanner.pluginspec
 

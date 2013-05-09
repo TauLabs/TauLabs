@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @file       pathfilet.cpp
+ * @file       pathfillet.cpp
  * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -24,11 +24,11 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include <algorithms/pathfilet.h>
+#include <algorithms/pathfillet.h>
 #include <waypoint.h>
 #include <math.h>
 
-PathFilet::PathFilet(QObject *parent) : IPathAlgorithm(parent)
+PathFillet::PathFillet(QObject *parent) : IPathAlgorithm(parent)
 {
     // TODO: move into the constructor and come from the UI
     fillet_radius = 5;
@@ -40,7 +40,7 @@ PathFilet::PathFilet(QObject *parent) : IPathAlgorithm(parent)
  * @param[out] err an error message for the user for invalid paths
  * @return true for valid path, false for invalid
  */
-bool PathFilet::verifyPath(FlightDataModel *model, QString &err)
+bool PathFillet::verifyPath(FlightDataModel *model, QString &err)
 {
     Q_UNUSED(model);
     Q_UNUSED(err);
@@ -60,7 +60,7 @@ bool PathFilet::verifyPath(FlightDataModel *model, QString &err)
  * @param[out] new the resulting flight model
  * @return true for success, false for failure
  */
-bool PathFilet::processPath(FlightDataModel *model)
+bool PathFillet::processPath(FlightDataModel *model)
 {
     new_model = new FlightDataModel(this);
 
@@ -379,14 +379,14 @@ bool PathFilet::processPath(FlightDataModel *model)
 }
 
 /**
- * @brief PathFilet::setNewWaypoint Store a waypoint in the new data model
+ * @brief PathFillet::setNewWaypoint Store a waypoint in the new data model
  * @param index The waypoint to store
  * @param pos The position for this waypoint
  * @param velocity The velocity at this waypoint
  * @param mode The waypoint mode
  * @param radius The radius to enter this waypoint at
  */
-void PathFilet::setNewWaypoint(int index, float *pos, float velocity, quint8 mode, float radius)
+void PathFillet::setNewWaypoint(int index, float *pos, float velocity, quint8 mode, float radius)
 {
     if (index >= new_model->rowCount() - 1)
         new_model->insertRow(index);
@@ -407,7 +407,7 @@ void PathFilet::setNewWaypoint(int index, float *pos, float velocity, quint8 mod
  * @param index Current descriptor index
  * @return
  */
-quint8 PathFilet::addNonCircleToSwitchingLoci(float position[3], float finalVelocity,
+quint8 PathFillet::addNonCircleToSwitchingLoci(float position[3], float finalVelocity,
                                               float curvature, uint16_t index)
 {
     quint8 mode = curvature > 0 ? Waypoint::MODE_FLYCIRCLERIGHT : Waypoint::MODE_FLYCIRCLELEFT;
@@ -428,7 +428,7 @@ quint8 PathFilet::addNonCircleToSwitchingLoci(float position[3], float finalVelo
  * @param index Current descriptor index
  * @return
  */
-quint8 PathFilet::addCircleToSwitchingLoci(float circle_center[3], float finalVelocity,
+quint8 PathFillet::addCircleToSwitchingLoci(float circle_center[3], float finalVelocity,
                                            float curvature, float number_of_orbits,
                                            float fillet_radius, uint16_t index)
 {
@@ -556,12 +556,12 @@ quint8 PathFilet::addCircleToSwitchingLoci(float circle_center[3], float finalVe
     return 0;
 }
 
-float PathFilet::VectorMagnitude(float *v)
+float PathFillet::VectorMagnitude(float *v)
 {
     return sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2]);
 }
 
-double PathFilet::VectorMagnitude(double *v)
+double PathFillet::VectorMagnitude(double *v)
 {
     return sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2]);
 }
@@ -573,7 +573,7 @@ double PathFilet::VectorMagnitude(double *v)
  * @param[in] err input value in radians.
  * @returns The equivalent angle between -pi and pi
  */
-float PathFilet::circular_modulus_rad(float err)
+float PathFillet::circular_modulus_rad(float err)
 {
     float val = fmodf(err + M_PI, 2*M_PI);
 
@@ -601,7 +601,7 @@ float PathFilet::circular_modulus_rad(float err)
  * @param[out] center Center of circle formed by two points, in North-East coordinates
  * @return
  */
-enum PathFilet::arc_center_results PathFilet::find_arc_center(float start_point[2], float end_point[2], float radius, float center[2], bool clockwise, bool minor)
+enum PathFillet::arc_center_results PathFillet::find_arc_center(float start_point[2], float end_point[2], float radius, float center[2], bool clockwise, bool minor)
 {
     // Sanity check
     if(fabsf(start_point[0] - end_point[0]) < 1e-6 && fabsf(start_point[1] - end_point[1]) < 1e-6){
@@ -663,7 +663,7 @@ enum PathFilet::arc_center_results PathFilet::find_arc_center(float start_point[
  * @param arcCenter_NE
  * @return theta The angle between the two points on the circluar arc
  */
-float PathFilet::measure_arc_rad(float oldPosition_NE[2], float newPosition_NE[2], float arcCenter_NE[2])
+float PathFillet::measure_arc_rad(float oldPosition_NE[2], float newPosition_NE[2], float arcCenter_NE[2])
 {
     float a[2] = {oldPosition_NE[0] - arcCenter_NE[0], oldPosition_NE[1] - arcCenter_NE[1]};
     float b[2] = {newPosition_NE[0] - arcCenter_NE[0], newPosition_NE[1] - arcCenter_NE[1]};
@@ -679,7 +679,7 @@ float PathFilet::measure_arc_rad(float oldPosition_NE[2], float newPosition_NE[2
  * @param b
  * @return theta The angle between two vectors
  */
-float PathFilet::angle_between_2d_vectors(float a[2], float b[2])
+float PathFillet::angle_between_2d_vectors(float a[2], float b[2])
 {
     // We cannot directly use the vector calculus formula for cos(theta) and sin(theta) because each
     // is only unique on half the circle. Instead, we combine the two because tangent is unique across
