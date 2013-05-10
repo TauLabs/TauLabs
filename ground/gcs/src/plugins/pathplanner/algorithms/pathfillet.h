@@ -70,9 +70,6 @@ private:
 
     quint8 addNonCircleToSwitchingLoci(float position[3], float finalVelocity,
                                         float radius, uint16_t index);
-    quint8 addCircleToSwitchingLoci(float position[3], float finalVelocity,
-                                     float radius, float number_of_orbits,
-                                     float fillet_radius, uint16_t index);
 
     //! Compute the magnitude of a vector
     float VectorMagnitude(float *);

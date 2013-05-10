@@ -87,18 +87,17 @@ bool PathFillet::processPath(FlightDataModel *model)
         float finalVelocity = model->data(model->index(wpIdx, FlightDataModel::VELOCITY)).toFloat();
 
         // Determine if the path is a straight line or if it arcs
-        bool path_is_circle = false;
         float curvature = 0;
         switch (Mode)
         {
         case Waypoint::MODE_CIRCLEPOSITIONRIGHT:
-            path_is_circle = true;
+            return false;
         case Waypoint::MODE_FLYCIRCLERIGHT:
         case Waypoint::MODE_DRIVECIRCLERIGHT:
             curvature = 1.0f/ModeParameters;
             break;
         case Waypoint::MODE_CIRCLEPOSITIONLEFT:
-            path_is_circle = true;
+            return false;
         case Waypoint::MODE_FLYCIRCLELEFT:
         case Waypoint::MODE_DRIVECIRCLELEFT:
             curvature = -1.0f/ModeParameters;
@@ -126,7 +125,6 @@ bool PathFillet::processPath(FlightDataModel *model)
                 previous_curvature = (previous_radius < 1e-4) ? 0 : 1.0 / previous_radius;
             } else {
                 // Use the home location as the starting point of paths.
-                // TODO: verify later logic is robust to this
                 pos_prev[0] = 0;
                 pos_prev[1] = 0;
                 pos_prev[2] = 0;
@@ -276,12 +274,9 @@ bool PathFillet::processPath(FlightDataModel *model)
             // Compute half angle
             float rho2 = rho/2.0f;
 
-            // If the angle is so acute that the fillet would be further away than the radius of a circle
-            // then instead of filleting the angle to the inside, circle around it to the outside
-            if (fabsf(rho) < M_PI/3.0f) { // This is the simplification of R/(sinf(fabsf(rho2)))-R > R
-                // Find minimum radius R that permits the three fillets to be completed before arriving at the next waypoint.
-                // Fixme: The vehicle might not be able to follow this path so the path manager should indicate this.
-                float R = fillet_radius; // TODO: Link airspeed to preferred radius
+            // Circle the outside of acute angles
+            if (fabsf(rho) < M_PI/3.0f) {
+                float R = fillet_radius;
                 if (q_current_mag>0 && q_current_mag< R*sqrtf(3))
                     R = q_current_mag/sqrtf(3)-0.1f; // Remove 10cm to guarantee that no two points overlap.
                 if (q_future_mag >0 && q_future_mag < R*sqrtf(3))
@@ -293,12 +288,7 @@ bool PathFillet::processPath(FlightDataModel *model)
                 float f2[3] = {pos_current[0] + R*q_future[0]*sqrtf(3), pos_current[1] + R*q_future[1]*sqrtf(3), pos_current[2]};
 
                 // Add the waypoint segment
-                // In the case of pure circles, the given waypoint is for a circle center
-                // so we have to convert it into a pair of switching loci.
-                if ( !path_is_circle  )
-                    newWaypointIdx += addNonCircleToSwitchingLoci(f1, finalVelocity, curvature, newWaypointIdx);
-                else
-                    newWaypointIdx += addCircleToSwitchingLoci(f1, finalVelocity, curvature, 1, R, newWaypointIdx);
+                newWaypointIdx += addNonCircleToSwitchingLoci(f1, finalVelocity, curvature, newWaypointIdx);
 
                 float gamma = atan2f(q_current[1], q_current[0]);
 
@@ -353,13 +343,7 @@ bool PathFillet::processPath(FlightDataModel *model)
                 f1[0] = pos_current[0] - R/fabsf(tanf(rho2))*q_current[0];
                 f1[1] = pos_current[1] - R/fabsf(tanf(rho2))*q_current[1];
                 f1[2] = pos_current[2];
-
-                // In the case of pure circles, the given waypoint is for a circle center
-                // so we have to convert it into a pair of switching loci.
-                if ( !path_is_circle )
-                    newWaypointIdx += addNonCircleToSwitchingLoci(f1, finalVelocity, curvature, newWaypointIdx);
-                else
-                    newWaypointIdx += addCircleToSwitchingLoci(f1, finalVelocity, curvature, 1, R, newWaypointIdx);
+                newWaypointIdx += addNonCircleToSwitchingLoci(f1, finalVelocity, curvature, newWaypointIdx);
 
                 // Add the filleting segment in preparation for the next waypoint
                 float pos[3] = {pos_current[0] + R/fabsf(tanf(rho2))*q_future[0],
@@ -368,22 +352,14 @@ bool PathFillet::processPath(FlightDataModel *model)
                 setNewWaypoint(newWaypointIdx++, pos, finalVelocity, SIGN(theta)*1.0f/R);
 
             }
-            else { // In this case, the two tangents are colinear
-                if ( !path_is_circle )
-                    newWaypointIdx += addNonCircleToSwitchingLoci(pos_current, finalVelocity, curvature, newWaypointIdx);
-                else
-                    newWaypointIdx += addCircleToSwitchingLoci(pos_current, finalVelocity, curvature, 1, fillet_radius, newWaypointIdx);
+            else {
+                // In this case, the two tangents are colinear
+                newWaypointIdx += addNonCircleToSwitchingLoci(pos_current, finalVelocity, curvature, newWaypointIdx);
             }
         }
-        else if (wpIdx == model->rowCount()-1) // This is the final waypoint
-        {
-            // In the case of pure circles, the given waypoint is for a circle center
-            // so we have to convert it into a pair of switching loci.
-            if ( !path_is_circle )
-                newWaypointIdx += addNonCircleToSwitchingLoci(pos_current, finalVelocity, curvature, newWaypointIdx);
-            else
-                newWaypointIdx += addCircleToSwitchingLoci(pos_current, finalVelocity, curvature, 1, fillet_radius, newWaypointIdx);
-        }
+        else if (wpIdx == model->rowCount()-1)
+            // This is the final waypoint
+            newWaypointIdx += addNonCircleToSwitchingLoci(pos_current, finalVelocity, curvature, newWaypointIdx);
     }
 
     // Migrate the data to the original model now it is complete
@@ -442,151 +418,13 @@ quint8 PathFillet::addNonCircleToSwitchingLoci(float position[3], float finalVel
     return 1;
 }
 
-
-/**
- * @brief addCircleToSwitchingLoci In the case of pure circles, the given waypoint is for a circle center,
- * so we have to convert it into a pair of switching loci.
- * @param circle_center Center of orbit in NED coordinates
- * @param finalVelocity Final velocity to be attained along path
- * @param curvature Path curvature
- * @param number_of_orbits Number of complete orbits to be made before continuing to next descriptor
- * @param fillet_radius Radius of fillet joining together two path segments
- * @param index Current descriptor index
- * @return
- */
-quint8 PathFillet::addCircleToSwitchingLoci(float circle_center[3], float finalVelocity,
-                                           float curvature, float number_of_orbits,
-                                           float fillet_radius, uint16_t index)
-{
-    Q_UNUSED(circle_center);
-    Q_UNUSED(finalVelocity);
-    Q_UNUSED(curvature);
-    Q_UNUSED(number_of_orbits);
-    Q_UNUSED(fillet_radius);
-    Q_UNUSED(index);
-    /*
-    PathSegmentDescriptorData pathSegmentDescriptor_old;
-    PathSegmentDescriptorInstGet(index-1, &pathSegmentDescriptor_old);
-
-    PathSegmentDescriptorData pathSegmentDescriptor;
-    pathSegmentDescriptor.FinalVelocity = finalVelocity;
-    pathSegmentDescriptor.DesiredAcceleration = 0;
-
-    PathManagerSettingsData pathManagerSettings;
-    PathManagerSettingsGet(&pathManagerSettings);
-
-    // Calculate orbit radius
-    float radius = fabsf(1.0f/curvature);
-
-
-    uint16_t offset = 0;
-
-    // Calculate the approach angle from the previous switching locus to the waypoint
-    float approachTheta_rad = atan2f(circle_center[1] - pathSegmentDescriptor_old.SwitchingLocus[1], circle_center[0] - pathSegmentDescriptor_old.SwitchingLocus[0]);
-
-    // Calculate squared distance from previous switching locus to circle center.
-    float d2 = powf(circle_center[0] - pathSegmentDescriptor_old.SwitchingLocus[0], 2) + powf(circle_center[1] - pathSegmentDescriptor_old.SwitchingLocus[1], 2);
-
-    if (d2 > radius*radius) { // Outside the circle
-        // Go straight toward circle center. Stop at beginning of fillet.
-        float f1[3] = {circle_center[0] - cosf(approachTheta_rad)*(sqrtf(radius*(2*fillet_radius+radius))),
-                       circle_center[1] - sinf(approachTheta_rad)*(sqrtf(radius*(2*fillet_radius+radius))),
-                       circle_center[2]};
-
-        // Add instances if necessary
-        if (index >= UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
-            PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
-
-        pathSegmentDescriptor.SwitchingLocus[0] = f1[0];
-        pathSegmentDescriptor.SwitchingLocus[1] = f1[1];
-        pathSegmentDescriptor.SwitchingLocus[2] = f1[2];
-        pathSegmentDescriptor.FinalVelocity = finalVelocity;
-        pathSegmentDescriptor.PathCurvature = 0;
-        pathSegmentDescriptor.NumberOfOrbits = 0;
-        pathSegmentDescriptor.ArcRank = PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR;
-        PathSegmentDescriptorInstSet(index, &pathSegmentDescriptor);
-
-        // Add instances if necessary
-        offset++;
-        if (index+offset >= UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
-            PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
-
-        // Form fillet. See documentation http://XYZ
-        pathSegmentDescriptor.SwitchingLocus[0] = (circle_center[0] + (f1[0] + SIGN(curvature)*fillet_radius*sinf(approachTheta_rad)))*radius/(fillet_radius + radius);
-        pathSegmentDescriptor.SwitchingLocus[1] = (circle_center[1] + (f1[1] - SIGN(curvature)*fillet_radius*cosf(approachTheta_rad)))*radius/(fillet_radius + radius);
-        pathSegmentDescriptor.SwitchingLocus[2] = circle_center[2];
-        pathSegmentDescriptor.FinalVelocity = finalVelocity;
-        pathSegmentDescriptor.PathCurvature = -SIGN(curvature)/fillet_radius;
-        pathSegmentDescriptor.NumberOfOrbits = 0;
-        pathSegmentDescriptor.ArcRank = PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR;
-        PathSegmentDescriptorInstSet(index+offset, &pathSegmentDescriptor);
-
-        // Add instances if necessary
-        offset++;
-        if (index+offset >= UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
-            PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
-
-        // Orbit position. Choose a point 90 degrees later in the arc so that the minor arc is the correct one.
-        pathSegmentDescriptor.SwitchingLocus[0] = circle_center[0] + SIGN(curvature)*sinf(approachTheta_rad)*radius;
-        pathSegmentDescriptor.SwitchingLocus[1] = circle_center[1] - SIGN(curvature)*cosf(approachTheta_rad)*radius;
-        pathSegmentDescriptor.SwitchingLocus[2] = circle_center[2];
-        pathSegmentDescriptor.FinalVelocity = finalVelocity;
-        pathSegmentDescriptor.PathCurvature = curvature;
-        pathSegmentDescriptor.NumberOfOrbits = number_of_orbits;
-        pathSegmentDescriptor.ArcRank = PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR;
-        PathSegmentDescriptorInstSet(index+offset, &pathSegmentDescriptor);
-    } else {
-        // Since index 0 is always the vehicle's location, then if the vehicle is already inside the circle
-        // on the index 1, then we don't have any information to help determine from which way the vehicle
-        // will be approaching. In that case, use the vehicle velocity
-        if (index == 1){
-            VelocityActualData velocityActual;
-            VelocityActualGet(&velocityActual);
-
-            approachTheta_rad = atan2f(velocityActual.East, velocityActual.North);
-        }
-
-
-        // Add instances if necessary
-        if (index >= UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
-            PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
-
-        // Form fillet
-        pathSegmentDescriptor.SwitchingLocus[0] = circle_center[0] - SIGN(curvature)*radius*sinf(approachTheta_rad);
-        pathSegmentDescriptor.SwitchingLocus[1] = circle_center[1] + SIGN(curvature)*radius*cosf(approachTheta_rad);
-        pathSegmentDescriptor.SwitchingLocus[2] = circle_center[2];
-        pathSegmentDescriptor.FinalVelocity = finalVelocity;
-        pathSegmentDescriptor.PathCurvature = curvature*2.0f;
-        pathSegmentDescriptor.NumberOfOrbits = 0;
-        pathSegmentDescriptor.ArcRank = PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR;
-        PathSegmentDescriptorInstSet(index, &pathSegmentDescriptor);
-
-        // Add instances if necessary
-        offset++;
-        if (index+offset >= UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
-            PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
-
-        // Orbit position. Choose a point 90 degrees later in the arc so that the minor arc is the correct one.
-        pathSegmentDescriptor.SwitchingLocus[0] = circle_center[0] - cosf(approachTheta_rad)*radius;
-        pathSegmentDescriptor.SwitchingLocus[1] = circle_center[1] - sinf(approachTheta_rad)*radius;
-        pathSegmentDescriptor.SwitchingLocus[2] = circle_center[2];
-        pathSegmentDescriptor.FinalVelocity = finalVelocity;
-        pathSegmentDescriptor.PathCurvature = curvature;
-        pathSegmentDescriptor.NumberOfOrbits = number_of_orbits;
-        pathSegmentDescriptor.ArcRank = PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR;
-        PathSegmentDescriptorInstSet(index+offset, &pathSegmentDescriptor);
-    }
-
-    return offset;
-    */
-    return 0;
-}
-
+//! Compute vector magnitude
 float PathFillet::VectorMagnitude(float *v)
 {
     return sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2]);
 }
 
+//! Compute vector magnitude
 double PathFillet::VectorMagnitude(double *v)
 {
     return sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2]);
