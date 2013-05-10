@@ -78,8 +78,6 @@
 #define TASK_PRIORITY (tskIDLE_PRIORITY+3)
 #define FAILSAFE_TIMEOUT_MS 10
 
-#define F_PI   ((float) M_PI)
-
 // low pass filter configuration to calculate offset
 // of barometric altitude sensor
 // reasoning: updates at: 10 Hz, tau= 300 s settle time
@@ -398,9 +396,9 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 
 		float RPY[3];
 		float theta = atan2f(accelsData.x, -accelsData.z);
-		RPY[1] = theta * 180.0f / F_PI;
-		RPY[0] = atan2f(-accelsData.y, -accelsData.z / cosf(theta)) * 180.0f / F_PI;
-		RPY[2] = atan2f(-magData.y, magData.x) * 180.0f / F_PI;
+		RPY[1] = theta * RAD2DEG;
+		RPY[0] = atan2f(-accelsData.y, -accelsData.z / cosf(theta)) * RAD2DEG;
+		RPY[2] = atan2f(-magData.y, magData.x) * RAD2DEG;
 		RPY2Quaternion(RPY, cf_q);
 
 		complimentary_filter_state.initialization = CF_POWERON;
@@ -580,10 +578,10 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 	// Work out time derivative from INSAlgo writeup
 	// Also accounts for the fact that gyros are in deg/s
 	float qdot[4];
-	qdot[0] = (-cf_q[1] * gyrosData.x - cf_q[2] * gyrosData.y - cf_q[3] * gyrosData.z) * dT * F_PI / 180 / 2;
-	qdot[1] = (cf_q[0] * gyrosData.x - cf_q[3] * gyrosData.y + cf_q[2] * gyrosData.z) * dT * F_PI / 180 / 2;
-	qdot[2] = (cf_q[3] * gyrosData.x + cf_q[0] * gyrosData.y - cf_q[1] * gyrosData.z) * dT * F_PI / 180 / 2;
-	qdot[3] = (-cf_q[2] * gyrosData.x + cf_q[1] * gyrosData.y + cf_q[0] * gyrosData.z) * dT * F_PI / 180 / 2;
+	qdot[0] = (-cf_q[1] * gyrosData.x - cf_q[2] * gyrosData.y - cf_q[3] * gyrosData.z) * dT * DEG2RAD / 2;
+	qdot[1] = (cf_q[0] * gyrosData.x - cf_q[3] * gyrosData.y + cf_q[2] * gyrosData.z) * dT * DEG2RAD / 2;
+	qdot[2] = (cf_q[3] * gyrosData.x + cf_q[0] * gyrosData.y - cf_q[1] * gyrosData.z) * dT * DEG2RAD / 2;
+	qdot[3] = (-cf_q[2] * gyrosData.x + cf_q[1] * gyrosData.y + cf_q[0] * gyrosData.z) * dT * DEG2RAD / 2;
 
 	// Take a time step
 	cf_q[0] = cf_q[0] + qdot[0];
@@ -857,15 +855,15 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		INSResetP(Pdiag);
 
 		// Initialize the gyro bias from the settings
-		float gyro_bias[3] = {gyrosBias.x * F_PI / 180.0f, gyrosBias.y * F_PI / 180.0f, gyrosBias.z * F_PI / 180.0f};
+		float gyro_bias[3] = {gyrosBias.x * DEG2RAD, gyrosBias.y * DEG2RAD, gyrosBias.z * DEG2RAD};
 		INSSetGyroBias(gyro_bias);
 
 		BaroAltitudeGet(&baroData);
 
 		float RPY[3], q[4];
-		RPY[0] = atan2f(-accelsData.y, -accelsData.z) * 180.0f / F_PI;
-		RPY[1] = atan2f(accelsData.x, -accelsData.z) * 180.0f / F_PI;
-		RPY[2] = atan2f(-magData.y, magData.x) * 180.0f / F_PI;
+		RPY[0] = atan2f(-accelsData.y, -accelsData.z) * RAD2DEG;
+		RPY[1] = atan2f(accelsData.x, -accelsData.z) * RAD2DEG;
+		RPY[2] = atan2f(-magData.y, magData.x) * RAD2DEG;
 		RPY2Quaternion(RPY,q);
 
 		// Don't initialize until all sensors are read
@@ -939,12 +937,12 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 
 	// Because the sensor module remove the bias we need to add it
 	// back in here so that the INS algorithm can track it correctly
-	float gyros[3] = {gyrosData.x * F_PI / 180.0f, gyrosData.y * F_PI / 180.0f, gyrosData.z * F_PI / 180.0f};
+	float gyros[3] = {gyrosData.x * DEG2RAD, gyrosData.y * DEG2RAD, gyrosData.z * DEG2RAD};
 	if (insSettings.ComputeGyroBias == INSSETTINGS_COMPUTEGYROBIAS_TRUE && 
 	    (attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE)) {
-		gyros[0] += gyrosBias.x * F_PI / 180.0f;
-		gyros[1] += gyrosBias.y * F_PI / 180.0f;
-		gyros[2] += gyrosBias.z * F_PI / 180.0f;
+		gyros[0] += gyrosBias.x * DEG2RAD;
+		gyros[1] += gyrosBias.y * DEG2RAD;
+		gyros[2] += gyrosBias.z * DEG2RAD;
 	} else {
 		INSSetGyroBias(zeros);
 	}
@@ -1050,9 +1048,9 @@ static int32_t setAttitudeINSGPS()
 		// from the settings during the calculation, then consume it
 		// next cycle
 		GyrosBiasData gyrosBias;
-		gyrosBias.x = Nav->gyro_bias[0] * 180.0f / F_PI;
-		gyrosBias.y = Nav->gyro_bias[1] * 180.0f / F_PI;
-		gyrosBias.z = Nav->gyro_bias[2] * 180.0f / F_PI;
+		gyrosBias.x = Nav->gyro_bias[0] * RAD2DEG;
+		gyrosBias.y = Nav->gyro_bias[1] * RAD2DEG;
+		gyrosBias.z = Nav->gyro_bias[2] * RAD2DEG;
 		GyrosBiasSet(&gyrosBias);
 	}
 
