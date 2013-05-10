@@ -45,7 +45,7 @@
 #if !defined(COPTERCONTROL)
 
 //! Private methods
-int32_t tabletInfo_to_ned(TabletInfoData *tabletInfo, float *NED);
+static int32_t tabletInfo_to_ned(TabletInfoData *tabletInfo, float *NED);
 
 //! Private constants
 #define HOME_ALTITUDE_OFFSET 5
@@ -199,7 +199,7 @@ enum control_events tablet_control_get_events()
  * @param[in] tabletInfo The information from the tablet
  * @param[out] NED Computed NED values
  */
-int32_t tabletInfo_to_ned(TabletInfoData *tabletInfo, float *NED)
+static int32_t tabletInfo_to_ned(TabletInfoData *tabletInfo, float *NED)
 {
 	// TODO: Abstract out this code and also precompute the part based
 	// on home location.
