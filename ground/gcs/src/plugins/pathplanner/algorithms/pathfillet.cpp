@@ -322,22 +322,29 @@ bool PathFillet::processPath(FlightDataModel *model)
                     eta = gamma + M_PI/2.0f;
                     sigma = gamma + theta + M_PI/2.0f;
                 }
+                float angle_half = gamma;
 
-                // This is the midpoint between the center of filleting arc f1 and the circle
-                float pos[3] = {pos_current[0] + (f1[0] + R*cosf(eta))/2,
-                                pos_current[1] + (f1[1] + R*sinf(eta))/2,
+                qDebug() << "Calculating outer fillet. R: " << R << " eta " << eta << " theta " << theta;
+
+                // This starts the fillet into the circle
+                float pos[3] = {(pos_current[0] + f1[0] + R*cosf(eta))/2,
+                                (pos_current[1] + f1[1] + R*sinf(eta))/2,
                                 pos_current[2]};
                 setNewWaypoint(newWaypointIdx++, pos, finalVelocity, -SIGN(theta)*1.0f/R);
-                newWaypointIdx++;
 
-                // TODO: for part that is greater than 180 degrees add a second waypoint
+                // This is the halfway point through the circle
+                pos[0] = pos_current[0] + R*cosf(angle_half);
+                pos[1] = pos_current[1] + R*sinf(angle_half);
+                pos[2] = pos_current[2];
+                setNewWaypoint(newWaypointIdx++, pos, finalVelocity, SIGN(theta)*1.0f/R);
 
-                // This is the midpoint between the center of filleting arc f2 and the circle
+                // This is the transition from the circle to the fillet back onto the path
                 pos[0] = (pos_current[0] + (f2[0] + R*cosf(sigma)))/2;
                 pos[1] = (pos_current[1] + (f2[1] + R*sinf(sigma)))/2;
                 pos[2] = pos_current[2];
                 setNewWaypoint(newWaypointIdx++, pos, finalVelocity, SIGN(theta)*1.0f/R);
 
+                // This is the point back on the path
                 pos[0] = f2[0];
                 pos[1] = f2[1];
                 pos[2] = pos_current[2];
@@ -365,8 +372,6 @@ bool PathFillet::processPath(FlightDataModel *model)
                     newWaypointIdx += addNonCircleToSwitchingLoci(f1, finalVelocity, curvature, newWaypointIdx);
                 else
                     newWaypointIdx += addCircleToSwitchingLoci(f1, finalVelocity, curvature, 1, R, newWaypointIdx);
-
-                // TOOD: for theta > 180 add a second one in the middle
 
                 // Add the filleting segment in preparation for the next waypoint
                 float pos[3] = {pos_current[0] + R/fabsf(tanf(rho2))*q_future[0],
