@@ -123,6 +123,10 @@
        <property name="text">
         <string>...</string>
        </property>
+       <property name="icon">
+        <iconset resource="pathplanner.qrc">
+         <normaloff>:/opmap/images/fillet_path.png</normaloff>:/opmap/images/fillet_path.png</iconset>
+       </property>
       </widget>
      </item>
      <item>
@@ -166,6 +170,7 @@
  <resources>
   <include location="../coreplugin/core.qrc"/>
   <include location="../opmap/opmap.qrc"/>
+  <include location="pathplanner.qrc"/>
  </resources>
  <connections/>
 </ui>
