@@ -90,6 +90,7 @@ static portTickType               lastActivityTime;
 static portTickType               lastSysTime;
 static double                     flight_mode_value;
 static enum control_events        pending_control_event;
+static bool                       settings_updated;
 
 // Private functions
 static void update_actuator_desired(ManualControlCommandData * cmd);
@@ -161,6 +162,11 @@ int32_t transmitter_control_update()
 	lastSysTime = xTaskGetTickCount();
 
 	float scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_NUMELEM];
+
+	if (settings_updated) {
+		settings_updated = false;
+		ManualControlSettingsGet(&settings);
+	}
 
 	/* Update channel activity monitor */
 	if (flightStatus.Armed == ARM_STATE_DISARMED) {
@@ -978,7 +984,7 @@ static void applyDeadband(float *value, float deadband)
 //! Update the manual control settings
 static void manual_control_settings_updated(UAVObjEvent * ev)
 {
-	ManualControlSettingsGet(&settings);
+	settings_updated = true;
 }
 
 /**
