@@ -573,8 +573,10 @@ bool FlightDataModel::replaceData(FlightDataModel *newModel)
 
     for (int i = 0; i < newModel->rowCount(); i++) {
         insertRow(i);
-        for (int j = 0; j < newModel->columnCount(); j++)
-        setData(index(i,j), newModel->data(newModel->index(i, j)));
+        for (int j = 0; j < newModel->columnCount(); j++) {
+            // Use Qt::UserRole to make sure the mode is fetched numerically
+            setData(index(i,j), newModel->data(newModel->index(i, j), Qt::UserRole));
+        }
     }
 
     return true;
