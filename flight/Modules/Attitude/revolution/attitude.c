@@ -852,7 +852,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		INSSetGyroVar(insSettings.gyro_var);
 		INSSetBaroVar(insSettings.baro_var);
 
-		// Set initial variances
+		// Set initial variances, selected by trial and error
 		float Pdiag[16]={25.0f,25.0f,25.0f,5.0f,5.0f,5.0f,1e-5f,1e-5f,1e-5f,1e-5f,1e-5f,1e-5f,1e-5f,1e-4f,1e-4f,1e-4f};
 		INSResetP(Pdiag);
 
