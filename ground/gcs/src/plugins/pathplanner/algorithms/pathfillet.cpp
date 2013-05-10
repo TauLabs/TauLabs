@@ -24,8 +24,6 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include <QDebug>
-
 #include <algorithms/pathfillet.h>
 #include <waypoint.h>
 #include <math.h>
@@ -109,7 +107,6 @@ bool PathFillet::processPath(FlightDataModel *model)
 
         // First waypoint cannot be fileting since we don't have start.  Keep intact.
         if (wpIdx == 0) {
-            qDebug() << "Inserting starting waypoint";
             setNewWaypoint(newWaypointIdx++, pos_current, finalVelocity, curvature);
             continue;
         }
@@ -144,7 +141,6 @@ bool PathFillet::processPath(FlightDataModel *model)
             float NextModeParameter = model->data(model->index(wpIdx + 1, FlightDataModel::MODE_PARAMS), Qt::UserRole).toInt();
 
             NextModeParameter = 0;
-            qDebug() << wpIdx << " NextModerParameter: " << NextModeParameter;
             bool future_path_is_circle = NextMode == Waypoint::MODE_CIRCLEPOSITIONRIGHT ||
                     NextMode == Waypoint::MODE_CIRCLEPOSITIONLEFT;
 
@@ -158,6 +154,7 @@ bool PathFillet::processPath(FlightDataModel *model)
             // the old and new segments.
             if (curvature == 0 &&
                     (NextModeParameter == 0 || future_path_is_circle)) { // Fixme: waypoint_future.ModeParameters needs to be replaced by waypoint_future.Mode. FOr this, we probably need a new function to handle the switch(waypoint.Mode)
+
                 // Vector from past to present switching locus
                 q_current[0] = pos_current[0] - pos_prev[0];
                 q_current[1] = pos_current[1] - pos_prev[1];
@@ -165,13 +162,10 @@ bool PathFillet::processPath(FlightDataModel *model)
                 // Calculate vector from preset to future switching locus
                 q_future[0] = pos_next[0] - pos_current[0];
                 q_future[1] = pos_next[1] - pos_current[1];
-
-                qDebug() << wpIdx << " q_current: " << q_current[0] << " " << q_current[1] << " future " << q_future[0] << " " << q_future[1];
             }
             //In the case of line-arc intersections, calculate the tangent of the new section.
             else if (curvature == 0 &&
                      (NextModeParameter != 0 && !future_path_is_circle)) { // Fixme: waypoint_future.ModeParameters needs to be replaced by waypoint_future.Mode. FOr this, we probably need a new function to handle the switch(waypoint.Mode)
-                qDebug() << wpIdx << " is line-arc";
                 // Old segment: straight line
                 q_current[0] = pos_current[0] - pos_prev[0];
                 q_current[1] = pos_current[1] - pos_prev[1];
@@ -196,7 +190,6 @@ bool PathFillet::processPath(FlightDataModel *model)
             }
             //In the case of arc-line intersections, calculate the tangent of the old section.
             else if (curvature != 0 && (NextModeParameter == 0 || future_path_is_circle)) { // Fixme: waypoint_future.ModeParameters needs to be replaced by waypoint_future.Mode. FOr this, we probably need a new function to handle the switch(waypoint.Mode)
-                qDebug() << wpIdx << " is arc-line";
                 // Old segment: Vector perpendicular to the vector from arc center to tangent point
                 bool clockwise = previous_curvature > 0;
                 bool minor = true;
@@ -224,7 +217,6 @@ bool PathFillet::processPath(FlightDataModel *model)
             }
             //In the case of arc-arc intersections, calculate the tangent of the old and new sections.
             else if (curvature != 0 && (NextModeParameter != 0 && !future_path_is_circle)) { // Fixme: waypoint_future.ModeParameters needs to be replaced by waypoint_future.Mode. FOr this, we probably need a new function to handle the switch(waypoint.Mode)
-                qDebug() << wpIdx << " is arc-arc";
                 // Old segment: Vector perpendicular to the vector from arc center to tangent point
                 bool clockwise = previous_curvature > 0;
                 bool minor = true;
@@ -322,9 +314,6 @@ bool PathFillet::processPath(FlightDataModel *model)
                     eta = gamma + M_PI/2.0f;
                     sigma = gamma + theta + M_PI/2.0f;
                 }
-                float angle_half = gamma;
-
-                qDebug() << "Calculating outer fillet. R: " << R << " eta " << eta << " theta " << theta;
 
                 // This starts the fillet into the circle
                 float pos[3] = {(pos_current[0] + f1[0] + R*cosf(eta))/2,
@@ -333,8 +322,8 @@ bool PathFillet::processPath(FlightDataModel *model)
                 setNewWaypoint(newWaypointIdx++, pos, finalVelocity, -SIGN(theta)*1.0f/R);
 
                 // This is the halfway point through the circle
-                pos[0] = pos_current[0] + R*cosf(angle_half);
-                pos[1] = pos_current[1] + R*sinf(angle_half);
+                pos[0] = pos_current[0] + R*cosf(gamma);
+                pos[1] = pos_current[1] + R*sinf(gamma);
                 pos[2] = pos_current[2];
                 setNewWaypoint(newWaypointIdx++, pos, finalVelocity, SIGN(theta)*1.0f/R);
 
@@ -351,7 +340,6 @@ bool PathFillet::processPath(FlightDataModel *model)
                 setNewWaypoint(newWaypointIdx++, pos, finalVelocity, -SIGN(theta)*1.0f/R);
             }
             else if (theta != 0) { // The two tangents have different directions
-                qDebug() << "regular fillet.  routing around inside.";
                 float R = fillet_radius;
 
                 // Remove 10cm to guarantee that no two points overlap. This would be better if we solved it by removing the next point instead.
@@ -379,10 +367,8 @@ bool PathFillet::processPath(FlightDataModel *model)
                                 pos_current[2]};
                 setNewWaypoint(newWaypointIdx++, pos, finalVelocity, SIGN(theta)*1.0f/R);
 
-                qDebug() << "finished regular fillet.";
             }
             else { // In this case, the two tangents are colinear
-                qDebug() << "colinear";
                 if ( !path_is_circle )
                     newWaypointIdx += addNonCircleToSwitchingLoci(pos_current, finalVelocity, curvature, newWaypointIdx);
                 else
@@ -391,7 +377,6 @@ bool PathFillet::processPath(FlightDataModel *model)
         }
         else if (wpIdx == model->rowCount()-1) // This is the final waypoint
         {
-            qDebug() << "last waypoint";
             // In the case of pure circles, the given waypoint is for a circle center
             // so we have to convert it into a pair of switching loci.
             if ( !path_is_circle )
@@ -400,8 +385,6 @@ bool PathFillet::processPath(FlightDataModel *model)
                 newWaypointIdx += addCircleToSwitchingLoci(pos_current, finalVelocity, curvature, 1, fillet_radius, newWaypointIdx);
         }
     }
-
-    qDebug() << "PathFilleting::processPath finished.  Storing data.";
 
     // Migrate the data to the original model now it is complete
     model->replaceData(new_model);
@@ -433,8 +416,6 @@ void PathFillet::setNewWaypoint(int index, float *pos, float velocity, float cur
         mode = Waypoint::MODE_FLYCIRCLELEFT;
         radius = -1.0 / curvature;
     }
-
-    qDebug() << "Inserting waypoint at " << pos[0] << " " << pos[1] << " with mode " << mode;
 
     new_model->setData(new_model->index(index,FlightDataModel::NED_NORTH), pos[0]);
     new_model->setData(new_model->index(index,FlightDataModel::NED_EAST), pos[1]);
