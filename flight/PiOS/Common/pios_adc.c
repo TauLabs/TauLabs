@@ -146,7 +146,8 @@ int32_t PIOS_ADC_DevicePinGet(uintptr_t adc_id, uint32_t device_pin)
  * \param[in] adc_id handle of the device to read
  * \param[in] device_pin pin to check if available
  * \return true if available
- */bool PIOS_ADC_Available(uintptr_t adc_id, uint32_t device_pin)
+ */
+bool PIOS_ADC_Available(uintptr_t adc_id, uint32_t device_pin)
 {
 	struct pios_adc_dev *adc_dev = (struct pios_adc_dev *) adc_id;
 
