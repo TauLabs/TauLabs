@@ -30,6 +30,8 @@
 #include <waypoint.h>
 #include <math.h>
 
+#define SIGN(x) (x < 0 ? -1 : 1)
+
 PathFillet::PathFillet(QObject *parent) : IPathAlgorithm(parent)
 {
     // TODO: move into the constructor and come from the UI
@@ -86,12 +88,6 @@ bool PathFillet::processPath(FlightDataModel *model)
         float ModeParameters = model->data(model->index(wpIdx, FlightDataModel::MODE_PARAMS)).toFloat();
         float finalVelocity = model->data(model->index(wpIdx, FlightDataModel::VELOCITY)).toFloat();
 
-        // First waypoint cannot be fileting since we don't have start.  Keep intact.
-        if (wpIdx == 0) {
-            setNewWaypoint(newWaypointIdx++, pos_current, finalVelocity, Mode, ModeParameters);
-            continue;
-        }
-
         // Determine if the path is a straight line or if it arcs
         bool path_is_circle = false;
         float curvature = 0;
@@ -109,6 +105,13 @@ bool PathFillet::processPath(FlightDataModel *model)
         case Waypoint::MODE_DRIVECIRCLELEFT:
             curvature = -1.0f/ModeParameters;
             break;
+        }
+
+        // First waypoint cannot be fileting since we don't have start.  Keep intact.
+        if (wpIdx == 0) {
+            qDebug() << "Inserting starting waypoint";
+            setNewWaypoint(newWaypointIdx++, pos_current, finalVelocity, curvature);
+            continue;
         }
 
         // Only add fillets if the radius is greater than 0, and this is not the last waypoint
@@ -324,25 +327,24 @@ bool PathFillet::processPath(FlightDataModel *model)
                 float pos[3] = {pos_current[0] + (f1[0] + R*cosf(eta))/2,
                                 pos_current[1] + (f1[1] + R*sinf(eta))/2,
                                 pos_current[2]};
-                quint8 mode = (theta > 0) ? Waypoint::MODE_FLYCIRCLERIGHT : Waypoint::MODE_FLYCIRCLELEFT;
-                setNewWaypoint(newWaypointIdx++, pos, finalVelocity, mode, R);
+                setNewWaypoint(newWaypointIdx++, pos, finalVelocity, -SIGN(theta)*1.0f/R);
                 newWaypointIdx++;
+
+                // TODO: for part that is greater than 180 degrees add a second waypoint
 
                 // This is the midpoint between the center of filleting arc f2 and the circle
                 pos[0] = (pos_current[0] + (f2[0] + R*cosf(sigma)))/2;
                 pos[1] = (pos_current[1] + (f2[1] + R*sinf(sigma)))/2;
                 pos[2] = pos_current[2];
-                // Note the opposite side here
-                mode = (theta < 0) ? Waypoint::MODE_FLYCIRCLERIGHT : Waypoint::MODE_FLYCIRCLELEFT;
-                setNewWaypoint(newWaypointIdx++, pos, finalVelocity, mode, R);
+                setNewWaypoint(newWaypointIdx++, pos, finalVelocity, SIGN(theta)*1.0f/R);
 
                 pos[0] = f2[0];
                 pos[1] = f2[1];
                 pos[2] = pos_current[2];
-                mode = (theta > 0) ? Waypoint::MODE_FLYCIRCLERIGHT : Waypoint::MODE_FLYCIRCLELEFT;
-                setNewWaypoint(newWaypointIdx++, pos, finalVelocity, mode, R);
+                setNewWaypoint(newWaypointIdx++, pos, finalVelocity, -SIGN(theta)*1.0f/R);
             }
             else if (theta != 0) { // The two tangents have different directions
+                qDebug() << "regular fillet.  routing around inside.";
                 float R = fillet_radius;
 
                 // Remove 10cm to guarantee that no two points overlap. This would be better if we solved it by removing the next point instead.
@@ -364,14 +366,18 @@ bool PathFillet::processPath(FlightDataModel *model)
                 else
                     newWaypointIdx += addCircleToSwitchingLoci(f1, finalVelocity, curvature, 1, R, newWaypointIdx);
 
+                // TOOD: for theta > 180 add a second one in the middle
+
                 // Add the filleting segment in preparation for the next waypoint
                 float pos[3] = {pos_current[0] + R/fabsf(tanf(rho2))*q_future[0],
                                 pos_current[1] + R/fabsf(tanf(rho2))*q_future[1],
                                 pos_current[2]};
-                quint8 mode = curvature > 0 ? Waypoint::MODE_FLYCIRCLERIGHT : Waypoint::MODE_FLYCIRCLELEFT;
-                setNewWaypoint(newWaypointIdx++, pos, finalVelocity, mode, R);
+                setNewWaypoint(newWaypointIdx++, pos, finalVelocity, SIGN(theta)*1.0f/R);
+
+                qDebug() << "finished regular fillet.";
             }
             else { // In this case, the two tangents are colinear
+                qDebug() << "colinear";
                 if ( !path_is_circle )
                     newWaypointIdx += addNonCircleToSwitchingLoci(pos_current, finalVelocity, curvature, newWaypointIdx);
                 else
@@ -380,6 +386,7 @@ bool PathFillet::processPath(FlightDataModel *model)
         }
         else if (wpIdx == model->rowCount()-1) // This is the final waypoint
         {
+            qDebug() << "last waypoint";
             // In the case of pure circles, the given waypoint is for a circle center
             // so we have to convert it into a pair of switching loci.
             if ( !path_is_circle )
@@ -388,6 +395,8 @@ bool PathFillet::processPath(FlightDataModel *model)
                 newWaypointIdx += addCircleToSwitchingLoci(pos_current, finalVelocity, curvature, 1, fillet_radius, newWaypointIdx);
         }
     }
+
+    qDebug() << "PathFilleting::processPath finished.  Storing data.";
 
     // Migrate the data to the original model now it is complete
     model->replaceData(new_model);
@@ -402,20 +411,32 @@ bool PathFillet::processPath(FlightDataModel *model)
  * @param index The waypoint to store
  * @param pos The position for this waypoint
  * @param velocity The velocity at this waypoint
- * @param mode The waypoint mode
- * @param radius The radius to enter this waypoint at
+ * @param curvature The curvature to enter this waypoint with
  */
-void PathFillet::setNewWaypoint(int index, float *pos, float velocity, quint8 mode, float radius)
+void PathFillet::setNewWaypoint(int index, float *pos, float velocity, float curvature)
 {
-    qDebug() << "Inserting waypoint at " << pos[0] << " " << pos[1] << " with mode " << mode;
     if (index >= new_model->rowCount() - 1)
         new_model->insertRow(index);
+
+    // Convert from curvature representation to waypoint
+    quint8 mode = Waypoint::MODE_FLYVECTOR;
+    float radius = 0;
+    if (curvature > 0 && !isinf(curvature)) {
+        mode = Waypoint::MODE_FLYCIRCLERIGHT;
+        radius = 1.0 / curvature;
+    } else if (curvature < 0 && !isinf(curvature)) {
+        mode = Waypoint::MODE_FLYCIRCLELEFT;
+        radius = -1.0 / curvature;
+    }
+
+    qDebug() << "Inserting waypoint at " << pos[0] << " " << pos[1] << " with mode " << mode;
+
     new_model->setData(new_model->index(index,FlightDataModel::NED_NORTH), pos[0]);
     new_model->setData(new_model->index(index,FlightDataModel::NED_EAST), pos[1]);
     new_model->setData(new_model->index(index,FlightDataModel::NED_DOWN), pos[2]);
     new_model->setData(new_model->index(index,FlightDataModel::VELOCITY), velocity);
-    new_model->setData(new_model->index(index,FlightDataModel::MODE), mode);
     new_model->setData(new_model->index(index,FlightDataModel::MODE_PARAMS), radius);
+    new_model->setData(new_model->index(index,FlightDataModel::MODE), mode);
 }
 
 /**
@@ -430,8 +451,7 @@ void PathFillet::setNewWaypoint(int index, float *pos, float velocity, quint8 mo
 quint8 PathFillet::addNonCircleToSwitchingLoci(float position[3], float finalVelocity,
                                               float curvature, uint16_t index)
 {
-    quint8 mode = curvature > 0 ? Waypoint::MODE_FLYCIRCLERIGHT : Waypoint::MODE_FLYCIRCLELEFT;
-    setNewWaypoint(index, position, finalVelocity, mode, 1.0/curvature);
+    setNewWaypoint(index, position, finalVelocity, curvature);
 
     return 1;
 }

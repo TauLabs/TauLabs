@@ -66,7 +66,7 @@ private:
     // Private functions
 
     //! Set a waypoint in the new model
-    void   setNewWaypoint(int index, float *pos, float velocity, quint8 mode, float radius);
+    void   setNewWaypoint(int index, float *pos, float velocity, float curvature);
 
     quint8 addNonCircleToSwitchingLoci(float position[3], float finalVelocity,
                                         float radius, uint16_t index);
