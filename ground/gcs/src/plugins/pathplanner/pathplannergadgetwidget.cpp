@@ -52,8 +52,6 @@ PathPlannerGadgetWidget::PathPlannerGadgetWidget(QWidget *parent) : QLabel(paren
     QItemSelectionModel *selection = pm->getObject<QItemSelectionModel>();
     Q_ASSERT(selection);
     setModel(model, selection);
-
-    connect(ui->tbFilletPath, SIGNAL(clicked()), this, SLOT(on_tbFilletPath_clicked()));
 }
 
 PathPlannerGadgetWidget::~PathPlannerGadgetWidget()
