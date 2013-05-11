@@ -33,6 +33,6 @@ HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
 
 [Strings]
 ProviderName = "CDC Driver"
-CopterControl = "OpenPilot CDC Driver"
-PipXtreme = "OpenPilot CDC Driver"
-Revolution = "OpenPilot CDC Driver"
+CopterControl = "TauLabs CDC Driver"
+PipXtreme = "TauLabs CDC Driver"
+Revolution = "TauLabs CDC Driver"
