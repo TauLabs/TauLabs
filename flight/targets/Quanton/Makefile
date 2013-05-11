@@ -53,7 +53,7 @@ OPTMODULES += Autotune
 OPTMODULES += TxPID
 OPTMODULES += VibrationAnalysis
 #OPTMODULES += Battery
-#OPTMODULES += ComUsbBridge
+OPTMODULES += ComUsbBridge
 
 # Paths
 OPSYSTEM = ./System

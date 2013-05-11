@@ -58,7 +58,7 @@ OPTMODULES += Autotune
 OPTMODULES += TxPID
 OPTMODULES += Battery
 OPTMODULES += VibrationAnalysis
-#OPTMODULES += ComUsbBridge
+OPTMODULES += ComUsbBridge
 
 PYMODULES = 
 #FlightPlan
