@@ -417,7 +417,7 @@ static uint8_t PIOS_USBHOOK_CLASS_DataOut(void *pdev, uint8_t epnum)
 
 	if ((epnum_idx < NELEMENTS(usb_epout_table)) && usb_epout_table[epnum_idx].cb) {
 		struct usb_ep_entry *ep = &(usb_epout_table[epnum_idx]);
-		if (!ep->cb(ep->context, epnum_idx, ep->max_len)) {
+		if (!ep->cb(ep->context, epnum_idx, USBD_GetRxCount(pdev, epnum))) {
 			/* NOTE: use real endpoint number including direction bit */
 			DCD_SetEPStatus(pdev, epnum, USB_OTG_EP_RX_NAK);
 		}
