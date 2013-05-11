@@ -193,7 +193,6 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 	}
 
 	uint16_t msg_length;
-	uint8_t armed_mode;
 	portTickType lastSysTime;
 	// Main task loop
 	lastSysTime = xTaskGetTickCount();
@@ -376,10 +375,9 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
 			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
 
+			uint8_t armed_mode = 0;
 			if (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED)
-				armed_mode = MAV_MODE_FLAG_SAFETY_ARMED;
-			else
-				armed_mode = 0;
+				armed_mode |= MAV_MODE_FLAG_SAFETY_ARMED;
 
 			mavlink_msg_heartbeat_pack(0, 200, &mavMsg,
 					// type Type of the MAV (quadrotor, helicopter, etc., up to 15 types, defined in MAV_TYPE ENUM)
