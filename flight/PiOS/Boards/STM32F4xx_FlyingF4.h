@@ -122,7 +122,7 @@ extern uint32_t pios_i2c_10dof_adapter_id;
 //
 // See also pios_board.c
 //-------------------------
-#define PIOS_COM_MAX_DEVS               4
+#define PIOS_COM_MAX_DEVS               6
 extern uintptr_t pios_com_telem_rf_id;
 extern uintptr_t pios_com_gps_id;
 extern uintptr_t pios_com_telem_usb_id;
