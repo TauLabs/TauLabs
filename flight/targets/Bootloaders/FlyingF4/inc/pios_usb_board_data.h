@@ -8,6 +8,7 @@
  *
  * @file       pios_usb_board_data.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013
  * @brief      Board specific USB definitions
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -42,8 +43,8 @@
  * the usb enumeration in gcs has been extended to support multiple vendor ids
  */
 
-#define PIOS_USB_BOARD_VENDOR_ID USB_VENDOR_ID_OPENPILOT
-#define PIOS_USB_BOARD_PRODUCT_ID USB_PRODUCT_ID_REVOLUTION
+#define PIOS_USB_BOARD_VENDOR_ID USB_VENDOR_ID_CLAYLOGIC
+#define PIOS_USB_BOARD_PRODUCT_ID USB_PRODUCT_ID_FLYINGF4
 #define PIOS_USB_BOARD_DEVICE_VER USB_OP_DEVICE_VER(0, USB_OP_BOARD_MODE_BL)
 #define PIOS_USB_BOARD_SN_SUFFIX "+BL"
 
