@@ -274,9 +274,9 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 					// alt Altitude in 1E3 meters (millimeters) above MSL
 					gpsPosData.Altitude,
 					// eph GPS HDOP horizontal dilution of position in cm (m*100). If unknown, set to: 65535
-					0,
+					gpsPosData.HDOP * 100,
 					// epv GPS VDOP horizontal dilution of position in cm (m*100). If unknown, set to: 65535
-					0,
+					gpsPosData.VDOP * 100,
 					// vel GPS ground speed (m/s * 100). If unknown, set to: 65535
 					gpsPosData.Groundspeed * 100,
 					// cog Course over ground (NOT heading, but direction of movement) in degrees * 100, 0.0..359.99 degrees. If unknown, set to: 65535
