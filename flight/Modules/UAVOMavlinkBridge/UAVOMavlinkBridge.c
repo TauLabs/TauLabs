@@ -383,7 +383,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 
 			mavlink_msg_heartbeat_pack(0, 200, &mavMsg,
 					// type Type of the MAV (quadrotor, helicopter, etc., up to 15 types, defined in MAV_TYPE ENUM)
-					MAV_TYPE_FIXED_WING,
+					MAV_TYPE_GENERIC,
 					// autopilot Autopilot type / class. defined in MAV_AUTOPILOT ENUM
 					MAV_AUTOPILOT_GENERIC,
 					// base_mode System mode bitfield, see MAV_MODE_FLAGS ENUM in mavlink/include/mavlink_types.h
