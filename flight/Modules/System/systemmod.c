@@ -442,8 +442,14 @@ static void updateStats()
 	portTickType now = xTaskGetTickCount();
 	if (now > lastTickCount) {
 		uint32_t dT = (xTaskGetTickCount() - lastTickCount) * portTICK_RATE_MS;	// in ms
-		stats.CPULoad =
-			100 - (uint8_t) roundf(100.0f * ((float)idleCounter / ((float)dT / 1000.0f)) / (float)IDLE_COUNTS_PER_SEC_AT_NO_LOAD);
+
+		// In the case of a slightly miscalibrated max idle count, make sure CPULoad does
+		// not go negative and set an alarm inappropriately.
+		float idleFraction = ((float)idleCounter / ((float)dT / 1000.0f)) / (float)IDLE_COUNTS_PER_SEC_AT_NO_LOAD;
+		if (idleFraction > 1)
+			stats.CPULoad = 0;
+		else
+			stats.CPULoad = 100 - roundf(100.0f * idleFraction);
 	} //else: TickCount has wrapped, do not calc now
 	lastTickCount = now;
 	idleCounterClear = 1;
