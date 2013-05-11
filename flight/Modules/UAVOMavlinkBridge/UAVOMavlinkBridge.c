@@ -112,6 +112,7 @@ static int32_t uavoMavlinkBridgeInitialize(void) {
 
 	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
 	ModuleSettingsAdminStateGet(module_state);
+
 	if (mavlink_port
 			&& (module_state[MODULESETTINGS_ADMINSTATE_UAVOMAVLINKBRIDGE]
 					== MODULESETTINGS_ADMINSTATE_ENABLED)) {
@@ -157,6 +158,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		batSettings.VoltageThresholds[0]=0;
 		batSettings.VoltageThresholds[1]=0;
 	}
+
 	if (GPSPositionHandle() == NULL ){
 		gpsPosData.Altitude=0;
 		gpsPosData.GeoidSeparation=0;
@@ -170,6 +172,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		gpsPosData.Status=0;
 		gpsPosData.VDOP=0;
 	}
+
 	if (FlightBatteryStateHandle() == NULL ) {
 		batState.AvgCurrent=0;
 		batState.BoardSupplyVoltage=0;
@@ -179,33 +182,40 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		batState.PeakCurrent=0;
 		batState.Voltage=0;
 	}
+
 	if (AirspeedActualHandle() == NULL ) {
 		airspeedActual.CalibratedAirspeed=0;
 		airspeedActual.TrueAirspeed=0;
 		airspeedActual.alpha=0;
 		airspeedActual.beta=0;
 	}
+
 	uint16_t msg_length;
 	uint8_t armed_mode;
 	portTickType lastSysTime;
 	// Main task loop
 	lastSysTime = xTaskGetTickCount();
+
 	while (1) {
 		vTaskDelayUntil(&lastSysTime, (1000 / TASK_RATE_HZ) / portTICK_RATE_MS);
+
 		if (stream_trigger(MAV_DATA_STREAM_EXTENDED_STATUS)) {
 			if (FlightBatteryStateHandle() != NULL )
 				FlightBatteryStateGet(&batState);
 			if (GPSPositionHandle() != NULL )
 				GPSPositionGet(&gpsPosData);
+
 			int8_t battery_remaining = 0;
 			if (batSettings.Capacity != 0)
 				battery_remaining = batState.ConsumedEnergy / batSettings.Capacity * 100;
+
 			mavlink_msg_sys_status_pack(0, 200, &mavMsg, 0, 0, 0, 0,
 					batState.Voltage * 1000, batState.Current * 100,
 					battery_remaining, 0, 0,
 					0, 0, 0, 0);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
 			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
+
 			mavlink_msg_gps_raw_int_pack(0, 200, &mavMsg, 0,
 					gpsPosData.Status - 1, gpsPosData.Latitude*10^-7,
 					gpsPosData.Longitude*10^-7, gpsPosData.Altitude, 0, 0, 0, 0,
@@ -227,6 +237,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		if (stream_trigger(MAV_DATA_STREAM_RC_CHANNELS)) {
 			ManualControlCommandGet(&manualState);
 			FlightStatusGet(&flightStatus);
+
 			//TODO connect with RSSI object and pass in last argument
 			mavlink_msg_rc_channels_raw_pack(0, 200, &mavMsg, 0, 0,
 					manualState.Channel[0], manualState.Channel[1],
@@ -239,6 +250,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 
 		if (stream_trigger(MAV_DATA_STREAM_EXTRA1)) {
 			AttitudeActualGet(&attActual);
+
 			mavlink_msg_attitude_pack(0, 200, &mavMsg, 0,
 					attActual.Roll * DEG2RAD, attActual.Pitch * DEG2RAD,
 					attActual.Yaw * DEG2RAD, 0, 0, 0);
@@ -259,10 +271,12 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 					gpsPosData.Altitude, 0);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
 			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
+
 			if (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED)
 				armed_mode = MAV_MODE_FLAG_SAFETY_ARMED;
 			else
 				armed_mode = 0;
+
 			mavlink_msg_heartbeat_pack(0, 200, &mavMsg, MAV_TYPE_FIXED_WING,
 					MAV_AUTOPILOT_GENERIC, armed_mode, 0, 0);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
@@ -286,6 +300,7 @@ static bool stream_trigger(enum MAV_DATA_STREAM stream_num) {
 		stream_ticks[stream_num] = (TASK_RATE_HZ / rate);
 		return true;
 	}
+
 	// count down at 50Hz
 	stream_ticks[stream_num]--;
 	return false;
