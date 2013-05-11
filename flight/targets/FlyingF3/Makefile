@@ -1,7 +1,7 @@
 ###############################################################################
 # @file       Makefile
 # @author     The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2009.
-# @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+# @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2012-2013
 # @addtogroup
 # @{
 # @addtogroup
@@ -57,6 +57,7 @@ OPTMODULES += VtolPathFollower
 OPTMODULES += FixedWingPathFollower
 OPTMODULES += GroundPathFollower
 OPTMODULES += VibrationAnalysis
+OPTMODULES += UAVOMavlinkBridge
 #OPTMODULES += Battery
 #OPTMODULES += ComUsbBridge
 
@@ -85,6 +86,7 @@ DEBUG_CM3_DIR_INC = $(DEBUG_CM3_DIR)/inc
 OPUAVOBJINC = $(OPUAVOBJ)/inc
 FLIGHTPLANLIB = $(OPMODULEDIR)/FlightPlan/lib
 FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
+MAVLINKINC = $(FLIGHTLIB)/mavlink/v1.0/common
 
 # optional component libraries
 include $(PIOSCOMMONLIB)/FreeRTOS/library.mk
@@ -169,6 +171,7 @@ EXTRAINCDIRS += $(CMSISDIR)
 EXTRAINCDIRS += $(BOOTINC)
 EXTRAINCDIRS += $(HWDEFSINC)
 EXTRAINCDIRS += $(DEBUG_CM3_DIR_INC)
+EXTRAINCDIRS += $(MAVLINKINC)
 
 EXTRAINCDIRS += ${foreach MOD, ${MODULES} ${OPTMODULES}, $(OPMODULEDIR)/${MOD}/inc} ${OPMODULEDIR}/System/inc
 

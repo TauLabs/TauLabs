@@ -2,7 +2,7 @@
  ******************************************************************************
  * @file       pios_config.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2012-2013
  * @addtogroup OpenPilotSystem OpenPilot System
  * @{
  * @addtogroup OpenPilotCore OpenPilot Core
@@ -68,6 +68,7 @@
 #define PIOS_INCLUDE_COM
 #define PIOS_INCLUDE_COM_TELEM
 #define PIOS_INCLUDE_COM_FLEXI
+#define PIOS_INCLUDE_MAVLINK
 
 #define PIOS_INCLUDE_GPS
 #define PIOS_INCLUDE_GPS_NMEA_PARSER

@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules TauLabs Modules
  * @{ 
  * @addtogroup UAVOMavlinkBridge UAVO to Mavlink Bridge Module
  * @brief Bridge UAVObjects with MavLink data
@@ -51,7 +51,12 @@ static bool stream_trigger(enum MAV_DATA_STREAM stream_num);
 // ****************
 // Private constants
 
-#define STACK_SIZE_BYTES            600
+#if defined(PIOS_MAVLINK_STACK_SIZE)
+#define STACK_SIZE_BYTES PIOS_MAVLINK_STACK_SIZE
+#else
+#define STACK_SIZE_BYTES 800
+#endif
+
 #define TASK_PRIORITY               (tskIDLE_PRIORITY + 1)
 #define TASK_RATE_HZ				10
 
@@ -192,9 +197,12 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 				FlightBatteryStateGet(&batState);
 			if (GPSPositionHandle() != NULL )
 				GPSPositionGet(&gpsPosData);
+			int8_t battery_remaining = 0;
+			if (batSettings.Capacity != 0)
+				battery_remaining = batState.ConsumedEnergy / batSettings.Capacity * 100;
 			mavlink_msg_sys_status_pack(0, 200, &mavMsg, 0, 0, 0, 0,
 					batState.Voltage * 1000, batState.Current * 100,
-					batState.ConsumedEnergy / batSettings.Capacity * 100, 0, 0,
+					battery_remaining, 0, 0,
 					0, 0, 0, 0);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
 			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
@@ -232,8 +240,8 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		if (stream_trigger(MAV_DATA_STREAM_EXTRA1)) {
 			AttitudeActualGet(&attActual);
 			mavlink_msg_attitude_pack(0, 200, &mavMsg, 0,
-					attActual.Roll * PI / 180, attActual.Pitch * PI / 180,
-					attActual.Yaw * PI / 180, 0, 0, 0);
+					attActual.Roll * DEG2RAD, attActual.Pitch * DEG2RAD,
+					attActual.Yaw * DEG2RAD, 0, 0, 0);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
 			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
 		}
