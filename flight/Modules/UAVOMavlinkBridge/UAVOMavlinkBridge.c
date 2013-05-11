@@ -397,7 +397,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 					// heading Current heading in degrees, in compass units (0..360, 0=north)
 					gpsPosData.Heading,
 					// throttle Current throttle setting in integer percent, 0 to 100
-					actDesired.Throttle,
+					actDesired.Throttle * 100,
 					// alt Current altitude (MSL), in meters
 					gpsPosData.Altitude,
 					// climb Current climb rate in meters/second
