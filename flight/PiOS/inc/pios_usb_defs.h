@@ -380,12 +380,6 @@ enum usb_op_board_ids {
 	USB_OP_BOARD_ID_COPTERCONTROL  = 4,
 	USB_OP_BOARD_ID_REVOLUTION     = 5,
 	USB_OP_BOARD_ID_OSD            = 6,
-
-	/* PhoenixPilot Boards */
-	USB_PP_BOARD_ID_FREEDOM        = 101,
-
-	/* ST Eval Boards */
-	USB_ST_BOARD_ID_DISCOVERYF4    = 201,
 } __attribute__((packed));
 
 enum usb_op_board_modes {
