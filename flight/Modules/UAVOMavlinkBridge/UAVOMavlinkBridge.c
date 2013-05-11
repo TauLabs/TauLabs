@@ -242,11 +242,31 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
 			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
 
+			uint8_t gps_fix_type;
+			switch (gpsPosData.Status)
+			{
+			case GPSPOSITION_STATUS_NOGPS:
+				gps_fix_type = 0;
+				break;
+			case GPSPOSITION_STATUS_NOFIX:
+				gps_fix_type = 1;
+				break;
+			case GPSPOSITION_STATUS_FIX2D:
+				gps_fix_type = 2;
+				break;
+			case GPSPOSITION_STATUS_FIX3D:
+				gps_fix_type = 3;
+				break;
+			default:
+				gps_fix_type = 0;
+				break;
+			}
+
 			mavlink_msg_gps_raw_int_pack(0, 200, &mavMsg,
 					// time_usec Timestamp (microseconds since UNIX epoch or microseconds since system boot)
 					(uint64_t)systemStats.FlightTime * 1000,
 					// fix_type 0-1: no fix, 2: 2D fix, 3: 3D fix. Some applications will not use the value of this field unless it is at least two, so always correctly fill in the fix.
-					gpsPosData.Status - 1,
+					gps_fix_type,
 					// lat Latitude in 1E7 degrees
 					gpsPosData.Latitude,
 					// lon Longitude in 1E7 degrees
