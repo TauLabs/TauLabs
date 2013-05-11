@@ -38,6 +38,9 @@ extern void PIOS_Brushless_SetSpeed(uint32_t channel, float speed);
 //! Set the update rate in hz
 extern void PIOS_Brushless_SetUpdateRate(uint32_t rate);
 
+//! Set the amplitude scale in %
+extern void PIOS_Brushless_SetScale(uint8_t roll, uint8_t pitch, uint8_t yaw);
+
 #endif /* PIOS_BRUSHLESS_H */
 
 /**

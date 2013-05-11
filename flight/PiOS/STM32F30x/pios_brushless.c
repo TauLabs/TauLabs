@@ -42,7 +42,7 @@ static void PIOS_BRUSHLESS_Task(void* parameters);
 static const struct pios_brushless_cfg * brushless_cfg;
 static xTaskHandle taskHandle;
 
-#define NUM_BGC_CHANNELS 2
+#define NUM_BGC_CHANNELS 3
 #define STACK_SIZE_BYTES 400
 #define TASK_PRIORITY  (tskIDLE_PRIORITY+4)
 
@@ -109,7 +109,9 @@ int32_t PIOS_Brushless_Init(const struct pios_brushless_cfg * cfg)
 	return 0;
 }
 
-float    phases[3];
+float    phases[NUM_BGC_CHANNELS];
+float    speeds[NUM_BGC_CHANNELS];
+float    scales[NUM_BGC_CHANNELS];
 int16_t  scale = 30;
 int32_t  center = 300;
 
@@ -169,6 +171,15 @@ void PIOS_Brushless_SetSpeed(uint32_t channel, float speed)
 	PIOS_Brushless_SetPhase(channel, phases[channel]);
 }
 
+//! Set the amplitude scale in %
+void PIOS_Brushless_SetScale(uint8_t roll, uint8_t pitch, uint8_t yaw)
+{
+	scales[0] = (float) roll / 100.0f;
+	scales[1] = (float) pitch / 100.0f;
+	scales[2] = (float) yaw / 100.0f;
+}
+
+
 /**
  * PIOS_Brushless_SetPhase set the phase for one of the channel outputs
  * @param[in] channel The channel to set
@@ -188,7 +199,7 @@ static int32_t PIOS_Brushless_SetPhase(uint32_t channel, float phase_deg)
 		if (phase_deg > 360)
 			phase_deg -= 360;
 
-		int32_t position = center + scale * sinf(phase_deg * DEG2RAD);
+		int32_t position = center + scale * scales[channel] * sinf(phase_deg * DEG2RAD);
 
 		/* Update the position */
 		const struct pios_tim_channel * chan = &brushless_cfg->channels[idx];
