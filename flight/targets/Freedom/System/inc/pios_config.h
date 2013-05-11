@@ -7,6 +7,7 @@
  *
  * @file       pios_config.h  
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2012-2013
  * @brief      PiOS configuration header. 
  *             Central compile time config for the project.
  *             In particular, pios_config.h is where you define which PiOS libraries
@@ -76,6 +77,7 @@
 #define PIOS_INCLUDE_COM
 #define PIOS_INCLUDE_COM_TELEM
 #define PIOS_INCLUDE_COM_FLEXI
+#define PIOS_INCLUDE_MAVLINK
 
 #define PIOS_INCLUDE_GPS
 #define PIOS_INCLUDE_GPS_NMEA_PARSER
