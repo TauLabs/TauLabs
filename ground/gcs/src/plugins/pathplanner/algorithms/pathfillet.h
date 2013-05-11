@@ -68,8 +68,8 @@ private:
     //! Set a waypoint in the new model
     void   setNewWaypoint(int index, float *pos, float velocity, float curvature);
 
-    quint8 addNonCircleToSwitchingLoci(float position[3], float finalVelocity,
-                                        float radius, uint16_t index);
+    int addNonCircleToSwitchingLoci(float position[3], float finalVelocity,
+                                        float radius, int index);
 
     //! Compute the magnitude of a vector
     float VectorMagnitude(float *);

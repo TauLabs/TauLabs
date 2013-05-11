@@ -66,7 +66,7 @@ bool PathFillet::processPath(FlightDataModel *model)
 {
     new_model = new FlightDataModel(this);
 
-    uint16_t newWaypointIdx = 0;
+    int newWaypointIdx = 0;
 
     float pos_prev[3];
     float pos_current[3];
@@ -410,8 +410,8 @@ void PathFillet::setNewWaypoint(int index, float *pos, float velocity, float cur
  * @param index Current descriptor index
  * @return
  */
-quint8 PathFillet::addNonCircleToSwitchingLoci(float position[3], float finalVelocity,
-                                              float curvature, uint16_t index)
+int PathFillet::addNonCircleToSwitchingLoci(float position[3], float finalVelocity,
+                                              float curvature, int index)
 {
     setNewWaypoint(index, position, finalVelocity, curvature);
 
