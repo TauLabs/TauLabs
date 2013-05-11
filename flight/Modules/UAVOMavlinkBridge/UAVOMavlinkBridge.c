@@ -220,7 +220,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 					// onboard_control_sensors_health Bitmask showing which onboard controllers and sensors are operational or have an error:  Value of 0: not enabled. Value of 1: enabled. Indices: 0: 3D gyro, 1: 3D acc, 2: 3D mag, 3: absolute pressure, 4: differential pressure, 5: GPS, 6: optical flow, 7: computer vision position, 8: laser based position, 9: external ground-truth (Vicon or Leica). Controllers: 10: 3D angular rate control 11: attitude stabilization, 12: yaw position, 13: z/altitude control, 14: x/y position control, 15: motor outputs / control
 					0,
 					// load Maximum usage in percent of the mainloop time, (0%: 0, 100%: 1000) should be always below 1000
-					0,
+					(uint16_t)systemStats.CPULoad * 10,
 					// voltage_battery Battery voltage, in millivolts (1 = 1 millivolt)
 					batState.Voltage * 1000,
 					// current_battery Battery current, in 10*milliamperes (1 = 10 milliampere), -1: autopilot does not measure the current
