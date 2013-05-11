@@ -41,6 +41,7 @@
 #include "actuatordesired.h"
 #include "flightstatus.h"
 #include "systemstats.h"
+#include "homelocation.h"
 #include "mavlink.h"
 
 // ****************
@@ -146,6 +147,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 	ActuatorDesiredData actDesired;
 	FlightStatusData flightStatus;
 	SystemStatsData systemStats;
+	HomeLocationData homeLocation;
 
 	if (FlightBatterySettingsHandle() != NULL )
 		FlightBatterySettingsGet(&batSettings);
@@ -192,6 +194,18 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		airspeedActual.beta=0;
 	}
 
+	if (HomeLocationHandle() == NULL ) {
+		homeLocation.Set=HOMELOCATION_SET_FALSE;
+		homeLocation.Latitude=0;
+		homeLocation.Longitude=0;
+		homeLocation.Altitude=0;
+		homeLocation.Be[0]=0;
+		homeLocation.Be[1]=0;
+		homeLocation.Be[2]=0;
+		homeLocation.GroundTemperature=15;
+		homeLocation.SeaLevelPressure=1013;
+	}
+
 	uint16_t msg_length;
 	portTickType lastSysTime;
 	// Main task loop
@@ -203,8 +217,6 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		if (stream_trigger(MAV_DATA_STREAM_EXTENDED_STATUS)) {
 			if (FlightBatteryStateHandle() != NULL )
 				FlightBatteryStateGet(&batState);
-			if (GPSPositionHandle() != NULL )
-				GPSPositionGet(&gpsPosData);
 			SystemStatsGet(&systemStats);
 
 			int8_t battery_remaining = 0;
@@ -240,6 +252,47 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 					0);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
 			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
+		}
+
+		if (stream_trigger(MAV_DATA_STREAM_RC_CHANNELS)) {
+			ManualControlCommandGet(&manualState);
+			FlightStatusGet(&flightStatus);
+			SystemStatsGet(&systemStats);
+
+			//TODO connect with RSSI object and pass in last argument
+			mavlink_msg_rc_channels_raw_pack(0, 200, &mavMsg,
+					// time_boot_ms Timestamp (milliseconds since system boot)
+					systemStats.FlightTime,
+					// port Servo output port (set of 8 outputs = 1 port). Most MAVs will just use one, but this allows to encode more than 8 servos.
+					0,
+					// chan1_raw RC channel 1 value, in microseconds
+					manualState.Channel[0],
+					// chan2_raw RC channel 2 value, in microseconds
+					manualState.Channel[1],
+					// chan3_raw RC channel 3 value, in microseconds
+					manualState.Channel[2],
+					// chan4_raw RC channel 4 value, in microseconds
+					manualState.Channel[3],
+					// chan5_raw RC channel 5 value, in microseconds
+					manualState.Channel[4],
+					// chan6_raw RC channel 6 value, in microseconds
+					manualState.Channel[5],
+					// chan7_raw RC channel 7 value, in microseconds
+					manualState.Channel[6],
+					// chan8_raw RC channel 8 value, in microseconds
+					manualState.Channel[7],
+					// rssi Receive signal strength indicator, 0: 0%, 255: 100%
+					0);
+			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
+			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
+		}
+
+		if (stream_trigger(MAV_DATA_STREAM_POSITION)) {
+			if (GPSPositionHandle() != NULL )
+				GPSPositionGet(&gpsPosData);
+			if (HomeLocationHandle() != NULL )
+				HomeLocationGet(&homeLocation);
+			SystemStatsGet(&systemStats);
 
 			uint8_t gps_fix_type;
 			switch (gpsPosData.Status)
@@ -285,6 +338,16 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
 			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
 
+			mavlink_msg_gps_global_origin_pack(0, 200, &mavMsg,
+					// latitude Latitude (WGS84), expressed as * 1E7
+					homeLocation.Latitude,
+					// longitude Longitude (WGS84), expressed as * 1E7
+					homeLocation.Longitude,
+					// altitude Altitude(WGS84), expressed as * 1000
+					homeLocation.Altitude * 1000);
+			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
+			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
+
 			//TODO add waypoint nav stuff
 			//wp_target_bearing
 			//wp_dist = mavlink_msg_nav_controller_output_get_wp_dist(&msg);
@@ -294,39 +357,6 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 			//mavlink_msg_nav_controller_output_pack
 			//wp_number
 			//mavlink_msg_mission_current_pack
-		}
-
-		if (stream_trigger(MAV_DATA_STREAM_RC_CHANNELS)) {
-			ManualControlCommandGet(&manualState);
-			FlightStatusGet(&flightStatus);
-			SystemStatsGet(&systemStats);
-
-			//TODO connect with RSSI object and pass in last argument
-			mavlink_msg_rc_channels_raw_pack(0, 200, &mavMsg,
-					// time_boot_ms Timestamp (milliseconds since system boot)
-					systemStats.FlightTime,
-					// port Servo output port (set of 8 outputs = 1 port). Most MAVs will just use one, but this allows to encode more than 8 servos.
-					0,
-					// chan1_raw RC channel 1 value, in microseconds
-					manualState.Channel[0],
-					// chan2_raw RC channel 2 value, in microseconds
-					manualState.Channel[1],
-					// chan3_raw RC channel 3 value, in microseconds
-					manualState.Channel[2],
-					// chan4_raw RC channel 4 value, in microseconds
-					manualState.Channel[3],
-					// chan5_raw RC channel 5 value, in microseconds
-					manualState.Channel[4],
-					// chan6_raw RC channel 6 value, in microseconds
-					manualState.Channel[5],
-					// chan7_raw RC channel 7 value, in microseconds
-					manualState.Channel[6],
-					// chan8_raw RC channel 8 value, in microseconds
-					manualState.Channel[7],
-					// rssi Receive signal strength indicator, 0: 0%, 255: 100%
-					0);
-			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
-			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
 		}
 
 		if (stream_trigger(MAV_DATA_STREAM_EXTRA1)) {
