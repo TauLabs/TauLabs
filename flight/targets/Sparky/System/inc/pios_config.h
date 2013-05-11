@@ -58,7 +58,8 @@
 /* Select the sensors to include */
 #define PIOS_INCLUDE_MS5611
 #define PIOS_INCLUDE_MPU6050
-#define PIOS_INCLUDE_MPU9150
+#define PIOS_MPU6050_SIMPLE_INIT_SEQUENCE
+//f#define PIOS_INCLUDE_MPU9150
 #define FLASH_FREERTOS
 #define PIOS_MPU6050_ACCEL
 
