@@ -40,6 +40,7 @@
 #include "airspeedactual.h"
 #include "actuatordesired.h"
 #include "flightstatus.h"
+#include "systemstats.h"
 #include "mavlink.h"
 
 // ****************
@@ -144,6 +145,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 	AirspeedActualData airspeedActual;
 	ActuatorDesiredData actDesired;
 	FlightStatusData flightStatus;
+	SystemStatsData systemStats;
 
 	if (FlightBatterySettingsHandle() != NULL )
 		FlightBatterySettingsGet(&batSettings);
@@ -204,6 +206,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 				FlightBatteryStateGet(&batState);
 			if (GPSPositionHandle() != NULL )
 				GPSPositionGet(&gpsPosData);
+			SystemStatsGet(&systemStats);
 
 			int8_t battery_remaining = 0;
 			if (batSettings.Capacity != 0)
@@ -241,7 +244,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 
 			mavlink_msg_gps_raw_int_pack(0, 200, &mavMsg,
 					// time_usec Timestamp (microseconds since UNIX epoch or microseconds since system boot)
-					0,
+					(uint64_t)systemStats.FlightTime * 1000,
 					// fix_type 0-1: no fix, 2: 2D fix, 3: 3D fix. Some applications will not use the value of this field unless it is at least two, so always correctly fill in the fix.
 					gpsPosData.Status - 1,
 					// lat Latitude in 1E7 degrees
@@ -277,11 +280,12 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		if (stream_trigger(MAV_DATA_STREAM_RC_CHANNELS)) {
 			ManualControlCommandGet(&manualState);
 			FlightStatusGet(&flightStatus);
+			SystemStatsGet(&systemStats);
 
 			//TODO connect with RSSI object and pass in last argument
 			mavlink_msg_rc_channels_raw_pack(0, 200, &mavMsg,
 					// time_boot_ms Timestamp (milliseconds since system boot)
-					0,
+					systemStats.FlightTime,
 					// port Servo output port (set of 8 outputs = 1 port). Most MAVs will just use one, but this allows to encode more than 8 servos.
 					0,
 					// chan1_raw RC channel 1 value, in microseconds
@@ -308,10 +312,11 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 
 		if (stream_trigger(MAV_DATA_STREAM_EXTRA1)) {
 			AttitudeActualGet(&attActual);
+			SystemStatsGet(&systemStats);
 
 			mavlink_msg_attitude_pack(0, 200, &mavMsg,
 					// time_boot_ms Timestamp (milliseconds since system boot)
-					0,
+					systemStats.FlightTime,
 					// roll Roll angle (rad)
 					attActual.Roll * DEG2RAD,
 					// pitch Pitch angle (rad)
