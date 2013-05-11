@@ -15,6 +15,7 @@ DriverVer=10/15/2009,1.0.0.0
 %DiscoveryF4%= DriverInstall,USB\VID_20A0&PID_4195&MI_00
 %FlyingF3%= DriverInstall,USB\VID_20A0&PID_4195&MI_00
 %FlyingF4%= DriverInstall,USB\VID_20A0&PID_4195&MI_00
+%Freedom%= DriverInstall,USB\VID_20A0&PID_41d0&MI_00
 
 [DeviceList.NTamd64]
 %CopterControl%= DriverInstall,USB\VID_20A0&PID_415b&MI_00
@@ -23,6 +24,7 @@ DriverVer=10/15/2009,1.0.0.0
 %DiscoveryF4%= DriverInstall,USB\VID_20A0&PID_4195&MI_00
 %FlyingF3%= DriverInstall,USB\VID_20A0&PID_4195&MI_00
 %FlyingF4%= DriverInstall,USB\VID_20A0&PID_4195&MI_00
+%Freedom%= DriverInstall,USB\VID_20A0&PID_41d0&MI_00
 
 [DriverInstall]
 include=mdmcpq.inf
@@ -45,3 +47,4 @@ Revolution = "TauLabs CDC Driver"
 DiscoveryF4 = "TauLabs CDC Driver"
 FlyingF3 = "TauLabs CDC Driver"
 FlyingF4 = "Taulabs CDC Driver"
+Freedom = "TauLabs CDC Driver"
