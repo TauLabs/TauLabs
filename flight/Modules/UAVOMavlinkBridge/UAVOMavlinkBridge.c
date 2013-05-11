@@ -209,16 +209,56 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 			if (batSettings.Capacity != 0)
 				battery_remaining = batState.ConsumedEnergy / batSettings.Capacity * 100;
 
-			mavlink_msg_sys_status_pack(0, 200, &mavMsg, 0, 0, 0, 0,
-					batState.Voltage * 1000, batState.Current * 100,
-					battery_remaining, 0, 0,
-					0, 0, 0, 0);
+			mavlink_msg_sys_status_pack(0, 200, &mavMsg,
+					// onboard_control_sensors_present Bitmask showing which onboard controllers and sensors are present. Value of 0: not present. Value of 1: present. Indices: 0: 3D gyro, 1: 3D acc, 2: 3D mag, 3: absolute pressure, 4: differential pressure, 5: GPS, 6: optical flow, 7: computer vision position, 8: laser based position, 9: external ground-truth (Vicon or Leica). Controllers: 10: 3D angular rate control 11: attitude stabilization, 12: yaw position, 13: z/altitude control, 14: x/y position control, 15: motor outputs / control
+					0,
+					// onboard_control_sensors_enabled Bitmask showing which onboard controllers and sensors are enabled:  Value of 0: not enabled. Value of 1: enabled. Indices: 0: 3D gyro, 1: 3D acc, 2: 3D mag, 3: absolute pressure, 4: differential pressure, 5: GPS, 6: optical flow, 7: computer vision position, 8: laser based position, 9: external ground-truth (Vicon or Leica). Controllers: 10: 3D angular rate control 11: attitude stabilization, 12: yaw position, 13: z/altitude control, 14: x/y position control, 15: motor outputs / control
+					0,
+					// onboard_control_sensors_health Bitmask showing which onboard controllers and sensors are operational or have an error:  Value of 0: not enabled. Value of 1: enabled. Indices: 0: 3D gyro, 1: 3D acc, 2: 3D mag, 3: absolute pressure, 4: differential pressure, 5: GPS, 6: optical flow, 7: computer vision position, 8: laser based position, 9: external ground-truth (Vicon or Leica). Controllers: 10: 3D angular rate control 11: attitude stabilization, 12: yaw position, 13: z/altitude control, 14: x/y position control, 15: motor outputs / control
+					0,
+					// load Maximum usage in percent of the mainloop time, (0%: 0, 100%: 1000) should be always below 1000
+					0,
+					// voltage_battery Battery voltage, in millivolts (1 = 1 millivolt)
+					batState.Voltage * 1000,
+					// current_battery Battery current, in 10*milliamperes (1 = 10 milliampere), -1: autopilot does not measure the current
+					batState.Current * 100,
+					// battery_remaining Remaining battery energy: (0%: 0, 100%: 100), -1: autopilot estimate the remaining battery
+					battery_remaining,
+					// drop_rate_comm Communication drops in percent, (0%: 0, 100%: 10'000), (UART, I2C, SPI, CAN), dropped packets on all links (packets that were corrupted on reception on the MAV)
+					0,
+					// errors_comm Communication errors (UART, I2C, SPI, CAN), dropped packets on all links (packets that were corrupted on reception on the MAV)
+					0,
+					// errors_count1 Autopilot-specific errors
+					0,
+					// errors_count2 Autopilot-specific errors
+					0,
+					// errors_count3 Autopilot-specific errors
+					0,
+					// errors_count4 Autopilot-specific errors
+					0);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
 			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
 
-			mavlink_msg_gps_raw_int_pack(0, 200, &mavMsg, 0,
-					gpsPosData.Status - 1, gpsPosData.Latitude*10^-7,
-					gpsPosData.Longitude*10^-7, gpsPosData.Altitude, 0, 0, 0, 0,
+			mavlink_msg_gps_raw_int_pack(0, 200, &mavMsg,
+					// time_usec Timestamp (microseconds since UNIX epoch or microseconds since system boot)
+					0,
+					// fix_type 0-1: no fix, 2: 2D fix, 3: 3D fix. Some applications will not use the value of this field unless it is at least two, so always correctly fill in the fix.
+					gpsPosData.Status - 1,
+					// lat Latitude in 1E7 degrees
+					gpsPosData.Latitude * 10^-7,
+					// lon Longitude in 1E7 degrees
+					gpsPosData.Longitude * 10^-7,
+					// alt Altitude in 1E3 meters (millimeters) above MSL
+					gpsPosData.Altitude,
+					// eph GPS HDOP horizontal dilution of position in cm (m*100). If unknown, set to: 65535
+					0,
+					// epv GPS VDOP horizontal dilution of position in cm (m*100). If unknown, set to: 65535
+					0,
+					// vel GPS ground speed (m/s * 100). If unknown, set to: 65535
+					0,
+					// cog Course over ground (NOT heading, but direction of movement) in degrees * 100, 0.0..359.99 degrees. If unknown, set to: 65535
+					0,
+					// satellites_visible Number of satellites visible. If unknown, set to 255
 					gpsPosData.Satellites);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
 			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
@@ -239,11 +279,29 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 			FlightStatusGet(&flightStatus);
 
 			//TODO connect with RSSI object and pass in last argument
-			mavlink_msg_rc_channels_raw_pack(0, 200, &mavMsg, 0, 0,
-					manualState.Channel[0], manualState.Channel[1],
-					manualState.Channel[2], manualState.Channel[3],
-					manualState.Channel[4], manualState.Channel[5],
-					manualState.Channel[6], manualState.Channel[7], 0);
+			mavlink_msg_rc_channels_raw_pack(0, 200, &mavMsg,
+					// time_boot_ms Timestamp (milliseconds since system boot)
+					0,
+					// port Servo output port (set of 8 outputs = 1 port). Most MAVs will just use one, but this allows to encode more than 8 servos.
+					0,
+					// chan1_raw RC channel 1 value, in microseconds
+					manualState.Channel[0],
+					// chan2_raw RC channel 2 value, in microseconds
+					manualState.Channel[1],
+					// chan3_raw RC channel 3 value, in microseconds
+					manualState.Channel[2],
+					// chan4_raw RC channel 4 value, in microseconds
+					manualState.Channel[3],
+					// chan5_raw RC channel 5 value, in microseconds
+					manualState.Channel[4],
+					// chan6_raw RC channel 6 value, in microseconds
+					manualState.Channel[5],
+					// chan7_raw RC channel 7 value, in microseconds
+					manualState.Channel[6],
+					// chan8_raw RC channel 8 value, in microseconds
+					manualState.Channel[7],
+					// rssi Receive signal strength indicator, 0: 0%, 255: 100%
+					0);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
 			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
 		}
@@ -251,9 +309,21 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		if (stream_trigger(MAV_DATA_STREAM_EXTRA1)) {
 			AttitudeActualGet(&attActual);
 
-			mavlink_msg_attitude_pack(0, 200, &mavMsg, 0,
-					attActual.Roll * DEG2RAD, attActual.Pitch * DEG2RAD,
-					attActual.Yaw * DEG2RAD, 0, 0, 0);
+			mavlink_msg_attitude_pack(0, 200, &mavMsg,
+					// time_boot_ms Timestamp (milliseconds since system boot)
+					0,
+					// roll Roll angle (rad)
+					attActual.Roll * DEG2RAD,
+					// pitch Pitch angle (rad)
+					attActual.Pitch * DEG2RAD,
+					// yaw Yaw angle (rad)
+					attActual.Yaw * DEG2RAD,
+					// rollspeed Roll angular speed (rad/s)
+					0,
+					// pitchspeed Pitch angular speed (rad/s)
+					0,
+					// yawspeed Yaw angular speed (rad/s)
+					0);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
 			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
 		}
@@ -266,9 +336,18 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 			ActuatorDesiredGet(&actDesired);
 
 			mavlink_msg_vfr_hud_pack(0, 200, &mavMsg,
-					airspeedActual.TrueAirspeed, gpsPosData.Groundspeed,
-					gpsPosData.Heading, actDesired.Throttle,
-					gpsPosData.Altitude, 0);
+					// airspeed Current airspeed in m/s
+					airspeedActual.TrueAirspeed,
+					// groundspeed Current ground speed in m/s
+					gpsPosData.Groundspeed,
+					// heading Current heading in degrees, in compass units (0..360, 0=north)
+					gpsPosData.Heading,
+					// throttle Current throttle setting in integer percent, 0 to 100
+					actDesired.Throttle,
+					// alt Current altitude (MSL), in meters
+					gpsPosData.Altitude,
+					// climb Current climb rate in meters/second
+					0);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
 			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
 
@@ -277,8 +356,17 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 			else
 				armed_mode = 0;
 
-			mavlink_msg_heartbeat_pack(0, 200, &mavMsg, MAV_TYPE_FIXED_WING,
-					MAV_AUTOPILOT_GENERIC, armed_mode, 0, 0);
+			mavlink_msg_heartbeat_pack(0, 200, &mavMsg,
+					// type Type of the MAV (quadrotor, helicopter, etc., up to 15 types, defined in MAV_TYPE ENUM)
+					MAV_TYPE_FIXED_WING,
+					// autopilot Autopilot type / class. defined in MAV_AUTOPILOT ENUM
+					MAV_AUTOPILOT_GENERIC,
+					// base_mode System mode bitfield, see MAV_MODE_FLAGS ENUM in mavlink/include/mavlink_types.h
+					armed_mode,
+					// custom_mode A bitfield for use for autopilot-specific flags.
+					0,
+					// system_status System status flag, see MAV_STATE ENUM
+					0);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
 			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
 		}
