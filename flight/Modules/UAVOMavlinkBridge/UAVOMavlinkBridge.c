@@ -245,9 +245,9 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 					// fix_type 0-1: no fix, 2: 2D fix, 3: 3D fix. Some applications will not use the value of this field unless it is at least two, so always correctly fill in the fix.
 					gpsPosData.Status - 1,
 					// lat Latitude in 1E7 degrees
-					gpsPosData.Latitude * 10^-7,
+					gpsPosData.Latitude,
 					// lon Longitude in 1E7 degrees
-					gpsPosData.Longitude * 10^-7,
+					gpsPosData.Longitude,
 					// alt Altitude in 1E3 meters (millimeters) above MSL
 					gpsPosData.Altitude,
 					// eph GPS HDOP horizontal dilution of position in cm (m*100). If unknown, set to: 65535
