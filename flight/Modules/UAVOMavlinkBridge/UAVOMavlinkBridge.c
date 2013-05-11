@@ -278,7 +278,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 					// epv GPS VDOP horizontal dilution of position in cm (m*100). If unknown, set to: 65535
 					0,
 					// vel GPS ground speed (m/s * 100). If unknown, set to: 65535
-					0,
+					gpsPosData.Groundspeed * 100,
 					// cog Course over ground (NOT heading, but direction of movement) in degrees * 100, 0.0..359.99 degrees. If unknown, set to: 65535
 					0,
 					// satellites_visible Number of satellites visible. If unknown, set to 255
