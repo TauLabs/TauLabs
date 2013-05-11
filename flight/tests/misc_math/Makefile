@@ -27,6 +27,7 @@ WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
 TOP      := $(realpath $(WHEREAMI)/../../../)
 include $(TOP)/make/firmware-defs.mk
 
+EXTRAINCDIRS += $(SHAREDAPIDIR)
 EXTRAINCDIRS += $(FLIGHTLIB)/math
 
 CFLAGS += -O0
