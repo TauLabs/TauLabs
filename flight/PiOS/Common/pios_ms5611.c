@@ -354,16 +354,7 @@ int32_t PIOS_MS5611_Test()
 
 static void PIOS_MS5611_Task(void *parameters)
 {
-	int32_t temp_press_interleave_count;
-	if (PIOS_MS5611_Validate(dev) != 0)
-		temp_press_interleave_count = 1;
-	else
-		temp_press_interleave_count = dev->temperature_interleaving;
-
-	// If device handle isn't validate pause
-	while (PIOS_MS5611_Validate(dev) != 0) {
-		vTaskDelay(1000);
-	}
+	int32_t temp_press_interleave_count = dev->temperature_interleaving;
 
 	while (1) {
 
