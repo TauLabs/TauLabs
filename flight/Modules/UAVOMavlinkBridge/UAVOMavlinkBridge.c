@@ -42,6 +42,7 @@
 #include "flightstatus.h"
 #include "systemstats.h"
 #include "homelocation.h"
+#include "baroaltitude.h"
 #include "mavlink.h"
 
 // ****************
@@ -148,6 +149,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 	FlightStatusData flightStatus;
 	SystemStatsData systemStats;
 	HomeLocationData homeLocation;
+	BaroAltitudeData baroAltitude;
 
 	if (FlightBatterySettingsHandle() != NULL )
 		FlightBatterySettingsGet(&batSettings);
@@ -387,7 +389,15 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 				AirspeedActualGet(&airspeedActual);
 			if (GPSPositionHandle() != NULL )
 				GPSPositionGet(&gpsPosData);
+			if (BaroAltitudeHandle() != NULL )
+				BaroAltitudeGet(&baroAltitude);
 			ActuatorDesiredGet(&actDesired);
+
+			float altitude = 0;
+			if (BaroAltitudeHandle() != NULL)
+				altitude = baroAltitude.Altitude;
+			else if (GPSPositionHandle() != NULL)
+				altitude = gpsPosData.Altitude;
 
 			mavlink_msg_vfr_hud_pack(0, 200, &mavMsg,
 					// airspeed Current airspeed in m/s
@@ -399,7 +409,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 					// throttle Current throttle setting in integer percent, 0 to 100
 					actDesired.Throttle * 100,
 					// alt Current altitude (MSL), in meters
-					gpsPosData.Altitude,
+					altitude,
 					// climb Current climb rate in meters/second
 					0);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
