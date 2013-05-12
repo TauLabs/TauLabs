@@ -332,9 +332,11 @@ void PIOS_Board_Init(void) {
 	//inputs
 
 	//outputs
+	PIOS_TIM_InitClock(&tim_1_cfg);
 	PIOS_TIM_InitClock(&tim_2_cfg);
 	PIOS_TIM_InitClock(&tim_3_cfg);
 	PIOS_TIM_InitClock(&tim_15_cfg);
+	PIOS_TIM_InitClock(&tim_16_cfg);
 	PIOS_TIM_InitClock(&tim_17_cfg);
 
 	/* IAP System Setup */
