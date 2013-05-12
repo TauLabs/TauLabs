@@ -334,7 +334,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 					// lon Longitude in 1E7 degrees
 					gpsPosData.Longitude,
 					// alt Altitude in 1E3 meters (millimeters) above MSL
-					gpsPosData.Altitude,
+					gpsPosData.Altitude * 1000,
 					// eph GPS HDOP horizontal dilution of position in cm (m*100). If unknown, set to: 65535
 					gpsPosData.HDOP * 100,
 					// epv GPS VDOP horizontal dilution of position in cm (m*100). If unknown, set to: 65535
