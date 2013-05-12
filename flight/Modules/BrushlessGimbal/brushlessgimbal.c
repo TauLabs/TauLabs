@@ -93,7 +93,9 @@ static void brushlessGimbalTask(void* parameters)
 {
 	UAVObjEvent ev;
 
-	PIOS_Brushless_SetUpdateRate(30000);
+	PIOS_Brushless_SetUpdateRate(60000);
+
+	bool armed = false;
 
 	while (1)
 	{
@@ -101,6 +103,11 @@ static void brushlessGimbalTask(void* parameters)
 
 		// Wait until the ActuatorDesired object is updated
 		xQueueReceive(queue, &ev, 1);
+
+		armed |= xTaskGetTickCount() > 10000;
+
+		if (!armed)
+			continue;
 
 		ActuatorDesiredData actuatorDesired;
 		ActuatorDesiredGet(&actuatorDesired);
