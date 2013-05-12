@@ -400,6 +400,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 			if (BaroAltitudeHandle() != NULL )
 				BaroAltitudeGet(&baroAltitude);
 			ActuatorDesiredGet(&actDesired);
+			AttitudeActualGet(&attActual);
 
 			float altitude = 0;
 			if (BaroAltitudeHandle() != NULL)
@@ -407,13 +408,19 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 			else if (GPSPositionHandle() != NULL)
 				altitude = gpsPosData.Altitude;
 
+			int16_t heading = attActual.Yaw + 0.5f;
+			while (heading < 0)
+				heading += 360;
+			while (heading > 360)
+				heading -= 360;
+
 			mavlink_msg_vfr_hud_pack(0, 200, &mavMsg,
 					// airspeed Current airspeed in m/s
 					airspeedActual.TrueAirspeed,
 					// groundspeed Current ground speed in m/s
 					gpsPosData.Groundspeed,
 					// heading Current heading in degrees, in compass units (0..360, 0=north)
-					gpsPosData.Heading,
+					heading,
 					// throttle Current throttle setting in integer percent, 0 to 100
 					actDesired.Throttle * 100,
 					// alt Current altitude (MSL), in meters
