@@ -1741,7 +1741,23 @@ const struct pios_servo_cfg pios_servo_cfg = {
 	.num_channels = NELEMENTS(pios_tim_servoport_all_pins),
 };
 
-const struct pios_servo_cfg pios_servo_rcvr_cfg = {
+const struct pios_servo_cfg pios_servo_with_adc_cfg = {
+	.tim_oc_init = {
+		.TIM_OCMode = TIM_OCMode_PWM1,
+		.TIM_OutputState = TIM_OutputState_Enable,
+		.TIM_OutputNState = TIM_OutputNState_Disable,
+		.TIM_Pulse = PIOS_SERVOS_INITIAL_POSITION,
+		.TIM_OCPolarity = TIM_OCPolarity_High,
+		.TIM_OCNPolarity = TIM_OCPolarity_High,
+		.TIM_OCIdleState = TIM_OCIdleState_Reset,
+		.TIM_OCNIdleState = TIM_OCNIdleState_Reset,
+	},
+	/* Leave the last two for ADC use */
+	.channels = pios_tim_servoport_all_pins,
+	.num_channels = NELEMENTS(pios_tim_servoport_all_pins) - 2,
+};
+
+const struct pios_servo_cfg pios_servo_with_rcvr_cfg = {
 	.tim_oc_init = {
 		.TIM_OCMode = TIM_OCMode_PWM1,
 		.TIM_OutputState = TIM_OutputState_Enable,
@@ -1754,6 +1770,22 @@ const struct pios_servo_cfg pios_servo_rcvr_cfg = {
 	},
 	.channels = pios_tim_servoport_rcvrport_pins,
 	.num_channels = NELEMENTS(pios_tim_servoport_rcvrport_pins),
+};
+
+const struct pios_servo_cfg pios_servo_with_rcvr_with_adc_cfg = {
+	.tim_oc_init = {
+		.TIM_OCMode = TIM_OCMode_PWM1,
+		.TIM_OutputState = TIM_OutputState_Enable,
+		.TIM_OutputNState = TIM_OutputNState_Disable,
+		.TIM_Pulse = PIOS_SERVOS_INITIAL_POSITION,
+		.TIM_OCPolarity = TIM_OCPolarity_High,
+		.TIM_OCNPolarity = TIM_OCPolarity_High,
+		.TIM_OCIdleState = TIM_OCIdleState_Reset,
+		.TIM_OCNIdleState = TIM_OCNIdleState_Reset,
+	},
+	/* Leave the last two for ADC use */
+	.channels = pios_tim_servoport_rcvrport_pins,
+	.num_channels = NELEMENTS(pios_tim_servoport_rcvrport_pins) - 2,
 };
 
 #endif	/* PIOS_INCLUDE_SERVO && PIOS_INCLUDE_TIM */
@@ -1917,6 +1949,18 @@ const struct pios_pwm_cfg pios_pwm_cfg = {
 	.num_channels = NELEMENTS(pios_tim_rcvrport_all_channels),
 };
 
+const struct pios_pwm_cfg pios_pwm_with_adc_cfg = {
+	.tim_ic_init = {
+		.TIM_ICPolarity = TIM_ICPolarity_Rising,
+		.TIM_ICSelection = TIM_ICSelection_DirectTI,
+		.TIM_ICPrescaler = TIM_ICPSC_DIV1,
+		.TIM_ICFilter = 0x0,
+	},
+	/* Leave the last two for ADC use */
+	.channels = pios_tim_rcvrport_all_channels,
+	.num_channels = NELEMENTS(pios_tim_rcvrport_all_channels) - 2,
+};
+
 const struct pios_pwm_cfg pios_pwm_with_ppm_cfg = {
 	.tim_ic_init = {
 		.TIM_ICPolarity = TIM_ICPolarity_Rising,
@@ -1929,6 +1973,17 @@ const struct pios_pwm_cfg pios_pwm_with_ppm_cfg = {
 	.num_channels = NELEMENTS(pios_tim_rcvrport_all_channels) - 1,
 };
 
+const struct pios_pwm_cfg pios_pwm_with_ppm_with_adc_cfg = {
+	.tim_ic_init = {
+		.TIM_ICPolarity = TIM_ICPolarity_Rising,
+		.TIM_ICSelection = TIM_ICSelection_DirectTI,
+		.TIM_ICPrescaler = TIM_ICPSC_DIV1,
+		.TIM_ICFilter = 0x0,
+	},
+	/* Leave the first channel for PPM, the last two for ADC use and use the rest for PWM */
+	.channels = &pios_tim_rcvrport_all_channels[1],
+	.num_channels = NELEMENTS(pios_tim_rcvrport_all_channels) - 1 - 2,
+};
 
 #endif
 
@@ -1937,6 +1992,7 @@ const struct pios_pwm_cfg pios_pwm_with_ppm_cfg = {
  */
 #if defined(PIOS_INCLUDE_PPM)
 #include <pios_ppm_priv.h>
+
 static const struct pios_ppm_cfg pios_ppm_cfg = {
 	.tim_ic_init = {
 		.TIM_ICPolarity = TIM_ICPolarity_Rising,
