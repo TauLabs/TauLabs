@@ -1219,7 +1219,7 @@ static const TIM_TimeBaseInitTypeDef tim_1_16_brushless_time_base = {
 	.TIM_Prescaler = 0,
 	.TIM_ClockDivision = TIM_CKD_DIV1,
 	.TIM_CounterMode = TIM_CounterMode_Up,
-	.TIM_Period = ((72000000 / 30000) - 1),
+	.TIM_Period = 1200, // ((72000000 / 30000) - 1),
 	.TIM_RepetitionCounter = 0x0000,
 };
 
@@ -1227,7 +1227,7 @@ static const TIM_TimeBaseInitTypeDef tim_2_3_15_brushless_time_base = {
 	.TIM_Prescaler = 0,
 	.TIM_ClockDivision = TIM_CKD_DIV1,
 	.TIM_CounterMode = TIM_CounterMode_Up,
-	.TIM_Period = ((72000000 / 30000) - 1),
+	.TIM_Period = 1200, //((PIOS_PERIPHERAL_APB2_CLOCK / 2 / 30000) ) - 1,
 	.TIM_RepetitionCounter = 0x0000,
 };
 
@@ -1310,6 +1310,13 @@ const struct pios_brushless_cfg pios_brushless_cfg = {
 		.TIM_OCNPolarity = TIM_OCPolarity_High,
 		.TIM_OCIdleState = TIM_OCIdleState_Reset,
 		.TIM_OCNIdleState = TIM_OCNIdleState_Reset,
+	},
+	.tim_base_init = {
+		.TIM_Prescaler = 0,
+		.TIM_ClockDivision = TIM_CKD_DIV1,
+		.TIM_CounterMode = TIM_CounterMode_Up,
+		.TIM_Period = 1200, //((PIOS_PERIPHERAL_APB2_CLOCK / 2 / 30000) ) - 1,
+		.TIM_RepetitionCounter = 0x0000,
 	},
 	.channels = pios_tim_servoport_all_pins,
 	.num_channels = NELEMENTS(pios_tim_servoport_all_pins),

@@ -129,32 +129,29 @@ void PIOS_Brushless_SetUpdateRate(uint32_t rate)
 	}
 
 	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure = brushless_cfg->tim_base_init;
-	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
-	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+	/*TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_CenterAligned1;
 
 	for(uint8_t i = 0; i < brushless_cfg->num_channels; i++) {
 		bool new = true;
 		const struct pios_tim_channel * chan = &brushless_cfg->channels[i];
 
-		/* See if any previous channels use that same timer */
-		for(uint8_t j = 0; (j < i) && new; j++)
-			new &= chan->timer != brushless_cfg->channels[j].timer;
-
 		if(new) {
 			// Choose the correct prescaler value for the APB the timer is attached
 			if (chan->timer==TIM2 || chan->timer==TIM3 || chan->timer==TIM4 || chan->timer==TIM6 || chan->timer==TIM7 ){
 				//those timers run at double APB1 speed if APB1 prescaler is != 1 which is usually the case
-				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB1_CLOCK / 36000000 * 2) - 1;
+				TIM_TimeBaseStructure.TIM_Prescaler = 0 ;
 			}
 			else {
-				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB2_CLOCK / 36000000) - 1;
+				TIM_TimeBaseStructure.TIM_Prescaler = 1 ;
 			}
 
-			TIM_TimeBaseStructure.TIM_Period = ((36000000 / rate) - 1);
+			// At this point using hte prescalar all should be running at SYSCLK / 2
+			TIM_TimeBaseStructure.TIM_Period = 1200; //((36000000 / rate));
 			TIM_TimeBaseInit(chan->timer, &TIM_TimeBaseStructure);
 		}
 	}
-
+	*/
 	// Set some default reasonable parameters
 	center = TIM_TimeBaseStructure.TIM_Period / 2;
 	scale = center;

@@ -93,10 +93,13 @@ static void brushlessGimbalTask(void* parameters)
 {
 	UAVObjEvent ev;
 
-	PIOS_Brushless_SetUpdateRate(60000);
+	TIM2->CNT = 0;
+	TIM3->CNT = 0;
+	TIM15->CNT = 0;
+	TIM17->CNT = 0;
 
 	bool armed = false;
-
+	bool previous_armed = false;
 	while (1)
 	{
 		PIOS_WDG_UpdateFlag(PIOS_WDG_ACTUATOR);
@@ -104,7 +107,12 @@ static void brushlessGimbalTask(void* parameters)
 		// Wait until the ActuatorDesired object is updated
 		xQueueReceive(queue, &ev, 1);
 
+		previous_armed = armed;
 		armed |= xTaskGetTickCount() > 10000;
+
+		if (armed && !previous_armed) {
+			PIOS_Brushless_SetUpdateRate(60000);
+		}
 
 		if (!armed)
 			continue;
@@ -119,6 +127,7 @@ static void brushlessGimbalTask(void* parameters)
 		BrushlessGimbalSettingsGet(&settings);
 
 		PIOS_Brushless_SetScale(settings.PowerScale[0], settings.PowerScale[1], settings.PowerScale[2]);
+		PIOS_Brushless_SetMaxAcceleration(settings.SlewLimit[0], settings.SlewLimit[1], settings.SlewLimit[2]);
 
 		PIOS_Brushless_SetSpeed(0, actuatorDesired.Roll * settings.MaxDPS[BRUSHLESSGIMBALSETTINGS_MAXDPS_ROLL], 0.001f);
 		PIOS_Brushless_SetSpeed(1, actuatorDesired.Pitch  * settings.MaxDPS[BRUSHLESSGIMBALSETTINGS_MAXDPS_PITCH], 0.001f);
