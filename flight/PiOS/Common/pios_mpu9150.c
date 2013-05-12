@@ -284,38 +284,42 @@ void PIOS_MPU9150_SetLPF(enum pios_mpu60x0_filter filter)
  */
 int32_t PIOS_MPU9150_Probe(uint32_t i2c_id, uint8_t i2c_addr)
 {
-	uint8_t addr_buffer[] = {
-		PIOS_MPU60X0_WHOAMI,
+	// This function needs to set up the full transactions becaues
+	// it should not assume anything is configured
+
+	uint8_t mag_addr_buffer[] = {
+		0,
 	};
-	uint8_t read_buffer[1] = {
+	uint8_t mag_read_buffer[1] = {
 		0
 	};
 
-	const struct pios_i2c_txn txn_list[] = {
+	const struct pios_i2c_txn mag_txn_list[] = {
 		{
 			.info = __func__,
-			.addr = i2c_addr,
+			.addr = MPU9150_MAG_ADDR,
 			.rw = PIOS_I2C_TXN_WRITE,
-			.len = sizeof(addr_buffer),
-			.buf = addr_buffer,
+			.len = sizeof(mag_addr_buffer),
+			.buf = mag_addr_buffer,
 		},
 		{
 			.info = __func__,
-			.addr = i2c_addr,
+			.addr = MPU9150_MAG_ADDR,
 			.rw = PIOS_I2C_TXN_READ,
-			.len = sizeof(read_buffer),
-			.buf = read_buffer,
+			.len = sizeof(mag_read_buffer),
+			.buf = mag_read_buffer,
 		}
 	};
 
-	int32_t retval = PIOS_I2C_Transfer(i2c_id, txn_list, NELEMENTS(txn_list));
+	int32_t retval = PIOS_I2C_Transfer(i2c_id, mag_txn_list, NELEMENTS(mag_txn_list));
 	if (retval < 0)
-		return -2;
+		return -1;
 
-	if (read_buffer[0] == 0x68)
-		return 0;
+	// invalid WHOAMI for MPU9150 mag
+	//if (read_buffer[0] != 0x48)
+	//	return -2;
 
-	return -1;
+	return 0;
 }
 
 /**
