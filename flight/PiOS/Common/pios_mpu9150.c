@@ -70,7 +70,7 @@ struct mpu9150_dev {
 	xTaskHandle TaskHandle;
 	xSemaphoreHandle data_ready_sema;
 	const struct pios_mpu60x0_cfg * cfg;
-	bool configured;
+	enum pios_mpu60x0_filter filter;
 	enum pios_mpu9150_dev_magic magic;
 };
 
@@ -183,62 +183,42 @@ int32_t PIOS_MPU9150_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_m
 static void PIOS_MPU9150_Config(struct pios_mpu60x0_cfg const * cfg)
 {
 	// Reset chip
-	while (PIOS_MPU9150_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, 0x80) != 0);
-	PIOS_DELAY_WaitmS(100);
-	
-	// Reset chip and fifo
-	while (PIOS_MPU9150_SetReg(PIOS_MPU60X0_USER_CTRL_REG, 0x01 | 0x02 | 0x04) != 0);
-	// Wait for reset to finish
-	while (PIOS_MPU9150_GetReg(PIOS_MPU60X0_USER_CTRL_REG) & 0x07);
-	
+	PIOS_MPU9150_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, PIOS_MPU60X0_PWRMGMT_IMU_RST);
+
+	// Reset sensors signal path
+	PIOS_MPU9150_SetReg(PIOS_MPU60X0_USER_CTRL_REG, PIOS_MPU60X0_USERCTL_GYRO_RST);
+
+	// Give chip some time to initialize
+	PIOS_DELAY_WaitmS(10);
+
 	//Power management configuration
-	while (PIOS_MPU9150_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, cfg->Pwr_mgmt_clk) != 0) ;
+	PIOS_MPU9150_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, cfg->Pwr_mgmt_clk);
 
-	// Interrupt configuration
-	while (PIOS_MPU9150_SetReg(PIOS_MPU60X0_INT_CFG_REG, cfg->interrupt_cfg) != 0) ;
+	// User control
+	PIOS_MPU9150_SetReg(PIOS_MPU60X0_USER_CTRL_REG, cfg->User_ctl & ~0x40);
 
-	// Interrupt configuration
-	while (PIOS_MPU9150_SetReg(PIOS_MPU60X0_INT_EN_REG, cfg->interrupt_en) != 0) ;
-
-	// FIFO storage
-#if defined(PIOS_MPU6050_ACCEL)
-	// Set the accel scale
-	PIOS_MPU9150_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
-	
-	while (PIOS_MPU9150_SetReg(PIOS_MPU60X0_FIFO_EN_REG, cfg->Fifo_store | PIOS_MPU60X0_ACCEL_OUT) != 0);
-#else
-	while (PIOS_MPU9150_SetReg(PIOS_MPU60X0_FIFO_EN_REG, cfg->Fifo_store) != 0);
-#endif
-	
-	// Sample rate divider
-	while (PIOS_MPU9150_SetReg(PIOS_MPU60X0_SMPLRT_DIV_REG, cfg->Smpl_rate_div) != 0) ;
-	
 	// Digital low-pass filter and scale
-	while (PIOS_MPU9150_SetReg(PIOS_MPU60X0_DLPF_CFG_REG, cfg->filter) != 0) ;
-	
-	// Digital low-pass filter and scale
+	// set this before sample rate else sample rate calculation will fail
+	PIOS_MPU9150_SetLPF(cfg->default_filter);
+
+	// Sample rate
+	PIOS_MPU9150_SetSampleRate(cfg->default_samplerate);
+
+	// Set the gyro scale
 	PIOS_MPU9150_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
 
+	// Set the accel scale
+	PIOS_MPU9150_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
+
 	// Interrupt configuration
-	while (PIOS_MPU9150_SetReg(PIOS_MPU60X0_USER_CTRL_REG, cfg->User_ctl) != 0) ;
-	
-	// Interrupt configuration
-	while (PIOS_MPU9150_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, cfg->Pwr_mgmt_clk) != 0) ;
-	
+	PIOS_MPU9150_SetReg(PIOS_MPU60X0_INT_CFG_REG, cfg->interrupt_cfg | 0x02);
+
 	// To enable access to the mag on auxillary i2c we must set bit 0x02 in register 0x37
-	// and clear bit 0x40 in register 0x6a (default condition)
+	// and clear bit 0x40 in register 0x6a (PIOS_MPU60X0_USER_CTRL_REG, default condition)
+	PIOS_MPU9150_Mag_SetReg(MPU9150_MAG_CNTR, 0x01);
 
-	// Interrupt configuration and enable the I2C bypass mode
-	while (PIOS_MPU9150_SetReg(PIOS_MPU60X0_INT_CFG_REG, cfg->interrupt_cfg | 0x02) != 0) ;
-	
-	while (PIOS_MPU9150_Mag_SetReg(MPU9150_MAG_CNTR, 0x01) != 0) ;
-
-	// Interrupt configuration
-	while (PIOS_MPU9150_SetReg(PIOS_MPU60X0_INT_EN_REG, cfg->interrupt_en) != 0) ;
-	if((PIOS_MPU9150_GetReg(PIOS_MPU60X0_INT_EN_REG)) != cfg->interrupt_en)
-		return;
-	
-	dev->configured = true;
+	// Interrupt enable
+	PIOS_MPU9150_SetReg(PIOS_MPU60X0_INT_EN_REG, cfg->interrupt_en);
 }
 
 /**
@@ -257,6 +237,44 @@ void PIOS_MPU9150_SetAccelRange(enum pios_mpu60x0_accel_range accel_range)
 {
 	while (PIOS_MPU9150_SetReg(PIOS_MPU60X0_ACCEL_CFG_REG, accel_range) != 0);
 	dev->accel_range = accel_range;
+}
+
+/**
+ * Set the sample rate in Hz by determining the nearest divisor
+ * @param[in] sample rate in Hz
+ */
+void PIOS_MPU9150_SetSampleRate(uint16_t samplerate_hz)
+{
+	uint16_t filter_frequency = 8000;
+
+	if (dev->filter != PIOS_MPU60X0_LOWPASS_256_HZ)
+		filter_frequency = 1000;
+
+	// limit samplerate to filter frequency
+	if (samplerate_hz > filter_frequency)
+		samplerate_hz = filter_frequency;
+
+	// calculate divisor, round to nearest integeter
+	int32_t divisor = (int32_t)(((float)filter_frequency / samplerate_hz) + 0.5f) - 1;
+
+	// limit resulting divisor to register value range
+	if (divisor < 0)
+		divisor = 0;
+
+	if (divisor > 0xff)
+		divisor = 0xff;
+
+	PIOS_MPU9150_SetReg(PIOS_MPU60X0_SMPLRT_DIV_REG, (uint8_t)divisor);
+}
+
+/**
+ * Configure the digital low-pass filter
+ */
+void PIOS_MPU9150_SetLPF(enum pios_mpu60x0_filter filter)
+{
+	PIOS_MPU9150_SetReg(PIOS_MPU60X0_DLPF_CFG_REG, filter);
+
+	dev->filter = filter;
 }
 
 /**
@@ -556,42 +574,13 @@ uint8_t PIOS_MPU9150_Test(void)
 }
 
 /**
- * @brief Run self-test operation.
- * \return 0 if test succeeded
- * \return non-zero value if test succeeded
- */
-static int32_t PIOS_MPU9150_FifoDepth(void)
-{
-	uint8_t mpu9150_rec_buf[2];
-
-	if (PIOS_MPU9150_Read(PIOS_MPU60X0_FIFO_CNT_MSB, mpu9150_rec_buf, sizeof(mpu9150_rec_buf)) < 0) {
-		return -1;
-	}
-	
-	return (mpu9150_rec_buf[0] << 8) | mpu9150_rec_buf[1];
-}
-
-/**
- * @brief Get the status code.
- * \return the status code if successful
- * \return negative value if failed
- */
-static int32_t PIOS_MPU9150_GetStatus(void)
-{
-	uint8_t mpu9150_rec_buf[1];
-
-	if (PIOS_MPU9150_Read(PIOS_MPU60X0_INT_STATUS_REG, mpu9150_rec_buf, sizeof(mpu9150_rec_buf)) < 0) {
-		return -1;
-	}
-
-	return mpu9150_rec_buf[0];
-}
-
-/**
 * @brief IRQ Handler.  Read all the data from onboard buffer
 */
 bool PIOS_MPU9150_IRQHandler(void)
 {
+	if (PIOS_MPU9150_Validate(dev) != 0)
+		return false;
+
     portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
 
     xSemaphoreGiveFromISR(dev->data_ready_sema, &xHigherPriorityTaskWoken);
@@ -603,84 +592,75 @@ static void PIOS_MPU9150_Task(void *parameters)
 {
 	while (1)
 	{
-		if (PIOS_MPU9150_Validate(dev) != 0) {
-			vTaskDelay(100 * portTICK_RATE_MS);
-			continue;
-		}
-
 		//Wait for data ready interrupt
 		if (xSemaphoreTake(dev->data_ready_sema, portMAX_DELAY) != pdTRUE)
 			continue;
 
-		if(!dev->configured)
-			continue;
+		enum {
+		    IDX_ACCEL_XOUT_H = 0,
+		    IDX_ACCEL_XOUT_L,
+		    IDX_ACCEL_YOUT_H,
+		    IDX_ACCEL_YOUT_L,
+		    IDX_ACCEL_ZOUT_H,
+		    IDX_ACCEL_ZOUT_L,
+		    IDX_TEMP_OUT_H,
+		    IDX_TEMP_OUT_L,
+		    IDX_GYRO_XOUT_H,
+		    IDX_GYRO_XOUT_L,
+		    IDX_GYRO_YOUT_H,
+		    IDX_GYRO_YOUT_L,
+		    IDX_GYRO_ZOUT_H,
+		    IDX_GYRO_ZOUT_L,
+		    BUFFER_SIZE,
+		};
 
-		int32_t status = PIOS_MPU9150_GetStatus();
-		if (status & PIOS_MPU60X0_INT_STATUS_OVERFLOW) {
-			dev->configured = false;
-			continue;
-		}
 
-		int32_t mpu9150_count = PIOS_MPU9150_FifoDepth();
-		if(mpu9150_count < sizeof(struct pios_mpu60x0_data))
-			continue;
-	
-		static uint8_t mpu9150_rec_buf[sizeof(struct pios_mpu60x0_data)];
-		
-		if (PIOS_MPU9150_Read(PIOS_MPU60X0_FIFO_REG, mpu9150_rec_buf, sizeof(mpu9150_rec_buf)) < 0) {
-			continue;
-		}
-	
-		// In the case where extras samples backed up grabbed an extra
-		if (mpu9150_count >= (sizeof(mpu9150_rec_buf) * 2)) {
+		uint8_t mpu9150_rec_buf[BUFFER_SIZE];
 
-			//overwrite until the newest entry is present in mpu9150_rec_buf
-			if (PIOS_MPU9150_Read(PIOS_MPU60X0_FIFO_REG, mpu9150_rec_buf, sizeof(mpu9150_rec_buf)) < 0) {
-				continue;
-			}
+		if (PIOS_MPU9150_Read(PIOS_MPU60X0_ACCEL_X_OUT_MSB, mpu9150_rec_buf, sizeof(mpu9150_rec_buf)) < 0) {
+			continue;
 		}
 
 		// Rotate the sensor to OP convention.  The datasheet defines X as towards the right
 		// and Y as forward.  OP convention transposes this.  Also the Z is defined negatively
 		// to our convention
 
-#if defined(PIOS_MPU6050_ACCEL)
-
 		// Currently we only support rotations on top so switch X/Y accordingly
 		struct pios_sensor_accel_data accel_data;
 		struct pios_sensor_gyro_data gyro_data;
 
-		switch(dev->cfg->orientation) {
+		switch (dev->cfg->orientation) {
 		case PIOS_MPU60X0_TOP_0DEG:
-			accel_data.y = (int16_t) (mpu9150_rec_buf[0] << 8 | mpu9150_rec_buf[1]);    // chip X
-			accel_data.x = (int16_t) (mpu9150_rec_buf[2] << 8 | mpu9150_rec_buf[3]);    // chip Y
-			gyro_data.y  = (int16_t) (mpu9150_rec_buf[8] << 8  | mpu9150_rec_buf[9]);   // chip X
-			gyro_data.x  = (int16_t) (mpu9150_rec_buf[10] << 8 | mpu9150_rec_buf[11]);  // chip Y
+			accel_data.y = (int16_t)(mpu9150_rec_buf[IDX_ACCEL_XOUT_H] << 8 | mpu9150_rec_buf[IDX_ACCEL_XOUT_L]);
+			accel_data.x = (int16_t)(mpu9150_rec_buf[IDX_ACCEL_YOUT_H] << 8 | mpu9150_rec_buf[IDX_ACCEL_YOUT_L]);
+			gyro_data.y  = (int16_t)(mpu9150_rec_buf[IDX_GYRO_XOUT_H] << 8 | mpu9150_rec_buf[IDX_GYRO_XOUT_L]);
+			gyro_data.x  = (int16_t)(mpu9150_rec_buf[IDX_GYRO_YOUT_H] << 8 | mpu9150_rec_buf[IDX_GYRO_YOUT_L]);
 			break;
 		case PIOS_MPU60X0_TOP_90DEG:
-			accel_data.y = (int16_t) -(mpu9150_rec_buf[2] << 8 | mpu9150_rec_buf[3]);   // chip Y
-			accel_data.x = (int16_t)  (mpu9150_rec_buf[0] << 8 | mpu9150_rec_buf[1]);   // chip X
-			gyro_data.y  = (int16_t) -(mpu9150_rec_buf[10] << 8 | mpu9150_rec_buf[11]); // chip Y
-			gyro_data.x  = (int16_t)  (mpu9150_rec_buf[8] << 8  | mpu9150_rec_buf[9]);  // chip X
+			accel_data.y = - (int16_t)(mpu9150_rec_buf[IDX_ACCEL_YOUT_H] << 8 | mpu9150_rec_buf[IDX_ACCEL_YOUT_L]);
+			accel_data.x = (int16_t)(mpu9150_rec_buf[IDX_ACCEL_XOUT_H] << 8 | mpu9150_rec_buf[IDX_ACCEL_XOUT_L]);
+			gyro_data.y  = - (int16_t)(mpu9150_rec_buf[IDX_GYRO_YOUT_H] << 8 | mpu9150_rec_buf[IDX_GYRO_YOUT_L]);
+			gyro_data.x  = (int16_t)(mpu9150_rec_buf[IDX_GYRO_XOUT_H] << 8 | mpu9150_rec_buf[IDX_GYRO_XOUT_L]);
 			break;
 		case PIOS_MPU60X0_TOP_180DEG:
-			accel_data.y = (int16_t) -(mpu9150_rec_buf[0] << 8 | mpu9150_rec_buf[1]);   // chip X
-			accel_data.x = (int16_t) -(mpu9150_rec_buf[2] << 8 | mpu9150_rec_buf[3]);   // chip Y
-			gyro_data.y  = (int16_t) -(mpu9150_rec_buf[8] << 8  | mpu9150_rec_buf[9]); // chip X
-			gyro_data.x  = (int16_t) -(mpu9150_rec_buf[10] << 8 | mpu9150_rec_buf[11]); // chip Y
+			accel_data.y = - (int16_t)(mpu9150_rec_buf[IDX_ACCEL_XOUT_H] << 8 | mpu9150_rec_buf[IDX_ACCEL_XOUT_L]);
+			accel_data.x = - (int16_t)(mpu9150_rec_buf[IDX_ACCEL_YOUT_H] << 8 | mpu9150_rec_buf[IDX_ACCEL_YOUT_L]);
+			gyro_data.y  = - (int16_t)(mpu9150_rec_buf[IDX_GYRO_XOUT_H] << 8 | mpu9150_rec_buf[IDX_GYRO_XOUT_L]);
+			gyro_data.x  = - (int16_t)(mpu9150_rec_buf[IDX_GYRO_YOUT_H] << 8 | mpu9150_rec_buf[IDX_GYRO_YOUT_L]);
 			break;
 		case PIOS_MPU60X0_TOP_270DEG:
-			accel_data.y = (int16_t)  (mpu9150_rec_buf[2] << 8 | mpu9150_rec_buf[3]);   // chip Y
-			accel_data.x = (int16_t) -(mpu9150_rec_buf[0] << 8 | mpu9150_rec_buf[1]);   // chip X
-			gyro_data.y  = (int16_t)  (mpu9150_rec_buf[10] << 8 | mpu9150_rec_buf[11]); // chip Y
-			gyro_data.x  = (int16_t) -(mpu9150_rec_buf[8] << 8  | mpu9150_rec_buf[9]); // chip X
+			accel_data.y = (int16_t)(mpu9150_rec_buf[IDX_ACCEL_YOUT_H] << 8 | mpu9150_rec_buf[IDX_ACCEL_YOUT_L]);
+			accel_data.x = - (int16_t)(mpu9150_rec_buf[IDX_ACCEL_XOUT_H] << 8 | mpu9150_rec_buf[IDX_ACCEL_XOUT_L]);
+			gyro_data.y  = (int16_t)(mpu9150_rec_buf[IDX_GYRO_YOUT_H] << 8 | mpu9150_rec_buf[IDX_GYRO_YOUT_L]);
+			gyro_data.x  = - (int16_t)(mpu9150_rec_buf[IDX_GYRO_XOUT_H] << 8 | mpu9150_rec_buf[IDX_GYRO_XOUT_L]);
 			break;
 		}
-		gyro_data.z  = (int16_t) -(mpu9150_rec_buf[12] << 8 | mpu9150_rec_buf[13]);
-		accel_data.z = (int16_t) -(mpu9150_rec_buf[4] << 8 | mpu9150_rec_buf[5]);
 
-		int16_t raw_temp = mpu9150_rec_buf[6] << 8 | mpu9150_rec_buf[7];
-		float temperature = 35.0f + ((float) raw_temp + 512.0f) / 340.0f;
+		gyro_data.z  = - (int16_t)(mpu9150_rec_buf[IDX_GYRO_ZOUT_H] << 8 | mpu9150_rec_buf[IDX_GYRO_ZOUT_L]);
+		accel_data.z = - (int16_t)(mpu9150_rec_buf[IDX_ACCEL_ZOUT_H] << 8 | mpu9150_rec_buf[IDX_ACCEL_ZOUT_L]);
+
+		int16_t raw_temp = (int16_t)(mpu9150_rec_buf[IDX_TEMP_OUT_H] << 8 | mpu9150_rec_buf[IDX_TEMP_OUT_L]);
+		float temperature = 35.0f + ((float)raw_temp + 512.0f) / 340.0f;
 
 		// Apply sensor scaling
 		float accel_scale = PIOS_MPU9150_GetAccelScale();
@@ -695,49 +675,8 @@ static void PIOS_MPU9150_Task(void *parameters)
 		gyro_data.z *= gyro_scale;
 		gyro_data.temperature = temperature;
 
-		portBASE_TYPE xHigherPriorityTaskWoken_accel;
-		xQueueSendToBackFromISR(dev->accel_queue, (void *) &accel_data, &xHigherPriorityTaskWoken_accel);
-
-		portBASE_TYPE xHigherPriorityTaskWoken_gyro;
-		xQueueSendToBackFromISR(dev->gyro_queue, (void *) &gyro_data, &xHigherPriorityTaskWoken_gyro);
-
-#else
-
-		struct pios_sensor_gyro_data gyro_data;
-		switch(dev->cfg->orientation) {
-		case PIOS_MPU60X0_TOP_0DEG:
-			gyro_data.y  = (int16_t) (mpu9150_rec_buf[2] << 8 | mpu9150_rec_buf[3]);
-			gyro_data.x  = (int16_t) (mpu9150_rec_buf[4] << 8 | mpu9150_rec_buf[5]);
-			break;
-		case PIOS_MPU60X0_TOP_90DEG:
-			gyro_data.y  = (int16_t) -(mpu9150_rec_buf[4] << 8 | mpu9150_rec_buf[5]); // chip Y
-			gyro_data.x  = (int16_t)  (mpu9150_rec_buf[2] << 8 | mpu9150_rec_buf[3]); // chip X
-			break;
-		case PIOS_MPU60X0_TOP_180DEG:
-			gyro_data.y  = (int16_t) -(mpu9150_rec_buf[2] << 8 | mpu9150_rec_buf[3]);
-			gyro_data.x  = (int16_t) -(mpu9150_rec_buf[4] << 8 | mpu9150_rec_buf[5]);
-			break;
-		case PIOS_MPU60X0_TOP_270DEG:
-			gyro_data.y  = (int16_t)  (mpu9150_rec_buf[4] << 8 | mpu9150_rec_buf[5]); // chip Y
-			gyro_data.x  = (int16_t) -(mpu9150_rec_buf[2] << 8 | mpu9150_rec_buf[3]); // chip X
-			break;
-		}
-		gyro_data.z = (int16_t) -(mpu9150_rec_buf[6] << 8 | mpu9150_rec_buf[7]);
-
-		int32_t raw_temp = mpu9150_rec_buf[0] << 8 | mpu9150_rec_buf[1];
-		float temperature = 35.0f + ((float) raw_temp + 512.0f) / 340.0f;
-
-		// Apply sensor scaling
-		float gyro_scale = PIOS_MPU9150_GetGyroScale();
-		gyro_data.x *= gyro_scale;
-		gyro_data.y *= gyro_scale;
-		gyro_data.z *= gyro_scale;
-		gyro_data.temperature = temperature;
-
-		portBASE_TYPE xHigherPriorityTaskWoken_gyro;
-		xQueueSendToBackFromISR(dev->gyro_queue, (void *) &gyro_data, &xHigherPriorityTaskWoken_gyro);
-
-#endif
+		xQueueSendToBack(dev->accel_queue, (void *)&accel_data, 0);
+		xQueueSendToBack(dev->gyro_queue, (void *)&gyro_data, 0);
 
 		// Check for mag data ready.  Reading it clears this flag.
 		if (PIOS_MPU9150_Mag_GetReg(MPU9150_MAG_STATUS) > 0) {
