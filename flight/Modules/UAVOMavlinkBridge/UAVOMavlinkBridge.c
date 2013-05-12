@@ -154,15 +154,15 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 	if (FlightBatterySettingsHandle() != NULL )
 		FlightBatterySettingsGet(&batSettings);
 	else {
-		batSettings.Capacity=0;
-		batSettings.NbCells=0;
-		batSettings.SensorCalibrations[0]=0;
-		batSettings.SensorCalibrations[1]=0;
-		batSettings.SensorType[0]=0;
-		batSettings.SensorType[1]=0;
-		batSettings.Type=0;
-		batSettings.VoltageThresholds[0]=0;
-		batSettings.VoltageThresholds[1]=0;
+		batSettings.Capacity = 0;
+		batSettings.NbCells = 0;
+		batSettings.SensorCalibrations[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONS_CURRENTFACTOR] = 0;
+		batSettings.SensorCalibrations[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONS_VOLTAGEFACTOR] = 0;
+		batSettings.SensorType[FLIGHTBATTERYSETTINGS_SENSORTYPE_BATTERYCURRENT] = FLIGHTBATTERYSETTINGS_SENSORTYPE_DISABLED;
+		batSettings.SensorType[FLIGHTBATTERYSETTINGS_SENSORTYPE_BATTERYVOLTAGE] = FLIGHTBATTERYSETTINGS_SENSORTYPE_DISABLED;
+		batSettings.Type = FLIGHTBATTERYSETTINGS_TYPE_NONE;
+		batSettings.VoltageThresholds[FLIGHTBATTERYSETTINGS_VOLTAGETHRESHOLDS_WARNING] = 0;
+		batSettings.VoltageThresholds[FLIGHTBATTERYSETTINGS_VOLTAGETHRESHOLDS_ALARM] = 0;
 	}
 
 	if (GPSPositionHandle() == NULL ){
@@ -225,6 +225,14 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 			if (batSettings.Capacity != 0)
 				battery_remaining = batState.ConsumedEnergy / batSettings.Capacity * 100;
 
+			uint16_t voltage = 0;
+			if (batSettings.SensorType[FLIGHTBATTERYSETTINGS_SENSORTYPE_BATTERYVOLTAGE] == FLIGHTBATTERYSETTINGS_SENSORTYPE_ENABLED)
+				voltage = batState.Voltage * 1000;
+
+			uint16_t current = 0;
+			if (batSettings.SensorType[FLIGHTBATTERYSETTINGS_SENSORTYPE_BATTERYCURRENT] == FLIGHTBATTERYSETTINGS_SENSORTYPE_ENABLED)
+				voltage = batState.Current * 100;
+
 			mavlink_msg_sys_status_pack(0, 200, &mavMsg,
 					// onboard_control_sensors_present Bitmask showing which onboard controllers and sensors are present. Value of 0: not present. Value of 1: present. Indices: 0: 3D gyro, 1: 3D acc, 2: 3D mag, 3: absolute pressure, 4: differential pressure, 5: GPS, 6: optical flow, 7: computer vision position, 8: laser based position, 9: external ground-truth (Vicon or Leica). Controllers: 10: 3D angular rate control 11: attitude stabilization, 12: yaw position, 13: z/altitude control, 14: x/y position control, 15: motor outputs / control
 					0,
@@ -235,9 +243,9 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 					// load Maximum usage in percent of the mainloop time, (0%: 0, 100%: 1000) should be always below 1000
 					(uint16_t)systemStats.CPULoad * 10,
 					// voltage_battery Battery voltage, in millivolts (1 = 1 millivolt)
-					batState.Voltage * 1000,
+					voltage,
 					// current_battery Battery current, in 10*milliamperes (1 = 10 milliampere), -1: autopilot does not measure the current
-					batState.Current * 100,
+					current,
 					// battery_remaining Remaining battery energy: (0%: 0, 100%: 100), -1: autopilot estimate the remaining battery
 					battery_remaining,
 					// drop_rate_comm Communication drops in percent, (0%: 0, 100%: 10'000), (UART, I2C, SPI, CAN), dropped packets on all links (packets that were corrupted on reception on the MAV)
