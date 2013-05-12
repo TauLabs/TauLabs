@@ -33,6 +33,8 @@
 #include "pios_tim_priv.h"
 
 #include "physical_constants.h"
+#include "sin_lookup.h"
+#include "misc_math.h"
 
 /* Private Function Prototypes */
 static int32_t PIOS_Brushless_SetPhase(uint32_t channel, float phase_deg);
@@ -112,6 +114,7 @@ int32_t PIOS_Brushless_Init(const struct pios_brushless_cfg * cfg)
 float    phases[NUM_BGC_CHANNELS];
 float    speeds[NUM_BGC_CHANNELS];
 float    scales[NUM_BGC_CHANNELS];
+float    accel_limit[NUM_BGC_CHANNELS] = {3000,3000,3000};
 int16_t  scale = 30;
 int32_t  center = 300;
 
@@ -162,13 +165,14 @@ void PIOS_Brushless_SetUpdateRate(uint32_t rate)
 * \param[in] Servo Servo number (0-7)
 * \param[in] Position Servo position in microseconds
 */
-void PIOS_Brushless_SetSpeed(uint32_t channel, float speed)
+void PIOS_Brushless_SetSpeed(uint32_t channel, float speed, float dT)
 {
 	// TODO: Store the speed for that output in a structure and
 	// use the timer overflow event to time incrementing
 
-	phases[channel] += speed;
-	PIOS_Brushless_SetPhase(channel, phases[channel]);
+	// Limit the slew rate 
+	float diff = bound_sym(speed - speeds[channel], accel_limit[channel] * dT);
+	speeds[channel] += diff;
 }
 
 //! Set the amplitude scale in %
@@ -179,6 +183,13 @@ void PIOS_Brushless_SetScale(uint8_t roll, uint8_t pitch, uint8_t yaw)
 	scales[2] = (float) yaw / 100.0f;
 }
 
+//! Set the maximum change in velocity per second
+void PIOS_Brushless_SetMaxAcceleration(float roll, float pitch, float yaw)
+{
+	accel_limit[0] = roll;
+	accel_limit[1] = pitch;
+	accel_limit[2] = yaw;
+}
 
 /**
  * PIOS_Brushless_SetPhase set the phase for one of the channel outputs

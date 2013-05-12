@@ -120,8 +120,8 @@ static void brushlessGimbalTask(void* parameters)
 
 		PIOS_Brushless_SetScale(settings.PowerScale[0], settings.PowerScale[1], settings.PowerScale[2]);
 
-		PIOS_Brushless_SetSpeed(0, actuatorDesired.Roll * settings.MaxDPS[BRUSHLESSGIMBALSETTINGS_MAXDPS_ROLL]);
-		PIOS_Brushless_SetSpeed(1, actuatorDesired.Pitch  * settings.MaxDPS[BRUSHLESSGIMBALSETTINGS_MAXDPS_PITCH]);
+		PIOS_Brushless_SetSpeed(0, actuatorDesired.Roll * settings.MaxDPS[BRUSHLESSGIMBALSETTINGS_MAXDPS_ROLL], 0.001f);
+		PIOS_Brushless_SetSpeed(1, actuatorDesired.Pitch  * settings.MaxDPS[BRUSHLESSGIMBALSETTINGS_MAXDPS_PITCH], 0.001f);
 	}
 }
 
