@@ -41,7 +41,6 @@
 #include "attitudeactual.h"
 #include "gyros.h"
 #include "flightstatus.h"
-#include "manualcontrol.h" // Just to get the PARSE_FLIGHT_MODE macro
 
 // Math libraries
 #include "CoordinateConversions.h"
@@ -397,7 +396,7 @@ static void stabilizationTask(void* parameters)
 		actuatorDesired.UpdateTime = dT * 1000;
 		actuatorDesired.Throttle = stabDesired.Throttle;
 
-		if(PARSE_FLIGHT_MODE(flightStatus.FlightMode) != FLIGHTMODE_MANUAL) {
+		if(flightStatus.FlightMode != FLIGHTSTATUS_FLIGHTMODE_MANUAL) {
 			ActuatorDesiredSet(&actuatorDesired);
 		} else {
 			// Force all axes to reinitialize when engaged
