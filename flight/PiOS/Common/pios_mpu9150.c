@@ -714,8 +714,7 @@ static void PIOS_MPU9150_Task(void *parameters)
 				// Trigger another measurement
 				PIOS_MPU9150_Mag_SetReg(MPU9150_MAG_CNTR, 0x01);
 
-				portBASE_TYPE xHigherPriorityTaskWoken_mag;
-				xQueueSendToBackFromISR(dev->mag_queue, (void *) &mag_data, &xHigherPriorityTaskWoken_mag);
+				xQueueSendToBack(dev->mag_queue, (void *) &mag_data, 0);
 			}
 		}
 
