@@ -14,6 +14,31 @@ Rectangle {
         sceneSize: Qt.size(width, height)
 
         Item {
+
+            // Wraps angles to -pi..pi range
+            function wrap_angles_R (x) {
+                while(x > Math.PI){
+                    x = x - 2*Math.PI
+                }
+                while(x < -Math.PI){
+                    x = x + 2*Math.PI
+                }
+
+                return x
+            }
+
+            // Wraps angles to -180..180 range
+            function wrap_angles_D (x) {
+                while(x > 180){
+                    x = x - 360
+                }
+                while(x < -180){
+                    x = x + 360
+                }
+
+                return x
+            }
+
             id: sceneItem
             width: parent.paintedWidth
             height: parent.paintedHeight
