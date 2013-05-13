@@ -355,7 +355,11 @@ static void AttitudeTask(void *parameters)
 //! The complementary filter attitude estimate
 static float cf_q[4];
 
-//!Update the complementary filter estimate of attitude
+/**
+ * Update the complementary filter estimate of attitude
+ * @param[in] first_run indicates the filter was just selected
+ * @param[in] secondary indicates the EKF is running as well
+ */
 static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 {
 	UAVObjEvent ev;
@@ -999,7 +1003,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		gps_vel_updated = false;
 	}
 
-	// When not runnning in indoor mode force the position to zero
+	// When runnning in indoor mode force the position to zero
 	if (!outdoor_mode) {
 		vel[0] = vel[1] = vel[2] = 0;
 		NED[0] = NED[1] = 0;
