@@ -516,25 +516,25 @@ static const struct pios_flash_internal_cfg flash_internal_cfg = {
 
 static const struct flashfs_logfs_cfg flashfs_internal_settings_cfg = {
 	.fs_magic      = 0x9ae1ee11,
-	.total_fs_size = EE_BANK_SIZE / 2, /* 4K bytes (2x2KB sectors) */
-	.arena_size    = 0x00002000,       /* 64 * slot size = 16K bytes = 8 sectors */
+	.total_fs_size = EE_BANK_SIZE / 2, /* 16K bytes (8x2KB sectors) */
+	.arena_size    = 0x00002000,       /* 32 * slot size = 8K bytes = 4 sectors */
 	.slot_size     = 0x00000100,       /* 256 bytes */
 
 	.start_offset  = EE_BANK_BASE, /* start after the bootloader */
-	.sector_size   = 0x00000800, /* 2K bytes */
-	.page_size     = 0x00000800, /* 2K bytes */
+	.sector_size   = 0x00000800,   /* 2K bytes */
+	.page_size     = 0x00000800,   /* 2K bytes */
 };
 
 static const struct flashfs_logfs_cfg flashfs_internal_waypoints_cfg = {
 	.fs_magic      = 0x9ab4ee11,
-	.total_fs_size = EE_BANK_SIZE / 2, /* 4K bytes (2x2KB sectors) */
-	.arena_size    = 0x00002000,       /* 64 * slot size = 16K bytes = 8 sectors */
+	.total_fs_size = EE_BANK_SIZE / 2, /* 16K bytes (8x2KB sectors) */
+	.arena_size    = 0x00002000,       /* 32 * slot size = 8K bytes = 4 sectors */
 	.slot_size     = 0x00000100,       /* 256 bytes */
 
 	/* start after the settings */
 	.start_offset  = EE_BANK_BASE + EE_BANK_SIZE / 2, 
-	.sector_size   = 0x00000800, /* 2K bytes */
-	.page_size     = 0x00000800, /* 2K bytes */
+	.sector_size   = 0x00000800,   /* 2K bytes */
+	.page_size     = 0x00000800,   /* 2K bytes */
 };
 
 #include "pios_flash.h"
