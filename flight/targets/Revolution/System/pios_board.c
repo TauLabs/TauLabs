@@ -297,6 +297,7 @@ uintptr_t pios_com_bridge_id;
 uintptr_t pios_com_overo_id;
 
 uintptr_t pios_uavo_settings_fs_id;
+uintptr_t pios_waypoints_settings_fs_id;
 
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. rx or tx size of 0 disables rx or tx
@@ -395,7 +396,8 @@ void PIOS_Board_Init(void) {
 	uintptr_t flash_id;
 	PIOS_Flash_Jedec_Init(&flash_id, pios_spi_accel_id, 1, &flash_m25p_cfg);
 #endif
-	PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_m25p_cfg, &pios_jedec_flash_driver, flash_id);
+	PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_m25p_settings_cfg, &pios_jedec_flash_driver, flash_id);
+	PIOS_FLASHFS_Logfs_Init(&pios_waypoints_settings_fs_id, &flashfs_m25p_waypoints_cfg, &pios_jedec_flash_driver, flash_id);
 
 	/* Initialize UAVObject libraries */
 	EventDispatcherInitialize();
