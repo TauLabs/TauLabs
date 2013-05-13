@@ -493,14 +493,14 @@ static void updateDestination()
 	else{ // ...but for an arc, use the switching loci to calculate the arc center
 		float *oldPosition_NE = pathDesired->Start;
 		float *newPosition_NE = pathSegmentDescriptor->SwitchingLocus;
-		float arcCenter_XY[2];
+		float arcCenter_NE[2];
 		enum arc_center_results ret;
 
-		ret = find_arc_center(oldPosition_NE, newPosition_NE, 1.0f/pathSegmentDescriptor->PathCurvature, arcCenter_XY, pathSegmentDescriptor->PathCurvature > 0, pathSegmentDescriptor->ArcRank == PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR);
+		ret = find_arc_center(oldPosition_NE, newPosition_NE, 1.0f/pathSegmentDescriptor->PathCurvature, pathSegmentDescriptor->PathCurvature > 0, pathSegmentDescriptor->ArcRank == PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR, arcCenter_NE);
 
 		if (ret == CENTER_FOUND){
-			pathDesired->End[0]=arcCenter_XY[0];
-			pathDesired->End[1]=arcCenter_XY[1];
+			pathDesired->End[0]=arcCenter_NE[0];
+			pathDesired->End[1]=arcCenter_NE[1];
 			pathDesired->End[2]=pathSegmentDescriptor->SwitchingLocus[2];
 		}
 		else { //---- This is bad, but we have to handle it.----///

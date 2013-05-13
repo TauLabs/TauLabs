@@ -192,7 +192,7 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 
 				// Calculate circle center
 				float arcCenter_NE[2];
-				find_arc_center(swl_current, swl_future, 1.0f/curvature, arcCenter_NE, curvature > 0, true);
+				find_arc_center(swl_current, swl_future, 1.0f/curvature, curvature > 0, true, arcCenter_NE);
 
 				// Vector perpendicular to the vector from arc center to tangent point
 				q_future[0] = -lambda*(swl_current[1] - arcCenter_NE[1]);
@@ -219,7 +219,7 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 				// Calculate old circle center
 				float arcCenter_NE[2];
 				find_arc_center(swl_past, swl_current,
-						1.0f/pathSegmentDescriptor_old.PathCurvature, arcCenter_NE,	clockwise, minor);
+						1.0f/pathSegmentDescriptor_old.PathCurvature, clockwise, minor, arcCenter_NE);
 
 				// Vector perpendicular to the vector from arc center to tangent point
 				q_current[0] = -lambda*(swl_current[1] - arcCenter_NE[1]);
@@ -255,7 +255,7 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 				// Calculate old arc center
 				float arcCenter_NE[2];
 				find_arc_center(swl_past, swl_current,
-						1.0f/pathSegmentDescriptor_old.PathCurvature, arcCenter_NE,	clockwise, minor);
+						1.0f/pathSegmentDescriptor_old.PathCurvature, clockwise, minor, arcCenter_NE);
 
 				/**
 				 * New segment: Vector perpendicular to the vector from arc center to tangent point
@@ -272,7 +272,7 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 				}
 
 				// Calculate new arc center
-				find_arc_center(swl_current, swl_future, 1.0f/curvature, arcCenter_NE, curvature > 0, true);
+				find_arc_center(swl_current, swl_future, 1.0f/curvature, curvature > 0, true, arcCenter_NE);
 
 				// Vector perpendicular to the vector from arc center to tangent point
 				q_future[0] = -lambda*(swl_current[1] - arcCenter_NE[1]);

@@ -50,7 +50,7 @@ float bound_min_max(float val, float min, float max);
 float circular_modulus_deg(float err);
 float circular_modulus_rad(float err);
 
-enum arc_center_results find_arc_center(float start_point[2], float end_point[2], float radius, float center[2], bool clockwise, bool minor);
+enum arc_center_results find_arc_center(float start_point[2], float end_point[2], float radius, bool clockwise, bool minor, float center[2]);
 
 //! Measure angle between two points on a circle
 float measure_arc_rad(float oldPosition_NE[2], float newPosition_NE[2], float arcCenter_NE[2]);

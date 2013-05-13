@@ -337,8 +337,10 @@ static void advanceSegment()
 	if (pathSegmentDescriptor_current.PathCurvature != 0 ) {
 		// Determine if the arc has a center, and if so assign it to arcCenter_NE
 		arc_has_center = find_arc_center(previousLocus->Position, pathSegmentDescriptor_current.SwitchingLocus,
-				1.0f/pathSegmentDescriptor_current.PathCurvature, arcCenter_NE,	pathSegmentDescriptor_current.PathCurvature > 0,
-				pathSegmentDescriptor_current.ArcRank == PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR);
+										 1.0f/pathSegmentDescriptor_current.PathCurvature,
+										 pathSegmentDescriptor_current.PathCurvature > 0,
+										 pathSegmentDescriptor_current.ArcRank == PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR,
+										 arcCenter_NE);
 
 		// If the arc has a center, then set the initial position as the beginning of the arc, and calculate the angular
 		// distance to be traveled along the arc
