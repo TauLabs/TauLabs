@@ -177,6 +177,7 @@ uintptr_t pios_com_vcp_id = 0;
 uintptr_t pios_com_bridge_id = 0;
 
 uintptr_t pios_uavo_settings_fs_id;
+uintptr_t pios_waypoints_settings_fs_id;
 
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. tx size of -1 make the port rx only
@@ -297,8 +298,11 @@ void PIOS_Board_Init(void) {
 	uintptr_t flash_id;
 	if (PIOS_Flash_Internal_Init(&flash_id, &flash_internal_cfg) != 0)
 		panic(5);
-	if (PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_internal_cfg, &pios_internal_flash_driver, flash_id) != 0)
+	if (PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_internal_settings_cfg, &pios_internal_flash_driver, flash_id) != 0)
 		panic(5);
+	if (PIOS_FLASHFS_Logfs_Init(&pios_waypoints_settings_fs_id, &flashfs_internal_waypoints_cfg, &pios_internal_flash_driver, flash_id) != 0)
+		panic(5);
+
 #endif
 
 	/* Initialize UAVObject libraries */
