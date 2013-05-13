@@ -77,11 +77,11 @@ float pid_apply(struct pid *pid, const float err, float dT)
  * @param[in] err The error term
  * @param[in] min_bound The minimum output
  * @param[in] max_bound The maximum output
- * @param[in] kt The decay constant
  * @param[in] dT  The time step
  * @returns Output the computed controller value
  *
- * @Note based on "Feedback Systems" by Astrom and Murray, page 342
+ * @Note based on "Feedback Systems" by Astrom and Murray, PID control
+ *  chapter.
  */
 float pid_apply_antiwindup(struct pid *pid, const float err,
 	float min_bound, float max_bound, float dT)
