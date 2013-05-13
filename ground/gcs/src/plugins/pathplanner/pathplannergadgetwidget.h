@@ -61,7 +61,11 @@ private slots:
 
     void on_tbFetchFromUAV_clicked();
 
+    //! Apply filets to the path
     void on_tbFilletPath_clicked();
+
+    //! Restore path before filleting
+    void on_tbUnfilletPath_clicked();
 
 private:
     Ui_PathPlanner  *ui;
@@ -69,6 +73,8 @@ private:
     ModelUavoProxy  *proxy;
     QItemSelectionModel *selection;
 
+    //! Store previous models for rolling back changes
+    FlightDataModel *prevModel;
 signals:
     void sendPathPlanToUAV();
     void receivePathPlanFromUAV();

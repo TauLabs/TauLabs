@@ -149,6 +149,20 @@
       </widget>
      </item>
      <item>
+      <widget class="QToolButton" name="tbUnfilletPath">
+       <property name="toolTip">
+        <string>Restore the path before filleting</string>
+       </property>
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="pathplanner.qrc">
+         <normaloff>:/opmap/images/unfillet_path.png</normaloff>:/opmap/images/unfillet_path.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
