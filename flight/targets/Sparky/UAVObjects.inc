@@ -23,7 +23,7 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 #
 
-# These are the UAVObjects supposed to be build as part of the OpenPilot target
+# These are the UAVObjects supposed to be build as part of the Tau Labs target
 # (all architectures)
 
 UAVOBJSRCFILENAMES =

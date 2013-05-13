@@ -7,9 +7,8 @@
  * @{
  *
  * @file       pios_mpu9150.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
- * @brief      MPU9150 6-axis gyro and accel chip
+ * @author     Tau Labs, http://github.com/TauLabs Copyright (C) 2013.
+ * @brief      MPU9150 9-axis gyro accel and mag chip
  * @see        The GNU Public License (GPL) Version 3
  *
  ******************************************************************************
@@ -279,8 +278,8 @@ void PIOS_MPU9150_SetLPF(enum pios_mpu60x0_filter filter)
 
 /**
  * Check if an MPU9150 is detected at the requested address
- * @return 0 if detected, -1 if successfully probed and not there
- *  -2 if another device is there.
+ * @return 0 if detected, -1 if successfully probed but wrong id
+ *  -2 no device at address
  */
 int32_t PIOS_MPU9150_Probe(uint32_t i2c_id, uint8_t i2c_addr)
 {

@@ -1,12 +1,12 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotSystem OpenPilot System
- * @brief These files are the core system files of OpenPilot.
- * They are the ground layer just above PiOS. In practice, OpenPilot actually starts
+ * @addtogroup TauLabsSystem Tau Labs System
+ * @brief These files are the core system files of Tau Labs.
+ * They are the ground layer just above PiOS. In practice, Tau Labs actually starts
  * in the main() function of sparky.c
  * @{
- * @addtogroup OpenPilotCore OpenPilot Core
- * @brief This is where the OP firmware starts. Those files also define the compile-time
+ * @addtogroup TauLabsCore Tau Labs Core
+ * @brief This is where the firmware starts. Those files also define the compile-time
  * options of the firmware.
  * @{
  * @file       sparky.c 

@@ -1,9 +1,9 @@
 /******************************************************************************
  * @file       STM32F30x_Sparky.c
  * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013
- * @addtogroup PhoenixPilotSystem PhoenixPilot System
+ * @addtogroup TauLabsSystem Tau Labs System
  * @{
- * @addtogroup OpenPilotCore OpenPilot Core
+ * @addtogroup TauLabsCore Tau Labs Core
  * @{
  * @brief PiOS configuration header for flying f3 board.
  *****************************************************************************/

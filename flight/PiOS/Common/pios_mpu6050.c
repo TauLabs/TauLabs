@@ -338,8 +338,8 @@ void PIOS_MPU6050_SetLPF(enum pios_mpu60x0_filter filter)
 
 /**
  * Check if an MPU6050 is detected at the requested address
- * @return 0 if detected, -1 if successfully probed and not there
- *  -2 if another device is there.
+ * @return 0 if detected, -1 if successfully probed but wrong id
+ *  -2 no device at address
  */
 int32_t PIOS_MPU6050_Probe(uint32_t i2c_id, uint8_t i2c_addr)
 {

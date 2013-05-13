@@ -1,11 +1,11 @@
 /**
  ******************************************************************************
- * @addtogroup CopterControlBL CopterControl BootLoader
- * @brief These files contain the code to the CopterControl Bootloader.
+ * @addtogroup SparkyBL Sparky BootLoader
+ * @brief These files contain the code to the Sparky Bootloader.
  *
  * @{
  * @file       common.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
  * @brief      This file contains various common defines for the BootLoader
  * @see        The GNU Public License (GPL) Version 3
  *

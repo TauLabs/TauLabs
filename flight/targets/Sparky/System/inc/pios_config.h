@@ -2,9 +2,9 @@
  ******************************************************************************
  * @file       pios_config.h
  * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013
- * @addtogroup OpenPilotSystem OpenPilot System
+ * @addtogroup TauLabsSystem Tau Labs System
  * @{
- * @addtogroup OpenPilotCore OpenPilot Core
+ * @addtogroup TauLabsCore Tau Labs Core
  * @{
  * @brief PiOS configuration header.
  *        Central compile time config for the project.

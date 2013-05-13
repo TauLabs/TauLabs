@@ -2,14 +2,13 @@
  ******************************************************************************
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
- * @addtogroup PIOS_MPU6050 MPU6050 Functions
+ * @addtogroup PIOS_MPU9150 MPU9150 Functions
  * @brief Deals with the hardware interface to the 3-axis gyro
  * @{
  *
- * @file       PIOS_MPU6050.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
- * @brief      MPU6050 3-axis gyor function headers
+ * @file       PIOS_MPU9150.h
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013
+ * @brief      MPU9150 9-axis gyro accel and mag chip
  * @see        The GNU Public License (GPL) Version 3
  *
  ******************************************************************************

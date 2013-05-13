@@ -1,9 +1,9 @@
 /*****************************************************************************
  * @file       pios_board.c
  * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013
- * @addtogroup OpenPilotSystem OpenPilot System
+ * @addtogroup TauLabsSystem Tau Labs System
  * @{
- * @addtogroup OpenPilotCore OpenPilot Core
+ * @addtogroup TauLabsCore Tau Labs Core
  * @{
  * @brief Defines board specific static initializers for hardware for the flying f3 board.
  *****************************************************************************/
@@ -145,7 +145,7 @@ static const struct pios_mpu60x0_cfg pios_mpu9150_cfg = {
 	.default_filter = PIOS_MPU60X0_LOWPASS_256_HZ,
 	.orientation = PIOS_MPU60X0_TOP_180DEG
 };
-#endif /* PIOS_INCLUDE_MPU6050 */
+#endif /* PIOS_INCLUDE_MPU9150 */
 
 /* One slot per selectable receiver group.
  *  eg. PWM, PPM, GCS, SPEKTRUM1, SPEKTRUM2, SBUS

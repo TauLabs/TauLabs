@@ -5,7 +5,7 @@
  *
  * @{
  * @file       op_dfu.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
  * @brief      This file contains the DFU commands handling code
  * @see        The GNU Public License (GPL) Version 3
  *
