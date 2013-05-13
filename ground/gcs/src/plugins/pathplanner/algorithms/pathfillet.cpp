@@ -24,6 +24,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include <QInputDialog>
 #include <algorithms/pathfillet.h>
 #include <waypoint.h>
 #include <math.h>
@@ -42,7 +43,7 @@ PathFillet::PathFillet(QObject *parent) : IPathAlgorithm(parent)
  * @param[out] err an error message for the user for invalid paths
  * @return true for valid path, false for invalid
  */
-bool PathFillet::verifyPath(FlightDataModel *model, QString &err)
+bool PathFillet::verifyPath(FlightDataModel *model, QString &err, QWidget *callingUi)
 {
     Q_UNUSED(model);
     Q_UNUSED(err);
@@ -62,8 +63,15 @@ bool PathFillet::verifyPath(FlightDataModel *model, QString &err)
  * @param[out] new the resulting flight model
  * @return true for success, false for failure
  */
-bool PathFillet::processPath(FlightDataModel *model)
+bool PathFillet::processPath(FlightDataModel *model, QWidget *callingUi)
 {
+
+    bool ok;
+    fillet_radius = QInputDialog::getDouble(callingUi, tr("Select filleting radius"),
+                                      tr("In m:"), fillet_radius, 0, 1000, 1, &ok);
+    if (!ok)
+        return false;
+
     new_model = new FlightDataModel(this);
 
     int newWaypointIdx = 0;
