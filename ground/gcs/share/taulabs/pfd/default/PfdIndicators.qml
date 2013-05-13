@@ -4,32 +4,8 @@ Item {
     id: sceneItem
     property variant sceneSize
 
-    // Wraps angles to -pi..pi range
-    function wrap_angles_R (x) {
-        while(x > Math.PI){
-            x = x - 2*Math.PI
-        }
-        while(x < -Math.PI){
-            x = x + 2*Math.PI
-        }
-
-        return x
-    }
-
-    // Wraps angles to -180..180 range
-    function wrap_angles_D (x) {
-        while(x > 180){
-            x = x - 360
-        }
-        while(x < -180){
-            x = x + 360
-        }
-
-        return x
-    }
-
     //AttitudeActual.Yaw is converted to -180..180 range
-    property real yaw: wrap_angles_D(AttitudeActual.Yaw)
+    property real yaw: sceneItem.parent.circular_modulus_deg(AttitudeActual.Yaw)
     property real pitch : (AttitudeActual.Pitch)
 
     // Telemetry status arrow
@@ -124,7 +100,7 @@ Item {
             // Home location is only visible if it is set and when it is in front of the viewport
             visible: (HomeLocation.Set != 0 && Math.abs(bearing_R) < Math.PI/2)
 
-            property real bearing_R : wrap_angles_R(Math.atan2(-PositionActual.East, -PositionActual.North) - yaw*Math.PI/180)
+            property real bearing_R : sceneItem.parent.circular_modulus_rad(Math.atan2(-PositionActual.East, -PositionActual.North) - yaw*Math.PI/180)
             property real elevation_R : Math.atan(-PositionActual.Down / -Math.sqrt(Math.pow(PositionActual.North,2)+Math.pow(PositionActual.East,2))) - pitch*Math.PI/180
 
             // Center the home location marker in the middle of the PFD
@@ -165,7 +141,7 @@ Item {
             // Waypoint is only visible when it is in front of the viewport
             visible: (Math.abs(bearing_R) < Math.PI/2 && (Waypoint.Position_North != 0 || Waypoint.Position_East != 0 || Waypoint.Position_Down != 0))
 
-            property real bearing_R : wrap_angles_R(Math.atan2(Waypoint.Position_East - PositionActual.East, Waypoint.Position_North - PositionActual.North) - yaw*Math.PI/180)
+            property real bearing_R : sceneItem.parent.circular_modulus_rad(Math.atan2(Waypoint.Position_East - PositionActual.East, Waypoint.Position_North - PositionActual.North) - yaw*Math.PI/180)
             property real elevation_R : Math.atan((Waypoint.Position_Down - PositionActual.Down) / -Math.sqrt(Math.pow(Waypoint.Position_North - PositionActual.North,2)+Math.pow(Waypoint.Position_East - PositionActual.East,2))) - pitch*Math.PI/180
 
             // Center the home location marker in the middle of the PFD

@@ -17,7 +17,7 @@ Item {
         //anchors.horizontalCenter: parent.horizontalCenter
 
         //AttitudeActual.Yaw is converted to -180..180 range
-        property real yaw : sceneItem.parent.wrap_angles_D(AttitudeActual.Yaw)
+        property real yaw : sceneItem.parent.circular_modulus_deg(AttitudeActual.Yaw)
 
         //split compass band to 8 parts to ensure it doesn't exceed the max texture size
         Row {
@@ -51,7 +51,7 @@ Item {
             anchors.centerIn: parent
             //convert bearing-compass.yaw to -180..180 range as compass_band_composed
             //the band is 540 degrees wide
-            anchors.horizontalCenterOffset: (sceneItem.parent.wrap_angles_D(bearing_D-compass.yaw))/540*compass_band_composed.width
+            anchors.horizontalCenterOffset: (sceneItem.parent.circular_modulus_deg(bearing_D-compass.yaw))/540*compass_band_composed.width
         }
 
         SvgElementImage {
@@ -70,7 +70,7 @@ Item {
             anchors.centerIn: parent
             //convert bearing-compass.yaw to -180..180 range as compass_band_composed
             //the band is 540 degrees wide
-            anchors.horizontalCenterOffset: (sceneItem.parent.wrap_angles_D(bearing_D-compass.yaw))/540*compass_band_composed.width
+            anchors.horizontalCenterOffset: (sceneItem.parent.circular_modulus_deg(bearing_D-compass.yaw))/540*compass_band_composed.width
         }
     }
 }

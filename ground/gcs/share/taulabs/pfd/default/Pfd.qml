@@ -16,7 +16,7 @@ Rectangle {
         Item {
 
             // Wraps angles to -pi..pi range
-            function wrap_angles_R (x) {
+            function circular_modulus_rad (x) {
                 while(x > Math.PI){
                     x = x - 2*Math.PI
                 }
@@ -28,7 +28,7 @@ Rectangle {
             }
 
             // Wraps angles to -180..180 range
-            function wrap_angles_D (x) {
+            function circular_modulus_deg (x) {
                 while(x > 180){
                     x = x - 360
                 }
