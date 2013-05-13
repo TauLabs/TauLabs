@@ -17,7 +17,7 @@ Item {
         //anchors.horizontalCenter: parent.horizontalCenter
 
         //AttitudeActual.Yaw is converted to -180..180 range
-        property real yaw : (AttitudeActual.Yaw+180+720) % 360 - 180
+        property real yaw : sceneItem.parent.circular_modulus_deg(AttitudeActual.Yaw)
 
         //split compass band to 8 parts to ensure it doesn't exceed the max texture size
         Row {
@@ -44,14 +44,14 @@ Item {
             elementName: "homewaypoint-bearing"
             sceneSize: sceneItem.sceneSize
 
-            visible: PositionActual.East != 0 || PositionActual.North != 0
+            visible: HomeLocation.Set != 0
 
-            property real bearing_D : Math.atan2(PositionActual.East, PositionActual.North)*180/Math.PI
+            property real bearing_D : Math.atan2(-PositionActual.East, -PositionActual.North)*180/Math.PI
 
             anchors.centerIn: parent
             //convert bearing-compass.yaw to -180..180 range as compass_band_composed
             //the band is 540 degrees wide
-            anchors.horizontalCenterOffset: ((bearing_D-compass.yaw+180+720) % 360 - 180)/540*compass_band_composed.width
+            anchors.horizontalCenterOffset: (sceneItem.parent.circular_modulus_deg(bearing_D-compass.yaw))/540*compass_band_composed.width
         }
 
         SvgElementImage {
@@ -63,14 +63,14 @@ Item {
             property int activeWaypoint: WaypointActive.Index
             onActiveWaypointChanged: qmlWidget.exportUAVOInstance("Waypoint", activeWaypoint)
 
-            visible: Waypoint.Position_East != 0 || Waypoint.Position_North != 0
+            visible:  Waypoint.Position_North != 0 || Waypoint.Position_East != 0 || Waypoint.Position_Down != 0
 
-            property real bearing_D : Math.atan2(Waypoint.Position_East - PositionActual.East, Waypoint.Position_North - PositionActual.North) - AttitudeActual.Yaw*Math.PI/180
+            property real bearing_D : Math.atan2(Waypoint.Position_East - PositionActual.East, Waypoint.Position_North - PositionActual.North)*180/Math.PI
 
             anchors.centerIn: parent
             //convert bearing-compass.yaw to -180..180 range as compass_band_composed
             //the band is 540 degrees wide
-            anchors.horizontalCenterOffset: ((bearing_D-compass.yaw+180+720) % 360 - 180)/540*compass_band_composed.width
+            anchors.horizontalCenterOffset: (sceneItem.parent.circular_modulus_deg(bearing_D-compass.yaw))/540*compass_band_composed.width
         }
     }
 }
