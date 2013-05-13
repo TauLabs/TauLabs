@@ -190,7 +190,6 @@ static void pathManagerTask(void *parameters)
 
 					// Load pregenerated return to home program
 					simple_return_to_home();
-
 				}
 				break;
 			case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
@@ -220,7 +219,6 @@ static void pathManagerTask(void *parameters)
 				continue;
 		}
 #else
-
 		PathPlannerStatusData pathPlannerStatus;
 		PathPlannerStatusGet(&pathPlannerStatus);
 
@@ -237,7 +235,6 @@ static void pathManagerTask(void *parameters)
 			vTaskDelay(IDLE_UPDATE_RATE_MS * portTICK_RATE_MS);
 			continue;
 		}
-
 #endif //PATH_PLANNER
 
 		bool advanceSegment_flag = false;
@@ -252,25 +249,20 @@ static void pathManagerTask(void *parameters)
 
 				oldPosition_NE[0] = newPosition_NE[0];
 				oldPosition_NE[1] = newPosition_NE[1];
+
+				// Every 128 samples, correct for roundoff error. Error doesn't accumulate too quickly, so
+				// this trigger value can safely be made much higher, with the condition that the type of
+				// theta_roundoff_trim_count be changed from uint8_t;
+				if ((theta_roundoff_trim_count++ & 0x8F) == 0) {
+					theta_roundoff_trim_count = 0;
+
+					float referenceTheta_D = measure_arc_rad(previousLocus->Position, newPosition_NE, arcCenter_NE) * RAD2DEG;
+					float error_D = circular_modulus_deg(referenceTheta_D-angularDistanceCompleted_D);
+
+					angularDistanceCompleted_D += error_D;
+				}
 			}
 
-			// Every 128 samples, correct for roundoff error. Error doesn't accumulate too quickly, so
-			// this trigger value can safely be made much higher, with the condition that the type of
-			// theta_roundoff_trim_count be changed from uint8_t;
-			if ((theta_roundoff_trim_count++ & 0x8F) == 0) {
-				theta_roundoff_trim_count = 0;
-
-				float referenceTheta_D = measure_arc_rad(previousLocus->Position, newPosition_NE, arcCenter_NE) * RAD2DEG;
-
-				while(referenceTheta_D-angularDistanceCompleted_D < -180) {
-					referenceTheta_D += 360;
-				}
-				while(referenceTheta_D-angularDistanceCompleted_D > 180) {
-					referenceTheta_D -= 360;
-				}
-
-				angularDistanceCompleted_D = referenceTheta_D;
-			}
 		}
 
 		// If the vehicle is sufficiently close to the goal, check if it has achieved the goal

@@ -75,23 +75,20 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 	else
 		return PATH_PLANNER_INSUFFICIENT_MEMORY;
 
-	// Scope
-	{
-		PathSegmentDescriptorData pathSegmentDescriptor;
+	PathSegmentDescriptorData pathSegmentDescriptor_first;
 
-		PositionActualData positionActual;
-		PositionActualGet(&positionActual);
+	PositionActualData positionActual;
+	PositionActualGet(&positionActual);
 
-		pathSegmentDescriptor.SwitchingLocus[0] = positionActual.North;
-		pathSegmentDescriptor.SwitchingLocus[1] = positionActual.East;
-		pathSegmentDescriptor.SwitchingLocus[2] = positionActual.Down;
-		pathSegmentDescriptor.FinalVelocity = 100;
-		pathSegmentDescriptor.DesiredAcceleration = 0;
-		pathSegmentDescriptor.NumberOfOrbits = 0;
-		pathSegmentDescriptor.PathCurvature = 0;
-		pathSegmentDescriptor.ArcRank = PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR;
-		PathSegmentDescriptorInstSet(0, &pathSegmentDescriptor);
-	}
+	pathSegmentDescriptor_first.SwitchingLocus[0] = positionActual.North;
+	pathSegmentDescriptor_first.SwitchingLocus[1] = positionActual.East;
+	pathSegmentDescriptor_first.SwitchingLocus[2] = positionActual.Down;
+	pathSegmentDescriptor_first.FinalVelocity = 100;
+	pathSegmentDescriptor_first.DesiredAcceleration = 0;
+	pathSegmentDescriptor_first.NumberOfOrbits = 0;
+	pathSegmentDescriptor_first.PathCurvature = 0;
+	pathSegmentDescriptor_first.ArcRank = PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR;
+	PathSegmentDescriptorInstSet(0, &pathSegmentDescriptor_first);
 
 	uint16_t offset = 1;
 
@@ -317,8 +314,8 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 
 				// The sqrt(3) term comes from the fact that the triangle that connects the center of
 				// the first/second arc with the center of the second/third arc is a 1-2-sqrt(3) triangle
-				float f1[3] = {waypoint.Position[0] - R*q_current[0]*sqrtf(3), waypoint.Position[1] - R*q_current[1]*sqrtf(3), waypoint.Position[2]};
-				float f2[3] = {waypoint.Position[0] + R*q_future[0]*sqrtf(3), waypoint.Position[1] + R*q_future[1]*sqrtf(3), waypoint.Position[2]};
+				float f1[3] = {swl_current[0] - R*q_current[0]*sqrtf(3), swl_current[1] - R*q_current[1]*sqrtf(3), swl_current[2]};
+				float f2[3] = {swl_current[0] + R*q_future[0]*sqrtf(3), swl_current[1] + R*q_future[1]*sqrtf(3), swl_current[2]};
 
 				/**
 				 * Add the waypoint segment

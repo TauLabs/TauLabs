@@ -97,16 +97,12 @@ static xQueueHandle pathManagerStatusQueue;
 // Private functions
 static void SettingsUpdatedCb(UAVObjEvent * ev);
 static void updateDestination();
-//static float followStraightLine(float r[3], float q[3], float p[3], float chi_inf, float k_path, float k_psi_int, float delT);
-//static float followOrbit(float c[3], float rho, bool direction, float p[3], float k_orbit, float k_psi_int, float delT);
 
-void airspeedController(struct ControllerOutput *airspeedControl, float calibrated_airspeed_error, float altitudeError, float dT);
-void totalEnergyController(struct ControllerOutput *energyControl, float true_airspeed_desired,
+static void airspeedController(struct ControllerOutput *airspeedControl, float calibrated_airspeed_error, float altitudeError, float dT);
+static void totalEnergyController(struct ControllerOutput *energyControl, float true_airspeed_desired,
 						   float true_airspeed_actual, float altitude_desired_NED, float altitude_actual_NED, float dT);
 static void simple_heading_controller(struct ControllerOutput *headingControl, PositionActualData *positionActual, float curvature, float courseActual_R, float true_airspeed_desired, float dT);
 static void roll_constrained_heading_controller(struct ControllerOutput *headingControl, float headingActual_R, PositionActualData *positionActual, VelocityActualData *velocityActual, float curvature, float true_airspeed, float true_airspeed_desired);
-
-//float desiredTrackingHeading(PositionActualData *positionActual, float curvature, float true_airspeed_desired, float dT);
 
 void initializeFixedWingPathFollower()
 {
@@ -159,7 +155,7 @@ int8_t updateFixedWingDesiredStabilization()
 		PathManagerStatusGet(&pathManagerStatusData);
 
 		// Fixme: This isn't a very elegant check. Since the manager can update it's state with new loci, but
-		// still have the original ActiveSegment, the pathcounter was introduced, which only resets when the
+		// still have the original ActiveSegment, the pathcounter was introduced. It only changes when the
 		// path manager gets a new path. Since this pathcounter variable doesn't do anything else, it's a bit
 		// of a waste of space right now. Logically, the path planner should set this variable but since we
 		// can't be sure a path planner is running, it works better on the level of the path manager.
@@ -275,7 +271,7 @@ int8_t updateFixedWingDesiredStabilization()
 }
 
 
-void airspeedController(struct ControllerOutput *airspeedControl, float calibrated_airspeed_error, float altitudeError_NED, float dT)
+static void airspeedController(struct ControllerOutput *airspeedControl, float calibrated_airspeed_error, float altitudeError_NED, float dT)
 {
 	// This is the throttle value required for level flight at the given airspeed
 	float feedForwardThrottle = fixedwingpathfollowerSettings.ThrottleLimit[FIXEDWINGPATHFOLLOWERSETTINGS_THROTTLELIMIT_NEUTRAL];
@@ -321,7 +317,7 @@ void airspeedController(struct ControllerOutput *airspeedControl, float calibrat
  * @param altitude_actual_NED Current Down estimation
  * @param dT
  */
-void totalEnergyController(struct ControllerOutput *energyControl, float true_airspeed_desired, float true_airspeed_actual, float altitude_desired_NED, float altitude_actual_NED, float dT)
+static void totalEnergyController(struct ControllerOutput *energyControl, float true_airspeed_desired, float true_airspeed_actual, float altitude_desired_NED, float altitude_actual_NED, float dT)
 {
 	//Proxy because instead of m*(1/2*v^2+g*h), it's v^2+2*gh. This saves processing power
 	float totalEnergyProxySetpoint=powf(true_airspeed_desired, 2.0f) - 2.0f*9.8f*altitude_desired_NED;
@@ -356,7 +352,7 @@ void totalEnergyController(struct ControllerOutput *energyControl, float true_ai
  * @param[in] true_airspeed_desired
  * @param[in] dT
  */
-void simple_heading_controller(struct ControllerOutput *headingControl, PositionActualData *positionActual, float curvature, float courseActual_R, float true_airspeed_desired, float dT)
+static void simple_heading_controller(struct ControllerOutput *headingControl, PositionActualData *positionActual, float curvature, float courseActual_R, float true_airspeed_desired, float dT)
 {
 	float k_psi_int = fixedwingpathfollowerSettings.FollowerIntegralGain;
 
@@ -434,7 +430,7 @@ static void roll_constrained_heading_controller(struct ControllerOutput *heading
  * @brief SettingsUpdatedCb Updates settings when relevant UAVO are written
  * @param[in] ev UAVObject event
  */
-void SettingsUpdatedCb(UAVObjEvent * ev)
+static void SettingsUpdatedCb(UAVObjEvent * ev)
 {
 	if (ev == NULL || ev->obj == FixedWingPathFollowerSettingsHandle())
 		FixedWingPathFollowerSettingsGet(&fixedwingpathfollowerSettings);

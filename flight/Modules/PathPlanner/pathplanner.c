@@ -39,7 +39,6 @@
 #include "pathplannerstatus.h"
 #include "positionactual.h"
 #include "waypoint.h"
-#include "waypointactive.h"
 #include "modulesettings.h"
 
 #include "CoordinateConversions.h"
@@ -67,15 +66,12 @@ static PathPlannerSettingsData pathPlannerSettings;
 static PathPlannerStatusData pathPlannerStatus;
 static bool process_waypoints_flag;
 static bool module_enabled;
-static bool path_manager_status_updated;
 static PathPlannerSettingsPlannerAlgorithmOptions plannerAlgorithm;
 static uint8_t guidanceType = NOMANAGER;
 
 // Private functions
 static void pathPlannerTask(void *parameters);
 static void settingsUpdated(UAVObjEvent * ev);
-static void waypointsUpdated(UAVObjEvent * ev);
-static void pathManagerStatusUpdated(UAVObjEvent * ev);
 static void createPathBox();
 static void createPathStar();
 static void createPathLogo();
@@ -84,10 +80,6 @@ static void createPathReturnToHome();
 static enum path_planner_states processWaypoints(PathPlannerSettingsPlannerAlgorithmOptions plannerAlgorithm);
 
 
-////! Store which waypoint has actually been pushed into PathDesired
-//static int32_t active_waypoint = -1;
-////! Store the previous waypoint which is used to determine the path trajectory
-//static int32_t previous_waypoint = -1;
 /**
  * Module initialization
  */
@@ -131,12 +123,11 @@ int32_t PathPlannerInitialize()
 		PathPlannerStatusInitialize();
 		PathSegmentDescriptorInitialize();
 		WaypointInitialize();
-		WaypointActiveInitialize();
 
 		// Create object queue
 		queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 
-		// This variable must only be set during the initialization process. This
+		// The plannerAlgorithm variable must only be set during the initialization process. This
 		// is due to the vast differences in RAM requirements between path planners
 		PathPlannerSettingsGet(&pathPlannerSettings);
 		plannerAlgorithm = pathPlannerSettings.PlannerAlgorithm;
@@ -164,14 +155,7 @@ static void pathPlannerTask(void *parameters)
 	PathPlannerSettingsConnectCallback(settingsUpdated);
 	settingsUpdated(PathPlannerSettingsHandle());
 
-//	WaypointConnectCallback(waypointsUpdated);
-	WaypointActiveConnectCallback(waypointsUpdated);
-
-	PathManagerStatusConnectCallback(pathManagerStatusUpdated);
-
 	// Main thread loop
-	path_manager_status_updated = false;
-
 	while (1)
 	{
 		FlightStatusData flightStatus;
@@ -180,6 +164,10 @@ static void pathPlannerTask(void *parameters)
 		switch (flightStatus.FlightMode) {
 			case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
 				if (guidanceType != RETURNHOME) {
+					// Ensure we have latest copy of settings
+					PathPlannerSettingsGet(&pathPlannerSettings);
+
+					// Create path plan
 					createPathReturnToHome();
 
 					pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
@@ -190,6 +178,10 @@ static void pathPlannerTask(void *parameters)
 				break;
 			case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
 				if (guidanceType != HOLDPOSITION) {
+					// Ensure we have latest copy of settings
+					PathPlannerSettingsGet(&pathPlannerSettings);
+
+					// Create path plan
 					createPathHoldPosition();
 
 					pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
@@ -200,6 +192,7 @@ static void pathPlannerTask(void *parameters)
 				break;
 			case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
 				if (guidanceType != PATHPLANNER) {
+					// Ensure we have latest copy of settings
 					PathPlannerSettingsGet(&pathPlannerSettings);
 
 					switch(pathPlannerSettings.PreprogrammedPath) {
@@ -313,55 +306,9 @@ enum path_planner_states processWaypoints(PathPlannerSettingsPlannerAlgorithmOpt
 }
 
 
-
-
-/**
- * On changed waypoints, replan the path
- */
-static void waypointsUpdated(UAVObjEvent * ev)
-{
-	process_waypoints_flag = true;
-}
-
-/**
- * When the PathManagerStatus is updated indicate a new one is available to consume
- */
-static void pathManagerStatusUpdated(UAVObjEvent * ev)
-{
-	path_manager_status_updated = true;
-}
-
 void settingsUpdated(UAVObjEvent * ev)
 {
-	uint8_t preprogrammedPath = pathPlannerSettings.PreprogrammedPath;
-	int32_t retval = 0;
-	bool    operation = false;
-
 	PathPlannerSettingsGet(&pathPlannerSettings);
-	if (pathPlannerSettings.PreprogrammedPath != preprogrammedPath) {
-		switch(pathPlannerSettings.PreprogrammedPath) {
-			case PATHPLANNERSETTINGS_PREPROGRAMMEDPATH_NONE:
-				break;
-			case PATHPLANNERSETTINGS_PREPROGRAMMEDPATH_10M_BOX:
-				createPathBox();
-				break;
-			case PATHPLANNERSETTINGS_PREPROGRAMMEDPATH_STAR:
-				createPathStar();
-				break;
-			case PATHPLANNERSETTINGS_PREPROGRAMMEDPATH_LOGO:
-				createPathLogo();
-				break;
-		}
-	}
-
-	if (operation && (retval == 0)) {
-		pathPlannerSettings.FlashOperation = PATHPLANNERSETTINGS_FLASHOPERATION_COMPLETED;
-		PathPlannerSettingsSet(&pathPlannerSettings);
-	} else if (retval != 0) {
-		pathPlannerSettings.FlashOperation = PATHPLANNERSETTINGS_FLASHOPERATION_FAILED;
-		PathPlannerSettingsSet(&pathPlannerSettings);
-	}
-
 }
 
 
