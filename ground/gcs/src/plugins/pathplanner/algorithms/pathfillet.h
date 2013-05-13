@@ -43,14 +43,21 @@ public:
      * @param[out] err an error message for the user for invalid paths
      * @return true for valid path, false for invalid
      */
-    virtual bool verifyPath(FlightDataModel *model, QString &err, QWidget *callingUi = 0);
+    virtual bool verifyPath(FlightDataModel *model, QString &err);
 
     /**
      * Process the flight path according to the algorithm
      * @param model the flight model to process and update
      * @return true for success, false for failure
      */
-    virtual bool processPath(FlightDataModel *model, QWidget *callingUi = 0);
+    virtual bool processPath(FlightDataModel *model);
+
+    /**
+     * Present a UI to configure options for the algorithm
+     * @param callingUi the QWidget that called this algorithm
+     * @return true for success, false for failure
+     */
+    virtual bool configure(QWidget *callingUi = 0);
 
 private:
 

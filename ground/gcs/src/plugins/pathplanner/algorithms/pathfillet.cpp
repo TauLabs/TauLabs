@@ -43,7 +43,21 @@ PathFillet::PathFillet(QObject *parent) : IPathAlgorithm(parent)
  * @param[out] err an error message for the user for invalid paths
  * @return true for valid path, false for invalid
  */
-bool PathFillet::verifyPath(FlightDataModel *model, QString &err, QWidget *callingUi)
+bool PathFillet::configure(QWidget *callingUi)
+{
+    bool ok;
+    fillet_radius = QInputDialog::getDouble(callingUi, tr("Select filleting radius"),
+                                      tr("In m:"), fillet_radius, 0, 1000, 1, &ok);
+
+    return ok;
+}
+/**
+ * Verify the path is valid to run through this algorithm
+ * @param[in] model the flight model to validate
+ * @param[out] err an error message for the user for invalid paths
+ * @return true for valid path, false for invalid
+ */
+bool PathFillet::verifyPath(FlightDataModel *model, QString &err)
 {
     Q_UNUSED(model);
     Q_UNUSED(err);
@@ -63,15 +77,8 @@ bool PathFillet::verifyPath(FlightDataModel *model, QString &err, QWidget *calli
  * @param[out] new the resulting flight model
  * @return true for success, false for failure
  */
-bool PathFillet::processPath(FlightDataModel *model, QWidget *callingUi)
+bool PathFillet::processPath(FlightDataModel *model)
 {
-
-    bool ok;
-    fillet_radius = QInputDialog::getDouble(callingUi, tr("Select filleting radius"),
-                                      tr("In m:"), fillet_radius, 0, 1000, 1, &ok);
-    if (!ok)
-        return false;
-
     new_model = new FlightDataModel(this);
 
     int newWaypointIdx = 0;
