@@ -37,12 +37,11 @@
 
 
 /*
- * For now enumerate as a OpenPilot Revolution board until
- * the usb enumeration in gcs has been extended to support multiple vendor ids
+ * For now enumerate with same VID/PID as Freedom
  */
 
-#define PIOS_USB_BOARD_VENDOR_ID USB_VENDOR_ID_OPENPILOT
-#define PIOS_USB_BOARD_PRODUCT_ID USB_PRODUCT_ID_REVOLUTION
+#define PIOS_USB_BOARD_VENDOR_ID USB_VENDOR_ID_CLAYLOGIC
+#define PIOS_USB_BOARD_PRODUCT_ID USB_PRODUCT_ID_FREEDOM
 
 #define PIOS_USB_BOARD_DEVICE_VER USB_OP_DEVICE_VER(0, USB_OP_BOARD_MODE_FW)
 #define PIOS_USB_BOARD_SN_SUFFIX "+FW"
