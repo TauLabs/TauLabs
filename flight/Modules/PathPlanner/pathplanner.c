@@ -423,7 +423,7 @@ void settingsUpdated(UAVObjEvent * ev) {
 		}
 	}
 
-	if (operation && retval == 0) {
+	if (operation && (retval == 0)) {
 		pathPlannerSettings.FlashOperation = PATHPLANNERSETTINGS_FLASHOPERATION_COMPLETED;
 		PathPlannerSettingsSet(&pathPlannerSettings);
 	} else if (retval != 0) {
