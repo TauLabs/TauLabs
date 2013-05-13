@@ -289,14 +289,14 @@ QList<UAVObject*> UAVObjectManager::getObjectInstances(const QString* name, quin
 {
     QMutexLocker locker(mutex);
     // Check if this object type is already in the list
-    for (int objidx = 0; objidx < objects.length(); ++objidx)
+    for (QList< QList<UAVObject*> >::iterator iter = objects.begin(); iter != objects.end(); ++iter)
     {
         // Check if the object ID is in the list
-        if (objects[objidx].length() > 0)
+        if (iter->length() > 0)
         {
-            if ( (name != NULL && objects[objidx][0]->getName().compare(name) == 0) || (name == NULL && objects[objidx][0]->getObjID() == objId) )
+            if ( (name != NULL && (*iter)[0]->getName().compare(name) == 0) || (name == NULL && (*iter)[0]->getObjID() == objId) )
             {
-                return objects[objidx];
+                return (*iter);
             }
         }
     }

@@ -125,9 +125,9 @@ void Telemetry::registerObject(UAVObject* obj)
 void Telemetry::addObject(UAVObject* obj)
 {
     // Check if object type is already in the list
-    for (int n = 0; n < objList.length(); ++n)
+    for (QList<ObjectTimeInfo>::iterator iter = objList.begin(); iter != objList.end(); ++iter)
     {
-        if ( objList[n].obj->getObjID() == obj->getObjID() )
+        if (iter->obj->getObjID() == obj->getObjID())
         {
             // Object type (not instance!) is already in the list, do nothing
             return;
@@ -148,12 +148,12 @@ void Telemetry::addObject(UAVObject* obj)
 void Telemetry::setUpdatePeriod(UAVObject* obj, qint32 periodMs)
 {
     // Find object type (not instance!) and update its period
-    for (int n = 0; n < objList.length(); ++n)
+    for (QList<ObjectTimeInfo>::iterator iter = objList.begin(); iter != objList.end(); ++iter)
     {
-        if ( objList[n].obj->getObjID() == obj->getObjID() )
+        if (iter->obj->getObjID() == obj->getObjID())
         {
-            objList[n].updatePeriodMs = periodMs;
-            objList[n].timeToNextUpdateMs = quint32((float)periodMs * (float)qrand() / (float)RAND_MAX); // avoid bunching of updates
+            iter->updatePeriodMs = periodMs;
+            iter->timeToNextUpdateMs = quint32((float)periodMs * (float)qrand() / (float)RAND_MAX); // avoid bunching of updates
         }
     }
 }
@@ -522,7 +522,7 @@ void Telemetry::processObjectQueue()
 }
 
 /**
- * Check is any objects are pending for periodic updates
+ * Check if any objects are pending for periodic updates
  * TODO: Clean-up
  */
 void Telemetry::processPeriodicUpdates()
@@ -535,13 +535,12 @@ void Telemetry::processPeriodicUpdates()
     // Iterate through each object and update its timer, if zero then transmit object.
     // Also calculate smallest delay to next update (will be used for setting timeToNextUpdateMs)
     qint32 minDelay = MAX_UPDATE_PERIOD_MS;
-    ObjectTimeInfo *objinfo;
     qint32 elapsedMs = 0;
     QTime time;
     qint32 offset;
-    for (int n = 0; n < objList.length(); ++n)
+
+    for (QList<ObjectTimeInfo>::iterator objinfo = objList.begin(); objinfo != objList.end(); ++objinfo)
     {
-        objinfo = &objList[n];
         // If object is configured for periodic updates
         if (objinfo->updatePeriodMs > 0)
         {
