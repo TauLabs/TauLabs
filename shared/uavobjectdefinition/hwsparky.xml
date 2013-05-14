@@ -3,7 +3,7 @@
 		<description>Selection of optional hardware configurations.</description>
 
 		<field name="RcvrPort" units="function" type="enum" elements="1" options="Disabled,PPM,S.Bus,DSM2,DSMX (10bit), DSMX (11bit)" defaultvalue="PPM"/>
-		<field name="FlexiPort" units="function" type="enum" elements="1" options="Disabled,Telemetry,DebugConsole,ComBridge,GPS,S.Bus,DSM2,DSMX (10bit),DSMX (11bit)" defaultvalue="Disabled"/>
+		<field name="FlexiPort" units="function" type="enum" elements="1" options="Disabled,Telemetry,DebugConsole,ComBridge,GPS,S.Bus,DSM2,DSMX (10bit),DSMX (11bit),MavLinkTX,MavLinkTX_GPS_RX" defaultvalue="Disabled"/>
 
 		<field name="USB_HIDPort" units="function" type="enum" elements="1" options="USBTelemetry,RCTransmitter,Disabled" defaultvalue="USBTelemetry"/>
 		<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,Disabled" defaultvalue="Disabled"/>

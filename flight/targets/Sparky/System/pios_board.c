@@ -164,6 +164,8 @@ uint32_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 #define PIOS_COM_BRIDGE_RX_BUF_LEN 65
 #define PIOS_COM_BRIDGE_TX_BUF_LEN 12
 
+#define PIOS_COM_MAVLINK_TX_BUF_LEN 32
+
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 #define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
 uintptr_t pios_com_debug_id;
@@ -175,6 +177,7 @@ uintptr_t pios_com_telem_usb_id = 0;
 uintptr_t pios_com_telem_rf_id = 0;
 uintptr_t pios_com_vcp_id = 0;
 uintptr_t pios_com_bridge_id = 0;
+uintptr_t pios_com_mavlink_id = 0;
 
 uintptr_t pios_uavo_settings_fs_id;
 uintptr_t pios_waypoints_settings_fs_id;
@@ -566,6 +569,19 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_flexi_usart_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
 #endif
+		break;
+	case HWSPARKY_FLEXIPORT_MAVLINKTX:
+#if defined(PIOS_INCLUDE_MAVLINK)
+		PIOS_Board_configure_com(&pios_flexi_usart_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id);
+#endif  /* PIOS_INCLUDE_MAVLINK */
+		break;
+	case HWSPARKY_FLEXIPORT_MAVLINKTX_GPS_RX:
+#if defined(PIOS_INCLUDE_GPS)
+#if defined(PIOS_INCLUDE_MAVLINK)
+		PIOS_Board_configure_com(&pios_flexi_usart_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
+		pios_com_mavlink_id = pios_com_gps_id;
+#endif  /* PIOS_INCLUDE_MAVLINK */
+#endif  /* PIOS_INCLUDE_GPS */
 		break;
 	}
 
