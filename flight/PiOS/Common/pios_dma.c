@@ -7,7 +7,7 @@
  * @{
  *
  * @file       pios_dma.c
- * @author     The Tau Labs Team, http://www.taulabls.org Copyright (C) 2013.
+ * @author     The Tau Labs Team, http://www.taulabs.org Copyright (C) 2013.
  * @brief
  * @see        The GNU Public License (GPL) Version 3
  *****************************************************************************/
