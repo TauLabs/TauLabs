@@ -38,10 +38,10 @@ static bool PIOS_INTERNAL_ADC_validate(struct pios_internal_adc_dev *);
 static void PIOS_INTERNAL_ADC_Config(uint32_t internal_adc_id, uint32_t oversampling);
 static int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin);
 #if defined(PIOS_INCLUDE_FREERTOS)
-void static PIOS_INTERNAL_ADC_SetQueue(uint32_t internal_adc_id, xQueueHandle data_queue);
+static void PIOS_INTERNAL_ADC_SetQueue(uint32_t internal_adc_id, xQueueHandle data_queue);
 #endif
-uint8_t static PIOS_INTERNAL_ADC_Number_of_Channels(uint32_t internal_adc_id);
-bool static PIOS_INTERNAL_ADC_Available(uint32_t adc_id, uint32_t device_pin);
+static uint8_t PIOS_INTERNAL_ADC_Number_of_Channels(uint32_t internal_adc_id);
+static bool PIOS_INTERNAL_ADC_Available(uint32_t adc_id, uint32_t device_pin);
 
 // Private types
 enum pios_internal_adc_dev_magic {
@@ -299,7 +299,7 @@ static int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin)
  * @brief Register a queue to add data to when downsampled 
  * \param[in] internal_adc_id handle to the device
  */
-void PIOS_INTERNAL_ADC_SetQueue(uint32_t internal_adc_id, xQueueHandle data_queue)
+static void PIOS_INTERNAL_ADC_SetQueue(uint32_t internal_adc_id, xQueueHandle data_queue)
 {
 	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *)internal_adc_id;
 	if(!PIOS_INTERNAL_ADC_validate(adc_dev))
@@ -318,7 +318,7 @@ void PIOS_INTERNAL_ADC_SetQueue(uint32_t internal_adc_id, xQueueHandle data_queu
  * @param new_filter Array of adc_oversampling floats plus one for the
  * filter coefficients
  */
-void PIOS_INTERNAL_ADC_SetFIRCoefficients(uint32_t internal_adc_id, float * new_filter)
+static void PIOS_INTERNAL_ADC_SetFIRCoefficients(uint32_t internal_adc_id, float * new_filter)
 {
 	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *)internal_adc_id;
 	if(!PIOS_INTERNAL_ADC_validate(adc_dev))
@@ -335,7 +335,7 @@ void PIOS_INTERNAL_ADC_SetFIRCoefficients(uint32_t internal_adc_id, float * new_
  * callback function if installed
  * \param[in] internal_adc_id handle to the device
  */ 
-void PIOS_INTERNAL_ADC_downsample_data(uint32_t internal_adc_id)
+static void PIOS_INTERNAL_ADC_downsample_data(uint32_t internal_adc_id)
 {
 	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *)internal_adc_id;
 	if(!PIOS_INTERNAL_ADC_validate(adc_dev))
@@ -400,7 +400,7 @@ void PIOS_INTERNAL_ADC_DMA_Handler()
   * \param[in] device_pin pin to check if available
   * \return true if available
   */
-bool PIOS_INTERNAL_ADC_Available(uint32_t adc_id, uint32_t device_pin) {
+static bool PIOS_INTERNAL_ADC_Available(uint32_t adc_id, uint32_t device_pin) {
 	/* Check if pin exists */
 	return (!(device_pin >= PIOS_ADC_NUM_CHANNELS));
 }
@@ -411,7 +411,7 @@ bool PIOS_INTERNAL_ADC_Available(uint32_t adc_id, uint32_t device_pin) {
   * \param[in] adc_id handle of the device
   * \return number of ADC channels of the device
   */
-uint8_t PIOS_INTERNAL_ADC_Number_of_Channels(uint32_t internal_adc_id)
+static uint8_t PIOS_INTERNAL_ADC_Number_of_Channels(uint32_t internal_adc_id)
 {
 	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *)internal_adc_id;
 	if(!PIOS_INTERNAL_ADC_validate(adc_dev))
