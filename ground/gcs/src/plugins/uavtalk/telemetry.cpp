@@ -126,7 +126,8 @@ void Telemetry::registerObject(UAVObject* obj)
 void Telemetry::addObject(UAVObject* obj)
 {
     // Check if object type is already in the list
-    for (QVector<ObjectTimeInfo>::const_iterator iter = objList.constBegin(); iter != objList.constEnd(); ++iter)
+    const QVector<ObjectTimeInfo>::iterator iterEnd = objList.end();
+    for (QVector<ObjectTimeInfo>::const_iterator iter = objList.constBegin(); iter != iterEnd; ++iter)
     {
         if (iter->obj->getObjID() == obj->getObjID())
         {
@@ -151,7 +152,8 @@ void Telemetry::setUpdatePeriod(UAVObject* obj, qint32 periodMs)
     // Find object type (not instance!) and update its period
     const quint32 objID = obj->getObjID();
 
-    for (QVector<ObjectTimeInfo>::iterator iter = objList.begin(); iter != objList.constEnd(); ++iter)
+    const QVector<ObjectTimeInfo>::iterator iterEnd = objList.end();
+    for (QVector<ObjectTimeInfo>::iterator iter = objList.begin(); iter != iterEnd; ++iter)
     {
         if (iter->obj->getObjID() == objID)
         {
@@ -542,7 +544,8 @@ void Telemetry::processPeriodicUpdates()
     QTime time;
     qint32 offset;
 
-    for (QVector<ObjectTimeInfo>::iterator objinfo = objList.begin(); objinfo != objList.constEnd(); ++objinfo)
+    const QVector<ObjectTimeInfo>::iterator objInfoEnd = objList.end();
+    for (QVector<ObjectTimeInfo>::iterator objinfo = objList.begin(); objinfo != objInfoEnd; ++objinfo)
     {
         // If object is configured for periodic updates
         if (objinfo->updatePeriodMs > 0)

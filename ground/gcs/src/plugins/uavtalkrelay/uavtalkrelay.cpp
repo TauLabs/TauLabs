@@ -88,9 +88,11 @@ void UavTalkRelay::newConnection()
     QVector<UAVObject*>::const_iterator j;
     int objects = 0;
 
-    for (i = list.constBegin(); i != list.constEnd(); ++i)
+    const QVector< QVector<UAVObject*> >::iterator iEnd = list.end();
+    for (i = list.constBegin(); i != iEnd; ++i)
     {
-        for (j = (*i).constBegin(); j != (*i).constEnd(); ++j)
+        QVector<UAVObject*>::const_iterator jEnd = (*i).constEnd();
+        for (j = (*i).constBegin(); j != jEnd; ++j)
         {
             connect(*j, SIGNAL(objectUpdated(UAVObject*)), uav.data(), SLOT(sendObjectSlot(UAVObject*)));
             objects++;
