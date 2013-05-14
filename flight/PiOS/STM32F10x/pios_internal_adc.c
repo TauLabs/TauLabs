@@ -311,26 +311,6 @@ static void PIOS_INTERNAL_ADC_SetQueue(uint32_t internal_adc_id, xQueueHandle da
 #endif
 
 /**
- * @brief Set the fir coefficients.  Takes as many samples as the 
- * current filter order plus one (normalization)
- *
- * \param[in] internal_adc_id handle to the device
- * @param new_filter Array of adc_oversampling floats plus one for the
- * filter coefficients
- */
-static void PIOS_INTERNAL_ADC_SetFIRCoefficients(uint32_t internal_adc_id, float * new_filter)
-{
-	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *)internal_adc_id;
-	if(!PIOS_INTERNAL_ADC_validate(adc_dev))
-	{
-		return;
-	}
-	// Less than or equal to get normalization constant
-	for(int i = 0; i <= adc_dev->adc_oversample; i++)
-		adc_dev->fir_coeffs[i] = new_filter[i];
-}
-
-/**
  * @brief Downsample the data for each of the channels then call
  * callback function if installed
  * \param[in] internal_adc_id handle to the device
