@@ -38,17 +38,18 @@ void PIOS_DMA_Default_Handler(void){
         while(true){};
 }
 
-int8_t PIOS_DMA_Install_Interrupt_handler(DMA_Channel_TypeDef *channel, void * function){
-        for(uint8_t i=0;i<PIOS_DMA_MAX_CHANNELS;++i){
-                if(dma_channels[i]==channel){
-                        for(uint8_t ii=0;ii<PIOS_DMA_MAX_HANDLERS_PER_CHANNEL;++ii){
-                                if(pios_dma_handler_map[i][ii]==NULL){
-                                        pios_dma_handler_map[i][ii]=function;
-                                        return 0;
-                                }
-                        }
-                        return -1;
-                }
-        }
-        return -2;
+int8_t PIOS_DMA_Install_Interrupt_handler(DMA_Channel_TypeDef *channel, void * function)
+{
+	for (uint32_t i = 0; i < PIOS_DMA_MAX_CHANNELS; ++i) {
+		if (dma_channels[i] == channel) {
+			for (uint32_t ii = 0; ii < PIOS_DMA_MAX_HANDLERS_PER_CHANNEL; ++ii) {
+				if (pios_dma_handler_map[i][ii] == NULL ) {
+					pios_dma_handler_map[i][ii] = function;
+					return 0;
+				}
+			}
+			return -1;
+		}
+	}
+	return -2;
 }
