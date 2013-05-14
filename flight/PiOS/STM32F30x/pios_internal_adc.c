@@ -532,6 +532,8 @@ static void PIOS_INTERNAL_ADC_DMA_Handler4(void)
  */
 static void PIOS_ADC_DMA_Handler(struct pios_internal_adc_dev *adc_dev)
 {
+	if(!PIOS_INTERNAL_ADC_validate(adc_dev))
+		PIOS_Assert(0);
         /* terminal count, buffer has flipped */
         if (DMA_GetFlagStatus(adc_dev->cfg->full_flag /*DMA1_IT_TC1*/)) {        // whole double buffer filled
                 if (adc_dev->cfg->adc_dev_slave)
