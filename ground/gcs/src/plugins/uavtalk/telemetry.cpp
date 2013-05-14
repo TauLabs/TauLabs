@@ -148,9 +148,12 @@ void Telemetry::addObject(UAVObject* obj)
 void Telemetry::setUpdatePeriod(UAVObject* obj, qint32 periodMs)
 {
     // Find object type (not instance!) and update its period
-    for (QList<ObjectTimeInfo>::iterator iter = objList.begin(); iter != objList.end(); ++iter)
+    const QList<ObjectTimeInfo>::iterator listSize = objList.end();
+    const quint32 objID = obj->getObjID();
+
+    for (QList<ObjectTimeInfo>::iterator iter = objList.begin(); iter != listSize; ++iter)
     {
-        if (iter->obj->getObjID() == obj->getObjID())
+        if (iter->obj->getObjID() == objID)
         {
             iter->updatePeriodMs = periodMs;
             iter->timeToNextUpdateMs = quint32((float)periodMs * (float)qrand() / (float)RAND_MAX); // avoid bunching of updates
@@ -539,7 +542,8 @@ void Telemetry::processPeriodicUpdates()
     QTime time;
     qint32 offset;
 
-    for (QList<ObjectTimeInfo>::iterator objinfo = objList.begin(); objinfo != objList.end(); ++objinfo)
+    const QList<ObjectTimeInfo>::iterator listSize = objList.end();
+    for (QList<ObjectTimeInfo>::iterator objinfo = objList.begin(); objinfo != listSize; ++objinfo)
     {
         // If object is configured for periodic updates
         if (objinfo->updatePeriodMs > 0)
