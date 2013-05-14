@@ -103,7 +103,7 @@ static const struct pios_mpu60x0_cfg pios_mpu6050_cfg = {
  * Configuration for the MPU9150 chip
  */
 #if defined(PIOS_INCLUDE_MPU9150)
-#include "pios_mpu6050.h"
+#include "pios_mpu9150.h"
 static const struct pios_exti_cfg pios_exti_mpu9150_cfg __exti_config = {
 	.vector = PIOS_MPU9150_IRQHandler,
 	.line = EXTI_Line15,
