@@ -50,10 +50,11 @@ bool UAVObjectManager::registerObject(UAVDataObject* obj)
 {
     QMutexLocker locker(mutex);
     // Check if this object type is already in the list
-    for (int objidx = 0; objidx < objects.length(); ++objidx)
+    quint32 objID = obj->getObjID();
+    for (int objidx = 0; objidx < objects.size(); ++objidx)
     {
         // Check if the object ID is in the list
-        if (objects[objidx].length() > 0 && objects[objidx][0]->getObjID() == obj->getObjID())
+        if (objects[objidx].size() > 0 && objects[objidx][0]->getObjID() == objID)
         {
             // Check if this is a single instance object, if yes we can not add a new instance
             if (obj->isSingleInstance())
@@ -74,7 +75,7 @@ bool UAVObjectManager::registerObject(UAVDataObject* obj)
             // will be created.
             if ( (obj->getInstID() > 0) && (obj->getInstID() < MAX_INSTANCES) )
             {
-                for (int instidx = 0; instidx < objects[objidx].length(); ++instidx)
+                for (int instidx = 0; instidx < objects[objidx].size(); ++instidx)
                 {
                     if ( objects[objidx][instidx]->getInstID() == obj->getInstID() )
                     {
@@ -84,7 +85,7 @@ bool UAVObjectManager::registerObject(UAVDataObject* obj)
                 }
                 // Check if there are any gaps between the requested instance ID and the ones in the list,
                 // if any then create the missing instances.
-                for (quint32 instidx = objects[objidx].length(); instidx < obj->getInstID(); ++instidx)
+                for (quint32 instidx = objects[objidx].size(); instidx < obj->getInstID(); ++instidx)
                 {
                     UAVDataObject* cobj = obj->clone(instidx);
                     cobj->initialize(mobj);
@@ -98,7 +99,7 @@ bool UAVObjectManager::registerObject(UAVDataObject* obj)
             else if (obj->getInstID() == 0)
             {
                 // Assign the next available ID and initialize the object instance
-                obj->initialize(objects[objidx].length(), mobj);
+                obj->initialize(objects[objidx].size(), mobj);
             }
             else
             {
@@ -106,7 +107,7 @@ bool UAVObjectManager::registerObject(UAVDataObject* obj)
             }
             // Add the actual object instance in the list
             objects[objidx].append(obj);
-            getObject(obj->getObjID())->emitNewInstance(obj);
+            getObject(objID)->emitNewInstance(obj);
             emit newInstance(obj);
             return true;
         }
@@ -116,7 +117,7 @@ bool UAVObjectManager::registerObject(UAVDataObject* obj)
     // Create metaobject
     QString mname = obj->getName();
     mname.append("Meta");
-    UAVMetaObject* mobj = new UAVMetaObject(obj->getObjID()+1, mname, obj);
+    UAVMetaObject* mobj = new UAVMetaObject(objID + 1, mname, obj);
     // Initialize object
     obj->initialize(0, mobj);
     // Add to list
@@ -128,7 +129,7 @@ bool UAVObjectManager::registerObject(UAVDataObject* obj)
 void UAVObjectManager::addObject(UAVObject* obj)
 {
     // Add to list
-    QList<UAVObject*> list;
+    QVector<UAVObject*> list;
     list.append(obj);
     objects.append(list);
     emit newObject(obj);
@@ -138,7 +139,7 @@ void UAVObjectManager::addObject(UAVObject* obj)
  * Get all objects. A two dimentional QList is returned. Objects are grouped by
  * instances of the same object type.
  */
-QList< QList<UAVObject*> > UAVObjectManager::getObjects()
+QVector< QVector<UAVObject*> > UAVObjectManager::getObjects()
 {
     QMutexLocker locker(mutex);
     return objects;
@@ -153,9 +154,9 @@ QList< QList<UAVDataObject*> > UAVObjectManager::getDataObjects()
     QList< QList<UAVDataObject*> > dObjects;
 
     // Go through objects and copy to new list when types match
-    for (int objidx = 0; objidx < objects.length(); ++objidx)
+    for (int objidx = 0; objidx < objects.size(); ++objidx)
     {
-        if (objects[objidx].length() > 0)
+        if (objects[objidx].size() > 0)
         {
             // Check type
             UAVDataObject* obj = dynamic_cast<UAVDataObject*>(objects[objidx][0]);
@@ -164,7 +165,7 @@ QList< QList<UAVDataObject*> > UAVObjectManager::getDataObjects()
                 // Create instance list
                 QList<UAVDataObject*> list;
                 // Go through instances and cast them to UAVDataObject, then add to list
-                for (int instidx = 0; instidx < objects[objidx].length(); ++instidx)
+                for (int instidx = 0; instidx < objects[objidx].size(); ++instidx)
                 {
                    obj = dynamic_cast<UAVDataObject*>(objects[objidx][instidx]);
                    if (obj != NULL)
@@ -190,9 +191,9 @@ QList <QList<UAVMetaObject*> > UAVObjectManager::getMetaObjects()
     QList< QList<UAVMetaObject*> > mObjects;
 
     // Go through objects and copy to new list when types match
-    for (int objidx = 0; objidx < objects.length(); ++objidx)
+    for (int objidx = 0; objidx < objects.size(); ++objidx)
     {
-        if (objects[objidx].length() > 0)
+        if (objects[objidx].size() > 0)
         {
             // Check type
             UAVMetaObject* obj = dynamic_cast<UAVMetaObject*>(objects[objidx][0]);
@@ -201,7 +202,7 @@ QList <QList<UAVMetaObject*> > UAVObjectManager::getMetaObjects()
                 // Create instance list
                 QList<UAVMetaObject*> list;
                 // Go through instances and cast them to UAVMetaObject, then add to list
-                for (int instidx = 0; instidx < objects[objidx].length(); ++instidx)
+                for (int instidx = 0; instidx < objects[objidx].size(); ++instidx)
                 {
                    obj = dynamic_cast<UAVMetaObject*>(objects[objidx][instidx]);
                    if (obj != NULL)
@@ -243,15 +244,15 @@ UAVObject* UAVObjectManager::getObject(const QString* name, quint32 objId, quint
 {
     QMutexLocker locker(mutex);
     // Check if this object type is already in the list
-    for (int objidx = 0; objidx < objects.length(); ++objidx)
+    for (int objidx = 0; objidx < objects.size(); ++objidx)
     {
         // Check if the object ID is in the list
-        if (objects[objidx].length() > 0)
+        if (objects[objidx].size() > 0)
         {
             if ( (name != NULL && objects[objidx][0]->getName().compare(name) == 0) || (name == NULL && objects[objidx][0]->getObjID() == objId) )
             {
                 // Look for the requested instance ID
-                for (int instidx = 0; instidx < objects[objidx].length(); ++instidx)
+                for (int instidx = 0; instidx < objects[objidx].size(); ++instidx)
                 {
                     if (objects[objidx][instidx]->getInstID() == instId)
                     {
@@ -271,7 +272,7 @@ UAVObject* UAVObjectManager::getObject(const QString* name, quint32 objId, quint
  */
 QList<UAVObject*> UAVObjectManager::getObjectInstances(const QString& name)
 {
-    return getObjectInstances(&name, 0);
+    return getObjectInstances(&name, 0).toList();
 }
 
 /**
@@ -279,20 +280,21 @@ QList<UAVObject*> UAVObjectManager::getObjectInstances(const QString& name)
  */
 QList<UAVObject*> UAVObjectManager::getObjectInstances(quint32 objId)
 {
-    return getObjectInstances(NULL, objId);
+    return getObjectInstances(NULL, objId).toList();
 }
 
 /**
  * Helper function for the public getObjectInstances()
  */
-QList<UAVObject*> UAVObjectManager::getObjectInstances(const QString* name, quint32 objId)
+QVector<UAVObject*> UAVObjectManager::getObjectInstances(const QString* name, quint32 objId)
 {
     QMutexLocker locker(mutex);
     // Check if this object type is already in the list
-    for (QList< QList<UAVObject*> >::iterator iter = objects.begin(); iter != objects.end(); ++iter)
+    const QVector< QVector<UAVObject*> >::iterator objectsSize = objects.end();
+    for (QVector< QVector<UAVObject*> >::iterator iter = objects.begin(); iter != objectsSize; ++iter)
     {
         // Check if the object ID is in the list
-        if (iter->length() > 0)
+        if (iter->size() > 0)
         {
             if ( (name != NULL && (*iter)[0]->getName().compare(name) == 0) || (name == NULL && (*iter)[0]->getObjID() == objId) )
             {
@@ -301,7 +303,7 @@ QList<UAVObject*> UAVObjectManager::getObjectInstances(const QString* name, quin
         }
     }
     // If this point is reached then the requested object could not be found
-    return QList<UAVObject*>();
+    return QVector<UAVObject*>();
 }
 
 /**
@@ -327,14 +329,14 @@ qint32 UAVObjectManager::getNumInstances(const QString* name, quint32 objId)
 {
     QMutexLocker locker(mutex);
     // Check if this object type is already in the list
-    for (int objidx = 0; objidx < objects.length(); ++objidx)
+    for (int objidx = 0; objidx < objects.size(); ++objidx)
     {
         // Check if the object ID is in the list
-        if (objects[objidx].length() > 0)
+        if (objects[objidx].size() > 0)
         {
             if ( (name != NULL && objects[objidx][0]->getName().compare(name) == 0) || (name == NULL && objects[objidx][0]->getObjID() == objId) )
             {
-                return objects[objidx].length();
+                return objects[objidx].size();
             }
         }
     }

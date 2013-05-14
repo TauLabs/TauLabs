@@ -77,8 +77,9 @@ Telemetry::Telemetry(UAVTalk* utalk, UAVObjectManager* objMngr)
     this->objMngr = objMngr;
     mutex = new QMutex(QMutex::Recursive);
     // Process all objects in the list
-    QList< QList<UAVObject*> > objs = objMngr->getObjects();
-    for (int objidx = 0; objidx < objs.length(); ++objidx)
+    QVector< QVector<UAVObject*> > objs = objMngr->getObjects();
+    const int objSize = objs.size();
+    for (int objidx = 0; objidx < objSize; ++objidx)
     {
         registerObject(objs[objidx][0]); // we only need to register one instance per object type
     }
@@ -125,7 +126,7 @@ void Telemetry::registerObject(UAVObject* obj)
 void Telemetry::addObject(UAVObject* obj)
 {
     // Check if object type is already in the list
-    for (QList<ObjectTimeInfo>::iterator iter = objList.begin(); iter != objList.end(); ++iter)
+    for (QVector<ObjectTimeInfo>::const_iterator iter = objList.constBegin(); iter != objList.constEnd(); ++iter)
     {
         if (iter->obj->getObjID() == obj->getObjID())
         {
@@ -148,10 +149,9 @@ void Telemetry::addObject(UAVObject* obj)
 void Telemetry::setUpdatePeriod(UAVObject* obj, qint32 periodMs)
 {
     // Find object type (not instance!) and update its period
-    const QList<ObjectTimeInfo>::iterator listSize = objList.end();
     const quint32 objID = obj->getObjID();
 
-    for (QList<ObjectTimeInfo>::iterator iter = objList.begin(); iter != listSize; ++iter)
+    for (QVector<ObjectTimeInfo>::iterator iter = objList.begin(); iter != objList.constEnd(); ++iter)
     {
         if (iter->obj->getObjID() == objID)
         {
@@ -542,8 +542,7 @@ void Telemetry::processPeriodicUpdates()
     QTime time;
     qint32 offset;
 
-    const QList<ObjectTimeInfo>::iterator listSize = objList.end();
-    for (QList<ObjectTimeInfo>::iterator objinfo = objList.begin(); objinfo != listSize; ++objinfo)
+    for (QVector<ObjectTimeInfo>::iterator objinfo = objList.begin(); objinfo != objList.constEnd(); ++objinfo)
     {
         // If object is configured for periodic updates
         if (objinfo->updatePeriodMs > 0)
