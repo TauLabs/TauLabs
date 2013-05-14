@@ -27,7 +27,6 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 #if defined(PIOS_INCLUDE_DMA_CB_SUBSCRIBING_FUNCTION)
-#define HANDLER(X)      if(pios_dma_handler_map[X][0]==NULL)PIOS_DMA_Default_Handler();for(uint8_t i=0;i<PIOS_DMA_MAX_HANDLERS_PER_CHANNEL;++i){if(pios_dma_handler_map[X][i]==NULL){return;}else{pios_dma_handler_map[X][i]();}}
 #include <pios_dma.h>
 
 static void PIOS_DMA_11_irq_handler(void);
@@ -56,40 +55,56 @@ void DMA2_Channel3_IRQHandler() __attribute__ ((alias ("PIOS_DMA_23_irq_handler"
 void DMA2_Channel4_IRQHandler() __attribute__ ((alias ("PIOS_DMA_24_irq_handler")));
 void DMA2_Channel5_IRQHandler() __attribute__ ((alias ("PIOS_DMA_25_irq_handler")));
 
+/**
+ * @brief calls the handlers associated with a given index (from PIOS_DMA_CHANNELS)
+ * @param[in] DMA channel index (PIOS_DMA_CHANNELS)
+ */
+static inline PIOS_DMA_Mapper(uint8_t index) {
+	if(pios_dma_handler_map[index][0]==NULL)
+		PIOS_DMA_Default_Handler();
+	for(uint8_t i=0;i<PIOS_DMA_MAX_HANDLERS_PER_CHANNEL;++i){
+		if(pios_dma_handler_map[index][i]==NULL)
+			return;
+		else{
+			pios_dma_handler_map[index][i]();
+		}
+	}
+}
+
 static void PIOS_DMA_11_irq_handler(void){
-        HANDLER(0);
+	PIOS_DMA_Mapper(0);
 }
 static void PIOS_DMA_12_irq_handler(void){
-        HANDLER(1);
+	PIOS_DMA_Mapper(1);
 }
 static void PIOS_DMA_13_irq_handler(void){
-        HANDLER(2);
+	PIOS_DMA_Mapper(2);
 }
 static void PIOS_DMA_14_irq_handler(void){
-        HANDLER(3);
+	PIOS_DMA_Mapper(3);
 }
 static void PIOS_DMA_15_irq_handler(void){
-        HANDLER(4);
+	PIOS_DMA_Mapper(4);
 }
 static void PIOS_DMA_16_irq_handler(void){
-        HANDLER(5);
+	PIOS_DMA_Mapper(5);
 }
 static void PIOS_DMA_17_irq_handler(void){
-        HANDLER(6);
+	PIOS_DMA_Mapper(6);
 }
 static void PIOS_DMA_21_irq_handler(void){
-        HANDLER(7);
+	PIOS_DMA_Mapper(7);
 }
 static void PIOS_DMA_22_irq_handler(void){
-        HANDLER(8);
+	PIOS_DMA_Mapper(8);
 }
 static void PIOS_DMA_23_irq_handler(void){
-        HANDLER(9);
+	PIOS_DMA_Mapper(9);
 }
 static void PIOS_DMA_24_irq_handler(void){
-        HANDLER(10);
+	PIOS_DMA_Mapper(10);
 }
 static void PIOS_DMA_25_irq_handler(void){
-        HANDLER(11);
+	PIOS_DMA_Mapper(11);
 }
 #endif /* PIOS_INCLUDE_DMA_CB_SUBSCRIBING_FUNCTION */
