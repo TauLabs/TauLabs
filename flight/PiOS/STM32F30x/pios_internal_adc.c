@@ -485,17 +485,17 @@ static void accumulate(struct pios_internal_adc_dev *adc_dev, uint16_t *buffer)
         }
         for (uint8_t i = 0; i < adc_dev->cfg->oversampling; ++i) {
                 sp = buffer + adc_dev->regular_group_size * i * increment;
-                for (uint8_t ii = 0; ii < scan_size; ii++) {
-                        adc_dev->channel_map[ii]->accumulator += *sp;
-                        adc_dev->channel_map[ii]->count++;
+                for (uint8_t scan_index = 0; scan_index < scan_size; scan_index++) {
+                        adc_dev->channel_map[scan_index]->accumulator += *sp;
+                        adc_dev->channel_map[scan_index]->count++;
                         sp++;
                         /*
                          * If the accumulator reaches half-full, rescale in order to
                          * make more space.
                          */
-                        if (adc_dev->channel_map[ii]->accumulator >= (1 << 31)) {
-                                adc_dev->channel_map[ii]->accumulator /= 2;
-                                adc_dev->channel_map[ii]->count /= 2;
+                        if (adc_dev->channel_map[scan_index]->accumulator >= (1 << 31)) {
+                                adc_dev->channel_map[scan_index]->accumulator /= 2;
+                                adc_dev->channel_map[scan_index]->count /= 2;
                         }
 
                 }
