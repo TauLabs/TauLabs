@@ -71,6 +71,10 @@ public:
     void readFromFile(QString fileName);
 
     static QMap<int,QString> modeNames;
+
+    //! Replace a model data with another model
+    bool replaceData(FlightDataModel *newModel);
+
 private:
     QList<pathPlanData *> dataStorage;
 

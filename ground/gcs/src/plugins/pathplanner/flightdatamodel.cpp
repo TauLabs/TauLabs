@@ -560,3 +560,24 @@ bool FlightDataModel::setNED(int index, struct FlightDataModel::NED NED)
 
     return true;
 }
+
+/**
+ * @brief FlightDataModel::replaceData with data from a new model
+ * @param newModel the new data to use
+ * @return true if successful
+ */
+bool FlightDataModel::replaceData(FlightDataModel *newModel)
+{
+    // Delete existing data
+    removeRows(0,rowCount());
+
+    for (int i = 0; i < newModel->rowCount(); i++) {
+        insertRow(i);
+        for (int j = 0; j < newModel->columnCount(); j++) {
+            // Use Qt::UserRole to make sure the mode is fetched numerically
+            setData(index(i,j), newModel->data(newModel->index(i, j), Qt::UserRole));
+        }
+    }
+
+    return true;
+}

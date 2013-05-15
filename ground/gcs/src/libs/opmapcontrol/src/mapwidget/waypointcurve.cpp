@@ -139,11 +139,9 @@ void WayPointCurve::refreshLocations()
     double endAngle = atan2(-(m_dest->pos().y() - center_y), m_dest->pos().x() - center_x);
     double span = endAngle - startAngle;
     if (!m_clockwise) {
-        qDebug() << startAngle << " " << endAngle << " " << span;
         if (span > 0)
             span = span - 2 * M_PI;
     } else {
-        qDebug() << startAngle << " " << endAngle << " " << span;
         if (span < 0)
             span = span + 2 * M_PI;
     }
