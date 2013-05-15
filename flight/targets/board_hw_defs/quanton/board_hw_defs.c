@@ -567,14 +567,25 @@ void PIOS_I2C_internal_er_irq_handler(void)
 #include "pios_flashfs_logfs_priv.h"
 #include "pios_flash_jedec_priv.h"
 
-static const struct flashfs_logfs_cfg flashfs_mx25_cfg = {
-	.fs_magic      = 0x99abcf00,
-	.total_fs_size = 0x00400000, /* 4M bytes (1024 sectors = entire chip) */
+static const struct flashfs_logfs_cfg flashfs_mx25_settings_cfg = {
+	.fs_magic      = 0x3bb141cf,
+	.total_fs_size = 0x00200000, /* 2M bytes (512 sectors = half chip) */
 	.arena_size    = 0x00010000, /* 256 * slot size */
 	.slot_size     = 0x00000100, /* 256 bytes */
 
-	.start_offset  = 0,	     /* start at the beginning of the chip */
+	.start_offset  = 0,          /* start at the beginning of the chip */
 	.sector_size   = 0x00001000, /* 4K bytes */
+	.page_size     = 0x00000100, /* 256 bytes */
+};
+
+static const struct flashfs_logfs_cfg flashfs_mx25_waypoints_cfg = {
+	.fs_magic      = 0x9a365a64,
+	.total_fs_size = 0x00200000, /* 2M bytes (512 sectors = half chip) */
+	.arena_size    = 0x00010000, /* 1024 * slot size */
+	.slot_size     = 0x00000040, /* 64 bytes */
+
+	.start_offset  = 0x00200000, /* start after the settings partition */
+	.sector_size   = 0x00001000, /* 64K bytes */
 	.page_size     = 0x00000100, /* 256 bytes */
 };
 

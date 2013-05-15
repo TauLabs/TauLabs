@@ -166,6 +166,7 @@ SRC += $(UAVOBJSRC)
 CFLAGS_UAVOBJECTS = $(UAVOBJDEFINE)
 
 ## PIOS Hardware (posix)
+SRC += $(PIOSPOSIX)/pios_flashfs_logfs.c
 SRC += $(PIOSPOSIX)/pios_crc.c
 SRC += $(PIOSPOSIX)/pios_sys.c
 SRC += $(PIOSPOSIX)/pios_led.c
@@ -182,6 +183,7 @@ SRC += $(PIOSPOSIX)/pios_debug.c
 SRC += $(PIOSPOSIX)/pios_bl_helper.c
 SRC += $(PIOSPOSIX)/pios_iap.c
 SRC += $(PIOSPOSIX)/pios_board_info.c
+SRC += $(PIOSPOSIX)/../../tests/logfs/pios_flash_ut.c
 
 SRC += $(PIOSPOSIX)/pios_rcvr.c
 SRC += $(PIOSPOSIX)/pios_gcsrcvr.c
