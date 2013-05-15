@@ -12,7 +12,7 @@ SUBDIRS   = \
     qextserialport \
     libqxt
 
-SDL {
+!NO_SDL {
 SUBDIRS += sdlgamepad
 }
 

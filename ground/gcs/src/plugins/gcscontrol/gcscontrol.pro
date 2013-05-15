@@ -8,7 +8,7 @@ include(../../taulabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri) 
 include(../../plugins/uavobjects/uavobjects.pri)
 
-SDL {
+!NO_SDL {
     DEFINES += USE_SDL
     include(../../libs/sdlgamepad/sdlgamepad.pri)
 }
