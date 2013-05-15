@@ -36,5 +36,7 @@
         <file>images/forward_alt.png</file>
         <file>images/star.png</file>
         <file>images/down_alt.png</file>
+        <file>images/fillet_path.png</file>
+        <file>images/unfillet_path.png</file>
     </qresource>
 </RCC>
