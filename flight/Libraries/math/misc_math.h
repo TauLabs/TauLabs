@@ -1,8 +1,8 @@
 /**
  ******************************************************************************
  * @file       math_misc.h
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
- * @addtogroup OpenPilot Math Utilities
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013
+ * @addtogroup TauLabsMath Math Utilities
  * @{
  * @addtogroup MiscellaneousMath Math Various mathematical routines
  * @{
