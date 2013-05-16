@@ -62,6 +62,8 @@ uintptr_t pios_com_rfm22b_id;
 uintptr_t pios_com_radio_id;
 #endif
 
+uintptr_t pios_uavo_settings_fs_id;
+
 /**
  * PIOS_Board_Init()
  * initializes all the core subsystems on this specific hardware
@@ -71,6 +73,12 @@ void PIOS_Board_Init(void) {
 
 	/* Delay system */
 	PIOS_DELAY_Init();
+
+#ifdef PIOS_INCLUDE_FLASH_SECTOR_SETTINGS
+	uintptr_t flash_id;
+	PIOS_Flash_Internal_Init(&flash_id, &flash_internal_cfg);
+	PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_internal_settings_cfg, &pios_internal_flash_driver, flash_id);
+#endif
 
 	/* Initialize UAVObject libraries */
 	EventDispatcherInitialize();
@@ -96,20 +104,6 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_LED)
 	PIOS_LED_Init(&pios_led_cfg);
 #endif	/* PIOS_INCLUDE_LED */
-
-	OPLinkSettingsData oplinkSettings;
-#if defined(PIOS_INCLUDE_FLASH_EEPROM)
- 	PIOS_EEPROM_Init(&pios_eeprom_cfg);
-
-	/* Read the settings from flash. */
-	/* NOTE: We probably need to save/restore the objID here incase the object changed but the size doesn't */
-	if (PIOS_EEPROM_Load((uint8_t*)&oplinkSettings, sizeof(OPLinkSettingsData)) == 0)
-		OPLinkSettingsSet(&oplinkSettings);
-	else
-		OPLinkSettingsGet(&oplinkSettings);
-#else
-	OPLinkSettingsGet(&oplinkSettings);
-#endif /* PIOS_INCLUDE_FLASH_EEPROM */
 
 	/* Initialize the task monitor library */
 	TaskMonitorInitialize();
@@ -201,6 +195,8 @@ void PIOS_Board_Init(void) {
 
 	/* Configure PPM input */
 #if defined(PIOS_INCLUDE_PPM)
+	OPLinkSettingsData oplinkSettings;
+	OPLinkSettingsGet(&oplinkSettings);
 	if (oplinkSettings.PPM == OPLINKSETTINGS_PPM_TRUE)
 	{
 		uint32_t pios_ppm_id;

@@ -631,14 +631,27 @@ const struct pios_usb_cdc_cfg pios_usb_cdc_cfg = {
 };
 #endif	/* PIOS_INCLUDE_USB_CDC */
 
-#if defined(PIOS_INCLUDE_FLASH_EEPROM)
-#include <pios_eeprom.h>
+#if defined(PIOS_INCLUDE_FLASH)
+#include "pios_flashfs_logfs_priv.h"
+#include "pios_flash_internal_priv.h"
 
-const struct pios_eeprom_cfg pios_eeprom_cfg = {
-	.base_address = PIOS_FLASH_EEPROM_ADDR,
-	.max_size = PIOS_FLASH_EEPROM_LEN,
+static const struct pios_flash_internal_cfg flash_internal_cfg = {
 };
-#endif /* PIOS_INCLUDE_FLASH_EEPROM */
+
+static const struct flashfs_logfs_cfg flashfs_internal_settings_cfg = {
+	.fs_magic      = 0x9ae1ee11,
+	.total_fs_size = EE_BANK_SIZE,     /* 32K bytes (16x2KB sectors) */
+	.arena_size    = 0x00002000,       /* 32 * slot size = 8K bytes = 4 sectors */
+	.slot_size     = 0x00000100,       /* 256 bytes */
+
+	.start_offset  = EE_BANK_BASE, /* start after the bootloader */
+	.sector_size   = 0x00000800,   /* 2K bytes */
+	.page_size     = 0x00000800,   /* 2K bytes */
+};
+
+#include "pios_flash.h"
+
+#endif	/* PIOS_INCLUDE_FLASH */
 
 #if defined(PIOS_INCLUDE_RFM22B)
 #include <pios_rfm22b_priv.h>
