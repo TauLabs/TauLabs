@@ -347,7 +347,7 @@ static void ProcessInputStream(UAVTalkConnection connectionHandle, uint8_t rxbyt
 						success = false;
 					}
 
-#if defined(PIOS_INCLUDE_FLASH_SECTOR_SETTINGS)
+#if defined(PIOS_INCLUDE_LOGFS_SETTINGS)
 					switch (objper.Operation)
 					{
 					case OBJECTPERSISTENCE_OPERATION_LOAD:
