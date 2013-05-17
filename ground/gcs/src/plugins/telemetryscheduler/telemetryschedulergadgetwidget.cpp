@@ -506,10 +506,12 @@ void TelemetrySchedulerGadgetWidget::importTelemetryConfiguration(const QString&
                             val = valuesList.at(j-k).toUInt();
                             k++;
                         }
-                        if(val == 0){ // If it's still 0, then grab it from the UAVO setting
-                            val = schedulerModel->data(schedulerModel->index(row, 0, QModelIndex())).toUInt();
+                        if(val == 0){
+                            // If it's 0, do nothing, since a blank cell indicates a default.
                         }
-                        schedulerModel->setData(index, val);
+                        else
+                            schedulerModel->setData(index, val);
+
                     }
 
                 }
