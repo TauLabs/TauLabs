@@ -32,7 +32,6 @@
 #include "uavobject.h"
 #include "uavdataobject.h"
 #include "uavmetaobject.h"
-#include <QList>
 #include <QMutex>
 #include <QMutexLocker>
 #include <QVector>
@@ -47,12 +46,12 @@ public:
 
     bool registerObject(UAVDataObject* obj);
     QVector< QVector<UAVObject*> > getObjects();
-    QList< QList<UAVDataObject*> > getDataObjects();
-    QList< QList<UAVMetaObject*> > getMetaObjects();
+    QVector< QVector<UAVDataObject*> > getDataObjects();
+    QVector< QVector<UAVMetaObject*> > getMetaObjects();
     UAVObject* getObject(const QString& name, quint32 instId = 0);
     UAVObject* getObject(quint32 objId, quint32 instId = 0);
-    QList<UAVObject*> getObjectInstances(const QString& name);
-    QList<UAVObject*> getObjectInstances(quint32 objId);
+    QVector<UAVObject*> getObjectInstances(const QString& name);
+    QVector<UAVObject*> getObjectInstances(quint32 objId);
     qint32 getNumInstances(const QString& name);
     qint32 getNumInstances(quint32 objId);
 

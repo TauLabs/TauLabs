@@ -235,8 +235,8 @@ void LoggingThread::retrieveSettings()
     // Get UAVObjectManager instance
     ExtensionSystem::PluginManager* pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objMngr = pm->getObject<UAVObjectManager>();
-    QList< QList<UAVDataObject*> > objs = objMngr->getDataObjects();
-    for (int n = 0; n < objs.length(); ++n)
+    QVector< QVector<UAVDataObject*> > objs = objMngr->getDataObjects();
+    for (int n = 0; n < objs.size(); ++n)
     {
         UAVDataObject* obj = objs[n][0];
         if ( obj->isSettings() )

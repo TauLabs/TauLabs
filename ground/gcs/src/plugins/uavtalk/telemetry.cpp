@@ -168,8 +168,9 @@ void Telemetry::setUpdatePeriod(UAVObject* obj, qint32 periodMs)
  */
 void Telemetry::connectToObjectInstances(UAVObject* obj, quint32 eventMask)
 {
-    QList<UAVObject*> objs = objMngr->getObjectInstances(obj->getObjID());
-    for (int n = 0; n < objs.length(); ++n)
+    QVector<UAVObject*> objs = objMngr->getObjectInstances(obj->getObjID());
+    int objsSize = objs.size();
+    for (int n = 0; n < objsSize; ++n)
     {
         // Disconnect all
         objs[n]->disconnect(this);

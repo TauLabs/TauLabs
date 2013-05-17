@@ -136,7 +136,7 @@ void UAVObjectManager::addObject(UAVObject* obj)
 }
 
 /**
- * Get all objects. A two dimentional QList is returned. Objects are grouped by
+ * Get all objects. A two dimentional QVector is returned. Objects are grouped by
  * instances of the same object type.
  */
 QVector< QVector<UAVObject*> > UAVObjectManager::getObjects()
@@ -148,10 +148,10 @@ QVector< QVector<UAVObject*> > UAVObjectManager::getObjects()
 /**
  * Same as getObjects() but will only return DataObjects.
  */
-QList< QList<UAVDataObject*> > UAVObjectManager::getDataObjects()
+QVector< QVector<UAVDataObject*> > UAVObjectManager::getDataObjects()
 {
     QMutexLocker locker(mutex);
-    QList< QList<UAVDataObject*> > dObjects;
+    QVector< QVector<UAVDataObject*> > dObjects;
 
     // Go through objects and copy to new list when types match
     for (int objidx = 0; objidx < objects.size(); ++objidx)
@@ -163,7 +163,7 @@ QList< QList<UAVDataObject*> > UAVObjectManager::getDataObjects()
             if (obj != NULL)
             {
                 // Create instance list
-                QList<UAVDataObject*> list;
+                QVector<UAVDataObject*> list;
                 // Go through instances and cast them to UAVDataObject, then add to list
                 for (int instidx = 0; instidx < objects[objidx].size(); ++instidx)
                 {
@@ -185,10 +185,10 @@ QList< QList<UAVDataObject*> > UAVObjectManager::getDataObjects()
 /**
  * Same as getObjects() but will only return MetaObjects.
  */
-QList <QList<UAVMetaObject*> > UAVObjectManager::getMetaObjects()
+QVector <QVector<UAVMetaObject*> > UAVObjectManager::getMetaObjects()
 {
     QMutexLocker locker(mutex);
-    QList< QList<UAVMetaObject*> > mObjects;
+    QVector< QVector<UAVMetaObject*> > mObjects;
 
     // Go through objects and copy to new list when types match
     for (int objidx = 0; objidx < objects.size(); ++objidx)
@@ -200,7 +200,7 @@ QList <QList<UAVMetaObject*> > UAVObjectManager::getMetaObjects()
             if (obj != NULL)
             {
                 // Create instance list
-                QList<UAVMetaObject*> list;
+                QVector<UAVMetaObject*> list;
                 // Go through instances and cast them to UAVMetaObject, then add to list
                 for (int instidx = 0; instidx < objects[objidx].size(); ++instidx)
                 {
@@ -270,17 +270,17 @@ UAVObject* UAVObjectManager::getObject(const QString* name, quint32 objId, quint
 /**
  * Get all the instances of the object specified by name
  */
-QList<UAVObject*> UAVObjectManager::getObjectInstances(const QString& name)
+QVector<UAVObject*> UAVObjectManager::getObjectInstances(const QString& name)
 {
-    return getObjectInstances(&name, 0).toList();
+    return getObjectInstances(&name, 0);
 }
 
 /**
  * Get all the instances of the object specified by its ID
  */
-QList<UAVObject*> UAVObjectManager::getObjectInstances(quint32 objId)
+QVector<UAVObject*> UAVObjectManager::getObjectInstances(quint32 objId)
 {
-    return getObjectInstances(NULL, objId).toList();
+    return getObjectInstances(NULL, objId);
 }
 
 /**
