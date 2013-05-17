@@ -83,6 +83,7 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     connect(m_telemetryeditor->bnAddTelemetryColumn, SIGNAL(clicked()), this, SLOT(addTelemetryColumn()));
     connect(m_telemetryeditor->bnRemoveTelemetryColumn, SIGNAL(clicked()), this, SLOT(removeTelemetryColumn()));
     connect(schedulerModel, SIGNAL(itemChanged(QStandardItem *)), this, SLOT(dataModel_itemChanged(QStandardItem *)));
+    connect(telemetryScheduleView->horizontalHeader(),SIGNAL(sectionDoubleClicked(int)), this,SLOT(changeHorizontalHeader(int)));
 
     // Generate the list of UAVOs on left side
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
@@ -552,6 +553,25 @@ void TelemetrySchedulerGadgetWidget::removeTelemetryColumn()
     m_telemetryeditor->cmbScheduleList->addItems(columnHeaders);
 }
 
+
+/**
+ * @brief TelemetrySchedulerGadgetWidget::changeHorizontalHeader
+ */
+void TelemetrySchedulerGadgetWidget::changeHorizontalHeader(int headerIndex)
+{
+    bool ok;
+    QString headerName = QInputDialog::getText(this, tr("Change header name"),
+                                               tr("Input new column name:"), QLineEdit::Normal,
+                                               columnHeaders.at(headerIndex), &ok);
+    if(!ok)
+        return;
+
+    schedulerModel->setHorizontalHeaderItem(headerIndex, new QStandardItem(headerName));
+
+    columnHeaders.replace(headerIndex, headerName);
+    m_telemetryeditor->cmbScheduleList->clear();
+    m_telemetryeditor->cmbScheduleList->addItems(columnHeaders);
+}
 
 /**
  * @brief TelemetrySchedulerGadgetWidget::getObjectManager Utility function to get a pointer to the object manager

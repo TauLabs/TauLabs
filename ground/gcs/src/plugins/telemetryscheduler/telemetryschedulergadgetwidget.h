@@ -65,6 +65,7 @@ private slots:
     void addTelemetryColumn();
     void removeTelemetryColumn();
 
+    void changeHorizontalHeader(int);
 private:
     void importTelemetryConfiguration(const QString& fileName);
     UAVObjectUtilManager *getObjectUtilManager();
