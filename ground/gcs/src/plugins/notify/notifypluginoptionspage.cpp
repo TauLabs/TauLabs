@@ -392,8 +392,8 @@ void NotifyPluginOptionsPage::updateConfigView(NotificationItem* notification)
     }
 
     // Fills the combo boxes for the UAVObjects
-    QList< QList<UAVDataObject*> > objList = _objManager.getDataObjects();
-    foreach (QList<UAVDataObject*> list, objList) {
+    QVector< QVector<UAVDataObject*> > objList = _objManager.getDataObjects();
+    foreach (QVector<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
             _optionsPage->UAVObject->addItem(obj->getName());
         }

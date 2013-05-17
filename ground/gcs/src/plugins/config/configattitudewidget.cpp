@@ -390,8 +390,8 @@ void ConfigAttitudeWidget::doStartNoiseMeasurement()
     // Iterate over list of UAVObjects, configuring all dynamic data metadata objects.
     UAVObjectManager *objManager = getObjectManager();
     QMap<QString, UAVObject::Metadata> metaDataList;
-    QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
-    foreach (QList<UAVDataObject*> list, objList) {
+    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjects();
+    foreach (QVector<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
             if(!obj->isSettings()) {
                 UAVObject::Metadata mdata = obj->getMetadata();

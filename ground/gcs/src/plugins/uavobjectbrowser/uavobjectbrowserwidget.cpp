@@ -205,7 +205,7 @@ void UAVObjectBrowserWidget::updateThrottlePeriod(UAVObject *obj)
         Q_ASSERT(pm);
         UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
         Q_ASSERT(objManager);
-        QList<UAVObject*> list = objManager->getObjectInstances(obj->getObjID() - 1);
+        QVector<UAVObject*> list = objManager->getObjectInstances(obj->getObjID() - 1);
         obj = list.at(0);
     }
 
