@@ -25,6 +25,7 @@
  */
 #include "telemetryschedulergadgetwidget.h"
 #include "ui_telemetryscheduler.h"
+#include "ui_metadata_dialog.h"
 #include <QtCore/qglobal.h>
 
 #include <QDebug>
@@ -84,6 +85,7 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     connect(m_telemetryeditor->bnRemoveTelemetryColumn, SIGNAL(clicked()), this, SLOT(removeTelemetryColumn()));
     connect(schedulerModel, SIGNAL(itemChanged(QStandardItem *)), this, SLOT(dataModel_itemChanged(QStandardItem *)));
     connect(telemetryScheduleView->horizontalHeader(),SIGNAL(sectionDoubleClicked(int)), this,SLOT(changeHorizontalHeader(int)));
+    connect(telemetryScheduleView->verticalHeader(),SIGNAL(sectionDoubleClicked(int)), this,SLOT(changeVerticalHeader(int)));
 
     // Generate the list of UAVOs on left side
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
@@ -501,7 +503,6 @@ void TelemetrySchedulerGadgetWidget::importTelemetryConfiguration(const QString&
                     for (int j=0; j<valuesList.length(); j++){
                         QModelIndex index = schedulerModel->index(row, j+1, QModelIndex());
                         uint32_t val = valuesList.at(j).toUInt();
-                        int k=1;
                         if(val == 0){
                             // If it's 0, do nothing, since a blank cell indicates a default.
                         }
@@ -549,6 +550,77 @@ void TelemetrySchedulerGadgetWidget::removeTelemetryColumn()
     columnHeaders.pop_back();
     m_telemetryeditor->cmbScheduleList->clear();
     m_telemetryeditor->cmbScheduleList->addItems(columnHeaders);
+}
+
+
+/**
+ * @brief TelemetrySchedulerGadgetWidget::changeVerticalHeader
+ */
+void TelemetrySchedulerGadgetWidget::changeVerticalHeader(int headerIndex)
+{
+    Ui_MetadataDialog metadata_editor;
+    QDialog d;
+    metadata_editor.setupUi(&d);
+
+    QStringList telemetryModes;
+    telemetryModes << "Periodic"  << "Throttled" << "On Change" << "Manual";
+
+    metadata_editor.cmbFlightTelemetryMode->addItems(telemetryModes);
+    metadata_editor.cmbGCSTelemetryMode->addItems(telemetryModes);
+
+    // Get the UAVO name
+    QString uavObjectName = schedulerModel->verticalHeaderItem(headerIndex)->text();
+    UAVObject* uavObj = objManager->getObject(uavObjectName);
+
+    qDebug() << "UAVOName: " << uavObjectName;
+
+    // Get the metadata
+    UAVObject::Metadata mdata = uavObj->getMetadata();
+
+    // Fill the dialog box
+    metadata_editor.cbFlightReadOnly->setChecked(uavObj->GetFlightAccess(mdata));
+    metadata_editor.cbGCSReadOnly->setChecked(uavObj->GetGcsAccess(mdata));
+    metadata_editor.cbFlightAcked->setChecked(uavObj->GetFlightTelemetryAcked(mdata));
+    metadata_editor.cbGCSAcked->setChecked(uavObj->GetGcsTelemetryAcked(mdata));
+
+    int accessType = UAVObject::GetFlightTelemetryUpdateMode(mdata);
+    switch(accessType){
+    case UAVObject::UPDATEMODE_PERIODIC:
+        metadata_editor.cmbFlightTelemetryMode->setCurrentIndex(0);
+        break;
+    case UAVObject::UPDATEMODE_THROTTLED:
+        metadata_editor.cmbFlightTelemetryMode->setCurrentIndex(1);
+        break;
+    case UAVObject::UPDATEMODE_ONCHANGE:
+        metadata_editor.cmbFlightTelemetryMode->setCurrentIndex(2);
+        break;
+    case UAVObject::UPDATEMODE_MANUAL:
+        metadata_editor.cmbFlightTelemetryMode->setCurrentIndex(3);
+        break;
+    }
+
+    accessType = UAVObject::GetGcsTelemetryUpdateMode(mdata);
+    switch(accessType){
+    case UAVObject::UPDATEMODE_PERIODIC:
+        metadata_editor.cmbGCSTelemetryMode->setCurrentIndex(0);
+        break;
+    case UAVObject::UPDATEMODE_THROTTLED:
+        metadata_editor.cmbGCSTelemetryMode->setCurrentIndex(1);
+        break;
+    case UAVObject::UPDATEMODE_ONCHANGE:
+        metadata_editor.cmbGCSTelemetryMode->setCurrentIndex(2);
+        break;
+    case UAVObject::UPDATEMODE_MANUAL:
+        metadata_editor.cmbGCSTelemetryMode->setCurrentIndex(3);
+        break;
+    }
+
+    if (d.exec() != QDialog::Accepted )
+        return;
+
+    d.accept();
+
+    qDebug() << "You pressed OK!";
 }
 
 

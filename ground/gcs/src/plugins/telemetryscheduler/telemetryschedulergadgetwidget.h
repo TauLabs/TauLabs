@@ -41,6 +41,7 @@
 #include "telemetryschedulergadgetconfiguration.h"
 
 class Ui_TelemetryScheduler;
+class Ui_Metadata_Dialog;
 class QFrozenTableViewWithCopyPaste;
 
 class TelemetrySchedulerGadgetWidget : public QLabel
@@ -64,14 +65,14 @@ private slots:
     void dataModel_itemChanged(QStandardItem *);
     void addTelemetryColumn();
     void removeTelemetryColumn();
-
+    void changeVerticalHeader(int);
     void changeHorizontalHeader(int);
 private:
     void importTelemetryConfiguration(const QString& fileName);
     UAVObjectUtilManager *getObjectUtilManager();
     UAVObjectManager *getObjectManager();
 
-    Ui_TelemetryScheduler * m_telemetryeditor;
+    Ui_TelemetryScheduler *m_telemetryeditor;
 
     TelemetrySchedulerConfiguration *m_config;
     UAVObjectManager *objManager;
