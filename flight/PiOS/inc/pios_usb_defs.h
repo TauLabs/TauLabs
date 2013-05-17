@@ -340,12 +340,12 @@ enum usb_cdc_notification {
 } __attribute__((packed));
 
 /*
- * OpenPilot/PhoenixPilot Specific USB Definitions
+ * OpenPilot/Tau Labs Specific USB Definitions
  */
 
 #define USB_VENDOR_ID_CLAYLOGIC    0x20A0
 #define USB_VENDOR_ID_OPENPILOT    USB_VENDOR_ID_CLAYLOGIC
-#define USB_VENDOR_ID_PHOENIXPILOT USB_VENDOR_ID_CLAYLOGIC
+#define USB_VENDOR_ID_TAULABS      USB_VENDOR_ID_CLAYLOGIC
 
 /*
  * These USB Product IDs are allocated along with the purchase
@@ -363,7 +363,7 @@ enum usb_product_ids {
 	USB_PRODUCT_ID_OSD            = 0x4194,
 	USB_PRODUCT_ID_SPARE          = 0x4195,
 
-	/* PhoenixPilot Boards */
+	/* Tau Labs Boards */
 	USB_PRODUCT_ID_FREEDOM        = 0x41d0,
 
 	/* ST Eval Boards */

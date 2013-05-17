@@ -1,12 +1,11 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilot System OpenPilot System
+ * @addtogroup TauLabsSystem Tau Labs System
  * @{
- * @addtogroup OpenPilot Libraries OpenPilot System Libraries
+ * @addtogroup TauLabsLibraries Tau Labs System Libraries
  * @{
  * @file       sanitycheck.c
- * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2012-2013.
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013
  * @brief      Utilities to validate a flight configuration
  * @see        The GNU Public License (GPL) Version 3
  *

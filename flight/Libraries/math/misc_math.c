@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       math_misc.c
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013
  * @addtogroup OpenPilot Math Utilities
  * @{
  * @addtogroup MiscellaneousMath Math Various mathematical routines

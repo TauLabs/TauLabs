@@ -2,10 +2,10 @@
  ******************************************************************************
  * @file       board_hw_defs.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
- * @addtogroup OpenPilotSystem OpenPilot System
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013
+ * @addtogroup TauLabsSystem Tau Labs System
  * @{
- * @addtogroup OpenPilotCore OpenPilot Core
+ * @addtogroup TauLabsCore Tau Labs Core
  * @{
  * @brief Defines board specific static initializers for hardware for the RevoMini board.
  *****************************************************************************/
