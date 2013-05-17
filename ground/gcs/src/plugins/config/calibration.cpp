@@ -279,8 +279,28 @@ void Calibration::dataUpdated(UAVObject * obj) {
 
             // Do calculation
             int ret=computeScaleBias();
-            if (ret==CALIBRATION_SUCCESS)
-                emit showSixPointMessage(tr("Calibration succeeded"));
+            if (ret==CALIBRATION_SUCCESS) {
+                // Load calibration results
+                SensorSettings * sensorSettings = SensorSettings::GetInstance(getObjectManager());
+                SensorSettings::DataFields sensorSettingsData = sensorSettings->getData();
+
+
+                // Generate result messages
+                QString accelCalibrationResults = "";
+                QString magCalibrationResults = "";
+                if (calibrateAccels == true) {
+                    accelCalibrationResults = QString(tr("Accelerometer bias, in [m/s^2]: x=%1, y=%2, z=%3\n")).arg(sensorSettingsData.AccelBias[SensorSettings::ACCELBIAS_X], -9).arg(sensorSettingsData.AccelBias[SensorSettings::ACCELBIAS_Y], -9).arg(sensorSettingsData.AccelBias[SensorSettings::ACCELBIAS_Z], -9) +
+                                              QString(tr("Accelerometer scale, in [-]:    x=%1, y=%2, z=%3\n")).arg(sensorSettingsData.AccelScale[SensorSettings::ACCELSCALE_X], -9).arg(sensorSettingsData.AccelScale[SensorSettings::ACCELSCALE_Y], -9).arg(sensorSettingsData.AccelScale[SensorSettings::ACCELSCALE_Z], -9);
+
+                }
+                if (calibrateMags == true) {
+                    magCalibrationResults = QString(tr("Magnetometer bias, in [mG]: x=%1, y=%2, z=%3\n")).arg(sensorSettingsData.MagBias[SensorSettings::MAGBIAS_X], -9).arg(sensorSettingsData.MagBias[SensorSettings::MAGBIAS_Y], -9).arg(sensorSettingsData.MagBias[SensorSettings::MAGBIAS_Z], -9) +
+                                            QString(tr("Magnetometer scale, in [-]: x=%4, y=%5, z=%6")).arg(sensorSettingsData.MagScale[SensorSettings::MAGSCALE_X], -9).arg(sensorSettingsData.MagScale[SensorSettings::MAGSCALE_Y], -9).arg(sensorSettingsData.MagScale[SensorSettings::MAGSCALE_Z], -9);
+                }
+
+                // Emit SIGNAL containing calibration success message
+                emit showSixPointMessage(QString(tr("Calibration succeeded")) + QString("\n") + accelCalibrationResults + QString("\n") + magCalibrationResults);
+            }
             else{
                 //Return sensor calibration values to their original settings
                 resetSensorCalibrationToOriginalValues();
