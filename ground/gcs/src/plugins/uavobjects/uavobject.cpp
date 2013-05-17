@@ -267,8 +267,9 @@ qint32 UAVObject::pack(quint8* dataOut)
     qint32 offset = 0;
     for (QList<UAVObjectField*>::iterator iter = fields.begin(); iter != fields.end(); ++iter)
     {
-        (*iter)->pack(&dataOut[offset]);
-        offset += (*iter)->getNumBytes();
+        UAVObjectField *field = *iter;
+        field->pack(&dataOut[offset]);
+        offset += field->getNumBytes();
     }
     return numBytes;
 }
@@ -283,8 +284,9 @@ qint32 UAVObject::unpack(const quint8* dataIn)
     qint32 offset = 0;
     for (QList<UAVObjectField*>::iterator iter = fields.begin(); iter != fields.end(); ++iter)
     {
-        (*iter)->unpack(&dataIn[offset]);
-        offset += (*iter)->getNumBytes();
+        UAVObjectField *field = *iter;
+        field->unpack(&dataIn[offset]);
+        offset += field->getNumBytes();
     }
     emit objectUnpacked(this); // trigger object updated event
     emit objectUpdated(this);
@@ -472,7 +474,8 @@ QString UAVObject::toStringData()
     sout.append("Data:\n");
     for (QList<UAVObjectField*>::iterator iter = fields.begin(); iter != fields.end(); ++iter)
     {
-        sout.append( QString("\t%1").arg((*iter)->toString()) );
+        UAVObjectField *field = *iter;
+        sout.append( QString("\t%1").arg(field->toString()) );
     }
     return sout;
 }
