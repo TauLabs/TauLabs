@@ -36,8 +36,6 @@
 #include "../plugins/uavobjects/uavobjectmanager.h"
 #include "../plugins/uavobjects/uavobject.h"
 
-#include <QDebug>
-
 QMap<int,QString> FlightDataModel::modeNames = QMap<int, QString>();
 
 //! Initialize an empty flight plan

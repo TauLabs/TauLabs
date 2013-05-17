@@ -778,12 +778,10 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
         double cP = cos(psi);
         double sP = sin(psi);
 
-        // In case psi is too small, we have to use a different equation to solve for theta
-        if (fabs(psi) > M_PI / 2)
-            theta = atanf((a_sensor[1] + cP * (sP * a_sensor[0] - cP * a_sensor[1])) / (sP * a_sensor[2]));
-        else
-            theta = atanf((a_sensor[0] - sP * (sP * a_sensor[0] - cP * a_sensor[1])) / (cP * a_sensor[2]));
-        phi = atan2f((sP * a_sensor[0] - cP * a_sensor[1]) / (-GRAVITY), a_sensor[2] / cos(theta) / (-GRAVITY));
+
+        // the inversion of the rotation matrix multiplied by the basis vector
+        theta = atan2(-(cP * a_sensor[0] + sP * a_sensor[1]), -a_sensor[2]);
+        phi = atan2(-(sP * a_sensor[0] - cP * a_sensor[1]), -a_sensor[2] / cos(theta));
 
         attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] = phi * RAD2DEG * 100.0;
         attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] = theta * RAD2DEG * 100.0;
