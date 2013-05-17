@@ -115,6 +115,7 @@ private slots:
     void doStartNoiseMeasurement();
     void doGetNoiseSample(UAVObject *);
     void do_SetDirty();
+    void configureSixPoint();
 
 };
 

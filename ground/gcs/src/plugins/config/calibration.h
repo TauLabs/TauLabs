@@ -50,7 +50,7 @@ public:
     explicit Calibration();
     ~Calibration();
 
-    void initialize(bool calibrateMags);
+    void initialize(bool calibrateMags, bool calibrateAccels);
 
 private:
     enum CALIBRATION_STATE {
@@ -143,8 +143,11 @@ private:
 
     QTimer timer;
 
-    //! Whether to attempt to calibrate the mag (normally if it is present)
-    bool calibrateMag;
+    //! Whether to attempt to calibrate the magnetometer (normally if it is present)
+    bool calibrateMags;
+
+    //! Whether to attempt to calibrate the accelerometer (normally if it is present)
+    bool calibrateAccels;
 
     //! The expected gravity amplitude
     double accelLength;

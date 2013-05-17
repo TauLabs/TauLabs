@@ -245,16 +245,18 @@ ConfigAttitudeWidget::ConfigAttitudeWidget(QWidget *parent) :
     autoLoadWidgets();
 
     // Configure the calibration object
-    calibration.initialize(full_hardware);
+    calibration.initialize(full_hardware, true);
 
     // Must connect the graphs to the calibration object to see the calibration results
     calibration.configureTempCurves(m_ui->xGyroTemp, m_ui->yGyroTemp, m_ui->zGyroTemp);
 
     // Connect the signals
     connect(m_ui->accelBiasStart, SIGNAL(clicked()), &calibration, SLOT(doStartLeveling()));
-    connect(m_ui->sixPointStart, SIGNAL(clicked()), &calibration ,SLOT(doStartSixPoint()));
-    connect(m_ui->sixPointSave, SIGNAL(clicked()), &calibration ,SLOT(doSaveSixPointPosition()));
-    connect(m_ui->sixPointCancel, SIGNAL(clicked()), &calibration ,SLOT(doCancelSixPoint()));
+    connect(m_ui->sixPointStart, SIGNAL(clicked()), &calibration, SLOT(doStartSixPoint()));
+    connect(m_ui->sixPointSave, SIGNAL(clicked()), &calibration, SLOT(doSaveSixPointPosition()));
+    connect(m_ui->sixPointCancel, SIGNAL(clicked()), &calibration, SLOT(doCancelSixPoint()));
+    connect(m_ui->cbCalibrateAccels, SIGNAL(clicked()), this, SLOT(configureSixPoint()));
+    connect(m_ui->cbCalibrateMags, SIGNAL(clicked()), this, SLOT(configureSixPoint()));
     connect(m_ui->startTempCal, SIGNAL(clicked()), &calibration, SLOT(doStartTempCal()));
     connect(m_ui->acceptTempCal, SIGNAL(clicked()), &calibration, SLOT(doAcceptTempCal()));
     connect(m_ui->cancelTempCal, SIGNAL(clicked()), &calibration, SLOT(doCancelTempCalPoint()));
@@ -600,6 +602,17 @@ void ConfigAttitudeWidget::refreshWidgetsValues(UAVObject *)
 void ConfigAttitudeWidget::do_SetDirty()
 {
     setDirty(true);
+}
+
+
+void ConfigAttitudeWidget::configureSixPoint()
+{
+    if (!m_ui->cbCalibrateAccels->isChecked() && !m_ui->cbCalibrateMags->isChecked()) {
+        QMessageBox::information(this, "No sensors chosen", "At least one of the sensors must be chosen. \n\nResetting six-point sensor calibration selection.");
+        m_ui->cbCalibrateAccels->setChecked(true);
+        m_ui->cbCalibrateMags->setChecked(true);
+    }
+    calibration.initialize(m_ui->cbCalibrateAccels->isChecked(), m_ui->cbCalibrateMags->isChecked());
 }
 
 
