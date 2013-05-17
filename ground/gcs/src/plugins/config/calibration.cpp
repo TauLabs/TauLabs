@@ -778,8 +778,10 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
         double cP = cos(psi);
         double sP = sin(psi);
 
+
+	// Compute the roll and pitch angles after rotating the sensors by yaw (cP, sP)
         theta = atan2(-(cP * a_sensor[0] + sP * a_sensor[1]), -a_sensor[2]);
-        phi = atan2(-(sP * a_sensor[0] - cP * a_sensor[1]) / GRAVITY, -a_sensor[2] / cos(theta) / GRAVITY);
+        phi = atan2(-(sP * a_sensor[0] - cP * a_sensor[1]), -a_sensor[2] / cos(theta));
 
         attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] = phi * RAD2DEG * 100.0;
         attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] = theta * RAD2DEG * 100.0;
