@@ -308,7 +308,7 @@ static void AttitudeTask(void *parameters)
 		               ((stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_COMPLEMENTARY) &&
 		                (stateEstimation.NavigationFilter == STATEESTIMATION_NAVIGATIONFILTER_INS));
 
-		// Complimentary filter only needed when used for attitude
+		// Complementary filter only needed when used for attitude
 		bool complementary = stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_COMPLEMENTARY;
 
 		// Update one or both filters
@@ -884,6 +884,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 			if (homeLocation.Set == HOMELOCATION_SET_TRUE)
 				INSSetMagNorth(homeLocation.Be);
 			else {
+				// Reasonable default is safe for indoor
 				float Be[3] = {100,0,500};
 				INSSetMagNorth(Be);
 			}
