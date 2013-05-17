@@ -527,9 +527,9 @@ void Telemetry::processObjectQueue()
     }
 }
 
+
 /**
- * Check if any objects are pending for periodic updates
- * TODO: Clean-up
+ * @brief Telemetry::processPeriodicUpdates Check if any objects are pending for periodic updates
  */
 void Telemetry::processPeriodicUpdates()
 {
@@ -549,6 +549,8 @@ void Telemetry::processPeriodicUpdates()
     for (QVector<ObjectTimeInfo>::iterator objinfo = objList.begin(); objinfo != objInfoEnd; ++objinfo)
     {
         // If object is configured for periodic updates
+        // FixMe: This is an inefficient process as it depends on polling. It would be better to have
+        // this functionality be driven through timers.
         if (objinfo->updatePeriodMs > 0)
         {
             objinfo->timeToNextUpdateMs -= timeToNextUpdateMs;
