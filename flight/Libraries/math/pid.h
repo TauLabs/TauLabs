@@ -7,6 +7,7 @@
  *
  * @file       pid.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://github.com/TauLabs Copyright (C) 2012-2013. 
  * @brief      Methods to work with PID structure
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -44,6 +45,7 @@ struct pid {
 
 //! Methods to use the pid structures
 float pid_apply(struct pid *pid, const float err, float dT);
+float pid_apply_antiwindup(struct pid *pid, const float err, float min_bound, float max_bound, float dT);
 float pid_apply_setpoint(struct pid *pid, const float setpoint, const float measured, float dT);
 void pid_zero(struct pid *pid);
 void pid_configure(struct pid *pid, float p, float i, float d, float iLim);

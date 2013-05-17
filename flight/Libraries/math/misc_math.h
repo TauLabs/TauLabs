@@ -35,5 +35,6 @@ float bound_min_max(float val, float min, float max);
 
 //! Circular modulus
 float circular_modulus_deg(float err);
+float circular_modulus_rad(float err);
 
 #endif /* MISC_MATH_H */
