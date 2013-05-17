@@ -502,10 +502,6 @@ void TelemetrySchedulerGadgetWidget::importTelemetryConfiguration(const QString&
                         QModelIndex index = schedulerModel->index(row, j+1, QModelIndex());
                         uint32_t val = valuesList.at(j).toUInt();
                         int k=1;
-                        while(val == 0 && j-k >=0){
-                            val = valuesList.at(j-k).toUInt();
-                            k++;
-                        }
                         if(val == 0){
                             // If it's 0, do nothing, since a blank cell indicates a default.
                         }
