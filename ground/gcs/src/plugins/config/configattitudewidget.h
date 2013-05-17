@@ -104,6 +104,9 @@ private:
 
     QMap<QString, UAVObject::Metadata> originalMetaData;
 
+    bool board_has_accelerometer;
+    bool board_has_magnetometer;
+
 private slots:
     //! Overriden method from the configTaskWidget to update UI
     virtual void refreshWidgetsValues(UAVObject * obj=NULL);

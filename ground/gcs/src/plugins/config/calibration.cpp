@@ -68,12 +68,13 @@ Calibration::~Calibration()
 }
 
 /**
- * @brief Calibration::initialize Configure whether to calibrate the mag during 6 point cal
+ * @brief Calibration::initialize Configure whether to calibrate the magnetometer
+ * and/or accelerometer during 6-point calibration
  * @param calibrateMags
  */
-void Calibration::initialize(bool calibrateMags, bool calibrateAccels) {
-    this->calibrateMags = calibrateMags;
+void Calibration::initialize(bool calibrateAccels, bool calibrateMags) {
     this->calibrateAccels = calibrateAccels;
+    this->calibrateMags = calibrateMags;
 }
 
 /**

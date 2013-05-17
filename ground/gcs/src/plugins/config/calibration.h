@@ -50,7 +50,7 @@ public:
     explicit Calibration();
     ~Calibration();
 
-    void initialize(bool calibrateMags, bool calibrateAccels);
+    void initialize(bool calibrateAccels, bool calibrateMags);
 
 private:
     enum CALIBRATION_STATE {
