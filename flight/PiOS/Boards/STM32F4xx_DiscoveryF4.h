@@ -2,7 +2,7 @@
  ******************************************************************************
  * @file       pios_board.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013
  * @addtogroup 
  * @{
  * @addtogroup 

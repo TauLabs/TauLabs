@@ -63,8 +63,8 @@ QWidget *UavTalkRelayOptionsPage::createPage(QWidget *parent)
     m_page->cbDefaultAccess->setCurrentIndex(m_page->cbDefaultAccess->findData(m_config->m_DefaultRule));
     ExtensionSystem::PluginManager* pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager * objMngr = pm->getObject<UAVObjectManager>();
-    QList < QList <UAVObject *> > objList=objMngr->getObjects();
-    foreach(QList <UAVObject *> obj,objList)
+    QVector< QVector<UAVObject *> > objList=objMngr->getObjects();
+    foreach(QVector<UAVObject *> obj, objList)
     {
         m_page->cbAddRuleUAVO->addItem(obj[0]->getName(),obj[0]->getObjID());
     }
