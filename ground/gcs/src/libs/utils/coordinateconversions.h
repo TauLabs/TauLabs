@@ -30,9 +30,6 @@
 #define COORDINATECONVERSIONS_H
 
 #include "utils_global.h"
-#include "../extensionsystem/pluginmanager.h"
-#include "../../plugins/uavobjects/uavobjectmanager.h"
-#include "../../plugins/uavobjects/uavobject.h"
 #include "math.h"
 
 namespace Utils {

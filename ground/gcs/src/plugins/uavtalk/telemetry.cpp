@@ -77,8 +77,9 @@ Telemetry::Telemetry(UAVTalk* utalk, UAVObjectManager* objMngr)
     this->objMngr = objMngr;
     mutex = new QMutex(QMutex::Recursive);
     // Process all objects in the list
-    QList< QList<UAVObject*> > objs = objMngr->getObjects();
-    for (int objidx = 0; objidx < objs.length(); ++objidx)
+    QVector< QVector<UAVObject*> > objs = objMngr->getObjects();
+    const int objSize = objs.size();
+    for (int objidx = 0; objidx < objSize; ++objidx)
     {
         registerObject(objs[objidx][0]); // we only need to register one instance per object type
     }
@@ -125,9 +126,10 @@ void Telemetry::registerObject(UAVObject* obj)
 void Telemetry::addObject(UAVObject* obj)
 {
     // Check if object type is already in the list
-    for (int n = 0; n < objList.length(); ++n)
+    const QVector<ObjectTimeInfo>::iterator iterEnd = objList.end();
+    for (QVector<ObjectTimeInfo>::const_iterator iter = objList.constBegin(); iter != iterEnd; ++iter)
     {
-        if ( objList[n].obj->getObjID() == obj->getObjID() )
+        if (iter->obj->getObjID() == obj->getObjID())
         {
             // Object type (not instance!) is already in the list, do nothing
             return;
@@ -148,12 +150,15 @@ void Telemetry::addObject(UAVObject* obj)
 void Telemetry::setUpdatePeriod(UAVObject* obj, qint32 periodMs)
 {
     // Find object type (not instance!) and update its period
-    for (int n = 0; n < objList.length(); ++n)
+    const quint32 objID = obj->getObjID();
+
+    const QVector<ObjectTimeInfo>::iterator iterEnd = objList.end();
+    for (QVector<ObjectTimeInfo>::iterator iter = objList.begin(); iter != iterEnd; ++iter)
     {
-        if ( objList[n].obj->getObjID() == obj->getObjID() )
+        if (iter->obj->getObjID() == objID)
         {
-            objList[n].updatePeriodMs = periodMs;
-            objList[n].timeToNextUpdateMs = quint32((float)periodMs * (float)qrand() / (float)RAND_MAX); // avoid bunching of updates
+            iter->updatePeriodMs = periodMs;
+            iter->timeToNextUpdateMs = quint32((float)periodMs * (float)qrand() / (float)RAND_MAX); // avoid bunching of updates
         }
     }
 }
@@ -163,8 +168,9 @@ void Telemetry::setUpdatePeriod(UAVObject* obj, qint32 periodMs)
  */
 void Telemetry::connectToObjectInstances(UAVObject* obj, quint32 eventMask)
 {
-    QList<UAVObject*> objs = objMngr->getObjectInstances(obj->getObjID());
-    for (int n = 0; n < objs.length(); ++n)
+    QVector<UAVObject*> objs = objMngr->getObjectInstances(obj->getObjID());
+    int objsSize = objs.size();
+    for (int n = 0; n < objsSize; ++n)
     {
         // Disconnect all
         objs[n]->disconnect(this);
@@ -521,9 +527,9 @@ void Telemetry::processObjectQueue()
     }
 }
 
+
 /**
- * Check is any objects are pending for periodic updates
- * TODO: Clean-up
+ * @brief Telemetry::processPeriodicUpdates Check if any objects are pending for periodic updates
  */
 void Telemetry::processPeriodicUpdates()
 {
@@ -535,14 +541,16 @@ void Telemetry::processPeriodicUpdates()
     // Iterate through each object and update its timer, if zero then transmit object.
     // Also calculate smallest delay to next update (will be used for setting timeToNextUpdateMs)
     qint32 minDelay = MAX_UPDATE_PERIOD_MS;
-    ObjectTimeInfo *objinfo;
     qint32 elapsedMs = 0;
     QTime time;
     qint32 offset;
-    for (int n = 0; n < objList.length(); ++n)
+
+    const QVector<ObjectTimeInfo>::iterator objInfoEnd = objList.end();
+    for (QVector<ObjectTimeInfo>::iterator objinfo = objList.begin(); objinfo != objInfoEnd; ++objinfo)
     {
-        objinfo = &objList[n];
         // If object is configured for periodic updates
+        // FixMe: This is an inefficient process as it depends on polling. It would be better to have
+        // this functionality be driven through timers.
         if (objinfo->updatePeriodMs > 0)
         {
             objinfo->timeToNextUpdateMs -= timeToNextUpdateMs;
