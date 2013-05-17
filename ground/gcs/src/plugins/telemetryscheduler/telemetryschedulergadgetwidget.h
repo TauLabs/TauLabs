@@ -62,6 +62,8 @@ private slots:
     void applySchedule();
     void updateCurrentColumn(UAVObject *);
     void dataModel_itemChanged(QStandardItem *);
+    void addTelemetryColumn();
+    void removeTelemetryColumn();
 
 private:
     void importTelemetryConfiguration(const QString& fileName);

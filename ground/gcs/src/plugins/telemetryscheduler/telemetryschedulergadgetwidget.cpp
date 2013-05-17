@@ -41,6 +41,7 @@
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QPushButton>
 #include <QtCore/QFileInfo>
+#include <QInputDialog>
 
 #include "extensionsystem/pluginmanager.h"
 #include "utils/xmlconfig.h"
@@ -69,7 +70,7 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     // The dummy table exists only to force the other widgets into the correct place.
     // It is removed and replaced tby the custom copy/paste-enabled table
     m_telemetryeditor->gridLayout->removeWidget(m_telemetryeditor->tableWidgetDummy);
-    m_telemetryeditor->gridLayout->addWidget(telemetryScheduleView, 0, 0, 1, 8);
+    m_telemetryeditor->gridLayout->addWidget(telemetryScheduleView, 0, 0, 3, 5);
 
     // Sets the fields in the table to spinboxes
     SpinBoxDelegate *delegate = new SpinBoxDelegate();
@@ -79,6 +80,8 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     connect(m_telemetryeditor->bnSaveTelemetryToFile, SIGNAL(clicked()), this, SLOT(saveTelemetryToFile()));
     connect(m_telemetryeditor->bnLoadTelemetryFromFile, SIGNAL(clicked()), this, SLOT(loadTelemetryFromFile()));
     connect(m_telemetryeditor->bnApplySchedule, SIGNAL(clicked()), this, SLOT(applySchedule()));
+    connect(m_telemetryeditor->bnAddTelemetryColumn, SIGNAL(clicked()), this, SLOT(addTelemetryColumn()));
+    connect(m_telemetryeditor->bnRemoveTelemetryColumn, SIGNAL(clicked()), this, SLOT(removeTelemetryColumn()));
     connect(schedulerModel, SIGNAL(itemChanged(QStandardItem *)), this, SLOT(dataModel_itemChanged(QStandardItem *)));
 
     // Generate the list of UAVOs on left side
@@ -108,7 +111,7 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     telemetryScheduleView->getFrozenTableView()->verticalHeader()->setFixedWidth(width);
 
     // Generate the list of column headers
-    columnHeaders << "Default" << "Current" << "USB" << "2400" << "4800" << "9600" << "19200" << "38400" << "57600" << "115200" << "250k" << "500k";
+    columnHeaders << "Default" << "Current" << "USB" << "2400" << "4800" << "9600" << "57600" << "115200" << "250k" << "500k";
 
     int columnIndex = 0;
     foreach(QString header, columnHeaders ){
@@ -439,12 +442,13 @@ void TelemetrySchedulerGadgetWidget::importTelemetryConfiguration(const QString&
         telemetryScheduleView->setColumnWidth(columnIndex, 65); // 65 pixels is wide enough for the string "65535"
     }
 
-    // Populate combobox
-    m_telemetryeditor->cmbScheduleList->clear();
-    m_telemetryeditor->cmbScheduleList->addItems(new_columnHeaders);
-
     // Update columnHeaders
     columnHeaders= new_columnHeaders;
+
+    // Populate combobox
+    m_telemetryeditor->cmbScheduleList->clear();
+    m_telemetryeditor->cmbScheduleList->addItems(columnHeaders);
+
 
     // find the root of settings subtree
     root = doc.documentElement();
@@ -518,6 +522,38 @@ void TelemetrySchedulerGadgetWidget::importTelemetryConfiguration(const QString&
 
 
 /**
+ * @brief TelemetrySchedulerGadgetWidget::addTelemetryColumn
+ */
+void TelemetrySchedulerGadgetWidget::addTelemetryColumn()
+{
+    int newColumnIndex = schedulerModel->columnCount();
+    QString newColumnString = "New Column";
+    schedulerModel->setHorizontalHeaderItem(newColumnIndex, new QStandardItem(newColumnString));
+    telemetryScheduleView->getFrozenModel()->setHorizontalHeaderItem(newColumnIndex, new QStandardItem(""));
+    telemetryScheduleView->setColumnWidth(newColumnIndex, 65); // 65 pixels is wide enough for the string "65535"
+
+    columnHeaders.append(newColumnString);
+    m_telemetryeditor->cmbScheduleList->clear();
+    m_telemetryeditor->cmbScheduleList->addItems(columnHeaders);
+}
+
+
+/**
+ * @brief TelemetrySchedulerGadgetWidget::removeTelemetryColumn
+ */
+void TelemetrySchedulerGadgetWidget::removeTelemetryColumn()
+{
+    int oldColumnIndex = schedulerModel->columnCount();
+    schedulerModel->removeColumns(oldColumnIndex-1, 1);
+    telemetryScheduleView->getFrozenModel()->removeColumns(oldColumnIndex-1, 1);
+
+    columnHeaders.pop_back();
+    m_telemetryeditor->cmbScheduleList->clear();
+    m_telemetryeditor->cmbScheduleList->addItems(columnHeaders);
+}
+
+
+/**
  * @brief TelemetrySchedulerGadgetWidget::getObjectManager Utility function to get a pointer to the object manager
  * @return pointer to the UAVObjectManager
  */
@@ -540,14 +576,6 @@ UAVObjectUtilManager* TelemetrySchedulerGadgetWidget::getObjectUtilManager() {
     Q_ASSERT(utilMngr);
     return utilMngr;
 }
-
-
-
-
-
-
-
-
 
 
 
@@ -819,8 +847,14 @@ void QFrozenTableViewWithCopyPaste::init()
     setVerticalScrollMode(ScrollPerPixel);
     frozenTableView->setHorizontalScrollMode(ScrollPerPixel);
 
+    // Turn off any kind of selection or interaction with the frozen table
+    frozenTableView->setEnabled(false);
+
     // TODO: Make it so that the wheel events in the frozen table are passed to the main table.
+
+
 }
+
 
 void QFrozenTableViewWithCopyPaste::updateSectionWidth(int logicalIndex, int, int newSize)
 {
