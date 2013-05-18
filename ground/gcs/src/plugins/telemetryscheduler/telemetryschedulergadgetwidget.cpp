@@ -94,9 +94,9 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     objManager = pm->getObject<UAVObjectManager>();
     Q_ASSERT(objManager != NULL);
 
-    QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
+    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjects();
     int rowIndex = 1;
-    foreach (QList<UAVDataObject*> list, objList) {
+    foreach (QVector<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
             if(!obj->isSettings()) {
                 schedulerModel->setVerticalHeaderItem(rowIndex, new QStandardItem(obj->getName()));
@@ -128,7 +128,7 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     // Populate the Current column with live update rates. Connect these values to the current
     // metadata. At the same time, populate the default column.
     rowIndex = 1;
-    foreach (QList<UAVDataObject*> list, objList) {
+    foreach (QVector<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
             if(!obj->isSettings()) {
                 // Add defaults
