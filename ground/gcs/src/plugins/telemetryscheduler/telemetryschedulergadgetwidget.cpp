@@ -24,6 +24,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 #include "telemetryschedulergadgetwidget.h"
+#include "metadata_dialog.h"
 #include "ui_telemetryscheduler.h"
 #include "ui_metadata_dialog.h"
 #include <QtCore/qglobal.h>
@@ -54,7 +55,7 @@
 #include <coreplugin/coreconstants.h>
 
 
-TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) : QLabel(parent)
+TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) : QWidget(parent)
 {
     m_telemetryeditor = new Ui_TelemetryScheduler();
     m_telemetryeditor->setupUi(this);
@@ -331,7 +332,8 @@ void TelemetrySchedulerGadgetWidget::saveTelemetryToFile()
 /**
  * @brief TelemetrySchedulerGadgetWidget::applySchedule Uploads new settings to board
  */
-void TelemetrySchedulerGadgetWidget::applySchedule(){
+void TelemetrySchedulerGadgetWidget::applySchedule()
+{
     int col = -1;
 
     // Iterate over the list of columns, looking for the selected schedule
@@ -554,77 +556,6 @@ void TelemetrySchedulerGadgetWidget::removeTelemetryColumn()
 
 
 /**
- * @brief TelemetrySchedulerGadgetWidget::changeVerticalHeader
- */
-void TelemetrySchedulerGadgetWidget::changeVerticalHeader(int headerIndex)
-{
-    Ui_MetadataDialog metadata_editor;
-    QDialog d;
-    metadata_editor.setupUi(&d);
-
-    QStringList telemetryModes;
-    telemetryModes << "Periodic"  << "Throttled" << "On Change" << "Manual";
-
-    metadata_editor.cmbFlightTelemetryMode->addItems(telemetryModes);
-    metadata_editor.cmbGCSTelemetryMode->addItems(telemetryModes);
-
-    // Get the UAVO name
-    QString uavObjectName = schedulerModel->verticalHeaderItem(headerIndex)->text();
-    UAVObject* uavObj = objManager->getObject(uavObjectName);
-
-    qDebug() << "UAVOName: " << uavObjectName;
-
-    // Get the metadata
-    UAVObject::Metadata mdata = uavObj->getMetadata();
-
-    // Fill the dialog box
-    metadata_editor.cbFlightReadOnly->setChecked(uavObj->GetFlightAccess(mdata));
-    metadata_editor.cbGCSReadOnly->setChecked(uavObj->GetGcsAccess(mdata));
-    metadata_editor.cbFlightAcked->setChecked(uavObj->GetFlightTelemetryAcked(mdata));
-    metadata_editor.cbGCSAcked->setChecked(uavObj->GetGcsTelemetryAcked(mdata));
-
-    int accessType = UAVObject::GetFlightTelemetryUpdateMode(mdata);
-    switch(accessType){
-    case UAVObject::UPDATEMODE_PERIODIC:
-        metadata_editor.cmbFlightTelemetryMode->setCurrentIndex(0);
-        break;
-    case UAVObject::UPDATEMODE_THROTTLED:
-        metadata_editor.cmbFlightTelemetryMode->setCurrentIndex(1);
-        break;
-    case UAVObject::UPDATEMODE_ONCHANGE:
-        metadata_editor.cmbFlightTelemetryMode->setCurrentIndex(2);
-        break;
-    case UAVObject::UPDATEMODE_MANUAL:
-        metadata_editor.cmbFlightTelemetryMode->setCurrentIndex(3);
-        break;
-    }
-
-    accessType = UAVObject::GetGcsTelemetryUpdateMode(mdata);
-    switch(accessType){
-    case UAVObject::UPDATEMODE_PERIODIC:
-        metadata_editor.cmbGCSTelemetryMode->setCurrentIndex(0);
-        break;
-    case UAVObject::UPDATEMODE_THROTTLED:
-        metadata_editor.cmbGCSTelemetryMode->setCurrentIndex(1);
-        break;
-    case UAVObject::UPDATEMODE_ONCHANGE:
-        metadata_editor.cmbGCSTelemetryMode->setCurrentIndex(2);
-        break;
-    case UAVObject::UPDATEMODE_MANUAL:
-        metadata_editor.cmbGCSTelemetryMode->setCurrentIndex(3);
-        break;
-    }
-
-    if (d.exec() != QDialog::Accepted )
-        return;
-
-    d.accept();
-
-    qDebug() << "You pressed OK!";
-}
-
-
-/**
  * @brief TelemetrySchedulerGadgetWidget::changeHorizontalHeader
  */
 void TelemetrySchedulerGadgetWidget::changeHorizontalHeader(int headerIndex)
@@ -642,6 +573,36 @@ void TelemetrySchedulerGadgetWidget::changeHorizontalHeader(int headerIndex)
     m_telemetryeditor->cmbScheduleList->clear();
     m_telemetryeditor->cmbScheduleList->addItems(columnHeaders);
 }
+
+
+/**
+ * @brief TelemetrySchedulerGadgetWidget::changeVerticalHeader
+ */
+void TelemetrySchedulerGadgetWidget::changeVerticalHeader(int headerIndex)
+{
+    // Get the UAVO name
+    QString uavObjectName = schedulerModel->verticalHeaderItem(headerIndex)->text();
+    UAVObject* uavObj = objManager->getObject(uavObjectName);
+
+    // Get the metadata
+    UAVObject::Metadata mdata = uavObj->getMetadata();
+
+    MetadataDialog metadataDialog(mdata);
+
+    if (metadataDialog.exec() != QDialog::Accepted )
+        return;
+
+    UAVObject::Metadata newMetadata;
+    if (metadataDialog.getResetDefaults_flag() == false)
+        newMetadata = metadataDialog.getMetadata();
+    else {
+        newMetadata = uavObj->getDefaultMetadata();
+        newMetadata.flightTelemetryUpdatePeriod = mdata.flightTelemetryUpdatePeriod;
+    }
+
+    uavObj->setMetadata(newMetadata);
+}
+
 
 /**
  * @brief TelemetrySchedulerGadgetWidget::getObjectManager Utility function to get a pointer to the object manager

@@ -44,7 +44,7 @@ class Ui_TelemetryScheduler;
 class Ui_Metadata_Dialog;
 class QFrozenTableViewWithCopyPaste;
 
-class TelemetrySchedulerGadgetWidget : public QLabel
+class TelemetrySchedulerGadgetWidget : public QWidget
 {
     Q_OBJECT
 
