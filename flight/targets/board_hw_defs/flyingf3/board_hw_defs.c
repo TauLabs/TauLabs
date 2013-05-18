@@ -2162,32 +2162,7 @@ const struct pios_usb_cdc_cfg pios_usb_cdc_cfg = {
 #include "pios_adc_priv.h"
 #include "pios_dma.h"
 
-static const struct pios_internal_adc_cfg internal_adc_cfg = {
-        .dma = {
-                .irq = {
-                        .flags   = (DMA1_FLAG_TC1 | DMA1_FLAG_TE1 | DMA1_FLAG_HT1 | DMA1_FLAG_GL1),
-                        .init    = {
-                                .NVIC_IRQChannel                   = DMA1_Channel1_IRQn,
-                                .NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH,
-                                .NVIC_IRQChannelSubPriority        = 0,
-                                .NVIC_IRQChannelCmd                = ENABLE,
-                        },
-                },
-                .rx = {
-                        .channel = DMA1_Channel1,
-                        .init    = {
-                                .DMA_Priority           = DMA_Priority_High,
-                        },
-                }
-        },
-        .half_flag = DMA1_IT_HT1,
-        .full_flag = DMA1_IT_TC1,
-        .oversampling = 32,
-        .number_of_used_pins = 1,
-        .adc_pins = (struct adc_pin[]){{GPIOA,GPIO_Pin_1,ADC_Channel_2,true},},
-        .adc_dev_master = ADC1,
-        //.number_of_used_pins = 2,
-        //.adc_pins = (adc_pin[]){{GPIOA,GPIO_Pin_1,ADC_Channel_2,true},{GPIOA,GPIO_Pin_4,ADC_Channel_1,false},},
-        //.adc_dev_slave = ADC2,
-};
+//TODO Write valid configuration for this target
+static const struct pios_internal_adc_cfg internal_adc_cfg = {};
+
 #endif //PIOS_INCLUDE_ADC
