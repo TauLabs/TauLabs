@@ -165,6 +165,13 @@
            </widget>
           </item>
           <item>
+           <widget class="QCheckBox" name="gcsReceiverCB">
+            <property name="text">
+             <string>Control GCS Receiver</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QTabWidget" name="UDPSetup">
             <property name="currentIndex">
              <number>0</number>

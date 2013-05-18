@@ -317,7 +317,6 @@ WayPointItem::WayPointItem(MapGraphicItem *map, bool magicwaypoint):reached(fals
         RefreshPos();
         RefreshToolTip();
         this->update();
-        qDebug()<<"5 setCoord EXIT";
     }
     void WayPointItem::SetDescription(const QString &value)
     {

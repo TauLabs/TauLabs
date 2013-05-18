@@ -23,7 +23,7 @@ Item {
                       GPSPosition.Altitude : qmlWidget.altitude
     }
 
-    //Display the center line and pitch scale in the same way as with world view
+    //Display the center line in the same way as with world view
     Item {
         id: world
         anchors.fill: parent
@@ -41,17 +41,6 @@ Item {
                 origin.y : world.parent.height/2
             }
         ]
-
-        SvgElementImage {
-            id: pitch_scale
-            elementName: "pitch_scale"
-            //worldView is loaded with Loader, so background element is visible
-            sceneSize: background.sceneSize
-            anchors.centerIn: parent
-            border: 64 //sometimes numbers are excluded from bounding rect
-
-            smooth: true
-        }
 
         SvgElementImage {
             id: horizont_line

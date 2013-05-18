@@ -120,7 +120,7 @@ private:
     UAVObjectManager* objMngr;
     UAVTalk* utalk;
     GCSTelemetryStats* gcsStatsObj;
-    QList<ObjectTimeInfo> objList;
+    QVector<ObjectTimeInfo> objList;
     QQueue<ObjectQueueInfo> objQueue;
     QQueue<ObjectQueueInfo> objPriorityQueue;
     QMap<TransactionKey, ObjectTransactionInfo*>transMap;

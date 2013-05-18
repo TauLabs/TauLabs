@@ -7,7 +7,7 @@
  *
  * @file       pid.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
+ * @author     Tau Labs, http://github.com/TauLabs Copyright (C) 2012-2013. 
  * @brief      Methods to work with PID structure
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -49,9 +49,14 @@ static float deriv_gamma = 1.0;
  */
 float pid_apply(struct pid *pid, const float err, float dT)
 {	
-	// Scale up accumulator by 1000 while computing to avoid losing precision
-	pid->iAccumulator += err * (pid->i * dT * 1000.0f);
-	pid->iAccumulator = bound_sym(pid->iAccumulator, pid->iLim * 1000.0f);
+	if (pid->i == 0) {
+		// If Ki is zero, reset the integrator
+		pid->iAccumulator = 0;
+	} else {
+		// Scale up accumulator by 1000 while computing to avoid losing precision
+		pid->iAccumulator += err * (pid->i * dT * 1000.0f);
+		pid->iAccumulator = bound_sym(pid->iAccumulator, pid->iLim * 1000.0f);
+	}
 
 	// Calculate DT1 term
 	float diff = (err - pid->lastErr);
@@ -64,6 +69,56 @@ float pid_apply(struct pid *pid, const float err, float dT)
 	}	                                 //   7.9577e-3  means 20 Hz f_cutoff
  
 	return ((err * pid->p) + pid->iAccumulator / 1000.0f + dterm);
+}
+
+/**
+ * Update the PID computation and apply anti windup limit
+ * @param[in] pid The PID struture which stores temporary information
+ * @param[in] err The error term
+ * @param[in] min_bound The minimum output
+ * @param[in] max_bound The maximum output
+ * @param[in] dT  The time step
+ * @returns Output the computed controller value
+ *
+ * @Note based on "Feedback Systems" by Astrom and Murray, PID control
+ *  chapter.
+ */
+float pid_apply_antiwindup(struct pid *pid, const float err,
+	float min_bound, float max_bound, float dT)
+{	
+	if (pid->i == 0) {
+		// If Ki is zero, reset the integrator
+		pid->iAccumulator = 0;
+	} else {
+		// Scale up accumulator by 1000 while computing to avoid losing precision
+		pid->iAccumulator += err * (pid->i * dT * 1000.0f);
+	}
+
+	// Calculate DT1 term
+	float diff = (err - pid->lastErr);
+	float dterm = 0;
+	pid->lastErr = err;
+	if(pid->d && dT)
+	{
+		dterm = pid->lastDer +  dT / ( dT + deriv_tau) * ((diff * pid->d / dT) - pid->lastDer);
+		pid->lastDer = dterm;            //   ^ set constant to 1/(2*pi*f_cutoff)
+	}	                                 //   7.9577e-3  means 20 Hz f_cutoff
+ 
+ 	// Compute how much (if at all) the output is saturating
+	float ideal_output = ((err * pid->p) + pid->iAccumulator / 1000.0f + dterm);
+	float saturation = 0;
+	if (ideal_output > max_bound) {
+		saturation = max_bound - ideal_output;
+		ideal_output = max_bound;
+	} else if (ideal_output < min_bound) {
+		saturation = min_bound - ideal_output;
+		ideal_output = min_bound;
+	}
+	// Use Kt 10x Ki
+	pid->iAccumulator += saturation * (pid->i * 10.0f * dT * 1000.0f);
+	pid->iAccumulator = bound_sym(pid->iAccumulator, pid->iLim * 1000.0f);
+
+	return ideal_output;
 }
 
 /**
@@ -81,9 +136,14 @@ float pid_apply_setpoint(struct pid *pid, const float setpoint, const float meas
 {
 	float err = setpoint - measured;
 	
-	// Scale up accumulator by 1000 while computing to avoid losing precision
-	pid->iAccumulator += err * (pid->i * dT * 1000.0f);
-	pid->iAccumulator = bound_sym(pid->iAccumulator, pid->iLim * 1000.0f);
+	if (pid->i == 0) {
+		// If Ki is zero, reset the integrator
+		pid->iAccumulator = 0;
+	} else {
+		// Scale up accumulator by 1000 while computing to avoid losing precision
+		pid->iAccumulator += err * (pid->i * dT * 1000.0f);
+		pid->iAccumulator = bound_sym(pid->iAccumulator, pid->iLim * 1000.0f);
+	}
 
 	// Calculate DT1 term,
 	float dterm = 0;

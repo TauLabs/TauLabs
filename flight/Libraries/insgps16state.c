@@ -8,7 +8,7 @@
  *
  * @file       insgps.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
+ * @author     Tau Labs, http://github.com/TauLabs Copyright (C) 2012-2013.
  * @brief      An INS/GPS algorithm implemented with an EKF.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -165,14 +165,14 @@ void INSPosVelReset(float pos[3], float vel[3])
 	X[5] = vel[2];	
 }
 
-void INSSetPosVelVar(float PosVar, float VelVar)
+void INSSetPosVelVar(float PosVar, float VelVar, float VertPosVar)
 {
 	R[0] = PosVar;
 	R[1] = PosVar;
-	R[2] = PosVar;
+	R[2] = VertPosVar;
 	R[3] = VelVar;
 	R[4] = VelVar;
-    R[5] = PosVar;  // Don't change vertical velocity, not measured
+	R[5] = VelVar;  // Don't change vertical velocity, not measured
 }
 
 void INSSetGyroBias(float gyro_bias[3])

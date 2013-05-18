@@ -68,13 +68,20 @@ class GCSControlGadgetConfiguration : public IUAVGadgetConfiguration
     void setbuttonSettingsAmount(int i, double Amount ){buttonSettings[i].Amount=Amount;return;}
     void setChannelReverse(int i, bool Reverse ){channelReverse[i]=Reverse;return;}
 
+    bool getGcsReceiverMode();
+    void setGcsReceiverMode(bool enable);
 
         void saveConfig(QSettings* settings) const;
         IUAVGadgetConfiguration *clone();
 
     private:
-        int controlsMode; // Mode1 to Mode4
-        // Joystick mappings for roll/pitch/yaw/throttle:
+        //! Indicate whether the gadget sends commands via GCS Receiver or overriding ManualControlCommand
+        bool gcsReceiverMode;
+
+        //! Mode1 to Mode4
+        int controlsMode;
+
+        // Joystick mappings for roll/pitch/yaw/throttle:        
         int rollChannel;
         int pitchChannel;
         int yawChannel;
