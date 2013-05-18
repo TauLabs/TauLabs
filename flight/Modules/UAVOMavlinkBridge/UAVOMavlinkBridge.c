@@ -408,11 +408,10 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 			else if (GPSPositionHandle() != NULL)
 				altitude = gpsPosData.Altitude;
 
-			int16_t heading = attActual.Yaw + 0.5f;
-			while (heading < 0)
+			// round attActual.Yaw to nearest int and transfer from (-180 ... 180) to (0 ... 360)
+			int16_t heading = lroundf(attActual.Yaw);
+			if (heading < 0)
 				heading += 360;
-			while (heading > 360)
-				heading -= 360;
 
 			mavlink_msg_vfr_hud_pack(0, 200, &mavMsg,
 					// airspeed Current airspeed in m/s
