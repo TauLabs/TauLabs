@@ -202,6 +202,8 @@ static void PIOS_INTERNAL_DMAConfig(uint32_t internal_adc_id)
                 DMAInit.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
         }
         DMAInit.DMA_Mode = DMA_Mode_Circular;
+        DMAInit.DMA_M2M = DMA_M2M_Disable;
+
 
         DMA_Init(adc_dev->cfg->dma.rx.channel, &DMAInit); /* channel is actually stream ... */
 

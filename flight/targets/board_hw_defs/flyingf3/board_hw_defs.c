@@ -2176,14 +2176,7 @@ static const struct pios_internal_adc_cfg internal_adc_cfg = {
                 .rx = {
                         .channel = DMA1_Channel1,
                         .init    = {
-                                .DMA_DIR                = DMA_DIR_PeripheralSRC,
-                                .DMA_PeripheralInc      = DMA_PeripheralInc_Disable,
-                                .DMA_MemoryInc          = DMA_MemoryInc_Enable,
-                                .DMA_PeripheralDataSize = DMA_PeripheralDataSize_Word,
-                                .DMA_MemoryDataSize     = DMA_MemoryDataSize_Word,
-                                .DMA_Mode               = DMA_Mode_Circular,
                                 .DMA_Priority           = DMA_Priority_High,
-                                .DMA_M2M                = DMA_M2M_Disable,
                         },
                 }
         },
