@@ -30,8 +30,11 @@
 
 #include "coreplugin/dialogs/ioptionspage.h"
 #include "gcscontrolplugin.h"
+
+#if defined(USE_SDL)
 #include "sdlgamepad/sdlgamepad.h"
 #include <SDL/SDL.h>
+#endif
 
 #include <QDebug>
 #include <QtGui/QCheckBox>
@@ -65,7 +68,9 @@ public:
 private:
     Ui::GCSControlGadgetOptionsPage *options_page;
     GCSControlGadgetConfiguration *m_config;
+#if defined(USE_SDL)
     SDLGamepad *sdlGamepad;
+#endif
 
     QList<QComboBox*> chList;
     QList<QCheckBox*> chRevList;
@@ -77,8 +82,10 @@ private:
 protected slots:
     // signals from joystick
     void gamepads(quint8 count);
+#if defined(USE_SDL)
     void buttonState(ButtonNumber number, bool pressed);
     void axesValues(QListInt16 values);
+#endif
     void updateButtonFunction();
     void updateButtonAction(int controlID);
     void updateButtonAction_0(void){updateButtonAction(0);};

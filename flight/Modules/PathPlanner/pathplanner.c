@@ -29,6 +29,7 @@
 #include "openpilot.h"
 #include "physical_constants.h"
 #include "paths.h"
+#include "path_saving.h"
 
 #include "flightstatus.h"
 #include "pathdesired.h"
@@ -360,8 +361,55 @@ static void activateWaypoint(int idx)
 
 void settingsUpdated(UAVObjEvent * ev) {
 	uint8_t preprogrammedPath = pathPlannerSettings.PreprogrammedPath;
+	int32_t retval = 0;
+	bool    operation = false;
+
 	PathPlannerSettingsGet(&pathPlannerSettings);
-	if (pathPlannerSettings.PreprogrammedPath != preprogrammedPath) {
+	switch (pathPlannerSettings.FlashOperation) {
+	case PATHPLANNERSETTINGS_FLASHOPERATION_LOAD1:
+		retval = pathplanner_load_path(1);
+		operation = true;
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_LOAD2:
+		retval = pathplanner_load_path(2);
+		operation = true;
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_LOAD3:
+		retval = pathplanner_load_path(3);
+		operation = true;
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_LOAD4:
+		retval = pathplanner_load_path(4);
+		operation = true;
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_LOAD5:
+		retval = pathplanner_load_path(5);
+		operation = true;
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_SAVE1:
+		retval = pathplanner_save_path(1);
+		operation = true;
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_SAVE2:
+		retval = pathplanner_save_path(2);
+		operation = true;
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_SAVE3:
+		retval = pathplanner_save_path(3);
+		operation = true;
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_SAVE4:
+		retval = pathplanner_save_path(4);
+		operation = true;
+		break;
+	case PATHPLANNERSETTINGS_FLASHOPERATION_SAVE5:
+		retval = pathplanner_save_path(5);
+		operation = true;
+		break;
+	}
+
+	if (pathPlannerSettings.PreprogrammedPath != preprogrammedPath &&
+	    pathPlannerSettings.FlashOperation == PATHPLANNERSETTINGS_FLASHOPERATION_NONE) {
 		switch(pathPlannerSettings.PreprogrammedPath) {
 			case PATHPLANNERSETTINGS_PREPROGRAMMEDPATH_NONE:
 				break;
@@ -374,6 +422,15 @@ void settingsUpdated(UAVObjEvent * ev) {
 
 		}
 	}
+
+	if (operation && (retval == 0)) {
+		pathPlannerSettings.FlashOperation = PATHPLANNERSETTINGS_FLASHOPERATION_COMPLETED;
+		PathPlannerSettingsSet(&pathPlannerSettings);
+	} else if (retval != 0) {
+		pathPlannerSettings.FlashOperation = PATHPLANNERSETTINGS_FLASHOPERATION_FAILED;
+		PathPlannerSettingsSet(&pathPlannerSettings);
+	}
+
 }
 
 static void createPathBox()
@@ -386,7 +443,7 @@ static void createPathBox()
 
 	// Draw O
 	WaypointData waypoint;
-	waypoint.Velocity = 5; // Since for now this isn't directional just set a mag
+	waypoint.Velocity = 2.5;
 	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
 
 	waypoint.Position[0] = 0;
@@ -394,28 +451,28 @@ static void createPathBox()
 	waypoint.Position[2] = -10;
 	WaypointInstSet(0, &waypoint);
 
-	waypoint.Position[0] = 25;
-	waypoint.Position[1] = 25;
+	waypoint.Position[0] = 5;
+	waypoint.Position[1] = 5;
 	waypoint.Position[2] = -10;
 	WaypointInstSet(1, &waypoint);
 
-	waypoint.Position[0] = -25;
-	waypoint.Position[1] = 25;
-	waypoint.Mode = WAYPOINT_MODE_FLYCIRCLELEFT;
+	waypoint.Position[0] = -5;
+	waypoint.Position[1] = 5;
+	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
 	//waypoint.Mode = WAYPOINT_MODE_FLYCIRCLERIGHT;
 	waypoint.ModeParameters = 35;
 	WaypointInstSet(2, &waypoint);
 
-	waypoint.Position[0] = -25;
-	waypoint.Position[1] = -25;
+	waypoint.Position[0] = -5;
+	waypoint.Position[1] = -5;
 	WaypointInstSet(3, &waypoint);
 
-	waypoint.Position[0] = 25;
-	waypoint.Position[1] = -25;
+	waypoint.Position[0] = 5;
+	waypoint.Position[1] = -5;
 	WaypointInstSet(4, &waypoint);
 
-	waypoint.Position[0] = 25;
-	waypoint.Position[1] = 25;
+	waypoint.Position[0] = 5;
+	waypoint.Position[1] = 5;
 	WaypointInstSet(5, &waypoint);
 
 	waypoint.Position[0] = 0;

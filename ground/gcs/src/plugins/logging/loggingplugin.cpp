@@ -163,19 +163,19 @@ void LoggingThread::run()
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
 
-    QList< QList<UAVObject*> > list;
-    list = objManager->getObjects();
-    QList< QList<UAVObject*> >::const_iterator i;
-    QList<UAVObject*>::const_iterator j;
+    QVector< QVector<UAVObject*> > list = objManager->getObjects();
+    QVector< QVector<UAVObject*> >::const_iterator i;
+    QVector<UAVObject*>::const_iterator j;
     int objects = 0;
 
-    for (i = list.constBegin(); i != list.constEnd(); ++i)
+    const QVector< QVector<UAVObject*> >::iterator iEnd = list.end();
+    for (i = list.constBegin(); i != iEnd; ++i)
     {
-        for (j = (*i).constBegin(); j != (*i).constEnd(); ++j)
+        QVector<UAVObject*>::const_iterator jEnd = (*i).constEnd();
+        for (j = (*i).constBegin(); j != jEnd; ++j)
         {
             connect(*j, SIGNAL(objectUpdated(UAVObject*)), (LoggingThread*) this, SLOT(objectUpdated(UAVObject*)));
             objects++;
-            //qDebug() << "Detected " << j[0];
         }
     }
 
@@ -205,14 +205,15 @@ void LoggingThread::stopLogging()
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
 
-    QList< QList<UAVObject*> > list;
-    list = objManager->getObjects();
-    QList< QList<UAVObject*> >::const_iterator i;
-    QList<UAVObject*>::const_iterator j;
+    QVector< QVector<UAVObject*> > list = objManager->getObjects();
+    QVector< QVector<UAVObject*> >::const_iterator i;
+    QVector<UAVObject*>::const_iterator j;
 
-    for (i = list.constBegin(); i != list.constEnd(); ++i)
+    const QVector< QVector<UAVObject*> >::iterator iEnd = list.end();
+    for (i = list.constBegin(); i != iEnd; ++i)
     {
-        for (j = (*i).constBegin(); j != (*i).constEnd(); ++j)
+        QVector<UAVObject*>::const_iterator jEnd = (*i).constEnd();
+        for (j = (*i).constBegin(); j != jEnd; ++j)
         {
             disconnect(*j, SIGNAL(objectUpdated(UAVObject*)), (LoggingThread*) this, SLOT(objectUpdated(UAVObject*)));
         }
@@ -234,8 +235,8 @@ void LoggingThread::retrieveSettings()
     // Get UAVObjectManager instance
     ExtensionSystem::PluginManager* pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objMngr = pm->getObject<UAVObjectManager>();
-    QList< QList<UAVDataObject*> > objs = objMngr->getDataObjects();
-    for (int n = 0; n < objs.length(); ++n)
+    QVector< QVector<UAVDataObject*> > objs = objMngr->getDataObjects();
+    for (int n = 0; n < objs.size(); ++n)
     {
         UAVDataObject* obj = objs[n][0];
         if ( obj->isSettings() )

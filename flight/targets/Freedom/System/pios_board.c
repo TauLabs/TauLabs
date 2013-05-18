@@ -167,20 +167,24 @@ uint32_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 #define PIOS_COM_BRIDGE_RX_BUF_LEN 65
 #define PIOS_COM_BRIDGE_TX_BUF_LEN 12
 
+#define PIOS_COM_MAVLINK_TX_BUF_LEN 128
+
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 #define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
 uintptr_t pios_com_debug_id;
 #endif /* PIOS_INCLUDE_DEBUG_CONSOLE */
 
-uintptr_t pios_com_gps_id = 0;
-uintptr_t pios_com_telem_usb_id = 0;
-uintptr_t pios_com_telem_rf_id = 0;
-uintptr_t pios_com_vcp_id = 0;
-uintptr_t pios_com_bridge_id = 0;
-uintptr_t pios_com_overo_id = 0;
-uint32_t pios_rfm22b_id = 0;
-uintptr_t pios_internal_adc_id = 0;
+uintptr_t pios_com_gps_id;
+uintptr_t pios_com_telem_usb_id;
+uintptr_t pios_com_telem_rf_id;
+uintptr_t pios_com_vcp_id;
+uintptr_t pios_com_bridge_id;
+uintptr_t pios_com_overo_id;
+uintptr_t pios_com_mavlink_id;
+uintptr_t pios_internal_adc_id;
+uint32_t pios_rfm22b_id;
 uintptr_t pios_uavo_settings_fs_id;
+uintptr_t pios_waypoints_settings_fs_id;
 
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. rx or tx size of 0 disables rx or tx
@@ -296,7 +300,9 @@ void PIOS_Board_Init(void) {
 	uintptr_t flash_id;
 	if (PIOS_Flash_Jedec_Init(&flash_id, pios_spi_telem_flash_id, 1, &flash_m25p_cfg) != 0)
 		panic(1);
-	if (PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_m25p_cfg, &pios_jedec_flash_driver, flash_id) != 0)
+	if (PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_m25p_settings_cfg, &pios_jedec_flash_driver, flash_id) != 0)
+		panic(1);
+	if (PIOS_FLASHFS_Logfs_Init(&pios_waypoints_settings_fs_id, &flashfs_m25p_waypoints_cfg, &pios_jedec_flash_driver, flash_id) != 0)
 		panic(1);
 #endif
 
@@ -485,7 +491,6 @@ void PIOS_Board_Init(void) {
 		case HWFREEDOM_MAINPORT_TELEMETRY:
 			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
 			break;
-			break;
 		case HWFREEDOM_MAINPORT_GPS:
 			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_GPS_RX_BUF_LEN, 0, &pios_usart_com_driver, &pios_com_gps_id);
 			break;
@@ -521,6 +526,19 @@ void PIOS_Board_Init(void) {
 			break;
 		case HWFREEDOM_MAINPORT_COMBRIDGE:
 			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
+			break;
+		case HWFREEDOM_MAINPORT_MAVLINKTX:
+#if defined(PIOS_INCLUDE_MAVLINK)
+			PIOS_Board_configure_com(&pios_usart_main_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id);
+#endif	/* PIOS_INCLUDE_MAVLINK */
+			break;
+		case HWFREEDOM_MAINPORT_MAVLINKTX_GPS_RX:
+#if defined(PIOS_INCLUDE_GPS)
+#if defined(PIOS_INCLUDE_MAVLINK)
+			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
+			pios_com_mavlink_id = pios_com_gps_id;
+#endif	/* PIOS_INCLUDE_MAVLINK */
+#endif	/* PIOS_INCLUDE_GPS */
 			break;
 	} /* hw_freedom_mainport */
 
@@ -569,7 +587,7 @@ void PIOS_Board_Init(void) {
 				}
 			}
 #endif	/* PIOS_INCLUDE_I2C */
-
+			break;
 		case HWFREEDOM_FLEXIPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 			{
@@ -580,7 +598,19 @@ void PIOS_Board_Init(void) {
 		case HWFREEDOM_FLEXIPORT_COMBRIDGE:
 			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
 			break;
-			
+		case HWFREEDOM_FLEXIPORT_MAVLINKTX:
+#if defined(PIOS_INCLUDE_MAVLINK)
+			PIOS_Board_configure_com(&pios_usart_flexi_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id);
+#endif	/* PIOS_INCLUDE_MAVLINK */
+			break;
+		case HWFREEDOM_FLEXIPORT_MAVLINKTX_GPS_RX:
+#if defined(PIOS_INCLUDE_GPS)
+#if defined(PIOS_INCLUDE_MAVLINK)
+			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
+			pios_com_mavlink_id = pios_com_gps_id;
+#endif	/* PIOS_INCLUDE_MAVLINK */
+#endif	/* PIOS_INCLUDE_GPS */
+			break;
 	} /* 	hw_freedom_flexiport */
 
 	/* Initalize the RFM22B radio COM device. */

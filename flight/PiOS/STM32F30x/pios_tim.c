@@ -8,7 +8,7 @@
  *
  * @file       pios_tim.c  
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013
  * @brief      Sets up timers and ways to register callbacks on them
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -61,7 +61,7 @@ static struct pios_tim_dev * PIOS_TIM_alloc(void)
 {
 	struct pios_tim_dev * tim_dev;
 
-	tim_dev = (struct pios_tim_dev *)malloc(sizeof(*tim_dev));
+	tim_dev = (struct pios_tim_dev *)pvPortMalloc(sizeof(*tim_dev));
 	if (!tim_dev) return(NULL);
 
 	tim_dev->magic = PIOS_TIM_DEV_MAGIC;

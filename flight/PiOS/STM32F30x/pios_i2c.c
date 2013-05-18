@@ -8,7 +8,7 @@
  *
  * @file       pios_i2c.c  
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013
  * @brief      I2C Enable/Disable routines
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -537,7 +537,7 @@ static struct pios_i2c_dev * PIOS_I2C_alloc(void)
 {
 	struct pios_i2c_dev * i2c_adapter;
 
-	i2c_adapter = (struct pios_i2c_adapter *)malloc(sizeof(*i2c_adapter));
+	i2c_adapter = (struct pios_i2c_adapter *)pvPortMalloc(sizeof(*i2c_adapter));
 	if (!i2c_adapter) return(NULL);
 
 	i2c_adapter->magic = PIOS_I2C_DEV_MAGIC;

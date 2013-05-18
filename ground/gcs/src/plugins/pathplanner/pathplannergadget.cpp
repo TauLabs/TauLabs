@@ -29,7 +29,6 @@
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
 #include "uavobject.h"
-#include <QDebug>
 
 PathPlannerGadget::PathPlannerGadget(QString classId, PathPlannerGadgetWidget *widget, QWidget *parent) :
         IUAVGadget(classId, parent),

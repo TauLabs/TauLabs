@@ -7,7 +7,7 @@
  * @{
  *
  * @file       pios_sensors.h
- * @author     PhoenixPIlot, http://github.com/PhoenixPilot Copyright (C) 2012.
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013
  * @brief      Generic interface for sensors
  * @see        The GNU Public License (GPL) Version 3
  *

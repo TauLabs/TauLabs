@@ -2,10 +2,10 @@
  ******************************************************************************
  * @file       board_hw_defs.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
- * @addtogroup OpenPilotSystem OpenPilot System
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013
+ * @addtogroup TauLabsSystem Tau Labs System
  * @{
- * @addtogroup OpenPilotCore OpenPilot Core
+ * @addtogroup TauLabsCore Tau Labs Core
  * @{
  * @brief Defines board specific static initializers for hardware for the RevoMini board.
  *****************************************************************************/
@@ -429,13 +429,24 @@ const struct pios_rfm22b_cfg * PIOS_BOARD_HW_DEFS_GetRfm22Cfg (uint32_t board_re
 #include "pios_flashfs_logfs_priv.h"
 #include "pios_flash_jedec_priv.h"
 
-static const struct flashfs_logfs_cfg flashfs_m25p_cfg = {
-	.fs_magic      = 0x99abceef,
-	.total_fs_size = 0x00200000, /* 2M bytes (32 sectors = entire chip) */
+static const struct flashfs_logfs_cfg flashfs_m25p_settings_cfg = {
+	.fs_magic      = 0x99abcedf,
+	.total_fs_size = 0x00100000, /* 1M bytes (16 sectors = half chip) */
 	.arena_size    = 0x00010000, /* 256 * slot size */
 	.slot_size     = 0x00000100, /* 256 bytes */
 
 	.start_offset  = 0,	     /* start at the beginning of the chip */
+	.sector_size   = 0x00010000, /* 64K bytes */
+	.page_size     = 0x00000100, /* 256 bytes */
+};
+
+static const struct flashfs_logfs_cfg flashfs_m25p_waypoints_cfg = {
+	.fs_magic      = 0x99abcecf,
+	.total_fs_size = 0x00100000, /* 1M bytes (16 sectors = half chip) */
+	.arena_size    = 0x00010000, /* 2048 * slot size */
+	.slot_size     = 0x00000040, /* 64 bytes */
+
+	.start_offset  = 0x00100000, /* start after the settings partition */
 	.sector_size   = 0x00010000, /* 64K bytes */
 	.page_size     = 0x00000100, /* 256 bytes */
 };

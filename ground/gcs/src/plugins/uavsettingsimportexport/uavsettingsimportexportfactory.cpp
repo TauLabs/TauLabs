@@ -422,8 +422,8 @@ QString UAVSettingsImportExportFactory::createXMLDocument(const enum storedData 
     case Both:
     {
         // iterate over settings objects
-        QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
-        foreach (QList<UAVDataObject*> list, objList) {
+        QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjects();
+        foreach (QVector<UAVDataObject*> list, objList) {
             foreach (UAVDataObject *obj, list) {
                 if (((what == Settings) && obj->isSettings()) ||
                         ((what == Data) && !obj->isSettings()) ||
@@ -480,7 +480,7 @@ QString UAVSettingsImportExportFactory::createXMLDocument(const enum storedData 
     case Waypoints:
     {
         // iterate over waypoints until the first one that is set to Stop
-        QList<UAVObject*> list = objManager->getObjectInstances("Waypoint");
+        QVector<UAVObject*> list = objManager->getObjectInstances("Waypoint");
         foreach (UAVObject *obj, list) {
             // add each object to the XML
             QDomElement o = doc.createElement("object");

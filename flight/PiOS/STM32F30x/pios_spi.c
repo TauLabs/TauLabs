@@ -8,7 +8,7 @@
  *
  * @file       pios_spi.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013
  * @brief      Hardware Abstraction Layer for SPI ports of STM32
  * @see        The GNU Public License (GPL) Version 3
  * @notes
@@ -56,7 +56,7 @@ static bool PIOS_SPI_validate(struct pios_spi_dev * com_dev)
 #if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_spi_dev * PIOS_SPI_alloc(void)
 {
-	return (malloc(sizeof(struct pios_spi_dev)));
+	return (pvPortMalloc(sizeof(struct pios_spi_dev)));
 }
 #else
 static struct pios_spi_dev pios_spi_devs[PIOS_SPI_MAX_DEVS];

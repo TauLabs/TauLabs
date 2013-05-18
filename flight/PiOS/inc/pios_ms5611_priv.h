@@ -7,7 +7,7 @@
  * @{
  *
  * @file       pios_ms5611_priv.h  
- * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2013.
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013
  * @brief      MS5611 functions header.
  * @see        The GNU Public License (GPL) Version 3
  *

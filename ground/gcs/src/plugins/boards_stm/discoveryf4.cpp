@@ -87,3 +87,13 @@ QStringList DiscoveryF4::getSupportedProtocols()
 
     return QStringList("uavtalk");
 }
+
+QPixmap DiscoveryF4::getBoardPicture()
+{
+    return QPixmap();
+}
+
+QString DiscoveryF4::getHwUAVO()
+{
+    return "HwDiscoveryF4";
+}

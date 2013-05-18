@@ -1,7 +1,7 @@
 ###############################################################################
 # @file       Makefile
 # @author     The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2012.
-# @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+# @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013
 # @addtogroup 
 # @{
 # @addtogroup 
@@ -67,6 +67,7 @@ UAVOBJSRCFILENAMES += groundpathfollowersettings
 UAVOBJSRCFILENAMES += vtolpathfollowersettings
 UAVOBJSRCFILENAMES += homelocation
 UAVOBJSRCFILENAMES += i2cstats
+UAVOBJSRCFILENAMES += insstate
 UAVOBJSRCFILENAMES += manualcontrolcommand
 UAVOBJSRCFILENAMES += manualcontrolsettings
 UAVOBJSRCFILENAMES += mixersettings
@@ -83,13 +84,14 @@ UAVOBJSRCFILENAMES += positionactual
 UAVOBJSRCFILENAMES += ratedesired
 UAVOBJSRCFILENAMES += relaytuning
 UAVOBJSRCFILENAMES += relaytuningsettings
-UAVOBJSRCFILENAMES += revosettings
 UAVOBJSRCFILENAMES += sonaraltitude
 UAVOBJSRCFILENAMES += stabilizationdesired
 UAVOBJSRCFILENAMES += stabilizationsettings
+UAVOBJSRCFILENAMES += stateestimation
 UAVOBJSRCFILENAMES += systemalarms
 UAVOBJSRCFILENAMES += systemsettings
 UAVOBJSRCFILENAMES += systemstats
+UAVOBJSRCFILENAMES += tabletinfo
 UAVOBJSRCFILENAMES += taskinfo
 UAVOBJSRCFILENAMES += velocityactual
 UAVOBJSRCFILENAMES += velocitydesired

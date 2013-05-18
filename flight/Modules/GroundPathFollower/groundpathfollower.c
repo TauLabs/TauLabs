@@ -102,7 +102,7 @@ static struct pid ground_pids[GROUND_PID_NUM];
  * Initialise the module, called on startup
  * \returns 0 on success or -1 if initialisation failed
  */
-static int32_t GroundPathFollowerStart()
+int32_t GroundPathFollowerStart()
 {
 	if (module_enabled) {
 		// Start main task
@@ -117,7 +117,7 @@ static int32_t GroundPathFollowerStart()
  * Initialise the module, called on startup
  * \returns 0 on success or -1 if initialisation failed
  */
-static int32_t GroundPathFollowerInitialize()
+int32_t GroundPathFollowerInitialize()
 {
 #ifdef MODULE_GroundPathFollower_BUILTIN
 	module_enabled = true;
@@ -326,26 +326,8 @@ void updateEndpointVelocity()
 	float northCommand;
 	float eastCommand;
 
-	float northPos = 0;
-	float eastPos = 0;
-
-	switch (guidanceSettings.PositionSource) {
-		case GROUNDPATHFOLLOWERSETTINGS_POSITIONSOURCE_EKF:
-			northPos = positionActual.North;
-			eastPos = positionActual.East;
-			break;
-		case GROUNDPATHFOLLOWERSETTINGS_POSITIONSOURCE_GPSPOS:
-		{
-			NEDPositionData nedPosition;
-			NEDPositionGet(&nedPosition);
-			northPos = nedPosition.North;
-			eastPos = nedPosition.East;
-		}
-			break;
-		default:
-			PIOS_Assert(0);
-			break;
-	}
+	float northPos = positionActual.North;
+	float eastPos = positionActual.East;
 
 	// Compute desired north command velocity from position error
 	northError = pathDesired.End[PATHDESIRED_END_NORTH] - northPos;
@@ -368,6 +350,14 @@ void updateEndpointVelocity()
 	velocityDesired.Down = 0;
 
 	VelocityDesiredSet(&velocityDesired);
+
+	// Indicate whether we are in radius of this endpoint
+	uint8_t path_status = PATHSTATUS_STATUS_INPROGRESS;
+	float distance2 = powf(northError, 2) + powf(eastError, 2);
+	if (distance2 < (guidanceSettings.EndpointRadius * guidanceSettings.EndpointRadius)) {
+		path_status = PATHSTATUS_STATUS_COMPLETED;
+	}
+	PathStatusStatusSet(&path_status);
 }
 
 /**
@@ -400,34 +390,8 @@ static void updateGroundDesiredAttitude()
 	StabilizationSettingsGet(&stabSettings);
 	NedAccelGet(&nedAccel);
 
-	float northVel = 0;
-	float eastVel = 0;
-
-	switch (guidanceSettings.VelocitySource) {
-		case GROUNDPATHFOLLOWERSETTINGS_VELOCITYSOURCE_EKF:
-			northVel = velocityActual.North;
-			eastVel = velocityActual.East;
-			break;
-		case GROUNDPATHFOLLOWERSETTINGS_VELOCITYSOURCE_NEDVEL:
-		{
-			GPSVelocityData gpsVelocity;
-			GPSVelocityGet(&gpsVelocity);
-			northVel = gpsVelocity.North;
-			eastVel = gpsVelocity.East;
-		}
-			break;
-		case GROUNDPATHFOLLOWERSETTINGS_VELOCITYSOURCE_GPSPOS:
-		{
-			GPSPositionData gpsPosition;
-			GPSPositionGet(&gpsPosition);
-			northVel = gpsPosition.Groundspeed * cosf(gpsPosition.Heading * DEG2RAD);
-			eastVel = gpsPosition.Groundspeed * sinf(gpsPosition.Heading * DEG2RAD);
-		}
-			break;
-		default:
-			PIOS_Assert(0);
-			break;
-	}
+	float northVel = velocityActual.North;
+	float eastVel = velocityActual.East;
 
 	// Calculate direction from velocityDesired and set stabDesired.Yaw
 	stabDesired.Yaw = atan2f( velocityDesired.East, velocityDesired.North ) * RAD2DEG;

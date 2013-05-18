@@ -890,7 +890,7 @@ $(eval $(call SIM_TEMPLATE,openpilot,OpenPilot,'op  ',win32,exe))
 #
 ##############################
 
-ALL_UNITTESTS := logfs i2c_vm
+ALL_UNITTESTS := logfs i2c_vm misc_math sin_lookup
 
 UT_OUT_DIR := $(BUILD_DIR)/unit_tests
 

@@ -72,7 +72,7 @@ static bool PIOS_COM_validate(struct pios_com_dev * com_dev)
 //{
 //	struct pios_com_dev * com_dev;
 //
-//	com_dev = (struct pios_com_dev *)malloc(sizeof(*com_dev));
+//	com_dev = (struct pios_com_dev *)pvPortMalloc(sizeof(*com_dev));
 //	if (!com_dev) return (NULL);
 //
 //	com_dev->magic = PIOS_COM_DEV_MAGIC;
