@@ -1,0 +1,437 @@
+\hypertarget{group___biquad_cascade_d_f1}{\section{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure}
+\label{group___biquad_cascade_d_f1}\index{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure@{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___biquad_cascade_d_f1_gaa0dbe330d763e3c1d8030b3ef12d5bdc}{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-f32} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__biquad__casd__df1__inst__f32}{arm\-\_\-biquad\-\_\-casd\-\_\-df1\-\_\-inst\-\_\-f32} $\ast$S, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Src, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Processing function for the floating-\/point Biquad cascade filter. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___biquad_cascade_d_f1_gaffb9792c0220882efd4c58f3c6a05fd7}{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-fast\-\_\-q15} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__biquad__casd__df1__inst__q15}{arm\-\_\-biquad\-\_\-casd\-\_\-df1\-\_\-inst\-\_\-q15} $\ast$S, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Src, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Fast but less precise processing function for the Q15 Biquad cascade filter for Cortex-\/\-M3 and Cortex-\/\-M4. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___biquad_cascade_d_f1_ga456390f5e448afad3a38bed7d6e380e3}{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-fast\-\_\-q31} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__biquad__casd__df1__inst__q31}{arm\-\_\-biquad\-\_\-casd\-\_\-df1\-\_\-inst\-\_\-q31} $\ast$S, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Src, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Fast but less precise processing function for the Q31 Biquad cascade filter for Cortex-\/\-M3 and Cortex-\/\-M4. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___biquad_cascade_d_f1_ga8e73b69a788e681a61bccc8959d823c5}{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-f32} (\hyperlink{structarm__biquad__casd__df1__inst__f32}{arm\-\_\-biquad\-\_\-casd\-\_\-df1\-\_\-inst\-\_\-f32} $\ast$S, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} num\-Stages, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Coeffs, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-State)
+\begin{DoxyCompactList}\small\item\em Initialization function for the floating-\/point Biquad cascade filter. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___biquad_cascade_d_f1_gad54c724132f6d742a444eb6df0e9c731}{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-q15} (\hyperlink{structarm__biquad__casd__df1__inst__q15}{arm\-\_\-biquad\-\_\-casd\-\_\-df1\-\_\-inst\-\_\-q15} $\ast$S, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} num\-Stages, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Coeffs, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-State, \hyperlink{stdint_8h_ad566f6541e98b74246db1a3a3a85ad49}{int8\-\_\-t} post\-Shift)
+\begin{DoxyCompactList}\small\item\em Initialization function for the Q15 Biquad cascade filter. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___biquad_cascade_d_f1_gaf42a44f9b16d61e636418c83eefe577b}{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-q31} (\hyperlink{structarm__biquad__casd__df1__inst__q31}{arm\-\_\-biquad\-\_\-casd\-\_\-df1\-\_\-inst\-\_\-q31} $\ast$S, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} num\-Stages, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Coeffs, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-State, \hyperlink{stdint_8h_ad566f6541e98b74246db1a3a3a85ad49}{int8\-\_\-t} post\-Shift)
+\begin{DoxyCompactList}\small\item\em Initialization function for the Q31 Biquad cascade filter. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___biquad_cascade_d_f1_gadd66a0aefdc645031d607b0a5b37a942}{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-q15} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__biquad__casd__df1__inst__q15}{arm\-\_\-biquad\-\_\-casd\-\_\-df1\-\_\-inst\-\_\-q15} $\ast$S, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Src, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Processing function for the Q15 Biquad cascade filter. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___biquad_cascade_d_f1_ga27b0c54da702713976e5202d20b4473f}{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-q31} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__biquad__casd__df1__inst__q31}{arm\-\_\-biquad\-\_\-casd\-\_\-df1\-\_\-inst\-\_\-q31} $\ast$S, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Src, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Processing function for the Q31 Biquad cascade filter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This set of functions implements arbitrary order recursive (I\-I\-R) filters. The filters are implemented as a cascade of second order Biquad sections. The functions support Q15, Q31 and floating-\/point data types. Fast version of Q15 and Q31 also supported on Cortex\-M4 and Cortex-\/\-M3.
+
+The functions operate on blocks of input and output data and each call to the function processes {\ttfamily block\-Size} samples through the filter. {\ttfamily p\-Src} points to the array of input data and {\ttfamily p\-Dst} points to the array of output data. Both arrays contain {\ttfamily block\-Size} values.
+
+\begin{DoxyParagraph}{Algorithm }
+Each Biquad stage implements a second order filter using the difference equation\-: 
+\begin{DoxyPre}    
+    y[n] = b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] + a1 * y[n-1] + a2 * y[n-2]    
+\end{DoxyPre}
+ A Direct Form I algorithm is used with 5 coefficients and 4 state variables per stage.  Coefficients {\ttfamily b0, b1 and b2 } multiply the input signal {\ttfamily x\mbox{[}n\mbox{]}} and are referred to as the feedforward coefficients. Coefficients {\ttfamily a1} and {\ttfamily a2} multiply the output signal {\ttfamily y\mbox{[}n\mbox{]}} and are referred to as the feedback coefficients. Pay careful attention to the sign of the feedback coefficients. Some design tools use the difference equation 
+\begin{DoxyPre}    
+    y[n] = b0 * x[n] + b1 * x[n-1] + b2 * x[n-2] - a1 * y[n-1] - a2 * y[n-2]    
+\end{DoxyPre}
+ In this case the feedback coefficients {\ttfamily a1} and {\ttfamily a2} must be negated when used with the C\-M\-S\-I\-S D\-S\-P Library.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Higher order filters are realized as a cascade of second order sections. {\ttfamily num\-Stages} refers to the number of second order stages used. For example, an 8th order filter would be realized with {\ttfamily num\-Stages=4} second order stages.  A 9th order filter would be realized with {\ttfamily num\-Stages=5} second order stages with the coefficients for one of the stages configured as a first order filter ({\ttfamily b2=0} and {\ttfamily a2=0}).
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+The {\ttfamily p\-State} points to state variables array. Each Biquad stage has 4 state variables {\ttfamily x\mbox{[}n-\/1\mbox{]}, x\mbox{[}n-\/2\mbox{]}, y\mbox{[}n-\/1\mbox{]},} and {\ttfamily y\mbox{[}n-\/2\mbox{]}}. The state variables are arranged in the {\ttfamily p\-State} array as\-: 
+\begin{DoxyPre}    
+    \{x[n-1], x[n-2], y[n-1], y[n-2]\}    
+\end{DoxyPre}
+
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+The 4 state variables for stage 1 are first, then the 4 state variables for stage 2, and so on. The state array has a total length of {\ttfamily 4$\ast$num\-Stages} values. The state variables are updated after each block of data is processed, the coefficients are untouched.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Instance Structure }
+The coefficients and state variables for a filter are stored together in an instance data structure. A separate instance structure must be defined for each filter. Coefficient arrays may be shared among several instances while state variable arrays cannot be shared. There are separate instance structure declarations for each of the 3 supported data types.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Init Functions }
+There is also an associated initialization function for each data type. The initialization function performs following operations\-:
+\begin{DoxyItemize}
+\item Sets the values of the internal structure fields.
+\item Zeros out the values in the state buffer.
+\end{DoxyItemize}
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Use of the initialization function is optional. However, if the initialization function is used, then the instance structure cannot be placed into a const data section. To place an instance structure into a const data section, the instance structure must be manually initialized. Set the values in the state buffer to zeros before static initialization. The code below statically initializes each of the 3 different data type filter instance structures 
+\begin{DoxyPre}    
+    \hyperlink{structarm__biquad__casd__df1__inst__f32}{arm\_biquad\_casd\_df1\_inst\_f32} S1 = \{numStages, pState, pCoeffs\};    
+    \hyperlink{structarm__biquad__casd__df1__inst__q15}{arm\_biquad\_casd\_df1\_inst\_q15} S2 = \{numStages, pState, pCoeffs, postShift\};    
+    \hyperlink{structarm__biquad__casd__df1__inst__q31}{arm\_biquad\_casd\_df1\_inst\_q31} S3 = \{numStages, pState, pCoeffs, postShift\};    
+\end{DoxyPre}
+ where {\ttfamily num\-Stages} is the number of Biquad stages in the filter; {\ttfamily p\-State} is the address of the state buffer; {\ttfamily p\-Coeffs} is the address of the coefficient buffer; {\ttfamily post\-Shift} shift to be applied.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Fixed-\/\-Point Behavior }
+Care must be taken when using the Q15 and Q31 versions of the Biquad Cascade filter functions. Following issues must be considered\-:
+\begin{DoxyItemize}
+\item Scaling of coefficients
+\item Filter gain
+\item Overflow and saturation
+\end{DoxyItemize}
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+{\bfseries Scaling of coefficients\-: } Filter coefficients are represented as fractional values and coefficients are restricted to lie in the range {\ttfamily \mbox{[}-\/1 +1)}. The fixed-\/point functions have an additional scaling parameter {\ttfamily post\-Shift} which allow the filter coefficients to exceed the range {\ttfamily \mbox{[}+1 -\/1)}. At the output of the filter's accumulator is a shift register which shifts the result by {\ttfamily post\-Shift} bits.  This essentially scales the filter coefficients by {\ttfamily 2$^\wedge$post\-Shift}. For example, to realize the coefficients 
+\begin{DoxyPre}    
+   \{1.5, -0.8, 1.2, 1.6, -0.9\}    
+\end{DoxyPre}
+ set the p\-Coeffs array to\-: 
+\begin{DoxyPre}    
+   \{0.75, -0.4, 0.6, 0.8, -0.45\}    
+\end{DoxyPre}
+ and set {\ttfamily post\-Shift=1}
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+{\bfseries Filter gain\-: } The frequency response of a Biquad filter is a function of its coefficients. It is possible for the gain through the filter to exceed 1.\-0 meaning that the filter increases the amplitude of certain frequencies. This means that an input signal with amplitude $<$ 1.\-0 may result in an output $>$ 1.\-0 and these are saturated or overflowed based on the implementation of the filter. To avoid this behavior the filter needs to be scaled down such that its peak gain $<$ 1.\-0 or the input signal must be scaled down so that the combination of input and filter are never overflowed.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+{\bfseries Overflow and saturation\-: } For Q15 and Q31 versions, it is described separately as part of the function specific documentation below. 
+\end{DoxyParagraph}
+
+
+\subsection{Function Documentation}
+\hypertarget{group___biquad_cascade_d_f1_gaa0dbe330d763e3c1d8030b3ef12d5bdc}{\index{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure@{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure}!arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-f32@{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-f32}}
+\index{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-f32@{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-f32}!Biquad Cascade IIR Filters Using Direct Form I Structure@{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure}}
+\subsubsection[{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-f32}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-f32 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-biquad\-\_\-casd\-\_\-df1\-\_\-inst\-\_\-f32} $\ast$}]{S, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___biquad_cascade_d_f1_gaa0dbe330d763e3c1d8030b3ef12d5bdc}
+
+
+Processing function for the floating-\/point Biquad cascade filter. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$\-S} & points to an instance of the floating-\/point Biquad cascade structure. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the block of input data. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the block of output data. \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of samples to process per call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none. 
+\end{DoxyReturn}
+
+
+Definition at line 174 of file arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-f32.\-c.
+
+\hypertarget{group___biquad_cascade_d_f1_gaffb9792c0220882efd4c58f3c6a05fd7}{\index{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure@{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure}!arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-fast\-\_\-q15@{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-fast\-\_\-q15}}
+\index{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-fast\-\_\-q15@{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-fast\-\_\-q15}!Biquad Cascade IIR Filters Using Direct Form I Structure@{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure}}
+\subsubsection[{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-fast\-\_\-q15}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-fast\-\_\-q15 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-biquad\-\_\-casd\-\_\-df1\-\_\-inst\-\_\-q15} $\ast$}]{S, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___biquad_cascade_d_f1_gaffb9792c0220882efd4c58f3c6a05fd7}
+
+
+Fast but less precise processing function for the Q15 Biquad cascade filter for Cortex-\/\-M3 and Cortex-\/\-M4. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$\-S} & points to an instance of the Q15 Biquad cascade structure. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the block of input data. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the block of output data. \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of samples to process per call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+{\bfseries Scaling and Overflow Behavior\-:} \begin{DoxyParagraph}{}
+This fast version uses a 32-\/bit accumulator with 2.\-30 format. The accumulator maintains full precision of the intermediate multiplication results but provides only a single guard bit. Thus, if the accumulator result overflows it wraps around and distorts the result. In order to avoid overflows completely the input signal must be scaled down by two bits and lie in the range \mbox{[}-\/0.\-25 +0.25). The 2.\-30 accumulator is then shifted by {\ttfamily post\-Shift} bits and the result truncated to 1.\-15 format by discarding the low 16 bits.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Refer to the function {\ttfamily \hyperlink{group___biquad_cascade_d_f1_gadd66a0aefdc645031d607b0a5b37a942}{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-q15()}} for a slower implementation of this function which uses 64-\/bit accumulation to avoid wrap around distortion. Both the slow and the fast versions use the same instance structure. Use the function {\ttfamily \hyperlink{group___biquad_cascade_d_f1_gad54c724132f6d742a444eb6df0e9c731}{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-q15()}} to initialize the filter structure. 
+\end{DoxyParagraph}
+
+
+Definition at line 72 of file arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-fast\-\_\-q15.\-c.
+
+\hypertarget{group___biquad_cascade_d_f1_ga456390f5e448afad3a38bed7d6e380e3}{\index{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure@{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure}!arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-fast\-\_\-q31@{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-fast\-\_\-q31}}
+\index{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-fast\-\_\-q31@{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-fast\-\_\-q31}!Biquad Cascade IIR Filters Using Direct Form I Structure@{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure}}
+\subsubsection[{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-fast\-\_\-q31}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-fast\-\_\-q31 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-biquad\-\_\-casd\-\_\-df1\-\_\-inst\-\_\-q31} $\ast$}]{S, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___biquad_cascade_d_f1_ga456390f5e448afad3a38bed7d6e380e3}
+
+
+Fast but less precise processing function for the Q31 Biquad cascade filter for Cortex-\/\-M3 and Cortex-\/\-M4. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$\-S} & points to an instance of the Q31 Biquad cascade structure. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the block of input data. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the block of output data. \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of samples to process per call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+{\bfseries Scaling and Overflow Behavior\-:} \begin{DoxyParagraph}{}
+This function is optimized for speed at the expense of fixed-\/point precision and overflow protection. The result of each 1.\-31 x 1.\-31 multiplication is truncated to 2.\-30 format. These intermediate results are added to a 2.\-30 accumulator. Finally, the accumulator is saturated and converted to a 1.\-31 result. The fast version has the same overflow behavior as the standard version and provides less precision since it discards the low 32 bits of each multiplication result. In order to avoid overflows completely the input signal must be scaled down by two bits and lie in the range \mbox{[}-\/0.\-25 +0.25). Use the intialization function \hyperlink{group___biquad_cascade_d_f1_gaf42a44f9b16d61e636418c83eefe577b}{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-q31()} to initialize filter structure.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Refer to the function {\ttfamily \hyperlink{group___biquad_cascade_d_f1_ga27b0c54da702713976e5202d20b4473f}{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-q31()}} for a slower implementation of this function which uses 64-\/bit accumulation to provide higher precision. Both the slow and the fast versions use the same instance structure. Use the function {\ttfamily \hyperlink{group___biquad_cascade_d_f1_gaf42a44f9b16d61e636418c83eefe577b}{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-q31()}} to initialize the filter structure. 
+\end{DoxyParagraph}
+
+
+Definition at line 73 of file arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-fast\-\_\-q31.\-c.
+
+\hypertarget{group___biquad_cascade_d_f1_ga8e73b69a788e681a61bccc8959d823c5}{\index{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure@{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure}!arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-f32@{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-f32}}
+\index{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-f32@{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-f32}!Biquad Cascade IIR Filters Using Direct Form I Structure@{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure}}
+\subsubsection[{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-f32}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-f32 (
+\begin{DoxyParamCaption}
+\item[{{\bf arm\-\_\-biquad\-\_\-casd\-\_\-df1\-\_\-inst\-\_\-f32} $\ast$}]{S, }
+\item[{{\bf uint8\-\_\-t}}]{num\-Stages, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Coeffs, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-State}
+\end{DoxyParamCaption}
+)}}\label{group___biquad_cascade_d_f1_ga8e73b69a788e681a61bccc8959d823c5}
+
+
+Initialization function for the floating-\/point Biquad cascade filter. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em $\ast$\-S} & points to an instance of the floating-\/point Biquad cascade structure. \\
+\hline
+\mbox{\tt in}  & {\em num\-Stages} & number of 2nd order stages in the filter. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Coeffs} & points to the filter coefficients array. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-State} & points to the state array. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none
+\end{DoxyReturn}
+{\bfseries Coefficient and State Ordering\-:}
+
+\begin{DoxyParagraph}{}
+The coefficients are stored in the array {\ttfamily p\-Coeffs} in the following order\-: 
+\begin{DoxyPre}    
+    \{b10, b11, b12, a11, a12, b20, b21, b22, a21, a22, ...\}    
+\end{DoxyPre}
+
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+where {\ttfamily b1x} and {\ttfamily a1x} are the coefficients for the first stage, {\ttfamily b2x} and {\ttfamily a2x} are the coefficients for the second stage, and so on. The {\ttfamily p\-Coeffs} array contains a total of {\ttfamily 5$\ast$num\-Stages} values.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+The {\ttfamily p\-State} is a pointer to state array. Each Biquad stage has 4 state variables {\ttfamily x\mbox{[}n-\/1\mbox{]}, x\mbox{[}n-\/2\mbox{]}, y\mbox{[}n-\/1\mbox{]},} and {\ttfamily y\mbox{[}n-\/2\mbox{]}}. The state variables are arranged in the {\ttfamily p\-State} array as\-: 
+\begin{DoxyPre}    
+    \{x[n-1], x[n-2], y[n-1], y[n-2]\}    
+\end{DoxyPre}
+ The 4 state variables for stage 1 are first, then the 4 state variables for stage 2, and so on. The state array has a total length of {\ttfamily 4$\ast$num\-Stages} values. The state variables are updated after each block of data is processed; the coefficients are untouched. 
+\end{DoxyParagraph}
+
+
+Definition at line 86 of file arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-f32.\-c.
+
+\hypertarget{group___biquad_cascade_d_f1_gad54c724132f6d742a444eb6df0e9c731}{\index{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure@{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure}!arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-q15@{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-q15}}
+\index{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-q15@{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-q15}!Biquad Cascade IIR Filters Using Direct Form I Structure@{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure}}
+\subsubsection[{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-q15}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-q15 (
+\begin{DoxyParamCaption}
+\item[{{\bf arm\-\_\-biquad\-\_\-casd\-\_\-df1\-\_\-inst\-\_\-q15} $\ast$}]{S, }
+\item[{{\bf uint8\-\_\-t}}]{num\-Stages, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Coeffs, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-State, }
+\item[{{\bf int8\-\_\-t}}]{post\-Shift}
+\end{DoxyParamCaption}
+)}}\label{group___biquad_cascade_d_f1_gad54c724132f6d742a444eb6df0e9c731}
+
+
+Initialization function for the Q15 Biquad cascade filter. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em $\ast$\-S} & points to an instance of the Q15 Biquad cascade structure. \\
+\hline
+\mbox{\tt in}  & {\em num\-Stages} & number of 2nd order stages in the filter. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Coeffs} & points to the filter coefficients. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-State} & points to the state buffer. \\
+\hline
+\mbox{\tt in}  & {\em post\-Shift} & Shift to be applied to the accumulator result. Varies according to the coefficients format \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none
+\end{DoxyReturn}
+{\bfseries Coefficient and State Ordering\-:}
+
+\begin{DoxyParagraph}{}
+The coefficients are stored in the array {\ttfamily p\-Coeffs} in the following order\-: 
+\begin{DoxyPre}    
+    \{b10, 0, b11, b12, a11, a12, b20, 0, b21, b22, a21, a22, ...\}    
+\end{DoxyPre}
+ where {\ttfamily b1x} and {\ttfamily a1x} are the coefficients for the first stage, {\ttfamily b2x} and {\ttfamily a2x} are the coefficients for the second stage, and so on. The {\ttfamily p\-Coeffs} array contains a total of {\ttfamily 6$\ast$num\-Stages} values. The zero coefficient between {\ttfamily b1} and {\ttfamily b2} facilities use of 16-\/bit S\-I\-M\-D instructions on the Cortex-\/\-M4.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+The state variables are stored in the array {\ttfamily p\-State}. Each Biquad stage has 4 state variables {\ttfamily x\mbox{[}n-\/1\mbox{]}, x\mbox{[}n-\/2\mbox{]}, y\mbox{[}n-\/1\mbox{]},} and {\ttfamily y\mbox{[}n-\/2\mbox{]}}. The state variables are arranged in the {\ttfamily p\-State} array as\-: 
+\begin{DoxyPre}    
+    \{x[n-1], x[n-2], y[n-1], y[n-2]\}    
+\end{DoxyPre}
+ The 4 state variables for stage 1 are first, then the 4 state variables for stage 2, and so on. The state array has a total length of {\ttfamily 4$\ast$num\-Stages} values. The state variables are updated after each block of data is processed; the coefficients are untouched. 
+\end{DoxyParagraph}
+
+
+Definition at line 84 of file arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-q15.\-c.
+
+\hypertarget{group___biquad_cascade_d_f1_gaf42a44f9b16d61e636418c83eefe577b}{\index{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure@{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure}!arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-q31@{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-q31}}
+\index{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-q31@{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-q31}!Biquad Cascade IIR Filters Using Direct Form I Structure@{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure}}
+\subsubsection[{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-q31}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-q31 (
+\begin{DoxyParamCaption}
+\item[{{\bf arm\-\_\-biquad\-\_\-casd\-\_\-df1\-\_\-inst\-\_\-q31} $\ast$}]{S, }
+\item[{{\bf uint8\-\_\-t}}]{num\-Stages, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Coeffs, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-State, }
+\item[{{\bf int8\-\_\-t}}]{post\-Shift}
+\end{DoxyParamCaption}
+)}}\label{group___biquad_cascade_d_f1_gaf42a44f9b16d61e636418c83eefe577b}
+
+
+Initialization function for the Q31 Biquad cascade filter. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em $\ast$\-S} & points to an instance of the Q31 Biquad cascade structure. \\
+\hline
+\mbox{\tt in}  & {\em num\-Stages} & number of 2nd order stages in the filter. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Coeffs} & points to the filter coefficients buffer. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-State} & points to the state buffer. \\
+\hline
+\mbox{\tt in}  & {\em post\-Shift} & Shift to be applied after the accumulator. Varies according to the coefficients format \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none
+\end{DoxyReturn}
+{\bfseries Coefficient and State Ordering\-:}
+
+\begin{DoxyParagraph}{}
+The coefficients are stored in the array {\ttfamily p\-Coeffs} in the following order\-: 
+\begin{DoxyPre}    
+    \{b10, b11, b12, a11, a12, b20, b21, b22, a21, a22, ...\}    
+\end{DoxyPre}
+ where {\ttfamily b1x} and {\ttfamily a1x} are the coefficients for the first stage, {\ttfamily b2x} and {\ttfamily a2x} are the coefficients for the second stage, and so on. The {\ttfamily p\-Coeffs} array contains a total of {\ttfamily 5$\ast$num\-Stages} values.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+The {\ttfamily p\-State} points to state variables array. Each Biquad stage has 4 state variables {\ttfamily x\mbox{[}n-\/1\mbox{]}, x\mbox{[}n-\/2\mbox{]}, y\mbox{[}n-\/1\mbox{]},} and {\ttfamily y\mbox{[}n-\/2\mbox{]}}. The state variables are arranged in the {\ttfamily p\-State} array as\-: 
+\begin{DoxyPre}    
+    \{x[n-1], x[n-2], y[n-1], y[n-2]\}    
+\end{DoxyPre}
+ The 4 state variables for stage 1 are first, then the 4 state variables for stage 2, and so on. The state array has a total length of {\ttfamily 4$\ast$num\-Stages} values. The state variables are updated after each block of data is processed; the coefficients are untouched. 
+\end{DoxyParagraph}
+
+
+Definition at line 84 of file arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-init\-\_\-q31.\-c.
+
+\hypertarget{group___biquad_cascade_d_f1_gadd66a0aefdc645031d607b0a5b37a942}{\index{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure@{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure}!arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-q15@{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-q15}}
+\index{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-q15@{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-q15}!Biquad Cascade IIR Filters Using Direct Form I Structure@{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure}}
+\subsubsection[{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-q15}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-q15 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-biquad\-\_\-casd\-\_\-df1\-\_\-inst\-\_\-q15} $\ast$}]{S, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___biquad_cascade_d_f1_gadd66a0aefdc645031d607b0a5b37a942}
+
+
+Processing function for the Q15 Biquad cascade filter. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$\-S} & points to an instance of the Q15 Biquad cascade structure. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the block of input data. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the location where the output result is written. \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of samples to process per call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+{\bfseries Scaling and Overflow Behavior\-:} \begin{DoxyParagraph}{}
+The function is implemented using a 64-\/bit internal accumulator. Both coefficients and state variables are represented in 1.\-15 format and multiplications yield a 2.\-30 result. The 2.\-30 intermediate results are accumulated in a 64-\/bit accumulator in 34.\-30 format. There is no risk of internal overflow with this approach and the full precision of intermediate multiplications is preserved. The accumulator is then shifted by {\ttfamily post\-Shift} bits to truncate the result to 1.\-15 format by discarding the low 16 bits. Finally, the result is saturated to 1.\-15 format.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Refer to the function {\ttfamily \hyperlink{group___biquad_cascade_d_f1_gaffb9792c0220882efd4c58f3c6a05fd7}{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-fast\-\_\-q15()}} for a faster but less precise implementation of this filter for Cortex-\/\-M3 and Cortex-\/\-M4. 
+\end{DoxyParagraph}
+
+
+Definition at line 73 of file arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-q15.\-c.
+
+\hypertarget{group___biquad_cascade_d_f1_ga27b0c54da702713976e5202d20b4473f}{\index{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure@{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure}!arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-q31@{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-q31}}
+\index{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-q31@{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-q31}!Biquad Cascade IIR Filters Using Direct Form I Structure@{Biquad Cascade I\-I\-R Filters Using Direct Form I Structure}}
+\subsubsection[{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-q31}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-q31 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-biquad\-\_\-casd\-\_\-df1\-\_\-inst\-\_\-q31} $\ast$}]{S, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___biquad_cascade_d_f1_ga27b0c54da702713976e5202d20b4473f}
+
+
+Processing function for the Q31 Biquad cascade filter. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$\-S} & points to an instance of the Q31 Biquad cascade structure. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the block of input data. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the block of output data. \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of samples to process per call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+{\bfseries Scaling and Overflow Behavior\-:} \begin{DoxyParagraph}{}
+The function is implemented using an internal 64-\/bit accumulator. The accumulator has a 2.\-62 format and maintains full precision of the intermediate multiplication results but provides only a single guard bit. Thus, if the accumulator result overflows it wraps around rather than clip. In order to avoid overflows completely the input signal must be scaled down by 2 bits and lie in the range \mbox{[}-\/0.\-25 +0.25). After all 5 multiply-\/accumulates are performed, the 2.\-62 accumulator is shifted by {\ttfamily post\-Shift} bits and the result truncated to 1.\-31 format by discarding the low 32 bits.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Refer to the function {\ttfamily \hyperlink{group___biquad_cascade_d_f1_ga456390f5e448afad3a38bed7d6e380e3}{arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-fast\-\_\-q31()}} for a faster but less precise implementation of this filter for Cortex-\/\-M3 and Cortex-\/\-M4. 
+\end{DoxyParagraph}
+
+
+Definition at line 72 of file arm\-\_\-biquad\-\_\-cascade\-\_\-df1\-\_\-q31.\-c.
+

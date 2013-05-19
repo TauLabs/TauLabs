@@ -1,0 +1,92 @@
+\hypertarget{struct_pm_native_frame__s}{\section{Pm\-Native\-Frame\-\_\-s Struct Reference}
+\label{struct_pm_native_frame__s}\index{Pm\-Native\-Frame\-\_\-s@{Pm\-Native\-Frame\-\_\-s}}
+}
+
+
+{\ttfamily \#include $<$frame.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{obj_8h_a72d816790acd8eb550fb25268c2b3489}{Pm\-Obj\-Desc\-\_\-t} \hyperlink{struct_pm_native_frame__s_ac90b65bc6739e3a23db5a3f14ca022c0}{od}
+\item 
+struct \hyperlink{struct_pm_frame__s}{Pm\-Frame\-\_\-s} $\ast$ \hyperlink{struct_pm_native_frame__s_a631c08a862be6fee47eeb687dca58d9c}{nf\-\_\-back}
+\item 
+\hyperlink{func_8h_a31ea34c165a41eee786d036607d224b3}{p\-Pm\-Func\-\_\-t} \hyperlink{struct_pm_native_frame__s_a6fb82e85649064a64cf7254d14455a1c}{nf\-\_\-func}
+\item 
+\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} \hyperlink{struct_pm_native_frame__s_a1d1c89f138be82be6c1a7a2bfa3929c7}{nf\-\_\-stack}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct_pm_native_frame__s_abd348d8f2281f4e7fd480089ef1d3c70}{nf\-\_\-active}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct_pm_native_frame__s_a939bbde4c57f7cca11a1a41b1dac403a}{nf\-\_\-numlocals}
+\item 
+\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} \hyperlink{struct_pm_native_frame__s_a36830bf12c15b6648e1fa3a1062d195a}{nf\-\_\-locals} \mbox{[}N\-A\-T\-I\-V\-E\-\_\-\-M\-A\-X\-\_\-\-N\-U\-M\-\_\-\-L\-O\-C\-A\-L\-S\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Native Frame
+
+A struct that holds the execution frame of a native function, including the args and single stack slot, and pointer to the code object.
+
+This struct doesn't need an O\-D because it is only used statically in the globals struct. There's only one native frame, the global one. This happens because a native function is a leaf node in the call tree (a native func can't call python funcs). 
+
+Definition at line 145 of file frame.\-h.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{struct_pm_native_frame__s_abd348d8f2281f4e7fd480089ef1d3c70}{\index{Pm\-Native\-Frame\-\_\-s@{Pm\-Native\-Frame\-\_\-s}!nf\-\_\-active@{nf\-\_\-active}}
+\index{nf\-\_\-active@{nf\-\_\-active}!PmNativeFrame_s@{Pm\-Native\-Frame\-\_\-s}}
+\subsubsection[{nf\-\_\-active}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} Pm\-Native\-Frame\-\_\-s\-::nf\-\_\-active}}\label{struct_pm_native_frame__s_abd348d8f2281f4e7fd480089ef1d3c70}
+Boolean to indicate if the native frame is active 
+
+Definition at line 160 of file frame.\-h.
+
+\hypertarget{struct_pm_native_frame__s_a631c08a862be6fee47eeb687dca58d9c}{\index{Pm\-Native\-Frame\-\_\-s@{Pm\-Native\-Frame\-\_\-s}!nf\-\_\-back@{nf\-\_\-back}}
+\index{nf\-\_\-back@{nf\-\_\-back}!PmNativeFrame_s@{Pm\-Native\-Frame\-\_\-s}}
+\subsubsection[{nf\-\_\-back}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Pm\-Frame\-\_\-s}$\ast$ Pm\-Native\-Frame\-\_\-s\-::nf\-\_\-back}}\label{struct_pm_native_frame__s_a631c08a862be6fee47eeb687dca58d9c}
+Ptr to previous frame obj 
+
+Definition at line 151 of file frame.\-h.
+
+\hypertarget{struct_pm_native_frame__s_a6fb82e85649064a64cf7254d14455a1c}{\index{Pm\-Native\-Frame\-\_\-s@{Pm\-Native\-Frame\-\_\-s}!nf\-\_\-func@{nf\-\_\-func}}
+\index{nf\-\_\-func@{nf\-\_\-func}!PmNativeFrame_s@{Pm\-Native\-Frame\-\_\-s}}
+\subsubsection[{nf\-\_\-func}]{\setlength{\rightskip}{0pt plus 5cm}{\bf p\-Pm\-Func\-\_\-t} Pm\-Native\-Frame\-\_\-s\-::nf\-\_\-func}}\label{struct_pm_native_frame__s_a6fb82e85649064a64cf7254d14455a1c}
+Ptr to fxn obj 
+
+Definition at line 154 of file frame.\-h.
+
+\hypertarget{struct_pm_native_frame__s_a36830bf12c15b6648e1fa3a1062d195a}{\index{Pm\-Native\-Frame\-\_\-s@{Pm\-Native\-Frame\-\_\-s}!nf\-\_\-locals@{nf\-\_\-locals}}
+\index{nf\-\_\-locals@{nf\-\_\-locals}!PmNativeFrame_s@{Pm\-Native\-Frame\-\_\-s}}
+\subsubsection[{nf\-\_\-locals}]{\setlength{\rightskip}{0pt plus 5cm}{\bf p\-Pm\-Obj\-\_\-t} Pm\-Native\-Frame\-\_\-s\-::nf\-\_\-locals\mbox{[}N\-A\-T\-I\-V\-E\-\_\-\-M\-A\-X\-\_\-\-N\-U\-M\-\_\-\-L\-O\-C\-A\-L\-S\mbox{]}}}\label{struct_pm_native_frame__s_a36830bf12c15b6648e1fa3a1062d195a}
+Local vars 
+
+Definition at line 166 of file frame.\-h.
+
+\hypertarget{struct_pm_native_frame__s_a939bbde4c57f7cca11a1a41b1dac403a}{\index{Pm\-Native\-Frame\-\_\-s@{Pm\-Native\-Frame\-\_\-s}!nf\-\_\-numlocals@{nf\-\_\-numlocals}}
+\index{nf\-\_\-numlocals@{nf\-\_\-numlocals}!PmNativeFrame_s@{Pm\-Native\-Frame\-\_\-s}}
+\subsubsection[{nf\-\_\-numlocals}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} Pm\-Native\-Frame\-\_\-s\-::nf\-\_\-numlocals}}\label{struct_pm_native_frame__s_a939bbde4c57f7cca11a1a41b1dac403a}
+Number of args passed to the native function 
+
+Definition at line 163 of file frame.\-h.
+
+\hypertarget{struct_pm_native_frame__s_a1d1c89f138be82be6c1a7a2bfa3929c7}{\index{Pm\-Native\-Frame\-\_\-s@{Pm\-Native\-Frame\-\_\-s}!nf\-\_\-stack@{nf\-\_\-stack}}
+\index{nf\-\_\-stack@{nf\-\_\-stack}!PmNativeFrame_s@{Pm\-Native\-Frame\-\_\-s}}
+\subsubsection[{nf\-\_\-stack}]{\setlength{\rightskip}{0pt plus 5cm}{\bf p\-Pm\-Obj\-\_\-t} Pm\-Native\-Frame\-\_\-s\-::nf\-\_\-stack}}\label{struct_pm_native_frame__s_a1d1c89f138be82be6c1a7a2bfa3929c7}
+Single stack slot 
+
+Definition at line 157 of file frame.\-h.
+
+\hypertarget{struct_pm_native_frame__s_ac90b65bc6739e3a23db5a3f14ca022c0}{\index{Pm\-Native\-Frame\-\_\-s@{Pm\-Native\-Frame\-\_\-s}!od@{od}}
+\index{od@{od}!PmNativeFrame_s@{Pm\-Native\-Frame\-\_\-s}}
+\subsubsection[{od}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Obj\-Desc\-\_\-t} Pm\-Native\-Frame\-\_\-s\-::od}}\label{struct_pm_native_frame__s_ac90b65bc6739e3a23db5a3f14ca022c0}
+Object descriptor 
+
+Definition at line 148 of file frame.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/\hyperlink{frame_8h}{frame.\-h}\end{DoxyCompactItemize}

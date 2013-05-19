@@ -1,0 +1,200 @@
+\hypertarget{group___m_s_d}{\section{M\-S\-D Functions}
+\label{group___m_s_d}\index{M\-S\-D Functions@{M\-S\-D Functions}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___m_s_d_gaa65646d56c03b02449cfa88f935413cc}{M\-S\-D\-\_\-\-Init} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} mode)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___m_s_d_ga61f39b7349dc718473c13cadbdd09b21}{M\-S\-D\-\_\-\-Periodic\-\_\-m\-S} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___m_s_d_gabfb46b3c47cc5d0447c7eb7ab8745045}{M\-S\-D\-\_\-\-Check\-Available} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___m_s_d_ga3b62ad2225349ced1fabb015c4155026}{M\-S\-D\-\_\-\-L\-U\-N\-\_\-\-Available\-Set} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} lun, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} available)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___m_s_d_gae219ec2868991987c3aab8c17681401e}{M\-S\-D\-\_\-\-L\-U\-N\-\_\-\-Available\-Get} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} lun)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___m_s_d_gaa539545834e47e46beec981712dc30f2}{M\-S\-D\-\_\-\-Read\-\_\-\-Memory} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} lun, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Memory\-\_\-\-Offset, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Transfer\-\_\-\-Length)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___m_s_d_gad3bccdf4d261868a7e93d1314448e086}{M\-S\-D\-\_\-\-Write\-\_\-\-Memory} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} lun, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Memory\-\_\-\-Offset, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Transfer\-\_\-\-Length)
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___m_s_d_ga0ba8031b6708d1ac42b5d44253ff72b5}{M\-S\-D\-\_\-\-M\-A\-L\-\_\-\-Get\-Status} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} lun)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___m_s_d_ga3fe9a9d76cb3d07f2082abb68b80b579}{M\-S\-D\-\_\-\-Mass\-\_\-\-Memory\-\_\-\-Size} \mbox{[}M\-S\-D\-\_\-\-N\-U\-M\-\_\-\-L\-U\-N\mbox{]}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___m_s_d_ga306ebe3d8bfd39f241d763c6323db7f4}{M\-S\-D\-\_\-\-Mass\-\_\-\-Block\-\_\-\-Size} \mbox{[}M\-S\-D\-\_\-\-N\-U\-M\-\_\-\-L\-U\-N\mbox{]}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___m_s_d_gab51992051c34882c65172781f1215cd4}{M\-S\-D\-\_\-\-Mass\-\_\-\-Block\-\_\-\-Count} \mbox{[}M\-S\-D\-\_\-\-N\-U\-M\-\_\-\-L\-U\-N\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Function Documentation}
+\hypertarget{group___m_s_d_gabfb46b3c47cc5d0447c7eb7ab8745045}{\index{M\-S\-D Functions@{M\-S\-D Functions}!M\-S\-D\-\_\-\-Check\-Available@{M\-S\-D\-\_\-\-Check\-Available}}
+\index{M\-S\-D\-\_\-\-Check\-Available@{M\-S\-D\-\_\-\-Check\-Available}!MSD Functions@{M\-S\-D Functions}}
+\subsubsection[{M\-S\-D\-\_\-\-Check\-Available}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} M\-S\-D\-\_\-\-Check\-Available (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___m_s_d_gabfb46b3c47cc5d0447c7eb7ab8745045}
+This function returns the connection status of the U\-S\-B H\-I\-D interface \begin{DoxyReturn}{Returns}
+1\-: interface available 
+
+0\-: interface not available 
+\end{DoxyReturn}
+
+
+Definition at line 179 of file msd.\-c.
+
+\hypertarget{group___m_s_d_gaa65646d56c03b02449cfa88f935413cc}{\index{M\-S\-D Functions@{M\-S\-D Functions}!M\-S\-D\-\_\-\-Init@{M\-S\-D\-\_\-\-Init}}
+\index{M\-S\-D\-\_\-\-Init@{M\-S\-D\-\_\-\-Init}!MSD Functions@{M\-S\-D Functions}}
+\subsubsection[{M\-S\-D\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} M\-S\-D\-\_\-\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{mode}
+\end{DoxyParamCaption}
+)}}\label{group___m_s_d_gaa65646d56c03b02449cfa88f935413cc}
+Initialises the U\-S\-B \hyperlink{struct_device}{Device} Driver for a Mass Storage \hyperlink{struct_device}{Device}
+
+Should be called during runtime once a S\-D Card has been connected.\par
+ It is possible to switch back to the original device driver provided by calling P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-Init(1)
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em mode} & currently only mode 0 supported \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$<$ 0 if initialisation failed 
+\end{DoxyReturn}
+
+
+Definition at line 106 of file msd.\-c.
+
+\hypertarget{group___m_s_d_gae219ec2868991987c3aab8c17681401e}{\index{M\-S\-D Functions@{M\-S\-D Functions}!M\-S\-D\-\_\-\-L\-U\-N\-\_\-\-Available\-Get@{M\-S\-D\-\_\-\-L\-U\-N\-\_\-\-Available\-Get}}
+\index{M\-S\-D\-\_\-\-L\-U\-N\-\_\-\-Available\-Get@{M\-S\-D\-\_\-\-L\-U\-N\-\_\-\-Available\-Get}!MSD Functions@{M\-S\-D Functions}}
+\subsubsection[{M\-S\-D\-\_\-\-L\-U\-N\-\_\-\-Available\-Get}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} M\-S\-D\-\_\-\-L\-U\-N\-\_\-\-Available\-Get (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{lun}
+\end{DoxyParamCaption}
+)}}\label{group___m_s_d_gae219ec2868991987c3aab8c17681401e}
+\begin{DoxyReturn}{Returns}
+1 if device is mounted by host 
+
+0 if device is not mounted by host 
+\end{DoxyReturn}
+
+
+Definition at line 218 of file msd.\-c.
+
+\hypertarget{group___m_s_d_ga3b62ad2225349ced1fabb015c4155026}{\index{M\-S\-D Functions@{M\-S\-D Functions}!M\-S\-D\-\_\-\-L\-U\-N\-\_\-\-Available\-Set@{M\-S\-D\-\_\-\-L\-U\-N\-\_\-\-Available\-Set}}
+\index{M\-S\-D\-\_\-\-L\-U\-N\-\_\-\-Available\-Set@{M\-S\-D\-\_\-\-L\-U\-N\-\_\-\-Available\-Set}!MSD Functions@{M\-S\-D Functions}}
+\subsubsection[{M\-S\-D\-\_\-\-L\-U\-N\-\_\-\-Available\-Set}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} M\-S\-D\-\_\-\-L\-U\-N\-\_\-\-Available\-Set (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{lun, }
+\item[{{\bf uint8\-\_\-t}}]{available}
+\end{DoxyParamCaption}
+)}}\label{group___m_s_d_ga3b62ad2225349ced1fabb015c4155026}
+The logical unit is available whenever \hyperlink{group___m_s_d_gaa65646d56c03b02449cfa88f935413cc}{M\-S\-D\-\_\-\-Init()} is called, or the U\-S\-B cable has been reconnected.
+
+It will be disabled when the host unmounts the file system (like if the S\-D Card would be removed.
+
+When this happens, the application can either call P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-Init(1) again, e.\-g. to switch to U\-S\-B H\-I\-D, or it can make the L\-U\-N available again by calling M\-S\-D\-\_\-\-L\-U\-N\-\_\-\-Available\-Set(0, 1) 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em lun} & Logical Unit number (0) \\
+\hline
+\mbox{\tt in}  & {\em available} & 0 or 1 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$<$ 0 on errors 
+\end{DoxyReturn}
+
+
+Definition at line 198 of file msd.\-c.
+
+\hypertarget{group___m_s_d_ga0ba8031b6708d1ac42b5d44253ff72b5}{\index{M\-S\-D Functions@{M\-S\-D Functions}!M\-S\-D\-\_\-\-M\-A\-L\-\_\-\-Get\-Status@{M\-S\-D\-\_\-\-M\-A\-L\-\_\-\-Get\-Status}}
+\index{M\-S\-D\-\_\-\-M\-A\-L\-\_\-\-Get\-Status@{M\-S\-D\-\_\-\-M\-A\-L\-\_\-\-Get\-Status}!MSD Functions@{M\-S\-D Functions}}
+\subsubsection[{M\-S\-D\-\_\-\-M\-A\-L\-\_\-\-Get\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} M\-S\-D\-\_\-\-M\-A\-L\-\_\-\-Get\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{lun}
+\end{DoxyParamCaption}
+)}}\label{group___m_s_d_ga0ba8031b6708d1ac42b5d44253ff72b5}
+
+
+Definition at line 218 of file msd\-\_\-memory.\-c.
+
+\hypertarget{group___m_s_d_ga61f39b7349dc718473c13cadbdd09b21}{\index{M\-S\-D Functions@{M\-S\-D Functions}!M\-S\-D\-\_\-\-Periodic\-\_\-m\-S@{M\-S\-D\-\_\-\-Periodic\-\_\-m\-S}}
+\index{M\-S\-D\-\_\-\-Periodic\-\_\-m\-S@{M\-S\-D\-\_\-\-Periodic\-\_\-m\-S}!MSD Functions@{M\-S\-D Functions}}
+\subsubsection[{M\-S\-D\-\_\-\-Periodic\-\_\-m\-S}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} M\-S\-D\-\_\-\-Periodic\-\_\-m\-S (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___m_s_d_ga61f39b7349dc718473c13cadbdd09b21}
+Should be called periodically each millisecond so long this driver is active (and only then!) to handle U\-S\-Btransfers.
+
+Take care that no other task accesses S\-D Card while this function is processed!
+
+Ensure that this function isn't called when a P\-I\-O\-S U\-S\-B driver is running!
+
+\begin{DoxyReturn}{Returns}
+$<$ 0 on errors 
+\end{DoxyReturn}
+
+
+Definition at line 165 of file msd.\-c.
+
+\hypertarget{group___m_s_d_gaa539545834e47e46beec981712dc30f2}{\index{M\-S\-D Functions@{M\-S\-D Functions}!M\-S\-D\-\_\-\-Read\-\_\-\-Memory@{M\-S\-D\-\_\-\-Read\-\_\-\-Memory}}
+\index{M\-S\-D\-\_\-\-Read\-\_\-\-Memory@{M\-S\-D\-\_\-\-Read\-\_\-\-Memory}!MSD Functions@{M\-S\-D Functions}}
+\subsubsection[{M\-S\-D\-\_\-\-Read\-\_\-\-Memory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} M\-S\-D\-\_\-\-Read\-\_\-\-Memory (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{lun, }
+\item[{{\bf uint32\-\_\-t}}]{Memory\-\_\-\-Offset, }
+\item[{{\bf uint32\-\_\-t}}]{Transfer\-\_\-\-Length}
+\end{DoxyParamCaption}
+)}}\label{group___m_s_d_gaa539545834e47e46beec981712dc30f2}
+
+
+Definition at line 87 of file msd\-\_\-memory.\-c.
+
+\hypertarget{group___m_s_d_gad3bccdf4d261868a7e93d1314448e086}{\index{M\-S\-D Functions@{M\-S\-D Functions}!M\-S\-D\-\_\-\-Write\-\_\-\-Memory@{M\-S\-D\-\_\-\-Write\-\_\-\-Memory}}
+\index{M\-S\-D\-\_\-\-Write\-\_\-\-Memory@{M\-S\-D\-\_\-\-Write\-\_\-\-Memory}!MSD Functions@{M\-S\-D Functions}}
+\subsubsection[{M\-S\-D\-\_\-\-Write\-\_\-\-Memory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} M\-S\-D\-\_\-\-Write\-\_\-\-Memory (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{lun, }
+\item[{{\bf uint32\-\_\-t}}]{Memory\-\_\-\-Offset, }
+\item[{{\bf uint32\-\_\-t}}]{Transfer\-\_\-\-Length}
+\end{DoxyParamCaption}
+)}}\label{group___m_s_d_gad3bccdf4d261868a7e93d1314448e086}
+
+
+Definition at line 152 of file msd\-\_\-memory.\-c.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{group___m_s_d_gab51992051c34882c65172781f1215cd4}{\index{M\-S\-D Functions@{M\-S\-D Functions}!M\-S\-D\-\_\-\-Mass\-\_\-\-Block\-\_\-\-Count@{M\-S\-D\-\_\-\-Mass\-\_\-\-Block\-\_\-\-Count}}
+\index{M\-S\-D\-\_\-\-Mass\-\_\-\-Block\-\_\-\-Count@{M\-S\-D\-\_\-\-Mass\-\_\-\-Block\-\_\-\-Count}!MSD Functions@{M\-S\-D Functions}}
+\subsubsection[{M\-S\-D\-\_\-\-Mass\-\_\-\-Block\-\_\-\-Count}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} M\-S\-D\-\_\-\-Mass\-\_\-\-Block\-\_\-\-Count\mbox{[}M\-S\-D\-\_\-\-N\-U\-M\-\_\-\-L\-U\-N\mbox{]}}}\label{group___m_s_d_gab51992051c34882c65172781f1215cd4}
+
+
+Definition at line 61 of file msd\-\_\-memory.\-c.
+
+\hypertarget{group___m_s_d_ga306ebe3d8bfd39f241d763c6323db7f4}{\index{M\-S\-D Functions@{M\-S\-D Functions}!M\-S\-D\-\_\-\-Mass\-\_\-\-Block\-\_\-\-Size@{M\-S\-D\-\_\-\-Mass\-\_\-\-Block\-\_\-\-Size}}
+\index{M\-S\-D\-\_\-\-Mass\-\_\-\-Block\-\_\-\-Size@{M\-S\-D\-\_\-\-Mass\-\_\-\-Block\-\_\-\-Size}!MSD Functions@{M\-S\-D Functions}}
+\subsubsection[{M\-S\-D\-\_\-\-Mass\-\_\-\-Block\-\_\-\-Size}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} M\-S\-D\-\_\-\-Mass\-\_\-\-Block\-\_\-\-Size\mbox{[}M\-S\-D\-\_\-\-N\-U\-M\-\_\-\-L\-U\-N\mbox{]}}}\label{group___m_s_d_ga306ebe3d8bfd39f241d763c6323db7f4}
+
+
+Definition at line 60 of file msd\-\_\-memory.\-c.
+
+\hypertarget{group___m_s_d_ga3fe9a9d76cb3d07f2082abb68b80b579}{\index{M\-S\-D Functions@{M\-S\-D Functions}!M\-S\-D\-\_\-\-Mass\-\_\-\-Memory\-\_\-\-Size@{M\-S\-D\-\_\-\-Mass\-\_\-\-Memory\-\_\-\-Size}}
+\index{M\-S\-D\-\_\-\-Mass\-\_\-\-Memory\-\_\-\-Size@{M\-S\-D\-\_\-\-Mass\-\_\-\-Memory\-\_\-\-Size}!MSD Functions@{M\-S\-D Functions}}
+\subsubsection[{M\-S\-D\-\_\-\-Mass\-\_\-\-Memory\-\_\-\-Size}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} M\-S\-D\-\_\-\-Mass\-\_\-\-Memory\-\_\-\-Size\mbox{[}M\-S\-D\-\_\-\-N\-U\-M\-\_\-\-L\-U\-N\mbox{]}}}\label{group___m_s_d_ga3fe9a9d76cb3d07f2082abb68b80b579}
+
+
+Definition at line 59 of file msd\-\_\-memory.\-c.
+

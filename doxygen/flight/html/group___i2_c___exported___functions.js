@@ -1,0 +1,27 @@
+var group___i2_c___exported___functions =
+[
+    [ "I2C_AcknowledgeConfig", "group___i2_c___exported___functions.html#ga7bb44e894d68a7991f564c43fb187486", null ],
+    [ "I2C_ARPCmd", "group___i2_c___exported___functions.html#ga66d86742bf1be58b17ef8779ffc79d02", null ],
+    [ "I2C_CheckEvent", "group___i2_c___exported___functions.html#ga2d5701342f9d4c1f09bf9d3cdcacc326", null ],
+    [ "I2C_ClearFlag", "group___i2_c___exported___functions.html#ga9d4f8fe9f7232696114b5578b1223963", null ],
+    [ "I2C_ClearITPendingBit", "group___i2_c___exported___functions.html#ga110dda440fa200b5f77349df19b3e6bb", null ],
+    [ "I2C_DMACmd", "group___i2_c___exported___functions.html#ga38502ce11e5ec923e0f6476aaa35b45c", null ],
+    [ "I2C_DMALastTransferCmd", "group___i2_c___exported___functions.html#gab2e994c5681eb6ec7c26a03ffe1de060", null ],
+    [ "I2C_FastModeDutyCycleConfig", "group___i2_c___exported___functions.html#gaa570f76bc34e5b0531b29b1a90af1275", null ],
+    [ "I2C_GenerateSTART", "group___i2_c___exported___functions.html#ga36c522b471588be9779c878222ccb20f", null ],
+    [ "I2C_GenerateSTOP", "group___i2_c___exported___functions.html#ga5c92cb573ca0ae58cc465e5400246561", null ],
+    [ "I2C_GetFlagStatus", "group___i2_c___exported___functions.html#ga15c95d0ed124f029621a2061b1677ee7", null ],
+    [ "I2C_GetITStatus", "group___i2_c___exported___functions.html#ga447771fbbd94a56f3570b9f430a069ba", null ],
+    [ "I2C_GetLastEvent", "group___i2_c___exported___functions.html#ga29237aea9b5a3ead33167e1d027e9f1a", null ],
+    [ "I2C_Init", "group___i2_c___exported___functions.html#ga80f6beeecda437c15226bbfcb9fb798e", null ],
+    [ "I2C_ITConfig", "group___i2_c___exported___functions.html#ga58fed146a06cb81d2940604e460de047", null ],
+    [ "I2C_OwnAddress2Config", "group___i2_c___exported___functions.html#ga7be2cc634a613c8e3539137e897a22df", null ],
+    [ "I2C_PECPositionConfig", "group___i2_c___exported___functions.html#ga5d0f939bdd45542502827bf408f24161", null ],
+    [ "I2C_ReadRegister", "group___i2_c___exported___functions.html#ga8021dc796d15f997356b0583d6346805", null ],
+    [ "I2C_ReceiveData", "group___i2_c___exported___functions.html#gaeaaa4b6f77f50eb57465148c55d27fb2", null ],
+    [ "I2C_Send7bitAddress", "group___i2_c___exported___functions.html#ga009fc2a5b2313c36da39ece39a1156a6", null ],
+    [ "I2C_SendData", "group___i2_c___exported___functions.html#ga7bd9e70b8eafde0dd5eb42b0d95fe1a9", null ],
+    [ "I2C_SMBusAlertConfig", "group___i2_c___exported___functions.html#ga75a810776d9710d2f6d9c5d9e93241c6", null ],
+    [ "I2C_SoftwareResetCmd", "group___i2_c___exported___functions.html#ga1289c908aeb882443aba323b459c638b", null ],
+    [ "I2C_TransmitPEC", "group___i2_c___exported___functions.html#gaa27d1440290fe601e730b6980999afe3", null ]
+];

@@ -1,0 +1,266 @@
+\hypertarget{group___p_i_o_s___r_c_v_r}{\section{R\-C\-V\-R layer functions}
+\label{group___p_i_o_s___r_c_v_r}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}
+}
+
+
+Hardware communication layer.  
+
+
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__rcvr__driver}{pios\-\_\-rcvr\-\_\-driver}
+\item 
+struct \hyperlink{structpios__rcvr__channel__map}{pios\-\_\-rcvr\-\_\-channel\-\_\-map}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___r_c_v_r_gab3256a57f692c2f2784d914ad5a5895d}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-errors} \{ \\*
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T} = -\/1, 
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D} = -\/2, 
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R} = -\/3, 
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T} = 0, 
+\\*
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D} = -\/1, 
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R} = -\/2, 
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T} = 0, 
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D} = -\/1, 
+\\*
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R} = -\/2
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___r_c_v_r_gab3256a57f692c2f2784d914ad5a5895d}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-errors} \{ \\*
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T} = -\/1, 
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D} = -\/2, 
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R} = -\/3, 
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T} = 0, 
+\\*
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D} = -\/1, 
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R} = -\/2, 
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T} = 0, 
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D} = -\/1, 
+\\*
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R} = -\/2
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___r_c_v_r_gab3256a57f692c2f2784d914ad5a5895d}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-errors} \{ \\*
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T} = -\/1, 
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D} = -\/2, 
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R} = -\/3, 
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T} = 0, 
+\\*
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D} = -\/1, 
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R} = -\/2, 
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T} = 0, 
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D} = -\/1, 
+\\*
+\hyperlink{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R} = -\/2
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___p_i_o_s___r_c_v_r_ga91b274787094f69d6f10c29de5bac5cc}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-Read} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} rcvr\-\_\-id, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} channel)
+\begin{DoxyCompactList}\small\item\em Reads an input channel from the appropriate driver. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___p_i_o_s___r_c_v_r_gaafd8582e763d23ca96b4eef942078811}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-Init} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} $\ast$rcvr\-\_\-id, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} struct \hyperlink{structpios__rcvr__driver}{pios\-\_\-rcvr\-\_\-driver} $\ast$driver, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} lower\-\_\-id)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___p_i_o_s___r_c_v_r_gaeb2454aa08c09917c456efe2919ee5e3}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-R\-Q\-\_\-\-Handler} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} rcvr\-\_\-id)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___p_i_o_s___r_c_v_r_gafc878e038b0988e158d4bf4c2810faa1}{pios\-\_\-rcvr\-\_\-max\-\_\-channel}
+\item 
+struct \hyperlink{structpios__rcvr__channel__map}{pios\-\_\-rcvr\-\_\-channel\-\_\-map} \hyperlink{group___p_i_o_s___r_c_v_r_ga38b9bea4834fc5e797204f8ea4a2dead}{pios\-\_\-rcvr\-\_\-channel\-\_\-to\-\_\-id\-\_\-map} \mbox{[}$\,$\mbox{]}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___p_i_o_s___r_c_v_r_gafc878e038b0988e158d4bf4c2810faa1}{pios\-\_\-rcvr\-\_\-max\-\_\-channel}
+\item 
+struct \hyperlink{structpios__rcvr__channel__map}{pios\-\_\-rcvr\-\_\-channel\-\_\-map} \hyperlink{group___p_i_o_s___r_c_v_r_ga38b9bea4834fc5e797204f8ea4a2dead}{pios\-\_\-rcvr\-\_\-channel\-\_\-to\-\_\-id\-\_\-map} \mbox{[}$\,$\mbox{]}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___p_i_o_s___r_c_v_r_gafc878e038b0988e158d4bf4c2810faa1}{pios\-\_\-rcvr\-\_\-max\-\_\-channel}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Hardware communication layer. P\-I\-O\-S interface for R\-C\-V\-R drivers.
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{group___p_i_o_s___r_c_v_r_gab3256a57f692c2f2784d914ad5a5895d}{\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-errors@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-errors}}
+\index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-errors@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-errors}!RCVR layer functions@{R\-C\-V\-R layer functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-errors}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-errors}}}\label{group___p_i_o_s___r_c_v_r_gab3256a57f692c2f2784d914ad5a5895d}
+Define error codes for P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-Get \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}
+}]Indicates that a failsafe condition or missing receiver detected for that channel \index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}
+}]Channel is invalid for this driver (usually out of range supported) \index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}
+}]Indicates that the driver for this channel has not been initialized \index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}
+}]Indicates that a failsafe condition or missing receiver detected for that channel \index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}
+}]Channel is invalid for this driver (usually out of range supported) \index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}
+}]Indicates that the driver for this channel has not been initialized \index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}
+}]Indicates that a failsafe condition or missing receiver detected for that channel \index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}
+}]Channel is invalid for this driver (usually out of range supported) \index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}
+}]Indicates that the driver for this channel has not been initialized \end{description}
+\end{Desc}
+
+
+Definition at line 43 of file pios\-\_\-rcvr.\-h.
+
+\hypertarget{group___p_i_o_s___r_c_v_r_gab3256a57f692c2f2784d914ad5a5895d}{\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-errors@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-errors}}
+\index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-errors@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-errors}!RCVR layer functions@{R\-C\-V\-R layer functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-errors}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-errors}}}\label{group___p_i_o_s___r_c_v_r_gab3256a57f692c2f2784d914ad5a5895d}
+Define error codes for P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-Get \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}
+}]Indicates that a failsafe condition or missing receiver detected for that channel \index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}
+}]Channel is invalid for this driver (usually out of range supported) \index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}
+}]Indicates that the driver for this channel has not been initialized \index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}
+}]Indicates that a failsafe condition or missing receiver detected for that channel \index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}
+}]Channel is invalid for this driver (usually out of range supported) \index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}
+}]Indicates that the driver for this channel has not been initialized \index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}
+}]Indicates that a failsafe condition or missing receiver detected for that channel \index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}
+}]Channel is invalid for this driver (usually out of range supported) \index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}
+}]Indicates that the driver for this channel has not been initialized \end{description}
+\end{Desc}
+
+
+Definition at line 50 of file pios\-\_\-rcvr.\-h.
+
+\hypertarget{group___p_i_o_s___r_c_v_r_gab3256a57f692c2f2784d914ad5a5895d}{\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-errors@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-errors}}
+\index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-errors@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-errors}!RCVR layer functions@{R\-C\-V\-R layer functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-errors}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-errors}}}\label{group___p_i_o_s___r_c_v_r_gab3256a57f692c2f2784d914ad5a5895d}
+Define error codes for P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-Get \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}
+}]Indicates that a failsafe condition or missing receiver detected for that channel \index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}
+}]Channel is invalid for this driver (usually out of range supported) \index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}
+}]Indicates that the driver for this channel has not been initialized \index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}
+}]Indicates that a failsafe condition or missing receiver detected for that channel \index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}
+}]Channel is invalid for this driver (usually out of range supported) \index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}
+}]Indicates that the driver for this channel has not been initialized \index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da2aa8c41419029589d123f942ceb9a0ed}
+}]Indicates that a failsafe condition or missing receiver detected for that channel \index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da3ed95ffc05faba3edae14cc920cad3cb}
+}]Channel is invalid for this driver (usually out of range supported) \index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}!R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}}\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R}\label{group___p_i_o_s___r_c_v_r_ggab3256a57f692c2f2784d914ad5a5895da8408e57d6177365df6cce65e8692880a}
+}]Indicates that the driver for this channel has not been initialized \end{description}
+\end{Desc}
+
+
+Definition at line 50 of file pios\-\_\-rcvr.\-h.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{group___p_i_o_s___r_c_v_r_gaafd8582e763d23ca96b4eef942078811}{\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-Init@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-Init}}
+\index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-Init@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-Init}!RCVR layer functions@{R\-C\-V\-R layer functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t} $\ast$}]{rcvr\-\_\-id, }
+\item[{{\bf const} struct {\bf pios\-\_\-rcvr\-\_\-driver} $\ast$}]{driver, }
+\item[{{\bf const} {\bf uint32\-\_\-t}}]{lower\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___r_c_v_r_gaafd8582e763d23ca96b4eef942078811}
+Initialises R\-C\-V\-R layer 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt out}  & {\em handle} & \\
+\hline
+\mbox{\tt in}  & {\em driver} & \\
+\hline
+\mbox{\tt in}  & {\em id} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$<$ 0 if initialisation failed 
+\end{DoxyReturn}
+
+
+Definition at line 59 of file pios\-\_\-rcvr.\-c.
+
+\hypertarget{group___p_i_o_s___r_c_v_r_gaeb2454aa08c09917c456efe2919ee5e3}{\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-R\-Q\-\_\-\-Handler@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-R\-Q\-\_\-\-Handler}}
+\index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-R\-Q\-\_\-\-Handler@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-R\-Q\-\_\-\-Handler}!RCVR layer functions@{R\-C\-V\-R layer functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-R\-Q\-\_\-\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-R\-Q\-\_\-\-Handler (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{rcvr\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___r_c_v_r_gaeb2454aa08c09917c456efe2919ee5e3}
+\hypertarget{group___p_i_o_s___r_c_v_r_ga91b274787094f69d6f10c29de5bac5cc}{\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-Read@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-Read}}
+\index{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-Read@{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-Read}!RCVR layer functions@{R\-C\-V\-R layer functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-Read}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-Read (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{rcvr\-\_\-id, }
+\item[{{\bf uint8\-\_\-t}}]{channel}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___r_c_v_r_ga91b274787094f69d6f10c29de5bac5cc}
+
+
+Reads an input channel from the appropriate driver. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em rcvr\-\_\-id} & driver to read from \\
+\hline
+\mbox{\tt in}  & {\em channel} & channel to read \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Unitless input value 
+\end{DoxyReturn}
+
+\begin{DoxyRetVals}{Return values}
+{\em P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-T\-I\-M\-E\-O\-U\-T} & indicates a failsafe or timeout from that channel \\
+\hline
+{\em P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D} & invalid channel for this driver (usually out of range supported) \\
+\hline
+{\em P\-I\-O\-S\-\_\-\-R\-C\-V\-R\-\_\-\-N\-O\-D\-R\-I\-V\-E\-R} & driver was not initialized \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 88 of file pios\-\_\-rcvr.\-c.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{group___p_i_o_s___r_c_v_r_ga38b9bea4834fc5e797204f8ea4a2dead}{\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!pios\-\_\-rcvr\-\_\-channel\-\_\-to\-\_\-id\-\_\-map@{pios\-\_\-rcvr\-\_\-channel\-\_\-to\-\_\-id\-\_\-map}}
+\index{pios\-\_\-rcvr\-\_\-channel\-\_\-to\-\_\-id\-\_\-map@{pios\-\_\-rcvr\-\_\-channel\-\_\-to\-\_\-id\-\_\-map}!RCVR layer functions@{R\-C\-V\-R layer functions}}
+\subsubsection[{pios\-\_\-rcvr\-\_\-channel\-\_\-to\-\_\-id\-\_\-map}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-rcvr\-\_\-channel\-\_\-map} pios\-\_\-rcvr\-\_\-channel\-\_\-to\-\_\-id\-\_\-map\mbox{[}$\,$\mbox{]}}}\label{group___p_i_o_s___r_c_v_r_ga38b9bea4834fc5e797204f8ea4a2dead}
+\hypertarget{group___p_i_o_s___r_c_v_r_ga38b9bea4834fc5e797204f8ea4a2dead}{\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!pios\-\_\-rcvr\-\_\-channel\-\_\-to\-\_\-id\-\_\-map@{pios\-\_\-rcvr\-\_\-channel\-\_\-to\-\_\-id\-\_\-map}}
+\index{pios\-\_\-rcvr\-\_\-channel\-\_\-to\-\_\-id\-\_\-map@{pios\-\_\-rcvr\-\_\-channel\-\_\-to\-\_\-id\-\_\-map}!RCVR layer functions@{R\-C\-V\-R layer functions}}
+\subsubsection[{pios\-\_\-rcvr\-\_\-channel\-\_\-to\-\_\-id\-\_\-map}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-rcvr\-\_\-channel\-\_\-map} pios\-\_\-rcvr\-\_\-channel\-\_\-to\-\_\-id\-\_\-map\mbox{[}$\,$\mbox{]}}}\label{group___p_i_o_s___r_c_v_r_ga38b9bea4834fc5e797204f8ea4a2dead}
+\hypertarget{group___p_i_o_s___r_c_v_r_gafc878e038b0988e158d4bf4c2810faa1}{\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!pios\-\_\-rcvr\-\_\-max\-\_\-channel@{pios\-\_\-rcvr\-\_\-max\-\_\-channel}}
+\index{pios\-\_\-rcvr\-\_\-max\-\_\-channel@{pios\-\_\-rcvr\-\_\-max\-\_\-channel}!RCVR layer functions@{R\-C\-V\-R layer functions}}
+\subsubsection[{pios\-\_\-rcvr\-\_\-max\-\_\-channel}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} pios\-\_\-rcvr\-\_\-max\-\_\-channel}}\label{group___p_i_o_s___r_c_v_r_gafc878e038b0988e158d4bf4c2810faa1}
+\hypertarget{group___p_i_o_s___r_c_v_r_gafc878e038b0988e158d4bf4c2810faa1}{\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!pios\-\_\-rcvr\-\_\-max\-\_\-channel@{pios\-\_\-rcvr\-\_\-max\-\_\-channel}}
+\index{pios\-\_\-rcvr\-\_\-max\-\_\-channel@{pios\-\_\-rcvr\-\_\-max\-\_\-channel}!RCVR layer functions@{R\-C\-V\-R layer functions}}
+\subsubsection[{pios\-\_\-rcvr\-\_\-max\-\_\-channel}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} pios\-\_\-rcvr\-\_\-max\-\_\-channel}}\label{group___p_i_o_s___r_c_v_r_gafc878e038b0988e158d4bf4c2810faa1}
+\hypertarget{group___p_i_o_s___r_c_v_r_gafc878e038b0988e158d4bf4c2810faa1}{\index{R\-C\-V\-R layer functions@{R\-C\-V\-R layer functions}!pios\-\_\-rcvr\-\_\-max\-\_\-channel@{pios\-\_\-rcvr\-\_\-max\-\_\-channel}}
+\index{pios\-\_\-rcvr\-\_\-max\-\_\-channel@{pios\-\_\-rcvr\-\_\-max\-\_\-channel}!RCVR layer functions@{R\-C\-V\-R layer functions}}
+\subsubsection[{pios\-\_\-rcvr\-\_\-max\-\_\-channel}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} pios\-\_\-rcvr\-\_\-max\-\_\-channel}}\label{group___p_i_o_s___r_c_v_r_gafc878e038b0988e158d4bf4c2810faa1}

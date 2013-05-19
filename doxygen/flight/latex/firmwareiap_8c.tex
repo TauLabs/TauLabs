@@ -1,0 +1,103 @@
+\hypertarget{firmwareiap_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Modules/\-Firmware\-I\-A\-P/firmwareiap.c File Reference}
+\label{firmwareiap_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Modules/\-Firmware\-I\-A\-P/firmwareiap.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Modules/\-Firmware\-I\-A\-P/firmwareiap.\-c}}
+}
+
+
+In Application Programming module to support firmware upgrades by providing a means to enter the bootloader.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{firmwareiap_8c_a1b486408efd08ae19fd2ef378a05d37f}{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{firmwareiap_8h_a61e65cd331a8694161b769f35fa95d74}{Firmware\-I\-A\-P\-Initialize}, 0)
+\begin{DoxyCompactList}\small\item\em Performs object initialization functions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{firmwareiap_8c_acbebfb115d15e201133020a756c3b450}{iap\-\_\-time\-\_\-2\-\_\-low\-\_\-end} = 500
+\item 
+\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{firmwareiap_8c_a1274e5c9b341baea65306de33af9e7ca}{iap\-\_\-time\-\_\-2\-\_\-high\-\_\-end} = 5000
+\item 
+\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{firmwareiap_8c_a7e254c44fee32b893e41c4f160e3e89c}{iap\-\_\-time\-\_\-3\-\_\-low\-\_\-end} = 500
+\item 
+\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{firmwareiap_8c_ae34ea9fe9cc82d808325309d38633682}{iap\-\_\-time\-\_\-3\-\_\-high\-\_\-end} = 5000
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+In Application Programming module to support firmware upgrades by providing a means to enter the bootloader. Example module to be used as a template for actual modules.
+
+\begin{DoxyAuthor}{Author}
+The Open\-Pilot Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} Copyright (C) 2010. 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{See Also}
+The G\-N\-U Public License (G\-P\-L) Version 3 
+\end{DoxySeeAlso}
+
+
+Definition in file \hyperlink{firmwareiap_8c_source}{firmwareiap.\-c}.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{firmwareiap_8c_a1b486408efd08ae19fd2ef378a05d37f}{\index{firmwareiap.\-c@{firmwareiap.\-c}!M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}}
+\index{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}!firmwareiap.c@{firmwareiap.\-c}}
+\subsubsection[{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L (
+\begin{DoxyParamCaption}
+\item[{{\bf Firmware\-I\-A\-P\-Initialize}}]{, }
+\item[{0}]{}
+\end{DoxyParamCaption}
+)}}\label{firmwareiap_8c_a1b486408efd08ae19fd2ef378a05d37f}
+
+
+Performs object initialization functions. 
+
+Initialise the module, called on startup. \begin{DoxyReturn}{Returns}
+0 on success or -\/1 if initialisation failed
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em None.} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 -\/ under all cases
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line 89 of file firmwareiap.\-c.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{firmwareiap_8c_a1274e5c9b341baea65306de33af9e7ca}{\index{firmwareiap.\-c@{firmwareiap.\-c}!iap\-\_\-time\-\_\-2\-\_\-high\-\_\-end@{iap\-\_\-time\-\_\-2\-\_\-high\-\_\-end}}
+\index{iap\-\_\-time\-\_\-2\-\_\-high\-\_\-end@{iap\-\_\-time\-\_\-2\-\_\-high\-\_\-end}!firmwareiap.c@{firmwareiap.\-c}}
+\subsubsection[{iap\-\_\-time\-\_\-2\-\_\-high\-\_\-end}]{\setlength{\rightskip}{0pt plus 5cm}{\bf const} {\bf uint32\-\_\-t} iap\-\_\-time\-\_\-2\-\_\-high\-\_\-end = 5000}}\label{firmwareiap_8c_a1274e5c9b341baea65306de33af9e7ca}
+
+
+Definition at line 56 of file firmwareiap.\-c.
+
+\hypertarget{firmwareiap_8c_acbebfb115d15e201133020a756c3b450}{\index{firmwareiap.\-c@{firmwareiap.\-c}!iap\-\_\-time\-\_\-2\-\_\-low\-\_\-end@{iap\-\_\-time\-\_\-2\-\_\-low\-\_\-end}}
+\index{iap\-\_\-time\-\_\-2\-\_\-low\-\_\-end@{iap\-\_\-time\-\_\-2\-\_\-low\-\_\-end}!firmwareiap.c@{firmwareiap.\-c}}
+\subsubsection[{iap\-\_\-time\-\_\-2\-\_\-low\-\_\-end}]{\setlength{\rightskip}{0pt plus 5cm}{\bf const} {\bf uint32\-\_\-t} iap\-\_\-time\-\_\-2\-\_\-low\-\_\-end = 500}}\label{firmwareiap_8c_acbebfb115d15e201133020a756c3b450}
+
+
+Definition at line 55 of file firmwareiap.\-c.
+
+\hypertarget{firmwareiap_8c_ae34ea9fe9cc82d808325309d38633682}{\index{firmwareiap.\-c@{firmwareiap.\-c}!iap\-\_\-time\-\_\-3\-\_\-high\-\_\-end@{iap\-\_\-time\-\_\-3\-\_\-high\-\_\-end}}
+\index{iap\-\_\-time\-\_\-3\-\_\-high\-\_\-end@{iap\-\_\-time\-\_\-3\-\_\-high\-\_\-end}!firmwareiap.c@{firmwareiap.\-c}}
+\subsubsection[{iap\-\_\-time\-\_\-3\-\_\-high\-\_\-end}]{\setlength{\rightskip}{0pt plus 5cm}{\bf const} {\bf uint32\-\_\-t} iap\-\_\-time\-\_\-3\-\_\-high\-\_\-end = 5000}}\label{firmwareiap_8c_ae34ea9fe9cc82d808325309d38633682}
+
+
+Definition at line 58 of file firmwareiap.\-c.
+
+\hypertarget{firmwareiap_8c_a7e254c44fee32b893e41c4f160e3e89c}{\index{firmwareiap.\-c@{firmwareiap.\-c}!iap\-\_\-time\-\_\-3\-\_\-low\-\_\-end@{iap\-\_\-time\-\_\-3\-\_\-low\-\_\-end}}
+\index{iap\-\_\-time\-\_\-3\-\_\-low\-\_\-end@{iap\-\_\-time\-\_\-3\-\_\-low\-\_\-end}!firmwareiap.c@{firmwareiap.\-c}}
+\subsubsection[{iap\-\_\-time\-\_\-3\-\_\-low\-\_\-end}]{\setlength{\rightskip}{0pt plus 5cm}{\bf const} {\bf uint32\-\_\-t} iap\-\_\-time\-\_\-3\-\_\-low\-\_\-end = 500}}\label{firmwareiap_8c_a7e254c44fee32b893e41c4f160e3e89c}
+
+
+Definition at line 57 of file firmwareiap.\-c.
+

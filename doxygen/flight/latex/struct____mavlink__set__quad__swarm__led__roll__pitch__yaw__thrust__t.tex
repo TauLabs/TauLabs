@@ -1,0 +1,142 @@
+\hypertarget{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t}{\section{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t Struct Reference}
+\label{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t}\index{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\-\_\-msg\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} \hyperlink{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_a7e6673c156d61785d094f6642a088152}{roll} \mbox{[}4\mbox{]}
+\begin{DoxyCompactList}\small\item\em Desired roll angle in radians +-\/\-P\-I (+-\/32767) \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} \hyperlink{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_ab83ea414a1102e542d30db140ce41aa6}{pitch} \mbox{[}4\mbox{]}
+\begin{DoxyCompactList}\small\item\em Desired pitch angle in radians +-\/\-P\-I (+-\/32767) \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} \hyperlink{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_a5107c51df97340cfa9efa6f923b79193}{yaw} \mbox{[}4\mbox{]}
+\begin{DoxyCompactList}\small\item\em Desired yaw angle in radians, scaled to int16 +-\/\-P\-I (+-\/32767) \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_ab4a629433cf1e7a83f7e6ace99a738c7}{thrust} \mbox{[}4\mbox{]}
+\begin{DoxyCompactList}\small\item\em Collective thrust, scaled to uint16 (0..65535) \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_a387adc60138320063388f25ee4272c61}{group}
+\begin{DoxyCompactList}\small\item\em I\-D of the quadrotor group (0 -\/ 255, up to 256 groups supported) \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_ac8dd7ef2a6d82c612c439624393b8fa3}{mode}
+\begin{DoxyCompactList}\small\item\em I\-D of the flight mode (0 -\/ 255, up to 256 modes supported) \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_aef68baabcdbcddd7324ed050179643ff}{led\-\_\-red} \mbox{[}4\mbox{]}
+\begin{DoxyCompactList}\small\item\em R\-G\-B red channel (0-\/255) \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_ad4e608be5085b0e8510f9d23a7c9fa98}{led\-\_\-blue} \mbox{[}4\mbox{]}
+\begin{DoxyCompactList}\small\item\em R\-G\-B green channel (0-\/255) \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_a5a247501c5073965fa54ba787381371c}{led\-\_\-green} \mbox{[}4\mbox{]}
+\begin{DoxyCompactList}\small\item\em R\-G\-B blue channel (0-\/255) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 5 of file mavlink\-\_\-msg\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust.\-h.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_a387adc60138320063388f25ee4272c61}{\index{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t}!group@{group}}
+\index{group@{group}!__mavlink_set_quad_swarm_led_roll_pitch_yaw_thrust_t@{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t}}
+\subsubsection[{group}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t\-::group}}\label{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_a387adc60138320063388f25ee4272c61}
+
+
+I\-D of the quadrotor group (0 -\/ 255, up to 256 groups supported) 
+
+
+
+Definition at line 11 of file mavlink\-\_\-msg\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust.\-h.
+
+\hypertarget{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_ad4e608be5085b0e8510f9d23a7c9fa98}{\index{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t}!led\-\_\-blue@{led\-\_\-blue}}
+\index{led\-\_\-blue@{led\-\_\-blue}!__mavlink_set_quad_swarm_led_roll_pitch_yaw_thrust_t@{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t}}
+\subsubsection[{led\-\_\-blue}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t\-::led\-\_\-blue\mbox{[}4\mbox{]}}}\label{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_ad4e608be5085b0e8510f9d23a7c9fa98}
+
+
+R\-G\-B green channel (0-\/255) 
+
+
+
+Definition at line 14 of file mavlink\-\_\-msg\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust.\-h.
+
+\hypertarget{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_a5a247501c5073965fa54ba787381371c}{\index{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t}!led\-\_\-green@{led\-\_\-green}}
+\index{led\-\_\-green@{led\-\_\-green}!__mavlink_set_quad_swarm_led_roll_pitch_yaw_thrust_t@{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t}}
+\subsubsection[{led\-\_\-green}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t\-::led\-\_\-green\mbox{[}4\mbox{]}}}\label{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_a5a247501c5073965fa54ba787381371c}
+
+
+R\-G\-B blue channel (0-\/255) 
+
+
+
+Definition at line 15 of file mavlink\-\_\-msg\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust.\-h.
+
+\hypertarget{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_aef68baabcdbcddd7324ed050179643ff}{\index{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t}!led\-\_\-red@{led\-\_\-red}}
+\index{led\-\_\-red@{led\-\_\-red}!__mavlink_set_quad_swarm_led_roll_pitch_yaw_thrust_t@{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t}}
+\subsubsection[{led\-\_\-red}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t\-::led\-\_\-red\mbox{[}4\mbox{]}}}\label{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_aef68baabcdbcddd7324ed050179643ff}
+
+
+R\-G\-B red channel (0-\/255) 
+
+
+
+Definition at line 13 of file mavlink\-\_\-msg\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust.\-h.
+
+\hypertarget{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_ac8dd7ef2a6d82c612c439624393b8fa3}{\index{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t}!mode@{mode}}
+\index{mode@{mode}!__mavlink_set_quad_swarm_led_roll_pitch_yaw_thrust_t@{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t}}
+\subsubsection[{mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t\-::mode}}\label{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_ac8dd7ef2a6d82c612c439624393b8fa3}
+
+
+I\-D of the flight mode (0 -\/ 255, up to 256 modes supported) 
+
+
+
+Definition at line 12 of file mavlink\-\_\-msg\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust.\-h.
+
+\hypertarget{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_ab83ea414a1102e542d30db140ce41aa6}{\index{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t}!pitch@{pitch}}
+\index{pitch@{pitch}!__mavlink_set_quad_swarm_led_roll_pitch_yaw_thrust_t@{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t}}
+\subsubsection[{pitch}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int16\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t\-::pitch\mbox{[}4\mbox{]}}}\label{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_ab83ea414a1102e542d30db140ce41aa6}
+
+
+Desired pitch angle in radians +-\/\-P\-I (+-\/32767) 
+
+
+
+Definition at line 8 of file mavlink\-\_\-msg\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust.\-h.
+
+\hypertarget{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_a7e6673c156d61785d094f6642a088152}{\index{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t}!roll@{roll}}
+\index{roll@{roll}!__mavlink_set_quad_swarm_led_roll_pitch_yaw_thrust_t@{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t}}
+\subsubsection[{roll}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int16\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t\-::roll\mbox{[}4\mbox{]}}}\label{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_a7e6673c156d61785d094f6642a088152}
+
+
+Desired roll angle in radians +-\/\-P\-I (+-\/32767) 
+
+
+
+Definition at line 7 of file mavlink\-\_\-msg\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust.\-h.
+
+\hypertarget{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_ab4a629433cf1e7a83f7e6ace99a738c7}{\index{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t}!thrust@{thrust}}
+\index{thrust@{thrust}!__mavlink_set_quad_swarm_led_roll_pitch_yaw_thrust_t@{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t}}
+\subsubsection[{thrust}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t\-::thrust\mbox{[}4\mbox{]}}}\label{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_ab4a629433cf1e7a83f7e6ace99a738c7}
+
+
+Collective thrust, scaled to uint16 (0..65535) 
+
+
+
+Definition at line 10 of file mavlink\-\_\-msg\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust.\-h.
+
+\hypertarget{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_a5107c51df97340cfa9efa6f923b79193}{\index{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t}!yaw@{yaw}}
+\index{yaw@{yaw}!__mavlink_set_quad_swarm_led_roll_pitch_yaw_thrust_t@{\-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t}}
+\subsubsection[{yaw}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int16\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust\-\_\-t\-::yaw\mbox{[}4\mbox{]}}}\label{struct____mavlink__set__quad__swarm__led__roll__pitch__yaw__thrust__t_a5107c51df97340cfa9efa6f923b79193}
+
+
+Desired yaw angle in radians, scaled to int16 +-\/\-P\-I (+-\/32767) 
+
+
+
+Definition at line 9 of file mavlink\-\_\-msg\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Libraries/mavlink/v1.\-0/common/\hyperlink{mavlink__msg__set__quad__swarm__led__roll__pitch__yaw__thrust_8h}{mavlink\-\_\-msg\-\_\-set\-\_\-quad\-\_\-swarm\-\_\-led\-\_\-roll\-\_\-pitch\-\_\-yaw\-\_\-thrust.\-h}\end{DoxyCompactItemize}

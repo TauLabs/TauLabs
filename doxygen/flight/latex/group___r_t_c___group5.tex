@@ -1,0 +1,93 @@
+\hypertarget{group___r_t_c___group5}{\section{Daylight Saving configuration functions}
+\label{group___r_t_c___group5}\index{Daylight Saving configuration functions@{Daylight Saving configuration functions}}
+}
+
+
+Daylight Saving configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___group5_ga812feddea77990b5dc336a4989ae61b8}{R\-T\-C\-\_\-\-Day\-Light\-Saving\-Config} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} R\-T\-C\-\_\-\-Day\-Light\-Saving, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} R\-T\-C\-\_\-\-Store\-Operation)
+\begin{DoxyCompactList}\small\item\em Adds or substract one hour from the current time. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___r_t_c___group5_gaba0c1361790203e9dca43846f0d9bc15}{R\-T\-C\-\_\-\-Get\-Store\-Operation} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Returns the R\-T\-C Day Light Saving stored operation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Daylight Saving configuration functions. \begin{DoxyVerb} ===============================================================================
+                ##### Daylight Saving configuration functions #####
+ ===============================================================================  
+    [..] This section provide functions allowing to configure the RTC DayLight Saving.\end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                    Daylight Saving configuration functions
+ ===============================================================================  
+
+  This section provide functions allowing to configure the RTC DayLight Saving.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___r_t_c___group5_ga812feddea77990b5dc336a4989ae61b8}{\index{Daylight Saving configuration functions@{Daylight Saving configuration functions}!R\-T\-C\-\_\-\-Day\-Light\-Saving\-Config@{R\-T\-C\-\_\-\-Day\-Light\-Saving\-Config}}
+\index{R\-T\-C\-\_\-\-Day\-Light\-Saving\-Config@{R\-T\-C\-\_\-\-Day\-Light\-Saving\-Config}!Daylight Saving configuration functions@{Daylight Saving configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Day\-Light\-Saving\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} R\-T\-C\-\_\-\-Day\-Light\-Saving\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{R\-T\-C\-\_\-\-Day\-Light\-Saving, }
+\item[{{\bf uint32\-\_\-t}}]{R\-T\-C\-\_\-\-Store\-Operation}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group5_ga812feddea77990b5dc336a4989ae61b8}
+
+
+Adds or substract one hour from the current time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\-T\-C\-\_\-\-Day\-Light\-Save\-Operation,\-:} & the value of hour adjustment. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item R\-T\-C\-\_\-\-Day\-Light\-Saving\-\_\-\-S\-U\-B1\-H\-: Substract one hour (winter time) \item R\-T\-C\-\_\-\-Day\-Light\-Saving\-\_\-\-A\-D\-D1\-H\-: Add one hour (summer time) \end{DoxyItemize}
+\\
+\hline
+{\em R\-T\-C\-\_\-\-Store\-Operation,\-:} & Specifies the value to be written in the B\-C\-K bit in C\-R register to store the operation. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item R\-T\-C\-\_\-\-Store\-Operation\-\_\-\-Reset\-: B\-C\-K Bit Reset \item R\-T\-C\-\_\-\-Store\-Operation\-\_\-\-Set\-: B\-C\-K Bit Set \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1589 of file stm32f30x\-\_\-rtc.\-c.
+
+\hypertarget{group___r_t_c___group5_gaba0c1361790203e9dca43846f0d9bc15}{\index{Daylight Saving configuration functions@{Daylight Saving configuration functions}!R\-T\-C\-\_\-\-Get\-Store\-Operation@{R\-T\-C\-\_\-\-Get\-Store\-Operation}}
+\index{R\-T\-C\-\_\-\-Get\-Store\-Operation@{R\-T\-C\-\_\-\-Get\-Store\-Operation}!Daylight Saving configuration functions@{Daylight Saving configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Get\-Store\-Operation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} R\-T\-C\-\_\-\-Get\-Store\-Operation (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group5_gaba0c1361790203e9dca43846f0d9bc15}
+
+
+Returns the R\-T\-C Day Light Saving stored operation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em R\-T\-C} & Day Light Saving stored operation.
+\begin{DoxyItemize}
+\item R\-T\-C\-\_\-\-Store\-Operation\-\_\-\-Reset
+\item R\-T\-C\-\_\-\-Store\-Operation\-\_\-\-Set 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1616 of file stm32f30x\-\_\-rtc.\-c.
+

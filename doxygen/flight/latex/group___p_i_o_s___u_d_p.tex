@@ -1,0 +1,573 @@
+\hypertarget{group___p_i_o_s___u_d_p}{\section{U\-D\-P Functions}
+\label{group___p_i_o_s___u_d_p}\index{U\-D\-P Functions@{U\-D\-P Functions}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___p_i_o_s___u_d_p_ga9db0408f2a64de1c08cfc59ed4e65989}{P\-I\-O\-S\-\_\-\-T\-C\-P\-\_\-\-Init} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} $\ast$tcp\-\_\-id, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} struct \hyperlink{structpios__tcp__cfg}{pios\-\_\-tcp\-\_\-cfg} $\ast$cfg)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___p_i_o_s___u_d_p_ga43f06d5f6cb57fbc989eec4c0c4aae04}{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Thread} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$udp\-\_\-dev\-\_\-n)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___p_i_o_s___u_d_p_ga049773bec7f678f274c44f7970167024}{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Init} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} $\ast$udp\-\_\-id, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} struct \hyperlink{structpios__udp__cfg}{pios\-\_\-udp\-\_\-cfg} $\ast$cfg)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___p_i_o_s___u_d_p_gab790e95aa8ae4afdff0dbd5fbd566b33}{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Init} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___p_i_o_s___u_d_p_ga2330953dc6b89dd787293fb3e9179675}{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Close} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___p_i_o_s___u_d_p_gab239bb40339f719f5e74fc1a1d59f699}{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Change\-Baud} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} udp, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} baud)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___p_i_o_s___u_d_p_ga2a25c682f1704f86c55e7d9548e82002}{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Put} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} udp, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} b)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___p_i_o_s___u_d_p_ga29768bb5c5f407507d34fc8ed47dedf1}{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-R\-E\-C\-V} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} udp)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___p_i_o_s___u_d_p_ga47ac47b5db5f629f35cce4e3b9eae1de}{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Free} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} udp)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___p_i_o_s___u_d_p_gadc19a674676506c5c09c470ed78e2672}{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Used} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} udp)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___p_i_o_s___u_d_p_gad1b2424657998d3a43158204600bac9c}{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Get} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} udp)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___p_i_o_s___u_d_p_ga03263fe80bb013cdbbb199f98c7eea3b}{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Peek} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} udp)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___p_i_o_s___u_d_p_gafeac88ac53780803ee56ebf33344fa29}{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Free} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} udp)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___p_i_o_s___u_d_p_gace6872340a1fac8168b5a4aca87d2410}{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Used} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} udp)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___p_i_o_s___u_d_p_ga4022689f32ee127e513d0b45cc245ef2}{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put\-More\-Non\-Blocking} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} udp, char $\ast$buffer, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{mavlink__helpers_8h_aba59486c1504340293255a065b546e3a}{len})
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___p_i_o_s___u_d_p_ga8869ef7484833f6b65a75deff15c6392}{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put\-More} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} udp, char $\ast$buffer, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{mavlink__helpers_8h_aba59486c1504340293255a065b546e3a}{len})
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___p_i_o_s___u_d_p_gaab40450ed2cf83ee3bd4273982fec385}{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put\-\_\-\-Non\-Blocking} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} udp, char b)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___p_i_o_s___u_d_p_ga07cb98ed051970964d063ee0d58c594f}{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} udp, char b)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___u_d_p_gae22d8a8963cc7f41d351eca5d6ec835a}{pios\-\_\-tcp\-\_\-com\-\_\-driver}
+\item 
+\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2task_8h_a271ae40d5db07d928a113766505a0965}{x\-Task\-Handle} \hyperlink{group___p_i_o_s___u_d_p_ga0ba5f55b2aa18edf726675729e68624e}{tcp\-Rx\-Task\-Handle}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___u_d_p_ga58da5534fd5007351a8ed77275aa8ad2}{pios\-\_\-udp\-\_\-com\-\_\-driver}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___u_d_p_gae22d8a8963cc7f41d351eca5d6ec835a}{pios\-\_\-tcp\-\_\-com\-\_\-driver}
+\item 
+\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2task_8h_a271ae40d5db07d928a113766505a0965}{x\-Task\-Handle} \hyperlink{group___p_i_o_s___u_d_p_ga0ba5f55b2aa18edf726675729e68624e}{tcp\-Rx\-Task\-Handle}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___u_d_p_ga58da5534fd5007351a8ed77275aa8ad2}{pios\-\_\-udp\-\_\-com\-\_\-driver}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___u_d_p_ga58da5534fd5007351a8ed77275aa8ad2}{pios\-\_\-udp\-\_\-com\-\_\-driver}
+\item 
+W\-S\-A\-D\-A\-T\-A \hyperlink{group___p_i_o_s___u_d_p_ga99d916e8fd71179b86cd135c2a27a905}{wsa\-Data}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Function Documentation}
+\hypertarget{group___p_i_o_s___u_d_p_ga9db0408f2a64de1c08cfc59ed4e65989}{\index{U\-D\-P Functions@{U\-D\-P Functions}!P\-I\-O\-S\-\_\-\-T\-C\-P\-\_\-\-Init@{P\-I\-O\-S\-\_\-\-T\-C\-P\-\_\-\-Init}}
+\index{P\-I\-O\-S\-\_\-\-T\-C\-P\-\_\-\-Init@{P\-I\-O\-S\-\_\-\-T\-C\-P\-\_\-\-Init}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-T\-C\-P\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} P\-I\-O\-S\-\_\-\-T\-C\-P\-\_\-\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t} $\ast$}]{tcp\-\_\-id, }
+\item[{{\bf const} struct {\bf pios\-\_\-tcp\-\_\-cfg} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_d_p_ga9db0408f2a64de1c08cfc59ed4e65989}
+
+
+Definition at line 158 of file pios\-\_\-tcp.\-c.
+
+\hypertarget{group___p_i_o_s___u_d_p_gab239bb40339f719f5e74fc1a1d59f699}{\index{U\-D\-P Functions@{U\-D\-P Functions}!P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Change\-Baud@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Change\-Baud}}
+\index{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Change\-Baud@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Change\-Baud}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Change\-Baud}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Change\-Baud (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{udp, }
+\item[{{\bf uint32\-\_\-t}}]{baud}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_d_p_gab239bb40339f719f5e74fc1a1d59f699}
+Changes the baud rate of the U\-D\-P peripheral without re-\/initialising. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em udp} & U\-D\-P name (G\-P\-S, T\-E\-L\-E\-M, A\-U\-X) \\
+\hline
+\mbox{\tt in}  & {\em baud} & Requested baud rate \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 109 of file pios\-\_\-udp.\-c.
+
+\hypertarget{group___p_i_o_s___u_d_p_ga2330953dc6b89dd787293fb3e9179675}{\index{U\-D\-P Functions@{U\-D\-P Functions}!P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Close@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Close}}
+\index{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Close@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Close}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Close}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Close (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_d_p_ga2330953dc6b89dd787293fb3e9179675}
+Clean up Winsock 
+
+Definition at line 99 of file pios\-\_\-udp.\-c.
+
+\hypertarget{group___p_i_o_s___u_d_p_gab790e95aa8ae4afdff0dbd5fbd566b33}{\index{U\-D\-P Functions@{U\-D\-P Functions}!P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Init@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Init}}
+\index{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Init@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Init}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_d_p_gab790e95aa8ae4afdff0dbd5fbd566b33}
+Open some U\-D\-P sockets 
+
+Definition at line 62 of file pios\-\_\-udp.\-c.
+
+\hypertarget{group___p_i_o_s___u_d_p_ga049773bec7f678f274c44f7970167024}{\index{U\-D\-P Functions@{U\-D\-P Functions}!P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Init@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Init}}
+\index{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Init@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Init}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t} $\ast$}]{udp\-\_\-id, }
+\item[{{\bf const} struct {\bf pios\-\_\-udp\-\_\-cfg} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_d_p_ga049773bec7f678f274c44f7970167024}
+Open U\-D\-P socket 
+
+Definition at line 131 of file pios\-\_\-udp.\-c.
+
+\hypertarget{group___p_i_o_s___u_d_p_ga29768bb5c5f407507d34fc8ed47dedf1}{\index{U\-D\-P Functions@{U\-D\-P Functions}!P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-R\-E\-C\-V@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-R\-E\-C\-V}}
+\index{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-R\-E\-C\-V@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-R\-E\-C\-V}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-R\-E\-C\-V}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-R\-E\-C\-V (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{udp}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_d_p_ga29768bb5c5f407507d34fc8ed47dedf1}
+attempt to receive 
+
+Definition at line 154 of file pios\-\_\-udp.\-c.
+
+\hypertarget{group___p_i_o_s___u_d_p_ga47ac47b5db5f629f35cce4e3b9eae1de}{\index{U\-D\-P Functions@{U\-D\-P Functions}!P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Free@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Free}}
+\index{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Free@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Free}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Free}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Free (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{udp}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_d_p_ga47ac47b5db5f629f35cce4e3b9eae1de}
+Returns number of free bytes in receive buffer 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em U\-D\-P} & U\-D\-P name \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+U\-D\-P number of free bytes 
+
+1\-: U\-D\-P available 
+
+0\-: U\-D\-P not available 
+\end{DoxyReturn}
+
+
+Definition at line 199 of file pios\-\_\-udp.\-c.
+
+\hypertarget{group___p_i_o_s___u_d_p_gad1b2424657998d3a43158204600bac9c}{\index{U\-D\-P Functions@{U\-D\-P Functions}!P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Get@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Get}}
+\index{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Get@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Get}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Get}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Get (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{udp}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_d_p_gad1b2424657998d3a43158204600bac9c}
+Gets a byte from the receive buffer 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em U\-D\-P} & U\-D\-P name \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+-\/1 if U\-D\-P not available 
+
+-\/2 if no new byte available 
+
+$>$= 0\-: number of received bytes 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Applications shouldn't call these functions directly, instead please use \hyperlink{group___p_i_o_s___c_o_m}{C\-O\-M layer functions} layer functions 
+\end{DoxyNote}
+
+
+Definition at line 250 of file pios\-\_\-udp.\-c.
+
+\hypertarget{group___p_i_o_s___u_d_p_ga03263fe80bb013cdbbb199f98c7eea3b}{\index{U\-D\-P Functions@{U\-D\-P Functions}!P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Peek@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Peek}}
+\index{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Peek@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Peek}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Peek}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Peek (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{udp}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_d_p_ga03263fe80bb013cdbbb199f98c7eea3b}
+Returns the next byte of the receive buffer without taking it 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em U\-D\-P} & U\-D\-P name \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+-\/1 if U\-D\-P not available 
+
+-\/2 if no new byte available 
+
+$>$= 0\-: number of received bytes 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Applications shouldn't call these functions directly, instead please use \hyperlink{group___p_i_o_s___c_o_m}{C\-O\-M layer functions} layer functions 
+\end{DoxyNote}
+
+
+Definition at line 292 of file pios\-\_\-udp.\-c.
+
+\hypertarget{group___p_i_o_s___u_d_p_ga2a25c682f1704f86c55e7d9548e82002}{\index{U\-D\-P Functions@{U\-D\-P Functions}!P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Put@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Put}}
+\index{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Put@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Put}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Put}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Put (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{udp, }
+\item[{{\bf uint8\-\_\-t}}]{b}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_d_p_ga2a25c682f1704f86c55e7d9548e82002}
+puts a byte onto the receive buffer 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em U\-D\-P} & U\-D\-P name \\
+\hline
+\mbox{\tt in}  & {\em b} & byte which should be put into Rx buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if no error 
+
+-\/1 if U\-D\-P not available 
+
+-\/2 if buffer full (retry) 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Applications shouldn't call these functions directly, instead please use \hyperlink{group___p_i_o_s___c_o_m}{C\-O\-M layer functions} layer functions 
+\end{DoxyNote}
+
+
+Definition at line 123 of file pios\-\_\-udp.\-c.
+
+\hypertarget{group___p_i_o_s___u_d_p_gadc19a674676506c5c09c470ed78e2672}{\index{U\-D\-P Functions@{U\-D\-P Functions}!P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Used@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Used}}
+\index{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Used@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Used}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Used}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Buffer\-Used (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{udp}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_d_p_gadc19a674676506c5c09c470ed78e2672}
+Returns number of used bytes in receive buffer 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em U\-D\-P} & U\-D\-P name \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$>$ 0\-: number of used bytes 
+
+0 if U\-D\-P not available 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Applications shouldn't call these functions directly, instead please use \hyperlink{group___p_i_o_s___c_o_m}{C\-O\-M layer functions} layer functions 
+\end{DoxyNote}
+
+
+Definition at line 224 of file pios\-\_\-udp.\-c.
+
+\hypertarget{group___p_i_o_s___u_d_p_ga43f06d5f6cb57fbc989eec4c0c4aae04}{\index{U\-D\-P Functions@{U\-D\-P Functions}!P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Thread@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Thread}}
+\index{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Thread@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Thread}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Thread}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Rx\-Thread (
+\begin{DoxyParamCaption}
+\item[{{\bf void} $\ast$}]{udp\-\_\-dev\-\_\-n}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_d_p_ga43f06d5f6cb57fbc989eec4c0c4aae04}
+Rx\-Thread com devices never get closed except by application \char`\"{}reboot\char`\"{} we also never give up our mutex except for waiting
+
+receive
+
+com devices never get closed except by application \char`\"{}reboot\char`\"{} we also never give up our mutex except for waiting
+
+receive
+
+Definition at line 78 of file pios\-\_\-udp.\-c.
+
+\hypertarget{group___p_i_o_s___u_d_p_gafeac88ac53780803ee56ebf33344fa29}{\index{U\-D\-P Functions@{U\-D\-P Functions}!P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Free@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Free}}
+\index{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Free@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Free}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Free}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Free (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{udp}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_d_p_gafeac88ac53780803ee56ebf33344fa29}
+returns number of free bytes in transmit buffer 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em U\-D\-P} & U\-D\-P name \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of free bytes 
+
+0 if U\-D\-P not available 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Applications shouldn't call these functions directly, instead please use \hyperlink{group___p_i_o_s___c_o_m}{C\-O\-M layer functions} layer functions 
+\end{DoxyNote}
+
+
+Definition at line 326 of file pios\-\_\-udp.\-c.
+
+\hypertarget{group___p_i_o_s___u_d_p_ga07cb98ed051970964d063ee0d58c594f}{\index{U\-D\-P Functions@{U\-D\-P Functions}!P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put}}
+\index{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{udp, }
+\item[{char}]{b}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_d_p_ga07cb98ed051970964d063ee0d58c594f}
+puts a byte onto the transmit buffer\par
+ (blocking function) 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em U\-D\-P} & U\-D\-P name \\
+\hline
+\mbox{\tt in}  & {\em b} & byte which should be put into Tx buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if no error 
+
+-\/1 if U\-D\-P not available 
+
+-\/3 if U\-D\-P not supported by U\-D\-P\-Tx\-Buffer\-Put Routine 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Applications shouldn't call these functions directly, instead please use \hyperlink{group___p_i_o_s___c_o_m}{C\-O\-M layer functions} layer functions 
+\end{DoxyNote}
+
+
+Definition at line 472 of file pios\-\_\-udp.\-c.
+
+\hypertarget{group___p_i_o_s___u_d_p_gaab40450ed2cf83ee3bd4273982fec385}{\index{U\-D\-P Functions@{U\-D\-P Functions}!P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put\-\_\-\-Non\-Blocking@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put\-\_\-\-Non\-Blocking}}
+\index{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put\-\_\-\-Non\-Blocking@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put\-\_\-\-Non\-Blocking}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put\-\_\-\-Non\-Blocking}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put\-\_\-\-Non\-Blocking (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{udp, }
+\item[{char}]{b}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_d_p_gaab40450ed2cf83ee3bd4273982fec385}
+puts a byte onto the transmit buffer 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em U\-D\-P} & U\-D\-P name \\
+\hline
+\mbox{\tt in}  & {\em b} & byte which should be put into Tx buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if no error 
+
+-\/1 if U\-D\-P not available 
+
+-\/2 if buffer full (retry) 
+
+-\/3 if U\-D\-P not supported by U\-D\-P\-Tx\-Buffer\-Put Routine 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Applications shouldn't call these functions directly, instead please use \hyperlink{group___p_i_o_s___c_o_m}{C\-O\-M layer functions} layer functions 
+\end{DoxyNote}
+
+
+Definition at line 457 of file pios\-\_\-udp.\-c.
+
+\hypertarget{group___p_i_o_s___u_d_p_ga8869ef7484833f6b65a75deff15c6392}{\index{U\-D\-P Functions@{U\-D\-P Functions}!P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put\-More@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put\-More}}
+\index{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put\-More@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put\-More}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put\-More}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put\-More (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{udp, }
+\item[{char $\ast$}]{buffer, }
+\item[{{\bf uint16\-\_\-t}}]{len}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_d_p_ga8869ef7484833f6b65a75deff15c6392}
+puts more than one byte onto the transmit buffer (used for atomic sends)\par
+ (blocking function) 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em U\-D\-P} & U\-D\-P name \\
+\hline
+\mbox{\tt in}  & {\em $\ast$buffer} & pointer to buffer to be sent \\
+\hline
+\mbox{\tt in}  & {\em len} & number of bytes to be sent \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if no error 
+
+-\/1 if U\-D\-P not available 
+
+-\/3 if U\-D\-P not supported by U\-D\-P\-Tx\-Buffer\-Put Routine 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Applications shouldn't call these functions directly, instead please use \hyperlink{group___p_i_o_s___c_o_m}{C\-O\-M layer functions} layer functions 
+\end{DoxyNote}
+
+
+Definition at line 416 of file pios\-\_\-udp.\-c.
+
+\hypertarget{group___p_i_o_s___u_d_p_ga4022689f32ee127e513d0b45cc245ef2}{\index{U\-D\-P Functions@{U\-D\-P Functions}!P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put\-More\-Non\-Blocking@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put\-More\-Non\-Blocking}}
+\index{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put\-More\-Non\-Blocking@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put\-More\-Non\-Blocking}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put\-More\-Non\-Blocking}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Put\-More\-Non\-Blocking (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{udp, }
+\item[{char $\ast$}]{buffer, }
+\item[{{\bf uint16\-\_\-t}}]{len}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_d_p_ga4022689f32ee127e513d0b45cc245ef2}
+puts more than one byte onto the transmit buffer (used for atomic sends) 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em U\-D\-P} & U\-D\-P name \\
+\hline
+\mbox{\tt in}  & {\em $\ast$buffer} & pointer to buffer to be sent \\
+\hline
+\mbox{\tt in}  & {\em len} & number of bytes to be sent \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if no error 
+
+-\/1 if U\-D\-P not available 
+
+-\/2 if buffer full or cannot get all requested bytes (retry) 
+
+-\/3 if U\-D\-P not supported by U\-D\-P\-Tx\-Buffer\-Put Routine 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Applications shouldn't call these functions directly, instead please use \hyperlink{group___p_i_o_s___c_o_m}{C\-O\-M layer functions} layer functions 
+\end{DoxyNote}
+
+
+Definition at line 375 of file pios\-\_\-udp.\-c.
+
+\hypertarget{group___p_i_o_s___u_d_p_gace6872340a1fac8168b5a4aca87d2410}{\index{U\-D\-P Functions@{U\-D\-P Functions}!P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Used@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Used}}
+\index{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Used@{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Used}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Used}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-Tx\-Buffer\-Used (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{udp}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_d_p_gace6872340a1fac8168b5a4aca87d2410}
+returns number of used bytes in transmit buffer 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em U\-D\-P} & U\-D\-P name \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of used bytes 
+
+0 if U\-D\-P not available 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Applications shouldn't call these functions directly, instead please use \hyperlink{group___p_i_o_s___c_o_m}{C\-O\-M layer functions} layer functions 
+\end{DoxyNote}
+
+
+Definition at line 348 of file pios\-\_\-udp.\-c.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{group___p_i_o_s___u_d_p_gae22d8a8963cc7f41d351eca5d6ec835a}{\index{U\-D\-P Functions@{U\-D\-P Functions}!pios\-\_\-tcp\-\_\-com\-\_\-driver@{pios\-\_\-tcp\-\_\-com\-\_\-driver}}
+\index{pios\-\_\-tcp\-\_\-com\-\_\-driver@{pios\-\_\-tcp\-\_\-com\-\_\-driver}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{pios\-\_\-tcp\-\_\-com\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-com\-\_\-driver} pios\-\_\-tcp\-\_\-com\-\_\-driver}}\label{group___p_i_o_s___u_d_p_gae22d8a8963cc7f41d351eca5d6ec835a}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{
+        .set\_baud   = PIOS\_TCP\_ChangeBaud,
+        .tx\_start   = PIOS\_TCP\_TxStart,
+        .rx\_start   = PIOS\_TCP\_RxStart,
+        .bind\_tx\_cb = PIOS\_TCP\_RegisterTxCallback,
+        .bind\_rx\_cb = PIOS\_TCP\_RegisterRxCallback,
+\}
+\end{DoxyCode}
+
+
+Definition at line 53 of file pios\-\_\-tcp.\-c.
+
+\hypertarget{group___p_i_o_s___u_d_p_gae22d8a8963cc7f41d351eca5d6ec835a}{\index{U\-D\-P Functions@{U\-D\-P Functions}!pios\-\_\-tcp\-\_\-com\-\_\-driver@{pios\-\_\-tcp\-\_\-com\-\_\-driver}}
+\index{pios\-\_\-tcp\-\_\-com\-\_\-driver@{pios\-\_\-tcp\-\_\-com\-\_\-driver}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{pios\-\_\-tcp\-\_\-com\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-com\-\_\-driver} pios\-\_\-tcp\-\_\-com\-\_\-driver}}\label{group___p_i_o_s___u_d_p_gae22d8a8963cc7f41d351eca5d6ec835a}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{
+        .set\_baud   = PIOS\_TCP\_ChangeBaud,
+        .tx\_start   = PIOS\_TCP\_TxStart,
+        .rx\_start   = PIOS\_TCP\_RxStart,
+        .bind\_tx\_cb = PIOS\_TCP\_RegisterTxCallback,
+        .bind\_rx\_cb = PIOS\_TCP\_RegisterRxCallback,
+\}
+\end{DoxyCode}
+
+
+Definition at line 53 of file pios\-\_\-tcp.\-c.
+
+\hypertarget{group___p_i_o_s___u_d_p_ga58da5534fd5007351a8ed77275aa8ad2}{\index{U\-D\-P Functions@{U\-D\-P Functions}!pios\-\_\-udp\-\_\-com\-\_\-driver@{pios\-\_\-udp\-\_\-com\-\_\-driver}}
+\index{pios\-\_\-udp\-\_\-com\-\_\-driver@{pios\-\_\-udp\-\_\-com\-\_\-driver}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{pios\-\_\-udp\-\_\-com\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-com\-\_\-driver} pios\-\_\-udp\-\_\-com\-\_\-driver}}\label{group___p_i_o_s___u_d_p_ga58da5534fd5007351a8ed77275aa8ad2}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{
+  .set\_baud = \hyperlink{group___p_i_o_s___u_d_p_gab239bb40339f719f5e74fc1a1d59f699}{PIOS\_UDP\_ChangeBaud},
+  .tx\_nb    = \hyperlink{group___p_i_o_s___u_d_p_ga4022689f32ee127e513d0b45cc245ef2}{PIOS\_UDP\_TxBufferPutMoreNonBlocking},
+  .tx       = \hyperlink{group___p_i_o_s___u_d_p_ga8869ef7484833f6b65a75deff15c6392}{PIOS\_UDP\_TxBufferPutMore},
+  .rx       = \hyperlink{group___p_i_o_s___u_d_p_gad1b2424657998d3a43158204600bac9c}{PIOS\_UDP\_RxBufferGet},
+  .rx\_avail = \hyperlink{group___p_i_o_s___u_d_p_gadc19a674676506c5c09c470ed78e2672}{PIOS\_UDP\_RxBufferUsed},
+\}
+\end{DoxyCode}
+
+
+Definition at line 38 of file pios\-\_\-udp.\-c.
+
+\hypertarget{group___p_i_o_s___u_d_p_ga58da5534fd5007351a8ed77275aa8ad2}{\index{U\-D\-P Functions@{U\-D\-P Functions}!pios\-\_\-udp\-\_\-com\-\_\-driver@{pios\-\_\-udp\-\_\-com\-\_\-driver}}
+\index{pios\-\_\-udp\-\_\-com\-\_\-driver@{pios\-\_\-udp\-\_\-com\-\_\-driver}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{pios\-\_\-udp\-\_\-com\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-com\-\_\-driver} pios\-\_\-udp\-\_\-com\-\_\-driver}}\label{group___p_i_o_s___u_d_p_ga58da5534fd5007351a8ed77275aa8ad2}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{
+        .set\_baud   = PIOS\_UDP\_ChangeBaud,
+        .tx\_start   = PIOS\_UDP\_TxStart,
+        .rx\_start   = PIOS\_UDP\_RxStart,
+        .bind\_tx\_cb = PIOS\_UDP\_RegisterTxCallback,
+        .bind\_rx\_cb = PIOS\_UDP\_RegisterRxCallback,
+\}
+\end{DoxyCode}
+
+
+Definition at line 54 of file pios\-\_\-udp.\-c.
+
+\hypertarget{group___p_i_o_s___u_d_p_ga58da5534fd5007351a8ed77275aa8ad2}{\index{U\-D\-P Functions@{U\-D\-P Functions}!pios\-\_\-udp\-\_\-com\-\_\-driver@{pios\-\_\-udp\-\_\-com\-\_\-driver}}
+\index{pios\-\_\-udp\-\_\-com\-\_\-driver@{pios\-\_\-udp\-\_\-com\-\_\-driver}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{pios\-\_\-udp\-\_\-com\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-com\-\_\-driver} pios\-\_\-udp\-\_\-com\-\_\-driver}}\label{group___p_i_o_s___u_d_p_ga58da5534fd5007351a8ed77275aa8ad2}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{
+        .set\_baud   = PIOS\_UDP\_ChangeBaud,
+        .tx\_start   = PIOS\_UDP\_TxStart,
+        .rx\_start   = PIOS\_UDP\_RxStart,
+        .bind\_tx\_cb = PIOS\_UDP\_RegisterTxCallback,
+        .bind\_rx\_cb = PIOS\_UDP\_RegisterRxCallback,
+\}
+\end{DoxyCode}
+
+
+Definition at line 54 of file pios\-\_\-udp.\-c.
+
+\hypertarget{group___p_i_o_s___u_d_p_ga0ba5f55b2aa18edf726675729e68624e}{\index{U\-D\-P Functions@{U\-D\-P Functions}!tcp\-Rx\-Task\-Handle@{tcp\-Rx\-Task\-Handle}}
+\index{tcp\-Rx\-Task\-Handle@{tcp\-Rx\-Task\-Handle}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{tcp\-Rx\-Task\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf x\-Task\-Handle} tcp\-Rx\-Task\-Handle}}\label{group___p_i_o_s___u_d_p_ga0ba5f55b2aa18edf726675729e68624e}
+Open U\-D\-P socket 
+
+Definition at line 157 of file pios\-\_\-tcp.\-c.
+
+\hypertarget{group___p_i_o_s___u_d_p_ga0ba5f55b2aa18edf726675729e68624e}{\index{U\-D\-P Functions@{U\-D\-P Functions}!tcp\-Rx\-Task\-Handle@{tcp\-Rx\-Task\-Handle}}
+\index{tcp\-Rx\-Task\-Handle@{tcp\-Rx\-Task\-Handle}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{tcp\-Rx\-Task\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf x\-Task\-Handle} tcp\-Rx\-Task\-Handle}}\label{group___p_i_o_s___u_d_p_ga0ba5f55b2aa18edf726675729e68624e}
+Open U\-D\-P socket 
+
+Definition at line 157 of file pios\-\_\-tcp.\-c.
+
+\hypertarget{group___p_i_o_s___u_d_p_ga99d916e8fd71179b86cd135c2a27a905}{\index{U\-D\-P Functions@{U\-D\-P Functions}!wsa\-Data@{wsa\-Data}}
+\index{wsa\-Data@{wsa\-Data}!UDP Functions@{U\-D\-P Functions}}
+\subsubsection[{wsa\-Data}]{\setlength{\rightskip}{0pt plus 5cm}W\-S\-A\-D\-A\-T\-A wsa\-Data}}\label{group___p_i_o_s___u_d_p_ga99d916e8fd71179b86cd135c2a27a905}
+
+
+Definition at line 46 of file pios\-\_\-udp.\-c.
+

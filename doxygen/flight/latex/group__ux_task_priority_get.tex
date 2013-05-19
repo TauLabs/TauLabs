@@ -1,0 +1,58 @@
+\hypertarget{group__ux_task_priority_get}{\section{ux\-Task\-Priority\-Get}
+\label{group__ux_task_priority_get}\index{ux\-Task\-Priority\-Get@{ux\-Task\-Priority\-Get}}
+}
+task. h 
+\begin{DoxyPre}unsigned portBASE\_TYPE \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2tasks_8c_a78c9194ad844cc44a0c033bb863939ef}{uxTaskPriorityGet( xTaskHandle pxTask )};\end{DoxyPre}
+
+
+I\-N\-C\-L\-U\-D\-E\-\_\-x\-Task\-Priority\-Get must be defined as 1 for this function to be available. See the configuration section for more information.
+
+Obtain the priority of any task.
+
+
+\begin{DoxyParams}{Parameters}
+{\em px\-Task} & Handle of the task to be queried. Passing a N\-U\-L\-L handle results in the priority of the calling task being returned.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The priority of px\-Task.
+\end{DoxyReturn}
+Example usage\-: 
+\begin{DoxyPre}
+ void vAFunction( void )
+ \{
+ xTaskHandle xHandle;\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Create a task, storing the handle.
+         xTaskCreate( vTaskCode, "NAME", STACK\_SIZE, NULL, tskIDLE\_PRIORITY, \&xHandle );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}...\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Use the handle to obtain the priority of the created task.
+It was created with tskIDLE\_PRIORITY, but may have changed
+it itself.
+         if( uxTaskPriorityGet( xHandle ) != tskIDLE\_PRIORITY )
+         \{
+The task has changed it's priority.
+         \}\end{DoxyPre}
+
+
+
+\begin{DoxyPre}...\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Is our priority higher than the created task?
+         if( uxTaskPriorityGet( xHandle ) < uxTaskPriorityGet( NULL ) )
+         \{
+Our priority (obtained using NULL handle) is higher.
+         \}
+ \}
+   \end{DoxyPre}
+ 

@@ -1,0 +1,279 @@
+\hypertarget{namespacelist}{\section{list Namespace Reference}
+\label{namespacelist}\index{list@{list}}
+}
+
+
+Provides Py\-Mite's list module.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{namespacelist_af5fb3b7dbde16ada7dd1468cdee24726}{append}
+\item 
+def \hyperlink{namespacelist_a6f68e784976582e93cda71a7309a798e}{count}
+\item 
+def \hyperlink{namespacelist_abcde56d6c54c3c96055926b11270e460}{extend}
+\item 
+def \hyperlink{namespacelist_a075d0c9e6abd0e9dfd8384dbf1b887d2}{index}
+\item 
+def \hyperlink{namespacelist_a710e65b39b6283d5a8295189b5d9d625}{insert}
+\item 
+def \hyperlink{namespacelist_a17c5dcb887cba7adca7efa5be9ebce63}{pop}
+\item 
+def \hyperlink{namespacelist_a40bf167cbe7dc81d668ffebaa9ae0581}{remove}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Provides Py\-Mite's list module. Notes\-:
+\begin{DoxyItemize}
+\item index(l, o) does not offer start and stop arguments. 
+\end{DoxyItemize}
+
+\subsection{Function Documentation}
+\hypertarget{namespacelist_af5fb3b7dbde16ada7dd1468cdee24726}{\index{list@{list}!append@{append}}
+\index{append@{append}!list@{list}}
+\subsubsection[{append}]{\setlength{\rightskip}{0pt plus 5cm}def list.\-append (
+\begin{DoxyParamCaption}
+\item[{}]{l, }
+\item[{}]{o}
+\end{DoxyParamCaption}
+)}}\label{namespacelist_af5fb3b7dbde16ada7dd1468cdee24726}
+\begin{DoxyVerb}__NATIVE__
+pPmObj_t pl;
+PmReturn_t retval = PM_RET_OK;
+
+/* Raise TypeError if it's not a list or wrong number of args, */
+pl = NATIVE_GET_LOCAL(0);
+if ((OBJ_GET_TYPE(pl) != OBJ_TYPE_LST) || (NATIVE_GET_NUM_ARGS() != 2))
+{
+    PM_RAISE(retval, PM_RET_EX_TYPE);
+    return retval;
+}
+
+/* Append the object to the list */
+retval = list_append(pl, NATIVE_GET_LOCAL(1));
+
+NATIVE_SET_TOS(PM_NONE);
+
+return retval;
+\end{DoxyVerb}
+ 
+
+Definition at line 23 of file list.\-py.
+
+\hypertarget{namespacelist_a6f68e784976582e93cda71a7309a798e}{\index{list@{list}!count@{count}}
+\index{count@{count}!list@{list}}
+\subsubsection[{count}]{\setlength{\rightskip}{0pt plus 5cm}def list.\-count (
+\begin{DoxyParamCaption}
+\item[{}]{l, }
+\item[{}]{v}
+\end{DoxyParamCaption}
+)}}\label{namespacelist_a6f68e784976582e93cda71a7309a798e}
+
+
+Definition at line 46 of file list.\-py.
+
+\hypertarget{namespacelist_abcde56d6c54c3c96055926b11270e460}{\index{list@{list}!extend@{extend}}
+\index{extend@{extend}!list@{list}}
+\subsubsection[{extend}]{\setlength{\rightskip}{0pt plus 5cm}def list.\-extend (
+\begin{DoxyParamCaption}
+\item[{}]{l, }
+\item[{}]{s}
+\end{DoxyParamCaption}
+)}}\label{namespacelist_abcde56d6c54c3c96055926b11270e460}
+
+
+Definition at line 54 of file list.\-py.
+
+\hypertarget{namespacelist_a075d0c9e6abd0e9dfd8384dbf1b887d2}{\index{list@{list}!index@{index}}
+\index{index@{index}!list@{list}}
+\subsubsection[{index}]{\setlength{\rightskip}{0pt plus 5cm}def list.\-index (
+\begin{DoxyParamCaption}
+\item[{}]{l, }
+\item[{}]{o}
+\end{DoxyParamCaption}
+)}}\label{namespacelist_a075d0c9e6abd0e9dfd8384dbf1b887d2}
+\begin{DoxyVerb}__NATIVE__
+pPmObj_t pl;
+pPmObj_t po;
+pPmObj_t pi;
+PmReturn_t retval = PM_RET_OK;
+uint16_t i;
+
+/* Raise TypeError if it's not a list or wrong number of args, */
+pl = NATIVE_GET_LOCAL(0);
+if ((OBJ_GET_TYPE(pl) != OBJ_TYPE_LST) || (NATIVE_GET_NUM_ARGS() != 2))
+{
+    PM_RAISE(retval, PM_RET_EX_TYPE);
+    return retval;
+}
+
+/* Get the index of the object in the list */
+po = NATIVE_GET_LOCAL(1);
+retval = list_index(pl, po, &i);
+
+if (retval == PM_RET_EX_VAL)
+{
+    PM_RAISE(retval, PM_RET_EX_VAL);
+    return retval;
+}
+
+int_new((int32_t)i, &pi);
+NATIVE_SET_TOS(pi);
+
+return retval;
+\end{DoxyVerb}
+ 
+
+Definition at line 59 of file list.\-py.
+
+\hypertarget{namespacelist_a710e65b39b6283d5a8295189b5d9d625}{\index{list@{list}!insert@{insert}}
+\index{insert@{insert}!list@{list}}
+\subsubsection[{insert}]{\setlength{\rightskip}{0pt plus 5cm}def list.\-insert (
+\begin{DoxyParamCaption}
+\item[{}]{l, }
+\item[{}]{i, }
+\item[{}]{o}
+\end{DoxyParamCaption}
+)}}\label{namespacelist_a710e65b39b6283d5a8295189b5d9d625}
+\begin{DoxyVerb}__NATIVE__
+pPmObj_t pl;
+pPmObj_t pi;
+pPmObj_t po;
+PmReturn_t retval = PM_RET_OK;
+uint16_t i;
+
+/*
+ * Raise TypeError if wrong number of args, first arg is not a list, or
+ * second arg is not an int
+ */
+pl = NATIVE_GET_LOCAL(0);
+pi = NATIVE_GET_LOCAL(1);
+po = NATIVE_GET_LOCAL(2);
+if ((NATIVE_GET_NUM_ARGS() != 3)
+    || (OBJ_GET_TYPE(pl) != OBJ_TYPE_LST)
+    || (OBJ_GET_TYPE(pi) != OBJ_TYPE_INT) )
+{
+    PM_RAISE(retval, PM_RET_EX_TYPE);
+    return retval;
+}
+
+/* Insert the object before the given index */
+i = (uint16_t)((pPmInt_t)pi)->val;
+retval = list_insert(pl, i, po);
+
+if (retval != PM_RET_OK)
+{
+    PM_RAISE(retval, PM_RET_EX_SYS);
+}
+
+NATIVE_SET_TOS(PM_NONE);
+
+return retval;
+\end{DoxyVerb}
+ 
+
+Definition at line 93 of file list.\-py.
+
+\hypertarget{namespacelist_a17c5dcb887cba7adca7efa5be9ebce63}{\index{list@{list}!pop@{pop}}
+\index{pop@{pop}!list@{list}}
+\subsubsection[{pop}]{\setlength{\rightskip}{0pt plus 5cm}def list.\-pop (
+\begin{DoxyParamCaption}
+\item[{}]{l, }
+\item[{}]{i}
+\end{DoxyParamCaption}
+)}}\label{namespacelist_a17c5dcb887cba7adca7efa5be9ebce63}
+\begin{DoxyVerb}__NATIVE__
+pPmObj_t pl;
+pPmObj_t pi;
+pPmObj_t po;
+PmReturn_t retval = PM_RET_OK;
+int16_t i;
+
+/*
+ * Raise TypeError if first arg is not a list o second arg is not an int
+ * or there are the wrong number of arguments
+ */
+pl = NATIVE_GET_LOCAL(0);
+if (OBJ_GET_TYPE(pl) != OBJ_TYPE_LST)
+{
+    PM_RAISE(retval, PM_RET_EX_TYPE);
+    return retval;
+}
+
+pi = NATIVE_GET_LOCAL(1);
+if (NATIVE_GET_NUM_ARGS() == 2)
+{
+    if (OBJ_GET_TYPE(pi) != OBJ_TYPE_INT)
+    {
+        PM_RAISE(retval, PM_RET_EX_TYPE);
+        return retval;
+    }
+    i = (uint16_t)((pPmInt_t)pi)->val;
+}
+else
+{
+    i = -1;
+}
+if ((NATIVE_GET_NUM_ARGS() < 1) || (NATIVE_GET_NUM_ARGS() > 2))
+{
+    PM_RAISE(retval, PM_RET_EX_TYPE);
+    return retval;
+}
+
+/* Get the object at the given index */
+retval = list_getItem(pl, i, &po);
+PM_RETURN_IF_ERROR(retval);
+
+/* Return the object to the caller */
+NATIVE_SET_TOS(po);
+
+/* Remove the object from the given index */
+retval = list_delItem(pl, i);
+PM_RETURN_IF_ERROR(retval);
+
+return retval;
+\end{DoxyVerb}
+ 
+
+Definition at line 132 of file list.\-py.
+
+\hypertarget{namespacelist_a40bf167cbe7dc81d668ffebaa9ae0581}{\index{list@{list}!remove@{remove}}
+\index{remove@{remove}!list@{list}}
+\subsubsection[{remove}]{\setlength{\rightskip}{0pt plus 5cm}def list.\-remove (
+\begin{DoxyParamCaption}
+\item[{}]{l, }
+\item[{}]{v}
+\end{DoxyParamCaption}
+)}}\label{namespacelist_a40bf167cbe7dc81d668ffebaa9ae0581}
+\begin{DoxyVerb}__NATIVE__
+pPmObj_t pl;
+pPmObj_t pv;
+PmReturn_t retval = PM_RET_OK;
+
+/* Raise TypeError if it's not a list or wrong number of args, */
+pl = NATIVE_GET_LOCAL(0);
+if ((OBJ_GET_TYPE(pl) != OBJ_TYPE_LST) || (NATIVE_GET_NUM_ARGS() != 2))
+{
+    PM_RAISE(retval, PM_RET_EX_TYPE);
+    return retval;
+}
+
+/* Remove the value from the list */
+pv = NATIVE_GET_LOCAL(1);
+retval = list_remove(pl, pv);
+if (retval != PM_RET_OK)
+{
+    PM_RAISE(retval, retval);
+}
+
+NATIVE_SET_TOS(PM_NONE);
+
+return retval;
+\end{DoxyVerb}
+ 
+
+Definition at line 187 of file list.\-py.
+

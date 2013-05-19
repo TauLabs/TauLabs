@@ -1,0 +1,83 @@
+\hypertarget{namespacefunc}{\section{func Namespace Reference}
+\label{namespacefunc}\index{func@{func}}
+}
+
+
+Provides Py\-Mite's func module.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{namespacefunc_a42cb8816a0920d246546fc3512dd1c46}{co\-\_\-names}
+\begin{DoxyCompactList}\small\item\em Returns the names tuple of the function/module object. \end{DoxyCompactList}\item 
+def \hyperlink{namespacefunc_a39e95f064ae5046c4a3f9f9d11960df7}{co\-\_\-consts}
+\begin{DoxyCompactList}\small\item\em Returns the constants tuple of the function/module object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Provides Py\-Mite's func module. 
+
+\subsection{Function Documentation}
+\hypertarget{namespacefunc_a39e95f064ae5046c4a3f9f9d11960df7}{\index{func@{func}!co\-\_\-consts@{co\-\_\-consts}}
+\index{co\-\_\-consts@{co\-\_\-consts}!func@{func}}
+\subsubsection[{co\-\_\-consts}]{\setlength{\rightskip}{0pt plus 5cm}def func.\-co\-\_\-consts (
+\begin{DoxyParamCaption}
+\item[{}]{f}
+\end{DoxyParamCaption}
+)}}\label{namespacefunc_a39e95f064ae5046c4a3f9f9d11960df7}
+
+
+Returns the constants tuple of the function/module object. 
+
+\begin{DoxyVerb}__NATIVE__
+PmReturn_t retval = PM_RET_OK;
+pPmObj_t pfunc;
+
+/* If wrong number of args, raise TypeError */
+if (NATIVE_GET_NUM_ARGS() != 1)
+{
+    PM_RAISE(retval, PM_RET_EX_TYPE);
+    return retval;
+}
+
+pfunc = NATIVE_GET_LOCAL(0);
+NATIVE_SET_TOS((pPmObj_t)((pPmFunc_t)pfunc)->f_co->co_consts);
+
+return retval;
+\end{DoxyVerb}
+ 
+
+Definition at line 46 of file func.\-py.
+
+\hypertarget{namespacefunc_a42cb8816a0920d246546fc3512dd1c46}{\index{func@{func}!co\-\_\-names@{co\-\_\-names}}
+\index{co\-\_\-names@{co\-\_\-names}!func@{func}}
+\subsubsection[{co\-\_\-names}]{\setlength{\rightskip}{0pt plus 5cm}def func.\-co\-\_\-names (
+\begin{DoxyParamCaption}
+\item[{}]{f}
+\end{DoxyParamCaption}
+)}}\label{namespacefunc_a42cb8816a0920d246546fc3512dd1c46}
+
+
+Returns the names tuple of the function/module object. 
+
+\begin{DoxyVerb}__NATIVE__
+PmReturn_t retval = PM_RET_OK;
+pPmObj_t pfunc;
+
+/* If wrong number of args, raise TypeError */
+if (NATIVE_GET_NUM_ARGS() != 1)
+{
+    PM_RAISE(retval, PM_RET_EX_TYPE);
+    return retval;
+}
+
+pfunc = NATIVE_GET_LOCAL(0);
+NATIVE_SET_TOS((pPmObj_t)((pPmFunc_t)pfunc)->f_co->co_names);
+
+return retval;
+\end{DoxyVerb}
+ 
+
+Definition at line 23 of file func.\-py.
+

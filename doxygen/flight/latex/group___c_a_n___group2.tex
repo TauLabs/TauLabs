@@ -1,0 +1,151 @@
+\hypertarget{group___c_a_n___group2}{\section{C\-A\-N Frames Transmission functions}
+\label{group___c_a_n___group2}\index{C\-A\-N Frames Transmission functions@{C\-A\-N Frames Transmission functions}}
+}
+
+
+C\-A\-N Frames Transmission functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___c_a_n___group2_gaccfcb81f76f58400077c7b2d8641dd83}{C\-A\-N\-\_\-\-Transmit} (\hyperlink{struct_c_a_n___type_def}{C\-A\-N\-\_\-\-Type\-Def} $\ast$C\-A\-Nx, \hyperlink{struct_can_tx_msg}{Can\-Tx\-Msg} $\ast$Tx\-Message)
+\begin{DoxyCompactList}\small\item\em Initiates and transmits a C\-A\-N frame message. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___c_a_n___group2_ga68ab05a0a6cdfcc2b6f6b6b2c10848e2}{C\-A\-N\-\_\-\-Transmit\-Status} (\hyperlink{struct_c_a_n___type_def}{C\-A\-N\-\_\-\-Type\-Def} $\ast$C\-A\-Nx, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Transmit\-Mailbox)
+\begin{DoxyCompactList}\small\item\em Checks the transmission status of a C\-A\-N Frame. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_a_n___group2_ga81106cdf5395a1947bfc87ec1685829e}{C\-A\-N\-\_\-\-Cancel\-Transmit} (\hyperlink{struct_c_a_n___type_def}{C\-A\-N\-\_\-\-Type\-Def} $\ast$C\-A\-Nx, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Mailbox)
+\begin{DoxyCompactList}\small\item\em Cancels a transmit request. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+C\-A\-N Frames Transmission functions. \begin{DoxyVerb} ===============================================================================
+                ##### CAN Frames Transmission functions #####
+ ===============================================================================  
+    [..] This section provides functions allowing to 
+         (+) Initiate and transmit a CAN frame message (if there is an empty mailbox).
+         (+) Check the transmission status of a CAN Frame.
+         (+) Cancel a transmit request.\end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                      CAN Frames Transmission functions
+ ===============================================================================  
+  This section provides functions allowing to 
+   - Initiate and transmit a CAN frame message (if there is an empty mailbox).
+   - Check the transmission status of a CAN Frame
+   - Cancel a transmit request\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___c_a_n___group2_ga81106cdf5395a1947bfc87ec1685829e}{\index{C\-A\-N Frames Transmission functions@{C\-A\-N Frames Transmission functions}!C\-A\-N\-\_\-\-Cancel\-Transmit@{C\-A\-N\-\_\-\-Cancel\-Transmit}}
+\index{C\-A\-N\-\_\-\-Cancel\-Transmit@{C\-A\-N\-\_\-\-Cancel\-Transmit}!CAN Frames Transmission functions@{C\-A\-N Frames Transmission functions}}
+\subsubsection[{C\-A\-N\-\_\-\-Cancel\-Transmit}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} C\-A\-N\-\_\-\-Cancel\-Transmit (
+\begin{DoxyParamCaption}
+\item[{{\bf C\-A\-N\-\_\-\-Type\-Def} $\ast$}]{C\-A\-Nx, }
+\item[{{\bf uint8\-\_\-t}}]{Mailbox}
+\end{DoxyParamCaption}
+)}}\label{group___c_a_n___group2_ga81106cdf5395a1947bfc87ec1685829e}
+
+
+Cancels a transmit request. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\-A\-Nx,\-:} & where x can be 1 to select the C\-A\-N1 peripheral. \\
+\hline
+{\em Mailbox,\-:} & Mailbox number. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em C\-A\-Nx,\-:} & where x can be 1 or 2 to select the C\-A\-N peripheral. \\
+\hline
+{\em Mailbox,\-:} & Mailbox number. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 677 of file stm32f30x\-\_\-can.\-c.
+
+\hypertarget{group___c_a_n___group2_gaccfcb81f76f58400077c7b2d8641dd83}{\index{C\-A\-N Frames Transmission functions@{C\-A\-N Frames Transmission functions}!C\-A\-N\-\_\-\-Transmit@{C\-A\-N\-\_\-\-Transmit}}
+\index{C\-A\-N\-\_\-\-Transmit@{C\-A\-N\-\_\-\-Transmit}!CAN Frames Transmission functions@{C\-A\-N Frames Transmission functions}}
+\subsubsection[{C\-A\-N\-\_\-\-Transmit}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} C\-A\-N\-\_\-\-Transmit (
+\begin{DoxyParamCaption}
+\item[{{\bf C\-A\-N\-\_\-\-Type\-Def} $\ast$}]{C\-A\-Nx, }
+\item[{{\bf Can\-Tx\-Msg} $\ast$}]{Tx\-Message}
+\end{DoxyParamCaption}
+)}}\label{group___c_a_n___group2_gaccfcb81f76f58400077c7b2d8641dd83}
+
+
+Initiates and transmits a C\-A\-N frame message. 
+
+Initiates the transmission of a message.
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\-A\-Nx,\-:} & where x can be 1 or 2 to to select the C\-A\-N peripheral. \\
+\hline
+{\em Tx\-Message,\-:} & pointer to a structure which contains C\-A\-N Id, C\-A\-N D\-L\-C and C\-A\-N data. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & number of the mailbox that is used for transmission or C\-A\-N\-\_\-\-Tx\-Status\-\_\-\-No\-Mail\-Box if there is no empty mailbox. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 551 of file stm32f30x\-\_\-can.\-c.
+
+\hypertarget{group___c_a_n___group2_ga68ab05a0a6cdfcc2b6f6b6b2c10848e2}{\index{C\-A\-N Frames Transmission functions@{C\-A\-N Frames Transmission functions}!C\-A\-N\-\_\-\-Transmit\-Status@{C\-A\-N\-\_\-\-Transmit\-Status}}
+\index{C\-A\-N\-\_\-\-Transmit\-Status@{C\-A\-N\-\_\-\-Transmit\-Status}!CAN Frames Transmission functions@{C\-A\-N Frames Transmission functions}}
+\subsubsection[{C\-A\-N\-\_\-\-Transmit\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} C\-A\-N\-\_\-\-Transmit\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf C\-A\-N\-\_\-\-Type\-Def} $\ast$}]{C\-A\-Nx, }
+\item[{{\bf uint8\-\_\-t}}]{Transmit\-Mailbox}
+\end{DoxyParamCaption}
+)}}\label{group___c_a_n___group2_ga68ab05a0a6cdfcc2b6f6b6b2c10848e2}
+
+
+Checks the transmission status of a C\-A\-N Frame. 
+
+Checks the transmission of a message.
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\-A\-Nx,\-:} & where x can be 1 to select the C\-A\-N1 peripheral. \\
+\hline
+{\em Transmit\-Mailbox,\-:} & the number of the mailbox that is used for transmission. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em C\-A\-N\-\_\-\-Tx\-Status\-\_\-\-Ok} & if the C\-A\-N driver transmits the message, C\-A\-N\-\_\-\-Tx\-Status\-\_\-\-Failed in an other case.\\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em C\-A\-Nx,\-:} & where x can be 1 or 2 to select the C\-A\-N peripheral. \\
+\hline
+{\em Transmit\-Mailbox,\-:} & the number of the mailbox that is used for transmission. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em C\-A\-N\-\_\-\-Tx\-Status\-\_\-\-Ok} & if the C\-A\-N driver transmits the message, C\-A\-N\-\_\-\-Tx\-Status\-\_\-\-Failed in an other case. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 623 of file stm32f30x\-\_\-can.\-c.
+

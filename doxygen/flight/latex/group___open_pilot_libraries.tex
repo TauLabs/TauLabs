@@ -1,0 +1,857 @@
+\hypertarget{group___open_pilot_libraries}{\section{Open\-Pilot System Libraries}
+\label{group___open_pilot_libraries}\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}}
+}
+
+
+Open\-Pilot System libraries are available to all O\-P modules.  
+
+
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___attitude}{Estimation}
+\begin{DoxyCompactList}\small\item\em A simple complementary filter designed to reduce attitude drift. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{alarms_8c}{alarms.\-c}
+\begin{DoxyCompactList}\small\item\em Library for setting and clearing system alarms. \end{DoxyCompactList}\item 
+file \hyperlink{alarms_8h}{alarms.\-h}
+\begin{DoxyCompactList}\small\item\em Include file of the alarm library. \end{DoxyCompactList}\item 
+file \hyperlink{packet__handler_8h}{packet\-\_\-handler.\-h}
+\begin{DoxyCompactList}\small\item\em A packet handler for handeling radio packet transmission. \end{DoxyCompactList}\item 
+file \hyperlink{sanitycheck_8h}{sanitycheck.\-h}
+\begin{DoxyCompactList}\small\item\em Utilities to validate a flight configuration. \end{DoxyCompactList}\item 
+file \hyperlink{taskmonitor_8h}{taskmonitor.\-h}
+\begin{DoxyCompactList}\small\item\em Include file of the task monitoring library. \end{DoxyCompactList}\item 
+file \hyperlink{taskmonitor_8h}{taskmonitor.\-h}
+\begin{DoxyCompactList}\small\item\em Include file of the task monitoring library. \end{DoxyCompactList}\item 
+file \hyperlink{uavtalk_8h}{uavtalk.\-h}
+\begin{DoxyCompactList}\small\item\em Include file of the U\-A\-V\-Talk library. \end{DoxyCompactList}\item 
+file \hyperlink{uavtalk_8h}{uavtalk.\-h}
+\begin{DoxyCompactList}\small\item\em Include file of the U\-A\-V\-Talk library. \end{DoxyCompactList}\item 
+file \hyperlink{uavtalk_8c}{uavtalk.\-c}
+\begin{DoxyCompactList}\small\item\em U\-A\-V\-Talk library, implements to telemetry protocol. See the wiki for more details. This library should not be called directly by the application, it is only used by the Telemetry module. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_p_h_packet_header}{P\-H\-Packet\-Header}
+\item 
+struct \hyperlink{struct_p_h_packet}{P\-H\-Packet}
+\item 
+struct \hyperlink{struct_p_h_ack_nack_packet}{P\-H\-Ack\-Nack\-Packet}
+\item 
+struct \hyperlink{struct_p_h_ppm_packet}{P\-H\-Ppm\-Packet}
+\item 
+struct \hyperlink{struct_p_h_status_packet}{P\-H\-Status\-Packet}
+\item 
+struct \hyperlink{struct_p_h_connection_packet}{P\-H\-Connection\-Packet}
+\item 
+struct \hyperlink{struct_u_a_v_talk_stats}{U\-A\-V\-Talk\-Stats}
+\item 
+struct \hyperlink{structuavtalk__min__header}{uavtalk\-\_\-min\-\_\-header}
+\item 
+struct \hyperlink{structuavtalk__max__header}{uavtalk\-\_\-max\-\_\-header}
+\item 
+struct \hyperlink{struct_u_a_v_talk_input_processor}{U\-A\-V\-Talk\-Input\-Processor}
+\item 
+struct \hyperlink{struct_u_a_v_talk_connection_data}{U\-A\-V\-Talk\-Connection\-Data}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{struct_p_h_packet}{P\-H\-Packet} $\ast$ \hyperlink{group___open_pilot_libraries_gaa252eac3dc3346fec375be8805fd8694}{P\-H\-Packet\-Handle}
+\item 
+typedef struct \hyperlink{struct_p_h_ack_nack_packet}{P\-H\-Ack\-Nack\-Packet} $\ast$ \hyperlink{group___open_pilot_libraries_gafd4ce42b4793fdd6ccdba127272056b4}{P\-H\-Ack\-Nack\-Packet\-Handle}
+\item 
+typedef struct \hyperlink{struct_p_h_ppm_packet}{P\-H\-Ppm\-Packet} $\ast$ \hyperlink{group___open_pilot_libraries_ga64fda6fd21f38899abc02e01a8920fe2}{P\-H\-Ppm\-Packet\-Handle}
+\item 
+typedef struct \hyperlink{struct_p_h_status_packet}{P\-H\-Status\-Packet} $\ast$ \hyperlink{group___open_pilot_libraries_gaba4b593b2564f247de7ae01fe86e908a}{P\-H\-Status\-Packet\-Handle}
+\item 
+typedef struct \hyperlink{struct_p_h_connection_packet}{P\-H\-Connection\-Packet} $\ast$ \hyperlink{group___open_pilot_libraries_ga2c36c280fa284ae25b54eba06a601805}{P\-H\-Connection\-Packet\-Handle}
+\item 
+typedef \hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t}($\ast$ \hyperlink{group___open_pilot_libraries_ga0c67fb4d23157d56fe1982e4788938c7}{U\-A\-V\-Talk\-Output\-Stream} )(\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$\hyperlink{pios__opahrs__proto_8h_a20e3f4bfaeccf09a75ef27e095a10112}{data}, \hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{mavlink__helpers_8h_a4254bfa282bd215965d99b8d6b527a04}{length})
+\item 
+typedef \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$ \hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection}
+\item 
+typedef \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___open_pilot_libraries_gad5ae4f5e5aa19ffb6f8e688a448e9618}{uavtalk\-\_\-checksum}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___open_pilot_libraries_gafc6fe85f3c89dabc11ae43c825fb28ad}{P\-H\-Packet\-Type} \{ \\*
+\hyperlink{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada7bc0b281e9e7e0ef0dfb2ffb37655333}{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-N\-E} = 0, 
+\hyperlink{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28adad83911cea88c149916cd281ec9ee5cee}{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-A\-T\-U\-S}, 
+\hyperlink{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada287243cb80381ee8175f3fdcb25b69de}{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-O\-N\-\_\-\-R\-E\-Q\-U\-E\-S\-T}, 
+\hyperlink{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada2062477b6d9ae02203bcb2adfe989055}{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-D\-A\-T\-A}, 
+\\*
+\hyperlink{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada3392941f745533dd9f815c1d8e88003a}{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-D\-U\-P\-L\-I\-C\-A\-T\-E\-\_\-\-D\-A\-T\-A}, 
+\hyperlink{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28adad3e2cee14551c12b1123a659b4456d04}{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-P\-P\-M}, 
+\hyperlink{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada6add2b6716957bc5e01de78127161c27}{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-A\-C\-K}, 
+\hyperlink{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada77fe95b0ef25a7e060413a0175ac7747}{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-A\-C\-K\-\_\-\-R\-T\-S}, 
+\\*
+\hyperlink{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada7b9680cb1a5b7a996450a1c19439779f}{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-A\-C\-K}
+ \}
+\item 
+enum \hyperlink{group___open_pilot_libraries_ga8a49dc52ac01b5d0782811f284df691c}{U\-A\-V\-Talk\-Rx\-State} \{ \\*
+\hyperlink{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691caebd1fa1a1b027dbc4ef710dc07af67c3}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-R\-O\-R} =0, 
+\hyperlink{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691caae4d844e674556f502e53c92bb96c6c7}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-Y\-N\-C}, 
+\hyperlink{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691ca1ecd6ed2028baaae08701be647d70702}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-Y\-P\-E}, 
+\hyperlink{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691ca9aa933eedaeac2cc5d5552cf9becf16c}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-I\-Z\-E}, 
+\\*
+\hyperlink{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691cab98212ea6a045429c1ca8a085116dfb3}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-J\-I\-D}, 
+\hyperlink{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691caae164f1909f4dfe3f72b6787482f0964}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-S\-T\-I\-D}, 
+\hyperlink{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691ca1785b6e3aaaa285b9585f38fae2826f1}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-I\-M\-E\-S\-T\-A\-M\-P}, 
+\hyperlink{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691ca48c5974336aae492175d58113ca410ec}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-D\-A\-T\-A}, 
+\\*
+\hyperlink{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691ca366f9ba94ea7dd19bfe5d7cf572d8cf9}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-S}, 
+\hyperlink{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691ca561921fc000ac7610e879f9b1f63e54a}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_gaa2707dbd32985c54ef5776147c4e0fc2}{Alarms\-Initialize} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_gadd1139478e7c6bc1b6afaaa0d1d114dd}{Alarms\-Set} (System\-Alarms\-Alarm\-Elem alarm, System\-Alarms\-Alarm\-Options severity)
+\item 
+System\-Alarms\-Alarm\-Options \hyperlink{group___open_pilot_libraries_gad166792501b216a64df3e1ec0017db04}{Alarms\-Get} (System\-Alarms\-Alarm\-Elem alarm)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_gab3a5d632f443b5e8e914c13103d81e0e}{Alarms\-Default} (System\-Alarms\-Alarm\-Elem alarm)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___open_pilot_libraries_ga9daaea9cc9394928db79c5d475b5e621}{Alarms\-Default\-All} ()
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_gafce7d51ebedc70de373224f839c77399}{Alarms\-Clear} (System\-Alarms\-Alarm\-Elem alarm)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___open_pilot_libraries_ga9a68c7084ffef47a37ebf1a0284ecc41}{Alarms\-Clear\-All} ()
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_gaa6670051fe2fcab76f66b75a4331809f}{Alarms\-Has\-Warnings} ()
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_ga8793bd5e55481a40145e4f81bf052a99}{Alarms\-Has\-Errors} ()
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_ga0f241880ab969542907c4216fe85aa70}{Alarms\-Has\-Critical} ()
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_gabcb80832a82e492c119a231984eba10a}{configuration\-\_\-check} ()
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_ga1d9cdd0b4255485c84d4a695a4a9ae0f}{Task\-Monitor\-Initialize} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_ga092c2aa7f99dfb3f394bf3b086f6ef45}{Task\-Monitor\-Add} (Task\-Info\-Running\-Elem task, \hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2task_8h_a271ae40d5db07d928a113766505a0965}{x\-Task\-Handle} handle)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_ga6c09782e470b26f4506a57ada8037664}{Task\-Monitor\-Remove} (Task\-Info\-Running\-Elem task)
+\item 
+\hyperlink{group___exported__types_gaf6a258d8f3ee5206d682d799316314b1}{bool} \hyperlink{group___open_pilot_libraries_ga2212575f7dbf4b2452fb7baa81b48115}{Task\-Monitor\-Query\-Running} (Task\-Info\-Running\-Elem task)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___open_pilot_libraries_ga35c7698b89cc04a2fce87ed36b155fc0}{Task\-Monitor\-Update\-All} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} \hyperlink{group___open_pilot_libraries_ga91e20b57ed132bab36c9ca723d9bdac4}{U\-A\-V\-Talk\-Initialize} (\hyperlink{group___open_pilot_libraries_ga0c67fb4d23157d56fe1982e4788938c7}{U\-A\-V\-Talk\-Output\-Stream} output\-Stream)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_ga33f8221bbddbf94c7379c3230eac1501}{U\-A\-V\-Talk\-Set\-Output\-Stream} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection, \hyperlink{group___open_pilot_libraries_ga0c67fb4d23157d56fe1982e4788938c7}{U\-A\-V\-Talk\-Output\-Stream} output\-Stream)
+\item 
+\hyperlink{group___open_pilot_libraries_ga0c67fb4d23157d56fe1982e4788938c7}{U\-A\-V\-Talk\-Output\-Stream} \hyperlink{group___open_pilot_libraries_ga2f8c8d67e642f7df90500f38273baa61}{U\-A\-V\-Talk\-Get\-Output\-Stream} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_gab4fe52d9c33088b7ebbac9ad4e11b9de}{U\-A\-V\-Talk\-Send\-Object} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection, \hyperlink{group___n_a_m_e_gac31715ab50a1903838e7d87c8022ec75}{U\-A\-V\-Obj\-Handle} obj, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___n_a_m_e_ga874457c6d2526c90ec75fa5a37d687ca}{inst\-Id}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} acked, \hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} timeout\-Ms)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_gad5aea81015d8dd5ed7d474ac87fe58fc}{U\-A\-V\-Talk\-Send\-Object\-Timestamped} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection\-Handle, \hyperlink{group___n_a_m_e_gac31715ab50a1903838e7d87c8022ec75}{U\-A\-V\-Obj\-Handle} obj, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___n_a_m_e_ga874457c6d2526c90ec75fa5a37d687ca}{inst\-Id}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} acked, \hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} timeout\-Ms)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_gaa69251603e3426610051dc19b3a68494}{U\-A\-V\-Talk\-Send\-Object\-Request} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection, \hyperlink{group___n_a_m_e_gac31715ab50a1903838e7d87c8022ec75}{U\-A\-V\-Obj\-Handle} obj, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___n_a_m_e_ga874457c6d2526c90ec75fa5a37d687ca}{inst\-Id}, \hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} timeout\-Ms)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_gab995cc19b4024b1a6303c963e139f522}{U\-A\-V\-Talk\-Send\-Ack} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection\-Handle, \hyperlink{group___n_a_m_e_gac31715ab50a1903838e7d87c8022ec75}{U\-A\-V\-Obj\-Handle} obj, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___n_a_m_e_ga874457c6d2526c90ec75fa5a37d687ca}{inst\-Id})
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_ga2ef859d444a819ed3e3bb4ea36761c69}{U\-A\-V\-Talk\-Send\-Nack} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection\-Handle, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} obj\-Id)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_ga75dcc116d1af9cb73a58c233a2d95bed}{U\-A\-V\-Talk\-Send\-Buf} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection\-Handle, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$\hyperlink{mavlink__helpers_8h_af5c51bef7cca88bcb22f0517fdb06153}{buf}, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{mavlink__helpers_8h_aba59486c1504340293255a065b546e3a}{len})
+\item 
+\hyperlink{group___open_pilot_libraries_ga8a49dc52ac01b5d0782811f284df691c}{U\-A\-V\-Talk\-Rx\-State} \hyperlink{group___open_pilot_libraries_ga1a738a506f26790d1b9c9fac5b6e1d92}{U\-A\-V\-Talk\-Process\-Input\-Stream} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} rxbyte)
+\item 
+\hyperlink{group___open_pilot_libraries_ga8a49dc52ac01b5d0782811f284df691c}{U\-A\-V\-Talk\-Rx\-State} \hyperlink{group___open_pilot_libraries_ga174ffb688889f75507fc022eaf33d52e}{U\-A\-V\-Talk\-Process\-Input\-Stream\-Quiet} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} rxbyte)
+\item 
+\hyperlink{group___open_pilot_libraries_ga8a49dc52ac01b5d0782811f284df691c}{U\-A\-V\-Talk\-Rx\-State} \hyperlink{group___open_pilot_libraries_ga11bfbe431f2e79f43a4321b942dc94c8}{U\-A\-V\-Talk\-Relay\-Input\-Stream} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection\-Handle, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} rxbyte)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___open_pilot_libraries_gaeccb32b1562a98d5586bb3d4d25715ee}{U\-A\-V\-Talk\-Get\-Stats} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection, \hyperlink{struct_u_a_v_talk_stats}{U\-A\-V\-Talk\-Stats} $\ast$stats)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___open_pilot_libraries_gafea32b2e3331f9e81f48979b0e6c0a0b}{U\-A\-V\-Talk\-Reset\-Stats} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___open_pilot_libraries_ga4134f84aca917fe6e3eca1eaacf0664e}{U\-A\-V\-Talk\-Get\-Last\-Timestamp} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} $\ast$timestamp)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Open\-Pilot System libraries are available to all O\-P modules. 
+
+\subsection{Typedef Documentation}
+\hypertarget{group___open_pilot_libraries_gafd4ce42b4793fdd6ccdba127272056b4}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!P\-H\-Ack\-Nack\-Packet\-Handle@{P\-H\-Ack\-Nack\-Packet\-Handle}}
+\index{P\-H\-Ack\-Nack\-Packet\-Handle@{P\-H\-Ack\-Nack\-Packet\-Handle}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{P\-H\-Ack\-Nack\-Packet\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}typedef  struct {\bf P\-H\-Ack\-Nack\-Packet} $\ast$ {\bf P\-H\-Ack\-Nack\-Packet\-Handle}}}\label{group___open_pilot_libraries_gafd4ce42b4793fdd6ccdba127272056b4}
+\hypertarget{group___open_pilot_libraries_ga2c36c280fa284ae25b54eba06a601805}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!P\-H\-Connection\-Packet\-Handle@{P\-H\-Connection\-Packet\-Handle}}
+\index{P\-H\-Connection\-Packet\-Handle@{P\-H\-Connection\-Packet\-Handle}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{P\-H\-Connection\-Packet\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}typedef  struct {\bf P\-H\-Connection\-Packet} $\ast$ {\bf P\-H\-Connection\-Packet\-Handle}}}\label{group___open_pilot_libraries_ga2c36c280fa284ae25b54eba06a601805}
+\hypertarget{group___open_pilot_libraries_gaa252eac3dc3346fec375be8805fd8694}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!P\-H\-Packet\-Handle@{P\-H\-Packet\-Handle}}
+\index{P\-H\-Packet\-Handle@{P\-H\-Packet\-Handle}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{P\-H\-Packet\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}typedef  struct {\bf P\-H\-Packet} $\ast$ {\bf P\-H\-Packet\-Handle}}}\label{group___open_pilot_libraries_gaa252eac3dc3346fec375be8805fd8694}
+\hypertarget{group___open_pilot_libraries_ga64fda6fd21f38899abc02e01a8920fe2}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!P\-H\-Ppm\-Packet\-Handle@{P\-H\-Ppm\-Packet\-Handle}}
+\index{P\-H\-Ppm\-Packet\-Handle@{P\-H\-Ppm\-Packet\-Handle}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{P\-H\-Ppm\-Packet\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}typedef  struct {\bf P\-H\-Ppm\-Packet} $\ast$ {\bf P\-H\-Ppm\-Packet\-Handle}}}\label{group___open_pilot_libraries_ga64fda6fd21f38899abc02e01a8920fe2}
+\hypertarget{group___open_pilot_libraries_gaba4b593b2564f247de7ae01fe86e908a}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!P\-H\-Status\-Packet\-Handle@{P\-H\-Status\-Packet\-Handle}}
+\index{P\-H\-Status\-Packet\-Handle@{P\-H\-Status\-Packet\-Handle}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{P\-H\-Status\-Packet\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}typedef  struct {\bf P\-H\-Status\-Packet} $\ast$ {\bf P\-H\-Status\-Packet\-Handle}}}\label{group___open_pilot_libraries_gaba4b593b2564f247de7ae01fe86e908a}
+\hypertarget{group___open_pilot_libraries_gad5ae4f5e5aa19ffb6f8e688a448e9618}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!uavtalk\-\_\-checksum@{uavtalk\-\_\-checksum}}
+\index{uavtalk\-\_\-checksum@{uavtalk\-\_\-checksum}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{uavtalk\-\_\-checksum}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf uint8\-\_\-t} {\bf uavtalk\-\_\-checksum}}}\label{group___open_pilot_libraries_gad5ae4f5e5aa19ffb6f8e688a448e9618}
+
+
+Definition at line 53 of file uavtalk\-\_\-priv.\-h.
+
+\hypertarget{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-Talk\-Connection@{U\-A\-V\-Talk\-Connection}}
+\index{U\-A\-V\-Talk\-Connection@{U\-A\-V\-Talk\-Connection}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{U\-A\-V\-Talk\-Connection}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf void}$\ast$ {\bf U\-A\-V\-Talk\-Connection}}}\label{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}
+
+
+Definition at line 46 of file uavtalk.\-h.
+
+\hypertarget{group___open_pilot_libraries_ga0c67fb4d23157d56fe1982e4788938c7}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-Talk\-Output\-Stream@{U\-A\-V\-Talk\-Output\-Stream}}
+\index{U\-A\-V\-Talk\-Output\-Stream@{U\-A\-V\-Talk\-Output\-Stream}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{U\-A\-V\-Talk\-Output\-Stream}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf int32\-\_\-t}($\ast$ U\-A\-V\-Talk\-Output\-Stream)({\bf uint8\-\_\-t} $\ast${\bf data}, {\bf int32\-\_\-t} {\bf length})}}\label{group___open_pilot_libraries_ga0c67fb4d23157d56fe1982e4788938c7}
+
+
+Definition at line 33 of file uavtalk.\-h.
+
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{group___open_pilot_libraries_gafc6fe85f3c89dabc11ae43c825fb28ad}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!P\-H\-Packet\-Type@{P\-H\-Packet\-Type}}
+\index{P\-H\-Packet\-Type@{P\-H\-Packet\-Type}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{P\-H\-Packet\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf P\-H\-Packet\-Type}}}\label{group___open_pilot_libraries_gafc6fe85f3c89dabc11ae43c825fb28ad}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-N\-E@{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-N\-E}!Open\-Pilot System Libraries@{Open\-Pilot System Libraries}}\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-N\-E@{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-N\-E}}\item[{\em 
+\hypertarget{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada7bc0b281e9e7e0ef0dfb2ffb37655333}{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-N\-E}\label{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada7bc0b281e9e7e0ef0dfb2ffb37655333}
+}]\index{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-A\-T\-U\-S@{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-A\-T\-U\-S}!Open\-Pilot System Libraries@{Open\-Pilot System Libraries}}\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-A\-T\-U\-S@{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-A\-T\-U\-S}}\item[{\em 
+\hypertarget{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28adad83911cea88c149916cd281ec9ee5cee}{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-A\-T\-U\-S}\label{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28adad83911cea88c149916cd281ec9ee5cee}
+}]\index{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-O\-N\-\_\-\-R\-E\-Q\-U\-E\-S\-T@{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-O\-N\-\_\-\-R\-E\-Q\-U\-E\-S\-T}!Open\-Pilot System Libraries@{Open\-Pilot System Libraries}}\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-O\-N\-\_\-\-R\-E\-Q\-U\-E\-S\-T@{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-O\-N\-\_\-\-R\-E\-Q\-U\-E\-S\-T}}\item[{\em 
+\hypertarget{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada287243cb80381ee8175f3fdcb25b69de}{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-O\-N\-\_\-\-R\-E\-Q\-U\-E\-S\-T}\label{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada287243cb80381ee8175f3fdcb25b69de}
+}]\index{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-D\-A\-T\-A@{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-D\-A\-T\-A}!Open\-Pilot System Libraries@{Open\-Pilot System Libraries}}\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-D\-A\-T\-A@{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-D\-A\-T\-A}}\item[{\em 
+\hypertarget{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada2062477b6d9ae02203bcb2adfe989055}{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-D\-A\-T\-A}\label{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada2062477b6d9ae02203bcb2adfe989055}
+}]\index{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-D\-U\-P\-L\-I\-C\-A\-T\-E\-\_\-\-D\-A\-T\-A@{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-D\-U\-P\-L\-I\-C\-A\-T\-E\-\_\-\-D\-A\-T\-A}!Open\-Pilot System Libraries@{Open\-Pilot System Libraries}}\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-D\-U\-P\-L\-I\-C\-A\-T\-E\-\_\-\-D\-A\-T\-A@{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-D\-U\-P\-L\-I\-C\-A\-T\-E\-\_\-\-D\-A\-T\-A}}\item[{\em 
+\hypertarget{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada3392941f745533dd9f815c1d8e88003a}{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-D\-U\-P\-L\-I\-C\-A\-T\-E\-\_\-\-D\-A\-T\-A}\label{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada3392941f745533dd9f815c1d8e88003a}
+}]\index{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-P\-P\-M@{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-P\-P\-M}!Open\-Pilot System Libraries@{Open\-Pilot System Libraries}}\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-P\-P\-M@{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-P\-P\-M}}\item[{\em 
+\hypertarget{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28adad3e2cee14551c12b1123a659b4456d04}{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-P\-P\-M}\label{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28adad3e2cee14551c12b1123a659b4456d04}
+}]\index{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-A\-C\-K@{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-A\-C\-K}!Open\-Pilot System Libraries@{Open\-Pilot System Libraries}}\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-A\-C\-K@{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-A\-C\-K}}\item[{\em 
+\hypertarget{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada6add2b6716957bc5e01de78127161c27}{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-A\-C\-K}\label{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada6add2b6716957bc5e01de78127161c27}
+}]\index{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-A\-C\-K\-\_\-\-R\-T\-S@{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-A\-C\-K\-\_\-\-R\-T\-S}!Open\-Pilot System Libraries@{Open\-Pilot System Libraries}}\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-A\-C\-K\-\_\-\-R\-T\-S@{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-A\-C\-K\-\_\-\-R\-T\-S}}\item[{\em 
+\hypertarget{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada77fe95b0ef25a7e060413a0175ac7747}{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-A\-C\-K\-\_\-\-R\-T\-S}\label{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada77fe95b0ef25a7e060413a0175ac7747}
+}]\index{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-A\-C\-K@{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-A\-C\-K}!Open\-Pilot System Libraries@{Open\-Pilot System Libraries}}\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-A\-C\-K@{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-A\-C\-K}}\item[{\em 
+\hypertarget{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada7b9680cb1a5b7a996450a1c19439779f}{P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-A\-C\-K}\label{group___open_pilot_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada7b9680cb1a5b7a996450a1c19439779f}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 42 of file packet\-\_\-handler.\-h.
+
+\hypertarget{group___open_pilot_libraries_ga8a49dc52ac01b5d0782811f284df691c}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-Talk\-Rx\-State@{U\-A\-V\-Talk\-Rx\-State}}
+\index{U\-A\-V\-Talk\-Rx\-State@{U\-A\-V\-Talk\-Rx\-State}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{U\-A\-V\-Talk\-Rx\-State}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf U\-A\-V\-Talk\-Rx\-State}}}\label{group___open_pilot_libraries_ga8a49dc52ac01b5d0782811f284df691c}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-R\-O\-R@{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-R\-O\-R}!Open\-Pilot System Libraries@{Open\-Pilot System Libraries}}\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-R\-O\-R@{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-R\-O\-R}}\item[{\em 
+\hypertarget{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691caebd1fa1a1b027dbc4ef710dc07af67c3}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-R\-O\-R}\label{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691caebd1fa1a1b027dbc4ef710dc07af67c3}
+}]\index{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-Y\-N\-C@{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-Y\-N\-C}!Open\-Pilot System Libraries@{Open\-Pilot System Libraries}}\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-Y\-N\-C@{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-Y\-N\-C}}\item[{\em 
+\hypertarget{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691caae4d844e674556f502e53c92bb96c6c7}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-Y\-N\-C}\label{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691caae4d844e674556f502e53c92bb96c6c7}
+}]\index{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-Y\-P\-E@{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-Y\-P\-E}!Open\-Pilot System Libraries@{Open\-Pilot System Libraries}}\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-Y\-P\-E@{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-Y\-P\-E}}\item[{\em 
+\hypertarget{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691ca1ecd6ed2028baaae08701be647d70702}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-Y\-P\-E}\label{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691ca1ecd6ed2028baaae08701be647d70702}
+}]\index{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-I\-Z\-E@{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-I\-Z\-E}!Open\-Pilot System Libraries@{Open\-Pilot System Libraries}}\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-I\-Z\-E@{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-I\-Z\-E}}\item[{\em 
+\hypertarget{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691ca9aa933eedaeac2cc5d5552cf9becf16c}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-I\-Z\-E}\label{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691ca9aa933eedaeac2cc5d5552cf9becf16c}
+}]\index{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-J\-I\-D@{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-J\-I\-D}!Open\-Pilot System Libraries@{Open\-Pilot System Libraries}}\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-J\-I\-D@{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-J\-I\-D}}\item[{\em 
+\hypertarget{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691cab98212ea6a045429c1ca8a085116dfb3}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-J\-I\-D}\label{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691cab98212ea6a045429c1ca8a085116dfb3}
+}]\index{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-S\-T\-I\-D@{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-S\-T\-I\-D}!Open\-Pilot System Libraries@{Open\-Pilot System Libraries}}\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-S\-T\-I\-D@{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-S\-T\-I\-D}}\item[{\em 
+\hypertarget{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691caae164f1909f4dfe3f72b6787482f0964}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-S\-T\-I\-D}\label{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691caae164f1909f4dfe3f72b6787482f0964}
+}]\index{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-I\-M\-E\-S\-T\-A\-M\-P@{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-I\-M\-E\-S\-T\-A\-M\-P}!Open\-Pilot System Libraries@{Open\-Pilot System Libraries}}\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-I\-M\-E\-S\-T\-A\-M\-P@{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-I\-M\-E\-S\-T\-A\-M\-P}}\item[{\em 
+\hypertarget{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691ca1785b6e3aaaa285b9585f38fae2826f1}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-I\-M\-E\-S\-T\-A\-M\-P}\label{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691ca1785b6e3aaaa285b9585f38fae2826f1}
+}]\index{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-D\-A\-T\-A@{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-D\-A\-T\-A}!Open\-Pilot System Libraries@{Open\-Pilot System Libraries}}\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-D\-A\-T\-A@{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-D\-A\-T\-A}}\item[{\em 
+\hypertarget{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691ca48c5974336aae492175d58113ca410ec}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-D\-A\-T\-A}\label{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691ca48c5974336aae492175d58113ca410ec}
+}]\index{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-S@{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-S}!Open\-Pilot System Libraries@{Open\-Pilot System Libraries}}\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-S@{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-S}}\item[{\em 
+\hypertarget{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691ca366f9ba94ea7dd19bfe5d7cf572d8cf9}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-S}\label{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691ca366f9ba94ea7dd19bfe5d7cf572d8cf9}
+}]\index{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E@{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E}!Open\-Pilot System Libraries@{Open\-Pilot System Libraries}}\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E@{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E}}\item[{\em 
+\hypertarget{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691ca561921fc000ac7610e879f9b1f63e54a}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E}\label{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691ca561921fc000ac7610e879f9b1f63e54a}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 48 of file uavtalk.\-h.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{group___open_pilot_libraries_gafce7d51ebedc70de373224f839c77399}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!Alarms\-Clear@{Alarms\-Clear}}
+\index{Alarms\-Clear@{Alarms\-Clear}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{Alarms\-Clear}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} Alarms\-Clear (
+\begin{DoxyParamCaption}
+\item[{System\-Alarms\-Alarm\-Elem}]{alarm}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_gafce7d51ebedc70de373224f839c77399}
+Clear an alarm 
+\begin{DoxyParams}{Parameters}
+{\em alarm} & The system alarm to be modified \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if success, -\/1 if an error 
+\end{DoxyReturn}
+
+
+Definition at line 133 of file alarms.\-c.
+
+\hypertarget{group___open_pilot_libraries_ga9a68c7084ffef47a37ebf1a0284ecc41}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!Alarms\-Clear\-All@{Alarms\-Clear\-All}}
+\index{Alarms\-Clear\-All@{Alarms\-Clear\-All}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{Alarms\-Clear\-All}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Alarms\-Clear\-All (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_ga9a68c7084ffef47a37ebf1a0284ecc41}
+Clear all alarms 
+
+Definition at line 141 of file alarms.\-c.
+
+\hypertarget{group___open_pilot_libraries_gab3a5d632f443b5e8e914c13103d81e0e}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!Alarms\-Default@{Alarms\-Default}}
+\index{Alarms\-Default@{Alarms\-Default}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{Alarms\-Default}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} Alarms\-Default (
+\begin{DoxyParamCaption}
+\item[{System\-Alarms\-Alarm\-Elem}]{alarm}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_gab3a5d632f443b5e8e914c13103d81e0e}
+Set an alarm to it's default value 
+\begin{DoxyParams}{Parameters}
+{\em alarm} & The system alarm to be modified \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if success, -\/1 if an error 
+\end{DoxyReturn}
+
+
+Definition at line 111 of file alarms.\-c.
+
+\hypertarget{group___open_pilot_libraries_ga9daaea9cc9394928db79c5d475b5e621}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!Alarms\-Default\-All@{Alarms\-Default\-All}}
+\index{Alarms\-Default\-All@{Alarms\-Default\-All}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{Alarms\-Default\-All}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Alarms\-Default\-All (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_ga9daaea9cc9394928db79c5d475b5e621}
+Default all alarms 
+
+Definition at line 119 of file alarms.\-c.
+
+\hypertarget{group___open_pilot_libraries_gad166792501b216a64df3e1ec0017db04}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!Alarms\-Get@{Alarms\-Get}}
+\index{Alarms\-Get@{Alarms\-Get}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{Alarms\-Get}]{\setlength{\rightskip}{0pt plus 5cm}System\-Alarms\-Alarm\-Options Alarms\-Get (
+\begin{DoxyParamCaption}
+\item[{System\-Alarms\-Alarm\-Elem}]{alarm}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_gad166792501b216a64df3e1ec0017db04}
+Get an alarm 
+\begin{DoxyParams}{Parameters}
+{\em alarm} & The system alarm to be read \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Alarm severity 
+\end{DoxyReturn}
+
+
+Definition at line 91 of file alarms.\-c.
+
+\hypertarget{group___open_pilot_libraries_ga0f241880ab969542907c4216fe85aa70}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!Alarms\-Has\-Critical@{Alarms\-Has\-Critical}}
+\index{Alarms\-Has\-Critical@{Alarms\-Has\-Critical}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{Alarms\-Has\-Critical}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} Alarms\-Has\-Critical (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_ga0f241880ab969542907c4216fe85aa70}
+Check if there are any alarms with critical or higher severity \begin{DoxyReturn}{Returns}
+0 if no alarms are found, 1 if at least one alarm is found 
+\end{DoxyReturn}
+
+
+Definition at line 172 of file alarms.\-c.
+
+\hypertarget{group___open_pilot_libraries_ga8793bd5e55481a40145e4f81bf052a99}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!Alarms\-Has\-Errors@{Alarms\-Has\-Errors}}
+\index{Alarms\-Has\-Errors@{Alarms\-Has\-Errors}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{Alarms\-Has\-Errors}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} Alarms\-Has\-Errors (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_ga8793bd5e55481a40145e4f81bf052a99}
+Check if there are any alarms with error or higher severity \begin{DoxyReturn}{Returns}
+0 if no alarms are found, 1 if at least one alarm is found 
+\end{DoxyReturn}
+
+
+Definition at line 163 of file alarms.\-c.
+
+\hypertarget{group___open_pilot_libraries_gaa6670051fe2fcab76f66b75a4331809f}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!Alarms\-Has\-Warnings@{Alarms\-Has\-Warnings}}
+\index{Alarms\-Has\-Warnings@{Alarms\-Has\-Warnings}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{Alarms\-Has\-Warnings}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} Alarms\-Has\-Warnings (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_gaa6670051fe2fcab76f66b75a4331809f}
+Check if there are any alarms with the given or higher severity \begin{DoxyReturn}{Returns}
+0 if no alarms are found, 1 if at least one alarm is found 
+\end{DoxyReturn}
+
+
+Definition at line 154 of file alarms.\-c.
+
+\hypertarget{group___open_pilot_libraries_gaa2707dbd32985c54ef5776147c4e0fc2}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!Alarms\-Initialize@{Alarms\-Initialize}}
+\index{Alarms\-Initialize@{Alarms\-Initialize}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{Alarms\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} Alarms\-Initialize (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_gaa2707dbd32985c54ef5776147c4e0fc2}
+Initialize the alarms library 
+
+Definition at line 46 of file alarms.\-c.
+
+\hypertarget{group___open_pilot_libraries_gadd1139478e7c6bc1b6afaaa0d1d114dd}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!Alarms\-Set@{Alarms\-Set}}
+\index{Alarms\-Set@{Alarms\-Set}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{Alarms\-Set}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} Alarms\-Set (
+\begin{DoxyParamCaption}
+\item[{System\-Alarms\-Alarm\-Elem}]{alarm, }
+\item[{System\-Alarms\-Alarm\-Options}]{severity}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_gadd1139478e7c6bc1b6afaaa0d1d114dd}
+Set an alarm 
+\begin{DoxyParams}{Parameters}
+{\em alarm} & The system alarm to be modified \\
+\hline
+{\em severity} & The alarm severity \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if success, -\/1 if an error 
+\end{DoxyReturn}
+
+
+Definition at line 59 of file alarms.\-c.
+
+\hypertarget{group___open_pilot_libraries_gabcb80832a82e492c119a231984eba10a}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!configuration\-\_\-check@{configuration\-\_\-check}}
+\index{configuration\-\_\-check@{configuration\-\_\-check}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{configuration\-\_\-check}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} configuration\-\_\-check (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_gabcb80832a82e492c119a231984eba10a}
+Run a preflight check over the hardware configuration and currently active modules 
+
+Definition at line 53 of file sanitycheck.\-c.
+
+\hypertarget{group___open_pilot_libraries_ga092c2aa7f99dfb3f394bf3b086f6ef45}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!Task\-Monitor\-Add@{Task\-Monitor\-Add}}
+\index{Task\-Monitor\-Add@{Task\-Monitor\-Add}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{Task\-Monitor\-Add}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} Task\-Monitor\-Add (
+\begin{DoxyParamCaption}
+\item[{Task\-Info\-Running\-Elem}]{task, }
+\item[{{\bf x\-Task\-Handle}}]{handle}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_ga092c2aa7f99dfb3f394bf3b086f6ef45}
+Register a task handle with the library 
+
+Definition at line 59 of file taskmonitor.\-c.
+
+\hypertarget{group___open_pilot_libraries_ga1d9cdd0b4255485c84d4a695a4a9ae0f}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!Task\-Monitor\-Initialize@{Task\-Monitor\-Initialize}}
+\index{Task\-Monitor\-Initialize@{Task\-Monitor\-Initialize}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{Task\-Monitor\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} Task\-Monitor\-Initialize (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_ga1d9cdd0b4255485c84d4a695a4a9ae0f}
+Initialize library 
+
+Definition at line 45 of file taskmonitor.\-c.
+
+\hypertarget{group___open_pilot_libraries_ga2212575f7dbf4b2452fb7baa81b48115}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!Task\-Monitor\-Query\-Running@{Task\-Monitor\-Query\-Running}}
+\index{Task\-Monitor\-Query\-Running@{Task\-Monitor\-Query\-Running}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{Task\-Monitor\-Query\-Running}]{\setlength{\rightskip}{0pt plus 5cm}{\bf bool} Task\-Monitor\-Query\-Running (
+\begin{DoxyParamCaption}
+\item[{Task\-Info\-Running\-Elem}]{task}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_ga2212575f7dbf4b2452fb7baa81b48115}
+Query if a task is running 
+
+Definition at line 95 of file taskmonitor.\-c.
+
+\hypertarget{group___open_pilot_libraries_ga6c09782e470b26f4506a57ada8037664}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!Task\-Monitor\-Remove@{Task\-Monitor\-Remove}}
+\index{Task\-Monitor\-Remove@{Task\-Monitor\-Remove}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{Task\-Monitor\-Remove}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} Task\-Monitor\-Remove (
+\begin{DoxyParamCaption}
+\item[{Task\-Info\-Running\-Elem}]{task}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_ga6c09782e470b26f4506a57ada8037664}
+Remove a task handle from the library 
+
+Definition at line 77 of file taskmonitor.\-c.
+
+\hypertarget{group___open_pilot_libraries_ga35c7698b89cc04a2fce87ed36b155fc0}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!Task\-Monitor\-Update\-All@{Task\-Monitor\-Update\-All}}
+\index{Task\-Monitor\-Update\-All@{Task\-Monitor\-Update\-All}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{Task\-Monitor\-Update\-All}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Task\-Monitor\-Update\-All (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_ga35c7698b89cc04a2fce87ed36b155fc0}
+Update the status of all tasks 
+
+Definition at line 105 of file taskmonitor.\-c.
+
+\hypertarget{group___open_pilot_libraries_ga4134f84aca917fe6e3eca1eaacf0664e}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-Talk\-Get\-Last\-Timestamp@{U\-A\-V\-Talk\-Get\-Last\-Timestamp}}
+\index{U\-A\-V\-Talk\-Get\-Last\-Timestamp@{U\-A\-V\-Talk\-Get\-Last\-Timestamp}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{U\-A\-V\-Talk\-Get\-Last\-Timestamp}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-A\-V\-Talk\-Get\-Last\-Timestamp (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-A\-V\-Talk\-Connection}}]{connection\-Handle, }
+\item[{{\bf uint16\-\_\-t} $\ast$}]{timestamp}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_ga4134f84aca917fe6e3eca1eaacf0664e}
+Accessor method to get the timestamp from the last U\-A\-V\-Talk message 
+
+Definition at line 153 of file uavtalk.\-c.
+
+\hypertarget{group___open_pilot_libraries_ga2f8c8d67e642f7df90500f38273baa61}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-Talk\-Get\-Output\-Stream@{U\-A\-V\-Talk\-Get\-Output\-Stream}}
+\index{U\-A\-V\-Talk\-Get\-Output\-Stream@{U\-A\-V\-Talk\-Get\-Output\-Stream}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{U\-A\-V\-Talk\-Get\-Output\-Stream}]{\setlength{\rightskip}{0pt plus 5cm}{\bf U\-A\-V\-Talk\-Output\-Stream} U\-A\-V\-Talk\-Get\-Output\-Stream (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-A\-V\-Talk\-Connection}}]{connection\-Handle}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_ga2f8c8d67e642f7df90500f38273baa61}
+Get current output stream 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em connection} & U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+U\-A\-V\-Tarlk\-Output\-Stream the output stream used 
+\end{DoxyReturn}
+
+
+Definition at line 104 of file uavtalk.\-c.
+
+\hypertarget{group___open_pilot_libraries_gaeccb32b1562a98d5586bb3d4d25715ee}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-Talk\-Get\-Stats@{U\-A\-V\-Talk\-Get\-Stats}}
+\index{U\-A\-V\-Talk\-Get\-Stats@{U\-A\-V\-Talk\-Get\-Stats}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{U\-A\-V\-Talk\-Get\-Stats}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-A\-V\-Talk\-Get\-Stats (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-A\-V\-Talk\-Connection}}]{connection\-Handle, }
+\item[{{\bf U\-A\-V\-Talk\-Stats} $\ast$}]{stats\-Out}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_gaeccb32b1562a98d5586bb3d4d25715ee}
+Get communication statistics counters 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em connection} & U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\mbox{\tt out}  & {\em stats\-Out} & Statistics counters \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 116 of file uavtalk.\-c.
+
+\hypertarget{group___open_pilot_libraries_ga91e20b57ed132bab36c9ca723d9bdac4}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-Talk\-Initialize@{U\-A\-V\-Talk\-Initialize}}
+\index{U\-A\-V\-Talk\-Initialize@{U\-A\-V\-Talk\-Initialize}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{U\-A\-V\-Talk\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf U\-A\-V\-Talk\-Connection} U\-A\-V\-Talk\-Initialize (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-A\-V\-Talk\-Output\-Stream}}]{output\-Stream}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_ga91e20b57ed132bab36c9ca723d9bdac4}
+Initialize the U\-A\-V\-Talk library 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em connection} & U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\mbox{\tt in}  & {\em output\-Stream} & Function pointer that is called to send a data buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 Success 
+
+-\/1 Failure 
+\end{DoxyReturn}
+
+
+Definition at line 51 of file uavtalk.\-c.
+
+\hypertarget{group___open_pilot_libraries_ga1a738a506f26790d1b9c9fac5b6e1d92}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-Talk\-Process\-Input\-Stream@{U\-A\-V\-Talk\-Process\-Input\-Stream}}
+\index{U\-A\-V\-Talk\-Process\-Input\-Stream@{U\-A\-V\-Talk\-Process\-Input\-Stream}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{U\-A\-V\-Talk\-Process\-Input\-Stream}]{\setlength{\rightskip}{0pt plus 5cm}{\bf U\-A\-V\-Talk\-Rx\-State} U\-A\-V\-Talk\-Process\-Input\-Stream (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-A\-V\-Talk\-Connection}}]{connection\-Handle, }
+\item[{{\bf uint8\-\_\-t}}]{rxbyte}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_ga1a738a506f26790d1b9c9fac5b6e1d92}
+Process an byte from the telemetry stream. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em connection} & U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\mbox{\tt in}  & {\em rxbyte} & Received byte \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+U\-A\-V\-Talk\-Rx\-State 
+\end{DoxyReturn}
+
+
+Definition at line 543 of file uavtalk.\-c.
+
+\hypertarget{group___open_pilot_libraries_ga174ffb688889f75507fc022eaf33d52e}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-Talk\-Process\-Input\-Stream\-Quiet@{U\-A\-V\-Talk\-Process\-Input\-Stream\-Quiet}}
+\index{U\-A\-V\-Talk\-Process\-Input\-Stream\-Quiet@{U\-A\-V\-Talk\-Process\-Input\-Stream\-Quiet}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{U\-A\-V\-Talk\-Process\-Input\-Stream\-Quiet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf U\-A\-V\-Talk\-Rx\-State} U\-A\-V\-Talk\-Process\-Input\-Stream\-Quiet (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-A\-V\-Talk\-Connection}}]{connection\-Handle, }
+\item[{{\bf uint8\-\_\-t}}]{rxbyte}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_ga174ffb688889f75507fc022eaf33d52e}
+Process an byte from the telemetry stream. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em connection} & U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\mbox{\tt in}  & {\em rxbyte} & Received byte \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+U\-A\-V\-Talk\-Rx\-State 
+\end{DoxyReturn}
+
+
+Definition at line 295 of file uavtalk.\-c.
+
+\hypertarget{group___open_pilot_libraries_ga11bfbe431f2e79f43a4321b942dc94c8}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-Talk\-Relay\-Input\-Stream@{U\-A\-V\-Talk\-Relay\-Input\-Stream}}
+\index{U\-A\-V\-Talk\-Relay\-Input\-Stream@{U\-A\-V\-Talk\-Relay\-Input\-Stream}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{U\-A\-V\-Talk\-Relay\-Input\-Stream}]{\setlength{\rightskip}{0pt plus 5cm}{\bf U\-A\-V\-Talk\-Rx\-State} U\-A\-V\-Talk\-Relay\-Input\-Stream (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-A\-V\-Talk\-Connection}}]{connection\-Handle, }
+\item[{{\bf uint8\-\_\-t}}]{rxbyte}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_ga11bfbe431f2e79f43a4321b942dc94c8}
+Process an byte from the telemetry stream, sending the packet out the output stream when it's complete This allows the interlieving of packets on an output U\-A\-V\-Talk stream, and is used by the O\-P\-Link device to relay packets from an input com port to a different output com port without sending one packet in the middle of another packet. Because this uses both the receive buffer and transmit buffer, it should only be used for relaying a packet, not for the standard sending and receiving of packets. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em connection} & U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\mbox{\tt in}  & {\em rxbyte} & Received byte \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+U\-A\-V\-Talk\-Rx\-State 
+\end{DoxyReturn}
+
+
+Definition at line 571 of file uavtalk.\-c.
+
+\hypertarget{group___open_pilot_libraries_gafea32b2e3331f9e81f48979b0e6c0a0b}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-Talk\-Reset\-Stats@{U\-A\-V\-Talk\-Reset\-Stats}}
+\index{U\-A\-V\-Talk\-Reset\-Stats@{U\-A\-V\-Talk\-Reset\-Stats}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{U\-A\-V\-Talk\-Reset\-Stats}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-A\-V\-Talk\-Reset\-Stats (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-A\-V\-Talk\-Connection}}]{connection\-Handle}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_gafea32b2e3331f9e81f48979b0e6c0a0b}
+Reset the statistics counters. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em connection} & U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 135 of file uavtalk.\-c.
+
+\hypertarget{group___open_pilot_libraries_gab995cc19b4024b1a6303c963e139f522}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-Talk\-Send\-Ack@{U\-A\-V\-Talk\-Send\-Ack}}
+\index{U\-A\-V\-Talk\-Send\-Ack@{U\-A\-V\-Talk\-Send\-Ack}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{U\-A\-V\-Talk\-Send\-Ack}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} U\-A\-V\-Talk\-Send\-Ack (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-A\-V\-Talk\-Connection}}]{connection\-Handle, }
+\item[{{\bf U\-A\-V\-Obj\-Handle}}]{obj, }
+\item[{{\bf uint16\-\_\-t}}]{inst\-Id}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_gab995cc19b4024b1a6303c963e139f522}
+Send a A\-C\-K through the telemetry link. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em connection\-Handle} & U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\mbox{\tt in}  & {\em obj\-Id} & Object I\-D to send a N\-A\-C\-K for \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 Success 
+
+-\/1 Failure 
+\end{DoxyReturn}
+
+
+Definition at line 635 of file uavtalk.\-c.
+
+\hypertarget{group___open_pilot_libraries_ga75dcc116d1af9cb73a58c233a2d95bed}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-Talk\-Send\-Buf@{U\-A\-V\-Talk\-Send\-Buf}}
+\index{U\-A\-V\-Talk\-Send\-Buf@{U\-A\-V\-Talk\-Send\-Buf}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{U\-A\-V\-Talk\-Send\-Buf}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} U\-A\-V\-Talk\-Send\-Buf (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-A\-V\-Talk\-Connection}}]{connection\-Handle, }
+\item[{{\bf uint8\-\_\-t} $\ast$}]{buf, }
+\item[{{\bf uint16\-\_\-t}}]{len}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_ga75dcc116d1af9cb73a58c233a2d95bed}
+Send a buffer containing a U\-A\-V\-Talk message through the telemetry link. This function locks the connection prior to sending. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em connection} & U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\mbox{\tt in}  & {\em buf} & The data buffer containing the U\-A\-V\-Talk message \\
+\hline
+\mbox{\tt in}  & {\em len} & The number of bytes to send from the data buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 Success 
+
+-\/1 Failure 
+\end{DoxyReturn}
+
+
+Definition at line 683 of file uavtalk.\-c.
+
+\hypertarget{group___open_pilot_libraries_ga2ef859d444a819ed3e3bb4ea36761c69}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-Talk\-Send\-Nack@{U\-A\-V\-Talk\-Send\-Nack}}
+\index{U\-A\-V\-Talk\-Send\-Nack@{U\-A\-V\-Talk\-Send\-Nack}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{U\-A\-V\-Talk\-Send\-Nack}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} U\-A\-V\-Talk\-Send\-Nack (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-A\-V\-Talk\-Connection}}]{connection\-Handle, }
+\item[{{\bf uint32\-\_\-t}}]{obj\-Id}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_ga2ef859d444a819ed3e3bb4ea36761c69}
+Send a N\-A\-C\-K through the telemetry link. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em connection\-Handle} & U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\mbox{\tt in}  & {\em obj\-Id} & Object I\-D to send a N\-A\-C\-K for \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 Success 
+
+-\/1 Failure 
+\end{DoxyReturn}
+
+
+Definition at line 658 of file uavtalk.\-c.
+
+\hypertarget{group___open_pilot_libraries_gab4fe52d9c33088b7ebbac9ad4e11b9de}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-Talk\-Send\-Object@{U\-A\-V\-Talk\-Send\-Object}}
+\index{U\-A\-V\-Talk\-Send\-Object@{U\-A\-V\-Talk\-Send\-Object}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{U\-A\-V\-Talk\-Send\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} U\-A\-V\-Talk\-Send\-Object (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-A\-V\-Talk\-Connection}}]{connection\-Handle, }
+\item[{{\bf U\-A\-V\-Obj\-Handle}}]{obj, }
+\item[{{\bf uint16\-\_\-t}}]{inst\-Id, }
+\item[{{\bf uint8\-\_\-t}}]{acked, }
+\item[{{\bf int32\-\_\-t}}]{timeout\-Ms}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_gab4fe52d9c33088b7ebbac9ad4e11b9de}
+Send the specified object through the telemetry link. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em connection} & U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\mbox{\tt in}  & {\em obj} & Object to send \\
+\hline
+\mbox{\tt in}  & {\em inst\-Id} & The instance I\-D or U\-A\-V\-O\-B\-J\-\_\-\-A\-L\-L\-\_\-\-I\-N\-S\-T\-A\-N\-C\-E\-S for all instances. \\
+\hline
+\mbox{\tt in}  & {\em acked} & Selects if an ack is required (1\-:ack required, 0\-: ack not required) \\
+\hline
+\mbox{\tt in}  & {\em timeout\-Ms} & Time to wait for the ack, when zero it will return immediately \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 Success 
+
+-\/1 Failure 
+\end{DoxyReturn}
+
+
+Definition at line 190 of file uavtalk.\-c.
+
+\hypertarget{group___open_pilot_libraries_gaa69251603e3426610051dc19b3a68494}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-Talk\-Send\-Object\-Request@{U\-A\-V\-Talk\-Send\-Object\-Request}}
+\index{U\-A\-V\-Talk\-Send\-Object\-Request@{U\-A\-V\-Talk\-Send\-Object\-Request}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{U\-A\-V\-Talk\-Send\-Object\-Request}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} U\-A\-V\-Talk\-Send\-Object\-Request (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-A\-V\-Talk\-Connection}}]{connection\-Handle, }
+\item[{{\bf U\-A\-V\-Obj\-Handle}}]{obj, }
+\item[{{\bf uint16\-\_\-t}}]{inst\-Id, }
+\item[{{\bf int32\-\_\-t}}]{timeout}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_gaa69251603e3426610051dc19b3a68494}
+Request an update for the specified object, on success the object data would have been updated by the G\-C\-S. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em connection} & U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\mbox{\tt in}  & {\em obj} & Object to update \\
+\hline
+\mbox{\tt in}  & {\em inst\-Id} & The instance I\-D or U\-A\-V\-O\-B\-J\-\_\-\-A\-L\-L\-\_\-\-I\-N\-S\-T\-A\-N\-C\-E\-S for all instances. \\
+\hline
+\mbox{\tt in}  & {\em timeout} & Time to wait for the response, when zero it will return immediately \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 Success 
+
+-\/1 Failure 
+\end{DoxyReturn}
+
+
+Definition at line 173 of file uavtalk.\-c.
+
+\hypertarget{group___open_pilot_libraries_gad5aea81015d8dd5ed7d474ac87fe58fc}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-Talk\-Send\-Object\-Timestamped@{U\-A\-V\-Talk\-Send\-Object\-Timestamped}}
+\index{U\-A\-V\-Talk\-Send\-Object\-Timestamped@{U\-A\-V\-Talk\-Send\-Object\-Timestamped}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{U\-A\-V\-Talk\-Send\-Object\-Timestamped}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} U\-A\-V\-Talk\-Send\-Object\-Timestamped (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-A\-V\-Talk\-Connection}}]{connection\-Handle, }
+\item[{{\bf U\-A\-V\-Obj\-Handle}}]{obj, }
+\item[{{\bf uint16\-\_\-t}}]{inst\-Id, }
+\item[{{\bf uint8\-\_\-t}}]{acked, }
+\item[{{\bf int32\-\_\-t}}]{timeout\-Ms}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_gad5aea81015d8dd5ed7d474ac87fe58fc}
+Send the specified object through the telemetry link with a timestamp. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em connection} & U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\mbox{\tt in}  & {\em obj} & Object to send \\
+\hline
+\mbox{\tt in}  & {\em inst\-Id} & The instance I\-D or U\-A\-V\-O\-B\-J\-\_\-\-A\-L\-L\-\_\-\-I\-N\-S\-T\-A\-N\-C\-E\-S for all instances. \\
+\hline
+\mbox{\tt in}  & {\em acked} & Selects if an ack is required (1\-:ack required, 0\-: ack not required) \\
+\hline
+\mbox{\tt in}  & {\em timeout\-Ms} & Time to wait for the ack, when zero it will return immediately \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 Success 
+
+-\/1 Failure 
+\end{DoxyReturn}
+
+
+Definition at line 215 of file uavtalk.\-c.
+
+\hypertarget{group___open_pilot_libraries_ga33f8221bbddbf94c7379c3230eac1501}{\index{Open\-Pilot System Libraries@{Open\-Pilot System Libraries}!U\-A\-V\-Talk\-Set\-Output\-Stream@{U\-A\-V\-Talk\-Set\-Output\-Stream}}
+\index{U\-A\-V\-Talk\-Set\-Output\-Stream@{U\-A\-V\-Talk\-Set\-Output\-Stream}!OpenPilot System Libraries@{Open\-Pilot System Libraries}}
+\subsubsection[{U\-A\-V\-Talk\-Set\-Output\-Stream}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} U\-A\-V\-Talk\-Set\-Output\-Stream (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-A\-V\-Talk\-Connection}}]{connection\-Handle, }
+\item[{{\bf U\-A\-V\-Talk\-Output\-Stream}}]{output\-Stream}
+\end{DoxyParamCaption}
+)}}\label{group___open_pilot_libraries_ga33f8221bbddbf94c7379c3230eac1501}
+Set the communication output stream 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em connection} & U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\mbox{\tt in}  & {\em output\-Stream} & Function pointer that is called to send a data buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 Success 
+
+-\/1 Failure 
+\end{DoxyReturn}
+
+
+Definition at line 80 of file uavtalk.\-c.
+

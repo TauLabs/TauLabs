@@ -1,0 +1,466 @@
+\hypertarget{protocol_8h}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/mavlink/v1.0/protocol.h File Reference}
+\label{protocol_8h}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/mavlink/v1.\-0/protocol.\-h@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/mavlink/v1.\-0/protocol.\-h}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R \hyperlink{mavlink__types_8h_aec6f7af3879252822d8fb108e97aafc2}{mavlink\-\_\-status\-\_\-t} $\ast$ \hyperlink{protocol_8h_ac006d308067f48514ca5c0cf0b046c28}{mavlink\-\_\-get\-\_\-channel\-\_\-status} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{mavlink__helpers_8h_ad84475790429ff89e8fc22ca0f2e2ec6}{chan})
+\item 
+M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{protocol_8h_a41b92a3cd2dd431c14692159c57b1355}{mavlink\-\_\-finalize\-\_\-message\-\_\-chan} (\hyperlink{mavlink__types_8h_a63b963764c09dc72f4910c1521e325b9}{mavlink\-\_\-message\-\_\-t} $\ast$\hyperlink{group___o_s_d_module_ga31fe24ba18a63ea1e8cdb622e7ece509}{msg}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{mavlink__helpers_8h_a01c34a374ac225c8b00a81e5877128e6}{system\-\_\-id}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{mavlink__helpers_8h_a5287cd89840e4652c64e08aad69c848b}{component\-\_\-id}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{mavlink__helpers_8h_ad84475790429ff89e8fc22ca0f2e2ec6}{chan}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{mavlink__helpers_8h_a4254bfa282bd215965d99b8d6b527a04}{length}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} crc\-\_\-extra)
+\begin{DoxyCompactList}\small\item\em Finalize a M\-A\-V\-Link message with channel assignment. \end{DoxyCompactList}\item 
+M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{protocol_8h_a74716d9792bfddbec9a0346ec9101343}{mavlink\-\_\-finalize\-\_\-message} (\hyperlink{mavlink__types_8h_a63b963764c09dc72f4910c1521e325b9}{mavlink\-\_\-message\-\_\-t} $\ast$\hyperlink{group___o_s_d_module_ga31fe24ba18a63ea1e8cdb622e7ece509}{msg}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{mavlink__helpers_8h_a01c34a374ac225c8b00a81e5877128e6}{system\-\_\-id}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{mavlink__helpers_8h_a5287cd89840e4652c64e08aad69c848b}{component\-\_\-id}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{mavlink__helpers_8h_a4254bfa282bd215965d99b8d6b527a04}{length}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} crc\-\_\-extra)
+\begin{DoxyCompactList}\small\item\em Finalize a M\-A\-V\-Link message with M\-A\-V\-L\-I\-N\-K\-\_\-\-C\-O\-M\-M\-\_\-0 as default channel. \end{DoxyCompactList}\item 
+M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{protocol_8h_a878da383afb79d3c343eb97dd07c31a6}{\-\_\-mav\-\_\-finalize\-\_\-message\-\_\-chan\-\_\-send} (\hyperlink{mavlink__types_8h_aa0f38d2f21462ce9ff37bfb2fb43709c}{mavlink\-\_\-channel\-\_\-t} \hyperlink{mavlink__helpers_8h_ad84475790429ff89e8fc22ca0f2e2ec6}{chan}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{mavlink__helpers_8h_a6e23fc1de2400b25268d424710cf855e}{msgid}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} char $\ast$\hyperlink{mavlink__helpers_8h_a13772d1c7ebfc987095a3f16f06f2b6f}{packet}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{mavlink__helpers_8h_a4254bfa282bd215965d99b8d6b527a04}{length}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} crc\-\_\-extra)
+\begin{DoxyCompactList}\small\item\em Finalize a M\-A\-V\-Link message with channel assignment and send. \end{DoxyCompactList}\item 
+M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{protocol_8h_aa66131138fc02101dcc73b4b556ab422}{mavlink\-\_\-finalize\-\_\-message\-\_\-chan} (\hyperlink{mavlink__types_8h_a63b963764c09dc72f4910c1521e325b9}{mavlink\-\_\-message\-\_\-t} $\ast$\hyperlink{group___o_s_d_module_ga31fe24ba18a63ea1e8cdb622e7ece509}{msg}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{mavlink__helpers_8h_a01c34a374ac225c8b00a81e5877128e6}{system\-\_\-id}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{mavlink__helpers_8h_a5287cd89840e4652c64e08aad69c848b}{component\-\_\-id}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{mavlink__helpers_8h_ad84475790429ff89e8fc22ca0f2e2ec6}{chan}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{mavlink__helpers_8h_a4254bfa282bd215965d99b8d6b527a04}{length})
+\item 
+M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{protocol_8h_af3bea083c5ec83f5b6570b2bd4a817d0}{mavlink\-\_\-finalize\-\_\-message} (\hyperlink{mavlink__types_8h_a63b963764c09dc72f4910c1521e325b9}{mavlink\-\_\-message\-\_\-t} $\ast$\hyperlink{group___o_s_d_module_ga31fe24ba18a63ea1e8cdb622e7ece509}{msg}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{mavlink__helpers_8h_a01c34a374ac225c8b00a81e5877128e6}{system\-\_\-id}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{mavlink__helpers_8h_a5287cd89840e4652c64e08aad69c848b}{component\-\_\-id}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{mavlink__helpers_8h_a4254bfa282bd215965d99b8d6b527a04}{length})
+\item 
+M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{protocol_8h_a4cf2070546d162dc12b7e93ccac50ba1}{\-\_\-mav\-\_\-finalize\-\_\-message\-\_\-chan\-\_\-send} (\hyperlink{mavlink__types_8h_aa0f38d2f21462ce9ff37bfb2fb43709c}{mavlink\-\_\-channel\-\_\-t} \hyperlink{mavlink__helpers_8h_ad84475790429ff89e8fc22ca0f2e2ec6}{chan}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{mavlink__helpers_8h_a6e23fc1de2400b25268d424710cf855e}{msgid}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} char $\ast$\hyperlink{mavlink__helpers_8h_a13772d1c7ebfc987095a3f16f06f2b6f}{packet}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{mavlink__helpers_8h_a4254bfa282bd215965d99b8d6b527a04}{length})
+\item 
+M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{protocol_8h_afea0a9befa84822fd62c2899ea0d849e}{mavlink\-\_\-msg\-\_\-to\-\_\-send\-\_\-buffer} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$buffer, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{mavlink__types_8h_a63b963764c09dc72f4910c1521e325b9}{mavlink\-\_\-message\-\_\-t} $\ast$\hyperlink{group___o_s_d_module_ga31fe24ba18a63ea1e8cdb622e7ece509}{msg})
+\begin{DoxyCompactList}\small\item\em Pack a message to send it over a serial byte stream. \end{DoxyCompactList}\item 
+M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{protocol_8h_ae7cbde569213151151d20c3766edd244}{mavlink\-\_\-start\-\_\-checksum} (\hyperlink{mavlink__types_8h_a63b963764c09dc72f4910c1521e325b9}{mavlink\-\_\-message\-\_\-t} $\ast$\hyperlink{group___o_s_d_module_ga31fe24ba18a63ea1e8cdb622e7ece509}{msg})
+\item 
+M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{protocol_8h_a3293deb7b51f9a9f0b30bf56c8739593}{mavlink\-\_\-update\-\_\-checksum} (\hyperlink{mavlink__types_8h_a63b963764c09dc72f4910c1521e325b9}{mavlink\-\_\-message\-\_\-t} $\ast$\hyperlink{group___o_s_d_module_ga31fe24ba18a63ea1e8cdb622e7ece509}{msg}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} c)
+\item 
+M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{protocol_8h_ad91e8323cefc65965574c09e72365d7d}{mavlink\-\_\-parse\-\_\-char} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{mavlink__helpers_8h_ad84475790429ff89e8fc22ca0f2e2ec6}{chan}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} c, \hyperlink{mavlink__types_8h_a63b963764c09dc72f4910c1521e325b9}{mavlink\-\_\-message\-\_\-t} $\ast$r\-\_\-message, \hyperlink{mavlink__types_8h_aec6f7af3879252822d8fb108e97aafc2}{mavlink\-\_\-status\-\_\-t} $\ast$r\-\_\-mavlink\-\_\-status)
+\item 
+M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{protocol_8h_ad102a58f323758552a9c439c1ede4403}{put\-\_\-bitfield\-\_\-n\-\_\-by\-\_\-index} (\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} b, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} bits, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} packet\-\_\-index, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} bit\-\_\-index, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$r\-\_\-bit\-\_\-index, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$buffer)
+\begin{DoxyCompactList}\small\item\em Put a bitfield of length 1-\/32 bit into the buffer. \end{DoxyCompactList}\item 
+M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{protocol_8h_a6c76714adf9ce8fe61cc4f47ab6f749d}{\-\_\-mavlink\-\_\-send\-\_\-uart} (\hyperlink{mavlink__types_8h_aa0f38d2f21462ce9ff37bfb2fb43709c}{mavlink\-\_\-channel\-\_\-t} \hyperlink{mavlink__helpers_8h_ad84475790429ff89e8fc22ca0f2e2ec6}{chan}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} char $\ast$\hyperlink{mavlink__helpers_8h_af5c51bef7cca88bcb22f0517fdb06153}{buf}, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{mavlink__helpers_8h_aba59486c1504340293255a065b546e3a}{len})
+\item 
+M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{protocol_8h_af05ebfcc3969ea31f21bf1f96bcad432}{\-\_\-mavlink\-\_\-resend\-\_\-uart} (\hyperlink{mavlink__types_8h_aa0f38d2f21462ce9ff37bfb2fb43709c}{mavlink\-\_\-channel\-\_\-t} \hyperlink{mavlink__helpers_8h_ad84475790429ff89e8fc22ca0f2e2ec6}{chan}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{mavlink__types_8h_a63b963764c09dc72f4910c1521e325b9}{mavlink\-\_\-message\-\_\-t} $\ast$\hyperlink{group___o_s_d_module_ga31fe24ba18a63ea1e8cdb622e7ece509}{msg})
+\begin{DoxyCompactList}\small\item\em re-\/send a message over a uart channel this is more stack efficient than re-\/marshalling the message \end{DoxyCompactList}\item 
+\hyperlink{protocol_8h_a6072bc3fbddc9fd174d32109abe45122}{\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t}, \hyperlink{group___exported__types_gace9d960e74685e2cd84b36132dbbf8aa}{u16}) \-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y(\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t}
+\item 
+\hyperlink{group___exported__types_gafaa62991928fb9fb18ff0db62a040aba}{u32} \hyperlink{protocol_8h_aabb9216dacb3af01352315e557f69945}{\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y} (uint64\-\_\-t, u64) \-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y(\hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t}
+\item 
+\hyperlink{group___exported__types_gafaa62991928fb9fb18ff0db62a040aba}{u32} i16 \hyperlink{protocol_8h_afa78f8aeb2d963245e5b015a2fd59f19}{\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y} (\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t}, i32) \-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y(int64\-\_\-t
+\item 
+\hyperlink{group___exported__types_gafaa62991928fb9fb18ff0db62a040aba}{u32} i16 i64 \hyperlink{protocol_8h_a2b7d0a045350122aff1d41358595a353}{\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y} (float, f) \-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y(double
+\item 
+\hyperlink{protocol_8h_a7ca27db0d1a70e6e5897fa9a2f8767eb}{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t}, 2) \-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E(\hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t}
+\item 
+\hyperlink{protocol_8h_a436bb1db34ec742bc40304aae7e0777a}{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t}, 4) \-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E(\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t}
+\item 
+\hyperlink{protocol_8h_a92f1c4915b800d93015b578ca1e98e2e}{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E} (uint64\-\_\-t, 8) \-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E(int64\-\_\-t
+\item 
+\hyperlink{protocol_8h_a4fa36231920db2683d56c3bfd934d757}{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E} (float, 4) \-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E(double
+\item 
+\hyperlink{protocol_8h_aa35b11922d378456a436988a3acef59c}{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t}) \-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E(\hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t}) \-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E(\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t}) \-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E(\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t}) \-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E(uint64\-\_\-t) \-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E(int64\-\_\-t) \-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E(float) \-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E(double) static inline \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-char\-\_\-array(\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{mavlink__types_8h_a63b963764c09dc72f4910c1521e325b9}{mavlink\-\_\-message\-\_\-t} $\ast$\hyperlink{group___o_s_d_module_ga31fe24ba18a63ea1e8cdb622e7ece509}{msg}
+\item 
+\hyperlink{protocol_8h_aa3a89acf1c0f1f8987621446b6416e5a}{\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t}, \hyperlink{group___exported__types_gace9d960e74685e2cd84b36132dbbf8aa}{u16}) \-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y(\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t}
+\item 
+\hyperlink{group___exported__types_gafaa62991928fb9fb18ff0db62a040aba}{u32} \hyperlink{protocol_8h_a73da2a536445e26b4c822ebce9903c73}{\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y} (uint64\-\_\-t, u64) \-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y(\hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t}
+\item 
+\hyperlink{group___exported__types_gafaa62991928fb9fb18ff0db62a040aba}{u32} i16 \hyperlink{protocol_8h_a7e8b98e52e41b623f4221a6857b5c5ba}{\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y} (\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t}, i32) \-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y(int64\-\_\-t
+\item 
+\hyperlink{group___exported__types_gafaa62991928fb9fb18ff0db62a040aba}{u32} i16 i64 \hyperlink{protocol_8h_a246108f1cb5ec7e4b9850a84ac1bbaef}{\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y} (float, f) \-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y(double
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \hyperlink{protocol_8h_a4e9aec275e566b978a3ccb4e043d8c61}{value}
+\item 
+char \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{protocol_8h_a4f44695a45c6dad1cfb86048f3c4cf47}{array\-\_\-length}
+\item 
+char \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{protocol_8h_a58deafb6084333a5baf50cf78d1d297a}{wire\-\_\-offset}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{protocol_8h_a878da383afb79d3c343eb97dd07c31a6}{\index{protocol.\-h@{protocol.\-h}!\-\_\-mav\-\_\-finalize\-\_\-message\-\_\-chan\-\_\-send@{\-\_\-mav\-\_\-finalize\-\_\-message\-\_\-chan\-\_\-send}}
+\index{\-\_\-mav\-\_\-finalize\-\_\-message\-\_\-chan\-\_\-send@{\-\_\-mav\-\_\-finalize\-\_\-message\-\_\-chan\-\_\-send}!protocol.h@{protocol.\-h}}
+\subsubsection[{\-\_\-mav\-\_\-finalize\-\_\-message\-\_\-chan\-\_\-send}]{\setlength{\rightskip}{0pt plus 5cm}M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R {\bf void} \-\_\-mav\-\_\-finalize\-\_\-message\-\_\-chan\-\_\-send (
+\begin{DoxyParamCaption}
+\item[{{\bf mavlink\-\_\-channel\-\_\-t}}]{chan, }
+\item[{{\bf uint8\-\_\-t}}]{msgid, }
+\item[{{\bf const} char $\ast$}]{packet, }
+\item[{{\bf uint8\-\_\-t}}]{length, }
+\item[{{\bf uint8\-\_\-t}}]{crc\-\_\-extra}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_a878da383afb79d3c343eb97dd07c31a6}
+
+
+Finalize a M\-A\-V\-Link message with channel assignment and send. 
+
+\hypertarget{protocol_8h_a4cf2070546d162dc12b7e93ccac50ba1}{\index{protocol.\-h@{protocol.\-h}!\-\_\-mav\-\_\-finalize\-\_\-message\-\_\-chan\-\_\-send@{\-\_\-mav\-\_\-finalize\-\_\-message\-\_\-chan\-\_\-send}}
+\index{\-\_\-mav\-\_\-finalize\-\_\-message\-\_\-chan\-\_\-send@{\-\_\-mav\-\_\-finalize\-\_\-message\-\_\-chan\-\_\-send}!protocol.h@{protocol.\-h}}
+\subsubsection[{\-\_\-mav\-\_\-finalize\-\_\-message\-\_\-chan\-\_\-send}]{\setlength{\rightskip}{0pt plus 5cm}M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R {\bf void} \-\_\-mav\-\_\-finalize\-\_\-message\-\_\-chan\-\_\-send (
+\begin{DoxyParamCaption}
+\item[{{\bf mavlink\-\_\-channel\-\_\-t}}]{chan, }
+\item[{{\bf uint8\-\_\-t}}]{msgid, }
+\item[{{\bf const} char $\ast$}]{packet, }
+\item[{{\bf uint8\-\_\-t}}]{length}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_a4cf2070546d162dc12b7e93ccac50ba1}
+\hypertarget{protocol_8h_a7ca27db0d1a70e6e5897fa9a2f8767eb}{\index{protocol.\-h@{protocol.\-h}!\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E@{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}}
+\index{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E@{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}!protocol.h@{protocol.\-h}}
+\subsubsection[{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16\-\_\-t}}]{, }
+\item[{2}]{}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_a7ca27db0d1a70e6e5897fa9a2f8767eb}
+\hypertarget{protocol_8h_a436bb1db34ec742bc40304aae7e0777a}{\index{protocol.\-h@{protocol.\-h}!\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E@{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}}
+\index{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E@{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}!protocol.h@{protocol.\-h}}
+\subsubsection[{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{, }
+\item[{4}]{}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_a436bb1db34ec742bc40304aae7e0777a}
+\hypertarget{protocol_8h_a92f1c4915b800d93015b578ca1e98e2e}{\index{protocol.\-h@{protocol.\-h}!\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E@{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}}
+\index{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E@{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}!protocol.h@{protocol.\-h}}
+\subsubsection[{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E (
+\begin{DoxyParamCaption}
+\item[{uint64\-\_\-t}]{, }
+\item[{8}]{}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_a92f1c4915b800d93015b578ca1e98e2e}
+\hypertarget{protocol_8h_a4fa36231920db2683d56c3bfd934d757}{\index{protocol.\-h@{protocol.\-h}!\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E@{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}}
+\index{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E@{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}!protocol.h@{protocol.\-h}}
+\subsubsection[{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E (
+\begin{DoxyParamCaption}
+\item[{float}]{, }
+\item[{4}]{}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_a4fa36231920db2683d56c3bfd934d757}
+\hypertarget{protocol_8h_aa35b11922d378456a436988a3acef59c}{\index{protocol.\-h@{protocol.\-h}!\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E@{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}}
+\index{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E@{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}!protocol.h@{protocol.\-h}}
+\subsubsection[{\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-M\-A\-V\-\_\-\-M\-S\-G\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16\-\_\-t}}]{}
+\end{DoxyParamCaption}
+) const}}\label{protocol_8h_aa35b11922d378456a436988a3acef59c}
+\hypertarget{protocol_8h_a6072bc3fbddc9fd174d32109abe45122}{\index{protocol.\-h@{protocol.\-h}!\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y@{\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y}}
+\index{\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y@{\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y}!protocol.h@{protocol.\-h}}
+\subsubsection[{\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16\-\_\-t}}]{, }
+\item[{{\bf u16}}]{}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_a6072bc3fbddc9fd174d32109abe45122}
+\hypertarget{protocol_8h_aabb9216dacb3af01352315e557f69945}{\index{protocol.\-h@{protocol.\-h}!\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y@{\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y}}
+\index{\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y@{\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y}!protocol.h@{protocol.\-h}}
+\subsubsection[{\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y}]{\setlength{\rightskip}{0pt plus 5cm}{\bf u32} \-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y (
+\begin{DoxyParamCaption}
+\item[{uint64\-\_\-t}]{, }
+\item[{u64}]{}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_aabb9216dacb3af01352315e557f69945}
+\hypertarget{protocol_8h_afa78f8aeb2d963245e5b015a2fd59f19}{\index{protocol.\-h@{protocol.\-h}!\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y@{\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y}}
+\index{\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y@{\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y}!protocol.h@{protocol.\-h}}
+\subsubsection[{\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y}]{\setlength{\rightskip}{0pt plus 5cm}{\bf u32} i16 \-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y (
+\begin{DoxyParamCaption}
+\item[{{\bf int32\-\_\-t}}]{, }
+\item[{i32}]{}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_afa78f8aeb2d963245e5b015a2fd59f19}
+\hypertarget{protocol_8h_a2b7d0a045350122aff1d41358595a353}{\index{protocol.\-h@{protocol.\-h}!\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y@{\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y}}
+\index{\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y@{\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y}!protocol.h@{protocol.\-h}}
+\subsubsection[{\-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y}]{\setlength{\rightskip}{0pt plus 5cm}{\bf u32} i16 i64 \-\_\-\-M\-A\-V\-\_\-\-P\-U\-T\-\_\-\-A\-R\-R\-A\-Y (
+\begin{DoxyParamCaption}
+\item[{float}]{, }
+\item[{f}]{}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_a2b7d0a045350122aff1d41358595a353}
+\hypertarget{protocol_8h_aa3a89acf1c0f1f8987621446b6416e5a}{\index{protocol.\-h@{protocol.\-h}!\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y@{\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y}}
+\index{\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y@{\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y}!protocol.h@{protocol.\-h}}
+\subsubsection[{\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16\-\_\-t}}]{, }
+\item[{{\bf u16}}]{}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_aa3a89acf1c0f1f8987621446b6416e5a}
+\hypertarget{protocol_8h_a73da2a536445e26b4c822ebce9903c73}{\index{protocol.\-h@{protocol.\-h}!\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y@{\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y}}
+\index{\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y@{\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y}!protocol.h@{protocol.\-h}}
+\subsubsection[{\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y}]{\setlength{\rightskip}{0pt plus 5cm}{\bf u32} \-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y (
+\begin{DoxyParamCaption}
+\item[{uint64\-\_\-t}]{, }
+\item[{u64}]{}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_a73da2a536445e26b4c822ebce9903c73}
+\hypertarget{protocol_8h_a7e8b98e52e41b623f4221a6857b5c5ba}{\index{protocol.\-h@{protocol.\-h}!\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y@{\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y}}
+\index{\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y@{\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y}!protocol.h@{protocol.\-h}}
+\subsubsection[{\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y}]{\setlength{\rightskip}{0pt plus 5cm}{\bf u32} i16 \-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y (
+\begin{DoxyParamCaption}
+\item[{{\bf int32\-\_\-t}}]{, }
+\item[{i32}]{}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_a7e8b98e52e41b623f4221a6857b5c5ba}
+\hypertarget{protocol_8h_a246108f1cb5ec7e4b9850a84ac1bbaef}{\index{protocol.\-h@{protocol.\-h}!\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y@{\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y}}
+\index{\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y@{\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y}!protocol.h@{protocol.\-h}}
+\subsubsection[{\-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y}]{\setlength{\rightskip}{0pt plus 5cm}{\bf u32} i16 i64 \-\_\-\-M\-A\-V\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-A\-R\-R\-A\-Y (
+\begin{DoxyParamCaption}
+\item[{float}]{, }
+\item[{f}]{}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_a246108f1cb5ec7e4b9850a84ac1bbaef}
+\hypertarget{protocol_8h_af05ebfcc3969ea31f21bf1f96bcad432}{\index{protocol.\-h@{protocol.\-h}!\-\_\-mavlink\-\_\-resend\-\_\-uart@{\-\_\-mavlink\-\_\-resend\-\_\-uart}}
+\index{\-\_\-mavlink\-\_\-resend\-\_\-uart@{\-\_\-mavlink\-\_\-resend\-\_\-uart}!protocol.h@{protocol.\-h}}
+\subsubsection[{\-\_\-mavlink\-\_\-resend\-\_\-uart}]{\setlength{\rightskip}{0pt plus 5cm}M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R {\bf void} \-\_\-mavlink\-\_\-resend\-\_\-uart (
+\begin{DoxyParamCaption}
+\item[{{\bf mavlink\-\_\-channel\-\_\-t}}]{chan, }
+\item[{{\bf const} {\bf mavlink\-\_\-message\-\_\-t} $\ast$}]{msg}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_af05ebfcc3969ea31f21bf1f96bcad432}
+
+
+re-\/send a message over a uart channel this is more stack efficient than re-\/marshalling the message 
+
+
+
+Definition at line 139 of file mavlink\-\_\-helpers.\-h.
+
+\hypertarget{protocol_8h_a6c76714adf9ce8fe61cc4f47ab6f749d}{\index{protocol.\-h@{protocol.\-h}!\-\_\-mavlink\-\_\-send\-\_\-uart@{\-\_\-mavlink\-\_\-send\-\_\-uart}}
+\index{\-\_\-mavlink\-\_\-send\-\_\-uart@{\-\_\-mavlink\-\_\-send\-\_\-uart}!protocol.h@{protocol.\-h}}
+\subsubsection[{\-\_\-mavlink\-\_\-send\-\_\-uart}]{\setlength{\rightskip}{0pt plus 5cm}M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R {\bf void} \-\_\-mavlink\-\_\-send\-\_\-uart (
+\begin{DoxyParamCaption}
+\item[{{\bf mavlink\-\_\-channel\-\_\-t}}]{chan, }
+\item[{{\bf const} char $\ast$}]{buf, }
+\item[{{\bf uint16\-\_\-t}}]{len}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_a6c76714adf9ce8fe61cc4f47ab6f749d}
+
+
+Definition at line 535 of file mavlink\-\_\-helpers.\-h.
+
+\hypertarget{protocol_8h_a74716d9792bfddbec9a0346ec9101343}{\index{protocol.\-h@{protocol.\-h}!mavlink\-\_\-finalize\-\_\-message@{mavlink\-\_\-finalize\-\_\-message}}
+\index{mavlink\-\_\-finalize\-\_\-message@{mavlink\-\_\-finalize\-\_\-message}!protocol.h@{protocol.\-h}}
+\subsubsection[{mavlink\-\_\-finalize\-\_\-message}]{\setlength{\rightskip}{0pt plus 5cm}M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R {\bf uint16\-\_\-t} mavlink\-\_\-finalize\-\_\-message (
+\begin{DoxyParamCaption}
+\item[{{\bf mavlink\-\_\-message\-\_\-t} $\ast$}]{msg, }
+\item[{{\bf uint8\-\_\-t}}]{system\-\_\-id, }
+\item[{{\bf uint8\-\_\-t}}]{component\-\_\-id, }
+\item[{{\bf uint8\-\_\-t}}]{length, }
+\item[{{\bf uint8\-\_\-t}}]{crc\-\_\-extra}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_a74716d9792bfddbec9a0346ec9101343}
+
+
+Finalize a M\-A\-V\-Link message with M\-A\-V\-L\-I\-N\-K\-\_\-\-C\-O\-M\-M\-\_\-0 as default channel. 
+
+
+
+Definition at line 83 of file mavlink\-\_\-helpers.\-h.
+
+\hypertarget{protocol_8h_af3bea083c5ec83f5b6570b2bd4a817d0}{\index{protocol.\-h@{protocol.\-h}!mavlink\-\_\-finalize\-\_\-message@{mavlink\-\_\-finalize\-\_\-message}}
+\index{mavlink\-\_\-finalize\-\_\-message@{mavlink\-\_\-finalize\-\_\-message}!protocol.h@{protocol.\-h}}
+\subsubsection[{mavlink\-\_\-finalize\-\_\-message}]{\setlength{\rightskip}{0pt plus 5cm}M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R {\bf uint16\-\_\-t} mavlink\-\_\-finalize\-\_\-message (
+\begin{DoxyParamCaption}
+\item[{{\bf mavlink\-\_\-message\-\_\-t} $\ast$}]{msg, }
+\item[{{\bf uint8\-\_\-t}}]{system\-\_\-id, }
+\item[{{\bf uint8\-\_\-t}}]{component\-\_\-id, }
+\item[{{\bf uint8\-\_\-t}}]{length}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_af3bea083c5ec83f5b6570b2bd4a817d0}
+
+
+Definition at line 89 of file mavlink\-\_\-helpers.\-h.
+
+\hypertarget{protocol_8h_a41b92a3cd2dd431c14692159c57b1355}{\index{protocol.\-h@{protocol.\-h}!mavlink\-\_\-finalize\-\_\-message\-\_\-chan@{mavlink\-\_\-finalize\-\_\-message\-\_\-chan}}
+\index{mavlink\-\_\-finalize\-\_\-message\-\_\-chan@{mavlink\-\_\-finalize\-\_\-message\-\_\-chan}!protocol.h@{protocol.\-h}}
+\subsubsection[{mavlink\-\_\-finalize\-\_\-message\-\_\-chan}]{\setlength{\rightskip}{0pt plus 5cm}M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R {\bf uint16\-\_\-t} mavlink\-\_\-finalize\-\_\-message\-\_\-chan (
+\begin{DoxyParamCaption}
+\item[{{\bf mavlink\-\_\-message\-\_\-t} $\ast$}]{msg, }
+\item[{{\bf uint8\-\_\-t}}]{system\-\_\-id, }
+\item[{{\bf uint8\-\_\-t}}]{component\-\_\-id, }
+\item[{{\bf uint8\-\_\-t}}]{chan, }
+\item[{{\bf uint8\-\_\-t}}]{length, }
+\item[{{\bf uint8\-\_\-t}}]{crc\-\_\-extra}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_a41b92a3cd2dd431c14692159c57b1355}
+
+
+Finalize a M\-A\-V\-Link message with channel assignment. 
+
+This function calculates the checksum and sets length and aircraft id correctly. It assumes that the message id and the payload are already correctly set. This function can also be used if the message header has already been written before (as in mavlink\-\_\-msg\-\_\-xxx\-\_\-pack instead of mavlink\-\_\-msg\-\_\-xxx\-\_\-pack\-\_\-headerless), it just introduces little extra overhead.
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & Message to finalize \\
+\hline
+{\em system\-\_\-id} & Id of the sending (this) system, 1-\/127 \\
+\hline
+{\em length} & Message length \\
+\hline
+\end{DoxyParams}
+\hypertarget{protocol_8h_aa66131138fc02101dcc73b4b556ab422}{\index{protocol.\-h@{protocol.\-h}!mavlink\-\_\-finalize\-\_\-message\-\_\-chan@{mavlink\-\_\-finalize\-\_\-message\-\_\-chan}}
+\index{mavlink\-\_\-finalize\-\_\-message\-\_\-chan@{mavlink\-\_\-finalize\-\_\-message\-\_\-chan}!protocol.h@{protocol.\-h}}
+\subsubsection[{mavlink\-\_\-finalize\-\_\-message\-\_\-chan}]{\setlength{\rightskip}{0pt plus 5cm}M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R {\bf uint16\-\_\-t} mavlink\-\_\-finalize\-\_\-message\-\_\-chan (
+\begin{DoxyParamCaption}
+\item[{{\bf mavlink\-\_\-message\-\_\-t} $\ast$}]{msg, }
+\item[{{\bf uint8\-\_\-t}}]{system\-\_\-id, }
+\item[{{\bf uint8\-\_\-t}}]{component\-\_\-id, }
+\item[{{\bf uint8\-\_\-t}}]{chan, }
+\item[{{\bf uint8\-\_\-t}}]{length}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_aa66131138fc02101dcc73b4b556ab422}
+\hypertarget{protocol_8h_ac006d308067f48514ca5c0cf0b046c28}{\index{protocol.\-h@{protocol.\-h}!mavlink\-\_\-get\-\_\-channel\-\_\-status@{mavlink\-\_\-get\-\_\-channel\-\_\-status}}
+\index{mavlink\-\_\-get\-\_\-channel\-\_\-status@{mavlink\-\_\-get\-\_\-channel\-\_\-status}!protocol.h@{protocol.\-h}}
+\subsubsection[{mavlink\-\_\-get\-\_\-channel\-\_\-status}]{\setlength{\rightskip}{0pt plus 5cm}M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R {\bf mavlink\-\_\-status\-\_\-t}$\ast$ mavlink\-\_\-get\-\_\-channel\-\_\-status (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{chan}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_ac006d308067f48514ca5c0cf0b046c28}
+
+
+Definition at line 15 of file mavlink\-\_\-helpers.\-h.
+
+\hypertarget{protocol_8h_afea0a9befa84822fd62c2899ea0d849e}{\index{protocol.\-h@{protocol.\-h}!mavlink\-\_\-msg\-\_\-to\-\_\-send\-\_\-buffer@{mavlink\-\_\-msg\-\_\-to\-\_\-send\-\_\-buffer}}
+\index{mavlink\-\_\-msg\-\_\-to\-\_\-send\-\_\-buffer@{mavlink\-\_\-msg\-\_\-to\-\_\-send\-\_\-buffer}!protocol.h@{protocol.\-h}}
+\subsubsection[{mavlink\-\_\-msg\-\_\-to\-\_\-send\-\_\-buffer}]{\setlength{\rightskip}{0pt plus 5cm}M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R {\bf uint16\-\_\-t} mavlink\-\_\-msg\-\_\-to\-\_\-send\-\_\-buffer (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t} $\ast$}]{buffer, }
+\item[{{\bf const} {\bf mavlink\-\_\-message\-\_\-t} $\ast$}]{msg}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_afea0a9befa84822fd62c2899ea0d849e}
+
+
+Pack a message to send it over a serial byte stream. 
+
+
+
+Definition at line 157 of file mavlink\-\_\-helpers.\-h.
+
+\hypertarget{protocol_8h_ad91e8323cefc65965574c09e72365d7d}{\index{protocol.\-h@{protocol.\-h}!mavlink\-\_\-parse\-\_\-char@{mavlink\-\_\-parse\-\_\-char}}
+\index{mavlink\-\_\-parse\-\_\-char@{mavlink\-\_\-parse\-\_\-char}!protocol.h@{protocol.\-h}}
+\subsubsection[{mavlink\-\_\-parse\-\_\-char}]{\setlength{\rightskip}{0pt plus 5cm}M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R {\bf uint8\-\_\-t} mavlink\-\_\-parse\-\_\-char (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{chan, }
+\item[{{\bf uint8\-\_\-t}}]{c, }
+\item[{{\bf mavlink\-\_\-message\-\_\-t} $\ast$}]{r\-\_\-message, }
+\item[{{\bf mavlink\-\_\-status\-\_\-t} $\ast$}]{r\-\_\-mavlink\-\_\-status}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_ad91e8323cefc65965574c09e72365d7d}
+This is a convenience function which handles the complete M\-A\-V\-Link parsing. the function will parse one byte at a time and return the complete packet once it could be successfully decoded. Checksum and other failures will be silently ignored.
+
+
+\begin{DoxyParams}{Parameters}
+{\em chan} & I\-D of the current channel. This allows to parse different channels with this function. a channel is not a physical message channel like a serial port, but a logic partition of the communication streams in this case. C\-O\-M\-M\-\_\-\-N\-B is the limit for the number of channels on M\-C\-U (e.\-g. A\-R\-M7), while C\-O\-M\-M\-\_\-\-N\-B\-\_\-\-H\-I\-G\-H is the limit for the number of channels in Linux/\-Windows \\
+\hline
+{\em c} & The char to barse\\
+\hline
+{\em return\-Msg} & N\-U\-L\-L if no message could be decoded, the message data else \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if no message could be decoded, 1 else
+\end{DoxyReturn}
+A typical use scenario of this function call is\-:
+
+
+\begin{DoxyCode}
+\textcolor{preprocessor}{#include <inttypes.h>} \textcolor{comment}{// For fixed-width uint8\_t type}
+
+\hyperlink{struct____mavlink__message}{mavlink\_message\_t} \hyperlink{_libraries_2rscode_2example_8c_a6248cb5c33683ab9f937d2a954646849}{msg};
+\textcolor{keywordtype}{int} chan = 0;
+
+
+\textcolor{keywordflow}{while}(\hyperlink{pios__opahrs__proto_8h_a2d4d3eda1cdf29da4bb2bc8eaec73f1e}{serial}.bytesAvailable > 0)
+\{
+  \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t} byte = \hyperlink{pios__opahrs__proto_8h_a2d4d3eda1cdf29da4bb2bc8eaec73f1e}{serial}.getNextByte();
+  \textcolor{keywordflow}{if} (\hyperlink{mavlink__helpers_8h_ad91e8323cefc65965574c09e72365d7d}{mavlink\_parse\_char}(chan, byte, &msg))
+    \{
+    \hyperlink{group___p_i_o_s_ga98631211a4a8aee62f572375d5b637be}{printf}(\textcolor{stringliteral}{"Received message with ID %d, sequence: %d from component %d of system %d"}, msg.
+      \hyperlink{struct____mavlink__message_a8d95b61c61b9086bada158104828d593}{msgid}, msg.\hyperlink{struct____mavlink__message_aae05bedaab3c62acaccb416478490eff}{seq}, msg.\hyperlink{struct____mavlink__message_a83ed773c359ffe4a8d0746f82af2b44d}{compid}, msg.\hyperlink{struct____mavlink__message_ad4bfd4108688429b30940a35b44d4dd3}{sysid});
+    \}
+\}
+\end{DoxyCode}
+ $<$ The currently decoded message
+
+$<$ The current decode status 
+
+Definition at line 219 of file mavlink\-\_\-helpers.\-h.
+
+\hypertarget{protocol_8h_ae7cbde569213151151d20c3766edd244}{\index{protocol.\-h@{protocol.\-h}!mavlink\-\_\-start\-\_\-checksum@{mavlink\-\_\-start\-\_\-checksum}}
+\index{mavlink\-\_\-start\-\_\-checksum@{mavlink\-\_\-start\-\_\-checksum}!protocol.h@{protocol.\-h}}
+\subsubsection[{mavlink\-\_\-start\-\_\-checksum}]{\setlength{\rightskip}{0pt plus 5cm}M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R {\bf void} mavlink\-\_\-start\-\_\-checksum (
+\begin{DoxyParamCaption}
+\item[{{\bf mavlink\-\_\-message\-\_\-t} $\ast$}]{msg}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_ae7cbde569213151151d20c3766edd244}
+
+
+Definition at line 173 of file mavlink\-\_\-helpers.\-h.
+
+\hypertarget{protocol_8h_a3293deb7b51f9a9f0b30bf56c8739593}{\index{protocol.\-h@{protocol.\-h}!mavlink\-\_\-update\-\_\-checksum@{mavlink\-\_\-update\-\_\-checksum}}
+\index{mavlink\-\_\-update\-\_\-checksum@{mavlink\-\_\-update\-\_\-checksum}!protocol.h@{protocol.\-h}}
+\subsubsection[{mavlink\-\_\-update\-\_\-checksum}]{\setlength{\rightskip}{0pt plus 5cm}M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R {\bf void} mavlink\-\_\-update\-\_\-checksum (
+\begin{DoxyParamCaption}
+\item[{{\bf mavlink\-\_\-message\-\_\-t} $\ast$}]{msg, }
+\item[{{\bf uint8\-\_\-t}}]{c}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_a3293deb7b51f9a9f0b30bf56c8739593}
+
+
+Definition at line 178 of file mavlink\-\_\-helpers.\-h.
+
+\hypertarget{protocol_8h_ad102a58f323758552a9c439c1ede4403}{\index{protocol.\-h@{protocol.\-h}!put\-\_\-bitfield\-\_\-n\-\_\-by\-\_\-index@{put\-\_\-bitfield\-\_\-n\-\_\-by\-\_\-index}}
+\index{put\-\_\-bitfield\-\_\-n\-\_\-by\-\_\-index@{put\-\_\-bitfield\-\_\-n\-\_\-by\-\_\-index}!protocol.h@{protocol.\-h}}
+\subsubsection[{put\-\_\-bitfield\-\_\-n\-\_\-by\-\_\-index}]{\setlength{\rightskip}{0pt plus 5cm}M\-A\-V\-L\-I\-N\-K\-\_\-\-H\-E\-L\-P\-E\-R {\bf uint8\-\_\-t} put\-\_\-bitfield\-\_\-n\-\_\-by\-\_\-index (
+\begin{DoxyParamCaption}
+\item[{{\bf int32\-\_\-t}}]{b, }
+\item[{{\bf uint8\-\_\-t}}]{bits, }
+\item[{{\bf uint8\-\_\-t}}]{packet\-\_\-index, }
+\item[{{\bf uint8\-\_\-t}}]{bit\-\_\-index, }
+\item[{{\bf uint8\-\_\-t} $\ast$}]{r\-\_\-bit\-\_\-index, }
+\item[{{\bf uint8\-\_\-t} $\ast$}]{buffer}
+\end{DoxyParamCaption}
+)}}\label{protocol_8h_ad102a58f323758552a9c439c1ede4403}
+
+
+Put a bitfield of length 1-\/32 bit into the buffer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em b} & the value to add, will be encoded in the bitfield \\
+\hline
+{\em bits} & number of bits to use to encode b, e.\-g. 1 for boolean, 2, 3, etc. \\
+\hline
+{\em packet\-\_\-index} & the position in the packet (the index of the first byte to use) \\
+\hline
+{\em bit\-\_\-index} & the position in the byte (the index of the first bit to use) \\
+\hline
+{\em buffer} & packet buffer to write into \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+new position of the last used byte in the buffer 
+\end{DoxyReturn}
+
+
+Definition at line 421 of file mavlink\-\_\-helpers.\-h.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{protocol_8h_a4f44695a45c6dad1cfb86048f3c4cf47}{\index{protocol.\-h@{protocol.\-h}!array\-\_\-length@{array\-\_\-length}}
+\index{array\-\_\-length@{array\-\_\-length}!protocol.h@{protocol.\-h}}
+\subsubsection[{array\-\_\-length}]{\setlength{\rightskip}{0pt plus 5cm}{\bf return} array\-\_\-length}}\label{protocol_8h_a4f44695a45c6dad1cfb86048f3c4cf47}
+
+
+Definition at line 272 of file protocol.\-h.
+
+\hypertarget{protocol_8h_a4e9aec275e566b978a3ccb4e043d8c61}{\index{protocol.\-h@{protocol.\-h}!value@{value}}
+\index{value@{value}!protocol.h@{protocol.\-h}}
+\subsubsection[{value}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ value}}\label{protocol_8h_a4e9aec275e566b978a3ccb4e043d8c61}
+
+
+Definition at line 272 of file protocol.\-h.
+
+\hypertarget{protocol_8h_a58deafb6084333a5baf50cf78d1d297a}{\index{protocol.\-h@{protocol.\-h}!wire\-\_\-offset@{wire\-\_\-offset}}
+\index{wire\-\_\-offset@{wire\-\_\-offset}!protocol.h@{protocol.\-h}}
+\subsubsection[{wire\-\_\-offset}]{\setlength{\rightskip}{0pt plus 5cm}char {\bf uint8\-\_\-t} {\bf uint8\-\_\-t} wire\-\_\-offset}}\label{protocol_8h_a58deafb6084333a5baf50cf78d1d297a}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+\{
+        memcpy(\hyperlink{protocol_8h_a4e9aec275e566b978a3ccb4e043d8c61}{value}, &\_MAV\_PAYLOAD(\hyperlink{_libraries_2rscode_2example_8c_a6248cb5c33683ab9f937d2a954646849}{msg})[\hyperlink{protocol_8h_a58deafb6084333a5baf50cf78d1d297a}{wire\_offset}], 
+      \hyperlink{protocol_8h_a4f44695a45c6dad1cfb86048f3c4cf47}{array\_length})
+\end{DoxyCode}
+
+
+Definition at line 274 of file protocol.\-h.
+

@@ -1,0 +1,114 @@
+\hypertarget{group___c_r_y_p___group8}{\section{High Level D\-E\-S functions}
+\label{group___c_r_y_p___group8}\index{High Level D\-E\-S functions@{High Level D\-E\-S functions}}
+}
+
+
+High Level D\-E\-S functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___exported__types_ga8333b96c67f83cba354b3407fcbb6ee8}{Error\-Status} \hyperlink{group___c_r_y_p___group8_ga3b96b7608b39197209abed5f5845f590}{C\-R\-Y\-P\-\_\-\-D\-E\-S\-\_\-\-E\-C\-B} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Mode, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Key\mbox{[}8\mbox{]}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$Input, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Ilength, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$Output)
+\begin{DoxyCompactList}\small\item\em Encrypt and decrypt using D\-E\-S in E\-C\-B Mode. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga8333b96c67f83cba354b3407fcbb6ee8}{Error\-Status} \hyperlink{group___c_r_y_p___group8_ga75724391a8560c557e1152b805f5cad1}{C\-R\-Y\-P\-\_\-\-D\-E\-S\-\_\-\-C\-B\-C} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Mode, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Key\mbox{[}8\mbox{]}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Init\-Vectors\mbox{[}8\mbox{]}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$Input, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Ilength, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$Output)
+\begin{DoxyCompactList}\small\item\em Encrypt and decrypt using D\-E\-S in C\-B\-C Mode. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+High Level D\-E\-S functions. \begin{DoxyVerb} ===============================================================================
+                          High Level DES functions
+ ===============================================================================
+\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___c_r_y_p___group8_ga75724391a8560c557e1152b805f5cad1}{\index{High Level D\-E\-S functions@{High Level D\-E\-S functions}!C\-R\-Y\-P\-\_\-\-D\-E\-S\-\_\-\-C\-B\-C@{C\-R\-Y\-P\-\_\-\-D\-E\-S\-\_\-\-C\-B\-C}}
+\index{C\-R\-Y\-P\-\_\-\-D\-E\-S\-\_\-\-C\-B\-C@{C\-R\-Y\-P\-\_\-\-D\-E\-S\-\_\-\-C\-B\-C}!High Level DES functions@{High Level D\-E\-S functions}}
+\subsubsection[{C\-R\-Y\-P\-\_\-\-D\-E\-S\-\_\-\-C\-B\-C}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Error\-Status} C\-R\-Y\-P\-\_\-\-D\-E\-S\-\_\-\-C\-B\-C (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{Mode, }
+\item[{{\bf uint8\-\_\-t}}]{Key\mbox{[}8\mbox{]}, }
+\item[{{\bf uint8\-\_\-t}}]{Init\-Vectors\mbox{[}8\mbox{]}, }
+\item[{{\bf uint8\-\_\-t} $\ast$}]{Input, }
+\item[{{\bf uint32\-\_\-t}}]{Ilength, }
+\item[{{\bf uint8\-\_\-t} $\ast$}]{Output}
+\end{DoxyParamCaption}
+)}}\label{group___c_r_y_p___group8_ga75724391a8560c557e1152b805f5cad1}
+
+
+Encrypt and decrypt using D\-E\-S in C\-B\-C Mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Mode,\-:} & encryption or decryption Mode. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item M\-O\-D\-E\-\_\-\-E\-N\-C\-R\-Y\-P\-T\-: Encryption \item M\-O\-D\-E\-\_\-\-D\-E\-C\-R\-Y\-P\-T\-: Decryption \end{DoxyItemize}
+\\
+\hline
+{\em Key,\-:} & Key used for D\-E\-S algorithm. \\
+\hline
+{\em Init\-Vectors,\-:} & Initialisation Vectors used for D\-E\-S algorithm. \\
+\hline
+{\em Ilength,\-:} & length of the Input buffer, must be a multiple of 8. \\
+\hline
+{\em Input,\-:} & pointer to the Input buffer. \\
+\hline
+{\em Output,\-:} & pointer to the returned buffer. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\-Status enumeration value\-:
+\begin{DoxyItemize}
+\item S\-U\-C\-C\-E\-S\-S\-: Operation done
+\item E\-R\-R\-O\-R\-: Operation failed 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 195 of file stm32f4xx\-\_\-cryp\-\_\-des.\-c.
+
+\hypertarget{group___c_r_y_p___group8_ga3b96b7608b39197209abed5f5845f590}{\index{High Level D\-E\-S functions@{High Level D\-E\-S functions}!C\-R\-Y\-P\-\_\-\-D\-E\-S\-\_\-\-E\-C\-B@{C\-R\-Y\-P\-\_\-\-D\-E\-S\-\_\-\-E\-C\-B}}
+\index{C\-R\-Y\-P\-\_\-\-D\-E\-S\-\_\-\-E\-C\-B@{C\-R\-Y\-P\-\_\-\-D\-E\-S\-\_\-\-E\-C\-B}!High Level DES functions@{High Level D\-E\-S functions}}
+\subsubsection[{C\-R\-Y\-P\-\_\-\-D\-E\-S\-\_\-\-E\-C\-B}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Error\-Status} C\-R\-Y\-P\-\_\-\-D\-E\-S\-\_\-\-E\-C\-B (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{Mode, }
+\item[{{\bf uint8\-\_\-t}}]{Key\mbox{[}8\mbox{]}, }
+\item[{{\bf uint8\-\_\-t} $\ast$}]{Input, }
+\item[{{\bf uint32\-\_\-t}}]{Ilength, }
+\item[{{\bf uint8\-\_\-t} $\ast$}]{Output}
+\end{DoxyParamCaption}
+)}}\label{group___c_r_y_p___group8_ga3b96b7608b39197209abed5f5845f590}
+
+
+Encrypt and decrypt using D\-E\-S in E\-C\-B Mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Mode,\-:} & encryption or decryption Mode. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item M\-O\-D\-E\-\_\-\-E\-N\-C\-R\-Y\-P\-T\-: Encryption \item M\-O\-D\-E\-\_\-\-D\-E\-C\-R\-Y\-P\-T\-: Decryption \end{DoxyItemize}
+\\
+\hline
+{\em Key,\-:} & Key used for D\-E\-S algorithm. \\
+\hline
+{\em Ilength,\-:} & length of the Input buffer, must be a multiple of 8. \\
+\hline
+{\em Input,\-:} & pointer to the Input buffer. \\
+\hline
+{\em Output,\-:} & pointer to the returned buffer. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\-Status enumeration value\-:
+\begin{DoxyItemize}
+\item S\-U\-C\-C\-E\-S\-S\-: Operation done
+\item E\-R\-R\-O\-R\-: Operation failed 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 100 of file stm32f4xx\-\_\-cryp\-\_\-des.\-c.
+

@@ -1,0 +1,96 @@
+\hypertarget{group___miscellaneous_math}{\section{Math Various mathematical routines}
+\label{group___miscellaneous_math}\index{Math Various mathematical routines@{Math Various mathematical routines}}
+}
+
+
+Miscellaneous math support.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{group___miscellaneous_math_gae7fa5c4383337339fe17371cd78d7264}{bound\-\_\-min\-\_\-max} (float \hyperlink{group___p_i_o_s___t_i_m_ga757344f09097232d715d55cbf9d61a43}{val}, float min, float max)
+\begin{DoxyCompactList}\small\item\em Bound input value between min and max. \end{DoxyCompactList}\item 
+float \hyperlink{group___miscellaneous_math_gab53f96ff60025bfea084300f2cec575e}{bound\-\_\-sym} (float \hyperlink{group___p_i_o_s___t_i_m_ga757344f09097232d715d55cbf9d61a43}{val}, float range)
+\item 
+float \hyperlink{group___miscellaneous_math_gab7dbfea1a0ae1bd6758c2cb07b278ebf}{circular\-\_\-modulus\-\_\-deg} (float err)
+\begin{DoxyCompactList}\small\item\em Circular modulus. \end{DoxyCompactList}\item 
+float \hyperlink{group___miscellaneous_math_gaba90e72f0f9a03ff25411ec53f5d492b}{circular\-\_\-modulus\-\_\-rad} (float err)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Miscellaneous math support. 
+
+\subsection{Function Documentation}
+\hypertarget{group___miscellaneous_math_gae7fa5c4383337339fe17371cd78d7264}{\index{Math Various mathematical routines@{Math Various mathematical routines}!bound\-\_\-min\-\_\-max@{bound\-\_\-min\-\_\-max}}
+\index{bound\-\_\-min\-\_\-max@{bound\-\_\-min\-\_\-max}!Math Various mathematical routines@{Math Various mathematical routines}}
+\subsubsection[{bound\-\_\-min\-\_\-max}]{\setlength{\rightskip}{0pt plus 5cm}float bound\-\_\-min\-\_\-max (
+\begin{DoxyParamCaption}
+\item[{float}]{val, }
+\item[{float}]{min, }
+\item[{float}]{max}
+\end{DoxyParamCaption}
+)}}\label{group___miscellaneous_math_gae7fa5c4383337339fe17371cd78d7264}
+
+
+Bound input value between min and max. 
+
+Bound input value between min and max 
+
+Definition at line 34 of file misc\-\_\-math.\-c.
+
+\hypertarget{group___miscellaneous_math_gab53f96ff60025bfea084300f2cec575e}{\index{Math Various mathematical routines@{Math Various mathematical routines}!bound\-\_\-sym@{bound\-\_\-sym}}
+\index{bound\-\_\-sym@{bound\-\_\-sym}!Math Various mathematical routines@{Math Various mathematical routines}}
+\subsubsection[{bound\-\_\-sym}]{\setlength{\rightskip}{0pt plus 5cm}float bound\-\_\-sym (
+\begin{DoxyParamCaption}
+\item[{float}]{val, }
+\item[{float}]{range}
+\end{DoxyParamCaption}
+)}}\label{group___miscellaneous_math_gab53f96ff60025bfea084300f2cec575e}
+Bound input value within range (plus or minus) 
+
+Definition at line 46 of file misc\-\_\-math.\-c.
+
+\hypertarget{group___miscellaneous_math_gab7dbfea1a0ae1bd6758c2cb07b278ebf}{\index{Math Various mathematical routines@{Math Various mathematical routines}!circular\-\_\-modulus\-\_\-deg@{circular\-\_\-modulus\-\_\-deg}}
+\index{circular\-\_\-modulus\-\_\-deg@{circular\-\_\-modulus\-\_\-deg}!Math Various mathematical routines@{Math Various mathematical routines}}
+\subsubsection[{circular\-\_\-modulus\-\_\-deg}]{\setlength{\rightskip}{0pt plus 5cm}float circular\-\_\-modulus\-\_\-deg (
+\begin{DoxyParamCaption}
+\item[{float}]{err}
+\end{DoxyParamCaption}
+)}}\label{group___miscellaneous_math_gab7dbfea1a0ae1bd6758c2cb07b278ebf}
+
+
+Circular modulus. 
+
+Circular modulus \mbox{[}degrees\mbox{]}. Compute the equivalent angle between \mbox{[}-\/180,180\mbox{]} for the input angle. This is useful taking the difference between two headings and working out the relative rotation to get there quickest. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em err} & input value in degrees. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The equivalent angle between -\/180 and 180 
+\end{DoxyReturn}
+
+
+Definition at line 58 of file misc\-\_\-math.\-c.
+
+\hypertarget{group___miscellaneous_math_gaba90e72f0f9a03ff25411ec53f5d492b}{\index{Math Various mathematical routines@{Math Various mathematical routines}!circular\-\_\-modulus\-\_\-rad@{circular\-\_\-modulus\-\_\-rad}}
+\index{circular\-\_\-modulus\-\_\-rad@{circular\-\_\-modulus\-\_\-rad}!Math Various mathematical routines@{Math Various mathematical routines}}
+\subsubsection[{circular\-\_\-modulus\-\_\-rad}]{\setlength{\rightskip}{0pt plus 5cm}float circular\-\_\-modulus\-\_\-rad (
+\begin{DoxyParamCaption}
+\item[{float}]{err}
+\end{DoxyParamCaption}
+)}}\label{group___miscellaneous_math_gaba90e72f0f9a03ff25411ec53f5d492b}
+Circular modulus \mbox{[}radians\mbox{]}. Compute the equivalent angle between \mbox{[}-\/pi,pi\mbox{]} for the input angle. This is useful taking the difference between two headings and working out the relative rotation to get there quickest. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em err} & input value in radians. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The equivalent angle between -\/pi and pi 
+\end{DoxyReturn}
+
+
+Definition at line 82 of file misc\-\_\-math.\-c.
+

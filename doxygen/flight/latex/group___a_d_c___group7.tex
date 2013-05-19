@@ -1,0 +1,569 @@
+\hypertarget{group___a_d_c___group7}{\section{Interrupts and flags management functions}
+\label{group___a_d_c___group7}\index{Interrupts and flags management functions@{Interrupts and flags management functions}}
+}
+
+
+Interrupts and flags management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___a_d_c___group7_gac7b249ea837a268a33e1275af687741f}{A\-D\-C\-\_\-\-I\-T\-Config} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} A\-D\-C\-\_\-\-I\-T, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified A\-D\-C interrupts. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___a_d_c___group7_gacdb78c0ff9fd7ca76053693fa73b1c89}{A\-D\-C\-\_\-\-Get\-Flag\-Status} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} A\-D\-C\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified A\-D\-C flag is set or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___a_d_c___group7_ga6b545df37b29b49ea8f1c97b266dbe92}{A\-D\-C\-\_\-\-Clear\-Flag} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} A\-D\-C\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Clears the A\-D\-Cx's pending flags. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___a_d_c___group7_ga46c2d933d5f929f2c3be2a3c6db8d9e6}{A\-D\-C\-\_\-\-Get\-Common\-Flag\-Status} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} A\-D\-C\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified A\-D\-C flag is set or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___a_d_c___group7_gadced9dbc264209e4c69aff275a9d6049}{A\-D\-C\-\_\-\-Clear\-Common\-Flag} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} A\-D\-C\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Clears the A\-D\-Cx's pending flags. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_gaacbd7ed539db0aacd973a0f6eca34074}{I\-T\-Status} \hyperlink{group___a_d_c___group7_ga88deafe1370dc07018064437e8a07069}{A\-D\-C\-\_\-\-Get\-I\-T\-Status} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} A\-D\-C\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified A\-D\-C interrupt has occurred or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___a_d_c___group7_ga9a7edbf7e04d0cc8db6e8d169457779c}{A\-D\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} A\-D\-C\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Clears the A\-D\-Cx's interrupt pending bits. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___a_d_c___group7_gad4c84b54b539944f555488bf979f82b6}{A\-D\-C\-\_\-\-I\-T\-Config} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} A\-D\-C\-\_\-\-I\-T, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified A\-D\-C interrupts. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___a_d_c___group7_gaa12546e51ec905c90a3aada432bd4633}{A\-D\-C\-\_\-\-Get\-Flag\-Status} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} A\-D\-C\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified A\-D\-C flag is set or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___a_d_c___group7_gaf34f36798f811b4a41321ea2d12118d4}{A\-D\-C\-\_\-\-Clear\-Flag} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} A\-D\-C\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Clears the A\-D\-Cx's pending flags. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_gaacbd7ed539db0aacd973a0f6eca34074}{I\-T\-Status} \hyperlink{group___a_d_c___group7_gaa1d3b910a83dbf14d4f68c8eef058612}{A\-D\-C\-\_\-\-Get\-I\-T\-Status} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} A\-D\-C\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified A\-D\-C interrupt has occurred or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___a_d_c___group7_ga601c6a67bd883eb631ecc7aa5e999b9c}{A\-D\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} A\-D\-C\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Clears the A\-D\-Cx's interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interrupts and flags management functions. \begin{DoxyVerb} ===============================================================================
+                   ##### Interrupts and flags management functions #####
+ ===============================================================================  
+
+  [..] This section provides functions allowing to configure the ADC Interrupts, get 
+        the status and clear flags and Interrupts pending bits.
+  
+  [..] The ADC provide 11 Interrupts sources and 11 Flags which can be divided into 3 groups:
+  
+  (#) Flags and Interrupts for ADC regular channels
+  (##)Flags
+      (+) ADC_FLAG_RDY: ADC Ready flag
+      (+) ADC_FLAG_EOSMP: ADC End of Sampling flag
+      (+) ADC_FLAG_EOC: ADC End of Regular Conversion flag.
+      (+) ADC_FLAG_EOS: ADC End of Regular sequence of Conversions flag
+      (+) ADC_FLAG_OVR: ADC overrun flag
+     
+  (##) Interrupts
+      (+) ADC_IT_RDY: ADC Ready interrupt source 
+      (+) ADC_IT_EOSMP: ADC End of Sampling interrupt source
+      (+) ADC_IT_EOC: ADC End of Regular Conversion interrupt source
+      (+) ADC_IT_EOS: ADC End of Regular sequence of Conversions interrupt
+      (+) ADC_IT_OVR: ADC overrun interrupt source
+  
+  
+  (#) Flags and Interrupts for ADC regular channels
+  (##)Flags
+      (+) ADC_FLAG_JEOC: ADC Ready flag
+      (+) ADC_FLAG_JEOS: ADC End of Sampling flag
+      (+) ADC_FLAG_JQOVF: ADC End of Regular Conversion flag.
+     
+  (##) Interrupts
+      (+) ADC_IT_JEOC: ADC End of Injected Conversion interrupt source 
+      (+) ADC_IT_JEOS: ADC End of Injected sequence of Conversions interrupt source
+      (+) ADC_IT_JQOVF: ADC Injected Context Queue Overflow interrupt source   
+
+  (#) General Flags and Interrupts for the ADC
+  (##)Flags 
+     (+)  ADC_FLAG_AWD1: ADC Analog watchdog 1 flag
+     (+) ADC_FLAG_AWD2: ADC Analog watchdog 2 flag
+     (+) ADC_FLAG_AWD3: ADC Analog watchdog 3 flag
+    
+  (##)Flags 
+     (+)  ADC_IT_AWD1: ADC Analog watchdog 1 interrupt source
+     (+) ADC_IT_AWD2: ADC Analog watchdog 2 interrupt source
+     (+) ADC_IT_AWD3: ADC Analog watchdog 3 interrupt source
+     
+  (#) Flags  for ADC dual mode
+  (##)Flags for Master
+     (+) ADC_FLAG_MSTRDY: ADC master Ready (ADRDY) flag 
+     (+) ADC_FLAG_MSTEOSMP: ADC master End of Sampling flag 
+     (+) ADC_FLAG_MSTEOC: ADC master End of Regular Conversion flag 
+     (+) ADC_FLAG_MSTEOS: ADC master End of Regular sequence of Conversions flag 
+     (+) ADC_FLAG_MSTOVR: ADC master overrun flag 
+     (+) ADC_FLAG_MSTJEOC: ADC master End of Injected Conversion flag 
+     (+) ADC_FLAG_MSTJEOS: ADC master End of Injected sequence of Conversions flag 
+     (+) ADC_FLAG_MSTAWD1: ADC master Analog watchdog 1 flag 
+     (+) ADC_FLAG_MSTAWD2: ADC master Analog watchdog 2 flag 
+     (+) ADC_FLAG_MSTAWD3: ADC master Analog watchdog 3 flag 
+     (+) ADC_FLAG_MSTJQOVF: ADC master Injected Context Queue Overflow flag       
+     
+  (##) Flags for Slave
+     (+) ADC_FLAG_SLVRDY: ADC slave Ready (ADRDY) flag 
+     (+) ADC_FLAG_SLVEOSMP: ADC slave End of Sampling flag 
+     (+) ADC_FLAG_SLVEOC: ADC slave End of Regular Conversion flag 
+     (+) ADC_FLAG_SLVEOS: ADC slave End of Regular sequence of Conversions flag 
+     (+) ADC_FLAG_SLVOVR: ADC slave overrun flag 
+     (+) ADC_FLAG_SLVJEOC: ADC slave End of Injected Conversion flag 
+     (+) ADC_FLAG_SLVJEOS: ADC slave End of Injected sequence of Conversions flag 
+     (+) ADC_FLAG_SLVAWD1: ADC slave Analog watchdog 1 flag 
+     (+) ADC_FLAG_SLVAWD2: ADC slave Analog watchdog 2 flag 
+     (+) ADC_FLAG_SLVAWD3: ADC slave Analog watchdog 3 flag 
+     (+) ADC_FLAG_SLVJQOVF: ADC slave Injected Context Queue Overflow flag 
+     
+  The user should identify which mode will be used in his application to manage   
+  the ADC controller events: Polling mode or Interrupt mode.
+  
+  In the Polling Mode it is advised to use the following functions:
+      - ADC_GetFlagStatus() : to check if flags events occur. 
+      - ADC_ClearFlag()     : to clear the flags events.
+      
+  In the Interrupt Mode it is advised to use the following functions:
+     - ADC_ITConfig()       : to enable or disable the interrupt source.
+     - ADC_GetITStatus()    : to check if Interrupt occurs.
+     - ADC_ClearITPendingBit() : to clear the Interrupt pending Bit 
+                                (corresponding Flag). 
+\end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                   Interrupts and flags management functions
+ ===============================================================================  
+
+  This section provides functions allowing to configure the ADC Interrupts and 
+  to get the status and clear flags and Interrupts pending bits.
+  
+  Each ADC provides 4 Interrupts sources and 6 Flags which can be divided into 
+  3 groups:
+  
+  I. Flags and Interrupts for ADC regular channels
+  =================================================
+  Flags :
+  ---------- 
+     1. ADC_FLAG_OVR : Overrun detection when regular converted data are lost
+
+     2. ADC_FLAG_EOC : Regular channel end of conversion ==> to indicate (depending 
+              on EOCS bit, managed by ADC_EOCOnEachRegularChannelCmd() ) the end of:
+               ==> a regular CHANNEL conversion 
+               ==> sequence of regular GROUP conversions .
+
+     3. ADC_FLAG_STRT: Regular channel start ==> to indicate when regular CHANNEL 
+              conversion starts.
+
+  Interrupts :
+  ------------
+     1. ADC_IT_OVR : specifies the interrupt source for Overrun detection event.  
+     2. ADC_IT_EOC : specifies the interrupt source for Regular channel end of 
+                     conversion event.
+  
+  
+  II. Flags and Interrupts for ADC Injected channels
+  =================================================
+  Flags :
+  ---------- 
+     1. ADC_FLAG_JEOC : Injected channel end of conversion ==> to indicate at 
+               the end of injected GROUP conversion  
+              
+     2. ADC_FLAG_JSTRT: Injected channel start ==> to indicate hardware when 
+               injected GROUP conversion starts.
+
+  Interrupts :
+  ------------
+     1. ADC_IT_JEOC : specifies the interrupt source for Injected channel end of 
+                      conversion event.     
+
+  III. General Flags and Interrupts for the ADC
+  ================================================= 
+  Flags :
+  ---------- 
+     1. ADC_FLAG_AWD: Analog watchdog ==> to indicate if the converted voltage 
+              crosses the programmed thresholds values.
+              
+  Interrupts :
+  ------------
+     1. ADC_IT_AWD : specifies the interrupt source for Analog watchdog event. 
+
+  
+  The user should identify which mode will be used in his application to manage 
+  the ADC controller events: Polling mode or Interrupt mode.
+  
+  In the Polling Mode it is advised to use the following functions:
+      - ADC_GetFlagStatus() : to check if flags events occur. 
+      - ADC_ClearFlag()     : to clear the flags events.
+      
+  In the Interrupt Mode it is advised to use the following functions:
+     - ADC_ITConfig()          : to enable or disable the interrupt source.
+     - ADC_GetITStatus()       : to check if Interrupt occurs.
+     - ADC_ClearITPendingBit() : to clear the Interrupt pending Bit 
+                                 (corresponding Flag). 
+\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___a_d_c___group7_gadced9dbc264209e4c69aff275a9d6049}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!A\-D\-C\-\_\-\-Clear\-Common\-Flag@{A\-D\-C\-\_\-\-Clear\-Common\-Flag}}
+\index{A\-D\-C\-\_\-\-Clear\-Common\-Flag@{A\-D\-C\-\_\-\-Clear\-Common\-Flag}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{A\-D\-C\-\_\-\-Clear\-Common\-Flag}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} A\-D\-C\-\_\-\-Clear\-Common\-Flag (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx, }
+\item[{{\bf uint32\-\_\-t}}]{A\-D\-C\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group7_gadced9dbc264209e4c69aff275a9d6049}
+
+
+Clears the A\-D\-Cx's pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2, 3 or 4 to select the A\-D\-C peripheral. \\
+\hline
+{\em A\-D\-C\-\_\-\-F\-L\-A\-G,\-:} & specifies the master or slave flag to clear. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-M\-S\-T\-R\-D\-Y\-: A\-D\-C master Ready (A\-D\-R\-D\-Y) flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-M\-S\-T\-E\-O\-S\-M\-P\-: A\-D\-C master End of Sampling flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-M\-S\-T\-E\-O\-C\-: A\-D\-C master End of Regular Conversion flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-M\-S\-T\-E\-O\-S\-: A\-D\-C master End of Regular sequence of Conversions flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-M\-S\-T\-O\-V\-R\-: A\-D\-C master overrun flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-M\-S\-T\-J\-E\-O\-C\-: A\-D\-C master End of Injected Conversion flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-M\-S\-T\-J\-E\-O\-S\-: A\-D\-C master End of Injected sequence of Conversions flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-M\-S\-T\-A\-W\-D1\-: A\-D\-C master Analog watchdog 1 flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-M\-S\-T\-A\-W\-D2\-: A\-D\-C master Analog watchdog 2 flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-M\-S\-T\-A\-W\-D3\-: A\-D\-C master Analog watchdog 3 flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-M\-S\-T\-J\-Q\-O\-V\-F\-: A\-D\-C master Injected Context Queue Overflow flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-L\-V\-R\-D\-Y\-: A\-D\-C slave Ready (A\-D\-R\-D\-Y) flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-L\-V\-E\-O\-S\-M\-P\-: A\-D\-C slave End of Sampling flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-L\-V\-E\-O\-C\-: A\-D\-C slave End of Regular Conversion flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-L\-V\-E\-O\-S\-: A\-D\-C slave End of Regular sequence of Conversions flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-L\-V\-O\-V\-R\-: A\-D\-C slave overrun flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-L\-V\-J\-E\-O\-C\-: A\-D\-C slave End of Injected Conversion flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-L\-V\-J\-E\-O\-S\-: A\-D\-C slave End of Injected sequence of Conversions flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-L\-V\-A\-W\-D1\-: A\-D\-C slave Analog watchdog 1 flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-L\-V\-A\-W\-D2\-: A\-D\-C slave Analog watchdog 2 flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-L\-V\-A\-W\-D3\-: A\-D\-C slave Analog watchdog 3 flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-L\-V\-J\-Q\-O\-V\-F\-: A\-D\-C slave Injected Context Queue Overflow flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2431 of file stm32f30x\-\_\-adc.\-c.
+
+\hypertarget{group___a_d_c___group7_gaf34f36798f811b4a41321ea2d12118d4}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!A\-D\-C\-\_\-\-Clear\-Flag@{A\-D\-C\-\_\-\-Clear\-Flag}}
+\index{A\-D\-C\-\_\-\-Clear\-Flag@{A\-D\-C\-\_\-\-Clear\-Flag}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{A\-D\-C\-\_\-\-Clear\-Flag}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} A\-D\-C\-\_\-\-Clear\-Flag (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx, }
+\item[{{\bf uint8\-\_\-t}}]{A\-D\-C\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group7_gaf34f36798f811b4a41321ea2d12118d4}
+
+
+Clears the A\-D\-Cx's pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2 or 3 to select the A\-D\-C peripheral. \\
+\hline
+{\em A\-D\-C\-\_\-\-F\-L\-A\-G,\-:} & specifies the flag to clear. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-A\-W\-D\-: Analog watchdog flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-E\-O\-C\-: End of conversion flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-J\-E\-O\-C\-: End of injected group conversion flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-J\-S\-T\-R\-T\-: Start of injected group conversion flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-T\-R\-T\-: Start of regular group conversion flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-O\-V\-R\-: Overrun flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1659 of file stm32f4xx\-\_\-adc.\-c.
+
+\hypertarget{group___a_d_c___group7_ga6b545df37b29b49ea8f1c97b266dbe92}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!A\-D\-C\-\_\-\-Clear\-Flag@{A\-D\-C\-\_\-\-Clear\-Flag}}
+\index{A\-D\-C\-\_\-\-Clear\-Flag@{A\-D\-C\-\_\-\-Clear\-Flag}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{A\-D\-C\-\_\-\-Clear\-Flag}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} A\-D\-C\-\_\-\-Clear\-Flag (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx, }
+\item[{{\bf uint32\-\_\-t}}]{A\-D\-C\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group7_ga6b545df37b29b49ea8f1c97b266dbe92}
+
+
+Clears the A\-D\-Cx's pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2, 3 or 4 to select the A\-D\-C peripheral. \\
+\hline
+{\em A\-D\-C\-\_\-\-F\-L\-A\-G,\-:} & specifies the flag to clear. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-R\-D\-Y\-: A\-D\-C Ready (A\-D\-R\-D\-Y) flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-E\-O\-S\-M\-P\-: A\-D\-C End of Sampling flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-E\-O\-C\-: A\-D\-C End of Regular Conversion flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-E\-O\-S\-: A\-D\-C End of Regular sequence of Conversions flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-O\-V\-R\-: A\-D\-C overrun flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-J\-E\-O\-C\-: A\-D\-C End of Injected Conversion flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-J\-E\-O\-S\-: A\-D\-C End of Injected sequence of Conversions flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-A\-W\-D1\-: A\-D\-C Analog watchdog 1 flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-A\-W\-D2\-: A\-D\-C Analog watchdog 2 flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-A\-W\-D3\-: A\-D\-C Analog watchdog 3 flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-J\-Q\-O\-V\-F\-: A\-D\-C Injected Context Queue Overflow flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2332 of file stm32f30x\-\_\-adc.\-c.
+
+\hypertarget{group___a_d_c___group7_ga601c6a67bd883eb631ecc7aa5e999b9c}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!A\-D\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit@{A\-D\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit}}
+\index{A\-D\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit@{A\-D\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{A\-D\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} A\-D\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx, }
+\item[{{\bf uint16\-\_\-t}}]{A\-D\-C\-\_\-\-I\-T}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group7_ga601c6a67bd883eb631ecc7aa5e999b9c}
+
+
+Clears the A\-D\-Cx's interrupt pending bits. 
+
+Clears the A\-D\-Cx’s interrupt pending bits.
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2 or 3 to select the A\-D\-C peripheral. \\
+\hline
+{\em A\-D\-C\-\_\-\-I\-T,\-:} & specifies the A\-D\-C interrupt pending bit to clear. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item A\-D\-C\-\_\-\-I\-T\-\_\-\-E\-O\-C\-: End of conversion interrupt mask \item A\-D\-C\-\_\-\-I\-T\-\_\-\-A\-W\-D\-: Analog watchdog interrupt mask \item A\-D\-C\-\_\-\-I\-T\-\_\-\-J\-E\-O\-C\-: End of injected conversion interrupt mask \item A\-D\-C\-\_\-\-I\-T\-\_\-\-O\-V\-R\-: Overrun interrupt mask \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1721 of file stm32f4xx\-\_\-adc.\-c.
+
+\hypertarget{group___a_d_c___group7_ga9a7edbf7e04d0cc8db6e8d169457779c}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!A\-D\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit@{A\-D\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit}}
+\index{A\-D\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit@{A\-D\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{A\-D\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} A\-D\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx, }
+\item[{{\bf uint32\-\_\-t}}]{A\-D\-C\-\_\-\-I\-T}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group7_ga9a7edbf7e04d0cc8db6e8d169457779c}
+
+
+Clears the A\-D\-Cx's interrupt pending bits. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2 or 3 to select the A\-D\-C peripheral. \\
+\hline
+{\em A\-D\-C\-\_\-\-I\-T,\-:} & specifies the A\-D\-C interrupt pending bit to clear. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item A\-D\-C\-\_\-\-I\-T\-\_\-\-R\-D\-Y\-: A\-D\-C Ready (A\-D\-R\-D\-Y) interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-E\-O\-S\-M\-P\-: A\-D\-C End of Sampling interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-E\-O\-C\-: A\-D\-C End of Regular Conversion interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-E\-O\-S\-: A\-D\-C End of Regular sequence of Conversions interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-O\-V\-R\-: A\-D\-C overrun interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-J\-E\-O\-C\-: A\-D\-C End of Injected Conversion interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-J\-E\-O\-S\-: A\-D\-C End of Injected sequence of Conversions interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-A\-W\-D1\-: A\-D\-C Analog watchdog 1 interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-A\-W\-D2\-: A\-D\-C Analog watchdog 2 interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-A\-W\-D3\-: A\-D\-C Analog watchdog 3 interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-J\-Q\-O\-V\-F\-: A\-D\-C Injected Context Queue Overflow interrupt source \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2507 of file stm32f30x\-\_\-adc.\-c.
+
+\hypertarget{group___a_d_c___group7_ga46c2d933d5f929f2c3be2a3c6db8d9e6}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!A\-D\-C\-\_\-\-Get\-Common\-Flag\-Status@{A\-D\-C\-\_\-\-Get\-Common\-Flag\-Status}}
+\index{A\-D\-C\-\_\-\-Get\-Common\-Flag\-Status@{A\-D\-C\-\_\-\-Get\-Common\-Flag\-Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{A\-D\-C\-\_\-\-Get\-Common\-Flag\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Flag\-Status} A\-D\-C\-\_\-\-Get\-Common\-Flag\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx, }
+\item[{{\bf uint32\-\_\-t}}]{A\-D\-C\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group7_ga46c2d933d5f929f2c3be2a3c6db8d9e6}
+
+
+Checks whether the specified A\-D\-C flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2, 3 or 4 to select the A\-D\-C peripheral. \\
+\hline
+{\em A\-D\-C\-\_\-\-F\-L\-A\-G,\-:} & specifies the master or slave flag to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-M\-S\-T\-R\-D\-Y\-: A\-D\-C master Ready (A\-D\-R\-D\-Y) flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-M\-S\-T\-E\-O\-S\-M\-P\-: A\-D\-C master End of Sampling flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-M\-S\-T\-E\-O\-C\-: A\-D\-C master End of Regular Conversion flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-M\-S\-T\-E\-O\-S\-: A\-D\-C master End of Regular sequence of Conversions flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-M\-S\-T\-O\-V\-R\-: A\-D\-C master overrun flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-M\-S\-T\-J\-E\-O\-C\-: A\-D\-C master End of Injected Conversion flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-M\-S\-T\-J\-E\-O\-S\-: A\-D\-C master End of Injected sequence of Conversions flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-M\-S\-T\-A\-W\-D1\-: A\-D\-C master Analog watchdog 1 flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-M\-S\-T\-A\-W\-D2\-: A\-D\-C master Analog watchdog 2 flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-M\-S\-T\-A\-W\-D3\-: A\-D\-C master Analog watchdog 3 flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-M\-S\-T\-J\-Q\-O\-V\-F\-: A\-D\-C master Injected Context Queue Overflow flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-L\-V\-R\-D\-Y\-: A\-D\-C slave Ready (A\-D\-R\-D\-Y) flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-L\-V\-E\-O\-S\-M\-P\-: A\-D\-C slave End of Sampling flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-L\-V\-E\-O\-C\-: A\-D\-C slave End of Regular Conversion flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-L\-V\-E\-O\-S\-: A\-D\-C slave End of Regular sequence of Conversions flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-L\-V\-O\-V\-R\-: A\-D\-C slave overrun flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-L\-V\-J\-E\-O\-C\-: A\-D\-C slave End of Injected Conversion flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-L\-V\-J\-E\-O\-S\-: A\-D\-C slave End of Injected sequence of Conversions flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-L\-V\-A\-W\-D1\-: A\-D\-C slave Analog watchdog 1 flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-L\-V\-A\-W\-D2\-: A\-D\-C slave Analog watchdog 2 flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-L\-V\-A\-W\-D3\-: A\-D\-C slave Analog watchdog 3 flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-L\-V\-J\-Q\-O\-V\-F\-: A\-D\-C slave Injected Context Queue Overflow flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of A\-D\-C\-\_\-\-F\-L\-A\-G (S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2370 of file stm32f30x\-\_\-adc.\-c.
+
+\hypertarget{group___a_d_c___group7_gaa12546e51ec905c90a3aada432bd4633}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!A\-D\-C\-\_\-\-Get\-Flag\-Status@{A\-D\-C\-\_\-\-Get\-Flag\-Status}}
+\index{A\-D\-C\-\_\-\-Get\-Flag\-Status@{A\-D\-C\-\_\-\-Get\-Flag\-Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{A\-D\-C\-\_\-\-Get\-Flag\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Flag\-Status} A\-D\-C\-\_\-\-Get\-Flag\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx, }
+\item[{{\bf uint8\-\_\-t}}]{A\-D\-C\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group7_gaa12546e51ec905c90a3aada432bd4633}
+
+
+Checks whether the specified A\-D\-C flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2 or 3 to select the A\-D\-C peripheral. \\
+\hline
+{\em A\-D\-C\-\_\-\-F\-L\-A\-G,\-:} & specifies the flag to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-A\-W\-D\-: Analog watchdog flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-E\-O\-C\-: End of conversion flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-J\-E\-O\-C\-: End of injected group conversion flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-J\-S\-T\-R\-T\-: Start of injected group conversion flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-T\-R\-T\-: Start of regular group conversion flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-O\-V\-R\-: Overrun flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of A\-D\-C\-\_\-\-F\-L\-A\-G (S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1624 of file stm32f4xx\-\_\-adc.\-c.
+
+\hypertarget{group___a_d_c___group7_gacdb78c0ff9fd7ca76053693fa73b1c89}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!A\-D\-C\-\_\-\-Get\-Flag\-Status@{A\-D\-C\-\_\-\-Get\-Flag\-Status}}
+\index{A\-D\-C\-\_\-\-Get\-Flag\-Status@{A\-D\-C\-\_\-\-Get\-Flag\-Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{A\-D\-C\-\_\-\-Get\-Flag\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Flag\-Status} A\-D\-C\-\_\-\-Get\-Flag\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx, }
+\item[{{\bf uint32\-\_\-t}}]{A\-D\-C\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group7_gacdb78c0ff9fd7ca76053693fa73b1c89}
+
+
+Checks whether the specified A\-D\-C flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2, 3 or 4 to select the A\-D\-C peripheral. \\
+\hline
+{\em A\-D\-C\-\_\-\-F\-L\-A\-G,\-:} & specifies the flag to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-R\-D\-Y\-: A\-D\-C Ready (A\-D\-R\-D\-Y) flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-E\-O\-S\-M\-P\-: A\-D\-C End of Sampling flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-E\-O\-C\-: A\-D\-C End of Regular Conversion flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-E\-O\-S\-: A\-D\-C End of Regular sequence of Conversions flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-O\-V\-R\-: A\-D\-C overrun flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-J\-E\-O\-C\-: A\-D\-C End of Injected Conversion flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-J\-E\-O\-S\-: A\-D\-C End of Injected sequence of Conversions flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-A\-W\-D1\-: A\-D\-C Analog watchdog 1 flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-A\-W\-D2\-: A\-D\-C Analog watchdog 2 flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-A\-W\-D3\-: A\-D\-C Analog watchdog 3 flag \item A\-D\-C\-\_\-\-F\-L\-A\-G\-\_\-\-J\-Q\-O\-V\-F\-: A\-D\-C Injected Context Queue Overflow flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of A\-D\-C\-\_\-\-F\-L\-A\-G (S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2292 of file stm32f30x\-\_\-adc.\-c.
+
+\hypertarget{group___a_d_c___group7_gaa1d3b910a83dbf14d4f68c8eef058612}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!A\-D\-C\-\_\-\-Get\-I\-T\-Status@{A\-D\-C\-\_\-\-Get\-I\-T\-Status}}
+\index{A\-D\-C\-\_\-\-Get\-I\-T\-Status@{A\-D\-C\-\_\-\-Get\-I\-T\-Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{A\-D\-C\-\_\-\-Get\-I\-T\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf I\-T\-Status} A\-D\-C\-\_\-\-Get\-I\-T\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx, }
+\item[{{\bf uint16\-\_\-t}}]{A\-D\-C\-\_\-\-I\-T}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group7_gaa1d3b910a83dbf14d4f68c8eef058612}
+
+
+Checks whether the specified A\-D\-C interrupt has occurred or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2 or 3 to select the A\-D\-C peripheral. \\
+\hline
+{\em A\-D\-C\-\_\-\-I\-T,\-:} & specifies the A\-D\-C interrupt source to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item A\-D\-C\-\_\-\-I\-T\-\_\-\-E\-O\-C\-: End of conversion interrupt mask \item A\-D\-C\-\_\-\-I\-T\-\_\-\-A\-W\-D\-: Analog watchdog interrupt mask \item A\-D\-C\-\_\-\-I\-T\-\_\-\-J\-E\-O\-C\-: End of injected conversion interrupt mask \item A\-D\-C\-\_\-\-I\-T\-\_\-\-O\-V\-R\-: Overrun interrupt mask \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of A\-D\-C\-\_\-\-I\-T (S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1680 of file stm32f4xx\-\_\-adc.\-c.
+
+\hypertarget{group___a_d_c___group7_ga88deafe1370dc07018064437e8a07069}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!A\-D\-C\-\_\-\-Get\-I\-T\-Status@{A\-D\-C\-\_\-\-Get\-I\-T\-Status}}
+\index{A\-D\-C\-\_\-\-Get\-I\-T\-Status@{A\-D\-C\-\_\-\-Get\-I\-T\-Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{A\-D\-C\-\_\-\-Get\-I\-T\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf I\-T\-Status} A\-D\-C\-\_\-\-Get\-I\-T\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx, }
+\item[{{\bf uint32\-\_\-t}}]{A\-D\-C\-\_\-\-I\-T}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group7_ga88deafe1370dc07018064437e8a07069}
+
+
+Checks whether the specified A\-D\-C interrupt has occurred or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2 or 3 to select the A\-D\-C peripheral. \\
+\hline
+{\em A\-D\-C\-\_\-\-I\-T,\-:} & specifies the A\-D\-C interrupt source to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item A\-D\-C\-\_\-\-I\-T\-\_\-\-R\-D\-Y\-: A\-D\-C Ready (A\-D\-R\-D\-Y) interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-E\-O\-S\-M\-P\-: A\-D\-C End of Sampling interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-E\-O\-C\-: A\-D\-C End of Regular Conversion interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-E\-O\-S\-: A\-D\-C End of Regular sequence of Conversions interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-O\-V\-R\-: A\-D\-C overrun interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-J\-E\-O\-C\-: A\-D\-C End of Injected Conversion interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-J\-E\-O\-S\-: A\-D\-C End of Injected sequence of Conversions interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-A\-W\-D1\-: A\-D\-C Analog watchdog 1 interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-A\-W\-D2\-: A\-D\-C Analog watchdog 2 interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-A\-W\-D3\-: A\-D\-C Analog watchdog 3 interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-J\-Q\-O\-V\-F\-: A\-D\-C Injected Context Queue Overflow interrupt source \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of A\-D\-C\-\_\-\-I\-T (S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2467 of file stm32f30x\-\_\-adc.\-c.
+
+\hypertarget{group___a_d_c___group7_gad4c84b54b539944f555488bf979f82b6}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!A\-D\-C\-\_\-\-I\-T\-Config@{A\-D\-C\-\_\-\-I\-T\-Config}}
+\index{A\-D\-C\-\_\-\-I\-T\-Config@{A\-D\-C\-\_\-\-I\-T\-Config}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{A\-D\-C\-\_\-\-I\-T\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} A\-D\-C\-\_\-\-I\-T\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx, }
+\item[{{\bf uint16\-\_\-t}}]{A\-D\-C\-\_\-\-I\-T, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group7_gad4c84b54b539944f555488bf979f82b6}
+
+
+Enables or disables the specified A\-D\-C interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2 or 3 to select the A\-D\-C peripheral. \\
+\hline
+{\em A\-D\-C\-\_\-\-I\-T,\-:} & specifies the A\-D\-C interrupt sources to be enabled or disabled. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item A\-D\-C\-\_\-\-I\-T\-\_\-\-E\-O\-C\-: End of conversion interrupt mask \item A\-D\-C\-\_\-\-I\-T\-\_\-\-A\-W\-D\-: Analog watchdog interrupt mask \item A\-D\-C\-\_\-\-I\-T\-\_\-\-J\-E\-O\-C\-: End of injected conversion interrupt mask \item A\-D\-C\-\_\-\-I\-T\-\_\-\-O\-V\-R\-: Overrun interrupt enable \end{DoxyItemize}
+\\
+\hline
+{\em New\-State,\-:} & new state of the specified A\-D\-C interrupts. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1587 of file stm32f4xx\-\_\-adc.\-c.
+
+\hypertarget{group___a_d_c___group7_gac7b249ea837a268a33e1275af687741f}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!A\-D\-C\-\_\-\-I\-T\-Config@{A\-D\-C\-\_\-\-I\-T\-Config}}
+\index{A\-D\-C\-\_\-\-I\-T\-Config@{A\-D\-C\-\_\-\-I\-T\-Config}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{A\-D\-C\-\_\-\-I\-T\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} A\-D\-C\-\_\-\-I\-T\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx, }
+\item[{{\bf uint32\-\_\-t}}]{A\-D\-C\-\_\-\-I\-T, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group7_gac7b249ea837a268a33e1275af687741f}
+
+
+Enables or disables the specified A\-D\-C interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2 or 3 to select the A\-D\-C peripheral. \\
+\hline
+{\em A\-D\-C\-\_\-\-I\-T,\-:} & specifies the A\-D\-C interrupt sources to be enabled or disabled. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item A\-D\-C\-\_\-\-I\-T\-\_\-\-R\-D\-Y\-: A\-D\-C Ready (A\-D\-R\-D\-Y) interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-E\-O\-S\-M\-P\-: A\-D\-C End of Sampling interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-E\-O\-C\-: A\-D\-C End of Regular Conversion interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-E\-O\-S\-: A\-D\-C End of Regular sequence of Conversions interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-O\-V\-R\-: A\-D\-C overrun interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-J\-E\-O\-C\-: A\-D\-C End of Injected Conversion interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-J\-E\-O\-S\-: A\-D\-C End of Injected sequence of Conversions interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-A\-W\-D1\-: A\-D\-C Analog watchdog 1 interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-A\-W\-D2\-: A\-D\-C Analog watchdog 2 interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-A\-W\-D3\-: A\-D\-C Analog watchdog 3 interrupt source \item A\-D\-C\-\_\-\-I\-T\-\_\-\-J\-Q\-O\-V\-F\-: A\-D\-C Injected Context Queue Overflow interrupt source \end{DoxyItemize}
+\\
+\hline
+{\em New\-State,\-:} & new state of the specified A\-D\-C interrupts. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2255 of file stm32f30x\-\_\-adc.\-c.
+

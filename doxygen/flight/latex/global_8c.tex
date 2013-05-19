@@ -1,0 +1,104 @@
+\hypertarget{global_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/global.c File Reference}
+\label{global_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/global.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/global.\-c}}
+}
+
+
+V\-M Globals.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{global_8c_a27ea999578ab84a2a38be7e69e668fb5}{global\-\_\-init} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{global_8c_aeac943055392565e717d5fe0620905d5}{global\-\_\-set\-Builtins} (\hyperlink{func_8h_a31ea34c165a41eee786d036607d224b3}{p\-Pm\-Func\-\_\-t} pmod)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{global_8c_adcb2b9ca0e4d995dc285722427104f03}{global\-\_\-load\-Builtins} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+unsigned char \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} $\ast$ \hyperlink{global_8c_ace9aea2ce8197b9066cad1b52f1cb5d8}{stdlib\-\_\-img}
+\item 
+\hyperlink{group___c_m_s_i_s___core___instruction_interface_gad7d93af13046b0378601b85c8c16673b}{volatile} \hyperlink{global_8h_ad6d029627f262eb89e806742b1f57a3f}{Pm\-Vm\-Global\-\_\-t} \hyperlink{global_8c_af041e6b0273795c67973261976eb6695}{g\-Vm\-Global}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+V\-M Globals. V\-M globals operations. Py\-Mite's global struct def and initial values. 
+
+Definition in file \hyperlink{global_8c_source}{global.\-c}.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{global_8c_a27ea999578ab84a2a38be7e69e668fb5}{\index{global.\-c@{global.\-c}!global\-\_\-init@{global\-\_\-init}}
+\index{global\-\_\-init@{global\-\_\-init}!global.c@{global.\-c}}
+\subsubsection[{global\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} global\-\_\-init (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{global_8c_a27ea999578ab84a2a38be7e69e668fb5}
+Initializes the global struct
+
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 42 of file global.\-c.
+
+\hypertarget{global_8c_adcb2b9ca0e4d995dc285722427104f03}{\index{global.\-c@{global.\-c}!global\-\_\-load\-Builtins@{global\-\_\-load\-Builtins}}
+\index{global\-\_\-load\-Builtins@{global\-\_\-load\-Builtins}!global.c@{global.\-c}}
+\subsubsection[{global\-\_\-load\-Builtins}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} global\-\_\-load\-Builtins (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{global_8c_adcb2b9ca0e4d995dc285722427104f03}
+Loads the \char`\"{}\-\_\-\-\_\-bt\char`\"{} module and sets the builtins dict (P\-M\-\_\-\-P\-B\-U\-I\-L\-T\-I\-N\-S) to point to \-\_\-\-\_\-bt's attributes dict. Creates \char`\"{}\-None\char`\"{} = None entry in builtins.
+
+When run, there should not be any other threads in the interpreter thread list yet.
+
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 209 of file global.\-c.
+
+\hypertarget{global_8c_aeac943055392565e717d5fe0620905d5}{\index{global.\-c@{global.\-c}!global\-\_\-set\-Builtins@{global\-\_\-set\-Builtins}}
+\index{global\-\_\-set\-Builtins@{global\-\_\-set\-Builtins}!global.c@{global.\-c}}
+\subsubsection[{global\-\_\-set\-Builtins}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} global\-\_\-set\-Builtins (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Func\-\_\-t}}]{pmod}
+\end{DoxyParamCaption}
+)}}\label{global_8c_aeac943055392565e717d5fe0620905d5}
+Sets the builtins dict into the given module's attrs.
+
+If not yet done, loads the \char`\"{}\-\_\-\-\_\-bt\char`\"{} module via \hyperlink{global_8c_adcb2b9ca0e4d995dc285722427104f03}{global\-\_\-load\-Builtins()}. Restrictions described in that functions documentation apply.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pmod} & Module whose attrs receive builtins \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 183 of file global.\-c.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{global_8c_af041e6b0273795c67973261976eb6695}{\index{global.\-c@{global.\-c}!g\-Vm\-Global@{g\-Vm\-Global}}
+\index{g\-Vm\-Global@{g\-Vm\-Global}!global.c@{global.\-c}}
+\subsubsection[{g\-Vm\-Global}]{\setlength{\rightskip}{0pt plus 5cm}{\bf volatile} {\bf Pm\-Vm\-Global\-\_\-t} g\-Vm\-Global}}\label{global_8c_af041e6b0273795c67973261976eb6695}
+Most Py\-Mite globals all in one convenient place 
+
+Definition at line 38 of file global.\-c.
+
+\hypertarget{global_8c_ace9aea2ce8197b9066cad1b52f1cb5d8}{\index{global.\-c@{global.\-c}!stdlib\-\_\-img@{stdlib\-\_\-img}}
+\index{stdlib\-\_\-img@{stdlib\-\_\-img}!global.c@{global.\-c}}
+\subsubsection[{stdlib\-\_\-img}]{\setlength{\rightskip}{0pt plus 5cm}unsigned char {\bf const}$\ast$ stdlib\-\_\-img}}\label{global_8c_ace9aea2ce8197b9066cad1b52f1cb5d8}

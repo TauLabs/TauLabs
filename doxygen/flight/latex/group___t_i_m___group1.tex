@@ -1,0 +1,723 @@
+\hypertarget{group___t_i_m___group1}{\section{Time\-Base management functions}
+\label{group___t_i_m___group1}\index{Time\-Base management functions@{Time\-Base management functions}}
+}
+
+
+Time\-Base management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_ga1659cc0ce503ac151568e0c7c02b1ba5}{T\-I\-M\-\_\-\-De\-Init} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx)
+\begin{DoxyCompactList}\small\item\em Deinitializes the T\-I\-Mx peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_ga83fd58c9416802d9638bbe1715c98932}{T\-I\-M\-\_\-\-Time\-Base\-Init} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, T\-I\-M\-\_\-\-Time\-Base\-Init\-Type\-Def $\ast$T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the T\-I\-Mx Time Base Unit peripheral according to the specified parameters in the T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_ga1556a0b9a5d53506875fd7de0cbc6b1f}{T\-I\-M\-\_\-\-Time\-Base\-Struct\-Init} (T\-I\-M\-\_\-\-Time\-Base\-Init\-Type\-Def $\ast$T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_ga45c6fd9041baf7f64c121e0172f305c7}{T\-I\-M\-\_\-\-Prescaler\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Prescaler, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-P\-S\-C\-Reload\-Mode)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Prescaler. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_ga93941c1db20bf3794f377307df90a67b}{T\-I\-M\-\_\-\-Counter\-Mode\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Counter\-Mode)
+\begin{DoxyCompactList}\small\item\em Specifies the T\-I\-Mx Counter Mode to be used. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_ga18173e7955a85d5c2598c643eada2692}{T\-I\-M\-\_\-\-Set\-Counter} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Counter)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Counter Register value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_gad6a388d498c7f299d00a9d0871943041}{T\-I\-M\-\_\-\-Set\-Autoreload} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Autoreload)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Autoreload Register value. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___t_i_m___group1_ga53607976e0866ab424e294cda9f6036e}{T\-I\-M\-\_\-\-Get\-Counter} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\-I\-Mx Counter value. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___t_i_m___group1_ga427eb6e533480e02a27cd0ca876183d6}{T\-I\-M\-\_\-\-Get\-Prescaler} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\-I\-Mx Prescaler value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_gace2384dd33e849a054f61b8e1fc7e7c3}{T\-I\-M\-\_\-\-Update\-Disable\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the T\-I\-Mx Update event. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_ga1d7a8f952e209de142499e67a653fc1f}{T\-I\-M\-\_\-\-Update\-Request\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Update\-Source)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Update Request Interrupt source. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_gae8088f379b3d09289f130e841cc4ab03}{T\-I\-M\-\_\-\-U\-I\-F\-Remap} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Sets or resets the update interrupt flag (U\-I\-F)status bit Remapping. when sets, reading T\-I\-Mx\-\_\-\-C\-N\-T register returns U\-I\-F bit instead of C\-N\-T\mbox{[}31\mbox{]}. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_ga42b44b9fc2b0798d733720dd6bac1ac0}{T\-I\-M\-\_\-\-A\-R\-R\-Preload\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables T\-I\-Mx peripheral Preload register on A\-R\-R. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_gadd2cca5fac6c1291dc4339098d5c9562}{T\-I\-M\-\_\-\-Select\-One\-Pulse\-Mode} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-P\-Mode)
+\begin{DoxyCompactList}\small\item\em Selects the T\-I\-Mx's One Pulse Mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_ga20ef804dc32c723662d11ee7da3baab2}{T\-I\-M\-\_\-\-Set\-Clock\-Division} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-C\-K\-D)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Clock Division value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_ga2bdc275bcbd2ce9d1ba632e6c89896b7}{T\-I\-M\-\_\-\-Cmd} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified T\-I\-M peripheral. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Time\-Base management functions. \begin{DoxyVerb} ===============================================================================
+                   ##### TimeBase management functions #####
+ ===============================================================================  
+  
+             
+    *** TIM Driver: how to use it in Timing(Time base) Mode ***
+    ============================================================ 
+    [..]
+    To use the Timer in Timing(Time base) mode, the following steps are mandatory:
+       
+    (#) Enable TIM clock using 
+        RCC_APBxPeriphClockCmd(RCC_APBxPeriph_TIMx, ENABLE) function               
+    (#) Fill the TIM_TimeBaseInitStruct with the desired parameters.   
+    (#) Call TIM_TimeBaseInit(TIMx, &TIM_TimeBaseInitStruct) to configure 
+        the Time Base unit
+        with the corresponding configuration        
+    (#) Enable the NVIC if you need to generate the update interrupt.        
+    (#) Enable the corresponding interrupt using the function 
+        TIM_ITConfig(TIMx, TIM_IT_Update)      
+    (#) Call the TIM_Cmd(ENABLE) function to enable the TIM counter.
+    [..]                  
+    (@) All other functions can be used separately to modify, if needed,
+        a specific feature of the Timer. \end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                       TimeBase management functions
+ ===============================================================================  
+  
+       ===================================================================      
+              TIM Driver: how to use it in Timing(Time base) Mode
+       =================================================================== 
+       To use the Timer in Timing(Time base) mode, the following steps are mandatory:
+       
+       1. Enable TIM clock using RCC_APBxPeriphClockCmd(RCC_APBxPeriph_TIMx, ENABLE) function
+                    
+       2. Fill the TIM_TimeBaseInitStruct with the desired parameters.
+       
+       3. Call TIM_TimeBaseInit(TIMx, &TIM_TimeBaseInitStruct) to configure the Time Base unit
+          with the corresponding configuration
+          
+       4. Enable the NVIC if you need to generate the update interrupt. 
+          
+       5. Enable the corresponding interrupt using the function TIM_ITConfig(TIMx, TIM_IT_Update) 
+       
+       6. Call the TIM_Cmd(ENABLE) function to enable the TIM counter.
+             
+       Note1: All other functions can be used separately to modify, if needed,
+          a specific feature of the Timer. \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___t_i_m___group1_ga42b44b9fc2b0798d733720dd6bac1ac0}{\index{Time\-Base management functions@{Time\-Base management functions}!T\-I\-M\-\_\-\-A\-R\-R\-Preload\-Config@{T\-I\-M\-\_\-\-A\-R\-R\-Preload\-Config}}
+\index{T\-I\-M\-\_\-\-A\-R\-R\-Preload\-Config@{T\-I\-M\-\_\-\-A\-R\-R\-Preload\-Config}!TimeBase management functions@{Time\-Base management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-A\-R\-R\-Preload\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-A\-R\-R\-Preload\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group1_ga42b44b9fc2b0798d733720dd6bac1ac0}
+
+
+Enables or disables T\-I\-Mx peripheral Preload register on A\-R\-R. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 6 ,7 ,8, 15, 16 or 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the T\-I\-Mx peripheral Preload register This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 14 to select the T\-I\-M peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the T\-I\-Mx peripheral Preload register This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 527 of file stm32f30x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___group1_ga2bdc275bcbd2ce9d1ba632e6c89896b7}{\index{Time\-Base management functions@{Time\-Base management functions}!T\-I\-M\-\_\-\-Cmd@{T\-I\-M\-\_\-\-Cmd}}
+\index{T\-I\-M\-\_\-\-Cmd@{T\-I\-M\-\_\-\-Cmd}!TimeBase management functions@{Time\-Base management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group1_ga2bdc275bcbd2ce9d1ba632e6c89896b7}
+
+
+Enables or disables the specified T\-I\-M peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 6, 7, 8, 15, 16 or 17 to select the T\-I\-Mx peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the T\-I\-Mx peripheral. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 14 to select the T\-I\-Mx peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the T\-I\-Mx peripheral. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 598 of file stm32f30x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___group1_ga93941c1db20bf3794f377307df90a67b}{\index{Time\-Base management functions@{Time\-Base management functions}!T\-I\-M\-\_\-\-Counter\-Mode\-Config@{T\-I\-M\-\_\-\-Counter\-Mode\-Config}}
+\index{T\-I\-M\-\_\-\-Counter\-Mode\-Config@{T\-I\-M\-\_\-\-Counter\-Mode\-Config}!TimeBase management functions@{Time\-Base management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Counter\-Mode\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Counter\-Mode\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Counter\-Mode}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group1_ga93941c1db20bf3794f377307df90a67b}
+
+
+Specifies the T\-I\-Mx Counter Mode to be used. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Counter\-Mode,\-:} & specifies the Counter Mode to be used This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Counter\-Mode\-\_\-\-Up\-: T\-I\-M Up Counting Mode \item T\-I\-M\-\_\-\-Counter\-Mode\-\_\-\-Down\-: T\-I\-M Down Counting Mode \item T\-I\-M\-\_\-\-Counter\-Mode\-\_\-\-Center\-Aligned1\-: T\-I\-M Center Aligned Mode1 \item T\-I\-M\-\_\-\-Counter\-Mode\-\_\-\-Center\-Aligned2\-: T\-I\-M Center Aligned Mode2 \item T\-I\-M\-\_\-\-Counter\-Mode\-\_\-\-Center\-Aligned3\-: T\-I\-M Center Aligned Mode3 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Counter\-Mode,\-:} & specifies the Counter Mode to be used This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Counter\-Mode\-\_\-\-Up\-: T\-I\-M Up Counting Mode \item T\-I\-M\-\_\-\-Counter\-Mode\-\_\-\-Down\-: T\-I\-M Down Counting Mode \item T\-I\-M\-\_\-\-Counter\-Mode\-\_\-\-Center\-Aligned1\-: T\-I\-M Center Aligned Mode1 \item T\-I\-M\-\_\-\-Counter\-Mode\-\_\-\-Center\-Aligned2\-: T\-I\-M Center Aligned Mode2 \item T\-I\-M\-\_\-\-Counter\-Mode\-\_\-\-Center\-Aligned3\-: T\-I\-M Center Aligned Mode3 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 362 of file stm32f30x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___group1_ga1659cc0ce503ac151568e0c7c02b1ba5}{\index{Time\-Base management functions@{Time\-Base management functions}!T\-I\-M\-\_\-\-De\-Init@{T\-I\-M\-\_\-\-De\-Init}}
+\index{T\-I\-M\-\_\-\-De\-Init@{T\-I\-M\-\_\-\-De\-Init}!TimeBase management functions@{Time\-Base management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-De\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-De\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group1_ga1659cc0ce503ac151568e0c7c02b1ba5}
+
+
+Deinitializes the T\-I\-Mx peripheral registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 6 ,7 ,8, 15, 16 or 17 to select the T\-I\-M peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 14 to select the T\-I\-M peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 199 of file stm32f30x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___group1_ga53607976e0866ab424e294cda9f6036e}{\index{Time\-Base management functions@{Time\-Base management functions}!T\-I\-M\-\_\-\-Get\-Counter@{T\-I\-M\-\_\-\-Get\-Counter}}
+\index{T\-I\-M\-\_\-\-Get\-Counter@{T\-I\-M\-\_\-\-Get\-Counter}!TimeBase management functions@{Time\-Base management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Get\-Counter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} T\-I\-M\-\_\-\-Get\-Counter (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group1_ga53607976e0866ab424e294cda9f6036e}
+
+
+Gets the T\-I\-Mx Counter value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 6 ,7 ,8, 15, 16 or 17 to select the T\-I\-M peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Counter} & Register value\\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 14 to select the T\-I\-M peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Counter} & Register value \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 417 of file stm32f30x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___group1_ga427eb6e533480e02a27cd0ca876183d6}{\index{Time\-Base management functions@{Time\-Base management functions}!T\-I\-M\-\_\-\-Get\-Prescaler@{T\-I\-M\-\_\-\-Get\-Prescaler}}
+\index{T\-I\-M\-\_\-\-Get\-Prescaler@{T\-I\-M\-\_\-\-Get\-Prescaler}!TimeBase management functions@{Time\-Base management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Get\-Prescaler}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} T\-I\-M\-\_\-\-Get\-Prescaler (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group1_ga427eb6e533480e02a27cd0ca876183d6}
+
+
+Gets the T\-I\-Mx Prescaler value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 6 ,7 ,8, 15, 16 or 17 to select the T\-I\-M peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Prescaler} & Register value.\\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 14 to select the T\-I\-M peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Prescaler} & Register value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 431 of file stm32f30x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___group1_ga45c6fd9041baf7f64c121e0172f305c7}{\index{Time\-Base management functions@{Time\-Base management functions}!T\-I\-M\-\_\-\-Prescaler\-Config@{T\-I\-M\-\_\-\-Prescaler\-Config}}
+\index{T\-I\-M\-\_\-\-Prescaler\-Config@{T\-I\-M\-\_\-\-Prescaler\-Config}!TimeBase management functions@{Time\-Base management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Prescaler\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Prescaler\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{Prescaler, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-P\-S\-C\-Reload\-Mode}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group1_ga45c6fd9041baf7f64c121e0172f305c7}
+
+
+Configures the T\-I\-Mx Prescaler. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 8, 15, 16 or 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em Prescaler,\-:} & specifies the Prescaler Register value \\
+\hline
+{\em T\-I\-M\-\_\-\-P\-S\-C\-Reload\-Mode,\-:} & specifies the T\-I\-M Prescaler Reload mode This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-P\-S\-C\-Reload\-Mode\-\_\-\-Update\-: The Prescaler is loaded at the update event. \item T\-I\-M\-\_\-\-P\-S\-C\-Reload\-Mode\-\_\-\-Immediate\-: The Prescaler is loaded immediatly. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 14 to select the T\-I\-M peripheral. \\
+\hline
+{\em Prescaler,\-:} & specifies the Prescaler Register value \\
+\hline
+{\em T\-I\-M\-\_\-\-P\-S\-C\-Reload\-Mode,\-:} & specifies the T\-I\-M Prescaler Reload mode This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-P\-S\-C\-Reload\-Mode\-\_\-\-Update\-: The Prescaler is loaded at the update event. \item T\-I\-M\-\_\-\-P\-S\-C\-Reload\-Mode\-\_\-\-Immediate\-: The Prescaler is loaded immediatly. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 339 of file stm32f30x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___group1_gadd2cca5fac6c1291dc4339098d5c9562}{\index{Time\-Base management functions@{Time\-Base management functions}!T\-I\-M\-\_\-\-Select\-One\-Pulse\-Mode@{T\-I\-M\-\_\-\-Select\-One\-Pulse\-Mode}}
+\index{T\-I\-M\-\_\-\-Select\-One\-Pulse\-Mode@{T\-I\-M\-\_\-\-Select\-One\-Pulse\-Mode}!TimeBase management functions@{Time\-Base management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Select\-One\-Pulse\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Select\-One\-Pulse\-Mode (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-O\-P\-Mode}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group1_gadd2cca5fac6c1291dc4339098d5c9562}
+
+
+Selects the T\-I\-Mx's One Pulse Mode. 
+
+Selects the T\-I\-Mx’s One Pulse Mode.
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 6 ,7 ,8, 15, 16 or 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-P\-Mode,\-:} & specifies the O\-P\-M Mode to be used. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-O\-P\-Mode\-\_\-\-Single \item T\-I\-M\-\_\-\-O\-P\-Mode\-\_\-\-Repetitive \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 14 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-P\-Mode,\-:} & specifies the O\-P\-M Mode to be used. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-O\-P\-Mode\-\_\-\-Single \item T\-I\-M\-\_\-\-O\-P\-Mode\-\_\-\-Repetitive \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 554 of file stm32f30x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___group1_gad6a388d498c7f299d00a9d0871943041}{\index{Time\-Base management functions@{Time\-Base management functions}!T\-I\-M\-\_\-\-Set\-Autoreload@{T\-I\-M\-\_\-\-Set\-Autoreload}}
+\index{T\-I\-M\-\_\-\-Set\-Autoreload@{T\-I\-M\-\_\-\-Set\-Autoreload}!TimeBase management functions@{Time\-Base management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Set\-Autoreload}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Set\-Autoreload (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint32\-\_\-t}}]{Autoreload}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group1_gad6a388d498c7f299d00a9d0871943041}
+
+
+Sets the T\-I\-Mx Autoreload Register value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 6 ,7 ,8, 15, 16 or 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em Autoreload,\-:} & specifies the Autoreload register new value. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 14 to select the T\-I\-M peripheral. \\
+\hline
+{\em Autoreload,\-:} & specifies the Autoreload register new value. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 403 of file stm32f30x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___group1_ga20ef804dc32c723662d11ee7da3baab2}{\index{Time\-Base management functions@{Time\-Base management functions}!T\-I\-M\-\_\-\-Set\-Clock\-Division@{T\-I\-M\-\_\-\-Set\-Clock\-Division}}
+\index{T\-I\-M\-\_\-\-Set\-Clock\-Division@{T\-I\-M\-\_\-\-Set\-Clock\-Division}!TimeBase management functions@{Time\-Base management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Set\-Clock\-Division}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Set\-Clock\-Division (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-C\-K\-D}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group1_ga20ef804dc32c723662d11ee7da3baab2}
+
+
+Sets the T\-I\-Mx Clock Division value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 8, 15, 16 or 17, to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-C\-K\-D,\-:} & specifies the clock division value. This parameter can be one of the following value\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-C\-K\-D\-\_\-\-D\-I\-V1\-: T\-D\-T\-S = Tck\-\_\-tim \item T\-I\-M\-\_\-\-C\-K\-D\-\_\-\-D\-I\-V2\-: T\-D\-T\-S = 2$\ast$\-Tck\-\_\-tim \item T\-I\-M\-\_\-\-C\-K\-D\-\_\-\-D\-I\-V4\-: T\-D\-T\-S = 4$\ast$\-Tck\-\_\-tim \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 14 except 6 and 7, to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-C\-K\-D,\-:} & specifies the clock division value. This parameter can be one of the following value\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-C\-K\-D\-\_\-\-D\-I\-V1\-: T\-D\-T\-S = Tck\-\_\-tim \item T\-I\-M\-\_\-\-C\-K\-D\-\_\-\-D\-I\-V2\-: T\-D\-T\-S = 2$\ast$\-Tck\-\_\-tim \item T\-I\-M\-\_\-\-C\-K\-D\-\_\-\-D\-I\-V4\-: T\-D\-T\-S = 4$\ast$\-Tck\-\_\-tim \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 577 of file stm32f30x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___group1_ga18173e7955a85d5c2598c643eada2692}{\index{Time\-Base management functions@{Time\-Base management functions}!T\-I\-M\-\_\-\-Set\-Counter@{T\-I\-M\-\_\-\-Set\-Counter}}
+\index{T\-I\-M\-\_\-\-Set\-Counter@{T\-I\-M\-\_\-\-Set\-Counter}!TimeBase management functions@{Time\-Base management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Set\-Counter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Set\-Counter (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint32\-\_\-t}}]{Counter}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group1_ga18173e7955a85d5c2598c643eada2692}
+
+
+Sets the T\-I\-Mx Counter Register value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 6 ,7 ,8, 15, 16 or 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em Counter,\-:} & specifies the Counter register new value. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 14 to select the T\-I\-M peripheral. \\
+\hline
+{\em Counter,\-:} & specifies the Counter register new value. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 388 of file stm32f30x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___group1_ga83fd58c9416802d9638bbe1715c98932}{\index{Time\-Base management functions@{Time\-Base management functions}!T\-I\-M\-\_\-\-Time\-Base\-Init@{T\-I\-M\-\_\-\-Time\-Base\-Init}}
+\index{T\-I\-M\-\_\-\-Time\-Base\-Init@{T\-I\-M\-\_\-\-Time\-Base\-Init}!TimeBase management functions@{Time\-Base management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Time\-Base\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Time\-Base\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{T\-I\-M\-\_\-\-Time\-Base\-Init\-Type\-Def $\ast$}]{T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group1_ga83fd58c9416802d9638bbe1715c98932}
+
+
+Initializes the T\-I\-Mx Time Base Unit peripheral according to the specified parameters in the T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 6 ,7 ,8, 15, 16 or 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct,\-:} & pointer to a T\-I\-M\-\_\-\-Time\-Base\-Init\-Type\-Def structure that contains the configuration information for the specified T\-I\-M peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 14 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct,\-:} & pointer to a T\-I\-M\-\_\-\-Time\-Base\-Init\-Type\-Def structure that contains the configuration information for the specified T\-I\-M peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 267 of file stm32f30x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___group1_ga1556a0b9a5d53506875fd7de0cbc6b1f}{\index{Time\-Base management functions@{Time\-Base management functions}!T\-I\-M\-\_\-\-Time\-Base\-Struct\-Init@{T\-I\-M\-\_\-\-Time\-Base\-Struct\-Init}}
+\index{T\-I\-M\-\_\-\-Time\-Base\-Struct\-Init@{T\-I\-M\-\_\-\-Time\-Base\-Struct\-Init}!TimeBase management functions@{Time\-Base management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Time\-Base\-Struct\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Time\-Base\-Struct\-Init (
+\begin{DoxyParamCaption}
+\item[{T\-I\-M\-\_\-\-Time\-Base\-Init\-Type\-Def $\ast$}]{T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group1_ga1556a0b9a5d53506875fd7de0cbc6b1f}
+
+
+Fills each T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct} & \-: pointer to a T\-I\-M\-\_\-\-Time\-Base\-Init\-Type\-Def structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 319 of file stm32f30x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___group1_gae8088f379b3d09289f130e841cc4ab03}{\index{Time\-Base management functions@{Time\-Base management functions}!T\-I\-M\-\_\-\-U\-I\-F\-Remap@{T\-I\-M\-\_\-\-U\-I\-F\-Remap}}
+\index{T\-I\-M\-\_\-\-U\-I\-F\-Remap@{T\-I\-M\-\_\-\-U\-I\-F\-Remap}!TimeBase management functions@{Time\-Base management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-U\-I\-F\-Remap}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-U\-I\-F\-Remap (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group1_gae8088f379b3d09289f130e841cc4ab03}
+
+
+Sets or resets the update interrupt flag (U\-I\-F)status bit Remapping. when sets, reading T\-I\-Mx\-\_\-\-C\-N\-T register returns U\-I\-F bit instead of C\-N\-T\mbox{[}31\mbox{]}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 6 ,7 ,8, 15, 16 or 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the U\-I\-F\-R\-E\-M\-A\-P bit. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 502 of file stm32f30x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___group1_gace2384dd33e849a054f61b8e1fc7e7c3}{\index{Time\-Base management functions@{Time\-Base management functions}!T\-I\-M\-\_\-\-Update\-Disable\-Config@{T\-I\-M\-\_\-\-Update\-Disable\-Config}}
+\index{T\-I\-M\-\_\-\-Update\-Disable\-Config@{T\-I\-M\-\_\-\-Update\-Disable\-Config}!TimeBase management functions@{Time\-Base management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Update\-Disable\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Update\-Disable\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group1_gace2384dd33e849a054f61b8e1fc7e7c3}
+
+
+Enables or Disables the T\-I\-Mx Update event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 6 ,7 ,8, 15, 16 or 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the T\-I\-Mx U\-D\-I\-S bit This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 14 to select the T\-I\-M peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the T\-I\-Mx U\-D\-I\-S bit This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 447 of file stm32f30x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___group1_ga1d7a8f952e209de142499e67a653fc1f}{\index{Time\-Base management functions@{Time\-Base management functions}!T\-I\-M\-\_\-\-Update\-Request\-Config@{T\-I\-M\-\_\-\-Update\-Request\-Config}}
+\index{T\-I\-M\-\_\-\-Update\-Request\-Config@{T\-I\-M\-\_\-\-Update\-Request\-Config}!TimeBase management functions@{Time\-Base management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Update\-Request\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Update\-Request\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Update\-Source}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group1_ga1d7a8f952e209de142499e67a653fc1f}
+
+
+Configures the T\-I\-Mx Update Request Interrupt source. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 6 ,7 ,8, 15, 16 or 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Update\-Source,\-:} & specifies the Update source. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Update\-Source\-\_\-\-Regular\-: Source of update is the counter overflow/underflow or the setting of U\-G bit, or an update generation through the slave mode controller. \item T\-I\-M\-\_\-\-Update\-Source\-\_\-\-Global\-: Source of update is counter overflow/underflow. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 14 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Update\-Source,\-:} & specifies the Update source. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Update\-Source\-\_\-\-Global\-: Source of update is the counter overflow/underflow or the setting of U\-G bit, or an update generation through the slave mode controller. \item T\-I\-M\-\_\-\-Update\-Source\-\_\-\-Regular\-: Source of update is counter overflow/underflow. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 476 of file stm32f30x\-\_\-tim.\-c.
+

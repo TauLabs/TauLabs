@@ -1,0 +1,191 @@
+\hypertarget{group___s_p_i___exported___functions}{\section{S\-P\-I\-\_\-\-Exported\-\_\-\-Functions}
+\label{group___s_p_i___exported___functions}\index{S\-P\-I\-\_\-\-Exported\-\_\-\-Functions@{S\-P\-I\-\_\-\-Exported\-\_\-\-Functions}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_p_i___exported___functions_ga3a2cbcf27cb1b160f6ef8fce23eff88c}{S\-P\-I\-\_\-\-Init} (\hyperlink{struct_s_p_i___type_def}{S\-P\-I\-\_\-\-Type\-Def} $\ast$S\-P\-Ix, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} S\-P\-I\-\_\-\-Init\-Type\-Def $\ast$S\-P\-I\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the S\-P\-Ix peripheral according to the specified parameters in the S\-P\-I\-\_\-\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_p_i___exported___functions_gad5af40bebe8dbe3fa8bd476489d7e3da}{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Send\-Data} (\hyperlink{struct_s_p_i___type_def}{S\-P\-I\-\_\-\-Type\-Def} $\ast$S\-P\-Ix, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___copter_control_b_l_ga6f3335509cc4943e20df66f72483910c}{Data})
+\begin{DoxyCompactList}\small\item\em Transmits a Data through the S\-P\-Ix/\-I2\-Sx peripheral. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___s_p_i___exported___functions_gab77de76547f3bff403236b263b070a30}{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Receive\-Data} (\hyperlink{struct_s_p_i___type_def}{S\-P\-I\-\_\-\-Type\-Def} $\ast$S\-P\-Ix)
+\begin{DoxyCompactList}\small\item\em Returns the most recent received data by the S\-P\-Ix/\-I2\-Sx peripheral. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_p_i___exported___functions_ga35a524a49ff3d058137060f751e8749f}{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Clear\-I\-T\-Pending\-Bit} (\hyperlink{struct_s_p_i___type_def}{S\-P\-I\-\_\-\-Type\-Def} $\ast$S\-P\-Ix, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} S\-P\-I\-\_\-\-I2\-S\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Clears the S\-P\-Ix C\-R\-C Error (C\-R\-C\-E\-R\-R) interrupt pending bit. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Function Documentation}
+\hypertarget{group___s_p_i___exported___functions_ga35a524a49ff3d058137060f751e8749f}{\index{S\-P\-I\-\_\-\-Exported\-\_\-\-Functions@{S\-P\-I\-\_\-\-Exported\-\_\-\-Functions}!S\-P\-I\-\_\-\-I2\-S\-\_\-\-Clear\-I\-T\-Pending\-Bit@{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Clear\-I\-T\-Pending\-Bit}}
+\index{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Clear\-I\-T\-Pending\-Bit@{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Clear\-I\-T\-Pending\-Bit}!SPI_Exported_Functions@{S\-P\-I\-\_\-\-Exported\-\_\-\-Functions}}
+\subsubsection[{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Clear\-I\-T\-Pending\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} S\-P\-I\-\_\-\-I2\-S\-\_\-\-Clear\-I\-T\-Pending\-Bit (
+\begin{DoxyParamCaption}
+\item[{{\bf S\-P\-I\-\_\-\-Type\-Def} $\ast$}]{S\-P\-Ix, }
+\item[{{\bf uint8\-\_\-t}}]{S\-P\-I\-\_\-\-I2\-S\-\_\-\-I\-T}
+\end{DoxyParamCaption}
+)}}\label{group___s_p_i___exported___functions_ga35a524a49ff3d058137060f751e8749f}
+
+
+Clears the S\-P\-Ix C\-R\-C Error (C\-R\-C\-E\-R\-R) interrupt pending bit. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\-P\-Ix,\-:} & where x can be
+\begin{DoxyItemize}
+\item 1, 2 or 3 in S\-P\-I mode 
+\end{DoxyItemize}\\
+\hline
+{\em S\-P\-I\-\_\-\-I2\-S\-\_\-\-I\-T,\-:} & specifies the S\-P\-I interrupt pending bit to clear. This function clears only C\-R\-C\-E\-R\-R intetrrupt pending bit. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+
+\begin{DoxyItemize}
+\item O\-V\-R (Over\-Run Error) interrupt pending bit is cleared by software sequence\-: a read operation to S\-P\-I\-\_\-\-D\-R register (\hyperlink{group___s_p_i___exported___functions_gab77de76547f3bff403236b263b070a30}{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Receive\-Data()}) followed by a read operation to S\-P\-I\-\_\-\-S\-R register (\hyperlink{group___s_p_i___exported___functions_ga72decbc1cd79f8fad92a2204beca6bc5}{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Get\-I\-T\-Status()}).
+\item U\-D\-R (Under\-Run Error) interrupt pending bit is cleared by a read operation to S\-P\-I\-\_\-\-S\-R register (\hyperlink{group___s_p_i___exported___functions_ga72decbc1cd79f8fad92a2204beca6bc5}{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Get\-I\-T\-Status()}).
+\item M\-O\-D\-F (Mode Fault) interrupt pending bit is cleared by software sequence\-: a read/write operation to S\-P\-I\-\_\-\-S\-R register (\hyperlink{group___s_p_i___exported___functions_ga72decbc1cd79f8fad92a2204beca6bc5}{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Get\-I\-T\-Status()}) followed by a write operation to S\-P\-I\-\_\-\-C\-R1 register (\hyperlink{group___s_p_i___exported___functions_gaa31357879a65ee1ed7223f3b9114dcf3}{S\-P\-I\-\_\-\-Cmd()} to enable the S\-P\-I). 
+\end{DoxyItemize}
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em S\-P\-Ix,\-:} & To select the S\-P\-Ix/\-I2\-Sx peripheral, where x can be\-: 1, 2 or 3 in S\-P\-I mode or 2 or 3 in I2\-S mode or I2\-Sxext for I2\-S full duplex mode. \\
+\hline
+{\em S\-P\-I\-\_\-\-I2\-S\-\_\-\-I\-T,\-:} & specifies the S\-P\-I interrupt pending bit to clear. This function clears only C\-R\-C\-E\-R\-R interrupt pending bit. \begin{DoxyItemize}
+\item S\-P\-I\-\_\-\-I\-T\-\_\-\-C\-R\-C\-E\-R\-R\-: C\-R\-C Error interrupt.\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+O\-V\-R (Over\-Run Error) interrupt pending bit is cleared by software sequence\-: a read operation to S\-P\-I\-\_\-\-D\-R register (\hyperlink{group___s_p_i___exported___functions_gab77de76547f3bff403236b263b070a30}{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Receive\-Data()}) followed by a read operation to S\-P\-I\-\_\-\-S\-R register (\hyperlink{group___s_p_i___exported___functions_ga72decbc1cd79f8fad92a2204beca6bc5}{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Get\-I\-T\-Status()}). 
+
+U\-D\-R (Under\-Run Error) interrupt pending bit is cleared by a read operation to S\-P\-I\-\_\-\-S\-R register (\hyperlink{group___s_p_i___exported___functions_ga72decbc1cd79f8fad92a2204beca6bc5}{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Get\-I\-T\-Status()}). 
+
+M\-O\-D\-F (Mode Fault) interrupt pending bit is cleared by software sequence\-: a read/write operation to S\-P\-I\-\_\-\-S\-R register (\hyperlink{group___s_p_i___exported___functions_ga72decbc1cd79f8fad92a2204beca6bc5}{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Get\-I\-T\-Status()}) followed by a write operation to S\-P\-I\-\_\-\-C\-R1 register (\hyperlink{group___s_p_i___exported___functions_gaa31357879a65ee1ed7223f3b9114dcf3}{S\-P\-I\-\_\-\-Cmd()} to enable the S\-P\-I). 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 882 of file stm32f10x\-\_\-spi.\-c.
+
+\hypertarget{group___s_p_i___exported___functions_gab77de76547f3bff403236b263b070a30}{\index{S\-P\-I\-\_\-\-Exported\-\_\-\-Functions@{S\-P\-I\-\_\-\-Exported\-\_\-\-Functions}!S\-P\-I\-\_\-\-I2\-S\-\_\-\-Receive\-Data@{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Receive\-Data}}
+\index{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Receive\-Data@{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Receive\-Data}!SPI_Exported_Functions@{S\-P\-I\-\_\-\-Exported\-\_\-\-Functions}}
+\subsubsection[{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Receive\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} S\-P\-I\-\_\-\-I2\-S\-\_\-\-Receive\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf S\-P\-I\-\_\-\-Type\-Def} $\ast$}]{S\-P\-Ix}
+\end{DoxyParamCaption}
+)}}\label{group___s_p_i___exported___functions_gab77de76547f3bff403236b263b070a30}
+
+
+Returns the most recent received data by the S\-P\-Ix/\-I2\-Sx peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\-P\-Ix,\-:} & where x can be
+\begin{DoxyItemize}
+\item 1, 2 or 3 in S\-P\-I mode
+\item 2 or 3 in I2\-S mode 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & value of the received data.\\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em S\-P\-Ix,\-:} & To select the S\-P\-Ix/\-I2\-Sx peripheral, where x can be\-: 1, 2 or 3 in S\-P\-I mode or 2 or 3 in I2\-S mode or I2\-Sxext for I2\-S full duplex mode. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & value of the received data. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 562 of file stm32f10x\-\_\-spi.\-c.
+
+\hypertarget{group___s_p_i___exported___functions_gad5af40bebe8dbe3fa8bd476489d7e3da}{\index{S\-P\-I\-\_\-\-Exported\-\_\-\-Functions@{S\-P\-I\-\_\-\-Exported\-\_\-\-Functions}!S\-P\-I\-\_\-\-I2\-S\-\_\-\-Send\-Data@{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Send\-Data}}
+\index{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Send\-Data@{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Send\-Data}!SPI_Exported_Functions@{S\-P\-I\-\_\-\-Exported\-\_\-\-Functions}}
+\subsubsection[{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Send\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} S\-P\-I\-\_\-\-I2\-S\-\_\-\-Send\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf S\-P\-I\-\_\-\-Type\-Def} $\ast$}]{S\-P\-Ix, }
+\item[{{\bf uint16\-\_\-t}}]{Data}
+\end{DoxyParamCaption}
+)}}\label{group___s_p_i___exported___functions_gad5af40bebe8dbe3fa8bd476489d7e3da}
+
+
+Transmits a Data through the S\-P\-Ix/\-I2\-Sx peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\-P\-Ix,\-:} & where x can be
+\begin{DoxyItemize}
+\item 1, 2 or 3 in S\-P\-I mode
+\item 2 or 3 in I2\-S mode 
+\end{DoxyItemize}\\
+\hline
+{\em Data} & \-: Data to be transmitted. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em S\-P\-Ix,\-:} & To select the S\-P\-Ix/\-I2\-Sx peripheral, where x can be\-: 1, 2 or 3 in S\-P\-I mode or 2 or 3 in I2\-S mode or I2\-Sxext for I2\-S full duplex mode. \\
+\hline
+{\em Data,\-:} & Data to be transmitted. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 546 of file stm32f10x\-\_\-spi.\-c.
+
+\hypertarget{group___s_p_i___exported___functions_ga3a2cbcf27cb1b160f6ef8fce23eff88c}{\index{S\-P\-I\-\_\-\-Exported\-\_\-\-Functions@{S\-P\-I\-\_\-\-Exported\-\_\-\-Functions}!S\-P\-I\-\_\-\-Init@{S\-P\-I\-\_\-\-Init}}
+\index{S\-P\-I\-\_\-\-Init@{S\-P\-I\-\_\-\-Init}!SPI_Exported_Functions@{S\-P\-I\-\_\-\-Exported\-\_\-\-Functions}}
+\subsubsection[{S\-P\-I\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} S\-P\-I\-\_\-\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf S\-P\-I\-\_\-\-Type\-Def} $\ast$}]{S\-P\-Ix, }
+\item[{{\bf const} S\-P\-I\-\_\-\-Init\-Type\-Def $\ast$}]{S\-P\-I\-\_\-\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___s_p_i___exported___functions_ga3a2cbcf27cb1b160f6ef8fce23eff88c}
+
+
+Initializes the S\-P\-Ix peripheral according to the specified parameters in the S\-P\-I\-\_\-\-Init\-Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\-P\-Ix,\-:} & where x can be 1, 2 or 3 to select the S\-P\-I peripheral. \\
+\hline
+{\em S\-P\-I\-\_\-\-Init\-Struct,\-:} & pointer to a S\-P\-I\-\_\-\-Init\-Type\-Def structure that contains the configuration information for the specified S\-P\-I peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 157 of file stm32f10x\-\_\-spi.\-c.
+

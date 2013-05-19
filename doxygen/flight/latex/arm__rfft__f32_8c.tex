@@ -1,0 +1,91 @@
+\hypertarget{arm__rfft__f32_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-C\-M\-S\-I\-S3/\-D\-S\-P\-\_\-\-Lib/\-Source/\-Transform\-Functions/arm\-\_\-rfft\-\_\-f32.c File Reference}
+\label{arm__rfft__f32_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-C\-M\-S\-I\-S3/\-D\-S\-P\-\_\-\-Lib/\-Source/\-Transform\-Functions/arm\-\_\-rfft\-\_\-f32.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-C\-M\-S\-I\-S3/\-D\-S\-P\-\_\-\-Lib/\-Source/\-Transform\-Functions/arm\-\_\-rfft\-\_\-f32.\-c}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{arm__rfft__f32_8c_a6cfdb6bdc66b13732ef2351caf98fdbb}{arm\-\_\-split\-\_\-rfft\-\_\-f32} (\hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Src, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} fft\-Len, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-A\-Table, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-B\-Table, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} modifier)
+\begin{DoxyCompactList}\small\item\em Core Real F\-F\-T process. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{arm__rfft__f32_8c_a585bef78c103d150a116241a4feb6442}{arm\-\_\-split\-\_\-rifft\-\_\-f32} (\hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Src, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} fft\-Len, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-A\-Table, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-B\-Table, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} modifier)
+\begin{DoxyCompactList}\small\item\em Core Real I\-F\-F\-T process. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_f_f_t___r_i_f_f_t_ga3df1766d230532bc068fc4ed69d0fcdc}{arm\-\_\-rfft\-\_\-f32} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__rfft__instance__f32}{arm\-\_\-rfft\-\_\-instance\-\_\-f32} $\ast$S, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Src, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Dst)
+\begin{DoxyCompactList}\small\item\em Processing function for the floating-\/point R\-F\-F\-T/\-R\-I\-F\-F\-T. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{arm__rfft__f32_8c_a6cfdb6bdc66b13732ef2351caf98fdbb}{\index{arm\-\_\-rfft\-\_\-f32.\-c@{arm\-\_\-rfft\-\_\-f32.\-c}!arm\-\_\-split\-\_\-rfft\-\_\-f32@{arm\-\_\-split\-\_\-rfft\-\_\-f32}}
+\index{arm\-\_\-split\-\_\-rfft\-\_\-f32@{arm\-\_\-split\-\_\-rfft\-\_\-f32}!arm_rfft_f32.c@{arm\-\_\-rfft\-\_\-f32.\-c}}
+\subsubsection[{arm\-\_\-split\-\_\-rfft\-\_\-f32}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-split\-\_\-rfft\-\_\-f32 (
+\begin{DoxyParamCaption}
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf uint32\-\_\-t}}]{fft\-Len, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-A\-Table, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-B\-Table, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{modifier}
+\end{DoxyParamCaption}
+)}}\label{arm__rfft__f32_8c_a6cfdb6bdc66b13732ef2351caf98fdbb}
+
+
+Core Real F\-F\-T process. 
+
+end of R\-F\-F\-T\-\_\-\-R\-I\-F\-F\-T group 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the input buffer. \\
+\hline
+\mbox{\tt in}  & {\em fft\-Len} & length of F\-F\-T. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-A\-Table} & points to the twiddle Coef A buffer. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-B\-Table} & points to the twiddle Coef B buffer. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the output buffer. \\
+\hline
+\mbox{\tt in}  & {\em modifier} & twiddle coefficient modifier that supports different size F\-F\-Ts with the same twiddle factor table. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none. 
+\end{DoxyReturn}
+
+
+Definition at line 221 of file arm\-\_\-rfft\-\_\-f32.\-c.
+
+\hypertarget{arm__rfft__f32_8c_a585bef78c103d150a116241a4feb6442}{\index{arm\-\_\-rfft\-\_\-f32.\-c@{arm\-\_\-rfft\-\_\-f32.\-c}!arm\-\_\-split\-\_\-rifft\-\_\-f32@{arm\-\_\-split\-\_\-rifft\-\_\-f32}}
+\index{arm\-\_\-split\-\_\-rifft\-\_\-f32@{arm\-\_\-split\-\_\-rifft\-\_\-f32}!arm_rfft_f32.c@{arm\-\_\-rfft\-\_\-f32.\-c}}
+\subsubsection[{arm\-\_\-split\-\_\-rifft\-\_\-f32}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-split\-\_\-rifft\-\_\-f32 (
+\begin{DoxyParamCaption}
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf uint32\-\_\-t}}]{fft\-Len, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-A\-Table, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-B\-Table, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{modifier}
+\end{DoxyParamCaption}
+)}}\label{arm__rfft__f32_8c_a585bef78c103d150a116241a4feb6442}
+
+
+Core Real I\-F\-F\-T process. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the input buffer. \\
+\hline
+\mbox{\tt in}  & {\em fft\-Len} & length of F\-F\-T. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-A\-Table} & points to the twiddle Coef A buffer. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-B\-Table} & points to the twiddle Coef B buffer. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the output buffer. \\
+\hline
+\mbox{\tt in}  & {\em modifier} & twiddle coefficient modifier that supports different size F\-F\-Ts with the same twiddle factor table. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none. 
+\end{DoxyReturn}
+
+
+Definition at line 315 of file arm\-\_\-rfft\-\_\-f32.\-c.
+

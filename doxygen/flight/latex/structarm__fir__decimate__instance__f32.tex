@@ -1,0 +1,66 @@
+\hypertarget{structarm__fir__decimate__instance__f32}{\section{arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-f32 Struct Reference}
+\label{structarm__fir__decimate__instance__f32}\index{arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-f32@{arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-f32}}
+}
+
+
+Instance structure for the floating-\/point F\-I\-R decimator.  
+
+
+
+
+{\ttfamily \#include $<$arm\-\_\-math.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{structarm__fir__decimate__instance__f32_a76a8b2161731638eb3d67f277919f95d}{M}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{structarm__fir__decimate__instance__f32_a2aa2986129db8affef03ede88dd45a03}{num\-Taps}
+\item 
+\hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$ \hyperlink{structarm__fir__decimate__instance__f32_a268a8b0e80a3d9764baf33e4bc10dde2}{p\-Coeffs}
+\item 
+\hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$ \hyperlink{structarm__fir__decimate__instance__f32_a5bddf29aaaf2011d2e3bcec59a83f633}{p\-State}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Instance structure for the floating-\/point F\-I\-R decimator. 
+
+Definition at line 3667 of file arm\-\_\-math.\-h.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{structarm__fir__decimate__instance__f32_a76a8b2161731638eb3d67f277919f95d}{\index{arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-f32@{arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-f32}!M@{M}}
+\index{M@{M}!arm_fir_decimate_instance_f32@{arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-f32}}
+\subsubsection[{M}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-f32\-::\-M}}\label{structarm__fir__decimate__instance__f32_a76a8b2161731638eb3d67f277919f95d}
+decimation factor. 
+
+Definition at line 3669 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__fir__decimate__instance__f32_a2aa2986129db8affef03ede88dd45a03}{\index{arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-f32@{arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-f32}!num\-Taps@{num\-Taps}}
+\index{num\-Taps@{num\-Taps}!arm_fir_decimate_instance_f32@{arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-f32}}
+\subsubsection[{num\-Taps}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-f32\-::num\-Taps}}\label{structarm__fir__decimate__instance__f32_a2aa2986129db8affef03ede88dd45a03}
+number of coefficients in the filter. 
+
+Definition at line 3670 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__fir__decimate__instance__f32_a268a8b0e80a3d9764baf33e4bc10dde2}{\index{arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-f32@{arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-f32}!p\-Coeffs@{p\-Coeffs}}
+\index{p\-Coeffs@{p\-Coeffs}!arm_fir_decimate_instance_f32@{arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-f32}}
+\subsubsection[{p\-Coeffs}]{\setlength{\rightskip}{0pt plus 5cm}{\bf float32\-\_\-t}$\ast$ arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-f32\-::p\-Coeffs}}\label{structarm__fir__decimate__instance__f32_a268a8b0e80a3d9764baf33e4bc10dde2}
+points to the coefficient array. The array is of length num\-Taps. 
+
+Definition at line 3671 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__fir__decimate__instance__f32_a5bddf29aaaf2011d2e3bcec59a83f633}{\index{arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-f32@{arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-f32}!p\-State@{p\-State}}
+\index{p\-State@{p\-State}!arm_fir_decimate_instance_f32@{arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-f32}}
+\subsubsection[{p\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf float32\-\_\-t}$\ast$ arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-f32\-::p\-State}}\label{structarm__fir__decimate__instance__f32_a5bddf29aaaf2011d2e3bcec59a83f633}
+points to the state variable array. The array is of length num\-Taps+block\-Size-\/1. 
+
+Definition at line 3672 of file arm\-\_\-math.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-C\-M\-S\-I\-S3/\-D\-S\-P\-\_\-\-Lib/\-Include/\hyperlink{arm__math_8h}{arm\-\_\-math.\-h}\end{DoxyCompactItemize}

@@ -1,0 +1,26 @@
+var group___s_t_m32_f10x___std_periph___driver =
+[
+    [ "MISC", "group___m_i_s_c.html", "group___m_i_s_c" ],
+    [ "ADC", "group___a_d_c.html", "group___a_d_c" ],
+    [ "BKP", "group___b_k_p.html", "group___b_k_p" ],
+    [ "CAN", "group___c_a_n.html", "group___c_a_n" ],
+    [ "CEC", "group___c_e_c.html", "group___c_e_c" ],
+    [ "CRC", "group___c_r_c.html", "group___c_r_c" ],
+    [ "DAC", "group___d_a_c.html", "group___d_a_c" ],
+    [ "DBGMCU", "group___d_b_g_m_c_u.html", "group___d_b_g_m_c_u" ],
+    [ "DMA", "group___d_m_a.html", "group___d_m_a" ],
+    [ "EXTI", "group___e_x_t_i.html", "group___e_x_t_i" ],
+    [ "FLASH", "group___f_l_a_s_h.html", "group___f_l_a_s_h" ],
+    [ "FSMC", "group___f_s_m_c.html", "group___f_s_m_c" ],
+    [ "GPIO", "group___g_p_i_o.html", "group___g_p_i_o" ],
+    [ "Sensor Module", "group___i2_c.html", "group___i2_c" ],
+    [ "IWDG", "group___i_w_d_g.html", "group___i_w_d_g" ],
+    [ "PWR", "group___p_w_r.html", "group___p_w_r" ],
+    [ "RCC", "group___r_c_c.html", "group___r_c_c" ],
+    [ "RTC", "group___r_t_c.html", "group___r_t_c" ],
+    [ "SDIO", "group___s_d_i_o.html", "group___s_d_i_o" ],
+    [ "SPI", "group___s_p_i.html", "group___s_p_i" ],
+    [ "TIM", "group___t_i_m.html", "group___t_i_m" ],
+    [ "USART", "group___u_s_a_r_t.html", "group___u_s_a_r_t" ],
+    [ "WWDG", "group___w_w_d_g.html", "group___w_w_d_g" ]
+];

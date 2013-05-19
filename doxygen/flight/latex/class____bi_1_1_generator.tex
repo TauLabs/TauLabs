@@ -1,0 +1,161 @@
+\hypertarget{class____bi_1_1_generator}{\section{\-\_\-\-\_\-bi.\-Generator Class Reference}
+\label{class____bi_1_1_generator}\index{\-\_\-\-\_\-bi.\-Generator@{\-\_\-\-\_\-bi.\-Generator}}
+}
+Inheritance diagram for \-\_\-\-\_\-bi.\-Generator\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class____bi_1_1_generator}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{class____bi_1_1_generator_ae3469a81e9c059e0743fa31d1dbda941}{\-\_\-\-\_\-init\-\_\-\-\_\-}
+\item 
+def \hyperlink{class____bi_1_1_generator_a74cbc3353a5c4e5643a6c68b11db6afc}{next}
+\item 
+def \hyperlink{class____bi_1_1_generator_ace27d850b38bc0f785052d879b78d972}{send}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 739 of file \-\_\-\-\_\-bi.\-py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class____bi_1_1_generator_ae3469a81e9c059e0743fa31d1dbda941}{\index{\-\_\-\-\_\-bi\-::\-Generator@{\-\_\-\-\_\-bi\-::\-Generator}!\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}!__bi::Generator@{\-\_\-\-\_\-bi\-::\-Generator}}
+\subsubsection[{\-\_\-\-\_\-init\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}def \-\_\-\-\_\-bi.\-Generator.\-\_\-\-\_\-init\-\_\-\-\_\- (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{fa}
+\end{DoxyParamCaption}
+)}}\label{class____bi_1_1_generator_ae3469a81e9c059e0743fa31d1dbda941}
+\begin{DoxyVerb}__NATIVE__
+PmReturn_t retval;
+pPmObj_t pself;
+pPmObj_t pfa;
+pPmObj_t pfunc;
+pPmObj_t pframe;
+uint8_t i;
+uint8_t objid;
+
+/* Raise TypeError if wrong number of args */
+if (NATIVE_GET_NUM_ARGS() != 2)
+{
+    PM_RAISE(retval, PM_RET_EX_TYPE);
+    return retval;
+}
+
+/* Raise ValueError if first args are not: instance, tuple */
+pself = NATIVE_GET_LOCAL(0);
+pfa = NATIVE_GET_LOCAL(1);
+if (OBJ_GET_TYPE(pself) != OBJ_TYPE_CLI)
+{
+    PM_RAISE(retval, PM_RET_EX_VAL);
+    return retval;
+}
+if (OBJ_GET_TYPE(pfa) != OBJ_TYPE_TUP)
+{
+    PM_RAISE(retval, PM_RET_EX_VAL);
+    return retval;
+}
+
+/* Create a new frame for the function */
+pfunc = ((pPmTuple_t)pfa)->val[0];
+retval = frame_new(pfunc, &pframe);
+PM_RETURN_IF_ERROR(retval);
+
+/* Copy args into frame's locals */
+for (i = 0; i < ((pPmTuple_t)pfa)->length - 1; i++)
+{
+    /* The pfa tuple is (func, [arg0, ... argN]) */
+    ((pPmFrame_t)pframe)->fo_locals[i] = ((pPmTuple_t)pfa)->val[i + 1];
+}
+
+/* Store frame in None attr of instance */
+heap_gcPushTempRoot(pframe, &objid);
+retval = dict_setItem((pPmObj_t)((pPmInstance_t)pself)->cli_attrs,
+              PM_NONE, pframe);
+heap_gcPopTempRoot(objid);
+
+NATIVE_SET_TOS(PM_NONE);
+return retval;
+\end{DoxyVerb}
+ 
+
+Definition at line 741 of file \-\_\-\-\_\-bi.\-py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class____bi_1_1_generator_a74cbc3353a5c4e5643a6c68b11db6afc}{\index{\-\_\-\-\_\-bi\-::\-Generator@{\-\_\-\-\_\-bi\-::\-Generator}!next@{next}}
+\index{next@{next}!__bi::Generator@{\-\_\-\-\_\-bi\-::\-Generator}}
+\subsubsection[{next}]{\setlength{\rightskip}{0pt plus 5cm}def \-\_\-\-\_\-bi.\-Generator.\-next (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{class____bi_1_1_generator_a74cbc3353a5c4e5643a6c68b11db6afc}
+
+
+Definition at line 796 of file \-\_\-\-\_\-bi.\-py.
+
+\hypertarget{class____bi_1_1_generator_ace27d850b38bc0f785052d879b78d972}{\index{\-\_\-\-\_\-bi\-::\-Generator@{\-\_\-\-\_\-bi\-::\-Generator}!send@{send}}
+\index{send@{send}!__bi::Generator@{\-\_\-\-\_\-bi\-::\-Generator}}
+\subsubsection[{send}]{\setlength{\rightskip}{0pt plus 5cm}def \-\_\-\-\_\-bi.\-Generator.\-send (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{arg}
+\end{DoxyParamCaption}
+)}}\label{class____bi_1_1_generator_ace27d850b38bc0f785052d879b78d972}
+\begin{DoxyVerb}__NATIVE__
+PmReturn_t retval;
+pPmObj_t pself;
+pPmObj_t parg;
+pPmObj_t pgenframe;
+
+/* Raise TypeError if wrong number of args */
+if (NATIVE_GET_NUM_ARGS() != 2)
+{
+    PM_RAISE(retval, PM_RET_EX_TYPE);
+    return retval;
+}
+
+/* Raise ValueError if first arg is not an instance */
+pself = NATIVE_GET_LOCAL(0);
+parg = NATIVE_GET_LOCAL(1);
+if (OBJ_GET_TYPE(pself) != OBJ_TYPE_CLI)
+{
+    PM_RAISE(retval, PM_RET_EX_VAL);
+    return retval;
+}
+
+/* Get the generator's frame */
+retval = dict_getItem((pPmObj_t)((pPmInstance_t)pself)->cli_attrs,
+              PM_NONE, &pgenframe);
+PM_RETURN_IF_ERROR(retval);
+
+/* Push argument onto generator's frame's stack */
+*(((pPmFrame_t)pgenframe)->fo_sp) = parg;
+((pPmFrame_t)pgenframe)->fo_sp++;
+
+/* Set generator's frame's fo_back so yielded value goes to caller */
+((pPmFrame_t)pgenframe)->fo_back = NATIVE_GET_PFRAME();
+
+/* Set active frame to run generator */
+NATIVE_GET_PFRAME() = (pPmFrame_t)pgenframe;
+
+return PM_RET_FRAME_SWITCH;
+\end{DoxyVerb}
+ 
+
+Definition at line 800 of file \-\_\-\-\_\-bi.\-py.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/lib/\hyperlink{____bi_8py}{\-\_\-\-\_\-bi.\-py}\end{DoxyCompactItemize}

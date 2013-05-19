@@ -1,0 +1,314 @@
+\hypertarget{group___d_a_c___group3}{\section{Interrupts and flags management functions}
+\label{group___d_a_c___group3}\index{Interrupts and flags management functions@{Interrupts and flags management functions}}
+}
+
+
+Interrupts and flags management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_a_c___group3_ga12d7495b30eae40c2570118cabbda1c3}{D\-A\-C\-\_\-\-I\-T\-Config} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-A\-C\-\_\-\-Channel, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-A\-C\-\_\-\-I\-T, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified D\-A\-C interrupts. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___d_a_c___group3_ga9ee60b78f0ccd23bfbe54bce2a2f909b}{D\-A\-C\-\_\-\-Get\-Flag\-Status} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-A\-C\-\_\-\-Channel, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-A\-C\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified D\-A\-C flag is set or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_a_c___group3_ga49543c52786d70d6b6311f3fee856d37}{D\-A\-C\-\_\-\-Clear\-Flag} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-A\-C\-\_\-\-Channel, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-A\-C\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Clears the D\-A\-C channel's pending flags. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_gaacbd7ed539db0aacd973a0f6eca34074}{I\-T\-Status} \hyperlink{group___d_a_c___group3_ga541aac3b50db3a8a806ec5ef30679aca}{D\-A\-C\-\_\-\-Get\-I\-T\-Status} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-A\-C\-\_\-\-Channel, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-A\-C\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified D\-A\-C interrupt has occurred or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_a_c___group3_ga12d90e69a2642997136b23224d180641}{D\-A\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-A\-C\-\_\-\-Channel, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-A\-C\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Clears the D\-A\-C channel's interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interrupts and flags management functions. \begin{DoxyVerb} ===============================================================================
+              ##### Interrupts and flags management functions #####
+ ===============================================================================  \end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                   Interrupts and flags management functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___d_a_c___group3_ga49543c52786d70d6b6311f3fee856d37}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!D\-A\-C\-\_\-\-Clear\-Flag@{D\-A\-C\-\_\-\-Clear\-Flag}}
+\index{D\-A\-C\-\_\-\-Clear\-Flag@{D\-A\-C\-\_\-\-Clear\-Flag}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{D\-A\-C\-\_\-\-Clear\-Flag}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} D\-A\-C\-\_\-\-Clear\-Flag (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{D\-A\-C\-\_\-\-Channel, }
+\item[{{\bf uint32\-\_\-t}}]{D\-A\-C\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___d_a_c___group3_ga49543c52786d70d6b6311f3fee856d37}
+
+
+Clears the D\-A\-C channel's pending flags. 
+
+Clears the D\-A\-C channelx's pending flags.
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\-A\-C\-\_\-\-Channel,\-:} & The selected D\-A\-C channel. This parameter can be\-: \begin{DoxyItemize}
+\item D\-A\-C\-\_\-\-Channel\-\_\-1\-: D\-A\-C Channel1 selected \item D\-A\-C\-\_\-\-Channel\-\_\-2\-: D\-A\-C Channel2 selected \end{DoxyItemize}
+\\
+\hline
+{\em D\-A\-C\-\_\-\-F\-L\-A\-G,\-:} & specifies the flag to clear. This parameter can be of the following value\-: \begin{DoxyItemize}
+\item D\-A\-C\-\_\-\-F\-L\-A\-G\-\_\-\-D\-M\-A\-U\-D\-R\-: D\-M\-A underrun flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em D\-A\-C\-\_\-\-Channel,\-:} & The selected D\-A\-C channel. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item D\-A\-C\-\_\-\-Channel\-\_\-1\-: D\-A\-C Channel1 selected \item D\-A\-C\-\_\-\-Channel\-\_\-2\-: D\-A\-C Channel2 selected \end{DoxyItemize}
+\\
+\hline
+{\em D\-A\-C\-\_\-\-F\-L\-A\-G,\-:} & specifies the flag to clear. This parameter can be of the following value\-: \begin{DoxyItemize}
+\item D\-A\-C\-\_\-\-F\-L\-A\-G\-\_\-\-D\-M\-A\-U\-D\-R\-: D\-M\-A underrun flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The D\-M\-A underrun occurs when a second external trigger arrives before the acknowledgement for the first external trigger is received (first request). 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 594 of file stm32f30x\-\_\-dac.\-c.
+
+\hypertarget{group___d_a_c___group3_ga12d90e69a2642997136b23224d180641}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!D\-A\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit@{D\-A\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit}}
+\index{D\-A\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit@{D\-A\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{D\-A\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} D\-A\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{D\-A\-C\-\_\-\-Channel, }
+\item[{{\bf uint32\-\_\-t}}]{D\-A\-C\-\_\-\-I\-T}
+\end{DoxyParamCaption}
+)}}\label{group___d_a_c___group3_ga12d90e69a2642997136b23224d180641}
+
+
+Clears the D\-A\-C channel's interrupt pending bits. 
+
+Clears the D\-A\-C channelx’s interrupt pending bits.
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\-A\-C\-\_\-\-Channel,\-:} & The selected D\-A\-C channel. This parameter can be\-: \begin{DoxyItemize}
+\item D\-A\-C\-\_\-\-Channel\-\_\-1\-: D\-A\-C Channel1 selected \item D\-A\-C\-\_\-\-Channel\-\_\-2\-: D\-A\-C Channel2 selected \end{DoxyItemize}
+\\
+\hline
+{\em D\-A\-C\-\_\-\-I\-T,\-:} & specifies the D\-A\-C interrupt pending bit to clear. This parameter can be the following values\-: \begin{DoxyItemize}
+\item D\-A\-C\-\_\-\-I\-T\-\_\-\-D\-M\-A\-U\-D\-R\-: D\-M\-A underrun interrupt mask \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em D\-A\-C\-\_\-\-Channel,\-:} & The selected D\-A\-C channel. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item D\-A\-C\-\_\-\-Channel\-\_\-1\-: D\-A\-C Channel1 selected \item D\-A\-C\-\_\-\-Channel\-\_\-2\-: D\-A\-C Channel2 selected \end{DoxyItemize}
+\\
+\hline
+{\em D\-A\-C\-\_\-\-I\-T,\-:} & specifies the D\-A\-C interrupt pending bit to clear. This parameter can be the following values\-: \begin{DoxyItemize}
+\item D\-A\-C\-\_\-\-I\-T\-\_\-\-D\-M\-A\-U\-D\-R\-: D\-M\-A underrun interrupt mask \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The D\-M\-A underrun occurs when a second external trigger arrives before the acknowledgement for the first external trigger is received (first request). 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 655 of file stm32f30x\-\_\-dac.\-c.
+
+\hypertarget{group___d_a_c___group3_ga9ee60b78f0ccd23bfbe54bce2a2f909b}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!D\-A\-C\-\_\-\-Get\-Flag\-Status@{D\-A\-C\-\_\-\-Get\-Flag\-Status}}
+\index{D\-A\-C\-\_\-\-Get\-Flag\-Status@{D\-A\-C\-\_\-\-Get\-Flag\-Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{D\-A\-C\-\_\-\-Get\-Flag\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Flag\-Status} D\-A\-C\-\_\-\-Get\-Flag\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{D\-A\-C\-\_\-\-Channel, }
+\item[{{\bf uint32\-\_\-t}}]{D\-A\-C\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___d_a_c___group3_ga9ee60b78f0ccd23bfbe54bce2a2f909b}
+
+
+Checks whether the specified D\-A\-C flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\-A\-C\-\_\-\-Channel,\-:} & The selected D\-A\-C channel. This parameter can be\-: \begin{DoxyItemize}
+\item D\-A\-C\-\_\-\-Channel\-\_\-1\-: D\-A\-C Channel1 selected \item D\-A\-C\-\_\-\-Channel\-\_\-2\-: D\-A\-C Channel2 selected \end{DoxyItemize}
+\\
+\hline
+{\em D\-A\-C\-\_\-\-F\-L\-A\-G,\-:} & specifies the flag to check. This parameter can be only of the following value\-: \begin{DoxyItemize}
+\item D\-A\-C\-\_\-\-F\-L\-A\-G\-\_\-\-D\-M\-A\-U\-D\-R\-: D\-M\-A underrun flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The D\-M\-A underrun occurs when a second external trigger arrives before the acknowledgement for the first external trigger is received (first request). 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of D\-A\-C\-\_\-\-F\-L\-A\-G (S\-E\-T or R\-E\-S\-E\-T).\\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em D\-A\-C\-\_\-\-Channel,\-:} & The selected D\-A\-C channel. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item D\-A\-C\-\_\-\-Channel\-\_\-1\-: D\-A\-C Channel1 selected \item D\-A\-C\-\_\-\-Channel\-\_\-2\-: D\-A\-C Channel2 selected \end{DoxyItemize}
+\\
+\hline
+{\em D\-A\-C\-\_\-\-F\-L\-A\-G,\-:} & specifies the flag to check. This parameter can be only of the following value\-: \begin{DoxyItemize}
+\item D\-A\-C\-\_\-\-F\-L\-A\-G\-\_\-\-D\-M\-A\-U\-D\-R\-: D\-M\-A underrun flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The D\-M\-A underrun occurs when a second external trigger arrives before the acknowledgement for the first external trigger is received (first request). 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of D\-A\-C\-\_\-\-F\-L\-A\-G (S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 561 of file stm32f30x\-\_\-dac.\-c.
+
+\hypertarget{group___d_a_c___group3_ga541aac3b50db3a8a806ec5ef30679aca}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!D\-A\-C\-\_\-\-Get\-I\-T\-Status@{D\-A\-C\-\_\-\-Get\-I\-T\-Status}}
+\index{D\-A\-C\-\_\-\-Get\-I\-T\-Status@{D\-A\-C\-\_\-\-Get\-I\-T\-Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{D\-A\-C\-\_\-\-Get\-I\-T\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf I\-T\-Status} D\-A\-C\-\_\-\-Get\-I\-T\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{D\-A\-C\-\_\-\-Channel, }
+\item[{{\bf uint32\-\_\-t}}]{D\-A\-C\-\_\-\-I\-T}
+\end{DoxyParamCaption}
+)}}\label{group___d_a_c___group3_ga541aac3b50db3a8a806ec5ef30679aca}
+
+
+Checks whether the specified D\-A\-C interrupt has occurred or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\-A\-C\-\_\-\-Channel,\-:} & The selected D\-A\-C channel. This parameter can be\-: \begin{DoxyItemize}
+\item D\-A\-C\-\_\-\-Channel\-\_\-1\-: D\-A\-C Channel1 selected \item D\-A\-C\-\_\-\-Channel\-\_\-2\-: D\-A\-C Channel2 selected \end{DoxyItemize}
+\\
+\hline
+{\em D\-A\-C\-\_\-\-I\-T,\-:} & specifies the D\-A\-C interrupt source to check. This parameter can be the following values\-: \begin{DoxyItemize}
+\item D\-A\-C\-\_\-\-I\-T\-\_\-\-D\-M\-A\-U\-D\-R\-: D\-M\-A underrun interrupt mask \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The D\-M\-A underrun occurs when a second external trigger arrives before the acknowledgement for the first external trigger is received (first request). 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of D\-A\-C\-\_\-\-I\-T (S\-E\-T or R\-E\-S\-E\-T).\\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em D\-A\-C\-\_\-\-Channel,\-:} & The selected D\-A\-C channel. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item D\-A\-C\-\_\-\-Channel\-\_\-1\-: D\-A\-C Channel1 selected \item D\-A\-C\-\_\-\-Channel\-\_\-2\-: D\-A\-C Channel2 selected \end{DoxyItemize}
+\\
+\hline
+{\em D\-A\-C\-\_\-\-I\-T,\-:} & specifies the D\-A\-C interrupt source to check. This parameter can be the following values\-: \begin{DoxyItemize}
+\item D\-A\-C\-\_\-\-I\-T\-\_\-\-D\-M\-A\-U\-D\-R\-: D\-M\-A underrun interrupt mask \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The D\-M\-A underrun occurs when a second external trigger arrives before the acknowledgement for the first external trigger is received (first request). 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of D\-A\-C\-\_\-\-I\-T (S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 617 of file stm32f30x\-\_\-dac.\-c.
+
+\hypertarget{group___d_a_c___group3_ga12d7495b30eae40c2570118cabbda1c3}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!D\-A\-C\-\_\-\-I\-T\-Config@{D\-A\-C\-\_\-\-I\-T\-Config}}
+\index{D\-A\-C\-\_\-\-I\-T\-Config@{D\-A\-C\-\_\-\-I\-T\-Config}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{D\-A\-C\-\_\-\-I\-T\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} D\-A\-C\-\_\-\-I\-T\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{D\-A\-C\-\_\-\-Channel, }
+\item[{{\bf uint32\-\_\-t}}]{D\-A\-C\-\_\-\-I\-T, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___d_a_c___group3_ga12d7495b30eae40c2570118cabbda1c3}
+
+
+Enables or disables the specified D\-A\-C interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\-A\-C\-\_\-\-Channel,\-:} & The selected D\-A\-C channel. This parameter can be\-: \begin{DoxyItemize}
+\item D\-A\-C\-\_\-\-Channel\-\_\-1\-: D\-A\-C Channel1 selected \item D\-A\-C\-\_\-\-Channel\-\_\-2\-: D\-A\-C Channel2 selected \end{DoxyItemize}
+\\
+\hline
+{\em D\-A\-C\-\_\-\-I\-T,\-:} & specifies the D\-A\-C interrupt sources to be enabled or disabled. This parameter can be the following values\-: \begin{DoxyItemize}
+\item D\-A\-C\-\_\-\-I\-T\-\_\-\-D\-M\-A\-U\-D\-R\-: D\-M\-A underrun interrupt mask \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The D\-M\-A underrun occurs when a second external trigger arrives before the acknowledgement for the first external trigger is received (first request). 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\-State,\-:} & new state of the specified D\-A\-C interrupts. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em D\-A\-C\-\_\-\-Channel,\-:} & The selected D\-A\-C channel. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item D\-A\-C\-\_\-\-Channel\-\_\-1\-: D\-A\-C Channel1 selected \item D\-A\-C\-\_\-\-Channel\-\_\-2\-: D\-A\-C Channel2 selected \end{DoxyItemize}
+\\
+\hline
+{\em D\-A\-C\-\_\-\-I\-T,\-:} & specifies the D\-A\-C interrupt sources to be enabled or disabled. This parameter can be the following values\-: \begin{DoxyItemize}
+\item D\-A\-C\-\_\-\-I\-T\-\_\-\-D\-M\-A\-U\-D\-R\-: D\-M\-A underrun interrupt mask \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The D\-M\-A underrun occurs when a second external trigger arrives before the acknowledgement for the first external trigger is received (first request). 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\-State,\-:} & new state of the specified D\-A\-C interrupts. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 529 of file stm32f30x\-\_\-dac.\-c.
+

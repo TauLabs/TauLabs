@@ -1,0 +1,1022 @@
+\hypertarget{group___g_s_p_module}{\section{G\-P\-S Module}
+\label{group___g_s_p_module}\index{G\-P\-S Module@{G\-P\-S Module}}
+}
+
+
+Process G\-P\-S information.  
+
+
+\subsection*{Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{_g_p_s_8c}{G\-P\-S.\-c}
+\begin{DoxyCompactList}\small\item\em G\-P\-S module, handles G\-P\-S and N\-M\-E\-A stream. \end{DoxyCompactList}\item 
+file \hyperlink{_g_p_s_8h}{G\-P\-S.\-h}
+\begin{DoxyCompactList}\small\item\em Include file of the G\-P\-S module. As with all modules only the initialize function is exposed all other interactions with the module take place through the event queue and objects. \end{DoxyCompactList}\item 
+file \hyperlink{_n_m_e_a_8h}{N\-M\-E\-A.\-h}
+\begin{DoxyCompactList}\small\item\em G\-P\-S module, handles G\-P\-S and N\-M\-E\-A stream. \end{DoxyCompactList}\item 
+file \hyperlink{_u_b_x_8h}{U\-B\-X.\-h}
+\begin{DoxyCompactList}\small\item\em G\-P\-S module, handles G\-P\-S and N\-M\-E\-A stream. \end{DoxyCompactList}\item 
+file \hyperlink{_n_m_e_a_8c}{N\-M\-E\-A.\-c}
+\begin{DoxyCompactList}\small\item\em G\-P\-S module, handles G\-P\-S and N\-M\-E\-A stream. \end{DoxyCompactList}\item 
+file \hyperlink{_u_b_x_8c}{U\-B\-X.\-c}
+\begin{DoxyCompactList}\small\item\em G\-P\-S module, handles G\-P\-S and N\-M\-E\-A stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_g_p_s___r_x___s_t_a_t_s}{G\-P\-S\-\_\-\-R\-X\-\_\-\-S\-T\-A\-T\-S}
+\item 
+struct \hyperlink{struct_u_b_x___n_a_v___p_o_s_l_l_h}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-P\-O\-S\-L\-L\-H}
+\item 
+struct \hyperlink{struct_u_b_x___n_a_v___s_t_a_t_u_s}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-T\-A\-T\-U\-S}
+\item 
+struct \hyperlink{struct_u_b_x___n_a_v___d_o_p}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-D\-O\-P}
+\item 
+struct \hyperlink{struct_u_b_x___n_a_v___s_o_l}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L}
+\item 
+struct \hyperlink{struct_u_b_x___n_a_v___v_e_l_n_e_d}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-V\-E\-L\-N\-E\-D}
+\item 
+struct \hyperlink{struct_u_b_x___n_a_v___t_i_m_e_u_t_c}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-T\-I\-M\-E\-U\-T\-C}
+\item 
+struct \hyperlink{struct_u_b_x___n_a_v___s_v_i_n_f_o___s_v}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-\_\-\-S\-V}
+\item 
+struct \hyperlink{struct_u_b_x___n_a_v___s_v_i_n_f_o}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O}
+\item 
+union \hyperlink{union_u_b_x_payload}{U\-B\-X\-Payload}
+\item 
+struct \hyperlink{struct_u_b_x_header}{U\-B\-X\-Header}
+\item 
+struct \hyperlink{struct_u_b_x_packet}{U\-B\-X\-Packet}
+\item 
+struct \hyperlink{structnmea__parser}{nmea\-\_\-parser}
+\item 
+struct {\bfseries msgtracker}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___g_s_p_module_ga8050cbef253d91ff25e0df5f1633a96f}{G\-P\-S\-Start} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___g_s_p_module_gaaa9e652434fef66adb2ea7721f3ad640}{G\-P\-S\-Initialize} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___g_s_p_module_ga26eba01dd90e72f58587731e20e8dc57}{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{group___g_s_p_module_gaaa9e652434fef66adb2ea7721f3ad640}{G\-P\-S\-Initialize}, \hyperlink{group___g_s_p_module_ga8050cbef253d91ff25e0df5f1633a96f}{G\-P\-S\-Start})
+\item 
+\hyperlink{group___exported__types_gaf6a258d8f3ee5206d682d799316314b1}{bool} \hyperlink{group___g_s_p_module_gafb07ad2b755c0395ac8d7f6e86965c44}{N\-M\-E\-A\-\_\-update\-\_\-position} (char $\ast$nmea\-\_\-sentence, G\-P\-S\-Position\-Data $\ast$Gps\-Data)
+\item 
+\hyperlink{group___exported__types_gaf6a258d8f3ee5206d682d799316314b1}{bool} \hyperlink{group___g_s_p_module_ga5f520a9c350e8e1d1425e655b651cf14}{N\-M\-E\-A\-\_\-checksum} (char $\ast$nmea\-\_\-sentence)
+\item 
+int \hyperlink{group___g_s_p_module_ga0e248cf833b5f3723e388822f1552aa5}{parse\-\_\-nmea\-\_\-stream} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t}, char $\ast$, G\-P\-S\-Position\-Data $\ast$, struct \hyperlink{struct_g_p_s___r_x___s_t_a_t_s}{G\-P\-S\-\_\-\-R\-X\-\_\-\-S\-T\-A\-T\-S} $\ast$)
+\item 
+int \hyperlink{group___g_s_p_module_ga88dff12629e2c3266f00a05836b67758}{parse\-\_\-ubx\-\_\-stream} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t}, char $\ast$, G\-P\-S\-Position\-Data $\ast$, struct \hyperlink{struct_g_p_s___r_x___s_t_a_t_s}{G\-P\-S\-\_\-\-R\-X\-\_\-\-S\-T\-A\-T\-S} $\ast$)
+\item 
+\hyperlink{group___exported__types_gaf6a258d8f3ee5206d682d799316314b1}{bool} \hyperlink{group___g_s_p_module_gae7fdef747a5bfe514633f6925b6ffedf}{check\-\_\-msgtracker} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} tow, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} msg\-\_\-flag)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___g_s_p_module_ga85f34b0228c0157d478dfcefef43096f}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-P\-O\-S\-L\-L\-H\-::i\-T\-O\-W}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___g_s_p_module_ga754c2e4fe17d3fc6b627416bc1ff2110}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-P\-O\-S\-L\-L\-H\-::lon}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___g_s_p_module_ga41a8c2e9da88805da15971d21c633f6f}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-P\-O\-S\-L\-L\-H\-::lat}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___g_s_p_module_gacb639227d81a2413277fb492f6b450a0}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-P\-O\-S\-L\-L\-H\-::height}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___g_s_p_module_gaf78fd4a28f1595624f28d0df15bfcfac}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-P\-O\-S\-L\-L\-H\-::h\-M\-S\-L}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___g_s_p_module_gaf3b4eaeb1feedb8295a519b23a76bf83}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-P\-O\-S\-L\-L\-H\-::h\-Acc}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___g_s_p_module_gacd74a5379c0196b551432578f7ef6e4f}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-P\-O\-S\-L\-L\-H\-::v\-Acc}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___g_s_p_module_ga8413a77f5cf599f1d89fce98a304c5c1}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-T\-A\-T\-U\-S\-::i\-T\-O\-W}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_ga9ada0b00d91062449f398439afec8e70}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-T\-A\-T\-U\-S\-::gps\-Fix}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_ga06eed2ab154f7ab69c8a5f5acfbae99c}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-T\-A\-T\-U\-S\-::flags}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_ga6c2f59170b7d3a57f1ce01120b735ed1}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-T\-A\-T\-U\-S\-::fix\-Stat}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_ga3e1ce741856096d697c3aafd6e66ac61}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-T\-A\-T\-U\-S\-::flags2}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___g_s_p_module_ga9810462abcdcce5e305e41d4d6526699}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-T\-A\-T\-U\-S\-::ttff}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___g_s_p_module_ga41de8d3154dd215b93adeebff5a7972c}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-T\-A\-T\-U\-S\-::msss}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___g_s_p_module_gae5ea4b23ed8d603c7360a18053975010}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-D\-O\-P\-::i\-T\-O\-W}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___g_s_p_module_ga2b2e6160322047b85f23f1cb527bc6fd}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-D\-O\-P\-::g\-D\-O\-P}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___g_s_p_module_ga1ad5dc519aeceb3054f3a4a0ab8fc5ea}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-D\-O\-P\-::p\-D\-O\-P}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___g_s_p_module_ga12bd31e6a5d13f568b90a13f3888c694}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-D\-O\-P\-::t\-D\-O\-P}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___g_s_p_module_gafb69d800723e5600027869cb709dd800}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-D\-O\-P\-::v\-D\-O\-P}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___g_s_p_module_ga04de37f3f6aaf991ce6435808faed53b}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-D\-O\-P\-::h\-D\-O\-P}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___g_s_p_module_gae3287c2656c08835bdd2ffa7e28d0ee4}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-D\-O\-P\-::n\-D\-O\-P}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___g_s_p_module_ga901ab6a79b4129a6627012207415790d}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-D\-O\-P\-::e\-D\-O\-P}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___g_s_p_module_ga22a48bcb2972bbd63bf5b5c0a29b8713}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::i\-T\-O\-W}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___g_s_p_module_ga7e73f1e4919dbde57008c9f9fad153cf}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::f\-T\-O\-W}
+\item 
+\hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} \hyperlink{group___g_s_p_module_gaceeb9bd043b85b904f3a3bcfd1c2dc38}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::week}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_gae821898e9ca043790d8f58da75355f38}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::gps\-Fix}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_ga25c7a16be058569db8ae95b89abf3b42}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::flags}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___g_s_p_module_ga9c671f98502c60d7997cccc3460e8879}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::ecef\-X}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___g_s_p_module_gaec3dced166e4dcaa0826b1e851532604}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::ecef\-Y}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___g_s_p_module_gaf7e4df25c5986355c90a1a519b39b50d}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::ecef\-Z}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___g_s_p_module_gaf472e94738185b263cbfb4bffcca13ff}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::p\-Acc}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___g_s_p_module_gaafca9f9204a38e9bb1646848cafcfb38}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::ecef\-V\-X}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___g_s_p_module_ga579b66433d3effbb0ad527acae2f8379}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::ecef\-V\-Y}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___g_s_p_module_ga3bc6214c289d81550f8750382540c2ec}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::ecef\-V\-Z}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___g_s_p_module_ga2f523fbe2cf2e2eeb885e5e54d633f17}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::s\-Acc}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___g_s_p_module_gac6ab9d0036a83196d847e1c4ed2389fb}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::p\-D\-O\-P}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_gaa1df4884b23e42bf16bc237341d5001c}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::reserved1}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_gab171c210f9cc253577d01441b9e1c439}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::num\-S\-V}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___g_s_p_module_ga2367f145076ebc428ec4ef901cdda367}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::reserved2}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___g_s_p_module_gaf2aa06ea75e992d2933728a9eb390734}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-V\-E\-L\-N\-E\-D\-::i\-T\-O\-W}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___g_s_p_module_gab9c0e5be2137b6287caa0d98942c521d}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-V\-E\-L\-N\-E\-D\-::vel\-N}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___g_s_p_module_ga6a8d3e61f2818644777283c0ea93dec8}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-V\-E\-L\-N\-E\-D\-::vel\-E}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___g_s_p_module_ga3dcace94a7b7317b432bcdeb69271326}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-V\-E\-L\-N\-E\-D\-::vel\-D}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___g_s_p_module_ga16a2a64917c6151546e60e1eb04eb4f6}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-V\-E\-L\-N\-E\-D\-::speed}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___g_s_p_module_ga1c5f6e6ddf0495f4c308b520ae809266}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-V\-E\-L\-N\-E\-D\-::g\-Speed}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___g_s_p_module_ga1e0129270ba7fdbba7e441e60cefa8a7}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-V\-E\-L\-N\-E\-D\-::heading}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___g_s_p_module_ga50bfd12e0c7398ab16e312e6a9332e7d}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-V\-E\-L\-N\-E\-D\-::s\-Acc}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___g_s_p_module_ga8740fa2ac06cfb2d09b132c973a99887}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-V\-E\-L\-N\-E\-D\-::c\-Acc}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___g_s_p_module_gad71c5daaee202e2453fd942712b931d8}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-T\-I\-M\-E\-U\-T\-C\-::i\-T\-O\-W}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___g_s_p_module_gadb8a5ad986f11644415dc969c0803cc9}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-T\-I\-M\-E\-U\-T\-C\-::t\-Acc}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___g_s_p_module_ga2d187aede7b05688f29eacfd6bd57ecc}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-T\-I\-M\-E\-U\-T\-C\-::nano}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___g_s_p_module_ga8ea81fa402795b3daf6ec8bcc9c51eb1}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-T\-I\-M\-E\-U\-T\-C\-::year}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_gafd4af98336281bae2375714238392070}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-T\-I\-M\-E\-U\-T\-C\-::month}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_gaf47b128d3c65964f825c689849546c6d}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-T\-I\-M\-E\-U\-T\-C\-::day}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_ga6685b128ba202f68bbba28ce3877d496}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-T\-I\-M\-E\-U\-T\-C\-::hour}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_gacd6195ae28168d6d82b8944dd362a976}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-T\-I\-M\-E\-U\-T\-C\-::min}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_gadf8744b17bc7095cc06d9f0909bd865d}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-T\-I\-M\-E\-U\-T\-C\-::sec}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_ga7709acce4beceb6a24a8f239923fb026}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-T\-I\-M\-E\-U\-T\-C\-::valid}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_ga51b387f250ae37f8d3fa45cdd6adca45}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-\_\-\-S\-V\-::chn}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_ga95b2c35d609942ecc9257b9d1c1df03d}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-\_\-\-S\-V\-::svid}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_gae645c4ae01edd4d7c5dffca7eb094aa3}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-\_\-\-S\-V\-::flags}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_ga3d99d4c098bc0ba52408def4080330c5}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-\_\-\-S\-V\-::quality}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_ga05f735590e6c4aaa53746a4756695b09}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-\_\-\-S\-V\-::cno}
+\item 
+\hyperlink{stdint_8h_ad566f6541e98b74246db1a3a3a85ad49}{int8\-\_\-t} \hyperlink{group___g_s_p_module_ga8fad57e044674c92508262141a99a154}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-\_\-\-S\-V\-::elev}
+\item 
+\hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} \hyperlink{group___g_s_p_module_ga74c4856a9ce3011e1de4fb51a80062dc}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-\_\-\-S\-V\-::azim}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___g_s_p_module_gadf2342e560319acf1b48051a49463b09}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-\_\-\-S\-V\-::pr\-Res}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___g_s_p_module_gaf3c4fbdc3e4b6fe40fae556f1de555bb}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-::i\-T\-O\-W}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_ga0c11d355a8dcd6cf6687ce19ae052a52}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-::num\-Ch}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_ga9ea30e93a506e7749f8121ff4e811aae}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-::global\-Flags}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___g_s_p_module_ga2c5c4d3b1882220da507ddacbe43159b}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-::reserved2}
+\item 
+struct \hyperlink{struct_u_b_x___n_a_v___s_v_i_n_f_o___s_v}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-\_\-\-S\-V} \hyperlink{group___g_s_p_module_gae22f11e4be4f99b2627ff494e335a313}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-::sv} \mbox{[}M\-A\-X\-\_\-\-S\-V\-S\mbox{]}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_ga1aaa9f05bb8d9cec08462c71aedeb224}{U\-B\-X\-Payload\-::payload} \mbox{[}0\mbox{]}
+\item 
+struct \hyperlink{struct_u_b_x___n_a_v___p_o_s_l_l_h}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-P\-O\-S\-L\-L\-H} \hyperlink{group___g_s_p_module_gac43eeda1b5ade727f5856e57ae8d4fdb}{U\-B\-X\-Payload\-::nav\-\_\-posllh}
+\item 
+struct \hyperlink{struct_u_b_x___n_a_v___s_t_a_t_u_s}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-T\-A\-T\-U\-S} \hyperlink{group___g_s_p_module_ga10f246cbf1341ebaca17da26a61eb344}{U\-B\-X\-Payload\-::nav\-\_\-status}
+\item 
+struct \hyperlink{struct_u_b_x___n_a_v___d_o_p}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-D\-O\-P} \hyperlink{group___g_s_p_module_gaabf42aafbe0f26fe6224cd255ddfcbd3}{U\-B\-X\-Payload\-::nav\-\_\-dop}
+\item 
+struct \hyperlink{struct_u_b_x___n_a_v___s_o_l}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L} \hyperlink{group___g_s_p_module_gaba19134cfa2bf927f5ae568a4d1fa82f}{U\-B\-X\-Payload\-::nav\-\_\-sol}
+\item 
+struct \hyperlink{struct_u_b_x___n_a_v___v_e_l_n_e_d}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-V\-E\-L\-N\-E\-D} \hyperlink{group___g_s_p_module_gae525d323fa4053d1f5441bae99d81a95}{U\-B\-X\-Payload\-::nav\-\_\-velned}
+\item 
+struct \hyperlink{struct_u_b_x___n_a_v___t_i_m_e_u_t_c}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-T\-I\-M\-E\-U\-T\-C} \hyperlink{group___g_s_p_module_gaf65229991956493628326aa718c2e156}{U\-B\-X\-Payload\-::nav\-\_\-timeutc}
+\item 
+struct \hyperlink{struct_u_b_x___n_a_v___s_v_i_n_f_o}{U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O} \hyperlink{group___g_s_p_module_gae82725b3f4df8d06429de80876bd7bb4}{U\-B\-X\-Payload\-::nav\-\_\-svinfo}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_gab7410b764b3d80030e5a8e5167831303}{U\-B\-X\-Header\-::class}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_gae65b35dcbe44c08985ab3ba9e1e04793}{U\-B\-X\-Header\-::id}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___g_s_p_module_gac3357d02e8f968e15c24c81716054a85}{U\-B\-X\-Header\-::len}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_ga151b080d3305855bcf4fb0c8042d6b7e}{U\-B\-X\-Header\-::ck\-\_\-a}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_ga5fe662d32012b4caaca9b027df4a3d30}{U\-B\-X\-Header\-::ck\-\_\-b}
+\item 
+struct \hyperlink{struct_u_b_x_header}{U\-B\-X\-Header} \hyperlink{group___g_s_p_module_gaa1e79029fc57ab8ba520dfaf0c66f660}{U\-B\-X\-Packet\-::header}
+\item 
+\hyperlink{union_u_b_x_payload}{U\-B\-X\-Payload} \hyperlink{group___g_s_p_module_ga863aa6b84efd85ac358894c6cdfc6883}{U\-B\-X\-Packet\-::payload}
+\item 
+\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} char $\ast$ \hyperlink{group___g_s_p_module_gaeb7052e0f799ff05ca599e5768f5b09f}{nmea\-\_\-parser\-::prefix}
+\item 
+\hyperlink{group___exported__types_gaf6a258d8f3ee5206d682d799316314b1}{bool}($\ast$ \hyperlink{group___g_s_p_module_ga3fd709a52dda42524d0394f5d226daff}{nmea\-\_\-parser\-::handler} )(G\-P\-S\-Position\-Data $\ast$Gps\-Data, \hyperlink{group___exported__types_gaf6a258d8f3ee5206d682d799316314b1}{bool} $\ast$gps\-Data\-Updated, char $\ast$param\mbox{[}$\,$\mbox{]}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} nb\-Param)
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___g_s_p_module_ga65347628b901bdb3bc14c6a88f5f9871}{msgtracker\-::current\-T\-O\-W}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_s_p_module_gac1751e91170b3bec239283bc0f0cc17a}{msgtracker\-::msg\-\_\-received}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Process G\-P\-S information. Process G\-P\-S information (U\-B\-X binary format)
+
+\subsection{Function Documentation}
+\hypertarget{group___g_s_p_module_gae7fdef747a5bfe514633f6925b6ffedf}{\index{G\-P\-S Module@{G\-P\-S Module}!check\-\_\-msgtracker@{check\-\_\-msgtracker}}
+\index{check\-\_\-msgtracker@{check\-\_\-msgtracker}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{check\-\_\-msgtracker}]{\setlength{\rightskip}{0pt plus 5cm}{\bf bool} check\-\_\-msgtracker (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{tow, }
+\item[{{\bf uint8\-\_\-t}}]{msg\-\_\-flag}
+\end{DoxyParamCaption}
+)}}\label{group___g_s_p_module_gae7fdef747a5bfe514633f6925b6ffedf}
+
+
+Definition at line 152 of file U\-B\-X.\-c.
+
+\hypertarget{group___g_s_p_module_gaaa9e652434fef66adb2ea7721f3ad640}{\index{G\-P\-S Module@{G\-P\-S Module}!G\-P\-S\-Initialize@{G\-P\-S\-Initialize}}
+\index{G\-P\-S\-Initialize@{G\-P\-S\-Initialize}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{G\-P\-S\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} G\-P\-S\-Initialize (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___g_s_p_module_gaaa9e652434fef66adb2ea7721f3ad640}
+Initialise the gps module \begin{DoxyReturn}{Returns}
+-\/1 if initialisation failed 
+
+0 on success 
+\end{DoxyReturn}
+
+
+Definition at line 125 of file G\-P\-S.\-c.
+
+\hypertarget{group___g_s_p_module_ga8050cbef253d91ff25e0df5f1633a96f}{\index{G\-P\-S Module@{G\-P\-S Module}!G\-P\-S\-Start@{G\-P\-S\-Start}}
+\index{G\-P\-S\-Start@{G\-P\-S\-Start}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{G\-P\-S\-Start}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} G\-P\-S\-Start (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___g_s_p_module_ga8050cbef253d91ff25e0df5f1633a96f}
+Initialise the gps module \begin{DoxyReturn}{Returns}
+-\/1 if initialisation failed 
+
+0 on success 
+\end{DoxyReturn}
+
+
+Definition at line 105 of file G\-P\-S.\-c.
+
+\hypertarget{group___g_s_p_module_ga26eba01dd90e72f58587731e20e8dc57}{\index{G\-P\-S Module@{G\-P\-S Module}!M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}}
+\index{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-P\-S\-Initialize}}]{, }
+\item[{{\bf G\-P\-S\-Start}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___g_s_p_module_ga26eba01dd90e72f58587731e20e8dc57}
+Main gps task. It does not return. 
+
+Definition at line 191 of file G\-P\-S.\-c.
+
+\hypertarget{group___g_s_p_module_ga5f520a9c350e8e1d1425e655b651cf14}{\index{G\-P\-S Module@{G\-P\-S Module}!N\-M\-E\-A\-\_\-checksum@{N\-M\-E\-A\-\_\-checksum}}
+\index{N\-M\-E\-A\-\_\-checksum@{N\-M\-E\-A\-\_\-checksum}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{N\-M\-E\-A\-\_\-checksum}]{\setlength{\rightskip}{0pt plus 5cm}{\bf bool} N\-M\-E\-A\-\_\-checksum (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{nmea\-\_\-sentence}
+\end{DoxyParamCaption}
+)}}\label{group___g_s_p_module_ga5f520a9c350e8e1d1425e655b651cf14}
+Computes N\-M\-E\-A sentence checksum 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em Buffer} & for parsed nmea sentence \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+false checksum not valid 
+
+true checksum valid 
+\end{DoxyReturn}
+
+
+Definition at line 218 of file N\-M\-E\-A.\-c.
+
+\hypertarget{group___g_s_p_module_gafb07ad2b755c0395ac8d7f6e86965c44}{\index{G\-P\-S Module@{G\-P\-S Module}!N\-M\-E\-A\-\_\-update\-\_\-position@{N\-M\-E\-A\-\_\-update\-\_\-position}}
+\index{N\-M\-E\-A\-\_\-update\-\_\-position@{N\-M\-E\-A\-\_\-update\-\_\-position}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{N\-M\-E\-A\-\_\-update\-\_\-position}]{\setlength{\rightskip}{0pt plus 5cm}{\bf bool} N\-M\-E\-A\-\_\-update\-\_\-position (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{nmea\-\_\-sentence, }
+\item[{G\-P\-S\-Position\-Data $\ast$}]{Gps\-Data}
+\end{DoxyParamCaption}
+)}}\label{group___g_s_p_module_gafb07ad2b755c0395ac8d7f6e86965c44}
+Parses a complete N\-M\-E\-A sentence and updates the G\-P\-S\-Position U\-A\-V\-Object 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em An} & N\-M\-E\-A sentence with a valid checksum \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the sentence was successfully parsed 
+
+false if any errors were encountered with the parsing 
+\end{DoxyReturn}
+
+
+Definition at line 370 of file N\-M\-E\-A.\-c.
+
+\hypertarget{group___g_s_p_module_ga0e248cf833b5f3723e388822f1552aa5}{\index{G\-P\-S Module@{G\-P\-S Module}!parse\-\_\-nmea\-\_\-stream@{parse\-\_\-nmea\-\_\-stream}}
+\index{parse\-\_\-nmea\-\_\-stream@{parse\-\_\-nmea\-\_\-stream}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{parse\-\_\-nmea\-\_\-stream}]{\setlength{\rightskip}{0pt plus 5cm}int parse\-\_\-nmea\-\_\-stream (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{c, }
+\item[{char $\ast$}]{gps\-\_\-rx\-\_\-buffer, }
+\item[{G\-P\-S\-Position\-Data $\ast$}]{Gps\-Data, }
+\item[{struct {\bf G\-P\-S\-\_\-\-R\-X\-\_\-\-S\-T\-A\-T\-S} $\ast$}]{gps\-Rx\-Stats}
+\end{DoxyParamCaption}
+)}}\label{group___g_s_p_module_ga0e248cf833b5f3723e388822f1552aa5}
+
+
+Definition at line 110 of file N\-M\-E\-A.\-c.
+
+\hypertarget{group___g_s_p_module_ga88dff12629e2c3266f00a05836b67758}{\index{G\-P\-S Module@{G\-P\-S Module}!parse\-\_\-ubx\-\_\-stream@{parse\-\_\-ubx\-\_\-stream}}
+\index{parse\-\_\-ubx\-\_\-stream@{parse\-\_\-ubx\-\_\-stream}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{parse\-\_\-ubx\-\_\-stream}]{\setlength{\rightskip}{0pt plus 5cm}int parse\-\_\-ubx\-\_\-stream (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{c, }
+\item[{char $\ast$}]{gps\-\_\-rx\-\_\-buffer, }
+\item[{G\-P\-S\-Position\-Data $\ast$}]{Gps\-Data, }
+\item[{struct {\bf G\-P\-S\-\_\-\-R\-X\-\_\-\-S\-T\-A\-T\-S} $\ast$}]{gps\-Rx\-Stats}
+\end{DoxyParamCaption}
+)}}\label{group___g_s_p_module_ga88dff12629e2c3266f00a05836b67758}
+
+
+Definition at line 44 of file U\-B\-X.\-c.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{group___g_s_p_module_ga74c4856a9ce3011e1de4fb51a80062dc}{\index{G\-P\-S Module@{G\-P\-S Module}!azim@{azim}}
+\index{azim@{azim}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{azim}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int16\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-\_\-\-S\-V\-::azim}}\label{group___g_s_p_module_ga74c4856a9ce3011e1de4fb51a80062dc}
+
+
+Definition at line 179 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga8740fa2ac06cfb2d09b132c973a99887}{\index{G\-P\-S Module@{G\-P\-S Module}!c\-Acc@{c\-Acc}}
+\index{c\-Acc@{c\-Acc}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{c\-Acc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-V\-E\-L\-N\-E\-D\-::c\-Acc}}\label{group___g_s_p_module_ga8740fa2ac06cfb2d09b132c973a99887}
+
+
+Definition at line 137 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga51b387f250ae37f8d3fa45cdd6adca45}{\index{G\-P\-S Module@{G\-P\-S Module}!chn@{chn}}
+\index{chn@{chn}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{chn}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-\_\-\-S\-V\-::chn}}\label{group___g_s_p_module_ga51b387f250ae37f8d3fa45cdd6adca45}
+
+
+Definition at line 173 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga151b080d3305855bcf4fb0c8042d6b7e}{\index{G\-P\-S Module@{G\-P\-S Module}!ck\-\_\-a@{ck\-\_\-a}}
+\index{ck\-\_\-a@{ck\-\_\-a}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{ck\-\_\-a}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-Header\-::ck\-\_\-a}}\label{group___g_s_p_module_ga151b080d3305855bcf4fb0c8042d6b7e}
+
+
+Definition at line 211 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga5fe662d32012b4caaca9b027df4a3d30}{\index{G\-P\-S Module@{G\-P\-S Module}!ck\-\_\-b@{ck\-\_\-b}}
+\index{ck\-\_\-b@{ck\-\_\-b}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{ck\-\_\-b}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-Header\-::ck\-\_\-b}}\label{group___g_s_p_module_ga5fe662d32012b4caaca9b027df4a3d30}
+
+
+Definition at line 212 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gab7410b764b3d80030e5a8e5167831303}{\index{G\-P\-S Module@{G\-P\-S Module}!class@{class}}
+\index{class@{class}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{class}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-Header\-::class}}\label{group___g_s_p_module_gab7410b764b3d80030e5a8e5167831303}
+
+
+Definition at line 208 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga05f735590e6c4aaa53746a4756695b09}{\index{G\-P\-S Module@{G\-P\-S Module}!cno@{cno}}
+\index{cno@{cno}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{cno}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-\_\-\-S\-V\-::cno}}\label{group___g_s_p_module_ga05f735590e6c4aaa53746a4756695b09}
+
+
+Definition at line 177 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga65347628b901bdb3bc14c6a88f5f9871}{\index{G\-P\-S Module@{G\-P\-S Module}!current\-T\-O\-W@{current\-T\-O\-W}}
+\index{current\-T\-O\-W@{current\-T\-O\-W}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{current\-T\-O\-W}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} msgtracker\-::current\-T\-O\-W}}\label{group___g_s_p_module_ga65347628b901bdb3bc14c6a88f5f9871}
+
+
+Definition at line 147 of file U\-B\-X.\-c.
+
+\hypertarget{group___g_s_p_module_gaf47b128d3c65964f825c689849546c6d}{\index{G\-P\-S Module@{G\-P\-S Module}!day@{day}}
+\index{day@{day}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{day}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-T\-I\-M\-E\-U\-T\-C\-::day}}\label{group___g_s_p_module_gaf47b128d3c65964f825c689849546c6d}
+
+
+Definition at line 152 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gaafca9f9204a38e9bb1646848cafcfb38}{\index{G\-P\-S Module@{G\-P\-S Module}!ecef\-V\-X@{ecef\-V\-X}}
+\index{ecef\-V\-X@{ecef\-V\-X}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{ecef\-V\-X}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::ecef\-V\-X}}\label{group___g_s_p_module_gaafca9f9204a38e9bb1646848cafcfb38}
+
+
+Definition at line 116 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga579b66433d3effbb0ad527acae2f8379}{\index{G\-P\-S Module@{G\-P\-S Module}!ecef\-V\-Y@{ecef\-V\-Y}}
+\index{ecef\-V\-Y@{ecef\-V\-Y}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{ecef\-V\-Y}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::ecef\-V\-Y}}\label{group___g_s_p_module_ga579b66433d3effbb0ad527acae2f8379}
+
+
+Definition at line 117 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga3bc6214c289d81550f8750382540c2ec}{\index{G\-P\-S Module@{G\-P\-S Module}!ecef\-V\-Z@{ecef\-V\-Z}}
+\index{ecef\-V\-Z@{ecef\-V\-Z}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{ecef\-V\-Z}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::ecef\-V\-Z}}\label{group___g_s_p_module_ga3bc6214c289d81550f8750382540c2ec}
+
+
+Definition at line 118 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga9c671f98502c60d7997cccc3460e8879}{\index{G\-P\-S Module@{G\-P\-S Module}!ecef\-X@{ecef\-X}}
+\index{ecef\-X@{ecef\-X}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{ecef\-X}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::ecef\-X}}\label{group___g_s_p_module_ga9c671f98502c60d7997cccc3460e8879}
+
+
+Definition at line 112 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gaec3dced166e4dcaa0826b1e851532604}{\index{G\-P\-S Module@{G\-P\-S Module}!ecef\-Y@{ecef\-Y}}
+\index{ecef\-Y@{ecef\-Y}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{ecef\-Y}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::ecef\-Y}}\label{group___g_s_p_module_gaec3dced166e4dcaa0826b1e851532604}
+
+
+Definition at line 113 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gaf7e4df25c5986355c90a1a519b39b50d}{\index{G\-P\-S Module@{G\-P\-S Module}!ecef\-Z@{ecef\-Z}}
+\index{ecef\-Z@{ecef\-Z}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{ecef\-Z}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::ecef\-Z}}\label{group___g_s_p_module_gaf7e4df25c5986355c90a1a519b39b50d}
+
+
+Definition at line 114 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga901ab6a79b4129a6627012207415790d}{\index{G\-P\-S Module@{G\-P\-S Module}!e\-D\-O\-P@{e\-D\-O\-P}}
+\index{e\-D\-O\-P@{e\-D\-O\-P}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{e\-D\-O\-P}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-D\-O\-P\-::e\-D\-O\-P}}\label{group___g_s_p_module_ga901ab6a79b4129a6627012207415790d}
+
+
+Definition at line 101 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga8fad57e044674c92508262141a99a154}{\index{G\-P\-S Module@{G\-P\-S Module}!elev@{elev}}
+\index{elev@{elev}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{elev}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int8\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-\_\-\-S\-V\-::elev}}\label{group___g_s_p_module_ga8fad57e044674c92508262141a99a154}
+
+
+Definition at line 178 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga6c2f59170b7d3a57f1ce01120b735ed1}{\index{G\-P\-S Module@{G\-P\-S Module}!fix\-Stat@{fix\-Stat}}
+\index{fix\-Stat@{fix\-Stat}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{fix\-Stat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-T\-A\-T\-U\-S\-::fix\-Stat}}\label{group___g_s_p_module_ga6c2f59170b7d3a57f1ce01120b735ed1}
+
+
+Definition at line 86 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga06eed2ab154f7ab69c8a5f5acfbae99c}{\index{G\-P\-S Module@{G\-P\-S Module}!flags@{flags}}
+\index{flags@{flags}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{flags}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-T\-A\-T\-U\-S\-::flags}}\label{group___g_s_p_module_ga06eed2ab154f7ab69c8a5f5acfbae99c}
+
+
+Definition at line 85 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga25c7a16be058569db8ae95b89abf3b42}{\index{G\-P\-S Module@{G\-P\-S Module}!flags@{flags}}
+\index{flags@{flags}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{flags}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::flags}}\label{group___g_s_p_module_ga25c7a16be058569db8ae95b89abf3b42}
+
+
+Definition at line 111 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gae645c4ae01edd4d7c5dffca7eb094aa3}{\index{G\-P\-S Module@{G\-P\-S Module}!flags@{flags}}
+\index{flags@{flags}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{flags}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-\_\-\-S\-V\-::flags}}\label{group___g_s_p_module_gae645c4ae01edd4d7c5dffca7eb094aa3}
+
+
+Definition at line 175 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga3e1ce741856096d697c3aafd6e66ac61}{\index{G\-P\-S Module@{G\-P\-S Module}!flags2@{flags2}}
+\index{flags2@{flags2}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{flags2}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-T\-A\-T\-U\-S\-::flags2}}\label{group___g_s_p_module_ga3e1ce741856096d697c3aafd6e66ac61}
+
+
+Definition at line 87 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga7e73f1e4919dbde57008c9f9fad153cf}{\index{G\-P\-S Module@{G\-P\-S Module}!f\-T\-O\-W@{f\-T\-O\-W}}
+\index{f\-T\-O\-W@{f\-T\-O\-W}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{f\-T\-O\-W}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::f\-T\-O\-W}}\label{group___g_s_p_module_ga7e73f1e4919dbde57008c9f9fad153cf}
+
+
+Definition at line 108 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga2b2e6160322047b85f23f1cb527bc6fd}{\index{G\-P\-S Module@{G\-P\-S Module}!g\-D\-O\-P@{g\-D\-O\-P}}
+\index{g\-D\-O\-P@{g\-D\-O\-P}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{g\-D\-O\-P}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-D\-O\-P\-::g\-D\-O\-P}}\label{group___g_s_p_module_ga2b2e6160322047b85f23f1cb527bc6fd}
+
+
+Definition at line 95 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga9ea30e93a506e7749f8121ff4e811aae}{\index{G\-P\-S Module@{G\-P\-S Module}!global\-Flags@{global\-Flags}}
+\index{global\-Flags@{global\-Flags}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{global\-Flags}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-::global\-Flags}}\label{group___g_s_p_module_ga9ea30e93a506e7749f8121ff4e811aae}
+
+
+Definition at line 189 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga9ada0b00d91062449f398439afec8e70}{\index{G\-P\-S Module@{G\-P\-S Module}!gps\-Fix@{gps\-Fix}}
+\index{gps\-Fix@{gps\-Fix}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{gps\-Fix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-T\-A\-T\-U\-S\-::gps\-Fix}}\label{group___g_s_p_module_ga9ada0b00d91062449f398439afec8e70}
+
+
+Definition at line 84 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gae821898e9ca043790d8f58da75355f38}{\index{G\-P\-S Module@{G\-P\-S Module}!gps\-Fix@{gps\-Fix}}
+\index{gps\-Fix@{gps\-Fix}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{gps\-Fix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::gps\-Fix}}\label{group___g_s_p_module_gae821898e9ca043790d8f58da75355f38}
+
+
+Definition at line 110 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga1c5f6e6ddf0495f4c308b520ae809266}{\index{G\-P\-S Module@{G\-P\-S Module}!g\-Speed@{g\-Speed}}
+\index{g\-Speed@{g\-Speed}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{g\-Speed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-V\-E\-L\-N\-E\-D\-::g\-Speed}}\label{group___g_s_p_module_ga1c5f6e6ddf0495f4c308b520ae809266}
+
+
+Definition at line 134 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gaf3b4eaeb1feedb8295a519b23a76bf83}{\index{G\-P\-S Module@{G\-P\-S Module}!h\-Acc@{h\-Acc}}
+\index{h\-Acc@{h\-Acc}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{h\-Acc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-P\-O\-S\-L\-L\-H\-::h\-Acc}}\label{group___g_s_p_module_gaf3b4eaeb1feedb8295a519b23a76bf83}
+
+
+Definition at line 64 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga3fd709a52dda42524d0394f5d226daff}{\index{G\-P\-S Module@{G\-P\-S Module}!handler@{handler}}
+\index{handler@{handler}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{handler}]{\setlength{\rightskip}{0pt plus 5cm}{\bf bool}($\ast$ nmea\-\_\-parser\-::handler)(G\-P\-S\-Position\-Data $\ast$Gps\-Data, {\bf bool} $\ast$gps\-Data\-Updated, char $\ast$param\mbox{[}$\,$\mbox{]}, {\bf uint8\-\_\-t} nb\-Param)}}\label{group___g_s_p_module_ga3fd709a52dda42524d0394f5d226daff}
+
+
+Definition at line 69 of file N\-M\-E\-A.\-c.
+
+\hypertarget{group___g_s_p_module_ga04de37f3f6aaf991ce6435808faed53b}{\index{G\-P\-S Module@{G\-P\-S Module}!h\-D\-O\-P@{h\-D\-O\-P}}
+\index{h\-D\-O\-P@{h\-D\-O\-P}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{h\-D\-O\-P}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-D\-O\-P\-::h\-D\-O\-P}}\label{group___g_s_p_module_ga04de37f3f6aaf991ce6435808faed53b}
+
+
+Definition at line 99 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gaa1e79029fc57ab8ba520dfaf0c66f660}{\index{G\-P\-S Module@{G\-P\-S Module}!header@{header}}
+\index{header@{header}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{header}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf U\-B\-X\-Header} U\-B\-X\-Packet\-::header}}\label{group___g_s_p_module_gaa1e79029fc57ab8ba520dfaf0c66f660}
+
+
+Definition at line 216 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga1e0129270ba7fdbba7e441e60cefa8a7}{\index{G\-P\-S Module@{G\-P\-S Module}!heading@{heading}}
+\index{heading@{heading}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{heading}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-V\-E\-L\-N\-E\-D\-::heading}}\label{group___g_s_p_module_ga1e0129270ba7fdbba7e441e60cefa8a7}
+
+
+Definition at line 135 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gacb639227d81a2413277fb492f6b450a0}{\index{G\-P\-S Module@{G\-P\-S Module}!height@{height}}
+\index{height@{height}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{height}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-P\-O\-S\-L\-L\-H\-::height}}\label{group___g_s_p_module_gacb639227d81a2413277fb492f6b450a0}
+
+
+Definition at line 62 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gaf78fd4a28f1595624f28d0df15bfcfac}{\index{G\-P\-S Module@{G\-P\-S Module}!h\-M\-S\-L@{h\-M\-S\-L}}
+\index{h\-M\-S\-L@{h\-M\-S\-L}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{h\-M\-S\-L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-P\-O\-S\-L\-L\-H\-::h\-M\-S\-L}}\label{group___g_s_p_module_gaf78fd4a28f1595624f28d0df15bfcfac}
+
+
+Definition at line 63 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga6685b128ba202f68bbba28ce3877d496}{\index{G\-P\-S Module@{G\-P\-S Module}!hour@{hour}}
+\index{hour@{hour}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{hour}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-T\-I\-M\-E\-U\-T\-C\-::hour}}\label{group___g_s_p_module_ga6685b128ba202f68bbba28ce3877d496}
+
+
+Definition at line 153 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gae65b35dcbe44c08985ab3ba9e1e04793}{\index{G\-P\-S Module@{G\-P\-S Module}!id@{id}}
+\index{id@{id}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-Header\-::id}}\label{group___g_s_p_module_gae65b35dcbe44c08985ab3ba9e1e04793}
+
+
+Definition at line 209 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga85f34b0228c0157d478dfcefef43096f}{\index{G\-P\-S Module@{G\-P\-S Module}!i\-T\-O\-W@{i\-T\-O\-W}}
+\index{i\-T\-O\-W@{i\-T\-O\-W}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{i\-T\-O\-W}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-P\-O\-S\-L\-L\-H\-::i\-T\-O\-W}}\label{group___g_s_p_module_ga85f34b0228c0157d478dfcefef43096f}
+
+
+Definition at line 59 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga8413a77f5cf599f1d89fce98a304c5c1}{\index{G\-P\-S Module@{G\-P\-S Module}!i\-T\-O\-W@{i\-T\-O\-W}}
+\index{i\-T\-O\-W@{i\-T\-O\-W}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{i\-T\-O\-W}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-T\-A\-T\-U\-S\-::i\-T\-O\-W}}\label{group___g_s_p_module_ga8413a77f5cf599f1d89fce98a304c5c1}
+
+
+Definition at line 83 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gae5ea4b23ed8d603c7360a18053975010}{\index{G\-P\-S Module@{G\-P\-S Module}!i\-T\-O\-W@{i\-T\-O\-W}}
+\index{i\-T\-O\-W@{i\-T\-O\-W}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{i\-T\-O\-W}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-D\-O\-P\-::i\-T\-O\-W}}\label{group___g_s_p_module_gae5ea4b23ed8d603c7360a18053975010}
+
+
+Definition at line 94 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga22a48bcb2972bbd63bf5b5c0a29b8713}{\index{G\-P\-S Module@{G\-P\-S Module}!i\-T\-O\-W@{i\-T\-O\-W}}
+\index{i\-T\-O\-W@{i\-T\-O\-W}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{i\-T\-O\-W}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::i\-T\-O\-W}}\label{group___g_s_p_module_ga22a48bcb2972bbd63bf5b5c0a29b8713}
+
+
+Definition at line 107 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gaf2aa06ea75e992d2933728a9eb390734}{\index{G\-P\-S Module@{G\-P\-S Module}!i\-T\-O\-W@{i\-T\-O\-W}}
+\index{i\-T\-O\-W@{i\-T\-O\-W}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{i\-T\-O\-W}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-V\-E\-L\-N\-E\-D\-::i\-T\-O\-W}}\label{group___g_s_p_module_gaf2aa06ea75e992d2933728a9eb390734}
+
+
+Definition at line 129 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gad71c5daaee202e2453fd942712b931d8}{\index{G\-P\-S Module@{G\-P\-S Module}!i\-T\-O\-W@{i\-T\-O\-W}}
+\index{i\-T\-O\-W@{i\-T\-O\-W}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{i\-T\-O\-W}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-T\-I\-M\-E\-U\-T\-C\-::i\-T\-O\-W}}\label{group___g_s_p_module_gad71c5daaee202e2453fd942712b931d8}
+
+
+Definition at line 147 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gaf3c4fbdc3e4b6fe40fae556f1de555bb}{\index{G\-P\-S Module@{G\-P\-S Module}!i\-T\-O\-W@{i\-T\-O\-W}}
+\index{i\-T\-O\-W@{i\-T\-O\-W}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{i\-T\-O\-W}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-::i\-T\-O\-W}}\label{group___g_s_p_module_gaf3c4fbdc3e4b6fe40fae556f1de555bb}
+
+
+Definition at line 187 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga41a8c2e9da88805da15971d21c633f6f}{\index{G\-P\-S Module@{G\-P\-S Module}!lat@{lat}}
+\index{lat@{lat}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{lat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-P\-O\-S\-L\-L\-H\-::lat}}\label{group___g_s_p_module_ga41a8c2e9da88805da15971d21c633f6f}
+
+
+Definition at line 61 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gac3357d02e8f968e15c24c81716054a85}{\index{G\-P\-S Module@{G\-P\-S Module}!len@{len}}
+\index{len@{len}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{len}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} U\-B\-X\-Header\-::len}}\label{group___g_s_p_module_gac3357d02e8f968e15c24c81716054a85}
+
+
+Definition at line 210 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga754c2e4fe17d3fc6b627416bc1ff2110}{\index{G\-P\-S Module@{G\-P\-S Module}!lon@{lon}}
+\index{lon@{lon}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{lon}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-P\-O\-S\-L\-L\-H\-::lon}}\label{group___g_s_p_module_ga754c2e4fe17d3fc6b627416bc1ff2110}
+
+
+Definition at line 60 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gacd6195ae28168d6d82b8944dd362a976}{\index{G\-P\-S Module@{G\-P\-S Module}!min@{min}}
+\index{min@{min}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{min}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-T\-I\-M\-E\-U\-T\-C\-::min}}\label{group___g_s_p_module_gacd6195ae28168d6d82b8944dd362a976}
+
+
+Definition at line 154 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gafd4af98336281bae2375714238392070}{\index{G\-P\-S Module@{G\-P\-S Module}!month@{month}}
+\index{month@{month}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{month}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-T\-I\-M\-E\-U\-T\-C\-::month}}\label{group___g_s_p_module_gafd4af98336281bae2375714238392070}
+
+
+Definition at line 151 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gac1751e91170b3bec239283bc0f0cc17a}{\index{G\-P\-S Module@{G\-P\-S Module}!msg\-\_\-received@{msg\-\_\-received}}
+\index{msg\-\_\-received@{msg\-\_\-received}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{msg\-\_\-received}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} msgtracker\-::msg\-\_\-received}}\label{group___g_s_p_module_gac1751e91170b3bec239283bc0f0cc17a}
+
+
+Definition at line 148 of file U\-B\-X.\-c.
+
+\hypertarget{group___g_s_p_module_ga41de8d3154dd215b93adeebff5a7972c}{\index{G\-P\-S Module@{G\-P\-S Module}!msss@{msss}}
+\index{msss@{msss}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{msss}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-T\-A\-T\-U\-S\-::msss}}\label{group___g_s_p_module_ga41de8d3154dd215b93adeebff5a7972c}
+
+
+Definition at line 89 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga2d187aede7b05688f29eacfd6bd57ecc}{\index{G\-P\-S Module@{G\-P\-S Module}!nano@{nano}}
+\index{nano@{nano}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{nano}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-T\-I\-M\-E\-U\-T\-C\-::nano}}\label{group___g_s_p_module_ga2d187aede7b05688f29eacfd6bd57ecc}
+
+
+Definition at line 149 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gaabf42aafbe0f26fe6224cd255ddfcbd3}{\index{G\-P\-S Module@{G\-P\-S Module}!nav\-\_\-dop@{nav\-\_\-dop}}
+\index{nav\-\_\-dop@{nav\-\_\-dop}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{nav\-\_\-dop}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-D\-O\-P} U\-B\-X\-Payload\-::nav\-\_\-dop}}\label{group___g_s_p_module_gaabf42aafbe0f26fe6224cd255ddfcbd3}
+
+
+Definition at line 198 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gac43eeda1b5ade727f5856e57ae8d4fdb}{\index{G\-P\-S Module@{G\-P\-S Module}!nav\-\_\-posllh@{nav\-\_\-posllh}}
+\index{nav\-\_\-posllh@{nav\-\_\-posllh}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{nav\-\_\-posllh}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-P\-O\-S\-L\-L\-H} U\-B\-X\-Payload\-::nav\-\_\-posllh}}\label{group___g_s_p_module_gac43eeda1b5ade727f5856e57ae8d4fdb}
+
+
+Definition at line 196 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gaba19134cfa2bf927f5ae568a4d1fa82f}{\index{G\-P\-S Module@{G\-P\-S Module}!nav\-\_\-sol@{nav\-\_\-sol}}
+\index{nav\-\_\-sol@{nav\-\_\-sol}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{nav\-\_\-sol}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L} U\-B\-X\-Payload\-::nav\-\_\-sol}}\label{group___g_s_p_module_gaba19134cfa2bf927f5ae568a4d1fa82f}
+
+
+Definition at line 199 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga10f246cbf1341ebaca17da26a61eb344}{\index{G\-P\-S Module@{G\-P\-S Module}!nav\-\_\-status@{nav\-\_\-status}}
+\index{nav\-\_\-status@{nav\-\_\-status}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{nav\-\_\-status}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-T\-A\-T\-U\-S} U\-B\-X\-Payload\-::nav\-\_\-status}}\label{group___g_s_p_module_ga10f246cbf1341ebaca17da26a61eb344}
+
+
+Definition at line 197 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gae82725b3f4df8d06429de80876bd7bb4}{\index{G\-P\-S Module@{G\-P\-S Module}!nav\-\_\-svinfo@{nav\-\_\-svinfo}}
+\index{nav\-\_\-svinfo@{nav\-\_\-svinfo}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{nav\-\_\-svinfo}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O} U\-B\-X\-Payload\-::nav\-\_\-svinfo}}\label{group___g_s_p_module_gae82725b3f4df8d06429de80876bd7bb4}
+
+
+Definition at line 203 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gaf65229991956493628326aa718c2e156}{\index{G\-P\-S Module@{G\-P\-S Module}!nav\-\_\-timeutc@{nav\-\_\-timeutc}}
+\index{nav\-\_\-timeutc@{nav\-\_\-timeutc}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{nav\-\_\-timeutc}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-T\-I\-M\-E\-U\-T\-C} U\-B\-X\-Payload\-::nav\-\_\-timeutc}}\label{group___g_s_p_module_gaf65229991956493628326aa718c2e156}
+
+
+Definition at line 202 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gae525d323fa4053d1f5441bae99d81a95}{\index{G\-P\-S Module@{G\-P\-S Module}!nav\-\_\-velned@{nav\-\_\-velned}}
+\index{nav\-\_\-velned@{nav\-\_\-velned}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{nav\-\_\-velned}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-V\-E\-L\-N\-E\-D} U\-B\-X\-Payload\-::nav\-\_\-velned}}\label{group___g_s_p_module_gae525d323fa4053d1f5441bae99d81a95}
+
+
+Definition at line 200 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gae3287c2656c08835bdd2ffa7e28d0ee4}{\index{G\-P\-S Module@{G\-P\-S Module}!n\-D\-O\-P@{n\-D\-O\-P}}
+\index{n\-D\-O\-P@{n\-D\-O\-P}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{n\-D\-O\-P}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-D\-O\-P\-::n\-D\-O\-P}}\label{group___g_s_p_module_gae3287c2656c08835bdd2ffa7e28d0ee4}
+
+
+Definition at line 100 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga0c11d355a8dcd6cf6687ce19ae052a52}{\index{G\-P\-S Module@{G\-P\-S Module}!num\-Ch@{num\-Ch}}
+\index{num\-Ch@{num\-Ch}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{num\-Ch}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-::num\-Ch}}\label{group___g_s_p_module_ga0c11d355a8dcd6cf6687ce19ae052a52}
+
+
+Definition at line 188 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gab171c210f9cc253577d01441b9e1c439}{\index{G\-P\-S Module@{G\-P\-S Module}!num\-S\-V@{num\-S\-V}}
+\index{num\-S\-V@{num\-S\-V}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{num\-S\-V}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::num\-S\-V}}\label{group___g_s_p_module_gab171c210f9cc253577d01441b9e1c439}
+
+
+Definition at line 122 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gaf472e94738185b263cbfb4bffcca13ff}{\index{G\-P\-S Module@{G\-P\-S Module}!p\-Acc@{p\-Acc}}
+\index{p\-Acc@{p\-Acc}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{p\-Acc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::p\-Acc}}\label{group___g_s_p_module_gaf472e94738185b263cbfb4bffcca13ff}
+
+
+Definition at line 115 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga1aaa9f05bb8d9cec08462c71aedeb224}{\index{G\-P\-S Module@{G\-P\-S Module}!payload@{payload}}
+\index{payload@{payload}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{payload}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-Payload\-::payload\mbox{[}0\mbox{]}}}\label{group___g_s_p_module_ga1aaa9f05bb8d9cec08462c71aedeb224}
+
+
+Definition at line 195 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga863aa6b84efd85ac358894c6cdfc6883}{\index{G\-P\-S Module@{G\-P\-S Module}!payload@{payload}}
+\index{payload@{payload}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{payload}]{\setlength{\rightskip}{0pt plus 5cm}{\bf U\-B\-X\-Payload} U\-B\-X\-Packet\-::payload}}\label{group___g_s_p_module_ga863aa6b84efd85ac358894c6cdfc6883}
+
+
+Definition at line 217 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga1ad5dc519aeceb3054f3a4a0ab8fc5ea}{\index{G\-P\-S Module@{G\-P\-S Module}!p\-D\-O\-P@{p\-D\-O\-P}}
+\index{p\-D\-O\-P@{p\-D\-O\-P}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{p\-D\-O\-P}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-D\-O\-P\-::p\-D\-O\-P}}\label{group___g_s_p_module_ga1ad5dc519aeceb3054f3a4a0ab8fc5ea}
+
+
+Definition at line 96 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gac6ab9d0036a83196d847e1c4ed2389fb}{\index{G\-P\-S Module@{G\-P\-S Module}!p\-D\-O\-P@{p\-D\-O\-P}}
+\index{p\-D\-O\-P@{p\-D\-O\-P}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{p\-D\-O\-P}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::p\-D\-O\-P}}\label{group___g_s_p_module_gac6ab9d0036a83196d847e1c4ed2389fb}
+
+
+Definition at line 120 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gaeb7052e0f799ff05ca599e5768f5b09f}{\index{G\-P\-S Module@{G\-P\-S Module}!prefix@{prefix}}
+\index{prefix@{prefix}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{prefix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf const} char$\ast$ nmea\-\_\-parser\-::prefix}}\label{group___g_s_p_module_gaeb7052e0f799ff05ca599e5768f5b09f}
+
+
+Definition at line 68 of file N\-M\-E\-A.\-c.
+
+\hypertarget{group___g_s_p_module_gadf2342e560319acf1b48051a49463b09}{\index{G\-P\-S Module@{G\-P\-S Module}!pr\-Res@{pr\-Res}}
+\index{pr\-Res@{pr\-Res}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{pr\-Res}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-\_\-\-S\-V\-::pr\-Res}}\label{group___g_s_p_module_gadf2342e560319acf1b48051a49463b09}
+
+
+Definition at line 180 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga3d99d4c098bc0ba52408def4080330c5}{\index{G\-P\-S Module@{G\-P\-S Module}!quality@{quality}}
+\index{quality@{quality}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{quality}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-\_\-\-S\-V\-::quality}}\label{group___g_s_p_module_ga3d99d4c098bc0ba52408def4080330c5}
+
+
+Definition at line 176 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gaa1df4884b23e42bf16bc237341d5001c}{\index{G\-P\-S Module@{G\-P\-S Module}!reserved1@{reserved1}}
+\index{reserved1@{reserved1}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{reserved1}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::reserved1}}\label{group___g_s_p_module_gaa1df4884b23e42bf16bc237341d5001c}
+
+
+Definition at line 121 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga2367f145076ebc428ec4ef901cdda367}{\index{G\-P\-S Module@{G\-P\-S Module}!reserved2@{reserved2}}
+\index{reserved2@{reserved2}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{reserved2}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::reserved2}}\label{group___g_s_p_module_ga2367f145076ebc428ec4ef901cdda367}
+
+
+Definition at line 123 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga2c5c4d3b1882220da507ddacbe43159b}{\index{G\-P\-S Module@{G\-P\-S Module}!reserved2@{reserved2}}
+\index{reserved2@{reserved2}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{reserved2}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-::reserved2}}\label{group___g_s_p_module_ga2c5c4d3b1882220da507ddacbe43159b}
+
+
+Definition at line 190 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga2f523fbe2cf2e2eeb885e5e54d633f17}{\index{G\-P\-S Module@{G\-P\-S Module}!s\-Acc@{s\-Acc}}
+\index{s\-Acc@{s\-Acc}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{s\-Acc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::s\-Acc}}\label{group___g_s_p_module_ga2f523fbe2cf2e2eeb885e5e54d633f17}
+
+
+Definition at line 119 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga50bfd12e0c7398ab16e312e6a9332e7d}{\index{G\-P\-S Module@{G\-P\-S Module}!s\-Acc@{s\-Acc}}
+\index{s\-Acc@{s\-Acc}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{s\-Acc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-V\-E\-L\-N\-E\-D\-::s\-Acc}}\label{group___g_s_p_module_ga50bfd12e0c7398ab16e312e6a9332e7d}
+
+
+Definition at line 136 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gadf8744b17bc7095cc06d9f0909bd865d}{\index{G\-P\-S Module@{G\-P\-S Module}!sec@{sec}}
+\index{sec@{sec}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{sec}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-T\-I\-M\-E\-U\-T\-C\-::sec}}\label{group___g_s_p_module_gadf8744b17bc7095cc06d9f0909bd865d}
+
+
+Definition at line 155 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga16a2a64917c6151546e60e1eb04eb4f6}{\index{G\-P\-S Module@{G\-P\-S Module}!speed@{speed}}
+\index{speed@{speed}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{speed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-V\-E\-L\-N\-E\-D\-::speed}}\label{group___g_s_p_module_ga16a2a64917c6151546e60e1eb04eb4f6}
+
+
+Definition at line 133 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gae22f11e4be4f99b2627ff494e335a313}{\index{G\-P\-S Module@{G\-P\-S Module}!sv@{sv}}
+\index{sv@{sv}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{sv}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-\_\-\-S\-V} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-::sv\mbox{[}M\-A\-X\-\_\-\-S\-V\-S\mbox{]}}}\label{group___g_s_p_module_gae22f11e4be4f99b2627ff494e335a313}
+
+
+Definition at line 191 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga95b2c35d609942ecc9257b9d1c1df03d}{\index{G\-P\-S Module@{G\-P\-S Module}!svid@{svid}}
+\index{svid@{svid}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{svid}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-\_\-\-S\-V\-::svid}}\label{group___g_s_p_module_ga95b2c35d609942ecc9257b9d1c1df03d}
+
+
+Definition at line 174 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gadb8a5ad986f11644415dc969c0803cc9}{\index{G\-P\-S Module@{G\-P\-S Module}!t\-Acc@{t\-Acc}}
+\index{t\-Acc@{t\-Acc}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{t\-Acc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-T\-I\-M\-E\-U\-T\-C\-::t\-Acc}}\label{group___g_s_p_module_gadb8a5ad986f11644415dc969c0803cc9}
+
+
+Definition at line 148 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga12bd31e6a5d13f568b90a13f3888c694}{\index{G\-P\-S Module@{G\-P\-S Module}!t\-D\-O\-P@{t\-D\-O\-P}}
+\index{t\-D\-O\-P@{t\-D\-O\-P}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{t\-D\-O\-P}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-D\-O\-P\-::t\-D\-O\-P}}\label{group___g_s_p_module_ga12bd31e6a5d13f568b90a13f3888c694}
+
+
+Definition at line 97 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga9810462abcdcce5e305e41d4d6526699}{\index{G\-P\-S Module@{G\-P\-S Module}!ttff@{ttff}}
+\index{ttff@{ttff}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{ttff}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-T\-A\-T\-U\-S\-::ttff}}\label{group___g_s_p_module_ga9810462abcdcce5e305e41d4d6526699}
+
+
+Definition at line 88 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gacd74a5379c0196b551432578f7ef6e4f}{\index{G\-P\-S Module@{G\-P\-S Module}!v\-Acc@{v\-Acc}}
+\index{v\-Acc@{v\-Acc}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{v\-Acc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-P\-O\-S\-L\-L\-H\-::v\-Acc}}\label{group___g_s_p_module_gacd74a5379c0196b551432578f7ef6e4f}
+
+
+Definition at line 65 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga7709acce4beceb6a24a8f239923fb026}{\index{G\-P\-S Module@{G\-P\-S Module}!valid@{valid}}
+\index{valid@{valid}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{valid}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-T\-I\-M\-E\-U\-T\-C\-::valid}}\label{group___g_s_p_module_ga7709acce4beceb6a24a8f239923fb026}
+
+
+Definition at line 156 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gafb69d800723e5600027869cb709dd800}{\index{G\-P\-S Module@{G\-P\-S Module}!v\-D\-O\-P@{v\-D\-O\-P}}
+\index{v\-D\-O\-P@{v\-D\-O\-P}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{v\-D\-O\-P}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-D\-O\-P\-::v\-D\-O\-P}}\label{group___g_s_p_module_gafb69d800723e5600027869cb709dd800}
+
+
+Definition at line 98 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga3dcace94a7b7317b432bcdeb69271326}{\index{G\-P\-S Module@{G\-P\-S Module}!vel\-D@{vel\-D}}
+\index{vel\-D@{vel\-D}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{vel\-D}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-V\-E\-L\-N\-E\-D\-::vel\-D}}\label{group___g_s_p_module_ga3dcace94a7b7317b432bcdeb69271326}
+
+
+Definition at line 132 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga6a8d3e61f2818644777283c0ea93dec8}{\index{G\-P\-S Module@{G\-P\-S Module}!vel\-E@{vel\-E}}
+\index{vel\-E@{vel\-E}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{vel\-E}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-V\-E\-L\-N\-E\-D\-::vel\-E}}\label{group___g_s_p_module_ga6a8d3e61f2818644777283c0ea93dec8}
+
+
+Definition at line 131 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gab9c0e5be2137b6287caa0d98942c521d}{\index{G\-P\-S Module@{G\-P\-S Module}!vel\-N@{vel\-N}}
+\index{vel\-N@{vel\-N}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{vel\-N}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-V\-E\-L\-N\-E\-D\-::vel\-N}}\label{group___g_s_p_module_gab9c0e5be2137b6287caa0d98942c521d}
+
+
+Definition at line 130 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_gaceeb9bd043b85b904f3a3bcfd1c2dc38}{\index{G\-P\-S Module@{G\-P\-S Module}!week@{week}}
+\index{week@{week}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{week}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int16\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L\-::week}}\label{group___g_s_p_module_gaceeb9bd043b85b904f3a3bcfd1c2dc38}
+
+
+Definition at line 109 of file U\-B\-X.\-h.
+
+\hypertarget{group___g_s_p_module_ga8ea81fa402795b3daf6ec8bcc9c51eb1}{\index{G\-P\-S Module@{G\-P\-S Module}!year@{year}}
+\index{year@{year}!GPS Module@{G\-P\-S Module}}
+\subsubsection[{year}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-T\-I\-M\-E\-U\-T\-C\-::year}}\label{group___g_s_p_module_ga8ea81fa402795b3daf6ec8bcc9c51eb1}
+
+
+Definition at line 150 of file U\-B\-X.\-h.
+

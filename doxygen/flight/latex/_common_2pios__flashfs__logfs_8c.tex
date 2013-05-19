@@ -1,0 +1,124 @@
+\hypertarget{_common_2pios__flashfs__logfs_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-Common/pios\-\_\-flashfs\-\_\-logfs.c File Reference}
+\label{_common_2pios__flashfs__logfs_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-Common/pios\-\_\-flashfs\-\_\-logfs.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-Common/pios\-\_\-flashfs\-\_\-logfs.\-c}}
+}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structlogfs__state}{logfs\-\_\-state}
+\item 
+struct \hyperlink{structarena__header}{arena\-\_\-header}
+\item 
+struct \hyperlink{structslot__header}{slot\-\_\-header}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga27472bb2a0fbfb6302378ef138c6a41f}{pios\-\_\-flashfs\-\_\-logfs\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga27472bb2a0fbfb6302378ef138c6a41fa48f1badb0700a4f00d8da2af591f701b}{P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-L\-O\-G\-F\-S\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} = 0x94938201, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga27472bb2a0fbfb6302378ef138c6a41fa48f1badb0700a4f00d8da2af591f701b}{P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-L\-O\-G\-F\-S\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} = 0x94938201, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga27472bb2a0fbfb6302378ef138c6a41fa48f1badb0700a4f00d8da2af591f701b}{P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-L\-O\-G\-F\-S\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} = 0x94938201
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gaa936149cfd5559190d20879c10e0fcee}{arena\-\_\-state} \{ \\*
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceea0868f5f69dae5f489f86f324fb2ec026}{A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-A\-S\-E\-D} = 0x\-F\-F\-F\-F\-F\-F\-F\-F, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceeac20424e4b3a3a918490e8c307996fe7c}{A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-S\-E\-R\-V\-E\-D} = 0x\-E6\-E6\-F\-F\-F\-F, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceea8bac821a323307ac4aa7b2de12f4896b}{A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-T\-I\-V\-E} = 0x\-E6\-E66666, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceea3943698e7097dd06c6b54f71548d426e}{A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-S\-O\-L\-E\-T\-E} = 0x00000000, 
+\\*
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceea0868f5f69dae5f489f86f324fb2ec026}{A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-A\-S\-E\-D} = 0x\-F\-F\-F\-F\-F\-F\-F\-F, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceeac20424e4b3a3a918490e8c307996fe7c}{A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-S\-E\-R\-V\-E\-D} = 0x\-E6\-E6\-F\-F\-F\-F, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceea8bac821a323307ac4aa7b2de12f4896b}{A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-T\-I\-V\-E} = 0x\-E6\-E66666, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceea3943698e7097dd06c6b54f71548d426e}{A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-S\-O\-L\-E\-T\-E} = 0x00000000, 
+\\*
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceea0868f5f69dae5f489f86f324fb2ec026}{A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-A\-S\-E\-D} = 0x\-F\-F\-F\-F\-F\-F\-F\-F, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceeac20424e4b3a3a918490e8c307996fe7c}{A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-S\-E\-R\-V\-E\-D} = 0x\-E6\-E6\-F\-F\-F\-F, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceea8bac821a323307ac4aa7b2de12f4896b}{A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-T\-I\-V\-E} = 0x\-E6\-E66666, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceea3943698e7097dd06c6b54f71548d426e}{A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-S\-O\-L\-E\-T\-E} = 0x00000000
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga7df58e5fca7cec32767a0481da453e74}{slot\-\_\-state} \{ \\*
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74a3ec4030cfe6de3e15e9ce08f12c91734}{S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-M\-P\-T\-Y} = 0x\-F\-F\-F\-F\-F\-F\-F\-F, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74acf379d22c045f40511eab34f8aafba5e}{S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-S\-E\-R\-V\-E\-D} = 0x\-F\-A\-F\-A\-F\-F\-F\-F, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74acf5fd7f439ede2b21808a3edc1acc4f4}{S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-T\-I\-V\-E} = 0x\-F\-A\-F\-A\-A\-A\-A\-A, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74aff81f83249791cda333bde0850150ccc}{S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-S\-O\-L\-E\-T\-E} = 0x00000000, 
+\\*
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74a3ec4030cfe6de3e15e9ce08f12c91734}{S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-M\-P\-T\-Y} = 0x\-F\-F\-F\-F\-F\-F\-F\-F, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74acf379d22c045f40511eab34f8aafba5e}{S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-S\-E\-R\-V\-E\-D} = 0x\-F\-A\-F\-A\-F\-F\-F\-F, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74acf5fd7f439ede2b21808a3edc1acc4f4}{S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-T\-I\-V\-E} = 0x\-F\-A\-F\-A\-A\-A\-A\-A, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74aff81f83249791cda333bde0850150ccc}{S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-S\-O\-L\-E\-T\-E} = 0x00000000, 
+\\*
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74a3ec4030cfe6de3e15e9ce08f12c91734}{S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-M\-P\-T\-Y} = 0x\-F\-F\-F\-F\-F\-F\-F\-F, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74acf379d22c045f40511eab34f8aafba5e}{S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-S\-E\-R\-V\-E\-D} = 0x\-F\-A\-F\-A\-F\-F\-F\-F, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74acf5fd7f439ede2b21808a3edc1acc4f4}{S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-T\-I\-V\-E} = 0x\-F\-A\-F\-A\-A\-A\-A\-A, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74aff81f83249791cda333bde0850150ccc}{S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-S\-O\-L\-E\-T\-E} = 0x00000000
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structarena__header}{arena\-\_\-header} \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gaf0823c3e99bb9ab51cfc8a807339ad1b}{\-\_\-\-\_\-attribute\-\_\-\-\_\-} ((packed))
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga2597ca18b2f818f6b2aee1e29cc661e2}{P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Logfs\-\_\-\-Init} (uintptr\-\_\-t $\ast$fs\-\_\-id, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} struct \hyperlink{structflashfs__logfs__cfg}{flashfs\-\_\-logfs\-\_\-cfg} $\ast$cfg, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} struct \hyperlink{structpios__flash__driver}{pios\-\_\-flash\-\_\-driver} $\ast$driver, uintptr\-\_\-t flash\-\_\-id)
+\begin{DoxyCompactList}\small\item\em Initialize the flash object setting F\-S. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga2fdf3f16270fb9c7f85a4c7a9bfce2ce}{P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Logfs\-\_\-\-Destroy} (uintptr\-\_\-t fs\-\_\-id)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga2566e681162e422c1457f10146eda492}{P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Save} (uintptr\-\_\-t fs\-\_\-id, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{posix_2posix_2pios__flashfs__logfs_8c_a4901f00431a2c948153bd4f187fce556}{obj\-\_\-id}, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{posix_2posix_2pios__flashfs__logfs_8c_a7930e82075aa4e3326ad9615090b5d61}{obj\-\_\-inst\-\_\-id}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$obj\-\_\-data, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{posix_2posix_2pios__flashfs__logfs_8c_acd6c9a9729f524a58be43afcb2d0782a}{obj\-\_\-size})
+\begin{DoxyCompactList}\small\item\em Saves one object instance to the filesystem. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga159a3e2681cd03a6512dd59348c8a764}{P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Load} (uintptr\-\_\-t fs\-\_\-id, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{posix_2posix_2pios__flashfs__logfs_8c_a4901f00431a2c948153bd4f187fce556}{obj\-\_\-id}, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{posix_2posix_2pios__flashfs__logfs_8c_a7930e82075aa4e3326ad9615090b5d61}{obj\-\_\-inst\-\_\-id}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$obj\-\_\-data, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{posix_2posix_2pios__flashfs__logfs_8c_acd6c9a9729f524a58be43afcb2d0782a}{obj\-\_\-size})
+\begin{DoxyCompactList}\small\item\em Load one object instance from the filesystem. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga93a9e7b90c573b3784dd52781bf11e93}{P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Delete} (uintptr\-\_\-t fs\-\_\-id, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{posix_2posix_2pios__flashfs__logfs_8c_a4901f00431a2c948153bd4f187fce556}{obj\-\_\-id}, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{posix_2posix_2pios__flashfs__logfs_8c_a7930e82075aa4e3326ad9615090b5d61}{obj\-\_\-inst\-\_\-id})
+\begin{DoxyCompactList}\small\item\em Delete one instance of an object from the filesystem. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga9dccc10d534e33e6b52df18f60d27a58}{P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Format} (uintptr\-\_\-t fs\-\_\-id)
+\begin{DoxyCompactList}\small\item\em Erases all filesystem arenas and activate the first arena. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{_common_2pios__flashfs__logfs_8c_a57f54349f4fd1cbbb52058812e146af2}{magic}
+\item 
+enum \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gaa936149cfd5559190d20879c10e0fcee}{arena\-\_\-state} \hyperlink{_common_2pios__flashfs__logfs_8c_a13a6109e91ad12705df96a0f2743c630}{state}
+\item 
+enum \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga7df58e5fca7cec32767a0481da453e74}{slot\-\_\-state} \hyperlink{group___c_m_s_i_s___core___reg_acc_functions_ga043afd6646bf00b1155399e12818f798}{\-\_\-\-\_\-attribute\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em Disable I\-R\-Q Interrupts. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{_common_2pios__flashfs__logfs_8c_a4901f00431a2c948153bd4f187fce556}{obj\-\_\-id}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{_common_2pios__flashfs__logfs_8c_a7930e82075aa4e3326ad9615090b5d61}{obj\-\_\-inst\-\_\-id}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{_common_2pios__flashfs__logfs_8c_acd6c9a9729f524a58be43afcb2d0782a}{obj\-\_\-size}
+\end{DoxyCompactItemize}
+
+
+\subsection{Variable Documentation}
+\hypertarget{_common_2pios__flashfs__logfs_8c_a57f54349f4fd1cbbb52058812e146af2}{\index{Common/pios\-\_\-flashfs\-\_\-logfs.\-c@{Common/pios\-\_\-flashfs\-\_\-logfs.\-c}!magic@{magic}}
+\index{magic@{magic}!Common/pios_flashfs_logfs.c@{Common/pios\-\_\-flashfs\-\_\-logfs.\-c}}
+\subsubsection[{magic}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} magic}}\label{_common_2pios__flashfs__logfs_8c_a57f54349f4fd1cbbb52058812e146af2}
+
+
+Definition at line 108 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+\hypertarget{_common_2pios__flashfs__logfs_8c_a4901f00431a2c948153bd4f187fce556}{\index{Common/pios\-\_\-flashfs\-\_\-logfs.\-c@{Common/pios\-\_\-flashfs\-\_\-logfs.\-c}!obj\-\_\-id@{obj\-\_\-id}}
+\index{obj\-\_\-id@{obj\-\_\-id}!Common/pios_flashfs_logfs.c@{Common/pios\-\_\-flashfs\-\_\-logfs.\-c}}
+\subsubsection[{obj\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} obj\-\_\-id}}\label{_common_2pios__flashfs__logfs_8c_a4901f00431a2c948153bd4f187fce556}
+
+
+Definition at line 345 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+\hypertarget{_common_2pios__flashfs__logfs_8c_a7930e82075aa4e3326ad9615090b5d61}{\index{Common/pios\-\_\-flashfs\-\_\-logfs.\-c@{Common/pios\-\_\-flashfs\-\_\-logfs.\-c}!obj\-\_\-inst\-\_\-id@{obj\-\_\-inst\-\_\-id}}
+\index{obj\-\_\-inst\-\_\-id@{obj\-\_\-inst\-\_\-id}!Common/pios_flashfs_logfs.c@{Common/pios\-\_\-flashfs\-\_\-logfs.\-c}}
+\subsubsection[{obj\-\_\-inst\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} obj\-\_\-inst\-\_\-id}}\label{_common_2pios__flashfs__logfs_8c_a7930e82075aa4e3326ad9615090b5d61}
+
+
+Definition at line 346 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+\hypertarget{_common_2pios__flashfs__logfs_8c_acd6c9a9729f524a58be43afcb2d0782a}{\index{Common/pios\-\_\-flashfs\-\_\-logfs.\-c@{Common/pios\-\_\-flashfs\-\_\-logfs.\-c}!obj\-\_\-size@{obj\-\_\-size}}
+\index{obj\-\_\-size@{obj\-\_\-size}!Common/pios_flashfs_logfs.c@{Common/pios\-\_\-flashfs\-\_\-logfs.\-c}}
+\subsubsection[{obj\-\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} obj\-\_\-size}}\label{_common_2pios__flashfs__logfs_8c_acd6c9a9729f524a58be43afcb2d0782a}
+
+
+Definition at line 347 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+\hypertarget{_common_2pios__flashfs__logfs_8c_a13a6109e91ad12705df96a0f2743c630}{\index{Common/pios\-\_\-flashfs\-\_\-logfs.\-c@{Common/pios\-\_\-flashfs\-\_\-logfs.\-c}!state@{state}}
+\index{state@{state}!Common/pios_flashfs_logfs.c@{Common/pios\-\_\-flashfs\-\_\-logfs.\-c}}
+\subsubsection[{state}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf slot\-\_\-state} state}}\label{_common_2pios__flashfs__logfs_8c_a13a6109e91ad12705df96a0f2743c630}
+
+
+Definition at line 109 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+

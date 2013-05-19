@@ -1,0 +1,308 @@
+\hypertarget{group___p_w_r___group4}{\section{Low Power modes configuration functions}
+\label{group___p_w_r___group4}\index{Low Power modes configuration functions@{Low Power modes configuration functions}}
+}
+
+
+Low Power modes configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___p_w_r___group4_ga7b33572878ffb7e22b65255d90512fe7}{P\-W\-R\-\_\-\-Enter\-Sleep\-Mode} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} P\-W\-R\-\_\-\-S\-L\-E\-E\-P\-Entry)
+\begin{DoxyCompactList}\small\item\em Enters Sleep mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___p_w_r___group4_ga694676ac06a9baf50eae45adae0118ab}{P\-W\-R\-\_\-\-Enter\-S\-T\-O\-P\-Mode} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} P\-W\-R\-\_\-\-Regulator, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} P\-W\-R\-\_\-\-S\-T\-O\-P\-Entry)
+\begin{DoxyCompactList}\small\item\em Enters S\-T\-O\-P mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___p_w_r___group4_ga00ddae00a9c327b81b24d2597b0052f3}{P\-W\-R\-\_\-\-Enter\-S\-T\-A\-N\-D\-B\-Y\-Mode} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Enters S\-T\-A\-N\-D\-B\-Y mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___p_w_r___group4_ga83a4d6c5b048f2dab18e8fb04f5368d7}{P\-W\-R\-\_\-\-Backup\-Regulator\-Cmd} (\hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the Backup Regulator. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___p_w_r___group4_gada193dea79762f379d4e666a98f28d89}{P\-W\-R\-\_\-\-Main\-Regulator\-Mode\-Config} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} P\-W\-R\-\_\-\-Regulator\-\_\-\-Voltage)
+\begin{DoxyCompactList}\small\item\em Configures the main internal regulator output voltage. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Low Power modes configuration functions. Main and Backup Regulators configuration functions.
+
+\begin{DoxyVerb} ===============================================================================
+              ##### Low Power modes configuration functions #####
+  ==============================================================================
+
+    [..] The devices feature three low-power modes:
+    (+) Sleep mode: Cortex-M4 core stopped, peripherals kept running.
+    (+) Stop mode: all clocks are stopped, regulator running, regulator in low power mode
+    (+) Standby mode: VCORE domain powered off
+
+  *** Sleep mode *** 
+  ==================
+  [..] 
+    (+) Entry:
+        (++) The Sleep mode is entered by executing the WFE() or WFI() instructions.
+    (+) Exit:
+        (++) Any peripheral interrupt acknowledged by the nested vectored interrupt 
+             controller (NVIC) can wake up the device from Sleep mode.
+
+  *** Stop mode *** 
+  =================
+  [..] In Stop mode, all clocks in the VCORE domain are stopped, the PLL, the HSI,
+       and the HSE RC oscillators are disabled. Internal SRAM and register 
+       contents are preserved.
+       The voltage regulator can be configured either in normal or low-power mode.
+
+    (+) Entry:
+        (++) The Stop mode is entered using the PWR_EnterSTOPMode(PWR_Regulator_LowPower,) 
+             function with regulator in LowPower or with Regulator ON.
+    (+) Exit:
+        (++) Any EXTI Line (Internal or External) configured in Interrupt/Event mode
+             or any internal IPs (I2C or UASRT) wakeup event.
+
+  *** Standby mode *** 
+  ====================
+  [..] The Standby mode allows to achieve the lowest power consumption. It is based 
+       on the Cortex-M4 deepsleep mode, with the voltage regulator disabled. 
+       The VCORE domain is consequently powered off. The PLL, the HSI, and the HSE 
+       oscillator are also switched off. SRAM and register 
+       contents are lost except for the Backup domain (RTC registers, RTC backup 
+       registers and Standby circuitry).
+   
+  [..] The voltage regulator is OFF.
+
+    (+) Entry:
+        (++) The Standby mode is entered using the PWR_EnterSTANDBYMode() function.
+    (+) Exit:
+        (++) WKUP pin rising edge, RTC alarm (Alarm A and Alarm B), RTC wakeup,
+             tamper event, time-stamp event, external reset in NRST pin, IWDG reset.
+
+  *** Auto-wakeup (AWU) from low-power mode *** 
+  =============================================
+  [..] The MCU can be woken up from low-power mode by an RTC Alarm event, a tamper 
+       event, a time-stamp event, or a comparator event, without depending on an 
+       external interrupt (Auto-wakeup mode).
+
+    (+) RTC auto-wakeup (AWU) from the Stop mode
+        (++) To wake up from the Stop mode with an RTC alarm event, it is necessary to:
+             (+++) Configure the EXTI Line 17 to be sensitive to rising edges (Interrupt 
+                   or Event modes) using the EXTI_Init() function.
+             (+++) Enable the RTC Alarm Interrupt using the RTC_ITConfig() function
+             (+++) Configure the RTC to generate the RTC alarm using the RTC_SetAlarm() 
+                   and RTC_AlarmCmd() functions.
+        (++) To wake up from the Stop mode with an RTC Tamper or time stamp event, it 
+             is necessary to:
+             (+++) Configure the EXTI Line 19 to be sensitive to rising edges (Interrupt 
+                   or Event modes) using the EXTI_Init() function.
+             (+++) Enable the RTC Tamper or time stamp Interrupt using the RTC_ITConfig() 
+                   function.
+             (+++) Configure the RTC to detect the tamper or time stamp event using the
+                   RTC_TimeStampConfig(), RTC_TamperTriggerConfig() and RTC_TamperCmd()
+                   functions.
+
+    (+) RTC auto-wakeup (AWU) from the Standby mode
+        (++) To wake up from the Standby mode with an RTC alarm event, it is necessary to:
+             (+++) Enable the RTC Alarm Interrupt using the RTC_ITConfig() function.
+             (+++) Configure the RTC to generate the RTC alarm using the RTC_SetAlarm() 
+                   and RTC_AlarmCmd() functions.
+        (++) To wake up from the Standby mode with an RTC Tamper or time stamp event, it 
+             is necessary to:
+             (+++) Enable the RTC Tamper or time stamp Interrupt using the RTC_ITConfig() 
+                   function.
+             (+++) Configure the RTC to detect the tamper or time stamp event using the
+                   RTC_TimeStampConfig(), RTC_TamperTriggerConfig() and RTC_TamperCmd()
+                   functions.
+
+    (+) Comparator auto-wakeup (AWU) from the Stop mode
+        (++) To wake up from the Stop mode with a comparator wakeup event, it is necessary to:
+             (+++) Configure the correspondant comparator EXTI Line to be sensitive to 
+                   the selected edges (falling, rising or falling and rising) 
+                   (Interrupt or Event modes) using the EXTI_Init() function.
+             (+++) Configure the comparator to generate the event.\end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                    Main and Backup Regulators configuration functions
+ ===============================================================================  
+
+ - The backup domain includes 4 Kbytes of backup SRAM accessible only from the 
+   CPU, and address in 32-bit, 16-bit or 8-bit mode. Its content is retained 
+   even in Standby or VBAT mode when the low power backup regulator is enabled. 
+   It can be considered as an internal EEPROM when VBAT is always present.
+   You can use the PWR_BackupRegulatorCmd() function to enable the low power
+   backup regulator and use the PWR_GetFlagStatus(PWR_FLAG_BRR) to check if it is
+   ready or not. 
+
+ - When the backup domain is supplied by VDD (analog switch connected to VDD) 
+   the backup SRAM is powered from VDD which replaces the VBAT power supply to 
+   save battery life.
+
+ - The backup SRAM is not mass erased by an tamper event. It is read protected 
+   to prevent confidential data, such as cryptographic private key, from being 
+   accessed. The backup SRAM can be erased only through the Flash interface when
+   a protection level change from level 1 to level 0 is requested. 
+   Refer to the description of Read protection (RDP) in the Flash programming manual.
+
+ - The main internal regulator can be configured to have a tradeoff between performance
+   and power consumption when the device does not operate at the maximum frequency. 
+   This is done through PWR_MainRegulatorModeConfig() function which configure VOS bit
+   in PWR_CR register: 
+      - When this bit is set (Regulator voltage output Scale 1 mode selected) the System
+        frequency can go up to 168 MHz. 
+      - When this bit is reset (Regulator voltage output Scale 2 mode selected) the System
+        frequency can go up to 144 MHz. 
+   Refer to the datasheets for more details.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___p_w_r___group4_ga83a4d6c5b048f2dab18e8fb04f5368d7}{\index{Low Power modes configuration functions@{Low Power modes configuration functions}!P\-W\-R\-\_\-\-Backup\-Regulator\-Cmd@{P\-W\-R\-\_\-\-Backup\-Regulator\-Cmd}}
+\index{P\-W\-R\-\_\-\-Backup\-Regulator\-Cmd@{P\-W\-R\-\_\-\-Backup\-Regulator\-Cmd}!Low Power modes configuration functions@{Low Power modes configuration functions}}
+\subsubsection[{P\-W\-R\-\_\-\-Backup\-Regulator\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-W\-R\-\_\-\-Backup\-Regulator\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___p_w_r___group4_ga83a4d6c5b048f2dab18e8fb04f5368d7}
+
+
+Enables or disables the Backup Regulator. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\-State,\-:} & new state of the Backup Regulator. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 306 of file stm32f4xx\-\_\-pwr.\-c.
+
+\hypertarget{group___p_w_r___group4_ga7b33572878ffb7e22b65255d90512fe7}{\index{Low Power modes configuration functions@{Low Power modes configuration functions}!P\-W\-R\-\_\-\-Enter\-Sleep\-Mode@{P\-W\-R\-\_\-\-Enter\-Sleep\-Mode}}
+\index{P\-W\-R\-\_\-\-Enter\-Sleep\-Mode@{P\-W\-R\-\_\-\-Enter\-Sleep\-Mode}!Low Power modes configuration functions@{Low Power modes configuration functions}}
+\subsubsection[{P\-W\-R\-\_\-\-Enter\-Sleep\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-W\-R\-\_\-\-Enter\-Sleep\-Mode (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{P\-W\-R\-\_\-\-S\-L\-E\-E\-P\-Entry}
+\end{DoxyParamCaption}
+)}}\label{group___p_w_r___group4_ga7b33572878ffb7e22b65255d90512fe7}
+
+
+Enters Sleep mode. 
+
+\begin{DoxyNote}{Note}
+In Sleep mode, all I/\-O pins keep the same state as in Run mode. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em P\-W\-R\-\_\-\-S\-L\-E\-E\-P\-Entry,\-:} & specifies if S\-L\-E\-E\-P mode in entered with W\-F\-I or W\-F\-E instruction. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item P\-W\-R\-\_\-\-S\-L\-E\-E\-P\-Entry\-\_\-\-W\-F\-I\-: enter S\-L\-E\-E\-P mode with W\-F\-I instruction \item P\-W\-R\-\_\-\-S\-L\-E\-E\-P\-Entry\-\_\-\-W\-F\-E\-: enter S\-L\-E\-E\-P mode with W\-F\-E instruction \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 351 of file stm32f30x\-\_\-pwr.\-c.
+
+\hypertarget{group___p_w_r___group4_ga00ddae00a9c327b81b24d2597b0052f3}{\index{Low Power modes configuration functions@{Low Power modes configuration functions}!P\-W\-R\-\_\-\-Enter\-S\-T\-A\-N\-D\-B\-Y\-Mode@{P\-W\-R\-\_\-\-Enter\-S\-T\-A\-N\-D\-B\-Y\-Mode}}
+\index{P\-W\-R\-\_\-\-Enter\-S\-T\-A\-N\-D\-B\-Y\-Mode@{P\-W\-R\-\_\-\-Enter\-S\-T\-A\-N\-D\-B\-Y\-Mode}!Low Power modes configuration functions@{Low Power modes configuration functions}}
+\subsubsection[{P\-W\-R\-\_\-\-Enter\-S\-T\-A\-N\-D\-B\-Y\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-W\-R\-\_\-\-Enter\-S\-T\-A\-N\-D\-B\-Y\-Mode (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_w_r___group4_ga00ddae00a9c327b81b24d2597b0052f3}
+
+
+Enters S\-T\-A\-N\-D\-B\-Y mode. 
+
+\begin{DoxyNote}{Note}
+In Standby mode, all I/\-O pins are high impedance except for\-: 
+
+Reset pad (still available) 
+
+R\-T\-C\-\_\-\-A\-F1 pin (P\-C13) if configured for Wakeup pin 2 (W\-K\-U\-P2), tamper, time-\/stamp, R\-T\-C Alarm out, or R\-T\-C clock calibration out. 
+
+W\-K\-U\-P pin 1 (P\-A0) and W\-K\-U\-P pin 3 (P\-E6), if enabled. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 438 of file stm32f30x\-\_\-pwr.\-c.
+
+\hypertarget{group___p_w_r___group4_ga694676ac06a9baf50eae45adae0118ab}{\index{Low Power modes configuration functions@{Low Power modes configuration functions}!P\-W\-R\-\_\-\-Enter\-S\-T\-O\-P\-Mode@{P\-W\-R\-\_\-\-Enter\-S\-T\-O\-P\-Mode}}
+\index{P\-W\-R\-\_\-\-Enter\-S\-T\-O\-P\-Mode@{P\-W\-R\-\_\-\-Enter\-S\-T\-O\-P\-Mode}!Low Power modes configuration functions@{Low Power modes configuration functions}}
+\subsubsection[{P\-W\-R\-\_\-\-Enter\-S\-T\-O\-P\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-W\-R\-\_\-\-Enter\-S\-T\-O\-P\-Mode (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{P\-W\-R\-\_\-\-Regulator, }
+\item[{{\bf uint8\-\_\-t}}]{P\-W\-R\-\_\-\-S\-T\-O\-P\-Entry}
+\end{DoxyParamCaption}
+)}}\label{group___p_w_r___group4_ga694676ac06a9baf50eae45adae0118ab}
+
+
+Enters S\-T\-O\-P mode. 
+
+\begin{DoxyNote}{Note}
+In Stop mode, all I/\-O pins keep the same state as in Run mode. 
+
+When exiting Stop mode by issuing an interrupt or a wakeup event, the M\-S\-I R\-C oscillator is selected as system clock. 
+
+When the voltage regulator operates in low power mode, an additional startup delay is incurred when waking up from Stop mode. By keeping the internal regulator O\-N during Stop mode, the consumption is higher although the startup time is reduced. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em P\-W\-R\-\_\-\-Regulator,\-:} & specifies the regulator state in S\-T\-O\-P mode. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item P\-W\-R\-\_\-\-Regulator\-\_\-\-O\-N\-: S\-T\-O\-P mode with regulator O\-N \item P\-W\-R\-\_\-\-Regulator\-\_\-\-Low\-Power\-: S\-T\-O\-P mode with regulator in low power mode \end{DoxyItemize}
+\\
+\hline
+{\em P\-W\-R\-\_\-\-S\-T\-O\-P\-Entry,\-:} & specifies if S\-T\-O\-P mode in entered with W\-F\-I or W\-F\-E instruction. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item P\-W\-R\-\_\-\-S\-T\-O\-P\-Entry\-\_\-\-W\-F\-I\-: enter S\-T\-O\-P mode with W\-F\-I instruction \item P\-W\-R\-\_\-\-S\-T\-O\-P\-Entry\-\_\-\-W\-F\-E\-: enter S\-T\-O\-P mode with W\-F\-E instruction \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 391 of file stm32f30x\-\_\-pwr.\-c.
+
+\hypertarget{group___p_w_r___group4_gada193dea79762f379d4e666a98f28d89}{\index{Low Power modes configuration functions@{Low Power modes configuration functions}!P\-W\-R\-\_\-\-Main\-Regulator\-Mode\-Config@{P\-W\-R\-\_\-\-Main\-Regulator\-Mode\-Config}}
+\index{P\-W\-R\-\_\-\-Main\-Regulator\-Mode\-Config@{P\-W\-R\-\_\-\-Main\-Regulator\-Mode\-Config}!Low Power modes configuration functions@{Low Power modes configuration functions}}
+\subsubsection[{P\-W\-R\-\_\-\-Main\-Regulator\-Mode\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-W\-R\-\_\-\-Main\-Regulator\-Mode\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{P\-W\-R\-\_\-\-Regulator\-\_\-\-Voltage}
+\end{DoxyParamCaption}
+)}}\label{group___p_w_r___group4_gada193dea79762f379d4e666a98f28d89}
+
+
+Configures the main internal regulator output voltage. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em P\-W\-R\-\_\-\-Regulator\-\_\-\-Voltage,\-:} & specifies the regulator output voltage to achieve a tradeoff between performance and power consumption when the device does not operate at the maximum frequency (refer to the datasheets for more details). This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item P\-W\-R\-\_\-\-Regulator\-\_\-\-Voltage\-\_\-\-Scale1\-: Regulator voltage output Scale 1 mode, System frequency up to 168 M\-Hz. \item P\-W\-R\-\_\-\-Regulator\-\_\-\-Voltage\-\_\-\-Scale2\-: Regulator voltage output Scale 2 mode, System frequency up to 144 M\-Hz. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 326 of file stm32f4xx\-\_\-pwr.\-c.
+

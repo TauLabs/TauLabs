@@ -1,0 +1,68 @@
+\hypertarget{arm__cfft__radix4__f32_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-C\-M\-S\-I\-S3/\-D\-S\-P\-\_\-\-Lib/\-Source/\-Transform\-Functions/arm\-\_\-cfft\-\_\-radix4\-\_\-f32.c File Reference}
+\label{arm__cfft__radix4__f32_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-C\-M\-S\-I\-S3/\-D\-S\-P\-\_\-\-Lib/\-Source/\-Transform\-Functions/arm\-\_\-cfft\-\_\-radix4\-\_\-f32.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-C\-M\-S\-I\-S3/\-D\-S\-P\-\_\-\-Lib/\-Source/\-Transform\-Functions/arm\-\_\-cfft\-\_\-radix4\-\_\-f32.\-c}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___radix4___c_f_f_t___c_i_f_f_t_ga521f670cd9c571bc61aff9bec89f4c26}{arm\-\_\-cfft\-\_\-radix4\-\_\-f32} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__cfft__radix4__instance__f32}{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-f32} $\ast$S, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Src)
+\begin{DoxyCompactList}\small\item\em Processing function for the floating-\/point Radix-\/4 C\-F\-F\-T/\-C\-I\-F\-F\-T. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{arm__cfft__radix4__f32_8c_ae239ddf995d1607115f9e84d5c069b9c}{arm\-\_\-radix4\-\_\-butterfly\-\_\-f32} (\hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Src, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} fft\-Len, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Coef, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} twid\-Coef\-Modifier)
+\begin{DoxyCompactList}\small\item\em Core function for the floating-\/point C\-F\-F\-T butterfly process. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{arm__cfft__radix4__f32_8c_a2a78df6e4bbf080624f2b6349224ec93}{arm\-\_\-radix4\-\_\-butterfly\-\_\-inverse\-\_\-f32} (\hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Src, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} fft\-Len, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Coef, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} twid\-Coef\-Modifier, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} onebyfft\-Len)
+\begin{DoxyCompactList}\small\item\em Core function for the floating-\/point C\-I\-F\-F\-T butterfly process. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{arm__cfft__radix4__f32_8c_ae239ddf995d1607115f9e84d5c069b9c}{\index{arm\-\_\-cfft\-\_\-radix4\-\_\-f32.\-c@{arm\-\_\-cfft\-\_\-radix4\-\_\-f32.\-c}!arm\-\_\-radix4\-\_\-butterfly\-\_\-f32@{arm\-\_\-radix4\-\_\-butterfly\-\_\-f32}}
+\index{arm\-\_\-radix4\-\_\-butterfly\-\_\-f32@{arm\-\_\-radix4\-\_\-butterfly\-\_\-f32}!arm_cfft_radix4_f32.c@{arm\-\_\-cfft\-\_\-radix4\-\_\-f32.\-c}}
+\subsubsection[{arm\-\_\-radix4\-\_\-butterfly\-\_\-f32}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-radix4\-\_\-butterfly\-\_\-f32 (
+\begin{DoxyParamCaption}
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf uint16\-\_\-t}}]{fft\-Len, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Coef, }
+\item[{{\bf uint16\-\_\-t}}]{twid\-Coef\-Modifier}
+\end{DoxyParamCaption}
+)}}\label{arm__cfft__radix4__f32_8c_ae239ddf995d1607115f9e84d5c069b9c}
+
+
+Core function for the floating-\/point C\-F\-F\-T butterfly process. 
+
+end of Radix4\-\_\-\-C\-F\-F\-T\-\_\-\-C\-I\-F\-F\-T group 
+
+Definition at line 225 of file arm\-\_\-cfft\-\_\-radix4\-\_\-f32.\-c.
+
+\hypertarget{arm__cfft__radix4__f32_8c_a2a78df6e4bbf080624f2b6349224ec93}{\index{arm\-\_\-cfft\-\_\-radix4\-\_\-f32.\-c@{arm\-\_\-cfft\-\_\-radix4\-\_\-f32.\-c}!arm\-\_\-radix4\-\_\-butterfly\-\_\-inverse\-\_\-f32@{arm\-\_\-radix4\-\_\-butterfly\-\_\-inverse\-\_\-f32}}
+\index{arm\-\_\-radix4\-\_\-butterfly\-\_\-inverse\-\_\-f32@{arm\-\_\-radix4\-\_\-butterfly\-\_\-inverse\-\_\-f32}!arm_cfft_radix4_f32.c@{arm\-\_\-cfft\-\_\-radix4\-\_\-f32.\-c}}
+\subsubsection[{arm\-\_\-radix4\-\_\-butterfly\-\_\-inverse\-\_\-f32}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-radix4\-\_\-butterfly\-\_\-inverse\-\_\-f32 (
+\begin{DoxyParamCaption}
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf uint16\-\_\-t}}]{fft\-Len, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Coef, }
+\item[{{\bf uint16\-\_\-t}}]{twid\-Coef\-Modifier, }
+\item[{{\bf float32\-\_\-t}}]{onebyfft\-Len}
+\end{DoxyParamCaption}
+)}}\label{arm__cfft__radix4__f32_8c_a2a78df6e4bbf080624f2b6349224ec93}
+
+
+Core function for the floating-\/point C\-I\-F\-F\-T butterfly process. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em $\ast$p\-Src} & points to the in-\/place buffer of floating-\/point data type. \\
+\hline
+\mbox{\tt in}  & {\em fft\-Len} & length of the F\-F\-T. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Coef} & points to twiddle coefficient buffer. \\
+\hline
+\mbox{\tt in}  & {\em twid\-Coef\-Modifier} & twiddle coefficient modifier that supports different size F\-F\-Ts with the same twiddle factor table. \\
+\hline
+\mbox{\tt in}  & {\em onebyfft\-Len} & value of 1/fft\-Len. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none. 
+\end{DoxyReturn}
+
+
+Definition at line 692 of file arm\-\_\-cfft\-\_\-radix4\-\_\-f32.\-c.
+

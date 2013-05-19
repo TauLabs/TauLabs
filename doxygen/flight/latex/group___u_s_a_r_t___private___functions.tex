@@ -1,0 +1,959 @@
+\hypertarget{group___u_s_a_r_t___private___functions}{\section{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}
+\label{group___u_s_a_r_t___private___functions}\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_s_a_r_t___group1}{Initialization and Configuration functions}
+\begin{DoxyCompactList}\small\item\em Initialization and Configuration functions. \end{DoxyCompactList}\item 
+\hyperlink{group___u_s_a_r_t___group2}{S\-T\-O\-P Mode functions}
+\begin{DoxyCompactList}\small\item\em S\-T\-O\-P Mode functions. \end{DoxyCompactList}\item 
+\hyperlink{group___u_s_a_r_t___group3}{Auto\-Baud\-Rate functions}
+\begin{DoxyCompactList}\small\item\em Auto\-Baud\-Rate functions. \end{DoxyCompactList}\item 
+\hyperlink{group___u_s_a_r_t___group4}{Data transfers functions}
+\begin{DoxyCompactList}\small\item\em Data transfers functions. \end{DoxyCompactList}\item 
+\hyperlink{group___u_s_a_r_t___group5}{Multi\-Processor Communication functions}
+\begin{DoxyCompactList}\small\item\em Multi-\/\-Processor Communication functions. \end{DoxyCompactList}\item 
+\hyperlink{group___u_s_a_r_t___group6}{L\-I\-N mode functions}
+\begin{DoxyCompactList}\small\item\em L\-I\-N mode functions. \end{DoxyCompactList}\item 
+\hyperlink{group___u_s_a_r_t___group7}{Halfduplex mode function}
+\begin{DoxyCompactList}\small\item\em Half-\/duplex mode function. \end{DoxyCompactList}\item 
+\hyperlink{group___u_s_a_r_t___group8}{Smartcard mode functions}
+\begin{DoxyCompactList}\small\item\em Smartcard mode functions. \end{DoxyCompactList}\item 
+\hyperlink{group___u_s_a_r_t___group9}{Ir\-D\-A mode functions}
+\begin{DoxyCompactList}\small\item\em Ir\-D\-A mode functions. \end{DoxyCompactList}\item 
+\hyperlink{group___u_s_a_r_t___group10}{R\-S485 mode function}
+\begin{DoxyCompactList}\small\item\em R\-S485 mode function. \end{DoxyCompactList}\item 
+\hyperlink{group___u_s_a_r_t___group11}{D\-M\-A transfers management functions}
+\begin{DoxyCompactList}\small\item\em D\-M\-A transfers management functions. \end{DoxyCompactList}\item 
+\hyperlink{group___u_s_a_r_t___group12}{Interrupts and flags management functions}
+\begin{DoxyCompactList}\small\item\em Interrupts and flags management functions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_ga2f8e1ce72da21b6539d8e1f299ec3b0d}{U\-S\-A\-R\-T\-\_\-\-De\-Init} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx)
+\begin{DoxyCompactList}\small\item\em Deinitializes the U\-S\-A\-R\-Tx peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_ga7fb3b630741559542aef27af10436ca3}{U\-S\-A\-R\-T\-\_\-\-Init} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} U\-S\-A\-R\-T\-\_\-\-Init\-Type\-Def $\ast$U\-S\-A\-R\-T\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the U\-S\-A\-R\-Tx peripheral according to the specified parameters in the U\-S\-A\-R\-T\-\_\-\-Init\-Struct . \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_ga34e1faa2f312496c16cfd05155f4c8b1}{U\-S\-A\-R\-T\-\_\-\-Struct\-Init} (U\-S\-A\-R\-T\-\_\-\-Init\-Type\-Def $\ast$U\-S\-A\-R\-T\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each U\-S\-A\-R\-T\-\_\-\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_gadb50c7a2175c91acd3728f8eefd0c63d}{U\-S\-A\-R\-T\-\_\-\-Clock\-Init} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{struct_u_s_a_r_t___clock_init_type_def}{U\-S\-A\-R\-T\-\_\-\-Clock\-Init\-Type\-Def} $\ast$U\-S\-A\-R\-T\-\_\-\-Clock\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the U\-S\-A\-R\-Tx peripheral Clock according to the specified parameters in the U\-S\-A\-R\-T\-\_\-\-Clock\-Init\-Struct . \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_ga59df27d0adda18b16ee28d47672cc724}{U\-S\-A\-R\-T\-\_\-\-Clock\-Struct\-Init} (\hyperlink{struct_u_s_a_r_t___clock_init_type_def}{U\-S\-A\-R\-T\-\_\-\-Clock\-Init\-Type\-Def} $\ast$U\-S\-A\-R\-T\-\_\-\-Clock\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each U\-S\-A\-R\-T\-\_\-\-Clock\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_ga45e51626739c5f22a6567c8a85d1d85e}{U\-S\-A\-R\-T\-\_\-\-Cmd} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified U\-S\-A\-R\-T peripheral. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_ga6d8f2dd1f34060ae7e386e3e5d56b6f6}{U\-S\-A\-R\-T\-\_\-\-I\-T\-Config} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} U\-S\-A\-R\-T\-\_\-\-I\-T, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified U\-S\-A\-R\-T interrupts. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_ga902857f199ebfba21c63d725354af66f}{U\-S\-A\-R\-T\-\_\-\-D\-M\-A\-Cmd} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} U\-S\-A\-R\-T\-\_\-\-D\-M\-A\-Req, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\-S\-A\-R\-T’s D\-M\-A interface. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_ga65ec9928817f3f031dd9a4dfc95d6666}{U\-S\-A\-R\-T\-\_\-\-Set\-Address} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} U\-S\-A\-R\-T\-\_\-\-Address)
+\begin{DoxyCompactList}\small\item\em Sets the address of the U\-S\-A\-R\-T node. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_ga4965417c2412c36e462fcad50a8d5393}{U\-S\-A\-R\-T\-\_\-\-Wake\-Up\-Config} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} U\-S\-A\-R\-T\-\_\-\-Wake\-Up)
+\begin{DoxyCompactList}\small\item\em Selects the U\-S\-A\-R\-T Wake\-Up method. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_gac27b78ce445a16fe33851d2f87781c02}{U\-S\-A\-R\-T\-\_\-\-Receiver\-Wake\-Up\-Cmd} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Determines if the U\-S\-A\-R\-T is in mute mode or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_ga7bc2d291831cbc5e53e73337308029b5}{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-Config} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length)
+\begin{DoxyCompactList}\small\item\em Sets the U\-S\-A\-R\-T L\-I\-N Break detection length. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_ga9fdd6296f4ca4acdfcbd58bf56bd4185}{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Cmd} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\-S\-A\-R\-T’s L\-I\-N mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_ga0b43d42da9540f446d494bf69823c6fb}{U\-S\-A\-R\-T\-\_\-\-Send\-Data} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___copter_control_b_l_ga6f3335509cc4943e20df66f72483910c}{Data})
+\begin{DoxyCompactList}\small\item\em Transmits single data through the U\-S\-A\-R\-Tx peripheral. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___u_s_a_r_t___private___functions_gac67a91845b0b1d54d31bdfb1c5e9867c}{U\-S\-A\-R\-T\-\_\-\-Receive\-Data} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx)
+\begin{DoxyCompactList}\small\item\em Returns the most recent received data by the U\-S\-A\-R\-Tx peripheral. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_ga39a3d33e23ee28529fa8f7259ce6811e}{U\-S\-A\-R\-T\-\_\-\-Send\-Break} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx)
+\begin{DoxyCompactList}\small\item\em Transmits break characters. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_gac4a35c6acd71ae7e0d67c1f03f0a8777}{U\-S\-A\-R\-T\-\_\-\-Set\-Guard\-Time} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} U\-S\-A\-R\-T\-\_\-\-Guard\-Time)
+\begin{DoxyCompactList}\small\item\em Sets the specified U\-S\-A\-R\-T guard time. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_gaf5da8f2eee8245425584d85d4f62cc33}{U\-S\-A\-R\-T\-\_\-\-Set\-Prescaler} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} U\-S\-A\-R\-T\-\_\-\-Prescaler)
+\begin{DoxyCompactList}\small\item\em Sets the system clock prescaler. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_gabd1347e244c623447151ba3a5e986c5f}{U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-Cmd} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\-S\-A\-R\-T’s Smart Card mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_ga62e22f47e38aa53f2edce8771f7a5dfa}{U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-N\-A\-C\-K\-Cmd} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables N\-A\-C\-K transmission. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_gaaa23b05fe0e1896bad90da7f82750831}{U\-S\-A\-R\-T\-\_\-\-Half\-Duplex\-Cmd} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\-S\-A\-R\-T’s Half Duplex communication. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_ga3897bab07491d9239f8a238a9a7cddea}{U\-S\-A\-R\-T\-\_\-\-Over\-Sampling8\-Cmd} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\-S\-A\-R\-T's 8x oversampling mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_ga3ed89ea8765d851510cfe90f7d90cbbb}{U\-S\-A\-R\-T\-\_\-\-One\-Bit\-Method\-Cmd} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\-S\-A\-R\-T's one bit sampling methode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_ga81a0cd36199040bf6d266b57babd678e}{U\-S\-A\-R\-T\-\_\-\-Ir\-D\-A\-Config} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} U\-S\-A\-R\-T\-\_\-\-Ir\-D\-A\-Mode)
+\begin{DoxyCompactList}\small\item\em Configures the U\-S\-A\-R\-T’s Ir\-D\-A interface. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_gabff56ebb494fdfadcc6ef4fe9ac8dd24}{U\-S\-A\-R\-T\-\_\-\-Ir\-D\-A\-Cmd} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\-S\-A\-R\-T’s Ir\-D\-A interface. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___u_s_a_r_t___private___functions_ga144630722defc9e312f0ad280b68e9da}{U\-S\-A\-R\-T\-\_\-\-Get\-Flag\-Status} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} U\-S\-A\-R\-T\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified U\-S\-A\-R\-T flag is set or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_gad962e148fc466ae1b45b288f6c91d966}{U\-S\-A\-R\-T\-\_\-\-Clear\-Flag} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} U\-S\-A\-R\-T\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Clears the U\-S\-A\-R\-Tx's pending flags. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_gaacbd7ed539db0aacd973a0f6eca34074}{I\-T\-Status} \hyperlink{group___u_s_a_r_t___private___functions_ga93d8f031241bcdbe938d091a85295445}{U\-S\-A\-R\-T\-\_\-\-Get\-I\-T\-Status} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} U\-S\-A\-R\-T\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified U\-S\-A\-R\-T interrupt has occurred or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___private___functions_ga1fc25d0338695063be5e50156955d9bc}{U\-S\-A\-R\-T\-\_\-\-Clear\-I\-T\-Pending\-Bit} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} U\-S\-A\-R\-T\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Clears the U\-S\-A\-R\-Tx’s interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Function Documentation}
+\hypertarget{group___u_s_a_r_t___private___functions_gad962e148fc466ae1b45b288f6c91d966}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-Clear\-Flag@{U\-S\-A\-R\-T\-\_\-\-Clear\-Flag}}
+\index{U\-S\-A\-R\-T\-\_\-\-Clear\-Flag@{U\-S\-A\-R\-T\-\_\-\-Clear\-Flag}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Clear\-Flag}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Clear\-Flag (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf uint16\-\_\-t}}]{U\-S\-A\-R\-T\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_gad962e148fc466ae1b45b288f6c91d966}
+
+
+Clears the U\-S\-A\-R\-Tx's pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T or the U\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1, U\-S\-A\-R\-T2, U\-S\-A\-R\-T3, U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+{\em U\-S\-A\-R\-T\-\_\-\-F\-L\-A\-G,\-:} & specifies the flag to clear. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item U\-S\-A\-R\-T\-\_\-\-F\-L\-A\-G\-\_\-\-C\-T\-S\-: C\-T\-S Change flag (not available for U\-A\-R\-T4 and U\-A\-R\-T5). \item U\-S\-A\-R\-T\-\_\-\-F\-L\-A\-G\-\_\-\-L\-B\-D\-: L\-I\-N Break detection flag. \item U\-S\-A\-R\-T\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C\-: Transmission Complete flag. \item U\-S\-A\-R\-T\-\_\-\-F\-L\-A\-G\-\_\-\-R\-X\-N\-E\-: Receive data register not empty flag.\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+
+\begin{DoxyItemize}
+\item P\-E (Parity error), F\-E (Framing error), N\-E (Noise error), O\-R\-E (Over\-Run error) and I\-D\-L\-E (Idle line detected) flags are cleared by software sequence\-: a read operation to U\-S\-A\-R\-T\-\_\-\-S\-R register (\hyperlink{group___u_s_a_r_t___exported___functions_ga144630722defc9e312f0ad280b68e9da}{U\-S\-A\-R\-T\-\_\-\-Get\-Flag\-Status()}) followed by a read operation to U\-S\-A\-R\-T\-\_\-\-D\-R register (\hyperlink{group___u_s_a_r_t___exported___functions_gac67a91845b0b1d54d31bdfb1c5e9867c}{U\-S\-A\-R\-T\-\_\-\-Receive\-Data()}).
+\item R\-X\-N\-E flag can be also cleared by a read to the U\-S\-A\-R\-T\-\_\-\-D\-R register (\hyperlink{group___u_s_a_r_t___exported___functions_gac67a91845b0b1d54d31bdfb1c5e9867c}{U\-S\-A\-R\-T\-\_\-\-Receive\-Data()}).
+\item T\-C flag can be also cleared by software sequence\-: a read operation to U\-S\-A\-R\-T\-\_\-\-S\-R register (\hyperlink{group___u_s_a_r_t___exported___functions_ga144630722defc9e312f0ad280b68e9da}{U\-S\-A\-R\-T\-\_\-\-Get\-Flag\-Status()}) followed by a write operation to U\-S\-A\-R\-T\-\_\-\-D\-R register (\hyperlink{group___u_s_a_r_t___exported___functions_ga0b43d42da9540f446d494bf69823c6fb}{U\-S\-A\-R\-T\-\_\-\-Send\-Data()}).
+\item T\-X\-E flag is cleared only by a write to the U\-S\-A\-R\-T\-\_\-\-D\-R register (\hyperlink{group___u_s_a_r_t___exported___functions_ga0b43d42da9540f446d494bf69823c6fb}{U\-S\-A\-R\-T\-\_\-\-Send\-Data()}). 
+\end{DoxyItemize}
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 920 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_ga1fc25d0338695063be5e50156955d9bc}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-Clear\-I\-T\-Pending\-Bit@{U\-S\-A\-R\-T\-\_\-\-Clear\-I\-T\-Pending\-Bit}}
+\index{U\-S\-A\-R\-T\-\_\-\-Clear\-I\-T\-Pending\-Bit@{U\-S\-A\-R\-T\-\_\-\-Clear\-I\-T\-Pending\-Bit}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Clear\-I\-T\-Pending\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Clear\-I\-T\-Pending\-Bit (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf uint16\-\_\-t}}]{U\-S\-A\-R\-T\-\_\-\-I\-T}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_ga1fc25d0338695063be5e50156955d9bc}
+
+
+Clears the U\-S\-A\-R\-Tx’s interrupt pending bits. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T or the U\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1, U\-S\-A\-R\-T2, U\-S\-A\-R\-T3, U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+{\em U\-S\-A\-R\-T\-\_\-\-I\-T,\-:} & specifies the interrupt pending bit to clear. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item U\-S\-A\-R\-T\-\_\-\-I\-T\-\_\-\-C\-T\-S\-: C\-T\-S change interrupt (not available for U\-A\-R\-T4 and U\-A\-R\-T5) \item U\-S\-A\-R\-T\-\_\-\-I\-T\-\_\-\-L\-B\-D\-: L\-I\-N Break detection interrupt \item U\-S\-A\-R\-T\-\_\-\-I\-T\-\_\-\-T\-C\-: Transmission complete interrupt. \item U\-S\-A\-R\-T\-\_\-\-I\-T\-\_\-\-R\-X\-N\-E\-: Receive Data register not empty interrupt.\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+
+\begin{DoxyItemize}
+\item P\-E (Parity error), F\-E (Framing error), N\-E (Noise error), O\-R\-E (Over\-Run error) and I\-D\-L\-E (Idle line detected) pending bits are cleared by software sequence\-: a read operation to U\-S\-A\-R\-T\-\_\-\-S\-R register (\hyperlink{group___u_s_a_r_t___exported___functions_ga93d8f031241bcdbe938d091a85295445}{U\-S\-A\-R\-T\-\_\-\-Get\-I\-T\-Status()}) followed by a read operation to U\-S\-A\-R\-T\-\_\-\-D\-R register (\hyperlink{group___u_s_a_r_t___exported___functions_gac67a91845b0b1d54d31bdfb1c5e9867c}{U\-S\-A\-R\-T\-\_\-\-Receive\-Data()}).
+\item R\-X\-N\-E pending bit can be also cleared by a read to the U\-S\-A\-R\-T\-\_\-\-D\-R register (\hyperlink{group___u_s_a_r_t___exported___functions_gac67a91845b0b1d54d31bdfb1c5e9867c}{U\-S\-A\-R\-T\-\_\-\-Receive\-Data()}).
+\item T\-C pending bit can be also cleared by software sequence\-: a read operation to U\-S\-A\-R\-T\-\_\-\-S\-R register (\hyperlink{group___u_s_a_r_t___exported___functions_ga93d8f031241bcdbe938d091a85295445}{U\-S\-A\-R\-T\-\_\-\-Get\-I\-T\-Status()}) followed by a write operation to U\-S\-A\-R\-T\-\_\-\-D\-R register (\hyperlink{group___u_s_a_r_t___exported___functions_ga0b43d42da9540f446d494bf69823c6fb}{U\-S\-A\-R\-T\-\_\-\-Send\-Data()}).
+\item T\-X\-E pending bit is cleared only by a write to the U\-S\-A\-R\-T\-\_\-\-D\-R register (\hyperlink{group___u_s_a_r_t___exported___functions_ga0b43d42da9540f446d494bf69823c6fb}{U\-S\-A\-R\-T\-\_\-\-Send\-Data()}). 
+\end{DoxyItemize}
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1027 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_gadb50c7a2175c91acd3728f8eefd0c63d}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-Clock\-Init@{U\-S\-A\-R\-T\-\_\-\-Clock\-Init}}
+\index{U\-S\-A\-R\-T\-\_\-\-Clock\-Init@{U\-S\-A\-R\-T\-\_\-\-Clock\-Init}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Clock\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Clock\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Clock\-Init\-Type\-Def} $\ast$}]{U\-S\-A\-R\-T\-\_\-\-Clock\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_gadb50c7a2175c91acd3728f8eefd0c63d}
+
+
+Initializes the U\-S\-A\-R\-Tx peripheral Clock according to the specified parameters in the U\-S\-A\-R\-T\-\_\-\-Clock\-Init\-Struct . 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & where x can be 1, 2, 3 to select the U\-S\-A\-R\-T peripheral. \\
+\hline
+{\em U\-S\-A\-R\-T\-\_\-\-Clock\-Init\-Struct,\-:} & pointer to a \hyperlink{struct_u_s_a_r_t___clock_init_type_def}{U\-S\-A\-R\-T\-\_\-\-Clock\-Init\-Type\-Def} structure that contains the configuration information for the specified U\-S\-A\-R\-T peripheral. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The Smart Card mode is not available for U\-A\-R\-T4 and U\-A\-R\-T5. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 299 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_ga59df27d0adda18b16ee28d47672cc724}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-Clock\-Struct\-Init@{U\-S\-A\-R\-T\-\_\-\-Clock\-Struct\-Init}}
+\index{U\-S\-A\-R\-T\-\_\-\-Clock\-Struct\-Init@{U\-S\-A\-R\-T\-\_\-\-Clock\-Struct\-Init}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Clock\-Struct\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Clock\-Struct\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Clock\-Init\-Type\-Def} $\ast$}]{U\-S\-A\-R\-T\-\_\-\-Clock\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_ga59df27d0adda18b16ee28d47672cc724}
+
+
+Fills each U\-S\-A\-R\-T\-\_\-\-Clock\-Init\-Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-T\-\_\-\-Clock\-Init\-Struct,\-:} & pointer to a \hyperlink{struct_u_s_a_r_t___clock_init_type_def}{U\-S\-A\-R\-T\-\_\-\-Clock\-Init\-Type\-Def} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 330 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_ga45e51626739c5f22a6567c8a85d1d85e}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-Cmd@{U\-S\-A\-R\-T\-\_\-\-Cmd}}
+\index{U\-S\-A\-R\-T\-\_\-\-Cmd@{U\-S\-A\-R\-T\-\_\-\-Cmd}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_ga45e51626739c5f22a6567c8a85d1d85e}
+
+
+Enables or disables the specified U\-S\-A\-R\-T peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T or the U\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1, U\-S\-A\-R\-T2, U\-S\-A\-R\-T3, U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+{\em New\-State,\-:} & new state of the U\-S\-A\-R\-Tx peripheral. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 348 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_ga2f8e1ce72da21b6539d8e1f299ec3b0d}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-De\-Init@{U\-S\-A\-R\-T\-\_\-\-De\-Init}}
+\index{U\-S\-A\-R\-T\-\_\-\-De\-Init@{U\-S\-A\-R\-T\-\_\-\-De\-Init}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-De\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-De\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_ga2f8e1ce72da21b6539d8e1f299ec3b0d}
+
+
+Deinitializes the U\-S\-A\-R\-Tx peripheral registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T or the U\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1, U\-S\-A\-R\-T2, U\-S\-A\-R\-T3, U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 128 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_ga902857f199ebfba21c63d725354af66f}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-D\-M\-A\-Cmd@{U\-S\-A\-R\-T\-\_\-\-D\-M\-A\-Cmd}}
+\index{U\-S\-A\-R\-T\-\_\-\-D\-M\-A\-Cmd@{U\-S\-A\-R\-T\-\_\-\-D\-M\-A\-Cmd}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-D\-M\-A\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-D\-M\-A\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf uint16\-\_\-t}}]{U\-S\-A\-R\-T\-\_\-\-D\-M\-A\-Req, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_ga902857f199ebfba21c63d725354af66f}
+
+
+Enables or disables the U\-S\-A\-R\-T’s D\-M\-A interface. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T or the U\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1, U\-S\-A\-R\-T2, U\-S\-A\-R\-T3, U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+{\em U\-S\-A\-R\-T\-\_\-\-D\-M\-A\-Req,\-:} & specifies the D\-M\-A request. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item U\-S\-A\-R\-T\-\_\-\-D\-M\-A\-Req\-\_\-\-Tx\-: U\-S\-A\-R\-T D\-M\-A transmit request \item U\-S\-A\-R\-T\-\_\-\-D\-M\-A\-Req\-\_\-\-Rx\-: U\-S\-A\-R\-T D\-M\-A receive request \end{DoxyItemize}
+\\
+\hline
+{\em New\-State,\-:} & new state of the D\-M\-A Request sources. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The D\-M\-A mode is not available for U\-A\-R\-T5 except in the S\-T\-M32 High density value line devices(\-S\-T\-M32\-F10\-X\-\_\-\-H\-D\-\_\-\-V\-L). 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 445 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_ga144630722defc9e312f0ad280b68e9da}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-Get\-Flag\-Status@{U\-S\-A\-R\-T\-\_\-\-Get\-Flag\-Status}}
+\index{U\-S\-A\-R\-T\-\_\-\-Get\-Flag\-Status@{U\-S\-A\-R\-T\-\_\-\-Get\-Flag\-Status}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Get\-Flag\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Flag\-Status} U\-S\-A\-R\-T\-\_\-\-Get\-Flag\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf uint16\-\_\-t}}]{U\-S\-A\-R\-T\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_ga144630722defc9e312f0ad280b68e9da}
+
+
+Checks whether the specified U\-S\-A\-R\-T flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T or the U\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1, U\-S\-A\-R\-T2, U\-S\-A\-R\-T3, U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+{\em U\-S\-A\-R\-T\-\_\-\-F\-L\-A\-G,\-:} & specifies the flag to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item U\-S\-A\-R\-T\-\_\-\-F\-L\-A\-G\-\_\-\-C\-T\-S\-: C\-T\-S Change flag (not available for U\-A\-R\-T4 and U\-A\-R\-T5) \item U\-S\-A\-R\-T\-\_\-\-F\-L\-A\-G\-\_\-\-L\-B\-D\-: L\-I\-N Break detection flag \item U\-S\-A\-R\-T\-\_\-\-F\-L\-A\-G\-\_\-\-T\-X\-E\-: Transmit data register empty flag \item U\-S\-A\-R\-T\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C\-: Transmission Complete flag \item U\-S\-A\-R\-T\-\_\-\-F\-L\-A\-G\-\_\-\-R\-X\-N\-E\-: Receive data register not empty flag \item U\-S\-A\-R\-T\-\_\-\-F\-L\-A\-G\-\_\-\-I\-D\-L\-E\-: Idle Line detection flag \item U\-S\-A\-R\-T\-\_\-\-F\-L\-A\-G\-\_\-\-O\-R\-E\-: Over\-Run Error flag \item U\-S\-A\-R\-T\-\_\-\-F\-L\-A\-G\-\_\-\-N\-E\-: Noise Error flag \item U\-S\-A\-R\-T\-\_\-\-F\-L\-A\-G\-\_\-\-F\-E\-: Framing Error flag \item U\-S\-A\-R\-T\-\_\-\-F\-L\-A\-G\-\_\-\-P\-E\-: Parity Error flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of U\-S\-A\-R\-T\-\_\-\-F\-L\-A\-G (S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 871 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_ga93d8f031241bcdbe938d091a85295445}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-Get\-I\-T\-Status@{U\-S\-A\-R\-T\-\_\-\-Get\-I\-T\-Status}}
+\index{U\-S\-A\-R\-T\-\_\-\-Get\-I\-T\-Status@{U\-S\-A\-R\-T\-\_\-\-Get\-I\-T\-Status}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Get\-I\-T\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf I\-T\-Status} U\-S\-A\-R\-T\-\_\-\-Get\-I\-T\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf uint16\-\_\-t}}]{U\-S\-A\-R\-T\-\_\-\-I\-T}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_ga93d8f031241bcdbe938d091a85295445}
+
+
+Checks whether the specified U\-S\-A\-R\-T interrupt has occurred or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T or the U\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1, U\-S\-A\-R\-T2, U\-S\-A\-R\-T3, U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+{\em U\-S\-A\-R\-T\-\_\-\-I\-T,\-:} & specifies the U\-S\-A\-R\-T interrupt source to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item U\-S\-A\-R\-T\-\_\-\-I\-T\-\_\-\-C\-T\-S\-: C\-T\-S change interrupt (not available for U\-A\-R\-T4 and U\-A\-R\-T5) \item U\-S\-A\-R\-T\-\_\-\-I\-T\-\_\-\-L\-B\-D\-: L\-I\-N Break detection interrupt \item U\-S\-A\-R\-T\-\_\-\-I\-T\-\_\-\-T\-X\-E\-: Tansmit Data Register empty interrupt \item U\-S\-A\-R\-T\-\_\-\-I\-T\-\_\-\-T\-C\-: Transmission complete interrupt \item U\-S\-A\-R\-T\-\_\-\-I\-T\-\_\-\-R\-X\-N\-E\-: Receive Data register not empty interrupt \item U\-S\-A\-R\-T\-\_\-\-I\-T\-\_\-\-I\-D\-L\-E\-: Idle line detection interrupt \item U\-S\-A\-R\-T\-\_\-\-I\-T\-\_\-\-O\-R\-E\-: Over\-Run Error interrupt \item U\-S\-A\-R\-T\-\_\-\-I\-T\-\_\-\-N\-E\-: Noise Error interrupt \item U\-S\-A\-R\-T\-\_\-\-I\-T\-\_\-\-F\-E\-: Framing Error interrupt \item U\-S\-A\-R\-T\-\_\-\-I\-T\-\_\-\-P\-E\-: Parity Error interrupt \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of U\-S\-A\-R\-T\-\_\-\-I\-T (S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 953 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_gaaa23b05fe0e1896bad90da7f82750831}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-Half\-Duplex\-Cmd@{U\-S\-A\-R\-T\-\_\-\-Half\-Duplex\-Cmd}}
+\index{U\-S\-A\-R\-T\-\_\-\-Half\-Duplex\-Cmd@{U\-S\-A\-R\-T\-\_\-\-Half\-Duplex\-Cmd}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Half\-Duplex\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Half\-Duplex\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_gaaa23b05fe0e1896bad90da7f82750831}
+
+
+Enables or disables the U\-S\-A\-R\-T’s Half Duplex communication. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T or the U\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1, U\-S\-A\-R\-T2, U\-S\-A\-R\-T3, U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+{\em New\-State,\-:} & new state of the U\-S\-A\-R\-T Communication. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 728 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_ga7fb3b630741559542aef27af10436ca3}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-Init@{U\-S\-A\-R\-T\-\_\-\-Init}}
+\index{U\-S\-A\-R\-T\-\_\-\-Init@{U\-S\-A\-R\-T\-\_\-\-Init}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf const} U\-S\-A\-R\-T\-\_\-\-Init\-Type\-Def $\ast$}]{U\-S\-A\-R\-T\-\_\-\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_ga7fb3b630741559542aef27af10436ca3}
+
+
+Initializes the U\-S\-A\-R\-Tx peripheral according to the specified parameters in the U\-S\-A\-R\-T\-\_\-\-Init\-Struct . 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T or the U\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1, U\-S\-A\-R\-T2, U\-S\-A\-R\-T3, U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+{\em U\-S\-A\-R\-T\-\_\-\-Init\-Struct,\-:} & pointer to a U\-S\-A\-R\-T\-\_\-\-Init\-Type\-Def structure that contains the configuration information for the specified U\-S\-A\-R\-T peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 173 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_gabff56ebb494fdfadcc6ef4fe9ac8dd24}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-Ir\-D\-A\-Cmd@{U\-S\-A\-R\-T\-\_\-\-Ir\-D\-A\-Cmd}}
+\index{U\-S\-A\-R\-T\-\_\-\-Ir\-D\-A\-Cmd@{U\-S\-A\-R\-T\-\_\-\-Ir\-D\-A\-Cmd}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Ir\-D\-A\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Ir\-D\-A\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_gabff56ebb494fdfadcc6ef4fe9ac8dd24}
+
+
+Enables or disables the U\-S\-A\-R\-T’s Ir\-D\-A interface. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T or the U\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1, U\-S\-A\-R\-T2, U\-S\-A\-R\-T3, U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+{\em New\-State,\-:} & new state of the Ir\-D\-A mode. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 834 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_ga81a0cd36199040bf6d266b57babd678e}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-Ir\-D\-A\-Config@{U\-S\-A\-R\-T\-\_\-\-Ir\-D\-A\-Config}}
+\index{U\-S\-A\-R\-T\-\_\-\-Ir\-D\-A\-Config@{U\-S\-A\-R\-T\-\_\-\-Ir\-D\-A\-Config}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Ir\-D\-A\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Ir\-D\-A\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf uint16\-\_\-t}}]{U\-S\-A\-R\-T\-\_\-\-Ir\-D\-A\-Mode}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_ga81a0cd36199040bf6d266b57babd678e}
+
+
+Configures the U\-S\-A\-R\-T’s Ir\-D\-A interface. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T or the U\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1, U\-S\-A\-R\-T2, U\-S\-A\-R\-T3, U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+{\em U\-S\-A\-R\-T\-\_\-\-Ir\-D\-A\-Mode,\-:} & specifies the Ir\-D\-A mode. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item U\-S\-A\-R\-T\-\_\-\-Ir\-D\-A\-Mode\-\_\-\-Low\-Power \item U\-S\-A\-R\-T\-\_\-\-Ir\-D\-A\-Mode\-\_\-\-Normal \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 815 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_ga6d8f2dd1f34060ae7e386e3e5d56b6f6}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-I\-T\-Config@{U\-S\-A\-R\-T\-\_\-\-I\-T\-Config}}
+\index{U\-S\-A\-R\-T\-\_\-\-I\-T\-Config@{U\-S\-A\-R\-T\-\_\-\-I\-T\-Config}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-I\-T\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-I\-T\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf uint16\-\_\-t}}]{U\-S\-A\-R\-T\-\_\-\-I\-T, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_ga6d8f2dd1f34060ae7e386e3e5d56b6f6}
+
+
+Enables or disables the specified U\-S\-A\-R\-T interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T or the U\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1, U\-S\-A\-R\-T2, U\-S\-A\-R\-T3, U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+{\em U\-S\-A\-R\-T\-\_\-\-I\-T,\-:} & specifies the U\-S\-A\-R\-T interrupt sources to be enabled or disabled. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item U\-S\-A\-R\-T\-\_\-\-I\-T\-\_\-\-C\-T\-S\-: C\-T\-S change interrupt (not available for U\-A\-R\-T4 and U\-A\-R\-T5) \item U\-S\-A\-R\-T\-\_\-\-I\-T\-\_\-\-L\-B\-D\-: L\-I\-N Break detection interrupt \item U\-S\-A\-R\-T\-\_\-\-I\-T\-\_\-\-T\-X\-E\-: Tansmit Data Register empty interrupt \item U\-S\-A\-R\-T\-\_\-\-I\-T\-\_\-\-T\-C\-: Transmission complete interrupt \item U\-S\-A\-R\-T\-\_\-\-I\-T\-\_\-\-R\-X\-N\-E\-: Receive Data register not empty interrupt \item U\-S\-A\-R\-T\-\_\-\-I\-T\-\_\-\-I\-D\-L\-E\-: Idle line detection interrupt \item U\-S\-A\-R\-T\-\_\-\-I\-T\-\_\-\-P\-E\-: Parity Error interrupt \item U\-S\-A\-R\-T\-\_\-\-I\-T\-\_\-\-E\-R\-R\-: Error interrupt(\-Frame error, noise error, overrun error) \end{DoxyItemize}
+\\
+\hline
+{\em New\-State,\-:} & new state of the specified U\-S\-A\-R\-Tx interrupts. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 385 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_ga7bc2d291831cbc5e53e73337308029b5}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-Config@{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-Config}}
+\index{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-Config@{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-Config}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf uint16\-\_\-t}}]{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_ga7bc2d291831cbc5e53e73337308029b5}
+
+
+Sets the U\-S\-A\-R\-T L\-I\-N Break detection length. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T or the U\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1, U\-S\-A\-R\-T2, U\-S\-A\-R\-T3, U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+{\em U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length,\-:} & specifies the L\-I\-N break detection length. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-\_\-10b\-: 10-\/bit break detection \item U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-\_\-11b\-: 11-\/bit break detection \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 544 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_ga9fdd6296f4ca4acdfcbd58bf56bd4185}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Cmd@{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Cmd}}
+\index{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Cmd@{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Cmd}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_ga9fdd6296f4ca4acdfcbd58bf56bd4185}
+
+
+Enables or disables the U\-S\-A\-R\-T’s L\-I\-N mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T or the U\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1, U\-S\-A\-R\-T2, U\-S\-A\-R\-T3, U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+{\em New\-State,\-:} & new state of the U\-S\-A\-R\-T L\-I\-N mode. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 563 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_ga3ed89ea8765d851510cfe90f7d90cbbb}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-One\-Bit\-Method\-Cmd@{U\-S\-A\-R\-T\-\_\-\-One\-Bit\-Method\-Cmd}}
+\index{U\-S\-A\-R\-T\-\_\-\-One\-Bit\-Method\-Cmd@{U\-S\-A\-R\-T\-\_\-\-One\-Bit\-Method\-Cmd}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-One\-Bit\-Method\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-One\-Bit\-Method\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_ga3ed89ea8765d851510cfe90f7d90cbbb}
+
+
+Enables or disables the U\-S\-A\-R\-T's one bit sampling methode. 
+
+Enables or disables the U\-S\-A\-R\-T's one bit sampling method.
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T or the U\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1, U\-S\-A\-R\-T2, U\-S\-A\-R\-T3, U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+{\em New\-State,\-:} & new state of the U\-S\-A\-R\-T one bit sampling methode. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 786 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_ga3897bab07491d9239f8a238a9a7cddea}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-Over\-Sampling8\-Cmd@{U\-S\-A\-R\-T\-\_\-\-Over\-Sampling8\-Cmd}}
+\index{U\-S\-A\-R\-T\-\_\-\-Over\-Sampling8\-Cmd@{U\-S\-A\-R\-T\-\_\-\-Over\-Sampling8\-Cmd}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Over\-Sampling8\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Over\-Sampling8\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_ga3897bab07491d9239f8a238a9a7cddea}
+
+
+Enables or disables the U\-S\-A\-R\-T's 8x oversampling mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T or the U\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1, U\-S\-A\-R\-T2, U\-S\-A\-R\-T3, U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+{\em New\-State,\-:} & new state of the U\-S\-A\-R\-T one bit sampling methode. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This function has to be called before calling \hyperlink{group___u_s_a_r_t___exported___functions_ga7fb3b630741559542aef27af10436ca3}{U\-S\-A\-R\-T\-\_\-\-Init()} function in order to have correct baudrate Divider value. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 759 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_gac67a91845b0b1d54d31bdfb1c5e9867c}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-Receive\-Data@{U\-S\-A\-R\-T\-\_\-\-Receive\-Data}}
+\index{U\-S\-A\-R\-T\-\_\-\-Receive\-Data@{U\-S\-A\-R\-T\-\_\-\-Receive\-Data}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Receive\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} U\-S\-A\-R\-T\-\_\-\-Receive\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_gac67a91845b0b1d54d31bdfb1c5e9867c}
+
+
+Returns the most recent received data by the U\-S\-A\-R\-Tx peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T or the U\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1, U\-S\-A\-R\-T2, U\-S\-A\-R\-T3, U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & received data. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 606 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_gac27b78ce445a16fe33851d2f87781c02}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-Receiver\-Wake\-Up\-Cmd@{U\-S\-A\-R\-T\-\_\-\-Receiver\-Wake\-Up\-Cmd}}
+\index{U\-S\-A\-R\-T\-\_\-\-Receiver\-Wake\-Up\-Cmd@{U\-S\-A\-R\-T\-\_\-\-Receiver\-Wake\-Up\-Cmd}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Receiver\-Wake\-Up\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Receiver\-Wake\-Up\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_gac27b78ce445a16fe33851d2f87781c02}
+
+
+Determines if the U\-S\-A\-R\-T is in mute mode or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T or the U\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1, U\-S\-A\-R\-T2, U\-S\-A\-R\-T3, U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+{\em New\-State,\-:} & new state of the U\-S\-A\-R\-T mute mode. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 515 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_ga39a3d33e23ee28529fa8f7259ce6811e}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-Send\-Break@{U\-S\-A\-R\-T\-\_\-\-Send\-Break}}
+\index{U\-S\-A\-R\-T\-\_\-\-Send\-Break@{U\-S\-A\-R\-T\-\_\-\-Send\-Break}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Send\-Break}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Send\-Break (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_ga39a3d33e23ee28529fa8f7259ce6811e}
+
+
+Transmits break characters. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T or the U\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1, U\-S\-A\-R\-T2, U\-S\-A\-R\-T3, U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 622 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_ga0b43d42da9540f446d494bf69823c6fb}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-Send\-Data@{U\-S\-A\-R\-T\-\_\-\-Send\-Data}}
+\index{U\-S\-A\-R\-T\-\_\-\-Send\-Data@{U\-S\-A\-R\-T\-\_\-\-Send\-Data}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Send\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Send\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf uint16\-\_\-t}}]{Data}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_ga0b43d42da9540f446d494bf69823c6fb}
+
+
+Transmits single data through the U\-S\-A\-R\-Tx peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T or the U\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1, U\-S\-A\-R\-T2, U\-S\-A\-R\-T3, U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+{\em Data,\-:} & the data to transmit. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 589 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_ga65ec9928817f3f031dd9a4dfc95d6666}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-Set\-Address@{U\-S\-A\-R\-T\-\_\-\-Set\-Address}}
+\index{U\-S\-A\-R\-T\-\_\-\-Set\-Address@{U\-S\-A\-R\-T\-\_\-\-Set\-Address}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Set\-Address}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Set\-Address (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf uint8\-\_\-t}}]{U\-S\-A\-R\-T\-\_\-\-Address}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_ga65ec9928817f3f031dd9a4dfc95d6666}
+
+
+Sets the address of the U\-S\-A\-R\-T node. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T or the U\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1, U\-S\-A\-R\-T2, U\-S\-A\-R\-T3, U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+{\em U\-S\-A\-R\-T\-\_\-\-Address,\-:} & Indicates the address of the U\-S\-A\-R\-T node. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 473 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_gac4a35c6acd71ae7e0d67c1f03f0a8777}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-Set\-Guard\-Time@{U\-S\-A\-R\-T\-\_\-\-Set\-Guard\-Time}}
+\index{U\-S\-A\-R\-T\-\_\-\-Set\-Guard\-Time@{U\-S\-A\-R\-T\-\_\-\-Set\-Guard\-Time}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Set\-Guard\-Time}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Set\-Guard\-Time (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf uint8\-\_\-t}}]{U\-S\-A\-R\-T\-\_\-\-Guard\-Time}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_gac4a35c6acd71ae7e0d67c1f03f0a8777}
+
+
+Sets the specified U\-S\-A\-R\-T guard time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & where x can be 1, 2 or 3 to select the U\-S\-A\-R\-T peripheral. \\
+\hline
+{\em U\-S\-A\-R\-T\-\_\-\-Guard\-Time,\-:} & specifies the guard time. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The guard time bits are not available for U\-A\-R\-T4 and U\-A\-R\-T5. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 638 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_gaf5da8f2eee8245425584d85d4f62cc33}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-Set\-Prescaler@{U\-S\-A\-R\-T\-\_\-\-Set\-Prescaler}}
+\index{U\-S\-A\-R\-T\-\_\-\-Set\-Prescaler@{U\-S\-A\-R\-T\-\_\-\-Set\-Prescaler}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Set\-Prescaler}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Set\-Prescaler (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf uint8\-\_\-t}}]{U\-S\-A\-R\-T\-\_\-\-Prescaler}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_gaf5da8f2eee8245425584d85d4f62cc33}
+
+
+Sets the system clock prescaler. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T or the U\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1, U\-S\-A\-R\-T2, U\-S\-A\-R\-T3, U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+{\em U\-S\-A\-R\-T\-\_\-\-Prescaler,\-:} & specifies the prescaler clock. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The function is used for Ir\-D\-A mode with U\-A\-R\-T4 and U\-A\-R\-T5. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 658 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_gabd1347e244c623447151ba3a5e986c5f}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-Cmd@{U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-Cmd}}
+\index{U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-Cmd@{U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-Cmd}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_gabd1347e244c623447151ba3a5e986c5f}
+
+
+Enables or disables the U\-S\-A\-R\-T’s Smart Card mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & where x can be 1, 2 or 3 to select the U\-S\-A\-R\-T peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the Smart Card mode. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The Smart Card mode is not available for U\-A\-R\-T4 and U\-A\-R\-T5. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 677 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_ga62e22f47e38aa53f2edce8771f7a5dfa}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-N\-A\-C\-K\-Cmd@{U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-N\-A\-C\-K\-Cmd}}
+\index{U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-N\-A\-C\-K\-Cmd@{U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-N\-A\-C\-K\-Cmd}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-N\-A\-C\-K\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-N\-A\-C\-K\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_ga62e22f47e38aa53f2edce8771f7a5dfa}
+
+
+Enables or disables N\-A\-C\-K transmission. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & where x can be 1, 2 or 3 to select the U\-S\-A\-R\-T peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the N\-A\-C\-K transmission. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The Smart Card mode is not available for U\-A\-R\-T4 and U\-A\-R\-T5. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 702 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_ga34e1faa2f312496c16cfd05155f4c8b1}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-Struct\-Init@{U\-S\-A\-R\-T\-\_\-\-Struct\-Init}}
+\index{U\-S\-A\-R\-T\-\_\-\-Struct\-Init@{U\-S\-A\-R\-T\-\_\-\-Struct\-Init}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Struct\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Struct\-Init (
+\begin{DoxyParamCaption}
+\item[{U\-S\-A\-R\-T\-\_\-\-Init\-Type\-Def $\ast$}]{U\-S\-A\-R\-T\-\_\-\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_ga34e1faa2f312496c16cfd05155f4c8b1}
+
+
+Fills each U\-S\-A\-R\-T\-\_\-\-Init\-Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-T\-\_\-\-Init\-Struct,\-:} & pointer to a U\-S\-A\-R\-T\-\_\-\-Init\-Type\-Def structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 278 of file stm32f10x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___private___functions_ga4965417c2412c36e462fcad50a8d5393}{\index{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}!U\-S\-A\-R\-T\-\_\-\-Wake\-Up\-Config@{U\-S\-A\-R\-T\-\_\-\-Wake\-Up\-Config}}
+\index{U\-S\-A\-R\-T\-\_\-\-Wake\-Up\-Config@{U\-S\-A\-R\-T\-\_\-\-Wake\-Up\-Config}!USART_Private_Functions@{U\-S\-A\-R\-T\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Wake\-Up\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Wake\-Up\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf uint16\-\_\-t}}]{U\-S\-A\-R\-T\-\_\-\-Wake\-Up}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___private___functions_ga4965417c2412c36e462fcad50a8d5393}
+
+
+Selects the U\-S\-A\-R\-T Wake\-Up method. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T or the U\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1, U\-S\-A\-R\-T2, U\-S\-A\-R\-T3, U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+{\em U\-S\-A\-R\-T\-\_\-\-Wake\-Up,\-:} & specifies the U\-S\-A\-R\-T wakeup method. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item U\-S\-A\-R\-T\-\_\-\-Wake\-Up\-\_\-\-Idle\-Line\-: Wake\-Up by an idle line detection \item U\-S\-A\-R\-T\-\_\-\-Wake\-Up\-\_\-\-Address\-Mark\-: Wake\-Up by an address mark \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 496 of file stm32f10x\-\_\-usart.\-c.
+

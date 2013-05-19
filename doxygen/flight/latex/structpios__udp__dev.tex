@@ -1,0 +1,180 @@
+\hypertarget{structpios__udp__dev}{\section{pios\-\_\-udp\-\_\-dev Struct Reference}
+\label{structpios__udp__dev}\index{pios\-\_\-udp\-\_\-dev@{pios\-\_\-udp\-\_\-dev}}
+}
+
+
+{\ttfamily \#include $<$pios\-\_\-udp\-\_\-priv.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__udp__cfg}{pios\-\_\-udp\-\_\-cfg} $\ast$ \hyperlink{structpios__udp__dev_a94cd33f1f894b923e930feb577f0a882}{cfg}
+\item 
+\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2task_8h_a271ae40d5db07d928a113766505a0965}{x\-Task\-Handle} \hyperlink{structpios__udp__dev_aaa9155c25ada819e91b4e8041bd67e7a}{rx\-Thread}
+\item 
+int \hyperlink{structpios__udp__dev_ad5d46c15339fd00e047ab83898aabc20}{socket}
+\item 
+struct sockaddr\-\_\-in \hyperlink{structpios__udp__dev_a802c81cfccce81f5e9774a3f2fb7a449}{server}
+\item 
+struct sockaddr\-\_\-in \hyperlink{structpios__udp__dev_a91da9fed751f33b5fc4c9ae2cc1a0328}{client}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{structpios__udp__dev_ac097971990d8961a5a9eb6df4c5922d8}{client\-Length}
+\item 
+pthread\-\_\-cond\-\_\-t \hyperlink{structpios__udp__dev_aa2ee1caa6f101cfa029b471fbfa40f9c}{cond}
+\item 
+pthread\-\_\-mutex\-\_\-t \hyperlink{structpios__udp__dev_ad95bd14436ecf5291f717b5e1d02ceea}{mutex}
+\item 
+\hyperlink{group___p_i_o_s___c_o_m_ga23f1888821f1f74a50c02adc459df597}{pios\-\_\-com\-\_\-callback} \hyperlink{structpios__udp__dev_a72acdfb1fbde453ec2ba74b7057c065a}{tx\-\_\-out\-\_\-cb}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{structpios__udp__dev_aa9d5eb1eef4914bc11ba97d5e425184b}{tx\-\_\-out\-\_\-context}
+\item 
+\hyperlink{group___p_i_o_s___c_o_m_ga23f1888821f1f74a50c02adc459df597}{pios\-\_\-com\-\_\-callback} \hyperlink{structpios__udp__dev_ae0e9d717bbca5d5a4a741632fce620f4}{rx\-\_\-in\-\_\-cb}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{structpios__udp__dev_ab49ecb80839ac809a20ae3db49d63919}{rx\-\_\-in\-\_\-context}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{structpios__udp__dev_a65502570ba375c9621f1659b8d792a04}{rx\-\_\-buffer} \mbox{[}P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-R\-X\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-S\-I\-Z\-E\mbox{]}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{structpios__udp__dev_ad712d626bc4160554ceb0765723d6069}{tx\-\_\-buffer} \mbox{[}P\-I\-O\-S\-\_\-\-U\-D\-P\-\_\-\-R\-X\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-S\-I\-Z\-E\mbox{]}
+\item 
+struct \hyperlink{structpios__udp__cfg}{pios\-\_\-udp\-\_\-cfg} $\ast$\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structpios__udp__dev_a896fde0b8234344b1e137dba0034cd65}{cfg}
+\item 
+struct \hyperlink{structpios__udp__buffer}{pios\-\_\-udp\-\_\-buffer} \hyperlink{structpios__udp__dev_a4e728b107c67f2b1d2e5e1276187446f}{rx}
+\item 
+S\-O\-C\-K\-E\-T \hyperlink{structpios__udp__dev_a68ba5864c4b71945feb362da0d3e02a1}{socket}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 46 of file pios\-\_\-udp\-\_\-priv.\-h.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{structpios__udp__dev_a94cd33f1f894b923e930feb577f0a882}{\index{pios\-\_\-udp\-\_\-dev@{pios\-\_\-udp\-\_\-dev}!cfg@{cfg}}
+\index{cfg@{cfg}!pios_udp_dev@{pios\-\_\-udp\-\_\-dev}}
+\subsubsection[{cfg}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-udp\-\_\-cfg} $\ast$ pios\-\_\-udp\-\_\-dev\-::cfg}}\label{structpios__udp__dev_a94cd33f1f894b923e930feb577f0a882}
+
+
+Definition at line 47 of file pios\-\_\-udp\-\_\-priv.\-h.
+
+\hypertarget{structpios__udp__dev_a896fde0b8234344b1e137dba0034cd65}{\index{pios\-\_\-udp\-\_\-dev@{pios\-\_\-udp\-\_\-dev}!cfg@{cfg}}
+\index{cfg@{cfg}!pios_udp_dev@{pios\-\_\-udp\-\_\-dev}}
+\subsubsection[{cfg}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-udp\-\_\-cfg}$\ast$ {\bf const} pios\-\_\-udp\-\_\-dev\-::cfg}}\label{structpios__udp__dev_a896fde0b8234344b1e137dba0034cd65}
+
+
+Definition at line 53 of file pios\-\_\-udp\-\_\-priv.\-h.
+
+\hypertarget{structpios__udp__dev_a91da9fed751f33b5fc4c9ae2cc1a0328}{\index{pios\-\_\-udp\-\_\-dev@{pios\-\_\-udp\-\_\-dev}!client@{client}}
+\index{client@{client}!pios_udp_dev@{pios\-\_\-udp\-\_\-dev}}
+\subsubsection[{client}]{\setlength{\rightskip}{0pt plus 5cm}struct sockaddr\-\_\-in pios\-\_\-udp\-\_\-dev\-::client}}\label{structpios__udp__dev_a91da9fed751f33b5fc4c9ae2cc1a0328}
+
+
+Definition at line 52 of file pios\-\_\-udp\-\_\-priv.\-h.
+
+\hypertarget{structpios__udp__dev_ac097971990d8961a5a9eb6df4c5922d8}{\index{pios\-\_\-udp\-\_\-dev@{pios\-\_\-udp\-\_\-dev}!client\-Length@{client\-Length}}
+\index{client\-Length@{client\-Length}!pios_udp_dev@{pios\-\_\-udp\-\_\-dev}}
+\subsubsection[{client\-Length}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} pios\-\_\-udp\-\_\-dev\-::client\-Length}}\label{structpios__udp__dev_ac097971990d8961a5a9eb6df4c5922d8}
+
+
+Definition at line 53 of file pios\-\_\-udp\-\_\-priv.\-h.
+
+\hypertarget{structpios__udp__dev_aa2ee1caa6f101cfa029b471fbfa40f9c}{\index{pios\-\_\-udp\-\_\-dev@{pios\-\_\-udp\-\_\-dev}!cond@{cond}}
+\index{cond@{cond}!pios_udp_dev@{pios\-\_\-udp\-\_\-dev}}
+\subsubsection[{cond}]{\setlength{\rightskip}{0pt plus 5cm}pthread\-\_\-cond\-\_\-t pios\-\_\-udp\-\_\-dev\-::cond}}\label{structpios__udp__dev_aa2ee1caa6f101cfa029b471fbfa40f9c}
+
+
+Definition at line 55 of file pios\-\_\-udp\-\_\-priv.\-h.
+
+\hypertarget{structpios__udp__dev_ad95bd14436ecf5291f717b5e1d02ceea}{\index{pios\-\_\-udp\-\_\-dev@{pios\-\_\-udp\-\_\-dev}!mutex@{mutex}}
+\index{mutex@{mutex}!pios_udp_dev@{pios\-\_\-udp\-\_\-dev}}
+\subsubsection[{mutex}]{\setlength{\rightskip}{0pt plus 5cm}pthread\-\_\-mutex\-\_\-t pios\-\_\-udp\-\_\-dev\-::mutex}}\label{structpios__udp__dev_ad95bd14436ecf5291f717b5e1d02ceea}
+
+
+Definition at line 56 of file pios\-\_\-udp\-\_\-priv.\-h.
+
+\hypertarget{structpios__udp__dev_a4e728b107c67f2b1d2e5e1276187446f}{\index{pios\-\_\-udp\-\_\-dev@{pios\-\_\-udp\-\_\-dev}!rx@{rx}}
+\index{rx@{rx}!pios_udp_dev@{pios\-\_\-udp\-\_\-dev}}
+\subsubsection[{rx}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-udp\-\_\-buffer} pios\-\_\-udp\-\_\-dev\-::rx}}\label{structpios__udp__dev_a4e728b107c67f2b1d2e5e1276187446f}
+
+
+Definition at line 54 of file pios\-\_\-udp\-\_\-priv.\-h.
+
+\hypertarget{structpios__udp__dev_a65502570ba375c9621f1659b8d792a04}{\index{pios\-\_\-udp\-\_\-dev@{pios\-\_\-udp\-\_\-dev}!rx\-\_\-buffer@{rx\-\_\-buffer}}
+\index{rx\-\_\-buffer@{rx\-\_\-buffer}!pios_udp_dev@{pios\-\_\-udp\-\_\-dev}}
+\subsubsection[{rx\-\_\-buffer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} pios\-\_\-udp\-\_\-dev\-::rx\-\_\-buffer}}\label{structpios__udp__dev_a65502570ba375c9621f1659b8d792a04}
+
+
+Definition at line 63 of file pios\-\_\-udp\-\_\-priv.\-h.
+
+\hypertarget{structpios__udp__dev_ae0e9d717bbca5d5a4a741632fce620f4}{\index{pios\-\_\-udp\-\_\-dev@{pios\-\_\-udp\-\_\-dev}!rx\-\_\-in\-\_\-cb@{rx\-\_\-in\-\_\-cb}}
+\index{rx\-\_\-in\-\_\-cb@{rx\-\_\-in\-\_\-cb}!pios_udp_dev@{pios\-\_\-udp\-\_\-dev}}
+\subsubsection[{rx\-\_\-in\-\_\-cb}]{\setlength{\rightskip}{0pt plus 5cm}{\bf pios\-\_\-com\-\_\-callback} pios\-\_\-udp\-\_\-dev\-::rx\-\_\-in\-\_\-cb}}\label{structpios__udp__dev_ae0e9d717bbca5d5a4a741632fce620f4}
+
+
+Definition at line 60 of file pios\-\_\-udp\-\_\-priv.\-h.
+
+\hypertarget{structpios__udp__dev_ab49ecb80839ac809a20ae3db49d63919}{\index{pios\-\_\-udp\-\_\-dev@{pios\-\_\-udp\-\_\-dev}!rx\-\_\-in\-\_\-context@{rx\-\_\-in\-\_\-context}}
+\index{rx\-\_\-in\-\_\-context@{rx\-\_\-in\-\_\-context}!pios_udp_dev@{pios\-\_\-udp\-\_\-dev}}
+\subsubsection[{rx\-\_\-in\-\_\-context}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} pios\-\_\-udp\-\_\-dev\-::rx\-\_\-in\-\_\-context}}\label{structpios__udp__dev_ab49ecb80839ac809a20ae3db49d63919}
+
+
+Definition at line 61 of file pios\-\_\-udp\-\_\-priv.\-h.
+
+\hypertarget{structpios__udp__dev_aaa9155c25ada819e91b4e8041bd67e7a}{\index{pios\-\_\-udp\-\_\-dev@{pios\-\_\-udp\-\_\-dev}!rx\-Thread@{rx\-Thread}}
+\index{rx\-Thread@{rx\-Thread}!pios_udp_dev@{pios\-\_\-udp\-\_\-dev}}
+\subsubsection[{rx\-Thread}]{\setlength{\rightskip}{0pt plus 5cm}{\bf x\-Task\-Handle} pios\-\_\-udp\-\_\-dev\-::rx\-Thread}}\label{structpios__udp__dev_aaa9155c25ada819e91b4e8041bd67e7a}
+
+
+Definition at line 48 of file pios\-\_\-udp\-\_\-priv.\-h.
+
+\hypertarget{structpios__udp__dev_a802c81cfccce81f5e9774a3f2fb7a449}{\index{pios\-\_\-udp\-\_\-dev@{pios\-\_\-udp\-\_\-dev}!server@{server}}
+\index{server@{server}!pios_udp_dev@{pios\-\_\-udp\-\_\-dev}}
+\subsubsection[{server}]{\setlength{\rightskip}{0pt plus 5cm}struct sockaddr\-\_\-in pios\-\_\-udp\-\_\-dev\-::server}}\label{structpios__udp__dev_a802c81cfccce81f5e9774a3f2fb7a449}
+
+
+Definition at line 51 of file pios\-\_\-udp\-\_\-priv.\-h.
+
+\hypertarget{structpios__udp__dev_ad5d46c15339fd00e047ab83898aabc20}{\index{pios\-\_\-udp\-\_\-dev@{pios\-\_\-udp\-\_\-dev}!socket@{socket}}
+\index{socket@{socket}!pios_udp_dev@{pios\-\_\-udp\-\_\-dev}}
+\subsubsection[{socket}]{\setlength{\rightskip}{0pt plus 5cm}int pios\-\_\-udp\-\_\-dev\-::socket}}\label{structpios__udp__dev_ad5d46c15339fd00e047ab83898aabc20}
+
+
+Definition at line 50 of file pios\-\_\-udp\-\_\-priv.\-h.
+
+\hypertarget{structpios__udp__dev_a68ba5864c4b71945feb362da0d3e02a1}{\index{pios\-\_\-udp\-\_\-dev@{pios\-\_\-udp\-\_\-dev}!socket@{socket}}
+\index{socket@{socket}!pios_udp_dev@{pios\-\_\-udp\-\_\-dev}}
+\subsubsection[{socket}]{\setlength{\rightskip}{0pt plus 5cm}S\-O\-C\-K\-E\-T pios\-\_\-udp\-\_\-dev\-::socket}}\label{structpios__udp__dev_a68ba5864c4b71945feb362da0d3e02a1}
+
+
+Definition at line 55 of file pios\-\_\-udp\-\_\-priv.\-h.
+
+\hypertarget{structpios__udp__dev_ad712d626bc4160554ceb0765723d6069}{\index{pios\-\_\-udp\-\_\-dev@{pios\-\_\-udp\-\_\-dev}!tx\-\_\-buffer@{tx\-\_\-buffer}}
+\index{tx\-\_\-buffer@{tx\-\_\-buffer}!pios_udp_dev@{pios\-\_\-udp\-\_\-dev}}
+\subsubsection[{tx\-\_\-buffer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} pios\-\_\-udp\-\_\-dev\-::tx\-\_\-buffer}}\label{structpios__udp__dev_ad712d626bc4160554ceb0765723d6069}
+
+
+Definition at line 64 of file pios\-\_\-udp\-\_\-priv.\-h.
+
+\hypertarget{structpios__udp__dev_a72acdfb1fbde453ec2ba74b7057c065a}{\index{pios\-\_\-udp\-\_\-dev@{pios\-\_\-udp\-\_\-dev}!tx\-\_\-out\-\_\-cb@{tx\-\_\-out\-\_\-cb}}
+\index{tx\-\_\-out\-\_\-cb@{tx\-\_\-out\-\_\-cb}!pios_udp_dev@{pios\-\_\-udp\-\_\-dev}}
+\subsubsection[{tx\-\_\-out\-\_\-cb}]{\setlength{\rightskip}{0pt plus 5cm}{\bf pios\-\_\-com\-\_\-callback} pios\-\_\-udp\-\_\-dev\-::tx\-\_\-out\-\_\-cb}}\label{structpios__udp__dev_a72acdfb1fbde453ec2ba74b7057c065a}
+
+
+Definition at line 58 of file pios\-\_\-udp\-\_\-priv.\-h.
+
+\hypertarget{structpios__udp__dev_aa9d5eb1eef4914bc11ba97d5e425184b}{\index{pios\-\_\-udp\-\_\-dev@{pios\-\_\-udp\-\_\-dev}!tx\-\_\-out\-\_\-context@{tx\-\_\-out\-\_\-context}}
+\index{tx\-\_\-out\-\_\-context@{tx\-\_\-out\-\_\-context}!pios_udp_dev@{pios\-\_\-udp\-\_\-dev}}
+\subsubsection[{tx\-\_\-out\-\_\-context}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} pios\-\_\-udp\-\_\-dev\-::tx\-\_\-out\-\_\-context}}\label{structpios__udp__dev_aa9d5eb1eef4914bc11ba97d5e425184b}
+
+
+Definition at line 59 of file pios\-\_\-udp\-\_\-priv.\-h.
+
+
+
+The documentation for this struct was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S.\-osx/inc/\hyperlink{_pi_o_s_8osx_2inc_2pios__udp__priv_8h}{pios\-\_\-udp\-\_\-priv.\-h}\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S.\-posix/inc/\hyperlink{_pi_o_s_8posix_2inc_2pios__udp__priv_8h}{pios\-\_\-udp\-\_\-priv.\-h}\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S.\-win32/inc/\hyperlink{_pi_o_s_8win32_2inc_2pios__udp__priv_8h}{pios\-\_\-udp\-\_\-priv.\-h}\end{DoxyCompactItemize}

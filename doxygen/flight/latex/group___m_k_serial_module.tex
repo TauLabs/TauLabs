@@ -1,0 +1,79 @@
+\hypertarget{group___m_k_serial_module}{\section{M\-K Serial Control Module}
+\label{group___m_k_serial_module}\index{M\-K Serial Control Module@{M\-K Serial Control Module}}
+}
+
+
+Connect to M\-K module.  
+
+
+\subsection*{Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{_g_p_s_8h}{G\-P\-S.\-h}
+\begin{DoxyCompactList}\small\item\em Include file of the G\-P\-S module. As with all modules only the initialize function is exposed all other interactions with the module take place through the event queue and objects. \end{DoxyCompactList}\item 
+file \hyperlink{_m_k_serial_8c}{M\-K\-Serial.\-c}
+\begin{DoxyCompactList}\small\item\em Interfacing with M\-K via serial port. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_mk_msg__t}{Mk\-Msg\-\_\-t}
+\item 
+struct \hyperlink{struct_gps_position__t}{Gps\-Position\-\_\-t}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{group___m_k_serial_module_ggabc6126af1d45847bc59afa0aa3216b04abb75487675f1c2e9d3fd3a222cb0a510}{M\-K\-\_\-\-A\-D\-D\-R\-\_\-\-A\-L\-L} = 0, 
+\hyperlink{group___m_k_serial_module_ggabc6126af1d45847bc59afa0aa3216b04a3ff02996312adb170f7a0e7de89fb481}{M\-K\-\_\-\-A\-D\-D\-R\-\_\-\-F\-C} = 1, 
+\hyperlink{group___m_k_serial_module_ggabc6126af1d45847bc59afa0aa3216b04af6ed1ce06f1d0acbb04ad22b75da6222}{M\-K\-\_\-\-A\-D\-D\-R\-\_\-\-N\-C} = 2, 
+\hyperlink{group___m_k_serial_module_ggabc6126af1d45847bc59afa0aa3216b04a37c0a7912015e43c5455235b0124520b}{M\-K\-\_\-\-A\-D\-D\-R\-\_\-\-M\-A\-G} = 3
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___m_k_serial_module_gacc59803463354177da71fc1b41753d90}{M\-K\-Serial\-Initialize} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Connect to M\-K module. 
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{group___m_k_serial_module_gabc6126af1d45847bc59afa0aa3216b04}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}}\label{group___m_k_serial_module_gabc6126af1d45847bc59afa0aa3216b04}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{M\-K\-\_\-\-A\-D\-D\-R\-\_\-\-A\-L\-L@{M\-K\-\_\-\-A\-D\-D\-R\-\_\-\-A\-L\-L}!M\-K Serial Control Module@{M\-K Serial Control Module}}\index{M\-K Serial Control Module@{M\-K Serial Control Module}!M\-K\-\_\-\-A\-D\-D\-R\-\_\-\-A\-L\-L@{M\-K\-\_\-\-A\-D\-D\-R\-\_\-\-A\-L\-L}}\item[{\em 
+\hypertarget{group___m_k_serial_module_ggabc6126af1d45847bc59afa0aa3216b04abb75487675f1c2e9d3fd3a222cb0a510}{M\-K\-\_\-\-A\-D\-D\-R\-\_\-\-A\-L\-L}\label{group___m_k_serial_module_ggabc6126af1d45847bc59afa0aa3216b04abb75487675f1c2e9d3fd3a222cb0a510}
+}]\index{M\-K\-\_\-\-A\-D\-D\-R\-\_\-\-F\-C@{M\-K\-\_\-\-A\-D\-D\-R\-\_\-\-F\-C}!M\-K Serial Control Module@{M\-K Serial Control Module}}\index{M\-K Serial Control Module@{M\-K Serial Control Module}!M\-K\-\_\-\-A\-D\-D\-R\-\_\-\-F\-C@{M\-K\-\_\-\-A\-D\-D\-R\-\_\-\-F\-C}}\item[{\em 
+\hypertarget{group___m_k_serial_module_ggabc6126af1d45847bc59afa0aa3216b04a3ff02996312adb170f7a0e7de89fb481}{M\-K\-\_\-\-A\-D\-D\-R\-\_\-\-F\-C}\label{group___m_k_serial_module_ggabc6126af1d45847bc59afa0aa3216b04a3ff02996312adb170f7a0e7de89fb481}
+}]\index{M\-K\-\_\-\-A\-D\-D\-R\-\_\-\-N\-C@{M\-K\-\_\-\-A\-D\-D\-R\-\_\-\-N\-C}!M\-K Serial Control Module@{M\-K Serial Control Module}}\index{M\-K Serial Control Module@{M\-K Serial Control Module}!M\-K\-\_\-\-A\-D\-D\-R\-\_\-\-N\-C@{M\-K\-\_\-\-A\-D\-D\-R\-\_\-\-N\-C}}\item[{\em 
+\hypertarget{group___m_k_serial_module_ggabc6126af1d45847bc59afa0aa3216b04af6ed1ce06f1d0acbb04ad22b75da6222}{M\-K\-\_\-\-A\-D\-D\-R\-\_\-\-N\-C}\label{group___m_k_serial_module_ggabc6126af1d45847bc59afa0aa3216b04af6ed1ce06f1d0acbb04ad22b75da6222}
+}]\index{M\-K\-\_\-\-A\-D\-D\-R\-\_\-\-M\-A\-G@{M\-K\-\_\-\-A\-D\-D\-R\-\_\-\-M\-A\-G}!M\-K Serial Control Module@{M\-K Serial Control Module}}\index{M\-K Serial Control Module@{M\-K Serial Control Module}!M\-K\-\_\-\-A\-D\-D\-R\-\_\-\-M\-A\-G@{M\-K\-\_\-\-A\-D\-D\-R\-\_\-\-M\-A\-G}}\item[{\em 
+\hypertarget{group___m_k_serial_module_ggabc6126af1d45847bc59afa0aa3216b04a37c0a7912015e43c5455235b0124520b}{M\-K\-\_\-\-A\-D\-D\-R\-\_\-\-M\-A\-G}\label{group___m_k_serial_module_ggabc6126af1d45847bc59afa0aa3216b04a37c0a7912015e43c5455235b0124520b}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 99 of file M\-K\-Serial.\-c.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{group___m_k_serial_module_gacc59803463354177da71fc1b41753d90}{\index{M\-K Serial Control Module@{M\-K Serial Control Module}!M\-K\-Serial\-Initialize@{M\-K\-Serial\-Initialize}}
+\index{M\-K\-Serial\-Initialize@{M\-K\-Serial\-Initialize}!MK Serial Control Module@{M\-K Serial Control Module}}
+\subsubsection[{M\-K\-Serial\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} M\-K\-Serial\-Initialize (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___m_k_serial_module_gacc59803463354177da71fc1b41753d90}
+Initialise the module \begin{DoxyReturn}{Returns}
+-\/1 if initialisation failed 
+
+0 on success 
+\end{DoxyReturn}
+
+
+Definition at line 548 of file M\-K\-Serial.\-c.
+

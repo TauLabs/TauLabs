@@ -1,0 +1,77 @@
+\hypertarget{struct____mavlink__ping__t}{\section{\-\_\-\-\_\-mavlink\-\_\-ping\-\_\-t Struct Reference}
+\label{struct____mavlink__ping__t}\index{\-\_\-\-\_\-mavlink\-\_\-ping\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-ping\-\_\-t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\-\_\-msg\-\_\-ping.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint64\-\_\-t \hyperlink{struct____mavlink__ping__t_a78bf2339554a175c2b5423fee61cf619}{time\-\_\-usec}
+\begin{DoxyCompactList}\small\item\em Unix timestamp in microseconds. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{struct____mavlink__ping__t_a753c4aa80232a414c05065646175bf46}{seq}
+\begin{DoxyCompactList}\small\item\em P\-I\-N\-G sequence. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__ping__t_a349dd7a0a95dc0a9faef1a498172efe3}{target\-\_\-system}
+\begin{DoxyCompactList}\small\item\em 0\-: request ping from all receiving systems, if greater than 0\-: message is a ping response and number is the system id of the requesting system \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__ping__t_aea8c79743c35ac8e9d3d3362e2723f17}{target\-\_\-component}
+\begin{DoxyCompactList}\small\item\em 0\-: request ping from all receiving components, if greater than 0\-: message is a ping response and number is the system id of the requesting system \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 5 of file mavlink\-\_\-msg\-\_\-ping.\-h.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__ping__t_a753c4aa80232a414c05065646175bf46}{\index{\-\_\-\-\_\-mavlink\-\_\-ping\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-ping\-\_\-t}!seq@{seq}}
+\index{seq@{seq}!__mavlink_ping_t@{\-\_\-\-\_\-mavlink\-\_\-ping\-\_\-t}}
+\subsubsection[{seq}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-ping\-\_\-t\-::seq}}\label{struct____mavlink__ping__t_a753c4aa80232a414c05065646175bf46}
+
+
+P\-I\-N\-G sequence. 
+
+
+
+Definition at line 8 of file mavlink\-\_\-msg\-\_\-ping.\-h.
+
+\hypertarget{struct____mavlink__ping__t_aea8c79743c35ac8e9d3d3362e2723f17}{\index{\-\_\-\-\_\-mavlink\-\_\-ping\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-ping\-\_\-t}!target\-\_\-component@{target\-\_\-component}}
+\index{target\-\_\-component@{target\-\_\-component}!__mavlink_ping_t@{\-\_\-\-\_\-mavlink\-\_\-ping\-\_\-t}}
+\subsubsection[{target\-\_\-component}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-ping\-\_\-t\-::target\-\_\-component}}\label{struct____mavlink__ping__t_aea8c79743c35ac8e9d3d3362e2723f17}
+
+
+0\-: request ping from all receiving components, if greater than 0\-: message is a ping response and number is the system id of the requesting system 
+
+
+
+Definition at line 10 of file mavlink\-\_\-msg\-\_\-ping.\-h.
+
+\hypertarget{struct____mavlink__ping__t_a349dd7a0a95dc0a9faef1a498172efe3}{\index{\-\_\-\-\_\-mavlink\-\_\-ping\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-ping\-\_\-t}!target\-\_\-system@{target\-\_\-system}}
+\index{target\-\_\-system@{target\-\_\-system}!__mavlink_ping_t@{\-\_\-\-\_\-mavlink\-\_\-ping\-\_\-t}}
+\subsubsection[{target\-\_\-system}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-ping\-\_\-t\-::target\-\_\-system}}\label{struct____mavlink__ping__t_a349dd7a0a95dc0a9faef1a498172efe3}
+
+
+0\-: request ping from all receiving systems, if greater than 0\-: message is a ping response and number is the system id of the requesting system 
+
+
+
+Definition at line 9 of file mavlink\-\_\-msg\-\_\-ping.\-h.
+
+\hypertarget{struct____mavlink__ping__t_a78bf2339554a175c2b5423fee61cf619}{\index{\-\_\-\-\_\-mavlink\-\_\-ping\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-ping\-\_\-t}!time\-\_\-usec@{time\-\_\-usec}}
+\index{time\-\_\-usec@{time\-\_\-usec}!__mavlink_ping_t@{\-\_\-\-\_\-mavlink\-\_\-ping\-\_\-t}}
+\subsubsection[{time\-\_\-usec}]{\setlength{\rightskip}{0pt plus 5cm}uint64\-\_\-t \-\_\-\-\_\-mavlink\-\_\-ping\-\_\-t\-::time\-\_\-usec}}\label{struct____mavlink__ping__t_a78bf2339554a175c2b5423fee61cf619}
+
+
+Unix timestamp in microseconds. 
+
+
+
+Definition at line 7 of file mavlink\-\_\-msg\-\_\-ping.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Libraries/mavlink/v1.\-0/common/\hyperlink{mavlink__msg__ping_8h}{mavlink\-\_\-msg\-\_\-ping.\-h}\end{DoxyCompactItemize}

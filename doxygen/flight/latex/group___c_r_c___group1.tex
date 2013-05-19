@@ -1,0 +1,218 @@
+\hypertarget{group___c_r_c___group1}{\section{Configuration of the C\-R\-C computation unit functions}
+\label{group___c_r_c___group1}\index{Configuration of the C\-R\-C computation unit functions@{Configuration of the C\-R\-C computation unit functions}}
+}
+
+
+Configuration of the C\-R\-C computation unit functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_r_c___group1_ga11f30b83f52bd9eafec8c174244ae07e}{C\-R\-C\-\_\-\-De\-Init} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Deinitializes C\-R\-C peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_r_c___group1_ga506467d5ef873a5a4ade4ae83cb110f6}{C\-R\-C\-\_\-\-Reset\-D\-R} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Resets the C\-R\-C calculation unit and sets I\-N\-I\-T register content in D\-R register. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_r_c___group1_ga205113706234c9c85b075ef8f22b8d51}{C\-R\-C\-\_\-\-Polynomial\-Size\-Select} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} C\-R\-C\-\_\-\-Pol\-Size)
+\begin{DoxyCompactList}\small\item\em Selects the polynomial size. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_r_c___group1_ga3d28d3b5d3d933e2c43ad1233aa7fc85}{C\-R\-C\-\_\-\-Reverse\-Input\-Data\-Select} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} C\-R\-C\-\_\-\-Reverse\-Input\-Data)
+\begin{DoxyCompactList}\small\item\em Selects the reverse operation to be performed on input data. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_r_c___group1_gae316179fde59ede10fd2d1bea870ca98}{C\-R\-C\-\_\-\-Reverse\-Output\-Data\-Cmd} (\hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disable the reverse operation on output data. The reverse operation on output data is performed on 32-\/bit. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_r_c___group1_gaebc9194004fc6a418debb54e21216051}{C\-R\-C\-\_\-\-Set\-Init\-Register} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} C\-R\-C\-\_\-\-Init\-Value)
+\begin{DoxyCompactList}\small\item\em Initializes the I\-N\-I\-T register. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_r_c___group1_ga355f0857dec12918a2b93ca0549e2a9c}{C\-R\-C\-\_\-\-Set\-Polynomial} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} C\-R\-C\-\_\-\-Pol)
+\begin{DoxyCompactList}\small\item\em Initializes the polynomail coefficients. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Configuration of the C\-R\-C computation unit functions. \begin{DoxyVerb} ===============================================================================
+                  ##### CRC configuration functions #####
+ ===============================================================================\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___c_r_c___group1_ga11f30b83f52bd9eafec8c174244ae07e}{\index{Configuration of the C\-R\-C computation unit functions@{Configuration of the C\-R\-C computation unit functions}!C\-R\-C\-\_\-\-De\-Init@{C\-R\-C\-\_\-\-De\-Init}}
+\index{C\-R\-C\-\_\-\-De\-Init@{C\-R\-C\-\_\-\-De\-Init}!Configuration of the CRC computation unit functions@{Configuration of the C\-R\-C computation unit functions}}
+\subsubsection[{C\-R\-C\-\_\-\-De\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} C\-R\-C\-\_\-\-De\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___c_r_c___group1_ga11f30b83f52bd9eafec8c174244ae07e}
+
+
+Deinitializes C\-R\-C peripheral registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 95 of file stm32f30x\-\_\-crc.\-c.
+
+\hypertarget{group___c_r_c___group1_ga205113706234c9c85b075ef8f22b8d51}{\index{Configuration of the C\-R\-C computation unit functions@{Configuration of the C\-R\-C computation unit functions}!C\-R\-C\-\_\-\-Polynomial\-Size\-Select@{C\-R\-C\-\_\-\-Polynomial\-Size\-Select}}
+\index{C\-R\-C\-\_\-\-Polynomial\-Size\-Select@{C\-R\-C\-\_\-\-Polynomial\-Size\-Select}!Configuration of the CRC computation unit functions@{Configuration of the C\-R\-C computation unit functions}}
+\subsubsection[{C\-R\-C\-\_\-\-Polynomial\-Size\-Select}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} C\-R\-C\-\_\-\-Polynomial\-Size\-Select (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{C\-R\-C\-\_\-\-Pol\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___c_r_c___group1_ga205113706234c9c85b075ef8f22b8d51}
+
+
+Selects the polynomial size. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\-R\-C\-\_\-\-Pol\-Size,\-:} & Specifies the polynomial size. This parameter can be\-: \begin{DoxyItemize}
+\item C\-R\-C\-\_\-\-Pol\-Size\-\_\-7\-: 7-\/bit polynomial for C\-R\-C calculation \item C\-R\-C\-\_\-\-Pol\-Size\-\_\-8\-: 8-\/bit polynomial for C\-R\-C calculation \item C\-R\-C\-\_\-\-Pol\-Size\-\_\-16\-: 16-\/bit polynomial for C\-R\-C calculation \item C\-R\-C\-\_\-\-Pol\-Size\-\_\-32\-: 32-\/bit polynomial for C\-R\-C calculation \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 130 of file stm32f30x\-\_\-crc.\-c.
+
+\hypertarget{group___c_r_c___group1_ga506467d5ef873a5a4ade4ae83cb110f6}{\index{Configuration of the C\-R\-C computation unit functions@{Configuration of the C\-R\-C computation unit functions}!C\-R\-C\-\_\-\-Reset\-D\-R@{C\-R\-C\-\_\-\-Reset\-D\-R}}
+\index{C\-R\-C\-\_\-\-Reset\-D\-R@{C\-R\-C\-\_\-\-Reset\-D\-R}!Configuration of the CRC computation unit functions@{Configuration of the C\-R\-C computation unit functions}}
+\subsubsection[{C\-R\-C\-\_\-\-Reset\-D\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} C\-R\-C\-\_\-\-Reset\-D\-R (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___c_r_c___group1_ga506467d5ef873a5a4ade4ae83cb110f6}
+
+
+Resets the C\-R\-C calculation unit and sets I\-N\-I\-T register content in D\-R register. 
+
+Resets the C\-R\-C Data register (D\-R).
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 114 of file stm32f30x\-\_\-crc.\-c.
+
+\hypertarget{group___c_r_c___group1_ga3d28d3b5d3d933e2c43ad1233aa7fc85}{\index{Configuration of the C\-R\-C computation unit functions@{Configuration of the C\-R\-C computation unit functions}!C\-R\-C\-\_\-\-Reverse\-Input\-Data\-Select@{C\-R\-C\-\_\-\-Reverse\-Input\-Data\-Select}}
+\index{C\-R\-C\-\_\-\-Reverse\-Input\-Data\-Select@{C\-R\-C\-\_\-\-Reverse\-Input\-Data\-Select}!Configuration of the CRC computation unit functions@{Configuration of the C\-R\-C computation unit functions}}
+\subsubsection[{C\-R\-C\-\_\-\-Reverse\-Input\-Data\-Select}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} C\-R\-C\-\_\-\-Reverse\-Input\-Data\-Select (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{C\-R\-C\-\_\-\-Reverse\-Input\-Data}
+\end{DoxyParamCaption}
+)}}\label{group___c_r_c___group1_ga3d28d3b5d3d933e2c43ad1233aa7fc85}
+
+
+Selects the reverse operation to be performed on input data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\-R\-C\-\_\-\-Reverse\-Input\-Data,\-:} & Specifies the reverse operation on input data. This parameter can be\-: \begin{DoxyItemize}
+\item C\-R\-C\-\_\-\-Reverse\-Input\-Data\-\_\-\-No\-: No reverse operation is performed \item C\-R\-C\-\_\-\-Reverse\-Input\-Data\-\_\-8bits\-: reverse operation performed on 8 bits \item C\-R\-C\-\_\-\-Reverse\-Input\-Data\-\_\-16bits\-: reverse operation performed on 16 bits \item C\-R\-C\-\_\-\-Reverse\-Input\-Data\-\_\-32bits\-: reverse operation performed on 32 bits \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 159 of file stm32f30x\-\_\-crc.\-c.
+
+\hypertarget{group___c_r_c___group1_gae316179fde59ede10fd2d1bea870ca98}{\index{Configuration of the C\-R\-C computation unit functions@{Configuration of the C\-R\-C computation unit functions}!C\-R\-C\-\_\-\-Reverse\-Output\-Data\-Cmd@{C\-R\-C\-\_\-\-Reverse\-Output\-Data\-Cmd}}
+\index{C\-R\-C\-\_\-\-Reverse\-Output\-Data\-Cmd@{C\-R\-C\-\_\-\-Reverse\-Output\-Data\-Cmd}!Configuration of the CRC computation unit functions@{Configuration of the C\-R\-C computation unit functions}}
+\subsubsection[{C\-R\-C\-\_\-\-Reverse\-Output\-Data\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} C\-R\-C\-\_\-\-Reverse\-Output\-Data\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___c_r_c___group1_gae316179fde59ede10fd2d1bea870ca98}
+
+
+Enables or disable the reverse operation on output data. The reverse operation on output data is performed on 32-\/bit. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\-State,\-:} & new state of the reverse operation on output data. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 185 of file stm32f30x\-\_\-crc.\-c.
+
+\hypertarget{group___c_r_c___group1_gaebc9194004fc6a418debb54e21216051}{\index{Configuration of the C\-R\-C computation unit functions@{Configuration of the C\-R\-C computation unit functions}!C\-R\-C\-\_\-\-Set\-Init\-Register@{C\-R\-C\-\_\-\-Set\-Init\-Register}}
+\index{C\-R\-C\-\_\-\-Set\-Init\-Register@{C\-R\-C\-\_\-\-Set\-Init\-Register}!Configuration of the CRC computation unit functions@{Configuration of the C\-R\-C computation unit functions}}
+\subsubsection[{C\-R\-C\-\_\-\-Set\-Init\-Register}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} C\-R\-C\-\_\-\-Set\-Init\-Register (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{C\-R\-C\-\_\-\-Init\-Value}
+\end{DoxyParamCaption}
+)}}\label{group___c_r_c___group1_gaebc9194004fc6a418debb54e21216051}
+
+
+Initializes the I\-N\-I\-T register. 
+
+\begin{DoxyNote}{Note}
+After resetting C\-R\-C calculation unit, C\-R\-C\-\_\-\-Init\-Value is stored in D\-R register 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em C\-R\-C\-\_\-\-Init\-Value,\-:} & Programmable initial C\-R\-C value \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 208 of file stm32f30x\-\_\-crc.\-c.
+
+\hypertarget{group___c_r_c___group1_ga355f0857dec12918a2b93ca0549e2a9c}{\index{Configuration of the C\-R\-C computation unit functions@{Configuration of the C\-R\-C computation unit functions}!C\-R\-C\-\_\-\-Set\-Polynomial@{C\-R\-C\-\_\-\-Set\-Polynomial}}
+\index{C\-R\-C\-\_\-\-Set\-Polynomial@{C\-R\-C\-\_\-\-Set\-Polynomial}!Configuration of the CRC computation unit functions@{Configuration of the C\-R\-C computation unit functions}}
+\subsubsection[{C\-R\-C\-\_\-\-Set\-Polynomial}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} C\-R\-C\-\_\-\-Set\-Polynomial (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{C\-R\-C\-\_\-\-Pol}
+\end{DoxyParamCaption}
+)}}\label{group___c_r_c___group1_ga355f0857dec12918a2b93ca0549e2a9c}
+
+
+Initializes the polynomail coefficients. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\-R\-C\-\_\-\-Pol,\-:} & Polynomial to be used for C\-R\-C calculation. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 218 of file stm32f30x\-\_\-crc.\-c.
+

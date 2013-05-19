@@ -1,0 +1,107 @@
+\hypertarget{group__x_semaphore_give_from_i_s_r}{\section{x\-Semaphore\-Give\-From\-I\-S\-R}
+\label{group__x_semaphore_give_from_i_s_r}\index{x\-Semaphore\-Give\-From\-I\-S\-R@{x\-Semaphore\-Give\-From\-I\-S\-R}}
+}
+semphr. h 
+\begin{DoxyPre}
+ xSemaphoreGiveFromISR( 
+                          xSemaphoreHandle xSemaphore, 
+                          signed portBASE\_TYPE *pxHigherPriorityTaskWoken
+                      )\end{DoxyPre}
+
+
+{\itshape Macro} to release a semaphore. The semaphore must have previously been created with a call to v\-Semaphore\-Create\-Binary() or x\-Semaphore\-Create\-Counting().
+
+Mutex type semaphores (those created using a call to x\-Semaphore\-Create\-Mutex()) must not be used with this macro.
+
+This macro can be used from an I\-S\-R.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\-Semaphore} & A handle to the semaphore being released. This is the handle returned when the semaphore was created.\\
+\hline
+{\em px\-Higher\-Priority\-Task\-Woken} & x\-Semaphore\-Give\-From\-I\-S\-R() will set $\ast$px\-Higher\-Priority\-Task\-Woken to pd\-T\-R\-U\-E if giving the semaphore caused a task to unblock, and the unblocked task has a priority higher than the currently running task. If x\-Semaphore\-Give\-From\-I\-S\-R() sets this value to pd\-T\-R\-U\-E then a context switch should be requested before the interrupt is exited.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pd\-T\-R\-U\-E if the semaphore was successfully given, otherwise err\-Q\-U\-E\-U\-E\-\_\-\-F\-U\-L\-L.
+\end{DoxyReturn}
+Example usage\-: 
+\begin{DoxyPre}
+ \#define LONG\_TIME 0xffff
+ \#define TICKS\_TO\_WAIT 10
+ xSemaphoreHandle xSemaphore = NULL;\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Repetitive task.
+ void vATask( void * pvParameters )
+ \{
+    for( ;; )
+    \{
+We want this task to run every 10 ticks of a timer.  The semaphore 
+was created before this task was started.\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Block waiting for the semaphore to become available.
+        if( xSemaphoreTake( xSemaphore, LONG\_TIME ) == pdTRUE )
+        \{
+It is time to execute.\end{DoxyPre}
+
+
+
+\begin{DoxyPre}...\end{DoxyPre}
+
+
+
+\begin{DoxyPre}We have finished our task.  Return to the top of the loop where
+we will block on the semaphore until it is time to execute 
+again.  Note when using the semaphore for synchronisation with an
+ISR in this manner there is no need to 'give' the semaphore back.
+        \}
+    \}
+ \}\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Timer ISR
+ void vTimerISR( void * pvParameters )
+ \{
+ static unsigned char ucLocalTickCount = 0;
+ static signed portBASE\_TYPE xHigherPriorityTaskWoken;\end{DoxyPre}
+
+
+
+\begin{DoxyPre}A timer tick has occurred.\end{DoxyPre}
+
+
+
+\begin{DoxyPre}... Do other time functions.\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Is it time for vATask () to run?
+        xHigherPriorityTaskWoken = pdFALSE;
+    ucLocalTickCount++;
+    if( ucLocalTickCount >= TICKS\_TO\_WAIT )
+    \{
+Unblock the task by releasing the semaphore.
+        xSemaphoreGiveFromISR( xSemaphore, &xHigherPriorityTaskWoken );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Reset the count so we release the semaphore again in 10 ticks time.
+        ucLocalTickCount = 0;
+    \}\end{DoxyPre}
+
+
+
+\begin{DoxyPre}    if( xHigherPriorityTaskWoken != pdFALSE )
+    \{
+We can force a context switch here.  Context switching from an
+ISR uses port specific syntax.  Check the demo task for your port
+to find the syntax required.
+    \}
+ \}
+ \end{DoxyPre}
+ 

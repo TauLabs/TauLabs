@@ -1,0 +1,153 @@
+\hypertarget{group__mean}{\section{Mean}
+\label{group__mean}\index{Mean@{Mean}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group__mean_ga74ce08c49ab61e57bd50c3a0ca1fdb2b}{arm\-\_\-mean\-\_\-f32} (\hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Src, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Result)
+\begin{DoxyCompactList}\small\item\em Mean value of a floating-\/point vector. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group__mean_gac882495d5f098819fd3939c1ef7795b3}{arm\-\_\-mean\-\_\-q15} (\hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Src, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Result)
+\begin{DoxyCompactList}\small\item\em Mean value of a Q15 vector. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group__mean_gacf2526d8c2d75e486e8f0b0e31877ad0}{arm\-\_\-mean\-\_\-q31} (\hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Src, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Result)
+\begin{DoxyCompactList}\small\item\em Mean value of a Q31 vector. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group__mean_gaebc707ee539020357c25da4c75b52eb7}{arm\-\_\-mean\-\_\-q7} (\hyperlink{arm__math_8h_ae541b6f232c305361e9b416fc9eed263}{q7\-\_\-t} $\ast$p\-Src, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size, \hyperlink{arm__math_8h_ae541b6f232c305361e9b416fc9eed263}{q7\-\_\-t} $\ast$p\-Result)
+\begin{DoxyCompactList}\small\item\em Mean value of a Q7 vector. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Calculates the mean of the input vector. Mean is defined as the average of the elements in the vector. The underlying algorithm is used\-:
+
+
+\begin{DoxyPre}    
+        Result = (pSrc[0] + pSrc[1] + pSrc[2] + ... + pSrc[blockSize-1]) / blockSize;    
+\end{DoxyPre}
+
+
+There are separate functions for floating-\/point, Q31, Q15, and Q7 data types. 
+
+\subsection{Function Documentation}
+\hypertarget{group__mean_ga74ce08c49ab61e57bd50c3a0ca1fdb2b}{\index{Mean@{Mean}!arm\-\_\-mean\-\_\-f32@{arm\-\_\-mean\-\_\-f32}}
+\index{arm\-\_\-mean\-\_\-f32@{arm\-\_\-mean\-\_\-f32}!Mean@{Mean}}
+\subsubsection[{arm\-\_\-mean\-\_\-f32}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-mean\-\_\-f32 (
+\begin{DoxyParamCaption}
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Result}
+\end{DoxyParamCaption}
+)}}\label{group__mean_ga74ce08c49ab61e57bd50c3a0ca1fdb2b}
+
+
+Mean value of a floating-\/point vector. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the input vector \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & length of the input vector \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Result} & mean value returned here \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none. 
+\end{DoxyReturn}
+
+
+Definition at line 67 of file arm\-\_\-mean\-\_\-f32.\-c.
+
+\hypertarget{group__mean_gac882495d5f098819fd3939c1ef7795b3}{\index{Mean@{Mean}!arm\-\_\-mean\-\_\-q15@{arm\-\_\-mean\-\_\-q15}}
+\index{arm\-\_\-mean\-\_\-q15@{arm\-\_\-mean\-\_\-q15}!Mean@{Mean}}
+\subsubsection[{arm\-\_\-mean\-\_\-q15}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-mean\-\_\-q15 (
+\begin{DoxyParamCaption}
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Result}
+\end{DoxyParamCaption}
+)}}\label{group__mean_gac882495d5f098819fd3939c1ef7795b3}
+
+
+Mean value of a Q15 vector. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the input vector \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & length of the input vector \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Result} & mean value returned here \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+{\bfseries Scaling and Overflow Behavior\-:} \begin{DoxyParagraph}{}
+The function is implemented using a 32-\/bit internal accumulator. The input is represented in 1.\-15 format and is accumulated in a 32-\/bit accumulator in 17.\-15 format. There is no risk of internal overflow with this approach, and the full precision of intermediate result is preserved. Finally, the accumulator is saturated and truncated to yield a result of 1.\-15 format. 
+\end{DoxyParagraph}
+
+
+Definition at line 64 of file arm\-\_\-mean\-\_\-q15.\-c.
+
+\hypertarget{group__mean_gacf2526d8c2d75e486e8f0b0e31877ad0}{\index{Mean@{Mean}!arm\-\_\-mean\-\_\-q31@{arm\-\_\-mean\-\_\-q31}}
+\index{arm\-\_\-mean\-\_\-q31@{arm\-\_\-mean\-\_\-q31}!Mean@{Mean}}
+\subsubsection[{arm\-\_\-mean\-\_\-q31}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-mean\-\_\-q31 (
+\begin{DoxyParamCaption}
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Result}
+\end{DoxyParamCaption}
+)}}\label{group__mean_gacf2526d8c2d75e486e8f0b0e31877ad0}
+
+
+Mean value of a Q31 vector. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the input vector \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & length of the input vector \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Result} & mean value returned here \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+{\bfseries Scaling and Overflow Behavior\-:} \begin{DoxyParagraph}{}
+The function is implemented using a 64-\/bit internal accumulator. The input is represented in 1.\-31 format and is accumulated in a 64-\/bit accumulator in 33.\-31 format. There is no risk of internal overflow with this approach, and the full precision of intermediate result is preserved. Finally, the accumulator is truncated to yield a result of 1.\-31 format. 
+\end{DoxyParagraph}
+
+
+Definition at line 64 of file arm\-\_\-mean\-\_\-q31.\-c.
+
+\hypertarget{group__mean_gaebc707ee539020357c25da4c75b52eb7}{\index{Mean@{Mean}!arm\-\_\-mean\-\_\-q7@{arm\-\_\-mean\-\_\-q7}}
+\index{arm\-\_\-mean\-\_\-q7@{arm\-\_\-mean\-\_\-q7}!Mean@{Mean}}
+\subsubsection[{arm\-\_\-mean\-\_\-q7}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-mean\-\_\-q7 (
+\begin{DoxyParamCaption}
+\item[{{\bf q7\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size, }
+\item[{{\bf q7\-\_\-t} $\ast$}]{p\-Result}
+\end{DoxyParamCaption}
+)}}\label{group__mean_gaebc707ee539020357c25da4c75b52eb7}
+
+
+Mean value of a Q7 vector. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the input vector \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & length of the input vector \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Result} & mean value returned here \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+{\bfseries Scaling and Overflow Behavior\-:} \begin{DoxyParagraph}{}
+The function is implemented using a 32-\/bit internal accumulator. The input is represented in 1.\-7 format and is accumulated in a 32-\/bit accumulator in 25.\-7 format. There is no risk of internal overflow with this approach, and the full precision of intermediate result is preserved. Finally, the accumulator is truncated to yield a result of 1.\-7 format. 
+\end{DoxyParagraph}
+
+
+Definition at line 64 of file arm\-\_\-mean\-\_\-q7.\-c.
+

@@ -1,0 +1,73 @@
+\hypertarget{group___t_i_m___group9}{\section{Specific remapping management function}
+\label{group___t_i_m___group9}\index{Specific remapping management function@{Specific remapping management function}}
+}
+
+
+Specific remapping management function.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group9_ga08ffb6f2bfa96b6fbcbb8d8001cb8ba9}{T\-I\-M\-\_\-\-Remap\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Remap)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-M16 Remapping input Capabilities. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Specific remapping management function. \begin{DoxyVerb} ===============================================================================
+               ##### Specific remapping management function #####
+ ===============================================================================  \end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                     Specific remapping management function
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___t_i_m___group9_ga08ffb6f2bfa96b6fbcbb8d8001cb8ba9}{\index{Specific remapping management function@{Specific remapping management function}!T\-I\-M\-\_\-\-Remap\-Config@{T\-I\-M\-\_\-\-Remap\-Config}}
+\index{T\-I\-M\-\_\-\-Remap\-Config@{T\-I\-M\-\_\-\-Remap\-Config}!Specific remapping management function@{Specific remapping management function}}
+\subsubsection[{T\-I\-M\-\_\-\-Remap\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Remap\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Remap}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group9_ga08ffb6f2bfa96b6fbcbb8d8001cb8ba9}
+
+
+Configures the T\-I\-M16 Remapping input Capabilities. 
+
+Configures the T\-I\-M2, T\-I\-M5 and T\-I\-M11 Remapping input capabilities.
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 8 or 16 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Remap,\-:} & specifies the T\-I\-M input reampping source. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M16\-\_\-\-G\-P\-I\-O\-: T\-I\-M16 Channel 1 is connected to G\-P\-I\-O. \item T\-I\-M16\-\_\-\-R\-T\-C\-\_\-\-C\-L\-K\-: T\-I\-M16 Channel 1 is connected to R\-T\-C input clock. \item T\-I\-M16\-\_\-\-H\-S\-E\-\_\-\-D\-I\-V32\-: T\-I\-M16 Channel 1 is connected to H\-S\-E/32 clock. \item T\-I\-M16\-\_\-\-M\-C\-O\-: T\-I\-M16 Channel 1 is connected to M\-C\-O clock. \item T\-I\-M1\-\_\-\-A\-D\-C1\-\_\-\-A\-W\-D\-G1\-: T\-I\-M1 E\-T\-R is connected to A\-D\-C1 A\-W\-D\-G1. \item T\-I\-M1\-\_\-\-A\-D\-C1\-\_\-\-A\-W\-D\-G2\-: T\-I\-M1 E\-T\-R is connected to A\-D\-C1 A\-W\-D\-G2. \item T\-I\-M1\-\_\-\-A\-D\-C1\-\_\-\-A\-W\-D\-G3\-: T\-I\-M1 E\-T\-R is connected to A\-D\-C1 A\-W\-D\-G3. \item T\-I\-M1\-\_\-\-A\-D\-C4\-\_\-\-A\-W\-D\-G1\-: T\-I\-M1 E\-T\-R is connected to A\-D\-C4 A\-W\-D\-G1. \item T\-I\-M1\-\_\-\-A\-D\-C4\-\_\-\-A\-W\-D\-G2\-: T\-I\-M1 E\-T\-R is connected to A\-D\-C4 A\-W\-D\-G2. \item T\-I\-M1\-\_\-\-A\-D\-C4\-\_\-\-A\-W\-D\-G3\-: T\-I\-M1 E\-T\-R is connected to A\-D\-C4 A\-W\-D\-G3. \item T\-I\-M8\-\_\-\-A\-D\-C2\-\_\-\-A\-W\-D\-G1\-: T\-I\-M8 E\-T\-R is connected to A\-D\-C2 A\-W\-D\-G1. \item T\-I\-M8\-\_\-\-A\-D\-C2\-\_\-\-A\-W\-D\-G2\-: T\-I\-M8 E\-T\-R is connected to A\-D\-C2 A\-W\-D\-G2. \item T\-I\-M8\-\_\-\-A\-D\-C2\-\_\-\-A\-W\-D\-G3\-: T\-I\-M8 E\-T\-R is connected to A\-D\-C2 A\-W\-D\-G3. \item T\-I\-M8\-\_\-\-A\-D\-C4\-\_\-\-A\-W\-D\-G1\-: T\-I\-M8 E\-T\-R is connected to A\-D\-C4 A\-W\-D\-G1. \item T\-I\-M8\-\_\-\-A\-D\-C4\-\_\-\-A\-W\-D\-G2\-: T\-I\-M8 E\-T\-R is connected to A\-D\-C4 A\-W\-D\-G2. \item T\-I\-M8\-\_\-\-A\-D\-C4\-\_\-\-A\-W\-D\-G3\-: T\-I\-M8 E\-T\-R is connected to A\-D\-C4 A\-W\-D\-G3. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em \-:} & None\\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 2, 5 or 11 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Remap,\-:} & specifies the T\-I\-M input remapping source. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M2\-\_\-\-T\-I\-M8\-\_\-\-T\-R\-G\-O\-: T\-I\-M2 I\-T\-R1 input is connected to T\-I\-M8 Trigger output(default) \item T\-I\-M2\-\_\-\-E\-T\-H\-\_\-\-P\-T\-P\-: T\-I\-M2 I\-T\-R1 input is connected to E\-T\-H P\-T\-P trogger output. \item T\-I\-M2\-\_\-\-U\-S\-B\-F\-S\-\_\-\-S\-O\-F\-: T\-I\-M2 I\-T\-R1 input is connected to U\-S\-B F\-S S\-O\-F. \item T\-I\-M2\-\_\-\-U\-S\-B\-H\-S\-\_\-\-S\-O\-F\-: T\-I\-M2 I\-T\-R1 input is connected to U\-S\-B H\-S S\-O\-F. \item T\-I\-M5\-\_\-\-G\-P\-I\-O\-: T\-I\-M5 C\-H4 input is connected to dedicated Timer pin(default) \item T\-I\-M5\-\_\-\-L\-S\-I\-: T\-I\-M5 C\-H4 input is connected to L\-S\-I clock. \item T\-I\-M5\-\_\-\-L\-S\-E\-: T\-I\-M5 C\-H4 input is connected to L\-S\-E clock. \item T\-I\-M5\-\_\-\-R\-T\-C\-: T\-I\-M5 C\-H4 input is connected to R\-T\-C Output event. \item T\-I\-M11\-\_\-\-G\-P\-I\-O\-: T\-I\-M11 C\-H4 input is connected to dedicated Timer pin(default) \item T\-I\-M11\-\_\-\-H\-S\-E\-: T\-I\-M11 C\-H4 input is connected to H\-S\-E\-\_\-\-R\-T\-C clock (H\-S\-E divided by a programmable prescaler) \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 3803 of file stm32f30x\-\_\-tim.\-c.
+

@@ -1,0 +1,131 @@
+\hypertarget{pathfollower_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Modules/\-Path\-Follower/pathfollower.c File Reference}
+\label{pathfollower_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Modules/\-Path\-Follower/pathfollower.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Modules/\-Path\-Follower/pathfollower.\-c}}
+}
+
+
+This module compared Position\-Actuatl to Active\-Waypoint and sets Attitude\-Desired. It only does this when the Flight\-Mode field of Manual\-Control\-Command is Auto.  
+
+
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{pathfollower_8c_a4bbdbc4a4481bd273fb63fab3646c22b}{path\-Follower\-Types} \{ \\*
+\hyperlink{pathfollower_8c_a4bbdbc4a4481bd273fb63fab3646c22ba710308aadc92dad47de079a6a899679b}{F\-I\-X\-E\-D\-W\-I\-N\-G}, 
+\hyperlink{pathfollower_8c_a4bbdbc4a4481bd273fb63fab3646c22ba2ab934febd51e9a1402de82bdf57e990}{M\-U\-L\-T\-I\-R\-O\-T\-O\-R}, 
+\hyperlink{pathfollower_8c_a4bbdbc4a4481bd273fb63fab3646c22ba5ed875b8404837e6474a4b500e656fcd}{H\-E\-L\-I\-C\-O\-P\-T\-E\-R}, 
+\hyperlink{pathfollower_8c_a4bbdbc4a4481bd273fb63fab3646c22ba9a5efc045d26a0771e5e78980f1d9ac3}{D\-U\-B\-I\-N\-S\-C\-A\-R\-T}, 
+\\*
+\hyperlink{pathfollower_8c_a4bbdbc4a4481bd273fb63fab3646c22ba8f3ed5f77271bf50a6004685c4b729c5}{H\-O\-L\-O\-N\-O\-M\-I\-C}, 
+\hyperlink{pathfollower_8c_a4bbdbc4a4481bd273fb63fab3646c22ba3f3f266a1f303d33d28de86ada3c722d}{N\-O\-N\-H\-O\-L\-O\-N\-O\-M\-I\-C}, 
+\hyperlink{pathfollower_8c_a4bbdbc4a4481bd273fb63fab3646c22ba40f39385238042f6ec0cbac821a19fc4}{D\-I\-S\-A\-B\-L\-E\-D}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{pathfollower_8c_a779f0a705b6a86f7a467d70dd0e91b56}{Path\-Follower\-Start} ()
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{pathfollower_8c_aa4ee6d9af7715845fd300acdf4ee3fbe}{Path\-Follower\-Initialize} ()
+\item 
+\hyperlink{pathfollower_8c_a12295fff725e85b0b9cab808ded56315}{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{pathfollower_8c_aa4ee6d9af7715845fd300acdf4ee3fbe}{Path\-Follower\-Initialize}, \hyperlink{pathfollower_8c_a779f0a705b6a86f7a467d70dd0e91b56}{Path\-Follower\-Start})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___exported__types_gaf6a258d8f3ee5206d682d799316314b1}{bool} \hyperlink{pathfollower_8c_a1fcb1f94a20ead02f78d415f51cabb6c}{flight\-Status\-Update} = false
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This module compared Position\-Actuatl to Active\-Waypoint and sets Attitude\-Desired. It only does this when the Flight\-Mode field of Manual\-Control\-Command is Auto. \begin{DoxyAuthor}{Author}
+The Open\-Pilot Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} Copyright (C) 2012. 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{See Also}
+The G\-N\-U Public License (G\-P\-L) Version 3 
+\end{DoxySeeAlso}
+
+
+Definition in file \hyperlink{pathfollower_8c_source}{pathfollower.\-c}.
+
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{pathfollower_8c_a4bbdbc4a4481bd273fb63fab3646c22b}{\index{pathfollower.\-c@{pathfollower.\-c}!path\-Follower\-Types@{path\-Follower\-Types}}
+\index{path\-Follower\-Types@{path\-Follower\-Types}!pathfollower.c@{pathfollower.\-c}}
+\subsubsection[{path\-Follower\-Types}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf path\-Follower\-Types}}}\label{pathfollower_8c_a4bbdbc4a4481bd273fb63fab3646c22b}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{F\-I\-X\-E\-D\-W\-I\-N\-G@{F\-I\-X\-E\-D\-W\-I\-N\-G}!pathfollower.\-c@{pathfollower.\-c}}\index{pathfollower.\-c@{pathfollower.\-c}!F\-I\-X\-E\-D\-W\-I\-N\-G@{F\-I\-X\-E\-D\-W\-I\-N\-G}}\item[{\em 
+\hypertarget{pathfollower_8c_a4bbdbc4a4481bd273fb63fab3646c22ba710308aadc92dad47de079a6a899679b}{F\-I\-X\-E\-D\-W\-I\-N\-G}\label{pathfollower_8c_a4bbdbc4a4481bd273fb63fab3646c22ba710308aadc92dad47de079a6a899679b}
+}]\index{M\-U\-L\-T\-I\-R\-O\-T\-O\-R@{M\-U\-L\-T\-I\-R\-O\-T\-O\-R}!pathfollower.\-c@{pathfollower.\-c}}\index{pathfollower.\-c@{pathfollower.\-c}!M\-U\-L\-T\-I\-R\-O\-T\-O\-R@{M\-U\-L\-T\-I\-R\-O\-T\-O\-R}}\item[{\em 
+\hypertarget{pathfollower_8c_a4bbdbc4a4481bd273fb63fab3646c22ba2ab934febd51e9a1402de82bdf57e990}{M\-U\-L\-T\-I\-R\-O\-T\-O\-R}\label{pathfollower_8c_a4bbdbc4a4481bd273fb63fab3646c22ba2ab934febd51e9a1402de82bdf57e990}
+}]\index{H\-E\-L\-I\-C\-O\-P\-T\-E\-R@{H\-E\-L\-I\-C\-O\-P\-T\-E\-R}!pathfollower.\-c@{pathfollower.\-c}}\index{pathfollower.\-c@{pathfollower.\-c}!H\-E\-L\-I\-C\-O\-P\-T\-E\-R@{H\-E\-L\-I\-C\-O\-P\-T\-E\-R}}\item[{\em 
+\hypertarget{pathfollower_8c_a4bbdbc4a4481bd273fb63fab3646c22ba5ed875b8404837e6474a4b500e656fcd}{H\-E\-L\-I\-C\-O\-P\-T\-E\-R}\label{pathfollower_8c_a4bbdbc4a4481bd273fb63fab3646c22ba5ed875b8404837e6474a4b500e656fcd}
+}]\index{D\-U\-B\-I\-N\-S\-C\-A\-R\-T@{D\-U\-B\-I\-N\-S\-C\-A\-R\-T}!pathfollower.\-c@{pathfollower.\-c}}\index{pathfollower.\-c@{pathfollower.\-c}!D\-U\-B\-I\-N\-S\-C\-A\-R\-T@{D\-U\-B\-I\-N\-S\-C\-A\-R\-T}}\item[{\em 
+\hypertarget{pathfollower_8c_a4bbdbc4a4481bd273fb63fab3646c22ba9a5efc045d26a0771e5e78980f1d9ac3}{D\-U\-B\-I\-N\-S\-C\-A\-R\-T}\label{pathfollower_8c_a4bbdbc4a4481bd273fb63fab3646c22ba9a5efc045d26a0771e5e78980f1d9ac3}
+}]\index{H\-O\-L\-O\-N\-O\-M\-I\-C@{H\-O\-L\-O\-N\-O\-M\-I\-C}!pathfollower.\-c@{pathfollower.\-c}}\index{pathfollower.\-c@{pathfollower.\-c}!H\-O\-L\-O\-N\-O\-M\-I\-C@{H\-O\-L\-O\-N\-O\-M\-I\-C}}\item[{\em 
+\hypertarget{pathfollower_8c_a4bbdbc4a4481bd273fb63fab3646c22ba8f3ed5f77271bf50a6004685c4b729c5}{H\-O\-L\-O\-N\-O\-M\-I\-C}\label{pathfollower_8c_a4bbdbc4a4481bd273fb63fab3646c22ba8f3ed5f77271bf50a6004685c4b729c5}
+}]\index{N\-O\-N\-H\-O\-L\-O\-N\-O\-M\-I\-C@{N\-O\-N\-H\-O\-L\-O\-N\-O\-M\-I\-C}!pathfollower.\-c@{pathfollower.\-c}}\index{pathfollower.\-c@{pathfollower.\-c}!N\-O\-N\-H\-O\-L\-O\-N\-O\-M\-I\-C@{N\-O\-N\-H\-O\-L\-O\-N\-O\-M\-I\-C}}\item[{\em 
+\hypertarget{pathfollower_8c_a4bbdbc4a4481bd273fb63fab3646c22ba3f3f266a1f303d33d28de86ada3c722d}{N\-O\-N\-H\-O\-L\-O\-N\-O\-M\-I\-C}\label{pathfollower_8c_a4bbdbc4a4481bd273fb63fab3646c22ba3f3f266a1f303d33d28de86ada3c722d}
+}]\index{D\-I\-S\-A\-B\-L\-E\-D@{D\-I\-S\-A\-B\-L\-E\-D}!pathfollower.\-c@{pathfollower.\-c}}\index{pathfollower.\-c@{pathfollower.\-c}!D\-I\-S\-A\-B\-L\-E\-D@{D\-I\-S\-A\-B\-L\-E\-D}}\item[{\em 
+\hypertarget{pathfollower_8c_a4bbdbc4a4481bd273fb63fab3646c22ba40f39385238042f6ec0cbac821a19fc4}{D\-I\-S\-A\-B\-L\-E\-D}\label{pathfollower_8c_a4bbdbc4a4481bd273fb63fab3646c22ba40f39385238042f6ec0cbac821a19fc4}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 66 of file pathfollower.\-c.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{pathfollower_8c_a12295fff725e85b0b9cab808ded56315}{\index{pathfollower.\-c@{pathfollower.\-c}!M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}}
+\index{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}!pathfollower.c@{pathfollower.\-c}}
+\subsubsection[{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L (
+\begin{DoxyParamCaption}
+\item[{{\bf Path\-Follower\-Initialize}}]{, }
+\item[{{\bf Path\-Follower\-Start}}]{}
+\end{DoxyParamCaption}
+)}}\label{pathfollower_8c_a12295fff725e85b0b9cab808ded56315}
+Module thread, should not return. 
+
+Definition at line 192 of file pathfollower.\-c.
+
+\hypertarget{pathfollower_8c_aa4ee6d9af7715845fd300acdf4ee3fbe}{\index{pathfollower.\-c@{pathfollower.\-c}!Path\-Follower\-Initialize@{Path\-Follower\-Initialize}}
+\index{Path\-Follower\-Initialize@{Path\-Follower\-Initialize}!pathfollower.c@{pathfollower.\-c}}
+\subsubsection[{Path\-Follower\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} Path\-Follower\-Initialize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{pathfollower_8c_aa4ee6d9af7715845fd300acdf4ee3fbe}
+Initialise the module, called on startup \begin{DoxyReturn}{Returns}
+0 on success or -\/1 if initialisation failed 
+\end{DoxyReturn}
+
+
+Definition at line 105 of file pathfollower.\-c.
+
+\hypertarget{pathfollower_8c_a779f0a705b6a86f7a467d70dd0e91b56}{\index{pathfollower.\-c@{pathfollower.\-c}!Path\-Follower\-Start@{Path\-Follower\-Start}}
+\index{Path\-Follower\-Start@{Path\-Follower\-Start}!pathfollower.c@{pathfollower.\-c}}
+\subsubsection[{Path\-Follower\-Start}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} Path\-Follower\-Start (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{pathfollower_8c_a779f0a705b6a86f7a467d70dd0e91b56}
+Initialise the module, called on startup \begin{DoxyReturn}{Returns}
+0 on success or -\/1 if initialisation failed 
+\end{DoxyReturn}
+
+
+Definition at line 86 of file pathfollower.\-c.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{pathfollower_8c_a1fcb1f94a20ead02f78d415f51cabb6c}{\index{pathfollower.\-c@{pathfollower.\-c}!flight\-Status\-Update@{flight\-Status\-Update}}
+\index{flight\-Status\-Update@{flight\-Status\-Update}!pathfollower.c@{pathfollower.\-c}}
+\subsubsection[{flight\-Status\-Update}]{\setlength{\rightskip}{0pt plus 5cm}{\bf bool} flight\-Status\-Update = false}}\label{pathfollower_8c_a1fcb1f94a20ead02f78d415f51cabb6c}
+
+
+Definition at line 75 of file pathfollower.\-c.
+

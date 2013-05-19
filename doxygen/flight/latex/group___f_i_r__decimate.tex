@@ -1,0 +1,417 @@
+\hypertarget{group___f_i_r__decimate}{\section{Finite Impulse Response (F\-I\-R) Decimator}
+\label{group___f_i_r__decimate}\index{Finite Impulse Response (\-F\-I\-R) Decimator@{Finite Impulse Response (\-F\-I\-R) Decimator}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___f_i_r__decimate_ga25aa3d58a90bf91b6a82272a0bc518f7}{arm\-\_\-fir\-\_\-decimate\-\_\-f32} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__fir__decimate__instance__f32}{arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-f32} $\ast$S, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Src, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Processing function for the floating-\/point F\-I\-R decimator. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___f_i_r__decimate_ga3f434c9a5d3b4e68061feac0714ea2ac}{arm\-\_\-fir\-\_\-decimate\-\_\-fast\-\_\-q15} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__fir__decimate__instance__q15}{arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-q15} $\ast$S, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Src, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Processing function for the Q15 F\-I\-R decimator (fast variant) for Cortex-\/\-M3 and Cortex-\/\-M4. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___f_i_r__decimate_ga3c18cc3d0548a410c577f1bead9582b7}{arm\-\_\-fir\-\_\-decimate\-\_\-fast\-\_\-q31} (\hyperlink{structarm__fir__decimate__instance__q31}{arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-q31} $\ast$S, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Src, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Processing function for the Q31 F\-I\-R decimator (fast variant) for Cortex-\/\-M3 and Cortex-\/\-M4. \end{DoxyCompactList}\item 
+\hyperlink{arm__math_8h_a5e459c6409dfcd2927bb8a57491d7cf6}{arm\-\_\-status} \hyperlink{group___f_i_r__decimate_gaaa2524b08220fd6c3f753e692ffc7d3b}{arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-f32} (\hyperlink{structarm__fir__decimate__instance__f32}{arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-f32} $\ast$S, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} num\-Taps, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} M, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Coeffs, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-State, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Initialization function for the floating-\/point F\-I\-R decimator. \end{DoxyCompactList}\item 
+\hyperlink{arm__math_8h_a5e459c6409dfcd2927bb8a57491d7cf6}{arm\-\_\-status} \hyperlink{group___f_i_r__decimate_gada660e54b93d5d32178c6f5e1c6f368d}{arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-q15} (\hyperlink{structarm__fir__decimate__instance__q15}{arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-q15} $\ast$S, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} num\-Taps, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} M, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Coeffs, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-State, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Initialization function for the Q15 F\-I\-R decimator. \end{DoxyCompactList}\item 
+\hyperlink{arm__math_8h_a5e459c6409dfcd2927bb8a57491d7cf6}{arm\-\_\-status} \hyperlink{group___f_i_r__decimate_ga9ed47c4e0f58affa935d84e0508a7f39}{arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-q31} (\hyperlink{structarm__fir__decimate__instance__q31}{arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-q31} $\ast$S, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} num\-Taps, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} M, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Coeffs, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-State, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Initialization function for the Q31 F\-I\-R decimator. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___f_i_r__decimate_gab8bef6d0f6a26fdbfce9485727713ce5}{arm\-\_\-fir\-\_\-decimate\-\_\-q15} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__fir__decimate__instance__q15}{arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-q15} $\ast$S, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Src, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Processing function for the Q15 F\-I\-R decimator. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___f_i_r__decimate_gaef8e86add28f15fdc5ecc484e9dd7a4e}{arm\-\_\-fir\-\_\-decimate\-\_\-q31} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__fir__decimate__instance__q31}{arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-q31} $\ast$S, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Src, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Processing function for the Q31 F\-I\-R decimator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+These functions combine an F\-I\-R filter together with a decimator. They are used in multirate systems for reducing the sample rate of a signal without introducing aliasing distortion. Conceptually, the functions are equivalent to the block diagram below\-:  When decimating by a factor of {\ttfamily M}, the signal should be prefiltered by a lowpass filter with a normalized cutoff frequency of {\ttfamily 1/\-M} in order to prevent aliasing distortion. The user of the function is responsible for providing the filter coefficients.
+
+The F\-I\-R decimator functions provided in the C\-M\-S\-I\-S D\-S\-P Library combine the F\-I\-R filter and the decimator in an efficient manner. Instead of calculating all of the F\-I\-R filter outputs and discarding {\ttfamily M-\/1} out of every {\ttfamily M}, only the samples output by the decimator are computed. The functions operate on blocks of input and output data. {\ttfamily p\-Src} points to an array of {\ttfamily block\-Size} input values and {\ttfamily p\-Dst} points to an array of {\ttfamily block\-Size/\-M} output values. In order to have an integer number of output samples {\ttfamily block\-Size} must always be a multiple of the decimation factor {\ttfamily M}.
+
+The library provides separate functions for Q15, Q31 and floating-\/point data types.
+
+\begin{DoxyParagraph}{Algorithm\-: }
+The F\-I\-R portion of the algorithm uses the standard form filter\-: 
+\begin{DoxyPre}    
+     y[n] = b[0] * x[n] + b[1] * x[n-1] + b[2] * x[n-2] + ...+ b[numTaps-1] * x[n-numTaps+1]    
+  \end{DoxyPre}
+ where, {\ttfamily b\mbox{[}n\mbox{]}} are the filter coefficients. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+The {\ttfamily p\-Coeffs} points to a coefficient array of size {\ttfamily num\-Taps}. Coefficients are stored in time reversed order. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+
+\begin{DoxyPre}    
+     \{b[numTaps-1], b[numTaps-2], b[N-2], ..., b[1], b[0]\}    
+  \end{DoxyPre}
+ 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+{\ttfamily p\-State} points to a state array of size {\ttfamily num\-Taps + block\-Size -\/ 1}. Samples in the state buffer are stored in the order\-: 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+
+\begin{DoxyPre}    
+     \{x[n-numTaps+1], x[n-numTaps], x[n-numTaps-1], x[n-numTaps-2]....x[0], x[1], ..., x[blockSize-1]\}    
+  \end{DoxyPre}
+ The state variables are updated after each block of data is processed, the coefficients are untouched.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Instance Structure }
+The coefficients and state variables for a filter are stored together in an instance data structure. A separate instance structure must be defined for each filter. Coefficient arrays may be shared among several instances while state variable array should be allocated separately. There are separate instance structure declarations for each of the 3 supported data types.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Initialization Functions }
+There is also an associated initialization function for each data type. The initialization function performs the following operations\-:
+\begin{DoxyItemize}
+\item Sets the values of the internal structure fields.
+\item Zeros out the values in the state buffer.
+\item Checks to make sure that the size of the input is a multiple of the decimation factor.
+\end{DoxyItemize}
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Use of the initialization function is optional. However, if the initialization function is used, then the instance structure cannot be placed into a const data section. To place an instance structure into a const data section, the instance structure must be manually initialized. The code below statically initializes each of the 3 different data type filter instance structures 
+\begin{DoxyPre}    
+*arm\_fir\_decimate\_instance\_f32 S = \{M, numTaps, pCoeffs, pState\};    
+*arm\_fir\_decimate\_instance\_q31 S = \{M, numTaps, pCoeffs, pState\};    
+*arm\_fir\_decimate\_instance\_q15 S = \{M, numTaps, pCoeffs, pState\};    
+  \end{DoxyPre}
+ where {\ttfamily M} is the decimation factor; {\ttfamily num\-Taps} is the number of filter coefficients in the filter; {\ttfamily p\-Coeffs} is the address of the coefficient buffer; {\ttfamily p\-State} is the address of the state buffer. Be sure to set the values in the state buffer to zeros when doing static initialization.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Fixed-\/\-Point Behavior }
+Care must be taken when using the fixed-\/point versions of the F\-I\-R decimate filter functions. In particular, the overflow and saturation behavior of the accumulator used in each function must be considered. Refer to the function specific documentation below for usage guidelines. 
+\end{DoxyParagraph}
+
+
+\subsection{Function Documentation}
+\hypertarget{group___f_i_r__decimate_ga25aa3d58a90bf91b6a82272a0bc518f7}{\index{Finite Impulse Response (\-F\-I\-R) Decimator@{Finite Impulse Response (\-F\-I\-R) Decimator}!arm\-\_\-fir\-\_\-decimate\-\_\-f32@{arm\-\_\-fir\-\_\-decimate\-\_\-f32}}
+\index{arm\-\_\-fir\-\_\-decimate\-\_\-f32@{arm\-\_\-fir\-\_\-decimate\-\_\-f32}!Finite Impulse Response (FIR) Decimator@{Finite Impulse Response (\-F\-I\-R) Decimator}}
+\subsubsection[{arm\-\_\-fir\-\_\-decimate\-\_\-f32}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-fir\-\_\-decimate\-\_\-f32 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-f32} $\ast$}]{S, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___f_i_r__decimate_ga25aa3d58a90bf91b6a82272a0bc518f7}
+
+
+Processing function for the floating-\/point F\-I\-R decimator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$\-S} & points to an instance of the floating-\/point F\-I\-R decimator structure. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the block of input data. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the block of output data. \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of input samples to process per call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none. 
+\end{DoxyReturn}
+
+
+Definition at line 135 of file arm\-\_\-fir\-\_\-decimate\-\_\-f32.\-c.
+
+\hypertarget{group___f_i_r__decimate_ga3f434c9a5d3b4e68061feac0714ea2ac}{\index{Finite Impulse Response (\-F\-I\-R) Decimator@{Finite Impulse Response (\-F\-I\-R) Decimator}!arm\-\_\-fir\-\_\-decimate\-\_\-fast\-\_\-q15@{arm\-\_\-fir\-\_\-decimate\-\_\-fast\-\_\-q15}}
+\index{arm\-\_\-fir\-\_\-decimate\-\_\-fast\-\_\-q15@{arm\-\_\-fir\-\_\-decimate\-\_\-fast\-\_\-q15}!Finite Impulse Response (FIR) Decimator@{Finite Impulse Response (\-F\-I\-R) Decimator}}
+\subsubsection[{arm\-\_\-fir\-\_\-decimate\-\_\-fast\-\_\-q15}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-fir\-\_\-decimate\-\_\-fast\-\_\-q15 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-q15} $\ast$}]{S, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___f_i_r__decimate_ga3f434c9a5d3b4e68061feac0714ea2ac}
+
+
+Processing function for the Q15 F\-I\-R decimator (fast variant) for Cortex-\/\-M3 and Cortex-\/\-M4. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$\-S} & points to an instance of the Q15 F\-I\-R decimator structure. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the block of input data. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the block of output data \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of input samples to process per call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Restrictions }
+If the silicon does not support unaligned memory access enable the macro U\-N\-A\-L\-I\-G\-N\-E\-D\-\_\-\-S\-U\-P\-P\-O\-R\-T\-\_\-\-D\-I\-S\-A\-B\-L\-E In this case input, output, state buffers should be aligned by 32-\/bit
+\end{DoxyParagraph}
+{\bfseries Scaling and Overflow Behavior\-:} \begin{DoxyParagraph}{}
+This fast version uses a 32-\/bit accumulator with 2.\-30 format. The accumulator maintains full precision of the intermediate multiplication results but provides only a single guard bit. Thus, if the accumulator result overflows it wraps around and distorts the result. In order to avoid overflows completely the input signal must be scaled down by log2(num\-Taps) bits (log2 is read as log to the base 2). The 2.\-30 accumulator is then truncated to 2.\-15 format and saturated to yield the 1.\-15 result.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Refer to the function {\ttfamily \hyperlink{group___f_i_r__decimate_gab8bef6d0f6a26fdbfce9485727713ce5}{arm\-\_\-fir\-\_\-decimate\-\_\-q15()}} for a slower implementation of this function which uses 64-\/bit accumulation to avoid wrap around distortion. Both the slow and the fast versions use the same instance structure. Use the function {\ttfamily \hyperlink{group___f_i_r__decimate_gada660e54b93d5d32178c6f5e1c6f368d}{arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-q15()}} to initialize the filter structure. 
+\end{DoxyParagraph}
+
+
+Definition at line 72 of file arm\-\_\-fir\-\_\-decimate\-\_\-fast\-\_\-q15.\-c.
+
+\hypertarget{group___f_i_r__decimate_ga3c18cc3d0548a410c577f1bead9582b7}{\index{Finite Impulse Response (\-F\-I\-R) Decimator@{Finite Impulse Response (\-F\-I\-R) Decimator}!arm\-\_\-fir\-\_\-decimate\-\_\-fast\-\_\-q31@{arm\-\_\-fir\-\_\-decimate\-\_\-fast\-\_\-q31}}
+\index{arm\-\_\-fir\-\_\-decimate\-\_\-fast\-\_\-q31@{arm\-\_\-fir\-\_\-decimate\-\_\-fast\-\_\-q31}!Finite Impulse Response (FIR) Decimator@{Finite Impulse Response (\-F\-I\-R) Decimator}}
+\subsubsection[{arm\-\_\-fir\-\_\-decimate\-\_\-fast\-\_\-q31}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-fir\-\_\-decimate\-\_\-fast\-\_\-q31 (
+\begin{DoxyParamCaption}
+\item[{{\bf arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-q31} $\ast$}]{S, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___f_i_r__decimate_ga3c18cc3d0548a410c577f1bead9582b7}
+
+
+Processing function for the Q31 F\-I\-R decimator (fast variant) for Cortex-\/\-M3 and Cortex-\/\-M4. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$\-S} & points to an instance of the Q31 F\-I\-R decimator structure. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the block of input data. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the block of output data \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of input samples to process per call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none
+\end{DoxyReturn}
+{\bfseries Scaling and Overflow Behavior\-:}
+
+\begin{DoxyParagraph}{}
+This function is optimized for speed at the expense of fixed-\/point precision and overflow protection. The result of each 1.\-31 x 1.\-31 multiplication is truncated to 2.\-30 format. These intermediate results are added to a 2.\-30 accumulator. Finally, the accumulator is saturated and converted to a 1.\-31 result. The fast version has the same overflow behavior as the standard version and provides less precision since it discards the low 32 bits of each multiplication result. In order to avoid overflows completely the input signal must be scaled down by log2(num\-Taps) bits (where log2 is read as log to the base 2).
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Refer to the function {\ttfamily \hyperlink{group___f_i_r__decimate_gaef8e86add28f15fdc5ecc484e9dd7a4e}{arm\-\_\-fir\-\_\-decimate\-\_\-q31()}} for a slower implementation of this function which uses a 64-\/bit accumulator to provide higher precision. Both the slow and the fast versions use the same instance structure. Use the function {\ttfamily \hyperlink{group___f_i_r__decimate_ga9ed47c4e0f58affa935d84e0508a7f39}{arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-q31()}} to initialize the filter structure. 
+\end{DoxyParagraph}
+
+
+Definition at line 68 of file arm\-\_\-fir\-\_\-decimate\-\_\-fast\-\_\-q31.\-c.
+
+\hypertarget{group___f_i_r__decimate_gaaa2524b08220fd6c3f753e692ffc7d3b}{\index{Finite Impulse Response (\-F\-I\-R) Decimator@{Finite Impulse Response (\-F\-I\-R) Decimator}!arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-f32@{arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-f32}}
+\index{arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-f32@{arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-f32}!Finite Impulse Response (FIR) Decimator@{Finite Impulse Response (\-F\-I\-R) Decimator}}
+\subsubsection[{arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-f32}]{\setlength{\rightskip}{0pt plus 5cm}{\bf arm\-\_\-status} arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-f32 (
+\begin{DoxyParamCaption}
+\item[{{\bf arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-f32} $\ast$}]{S, }
+\item[{{\bf uint16\-\_\-t}}]{num\-Taps, }
+\item[{{\bf uint8\-\_\-t}}]{M, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Coeffs, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-State, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___f_i_r__decimate_gaaa2524b08220fd6c3f753e692ffc7d3b}
+
+
+Initialization function for the floating-\/point F\-I\-R decimator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em $\ast$\-S} & points to an instance of the floating-\/point F\-I\-R decimator structure. \\
+\hline
+\mbox{\tt in}  & {\em num\-Taps} & number of coefficients in the filter. \\
+\hline
+\mbox{\tt in}  & {\em M} & decimation factor. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Coeffs} & points to the filter coefficients. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-State} & points to the state buffer. \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of input samples to process per call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The function returns A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-S\-U\-C\-C\-E\-S\-S if initialization was successful or A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-L\-E\-N\-G\-T\-H\-\_\-\-E\-R\-R\-O\-R if {\ttfamily block\-Size} is not a multiple of {\ttfamily M}.
+\end{DoxyReturn}
+{\bfseries Description\-:} \begin{DoxyParagraph}{}
+{\ttfamily p\-Coeffs} points to the array of filter coefficients stored in time reversed order\-: 
+\begin{DoxyPre}    
+   \{b[numTaps-1], b[numTaps-2], b[N-2], ..., b[1], b[0]\}    
+\end{DoxyPre}
+ 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+{\ttfamily p\-State} points to the array of state variables. {\ttfamily p\-State} is of length {\ttfamily num\-Taps+block\-Size-\/1} words where {\ttfamily block\-Size} is the number of input samples passed to {\ttfamily \hyperlink{group___f_i_r__decimate_ga25aa3d58a90bf91b6a82272a0bc518f7}{arm\-\_\-fir\-\_\-decimate\-\_\-f32()}}. {\ttfamily M} is the decimation factor. 
+\end{DoxyParagraph}
+
+
+Definition at line 70 of file arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-f32.\-c.
+
+\hypertarget{group___f_i_r__decimate_gada660e54b93d5d32178c6f5e1c6f368d}{\index{Finite Impulse Response (\-F\-I\-R) Decimator@{Finite Impulse Response (\-F\-I\-R) Decimator}!arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-q15@{arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-q15}}
+\index{arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-q15@{arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-q15}!Finite Impulse Response (FIR) Decimator@{Finite Impulse Response (\-F\-I\-R) Decimator}}
+\subsubsection[{arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-q15}]{\setlength{\rightskip}{0pt plus 5cm}{\bf arm\-\_\-status} arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-q15 (
+\begin{DoxyParamCaption}
+\item[{{\bf arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-q15} $\ast$}]{S, }
+\item[{{\bf uint16\-\_\-t}}]{num\-Taps, }
+\item[{{\bf uint8\-\_\-t}}]{M, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Coeffs, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-State, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___f_i_r__decimate_gada660e54b93d5d32178c6f5e1c6f368d}
+
+
+Initialization function for the Q15 F\-I\-R decimator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em $\ast$\-S} & points to an instance of the Q15 F\-I\-R decimator structure. \\
+\hline
+\mbox{\tt in}  & {\em num\-Taps} & number of coefficients in the filter. \\
+\hline
+\mbox{\tt in}  & {\em M} & decimation factor. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Coeffs} & points to the filter coefficients. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-State} & points to the state buffer. \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of input samples to process per call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The function returns A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-S\-U\-C\-C\-E\-S\-S if initialization was successful or A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-L\-E\-N\-G\-T\-H\-\_\-\-E\-R\-R\-O\-R if {\ttfamily block\-Size} is not a multiple of {\ttfamily M}.
+\end{DoxyReturn}
+{\bfseries Description\-:} \begin{DoxyParagraph}{}
+{\ttfamily p\-Coeffs} points to the array of filter coefficients stored in time reversed order\-: 
+\begin{DoxyPre}    
+   \{b[numTaps-1], b[numTaps-2], b[N-2], ..., b[1], b[0]\}    
+\end{DoxyPre}
+ 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+{\ttfamily p\-State} points to the array of state variables. {\ttfamily p\-State} is of length {\ttfamily num\-Taps+block\-Size-\/1} words where {\ttfamily block\-Size} is the number of input samples to the call {\ttfamily \hyperlink{group___f_i_r__decimate_gab8bef6d0f6a26fdbfce9485727713ce5}{arm\-\_\-fir\-\_\-decimate\-\_\-q15()}}. {\ttfamily M} is the decimation factor. 
+\end{DoxyParagraph}
+
+
+Definition at line 71 of file arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-q15.\-c.
+
+\hypertarget{group___f_i_r__decimate_ga9ed47c4e0f58affa935d84e0508a7f39}{\index{Finite Impulse Response (\-F\-I\-R) Decimator@{Finite Impulse Response (\-F\-I\-R) Decimator}!arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-q31@{arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-q31}}
+\index{arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-q31@{arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-q31}!Finite Impulse Response (FIR) Decimator@{Finite Impulse Response (\-F\-I\-R) Decimator}}
+\subsubsection[{arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-q31}]{\setlength{\rightskip}{0pt plus 5cm}{\bf arm\-\_\-status} arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-q31 (
+\begin{DoxyParamCaption}
+\item[{{\bf arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-q31} $\ast$}]{S, }
+\item[{{\bf uint16\-\_\-t}}]{num\-Taps, }
+\item[{{\bf uint8\-\_\-t}}]{M, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Coeffs, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-State, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___f_i_r__decimate_ga9ed47c4e0f58affa935d84e0508a7f39}
+
+
+Initialization function for the Q31 F\-I\-R decimator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em $\ast$\-S} & points to an instance of the Q31 F\-I\-R decimator structure. \\
+\hline
+\mbox{\tt in}  & {\em num\-Taps} & number of coefficients in the filter. \\
+\hline
+\mbox{\tt in}  & {\em M} & decimation factor. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Coeffs} & points to the filter coefficients. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-State} & points to the state buffer. \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of input samples to process per call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The function returns A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-S\-U\-C\-C\-E\-S\-S if initialization was successful or A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-L\-E\-N\-G\-T\-H\-\_\-\-E\-R\-R\-O\-R if {\ttfamily block\-Size} is not a multiple of {\ttfamily M}.
+\end{DoxyReturn}
+{\bfseries Description\-:} \begin{DoxyParagraph}{}
+{\ttfamily p\-Coeffs} points to the array of filter coefficients stored in time reversed order\-: 
+\begin{DoxyPre}    
+   \{b[numTaps-1], b[numTaps-2], b[N-2], ..., b[1], b[0]\}    
+\end{DoxyPre}
+ 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+{\ttfamily p\-State} points to the array of state variables. {\ttfamily p\-State} is of length {\ttfamily num\-Taps+block\-Size-\/1} words where {\ttfamily block\-Size} is the number of input samples passed to {\ttfamily \hyperlink{group___f_i_r__decimate_gaef8e86add28f15fdc5ecc484e9dd7a4e}{arm\-\_\-fir\-\_\-decimate\-\_\-q31()}}. {\ttfamily M} is the decimation factor. 
+\end{DoxyParagraph}
+
+
+Definition at line 70 of file arm\-\_\-fir\-\_\-decimate\-\_\-init\-\_\-q31.\-c.
+
+\hypertarget{group___f_i_r__decimate_gab8bef6d0f6a26fdbfce9485727713ce5}{\index{Finite Impulse Response (\-F\-I\-R) Decimator@{Finite Impulse Response (\-F\-I\-R) Decimator}!arm\-\_\-fir\-\_\-decimate\-\_\-q15@{arm\-\_\-fir\-\_\-decimate\-\_\-q15}}
+\index{arm\-\_\-fir\-\_\-decimate\-\_\-q15@{arm\-\_\-fir\-\_\-decimate\-\_\-q15}!Finite Impulse Response (FIR) Decimator@{Finite Impulse Response (\-F\-I\-R) Decimator}}
+\subsubsection[{arm\-\_\-fir\-\_\-decimate\-\_\-q15}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-fir\-\_\-decimate\-\_\-q15 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-q15} $\ast$}]{S, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___f_i_r__decimate_gab8bef6d0f6a26fdbfce9485727713ce5}
+
+
+Processing function for the Q15 F\-I\-R decimator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$\-S} & points to an instance of the Q15 F\-I\-R decimator structure. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the block of input data. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the location where the output result is written. \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of input samples to process per call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+{\bfseries Scaling and Overflow Behavior\-:} \begin{DoxyParagraph}{}
+The function is implemented using a 64-\/bit internal accumulator. Both coefficients and state variables are represented in 1.\-15 format and multiplications yield a 2.\-30 result. The 2.\-30 intermediate results are accumulated in a 64-\/bit accumulator in 34.\-30 format. There is no risk of internal overflow with this approach and the full precision of intermediate multiplications is preserved. After all additions have been performed, the accumulator is truncated to 34.\-15 format by discarding low 15 bits. Lastly, the accumulator is saturated to yield a result in 1.\-15 format.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Refer to the function {\ttfamily \hyperlink{group___f_i_r__decimate_ga3f434c9a5d3b4e68061feac0714ea2ac}{arm\-\_\-fir\-\_\-decimate\-\_\-fast\-\_\-q15()}} for a faster but less precise implementation of this function for Cortex-\/\-M3 and Cortex-\/\-M4. 
+\end{DoxyParagraph}
+
+
+Definition at line 72 of file arm\-\_\-fir\-\_\-decimate\-\_\-q15.\-c.
+
+\hypertarget{group___f_i_r__decimate_gaef8e86add28f15fdc5ecc484e9dd7a4e}{\index{Finite Impulse Response (\-F\-I\-R) Decimator@{Finite Impulse Response (\-F\-I\-R) Decimator}!arm\-\_\-fir\-\_\-decimate\-\_\-q31@{arm\-\_\-fir\-\_\-decimate\-\_\-q31}}
+\index{arm\-\_\-fir\-\_\-decimate\-\_\-q31@{arm\-\_\-fir\-\_\-decimate\-\_\-q31}!Finite Impulse Response (FIR) Decimator@{Finite Impulse Response (\-F\-I\-R) Decimator}}
+\subsubsection[{arm\-\_\-fir\-\_\-decimate\-\_\-q31}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-fir\-\_\-decimate\-\_\-q31 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-fir\-\_\-decimate\-\_\-instance\-\_\-q31} $\ast$}]{S, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___f_i_r__decimate_gaef8e86add28f15fdc5ecc484e9dd7a4e}
+
+
+Processing function for the Q31 F\-I\-R decimator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$\-S} & points to an instance of the Q31 F\-I\-R decimator structure. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the block of input data. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the block of output data \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of input samples to process per call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none
+\end{DoxyReturn}
+{\bfseries Scaling and Overflow Behavior\-:} \begin{DoxyParagraph}{}
+The function is implemented using an internal 64-\/bit accumulator. The accumulator has a 2.\-62 format and maintains full precision of the intermediate multiplication results but provides only a single guard bit. Thus, if the accumulator result overflows it wraps around rather than clip. In order to avoid overflows completely the input signal must be scaled down by log2(num\-Taps) bits (where log2 is read as log to the base 2). After all multiply-\/accumulates are performed, the 2.\-62 accumulator is truncated to 1.\-32 format and then saturated to 1.\-31 format.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Refer to the function {\ttfamily \hyperlink{group___f_i_r__decimate_ga3c18cc3d0548a410c577f1bead9582b7}{arm\-\_\-fir\-\_\-decimate\-\_\-fast\-\_\-q31()}} for a faster but less precise implementation of this function for Cortex-\/\-M3 and Cortex-\/\-M4. 
+\end{DoxyParagraph}
+
+
+Definition at line 67 of file arm\-\_\-fir\-\_\-decimate\-\_\-q31.\-c.
+

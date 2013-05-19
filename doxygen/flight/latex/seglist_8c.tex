@@ -1,0 +1,238 @@
+\hypertarget{seglist_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/seglist.c File Reference}
+\label{seglist_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/seglist.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/seglist.\-c}}
+}
+
+
+Segmented list data type and operations.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{seglist_8c_a67ca3cec6734f8d7e9f11972d9518e6f}{seglist\-\_\-append\-Item} (\hyperlink{seglist_8h_a3b2ef6a71a86b781a480a7f46cb9ab7d}{p\-Seglist\-\_\-t} pseglist, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pobj)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{seglist_8c_ad5c31b0edb45df07d5073d8a736ea51c}{seglist\-\_\-clear} (\hyperlink{seglist_8h_a3b2ef6a71a86b781a480a7f46cb9ab7d}{p\-Seglist\-\_\-t} pseglist)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{seglist_8c_a78e2a4a4fd91623e1e669f4c2bf70fd4}{seglist\-\_\-find\-Equal} (\hyperlink{seglist_8h_a3b2ef6a71a86b781a480a7f46cb9ab7d}{p\-Seglist\-\_\-t} pseglist, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pobj, \hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} $\ast$r\-\_\-index)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{seglist_8c_ab77f84d723e38edc86fc082ed2df0786}{seglist\-\_\-get\-Item} (\hyperlink{seglist_8h_a3b2ef6a71a86b781a480a7f46cb9ab7d}{p\-Seglist\-\_\-t} pseglist, \hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} index, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} $\ast$r\-\_\-pobj)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{seglist_8c_a01aeb90938bfa6405790a67dc2abaad8}{seglist\-\_\-insert\-Item} (\hyperlink{seglist_8h_a3b2ef6a71a86b781a480a7f46cb9ab7d}{p\-Seglist\-\_\-t} pseglist, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pobj, \hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} index)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{seglist_8c_a8494285126fce7f874f976972e0cfd89}{seglist\-\_\-new} (\hyperlink{seglist_8h_a3b2ef6a71a86b781a480a7f46cb9ab7d}{p\-Seglist\-\_\-t} $\ast$r\-\_\-pseglist)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{seglist_8c_aeafafb5c79155c0652c006ac46a4fc17}{seglist\-\_\-set\-Item} (\hyperlink{seglist_8h_a3b2ef6a71a86b781a480a7f46cb9ab7d}{p\-Seglist\-\_\-t} pseglist, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pobj, \hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} index)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{seglist_8c_a1af88ce7f4842a866c929dba7d6ac441}{seglist\-\_\-remove\-Item} (\hyperlink{seglist_8h_a3b2ef6a71a86b781a480a7f46cb9ab7d}{p\-Seglist\-\_\-t} pseglist, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} index)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Segmented list data type and operations. The segmented list is used to implement the Python List and Dict data types. The segmented list is used in preference to the linked list in order to reduce the memory overhead.
+
+Unused slots in the segments are expected to contain C\-\_\-\-N\-U\-L\-L.
+
+List implementation\-: When used in a List, the Seglist.\-currseg field points to the last segment in the list. The function \hyperlink{seglist_8c_a67ca3cec6734f8d7e9f11972d9518e6f}{seglist\-\_\-append\-Item()} should be used to append items to the List. Inserting and deleting List items is a more complicated matter.
+
+Dict implementation\-: The currseg field is meaningless since rootseg always points to the current active segment. The function seglist\-\_\-push\-Item() should be used to put items in the Dict. A Dict uses one Seglist for keys and another for values. A Dict entry's (key, value) pair share the same index in the Seglist. 
+
+Definition in file \hyperlink{seglist_8c_source}{seglist.\-c}.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{seglist_8c_a67ca3cec6734f8d7e9f11972d9518e6f}{\index{seglist.\-c@{seglist.\-c}!seglist\-\_\-append\-Item@{seglist\-\_\-append\-Item}}
+\index{seglist\-\_\-append\-Item@{seglist\-\_\-append\-Item}!seglist.c@{seglist.\-c}}
+\subsubsection[{seglist\-\_\-append\-Item}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} seglist\-\_\-append\-Item (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Seglist\-\_\-t}}]{pseglist, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pobj}
+\end{DoxyParamCaption}
+)}}\label{seglist_8c_a67ca3cec6734f8d7e9f11972d9518e6f}
+Puts the new object at the end of the list. This is intended for the List type where the List index matches the order of the Seglist index. Makes room if necessary by adding new segments.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pseglist} & Ptr to seglist \\
+\hline
+{\em pobj} & Pointer to object to append \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 62 of file seglist.\-c.
+
+\hypertarget{seglist_8c_ad5c31b0edb45df07d5073d8a736ea51c}{\index{seglist.\-c@{seglist.\-c}!seglist\-\_\-clear@{seglist\-\_\-clear}}
+\index{seglist\-\_\-clear@{seglist\-\_\-clear}!seglist.c@{seglist.\-c}}
+\subsubsection[{seglist\-\_\-clear}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} seglist\-\_\-clear (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Seglist\-\_\-t}}]{pseglist}
+\end{DoxyParamCaption}
+)}}\label{seglist_8c_ad5c31b0edb45df07d5073d8a736ea51c}
+Clears the the seglist by unlinking the root segment.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pseglist} & Ptr to seglist to empty \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 69 of file seglist.\-c.
+
+\hypertarget{seglist_8c_a78e2a4a4fd91623e1e669f4c2bf70fd4}{\index{seglist.\-c@{seglist.\-c}!seglist\-\_\-find\-Equal@{seglist\-\_\-find\-Equal}}
+\index{seglist\-\_\-find\-Equal@{seglist\-\_\-find\-Equal}!seglist.c@{seglist.\-c}}
+\subsubsection[{seglist\-\_\-find\-Equal}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} seglist\-\_\-find\-Equal (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Seglist\-\_\-t}}]{pseglist, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pobj, }
+\item[{{\bf int16\-\_\-t} $\ast$}]{r\-\_\-index}
+\end{DoxyParamCaption}
+)}}\label{seglist_8c_a78e2a4a4fd91623e1e669f4c2bf70fd4}
+Finds the first obj equal to pobj in the seglist. Starts searching the list at the given segnum and indx.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pseglist} & The seglist to search \\
+\hline
+{\em pobj} & The object to match \\
+\hline
+{\em r\-\_\-index} & Return arg; the index of where to start the search. If a match is found, return the index by reference. If no match is found, this value is undefined. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status; P\-M\-\_\-\-R\-E\-T\-\_\-\-O\-K means a matching object was found. P\-M\-\_\-\-R\-E\-T\-\_\-\-E\-R\-R otherwise. 
+\end{DoxyReturn}
+
+
+Definition at line 95 of file seglist.\-c.
+
+\hypertarget{seglist_8c_ab77f84d723e38edc86fc082ed2df0786}{\index{seglist.\-c@{seglist.\-c}!seglist\-\_\-get\-Item@{seglist\-\_\-get\-Item}}
+\index{seglist\-\_\-get\-Item@{seglist\-\_\-get\-Item}!seglist.c@{seglist.\-c}}
+\subsubsection[{seglist\-\_\-get\-Item}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} seglist\-\_\-get\-Item (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Seglist\-\_\-t}}]{pseglist, }
+\item[{{\bf int16\-\_\-t}}]{index, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t} $\ast$}]{r\-\_\-pobj}
+\end{DoxyParamCaption}
+)}}\label{seglist_8c_ab77f84d723e38edc86fc082ed2df0786}
+Gets the item in the seglist at the given coordinates. The segment number and the index within the segment are the coordinates of the object to get.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pseglist} & Ptr to seglist to scan \\
+\hline
+{\em index} & Index of item to get \\
+\hline
+{\em r\-\_\-pobj} & Return arg; Ptr to object at the index \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status; P\-M\-\_\-\-R\-E\-T\-\_\-\-O\-K if object found. P\-M\-\_\-\-R\-E\-T\-\_\-\-E\-R\-R otherwise. 
+\end{DoxyReturn}
+
+
+Definition at line 147 of file seglist.\-c.
+
+\hypertarget{seglist_8c_a01aeb90938bfa6405790a67dc2abaad8}{\index{seglist.\-c@{seglist.\-c}!seglist\-\_\-insert\-Item@{seglist\-\_\-insert\-Item}}
+\index{seglist\-\_\-insert\-Item@{seglist\-\_\-insert\-Item}!seglist.c@{seglist.\-c}}
+\subsubsection[{seglist\-\_\-insert\-Item}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} seglist\-\_\-insert\-Item (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Seglist\-\_\-t}}]{pseglist, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pobj, }
+\item[{{\bf int16\-\_\-t}}]{index}
+\end{DoxyParamCaption}
+)}}\label{seglist_8c_a01aeb90938bfa6405790a67dc2abaad8}
+Puts the item in the next available slot in the first available segment. This is intended for the Dict type where the Seglist index is insignificant. Pushing an object assures it will be found early during a call to \hyperlink{seglist_8c_a78e2a4a4fd91623e1e669f4c2bf70fd4}{seglist\-\_\-find\-Equal()}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pseglist} & Ptr to seglist in which object is placed. \\
+\hline
+{\em pobj} & Ptr to object which is inserted. \\
+\hline
+{\em index} & Index into seglist before which item is inserted \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status; P\-M\-\_\-\-R\-E\-T\-\_\-\-O\-K if the item was inserted. Any error condition comes from heap\-\_\-get\-Chunk. 
+\end{DoxyReturn}
+
+
+Definition at line 172 of file seglist.\-c.
+
+\hypertarget{seglist_8c_a8494285126fce7f874f976972e0cfd89}{\index{seglist.\-c@{seglist.\-c}!seglist\-\_\-new@{seglist\-\_\-new}}
+\index{seglist\-\_\-new@{seglist\-\_\-new}!seglist.c@{seglist.\-c}}
+\subsubsection[{seglist\-\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} seglist\-\_\-new (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Seglist\-\_\-t} $\ast$}]{r\-\_\-pseglist}
+\end{DoxyParamCaption}
+)}}\label{seglist_8c_a8494285126fce7f874f976972e0cfd89}
+Allocates a new empty seglist
+
+
+\begin{DoxyParams}{Parameters}
+{\em r\-\_\-pseglist} & return; Address of ptr to new seglist \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 245 of file seglist.\-c.
+
+\hypertarget{seglist_8c_a1af88ce7f4842a866c929dba7d6ac441}{\index{seglist.\-c@{seglist.\-c}!seglist\-\_\-remove\-Item@{seglist\-\_\-remove\-Item}}
+\index{seglist\-\_\-remove\-Item@{seglist\-\_\-remove\-Item}!seglist.c@{seglist.\-c}}
+\subsubsection[{seglist\-\_\-remove\-Item}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} seglist\-\_\-remove\-Item (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Seglist\-\_\-t}}]{pseglist, }
+\item[{{\bf uint16\-\_\-t}}]{index}
+\end{DoxyParamCaption}
+)}}\label{seglist_8c_a1af88ce7f4842a866c929dba7d6ac441}
+Removes the item at the given index.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pseglist} & Ptr to seglist in which object is removed. \\
+\hline
+{\em index} & Index into seglist of where to put object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 284 of file seglist.\-c.
+
+\hypertarget{seglist_8c_aeafafb5c79155c0652c006ac46a4fc17}{\index{seglist.\-c@{seglist.\-c}!seglist\-\_\-set\-Item@{seglist\-\_\-set\-Item}}
+\index{seglist\-\_\-set\-Item@{seglist\-\_\-set\-Item}!seglist.c@{seglist.\-c}}
+\subsubsection[{seglist\-\_\-set\-Item}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} seglist\-\_\-set\-Item (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Seglist\-\_\-t}}]{pseglist, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pobj, }
+\item[{{\bf int16\-\_\-t}}]{index}
+\end{DoxyParamCaption}
+)}}\label{seglist_8c_aeafafb5c79155c0652c006ac46a4fc17}
+Puts the item in the designated slot and segment. This is intended to be used after \hyperlink{seglist_8c_a78e2a4a4fd91623e1e669f4c2bf70fd4}{seglist\-\_\-find\-Equal()} returns the proper indeces.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pseglist} & Ptr to seglist in which object is placed. \\
+\hline
+{\em pobj} & Ptr to object which is set. \\
+\hline
+{\em index} & Index into seglist of where to put object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status; P\-M\-\_\-\-R\-E\-T\-\_\-\-O\-K if object is set. P\-M\-\_\-\-R\-E\-T\-\_\-\-E\-R\-R otherwise. 
+\end{DoxyReturn}
+
+
+Definition at line 261 of file seglist.\-c.
+

@@ -1,0 +1,24 @@
+\hypertarget{group__v_task_delay}{\section{v\-Task\-Delay}
+\label{group__v_task_delay}\index{v\-Task\-Delay@{v\-Task\-Delay}}
+}
+task. h 
+\begin{DoxyPre}void \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2tasks_8c_a688c67e5456ec7c23cc2ee184d26d557}{vTaskDelay( portTickType xTicksToDelay )};\end{DoxyPre}
+
+
+Delay a task for a given number of ticks. The actual time that the task remains blocked depends on the tick rate. The constant port\-T\-I\-C\-K\-\_\-\-R\-A\-T\-E\-\_\-\-M\-S can be used to calculate real time from the tick rate -\/ with the resolution of one tick period.
+
+I\-N\-C\-L\-U\-D\-E\-\_\-v\-Task\-Delay must be defined as 1 for this function to be available. See the configuration section for more information.
+
+\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2task_8h_a3fc5adc340b17cb07c12ffa90d7bb8f3}{v\-Task\-Delay()} specifies a time at which the task wishes to unblock relative to the time at which \hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2task_8h_a3fc5adc340b17cb07c12ffa90d7bb8f3}{v\-Task\-Delay()} is called. For example, specifying a block period of 100 ticks will cause the task to unblock 100 ticks after \hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2task_8h_a3fc5adc340b17cb07c12ffa90d7bb8f3}{v\-Task\-Delay()} is called. \hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2task_8h_a3fc5adc340b17cb07c12ffa90d7bb8f3}{v\-Task\-Delay()} does not therefore provide a good method of controlling the frequency of a cyclical task as the path taken through the code, as well as other task and interrupt activity, will effect the frequency at which \hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2task_8h_a3fc5adc340b17cb07c12ffa90d7bb8f3}{v\-Task\-Delay()} gets called and therefore the time at which the task next executes. See \hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2task_8h_a3033ef5b1abc8618ea205d1082b21bb6}{v\-Task\-Delay\-Until()} for an alternative A\-P\-I function designed to facilitate fixed frequency execution. It does this by specifying an absolute time (rather than a relative time) at which the calling task should unblock.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\-Ticks\-To\-Delay} & The amount of time, in tick periods, that the calling task should block.\\
+\hline
+\end{DoxyParams}
+Example usage\-:
+
+void v\-Task\-Function( void $\ast$ pv\-Parameters ) \{ void v\-Task\-Function( void $\ast$ pv\-Parameters ) \{ Block for 500ms. const port\-Tick\-Type x\-Delay = 500 / port\-T\-I\-C\-K\-\_\-\-R\-A\-T\-E\-\_\-\-M\-S; \begin{DoxyVerb}    for( ;; )
+    {
+\end{DoxyVerb}
+ Simply toggle the L\-E\-D every 500ms, blocking between each toggle. v\-Toggle\-L\-E\-D(); v\-Task\-Delay( x\-Delay ); \} \} 

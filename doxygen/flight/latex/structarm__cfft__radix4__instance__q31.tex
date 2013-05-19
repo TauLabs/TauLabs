@@ -1,0 +1,93 @@
+\hypertarget{structarm__cfft__radix4__instance__q31}{\section{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31 Struct Reference}
+\label{structarm__cfft__radix4__instance__q31}\index{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31@{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31}}
+}
+
+
+Instance structure for the Q31 C\-F\-F\-T/\-C\-I\-F\-F\-T function.  
+
+
+
+
+{\ttfamily \#include $<$arm\-\_\-math.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{structarm__cfft__radix4__instance__q31_ab413d2a5d3f45fa187d93813bf3bf81b}{fft\-Len}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{structarm__cfft__radix4__instance__q31_adc0a62ba669ad2282ecbe43d5d96abab}{ifft\-Flag}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{structarm__cfft__radix4__instance__q31_a5a7c4f4c7b3fb655cbb2bc11ef160a2a}{bit\-Reverse\-Flag}
+\item 
+\hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$ \hyperlink{structarm__cfft__radix4__instance__q31_a561c22dee4cbdcfa0fd5f15106ecc306}{p\-Twiddle}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} $\ast$ \hyperlink{structarm__cfft__radix4__instance__q31_a33a3bc774c97373261699463c05dfe54}{p\-Bit\-Rev\-Table}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{structarm__cfft__radix4__instance__q31_a8cf8187b8232815cf17ee82bf572ecf9}{twid\-Coef\-Modifier}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{structarm__cfft__radix4__instance__q31_a94d2fead4efa4d5eaae142bbe30b0e15}{bit\-Rev\-Factor}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Instance structure for the Q31 C\-F\-F\-T/\-C\-I\-F\-F\-T function. 
+
+Definition at line 1956 of file arm\-\_\-math.\-h.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{structarm__cfft__radix4__instance__q31_a5a7c4f4c7b3fb655cbb2bc11ef160a2a}{\index{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31@{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31}!bit\-Reverse\-Flag@{bit\-Reverse\-Flag}}
+\index{bit\-Reverse\-Flag@{bit\-Reverse\-Flag}!arm_cfft_radix4_instance_q31@{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31}}
+\subsubsection[{bit\-Reverse\-Flag}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31\-::bit\-Reverse\-Flag}}\label{structarm__cfft__radix4__instance__q31_a5a7c4f4c7b3fb655cbb2bc11ef160a2a}
+flag that enables (bit\-Reverse\-Flag=1) or disables (bit\-Reverse\-Flag=0) bit reversal of output. 
+
+Definition at line 1960 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__cfft__radix4__instance__q31_a94d2fead4efa4d5eaae142bbe30b0e15}{\index{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31@{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31}!bit\-Rev\-Factor@{bit\-Rev\-Factor}}
+\index{bit\-Rev\-Factor@{bit\-Rev\-Factor}!arm_cfft_radix4_instance_q31@{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31}}
+\subsubsection[{bit\-Rev\-Factor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31\-::bit\-Rev\-Factor}}\label{structarm__cfft__radix4__instance__q31_a94d2fead4efa4d5eaae142bbe30b0e15}
+bit reversal modifier that supports different size F\-F\-Ts with the same bit reversal table. 
+
+Definition at line 1964 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__cfft__radix4__instance__q31_ab413d2a5d3f45fa187d93813bf3bf81b}{\index{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31@{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31}!fft\-Len@{fft\-Len}}
+\index{fft\-Len@{fft\-Len}!arm_cfft_radix4_instance_q31@{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31}}
+\subsubsection[{fft\-Len}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31\-::fft\-Len}}\label{structarm__cfft__radix4__instance__q31_ab413d2a5d3f45fa187d93813bf3bf81b}
+length of the F\-F\-T. 
+
+Definition at line 1958 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__cfft__radix4__instance__q31_adc0a62ba669ad2282ecbe43d5d96abab}{\index{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31@{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31}!ifft\-Flag@{ifft\-Flag}}
+\index{ifft\-Flag@{ifft\-Flag}!arm_cfft_radix4_instance_q31@{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31}}
+\subsubsection[{ifft\-Flag}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31\-::ifft\-Flag}}\label{structarm__cfft__radix4__instance__q31_adc0a62ba669ad2282ecbe43d5d96abab}
+flag that selects forward (ifft\-Flag=0) or inverse (ifft\-Flag=1) transform. 
+
+Definition at line 1959 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__cfft__radix4__instance__q31_a33a3bc774c97373261699463c05dfe54}{\index{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31@{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31}!p\-Bit\-Rev\-Table@{p\-Bit\-Rev\-Table}}
+\index{p\-Bit\-Rev\-Table@{p\-Bit\-Rev\-Table}!arm_cfft_radix4_instance_q31@{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31}}
+\subsubsection[{p\-Bit\-Rev\-Table}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t}$\ast$ arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31\-::p\-Bit\-Rev\-Table}}\label{structarm__cfft__radix4__instance__q31_a33a3bc774c97373261699463c05dfe54}
+points to the bit reversal table. 
+
+Definition at line 1962 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__cfft__radix4__instance__q31_a561c22dee4cbdcfa0fd5f15106ecc306}{\index{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31@{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31}!p\-Twiddle@{p\-Twiddle}}
+\index{p\-Twiddle@{p\-Twiddle}!arm_cfft_radix4_instance_q31@{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31}}
+\subsubsection[{p\-Twiddle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf q31\-\_\-t}$\ast$ arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31\-::p\-Twiddle}}\label{structarm__cfft__radix4__instance__q31_a561c22dee4cbdcfa0fd5f15106ecc306}
+points to the twiddle factor table. 
+
+Definition at line 1961 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__cfft__radix4__instance__q31_a8cf8187b8232815cf17ee82bf572ecf9}{\index{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31@{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31}!twid\-Coef\-Modifier@{twid\-Coef\-Modifier}}
+\index{twid\-Coef\-Modifier@{twid\-Coef\-Modifier}!arm_cfft_radix4_instance_q31@{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31}}
+\subsubsection[{twid\-Coef\-Modifier}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31\-::twid\-Coef\-Modifier}}\label{structarm__cfft__radix4__instance__q31_a8cf8187b8232815cf17ee82bf572ecf9}
+twiddle coefficient modifier that supports different size F\-F\-Ts with the same twiddle factor table. 
+
+Definition at line 1963 of file arm\-\_\-math.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-C\-M\-S\-I\-S3/\-D\-S\-P\-\_\-\-Lib/\-Include/\hyperlink{arm__math_8h}{arm\-\_\-math.\-h}\end{DoxyCompactItemize}

@@ -1,0 +1,77 @@
+\hypertarget{pm_feature_dependencies_8h}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/pm\-Feature\-Dependencies.h File Reference}
+\label{pm_feature_dependencies_8h}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/pm\-Feature\-Dependencies.\-h@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/pm\-Feature\-Dependencies.\-h}}
+}
+
+
+Platform feature descriptions and dependency checks.  
+
+
+
+
+\subsection{Detailed Description}
+Platform feature descriptions and dependency checks. This file explains the purpose of all of the H\-A\-V\-E\-\_\-$\ast$ features and provides logical checks for features that depend on other features.
+
+A platform defines the features it wants in src/platform/$<$plat$>$/pmfeatures.py A tool generates C H\-A\-V\-E\-\_\-$\ast$ definitions in \hyperlink{pmfeatures_8h}{pmfeatures.\-h} from pmfeatures.\-py.
+
+\subsubsection*{H\-A\-V\-E\-\_\-\-P\-R\-I\-N\-T}
+
+When defined, bytecodes P\-R\-I\-N\-T\-\_\-\-I\-T\-E\-M and P\-R\-I\-N\-T\-\_\-\-N\-E\-W\-L\-I\-N\-E are supported. Along with these, helper routines in the object type are compiled in that allow printing of the object. R\-E\-Q\-U\-I\-R\-E\-S stdio.\-h to have \hyperlink{group___p_i_o_s_gaf78a52a59a43dc156963dbbab958a468}{snprintf()}
+
+\subsubsection*{H\-A\-V\-E\-\_\-\-G\-C}
+
+When defined, the code to perform mark-\/sweep garbage collection is included in the build and automatic G\-C is enabled. When undefined the allocator will distribute memory until none is left, after which a memory exception will occur.
+
+\subsubsection*{H\-A\-V\-E\-\_\-\-F\-L\-O\-A\-T}
+
+When defined, the code to support floating point objects is included in the build. Issue \#148 Create configurable float datatype
+
+\subsubsection*{H\-A\-V\-E\-\_\-\-D\-E\-L}
+
+When defined, the code to support the keyword del is included in the build. This involves the bytecodes\-: D\-E\-L\-E\-T\-E\-\_\-\-S\-U\-B\-S\-C\-R, D\-E\-L\-E\-T\-E\-\_\-\-N\-A\-M\-E, D\-E\-L\-E\-T\-E\-\_\-\-A\-T\-T\-R, D\-E\-L\-E\-T\-E\-\_\-\-G\-L\-O\-B\-A\-L and D\-E\-L\-E\-T\-E\-\_\-\-F\-A\-S\-T.
+
+\subsubsection*{H\-A\-V\-E\-\_\-\-I\-M\-P\-O\-R\-T\-S}
+
+When defined, the code to support the I\-M\-P\-O\-R\-T\-\_\-\-F\-R\-O\-M and I\-M\-P\-O\-R\-T\-\_\-\-S\-T\-A\-R styles is included in the build.
+
+\subsubsection*{H\-A\-V\-E\-\_\-\-D\-E\-F\-A\-U\-L\-T\-A\-R\-G\-S}
+
+When defined, the code to support default arguments to functions is included in the build. Issue \#157 Support default args
+
+\subsubsection*{H\-A\-V\-E\-\_\-\-R\-E\-P\-L\-I\-C\-A\-T\-I\-O\-N}
+
+When defined, the code to support sequence (list, tuple, string) replcation is included in the build. This feature is required by the builtin function \hyperlink{namespace____bi_ad7d6a1a1a735c43396c981f33674cd48}{\-\_\-\-\_\-bi.\-map()}. \#160 Add support for string and tuple replication
+
+\subsubsection*{H\-A\-V\-E\-\_\-\-C\-L\-A\-S\-S\-E\-S}
+
+When defined, the code to support classes, instances, methods, etc. is included in the build. Issue \#202 Implement classes in the vm
+
+\subsubsection*{H\-A\-V\-E\-\_\-\-A\-S\-S\-E\-R\-T}
+
+When defined, the code to support the assert statement is included in the build.
+
+\subsubsection*{H\-A\-V\-E\-\_\-\-G\-E\-N\-E\-R\-A\-T\-O\-R\-S}
+
+When defined, the code to support the yield keyword's use for generator-\/iterators is included in the build. Issue \#207 Add support for the yield keyword
+
+\subsubsection*{H\-A\-V\-E\-\_\-\-B\-A\-C\-K\-T\-I\-C\-K}
+
+When defined, the code to support the backtick operation ({\ttfamily x}) is included in the build. R\-E\-Q\-U\-I\-R\-E\-S stdio.\-h to have \hyperlink{group___p_i_o_s_gaf78a52a59a43dc156963dbbab958a468}{snprintf()} Issue \#244 Add support for the backtick operation (U\-N\-A\-R\-Y\-\_\-\-C\-O\-N\-V\-E\-R\-T)
+
+\subsubsection*{H\-A\-V\-E\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-F\-O\-R\-M\-A\-T}
+
+When defined, the code to perform string formatting using the binary modulo operator is included in the build. R\-E\-Q\-U\-I\-R\-E\-S stdio.\-h to have \hyperlink{group___p_i_o_s_gaf78a52a59a43dc156963dbbab958a468}{snprintf()} Issue \#205 Add support for string format operation
+
+\subsubsection*{H\-A\-V\-E\-\_\-\-C\-L\-O\-S\-U\-R\-E\-S}
+
+When defined, the code to support function closures is included in the build. Issue \#256 Add support for closures
+
+\subsubsection*{H\-A\-V\-E\-\_\-\-B\-Y\-T\-E\-A\-R\-R\-A\-Y}
+
+When defined, the code to support the bytearray type is included in the build. N\-O\-T\-E\-: If this is defined, the bytearray class in src/lib/\-\_\-\-\_\-bi.\-py must also be uncommented. Issue \#289 Create bytearray datatype
+
+\subsubsection*{H\-A\-V\-E\-\_\-\-D\-E\-B\-U\-G\-\_\-\-I\-N\-F\-O}
+
+When defined, the code to support debug information in exception reports is included in the build. Issue \#103 Add debug info to exception reports 
+
+Definition in file \hyperlink{pm_feature_dependencies_8h_source}{pm\-Feature\-Dependencies.\-h}.
+

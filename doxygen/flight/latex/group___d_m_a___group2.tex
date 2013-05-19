@@ -1,0 +1,196 @@
+\hypertarget{group___d_m_a___group2}{\section{Data Counter functions}
+\label{group___d_m_a___group2}\index{Data Counter functions@{Data Counter functions}}
+}
+
+
+Data Counter functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___group2_gade5d9e532814eaa46514cb385fdff709}{D\-M\-A\-\_\-\-Set\-Curr\-Data\-Counter} (\hyperlink{struct_d_m_a___channel___type_def}{D\-M\-A\-\_\-\-Channel\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Channelx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Data\-Number)
+\begin{DoxyCompactList}\small\item\em Sets the number of data units in the current D\-M\-Ay Channelx transfer. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___d_m_a___group2_ga511b4c402d1ff32d53f28736956cac5d}{D\-M\-A\-\_\-\-Get\-Curr\-Data\-Counter} (\hyperlink{struct_d_m_a___channel___type_def}{D\-M\-A\-\_\-\-Channel\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Channelx)
+\begin{DoxyCompactList}\small\item\em Returns the number of remaining data units in the current D\-M\-Ay Channelx transfer. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___group2_ga6a11a2c951cff59b125ba8857d44e3f3}{D\-M\-A\-\_\-\-Set\-Curr\-Data\-Counter} (\hyperlink{struct_d_m_a___stream___type_def}{D\-M\-A\-\_\-\-Stream\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Streamx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Counter)
+\begin{DoxyCompactList}\small\item\em Writes the number of data units to be transferred on the D\-M\-Ay Streamx. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___d_m_a___group2_ga4a76444a92423f5f15a4328738d6dc46}{D\-M\-A\-\_\-\-Get\-Curr\-Data\-Counter} (\hyperlink{struct_d_m_a___stream___type_def}{D\-M\-A\-\_\-\-Stream\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Streamx)
+\begin{DoxyCompactList}\small\item\em Returns the number of remaining data units in the current D\-M\-Ay Streamx transfer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Data Counter functions. \begin{DoxyVerb} ===============================================================================
+                      ##### Data Counter functions #####
+ ===============================================================================
+    [..] This subsection provides function allowing to configure and read the buffer 
+         size (number of data to be transferred).The DMA data counter can be written 
+         only when the DMA channel is disabled (ie. after transfer complete event).
+    [..] The following function can be used to write the Channel data counter value:
+         (+) void DMA_SetCurrDataCounter(DMA_Channel_TypeDef* DMAy_Channelx, uint16_t DataNumber).
+    [..]
+    (@) It is advised to use this function rather than DMA_Init() in situations 
+        where only the Data buffer needs to be reloaded.
+    [..] The DMA data counter can be read to indicate the number of remaining transfers 
+         for the relative DMA channel. This counter is decremented at the end of each 
+         data transfer and when the transfer is complete: 
+         (+) If Normal mode is selected: the counter is set to 0.
+         (+) If Circular mode is selected: the counter is reloaded with the initial 
+         value(configured before enabling the DMA channel).
+    [..] The following function can be used to read the Channel data counter value:
+         (+) uint16_t DMA_GetCurrDataCounter(DMA_Channel_TypeDef* DMAy_Channelx).\end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                           Data Counter functions
+ ===============================================================================  
+
+  This subsection provides function allowing to configure and read the buffer size
+  (number of data to be transferred). 
+
+  The DMA data counter can be written only when the DMA Stream is disabled 
+  (ie. after transfer complete event).
+
+  The following function can be used to write the Stream data counter value:
+    - void DMA_SetCurrDataCounter(DMA_Stream_TypeDef* DMAy_Streamx, uint16_t Counter);
+
+@note It is advised to use this function rather than DMA_Init() in situations where
+      only the Data buffer needs to be reloaded.
+
+@note If the Source and Destination Data Sizes are different, then the value written in
+      data counter, expressing the number of transfers, is relative to the number of 
+      transfers from the Peripheral point of view.
+      ie. If Memory data size is Word, Peripheral data size is Half-Words, then the value
+      to be configured in the data counter is the number of Half-Words to be transferred
+      from/to the peripheral.
+
+  The DMA data counter can be read to indicate the number of remaining transfers for
+  the relative DMA Stream. This counter is decremented at the end of each data 
+  transfer and when the transfer is complete: 
+   - If Normal mode is selected: the counter is set to 0.
+   - If Circular mode is selected: the counter is reloaded with the initial value
+     (configured before enabling the DMA Stream)
+   
+  The following function can be used to read the Stream data counter value:
+     - uint16_t DMA_GetCurrDataCounter(DMA_Stream_TypeDef* DMAy_Streamx);\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___d_m_a___group2_ga511b4c402d1ff32d53f28736956cac5d}{\index{Data Counter functions@{Data Counter functions}!D\-M\-A\-\_\-\-Get\-Curr\-Data\-Counter@{D\-M\-A\-\_\-\-Get\-Curr\-Data\-Counter}}
+\index{D\-M\-A\-\_\-\-Get\-Curr\-Data\-Counter@{D\-M\-A\-\_\-\-Get\-Curr\-Data\-Counter}!Data Counter functions@{Data Counter functions}}
+\subsubsection[{D\-M\-A\-\_\-\-Get\-Curr\-Data\-Counter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} D\-M\-A\-\_\-\-Get\-Curr\-Data\-Counter (
+\begin{DoxyParamCaption}
+\item[{{\bf D\-M\-A\-\_\-\-Channel\-\_\-\-Type\-Def} $\ast$}]{D\-M\-Ay\-\_\-\-Channelx}
+\end{DoxyParamCaption}
+)}}\label{group___d_m_a___group2_ga511b4c402d1ff32d53f28736956cac5d}
+
+
+Returns the number of remaining data units in the current D\-M\-Ay Channelx transfer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\-M\-Ay\-\_\-\-Channelx,\-:} & where y can be 1 or 2 to select the D\-M\-A and x can be 1 to 7 for D\-M\-A1 and 1 to 5 for D\-M\-A2 to select the D\-M\-A Channel. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & number of remaining data units in the current D\-M\-Ay Channelx transfer. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 405 of file stm32f30x\-\_\-dma.\-c.
+
+\hypertarget{group___d_m_a___group2_ga4a76444a92423f5f15a4328738d6dc46}{\index{Data Counter functions@{Data Counter functions}!D\-M\-A\-\_\-\-Get\-Curr\-Data\-Counter@{D\-M\-A\-\_\-\-Get\-Curr\-Data\-Counter}}
+\index{D\-M\-A\-\_\-\-Get\-Curr\-Data\-Counter@{D\-M\-A\-\_\-\-Get\-Curr\-Data\-Counter}!Data Counter functions@{Data Counter functions}}
+\subsubsection[{D\-M\-A\-\_\-\-Get\-Curr\-Data\-Counter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} D\-M\-A\-\_\-\-Get\-Curr\-Data\-Counter (
+\begin{DoxyParamCaption}
+\item[{{\bf D\-M\-A\-\_\-\-Stream\-\_\-\-Type\-Def} $\ast$}]{D\-M\-Ay\-\_\-\-Streamx}
+\end{DoxyParamCaption}
+)}}\label{group___d_m_a___group2_ga4a76444a92423f5f15a4328738d6dc46}
+
+
+Returns the number of remaining data units in the current D\-M\-Ay Streamx transfer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\-M\-Ay\-\_\-\-Streamx,\-:} & where y can be 1 or 2 to select the D\-M\-A and x can be 0 to 7 to select the D\-M\-A Stream. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & number of remaining data units in the current D\-M\-Ay Streamx transfer. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 647 of file stm32f4xx\-\_\-dma.\-c.
+
+\hypertarget{group___d_m_a___group2_gade5d9e532814eaa46514cb385fdff709}{\index{Data Counter functions@{Data Counter functions}!D\-M\-A\-\_\-\-Set\-Curr\-Data\-Counter@{D\-M\-A\-\_\-\-Set\-Curr\-Data\-Counter}}
+\index{D\-M\-A\-\_\-\-Set\-Curr\-Data\-Counter@{D\-M\-A\-\_\-\-Set\-Curr\-Data\-Counter}!Data Counter functions@{Data Counter functions}}
+\subsubsection[{D\-M\-A\-\_\-\-Set\-Curr\-Data\-Counter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} D\-M\-A\-\_\-\-Set\-Curr\-Data\-Counter (
+\begin{DoxyParamCaption}
+\item[{{\bf D\-M\-A\-\_\-\-Channel\-\_\-\-Type\-Def} $\ast$}]{D\-M\-Ay\-\_\-\-Channelx, }
+\item[{{\bf uint16\-\_\-t}}]{Data\-Number}
+\end{DoxyParamCaption}
+)}}\label{group___d_m_a___group2_gade5d9e532814eaa46514cb385fdff709}
+
+
+Sets the number of data units in the current D\-M\-Ay Channelx transfer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\-M\-Ay\-\_\-\-Channelx,\-:} & where y can be 1 or 2 to select the D\-M\-A and x can be 1 to 7 for D\-M\-A1 and 1 to 5 for D\-M\-A2 to select the D\-M\-A Channel. \\
+\hline
+{\em Data\-Number,\-:} & The number of data units in the current D\-M\-Ay Channelx transfer. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This function can only be used when the D\-M\-Ay\-\_\-\-Channelx is disabled. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None.} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 387 of file stm32f30x\-\_\-dma.\-c.
+
+\hypertarget{group___d_m_a___group2_ga6a11a2c951cff59b125ba8857d44e3f3}{\index{Data Counter functions@{Data Counter functions}!D\-M\-A\-\_\-\-Set\-Curr\-Data\-Counter@{D\-M\-A\-\_\-\-Set\-Curr\-Data\-Counter}}
+\index{D\-M\-A\-\_\-\-Set\-Curr\-Data\-Counter@{D\-M\-A\-\_\-\-Set\-Curr\-Data\-Counter}!Data Counter functions@{Data Counter functions}}
+\subsubsection[{D\-M\-A\-\_\-\-Set\-Curr\-Data\-Counter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} D\-M\-A\-\_\-\-Set\-Curr\-Data\-Counter (
+\begin{DoxyParamCaption}
+\item[{{\bf D\-M\-A\-\_\-\-Stream\-\_\-\-Type\-Def} $\ast$}]{D\-M\-Ay\-\_\-\-Streamx, }
+\item[{{\bf uint16\-\_\-t}}]{Counter}
+\end{DoxyParamCaption}
+)}}\label{group___d_m_a___group2_ga6a11a2c951cff59b125ba8857d44e3f3}
+
+
+Writes the number of data units to be transferred on the D\-M\-Ay Streamx. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\-M\-Ay\-\_\-\-Streamx,\-:} & where y can be 1 or 2 to select the D\-M\-A and x can be 0 to 7 to select the D\-M\-A Stream. \\
+\hline
+{\em Counter,\-:} & Number of data units to be transferred (from 0 to 65535) Number of data items depends only on the Peripheral data format.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+If Peripheral data format is Bytes\-: number of data units is equal to total number of bytes to be transferred.
+
+If Peripheral data format is Half-\/\-Word\-: number of data units is equal to total number of bytes to be transferred / 2.
+
+If Peripheral data format is Word\-: number of data units is equal to total number of bytes to be transferred / 4.
+
+In Memory-\/to-\/\-Memory transfer mode, the memory buffer pointed by D\-M\-Ay\-\_\-\-Sx\-P\-A\-R register is considered as Peripheral.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & number of remaining data units in the current D\-M\-Ay Streamx transfer. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 632 of file stm32f4xx\-\_\-dma.\-c.
+

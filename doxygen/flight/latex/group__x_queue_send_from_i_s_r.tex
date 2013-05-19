@@ -1,0 +1,279 @@
+\hypertarget{group__x_queue_send_from_i_s_r}{\section{x\-Queue\-Send\-From\-I\-S\-R}
+\label{group__x_queue_send_from_i_s_r}\index{x\-Queue\-Send\-From\-I\-S\-R@{x\-Queue\-Send\-From\-I\-S\-R}}
+}
+queue. h 
+\begin{DoxyPre}
+ portBASE\_TYPE xQueueSendToFrontFromISR(
+                                                                                 xQueueHandle pxQueue,
+                                                                                 const void *pvItemToQueue,
+                                                                                 portBASE\_TYPE *pxHigherPriorityTaskWoken
+                                                                          );
+ \end{DoxyPre}
+
+
+This is a macro that calls \hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a5f3e29eed8f166215648bc6465ebdb04}{x\-Queue\-Generic\-Send\-From\-I\-S\-R()}.
+
+Post an item to the front of a queue. It is safe to use this macro from within an interrupt service routine.
+
+Items are queued by copy not reference so it is preferable to only queue small items, especially when called from an I\-S\-R. In most cases it would be preferable to store a pointer to the item being queued.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\-Queue} & The handle to the queue on which the item is to be posted.\\
+\hline
+{\em pv\-Item\-To\-Queue} & A pointer to the item that is to be placed on the queue. The size of the items the queue will hold was defined when the queue was created, so this many bytes will be copied from pv\-Item\-To\-Queue into the queue storage area.\\
+\hline
+{\em px\-Higher\-Priority\-Task\-Woken} & x\-Queue\-Send\-To\-Front\-From\-I\-S\-R() will set $\ast$px\-Higher\-Priority\-Task\-Woken to pd\-T\-R\-U\-E if sending to the queue caused a task to unblock, and the unblocked task has a priority higher than the currently running task. If x\-Queue\-Send\-To\-From\-From\-I\-S\-R() sets this value to pd\-T\-R\-U\-E then a context switch should be requested before the interrupt is exited.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pd\-T\-R\-U\-E if the data was successfully sent to the queue, otherwise err\-Q\-U\-E\-U\-E\-\_\-\-F\-U\-L\-L.
+\end{DoxyReturn}
+Example usage for buffered I\-O (where the I\-S\-R can obtain more than one value per call)\-: 
+\begin{DoxyPre}
+ void vBufferISR( void )
+ \{
+ char cIn;
+ portBASE\_TYPE xHigherPrioritTaskWoken;\end{DoxyPre}
+
+
+
+\begin{DoxyPre}We have not woken a task at the start of the ISR.
+        xHigherPriorityTaskWoken = pdFALSE;\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Loop until the buffer is empty.
+        do
+        \{
+Obtain a byte from the buffer.
+                cIn = portINPUT\_BYTE( RX\_REGISTER\_ADDRESS );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Post the byte.
+                xQueueSendToFrontFromISR( xRxQueue, &cIn, &xHigherPriorityTaskWoken );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}        \} while( portINPUT\_BYTE( BUFFER\_COUNT ) );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Now the buffer is empty we can switch context if necessary.
+        if( xHigherPriorityTaskWoken )
+        \{
+                taskYIELD ();
+        \}
+ \}
+ \end{DoxyPre}
+
+
+queue. h 
+\begin{DoxyPre}
+ portBASE\_TYPE xQueueSendToBackFromISR(
+                                                                                 xQueueHandle pxQueue,
+                                                                                 const void *pvItemToQueue,
+                                                                                 portBASE\_TYPE *pxHigherPriorityTaskWoken
+                                                                          );
+ \end{DoxyPre}
+
+
+This is a macro that calls \hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a5f3e29eed8f166215648bc6465ebdb04}{x\-Queue\-Generic\-Send\-From\-I\-S\-R()}.
+
+Post an item to the back of a queue. It is safe to use this macro from within an interrupt service routine.
+
+Items are queued by copy not reference so it is preferable to only queue small items, especially when called from an I\-S\-R. In most cases it would be preferable to store a pointer to the item being queued.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\-Queue} & The handle to the queue on which the item is to be posted.\\
+\hline
+{\em pv\-Item\-To\-Queue} & A pointer to the item that is to be placed on the queue. The size of the items the queue will hold was defined when the queue was created, so this many bytes will be copied from pv\-Item\-To\-Queue into the queue storage area.\\
+\hline
+{\em px\-Higher\-Priority\-Task\-Woken} & x\-Queue\-Send\-To\-Back\-From\-I\-S\-R() will set $\ast$px\-Higher\-Priority\-Task\-Woken to pd\-T\-R\-U\-E if sending to the queue caused a task to unblock, and the unblocked task has a priority higher than the currently running task. If x\-Queue\-Send\-To\-Back\-From\-I\-S\-R() sets this value to pd\-T\-R\-U\-E then a context switch should be requested before the interrupt is exited.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pd\-T\-R\-U\-E if the data was successfully sent to the queue, otherwise err\-Q\-U\-E\-U\-E\-\_\-\-F\-U\-L\-L.
+\end{DoxyReturn}
+Example usage for buffered I\-O (where the I\-S\-R can obtain more than one value per call)\-: 
+\begin{DoxyPre}
+ void vBufferISR( void )
+ \{
+ char cIn;
+ portBASE\_TYPE xHigherPriorityTaskWoken;\end{DoxyPre}
+
+
+
+\begin{DoxyPre}We have not woken a task at the start of the ISR.
+        xHigherPriorityTaskWoken = pdFALSE;\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Loop until the buffer is empty.
+        do
+        \{
+Obtain a byte from the buffer.
+                cIn = portINPUT\_BYTE( RX\_REGISTER\_ADDRESS );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Post the byte.
+                xQueueSendToBackFromISR( xRxQueue, &cIn, &xHigherPriorityTaskWoken );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}        \} while( portINPUT\_BYTE( BUFFER\_COUNT ) );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Now the buffer is empty we can switch context if necessary.
+        if( xHigherPriorityTaskWoken )
+        \{
+                taskYIELD ();
+        \}
+ \}
+ \end{DoxyPre}
+
+
+queue. h 
+\begin{DoxyPre}
+ portBASE\_TYPE xQueueSendFromISR(
+                                                                         xQueueHandle pxQueue,
+                                                                         const void *pvItemToQueue,
+                                                                         portBASE\_TYPE *pxHigherPriorityTaskWoken
+                                                                );
+ \end{DoxyPre}
+
+
+This is a macro that calls \hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a5f3e29eed8f166215648bc6465ebdb04}{x\-Queue\-Generic\-Send\-From\-I\-S\-R()}. It is included for backward compatibility with versions of Free\-R\-T\-O\-S.\-org that did not include the x\-Queue\-Send\-To\-Back\-From\-I\-S\-R() and x\-Queue\-Send\-To\-Front\-From\-I\-S\-R() macros.
+
+Post an item to the back of a queue. It is safe to use this function from within an interrupt service routine.
+
+Items are queued by copy not reference so it is preferable to only queue small items, especially when called from an I\-S\-R. In most cases it would be preferable to store a pointer to the item being queued.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\-Queue} & The handle to the queue on which the item is to be posted.\\
+\hline
+{\em pv\-Item\-To\-Queue} & A pointer to the item that is to be placed on the queue. The size of the items the queue will hold was defined when the queue was created, so this many bytes will be copied from pv\-Item\-To\-Queue into the queue storage area.\\
+\hline
+{\em px\-Higher\-Priority\-Task\-Woken} & x\-Queue\-Send\-From\-I\-S\-R() will set $\ast$px\-Higher\-Priority\-Task\-Woken to pd\-T\-R\-U\-E if sending to the queue caused a task to unblock, and the unblocked task has a priority higher than the currently running task. If x\-Queue\-Send\-From\-I\-S\-R() sets this value to pd\-T\-R\-U\-E then a context switch should be requested before the interrupt is exited.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pd\-T\-R\-U\-E if the data was successfully sent to the queue, otherwise err\-Q\-U\-E\-U\-E\-\_\-\-F\-U\-L\-L.
+\end{DoxyReturn}
+Example usage for buffered I\-O (where the I\-S\-R can obtain more than one value per call)\-: 
+\begin{DoxyPre}
+ void vBufferISR( void )
+ \{
+ char cIn;
+ portBASE\_TYPE xHigherPriorityTaskWoken;\end{DoxyPre}
+
+
+
+\begin{DoxyPre}We have not woken a task at the start of the ISR.
+        xHigherPriorityTaskWoken = pdFALSE;\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Loop until the buffer is empty.
+        do
+        \{
+Obtain a byte from the buffer.
+                cIn = portINPUT\_BYTE( RX\_REGISTER\_ADDRESS );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Post the byte.
+                xQueueSendFromISR( xRxQueue, &cIn, &xHigherPriorityTaskWoken );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}        \} while( portINPUT\_BYTE( BUFFER\_COUNT ) );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Now the buffer is empty we can switch context if necessary.
+        if( xHigherPriorityTaskWoken )
+        \{
+Actual macro used here is port specific.
+                taskYIELD\_FROM\_ISR ();
+        \}
+ \}
+ \end{DoxyPre}
+
+
+queue. h 
+\begin{DoxyPre}
+ portBASE\_TYPE xQueueGenericSendFromISR(
+                                                                                   xQueueHandle pxQueue,
+                                                                                   const        void    *pvItemToQueue,
+                                                                                   portBASE\_TYPE        *pxHigherPriorityTaskWoken,
+                                                                                   portBASE\_TYPE        xCopyPosition
+                                                                           );
+ \end{DoxyPre}
+
+
+It is preferred that the macros x\-Queue\-Send\-From\-I\-S\-R(), x\-Queue\-Send\-To\-Front\-From\-I\-S\-R() and x\-Queue\-Send\-To\-Back\-From\-I\-S\-R() be used in place of calling this function directly.
+
+Post an item on a queue. It is safe to use this function from within an interrupt service routine.
+
+Items are queued by copy not reference so it is preferable to only queue small items, especially when called from an I\-S\-R. In most cases it would be preferable to store a pointer to the item being queued.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\-Queue} & The handle to the queue on which the item is to be posted.\\
+\hline
+{\em pv\-Item\-To\-Queue} & A pointer to the item that is to be placed on the queue. The size of the items the queue will hold was defined when the queue was created, so this many bytes will be copied from pv\-Item\-To\-Queue into the queue storage area.\\
+\hline
+{\em px\-Higher\-Priority\-Task\-Woken} & \hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a5f3e29eed8f166215648bc6465ebdb04}{x\-Queue\-Generic\-Send\-From\-I\-S\-R()} will set $\ast$px\-Higher\-Priority\-Task\-Woken to pd\-T\-R\-U\-E if sending to the queue caused a task to unblock, and the unblocked task has a priority higher than the currently running task. If \hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a5f3e29eed8f166215648bc6465ebdb04}{x\-Queue\-Generic\-Send\-From\-I\-S\-R()} sets this value to pd\-T\-R\-U\-E then a context switch should be requested before the interrupt is exited.\\
+\hline
+{\em x\-Copy\-Position} & Can take the value queue\-S\-E\-N\-D\-\_\-\-T\-O\-\_\-\-B\-A\-C\-K to place the item at the back of the queue, or queue\-S\-E\-N\-D\-\_\-\-T\-O\-\_\-\-F\-R\-O\-N\-T to place the item at the front of the queue (for high priority messages).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pd\-T\-R\-U\-E if the data was successfully sent to the queue, otherwise err\-Q\-U\-E\-U\-E\-\_\-\-F\-U\-L\-L.
+\end{DoxyReturn}
+Example usage for buffered I\-O (where the I\-S\-R can obtain more than one value per call)\-: 
+\begin{DoxyPre}
+ void vBufferISR( void )
+ \{
+ char cIn;
+ portBASE\_TYPE xHigherPriorityTaskWokenByPost;\end{DoxyPre}
+
+
+
+\begin{DoxyPre}We have not woken a task at the start of the ISR.
+        xHigherPriorityTaskWokenByPost = pdFALSE;\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Loop until the buffer is empty.
+        do
+        \{
+Obtain a byte from the buffer.
+                cIn = portINPUT\_BYTE( RX\_REGISTER\_ADDRESS );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Post each byte.
+                xQueueGenericSendFromISR( xRxQueue, &cIn, &xHigherPriorityTaskWokenByPost, queueSEND\_TO\_BACK );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}        \} while( portINPUT\_BYTE( BUFFER\_COUNT ) );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Now the buffer is empty we can switch context if necessary.  Note that the
+name of the yield function required is port specific.
+        if( xHigherPriorityTaskWokenByPost )
+        \{
+                taskYIELD\_YIELD\_FROM\_ISR();
+        \}
+ \}
+ \end{DoxyPre}
+ 

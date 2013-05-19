@@ -1,0 +1,452 @@
+\hypertarget{group___i2_c___group2}{\section{Communications handling functions}
+\label{group___i2_c___group2}\index{Communications handling functions@{Communications handling functions}}
+}
+
+
+Communications handling functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i2_c___group2_gae6d72a57125adcf57285d3753a2d09d3}{I2\-C\-\_\-\-Auto\-End\-Cmd} (\hyperlink{struct_i2_c___type_def}{I2\-C\-\_\-\-Type\-Def} $\ast$I2\-Cx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the I2\-C automatic end mode (stop condition is automatically sent when nbytes data are transferred). \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i2_c___group2_ga70c69dd900de88e71a25f860647f1369}{I2\-C\-\_\-\-Reload\-Cmd} (\hyperlink{struct_i2_c___type_def}{I2\-C\-\_\-\-Type\-Def} $\ast$I2\-Cx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the I2\-C nbytes reload mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i2_c___group2_gadb132a771d37a34ae158f5e7ccefd0e8}{I2\-C\-\_\-\-Number\-Of\-Bytes\-Config} (\hyperlink{struct_i2_c___type_def}{I2\-C\-\_\-\-Type\-Def} $\ast$I2\-Cx, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Number\-\_\-\-Bytes)
+\begin{DoxyCompactList}\small\item\em Configures the number of bytes to be transmitted/received. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i2_c___group2_ga96cd7cbef89fc5b0016eaf0b1251f85f}{I2\-C\-\_\-\-Master\-Request\-Config} (\hyperlink{struct_i2_c___type_def}{I2\-C\-\_\-\-Type\-Def} $\ast$I2\-Cx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} I2\-C\-\_\-\-Direction)
+\begin{DoxyCompactList}\small\item\em Configures the type of transfer request for the master. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i2_c___group2_ga36c522b471588be9779c878222ccb20f}{I2\-C\-\_\-\-Generate\-S\-T\-A\-R\-T} (\hyperlink{struct_i2_c___type_def}{I2\-C\-\_\-\-Type\-Def} $\ast$I2\-Cx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Generates I2\-Cx communication S\-T\-A\-R\-T condition. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i2_c___group2_ga5c92cb573ca0ae58cc465e5400246561}{I2\-C\-\_\-\-Generate\-S\-T\-O\-P} (\hyperlink{struct_i2_c___type_def}{I2\-C\-\_\-\-Type\-Def} $\ast$I2\-Cx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Generates I2\-Cx communication S\-T\-O\-P condition. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i2_c___group2_gaa669b6beadf9b0e043155f353d77d659}{I2\-C\-\_\-10\-Bit\-Address\-Header\-Cmd} (\hyperlink{struct_i2_c___type_def}{I2\-C\-\_\-\-Type\-Def} $\ast$I2\-Cx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the I2\-C 10-\/bit header only mode with read direction. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i2_c___group2_ga7bb44e894d68a7991f564c43fb187486}{I2\-C\-\_\-\-Acknowledge\-Config} (\hyperlink{struct_i2_c___type_def}{I2\-C\-\_\-\-Type\-Def} $\ast$I2\-Cx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Generates I2\-C communication Acknowledge. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___i2_c___group2_ga1439265db210aefd275838f8ffb167b3}{I2\-C\-\_\-\-Get\-Address\-Matched} (\hyperlink{struct_i2_c___type_def}{I2\-C\-\_\-\-Type\-Def} $\ast$I2\-Cx)
+\begin{DoxyCompactList}\small\item\em Returns the I2\-C slave matched address . \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___i2_c___group2_ga9e4d5fcc43d19b725a7999734801b5f3}{I2\-C\-\_\-\-Get\-Transfer\-Direction} (\hyperlink{struct_i2_c___type_def}{I2\-C\-\_\-\-Type\-Def} $\ast$I2\-Cx)
+\begin{DoxyCompactList}\small\item\em Returns the I2\-C slave received request. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i2_c___group2_ga4ea3fec0b966564f8d45e5620384a96a}{I2\-C\-\_\-\-Transfer\-Handling} (\hyperlink{struct_i2_c___type_def}{I2\-C\-\_\-\-Type\-Def} $\ast$I2\-Cx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Address, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Number\-\_\-\-Bytes, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Reload\-End\-Mode, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Start\-Stop\-Mode)
+\begin{DoxyCompactList}\small\item\em Handles I2\-Cx communication when starting transfer or during transfer (T\-C or T\-C\-R flag are set). \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i2_c___group2_ga7bd9e70b8eafde0dd5eb42b0d95fe1a9}{I2\-C\-\_\-\-Send\-Data} (\hyperlink{struct_i2_c___type_def}{I2\-C\-\_\-\-Type\-Def} $\ast$I2\-Cx, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___copter_control_b_l_ga6f3335509cc4943e20df66f72483910c}{Data})
+\begin{DoxyCompactList}\small\item\em Sends a data byte through the I2\-Cx peripheral. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___i2_c___group2_gaeaaa4b6f77f50eb57465148c55d27fb2}{I2\-C\-\_\-\-Receive\-Data} (\hyperlink{struct_i2_c___type_def}{I2\-C\-\_\-\-Type\-Def} $\ast$I2\-Cx)
+\begin{DoxyCompactList}\small\item\em Returns the most recent received data by the I2\-Cx peripheral. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Communications handling functions. Data transfers functions.
+
+\begin{DoxyVerb} ===============================================================================
+                  ##### Communications handling functions #####
+ ===============================================================================  
+    [..] This section provides a set of functions that handles I2C communication.
+    
+    [..] Automatic End mode is enabled using I2C_AutoEndCmd() function. When Reload
+         mode is enabled via I2C_ReloadCmd() AutoEnd bit has no effect.
+         
+    [..] I2C_NumberOfBytesConfig() function set the number of bytes to be transferred,
+         this configuration should be done before generating start condition in master 
+         mode.
+         
+    [..] When switching from master write operation to read operation in 10Bit addressing
+         mode, master can only sends the 1st 7 bits of the 10 bit address, followed by 
+         Read direction by enabling HEADR bit using I2C_10BitAddressHeader() function.        
+         
+    [..] In master mode, when transferring more than 255 bytes Reload mode should be used
+         to handle communication. In the first phase of transfer, Nbytes should be set to 
+         255. After transferring these bytes TCR flag is set and I2C_TransferHandling()
+         function should be called to handle remaining communication.
+         
+    [..] In master mode, when software end mode is selected when all data is transferred
+         TC flag is set I2C_TransferHandling() function should be called to generate STOP
+         or generate ReStart.                      \end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                        Data transfers functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___i2_c___group2_gaa669b6beadf9b0e043155f353d77d659}{\index{Communications handling functions@{Communications handling functions}!I2\-C\-\_\-10\-Bit\-Address\-Header\-Cmd@{I2\-C\-\_\-10\-Bit\-Address\-Header\-Cmd}}
+\index{I2\-C\-\_\-10\-Bit\-Address\-Header\-Cmd@{I2\-C\-\_\-10\-Bit\-Address\-Header\-Cmd}!Communications handling functions@{Communications handling functions}}
+\subsubsection[{I2\-C\-\_\-10\-Bit\-Address\-Header\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I2\-C\-\_\-10\-Bit\-Address\-Header\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf I2\-C\-\_\-\-Type\-Def} $\ast$}]{I2\-Cx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___i2_c___group2_gaa669b6beadf9b0e043155f353d77d659}
+
+
+Enables or disables the I2\-C 10-\/bit header only mode with read direction. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1 or 2 to select the I2\-C peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the I2\-C 10-\/bit header only mode. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This mode can be used only when switching from master transmitter mode to master receiver mode. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 774 of file stm32f30x\-\_\-i2c.\-c.
+
+\hypertarget{group___i2_c___group2_ga7bb44e894d68a7991f564c43fb187486}{\index{Communications handling functions@{Communications handling functions}!I2\-C\-\_\-\-Acknowledge\-Config@{I2\-C\-\_\-\-Acknowledge\-Config}}
+\index{I2\-C\-\_\-\-Acknowledge\-Config@{I2\-C\-\_\-\-Acknowledge\-Config}!Communications handling functions@{Communications handling functions}}
+\subsubsection[{I2\-C\-\_\-\-Acknowledge\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I2\-C\-\_\-\-Acknowledge\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf I2\-C\-\_\-\-Type\-Def} $\ast$}]{I2\-Cx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___i2_c___group2_ga7bb44e894d68a7991f564c43fb187486}
+
+
+Generates I2\-C communication Acknowledge. 
+
+Enables or disables the specified I2\-C acknowledge feature.
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1 or 2 to select the I2\-C peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the Acknowledge. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 799 of file stm32f30x\-\_\-i2c.\-c.
+
+\hypertarget{group___i2_c___group2_gae6d72a57125adcf57285d3753a2d09d3}{\index{Communications handling functions@{Communications handling functions}!I2\-C\-\_\-\-Auto\-End\-Cmd@{I2\-C\-\_\-\-Auto\-End\-Cmd}}
+\index{I2\-C\-\_\-\-Auto\-End\-Cmd@{I2\-C\-\_\-\-Auto\-End\-Cmd}!Communications handling functions@{Communications handling functions}}
+\subsubsection[{I2\-C\-\_\-\-Auto\-End\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I2\-C\-\_\-\-Auto\-End\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf I2\-C\-\_\-\-Type\-Def} $\ast$}]{I2\-Cx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___i2_c___group2_gae6d72a57125adcf57285d3753a2d09d3}
+
+
+Enables or disables the I2\-C automatic end mode (stop condition is automatically sent when nbytes data are transferred). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1 or 2 to select the I2\-C peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the I2\-C automatic end mode. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This function has effect if Reload mode is disabled. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 618 of file stm32f30x\-\_\-i2c.\-c.
+
+\hypertarget{group___i2_c___group2_ga36c522b471588be9779c878222ccb20f}{\index{Communications handling functions@{Communications handling functions}!I2\-C\-\_\-\-Generate\-S\-T\-A\-R\-T@{I2\-C\-\_\-\-Generate\-S\-T\-A\-R\-T}}
+\index{I2\-C\-\_\-\-Generate\-S\-T\-A\-R\-T@{I2\-C\-\_\-\-Generate\-S\-T\-A\-R\-T}!Communications handling functions@{Communications handling functions}}
+\subsubsection[{I2\-C\-\_\-\-Generate\-S\-T\-A\-R\-T}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I2\-C\-\_\-\-Generate\-S\-T\-A\-R\-T (
+\begin{DoxyParamCaption}
+\item[{{\bf I2\-C\-\_\-\-Type\-Def} $\ast$}]{I2\-Cx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___i2_c___group2_ga36c522b471588be9779c878222ccb20f}
+
+
+Generates I2\-Cx communication S\-T\-A\-R\-T condition. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1 or 2 to select the I2\-C peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the I2\-C S\-T\-A\-R\-T condition generation. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 722 of file stm32f30x\-\_\-i2c.\-c.
+
+\hypertarget{group___i2_c___group2_ga5c92cb573ca0ae58cc465e5400246561}{\index{Communications handling functions@{Communications handling functions}!I2\-C\-\_\-\-Generate\-S\-T\-O\-P@{I2\-C\-\_\-\-Generate\-S\-T\-O\-P}}
+\index{I2\-C\-\_\-\-Generate\-S\-T\-O\-P@{I2\-C\-\_\-\-Generate\-S\-T\-O\-P}!Communications handling functions@{Communications handling functions}}
+\subsubsection[{I2\-C\-\_\-\-Generate\-S\-T\-O\-P}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I2\-C\-\_\-\-Generate\-S\-T\-O\-P (
+\begin{DoxyParamCaption}
+\item[{{\bf I2\-C\-\_\-\-Type\-Def} $\ast$}]{I2\-Cx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___i2_c___group2_ga5c92cb573ca0ae58cc465e5400246561}
+
+
+Generates I2\-Cx communication S\-T\-O\-P condition. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1 or 2 to select the I2\-C peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the I2\-C S\-T\-O\-P condition generation. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 747 of file stm32f30x\-\_\-i2c.\-c.
+
+\hypertarget{group___i2_c___group2_ga1439265db210aefd275838f8ffb167b3}{\index{Communications handling functions@{Communications handling functions}!I2\-C\-\_\-\-Get\-Address\-Matched@{I2\-C\-\_\-\-Get\-Address\-Matched}}
+\index{I2\-C\-\_\-\-Get\-Address\-Matched@{I2\-C\-\_\-\-Get\-Address\-Matched}!Communications handling functions@{Communications handling functions}}
+\subsubsection[{I2\-C\-\_\-\-Get\-Address\-Matched}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} I2\-C\-\_\-\-Get\-Address\-Matched (
+\begin{DoxyParamCaption}
+\item[{{\bf I2\-C\-\_\-\-Type\-Def} $\ast$}]{I2\-Cx}
+\end{DoxyParamCaption}
+)}}\label{group___i2_c___group2_ga1439265db210aefd275838f8ffb167b3}
+
+
+Returns the I2\-C slave matched address . 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1 or 2 to select the I2\-C peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & value of the slave matched address . \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 822 of file stm32f30x\-\_\-i2c.\-c.
+
+\hypertarget{group___i2_c___group2_ga9e4d5fcc43d19b725a7999734801b5f3}{\index{Communications handling functions@{Communications handling functions}!I2\-C\-\_\-\-Get\-Transfer\-Direction@{I2\-C\-\_\-\-Get\-Transfer\-Direction}}
+\index{I2\-C\-\_\-\-Get\-Transfer\-Direction@{I2\-C\-\_\-\-Get\-Transfer\-Direction}!Communications handling functions@{Communications handling functions}}
+\subsubsection[{I2\-C\-\_\-\-Get\-Transfer\-Direction}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} I2\-C\-\_\-\-Get\-Transfer\-Direction (
+\begin{DoxyParamCaption}
+\item[{{\bf I2\-C\-\_\-\-Type\-Def} $\ast$}]{I2\-Cx}
+\end{DoxyParamCaption}
+)}}\label{group___i2_c___group2_ga9e4d5fcc43d19b725a7999734801b5f3}
+
+
+Returns the I2\-C slave received request. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1 or 2 to select the I2\-C peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & value of the received request. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 836 of file stm32f30x\-\_\-i2c.\-c.
+
+\hypertarget{group___i2_c___group2_ga96cd7cbef89fc5b0016eaf0b1251f85f}{\index{Communications handling functions@{Communications handling functions}!I2\-C\-\_\-\-Master\-Request\-Config@{I2\-C\-\_\-\-Master\-Request\-Config}}
+\index{I2\-C\-\_\-\-Master\-Request\-Config@{I2\-C\-\_\-\-Master\-Request\-Config}!Communications handling functions@{Communications handling functions}}
+\subsubsection[{I2\-C\-\_\-\-Master\-Request\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I2\-C\-\_\-\-Master\-Request\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf I2\-C\-\_\-\-Type\-Def} $\ast$}]{I2\-Cx, }
+\item[{{\bf uint16\-\_\-t}}]{I2\-C\-\_\-\-Direction}
+\end{DoxyParamCaption}
+)}}\label{group___i2_c___group2_ga96cd7cbef89fc5b0016eaf0b1251f85f}
+
+
+Configures the type of transfer request for the master. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1 or 2 to select the I2\-C peripheral. \\
+\hline
+{\em I2\-C\-\_\-\-Direction,\-:} & specifies the transfer request direction to be programmed. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item I2\-C\-\_\-\-Direction\-\_\-\-Transmitter\-: Master request a write transfer \item I2\-C\-\_\-\-Direction\-\_\-\-Receiver\-: Master request a read transfer \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 696 of file stm32f30x\-\_\-i2c.\-c.
+
+\hypertarget{group___i2_c___group2_gadb132a771d37a34ae158f5e7ccefd0e8}{\index{Communications handling functions@{Communications handling functions}!I2\-C\-\_\-\-Number\-Of\-Bytes\-Config@{I2\-C\-\_\-\-Number\-Of\-Bytes\-Config}}
+\index{I2\-C\-\_\-\-Number\-Of\-Bytes\-Config@{I2\-C\-\_\-\-Number\-Of\-Bytes\-Config}!Communications handling functions@{Communications handling functions}}
+\subsubsection[{I2\-C\-\_\-\-Number\-Of\-Bytes\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I2\-C\-\_\-\-Number\-Of\-Bytes\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf I2\-C\-\_\-\-Type\-Def} $\ast$}]{I2\-Cx, }
+\item[{{\bf uint8\-\_\-t}}]{Number\-\_\-\-Bytes}
+\end{DoxyParamCaption}
+)}}\label{group___i2_c___group2_gadb132a771d37a34ae158f5e7ccefd0e8}
+
+
+Configures the number of bytes to be transmitted/received. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1 or 2 to select the I2\-C peripheral. \\
+\hline
+{\em Number\-\_\-\-Bytes,\-:} & specifies the number of bytes to be programmed. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 667 of file stm32f30x\-\_\-i2c.\-c.
+
+\hypertarget{group___i2_c___group2_gaeaaa4b6f77f50eb57465148c55d27fb2}{\index{Communications handling functions@{Communications handling functions}!I2\-C\-\_\-\-Receive\-Data@{I2\-C\-\_\-\-Receive\-Data}}
+\index{I2\-C\-\_\-\-Receive\-Data@{I2\-C\-\_\-\-Receive\-Data}!Communications handling functions@{Communications handling functions}}
+\subsubsection[{I2\-C\-\_\-\-Receive\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} I2\-C\-\_\-\-Receive\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf I2\-C\-\_\-\-Type\-Def} $\ast$}]{I2\-Cx}
+\end{DoxyParamCaption}
+)}}\label{group___i2_c___group2_gaeaaa4b6f77f50eb57465148c55d27fb2}
+
+
+Returns the most recent received data by the I2\-Cx peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1, 2 or 3 to select the I2\-C peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & value of the received data. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 708 of file stm32f4xx\-\_\-i2c.\-c.
+
+\hypertarget{group___i2_c___group2_ga70c69dd900de88e71a25f860647f1369}{\index{Communications handling functions@{Communications handling functions}!I2\-C\-\_\-\-Reload\-Cmd@{I2\-C\-\_\-\-Reload\-Cmd}}
+\index{I2\-C\-\_\-\-Reload\-Cmd@{I2\-C\-\_\-\-Reload\-Cmd}!Communications handling functions@{Communications handling functions}}
+\subsubsection[{I2\-C\-\_\-\-Reload\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I2\-C\-\_\-\-Reload\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf I2\-C\-\_\-\-Type\-Def} $\ast$}]{I2\-Cx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___i2_c___group2_ga70c69dd900de88e71a25f860647f1369}
+
+
+Enables or disables the I2\-C nbytes reload mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1 or 2 to select the I2\-C peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the nbytes reload mode. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 643 of file stm32f30x\-\_\-i2c.\-c.
+
+\hypertarget{group___i2_c___group2_ga7bd9e70b8eafde0dd5eb42b0d95fe1a9}{\index{Communications handling functions@{Communications handling functions}!I2\-C\-\_\-\-Send\-Data@{I2\-C\-\_\-\-Send\-Data}}
+\index{I2\-C\-\_\-\-Send\-Data@{I2\-C\-\_\-\-Send\-Data}!Communications handling functions@{Communications handling functions}}
+\subsubsection[{I2\-C\-\_\-\-Send\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I2\-C\-\_\-\-Send\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf I2\-C\-\_\-\-Type\-Def} $\ast$}]{I2\-Cx, }
+\item[{{\bf uint8\-\_\-t}}]{Data}
+\end{DoxyParamCaption}
+)}}\label{group___i2_c___group2_ga7bd9e70b8eafde0dd5eb42b0d95fe1a9}
+
+
+Sends a data byte through the I2\-Cx peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1, 2 or 3 to select the I2\-C peripheral. \\
+\hline
+{\em Data,\-:} & Byte to be transmitted.. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 695 of file stm32f4xx\-\_\-i2c.\-c.
+
+\hypertarget{group___i2_c___group2_ga4ea3fec0b966564f8d45e5620384a96a}{\index{Communications handling functions@{Communications handling functions}!I2\-C\-\_\-\-Transfer\-Handling@{I2\-C\-\_\-\-Transfer\-Handling}}
+\index{I2\-C\-\_\-\-Transfer\-Handling@{I2\-C\-\_\-\-Transfer\-Handling}!Communications handling functions@{Communications handling functions}}
+\subsubsection[{I2\-C\-\_\-\-Transfer\-Handling}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I2\-C\-\_\-\-Transfer\-Handling (
+\begin{DoxyParamCaption}
+\item[{{\bf I2\-C\-\_\-\-Type\-Def} $\ast$}]{I2\-Cx, }
+\item[{{\bf uint16\-\_\-t}}]{Address, }
+\item[{{\bf uint8\-\_\-t}}]{Number\-\_\-\-Bytes, }
+\item[{{\bf uint32\-\_\-t}}]{Reload\-End\-Mode, }
+\item[{{\bf uint32\-\_\-t}}]{Start\-Stop\-Mode}
+\end{DoxyParamCaption}
+)}}\label{group___i2_c___group2_ga4ea3fec0b966564f8d45e5620384a96a}
+
+
+Handles I2\-Cx communication when starting transfer or during transfer (T\-C or T\-C\-R flag are set). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1 or 2 to select the I2\-C peripheral. \\
+\hline
+{\em Address,\-:} & specifies the slave address to be programmed. \\
+\hline
+{\em Number\-\_\-\-Bytes,\-:} & specifies the number of bytes to be programmed. This parameter must be a value between 0 and 255. \\
+\hline
+{\em Reload\-End\-Mode,\-:} & new state of the I2\-C S\-T\-A\-R\-T condition generation. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item I2\-C\-\_\-\-Reload\-\_\-\-Mode\-: Enable Reload mode . \item I2\-C\-\_\-\-Auto\-End\-\_\-\-Mode\-: Enable Automatic end mode. \item I2\-C\-\_\-\-Soft\-End\-\_\-\-Mode\-: Enable Software end mode. \end{DoxyItemize}
+\\
+\hline
+{\em Start\-Stop\-Mode,\-:} & new state of the I2\-C S\-T\-A\-R\-T condition generation. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item I2\-C\-\_\-\-No\-\_\-\-Start\-Stop\-: Don't Generate stop and start condition. \item I2\-C\-\_\-\-Generate\-\_\-\-Stop\-: Generate stop condition (Number\-\_\-\-Bytes should be set to 0). \item I2\-C\-\_\-\-Generate\-\_\-\-Start\-\_\-\-Read\-: Generate Restart for read request. \item I2\-C\-\_\-\-Generate\-\_\-\-Start\-\_\-\-Write\-: Generate Restart for write request. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 880 of file stm32f30x\-\_\-i2c.\-c.
+

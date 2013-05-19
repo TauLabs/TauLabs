@@ -1,0 +1,62 @@
+\hypertarget{group___r_t_c___group6}{\section{Output pin Configuration function}
+\label{group___r_t_c___group6}\index{Output pin Configuration function@{Output pin Configuration function}}
+}
+
+
+Output pin Configuration function.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___group6_gae3165ef19ef3bd63789e59130ad8d89b}{R\-T\-C\-\_\-\-Output\-Config} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} R\-T\-C\-\_\-\-Output, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} R\-T\-C\-\_\-\-Output\-Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the R\-T\-C output source (A\-F\-O\-\_\-\-A\-L\-A\-R\-M). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Output pin Configuration function. \begin{DoxyVerb} ===============================================================================
+                   ##### Output pin Configuration function #####
+ ===============================================================================
+    [..] This section provide functions allowing to configure the RTC Output source.\end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                         Output pin Configuration function
+ ===============================================================================  
+
+  This section provide functions allowing to configure the RTC Output source.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___r_t_c___group6_gae3165ef19ef3bd63789e59130ad8d89b}{\index{Output pin Configuration function@{Output pin Configuration function}!R\-T\-C\-\_\-\-Output\-Config@{R\-T\-C\-\_\-\-Output\-Config}}
+\index{R\-T\-C\-\_\-\-Output\-Config@{R\-T\-C\-\_\-\-Output\-Config}!Output pin Configuration function@{Output pin Configuration function}}
+\subsubsection[{R\-T\-C\-\_\-\-Output\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} R\-T\-C\-\_\-\-Output\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{R\-T\-C\-\_\-\-Output, }
+\item[{{\bf uint32\-\_\-t}}]{R\-T\-C\-\_\-\-Output\-Polarity}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group6_gae3165ef19ef3bd63789e59130ad8d89b}
+
+
+Configures the R\-T\-C output source (A\-F\-O\-\_\-\-A\-L\-A\-R\-M). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\-T\-C\-\_\-\-Output,\-:} & Specifies which signal will be routed to the R\-T\-C output. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item R\-T\-C\-\_\-\-Output\-\_\-\-Disable\-: No output selected \item R\-T\-C\-\_\-\-Output\-\_\-\-Alarm\-A\-: signal of Alarm\-A mapped to output \item R\-T\-C\-\_\-\-Output\-\_\-\-Alarm\-B\-: signal of Alarm\-B mapped to output \item R\-T\-C\-\_\-\-Output\-\_\-\-Wake\-Up\-: signal of Wake\-Up mapped to output \end{DoxyItemize}
+\\
+\hline
+{\em R\-T\-C\-\_\-\-Output\-Polarity,\-:} & Specifies the polarity of the output signal. This parameter can be one of the following\-: \begin{DoxyItemize}
+\item R\-T\-C\-\_\-\-Output\-Polarity\-\_\-\-High\-: The output pin is high when the A\-L\-R\-A\-F/\-A\-L\-R\-B\-F/\-W\-U\-T\-F is high (depending on O\-S\-E\-L) \item R\-T\-C\-\_\-\-Output\-Polarity\-\_\-\-Low\-: The output pin is low when the A\-L\-R\-A\-F/\-A\-L\-R\-B\-F/\-W\-U\-T\-F is high (depending on O\-S\-E\-L) \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1654 of file stm32f30x\-\_\-rtc.\-c.
+

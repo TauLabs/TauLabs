@@ -1,0 +1,186 @@
+\hypertarget{stm32f30x__comp_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F30x/\-Libraries/\-S\-T\-M32\-F30x\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f30x\-\_\-comp.c File Reference}
+\label{stm32f30x__comp_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F30x/\-Libraries/\-S\-T\-M32\-F30x\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f30x\-\_\-comp.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F30x/\-Libraries/\-S\-T\-M32\-F30x\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f30x\-\_\-comp.\-c}}
+}
+
+
+This file provides firmware functions to manage the following functionalities of the 7 analog comparators (C\-O\-M\-P1, C\-O\-M\-P2...C\-O\-M\-P7) peripheral\-:  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_o_m_p___group1_gadf143687c668ba15411b393ab3fb0482}{C\-O\-M\-P\-\_\-\-De\-Init} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} C\-O\-M\-P\-\_\-\-Selection)
+\begin{DoxyCompactList}\small\item\em Deinitializes C\-O\-M\-P peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_o_m_p___group1_ga4921439f818e8873acabdf3ef7e0db0a}{C\-O\-M\-P\-\_\-\-Init} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} C\-O\-M\-P\-\_\-\-Selection, C\-O\-M\-P\-\_\-\-Init\-Type\-Def $\ast$C\-O\-M\-P\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the C\-O\-M\-P peripheral according to the specified parameters in C\-O\-M\-P\-\_\-\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_o_m_p___group1_ga6feca94112b7e10174faee8f3cf57e24}{C\-O\-M\-P\-\_\-\-Struct\-Init} (C\-O\-M\-P\-\_\-\-Init\-Type\-Def $\ast$C\-O\-M\-P\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each C\-O\-M\-P\-\_\-\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_o_m_p___group1_gaccdc7ecae9583fb215cf3dd33374f6ce}{C\-O\-M\-P\-\_\-\-Cmd} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} C\-O\-M\-P\-\_\-\-Selection, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enable or disable the C\-O\-M\-P peripheral. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_o_m_p___group1_gafc3f93a951a85218b29cac3d35f9cf7b}{C\-O\-M\-P\-\_\-\-Switch\-Cmd} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} C\-O\-M\-P\-\_\-\-Selection, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Close or Open the S\-W1 switch. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_o_m_p___group1_ga0287e10033f3485e7bacc2bd72dadb7d}{C\-O\-M\-P\-\_\-\-Get\-Output\-Level} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} C\-O\-M\-P\-\_\-\-Selection)
+\begin{DoxyCompactList}\small\item\em Return the output level (high or low) of the selected comparator. The output level depends on the selected polarity. If the polarity is not inverted\-: \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_o_m_p___group2_ga6719a2acd8baf5b9d380d6c1fed7c1c9}{C\-O\-M\-P\-\_\-\-Window\-Cmd} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} C\-O\-M\-P\-\_\-\-Selection, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the window mode. Window mode for comparators makes use of two comparators\-: C\-O\-M\-P1 and C\-O\-M2, C\-O\-M\-P3 and C\-O\-M\-P4, C\-O\-M\-P5 and C\-O\-M\-P6. In window mode, C\-O\-M\-Px and C\-O\-M\-Px-\/1 (where x can be 2, 4 or 6) non inverting inputs are connected together and only C\-O\-M\-Px-\/1 non inverting input can be used. e.\-g When window mode enabled for C\-O\-M\-P4, C\-O\-M\-P3 non inverting input (P\-B14 or P\-D14) is to be used. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_o_m_p___group3_gaf39e2e4846c961ba337b472518bd0083}{C\-O\-M\-P\-\_\-\-Lock\-Config} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} C\-O\-M\-P\-\_\-\-Selection)
+\begin{DoxyCompactList}\small\item\em Lock the selected comparator (C\-O\-M\-P1/\-C\-O\-M\-P2) configuration. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file provides firmware functions to manage the following functionalities of the 7 analog comparators (C\-O\-M\-P1, C\-O\-M\-P2...C\-O\-M\-P7) peripheral\-: \begin{DoxyAuthor}{Author}
+M\-C\-D Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V1.\-0.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+04-\/\-September-\/2012
+\begin{DoxyItemize}
+\item Comparators configuration
+\item Window mode control
+\end{DoxyItemize}
+\end{DoxyDate}
+\begin{DoxyVerb} ==============================================================================
+                       ##### COMP Peripheral features #####
+ ==============================================================================
+ [..]       
+     The device integrates 7 analog comparators COMP1, COMP2...COMP7:
+     (#) The non inverting input and inverting input can be set to GPIO pins
+         as shown in table1. COMP Inputs below.
+ 
+     (#) The COMP output is internally is available using COMP_GetOutputLevel()
+         and can be set on GPIO pins. Refer to table 2. COMP Outputs below.
+ 
+     (#) The COMP output can be redirected to embedded timers (TIM1, TIM2, TIM3...)
+         Refer to table 3. COMP Outputs redirection to embedded timers below.
+ 
+     (#) The comparators COMP1 and COMP2, COMP3 and COMP4, COMP5 and COMP6 can be combined in window
+         mode and only COMP1, COMP3 and COMP5 non inverting input can be used as non-inverting input.
+ 
+     (#) The seven comparators have interrupt capability with wake-up
+         from Sleep and Stop modes (through the EXTI controller):
+         (++) COMP1 is internally connected to EXTI Line 21
+         (++) COMP2 is internally connected to EXTI Line 22
+         (++) COMP3 is internally connected to EXTI Line 29
+         (++) COMP4 is internally connected to EXTI Line 30
+         (++) COMP5 is internally connected to EXTI Line 31
+         (++) COMP6 is internally connected to EXTI Line 32
+         (++) COMP7 is internally connected to EXTI Line 33
+
+[..] Table 1. COMP Inputs
++------------------------------------------------------------------------------------------+     
+|                 |                | COMP1 | COMP2 | COMP3 | COMP4 | COMP5 | COMP6 | COMP7 |
+|-----------------|----------------|---------------|---------------------------------------|
+|                 | 1/4 VREFINT    |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |
+|                 | 1/2 VREFINT    |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |
+|                 | 3/4 VREFINT    |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |
+| Inverting Input | VREFINT        |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |
+|                 | DAC1 OUT (PA4) |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |
+|                 | DAC2 OUT (PA5) |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |
+|                 | IO1            |  PA0  |  PA2  |  PD15 |  PE8  |  PD13 |  PD10 |  PC0  |
+|                 | IO2            |  ---  |  ---  |  PB12 |  PB2  |  PB10 |  PB15 |  ---  |
+|-----------------|----------------|-------|-------|-------|-------|-------|-------|-------|
+|  Non Inverting  | IO1            |  PA1  |  PA7  |  PB14 |  PB0  |  PD12 |  PD11 |  PA0  |
+|    Input        | IO2            |  ---  |  PA3  |  PD14 |  PE7  |  PB13 |  PB11 |  PC1  |
++------------------------------------------------------------------------------------------+  
+
+[..] Table 2. COMP Outputs
++-------------------------------------------------------+     
+| COMP1 | COMP2 | COMP3 | COMP4 | COMP5 | COMP6 | COMP7 |
+|-------|-------|-------|-------|-------|-------|-------|
+|  PA0  |  PA2  |  PB1  |  PC8  |  PC7  |  PA10 |  PC2  |
+|  PF4  |  PA7  |  ---  |  PA8  |  PA9  |  PC6  |  ---  |
+|  PA6  |  PA12 |  ---  |  ---  |  ---  |  ---  |  ---  |
+|  PA11 |  PB9  |  ---  |  ---  |  ---  |  ---  |  ---  |
+|  PB8  |  ---  |  ---  |  ---  |  ---  |  ---  |  ---  |
++-------------------------------------------------------+
+
+[..] Table 3. COMP Outputs redirection to embedded timers
++----------------------------------------------------------------------------------------------------------------------+     
+|     COMP1      |     COMP2      |     COMP3      |     COMP4      |     COMP5      |     COMP6      |     COMP7      |
+|----------------|----------------|----------------|----------------|----------------|----------------|----------------|
+|  TIM1 BKIN     |  TIM1 BKIN     |  TIM1 BKIN     |  TIM1 BKIN     |  TIM1 BKIN     |  TIM1 BKIN     |  TIM1 BKIN     |
+|                |                |                |                |                |                |                |
+|  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |
+|                |                |                |                |                |                |                |
+|  TIM8 BKIN     |  TIM8 BKIN     |  TIM8 BKIN     |  TIM8 BKIN     |  TIM8 BKIN     |  TIM8 BKIN     |  TIM8 BKIN     |
+|                |                |                |                |                |                |                |
+|  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |
+|                |                |                |                |                |                |                |
+|  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |
+|     +          |     +          |     +          |     +          |     +          |     +          |     +          |
+|  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |
+|                |                |                |                |                |                |                |
+|  TIM1 OCREFCLR |  TIM1 OCREFCLR |  TIM1 OCREFCLR |  TIM8 OCREFCLR |  TIM8 OCREFCLR |  TIM8 OCREFCLR |  TIM1 OCREFCLR |  
+|                |                |                |                |                |                |                |
+|  TIM1 IC1      |  TIM1 IC1      |  TIM2 OCREFCLR |  TIM3 IC3      |  TIM2 IC1      |  TIM2 IC2      |  TIM8 OCREFCLR |
+|                |                |                |                |                |                |                |
+|  TIM2 IC4      |  TIM2 IC4      |  TIM3 IC2      |  TIM3 OCREFCLR |  TIM3 OCREFCLR |  TIM2 OCREFCLR |  TIM2 IC3      |
+|                |                |                |                |                |                |                |
+|  TIM2 OCREFCLR |  TIM2 OCREFCLR |  TIM4 IC1      |  TIM4 IC2      |  TIM4 IC3      |  TIM16 OCREFCLR|  TIM1 IC2      |
+|                |                |                |                |                |                |                |
+|  TIM3 IC1      |  TIM3 IC1      |  TIM15 IC1     |  TIM15 OCREFCLR|  TIM16 BKIN    |  TIM16 IC1     |  TIM17 OCREFCLR|          
+|                |                |                |                |                |                |                |
+|  TIM3 OCREFCLR |  TIM3 OCREFCLR |  TIM15 BKIN    |  TIM15 IC2     |  TIM17 IC1     |  TIM4 IC4      |  TIM17 BKIN    |
++----------------------------------------------------------------------------------------------------------------------+
+
+[..] Table 4. COMP Outputs blanking sources
++----------------------------------------------------------------------------------------------------------------------+
+|     COMP1      |     COMP2      |     COMP3      |     COMP4      |     COMP5      |     COMP6      |     COMP7      |
+|----------------|----------------|----------------|----------------|----------------|----------------|----------------|
+|  TIM1 OC5      |  TIM1 OC5      |  TIM1 OC5      |  TIM3 OC4      |  TIM3 OC3      |  TIM2 OC4      |  TIM1 OC5      |
+|                |                |                |                |                |                |                |
+|  TIM2 OC3      |  TIM2 OC3      |  --------      |  TIM8 OC5      |  TIM8 OC5      |  TIM8 OC5      |  TIM8 OC5      |
+|                |                |                |                |                |                |                |
+|  TIM3 OC3      |  TIM3 OC3      |  TIM2 OC4      |  TIM15 OC1     |  TIM8 BKIN     |  TIM15 OC2     |  TIM15 OC2     |
+|                |                |                |                |                |                |                |
++----------------------------------------------------------------------------------------------------------------------+
+
+ 
+                        ##### How to use this driver #####
+ ==============================================================================
+ [..]
+ This driver provides functions to configure and program the Comparators 
+ of all STM32F30x devices.
+ 
+ To use the comparator, perform the following steps:
+ 
+ (#) Enable the SYSCFG APB clock to get write access to comparator
+     register using RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
+ 
+ (#) Configure the comparator input in analog mode using GPIO_Init()
+ 
+ (#) Configure the comparator output in alternate function mode
+     using GPIO_Init() and use GPIO_PinAFConfig() function to map the
+     comparator output to the GPIO pin
+ 
+ (#) Configure the comparator using COMP_Init() function:
+     (++) Select the inverting input
+     (++) Select the non-inverting input
+     (++) Select the output polarity  
+     (++) Select the output redirection
+     (++) Select the hysteresis level
+     (++) Select the power mode
+ 
+ (#) Enable the comparator using COMP_Cmd() function
+ 
+ (#) If required enable the COMP interrupt by configuring and enabling
+     EXTI line in Interrupt mode and selecting the desired sensitivity
+     level using EXTI_Init() function. After that enable the comparator
+     interrupt vector using NVIC_Init() function.\end{DoxyVerb}
+
+
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+\subsubsection*{\begin{center}\copyright C\-O\-P\-Y\-R\-I\-G\-H\-T 2012 S\-T\-Microelectronics\end{center} }
+
+Licensed under M\-C\-D-\/\-S\-T Liberty S\-W License Agreement V2, (the \char`\"{}\-License\char`\"{}); You may not use this file except in compliance with the License. You may obtain a copy of the License at\-: \begin{DoxyVerb}   http://www.st.com/software_license_agreement_liberty_v2
+\end{DoxyVerb}
+
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \char`\"{}\-A\-S I\-S\char`\"{} B\-A\-S\-I\-S, W\-I\-T\-H\-O\-U\-T W\-A\-R\-R\-A\-N\-T\-I\-E\-S O\-R C\-O\-N\-D\-I\-T\-I\-O\-N\-S O\-F A\-N\-Y K\-I\-N\-D, either express or implied. See the License for the specific language governing permissions and limitations under the License. 
+
+Definition in file \hyperlink{stm32f30x__comp_8c_source}{stm32f30x\-\_\-comp.\-c}.
+

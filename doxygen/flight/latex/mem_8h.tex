@@ -1,0 +1,264 @@
+\hypertarget{mem_8h}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/mem.h File Reference}
+\label{mem_8h}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/mem.\-h@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/mem.\-h}}
+}
+
+
+V\-M Memory.  
+
+
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef enum \hyperlink{mem_8h_a598e30f795e697501b07cba111fcca12}{Pm\-Mem\-Space\-\_\-e} \hyperlink{mem_8h_a9c68f72c120fc5a782d464c144aafa2b}{Pm\-Mem\-Space\-\_\-t}
+\item 
+typedef enum \hyperlink{mem_8h_a598e30f795e697501b07cba111fcca12}{Pm\-Mem\-Space\-\_\-e} $\ast$ \hyperlink{mem_8h_a99019c07f82918b3cfcde1087d0a4af5}{p\-Pm\-Mem\-Space\-\_\-t}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{mem_8h_a598e30f795e697501b07cba111fcca12}{Pm\-Mem\-Space\-\_\-e} \{ \\*
+\hyperlink{mem_8h_a598e30f795e697501b07cba111fcca12a56a98b96811e440f214403f52d13e5fb}{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-R\-A\-M} = 0, 
+\hyperlink{mem_8h_a598e30f795e697501b07cba111fcca12a2ecb1c0fe8e6c9ab4046e1e74c58f57d}{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-P\-R\-O\-G}, 
+\hyperlink{mem_8h_a598e30f795e697501b07cba111fcca12a8b848b66d69dba4d6a814f6706c00d6c}{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-E\-E\-P\-R\-O\-M}, 
+\hyperlink{mem_8h_a598e30f795e697501b07cba111fcca12aae656c3ac800aef76010d6940cb0a99c}{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-S\-E\-E\-P\-R\-O\-M}, 
+\\*
+\hyperlink{mem_8h_a598e30f795e697501b07cba111fcca12a5050f05e4d76db2ea43185feef3e0cc1}{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-O\-T\-H\-E\-R0}, 
+\hyperlink{mem_8h_a598e30f795e697501b07cba111fcca12a13876d79ae78c2a5e0690320b204cd08}{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-O\-T\-H\-E\-R1}, 
+\hyperlink{mem_8h_a598e30f795e697501b07cba111fcca12ad1b43adc545eefb99cc2fa724b5bfe3b}{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-O\-T\-H\-E\-R2}, 
+\hyperlink{mem_8h_a598e30f795e697501b07cba111fcca12a06e54e54c7e02100169847e37d3d1e24}{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-O\-T\-H\-E\-R3}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{mem_8h_aaade6a2a0328b7f035546555d4e90aa2}{mem\-\_\-get\-Word} (\hyperlink{mem_8h_a9c68f72c120fc5a782d464c144aafa2b}{Pm\-Mem\-Space\-\_\-t} memspace, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} $\ast$$\ast$paddr)
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{mem_8h_a0f91d813009ef2cf72658c961ae0e037}{mem\-\_\-get\-Int} (\hyperlink{mem_8h_a9c68f72c120fc5a782d464c144aafa2b}{Pm\-Mem\-Space\-\_\-t} memspace, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} $\ast$$\ast$paddr)
+\item 
+float \hyperlink{mem_8h_a9a1e970099e1ff27e8e756411dc595e7}{mem\-\_\-get\-Float} (\hyperlink{mem_8h_a9c68f72c120fc5a782d464c144aafa2b}{Pm\-Mem\-Space\-\_\-t} memspace, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} $\ast$$\ast$paddr)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{mem_8h_a2577f15ea1aaf29b59f663973cdc7b3b}{mem\-\_\-copy} (\hyperlink{mem_8h_a9c68f72c120fc5a782d464c144aafa2b}{Pm\-Mem\-Space\-\_\-t} memspace, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$$\ast$pdest, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} $\ast$$\ast$psrc, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} count)
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{mem_8h_ae37ffc021d6b42f488ea7dc3b73e5650}{mem\-\_\-get\-String\-Length} (\hyperlink{mem_8h_a9c68f72c120fc5a782d464c144aafa2b}{Pm\-Mem\-Space\-\_\-t} memspace, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} $\ast$\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} pstr)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{mem_8h_a7d8e856299bb6cd3662bc1cc540f5443}{mem\-\_\-cmpn} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$cname, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} cnamelen, \hyperlink{mem_8h_a9c68f72c120fc5a782d464c144aafa2b}{Pm\-Mem\-Space\-\_\-t} memspace, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} $\ast$$\ast$paddr)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+V\-M Memory. V\-M memory header. 
+
+Definition in file \hyperlink{mem_8h_source}{mem.\-h}.
+
+
+
+\subsection{Typedef Documentation}
+\hypertarget{mem_8h_a9c68f72c120fc5a782d464c144aafa2b}{\index{mem.\-h@{mem.\-h}!Pm\-Mem\-Space\-\_\-t@{Pm\-Mem\-Space\-\_\-t}}
+\index{Pm\-Mem\-Space\-\_\-t@{Pm\-Mem\-Space\-\_\-t}!mem.h@{mem.\-h}}
+\subsubsection[{Pm\-Mem\-Space\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef enum {\bf Pm\-Mem\-Space\-\_\-e}  {\bf Pm\-Mem\-Space\-\_\-t}}}\label{mem_8h_a9c68f72c120fc5a782d464c144aafa2b}
+Memory Space enum.
+
+Defines the different addressable areas of the system. \hypertarget{mem_8h_a99019c07f82918b3cfcde1087d0a4af5}{\index{mem.\-h@{mem.\-h}!p\-Pm\-Mem\-Space\-\_\-t@{p\-Pm\-Mem\-Space\-\_\-t}}
+\index{p\-Pm\-Mem\-Space\-\_\-t@{p\-Pm\-Mem\-Space\-\_\-t}!mem.h@{mem.\-h}}
+\subsubsection[{p\-Pm\-Mem\-Space\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef enum {\bf Pm\-Mem\-Space\-\_\-e} $\ast$ {\bf p\-Pm\-Mem\-Space\-\_\-t}}}\label{mem_8h_a99019c07f82918b3cfcde1087d0a4af5}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{mem_8h_a598e30f795e697501b07cba111fcca12}{\index{mem.\-h@{mem.\-h}!Pm\-Mem\-Space\-\_\-e@{Pm\-Mem\-Space\-\_\-e}}
+\index{Pm\-Mem\-Space\-\_\-e@{Pm\-Mem\-Space\-\_\-e}!mem.h@{mem.\-h}}
+\subsubsection[{Pm\-Mem\-Space\-\_\-e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Pm\-Mem\-Space\-\_\-e}}}\label{mem_8h_a598e30f795e697501b07cba111fcca12}
+Memory Space enum.
+
+Defines the different addressable areas of the system. \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-R\-A\-M@{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-R\-A\-M}!mem.\-h@{mem.\-h}}\index{mem.\-h@{mem.\-h}!M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-R\-A\-M@{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-R\-A\-M}}\item[{\em 
+\hypertarget{mem_8h_a598e30f795e697501b07cba111fcca12a56a98b96811e440f214403f52d13e5fb}{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-R\-A\-M}\label{mem_8h_a598e30f795e697501b07cba111fcca12a56a98b96811e440f214403f52d13e5fb}
+}]\index{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-P\-R\-O\-G@{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-P\-R\-O\-G}!mem.\-h@{mem.\-h}}\index{mem.\-h@{mem.\-h}!M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-P\-R\-O\-G@{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-P\-R\-O\-G}}\item[{\em 
+\hypertarget{mem_8h_a598e30f795e697501b07cba111fcca12a2ecb1c0fe8e6c9ab4046e1e74c58f57d}{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-P\-R\-O\-G}\label{mem_8h_a598e30f795e697501b07cba111fcca12a2ecb1c0fe8e6c9ab4046e1e74c58f57d}
+}]\index{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-E\-E\-P\-R\-O\-M@{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-E\-E\-P\-R\-O\-M}!mem.\-h@{mem.\-h}}\index{mem.\-h@{mem.\-h}!M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-E\-E\-P\-R\-O\-M@{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-E\-E\-P\-R\-O\-M}}\item[{\em 
+\hypertarget{mem_8h_a598e30f795e697501b07cba111fcca12a8b848b66d69dba4d6a814f6706c00d6c}{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-E\-E\-P\-R\-O\-M}\label{mem_8h_a598e30f795e697501b07cba111fcca12a8b848b66d69dba4d6a814f6706c00d6c}
+}]\index{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-S\-E\-E\-P\-R\-O\-M@{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-S\-E\-E\-P\-R\-O\-M}!mem.\-h@{mem.\-h}}\index{mem.\-h@{mem.\-h}!M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-S\-E\-E\-P\-R\-O\-M@{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-S\-E\-E\-P\-R\-O\-M}}\item[{\em 
+\hypertarget{mem_8h_a598e30f795e697501b07cba111fcca12aae656c3ac800aef76010d6940cb0a99c}{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-S\-E\-E\-P\-R\-O\-M}\label{mem_8h_a598e30f795e697501b07cba111fcca12aae656c3ac800aef76010d6940cb0a99c}
+}]\index{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-O\-T\-H\-E\-R0@{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-O\-T\-H\-E\-R0}!mem.\-h@{mem.\-h}}\index{mem.\-h@{mem.\-h}!M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-O\-T\-H\-E\-R0@{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-O\-T\-H\-E\-R0}}\item[{\em 
+\hypertarget{mem_8h_a598e30f795e697501b07cba111fcca12a5050f05e4d76db2ea43185feef3e0cc1}{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-O\-T\-H\-E\-R0}\label{mem_8h_a598e30f795e697501b07cba111fcca12a5050f05e4d76db2ea43185feef3e0cc1}
+}]\index{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-O\-T\-H\-E\-R1@{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-O\-T\-H\-E\-R1}!mem.\-h@{mem.\-h}}\index{mem.\-h@{mem.\-h}!M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-O\-T\-H\-E\-R1@{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-O\-T\-H\-E\-R1}}\item[{\em 
+\hypertarget{mem_8h_a598e30f795e697501b07cba111fcca12a13876d79ae78c2a5e0690320b204cd08}{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-O\-T\-H\-E\-R1}\label{mem_8h_a598e30f795e697501b07cba111fcca12a13876d79ae78c2a5e0690320b204cd08}
+}]\index{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-O\-T\-H\-E\-R2@{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-O\-T\-H\-E\-R2}!mem.\-h@{mem.\-h}}\index{mem.\-h@{mem.\-h}!M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-O\-T\-H\-E\-R2@{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-O\-T\-H\-E\-R2}}\item[{\em 
+\hypertarget{mem_8h_a598e30f795e697501b07cba111fcca12ad1b43adc545eefb99cc2fa724b5bfe3b}{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-O\-T\-H\-E\-R2}\label{mem_8h_a598e30f795e697501b07cba111fcca12ad1b43adc545eefb99cc2fa724b5bfe3b}
+}]\index{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-O\-T\-H\-E\-R3@{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-O\-T\-H\-E\-R3}!mem.\-h@{mem.\-h}}\index{mem.\-h@{mem.\-h}!M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-O\-T\-H\-E\-R3@{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-O\-T\-H\-E\-R3}}\item[{\em 
+\hypertarget{mem_8h_a598e30f795e697501b07cba111fcca12a06e54e54c7e02100169847e37d3d1e24}{M\-E\-M\-S\-P\-A\-C\-E\-\_\-\-O\-T\-H\-E\-R3}\label{mem_8h_a598e30f795e697501b07cba111fcca12a06e54e54c7e02100169847e37d3d1e24}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 33 of file mem.\-h.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{mem_8h_a7d8e856299bb6cd3662bc1cc540f5443}{\index{mem.\-h@{mem.\-h}!mem\-\_\-cmpn@{mem\-\_\-cmpn}}
+\index{mem\-\_\-cmpn@{mem\-\_\-cmpn}!mem.h@{mem.\-h}}
+\subsubsection[{mem\-\_\-cmpn}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} mem\-\_\-cmpn (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t} $\ast$}]{cname, }
+\item[{{\bf uint8\-\_\-t}}]{cnamelen, }
+\item[{{\bf Pm\-Mem\-Space\-\_\-t}}]{memspace, }
+\item[{{\bf uint8\-\_\-t} {\bf const} $\ast$$\ast$}]{paddr}
+\end{DoxyParamCaption}
+)}}\label{mem_8h_a7d8e856299bb6cd3662bc1cc540f5443}
+Compares a byte array in R\-A\-M to a byte array in the given memory space
+
+
+\begin{DoxyParams}{Parameters}
+{\em cname} & Pointer to byte array in R\-A\-M \\
+\hline
+{\em cnamelen} & Length of byte array to compare \\
+\hline
+{\em memspace} & Memory space of other byte array \\
+\hline
+{\em paddr} & Pointer to address of other byte array \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+P\-M\-\_\-\-R\-E\-T\-\_\-\-O\-K if all bytes in both arrays match; P\-M\-\_\-\-R\-E\-T\-\_\-\-N\-O otherwise 
+\end{DoxyReturn}
+
+
+Definition at line 138 of file mem.\-c.
+
+\hypertarget{mem_8h_a2577f15ea1aaf29b59f663973cdc7b3b}{\index{mem.\-h@{mem.\-h}!mem\-\_\-copy@{mem\-\_\-copy}}
+\index{mem\-\_\-copy@{mem\-\_\-copy}!mem.h@{mem.\-h}}
+\subsubsection[{mem\-\_\-copy}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} mem\-\_\-copy (
+\begin{DoxyParamCaption}
+\item[{{\bf Pm\-Mem\-Space\-\_\-t}}]{memspace, }
+\item[{{\bf uint8\-\_\-t} $\ast$$\ast$}]{pdest, }
+\item[{{\bf uint8\-\_\-t} {\bf const} $\ast$$\ast$}]{psrc, }
+\item[{{\bf uint16\-\_\-t}}]{count}
+\end{DoxyParamCaption}
+)}}\label{mem_8h_a2577f15ea1aaf29b59f663973cdc7b3b}
+Copies count number of bytes from src in memspace to dest in R\-A\-M. Leaves dest and src pointing one byte past end of the data.
+
+
+\begin{DoxyParams}{Parameters}
+{\em memspace} & memory space/type of source \\
+\hline
+{\em pdest} & ptr to destination address \\
+\hline
+{\em psrc} & ptr to source address \\
+\hline
+{\em count} & number of bytes to copy \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+nothing. src, dest -\/ point 1 past end of data 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{sli_8h_a691ee6210668ea8498a362f6e70de603}{sli\-\_\-memcpy} 
+\end{DoxySeeAlso}
+
+
+Definition at line 91 of file mem.\-c.
+
+\hypertarget{mem_8h_a9a1e970099e1ff27e8e756411dc595e7}{\index{mem.\-h@{mem.\-h}!mem\-\_\-get\-Float@{mem\-\_\-get\-Float}}
+\index{mem\-\_\-get\-Float@{mem\-\_\-get\-Float}!mem.h@{mem.\-h}}
+\subsubsection[{mem\-\_\-get\-Float}]{\setlength{\rightskip}{0pt plus 5cm}float mem\-\_\-get\-Float (
+\begin{DoxyParamCaption}
+\item[{{\bf Pm\-Mem\-Space\-\_\-t}}]{memspace, }
+\item[{{\bf uint8\-\_\-t} {\bf const} $\ast$$\ast$}]{paddr}
+\end{DoxyParamCaption}
+)}}\label{mem_8h_a9a1e970099e1ff27e8e756411dc595e7}
+Returns the 4-\/byte float at the given address in memspace.
+
+Float obtained in L\-I\-T\-T\-L\-E E\-N\-D\-I\-A\-N order (per Python convention). afterward, addr points one byte past the float.
+
+
+\begin{DoxyParams}{Parameters}
+{\em memspace} & memory space \\
+\hline
+{\em paddr} & ptr to address \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+float from memory. addr -\/ points one byte past the word 
+\end{DoxyReturn}
+
+
+Definition at line 57 of file mem.\-c.
+
+\hypertarget{mem_8h_a0f91d813009ef2cf72658c961ae0e037}{\index{mem.\-h@{mem.\-h}!mem\-\_\-get\-Int@{mem\-\_\-get\-Int}}
+\index{mem\-\_\-get\-Int@{mem\-\_\-get\-Int}!mem.h@{mem.\-h}}
+\subsubsection[{mem\-\_\-get\-Int}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} mem\-\_\-get\-Int (
+\begin{DoxyParamCaption}
+\item[{{\bf Pm\-Mem\-Space\-\_\-t}}]{memspace, }
+\item[{{\bf uint8\-\_\-t} {\bf const} $\ast$$\ast$}]{paddr}
+\end{DoxyParamCaption}
+)}}\label{mem_8h_a0f91d813009ef2cf72658c961ae0e037}
+Returns the 4-\/byte int at the given address in memspace.
+
+Int obtained in L\-I\-T\-T\-L\-E E\-N\-D\-I\-A\-N order (per Python convention). afterward, addr points one byte past the int.
+
+
+\begin{DoxyParams}{Parameters}
+{\em memspace} & memory space \\
+\hline
+{\em paddr} & ptr to address \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int from memory. addr -\/ points one byte past the word 
+\end{DoxyReturn}
+
+
+Definition at line 45 of file mem.\-c.
+
+\hypertarget{mem_8h_ae37ffc021d6b42f488ea7dc3b73e5650}{\index{mem.\-h@{mem.\-h}!mem\-\_\-get\-String\-Length@{mem\-\_\-get\-String\-Length}}
+\index{mem\-\_\-get\-String\-Length@{mem\-\_\-get\-String\-Length}!mem.h@{mem.\-h}}
+\subsubsection[{mem\-\_\-get\-String\-Length}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} mem\-\_\-get\-String\-Length (
+\begin{DoxyParamCaption}
+\item[{{\bf Pm\-Mem\-Space\-\_\-t}}]{memspace, }
+\item[{{\bf uint8\-\_\-t} {\bf const} $\ast${\bf const}}]{pstr}
+\end{DoxyParamCaption}
+)}}\label{mem_8h_ae37ffc021d6b42f488ea7dc3b73e5650}
+Returns the number of bytes in the C string pointed to by pstr. Does not modify pstr
+
+
+\begin{DoxyParams}{Parameters}
+{\em memspace} & memory space/type of source \\
+\hline
+{\em pstr} & ptr to source C string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Number of bytes in the string. 
+\end{DoxyReturn}
+
+
+Definition at line 120 of file mem.\-c.
+
+\hypertarget{mem_8h_aaade6a2a0328b7f035546555d4e90aa2}{\index{mem.\-h@{mem.\-h}!mem\-\_\-get\-Word@{mem\-\_\-get\-Word}}
+\index{mem\-\_\-get\-Word@{mem\-\_\-get\-Word}!mem.h@{mem.\-h}}
+\subsubsection[{mem\-\_\-get\-Word}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} mem\-\_\-get\-Word (
+\begin{DoxyParamCaption}
+\item[{{\bf Pm\-Mem\-Space\-\_\-t}}]{memspace, }
+\item[{{\bf uint8\-\_\-t} {\bf const} $\ast$$\ast$}]{paddr}
+\end{DoxyParamCaption}
+)}}\label{mem_8h_aaade6a2a0328b7f035546555d4e90aa2}
+Returns the 2-\/byte word at the given address in memspace.
+
+Word obtained in L\-I\-T\-T\-L\-E E\-N\-D\-I\-A\-N order (per Python convention). afterward, addr points one byte past the word.
+
+
+\begin{DoxyParams}{Parameters}
+{\em memspace} & memory space \\
+\hline
+{\em paddr} & ptr to address \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+word from memory. addr -\/ points one byte past the word 
+\end{DoxyReturn}
+
+
+Definition at line 34 of file mem.\-c.
+

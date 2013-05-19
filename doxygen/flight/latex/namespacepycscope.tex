@@ -1,0 +1,426 @@
+\hypertarget{namespacepycscope}{\section{pycscope Namespace Reference}
+\label{namespacepycscope}\index{pycscope@{pycscope}}
+}
+
+
+Py\-Cscope creates a Cscope-\/like index file for a tree of Python source.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{namespacepycscope_ae4431343d5d62eb7ed02d95a1d5e5c44}{main}
+\item 
+def \hyperlink{namespacepycscope_a99947671693538dcfcf13793ab76fdb7}{parse\-Dir}
+\item 
+def \hyperlink{namespacepycscope_a5e7fa06d83a19ded54d1bddacb6412b4}{parse\-File}
+\item 
+def \hyperlink{namespacepycscope_a63101a26deed43388f5054e000350533}{parse\-Source}
+\item 
+def \hyperlink{namespacepycscope_a15f2ee4f3a471258dc4d16834bb55be8}{walk\-Ast}
+\item 
+def \hyperlink{namespacepycscope_af02a9c3c4286c6b044e7bb6070c55b7d}{write\-Index}
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{namespacepycscope_a2298754460411e658bd47ebf789a4cef}{\-\_\-\-\_\-author\-\_\-\-\_\-} = \char`\"{}Dean Hall\char`\"{}
+\item 
+string \hyperlink{namespacepycscope_aaf595cacaad41fc4a705646cebc1c383}{\-\_\-\-\_\-copyright\-\_\-\-\_\-} = \char`\"{}Copyright 2003, 2006, 2007, 2009, 2010 Dean Hall. See L\-I\-C\-E\-N\-S\-E \hyperlink{group___p_i_o_s___t_i_m_ga354d20ebcb9396fb9b160590fcef9cee}{for} details.\char`\"{}
+\item 
+string \hyperlink{namespacepycscope_af4accb7da8b3271d0f2ce1d273bbd5de}{\-\_\-\-\_\-date\-\_\-\-\_\-} = \char`\"{}2007/12/25\char`\"{}
+\item 
+string \hyperlink{namespacepycscope_ad671641244ef639a8ba440baead61e63}{\-\_\-\-\_\-version\-\_\-\-\_\-} = \char`\"{}0.\-3\char`\"{}
+\item 
+string \hyperlink{namespacepycscope_a5935343cfa1b7b3ed6a6662d8e04f4de}{\-\_\-\-\_\-usage\-\_\-\-\_\-}
+\item 
+string \hyperlink{namespacepycscope_a009264ba488fb81f5c2faf236dc2957e}{M\-A\-R\-K\-\_\-\-F\-I\-L\-E} = \char`\"{}\textbackslash{}t@\char`\"{}
+\item 
+string \hyperlink{namespacepycscope_a8ff1f31aa6b2351ef03016d3c8691e90}{M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-D\-E\-F} = \char`\"{}\textbackslash{}t\$\char`\"{}
+\item 
+string \hyperlink{namespacepycscope_a0ebe5a435fd0cdaa563d5be84886462d}{M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-C\-A\-L\-L} = \char`\"{}\textbackslash{}t`\char`\"{}
+\item 
+string \hyperlink{namespacepycscope_aca9e6d1a164786d3fe1cd678d995c31f}{M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-E\-N\-D} = \char`\"{}\textbackslash{}t\}\char`\"{}
+\item 
+string \hyperlink{namespacepycscope_a2269ada09ac36e7514d0d1dc7c42bbc3}{M\-A\-R\-K\-\_\-\-I\-N\-C\-L\-U\-D\-E} = \char`\"{}\textbackslash{}t$\sim$$<$\char`\"{}
+\item 
+string \hyperlink{namespacepycscope_ab29d723a3a1078980f5d06450f679c3f}{M\-A\-R\-K\-\_\-\-A\-S\-G\-N} = \char`\"{}\textbackslash{}t=\char`\"{}
+\item 
+string \hyperlink{namespacepycscope_a400d0aef5f4e5a6c4573c4951a12eba3}{M\-A\-R\-K\-\_\-\-C\-L\-A\-S\-S} = \char`\"{}\textbackslash{}tc\char`\"{}
+\item 
+string \hyperlink{namespacepycscope_a67a8c20404ff1be3c26b903f5dc5614b}{M\-A\-R\-K\-\_\-\-G\-L\-O\-B\-A\-L} = \char`\"{}\textbackslash{}tg\char`\"{}
+\item 
+string \hyperlink{namespacepycscope_a20d8c3d74d155f02a94315e224b47cc6}{M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-P\-A\-R\-M} = \char`\"{}\textbackslash{}tp\char`\"{}
+\item 
+tuple \hyperlink{namespacepycscope_a0feaaa8934a18534689c87203668ba06}{tok\-\_\-name\-\_\-lookup} = dict((\hyperlink{pios__opahrs__proto_8h_a9ff4f5e7fab61b60356262e4f382a906}{v},k) \hyperlink{group___p_i_o_s___t_i_m_ga354d20ebcb9396fb9b160590fcef9cee}{for} k,\hyperlink{pios__opahrs__proto_8h_a9ff4f5e7fab61b60356262e4f382a906}{v} in token.\-tok\-\_\-name.\-iteritems())
+\item 
+list \hyperlink{namespacepycscope_af38c6b38b13e012dc3ce74c8160fbfab}{T\-O\-K\-\_\-\-N\-E\-W\-L\-I\-N\-E} = \hyperlink{namespacepycscope_a0feaaa8934a18534689c87203668ba06}{tok\-\_\-name\-\_\-lookup}\mbox{[}\char`\"{}N\-E\-W\-L\-I\-N\-E\char`\"{}\mbox{]}
+\item 
+list \hyperlink{namespacepycscope_ac91c134ed68b7241ea365d5833d88335}{T\-O\-K\-\_\-\-N\-A\-M\-E} = \hyperlink{namespacepycscope_a0feaaa8934a18534689c87203668ba06}{tok\-\_\-name\-\_\-lookup}\mbox{[}\char`\"{}N\-A\-M\-E\char`\"{}\mbox{]}
+\item 
+list \hyperlink{namespacepycscope_a8eb068cdd57b2dd6ca18d3506765d0dd}{T\-O\-K\-\_\-\-L\-P\-A\-R} = \hyperlink{namespacepycscope_a0feaaa8934a18534689c87203668ba06}{tok\-\_\-name\-\_\-lookup}\mbox{[}\char`\"{}L\-P\-A\-R\char`\"{}\mbox{]}
+\item 
+list \hyperlink{namespacepycscope_ae8bbfebf147a4717d7391d2b3db8000e}{T\-O\-K\-\_\-\-E\-N\-D\-M\-A\-R\-K\-E\-R} = \hyperlink{namespacepycscope_a0feaaa8934a18534689c87203668ba06}{tok\-\_\-name\-\_\-lookup}\mbox{[}\char`\"{}E\-N\-D\-M\-A\-R\-K\-E\-R\char`\"{}\mbox{]}
+\item 
+list \hyperlink{namespacepycscope_a938e01a37014b917f30712fa3a530668}{T\-O\-K\-\_\-\-I\-N\-D\-E\-N\-T} = \hyperlink{namespacepycscope_a0feaaa8934a18534689c87203668ba06}{tok\-\_\-name\-\_\-lookup}\mbox{[}\char`\"{}I\-N\-D\-E\-N\-T\char`\"{}\mbox{]}
+\item 
+list \hyperlink{namespacepycscope_a3108a1650ffb20d224af52f9c2069b70}{T\-O\-K\-\_\-\-D\-E\-D\-E\-N\-T} = \hyperlink{namespacepycscope_a0feaaa8934a18534689c87203668ba06}{tok\-\_\-name\-\_\-lookup}\mbox{[}\char`\"{}D\-E\-D\-E\-N\-T\char`\"{}\mbox{]}
+\item 
+tuple \hyperlink{namespacepycscope_a178c83c89678929965e9d8dd5f38b22a}{sym\-\_\-name\-\_\-lookup} = dict((\hyperlink{pios__opahrs__proto_8h_a9ff4f5e7fab61b60356262e4f382a906}{v},k) \hyperlink{group___p_i_o_s___t_i_m_ga354d20ebcb9396fb9b160590fcef9cee}{for} k,\hyperlink{pios__opahrs__proto_8h_a9ff4f5e7fab61b60356262e4f382a906}{v} in symbol.\-sym\-\_\-name.\-iteritems())
+\item 
+list \hyperlink{namespacepycscope_ab4c97a063679d55deb7f785cc59c064f}{S\-Y\-M\-\_\-\-T\-R\-A\-I\-L\-E\-R} = \hyperlink{namespacepycscope_a178c83c89678929965e9d8dd5f38b22a}{sym\-\_\-name\-\_\-lookup}\mbox{[}\char`\"{}trailer\char`\"{}\mbox{]}
+\item 
+list \hyperlink{namespacepycscope_ae73b4bb791682cb31b75b1b7c2cece1b}{S\-Y\-M\-\_\-\-V\-A\-R\-A\-R\-G\-S\-L\-I\-S\-T} = \hyperlink{namespacepycscope_a178c83c89678929965e9d8dd5f38b22a}{sym\-\_\-name\-\_\-lookup}\mbox{[}\char`\"{}varargslist\char`\"{}\mbox{]}
+\item 
+\hyperlink{namespacepycscope_ae6ee50ac1c7b31d0ca859b81311cbcee}{kwlist} = keyword.\-kwlist
+\item 
+int \hyperlink{namespacepycscope_acf630fd0ccc23fcb814b562c780629f5}{latestnewline} = 1
+\item 
+string \hyperlink{namespacepycscope_a799f69f0ccef70661fe41a0505d074e8}{latestsymbol} = \char`\"{}\char`\"{}
+\item 
+string \hyperlink{namespacepycscope_ad0f7bbe25c20ebd6bcc1056a3d05287b}{latesttoken} = \char`\"{}\char`\"{}
+\item 
+string \hyperlink{namespacepycscope_aea25d07f1c7d3231a6a2f9fde8cf1abc}{prevtoken} = \char`\"{}\char`\"{}
+\item 
+string \hyperlink{namespacepycscope_a912cfb92b6b00c96029f596ac9117aab}{mark} = \char`\"{}\char`\"{}
+\item 
+\hyperlink{namespacepycscope_aea05d92402ffc86a81655884355d7090}{infuncdef} = False
+\item 
+int \hyperlink{namespacepycscope_ac1336c917bd5aa8bb13fd24edfe01079}{indentcount} = 0
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Py\-Cscope creates a Cscope-\/like index file for a tree of Python source. 2007/12/25\-: Improvements contributed by K. Rader of Google\-:
+\begin{DoxyItemize}
+\item Added the {\ttfamily -\/i} argument to specify a file-\/list file
+\item Fixups to the header and footer to make a valid file that cscope can read 
+\end{DoxyItemize}
+
+\subsection{Function Documentation}
+\hypertarget{namespacepycscope_ae4431343d5d62eb7ed02d95a1d5e5c44}{\index{pycscope@{pycscope}!main@{main}}
+\index{main@{main}!pycscope@{pycscope}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}def pycscope.\-main (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{namespacepycscope_ae4431343d5d62eb7ed02d95a1d5e5c44}
+\begin{DoxyVerb}Parse command line args and act accordingly.
+\end{DoxyVerb}
+ 
+
+Definition at line 87 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_a99947671693538dcfcf13793ab76fdb7}{\index{pycscope@{pycscope}!parse\-Dir@{parse\-Dir}}
+\index{parse\-Dir@{parse\-Dir}!pycscope@{pycscope}}
+\subsubsection[{parse\-Dir}]{\setlength{\rightskip}{0pt plus 5cm}def pycscope.\-parse\-Dir (
+\begin{DoxyParamCaption}
+\item[{}]{basepath, }
+\item[{}]{relpath, }
+\item[{}]{indexbuff, }
+\item[{}]{recurse, }
+\item[{}]{fnamesbuff}
+\end{DoxyParamCaption}
+)}}\label{namespacepycscope_a99947671693538dcfcf13793ab76fdb7}
+\begin{DoxyVerb}Parses all files in the directory and
+recurses into subdirectories if requested.
+\end{DoxyVerb}
+ 
+
+Definition at line 130 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_a5e7fa06d83a19ded54d1bddacb6412b4}{\index{pycscope@{pycscope}!parse\-File@{parse\-File}}
+\index{parse\-File@{parse\-File}!pycscope@{pycscope}}
+\subsubsection[{parse\-File}]{\setlength{\rightskip}{0pt plus 5cm}def pycscope.\-parse\-File (
+\begin{DoxyParamCaption}
+\item[{}]{basepath, }
+\item[{}]{relpath, }
+\item[{}]{indexbuff, }
+\item[{}]{fnamesbuff}
+\end{DoxyParamCaption}
+)}}\label{namespacepycscope_a5e7fa06d83a19ded54d1bddacb6412b4}
+\begin{DoxyVerb}Parses a source file and puts the resulting index into the buffer.
+\end{DoxyVerb}
+ 
+
+Definition at line 148 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_a63101a26deed43388f5054e000350533}{\index{pycscope@{pycscope}!parse\-Source@{parse\-Source}}
+\index{parse\-Source@{parse\-Source}!pycscope@{pycscope}}
+\subsubsection[{parse\-Source}]{\setlength{\rightskip}{0pt plus 5cm}def pycscope.\-parse\-Source (
+\begin{DoxyParamCaption}
+\item[{}]{sourcecode, }
+\item[{}]{indexbuff}
+\end{DoxyParamCaption}
+)}}\label{namespacepycscope_a63101a26deed43388f5054e000350533}
+\begin{DoxyVerb}Parses python source code and puts the resulting index into the buffer.
+\end{DoxyVerb}
+ 
+
+Definition at line 175 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_a15f2ee4f3a471258dc4d16834bb55be8}{\index{pycscope@{pycscope}!walk\-Ast@{walk\-Ast}}
+\index{walk\-Ast@{walk\-Ast}!pycscope@{pycscope}}
+\subsubsection[{walk\-Ast}]{\setlength{\rightskip}{0pt plus 5cm}def pycscope.\-walk\-Ast (
+\begin{DoxyParamCaption}
+\item[{}]{astlist, }
+\item[{}]{indexbuff}
+\end{DoxyParamCaption}
+)}}\label{namespacepycscope_a15f2ee4f3a471258dc4d16834bb55be8}
+\begin{DoxyVerb}Scan the AST for tokens, write out index lines.
+\end{DoxyVerb}
+ 
+
+Definition at line 192 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_af02a9c3c4286c6b044e7bb6070c55b7d}{\index{pycscope@{pycscope}!write\-Index@{write\-Index}}
+\index{write\-Index@{write\-Index}!pycscope@{pycscope}}
+\subsubsection[{write\-Index}]{\setlength{\rightskip}{0pt plus 5cm}def pycscope.\-write\-Index (
+\begin{DoxyParamCaption}
+\item[{}]{basepath, }
+\item[{}]{indexfn, }
+\item[{}]{indexbuff, }
+\item[{}]{fnamesbuff}
+\end{DoxyParamCaption}
+)}}\label{namespacepycscope_af02a9c3c4286c6b044e7bb6070c55b7d}
+\begin{DoxyVerb}Write the index buffer to the output file.
+\end{DoxyVerb}
+ 
+
+Definition at line 313 of file pycscope.\-py.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{namespacepycscope_a2298754460411e658bd47ebf789a4cef}{\index{pycscope@{pycscope}!\-\_\-\-\_\-author\-\_\-\-\_\-@{\-\_\-\-\_\-author\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-author\-\_\-\-\_\-@{\-\_\-\-\_\-author\-\_\-\-\_\-}!pycscope@{pycscope}}
+\subsubsection[{\-\_\-\-\_\-author\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}string pycscope.\-\_\-\-\_\-author\-\_\-\-\_\- = \char`\"{}Dean Hall\char`\"{}}}\label{namespacepycscope_a2298754460411e658bd47ebf789a4cef}
+
+
+Definition at line 34 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_aaf595cacaad41fc4a705646cebc1c383}{\index{pycscope@{pycscope}!\-\_\-\-\_\-copyright\-\_\-\-\_\-@{\-\_\-\-\_\-copyright\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-copyright\-\_\-\-\_\-@{\-\_\-\-\_\-copyright\-\_\-\-\_\-}!pycscope@{pycscope}}
+\subsubsection[{\-\_\-\-\_\-copyright\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}string pycscope.\-\_\-\-\_\-copyright\-\_\-\-\_\- = \char`\"{}Copyright 2003, 2006, 2007, 2009, 2010 Dean Hall. See L\-I\-C\-E\-N\-S\-E {\bf for} details.\char`\"{}}}\label{namespacepycscope_aaf595cacaad41fc4a705646cebc1c383}
+
+
+Definition at line 35 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_af4accb7da8b3271d0f2ce1d273bbd5de}{\index{pycscope@{pycscope}!\-\_\-\-\_\-date\-\_\-\-\_\-@{\-\_\-\-\_\-date\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-date\-\_\-\-\_\-@{\-\_\-\-\_\-date\-\_\-\-\_\-}!pycscope@{pycscope}}
+\subsubsection[{\-\_\-\-\_\-date\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}string pycscope.\-\_\-\-\_\-date\-\_\-\-\_\- = \char`\"{}2007/12/25\char`\"{}}}\label{namespacepycscope_af4accb7da8b3271d0f2ce1d273bbd5de}
+
+
+Definition at line 36 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_a5935343cfa1b7b3ed6a6662d8e04f4de}{\index{pycscope@{pycscope}!\-\_\-\-\_\-usage\-\_\-\-\_\-@{\-\_\-\-\_\-usage\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-usage\-\_\-\-\_\-@{\-\_\-\-\_\-usage\-\_\-\-\_\-}!pycscope@{pycscope}}
+\subsubsection[{\-\_\-\-\_\-usage\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}string pycscope.\-\_\-\-\_\-usage\-\_\-\-\_\-}}\label{namespacepycscope_a5935343cfa1b7b3ed6a6662d8e04f4de}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+1 = \textcolor{stringliteral}{"""Usage: pycscope.py [-R] [-f reffile] [-i srclistfile] [files ...]}
+2 \textcolor{stringliteral}{}
+3 \textcolor{stringliteral}{-R              Recurse directories for files.}
+4 \textcolor{stringliteral}{-f reffile      Use reffile as cross-ref file name instead of cscope.out.}
+5 \textcolor{stringliteral}{-i srclistfile  Use a file that contains a list of source files to scan."""}
+\end{DoxyCode}
+
+
+Definition at line 38 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_ad671641244ef639a8ba440baead61e63}{\index{pycscope@{pycscope}!\-\_\-\-\_\-version\-\_\-\-\_\-@{\-\_\-\-\_\-version\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-version\-\_\-\-\_\-@{\-\_\-\-\_\-version\-\_\-\-\_\-}!pycscope@{pycscope}}
+\subsubsection[{\-\_\-\-\_\-version\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}string pycscope.\-\_\-\-\_\-version\-\_\-\-\_\- = \char`\"{}0.\-3\char`\"{}}}\label{namespacepycscope_ad671641244ef639a8ba440baead61e63}
+
+
+Definition at line 37 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_ac1336c917bd5aa8bb13fd24edfe01079}{\index{pycscope@{pycscope}!indentcount@{indentcount}}
+\index{indentcount@{indentcount}!pycscope@{pycscope}}
+\subsubsection[{indentcount}]{\setlength{\rightskip}{0pt plus 5cm}int pycscope.\-indentcount = 0}}\label{namespacepycscope_ac1336c917bd5aa8bb13fd24edfe01079}
+
+
+Definition at line 84 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_aea05d92402ffc86a81655884355d7090}{\index{pycscope@{pycscope}!infuncdef@{infuncdef}}
+\index{infuncdef@{infuncdef}!pycscope@{pycscope}}
+\subsubsection[{infuncdef}]{\setlength{\rightskip}{0pt plus 5cm}pycscope.\-infuncdef = False}}\label{namespacepycscope_aea05d92402ffc86a81655884355d7090}
+
+
+Definition at line 83 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_ae6ee50ac1c7b31d0ca859b81311cbcee}{\index{pycscope@{pycscope}!kwlist@{kwlist}}
+\index{kwlist@{kwlist}!pycscope@{pycscope}}
+\subsubsection[{kwlist}]{\setlength{\rightskip}{0pt plus 5cm}pycscope.\-kwlist = keyword.\-kwlist}}\label{namespacepycscope_ae6ee50ac1c7b31d0ca859b81311cbcee}
+
+
+Definition at line 74 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_acf630fd0ccc23fcb814b562c780629f5}{\index{pycscope@{pycscope}!latestnewline@{latestnewline}}
+\index{latestnewline@{latestnewline}!pycscope@{pycscope}}
+\subsubsection[{latestnewline}]{\setlength{\rightskip}{0pt plus 5cm}int pycscope.\-latestnewline = 1}}\label{namespacepycscope_acf630fd0ccc23fcb814b562c780629f5}
+
+
+Definition at line 78 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_a799f69f0ccef70661fe41a0505d074e8}{\index{pycscope@{pycscope}!latestsymbol@{latestsymbol}}
+\index{latestsymbol@{latestsymbol}!pycscope@{pycscope}}
+\subsubsection[{latestsymbol}]{\setlength{\rightskip}{0pt plus 5cm}string pycscope.\-latestsymbol = \char`\"{}\char`\"{}}}\label{namespacepycscope_a799f69f0ccef70661fe41a0505d074e8}
+
+
+Definition at line 79 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_ad0f7bbe25c20ebd6bcc1056a3d05287b}{\index{pycscope@{pycscope}!latesttoken@{latesttoken}}
+\index{latesttoken@{latesttoken}!pycscope@{pycscope}}
+\subsubsection[{latesttoken}]{\setlength{\rightskip}{0pt plus 5cm}string pycscope.\-latesttoken = \char`\"{}\char`\"{}}}\label{namespacepycscope_ad0f7bbe25c20ebd6bcc1056a3d05287b}
+
+
+Definition at line 80 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_a912cfb92b6b00c96029f596ac9117aab}{\index{pycscope@{pycscope}!mark@{mark}}
+\index{mark@{mark}!pycscope@{pycscope}}
+\subsubsection[{mark}]{\setlength{\rightskip}{0pt plus 5cm}string pycscope.\-mark = \char`\"{}\char`\"{}}}\label{namespacepycscope_a912cfb92b6b00c96029f596ac9117aab}
+
+
+Definition at line 82 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_ab29d723a3a1078980f5d06450f679c3f}{\index{pycscope@{pycscope}!M\-A\-R\-K\-\_\-\-A\-S\-G\-N@{M\-A\-R\-K\-\_\-\-A\-S\-G\-N}}
+\index{M\-A\-R\-K\-\_\-\-A\-S\-G\-N@{M\-A\-R\-K\-\_\-\-A\-S\-G\-N}!pycscope@{pycscope}}
+\subsubsection[{M\-A\-R\-K\-\_\-\-A\-S\-G\-N}]{\setlength{\rightskip}{0pt plus 5cm}string pycscope.\-M\-A\-R\-K\-\_\-\-A\-S\-G\-N = \char`\"{}\textbackslash{}t=\char`\"{}}}\label{namespacepycscope_ab29d723a3a1078980f5d06450f679c3f}
+
+
+Definition at line 54 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_a400d0aef5f4e5a6c4573c4951a12eba3}{\index{pycscope@{pycscope}!M\-A\-R\-K\-\_\-\-C\-L\-A\-S\-S@{M\-A\-R\-K\-\_\-\-C\-L\-A\-S\-S}}
+\index{M\-A\-R\-K\-\_\-\-C\-L\-A\-S\-S@{M\-A\-R\-K\-\_\-\-C\-L\-A\-S\-S}!pycscope@{pycscope}}
+\subsubsection[{M\-A\-R\-K\-\_\-\-C\-L\-A\-S\-S}]{\setlength{\rightskip}{0pt plus 5cm}string pycscope.\-M\-A\-R\-K\-\_\-\-C\-L\-A\-S\-S = \char`\"{}\textbackslash{}tc\char`\"{}}}\label{namespacepycscope_a400d0aef5f4e5a6c4573c4951a12eba3}
+
+
+Definition at line 55 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_a009264ba488fb81f5c2faf236dc2957e}{\index{pycscope@{pycscope}!M\-A\-R\-K\-\_\-\-F\-I\-L\-E@{M\-A\-R\-K\-\_\-\-F\-I\-L\-E}}
+\index{M\-A\-R\-K\-\_\-\-F\-I\-L\-E@{M\-A\-R\-K\-\_\-\-F\-I\-L\-E}!pycscope@{pycscope}}
+\subsubsection[{M\-A\-R\-K\-\_\-\-F\-I\-L\-E}]{\setlength{\rightskip}{0pt plus 5cm}string pycscope.\-M\-A\-R\-K\-\_\-\-F\-I\-L\-E = \char`\"{}\textbackslash{}t@\char`\"{}}}\label{namespacepycscope_a009264ba488fb81f5c2faf236dc2957e}
+
+
+Definition at line 49 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_a0ebe5a435fd0cdaa563d5be84886462d}{\index{pycscope@{pycscope}!M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-C\-A\-L\-L@{M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-C\-A\-L\-L}}
+\index{M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-C\-A\-L\-L@{M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-C\-A\-L\-L}!pycscope@{pycscope}}
+\subsubsection[{M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}string pycscope.\-M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-C\-A\-L\-L = \char`\"{}\textbackslash{}t`\char`\"{}}}\label{namespacepycscope_a0ebe5a435fd0cdaa563d5be84886462d}
+
+
+Definition at line 51 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_a8ff1f31aa6b2351ef03016d3c8691e90}{\index{pycscope@{pycscope}!M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-D\-E\-F@{M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-D\-E\-F}}
+\index{M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-D\-E\-F@{M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-D\-E\-F}!pycscope@{pycscope}}
+\subsubsection[{M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-D\-E\-F}]{\setlength{\rightskip}{0pt plus 5cm}string pycscope.\-M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-D\-E\-F = \char`\"{}\textbackslash{}t\$\char`\"{}}}\label{namespacepycscope_a8ff1f31aa6b2351ef03016d3c8691e90}
+
+
+Definition at line 50 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_aca9e6d1a164786d3fe1cd678d995c31f}{\index{pycscope@{pycscope}!M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-E\-N\-D@{M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-E\-N\-D}}
+\index{M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-E\-N\-D@{M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-E\-N\-D}!pycscope@{pycscope}}
+\subsubsection[{M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-E\-N\-D}]{\setlength{\rightskip}{0pt plus 5cm}string pycscope.\-M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-E\-N\-D = \char`\"{}\textbackslash{}t\}\char`\"{}}}\label{namespacepycscope_aca9e6d1a164786d3fe1cd678d995c31f}
+
+
+Definition at line 52 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_a20d8c3d74d155f02a94315e224b47cc6}{\index{pycscope@{pycscope}!M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-P\-A\-R\-M@{M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-P\-A\-R\-M}}
+\index{M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-P\-A\-R\-M@{M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-P\-A\-R\-M}!pycscope@{pycscope}}
+\subsubsection[{M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-P\-A\-R\-M}]{\setlength{\rightskip}{0pt plus 5cm}string pycscope.\-M\-A\-R\-K\-\_\-\-F\-U\-N\-C\-\_\-\-P\-A\-R\-M = \char`\"{}\textbackslash{}tp\char`\"{}}}\label{namespacepycscope_a20d8c3d74d155f02a94315e224b47cc6}
+
+
+Definition at line 57 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_a67a8c20404ff1be3c26b903f5dc5614b}{\index{pycscope@{pycscope}!M\-A\-R\-K\-\_\-\-G\-L\-O\-B\-A\-L@{M\-A\-R\-K\-\_\-\-G\-L\-O\-B\-A\-L}}
+\index{M\-A\-R\-K\-\_\-\-G\-L\-O\-B\-A\-L@{M\-A\-R\-K\-\_\-\-G\-L\-O\-B\-A\-L}!pycscope@{pycscope}}
+\subsubsection[{M\-A\-R\-K\-\_\-\-G\-L\-O\-B\-A\-L}]{\setlength{\rightskip}{0pt plus 5cm}string pycscope.\-M\-A\-R\-K\-\_\-\-G\-L\-O\-B\-A\-L = \char`\"{}\textbackslash{}tg\char`\"{}}}\label{namespacepycscope_a67a8c20404ff1be3c26b903f5dc5614b}
+
+
+Definition at line 56 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_a2269ada09ac36e7514d0d1dc7c42bbc3}{\index{pycscope@{pycscope}!M\-A\-R\-K\-\_\-\-I\-N\-C\-L\-U\-D\-E@{M\-A\-R\-K\-\_\-\-I\-N\-C\-L\-U\-D\-E}}
+\index{M\-A\-R\-K\-\_\-\-I\-N\-C\-L\-U\-D\-E@{M\-A\-R\-K\-\_\-\-I\-N\-C\-L\-U\-D\-E}!pycscope@{pycscope}}
+\subsubsection[{M\-A\-R\-K\-\_\-\-I\-N\-C\-L\-U\-D\-E}]{\setlength{\rightskip}{0pt plus 5cm}string pycscope.\-M\-A\-R\-K\-\_\-\-I\-N\-C\-L\-U\-D\-E = \char`\"{}\textbackslash{}t$\sim$$<$\char`\"{}}}\label{namespacepycscope_a2269ada09ac36e7514d0d1dc7c42bbc3}
+
+
+Definition at line 53 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_aea25d07f1c7d3231a6a2f9fde8cf1abc}{\index{pycscope@{pycscope}!prevtoken@{prevtoken}}
+\index{prevtoken@{prevtoken}!pycscope@{pycscope}}
+\subsubsection[{prevtoken}]{\setlength{\rightskip}{0pt plus 5cm}string pycscope.\-prevtoken = \char`\"{}\char`\"{}}}\label{namespacepycscope_aea25d07f1c7d3231a6a2f9fde8cf1abc}
+
+
+Definition at line 81 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_a178c83c89678929965e9d8dd5f38b22a}{\index{pycscope@{pycscope}!sym\-\_\-name\-\_\-lookup@{sym\-\_\-name\-\_\-lookup}}
+\index{sym\-\_\-name\-\_\-lookup@{sym\-\_\-name\-\_\-lookup}!pycscope@{pycscope}}
+\subsubsection[{sym\-\_\-name\-\_\-lookup}]{\setlength{\rightskip}{0pt plus 5cm}tuple pycscope.\-sym\-\_\-name\-\_\-lookup = dict(({\bf v},k) {\bf for} k,{\bf v} in symbol.\-sym\-\_\-name.\-iteritems())}}\label{namespacepycscope_a178c83c89678929965e9d8dd5f38b22a}
+
+
+Definition at line 69 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_ab4c97a063679d55deb7f785cc59c064f}{\index{pycscope@{pycscope}!S\-Y\-M\-\_\-\-T\-R\-A\-I\-L\-E\-R@{S\-Y\-M\-\_\-\-T\-R\-A\-I\-L\-E\-R}}
+\index{S\-Y\-M\-\_\-\-T\-R\-A\-I\-L\-E\-R@{S\-Y\-M\-\_\-\-T\-R\-A\-I\-L\-E\-R}!pycscope@{pycscope}}
+\subsubsection[{S\-Y\-M\-\_\-\-T\-R\-A\-I\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}list pycscope.\-S\-Y\-M\-\_\-\-T\-R\-A\-I\-L\-E\-R = {\bf sym\-\_\-name\-\_\-lookup}\mbox{[}\char`\"{}trailer\char`\"{}\mbox{]}}}\label{namespacepycscope_ab4c97a063679d55deb7f785cc59c064f}
+
+
+Definition at line 70 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_ae73b4bb791682cb31b75b1b7c2cece1b}{\index{pycscope@{pycscope}!S\-Y\-M\-\_\-\-V\-A\-R\-A\-R\-G\-S\-L\-I\-S\-T@{S\-Y\-M\-\_\-\-V\-A\-R\-A\-R\-G\-S\-L\-I\-S\-T}}
+\index{S\-Y\-M\-\_\-\-V\-A\-R\-A\-R\-G\-S\-L\-I\-S\-T@{S\-Y\-M\-\_\-\-V\-A\-R\-A\-R\-G\-S\-L\-I\-S\-T}!pycscope@{pycscope}}
+\subsubsection[{S\-Y\-M\-\_\-\-V\-A\-R\-A\-R\-G\-S\-L\-I\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}list pycscope.\-S\-Y\-M\-\_\-\-V\-A\-R\-A\-R\-G\-S\-L\-I\-S\-T = {\bf sym\-\_\-name\-\_\-lookup}\mbox{[}\char`\"{}varargslist\char`\"{}\mbox{]}}}\label{namespacepycscope_ae73b4bb791682cb31b75b1b7c2cece1b}
+
+
+Definition at line 71 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_a3108a1650ffb20d224af52f9c2069b70}{\index{pycscope@{pycscope}!T\-O\-K\-\_\-\-D\-E\-D\-E\-N\-T@{T\-O\-K\-\_\-\-D\-E\-D\-E\-N\-T}}
+\index{T\-O\-K\-\_\-\-D\-E\-D\-E\-N\-T@{T\-O\-K\-\_\-\-D\-E\-D\-E\-N\-T}!pycscope@{pycscope}}
+\subsubsection[{T\-O\-K\-\_\-\-D\-E\-D\-E\-N\-T}]{\setlength{\rightskip}{0pt plus 5cm}list pycscope.\-T\-O\-K\-\_\-\-D\-E\-D\-E\-N\-T = {\bf tok\-\_\-name\-\_\-lookup}\mbox{[}\char`\"{}D\-E\-D\-E\-N\-T\char`\"{}\mbox{]}}}\label{namespacepycscope_a3108a1650ffb20d224af52f9c2069b70}
+
+
+Definition at line 66 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_ae8bbfebf147a4717d7391d2b3db8000e}{\index{pycscope@{pycscope}!T\-O\-K\-\_\-\-E\-N\-D\-M\-A\-R\-K\-E\-R@{T\-O\-K\-\_\-\-E\-N\-D\-M\-A\-R\-K\-E\-R}}
+\index{T\-O\-K\-\_\-\-E\-N\-D\-M\-A\-R\-K\-E\-R@{T\-O\-K\-\_\-\-E\-N\-D\-M\-A\-R\-K\-E\-R}!pycscope@{pycscope}}
+\subsubsection[{T\-O\-K\-\_\-\-E\-N\-D\-M\-A\-R\-K\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}list pycscope.\-T\-O\-K\-\_\-\-E\-N\-D\-M\-A\-R\-K\-E\-R = {\bf tok\-\_\-name\-\_\-lookup}\mbox{[}\char`\"{}E\-N\-D\-M\-A\-R\-K\-E\-R\char`\"{}\mbox{]}}}\label{namespacepycscope_ae8bbfebf147a4717d7391d2b3db8000e}
+
+
+Definition at line 64 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_a938e01a37014b917f30712fa3a530668}{\index{pycscope@{pycscope}!T\-O\-K\-\_\-\-I\-N\-D\-E\-N\-T@{T\-O\-K\-\_\-\-I\-N\-D\-E\-N\-T}}
+\index{T\-O\-K\-\_\-\-I\-N\-D\-E\-N\-T@{T\-O\-K\-\_\-\-I\-N\-D\-E\-N\-T}!pycscope@{pycscope}}
+\subsubsection[{T\-O\-K\-\_\-\-I\-N\-D\-E\-N\-T}]{\setlength{\rightskip}{0pt plus 5cm}list pycscope.\-T\-O\-K\-\_\-\-I\-N\-D\-E\-N\-T = {\bf tok\-\_\-name\-\_\-lookup}\mbox{[}\char`\"{}I\-N\-D\-E\-N\-T\char`\"{}\mbox{]}}}\label{namespacepycscope_a938e01a37014b917f30712fa3a530668}
+
+
+Definition at line 65 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_a8eb068cdd57b2dd6ca18d3506765d0dd}{\index{pycscope@{pycscope}!T\-O\-K\-\_\-\-L\-P\-A\-R@{T\-O\-K\-\_\-\-L\-P\-A\-R}}
+\index{T\-O\-K\-\_\-\-L\-P\-A\-R@{T\-O\-K\-\_\-\-L\-P\-A\-R}!pycscope@{pycscope}}
+\subsubsection[{T\-O\-K\-\_\-\-L\-P\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}list pycscope.\-T\-O\-K\-\_\-\-L\-P\-A\-R = {\bf tok\-\_\-name\-\_\-lookup}\mbox{[}\char`\"{}L\-P\-A\-R\char`\"{}\mbox{]}}}\label{namespacepycscope_a8eb068cdd57b2dd6ca18d3506765d0dd}
+
+
+Definition at line 63 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_ac91c134ed68b7241ea365d5833d88335}{\index{pycscope@{pycscope}!T\-O\-K\-\_\-\-N\-A\-M\-E@{T\-O\-K\-\_\-\-N\-A\-M\-E}}
+\index{T\-O\-K\-\_\-\-N\-A\-M\-E@{T\-O\-K\-\_\-\-N\-A\-M\-E}!pycscope@{pycscope}}
+\subsubsection[{T\-O\-K\-\_\-\-N\-A\-M\-E}]{\setlength{\rightskip}{0pt plus 5cm}list pycscope.\-T\-O\-K\-\_\-\-N\-A\-M\-E = {\bf tok\-\_\-name\-\_\-lookup}\mbox{[}\char`\"{}N\-A\-M\-E\char`\"{}\mbox{]}}}\label{namespacepycscope_ac91c134ed68b7241ea365d5833d88335}
+
+
+Definition at line 62 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_a0feaaa8934a18534689c87203668ba06}{\index{pycscope@{pycscope}!tok\-\_\-name\-\_\-lookup@{tok\-\_\-name\-\_\-lookup}}
+\index{tok\-\_\-name\-\_\-lookup@{tok\-\_\-name\-\_\-lookup}!pycscope@{pycscope}}
+\subsubsection[{tok\-\_\-name\-\_\-lookup}]{\setlength{\rightskip}{0pt plus 5cm}tuple pycscope.\-tok\-\_\-name\-\_\-lookup = dict(({\bf v},k) {\bf for} k,{\bf v} in token.\-tok\-\_\-name.\-iteritems())}}\label{namespacepycscope_a0feaaa8934a18534689c87203668ba06}
+
+
+Definition at line 60 of file pycscope.\-py.
+
+\hypertarget{namespacepycscope_af38c6b38b13e012dc3ce74c8160fbfab}{\index{pycscope@{pycscope}!T\-O\-K\-\_\-\-N\-E\-W\-L\-I\-N\-E@{T\-O\-K\-\_\-\-N\-E\-W\-L\-I\-N\-E}}
+\index{T\-O\-K\-\_\-\-N\-E\-W\-L\-I\-N\-E@{T\-O\-K\-\_\-\-N\-E\-W\-L\-I\-N\-E}!pycscope@{pycscope}}
+\subsubsection[{T\-O\-K\-\_\-\-N\-E\-W\-L\-I\-N\-E}]{\setlength{\rightskip}{0pt plus 5cm}list pycscope.\-T\-O\-K\-\_\-\-N\-E\-W\-L\-I\-N\-E = {\bf tok\-\_\-name\-\_\-lookup}\mbox{[}\char`\"{}N\-E\-W\-L\-I\-N\-E\char`\"{}\mbox{]}}}\label{namespacepycscope_af38c6b38b13e012dc3ce74c8160fbfab}
+
+
+Definition at line 61 of file pycscope.\-py.
+

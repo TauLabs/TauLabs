@@ -1,0 +1,70 @@
+\hypertarget{group__cr_s_t_a_r_t}{\section{cr\-S\-T\-A\-R\-T}
+\label{group__cr_s_t_a_r_t}\index{cr\-S\-T\-A\-R\-T@{cr\-S\-T\-A\-R\-T}}
+}
+croutine. h 
+\begin{DoxyPre}
+ crSTART( xCoRoutineHandle xHandle );\end{DoxyPre}
+
+
+This macro M\-U\-S\-T always be called at the start of a co-\/routine function.
+
+Example usage\-: 
+\begin{DoxyPre}
+Co-routine to be created.
+ void vACoRoutine( xCoRoutineHandle xHandle, unsigned portBASE\_TYPE uxIndex )
+ \{
+Variables in co-routines must be declared static if they must maintain value across a blocking call.
+ static long ulAVariable;\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Must start every co-routine with a call to crSTART();
+     crSTART( xHandle );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}     for( ;; )
+     \{
+Co-routine functionality goes here.
+     \}\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Must end every co-routine with a call to crEND();
+     crEND();
+ \}\end{DoxyPre}
+
+
+croutine. h 
+\begin{DoxyPre}
+ crEND();\end{DoxyPre}
+
+
+This macro M\-U\-S\-T always be called at the end of a co-\/routine function.
+
+Example usage\-: 
+\begin{DoxyPre}
+Co-routine to be created.
+ void vACoRoutine( xCoRoutineHandle xHandle, unsigned portBASE\_TYPE uxIndex )
+ \{
+Variables in co-routines must be declared static if they must maintain value across a blocking call.
+ static long ulAVariable;\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Must start every co-routine with a call to crSTART();
+     crSTART( xHandle );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}     for( ;; )
+     \{
+Co-routine functionality goes here.
+     \}\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Must end every co-routine with a call to crEND();
+     crEND();
+ \}\end{DoxyPre}
+ 

@@ -1,0 +1,115 @@
+\hypertarget{thread_8h}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/thread.h File Reference}
+\label{thread_8h}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/thread.\-h@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/thread.\-h}}
+}
+
+
+V\-M Thread.  
+
+
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_pm_thread__s}{Pm\-Thread\-\_\-s}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef enum \hyperlink{thread_8h_ab6ecdf8bdcfb97ac56051429e9ef23f5}{Pm\-Interp\-Ctrl\-\_\-e} \hyperlink{thread_8h_a08eb3e3305fd1c8776092e5cb146876a}{Pm\-Interp\-Ctrl\-\_\-t}
+\item 
+typedef enum \hyperlink{thread_8h_ab6ecdf8bdcfb97ac56051429e9ef23f5}{Pm\-Interp\-Ctrl\-\_\-e} $\ast$ \hyperlink{thread_8h_a3bd4289c00bc890523a7e93bd59bda26}{p\-Pm\-Interp\-Ctrl\-\_\-t}
+\item 
+typedef struct \hyperlink{struct_pm_thread__s}{Pm\-Thread\-\_\-s} \hyperlink{thread_8h_a6b383199c932299d477974ad425aa590}{Pm\-Thread\-\_\-t}
+\item 
+typedef struct \hyperlink{struct_pm_thread__s}{Pm\-Thread\-\_\-s} $\ast$ \hyperlink{thread_8h_ac064650fcec6d465f9cdd225b3f90e23}{p\-Pm\-Thread\-\_\-t}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{thread_8h_ab6ecdf8bdcfb97ac56051429e9ef23f5}{Pm\-Interp\-Ctrl\-\_\-e} \{ \hyperlink{thread_8h_ab6ecdf8bdcfb97ac56051429e9ef23f5ace5166904e0ec6b865099b8e3ea32a75}{I\-N\-T\-E\-R\-P\-\_\-\-C\-T\-R\-L\-\_\-\-E\-R\-R} = -\/1, 
+\hyperlink{thread_8h_ab6ecdf8bdcfb97ac56051429e9ef23f5afacc1041cb7bbea463f6c4e4e22d000d}{I\-N\-T\-E\-R\-P\-\_\-\-C\-T\-R\-L\-\_\-\-E\-X\-I\-T} = 0, 
+\hyperlink{thread_8h_ab6ecdf8bdcfb97ac56051429e9ef23f5a1bd0d38313b0108e8900f65f642999e5}{I\-N\-T\-E\-R\-P\-\_\-\-C\-T\-R\-L\-\_\-\-C\-O\-N\-T} = 1, 
+\hyperlink{thread_8h_ab6ecdf8bdcfb97ac56051429e9ef23f5a76f3e950e11fa5e9b8b6dcf5bb3d1130}{I\-N\-T\-E\-R\-P\-\_\-\-C\-T\-R\-L\-\_\-\-R\-E\-S\-C\-H\-E\-D} = 2
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{thread_8h_a2c40647bd1cda3d9d150eaff4f2673c2}{thread\-\_\-new} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pframe, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} $\ast$r\-\_\-pobj)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+V\-M Thread. Encapsulating a frame pointer, a root code object and thread state. 
+
+Definition in file \hyperlink{thread_8h_source}{thread.\-h}.
+
+
+
+\subsection{Typedef Documentation}
+\hypertarget{thread_8h_a08eb3e3305fd1c8776092e5cb146876a}{\index{thread.\-h@{thread.\-h}!Pm\-Interp\-Ctrl\-\_\-t@{Pm\-Interp\-Ctrl\-\_\-t}}
+\index{Pm\-Interp\-Ctrl\-\_\-t@{Pm\-Interp\-Ctrl\-\_\-t}!thread.h@{thread.\-h}}
+\subsubsection[{Pm\-Interp\-Ctrl\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef enum {\bf Pm\-Interp\-Ctrl\-\_\-e}  {\bf Pm\-Interp\-Ctrl\-\_\-t}}}\label{thread_8h_a08eb3e3305fd1c8776092e5cb146876a}
+Interpreter return values
+
+Used to control interpreter loop and indicate return value. Negative values indicate erroneous results. Positive values indicate \char`\"{}continue interpreting\char`\"{}, but first do something special like reschedule threads or (T\-B\-D) sweep the heap. \hypertarget{thread_8h_a6b383199c932299d477974ad425aa590}{\index{thread.\-h@{thread.\-h}!Pm\-Thread\-\_\-t@{Pm\-Thread\-\_\-t}}
+\index{Pm\-Thread\-\_\-t@{Pm\-Thread\-\_\-t}!thread.h@{thread.\-h}}
+\subsubsection[{Pm\-Thread\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf Pm\-Thread\-\_\-s}  {\bf Pm\-Thread\-\_\-t}}}\label{thread_8h_a6b383199c932299d477974ad425aa590}
+Thread obj \hypertarget{thread_8h_a3bd4289c00bc890523a7e93bd59bda26}{\index{thread.\-h@{thread.\-h}!p\-Pm\-Interp\-Ctrl\-\_\-t@{p\-Pm\-Interp\-Ctrl\-\_\-t}}
+\index{p\-Pm\-Interp\-Ctrl\-\_\-t@{p\-Pm\-Interp\-Ctrl\-\_\-t}!thread.h@{thread.\-h}}
+\subsubsection[{p\-Pm\-Interp\-Ctrl\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef enum {\bf Pm\-Interp\-Ctrl\-\_\-e} $\ast$ {\bf p\-Pm\-Interp\-Ctrl\-\_\-t}}}\label{thread_8h_a3bd4289c00bc890523a7e93bd59bda26}
+\hypertarget{thread_8h_ac064650fcec6d465f9cdd225b3f90e23}{\index{thread.\-h@{thread.\-h}!p\-Pm\-Thread\-\_\-t@{p\-Pm\-Thread\-\_\-t}}
+\index{p\-Pm\-Thread\-\_\-t@{p\-Pm\-Thread\-\_\-t}!thread.h@{thread.\-h}}
+\subsubsection[{p\-Pm\-Thread\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf Pm\-Thread\-\_\-s}
+ $\ast$ {\bf p\-Pm\-Thread\-\_\-t}}}\label{thread_8h_ac064650fcec6d465f9cdd225b3f90e23}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{thread_8h_ab6ecdf8bdcfb97ac56051429e9ef23f5}{\index{thread.\-h@{thread.\-h}!Pm\-Interp\-Ctrl\-\_\-e@{Pm\-Interp\-Ctrl\-\_\-e}}
+\index{Pm\-Interp\-Ctrl\-\_\-e@{Pm\-Interp\-Ctrl\-\_\-e}!thread.h@{thread.\-h}}
+\subsubsection[{Pm\-Interp\-Ctrl\-\_\-e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Pm\-Interp\-Ctrl\-\_\-e}}}\label{thread_8h_ab6ecdf8bdcfb97ac56051429e9ef23f5}
+Interpreter return values
+
+Used to control interpreter loop and indicate return value. Negative values indicate erroneous results. Positive values indicate \char`\"{}continue interpreting\char`\"{}, but first do something special like reschedule threads or (T\-B\-D) sweep the heap. \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{I\-N\-T\-E\-R\-P\-\_\-\-C\-T\-R\-L\-\_\-\-E\-R\-R@{I\-N\-T\-E\-R\-P\-\_\-\-C\-T\-R\-L\-\_\-\-E\-R\-R}!thread.\-h@{thread.\-h}}\index{thread.\-h@{thread.\-h}!I\-N\-T\-E\-R\-P\-\_\-\-C\-T\-R\-L\-\_\-\-E\-R\-R@{I\-N\-T\-E\-R\-P\-\_\-\-C\-T\-R\-L\-\_\-\-E\-R\-R}}\item[{\em 
+\hypertarget{thread_8h_ab6ecdf8bdcfb97ac56051429e9ef23f5ace5166904e0ec6b865099b8e3ea32a75}{I\-N\-T\-E\-R\-P\-\_\-\-C\-T\-R\-L\-\_\-\-E\-R\-R}\label{thread_8h_ab6ecdf8bdcfb97ac56051429e9ef23f5ace5166904e0ec6b865099b8e3ea32a75}
+}]Generic error causes exit \index{I\-N\-T\-E\-R\-P\-\_\-\-C\-T\-R\-L\-\_\-\-E\-X\-I\-T@{I\-N\-T\-E\-R\-P\-\_\-\-C\-T\-R\-L\-\_\-\-E\-X\-I\-T}!thread.\-h@{thread.\-h}}\index{thread.\-h@{thread.\-h}!I\-N\-T\-E\-R\-P\-\_\-\-C\-T\-R\-L\-\_\-\-E\-X\-I\-T@{I\-N\-T\-E\-R\-P\-\_\-\-C\-T\-R\-L\-\_\-\-E\-X\-I\-T}}\item[{\em 
+\hypertarget{thread_8h_ab6ecdf8bdcfb97ac56051429e9ef23f5afacc1041cb7bbea463f6c4e4e22d000d}{I\-N\-T\-E\-R\-P\-\_\-\-C\-T\-R\-L\-\_\-\-E\-X\-I\-T}\label{thread_8h_ab6ecdf8bdcfb97ac56051429e9ef23f5afacc1041cb7bbea463f6c4e4e22d000d}
+}]Normal execution exit \index{I\-N\-T\-E\-R\-P\-\_\-\-C\-T\-R\-L\-\_\-\-C\-O\-N\-T@{I\-N\-T\-E\-R\-P\-\_\-\-C\-T\-R\-L\-\_\-\-C\-O\-N\-T}!thread.\-h@{thread.\-h}}\index{thread.\-h@{thread.\-h}!I\-N\-T\-E\-R\-P\-\_\-\-C\-T\-R\-L\-\_\-\-C\-O\-N\-T@{I\-N\-T\-E\-R\-P\-\_\-\-C\-T\-R\-L\-\_\-\-C\-O\-N\-T}}\item[{\em 
+\hypertarget{thread_8h_ab6ecdf8bdcfb97ac56051429e9ef23f5a1bd0d38313b0108e8900f65f642999e5}{I\-N\-T\-E\-R\-P\-\_\-\-C\-T\-R\-L\-\_\-\-C\-O\-N\-T}\label{thread_8h_ab6ecdf8bdcfb97ac56051429e9ef23f5a1bd0d38313b0108e8900f65f642999e5}
+}]Continue interpreting \index{I\-N\-T\-E\-R\-P\-\_\-\-C\-T\-R\-L\-\_\-\-R\-E\-S\-C\-H\-E\-D@{I\-N\-T\-E\-R\-P\-\_\-\-C\-T\-R\-L\-\_\-\-R\-E\-S\-C\-H\-E\-D}!thread.\-h@{thread.\-h}}\index{thread.\-h@{thread.\-h}!I\-N\-T\-E\-R\-P\-\_\-\-C\-T\-R\-L\-\_\-\-R\-E\-S\-C\-H\-E\-D@{I\-N\-T\-E\-R\-P\-\_\-\-C\-T\-R\-L\-\_\-\-R\-E\-S\-C\-H\-E\-D}}\item[{\em 
+\hypertarget{thread_8h_ab6ecdf8bdcfb97ac56051429e9ef23f5a76f3e950e11fa5e9b8b6dcf5bb3d1130}{I\-N\-T\-E\-R\-P\-\_\-\-C\-T\-R\-L\-\_\-\-R\-E\-S\-C\-H\-E\-D}\label{thread_8h_ab6ecdf8bdcfb97ac56051429e9ef23f5a76f3e950e11fa5e9b8b6dcf5bb3d1130}
+}]Reschedule threads \end{description}
+\end{Desc}
+
+
+Definition at line 45 of file thread.\-h.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{thread_8h_a2c40647bd1cda3d9d150eaff4f2673c2}{\index{thread.\-h@{thread.\-h}!thread\-\_\-new@{thread\-\_\-new}}
+\index{thread\-\_\-new@{thread\-\_\-new}!thread.h@{thread.\-h}}
+\subsubsection[{thread\-\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} thread\-\_\-new (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pframe, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t} $\ast$}]{r\-\_\-pobj}
+\end{DoxyParamCaption}
+)}}\label{thread_8h_a2c40647bd1cda3d9d150eaff4f2673c2}
+Constructs a thread for a root frame.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pframe} & Frame object as a basis for this thread. \\
+\hline
+{\em r\-\_\-pobj} & Return by reference; Ptr to the newly created thread object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 32 of file thread.\-c.
+

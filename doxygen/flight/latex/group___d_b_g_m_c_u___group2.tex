@@ -1,0 +1,118 @@
+\hypertarget{group___d_b_g_m_c_u___group2}{\section{Peripherals Configuration functions}
+\label{group___d_b_g_m_c_u___group2}\index{Peripherals Configuration functions@{Peripherals Configuration functions}}
+}
+
+
+Peripherals Configuration.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_b_g_m_c_u___group2_gadf2f267f855ac1e4c03905c5dcfbd28b}{D\-B\-G\-M\-C\-U\-\_\-\-Config} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-B\-G\-M\-C\-U\-\_\-\-Periph, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Configures low power mode behavior when the M\-C\-U is in Debug mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_b_g_m_c_u___group2_ga71349f1435471f71979c742360df88f0}{D\-B\-G\-M\-C\-U\-\_\-\-A\-P\-B1\-Periph\-Config} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-B\-G\-M\-C\-U\-\_\-\-Periph, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Configures A\-P\-B1 peripheral behavior when the M\-C\-U is in Debug mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_b_g_m_c_u___group2_ga2f5ed438cada1be09ea51c42419be3a8}{D\-B\-G\-M\-C\-U\-\_\-\-A\-P\-B2\-Periph\-Config} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-B\-G\-M\-C\-U\-\_\-\-Periph, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Configures A\-P\-B2 peripheral behavior when the M\-C\-U is in Debug mode. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Peripherals Configuration. \begin{DoxyVerb}  ==============================================================================
+               ##### Peripherals Configuration functions #####
+  ==============================================================================\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___d_b_g_m_c_u___group2_ga71349f1435471f71979c742360df88f0}{\index{Peripherals Configuration functions@{Peripherals Configuration functions}!D\-B\-G\-M\-C\-U\-\_\-\-A\-P\-B1\-Periph\-Config@{D\-B\-G\-M\-C\-U\-\_\-\-A\-P\-B1\-Periph\-Config}}
+\index{D\-B\-G\-M\-C\-U\-\_\-\-A\-P\-B1\-Periph\-Config@{D\-B\-G\-M\-C\-U\-\_\-\-A\-P\-B1\-Periph\-Config}!Peripherals Configuration functions@{Peripherals Configuration functions}}
+\subsubsection[{D\-B\-G\-M\-C\-U\-\_\-\-A\-P\-B1\-Periph\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} D\-B\-G\-M\-C\-U\-\_\-\-A\-P\-B1\-Periph\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{D\-B\-G\-M\-C\-U\-\_\-\-Periph, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___d_b_g_m_c_u___group2_ga71349f1435471f71979c742360df88f0}
+
+
+Configures A\-P\-B1 peripheral behavior when the M\-C\-U is in Debug mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\-B\-G\-M\-C\-U\-\_\-\-Periph,\-:} & specifies the A\-P\-B1 peripheral. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item D\-B\-G\-M\-C\-U\-\_\-\-T\-I\-M2\-\_\-\-S\-T\-O\-P\-: T\-I\-M2 counter stopped when Core is halted. \item D\-B\-G\-M\-C\-U\-\_\-\-T\-I\-M3\-\_\-\-S\-T\-O\-P\-: T\-I\-M3 counter stopped when Core is halted. \item D\-B\-G\-M\-C\-U\-\_\-\-T\-I\-M4\-\_\-\-S\-T\-O\-P\-: T\-I\-M4 counter stopped when Core is halted. \item D\-B\-G\-M\-C\-U\-\_\-\-T\-I\-M6\-\_\-\-S\-T\-O\-P\-: T\-I\-M6 counter stopped when Core is halted. \item D\-B\-G\-M\-C\-U\-\_\-\-T\-I\-M7\-\_\-\-S\-T\-O\-P\-: T\-I\-M7 counter stopped when Core is halted. \item D\-B\-G\-M\-C\-U\-\_\-\-R\-T\-C\-\_\-\-S\-T\-O\-P\-: R\-T\-C Calendar and Wakeup counter are stopped when Core is halted. \item D\-B\-G\-M\-C\-U\-\_\-\-W\-W\-D\-G\-\_\-\-S\-T\-O\-P\-: Debug W\-W\-D\-G stopped when Core is halted. \item D\-B\-G\-M\-C\-U\-\_\-\-I\-W\-D\-G\-\_\-\-S\-T\-O\-P\-: Debug I\-W\-D\-G stopped when Core is halted. \item D\-B\-G\-M\-C\-U\-\_\-\-I2\-C1\-\_\-\-S\-M\-B\-U\-S\-\_\-\-T\-I\-M\-E\-O\-U\-T\-: I2\-C1 S\-M\-B\-U\-S timeout mode stopped when Core is halted. \item D\-B\-G\-M\-C\-U\-\_\-\-I2\-C2\-\_\-\-S\-M\-B\-U\-S\-\_\-\-T\-I\-M\-E\-O\-U\-T\-: I2\-C2 S\-M\-B\-U\-S timeout mode stopped when Core is halted. \item D\-B\-G\-M\-C\-U\-\_\-\-C\-A\-N1\-\_\-\-S\-T\-O\-P\-: Debug C\-A\-N2 stopped when Core is halted. \end{DoxyItemize}
+\\
+\hline
+{\em New\-State,\-:} & new state of the specified A\-P\-B1 peripheral in Debug mode. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 152 of file stm32f30x\-\_\-dbgmcu.\-c.
+
+\hypertarget{group___d_b_g_m_c_u___group2_ga2f5ed438cada1be09ea51c42419be3a8}{\index{Peripherals Configuration functions@{Peripherals Configuration functions}!D\-B\-G\-M\-C\-U\-\_\-\-A\-P\-B2\-Periph\-Config@{D\-B\-G\-M\-C\-U\-\_\-\-A\-P\-B2\-Periph\-Config}}
+\index{D\-B\-G\-M\-C\-U\-\_\-\-A\-P\-B2\-Periph\-Config@{D\-B\-G\-M\-C\-U\-\_\-\-A\-P\-B2\-Periph\-Config}!Peripherals Configuration functions@{Peripherals Configuration functions}}
+\subsubsection[{D\-B\-G\-M\-C\-U\-\_\-\-A\-P\-B2\-Periph\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} D\-B\-G\-M\-C\-U\-\_\-\-A\-P\-B2\-Periph\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{D\-B\-G\-M\-C\-U\-\_\-\-Periph, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___d_b_g_m_c_u___group2_ga2f5ed438cada1be09ea51c42419be3a8}
+
+
+Configures A\-P\-B2 peripheral behavior when the M\-C\-U is in Debug mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\-B\-G\-M\-C\-U\-\_\-\-Periph,\-:} & specifies the A\-P\-B2 peripheral. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item D\-B\-G\-M\-C\-U\-\_\-\-T\-I\-M1\-\_\-\-S\-T\-O\-P\-: T\-I\-M1 counter stopped when Core is halted. \item D\-B\-G\-M\-C\-U\-\_\-\-T\-I\-M8\-\_\-\-S\-T\-O\-P\-: T\-I\-M8 counter stopped when Core is halted. \item D\-B\-G\-M\-C\-U\-\_\-\-T\-I\-M15\-\_\-\-S\-T\-O\-P\-: T\-I\-M15 counter stopped when Core is halted. \item D\-B\-G\-M\-C\-U\-\_\-\-T\-I\-M16\-\_\-\-S\-T\-O\-P\-: T\-I\-M16 counter stopped when Core is halted. \item D\-B\-G\-M\-C\-U\-\_\-\-T\-I\-M17\-\_\-\-S\-T\-O\-P\-: T\-I\-M17 counter stopped when Core is halted. \end{DoxyItemize}
+\\
+\hline
+{\em New\-State,\-:} & new state of the specified A\-P\-B2 peripheral in Debug mode. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 181 of file stm32f30x\-\_\-dbgmcu.\-c.
+
+\hypertarget{group___d_b_g_m_c_u___group2_gadf2f267f855ac1e4c03905c5dcfbd28b}{\index{Peripherals Configuration functions@{Peripherals Configuration functions}!D\-B\-G\-M\-C\-U\-\_\-\-Config@{D\-B\-G\-M\-C\-U\-\_\-\-Config}}
+\index{D\-B\-G\-M\-C\-U\-\_\-\-Config@{D\-B\-G\-M\-C\-U\-\_\-\-Config}!Peripherals Configuration functions@{Peripherals Configuration functions}}
+\subsubsection[{D\-B\-G\-M\-C\-U\-\_\-\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} D\-B\-G\-M\-C\-U\-\_\-\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{D\-B\-G\-M\-C\-U\-\_\-\-Periph, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___d_b_g_m_c_u___group2_gadf2f267f855ac1e4c03905c5dcfbd28b}
+
+
+Configures low power mode behavior when the M\-C\-U is in Debug mode. 
+
+Configures the specified peripheral and low power mode behavior when the M\-C\-U under Debug mode.
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\-B\-G\-M\-C\-U\-\_\-\-Periph,\-:} & specifies the low power mode. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item D\-B\-G\-M\-C\-U\-\_\-\-S\-L\-E\-E\-P\-: Keep debugger connection during S\-L\-E\-E\-P mode. \item D\-B\-G\-M\-C\-U\-\_\-\-S\-T\-O\-P\-: Keep debugger connection during S\-T\-O\-P mode. \item D\-B\-G\-M\-C\-U\-\_\-\-S\-T\-A\-N\-D\-B\-Y\-: Keep debugger connection during S\-T\-A\-N\-D\-B\-Y mode. \end{DoxyItemize}
+\\
+\hline
+{\em New\-State,\-:} & new state of the specified low power mode in Debug mode. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 115 of file stm32f30x\-\_\-dbgmcu.\-c.
+

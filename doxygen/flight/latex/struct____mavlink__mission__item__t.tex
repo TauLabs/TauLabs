@@ -1,0 +1,207 @@
+\hypertarget{struct____mavlink__mission__item__t}{\section{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t Struct Reference}
+\label{struct____mavlink__mission__item__t}\index{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\-\_\-msg\-\_\-mission\-\_\-item.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{struct____mavlink__mission__item__t_a7b622b789be829088a8c9353946a4f28}{param1}
+\begin{DoxyCompactList}\small\item\em P\-A\-R\-A\-M1 / For N\-A\-V command M\-I\-S\-S\-I\-O\-Ns\-: Radius in which the M\-I\-S\-S\-I\-O\-N is accepted as reached, in meters. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__mission__item__t_ad523243067b6c47919554e8802f14b5c}{param2}
+\begin{DoxyCompactList}\small\item\em P\-A\-R\-A\-M2 / For N\-A\-V command M\-I\-S\-S\-I\-O\-Ns\-: Time that the M\-A\-V should stay inside the P\-A\-R\-A\-M1 radius before advancing, in milliseconds. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__mission__item__t_a183425d5376a9173373279cc43ffce25}{param3}
+\begin{DoxyCompactList}\small\item\em P\-A\-R\-A\-M3 / For L\-O\-I\-T\-E\-R command M\-I\-S\-S\-I\-O\-Ns\-: Orbit to circle around the M\-I\-S\-S\-I\-O\-N, in meters. If positive the orbit direction should be clockwise, if negative the orbit direction should be counter-\/clockwise. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__mission__item__t_a8db8965269e5523972f4645f9b52d86d}{param4}
+\begin{DoxyCompactList}\small\item\em P\-A\-R\-A\-M4 / For N\-A\-V and L\-O\-I\-T\-E\-R command M\-I\-S\-S\-I\-O\-Ns\-: Yaw orientation in degrees, \mbox{[}0..360\mbox{]} 0 = N\-O\-R\-T\-H. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__mission__item__t_a578c43dbf85decd47437180c89407f93}{x}
+\begin{DoxyCompactList}\small\item\em P\-A\-R\-A\-M5 / local\-: x position, global\-: latitude. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__mission__item__t_a916e8ea61a94ce7b854ebd11cc5eea37}{y}
+\begin{DoxyCompactList}\small\item\em P\-A\-R\-A\-M6 / y position\-: global\-: longitude. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__mission__item__t_adfa6844101b755c5e439b46f21ba0be8}{z}
+\begin{DoxyCompactList}\small\item\em P\-A\-R\-A\-M7 / z position\-: global\-: altitude. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{struct____mavlink__mission__item__t_a0038a8dc2e0dc3757272b160a0cbaac2}{seq}
+\begin{DoxyCompactList}\small\item\em Sequence. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{struct____mavlink__mission__item__t_ad5a94a67caa147049e45c3754f15daa7}{command}
+\begin{DoxyCompactList}\small\item\em The scheduled action for the M\-I\-S\-S\-I\-O\-N. see M\-A\-V\-\_\-\-C\-M\-D in common.\-xml M\-A\-V\-Link specs. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__mission__item__t_ab6e5076aa5f0e524e88879bebf0ed483}{target\-\_\-system}
+\begin{DoxyCompactList}\small\item\em System I\-D. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__mission__item__t_a6bb8183ef3416741edca46337e6e6860}{target\-\_\-component}
+\begin{DoxyCompactList}\small\item\em Component I\-D. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__mission__item__t_aa3b25a65ef4d62f208ea6d3856b418cb}{frame}
+\begin{DoxyCompactList}\small\item\em The coordinate system of the M\-I\-S\-S\-I\-O\-N. see M\-A\-V\-\_\-\-F\-R\-A\-M\-E in \hyperlink{mavlink__types_8h}{mavlink\-\_\-types.\-h}. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__mission__item__t_aa9fdaa647214fcb6bb21e05f2718f56f}{current}
+\begin{DoxyCompactList}\small\item\em false\-:0, true\-:1 \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__mission__item__t_a2f276d223a22308aed2978c1718bf74f}{autocontinue}
+\begin{DoxyCompactList}\small\item\em autocontinue to next wp \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 5 of file mavlink\-\_\-msg\-\_\-mission\-\_\-item.\-h.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__mission__item__t_a2f276d223a22308aed2978c1718bf74f}{\index{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}!autocontinue@{autocontinue}}
+\index{autocontinue@{autocontinue}!__mavlink_mission_item_t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}}
+\subsubsection[{autocontinue}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t\-::autocontinue}}\label{struct____mavlink__mission__item__t_a2f276d223a22308aed2978c1718bf74f}
+
+
+autocontinue to next wp 
+
+
+
+Definition at line 20 of file mavlink\-\_\-msg\-\_\-mission\-\_\-item.\-h.
+
+\hypertarget{struct____mavlink__mission__item__t_ad5a94a67caa147049e45c3754f15daa7}{\index{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}!command@{command}}
+\index{command@{command}!__mavlink_mission_item_t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}}
+\subsubsection[{command}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t\-::command}}\label{struct____mavlink__mission__item__t_ad5a94a67caa147049e45c3754f15daa7}
+
+
+The scheduled action for the M\-I\-S\-S\-I\-O\-N. see M\-A\-V\-\_\-\-C\-M\-D in common.\-xml M\-A\-V\-Link specs. 
+
+
+
+Definition at line 15 of file mavlink\-\_\-msg\-\_\-mission\-\_\-item.\-h.
+
+\hypertarget{struct____mavlink__mission__item__t_aa9fdaa647214fcb6bb21e05f2718f56f}{\index{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}!current@{current}}
+\index{current@{current}!__mavlink_mission_item_t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}}
+\subsubsection[{current}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t\-::current}}\label{struct____mavlink__mission__item__t_aa9fdaa647214fcb6bb21e05f2718f56f}
+
+
+false\-:0, true\-:1 
+
+
+
+Definition at line 19 of file mavlink\-\_\-msg\-\_\-mission\-\_\-item.\-h.
+
+\hypertarget{struct____mavlink__mission__item__t_aa3b25a65ef4d62f208ea6d3856b418cb}{\index{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}!frame@{frame}}
+\index{frame@{frame}!__mavlink_mission_item_t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}}
+\subsubsection[{frame}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t\-::frame}}\label{struct____mavlink__mission__item__t_aa3b25a65ef4d62f208ea6d3856b418cb}
+
+
+The coordinate system of the M\-I\-S\-S\-I\-O\-N. see M\-A\-V\-\_\-\-F\-R\-A\-M\-E in \hyperlink{mavlink__types_8h}{mavlink\-\_\-types.\-h}. 
+
+
+
+Definition at line 18 of file mavlink\-\_\-msg\-\_\-mission\-\_\-item.\-h.
+
+\hypertarget{struct____mavlink__mission__item__t_a7b622b789be829088a8c9353946a4f28}{\index{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}!param1@{param1}}
+\index{param1@{param1}!__mavlink_mission_item_t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}}
+\subsubsection[{param1}]{\setlength{\rightskip}{0pt plus 5cm}float \-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t\-::param1}}\label{struct____mavlink__mission__item__t_a7b622b789be829088a8c9353946a4f28}
+
+
+P\-A\-R\-A\-M1 / For N\-A\-V command M\-I\-S\-S\-I\-O\-Ns\-: Radius in which the M\-I\-S\-S\-I\-O\-N is accepted as reached, in meters. 
+
+
+
+Definition at line 7 of file mavlink\-\_\-msg\-\_\-mission\-\_\-item.\-h.
+
+\hypertarget{struct____mavlink__mission__item__t_ad523243067b6c47919554e8802f14b5c}{\index{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}!param2@{param2}}
+\index{param2@{param2}!__mavlink_mission_item_t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}}
+\subsubsection[{param2}]{\setlength{\rightskip}{0pt plus 5cm}float \-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t\-::param2}}\label{struct____mavlink__mission__item__t_ad523243067b6c47919554e8802f14b5c}
+
+
+P\-A\-R\-A\-M2 / For N\-A\-V command M\-I\-S\-S\-I\-O\-Ns\-: Time that the M\-A\-V should stay inside the P\-A\-R\-A\-M1 radius before advancing, in milliseconds. 
+
+
+
+Definition at line 8 of file mavlink\-\_\-msg\-\_\-mission\-\_\-item.\-h.
+
+\hypertarget{struct____mavlink__mission__item__t_a183425d5376a9173373279cc43ffce25}{\index{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}!param3@{param3}}
+\index{param3@{param3}!__mavlink_mission_item_t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}}
+\subsubsection[{param3}]{\setlength{\rightskip}{0pt plus 5cm}float \-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t\-::param3}}\label{struct____mavlink__mission__item__t_a183425d5376a9173373279cc43ffce25}
+
+
+P\-A\-R\-A\-M3 / For L\-O\-I\-T\-E\-R command M\-I\-S\-S\-I\-O\-Ns\-: Orbit to circle around the M\-I\-S\-S\-I\-O\-N, in meters. If positive the orbit direction should be clockwise, if negative the orbit direction should be counter-\/clockwise. 
+
+
+
+Definition at line 9 of file mavlink\-\_\-msg\-\_\-mission\-\_\-item.\-h.
+
+\hypertarget{struct____mavlink__mission__item__t_a8db8965269e5523972f4645f9b52d86d}{\index{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}!param4@{param4}}
+\index{param4@{param4}!__mavlink_mission_item_t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}}
+\subsubsection[{param4}]{\setlength{\rightskip}{0pt plus 5cm}float \-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t\-::param4}}\label{struct____mavlink__mission__item__t_a8db8965269e5523972f4645f9b52d86d}
+
+
+P\-A\-R\-A\-M4 / For N\-A\-V and L\-O\-I\-T\-E\-R command M\-I\-S\-S\-I\-O\-Ns\-: Yaw orientation in degrees, \mbox{[}0..360\mbox{]} 0 = N\-O\-R\-T\-H. 
+
+
+
+Definition at line 10 of file mavlink\-\_\-msg\-\_\-mission\-\_\-item.\-h.
+
+\hypertarget{struct____mavlink__mission__item__t_a0038a8dc2e0dc3757272b160a0cbaac2}{\index{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}!seq@{seq}}
+\index{seq@{seq}!__mavlink_mission_item_t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}}
+\subsubsection[{seq}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t\-::seq}}\label{struct____mavlink__mission__item__t_a0038a8dc2e0dc3757272b160a0cbaac2}
+
+
+Sequence. 
+
+
+
+Definition at line 14 of file mavlink\-\_\-msg\-\_\-mission\-\_\-item.\-h.
+
+\hypertarget{struct____mavlink__mission__item__t_a6bb8183ef3416741edca46337e6e6860}{\index{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}!target\-\_\-component@{target\-\_\-component}}
+\index{target\-\_\-component@{target\-\_\-component}!__mavlink_mission_item_t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}}
+\subsubsection[{target\-\_\-component}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t\-::target\-\_\-component}}\label{struct____mavlink__mission__item__t_a6bb8183ef3416741edca46337e6e6860}
+
+
+Component I\-D. 
+
+
+
+Definition at line 17 of file mavlink\-\_\-msg\-\_\-mission\-\_\-item.\-h.
+
+\hypertarget{struct____mavlink__mission__item__t_ab6e5076aa5f0e524e88879bebf0ed483}{\index{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}!target\-\_\-system@{target\-\_\-system}}
+\index{target\-\_\-system@{target\-\_\-system}!__mavlink_mission_item_t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}}
+\subsubsection[{target\-\_\-system}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t\-::target\-\_\-system}}\label{struct____mavlink__mission__item__t_ab6e5076aa5f0e524e88879bebf0ed483}
+
+
+System I\-D. 
+
+
+
+Definition at line 16 of file mavlink\-\_\-msg\-\_\-mission\-\_\-item.\-h.
+
+\hypertarget{struct____mavlink__mission__item__t_a578c43dbf85decd47437180c89407f93}{\index{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}!x@{x}}
+\index{x@{x}!__mavlink_mission_item_t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}}
+\subsubsection[{x}]{\setlength{\rightskip}{0pt plus 5cm}float \-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t\-::x}}\label{struct____mavlink__mission__item__t_a578c43dbf85decd47437180c89407f93}
+
+
+P\-A\-R\-A\-M5 / local\-: x position, global\-: latitude. 
+
+
+
+Definition at line 11 of file mavlink\-\_\-msg\-\_\-mission\-\_\-item.\-h.
+
+\hypertarget{struct____mavlink__mission__item__t_a916e8ea61a94ce7b854ebd11cc5eea37}{\index{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}!y@{y}}
+\index{y@{y}!__mavlink_mission_item_t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}}
+\subsubsection[{y}]{\setlength{\rightskip}{0pt plus 5cm}float \-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t\-::y}}\label{struct____mavlink__mission__item__t_a916e8ea61a94ce7b854ebd11cc5eea37}
+
+
+P\-A\-R\-A\-M6 / y position\-: global\-: longitude. 
+
+
+
+Definition at line 12 of file mavlink\-\_\-msg\-\_\-mission\-\_\-item.\-h.
+
+\hypertarget{struct____mavlink__mission__item__t_adfa6844101b755c5e439b46f21ba0be8}{\index{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}!z@{z}}
+\index{z@{z}!__mavlink_mission_item_t@{\-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t}}
+\subsubsection[{z}]{\setlength{\rightskip}{0pt plus 5cm}float \-\_\-\-\_\-mavlink\-\_\-mission\-\_\-item\-\_\-t\-::z}}\label{struct____mavlink__mission__item__t_adfa6844101b755c5e439b46f21ba0be8}
+
+
+P\-A\-R\-A\-M7 / z position\-: global\-: altitude. 
+
+
+
+Definition at line 13 of file mavlink\-\_\-msg\-\_\-mission\-\_\-item.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Libraries/mavlink/v1.\-0/common/\hyperlink{mavlink__msg__mission__item_8h}{mavlink\-\_\-msg\-\_\-mission\-\_\-item.\-h}\end{DoxyCompactItemize}

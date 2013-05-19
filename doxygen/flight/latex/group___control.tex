@@ -1,0 +1,316 @@
+\hypertarget{group___control}{\section{Control Module}
+\label{group___control}\index{Control Module@{Control Module}}
+}
+\subsection*{Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{failsafe__control_8c}{failsafe\-\_\-control.\-c}
+\begin{DoxyCompactList}\small\item\em Failsafe controller when transmitter control is lost. \end{DoxyCompactList}\item 
+file \hyperlink{failsafe__control_8h}{failsafe\-\_\-control.\-h}
+\begin{DoxyCompactList}\small\item\em Failsafe controller when transmitter control is lost. \end{DoxyCompactList}\item 
+file \hyperlink{tablet__control_8h}{tablet\-\_\-control.\-h}
+\begin{DoxyCompactList}\small\item\em Use tablet for control source. \end{DoxyCompactList}\item 
+file \hyperlink{transmitter__control_8h}{transmitter\-\_\-control.\-h}
+\begin{DoxyCompactList}\small\item\em Process transmitter inputs and use as control source. \end{DoxyCompactList}\item 
+file \hyperlink{tablet__control_8c}{tablet\-\_\-control.\-c}
+\begin{DoxyCompactList}\small\item\em Use tablet for control source. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___control_ga61438f5375f5e08187c7e12f13723afd}{control\-\_\-selection} \{ \hyperlink{group___control_gga61438f5375f5e08187c7e12f13723afda1b46ea74ed4a00f9ae80dd8ecc29fc65}{C\-O\-N\-T\-R\-O\-L\-\_\-\-S\-E\-L\-E\-C\-T\-I\-O\-N\-\_\-\-F\-A\-I\-L\-S\-A\-F\-E}, 
+\hyperlink{group___control_gga61438f5375f5e08187c7e12f13723afdab3795a3d043b1e09e3a3f9a9fb3dd141}{C\-O\-N\-T\-R\-O\-L\-\_\-\-S\-E\-L\-E\-C\-T\-I\-O\-N\-\_\-\-T\-R\-A\-N\-S\-M\-I\-T\-T\-E\-R}, 
+\hyperlink{group___control_gga61438f5375f5e08187c7e12f13723afda671e301b166223e3f6a0cb2e0eb2d515}{C\-O\-N\-T\-R\-O\-L\-\_\-\-S\-E\-L\-E\-C\-T\-I\-O\-N\-\_\-\-T\-A\-B\-L\-E\-T}
+ \}
+\item 
+enum \hyperlink{group___control_ga6db279174b366abaad3f5de70b10655c}{control\-\_\-events} \{ \hyperlink{group___control_gga6db279174b366abaad3f5de70b10655caa00112d5afc911295d9aa665483dbc02}{C\-O\-N\-T\-R\-O\-L\-\_\-\-E\-V\-E\-N\-T\-S\-\_\-\-N\-O\-N\-E}, 
+\hyperlink{group___control_gga6db279174b366abaad3f5de70b10655caa1925993cc62becc38a19a51a2dc2712}{C\-O\-N\-T\-R\-O\-L\-\_\-\-E\-V\-E\-N\-T\-S\-\_\-\-A\-R\-M}, 
+\hyperlink{group___control_gga6db279174b366abaad3f5de70b10655ca3ba849b595e592121378f1534b599c2a}{C\-O\-N\-T\-R\-O\-L\-\_\-\-E\-V\-E\-N\-T\-S\-\_\-\-A\-R\-M\-I\-N\-G}, 
+\hyperlink{group___control_gga6db279174b366abaad3f5de70b10655caaf3578a8a437ec3e783c2b84abe3afe2}{C\-O\-N\-T\-R\-O\-L\-\_\-\-E\-V\-E\-N\-T\-S\-\_\-\-D\-I\-S\-A\-R\-M}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___control_ga7ce4be6cb90b629500ec2db534d375f6}{failsafe\-\_\-control\-\_\-initialize} ()
+\begin{DoxyCompactList}\small\item\em Initialize the failsafe controller. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___control_gab5211c13a168641b8f8aa3df9c8b26c2}{failsafe\-\_\-control\-\_\-update} ()
+\begin{DoxyCompactList}\small\item\em Perform any updates to the failsafe controller. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___control_gad1912458768a13e3fee44acb5992f1d0}{failsafe\-\_\-control\-\_\-select} (\hyperlink{group___exported__types_gaf6a258d8f3ee5206d682d799316314b1}{bool} reset\-\_\-controller)
+\begin{DoxyCompactList}\small\item\em Use failsafe mode. \end{DoxyCompactList}\item 
+enum \hyperlink{group___control_ga6db279174b366abaad3f5de70b10655c}{control\-\_\-events} \hyperlink{group___control_ga4741ee1f75fdb35137c598e00e3fcbae}{failsafe\-\_\-control\-\_\-get\-\_\-events} ()
+\begin{DoxyCompactList}\small\item\em Get any control events. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___control_ga16a2fa9b05e1778d508450239854bdef}{tablet\-\_\-control\-\_\-initialize} ()
+\begin{DoxyCompactList}\small\item\em Initialize the tablet controller. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___control_ga0bee0c81342526c03f10559cf6dbda72}{tablet\-\_\-control\-\_\-update} ()
+\begin{DoxyCompactList}\small\item\em Process updates for the tablet controller. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___control_ga72ecc808e52960fdd4fc2fe42bf5f633}{tablet\-\_\-control\-\_\-select} (\hyperlink{group___exported__types_gaf6a258d8f3ee5206d682d799316314b1}{bool} reset\-\_\-controller)
+\begin{DoxyCompactList}\small\item\em Use the values for the tablet controller. \end{DoxyCompactList}\item 
+enum \hyperlink{group___control_ga6db279174b366abaad3f5de70b10655c}{control\-\_\-events} \hyperlink{group___control_gaac5e3efaaa07ab552af74fecf4726748}{tablet\-\_\-control\-\_\-get\-\_\-events} ()
+\begin{DoxyCompactList}\small\item\em Get any control events. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___control_ga27653bb9e2abe9498b31e9f748f158d8}{transmitter\-\_\-control\-\_\-initialize} ()
+\begin{DoxyCompactList}\small\item\em Initialize the transmitter control mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___control_gad28dba2f07e1f4fe872ccf01941c3c84}{transmitter\-\_\-control\-\_\-update} ()
+\begin{DoxyCompactList}\small\item\em Process inputs and arming. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___control_ga6ffb050d1f10ab7aa441ce65629e26bd}{transmitter\-\_\-control\-\_\-select} (\hyperlink{group___exported__types_gaf6a258d8f3ee5206d682d799316314b1}{bool} reset\-\_\-controller)
+\begin{DoxyCompactList}\small\item\em Select and use transmitter control. \end{DoxyCompactList}\item 
+enum \hyperlink{group___control_ga61438f5375f5e08187c7e12f13723afd}{control\-\_\-selection} \hyperlink{group___control_gacf816af6b4ab2c23707b55eb6b3281a0}{transmitter\-\_\-control\-\_\-selected\-\_\-controller} ()
+\begin{DoxyCompactList}\small\item\em Choose the control source based on transmitter status. \end{DoxyCompactList}\item 
+enum \hyperlink{group___control_ga6db279174b366abaad3f5de70b10655c}{control\-\_\-events} \hyperlink{group___control_ga51dc43f87515d8de90aebb1465578212}{transmitter\-\_\-control\-\_\-get\-\_\-events} ()
+\begin{DoxyCompactList}\small\item\em Get any control events. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{group___control_ga6db279174b366abaad3f5de70b10655c}{\index{Control Module@{Control Module}!control\-\_\-events@{control\-\_\-events}}
+\index{control\-\_\-events@{control\-\_\-events}!Control Module@{Control Module}}
+\subsubsection[{control\-\_\-events}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf control\-\_\-events}}}\label{group___control_ga6db279174b366abaad3f5de70b10655c}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{C\-O\-N\-T\-R\-O\-L\-\_\-\-E\-V\-E\-N\-T\-S\-\_\-\-N\-O\-N\-E@{C\-O\-N\-T\-R\-O\-L\-\_\-\-E\-V\-E\-N\-T\-S\-\_\-\-N\-O\-N\-E}!Control Module@{Control Module}}\index{Control Module@{Control Module}!C\-O\-N\-T\-R\-O\-L\-\_\-\-E\-V\-E\-N\-T\-S\-\_\-\-N\-O\-N\-E@{C\-O\-N\-T\-R\-O\-L\-\_\-\-E\-V\-E\-N\-T\-S\-\_\-\-N\-O\-N\-E}}\item[{\em 
+\hypertarget{group___control_gga6db279174b366abaad3f5de70b10655caa00112d5afc911295d9aa665483dbc02}{C\-O\-N\-T\-R\-O\-L\-\_\-\-E\-V\-E\-N\-T\-S\-\_\-\-N\-O\-N\-E}\label{group___control_gga6db279174b366abaad3f5de70b10655caa00112d5afc911295d9aa665483dbc02}
+}]\index{C\-O\-N\-T\-R\-O\-L\-\_\-\-E\-V\-E\-N\-T\-S\-\_\-\-A\-R\-M@{C\-O\-N\-T\-R\-O\-L\-\_\-\-E\-V\-E\-N\-T\-S\-\_\-\-A\-R\-M}!Control Module@{Control Module}}\index{Control Module@{Control Module}!C\-O\-N\-T\-R\-O\-L\-\_\-\-E\-V\-E\-N\-T\-S\-\_\-\-A\-R\-M@{C\-O\-N\-T\-R\-O\-L\-\_\-\-E\-V\-E\-N\-T\-S\-\_\-\-A\-R\-M}}\item[{\em 
+\hypertarget{group___control_gga6db279174b366abaad3f5de70b10655caa1925993cc62becc38a19a51a2dc2712}{C\-O\-N\-T\-R\-O\-L\-\_\-\-E\-V\-E\-N\-T\-S\-\_\-\-A\-R\-M}\label{group___control_gga6db279174b366abaad3f5de70b10655caa1925993cc62becc38a19a51a2dc2712}
+}]\index{C\-O\-N\-T\-R\-O\-L\-\_\-\-E\-V\-E\-N\-T\-S\-\_\-\-A\-R\-M\-I\-N\-G@{C\-O\-N\-T\-R\-O\-L\-\_\-\-E\-V\-E\-N\-T\-S\-\_\-\-A\-R\-M\-I\-N\-G}!Control Module@{Control Module}}\index{Control Module@{Control Module}!C\-O\-N\-T\-R\-O\-L\-\_\-\-E\-V\-E\-N\-T\-S\-\_\-\-A\-R\-M\-I\-N\-G@{C\-O\-N\-T\-R\-O\-L\-\_\-\-E\-V\-E\-N\-T\-S\-\_\-\-A\-R\-M\-I\-N\-G}}\item[{\em 
+\hypertarget{group___control_gga6db279174b366abaad3f5de70b10655ca3ba849b595e592121378f1534b599c2a}{C\-O\-N\-T\-R\-O\-L\-\_\-\-E\-V\-E\-N\-T\-S\-\_\-\-A\-R\-M\-I\-N\-G}\label{group___control_gga6db279174b366abaad3f5de70b10655ca3ba849b595e592121378f1534b599c2a}
+}]\index{C\-O\-N\-T\-R\-O\-L\-\_\-\-E\-V\-E\-N\-T\-S\-\_\-\-D\-I\-S\-A\-R\-M@{C\-O\-N\-T\-R\-O\-L\-\_\-\-E\-V\-E\-N\-T\-S\-\_\-\-D\-I\-S\-A\-R\-M}!Control Module@{Control Module}}\index{Control Module@{Control Module}!C\-O\-N\-T\-R\-O\-L\-\_\-\-E\-V\-E\-N\-T\-S\-\_\-\-D\-I\-S\-A\-R\-M@{C\-O\-N\-T\-R\-O\-L\-\_\-\-E\-V\-E\-N\-T\-S\-\_\-\-D\-I\-S\-A\-R\-M}}\item[{\em 
+\hypertarget{group___control_gga6db279174b366abaad3f5de70b10655caaf3578a8a437ec3e783c2b84abe3afe2}{C\-O\-N\-T\-R\-O\-L\-\_\-\-E\-V\-E\-N\-T\-S\-\_\-\-D\-I\-S\-A\-R\-M}\label{group___control_gga6db279174b366abaad3f5de70b10655caaf3578a8a437ec3e783c2b84abe3afe2}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 39 of file control.\-h.
+
+\hypertarget{group___control_ga61438f5375f5e08187c7e12f13723afd}{\index{Control Module@{Control Module}!control\-\_\-selection@{control\-\_\-selection}}
+\index{control\-\_\-selection@{control\-\_\-selection}!Control Module@{Control Module}}
+\subsubsection[{control\-\_\-selection}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf control\-\_\-selection}}}\label{group___control_ga61438f5375f5e08187c7e12f13723afd}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{C\-O\-N\-T\-R\-O\-L\-\_\-\-S\-E\-L\-E\-C\-T\-I\-O\-N\-\_\-\-F\-A\-I\-L\-S\-A\-F\-E@{C\-O\-N\-T\-R\-O\-L\-\_\-\-S\-E\-L\-E\-C\-T\-I\-O\-N\-\_\-\-F\-A\-I\-L\-S\-A\-F\-E}!Control Module@{Control Module}}\index{Control Module@{Control Module}!C\-O\-N\-T\-R\-O\-L\-\_\-\-S\-E\-L\-E\-C\-T\-I\-O\-N\-\_\-\-F\-A\-I\-L\-S\-A\-F\-E@{C\-O\-N\-T\-R\-O\-L\-\_\-\-S\-E\-L\-E\-C\-T\-I\-O\-N\-\_\-\-F\-A\-I\-L\-S\-A\-F\-E}}\item[{\em 
+\hypertarget{group___control_gga61438f5375f5e08187c7e12f13723afda1b46ea74ed4a00f9ae80dd8ecc29fc65}{C\-O\-N\-T\-R\-O\-L\-\_\-\-S\-E\-L\-E\-C\-T\-I\-O\-N\-\_\-\-F\-A\-I\-L\-S\-A\-F\-E}\label{group___control_gga61438f5375f5e08187c7e12f13723afda1b46ea74ed4a00f9ae80dd8ecc29fc65}
+}]\index{C\-O\-N\-T\-R\-O\-L\-\_\-\-S\-E\-L\-E\-C\-T\-I\-O\-N\-\_\-\-T\-R\-A\-N\-S\-M\-I\-T\-T\-E\-R@{C\-O\-N\-T\-R\-O\-L\-\_\-\-S\-E\-L\-E\-C\-T\-I\-O\-N\-\_\-\-T\-R\-A\-N\-S\-M\-I\-T\-T\-E\-R}!Control Module@{Control Module}}\index{Control Module@{Control Module}!C\-O\-N\-T\-R\-O\-L\-\_\-\-S\-E\-L\-E\-C\-T\-I\-O\-N\-\_\-\-T\-R\-A\-N\-S\-M\-I\-T\-T\-E\-R@{C\-O\-N\-T\-R\-O\-L\-\_\-\-S\-E\-L\-E\-C\-T\-I\-O\-N\-\_\-\-T\-R\-A\-N\-S\-M\-I\-T\-T\-E\-R}}\item[{\em 
+\hypertarget{group___control_gga61438f5375f5e08187c7e12f13723afdab3795a3d043b1e09e3a3f9a9fb3dd141}{C\-O\-N\-T\-R\-O\-L\-\_\-\-S\-E\-L\-E\-C\-T\-I\-O\-N\-\_\-\-T\-R\-A\-N\-S\-M\-I\-T\-T\-E\-R}\label{group___control_gga61438f5375f5e08187c7e12f13723afdab3795a3d043b1e09e3a3f9a9fb3dd141}
+}]\index{C\-O\-N\-T\-R\-O\-L\-\_\-\-S\-E\-L\-E\-C\-T\-I\-O\-N\-\_\-\-T\-A\-B\-L\-E\-T@{C\-O\-N\-T\-R\-O\-L\-\_\-\-S\-E\-L\-E\-C\-T\-I\-O\-N\-\_\-\-T\-A\-B\-L\-E\-T}!Control Module@{Control Module}}\index{Control Module@{Control Module}!C\-O\-N\-T\-R\-O\-L\-\_\-\-S\-E\-L\-E\-C\-T\-I\-O\-N\-\_\-\-T\-A\-B\-L\-E\-T@{C\-O\-N\-T\-R\-O\-L\-\_\-\-S\-E\-L\-E\-C\-T\-I\-O\-N\-\_\-\-T\-A\-B\-L\-E\-T}}\item[{\em 
+\hypertarget{group___control_gga61438f5375f5e08187c7e12f13723afda671e301b166223e3f6a0cb2e0eb2d515}{C\-O\-N\-T\-R\-O\-L\-\_\-\-S\-E\-L\-E\-C\-T\-I\-O\-N\-\_\-\-T\-A\-B\-L\-E\-T}\label{group___control_gga61438f5375f5e08187c7e12f13723afda671e301b166223e3f6a0cb2e0eb2d515}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 33 of file control.\-h.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{group___control_ga4741ee1f75fdb35137c598e00e3fcbae}{\index{Control Module@{Control Module}!failsafe\-\_\-control\-\_\-get\-\_\-events@{failsafe\-\_\-control\-\_\-get\-\_\-events}}
+\index{failsafe\-\_\-control\-\_\-get\-\_\-events@{failsafe\-\_\-control\-\_\-get\-\_\-events}!Control Module@{Control Module}}
+\subsubsection[{failsafe\-\_\-control\-\_\-get\-\_\-events}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf control\-\_\-events} failsafe\-\_\-control\-\_\-get\-\_\-events (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___control_ga4741ee1f75fdb35137c598e00e3fcbae}
+
+
+Get any control events. 
+
+
+
+Definition at line 81 of file failsafe\-\_\-control.\-c.
+
+\hypertarget{group___control_ga7ce4be6cb90b629500ec2db534d375f6}{\index{Control Module@{Control Module}!failsafe\-\_\-control\-\_\-initialize@{failsafe\-\_\-control\-\_\-initialize}}
+\index{failsafe\-\_\-control\-\_\-initialize@{failsafe\-\_\-control\-\_\-initialize}!Control Module@{Control Module}}
+\subsubsection[{failsafe\-\_\-control\-\_\-initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} failsafe\-\_\-control\-\_\-initialize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___control_ga7ce4be6cb90b629500ec2db534d375f6}
+
+
+Initialize the failsafe controller. 
+
+
+
+Definition at line 40 of file failsafe\-\_\-control.\-c.
+
+\hypertarget{group___control_gad1912458768a13e3fee44acb5992f1d0}{\index{Control Module@{Control Module}!failsafe\-\_\-control\-\_\-select@{failsafe\-\_\-control\-\_\-select}}
+\index{failsafe\-\_\-control\-\_\-select@{failsafe\-\_\-control\-\_\-select}!Control Module@{Control Module}}
+\subsubsection[{failsafe\-\_\-control\-\_\-select}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} failsafe\-\_\-control\-\_\-select (
+\begin{DoxyParamCaption}
+\item[{{\bf bool}}]{reset\-\_\-controller}
+\end{DoxyParamCaption}
+)}}\label{group___control_gad1912458768a13e3fee44acb5992f1d0}
+
+
+Use failsafe mode. 
+
+Select and use failsafe control 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em reset\-\_\-controller} & True if previously another controller was used \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 55 of file failsafe\-\_\-control.\-c.
+
+\hypertarget{group___control_gab5211c13a168641b8f8aa3df9c8b26c2}{\index{Control Module@{Control Module}!failsafe\-\_\-control\-\_\-update@{failsafe\-\_\-control\-\_\-update}}
+\index{failsafe\-\_\-control\-\_\-update@{failsafe\-\_\-control\-\_\-update}!Control Module@{Control Module}}
+\subsubsection[{failsafe\-\_\-control\-\_\-update}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} failsafe\-\_\-control\-\_\-update (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___control_gab5211c13a168641b8f8aa3df9c8b26c2}
+
+
+Perform any updates to the failsafe controller. 
+
+
+
+Definition at line 46 of file failsafe\-\_\-control.\-c.
+
+\hypertarget{group___control_gaac5e3efaaa07ab552af74fecf4726748}{\index{Control Module@{Control Module}!tablet\-\_\-control\-\_\-get\-\_\-events@{tablet\-\_\-control\-\_\-get\-\_\-events}}
+\index{tablet\-\_\-control\-\_\-get\-\_\-events@{tablet\-\_\-control\-\_\-get\-\_\-events}!Control Module@{Control Module}}
+\subsubsection[{tablet\-\_\-control\-\_\-get\-\_\-events}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf control\-\_\-events} tablet\-\_\-control\-\_\-get\-\_\-events (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___control_gaac5e3efaaa07ab552af74fecf4726748}
+
+
+Get any control events. 
+
+When not supported force disarming. 
+
+Definition at line 190 of file tablet\-\_\-control.\-c.
+
+\hypertarget{group___control_ga16a2fa9b05e1778d508450239854bdef}{\index{Control Module@{Control Module}!tablet\-\_\-control\-\_\-initialize@{tablet\-\_\-control\-\_\-initialize}}
+\index{tablet\-\_\-control\-\_\-initialize@{tablet\-\_\-control\-\_\-initialize}!Control Module@{Control Module}}
+\subsubsection[{tablet\-\_\-control\-\_\-initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} tablet\-\_\-control\-\_\-initialize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___control_ga16a2fa9b05e1778d508450239854bdef}
+
+
+Initialize the tablet controller. 
+
+
+
+Definition at line 55 of file tablet\-\_\-control.\-c.
+
+\hypertarget{group___control_ga72ecc808e52960fdd4fc2fe42bf5f633}{\index{Control Module@{Control Module}!tablet\-\_\-control\-\_\-select@{tablet\-\_\-control\-\_\-select}}
+\index{tablet\-\_\-control\-\_\-select@{tablet\-\_\-control\-\_\-select}!Control Module@{Control Module}}
+\subsubsection[{tablet\-\_\-control\-\_\-select}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} tablet\-\_\-control\-\_\-select (
+\begin{DoxyParamCaption}
+\item[{{\bf bool}}]{reset\-\_\-controller}
+\end{DoxyParamCaption}
+)}}\label{group___control_ga72ecc808e52960fdd4fc2fe42bf5f633}
+
+
+Use the values for the tablet controller. 
+
+Select and use tablet control 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em reset\-\_\-controller} & True if previously another controller was used \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 74 of file tablet\-\_\-control.\-c.
+
+\hypertarget{group___control_ga0bee0c81342526c03f10559cf6dbda72}{\index{Control Module@{Control Module}!tablet\-\_\-control\-\_\-update@{tablet\-\_\-control\-\_\-update}}
+\index{tablet\-\_\-control\-\_\-update@{tablet\-\_\-control\-\_\-update}!Control Module@{Control Module}}
+\subsubsection[{tablet\-\_\-control\-\_\-update}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} tablet\-\_\-control\-\_\-update (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___control_ga0bee0c81342526c03f10559cf6dbda72}
+
+
+Process updates for the tablet controller. 
+
+
+
+Definition at line 62 of file tablet\-\_\-control.\-c.
+
+\hypertarget{group___control_ga51dc43f87515d8de90aebb1465578212}{\index{Control Module@{Control Module}!transmitter\-\_\-control\-\_\-get\-\_\-events@{transmitter\-\_\-control\-\_\-get\-\_\-events}}
+\index{transmitter\-\_\-control\-\_\-get\-\_\-events@{transmitter\-\_\-control\-\_\-get\-\_\-events}!Control Module@{Control Module}}
+\subsubsection[{transmitter\-\_\-control\-\_\-get\-\_\-events}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf control\-\_\-events} transmitter\-\_\-control\-\_\-get\-\_\-events (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___control_ga51dc43f87515d8de90aebb1465578212}
+
+
+Get any control events. 
+
+
+
+Definition at line 416 of file transmitter\-\_\-control.\-c.
+
+\hypertarget{group___control_ga27653bb9e2abe9498b31e9f748f158d8}{\index{Control Module@{Control Module}!transmitter\-\_\-control\-\_\-initialize@{transmitter\-\_\-control\-\_\-initialize}}
+\index{transmitter\-\_\-control\-\_\-initialize@{transmitter\-\_\-control\-\_\-initialize}!Control Module@{Control Module}}
+\subsubsection[{transmitter\-\_\-control\-\_\-initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} transmitter\-\_\-control\-\_\-initialize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___control_ga27653bb9e2abe9498b31e9f748f158d8}
+
+
+Initialize the transmitter control mode. 
+
+
+
+Definition at line 115 of file transmitter\-\_\-control.\-c.
+
+\hypertarget{group___control_ga6ffb050d1f10ab7aa441ce65629e26bd}{\index{Control Module@{Control Module}!transmitter\-\_\-control\-\_\-select@{transmitter\-\_\-control\-\_\-select}}
+\index{transmitter\-\_\-control\-\_\-select@{transmitter\-\_\-control\-\_\-select}!Control Module@{Control Module}}
+\subsubsection[{transmitter\-\_\-control\-\_\-select}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} transmitter\-\_\-control\-\_\-select (
+\begin{DoxyParamCaption}
+\item[{{\bf bool}}]{reset\-\_\-controller}
+\end{DoxyParamCaption}
+)}}\label{group___control_ga6ffb050d1f10ab7aa441ce65629e26bd}
+
+
+Select and use transmitter control. 
+
+Select and use transmitter control 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em reset\-\_\-controller} & True if previously another controller was used \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 358 of file transmitter\-\_\-control.\-c.
+
+\hypertarget{group___control_gacf816af6b4ab2c23707b55eb6b3281a0}{\index{Control Module@{Control Module}!transmitter\-\_\-control\-\_\-selected\-\_\-controller@{transmitter\-\_\-control\-\_\-selected\-\_\-controller}}
+\index{transmitter\-\_\-control\-\_\-selected\-\_\-controller@{transmitter\-\_\-control\-\_\-selected\-\_\-controller}!Control Module@{Control Module}}
+\subsubsection[{transmitter\-\_\-control\-\_\-selected\-\_\-controller}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf control\-\_\-selection} transmitter\-\_\-control\-\_\-selected\-\_\-controller (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___control_gacf816af6b4ab2c23707b55eb6b3281a0}
+
+
+Choose the control source based on transmitter status. 
+
+
+
+Definition at line 403 of file transmitter\-\_\-control.\-c.
+
+\hypertarget{group___control_gad28dba2f07e1f4fe872ccf01941c3c84}{\index{Control Module@{Control Module}!transmitter\-\_\-control\-\_\-update@{transmitter\-\_\-control\-\_\-update}}
+\index{transmitter\-\_\-control\-\_\-update@{transmitter\-\_\-control\-\_\-update}!Control Module@{Control Module}}
+\subsubsection[{transmitter\-\_\-control\-\_\-update}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} transmitter\-\_\-control\-\_\-update (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___control_gad28dba2f07e1f4fe872ccf01941c3c84}
+
+
+Process inputs and arming. 
+
+This will always process the arming signals as for now the transmitter is always in charge. When a transmitter is not detected control will fall back to the failsafe module. If the flight mode is in tablet control position then control will be ceeded to that module. 
+
+Definition at line 160 of file transmitter\-\_\-control.\-c.
+

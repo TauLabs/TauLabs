@@ -1,0 +1,85 @@
+\hypertarget{group___g_p_i_o___group3}{\section{G\-P\-I\-O Alternate functions configuration functions}
+\label{group___g_p_i_o___group3}\index{G\-P\-I\-O Alternate functions configuration functions@{G\-P\-I\-O Alternate functions configuration functions}}
+}
+
+
+G\-P\-I\-O Alternate functions configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___g_p_i_o___group3_ga0a77617a322562ae84f8d72486032c5d}{G\-P\-I\-O\-\_\-\-Pin\-A\-F\-Config} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} G\-P\-I\-O\-\_\-\-Pin\-Source, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} G\-P\-I\-O\-\_\-\-A\-F)
+\begin{DoxyCompactList}\small\item\em Writes data to the specified G\-P\-I\-O data port. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+G\-P\-I\-O Alternate functions configuration functions. G\-P\-I\-O Alternate functions configuration function.
+
+\begin{DoxyVerb} ===============================================================================
+          ##### GPIO Alternate functions configuration functions #####
+ ===============================================================================\end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+               GPIO Alternate functions configuration function
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___g_p_i_o___group3_ga0a77617a322562ae84f8d72486032c5d}{\index{G\-P\-I\-O Alternate functions configuration functions@{G\-P\-I\-O Alternate functions configuration functions}!G\-P\-I\-O\-\_\-\-Pin\-A\-F\-Config@{G\-P\-I\-O\-\_\-\-Pin\-A\-F\-Config}}
+\index{G\-P\-I\-O\-\_\-\-Pin\-A\-F\-Config@{G\-P\-I\-O\-\_\-\-Pin\-A\-F\-Config}!GPIO Alternate functions configuration functions@{G\-P\-I\-O Alternate functions configuration functions}}
+\subsubsection[{G\-P\-I\-O\-\_\-\-Pin\-A\-F\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-P\-I\-O\-\_\-\-Pin\-A\-F\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$}]{G\-P\-I\-Ox, }
+\item[{{\bf uint16\-\_\-t}}]{G\-P\-I\-O\-\_\-\-Pin\-Source, }
+\item[{{\bf uint8\-\_\-t}}]{G\-P\-I\-O\-\_\-\-A\-F}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_i_o___group3_ga0a77617a322562ae84f8d72486032c5d}
+
+
+Writes data to the specified G\-P\-I\-O data port. 
+
+Changes the mapping of the specified pin.
+
+
+\begin{DoxyParams}{Parameters}
+{\em G\-P\-I\-Ox,\-:} & where x can be (A, B, C, D, E or F) to select the G\-P\-I\-O peripheral. \\
+\hline
+{\em G\-P\-I\-O\-\_\-\-Pin\-Source,\-:} & specifies the pin for the Alternate function. This parameter can be G\-P\-I\-O\-\_\-\-Pin\-Sourcex where x can be (0..15). \\
+\hline
+{\em G\-P\-I\-O\-\_\-\-A\-F,\-:} & selects the pin to be used as Alternate function. This parameter can be one of the following value\-: \begin{DoxyItemize}
+\item G\-P\-I\-O\-\_\-\-A\-F\-\_\-0\-: J\-T\-C\-K-\/\-S\-W\-C\-L\-K, J\-T\-D\-I, J\-T\-D\-O/\-T\-R\-A\-C\-E\-S\-W0, J\-T\-M\-S-\/\-S\-W\-D\-A\-T, M\-C\-O, N\-J\-T\-R\-S\-T, T\-R\-A\-C\-E\-D, T\-R\-A\-C\-E\-C\-K. \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-1\-: O\-U\-T, T\-I\-M2, T\-I\-M15, T\-I\-M16, T\-I\-M17. \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-2\-: C\-O\-M\-P1\-\_\-\-O\-U\-T, T\-I\-M1, T\-I\-M2, T\-I\-M3, T\-I\-M4, T\-I\-M8, T\-I\-M15. \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-3\-: C\-O\-M\-P7\-\_\-\-O\-U\-T, T\-I\-M8, T\-I\-M15, Touch. \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-4\-: I2\-C1, I2\-C2, T\-I\-M1, T\-I\-M8, T\-I\-M16, T\-I\-M17. \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-5\-: I\-R\-\_\-\-O\-U\-T, I2\-S2, I2\-S3, S\-P\-I1, S\-P\-I2, T\-I\-M8, U\-S\-A\-R\-T4, U\-S\-A\-R\-T5 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-6\-: I\-R\-\_\-\-O\-U\-T, I2\-S2, I2\-S3, S\-P\-I2, S\-P\-I3, T\-I\-M1, T\-I\-M8 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-7\-: A\-O\-P2\-\_\-\-O\-U\-T, C\-A\-N, C\-O\-M\-P3\-\_\-\-O\-U\-T, C\-O\-M\-P5\-\_\-\-O\-U\-T, C\-O\-M\-P6\-\_\-\-O\-U\-T, U\-S\-A\-R\-T1, U\-S\-A\-R\-T2, U\-S\-A\-R\-T3. \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-8\-: C\-O\-M\-P1\-\_\-\-O\-U\-T, C\-O\-M\-P2\-\_\-\-O\-U\-T, C\-O\-M\-P3\-\_\-\-O\-U\-T, C\-O\-M\-P4\-\_\-\-O\-U\-T, C\-O\-M\-P5\-\_\-\-O\-U\-T, C\-O\-M\-P6\-\_\-\-O\-U\-T. \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-9\-: A\-O\-P4\-\_\-\-O\-U\-T, C\-A\-N, T\-I\-M1, T\-I\-M8, T\-I\-M15. \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-10\-: A\-O\-P1\-\_\-\-O\-U\-T, A\-O\-P3\-\_\-\-O\-U\-T, T\-I\-M2, T\-I\-M3, T\-I\-M4, T\-I\-M8, T\-I\-M17. \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-11\-: T\-I\-M1, T\-I\-M8. \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-12\-: T\-I\-M1. \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-14\-: U\-S\-B\-D\-M, U\-S\-B\-D\-P. \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-15\-: O\-U\-T. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The pin should already been configured in Alternate Function mode(\-A\-F) using G\-P\-I\-O\-\_\-\-Init\-Struct-\/$>$G\-P\-I\-O\-\_\-\-Mode = G\-P\-I\-O\-\_\-\-Mode\-\_\-\-A\-F 
+
+Refer to the Alternate function mapping table in the device datasheet for the detailed mapping of the system and peripherals alternate function I/\-O pins. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em G\-P\-I\-Ox,\-:} & where x can be (A..I) to select the G\-P\-I\-O peripheral. \\
+\hline
+{\em G\-P\-I\-O\-\_\-\-Pin\-Source,\-:} & specifies the pin for the Alternate function. This parameter can be G\-P\-I\-O\-\_\-\-Pin\-Sourcex where x can be (0..15). \\
+\hline
+{\em G\-P\-I\-O\-\_\-\-A\-F\-Selection,\-:} & selects the pin to used as Alternate function. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-R\-T\-C\-\_\-50\-Hz\-: Connect R\-T\-C\-\_\-50\-Hz pin to A\-F0 (default after reset) \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-M\-C\-O\-: Connect M\-C\-O pin (M\-C\-O1 and M\-C\-O2) to A\-F0 (default after reset) \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-T\-A\-M\-P\-E\-R\-: Connect T\-A\-M\-P\-E\-R pins (T\-A\-M\-P\-E\-R\-\_\-1 and T\-A\-M\-P\-E\-R\-\_\-2) to A\-F0 (default after reset) \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-S\-W\-J\-: Connect S\-W\-J pins (S\-W\-D and J\-T\-A\-G)to A\-F0 (default after reset) \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-T\-R\-A\-C\-E\-: Connect T\-R\-A\-C\-E pins to A\-F0 (default after reset) \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-T\-I\-M1\-: Connect T\-I\-M1 pins to A\-F1 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-T\-I\-M2\-: Connect T\-I\-M2 pins to A\-F1 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-T\-I\-M3\-: Connect T\-I\-M3 pins to A\-F2 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-T\-I\-M4\-: Connect T\-I\-M4 pins to A\-F2 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-T\-I\-M5\-: Connect T\-I\-M5 pins to A\-F2 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-T\-I\-M8\-: Connect T\-I\-M8 pins to A\-F3 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-T\-I\-M9\-: Connect T\-I\-M9 pins to A\-F3 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-T\-I\-M10\-: Connect T\-I\-M10 pins to A\-F3 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-T\-I\-M11\-: Connect T\-I\-M11 pins to A\-F3 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-I2\-C1\-: Connect I2\-C1 pins to A\-F4 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-I2\-C2\-: Connect I2\-C2 pins to A\-F4 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-I2\-C3\-: Connect I2\-C3 pins to A\-F4 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-S\-P\-I1\-: Connect S\-P\-I1 pins to A\-F5 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-S\-P\-I2\-: Connect S\-P\-I2/\-I2\-S2 pins to A\-F5 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-S\-P\-I3\-: Connect S\-P\-I3/\-I2\-S3 pins to A\-F6 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-I2\-S3ext\-: Connect I2\-S3ext pins to A\-F7 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-U\-S\-A\-R\-T1\-: Connect U\-S\-A\-R\-T1 pins to A\-F7 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-U\-S\-A\-R\-T2\-: Connect U\-S\-A\-R\-T2 pins to A\-F7 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-U\-S\-A\-R\-T3\-: Connect U\-S\-A\-R\-T3 pins to A\-F7 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-U\-A\-R\-T4\-: Connect U\-A\-R\-T4 pins to A\-F8 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-U\-A\-R\-T5\-: Connect U\-A\-R\-T5 pins to A\-F8 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-U\-S\-A\-R\-T6\-: Connect U\-S\-A\-R\-T6 pins to A\-F8 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-C\-A\-N1\-: Connect C\-A\-N1 pins to A\-F9 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-C\-A\-N2\-: Connect C\-A\-N2 pins to A\-F9 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-T\-I\-M12\-: Connect T\-I\-M12 pins to A\-F9 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-T\-I\-M13\-: Connect T\-I\-M13 pins to A\-F9 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-T\-I\-M14\-: Connect T\-I\-M14 pins to A\-F9 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-O\-T\-G\-\_\-\-F\-S\-: Connect O\-T\-G\-\_\-\-F\-S pins to A\-F10 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-O\-T\-G\-\_\-\-H\-S\-: Connect O\-T\-G\-\_\-\-H\-S pins to A\-F10 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-E\-T\-H\-: Connect E\-T\-H\-E\-R\-N\-E\-T pins to A\-F11 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-F\-S\-M\-C\-: Connect F\-S\-M\-C pins to A\-F12 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-O\-T\-G\-\_\-\-H\-S\-\_\-\-F\-S\-: Connect O\-T\-G H\-S (configured in F\-S) pins to A\-F12 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-S\-D\-I\-O\-: Connect S\-D\-I\-O pins to A\-F12 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-D\-C\-M\-I\-: Connect D\-C\-M\-I pins to A\-F13 \item G\-P\-I\-O\-\_\-\-A\-F\-\_\-\-E\-V\-E\-N\-T\-O\-U\-T\-: Connect E\-V\-E\-N\-T\-O\-U\-T pins to A\-F15 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 498 of file stm32f30x\-\_\-gpio.\-c.
+

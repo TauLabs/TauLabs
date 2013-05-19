@@ -1,0 +1,17 @@
+task. h 
+\begin{DoxyPre}void vTaskList( char *pcWriteBuffer );\end{DoxyPre}
+
+
+config\-U\-S\-E\-\_\-\-T\-R\-A\-C\-E\-\_\-\-F\-A\-C\-I\-L\-I\-T\-Y must be defined as 1 for this function to be available. See the configuration section for more information.
+
+N\-O\-T\-E\-: This function will disable interrupts for its duration. It is not intended for normal application runtime use but as a debug aid.
+
+Lists all the current tasks, along with their current state and stack usage high water mark.
+
+Tasks are reported as blocked ('B'), ready ('R'), deleted ('D') or suspended ('S').
+
+
+\begin{DoxyParams}{Parameters}
+{\em pc\-Write\-Buffer} & A buffer into which the above mentioned details will be written, in ascii form. This buffer is assumed to be large enough to contain the generated report. Approximately 40 bytes per task should be sufficient. \\
+\hline
+\end{DoxyParams}

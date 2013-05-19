@@ -1,0 +1,154 @@
+\hypertarget{seq_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/seq.c File Reference}
+\label{seq_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/seq.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/seq.\-c}}
+}
+
+
+Sequence.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_ad566f6541e98b74246db1a3a3a85ad49}{int8\-\_\-t} \hyperlink{seq_8c_abcd9a37df4c8738ae4ba35c11cb89eaf}{seq\-\_\-compare} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pobj1, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pobj2)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{seq_8c_ab9b033df810d3789f9bc6bbfe82b5249}{seq\-\_\-get\-Length} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pobj, \hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} $\ast$r\-\_\-index)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{seq_8c_a31496f10de401228f7b6769956fcf490}{seq\-\_\-get\-Subscript} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pobj, \hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} index, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} $\ast$r\-\_\-pobj)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{seq_8c_aa5066d2c59a95948cfce9ce2b70829ab}{seqiter\-\_\-get\-Next} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pobj, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} $\ast$r\-\_\-pitem)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{seq_8c_aa722d7d6f8ee027d5e99779968fc6fbb}{seqiter\-\_\-new} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pobj, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} $\ast$r\-\_\-pobj)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Sequence. Functions that operate on sequences 
+
+Definition in file \hyperlink{seq_8c_source}{seq.\-c}.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{seq_8c_abcd9a37df4c8738ae4ba35c11cb89eaf}{\index{seq.\-c@{seq.\-c}!seq\-\_\-compare@{seq\-\_\-compare}}
+\index{seq\-\_\-compare@{seq\-\_\-compare}!seq.c@{seq.\-c}}
+\subsubsection[{seq\-\_\-compare}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int8\-\_\-t} seq\-\_\-compare (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pobj1, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pobj2}
+\end{DoxyParamCaption}
+)}}\label{seq_8c_abcd9a37df4c8738ae4ba35c11cb89eaf}
+Compares two sequences for equality
+
+
+\begin{DoxyParams}{Parameters}
+{\em pobj1} & Ptr to first sequence. \\
+\hline
+{\em pobj2} & Ptr to second sequence. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+C\-\_\-\-S\-A\-M\-E if the seuqences are equivalent, C\-\_\-\-D\-I\-F\-F\-E\-R otherwise. 
+\end{DoxyReturn}
+
+
+Definition at line 36 of file seq.\-c.
+
+\hypertarget{seq_8c_ab9b033df810d3789f9bc6bbfe82b5249}{\index{seq.\-c@{seq.\-c}!seq\-\_\-get\-Length@{seq\-\_\-get\-Length}}
+\index{seq\-\_\-get\-Length@{seq\-\_\-get\-Length}!seq.c@{seq.\-c}}
+\subsubsection[{seq\-\_\-get\-Length}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} seq\-\_\-get\-Length (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pobj, }
+\item[{{\bf int16\-\_\-t} $\ast$}]{r\-\_\-index}
+\end{DoxyParamCaption}
+)}}\label{seq_8c_ab9b033df810d3789f9bc6bbfe82b5249}
+Returns the length of the sequence
+
+
+\begin{DoxyParams}{Parameters}
+{\em pobj} & Ptr to sequence. \\
+\hline
+{\em r\-\_\-index} & Return arg, length of sequence \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 112 of file seq.\-c.
+
+\hypertarget{seq_8c_a31496f10de401228f7b6769956fcf490}{\index{seq.\-c@{seq.\-c}!seq\-\_\-get\-Subscript@{seq\-\_\-get\-Subscript}}
+\index{seq\-\_\-get\-Subscript@{seq\-\_\-get\-Subscript}!seq.c@{seq.\-c}}
+\subsubsection[{seq\-\_\-get\-Subscript}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} seq\-\_\-get\-Subscript (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pobj, }
+\item[{{\bf int16\-\_\-t}}]{index, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t} $\ast$}]{r\-\_\-pobj}
+\end{DoxyParamCaption}
+)}}\label{seq_8c_a31496f10de401228f7b6769956fcf490}
+Returns the object from sequence\mbox{[}index\mbox{]}
+
+
+\begin{DoxyParams}{Parameters}
+{\em pobj} & Ptr to sequence object to get object from \\
+\hline
+{\em index} & Int index into the sequence \\
+\hline
+{\em r\-\_\-pobj} & Return arg, object from sequence \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 148 of file seq.\-c.
+
+\hypertarget{seq_8c_aa5066d2c59a95948cfce9ce2b70829ab}{\index{seq.\-c@{seq.\-c}!seqiter\-\_\-get\-Next@{seqiter\-\_\-get\-Next}}
+\index{seqiter\-\_\-get\-Next@{seqiter\-\_\-get\-Next}!seq.c@{seq.\-c}}
+\subsubsection[{seqiter\-\_\-get\-Next}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} seqiter\-\_\-get\-Next (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pobj, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t} $\ast$}]{r\-\_\-pitem}
+\end{DoxyParamCaption}
+)}}\label{seq_8c_aa5066d2c59a95948cfce9ce2b70829ab}
+Returns the next item from the sequence iterator object
+
+
+\begin{DoxyParams}{Parameters}
+{\em pobj} & Ptr to sequence iterator. \\
+\hline
+{\em r\-\_\-pitem} & Return arg, pointer to next item from sequence. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status. 
+\end{DoxyReturn}
+
+
+Definition at line 203 of file seq.\-c.
+
+\hypertarget{seq_8c_aa722d7d6f8ee027d5e99779968fc6fbb}{\index{seq.\-c@{seq.\-c}!seqiter\-\_\-new@{seqiter\-\_\-new}}
+\index{seqiter\-\_\-new@{seqiter\-\_\-new}!seq.c@{seq.\-c}}
+\subsubsection[{seqiter\-\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} seqiter\-\_\-new (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pobj, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t} $\ast$}]{r\-\_\-pobj}
+\end{DoxyParamCaption}
+)}}\label{seq_8c_aa722d7d6f8ee027d5e99779968fc6fbb}
+Returns a new sequence iterator object
+
+
+\begin{DoxyParams}{Parameters}
+{\em pobj} & Ptr to sequence. \\
+\hline
+{\em r\-\_\-pobj} & Return by reference, new sequence iterator \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status. 
+\end{DoxyReturn}
+
+
+Definition at line 240 of file seq.\-c.
+

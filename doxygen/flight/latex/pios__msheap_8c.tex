@@ -1,0 +1,138 @@
+\hypertarget{pios__msheap_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-Common/\-Libraries/msheap/pios\-\_\-msheap.c File Reference}
+\label{pios__msheap_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-Common/\-Libraries/msheap/pios\-\_\-msheap.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-Common/\-Libraries/msheap/pios\-\_\-msheap.\-c}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{pios__msheap_8c_ab7e5c95cf72a3f819bc4462a7fb62ca3}{v\-Application\-Malloc\-Failed\-Hook} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{pios__msheap_8c_a252331c6af6d111ad2a948e449cfd963}{v\-Port\-Free} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$p)
+\item 
+size\-\_\-t \hyperlink{pios__msheap_8c_a0c28a12b313bc248be0cb7a37ed81bb7}{x\-Port\-Get\-Free\-Heap\-Size} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{pios__msheap_8c_a8bf103ce32ce8473574e9920af8b4eec}{v\-Port\-Initialise\-Blocks} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{pios__msheap_8c_a3411b27b8442796de552271971221c45}{x\-Port\-Increase\-Heap\-Size} (size\-\_\-t bytes)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$ \hyperlink{pios__msheap_8c_a9c36d0fe3ec4675cbffdc9b52f5fb399}{malloc} (size\-\_\-t \hyperlink{pios__opahrs__proto_8h_ae5dc6ffcd9b7605c7787791e40cc6bb0}{size})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{pios__msheap_8c_a9f850d0608418aea291e4c0fdab93826}{free} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$p)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{pios__msheap_8c_a9d26d45cfef90431d5c712fbb87dd212}{msheap\-\_\-panic} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} char $\ast$reason)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+char \hyperlink{pios__msheap_8c_a238b7ea9471fd0b3005e4e7deab4551b}{\-\_\-sheap}
+\item 
+char \hyperlink{pios__msheap_8c_a76380aee96a7b99028ca8f8e0d6a9cef}{\-\_\-eheap}
+\item 
+int \hyperlink{pios__msheap_8c_a8217768e82662283cf59c17f140be30c}{heap\-\_\-init\-\_\-done}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{pios__msheap_8c_a9f850d0608418aea291e4c0fdab93826}{\index{pios\-\_\-msheap.\-c@{pios\-\_\-msheap.\-c}!free@{free}}
+\index{free@{free}!pios_msheap.c@{pios\-\_\-msheap.\-c}}
+\subsubsection[{free}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} free (
+\begin{DoxyParamCaption}
+\item[{{\bf void} $\ast$}]{p}
+\end{DoxyParamCaption}
+)}}\label{pios__msheap_8c_a9f850d0608418aea291e4c0fdab93826}
+
+
+Definition at line 108 of file pios\-\_\-msheap.\-c.
+
+\hypertarget{pios__msheap_8c_a9c36d0fe3ec4675cbffdc9b52f5fb399}{\index{pios\-\_\-msheap.\-c@{pios\-\_\-msheap.\-c}!malloc@{malloc}}
+\index{malloc@{malloc}!pios_msheap.c@{pios\-\_\-msheap.\-c}}
+\subsubsection[{malloc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} $\ast$ malloc (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)}}\label{pios__msheap_8c_a9c36d0fe3ec4675cbffdc9b52f5fb399}
+
+
+Definition at line 102 of file pios\-\_\-msheap.\-c.
+
+\hypertarget{pios__msheap_8c_a9d26d45cfef90431d5c712fbb87dd212}{\index{pios\-\_\-msheap.\-c@{pios\-\_\-msheap.\-c}!msheap\-\_\-panic@{msheap\-\_\-panic}}
+\index{msheap\-\_\-panic@{msheap\-\_\-panic}!pios_msheap.c@{pios\-\_\-msheap.\-c}}
+\subsubsection[{msheap\-\_\-panic}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} msheap\-\_\-panic (
+\begin{DoxyParamCaption}
+\item[{{\bf const} char $\ast$}]{reason}
+\end{DoxyParamCaption}
+)}}\label{pios__msheap_8c_a9d26d45cfef90431d5c712fbb87dd212}
+
+
+Definition at line 137 of file pios\-\_\-msheap.\-c.
+
+\hypertarget{pios__msheap_8c_ab7e5c95cf72a3f819bc4462a7fb62ca3}{\index{pios\-\_\-msheap.\-c@{pios\-\_\-msheap.\-c}!v\-Application\-Malloc\-Failed\-Hook@{v\-Application\-Malloc\-Failed\-Hook}}
+\index{v\-Application\-Malloc\-Failed\-Hook@{v\-Application\-Malloc\-Failed\-Hook}!pios_msheap.c@{pios\-\_\-msheap.\-c}}
+\subsubsection[{v\-Application\-Malloc\-Failed\-Hook}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Application\-Malloc\-Failed\-Hook (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{pios__msheap_8c_ab7e5c95cf72a3f819bc4462a7fb62ca3}
+
+
+Definition at line 58 of file pios\-\_\-msheap.\-c.
+
+\hypertarget{pios__msheap_8c_a252331c6af6d111ad2a948e449cfd963}{\index{pios\-\_\-msheap.\-c@{pios\-\_\-msheap.\-c}!v\-Port\-Free@{v\-Port\-Free}}
+\index{v\-Port\-Free@{v\-Port\-Free}!pios_msheap.c@{pios\-\_\-msheap.\-c}}
+\subsubsection[{v\-Port\-Free}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Port\-Free (
+\begin{DoxyParamCaption}
+\item[{{\bf void} $\ast$}]{p}
+\end{DoxyParamCaption}
+)}}\label{pios__msheap_8c_a252331c6af6d111ad2a948e449cfd963}
+
+
+Definition at line 76 of file pios\-\_\-msheap.\-c.
+
+\hypertarget{pios__msheap_8c_a8bf103ce32ce8473574e9920af8b4eec}{\index{pios\-\_\-msheap.\-c@{pios\-\_\-msheap.\-c}!v\-Port\-Initialise\-Blocks@{v\-Port\-Initialise\-Blocks}}
+\index{v\-Port\-Initialise\-Blocks@{v\-Port\-Initialise\-Blocks}!pios_msheap.c@{pios\-\_\-msheap.\-c}}
+\subsubsection[{v\-Port\-Initialise\-Blocks}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Port\-Initialise\-Blocks (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{pios__msheap_8c_a8bf103ce32ce8473574e9920af8b4eec}
+
+
+Definition at line 90 of file pios\-\_\-msheap.\-c.
+
+\hypertarget{pios__msheap_8c_a0c28a12b313bc248be0cb7a37ed81bb7}{\index{pios\-\_\-msheap.\-c@{pios\-\_\-msheap.\-c}!x\-Port\-Get\-Free\-Heap\-Size@{x\-Port\-Get\-Free\-Heap\-Size}}
+\index{x\-Port\-Get\-Free\-Heap\-Size@{x\-Port\-Get\-Free\-Heap\-Size}!pios_msheap.c@{pios\-\_\-msheap.\-c}}
+\subsubsection[{x\-Port\-Get\-Free\-Heap\-Size}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t x\-Port\-Get\-Free\-Heap\-Size (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{pios__msheap_8c_a0c28a12b313bc248be0cb7a37ed81bb7}
+
+
+Definition at line 84 of file pios\-\_\-msheap.\-c.
+
+\hypertarget{pios__msheap_8c_a3411b27b8442796de552271971221c45}{\index{pios\-\_\-msheap.\-c@{pios\-\_\-msheap.\-c}!x\-Port\-Increase\-Heap\-Size@{x\-Port\-Increase\-Heap\-Size}}
+\index{x\-Port\-Increase\-Heap\-Size@{x\-Port\-Increase\-Heap\-Size}!pios_msheap.c@{pios\-\_\-msheap.\-c}}
+\subsubsection[{x\-Port\-Increase\-Heap\-Size}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} x\-Port\-Increase\-Heap\-Size (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{bytes}
+\end{DoxyParamCaption}
+)}}\label{pios__msheap_8c_a3411b27b8442796de552271971221c45}
+
+
+Definition at line 96 of file pios\-\_\-msheap.\-c.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{pios__msheap_8c_a76380aee96a7b99028ca8f8e0d6a9cef}{\index{pios\-\_\-msheap.\-c@{pios\-\_\-msheap.\-c}!\-\_\-eheap@{\-\_\-eheap}}
+\index{\-\_\-eheap@{\-\_\-eheap}!pios_msheap.c@{pios\-\_\-msheap.\-c}}
+\subsubsection[{\-\_\-eheap}]{\setlength{\rightskip}{0pt plus 5cm}char \-\_\-eheap}}\label{pios__msheap_8c_a76380aee96a7b99028ca8f8e0d6a9cef}
+\hypertarget{pios__msheap_8c_a238b7ea9471fd0b3005e4e7deab4551b}{\index{pios\-\_\-msheap.\-c@{pios\-\_\-msheap.\-c}!\-\_\-sheap@{\-\_\-sheap}}
+\index{\-\_\-sheap@{\-\_\-sheap}!pios_msheap.c@{pios\-\_\-msheap.\-c}}
+\subsubsection[{\-\_\-sheap}]{\setlength{\rightskip}{0pt plus 5cm}char \-\_\-sheap}}\label{pios__msheap_8c_a238b7ea9471fd0b3005e4e7deab4551b}
+\hypertarget{pios__msheap_8c_a8217768e82662283cf59c17f140be30c}{\index{pios\-\_\-msheap.\-c@{pios\-\_\-msheap.\-c}!heap\-\_\-init\-\_\-done@{heap\-\_\-init\-\_\-done}}
+\index{heap\-\_\-init\-\_\-done@{heap\-\_\-init\-\_\-done}!pios_msheap.c@{pios\-\_\-msheap.\-c}}
+\subsubsection[{heap\-\_\-init\-\_\-done}]{\setlength{\rightskip}{0pt plus 5cm}int heap\-\_\-init\-\_\-done}}\label{pios__msheap_8c_a8217768e82662283cf59c17f140be30c}
+
+
+Definition at line 114 of file pios\-\_\-msheap.\-c.
+

@@ -1,0 +1,130 @@
+\hypertarget{desktop_2plat_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/platform/desktop/plat.c File Reference}
+\label{desktop_2plat_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/platform/desktop/plat.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/platform/desktop/plat.\-c}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{desktop_2plat_8c_ac8a4268d0288cfaa2a2a335ff9b6909f}{plat\-\_\-sigalrm\-\_\-handler} (int signal)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{desktop_2plat_8c_a790fa88726eac7c278200333a6910f72}{plat\-\_\-init} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{desktop_2plat_8c_ad6ada6efc112a1ad9cf65eff8b334324}{plat\-\_\-deinit} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{desktop_2plat_8c_a1616b2076e627fcbccf4afe7fca653f2}{plat\-\_\-mem\-Get\-Byte} (\hyperlink{mem_8h_a9c68f72c120fc5a782d464c144aafa2b}{Pm\-Mem\-Space\-\_\-t} memspace, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} $\ast$$\ast$paddr)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{desktop_2plat_8c_acab16bcf9236cfbf96a21e4e8c7b39cc}{plat\-\_\-get\-Byte} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$b)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{desktop_2plat_8c_a7b696b86772a8243350da39b3f39bbbd}{plat\-\_\-put\-Byte} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} b)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{desktop_2plat_8c_ac79e24282e60677ab379557b1be09e48}{plat\-\_\-get\-Ms\-Ticks} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} $\ast$r\-\_\-ticks)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{desktop_2plat_8c_a1fa56b5dbebd8e4eef6a1e99615ea405}{plat\-\_\-report\-Error} (\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} result)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{desktop_2plat_8c_ad6ada6efc112a1ad9cf65eff8b334324}{\index{desktop/plat.\-c@{desktop/plat.\-c}!plat\-\_\-deinit@{plat\-\_\-deinit}}
+\index{plat\-\_\-deinit@{plat\-\_\-deinit}!desktop/plat.c@{desktop/plat.\-c}}
+\subsubsection[{plat\-\_\-deinit}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} plat\-\_\-deinit (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{desktop_2plat_8c_ad6ada6efc112a1ad9cf65eff8b334324}
+De-\/initializes the platform after the V\-M is done running. 
+
+Definition at line 52 of file plat.\-c.
+
+\hypertarget{desktop_2plat_8c_acab16bcf9236cfbf96a21e4e8c7b39cc}{\index{desktop/plat.\-c@{desktop/plat.\-c}!plat\-\_\-get\-Byte@{plat\-\_\-get\-Byte}}
+\index{plat\-\_\-get\-Byte@{plat\-\_\-get\-Byte}!desktop/plat.c@{desktop/plat.\-c}}
+\subsubsection[{plat\-\_\-get\-Byte}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} plat\-\_\-get\-Byte (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t} $\ast$}]{b}
+\end{DoxyParamCaption}
+)}}\label{desktop_2plat_8c_acab16bcf9236cfbf96a21e4e8c7b39cc}
+Receives one byte from the default connection, usually U\-A\-R\-T0 on a target device or stdio on the desktop 
+
+Definition at line 102 of file plat.\-c.
+
+\hypertarget{desktop_2plat_8c_ac79e24282e60677ab379557b1be09e48}{\index{desktop/plat.\-c@{desktop/plat.\-c}!plat\-\_\-get\-Ms\-Ticks@{plat\-\_\-get\-Ms\-Ticks}}
+\index{plat\-\_\-get\-Ms\-Ticks@{plat\-\_\-get\-Ms\-Ticks}!desktop/plat.c@{desktop/plat.\-c}}
+\subsubsection[{plat\-\_\-get\-Ms\-Ticks}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} plat\-\_\-get\-Ms\-Ticks (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t} $\ast$}]{r\-\_\-ticks}
+\end{DoxyParamCaption}
+)}}\label{desktop_2plat_8c_ac79e24282e60677ab379557b1be09e48}
+Gets the number of timer ticks that have passed since system start. 
+
+Definition at line 139 of file plat.\-c.
+
+\hypertarget{desktop_2plat_8c_a790fa88726eac7c278200333a6910f72}{\index{desktop/plat.\-c@{desktop/plat.\-c}!plat\-\_\-init@{plat\-\_\-init}}
+\index{plat\-\_\-init@{plat\-\_\-init}!desktop/plat.c@{desktop/plat.\-c}}
+\subsubsection[{plat\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} plat\-\_\-init (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{desktop_2plat_8c_a790fa88726eac7c278200333a6910f72}
+Initializes the platform as needed by the routines in the platform implementation file. 
+
+Definition at line 36 of file plat.\-c.
+
+\hypertarget{desktop_2plat_8c_a1616b2076e627fcbccf4afe7fca653f2}{\index{desktop/plat.\-c@{desktop/plat.\-c}!plat\-\_\-mem\-Get\-Byte@{plat\-\_\-mem\-Get\-Byte}}
+\index{plat\-\_\-mem\-Get\-Byte@{plat\-\_\-mem\-Get\-Byte}!desktop/plat.c@{desktop/plat.\-c}}
+\subsubsection[{plat\-\_\-mem\-Get\-Byte}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} plat\-\_\-mem\-Get\-Byte (
+\begin{DoxyParamCaption}
+\item[{{\bf Pm\-Mem\-Space\-\_\-t}}]{memspace, }
+\item[{{\bf uint8\-\_\-t} {\bf const} $\ast$$\ast$}]{paddr}
+\end{DoxyParamCaption}
+)}}\label{desktop_2plat_8c_a1616b2076e627fcbccf4afe7fca653f2}
+Returns the byte at the given address in memspace.
+
+Increments the address (just like getc and read(1)) to make image loading work (recursively).
+
+P\-O\-R\-T\-: fill in get\-Byte for each memspace in the system; call sys\-\_\-error for invalid memspaces.
+
+
+\begin{DoxyParams}{Parameters}
+{\em memspace} & memory space/type \\
+\hline
+{\em paddr} & ptr to address \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+byte from memory. paddr -\/ points to the next byte 
+\end{DoxyReturn}
+
+
+Definition at line 76 of file plat.\-c.
+
+\hypertarget{desktop_2plat_8c_a7b696b86772a8243350da39b3f39bbbd}{\index{desktop/plat.\-c@{desktop/plat.\-c}!plat\-\_\-put\-Byte@{plat\-\_\-put\-Byte}}
+\index{plat\-\_\-put\-Byte@{plat\-\_\-put\-Byte}!desktop/plat.c@{desktop/plat.\-c}}
+\subsubsection[{plat\-\_\-put\-Byte}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} plat\-\_\-put\-Byte (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{b}
+\end{DoxyParamCaption}
+)}}\label{desktop_2plat_8c_a7b696b86772a8243350da39b3f39bbbd}
+Sends one byte out on the default connection, usually U\-A\-R\-T0 on a target device or stdio on the desktop 
+
+Definition at line 121 of file plat.\-c.
+
+\hypertarget{desktop_2plat_8c_a1fa56b5dbebd8e4eef6a1e99615ea405}{\index{desktop/plat.\-c@{desktop/plat.\-c}!plat\-\_\-report\-Error@{plat\-\_\-report\-Error}}
+\index{plat\-\_\-report\-Error@{plat\-\_\-report\-Error}!desktop/plat.c@{desktop/plat.\-c}}
+\subsubsection[{plat\-\_\-report\-Error}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} plat\-\_\-report\-Error (
+\begin{DoxyParamCaption}
+\item[{{\bf Pm\-Return\-\_\-t}}]{result}
+\end{DoxyParamCaption}
+)}}\label{desktop_2plat_8c_a1fa56b5dbebd8e4eef6a1e99615ea405}
+Reports an exception or other error that caused the thread to quit 
+
+Definition at line 148 of file plat.\-c.
+
+\hypertarget{desktop_2plat_8c_ac8a4268d0288cfaa2a2a335ff9b6909f}{\index{desktop/plat.\-c@{desktop/plat.\-c}!plat\-\_\-sigalrm\-\_\-handler@{plat\-\_\-sigalrm\-\_\-handler}}
+\index{plat\-\_\-sigalrm\-\_\-handler@{plat\-\_\-sigalrm\-\_\-handler}!desktop/plat.c@{desktop/plat.\-c}}
+\subsubsection[{plat\-\_\-sigalrm\-\_\-handler}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} plat\-\_\-sigalrm\-\_\-handler (
+\begin{DoxyParamCaption}
+\item[{int}]{signal}
+\end{DoxyParamCaption}
+)}}\label{desktop_2plat_8c_ac8a4268d0288cfaa2a2a335ff9b6909f}
+Py\-Mite platform-\/specific routines for Desktop target 
+
+Definition at line 63 of file plat.\-c.
+

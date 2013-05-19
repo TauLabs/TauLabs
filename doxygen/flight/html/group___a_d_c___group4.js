@@ -1,0 +1,26 @@
+var group___a_d_c___group4 =
+[
+    [ "ADC_ChannelOffset1Cmd", "group___a_d_c___group4.html#ga099ca28e280598501ac43ebbb1dfb27e", null ],
+    [ "ADC_ChannelOffset2Cmd", "group___a_d_c___group4.html#gaca526bb6eeb80d041a24faffc6894e91", null ],
+    [ "ADC_ChannelOffset3Cmd", "group___a_d_c___group4.html#gabcb4e23ba0d4f11932797debfffafcb6", null ],
+    [ "ADC_ChannelOffset4Cmd", "group___a_d_c___group4.html#gac74f1f331da6e7ec619c84b2332c5cc1", null ],
+    [ "ADC_ContinuousModeCmd", "group___a_d_c___group4.html#ga879d70e9345d35688590938503f961db", null ],
+    [ "ADC_DiscModeChannelCountConfig", "group___a_d_c___group4.html#ga6eb241ba82d67d1371136c9132083937", null ],
+    [ "ADC_DiscModeCmd", "group___a_d_c___group4.html#ga1909649d10253ce88d986ffbb94a4be6", null ],
+    [ "ADC_EOCOnEachRegularChannelCmd", "group___a_d_c___group4.html#ga5316caaa170415ef171c486d8f0bf22d", null ],
+    [ "ADC_ExternalTriggerConfig", "group___a_d_c___group4.html#ga1b5fdad6677d7f16b58641d9aced48a1", null ],
+    [ "ADC_GetConversionValue", "group___a_d_c___group4.html#gaaf74221c285ec5dab5e66baf7bec6bd3", null ],
+    [ "ADC_GetDualModeConversionValue", "group___a_d_c___group4.html#ga0badb39841510dc098a73be8c6b995e8", null ],
+    [ "ADC_GetMultiModeConversionValue", "group___a_d_c___group4.html#ga989f4365b56be99999b8ec096aba2081", null ],
+    [ "ADC_GetSoftwareStartConvStatus", "group___a_d_c___group4.html#gaf1119583782ecbcec380efcb7eb74883", null ],
+    [ "ADC_GetStartConversionStatus", "group___a_d_c___group4.html#ga9d880667c84176493e0f4c1ed3a40ace", null ],
+    [ "ADC_RegularChannelConfig", "group___a_d_c___group4.html#gac531adb577b648d4bb8881f2ed627d52", null ],
+    [ "ADC_RegularChannelSequencerLengthConfig", "group___a_d_c___group4.html#ga8d8707b4856b617fc709cf840467e5ad", null ],
+    [ "ADC_SetChannelOffset1", "group___a_d_c___group4.html#ga4f20591341283023748a21a60749aeab", null ],
+    [ "ADC_SetChannelOffset2", "group___a_d_c___group4.html#gadb4b2f0c8dfd60374fececc11eacff77", null ],
+    [ "ADC_SetChannelOffset3", "group___a_d_c___group4.html#ga28b79ee61642eb26f91732592ae911df", null ],
+    [ "ADC_SetChannelOffset4", "group___a_d_c___group4.html#ga331ec41f03611b841535f9f6fde56aee", null ],
+    [ "ADC_SoftwareStartConv", "group___a_d_c___group4.html#gac1cd466e725595812c1bbfdad2459ff1", null ],
+    [ "ADC_StartConversion", "group___a_d_c___group4.html#gae79cdf81d4ec0d779312dea115e479fa", null ],
+    [ "ADC_StopConversion", "group___a_d_c___group4.html#ga872604d9953de5e4059aa3c22b77ed08", null ]
+];

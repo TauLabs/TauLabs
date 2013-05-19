@@ -1,0 +1,163 @@
+\hypertarget{class_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/class.c File Reference}
+\label{class_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/class.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/class.\-c}}
+}
+
+
+Class Object Type.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{class_8c_a1aff54937010edb25492b03f378cf4ed}{class\-\_\-new} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pattrs, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pbases, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pname, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} $\ast$r\-\_\-pclass)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{class_8c_aa5ffe02a1738faeed4b553d2232e6990}{class\-\_\-instantiate} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pclass, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} $\ast$r\-\_\-pobj)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{class_8c_ae279d047e78de9c298489592347c63f7}{class\-\_\-method} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pinstance, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pfunc, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} $\ast$r\-\_\-pmeth)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{class_8c_ac736bb917655281b12d72fcfe58d8453}{class\-\_\-get\-Attr} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pobj, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pname, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} $\ast$r\-\_\-pobj)
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{class_8c_a253b32d54e2ef4c84e2fd2fec145e8bb}{class\-\_\-is\-Subclass} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} ptest\-\_\-class, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pbase\-\_\-class)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class Object Type. Class object type operations. 
+
+Definition in file \hyperlink{class_8c_source}{class.\-c}.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{class_8c_ac736bb917655281b12d72fcfe58d8453}{\index{class.\-c@{class.\-c}!class\-\_\-get\-Attr@{class\-\_\-get\-Attr}}
+\index{class\-\_\-get\-Attr@{class\-\_\-get\-Attr}!class.c@{class.\-c}}
+\subsubsection[{class\-\_\-get\-Attr}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} class\-\_\-get\-Attr (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pobj, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pname, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t} $\ast$}]{r\-\_\-pobj}
+\end{DoxyParamCaption}
+)}}\label{class_8c_ac736bb917655281b12d72fcfe58d8453}
+Returns the first attribute named {\bfseries init} in the class' inheritance tree
+
+
+\begin{DoxyParams}{Parameters}
+{\em pobj} & ptr to class or instance to search \\
+\hline
+{\em pname} & ptr to name of attr to find \\
+\hline
+{\em r\-\_\-pobj} & Return by ref, ptr to attr if found, or undetermined \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 126 of file class.\-c.
+
+\hypertarget{class_8c_aa5ffe02a1738faeed4b553d2232e6990}{\index{class.\-c@{class.\-c}!class\-\_\-instantiate@{class\-\_\-instantiate}}
+\index{class\-\_\-instantiate@{class\-\_\-instantiate}!class.c@{class.\-c}}
+\subsubsection[{class\-\_\-instantiate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} class\-\_\-instantiate (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pclass, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t} $\ast$}]{r\-\_\-pobj}
+\end{DoxyParamCaption}
+)}}\label{class_8c_aa5ffe02a1738faeed4b553d2232e6990}
+Returns an instance of the given class
+
+
+\begin{DoxyParams}{Parameters}
+{\em pclass} & Pointer to class object \\
+\hline
+{\em r\-\_\-pobj} & Return by ref, instance object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 65 of file class.\-c.
+
+\hypertarget{class_8c_a253b32d54e2ef4c84e2fd2fec145e8bb}{\index{class.\-c@{class.\-c}!class\-\_\-is\-Subclass@{class\-\_\-is\-Subclass}}
+\index{class\-\_\-is\-Subclass@{class\-\_\-is\-Subclass}!class.c@{class.\-c}}
+\subsubsection[{class\-\_\-is\-Subclass}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} class\-\_\-is\-Subclass (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{ptest\-\_\-class, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pbase\-\_\-class}
+\end{DoxyParamCaption}
+)}}\label{class_8c_a253b32d54e2ef4c84e2fd2fec145e8bb}
+Returns a C boolean if the base class is found in the inheritance tree of the test class. N\-O\-T\-E\-: This function is recursive.
+
+
+\begin{DoxyParams}{Parameters}
+{\em ptest\-\_\-class} & ptr to class whose inheritance tree is searched \\
+\hline
+{\em pbase\-\_\-class} & ptr to class to look for \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns C\-\_\-\-T\-R\-U\-E if pbase\-\_\-class is found in the inheritance tree; C\-\_\-\-F\-A\-L\-S\-E otherwise. 
+\end{DoxyReturn}
+
+
+Definition at line 170 of file class.\-c.
+
+\hypertarget{class_8c_ae279d047e78de9c298489592347c63f7}{\index{class.\-c@{class.\-c}!class\-\_\-method@{class\-\_\-method}}
+\index{class\-\_\-method@{class\-\_\-method}!class.c@{class.\-c}}
+\subsubsection[{class\-\_\-method}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} class\-\_\-method (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pinstance, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pfunc, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t} $\ast$}]{r\-\_\-pmeth}
+\end{DoxyParamCaption}
+)}}\label{class_8c_ae279d047e78de9c298489592347c63f7}
+Returns a method based on the given inputs
+
+
+\begin{DoxyParams}{Parameters}
+{\em pinstance} & ptr to instance \\
+\hline
+{\em pfunc} & ptr to func \\
+\hline
+{\em r\-\_\-pmeth} & Return by ref, ptr to new method \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 96 of file class.\-c.
+
+\hypertarget{class_8c_a1aff54937010edb25492b03f378cf4ed}{\index{class.\-c@{class.\-c}!class\-\_\-new@{class\-\_\-new}}
+\index{class\-\_\-new@{class\-\_\-new}!class.c@{class.\-c}}
+\subsubsection[{class\-\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} class\-\_\-new (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pmeths, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pbases, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pname, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t} $\ast$}]{r\-\_\-pclass}
+\end{DoxyParamCaption}
+)}}\label{class_8c_a1aff54937010edb25492b03f378cf4ed}
+Creates a new Class object from the methods dict, bases tuple, and name string.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pmeths} & ptr to methods dict. \\
+\hline
+{\em pbases} & ptr to bases tuple. \\
+\hline
+{\em pname} & ptr to name string. \\
+\hline
+{\em r\-\_\-pclass} & Return by ref, ptr to new class \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 32 of file class.\-c.
+

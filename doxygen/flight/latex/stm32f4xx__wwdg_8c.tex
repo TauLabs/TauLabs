@@ -1,0 +1,109 @@
+\hypertarget{stm32f4xx__wwdg_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/\-Libraries/\-S\-T\-M32\-F4xx\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f4xx\-\_\-wwdg.c File Reference}
+\label{stm32f4xx__wwdg_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/\-Libraries/\-S\-T\-M32\-F4xx\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f4xx\-\_\-wwdg.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/\-Libraries/\-S\-T\-M32\-F4xx\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f4xx\-\_\-wwdg.\-c}}
+}
+
+
+This file provides firmware functions to manage the following functionalities of the Window watchdog (W\-W\-D\-G) peripheral\-:  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___w_w_d_g___group1_ga7130f4dc861b9234b62e73f9f57f89a1}{W\-W\-D\-G\-\_\-\-De\-Init} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Deinitializes the W\-W\-D\-G peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___w_w_d_g___group1_gafeaa2b52c31ba7baca7eb61d2d42e07b}{W\-W\-D\-G\-\_\-\-Set\-Prescaler} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} W\-W\-D\-G\-\_\-\-Prescaler)
+\begin{DoxyCompactList}\small\item\em Sets the W\-W\-D\-G Prescaler. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___w_w_d_g___group1_gaf44a7bf8bf6b11b41cd89ff521fdd5a5}{W\-W\-D\-G\-\_\-\-Set\-Window\-Value} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Window\-Value)
+\begin{DoxyCompactList}\small\item\em Sets the W\-W\-D\-G window value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___w_w_d_g___group1_gac8af66ea5254d3d78b60b9b7c7f29521}{W\-W\-D\-G\-\_\-\-Enable\-I\-T} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Enables the W\-W\-D\-G Early Wakeup interrupt(\-E\-W\-I). \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___w_w_d_g___group1_ga6e44cc35f133b28b9ad861f459bf8d76}{W\-W\-D\-G\-\_\-\-Set\-Counter} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Counter)
+\begin{DoxyCompactList}\small\item\em Sets the W\-W\-D\-G counter value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___w_w_d_g___group2_ga10dc2554d0b504b5472e3ecf0f02a9e6}{W\-W\-D\-G\-\_\-\-Enable} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Counter)
+\begin{DoxyCompactList}\small\item\em Enables W\-W\-D\-G and load the counter value. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___w_w_d_g___group3_ga7df4882d45918b9b8249dfca1e44fabc}{W\-W\-D\-G\-\_\-\-Get\-Flag\-Status} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Checks whether the Early Wakeup interrupt flag is set or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___w_w_d_g___group3_gabd2b5a6317c2e1a3ab0795838ce59dd2}{W\-W\-D\-G\-\_\-\-Clear\-Flag} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Clears Early Wakeup interrupt flag. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file provides firmware functions to manage the following functionalities of the Window watchdog (W\-W\-D\-G) peripheral\-: \begin{DoxyAuthor}{Author}
+M\-C\-D Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V1.\-0.\-2 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+05-\/\-March-\/2012
+\begin{DoxyItemize}
+\item Prescaler, Refresh window and Counter configuration
+\item W\-W\-D\-G activation
+\item Interrupts and flags management
+\end{DoxyItemize}
+\end{DoxyDate}
+\begin{DoxyVerb}*    
+*          ===================================================================
+*                                     WWDG features
+*          ===================================================================
+*                                        
+*          Once enabled the WWDG generates a system reset on expiry of a programmed
+*          time period, unless the program refreshes the counter (downcounter) 
+*          before to reach 0x3F value (i.e. a reset is generated when the counter
+*          value rolls over from 0x40 to 0x3F). 
+*          An MCU reset is also generated if the counter value is refreshed
+*          before the counter has reached the refresh window value. This 
+*          implies that the counter must be refreshed in a limited window.
+*            
+*          Once enabled the WWDG cannot be disabled except by a system reset.                          
+*          
+*          WWDGRST flag in RCC_CSR register can be used to inform when a WWDG
+*          reset occurs.
+*            
+*          The WWDG counter input clock is derived from the APB clock divided 
+*          by a programmable prescaler.
+*              
+*          WWDG counter clock = PCLK1 / Prescaler
+*          WWDG timeout = (WWDG counter clock) * (counter value)
+*                      
+*          Min-max timeout value @42 MHz(PCLK1): ~97.5 us / ~49.9 ms
+*                            
+*          ===================================================================
+*                                 How to use this driver
+*          =================================================================== 
+*          1. Enable WWDG clock using RCC_APB1PeriphClockCmd(RCC_APB1Periph_WWDG, ENABLE) function
+*            
+*          2. Configure the WWDG prescaler using WWDG_SetPrescaler() function
+*                           
+*          3. Configure the WWDG refresh window using WWDG_SetWindowValue() function
+*            
+*          4. Set the WWDG counter value and start it using WWDG_Enable() function.
+*             When the WWDG is enabled the counter value should be configured to 
+*             a value greater than 0x40 to prevent generating an immediate reset.     
+*            
+*          5. Optionally you can enable the Early wakeup interrupt which is 
+*             generated when the counter reach 0x40.
+*             Once enabled this interrupt cannot be disabled except by a system reset.
+*                 
+*          6. Then the application program must refresh the WWDG counter at regular
+*             intervals during normal operation to prevent an MCU reset, using
+*             WWDG_SetCounter() function. This operation must occur only when
+*             the counter value is lower than the refresh window value, 
+*             programmed using WWDG_SetWindowValue().         
+*
+*  \end{DoxyVerb}
+
+
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+\subsubsection*{\begin{center}\copyright C\-O\-P\-Y\-R\-I\-G\-H\-T 2012 S\-T\-Microelectronics\end{center} }
+
+Licensed under M\-C\-D-\/\-S\-T Liberty S\-W License Agreement V2, (the \char`\"{}\-License\char`\"{}); You may not use this file except in compliance with the License. You may obtain a copy of the License at\-: \begin{DoxyVerb}   http://www.st.com/software_license_agreement_liberty_v2
+\end{DoxyVerb}
+
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \char`\"{}\-A\-S I\-S\char`\"{} B\-A\-S\-I\-S, W\-I\-T\-H\-O\-U\-T W\-A\-R\-R\-A\-N\-T\-I\-E\-S O\-R C\-O\-N\-D\-I\-T\-I\-O\-N\-S O\-F A\-N\-Y K\-I\-N\-D, either express or implied. See the License for the specific language governing permissions and limitations under the License. 
+
+Definition in file \hyperlink{stm32f4xx__wwdg_8c_source}{stm32f4xx\-\_\-wwdg.\-c}.
+

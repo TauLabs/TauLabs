@@ -1,0 +1,75 @@
+\hypertarget{module_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/module.c File Reference}
+\label{module_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/module.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/module.\-c}}
+}
+
+
+Module Object Type.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{module_8c_a63186b666d203a61f87866fb5fa4c772}{mod\-\_\-new} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pco, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} $\ast$pmod)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{module_8c_a4167361c24631f9a656f100cf1143214}{mod\-\_\-import} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pstr, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} $\ast$pmod)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module Object Type. Module object type operations. 
+
+Definition in file \hyperlink{module_8c_source}{module.\-c}.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{module_8c_a4167361c24631f9a656f100cf1143214}{\index{module.\-c@{module.\-c}!mod\-\_\-import@{mod\-\_\-import}}
+\index{mod\-\_\-import@{mod\-\_\-import}!module.c@{module.\-c}}
+\subsubsection[{mod\-\_\-import}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} mod\-\_\-import (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pstr, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t} $\ast$}]{pmod}
+\end{DoxyParamCaption}
+)}}\label{module_8c_a4167361c24631f9a656f100cf1143214}
+Imports a module of the given name. Searches for an image with a matching name. A code obj is created for the code image. A module obj is created for the code obj.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pstr} & String obj containing name of code obj to load. \\
+\hline
+{\em pmod} & Return by reference; ptr to imported module \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 77 of file module.\-c.
+
+\hypertarget{module_8c_a63186b666d203a61f87866fb5fa4c772}{\index{module.\-c@{module.\-c}!mod\-\_\-new@{mod\-\_\-new}}
+\index{mod\-\_\-new@{mod\-\_\-new}!module.c@{module.\-c}}
+\subsubsection[{mod\-\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} mod\-\_\-new (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pco, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t} $\ast$}]{pmod}
+\end{DoxyParamCaption}
+)}}\label{module_8c_a63186b666d203a61f87866fb5fa4c772}
+Creates a Module Obj for the given Code Obj.
+
+Use a func struct to represent the Module obj because the module's construction code must execute later, but set the type to O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-M\-O\-D so that it is not otherwise callable.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pco} & Ptr to code obj \\
+\hline
+{\em pmod} & Return by reference; ptr to new module obj \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 32 of file module.\-c.
+

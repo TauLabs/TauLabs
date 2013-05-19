@@ -1,0 +1,327 @@
+\hypertarget{_w_m_m_internal_8h}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/inc/\-W\-M\-M\-Internal.h File Reference}
+\label{_w_m_m_internal_8h}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/inc/\-W\-M\-M\-Internal.\-h@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/inc/\-W\-M\-M\-Internal.\-h}}
+}
+
+
+Include file of the World\-Mag\-Model internal functionality.  
+
+
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_w_m_mtype___magnetic_model}{W\-M\-Mtype\-\_\-\-Magnetic\-Model}
+\item 
+struct \hyperlink{struct_w_m_mtype___ellipsoid}{W\-M\-Mtype\-\_\-\-Ellipsoid}
+\item 
+struct \hyperlink{struct_w_m_mtype___coord_geodetic}{W\-M\-Mtype\-\_\-\-Coord\-Geodetic}
+\item 
+struct \hyperlink{struct_w_m_mtype___coord_spherical}{W\-M\-Mtype\-\_\-\-Coord\-Spherical}
+\item 
+struct \hyperlink{struct_w_m_mtype___date}{W\-M\-Mtype\-\_\-\-Date}
+\item 
+struct \hyperlink{struct_w_m_mtype___legendre_function}{W\-M\-Mtype\-\_\-\-Legendre\-Function}
+\item 
+struct \hyperlink{struct_w_m_mtype___magnetic_results}{W\-M\-Mtype\-\_\-\-Magnetic\-Results}
+\item 
+struct \hyperlink{struct_w_m_mtype___spherical_harmonic_variables}{W\-M\-Mtype\-\_\-\-Spherical\-Harmonic\-Variables}
+\item 
+struct \hyperlink{struct_w_m_mtype___geo_magnetic_elements}{W\-M\-Mtype\-\_\-\-Geo\-Magnetic\-Elements}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{_w_m_m_internal_8h_a68979926a219736185f88ac574dc60a2}{W\-M\-M\-\_\-\-Set\-\_\-\-Coeff\-\_\-\-Array} ()
+\item 
+int \hyperlink{_w_m_m_internal_8h_a5971db1a3c1b41047a5794e322e6a3fc}{W\-M\-M\-\_\-\-Geodetic\-To\-Spherical} (\hyperlink{struct_w_m_mtype___coord_geodetic}{W\-M\-Mtype\-\_\-\-Coord\-Geodetic} $\ast$Coord\-Geodetic, \hyperlink{struct_w_m_mtype___coord_spherical}{W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$Coord\-Spherical)
+\item 
+int \hyperlink{_w_m_m_internal_8h_a3ab6215b460bc2cfebe9a87443ff173a}{W\-M\-M\-\_\-\-Date\-To\-Year} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} month, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} day, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} year)
+\item 
+int \hyperlink{_w_m_m_internal_8h_a81cea078875c7d7c71f3e8cabb8a9c7a}{W\-M\-M\-\_\-\-Geomag} (\hyperlink{struct_w_m_mtype___coord_spherical}{W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$Coord\-Spherical, \hyperlink{struct_w_m_mtype___coord_geodetic}{W\-M\-Mtype\-\_\-\-Coord\-Geodetic} $\ast$Coord\-Geodetic, \hyperlink{struct_w_m_mtype___geo_magnetic_elements}{W\-M\-Mtype\-\_\-\-Geo\-Magnetic\-Elements} $\ast$Geo\-Magnetic\-Elements)
+\item 
+int \hyperlink{_w_m_m_internal_8h_af0d6a6fcdbb7366c3b56e138852d13c1}{W\-M\-M\-\_\-\-Associated\-Legendre\-Function} (\hyperlink{struct_w_m_mtype___coord_spherical}{W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$Coord\-Spherical, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} n\-Max, \hyperlink{struct_w_m_mtype___legendre_function}{W\-M\-Mtype\-\_\-\-Legendre\-Function} $\ast$Legendre\-Function)
+\item 
+int \hyperlink{_w_m_m_internal_8h_aeac1e1535485855275f9a1cfb7deb7d5}{W\-M\-M\-\_\-\-Calculate\-Geo\-Magnetic\-Elements} (\hyperlink{struct_w_m_mtype___magnetic_results}{W\-M\-Mtype\-\_\-\-Magnetic\-Results} $\ast$Magnetic\-Results\-Geo, \hyperlink{struct_w_m_mtype___geo_magnetic_elements}{W\-M\-Mtype\-\_\-\-Geo\-Magnetic\-Elements} $\ast$Geo\-Magnetic\-Elements)
+\item 
+int \hyperlink{_w_m_m_internal_8h_a3eac4ba39252e5ad5f623facd6d57b5b}{W\-M\-M\-\_\-\-Calculate\-Secular\-Variation} (\hyperlink{struct_w_m_mtype___magnetic_results}{W\-M\-Mtype\-\_\-\-Magnetic\-Results} $\ast$Magnetic\-Variation, \hyperlink{struct_w_m_mtype___geo_magnetic_elements}{W\-M\-Mtype\-\_\-\-Geo\-Magnetic\-Elements} $\ast$Magnetic\-Elements)
+\item 
+int \hyperlink{_w_m_m_internal_8h_ac26353c9c9e52c36b2d5ac18572b4699}{W\-M\-M\-\_\-\-Compute\-Spherical\-Harmonic\-Variables} (\hyperlink{struct_w_m_mtype___coord_spherical}{W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$Coord\-Spherical, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} n\-Max, \hyperlink{struct_w_m_mtype___spherical_harmonic_variables}{W\-M\-Mtype\-\_\-\-Spherical\-Harmonic\-Variables} $\ast$Sph\-Variables)
+\item 
+int \hyperlink{_w_m_m_internal_8h_a30ba4a7b9060ea46c8b97a151e1a672e}{W\-M\-M\-\_\-\-Pcup\-Low} (float $\ast$Pcup, float $\ast$d\-Pcup, float \hyperlink{pios__opahrs__proto_8h_ad0da36b2558901e21e7a30f6c227a45e}{x}, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} n\-Max)
+\item 
+int \hyperlink{_w_m_m_internal_8h_a3a649421022e87b47a631a7209a69b03}{W\-M\-M\-\_\-\-Pcup\-High} (float $\ast$Pcup, float $\ast$d\-Pcup, float \hyperlink{pios__opahrs__proto_8h_ad0da36b2558901e21e7a30f6c227a45e}{x}, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} n\-Max)
+\item 
+int \hyperlink{_w_m_m_internal_8h_a7ff64320e8368dafabb8ff6da6154c0c}{W\-M\-M\-\_\-\-Rotate\-Magnetic\-Vector} (\hyperlink{struct_w_m_mtype___coord_spherical}{W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$, \hyperlink{struct_w_m_mtype___coord_geodetic}{W\-M\-Mtype\-\_\-\-Coord\-Geodetic} $\ast$Coord\-Geodetic, \hyperlink{struct_w_m_mtype___magnetic_results}{W\-M\-Mtype\-\_\-\-Magnetic\-Results} $\ast$Magnetic\-Results\-Sph, \hyperlink{struct_w_m_mtype___magnetic_results}{W\-M\-Mtype\-\_\-\-Magnetic\-Results} $\ast$Magnetic\-Results\-Geo)
+\item 
+int \hyperlink{_w_m_m_internal_8h_ace15597d5b884053e2730413ab894f3e}{W\-M\-M\-\_\-\-Sec\-Var\-Summation} (\hyperlink{struct_w_m_mtype___legendre_function}{W\-M\-Mtype\-\_\-\-Legendre\-Function} $\ast$Legendre\-Function, \hyperlink{struct_w_m_mtype___spherical_harmonic_variables}{W\-M\-Mtype\-\_\-\-Spherical\-Harmonic\-Variables} $\ast$Sph\-Variables, \hyperlink{struct_w_m_mtype___coord_spherical}{W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$Coord\-Spherical, \hyperlink{struct_w_m_mtype___magnetic_results}{W\-M\-Mtype\-\_\-\-Magnetic\-Results} $\ast$Magnetic\-Results)
+\item 
+int \hyperlink{_w_m_m_internal_8h_aa73c47622a2818fc3db051bd63060211}{W\-M\-M\-\_\-\-Sec\-Var\-Summation\-Special} (\hyperlink{struct_w_m_mtype___spherical_harmonic_variables}{W\-M\-Mtype\-\_\-\-Spherical\-Harmonic\-Variables} $\ast$Sph\-Variables, \hyperlink{struct_w_m_mtype___coord_spherical}{W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$Coord\-Spherical, \hyperlink{struct_w_m_mtype___magnetic_results}{W\-M\-Mtype\-\_\-\-Magnetic\-Results} $\ast$Magnetic\-Results)
+\item 
+int \hyperlink{_w_m_m_internal_8h_a0ee76e9b4bd7c03fd01f84860e7d7dd3}{W\-M\-M\-\_\-\-Summation} (\hyperlink{struct_w_m_mtype___legendre_function}{W\-M\-Mtype\-\_\-\-Legendre\-Function} $\ast$Legendre\-Function, \hyperlink{struct_w_m_mtype___spherical_harmonic_variables}{W\-M\-Mtype\-\_\-\-Spherical\-Harmonic\-Variables} $\ast$Sph\-Variables, \hyperlink{struct_w_m_mtype___coord_spherical}{W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$Coord\-Spherical, \hyperlink{struct_w_m_mtype___magnetic_results}{W\-M\-Mtype\-\_\-\-Magnetic\-Results} $\ast$Magnetic\-Results)
+\item 
+int \hyperlink{_w_m_m_internal_8h_ac7da42c5f969106eb3d552d2e616df94}{W\-M\-M\-\_\-\-Summation\-Special} (\hyperlink{struct_w_m_mtype___spherical_harmonic_variables}{W\-M\-Mtype\-\_\-\-Spherical\-Harmonic\-Variables} $\ast$Sph\-Variables, \hyperlink{struct_w_m_mtype___coord_spherical}{W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$Coord\-Spherical, \hyperlink{struct_w_m_mtype___magnetic_results}{W\-M\-Mtype\-\_\-\-Magnetic\-Results} $\ast$Magnetic\-Results)
+\item 
+float \hyperlink{_w_m_m_internal_8h_a751ca9b09519898686ec126761fe776a}{W\-M\-M\-\_\-get\-\_\-main\-\_\-field\-\_\-coeff\-\_\-g} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} index)
+\begin{DoxyCompactList}\small\item\em Comput the Main\-Field\-Coeff\-H accounting for the date. \end{DoxyCompactList}\item 
+float \hyperlink{_w_m_m_internal_8h_ae9cebe39726f1469ca14fb66311d266c}{W\-M\-M\-\_\-get\-\_\-main\-\_\-field\-\_\-coeff\-\_\-h} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} index)
+\item 
+float \hyperlink{_w_m_m_internal_8h_a92c8dce6ab0d9bc670c2e62dd5494f95}{W\-M\-M\-\_\-get\-\_\-secular\-\_\-var\-\_\-coeff\-\_\-g} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} index)
+\item 
+float \hyperlink{_w_m_m_internal_8h_a858aac8dd5a17c59d462a5f7ac5c0132}{W\-M\-M\-\_\-get\-\_\-secular\-\_\-var\-\_\-coeff\-\_\-h} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} index)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Include file of the World\-Mag\-Model internal functionality. \begin{DoxyAuthor}{Author}
+The Open\-Pilot Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} Copyright (C) 2010. 
+
+Tau Labs, \href{http://www.taulabs.org}{\tt http\-://www.\-taulabs.\-org} Copyright (C) 2013. 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{See Also}
+The G\-N\-U Public License (G\-P\-L) Version 3 
+\end{DoxySeeAlso}
+
+
+Definition in file \hyperlink{_w_m_m_internal_8h_source}{W\-M\-M\-Internal.\-h}.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{_w_m_m_internal_8h_af0d6a6fcdbb7366c3b56e138852d13c1}{\index{W\-M\-M\-Internal.\-h@{W\-M\-M\-Internal.\-h}!W\-M\-M\-\_\-\-Associated\-Legendre\-Function@{W\-M\-M\-\_\-\-Associated\-Legendre\-Function}}
+\index{W\-M\-M\-\_\-\-Associated\-Legendre\-Function@{W\-M\-M\-\_\-\-Associated\-Legendre\-Function}!WMMInternal.h@{W\-M\-M\-Internal.\-h}}
+\subsubsection[{W\-M\-M\-\_\-\-Associated\-Legendre\-Function}]{\setlength{\rightskip}{0pt plus 5cm}int W\-M\-M\-\_\-\-Associated\-Legendre\-Function (
+\begin{DoxyParamCaption}
+\item[{{\bf W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$}]{Coord\-Spherical, }
+\item[{{\bf uint16\-\_\-t}}]{n\-Max, }
+\item[{{\bf W\-M\-Mtype\-\_\-\-Legendre\-Function} $\ast$}]{Legendre\-Function}
+\end{DoxyParamCaption}
+)}}\label{_w_m_m_internal_8h_af0d6a6fcdbb7366c3b56e138852d13c1}
+
+
+Definition at line 376 of file World\-Mag\-Model.\-c.
+
+\hypertarget{_w_m_m_internal_8h_aeac1e1535485855275f9a1cfb7deb7d5}{\index{W\-M\-M\-Internal.\-h@{W\-M\-M\-Internal.\-h}!W\-M\-M\-\_\-\-Calculate\-Geo\-Magnetic\-Elements@{W\-M\-M\-\_\-\-Calculate\-Geo\-Magnetic\-Elements}}
+\index{W\-M\-M\-\_\-\-Calculate\-Geo\-Magnetic\-Elements@{W\-M\-M\-\_\-\-Calculate\-Geo\-Magnetic\-Elements}!WMMInternal.h@{W\-M\-M\-Internal.\-h}}
+\subsubsection[{W\-M\-M\-\_\-\-Calculate\-Geo\-Magnetic\-Elements}]{\setlength{\rightskip}{0pt plus 5cm}int W\-M\-M\-\_\-\-Calculate\-Geo\-Magnetic\-Elements (
+\begin{DoxyParamCaption}
+\item[{{\bf W\-M\-Mtype\-\_\-\-Magnetic\-Results} $\ast$}]{Magnetic\-Results\-Geo, }
+\item[{{\bf W\-M\-Mtype\-\_\-\-Geo\-Magnetic\-Elements} $\ast$}]{Geo\-Magnetic\-Elements}
+\end{DoxyParamCaption}
+)}}\label{_w_m_m_internal_8h_aeac1e1535485855275f9a1cfb7deb7d5}
+
+
+Definition at line 619 of file World\-Mag\-Model.\-c.
+
+\hypertarget{_w_m_m_internal_8h_a3eac4ba39252e5ad5f623facd6d57b5b}{\index{W\-M\-M\-Internal.\-h@{W\-M\-M\-Internal.\-h}!W\-M\-M\-\_\-\-Calculate\-Secular\-Variation@{W\-M\-M\-\_\-\-Calculate\-Secular\-Variation}}
+\index{W\-M\-M\-\_\-\-Calculate\-Secular\-Variation@{W\-M\-M\-\_\-\-Calculate\-Secular\-Variation}!WMMInternal.h@{W\-M\-M\-Internal.\-h}}
+\subsubsection[{W\-M\-M\-\_\-\-Calculate\-Secular\-Variation}]{\setlength{\rightskip}{0pt plus 5cm}int W\-M\-M\-\_\-\-Calculate\-Secular\-Variation (
+\begin{DoxyParamCaption}
+\item[{{\bf W\-M\-Mtype\-\_\-\-Magnetic\-Results} $\ast$}]{Magnetic\-Variation, }
+\item[{{\bf W\-M\-Mtype\-\_\-\-Geo\-Magnetic\-Elements} $\ast$}]{Magnetic\-Elements}
+\end{DoxyParamCaption}
+)}}\label{_w_m_m_internal_8h_a3eac4ba39252e5ad5f623facd6d57b5b}
+
+
+Definition at line 649 of file World\-Mag\-Model.\-c.
+
+\hypertarget{_w_m_m_internal_8h_ac26353c9c9e52c36b2d5ac18572b4699}{\index{W\-M\-M\-Internal.\-h@{W\-M\-M\-Internal.\-h}!W\-M\-M\-\_\-\-Compute\-Spherical\-Harmonic\-Variables@{W\-M\-M\-\_\-\-Compute\-Spherical\-Harmonic\-Variables}}
+\index{W\-M\-M\-\_\-\-Compute\-Spherical\-Harmonic\-Variables@{W\-M\-M\-\_\-\-Compute\-Spherical\-Harmonic\-Variables}!WMMInternal.h@{W\-M\-M\-Internal.\-h}}
+\subsubsection[{W\-M\-M\-\_\-\-Compute\-Spherical\-Harmonic\-Variables}]{\setlength{\rightskip}{0pt plus 5cm}int W\-M\-M\-\_\-\-Compute\-Spherical\-Harmonic\-Variables (
+\begin{DoxyParamCaption}
+\item[{{\bf W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$}]{Coord\-Spherical, }
+\item[{{\bf uint16\-\_\-t}}]{n\-Max, }
+\item[{{\bf W\-M\-Mtype\-\_\-\-Spherical\-Harmonic\-Variables} $\ast$}]{Sph\-Variables}
+\end{DoxyParamCaption}
+)}}\label{_w_m_m_internal_8h_ac26353c9c9e52c36b2d5ac18572b4699}
+
+
+Definition at line 319 of file World\-Mag\-Model.\-c.
+
+\hypertarget{_w_m_m_internal_8h_a3ab6215b460bc2cfebe9a87443ff173a}{\index{W\-M\-M\-Internal.\-h@{W\-M\-M\-Internal.\-h}!W\-M\-M\-\_\-\-Date\-To\-Year@{W\-M\-M\-\_\-\-Date\-To\-Year}}
+\index{W\-M\-M\-\_\-\-Date\-To\-Year@{W\-M\-M\-\_\-\-Date\-To\-Year}!WMMInternal.h@{W\-M\-M\-Internal.\-h}}
+\subsubsection[{W\-M\-M\-\_\-\-Date\-To\-Year}]{\setlength{\rightskip}{0pt plus 5cm}int W\-M\-M\-\_\-\-Date\-To\-Year (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16\-\_\-t}}]{month, }
+\item[{{\bf uint16\-\_\-t}}]{day, }
+\item[{{\bf uint16\-\_\-t}}]{year}
+\end{DoxyParamCaption}
+)}}\label{_w_m_m_internal_8h_a3ab6215b460bc2cfebe9a87443ff173a}
+
+
+Definition at line 1180 of file World\-Mag\-Model.\-c.
+
+\hypertarget{_w_m_m_internal_8h_a5971db1a3c1b41047a5794e322e6a3fc}{\index{W\-M\-M\-Internal.\-h@{W\-M\-M\-Internal.\-h}!W\-M\-M\-\_\-\-Geodetic\-To\-Spherical@{W\-M\-M\-\_\-\-Geodetic\-To\-Spherical}}
+\index{W\-M\-M\-\_\-\-Geodetic\-To\-Spherical@{W\-M\-M\-\_\-\-Geodetic\-To\-Spherical}!WMMInternal.h@{W\-M\-M\-Internal.\-h}}
+\subsubsection[{W\-M\-M\-\_\-\-Geodetic\-To\-Spherical}]{\setlength{\rightskip}{0pt plus 5cm}int W\-M\-M\-\_\-\-Geodetic\-To\-Spherical (
+\begin{DoxyParamCaption}
+\item[{{\bf W\-M\-Mtype\-\_\-\-Coord\-Geodetic} $\ast$}]{Coord\-Geodetic, }
+\item[{{\bf W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$}]{Coord\-Spherical}
+\end{DoxyParamCaption}
+)}}\label{_w_m_m_internal_8h_a5971db1a3c1b41047a5794e322e6a3fc}
+
+
+Definition at line 1210 of file World\-Mag\-Model.\-c.
+
+\hypertarget{_w_m_m_internal_8h_a81cea078875c7d7c71f3e8cabb8a9c7a}{\index{W\-M\-M\-Internal.\-h@{W\-M\-M\-Internal.\-h}!W\-M\-M\-\_\-\-Geomag@{W\-M\-M\-\_\-\-Geomag}}
+\index{W\-M\-M\-\_\-\-Geomag@{W\-M\-M\-\_\-\-Geomag}!WMMInternal.h@{W\-M\-M\-Internal.\-h}}
+\subsubsection[{W\-M\-M\-\_\-\-Geomag}]{\setlength{\rightskip}{0pt plus 5cm}int W\-M\-M\-\_\-\-Geomag (
+\begin{DoxyParamCaption}
+\item[{{\bf W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$}]{Coord\-Spherical, }
+\item[{{\bf W\-M\-Mtype\-\_\-\-Coord\-Geodetic} $\ast$}]{Coord\-Geodetic, }
+\item[{{\bf W\-M\-Mtype\-\_\-\-Geo\-Magnetic\-Elements} $\ast$}]{Geo\-Magnetic\-Elements}
+\end{DoxyParamCaption}
+)}}\label{_w_m_m_internal_8h_a81cea078875c7d7c71f3e8cabb8a9c7a}
+
+
+Definition at line 214 of file World\-Mag\-Model.\-c.
+
+\hypertarget{_w_m_m_internal_8h_a751ca9b09519898686ec126761fe776a}{\index{W\-M\-M\-Internal.\-h@{W\-M\-M\-Internal.\-h}!W\-M\-M\-\_\-get\-\_\-main\-\_\-field\-\_\-coeff\-\_\-g@{W\-M\-M\-\_\-get\-\_\-main\-\_\-field\-\_\-coeff\-\_\-g}}
+\index{W\-M\-M\-\_\-get\-\_\-main\-\_\-field\-\_\-coeff\-\_\-g@{W\-M\-M\-\_\-get\-\_\-main\-\_\-field\-\_\-coeff\-\_\-g}!WMMInternal.h@{W\-M\-M\-Internal.\-h}}
+\subsubsection[{W\-M\-M\-\_\-get\-\_\-main\-\_\-field\-\_\-coeff\-\_\-g}]{\setlength{\rightskip}{0pt plus 5cm}float W\-M\-M\-\_\-get\-\_\-main\-\_\-field\-\_\-coeff\-\_\-g (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16\-\_\-t}}]{index}
+\end{DoxyParamCaption}
+)}}\label{_w_m_m_internal_8h_a751ca9b09519898686ec126761fe776a}
+
+
+Comput the Main\-Field\-Coeff\-H accounting for the date. 
+
+
+
+Definition at line 1104 of file World\-Mag\-Model.\-c.
+
+\hypertarget{_w_m_m_internal_8h_ae9cebe39726f1469ca14fb66311d266c}{\index{W\-M\-M\-Internal.\-h@{W\-M\-M\-Internal.\-h}!W\-M\-M\-\_\-get\-\_\-main\-\_\-field\-\_\-coeff\-\_\-h@{W\-M\-M\-\_\-get\-\_\-main\-\_\-field\-\_\-coeff\-\_\-h}}
+\index{W\-M\-M\-\_\-get\-\_\-main\-\_\-field\-\_\-coeff\-\_\-h@{W\-M\-M\-\_\-get\-\_\-main\-\_\-field\-\_\-coeff\-\_\-h}!WMMInternal.h@{W\-M\-M\-Internal.\-h}}
+\subsubsection[{W\-M\-M\-\_\-get\-\_\-main\-\_\-field\-\_\-coeff\-\_\-h}]{\setlength{\rightskip}{0pt plus 5cm}float W\-M\-M\-\_\-get\-\_\-main\-\_\-field\-\_\-coeff\-\_\-h (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16\-\_\-t}}]{index}
+\end{DoxyParamCaption}
+)}}\label{_w_m_m_internal_8h_ae9cebe39726f1469ca14fb66311d266c}
+
+
+Definition at line 1135 of file World\-Mag\-Model.\-c.
+
+\hypertarget{_w_m_m_internal_8h_a92c8dce6ab0d9bc670c2e62dd5494f95}{\index{W\-M\-M\-Internal.\-h@{W\-M\-M\-Internal.\-h}!W\-M\-M\-\_\-get\-\_\-secular\-\_\-var\-\_\-coeff\-\_\-g@{W\-M\-M\-\_\-get\-\_\-secular\-\_\-var\-\_\-coeff\-\_\-g}}
+\index{W\-M\-M\-\_\-get\-\_\-secular\-\_\-var\-\_\-coeff\-\_\-g@{W\-M\-M\-\_\-get\-\_\-secular\-\_\-var\-\_\-coeff\-\_\-g}!WMMInternal.h@{W\-M\-M\-Internal.\-h}}
+\subsubsection[{W\-M\-M\-\_\-get\-\_\-secular\-\_\-var\-\_\-coeff\-\_\-g}]{\setlength{\rightskip}{0pt plus 5cm}float W\-M\-M\-\_\-get\-\_\-secular\-\_\-var\-\_\-coeff\-\_\-g (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16\-\_\-t}}]{index}
+\end{DoxyParamCaption}
+)}}\label{_w_m_m_internal_8h_a92c8dce6ab0d9bc670c2e62dd5494f95}
+
+
+Definition at line 1164 of file World\-Mag\-Model.\-c.
+
+\hypertarget{_w_m_m_internal_8h_a858aac8dd5a17c59d462a5f7ac5c0132}{\index{W\-M\-M\-Internal.\-h@{W\-M\-M\-Internal.\-h}!W\-M\-M\-\_\-get\-\_\-secular\-\_\-var\-\_\-coeff\-\_\-h@{W\-M\-M\-\_\-get\-\_\-secular\-\_\-var\-\_\-coeff\-\_\-h}}
+\index{W\-M\-M\-\_\-get\-\_\-secular\-\_\-var\-\_\-coeff\-\_\-h@{W\-M\-M\-\_\-get\-\_\-secular\-\_\-var\-\_\-coeff\-\_\-h}!WMMInternal.h@{W\-M\-M\-Internal.\-h}}
+\subsubsection[{W\-M\-M\-\_\-get\-\_\-secular\-\_\-var\-\_\-coeff\-\_\-h}]{\setlength{\rightskip}{0pt plus 5cm}float W\-M\-M\-\_\-get\-\_\-secular\-\_\-var\-\_\-coeff\-\_\-h (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16\-\_\-t}}]{index}
+\end{DoxyParamCaption}
+)}}\label{_w_m_m_internal_8h_a858aac8dd5a17c59d462a5f7ac5c0132}
+
+
+Definition at line 1172 of file World\-Mag\-Model.\-c.
+
+\hypertarget{_w_m_m_internal_8h_a3a649421022e87b47a631a7209a69b03}{\index{W\-M\-M\-Internal.\-h@{W\-M\-M\-Internal.\-h}!W\-M\-M\-\_\-\-Pcup\-High@{W\-M\-M\-\_\-\-Pcup\-High}}
+\index{W\-M\-M\-\_\-\-Pcup\-High@{W\-M\-M\-\_\-\-Pcup\-High}!WMMInternal.h@{W\-M\-M\-Internal.\-h}}
+\subsubsection[{W\-M\-M\-\_\-\-Pcup\-High}]{\setlength{\rightskip}{0pt plus 5cm}int W\-M\-M\-\_\-\-Pcup\-High (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{Pcup, }
+\item[{float $\ast$}]{d\-Pcup, }
+\item[{float}]{x, }
+\item[{{\bf uint16\-\_\-t}}]{n\-Max}
+\end{DoxyParamCaption}
+)}}\label{_w_m_m_internal_8h_a3a649421022e87b47a631a7209a69b03}
+
+
+Definition at line 686 of file World\-Mag\-Model.\-c.
+
+\hypertarget{_w_m_m_internal_8h_a30ba4a7b9060ea46c8b97a151e1a672e}{\index{W\-M\-M\-Internal.\-h@{W\-M\-M\-Internal.\-h}!W\-M\-M\-\_\-\-Pcup\-Low@{W\-M\-M\-\_\-\-Pcup\-Low}}
+\index{W\-M\-M\-\_\-\-Pcup\-Low@{W\-M\-M\-\_\-\-Pcup\-Low}!WMMInternal.h@{W\-M\-M\-Internal.\-h}}
+\subsubsection[{W\-M\-M\-\_\-\-Pcup\-Low}]{\setlength{\rightskip}{0pt plus 5cm}int W\-M\-M\-\_\-\-Pcup\-Low (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{Pcup, }
+\item[{float $\ast$}]{d\-Pcup, }
+\item[{float}]{x, }
+\item[{{\bf uint16\-\_\-t}}]{n\-Max}
+\end{DoxyParamCaption}
+)}}\label{_w_m_m_internal_8h_a30ba4a7b9060ea46c8b97a151e1a672e}
+
+
+Definition at line 851 of file World\-Mag\-Model.\-c.
+
+\hypertarget{_w_m_m_internal_8h_a7ff64320e8368dafabb8ff6da6154c0c}{\index{W\-M\-M\-Internal.\-h@{W\-M\-M\-Internal.\-h}!W\-M\-M\-\_\-\-Rotate\-Magnetic\-Vector@{W\-M\-M\-\_\-\-Rotate\-Magnetic\-Vector}}
+\index{W\-M\-M\-\_\-\-Rotate\-Magnetic\-Vector@{W\-M\-M\-\_\-\-Rotate\-Magnetic\-Vector}!WMMInternal.h@{W\-M\-M\-Internal.\-h}}
+\subsubsection[{W\-M\-M\-\_\-\-Rotate\-Magnetic\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}int W\-M\-M\-\_\-\-Rotate\-Magnetic\-Vector (
+\begin{DoxyParamCaption}
+\item[{{\bf W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$}]{, }
+\item[{{\bf W\-M\-Mtype\-\_\-\-Coord\-Geodetic} $\ast$}]{Coord\-Geodetic, }
+\item[{{\bf W\-M\-Mtype\-\_\-\-Magnetic\-Results} $\ast$}]{Magnetic\-Results\-Sph, }
+\item[{{\bf W\-M\-Mtype\-\_\-\-Magnetic\-Results} $\ast$}]{Magnetic\-Results\-Geo}
+\end{DoxyParamCaption}
+)}}\label{_w_m_m_internal_8h_a7ff64320e8368dafabb8ff6da6154c0c}
+
+
+Definition at line 576 of file World\-Mag\-Model.\-c.
+
+\hypertarget{_w_m_m_internal_8h_ace15597d5b884053e2730413ab894f3e}{\index{W\-M\-M\-Internal.\-h@{W\-M\-M\-Internal.\-h}!W\-M\-M\-\_\-\-Sec\-Var\-Summation@{W\-M\-M\-\_\-\-Sec\-Var\-Summation}}
+\index{W\-M\-M\-\_\-\-Sec\-Var\-Summation@{W\-M\-M\-\_\-\-Sec\-Var\-Summation}!WMMInternal.h@{W\-M\-M\-Internal.\-h}}
+\subsubsection[{W\-M\-M\-\_\-\-Sec\-Var\-Summation}]{\setlength{\rightskip}{0pt plus 5cm}int W\-M\-M\-\_\-\-Sec\-Var\-Summation (
+\begin{DoxyParamCaption}
+\item[{{\bf W\-M\-Mtype\-\_\-\-Legendre\-Function} $\ast$}]{Legendre\-Function, }
+\item[{{\bf W\-M\-Mtype\-\_\-\-Spherical\-Harmonic\-Variables} $\ast$}]{Sph\-Variables, }
+\item[{{\bf W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$}]{Coord\-Spherical, }
+\item[{{\bf W\-M\-Mtype\-\_\-\-Magnetic\-Results} $\ast$}]{Magnetic\-Results}
+\end{DoxyParamCaption}
+)}}\label{_w_m_m_internal_8h_ace15597d5b884053e2730413ab894f3e}
+
+
+Definition at line 500 of file World\-Mag\-Model.\-c.
+
+\hypertarget{_w_m_m_internal_8h_aa73c47622a2818fc3db051bd63060211}{\index{W\-M\-M\-Internal.\-h@{W\-M\-M\-Internal.\-h}!W\-M\-M\-\_\-\-Sec\-Var\-Summation\-Special@{W\-M\-M\-\_\-\-Sec\-Var\-Summation\-Special}}
+\index{W\-M\-M\-\_\-\-Sec\-Var\-Summation\-Special@{W\-M\-M\-\_\-\-Sec\-Var\-Summation\-Special}!WMMInternal.h@{W\-M\-M\-Internal.\-h}}
+\subsubsection[{W\-M\-M\-\_\-\-Sec\-Var\-Summation\-Special}]{\setlength{\rightskip}{0pt plus 5cm}int W\-M\-M\-\_\-\-Sec\-Var\-Summation\-Special (
+\begin{DoxyParamCaption}
+\item[{{\bf W\-M\-Mtype\-\_\-\-Spherical\-Harmonic\-Variables} $\ast$}]{Sph\-Variables, }
+\item[{{\bf W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$}]{Coord\-Spherical, }
+\item[{{\bf W\-M\-Mtype\-\_\-\-Magnetic\-Results} $\ast$}]{Magnetic\-Results}
+\end{DoxyParamCaption}
+)}}\label{_w_m_m_internal_8h_aa73c47622a2818fc3db051bd63060211}
+
+
+Definition at line 1040 of file World\-Mag\-Model.\-c.
+
+\hypertarget{_w_m_m_internal_8h_a68979926a219736185f88ac574dc60a2}{\index{W\-M\-M\-Internal.\-h@{W\-M\-M\-Internal.\-h}!W\-M\-M\-\_\-\-Set\-\_\-\-Coeff\-\_\-\-Array@{W\-M\-M\-\_\-\-Set\-\_\-\-Coeff\-\_\-\-Array}}
+\index{W\-M\-M\-\_\-\-Set\-\_\-\-Coeff\-\_\-\-Array@{W\-M\-M\-\_\-\-Set\-\_\-\-Coeff\-\_\-\-Array}!WMMInternal.h@{W\-M\-M\-Internal.\-h}}
+\subsubsection[{W\-M\-M\-\_\-\-Set\-\_\-\-Coeff\-\_\-\-Array}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} W\-M\-M\-\_\-\-Set\-\_\-\-Coeff\-\_\-\-Array (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{_w_m_m_internal_8h_a68979926a219736185f88ac574dc60a2}
+\hypertarget{_w_m_m_internal_8h_a0ee76e9b4bd7c03fd01f84860e7d7dd3}{\index{W\-M\-M\-Internal.\-h@{W\-M\-M\-Internal.\-h}!W\-M\-M\-\_\-\-Summation@{W\-M\-M\-\_\-\-Summation}}
+\index{W\-M\-M\-\_\-\-Summation@{W\-M\-M\-\_\-\-Summation}!WMMInternal.h@{W\-M\-M\-Internal.\-h}}
+\subsubsection[{W\-M\-M\-\_\-\-Summation}]{\setlength{\rightskip}{0pt plus 5cm}int W\-M\-M\-\_\-\-Summation (
+\begin{DoxyParamCaption}
+\item[{{\bf W\-M\-Mtype\-\_\-\-Legendre\-Function} $\ast$}]{Legendre\-Function, }
+\item[{{\bf W\-M\-Mtype\-\_\-\-Spherical\-Harmonic\-Variables} $\ast$}]{Sph\-Variables, }
+\item[{{\bf W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$}]{Coord\-Spherical, }
+\item[{{\bf W\-M\-Mtype\-\_\-\-Magnetic\-Results} $\ast$}]{Magnetic\-Results}
+\end{DoxyParamCaption}
+)}}\label{_w_m_m_internal_8h_a0ee76e9b4bd7c03fd01f84860e7d7dd3}
+
+
+Definition at line 410 of file World\-Mag\-Model.\-c.
+
+\hypertarget{_w_m_m_internal_8h_ac7da42c5f969106eb3d552d2e616df94}{\index{W\-M\-M\-Internal.\-h@{W\-M\-M\-Internal.\-h}!W\-M\-M\-\_\-\-Summation\-Special@{W\-M\-M\-\_\-\-Summation\-Special}}
+\index{W\-M\-M\-\_\-\-Summation\-Special@{W\-M\-M\-\_\-\-Summation\-Special}!WMMInternal.h@{W\-M\-M\-Internal.\-h}}
+\subsubsection[{W\-M\-M\-\_\-\-Summation\-Special}]{\setlength{\rightskip}{0pt plus 5cm}int W\-M\-M\-\_\-\-Summation\-Special (
+\begin{DoxyParamCaption}
+\item[{{\bf W\-M\-Mtype\-\_\-\-Spherical\-Harmonic\-Variables} $\ast$}]{Sph\-Variables, }
+\item[{{\bf W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$}]{Coord\-Spherical, }
+\item[{{\bf W\-M\-Mtype\-\_\-\-Magnetic\-Results} $\ast$}]{Magnetic\-Results}
+\end{DoxyParamCaption}
+)}}\label{_w_m_m_internal_8h_ac7da42c5f969106eb3d552d2e616df94}
+
+
+Definition at line 973 of file World\-Mag\-Model.\-c.
+

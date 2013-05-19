@@ -1,0 +1,410 @@
+\hypertarget{group___i2_c___group3}{\section{S\-M\-B\-U\-S management functions}
+\label{group___i2_c___group3}\index{S\-M\-B\-U\-S management functions@{S\-M\-B\-U\-S management functions}}
+}
+
+
+S\-M\-B\-U\-S management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i2_c___group3_ga816be264da9e06a5eb6518956a119073}{I2\-C\-\_\-\-S\-M\-Bus\-Alert\-Cmd} (\hyperlink{struct_i2_c___type_def}{I2\-C\-\_\-\-Type\-Def} $\ast$I2\-Cx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables I2\-C S\-M\-Bus alert. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i2_c___group3_ga08dc51fa5077a1d50920811af38593c2}{I2\-C\-\_\-\-Clock\-Timeout\-Cmd} (\hyperlink{struct_i2_c___type_def}{I2\-C\-\_\-\-Type\-Def} $\ast$I2\-Cx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables I2\-C Clock Timeout (S\-C\-L Timeout detection). \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i2_c___group3_gac01ac1f4eb453b830a8efb3f83649a0d}{I2\-C\-\_\-\-Extended\-Clock\-Timeout\-Cmd} (\hyperlink{struct_i2_c___type_def}{I2\-C\-\_\-\-Type\-Def} $\ast$I2\-Cx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables I2\-C Extended Clock Timeout (S\-C\-L cumulative Timeout detection). \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i2_c___group3_ga234146a106e974f8def8b8b723477d1a}{I2\-C\-\_\-\-Idle\-Clock\-Timeout\-Cmd} (\hyperlink{struct_i2_c___type_def}{I2\-C\-\_\-\-Type\-Def} $\ast$I2\-Cx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables I2\-C Idle Clock Timeout (Bus idle S\-C\-L and S\-D\-A high detection). \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i2_c___group3_ga26c32f66b0e362aab18df3b7246a8518}{I2\-C\-\_\-\-Timeout\-A\-Config} (\hyperlink{struct_i2_c___type_def}{I2\-C\-\_\-\-Type\-Def} $\ast$I2\-Cx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Timeout)
+\begin{DoxyCompactList}\small\item\em Configures the I2\-C Bus Timeout A (S\-C\-L Timeout when T\-I\-D\-L\-E = 0 or Bus idle S\-C\-L and S\-D\-A high when T\-I\-D\-L\-E = 1). \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i2_c___group3_ga3e7ba63f7a71c12ea3ec0badb2cd5a50}{I2\-C\-\_\-\-Timeout\-B\-Config} (\hyperlink{struct_i2_c___type_def}{I2\-C\-\_\-\-Type\-Def} $\ast$I2\-Cx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Timeout)
+\begin{DoxyCompactList}\small\item\em Configures the I2\-C Bus Timeout B (S\-C\-L cumulative Timeout). \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i2_c___group3_gae86801251359226c35745e0a258388b0}{I2\-C\-\_\-\-Calculate\-P\-E\-C} (\hyperlink{struct_i2_c___type_def}{I2\-C\-\_\-\-Type\-Def} $\ast$I2\-Cx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables I2\-C P\-E\-C calculation. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i2_c___group3_ga6dadf895935eb068e1ec378637fd0ef9}{I2\-C\-\_\-\-P\-E\-C\-Request\-Cmd} (\hyperlink{struct_i2_c___type_def}{I2\-C\-\_\-\-Type\-Def} $\ast$I2\-Cx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables I2\-C P\-E\-C transmission/reception request. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___i2_c___group3_ga7bf75e7c27c0e1d73e70fc0e1c7cd1dd}{I2\-C\-\_\-\-Get\-P\-E\-C} (\hyperlink{struct_i2_c___type_def}{I2\-C\-\_\-\-Type\-Def} $\ast$I2\-Cx)
+\begin{DoxyCompactList}\small\item\em Returns the I2\-C P\-E\-C. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i2_c___group3_gaa27d1440290fe601e730b6980999afe3}{I2\-C\-\_\-\-Transmit\-P\-E\-C} (\hyperlink{struct_i2_c___type_def}{I2\-C\-\_\-\-Type\-Def} $\ast$I2\-Cx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified I2\-C P\-E\-C transfer. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i2_c___group3_ga5d0f939bdd45542502827bf408f24161}{I2\-C\-\_\-\-P\-E\-C\-Position\-Config} (\hyperlink{struct_i2_c___type_def}{I2\-C\-\_\-\-Type\-Def} $\ast$I2\-Cx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} I2\-C\-\_\-\-P\-E\-C\-Position)
+\begin{DoxyCompactList}\small\item\em Selects the specified I2\-C P\-E\-C position. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+S\-M\-B\-U\-S management functions. P\-E\-C management functions.
+
+\begin{DoxyVerb} ===============================================================================
+                      ##### SMBUS management functions #####
+ ===============================================================================   
+    [..] This section provides a set of functions that handles SMBus communication
+         and timeouts detection.
+    
+    [..] The SMBus Device default address (0b1100 001) is enabled by calling I2C_Init()
+         function and setting I2C_Mode member of I2C_InitTypeDef() structure to 
+         I2C_Mode_SMBusDevice.
+         
+    [..] The SMBus Host address (0b0001 000) is enabled by calling I2C_Init()
+         function and setting I2C_Mode member of I2C_InitTypeDef() structure to 
+         I2C_Mode_SMBusHost.         
+         
+    [..] The Alert Response Address (0b0001 100) is enabled using I2C_SMBusAlertCmd()
+         function.
+         
+    [..] To detect cumulative SCL stretch in master and slave mode, TIMEOUTB should be 
+         configured (in accordance to SMBus specification) using I2C_TimeoutBConfig() 
+         function then I2C_ExtendedClockTimeoutCmd() function should be called to enable
+         the detection.
+         
+    [..] SCL low timeout is detected by configuring TIMEOUTB using I2C_TimeoutBConfig()
+         function followed by the call of I2C_ClockTimeoutCmd(). When adding to this 
+         procedure the call of I2C_IdleClockTimeoutCmd() function, Bus Idle condition 
+         (both SCL and SDA high) is detected also.                \end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                         PEC management functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___i2_c___group3_gae86801251359226c35745e0a258388b0}{\index{S\-M\-B\-U\-S management functions@{S\-M\-B\-U\-S management functions}!I2\-C\-\_\-\-Calculate\-P\-E\-C@{I2\-C\-\_\-\-Calculate\-P\-E\-C}}
+\index{I2\-C\-\_\-\-Calculate\-P\-E\-C@{I2\-C\-\_\-\-Calculate\-P\-E\-C}!SMBUS management functions@{S\-M\-B\-U\-S management functions}}
+\subsubsection[{I2\-C\-\_\-\-Calculate\-P\-E\-C}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I2\-C\-\_\-\-Calculate\-P\-E\-C (
+\begin{DoxyParamCaption}
+\item[{{\bf I2\-C\-\_\-\-Type\-Def} $\ast$}]{I2\-Cx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___i2_c___group3_gae86801251359226c35745e0a258388b0}
+
+
+Enables or disables I2\-C P\-E\-C calculation. 
+
+Enables or disables the P\-E\-C value calculation of the transfered bytes.
+
+Enables or disables the P\-E\-C value calculation of the transferred bytes.
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1 or 2 to select the I2\-C peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the I2\-Cx P\-E\-C calculation. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1, 2 or 3 to select the I2\-C peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the I2\-Cx P\-E\-C value calculation. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1107 of file stm32f30x\-\_\-i2c.\-c.
+
+\hypertarget{group___i2_c___group3_ga08dc51fa5077a1d50920811af38593c2}{\index{S\-M\-B\-U\-S management functions@{S\-M\-B\-U\-S management functions}!I2\-C\-\_\-\-Clock\-Timeout\-Cmd@{I2\-C\-\_\-\-Clock\-Timeout\-Cmd}}
+\index{I2\-C\-\_\-\-Clock\-Timeout\-Cmd@{I2\-C\-\_\-\-Clock\-Timeout\-Cmd}!SMBUS management functions@{S\-M\-B\-U\-S management functions}}
+\subsubsection[{I2\-C\-\_\-\-Clock\-Timeout\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I2\-C\-\_\-\-Clock\-Timeout\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf I2\-C\-\_\-\-Type\-Def} $\ast$}]{I2\-Cx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___i2_c___group3_ga08dc51fa5077a1d50920811af38593c2}
+
+
+Enables or disables I2\-C Clock Timeout (S\-C\-L Timeout detection). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1 or 2 to select the I2\-C peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the I2\-Cx clock Timeout. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 976 of file stm32f30x\-\_\-i2c.\-c.
+
+\hypertarget{group___i2_c___group3_gac01ac1f4eb453b830a8efb3f83649a0d}{\index{S\-M\-B\-U\-S management functions@{S\-M\-B\-U\-S management functions}!I2\-C\-\_\-\-Extended\-Clock\-Timeout\-Cmd@{I2\-C\-\_\-\-Extended\-Clock\-Timeout\-Cmd}}
+\index{I2\-C\-\_\-\-Extended\-Clock\-Timeout\-Cmd@{I2\-C\-\_\-\-Extended\-Clock\-Timeout\-Cmd}!SMBUS management functions@{S\-M\-B\-U\-S management functions}}
+\subsubsection[{I2\-C\-\_\-\-Extended\-Clock\-Timeout\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I2\-C\-\_\-\-Extended\-Clock\-Timeout\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf I2\-C\-\_\-\-Type\-Def} $\ast$}]{I2\-Cx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___i2_c___group3_gac01ac1f4eb453b830a8efb3f83649a0d}
+
+
+Enables or disables I2\-C Extended Clock Timeout (S\-C\-L cumulative Timeout detection). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1 or 2 to select the I2\-C peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the I2\-Cx Extended clock Timeout. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1001 of file stm32f30x\-\_\-i2c.\-c.
+
+\hypertarget{group___i2_c___group3_ga7bf75e7c27c0e1d73e70fc0e1c7cd1dd}{\index{S\-M\-B\-U\-S management functions@{S\-M\-B\-U\-S management functions}!I2\-C\-\_\-\-Get\-P\-E\-C@{I2\-C\-\_\-\-Get\-P\-E\-C}}
+\index{I2\-C\-\_\-\-Get\-P\-E\-C@{I2\-C\-\_\-\-Get\-P\-E\-C}!SMBUS management functions@{S\-M\-B\-U\-S management functions}}
+\subsubsection[{I2\-C\-\_\-\-Get\-P\-E\-C}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} I2\-C\-\_\-\-Get\-P\-E\-C (
+\begin{DoxyParamCaption}
+\item[{{\bf I2\-C\-\_\-\-Type\-Def} $\ast$}]{I2\-Cx}
+\end{DoxyParamCaption}
+)}}\label{group___i2_c___group3_ga7bf75e7c27c0e1d73e70fc0e1c7cd1dd}
+
+
+Returns the I2\-C P\-E\-C. 
+
+Returns the P\-E\-C value for the specified I2\-C.
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1 or 2 to select the I2\-C peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & value of the P\-E\-C .\\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1, 2 or 3 to select the I2\-C peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & P\-E\-C value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1155 of file stm32f30x\-\_\-i2c.\-c.
+
+\hypertarget{group___i2_c___group3_ga234146a106e974f8def8b8b723477d1a}{\index{S\-M\-B\-U\-S management functions@{S\-M\-B\-U\-S management functions}!I2\-C\-\_\-\-Idle\-Clock\-Timeout\-Cmd@{I2\-C\-\_\-\-Idle\-Clock\-Timeout\-Cmd}}
+\index{I2\-C\-\_\-\-Idle\-Clock\-Timeout\-Cmd@{I2\-C\-\_\-\-Idle\-Clock\-Timeout\-Cmd}!SMBUS management functions@{S\-M\-B\-U\-S management functions}}
+\subsubsection[{I2\-C\-\_\-\-Idle\-Clock\-Timeout\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I2\-C\-\_\-\-Idle\-Clock\-Timeout\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf I2\-C\-\_\-\-Type\-Def} $\ast$}]{I2\-Cx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___i2_c___group3_ga234146a106e974f8def8b8b723477d1a}
+
+
+Enables or disables I2\-C Idle Clock Timeout (Bus idle S\-C\-L and S\-D\-A high detection). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1 or 2 to select the I2\-C peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the I2\-Cx Idle clock Timeout. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1027 of file stm32f30x\-\_\-i2c.\-c.
+
+\hypertarget{group___i2_c___group3_ga5d0f939bdd45542502827bf408f24161}{\index{S\-M\-B\-U\-S management functions@{S\-M\-B\-U\-S management functions}!I2\-C\-\_\-\-P\-E\-C\-Position\-Config@{I2\-C\-\_\-\-P\-E\-C\-Position\-Config}}
+\index{I2\-C\-\_\-\-P\-E\-C\-Position\-Config@{I2\-C\-\_\-\-P\-E\-C\-Position\-Config}!SMBUS management functions@{S\-M\-B\-U\-S management functions}}
+\subsubsection[{I2\-C\-\_\-\-P\-E\-C\-Position\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I2\-C\-\_\-\-P\-E\-C\-Position\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf I2\-C\-\_\-\-Type\-Def} $\ast$}]{I2\-Cx, }
+\item[{{\bf uint16\-\_\-t}}]{I2\-C\-\_\-\-P\-E\-C\-Position}
+\end{DoxyParamCaption}
+)}}\label{group___i2_c___group3_ga5d0f939bdd45542502827bf408f24161}
+
+
+Selects the specified I2\-C P\-E\-C position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1, 2 or 3 to select the I2\-C peripheral. \\
+\hline
+{\em I2\-C\-\_\-\-P\-E\-C\-Position,\-:} & specifies the P\-E\-C position. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item I2\-C\-\_\-\-P\-E\-C\-Position\-\_\-\-Next\-: indicates that the next byte is P\-E\-C \item I2\-C\-\_\-\-P\-E\-C\-Position\-\_\-\-Current\-: indicates that current byte is P\-E\-C\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This function configures the same bit (P\-O\-S) as \hyperlink{group___i2_c___group1_gad08ebffc3a234d84e6405ec115bd74f1}{I2\-C\-\_\-\-N\-A\-C\-K\-Position\-Config()} but is intended to be used in S\-M\-B\-U\-S mode while \hyperlink{group___i2_c___group1_gad08ebffc3a234d84e6405ec115bd74f1}{I2\-C\-\_\-\-N\-A\-C\-K\-Position\-Config()} is intended to used in I2\-C mode.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 770 of file stm32f4xx\-\_\-i2c.\-c.
+
+\hypertarget{group___i2_c___group3_ga6dadf895935eb068e1ec378637fd0ef9}{\index{S\-M\-B\-U\-S management functions@{S\-M\-B\-U\-S management functions}!I2\-C\-\_\-\-P\-E\-C\-Request\-Cmd@{I2\-C\-\_\-\-P\-E\-C\-Request\-Cmd}}
+\index{I2\-C\-\_\-\-P\-E\-C\-Request\-Cmd@{I2\-C\-\_\-\-P\-E\-C\-Request\-Cmd}!SMBUS management functions@{S\-M\-B\-U\-S management functions}}
+\subsubsection[{I2\-C\-\_\-\-P\-E\-C\-Request\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I2\-C\-\_\-\-P\-E\-C\-Request\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf I2\-C\-\_\-\-Type\-Def} $\ast$}]{I2\-Cx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___i2_c___group3_ga6dadf895935eb068e1ec378637fd0ef9}
+
+
+Enables or disables I2\-C P\-E\-C transmission/reception request. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1 or 2 to select the I2\-C peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the I2\-Cx P\-E\-C request. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1132 of file stm32f30x\-\_\-i2c.\-c.
+
+\hypertarget{group___i2_c___group3_ga816be264da9e06a5eb6518956a119073}{\index{S\-M\-B\-U\-S management functions@{S\-M\-B\-U\-S management functions}!I2\-C\-\_\-\-S\-M\-Bus\-Alert\-Cmd@{I2\-C\-\_\-\-S\-M\-Bus\-Alert\-Cmd}}
+\index{I2\-C\-\_\-\-S\-M\-Bus\-Alert\-Cmd@{I2\-C\-\_\-\-S\-M\-Bus\-Alert\-Cmd}!SMBUS management functions@{S\-M\-B\-U\-S management functions}}
+\subsubsection[{I2\-C\-\_\-\-S\-M\-Bus\-Alert\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I2\-C\-\_\-\-S\-M\-Bus\-Alert\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf I2\-C\-\_\-\-Type\-Def} $\ast$}]{I2\-Cx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___i2_c___group3_ga816be264da9e06a5eb6518956a119073}
+
+
+Enables or disables I2\-C S\-M\-Bus alert. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1 or 2 to select the I2\-C peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the I2\-Cx S\-M\-Bus alert. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 951 of file stm32f30x\-\_\-i2c.\-c.
+
+\hypertarget{group___i2_c___group3_ga26c32f66b0e362aab18df3b7246a8518}{\index{S\-M\-B\-U\-S management functions@{S\-M\-B\-U\-S management functions}!I2\-C\-\_\-\-Timeout\-A\-Config@{I2\-C\-\_\-\-Timeout\-A\-Config}}
+\index{I2\-C\-\_\-\-Timeout\-A\-Config@{I2\-C\-\_\-\-Timeout\-A\-Config}!SMBUS management functions@{S\-M\-B\-U\-S management functions}}
+\subsubsection[{I2\-C\-\_\-\-Timeout\-A\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I2\-C\-\_\-\-Timeout\-A\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf I2\-C\-\_\-\-Type\-Def} $\ast$}]{I2\-Cx, }
+\item[{{\bf uint16\-\_\-t}}]{Timeout}
+\end{DoxyParamCaption}
+)}}\label{group___i2_c___group3_ga26c32f66b0e362aab18df3b7246a8518}
+
+
+Configures the I2\-C Bus Timeout A (S\-C\-L Timeout when T\-I\-D\-L\-E = 0 or Bus idle S\-C\-L and S\-D\-A high when T\-I\-D\-L\-E = 1). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1 or 2 to select the I2\-C peripheral. \\
+\hline
+{\em Timeout,\-:} & specifies the Timeout\-A to be programmed. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1052 of file stm32f30x\-\_\-i2c.\-c.
+
+\hypertarget{group___i2_c___group3_ga3e7ba63f7a71c12ea3ec0badb2cd5a50}{\index{S\-M\-B\-U\-S management functions@{S\-M\-B\-U\-S management functions}!I2\-C\-\_\-\-Timeout\-B\-Config@{I2\-C\-\_\-\-Timeout\-B\-Config}}
+\index{I2\-C\-\_\-\-Timeout\-B\-Config@{I2\-C\-\_\-\-Timeout\-B\-Config}!SMBUS management functions@{S\-M\-B\-U\-S management functions}}
+\subsubsection[{I2\-C\-\_\-\-Timeout\-B\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I2\-C\-\_\-\-Timeout\-B\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf I2\-C\-\_\-\-Type\-Def} $\ast$}]{I2\-Cx, }
+\item[{{\bf uint16\-\_\-t}}]{Timeout}
+\end{DoxyParamCaption}
+)}}\label{group___i2_c___group3_ga3e7ba63f7a71c12ea3ec0badb2cd5a50}
+
+
+Configures the I2\-C Bus Timeout B (S\-C\-L cumulative Timeout). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1 or 2 to select the I2\-C peripheral. \\
+\hline
+{\em Timeout,\-:} & specifies the Timeout\-B to be programmed. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1079 of file stm32f30x\-\_\-i2c.\-c.
+
+\hypertarget{group___i2_c___group3_gaa27d1440290fe601e730b6980999afe3}{\index{S\-M\-B\-U\-S management functions@{S\-M\-B\-U\-S management functions}!I2\-C\-\_\-\-Transmit\-P\-E\-C@{I2\-C\-\_\-\-Transmit\-P\-E\-C}}
+\index{I2\-C\-\_\-\-Transmit\-P\-E\-C@{I2\-C\-\_\-\-Transmit\-P\-E\-C}!SMBUS management functions@{S\-M\-B\-U\-S management functions}}
+\subsubsection[{I2\-C\-\_\-\-Transmit\-P\-E\-C}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I2\-C\-\_\-\-Transmit\-P\-E\-C (
+\begin{DoxyParamCaption}
+\item[{{\bf I2\-C\-\_\-\-Type\-Def} $\ast$}]{I2\-Cx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___i2_c___group3_gaa27d1440290fe601e730b6980999afe3}
+
+
+Enables or disables the specified I2\-C P\-E\-C transfer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\-Cx,\-:} & where x can be 1, 2 or 3 to select the I2\-C peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the I2\-C P\-E\-C transmission. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 739 of file stm32f4xx\-\_\-i2c.\-c.
+

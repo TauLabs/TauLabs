@@ -1,0 +1,157 @@
+\hypertarget{group___c_a_n___group4}{\section{C\-A\-N Operation modes functions}
+\label{group___c_a_n___group4}\index{C\-A\-N Operation modes functions@{C\-A\-N Operation modes functions}}
+}
+
+
+C\-A\-N Operation modes functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___c_a_n___group4_gab2a3630e9e3024114eb117d14e514208}{C\-A\-N\-\_\-\-Operating\-Mode\-Request} (\hyperlink{struct_c_a_n___type_def}{C\-A\-N\-\_\-\-Type\-Def} $\ast$C\-A\-Nx, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} C\-A\-N\-\_\-\-Operating\-Mode)
+\begin{DoxyCompactList}\small\item\em Selects the C\-A\-N Operation mode. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___c_a_n___group4_ga640215e38765759d7eceb8a039046667}{C\-A\-N\-\_\-\-Sleep} (\hyperlink{struct_c_a_n___type_def}{C\-A\-N\-\_\-\-Type\-Def} $\ast$C\-A\-Nx)
+\begin{DoxyCompactList}\small\item\em Enters the Sleep (low power) mode. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___c_a_n___group4_ga78cdfbf1884b9e33c552bcbca15bed10}{C\-A\-N\-\_\-\-Wake\-Up} (\hyperlink{struct_c_a_n___type_def}{C\-A\-N\-\_\-\-Type\-Def} $\ast$C\-A\-Nx)
+\begin{DoxyCompactList}\small\item\em Wakes up the C\-A\-N peripheral from sleep mode . \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+C\-A\-N Operation modes functions. \begin{DoxyVerb} ===============================================================================
+                    ##### CAN Operation modes functions #####
+ ===============================================================================  
+    [..] This section provides functions allowing to select the CAN Operation modes:
+         (+) sleep mode.
+         (+) normal mode. 
+         (+) initialization mode.\end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                      CAN Operation modes functions
+ ===============================================================================  
+  This section provides functions allowing to select the CAN Operation modes
+  - sleep mode
+  - normal mode 
+  - initialization mode\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___c_a_n___group4_gab2a3630e9e3024114eb117d14e514208}{\index{C\-A\-N Operation modes functions@{C\-A\-N Operation modes functions}!C\-A\-N\-\_\-\-Operating\-Mode\-Request@{C\-A\-N\-\_\-\-Operating\-Mode\-Request}}
+\index{C\-A\-N\-\_\-\-Operating\-Mode\-Request@{C\-A\-N\-\_\-\-Operating\-Mode\-Request}!CAN Operation modes functions@{C\-A\-N Operation modes functions}}
+\subsubsection[{C\-A\-N\-\_\-\-Operating\-Mode\-Request}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} C\-A\-N\-\_\-\-Operating\-Mode\-Request (
+\begin{DoxyParamCaption}
+\item[{{\bf C\-A\-N\-\_\-\-Type\-Def} $\ast$}]{C\-A\-Nx, }
+\item[{{\bf uint8\-\_\-t}}]{C\-A\-N\-\_\-\-Operating\-Mode}
+\end{DoxyParamCaption}
+)}}\label{group___c_a_n___group4_gab2a3630e9e3024114eb117d14e514208}
+
+
+Selects the C\-A\-N Operation mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\-A\-N\-\_\-\-Operating\-Mode,\-:} & C\-A\-N Operating Mode. This parameter can be one of C\-A\-N\-\_\-\-Operating\-Mode\-\_\-\-Type\-Def enumeration. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em status} & of the requested mode which can be\-:
+\begin{DoxyItemize}
+\item C\-A\-N\-\_\-\-Mode\-Status\-\_\-\-Failed\-: C\-A\-N failed entering the specific mode
+\item C\-A\-N\-\_\-\-Mode\-Status\-\_\-\-Success\-: C\-A\-N Succeed entering the specific mode
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em C\-A\-N\-\_\-\-Operating\-Mode,\-:} & C\-A\-N Operating Mode. This parameter can be one of C\-A\-N\-\_\-\-Operating\-Mode\-\_\-\-Type\-Def enumeration. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em status} & of the requested mode which can be
+\begin{DoxyItemize}
+\item C\-A\-N\-\_\-\-Mode\-Status\-\_\-\-Failed\-: C\-A\-N failed entering the specific mode
+\item C\-A\-N\-\_\-\-Mode\-Status\-\_\-\-Success\-: C\-A\-N Succeed entering the specific mode 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 846 of file stm32f30x\-\_\-can.\-c.
+
+\hypertarget{group___c_a_n___group4_ga640215e38765759d7eceb8a039046667}{\index{C\-A\-N Operation modes functions@{C\-A\-N Operation modes functions}!C\-A\-N\-\_\-\-Sleep@{C\-A\-N\-\_\-\-Sleep}}
+\index{C\-A\-N\-\_\-\-Sleep@{C\-A\-N\-\_\-\-Sleep}!CAN Operation modes functions@{C\-A\-N Operation modes functions}}
+\subsubsection[{C\-A\-N\-\_\-\-Sleep}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} C\-A\-N\-\_\-\-Sleep (
+\begin{DoxyParamCaption}
+\item[{{\bf C\-A\-N\-\_\-\-Type\-Def} $\ast$}]{C\-A\-Nx}
+\end{DoxyParamCaption}
+)}}\label{group___c_a_n___group4_ga640215e38765759d7eceb8a039046667}
+
+
+Enters the Sleep (low power) mode. 
+
+Enters the low power mode.
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\-A\-Nx,\-:} & where x can be 1 to select the C\-A\-N1 peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em C\-A\-N\-\_\-\-Sleep\-\_\-\-Ok} & if sleep entered, C\-A\-N\-\_\-\-Sleep\-\_\-\-Failed otherwise.\\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em C\-A\-Nx,\-:} & where x can be 1 or 2 to select the C\-A\-N peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em C\-A\-N\-\_\-\-Sleep\-\_\-\-Ok} & if sleep entered, C\-A\-N\-\_\-\-Sleep\-\_\-\-Failed otherwise. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 927 of file stm32f30x\-\_\-can.\-c.
+
+\hypertarget{group___c_a_n___group4_ga78cdfbf1884b9e33c552bcbca15bed10}{\index{C\-A\-N Operation modes functions@{C\-A\-N Operation modes functions}!C\-A\-N\-\_\-\-Wake\-Up@{C\-A\-N\-\_\-\-Wake\-Up}}
+\index{C\-A\-N\-\_\-\-Wake\-Up@{C\-A\-N\-\_\-\-Wake\-Up}!CAN Operation modes functions@{C\-A\-N Operation modes functions}}
+\subsubsection[{C\-A\-N\-\_\-\-Wake\-Up}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} C\-A\-N\-\_\-\-Wake\-Up (
+\begin{DoxyParamCaption}
+\item[{{\bf C\-A\-N\-\_\-\-Type\-Def} $\ast$}]{C\-A\-Nx}
+\end{DoxyParamCaption}
+)}}\label{group___c_a_n___group4_ga78cdfbf1884b9e33c552bcbca15bed10}
+
+
+Wakes up the C\-A\-N peripheral from sleep mode . 
+
+Wakes the C\-A\-N up.
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\-A\-Nx,\-:} & where x can be 1 to select the C\-A\-N1 peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em C\-A\-N\-\_\-\-Wake\-Up\-\_\-\-Ok} & if sleep mode left, C\-A\-N\-\_\-\-Wake\-Up\-\_\-\-Failed otherwise.\\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em C\-A\-Nx,\-:} & where x can be 1 or 2 to select the C\-A\-N peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em C\-A\-N\-\_\-\-Wake\-Up\-\_\-\-Ok} & if sleep mode left, C\-A\-N\-\_\-\-Wake\-Up\-\_\-\-Failed otherwise. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 952 of file stm32f30x\-\_\-can.\-c.
+

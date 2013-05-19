@@ -1,0 +1,233 @@
+\hypertarget{struct____mavlink__hil__state__t}{\section{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t Struct Reference}
+\label{struct____mavlink__hil__state__t}\index{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\-\_\-msg\-\_\-hil\-\_\-state.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint64\-\_\-t \hyperlink{struct____mavlink__hil__state__t_a19f9efdaaddd6d9699f8225bf5a4d4ef}{time\-\_\-usec}
+\begin{DoxyCompactList}\small\item\em Timestamp (microseconds since U\-N\-I\-X epoch or microseconds since system boot) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__hil__state__t_a33202a922fda8d956b7ce78814d82558}{roll}
+\begin{DoxyCompactList}\small\item\em Roll angle (rad) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__hil__state__t_a734b8ba645687e5673c599c4a9a950f1}{pitch}
+\begin{DoxyCompactList}\small\item\em Pitch angle (rad) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__hil__state__t_aa7a7dfae39434c0c51492cb2d5614863}{yaw}
+\begin{DoxyCompactList}\small\item\em Yaw angle (rad) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__hil__state__t_a308aa515448a4d8d25131ce7c0f3254d}{rollspeed}
+\begin{DoxyCompactList}\small\item\em Roll angular speed (rad/s) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__hil__state__t_ad7d8b42ee6698e6f892c20146f954d5a}{pitchspeed}
+\begin{DoxyCompactList}\small\item\em Pitch angular speed (rad/s) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__hil__state__t_a50f16fd863e535867c95fabcfef2e498}{yawspeed}
+\begin{DoxyCompactList}\small\item\em Yaw angular speed (rad/s) \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{struct____mavlink__hil__state__t_afb2b29710c1a8b69503e35a72473c6d3}{lat}
+\begin{DoxyCompactList}\small\item\em Latitude, expressed as $\ast$ 1\-E7. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{struct____mavlink__hil__state__t_aeac8427298a17d090889edf71a21c6ac}{lon}
+\begin{DoxyCompactList}\small\item\em Longitude, expressed as $\ast$ 1\-E7. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{struct____mavlink__hil__state__t_a8f4ac2f2f4948df71b4abbb50d7c2f2f}{alt}
+\begin{DoxyCompactList}\small\item\em Altitude in meters, expressed as $\ast$ 1000 (millimeters) \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} \hyperlink{struct____mavlink__hil__state__t_a8ea365258210e69427e6c02f82aa710c}{vx}
+\begin{DoxyCompactList}\small\item\em Ground X Speed (Latitude), expressed as m/s $\ast$ 100. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} \hyperlink{struct____mavlink__hil__state__t_a8d3234cf343035ab3f240f23fac95072}{vy}
+\begin{DoxyCompactList}\small\item\em Ground Y Speed (Longitude), expressed as m/s $\ast$ 100. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} \hyperlink{struct____mavlink__hil__state__t_add6c834de56047ff2316d059b741cce0}{vz}
+\begin{DoxyCompactList}\small\item\em Ground Z Speed (Altitude), expressed as m/s $\ast$ 100. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} \hyperlink{struct____mavlink__hil__state__t_a8497c1e566b9acb1d4298090c480a212}{xacc}
+\begin{DoxyCompactList}\small\item\em X acceleration (mg) \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} \hyperlink{struct____mavlink__hil__state__t_a670623660d6d3d15121b2698082e8f55}{yacc}
+\begin{DoxyCompactList}\small\item\em Y acceleration (mg) \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} \hyperlink{struct____mavlink__hil__state__t_a79b626e6b13844d733a6a6c02e506b90}{zacc}
+\begin{DoxyCompactList}\small\item\em Z acceleration (mg) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 5 of file mavlink\-\_\-msg\-\_\-hil\-\_\-state.\-h.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__hil__state__t_a8f4ac2f2f4948df71b4abbb50d7c2f2f}{\index{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}!alt@{alt}}
+\index{alt@{alt}!__mavlink_hil_state_t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}}
+\subsubsection[{alt}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t\-::alt}}\label{struct____mavlink__hil__state__t_a8f4ac2f2f4948df71b4abbb50d7c2f2f}
+
+
+Altitude in meters, expressed as $\ast$ 1000 (millimeters) 
+
+
+
+Definition at line 16 of file mavlink\-\_\-msg\-\_\-hil\-\_\-state.\-h.
+
+\hypertarget{struct____mavlink__hil__state__t_afb2b29710c1a8b69503e35a72473c6d3}{\index{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}!lat@{lat}}
+\index{lat@{lat}!__mavlink_hil_state_t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}}
+\subsubsection[{lat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t\-::lat}}\label{struct____mavlink__hil__state__t_afb2b29710c1a8b69503e35a72473c6d3}
+
+
+Latitude, expressed as $\ast$ 1\-E7. 
+
+
+
+Definition at line 14 of file mavlink\-\_\-msg\-\_\-hil\-\_\-state.\-h.
+
+\hypertarget{struct____mavlink__hil__state__t_aeac8427298a17d090889edf71a21c6ac}{\index{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}!lon@{lon}}
+\index{lon@{lon}!__mavlink_hil_state_t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}}
+\subsubsection[{lon}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t\-::lon}}\label{struct____mavlink__hil__state__t_aeac8427298a17d090889edf71a21c6ac}
+
+
+Longitude, expressed as $\ast$ 1\-E7. 
+
+
+
+Definition at line 15 of file mavlink\-\_\-msg\-\_\-hil\-\_\-state.\-h.
+
+\hypertarget{struct____mavlink__hil__state__t_a734b8ba645687e5673c599c4a9a950f1}{\index{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}!pitch@{pitch}}
+\index{pitch@{pitch}!__mavlink_hil_state_t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}}
+\subsubsection[{pitch}]{\setlength{\rightskip}{0pt plus 5cm}float \-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t\-::pitch}}\label{struct____mavlink__hil__state__t_a734b8ba645687e5673c599c4a9a950f1}
+
+
+Pitch angle (rad) 
+
+
+
+Definition at line 9 of file mavlink\-\_\-msg\-\_\-hil\-\_\-state.\-h.
+
+\hypertarget{struct____mavlink__hil__state__t_ad7d8b42ee6698e6f892c20146f954d5a}{\index{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}!pitchspeed@{pitchspeed}}
+\index{pitchspeed@{pitchspeed}!__mavlink_hil_state_t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}}
+\subsubsection[{pitchspeed}]{\setlength{\rightskip}{0pt plus 5cm}float \-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t\-::pitchspeed}}\label{struct____mavlink__hil__state__t_ad7d8b42ee6698e6f892c20146f954d5a}
+
+
+Pitch angular speed (rad/s) 
+
+
+
+Definition at line 12 of file mavlink\-\_\-msg\-\_\-hil\-\_\-state.\-h.
+
+\hypertarget{struct____mavlink__hil__state__t_a33202a922fda8d956b7ce78814d82558}{\index{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}!roll@{roll}}
+\index{roll@{roll}!__mavlink_hil_state_t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}}
+\subsubsection[{roll}]{\setlength{\rightskip}{0pt plus 5cm}float \-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t\-::roll}}\label{struct____mavlink__hil__state__t_a33202a922fda8d956b7ce78814d82558}
+
+
+Roll angle (rad) 
+
+
+
+Definition at line 8 of file mavlink\-\_\-msg\-\_\-hil\-\_\-state.\-h.
+
+\hypertarget{struct____mavlink__hil__state__t_a308aa515448a4d8d25131ce7c0f3254d}{\index{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}!rollspeed@{rollspeed}}
+\index{rollspeed@{rollspeed}!__mavlink_hil_state_t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}}
+\subsubsection[{rollspeed}]{\setlength{\rightskip}{0pt plus 5cm}float \-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t\-::rollspeed}}\label{struct____mavlink__hil__state__t_a308aa515448a4d8d25131ce7c0f3254d}
+
+
+Roll angular speed (rad/s) 
+
+
+
+Definition at line 11 of file mavlink\-\_\-msg\-\_\-hil\-\_\-state.\-h.
+
+\hypertarget{struct____mavlink__hil__state__t_a19f9efdaaddd6d9699f8225bf5a4d4ef}{\index{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}!time\-\_\-usec@{time\-\_\-usec}}
+\index{time\-\_\-usec@{time\-\_\-usec}!__mavlink_hil_state_t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}}
+\subsubsection[{time\-\_\-usec}]{\setlength{\rightskip}{0pt plus 5cm}uint64\-\_\-t \-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t\-::time\-\_\-usec}}\label{struct____mavlink__hil__state__t_a19f9efdaaddd6d9699f8225bf5a4d4ef}
+
+
+Timestamp (microseconds since U\-N\-I\-X epoch or microseconds since system boot) 
+
+
+
+Definition at line 7 of file mavlink\-\_\-msg\-\_\-hil\-\_\-state.\-h.
+
+\hypertarget{struct____mavlink__hil__state__t_a8ea365258210e69427e6c02f82aa710c}{\index{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}!vx@{vx}}
+\index{vx@{vx}!__mavlink_hil_state_t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}}
+\subsubsection[{vx}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int16\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t\-::vx}}\label{struct____mavlink__hil__state__t_a8ea365258210e69427e6c02f82aa710c}
+
+
+Ground X Speed (Latitude), expressed as m/s $\ast$ 100. 
+
+
+
+Definition at line 17 of file mavlink\-\_\-msg\-\_\-hil\-\_\-state.\-h.
+
+\hypertarget{struct____mavlink__hil__state__t_a8d3234cf343035ab3f240f23fac95072}{\index{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}!vy@{vy}}
+\index{vy@{vy}!__mavlink_hil_state_t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}}
+\subsubsection[{vy}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int16\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t\-::vy}}\label{struct____mavlink__hil__state__t_a8d3234cf343035ab3f240f23fac95072}
+
+
+Ground Y Speed (Longitude), expressed as m/s $\ast$ 100. 
+
+
+
+Definition at line 18 of file mavlink\-\_\-msg\-\_\-hil\-\_\-state.\-h.
+
+\hypertarget{struct____mavlink__hil__state__t_add6c834de56047ff2316d059b741cce0}{\index{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}!vz@{vz}}
+\index{vz@{vz}!__mavlink_hil_state_t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}}
+\subsubsection[{vz}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int16\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t\-::vz}}\label{struct____mavlink__hil__state__t_add6c834de56047ff2316d059b741cce0}
+
+
+Ground Z Speed (Altitude), expressed as m/s $\ast$ 100. 
+
+
+
+Definition at line 19 of file mavlink\-\_\-msg\-\_\-hil\-\_\-state.\-h.
+
+\hypertarget{struct____mavlink__hil__state__t_a8497c1e566b9acb1d4298090c480a212}{\index{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}!xacc@{xacc}}
+\index{xacc@{xacc}!__mavlink_hil_state_t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}}
+\subsubsection[{xacc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int16\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t\-::xacc}}\label{struct____mavlink__hil__state__t_a8497c1e566b9acb1d4298090c480a212}
+
+
+X acceleration (mg) 
+
+
+
+Definition at line 20 of file mavlink\-\_\-msg\-\_\-hil\-\_\-state.\-h.
+
+\hypertarget{struct____mavlink__hil__state__t_a670623660d6d3d15121b2698082e8f55}{\index{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}!yacc@{yacc}}
+\index{yacc@{yacc}!__mavlink_hil_state_t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}}
+\subsubsection[{yacc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int16\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t\-::yacc}}\label{struct____mavlink__hil__state__t_a670623660d6d3d15121b2698082e8f55}
+
+
+Y acceleration (mg) 
+
+
+
+Definition at line 21 of file mavlink\-\_\-msg\-\_\-hil\-\_\-state.\-h.
+
+\hypertarget{struct____mavlink__hil__state__t_aa7a7dfae39434c0c51492cb2d5614863}{\index{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}!yaw@{yaw}}
+\index{yaw@{yaw}!__mavlink_hil_state_t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}}
+\subsubsection[{yaw}]{\setlength{\rightskip}{0pt plus 5cm}float \-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t\-::yaw}}\label{struct____mavlink__hil__state__t_aa7a7dfae39434c0c51492cb2d5614863}
+
+
+Yaw angle (rad) 
+
+
+
+Definition at line 10 of file mavlink\-\_\-msg\-\_\-hil\-\_\-state.\-h.
+
+\hypertarget{struct____mavlink__hil__state__t_a50f16fd863e535867c95fabcfef2e498}{\index{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}!yawspeed@{yawspeed}}
+\index{yawspeed@{yawspeed}!__mavlink_hil_state_t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}}
+\subsubsection[{yawspeed}]{\setlength{\rightskip}{0pt plus 5cm}float \-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t\-::yawspeed}}\label{struct____mavlink__hil__state__t_a50f16fd863e535867c95fabcfef2e498}
+
+
+Yaw angular speed (rad/s) 
+
+
+
+Definition at line 13 of file mavlink\-\_\-msg\-\_\-hil\-\_\-state.\-h.
+
+\hypertarget{struct____mavlink__hil__state__t_a79b626e6b13844d733a6a6c02e506b90}{\index{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}!zacc@{zacc}}
+\index{zacc@{zacc}!__mavlink_hil_state_t@{\-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t}}
+\subsubsection[{zacc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int16\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-hil\-\_\-state\-\_\-t\-::zacc}}\label{struct____mavlink__hil__state__t_a79b626e6b13844d733a6a6c02e506b90}
+
+
+Z acceleration (mg) 
+
+
+
+Definition at line 22 of file mavlink\-\_\-msg\-\_\-hil\-\_\-state.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Libraries/mavlink/v1.\-0/common/\hyperlink{mavlink__msg__hil__state_8h}{mavlink\-\_\-msg\-\_\-hil\-\_\-state.\-h}\end{DoxyCompactItemize}

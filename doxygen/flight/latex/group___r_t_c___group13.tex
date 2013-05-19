@@ -1,0 +1,284 @@
+\hypertarget{group___r_t_c___group13}{\section{Interrupts and flags management functions}
+\label{group___r_t_c___group13}\index{Interrupts and flags management functions@{Interrupts and flags management functions}}
+}
+
+
+Interrupts and flags management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___group13_gaa8469b33b3a99025baf52f007683b925}{R\-T\-C\-\_\-\-I\-T\-Config} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} R\-T\-C\-\_\-\-I\-T, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified R\-T\-C interrupts. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___r_t_c___group13_gaf2a7f11aa7160e95650fd10845e7780b}{R\-T\-C\-\_\-\-Get\-Flag\-Status} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} R\-T\-C\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified R\-T\-C flag is set or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___group13_ga9be3325e05418d05c8c5a5ad369c7d50}{R\-T\-C\-\_\-\-Clear\-Flag} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} R\-T\-C\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Clears the R\-T\-C's pending flags. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_gaacbd7ed539db0aacd973a0f6eca34074}{I\-T\-Status} \hyperlink{group___r_t_c___group13_gaab81adc6d2a5a5c1e37a49707c6bf640}{R\-T\-C\-\_\-\-Get\-I\-T\-Status} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} R\-T\-C\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified R\-T\-C interrupt has occurred or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___group13_gacac6accc75ae54f1b799fa8e7e83ccdb}{R\-T\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} R\-T\-C\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Clears the R\-T\-C's interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interrupts and flags management functions. \begin{DoxyVerb} ===============================================================================
+                ##### Interrupts and flags management functions #####
+ ===============================================================================  
+    [..] All RTC interrupts are connected to the EXTI controller.
+         (+) To enable the RTC Alarm interrupt, the following sequence is required:
+             (++) Configure and enable the EXTI Line 17 in interrupt mode and select 
+                  the rising edge sensitivity using the EXTI_Init() function.
+             (++) Configure and enable the RTC_Alarm IRQ channel in the NVIC using 
+                  the NVIC_Init() function.
+             (++) Configure the RTC to generate RTC alarms (Alarm A and/or Alarm B)
+                  using the RTC_SetAlarm() and RTC_AlarmCmd() functions.
+         (+) To enable the RTC Wakeup interrupt, the following sequence is required:
+             (++) Configure and enable the EXTI Line 20 in interrupt mode and select 
+                  the rising edge sensitivity using the EXTI_Init() function.
+             (++) Configure and enable the RTC_WKUP IRQ channel in the NVIC using
+                  the NVIC_Init() function.
+             (++) Configure the RTC to generate the RTC wakeup timer event using the 
+                  RTC_WakeUpClockConfig(), RTC_SetWakeUpCounter() and RTC_WakeUpCmd() 
+                  functions.
+         (+) To enable the RTC Tamper interrupt, the following sequence is required:
+             (++) Configure and enable the EXTI Line 19 in interrupt mode and select 
+                  the rising edge sensitivity using the EXTI_Init() function.
+             (++) Configure and enable the TAMP_STAMP IRQ channel in the NVIC using 
+                  the NVIC_Init() function.
+             (++) Configure the RTC to detect the RTC tamper event using the 
+                  RTC_TamperTriggerConfig() and RTC_TamperCmd() functions.
+         (+) To enable the RTC TimeStamp interrupt, the following sequence is required:
+             (++) Configure and enable the EXTI Line 19 in interrupt mode and select
+                  the rising edge sensitivity using the EXTI_Init() function.
+             (++) Configure and enable the TAMP_STAMP IRQ channel in the NVIC using 
+                  the NVIC_Init() function.
+             (++) Configure the RTC to detect the RTC time-stamp event using the 
+                  RTC_TimeStampCmd() functions.\end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                       Interrupts and flags management functions
+ ===============================================================================  
+ All RTC interrupts are connected to the EXTI controller.
+ 
+ - To enable the RTC Alarm interrupt, the following sequence is required:
+   - Configure and enable the EXTI Line 17 in interrupt mode and select the rising 
+     edge sensitivity using the EXTI_Init() function.
+   - Configure and enable the RTC_Alarm IRQ channel in the NVIC using the NVIC_Init()
+     function.
+   - Configure the RTC to generate RTC alarms (Alarm A and/or Alarm B) using
+     the RTC_SetAlarm() and RTC_AlarmCmd() functions.
+
+ - To enable the RTC Wakeup interrupt, the following sequence is required:
+   - Configure and enable the EXTI Line 22 in interrupt mode and select the rising 
+     edge sensitivity using the EXTI_Init() function.
+   - Configure and enable the RTC_WKUP IRQ channel in the NVIC using the NVIC_Init()
+     function.
+   - Configure the RTC to generate the RTC wakeup timer event using the 
+     RTC_WakeUpClockConfig(), RTC_SetWakeUpCounter() and RTC_WakeUpCmd() functions.
+
+ - To enable the RTC Tamper interrupt, the following sequence is required:
+   - Configure and enable the EXTI Line 21 in interrupt mode and select the rising 
+     edge sensitivity using the EXTI_Init() function.
+   - Configure and enable the TAMP_STAMP IRQ channel in the NVIC using the NVIC_Init()
+     function.
+   - Configure the RTC to detect the RTC tamper event using the 
+     RTC_TamperTriggerConfig() and RTC_TamperCmd() functions.
+
+ - To enable the RTC TimeStamp interrupt, the following sequence is required:
+   - Configure and enable the EXTI Line 21 in interrupt mode and select the rising 
+     edge sensitivity using the EXTI_Init() function.
+   - Configure and enable the TAMP_STAMP IRQ channel in the NVIC using the NVIC_Init()
+     function.
+   - Configure the RTC to detect the RTC time-stamp event using the 
+     RTC_TimeStampCmd() functions.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___r_t_c___group13_ga9be3325e05418d05c8c5a5ad369c7d50}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!R\-T\-C\-\_\-\-Clear\-Flag@{R\-T\-C\-\_\-\-Clear\-Flag}}
+\index{R\-T\-C\-\_\-\-Clear\-Flag@{R\-T\-C\-\_\-\-Clear\-Flag}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Clear\-Flag}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} R\-T\-C\-\_\-\-Clear\-Flag (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{R\-T\-C\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group13_ga9be3325e05418d05c8c5a5ad369c7d50}
+
+
+Clears the R\-T\-C's pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\-T\-C\-\_\-\-F\-L\-A\-G,\-:} & specifies the R\-T\-C flag to clear. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-T\-A\-M\-P3\-F\-: Tamper 3 event flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-T\-A\-M\-P2\-F\-: Tamper 2 event flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-T\-A\-M\-P1\-F\-: Tamper 1 event flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-T\-S\-O\-V\-F\-: Time Stamp Overflow flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-T\-S\-F\-: Time Stamp event flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-W\-U\-T\-F\-: Wake\-Up Timer flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-A\-L\-R\-B\-F\-: Alarm B flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-A\-L\-R\-A\-F\-: Alarm A flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-R\-S\-F\-: Registers Synchronized flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em R\-T\-C\-\_\-\-F\-L\-A\-G,\-:} & specifies the R\-T\-C flag to clear. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-T\-A\-M\-P1\-F\-: Tamper 1 event flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-T\-S\-O\-V\-F\-: Time Stamp Overflow flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-T\-S\-F\-: Time Stamp event flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-W\-U\-T\-F\-: Wake\-Up Timer flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-A\-L\-R\-B\-F\-: Alarm B flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-A\-L\-R\-A\-F\-: Alarm A flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-R\-S\-F\-: Registers Synchronized flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2472 of file stm32f30x\-\_\-rtc.\-c.
+
+\hypertarget{group___r_t_c___group13_gacac6accc75ae54f1b799fa8e7e83ccdb}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!R\-T\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit@{R\-T\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit}}
+\index{R\-T\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit@{R\-T\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} R\-T\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{R\-T\-C\-\_\-\-I\-T}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group13_gacac6accc75ae54f1b799fa8e7e83ccdb}
+
+
+Clears the R\-T\-C's interrupt pending bits. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\-T\-C\-\_\-\-I\-T,\-:} & specifies the R\-T\-C interrupt pending bit to clear. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item R\-T\-C\-\_\-\-I\-T\-\_\-\-T\-S\-: Time Stamp interrupt \item R\-T\-C\-\_\-\-I\-T\-\_\-\-W\-U\-T\-: Wake\-Up Timer interrupt \item R\-T\-C\-\_\-\-I\-T\-\_\-\-A\-L\-R\-B\-: Alarm B interrupt \item R\-T\-C\-\_\-\-I\-T\-\_\-\-A\-L\-R\-A\-: Alarm A interrupt \item R\-T\-C\-\_\-\-I\-T\-\_\-\-T\-A\-M\-P1\-: Tamper1 event interrupt \item R\-T\-C\-\_\-\-I\-T\-\_\-\-T\-A\-M\-P2\-: Tamper2 event interrupt \item R\-T\-C\-\_\-\-I\-T\-\_\-\-T\-A\-M\-P3\-: Tamper3 event interrupt \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em R\-T\-C\-\_\-\-I\-T,\-:} & specifies the R\-T\-C interrupt pending bit to clear. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item R\-T\-C\-\_\-\-I\-T\-\_\-\-T\-S\-: Time Stamp interrupt \item R\-T\-C\-\_\-\-I\-T\-\_\-\-W\-U\-T\-: Wake\-Up Timer interrupt \item R\-T\-C\-\_\-\-I\-T\-\_\-\-A\-L\-R\-B\-: Alarm B interrupt \item R\-T\-C\-\_\-\-I\-T\-\_\-\-A\-L\-R\-A\-: Alarm A interrupt \item R\-T\-C\-\_\-\-I\-T\-\_\-\-T\-A\-M\-P1\-: Tamper 1 event interrupt \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2536 of file stm32f30x\-\_\-rtc.\-c.
+
+\hypertarget{group___r_t_c___group13_gaf2a7f11aa7160e95650fd10845e7780b}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!R\-T\-C\-\_\-\-Get\-Flag\-Status@{R\-T\-C\-\_\-\-Get\-Flag\-Status}}
+\index{R\-T\-C\-\_\-\-Get\-Flag\-Status@{R\-T\-C\-\_\-\-Get\-Flag\-Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Get\-Flag\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Flag\-Status} R\-T\-C\-\_\-\-Get\-Flag\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{R\-T\-C\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group13_gaf2a7f11aa7160e95650fd10845e7780b}
+
+
+Checks whether the specified R\-T\-C flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\-T\-C\-\_\-\-F\-L\-A\-G,\-:} & specifies the flag to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-R\-E\-C\-A\-L\-P\-F\-: R\-E\-C\-A\-L\-P\-F event flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-T\-A\-M\-P3\-F\-: Tamper 3 event flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-T\-A\-M\-P2\-F\-: Tamper 2 event flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-T\-A\-M\-P1\-F\-: Tamper 1 event flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-T\-S\-O\-V\-F\-: Time Stamp Over\-Flow flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-T\-S\-F\-: Time Stamp event flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-W\-U\-T\-F\-: Wake\-Up Timer flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-A\-L\-R\-B\-F\-: Alarm B flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-A\-L\-R\-A\-F\-: Alarm A flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-I\-N\-I\-T\-F\-: Initialization mode flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-R\-S\-F\-: Registers Synchronized flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-I\-N\-I\-T\-S\-: Registers Configured flag  \-: Shift operation pending flag. \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-W\-U\-T\-W\-F\-: Wake\-Up Timer Write flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-A\-L\-R\-B\-W\-F\-: Alarm B Write flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-A\-L\-R\-A\-W\-F\-: Alarm A write flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of R\-T\-C\-\_\-\-F\-L\-A\-G (S\-E\-T or R\-E\-S\-E\-T).\\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em R\-T\-C\-\_\-\-F\-L\-A\-G,\-:} & specifies the flag to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-R\-E\-C\-A\-L\-P\-F\-: R\-E\-C\-A\-L\-P\-F event flag. \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-T\-A\-M\-P1\-F\-: Tamper 1 event flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-T\-S\-O\-V\-F\-: Time Stamp Over\-Flow flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-T\-S\-F\-: Time Stamp event flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-W\-U\-T\-F\-: Wake\-Up Timer flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-A\-L\-R\-B\-F\-: Alarm B flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-A\-L\-R\-A\-F\-: Alarm A flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-I\-N\-I\-T\-F\-: Initialization mode flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-R\-S\-F\-: Registers Synchronized flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-I\-N\-I\-T\-S\-: Registers Configured flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-S\-H\-P\-F\-: Shift operation pending flag. \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-W\-U\-T\-W\-F\-: Wake\-Up Timer Write flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-A\-L\-R\-B\-W\-F\-: Alarm B Write flag \item R\-T\-C\-\_\-\-F\-L\-A\-G\-\_\-\-A\-L\-R\-A\-W\-F\-: Alarm A write flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of R\-T\-C\-\_\-\-F\-L\-A\-G (S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2434 of file stm32f30x\-\_\-rtc.\-c.
+
+\hypertarget{group___r_t_c___group13_gaab81adc6d2a5a5c1e37a49707c6bf640}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!R\-T\-C\-\_\-\-Get\-I\-T\-Status@{R\-T\-C\-\_\-\-Get\-I\-T\-Status}}
+\index{R\-T\-C\-\_\-\-Get\-I\-T\-Status@{R\-T\-C\-\_\-\-Get\-I\-T\-Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Get\-I\-T\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf I\-T\-Status} R\-T\-C\-\_\-\-Get\-I\-T\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{R\-T\-C\-\_\-\-I\-T}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group13_gaab81adc6d2a5a5c1e37a49707c6bf640}
+
+
+Checks whether the specified R\-T\-C interrupt has occurred or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\-T\-C\-\_\-\-I\-T,\-:} & specifies the R\-T\-C interrupt source to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item R\-T\-C\-\_\-\-I\-T\-\_\-\-T\-S\-: Time Stamp interrupt \item R\-T\-C\-\_\-\-I\-T\-\_\-\-W\-U\-T\-: Wake\-Up Timer interrupt \item R\-T\-C\-\_\-\-I\-T\-\_\-\-A\-L\-R\-B\-: Alarm B interrupt \item R\-T\-C\-\_\-\-I\-T\-\_\-\-A\-L\-R\-A\-: Alarm A interrupt \item R\-T\-C\-\_\-\-I\-T\-\_\-\-T\-A\-M\-P1\-: Tamper1 event interrupt \item R\-T\-C\-\_\-\-I\-T\-\_\-\-T\-A\-M\-P2\-: Tamper2 event interrupt \item R\-T\-C\-\_\-\-I\-T\-\_\-\-T\-A\-M\-P3\-: Tamper3 event interrupt \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of R\-T\-C\-\_\-\-I\-T (S\-E\-T or R\-E\-S\-E\-T).\\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em R\-T\-C\-\_\-\-I\-T,\-:} & specifies the R\-T\-C interrupt source to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item R\-T\-C\-\_\-\-I\-T\-\_\-\-T\-S\-: Time Stamp interrupt \item R\-T\-C\-\_\-\-I\-T\-\_\-\-W\-U\-T\-: Wake\-Up Timer interrupt \item R\-T\-C\-\_\-\-I\-T\-\_\-\-A\-L\-R\-B\-: Alarm B interrupt \item R\-T\-C\-\_\-\-I\-T\-\_\-\-A\-L\-R\-A\-: Alarm A interrupt \item R\-T\-C\-\_\-\-I\-T\-\_\-\-T\-A\-M\-P1\-: Tamper 1 event interrupt \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of R\-T\-C\-\_\-\-I\-T (S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2494 of file stm32f30x\-\_\-rtc.\-c.
+
+\hypertarget{group___r_t_c___group13_gaa8469b33b3a99025baf52f007683b925}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!R\-T\-C\-\_\-\-I\-T\-Config@{R\-T\-C\-\_\-\-I\-T\-Config}}
+\index{R\-T\-C\-\_\-\-I\-T\-Config@{R\-T\-C\-\_\-\-I\-T\-Config}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{R\-T\-C\-\_\-\-I\-T\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} R\-T\-C\-\_\-\-I\-T\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{R\-T\-C\-\_\-\-I\-T, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group13_gaa8469b33b3a99025baf52f007683b925}
+
+
+Enables or disables the specified R\-T\-C interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\-T\-C\-\_\-\-I\-T,\-:} & specifies the R\-T\-C interrupt sources to be enabled or disabled. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item R\-T\-C\-\_\-\-I\-T\-\_\-\-T\-S\-: Time Stamp interrupt mask \item R\-T\-C\-\_\-\-I\-T\-\_\-\-W\-U\-T\-: Wake\-Up Timer interrupt mask \item R\-T\-C\-\_\-\-I\-T\-\_\-\-A\-L\-R\-B\-: Alarm B interrupt mask \item R\-T\-C\-\_\-\-I\-T\-\_\-\-A\-L\-R\-A\-: Alarm A interrupt mask \item R\-T\-C\-\_\-\-I\-T\-\_\-\-T\-A\-M\-P\-: Tamper event interrupt mask \end{DoxyItemize}
+\\
+\hline
+{\em New\-State,\-:} & new state of the specified R\-T\-C interrupts. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2384 of file stm32f30x\-\_\-rtc.\-c.
+

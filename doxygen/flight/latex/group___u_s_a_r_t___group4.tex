@@ -1,0 +1,217 @@
+\hypertarget{group___u_s_a_r_t___group4}{\section{Data transfers functions}
+\label{group___u_s_a_r_t___group4}\index{Data transfers functions@{Data transfers functions}}
+}
+
+
+Data transfers functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group4_ga0b43d42da9540f446d494bf69823c6fb}{U\-S\-A\-R\-T\-\_\-\-Send\-Data} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___copter_control_b_l_ga6f3335509cc4943e20df66f72483910c}{Data})
+\begin{DoxyCompactList}\small\item\em Transmits single data through the U\-S\-A\-R\-Tx peripheral. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___u_s_a_r_t___group4_gac67a91845b0b1d54d31bdfb1c5e9867c}{U\-S\-A\-R\-T\-\_\-\-Receive\-Data} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx)
+\begin{DoxyCompactList}\small\item\em Returns the most recent received data by the U\-S\-A\-R\-Tx peripheral. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group4_ga7bc2d291831cbc5e53e73337308029b5}{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-Config} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length)
+\begin{DoxyCompactList}\small\item\em Sets the U\-S\-A\-R\-T L\-I\-N Break detection length. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group4_ga9fdd6296f4ca4acdfcbd58bf56bd4185}{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Cmd} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\-S\-A\-R\-T's L\-I\-N mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group4_ga39a3d33e23ee28529fa8f7259ce6811e}{U\-S\-A\-R\-T\-\_\-\-Send\-Break} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx)
+\begin{DoxyCompactList}\small\item\em Transmits break characters. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Data transfers functions. L\-I\-N mode functions.
+
+\begin{DoxyVerb} ===============================================================================
+                    ##### Data transfers functions #####
+ ===============================================================================
+    [..] This subsection provides a set of functions allowing to manage 
+         the USART data transfers.
+    [..] During an USART reception, data shifts in least significant bit first 
+         through the RX pin. When a transmission is taking place, a write instruction to 
+         the USART_TDR register stores the data in the shift register.
+    [..] The read access of the USART_RDR register can be done using 
+         the USART_ReceiveData() function and returns the RDR value.
+         Whereas a write access to the USART_TDR can be done using USART_SendData()
+         function and stores the written data into TDR.\end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                                LIN mode functions
+ ===============================================================================  
+
+  This subsection provides a set of functions allowing to manage the USART LIN 
+  Mode communication.
+  
+  In LIN mode, 8-bit data format with 1 stop bit is required in accordance with 
+  the LIN standard.
+
+  Only this LIN Feature is supported by the USART IP:
+    - LIN Master Synchronous Break send capability and LIN slave break detection
+      capability :  13-bit break generation and 10/11 bit break detection
+
+
+  USART LIN Master transmitter communication is possible through the following procedure:
+     1. Program the Baud rate, Word length = 8bits, Stop bits = 1bit, Parity, 
+        Mode transmitter or Mode receiver and hardware flow control values using 
+        the USART_Init() function.
+     2. Enable the USART using the USART_Cmd() function.
+     3. Enable the LIN mode using the USART_LINCmd() function.
+     4. Send the break character using USART_SendBreak() function.
+
+  USART LIN Master receiver communication is possible through the following procedure:
+     1. Program the Baud rate, Word length = 8bits, Stop bits = 1bit, Parity, 
+        Mode transmitter or Mode receiver and hardware flow control values using 
+        the USART_Init() function.
+     2. Enable the USART using the USART_Cmd() function.
+     3. Configures the break detection length using the USART_LINBreakDetectLengthConfig()
+        function.
+     4. Enable the LIN mode using the USART_LINCmd() function.
+
+
+@note In LIN mode, the following bits must be kept cleared:
+        - CLKEN in the USART_CR2 register,
+        - STOP[1:0], SCEN, HDSEL and IREN in the USART_CR3 register.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___u_s_a_r_t___group4_ga7bc2d291831cbc5e53e73337308029b5}{\index{Data transfers functions@{Data transfers functions}!U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-Config@{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-Config}}
+\index{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-Config@{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-Config}!Data transfers functions@{Data transfers functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf uint16\-\_\-t}}]{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___group4_ga7bc2d291831cbc5e53e73337308029b5}
+
+
+Sets the U\-S\-A\-R\-T L\-I\-N Break detection length. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & where x can be 1, 2, 3, 4, 5 or 6 to select the U\-S\-A\-R\-T or U\-A\-R\-T peripheral. \\
+\hline
+{\em U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length,\-:} & specifies the L\-I\-N break detection length. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-\_\-10b\-: 10-\/bit break detection \item U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-\_\-11b\-: 11-\/bit break detection \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 733 of file stm32f4xx\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___group4_ga9fdd6296f4ca4acdfcbd58bf56bd4185}{\index{Data transfers functions@{Data transfers functions}!U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Cmd@{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Cmd}}
+\index{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Cmd@{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Cmd}!Data transfers functions@{Data transfers functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___group4_ga9fdd6296f4ca4acdfcbd58bf56bd4185}
+
+
+Enables or disables the U\-S\-A\-R\-T's L\-I\-N mode. 
+
+Enables or disables the U\-S\-A\-R\-T’s L\-I\-N mode.
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & where x can be 1, 2, 3, 4, 5 or 6 to select the U\-S\-A\-R\-T or U\-A\-R\-T peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the U\-S\-A\-R\-T L\-I\-N mode. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 751 of file stm32f4xx\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___group4_gac67a91845b0b1d54d31bdfb1c5e9867c}{\index{Data transfers functions@{Data transfers functions}!U\-S\-A\-R\-T\-\_\-\-Receive\-Data@{U\-S\-A\-R\-T\-\_\-\-Receive\-Data}}
+\index{U\-S\-A\-R\-T\-\_\-\-Receive\-Data@{U\-S\-A\-R\-T\-\_\-\-Receive\-Data}!Data transfers functions@{Data transfers functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Receive\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} U\-S\-A\-R\-T\-\_\-\-Receive\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___group4_gac67a91845b0b1d54d31bdfb1c5e9867c}
+
+
+Returns the most recent received data by the U\-S\-A\-R\-Tx peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1 or U\-S\-A\-R\-T2 or U\-S\-A\-R\-T3 or U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & received data. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 937 of file stm32f30x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___group4_ga39a3d33e23ee28529fa8f7259ce6811e}{\index{Data transfers functions@{Data transfers functions}!U\-S\-A\-R\-T\-\_\-\-Send\-Break@{U\-S\-A\-R\-T\-\_\-\-Send\-Break}}
+\index{U\-S\-A\-R\-T\-\_\-\-Send\-Break@{U\-S\-A\-R\-T\-\_\-\-Send\-Break}!Data transfers functions@{Data transfers functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Send\-Break}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Send\-Break (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___group4_ga39a3d33e23ee28529fa8f7259ce6811e}
+
+
+Transmits break characters. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & where x can be 1, 2, 3, 4, 5 or 6 to select the U\-S\-A\-R\-T or U\-A\-R\-T peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 775 of file stm32f4xx\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___group4_ga0b43d42da9540f446d494bf69823c6fb}{\index{Data transfers functions@{Data transfers functions}!U\-S\-A\-R\-T\-\_\-\-Send\-Data@{U\-S\-A\-R\-T\-\_\-\-Send\-Data}}
+\index{U\-S\-A\-R\-T\-\_\-\-Send\-Data@{U\-S\-A\-R\-T\-\_\-\-Send\-Data}!Data transfers functions@{Data transfers functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Send\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Send\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf uint16\-\_\-t}}]{Data}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___group4_ga0b43d42da9540f446d494bf69823c6fb}
+
+
+Transmits single data through the U\-S\-A\-R\-Tx peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1 or U\-S\-A\-R\-T2 or U\-S\-A\-R\-T3 or U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+{\em Data,\-:} & the data to transmit. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 921 of file stm32f30x\-\_\-usart.\-c.
+

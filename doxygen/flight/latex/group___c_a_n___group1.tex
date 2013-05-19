@@ -1,0 +1,267 @@
+\hypertarget{group___c_a_n___group1}{\section{Initialization and Configuration functions}
+\label{group___c_a_n___group1}\index{Initialization and Configuration functions@{Initialization and Configuration functions}}
+}
+
+
+Initialization and Configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_a_n___group1_ga002b74cd69574a14b17ad445090245cd}{C\-A\-N\-\_\-\-De\-Init} (\hyperlink{struct_c_a_n___type_def}{C\-A\-N\-\_\-\-Type\-Def} $\ast$C\-A\-Nx)
+\begin{DoxyCompactList}\small\item\em Deinitializes the C\-A\-N peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___c_a_n___group1_ga9023c35a9ab931ad4513fc5d19b4bd6c}{C\-A\-N\-\_\-\-Init} (\hyperlink{struct_c_a_n___type_def}{C\-A\-N\-\_\-\-Type\-Def} $\ast$C\-A\-Nx, C\-A\-N\-\_\-\-Init\-Type\-Def $\ast$C\-A\-N\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the C\-A\-N peripheral according to the specified parameters in the C\-A\-N\-\_\-\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_a_n___group1_ga39476830280340363c51041be6b12647}{C\-A\-N\-\_\-\-Filter\-Init} (\hyperlink{struct_c_a_n___filter_init_type_def}{C\-A\-N\-\_\-\-Filter\-Init\-Type\-Def} $\ast$C\-A\-N\-\_\-\-Filter\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Configures the C\-A\-N reception filter according to the specified parameters in the C\-A\-N\-\_\-\-Filter\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_a_n___group1_gad77ad810868ed111755fc9e8ae0c7646}{C\-A\-N\-\_\-\-Struct\-Init} (C\-A\-N\-\_\-\-Init\-Type\-Def $\ast$C\-A\-N\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each C\-A\-N\-\_\-\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_a_n___group1_ga109ff8960bc59f44b984c9646f17b3c0}{C\-A\-N\-\_\-\-Slave\-Start\-Bank} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} C\-A\-N\-\_\-\-Bank\-Number)
+\begin{DoxyCompactList}\small\item\em Select the start bank filter for slave C\-A\-N. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_a_n___group1_gac0e2d33e08caf49d1f1251f0dcc20213}{C\-A\-N\-\_\-\-D\-B\-G\-Freeze} (\hyperlink{struct_c_a_n___type_def}{C\-A\-N\-\_\-\-Type\-Def} $\ast$C\-A\-Nx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the D\-B\-G Freeze for C\-A\-N. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_a_n___group1_ga94740177bab153ca5b102d122f9a8cca}{C\-A\-N\-\_\-\-T\-T\-Com\-Mode\-Cmd} (\hyperlink{struct_c_a_n___type_def}{C\-A\-N\-\_\-\-Type\-Def} $\ast$C\-A\-Nx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the C\-A\-N Time Trigger\-Operation communication mode. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Initialization and Configuration functions. \begin{DoxyVerb} ===============================================================================
+              ##### Initialization and Configuration functions #####
+ ===============================================================================  
+    [..] This section provides functions allowing to: 
+         (+) Initialize the CAN peripherals : Prescaler, operating mode, the maximum 
+             number of time quanta to perform resynchronization, the number of time 
+             quanta in Bit Segment 1 and 2 and many other modes. 
+         (+) Configure the CAN reception filter.                                      
+         (+) Select the start bank filter for slave CAN.
+         (+) Enable or disable the Debug Freeze mode for CAN.
+         (+) Enable or disable the CAN Time Trigger Operation communication mode.\end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                      Initialization and Configuration functions
+ ===============================================================================  
+  This section provides functions allowing to 
+   - Initialize the CAN peripherals : Prescaler, operating mode, the maximum number 
+     of time quanta to perform resynchronization, the number of time quanta in
+     Bit Segment 1 and 2 and many other modes. 
+     Refer to  @ref CAN_InitTypeDef  for more details.
+   - Configures the CAN reception filter.                                      
+   - Select the start bank filter for slave CAN.
+   - Enables or disables the Debug Freeze mode for CAN
+   - Enables or disables the CAN Time Trigger Operation communication mode\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___c_a_n___group1_gac0e2d33e08caf49d1f1251f0dcc20213}{\index{Initialization and Configuration functions@{Initialization and Configuration functions}!C\-A\-N\-\_\-\-D\-B\-G\-Freeze@{C\-A\-N\-\_\-\-D\-B\-G\-Freeze}}
+\index{C\-A\-N\-\_\-\-D\-B\-G\-Freeze@{C\-A\-N\-\_\-\-D\-B\-G\-Freeze}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection[{C\-A\-N\-\_\-\-D\-B\-G\-Freeze}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} C\-A\-N\-\_\-\-D\-B\-G\-Freeze (
+\begin{DoxyParamCaption}
+\item[{{\bf C\-A\-N\-\_\-\-Type\-Def} $\ast$}]{C\-A\-Nx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___c_a_n___group1_gac0e2d33e08caf49d1f1251f0dcc20213}
+
+
+Enables or disables the D\-B\-G Freeze for C\-A\-N. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\-A\-Nx,\-:} & where x can be 1 or 2 to to select the C\-A\-N peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the C\-A\-N peripheral. This parameter can be\-: E\-N\-A\-B\-L\-E (C\-A\-N reception/transmission is frozen during debug. Reception F\-I\-F\-Os can still be accessed/controlled normally) or D\-I\-S\-A\-B\-L\-E (C\-A\-N is working during debug). \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 468 of file stm32f30x\-\_\-can.\-c.
+
+\hypertarget{group___c_a_n___group1_ga002b74cd69574a14b17ad445090245cd}{\index{Initialization and Configuration functions@{Initialization and Configuration functions}!C\-A\-N\-\_\-\-De\-Init@{C\-A\-N\-\_\-\-De\-Init}}
+\index{C\-A\-N\-\_\-\-De\-Init@{C\-A\-N\-\_\-\-De\-Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection[{C\-A\-N\-\_\-\-De\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} C\-A\-N\-\_\-\-De\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf C\-A\-N\-\_\-\-Type\-Def} $\ast$}]{C\-A\-Nx}
+\end{DoxyParamCaption}
+)}}\label{group___c_a_n___group1_ga002b74cd69574a14b17ad445090245cd}
+
+
+Deinitializes the C\-A\-N peripheral registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\-A\-Nx,\-:} & where x can be 1 to select the C\-A\-N1 peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None.} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em C\-A\-Nx,\-:} & where x can be 1 or 2 to select the C\-A\-N peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None.} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 152 of file stm32f30x\-\_\-can.\-c.
+
+\hypertarget{group___c_a_n___group1_ga39476830280340363c51041be6b12647}{\index{Initialization and Configuration functions@{Initialization and Configuration functions}!C\-A\-N\-\_\-\-Filter\-Init@{C\-A\-N\-\_\-\-Filter\-Init}}
+\index{C\-A\-N\-\_\-\-Filter\-Init@{C\-A\-N\-\_\-\-Filter\-Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection[{C\-A\-N\-\_\-\-Filter\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} C\-A\-N\-\_\-\-Filter\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf C\-A\-N\-\_\-\-Filter\-Init\-Type\-Def} $\ast$}]{C\-A\-N\-\_\-\-Filter\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___c_a_n___group1_ga39476830280340363c51041be6b12647}
+
+
+Configures the C\-A\-N reception filter according to the specified parameters in the C\-A\-N\-\_\-\-Filter\-Init\-Struct. 
+
+Initializes the C\-A\-N peripheral according to the specified parameters in the C\-A\-N\-\_\-\-Filter\-Init\-Struct.
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\-A\-N\-\_\-\-Filter\-Init\-Struct,\-:} & pointer to a \hyperlink{struct_c_a_n___filter_init_type_def}{C\-A\-N\-\_\-\-Filter\-Init\-Type\-Def} structure that contains the configuration information. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 309 of file stm32f30x\-\_\-can.\-c.
+
+\hypertarget{group___c_a_n___group1_ga9023c35a9ab931ad4513fc5d19b4bd6c}{\index{Initialization and Configuration functions@{Initialization and Configuration functions}!C\-A\-N\-\_\-\-Init@{C\-A\-N\-\_\-\-Init}}
+\index{C\-A\-N\-\_\-\-Init@{C\-A\-N\-\_\-\-Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection[{C\-A\-N\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} C\-A\-N\-\_\-\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf C\-A\-N\-\_\-\-Type\-Def} $\ast$}]{C\-A\-Nx, }
+\item[{C\-A\-N\-\_\-\-Init\-Type\-Def $\ast$}]{C\-A\-N\-\_\-\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___c_a_n___group1_ga9023c35a9ab931ad4513fc5d19b4bd6c}
+
+
+Initializes the C\-A\-N peripheral according to the specified parameters in the C\-A\-N\-\_\-\-Init\-Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\-A\-Nx,\-:} & where x can be 1 to select the C\-A\-N1 peripheral. \\
+\hline
+{\em C\-A\-N\-\_\-\-Init\-Struct,\-:} & pointer to a C\-A\-N\-\_\-\-Init\-Type\-Def structure that contains the configuration information for the C\-A\-N peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Constant} & indicates initialization succeed which will be C\-A\-N\-\_\-\-Init\-Status\-\_\-\-Failed or C\-A\-N\-\_\-\-Init\-Status\-\_\-\-Success.\\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em C\-A\-Nx,\-:} & where x can be 1 or 2 to select the C\-A\-N peripheral. \\
+\hline
+{\em C\-A\-N\-\_\-\-Init\-Struct,\-:} & pointer to a C\-A\-N\-\_\-\-Init\-Type\-Def structure that contains the configuration information for the C\-A\-N peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Constant} & indicates initialization succeed which will be C\-A\-N\-\_\-\-Init\-Status\-\_\-\-Failed or C\-A\-N\-\_\-\-Init\-Status\-\_\-\-Success. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 172 of file stm32f30x\-\_\-can.\-c.
+
+\hypertarget{group___c_a_n___group1_ga109ff8960bc59f44b984c9646f17b3c0}{\index{Initialization and Configuration functions@{Initialization and Configuration functions}!C\-A\-N\-\_\-\-Slave\-Start\-Bank@{C\-A\-N\-\_\-\-Slave\-Start\-Bank}}
+\index{C\-A\-N\-\_\-\-Slave\-Start\-Bank@{C\-A\-N\-\_\-\-Slave\-Start\-Bank}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection[{C\-A\-N\-\_\-\-Slave\-Start\-Bank}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} C\-A\-N\-\_\-\-Slave\-Start\-Bank (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{C\-A\-N\-\_\-\-Bank\-Number}
+\end{DoxyParamCaption}
+)}}\label{group___c_a_n___group1_ga109ff8960bc59f44b984c9646f17b3c0}
+
+
+Select the start bank filter for slave C\-A\-N. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\-A\-N\-\_\-\-Bank\-Number,\-:} & Select the start slave bank filter from 1..27. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 443 of file stm32f30x\-\_\-can.\-c.
+
+\hypertarget{group___c_a_n___group1_gad77ad810868ed111755fc9e8ae0c7646}{\index{Initialization and Configuration functions@{Initialization and Configuration functions}!C\-A\-N\-\_\-\-Struct\-Init@{C\-A\-N\-\_\-\-Struct\-Init}}
+\index{C\-A\-N\-\_\-\-Struct\-Init@{C\-A\-N\-\_\-\-Struct\-Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection[{C\-A\-N\-\_\-\-Struct\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} C\-A\-N\-\_\-\-Struct\-Init (
+\begin{DoxyParamCaption}
+\item[{C\-A\-N\-\_\-\-Init\-Type\-Def $\ast$}]{C\-A\-N\-\_\-\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___c_a_n___group1_gad77ad810868ed111755fc9e8ae0c7646}
+
+
+Fills each C\-A\-N\-\_\-\-Init\-Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\-A\-N\-\_\-\-Init\-Struct,\-:} & pointer to a C\-A\-N\-\_\-\-Init\-Type\-Def structure which ill be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 400 of file stm32f30x\-\_\-can.\-c.
+
+\hypertarget{group___c_a_n___group1_ga94740177bab153ca5b102d122f9a8cca}{\index{Initialization and Configuration functions@{Initialization and Configuration functions}!C\-A\-N\-\_\-\-T\-T\-Com\-Mode\-Cmd@{C\-A\-N\-\_\-\-T\-T\-Com\-Mode\-Cmd}}
+\index{C\-A\-N\-\_\-\-T\-T\-Com\-Mode\-Cmd@{C\-A\-N\-\_\-\-T\-T\-Com\-Mode\-Cmd}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection[{C\-A\-N\-\_\-\-T\-T\-Com\-Mode\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} C\-A\-N\-\_\-\-T\-T\-Com\-Mode\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf C\-A\-N\-\_\-\-Type\-Def} $\ast$}]{C\-A\-Nx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___c_a_n___group1_ga94740177bab153ca5b102d122f9a8cca}
+
+
+Enables or disables the C\-A\-N Time Trigger\-Operation communication mode. 
+
+\begin{DoxyNote}{Note}
+D\-L\-C must be programmed as 8 in order Time Stamp (2 bytes) to be sent over the C\-A\-N bus. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em C\-A\-Nx,\-:} & where x can be 1 or 2 to to select the C\-A\-N peripheral. \\
+\hline
+{\em New\-State,\-:} & Mode new state. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. When enabled, Time stamp (T\-I\-M\-E\mbox{[}15\-:0\mbox{]}) value is sent in the last two data bytes of the 8-\/byte message\-: T\-I\-M\-E\mbox{[}7\-:0\mbox{]} in data byte 6 and T\-I\-M\-E\mbox{[}15\-:8\mbox{]} in data byte 7. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 497 of file stm32f30x\-\_\-can.\-c.
+

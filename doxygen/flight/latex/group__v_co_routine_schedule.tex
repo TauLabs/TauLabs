@@ -1,0 +1,37 @@
+\hypertarget{group__v_co_routine_schedule}{\section{v\-Co\-Routine\-Schedule}
+\label{group__v_co_routine_schedule}\index{v\-Co\-Routine\-Schedule@{v\-Co\-Routine\-Schedule}}
+}
+croutine. h 
+\begin{DoxyPre}
+ void \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2croutine_8h_a5333c649a2c063006ca3cd7a3b5b9240}{vCoRoutineSchedule( void )};\end{DoxyPre}
+
+
+Run a co-\/routine.
+
+\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2croutine_8c_a5333c649a2c063006ca3cd7a3b5b9240}{v\-Co\-Routine\-Schedule()} executes the highest priority co-\/routine that is able to run. The co-\/routine will execute until it either blocks, yields or is preempted by a task. Co-\/routines execute cooperatively so one co-\/routine cannot be preempted by another, but can be preempted by a task.
+
+If an application comprises of both tasks and co-\/routines then v\-Co\-Routine\-Schedule should be called from the idle task (in an idle task hook).
+
+Example usage\-: 
+\begin{DoxyPre}
+This idle task hook will schedule a co-routine each time it is called.
+The rest of the idle task will execute between co-routine calls.
+ void \hyperlink{group___system_module_ga97fd430f36f8b065226e2bff9bad1de5}{vApplicationIdleHook( void )}
+ \{
+        \hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2croutine_8c_a5333c649a2c063006ca3cd7a3b5b9240}{vCoRoutineSchedule()};
+ \}\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Alternatively, if you do not require any other part of the idle task to
+execute, the idle task hook can call vCoRoutineScheduler() within an
+infinite loop.
+ void \hyperlink{group___system_module_ga97fd430f36f8b065226e2bff9bad1de5}{vApplicationIdleHook( void )}
+ \{
+    for( ;; )
+    \{
+        \hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2croutine_8c_a5333c649a2c063006ca3cd7a3b5b9240}{vCoRoutineSchedule()};
+    \}
+ \}
+ \end{DoxyPre}
+ 

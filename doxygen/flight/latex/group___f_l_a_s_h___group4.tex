@@ -1,0 +1,244 @@
+\hypertarget{group___f_l_a_s_h___group4}{\section{Interrupts and flags management functions}
+\label{group___f_l_a_s_h___group4}\index{Interrupts and flags management functions@{Interrupts and flags management functions}}
+}
+
+
+Interrupts and flags management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___f_l_a_s_h___group4_ga94c1e51a9c3bf8d48eb6eb4a4d054861}{F\-L\-A\-S\-H\-\_\-\-I\-T\-Config} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} F\-L\-A\-S\-H\-\_\-\-I\-T, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified F\-L\-A\-S\-H interrupts. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___f_l_a_s_h___group4_gae3fb545e32f21501ca27d4380e0f2088}{F\-L\-A\-S\-H\-\_\-\-Get\-Flag\-Status} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified F\-L\-A\-S\-H flag is set or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___f_l_a_s_h___group4_gac4be1d486483fa5cd70ec77d44ca8f87}{F\-L\-A\-S\-H\-\_\-\-Clear\-Flag} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Clears the F\-L\-A\-S\-H's pending flags. \end{DoxyCompactList}\item 
+F\-L\-A\-S\-H\-\_\-\-Status \hyperlink{group___f_l_a_s_h___group4_gac265b8d1e7ea11e44ceee28797c3debb}{F\-L\-A\-S\-H\-\_\-\-Get\-Status} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Returns the F\-L\-A\-S\-H Status. \end{DoxyCompactList}\item 
+F\-L\-A\-S\-H\-\_\-\-Status \hyperlink{group___f_l_a_s_h___group4_ga2ad803999ae93ec03700983c59cae264}{F\-L\-A\-S\-H\-\_\-\-Wait\-For\-Last\-Operation} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Timeout)
+\begin{DoxyCompactList}\small\item\em Waits for a F\-L\-A\-S\-H operation to complete or a T\-I\-M\-E\-O\-U\-T to occur. \end{DoxyCompactList}\item 
+F\-L\-A\-S\-H\-\_\-\-Status \hyperlink{group___f_l_a_s_h___group4_gaaf8ea3b00c9a5f5eca0df9a795b83f22}{F\-L\-A\-S\-H\-\_\-\-Wait\-For\-Last\-Operation} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Waits for a F\-L\-A\-S\-H operation to complete. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interrupts and flags management functions. \begin{DoxyVerb} ===============================================================================
+             ##### Interrupts and flags management functions #####
+ ===============================================================================  \end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                  Interrupts and flags management functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___f_l_a_s_h___group4_gac4be1d486483fa5cd70ec77d44ca8f87}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!F\-L\-A\-S\-H\-\_\-\-Clear\-Flag@{F\-L\-A\-S\-H\-\_\-\-Clear\-Flag}}
+\index{F\-L\-A\-S\-H\-\_\-\-Clear\-Flag@{F\-L\-A\-S\-H\-\_\-\-Clear\-Flag}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{F\-L\-A\-S\-H\-\_\-\-Clear\-Flag}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} F\-L\-A\-S\-H\-\_\-\-Clear\-Flag (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___f_l_a_s_h___group4_gac4be1d486483fa5cd70ec77d44ca8f87}
+
+
+Clears the F\-L\-A\-S\-H's pending flags. 
+
+Clears the F\-L\-A\-S\-H’s pending flags.
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G,\-:} & specifies the F\-L\-A\-S\-H flags to clear. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G\-\_\-\-P\-G\-E\-R\-R\-: F\-L\-A\-S\-H Programming error flag flag \item F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G\-\_\-\-W\-R\-P\-E\-R\-R\-: F\-L\-A\-S\-H Write protected error flag \item F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G\-\_\-\-E\-O\-P\-: F\-L\-A\-S\-H End of Programming flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G,\-:} & specifies the F\-L\-A\-S\-H flags to clear. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G\-\_\-\-E\-O\-P\-: F\-L\-A\-S\-H End of Operation flag \item F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G\-\_\-\-O\-P\-E\-R\-R\-: F\-L\-A\-S\-H operation Error flag \item F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G\-\_\-\-W\-R\-P\-E\-R\-R\-: F\-L\-A\-S\-H Write protected error flag \item F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G\-\_\-\-P\-G\-A\-E\-R\-R\-: F\-L\-A\-S\-H Programming Alignment error flag \item F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G\-\_\-\-P\-G\-P\-E\-R\-R\-: F\-L\-A\-S\-H Programming Parallelism error flag \item F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G\-\_\-\-P\-G\-S\-E\-R\-R\-: F\-L\-A\-S\-H Programming Sequence error flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1083 of file stm32f30x\-\_\-flash.\-c.
+
+\hypertarget{group___f_l_a_s_h___group4_gae3fb545e32f21501ca27d4380e0f2088}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!F\-L\-A\-S\-H\-\_\-\-Get\-Flag\-Status@{F\-L\-A\-S\-H\-\_\-\-Get\-Flag\-Status}}
+\index{F\-L\-A\-S\-H\-\_\-\-Get\-Flag\-Status@{F\-L\-A\-S\-H\-\_\-\-Get\-Flag\-Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{F\-L\-A\-S\-H\-\_\-\-Get\-Flag\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Flag\-Status} F\-L\-A\-S\-H\-\_\-\-Get\-Flag\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___f_l_a_s_h___group4_gae3fb545e32f21501ca27d4380e0f2088}
+
+
+Checks whether the specified F\-L\-A\-S\-H flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G,\-:} & specifies the F\-L\-A\-S\-H flag to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G\-\_\-\-B\-S\-Y\-: F\-L\-A\-S\-H write/erase operations in progress flag \item F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G\-\_\-\-P\-G\-E\-R\-R\-: F\-L\-A\-S\-H Programming error flag flag \item F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G\-\_\-\-W\-R\-P\-E\-R\-R\-: F\-L\-A\-S\-H Write protected error flag \item F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G\-\_\-\-E\-O\-P\-: F\-L\-A\-S\-H End of Programming flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G (S\-E\-T or R\-E\-S\-E\-T).\\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G,\-:} & specifies the F\-L\-A\-S\-H flag to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G\-\_\-\-E\-O\-P\-: F\-L\-A\-S\-H End of Operation flag \item F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G\-\_\-\-O\-P\-E\-R\-R\-: F\-L\-A\-S\-H operation Error flag \item F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G\-\_\-\-W\-R\-P\-E\-R\-R\-: F\-L\-A\-S\-H Write protected error flag \item F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G\-\_\-\-P\-G\-A\-E\-R\-R\-: F\-L\-A\-S\-H Programming Alignment error flag \item F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G\-\_\-\-P\-G\-P\-E\-R\-R\-: F\-L\-A\-S\-H Programming Parallelism error flag \item F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G\-\_\-\-P\-G\-S\-E\-R\-R\-: F\-L\-A\-S\-H Programming Sequence error flag \item F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G\-\_\-\-B\-S\-Y\-: F\-L\-A\-S\-H Busy flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of F\-L\-A\-S\-H\-\_\-\-F\-L\-A\-G (S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1055 of file stm32f30x\-\_\-flash.\-c.
+
+\hypertarget{group___f_l_a_s_h___group4_gac265b8d1e7ea11e44ceee28797c3debb}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!F\-L\-A\-S\-H\-\_\-\-Get\-Status@{F\-L\-A\-S\-H\-\_\-\-Get\-Status}}
+\index{F\-L\-A\-S\-H\-\_\-\-Get\-Status@{F\-L\-A\-S\-H\-\_\-\-Get\-Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{F\-L\-A\-S\-H\-\_\-\-Get\-Status}]{\setlength{\rightskip}{0pt plus 5cm}F\-L\-A\-S\-H\-\_\-\-Status F\-L\-A\-S\-H\-\_\-\-Get\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___f_l_a_s_h___group4_gac265b8d1e7ea11e44ceee28797c3debb}
+
+
+Returns the F\-L\-A\-S\-H Status. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em F\-L\-A\-S\-H} & Status\-: The returned value can be\-: F\-L\-A\-S\-H\-\_\-\-B\-U\-S\-Y, F\-L\-A\-S\-H\-\_\-\-E\-R\-R\-O\-R\-\_\-\-P\-R\-O\-G\-R\-A\-M, F\-L\-A\-S\-H\-\_\-\-E\-R\-R\-O\-R\-\_\-\-W\-R\-P or F\-L\-A\-S\-H\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E.\\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em F\-L\-A\-S\-H} & Status\-: The returned value can be\-: F\-L\-A\-S\-H\-\_\-\-B\-U\-S\-Y, F\-L\-A\-S\-H\-\_\-\-E\-R\-R\-O\-R\-\_\-\-P\-R\-O\-G\-R\-A\-M, F\-L\-A\-S\-H\-\_\-\-E\-R\-R\-O\-R\-\_\-\-W\-R\-P, F\-L\-A\-S\-H\-\_\-\-E\-R\-R\-O\-R\-\_\-\-O\-P\-E\-R\-A\-T\-I\-O\-N or F\-L\-A\-S\-H\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1098 of file stm32f30x\-\_\-flash.\-c.
+
+\hypertarget{group___f_l_a_s_h___group4_ga94c1e51a9c3bf8d48eb6eb4a4d054861}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!F\-L\-A\-S\-H\-\_\-\-I\-T\-Config@{F\-L\-A\-S\-H\-\_\-\-I\-T\-Config}}
+\index{F\-L\-A\-S\-H\-\_\-\-I\-T\-Config@{F\-L\-A\-S\-H\-\_\-\-I\-T\-Config}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{F\-L\-A\-S\-H\-\_\-\-I\-T\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} F\-L\-A\-S\-H\-\_\-\-I\-T\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{F\-L\-A\-S\-H\-\_\-\-I\-T, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___f_l_a_s_h___group4_ga94c1e51a9c3bf8d48eb6eb4a4d054861}
+
+
+Enables or disables the specified F\-L\-A\-S\-H interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\-L\-A\-S\-H\-\_\-\-I\-T,\-:} & specifies the F\-L\-A\-S\-H interrupt sources to be enabled or disabled. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item F\-L\-A\-S\-H\-\_\-\-I\-T\-\_\-\-E\-O\-P\-: F\-L\-A\-S\-H end of programming Interrupt \item F\-L\-A\-S\-H\-\_\-\-I\-T\-\_\-\-E\-R\-R\-: F\-L\-A\-S\-H Error Interrupt \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em F\-L\-A\-S\-H\-\_\-\-I\-T,\-:} & specifies the F\-L\-A\-S\-H interrupt sources to be enabled or disabled. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item F\-L\-A\-S\-H\-\_\-\-I\-T\-\_\-\-E\-R\-R\-: F\-L\-A\-S\-H Error Interrupt \item F\-L\-A\-S\-H\-\_\-\-I\-T\-\_\-\-E\-O\-P\-: F\-L\-A\-S\-H end of operation Interrupt \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1027 of file stm32f30x\-\_\-flash.\-c.
+
+\hypertarget{group___f_l_a_s_h___group4_gaaf8ea3b00c9a5f5eca0df9a795b83f22}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!F\-L\-A\-S\-H\-\_\-\-Wait\-For\-Last\-Operation@{F\-L\-A\-S\-H\-\_\-\-Wait\-For\-Last\-Operation}}
+\index{F\-L\-A\-S\-H\-\_\-\-Wait\-For\-Last\-Operation@{F\-L\-A\-S\-H\-\_\-\-Wait\-For\-Last\-Operation}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{F\-L\-A\-S\-H\-\_\-\-Wait\-For\-Last\-Operation}]{\setlength{\rightskip}{0pt plus 5cm}F\-L\-A\-S\-H\-\_\-\-Status F\-L\-A\-S\-H\-\_\-\-Wait\-For\-Last\-Operation (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___f_l_a_s_h___group4_gaaf8ea3b00c9a5f5eca0df9a795b83f22}
+
+
+Waits for a F\-L\-A\-S\-H operation to complete. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em F\-L\-A\-S\-H} & Status\-: The returned value can be\-: F\-L\-A\-S\-H\-\_\-\-B\-U\-S\-Y, F\-L\-A\-S\-H\-\_\-\-E\-R\-R\-O\-R\-\_\-\-P\-R\-O\-G\-R\-A\-M, F\-L\-A\-S\-H\-\_\-\-E\-R\-R\-O\-R\-\_\-\-W\-R\-P, F\-L\-A\-S\-H\-\_\-\-E\-R\-R\-O\-R\-\_\-\-O\-P\-E\-R\-A\-T\-I\-O\-N or F\-L\-A\-S\-H\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1028 of file stm32f4xx\-\_\-flash.\-c.
+
+\hypertarget{group___f_l_a_s_h___group4_ga2ad803999ae93ec03700983c59cae264}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!F\-L\-A\-S\-H\-\_\-\-Wait\-For\-Last\-Operation@{F\-L\-A\-S\-H\-\_\-\-Wait\-For\-Last\-Operation}}
+\index{F\-L\-A\-S\-H\-\_\-\-Wait\-For\-Last\-Operation@{F\-L\-A\-S\-H\-\_\-\-Wait\-For\-Last\-Operation}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{F\-L\-A\-S\-H\-\_\-\-Wait\-For\-Last\-Operation}]{\setlength{\rightskip}{0pt plus 5cm}F\-L\-A\-S\-H\-\_\-\-Status F\-L\-A\-S\-H\-\_\-\-Wait\-For\-Last\-Operation (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{Timeout}
+\end{DoxyParamCaption}
+)}}\label{group___f_l_a_s_h___group4_ga2ad803999ae93ec03700983c59cae264}
+
+
+Waits for a F\-L\-A\-S\-H operation to complete or a T\-I\-M\-E\-O\-U\-T to occur. 
+
+Waits for a Flash operation to complete or a T\-I\-M\-E\-O\-U\-T to occur.
+
+
+\begin{DoxyParams}{Parameters}
+{\em Timeout,\-:} & F\-L\-A\-S\-H programming Timeout \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em F\-L\-A\-S\-H} & Status\-: The returned value can be\-: F\-L\-A\-S\-H\-\_\-\-B\-U\-S\-Y, F\-L\-A\-S\-H\-\_\-\-E\-R\-R\-O\-R\-\_\-\-P\-R\-O\-G\-R\-A\-M, F\-L\-A\-S\-H\-\_\-\-E\-R\-R\-O\-R\-\_\-\-W\-R\-P, F\-L\-A\-S\-H\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E or F\-L\-A\-S\-H\-\_\-\-T\-I\-M\-E\-O\-U\-T. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1134 of file stm32f30x\-\_\-flash.\-c.
+

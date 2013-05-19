@@ -1,0 +1,51 @@
+\hypertarget{group__v_task_end_scheduler}{\section{v\-Task\-End\-Scheduler}
+\label{group__v_task_end_scheduler}\index{v\-Task\-End\-Scheduler@{v\-Task\-End\-Scheduler}}
+}
+task. h 
+\begin{DoxyPre}void \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2tasks_8c_aeadc53d3d0d0ea3a6c7702a9eacbf452}{vTaskEndScheduler( void )};\end{DoxyPre}
+
+
+Stops the real time kernel tick. All created tasks will be automatically deleted and multitasking (either preemptive or cooperative) will stop. Execution then resumes from the point where v\-Task\-Start\-Scheduler () was called, as if v\-Task\-Start\-Scheduler () had just returned.
+
+See the demo application file main. c in the demo/\-P\-C directory for an example that uses v\-Task\-End\-Scheduler ().
+
+v\-Task\-End\-Scheduler () requires an exit function to be defined within the portable layer (see v\-Port\-End\-Scheduler () in port. c for the P\-C port). This performs hardware specific operations such as stopping the kernel tick.
+
+v\-Task\-End\-Scheduler () will cause all of the resources allocated by the kernel to be freed -\/ but will not free resources allocated by application tasks.
+
+Example usage\-: 
+\begin{DoxyPre}
+ void vTaskCode( void * pvParameters )
+ \{
+         for( ;; )
+         \{
+Task code goes here.\end{DoxyPre}
+
+
+
+\begin{DoxyPre}At some point we want to end the real time kernel processing
+so call ...
+                 vTaskEndScheduler ();
+         \}
+ \}\end{DoxyPre}
+
+
+
+\begin{DoxyPre} void vAFunction( void )
+ \{
+Create at least one task before starting the kernel.
+         xTaskCreate( vTaskCode, "NAME", STACK\_SIZE, NULL, tskIDLE\_PRIORITY, NULL );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Start the real time kernel with preemption.
+         vTaskStartScheduler ();\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Will only get here when the vTaskCode () task has called
+vTaskEndScheduler ().  When we get here we are back to single task
+execution.
+ \}
+   \end{DoxyPre}
+ 

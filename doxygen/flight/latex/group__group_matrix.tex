@@ -1,0 +1,67 @@
+\hypertarget{group__group_matrix}{\section{Matrix Functions}
+\label{group__group_matrix}\index{Matrix Functions@{Matrix Functions}}
+}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___matrix_add}{Matrix Addition}
+\item 
+\hyperlink{group___matrix_init}{Matrix Initialization}
+\item 
+\hyperlink{group___matrix_inv}{Matrix Inverse}
+\item 
+\hyperlink{group___matrix_mult}{Matrix Multiplication}
+\item 
+\hyperlink{group___matrix_scale}{Matrix Scale}
+\item 
+\hyperlink{group___matrix_sub}{Matrix Subtraction}
+\item 
+\hyperlink{group___matrix_trans}{Matrix Transpose}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This set of functions provides basic matrix math operations. The functions operate on matrix data structures. For example, the type definition for the floating-\/point matrix structure is shown below\-: 
+\begin{DoxyPre}
+    typedef struct
+    \{
+      uint16\_t numRows;     // number of rows of the matrix.
+      uint16\_t numCols;     // number of columns of the matrix.
+      float32\_t *pData;     // points to the data of the matrix.
+    \} \hyperlink{structarm__matrix__instance__f32}{arm\_matrix\_instance\_f32};
+\end{DoxyPre}
+ There are similar definitions for Q15 and Q31 data types.
+
+The structure specifies the size of the matrix and then points to an array of data. The array is of size {\ttfamily num\-Rows X num\-Cols} and the values are arranged in row order. That is, the matrix element (i, j) is stored at\-: 
+\begin{DoxyPre}
+    pData[i*numCols + j]
+\end{DoxyPre}
+
+
+\begin{DoxyParagraph}{Init Functions}
+There is an associated initialization function for each type of matrix data structure. The initialization function sets the values of the internal structure fields. Refer to the function {\ttfamily \hyperlink{group___matrix_init_ga11e3dc41592a6401c13182fef9416a27}{arm\-\_\-mat\-\_\-init\-\_\-f32()}}, {\ttfamily \hyperlink{group___matrix_init_ga48a5e5d37e1f062cc57fcfaf683343cc}{arm\-\_\-mat\-\_\-init\-\_\-q31()}} and {\ttfamily \hyperlink{group___matrix_init_ga31a7c2b991803d49719393eb2d53dc26}{arm\-\_\-mat\-\_\-init\-\_\-q15()}} for floating-\/point, Q31 and Q15 types, respectively.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Use of the initialization function is optional. However, if initialization function is used then the instance structure cannot be placed into a const data section. To place the instance structure in a const data section, manually initialize the data structure. For example\-: 
+\begin{DoxyPre}
+{\ttfamily \hyperlink{structarm__matrix__instance__f32}{arm\_matrix\_instance\_f32} S = \{nRows, nColumns, pData\};}
+{\ttfamily \hyperlink{structarm__matrix__instance__q31}{arm\_matrix\_instance\_q31} S = \{nRows, nColumns, pData\};}
+{\ttfamily \hyperlink{structarm__matrix__instance__q15}{arm\_matrix\_instance\_q15} S = \{nRows, nColumns, pData\};}
+\end{DoxyPre}
+ where {\ttfamily n\-Rows} specifies the number of rows, {\ttfamily n\-Columns} specifies the number of columns, and {\ttfamily p\-Data} points to the data array.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Size Checking}
+By default all of the matrix functions perform size checking on the input and output matrices. For example, the matrix addition function verifies that the two input matrices and the output matrix all have the same number of rows and columns. If the size check fails the functions return\-: 
+\begin{DoxyPre}
+    ARM\_MATH\_SIZE\_MISMATCH
+\end{DoxyPre}
+ Otherwise the functions return 
+\begin{DoxyPre}
+    ARM\_MATH\_SUCCESS
+\end{DoxyPre}
+ There is some overhead associated with this matrix size checking. The matrix size checking is enabled via the \#define 
+\begin{DoxyPre}
+    ARM\_MATH\_MATRIX\_CHECK
+\end{DoxyPre}
+ within the library project settings. By default this macro is defined and size checking is enabled. By changing the project settings and undefining this macro size checking is eliminated and the functions run a bit faster. With size checking disabled the functions always return {\ttfamily A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-S\-U\-C\-C\-E\-S\-S}. 
+\end{DoxyParagraph}

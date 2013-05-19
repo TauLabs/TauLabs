@@ -1,0 +1,190 @@
+\hypertarget{targets_2_bootloaders_2_discovery_f4_2main_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/targets/\-Bootloaders/\-Discovery\-F4/main.c File Reference}
+\label{targets_2_bootloaders_2_discovery_f4_2main_8c}\index{/home/jose/\-Code/gui\-Tau/flight/targets/\-Bootloaders/\-Discovery\-F4/main.\-c@{/home/jose/\-Code/gui\-Tau/flight/targets/\-Bootloaders/\-Discovery\-F4/main.\-c}}
+}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void}($\ast$ \hyperlink{targets_2_bootloaders_2_discovery_f4_2main_8c_a9227bf1f1a9c633a0cc9ca50cc761c1a}{p\-Function} )(\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___open_pilot_b_l_ga902009c5b1cb57d9f9d60092eb7cacfb}{P\-I\-O\-S\-\_\-\-Board\-\_\-\-Init} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{targets_2_bootloaders_2_discovery_f4_2main_8c_a7ec2ca9d0a908d6508dbc58c00eb18ec}{F\-L\-A\-S\-H\-\_\-\-Download} ()
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{targets_2_bootloaders_2_discovery_f4_2main_8c_a75e30c099232f21fa6e08353b0dfcef7}{Led\-P\-W\-M} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} pwm\-\_\-period, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} pwm\-\_\-sweep\-\_\-steps, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} count)
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{targets_2_bootloaders_2_discovery_f4_2main_8c_a37137877683fa8bb290bf36655ca2359}{process\-R\-X} ()
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{targets_2_bootloaders_2_discovery_f4_2main_8c_a4b30467c425c173f9ddf827491be666c}{jump\-\_\-to\-\_\-app} ()
+\item 
+int \hyperlink{targets_2_bootloaders_2_discovery_f4_2main_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}{main} ()
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___revolution_b_l_ga9227bf1f1a9c633a0cc9ca50cc761c1a}{p\-Function} \hyperlink{targets_2_bootloaders_2_discovery_f4_2main_8c_afe6990204003a7b416139a4723064b14}{Jump\-\_\-\-To\-\_\-\-Application}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{targets_2_bootloaders_2_discovery_f4_2main_8c_a77170d6dd28c130d54753378bdfa035e}{Jump\-Address}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{targets_2_bootloaders_2_discovery_f4_2main_8c_abe751b3d399e053031c1e3db20b6b071}{period1} = 5000
+\begin{DoxyCompactList}\small\item\em L\-E\-Ds P\-W\-M. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{targets_2_bootloaders_2_discovery_f4_2main_8c_a594b91aa3e135c58969dc298b8acdeb3}{sweep\-\_\-steps1} = 100
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{targets_2_bootloaders_2_discovery_f4_2main_8c_adf8633b43922fbf4f1d86981daf74ccc}{period2} = 5000
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{targets_2_bootloaders_2_discovery_f4_2main_8c_ac9cf28c40cee906b9405cb32f16b1fa2}{sweep\-\_\-steps2} = 100
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{targets_2_bootloaders_2_discovery_f4_2main_8c_a61692259c50bf6def0bc56b1c2fd44b8}{tempcount} = 0
+\item 
+\hyperlink{group___copter_control_b_l_ga9a9e510f2da4e725074c7191d9d75d37}{D\-F\-U\-States} \hyperlink{group___copter_control_b_l_ga342208ed1954c6486eac389edf7c7f86}{Device\-State}
+\item 
+\hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} \hyperlink{targets_2_bootloaders_2_discovery_f4_2main_8c_a2414697de79a243562514a0a4344a4dd}{status} = 0
+\item 
+\hyperlink{group___exported__types_gaf6a258d8f3ee5206d682d799316314b1}{bool} \hyperlink{group___copter_control_b_l_ga6c435d21e1e77b6e71943e6ecac43154}{Jump\-To\-App} = false
+\item 
+\hyperlink{group___exported__types_gaf6a258d8f3ee5206d682d799316314b1}{bool} \hyperlink{targets_2_bootloaders_2_discovery_f4_2main_8c_ae748e69028fd1006578682a64009ca1b}{G\-O\-\_\-dfu} = false
+\item 
+\hyperlink{group___exported__types_gaf6a258d8f3ee5206d682d799316314b1}{bool} \hyperlink{targets_2_bootloaders_2_discovery_f4_2main_8c_a4e4577933ec2d1b36fd2a19510090d43}{U\-S\-B\-\_\-connected} = false
+\item 
+\hyperlink{group___exported__types_gaf6a258d8f3ee5206d682d799316314b1}{bool} \hyperlink{targets_2_bootloaders_2_discovery_f4_2main_8c_a4df4c80fe3df830049b9543a72b125a5}{User\-\_\-\-D\-F\-U\-\_\-request} = false
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{targets_2_bootloaders_2_discovery_f4_2main_8c_a9227bf1f1a9c633a0cc9ca50cc761c1a}{\index{targets/\-Bootloaders/\-Discovery\-F4/main.\-c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}!p\-Function@{p\-Function}}
+\index{p\-Function@{p\-Function}!targets/Bootloaders/DiscoveryF4/main.c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}}
+\subsubsection[{p\-Function}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf void}($\ast$ p\-Function)({\bf void})}}\label{targets_2_bootloaders_2_discovery_f4_2main_8c_a9227bf1f1a9c633a0cc9ca50cc761c1a}
+
+
+Definition at line 42 of file main.\-c.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{targets_2_bootloaders_2_discovery_f4_2main_8c_a7ec2ca9d0a908d6508dbc58c00eb18ec}{\index{targets/\-Bootloaders/\-Discovery\-F4/main.\-c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}!F\-L\-A\-S\-H\-\_\-\-Download@{F\-L\-A\-S\-H\-\_\-\-Download}}
+\index{F\-L\-A\-S\-H\-\_\-\-Download@{F\-L\-A\-S\-H\-\_\-\-Download}!targets/Bootloaders/DiscoveryF4/main.c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}}
+\subsubsection[{F\-L\-A\-S\-H\-\_\-\-Download}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} F\-L\-A\-S\-H\-\_\-\-Download (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{targets_2_bootloaders_2_discovery_f4_2main_8c_a7ec2ca9d0a908d6508dbc58c00eb18ec}
+\hypertarget{targets_2_bootloaders_2_discovery_f4_2main_8c_a4b30467c425c173f9ddf827491be666c}{\index{targets/\-Bootloaders/\-Discovery\-F4/main.\-c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}!jump\-\_\-to\-\_\-app@{jump\-\_\-to\-\_\-app}}
+\index{jump\-\_\-to\-\_\-app@{jump\-\_\-to\-\_\-app}!targets/Bootloaders/DiscoveryF4/main.c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}}
+\subsubsection[{jump\-\_\-to\-\_\-app}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} jump\-\_\-to\-\_\-app (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{targets_2_bootloaders_2_discovery_f4_2main_8c_a4b30467c425c173f9ddf827491be666c}
+\hypertarget{targets_2_bootloaders_2_discovery_f4_2main_8c_a75e30c099232f21fa6e08353b0dfcef7}{\index{targets/\-Bootloaders/\-Discovery\-F4/main.\-c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}!Led\-P\-W\-M@{Led\-P\-W\-M}}
+\index{Led\-P\-W\-M@{Led\-P\-W\-M}!targets/Bootloaders/DiscoveryF4/main.c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}}
+\subsubsection[{Led\-P\-W\-M}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} Led\-P\-W\-M (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{pwm\-\_\-period, }
+\item[{{\bf uint32\-\_\-t}}]{pwm\-\_\-sweep\-\_\-steps, }
+\item[{{\bf uint32\-\_\-t}}]{count}
+\end{DoxyParamCaption}
+)}}\label{targets_2_bootloaders_2_discovery_f4_2main_8c_a75e30c099232f21fa6e08353b0dfcef7}
+\hypertarget{targets_2_bootloaders_2_discovery_f4_2main_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}{\index{targets/\-Bootloaders/\-Discovery\-F4/main.\-c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}!main@{main}}
+\index{main@{main}!targets/Bootloaders/DiscoveryF4/main.c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{targets_2_bootloaders_2_discovery_f4_2main_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}
+
+
+Definition at line 72 of file main.\-c.
+
+\hypertarget{targets_2_bootloaders_2_discovery_f4_2main_8c_a37137877683fa8bb290bf36655ca2359}{\index{targets/\-Bootloaders/\-Discovery\-F4/main.\-c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}!process\-R\-X@{process\-R\-X}}
+\index{process\-R\-X@{process\-R\-X}!targets/Bootloaders/DiscoveryF4/main.c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}}
+\subsubsection[{process\-R\-X}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} process\-R\-X (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{targets_2_bootloaders_2_discovery_f4_2main_8c_a37137877683fa8bb290bf36655ca2359}
+
+
+\subsection{Variable Documentation}
+\hypertarget{targets_2_bootloaders_2_discovery_f4_2main_8c_ae748e69028fd1006578682a64009ca1b}{\index{targets/\-Bootloaders/\-Discovery\-F4/main.\-c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}!G\-O\-\_\-dfu@{G\-O\-\_\-dfu}}
+\index{G\-O\-\_\-dfu@{G\-O\-\_\-dfu}!targets/Bootloaders/DiscoveryF4/main.c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}}
+\subsubsection[{G\-O\-\_\-dfu}]{\setlength{\rightskip}{0pt plus 5cm}{\bf bool} G\-O\-\_\-dfu = false}}\label{targets_2_bootloaders_2_discovery_f4_2main_8c_ae748e69028fd1006578682a64009ca1b}
+
+
+Definition at line 63 of file main.\-c.
+
+\hypertarget{targets_2_bootloaders_2_discovery_f4_2main_8c_afe6990204003a7b416139a4723064b14}{\index{targets/\-Bootloaders/\-Discovery\-F4/main.\-c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}!Jump\-\_\-\-To\-\_\-\-Application@{Jump\-\_\-\-To\-\_\-\-Application}}
+\index{Jump\-\_\-\-To\-\_\-\-Application@{Jump\-\_\-\-To\-\_\-\-Application}!targets/Bootloaders/DiscoveryF4/main.c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}}
+\subsubsection[{Jump\-\_\-\-To\-\_\-\-Application}]{\setlength{\rightskip}{0pt plus 5cm}{\bf p\-Function} Jump\-\_\-\-To\-\_\-\-Application}}\label{targets_2_bootloaders_2_discovery_f4_2main_8c_afe6990204003a7b416139a4723064b14}
+
+
+Definition at line 46 of file main.\-c.
+
+\hypertarget{targets_2_bootloaders_2_discovery_f4_2main_8c_a77170d6dd28c130d54753378bdfa035e}{\index{targets/\-Bootloaders/\-Discovery\-F4/main.\-c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}!Jump\-Address@{Jump\-Address}}
+\index{Jump\-Address@{Jump\-Address}!targets/Bootloaders/DiscoveryF4/main.c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}}
+\subsubsection[{Jump\-Address}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} Jump\-Address}}\label{targets_2_bootloaders_2_discovery_f4_2main_8c_a77170d6dd28c130d54753378bdfa035e}
+
+
+Definition at line 47 of file main.\-c.
+
+\hypertarget{targets_2_bootloaders_2_discovery_f4_2main_8c_abe751b3d399e053031c1e3db20b6b071}{\index{targets/\-Bootloaders/\-Discovery\-F4/main.\-c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}!period1@{period1}}
+\index{period1@{period1}!targets/Bootloaders/DiscoveryF4/main.c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}}
+\subsubsection[{period1}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} period1 = 5000}}\label{targets_2_bootloaders_2_discovery_f4_2main_8c_abe751b3d399e053031c1e3db20b6b071}
+
+
+L\-E\-Ds P\-W\-M. 
+
+
+
+Definition at line 50 of file main.\-c.
+
+\hypertarget{targets_2_bootloaders_2_discovery_f4_2main_8c_adf8633b43922fbf4f1d86981daf74ccc}{\index{targets/\-Bootloaders/\-Discovery\-F4/main.\-c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}!period2@{period2}}
+\index{period2@{period2}!targets/Bootloaders/DiscoveryF4/main.c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}}
+\subsubsection[{period2}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} period2 = 5000}}\label{targets_2_bootloaders_2_discovery_f4_2main_8c_adf8633b43922fbf4f1d86981daf74ccc}
+
+
+Definition at line 52 of file main.\-c.
+
+\hypertarget{targets_2_bootloaders_2_discovery_f4_2main_8c_a2414697de79a243562514a0a4344a4dd}{\index{targets/\-Bootloaders/\-Discovery\-F4/main.\-c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}!status@{status}}
+\index{status@{status}!targets/Bootloaders/DiscoveryF4/main.c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}}
+\subsubsection[{status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int16\-\_\-t} status = 0}}\label{targets_2_bootloaders_2_discovery_f4_2main_8c_a2414697de79a243562514a0a4344a4dd}
+
+
+Definition at line 61 of file main.\-c.
+
+\hypertarget{targets_2_bootloaders_2_discovery_f4_2main_8c_a594b91aa3e135c58969dc298b8acdeb3}{\index{targets/\-Bootloaders/\-Discovery\-F4/main.\-c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}!sweep\-\_\-steps1@{sweep\-\_\-steps1}}
+\index{sweep\-\_\-steps1@{sweep\-\_\-steps1}!targets/Bootloaders/DiscoveryF4/main.c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}}
+\subsubsection[{sweep\-\_\-steps1}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} sweep\-\_\-steps1 = 100}}\label{targets_2_bootloaders_2_discovery_f4_2main_8c_a594b91aa3e135c58969dc298b8acdeb3}
+
+
+Definition at line 51 of file main.\-c.
+
+\hypertarget{targets_2_bootloaders_2_discovery_f4_2main_8c_ac9cf28c40cee906b9405cb32f16b1fa2}{\index{targets/\-Bootloaders/\-Discovery\-F4/main.\-c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}!sweep\-\_\-steps2@{sweep\-\_\-steps2}}
+\index{sweep\-\_\-steps2@{sweep\-\_\-steps2}!targets/Bootloaders/DiscoveryF4/main.c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}}
+\subsubsection[{sweep\-\_\-steps2}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} sweep\-\_\-steps2 = 100}}\label{targets_2_bootloaders_2_discovery_f4_2main_8c_ac9cf28c40cee906b9405cb32f16b1fa2}
+
+
+Definition at line 53 of file main.\-c.
+
+\hypertarget{targets_2_bootloaders_2_discovery_f4_2main_8c_a61692259c50bf6def0bc56b1c2fd44b8}{\index{targets/\-Bootloaders/\-Discovery\-F4/main.\-c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}!tempcount@{tempcount}}
+\index{tempcount@{tempcount}!targets/Bootloaders/DiscoveryF4/main.c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}}
+\subsubsection[{tempcount}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} tempcount = 0}}\label{targets_2_bootloaders_2_discovery_f4_2main_8c_a61692259c50bf6def0bc56b1c2fd44b8}
+
+
+Definition at line 57 of file main.\-c.
+
+\hypertarget{targets_2_bootloaders_2_discovery_f4_2main_8c_a4e4577933ec2d1b36fd2a19510090d43}{\index{targets/\-Bootloaders/\-Discovery\-F4/main.\-c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}!U\-S\-B\-\_\-connected@{U\-S\-B\-\_\-connected}}
+\index{U\-S\-B\-\_\-connected@{U\-S\-B\-\_\-connected}!targets/Bootloaders/DiscoveryF4/main.c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}}
+\subsubsection[{U\-S\-B\-\_\-connected}]{\setlength{\rightskip}{0pt plus 5cm}{\bf bool} U\-S\-B\-\_\-connected = false}}\label{targets_2_bootloaders_2_discovery_f4_2main_8c_a4e4577933ec2d1b36fd2a19510090d43}
+
+
+Definition at line 64 of file main.\-c.
+
+\hypertarget{targets_2_bootloaders_2_discovery_f4_2main_8c_a4df4c80fe3df830049b9543a72b125a5}{\index{targets/\-Bootloaders/\-Discovery\-F4/main.\-c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}!User\-\_\-\-D\-F\-U\-\_\-request@{User\-\_\-\-D\-F\-U\-\_\-request}}
+\index{User\-\_\-\-D\-F\-U\-\_\-request@{User\-\_\-\-D\-F\-U\-\_\-request}!targets/Bootloaders/DiscoveryF4/main.c@{targets/\-Bootloaders/\-Discovery\-F4/main.\-c}}
+\subsubsection[{User\-\_\-\-D\-F\-U\-\_\-request}]{\setlength{\rightskip}{0pt plus 5cm}{\bf bool} User\-\_\-\-D\-F\-U\-\_\-request = false}}\label{targets_2_bootloaders_2_discovery_f4_2main_8c_a4df4c80fe3df830049b9543a72b125a5}
+
+
+Definition at line 65 of file main.\-c.
+

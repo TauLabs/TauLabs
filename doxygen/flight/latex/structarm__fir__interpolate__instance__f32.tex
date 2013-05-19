@@ -1,0 +1,66 @@
+\hypertarget{structarm__fir__interpolate__instance__f32}{\section{arm\-\_\-fir\-\_\-interpolate\-\_\-instance\-\_\-f32 Struct Reference}
+\label{structarm__fir__interpolate__instance__f32}\index{arm\-\_\-fir\-\_\-interpolate\-\_\-instance\-\_\-f32@{arm\-\_\-fir\-\_\-interpolate\-\_\-instance\-\_\-f32}}
+}
+
+
+Instance structure for the floating-\/point F\-I\-R interpolator.  
+
+
+
+
+{\ttfamily \#include $<$arm\-\_\-math.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{structarm__fir__interpolate__instance__f32_ae6f94dcc0ccd8aa4bc699b20985d9df5}{L}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{structarm__fir__interpolate__instance__f32_a389e669e13ec56292a70db8e92194b12}{phase\-Length}
+\item 
+\hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$ \hyperlink{structarm__fir__interpolate__instance__f32_a86053b715980a93c9df630d6de5bb63c}{p\-Coeffs}
+\item 
+\hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$ \hyperlink{structarm__fir__interpolate__instance__f32_a42a8ba1bda85fa86d7b6c84d3da4c75b}{p\-State}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Instance structure for the floating-\/point F\-I\-R interpolator. 
+
+Definition at line 3847 of file arm\-\_\-math.\-h.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{structarm__fir__interpolate__instance__f32_ae6f94dcc0ccd8aa4bc699b20985d9df5}{\index{arm\-\_\-fir\-\_\-interpolate\-\_\-instance\-\_\-f32@{arm\-\_\-fir\-\_\-interpolate\-\_\-instance\-\_\-f32}!L@{L}}
+\index{L@{L}!arm_fir_interpolate_instance_f32@{arm\-\_\-fir\-\_\-interpolate\-\_\-instance\-\_\-f32}}
+\subsubsection[{L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} arm\-\_\-fir\-\_\-interpolate\-\_\-instance\-\_\-f32\-::\-L}}\label{structarm__fir__interpolate__instance__f32_ae6f94dcc0ccd8aa4bc699b20985d9df5}
+upsample factor. 
+
+Definition at line 3849 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__fir__interpolate__instance__f32_a86053b715980a93c9df630d6de5bb63c}{\index{arm\-\_\-fir\-\_\-interpolate\-\_\-instance\-\_\-f32@{arm\-\_\-fir\-\_\-interpolate\-\_\-instance\-\_\-f32}!p\-Coeffs@{p\-Coeffs}}
+\index{p\-Coeffs@{p\-Coeffs}!arm_fir_interpolate_instance_f32@{arm\-\_\-fir\-\_\-interpolate\-\_\-instance\-\_\-f32}}
+\subsubsection[{p\-Coeffs}]{\setlength{\rightskip}{0pt plus 5cm}{\bf float32\-\_\-t}$\ast$ arm\-\_\-fir\-\_\-interpolate\-\_\-instance\-\_\-f32\-::p\-Coeffs}}\label{structarm__fir__interpolate__instance__f32_a86053b715980a93c9df630d6de5bb63c}
+points to the coefficient array. The array is of length L$\ast$phase\-Length. 
+
+Definition at line 3851 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__fir__interpolate__instance__f32_a389e669e13ec56292a70db8e92194b12}{\index{arm\-\_\-fir\-\_\-interpolate\-\_\-instance\-\_\-f32@{arm\-\_\-fir\-\_\-interpolate\-\_\-instance\-\_\-f32}!phase\-Length@{phase\-Length}}
+\index{phase\-Length@{phase\-Length}!arm_fir_interpolate_instance_f32@{arm\-\_\-fir\-\_\-interpolate\-\_\-instance\-\_\-f32}}
+\subsubsection[{phase\-Length}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} arm\-\_\-fir\-\_\-interpolate\-\_\-instance\-\_\-f32\-::phase\-Length}}\label{structarm__fir__interpolate__instance__f32_a389e669e13ec56292a70db8e92194b12}
+length of each polyphase filter component. 
+
+Definition at line 3850 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__fir__interpolate__instance__f32_a42a8ba1bda85fa86d7b6c84d3da4c75b}{\index{arm\-\_\-fir\-\_\-interpolate\-\_\-instance\-\_\-f32@{arm\-\_\-fir\-\_\-interpolate\-\_\-instance\-\_\-f32}!p\-State@{p\-State}}
+\index{p\-State@{p\-State}!arm_fir_interpolate_instance_f32@{arm\-\_\-fir\-\_\-interpolate\-\_\-instance\-\_\-f32}}
+\subsubsection[{p\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf float32\-\_\-t}$\ast$ arm\-\_\-fir\-\_\-interpolate\-\_\-instance\-\_\-f32\-::p\-State}}\label{structarm__fir__interpolate__instance__f32_a42a8ba1bda85fa86d7b6c84d3da4c75b}
+points to the state variable array. The array is of length phase\-Length+num\-Taps-\/1. 
+
+Definition at line 3852 of file arm\-\_\-math.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-C\-M\-S\-I\-S3/\-D\-S\-P\-\_\-\-Lib/\-Include/\hyperlink{arm__math_8h}{arm\-\_\-math.\-h}\end{DoxyCompactItemize}

@@ -1,0 +1,187 @@
+\hypertarget{heap_8h}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/heap.h File Reference}
+\label{heap_8h}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/heap.\-h@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/heap.\-h}}
+}
+
+
+V\-M Heap.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{heap_8h_af75e64558888d6e7212b81a8886949a3}{heap\-\_\-init} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{heap_8h_ad73bb5541b67b59d755fe54bda05767a}{heap\-\_\-get\-Chunk} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} requestedsize, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$$\ast$r\-\_\-pchunk)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{heap_8h_a2349e34d639dbf35543eaec9c0f74376}{heap\-\_\-free\-Chunk} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} ptr)
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{heap_8h_ad9929ee2da84f6a3c04e5c876b3f718b}{heap\-\_\-get\-Avail} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{heap_8h_af7a82b1330a1c45e2afa61ba4937c40d}{heap\-\_\-gc\-Run} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{heap_8h_a895d63b2fe3af97eda0b1dfdb9414d71}{heap\-\_\-gc\-Set\-Auto} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} auto\-\_\-gc)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{heap_8h_a3207a43d25b20cf8e04c1021d444d47b}{heap\-\_\-gc\-Push\-Temp\-Root} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pobj, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$r\-\_\-objid)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{heap_8h_ae8397e0d2ecc2b4eba7e849d5bc7e754}{heap\-\_\-gc\-Pop\-Temp\-Root} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} objid)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+V\-M Heap. V\-M heap header. 
+
+Definition in file \hyperlink{heap_8h_source}{heap.\-h}.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{heap_8h_a2349e34d639dbf35543eaec9c0f74376}{\index{heap.\-h@{heap.\-h}!heap\-\_\-free\-Chunk@{heap\-\_\-free\-Chunk}}
+\index{heap\-\_\-free\-Chunk@{heap\-\_\-free\-Chunk}!heap.h@{heap.\-h}}
+\subsubsection[{heap\-\_\-free\-Chunk}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} heap\-\_\-free\-Chunk (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{ptr}
+\end{DoxyParamCaption}
+)}}\label{heap_8h_a2349e34d639dbf35543eaec9c0f74376}
+Places the chunk back in the heap.
+
+
+\begin{DoxyParams}{Parameters}
+{\em ptr} & Pointer to object to free. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 549 of file heap.\-c.
+
+\hypertarget{heap_8h_ae8397e0d2ecc2b4eba7e849d5bc7e754}{\index{heap.\-h@{heap.\-h}!heap\-\_\-gc\-Pop\-Temp\-Root@{heap\-\_\-gc\-Pop\-Temp\-Root}}
+\index{heap\-\_\-gc\-Pop\-Temp\-Root@{heap\-\_\-gc\-Pop\-Temp\-Root}!heap.h@{heap.\-h}}
+\subsubsection[{heap\-\_\-gc\-Pop\-Temp\-Root}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} heap\-\_\-gc\-Pop\-Temp\-Root (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{objid}
+\end{DoxyParamCaption}
+)}}\label{heap_8h_ae8397e0d2ecc2b4eba7e849d5bc7e754}
+Pops from the temporary roots stack all objects upto and including the one denoted by the given I\-D
+
+
+\begin{DoxyParams}{Parameters}
+{\em objid} & I\-D of object to pop \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 1176 of file heap.\-c.
+
+\hypertarget{heap_8h_a3207a43d25b20cf8e04c1021d444d47b}{\index{heap.\-h@{heap.\-h}!heap\-\_\-gc\-Push\-Temp\-Root@{heap\-\_\-gc\-Push\-Temp\-Root}}
+\index{heap\-\_\-gc\-Push\-Temp\-Root@{heap\-\_\-gc\-Push\-Temp\-Root}!heap.h@{heap.\-h}}
+\subsubsection[{heap\-\_\-gc\-Push\-Temp\-Root}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} heap\-\_\-gc\-Push\-Temp\-Root (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pobj, }
+\item[{{\bf uint8\-\_\-t} $\ast$}]{r\-\_\-objid}
+\end{DoxyParamCaption}
+)}}\label{heap_8h_a3207a43d25b20cf8e04c1021d444d47b}
+Pushes an object onto the temporary roots stack if there is room to protect the objects from a potential garbage collection
+
+
+\begin{DoxyParams}{Parameters}
+{\em pobj} & Object to push onto the roots stack \\
+\hline
+{\em r\-\_\-objid} & By reference; I\-D to use when popping the object from the stack \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 1164 of file heap.\-c.
+
+\hypertarget{heap_8h_af7a82b1330a1c45e2afa61ba4937c40d}{\index{heap.\-h@{heap.\-h}!heap\-\_\-gc\-Run@{heap\-\_\-gc\-Run}}
+\index{heap\-\_\-gc\-Run@{heap\-\_\-gc\-Run}!heap.h@{heap.\-h}}
+\subsubsection[{heap\-\_\-gc\-Run}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} heap\-\_\-gc\-Run (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{heap_8h_af7a82b1330a1c45e2afa61ba4937c40d}
+Runs the mark-\/sweep garbage collector
+
+\begin{DoxyReturn}{Returns}
+Return code 
+\end{DoxyReturn}
+
+
+Definition at line 1134 of file heap.\-c.
+
+\hypertarget{heap_8h_a895d63b2fe3af97eda0b1dfdb9414d71}{\index{heap.\-h@{heap.\-h}!heap\-\_\-gc\-Set\-Auto@{heap\-\_\-gc\-Set\-Auto}}
+\index{heap\-\_\-gc\-Set\-Auto@{heap\-\_\-gc\-Set\-Auto}!heap.h@{heap.\-h}}
+\subsubsection[{heap\-\_\-gc\-Set\-Auto}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} heap\-\_\-gc\-Set\-Auto (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{auto\-\_\-gc}
+\end{DoxyParamCaption}
+)}}\label{heap_8h_a895d63b2fe3af97eda0b1dfdb9414d71}
+Enables (if true) or disables automatic garbage collection
+
+
+\begin{DoxyParams}{Parameters}
+{\em bool} & Value to enable or disable auto G\-C \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return code 
+\end{DoxyReturn}
+
+
+Definition at line 1158 of file heap.\-c.
+
+\hypertarget{heap_8h_ad9929ee2da84f6a3c04e5c876b3f718b}{\index{heap.\-h@{heap.\-h}!heap\-\_\-get\-Avail@{heap\-\_\-get\-Avail}}
+\index{heap\-\_\-get\-Avail@{heap\-\_\-get\-Avail}!heap.h@{heap.\-h}}
+\subsubsection[{heap\-\_\-get\-Avail}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} {\bf uint16\-\_\-t} heap\-\_\-get\-Avail (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{heap_8h_ad9929ee2da84f6a3c04e5c876b3f718b}
+\begin{DoxyReturn}{Returns}
+Return number of bytes available in the heap 
+\end{DoxyReturn}
+
+
+Definition at line 578 of file heap.\-c.
+
+\hypertarget{heap_8h_ad73bb5541b67b59d755fe54bda05767a}{\index{heap.\-h@{heap.\-h}!heap\-\_\-get\-Chunk@{heap\-\_\-get\-Chunk}}
+\index{heap\-\_\-get\-Chunk@{heap\-\_\-get\-Chunk}!heap.h@{heap.\-h}}
+\subsubsection[{heap\-\_\-get\-Chunk}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} heap\-\_\-get\-Chunk (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16\-\_\-t}}]{requestedsize, }
+\item[{{\bf uint8\-\_\-t} $\ast$$\ast$}]{r\-\_\-pchunk}
+\end{DoxyParamCaption}
+)}}\label{heap_8h_ad73bb5541b67b59d755fe54bda05767a}
+Returns a free chunk from the heap.
+
+The chunk will be at least the requested size. The actual size can be found in the return chunk's od.\-od\-\_\-size.
+
+
+\begin{DoxyParams}{Parameters}
+{\em requestedsize} & Requested size of the chunk in bytes. \\
+\hline
+{\em r\-\_\-pchunk} & Addr of ptr to chunk (return). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return code 
+\end{DoxyReturn}
+
+
+Definition at line 498 of file heap.\-c.
+
+\hypertarget{heap_8h_af75e64558888d6e7212b81a8886949a3}{\index{heap.\-h@{heap.\-h}!heap\-\_\-init@{heap\-\_\-init}}
+\index{heap\-\_\-init@{heap\-\_\-init}!heap.h@{heap.\-h}}
+\subsubsection[{heap\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} heap\-\_\-init (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{heap_8h_af75e64558888d6e7212b81a8886949a3}
+Initializes the heap for use.
+
+\begin{DoxyReturn}{Returns}
+nothing. 
+\end{DoxyReturn}
+
+
+Definition at line 352 of file heap.\-c.
+

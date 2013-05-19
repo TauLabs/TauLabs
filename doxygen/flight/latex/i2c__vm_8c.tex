@@ -1,0 +1,101 @@
+\hypertarget{i2c__vm_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Modules/\-Generic\-I2\-C\-Sensor/i2c\-\_\-vm.c File Reference}
+\label{i2c__vm_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Modules/\-Generic\-I2\-C\-Sensor/i2c\-\_\-vm.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Modules/\-Generic\-I2\-C\-Sensor/i2c\-\_\-vm.\-c}}
+}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structi2c__vm__regs}{i2c\-\_\-vm\-\_\-regs}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{group___exported__types_gaf6a258d8f3ee5206d682d799316314b1}{bool}($\ast$ \hyperlink{i2c__vm_8c_adf40759a617bda9fd99790f2c1f2699a}{i2c\-\_\-vm\-\_\-inst\-\_\-handler} )(struct \hyperlink{structi2c__vm__regs}{i2c\-\_\-vm\-\_\-regs} $\ast$vm\-\_\-state, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} op1, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___c_m_s_i_s___core___instruction_interface_gadb2bb33809b6f35ba4d176cbec7c7b75}{op2}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} op3)
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865}{aluop} \{ \\*
+\hyperlink{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865a6f9ecf7290283d4ac27f9a224c8febfb}{A\-L\-U\-O\-P\-\_\-\-A\-D\-D}, 
+\hyperlink{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865afee8d68922e487fd5b9b01249cd56627}{A\-L\-U\-O\-P\-\_\-\-M\-U\-L}, 
+\hyperlink{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865abaeb37672e28ae72847ae16ea28b5edd}{A\-L\-U\-O\-P\-\_\-\-D\-I\-V}, 
+\hyperlink{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865acc28a270f52a75a1531f9aaef6e61493}{A\-L\-U\-O\-P\-\_\-\-L\-S\-R}, 
+\\*
+\hyperlink{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865a90db6aa1f2728dc8d7117cb705930333}{A\-L\-U\-O\-P\-\_\-\-A\-S\-R}, 
+\hyperlink{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865a44b5db26a65333ca2c370a7e422d6d34}{A\-L\-U\-O\-P\-\_\-\-S\-L}, 
+\hyperlink{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865ab11994f2dbe833ede0ee1ad55b40a041}{A\-L\-U\-O\-P\-\_\-\-O\-R}, 
+\hyperlink{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865a9bac7bd2748699ab1efd293a4f559914}{A\-L\-U\-O\-P\-\_\-\-A\-N\-D}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___exported__types_gaf6a258d8f3ee5206d682d799316314b1}{bool} \hyperlink{group___unit_tests_ga25fa33f408947a8b6015181705441220}{i2c\-\_\-vm\-\_\-run} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} $\ast$code, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} code\-\_\-len, uintptr\-\_\-t i2c\-\_\-adapter)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{i2c__vm_8c_adf40759a617bda9fd99790f2c1f2699a}{i2c\-\_\-vm\-\_\-inst\-\_\-handler} \hyperlink{i2c__vm_8c_ab83cd2149bbe6ea9179b75ee8a02071e}{i2c\-\_\-vm\-\_\-handlers} \mbox{[}$\,$\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+The Open\-Pilot Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} Copyright (C) 2012. 
+
+Tau Labs, \href{http://github.com/TauLabs,}{\tt http\-://github.\-com/\-Tau\-Labs,} Copyright (C) 2012-\/2013 
+\end{DoxyAuthor}
+
+
+Definition in file \hyperlink{i2c__vm_8c_source}{i2c\-\_\-vm.\-c}.
+
+
+
+\subsection{Typedef Documentation}
+\hypertarget{i2c__vm_8c_adf40759a617bda9fd99790f2c1f2699a}{\index{i2c\-\_\-vm.\-c@{i2c\-\_\-vm.\-c}!i2c\-\_\-vm\-\_\-inst\-\_\-handler@{i2c\-\_\-vm\-\_\-inst\-\_\-handler}}
+\index{i2c\-\_\-vm\-\_\-inst\-\_\-handler@{i2c\-\_\-vm\-\_\-inst\-\_\-handler}!i2c_vm.c@{i2c\-\_\-vm.\-c}}
+\subsubsection[{i2c\-\_\-vm\-\_\-inst\-\_\-handler}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf bool}($\ast$ i2c\-\_\-vm\-\_\-inst\-\_\-handler)(struct {\bf i2c\-\_\-vm\-\_\-regs} $\ast$vm\-\_\-state, {\bf uint8\-\_\-t} op1, {\bf uint8\-\_\-t} {\bf op2}, {\bf uint8\-\_\-t} op3)}}\label{i2c__vm_8c_adf40759a617bda9fd99790f2c1f2699a}
+
+
+Definition at line 709 of file i2c\-\_\-vm.\-c.
+
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865}{\index{i2c\-\_\-vm.\-c@{i2c\-\_\-vm.\-c}!aluop@{aluop}}
+\index{aluop@{aluop}!i2c_vm.c@{i2c\-\_\-vm.\-c}}
+\subsubsection[{aluop}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf aluop}}}\label{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{A\-L\-U\-O\-P\-\_\-\-A\-D\-D@{A\-L\-U\-O\-P\-\_\-\-A\-D\-D}!i2c\-\_\-vm.\-c@{i2c\-\_\-vm.\-c}}\index{i2c\-\_\-vm.\-c@{i2c\-\_\-vm.\-c}!A\-L\-U\-O\-P\-\_\-\-A\-D\-D@{A\-L\-U\-O\-P\-\_\-\-A\-D\-D}}\item[{\em 
+\hypertarget{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865a6f9ecf7290283d4ac27f9a224c8febfb}{A\-L\-U\-O\-P\-\_\-\-A\-D\-D}\label{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865a6f9ecf7290283d4ac27f9a224c8febfb}
+}]\index{A\-L\-U\-O\-P\-\_\-\-M\-U\-L@{A\-L\-U\-O\-P\-\_\-\-M\-U\-L}!i2c\-\_\-vm.\-c@{i2c\-\_\-vm.\-c}}\index{i2c\-\_\-vm.\-c@{i2c\-\_\-vm.\-c}!A\-L\-U\-O\-P\-\_\-\-M\-U\-L@{A\-L\-U\-O\-P\-\_\-\-M\-U\-L}}\item[{\em 
+\hypertarget{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865afee8d68922e487fd5b9b01249cd56627}{A\-L\-U\-O\-P\-\_\-\-M\-U\-L}\label{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865afee8d68922e487fd5b9b01249cd56627}
+}]\index{A\-L\-U\-O\-P\-\_\-\-D\-I\-V@{A\-L\-U\-O\-P\-\_\-\-D\-I\-V}!i2c\-\_\-vm.\-c@{i2c\-\_\-vm.\-c}}\index{i2c\-\_\-vm.\-c@{i2c\-\_\-vm.\-c}!A\-L\-U\-O\-P\-\_\-\-D\-I\-V@{A\-L\-U\-O\-P\-\_\-\-D\-I\-V}}\item[{\em 
+\hypertarget{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865abaeb37672e28ae72847ae16ea28b5edd}{A\-L\-U\-O\-P\-\_\-\-D\-I\-V}\label{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865abaeb37672e28ae72847ae16ea28b5edd}
+}]\index{A\-L\-U\-O\-P\-\_\-\-L\-S\-R@{A\-L\-U\-O\-P\-\_\-\-L\-S\-R}!i2c\-\_\-vm.\-c@{i2c\-\_\-vm.\-c}}\index{i2c\-\_\-vm.\-c@{i2c\-\_\-vm.\-c}!A\-L\-U\-O\-P\-\_\-\-L\-S\-R@{A\-L\-U\-O\-P\-\_\-\-L\-S\-R}}\item[{\em 
+\hypertarget{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865acc28a270f52a75a1531f9aaef6e61493}{A\-L\-U\-O\-P\-\_\-\-L\-S\-R}\label{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865acc28a270f52a75a1531f9aaef6e61493}
+}]\index{A\-L\-U\-O\-P\-\_\-\-A\-S\-R@{A\-L\-U\-O\-P\-\_\-\-A\-S\-R}!i2c\-\_\-vm.\-c@{i2c\-\_\-vm.\-c}}\index{i2c\-\_\-vm.\-c@{i2c\-\_\-vm.\-c}!A\-L\-U\-O\-P\-\_\-\-A\-S\-R@{A\-L\-U\-O\-P\-\_\-\-A\-S\-R}}\item[{\em 
+\hypertarget{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865a90db6aa1f2728dc8d7117cb705930333}{A\-L\-U\-O\-P\-\_\-\-A\-S\-R}\label{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865a90db6aa1f2728dc8d7117cb705930333}
+}]\index{A\-L\-U\-O\-P\-\_\-\-S\-L@{A\-L\-U\-O\-P\-\_\-\-S\-L}!i2c\-\_\-vm.\-c@{i2c\-\_\-vm.\-c}}\index{i2c\-\_\-vm.\-c@{i2c\-\_\-vm.\-c}!A\-L\-U\-O\-P\-\_\-\-S\-L@{A\-L\-U\-O\-P\-\_\-\-S\-L}}\item[{\em 
+\hypertarget{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865a44b5db26a65333ca2c370a7e422d6d34}{A\-L\-U\-O\-P\-\_\-\-S\-L}\label{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865a44b5db26a65333ca2c370a7e422d6d34}
+}]\index{A\-L\-U\-O\-P\-\_\-\-O\-R@{A\-L\-U\-O\-P\-\_\-\-O\-R}!i2c\-\_\-vm.\-c@{i2c\-\_\-vm.\-c}}\index{i2c\-\_\-vm.\-c@{i2c\-\_\-vm.\-c}!A\-L\-U\-O\-P\-\_\-\-O\-R@{A\-L\-U\-O\-P\-\_\-\-O\-R}}\item[{\em 
+\hypertarget{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865ab11994f2dbe833ede0ee1ad55b40a041}{A\-L\-U\-O\-P\-\_\-\-O\-R}\label{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865ab11994f2dbe833ede0ee1ad55b40a041}
+}]\index{A\-L\-U\-O\-P\-\_\-\-A\-N\-D@{A\-L\-U\-O\-P\-\_\-\-A\-N\-D}!i2c\-\_\-vm.\-c@{i2c\-\_\-vm.\-c}}\index{i2c\-\_\-vm.\-c@{i2c\-\_\-vm.\-c}!A\-L\-U\-O\-P\-\_\-\-A\-N\-D@{A\-L\-U\-O\-P\-\_\-\-A\-N\-D}}\item[{\em 
+\hypertarget{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865a9bac7bd2748699ab1efd293a4f559914}{A\-L\-U\-O\-P\-\_\-\-A\-N\-D}\label{i2c__vm_8c_a2ee1b0064ef2db1498ae8fb59548a865a9bac7bd2748699ab1efd293a4f559914}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 127 of file i2c\-\_\-vm.\-c.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{i2c__vm_8c_ab83cd2149bbe6ea9179b75ee8a02071e}{\index{i2c\-\_\-vm.\-c@{i2c\-\_\-vm.\-c}!i2c\-\_\-vm\-\_\-handlers@{i2c\-\_\-vm\-\_\-handlers}}
+\index{i2c\-\_\-vm\-\_\-handlers@{i2c\-\_\-vm\-\_\-handlers}!i2c_vm.c@{i2c\-\_\-vm.\-c}}
+\subsubsection[{i2c\-\_\-vm\-\_\-handlers}]{\setlength{\rightskip}{0pt plus 5cm}{\bf const} {\bf i2c\-\_\-vm\-\_\-inst\-\_\-handler} i2c\-\_\-vm\-\_\-handlers\mbox{[}$\,$\mbox{]}}}\label{i2c__vm_8c_ab83cd2149bbe6ea9179b75ee8a02071e}
+
+
+Definition at line 711 of file i2c\-\_\-vm.\-c.
+

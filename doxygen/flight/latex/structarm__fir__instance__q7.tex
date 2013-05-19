@@ -1,0 +1,57 @@
+\hypertarget{structarm__fir__instance__q7}{\section{arm\-\_\-fir\-\_\-instance\-\_\-q7 Struct Reference}
+\label{structarm__fir__instance__q7}\index{arm\-\_\-fir\-\_\-instance\-\_\-q7@{arm\-\_\-fir\-\_\-instance\-\_\-q7}}
+}
+
+
+Instance structure for the Q7 F\-I\-R filter.  
+
+
+
+
+{\ttfamily \#include $<$arm\-\_\-math.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{structarm__fir__instance__q7_a9b50840e2c5ef5b17e1a584fb4cf0d06}{num\-Taps}
+\item 
+\hyperlink{arm__math_8h_ae541b6f232c305361e9b416fc9eed263}{q7\-\_\-t} $\ast$ \hyperlink{structarm__fir__instance__q7_aaddea3b9c7e16ddfd9428b7bf9f9c200}{p\-State}
+\item 
+\hyperlink{arm__math_8h_ae541b6f232c305361e9b416fc9eed263}{q7\-\_\-t} $\ast$ \hyperlink{structarm__fir__instance__q7_a0e45aedefc3fffad6cb315c5b6e5bd49}{p\-Coeffs}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Instance structure for the Q7 F\-I\-R filter. 
+
+Definition at line 1028 of file arm\-\_\-math.\-h.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{structarm__fir__instance__q7_a9b50840e2c5ef5b17e1a584fb4cf0d06}{\index{arm\-\_\-fir\-\_\-instance\-\_\-q7@{arm\-\_\-fir\-\_\-instance\-\_\-q7}!num\-Taps@{num\-Taps}}
+\index{num\-Taps@{num\-Taps}!arm_fir_instance_q7@{arm\-\_\-fir\-\_\-instance\-\_\-q7}}
+\subsubsection[{num\-Taps}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} arm\-\_\-fir\-\_\-instance\-\_\-q7\-::num\-Taps}}\label{structarm__fir__instance__q7_a9b50840e2c5ef5b17e1a584fb4cf0d06}
+number of filter coefficients in the filter. 
+
+Definition at line 1030 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__fir__instance__q7_a0e45aedefc3fffad6cb315c5b6e5bd49}{\index{arm\-\_\-fir\-\_\-instance\-\_\-q7@{arm\-\_\-fir\-\_\-instance\-\_\-q7}!p\-Coeffs@{p\-Coeffs}}
+\index{p\-Coeffs@{p\-Coeffs}!arm_fir_instance_q7@{arm\-\_\-fir\-\_\-instance\-\_\-q7}}
+\subsubsection[{p\-Coeffs}]{\setlength{\rightskip}{0pt plus 5cm}{\bf q7\-\_\-t}$\ast$ arm\-\_\-fir\-\_\-instance\-\_\-q7\-::p\-Coeffs}}\label{structarm__fir__instance__q7_a0e45aedefc3fffad6cb315c5b6e5bd49}
+points to the coefficient array. The array is of length num\-Taps. 
+
+Definition at line 1032 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__fir__instance__q7_aaddea3b9c7e16ddfd9428b7bf9f9c200}{\index{arm\-\_\-fir\-\_\-instance\-\_\-q7@{arm\-\_\-fir\-\_\-instance\-\_\-q7}!p\-State@{p\-State}}
+\index{p\-State@{p\-State}!arm_fir_instance_q7@{arm\-\_\-fir\-\_\-instance\-\_\-q7}}
+\subsubsection[{p\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf q7\-\_\-t}$\ast$ arm\-\_\-fir\-\_\-instance\-\_\-q7\-::p\-State}}\label{structarm__fir__instance__q7_aaddea3b9c7e16ddfd9428b7bf9f9c200}
+points to the state variable array. The array is of length num\-Taps+block\-Size-\/1. 
+
+Definition at line 1031 of file arm\-\_\-math.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-C\-M\-S\-I\-S3/\-D\-S\-P\-\_\-\-Lib/\-Include/\hyperlink{arm__math_8h}{arm\-\_\-math.\-h}\end{DoxyCompactItemize}

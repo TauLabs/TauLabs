@@ -1,0 +1,127 @@
+\hypertarget{stm32f4xx__cryp_8h}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/\-Libraries/\-S\-T\-M32\-F4xx\-\_\-\-Std\-Periph\-\_\-\-Driver/inc/stm32f4xx\-\_\-cryp.h File Reference}
+\label{stm32f4xx__cryp_8h}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/\-Libraries/\-S\-T\-M32\-F4xx\-\_\-\-Std\-Periph\-\_\-\-Driver/inc/stm32f4xx\-\_\-cryp.\-h@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/\-Libraries/\-S\-T\-M32\-F4xx\-\_\-\-Std\-Periph\-\_\-\-Driver/inc/stm32f4xx\-\_\-cryp.\-h}}
+}
+
+
+This file contains all the functions prototypes for the Cryptographic processor(\-C\-R\-Y\-P) firmware library.  
+
+
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_c_r_y_p___key_init_type_def}{C\-R\-Y\-P\-\_\-\-Key\-Init\-Type\-Def}
+\begin{DoxyCompactList}\small\item\em C\-R\-Y\-P Key(s) structure definition. \end{DoxyCompactList}\item 
+struct \hyperlink{struct_c_r_y_p___i_v_init_type_def}{C\-R\-Y\-P\-\_\-\-I\-V\-Init\-Type\-Def}
+\begin{DoxyCompactList}\small\item\em C\-R\-Y\-P Initialization Vectors (I\-V) structure definition. \end{DoxyCompactList}\item 
+struct \hyperlink{struct_c_r_y_p___context}{C\-R\-Y\-P\-\_\-\-Context}
+\begin{DoxyCompactList}\small\item\em C\-R\-Y\-P context swapping structure definition. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_r_y_p___group1_gae19e54c9910b697e38f6c7577704ffae}{C\-R\-Y\-P\-\_\-\-De\-Init} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Deinitializes the C\-R\-Y\-P peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_r_y_p___group1_ga7b72c458d95581ab0a36be3e017fcf02}{C\-R\-Y\-P\-\_\-\-Init} (C\-R\-Y\-P\-\_\-\-Init\-Type\-Def $\ast$C\-R\-Y\-P\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the C\-R\-Y\-P peripheral according to the specified parameters in the C\-R\-Y\-P\-\_\-\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_r_y_p___group1_ga8fb8ec75fe72d55046c8220825dfe41e}{C\-R\-Y\-P\-\_\-\-Struct\-Init} (C\-R\-Y\-P\-\_\-\-Init\-Type\-Def $\ast$C\-R\-Y\-P\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each C\-R\-Y\-P\-\_\-\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_r_y_p___group1_gad4baa3865415215cae07c9fbfa131cb9}{C\-R\-Y\-P\-\_\-\-Key\-Init} (\hyperlink{struct_c_r_y_p___key_init_type_def}{C\-R\-Y\-P\-\_\-\-Key\-Init\-Type\-Def} $\ast$C\-R\-Y\-P\-\_\-\-Key\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the C\-R\-Y\-P Keys according to the specified parameters in the C\-R\-Y\-P\-\_\-\-Key\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_r_y_p___group1_gaeecd86b00d0d0137d97b06108789bcb2}{C\-R\-Y\-P\-\_\-\-Key\-Struct\-Init} (\hyperlink{struct_c_r_y_p___key_init_type_def}{C\-R\-Y\-P\-\_\-\-Key\-Init\-Type\-Def} $\ast$C\-R\-Y\-P\-\_\-\-Key\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each C\-R\-Y\-P\-\_\-\-Key\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_r_y_p___group1_ga133964b50a07db3a32864308f6355a8b}{C\-R\-Y\-P\-\_\-\-I\-V\-Init} (\hyperlink{struct_c_r_y_p___i_v_init_type_def}{C\-R\-Y\-P\-\_\-\-I\-V\-Init\-Type\-Def} $\ast$C\-R\-Y\-P\-\_\-\-I\-V\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the C\-R\-Y\-P Initialization Vectors(\-I\-V) according to the specified parameters in the C\-R\-Y\-P\-\_\-\-I\-V\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_r_y_p___group1_ga58899074e08bbd65f2ed304cf0f42987}{C\-R\-Y\-P\-\_\-\-I\-V\-Struct\-Init} (\hyperlink{struct_c_r_y_p___i_v_init_type_def}{C\-R\-Y\-P\-\_\-\-I\-V\-Init\-Type\-Def} $\ast$C\-R\-Y\-P\-\_\-\-I\-V\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each C\-R\-Y\-P\-\_\-\-I\-V\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_r_y_p___group1_gad39ccd9b1f2e088e3a227d7a1c410d7c}{C\-R\-Y\-P\-\_\-\-Cmd} (\hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the C\-R\-Y\-P peripheral. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_r_y_p___group2_ga16dc76244318d464357ee6ff208bf9a4}{C\-R\-Y\-P\-\_\-\-Data\-In} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___copter_control_b_l_ga6f3335509cc4943e20df66f72483910c}{Data})
+\begin{DoxyCompactList}\small\item\em Writes data in the Data Input register (D\-I\-N). \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_r_y_p___group2_gacbe5fcf4c7e4919192376fa615588b54}{C\-R\-Y\-P\-\_\-\-Data\-Out} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Returns the last data entered into the output F\-I\-F\-O. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_r_y_p___group1_ga23ada9d9464e1362299d7612a1409a57}{C\-R\-Y\-P\-\_\-\-F\-I\-F\-O\-Flush} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Flushes the I\-N and O\-U\-T F\-I\-F\-Os (that is read and write pointers of the F\-I\-F\-Os are reset) \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga8333b96c67f83cba354b3407fcbb6ee8}{Error\-Status} \hyperlink{group___c_r_y_p___group3_ga41a14be7fa43d500e7c94cce40910ea8}{C\-R\-Y\-P\-\_\-\-Save\-Context} (\hyperlink{struct_c_r_y_p___context}{C\-R\-Y\-P\-\_\-\-Context} $\ast$C\-R\-Y\-P\-\_\-\-Context\-Save, \hyperlink{struct_c_r_y_p___key_init_type_def}{C\-R\-Y\-P\-\_\-\-Key\-Init\-Type\-Def} $\ast$C\-R\-Y\-P\-\_\-\-Key\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Saves the C\-R\-Y\-P peripheral Context. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_r_y_p___group3_gaf2986782fa66ea95b2a389595e17e0e5}{C\-R\-Y\-P\-\_\-\-Restore\-Context} (\hyperlink{struct_c_r_y_p___context}{C\-R\-Y\-P\-\_\-\-Context} $\ast$C\-R\-Y\-P\-\_\-\-Context\-Restore)
+\begin{DoxyCompactList}\small\item\em Restores the C\-R\-Y\-P peripheral Context. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_r_y_p___group4_ga111d0ec56facb27f8367ce6a33869115}{C\-R\-Y\-P\-\_\-\-D\-M\-A\-Cmd} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} C\-R\-Y\-P\-\_\-\-D\-M\-A\-Req, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the C\-R\-Y\-P D\-M\-A interface. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_r_y_p___group5_gafbf5ee5f2c3ae4404149a994e15b33d8}{C\-R\-Y\-P\-\_\-\-I\-T\-Config} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} C\-R\-Y\-P\-\_\-\-I\-T, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified C\-R\-Y\-P interrupts. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_gaacbd7ed539db0aacd973a0f6eca34074}{I\-T\-Status} \hyperlink{group___c_r_y_p___group5_ga00a48b748ed127fa517cacec9dbf18f4}{C\-R\-Y\-P\-\_\-\-Get\-I\-T\-Status} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} C\-R\-Y\-P\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified C\-R\-Y\-P interrupt has occurred or not. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___c_r_y_p___group5_ga993d568b626a74b2973d4a6848a681f6}{C\-R\-Y\-P\-\_\-\-Get\-Flag\-Status} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} C\-R\-Y\-P\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified C\-R\-Y\-P flag is set or not. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga8333b96c67f83cba354b3407fcbb6ee8}{Error\-Status} \hyperlink{group___c_r_y_p___group6_ga79ff82ece0e9620dc86d6e57abe639e1}{C\-R\-Y\-P\-\_\-\-A\-E\-S\-\_\-\-E\-C\-B} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Mode, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$Key, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Keysize, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$Input, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Ilength, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$Output)
+\begin{DoxyCompactList}\small\item\em Encrypt and decrypt using A\-E\-S in E\-C\-B Mode. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga8333b96c67f83cba354b3407fcbb6ee8}{Error\-Status} \hyperlink{group___c_r_y_p___group6_gaa43eadf707257710f6a53b3295b39d70}{C\-R\-Y\-P\-\_\-\-A\-E\-S\-\_\-\-C\-B\-C} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Mode, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Init\-Vectors\mbox{[}16\mbox{]}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$Key, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Keysize, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$Input, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Ilength, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$Output)
+\begin{DoxyCompactList}\small\item\em Encrypt and decrypt using A\-E\-S in C\-B\-C Mode. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga8333b96c67f83cba354b3407fcbb6ee8}{Error\-Status} \hyperlink{group___c_r_y_p___group6_ga2f36aea6e94452e5e5e938547fb89d4c}{C\-R\-Y\-P\-\_\-\-A\-E\-S\-\_\-\-C\-T\-R} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Mode, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Init\-Vectors\mbox{[}16\mbox{]}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$Key, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Keysize, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$Input, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Ilength, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$Output)
+\begin{DoxyCompactList}\small\item\em Encrypt and decrypt using A\-E\-S in C\-T\-R Mode. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga8333b96c67f83cba354b3407fcbb6ee8}{Error\-Status} \hyperlink{group___c_r_y_p___group7_ga17c03ab4f0566fcbc3dd8c052e6f9886}{C\-R\-Y\-P\-\_\-\-T\-D\-E\-S\-\_\-\-E\-C\-B} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Mode, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Key\mbox{[}24\mbox{]}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$Input, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Ilength, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$Output)
+\begin{DoxyCompactList}\small\item\em Encrypt and decrypt using T\-D\-E\-S in E\-C\-B Mode. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga8333b96c67f83cba354b3407fcbb6ee8}{Error\-Status} \hyperlink{group___c_r_y_p___group7_gabe52a368c4882450c1e82f16bc1eb686}{C\-R\-Y\-P\-\_\-\-T\-D\-E\-S\-\_\-\-C\-B\-C} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Mode, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Key\mbox{[}24\mbox{]}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Init\-Vectors\mbox{[}8\mbox{]}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$Input, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Ilength, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$Output)
+\begin{DoxyCompactList}\small\item\em Encrypt and decrypt using T\-D\-E\-S in C\-B\-C Mode. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga8333b96c67f83cba354b3407fcbb6ee8}{Error\-Status} \hyperlink{group___c_r_y_p___group8_ga3b96b7608b39197209abed5f5845f590}{C\-R\-Y\-P\-\_\-\-D\-E\-S\-\_\-\-E\-C\-B} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Mode, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Key\mbox{[}8\mbox{]}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$Input, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Ilength, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$Output)
+\begin{DoxyCompactList}\small\item\em Encrypt and decrypt using D\-E\-S in E\-C\-B Mode. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga8333b96c67f83cba354b3407fcbb6ee8}{Error\-Status} \hyperlink{group___c_r_y_p___group8_ga75724391a8560c557e1152b805f5cad1}{C\-R\-Y\-P\-\_\-\-D\-E\-S\-\_\-\-C\-B\-C} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Mode, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Key\mbox{[}8\mbox{]}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Init\-Vectors\mbox{[}8\mbox{]}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$Input, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Ilength, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$Output)
+\begin{DoxyCompactList}\small\item\em Encrypt and decrypt using D\-E\-S in C\-B\-C Mode. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stm32f4xx__cryp_8h_aaa53ca0b650dfd85c4f59fa156f7a2cc}{C}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file contains all the functions prototypes for the Cryptographic processor(\-C\-R\-Y\-P) firmware library. \begin{DoxyAuthor}{Author}
+M\-C\-D Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V1.\-0.\-2 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+05-\/\-March-\/2012 
+\end{DoxyDate}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+\subsubsection*{\begin{center}\copyright C\-O\-P\-Y\-R\-I\-G\-H\-T 2012 S\-T\-Microelectronics\end{center} }
+
+Licensed under M\-C\-D-\/\-S\-T Liberty S\-W License Agreement V2, (the \char`\"{}\-License\char`\"{}); You may not use this file except in compliance with the License. You may obtain a copy of the License at\-: \begin{DoxyVerb}   http://www.st.com/software_license_agreement_liberty_v2
+\end{DoxyVerb}
+
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \char`\"{}\-A\-S I\-S\char`\"{} B\-A\-S\-I\-S, W\-I\-T\-H\-O\-U\-T W\-A\-R\-R\-A\-N\-T\-I\-E\-S O\-R C\-O\-N\-D\-I\-T\-I\-O\-N\-S O\-F A\-N\-Y K\-I\-N\-D, either express or implied. See the License for the specific language governing permissions and limitations under the License. 
+
+Definition in file \hyperlink{stm32f4xx__cryp_8h_source}{stm32f4xx\-\_\-cryp.\-h}.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{stm32f4xx__cryp_8h_aaa53ca0b650dfd85c4f59fa156f7a2cc}{\index{stm32f4xx\-\_\-cryp.\-h@{stm32f4xx\-\_\-cryp.\-h}!C@{C}}
+\index{C@{C}!stm32f4xx_cryp.h@{stm32f4xx\-\_\-cryp.\-h}}
+\subsubsection[{C}]{\setlength{\rightskip}{0pt plus 5cm}C}}\label{stm32f4xx__cryp_8h_aaa53ca0b650dfd85c4f59fa156f7a2cc}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+\{
+\textcolor{preprocessor}{#endif}
+\textcolor{preprocessor}{}
+
+\textcolor{preprocessor}{#include "\hyperlink{stm32f4xx_8h}{stm32f4xx.h}"}
+
+
+
+ 
+
+
+
+ 
+\textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+\{
+  \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t} CRYP\_AlgoDir;   
+  \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t} CRYP\_AlgoMode;  
+  \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t} CRYP\_DataType;   
+  \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t} CRYP\_KeySize;   
+\}CRYP\_InitTypeDef
+\end{DoxyCode}

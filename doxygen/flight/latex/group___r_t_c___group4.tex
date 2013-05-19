@@ -1,0 +1,144 @@
+\hypertarget{group___r_t_c___group4}{\section{Wake\-Up Timer configuration functions}
+\label{group___r_t_c___group4}\index{Wake\-Up Timer configuration functions@{Wake\-Up Timer configuration functions}}
+}
+
+
+Wake\-Up Timer configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___group4_ga2557b02b318211112731a91a190c4b26}{R\-T\-C\-\_\-\-Wake\-Up\-Clock\-Config} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} R\-T\-C\-\_\-\-Wake\-Up\-Clock)
+\begin{DoxyCompactList}\small\item\em Configures the R\-T\-C Wakeup clock source. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___group4_ga1412044eb756a166c1cf341f3d46ed6b}{R\-T\-C\-\_\-\-Set\-Wake\-Up\-Counter} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} R\-T\-C\-\_\-\-Wake\-Up\-Counter)
+\begin{DoxyCompactList}\small\item\em Configures the R\-T\-C Wakeup counter. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___r_t_c___group4_gae63aab672e917cc48e298162c3dec049}{R\-T\-C\-\_\-\-Get\-Wake\-Up\-Counter} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Returns the R\-T\-C Wake\-Up timer counter value. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga8333b96c67f83cba354b3407fcbb6ee8}{Error\-Status} \hyperlink{group___r_t_c___group4_ga2ce05293303e0d7879c6d755c5355b4c}{R\-T\-C\-\_\-\-Wake\-Up\-Cmd} (\hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the R\-T\-C Wake\-Up timer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Wake\-Up Timer configuration functions. \begin{DoxyVerb} ===============================================================================
+                ##### WakeUp Timer configuration functions #####
+ ===============================================================================  
+    [..] This section provide functions allowing to program and read the RTC WakeUp.\end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                     WakeUp Timer configuration functions
+ ===============================================================================  
+
+  This section provide functions allowing to program and read the RTC WakeUp.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___r_t_c___group4_gae63aab672e917cc48e298162c3dec049}{\index{Wake\-Up Timer configuration functions@{Wake\-Up Timer configuration functions}!R\-T\-C\-\_\-\-Get\-Wake\-Up\-Counter@{R\-T\-C\-\_\-\-Get\-Wake\-Up\-Counter}}
+\index{R\-T\-C\-\_\-\-Get\-Wake\-Up\-Counter@{R\-T\-C\-\_\-\-Get\-Wake\-Up\-Counter}!WakeUp Timer configuration functions@{Wake\-Up Timer configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Get\-Wake\-Up\-Counter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} R\-T\-C\-\_\-\-Get\-Wake\-Up\-Counter (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group4_gae63aab672e917cc48e298162c3dec049}
+
+
+Returns the R\-T\-C Wake\-Up timer counter value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & R\-T\-C Wake\-Up Counter value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1501 of file stm32f30x\-\_\-rtc.\-c.
+
+\hypertarget{group___r_t_c___group4_ga1412044eb756a166c1cf341f3d46ed6b}{\index{Wake\-Up Timer configuration functions@{Wake\-Up Timer configuration functions}!R\-T\-C\-\_\-\-Set\-Wake\-Up\-Counter@{R\-T\-C\-\_\-\-Set\-Wake\-Up\-Counter}}
+\index{R\-T\-C\-\_\-\-Set\-Wake\-Up\-Counter@{R\-T\-C\-\_\-\-Set\-Wake\-Up\-Counter}!WakeUp Timer configuration functions@{Wake\-Up Timer configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Set\-Wake\-Up\-Counter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} R\-T\-C\-\_\-\-Set\-Wake\-Up\-Counter (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{R\-T\-C\-\_\-\-Wake\-Up\-Counter}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group4_ga1412044eb756a166c1cf341f3d46ed6b}
+
+
+Configures the R\-T\-C Wakeup counter. 
+
+\begin{DoxyNote}{Note}
+The R\-T\-C Wake\-Up counter can only be written when the R\-T\-C Wake\-Up is disabled (Use the R\-T\-C\-\_\-\-Wake\-Up\-Cmd(\-D\-I\-S\-A\-B\-L\-E)). 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em R\-T\-C\-\_\-\-Wake\-Up\-Counter,\-:} & specifies the Wake\-Up counter. This parameter can be a value from 0x0000 to 0x\-F\-F\-F\-F. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1480 of file stm32f30x\-\_\-rtc.\-c.
+
+\hypertarget{group___r_t_c___group4_ga2557b02b318211112731a91a190c4b26}{\index{Wake\-Up Timer configuration functions@{Wake\-Up Timer configuration functions}!R\-T\-C\-\_\-\-Wake\-Up\-Clock\-Config@{R\-T\-C\-\_\-\-Wake\-Up\-Clock\-Config}}
+\index{R\-T\-C\-\_\-\-Wake\-Up\-Clock\-Config@{R\-T\-C\-\_\-\-Wake\-Up\-Clock\-Config}!WakeUp Timer configuration functions@{Wake\-Up Timer configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Wake\-Up\-Clock\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} R\-T\-C\-\_\-\-Wake\-Up\-Clock\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{R\-T\-C\-\_\-\-Wake\-Up\-Clock}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group4_ga2557b02b318211112731a91a190c4b26}
+
+
+Configures the R\-T\-C Wakeup clock source. 
+
+\begin{DoxyNote}{Note}
+The Wake\-Up Clock source can only be changed when the R\-T\-C Wake\-Up is disabled (Use the R\-T\-C\-\_\-\-Wake\-Up\-Cmd(\-D\-I\-S\-A\-B\-L\-E)). 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em R\-T\-C\-\_\-\-Wake\-Up\-Clock,\-:} & Wakeup Clock source. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item R\-T\-C\-\_\-\-Wake\-Up\-Clock\-\_\-\-R\-T\-C\-C\-L\-K\-\_\-\-Div16\-: R\-T\-C Wakeup Counter Clock = R\-T\-C\-C\-L\-K/16 \item R\-T\-C\-\_\-\-Wake\-Up\-Clock\-\_\-\-R\-T\-C\-C\-L\-K\-\_\-\-Div8\-: R\-T\-C Wakeup Counter Clock = R\-T\-C\-C\-L\-K/8 \item R\-T\-C\-\_\-\-Wake\-Up\-Clock\-\_\-\-R\-T\-C\-C\-L\-K\-\_\-\-Div4\-: R\-T\-C Wakeup Counter Clock = R\-T\-C\-C\-L\-K/4 \item R\-T\-C\-\_\-\-Wake\-Up\-Clock\-\_\-\-R\-T\-C\-C\-L\-K\-\_\-\-Div2\-: R\-T\-C Wakeup Counter Clock = R\-T\-C\-C\-L\-K/2 \item R\-T\-C\-\_\-\-Wake\-Up\-Clock\-\_\-\-C\-K\-\_\-\-S\-P\-R\-E\-\_\-16bits\-: R\-T\-C Wakeup Counter Clock = C\-K\-\_\-\-S\-P\-R\-E \item R\-T\-C\-\_\-\-Wake\-Up\-Clock\-\_\-\-C\-K\-\_\-\-S\-P\-R\-E\-\_\-17bits\-: R\-T\-C Wakeup Counter Clock = C\-K\-\_\-\-S\-P\-R\-E \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1453 of file stm32f30x\-\_\-rtc.\-c.
+
+\hypertarget{group___r_t_c___group4_ga2ce05293303e0d7879c6d755c5355b4c}{\index{Wake\-Up Timer configuration functions@{Wake\-Up Timer configuration functions}!R\-T\-C\-\_\-\-Wake\-Up\-Cmd@{R\-T\-C\-\_\-\-Wake\-Up\-Cmd}}
+\index{R\-T\-C\-\_\-\-Wake\-Up\-Cmd@{R\-T\-C\-\_\-\-Wake\-Up\-Cmd}!WakeUp Timer configuration functions@{Wake\-Up Timer configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Wake\-Up\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Error\-Status} R\-T\-C\-\_\-\-Wake\-Up\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group4_ga2ce05293303e0d7879c6d755c5355b4c}
+
+
+Enables or Disables the R\-T\-C Wake\-Up timer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\-State,\-:} & new state of the Wake\-Up timer. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1513 of file stm32f30x\-\_\-rtc.\-c.
+

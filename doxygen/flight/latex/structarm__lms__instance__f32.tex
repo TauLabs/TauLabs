@@ -1,0 +1,66 @@
+\hypertarget{structarm__lms__instance__f32}{\section{arm\-\_\-lms\-\_\-instance\-\_\-f32 Struct Reference}
+\label{structarm__lms__instance__f32}\index{arm\-\_\-lms\-\_\-instance\-\_\-f32@{arm\-\_\-lms\-\_\-instance\-\_\-f32}}
+}
+
+
+Instance structure for the floating-\/point L\-M\-S filter.  
+
+
+
+
+{\ttfamily \#include $<$arm\-\_\-math.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{structarm__lms__instance__f32_af73880d9009982f5d14529869494ec3d}{num\-Taps}
+\item 
+\hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$ \hyperlink{structarm__lms__instance__f32_aaf94285be2f99b5b9af40bea8dcb14b9}{p\-State}
+\item 
+\hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$ \hyperlink{structarm__lms__instance__f32_a4795c6f7d3f17cec15c2fd09f66edd1a}{p\-Coeffs}
+\item 
+\hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} \hyperlink{structarm__lms__instance__f32_ae2af43d74c93dba16b876e10c97a5b99}{mu}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Instance structure for the floating-\/point L\-M\-S filter. 
+
+Definition at line 4322 of file arm\-\_\-math.\-h.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{structarm__lms__instance__f32_ae2af43d74c93dba16b876e10c97a5b99}{\index{arm\-\_\-lms\-\_\-instance\-\_\-f32@{arm\-\_\-lms\-\_\-instance\-\_\-f32}!mu@{mu}}
+\index{mu@{mu}!arm_lms_instance_f32@{arm\-\_\-lms\-\_\-instance\-\_\-f32}}
+\subsubsection[{mu}]{\setlength{\rightskip}{0pt plus 5cm}{\bf float32\-\_\-t} arm\-\_\-lms\-\_\-instance\-\_\-f32\-::mu}}\label{structarm__lms__instance__f32_ae2af43d74c93dba16b876e10c97a5b99}
+step size that controls filter coefficient updates. 
+
+Definition at line 4327 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__lms__instance__f32_af73880d9009982f5d14529869494ec3d}{\index{arm\-\_\-lms\-\_\-instance\-\_\-f32@{arm\-\_\-lms\-\_\-instance\-\_\-f32}!num\-Taps@{num\-Taps}}
+\index{num\-Taps@{num\-Taps}!arm_lms_instance_f32@{arm\-\_\-lms\-\_\-instance\-\_\-f32}}
+\subsubsection[{num\-Taps}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} arm\-\_\-lms\-\_\-instance\-\_\-f32\-::num\-Taps}}\label{structarm__lms__instance__f32_af73880d9009982f5d14529869494ec3d}
+number of coefficients in the filter. 
+
+Definition at line 4324 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__lms__instance__f32_a4795c6f7d3f17cec15c2fd09f66edd1a}{\index{arm\-\_\-lms\-\_\-instance\-\_\-f32@{arm\-\_\-lms\-\_\-instance\-\_\-f32}!p\-Coeffs@{p\-Coeffs}}
+\index{p\-Coeffs@{p\-Coeffs}!arm_lms_instance_f32@{arm\-\_\-lms\-\_\-instance\-\_\-f32}}
+\subsubsection[{p\-Coeffs}]{\setlength{\rightskip}{0pt plus 5cm}{\bf float32\-\_\-t}$\ast$ arm\-\_\-lms\-\_\-instance\-\_\-f32\-::p\-Coeffs}}\label{structarm__lms__instance__f32_a4795c6f7d3f17cec15c2fd09f66edd1a}
+points to the coefficient array. The array is of length num\-Taps. 
+
+Definition at line 4326 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__lms__instance__f32_aaf94285be2f99b5b9af40bea8dcb14b9}{\index{arm\-\_\-lms\-\_\-instance\-\_\-f32@{arm\-\_\-lms\-\_\-instance\-\_\-f32}!p\-State@{p\-State}}
+\index{p\-State@{p\-State}!arm_lms_instance_f32@{arm\-\_\-lms\-\_\-instance\-\_\-f32}}
+\subsubsection[{p\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf float32\-\_\-t}$\ast$ arm\-\_\-lms\-\_\-instance\-\_\-f32\-::p\-State}}\label{structarm__lms__instance__f32_aaf94285be2f99b5b9af40bea8dcb14b9}
+points to the state variable array. The array is of length num\-Taps+block\-Size-\/1. 
+
+Definition at line 4325 of file arm\-\_\-math.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-C\-M\-S\-I\-S3/\-D\-S\-P\-\_\-\-Lib/\-Include/\hyperlink{arm__math_8h}{arm\-\_\-math.\-h}\end{DoxyCompactItemize}

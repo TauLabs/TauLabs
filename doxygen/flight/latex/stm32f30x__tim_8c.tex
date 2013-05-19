@@ -1,0 +1,344 @@
+\hypertarget{stm32f30x__tim_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F30x/\-Libraries/\-S\-T\-M32\-F30x\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f30x\-\_\-tim.c File Reference}
+\label{stm32f30x__tim_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F30x/\-Libraries/\-S\-T\-M32\-F30x\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f30x\-\_\-tim.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F30x/\-Libraries/\-S\-T\-M32\-F30x\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f30x\-\_\-tim.\-c}}
+}
+
+
+This file provides firmware functions to manage the following functionalities of the T\-I\-M peripheral\-:  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_ga1659cc0ce503ac151568e0c7c02b1ba5}{T\-I\-M\-\_\-\-De\-Init} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx)
+\begin{DoxyCompactList}\small\item\em Deinitializes the T\-I\-Mx peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_ga83fd58c9416802d9638bbe1715c98932}{T\-I\-M\-\_\-\-Time\-Base\-Init} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, T\-I\-M\-\_\-\-Time\-Base\-Init\-Type\-Def $\ast$T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the T\-I\-Mx Time Base Unit peripheral according to the specified parameters in the T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_ga1556a0b9a5d53506875fd7de0cbc6b1f}{T\-I\-M\-\_\-\-Time\-Base\-Struct\-Init} (T\-I\-M\-\_\-\-Time\-Base\-Init\-Type\-Def $\ast$T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_ga45c6fd9041baf7f64c121e0172f305c7}{T\-I\-M\-\_\-\-Prescaler\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Prescaler, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-P\-S\-C\-Reload\-Mode)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Prescaler. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_ga93941c1db20bf3794f377307df90a67b}{T\-I\-M\-\_\-\-Counter\-Mode\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Counter\-Mode)
+\begin{DoxyCompactList}\small\item\em Specifies the T\-I\-Mx Counter Mode to be used. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_ga18173e7955a85d5c2598c643eada2692}{T\-I\-M\-\_\-\-Set\-Counter} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Counter)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Counter Register value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_gad6a388d498c7f299d00a9d0871943041}{T\-I\-M\-\_\-\-Set\-Autoreload} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Autoreload)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Autoreload Register value. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___t_i_m___group1_ga53607976e0866ab424e294cda9f6036e}{T\-I\-M\-\_\-\-Get\-Counter} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\-I\-Mx Counter value. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___t_i_m___group1_ga427eb6e533480e02a27cd0ca876183d6}{T\-I\-M\-\_\-\-Get\-Prescaler} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\-I\-Mx Prescaler value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_gace2384dd33e849a054f61b8e1fc7e7c3}{T\-I\-M\-\_\-\-Update\-Disable\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the T\-I\-Mx Update event. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_ga1d7a8f952e209de142499e67a653fc1f}{T\-I\-M\-\_\-\-Update\-Request\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Update\-Source)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Update Request Interrupt source. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_gae8088f379b3d09289f130e841cc4ab03}{T\-I\-M\-\_\-\-U\-I\-F\-Remap} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Sets or resets the update interrupt flag (U\-I\-F)status bit Remapping. when sets, reading T\-I\-Mx\-\_\-\-C\-N\-T register returns U\-I\-F bit instead of C\-N\-T\mbox{[}31\mbox{]}. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_ga42b44b9fc2b0798d733720dd6bac1ac0}{T\-I\-M\-\_\-\-A\-R\-R\-Preload\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables T\-I\-Mx peripheral Preload register on A\-R\-R. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_gadd2cca5fac6c1291dc4339098d5c9562}{T\-I\-M\-\_\-\-Select\-One\-Pulse\-Mode} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-P\-Mode)
+\begin{DoxyCompactList}\small\item\em Selects the T\-I\-Mx's One Pulse Mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_ga20ef804dc32c723662d11ee7da3baab2}{T\-I\-M\-\_\-\-Set\-Clock\-Division} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-C\-K\-D)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Clock Division value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group1_ga2bdc275bcbd2ce9d1ba632e6c89896b7}{T\-I\-M\-\_\-\-Cmd} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified T\-I\-M peripheral. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_gafcdb6ff00158862aef7fed5e7a554a3e}{T\-I\-M\-\_\-\-O\-C1\-Init} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{struct_t_i_m___o_c_init_type_def}{T\-I\-M\-\_\-\-O\-C\-Init\-Type\-Def} $\ast$T\-I\-M\-\_\-\-O\-C\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the T\-I\-Mx Channel1 according to the specified parameters in the T\-I\-M\-\_\-\-O\-C\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga2017455121d910d6ff63ac6f219842c5}{T\-I\-M\-\_\-\-O\-C2\-Init} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{struct_t_i_m___o_c_init_type_def}{T\-I\-M\-\_\-\-O\-C\-Init\-Type\-Def} $\ast$T\-I\-M\-\_\-\-O\-C\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the T\-I\-Mx Channel2 according to the specified parameters in the T\-I\-M\-\_\-\-O\-C\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga90d4a358d4e6d4c5ed17dc1d6beb5f30}{T\-I\-M\-\_\-\-O\-C3\-Init} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{struct_t_i_m___o_c_init_type_def}{T\-I\-M\-\_\-\-O\-C\-Init\-Type\-Def} $\ast$T\-I\-M\-\_\-\-O\-C\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the T\-I\-Mx Channel3 according to the specified parameters in the T\-I\-M\-\_\-\-O\-C\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga64571ebbb58cac39a9e760050175f11c}{T\-I\-M\-\_\-\-O\-C4\-Init} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{struct_t_i_m___o_c_init_type_def}{T\-I\-M\-\_\-\-O\-C\-Init\-Type\-Def} $\ast$T\-I\-M\-\_\-\-O\-C\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the T\-I\-Mx Channel4 according to the specified parameters in the T\-I\-M\-\_\-\-O\-C\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga6b519aadead936de8068ded1794b6e8f}{T\-I\-M\-\_\-\-O\-C5\-Init} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{struct_t_i_m___o_c_init_type_def}{T\-I\-M\-\_\-\-O\-C\-Init\-Type\-Def} $\ast$T\-I\-M\-\_\-\-O\-C\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the T\-I\-Mx Channel5 according to the specified parameters in the T\-I\-M\-\_\-\-O\-C\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga33cbe12bc14905ab930771a8f806a62c}{T\-I\-M\-\_\-\-O\-C6\-Init} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{struct_t_i_m___o_c_init_type_def}{T\-I\-M\-\_\-\-O\-C\-Init\-Type\-Def} $\ast$T\-I\-M\-\_\-\-O\-C\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the T\-I\-Mx Channel6 according to the specified parameters in the T\-I\-M\-\_\-\-O\-C\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_gab2855e01878bf42915f9bf686e01ac17}{T\-I\-M\-\_\-\-Select\-G\-C5\-C1} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Selects the T\-I\-M Group Channel 5 and Channel 1, O\-C1\-R\-E\-F\-C is the logical A\-N\-D of O\-C1\-R\-E\-F\-C and O\-C5\-R\-E\-F. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_gac6858ba34edb61abc851f67b3676753f}{T\-I\-M\-\_\-\-Select\-G\-C5\-C2} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Selects the T\-I\-M Group Channel 5 and Channel 2, O\-C2\-R\-E\-F\-C is the logical A\-N\-D of O\-C2\-R\-E\-F\-C and O\-C5\-R\-E\-F. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga06c9c07c73dec20da53e8718ef225810}{T\-I\-M\-\_\-\-Select\-G\-C5\-C3} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Selects the T\-I\-M Group Channel 5 and Channel 3, O\-C3\-R\-E\-F\-C is the logical A\-N\-D of O\-C3\-R\-E\-F\-C and O\-C5\-R\-E\-F. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga394683c78ae02837882e36014e11643e}{T\-I\-M\-\_\-\-O\-C\-Struct\-Init} (\hyperlink{struct_t_i_m___o_c_init_type_def}{T\-I\-M\-\_\-\-O\-C\-Init\-Type\-Def} $\ast$T\-I\-M\-\_\-\-O\-C\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each T\-I\-M\-\_\-\-O\-C\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga82bb30a12b758ffb1fd47fd2981a25a5}{T\-I\-M\-\_\-\-Select\-O\-Cx\-M} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Channel, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Mode)
+\begin{DoxyCompactList}\small\item\em Selects the T\-I\-M Output Compare Mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga48631e66c32bb905946664f4722b2546}{T\-I\-M\-\_\-\-Set\-Compare1} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Compare1)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Capture Compare1 Register value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga3de36754f3ba5d46b9ef2bf8e77575c7}{T\-I\-M\-\_\-\-Set\-Compare2} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Compare2)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Capture Compare2 Register value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_gac372fbbbbc20329802659dd6c6b4e051}{T\-I\-M\-\_\-\-Set\-Compare3} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Compare3)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Capture Compare3 Register value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga99ba6c2afa87a239c9d32a49762b4245}{T\-I\-M\-\_\-\-Set\-Compare4} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Compare4)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Capture Compare4 Register value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga5a69681772274c0f5c9c7638dac8c4d6}{T\-I\-M\-\_\-\-Set\-Compare5} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Compare5)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Capture Compare5 Register value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga31d5f0a64af39e0765a3b0680352fbfe}{T\-I\-M\-\_\-\-Set\-Compare6} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Compare6)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Capture Compare6 Register value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga4f58c12e6493a0d8b9555c9097b831d6}{T\-I\-M\-\_\-\-Forced\-O\-C1\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Forced\-Action)
+\begin{DoxyCompactList}\small\item\em Forces the T\-I\-Mx output 1 waveform to active or inactive level. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga3d2902b6fbab8dd55cd531055ffcc63d}{T\-I\-M\-\_\-\-Forced\-O\-C2\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Forced\-Action)
+\begin{DoxyCompactList}\small\item\em Forces the T\-I\-Mx output 2 waveform to active or inactive level. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga920b0fb4ca44fceffd1c3e441feebd8f}{T\-I\-M\-\_\-\-Forced\-O\-C3\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Forced\-Action)
+\begin{DoxyCompactList}\small\item\em Forces the T\-I\-Mx output 3 waveform to active or inactive level. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_gaf0a0bbe74251e56d4b835d20b0a3aa63}{T\-I\-M\-\_\-\-Forced\-O\-C4\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Forced\-Action)
+\begin{DoxyCompactList}\small\item\em Forces the T\-I\-Mx output 4 waveform to active or inactive level. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_gae8c9211bf4ce47de464b6a9e2e59bf36}{T\-I\-M\-\_\-\-Forced\-O\-C5\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Forced\-Action)
+\begin{DoxyCompactList}\small\item\em Forces the T\-I\-Mx output 5 waveform to active or inactive level. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga0f1d0424771a5e816a86fc60638732bf}{T\-I\-M\-\_\-\-Forced\-O\-C6\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Forced\-Action)
+\begin{DoxyCompactList}\small\item\em Forces the T\-I\-Mx output 6 waveform to active or inactive level. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga60e6c29ad8f919bef616cf8e3306dd64}{T\-I\-M\-\_\-\-O\-C1\-Preload\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Preload)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\-I\-Mx peripheral Preload register on C\-C\-R1. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga75b4614c6dd2cd52f2c5becdb6590c10}{T\-I\-M\-\_\-\-O\-C2\-Preload\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Preload)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\-I\-Mx peripheral Preload register on C\-C\-R2. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga8b2391685a519e60e596b7d596f86f09}{T\-I\-M\-\_\-\-O\-C3\-Preload\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Preload)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\-I\-Mx peripheral Preload register on C\-C\-R3. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga8bf4dfb35ff0c7b494dd96579f50b1ec}{T\-I\-M\-\_\-\-O\-C4\-Preload\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Preload)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\-I\-Mx peripheral Preload register on C\-C\-R4. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga09ea9adfb3eaf14ed22e0a6d5220161a}{T\-I\-M\-\_\-\-O\-C5\-Preload\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Preload)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\-I\-Mx peripheral Preload register on C\-C\-R5. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga88fd47900b03666a7297aa3f0c0bf8ff}{T\-I\-M\-\_\-\-O\-C6\-Preload\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Preload)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\-I\-Mx peripheral Preload register on C\-C\-R6. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_gaec82031ca62f31f5483195c09752a83a}{T\-I\-M\-\_\-\-O\-C1\-Fast\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Fast)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Output Compare 1 Fast feature. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga413359c87f46c69f1ffe2dc8fb3a65e7}{T\-I\-M\-\_\-\-O\-C2\-Fast\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Fast)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Output Compare 2 Fast feature. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_gab2f3698e6e56bd9b0a4be7056ba789e1}{T\-I\-M\-\_\-\-O\-C3\-Fast\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Fast)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Output Compare 3 Fast feature. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga58279a04e8ea5333f1079d3cce8dde12}{T\-I\-M\-\_\-\-O\-C4\-Fast\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Fast)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Output Compare 4 Fast feature. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga34e926cd8a99cfcc7480b2d6de5118b6}{T\-I\-M\-\_\-\-Clear\-O\-C1\-Ref} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Clear)
+\begin{DoxyCompactList}\small\item\em Clears or safeguards the O\-C\-R\-E\-F1 signal on an external event. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_gac474ebc815d24c8a589969e0c68b27b0}{T\-I\-M\-\_\-\-Clear\-O\-C2\-Ref} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Clear)
+\begin{DoxyCompactList}\small\item\em Clears or safeguards the O\-C\-R\-E\-F2 signal on an external event. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga0bd9476a14bd346c319945ec4fa2bc67}{T\-I\-M\-\_\-\-Clear\-O\-C3\-Ref} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Clear)
+\begin{DoxyCompactList}\small\item\em Clears or safeguards the O\-C\-R\-E\-F3 signal on an external event. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_gaeee5fa66b26e7c6f71850272dc3028f3}{T\-I\-M\-\_\-\-Clear\-O\-C4\-Ref} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Clear)
+\begin{DoxyCompactList}\small\item\em Clears or safeguards the O\-C\-R\-E\-F4 signal on an external event. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga01b5aee2ebf7e69a6b62cff4be6e1c01}{T\-I\-M\-\_\-\-Clear\-O\-C5\-Ref} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Clear)
+\begin{DoxyCompactList}\small\item\em Clears or safeguards the O\-C\-R\-E\-F5 signal on an external event. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga38504678791b49fa5860be57b531fd9a}{T\-I\-M\-\_\-\-Clear\-O\-C6\-Ref} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Clear)
+\begin{DoxyCompactList}\small\item\em Clears or safeguards the O\-C\-R\-E\-F6 signal on an external event. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga36d874564299c141116a4810638dacd2}{T\-I\-M\-\_\-\-Select\-O\-C\-R\-E\-F\-Clear} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Reference\-Clear)
+\begin{DoxyCompactList}\small\item\em Selects the O\-C\-Reference Clear source. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga03878f78163485c8a3508cff2111c297}{T\-I\-M\-\_\-\-O\-C1\-Polarity\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx channel 1 polarity. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga3cb91578e7dd34ea7d09862482960445}{T\-I\-M\-\_\-\-O\-C1\-N\-Polarity\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-N\-Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Channel 1\-N polarity. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga6831cacaac1ef50291af94db94450797}{T\-I\-M\-\_\-\-O\-C2\-Polarity\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx channel 2 polarity. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga2fa6ea3a89f446b52b4e699272b70cad}{T\-I\-M\-\_\-\-O\-C2\-N\-Polarity\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-N\-Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Channel 2\-N polarity. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga1ef43b03fe666495e80aac9741ae7ab0}{T\-I\-M\-\_\-\-O\-C3\-Polarity\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx channel 3 polarity. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_gac710acc5b682e892584fc6f089f61dc2}{T\-I\-M\-\_\-\-O\-C3\-N\-Polarity\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-N\-Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Channel 3\-N polarity. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_gad678410f7c7244f83daad93ce9d1056e}{T\-I\-M\-\_\-\-O\-C4\-Polarity\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx channel 4 polarity. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga9892494ca12fffef20b2e95970d7ef66}{T\-I\-M\-\_\-\-O\-C5\-Polarity\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx channel 5 polarity. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga9f1dda56b1fb8f7ac17b9a7f58d0232d}{T\-I\-M\-\_\-\-O\-C6\-Polarity\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx channel 6 polarity. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga3ecc4647d9ede261beb5e0535cf29ebb}{T\-I\-M\-\_\-\-C\-Cx\-Cmd} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Channel, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-C\-Cx)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\-I\-M Capture Compare Channel x. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group2_ga304ff7c8a1615498da749bf2507e9f2b}{T\-I\-M\-\_\-\-C\-Cx\-N\-Cmd} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Channel, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-C\-Cx\-N)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\-I\-M Capture Compare Channel x\-N. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group3_ga9e6a153dd6552e4e1188eba227316f7f}{T\-I\-M\-\_\-\-I\-C\-Init} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{struct_t_i_m___i_c_init_type_def}{T\-I\-M\-\_\-\-I\-C\-Init\-Type\-Def} $\ast$T\-I\-M\-\_\-\-I\-C\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the T\-I\-M peripheral according to the specified parameters in the T\-I\-M\-\_\-\-I\-C\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group3_ga5005dac8e4e8a4c7fc2a0ef05b77cc50}{T\-I\-M\-\_\-\-I\-C\-Struct\-Init} (\hyperlink{struct_t_i_m___i_c_init_type_def}{T\-I\-M\-\_\-\-I\-C\-Init\-Type\-Def} $\ast$T\-I\-M\-\_\-\-I\-C\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each T\-I\-M\-\_\-\-I\-C\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group3_gaa71f9296556310f85628d6c748a06475}{T\-I\-M\-\_\-\-P\-W\-M\-I\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{struct_t_i_m___i_c_init_type_def}{T\-I\-M\-\_\-\-I\-C\-Init\-Type\-Def} $\ast$T\-I\-M\-\_\-\-I\-C\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-M peripheral according to the specified parameters in the T\-I\-M\-\_\-\-I\-C\-Init\-Struct to measure an external P\-W\-M signal. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___t_i_m___group3_ga6bd39ca543305ff0cd06fce0f678d94d}{T\-I\-M\-\_\-\-Get\-Capture1} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\-I\-Mx Input Capture 1 value. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___t_i_m___group3_ga2524cb5db14e388fb7f20c99fb3d58a5}{T\-I\-M\-\_\-\-Get\-Capture2} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\-I\-Mx Input Capture 2 value. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___t_i_m___group3_ga71ee9ce2c535ec0fb3fac5f9119221f7}{T\-I\-M\-\_\-\-Get\-Capture3} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\-I\-Mx Input Capture 3 value. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___t_i_m___group3_ga420b022cbc71ac603b5dd4922687abb1}{T\-I\-M\-\_\-\-Get\-Capture4} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\-I\-Mx Input Capture 4 value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group3_gaf0f684dea88e222de9689d8ed0ca8805}{T\-I\-M\-\_\-\-Set\-I\-C1\-Prescaler} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-I\-C\-P\-S\-C)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Input Capture 1 prescaler. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group3_ga3cc4869b5fe73271808512c89322a325}{T\-I\-M\-\_\-\-Set\-I\-C2\-Prescaler} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-I\-C\-P\-S\-C)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Input Capture 2 prescaler. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group3_ga76f906383b8132ebe00dffadb70cf7f9}{T\-I\-M\-\_\-\-Set\-I\-C3\-Prescaler} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-I\-C\-P\-S\-C)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Input Capture 3 prescaler. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group3_ga0f2c784271356d6b64b8c0da64dbdbc2}{T\-I\-M\-\_\-\-Set\-I\-C4\-Prescaler} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-I\-C\-P\-S\-C)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Input Capture 4 prescaler. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group4_ga3df4ba3f0727f63ce621e2b2e6035d4f}{T\-I\-M\-\_\-\-B\-D\-T\-R\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{struct_t_i_m___b_d_t_r_init_type_def}{T\-I\-M\-\_\-\-B\-D\-T\-R\-Init\-Type\-Def} $\ast$T\-I\-M\-\_\-\-B\-D\-T\-R\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Configures the Break feature, dead time, Lock level, O\-S\-S\-I/\-O\-S\-S\-R State and the A\-O\-E(automatic output enable). \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group4_ga6cc840b0be510f46cc04139229572d10}{T\-I\-M\-\_\-\-Break1\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} T\-I\-M\-\_\-\-Break1\-Polarity, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} T\-I\-M\-\_\-\-Break1\-Filter)
+\begin{DoxyCompactList}\small\item\em Configures the Break1 feature. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group4_ga18e4673a59b33cb37dbf12f66dfb84ee}{T\-I\-M\-\_\-\-Break2\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} T\-I\-M\-\_\-\-Break2\-Polarity, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} T\-I\-M\-\_\-\-Break2\-Filter)
+\begin{DoxyCompactList}\small\item\em Configures the Break2 feature. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group4_ga005d9f7bebe87245c13d3511888399a5}{T\-I\-M\-\_\-\-Break1\-Cmd} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\-I\-M Break1 input. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group4_ga72aa91ef2780237e940fd4cde232f561}{T\-I\-M\-\_\-\-Break2\-Cmd} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\-I\-M Break2 input. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group4_gaea0f49938cda8ae0738162194798afc6}{T\-I\-M\-\_\-\-B\-D\-T\-R\-Struct\-Init} (\hyperlink{struct_t_i_m___b_d_t_r_init_type_def}{T\-I\-M\-\_\-\-B\-D\-T\-R\-Init\-Type\-Def} $\ast$T\-I\-M\-\_\-\-B\-D\-T\-R\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each T\-I\-M\-\_\-\-B\-D\-T\-R\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group4_ga3e59ebced2ab8e0b817c460f1670e97d}{T\-I\-M\-\_\-\-Ctrl\-P\-W\-M\-Outputs} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\-I\-M peripheral Main Outputs. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group4_gaff2e7f9959b1b36e830df028c14accc8}{T\-I\-M\-\_\-\-Select\-C\-O\-M} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Selects the T\-I\-M peripheral Commutation event. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group4_ga0a935254e44312b1d78e8684a58db3c1}{T\-I\-M\-\_\-\-C\-C\-Preload\-Control} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Sets or Resets the T\-I\-M peripheral Capture Compare Preload Control bit. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group5_ga70e3d6c09d55ee69002e154c85cd40e4}{T\-I\-M\-\_\-\-I\-T\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-I\-T, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified T\-I\-M interrupts. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group5_ga38bd4ffda920dd4f7655a0a2c6100a6e}{T\-I\-M\-\_\-\-Generate\-Event} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Event\-Source)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx event to be generate by software. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___t_i_m___group5_gab03e4421f9d86500a8f19822a894067f}{T\-I\-M\-\_\-\-Get\-Flag\-Status} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} T\-I\-M\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified T\-I\-M flag is set or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group5_ga46568c7b254941dc53e785342d60baf3}{T\-I\-M\-\_\-\-Clear\-Flag} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Clears the T\-I\-Mx's pending flags. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_gaacbd7ed539db0aacd973a0f6eca34074}{I\-T\-Status} \hyperlink{group___t_i_m___group5_ga0827a0b411707304f76d33050727c24d}{T\-I\-M\-\_\-\-Get\-I\-T\-Status} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Checks whether the T\-I\-M interrupt has occurred or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group5_ga9eb1e95af71ed380f51a2c6d585cc5d6}{T\-I\-M\-\_\-\-Clear\-I\-T\-Pending\-Bit} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Clears the T\-I\-Mx's interrupt pending bits. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group5_gad7156f84c436c8ac92cd789611826d09}{T\-I\-M\-\_\-\-D\-M\-A\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-D\-M\-A\-Base, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-D\-M\-A\-Burst\-Length)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx's D\-M\-A interface. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group5_ga24700389cfa3ea9b42234933b23f1399}{T\-I\-M\-\_\-\-D\-M\-A\-Cmd} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-D\-M\-A\-Source, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\-I\-Mx's D\-M\-A Requests. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group5_ga5273cb65acb885fe7982827b1c6b7d75}{T\-I\-M\-\_\-\-Select\-C\-C\-D\-M\-A} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Selects the T\-I\-Mx peripheral Capture Compare D\-M\-A source. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group6_ga2394f0221709c0659874f9a4184cf86e}{T\-I\-M\-\_\-\-Internal\-Clock\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx internal Clock. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group6_gabef227d21d9e121e6a4ec5ab6223f5a9}{T\-I\-M\-\_\-\-I\-T\-Rx\-External\-Clock\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Input\-Trigger\-Source)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Internal Trigger as External Clock. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group6_gaf460e7d9c9969044e364130e209937fc}{T\-I\-M\-\_\-\-T\-Ix\-External\-Clock\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-T\-Ix\-External\-C\-L\-K\-Source, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-I\-C\-Polarity, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} I\-C\-Filter)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Trigger as External Clock. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group6_ga47c05638b93aabcd641dbc8859e1b2df}{T\-I\-M\-\_\-\-E\-T\-R\-Clock\-Mode1\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Prescaler, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Polarity, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Ext\-T\-R\-G\-Filter)
+\begin{DoxyCompactList}\small\item\em Configures the External clock Mode1. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group6_ga0a9cbcbab32326cbbdaf4c111f59ec20}{T\-I\-M\-\_\-\-E\-T\-R\-Clock\-Mode2\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Prescaler, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Polarity, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Ext\-T\-R\-G\-Filter)
+\begin{DoxyCompactList}\small\item\em Configures the External clock Mode2. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group7_ga4252583c6ae8a73d6fc66f7e951dbc35}{T\-I\-M\-\_\-\-Select\-Input\-Trigger} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Input\-Trigger\-Source)
+\begin{DoxyCompactList}\small\item\em Selects the Input Trigger source. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group7_ga28745aaa549e2067e42c19569209e6c6}{T\-I\-M\-\_\-\-Select\-Output\-Trigger} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-T\-R\-G\-O\-Source)
+\begin{DoxyCompactList}\small\item\em Selects the T\-I\-Mx Trigger Output Mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group7_ga718633d185ae3c2b8bcfff242b09189e}{T\-I\-M\-\_\-\-Select\-Output\-Trigger2} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} T\-I\-M\-\_\-\-T\-R\-G\-O2\-Source)
+\begin{DoxyCompactList}\small\item\em Selects the T\-I\-Mx Trigger Output Mode2 (T\-R\-G\-O2). \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group7_gab1fb559c091f3ed0ff73239a25f8e21f}{T\-I\-M\-\_\-\-Select\-Slave\-Mode} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} T\-I\-M\-\_\-\-Slave\-Mode)
+\begin{DoxyCompactList}\small\item\em Selects the T\-I\-Mx Slave Mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group7_ga4dcc3d11b670c381d0ff9cb7e9fd01e2}{T\-I\-M\-\_\-\-Select\-Master\-Slave\-Mode} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Master\-Slave\-Mode)
+\begin{DoxyCompactList}\small\item\em Sets or Resets the T\-I\-Mx Master/\-Slave Mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group7_ga8bdde400b7a30f3e747fe8e4962c0abe}{T\-I\-M\-\_\-\-E\-T\-R\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Prescaler, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Polarity, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Ext\-T\-R\-G\-Filter)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx External Trigger (E\-T\-R). \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group8_ga0fc7e76c47a3bd1ba1ebc71427832b51}{T\-I\-M\-\_\-\-Encoder\-Interface\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Encoder\-Mode, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-I\-C1\-Polarity, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-I\-C2\-Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Encoder Interface. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group8_ga42c2d1025a3937c9d9f38631af86ffa4}{T\-I\-M\-\_\-\-Select\-Hall\-Sensor} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\-I\-Mx's Hall sensor interface. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group9_ga08ffb6f2bfa96b6fbcbb8d8001cb8ba9}{T\-I\-M\-\_\-\-Remap\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Remap)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-M16 Remapping input Capabilities. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file provides firmware functions to manage the following functionalities of the T\-I\-M peripheral\-: \begin{DoxyAuthor}{Author}
+M\-C\-D Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V1.\-0.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+04-\/\-September-\/2012
+\begin{DoxyItemize}
+\item Time\-Base management
+\item Output Compare management
+\item Input Capture management
+\item Advanced-\/control timers (T\-I\-M1 and T\-I\-M8) specific features
+\item Interrupts, D\-M\-A and flags management
+\item Clocks management
+\item Synchronization management
+\item Specific interface management
+\item Specific remapping management
+\end{DoxyItemize}
+\end{DoxyDate}
+\begin{DoxyVerb}==============================================================================
+                     ##### How to use this driver #####
+==============================================================================
+ [..] This driver provides functions to configure and program the TIM 
+      of all stm32f30x devices.
+      These functions are split in 9 groups: 
+   
+      (#) TIM TimeBase management: this group includes all needed functions 
+          to configure the TM Timebase unit:
+               (++) Set/Get Prescaler
+               (++) Set/Get Autoreload  
+               (++) Counter modes configuration
+               (++) Set Clock division  
+               (++) Select the One Pulse mode
+               (++) Update Request Configuration
+               (++) Update Disable Configuration
+               (++) Auto-Preload Configuration 
+               (++) Enable/Disable the counter     
+                 
+     (#) TIM Output Compare management: this group includes all needed 
+         functions to configure the Capture/Compare unit used in Output 
+         compare mode: 
+               (++) Configure each channel, independently, in Output Compare mode
+               (++) Select the output compare modes
+               (++) Select the Polarities of each channel
+               (++) Set/Get the Capture/Compare register values
+               (++) Select the Output Compare Fast mode 
+               (++) Select the Output Compare Forced mode  
+               (++) Output Compare-Preload Configuration 
+               (++) Clear Output Compare Reference
+               (++) Select the OCREF Clear signal
+               (++) Enable/Disable the Capture/Compare Channels    
+                  
+      (#) TIM Input Capture management: this group includes all needed 
+          functions to configure the Capture/Compare unit used in 
+          Input Capture mode:
+               (++) Configure each channel in input capture mode
+               (++) Configure Channel1/2 in PWM Input mode
+               (++) Set the Input Capture Prescaler
+               (++) Get the Capture/Compare values      
+                   
+      (#) Advanced-control timers (TIM1 and TIM8) specific features
+               (++) Configures the Break input, dead time, Lock level, the OSSI,
+                    the OSSR State and the AOE(automatic output enable)
+               (++) Enable/Disable the TIM peripheral Main Outputs
+               (++) Select the Commutation event
+               (++) Set/Reset the Capture Compare Preload Control bit
+                             
+      (#) TIM interrupts, DMA and flags management
+               (++) Enable/Disable interrupt sources
+               (++) Get flags status
+               (++) Clear flags/ Pending bits
+               (++) Enable/Disable DMA requests 
+               (++) Configure DMA burst mode
+               (++) Select CaptureCompare DMA request  
+              
+      (#) TIM clocks management: this group includes all needed functions 
+          to configure the clock controller unit:
+               (++) Select internal/External clock
+               (++) Select the external clock mode: ETR(Mode1/Mode2), TIx or ITRx
+       
+      (#) TIM synchronization management: this group includes all needed 
+          functions to configure the Synchronization unit:
+               (++) Select Input Trigger  
+               (++) Select Output Trigger  
+               (++) Select Master Slave Mode 
+               (++) ETR Configuration when used as external trigger   
+     
+      (#) TIM specific interface management, this group includes all 
+          needed functions to use the specific TIM interface:
+               (++) Encoder Interface Configuration
+               (++) Select Hall Sensor   
+         
+      (#) TIM specific remapping management includes the Remapping 
+          configuration of specific timers               \end{DoxyVerb}
+
+
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+\subsubsection*{\begin{center}\copyright C\-O\-P\-Y\-R\-I\-G\-H\-T 2012 S\-T\-Microelectronics\end{center} }
+
+Licensed under M\-C\-D-\/\-S\-T Liberty S\-W License Agreement V2, (the \char`\"{}\-License\char`\"{}); You may not use this file except in compliance with the License. You may obtain a copy of the License at\-: \begin{DoxyVerb}   http://www.st.com/software_license_agreement_liberty_v2
+\end{DoxyVerb}
+
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \char`\"{}\-A\-S I\-S\char`\"{} B\-A\-S\-I\-S, W\-I\-T\-H\-O\-U\-T W\-A\-R\-R\-A\-N\-T\-I\-E\-S O\-R C\-O\-N\-D\-I\-T\-I\-O\-N\-S O\-F A\-N\-Y K\-I\-N\-D, either express or implied. See the License for the specific language governing permissions and limitations under the License. 
+
+Definition in file \hyperlink{stm32f30x__tim_8c_source}{stm32f30x\-\_\-tim.\-c}.
+

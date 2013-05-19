@@ -1,0 +1,65 @@
+\hypertarget{struct_pm_heap_desc__s}{\section{Pm\-Heap\-Desc\-\_\-s Struct Reference}
+\label{struct_pm_heap_desc__s}\index{Pm\-Heap\-Desc\-\_\-s@{Pm\-Heap\-Desc\-\_\-s}}
+}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{struct_pm_heap_desc__s_a2767ec86ed357adc57fa8cd5711e40d0}{hd}
+\item 
+struct \hyperlink{struct_pm_heap_desc__s}{Pm\-Heap\-Desc\-\_\-s} $\ast$ \hyperlink{struct_pm_heap_desc__s_a19e11087672adf23918da958588846f1}{prev}
+\item 
+struct \hyperlink{struct_pm_heap_desc__s}{Pm\-Heap\-Desc\-\_\-s} $\ast$ \hyperlink{struct_pm_heap_desc__s_a0b0227b78c1547dc5d2f9025b9c4a99c}{next}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The following is a diagram of the heap descriptor at the head of the chunk\-: \begin{DoxyVerb}*                MSb          LSb
+*                7 6 5 4 3 2 1 0
+*      pchunk-> +-+-+-+-+-+-+-+-+
+*               |     S[9:2]    |     S := Size of the chunk (2 LSbs dropped)
+*               +-+-+-----------+     F := Chunk free bit (not in use)
+*               |F|R| S[15:10]  |     R := Bit reserved for future use
+*               +-+-+-----------+
+*               |     P(L)      |     P := hd_prev: Pointer to previous node
+*               |     P(H)      |     N := hd_next: Pointer to next node
+*               |     N(L)      |
+*               |     N(H)      |     Theoretical min size == 6
+*               +---------------+     Effective min size == 8
+*               | unused space  |     (12 on 32-bit MCUs)
+*               ...           ...
+*               | end chunk     |
+*               +---------------+
+* \end{DoxyVerb}
+ 
+
+Definition at line 108 of file heap.\-c.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{struct_pm_heap_desc__s_a2767ec86ed357adc57fa8cd5711e40d0}{\index{Pm\-Heap\-Desc\-\_\-s@{Pm\-Heap\-Desc\-\_\-s}!hd@{hd}}
+\index{hd@{hd}!PmHeapDesc_s@{Pm\-Heap\-Desc\-\_\-s}}
+\subsubsection[{hd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} Pm\-Heap\-Desc\-\_\-s\-::hd}}\label{struct_pm_heap_desc__s_a2767ec86ed357adc57fa8cd5711e40d0}
+Heap descriptor 
+
+Definition at line 111 of file heap.\-c.
+
+\hypertarget{struct_pm_heap_desc__s_a0b0227b78c1547dc5d2f9025b9c4a99c}{\index{Pm\-Heap\-Desc\-\_\-s@{Pm\-Heap\-Desc\-\_\-s}!next@{next}}
+\index{next@{next}!PmHeapDesc_s@{Pm\-Heap\-Desc\-\_\-s}}
+\subsubsection[{next}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Pm\-Heap\-Desc\-\_\-s}$\ast$ Pm\-Heap\-Desc\-\_\-s\-::next}}\label{struct_pm_heap_desc__s_a0b0227b78c1547dc5d2f9025b9c4a99c}
+Ptr to next heap chunk 
+
+Definition at line 117 of file heap.\-c.
+
+\hypertarget{struct_pm_heap_desc__s_a19e11087672adf23918da958588846f1}{\index{Pm\-Heap\-Desc\-\_\-s@{Pm\-Heap\-Desc\-\_\-s}!prev@{prev}}
+\index{prev@{prev}!PmHeapDesc_s@{Pm\-Heap\-Desc\-\_\-s}}
+\subsubsection[{prev}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Pm\-Heap\-Desc\-\_\-s}$\ast$ Pm\-Heap\-Desc\-\_\-s\-::prev}}\label{struct_pm_heap_desc__s_a19e11087672adf23918da958588846f1}
+Ptr to prev heap chunk 
+
+Definition at line 114 of file heap.\-c.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/\hyperlink{heap_8c}{heap.\-c}\end{DoxyCompactItemize}

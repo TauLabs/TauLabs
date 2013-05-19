@@ -1,0 +1,79 @@
+\hypertarget{posix_2posix_2_libraries_2_free_r_t_o_s_2_source_2croutine_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S.posix/posix/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/croutine.c File Reference}
+\label{posix_2posix_2_libraries_2_free_r_t_o_s_2_source_2croutine_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S.\-posix/posix/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/croutine.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S.\-posix/posix/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/croutine.\-c}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{posix_2posix_2_libraries_2_free_r_t_o_s_2_source_2croutine_8c_a1e945d913788ba682fb52c175ae1443a}{x\-Co\-Routine\-Create} (\hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2croutine_8h_a6e4eab2099c619436f180f021787779b}{cr\-C\-O\-R\-O\-U\-T\-I\-N\-E\-\_\-\-C\-O\-D\-E} px\-Co\-Routine\-Code, unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E ux\-Priority, unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E ux\-Index)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{posix_2posix_2_libraries_2_free_r_t_o_s_2_source_2croutine_8c_ab079c8617df3a965355be09a08a31342}{v\-Co\-Routine\-Add\-To\-Delayed\-List} (\hyperlink{_s_t_m32_f10x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_a_r_m___c_m3_2portmacro_8h_a4d746b2ff8fafc490b764c66411ec457}{port\-Tick\-Type} x\-Ticks\-To\-Delay, \hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2list_8h_a3cee7d8d40380f66ac73b8825b5a0fb0}{x\-List} $\ast$px\-Event\-List)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{posix_2posix_2_libraries_2_free_r_t_o_s_2_source_2croutine_8c_a5333c649a2c063006ca3cd7a3b5b9240}{v\-Co\-Routine\-Schedule} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{posix_2posix_2_libraries_2_free_r_t_o_s_2_source_2croutine_8c_a9d3b6fc4612f417a42fc92f072a19686}{x\-Co\-Routine\-Remove\-From\-Event\-List} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2list_8h_a3cee7d8d40380f66ac73b8825b5a0fb0}{x\-List} $\ast$px\-Event\-List)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2croutine_8h_af2a92783b4355808d1f6aafbacbec55a}{cor\-C\-R\-C\-B} $\ast$ \hyperlink{posix_2posix_2_libraries_2_free_r_t_o_s_2_source_2croutine_8c_a4f2363cde5975409c292f4d21c271856}{px\-Current\-Co\-Routine} = N\-U\-L\-L
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{posix_2posix_2_libraries_2_free_r_t_o_s_2_source_2croutine_8c_ab079c8617df3a965355be09a08a31342}{\index{posix/posix/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/croutine.\-c@{posix/posix/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/croutine.\-c}!v\-Co\-Routine\-Add\-To\-Delayed\-List@{v\-Co\-Routine\-Add\-To\-Delayed\-List}}
+\index{v\-Co\-Routine\-Add\-To\-Delayed\-List@{v\-Co\-Routine\-Add\-To\-Delayed\-List}!posix/posix/Libraries/FreeRTOS/Source/croutine.c@{posix/posix/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/croutine.\-c}}
+\subsubsection[{v\-Co\-Routine\-Add\-To\-Delayed\-List}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Co\-Routine\-Add\-To\-Delayed\-List (
+\begin{DoxyParamCaption}
+\item[{{\bf port\-Tick\-Type}}]{x\-Ticks\-To\-Delay, }
+\item[{{\bf x\-List} $\ast$}]{px\-Event\-List}
+\end{DoxyParamCaption}
+)}}\label{posix_2posix_2_libraries_2_free_r_t_o_s_2_source_2croutine_8c_ab079c8617df3a965355be09a08a31342}
+
+
+Definition at line 182 of file croutine.\-c.
+
+\hypertarget{posix_2posix_2_libraries_2_free_r_t_o_s_2_source_2croutine_8c_a5333c649a2c063006ca3cd7a3b5b9240}{\index{posix/posix/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/croutine.\-c@{posix/posix/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/croutine.\-c}!v\-Co\-Routine\-Schedule@{v\-Co\-Routine\-Schedule}}
+\index{v\-Co\-Routine\-Schedule@{v\-Co\-Routine\-Schedule}!posix/posix/Libraries/FreeRTOS/Source/croutine.c@{posix/posix/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/croutine.\-c}}
+\subsubsection[{v\-Co\-Routine\-Schedule}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Co\-Routine\-Schedule (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{posix_2posix_2_libraries_2_free_r_t_o_s_2_source_2croutine_8c_a5333c649a2c063006ca3cd7a3b5b9240}
+
+
+Definition at line 299 of file croutine.\-c.
+
+\hypertarget{posix_2posix_2_libraries_2_free_r_t_o_s_2_source_2croutine_8c_a1e945d913788ba682fb52c175ae1443a}{\index{posix/posix/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/croutine.\-c@{posix/posix/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/croutine.\-c}!x\-Co\-Routine\-Create@{x\-Co\-Routine\-Create}}
+\index{x\-Co\-Routine\-Create@{x\-Co\-Routine\-Create}!posix/posix/Libraries/FreeRTOS/Source/croutine.c@{posix/posix/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/croutine.\-c}}
+\subsubsection[{x\-Co\-Routine\-Create}]{\setlength{\rightskip}{0pt plus 5cm}signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Co\-Routine\-Create (
+\begin{DoxyParamCaption}
+\item[{{\bf cr\-C\-O\-R\-O\-U\-T\-I\-N\-E\-\_\-\-C\-O\-D\-E}}]{px\-Co\-Routine\-Code, }
+\item[{unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E}]{ux\-Priority, }
+\item[{unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E}]{ux\-Index}
+\end{DoxyParamCaption}
+)}}\label{posix_2posix_2_libraries_2_free_r_t_o_s_2_source_2croutine_8c_a1e945d913788ba682fb52c175ae1443a}
+
+
+Definition at line 125 of file croutine.\-c.
+
+\hypertarget{posix_2posix_2_libraries_2_free_r_t_o_s_2_source_2croutine_8c_a9d3b6fc4612f417a42fc92f072a19686}{\index{posix/posix/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/croutine.\-c@{posix/posix/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/croutine.\-c}!x\-Co\-Routine\-Remove\-From\-Event\-List@{x\-Co\-Routine\-Remove\-From\-Event\-List}}
+\index{x\-Co\-Routine\-Remove\-From\-Event\-List@{x\-Co\-Routine\-Remove\-From\-Event\-List}!posix/posix/Libraries/FreeRTOS/Source/croutine.c@{posix/posix/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/croutine.\-c}}
+\subsubsection[{x\-Co\-Routine\-Remove\-From\-Event\-List}]{\setlength{\rightskip}{0pt plus 5cm}signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Co\-Routine\-Remove\-From\-Event\-List (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf x\-List} $\ast$}]{px\-Event\-List}
+\end{DoxyParamCaption}
+)}}\label{posix_2posix_2_libraries_2_free_r_t_o_s_2_source_2croutine_8c_a9d3b6fc4612f417a42fc92f072a19686}
+
+
+Definition at line 349 of file croutine.\-c.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{posix_2posix_2_libraries_2_free_r_t_o_s_2_source_2croutine_8c_a4f2363cde5975409c292f4d21c271856}{\index{posix/posix/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/croutine.\-c@{posix/posix/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/croutine.\-c}!px\-Current\-Co\-Routine@{px\-Current\-Co\-Routine}}
+\index{px\-Current\-Co\-Routine@{px\-Current\-Co\-Routine}!posix/posix/Libraries/FreeRTOS/Source/croutine.c@{posix/posix/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/croutine.\-c}}
+\subsubsection[{px\-Current\-Co\-Routine}]{\setlength{\rightskip}{0pt plus 5cm}{\bf cor\-C\-R\-C\-B}$\ast$ px\-Current\-Co\-Routine = N\-U\-L\-L}}\label{posix_2posix_2_libraries_2_free_r_t_o_s_2_source_2croutine_8c_a4f2363cde5975409c292f4d21c271856}
+
+
+Definition at line 76 of file croutine.\-c.
+

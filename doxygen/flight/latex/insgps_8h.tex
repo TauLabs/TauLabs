@@ -1,0 +1,75 @@
+\hypertarget{insgps_8h}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/inc/insgps.h File Reference}
+\label{insgps_8h}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/inc/insgps.\-h@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/inc/insgps.\-h}}
+}
+
+
+Include file of the I\-N\-S\-G\-P\-S exposed functionality.  
+
+
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_nav_struct}{Nav\-Struct}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga37848fdaaf6ee155638ba5bb1521fffe}{I\-N\-S\-G\-P\-S\-Init} ()
+\item 
+struct \hyperlink{struct_nav_struct}{Nav\-Struct} $\ast$ \hyperlink{group___i_n_s_g_p_s_gae4fd8ec7bfe1edbff24eed9b3c52b3d7}{I\-N\-S\-G\-P\-S\-Get\-Nav} ()
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga57adeb4fc2f14e36f70531b52bd28193}{I\-N\-S\-State\-Prediction} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float gyro\-\_\-data\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float accel\-\_\-data\mbox{[}3\mbox{]}, float d\-T)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_gab680361c7bb4c9f7a0c06d189dc9d4a1}{I\-N\-S\-Covariance\-Prediction} (float d\-T)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_gaade300e6df3b427d5bde882fa2f7c93f}{I\-N\-S\-Correction} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float mag\-\_\-data\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float Pos\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float \hyperlink{pios__opahrs__proto_8h_a887ce86476d7dc3193741e1e01fd2652}{Vel}\mbox{[}3\mbox{]}, float Baro\-Alt, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Sensors\-Used)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga9afce3083f9ab90a40d620dde634f901}{I\-N\-S\-Reset\-P} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float P\-Diag\mbox{[}13\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga33be75afa533a464a8571e241a6caa10}{I\-N\-S\-Set\-State} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float pos\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float vel\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float q\mbox{[}4\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float \hyperlink{pios__opahrs__proto_8h_a2d2f11a33fd907b7df5b7b6a7f44e689}{gyro\-\_\-bias}\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float \hyperlink{pios__opahrs__proto_8h_a0ce75f6556b56ffcfee6db75c310c8d8}{accel\-\_\-bias}\mbox{[}3\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga8894e5945148a0520cd3e4c27f44cdac}{I\-N\-S\-Set\-Pos\-Vel\-Var} (float Pos\-Var, float Vel\-Var, float Vert\-Pos\-Var)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_gad385ddb89b431a68df14e4de88be3329}{I\-N\-S\-Set\-Gyro\-Bias} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float \hyperlink{pios__opahrs__proto_8h_a2d2f11a33fd907b7df5b7b6a7f44e689}{gyro\-\_\-bias}\mbox{[}3\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga97a7efb6d46aefde3ad20c9b8c44fc60}{I\-N\-S\-Set\-Accel\-Var} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float \hyperlink{pios__opahrs__proto_8h_a33c8cb8a34ddef8567e05dfc90349adc}{accel\-\_\-var}\mbox{[}3\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_gab34cb0f1a9700d0bbf8c0c864311e0e3}{I\-N\-S\-Set\-Gyro\-Var} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float \hyperlink{pios__opahrs__proto_8h_aac5a918cf946359f5801db26027927fe}{gyro\-\_\-var}\mbox{[}3\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_gaff5e5ac00ae43701b4dae7eeb9cdfea8}{I\-N\-S\-Set\-Mag\-North} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float B\mbox{[}3\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga0e46db3033f2daeb533de25cb92bbfd9}{I\-N\-S\-Set\-Mag\-Var} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float scaled\-\_\-mag\-\_\-var\mbox{[}3\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga5316ca3b2372588b1d2340297e976452}{I\-N\-S\-Set\-Baro\-Var} (float baro\-\_\-var)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_gad01d410c07ad8c74fe875b16246a265c}{I\-N\-S\-Pos\-Vel\-Reset} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float pos\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float vel\mbox{[}3\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga2b676563f0f8b93d971159b5b9320a5d}{Mag\-Correction} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float mag\-\_\-data\mbox{[}3\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga2d37f6670dad8a68c1c96282f02f208a}{Mag\-Vel\-Baro\-Correction} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float mag\-\_\-data\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float \hyperlink{pios__opahrs__proto_8h_a887ce86476d7dc3193741e1e01fd2652}{Vel}\mbox{[}3\mbox{]}, float Baro\-Alt)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_gac4dc3ac7ec074007dd65c472a2176c54}{Full\-Correction} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float mag\-\_\-data\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float Pos\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float \hyperlink{pios__opahrs__proto_8h_a887ce86476d7dc3193741e1e01fd2652}{Vel}\mbox{[}3\mbox{]}, float Baro\-Alt)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga6b469a6d3b312867b0b87c2c70c0749e}{Gps\-Baro\-Correction} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float Pos\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float \hyperlink{pios__opahrs__proto_8h_a887ce86476d7dc3193741e1e01fd2652}{Vel}\mbox{[}3\mbox{]}, float Baro\-Alt)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga7f60c28dd78eddbe08102c2d905261b8}{Gps\-Mag\-Correction} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float mag\-\_\-data\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float Pos\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float \hyperlink{pios__opahrs__proto_8h_a887ce86476d7dc3193741e1e01fd2652}{Vel}\mbox{[}2\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga3babc960a16e4ab48bf08da4a9153637}{Vel\-Baro\-Correction} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float \hyperlink{pios__opahrs__proto_8h_a887ce86476d7dc3193741e1e01fd2652}{Vel}\mbox{[}3\mbox{]}, float Baro\-Alt)
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___i_n_s_g_p_s_ga62f40f528dea50baf8d414d1f55469af}{ins\-\_\-get\-\_\-num\-\_\-states} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Include file of the I\-N\-S\-G\-P\-S exposed functionality. \begin{DoxyAuthor}{Author}
+The Open\-Pilot Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} Copyright (C) 2010. 
+
+Tau Labs, \href{http://github.com/TauLabs}{\tt http\-://github.\-com/\-Tau\-Labs} Copyright (C) 2012-\/2013. 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{See Also}
+The G\-N\-U Public License (G\-P\-L) Version 3 
+\end{DoxySeeAlso}
+
+
+Definition in file \hyperlink{insgps_8h_source}{insgps.\-h}.
+

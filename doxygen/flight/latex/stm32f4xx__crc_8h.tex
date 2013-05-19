@@ -1,0 +1,81 @@
+\hypertarget{stm32f4xx__crc_8h}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/\-Libraries/\-S\-T\-M32\-F4xx\-\_\-\-Std\-Periph\-\_\-\-Driver/inc/stm32f4xx\-\_\-crc.h File Reference}
+\label{stm32f4xx__crc_8h}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/\-Libraries/\-S\-T\-M32\-F4xx\-\_\-\-Std\-Periph\-\_\-\-Driver/inc/stm32f4xx\-\_\-crc.\-h@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/\-Libraries/\-S\-T\-M32\-F4xx\-\_\-\-Std\-Periph\-\_\-\-Driver/inc/stm32f4xx\-\_\-crc.\-h}}
+}
+
+
+This file contains all the functions prototypes for the C\-R\-C firmware library.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_r_c___private___functions_ga5407fdbb8e8c9be6322cc8856ae5db3b}{C\-R\-C\-\_\-\-Calc\-C\-R\-C} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___copter_control_b_l_ga6f3335509cc4943e20df66f72483910c}{Data})
+\begin{DoxyCompactList}\small\item\em Computes the 32-\/bit C\-R\-C of a given data word(32-\/bit). \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_r_c___private___functions_gab15ebf620615c360048fb4f45b15fae6}{C\-R\-C\-\_\-\-Calc\-Block\-C\-R\-C} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} p\-Buffer\mbox{[}$\,$\mbox{]}, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Buffer\-Length)
+\begin{DoxyCompactList}\small\item\em Computes the 32-\/bit C\-R\-C of a given buffer of data word(32-\/bit). \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_r_c___private___functions_gab62db4561b0558f3c8ed53887fe7de8b}{C\-R\-C\-\_\-\-Get\-C\-R\-C} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Returns the current C\-R\-C value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_r_c___private___functions_ga769c9a42be57b972ae61bbada0f2e46a}{C\-R\-C\-\_\-\-Set\-I\-D\-Register} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} I\-D\-Value)
+\begin{DoxyCompactList}\small\item\em Stores a 8-\/bit data in the Independent Data(\-I\-D) register. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___c_r_c___private___functions_gaf869f6e9c3ca0ae0822cfad1abea7e5f}{C\-R\-C\-\_\-\-Get\-I\-D\-Register} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Returns the 8-\/bit data stored in the Independent Data(\-I\-D) register. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stm32f4xx__crc_8h_aaa53ca0b650dfd85c4f59fa156f7a2cc}{C}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file contains all the functions prototypes for the C\-R\-C firmware library. \begin{DoxyAuthor}{Author}
+M\-C\-D Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V1.\-0.\-2 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+05-\/\-March-\/2012 
+\end{DoxyDate}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+\subsubsection*{\begin{center}\copyright C\-O\-P\-Y\-R\-I\-G\-H\-T 2012 S\-T\-Microelectronics\end{center} }
+
+Licensed under M\-C\-D-\/\-S\-T Liberty S\-W License Agreement V2, (the \char`\"{}\-License\char`\"{}); You may not use this file except in compliance with the License. You may obtain a copy of the License at\-: \begin{DoxyVerb}   http://www.st.com/software_license_agreement_liberty_v2
+\end{DoxyVerb}
+
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \char`\"{}\-A\-S I\-S\char`\"{} B\-A\-S\-I\-S, W\-I\-T\-H\-O\-U\-T W\-A\-R\-R\-A\-N\-T\-I\-E\-S O\-R C\-O\-N\-D\-I\-T\-I\-O\-N\-S O\-F A\-N\-Y K\-I\-N\-D, either express or implied. See the License for the specific language governing permissions and limitations under the License. 
+
+Definition in file \hyperlink{stm32f4xx__crc_8h_source}{stm32f4xx\-\_\-crc.\-h}.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{stm32f4xx__crc_8h_aaa53ca0b650dfd85c4f59fa156f7a2cc}{\index{stm32f4xx\-\_\-crc.\-h@{stm32f4xx\-\_\-crc.\-h}!C@{C}}
+\index{C@{C}!stm32f4xx_crc.h@{stm32f4xx\-\_\-crc.\-h}}
+\subsubsection[{C}]{\setlength{\rightskip}{0pt plus 5cm}C}}\label{stm32f4xx__crc_8h_aaa53ca0b650dfd85c4f59fa156f7a2cc}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+\{
+\textcolor{preprocessor}{#endif}
+\textcolor{preprocessor}{}
+
+\textcolor{preprocessor}{#include "\hyperlink{stm32f4xx_8h}{stm32f4xx.h}"}
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+\textcolor{keywordtype}{void} \hyperlink{group___c_r_c___private___functions_ga506467d5ef873a5a4ade4ae83cb110f6}{CRC\_ResetDR}(\textcolor{keywordtype}{void})
+\end{DoxyCode}

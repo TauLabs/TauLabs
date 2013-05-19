@@ -1,0 +1,132 @@
+\hypertarget{group__q31__to__x}{\section{Convert 32-\/bit Integer value}
+\label{group__q31__to__x}\index{Convert 32-\/bit Integer value@{Convert 32-\/bit Integer value}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group__q31__to__x_gacf407b007a37da18e99dabd9023c56b4}{arm\-\_\-q31\-\_\-to\-\_\-float} (\hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Src, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Converts the elements of the Q31 vector to floating-\/point vector. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group__q31__to__x_ga901dede4661365c9e7c630d3eb31c32c}{arm\-\_\-q31\-\_\-to\-\_\-q15} (\hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Src, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Converts the elements of the Q31 vector to Q15 vector. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group__q31__to__x_ga7f297d1a7d776805395095fdb24a8071}{arm\-\_\-q31\-\_\-to\-\_\-q7} (\hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Src, \hyperlink{arm__math_8h_ae541b6f232c305361e9b416fc9eed263}{q7\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Converts the elements of the Q31 vector to Q7 vector. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Function Documentation}
+\hypertarget{group__q31__to__x_gacf407b007a37da18e99dabd9023c56b4}{\index{Convert 32-\/bit Integer value@{Convert 32-\/bit Integer value}!arm\-\_\-q31\-\_\-to\-\_\-float@{arm\-\_\-q31\-\_\-to\-\_\-float}}
+\index{arm\-\_\-q31\-\_\-to\-\_\-float@{arm\-\_\-q31\-\_\-to\-\_\-float}!Convert 32-bit Integer value@{Convert 32-\/bit Integer value}}
+\subsubsection[{arm\-\_\-q31\-\_\-to\-\_\-float}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-q31\-\_\-to\-\_\-float (
+\begin{DoxyParamCaption}
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group__q31__to__x_gacf407b007a37da18e99dabd9023c56b4}
+
+
+Converts the elements of the Q31 vector to floating-\/point vector. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the Q31 input vector \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the floating-\/point output vector \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & length of the input vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Description\-: }
+
+\end{DoxyParagraph}
+The equation used for the conversion process is\-:
+
+
+\begin{DoxyPre}    
+        pDst[n] = (float32\_t) pSrc[n] / 2147483648;   0 <= n < blockSize.    
+\end{DoxyPre}
+ 
+
+Definition at line 66 of file arm\-\_\-q31\-\_\-to\-\_\-float.\-c.
+
+\hypertarget{group__q31__to__x_ga901dede4661365c9e7c630d3eb31c32c}{\index{Convert 32-\/bit Integer value@{Convert 32-\/bit Integer value}!arm\-\_\-q31\-\_\-to\-\_\-q15@{arm\-\_\-q31\-\_\-to\-\_\-q15}}
+\index{arm\-\_\-q31\-\_\-to\-\_\-q15@{arm\-\_\-q31\-\_\-to\-\_\-q15}!Convert 32-bit Integer value@{Convert 32-\/bit Integer value}}
+\subsubsection[{arm\-\_\-q31\-\_\-to\-\_\-q15}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-q31\-\_\-to\-\_\-q15 (
+\begin{DoxyParamCaption}
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group__q31__to__x_ga901dede4661365c9e7c630d3eb31c32c}
+
+
+Converts the elements of the Q31 vector to Q15 vector. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the Q31 input vector \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the Q15 output vector \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & length of the input vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Description\-: }
+
+\end{DoxyParagraph}
+The equation used for the conversion process is\-:
+
+
+\begin{DoxyPre}    
+        pDst[n] = (q15\_t) pSrc[n] >> 16;   0 <= n < blockSize.    
+\end{DoxyPre}
+ 
+
+Definition at line 62 of file arm\-\_\-q31\-\_\-to\-\_\-q15.\-c.
+
+\hypertarget{group__q31__to__x_ga7f297d1a7d776805395095fdb24a8071}{\index{Convert 32-\/bit Integer value@{Convert 32-\/bit Integer value}!arm\-\_\-q31\-\_\-to\-\_\-q7@{arm\-\_\-q31\-\_\-to\-\_\-q7}}
+\index{arm\-\_\-q31\-\_\-to\-\_\-q7@{arm\-\_\-q31\-\_\-to\-\_\-q7}!Convert 32-bit Integer value@{Convert 32-\/bit Integer value}}
+\subsubsection[{arm\-\_\-q31\-\_\-to\-\_\-q7}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-q31\-\_\-to\-\_\-q7 (
+\begin{DoxyParamCaption}
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf q7\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group__q31__to__x_ga7f297d1a7d776805395095fdb24a8071}
+
+
+Converts the elements of the Q31 vector to Q7 vector. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the Q31 input vector \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the Q7 output vector \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & length of the input vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Description\-: }
+
+\end{DoxyParagraph}
+The equation used for the conversion process is\-:
+
+
+\begin{DoxyPre}    
+        pDst[n] = (q7\_t) pSrc[n] >> 24;   0 <= n < blockSize.     
+\end{DoxyPre}
+ 
+
+Definition at line 62 of file arm\-\_\-q31\-\_\-to\-\_\-q7.\-c.
+

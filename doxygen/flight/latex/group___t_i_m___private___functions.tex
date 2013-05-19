@@ -1,0 +1,2865 @@
+\hypertarget{group___t_i_m___private___functions}{\section{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}
+\label{group___t_i_m___private___functions}\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___t_i_m___group1}{Time\-Base management functions}
+\begin{DoxyCompactList}\small\item\em Time\-Base management functions. \end{DoxyCompactList}\item 
+\hyperlink{group___t_i_m___group2}{Output Compare management functions}
+\begin{DoxyCompactList}\small\item\em Output Compare management functions. \end{DoxyCompactList}\item 
+\hyperlink{group___t_i_m___group3}{Input Capture management functions}
+\begin{DoxyCompactList}\small\item\em Input Capture management functions. \end{DoxyCompactList}\item 
+\hyperlink{group___t_i_m___group4}{Advanced-\/control timers (\-T\-I\-M1 and T\-I\-M8) specific features}
+\begin{DoxyCompactList}\small\item\em Advanced-\/control timers (T\-I\-M1 and T\-I\-M8) specific features. \end{DoxyCompactList}\item 
+\hyperlink{group___t_i_m___group5}{Interrupts D\-M\-A and flags management functions}
+\begin{DoxyCompactList}\small\item\em Interrupts, D\-M\-A and flags management functions. \end{DoxyCompactList}\item 
+\hyperlink{group___t_i_m___group6}{Clocks management functions}
+\begin{DoxyCompactList}\small\item\em Clocks management functions. \end{DoxyCompactList}\item 
+\hyperlink{group___t_i_m___group7}{Synchronization management functions}
+\begin{DoxyCompactList}\small\item\em Synchronization management functions. \end{DoxyCompactList}\item 
+\hyperlink{group___t_i_m___group8}{Specific interface management functions}
+\begin{DoxyCompactList}\small\item\em Specific interface management functions. \end{DoxyCompactList}\item 
+\hyperlink{group___t_i_m___group9}{Specific remapping management function}
+\begin{DoxyCompactList}\small\item\em Specific remapping management function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga1659cc0ce503ac151568e0c7c02b1ba5}{T\-I\-M\-\_\-\-De\-Init} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx)
+\begin{DoxyCompactList}\small\item\em Deinitializes the T\-I\-Mx peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga80a4ab0dc73a14436df6bb9b60ae38af}{T\-I\-M\-\_\-\-Time\-Base\-Init} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} T\-I\-M\-\_\-\-Time\-Base\-Init\-Type\-Def $\ast$T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the T\-I\-Mx Time Base Unit peripheral according to the specified parameters in the T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_gae1d1b0487894bbef135e28f842d08741}{T\-I\-M\-\_\-\-O\-C1\-Init} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{struct_t_i_m___o_c_init_type_def}{T\-I\-M\-\_\-\-O\-C\-Init\-Type\-Def} $\ast$T\-I\-M\-\_\-\-O\-C\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the T\-I\-Mx Channel1 according to the specified parameters in the T\-I\-M\-\_\-\-O\-C\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga7ffec43ecca5cbba9c1de4bd518e4f3b}{T\-I\-M\-\_\-\-O\-C2\-Init} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{struct_t_i_m___o_c_init_type_def}{T\-I\-M\-\_\-\-O\-C\-Init\-Type\-Def} $\ast$T\-I\-M\-\_\-\-O\-C\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the T\-I\-Mx Channel2 according to the specified parameters in the T\-I\-M\-\_\-\-O\-C\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga85a395008ee7ad08d04fb6f85e993521}{T\-I\-M\-\_\-\-O\-C3\-Init} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{struct_t_i_m___o_c_init_type_def}{T\-I\-M\-\_\-\-O\-C\-Init\-Type\-Def} $\ast$T\-I\-M\-\_\-\-O\-C\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the T\-I\-Mx Channel3 according to the specified parameters in the T\-I\-M\-\_\-\-O\-C\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga8bd368bec7d55ae8ed73cbb7cca8f85a}{T\-I\-M\-\_\-\-O\-C4\-Init} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{struct_t_i_m___o_c_init_type_def}{T\-I\-M\-\_\-\-O\-C\-Init\-Type\-Def} $\ast$T\-I\-M\-\_\-\-O\-C\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the T\-I\-Mx Channel4 according to the specified parameters in the T\-I\-M\-\_\-\-O\-C\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga3b025c0c223151695ca9141766e2b249}{T\-I\-M\-\_\-\-I\-C\-Init} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{struct_t_i_m___i_c_init_type_def}{T\-I\-M\-\_\-\-I\-C\-Init\-Type\-Def} $\ast$T\-I\-M\-\_\-\-I\-C\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the T\-I\-M peripheral according to the specified parameters in the T\-I\-M\-\_\-\-I\-C\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_gaa71f9296556310f85628d6c748a06475}{T\-I\-M\-\_\-\-P\-W\-M\-I\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{struct_t_i_m___i_c_init_type_def}{T\-I\-M\-\_\-\-I\-C\-Init\-Type\-Def} $\ast$T\-I\-M\-\_\-\-I\-C\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-M peripheral according to the specified parameters in the T\-I\-M\-\_\-\-I\-C\-Init\-Struct to measure an external P\-W\-M signal. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga3df4ba3f0727f63ce621e2b2e6035d4f}{T\-I\-M\-\_\-\-B\-D\-T\-R\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{struct_t_i_m___b_d_t_r_init_type_def}{T\-I\-M\-\_\-\-B\-D\-T\-R\-Init\-Type\-Def} $\ast$T\-I\-M\-\_\-\-B\-D\-T\-R\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Configures the\-: Break feature, dead time, Lock level, the O\-S\-S\-I, the O\-S\-S\-R State and the A\-O\-E(automatic output enable). \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga1556a0b9a5d53506875fd7de0cbc6b1f}{T\-I\-M\-\_\-\-Time\-Base\-Struct\-Init} (T\-I\-M\-\_\-\-Time\-Base\-Init\-Type\-Def $\ast$T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga394683c78ae02837882e36014e11643e}{T\-I\-M\-\_\-\-O\-C\-Struct\-Init} (\hyperlink{struct_t_i_m___o_c_init_type_def}{T\-I\-M\-\_\-\-O\-C\-Init\-Type\-Def} $\ast$T\-I\-M\-\_\-\-O\-C\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each T\-I\-M\-\_\-\-O\-C\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga5005dac8e4e8a4c7fc2a0ef05b77cc50}{T\-I\-M\-\_\-\-I\-C\-Struct\-Init} (\hyperlink{struct_t_i_m___i_c_init_type_def}{T\-I\-M\-\_\-\-I\-C\-Init\-Type\-Def} $\ast$T\-I\-M\-\_\-\-I\-C\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each T\-I\-M\-\_\-\-I\-C\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_gaea0f49938cda8ae0738162194798afc6}{T\-I\-M\-\_\-\-B\-D\-T\-R\-Struct\-Init} (\hyperlink{struct_t_i_m___b_d_t_r_init_type_def}{T\-I\-M\-\_\-\-B\-D\-T\-R\-Init\-Type\-Def} $\ast$T\-I\-M\-\_\-\-B\-D\-T\-R\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each T\-I\-M\-\_\-\-B\-D\-T\-R\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga2bdc275bcbd2ce9d1ba632e6c89896b7}{T\-I\-M\-\_\-\-Cmd} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified T\-I\-M peripheral. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga3e59ebced2ab8e0b817c460f1670e97d}{T\-I\-M\-\_\-\-Ctrl\-P\-W\-M\-Outputs} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\-I\-M peripheral Main Outputs. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga70e3d6c09d55ee69002e154c85cd40e4}{T\-I\-M\-\_\-\-I\-T\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-I\-T, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified T\-I\-M interrupts. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga38bd4ffda920dd4f7655a0a2c6100a6e}{T\-I\-M\-\_\-\-Generate\-Event} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Event\-Source)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx event to be generate by software. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_gad7156f84c436c8ac92cd789611826d09}{T\-I\-M\-\_\-\-D\-M\-A\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-D\-M\-A\-Base, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-D\-M\-A\-Burst\-Length)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx’s D\-M\-A interface. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga24700389cfa3ea9b42234933b23f1399}{T\-I\-M\-\_\-\-D\-M\-A\-Cmd} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-D\-M\-A\-Source, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\-I\-Mx’s D\-M\-A Requests. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga2394f0221709c0659874f9a4184cf86e}{T\-I\-M\-\_\-\-Internal\-Clock\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx interrnal Clock. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_gabef227d21d9e121e6a4ec5ab6223f5a9}{T\-I\-M\-\_\-\-I\-T\-Rx\-External\-Clock\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Input\-Trigger\-Source)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Internal Trigger as External Clock. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_gaf460e7d9c9969044e364130e209937fc}{T\-I\-M\-\_\-\-T\-Ix\-External\-Clock\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-T\-Ix\-External\-C\-L\-K\-Source, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-I\-C\-Polarity, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} I\-C\-Filter)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Trigger as External Clock. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga47c05638b93aabcd641dbc8859e1b2df}{T\-I\-M\-\_\-\-E\-T\-R\-Clock\-Mode1\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Prescaler, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Polarity, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Ext\-T\-R\-G\-Filter)
+\begin{DoxyCompactList}\small\item\em Configures the External clock Mode1. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga0a9cbcbab32326cbbdaf4c111f59ec20}{T\-I\-M\-\_\-\-E\-T\-R\-Clock\-Mode2\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Prescaler, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Polarity, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Ext\-T\-R\-G\-Filter)
+\begin{DoxyCompactList}\small\item\em Configures the External clock Mode2. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga8bdde400b7a30f3e747fe8e4962c0abe}{T\-I\-M\-\_\-\-E\-T\-R\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Prescaler, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Polarity, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Ext\-T\-R\-G\-Filter)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx External Trigger (E\-T\-R). \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga45c6fd9041baf7f64c121e0172f305c7}{T\-I\-M\-\_\-\-Prescaler\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Prescaler, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-P\-S\-C\-Reload\-Mode)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Prescaler. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga93941c1db20bf3794f377307df90a67b}{T\-I\-M\-\_\-\-Counter\-Mode\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Counter\-Mode)
+\begin{DoxyCompactList}\small\item\em Specifies the T\-I\-Mx Counter Mode to be used. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga4252583c6ae8a73d6fc66f7e951dbc35}{T\-I\-M\-\_\-\-Select\-Input\-Trigger} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Input\-Trigger\-Source)
+\begin{DoxyCompactList}\small\item\em Selects the Input Trigger source. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga0fc7e76c47a3bd1ba1ebc71427832b51}{T\-I\-M\-\_\-\-Encoder\-Interface\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Encoder\-Mode, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-I\-C1\-Polarity, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-I\-C2\-Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Encoder Interface. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga4f58c12e6493a0d8b9555c9097b831d6}{T\-I\-M\-\_\-\-Forced\-O\-C1\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Forced\-Action)
+\begin{DoxyCompactList}\small\item\em Forces the T\-I\-Mx output 1 waveform to active or inactive level. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga3d2902b6fbab8dd55cd531055ffcc63d}{T\-I\-M\-\_\-\-Forced\-O\-C2\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Forced\-Action)
+\begin{DoxyCompactList}\small\item\em Forces the T\-I\-Mx output 2 waveform to active or inactive level. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga920b0fb4ca44fceffd1c3e441feebd8f}{T\-I\-M\-\_\-\-Forced\-O\-C3\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Forced\-Action)
+\begin{DoxyCompactList}\small\item\em Forces the T\-I\-Mx output 3 waveform to active or inactive level. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_gaf0a0bbe74251e56d4b835d20b0a3aa63}{T\-I\-M\-\_\-\-Forced\-O\-C4\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Forced\-Action)
+\begin{DoxyCompactList}\small\item\em Forces the T\-I\-Mx output 4 waveform to active or inactive level. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga42b44b9fc2b0798d733720dd6bac1ac0}{T\-I\-M\-\_\-\-A\-R\-R\-Preload\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables T\-I\-Mx peripheral Preload register on A\-R\-R. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_gaff2e7f9959b1b36e830df028c14accc8}{T\-I\-M\-\_\-\-Select\-C\-O\-M} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Selects the T\-I\-M peripheral Commutation event. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga5273cb65acb885fe7982827b1c6b7d75}{T\-I\-M\-\_\-\-Select\-C\-C\-D\-M\-A} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Selects the T\-I\-Mx peripheral Capture Compare D\-M\-A source. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga0a935254e44312b1d78e8684a58db3c1}{T\-I\-M\-\_\-\-C\-C\-Preload\-Control} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Sets or Resets the T\-I\-M peripheral Capture Compare Preload Control bit. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga60e6c29ad8f919bef616cf8e3306dd64}{T\-I\-M\-\_\-\-O\-C1\-Preload\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Preload)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\-I\-Mx peripheral Preload register on C\-C\-R1. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga75b4614c6dd2cd52f2c5becdb6590c10}{T\-I\-M\-\_\-\-O\-C2\-Preload\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Preload)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\-I\-Mx peripheral Preload register on C\-C\-R2. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga8b2391685a519e60e596b7d596f86f09}{T\-I\-M\-\_\-\-O\-C3\-Preload\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Preload)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\-I\-Mx peripheral Preload register on C\-C\-R3. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga8bf4dfb35ff0c7b494dd96579f50b1ec}{T\-I\-M\-\_\-\-O\-C4\-Preload\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Preload)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\-I\-Mx peripheral Preload register on C\-C\-R4. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_gaec82031ca62f31f5483195c09752a83a}{T\-I\-M\-\_\-\-O\-C1\-Fast\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Fast)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Output Compare 1 Fast feature. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga413359c87f46c69f1ffe2dc8fb3a65e7}{T\-I\-M\-\_\-\-O\-C2\-Fast\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Fast)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Output Compare 2 Fast feature. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_gab2f3698e6e56bd9b0a4be7056ba789e1}{T\-I\-M\-\_\-\-O\-C3\-Fast\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Fast)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Output Compare 3 Fast feature. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga58279a04e8ea5333f1079d3cce8dde12}{T\-I\-M\-\_\-\-O\-C4\-Fast\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Fast)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Output Compare 4 Fast feature. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga34e926cd8a99cfcc7480b2d6de5118b6}{T\-I\-M\-\_\-\-Clear\-O\-C1\-Ref} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Clear)
+\begin{DoxyCompactList}\small\item\em Clears or safeguards the O\-C\-R\-E\-F1 signal on an external event. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_gac474ebc815d24c8a589969e0c68b27b0}{T\-I\-M\-\_\-\-Clear\-O\-C2\-Ref} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Clear)
+\begin{DoxyCompactList}\small\item\em Clears or safeguards the O\-C\-R\-E\-F2 signal on an external event. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga0bd9476a14bd346c319945ec4fa2bc67}{T\-I\-M\-\_\-\-Clear\-O\-C3\-Ref} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Clear)
+\begin{DoxyCompactList}\small\item\em Clears or safeguards the O\-C\-R\-E\-F3 signal on an external event. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_gaeee5fa66b26e7c6f71850272dc3028f3}{T\-I\-M\-\_\-\-Clear\-O\-C4\-Ref} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Clear)
+\begin{DoxyCompactList}\small\item\em Clears or safeguards the O\-C\-R\-E\-F4 signal on an external event. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga03878f78163485c8a3508cff2111c297}{T\-I\-M\-\_\-\-O\-C1\-Polarity\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx channel 1 polarity. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga3cb91578e7dd34ea7d09862482960445}{T\-I\-M\-\_\-\-O\-C1\-N\-Polarity\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-N\-Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Channel 1\-N polarity. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga6831cacaac1ef50291af94db94450797}{T\-I\-M\-\_\-\-O\-C2\-Polarity\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx channel 2 polarity. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga2fa6ea3a89f446b52b4e699272b70cad}{T\-I\-M\-\_\-\-O\-C2\-N\-Polarity\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-N\-Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Channel 2\-N polarity. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga1ef43b03fe666495e80aac9741ae7ab0}{T\-I\-M\-\_\-\-O\-C3\-Polarity\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx channel 3 polarity. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_gac710acc5b682e892584fc6f089f61dc2}{T\-I\-M\-\_\-\-O\-C3\-N\-Polarity\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-N\-Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Channel 3\-N polarity. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_gad678410f7c7244f83daad93ce9d1056e}{T\-I\-M\-\_\-\-O\-C4\-Polarity\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx channel 4 polarity. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga3ecc4647d9ede261beb5e0535cf29ebb}{T\-I\-M\-\_\-\-C\-Cx\-Cmd} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Channel, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-C\-Cx)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\-I\-M Capture Compare Channel x. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga304ff7c8a1615498da749bf2507e9f2b}{T\-I\-M\-\_\-\-C\-Cx\-N\-Cmd} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Channel, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-C\-Cx\-N)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\-I\-M Capture Compare Channel x\-N. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga83ea0af5a7c1af521236ce5e4d2c42b0}{T\-I\-M\-\_\-\-Select\-O\-Cx\-M} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Channel, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-C\-Mode)
+\begin{DoxyCompactList}\small\item\em Selects the T\-I\-M Ouput Compare Mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_gace2384dd33e849a054f61b8e1fc7e7c3}{T\-I\-M\-\_\-\-Update\-Disable\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the T\-I\-Mx Update event. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga1d7a8f952e209de142499e67a653fc1f}{T\-I\-M\-\_\-\-Update\-Request\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Update\-Source)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx Update Request Interrupt source. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga42c2d1025a3937c9d9f38631af86ffa4}{T\-I\-M\-\_\-\-Select\-Hall\-Sensor} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\-I\-Mx’s Hall sensor interface. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_gadd2cca5fac6c1291dc4339098d5c9562}{T\-I\-M\-\_\-\-Select\-One\-Pulse\-Mode} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-O\-P\-Mode)
+\begin{DoxyCompactList}\small\item\em Selects the T\-I\-Mx’s One Pulse Mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga28745aaa549e2067e42c19569209e6c6}{T\-I\-M\-\_\-\-Select\-Output\-Trigger} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-T\-R\-G\-O\-Source)
+\begin{DoxyCompactList}\small\item\em Selects the T\-I\-Mx Trigger Output Mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga2f19ce1d90990691cf037e419ba08003}{T\-I\-M\-\_\-\-Select\-Slave\-Mode} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Slave\-Mode)
+\begin{DoxyCompactList}\small\item\em Selects the T\-I\-Mx Slave Mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga4dcc3d11b670c381d0ff9cb7e9fd01e2}{T\-I\-M\-\_\-\-Select\-Master\-Slave\-Mode} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Master\-Slave\-Mode)
+\begin{DoxyCompactList}\small\item\em Sets or Resets the T\-I\-Mx Master/\-Slave Mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_gaad2c31dc9c551b48f08b96ba49c4aa44}{T\-I\-M\-\_\-\-Set\-Counter} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Counter)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Counter Register value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga7880e4c00002d6421f9059a2ed841d5c}{T\-I\-M\-\_\-\-Set\-Autoreload} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Autoreload)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Autoreload Register value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_gab3a6031f187cb8af62eb09a67b4fd2ad}{T\-I\-M\-\_\-\-Set\-Compare1} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Compare1)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Capture Compare1 Register value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga0175ef4fabade443909002a63d4e9758}{T\-I\-M\-\_\-\-Set\-Compare2} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Compare2)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Capture Compare2 Register value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga416df50f4223351e366ae40a4ec163ae}{T\-I\-M\-\_\-\-Set\-Compare3} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Compare3)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Capture Compare3 Register value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_gaf428edf474804691d6f587e78c97a082}{T\-I\-M\-\_\-\-Set\-Compare4} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Compare4)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Capture Compare4 Register value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_gaf0f684dea88e222de9689d8ed0ca8805}{T\-I\-M\-\_\-\-Set\-I\-C1\-Prescaler} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-I\-C\-P\-S\-C)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Input Capture 1 prescaler. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga3cc4869b5fe73271808512c89322a325}{T\-I\-M\-\_\-\-Set\-I\-C2\-Prescaler} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-I\-C\-P\-S\-C)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Input Capture 2 prescaler. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga76f906383b8132ebe00dffadb70cf7f9}{T\-I\-M\-\_\-\-Set\-I\-C3\-Prescaler} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-I\-C\-P\-S\-C)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Input Capture 3 prescaler. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga0f2c784271356d6b64b8c0da64dbdbc2}{T\-I\-M\-\_\-\-Set\-I\-C4\-Prescaler} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-I\-C\-P\-S\-C)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Input Capture 4 prescaler. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga20ef804dc32c723662d11ee7da3baab2}{T\-I\-M\-\_\-\-Set\-Clock\-Division} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-C\-K\-D)
+\begin{DoxyCompactList}\small\item\em Sets the T\-I\-Mx Clock Division value. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___t_i_m___private___functions_ga29eb9f7151ceea94c3988539a5ee91cf}{T\-I\-M\-\_\-\-Get\-Capture1} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\-I\-Mx Input Capture 1 value. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___t_i_m___private___functions_ga437fcf00ee9d0a9df9150cc120efc5ad}{T\-I\-M\-\_\-\-Get\-Capture2} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\-I\-Mx Input Capture 2 value. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___t_i_m___private___functions_gab71d1d3d8a15f3be9e74dca51fcca5fa}{T\-I\-M\-\_\-\-Get\-Capture3} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\-I\-Mx Input Capture 3 value. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___t_i_m___private___functions_ga09049af04c8345849c6f82ccfae242a6}{T\-I\-M\-\_\-\-Get\-Capture4} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\-I\-Mx Input Capture 4 value. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___t_i_m___private___functions_gab6826b144ae70e206f51ae8af5318a93}{T\-I\-M\-\_\-\-Get\-Counter} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\-I\-Mx Counter value. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___t_i_m___private___functions_ga427eb6e533480e02a27cd0ca876183d6}{T\-I\-M\-\_\-\-Get\-Prescaler} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\-I\-Mx Prescaler value. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___t_i_m___private___functions_ga0adcbbd5e838ec8642e7a9b80075f41f}{T\-I\-M\-\_\-\-Get\-Flag\-Status} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified T\-I\-M flag is set or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga46568c7b254941dc53e785342d60baf3}{T\-I\-M\-\_\-\-Clear\-Flag} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Clears the T\-I\-Mx's pending flags. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_gaacbd7ed539db0aacd973a0f6eca34074}{I\-T\-Status} \hyperlink{group___t_i_m___private___functions_ga0827a0b411707304f76d33050727c24d}{T\-I\-M\-\_\-\-Get\-I\-T\-Status} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Checks whether the T\-I\-M interrupt has occurred or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___private___functions_ga9eb1e95af71ed380f51a2c6d585cc5d6}{T\-I\-M\-\_\-\-Clear\-I\-T\-Pending\-Bit} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Clears the T\-I\-Mx's interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Function Documentation}
+\hypertarget{group___t_i_m___private___functions_ga42b44b9fc2b0798d733720dd6bac1ac0}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-A\-R\-R\-Preload\-Config@{T\-I\-M\-\_\-\-A\-R\-R\-Preload\-Config}}
+\index{T\-I\-M\-\_\-\-A\-R\-R\-Preload\-Config@{T\-I\-M\-\_\-\-A\-R\-R\-Preload\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-A\-R\-R\-Preload\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-A\-R\-R\-Preload\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga42b44b9fc2b0798d733720dd6bac1ac0}
+
+
+Enables or disables T\-I\-Mx peripheral Preload register on A\-R\-R. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the T\-I\-Mx peripheral Preload register This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1407 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga3df4ba3f0727f63ce621e2b2e6035d4f}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-B\-D\-T\-R\-Config@{T\-I\-M\-\_\-\-B\-D\-T\-R\-Config}}
+\index{T\-I\-M\-\_\-\-B\-D\-T\-R\-Config@{T\-I\-M\-\_\-\-B\-D\-T\-R\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-B\-D\-T\-R\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-B\-D\-T\-R\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf T\-I\-M\-\_\-\-B\-D\-T\-R\-Init\-Type\-Def} $\ast$}]{T\-I\-M\-\_\-\-B\-D\-T\-R\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga3df4ba3f0727f63ce621e2b2e6035d4f}
+
+
+Configures the\-: Break feature, dead time, Lock level, the O\-S\-S\-I, the O\-S\-S\-R State and the A\-O\-E(automatic output enable). 
+
+Configures the Break feature, dead time, Lock level, O\-S\-S\-I/\-O\-S\-S\-R State and the A\-O\-E(automatic output enable).
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 or 8 to select the T\-I\-M \\
+\hline
+{\em T\-I\-M\-\_\-\-B\-D\-T\-R\-Init\-Struct,\-:} & pointer to a \hyperlink{struct_t_i_m___b_d_t_r_init_type_def}{T\-I\-M\-\_\-\-B\-D\-T\-R\-Init\-Type\-Def} structure that contains the B\-D\-T\-R Register configuration information for the T\-I\-M peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 710 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_gaea0f49938cda8ae0738162194798afc6}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-B\-D\-T\-R\-Struct\-Init@{T\-I\-M\-\_\-\-B\-D\-T\-R\-Struct\-Init}}
+\index{T\-I\-M\-\_\-\-B\-D\-T\-R\-Struct\-Init@{T\-I\-M\-\_\-\-B\-D\-T\-R\-Struct\-Init}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-B\-D\-T\-R\-Struct\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-B\-D\-T\-R\-Struct\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-B\-D\-T\-R\-Init\-Type\-Def} $\ast$}]{T\-I\-M\-\_\-\-B\-D\-T\-R\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_gaea0f49938cda8ae0738162194798afc6}
+
+
+Fills each T\-I\-M\-\_\-\-B\-D\-T\-R\-Init\-Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-M\-\_\-\-B\-D\-T\-R\-Init\-Struct,\-:} & pointer to a \hyperlink{struct_t_i_m___b_d_t_r_init_type_def}{T\-I\-M\-\_\-\-B\-D\-T\-R\-Init\-Type\-Def} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 785 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga0a935254e44312b1d78e8684a58db3c1}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-C\-C\-Preload\-Control@{T\-I\-M\-\_\-\-C\-C\-Preload\-Control}}
+\index{T\-I\-M\-\_\-\-C\-C\-Preload\-Control@{T\-I\-M\-\_\-\-C\-C\-Preload\-Control}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-C\-C\-Preload\-Control}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-C\-C\-Preload\-Control (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga0a935254e44312b1d78e8684a58db3c1}
+
+
+Sets or Resets the T\-I\-M peripheral Capture Compare Preload Control bit. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5, 8 or 15 to select the T\-I\-Mx peripheral \\
+\hline
+{\em New\-State,\-:} & new state of the Capture Compare Preload Control bit This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1481 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga3ecc4647d9ede261beb5e0535cf29ebb}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-C\-Cx\-Cmd@{T\-I\-M\-\_\-\-C\-Cx\-Cmd}}
+\index{T\-I\-M\-\_\-\-C\-Cx\-Cmd@{T\-I\-M\-\_\-\-C\-Cx\-Cmd}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-C\-Cx\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-C\-Cx\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Channel, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-C\-Cx}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga3ecc4647d9ede261beb5e0535cf29ebb}
+
+
+Enables or disables the T\-I\-M Capture Compare Channel x. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 except 6 and 7 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Channel,\-:} & specifies the T\-I\-M Channel This parmeter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Channel\-\_\-1\-: T\-I\-M Channel 1 \item T\-I\-M\-\_\-\-Channel\-\_\-2\-: T\-I\-M Channel 2 \item T\-I\-M\-\_\-\-Channel\-\_\-3\-: T\-I\-M Channel 3 \item T\-I\-M\-\_\-\-Channel\-\_\-4\-: T\-I\-M Channel 4 \end{DoxyItemize}
+\\
+\hline
+{\em T\-I\-M\-\_\-\-C\-Cx,\-:} & specifies the T\-I\-M Channel C\-Cx\-E bit new state. This parameter can be\-: T\-I\-M\-\_\-\-C\-Cx\-\_\-\-Enable or T\-I\-M\-\_\-\-C\-Cx\-\_\-\-Disable. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1972 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga304ff7c8a1615498da749bf2507e9f2b}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-C\-Cx\-N\-Cmd@{T\-I\-M\-\_\-\-C\-Cx\-N\-Cmd}}
+\index{T\-I\-M\-\_\-\-C\-Cx\-N\-Cmd@{T\-I\-M\-\_\-\-C\-Cx\-N\-Cmd}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-C\-Cx\-N\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-C\-Cx\-N\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Channel, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-C\-Cx\-N}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga304ff7c8a1615498da749bf2507e9f2b}
+
+
+Enables or disables the T\-I\-M Capture Compare Channel x\-N. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 8, 15, 16 or 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Channel,\-:} & specifies the T\-I\-M Channel This parmeter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Channel\-\_\-1\-: T\-I\-M Channel 1 \item T\-I\-M\-\_\-\-Channel\-\_\-2\-: T\-I\-M Channel 2 \item T\-I\-M\-\_\-\-Channel\-\_\-3\-: T\-I\-M Channel 3 \end{DoxyItemize}
+\\
+\hline
+{\em T\-I\-M\-\_\-\-C\-Cx\-N,\-:} & specifies the T\-I\-M Channel C\-Cx\-N\-E bit new state. This parameter can be\-: T\-I\-M\-\_\-\-C\-Cx\-N\-\_\-\-Enable or T\-I\-M\-\_\-\-C\-Cx\-N\-\_\-\-Disable. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2002 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga46568c7b254941dc53e785342d60baf3}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Clear\-Flag@{T\-I\-M\-\_\-\-Clear\-Flag}}
+\index{T\-I\-M\-\_\-\-Clear\-Flag@{T\-I\-M\-\_\-\-Clear\-Flag}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Clear\-Flag}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Clear\-Flag (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga46568c7b254941dc53e785342d60baf3}
+
+
+Clears the T\-I\-Mx's pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-F\-L\-A\-G,\-:} & specifies the flag bit to clear. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Update\-: T\-I\-M update Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C1\-: T\-I\-M Capture Compare 1 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C2\-: T\-I\-M Capture Compare 2 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C3\-: T\-I\-M Capture Compare 3 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C4\-: T\-I\-M Capture Compare 4 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-O\-M\-: T\-I\-M Commutation Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Trigger\-: T\-I\-M Trigger Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Break\-: T\-I\-M Break Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C1\-O\-F\-: T\-I\-M Capture Compare 1 overcapture Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C2\-O\-F\-: T\-I\-M Capture Compare 2 overcapture Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C3\-O\-F\-: T\-I\-M Capture Compare 3 overcapture Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C4\-O\-F\-: T\-I\-M Capture Compare 4 overcapture Flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+
+\begin{DoxyItemize}
+\item T\-I\-M6 and T\-I\-M7 can have only one update flag.
+\item T\-I\-M9, T\-I\-M12 and T\-I\-M15 can have only T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Update, T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C1, T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C2 or T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Trigger.
+\item T\-I\-M10, T\-I\-M11, T\-I\-M13, T\-I\-M14, T\-I\-M16 and T\-I\-M17 can have T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Update or T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C1.
+\item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Break is used only with T\-I\-M1, T\-I\-M8 and T\-I\-M15.
+\item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-O\-M is used only with T\-I\-M1, T\-I\-M8, T\-I\-M15, T\-I\-M16 and T\-I\-M17. 
+\end{DoxyItemize}
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2598 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga9eb1e95af71ed380f51a2c6d585cc5d6}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Clear\-I\-T\-Pending\-Bit@{T\-I\-M\-\_\-\-Clear\-I\-T\-Pending\-Bit}}
+\index{T\-I\-M\-\_\-\-Clear\-I\-T\-Pending\-Bit@{T\-I\-M\-\_\-\-Clear\-I\-T\-Pending\-Bit}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Clear\-I\-T\-Pending\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Clear\-I\-T\-Pending\-Bit (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-I\-T}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga9eb1e95af71ed380f51a2c6d585cc5d6}
+
+
+Clears the T\-I\-Mx's interrupt pending bits. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-I\-T,\-:} & specifies the pending bit to clear. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-I\-T\-\_\-\-Update\-: T\-I\-M1 update Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C1\-: T\-I\-M Capture Compare 1 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C2\-: T\-I\-M Capture Compare 2 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C3\-: T\-I\-M Capture Compare 3 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C4\-: T\-I\-M Capture Compare 4 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-O\-M\-: T\-I\-M Commutation Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-Trigger\-: T\-I\-M Trigger Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-Break\-: T\-I\-M Break Interrupt source \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+
+\begin{DoxyItemize}
+\item T\-I\-M6 and T\-I\-M7 can generate only an update interrupt.
+\item T\-I\-M9, T\-I\-M12 and T\-I\-M15 can have only T\-I\-M\-\_\-\-I\-T\-\_\-\-Update, T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C1, T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C2 or T\-I\-M\-\_\-\-I\-T\-\_\-\-Trigger.
+\item T\-I\-M10, T\-I\-M11, T\-I\-M13, T\-I\-M14, T\-I\-M16 and T\-I\-M17 can have T\-I\-M\-\_\-\-I\-T\-\_\-\-Update or T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C1.
+\item T\-I\-M\-\_\-\-I\-T\-\_\-\-Break is used only with T\-I\-M1, T\-I\-M8 and T\-I\-M15.
+\item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-O\-M is used only with T\-I\-M1, T\-I\-M8, T\-I\-M15, T\-I\-M16 and T\-I\-M17. 
+\end{DoxyItemize}
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2674 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga34e926cd8a99cfcc7480b2d6de5118b6}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Clear\-O\-C1\-Ref@{T\-I\-M\-\_\-\-Clear\-O\-C1\-Ref}}
+\index{T\-I\-M\-\_\-\-Clear\-O\-C1\-Ref@{T\-I\-M\-\_\-\-Clear\-O\-C1\-Ref}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Clear\-O\-C1\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Clear\-O\-C1\-Ref (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-O\-C\-Clear}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga34e926cd8a99cfcc7480b2d6de5118b6}
+
+
+Clears or safeguards the O\-C\-R\-E\-F1 signal on an external event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-C\-Clear,\-:} & new state of the Output Compare Clear Enable Bit. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-O\-C\-Clear\-\_\-\-Enable\-: T\-I\-M Output clear enable \item T\-I\-M\-\_\-\-O\-C\-Clear\-\_\-\-Disable\-: T\-I\-M Output clear disable \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1705 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_gac474ebc815d24c8a589969e0c68b27b0}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Clear\-O\-C2\-Ref@{T\-I\-M\-\_\-\-Clear\-O\-C2\-Ref}}
+\index{T\-I\-M\-\_\-\-Clear\-O\-C2\-Ref@{T\-I\-M\-\_\-\-Clear\-O\-C2\-Ref}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Clear\-O\-C2\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Clear\-O\-C2\-Ref (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-O\-C\-Clear}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_gac474ebc815d24c8a589969e0c68b27b0}
+
+
+Clears or safeguards the O\-C\-R\-E\-F2 signal on an external event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-C\-Clear,\-:} & new state of the Output Compare Clear Enable Bit. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-O\-C\-Clear\-\_\-\-Enable\-: T\-I\-M Output clear enable \item T\-I\-M\-\_\-\-O\-C\-Clear\-\_\-\-Disable\-: T\-I\-M Output clear disable \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1731 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga0bd9476a14bd346c319945ec4fa2bc67}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Clear\-O\-C3\-Ref@{T\-I\-M\-\_\-\-Clear\-O\-C3\-Ref}}
+\index{T\-I\-M\-\_\-\-Clear\-O\-C3\-Ref@{T\-I\-M\-\_\-\-Clear\-O\-C3\-Ref}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Clear\-O\-C3\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Clear\-O\-C3\-Ref (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-O\-C\-Clear}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga0bd9476a14bd346c319945ec4fa2bc67}
+
+
+Clears or safeguards the O\-C\-R\-E\-F3 signal on an external event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-C\-Clear,\-:} & new state of the Output Compare Clear Enable Bit. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-O\-C\-Clear\-\_\-\-Enable\-: T\-I\-M Output clear enable \item T\-I\-M\-\_\-\-O\-C\-Clear\-\_\-\-Disable\-: T\-I\-M Output clear disable \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1755 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_gaeee5fa66b26e7c6f71850272dc3028f3}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Clear\-O\-C4\-Ref@{T\-I\-M\-\_\-\-Clear\-O\-C4\-Ref}}
+\index{T\-I\-M\-\_\-\-Clear\-O\-C4\-Ref@{T\-I\-M\-\_\-\-Clear\-O\-C4\-Ref}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Clear\-O\-C4\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Clear\-O\-C4\-Ref (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-O\-C\-Clear}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_gaeee5fa66b26e7c6f71850272dc3028f3}
+
+
+Clears or safeguards the O\-C\-R\-E\-F4 signal on an external event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-C\-Clear,\-:} & new state of the Output Compare Clear Enable Bit. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-O\-C\-Clear\-\_\-\-Enable\-: T\-I\-M Output clear enable \item T\-I\-M\-\_\-\-O\-C\-Clear\-\_\-\-Disable\-: T\-I\-M Output clear disable \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1779 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga2bdc275bcbd2ce9d1ba632e6c89896b7}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Cmd@{T\-I\-M\-\_\-\-Cmd}}
+\index{T\-I\-M\-\_\-\-Cmd@{T\-I\-M\-\_\-\-Cmd}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga2bdc275bcbd2ce9d1ba632e6c89896b7}
+
+
+Enables or disables the specified T\-I\-M peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 to select the T\-I\-Mx peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the T\-I\-Mx peripheral. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 804 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga93941c1db20bf3794f377307df90a67b}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Counter\-Mode\-Config@{T\-I\-M\-\_\-\-Counter\-Mode\-Config}}
+\index{T\-I\-M\-\_\-\-Counter\-Mode\-Config@{T\-I\-M\-\_\-\-Counter\-Mode\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Counter\-Mode\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Counter\-Mode\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Counter\-Mode}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga93941c1db20bf3794f377307df90a67b}
+
+
+Specifies the T\-I\-Mx Counter Mode to be used. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Counter\-Mode,\-:} & specifies the Counter Mode to be used This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Counter\-Mode\-\_\-\-Up\-: T\-I\-M Up Counting Mode \item T\-I\-M\-\_\-\-Counter\-Mode\-\_\-\-Down\-: T\-I\-M Down Counting Mode \item T\-I\-M\-\_\-\-Counter\-Mode\-\_\-\-Center\-Aligned1\-: T\-I\-M Center Aligned Mode1 \item T\-I\-M\-\_\-\-Counter\-Mode\-\_\-\-Center\-Aligned2\-: T\-I\-M Center Aligned Mode2 \item T\-I\-M\-\_\-\-Counter\-Mode\-\_\-\-Center\-Aligned3\-: T\-I\-M Center Aligned Mode3 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1197 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga3e59ebced2ab8e0b817c460f1670e97d}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Ctrl\-P\-W\-M\-Outputs@{T\-I\-M\-\_\-\-Ctrl\-P\-W\-M\-Outputs}}
+\index{T\-I\-M\-\_\-\-Ctrl\-P\-W\-M\-Outputs@{T\-I\-M\-\_\-\-Ctrl\-P\-W\-M\-Outputs}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Ctrl\-P\-W\-M\-Outputs}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Ctrl\-P\-W\-M\-Outputs (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga3e59ebced2ab8e0b817c460f1670e97d}
+
+
+Enables or disables the T\-I\-M peripheral Main Outputs. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 8, 15, 16 or 17 to select the T\-I\-Mx peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the T\-I\-M peripheral Main Outputs. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 829 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga1659cc0ce503ac151568e0c7c02b1ba5}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-De\-Init@{T\-I\-M\-\_\-\-De\-Init}}
+\index{T\-I\-M\-\_\-\-De\-Init@{T\-I\-M\-\_\-\-De\-Init}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-De\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-De\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga1659cc0ce503ac151568e0c7c02b1ba5}
+
+
+Deinitializes the T\-I\-Mx peripheral registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 to select the T\-I\-M peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 121 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga24700389cfa3ea9b42234933b23f1399}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-D\-M\-A\-Cmd@{T\-I\-M\-\_\-\-D\-M\-A\-Cmd}}
+\index{T\-I\-M\-\_\-\-D\-M\-A\-Cmd@{T\-I\-M\-\_\-\-D\-M\-A\-Cmd}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-D\-M\-A\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-D\-M\-A\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-D\-M\-A\-Source, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga24700389cfa3ea9b42234933b23f1399}
+
+
+Enables or disables the T\-I\-Mx’s D\-M\-A Requests. 
+
+Enables or disables the T\-I\-Mx's D\-M\-A Requests.
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5, 6, 7, 8, 15, 16 or 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-D\-M\-A\-Source,\-:} & specifies the D\-M\-A Request sources. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-D\-M\-A\-\_\-\-Update\-: T\-I\-M update Interrupt source \item T\-I\-M\-\_\-\-D\-M\-A\-\_\-\-C\-C1\-: T\-I\-M Capture Compare 1 D\-M\-A source \item T\-I\-M\-\_\-\-D\-M\-A\-\_\-\-C\-C2\-: T\-I\-M Capture Compare 2 D\-M\-A source \item T\-I\-M\-\_\-\-D\-M\-A\-\_\-\-C\-C3\-: T\-I\-M Capture Compare 3 D\-M\-A source \item T\-I\-M\-\_\-\-D\-M\-A\-\_\-\-C\-C4\-: T\-I\-M Capture Compare 4 D\-M\-A source \item T\-I\-M\-\_\-\-D\-M\-A\-\_\-\-C\-O\-M\-: T\-I\-M Commutation D\-M\-A source \item T\-I\-M\-\_\-\-D\-M\-A\-\_\-\-Trigger\-: T\-I\-M Trigger D\-M\-A source \end{DoxyItemize}
+\\
+\hline
+{\em New\-State,\-:} & new state of the D\-M\-A Request sources. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 962 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_gad7156f84c436c8ac92cd789611826d09}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-D\-M\-A\-Config@{T\-I\-M\-\_\-\-D\-M\-A\-Config}}
+\index{T\-I\-M\-\_\-\-D\-M\-A\-Config@{T\-I\-M\-\_\-\-D\-M\-A\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-D\-M\-A\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-D\-M\-A\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-D\-M\-A\-Base, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-D\-M\-A\-Burst\-Length}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_gad7156f84c436c8ac92cd789611826d09}
+
+
+Configures the T\-I\-Mx’s D\-M\-A interface. 
+
+Configures the T\-I\-Mx's D\-M\-A interface.
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5, 8, 15, 16 or 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-D\-M\-A\-Base,\-:} & D\-M\-A Base address. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-R, T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-R2, T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-S\-M\-C\-R, T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-D\-I\-E\-R, T\-I\-M1\-\_\-\-D\-M\-A\-Base\-\_\-\-S\-R, T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-E\-G\-R, T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-C\-M\-R1, T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-C\-M\-R2, T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-C\-E\-R, T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-N\-T, T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-P\-S\-C, T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-A\-R\-R, T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-R\-C\-R, T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-C\-R1, T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-C\-R2, T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-C\-R3, T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-C\-R4, T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-B\-D\-T\-R, T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-D\-C\-R. \end{DoxyItemize}
+\\
+\hline
+{\em T\-I\-M\-\_\-\-D\-M\-A\-Burst\-Length,\-:} & D\-M\-A Burst length. This parameter can be one value between\-: T\-I\-M\-\_\-\-D\-M\-A\-Burst\-Length\-\_\-1\-Byte and T\-I\-M\-\_\-\-D\-M\-A\-Burst\-Length\-\_\-18\-Bytes. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 935 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga0fc7e76c47a3bd1ba1ebc71427832b51}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Encoder\-Interface\-Config@{T\-I\-M\-\_\-\-Encoder\-Interface\-Config}}
+\index{T\-I\-M\-\_\-\-Encoder\-Interface\-Config@{T\-I\-M\-\_\-\-Encoder\-Interface\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Encoder\-Interface\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Encoder\-Interface\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Encoder\-Mode, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-I\-C1\-Polarity, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-I\-C2\-Polarity}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga0fc7e76c47a3bd1ba1ebc71427832b51}
+
+
+Configures the T\-I\-Mx Encoder Interface. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Encoder\-Mode,\-:} & specifies the T\-I\-Mx Encoder Mode. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Encoder\-Mode\-\_\-\-T\-I1\-: Counter counts on T\-I1\-F\-P1 edge depending on T\-I2\-F\-P2 level. \item T\-I\-M\-\_\-\-Encoder\-Mode\-\_\-\-T\-I2\-: Counter counts on T\-I2\-F\-P2 edge depending on T\-I1\-F\-P1 level. \item T\-I\-M\-\_\-\-Encoder\-Mode\-\_\-\-T\-I12\-: Counter counts on both T\-I1\-F\-P1 and T\-I2\-F\-P2 edges depending on the level of the other input. \end{DoxyItemize}
+\\
+\hline
+{\em T\-I\-M\-\_\-\-I\-C1\-Polarity,\-:} & specifies the I\-C1 Polarity This parmeter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-I\-C\-Polarity\-\_\-\-Falling\-: I\-C Falling edge. \item T\-I\-M\-\_\-\-I\-C\-Polarity\-\_\-\-Rising\-: I\-C Rising edge. \end{DoxyItemize}
+\\
+\hline
+{\em T\-I\-M\-\_\-\-I\-C2\-Polarity,\-:} & specifies the I\-C2 Polarity This parmeter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-I\-C\-Polarity\-\_\-\-Falling\-: I\-C Falling edge. \item T\-I\-M\-\_\-\-I\-C\-Polarity\-\_\-\-Rising\-: I\-C Rising edge. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1262 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga47c05638b93aabcd641dbc8859e1b2df}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-E\-T\-R\-Clock\-Mode1\-Config@{T\-I\-M\-\_\-\-E\-T\-R\-Clock\-Mode1\-Config}}
+\index{T\-I\-M\-\_\-\-E\-T\-R\-Clock\-Mode1\-Config@{T\-I\-M\-\_\-\-E\-T\-R\-Clock\-Mode1\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-E\-T\-R\-Clock\-Mode1\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-E\-T\-R\-Clock\-Mode1\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Prescaler, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Polarity, }
+\item[{{\bf uint16\-\_\-t}}]{Ext\-T\-R\-G\-Filter}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga47c05638b93aabcd641dbc8859e1b2df}
+
+
+Configures the External clock Mode1. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Prescaler,\-:} & The external Trigger Prescaler. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Ext\-T\-R\-G\-P\-S\-C\-\_\-\-O\-F\-F\-: E\-T\-R\-P Prescaler O\-F\-F. \item T\-I\-M\-\_\-\-Ext\-T\-R\-G\-P\-S\-C\-\_\-\-D\-I\-V2\-: E\-T\-R\-P frequency divided by 2. \item T\-I\-M\-\_\-\-Ext\-T\-R\-G\-P\-S\-C\-\_\-\-D\-I\-V4\-: E\-T\-R\-P frequency divided by 4. \item T\-I\-M\-\_\-\-Ext\-T\-R\-G\-P\-S\-C\-\_\-\-D\-I\-V8\-: E\-T\-R\-P frequency divided by 8. \end{DoxyItemize}
+\\
+\hline
+{\em T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Polarity,\-:} & The external Trigger Polarity. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Polarity\-\_\-\-Inverted\-: active low or falling edge active. \item T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Polarity\-\_\-\-Non\-Inverted\-: active high or rising edge active. \end{DoxyItemize}
+\\
+\hline
+{\em Ext\-T\-R\-G\-Filter,\-:} & External Trigger Filter. This parameter must be a value between 0x00 and 0x0\-F \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1073 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga0a9cbcbab32326cbbdaf4c111f59ec20}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-E\-T\-R\-Clock\-Mode2\-Config@{T\-I\-M\-\_\-\-E\-T\-R\-Clock\-Mode2\-Config}}
+\index{T\-I\-M\-\_\-\-E\-T\-R\-Clock\-Mode2\-Config@{T\-I\-M\-\_\-\-E\-T\-R\-Clock\-Mode2\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-E\-T\-R\-Clock\-Mode2\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-E\-T\-R\-Clock\-Mode2\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Prescaler, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Polarity, }
+\item[{{\bf uint16\-\_\-t}}]{Ext\-T\-R\-G\-Filter}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga0a9cbcbab32326cbbdaf4c111f59ec20}
+
+
+Configures the External clock Mode2. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Prescaler,\-:} & The external Trigger Prescaler. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Ext\-T\-R\-G\-P\-S\-C\-\_\-\-O\-F\-F\-: E\-T\-R\-P Prescaler O\-F\-F. \item T\-I\-M\-\_\-\-Ext\-T\-R\-G\-P\-S\-C\-\_\-\-D\-I\-V2\-: E\-T\-R\-P frequency divided by 2. \item T\-I\-M\-\_\-\-Ext\-T\-R\-G\-P\-S\-C\-\_\-\-D\-I\-V4\-: E\-T\-R\-P frequency divided by 4. \item T\-I\-M\-\_\-\-Ext\-T\-R\-G\-P\-S\-C\-\_\-\-D\-I\-V8\-: E\-T\-R\-P frequency divided by 8. \end{DoxyItemize}
+\\
+\hline
+{\em T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Polarity,\-:} & The external Trigger Polarity. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Polarity\-\_\-\-Inverted\-: active low or falling edge active. \item T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Polarity\-\_\-\-Non\-Inverted\-: active high or rising edge active. \end{DoxyItemize}
+\\
+\hline
+{\em Ext\-T\-R\-G\-Filter,\-:} & External Trigger Filter. This parameter must be a value between 0x00 and 0x0\-F \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1115 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga8bdde400b7a30f3e747fe8e4962c0abe}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-E\-T\-R\-Config@{T\-I\-M\-\_\-\-E\-T\-R\-Config}}
+\index{T\-I\-M\-\_\-\-E\-T\-R\-Config@{T\-I\-M\-\_\-\-E\-T\-R\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-E\-T\-R\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-E\-T\-R\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Prescaler, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Polarity, }
+\item[{{\bf uint16\-\_\-t}}]{Ext\-T\-R\-G\-Filter}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga8bdde400b7a30f3e747fe8e4962c0abe}
+
+
+Configures the T\-I\-Mx External Trigger (E\-T\-R). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Prescaler,\-:} & The external Trigger Prescaler. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Ext\-T\-R\-G\-P\-S\-C\-\_\-\-O\-F\-F\-: E\-T\-R\-P Prescaler O\-F\-F. \item T\-I\-M\-\_\-\-Ext\-T\-R\-G\-P\-S\-C\-\_\-\-D\-I\-V2\-: E\-T\-R\-P frequency divided by 2. \item T\-I\-M\-\_\-\-Ext\-T\-R\-G\-P\-S\-C\-\_\-\-D\-I\-V4\-: E\-T\-R\-P frequency divided by 4. \item T\-I\-M\-\_\-\-Ext\-T\-R\-G\-P\-S\-C\-\_\-\-D\-I\-V8\-: E\-T\-R\-P frequency divided by 8. \end{DoxyItemize}
+\\
+\hline
+{\em T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Polarity,\-:} & The external Trigger Polarity. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Polarity\-\_\-\-Inverted\-: active low or falling edge active. \item T\-I\-M\-\_\-\-Ext\-T\-R\-G\-Polarity\-\_\-\-Non\-Inverted\-: active high or rising edge active. \end{DoxyItemize}
+\\
+\hline
+{\em Ext\-T\-R\-G\-Filter,\-:} & External Trigger Filter. This parameter must be a value between 0x00 and 0x0\-F \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1146 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga4f58c12e6493a0d8b9555c9097b831d6}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Forced\-O\-C1\-Config@{T\-I\-M\-\_\-\-Forced\-O\-C1\-Config}}
+\index{T\-I\-M\-\_\-\-Forced\-O\-C1\-Config@{T\-I\-M\-\_\-\-Forced\-O\-C1\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Forced\-O\-C1\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Forced\-O\-C1\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Forced\-Action}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga4f58c12e6493a0d8b9555c9097b831d6}
+
+
+Forces the T\-I\-Mx output 1 waveform to active or inactive level. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 except 6 and 7 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Forced\-Action,\-:} & specifies the forced Action to be set to the output waveform. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Forced\-Action\-\_\-\-Active\-: Force active level on O\-C1\-R\-E\-F \item T\-I\-M\-\_\-\-Forced\-Action\-\_\-\-In\-Active\-: Force inactive level on O\-C1\-R\-E\-F. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1313 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga3d2902b6fbab8dd55cd531055ffcc63d}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Forced\-O\-C2\-Config@{T\-I\-M\-\_\-\-Forced\-O\-C2\-Config}}
+\index{T\-I\-M\-\_\-\-Forced\-O\-C2\-Config@{T\-I\-M\-\_\-\-Forced\-O\-C2\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Forced\-O\-C2\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Forced\-O\-C2\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Forced\-Action}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga3d2902b6fbab8dd55cd531055ffcc63d}
+
+
+Forces the T\-I\-Mx output 2 waveform to active or inactive level. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5, 8, 9, 12 or 15 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Forced\-Action,\-:} & specifies the forced Action to be set to the output waveform. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Forced\-Action\-\_\-\-Active\-: Force active level on O\-C2\-R\-E\-F \item T\-I\-M\-\_\-\-Forced\-Action\-\_\-\-In\-Active\-: Force inactive level on O\-C2\-R\-E\-F. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1337 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga920b0fb4ca44fceffd1c3e441feebd8f}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Forced\-O\-C3\-Config@{T\-I\-M\-\_\-\-Forced\-O\-C3\-Config}}
+\index{T\-I\-M\-\_\-\-Forced\-O\-C3\-Config@{T\-I\-M\-\_\-\-Forced\-O\-C3\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Forced\-O\-C3\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Forced\-O\-C3\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Forced\-Action}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga920b0fb4ca44fceffd1c3e441feebd8f}
+
+
+Forces the T\-I\-Mx output 3 waveform to active or inactive level. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Forced\-Action,\-:} & specifies the forced Action to be set to the output waveform. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Forced\-Action\-\_\-\-Active\-: Force active level on O\-C3\-R\-E\-F \item T\-I\-M\-\_\-\-Forced\-Action\-\_\-\-In\-Active\-: Force inactive level on O\-C3\-R\-E\-F. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1361 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_gaf0a0bbe74251e56d4b835d20b0a3aa63}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Forced\-O\-C4\-Config@{T\-I\-M\-\_\-\-Forced\-O\-C4\-Config}}
+\index{T\-I\-M\-\_\-\-Forced\-O\-C4\-Config@{T\-I\-M\-\_\-\-Forced\-O\-C4\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Forced\-O\-C4\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Forced\-O\-C4\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Forced\-Action}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_gaf0a0bbe74251e56d4b835d20b0a3aa63}
+
+
+Forces the T\-I\-Mx output 4 waveform to active or inactive level. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Forced\-Action,\-:} & specifies the forced Action to be set to the output waveform. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Forced\-Action\-\_\-\-Active\-: Force active level on O\-C4\-R\-E\-F \item T\-I\-M\-\_\-\-Forced\-Action\-\_\-\-In\-Active\-: Force inactive level on O\-C4\-R\-E\-F. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1385 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga38bd4ffda920dd4f7655a0a2c6100a6e}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Generate\-Event@{T\-I\-M\-\_\-\-Generate\-Event}}
+\index{T\-I\-M\-\_\-\-Generate\-Event@{T\-I\-M\-\_\-\-Generate\-Event}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Generate\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Generate\-Event (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Event\-Source}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga38bd4ffda920dd4f7655a0a2c6100a6e}
+
+
+Configures the T\-I\-Mx event to be generate by software. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Event\-Source,\-:} & specifies the event source. This parameter can be one or more of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-Update\-: Timer update Event source \item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-C\-C1\-: Timer Capture Compare 1 Event source \item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-C\-C2\-: Timer Capture Compare 2 Event source \item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-C\-C3\-: Timer Capture Compare 3 Event source \item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-C\-C4\-: Timer Capture Compare 4 Event source \item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-C\-O\-M\-: Timer C\-O\-M event source \item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-Trigger\-: Timer Trigger Event source \item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-Break\-: Timer Break event source \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+
+\begin{DoxyItemize}
+\item T\-I\-M6 and T\-I\-M7 can only generate an update event.
+\item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-C\-O\-M and T\-I\-M\-\_\-\-Event\-Source\-\_\-\-Break are used only with T\-I\-M1 and T\-I\-M8. 
+\end{DoxyItemize}
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 907 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga29eb9f7151ceea94c3988539a5ee91cf}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Get\-Capture1@{T\-I\-M\-\_\-\-Get\-Capture1}}
+\index{T\-I\-M\-\_\-\-Get\-Capture1@{T\-I\-M\-\_\-\-Get\-Capture1}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Get\-Capture1}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} T\-I\-M\-\_\-\-Get\-Capture1 (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga29eb9f7151ceea94c3988539a5ee91cf}
+
+
+Gets the T\-I\-Mx Input Capture 1 value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 except 6 and 7 to select the T\-I\-M peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Capture} & Compare 1 Register value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2455 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga437fcf00ee9d0a9df9150cc120efc5ad}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Get\-Capture2@{T\-I\-M\-\_\-\-Get\-Capture2}}
+\index{T\-I\-M\-\_\-\-Get\-Capture2@{T\-I\-M\-\_\-\-Get\-Capture2}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Get\-Capture2}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} T\-I\-M\-\_\-\-Get\-Capture2 (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga437fcf00ee9d0a9df9150cc120efc5ad}
+
+
+Gets the T\-I\-Mx Input Capture 2 value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5, 8, 9, 12 or 15 to select the T\-I\-M peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Capture} & Compare 2 Register value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2468 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_gab71d1d3d8a15f3be9e74dca51fcca5fa}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Get\-Capture3@{T\-I\-M\-\_\-\-Get\-Capture3}}
+\index{T\-I\-M\-\_\-\-Get\-Capture3@{T\-I\-M\-\_\-\-Get\-Capture3}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Get\-Capture3}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} T\-I\-M\-\_\-\-Get\-Capture3 (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_gab71d1d3d8a15f3be9e74dca51fcca5fa}
+
+
+Gets the T\-I\-Mx Input Capture 3 value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Capture} & Compare 3 Register value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2481 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga09049af04c8345849c6f82ccfae242a6}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Get\-Capture4@{T\-I\-M\-\_\-\-Get\-Capture4}}
+\index{T\-I\-M\-\_\-\-Get\-Capture4@{T\-I\-M\-\_\-\-Get\-Capture4}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Get\-Capture4}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} T\-I\-M\-\_\-\-Get\-Capture4 (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga09049af04c8345849c6f82ccfae242a6}
+
+
+Gets the T\-I\-Mx Input Capture 4 value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Capture} & Compare 4 Register value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2494 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_gab6826b144ae70e206f51ae8af5318a93}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Get\-Counter@{T\-I\-M\-\_\-\-Get\-Counter}}
+\index{T\-I\-M\-\_\-\-Get\-Counter@{T\-I\-M\-\_\-\-Get\-Counter}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Get\-Counter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} T\-I\-M\-\_\-\-Get\-Counter (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_gab6826b144ae70e206f51ae8af5318a93}
+
+
+Gets the T\-I\-Mx Counter value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 to select the T\-I\-M peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Counter} & Register value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2507 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga0adcbbd5e838ec8642e7a9b80075f41f}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Get\-Flag\-Status@{T\-I\-M\-\_\-\-Get\-Flag\-Status}}
+\index{T\-I\-M\-\_\-\-Get\-Flag\-Status@{T\-I\-M\-\_\-\-Get\-Flag\-Status}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Get\-Flag\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Flag\-Status} T\-I\-M\-\_\-\-Get\-Flag\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga0adcbbd5e838ec8642e7a9b80075f41f}
+
+
+Checks whether the specified T\-I\-M flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-F\-L\-A\-G,\-:} & specifies the flag to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Update\-: T\-I\-M update Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C1\-: T\-I\-M Capture Compare 1 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C2\-: T\-I\-M Capture Compare 2 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C3\-: T\-I\-M Capture Compare 3 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C4\-: T\-I\-M Capture Compare 4 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-O\-M\-: T\-I\-M Commutation Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Trigger\-: T\-I\-M Trigger Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Break\-: T\-I\-M Break Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C1\-O\-F\-: T\-I\-M Capture Compare 1 overcapture Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C2\-O\-F\-: T\-I\-M Capture Compare 2 overcapture Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C3\-O\-F\-: T\-I\-M Capture Compare 3 overcapture Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C4\-O\-F\-: T\-I\-M Capture Compare 4 overcapture Flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+
+\begin{DoxyItemize}
+\item T\-I\-M6 and T\-I\-M7 can have only one update flag.
+\item T\-I\-M9, T\-I\-M12 and T\-I\-M15 can have only T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Update, T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C1, T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C2 or T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Trigger.
+\item T\-I\-M10, T\-I\-M11, T\-I\-M13, T\-I\-M14, T\-I\-M16 and T\-I\-M17 can have T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Update or T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C1.
+\item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Break is used only with T\-I\-M1, T\-I\-M8 and T\-I\-M15.
+\item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-O\-M is used only with T\-I\-M1, T\-I\-M8, T\-I\-M15, T\-I\-M16 and T\-I\-M17. 
+\end{DoxyItemize}
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of T\-I\-M\-\_\-\-F\-L\-A\-G (S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2554 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga0827a0b411707304f76d33050727c24d}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Get\-I\-T\-Status@{T\-I\-M\-\_\-\-Get\-I\-T\-Status}}
+\index{T\-I\-M\-\_\-\-Get\-I\-T\-Status@{T\-I\-M\-\_\-\-Get\-I\-T\-Status}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Get\-I\-T\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf I\-T\-Status} T\-I\-M\-\_\-\-Get\-I\-T\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-I\-T}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga0827a0b411707304f76d33050727c24d}
+
+
+Checks whether the T\-I\-M interrupt has occurred or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-I\-T,\-:} & specifies the T\-I\-M interrupt source to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-I\-T\-\_\-\-Update\-: T\-I\-M update Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C1\-: T\-I\-M Capture Compare 1 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C2\-: T\-I\-M Capture Compare 2 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C3\-: T\-I\-M Capture Compare 3 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C4\-: T\-I\-M Capture Compare 4 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-O\-M\-: T\-I\-M Commutation Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-Trigger\-: T\-I\-M Trigger Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-Break\-: T\-I\-M Break Interrupt source \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+
+\begin{DoxyItemize}
+\item T\-I\-M6 and T\-I\-M7 can generate only an update interrupt.
+\item T\-I\-M9, T\-I\-M12 and T\-I\-M15 can have only T\-I\-M\-\_\-\-I\-T\-\_\-\-Update, T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C1, T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C2 or T\-I\-M\-\_\-\-I\-T\-\_\-\-Trigger.
+\item T\-I\-M10, T\-I\-M11, T\-I\-M13, T\-I\-M14, T\-I\-M16 and T\-I\-M17 can have T\-I\-M\-\_\-\-I\-T\-\_\-\-Update or T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C1.
+\item T\-I\-M\-\_\-\-I\-T\-\_\-\-Break is used only with T\-I\-M1, T\-I\-M8 and T\-I\-M15.
+\item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-O\-M is used only with T\-I\-M1, T\-I\-M8, T\-I\-M15, T\-I\-M16 and T\-I\-M17. 
+\end{DoxyItemize}
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of the T\-I\-M\-\_\-\-I\-T(\-S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2630 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga427eb6e533480e02a27cd0ca876183d6}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Get\-Prescaler@{T\-I\-M\-\_\-\-Get\-Prescaler}}
+\index{T\-I\-M\-\_\-\-Get\-Prescaler@{T\-I\-M\-\_\-\-Get\-Prescaler}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Get\-Prescaler}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} T\-I\-M\-\_\-\-Get\-Prescaler (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga427eb6e533480e02a27cd0ca876183d6}
+
+
+Gets the T\-I\-Mx Prescaler value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 to select the T\-I\-M peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Prescaler} & Register value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2520 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga3b025c0c223151695ca9141766e2b249}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-I\-C\-Init@{T\-I\-M\-\_\-\-I\-C\-Init}}
+\index{T\-I\-M\-\_\-\-I\-C\-Init@{T\-I\-M\-\_\-\-I\-C\-Init}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-I\-C\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-I\-C\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf const} {\bf T\-I\-M\-\_\-\-I\-C\-Init\-Type\-Def} $\ast$}]{T\-I\-M\-\_\-\-I\-C\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga3b025c0c223151695ca9141766e2b249}
+
+
+Initializes the T\-I\-M peripheral according to the specified parameters in the T\-I\-M\-\_\-\-I\-C\-Init\-Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 except 6 and 7 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-I\-C\-Init\-Struct,\-:} & pointer to a \hyperlink{struct_t_i_m___i_c_init_type_def}{T\-I\-M\-\_\-\-I\-C\-Init\-Type\-Def} structure that contains the configuration information for the specified T\-I\-M peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 585 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga5005dac8e4e8a4c7fc2a0ef05b77cc50}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-I\-C\-Struct\-Init@{T\-I\-M\-\_\-\-I\-C\-Struct\-Init}}
+\index{T\-I\-M\-\_\-\-I\-C\-Struct\-Init@{T\-I\-M\-\_\-\-I\-C\-Struct\-Init}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-I\-C\-Struct\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-I\-C\-Struct\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-I\-C\-Init\-Type\-Def} $\ast$}]{T\-I\-M\-\_\-\-I\-C\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga5005dac8e4e8a4c7fc2a0ef05b77cc50}
+
+
+Fills each T\-I\-M\-\_\-\-I\-C\-Init\-Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-M\-\_\-\-I\-C\-Init\-Struct} & \-: pointer to a \hyperlink{struct_t_i_m___i_c_init_type_def}{T\-I\-M\-\_\-\-I\-C\-Init\-Type\-Def} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 769 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga2394f0221709c0659874f9a4184cf86e}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Internal\-Clock\-Config@{T\-I\-M\-\_\-\-Internal\-Clock\-Config}}
+\index{T\-I\-M\-\_\-\-Internal\-Clock\-Config@{T\-I\-M\-\_\-\-Internal\-Clock\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Internal\-Clock\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Internal\-Clock\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga2394f0221709c0659874f9a4184cf86e}
+
+
+Configures the T\-I\-Mx interrnal Clock. 
+
+Configures the T\-I\-Mx internal Clock.
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5, 8, 9, 12 or 15 to select the T\-I\-M peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 987 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga70e3d6c09d55ee69002e154c85cd40e4}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-I\-T\-Config@{T\-I\-M\-\_\-\-I\-T\-Config}}
+\index{T\-I\-M\-\_\-\-I\-T\-Config@{T\-I\-M\-\_\-\-I\-T\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-I\-T\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-I\-T\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-I\-T, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga70e3d6c09d55ee69002e154c85cd40e4}
+
+
+Enables or disables the specified T\-I\-M interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 to select the T\-I\-Mx peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-I\-T,\-:} & specifies the T\-I\-M interrupts sources to be enabled or disabled. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-I\-T\-\_\-\-Update\-: T\-I\-M update Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C1\-: T\-I\-M Capture Compare 1 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C2\-: T\-I\-M Capture Compare 2 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C3\-: T\-I\-M Capture Compare 3 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C4\-: T\-I\-M Capture Compare 4 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-O\-M\-: T\-I\-M Commutation Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-Trigger\-: T\-I\-M Trigger Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-Break\-: T\-I\-M Break Interrupt source \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+
+\begin{DoxyItemize}
+\item T\-I\-M6 and T\-I\-M7 can only generate an update interrupt.
+\item T\-I\-M9, T\-I\-M12 and T\-I\-M15 can have only T\-I\-M\-\_\-\-I\-T\-\_\-\-Update, T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C1, T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C2 or T\-I\-M\-\_\-\-I\-T\-\_\-\-Trigger.
+\item T\-I\-M10, T\-I\-M11, T\-I\-M13, T\-I\-M14, T\-I\-M16 and T\-I\-M17 can have T\-I\-M\-\_\-\-I\-T\-\_\-\-Update or T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C1.
+\item T\-I\-M\-\_\-\-I\-T\-\_\-\-Break is used only with T\-I\-M1, T\-I\-M8 and T\-I\-M15.
+\item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-O\-M is used only with T\-I\-M1, T\-I\-M8, T\-I\-M15, T\-I\-M16 and T\-I\-M17. 
+\end{DoxyItemize}
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\-State,\-:} & new state of the T\-I\-M interrupts. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 870 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_gabef227d21d9e121e6a4ec5ab6223f5a9}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-I\-T\-Rx\-External\-Clock\-Config@{T\-I\-M\-\_\-\-I\-T\-Rx\-External\-Clock\-Config}}
+\index{T\-I\-M\-\_\-\-I\-T\-Rx\-External\-Clock\-Config@{T\-I\-M\-\_\-\-I\-T\-Rx\-External\-Clock\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-I\-T\-Rx\-External\-Clock\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-I\-T\-Rx\-External\-Clock\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Input\-Trigger\-Source}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_gabef227d21d9e121e6a4ec5ab6223f5a9}
+
+
+Configures the T\-I\-Mx Internal Trigger as External Clock. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5, 9, 12 or 15 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-I\-T\-R\-Source,\-:} & Trigger source. This parameter can be one of the following values\-: \\
+\hline
+{\em T\-I\-M\-\_\-\-T\-S\-\_\-\-I\-T\-R0,\-:} & Internal Trigger 0 \\
+\hline
+{\em T\-I\-M\-\_\-\-T\-S\-\_\-\-I\-T\-R1,\-:} & Internal Trigger 1 \\
+\hline
+{\em T\-I\-M\-\_\-\-T\-S\-\_\-\-I\-T\-R2,\-:} & Internal Trigger 2 \\
+\hline
+{\em T\-I\-M\-\_\-\-T\-S\-\_\-\-I\-T\-R3,\-:} & Internal Trigger 3 \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1006 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_gaec82031ca62f31f5483195c09752a83a}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-O\-C1\-Fast\-Config@{T\-I\-M\-\_\-\-O\-C1\-Fast\-Config}}
+\index{T\-I\-M\-\_\-\-O\-C1\-Fast\-Config@{T\-I\-M\-\_\-\-O\-C1\-Fast\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-O\-C1\-Fast\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-O\-C1\-Fast\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-O\-C\-Fast}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_gaec82031ca62f31f5483195c09752a83a}
+
+
+Configures the T\-I\-Mx Output Compare 1 Fast feature. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 except 6 and 7 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-C\-Fast,\-:} & new state of the Output Compare Fast Enable Bit. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-O\-C\-Fast\-\_\-\-Enable\-: T\-I\-M output compare fast enable \item T\-I\-M\-\_\-\-O\-C\-Fast\-\_\-\-Disable\-: T\-I\-M output compare fast disable \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1604 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_gae1d1b0487894bbef135e28f842d08741}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-O\-C1\-Init@{T\-I\-M\-\_\-\-O\-C1\-Init}}
+\index{T\-I\-M\-\_\-\-O\-C1\-Init@{T\-I\-M\-\_\-\-O\-C1\-Init}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-O\-C1\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-O\-C1\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf const} {\bf T\-I\-M\-\_\-\-O\-C\-Init\-Type\-Def} $\ast$}]{T\-I\-M\-\_\-\-O\-C\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_gae1d1b0487894bbef135e28f842d08741}
+
+
+Initializes the T\-I\-Mx Channel1 according to the specified parameters in the T\-I\-M\-\_\-\-O\-C\-Init\-Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 except 6 and 7 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-C\-Init\-Struct,\-:} & pointer to a \hyperlink{struct_t_i_m___o_c_init_type_def}{T\-I\-M\-\_\-\-O\-C\-Init\-Type\-Def} structure that contains the configuration information for the specified T\-I\-M peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 277 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga3cb91578e7dd34ea7d09862482960445}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-O\-C1\-N\-Polarity\-Config@{T\-I\-M\-\_\-\-O\-C1\-N\-Polarity\-Config}}
+\index{T\-I\-M\-\_\-\-O\-C1\-N\-Polarity\-Config@{T\-I\-M\-\_\-\-O\-C1\-N\-Polarity\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-O\-C1\-N\-Polarity\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-O\-C1\-N\-Polarity\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-O\-C\-N\-Polarity}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga3cb91578e7dd34ea7d09862482960445}
+
+
+Configures the T\-I\-Mx Channel 1\-N polarity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 8, 15, 16 or 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-C\-N\-Polarity,\-:} & specifies the O\-C1\-N Polarity This parmeter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-O\-C\-N\-Polarity\-\_\-\-High\-: Output Compare active high \item T\-I\-M\-\_\-\-O\-C\-N\-Polarity\-\_\-\-Low\-: Output Compare active low \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1826 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga03878f78163485c8a3508cff2111c297}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-O\-C1\-Polarity\-Config@{T\-I\-M\-\_\-\-O\-C1\-Polarity\-Config}}
+\index{T\-I\-M\-\_\-\-O\-C1\-Polarity\-Config@{T\-I\-M\-\_\-\-O\-C1\-Polarity\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-O\-C1\-Polarity\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-O\-C1\-Polarity\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-O\-C\-Polarity}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga03878f78163485c8a3508cff2111c297}
+
+
+Configures the T\-I\-Mx channel 1 polarity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 except 6 and 7 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-C\-Polarity,\-:} & specifies the O\-C1 Polarity This parmeter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-O\-C\-Polarity\-\_\-\-High\-: Output Compare active high \item T\-I\-M\-\_\-\-O\-C\-Polarity\-\_\-\-Low\-: Output Compare active low \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1803 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga60e6c29ad8f919bef616cf8e3306dd64}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-O\-C1\-Preload\-Config@{T\-I\-M\-\_\-\-O\-C1\-Preload\-Config}}
+\index{T\-I\-M\-\_\-\-O\-C1\-Preload\-Config@{T\-I\-M\-\_\-\-O\-C1\-Preload\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-O\-C1\-Preload\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-O\-C1\-Preload\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-O\-C\-Preload}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga60e6c29ad8f919bef616cf8e3306dd64}
+
+
+Enables or disables the T\-I\-Mx peripheral Preload register on C\-C\-R1. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 except 6 and 7 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-C\-Preload,\-:} & new state of the T\-I\-Mx peripheral Preload register This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-O\-C\-Preload\-\_\-\-Enable \item T\-I\-M\-\_\-\-O\-C\-Preload\-\_\-\-Disable \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1507 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga413359c87f46c69f1ffe2dc8fb3a65e7}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-O\-C2\-Fast\-Config@{T\-I\-M\-\_\-\-O\-C2\-Fast\-Config}}
+\index{T\-I\-M\-\_\-\-O\-C2\-Fast\-Config@{T\-I\-M\-\_\-\-O\-C2\-Fast\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-O\-C2\-Fast\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-O\-C2\-Fast\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-O\-C\-Fast}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga413359c87f46c69f1ffe2dc8fb3a65e7}
+
+
+Configures the T\-I\-Mx Output Compare 2 Fast feature. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5, 8, 9, 12 or 15 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-C\-Fast,\-:} & new state of the Output Compare Fast Enable Bit. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-O\-C\-Fast\-\_\-\-Enable\-: T\-I\-M output compare fast enable \item T\-I\-M\-\_\-\-O\-C\-Fast\-\_\-\-Disable\-: T\-I\-M output compare fast disable \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1630 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga7ffec43ecca5cbba9c1de4bd518e4f3b}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-O\-C2\-Init@{T\-I\-M\-\_\-\-O\-C2\-Init}}
+\index{T\-I\-M\-\_\-\-O\-C2\-Init@{T\-I\-M\-\_\-\-O\-C2\-Init}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-O\-C2\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-O\-C2\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf const} {\bf T\-I\-M\-\_\-\-O\-C\-Init\-Type\-Def} $\ast$}]{T\-I\-M\-\_\-\-O\-C\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga7ffec43ecca5cbba9c1de4bd518e4f3b}
+
+
+Initializes the T\-I\-Mx Channel2 according to the specified parameters in the T\-I\-M\-\_\-\-O\-C\-Init\-Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5, 8, 9, 12 or 15 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-C\-Init\-Struct,\-:} & pointer to a \hyperlink{struct_t_i_m___o_c_init_type_def}{T\-I\-M\-\_\-\-O\-C\-Init\-Type\-Def} structure that contains the configuration information for the specified T\-I\-M peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 360 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga2fa6ea3a89f446b52b4e699272b70cad}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-O\-C2\-N\-Polarity\-Config@{T\-I\-M\-\_\-\-O\-C2\-N\-Polarity\-Config}}
+\index{T\-I\-M\-\_\-\-O\-C2\-N\-Polarity\-Config@{T\-I\-M\-\_\-\-O\-C2\-N\-Polarity\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-O\-C2\-N\-Polarity\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-O\-C2\-N\-Polarity\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-O\-C\-N\-Polarity}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga2fa6ea3a89f446b52b4e699272b70cad}
+
+
+Configures the T\-I\-Mx Channel 2\-N polarity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-C\-N\-Polarity,\-:} & specifies the O\-C2\-N Polarity This parmeter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-O\-C\-N\-Polarity\-\_\-\-High\-: Output Compare active high \item T\-I\-M\-\_\-\-O\-C\-N\-Polarity\-\_\-\-Low\-: Output Compare active low \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1873 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga6831cacaac1ef50291af94db94450797}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-O\-C2\-Polarity\-Config@{T\-I\-M\-\_\-\-O\-C2\-Polarity\-Config}}
+\index{T\-I\-M\-\_\-\-O\-C2\-Polarity\-Config@{T\-I\-M\-\_\-\-O\-C2\-Polarity\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-O\-C2\-Polarity\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-O\-C2\-Polarity\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-O\-C\-Polarity}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga6831cacaac1ef50291af94db94450797}
+
+
+Configures the T\-I\-Mx channel 2 polarity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5, 8, 9, 12 or 15 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-C\-Polarity,\-:} & specifies the O\-C2 Polarity This parmeter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-O\-C\-Polarity\-\_\-\-High\-: Output Compare active high \item T\-I\-M\-\_\-\-O\-C\-Polarity\-\_\-\-Low\-: Output Compare active low \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1850 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga75b4614c6dd2cd52f2c5becdb6590c10}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-O\-C2\-Preload\-Config@{T\-I\-M\-\_\-\-O\-C2\-Preload\-Config}}
+\index{T\-I\-M\-\_\-\-O\-C2\-Preload\-Config@{T\-I\-M\-\_\-\-O\-C2\-Preload\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-O\-C2\-Preload\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-O\-C2\-Preload\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-O\-C\-Preload}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga75b4614c6dd2cd52f2c5becdb6590c10}
+
+
+Enables or disables the T\-I\-Mx peripheral Preload register on C\-C\-R2. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5, 8, 9, 12 or 15 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-C\-Preload,\-:} & new state of the T\-I\-Mx peripheral Preload register This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-O\-C\-Preload\-\_\-\-Enable \item T\-I\-M\-\_\-\-O\-C\-Preload\-\_\-\-Disable \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1532 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_gab2f3698e6e56bd9b0a4be7056ba789e1}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-O\-C3\-Fast\-Config@{T\-I\-M\-\_\-\-O\-C3\-Fast\-Config}}
+\index{T\-I\-M\-\_\-\-O\-C3\-Fast\-Config@{T\-I\-M\-\_\-\-O\-C3\-Fast\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-O\-C3\-Fast\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-O\-C3\-Fast\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-O\-C\-Fast}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_gab2f3698e6e56bd9b0a4be7056ba789e1}
+
+
+Configures the T\-I\-Mx Output Compare 3 Fast feature. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-C\-Fast,\-:} & new state of the Output Compare Fast Enable Bit. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-O\-C\-Fast\-\_\-\-Enable\-: T\-I\-M output compare fast enable \item T\-I\-M\-\_\-\-O\-C\-Fast\-\_\-\-Disable\-: T\-I\-M output compare fast disable \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1655 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga85a395008ee7ad08d04fb6f85e993521}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-O\-C3\-Init@{T\-I\-M\-\_\-\-O\-C3\-Init}}
+\index{T\-I\-M\-\_\-\-O\-C3\-Init@{T\-I\-M\-\_\-\-O\-C3\-Init}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-O\-C3\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-O\-C3\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf const} {\bf T\-I\-M\-\_\-\-O\-C\-Init\-Type\-Def} $\ast$}]{T\-I\-M\-\_\-\-O\-C\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga85a395008ee7ad08d04fb6f85e993521}
+
+
+Initializes the T\-I\-Mx Channel3 according to the specified parameters in the T\-I\-M\-\_\-\-O\-C\-Init\-Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-C\-Init\-Struct,\-:} & pointer to a \hyperlink{struct_t_i_m___o_c_init_type_def}{T\-I\-M\-\_\-\-O\-C\-Init\-Type\-Def} structure that contains the configuration information for the specified T\-I\-M peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 442 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_gac710acc5b682e892584fc6f089f61dc2}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-O\-C3\-N\-Polarity\-Config@{T\-I\-M\-\_\-\-O\-C3\-N\-Polarity\-Config}}
+\index{T\-I\-M\-\_\-\-O\-C3\-N\-Polarity\-Config@{T\-I\-M\-\_\-\-O\-C3\-N\-Polarity\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-O\-C3\-N\-Polarity\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-O\-C3\-N\-Polarity\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-O\-C\-N\-Polarity}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_gac710acc5b682e892584fc6f089f61dc2}
+
+
+Configures the T\-I\-Mx Channel 3\-N polarity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-C\-N\-Polarity,\-:} & specifies the O\-C3\-N Polarity This parmeter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-O\-C\-N\-Polarity\-\_\-\-High\-: Output Compare active high \item T\-I\-M\-\_\-\-O\-C\-N\-Polarity\-\_\-\-Low\-: Output Compare active low \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1920 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga1ef43b03fe666495e80aac9741ae7ab0}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-O\-C3\-Polarity\-Config@{T\-I\-M\-\_\-\-O\-C3\-Polarity\-Config}}
+\index{T\-I\-M\-\_\-\-O\-C3\-Polarity\-Config@{T\-I\-M\-\_\-\-O\-C3\-Polarity\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-O\-C3\-Polarity\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-O\-C3\-Polarity\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-O\-C\-Polarity}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga1ef43b03fe666495e80aac9741ae7ab0}
+
+
+Configures the T\-I\-Mx channel 3 polarity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-C\-Polarity,\-:} & specifies the O\-C3 Polarity This parmeter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-O\-C\-Polarity\-\_\-\-High\-: Output Compare active high \item T\-I\-M\-\_\-\-O\-C\-Polarity\-\_\-\-Low\-: Output Compare active low \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1897 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga8b2391685a519e60e596b7d596f86f09}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-O\-C3\-Preload\-Config@{T\-I\-M\-\_\-\-O\-C3\-Preload\-Config}}
+\index{T\-I\-M\-\_\-\-O\-C3\-Preload\-Config@{T\-I\-M\-\_\-\-O\-C3\-Preload\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-O\-C3\-Preload\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-O\-C3\-Preload\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-O\-C\-Preload}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga8b2391685a519e60e596b7d596f86f09}
+
+
+Enables or disables the T\-I\-Mx peripheral Preload register on C\-C\-R3. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-C\-Preload,\-:} & new state of the T\-I\-Mx peripheral Preload register This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-O\-C\-Preload\-\_\-\-Enable \item T\-I\-M\-\_\-\-O\-C\-Preload\-\_\-\-Disable \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1556 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga58279a04e8ea5333f1079d3cce8dde12}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-O\-C4\-Fast\-Config@{T\-I\-M\-\_\-\-O\-C4\-Fast\-Config}}
+\index{T\-I\-M\-\_\-\-O\-C4\-Fast\-Config@{T\-I\-M\-\_\-\-O\-C4\-Fast\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-O\-C4\-Fast\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-O\-C4\-Fast\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-O\-C\-Fast}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga58279a04e8ea5333f1079d3cce8dde12}
+
+
+Configures the T\-I\-Mx Output Compare 4 Fast feature. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-C\-Fast,\-:} & new state of the Output Compare Fast Enable Bit. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-O\-C\-Fast\-\_\-\-Enable\-: T\-I\-M output compare fast enable \item T\-I\-M\-\_\-\-O\-C\-Fast\-\_\-\-Disable\-: T\-I\-M output compare fast disable \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1680 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga8bd368bec7d55ae8ed73cbb7cca8f85a}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-O\-C4\-Init@{T\-I\-M\-\_\-\-O\-C4\-Init}}
+\index{T\-I\-M\-\_\-\-O\-C4\-Init@{T\-I\-M\-\_\-\-O\-C4\-Init}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-O\-C4\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-O\-C4\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf const} {\bf T\-I\-M\-\_\-\-O\-C\-Init\-Type\-Def} $\ast$}]{T\-I\-M\-\_\-\-O\-C\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga8bd368bec7d55ae8ed73cbb7cca8f85a}
+
+
+Initializes the T\-I\-Mx Channel4 according to the specified parameters in the T\-I\-M\-\_\-\-O\-C\-Init\-Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-C\-Init\-Struct,\-:} & pointer to a \hyperlink{struct_t_i_m___o_c_init_type_def}{T\-I\-M\-\_\-\-O\-C\-Init\-Type\-Def} structure that contains the configuration information for the specified T\-I\-M peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 521 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_gad678410f7c7244f83daad93ce9d1056e}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-O\-C4\-Polarity\-Config@{T\-I\-M\-\_\-\-O\-C4\-Polarity\-Config}}
+\index{T\-I\-M\-\_\-\-O\-C4\-Polarity\-Config@{T\-I\-M\-\_\-\-O\-C4\-Polarity\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-O\-C4\-Polarity\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-O\-C4\-Polarity\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-O\-C\-Polarity}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_gad678410f7c7244f83daad93ce9d1056e}
+
+
+Configures the T\-I\-Mx channel 4 polarity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-C\-Polarity,\-:} & specifies the O\-C4 Polarity This parmeter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-O\-C\-Polarity\-\_\-\-High\-: Output Compare active high \item T\-I\-M\-\_\-\-O\-C\-Polarity\-\_\-\-Low\-: Output Compare active low \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1945 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga8bf4dfb35ff0c7b494dd96579f50b1ec}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-O\-C4\-Preload\-Config@{T\-I\-M\-\_\-\-O\-C4\-Preload\-Config}}
+\index{T\-I\-M\-\_\-\-O\-C4\-Preload\-Config@{T\-I\-M\-\_\-\-O\-C4\-Preload\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-O\-C4\-Preload\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-O\-C4\-Preload\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-O\-C\-Preload}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga8bf4dfb35ff0c7b494dd96579f50b1ec}
+
+
+Enables or disables the T\-I\-Mx peripheral Preload register on C\-C\-R4. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-C\-Preload,\-:} & new state of the T\-I\-Mx peripheral Preload register This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-O\-C\-Preload\-\_\-\-Enable \item T\-I\-M\-\_\-\-O\-C\-Preload\-\_\-\-Disable \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1580 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga394683c78ae02837882e36014e11643e}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-O\-C\-Struct\-Init@{T\-I\-M\-\_\-\-O\-C\-Struct\-Init}}
+\index{T\-I\-M\-\_\-\-O\-C\-Struct\-Init@{T\-I\-M\-\_\-\-O\-C\-Struct\-Init}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-O\-C\-Struct\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-O\-C\-Struct\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-O\-C\-Init\-Type\-Def} $\ast$}]{T\-I\-M\-\_\-\-O\-C\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga394683c78ae02837882e36014e11643e}
+
+
+Fills each T\-I\-M\-\_\-\-O\-C\-Init\-Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-M\-\_\-\-O\-C\-Init\-Struct} & \-: pointer to a \hyperlink{struct_t_i_m___o_c_init_type_def}{T\-I\-M\-\_\-\-O\-C\-Init\-Type\-Def} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 750 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga45c6fd9041baf7f64c121e0172f305c7}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Prescaler\-Config@{T\-I\-M\-\_\-\-Prescaler\-Config}}
+\index{T\-I\-M\-\_\-\-Prescaler\-Config@{T\-I\-M\-\_\-\-Prescaler\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Prescaler\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Prescaler\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{Prescaler, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-P\-S\-C\-Reload\-Mode}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga45c6fd9041baf7f64c121e0172f305c7}
+
+
+Configures the T\-I\-Mx Prescaler. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em Prescaler,\-:} & specifies the Prescaler Register value \\
+\hline
+{\em T\-I\-M\-\_\-\-P\-S\-C\-Reload\-Mode,\-:} & specifies the T\-I\-M Prescaler Reload mode This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-P\-S\-C\-Reload\-Mode\-\_\-\-Update\-: The Prescaler is loaded at the update event. \item T\-I\-M\-\_\-\-P\-S\-C\-Reload\-Mode\-\_\-\-Immediate\-: The Prescaler is loaded immediately. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1174 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_gaa71f9296556310f85628d6c748a06475}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-P\-W\-M\-I\-Config@{T\-I\-M\-\_\-\-P\-W\-M\-I\-Config}}
+\index{T\-I\-M\-\_\-\-P\-W\-M\-I\-Config@{T\-I\-M\-\_\-\-P\-W\-M\-I\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-P\-W\-M\-I\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-P\-W\-M\-I\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf T\-I\-M\-\_\-\-I\-C\-Init\-Type\-Def} $\ast$}]{T\-I\-M\-\_\-\-I\-C\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_gaa71f9296556310f85628d6c748a06475}
+
+
+Configures the T\-I\-M peripheral according to the specified parameters in the T\-I\-M\-\_\-\-I\-C\-Init\-Struct to measure an external P\-W\-M signal. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5, 8, 9, 12 or 15 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-I\-C\-Init\-Struct,\-:} & pointer to a \hyperlink{struct_t_i_m___i_c_init_type_def}{T\-I\-M\-\_\-\-I\-C\-Init\-Type\-Def} structure that contains the configuration information for the specified T\-I\-M peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 652 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga5273cb65acb885fe7982827b1c6b7d75}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Select\-C\-C\-D\-M\-A@{T\-I\-M\-\_\-\-Select\-C\-C\-D\-M\-A}}
+\index{T\-I\-M\-\_\-\-Select\-C\-C\-D\-M\-A@{T\-I\-M\-\_\-\-Select\-C\-C\-D\-M\-A}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Select\-C\-C\-D\-M\-A}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Select\-C\-C\-D\-M\-A (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga5273cb65acb885fe7982827b1c6b7d75}
+
+
+Selects the T\-I\-Mx peripheral Capture Compare D\-M\-A source. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5, 8, 15, 16 or 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the Capture Compare D\-M\-A source This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1456 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_gaff2e7f9959b1b36e830df028c14accc8}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Select\-C\-O\-M@{T\-I\-M\-\_\-\-Select\-C\-O\-M}}
+\index{T\-I\-M\-\_\-\-Select\-C\-O\-M@{T\-I\-M\-\_\-\-Select\-C\-O\-M}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Select\-C\-O\-M}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Select\-C\-O\-M (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_gaff2e7f9959b1b36e830df028c14accc8}
+
+
+Selects the T\-I\-M peripheral Commutation event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 8, 15, 16 or 17 to select the T\-I\-Mx peripheral \\
+\hline
+{\em New\-State,\-:} & new state of the Commutation event. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1431 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga42c2d1025a3937c9d9f38631af86ffa4}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Select\-Hall\-Sensor@{T\-I\-M\-\_\-\-Select\-Hall\-Sensor}}
+\index{T\-I\-M\-\_\-\-Select\-Hall\-Sensor@{T\-I\-M\-\_\-\-Select\-Hall\-Sensor}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Select\-Hall\-Sensor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Select\-Hall\-Sensor (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga42c2d1025a3937c9d9f38631af86ffa4}
+
+
+Enables or disables the T\-I\-Mx’s Hall sensor interface. 
+
+Enables or disables the T\-I\-Mx's Hall sensor interface.
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the T\-I\-Mx Hall sensor interface. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2142 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga4252583c6ae8a73d6fc66f7e951dbc35}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Select\-Input\-Trigger@{T\-I\-M\-\_\-\-Select\-Input\-Trigger}}
+\index{T\-I\-M\-\_\-\-Select\-Input\-Trigger@{T\-I\-M\-\_\-\-Select\-Input\-Trigger}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Select\-Input\-Trigger}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Select\-Input\-Trigger (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Input\-Trigger\-Source}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga4252583c6ae8a73d6fc66f7e951dbc35}
+
+
+Selects the Input Trigger source. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5, 8, 9, 12 or 15 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Input\-Trigger\-Source,\-:} & The Input Trigger source. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-T\-S\-\_\-\-I\-T\-R0\-: Internal Trigger 0 \item T\-I\-M\-\_\-\-T\-S\-\_\-\-I\-T\-R1\-: Internal Trigger 1 \item T\-I\-M\-\_\-\-T\-S\-\_\-\-I\-T\-R2\-: Internal Trigger 2 \item T\-I\-M\-\_\-\-T\-S\-\_\-\-I\-T\-R3\-: Internal Trigger 3 \item T\-I\-M\-\_\-\-T\-S\-\_\-\-T\-I1\-F\-\_\-\-E\-D\-: T\-I1 Edge Detector \item T\-I\-M\-\_\-\-T\-S\-\_\-\-T\-I1\-F\-P1\-: Filtered Timer Input 1 \item T\-I\-M\-\_\-\-T\-S\-\_\-\-T\-I2\-F\-P2\-: Filtered Timer Input 2 \item T\-I\-M\-\_\-\-T\-S\-\_\-\-E\-T\-R\-F\-: External Trigger input \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1227 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga4dcc3d11b670c381d0ff9cb7e9fd01e2}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Select\-Master\-Slave\-Mode@{T\-I\-M\-\_\-\-Select\-Master\-Slave\-Mode}}
+\index{T\-I\-M\-\_\-\-Select\-Master\-Slave\-Mode@{T\-I\-M\-\_\-\-Select\-Master\-Slave\-Mode}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Select\-Master\-Slave\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Select\-Master\-Slave\-Mode (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Master\-Slave\-Mode}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga4dcc3d11b670c381d0ff9cb7e9fd01e2}
+
+
+Sets or Resets the T\-I\-Mx Master/\-Slave Mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5, 8, 9, 12 or 15 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Master\-Slave\-Mode,\-:} & specifies the Timer Master Slave Mode. This paramter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Master\-Slave\-Mode\-\_\-\-Enable\-: synchronization between the current timer and its slaves (through T\-R\-G\-O). \item T\-I\-M\-\_\-\-Master\-Slave\-Mode\-\_\-\-Disable\-: No action \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2244 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga83ea0af5a7c1af521236ce5e4d2c42b0}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Select\-O\-Cx\-M@{T\-I\-M\-\_\-\-Select\-O\-Cx\-M}}
+\index{T\-I\-M\-\_\-\-Select\-O\-Cx\-M@{T\-I\-M\-\_\-\-Select\-O\-Cx\-M}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Select\-O\-Cx\-M}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Select\-O\-Cx\-M (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Channel, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-O\-C\-Mode}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga83ea0af5a7c1af521236ce5e4d2c42b0}
+
+
+Selects the T\-I\-M Ouput Compare Mode. 
+
+\begin{DoxyNote}{Note}
+This function disables the selected channel before changing the Ouput Compare Mode. User has to enable this channel using T\-I\-M\-\_\-\-C\-Cx\-Cmd and T\-I\-M\-\_\-\-C\-Cx\-N\-Cmd functions. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 except 6 and 7 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Channel,\-:} & specifies the T\-I\-M Channel This parmeter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Channel\-\_\-1\-: T\-I\-M Channel 1 \item T\-I\-M\-\_\-\-Channel\-\_\-2\-: T\-I\-M Channel 2 \item T\-I\-M\-\_\-\-Channel\-\_\-3\-: T\-I\-M Channel 3 \item T\-I\-M\-\_\-\-Channel\-\_\-4\-: T\-I\-M Channel 4 \end{DoxyItemize}
+\\
+\hline
+{\em T\-I\-M\-\_\-\-O\-C\-Mode,\-:} & specifies the T\-I\-M Output Compare Mode. This paramter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-O\-C\-Mode\-\_\-\-Timing \item T\-I\-M\-\_\-\-O\-C\-Mode\-\_\-\-Active \item T\-I\-M\-\_\-\-O\-C\-Mode\-\_\-\-Toggle \item T\-I\-M\-\_\-\-O\-C\-Mode\-\_\-\-P\-W\-M1 \item T\-I\-M\-\_\-\-O\-C\-Mode\-\_\-\-P\-W\-M2 \item T\-I\-M\-\_\-\-Forced\-Action\-\_\-\-Active \item T\-I\-M\-\_\-\-Forced\-Action\-\_\-\-In\-Active \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2043 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_gadd2cca5fac6c1291dc4339098d5c9562}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Select\-One\-Pulse\-Mode@{T\-I\-M\-\_\-\-Select\-One\-Pulse\-Mode}}
+\index{T\-I\-M\-\_\-\-Select\-One\-Pulse\-Mode@{T\-I\-M\-\_\-\-Select\-One\-Pulse\-Mode}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Select\-One\-Pulse\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Select\-One\-Pulse\-Mode (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-O\-P\-Mode}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_gadd2cca5fac6c1291dc4339098d5c9562}
+
+
+Selects the T\-I\-Mx’s One Pulse Mode. 
+
+Selects the T\-I\-Mx's One Pulse Mode.
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-O\-P\-Mode,\-:} & specifies the O\-P\-M Mode to be used. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-O\-P\-Mode\-\_\-\-Single \item T\-I\-M\-\_\-\-O\-P\-Mode\-\_\-\-Repetitive \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2168 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga28745aaa549e2067e42c19569209e6c6}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Select\-Output\-Trigger@{T\-I\-M\-\_\-\-Select\-Output\-Trigger}}
+\index{T\-I\-M\-\_\-\-Select\-Output\-Trigger@{T\-I\-M\-\_\-\-Select\-Output\-Trigger}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Select\-Output\-Trigger}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Select\-Output\-Trigger (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-T\-R\-G\-O\-Source}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga28745aaa549e2067e42c19569209e6c6}
+
+
+Selects the T\-I\-Mx Trigger Output Mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9, 12 or 15 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-T\-R\-G\-O\-Source,\-:} & specifies the Trigger Output source. This paramter can be one of the following values\-:\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyItemize}
+\item For all T\-I\-Mx \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-T\-R\-G\-O\-Source\-\_\-\-Reset\-: The U\-G bit in the T\-I\-M\-\_\-\-E\-G\-R register is used as the trigger output (T\-R\-G\-O). \item T\-I\-M\-\_\-\-T\-R\-G\-O\-Source\-\_\-\-Enable\-: The Counter Enable C\-E\-N is used as the trigger output (T\-R\-G\-O). \item T\-I\-M\-\_\-\-T\-R\-G\-O\-Source\-\_\-\-Update\-: The update event is selected as the trigger output (T\-R\-G\-O).\end{DoxyItemize}
+
+\item For all T\-I\-Mx except T\-I\-M6 and T\-I\-M7 \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-T\-R\-G\-O\-Source\-\_\-\-O\-C1\-: The trigger output sends a positive pulse when the C\-C1\-I\-F flag is to be set, as soon as a capture or compare match occurs (T\-R\-G\-O). \item T\-I\-M\-\_\-\-T\-R\-G\-O\-Source\-\_\-\-O\-C1\-Ref\-: O\-C1\-R\-E\-F signal is used as the trigger output (T\-R\-G\-O). \item T\-I\-M\-\_\-\-T\-R\-G\-O\-Source\-\_\-\-O\-C2\-Ref\-: O\-C2\-R\-E\-F signal is used as the trigger output (T\-R\-G\-O). \item T\-I\-M\-\_\-\-T\-R\-G\-O\-Source\-\_\-\-O\-C3\-Ref\-: O\-C3\-R\-E\-F signal is used as the trigger output (T\-R\-G\-O). \item T\-I\-M\-\_\-\-T\-R\-G\-O\-Source\-\_\-\-O\-C4\-Ref\-: O\-C4\-R\-E\-F signal is used as the trigger output (T\-R\-G\-O).\end{DoxyItemize}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\end{DoxyItemize}
+
+Definition at line 2200 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga2f19ce1d90990691cf037e419ba08003}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Select\-Slave\-Mode@{T\-I\-M\-\_\-\-Select\-Slave\-Mode}}
+\index{T\-I\-M\-\_\-\-Select\-Slave\-Mode@{T\-I\-M\-\_\-\-Select\-Slave\-Mode}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Select\-Slave\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Select\-Slave\-Mode (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Slave\-Mode}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga2f19ce1d90990691cf037e419ba08003}
+
+
+Selects the T\-I\-Mx Slave Mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5, 8, 9, 12 or 15 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Slave\-Mode,\-:} & specifies the Timer Slave Mode. This paramter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Slave\-Mode\-\_\-\-Reset\-: Rising edge of the selected trigger signal (T\-R\-G\-I) re-\/initializes the counter and triggers an update of the registers. \item T\-I\-M\-\_\-\-Slave\-Mode\-\_\-\-Gated\-: The counter clock is enabled when the trigger signal (T\-R\-G\-I) is high. \item T\-I\-M\-\_\-\-Slave\-Mode\-\_\-\-Trigger\-: The counter starts at a rising edge of the trigger T\-R\-G\-I. \item T\-I\-M\-\_\-\-Slave\-Mode\-\_\-\-External1\-: Rising edges of the selected trigger (T\-R\-G\-I) clock the counter. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2223 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga7880e4c00002d6421f9059a2ed841d5c}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Set\-Autoreload@{T\-I\-M\-\_\-\-Set\-Autoreload}}
+\index{T\-I\-M\-\_\-\-Set\-Autoreload@{T\-I\-M\-\_\-\-Set\-Autoreload}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Set\-Autoreload}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Set\-Autoreload (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{Autoreload}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga7880e4c00002d6421f9059a2ed841d5c}
+
+
+Sets the T\-I\-Mx Autoreload Register value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em Autoreload,\-:} & specifies the Autoreload register new value. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2276 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga20ef804dc32c723662d11ee7da3baab2}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Set\-Clock\-Division@{T\-I\-M\-\_\-\-Set\-Clock\-Division}}
+\index{T\-I\-M\-\_\-\-Set\-Clock\-Division@{T\-I\-M\-\_\-\-Set\-Clock\-Division}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Set\-Clock\-Division}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Set\-Clock\-Division (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-C\-K\-D}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga20ef804dc32c723662d11ee7da3baab2}
+
+
+Sets the T\-I\-Mx Clock Division value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 except 6 and 7 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-C\-K\-D,\-:} & specifies the clock division value. This parameter can be one of the following value\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-C\-K\-D\-\_\-\-D\-I\-V1\-: T\-D\-T\-S = Tck\-\_\-tim \item T\-I\-M\-\_\-\-C\-K\-D\-\_\-\-D\-I\-V2\-: T\-D\-T\-S = 2$\ast$\-Tck\-\_\-tim \item T\-I\-M\-\_\-\-C\-K\-D\-\_\-\-D\-I\-V4\-: T\-D\-T\-S = 4$\ast$\-Tck\-\_\-tim \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2439 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_gab3a6031f187cb8af62eb09a67b4fd2ad}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Set\-Compare1@{T\-I\-M\-\_\-\-Set\-Compare1}}
+\index{T\-I\-M\-\_\-\-Set\-Compare1@{T\-I\-M\-\_\-\-Set\-Compare1}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Set\-Compare1}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Set\-Compare1 (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{Compare1}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_gab3a6031f187cb8af62eb09a67b4fd2ad}
+
+
+Sets the T\-I\-Mx Capture Compare1 Register value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 except 6 and 7 to select the T\-I\-M peripheral. \\
+\hline
+{\em Compare1,\-:} & specifies the Capture Compare1 register new value. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2290 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga0175ef4fabade443909002a63d4e9758}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Set\-Compare2@{T\-I\-M\-\_\-\-Set\-Compare2}}
+\index{T\-I\-M\-\_\-\-Set\-Compare2@{T\-I\-M\-\_\-\-Set\-Compare2}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Set\-Compare2}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Set\-Compare2 (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{Compare2}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga0175ef4fabade443909002a63d4e9758}
+
+
+Sets the T\-I\-Mx Capture Compare2 Register value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5, 8, 9, 12 or 15 to select the T\-I\-M peripheral. \\
+\hline
+{\em Compare2,\-:} & specifies the Capture Compare2 register new value. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2304 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga416df50f4223351e366ae40a4ec163ae}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Set\-Compare3@{T\-I\-M\-\_\-\-Set\-Compare3}}
+\index{T\-I\-M\-\_\-\-Set\-Compare3@{T\-I\-M\-\_\-\-Set\-Compare3}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Set\-Compare3}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Set\-Compare3 (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{Compare3}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga416df50f4223351e366ae40a4ec163ae}
+
+
+Sets the T\-I\-Mx Capture Compare3 Register value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em Compare3,\-:} & specifies the Capture Compare3 register new value. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2318 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_gaf428edf474804691d6f587e78c97a082}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Set\-Compare4@{T\-I\-M\-\_\-\-Set\-Compare4}}
+\index{T\-I\-M\-\_\-\-Set\-Compare4@{T\-I\-M\-\_\-\-Set\-Compare4}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Set\-Compare4}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Set\-Compare4 (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{Compare4}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_gaf428edf474804691d6f587e78c97a082}
+
+
+Sets the T\-I\-Mx Capture Compare4 Register value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em Compare4,\-:} & specifies the Capture Compare4 register new value. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2332 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_gaad2c31dc9c551b48f08b96ba49c4aa44}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Set\-Counter@{T\-I\-M\-\_\-\-Set\-Counter}}
+\index{T\-I\-M\-\_\-\-Set\-Counter@{T\-I\-M\-\_\-\-Set\-Counter}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Set\-Counter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Set\-Counter (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{Counter}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_gaad2c31dc9c551b48f08b96ba49c4aa44}
+
+
+Sets the T\-I\-Mx Counter Register value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em Counter,\-:} & specifies the Counter register new value. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2262 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_gaf0f684dea88e222de9689d8ed0ca8805}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Set\-I\-C1\-Prescaler@{T\-I\-M\-\_\-\-Set\-I\-C1\-Prescaler}}
+\index{T\-I\-M\-\_\-\-Set\-I\-C1\-Prescaler@{T\-I\-M\-\_\-\-Set\-I\-C1\-Prescaler}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Set\-I\-C1\-Prescaler}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Set\-I\-C1\-Prescaler (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-I\-C\-P\-S\-C}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_gaf0f684dea88e222de9689d8ed0ca8805}
+
+
+Sets the T\-I\-Mx Input Capture 1 prescaler. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 except 6 and 7 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-I\-C\-P\-S\-C,\-:} & specifies the Input Capture1 prescaler new value. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-I\-C\-P\-S\-C\-\_\-\-D\-I\-V1\-: no prescaler \item T\-I\-M\-\_\-\-I\-C\-P\-S\-C\-\_\-\-D\-I\-V2\-: capture is done once every 2 events \item T\-I\-M\-\_\-\-I\-C\-P\-S\-C\-\_\-\-D\-I\-V4\-: capture is done once every 4 events \item T\-I\-M\-\_\-\-I\-C\-P\-S\-C\-\_\-\-D\-I\-V8\-: capture is done once every 8 events \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2351 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga3cc4869b5fe73271808512c89322a325}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Set\-I\-C2\-Prescaler@{T\-I\-M\-\_\-\-Set\-I\-C2\-Prescaler}}
+\index{T\-I\-M\-\_\-\-Set\-I\-C2\-Prescaler@{T\-I\-M\-\_\-\-Set\-I\-C2\-Prescaler}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Set\-I\-C2\-Prescaler}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Set\-I\-C2\-Prescaler (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-I\-C\-P\-S\-C}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga3cc4869b5fe73271808512c89322a325}
+
+
+Sets the T\-I\-Mx Input Capture 2 prescaler. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5, 8, 9, 12 or 15 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-I\-C\-P\-S\-C,\-:} & specifies the Input Capture2 prescaler new value. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-I\-C\-P\-S\-C\-\_\-\-D\-I\-V1\-: no prescaler \item T\-I\-M\-\_\-\-I\-C\-P\-S\-C\-\_\-\-D\-I\-V2\-: capture is done once every 2 events \item T\-I\-M\-\_\-\-I\-C\-P\-S\-C\-\_\-\-D\-I\-V4\-: capture is done once every 4 events \item T\-I\-M\-\_\-\-I\-C\-P\-S\-C\-\_\-\-D\-I\-V8\-: capture is done once every 8 events \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2373 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga76f906383b8132ebe00dffadb70cf7f9}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Set\-I\-C3\-Prescaler@{T\-I\-M\-\_\-\-Set\-I\-C3\-Prescaler}}
+\index{T\-I\-M\-\_\-\-Set\-I\-C3\-Prescaler@{T\-I\-M\-\_\-\-Set\-I\-C3\-Prescaler}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Set\-I\-C3\-Prescaler}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Set\-I\-C3\-Prescaler (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-I\-C\-P\-S\-C}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga76f906383b8132ebe00dffadb70cf7f9}
+
+
+Sets the T\-I\-Mx Input Capture 3 prescaler. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-I\-C\-P\-S\-C,\-:} & specifies the Input Capture3 prescaler new value. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-I\-C\-P\-S\-C\-\_\-\-D\-I\-V1\-: no prescaler \item T\-I\-M\-\_\-\-I\-C\-P\-S\-C\-\_\-\-D\-I\-V2\-: capture is done once every 2 events \item T\-I\-M\-\_\-\-I\-C\-P\-S\-C\-\_\-\-D\-I\-V4\-: capture is done once every 4 events \item T\-I\-M\-\_\-\-I\-C\-P\-S\-C\-\_\-\-D\-I\-V8\-: capture is done once every 8 events \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2395 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga0f2c784271356d6b64b8c0da64dbdbc2}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Set\-I\-C4\-Prescaler@{T\-I\-M\-\_\-\-Set\-I\-C4\-Prescaler}}
+\index{T\-I\-M\-\_\-\-Set\-I\-C4\-Prescaler@{T\-I\-M\-\_\-\-Set\-I\-C4\-Prescaler}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Set\-I\-C4\-Prescaler}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Set\-I\-C4\-Prescaler (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-I\-C\-P\-S\-C}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga0f2c784271356d6b64b8c0da64dbdbc2}
+
+
+Sets the T\-I\-Mx Input Capture 4 prescaler. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-I\-C\-P\-S\-C,\-:} & specifies the Input Capture4 prescaler new value. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-I\-C\-P\-S\-C\-\_\-\-D\-I\-V1\-: no prescaler \item T\-I\-M\-\_\-\-I\-C\-P\-S\-C\-\_\-\-D\-I\-V2\-: capture is done once every 2 events \item T\-I\-M\-\_\-\-I\-C\-P\-S\-C\-\_\-\-D\-I\-V4\-: capture is done once every 4 events \item T\-I\-M\-\_\-\-I\-C\-P\-S\-C\-\_\-\-D\-I\-V8\-: capture is done once every 8 events \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2417 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga80a4ab0dc73a14436df6bb9b60ae38af}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Time\-Base\-Init@{T\-I\-M\-\_\-\-Time\-Base\-Init}}
+\index{T\-I\-M\-\_\-\-Time\-Base\-Init@{T\-I\-M\-\_\-\-Time\-Base\-Init}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Time\-Base\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Time\-Base\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf const} T\-I\-M\-\_\-\-Time\-Base\-Init\-Type\-Def $\ast$}]{T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga80a4ab0dc73a14436df6bb9b60ae38af}
+
+
+Initializes the T\-I\-Mx Time Base Unit peripheral according to the specified parameters in the T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct,\-:} & pointer to a T\-I\-M\-\_\-\-Time\-Base\-Init\-Type\-Def structure that contains the configuration information for the specified T\-I\-M peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 224 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga1556a0b9a5d53506875fd7de0cbc6b1f}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Time\-Base\-Struct\-Init@{T\-I\-M\-\_\-\-Time\-Base\-Struct\-Init}}
+\index{T\-I\-M\-\_\-\-Time\-Base\-Struct\-Init@{T\-I\-M\-\_\-\-Time\-Base\-Struct\-Init}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Time\-Base\-Struct\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Time\-Base\-Struct\-Init (
+\begin{DoxyParamCaption}
+\item[{T\-I\-M\-\_\-\-Time\-Base\-Init\-Type\-Def $\ast$}]{T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga1556a0b9a5d53506875fd7de0cbc6b1f}
+
+
+Fills each T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-M\-\_\-\-Time\-Base\-Init\-Struct} & \-: pointer to a T\-I\-M\-\_\-\-Time\-Base\-Init\-Type\-Def structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 734 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_gaf460e7d9c9969044e364130e209937fc}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-T\-Ix\-External\-Clock\-Config@{T\-I\-M\-\_\-\-T\-Ix\-External\-Clock\-Config}}
+\index{T\-I\-M\-\_\-\-T\-Ix\-External\-Clock\-Config@{T\-I\-M\-\_\-\-T\-Ix\-External\-Clock\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-T\-Ix\-External\-Clock\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-T\-Ix\-External\-Clock\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-T\-Ix\-External\-C\-L\-K\-Source, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-I\-C\-Polarity, }
+\item[{{\bf uint16\-\_\-t}}]{I\-C\-Filter}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_gaf460e7d9c9969044e364130e209937fc}
+
+
+Configures the T\-I\-Mx Trigger as External Clock. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5, 9, 12 or 15 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-T\-Ix\-External\-C\-L\-K\-Source,\-:} & Trigger source. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-T\-Ix\-External\-C\-L\-K1\-Source\-\_\-\-T\-I1\-E\-D\-: T\-I1 Edge Detector \item T\-I\-M\-\_\-\-T\-Ix\-External\-C\-L\-K1\-Source\-\_\-\-T\-I1\-: Filtered Timer Input 1 \item T\-I\-M\-\_\-\-T\-Ix\-External\-C\-L\-K1\-Source\-\_\-\-T\-I2\-: Filtered Timer Input 2 \end{DoxyItemize}
+\\
+\hline
+{\em T\-I\-M\-\_\-\-I\-C\-Polarity,\-:} & specifies the T\-Ix Polarity. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-I\-C\-Polarity\-\_\-\-Rising \item T\-I\-M\-\_\-\-I\-C\-Polarity\-\_\-\-Falling \end{DoxyItemize}
+\\
+\hline
+{\em I\-C\-Filter} & \-: specifies the filter value. This parameter must be a value between 0x0 and 0x\-F. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1033 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_gace2384dd33e849a054f61b8e1fc7e7c3}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Update\-Disable\-Config@{T\-I\-M\-\_\-\-Update\-Disable\-Config}}
+\index{T\-I\-M\-\_\-\-Update\-Disable\-Config@{T\-I\-M\-\_\-\-Update\-Disable\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Update\-Disable\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Update\-Disable\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_gace2384dd33e849a054f61b8e1fc7e7c3}
+
+
+Enables or Disables the T\-I\-Mx Update event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the T\-I\-Mx U\-D\-I\-S bit This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2090 of file stm32f10x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___private___functions_ga1d7a8f952e209de142499e67a653fc1f}{\index{T\-I\-M\-\_\-\-Private\-\_\-\-Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}!T\-I\-M\-\_\-\-Update\-Request\-Config@{T\-I\-M\-\_\-\-Update\-Request\-Config}}
+\index{T\-I\-M\-\_\-\-Update\-Request\-Config@{T\-I\-M\-\_\-\-Update\-Request\-Config}!TIM_Private_Functions@{T\-I\-M\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Update\-Request\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Update\-Request\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Update\-Source}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___private___functions_ga1d7a8f952e209de142499e67a653fc1f}
+
+
+Configures the T\-I\-Mx Update Request Interrupt source. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Update\-Source,\-:} & specifies the Update source. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Update\-Source\-\_\-\-Regular\-: Source of update is the counter overflow/underflow or the setting of U\-G bit, or an update generation through the slave mode controller. \item T\-I\-M\-\_\-\-Update\-Source\-\_\-\-Global\-: Source of update is counter overflow/underflow. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2118 of file stm32f10x\-\_\-tim.\-c.
+

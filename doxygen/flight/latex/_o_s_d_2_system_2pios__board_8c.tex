@@ -1,0 +1,63 @@
+\hypertarget{_o_s_d_2_system_2pios__board_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/targets/\-O\-S\-D/\-System/pios\-\_\-board.c File Reference}
+\label{_o_s_d_2_system_2pios__board_8c}\index{/home/jose/\-Code/gui\-Tau/flight/targets/\-O\-S\-D/\-System/pios\-\_\-board.\-c@{/home/jose/\-Code/gui\-Tau/flight/targets/\-O\-S\-D/\-System/pios\-\_\-board.\-c}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{_o_s_d_2_system_2pios__board_8c_adc9219e22dc694e541870e52af1962dd}{P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-D\-M\-C\-\_\-irq\-\_\-handler} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{_o_s_d_2_system_2pios__board_8c_a295198ed574625d416158a5fc54205ea}{D\-M\-A2\-\_\-\-Stream4\-\_\-\-I\-R\-Q\-Handler} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___open_pilot_b_l_ga902009c5b1cb57d9f9d60092eb7cacfb}{P\-I\-O\-S\-\_\-\-Board\-\_\-\-Init} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+uintptr\-\_\-t \hyperlink{_o_s_d_2_system_2pios__board_8c_a83417f60ff58e7cf0ec45ec85dfef380}{pios\-\_\-com\-\_\-aux\-\_\-id}
+\item 
+uintptr\-\_\-t \hyperlink{group___open_pilot_core_ga05dca72c42c6c2b33fa62b8ee0fcb2ea}{pios\-\_\-com\-\_\-gps\-\_\-id}
+\item 
+uintptr\-\_\-t \hyperlink{group___open_pilot_core_ga513cc36d72b76de2fcb75ff233a79a4a}{pios\-\_\-com\-\_\-telem\-\_\-usb\-\_\-id}
+\item 
+uintptr\-\_\-t \hyperlink{group___open_pilot_core_gae48e848f715b08971e23528feee79339}{pios\-\_\-com\-\_\-telem\-\_\-rf\-\_\-id}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{_o_s_d_2_system_2pios__board_8c_a026f3279b96bb98ea30468bc1047696d}{supv\-\_\-timer} =0
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{_o_s_d_2_system_2pios__board_8c_a295198ed574625d416158a5fc54205ea}{\index{O\-S\-D/\-System/pios\-\_\-board.\-c@{O\-S\-D/\-System/pios\-\_\-board.\-c}!D\-M\-A2\-\_\-\-Stream4\-\_\-\-I\-R\-Q\-Handler@{D\-M\-A2\-\_\-\-Stream4\-\_\-\-I\-R\-Q\-Handler}}
+\index{D\-M\-A2\-\_\-\-Stream4\-\_\-\-I\-R\-Q\-Handler@{D\-M\-A2\-\_\-\-Stream4\-\_\-\-I\-R\-Q\-Handler}!OSD/System/pios_board.c@{O\-S\-D/\-System/pios\-\_\-board.\-c}}
+\subsubsection[{D\-M\-A2\-\_\-\-Stream4\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} D\-M\-A2\-\_\-\-Stream4\-\_\-\-I\-R\-Q\-Handler (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{_o_s_d_2_system_2pios__board_8c_a295198ed574625d416158a5fc54205ea}
+
+
+Definition at line 53 of file pios\-\_\-board.\-c.
+
+\hypertarget{_o_s_d_2_system_2pios__board_8c_adc9219e22dc694e541870e52af1962dd}{\index{O\-S\-D/\-System/pios\-\_\-board.\-c@{O\-S\-D/\-System/pios\-\_\-board.\-c}!P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-D\-M\-C\-\_\-irq\-\_\-handler@{P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-D\-M\-C\-\_\-irq\-\_\-handler}}
+\index{P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-D\-M\-C\-\_\-irq\-\_\-handler@{P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-D\-M\-C\-\_\-irq\-\_\-handler}!OSD/System/pios_board.c@{O\-S\-D/\-System/pios\-\_\-board.\-c}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-D\-M\-C\-\_\-irq\-\_\-handler}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-D\-M\-C\-\_\-irq\-\_\-handler (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{_o_s_d_2_system_2pios__board_8c_adc9219e22dc694e541870e52af1962dd}
+
+
+\subsection{Variable Documentation}
+\hypertarget{_o_s_d_2_system_2pios__board_8c_a83417f60ff58e7cf0ec45ec85dfef380}{\index{O\-S\-D/\-System/pios\-\_\-board.\-c@{O\-S\-D/\-System/pios\-\_\-board.\-c}!pios\-\_\-com\-\_\-aux\-\_\-id@{pios\-\_\-com\-\_\-aux\-\_\-id}}
+\index{pios\-\_\-com\-\_\-aux\-\_\-id@{pios\-\_\-com\-\_\-aux\-\_\-id}!OSD/System/pios_board.c@{O\-S\-D/\-System/pios\-\_\-board.\-c}}
+\subsubsection[{pios\-\_\-com\-\_\-aux\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uintptr\-\_\-t pios\-\_\-com\-\_\-aux\-\_\-id}}\label{_o_s_d_2_system_2pios__board_8c_a83417f60ff58e7cf0ec45ec85dfef380}
+
+
+Definition at line 104 of file pios\-\_\-board.\-c.
+
+\hypertarget{_o_s_d_2_system_2pios__board_8c_a026f3279b96bb98ea30468bc1047696d}{\index{O\-S\-D/\-System/pios\-\_\-board.\-c@{O\-S\-D/\-System/pios\-\_\-board.\-c}!supv\-\_\-timer@{supv\-\_\-timer}}
+\index{supv\-\_\-timer@{supv\-\_\-timer}!OSD/System/pios_board.c@{O\-S\-D/\-System/pios\-\_\-board.\-c}}
+\subsubsection[{supv\-\_\-timer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} supv\-\_\-timer =0}}\label{_o_s_d_2_system_2pios__board_8c_a026f3279b96bb98ea30468bc1047696d}
+
+
+Definition at line 370 of file pios\-\_\-board.\-c.
+

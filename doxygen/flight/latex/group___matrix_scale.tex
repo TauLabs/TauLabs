@@ -1,0 +1,125 @@
+\hypertarget{group___matrix_scale}{\section{Matrix Scale}
+\label{group___matrix_scale}\index{Matrix Scale@{Matrix Scale}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{arm__math_8h_a5e459c6409dfcd2927bb8a57491d7cf6}{arm\-\_\-status} \hyperlink{group___matrix_scale_ga9cb4e385b18c9a0b9cbc940c1067ca12}{arm\-\_\-mat\-\_\-scale\-\_\-f32} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__matrix__instance__f32}{arm\-\_\-matrix\-\_\-instance\-\_\-f32} $\ast$p\-Src, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} scale, \hyperlink{structarm__matrix__instance__f32}{arm\-\_\-matrix\-\_\-instance\-\_\-f32} $\ast$p\-Dst)
+\begin{DoxyCompactList}\small\item\em Floating-\/point matrix scaling. \end{DoxyCompactList}\item 
+\hyperlink{arm__math_8h_a5e459c6409dfcd2927bb8a57491d7cf6}{arm\-\_\-status} \hyperlink{group___matrix_scale_ga7521769e2cf1c3d9c4656138cd2ae2ca}{arm\-\_\-mat\-\_\-scale\-\_\-q15} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__matrix__instance__q15}{arm\-\_\-matrix\-\_\-instance\-\_\-q15} $\ast$p\-Src, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} scale\-Fract, \hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} shift, \hyperlink{structarm__matrix__instance__q15}{arm\-\_\-matrix\-\_\-instance\-\_\-q15} $\ast$p\-Dst)
+\begin{DoxyCompactList}\small\item\em Q15 matrix scaling. \end{DoxyCompactList}\item 
+\hyperlink{arm__math_8h_a5e459c6409dfcd2927bb8a57491d7cf6}{arm\-\_\-status} \hyperlink{group___matrix_scale_ga609743821ee81fa8c34c4bcdc1ed9744}{arm\-\_\-mat\-\_\-scale\-\_\-q31} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__matrix__instance__q31}{arm\-\_\-matrix\-\_\-instance\-\_\-q31} $\ast$p\-Src, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} scale\-Fract, \hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} shift, \hyperlink{structarm__matrix__instance__q31}{arm\-\_\-matrix\-\_\-instance\-\_\-q31} $\ast$p\-Dst)
+\begin{DoxyCompactList}\small\item\em Q31 matrix scaling. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Multiplies a matrix by a scalar. This is accomplished by multiplying each element in the matrix by the scalar. For example\-: 
+
+The function checks to make sure that the input and output matrices are of the same size.
+
+In the fixed-\/point Q15 and Q31 functions, {\ttfamily scale} is represented by a fractional multiplication {\ttfamily scale\-Fract} and an arithmetic shift {\ttfamily shift}. The shift allows the gain of the scaling operation to exceed 1.\-0. The overall scale factor applied to the fixed-\/point data is 
+\begin{DoxyPre}        
+    scale = scaleFract * 2^shift.        
+\end{DoxyPre}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___matrix_scale_ga9cb4e385b18c9a0b9cbc940c1067ca12}{\index{Matrix Scale@{Matrix Scale}!arm\-\_\-mat\-\_\-scale\-\_\-f32@{arm\-\_\-mat\-\_\-scale\-\_\-f32}}
+\index{arm\-\_\-mat\-\_\-scale\-\_\-f32@{arm\-\_\-mat\-\_\-scale\-\_\-f32}!Matrix Scale@{Matrix Scale}}
+\subsubsection[{arm\-\_\-mat\-\_\-scale\-\_\-f32}]{\setlength{\rightskip}{0pt plus 5cm}{\bf arm\-\_\-status} arm\-\_\-mat\-\_\-scale\-\_\-f32 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-matrix\-\_\-instance\-\_\-f32} $\ast$}]{p\-Src, }
+\item[{{\bf float32\-\_\-t}}]{scale, }
+\item[{{\bf arm\-\_\-matrix\-\_\-instance\-\_\-f32} $\ast$}]{p\-Dst}
+\end{DoxyParamCaption}
+)}}\label{group___matrix_scale_ga9cb4e385b18c9a0b9cbc940c1067ca12}
+
+
+Floating-\/point matrix scaling. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to input matrix structure \\
+\hline
+\mbox{\tt in}  & {\em scale} & scale factor to be applied \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to output matrix structure \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The function returns either {\ttfamily A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-S\-I\-Z\-E\-\_\-\-M\-I\-S\-M\-A\-T\-C\-H} or {\ttfamily A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-S\-U\-C\-C\-E\-S\-S} based on the outcome of size checking. 
+\end{DoxyReturn}
+
+
+Definition at line 78 of file arm\-\_\-mat\-\_\-scale\-\_\-f32.\-c.
+
+\hypertarget{group___matrix_scale_ga7521769e2cf1c3d9c4656138cd2ae2ca}{\index{Matrix Scale@{Matrix Scale}!arm\-\_\-mat\-\_\-scale\-\_\-q15@{arm\-\_\-mat\-\_\-scale\-\_\-q15}}
+\index{arm\-\_\-mat\-\_\-scale\-\_\-q15@{arm\-\_\-mat\-\_\-scale\-\_\-q15}!Matrix Scale@{Matrix Scale}}
+\subsubsection[{arm\-\_\-mat\-\_\-scale\-\_\-q15}]{\setlength{\rightskip}{0pt plus 5cm}{\bf arm\-\_\-status} arm\-\_\-mat\-\_\-scale\-\_\-q15 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-matrix\-\_\-instance\-\_\-q15} $\ast$}]{p\-Src, }
+\item[{{\bf q15\-\_\-t}}]{scale\-Fract, }
+\item[{{\bf int32\-\_\-t}}]{shift, }
+\item[{{\bf arm\-\_\-matrix\-\_\-instance\-\_\-q15} $\ast$}]{p\-Dst}
+\end{DoxyParamCaption}
+)}}\label{group___matrix_scale_ga7521769e2cf1c3d9c4656138cd2ae2ca}
+
+
+Q15 matrix scaling. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to input matrix \\
+\hline
+\mbox{\tt in}  & {\em scale\-Fract} & fractional portion of the scale factor \\
+\hline
+\mbox{\tt in}  & {\em shift} & number of bits to shift the result by \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to output matrix structure \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The function returns either {\ttfamily A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-S\-I\-Z\-E\-\_\-\-M\-I\-S\-M\-A\-T\-C\-H} or {\ttfamily A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-S\-U\-C\-C\-E\-S\-S} based on the outcome of size checking.
+\end{DoxyReturn}
+{\bfseries Scaling and Overflow Behavior\-:} \begin{DoxyParagraph}{}
+The input data {\ttfamily $\ast$p\-Src} and {\ttfamily scale\-Fract} are in 1.\-15 format. These are multiplied to yield a 2.\-30 intermediate result and this is shifted with saturation to 1.\-15 format. 
+\end{DoxyParagraph}
+
+
+Definition at line 66 of file arm\-\_\-mat\-\_\-scale\-\_\-q15.\-c.
+
+\hypertarget{group___matrix_scale_ga609743821ee81fa8c34c4bcdc1ed9744}{\index{Matrix Scale@{Matrix Scale}!arm\-\_\-mat\-\_\-scale\-\_\-q31@{arm\-\_\-mat\-\_\-scale\-\_\-q31}}
+\index{arm\-\_\-mat\-\_\-scale\-\_\-q31@{arm\-\_\-mat\-\_\-scale\-\_\-q31}!Matrix Scale@{Matrix Scale}}
+\subsubsection[{arm\-\_\-mat\-\_\-scale\-\_\-q31}]{\setlength{\rightskip}{0pt plus 5cm}{\bf arm\-\_\-status} arm\-\_\-mat\-\_\-scale\-\_\-q31 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-matrix\-\_\-instance\-\_\-q31} $\ast$}]{p\-Src, }
+\item[{{\bf q31\-\_\-t}}]{scale\-Fract, }
+\item[{{\bf int32\-\_\-t}}]{shift, }
+\item[{{\bf arm\-\_\-matrix\-\_\-instance\-\_\-q31} $\ast$}]{p\-Dst}
+\end{DoxyParamCaption}
+)}}\label{group___matrix_scale_ga609743821ee81fa8c34c4bcdc1ed9744}
+
+
+Q31 matrix scaling. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to input matrix \\
+\hline
+\mbox{\tt in}  & {\em scale\-Fract} & fractional portion of the scale factor \\
+\hline
+\mbox{\tt in}  & {\em shift} & number of bits to shift the result by \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to output matrix structure \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The function returns either {\ttfamily A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-S\-I\-Z\-E\-\_\-\-M\-I\-S\-M\-A\-T\-C\-H} or {\ttfamily A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-S\-U\-C\-C\-E\-S\-S} based on the outcome of size checking.
+\end{DoxyReturn}
+{\bfseries Scaling and Overflow Behavior\-:} \begin{DoxyParagraph}{}
+The input data {\ttfamily $\ast$p\-Src} and {\ttfamily scale\-Fract} are in 1.\-31 format. These are multiplied to yield a 2.\-62 intermediate result and this is shifted with saturation to 1.\-31 format. 
+\end{DoxyParagraph}
+
+
+Definition at line 66 of file arm\-\_\-mat\-\_\-scale\-\_\-q31.\-c.
+

@@ -1,0 +1,20 @@
+\hypertarget{pios__mpu6000_8h}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/inc/pios\-\_\-mpu6000.h File Reference}
+\label{pios__mpu6000_8h}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/inc/pios\-\_\-mpu6000.\-h@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/inc/pios\-\_\-mpu6000.\-h}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___p_i_o_s___m_p_u6000_ga760dc0beda8303633fc946a9f9a2fc5f}{P\-I\-O\-S\-\_\-\-M\-P\-U6000\-\_\-\-Init} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} spi\-\_\-id, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} slave\-\_\-num, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} struct \hyperlink{structpios__mpu60x0__cfg}{pios\-\_\-mpu60x0\-\_\-cfg} $\ast$cfg)
+\begin{DoxyCompactList}\small\item\em Initialize the M\-P\-U6000 3-\/axis gyro sensor. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___p_i_o_s___m_p_u6000_ga3bb050e34318f12ec520194f3c6d8bc4}{P\-I\-O\-S\-\_\-\-M\-P\-U6000\-\_\-\-Test} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Run self-\/test operation. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___p_i_o_s___m_p_u6000_ga30de8c7bb6b3ad0bf178588f920fa2bd}{P\-I\-O\-S\-\_\-\-M\-P\-U6000\-\_\-\-Set\-Gyro\-Range} (enum \hyperlink{group___p_i_o_s___m_p_u60_x0_ga56700b0154a14cf67c9f8f44a86ad9c0}{pios\-\_\-mpu60x0\-\_\-range} gyro\-\_\-range)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___p_i_o_s___m_p_u6000_ga98c0cfbab60e9d6bd76c79d98f9b132b}{P\-I\-O\-S\-\_\-\-M\-P\-U6000\-\_\-\-Set\-Accel\-Range} (enum \hyperlink{group___p_i_o_s___m_p_u60_x0_ga8f297bddae3eb43bbf7b54abc6494992}{pios\-\_\-mpu60x0\-\_\-accel\-\_\-range} accel\-\_\-range)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___p_i_o_s___m_p_u6000_gafe485ba5675dc205bb3995d09bb5d9f1}{P\-I\-O\-S\-\_\-\-M\-P\-U6000\-\_\-\-Set\-Sample\-Rate} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} samplerate\-\_\-hz)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___p_i_o_s___m_p_u6000_ga2a5192c9f72585bd4511fde209df791b}{P\-I\-O\-S\-\_\-\-M\-P\-U6000\-\_\-\-Set\-L\-P\-F} (enum \hyperlink{group___p_i_o_s___m_p_u60_x0_gacce1988bc994f5ade6ac748c2bf0b924}{pios\-\_\-mpu60x0\-\_\-filter} filter)
+\item 
+\hyperlink{group___exported__types_gaf6a258d8f3ee5206d682d799316314b1}{bool} \hyperlink{group___p_i_o_s___m_p_u6000_ga4c18e34de1623b28467e377fce4ace05}{P\-I\-O\-S\-\_\-\-M\-P\-U6000\-\_\-\-I\-R\-Q\-Handler} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em I\-R\-Q Handler. Read all the data from onboard buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}

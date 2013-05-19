@@ -1,0 +1,62 @@
+\hypertarget{stm32f10x__bkp_8h}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/\-Libraries/\-S\-T\-M32\-F10x\-\_\-\-Std\-Periph\-\_\-\-Driver/inc/stm32f10x\-\_\-bkp.h File Reference}
+\label{stm32f10x__bkp_8h}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/\-Libraries/\-S\-T\-M32\-F10x\-\_\-\-Std\-Periph\-\_\-\-Driver/inc/stm32f10x\-\_\-bkp.\-h@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/\-Libraries/\-S\-T\-M32\-F10x\-\_\-\-Std\-Periph\-\_\-\-Driver/inc/stm32f10x\-\_\-bkp.\-h}}
+}
+
+
+This file contains all the functions prototypes for the B\-K\-P firmware library.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___b_k_p___private___functions_gae216446d641d075fb575ce6dbe2ff4c1}{B\-K\-P\-\_\-\-Tamper\-Pin\-Level\-Config} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} B\-K\-P\-\_\-\-Tamper\-Pin\-Level)
+\begin{DoxyCompactList}\small\item\em Configures the Tamper Pin active level. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___b_k_p___private___functions_ga3a0cdff9ad8238ade2c67e2b70f530ac}{B\-K\-P\-\_\-\-Tamper\-Pin\-Cmd} (\hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the Tamper Pin activation. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___b_k_p___private___functions_gab8dbd0c4773f6edb98a28c8ff6a2ead0}{B\-K\-P\-\_\-\-I\-T\-Config} (\hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the Tamper Pin Interrupt. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___b_k_p___private___functions_ga3d1b22b3c6a79f7b423616a0af1885bf}{B\-K\-P\-\_\-\-R\-T\-C\-Output\-Config} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} B\-K\-P\-\_\-\-R\-T\-C\-Output\-Source)
+\begin{DoxyCompactList}\small\item\em Select the R\-T\-C output source to output on the Tamper pin. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___b_k_p___private___functions_gad34db08a944450d2e7d56d0fd8db2bca}{B\-K\-P\-\_\-\-Set\-R\-T\-C\-Calibration\-Value} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Calibration\-Value)
+\begin{DoxyCompactList}\small\item\em Sets R\-T\-C Clock Calibration value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___b_k_p___private___functions_ga18d220387db651b3cb71fad5c092e041}{B\-K\-P\-\_\-\-Write\-Backup\-Register} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} B\-K\-P\-\_\-\-D\-R, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___copter_control_b_l_ga6f3335509cc4943e20df66f72483910c}{Data})
+\begin{DoxyCompactList}\small\item\em Writes user data to the specified Data Backup Register. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___b_k_p___private___functions_ga359d8fbc945e0f4e34fedbe037d842c8}{B\-K\-P\-\_\-\-Read\-Backup\-Register} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} B\-K\-P\-\_\-\-D\-R)
+\begin{DoxyCompactList}\small\item\em Reads data from the specified Data Backup Register. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___b_k_p___private___functions_gacc9aedde760383f0bd146f0d77a547db}{B\-K\-P\-\_\-\-Get\-Flag\-Status} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Checks whether the Tamper Pin Event flag is set or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___b_k_p___private___functions_ga3f3aea5b0a3d8d5d79b0b506928351ea}{B\-K\-P\-\_\-\-Clear\-Flag} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Clears Tamper Pin Event pending flag. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_gaacbd7ed539db0aacd973a0f6eca34074}{I\-T\-Status} \hyperlink{group___b_k_p___private___functions_ga99566c9f1f17f499020606cb63511494}{B\-K\-P\-\_\-\-Get\-I\-T\-Status} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Checks whether the Tamper Pin Interrupt has occurred or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___b_k_p___private___functions_ga6a93ef8e40959bb10fea670e2040ad74}{B\-K\-P\-\_\-\-Clear\-I\-T\-Pending\-Bit} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Clears Tamper Pin Interrupt pending bit. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stm32f10x__bkp_8h_aaa53ca0b650dfd85c4f59fa156f7a2cc}{C}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file contains all the functions prototypes for the B\-K\-P firmware library. \begin{DoxyAuthor}{Author}
+M\-C\-D Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V3.\-4.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+10/15/2010 
+\end{DoxyDate}
+T\-H\-E P\-R\-E\-S\-E\-N\-T F\-I\-R\-M\-W\-A\-R\-E W\-H\-I\-C\-H I\-S F\-O\-R G\-U\-I\-D\-A\-N\-C\-E O\-N\-L\-Y A\-I\-M\-S A\-T P\-R\-O\-V\-I\-D\-I\-N\-G C\-U\-S\-T\-O\-M\-E\-R\-S W\-I\-T\-H C\-O\-D\-I\-N\-G I\-N\-F\-O\-R\-M\-A\-T\-I\-O\-N R\-E\-G\-A\-R\-D\-I\-N\-G T\-H\-E\-I\-R P\-R\-O\-D\-U\-C\-T\-S I\-N O\-R\-D\-E\-R F\-O\-R T\-H\-E\-M T\-O S\-A\-V\-E T\-I\-M\-E. A\-S A R\-E\-S\-U\-L\-T, S\-T\-M\-I\-C\-R\-O\-E\-L\-E\-C\-T\-R\-O\-N\-I\-C\-S S\-H\-A\-L\-L N\-O\-T B\-E H\-E\-L\-D L\-I\-A\-B\-L\-E F\-O\-R A\-N\-Y D\-I\-R\-E\-C\-T, I\-N\-D\-I\-R\-E\-C\-T O\-R C\-O\-N\-S\-E\-Q\-U\-E\-N\-T\-I\-A\-L D\-A\-M\-A\-G\-E\-S W\-I\-T\-H R\-E\-S\-P\-E\-C\-T T\-O A\-N\-Y C\-L\-A\-I\-M\-S A\-R\-I\-S\-I\-N\-G F\-R\-O\-M T\-H\-E C\-O\-N\-T\-E\-N\-T O\-F S\-U\-C\-H F\-I\-R\-M\-W\-A\-R\-E A\-N\-D/\-O\-R T\-H\-E U\-S\-E M\-A\-D\-E B\-Y C\-U\-S\-T\-O\-M\-E\-R\-S O\-F T\-H\-E C\-O\-D\-I\-N\-G I\-N\-F\-O\-R\-M\-A\-T\-I\-O\-N C\-O\-N\-T\-A\-I\-N\-E\-D H\-E\-R\-E\-I\-N I\-N C\-O\-N\-N\-E\-C\-T\-I\-O\-N W\-I\-T\-H T\-H\-E\-I\-R P\-R\-O\-D\-U\-C\-T\-S.
+
+\subsubsection*{\begin{center}\copyright C\-O\-P\-Y\-R\-I\-G\-H\-T 2010 S\-T\-Microelectronics\end{center} }
+
+Definition in file \hyperlink{stm32f10x__bkp_8h_source}{stm32f10x\-\_\-bkp.\-h}.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{stm32f10x__bkp_8h_aaa53ca0b650dfd85c4f59fa156f7a2cc}{\index{stm32f10x\-\_\-bkp.\-h@{stm32f10x\-\_\-bkp.\-h}!C@{C}}
+\index{C@{C}!stm32f10x_bkp.h@{stm32f10x\-\_\-bkp.\-h}}
+\subsubsection[{C}]{\setlength{\rightskip}{0pt plus 5cm}C}}\label{stm32f10x__bkp_8h_aaa53ca0b650dfd85c4f59fa156f7a2cc}

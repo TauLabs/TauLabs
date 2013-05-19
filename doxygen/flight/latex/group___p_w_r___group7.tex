@@ -1,0 +1,78 @@
+\hypertarget{group___p_w_r___group7}{\section{Flags management functions}
+\label{group___p_w_r___group7}\index{Flags management functions@{Flags management functions}}
+}
+
+
+Flags management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___p_w_r___group7_gaa980163a4d83304280ee34942464b4ec}{P\-W\-R\-\_\-\-Get\-Flag\-Status} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} P\-W\-R\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified P\-W\-R flag is set or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___p_w_r___group7_ga01c4b2fbd16514b993324e101c3ddf7c}{P\-W\-R\-\_\-\-Clear\-Flag} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} P\-W\-R\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Clears the P\-W\-R's pending flags. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Flags management functions. \begin{DoxyVerb} ===============================================================================
+                           Flags management functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___p_w_r___group7_ga01c4b2fbd16514b993324e101c3ddf7c}{\index{Flags management functions@{Flags management functions}!P\-W\-R\-\_\-\-Clear\-Flag@{P\-W\-R\-\_\-\-Clear\-Flag}}
+\index{P\-W\-R\-\_\-\-Clear\-Flag@{P\-W\-R\-\_\-\-Clear\-Flag}!Flags management functions@{Flags management functions}}
+\subsubsection[{P\-W\-R\-\_\-\-Clear\-Flag}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-W\-R\-\_\-\-Clear\-Flag (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{P\-W\-R\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___p_w_r___group7_ga01c4b2fbd16514b993324e101c3ddf7c}
+
+
+Clears the P\-W\-R's pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em P\-W\-R\-\_\-\-F\-L\-A\-G,\-:} & specifies the flag to clear. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item P\-W\-R\-\_\-\-F\-L\-A\-G\-\_\-\-W\-U\-: Wake Up flag \item P\-W\-R\-\_\-\-F\-L\-A\-G\-\_\-\-S\-B\-: Stand\-By flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 640 of file stm32f4xx\-\_\-pwr.\-c.
+
+\hypertarget{group___p_w_r___group7_gaa980163a4d83304280ee34942464b4ec}{\index{Flags management functions@{Flags management functions}!P\-W\-R\-\_\-\-Get\-Flag\-Status@{P\-W\-R\-\_\-\-Get\-Flag\-Status}}
+\index{P\-W\-R\-\_\-\-Get\-Flag\-Status@{P\-W\-R\-\_\-\-Get\-Flag\-Status}!Flags management functions@{Flags management functions}}
+\subsubsection[{P\-W\-R\-\_\-\-Get\-Flag\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Flag\-Status} P\-W\-R\-\_\-\-Get\-Flag\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{P\-W\-R\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___p_w_r___group7_gaa980163a4d83304280ee34942464b4ec}
+
+
+Checks whether the specified P\-W\-R flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em P\-W\-R\-\_\-\-F\-L\-A\-G,\-:} & specifies the flag to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item P\-W\-R\-\_\-\-F\-L\-A\-G\-\_\-\-W\-U\-: Wake Up flag. This flag indicates that a wakeup event was received from the W\-K\-U\-P pin or from the R\-T\-C alarm (Alarm A or Alarm B), R\-T\-C Tamper event, R\-T\-C Time\-Stamp event or R\-T\-C Wakeup. An additional wakeup event is detected if the W\-K\-U\-P pin is enabled (by setting the E\-W\-U\-P bit) when the W\-K\-U\-P pin level is already high. \item P\-W\-R\-\_\-\-F\-L\-A\-G\-\_\-\-S\-B\-: Stand\-By flag. This flag indicates that the system was resumed from Stand\-By mode. \item P\-W\-R\-\_\-\-F\-L\-A\-G\-\_\-\-P\-V\-D\-O\-: P\-V\-D Output. This flag is valid only if P\-V\-D is enabled by the \hyperlink{group___p_w_r___private___functions_ga42cad476b816e0a33594a933b3ed1acd}{P\-W\-R\-\_\-\-P\-V\-D\-Cmd()} function. The P\-V\-D is stopped by Standby mode For this reason, this bit is equal to 0 after Standby or reset until the P\-V\-D\-E bit is set. \item P\-W\-R\-\_\-\-F\-L\-A\-G\-\_\-\-B\-R\-R\-: Backup regulator ready flag. This bit is not reset when the device wakes up from Standby mode or by a system reset or power reset. \item P\-W\-R\-\_\-\-F\-L\-A\-G\-\_\-\-V\-O\-S\-R\-D\-Y\-: This flag indicates that the Regulator voltage scaling output selection is ready. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of P\-W\-R\-\_\-\-F\-L\-A\-G (S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 613 of file stm32f4xx\-\_\-pwr.\-c.
+

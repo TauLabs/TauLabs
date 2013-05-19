@@ -1,0 +1,152 @@
+\hypertarget{structtsk_task_control_block}{\section{tsk\-Task\-Control\-Block Struct Reference}
+\label{structtsk_task_control_block}\index{tsk\-Task\-Control\-Block@{tsk\-Task\-Control\-Block}}
+}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___c_m_s_i_s___core___instruction_interface_gad7d93af13046b0378601b85c8c16673b}{volatile} port\-S\-T\-A\-C\-K\-\_\-\-T\-Y\-P\-E $\ast$ \hyperlink{structtsk_task_control_block_a4ebd83cb3a10ec0f6113f9c3c13aeacc}{px\-Top\-Of\-Stack}
+\item 
+x\-M\-P\-U\-\_\-\-S\-E\-T\-T\-I\-N\-G\-S \hyperlink{structtsk_task_control_block_a6f500824434d6eb2ddd3df036f33cdac}{x\-M\-P\-U\-Settings}
+\item 
+\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2list_8h_abc3e65a10b5c5f39142e64e69311797f}{x\-List\-Item} \hyperlink{structtsk_task_control_block_a95eb5853a94644043605770f63ac9a63}{x\-Generic\-List\-Item}
+\item 
+\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2list_8h_abc3e65a10b5c5f39142e64e69311797f}{x\-List\-Item} \hyperlink{structtsk_task_control_block_a9b0ee1554f116853c7631dc0b585ffdc}{x\-Event\-List\-Item}
+\item 
+unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{structtsk_task_control_block_a82357f7be508ac5d27ae7968cddde6da}{ux\-Priority}
+\item 
+port\-S\-T\-A\-C\-K\-\_\-\-T\-Y\-P\-E $\ast$ \hyperlink{structtsk_task_control_block_a072d4f408be6a2364c56010e47dc7096}{px\-Stack}
+\item 
+signed char \hyperlink{structtsk_task_control_block_ab151b08171a6a64ce7b926e2773b0ed8}{pc\-Task\-Name} \mbox{[}config\-M\-A\-X\-\_\-\-T\-A\-S\-K\-\_\-\-N\-A\-M\-E\-\_\-\-L\-E\-N\mbox{]}
+\item 
+port\-S\-T\-A\-C\-K\-\_\-\-T\-Y\-P\-E $\ast$ \hyperlink{structtsk_task_control_block_a4005efd890c0fd0feda944ef59be146f}{px\-End\-Of\-Stack}
+\item 
+unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{structtsk_task_control_block_a608d77a8a8fa5080525c900ceb7a540b}{ux\-Critical\-Nesting}
+\item 
+unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{structtsk_task_control_block_ad1aa61c9b3fdb1483a52a0813635d964}{ux\-T\-C\-B\-Number}
+\item 
+unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{structtsk_task_control_block_a9ec9718baa5b502b9c8f2558bd41ea9d}{ux\-Task\-Number}
+\item 
+unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{structtsk_task_control_block_a50471e54a6f22994f835c0b2b358d006}{ux\-Base\-Priority}
+\item 
+\hyperlink{_pi_o_s_8win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2_free_r_t_o_s_8h_a5c18a26ca358b29dd9b235af37b572e3}{pd\-T\-A\-S\-K\-\_\-\-H\-O\-O\-K\-\_\-\-C\-O\-D\-E} \hyperlink{structtsk_task_control_block_ac020a5f4b13cbebfd6f4b21f3326ba78}{px\-Task\-Tag}
+\item 
+unsigned long \hyperlink{structtsk_task_control_block_a79f0077123918f7ee91496ff2b5f1ab4}{ul\-Run\-Time\-Counter}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 97 of file tasks.\-c.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{structtsk_task_control_block_ab151b08171a6a64ce7b926e2773b0ed8}{\index{tsk\-Task\-Control\-Block@{tsk\-Task\-Control\-Block}!pc\-Task\-Name@{pc\-Task\-Name}}
+\index{pc\-Task\-Name@{pc\-Task\-Name}!tskTaskControlBlock@{tsk\-Task\-Control\-Block}}
+\subsubsection[{pc\-Task\-Name}]{\setlength{\rightskip}{0pt plus 5cm}signed char tsk\-Task\-Control\-Block\-::pc\-Task\-Name}}\label{structtsk_task_control_block_ab151b08171a6a64ce7b926e2773b0ed8}
+
+
+Definition at line 109 of file tasks.\-c.
+
+\hypertarget{structtsk_task_control_block_a4005efd890c0fd0feda944ef59be146f}{\index{tsk\-Task\-Control\-Block@{tsk\-Task\-Control\-Block}!px\-End\-Of\-Stack@{px\-End\-Of\-Stack}}
+\index{px\-End\-Of\-Stack@{px\-End\-Of\-Stack}!tskTaskControlBlock@{tsk\-Task\-Control\-Block}}
+\subsubsection[{px\-End\-Of\-Stack}]{\setlength{\rightskip}{0pt plus 5cm}port\-S\-T\-A\-C\-K\-\_\-\-T\-Y\-P\-E $\ast$ tsk\-Task\-Control\-Block\-::px\-End\-Of\-Stack}}\label{structtsk_task_control_block_a4005efd890c0fd0feda944ef59be146f}
+
+
+Definition at line 112 of file tasks.\-c.
+
+\hypertarget{structtsk_task_control_block_a072d4f408be6a2364c56010e47dc7096}{\index{tsk\-Task\-Control\-Block@{tsk\-Task\-Control\-Block}!px\-Stack@{px\-Stack}}
+\index{px\-Stack@{px\-Stack}!tskTaskControlBlock@{tsk\-Task\-Control\-Block}}
+\subsubsection[{px\-Stack}]{\setlength{\rightskip}{0pt plus 5cm}port\-S\-T\-A\-C\-K\-\_\-\-T\-Y\-P\-E $\ast$ tsk\-Task\-Control\-Block\-::px\-Stack}}\label{structtsk_task_control_block_a072d4f408be6a2364c56010e47dc7096}
+
+
+Definition at line 108 of file tasks.\-c.
+
+\hypertarget{structtsk_task_control_block_ac020a5f4b13cbebfd6f4b21f3326ba78}{\index{tsk\-Task\-Control\-Block@{tsk\-Task\-Control\-Block}!px\-Task\-Tag@{px\-Task\-Tag}}
+\index{px\-Task\-Tag@{px\-Task\-Tag}!tskTaskControlBlock@{tsk\-Task\-Control\-Block}}
+\subsubsection[{px\-Task\-Tag}]{\setlength{\rightskip}{0pt plus 5cm}{\bf pd\-T\-A\-S\-K\-\_\-\-H\-O\-O\-K\-\_\-\-C\-O\-D\-E} tsk\-Task\-Control\-Block\-::px\-Task\-Tag}}\label{structtsk_task_control_block_ac020a5f4b13cbebfd6f4b21f3326ba78}
+
+
+Definition at line 129 of file tasks.\-c.
+
+\hypertarget{structtsk_task_control_block_a4ebd83cb3a10ec0f6113f9c3c13aeacc}{\index{tsk\-Task\-Control\-Block@{tsk\-Task\-Control\-Block}!px\-Top\-Of\-Stack@{px\-Top\-Of\-Stack}}
+\index{px\-Top\-Of\-Stack@{px\-Top\-Of\-Stack}!tskTaskControlBlock@{tsk\-Task\-Control\-Block}}
+\subsubsection[{px\-Top\-Of\-Stack}]{\setlength{\rightskip}{0pt plus 5cm}{\bf volatile} port\-S\-T\-A\-C\-K\-\_\-\-T\-Y\-P\-E $\ast$ tsk\-Task\-Control\-Block\-::px\-Top\-Of\-Stack}}\label{structtsk_task_control_block_a4ebd83cb3a10ec0f6113f9c3c13aeacc}
+
+
+Definition at line 99 of file tasks.\-c.
+
+\hypertarget{structtsk_task_control_block_a79f0077123918f7ee91496ff2b5f1ab4}{\index{tsk\-Task\-Control\-Block@{tsk\-Task\-Control\-Block}!ul\-Run\-Time\-Counter@{ul\-Run\-Time\-Counter}}
+\index{ul\-Run\-Time\-Counter@{ul\-Run\-Time\-Counter}!tskTaskControlBlock@{tsk\-Task\-Control\-Block}}
+\subsubsection[{ul\-Run\-Time\-Counter}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long tsk\-Task\-Control\-Block\-::ul\-Run\-Time\-Counter}}\label{structtsk_task_control_block_a79f0077123918f7ee91496ff2b5f1ab4}
+
+
+Definition at line 133 of file tasks.\-c.
+
+\hypertarget{structtsk_task_control_block_a50471e54a6f22994f835c0b2b358d006}{\index{tsk\-Task\-Control\-Block@{tsk\-Task\-Control\-Block}!ux\-Base\-Priority@{ux\-Base\-Priority}}
+\index{ux\-Base\-Priority@{ux\-Base\-Priority}!tskTaskControlBlock@{tsk\-Task\-Control\-Block}}
+\subsubsection[{ux\-Base\-Priority}]{\setlength{\rightskip}{0pt plus 5cm}unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E tsk\-Task\-Control\-Block\-::ux\-Base\-Priority}}\label{structtsk_task_control_block_a50471e54a6f22994f835c0b2b358d006}
+
+
+Definition at line 125 of file tasks.\-c.
+
+\hypertarget{structtsk_task_control_block_a608d77a8a8fa5080525c900ceb7a540b}{\index{tsk\-Task\-Control\-Block@{tsk\-Task\-Control\-Block}!ux\-Critical\-Nesting@{ux\-Critical\-Nesting}}
+\index{ux\-Critical\-Nesting@{ux\-Critical\-Nesting}!tskTaskControlBlock@{tsk\-Task\-Control\-Block}}
+\subsubsection[{ux\-Critical\-Nesting}]{\setlength{\rightskip}{0pt plus 5cm}unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E tsk\-Task\-Control\-Block\-::ux\-Critical\-Nesting}}\label{structtsk_task_control_block_a608d77a8a8fa5080525c900ceb7a540b}
+
+
+Definition at line 116 of file tasks.\-c.
+
+\hypertarget{structtsk_task_control_block_a82357f7be508ac5d27ae7968cddde6da}{\index{tsk\-Task\-Control\-Block@{tsk\-Task\-Control\-Block}!ux\-Priority@{ux\-Priority}}
+\index{ux\-Priority@{ux\-Priority}!tskTaskControlBlock@{tsk\-Task\-Control\-Block}}
+\subsubsection[{ux\-Priority}]{\setlength{\rightskip}{0pt plus 5cm}unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E tsk\-Task\-Control\-Block\-::ux\-Priority}}\label{structtsk_task_control_block_a82357f7be508ac5d27ae7968cddde6da}
+
+
+Definition at line 107 of file tasks.\-c.
+
+\hypertarget{structtsk_task_control_block_a9ec9718baa5b502b9c8f2558bd41ea9d}{\index{tsk\-Task\-Control\-Block@{tsk\-Task\-Control\-Block}!ux\-Task\-Number@{ux\-Task\-Number}}
+\index{ux\-Task\-Number@{ux\-Task\-Number}!tskTaskControlBlock@{tsk\-Task\-Control\-Block}}
+\subsubsection[{ux\-Task\-Number}]{\setlength{\rightskip}{0pt plus 5cm}unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E tsk\-Task\-Control\-Block\-::ux\-Task\-Number}}\label{structtsk_task_control_block_a9ec9718baa5b502b9c8f2558bd41ea9d}
+
+
+Definition at line 121 of file tasks.\-c.
+
+\hypertarget{structtsk_task_control_block_ad1aa61c9b3fdb1483a52a0813635d964}{\index{tsk\-Task\-Control\-Block@{tsk\-Task\-Control\-Block}!ux\-T\-C\-B\-Number@{ux\-T\-C\-B\-Number}}
+\index{ux\-T\-C\-B\-Number@{ux\-T\-C\-B\-Number}!tskTaskControlBlock@{tsk\-Task\-Control\-Block}}
+\subsubsection[{ux\-T\-C\-B\-Number}]{\setlength{\rightskip}{0pt plus 5cm}unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E tsk\-Task\-Control\-Block\-::ux\-T\-C\-B\-Number}}\label{structtsk_task_control_block_ad1aa61c9b3fdb1483a52a0813635d964}
+
+
+Definition at line 120 of file tasks.\-c.
+
+\hypertarget{structtsk_task_control_block_a9b0ee1554f116853c7631dc0b585ffdc}{\index{tsk\-Task\-Control\-Block@{tsk\-Task\-Control\-Block}!x\-Event\-List\-Item@{x\-Event\-List\-Item}}
+\index{x\-Event\-List\-Item@{x\-Event\-List\-Item}!tskTaskControlBlock@{tsk\-Task\-Control\-Block}}
+\subsubsection[{x\-Event\-List\-Item}]{\setlength{\rightskip}{0pt plus 5cm}{\bf x\-List\-Item} tsk\-Task\-Control\-Block\-::x\-Event\-List\-Item}}\label{structtsk_task_control_block_a9b0ee1554f116853c7631dc0b585ffdc}
+
+
+Definition at line 106 of file tasks.\-c.
+
+\hypertarget{structtsk_task_control_block_a95eb5853a94644043605770f63ac9a63}{\index{tsk\-Task\-Control\-Block@{tsk\-Task\-Control\-Block}!x\-Generic\-List\-Item@{x\-Generic\-List\-Item}}
+\index{x\-Generic\-List\-Item@{x\-Generic\-List\-Item}!tskTaskControlBlock@{tsk\-Task\-Control\-Block}}
+\subsubsection[{x\-Generic\-List\-Item}]{\setlength{\rightskip}{0pt plus 5cm}{\bf x\-List\-Item} tsk\-Task\-Control\-Block\-::x\-Generic\-List\-Item}}\label{structtsk_task_control_block_a95eb5853a94644043605770f63ac9a63}
+
+
+Definition at line 105 of file tasks.\-c.
+
+\hypertarget{structtsk_task_control_block_a6f500824434d6eb2ddd3df036f33cdac}{\index{tsk\-Task\-Control\-Block@{tsk\-Task\-Control\-Block}!x\-M\-P\-U\-Settings@{x\-M\-P\-U\-Settings}}
+\index{x\-M\-P\-U\-Settings@{x\-M\-P\-U\-Settings}!tskTaskControlBlock@{tsk\-Task\-Control\-Block}}
+\subsubsection[{x\-M\-P\-U\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}x\-M\-P\-U\-\_\-\-S\-E\-T\-T\-I\-N\-G\-S tsk\-Task\-Control\-Block\-::x\-M\-P\-U\-Settings}}\label{structtsk_task_control_block_a6f500824434d6eb2ddd3df036f33cdac}
+
+
+Definition at line 102 of file tasks.\-c.
+
+
+
+The documentation for this struct was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-Common/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2tasks_8c}{tasks.\-c}\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S.\-osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/\hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c}{port.\-c}\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S.\-osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/\hyperlink{task_8c}{task.\-c}\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S.\-posix/posix/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/\hyperlink{posix_2posix_2_libraries_2_free_r_t_o_s_2_source_2tasks_8c}{tasks.\-c}\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S.\-win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Win32/\hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_win32_2port_8c}{port.\-c}\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S.\-win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/\hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2tasks_8c}{tasks.\-c}\end{DoxyCompactItemize}

@@ -1,0 +1,368 @@
+\hypertarget{group___r_t_c___group1}{\section{Initialization and Configuration functions}
+\label{group___r_t_c___group1}\index{Initialization and Configuration functions@{Initialization and Configuration functions}}
+}
+
+
+Initialization and Configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___exported__types_ga8333b96c67f83cba354b3407fcbb6ee8}{Error\-Status} \hyperlink{group___r_t_c___group1_ga9777c6cc4a99c339ebc527a791b2ebe7}{R\-T\-C\-\_\-\-De\-Init} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Deinitializes the R\-T\-C registers to their default reset values. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga8333b96c67f83cba354b3407fcbb6ee8}{Error\-Status} \hyperlink{group___r_t_c___group1_ga8eb747bf9698b2482ba6ef4d811de8e0}{R\-T\-C\-\_\-\-Init} (R\-T\-C\-\_\-\-Init\-Type\-Def $\ast$R\-T\-C\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the R\-T\-C registers according to the specified parameters in R\-T\-C\-\_\-\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___group1_gab466f3348de3236976e9aec7d6025dff}{R\-T\-C\-\_\-\-Struct\-Init} (R\-T\-C\-\_\-\-Init\-Type\-Def $\ast$R\-T\-C\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each R\-T\-C\-\_\-\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___group1_ga9d4bdfd3ae6957630d15d2497573b7c7}{R\-T\-C\-\_\-\-Write\-Protection\-Cmd} (\hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the R\-T\-C registers write protection. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga8333b96c67f83cba354b3407fcbb6ee8}{Error\-Status} \hyperlink{group___r_t_c___group1_ga679f8883cbfb267a53ffb1ab4cc5c8c5}{R\-T\-C\-\_\-\-Enter\-Init\-Mode} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Enters the R\-T\-C Initialization mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___group1_ga87f86f3b794205f09a1eac51738d900f}{R\-T\-C\-\_\-\-Exit\-Init\-Mode} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Exits the R\-T\-C Initialization mode. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga8333b96c67f83cba354b3407fcbb6ee8}{Error\-Status} \hyperlink{group___r_t_c___group1_ga2938febeef6baf0d91cc066ca5caf095}{R\-T\-C\-\_\-\-Wait\-For\-Synchro} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Waits until the R\-T\-C Time and Date registers (R\-T\-C\-\_\-\-T\-R and R\-T\-C\-\_\-\-D\-R) are synchronized with R\-T\-C A\-P\-B clock. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga8333b96c67f83cba354b3407fcbb6ee8}{Error\-Status} \hyperlink{group___r_t_c___group1_gaa60079ec257fb3a277d058ca8305533d}{R\-T\-C\-\_\-\-Ref\-Clock\-Cmd} (\hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the R\-T\-C reference clock detection. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___group1_gae5e7c682f15b8ae9ddd3b2a85a9df7db}{R\-T\-C\-\_\-\-Bypass\-Shadow\-Cmd} (\hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the Bypass Shadow feature. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Initialization and Configuration functions. \begin{DoxyVerb} ===============================================================================
+            ##### Initialization and Configuration functions #####
+ ===============================================================================  
+    [..] This section provide functions allowing to initialize and configure the RTC
+         Prescaler (Synchronous and Asynchronous), RTC Hour format, disable RTC registers
+         Write protection, enter and exit the RTC initialization mode, RTC registers
+         synchronization check and reference clock detection enable.
+         (#) The RTC Prescaler is programmed to generate the RTC 1Hz time base. It is
+             split into 2 programmable prescalers to minimize power consumption.
+             (++) A 7-bit asynchronous prescaler and A 13-bit synchronous prescaler.
+             (++) When both prescalers are used, it is recommended to configure the 
+                  asynchronous prescaler to a high value to minimize consumption.
+         (#) All RTC registers are Write protected. Writing to the RTC registers
+             is enabled by writing a key into the Write Protection register, RTC_WPR.
+         (#) To Configure the RTC Calendar, user application should enter initialization
+             mode. In this mode, the calendar counter is stopped and its value 
+             can be updated. When the initialization sequence is complete, the 
+             calendar restarts counting after 4 RTCCLK cycles.
+         (#) To read the calendar through the shadow registers after Calendar 
+             initialization, calendar update or after wakeup from low power modes 
+             the software must first clear the RSF flag. The software must then 
+             wait until it is set again before reading the calendar, which means 
+             that the calendar registers have been correctly copied into the RTC_TR 
+             and RTC_DR shadow registers. The RTC_WaitForSynchro() function 
+             implements the above software sequence (RSF clear and RSF check).\end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                 Initialization and Configuration functions
+ ===============================================================================
+
+  This section provide functions allowing to initialize and configure the RTC
+  Prescaler (Synchronous and Asynchronous), RTC Hour format, disable RTC registers
+  Write protection, enter and exit the RTC initialization mode, RTC registers
+  synchronization check and reference clock detection enable.
+  
+  1. The RTC Prescaler is programmed to generate the RTC 1Hz time base. It is
+     split into 2 programmable prescalers to minimize power consumption.
+     - A 7-bit asynchronous prescaler and A 13-bit synchronous prescaler.
+     - When both prescalers are used, it is recommended to configure the asynchronous
+       prescaler to a high value to minimize consumption.
+
+  2. All RTC registers are Write protected. Writing to the RTC registers
+     is enabled by writing a key into the Write Protection register, RTC_WPR.
+
+  3. To Configure the RTC Calendar, user application should enter initialization
+     mode. In this mode, the calendar counter is stopped and its value can be 
+     updated. When the initialization sequence is complete, the calendar restarts 
+     counting after 4 RTCCLK cycles.
+
+  4. To read the calendar through the shadow registers after Calendar initialization,
+     calendar update or after wakeup from low power modes the software must first 
+     clear the RSF flag. The software must then wait until it is set again before 
+     reading the calendar, which means that the calendar registers have been 
+     correctly copied into the RTC_TR and RTC_DR shadow registers.
+     The RTC_WaitForSynchro() function implements the above software sequence 
+     (RSF clear and RSF check).\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___r_t_c___group1_gae5e7c682f15b8ae9ddd3b2a85a9df7db}{\index{Initialization and Configuration functions@{Initialization and Configuration functions}!R\-T\-C\-\_\-\-Bypass\-Shadow\-Cmd@{R\-T\-C\-\_\-\-Bypass\-Shadow\-Cmd}}
+\index{R\-T\-C\-\_\-\-Bypass\-Shadow\-Cmd@{R\-T\-C\-\_\-\-Bypass\-Shadow\-Cmd}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Bypass\-Shadow\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} R\-T\-C\-\_\-\-Bypass\-Shadow\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group1_gae5e7c682f15b8ae9ddd3b2a85a9df7db}
+
+
+Enables or Disables the Bypass Shadow feature. 
+
+\begin{DoxyNote}{Note}
+When the Bypass Shadow is enabled the calendar value are taken directly from the Calendar counter. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\-State,\-:} & new state of the Bypass Shadow feature. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 670 of file stm32f30x\-\_\-rtc.\-c.
+
+\hypertarget{group___r_t_c___group1_ga9777c6cc4a99c339ebc527a791b2ebe7}{\index{Initialization and Configuration functions@{Initialization and Configuration functions}!R\-T\-C\-\_\-\-De\-Init@{R\-T\-C\-\_\-\-De\-Init}}
+\index{R\-T\-C\-\_\-\-De\-Init@{R\-T\-C\-\_\-\-De\-Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-De\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Error\-Status} R\-T\-C\-\_\-\-De\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group1_ga9777c6cc4a99c339ebc527a791b2ebe7}
+
+
+Deinitializes the R\-T\-C registers to their default reset values. 
+
+\begin{DoxyNote}{Note}
+This function doesn't reset the R\-T\-C Clock source and R\-T\-C Backup Data registers. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\-Status enumeration value\-:
+\begin{DoxyItemize}
+\item S\-U\-C\-C\-E\-S\-S\-: R\-T\-C registers are deinitialized
+\item E\-R\-R\-O\-R\-: R\-T\-C registers are not deinitialized 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 326 of file stm32f30x\-\_\-rtc.\-c.
+
+\hypertarget{group___r_t_c___group1_ga679f8883cbfb267a53ffb1ab4cc5c8c5}{\index{Initialization and Configuration functions@{Initialization and Configuration functions}!R\-T\-C\-\_\-\-Enter\-Init\-Mode@{R\-T\-C\-\_\-\-Enter\-Init\-Mode}}
+\index{R\-T\-C\-\_\-\-Enter\-Init\-Mode@{R\-T\-C\-\_\-\-Enter\-Init\-Mode}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Enter\-Init\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Error\-Status} R\-T\-C\-\_\-\-Enter\-Init\-Mode (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group1_ga679f8883cbfb267a53ffb1ab4cc5c8c5}
+
+
+Enters the R\-T\-C Initialization mode. 
+
+\begin{DoxyNote}{Note}
+The R\-T\-C Initialization mode is write protected, use the R\-T\-C\-\_\-\-Write\-Protection\-Cmd(\-D\-I\-S\-A\-B\-L\-E) before calling this function. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\-Status enumeration value\-:
+\begin{DoxyItemize}
+\item S\-U\-C\-C\-E\-S\-S\-: R\-T\-C is in Init mode
+\item E\-R\-R\-O\-R\-: R\-T\-C is not in Init mode 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 504 of file stm32f30x\-\_\-rtc.\-c.
+
+\hypertarget{group___r_t_c___group1_ga87f86f3b794205f09a1eac51738d900f}{\index{Initialization and Configuration functions@{Initialization and Configuration functions}!R\-T\-C\-\_\-\-Exit\-Init\-Mode@{R\-T\-C\-\_\-\-Exit\-Init\-Mode}}
+\index{R\-T\-C\-\_\-\-Exit\-Init\-Mode@{R\-T\-C\-\_\-\-Exit\-Init\-Mode}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Exit\-Init\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} R\-T\-C\-\_\-\-Exit\-Init\-Mode (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group1_ga87f86f3b794205f09a1eac51738d900f}
+
+
+Exits the R\-T\-C Initialization mode. 
+
+\begin{DoxyNote}{Note}
+When the initialization sequence is complete, the calendar restarts counting after 4 R\-T\-C\-C\-L\-K cycles. 
+
+The R\-T\-C Initialization mode is write protected, use the R\-T\-C\-\_\-\-Write\-Protection\-Cmd(\-D\-I\-S\-A\-B\-L\-E) before calling this function. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 549 of file stm32f30x\-\_\-rtc.\-c.
+
+\hypertarget{group___r_t_c___group1_ga8eb747bf9698b2482ba6ef4d811de8e0}{\index{Initialization and Configuration functions@{Initialization and Configuration functions}!R\-T\-C\-\_\-\-Init@{R\-T\-C\-\_\-\-Init}}
+\index{R\-T\-C\-\_\-\-Init@{R\-T\-C\-\_\-\-Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Error\-Status} R\-T\-C\-\_\-\-Init (
+\begin{DoxyParamCaption}
+\item[{R\-T\-C\-\_\-\-Init\-Type\-Def $\ast$}]{R\-T\-C\-\_\-\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group1_ga8eb747bf9698b2482ba6ef4d811de8e0}
+
+
+Initializes the R\-T\-C registers according to the specified parameters in R\-T\-C\-\_\-\-Init\-Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\-T\-C\-\_\-\-Init\-Struct,\-:} & pointer to a R\-T\-C\-\_\-\-Init\-Type\-Def structure that contains the configuration information for the R\-T\-C peripheral. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The R\-T\-C Prescaler register is write protected and can be written in initialization mode only. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\-Status enumeration value\-:
+\begin{DoxyItemize}
+\item S\-U\-C\-C\-E\-S\-S\-: R\-T\-C registers are initialized
+\item E\-R\-R\-O\-R\-: R\-T\-C registers are not initialized 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 409 of file stm32f30x\-\_\-rtc.\-c.
+
+\hypertarget{group___r_t_c___group1_gaa60079ec257fb3a277d058ca8305533d}{\index{Initialization and Configuration functions@{Initialization and Configuration functions}!R\-T\-C\-\_\-\-Ref\-Clock\-Cmd@{R\-T\-C\-\_\-\-Ref\-Clock\-Cmd}}
+\index{R\-T\-C\-\_\-\-Ref\-Clock\-Cmd@{R\-T\-C\-\_\-\-Ref\-Clock\-Cmd}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Ref\-Clock\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Error\-Status} R\-T\-C\-\_\-\-Ref\-Clock\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group1_gaa60079ec257fb3a277d058ca8305533d}
+
+
+Enables or disables the R\-T\-C reference clock detection. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\-State,\-:} & new state of the R\-T\-C reference clock. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\-Status enumeration value\-:
+\begin{DoxyItemize}
+\item S\-U\-C\-C\-E\-S\-S\-: R\-T\-C reference clock detection is enabled
+\item E\-R\-R\-O\-R\-: R\-T\-C reference clock detection is disabled 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 622 of file stm32f30x\-\_\-rtc.\-c.
+
+\hypertarget{group___r_t_c___group1_gab466f3348de3236976e9aec7d6025dff}{\index{Initialization and Configuration functions@{Initialization and Configuration functions}!R\-T\-C\-\_\-\-Struct\-Init@{R\-T\-C\-\_\-\-Struct\-Init}}
+\index{R\-T\-C\-\_\-\-Struct\-Init@{R\-T\-C\-\_\-\-Struct\-Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Struct\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} R\-T\-C\-\_\-\-Struct\-Init (
+\begin{DoxyParamCaption}
+\item[{R\-T\-C\-\_\-\-Init\-Type\-Def $\ast$}]{R\-T\-C\-\_\-\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group1_gab466f3348de3236976e9aec7d6025dff}
+
+
+Fills each R\-T\-C\-\_\-\-Init\-Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\-T\-C\-\_\-\-Init\-Struct,\-:} & pointer to a R\-T\-C\-\_\-\-Init\-Type\-Def structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 455 of file stm32f30x\-\_\-rtc.\-c.
+
+\hypertarget{group___r_t_c___group1_ga2938febeef6baf0d91cc066ca5caf095}{\index{Initialization and Configuration functions@{Initialization and Configuration functions}!R\-T\-C\-\_\-\-Wait\-For\-Synchro@{R\-T\-C\-\_\-\-Wait\-For\-Synchro}}
+\index{R\-T\-C\-\_\-\-Wait\-For\-Synchro@{R\-T\-C\-\_\-\-Wait\-For\-Synchro}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Wait\-For\-Synchro}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Error\-Status} R\-T\-C\-\_\-\-Wait\-For\-Synchro (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group1_ga2938febeef6baf0d91cc066ca5caf095}
+
+
+Waits until the R\-T\-C Time and Date registers (R\-T\-C\-\_\-\-T\-R and R\-T\-C\-\_\-\-D\-R) are synchronized with R\-T\-C A\-P\-B clock. 
+
+Waits until the R\-T\-C registers (R\-T\-C\-\_\-\-C\-N\-T, R\-T\-C\-\_\-\-A\-L\-R and R\-T\-C\-\_\-\-P\-R\-L) are synchronized with R\-T\-C A\-P\-B clock.
+
+\begin{DoxyNote}{Note}
+The R\-T\-C Resynchronization mode is write protected, use the R\-T\-C\-\_\-\-Write\-Protection\-Cmd(\-D\-I\-S\-A\-B\-L\-E) before calling this function. 
+
+To read the calendar through the shadow registers after Calendar initialization, calendar update or after wakeup from low power modes the software must first clear the R\-S\-F flag. The software must then wait until it is set again before reading the calendar, which means that the calendar registers have been correctly copied into the R\-T\-C\-\_\-\-T\-R and R\-T\-C\-\_\-\-D\-R shadow registers. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\-Status enumeration value\-:
+\begin{DoxyItemize}
+\item S\-U\-C\-C\-E\-S\-S\-: R\-T\-C registers are synchronised
+\item E\-R\-R\-O\-R\-: R\-T\-C registers are not synchronised 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 571 of file stm32f30x\-\_\-rtc.\-c.
+
+\hypertarget{group___r_t_c___group1_ga9d4bdfd3ae6957630d15d2497573b7c7}{\index{Initialization and Configuration functions@{Initialization and Configuration functions}!R\-T\-C\-\_\-\-Write\-Protection\-Cmd@{R\-T\-C\-\_\-\-Write\-Protection\-Cmd}}
+\index{R\-T\-C\-\_\-\-Write\-Protection\-Cmd@{R\-T\-C\-\_\-\-Write\-Protection\-Cmd}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Write\-Protection\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} R\-T\-C\-\_\-\-Write\-Protection\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group1_ga9d4bdfd3ae6957630d15d2497573b7c7}
+
+
+Enables or disables the R\-T\-C registers write protection. 
+
+\begin{DoxyNote}{Note}
+All the R\-T\-C registers are write protected except for R\-T\-C\-\_\-\-I\-S\-R\mbox{[}13\-:8\mbox{]}, R\-T\-C\-\_\-\-T\-A\-F\-C\-R and R\-T\-C\-\_\-\-B\-K\-Px\-R. 
+
+Writing a wrong key reactivates the write protection. 
+
+The protection mechanism is not affected by system reset. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\-State,\-:} & new state of the write protection. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 477 of file stm32f30x\-\_\-rtc.\-c.
+

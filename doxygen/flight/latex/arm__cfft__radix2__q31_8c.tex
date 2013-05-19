@@ -1,0 +1,65 @@
+\hypertarget{arm__cfft__radix2__q31_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-C\-M\-S\-I\-S3/\-D\-S\-P\-\_\-\-Lib/\-Source/\-Transform\-Functions/arm\-\_\-cfft\-\_\-radix2\-\_\-q31.c File Reference}
+\label{arm__cfft__radix2__q31_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-C\-M\-S\-I\-S3/\-D\-S\-P\-\_\-\-Lib/\-Source/\-Transform\-Functions/arm\-\_\-cfft\-\_\-radix2\-\_\-q31.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-C\-M\-S\-I\-S3/\-D\-S\-P\-\_\-\-Lib/\-Source/\-Transform\-Functions/arm\-\_\-cfft\-\_\-radix2\-\_\-q31.\-c}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___radix2___c_f_f_t___c_i_f_f_t_ga6321f703ec87a274aedaab33d3e766b4}{arm\-\_\-cfft\-\_\-radix2\-\_\-q31} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__cfft__radix2__instance__q31}{arm\-\_\-cfft\-\_\-radix2\-\_\-instance\-\_\-q31} $\ast$S, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Src)
+\begin{DoxyCompactList}\small\item\em Processing function for the fixed-\/point C\-F\-F\-T/\-C\-I\-F\-F\-T. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{arm__cfft__radix2__q31_8c_a740f4fe69e6148d22fc99f374d304e7e}{arm\-\_\-radix2\-\_\-butterfly\-\_\-q31} (\hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Src, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} fft\-Len, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Coef, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} twid\-Coef\-Modifier)
+\begin{DoxyCompactList}\small\item\em Core function for the Radix-\/2 Q31 C\-F\-F\-T butterfly process. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{arm__cfft__radix2__q31_8c_a4d665f67080455b95cafec04009fd52d}{arm\-\_\-radix2\-\_\-butterfly\-\_\-inverse\-\_\-q31} (\hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Src, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} fft\-Len, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Coef, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} twid\-Coef\-Modifier)
+\begin{DoxyCompactList}\small\item\em Core function for the Radix-\/2 Q31 C\-F\-F\-T Inverse butterfly process. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{arm__cfft__radix2__q31_8c_a4d665f67080455b95cafec04009fd52d}{\index{arm\-\_\-cfft\-\_\-radix2\-\_\-q31.\-c@{arm\-\_\-cfft\-\_\-radix2\-\_\-q31.\-c}!arm\-\_\-radix2\-\_\-butterfly\-\_\-inverse\-\_\-q31@{arm\-\_\-radix2\-\_\-butterfly\-\_\-inverse\-\_\-q31}}
+\index{arm\-\_\-radix2\-\_\-butterfly\-\_\-inverse\-\_\-q31@{arm\-\_\-radix2\-\_\-butterfly\-\_\-inverse\-\_\-q31}!arm_cfft_radix2_q31.c@{arm\-\_\-cfft\-\_\-radix2\-\_\-q31.\-c}}
+\subsubsection[{arm\-\_\-radix2\-\_\-butterfly\-\_\-inverse\-\_\-q31}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-radix2\-\_\-butterfly\-\_\-inverse\-\_\-q31 (
+\begin{DoxyParamCaption}
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf uint32\-\_\-t}}]{fft\-Len, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Coef, }
+\item[{{\bf uint16\-\_\-t}}]{twid\-Coef\-Modifier}
+\end{DoxyParamCaption}
+)}}\label{arm__cfft__radix2__q31_8c_a4d665f67080455b95cafec04009fd52d}
+
+
+Core function for the Radix-\/2 Q31 C\-F\-F\-T Inverse butterfly process. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em $\ast$p\-Src} & points to the in-\/place buffer of Q31 data type. \\
+\hline
+\mbox{\tt in}  & {\em fft\-Len} & length of the F\-F\-T. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Coef} & points to Twiddle coefficient buffer. \\
+\hline
+\mbox{\tt in}  & {\em twid\-Coef\-Modifier} & twiddle coefficient modifier that supports different size F\-F\-Ts with the same twiddle factor table. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none. 
+\end{DoxyReturn}
+
+
+Definition at line 193 of file arm\-\_\-cfft\-\_\-radix2\-\_\-q31.\-c.
+
+\hypertarget{arm__cfft__radix2__q31_8c_a740f4fe69e6148d22fc99f374d304e7e}{\index{arm\-\_\-cfft\-\_\-radix2\-\_\-q31.\-c@{arm\-\_\-cfft\-\_\-radix2\-\_\-q31.\-c}!arm\-\_\-radix2\-\_\-butterfly\-\_\-q31@{arm\-\_\-radix2\-\_\-butterfly\-\_\-q31}}
+\index{arm\-\_\-radix2\-\_\-butterfly\-\_\-q31@{arm\-\_\-radix2\-\_\-butterfly\-\_\-q31}!arm_cfft_radix2_q31.c@{arm\-\_\-cfft\-\_\-radix2\-\_\-q31.\-c}}
+\subsubsection[{arm\-\_\-radix2\-\_\-butterfly\-\_\-q31}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-radix2\-\_\-butterfly\-\_\-q31 (
+\begin{DoxyParamCaption}
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf uint32\-\_\-t}}]{fft\-Len, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Coef, }
+\item[{{\bf uint16\-\_\-t}}]{twid\-Coef\-Modifier}
+\end{DoxyParamCaption}
+)}}\label{arm__cfft__radix2__q31_8c_a740f4fe69e6148d22fc99f374d304e7e}
+
+
+Core function for the Radix-\/2 Q31 C\-F\-F\-T butterfly process. 
+
+end of Radix2\-\_\-\-C\-F\-F\-T\-\_\-\-C\-I\-F\-F\-T group 
+
+Definition at line 73 of file arm\-\_\-cfft\-\_\-radix2\-\_\-q31.\-c.
+

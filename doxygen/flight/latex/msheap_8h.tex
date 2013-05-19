@@ -1,0 +1,148 @@
+\hypertarget{msheap_8h}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-Common/\-Libraries/msheap/msheap.h File Reference}
+\label{msheap_8h}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-Common/\-Libraries/msheap/msheap.\-h@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-Common/\-Libraries/msheap/msheap.\-h}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{msheap_8h_a031ef4703a9850fab119967945135567}{msheap\-\_\-init} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$\hyperlink{group___u_a_v_gaf41894f299b7a692a649d63f02c30e35}{base}, \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$limit)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$ \hyperlink{msheap_8h_aeda687eced4bc5448f0ef094d3dce38b}{msheap\-\_\-alloc} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{pios__opahrs__proto_8h_ae5dc6ffcd9b7605c7787791e40cc6bb0}{size})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{msheap_8h_ae46cff8a92ff2f4f7578790688b692df}{msheap\-\_\-free} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$ptr)
+\item 
+int \hyperlink{msheap_8h_a7127e8c10602eb79c35ccce4a5b3d918}{msheap\-\_\-check} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{msheap_8h_a8a60c12115d50d436e46c18eafe745b6}{msheap\-\_\-walk} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void}($\ast$callback)(\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$ptr, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{pios__opahrs__proto_8h_ae5dc6ffcd9b7605c7787791e40cc6bb0}{size}, int \hyperlink{pios__msheap_8c_a9f850d0608418aea291e4c0fdab93826}{free}))
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{msheap_8h_a7c8ed8153f8b68fc835642c7995fc62f}{msheap\-\_\-free\-\_\-space} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{msheap_8h_ad3d3227b5504253eff7312f19d833972}{msheap\-\_\-extend} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{pios__opahrs__proto_8h_ae5dc6ffcd9b7605c7787791e40cc6bb0}{size})
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{msheap_8h_aeda687eced4bc5448f0ef094d3dce38b}{\index{msheap.\-h@{msheap.\-h}!msheap\-\_\-alloc@{msheap\-\_\-alloc}}
+\index{msheap\-\_\-alloc@{msheap\-\_\-alloc}!msheap.h@{msheap.\-h}}
+\subsubsection[{msheap\-\_\-alloc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void}$\ast$ msheap\-\_\-alloc (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{size}
+\end{DoxyParamCaption}
+)}}\label{msheap_8h_aeda687eced4bc5448f0ef094d3dce38b}
+Allocate memory from the heap.
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & The number of bytes required (more may be allocated). \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 244 of file msheap.\-c.
+
+\hypertarget{msheap_8h_a7127e8c10602eb79c35ccce4a5b3d918}{\index{msheap.\-h@{msheap.\-h}!msheap\-\_\-check@{msheap\-\_\-check}}
+\index{msheap\-\_\-check@{msheap\-\_\-check}!msheap.h@{msheap.\-h}}
+\subsubsection[{msheap\-\_\-check}]{\setlength{\rightskip}{0pt plus 5cm}int msheap\-\_\-check (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{msheap_8h_a7127e8c10602eb79c35ccce4a5b3d918}
+Validate the heap.
+
+\begin{DoxyReturn}{Returns}
+Zero if the heap integrity checks pass, nonzero otherwise. 
+\end{DoxyReturn}
+
+
+Definition at line 338 of file msheap.\-c.
+
+\hypertarget{msheap_8h_ad3d3227b5504253eff7312f19d833972}{\index{msheap.\-h@{msheap.\-h}!msheap\-\_\-extend@{msheap\-\_\-extend}}
+\index{msheap\-\_\-extend@{msheap\-\_\-extend}!msheap.h@{msheap.\-h}}
+\subsubsection[{msheap\-\_\-extend}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} msheap\-\_\-extend (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{size}
+\end{DoxyParamCaption}
+)}}\label{msheap_8h_ad3d3227b5504253eff7312f19d833972}
+Extend the heap.
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & The size of the extension in bytes. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 384 of file msheap.\-c.
+
+\hypertarget{msheap_8h_ae46cff8a92ff2f4f7578790688b692df}{\index{msheap.\-h@{msheap.\-h}!msheap\-\_\-free@{msheap\-\_\-free}}
+\index{msheap\-\_\-free@{msheap\-\_\-free}!msheap.h@{msheap.\-h}}
+\subsubsection[{msheap\-\_\-free}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} msheap\-\_\-free (
+\begin{DoxyParamCaption}
+\item[{{\bf void} $\ast$}]{ptr}
+\end{DoxyParamCaption}
+)}}\label{msheap_8h_ae46cff8a92ff2f4f7578790688b692df}
+Free memory back to the heap.
+
+
+\begin{DoxyParams}{Parameters}
+{\em ptr} & Pointer being freed to the heap. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 304 of file msheap.\-c.
+
+\hypertarget{msheap_8h_a7c8ed8153f8b68fc835642c7995fc62f}{\index{msheap.\-h@{msheap.\-h}!msheap\-\_\-free\-\_\-space@{msheap\-\_\-free\-\_\-space}}
+\index{msheap\-\_\-free\-\_\-space@{msheap\-\_\-free\-\_\-space}!msheap.h@{msheap.\-h}}
+\subsubsection[{msheap\-\_\-free\-\_\-space}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} msheap\-\_\-free\-\_\-space (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{msheap_8h_a7c8ed8153f8b68fc835642c7995fc62f}
+Return the amount of free space in the heap.
+
+\begin{DoxyReturn}{Returns}
+The total number of bytes available for allocation. 
+\end{DoxyReturn}
+
+
+Definition at line 378 of file msheap.\-c.
+
+\hypertarget{msheap_8h_a031ef4703a9850fab119967945135567}{\index{msheap.\-h@{msheap.\-h}!msheap\-\_\-init@{msheap\-\_\-init}}
+\index{msheap\-\_\-init@{msheap\-\_\-init}!msheap.h@{msheap.\-h}}
+\subsubsection[{msheap\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} msheap\-\_\-init (
+\begin{DoxyParamCaption}
+\item[{{\bf void} $\ast$}]{base, }
+\item[{{\bf void} $\ast$}]{limit}
+\end{DoxyParamCaption}
+)}}\label{msheap_8h_a031ef4703a9850fab119967945135567}
+Initialise the heap.
+
+
+\begin{DoxyParams}{Parameters}
+{\em base} & The lower boundary of the heap. \\
+\hline
+{\em limit} & The upper boundary of the heap. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 211 of file msheap.\-c.
+
+\hypertarget{msheap_8h_a8a60c12115d50d436e46c18eafe745b6}{\index{msheap.\-h@{msheap.\-h}!msheap\-\_\-walk@{msheap\-\_\-walk}}
+\index{msheap\-\_\-walk@{msheap\-\_\-walk}!msheap.h@{msheap.\-h}}
+\subsubsection[{msheap\-\_\-walk}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} msheap\-\_\-walk (
+\begin{DoxyParamCaption}
+\item[{{\bf void}($\ast$)({\bf void} $\ast$ptr, {\bf uint32\-\_\-t} {\bf size}, int {\bf free})}]{callback}
+\end{DoxyParamCaption}
+)}}\label{msheap_8h_a8a60c12115d50d436e46c18eafe745b6}
+Walk the heap.
+
+
+\begin{DoxyParams}{Parameters}
+{\em callback} & Called for each allocation in the heap. The ptr argument gives the allocated address or the free region address, size is the region size in bytes and free is nonzero if the region is free. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 364 of file msheap.\-c.
+

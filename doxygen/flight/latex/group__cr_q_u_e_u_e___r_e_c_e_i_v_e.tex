@@ -1,0 +1,71 @@
+\hypertarget{group__cr_q_u_e_u_e___r_e_c_e_i_v_e}{\section{cr\-Q\-U\-E\-U\-E\-\_\-\-R\-E\-C\-E\-I\-V\-E}
+\label{group__cr_q_u_e_u_e___r_e_c_e_i_v_e}\index{cr\-Q\-U\-E\-U\-E\-\_\-\-R\-E\-C\-E\-I\-V\-E@{cr\-Q\-U\-E\-U\-E\-\_\-\-R\-E\-C\-E\-I\-V\-E}}
+}
+croutine. h 
+\begin{DoxyPre}
+  crQUEUE\_RECEIVE(
+                     xCoRoutineHandle xHandle,
+                     xQueueHandle pxQueue,
+                     void *pvBuffer,
+                     portTickType xTicksToWait,
+                     portBASE\_TYPE *pxResult
+                 )\end{DoxyPre}
+
+
+The macro's cr\-Q\-U\-E\-U\-E\-\_\-\-S\-E\-N\-D() and cr\-Q\-U\-E\-U\-E\-\_\-\-R\-E\-C\-E\-I\-V\-E() are the co-\/routine equivalent to the x\-Queue\-Send() and x\-Queue\-Receive() functions used by tasks.
+
+cr\-Q\-U\-E\-U\-E\-\_\-\-S\-E\-N\-D and cr\-Q\-U\-E\-U\-E\-\_\-\-R\-E\-C\-E\-I\-V\-E can only be used from a co-\/routine whereas x\-Queue\-Send() and x\-Queue\-Receive() can only be used from tasks.
+
+cr\-Q\-U\-E\-U\-E\-\_\-\-R\-E\-C\-E\-I\-V\-E can only be called from the co-\/routine function itself -\/ not from within a function called by the co-\/routine function. This is because co-\/routines do not maintain their own stack.
+
+See the co-\/routine section of the W\-E\-B documentation for information on passing data between tasks and co-\/routines and between I\-S\-R's and co-\/routines.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\-Handle} & The handle of the calling co-\/routine. This is the x\-Handle parameter of the co-\/routine function.\\
+\hline
+{\em px\-Queue} & The handle of the queue from which the data will be received. The handle is obtained as the return value when the queue is created using the \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_ab3b70d2ace0dea373bc8057dc2718046}{x\-Queue\-Create()} A\-P\-I function.\\
+\hline
+{\em pv\-Buffer} & The buffer into which the received item is to be copied. The number of bytes of each queued item is specified when the queue is created. This number of bytes is copied into pv\-Buffer.\\
+\hline
+{\em x\-Tick\-To\-Delay} & The number of ticks that the co-\/routine should block to wait for data to become available from the queue, should data not be available immediately. The actual amount of time this equates to is defined by config\-T\-I\-C\-K\-\_\-\-R\-A\-T\-E\-\_\-\-H\-Z (set in Free\-R\-T\-O\-S\-Config.\-h). The constant port\-T\-I\-C\-K\-\_\-\-R\-A\-T\-E\-\_\-\-M\-S can be used to convert ticks to milliseconds (see the cr\-Q\-U\-E\-U\-E\-\_\-\-S\-E\-N\-D example).\\
+\hline
+{\em px\-Result} & The variable pointed to by px\-Result will be set to pd\-P\-A\-S\-S if data was successfully retrieved from the queue, otherwise it will be set to an error code as defined within Proj\-Defs.\-h.\\
+\hline
+\end{DoxyParams}
+Example usage\-: 
+\begin{DoxyPre}
+A co-routine receives the number of an LED to flash from a queue.  It
+blocks on the queue until the number is received.
+ static void prvCoRoutineFlashWorkTask( xCoRoutineHandle xHandle, unsigned portBASE\_TYPE uxIndex )
+ \{
+Variables in co-routines must be declared static if they must maintain value across a blocking call.
+ static portBASE\_TYPE xResult;
+ static unsigned portBASE\_TYPE uxLEDToFlash;\end{DoxyPre}
+
+
+
+\begin{DoxyPre}All co-routines must start with a call to crSTART().
+    crSTART( xHandle );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}    for( ;; )
+    \{
+Wait for data to become available on the queue.
+        crQUEUE\_RECEIVE( xHandle, xCoRoutineQueue, &uxLEDToFlash, portMAX\_DELAY, &xResult );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}        if( xResult == pdPASS )
+        \{
+We received the LED to flash - flash it!
+            vParTestToggleLED( uxLEDToFlash );
+        \}
+    \}\end{DoxyPre}
+
+
+
+\begin{DoxyPre}    crEND();
+ \}\end{DoxyPre}
+ 

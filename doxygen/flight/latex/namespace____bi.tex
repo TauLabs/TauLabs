@@ -1,0 +1,862 @@
+\hypertarget{namespace____bi}{\section{\-\_\-\-\_\-bi Namespace Reference}
+\label{namespace____bi}\index{\-\_\-\-\_\-bi@{\-\_\-\-\_\-bi}}
+}
+
+
+Provides Py\-Mite's builtins module, \hyperlink{namespace____bi}{\-\_\-\-\_\-bi}.  
+
+
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class____bi_1_1object}{object}
+\item 
+class \hyperlink{class____bi_1_1_exception}{Exception}
+\item 
+class \hyperlink{class____bi_1_1_assertion_error}{Assertion\-Error}
+\item 
+class \hyperlink{class____bi_1_1_generator}{Generator}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{namespace____bi_a392ed75f00d0e97c8c5b9cf710347ae1}{abs}
+\item 
+def \hyperlink{namespace____bi_a91dfff86962ea96aaa37e0c3228b0c12}{chr}
+\item 
+def \hyperlink{namespace____bi_aafd2c7caae3ab0b314887c005c2a8426}{dir}
+\item 
+def \hyperlink{namespace____bi_a90c07e0375ae4dd1caf9944cc781b333}{eval}
+\item 
+def \hyperlink{namespace____bi_a7dccd06c09c45af61d3fac77e84b2166}{filter}
+\item 
+def \hyperlink{namespace____bi_a9651b2e728ff0743ed32bdcad7d6c358}{globals}
+\item 
+def \hyperlink{namespace____bi_a3a2b1bfdba24b945379692813ca164a3}{id}
+\item 
+def \hyperlink{namespace____bi_a39a4ae10474e5e94d339db8a8a0ad0be}{len}
+\item 
+def \hyperlink{namespace____bi_afa1c484906a78716f7f98752e2666fae}{locals}
+\item 
+def \hyperlink{namespace____bi_ad7d6a1a1a735c43396c981f33674cd48}{map}
+\item 
+def \hyperlink{namespace____bi_a468dd299e29007c55f9da7bf67ccb943}{ord}
+\item 
+def \hyperlink{namespace____bi_a6d23971863e9d8073b5667bf327cd802}{pow}
+\item 
+def \hyperlink{namespace____bi_a1040779a3e2c7ab3ab9e6f4b98f3ac3a}{range}
+\item 
+def \hyperlink{namespace____bi_a77c9daccea4eed8cb074a540cdb42c88}{sum}
+\item 
+def \hyperlink{namespace____bi_a25420df74fdf02ffe8bebd57c6f264d7}{type}
+\item 
+def \hyperlink{namespace____bi_aafd3484d98d0ae11bef48de709f1f9ec}{Co}
+\item 
+def \hyperlink{namespace____bi_ac5b5dece7f29c8bf939f189c01ea993a}{ismain}
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{namespace____bi_a93aaf40f6c01f591e7a8f2971ae812fe}{\-\_\-\-\_\-name\-\_\-\-\_\-} = \char`\"{}T\-B\-D\char`\"{}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Provides Py\-Mite's builtins module, \hyperlink{namespace____bi}{\-\_\-\-\_\-bi}. {\bfseries U\-S\-A\-G\-E}
+
+The builtins are loaded by the interpreter. The user S\-H\-O\-U\-L\-D N\-O\-T import this module directly. 
+
+\subsection{Function Documentation}
+\hypertarget{namespace____bi_a392ed75f00d0e97c8c5b9cf710347ae1}{\index{\-\_\-\-\_\-bi@{\-\_\-\-\_\-bi}!abs@{abs}}
+\index{abs@{abs}!__bi@{\-\_\-\-\_\-bi}}
+\subsubsection[{abs}]{\setlength{\rightskip}{0pt plus 5cm}def \-\_\-\-\_\-bi.\-abs (
+\begin{DoxyParamCaption}
+\item[{}]{n}
+\end{DoxyParamCaption}
+)}}\label{namespace____bi_a392ed75f00d0e97c8c5b9cf710347ae1}
+
+
+Definition at line 25 of file \-\_\-\-\_\-bi.\-py.
+
+\hypertarget{namespace____bi_a91dfff86962ea96aaa37e0c3228b0c12}{\index{\-\_\-\-\_\-bi@{\-\_\-\-\_\-bi}!chr@{chr}}
+\index{chr@{chr}!__bi@{\-\_\-\-\_\-bi}}
+\subsubsection[{chr}]{\setlength{\rightskip}{0pt plus 5cm}def \-\_\-\-\_\-bi.\-chr (
+\begin{DoxyParamCaption}
+\item[{}]{n}
+\end{DoxyParamCaption}
+)}}\label{namespace____bi_a91dfff86962ea96aaa37e0c3228b0c12}
+\begin{DoxyVerb}__NATIVE__
+pPmObj_t ps;
+pPmObj_t pn;
+int32_t n;
+PmReturn_t retval;
+
+/* If wrong number of args, raise TypeError */
+if (NATIVE_GET_NUM_ARGS() != 1)
+{
+    PM_RAISE(retval, PM_RET_EX_TYPE);
+    return retval;
+}
+
+/* Raise TypeError if arg is not an int */
+pn = NATIVE_GET_LOCAL(0);
+if (OBJ_GET_TYPE(pn) != OBJ_TYPE_INT)
+{
+    PM_RAISE(retval, PM_RET_EX_TYPE);
+    return retval;
+}
+
+/* Raise ValueError if arg is not int within range(256) */
+n = ((pPmInt_t)pn)->val;
+if ((n < 0) || (n > 255))
+{
+    PM_RAISE(retval, PM_RET_EX_VAL);
+    return retval;
+}
+
+/* Create char string from  integer value */
+retval = string_newFromChar((uint8_t)n, &ps);
+NATIVE_SET_TOS(ps);
+return retval;
+\end{DoxyVerb}
+ 
+
+Definition at line 30 of file \-\_\-\-\_\-bi.\-py.
+
+\hypertarget{namespace____bi_aafd3484d98d0ae11bef48de709f1f9ec}{\index{\-\_\-\-\_\-bi@{\-\_\-\-\_\-bi}!Co@{Co}}
+\index{Co@{Co}!__bi@{\-\_\-\-\_\-bi}}
+\subsubsection[{Co}]{\setlength{\rightskip}{0pt plus 5cm}def \-\_\-\-\_\-bi.\-Co (
+\begin{DoxyParamCaption}
+\item[{}]{i}
+\end{DoxyParamCaption}
+)}}\label{namespace____bi_aafd3484d98d0ae11bef48de709f1f9ec}
+\begin{DoxyVerb}__NATIVE__
+PmReturn_t retval;
+pPmObj_t pimg;
+pPmObj_t pco;
+
+/* If wrong number of args, raise TypeError */
+if (NATIVE_GET_NUM_ARGS() != 1)
+{
+    PM_RAISE(retval, PM_RET_EX_TYPE);
+    return retval;
+}
+
+/* Raise ValueError if arg is not a string */
+pimg = NATIVE_GET_LOCAL(0);
+if (OBJ_GET_TYPE(pimg) != OBJ_TYPE_CIO)
+{
+    PM_RAISE(retval, PM_RET_EX_VAL);
+    return retval;
+}
+
+/* Create a code object from the image */
+retval = obj_loadFromImgObj(pimg, &pco);
+PM_RETURN_IF_ERROR(retval);
+
+/* Return the code object */
+NATIVE_SET_TOS(pco);
+return retval;
+\end{DoxyVerb}
+ 
+
+Definition at line 675 of file \-\_\-\-\_\-bi.\-py.
+
+\hypertarget{namespace____bi_aafd2c7caae3ab0b314887c005c2a8426}{\index{\-\_\-\-\_\-bi@{\-\_\-\-\_\-bi}!dir@{dir}}
+\index{dir@{dir}!__bi@{\-\_\-\-\_\-bi}}
+\subsubsection[{dir}]{\setlength{\rightskip}{0pt plus 5cm}def \-\_\-\-\_\-bi.\-dir (
+\begin{DoxyParamCaption}
+\item[{}]{o}
+\end{DoxyParamCaption}
+)}}\label{namespace____bi_aafd2c7caae3ab0b314887c005c2a8426}
+\begin{DoxyVerb}__NATIVE__
+PmReturn_t retval = PM_RET_OK;
+pPmObj_t po;
+pPmObj_t pk;
+pPmObj_t pl;
+pSeglist_t psl;
+int16_t i;
+uint8_t objid;
+
+/* Use globals if no arg given */
+if (NATIVE_GET_NUM_ARGS() == 0)
+{
+    /* Get the globals dict */
+    po = (pPmObj_t)NATIVE_GET_PFRAME()->fo_globals;
+}
+
+/* Otherwise use the given arg */
+else if (NATIVE_GET_NUM_ARGS() == 1)
+{
+    po = NATIVE_GET_LOCAL(0);
+
+    /* If object is a function or module, use its attrs dict */
+    if ((OBJ_GET_TYPE(po) == OBJ_TYPE_FXN)
+        || (OBJ_GET_TYPE(po) == OBJ_TYPE_MOD))
+    {
+        po = (pPmObj_t)((pPmFunc_t)po)->f_attrs;
+    }
+
+#ifdef HAVE_CLASSES
+    else if (OBJ_GET_TYPE(po) == OBJ_TYPE_CLO)
+    {
+        po = (pPmObj_t)((pPmClass_t)po)->cl_attrs;
+    }
+    else if (OBJ_GET_TYPE(po) == OBJ_TYPE_CLI)
+    {
+        po = (pPmObj_t)((pPmInstance_t)po)->cli_attrs;
+    }
+    else if (OBJ_GET_TYPE(po) == OBJ_TYPE_MTH)
+    {
+        po = (pPmObj_t)((pPmMethod_t)po)->m_attrs;
+    }
+#endif /* HAVE_CLASSES */
+
+    else
+    {
+        po = C_NULL;
+    }
+}
+
+/* Raise TypeError if wrong number of args */
+else
+{
+    PM_RAISE(retval, PM_RET_EX_TYPE);
+    return retval;
+}
+
+if (po == C_NULL)
+{
+    pl = PM_NONE;
+}
+else
+{
+    /* Create new list */
+    retval = list_new(&pl);
+    PM_RETURN_IF_ERROR(retval);
+
+    /* Copy dict's keys to the list */
+    psl = ((pPmDict_t)po)->d_keys;
+    for (i = 0; i < ((pPmDict_t)po)->length; i++)
+    {
+        retval = seglist_getItem(psl, i, &pk);
+        PM_RETURN_IF_ERROR(retval);
+        heap_gcPushTempRoot(pl, &objid);
+        retval = list_append(pl, pk);
+        heap_gcPopTempRoot(objid);
+        PM_RETURN_IF_ERROR(retval);
+    }
+}
+
+NATIVE_SET_TOS(pl);
+return retval;
+\end{DoxyVerb}
+ 
+
+Definition at line 68 of file \-\_\-\-\_\-bi.\-py.
+
+\hypertarget{namespace____bi_a90c07e0375ae4dd1caf9944cc781b333}{\index{\-\_\-\-\_\-bi@{\-\_\-\-\_\-bi}!eval@{eval}}
+\index{eval@{eval}!__bi@{\-\_\-\-\_\-bi}}
+\subsubsection[{eval}]{\setlength{\rightskip}{0pt plus 5cm}def \-\_\-\-\_\-bi.\-eval (
+\begin{DoxyParamCaption}
+\item[{}]{co, }
+\item[{}]{g, }
+\item[{}]{l}
+\end{DoxyParamCaption}
+)}}\label{namespace____bi_a90c07e0375ae4dd1caf9944cc781b333}
+\begin{DoxyVerb}__NATIVE__
+PmReturn_t retval;
+pPmObj_t pco;
+pPmObj_t pfunc;
+pPmObj_t pnewframe;
+pPmObj_t pg = C_NULL;
+pPmObj_t pl = C_NULL;
+uint8_t objid;
+
+/* If wrong number of args, raise TypeError */
+if ((NATIVE_GET_NUM_ARGS() == 0) || (NATIVE_GET_NUM_ARGS() > 3))
+{
+    PM_RAISE(retval, PM_RET_EX_TYPE);
+    return retval;
+}
+
+/* Raise ValueError if first arg is not a Code Object */
+pco = NATIVE_GET_LOCAL(0);
+if (OBJ_GET_TYPE(pco) != OBJ_TYPE_COB)
+{
+    PM_RAISE(retval, PM_RET_EX_VAL);
+    return retval;
+}
+
+/* If 2nd arg exists, raise ValueError if it is not a Dict */
+if (NATIVE_GET_NUM_ARGS() >= 2)
+{
+    pg = NATIVE_GET_LOCAL(1);
+    if (OBJ_GET_TYPE(pg) != OBJ_TYPE_DIC)
+    {
+        PM_RAISE(retval, PM_RET_EX_VAL);
+        return retval;
+    }
+}
+
+/* If no args are given, use the caller's globals for the function's */
+else
+{
+    pg = (pPmObj_t)NATIVE_GET_PFRAME()->fo_globals;
+}
+
+/* If 3rd arg exists, raise ValueError if it is not a Dict */
+if (NATIVE_GET_NUM_ARGS() >= 3)
+{
+    pl = NATIVE_GET_LOCAL(2);
+    if (OBJ_GET_TYPE(pl) != OBJ_TYPE_DIC)
+    {
+        PM_RAISE(retval, PM_RET_EX_VAL);
+        return retval;
+    }
+}
+
+/* Create func from code object */
+retval = func_new(pco, pg, &pfunc);
+PM_RETURN_IF_ERROR(retval);
+
+/* Create frame from module object; globals is set to null */
+heap_gcPushTempRoot(pfunc, &objid);
+retval = frame_new(pfunc, &pnewframe);
+heap_gcPopTempRoot(objid);
+PM_RETURN_IF_ERROR(retval);
+
+/* TODO: Reclaim pnewframe's attrs dict created in frame_new */
+/*
+ * By default use calling frame's attrs as local namespace.
+ * This works for ipm because the interactive mode
+ * needs a locals namespace that persists across calls to eval()
+ */
+((pPmFrame_t)pnewframe)->fo_attrs = NATIVE_GET_PFRAME()->fo_attrs;
+
+/* If 2nd arg exists, use it as the global namespace for the new func */
+if (NATIVE_GET_NUM_ARGS() >= 2)
+{
+    ((pPmFrame_t)pnewframe)->fo_globals = (pPmDict_t)pg;
+
+    /* If only globals is given, locals defaults to it */
+    ((pPmFrame_t)pnewframe)->fo_attrs = (pPmDict_t)pg;
+}
+
+/* If 3rd arg exists, use it as the local namespace for the new func */
+if (NATIVE_GET_NUM_ARGS() >= 3)
+{
+    ((pPmFrame_t)pnewframe)->fo_attrs = (pPmDict_t)pl;
+}
+
+/*
+ * Set the fo_back frame so flow returns to eval()'s caller when completed.
+ * Set the frame pointer so the new frame is interpreted immediately
+ * after this function returns.
+ */
+((pPmFrame_t)pnewframe)->fo_back = NATIVE_GET_PFRAME();
+NATIVE_GET_PFRAME() = (pPmFrame_t)pnewframe;
+retval = PM_RET_FRAME_SWITCH;
+
+return retval;
+\end{DoxyVerb}
+ 
+
+Definition at line 159 of file \-\_\-\-\_\-bi.\-py.
+
+\hypertarget{namespace____bi_a7dccd06c09c45af61d3fac77e84b2166}{\index{\-\_\-\-\_\-bi@{\-\_\-\-\_\-bi}!filter@{filter}}
+\index{filter@{filter}!__bi@{\-\_\-\-\_\-bi}}
+\subsubsection[{filter}]{\setlength{\rightskip}{0pt plus 5cm}def \-\_\-\-\_\-bi.\-filter (
+\begin{DoxyParamCaption}
+\item[{}]{f, }
+\item[{}]{s}
+\end{DoxyParamCaption}
+)}}\label{namespace____bi_a7dccd06c09c45af61d3fac77e84b2166}
+
+
+Definition at line 259 of file \-\_\-\-\_\-bi.\-py.
+
+\hypertarget{namespace____bi_a9651b2e728ff0743ed32bdcad7d6c358}{\index{\-\_\-\-\_\-bi@{\-\_\-\-\_\-bi}!globals@{globals}}
+\index{globals@{globals}!__bi@{\-\_\-\-\_\-bi}}
+\subsubsection[{globals}]{\setlength{\rightskip}{0pt plus 5cm}def \-\_\-\-\_\-bi.\-globals (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{namespace____bi_a9651b2e728ff0743ed32bdcad7d6c358}
+\begin{DoxyVerb}__NATIVE__
+pPmObj_t pr = C_NULL;
+PmReturn_t retval;
+
+/* If wrong number of args, raise TypeError */
+if (NATIVE_GET_NUM_ARGS() != 0)
+{
+    PM_RAISE(retval, PM_RET_EX_TYPE);
+    return retval;
+}
+
+/* Return calling frame's globals dict  on stack*/
+pr = (pPmObj_t)NATIVE_GET_PFRAME()->fo_globals;
+NATIVE_SET_TOS(pr);
+
+return PM_RET_OK;
+\end{DoxyVerb}
+ 
+
+Definition at line 263 of file \-\_\-\-\_\-bi.\-py.
+
+\hypertarget{namespace____bi_a3a2b1bfdba24b945379692813ca164a3}{\index{\-\_\-\-\_\-bi@{\-\_\-\-\_\-bi}!id@{id}}
+\index{id@{id}!__bi@{\-\_\-\-\_\-bi}}
+\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}def \-\_\-\-\_\-bi.\-id (
+\begin{DoxyParamCaption}
+\item[{}]{o}
+\end{DoxyParamCaption}
+)}}\label{namespace____bi_a3a2b1bfdba24b945379692813ca164a3}
+\begin{DoxyVerb}__NATIVE__
+PmReturn_t retval;
+pPmObj_t pr = C_NULL;
+
+/* If wrong number of args, raise TypeError */
+if (NATIVE_GET_NUM_ARGS() != 1)
+{
+    PM_RAISE(retval, PM_RET_EX_TYPE);
+    return retval;
+}
+
+/* Return object's address as an int on the stack */
+retval = int_new((intptr_t)NATIVE_GET_LOCAL(0), &pr);
+NATIVE_SET_TOS(pr);
+
+return retval;
+\end{DoxyVerb}
+ 
+
+Definition at line 284 of file \-\_\-\-\_\-bi.\-py.
+
+\hypertarget{namespace____bi_ac5b5dece7f29c8bf939f189c01ea993a}{\index{\-\_\-\-\_\-bi@{\-\_\-\-\_\-bi}!ismain@{ismain}}
+\index{ismain@{ismain}!__bi@{\-\_\-\-\_\-bi}}
+\subsubsection[{ismain}]{\setlength{\rightskip}{0pt plus 5cm}def \-\_\-\-\_\-bi.\-ismain (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{namespace____bi_ac5b5dece7f29c8bf939f189c01ea993a}
+\begin{DoxyVerb}__NATIVE__
+
+NATIVE_SET_TOS((NATIVE_GET_PFRAME()->fo_isImport) ? PM_FALSE : PM_TRUE);
+
+return PM_RET_OK;
+\end{DoxyVerb}
+ 
+
+Definition at line 901 of file \-\_\-\-\_\-bi.\-py.
+
+\hypertarget{namespace____bi_a39a4ae10474e5e94d339db8a8a0ad0be}{\index{\-\_\-\-\_\-bi@{\-\_\-\-\_\-bi}!len@{len}}
+\index{len@{len}!__bi@{\-\_\-\-\_\-bi}}
+\subsubsection[{len}]{\setlength{\rightskip}{0pt plus 5cm}def \-\_\-\-\_\-bi.\-len (
+\begin{DoxyParamCaption}
+\item[{}]{s}
+\end{DoxyParamCaption}
+)}}\label{namespace____bi_a39a4ae10474e5e94d339db8a8a0ad0be}
+\begin{DoxyVerb}__NATIVE__
+PmReturn_t retval;
+pPmObj_t ps = C_NULL;
+pPmObj_t pr = C_NULL;
+
+/* If wrong number of args, raise TypeError */
+if (NATIVE_GET_NUM_ARGS() != 1)
+{
+    PM_RAISE(retval, PM_RET_EX_TYPE);
+    return retval;
+}
+
+/* Get first arg */
+ps = NATIVE_GET_LOCAL(0);
+
+#ifdef HAVE_BYTEARRAY
+/* If object is an instance, get the thing it contains */
+if (OBJ_GET_TYPE(ps) == OBJ_TYPE_CLI)
+{
+    retval = dict_getItem((pPmObj_t)((pPmInstance_t)ps)->cli_attrs,
+                          PM_NONE,
+                          &pr);
+
+    /* If None wasn't in attributes, obj is wrong type for len() */
+    if (retval == PM_RET_EX_KEY) retval = PM_RET_EX_TYPE;
+    PM_RETURN_IF_ERROR(retval);
+    ps = pr;
+}
+#endif /* HAVE_BYTEARRAY */
+
+/* Get the length of the arg based on its type */
+switch (OBJ_GET_TYPE(ps))
+{
+    case OBJ_TYPE_STR:
+        retval = int_new(((pPmString_t)ps)->length, &pr);
+        break;
+
+    case OBJ_TYPE_TUP:
+        retval = int_new(((pPmTuple_t)ps)->length, &pr);
+        break;
+
+    case OBJ_TYPE_LST:
+        retval = int_new(((pPmList_t)ps)->length, &pr);
+        break;
+
+    case OBJ_TYPE_DIC:
+        retval = int_new(((pPmDict_t)ps)->length, &pr);
+        break;
+
+#ifdef HAVE_BYTEARRAY
+    case OBJ_TYPE_BYA:
+        retval = int_new(((pPmBytearray_t)ps)->length, &pr);
+        break;
+#endif /* HAVE_BYTEARRAY */
+
+    default:
+        /* If not a string or sequence type, raise TypeError */
+        PM_RAISE(retval, PM_RET_EX_TYPE);
+}
+
+NATIVE_SET_TOS(pr);
+return retval;
+\end{DoxyVerb}
+ 
+
+Definition at line 311 of file \-\_\-\-\_\-bi.\-py.
+
+\hypertarget{namespace____bi_afa1c484906a78716f7f98752e2666fae}{\index{\-\_\-\-\_\-bi@{\-\_\-\-\_\-bi}!locals@{locals}}
+\index{locals@{locals}!__bi@{\-\_\-\-\_\-bi}}
+\subsubsection[{locals}]{\setlength{\rightskip}{0pt plus 5cm}def \-\_\-\-\_\-bi.\-locals (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{namespace____bi_afa1c484906a78716f7f98752e2666fae}
+\begin{DoxyVerb}__NATIVE__
+pPmObj_t pr = C_NULL;
+PmReturn_t retval;
+
+/* If wrong number of args, raise TypeError */
+if (NATIVE_GET_NUM_ARGS() != 0)
+{
+    PM_RAISE(retval, PM_RET_EX_TYPE);
+    return retval;
+}
+
+/* Return calling frame's local attrs dict on the stack */
+pr = (pPmObj_t)NATIVE_GET_PFRAME()->fo_attrs;
+NATIVE_SET_TOS(pr);
+
+return PM_RET_OK;
+\end{DoxyVerb}
+ 
+
+Definition at line 378 of file \-\_\-\-\_\-bi.\-py.
+
+\hypertarget{namespace____bi_ad7d6a1a1a735c43396c981f33674cd48}{\index{\-\_\-\-\_\-bi@{\-\_\-\-\_\-bi}!map@{map}}
+\index{map@{map}!__bi@{\-\_\-\-\_\-bi}}
+\subsubsection[{map}]{\setlength{\rightskip}{0pt plus 5cm}def \-\_\-\-\_\-bi.\-map (
+\begin{DoxyParamCaption}
+\item[{}]{f, }
+\item[{}]{s}
+\end{DoxyParamCaption}
+)}}\label{namespace____bi_ad7d6a1a1a735c43396c981f33674cd48}
+
+
+Definition at line 399 of file \-\_\-\-\_\-bi.\-py.
+
+\hypertarget{namespace____bi_a468dd299e29007c55f9da7bf67ccb943}{\index{\-\_\-\-\_\-bi@{\-\_\-\-\_\-bi}!ord@{ord}}
+\index{ord@{ord}!__bi@{\-\_\-\-\_\-bi}}
+\subsubsection[{ord}]{\setlength{\rightskip}{0pt plus 5cm}def \-\_\-\-\_\-bi.\-ord (
+\begin{DoxyParamCaption}
+\item[{}]{s}
+\end{DoxyParamCaption}
+)}}\label{namespace____bi_a468dd299e29007c55f9da7bf67ccb943}
+\begin{DoxyVerb}__NATIVE__
+pPmObj_t ps;
+pPmObj_t pn;
+int32_t n;
+PmReturn_t retval;
+
+/* If wrong number of args, raise TypeError */
+if (NATIVE_GET_NUM_ARGS() != 1)
+{
+    PM_RAISE(retval, PM_RET_EX_TYPE);
+    return retval;
+}
+
+ps = NATIVE_GET_LOCAL(0);
+
+/* Raise TypeError if arg is not string of length 1 */
+if ((OBJ_GET_TYPE(ps) != OBJ_TYPE_STR)
+    || (((pPmString_t)ps)->length != 1))
+
+{
+    PM_RAISE(retval, PM_RET_EX_TYPE);
+    return retval;
+}
+
+/* Get integer value of character */
+n = ((pPmString_t)ps)->val[0];
+retval = int_new(n, &pn);
+NATIVE_SET_TOS(pn);
+return retval;
+\end{DoxyVerb}
+ 
+
+Definition at line 413 of file \-\_\-\-\_\-bi.\-py.
+
+\hypertarget{namespace____bi_a6d23971863e9d8073b5667bf327cd802}{\index{\-\_\-\-\_\-bi@{\-\_\-\-\_\-bi}!pow@{pow}}
+\index{pow@{pow}!__bi@{\-\_\-\-\_\-bi}}
+\subsubsection[{pow}]{\setlength{\rightskip}{0pt plus 5cm}def \-\_\-\-\_\-bi.\-pow (
+\begin{DoxyParamCaption}
+\item[{}]{x, }
+\item[{}]{y}
+\end{DoxyParamCaption}
+)}}\label{namespace____bi_a6d23971863e9d8073b5667bf327cd802}
+
+
+Definition at line 447 of file \-\_\-\-\_\-bi.\-py.
+
+\hypertarget{namespace____bi_a1040779a3e2c7ab3ab9e6f4b98f3ac3a}{\index{\-\_\-\-\_\-bi@{\-\_\-\-\_\-bi}!range@{range}}
+\index{range@{range}!__bi@{\-\_\-\-\_\-bi}}
+\subsubsection[{range}]{\setlength{\rightskip}{0pt plus 5cm}def \-\_\-\-\_\-bi.\-range (
+\begin{DoxyParamCaption}
+\item[{}]{a, }
+\item[{}]{b, }
+\item[{}]{c}
+\end{DoxyParamCaption}
+)}}\label{namespace____bi_a1040779a3e2c7ab3ab9e6f4b98f3ac3a}
+\begin{DoxyVerb}__NATIVE__
+PmReturn_t retval;
+pPmObj_t pa = C_NULL;
+pPmObj_t pb = C_NULL;
+pPmObj_t pc = C_NULL;
+pPmObj_t pi = C_NULL;
+pPmObj_t pr = C_NULL;
+int16_t i = 0;
+uint8_t objid1, objid2;
+
+switch (NATIVE_GET_NUM_ARGS())
+{
+    case 1:
+        pa = PM_ZERO;
+        pb = NATIVE_GET_LOCAL(0);
+        pc = PM_ONE;
+        break;
+
+    case 2:
+        pa = NATIVE_GET_LOCAL(0);
+        pb = NATIVE_GET_LOCAL(1);
+        pc = PM_ONE;
+        break;
+
+    case 3:
+        pa = NATIVE_GET_LOCAL(0);
+        pb = NATIVE_GET_LOCAL(1);
+        pc = NATIVE_GET_LOCAL(2);
+
+        /* If 3rd arg is 0, ValueError */
+        if (((pPmInt_t)pc)->val == 0)
+        {
+            PM_RAISE(retval, PM_RET_EX_VAL);
+            return retval;
+        }
+        break;
+
+    default:
+        /* If wrong number of args, raise TypeError */
+        PM_RAISE(retval, PM_RET_EX_TYPE);
+        return retval;
+}
+
+/* Allocate list */
+retval = list_new(&pr);
+PM_RETURN_IF_ERROR(retval);
+
+/* Iterate depending on counting direction */
+if (((pPmInt_t)pc)->val > 0)
+{
+    for (i = ((pPmInt_t)pa)->val;
+         i < ((pPmInt_t)pb)->val;
+         i += ((pPmInt_t)pc)->val)
+    {
+        heap_gcPushTempRoot(pr, &objid1);
+        retval = int_new(i, &pi);
+        if (retval != PM_RET_OK)
+        {
+            heap_gcPopTempRoot(objid1);
+            return retval;
+        }
+
+        heap_gcPushTempRoot(pi, &objid2);
+        retval = list_append(pr, pi);
+        heap_gcPopTempRoot(objid1);
+        PM_RETURN_IF_ERROR(retval);
+    }
+}
+else
+{
+    for (i = ((pPmInt_t)pa)->val;
+         i > ((pPmInt_t)pb)->val;
+         i += ((pPmInt_t)pc)->val)
+    {
+        heap_gcPushTempRoot(pr, &objid1);
+        retval = int_new(i, &pi);
+        if (retval != PM_RET_OK)
+        {
+            heap_gcPopTempRoot(objid1);
+            return retval;
+        }
+
+        heap_gcPushTempRoot(pi, &objid2);
+        retval = list_append(pr, pi);
+        heap_gcPopTempRoot(objid1);
+        PM_RETURN_IF_ERROR(retval);
+    }
+}
+
+/* Return list */
+NATIVE_SET_TOS(pr);
+return retval;
+\end{DoxyVerb}
+ 
+
+Definition at line 451 of file \-\_\-\-\_\-bi.\-py.
+
+\hypertarget{namespace____bi_a77c9daccea4eed8cb074a540cdb42c88}{\index{\-\_\-\-\_\-bi@{\-\_\-\-\_\-bi}!sum@{sum}}
+\index{sum@{sum}!__bi@{\-\_\-\-\_\-bi}}
+\subsubsection[{sum}]{\setlength{\rightskip}{0pt plus 5cm}def \-\_\-\-\_\-bi.\-sum (
+\begin{DoxyParamCaption}
+\item[{}]{s}
+\end{DoxyParamCaption}
+)}}\label{namespace____bi_a77c9daccea4eed8cb074a540cdb42c88}
+\begin{DoxyVerb}__NATIVE__
+pPmObj_t ps;
+pPmObj_t pn;
+pPmObj_t po;
+int32_t n;
+uint16_t len;
+uint16_t i;
+PmReturn_t retval;
+#ifdef HAVE_FLOAT
+float f;
+uint8_t usefloat = C_FALSE;
+#endif /* HAVE_FLOAT */
+
+/* If wrong number of args, raise TypeError */
+if (NATIVE_GET_NUM_ARGS() != 1)
+{
+    PM_RAISE(retval, PM_RET_EX_TYPE);
+    return retval;
+}
+
+/* Get the length of the sequence */
+ps = NATIVE_GET_LOCAL(0);
+if (OBJ_GET_TYPE(ps) == OBJ_TYPE_TUP)
+{
+    len = ((pPmTuple_t)ps)->length;
+}
+else if (OBJ_GET_TYPE(ps) == OBJ_TYPE_LST)
+{
+    len = ((pPmList_t)ps)->length;
+}
+
+/* Raise TypeError if arg is not a sequence */
+else
+{
+    PM_RAISE(retval, PM_RET_EX_TYPE);
+    return retval;
+}
+
+/* Calculate the sum of the sequence */
+n = 0;
+#ifdef HAVE_FLOAT
+f = 0.0;
+#endif
+for (i = 0; i < len; i++)
+{
+    retval = seq_getSubscript(ps, i, &po);
+
+    if (OBJ_GET_TYPE(po) == OBJ_TYPE_INT)
+    {
+        /* Add value to sum */
+        n += ((pPmInt_t)po)->val;
+#ifdef HAVE_FLOAT
+        f += (float)((pPmInt_t)po)->val;
+#endif /* HAVE_FLOAT */
+    }
+
+#ifdef HAVE_FLOAT
+    else if (OBJ_GET_TYPE(po) == OBJ_TYPE_FLT)
+    {
+        /* Add value to sum */
+        f += ((pPmFloat_t)po)->val;
+        usefloat = C_TRUE;
+    }
+#endif /* HAVE_FLOAT */
+
+    /* Raise TypeError if item is not an integer */
+    else
+    {
+        PM_RAISE(retval, PM_RET_EX_TYPE);
+        return retval;
+    }
+}
+
+#ifdef HAVE_FLOAT
+if (usefloat)
+{
+    retval = float_new(f, &pn);
+}
+else
+#endif /* HAVE_FLOAT */
+{
+    retval = int_new(n, &pn);
+}
+NATIVE_SET_TOS(pn);
+return retval;
+\end{DoxyVerb}
+ 
+
+Definition at line 548 of file \-\_\-\-\_\-bi.\-py.
+
+\hypertarget{namespace____bi_a25420df74fdf02ffe8bebd57c6f264d7}{\index{\-\_\-\-\_\-bi@{\-\_\-\-\_\-bi}!type@{type}}
+\index{type@{type}!__bi@{\-\_\-\-\_\-bi}}
+\subsubsection[{type}]{\setlength{\rightskip}{0pt plus 5cm}def \-\_\-\-\_\-bi.\-type (
+\begin{DoxyParamCaption}
+\item[{}]{o}
+\end{DoxyParamCaption}
+)}}\label{namespace____bi_a25420df74fdf02ffe8bebd57c6f264d7}
+\begin{DoxyVerb}__NATIVE__
+PmReturn_t retval;
+pPmObj_t po = C_NULL;
+pPmObj_t pr = C_NULL;
+
+/* If wrong number of args, raise TypeError */
+if (NATIVE_GET_NUM_ARGS() != 1)
+{
+    PM_RAISE(retval, PM_RET_EX_TYPE);
+    return retval;
+}
+
+/* Get arg */
+po = NATIVE_GET_LOCAL(0);
+
+/* Create int from type enum */
+retval = int_new(OBJ_GET_TYPE(po), &pr);
+NATIVE_SET_TOS(pr);
+return retval;
+\end{DoxyVerb}
+ 
+
+Definition at line 638 of file \-\_\-\-\_\-bi.\-py.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{namespace____bi_a93aaf40f6c01f591e7a8f2971ae812fe}{\index{\-\_\-\-\_\-bi@{\-\_\-\-\_\-bi}!\-\_\-\-\_\-name\-\_\-\-\_\-@{\-\_\-\-\_\-name\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-name\-\_\-\-\_\-@{\-\_\-\-\_\-name\-\_\-\-\_\-}!__bi@{\-\_\-\-\_\-bi}}
+\subsubsection[{\-\_\-\-\_\-name\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}string \-\_\-\-\_\-bi.\-\_\-\-\_\-name\-\_\-\-\_\- = \char`\"{}T\-B\-D\char`\"{}}}\label{namespace____bi_a93aaf40f6c01f591e7a8f2971ae812fe}
+
+
+Definition at line 710 of file \-\_\-\-\_\-bi.\-py.
+

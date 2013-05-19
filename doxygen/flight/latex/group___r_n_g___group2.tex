@@ -1,0 +1,60 @@
+\hypertarget{group___r_n_g___group2}{\section{Get 32 bit Random number function}
+\label{group___r_n_g___group2}\index{Get 32 bit Random number function@{Get 32 bit Random number function}}
+}
+
+
+Get 32 bit Random number function.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___r_n_g___group2_ga2cead4780224fd74a3fc15543c98ed36}{R\-N\-G\-\_\-\-Get\-Random\-Number} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Returns a 32-\/bit random number. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Get 32 bit Random number function. \begin{DoxyVerb} ===============================================================================
+                      Get 32 bit Random number function
+ ===============================================================================  
+  This section provides a function allowing to get the 32 bit Random number  
+  
+  @note  Before to call this function you have to wait till DRDY flag is set,
+         using RNG_GetFlagStatus(RNG_FLAG_DRDY) function. \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___r_n_g___group2_ga2cead4780224fd74a3fc15543c98ed36}{\index{Get 32 bit Random number function@{Get 32 bit Random number function}!R\-N\-G\-\_\-\-Get\-Random\-Number@{R\-N\-G\-\_\-\-Get\-Random\-Number}}
+\index{R\-N\-G\-\_\-\-Get\-Random\-Number@{R\-N\-G\-\_\-\-Get\-Random\-Number}!Get 32 bit Random number function@{Get 32 bit Random number function}}
+\subsubsection[{R\-N\-G\-\_\-\-Get\-Random\-Number}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} R\-N\-G\-\_\-\-Get\-Random\-Number (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___r_n_g___group2_ga2cead4780224fd74a3fc15543c98ed36}
+
+
+Returns a 32-\/bit random number. 
+
+\begin{DoxyNote}{Note}
+Before to call this function you have to wait till D\-R\-D\-Y (data ready) flag is set, using R\-N\-G\-\_\-\-Get\-Flag\-Status(\-R\-N\-G\-\_\-\-F\-L\-A\-G\-\_\-\-D\-R\-D\-Y) function. 
+
+Each time the the Random number data is read (using \hyperlink{group___r_n_g___group2_ga2cead4780224fd74a3fc15543c98ed36}{R\-N\-G\-\_\-\-Get\-Random\-Number()} function), the R\-N\-G\-\_\-\-F\-L\-A\-G\-\_\-\-D\-R\-D\-Y flag is automatically cleared. 
+
+In the case of a seed error, the generation of random numbers is interrupted for as long as the S\-E\-C\-S bit is '1'. If a number is available in the R\-N\-G\-\_\-\-D\-R register, it must not be used because it may not have enough entropy. In this case, it is recommended to clear the S\-E\-I\-S bit(using R\-N\-G\-\_\-\-Clear\-Flag(\-R\-N\-G\-\_\-\-F\-L\-A\-G\-\_\-\-S\-E\-C\-S) function), then disable and enable the R\-N\-G peripheral (using \hyperlink{group___r_n_g___group1_ga6c1a8372da6e8a06819903c63faecd7b}{R\-N\-G\-\_\-\-Cmd()} function) to reinitialize and restart the R\-N\-G. 
+
+In the case of a clock error, the R\-N\-G is no more able to generate random numbers because the P\-L\-L48\-C\-L\-K clock is not correct. User have to check that the clock controller is correctly configured to provide the R\-N\-G clock and clear the C\-E\-I\-S bit (using R\-N\-G\-\_\-\-Clear\-Flag(\-R\-N\-G\-\_\-\-F\-L\-A\-G\-\_\-\-C\-E\-C\-S) function) . The clock error has no impact on the previously generated random numbers, and the R\-N\-G\-\_\-\-D\-R register contents can be used.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 32-\/bit} & random number. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 177 of file stm32f4xx\-\_\-rng.\-c.
+

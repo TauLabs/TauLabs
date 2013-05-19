@@ -1,0 +1,65 @@
+var _s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b__f_s__device___driver_2inc_2usb__def_8h =
+[
+    [ "DESCRIPTOR_TYPE", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#aa5ecce547a81dd6ff168f386597d5e0b", null ],
+    [ "FEATURE_SELECTOR", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a0a9652fff1d6a867af1d7c9d12edc2ee", null ],
+    [ "RECIPIENT_TYPE", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a9afe406f27f4d7e165be4ca601acb857", null ],
+    [ "STANDARD_REQUESTS", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#ac2c5dbb6be2fcddb0a0f6e2d909903bd", null ],
+    [ "_DESCRIPTOR_TYPE", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a623e86b3f52ec5899f47f87a5ceb558a", [
+      [ "DEVICE_DESCRIPTOR", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a623e86b3f52ec5899f47f87a5ceb558aa945d0b7c0473fa3150e843f8ddb14b32", null ],
+      [ "CONFIG_DESCRIPTOR", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a623e86b3f52ec5899f47f87a5ceb558aa9078328bc7f57bb6f1aacd99d537d74b", null ],
+      [ "STRING_DESCRIPTOR", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a623e86b3f52ec5899f47f87a5ceb558aab317ab53e04ca152465741a478f21e4f", null ],
+      [ "INTERFACE_DESCRIPTOR", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a623e86b3f52ec5899f47f87a5ceb558aa0e056406c57139be822f8120abe0cef3", null ],
+      [ "ENDPOINT_DESCRIPTOR", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a623e86b3f52ec5899f47f87a5ceb558aae5d7c73a88607779b5841927eced3da2", null ],
+      [ "DEVICE_DESCRIPTOR", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a623e86b3f52ec5899f47f87a5ceb558aa945d0b7c0473fa3150e843f8ddb14b32", null ],
+      [ "CONFIG_DESCRIPTOR", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a623e86b3f52ec5899f47f87a5ceb558aa9078328bc7f57bb6f1aacd99d537d74b", null ],
+      [ "STRING_DESCRIPTOR", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a623e86b3f52ec5899f47f87a5ceb558aab317ab53e04ca152465741a478f21e4f", null ],
+      [ "INTERFACE_DESCRIPTOR", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a623e86b3f52ec5899f47f87a5ceb558aa0e056406c57139be822f8120abe0cef3", null ],
+      [ "ENDPOINT_DESCRIPTOR", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a623e86b3f52ec5899f47f87a5ceb558aae5d7c73a88607779b5841927eced3da2", null ]
+    ] ],
+    [ "_FEATURE_SELECTOR", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a5018c8948e057aaabfbf7c3da6fc23b3", [
+      [ "ENDPOINT_STALL", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a5018c8948e057aaabfbf7c3da6fc23b3a2e88b06c05f091bd82f74f4805ea3a16", null ],
+      [ "DEVICE_REMOTE_WAKEUP", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a5018c8948e057aaabfbf7c3da6fc23b3a16182205b24ef2a773482add6948ad4d", null ],
+      [ "ENDPOINT_STALL", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a5018c8948e057aaabfbf7c3da6fc23b3a2e88b06c05f091bd82f74f4805ea3a16", null ],
+      [ "DEVICE_REMOTE_WAKEUP", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a5018c8948e057aaabfbf7c3da6fc23b3a16182205b24ef2a773482add6948ad4d", null ]
+    ] ],
+    [ "_RECIPIENT_TYPE", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a772ce5a2cb37e07e7afe0cc5f5621efd", [
+      [ "DEVICE_RECIPIENT", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a772ce5a2cb37e07e7afe0cc5f5621efdaa303d0293cdb367f0cb3a1b26092b630", null ],
+      [ "INTERFACE_RECIPIENT", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a772ce5a2cb37e07e7afe0cc5f5621efda52cd1cb1db3903653f54211d12b69ab8", null ],
+      [ "ENDPOINT_RECIPIENT", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a772ce5a2cb37e07e7afe0cc5f5621efdab5007d8261db7e8fd2b840465241e494", null ],
+      [ "OTHER_RECIPIENT", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a772ce5a2cb37e07e7afe0cc5f5621efda4fdb5e02f6f6d75db7a603ccd2b772bd", null ],
+      [ "DEVICE_RECIPIENT", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a772ce5a2cb37e07e7afe0cc5f5621efdaa303d0293cdb367f0cb3a1b26092b630", null ],
+      [ "INTERFACE_RECIPIENT", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a772ce5a2cb37e07e7afe0cc5f5621efda52cd1cb1db3903653f54211d12b69ab8", null ],
+      [ "ENDPOINT_RECIPIENT", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a772ce5a2cb37e07e7afe0cc5f5621efdab5007d8261db7e8fd2b840465241e494", null ],
+      [ "OTHER_RECIPIENT", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#a772ce5a2cb37e07e7afe0cc5f5621efda4fdb5e02f6f6d75db7a603ccd2b772bd", null ]
+    ] ],
+    [ "_STANDARD_REQUESTS", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfc", [
+      [ "GET_STATUS", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfcae03c702769ae2009942c89ec72cf2852", null ],
+      [ "CLEAR_FEATURE", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca053320670633ec996cfbc45327ae1622", null ],
+      [ "RESERVED1", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca3401f88113645c341c269d49d044a020", null ],
+      [ "SET_FEATURE", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca0b993b46c953347b36ceb0f7f3631f96", null ],
+      [ "RESERVED2", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca41ae559bcd93bd57005b00f3b8cf4d3d", null ],
+      [ "SET_ADDRESS", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca4db0b0c3e46f65ee98e282974369e9ea", null ],
+      [ "GET_DESCRIPTOR", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca6695f5a50d282a945f4f1bb5e85e8dd1", null ],
+      [ "SET_DESCRIPTOR", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca035ed6e745be60c13df29a77b7b7be04", null ],
+      [ "GET_CONFIGURATION", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca92a3c4900f2065ad5f938db07891cce5", null ],
+      [ "SET_CONFIGURATION", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca18ae5638eb68ff59811e52dfeea1db89", null ],
+      [ "GET_INTERFACE", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca41dadc500e4e0a4e795d2dc5ae40d4dc", null ],
+      [ "SET_INTERFACE", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca04e1a84d5ce129e25790abe98d448599", null ],
+      [ "TOTAL_sREQUEST", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca776ca7cf295c4cae24b496c8cdf42412", null ],
+      [ "SYNCH_FRAME", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca199aa52f0817427f0a4dada87aed84ec", null ],
+      [ "GET_STATUS", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfcae03c702769ae2009942c89ec72cf2852", null ],
+      [ "CLEAR_FEATURE", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca053320670633ec996cfbc45327ae1622", null ],
+      [ "RESERVED1", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca3401f88113645c341c269d49d044a020", null ],
+      [ "SET_FEATURE", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca0b993b46c953347b36ceb0f7f3631f96", null ],
+      [ "RESERVED2", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca41ae559bcd93bd57005b00f3b8cf4d3d", null ],
+      [ "SET_ADDRESS", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca4db0b0c3e46f65ee98e282974369e9ea", null ],
+      [ "GET_DESCRIPTOR", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca6695f5a50d282a945f4f1bb5e85e8dd1", null ],
+      [ "SET_DESCRIPTOR", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca035ed6e745be60c13df29a77b7b7be04", null ],
+      [ "GET_CONFIGURATION", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca92a3c4900f2065ad5f938db07891cce5", null ],
+      [ "SET_CONFIGURATION", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca18ae5638eb68ff59811e52dfeea1db89", null ],
+      [ "GET_INTERFACE", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca41dadc500e4e0a4e795d2dc5ae40d4dc", null ],
+      [ "SET_INTERFACE", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca04e1a84d5ce129e25790abe98d448599", null ],
+      [ "TOTAL_sREQUEST", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca776ca7cf295c4cae24b496c8cdf42412", null ],
+      [ "SYNCH_FRAME", "_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__def_8h.html#afe5511beefa80c0048acf5a493edebfca199aa52f0817427f0a4dada87aed84ec", null ]
+    ] ]
+];

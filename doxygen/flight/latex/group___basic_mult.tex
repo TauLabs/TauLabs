@@ -1,0 +1,165 @@
+\hypertarget{group___basic_mult}{\section{Vector Multiplication}
+\label{group___basic_mult}\index{Vector Multiplication@{Vector Multiplication}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___basic_mult_gaca3f0b8227da431ab29225b88888aa32}{arm\-\_\-mult\-\_\-f32} (\hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Src\-A, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Src\-B, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Floating-\/point vector multiplication. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___basic_mult_gafb0778d27ed98a2a6f2ecb7d48cc8c75}{arm\-\_\-mult\-\_\-q15} (\hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Src\-A, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Src\-B, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Q15 vector multiplication. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___basic_mult_ga3528c0f54a0607acc603f0490d3ca6c6}{arm\-\_\-mult\-\_\-q31} (\hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Src\-A, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Src\-B, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Q31 vector multiplication. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___basic_mult_ga16677275ed83ff0878da531e875c27ef}{arm\-\_\-mult\-\_\-q7} (\hyperlink{arm__math_8h_ae541b6f232c305361e9b416fc9eed263}{q7\-\_\-t} $\ast$p\-Src\-A, \hyperlink{arm__math_8h_ae541b6f232c305361e9b416fc9eed263}{q7\-\_\-t} $\ast$p\-Src\-B, \hyperlink{arm__math_8h_ae541b6f232c305361e9b416fc9eed263}{q7\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Q7 vector multiplication. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Element-\/by-\/element multiplication of two vectors.
+
+
+\begin{DoxyPre}        
+    pDst[n] = pSrcA[n] * pSrcB[n],   0 <= n < blockSize.        
+\end{DoxyPre}
+
+
+There are separate functions for floating-\/point, Q7, Q15, and Q31 data types. 
+
+\subsection{Function Documentation}
+\hypertarget{group___basic_mult_gaca3f0b8227da431ab29225b88888aa32}{\index{Vector Multiplication@{Vector Multiplication}!arm\-\_\-mult\-\_\-f32@{arm\-\_\-mult\-\_\-f32}}
+\index{arm\-\_\-mult\-\_\-f32@{arm\-\_\-mult\-\_\-f32}!Vector Multiplication@{Vector Multiplication}}
+\subsubsection[{arm\-\_\-mult\-\_\-f32}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-mult\-\_\-f32 (
+\begin{DoxyParamCaption}
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Src\-A, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Src\-B, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___basic_mult_gaca3f0b8227da431ab29225b88888aa32}
+
+
+Floating-\/point vector multiplication. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Src\-A} & points to the first input vector \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src\-B} & points to the second input vector \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the output vector \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of samples in each vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none. 
+\end{DoxyReturn}
+
+
+Definition at line 71 of file arm\-\_\-mult\-\_\-f32.\-c.
+
+\hypertarget{group___basic_mult_gafb0778d27ed98a2a6f2ecb7d48cc8c75}{\index{Vector Multiplication@{Vector Multiplication}!arm\-\_\-mult\-\_\-q15@{arm\-\_\-mult\-\_\-q15}}
+\index{arm\-\_\-mult\-\_\-q15@{arm\-\_\-mult\-\_\-q15}!Vector Multiplication@{Vector Multiplication}}
+\subsubsection[{arm\-\_\-mult\-\_\-q15}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-mult\-\_\-q15 (
+\begin{DoxyParamCaption}
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Src\-A, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Src\-B, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___basic_mult_gafb0778d27ed98a2a6f2ecb7d48cc8c75}
+
+
+Q15 vector multiplication. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Src\-A} & points to the first input vector \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src\-B} & points to the second input vector \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the output vector \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of samples in each vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+{\bfseries Scaling and Overflow Behavior\-:} \begin{DoxyParagraph}{}
+The function uses saturating arithmetic. Results outside of the allowable Q15 range \mbox{[}0x8000 0x7\-F\-F\-F\mbox{]} will be saturated. 
+\end{DoxyParagraph}
+
+
+Definition at line 65 of file arm\-\_\-mult\-\_\-q15.\-c.
+
+\hypertarget{group___basic_mult_ga3528c0f54a0607acc603f0490d3ca6c6}{\index{Vector Multiplication@{Vector Multiplication}!arm\-\_\-mult\-\_\-q31@{arm\-\_\-mult\-\_\-q31}}
+\index{arm\-\_\-mult\-\_\-q31@{arm\-\_\-mult\-\_\-q31}!Vector Multiplication@{Vector Multiplication}}
+\subsubsection[{arm\-\_\-mult\-\_\-q31}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-mult\-\_\-q31 (
+\begin{DoxyParamCaption}
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Src\-A, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Src\-B, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___basic_mult_ga3528c0f54a0607acc603f0490d3ca6c6}
+
+
+Q31 vector multiplication. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Src\-A} & points to the first input vector \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src\-B} & points to the second input vector \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the output vector \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of samples in each vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+{\bfseries Scaling and Overflow Behavior\-:} \begin{DoxyParagraph}{}
+The function uses saturating arithmetic. Results outside of the allowable Q31 range\mbox{[}0x80000000 0x7\-F\-F\-F\-F\-F\-F\-F\mbox{]} will be saturated. 
+\end{DoxyParagraph}
+
+
+Definition at line 64 of file arm\-\_\-mult\-\_\-q31.\-c.
+
+\hypertarget{group___basic_mult_ga16677275ed83ff0878da531e875c27ef}{\index{Vector Multiplication@{Vector Multiplication}!arm\-\_\-mult\-\_\-q7@{arm\-\_\-mult\-\_\-q7}}
+\index{arm\-\_\-mult\-\_\-q7@{arm\-\_\-mult\-\_\-q7}!Vector Multiplication@{Vector Multiplication}}
+\subsubsection[{arm\-\_\-mult\-\_\-q7}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-mult\-\_\-q7 (
+\begin{DoxyParamCaption}
+\item[{{\bf q7\-\_\-t} $\ast$}]{p\-Src\-A, }
+\item[{{\bf q7\-\_\-t} $\ast$}]{p\-Src\-B, }
+\item[{{\bf q7\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___basic_mult_ga16677275ed83ff0878da531e875c27ef}
+
+
+Q7 vector multiplication. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Src\-A} & points to the first input vector \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src\-B} & points to the second input vector \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the output vector \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of samples in each vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+{\bfseries Scaling and Overflow Behavior\-:} \begin{DoxyParagraph}{}
+The function uses saturating arithmetic. Results outside of the allowable Q7 range \mbox{[}0x80 0x7\-F\mbox{]} will be saturated. 
+\end{DoxyParagraph}
+
+
+Definition at line 67 of file arm\-\_\-mult\-\_\-q7.\-c.
+

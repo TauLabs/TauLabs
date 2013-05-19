@@ -1,0 +1,162 @@
+\hypertarget{struct_pm_co__s}{\section{Pm\-Co\-\_\-s Struct Reference}
+\label{struct_pm_co__s}\index{Pm\-Co\-\_\-s@{Pm\-Co\-\_\-s}}
+}
+
+
+{\ttfamily \#include $<$codeobj.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{obj_8h_a72d816790acd8eb550fb25268c2b3489}{Pm\-Obj\-Desc\-\_\-t} \hyperlink{struct_pm_co__s_a352492adcc3feda753fb699d0e480726}{od}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} $\ast$ \hyperlink{struct_pm_co__s_a4d55730cf6ba1604503fad4b29473c2f}{co\-\_\-codeimgaddr}
+\item 
+\hyperlink{tuple_8h_a02fea741eaf15db9ac9f4f9ca0433ee1}{p\-Pm\-Tuple\-\_\-t} \hyperlink{struct_pm_co__s_a297d391e5506d9de5d9b9c9895c65be8}{co\-\_\-names}
+\item 
+\hyperlink{tuple_8h_a02fea741eaf15db9ac9f4f9ca0433ee1}{p\-Pm\-Tuple\-\_\-t} \hyperlink{struct_pm_co__s_a94601e99b78372bfd72227c6b975726b}{co\-\_\-consts}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} $\ast$ \hyperlink{struct_pm_co__s_a73eda27e9c1581fe81761a93ce1a528a}{co\-\_\-codeaddr}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} $\ast$ \hyperlink{struct_pm_co__s_a9a888f95ac1bda8abbbbbfda5cbce9b8}{co\-\_\-lnotab}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} $\ast$ \hyperlink{struct_pm_co__s_a2611e268836e77a080e64eaa5808a534}{co\-\_\-filename}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{struct_pm_co__s_a6614b16095590b6880f28bbec2476176}{co\-\_\-firstlineno}
+\item 
+\hyperlink{tuple_8h_a02fea741eaf15db9ac9f4f9ca0433ee1}{p\-Pm\-Tuple\-\_\-t} \hyperlink{struct_pm_co__s_a00ea6b3665f02c8e48475b50088a0517}{co\-\_\-cellvars}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct_pm_co__s_a7ef03b525c173d6bb420b9fcfd0623cc}{co\-\_\-nfreevars}
+\item 
+\hyperlink{mem_8h_a9c68f72c120fc5a782d464c144aafa2b}{Pm\-Mem\-Space\-\_\-t} \hyperlink{struct_pm_co__s_a3dffa7919c52fc3e83647ddacae4990c}{co\-\_\-memspace}\-:8
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct_pm_co__s_a14f9d2f5809e957eb6ec02290ff6ae3e}{co\-\_\-argcount}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct_pm_co__s_ae814f78d740cca9d253e46554d951b86}{co\-\_\-flags}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct_pm_co__s_a0103d66e7361b4400770442e391c2ef8}{co\-\_\-stacksize}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct_pm_co__s_ad771f7601276ae5fac9d6412d126df29}{co\-\_\-nlocals}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Code Object
+
+An extended object that holds only the most frequently used parts of the static code image. Other parts can be obtained by inspecting the code image itself. 
+
+Definition at line 73 of file codeobj.\-h.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{struct_pm_co__s_a14f9d2f5809e957eb6ec02290ff6ae3e}{\index{Pm\-Co\-\_\-s@{Pm\-Co\-\_\-s}!co\-\_\-argcount@{co\-\_\-argcount}}
+\index{co\-\_\-argcount@{co\-\_\-argcount}!PmCo_s@{Pm\-Co\-\_\-s}}
+\subsubsection[{co\-\_\-argcount}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} Pm\-Co\-\_\-s\-::co\-\_\-argcount}}\label{struct_pm_co__s_a14f9d2f5809e957eb6ec02290ff6ae3e}
+Number of positional arguments the function expects 
+
+Definition at line 105 of file codeobj.\-h.
+
+\hypertarget{struct_pm_co__s_a00ea6b3665f02c8e48475b50088a0517}{\index{Pm\-Co\-\_\-s@{Pm\-Co\-\_\-s}!co\-\_\-cellvars@{co\-\_\-cellvars}}
+\index{co\-\_\-cellvars@{co\-\_\-cellvars}!PmCo_s@{Pm\-Co\-\_\-s}}
+\subsubsection[{co\-\_\-cellvars}]{\setlength{\rightskip}{0pt plus 5cm}{\bf p\-Pm\-Tuple\-\_\-t} Pm\-Co\-\_\-s\-::co\-\_\-cellvars}}\label{struct_pm_co__s_a00ea6b3665f02c8e48475b50088a0517}
+Address in R\-A\-M of cellvars tuple 
+
+Definition at line 97 of file codeobj.\-h.
+
+\hypertarget{struct_pm_co__s_a73eda27e9c1581fe81761a93ce1a528a}{\index{Pm\-Co\-\_\-s@{Pm\-Co\-\_\-s}!co\-\_\-codeaddr@{co\-\_\-codeaddr}}
+\index{co\-\_\-codeaddr@{co\-\_\-codeaddr}!PmCo_s@{Pm\-Co\-\_\-s}}
+\subsubsection[{co\-\_\-codeaddr}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} {\bf const}$\ast$ Pm\-Co\-\_\-s\-::co\-\_\-codeaddr}}\label{struct_pm_co__s_a73eda27e9c1581fe81761a93ce1a528a}
+Address in memspace of bytecode (or native function) 
+
+Definition at line 84 of file codeobj.\-h.
+
+\hypertarget{struct_pm_co__s_a4d55730cf6ba1604503fad4b29473c2f}{\index{Pm\-Co\-\_\-s@{Pm\-Co\-\_\-s}!co\-\_\-codeimgaddr@{co\-\_\-codeimgaddr}}
+\index{co\-\_\-codeimgaddr@{co\-\_\-codeimgaddr}!PmCo_s@{Pm\-Co\-\_\-s}}
+\subsubsection[{co\-\_\-codeimgaddr}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} {\bf const}$\ast$ Pm\-Co\-\_\-s\-::co\-\_\-codeimgaddr}}\label{struct_pm_co__s_a4d55730cf6ba1604503fad4b29473c2f}
+Address in progmem of the code image, or of code img obj in heap 
+
+Definition at line 78 of file codeobj.\-h.
+
+\hypertarget{struct_pm_co__s_a94601e99b78372bfd72227c6b975726b}{\index{Pm\-Co\-\_\-s@{Pm\-Co\-\_\-s}!co\-\_\-consts@{co\-\_\-consts}}
+\index{co\-\_\-consts@{co\-\_\-consts}!PmCo_s@{Pm\-Co\-\_\-s}}
+\subsubsection[{co\-\_\-consts}]{\setlength{\rightskip}{0pt plus 5cm}{\bf p\-Pm\-Tuple\-\_\-t} Pm\-Co\-\_\-s\-::co\-\_\-consts}}\label{struct_pm_co__s_a94601e99b78372bfd72227c6b975726b}
+Address in R\-A\-M of constants tuple 
+
+Definition at line 82 of file codeobj.\-h.
+
+\hypertarget{struct_pm_co__s_a2611e268836e77a080e64eaa5808a534}{\index{Pm\-Co\-\_\-s@{Pm\-Co\-\_\-s}!co\-\_\-filename@{co\-\_\-filename}}
+\index{co\-\_\-filename@{co\-\_\-filename}!PmCo_s@{Pm\-Co\-\_\-s}}
+\subsubsection[{co\-\_\-filename}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} {\bf const}$\ast$ Pm\-Co\-\_\-s\-::co\-\_\-filename}}\label{struct_pm_co__s_a2611e268836e77a080e64eaa5808a534}
+Address in memspace of the filename 
+
+Definition at line 90 of file codeobj.\-h.
+
+\hypertarget{struct_pm_co__s_a6614b16095590b6880f28bbec2476176}{\index{Pm\-Co\-\_\-s@{Pm\-Co\-\_\-s}!co\-\_\-firstlineno@{co\-\_\-firstlineno}}
+\index{co\-\_\-firstlineno@{co\-\_\-firstlineno}!PmCo_s@{Pm\-Co\-\_\-s}}
+\subsubsection[{co\-\_\-firstlineno}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} Pm\-Co\-\_\-s\-::co\-\_\-firstlineno}}\label{struct_pm_co__s_a6614b16095590b6880f28bbec2476176}
+Line number of first source line of lnotab 
+
+Definition at line 92 of file codeobj.\-h.
+
+\hypertarget{struct_pm_co__s_ae814f78d740cca9d253e46554d951b86}{\index{Pm\-Co\-\_\-s@{Pm\-Co\-\_\-s}!co\-\_\-flags@{co\-\_\-flags}}
+\index{co\-\_\-flags@{co\-\_\-flags}!PmCo_s@{Pm\-Co\-\_\-s}}
+\subsubsection[{co\-\_\-flags}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} Pm\-Co\-\_\-s\-::co\-\_\-flags}}\label{struct_pm_co__s_ae814f78d740cca9d253e46554d951b86}
+Compiler flags 
+
+Definition at line 107 of file codeobj.\-h.
+
+\hypertarget{struct_pm_co__s_a9a888f95ac1bda8abbbbbfda5cbce9b8}{\index{Pm\-Co\-\_\-s@{Pm\-Co\-\_\-s}!co\-\_\-lnotab@{co\-\_\-lnotab}}
+\index{co\-\_\-lnotab@{co\-\_\-lnotab}!PmCo_s@{Pm\-Co\-\_\-s}}
+\subsubsection[{co\-\_\-lnotab}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} {\bf const}$\ast$ Pm\-Co\-\_\-s\-::co\-\_\-lnotab}}\label{struct_pm_co__s_a9a888f95ac1bda8abbbbbfda5cbce9b8}
+Address in memspace of the line number table 
+
+Definition at line 88 of file codeobj.\-h.
+
+\hypertarget{struct_pm_co__s_a3dffa7919c52fc3e83647ddacae4990c}{\index{Pm\-Co\-\_\-s@{Pm\-Co\-\_\-s}!co\-\_\-memspace@{co\-\_\-memspace}}
+\index{co\-\_\-memspace@{co\-\_\-memspace}!PmCo_s@{Pm\-Co\-\_\-s}}
+\subsubsection[{co\-\_\-memspace}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Mem\-Space\-\_\-t} Pm\-Co\-\_\-s\-::co\-\_\-memspace}}\label{struct_pm_co__s_a3dffa7919c52fc3e83647ddacae4990c}
+Memory space selector 
+
+Definition at line 103 of file codeobj.\-h.
+
+\hypertarget{struct_pm_co__s_a297d391e5506d9de5d9b9c9895c65be8}{\index{Pm\-Co\-\_\-s@{Pm\-Co\-\_\-s}!co\-\_\-names@{co\-\_\-names}}
+\index{co\-\_\-names@{co\-\_\-names}!PmCo_s@{Pm\-Co\-\_\-s}}
+\subsubsection[{co\-\_\-names}]{\setlength{\rightskip}{0pt plus 5cm}{\bf p\-Pm\-Tuple\-\_\-t} Pm\-Co\-\_\-s\-::co\-\_\-names}}\label{struct_pm_co__s_a297d391e5506d9de5d9b9c9895c65be8}
+Address in R\-A\-M of names tuple 
+
+Definition at line 80 of file codeobj.\-h.
+
+\hypertarget{struct_pm_co__s_a7ef03b525c173d6bb420b9fcfd0623cc}{\index{Pm\-Co\-\_\-s@{Pm\-Co\-\_\-s}!co\-\_\-nfreevars@{co\-\_\-nfreevars}}
+\index{co\-\_\-nfreevars@{co\-\_\-nfreevars}!PmCo_s@{Pm\-Co\-\_\-s}}
+\subsubsection[{co\-\_\-nfreevars}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} Pm\-Co\-\_\-s\-::co\-\_\-nfreevars}}\label{struct_pm_co__s_a7ef03b525c173d6bb420b9fcfd0623cc}
+Number of freevars 
+
+Definition at line 99 of file codeobj.\-h.
+
+\hypertarget{struct_pm_co__s_ad771f7601276ae5fac9d6412d126df29}{\index{Pm\-Co\-\_\-s@{Pm\-Co\-\_\-s}!co\-\_\-nlocals@{co\-\_\-nlocals}}
+\index{co\-\_\-nlocals@{co\-\_\-nlocals}!PmCo_s@{Pm\-Co\-\_\-s}}
+\subsubsection[{co\-\_\-nlocals}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} Pm\-Co\-\_\-s\-::co\-\_\-nlocals}}\label{struct_pm_co__s_ad771f7601276ae5fac9d6412d126df29}
+Number of local variables 
+
+Definition at line 111 of file codeobj.\-h.
+
+\hypertarget{struct_pm_co__s_a0103d66e7361b4400770442e391c2ef8}{\index{Pm\-Co\-\_\-s@{Pm\-Co\-\_\-s}!co\-\_\-stacksize@{co\-\_\-stacksize}}
+\index{co\-\_\-stacksize@{co\-\_\-stacksize}!PmCo_s@{Pm\-Co\-\_\-s}}
+\subsubsection[{co\-\_\-stacksize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} Pm\-Co\-\_\-s\-::co\-\_\-stacksize}}\label{struct_pm_co__s_a0103d66e7361b4400770442e391c2ef8}
+Stack size 
+
+Definition at line 109 of file codeobj.\-h.
+
+\hypertarget{struct_pm_co__s_a352492adcc3feda753fb699d0e480726}{\index{Pm\-Co\-\_\-s@{Pm\-Co\-\_\-s}!od@{od}}
+\index{od@{od}!PmCo_s@{Pm\-Co\-\_\-s}}
+\subsubsection[{od}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Obj\-Desc\-\_\-t} Pm\-Co\-\_\-s\-::od}}\label{struct_pm_co__s_a352492adcc3feda753fb699d0e480726}
+Object descriptor 
+
+Definition at line 76 of file codeobj.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/\hyperlink{codeobj_8h}{codeobj.\-h}\end{DoxyCompactItemize}

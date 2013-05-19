@@ -1,0 +1,424 @@
+\hypertarget{group___r_c_c___group2}{\section{System A\-H\-B, A\-P\-B1 and A\-P\-B2 busses clocks configuration functions}
+\label{group___r_c_c___group2}\index{System A\-H\-B, A\-P\-B1 and A\-P\-B2 busses clocks configuration functions@{System A\-H\-B, A\-P\-B1 and A\-P\-B2 busses clocks configuration functions}}
+}
+
+
+System, A\-H\-B and A\-P\-B busses clocks configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_c_c___group2_ga3551a36a8f0a3dc96a74d6b939048337}{R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-Config} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-Source)
+\begin{DoxyCompactList}\small\item\em Configures the system clock (S\-Y\-S\-C\-L\-K). \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___r_c_c___group2_gaaeb32311c208b2a980841c9c884a41ea}{R\-C\-C\-\_\-\-Get\-S\-Y\-S\-C\-L\-K\-Source} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Returns the clock source used as system clock. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_c_c___group2_ga9d0aec72e236c6cdf3a3a82dfb525491}{R\-C\-C\-\_\-\-H\-C\-L\-K\-Config} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K)
+\begin{DoxyCompactList}\small\item\em Configures the A\-H\-B clock (H\-C\-L\-K). \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_c_c___group2_ga448137346d4292985d4e7a61dd1a824f}{R\-C\-C\-\_\-\-P\-C\-L\-K1\-Config} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} R\-C\-C\-\_\-\-H\-C\-L\-K)
+\begin{DoxyCompactList}\small\item\em Configures the Low Speed A\-P\-B clock (P\-C\-L\-K1). \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_c_c___group2_ga09f9c010a4adca9e036da42c2ca6126a}{R\-C\-C\-\_\-\-P\-C\-L\-K2\-Config} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} R\-C\-C\-\_\-\-H\-C\-L\-K)
+\begin{DoxyCompactList}\small\item\em Configures the High Speed A\-P\-B clock (P\-C\-L\-K2). \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_c_c___group2_ga3e9944fd1ed734275222bbb3e3f29993}{R\-C\-C\-\_\-\-Get\-Clocks\-Freq} (R\-C\-C\-\_\-\-Clocks\-Type\-Def $\ast$R\-C\-C\-\_\-\-Clocks)
+\begin{DoxyCompactList}\small\item\em Returns the frequencies of the System, A\-H\-B, A\-P\-B2 and A\-P\-B1 busses clocks. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+System, A\-H\-B and A\-P\-B busses clocks configuration functions. \begin{DoxyVerb} ===============================================================================
+  ##### System, AHB, APB1 and APB2 busses clocks configuration functions #####
+ ===============================================================================  
+    [..] This section provide functions allowing to configure the System, AHB, APB1 and 
+         APB2 busses clocks.
+         (#) Several clock sources can be used to drive the System clock (SYSCLK): HSI,
+             HSE and PLL.
+             The AHB clock (HCLK) is derived from System clock through configurable prescaler
+             and used to clock the CPU, memory and peripherals mapped on AHB bus (DMA and GPIO).
+             APB1 (PCLK1) and APB2 (PCLK2) clocks are derived from AHB clock through 
+             configurable prescalers and used to clock the peripherals mapped on these busses.
+             You can use "RCC_GetClocksFreq()" function to retrieve the frequencies of these clocks.
+
+         (#) The maximum frequency of the SYSCLK, HCLK, PCLK1 and PCLK2 is 72 MHz.
+             Depending on the maximum frequency, the FLASH wait states (WS) should be 
+             adapted accordingly:
+        +---------------------------------+
+        |  Wait states  |   HCLK clock    |
+        |   (Latency)   | frequency (MHz) |
+        |-------------- |-----------------|             
+        |0WS(1CPU cycle)| 0 < HCLK <= 24  |
+        |---------------|-----------------| 
+        |1WS(2CPU cycle)|24 < HCLK <=48   |
+        |---------------|-----------------| 
+        |2WS(3CPU cycle)|48 < HCLK <= 72  |
+        +---------------------------------+
+
+         (#) After reset, the System clock source is the HSI (8 MHz) with 0 WS and 
+             prefetch is disabled.
+        [..]
+         (@) All the peripheral clocks are derived from the System clock (SYSCLK) 
+             except:
+             (+@) The FLASH program/erase clock  which is always HSI 8MHz clock.
+             (+@) The USB 48 MHz clock which is derived from the PLL VCO clock.
+             (+@) The USART clock which can be derived as well from HSI 8MHz, LSI or LSE.
+             (+@) The I2C clock which can be derived as well from HSI 8MHz clock.
+             (+@) The ADC clock which is derived from PLL output.
+             (+@) The RTC clock which is derived from the LSE, LSI or 1 MHz HSE_RTC 
+                  (HSE divided by a programmable prescaler). The System clock (SYSCLK) 
+                  frequency must be higher or equal to the RTC clock frequency.
+             (+@) IWDG clock which is always the LSI clock.
+    [..] It is recommended to use the following software sequences to tune the number
+         of wait states needed to access the Flash memory with the CPU frequency (HCLK).
+         (+) Increasing the CPU frequency
+            (++) Program the Flash Prefetch buffer, using "FLASH_PrefetchBufferCmd(ENABLE)" 
+                 function
+            (++) Check that Flash Prefetch buffer activation is taken into account by 
+                 reading FLASH_ACR using the FLASH_GetPrefetchBufferStatus() function
+            (++) Program Flash WS to 1 or 2, using "FLASH_SetLatency()" function
+            (++) Check that the new number of WS is taken into account by reading FLASH_ACR
+            (++) Modify the CPU clock source, using "RCC_SYSCLKConfig()" function
+            (++) If needed, modify the CPU clock prescaler by using "RCC_HCLKConfig()" function
+            (++) Check that the new CPU clock source is taken into account by reading 
+                 the clock source status, using "RCC_GetSYSCLKSource()" function 
+         (+) Decreasing the CPU frequency
+            (++) Modify the CPU clock source, using "RCC_SYSCLKConfig()" function
+            (++) If needed, modify the CPU clock prescaler by using "RCC_HCLKConfig()" function
+            (++) Check that the new CPU clock source is taken into account by reading 
+                 the clock source status, using "RCC_GetSYSCLKSource()" function
+            (++) Program the new number of WS, using "FLASH_SetLatency()" function
+            (++) Check that the new number of WS is taken into account by reading FLASH_ACR
+            (++) Disable the Flash Prefetch buffer using "FLASH_PrefetchBufferCmd(DISABLE)" 
+                 function
+            (++) Check that Flash Prefetch buffer deactivation is taken into account by reading FLASH_ACR
+                 using the FLASH_GetPrefetchBufferStatus() function.\end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+             System, AHB and APB busses clocks configuration functions
+ ===============================================================================  
+
+  This section provide functions allowing to configure the System, AHB, APB1 and 
+  APB2 busses clocks.
+  
+  1. Several clock sources can be used to drive the System clock (SYSCLK): HSI,
+     HSE and PLL.
+     The AHB clock (HCLK) is derived from System clock through configurable prescaler
+     and used to clock the CPU, memory and peripherals mapped on AHB bus (DMA, GPIO...).
+     APB1 (PCLK1) and APB2 (PCLK2) clocks are derived from AHB clock through 
+     configurable prescalers and used to clock the peripherals mapped on these busses.
+     You can use "RCC_GetClocksFreq()" function to retrieve the frequencies of these clocks.  
+
+@note All the peripheral clocks are derived from the System clock (SYSCLK) except:
+       - I2S: the I2S clock can be derived either from a specific PLL (PLLI2S) or
+          from an external clock mapped on the I2S_CKIN pin. 
+          You have to use RCC_I2SCLKConfig() function to configure this clock. 
+       - RTC: the RTC clock can be derived either from the LSI, LSE or HSE clock
+          divided by 2 to 31. You have to use RCC_RTCCLKConfig() and RCC_RTCCLKCmd()
+          functions to configure this clock. 
+       - USB OTG FS, SDIO and RTC: USB OTG FS require a frequency equal to 48 MHz
+          to work correctly, while the SDIO require a frequency equal or lower than
+          to 48. This clock is derived of the main PLL through PLLQ divider.
+       - IWDG clock which is always the LSI clock.
+       
+  2. The maximum frequency of the SYSCLK and HCLK is 168 MHz, PCLK2 82 MHz and PCLK1 42 MHz.
+     Depending on the device voltage range, the maximum frequency should be 
+     adapted accordingly:
+ +-------------------------------------------------------------------------------------+     
+ | Latency       |                HCLK clock frequency (MHz)                           |
+ |               |---------------------------------------------------------------------|     
+ |               | voltage range  | voltage range  | voltage range   | voltage range   |
+ |               | 2.7 V - 3.6 V  | 2.4 V - 2.7 V  | 2.1 V - 2.4 V   | 1.8 V - 2.1 V   |
+ |---------------|----------------|----------------|-----------------|-----------------|              
+ |0WS(1CPU cycle)|0 < HCLK <= 30  |0 < HCLK <= 24  |0 < HCLK <= 18   |0 < HCLK <= 16   |
+ |---------------|----------------|----------------|-----------------|-----------------|   
+ |1WS(2CPU cycle)|30 < HCLK <= 60 |24 < HCLK <= 48 |18 < HCLK <= 36  |16 < HCLK <= 32  | 
+ |---------------|----------------|----------------|-----------------|-----------------|   
+ |2WS(3CPU cycle)|60 < HCLK <= 90 |48 < HCLK <= 72 |36 < HCLK <= 54  |32 < HCLK <= 48  |
+ |---------------|----------------|----------------|-----------------|-----------------| 
+ |3WS(4CPU cycle)|90 < HCLK <= 120|72 < HCLK <= 96 |54 < HCLK <= 72  |48 < HCLK <= 64  |
+ |---------------|----------------|----------------|-----------------|-----------------| 
+ |4WS(5CPU cycle)|120< HCLK <= 150|96 < HCLK <= 120|72 < HCLK <= 90  |64 < HCLK <= 80  |
+ |---------------|----------------|----------------|-----------------|-----------------| 
+ |5WS(6CPU cycle)|120< HCLK <= 168|120< HCLK <= 144|90 < HCLK <= 108 |80 < HCLK <= 96  | 
+ |---------------|----------------|----------------|-----------------|-----------------| 
+ |6WS(7CPU cycle)|      NA        |144< HCLK <= 168|108 < HCLK <= 120|96 < HCLK <= 112 | 
+ |---------------|----------------|----------------|-----------------|-----------------| 
+ |7WS(8CPU cycle)|      NA        |      NA        |120 < HCLK <= 138|112 < HCLK <= 120| 
+ +-------------------------------------------------------------------------------------+    
+   @note When VOS bit (in PWR_CR register) is reset to '0’, the maximum value of HCLK is 144 MHz.
+         You can use PWR_MainRegulatorModeConfig() function to set or reset this bit.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___r_c_c___group2_ga3e9944fd1ed734275222bbb3e3f29993}{\index{System A\-H\-B, A\-P\-B1 and A\-P\-B2 busses clocks configuration functions@{System A\-H\-B, A\-P\-B1 and A\-P\-B2 busses clocks configuration functions}!R\-C\-C\-\_\-\-Get\-Clocks\-Freq@{R\-C\-C\-\_\-\-Get\-Clocks\-Freq}}
+\index{R\-C\-C\-\_\-\-Get\-Clocks\-Freq@{R\-C\-C\-\_\-\-Get\-Clocks\-Freq}!System AHB, APB1 and APB2 busses clocks configuration functions@{System A\-H\-B, A\-P\-B1 and A\-P\-B2 busses clocks configuration functions}}
+\subsubsection[{R\-C\-C\-\_\-\-Get\-Clocks\-Freq}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} R\-C\-C\-\_\-\-Get\-Clocks\-Freq (
+\begin{DoxyParamCaption}
+\item[{R\-C\-C\-\_\-\-Clocks\-Type\-Def $\ast$}]{R\-C\-C\-\_\-\-Clocks}
+\end{DoxyParamCaption}
+)}}\label{group___r_c_c___group2_ga3e9944fd1ed734275222bbb3e3f29993}
+
+
+Returns the frequencies of the System, A\-H\-B, A\-P\-B2 and A\-P\-B1 busses clocks. 
+
+Returns the frequencies of different on chip clocks.
+
+Returns the frequencies of different on chip clocks; S\-Y\-S\-C\-L\-K, H\-C\-L\-K, P\-C\-L\-K1 and P\-C\-L\-K2.
+
+\begin{DoxyNote}{Note}
+This function returns the frequencies of \-: System, A\-H\-B, A\-P\-B2 and A\-P\-B1 busses clocks, A\-D\-C1/2/3/4 clocks, U\-S\-A\-R\-T1/2/3/4/5 clocks, I2\-C1/2 clocks and T\-I\-M1/8 Clocks.
+
+The frequency returned by this function is not the real frequency in the chip. It is calculated based on the predefined constant and the source selected by \hyperlink{group___r_c_c___exported___functions_ga3551a36a8f0a3dc96a74d6b939048337}{R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-Config()}.
+
+If S\-Y\-S\-C\-L\-K source is H\-S\-I, function returns constant H\-S\-I\-\_\-\-V\-A\-L\-U\-E($\ast$)
+
+If S\-Y\-S\-C\-L\-K source is H\-S\-E, function returns constant H\-S\-E\-\_\-\-V\-A\-L\-U\-E($\ast$$\ast$)
+
+If S\-Y\-S\-C\-L\-K source is P\-L\-L, function returns constant H\-S\-E\-\_\-\-V\-A\-L\-U\-E($\ast$$\ast$) or H\-S\-I\-\_\-\-V\-A\-L\-U\-E($\ast$) multiplied by the P\-L\-L factors.
+
+($\ast$) H\-S\-I\-\_\-\-V\-A\-L\-U\-E is a constant defined in \hyperlink{stm32f30x_8h}{stm32f30x.\-h} file (default value 8 M\-Hz) but the real value may vary depending on the variations in voltage and temperature, refer to \hyperlink{group___r_c_c___exported___functions_gaa2d6a35f5c2e0f86317c3beb222677fc}{R\-C\-C\-\_\-\-Adjust\-H\-S\-I\-Calibration\-Value()}.
+
+($\ast$$\ast$) H\-S\-E\-\_\-\-V\-A\-L\-U\-E is a constant defined in \hyperlink{stm32f30x_8h}{stm32f30x.\-h} file (default value 8 M\-Hz), user has to ensure that H\-S\-E\-\_\-\-V\-A\-L\-U\-E is same as the real frequency of the crystal used. Otherwise, this function may return wrong result.
+
+The result of this function could be not correct when using fractional value for H\-S\-E crystal.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em R\-C\-C\-\_\-\-Clocks,\-:} & pointer to a R\-C\-C\-\_\-\-Clocks\-Type\-Def structure which will hold the clocks frequencies.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This function can be used by the user application to compute the baudrate for the communication peripherals or configure other parameters. 
+
+Each time S\-Y\-S\-C\-L\-K, H\-C\-L\-K, P\-C\-L\-K1 and/or P\-C\-L\-K2 clock changes, this function must be called to update the structure's field. Otherwise, any configuration based on this function will be incorrect.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\begin{DoxyNote}{Note}
+The system frequency computed by this function is not the real frequency in the chip. It is calculated based on the predefined constant and the selected clock source\-: 
+
+If S\-Y\-S\-C\-L\-K source is H\-S\-I, function returns values based on H\-S\-I\-\_\-\-V\-A\-L\-U\-E($\ast$) 
+
+If S\-Y\-S\-C\-L\-K source is H\-S\-E, function returns values based on H\-S\-E\-\_\-\-V\-A\-L\-U\-E($\ast$$\ast$) 
+
+If S\-Y\-S\-C\-L\-K source is P\-L\-L, function returns values based on H\-S\-E\-\_\-\-V\-A\-L\-U\-E($\ast$$\ast$) or H\-S\-I\-\_\-\-V\-A\-L\-U\-E($\ast$) multiplied/divided by the P\-L\-L factors. 
+
+($\ast$) H\-S\-I\-\_\-\-V\-A\-L\-U\-E is a constant defined in \hyperlink{stm32f4xx_8h}{stm32f4xx.\-h} file (default value 16 M\-Hz) but the real value may vary depending on the variations in voltage and temperature. 
+
+($\ast$$\ast$) H\-S\-E\-\_\-\-V\-A\-L\-U\-E is a constant defined in \hyperlink{stm32f4xx_8h}{stm32f4xx.\-h} file (default value 25 M\-Hz), user has to ensure that H\-S\-E\-\_\-\-V\-A\-L\-U\-E is same as the real frequency of the crystal used. Otherwise, this function may have wrong result.
+
+The result of this function could be not correct when using fractional value for H\-S\-E crystal.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em R\-C\-C\-\_\-\-Clocks,\-:} & pointer to a R\-C\-C\-\_\-\-Clocks\-Type\-Def structure which will hold the clocks frequencies.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This function can be used by the user application to compute the baudrate for the communication peripherals or configure other parameters. 
+
+Each time S\-Y\-S\-C\-L\-K, H\-C\-L\-K, P\-C\-L\-K1 and/or P\-C\-L\-K2 clock changes, this function must be called to update the structure's field. Otherwise, any configuration based on this function will be incorrect.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 795 of file stm32f30x\-\_\-rcc.\-c.
+
+\hypertarget{group___r_c_c___group2_gaaeb32311c208b2a980841c9c884a41ea}{\index{System A\-H\-B, A\-P\-B1 and A\-P\-B2 busses clocks configuration functions@{System A\-H\-B, A\-P\-B1 and A\-P\-B2 busses clocks configuration functions}!R\-C\-C\-\_\-\-Get\-S\-Y\-S\-C\-L\-K\-Source@{R\-C\-C\-\_\-\-Get\-S\-Y\-S\-C\-L\-K\-Source}}
+\index{R\-C\-C\-\_\-\-Get\-S\-Y\-S\-C\-L\-K\-Source@{R\-C\-C\-\_\-\-Get\-S\-Y\-S\-C\-L\-K\-Source}!System AHB, APB1 and APB2 busses clocks configuration functions@{System A\-H\-B, A\-P\-B1 and A\-P\-B2 busses clocks configuration functions}}
+\subsubsection[{R\-C\-C\-\_\-\-Get\-S\-Y\-S\-C\-L\-K\-Source}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} R\-C\-C\-\_\-\-Get\-S\-Y\-S\-C\-L\-K\-Source (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___r_c_c___group2_gaaeb32311c208b2a980841c9c884a41ea}
+
+
+Returns the clock source used as system clock. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & clock source used as system clock. The returned value can be one of the following values\-:
+\begin{DoxyItemize}
+\item 0x00\-: H\-S\-I used as system clock
+\item 0x04\-: H\-S\-E used as system clock
+\item 0x08\-: P\-L\-L used as system clock
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & clock source used as system clock. The returned value can be one of the following\-:
+\begin{DoxyItemize}
+\item 0x00\-: H\-S\-I used as system clock
+\item 0x04\-: H\-S\-E used as system clock
+\item 0x08\-: P\-L\-L used as system clock 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 652 of file stm32f30x\-\_\-rcc.\-c.
+
+\hypertarget{group___r_c_c___group2_ga9d0aec72e236c6cdf3a3a82dfb525491}{\index{System A\-H\-B, A\-P\-B1 and A\-P\-B2 busses clocks configuration functions@{System A\-H\-B, A\-P\-B1 and A\-P\-B2 busses clocks configuration functions}!R\-C\-C\-\_\-\-H\-C\-L\-K\-Config@{R\-C\-C\-\_\-\-H\-C\-L\-K\-Config}}
+\index{R\-C\-C\-\_\-\-H\-C\-L\-K\-Config@{R\-C\-C\-\_\-\-H\-C\-L\-K\-Config}!System AHB, APB1 and APB2 busses clocks configuration functions@{System A\-H\-B, A\-P\-B1 and A\-P\-B2 busses clocks configuration functions}}
+\subsubsection[{R\-C\-C\-\_\-\-H\-C\-L\-K\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} R\-C\-C\-\_\-\-H\-C\-L\-K\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K}
+\end{DoxyParamCaption}
+)}}\label{group___r_c_c___group2_ga9d0aec72e236c6cdf3a3a82dfb525491}
+
+
+Configures the A\-H\-B clock (H\-C\-L\-K). 
+
+\begin{DoxyNote}{Note}
+Depending on the device voltage range, the software has to set correctly these bits to ensure that the system frequency does not exceed the maximum allowed frequency (for more details refer to section above \char`\"{}\-C\-P\-U, A\-H\-B and A\-P\-B busses clocks configuration functions\char`\"{}). 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K,\-:} & defines the A\-H\-B clock divider. This clock is derived from the system clock (S\-Y\-S\-C\-L\-K). This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-\_\-\-Div1\-: A\-H\-B clock = S\-Y\-S\-C\-L\-K \item R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-\_\-\-Div2\-: A\-H\-B clock = S\-Y\-S\-C\-L\-K/2 \item R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-\_\-\-Div4\-: A\-H\-B clock = S\-Y\-S\-C\-L\-K/4 \item R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-\_\-\-Div8\-: A\-H\-B clock = S\-Y\-S\-C\-L\-K/8 \item R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-\_\-\-Div16\-: A\-H\-B clock = S\-Y\-S\-C\-L\-K/16 \item R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-\_\-\-Div64\-: A\-H\-B clock = S\-Y\-S\-C\-L\-K/64 \item R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-\_\-\-Div128\-: A\-H\-B clock = S\-Y\-S\-C\-L\-K/128 \item R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-\_\-\-Div256\-: A\-H\-B clock = S\-Y\-S\-C\-L\-K/256 \item R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-\_\-\-Div512\-: A\-H\-B clock = S\-Y\-S\-C\-L\-K/512 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\begin{DoxyNote}{Note}
+Depending on the device voltage range, the software has to set correctly these bits to ensure that H\-C\-L\-K not exceed the maximum allowed frequency (for more details refer to section above \char`\"{}\-C\-P\-U, A\-H\-B and A\-P\-B busses clocks configuration functions\char`\"{}) 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K,\-:} & defines the A\-H\-B clock divider. This clock is derived from the system clock (S\-Y\-S\-C\-L\-K). This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-\_\-\-Div1\-: A\-H\-B clock = S\-Y\-S\-C\-L\-K \item R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-\_\-\-Div2\-: A\-H\-B clock = S\-Y\-S\-C\-L\-K/2 \item R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-\_\-\-Div4\-: A\-H\-B clock = S\-Y\-S\-C\-L\-K/4 \item R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-\_\-\-Div8\-: A\-H\-B clock = S\-Y\-S\-C\-L\-K/8 \item R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-\_\-\-Div16\-: A\-H\-B clock = S\-Y\-S\-C\-L\-K/16 \item R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-\_\-\-Div64\-: A\-H\-B clock = S\-Y\-S\-C\-L\-K/64 \item R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-\_\-\-Div128\-: A\-H\-B clock = S\-Y\-S\-C\-L\-K/128 \item R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-\_\-\-Div256\-: A\-H\-B clock = S\-Y\-S\-C\-L\-K/256 \item R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-\_\-\-Div512\-: A\-H\-B clock = S\-Y\-S\-C\-L\-K/512 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 677 of file stm32f30x\-\_\-rcc.\-c.
+
+\hypertarget{group___r_c_c___group2_ga448137346d4292985d4e7a61dd1a824f}{\index{System A\-H\-B, A\-P\-B1 and A\-P\-B2 busses clocks configuration functions@{System A\-H\-B, A\-P\-B1 and A\-P\-B2 busses clocks configuration functions}!R\-C\-C\-\_\-\-P\-C\-L\-K1\-Config@{R\-C\-C\-\_\-\-P\-C\-L\-K1\-Config}}
+\index{R\-C\-C\-\_\-\-P\-C\-L\-K1\-Config@{R\-C\-C\-\_\-\-P\-C\-L\-K1\-Config}!System AHB, APB1 and APB2 busses clocks configuration functions@{System A\-H\-B, A\-P\-B1 and A\-P\-B2 busses clocks configuration functions}}
+\subsubsection[{R\-C\-C\-\_\-\-P\-C\-L\-K1\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} R\-C\-C\-\_\-\-P\-C\-L\-K1\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{R\-C\-C\-\_\-\-H\-C\-L\-K}
+\end{DoxyParamCaption}
+)}}\label{group___r_c_c___group2_ga448137346d4292985d4e7a61dd1a824f}
+
+
+Configures the Low Speed A\-P\-B clock (P\-C\-L\-K1). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\-C\-C\-\_\-\-H\-C\-L\-K,\-:} & defines the A\-P\-B1 clock divider. This clock is derived from the A\-H\-B clock (H\-C\-L\-K). This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item R\-C\-C\-\_\-\-H\-C\-L\-K\-\_\-\-Div1\-: A\-P\-B1 clock = H\-C\-L\-K \item R\-C\-C\-\_\-\-H\-C\-L\-K\-\_\-\-Div2\-: A\-P\-B1 clock = H\-C\-L\-K/2 \item R\-C\-C\-\_\-\-H\-C\-L\-K\-\_\-\-Div4\-: A\-P\-B1 clock = H\-C\-L\-K/4 \item R\-C\-C\-\_\-\-H\-C\-L\-K\-\_\-\-Div8\-: A\-P\-B1 clock = H\-C\-L\-K/8 \item R\-C\-C\-\_\-\-H\-C\-L\-K\-\_\-\-Div16\-: A\-P\-B1 clock = H\-C\-L\-K/16 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 708 of file stm32f30x\-\_\-rcc.\-c.
+
+\hypertarget{group___r_c_c___group2_ga09f9c010a4adca9e036da42c2ca6126a}{\index{System A\-H\-B, A\-P\-B1 and A\-P\-B2 busses clocks configuration functions@{System A\-H\-B, A\-P\-B1 and A\-P\-B2 busses clocks configuration functions}!R\-C\-C\-\_\-\-P\-C\-L\-K2\-Config@{R\-C\-C\-\_\-\-P\-C\-L\-K2\-Config}}
+\index{R\-C\-C\-\_\-\-P\-C\-L\-K2\-Config@{R\-C\-C\-\_\-\-P\-C\-L\-K2\-Config}!System AHB, APB1 and APB2 busses clocks configuration functions@{System A\-H\-B, A\-P\-B1 and A\-P\-B2 busses clocks configuration functions}}
+\subsubsection[{R\-C\-C\-\_\-\-P\-C\-L\-K2\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} R\-C\-C\-\_\-\-P\-C\-L\-K2\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{R\-C\-C\-\_\-\-H\-C\-L\-K}
+\end{DoxyParamCaption}
+)}}\label{group___r_c_c___group2_ga09f9c010a4adca9e036da42c2ca6126a}
+
+
+Configures the High Speed A\-P\-B clock (P\-C\-L\-K2). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\-C\-C\-\_\-\-H\-C\-L\-K,\-:} & defines the A\-P\-B2 clock divider. This clock is derived from the A\-H\-B clock (H\-C\-L\-K). This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item R\-C\-C\-\_\-\-H\-C\-L\-K\-\_\-\-Div1\-: A\-P\-B2 clock = H\-C\-L\-K \item R\-C\-C\-\_\-\-H\-C\-L\-K\-\_\-\-Div2\-: A\-P\-B2 clock = H\-C\-L\-K/2 \item R\-C\-C\-\_\-\-H\-C\-L\-K\-\_\-\-Div4\-: A\-P\-B2 clock = H\-C\-L\-K/4 \item R\-C\-C\-\_\-\-H\-C\-L\-K\-\_\-\-Div8\-: A\-P\-B2 clock = H\-C\-L\-K/8 \item R\-C\-C\-\_\-\-H\-C\-L\-K\-\_\-\-Div16\-: A\-P\-B2 clock = H\-C\-L\-K/16 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 738 of file stm32f30x\-\_\-rcc.\-c.
+
+\hypertarget{group___r_c_c___group2_ga3551a36a8f0a3dc96a74d6b939048337}{\index{System A\-H\-B, A\-P\-B1 and A\-P\-B2 busses clocks configuration functions@{System A\-H\-B, A\-P\-B1 and A\-P\-B2 busses clocks configuration functions}!R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-Config@{R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-Config}}
+\index{R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-Config@{R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-Config}!System AHB, APB1 and APB2 busses clocks configuration functions@{System A\-H\-B, A\-P\-B1 and A\-P\-B2 busses clocks configuration functions}}
+\subsubsection[{R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-Source}
+\end{DoxyParamCaption}
+)}}\label{group___r_c_c___group2_ga3551a36a8f0a3dc96a74d6b939048337}
+
+
+Configures the system clock (S\-Y\-S\-C\-L\-K). 
+
+\begin{DoxyNote}{Note}
+The H\-S\-I is used (enabled by hardware) as system clock source after startup from Reset, wake-\/up from S\-T\-O\-P and S\-T\-A\-N\-D\-B\-Y mode, or in case of failure of the H\-S\-E used directly or indirectly as system clock (if the Clock Security System C\-S\-S is enabled). 
+
+A switch from one clock source to another occurs only if the target clock source is ready (clock stable after startup delay or P\-L\-L locked). If a clock source which is not yet ready is selected, the switch will occur when the clock source will be ready. You can use \hyperlink{group___r_c_c___exported___functions_gaaeb32311c208b2a980841c9c884a41ea}{R\-C\-C\-\_\-\-Get\-S\-Y\-S\-C\-L\-K\-Source()} function to know which clock is currently used as system clock source. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-Source,\-:} & specifies the clock source used as system clock source This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-Source\-\_\-\-H\-S\-I\-: H\-S\-I selected as system clock source \item R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-Source\-\_\-\-H\-S\-E\-: H\-S\-E selected as system clock source \item R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-Source\-\_\-\-P\-L\-L\-C\-L\-K\-: P\-L\-L selected as system clock source \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\begin{DoxyNote}{Note}
+The H\-S\-I is used (enabled by hardware) as system clock source after startup from Reset, wake-\/up from S\-T\-O\-P and S\-T\-A\-N\-D\-B\-Y mode, or in case of failure of the H\-S\-E used directly or indirectly as system clock (if the Clock Security System C\-S\-S is enabled). 
+
+A switch from one clock source to another occurs only if the target clock source is ready (clock stable after startup delay or P\-L\-L locked). If a clock source which is not yet ready is selected, the switch will occur when the clock source will be ready. You can use \hyperlink{group___r_c_c___exported___functions_gaaeb32311c208b2a980841c9c884a41ea}{R\-C\-C\-\_\-\-Get\-S\-Y\-S\-C\-L\-K\-Source()} function to know which clock is currently used as system clock source. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-Source,\-:} & specifies the clock source used as system clock. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-Source\-\_\-\-H\-S\-I\-: H\-S\-I selected as system clock source \item R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-Source\-\_\-\-H\-S\-E\-: H\-S\-E selected as system clock source \item R\-C\-C\-\_\-\-S\-Y\-S\-C\-L\-K\-Source\-\_\-\-P\-L\-L\-C\-L\-K\-: P\-L\-L selected as system clock source \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 624 of file stm32f30x\-\_\-rcc.\-c.
+

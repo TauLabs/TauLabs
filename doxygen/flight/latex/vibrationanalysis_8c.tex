@@ -1,0 +1,48 @@
+\hypertarget{vibrationanalysis_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Modules/\-Vibration\-Analysis/vibrationanalysis.c File Reference}
+\label{vibrationanalysis_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Modules/\-Vibration\-Analysis/vibrationanalysis.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Modules/\-Vibration\-Analysis/vibrationanalysis.\-c}}
+}
+
+
+Vibration\-Analysis module.  
+
+
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bfseries Vibration\-Analysis\-\_\-data}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{vibrationanalysis_8c_a9e7e6a96f3ed454bc4e05c84c5b7c5d1}{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (Vibration\-Analysis\-Initialize, Vibration\-Analysis\-Start)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Vibration\-Analysis module. \begin{DoxyAuthor}{Author}
+Tau Labs, \href{http://www.taulabs.org}{\tt http\-://www.\-taulabs.\-org} Copyright (C) 2013. 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{See Also}
+The G\-N\-U Public License (G\-P\-L) Version 3 
+\end{DoxySeeAlso}
+
+
+Definition in file \hyperlink{vibrationanalysis_8c_source}{vibrationanalysis.\-c}.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{vibrationanalysis_8c_a9e7e6a96f3ed454bc4e05c84c5b7c5d1}{\index{vibrationanalysis.\-c@{vibrationanalysis.\-c}!M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}}
+\index{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}!vibrationanalysis.c@{vibrationanalysis.\-c}}
+\subsubsection[{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L (
+\begin{DoxyParamCaption}
+\item[{Vibration\-Analysis\-Initialize}]{, }
+\item[{Vibration\-Analysis\-Start}]{}
+\end{DoxyParamCaption}
+)}}\label{vibrationanalysis_8c_a9e7e6a96f3ed454bc4e05c84c5b7c5d1}
+These values are useful for insight into the Fourier transform performed by this module. float freq\-\_\-sample = 1.\-0f/(sample\-Rate\-\_\-ms $\ast$ port\-T\-I\-C\-K\-\_\-\-R\-A\-T\-E\-\_\-\-M\-S); float freq\-\_\-nyquist = f\-\_\-s/2.\-0f; uint16\-\_\-t num\-\_\-samples = vtd-\/$>$fft\-\_\-window\-\_\-size;
+
+Accumulate accelerometer data. This would be a great place to add a high-\/pass filter, in order to eliminate the D\-C bias from gravity. Until then, a D\-C bias subtraction has been added in the main loop.
+
+Definition at line 238 of file vibrationanalysis.\-c.
+

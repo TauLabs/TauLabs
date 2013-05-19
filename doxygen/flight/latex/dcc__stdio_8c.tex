@@ -1,0 +1,116 @@
+\hypertarget{dcc__stdio_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-Common/\-Libraries/\-Debug/dcc\-\_\-stdio.c File Reference}
+\label{dcc__stdio_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-Common/\-Libraries/\-Debug/dcc\-\_\-stdio.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-Common/\-Libraries/\-Debug/dcc\-\_\-stdio.\-c}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{dcc__stdio_8c_a60631bf9456853606411e3b791c582ec}{dbg\-\_\-write} (unsigned long dcc\-\_\-data)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{dcc__stdio_8c_a5a652378653e712361ed8ba5ba0d8deb}{dbg\-\_\-trace\-\_\-point} (unsigned long number)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{dcc__stdio_8c_a8fe57e06bab1a4bb7314fa1df2750b5a}{dbg\-\_\-write\-\_\-u32} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} unsigned long $\ast$\hyperlink{group___p_i_o_s___t_i_m_ga757344f09097232d715d55cbf9d61a43}{val}, long \hyperlink{mavlink__helpers_8h_aba59486c1504340293255a065b546e3a}{len})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{dcc__stdio_8c_a072abfe0463685019ed9e0a65202d8e8}{dbg\-\_\-write\-\_\-u16} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} unsigned short $\ast$\hyperlink{group___p_i_o_s___t_i_m_ga757344f09097232d715d55cbf9d61a43}{val}, long \hyperlink{mavlink__helpers_8h_aba59486c1504340293255a065b546e3a}{len})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{dcc__stdio_8c_a3b52125ce3d217d4da2ded65f7cbbb42}{dbg\-\_\-write\-\_\-u8} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} unsigned char $\ast$\hyperlink{group___p_i_o_s___t_i_m_ga757344f09097232d715d55cbf9d61a43}{val}, long \hyperlink{mavlink__helpers_8h_aba59486c1504340293255a065b546e3a}{len})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{dcc__stdio_8c_aa8c9002f8f498078c3c385de5376deaa}{dbg\-\_\-write\-\_\-str} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} char $\ast$\hyperlink{group___o_s_d_module_ga31fe24ba18a63ea1e8cdb622e7ece509}{msg})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{dcc__stdio_8c_a6589566c8c99313dc3ede36296274820}{dbg\-\_\-write\-\_\-char} (char \hyperlink{group___o_s_d_module_ga31fe24ba18a63ea1e8cdb622e7ece509}{msg})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{dcc__stdio_8c_a53f1dbdca4f4af43be7d257df5a34692}{dbg\-\_\-write\-\_\-hex32} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} unsigned long \hyperlink{group___p_i_o_s___t_i_m_ga757344f09097232d715d55cbf9d61a43}{val})
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{dcc__stdio_8c_a5a652378653e712361ed8ba5ba0d8deb}{\index{dcc\-\_\-stdio.\-c@{dcc\-\_\-stdio.\-c}!dbg\-\_\-trace\-\_\-point@{dbg\-\_\-trace\-\_\-point}}
+\index{dbg\-\_\-trace\-\_\-point@{dbg\-\_\-trace\-\_\-point}!dcc_stdio.c@{dcc\-\_\-stdio.\-c}}
+\subsubsection[{dbg\-\_\-trace\-\_\-point}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} dbg\-\_\-trace\-\_\-point (
+\begin{DoxyParamCaption}
+\item[{unsigned long}]{number}
+\end{DoxyParamCaption}
+)}}\label{dcc__stdio_8c_a5a652378653e712361ed8ba5ba0d8deb}
+
+
+Definition at line 57 of file dcc\-\_\-stdio.\-c.
+
+\hypertarget{dcc__stdio_8c_a60631bf9456853606411e3b791c582ec}{\index{dcc\-\_\-stdio.\-c@{dcc\-\_\-stdio.\-c}!dbg\-\_\-write@{dbg\-\_\-write}}
+\index{dbg\-\_\-write@{dbg\-\_\-write}!dcc_stdio.c@{dcc\-\_\-stdio.\-c}}
+\subsubsection[{dbg\-\_\-write}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} dbg\-\_\-write (
+\begin{DoxyParamCaption}
+\item[{unsigned long}]{dcc\-\_\-data}
+\end{DoxyParamCaption}
+)}}\label{dcc__stdio_8c_a60631bf9456853606411e3b791c582ec}
+
+
+Definition at line 42 of file dcc\-\_\-stdio.\-c.
+
+\hypertarget{dcc__stdio_8c_a6589566c8c99313dc3ede36296274820}{\index{dcc\-\_\-stdio.\-c@{dcc\-\_\-stdio.\-c}!dbg\-\_\-write\-\_\-char@{dbg\-\_\-write\-\_\-char}}
+\index{dbg\-\_\-write\-\_\-char@{dbg\-\_\-write\-\_\-char}!dcc_stdio.c@{dcc\-\_\-stdio.\-c}}
+\subsubsection[{dbg\-\_\-write\-\_\-char}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} dbg\-\_\-write\-\_\-char (
+\begin{DoxyParamCaption}
+\item[{char}]{msg}
+\end{DoxyParamCaption}
+)}}\label{dcc__stdio_8c_a6589566c8c99313dc3ede36296274820}
+
+
+Definition at line 135 of file dcc\-\_\-stdio.\-c.
+
+\hypertarget{dcc__stdio_8c_a53f1dbdca4f4af43be7d257df5a34692}{\index{dcc\-\_\-stdio.\-c@{dcc\-\_\-stdio.\-c}!dbg\-\_\-write\-\_\-hex32@{dbg\-\_\-write\-\_\-hex32}}
+\index{dbg\-\_\-write\-\_\-hex32@{dbg\-\_\-write\-\_\-hex32}!dcc_stdio.c@{dcc\-\_\-stdio.\-c}}
+\subsubsection[{dbg\-\_\-write\-\_\-hex32}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} dbg\-\_\-write\-\_\-hex32 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} unsigned long}]{val}
+\end{DoxyParamCaption}
+)}}\label{dcc__stdio_8c_a53f1dbdca4f4af43be7d257df5a34692}
+
+
+Definition at line 140 of file dcc\-\_\-stdio.\-c.
+
+\hypertarget{dcc__stdio_8c_aa8c9002f8f498078c3c385de5376deaa}{\index{dcc\-\_\-stdio.\-c@{dcc\-\_\-stdio.\-c}!dbg\-\_\-write\-\_\-str@{dbg\-\_\-write\-\_\-str}}
+\index{dbg\-\_\-write\-\_\-str@{dbg\-\_\-write\-\_\-str}!dcc_stdio.c@{dcc\-\_\-stdio.\-c}}
+\subsubsection[{dbg\-\_\-write\-\_\-str}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} dbg\-\_\-write\-\_\-str (
+\begin{DoxyParamCaption}
+\item[{{\bf const} char $\ast$}]{msg}
+\end{DoxyParamCaption}
+)}}\label{dcc__stdio_8c_aa8c9002f8f498078c3c385de5376deaa}
+
+
+Definition at line 113 of file dcc\-\_\-stdio.\-c.
+
+\hypertarget{dcc__stdio_8c_a072abfe0463685019ed9e0a65202d8e8}{\index{dcc\-\_\-stdio.\-c@{dcc\-\_\-stdio.\-c}!dbg\-\_\-write\-\_\-u16@{dbg\-\_\-write\-\_\-u16}}
+\index{dbg\-\_\-write\-\_\-u16@{dbg\-\_\-write\-\_\-u16}!dcc_stdio.c@{dcc\-\_\-stdio.\-c}}
+\subsubsection[{dbg\-\_\-write\-\_\-u16}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} dbg\-\_\-write\-\_\-u16 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} unsigned short $\ast$}]{val, }
+\item[{long}]{len}
+\end{DoxyParamCaption}
+)}}\label{dcc__stdio_8c_a072abfe0463685019ed9e0a65202d8e8}
+
+
+Definition at line 75 of file dcc\-\_\-stdio.\-c.
+
+\hypertarget{dcc__stdio_8c_a8fe57e06bab1a4bb7314fa1df2750b5a}{\index{dcc\-\_\-stdio.\-c@{dcc\-\_\-stdio.\-c}!dbg\-\_\-write\-\_\-u32@{dbg\-\_\-write\-\_\-u32}}
+\index{dbg\-\_\-write\-\_\-u32@{dbg\-\_\-write\-\_\-u32}!dcc_stdio.c@{dcc\-\_\-stdio.\-c}}
+\subsubsection[{dbg\-\_\-write\-\_\-u32}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} dbg\-\_\-write\-\_\-u32 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} unsigned long $\ast$}]{val, }
+\item[{long}]{len}
+\end{DoxyParamCaption}
+)}}\label{dcc__stdio_8c_a8fe57e06bab1a4bb7314fa1df2750b5a}
+
+
+Definition at line 62 of file dcc\-\_\-stdio.\-c.
+
+\hypertarget{dcc__stdio_8c_a3b52125ce3d217d4da2ded65f7cbbb42}{\index{dcc\-\_\-stdio.\-c@{dcc\-\_\-stdio.\-c}!dbg\-\_\-write\-\_\-u8@{dbg\-\_\-write\-\_\-u8}}
+\index{dbg\-\_\-write\-\_\-u8@{dbg\-\_\-write\-\_\-u8}!dcc_stdio.c@{dcc\-\_\-stdio.\-c}}
+\subsubsection[{dbg\-\_\-write\-\_\-u8}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} dbg\-\_\-write\-\_\-u8 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} unsigned char $\ast$}]{val, }
+\item[{long}]{len}
+\end{DoxyParamCaption}
+)}}\label{dcc__stdio_8c_a3b52125ce3d217d4da2ded65f7cbbb42}
+
+
+Definition at line 93 of file dcc\-\_\-stdio.\-c.
+

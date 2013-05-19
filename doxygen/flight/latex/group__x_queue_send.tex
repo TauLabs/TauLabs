@@ -1,0 +1,357 @@
+\hypertarget{group__x_queue_send}{\section{x\-Queue\-Send}
+\label{group__x_queue_send}\index{x\-Queue\-Send@{x\-Queue\-Send}}
+}
+queue. h 
+\begin{DoxyPre}
+ portBASE\_TYPE xQueueSendToToFront(
+                                                                   xQueueHandle xQueue,
+                                                                   const void   *       pvItemToQueue,
+                                                                   portTickType xTicksToWait
+                                                           );
+   \end{DoxyPre}
+
+
+This is a macro that calls \hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a20cce4e7bd234116d67ebcdbe4ef2f3a}{x\-Queue\-Generic\-Send()}.
+
+Post an item to the front of a queue. The item is queued by copy, not by reference. This function must not be called from an interrupt service routine. See x\-Queue\-Send\-From\-I\-S\-R () for an alternative which may be used in an I\-S\-R.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\-Queue} & The handle to the queue on which the item is to be posted.\\
+\hline
+{\em pv\-Item\-To\-Queue} & A pointer to the item that is to be placed on the queue. The size of the items the queue will hold was defined when the queue was created, so this many bytes will be copied from pv\-Item\-To\-Queue into the queue storage area.\\
+\hline
+{\em x\-Ticks\-To\-Wait} & The maximum amount of time the task should block waiting for space to become available on the queue, should it already be full. The call will return immediately if this is set to 0 and the queue is full. The time is defined in tick periods so the constant port\-T\-I\-C\-K\-\_\-\-R\-A\-T\-E\-\_\-\-M\-S should be used to convert to real time if this is required.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pd\-T\-R\-U\-E if the item was successfully posted, otherwise err\-Q\-U\-E\-U\-E\-\_\-\-F\-U\-L\-L.
+\end{DoxyReturn}
+Example usage\-: 
+\begin{DoxyPre}
+ struct AMessage
+ \{
+        char ucMessageID;
+        char ucData[ 20 ];
+ \} xMessage;\end{DoxyPre}
+
+
+
+\begin{DoxyPre} unsigned long ulVar = 10UL;\end{DoxyPre}
+
+
+
+\begin{DoxyPre} void vATask( void *pvParameters )
+ \{
+ xQueueHandle xQueue1, xQueue2;
+ struct AMessage *pxMessage;\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Create a queue capable of containing 10 unsigned long values.
+        xQueue1 = xQueueCreate( 10, sizeof( unsigned long ) );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Create a queue capable of containing 10 pointers to AMessage structures.
+These should be passed by pointer as they contain a lot of data.
+        xQueue2 = xQueueCreate( 10, sizeof( struct AMessage * ) );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}...
+\begin{DoxyVerb}    if( xQueue1 != 0 )
+    {
+\end{DoxyVerb}
+
+Send an unsigned long.  Wait for 10 ticks for space to become
+available if necessary.
+                if( xQueueSendToFront( xQueue1, ( void * ) \&ulVar, ( portTickType ) 10 ) != pdPASS )
+                \{
+Failed to post the message, even after 10 ticks.
+                \}
+        \}\end{DoxyPre}
+
+
+
+\begin{DoxyPre}        if( xQueue2 != 0 )
+        \{
+Send a pointer to a struct AMessage object.  Don't block if the
+queue is already full.
+                pxMessage = \& xMessage;
+                xQueueSendToFront( xQueue2, ( void * ) \&pxMessage, ( portTickType ) 0 );
+        \}\end{DoxyPre}
+
+
+
+\begin{DoxyPre}... Rest of task code.
+ \}
+ \end{DoxyPre}
+
+
+queue. h 
+\begin{DoxyPre}
+ portBASE\_TYPE xQueueSendToBack(
+                                                                   xQueueHandle xQueue,
+                                                                   const        void    *       pvItemToQueue,
+                                                                   portTickType xTicksToWait
+                                                           );
+   \end{DoxyPre}
+
+
+This is a macro that calls \hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a20cce4e7bd234116d67ebcdbe4ef2f3a}{x\-Queue\-Generic\-Send()}.
+
+Post an item to the back of a queue. The item is queued by copy, not by reference. This function must not be called from an interrupt service routine. See x\-Queue\-Send\-From\-I\-S\-R () for an alternative which may be used in an I\-S\-R.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\-Queue} & The handle to the queue on which the item is to be posted.\\
+\hline
+{\em pv\-Item\-To\-Queue} & A pointer to the item that is to be placed on the queue. The size of the items the queue will hold was defined when the queue was created, so this many bytes will be copied from pv\-Item\-To\-Queue into the queue storage area.\\
+\hline
+{\em x\-Ticks\-To\-Wait} & The maximum amount of time the task should block waiting for space to become available on the queue, should it already be full. The call will return immediately if this is set to 0 and the queue is full. The time is defined in tick periods so the constant port\-T\-I\-C\-K\-\_\-\-R\-A\-T\-E\-\_\-\-M\-S should be used to convert to real time if this is required.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pd\-T\-R\-U\-E if the item was successfully posted, otherwise err\-Q\-U\-E\-U\-E\-\_\-\-F\-U\-L\-L.
+\end{DoxyReturn}
+Example usage\-: 
+\begin{DoxyPre}
+ struct AMessage
+ \{
+        char ucMessageID;
+        char ucData[ 20 ];
+ \} xMessage;\end{DoxyPre}
+
+
+
+\begin{DoxyPre} unsigned long ulVar = 10UL;\end{DoxyPre}
+
+
+
+\begin{DoxyPre} void vATask( void *pvParameters )
+ \{
+ xQueueHandle xQueue1, xQueue2;
+ struct AMessage *pxMessage;\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Create a queue capable of containing 10 unsigned long values.
+        xQueue1 = xQueueCreate( 10, sizeof( unsigned long ) );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Create a queue capable of containing 10 pointers to AMessage structures.
+These should be passed by pointer as they contain a lot of data.
+        xQueue2 = xQueueCreate( 10, sizeof( struct AMessage * ) );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}...
+\begin{DoxyVerb}    if( xQueue1 != 0 )
+    {
+\end{DoxyVerb}
+
+Send an unsigned long.  Wait for 10 ticks for space to become
+available if necessary.
+                if( xQueueSendToBack( xQueue1, ( void * ) \&ulVar, ( portTickType ) 10 ) != pdPASS )
+                \{
+Failed to post the message, even after 10 ticks.
+                \}
+        \}\end{DoxyPre}
+
+
+
+\begin{DoxyPre}        if( xQueue2 != 0 )
+        \{
+Send a pointer to a struct AMessage object.  Don't block if the
+queue is already full.
+                pxMessage = \& xMessage;
+                xQueueSendToBack( xQueue2, ( void * ) \&pxMessage, ( portTickType ) 0 );
+        \}\end{DoxyPre}
+
+
+
+\begin{DoxyPre}... Rest of task code.
+ \}
+ \end{DoxyPre}
+
+
+queue. h 
+\begin{DoxyPre}
+ portBASE\_TYPE xQueueSend(
+                                                          xQueueHandle xQueue,
+                                                          const void * pvItemToQueue,
+                                                          portTickType xTicksToWait
+                                                 );
+   \end{DoxyPre}
+
+
+This is a macro that calls \hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a20cce4e7bd234116d67ebcdbe4ef2f3a}{x\-Queue\-Generic\-Send()}. It is included for backward compatibility with versions of Free\-R\-T\-O\-S.\-org that did not include the x\-Queue\-Send\-To\-Front() and x\-Queue\-Send\-To\-Back() macros. It is equivalent to x\-Queue\-Send\-To\-Back().
+
+Post an item on a queue. The item is queued by copy, not by reference. This function must not be called from an interrupt service routine. See x\-Queue\-Send\-From\-I\-S\-R () for an alternative which may be used in an I\-S\-R.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\-Queue} & The handle to the queue on which the item is to be posted.\\
+\hline
+{\em pv\-Item\-To\-Queue} & A pointer to the item that is to be placed on the queue. The size of the items the queue will hold was defined when the queue was created, so this many bytes will be copied from pv\-Item\-To\-Queue into the queue storage area.\\
+\hline
+{\em x\-Ticks\-To\-Wait} & The maximum amount of time the task should block waiting for space to become available on the queue, should it already be full. The call will return immediately if this is set to 0 and the queue is full. The time is defined in tick periods so the constant port\-T\-I\-C\-K\-\_\-\-R\-A\-T\-E\-\_\-\-M\-S should be used to convert to real time if this is required.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pd\-T\-R\-U\-E if the item was successfully posted, otherwise err\-Q\-U\-E\-U\-E\-\_\-\-F\-U\-L\-L.
+\end{DoxyReturn}
+Example usage\-: 
+\begin{DoxyPre}
+ struct AMessage
+ \{
+        char ucMessageID;
+        char ucData[ 20 ];
+ \} xMessage;\end{DoxyPre}
+
+
+
+\begin{DoxyPre} unsigned long ulVar = 10UL;\end{DoxyPre}
+
+
+
+\begin{DoxyPre} void vATask( void *pvParameters )
+ \{
+ xQueueHandle xQueue1, xQueue2;
+ struct AMessage *pxMessage;\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Create a queue capable of containing 10 unsigned long values.
+        xQueue1 = xQueueCreate( 10, sizeof( unsigned long ) );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Create a queue capable of containing 10 pointers to AMessage structures.
+These should be passed by pointer as they contain a lot of data.
+        xQueue2 = xQueueCreate( 10, sizeof( struct AMessage * ) );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}...
+\begin{DoxyVerb}    if( xQueue1 != 0 )
+    {
+\end{DoxyVerb}
+
+Send an unsigned long.  Wait for 10 ticks for space to become
+available if necessary.
+                if( xQueueSend( xQueue1, ( void * ) \&ulVar, ( portTickType ) 10 ) != pdPASS )
+                \{
+Failed to post the message, even after 10 ticks.
+                \}
+        \}\end{DoxyPre}
+
+
+
+\begin{DoxyPre}        if( xQueue2 != 0 )
+        \{
+Send a pointer to a struct AMessage object.  Don't block if the
+queue is already full.
+                pxMessage = \& xMessage;
+                xQueueSend( xQueue2, ( void * ) \&pxMessage, ( portTickType ) 0 );
+        \}\end{DoxyPre}
+
+
+
+\begin{DoxyPre}... Rest of task code.
+ \}
+ \end{DoxyPre}
+
+
+queue. h 
+\begin{DoxyPre}
+ portBASE\_TYPE xQueueGenericSend(
+                                                                        xQueueHandle xQueue,
+                                                                        const void * pvItemToQueue,
+                                                                        portTickType xTicksToWait
+                                                                        portBASE\_TYPE xCopyPosition
+                                                                );
+   \end{DoxyPre}
+
+
+It is preferred that the macros x\-Queue\-Send(), x\-Queue\-Send\-To\-Front() and x\-Queue\-Send\-To\-Back() are used in place of calling this function directly.
+
+Post an item on a queue. The item is queued by copy, not by reference. This function must not be called from an interrupt service routine. See x\-Queue\-Send\-From\-I\-S\-R () for an alternative which may be used in an I\-S\-R.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\-Queue} & The handle to the queue on which the item is to be posted.\\
+\hline
+{\em pv\-Item\-To\-Queue} & A pointer to the item that is to be placed on the queue. The size of the items the queue will hold was defined when the queue was created, so this many bytes will be copied from pv\-Item\-To\-Queue into the queue storage area.\\
+\hline
+{\em x\-Ticks\-To\-Wait} & The maximum amount of time the task should block waiting for space to become available on the queue, should it already be full. The call will return immediately if this is set to 0 and the queue is full. The time is defined in tick periods so the constant port\-T\-I\-C\-K\-\_\-\-R\-A\-T\-E\-\_\-\-M\-S should be used to convert to real time if this is required.\\
+\hline
+{\em x\-Copy\-Position} & Can take the value queue\-S\-E\-N\-D\-\_\-\-T\-O\-\_\-\-B\-A\-C\-K to place the item at the back of the queue, or queue\-S\-E\-N\-D\-\_\-\-T\-O\-\_\-\-F\-R\-O\-N\-T to place the item at the front of the queue (for high priority messages).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pd\-T\-R\-U\-E if the item was successfully posted, otherwise err\-Q\-U\-E\-U\-E\-\_\-\-F\-U\-L\-L.
+\end{DoxyReturn}
+Example usage\-: 
+\begin{DoxyPre}
+ struct AMessage
+ \{
+        char ucMessageID;
+        char ucData[ 20 ];
+ \} xMessage;\end{DoxyPre}
+
+
+
+\begin{DoxyPre} unsigned long ulVar = 10UL;\end{DoxyPre}
+
+
+
+\begin{DoxyPre} void vATask( void *pvParameters )
+ \{
+ xQueueHandle xQueue1, xQueue2;
+ struct AMessage *pxMessage;\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Create a queue capable of containing 10 unsigned long values.
+        xQueue1 = xQueueCreate( 10, sizeof( unsigned long ) );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Create a queue capable of containing 10 pointers to AMessage structures.
+These should be passed by pointer as they contain a lot of data.
+        xQueue2 = xQueueCreate( 10, sizeof( struct AMessage * ) );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}...
+\begin{DoxyVerb}    if( xQueue1 != 0 )
+    {
+\end{DoxyVerb}
+
+Send an unsigned long.  Wait for 10 ticks for space to become
+available if necessary.
+                if( xQueueGenericSend( xQueue1, ( void * ) \&ulVar, ( portTickType ) 10, queueSEND\_TO\_BACK ) != pdPASS )
+                \{
+Failed to post the message, even after 10 ticks.
+                \}
+        \}\end{DoxyPre}
+
+
+
+\begin{DoxyPre}        if( xQueue2 != 0 )
+        \{
+Send a pointer to a struct AMessage object.  Don't block if the
+queue is already full.
+                pxMessage = \& xMessage;
+                xQueueGenericSend( xQueue2, ( void * ) \&pxMessage, ( portTickType ) 0, queueSEND\_TO\_BACK );
+        \}\end{DoxyPre}
+
+
+
+\begin{DoxyPre}... Rest of task code.
+ \}
+ \end{DoxyPre}
+ 

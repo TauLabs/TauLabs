@@ -1,0 +1,155 @@
+\hypertarget{stm32f4xx__usart_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/\-Libraries/\-S\-T\-M32\-F4xx\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f4xx\-\_\-usart.c File Reference}
+\label{stm32f4xx__usart_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/\-Libraries/\-S\-T\-M32\-F4xx\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f4xx\-\_\-usart.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/\-Libraries/\-S\-T\-M32\-F4xx\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f4xx\-\_\-usart.\-c}}
+}
+
+
+This file provides firmware functions to manage the following functionalities of the Universal synchronous asynchronous receiver transmitter (U\-S\-A\-R\-T)\-:  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group1_ga2f8e1ce72da21b6539d8e1f299ec3b0d}{U\-S\-A\-R\-T\-\_\-\-De\-Init} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx)
+\begin{DoxyCompactList}\small\item\em Deinitializes the U\-S\-A\-R\-Tx peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group1_ga98da340ea0324002ba1b4263e91ab2ff}{U\-S\-A\-R\-T\-\_\-\-Init} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, U\-S\-A\-R\-T\-\_\-\-Init\-Type\-Def $\ast$U\-S\-A\-R\-T\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the U\-S\-A\-R\-Tx peripheral according to the specified parameters in the U\-S\-A\-R\-T\-\_\-\-Init\-Struct . \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group1_ga34e1faa2f312496c16cfd05155f4c8b1}{U\-S\-A\-R\-T\-\_\-\-Struct\-Init} (U\-S\-A\-R\-T\-\_\-\-Init\-Type\-Def $\ast$U\-S\-A\-R\-T\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each U\-S\-A\-R\-T\-\_\-\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group1_gadb50c7a2175c91acd3728f8eefd0c63d}{U\-S\-A\-R\-T\-\_\-\-Clock\-Init} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{struct_u_s_a_r_t___clock_init_type_def}{U\-S\-A\-R\-T\-\_\-\-Clock\-Init\-Type\-Def} $\ast$U\-S\-A\-R\-T\-\_\-\-Clock\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the U\-S\-A\-R\-Tx peripheral Clock according to the specified parameters in the U\-S\-A\-R\-T\-\_\-\-Clock\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group1_ga59df27d0adda18b16ee28d47672cc724}{U\-S\-A\-R\-T\-\_\-\-Clock\-Struct\-Init} (\hyperlink{struct_u_s_a_r_t___clock_init_type_def}{U\-S\-A\-R\-T\-\_\-\-Clock\-Init\-Type\-Def} $\ast$U\-S\-A\-R\-T\-\_\-\-Clock\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each U\-S\-A\-R\-T\-\_\-\-Clock\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group1_ga45e51626739c5f22a6567c8a85d1d85e}{U\-S\-A\-R\-T\-\_\-\-Cmd} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified U\-S\-A\-R\-T peripheral. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group1_gaf5da8f2eee8245425584d85d4f62cc33}{U\-S\-A\-R\-T\-\_\-\-Set\-Prescaler} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} U\-S\-A\-R\-T\-\_\-\-Prescaler)
+\begin{DoxyCompactList}\small\item\em Sets the system clock prescaler. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group1_ga3897bab07491d9239f8a238a9a7cddea}{U\-S\-A\-R\-T\-\_\-\-Over\-Sampling8\-Cmd} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\-S\-A\-R\-T's 8x oversampling mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group1_ga3ed89ea8765d851510cfe90f7d90cbbb}{U\-S\-A\-R\-T\-\_\-\-One\-Bit\-Method\-Cmd} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\-S\-A\-R\-T's one bit sampling method. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group2_ga0b43d42da9540f446d494bf69823c6fb}{U\-S\-A\-R\-T\-\_\-\-Send\-Data} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___copter_control_b_l_ga6f3335509cc4943e20df66f72483910c}{Data})
+\begin{DoxyCompactList}\small\item\em Transmits single data through the U\-S\-A\-R\-Tx peripheral. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___u_s_a_r_t___group2_gac67a91845b0b1d54d31bdfb1c5e9867c}{U\-S\-A\-R\-T\-\_\-\-Receive\-Data} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx)
+\begin{DoxyCompactList}\small\item\em Returns the most recent received data by the U\-S\-A\-R\-Tx peripheral. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group3_ga65ec9928817f3f031dd9a4dfc95d6666}{U\-S\-A\-R\-T\-\_\-\-Set\-Address} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} U\-S\-A\-R\-T\-\_\-\-Address)
+\begin{DoxyCompactList}\small\item\em Sets the address of the U\-S\-A\-R\-T node. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group3_gac27b78ce445a16fe33851d2f87781c02}{U\-S\-A\-R\-T\-\_\-\-Receiver\-Wake\-Up\-Cmd} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Determines if the U\-S\-A\-R\-T is in mute mode or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group3_ga4965417c2412c36e462fcad50a8d5393}{U\-S\-A\-R\-T\-\_\-\-Wake\-Up\-Config} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} U\-S\-A\-R\-T\-\_\-\-Wake\-Up)
+\begin{DoxyCompactList}\small\item\em Selects the U\-S\-A\-R\-T Wake\-Up method. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group4_ga7bc2d291831cbc5e53e73337308029b5}{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-Config} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length)
+\begin{DoxyCompactList}\small\item\em Sets the U\-S\-A\-R\-T L\-I\-N Break detection length. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group4_ga9fdd6296f4ca4acdfcbd58bf56bd4185}{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Cmd} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\-S\-A\-R\-T's L\-I\-N mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group4_ga39a3d33e23ee28529fa8f7259ce6811e}{U\-S\-A\-R\-T\-\_\-\-Send\-Break} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx)
+\begin{DoxyCompactList}\small\item\em Transmits break characters. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group5_gaaa23b05fe0e1896bad90da7f82750831}{U\-S\-A\-R\-T\-\_\-\-Half\-Duplex\-Cmd} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\-S\-A\-R\-T's Half Duplex communication. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group6_gac4a35c6acd71ae7e0d67c1f03f0a8777}{U\-S\-A\-R\-T\-\_\-\-Set\-Guard\-Time} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} U\-S\-A\-R\-T\-\_\-\-Guard\-Time)
+\begin{DoxyCompactList}\small\item\em Sets the specified U\-S\-A\-R\-T guard time. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group6_gabd1347e244c623447151ba3a5e986c5f}{U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-Cmd} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\-S\-A\-R\-T's Smart Card mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group6_ga62e22f47e38aa53f2edce8771f7a5dfa}{U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-N\-A\-C\-K\-Cmd} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables N\-A\-C\-K transmission. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group7_ga81a0cd36199040bf6d266b57babd678e}{U\-S\-A\-R\-T\-\_\-\-Ir\-D\-A\-Config} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} U\-S\-A\-R\-T\-\_\-\-Ir\-D\-A\-Mode)
+\begin{DoxyCompactList}\small\item\em Configures the U\-S\-A\-R\-T's Ir\-D\-A interface. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group7_gabff56ebb494fdfadcc6ef4fe9ac8dd24}{U\-S\-A\-R\-T\-\_\-\-Ir\-D\-A\-Cmd} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\-S\-A\-R\-T's Ir\-D\-A interface. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group8_ga902857f199ebfba21c63d725354af66f}{U\-S\-A\-R\-T\-\_\-\-D\-M\-A\-Cmd} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} U\-S\-A\-R\-T\-\_\-\-D\-M\-A\-Req, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\-S\-A\-R\-T's D\-M\-A interface. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group9_ga6d8f2dd1f34060ae7e386e3e5d56b6f6}{U\-S\-A\-R\-T\-\_\-\-I\-T\-Config} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} U\-S\-A\-R\-T\-\_\-\-I\-T, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified U\-S\-A\-R\-T interrupts. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___u_s_a_r_t___group9_ga144630722defc9e312f0ad280b68e9da}{U\-S\-A\-R\-T\-\_\-\-Get\-Flag\-Status} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} U\-S\-A\-R\-T\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified U\-S\-A\-R\-T flag is set or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group9_gad962e148fc466ae1b45b288f6c91d966}{U\-S\-A\-R\-T\-\_\-\-Clear\-Flag} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} U\-S\-A\-R\-T\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Clears the U\-S\-A\-R\-Tx's pending flags. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_gaacbd7ed539db0aacd973a0f6eca34074}{I\-T\-Status} \hyperlink{group___u_s_a_r_t___group9_ga93d8f031241bcdbe938d091a85295445}{U\-S\-A\-R\-T\-\_\-\-Get\-I\-T\-Status} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} U\-S\-A\-R\-T\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified U\-S\-A\-R\-T interrupt has occurred or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group9_ga1fc25d0338695063be5e50156955d9bc}{U\-S\-A\-R\-T\-\_\-\-Clear\-I\-T\-Pending\-Bit} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} U\-S\-A\-R\-T\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Clears the U\-S\-A\-R\-Tx's interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file provides firmware functions to manage the following functionalities of the Universal synchronous asynchronous receiver transmitter (U\-S\-A\-R\-T)\-: \begin{DoxyAuthor}{Author}
+M\-C\-D Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V1.\-0.\-2 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+05-\/\-March-\/2012
+\begin{DoxyItemize}
+\item Initialization and Configuration
+\item Data transfers
+\item Multi-\/\-Processor Communication
+\item L\-I\-N mode
+\item Half-\/duplex mode
+\item Smartcard mode
+\item Ir\-D\-A mode
+\item D\-M\-A transfers management
+\item Interrupts and flags management
+\end{DoxyItemize}
+\end{DoxyDate}
+\begin{DoxyVerb}*      
+*          ===================================================================
+*                                 How to use this driver
+*          ===================================================================
+*          1. Enable peripheral clock using the follwoing functions
+*             RCC_APB2PeriphClockCmd(RCC_APB2Periph_USARTx, ENABLE) for USART1 and USART6 
+*             RCC_APB1PeriphClockCmd(RCC_APB1Periph_USARTx, ENABLE) for USART2, USART3, UART4 or UART5.
+*
+*          2.  According to the USART mode, enable the GPIO clocks using 
+*              RCC_AHB1PeriphClockCmd() function. (The I/O can be TX, RX, CTS, 
+*              or/and SCLK). 
+*
+*          3. Peripheral's alternate function: 
+*                 - Connect the pin to the desired peripherals' Alternate 
+*                   Function (AF) using GPIO_PinAFConfig() function
+*                 - Configure the desired pin in alternate function by:
+*                   GPIO_InitStruct->GPIO_Mode = GPIO_Mode_AF
+*                 - Select the type, pull-up/pull-down and output speed via 
+*                   GPIO_PuPd, GPIO_OType and GPIO_Speed members
+*                 - Call GPIO_Init() function
+*        
+*          4. Program the Baud Rate, Word Length , Stop Bit, Parity, Hardware 
+*             flow control and Mode(Receiver/Transmitter) using the USART_Init()
+*             function.
+*
+*          5. For synchronous mode, enable the clock and program the polarity,
+*             phase and last bit using the USART_ClockInit() function.
+*
+*          5. Enable the NVIC and the corresponding interrupt using the function 
+*             USART_ITConfig() if you need to use interrupt mode. 
+*
+*          6. When using the DMA mode 
+*                   - Configure the DMA using DMA_Init() function
+*                   - Active the needed channel Request using USART_DMACmd() function
+* 
+*          7. Enable the USART using the USART_Cmd() function.
+* 
+*          8. Enable the DMA using the DMA_Cmd() function, when using DMA mode. 
+*
+*          Refer to Multi-Processor, LIN, half-duplex, Smartcard, IrDA sub-sections
+*          for more details
+*          
+*          In order to reach higher communication baudrates, it is possible to
+*          enable the oversampling by 8 mode using the function USART_OverSampling8Cmd().
+*          This function should be called after enabling the USART clock (RCC_APBxPeriphClockCmd())
+*          and before calling the function USART_Init().
+*          
+*  \end{DoxyVerb}
+
+
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+\subsubsection*{\begin{center}\copyright C\-O\-P\-Y\-R\-I\-G\-H\-T 2012 S\-T\-Microelectronics\end{center} }
+
+Licensed under M\-C\-D-\/\-S\-T Liberty S\-W License Agreement V2, (the \char`\"{}\-License\char`\"{}); You may not use this file except in compliance with the License. You may obtain a copy of the License at\-: \begin{DoxyVerb}   http://www.st.com/software_license_agreement_liberty_v2
+\end{DoxyVerb}
+
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \char`\"{}\-A\-S I\-S\char`\"{} B\-A\-S\-I\-S, W\-I\-T\-H\-O\-U\-T W\-A\-R\-R\-A\-N\-T\-I\-E\-S O\-R C\-O\-N\-D\-I\-T\-I\-O\-N\-S O\-F A\-N\-Y K\-I\-N\-D, either express or implied. See the License for the specific language governing permissions and limitations under the License. 
+
+Definition in file \hyperlink{stm32f4xx__usart_8c_source}{stm32f4xx\-\_\-usart.\-c}.
+

@@ -1,0 +1,89 @@
+\hypertarget{stm32f10x__sdio_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/\-Libraries/\-S\-T\-M32\-F10x\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f10x\-\_\-sdio.c File Reference}
+\label{stm32f10x__sdio_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/\-Libraries/\-S\-T\-M32\-F10x\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f10x\-\_\-sdio.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/\-Libraries/\-S\-T\-M32\-F10x\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f10x\-\_\-sdio.\-c}}
+}
+
+
+This file provides all the S\-D\-I\-O firmware functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___private___functions_gac359d2c6c67a2590f8f9b720c0e4ff1b}{S\-D\-I\-O\-\_\-\-De\-Init} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Deinitializes the S\-D\-I\-O peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___private___functions_gad40764a8e37c0ed5c9141ae338ff0203}{S\-D\-I\-O\-\_\-\-Init} (S\-D\-I\-O\-\_\-\-Init\-Type\-Def $\ast$S\-D\-I\-O\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the S\-D\-I\-O peripheral according to the specified parameters in the S\-D\-I\-O\-\_\-\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___private___functions_ga778d338c29df4fae9ef69432e6df32ad}{S\-D\-I\-O\-\_\-\-Struct\-Init} (S\-D\-I\-O\-\_\-\-Init\-Type\-Def $\ast$S\-D\-I\-O\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each S\-D\-I\-O\-\_\-\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___private___functions_ga7243b857d6b323748ff3a493b265bedc}{S\-D\-I\-O\-\_\-\-Clock\-Cmd} (\hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the S\-D\-I\-O Clock. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___private___functions_ga36ecca32b904de74218fbe65cd5f5270}{S\-D\-I\-O\-\_\-\-Set\-Power\-State} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} S\-D\-I\-O\-\_\-\-Power\-State)
+\begin{DoxyCompactList}\small\item\em Sets the power status of the controller. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___s_d_i_o___private___functions_ga3a19de2c7cd51645702213f64a1758ed}{S\-D\-I\-O\-\_\-\-Get\-Power\-State} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Gets the power status of the controller. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___private___functions_ga208f51237ef43288735829dbaed37f00}{S\-D\-I\-O\-\_\-\-I\-T\-Config} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} S\-D\-I\-O\-\_\-\-I\-T, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the S\-D\-I\-O interrupts. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___private___functions_gad36fde5ec0ce0c2089b9d971c2271e6e}{S\-D\-I\-O\-\_\-\-D\-M\-A\-Cmd} (\hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the S\-D\-I\-O D\-M\-A request. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___private___functions_ga7117d2f702703f6c0a66bc07707cab23}{S\-D\-I\-O\-\_\-\-Send\-Command} (\hyperlink{struct_s_d_i_o___cmd_init_type_def}{S\-D\-I\-O\-\_\-\-Cmd\-Init\-Type\-Def} $\ast$S\-D\-I\-O\-\_\-\-Cmd\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the S\-D\-I\-O Command according to the specified parameters in the S\-D\-I\-O\-\_\-\-Cmd\-Init\-Struct and send the command. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___private___functions_ga09d9e89f49c87c82aec79c97b7068e24}{S\-D\-I\-O\-\_\-\-Cmd\-Struct\-Init} (\hyperlink{struct_s_d_i_o___cmd_init_type_def}{S\-D\-I\-O\-\_\-\-Cmd\-Init\-Type\-Def} $\ast$S\-D\-I\-O\-\_\-\-Cmd\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each S\-D\-I\-O\-\_\-\-Cmd\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___s_d_i_o___private___functions_ga9badf271c818e09da301d715c4ad0e5b}{S\-D\-I\-O\-\_\-\-Get\-Command\-Response} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Returns command index of last command for which response received. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___s_d_i_o___private___functions_ga5c1e859511840e8cca6a9a768bce220b}{S\-D\-I\-O\-\_\-\-Get\-Response} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} S\-D\-I\-O\-\_\-\-R\-E\-S\-P)
+\begin{DoxyCompactList}\small\item\em Returns response received from the card for the last command. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___private___functions_gad65d896ae919683585bda44a1e2afae4}{S\-D\-I\-O\-\_\-\-Data\-Config} (\hyperlink{struct_s_d_i_o___data_init_type_def}{S\-D\-I\-O\-\_\-\-Data\-Init\-Type\-Def} $\ast$S\-D\-I\-O\-\_\-\-Data\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the S\-D\-I\-O data path according to the specified parameters in the S\-D\-I\-O\-\_\-\-Data\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___private___functions_gaa83209c09e921521aca2587fb5b22ea2}{S\-D\-I\-O\-\_\-\-Data\-Struct\-Init} (\hyperlink{struct_s_d_i_o___data_init_type_def}{S\-D\-I\-O\-\_\-\-Data\-Init\-Type\-Def} $\ast$S\-D\-I\-O\-\_\-\-Data\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each S\-D\-I\-O\-\_\-\-Data\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___s_d_i_o___private___functions_ga7a28aaa2c25a9a5a8db1f49b0e8c9d0a}{S\-D\-I\-O\-\_\-\-Get\-Data\-Counter} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Returns number of remaining data bytes to be transferred. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___s_d_i_o___private___functions_ga4e8ac755ef3c31ecd4ed2708df19187e}{S\-D\-I\-O\-\_\-\-Read\-Data} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Read one data word from Rx F\-I\-F\-O. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___private___functions_ga361008b5252aa33b5f2b5823ee3d7240}{S\-D\-I\-O\-\_\-\-Write\-Data} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___copter_control_b_l_ga6f3335509cc4943e20df66f72483910c}{Data})
+\begin{DoxyCompactList}\small\item\em Write one data word to Tx F\-I\-F\-O. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___s_d_i_o___private___functions_ga9a3343983a2d68b5164a1c89797d2dd6}{S\-D\-I\-O\-\_\-\-Get\-F\-I\-F\-O\-Count} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Returns the number of words left to be written to or read from F\-I\-F\-O. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___private___functions_gac88f914d9a68a83abc2265ec8a7b79fc}{S\-D\-I\-O\-\_\-\-Start\-S\-D\-I\-O\-Read\-Wait} (\hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Starts the S\-D I/\-O Read Wait operation. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___private___functions_gaca6b25eb2debb73ac827c66f0ebcf837}{S\-D\-I\-O\-\_\-\-Stop\-S\-D\-I\-O\-Read\-Wait} (\hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Stops the S\-D I/\-O Read Wait operation. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___private___functions_ga2baac4ea1bb6c2d94345d2712604338a}{S\-D\-I\-O\-\_\-\-Set\-S\-D\-I\-O\-Read\-Wait\-Mode} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} S\-D\-I\-O\-\_\-\-Read\-Wait\-Mode)
+\begin{DoxyCompactList}\small\item\em Sets one of the two options of inserting read wait interval. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___private___functions_ga24e210c185d5a7855cbaff4472a8f8d1}{S\-D\-I\-O\-\_\-\-Set\-S\-D\-I\-O\-Operation} (\hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the S\-D I/\-O Mode Operation. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___private___functions_ga9264137a01a1ab81d03bc80a3b3120fc}{S\-D\-I\-O\-\_\-\-Send\-S\-D\-I\-O\-Suspend\-Cmd} (\hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the S\-D I/\-O Mode suspend command sending. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___private___functions_ga1bbe98c629812bc62121d9c8b2c5e21b}{S\-D\-I\-O\-\_\-\-Command\-Completion\-Cmd} (\hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the command completion signal. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___private___functions_gab44b8cbc21be000a291563076159503b}{S\-D\-I\-O\-\_\-\-C\-E\-A\-T\-A\-I\-T\-Cmd} (\hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the C\-E-\/\-A\-T\-A interrupt. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___private___functions_ga8dc7f17804bdb745b42f6647c8487b4c}{S\-D\-I\-O\-\_\-\-Send\-C\-E\-A\-T\-A\-Cmd} (\hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Sends C\-E-\/\-A\-T\-A command (C\-M\-D61). \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___s_d_i_o___private___functions_ga644514b4b3c95c5c4326d99cd166f6f9}{S\-D\-I\-O\-\_\-\-Get\-Flag\-Status} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} S\-D\-I\-O\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified S\-D\-I\-O flag is set or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___private___functions_ga7aff4efdeb528229135f9f285e53518a}{S\-D\-I\-O\-\_\-\-Clear\-Flag} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} S\-D\-I\-O\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Clears the S\-D\-I\-O's pending flags. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_gaacbd7ed539db0aacd973a0f6eca34074}{I\-T\-Status} \hyperlink{group___s_d_i_o___private___functions_ga2d64af1f3df0f99cb518f9a89bbd02ac}{S\-D\-I\-O\-\_\-\-Get\-I\-T\-Status} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} S\-D\-I\-O\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified S\-D\-I\-O interrupt has occurred or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___private___functions_ga048e07fd86321cd01b2a22c071c3149b}{S\-D\-I\-O\-\_\-\-Clear\-I\-T\-Pending\-Bit} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} S\-D\-I\-O\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Clears the S\-D\-I\-O’s interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file provides all the S\-D\-I\-O firmware functions. \begin{DoxyAuthor}{Author}
+M\-C\-D Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V3.\-4.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+10/15/2010 
+\end{DoxyDate}
+T\-H\-E P\-R\-E\-S\-E\-N\-T F\-I\-R\-M\-W\-A\-R\-E W\-H\-I\-C\-H I\-S F\-O\-R G\-U\-I\-D\-A\-N\-C\-E O\-N\-L\-Y A\-I\-M\-S A\-T P\-R\-O\-V\-I\-D\-I\-N\-G C\-U\-S\-T\-O\-M\-E\-R\-S W\-I\-T\-H C\-O\-D\-I\-N\-G I\-N\-F\-O\-R\-M\-A\-T\-I\-O\-N R\-E\-G\-A\-R\-D\-I\-N\-G T\-H\-E\-I\-R P\-R\-O\-D\-U\-C\-T\-S I\-N O\-R\-D\-E\-R F\-O\-R T\-H\-E\-M T\-O S\-A\-V\-E T\-I\-M\-E. A\-S A R\-E\-S\-U\-L\-T, S\-T\-M\-I\-C\-R\-O\-E\-L\-E\-C\-T\-R\-O\-N\-I\-C\-S S\-H\-A\-L\-L N\-O\-T B\-E H\-E\-L\-D L\-I\-A\-B\-L\-E F\-O\-R A\-N\-Y D\-I\-R\-E\-C\-T, I\-N\-D\-I\-R\-E\-C\-T O\-R C\-O\-N\-S\-E\-Q\-U\-E\-N\-T\-I\-A\-L D\-A\-M\-A\-G\-E\-S W\-I\-T\-H R\-E\-S\-P\-E\-C\-T T\-O A\-N\-Y C\-L\-A\-I\-M\-S A\-R\-I\-S\-I\-N\-G F\-R\-O\-M T\-H\-E C\-O\-N\-T\-E\-N\-T O\-F S\-U\-C\-H F\-I\-R\-M\-W\-A\-R\-E A\-N\-D/\-O\-R T\-H\-E U\-S\-E M\-A\-D\-E B\-Y C\-U\-S\-T\-O\-M\-E\-R\-S O\-F T\-H\-E C\-O\-D\-I\-N\-G I\-N\-F\-O\-R\-M\-A\-T\-I\-O\-N C\-O\-N\-T\-A\-I\-N\-E\-D H\-E\-R\-E\-I\-N I\-N C\-O\-N\-N\-E\-C\-T\-I\-O\-N W\-I\-T\-H T\-H\-E\-I\-R P\-R\-O\-D\-U\-C\-T\-S.
+
+\subsubsection*{\begin{center}\copyright C\-O\-P\-Y\-R\-I\-G\-H\-T 2010 S\-T\-Microelectronics\end{center} }
+
+Definition in file \hyperlink{stm32f10x__sdio_8c_source}{stm32f10x\-\_\-sdio.\-c}.
+

@@ -1,0 +1,170 @@
+\hypertarget{group___s_d_i_o___group7}{\section{Interrupts and flags management functions}
+\label{group___s_d_i_o___group7}\index{Interrupts and flags management functions@{Interrupts and flags management functions}}
+}
+
+
+Interrupts and flags management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___group7_ga208f51237ef43288735829dbaed37f00}{S\-D\-I\-O\-\_\-\-I\-T\-Config} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} S\-D\-I\-O\-\_\-\-I\-T, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the S\-D\-I\-O interrupts. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___s_d_i_o___group7_ga644514b4b3c95c5c4326d99cd166f6f9}{S\-D\-I\-O\-\_\-\-Get\-Flag\-Status} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} S\-D\-I\-O\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified S\-D\-I\-O flag is set or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___group7_ga7aff4efdeb528229135f9f285e53518a}{S\-D\-I\-O\-\_\-\-Clear\-Flag} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} S\-D\-I\-O\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Clears the S\-D\-I\-O's pending flags. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_gaacbd7ed539db0aacd973a0f6eca34074}{I\-T\-Status} \hyperlink{group___s_d_i_o___group7_ga2d64af1f3df0f99cb518f9a89bbd02ac}{S\-D\-I\-O\-\_\-\-Get\-I\-T\-Status} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} S\-D\-I\-O\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified S\-D\-I\-O interrupt has occurred or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___group7_ga048e07fd86321cd01b2a22c071c3149b}{S\-D\-I\-O\-\_\-\-Clear\-I\-T\-Pending\-Bit} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} S\-D\-I\-O\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Clears the S\-D\-I\-O's interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interrupts and flags management functions. \begin{DoxyVerb} ===============================================================================
+                       Interrupts and flags management functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___s_d_i_o___group7_ga7aff4efdeb528229135f9f285e53518a}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!S\-D\-I\-O\-\_\-\-Clear\-Flag@{S\-D\-I\-O\-\_\-\-Clear\-Flag}}
+\index{S\-D\-I\-O\-\_\-\-Clear\-Flag@{S\-D\-I\-O\-\_\-\-Clear\-Flag}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{S\-D\-I\-O\-\_\-\-Clear\-Flag}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} S\-D\-I\-O\-\_\-\-Clear\-Flag (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{S\-D\-I\-O\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___s_d_i_o___group7_ga7aff4efdeb528229135f9f285e53518a}
+
+
+Clears the S\-D\-I\-O's pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\-D\-I\-O\-\_\-\-F\-L\-A\-G,\-:} & specifies the flag to clear. This parameter can be one or a combination of the following values\-: \begin{DoxyItemize}
+\item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C\-R\-C\-F\-A\-I\-L\-: Command response received (C\-R\-C check failed) \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-D\-C\-R\-C\-F\-A\-I\-L\-: Data block sent/received (C\-R\-C check failed) \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-C\-T\-I\-M\-E\-O\-U\-T\-: Command response timeout \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-D\-T\-I\-M\-E\-O\-U\-T\-: Data timeout \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-T\-X\-U\-N\-D\-E\-R\-R\-: Transmit F\-I\-F\-O underrun error \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-R\-X\-O\-V\-E\-R\-R\-: Received F\-I\-F\-O overrun error \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-C\-M\-D\-R\-E\-N\-D\-: Command response received (C\-R\-C check passed) \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-C\-M\-D\-S\-E\-N\-T\-: Command sent (no response required) \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-D\-A\-T\-A\-E\-N\-D\-: Data end (data counter, S\-D\-I\-D\-C\-O\-U\-N\-T, is zero) \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-S\-T\-B\-I\-T\-E\-R\-R\-: Start bit not detected on all data signals in wide bus mode \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-D\-B\-C\-K\-E\-N\-D\-: Data block sent/received (C\-R\-C check passed) \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-S\-D\-I\-O\-I\-T\-: S\-D I/\-O interrupt received \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-C\-E\-A\-T\-A\-E\-N\-D\-: C\-E-\/\-A\-T\-A command completion signal received for C\-M\-D61 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 911 of file stm32f4xx\-\_\-sdio.\-c.
+
+\hypertarget{group___s_d_i_o___group7_ga048e07fd86321cd01b2a22c071c3149b}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!S\-D\-I\-O\-\_\-\-Clear\-I\-T\-Pending\-Bit@{S\-D\-I\-O\-\_\-\-Clear\-I\-T\-Pending\-Bit}}
+\index{S\-D\-I\-O\-\_\-\-Clear\-I\-T\-Pending\-Bit@{S\-D\-I\-O\-\_\-\-Clear\-I\-T\-Pending\-Bit}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{S\-D\-I\-O\-\_\-\-Clear\-I\-T\-Pending\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} S\-D\-I\-O\-\_\-\-Clear\-I\-T\-Pending\-Bit (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{S\-D\-I\-O\-\_\-\-I\-T}
+\end{DoxyParamCaption}
+)}}\label{group___s_d_i_o___group7_ga048e07fd86321cd01b2a22c071c3149b}
+
+
+Clears the S\-D\-I\-O's interrupt pending bits. 
+
+Clears the S\-D\-I\-O’s interrupt pending bits.
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\-D\-I\-O\-\_\-\-I\-T,\-:} & specifies the interrupt pending bit to clear. This parameter can be one or a combination of the following values\-: \begin{DoxyItemize}
+\item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-C\-C\-R\-C\-F\-A\-I\-L\-: Command response received (C\-R\-C check failed) interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-D\-C\-R\-C\-F\-A\-I\-L\-: Data block sent/received (C\-R\-C check failed) interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-C\-T\-I\-M\-E\-O\-U\-T\-: Command response timeout interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-D\-T\-I\-M\-E\-O\-U\-T\-: Data timeout interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-T\-X\-U\-N\-D\-E\-R\-R\-: Transmit F\-I\-F\-O underrun error interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-R\-X\-O\-V\-E\-R\-R\-: Received F\-I\-F\-O overrun error interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-C\-M\-D\-R\-E\-N\-D\-: Command response received (C\-R\-C check passed) interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-C\-M\-D\-S\-E\-N\-T\-: Command sent (no response required) interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-D\-A\-T\-A\-E\-N\-D\-: Data end (data counter, S\-D\-I\-O\-\_\-\-D\-C\-O\-U\-N\-T, is zero) interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-S\-T\-B\-I\-T\-E\-R\-R\-: Start bit not detected on all data signals in wide bus mode interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-S\-D\-I\-O\-I\-T\-: S\-D I/\-O interrupt received interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-C\-E\-A\-T\-A\-E\-N\-D\-: C\-E-\/\-A\-T\-A command completion signal received for C\-M\-D61 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 986 of file stm32f4xx\-\_\-sdio.\-c.
+
+\hypertarget{group___s_d_i_o___group7_ga644514b4b3c95c5c4326d99cd166f6f9}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!S\-D\-I\-O\-\_\-\-Get\-Flag\-Status@{S\-D\-I\-O\-\_\-\-Get\-Flag\-Status}}
+\index{S\-D\-I\-O\-\_\-\-Get\-Flag\-Status@{S\-D\-I\-O\-\_\-\-Get\-Flag\-Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{S\-D\-I\-O\-\_\-\-Get\-Flag\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Flag\-Status} S\-D\-I\-O\-\_\-\-Get\-Flag\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{S\-D\-I\-O\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___s_d_i_o___group7_ga644514b4b3c95c5c4326d99cd166f6f9}
+
+
+Checks whether the specified S\-D\-I\-O flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\-D\-I\-O\-\_\-\-F\-L\-A\-G,\-:} & specifies the flag to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C\-R\-C\-F\-A\-I\-L\-: Command response received (C\-R\-C check failed) \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-D\-C\-R\-C\-F\-A\-I\-L\-: Data block sent/received (C\-R\-C check failed) \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-C\-T\-I\-M\-E\-O\-U\-T\-: Command response timeout \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-D\-T\-I\-M\-E\-O\-U\-T\-: Data timeout \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-T\-X\-U\-N\-D\-E\-R\-R\-: Transmit F\-I\-F\-O underrun error \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-R\-X\-O\-V\-E\-R\-R\-: Received F\-I\-F\-O overrun error \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-C\-M\-D\-R\-E\-N\-D\-: Command response received (C\-R\-C check passed) \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-C\-M\-D\-S\-E\-N\-T\-: Command sent (no response required) \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-D\-A\-T\-A\-E\-N\-D\-: Data end (data counter, S\-D\-I\-D\-C\-O\-U\-N\-T, is zero) \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-S\-T\-B\-I\-T\-E\-R\-R\-: Start bit not detected on all data signals in wide bus mode. \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-D\-B\-C\-K\-E\-N\-D\-: Data block sent/received (C\-R\-C check passed) \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-C\-M\-D\-A\-C\-T\-: Command transfer in progress \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-T\-X\-A\-C\-T\-: Data transmit in progress \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-R\-X\-A\-C\-T\-: Data receive in progress \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-T\-X\-F\-I\-F\-O\-H\-E\-: Transmit F\-I\-F\-O Half Empty \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-R\-X\-F\-I\-F\-O\-H\-F\-: Receive F\-I\-F\-O Half Full \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-T\-X\-F\-I\-F\-O\-F\-: Transmit F\-I\-F\-O full \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-R\-X\-F\-I\-F\-O\-F\-: Receive F\-I\-F\-O full \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-T\-X\-F\-I\-F\-O\-E\-: Transmit F\-I\-F\-O empty \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-R\-X\-F\-I\-F\-O\-E\-: Receive F\-I\-F\-O empty \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-T\-X\-D\-A\-V\-L\-: Data available in transmit F\-I\-F\-O \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-R\-X\-D\-A\-V\-L\-: Data available in receive F\-I\-F\-O \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-S\-D\-I\-O\-I\-T\-: S\-D I/\-O interrupt received \item S\-D\-I\-O\-\_\-\-F\-L\-A\-G\-\_\-\-C\-E\-A\-T\-A\-E\-N\-D\-: C\-E-\/\-A\-T\-A command completion signal received for C\-M\-D61 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of S\-D\-I\-O\-\_\-\-F\-L\-A\-G (S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 874 of file stm32f4xx\-\_\-sdio.\-c.
+
+\hypertarget{group___s_d_i_o___group7_ga2d64af1f3df0f99cb518f9a89bbd02ac}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!S\-D\-I\-O\-\_\-\-Get\-I\-T\-Status@{S\-D\-I\-O\-\_\-\-Get\-I\-T\-Status}}
+\index{S\-D\-I\-O\-\_\-\-Get\-I\-T\-Status@{S\-D\-I\-O\-\_\-\-Get\-I\-T\-Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{S\-D\-I\-O\-\_\-\-Get\-I\-T\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf I\-T\-Status} S\-D\-I\-O\-\_\-\-Get\-I\-T\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{S\-D\-I\-O\-\_\-\-I\-T}
+\end{DoxyParamCaption}
+)}}\label{group___s_d_i_o___group7_ga2d64af1f3df0f99cb518f9a89bbd02ac}
+
+
+Checks whether the specified S\-D\-I\-O interrupt has occurred or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\-D\-I\-O\-\_\-\-I\-T,\-:} & specifies the S\-D\-I\-O interrupt source to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-C\-C\-R\-C\-F\-A\-I\-L\-: Command response received (C\-R\-C check failed) interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-D\-C\-R\-C\-F\-A\-I\-L\-: Data block sent/received (C\-R\-C check failed) interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-C\-T\-I\-M\-E\-O\-U\-T\-: Command response timeout interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-D\-T\-I\-M\-E\-O\-U\-T\-: Data timeout interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-T\-X\-U\-N\-D\-E\-R\-R\-: Transmit F\-I\-F\-O underrun error interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-R\-X\-O\-V\-E\-R\-R\-: Received F\-I\-F\-O overrun error interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-C\-M\-D\-R\-E\-N\-D\-: Command response received (C\-R\-C check passed) interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-C\-M\-D\-S\-E\-N\-T\-: Command sent (no response required) interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-D\-A\-T\-A\-E\-N\-D\-: Data end (data counter, S\-D\-I\-D\-C\-O\-U\-N\-T, is zero) interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-S\-T\-B\-I\-T\-E\-R\-R\-: Start bit not detected on all data signals in wide bus mode interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-D\-B\-C\-K\-E\-N\-D\-: Data block sent/received (C\-R\-C check passed) interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-C\-M\-D\-A\-C\-T\-: Command transfer in progress interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-T\-X\-A\-C\-T\-: Data transmit in progress interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-R\-X\-A\-C\-T\-: Data receive in progress interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-T\-X\-F\-I\-F\-O\-H\-E\-: Transmit F\-I\-F\-O Half Empty interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-R\-X\-F\-I\-F\-O\-H\-F\-: Receive F\-I\-F\-O Half Full interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-T\-X\-F\-I\-F\-O\-F\-: Transmit F\-I\-F\-O full interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-R\-X\-F\-I\-F\-O\-F\-: Receive F\-I\-F\-O full interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-T\-X\-F\-I\-F\-O\-E\-: Transmit F\-I\-F\-O empty interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-R\-X\-F\-I\-F\-O\-E\-: Receive F\-I\-F\-O empty interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-T\-X\-D\-A\-V\-L\-: Data available in transmit F\-I\-F\-O interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-R\-X\-D\-A\-V\-L\-: Data available in receive F\-I\-F\-O interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-S\-D\-I\-O\-I\-T\-: S\-D I/\-O interrupt received interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-C\-E\-A\-T\-A\-E\-N\-D\-: C\-E-\/\-A\-T\-A command completion signal received for C\-M\-D61 interrupt \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of S\-D\-I\-O\-\_\-\-I\-T (S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 950 of file stm32f4xx\-\_\-sdio.\-c.
+
+\hypertarget{group___s_d_i_o___group7_ga208f51237ef43288735829dbaed37f00}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!S\-D\-I\-O\-\_\-\-I\-T\-Config@{S\-D\-I\-O\-\_\-\-I\-T\-Config}}
+\index{S\-D\-I\-O\-\_\-\-I\-T\-Config@{S\-D\-I\-O\-\_\-\-I\-T\-Config}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{S\-D\-I\-O\-\_\-\-I\-T\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} S\-D\-I\-O\-\_\-\-I\-T\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{S\-D\-I\-O\-\_\-\-I\-T, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___s_d_i_o___group7_ga208f51237ef43288735829dbaed37f00}
+
+
+Enables or disables the S\-D\-I\-O interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\-D\-I\-O\-\_\-\-I\-T,\-:} & specifies the S\-D\-I\-O interrupt sources to be enabled or disabled. This parameter can be one or a combination of the following values\-: \begin{DoxyItemize}
+\item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-C\-C\-R\-C\-F\-A\-I\-L\-: Command response received (C\-R\-C check failed) interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-D\-C\-R\-C\-F\-A\-I\-L\-: Data block sent/received (C\-R\-C check failed) interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-C\-T\-I\-M\-E\-O\-U\-T\-: Command response timeout interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-D\-T\-I\-M\-E\-O\-U\-T\-: Data timeout interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-T\-X\-U\-N\-D\-E\-R\-R\-: Transmit F\-I\-F\-O underrun error interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-R\-X\-O\-V\-E\-R\-R\-: Received F\-I\-F\-O overrun error interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-C\-M\-D\-R\-E\-N\-D\-: Command response received (C\-R\-C check passed) interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-C\-M\-D\-S\-E\-N\-T\-: Command sent (no response required) interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-D\-A\-T\-A\-E\-N\-D\-: Data end (data counter, S\-D\-I\-D\-C\-O\-U\-N\-T, is zero) interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-S\-T\-B\-I\-T\-E\-R\-R\-: Start bit not detected on all data signals in wide bus mode interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-D\-B\-C\-K\-E\-N\-D\-: Data block sent/received (C\-R\-C check passed) interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-C\-M\-D\-A\-C\-T\-: Command transfer in progress interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-T\-X\-A\-C\-T\-: Data transmit in progress interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-R\-X\-A\-C\-T\-: Data receive in progress interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-T\-X\-F\-I\-F\-O\-H\-E\-: Transmit F\-I\-F\-O Half Empty interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-R\-X\-F\-I\-F\-O\-H\-F\-: Receive F\-I\-F\-O Half Full interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-T\-X\-F\-I\-F\-O\-F\-: Transmit F\-I\-F\-O full interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-R\-X\-F\-I\-F\-O\-F\-: Receive F\-I\-F\-O full interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-T\-X\-F\-I\-F\-O\-E\-: Transmit F\-I\-F\-O empty interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-R\-X\-F\-I\-F\-O\-E\-: Receive F\-I\-F\-O empty interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-T\-X\-D\-A\-V\-L\-: Data available in transmit F\-I\-F\-O interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-R\-X\-D\-A\-V\-L\-: Data available in receive F\-I\-F\-O interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-S\-D\-I\-O\-I\-T\-: S\-D I/\-O interrupt received interrupt \item S\-D\-I\-O\-\_\-\-I\-T\-\_\-\-C\-E\-A\-T\-A\-E\-N\-D\-: C\-E-\/\-A\-T\-A command completion signal received for C\-M\-D61 interrupt \end{DoxyItemize}
+\\
+\hline
+{\em New\-State,\-:} & new state of the specified S\-D\-I\-O interrupts. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 826 of file stm32f4xx\-\_\-sdio.\-c.
+

@@ -1,0 +1,419 @@
+\hypertarget{obj_8h}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/obj.h File Reference}
+\label{obj_8h}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/obj.\-h@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/obj.\-h}}
+}
+
+
+Object Type.  
+
+
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_pm_obj__s}{Pm\-Obj\-\_\-s}
+\item 
+struct \hyperlink{struct_pm_boolean__s}{Pm\-Boolean\-\_\-s}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef enum \hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3d}{Pm\-Type\-\_\-e} \hyperlink{obj_8h_a048b977363cd4abd95a6c79a29d1e4ae}{Pm\-Type\-\_\-t}
+\item 
+typedef enum \hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3d}{Pm\-Type\-\_\-e} $\ast$ \hyperlink{obj_8h_aaa7d6759c887197eb80bd6ef8496880f}{p\-Pm\-Type\-\_\-t}
+\item 
+typedef \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{obj_8h_a72d816790acd8eb550fb25268c2b3489}{Pm\-Obj\-Desc\-\_\-t}
+\item 
+typedef \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} $\ast$ \hyperlink{obj_8h_ac06648bb014d56faa175848a6523c92e}{p\-Pm\-Obj\-Desc\-\_\-t}
+\item 
+typedef struct \hyperlink{struct_pm_obj__s}{Pm\-Obj\-\_\-s} \hyperlink{obj_8h_ad1f897dd304b81bb29e9158689844657}{Pm\-Obj\-\_\-t}
+\item 
+typedef struct \hyperlink{struct_pm_obj__s}{Pm\-Obj\-\_\-s} $\ast$ \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t}
+\item 
+typedef struct \hyperlink{struct_pm_boolean__s}{Pm\-Boolean\-\_\-s} \hyperlink{obj_8h_a12f3b5fc0738107217c4b5dde0a5a45f}{Pm\-Boolean\-\_\-t}
+\item 
+typedef struct \hyperlink{struct_pm_boolean__s}{Pm\-Boolean\-\_\-s} $\ast$ \hyperlink{obj_8h_ae685e8c28caf5523df9a055a69863550}{p\-Pm\-Boolean\-\_\-t}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3d}{Pm\-Type\-\_\-e} \{ \\*
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3daadae996580c8bb3588432e8b413f186b}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-H\-A\-S\-H\-A\-B\-L\-E\-\_\-\-M\-I\-N} = 0x00, 
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dabcaa844f12391052bb01b6d60f1ec193}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-N} = 0x00, 
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dacb01df5a1a2939340737f010740d3c54}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-I\-N\-T} = 0x01, 
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dad410958a7864d282299eb60539d319f8}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-F\-L\-T} = 0x02, 
+\\*
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da3848c703f1642516b0c6c04123244ba1}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-R} = 0x03, 
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dac6d872214c417cf6a06fa10e216c9ff8}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-T\-U\-P} = 0x04, 
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3daafaf1feabaaed2edc5bffc098d340cb0}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-O\-B} = 0x05, 
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3daf341d10b7837f3acbee9405ef8bb009f}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-M\-O\-D} = 0x06, 
+\\*
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da8a1f5108878bfab8d9d2e95a6a826878}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-L\-O} = 0x07, 
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3daca014dd54854dd2953eedd6f28a47cc0}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-F\-X\-N} = 0x08, 
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dabfad3dd9c80ca1edad372ea63efb1923}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-L\-I} = 0x09, 
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da0ee6445b0429e04922653bc25be69770}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-I\-M} = 0x0\-A, 
+\\*
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3daa6d4744e8ae0c0375c2d0e2b19adc0cf}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-I\-M} = 0x0\-B, 
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da8f6fc9898912616c1065f9b3ecc76f05}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-B} = 0x0\-C, 
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dae5a7aa5e8ea7e66e8f7ae87d2fc5f392}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-T\-H\-R} = 0x0\-D, 
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da736ec0ab0ac42392a1a02e01f779dd3a}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-O\-O\-L} = 0x0\-F, 
+\\*
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da6327c3c32786a6d093320a9585a8d3ec}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-I\-O} = 0x10, 
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da4a84acf3fa3fd298f3777f4b1a67e9d3}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-M\-T\-H} = 0x11, 
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da13008b230cfdfd8993eab5b46673a31a}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-H\-A\-S\-H\-A\-B\-L\-E\-\_\-\-M\-A\-X} = 0x11, 
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3daf574c5e76dc8343efad2126902325ef6}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-L\-S\-T} = 0x12, 
+\\*
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da973a2d1739ed75ed35743fe99e913a65}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-D\-I\-C} = 0x13, 
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da87fdce6db30bef60611f756fac75fa5c}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-Y\-A} = 0x14, 
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da7ab24078efdf3510caa73b4c320dc310}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-A\-C\-C\-E\-S\-S\-I\-B\-L\-E\-\_\-\-M\-A\-X} = 0x18, 
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3daaa5fe92cdd065694644c3dc764bca3eb}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-Y\-S} = 0x18, 
+\\*
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da1b6bd0c7b85f323824647f2fc6f9aac2}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-F\-R\-M} = 0x19, 
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da1f03c45aee8c89ffd6172b2783f8dfa9}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-L\-K} = 0x1\-A, 
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dad90a0755b7556137cbc691927806e8b1}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-E\-G} = 0x1\-B, 
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dab085dc2b2818242241ad7dce1743af1e}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-G\-L} = 0x1\-C, 
+\\*
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3daef878d8930e892dff736f8683bbd2285}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-Q\-I} = 0x1\-D, 
+\hyperlink{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dacd8ae17dc22b4336a68788316206762d}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-F\-M} = 0x1\-E
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{obj_8h_a120a6e191fd264adad602637c711f5e7}{obj\-\_\-load\-From\-Img} (\hyperlink{mem_8h_a9c68f72c120fc5a782d464c144aafa2b}{Pm\-Mem\-Space\-\_\-t} memspace, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} $\ast$$\ast$paddr, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} $\ast$r\-\_\-pobj)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{obj_8h_a6708bd340cf5af159504188455bb387a}{obj\-\_\-load\-From\-Img\-Obj} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pimg, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} $\ast$r\-\_\-pobj)
+\item 
+\hyperlink{stdint_8h_ad566f6541e98b74246db1a3a3a85ad49}{int8\-\_\-t} \hyperlink{obj_8h_ae08aee8e43f8f179d47a20b1a68d5c3a}{obj\-\_\-is\-False} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pobj)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{obj_8h_a85099807edbb0432ca61263af9d4619f}{obj\-\_\-is\-In} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pobj, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pitem)
+\item 
+\hyperlink{stdint_8h_ad566f6541e98b74246db1a3a3a85ad49}{int8\-\_\-t} \hyperlink{obj_8h_a9f644c37d517511d2756f51ba70bdee8}{obj\-\_\-compare} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pobj1, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pobj2)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{obj_8h_ace3ddc65cd26903046d201957bbb42a6}{obj\-\_\-print} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pobj, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} is\-\_\-expr\-\_\-repr, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} is\-\_\-nested)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{obj_8h_abfa94db2f86106a7a48de36b6fdca611}{obj\-\_\-repr} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pobj, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} $\ast$r\-\_\-pstr)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Object Type. Object type header. 
+
+Definition in file \hyperlink{obj_8h_source}{obj.\-h}.
+
+
+
+\subsection{Typedef Documentation}
+\hypertarget{obj_8h_a12f3b5fc0738107217c4b5dde0a5a45f}{\index{obj.\-h@{obj.\-h}!Pm\-Boolean\-\_\-t@{Pm\-Boolean\-\_\-t}}
+\index{Pm\-Boolean\-\_\-t@{Pm\-Boolean\-\_\-t}!obj.h@{obj.\-h}}
+\subsubsection[{Pm\-Boolean\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf Pm\-Boolean\-\_\-s}
+ {\bf Pm\-Boolean\-\_\-t}}}\label{obj_8h_a12f3b5fc0738107217c4b5dde0a5a45f}
+Boolean object \hypertarget{obj_8h_ad1f897dd304b81bb29e9158689844657}{\index{obj.\-h@{obj.\-h}!Pm\-Obj\-\_\-t@{Pm\-Obj\-\_\-t}}
+\index{Pm\-Obj\-\_\-t@{Pm\-Obj\-\_\-t}!obj.h@{obj.\-h}}
+\subsubsection[{Pm\-Obj\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf Pm\-Obj\-\_\-s}  {\bf Pm\-Obj\-\_\-t}}}\label{obj_8h_ad1f897dd304b81bb29e9158689844657}
+Object
+
+The abstract empty object type for Py\-Mite. \hypertarget{obj_8h_a72d816790acd8eb550fb25268c2b3489}{\index{obj.\-h@{obj.\-h}!Pm\-Obj\-Desc\-\_\-t@{Pm\-Obj\-Desc\-\_\-t}}
+\index{Pm\-Obj\-Desc\-\_\-t@{Pm\-Obj\-Desc\-\_\-t}!obj.h@{obj.\-h}}
+\subsubsection[{Pm\-Obj\-Desc\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf uint16\-\_\-t} {\bf Pm\-Obj\-Desc\-\_\-t}}}\label{obj_8h_a72d816790acd8eb550fb25268c2b3489}
+Object Descriptor
+
+All active Py\-Mite \char`\"{}objects\char`\"{} must have this at the top of their struct. (Code\-Obj, Frame, Dict, List, Tuple, etc.).
+
+The following is a diagram of the object descriptor\-: \begin{DoxyVerb}*              MSb           LSb
+*               7 6 5 4 3 2 1 0
+*     pchunk-> +-+-+-+-+-+-+-+-+     S := Size of the chunk (2 LSbs dropped)
+*              |     S[9:2]    |     F := Free bit
+*              +-+-+---------+-+     M := GC Mark bit
+*              |F|M|    T    |S|     T := Object type (PyMite specific)
+*              +-+-+---------+-+
+*              | object data   |
+*              ...           ...
+*              | end data      |     Theoretical min size == 2
+*              +---------------+     Effective min size == 8
+*                                    (due to pmHeapDesc_t)
+* \end{DoxyVerb}
+ Macros are used to get and set field values. Using macros eliminates declaring bit fields which fails on some compilers. 
+
+Definition at line 251 of file obj.\-h.
+
+\hypertarget{obj_8h_a048b977363cd4abd95a6c79a29d1e4ae}{\index{obj.\-h@{obj.\-h}!Pm\-Type\-\_\-t@{Pm\-Type\-\_\-t}}
+\index{Pm\-Type\-\_\-t@{Pm\-Type\-\_\-t}!obj.h@{obj.\-h}}
+\subsubsection[{Pm\-Type\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef enum {\bf Pm\-Type\-\_\-e}  {\bf Pm\-Type\-\_\-t}}}\label{obj_8h_a048b977363cd4abd95a6c79a29d1e4ae}
+Object type enum
+
+These values go in the od\-\_\-type fields of the obj descriptor. Be sure these values correspond to those in the image creator tool. The hashable types are grouped together for convenience.
+
+W\-A\-R\-N\-I\-N\-G\-: od\-\_\-type must be at most 5 bits! (must be $<$ 0x20) \hypertarget{obj_8h_ae685e8c28caf5523df9a055a69863550}{\index{obj.\-h@{obj.\-h}!p\-Pm\-Boolean\-\_\-t@{p\-Pm\-Boolean\-\_\-t}}
+\index{p\-Pm\-Boolean\-\_\-t@{p\-Pm\-Boolean\-\_\-t}!obj.h@{obj.\-h}}
+\subsubsection[{p\-Pm\-Boolean\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf Pm\-Boolean\-\_\-s} $\ast$ {\bf p\-Pm\-Boolean\-\_\-t}}}\label{obj_8h_ae685e8c28caf5523df9a055a69863550}
+\hypertarget{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{\index{obj.\-h@{obj.\-h}!p\-Pm\-Obj\-\_\-t@{p\-Pm\-Obj\-\_\-t}}
+\index{p\-Pm\-Obj\-\_\-t@{p\-Pm\-Obj\-\_\-t}!obj.h@{obj.\-h}}
+\subsubsection[{p\-Pm\-Obj\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf Pm\-Obj\-\_\-s}
+ $\ast$ {\bf p\-Pm\-Obj\-\_\-t}}}\label{obj_8h_af293479fa3f9d92b941ee7445ad3960e}
+\hypertarget{obj_8h_ac06648bb014d56faa175848a6523c92e}{\index{obj.\-h@{obj.\-h}!p\-Pm\-Obj\-Desc\-\_\-t@{p\-Pm\-Obj\-Desc\-\_\-t}}
+\index{p\-Pm\-Obj\-Desc\-\_\-t@{p\-Pm\-Obj\-Desc\-\_\-t}!obj.h@{obj.\-h}}
+\subsubsection[{p\-Pm\-Obj\-Desc\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf uint16\-\_\-t} $\ast$ {\bf p\-Pm\-Obj\-Desc\-\_\-t}}}\label{obj_8h_ac06648bb014d56faa175848a6523c92e}
+
+
+Definition at line 251 of file obj.\-h.
+
+\hypertarget{obj_8h_aaa7d6759c887197eb80bd6ef8496880f}{\index{obj.\-h@{obj.\-h}!p\-Pm\-Type\-\_\-t@{p\-Pm\-Type\-\_\-t}}
+\index{p\-Pm\-Type\-\_\-t@{p\-Pm\-Type\-\_\-t}!obj.h@{obj.\-h}}
+\subsubsection[{p\-Pm\-Type\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef enum {\bf Pm\-Type\-\_\-e} $\ast$ {\bf p\-Pm\-Type\-\_\-t}}}\label{obj_8h_aaa7d6759c887197eb80bd6ef8496880f}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3d}{\index{obj.\-h@{obj.\-h}!Pm\-Type\-\_\-e@{Pm\-Type\-\_\-e}}
+\index{Pm\-Type\-\_\-e@{Pm\-Type\-\_\-e}!obj.h@{obj.\-h}}
+\subsubsection[{Pm\-Type\-\_\-e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Pm\-Type\-\_\-e}}}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3d}
+Object type enum
+
+These values go in the od\-\_\-type fields of the obj descriptor. Be sure these values correspond to those in the image creator tool. The hashable types are grouped together for convenience.
+
+W\-A\-R\-N\-I\-N\-G\-: od\-\_\-type must be at most 5 bits! (must be $<$ 0x20) \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-H\-A\-S\-H\-A\-B\-L\-E\-\_\-\-M\-I\-N@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-H\-A\-S\-H\-A\-B\-L\-E\-\_\-\-M\-I\-N}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-H\-A\-S\-H\-A\-B\-L\-E\-\_\-\-M\-I\-N@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-H\-A\-S\-H\-A\-B\-L\-E\-\_\-\-M\-I\-N}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3daadae996580c8bb3588432e8b413f186b}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-H\-A\-S\-H\-A\-B\-L\-E\-\_\-\-M\-I\-N}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3daadae996580c8bb3588432e8b413f186b}
+}]\index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-N@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-N}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-N@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-N}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dabcaa844f12391052bb01b6d60f1ec193}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-N}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dabcaa844f12391052bb01b6d60f1ec193}
+}]None \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-I\-N\-T@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-I\-N\-T}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-I\-N\-T@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-I\-N\-T}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dacb01df5a1a2939340737f010740d3c54}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-I\-N\-T}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dacb01df5a1a2939340737f010740d3c54}
+}]Signed integer \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-F\-L\-T@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-F\-L\-T}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-F\-L\-T@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-F\-L\-T}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dad410958a7864d282299eb60539d319f8}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-F\-L\-T}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dad410958a7864d282299eb60539d319f8}
+}]Floating point 32b \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-R@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-R}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-R@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-R}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da3848c703f1642516b0c6c04123244ba1}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-R}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da3848c703f1642516b0c6c04123244ba1}
+}]String \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-T\-U\-P@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-T\-U\-P}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-T\-U\-P@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-T\-U\-P}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dac6d872214c417cf6a06fa10e216c9ff8}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-T\-U\-P}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dac6d872214c417cf6a06fa10e216c9ff8}
+}]Tuple (immutable sequence) \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-O\-B@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-O\-B}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-O\-B@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-O\-B}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3daafaf1feabaaed2edc5bffc098d340cb0}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-O\-B}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3daafaf1feabaaed2edc5bffc098d340cb0}
+}]Code obj \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-M\-O\-D@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-M\-O\-D}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-M\-O\-D@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-M\-O\-D}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3daf341d10b7837f3acbee9405ef8bb009f}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-M\-O\-D}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3daf341d10b7837f3acbee9405ef8bb009f}
+}]Module obj \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-L\-O@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-L\-O}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-L\-O@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-L\-O}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da8a1f5108878bfab8d9d2e95a6a826878}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-L\-O}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da8a1f5108878bfab8d9d2e95a6a826878}
+}]Class obj \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-F\-X\-N@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-F\-X\-N}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-F\-X\-N@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-F\-X\-N}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3daca014dd54854dd2953eedd6f28a47cc0}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-F\-X\-N}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3daca014dd54854dd2953eedd6f28a47cc0}
+}]Function obj (callable) \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-L\-I@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-L\-I}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-L\-I@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-L\-I}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dabfad3dd9c80ca1edad372ea63efb1923}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-L\-I}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dabfad3dd9c80ca1edad372ea63efb1923}
+}]Class instance \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-I\-M@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-I\-M}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-I\-M@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-I\-M}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da0ee6445b0429e04922653bc25be69770}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-I\-M}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da0ee6445b0429e04922653bc25be69770}
+}]Code image in static memory \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-I\-M@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-I\-M}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-I\-M@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-I\-M}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3daa6d4744e8ae0c0375c2d0e2b19adc0cf}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-I\-M}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3daa6d4744e8ae0c0375c2d0e2b19adc0cf}
+}]Native function image \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-B@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-B}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-B@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-B}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da8f6fc9898912616c1065f9b3ecc76f05}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-B}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da8f6fc9898912616c1065f9b3ecc76f05}
+}]Native function object \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-T\-H\-R@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-T\-H\-R}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-T\-H\-R@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-T\-H\-R}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dae5a7aa5e8ea7e66e8f7ae87d2fc5f392}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-T\-H\-R}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dae5a7aa5e8ea7e66e8f7ae87d2fc5f392}
+}]Thread \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-O\-O\-L@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-O\-O\-L}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-O\-O\-L@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-O\-O\-L}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da736ec0ab0ac42392a1a02e01f779dd3a}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-O\-O\-L}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da736ec0ab0ac42392a1a02e01f779dd3a}
+}]Boolean object \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-I\-O@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-I\-O}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-I\-O@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-I\-O}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da6327c3c32786a6d093320a9585a8d3ec}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-I\-O}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da6327c3c32786a6d093320a9585a8d3ec}
+}]Code image object \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-M\-T\-H@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-M\-T\-H}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-M\-T\-H@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-M\-T\-H}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da4a84acf3fa3fd298f3777f4b1a67e9d3}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-M\-T\-H}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da4a84acf3fa3fd298f3777f4b1a67e9d3}
+}]Method object \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-H\-A\-S\-H\-A\-B\-L\-E\-\_\-\-M\-A\-X@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-H\-A\-S\-H\-A\-B\-L\-E\-\_\-\-M\-A\-X}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-H\-A\-S\-H\-A\-B\-L\-E\-\_\-\-M\-A\-X@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-H\-A\-S\-H\-A\-B\-L\-E\-\_\-\-M\-A\-X}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da13008b230cfdfd8993eab5b46673a31a}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-H\-A\-S\-H\-A\-B\-L\-E\-\_\-\-M\-A\-X}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da13008b230cfdfd8993eab5b46673a31a}
+}]\index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-L\-S\-T@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-L\-S\-T}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-L\-S\-T@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-L\-S\-T}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3daf574c5e76dc8343efad2126902325ef6}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-L\-S\-T}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3daf574c5e76dc8343efad2126902325ef6}
+}]List (mutable sequence) \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-D\-I\-C@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-D\-I\-C}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-D\-I\-C@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-D\-I\-C}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da973a2d1739ed75ed35743fe99e913a65}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-D\-I\-C}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da973a2d1739ed75ed35743fe99e913a65}
+}]Dictionary (hash table) \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-Y\-A@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-Y\-A}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-Y\-A@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-Y\-A}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da87fdce6db30bef60611f756fac75fa5c}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-Y\-A}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da87fdce6db30bef60611f756fac75fa5c}
+}]Bytearray (mutable) \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-A\-C\-C\-E\-S\-S\-I\-B\-L\-E\-\_\-\-M\-A\-X@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-A\-C\-C\-E\-S\-S\-I\-B\-L\-E\-\_\-\-M\-A\-X}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-A\-C\-C\-E\-S\-S\-I\-B\-L\-E\-\_\-\-M\-A\-X@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-A\-C\-C\-E\-S\-S\-I\-B\-L\-E\-\_\-\-M\-A\-X}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da7ab24078efdf3510caa73b4c320dc310}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-A\-C\-C\-E\-S\-S\-I\-B\-L\-E\-\_\-\-M\-A\-X}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da7ab24078efdf3510caa73b4c320dc310}
+}]\index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-Y\-S@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-Y\-S}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-Y\-S@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-Y\-S}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3daaa5fe92cdd065694644c3dc764bca3eb}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-Y\-S}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3daaa5fe92cdd065694644c3dc764bca3eb}
+}]Bytes (mutable container for Bytearray type) \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-F\-R\-M@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-F\-R\-M}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-F\-R\-M@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-F\-R\-M}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da1b6bd0c7b85f323824647f2fc6f9aac2}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-F\-R\-M}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da1b6bd0c7b85f323824647f2fc6f9aac2}
+}]Frame type \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-L\-K@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-L\-K}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-L\-K@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-L\-K}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da1f03c45aee8c89ffd6172b2783f8dfa9}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-L\-K}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3da1f03c45aee8c89ffd6172b2783f8dfa9}
+}]Block type (for,while,try,etc) \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-E\-G@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-E\-G}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-E\-G@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-E\-G}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dad90a0755b7556137cbc691927806e8b1}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-E\-G}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dad90a0755b7556137cbc691927806e8b1}
+}]Segment (within a seglist) \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-G\-L@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-G\-L}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-G\-L@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-G\-L}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dab085dc2b2818242241ad7dce1743af1e}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-G\-L}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dab085dc2b2818242241ad7dce1743af1e}
+}]Seglist \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-Q\-I@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-Q\-I}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-Q\-I@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-Q\-I}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3daef878d8930e892dff736f8683bbd2285}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-Q\-I}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3daef878d8930e892dff736f8683bbd2285}
+}]Sequence iterator \index{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-F\-M@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-F\-M}!obj.\-h@{obj.\-h}}\index{obj.\-h@{obj.\-h}!O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-F\-M@{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-F\-M}}\item[{\em 
+\hypertarget{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dacd8ae17dc22b4336a68788316206762d}{O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-F\-M}\label{obj_8h_a5a1524df4ac9882c78b6848e82e12e3dacd8ae17dc22b4336a68788316206762d}
+}]Native frame (there is only one) \end{description}
+\end{Desc}
+
+
+Definition at line 130 of file obj.\-h.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{obj_8h_a9f644c37d517511d2756f51ba70bdee8}{\index{obj.\-h@{obj.\-h}!obj\-\_\-compare@{obj\-\_\-compare}}
+\index{obj\-\_\-compare@{obj\-\_\-compare}!obj.h@{obj.\-h}}
+\subsubsection[{obj\-\_\-compare}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int8\-\_\-t} obj\-\_\-compare (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pobj1, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pobj2}
+\end{DoxyParamCaption}
+)}}\label{obj_8h_a9f644c37d517511d2756f51ba70bdee8}
+Compares two objects for equality.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pobj1} & Ptr to first object. \\
+\hline
+{\em pobj2} & Ptr to second object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+C\-\_\-\-S\-A\-M\-E if the items are equivalent, C\-\_\-\-D\-I\-F\-F\-E\-R otherwise. 
+\end{DoxyReturn}
+
+
+Definition at line 254 of file obj.\-c.
+
+\hypertarget{obj_8h_ae08aee8e43f8f179d47a20b1a68d5c3a}{\index{obj.\-h@{obj.\-h}!obj\-\_\-is\-False@{obj\-\_\-is\-False}}
+\index{obj\-\_\-is\-False@{obj\-\_\-is\-False}!obj.h@{obj.\-h}}
+\subsubsection[{obj\-\_\-is\-False}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int8\-\_\-t} obj\-\_\-is\-False (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pobj}
+\end{DoxyParamCaption}
+)}}\label{obj_8h_ae08aee8e43f8f179d47a20b1a68d5c3a}
+Finds the boolean value of the given object.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pobj} & Ptr to object to test. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Nonzero value if object is False. 
+\end{DoxyReturn}
+
+
+Definition at line 111 of file obj.\-c.
+
+\hypertarget{obj_8h_a85099807edbb0432ca61263af9d4619f}{\index{obj.\-h@{obj.\-h}!obj\-\_\-is\-In@{obj\-\_\-is\-In}}
+\index{obj\-\_\-is\-In@{obj\-\_\-is\-In}!obj.h@{obj.\-h}}
+\subsubsection[{obj\-\_\-is\-In}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} obj\-\_\-is\-In (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pobj, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pitem}
+\end{DoxyParamCaption}
+)}}\label{obj_8h_a85099807edbb0432ca61263af9d4619f}
+Returns the boolean true if the item is in the object
+
+
+\begin{DoxyParams}{Parameters}
+{\em pobj} & Ptr to container object \\
+\hline
+{\em pitem} & Ptr to item \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 164 of file obj.\-c.
+
+\hypertarget{obj_8h_a120a6e191fd264adad602637c711f5e7}{\index{obj.\-h@{obj.\-h}!obj\-\_\-load\-From\-Img@{obj\-\_\-load\-From\-Img}}
+\index{obj\-\_\-load\-From\-Img@{obj\-\_\-load\-From\-Img}!obj.h@{obj.\-h}}
+\subsubsection[{obj\-\_\-load\-From\-Img}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} obj\-\_\-load\-From\-Img (
+\begin{DoxyParamCaption}
+\item[{{\bf Pm\-Mem\-Space\-\_\-t}}]{memspace, }
+\item[{{\bf uint8\-\_\-t} {\bf const} $\ast$$\ast$}]{paddr, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t} $\ast$}]{r\-\_\-pobj}
+\end{DoxyParamCaption}
+)}}\label{obj_8h_a120a6e191fd264adad602637c711f5e7}
+Loads an object from an image in memory. Return pointer to object. Leave add pointing one byte past end of obj.
+
+The following lists the simple object types and their image structures\-: -\/\-None\-: -\/type\-: int8\-\_\-t -\/ O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-N
+
+-\/\-Int\-: -\/type\-: int8\-\_\-t -\/ O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-I\-N\-T -\/value\-: int32\-\_\-t -\/ signed integer value
+
+-\/\-Float\-: -\/type\-: int8\-\_\-t -\/ O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-F\-L\-O\-A\-T -\/value\-: float32\-\_\-t -\/ 32-\/bit floating point value
+
+-\/\-Slice (is this allowed in img?)\-: -\/type\-: int8\-\_\-t -\/ O\-B\-J\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-L\-I\-C\-E -\/index1\-: int16\-\_\-t -\/ first index. -\/index2\-: int16\-\_\-t -\/ second index.
+
+
+\begin{DoxyParams}{Parameters}
+{\em memspace} & memory space/type \\
+\hline
+{\em paddr} & ptr to ptr to obj return by reference\-: paddr pts to first byte after obj \\
+\hline
+{\em r\-\_\-pobj} & Return arg, the loaded object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 32 of file obj.\-c.
+
+\hypertarget{obj_8h_a6708bd340cf5af159504188455bb387a}{\index{obj.\-h@{obj.\-h}!obj\-\_\-load\-From\-Img\-Obj@{obj\-\_\-load\-From\-Img\-Obj}}
+\index{obj\-\_\-load\-From\-Img\-Obj@{obj\-\_\-load\-From\-Img\-Obj}!obj.h@{obj.\-h}}
+\subsubsection[{obj\-\_\-load\-From\-Img\-Obj}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} obj\-\_\-load\-From\-Img\-Obj (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pimg, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t} $\ast$}]{r\-\_\-pobj}
+\end{DoxyParamCaption}
+)}}\label{obj_8h_a6708bd340cf5af159504188455bb387a}
+Loads a code object from a code image object
+
+
+\begin{DoxyParams}{Parameters}
+{\em pimg} & Ptr to a code image object \\
+\hline
+{\em r\-\_\-pobj} & Return arg, the loaded object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns status 
+\end{DoxyReturn}
+
+
+Definition at line 90 of file obj.\-c.
+
+\hypertarget{obj_8h_ace3ddc65cd26903046d201957bbb42a6}{\index{obj.\-h@{obj.\-h}!obj\-\_\-print@{obj\-\_\-print}}
+\index{obj\-\_\-print@{obj\-\_\-print}!obj.h@{obj.\-h}}
+\subsubsection[{obj\-\_\-print}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} obj\-\_\-print (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pobj, }
+\item[{{\bf uint8\-\_\-t}}]{is\-\_\-expr\-\_\-repr, }
+\item[{{\bf uint8\-\_\-t}}]{is\-\_\-nested}
+\end{DoxyParamCaption}
+)}}\label{obj_8h_ace3ddc65cd26903046d201957bbb42a6}
+Print an object, thereby using objects helpers.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pobj} & Ptr to object for printing. \\
+\hline
+{\em is\-\_\-expr\-\_\-repr} & Influences the way None and strings are printed. If 0, None is printed, strings are printed. If 1, None is not printed and strings are printed surrounded with single quotes and unprintable characters are escaped. \\
+\hline
+{\em is\-\_\-nested} & Influences the way None and strings are printed. If 1, None will be printed and strings will be surrounded with single quotes and escaped. This argument overrides the is\-\_\-expr\-\_\-repr argument. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 345 of file obj.\-c.
+
+\hypertarget{obj_8h_abfa94db2f86106a7a48de36b6fdca611}{\index{obj.\-h@{obj.\-h}!obj\-\_\-repr@{obj\-\_\-repr}}
+\index{obj\-\_\-repr@{obj\-\_\-repr}!obj.h@{obj.\-h}}
+\subsubsection[{obj\-\_\-repr}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} obj\-\_\-repr (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pobj, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t} $\ast$}]{r\-\_\-pstr}
+\end{DoxyParamCaption}
+)}}\label{obj_8h_abfa94db2f86106a7a48de36b6fdca611}
+Returns by reference a string object that is the human-\/readable representation of the object. Used by the backtick operation (U\-N\-A\-R\-Y\-\_\-\-C\-O\-N\-V\-E\-R\-T).
+
+
+\begin{DoxyParams}{Parameters}
+{\em pobj} & Ptr to object to represent \\
+\hline
+{\em r\-\_\-pstr} & Return arg, the string object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 467 of file obj.\-c.
+

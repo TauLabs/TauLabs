@@ -1,0 +1,62 @@
+\hypertarget{usb__dcd_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/\-Libraries/\-S\-T\-M32\-\_\-\-U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-Driver/src/usb\-\_\-dcd.c File Reference}
+\label{usb__dcd_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/\-Libraries/\-S\-T\-M32\-\_\-\-U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-Driver/src/usb\-\_\-dcd.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/\-Libraries/\-S\-T\-M32\-\_\-\-U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-Driver/src/usb\-\_\-dcd.\-c}}
+}
+
+
+Peripheral \hyperlink{struct_device}{Device} Interface Layer.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_b___d_c_d___private___functions_ga32ea24db123f7f8bb0edfb4f97c1c892}{D\-C\-D\-\_\-\-Init} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev, \hyperlink{group___u_s_b___d_e_f_i_n_e_s___exported___types_gab31b9dd0bc08bf6120424c20bda8eb7e}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-I\-D\-\_\-\-Type\-Def} core\-I\-D)
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___u_s_b___d_c_d___private___functions_ga9d1aa06cfde8fe3442ab7486c6c5bbdd}{D\-C\-D\-\_\-\-E\-P\-\_\-\-Open} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} ep\-\_\-addr, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} ep\-\_\-mps, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} ep\-\_\-type)
+\begin{DoxyCompactList}\small\item\em Configure an E\-P. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___u_s_b___d_c_d___private___functions_ga6fdf047e0b91049b43d9cb2b1c39dcb8}{D\-C\-D\-\_\-\-E\-P\-\_\-\-Close} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} ep\-\_\-addr)
+\begin{DoxyCompactList}\small\item\em called when an E\-P is disabled \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___u_s_b___d_c_d___private___functions_gadb1ab76f48d6ea405e62c68af8ea6444}{D\-C\-D\-\_\-\-E\-P\-\_\-\-Prepare\-Rx} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} ep\-\_\-addr, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$pbuf, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} buf\-\_\-len)
+\begin{DoxyCompactList}\small\item\em D\-C\-D\-\_\-\-E\-P\-\_\-\-Prepare\-Rx. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___u_s_b___d_c_d___private___functions_gad55cbc7c1e8666257b9a3918b80effa3}{D\-C\-D\-\_\-\-E\-P\-\_\-\-Tx} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} ep\-\_\-addr, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$pbuf, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} buf\-\_\-len)
+\begin{DoxyCompactList}\small\item\em Transmit data over U\-S\-B. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___u_s_b___d_c_d___private___functions_ga9c6f692cb2607db05b83073dc67bc429}{D\-C\-D\-\_\-\-E\-P\-\_\-\-Stall} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} epnum)
+\begin{DoxyCompactList}\small\item\em Stall an endpoint. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___u_s_b___d_c_d___private___functions_gabdb4ba47ac9d83d0690d425bb616d83d}{D\-C\-D\-\_\-\-E\-P\-\_\-\-Clr\-Stall} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} epnum)
+\begin{DoxyCompactList}\small\item\em Clear stall condition on endpoints. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___u_s_b___d_c_d___private___functions_ga60384fbc64829d957de52fe32a9a70a8}{D\-C\-D\-\_\-\-E\-P\-\_\-\-Flush} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} epnum)
+\begin{DoxyCompactList}\small\item\em This Function flushes the F\-I\-F\-Os. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_b___d_c_d___private___functions_ga14cab44ffb4094334bb0292ea81c9a5a}{D\-C\-D\-\_\-\-E\-P\-\_\-\-Set\-Address} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} address)
+\begin{DoxyCompactList}\small\item\em This Function set U\-S\-B device address. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_b___d_c_d___private___functions_gae86236f273ed0499af2ab44915ff3983}{D\-C\-D\-\_\-\-Dev\-Connect} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev)
+\begin{DoxyCompactList}\small\item\em Connect device (enable internal pull-\/up) \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_b___d_c_d___private___functions_gabceac3831bd896522e96c5885ac9ac3b}{D\-C\-D\-\_\-\-Dev\-Disconnect} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev)
+\begin{DoxyCompactList}\small\item\em Disconnect device (disable internal pull-\/up) \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___u_s_b___d_c_d___private___functions_ga4c90c3ca8ad2f5dda0de937ddc2c115c}{D\-C\-D\-\_\-\-Get\-E\-P\-Status} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} epnum)
+\begin{DoxyCompactList}\small\item\em returns the E\-P Status \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_b___d_c_d___private___functions_ga38147684b1cc15f071ef305a8f50320b}{D\-C\-D\-\_\-\-Set\-E\-P\-Status} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} epnum, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Status)
+\begin{DoxyCompactList}\small\item\em Set the E\-P Status. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Peripheral \hyperlink{struct_device}{Device} Interface Layer. \begin{DoxyAuthor}{Author}
+M\-C\-D Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V2.\-1.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+19-\/\-March-\/2012 
+\end{DoxyDate}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+\subsubsection*{\begin{center}\copyright C\-O\-P\-Y\-R\-I\-G\-H\-T 2012 S\-T\-Microelectronics\end{center} }
+
+Licensed under M\-C\-D-\/\-S\-T Liberty S\-W License Agreement V2, (the \char`\"{}\-License\char`\"{}); You may not use this file except in compliance with the License. You may obtain a copy of the License at\-: \begin{DoxyVerb}   http://www.st.com/software_license_agreement_liberty_v2
+\end{DoxyVerb}
+
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \char`\"{}\-A\-S I\-S\char`\"{} B\-A\-S\-I\-S, W\-I\-T\-H\-O\-U\-T W\-A\-R\-R\-A\-N\-T\-I\-E\-S O\-R C\-O\-N\-D\-I\-T\-I\-O\-N\-S O\-F A\-N\-Y K\-I\-N\-D, either express or implied. See the License for the specific language governing permissions and limitations under the License. 
+
+Definition in file \hyperlink{usb__dcd_8c_source}{usb\-\_\-dcd.\-c}.
+

@@ -1,0 +1,565 @@
+\hypertarget{group___a_d_c___group6}{\section{Injected channels Configuration functions}
+\label{group___a_d_c___group6}\index{Injected channels Configuration functions@{Injected channels Configuration functions}}
+}
+
+
+Injected channels Configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___a_d_c___group6_gae2b44bff080184e1cf6f2cb6b9bb3e59}{A\-D\-C\-\_\-\-Injected\-Channel\-Config} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} A\-D\-C\-\_\-\-Channel, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Rank, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} A\-D\-C\-\_\-\-Sample\-Time)
+\begin{DoxyCompactList}\small\item\em Configures for the selected A\-D\-C injected channel its corresponding rank in the sequencer and its sample time. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___a_d_c___group6_gab7b02acec71ff12a8388bc70ab1e40f8}{A\-D\-C\-\_\-\-Injected\-Sequencer\-Length\-Config} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} Sequencer\-Length)
+\begin{DoxyCompactList}\small\item\em Configures the sequencer length for injected channels. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___a_d_c___group6_gabe8b7c5f81fe735c942612af3c2a6279}{A\-D\-C\-\_\-\-External\-Trigger\-Injected\-Config} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-Event, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} A\-D\-C\-\_\-\-External\-Trig\-Injec\-Event\-Edge)
+\begin{DoxyCompactList}\small\item\em External Trigger Enable and Polarity Selection for injected channels. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___a_d_c___group6_ga247e283c7c37f4eff3c0b8515cd03b52}{A\-D\-C\-\_\-\-Start\-Injected\-Conversion} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx)
+\begin{DoxyCompactList}\small\item\em Enables or disables the selected A\-D\-C start of the injected channels conversion. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___a_d_c___group6_gaa5c10c22746b504d4e0de659098b0fe0}{A\-D\-C\-\_\-\-Stop\-Injected\-Conversion} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx)
+\begin{DoxyCompactList}\small\item\em Stops the selected A\-D\-C ongoing injected conversion. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___a_d_c___group6_gad1e5ddd2f0456e50d8d8f6db2bffef3d}{A\-D\-C\-\_\-\-Get\-Start\-Injected\-Conversion\-Status} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx)
+\begin{DoxyCompactList}\small\item\em Gets the selected A\-D\-C Software start injected conversion Status. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___a_d_c___group6_ga1ff9c3b8e4bbdd2addfd227f1a506a66}{A\-D\-C\-\_\-\-Auto\-Injected\-Conv\-Cmd} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the selected A\-D\-C automatic injected group conversion after regular one. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___a_d_c___group6_ga0b583b94183fa4ff287177b9ee808092}{A\-D\-C\-\_\-\-Injected\-Disc\-Mode\-Cmd} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the discontinuous mode for injected group channel for the specified A\-D\-C. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___a_d_c___group6_ga1dea5ed24571a2e0ce4cbd41c9c1ec46}{A\-D\-C\-\_\-\-Get\-Injected\-Conversion\-Value} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} A\-D\-C\-\_\-\-Injected\-Channel)
+\begin{DoxyCompactList}\small\item\em Returns the A\-D\-C injected channel conversion result. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___a_d_c___group6_ga07a942613088ab3ecfc3d97a20475920}{A\-D\-C\-\_\-\-Set\-Injected\-Offset} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} A\-D\-C\-\_\-\-Injected\-Channel, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Offset)
+\begin{DoxyCompactList}\small\item\em Set the injected channels conversion value offset. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___a_d_c___group6_gafc02ce1e84e96b692adf085f61a0bca6}{A\-D\-C\-\_\-\-External\-Trig\-Injected\-Conv\-Config} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv)
+\begin{DoxyCompactList}\small\item\em Configures the A\-D\-Cx external trigger for injected channels conversion. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___a_d_c___group6_ga62bea56579f04374fbe830d9e55e6fb0}{A\-D\-C\-\_\-\-External\-Trig\-Injected\-Conv\-Edge\-Config} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-Edge)
+\begin{DoxyCompactList}\small\item\em Configures the A\-D\-Cx external trigger edge for injected channels conversion. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___a_d_c___group6_ga79b2f6c3c77925b35495f2db228895de}{A\-D\-C\-\_\-\-Software\-Start\-Injected\-Conv} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx)
+\begin{DoxyCompactList}\small\item\em Enables the selected A\-D\-C software start conversion of the injected channels. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___a_d_c___group6_ga8765f8835b8cfed13dce3d8d71767dcc}{A\-D\-C\-\_\-\-Get\-Software\-Start\-Injected\-Conv\-Cmd\-Status} (\hyperlink{struct_a_d_c___type_def}{A\-D\-C\-\_\-\-Type\-Def} $\ast$A\-D\-Cx)
+\begin{DoxyCompactList}\small\item\em Gets the selected A\-D\-C Software start injected conversion Status. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Injected channels Configuration functions. \begin{DoxyVerb} ===============================================================================
+                     ##### Injected channels Configuration functions #####
+ ===============================================================================  
+
+  [..] This section provide functions allowing to configure the ADC Injected channels,
+  it is composed of 2 sub sections : 
+    
+  (#) Configuration functions for Injected channels: This subsection provides 
+     functions allowing to configure the ADC injected channels :    
+    (+) Configure the rank in the injected group sequencer for each channel
+    (+) Configure the sampling time for each channel    
+    (+) Activate the Auto injected Mode  
+    (+) Activate the Discontinuous Mode  
+    (+) External/software trigger source   
+    (+) External trigger edge 
+    (+) injected channels sequencer.
+    
+   (#) Get the Specified Injected channel conversion data: This subsection 
+      provides an important function in the ADC peripheral since it returns the 
+      converted data of the specific injected channel.\end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                     Injected channels Configuration functions
+ ===============================================================================  
+
+  This section provide functions allowing to configure the ADC Injected channels,
+  it is composed of 2 sub sections : 
+    
+  1. Configuration functions for Injected channels: This subsection provides 
+     functions allowing to configure the ADC injected channels :    
+    - Configure the rank in the injected group sequencer for each channel
+    - Configure the sampling time for each channel    
+    - Activate the Auto injected Mode  
+    - Activate the Discontinuous Mode 
+    - scan mode activation  
+    - External/software trigger source   
+    - External trigger edge 
+    - injected channels sequencer.
+    
+   2. Get the Specified Injected channel conversion data: This subsection 
+      provides an important function in the ADC peripheral since it returns the 
+      converted data of the specific injected channel.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___a_d_c___group6_ga1ff9c3b8e4bbdd2addfd227f1a506a66}{\index{Injected channels Configuration functions@{Injected channels Configuration functions}!A\-D\-C\-\_\-\-Auto\-Injected\-Conv\-Cmd@{A\-D\-C\-\_\-\-Auto\-Injected\-Conv\-Cmd}}
+\index{A\-D\-C\-\_\-\-Auto\-Injected\-Conv\-Cmd@{A\-D\-C\-\_\-\-Auto\-Injected\-Conv\-Cmd}!Injected channels Configuration functions@{Injected channels Configuration functions}}
+\subsubsection[{A\-D\-C\-\_\-\-Auto\-Injected\-Conv\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} A\-D\-C\-\_\-\-Auto\-Injected\-Conv\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group6_ga1ff9c3b8e4bbdd2addfd227f1a506a66}
+
+
+Enables or disables the selected A\-D\-C automatic injected group conversion after regular one. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2, 3 or 4 to select the A\-D\-C peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the selected A\-D\-C auto injected conversion This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2 or 3 to select the A\-D\-C peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the selected A\-D\-C auto injected conversion This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2068 of file stm32f30x\-\_\-adc.\-c.
+
+\hypertarget{group___a_d_c___group6_gabe8b7c5f81fe735c942612af3c2a6279}{\index{Injected channels Configuration functions@{Injected channels Configuration functions}!A\-D\-C\-\_\-\-External\-Trigger\-Injected\-Config@{A\-D\-C\-\_\-\-External\-Trigger\-Injected\-Config}}
+\index{A\-D\-C\-\_\-\-External\-Trigger\-Injected\-Config@{A\-D\-C\-\_\-\-External\-Trigger\-Injected\-Config}!Injected channels Configuration functions@{Injected channels Configuration functions}}
+\subsubsection[{A\-D\-C\-\_\-\-External\-Trigger\-Injected\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} A\-D\-C\-\_\-\-External\-Trigger\-Injected\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx, }
+\item[{{\bf uint16\-\_\-t}}]{A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-Event, }
+\item[{{\bf uint16\-\_\-t}}]{A\-D\-C\-\_\-\-External\-Trig\-Injec\-Event\-Edge}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group6_gabe8b7c5f81fe735c942612af3c2a6279}
+
+
+External Trigger Enable and Polarity Selection for injected channels. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2, 3 or 4 to select the A\-D\-C peripheral. \\
+\hline
+{\em A\-D\-C\-\_\-\-External\-Trigger\-Injected,\-:} & A\-D\-C External Trigger Selection for injected group. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item A\-D\-C\-\_\-\-External\-Trigger\-Injected\-Event\-\_\-0\-: External trigger event 0 \item A\-D\-C\-\_\-\-External\-Trigger\-Injected\-Event\-\_\-1\-: External trigger event 1 \item A\-D\-C\-\_\-\-External\-Trigger\-Injected\-Event\-\_\-2\-: External trigger event 2 \item A\-D\-C\-\_\-\-External\-Trigger\-Injected\-Event\-\_\-3\-: External trigger event 3 \item A\-D\-C\-\_\-\-External\-Trigger\-Injected\-Event\-\_\-4\-: External trigger event 4 \item A\-D\-C\-\_\-\-External\-Trigger\-Injected\-Event\-\_\-5\-: External trigger event 5 \item A\-D\-C\-\_\-\-External\-Trigger\-Injected\-Event\-\_\-6\-: External trigger event 6 \item A\-D\-C\-\_\-\-External\-Trigger\-Injected\-Event\-\_\-7\-: External trigger event 7 \item A\-D\-C\-\_\-\-External\-Trigger\-Injected\-Event\-\_\-8\-: External trigger event 8 \item A\-D\-C\-\_\-\-External\-Trigger\-Injected\-Event\-\_\-9\-: External trigger event 9 \item A\-D\-C\-\_\-\-External\-Trigger\-Injected\-Event\-\_\-10\-: External trigger event 10 \item A\-D\-C\-\_\-\-External\-Trigger\-Injected\-Event\-\_\-11\-: External trigger event 11 \item A\-D\-C\-\_\-\-External\-Trigger\-Injected\-Event\-\_\-12\-: External trigger event 12 \item A\-D\-C\-\_\-\-External\-Trigger\-Injected\-Event\-\_\-13\-: External trigger event 13 \item A\-D\-C\-\_\-\-External\-Trigger\-Injected\-Event\-\_\-14\-: External trigger event 14 \item A\-D\-C\-\_\-\-External\-Trigger\-Injected\-Event\-\_\-15\-: External trigger event 15 \end{DoxyItemize}
+\\
+\hline
+{\em A\-D\-C\-\_\-\-External\-Trig\-Injec\-Event\-Edge,\-:} & A\-D\-C external Trigger injected Polarity. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item A\-D\-C\-\_\-\-External\-Trig\-Injec\-Event\-Edge\-\_\-\-O\-F\-F\-: Hardware trigger detection disabled (conversions can be launched by software) \item A\-D\-C\-\_\-\-External\-Trig\-Injec\-Event\-Edge\-\_\-\-Rising\-Edge\-: Hardware trigger detection on the rising edge \item A\-D\-C\-\_\-\-External\-Trig\-Injec\-Event\-Edge\-\_\-\-Falling\-Edge\-: Hardware trigger detection on the falling edge \item A\-D\-C\-\_\-\-External\-Trig\-Injec\-Event\-Edge\-\_\-\-Both\-Edge\-: Hardware trigger detection on both the rising and falling edges \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1990 of file stm32f30x\-\_\-adc.\-c.
+
+\hypertarget{group___a_d_c___group6_gafc02ce1e84e96b692adf085f61a0bca6}{\index{Injected channels Configuration functions@{Injected channels Configuration functions}!A\-D\-C\-\_\-\-External\-Trig\-Injected\-Conv\-Config@{A\-D\-C\-\_\-\-External\-Trig\-Injected\-Conv\-Config}}
+\index{A\-D\-C\-\_\-\-External\-Trig\-Injected\-Conv\-Config@{A\-D\-C\-\_\-\-External\-Trig\-Injected\-Conv\-Config}!Injected channels Configuration functions@{Injected channels Configuration functions}}
+\subsubsection[{A\-D\-C\-\_\-\-External\-Trig\-Injected\-Conv\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} A\-D\-C\-\_\-\-External\-Trig\-Injected\-Conv\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx, }
+\item[{{\bf uint32\-\_\-t}}]{A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group6_gafc02ce1e84e96b692adf085f61a0bca6}
+
+
+Configures the A\-D\-Cx external trigger for injected channels conversion. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2 or 3 to select the A\-D\-C peripheral. \\
+\hline
+{\em A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv,\-:} & specifies the A\-D\-C trigger to start injected conversion. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-\_\-\-T1\-\_\-\-C\-C4\-: Timer1 capture compare4 selected \item A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-\_\-\-T1\-\_\-\-T\-R\-G\-O\-: Timer1 T\-R\-G\-O event selected \item A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-\_\-\-T2\-\_\-\-C\-C1\-: Timer2 capture compare1 selected \item A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-\_\-\-T2\-\_\-\-T\-R\-G\-O\-: Timer2 T\-R\-G\-O event selected \item A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-\_\-\-T3\-\_\-\-C\-C2\-: Timer3 capture compare2 selected \item A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-\_\-\-T3\-\_\-\-C\-C4\-: Timer3 capture compare4 selected \item A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-\_\-\-T4\-\_\-\-C\-C1\-: Timer4 capture compare1 selected \item A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-\_\-\-T4\-\_\-\-C\-C2\-: Timer4 capture compare2 selected \item A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-\_\-\-T4\-\_\-\-C\-C3\-: Timer4 capture compare3 selected \item A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-\_\-\-T4\-\_\-\-T\-R\-G\-O\-: Timer4 T\-R\-G\-O event selected \item A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-\_\-\-T5\-\_\-\-C\-C4\-: Timer5 capture compare4 selected \item A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-\_\-\-T5\-\_\-\-T\-R\-G\-O\-: Timer5 T\-R\-G\-O event selected \item A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-\_\-\-T8\-\_\-\-C\-C2\-: Timer8 capture compare2 selected \item A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-\_\-\-T8\-\_\-\-C\-C3\-: Timer8 capture compare3 selected \item A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-\_\-\-T8\-\_\-\-C\-C4\-: Timer8 capture compare4 selected \item A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-\_\-\-Ext\-\_\-\-I\-T15\-: External interrupt line 15 event selected \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1328 of file stm32f4xx\-\_\-adc.\-c.
+
+\hypertarget{group___a_d_c___group6_ga62bea56579f04374fbe830d9e55e6fb0}{\index{Injected channels Configuration functions@{Injected channels Configuration functions}!A\-D\-C\-\_\-\-External\-Trig\-Injected\-Conv\-Edge\-Config@{A\-D\-C\-\_\-\-External\-Trig\-Injected\-Conv\-Edge\-Config}}
+\index{A\-D\-C\-\_\-\-External\-Trig\-Injected\-Conv\-Edge\-Config@{A\-D\-C\-\_\-\-External\-Trig\-Injected\-Conv\-Edge\-Config}!Injected channels Configuration functions@{Injected channels Configuration functions}}
+\subsubsection[{A\-D\-C\-\_\-\-External\-Trig\-Injected\-Conv\-Edge\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} A\-D\-C\-\_\-\-External\-Trig\-Injected\-Conv\-Edge\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx, }
+\item[{{\bf uint32\-\_\-t}}]{A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-Edge}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group6_ga62bea56579f04374fbe830d9e55e6fb0}
+
+
+Configures the A\-D\-Cx external trigger edge for injected channels conversion. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2 or 3 to select the A\-D\-C peripheral. \\
+\hline
+{\em A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-Edge,\-:} & specifies the A\-D\-C external trigger edge to start injected conversion. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-Edge\-\_\-\-None\-: external trigger disabled for injected conversion \item A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-Edge\-\_\-\-Rising\-: detection on rising edge \item A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-Edge\-\_\-\-Falling\-: detection on falling edge \item A\-D\-C\-\_\-\-External\-Trig\-Injec\-Conv\-Edge\-\_\-\-Rising\-Falling\-: detection on both rising and falling edge \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1362 of file stm32f4xx\-\_\-adc.\-c.
+
+\hypertarget{group___a_d_c___group6_ga1dea5ed24571a2e0ce4cbd41c9c1ec46}{\index{Injected channels Configuration functions@{Injected channels Configuration functions}!A\-D\-C\-\_\-\-Get\-Injected\-Conversion\-Value@{A\-D\-C\-\_\-\-Get\-Injected\-Conversion\-Value}}
+\index{A\-D\-C\-\_\-\-Get\-Injected\-Conversion\-Value@{A\-D\-C\-\_\-\-Get\-Injected\-Conversion\-Value}!Injected channels Configuration functions@{Injected channels Configuration functions}}
+\subsubsection[{A\-D\-C\-\_\-\-Get\-Injected\-Conversion\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} A\-D\-C\-\_\-\-Get\-Injected\-Conversion\-Value (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx, }
+\item[{{\bf uint8\-\_\-t}}]{A\-D\-C\-\_\-\-Injected\-Channel}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group6_ga1dea5ed24571a2e0ce4cbd41c9c1ec46}
+
+
+Returns the A\-D\-C injected channel conversion result. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2, 3 or 4 to select the A\-D\-C peripheral. \\
+\hline
+{\em A\-D\-C\-\_\-\-Injected\-Channel,\-:} & the converted A\-D\-C injected channel. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item A\-D\-C\-\_\-\-Injected\-Channel\-\_\-1\-: Injected Channel1 selected \item A\-D\-C\-\_\-\-Injected\-Channel\-\_\-2\-: Injected Channel2 selected \item A\-D\-C\-\_\-\-Injected\-Channel\-\_\-3\-: Injected Channel3 selected \item A\-D\-C\-\_\-\-Injected\-Channel\-\_\-4\-: Injected Channel4 selected \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & Data conversion value.\\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2 or 3 to select the A\-D\-C peripheral. \\
+\hline
+{\em A\-D\-C\-\_\-\-Injected\-Channel,\-:} & the converted A\-D\-C injected channel. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item A\-D\-C\-\_\-\-Injected\-Channel\-\_\-1\-: Injected Channel1 selected \item A\-D\-C\-\_\-\-Injected\-Channel\-\_\-2\-: Injected Channel2 selected \item A\-D\-C\-\_\-\-Injected\-Channel\-\_\-3\-: Injected Channel3 selected \item A\-D\-C\-\_\-\-Injected\-Channel\-\_\-4\-: Injected Channel4 selected \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & Data conversion value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2122 of file stm32f30x\-\_\-adc.\-c.
+
+\hypertarget{group___a_d_c___group6_ga8765f8835b8cfed13dce3d8d71767dcc}{\index{Injected channels Configuration functions@{Injected channels Configuration functions}!A\-D\-C\-\_\-\-Get\-Software\-Start\-Injected\-Conv\-Cmd\-Status@{A\-D\-C\-\_\-\-Get\-Software\-Start\-Injected\-Conv\-Cmd\-Status}}
+\index{A\-D\-C\-\_\-\-Get\-Software\-Start\-Injected\-Conv\-Cmd\-Status@{A\-D\-C\-\_\-\-Get\-Software\-Start\-Injected\-Conv\-Cmd\-Status}!Injected channels Configuration functions@{Injected channels Configuration functions}}
+\subsubsection[{A\-D\-C\-\_\-\-Get\-Software\-Start\-Injected\-Conv\-Cmd\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Flag\-Status} A\-D\-C\-\_\-\-Get\-Software\-Start\-Injected\-Conv\-Cmd\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group6_ga8765f8835b8cfed13dce3d8d71767dcc}
+
+
+Gets the selected A\-D\-C Software start injected conversion Status. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2 or 3 to select the A\-D\-C peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of A\-D\-C software start injected conversion (S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1396 of file stm32f4xx\-\_\-adc.\-c.
+
+\hypertarget{group___a_d_c___group6_gad1e5ddd2f0456e50d8d8f6db2bffef3d}{\index{Injected channels Configuration functions@{Injected channels Configuration functions}!A\-D\-C\-\_\-\-Get\-Start\-Injected\-Conversion\-Status@{A\-D\-C\-\_\-\-Get\-Start\-Injected\-Conversion\-Status}}
+\index{A\-D\-C\-\_\-\-Get\-Start\-Injected\-Conversion\-Status@{A\-D\-C\-\_\-\-Get\-Start\-Injected\-Conversion\-Status}!Injected channels Configuration functions@{Injected channels Configuration functions}}
+\subsubsection[{A\-D\-C\-\_\-\-Get\-Start\-Injected\-Conversion\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Flag\-Status} A\-D\-C\-\_\-\-Get\-Start\-Injected\-Conversion\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group6_gad1e5ddd2f0456e50d8d8f6db2bffef3d}
+
+
+Gets the selected A\-D\-C Software start injected conversion Status. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2, 3 or 4 to select the A\-D\-C peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of A\-D\-C start injected conversion (S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2039 of file stm32f30x\-\_\-adc.\-c.
+
+\hypertarget{group___a_d_c___group6_gae2b44bff080184e1cf6f2cb6b9bb3e59}{\index{Injected channels Configuration functions@{Injected channels Configuration functions}!A\-D\-C\-\_\-\-Injected\-Channel\-Config@{A\-D\-C\-\_\-\-Injected\-Channel\-Config}}
+\index{A\-D\-C\-\_\-\-Injected\-Channel\-Config@{A\-D\-C\-\_\-\-Injected\-Channel\-Config}!Injected channels Configuration functions@{Injected channels Configuration functions}}
+\subsubsection[{A\-D\-C\-\_\-\-Injected\-Channel\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} A\-D\-C\-\_\-\-Injected\-Channel\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx, }
+\item[{{\bf uint8\-\_\-t}}]{A\-D\-C\-\_\-\-Channel, }
+\item[{{\bf uint8\-\_\-t}}]{Rank, }
+\item[{{\bf uint8\-\_\-t}}]{A\-D\-C\-\_\-\-Sample\-Time}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group6_gae2b44bff080184e1cf6f2cb6b9bb3e59}
+
+
+Configures for the selected A\-D\-C injected channel its corresponding rank in the sequencer and its sample time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2, 3 or 4 to select the A\-D\-C peripheral. \\
+\hline
+{\em A\-D\-C\-\_\-\-Channel,\-:} & the A\-D\-C channel to configure. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item A\-D\-C\-\_\-\-Channel\-\_\-1\-: A\-D\-C Channel1 selected \item A\-D\-C\-\_\-\-Channel\-\_\-2\-: A\-D\-C Channel2 selected \item A\-D\-C\-\_\-\-Channel\-\_\-3\-: A\-D\-C Channel3 selected \item A\-D\-C\-\_\-\-Channel\-\_\-4\-: A\-D\-C Channel4 selected \item A\-D\-C\-\_\-\-Channel\-\_\-5\-: A\-D\-C Channel5 selected \item A\-D\-C\-\_\-\-Channel\-\_\-6\-: A\-D\-C Channel6 selected \item A\-D\-C\-\_\-\-Channel\-\_\-7\-: A\-D\-C Channel7 selected \item A\-D\-C\-\_\-\-Channel\-\_\-8\-: A\-D\-C Channel8 selected \item A\-D\-C\-\_\-\-Channel\-\_\-9\-: A\-D\-C Channel9 selected \item A\-D\-C\-\_\-\-Channel\-\_\-10\-: A\-D\-C Channel10 selected \item A\-D\-C\-\_\-\-Channel\-\_\-11\-: A\-D\-C Channel11 selected \item A\-D\-C\-\_\-\-Channel\-\_\-12\-: A\-D\-C Channel12 selected \item A\-D\-C\-\_\-\-Channel\-\_\-13\-: A\-D\-C Channel13 selected \item A\-D\-C\-\_\-\-Channel\-\_\-14\-: A\-D\-C Channel14 selected \item A\-D\-C\-\_\-\-Channel\-\_\-15\-: A\-D\-C Channel15 selected \item A\-D\-C\-\_\-\-Channel\-\_\-16\-: A\-D\-C Channel16 selected \item A\-D\-C\-\_\-\-Channel\-\_\-17\-: A\-D\-C Channel17 selected \item A\-D\-C\-\_\-\-Channel\-\_\-18\-: A\-D\-C Channel18 selected \end{DoxyItemize}
+\\
+\hline
+{\em Rank,\-:} & The rank in the injected group sequencer. This parameter must be between 1 and 4. \\
+\hline
+{\em A\-D\-C\-\_\-\-Sample\-Time,\-:} & The sample time value to be set for the selected channel. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item A\-D\-C\-\_\-\-Sample\-Time\-\_\-1\-Cycles5\-: Sample time equal to 1.\-5 cycles \item A\-D\-C\-\_\-\-Sample\-Time\-\_\-7\-Cycles5\-: Sample time equal to 7.\-5 cycles \item A\-D\-C\-\_\-\-Sample\-Time\-\_\-13\-Cycles5\-: Sample time equal to 13.\-5 cycles \item A\-D\-C\-\_\-\-Sample\-Time\-\_\-28\-Cycles5\-: Sample time equal to 28.\-5 cycles \item A\-D\-C\-\_\-\-Sample\-Time\-\_\-41\-Cycles5\-: Sample time equal to 41.\-5 cycles \item A\-D\-C\-\_\-\-Sample\-Time\-\_\-55\-Cycles5\-: Sample time equal to 55.\-5 cycles \item A\-D\-C\-\_\-\-Sample\-Time\-\_\-71\-Cycles5\-: Sample time equal to 71.\-5 cycles \item A\-D\-C\-\_\-\-Sample\-Time\-\_\-239\-Cycles5\-: Sample time equal to 239.\-5 cycles \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2 or 3 to select the A\-D\-C peripheral. \\
+\hline
+{\em A\-D\-C\-\_\-\-Channel,\-:} & the A\-D\-C channel to configure. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item A\-D\-C\-\_\-\-Channel\-\_\-0\-: A\-D\-C Channel0 selected \item A\-D\-C\-\_\-\-Channel\-\_\-1\-: A\-D\-C Channel1 selected \item A\-D\-C\-\_\-\-Channel\-\_\-2\-: A\-D\-C Channel2 selected \item A\-D\-C\-\_\-\-Channel\-\_\-3\-: A\-D\-C Channel3 selected \item A\-D\-C\-\_\-\-Channel\-\_\-4\-: A\-D\-C Channel4 selected \item A\-D\-C\-\_\-\-Channel\-\_\-5\-: A\-D\-C Channel5 selected \item A\-D\-C\-\_\-\-Channel\-\_\-6\-: A\-D\-C Channel6 selected \item A\-D\-C\-\_\-\-Channel\-\_\-7\-: A\-D\-C Channel7 selected \item A\-D\-C\-\_\-\-Channel\-\_\-8\-: A\-D\-C Channel8 selected \item A\-D\-C\-\_\-\-Channel\-\_\-9\-: A\-D\-C Channel9 selected \item A\-D\-C\-\_\-\-Channel\-\_\-10\-: A\-D\-C Channel10 selected \item A\-D\-C\-\_\-\-Channel\-\_\-11\-: A\-D\-C Channel11 selected \item A\-D\-C\-\_\-\-Channel\-\_\-12\-: A\-D\-C Channel12 selected \item A\-D\-C\-\_\-\-Channel\-\_\-13\-: A\-D\-C Channel13 selected \item A\-D\-C\-\_\-\-Channel\-\_\-14\-: A\-D\-C Channel14 selected \item A\-D\-C\-\_\-\-Channel\-\_\-15\-: A\-D\-C Channel15 selected \item A\-D\-C\-\_\-\-Channel\-\_\-16\-: A\-D\-C Channel16 selected \item A\-D\-C\-\_\-\-Channel\-\_\-17\-: A\-D\-C Channel17 selected \item A\-D\-C\-\_\-\-Channel\-\_\-18\-: A\-D\-C Channel18 selected \end{DoxyItemize}
+\\
+\hline
+{\em Rank,\-:} & The rank in the injected group sequencer. This parameter must be between 1 to 4. \\
+\hline
+{\em A\-D\-C\-\_\-\-Sample\-Time,\-:} & The sample time value to be set for the selected channel. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item A\-D\-C\-\_\-\-Sample\-Time\-\_\-3\-Cycles\-: Sample time equal to 3 cycles \item A\-D\-C\-\_\-\-Sample\-Time\-\_\-15\-Cycles\-: Sample time equal to 15 cycles \item A\-D\-C\-\_\-\-Sample\-Time\-\_\-28\-Cycles\-: Sample time equal to 28 cycles \item A\-D\-C\-\_\-\-Sample\-Time\-\_\-56\-Cycles\-: Sample time equal to 56 cycles \item A\-D\-C\-\_\-\-Sample\-Time\-\_\-84\-Cycles\-: Sample time equal to 84 cycles \item A\-D\-C\-\_\-\-Sample\-Time\-\_\-112\-Cycles\-: Sample time equal to 112 cycles \item A\-D\-C\-\_\-\-Sample\-Time\-\_\-144\-Cycles\-: Sample time equal to 144 cycles \item A\-D\-C\-\_\-\-Sample\-Time\-\_\-480\-Cycles\-: Sample time equal to 480 cycles \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1880 of file stm32f30x\-\_\-adc.\-c.
+
+\hypertarget{group___a_d_c___group6_ga0b583b94183fa4ff287177b9ee808092}{\index{Injected channels Configuration functions@{Injected channels Configuration functions}!A\-D\-C\-\_\-\-Injected\-Disc\-Mode\-Cmd@{A\-D\-C\-\_\-\-Injected\-Disc\-Mode\-Cmd}}
+\index{A\-D\-C\-\_\-\-Injected\-Disc\-Mode\-Cmd@{A\-D\-C\-\_\-\-Injected\-Disc\-Mode\-Cmd}!Injected channels Configuration functions@{Injected channels Configuration functions}}
+\subsubsection[{A\-D\-C\-\_\-\-Injected\-Disc\-Mode\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} A\-D\-C\-\_\-\-Injected\-Disc\-Mode\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group6_ga0b583b94183fa4ff287177b9ee808092}
+
+
+Enables or disables the discontinuous mode for injected group channel for the specified A\-D\-C. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2, 3 or 4 to select the A\-D\-C peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the selected A\-D\-C discontinuous mode on injected group channel. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2 or 3 to select the A\-D\-C peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the selected A\-D\-C discontinuous mode on injected group channel. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2094 of file stm32f30x\-\_\-adc.\-c.
+
+\hypertarget{group___a_d_c___group6_gab7b02acec71ff12a8388bc70ab1e40f8}{\index{Injected channels Configuration functions@{Injected channels Configuration functions}!A\-D\-C\-\_\-\-Injected\-Sequencer\-Length\-Config@{A\-D\-C\-\_\-\-Injected\-Sequencer\-Length\-Config}}
+\index{A\-D\-C\-\_\-\-Injected\-Sequencer\-Length\-Config@{A\-D\-C\-\_\-\-Injected\-Sequencer\-Length\-Config}!Injected channels Configuration functions@{Injected channels Configuration functions}}
+\subsubsection[{A\-D\-C\-\_\-\-Injected\-Sequencer\-Length\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} A\-D\-C\-\_\-\-Injected\-Sequencer\-Length\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx, }
+\item[{{\bf uint8\-\_\-t}}]{Length}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group6_gab7b02acec71ff12a8388bc70ab1e40f8}
+
+
+Configures the sequencer length for injected channels. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2, 3 or 4 to select the A\-D\-C peripheral. \\
+\hline
+{\em Sequencer\-Length,\-:} & The sequencer length. This parameter must be a number between 1 to 4. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2 or 3 to select the A\-D\-C peripheral. \\
+\hline
+{\em Length,\-:} & The sequencer length. This parameter must be a number between 1 to 4. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1943 of file stm32f30x\-\_\-adc.\-c.
+
+\hypertarget{group___a_d_c___group6_ga07a942613088ab3ecfc3d97a20475920}{\index{Injected channels Configuration functions@{Injected channels Configuration functions}!A\-D\-C\-\_\-\-Set\-Injected\-Offset@{A\-D\-C\-\_\-\-Set\-Injected\-Offset}}
+\index{A\-D\-C\-\_\-\-Set\-Injected\-Offset@{A\-D\-C\-\_\-\-Set\-Injected\-Offset}!Injected channels Configuration functions@{Injected channels Configuration functions}}
+\subsubsection[{A\-D\-C\-\_\-\-Set\-Injected\-Offset}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} A\-D\-C\-\_\-\-Set\-Injected\-Offset (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx, }
+\item[{{\bf uint8\-\_\-t}}]{A\-D\-C\-\_\-\-Injected\-Channel, }
+\item[{{\bf uint16\-\_\-t}}]{Offset}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group6_ga07a942613088ab3ecfc3d97a20475920}
+
+
+Set the injected channels conversion value offset. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2 or 3 to select the A\-D\-C peripheral. \\
+\hline
+{\em A\-D\-C\-\_\-\-Injected\-Channel,\-:} & the A\-D\-C injected channel to set its offset. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item A\-D\-C\-\_\-\-Injected\-Channel\-\_\-1\-: Injected Channel1 selected \item A\-D\-C\-\_\-\-Injected\-Channel\-\_\-2\-: Injected Channel2 selected \item A\-D\-C\-\_\-\-Injected\-Channel\-\_\-3\-: Injected Channel3 selected \item A\-D\-C\-\_\-\-Injected\-Channel\-\_\-4\-: Injected Channel4 selected \end{DoxyItemize}
+\\
+\hline
+{\em Offset,\-:} & the offset value for the selected A\-D\-C injected channel This parameter must be a 12bit value. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1290 of file stm32f4xx\-\_\-adc.\-c.
+
+\hypertarget{group___a_d_c___group6_ga79b2f6c3c77925b35495f2db228895de}{\index{Injected channels Configuration functions@{Injected channels Configuration functions}!A\-D\-C\-\_\-\-Software\-Start\-Injected\-Conv@{A\-D\-C\-\_\-\-Software\-Start\-Injected\-Conv}}
+\index{A\-D\-C\-\_\-\-Software\-Start\-Injected\-Conv@{A\-D\-C\-\_\-\-Software\-Start\-Injected\-Conv}!Injected channels Configuration functions@{Injected channels Configuration functions}}
+\subsubsection[{A\-D\-C\-\_\-\-Software\-Start\-Injected\-Conv}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} A\-D\-C\-\_\-\-Software\-Start\-Injected\-Conv (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group6_ga79b2f6c3c77925b35495f2db228895de}
+
+
+Enables the selected A\-D\-C software start conversion of the injected channels. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2 or 3 to select the A\-D\-C peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1383 of file stm32f4xx\-\_\-adc.\-c.
+
+\hypertarget{group___a_d_c___group6_ga247e283c7c37f4eff3c0b8515cd03b52}{\index{Injected channels Configuration functions@{Injected channels Configuration functions}!A\-D\-C\-\_\-\-Start\-Injected\-Conversion@{A\-D\-C\-\_\-\-Start\-Injected\-Conversion}}
+\index{A\-D\-C\-\_\-\-Start\-Injected\-Conversion@{A\-D\-C\-\_\-\-Start\-Injected\-Conversion}!Injected channels Configuration functions@{Injected channels Configuration functions}}
+\subsubsection[{A\-D\-C\-\_\-\-Start\-Injected\-Conversion}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} A\-D\-C\-\_\-\-Start\-Injected\-Conversion (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group6_ga247e283c7c37f4eff3c0b8515cd03b52}
+
+
+Enables or disables the selected A\-D\-C start of the injected channels conversion. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2, 3 or 4 to select the A\-D\-C peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the selected A\-D\-C software start injected conversion. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2010 of file stm32f30x\-\_\-adc.\-c.
+
+\hypertarget{group___a_d_c___group6_gaa5c10c22746b504d4e0de659098b0fe0}{\index{Injected channels Configuration functions@{Injected channels Configuration functions}!A\-D\-C\-\_\-\-Stop\-Injected\-Conversion@{A\-D\-C\-\_\-\-Stop\-Injected\-Conversion}}
+\index{A\-D\-C\-\_\-\-Stop\-Injected\-Conversion@{A\-D\-C\-\_\-\-Stop\-Injected\-Conversion}!Injected channels Configuration functions@{Injected channels Configuration functions}}
+\subsubsection[{A\-D\-C\-\_\-\-Stop\-Injected\-Conversion}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} A\-D\-C\-\_\-\-Stop\-Injected\-Conversion (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-D\-C\-\_\-\-Type\-Def} $\ast$}]{A\-D\-Cx}
+\end{DoxyParamCaption}
+)}}\label{group___a_d_c___group6_gaa5c10c22746b504d4e0de659098b0fe0}
+
+
+Stops the selected A\-D\-C ongoing injected conversion. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\-D\-Cx,\-:} & where x can be 1, 2, 3 or 4 to select the A\-D\-C peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2025 of file stm32f30x\-\_\-adc.\-c.
+

@@ -1,0 +1,167 @@
+\hypertarget{classipm_1_1_interactive}{\section{ipm.\-Interactive Class Reference}
+\label{classipm_1_1_interactive}\index{ipm.\-Interactive@{ipm.\-Interactive}}
+}
+Inheritance diagram for ipm.\-Interactive\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classipm_1_1_interactive}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classipm_1_1_interactive_a7e4b1f301906a07a2503ca3783a43cd8}{\-\_\-\-\_\-init\-\_\-\-\_\-}
+\item 
+def \hyperlink{classipm_1_1_interactive_aa022c0b64113003a0ddbbe37d0007628}{do\-\_\-help}
+\item 
+def \hyperlink{classipm_1_1_interactive_a047e9c9e094bff77c0d29bdd3bdb8670}{do\-\_\-load}
+\item 
+def \hyperlink{classipm_1_1_interactive_a09e3a980d636af3ee352919b888b3739}{onecmd}
+\item 
+def \hyperlink{classipm_1_1_interactive_a6da0221def4cd18c43f8e22234bcdd34}{run}
+\end{DoxyCompactItemize}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classipm_1_1_interactive_a964ba8ffe297358a7c06d25529652b09}{prompt}
+\item 
+\hyperlink{classipm_1_1_interactive_ae99255a60205eac688154da222de76e8}{conn}
+\item 
+\hyperlink{classipm_1_1_interactive_a261360cc196e8ae1c1fe04db82bf0269}{pic}
+\item 
+\hyperlink{classipm_1_1_interactive_a8c8a00cb8784305a2203b1e7091ca74a}{stop}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+tuple \hyperlink{classipm_1_1_interactive_a40f1df2dbfe51857b57a5d766b8bfbad}{ipmcommands} = (\char`\"{}?\char`\"{}, \char`\"{}help\char`\"{}, \char`\"{}\hyperlink{pios__opahrs__proto_8h_a0a69bc8f6fe3bd36b7a759d3983c9615}{load}\char`\"{},)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyVerb}The interactive command line parser accepts typed input line-by-line.
+If a statement requires multiple lines to complete,  the input
+is collected until two sequential end-of-line characters are received.
+\end{DoxyVerb}
+ 
+
+Definition at line 192 of file ipm.\-py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classipm_1_1_interactive_a7e4b1f301906a07a2503ca3783a43cd8}{\index{ipm\-::\-Interactive@{ipm\-::\-Interactive}!\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}!ipm::Interactive@{ipm\-::\-Interactive}}
+\subsubsection[{\-\_\-\-\_\-init\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}def ipm.\-Interactive.\-\_\-\-\_\-init\-\_\-\-\_\- (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{conn, }
+\item[{}]{pmfn}
+\end{DoxyParamCaption}
+)}}\label{classipm_1_1_interactive_a7e4b1f301906a07a2503ca3783a43cd8}
+
+
+Definition at line 200 of file ipm.\-py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classipm_1_1_interactive_aa022c0b64113003a0ddbbe37d0007628}{\index{ipm\-::\-Interactive@{ipm\-::\-Interactive}!do\-\_\-help@{do\-\_\-help}}
+\index{do\-\_\-help@{do\-\_\-help}!ipm::Interactive@{ipm\-::\-Interactive}}
+\subsubsection[{do\-\_\-help}]{\setlength{\rightskip}{0pt plus 5cm}def ipm.\-Interactive.\-do\-\_\-help (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{args}
+\end{DoxyParamCaption}
+)}}\label{classipm_1_1_interactive_aa022c0b64113003a0ddbbe37d0007628}
+\begin{DoxyVerb}Prints the help message.
+\end{DoxyVerb}
+ 
+
+Definition at line 207 of file ipm.\-py.
+
+\hypertarget{classipm_1_1_interactive_a047e9c9e094bff77c0d29bdd3bdb8670}{\index{ipm\-::\-Interactive@{ipm\-::\-Interactive}!do\-\_\-load@{do\-\_\-load}}
+\index{do\-\_\-load@{do\-\_\-load}!ipm::Interactive@{ipm\-::\-Interactive}}
+\subsubsection[{do\-\_\-load}]{\setlength{\rightskip}{0pt plus 5cm}def ipm.\-Interactive.\-do\-\_\-load (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{args}
+\end{DoxyParamCaption}
+)}}\label{classipm_1_1_interactive_a047e9c9e094bff77c0d29bdd3bdb8670}
+\begin{DoxyVerb}Loads a module from the host to the target device.
+\end{DoxyVerb}
+ 
+
+Definition at line 213 of file ipm.\-py.
+
+\hypertarget{classipm_1_1_interactive_a09e3a980d636af3ee352919b888b3739}{\index{ipm\-::\-Interactive@{ipm\-::\-Interactive}!onecmd@{onecmd}}
+\index{onecmd@{onecmd}!ipm::Interactive@{ipm\-::\-Interactive}}
+\subsubsection[{onecmd}]{\setlength{\rightskip}{0pt plus 5cm}def ipm.\-Interactive.\-onecmd (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{line}
+\end{DoxyParamCaption}
+)}}\label{classipm_1_1_interactive_a09e3a980d636af3ee352919b888b3739}
+\begin{DoxyVerb}Gathers one interactive line of input (gets more lines as needed).
+\end{DoxyVerb}
+ 
+
+Definition at line 237 of file ipm.\-py.
+
+\hypertarget{classipm_1_1_interactive_a6da0221def4cd18c43f8e22234bcdd34}{\index{ipm\-::\-Interactive@{ipm\-::\-Interactive}!run@{run}}
+\index{run@{run}!ipm::Interactive@{ipm\-::\-Interactive}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}def ipm.\-Interactive.\-run (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classipm_1_1_interactive_a6da0221def4cd18c43f8e22234bcdd34}
+\begin{DoxyVerb}Runs the command loop and handles keyboard interrupts (ctrl+C).
+The command loop is what calls self.onecmd().
+\end{DoxyVerb}
+ 
+
+Definition at line 317 of file ipm.\-py.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{classipm_1_1_interactive_ae99255a60205eac688154da222de76e8}{\index{ipm\-::\-Interactive@{ipm\-::\-Interactive}!conn@{conn}}
+\index{conn@{conn}!ipm::Interactive@{ipm\-::\-Interactive}}
+\subsubsection[{conn}]{\setlength{\rightskip}{0pt plus 5cm}ipm.\-Interactive.\-conn}}\label{classipm_1_1_interactive_ae99255a60205eac688154da222de76e8}
+
+
+Definition at line 203 of file ipm.\-py.
+
+\hypertarget{classipm_1_1_interactive_a40f1df2dbfe51857b57a5d766b8bfbad}{\index{ipm\-::\-Interactive@{ipm\-::\-Interactive}!ipmcommands@{ipmcommands}}
+\index{ipmcommands@{ipmcommands}!ipm::Interactive@{ipm\-::\-Interactive}}
+\subsubsection[{ipmcommands}]{\setlength{\rightskip}{0pt plus 5cm}tuple ipm.\-Interactive.\-ipmcommands = (\char`\"{}?\char`\"{}, \char`\"{}help\char`\"{}, \char`\"{}{\bf load}\char`\"{},)\hspace{0.3cm}{\ttfamily [static]}}}\label{classipm_1_1_interactive_a40f1df2dbfe51857b57a5d766b8bfbad}
+
+
+Definition at line 197 of file ipm.\-py.
+
+\hypertarget{classipm_1_1_interactive_a261360cc196e8ae1c1fe04db82bf0269}{\index{ipm\-::\-Interactive@{ipm\-::\-Interactive}!pic@{pic}}
+\index{pic@{pic}!ipm::Interactive@{ipm\-::\-Interactive}}
+\subsubsection[{pic}]{\setlength{\rightskip}{0pt plus 5cm}ipm.\-Interactive.\-pic}}\label{classipm_1_1_interactive_a261360cc196e8ae1c1fe04db82bf0269}
+
+
+Definition at line 204 of file ipm.\-py.
+
+\hypertarget{classipm_1_1_interactive_a964ba8ffe297358a7c06d25529652b09}{\index{ipm\-::\-Interactive@{ipm\-::\-Interactive}!prompt@{prompt}}
+\index{prompt@{prompt}!ipm::Interactive@{ipm\-::\-Interactive}}
+\subsubsection[{prompt}]{\setlength{\rightskip}{0pt plus 5cm}ipm.\-Interactive.\-prompt}}\label{classipm_1_1_interactive_a964ba8ffe297358a7c06d25529652b09}
+
+
+Definition at line 202 of file ipm.\-py.
+
+\hypertarget{classipm_1_1_interactive_a8c8a00cb8784305a2203b1e7091ca74a}{\index{ipm\-::\-Interactive@{ipm\-::\-Interactive}!stop@{stop}}
+\index{stop@{stop}!ipm::Interactive@{ipm\-::\-Interactive}}
+\subsubsection[{stop}]{\setlength{\rightskip}{0pt plus 5cm}ipm.\-Interactive.\-stop}}\label{classipm_1_1_interactive_a8c8a00cb8784305a2203b1e7091ca74a}
+
+
+Definition at line 252 of file ipm.\-py.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/tools/\hyperlink{tools_2ipm_8py}{ipm.\-py}\end{DoxyCompactItemize}

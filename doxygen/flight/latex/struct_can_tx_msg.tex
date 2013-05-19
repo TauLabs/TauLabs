@@ -1,0 +1,108 @@
+\hypertarget{struct_can_tx_msg}{\section{Can\-Tx\-Msg Struct Reference}
+\label{struct_can_tx_msg}\index{Can\-Tx\-Msg@{Can\-Tx\-Msg}}
+}
+
+
+C\-A\-N Tx message structure definition.  
+
+
+
+
+{\ttfamily \#include $<$stm32f10x\-\_\-can.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{struct_can_tx_msg_abfb50c8208227f8cf378f29cf9a3a6f3}{Std\-Id}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{struct_can_tx_msg_a33050a95a4cc463b589ff16bdd416f22}{Ext\-Id}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct_can_tx_msg_aa4c8568a0e3250a17bd7e116b3e09670}{I\-D\-E}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct_can_tx_msg_a69f84255db38c6910058f290efdb7302}{R\-T\-R}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct_can_tx_msg_ab49d0fa602aad2fd9cd007adafc11fc2}{D\-L\-C}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct_can_tx_msg_a1cc34ae87bf2e3b19b2e6860f7015ebd}{Data} \mbox{[}8\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+C\-A\-N Tx message structure definition. 
+
+Definition at line 131 of file stm32f10x\-\_\-can.\-h.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{struct_can_tx_msg_a1cc34ae87bf2e3b19b2e6860f7015ebd}{\index{Can\-Tx\-Msg@{Can\-Tx\-Msg}!Data@{Data}}
+\index{Data@{Data}!CanTxMsg@{Can\-Tx\-Msg}}
+\subsubsection[{Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} Can\-Tx\-Msg\-::\-Data}}\label{struct_can_tx_msg_a1cc34ae87bf2e3b19b2e6860f7015ebd}
+Contains the data to be transmitted. It ranges from 0 to 0x\-F\-F. 
+
+Definition at line 148 of file stm32f10x\-\_\-can.\-h.
+
+\hypertarget{struct_can_tx_msg_ab49d0fa602aad2fd9cd007adafc11fc2}{\index{Can\-Tx\-Msg@{Can\-Tx\-Msg}!D\-L\-C@{D\-L\-C}}
+\index{D\-L\-C@{D\-L\-C}!CanTxMsg@{Can\-Tx\-Msg}}
+\subsubsection[{D\-L\-C}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} Can\-Tx\-Msg\-::\-D\-L\-C}}\label{struct_can_tx_msg_ab49d0fa602aad2fd9cd007adafc11fc2}
+\begin{DoxyVerb}     Specifies the length of the frame that will be transmitted.
+\end{DoxyVerb}
+ This parameter can be a value between 0 to 8
+
+\begin{DoxyVerb}     Specifies the length of the frame that will be 
+\end{DoxyVerb}
+ transmitted. This parameter can be a value between 0 to 8 
+
+Definition at line 145 of file stm32f10x\-\_\-can.\-h.
+
+\hypertarget{struct_can_tx_msg_a33050a95a4cc463b589ff16bdd416f22}{\index{Can\-Tx\-Msg@{Can\-Tx\-Msg}!Ext\-Id@{Ext\-Id}}
+\index{Ext\-Id@{Ext\-Id}!CanTxMsg@{Can\-Tx\-Msg}}
+\subsubsection[{Ext\-Id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} Can\-Tx\-Msg\-::\-Ext\-Id}}\label{struct_can_tx_msg_a33050a95a4cc463b589ff16bdd416f22}
+\begin{DoxyVerb}  Specifies the extended identifier.
+\end{DoxyVerb}
+ This parameter can be a value between 0 to 0x1\-F\-F\-F\-F\-F\-F\-F. 
+
+Definition at line 136 of file stm32f10x\-\_\-can.\-h.
+
+\hypertarget{struct_can_tx_msg_aa4c8568a0e3250a17bd7e116b3e09670}{\index{Can\-Tx\-Msg@{Can\-Tx\-Msg}!I\-D\-E@{I\-D\-E}}
+\index{I\-D\-E@{I\-D\-E}!CanTxMsg@{Can\-Tx\-Msg}}
+\subsubsection[{I\-D\-E}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} Can\-Tx\-Msg\-::\-I\-D\-E}}\label{struct_can_tx_msg_aa4c8568a0e3250a17bd7e116b3e09670}
+\begin{DoxyVerb}     Specifies the type of identifier for the message that will be transmitted.
+\end{DoxyVerb}
+ This parameter can be a value of \hyperlink{group___c_a_n__identifier__type}{C\-A\-N\-\_\-identifier\-\_\-type}
+
+\begin{DoxyVerb}     Specifies the type of identifier for the message that 
+\end{DoxyVerb}
+ will be transmitted. This parameter can be a value of \hyperlink{group___c_a_n__identifier__type}{C\-A\-N\-\_\-identifier\-\_\-type} 
+
+Definition at line 139 of file stm32f10x\-\_\-can.\-h.
+
+\hypertarget{struct_can_tx_msg_a69f84255db38c6910058f290efdb7302}{\index{Can\-Tx\-Msg@{Can\-Tx\-Msg}!R\-T\-R@{R\-T\-R}}
+\index{R\-T\-R@{R\-T\-R}!CanTxMsg@{Can\-Tx\-Msg}}
+\subsubsection[{R\-T\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} Can\-Tx\-Msg\-::\-R\-T\-R}}\label{struct_can_tx_msg_a69f84255db38c6910058f290efdb7302}
+\begin{DoxyVerb}     Specifies the type of frame for the message that will be transmitted.
+\end{DoxyVerb}
+ This parameter can be a value of \hyperlink{group___c_a_n__remote__transmission__request}{C\-A\-N\-\_\-remote\-\_\-transmission\-\_\-request}
+
+\begin{DoxyVerb}     Specifies the type of frame for the message that will 
+\end{DoxyVerb}
+ be transmitted. This parameter can be a value of \hyperlink{group___c_a_n__remote__transmission__request}{C\-A\-N\-\_\-remote\-\_\-transmission\-\_\-request} 
+
+Definition at line 142 of file stm32f10x\-\_\-can.\-h.
+
+\hypertarget{struct_can_tx_msg_abfb50c8208227f8cf378f29cf9a3a6f3}{\index{Can\-Tx\-Msg@{Can\-Tx\-Msg}!Std\-Id@{Std\-Id}}
+\index{Std\-Id@{Std\-Id}!CanTxMsg@{Can\-Tx\-Msg}}
+\subsubsection[{Std\-Id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} Can\-Tx\-Msg\-::\-Std\-Id}}\label{struct_can_tx_msg_abfb50c8208227f8cf378f29cf9a3a6f3}
+\begin{DoxyVerb}  Specifies the standard identifier.
+\end{DoxyVerb}
+ This parameter can be a value between 0 to 0x7\-F\-F. 
+
+Definition at line 133 of file stm32f10x\-\_\-can.\-h.
+
+
+
+The documentation for this struct was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/\-Libraries/\-S\-T\-M32\-F10x\-\_\-\-Std\-Periph\-\_\-\-Driver/inc/\hyperlink{stm32f10x__can_8h}{stm32f10x\-\_\-can.\-h}\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F30x/\-Libraries/\-S\-T\-M32\-F30x\-\_\-\-Std\-Periph\-\_\-\-Driver/inc/\hyperlink{stm32f30x__can_8h}{stm32f30x\-\_\-can.\-h}\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/\-Libraries/\-S\-T\-M32\-F4xx\-\_\-\-Std\-Periph\-\_\-\-Driver/inc/\hyperlink{stm32f4xx__can_8h}{stm32f4xx\-\_\-can.\-h}\end{DoxyCompactItemize}

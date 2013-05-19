@@ -1,0 +1,84 @@
+\hypertarget{group__v_semaphore_create_mutex}{\section{v\-Semaphore\-Create\-Mutex}
+\label{group__v_semaphore_create_mutex}\index{v\-Semaphore\-Create\-Mutex@{v\-Semaphore\-Create\-Mutex}}
+}
+semphr. h 
+\begin{DoxyPre}xSemaphoreHandle xSemaphoreCreateMutex( void )\end{DoxyPre}
+
+
+{\itshape Macro} that implements a mutex semaphore by using the existing queue mechanism.
+
+Mutexes created using this macro can be accessed using the x\-Semaphore\-Take() and x\-Semaphore\-Give() macros. The x\-Semaphore\-Take\-Recursive() and x\-Semaphore\-Give\-Recursive() macros should not be used.
+
+This type of semaphore uses a priority inheritance mechanism so a task 'taking' a semaphore M\-U\-S\-T A\-L\-W\-A\-Y\-S 'give' the semaphore back once the semaphore it is no longer required.
+
+Mutex type semaphores cannot be used from within interrupt service routines.
+
+See v\-Semaphore\-Create\-Binary() for an alternative implementation that can be used for pure synchronisation (where one task or interrupt always 'gives' the semaphore and another always 'takes' the semaphore) and from within interrupt service routines.
+
+\begin{DoxyReturn}{Returns}
+x\-Semaphore Handle to the created mutex semaphore. Should be of type x\-Semaphore\-Handle.
+\end{DoxyReturn}
+Example usage\-: 
+\begin{DoxyPre}
+ xSemaphoreHandle xSemaphore;\end{DoxyPre}
+
+
+
+\begin{DoxyPre} void vATask( void * pvParameters )
+ \{
+Semaphore cannot be used before a call to xSemaphoreCreateMutex().
+This is a macro so pass the variable in directly.
+    xSemaphore = xSemaphoreCreateMutex();\end{DoxyPre}
+
+
+
+\begin{DoxyPre}    if( xSemaphore != NULL )
+    \{
+The semaphore was created successfully.
+The semaphore can now be used.  
+    \}
+ \}
+ \end{DoxyPre}
+
+
+semphr. h 
+\begin{DoxyPre}xSemaphoreHandle xSemaphoreCreateRecursiveMutex( void )\end{DoxyPre}
+
+
+{\itshape Macro} that implements a recursive mutex by using the existing queue mechanism.
+
+Mutexes created using this macro can be accessed using the x\-Semaphore\-Take\-Recursive() and x\-Semaphore\-Give\-Recursive() macros. The x\-Semaphore\-Take() and x\-Semaphore\-Give() macros should not be used.
+
+A mutex used recursively can be 'taken' repeatedly by the owner. The mutex doesn't become available again until the owner has called x\-Semaphore\-Give\-Recursive() for each successful 'take' request. For example, if a task successfully 'takes' the same mutex 5 times then the mutex will not be available to any other task until it has also 'given' the mutex back exactly five times.
+
+This type of semaphore uses a priority inheritance mechanism so a task 'taking' a semaphore M\-U\-S\-T A\-L\-W\-A\-Y\-S 'give' the semaphore back once the semaphore it is no longer required.
+
+Mutex type semaphores cannot be used from within interrupt service routines.
+
+See v\-Semaphore\-Create\-Binary() for an alternative implementation that can be used for pure synchronisation (where one task or interrupt always 'gives' the semaphore and another always 'takes' the semaphore) and from within interrupt service routines.
+
+\begin{DoxyReturn}{Returns}
+x\-Semaphore Handle to the created mutex semaphore. Should be of type x\-Semaphore\-Handle.
+\end{DoxyReturn}
+Example usage\-: 
+\begin{DoxyPre}
+ xSemaphoreHandle xSemaphore;\end{DoxyPre}
+
+
+
+\begin{DoxyPre} void vATask( void * pvParameters )
+ \{
+Semaphore cannot be used before a call to xSemaphoreCreateMutex().
+This is a macro so pass the variable in directly.
+    xSemaphore = xSemaphoreCreateRecursiveMutex();\end{DoxyPre}
+
+
+
+\begin{DoxyPre}    if( xSemaphore != NULL )
+    \{
+The semaphore was created successfully.
+The semaphore can now be used.  
+    \}
+ \}
+ \end{DoxyPre}
+ 

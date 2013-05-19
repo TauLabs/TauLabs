@@ -1,0 +1,174 @@
+\hypertarget{group___bilinear_interpolate}{\section{Bilinear Interpolation}
+\label{group___bilinear_interpolate}\index{Bilinear Interpolation@{Bilinear Interpolation}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} \hyperlink{group___bilinear_interpolate_gabfd6cfec7f05c5bb6af645b7d62f46d2}{arm\-\_\-bilinear\-\_\-interp\-\_\-f32} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__bilinear__interp__instance__f32}{arm\-\_\-bilinear\-\_\-interp\-\_\-instance\-\_\-f32} $\ast$S, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} \hyperlink{group___i_n_s_g_p_s_ga878335db1805364cefebddb5eccfc282}{X}, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} Y)
+\begin{DoxyCompactList}\small\item\em Floating-\/point bilinear interpolation. \end{DoxyCompactList}\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} \hyperlink{group___bilinear_interpolate_gac96f580756af38d7a2e17e4baeec551d}{arm\-\_\-bilinear\-\_\-interp\-\_\-q31} (\hyperlink{structarm__bilinear__interp__instance__q31}{arm\-\_\-bilinear\-\_\-interp\-\_\-instance\-\_\-q31} $\ast$S, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} \hyperlink{group___i_n_s_g_p_s_ga878335db1805364cefebddb5eccfc282}{X}, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} Y)
+\begin{DoxyCompactList}\small\item\em Q31 bilinear interpolation. \end{DoxyCompactList}\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} \hyperlink{group___bilinear_interpolate_ga8619980af3916bef36ba906bd6170da0}{arm\-\_\-bilinear\-\_\-interp\-\_\-q15} (\hyperlink{structarm__bilinear__interp__instance__q15}{arm\-\_\-bilinear\-\_\-interp\-\_\-instance\-\_\-q15} $\ast$S, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} \hyperlink{group___i_n_s_g_p_s_ga878335db1805364cefebddb5eccfc282}{X}, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} Y)
+\begin{DoxyCompactList}\small\item\em Q15 bilinear interpolation. \end{DoxyCompactList}\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{arm__math_8h_ae541b6f232c305361e9b416fc9eed263}{q7\-\_\-t} \hyperlink{group___bilinear_interpolate_ga71d69acab8ce8cfe7b83710619304ca8}{arm\-\_\-bilinear\-\_\-interp\-\_\-q7} (\hyperlink{structarm__bilinear__interp__instance__q7}{arm\-\_\-bilinear\-\_\-interp\-\_\-instance\-\_\-q7} $\ast$S, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} \hyperlink{group___i_n_s_g_p_s_ga878335db1805364cefebddb5eccfc282}{X}, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} Y)
+\begin{DoxyCompactList}\small\item\em Q7 bilinear interpolation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Bilinear interpolation is an extension of linear interpolation applied to a two dimensional grid. The underlying function {\ttfamily f(x, y)} is sampled on a regular grid and the interpolation process determines values between the grid points. Bilinear interpolation is equivalent to two step linear interpolation, first in the x-\/dimension and then in the y-\/dimension. Bilinear interpolation is often used in image processing to rescale images. The C\-M\-S\-I\-S D\-S\-P library provides bilinear interpolation functions for Q7, Q15, Q31, and floating-\/point data types.
+
+{\bfseries Algorithm} \begin{DoxyParagraph}{}
+The instance structure used by the bilinear interpolation functions describes a two dimensional data table. For floating-\/point, the instance structure is defined as\-: 
+\begin{DoxyPre}
+  typedef struct
+  \{
+    uint16\_t numRows;
+    uint16\_t numCols;
+    float32\_t *pData;
+\} \hyperlink{structarm__bilinear__interp__instance__f32}{arm\_bilinear\_interp\_instance\_f32};
+\end{DoxyPre}
+
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+where {\ttfamily num\-Rows} specifies the number of rows in the table; {\ttfamily num\-Cols} specifies the number of columns in the table; and {\ttfamily p\-Data} points to an array of size {\ttfamily num\-Rows$\ast$num\-Cols} values. The data table {\ttfamily p\-Table} is organized in row order and the supplied data values fall on integer indexes. That is, table element (x,y) is located at {\ttfamily p\-Table\mbox{[}x + y$\ast$num\-Cols\mbox{]}} where x and y are integers.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Let {\ttfamily (x, y)} specify the desired interpolation point. Then define\-: 
+\begin{DoxyPre}
+    XF = floor(x)
+    YF = floor(y)
+\end{DoxyPre}
+ 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+The interpolated output point is computed as\-: 
+\begin{DoxyPre}
+ f(x, y) = f(XF, YF) * (1-(x-XF)) * (1-(y-YF))
+          + f(XF+1, YF) * (x-XF)*(1-(y-YF))
+          + f(XF, YF+1) * (1-(x-XF))*(y-YF)
+          + f(XF+1, YF+1) * (x-XF)*(y-YF)
+\end{DoxyPre}
+ Note that the coordinates (x, y) contain integer and fractional components. The integer components specify which portion of the table to use while the fractional components control the interpolation processor.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+if (x,y) are outside of the table boundary, Bilinear interpolation returns zero output. 
+\end{DoxyParagraph}
+
+
+\subsection{Function Documentation}
+\hypertarget{group___bilinear_interpolate_gabfd6cfec7f05c5bb6af645b7d62f46d2}{\index{Bilinear Interpolation@{Bilinear Interpolation}!arm\-\_\-bilinear\-\_\-interp\-\_\-f32@{arm\-\_\-bilinear\-\_\-interp\-\_\-f32}}
+\index{arm\-\_\-bilinear\-\_\-interp\-\_\-f32@{arm\-\_\-bilinear\-\_\-interp\-\_\-f32}!Bilinear Interpolation@{Bilinear Interpolation}}
+\subsubsection[{arm\-\_\-bilinear\-\_\-interp\-\_\-f32}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E {\bf float32\-\_\-t} arm\-\_\-bilinear\-\_\-interp\-\_\-f32 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-bilinear\-\_\-interp\-\_\-instance\-\_\-f32} $\ast$}]{S, }
+\item[{{\bf float32\-\_\-t}}]{X, }
+\item[{{\bf float32\-\_\-t}}]{Y}
+\end{DoxyParamCaption}
+)}}\label{group___bilinear_interpolate_gabfd6cfec7f05c5bb6af645b7d62f46d2}
+
+
+Floating-\/point bilinear interpolation. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em $\ast$\-S} & points to an instance of the interpolation structure. \\
+\hline
+\mbox{\tt in}  & {\em X} & interpolation coordinate. \\
+\hline
+\mbox{\tt in}  & {\em Y} & interpolation coordinate. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+out interpolated value. 
+\end{DoxyReturn}
+
+
+Definition at line 7260 of file arm\-\_\-math.\-h.
+
+\hypertarget{group___bilinear_interpolate_ga8619980af3916bef36ba906bd6170da0}{\index{Bilinear Interpolation@{Bilinear Interpolation}!arm\-\_\-bilinear\-\_\-interp\-\_\-q15@{arm\-\_\-bilinear\-\_\-interp\-\_\-q15}}
+\index{arm\-\_\-bilinear\-\_\-interp\-\_\-q15@{arm\-\_\-bilinear\-\_\-interp\-\_\-q15}!Bilinear Interpolation@{Bilinear Interpolation}}
+\subsubsection[{arm\-\_\-bilinear\-\_\-interp\-\_\-q15}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E {\bf q15\-\_\-t} arm\-\_\-bilinear\-\_\-interp\-\_\-q15 (
+\begin{DoxyParamCaption}
+\item[{{\bf arm\-\_\-bilinear\-\_\-interp\-\_\-instance\-\_\-q15} $\ast$}]{S, }
+\item[{{\bf q31\-\_\-t}}]{X, }
+\item[{{\bf q31\-\_\-t}}]{Y}
+\end{DoxyParamCaption}
+)}}\label{group___bilinear_interpolate_ga8619980af3916bef36ba906bd6170da0}
+
+
+Q15 bilinear interpolation. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em $\ast$\-S} & points to an instance of the interpolation structure. \\
+\hline
+\mbox{\tt in}  & {\em X} & interpolation coordinate in 12.\-20 format. \\
+\hline
+\mbox{\tt in}  & {\em Y} & interpolation coordinate in 12.\-20 format. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+out interpolated value. 
+\end{DoxyReturn}
+
+
+Definition at line 7404 of file arm\-\_\-math.\-h.
+
+\hypertarget{group___bilinear_interpolate_gac96f580756af38d7a2e17e4baeec551d}{\index{Bilinear Interpolation@{Bilinear Interpolation}!arm\-\_\-bilinear\-\_\-interp\-\_\-q31@{arm\-\_\-bilinear\-\_\-interp\-\_\-q31}}
+\index{arm\-\_\-bilinear\-\_\-interp\-\_\-q31@{arm\-\_\-bilinear\-\_\-interp\-\_\-q31}!Bilinear Interpolation@{Bilinear Interpolation}}
+\subsubsection[{arm\-\_\-bilinear\-\_\-interp\-\_\-q31}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E {\bf q31\-\_\-t} arm\-\_\-bilinear\-\_\-interp\-\_\-q31 (
+\begin{DoxyParamCaption}
+\item[{{\bf arm\-\_\-bilinear\-\_\-interp\-\_\-instance\-\_\-q31} $\ast$}]{S, }
+\item[{{\bf q31\-\_\-t}}]{X, }
+\item[{{\bf q31\-\_\-t}}]{Y}
+\end{DoxyParamCaption}
+)}}\label{group___bilinear_interpolate_gac96f580756af38d7a2e17e4baeec551d}
+
+
+Q31 bilinear interpolation. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em $\ast$\-S} & points to an instance of the interpolation structure. \\
+\hline
+\mbox{\tt in}  & {\em X} & interpolation coordinate in 12.\-20 format. \\
+\hline
+\mbox{\tt in}  & {\em Y} & interpolation coordinate in 12.\-20 format. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+out interpolated value. 
+\end{DoxyReturn}
+
+
+Definition at line 7328 of file arm\-\_\-math.\-h.
+
+\hypertarget{group___bilinear_interpolate_ga71d69acab8ce8cfe7b83710619304ca8}{\index{Bilinear Interpolation@{Bilinear Interpolation}!arm\-\_\-bilinear\-\_\-interp\-\_\-q7@{arm\-\_\-bilinear\-\_\-interp\-\_\-q7}}
+\index{arm\-\_\-bilinear\-\_\-interp\-\_\-q7@{arm\-\_\-bilinear\-\_\-interp\-\_\-q7}!Bilinear Interpolation@{Bilinear Interpolation}}
+\subsubsection[{arm\-\_\-bilinear\-\_\-interp\-\_\-q7}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E {\bf q7\-\_\-t} arm\-\_\-bilinear\-\_\-interp\-\_\-q7 (
+\begin{DoxyParamCaption}
+\item[{{\bf arm\-\_\-bilinear\-\_\-interp\-\_\-instance\-\_\-q7} $\ast$}]{S, }
+\item[{{\bf q31\-\_\-t}}]{X, }
+\item[{{\bf q31\-\_\-t}}]{Y}
+\end{DoxyParamCaption}
+)}}\label{group___bilinear_interpolate_ga71d69acab8ce8cfe7b83710619304ca8}
+
+
+Q7 bilinear interpolation. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em $\ast$\-S} & points to an instance of the interpolation structure. \\
+\hline
+\mbox{\tt in}  & {\em X} & interpolation coordinate in 12.\-20 format. \\
+\hline
+\mbox{\tt in}  & {\em Y} & interpolation coordinate in 12.\-20 format. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+out interpolated value. 
+\end{DoxyReturn}
+
+
+Definition at line 7484 of file arm\-\_\-math.\-h.
+

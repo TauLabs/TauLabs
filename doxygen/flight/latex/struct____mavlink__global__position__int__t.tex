@@ -1,0 +1,142 @@
+\hypertarget{struct____mavlink__global__position__int__t}{\section{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t Struct Reference}
+\label{struct____mavlink__global__position__int__t}\index{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\-\_\-msg\-\_\-global\-\_\-position\-\_\-int.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{struct____mavlink__global__position__int__t_a1b56c431f19cff6fadc2b0ac3b5959b6}{time\-\_\-boot\-\_\-ms}
+\begin{DoxyCompactList}\small\item\em Timestamp (milliseconds since system boot) \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{struct____mavlink__global__position__int__t_a949653d08153161bb49b94794169a70f}{lat}
+\begin{DoxyCompactList}\small\item\em Latitude, expressed as $\ast$ 1\-E7. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{struct____mavlink__global__position__int__t_a2350bdf8af429bc2ed49b7cfac61cee7}{lon}
+\begin{DoxyCompactList}\small\item\em Longitude, expressed as $\ast$ 1\-E7. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{struct____mavlink__global__position__int__t_a1d9e69a26dc214bd624c9474ca3d79f4}{alt}
+\begin{DoxyCompactList}\small\item\em Altitude in meters, expressed as $\ast$ 1000 (millimeters), above M\-S\-L. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{struct____mavlink__global__position__int__t_a1b3d36234adcacbedc88c37c1712f4b1}{relative\-\_\-alt}
+\begin{DoxyCompactList}\small\item\em Altitude above ground in meters, expressed as $\ast$ 1000 (millimeters) \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} \hyperlink{struct____mavlink__global__position__int__t_a1f2bef1206e578e3f0f85f7854621829}{vx}
+\begin{DoxyCompactList}\small\item\em Ground X Speed (Latitude), expressed as m/s $\ast$ 100. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} \hyperlink{struct____mavlink__global__position__int__t_a89734a8b924f059f9e634233ce021cd3}{vy}
+\begin{DoxyCompactList}\small\item\em Ground Y Speed (Longitude), expressed as m/s $\ast$ 100. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} \hyperlink{struct____mavlink__global__position__int__t_ac476cea996cb642f139a93fc7f5ed2a4}{vz}
+\begin{DoxyCompactList}\small\item\em Ground Z Speed (Altitude), expressed as m/s $\ast$ 100. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{struct____mavlink__global__position__int__t_a60f7c02018c444cdffb6121dee854e19}{hdg}
+\begin{DoxyCompactList}\small\item\em Compass heading in degrees $\ast$ 100, 0.\-0..359.\-99 degrees. If unknown, set to\-: 65535. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 5 of file mavlink\-\_\-msg\-\_\-global\-\_\-position\-\_\-int.\-h.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__global__position__int__t_a1d9e69a26dc214bd624c9474ca3d79f4}{\index{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t}!alt@{alt}}
+\index{alt@{alt}!__mavlink_global_position_int_t@{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t}}
+\subsubsection[{alt}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t\-::alt}}\label{struct____mavlink__global__position__int__t_a1d9e69a26dc214bd624c9474ca3d79f4}
+
+
+Altitude in meters, expressed as $\ast$ 1000 (millimeters), above M\-S\-L. 
+
+
+
+Definition at line 10 of file mavlink\-\_\-msg\-\_\-global\-\_\-position\-\_\-int.\-h.
+
+\hypertarget{struct____mavlink__global__position__int__t_a60f7c02018c444cdffb6121dee854e19}{\index{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t}!hdg@{hdg}}
+\index{hdg@{hdg}!__mavlink_global_position_int_t@{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t}}
+\subsubsection[{hdg}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t\-::hdg}}\label{struct____mavlink__global__position__int__t_a60f7c02018c444cdffb6121dee854e19}
+
+
+Compass heading in degrees $\ast$ 100, 0.\-0..359.\-99 degrees. If unknown, set to\-: 65535. 
+
+
+
+Definition at line 15 of file mavlink\-\_\-msg\-\_\-global\-\_\-position\-\_\-int.\-h.
+
+\hypertarget{struct____mavlink__global__position__int__t_a949653d08153161bb49b94794169a70f}{\index{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t}!lat@{lat}}
+\index{lat@{lat}!__mavlink_global_position_int_t@{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t}}
+\subsubsection[{lat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t\-::lat}}\label{struct____mavlink__global__position__int__t_a949653d08153161bb49b94794169a70f}
+
+
+Latitude, expressed as $\ast$ 1\-E7. 
+
+
+
+Definition at line 8 of file mavlink\-\_\-msg\-\_\-global\-\_\-position\-\_\-int.\-h.
+
+\hypertarget{struct____mavlink__global__position__int__t_a2350bdf8af429bc2ed49b7cfac61cee7}{\index{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t}!lon@{lon}}
+\index{lon@{lon}!__mavlink_global_position_int_t@{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t}}
+\subsubsection[{lon}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t\-::lon}}\label{struct____mavlink__global__position__int__t_a2350bdf8af429bc2ed49b7cfac61cee7}
+
+
+Longitude, expressed as $\ast$ 1\-E7. 
+
+
+
+Definition at line 9 of file mavlink\-\_\-msg\-\_\-global\-\_\-position\-\_\-int.\-h.
+
+\hypertarget{struct____mavlink__global__position__int__t_a1b3d36234adcacbedc88c37c1712f4b1}{\index{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t}!relative\-\_\-alt@{relative\-\_\-alt}}
+\index{relative\-\_\-alt@{relative\-\_\-alt}!__mavlink_global_position_int_t@{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t}}
+\subsubsection[{relative\-\_\-alt}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t\-::relative\-\_\-alt}}\label{struct____mavlink__global__position__int__t_a1b3d36234adcacbedc88c37c1712f4b1}
+
+
+Altitude above ground in meters, expressed as $\ast$ 1000 (millimeters) 
+
+
+
+Definition at line 11 of file mavlink\-\_\-msg\-\_\-global\-\_\-position\-\_\-int.\-h.
+
+\hypertarget{struct____mavlink__global__position__int__t_a1b56c431f19cff6fadc2b0ac3b5959b6}{\index{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t}!time\-\_\-boot\-\_\-ms@{time\-\_\-boot\-\_\-ms}}
+\index{time\-\_\-boot\-\_\-ms@{time\-\_\-boot\-\_\-ms}!__mavlink_global_position_int_t@{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t}}
+\subsubsection[{time\-\_\-boot\-\_\-ms}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t\-::time\-\_\-boot\-\_\-ms}}\label{struct____mavlink__global__position__int__t_a1b56c431f19cff6fadc2b0ac3b5959b6}
+
+
+Timestamp (milliseconds since system boot) 
+
+
+
+Definition at line 7 of file mavlink\-\_\-msg\-\_\-global\-\_\-position\-\_\-int.\-h.
+
+\hypertarget{struct____mavlink__global__position__int__t_a1f2bef1206e578e3f0f85f7854621829}{\index{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t}!vx@{vx}}
+\index{vx@{vx}!__mavlink_global_position_int_t@{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t}}
+\subsubsection[{vx}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int16\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t\-::vx}}\label{struct____mavlink__global__position__int__t_a1f2bef1206e578e3f0f85f7854621829}
+
+
+Ground X Speed (Latitude), expressed as m/s $\ast$ 100. 
+
+
+
+Definition at line 12 of file mavlink\-\_\-msg\-\_\-global\-\_\-position\-\_\-int.\-h.
+
+\hypertarget{struct____mavlink__global__position__int__t_a89734a8b924f059f9e634233ce021cd3}{\index{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t}!vy@{vy}}
+\index{vy@{vy}!__mavlink_global_position_int_t@{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t}}
+\subsubsection[{vy}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int16\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t\-::vy}}\label{struct____mavlink__global__position__int__t_a89734a8b924f059f9e634233ce021cd3}
+
+
+Ground Y Speed (Longitude), expressed as m/s $\ast$ 100. 
+
+
+
+Definition at line 13 of file mavlink\-\_\-msg\-\_\-global\-\_\-position\-\_\-int.\-h.
+
+\hypertarget{struct____mavlink__global__position__int__t_ac476cea996cb642f139a93fc7f5ed2a4}{\index{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t}!vz@{vz}}
+\index{vz@{vz}!__mavlink_global_position_int_t@{\-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t}}
+\subsubsection[{vz}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int16\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-global\-\_\-position\-\_\-int\-\_\-t\-::vz}}\label{struct____mavlink__global__position__int__t_ac476cea996cb642f139a93fc7f5ed2a4}
+
+
+Ground Z Speed (Altitude), expressed as m/s $\ast$ 100. 
+
+
+
+Definition at line 14 of file mavlink\-\_\-msg\-\_\-global\-\_\-position\-\_\-int.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Libraries/mavlink/v1.\-0/common/\hyperlink{mavlink__msg__global__position__int_8h}{mavlink\-\_\-msg\-\_\-global\-\_\-position\-\_\-int.\-h}\end{DoxyCompactItemize}

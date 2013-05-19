@@ -1,0 +1,36 @@
+\hypertarget{posix_2posix_2pios__board__info_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S.posix/posix/pios\-\_\-board\-\_\-info.c File Reference}
+\label{posix_2posix_2pios__board__info_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S.\-posix/posix/pios\-\_\-board\-\_\-info.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S.\-posix/posix/pios\-\_\-board\-\_\-info.\-c}}
+}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__board__info}{pios\-\_\-board\-\_\-info} \hyperlink{posix_2posix_2pios__board__info_8c_a6580da869eb32b4b2728eaa04276736f}{pios\-\_\-board\-\_\-info\-\_\-blob}
+\end{DoxyCompactItemize}
+
+
+\subsection{Variable Documentation}
+\hypertarget{posix_2posix_2pios__board__info_8c_a6580da869eb32b4b2728eaa04276736f}{\index{posix/posix/pios\-\_\-board\-\_\-info.\-c@{posix/posix/pios\-\_\-board\-\_\-info.\-c}!pios\-\_\-board\-\_\-info\-\_\-blob@{pios\-\_\-board\-\_\-info\-\_\-blob}}
+\index{pios\-\_\-board\-\_\-info\-\_\-blob@{pios\-\_\-board\-\_\-info\-\_\-blob}!posix/posix/pios_board_info.c@{posix/posix/pios\-\_\-board\-\_\-info.\-c}}
+\subsubsection[{pios\-\_\-board\-\_\-info\-\_\-blob}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-board\-\_\-info} pios\-\_\-board\-\_\-info\-\_\-blob}}\label{posix_2posix_2pios__board__info_8c_a6580da869eb32b4b2728eaa04276736f}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{
+  .magic      = PIOS\_BOARD\_INFO\_BLOB\_MAGIC,
+  .board\_type = BOARD\_TYPE,
+  .board\_rev  = BOARD\_REVISION,
+  .bl\_rev     = BOOTLOADER\_VERSION,
+  .hw\_type    = HW\_TYPE,
+  .fw\_base    = FW\_BANK\_BASE,
+  .fw\_size    = FW\_BANK\_SIZE - FW\_DESC\_SIZE,
+  .desc\_base  = FW\_BANK\_BASE + FW\_BANK\_SIZE - FW\_DESC\_SIZE,
+  .desc\_size  = FW\_DESC\_SIZE,
+\textcolor{preprocessor}{#ifdef EE\_BANK\_BASE}
+\textcolor{preprocessor}{}  .ee\_base    = EE\_BANK\_BASE,
+  .ee\_size    = EE\_BANK\_SIZE,
+\textcolor{preprocessor}{#endif}
+\textcolor{preprocessor}{\}}
+\end{DoxyCode}
+
+
+Definition at line 6 of file pios\-\_\-board\-\_\-info.\-c.
+

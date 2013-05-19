@@ -1,0 +1,105 @@
+\hypertarget{group___s_q_r_t}{\section{Square Root}
+\label{group___s_q_r_t}\index{Square Root@{Square Root}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{arm__math_8h_a5e459c6409dfcd2927bb8a57491d7cf6}{arm\-\_\-status} \hyperlink{group___s_q_r_t_gad8d530e02516dcf4bc724c7f7e173eb9}{arm\-\_\-sqrt\-\_\-f32} (\hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} in, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Out)
+\begin{DoxyCompactList}\small\item\em Floating-\/point square root function. \end{DoxyCompactList}\item 
+\hyperlink{arm__math_8h_a5e459c6409dfcd2927bb8a57491d7cf6}{arm\-\_\-status} \hyperlink{group___s_q_r_t_ga119e25831e141d734d7ef10636670058}{arm\-\_\-sqrt\-\_\-q31} (\hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} in, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Out)
+\begin{DoxyCompactList}\small\item\em Q31 square root function. \end{DoxyCompactList}\item 
+\hyperlink{arm__math_8h_a5e459c6409dfcd2927bb8a57491d7cf6}{arm\-\_\-status} \hyperlink{group___s_q_r_t_ga5abe5ca724f3e15849662b03752c1238}{arm\-\_\-sqrt\-\_\-q15} (\hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} in, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Out)
+\begin{DoxyCompactList}\small\item\em Q15 square root function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Computes the square root of a number. There are separate functions for Q15, Q31, and floating-\/point data types. The square root function is computed using the Newton-\/\-Raphson algorithm. This is an iterative algorithm of the form\-: 
+\begin{DoxyPre}
+     x1 = x0 - f(x0)/f'(x0)
+\end{DoxyPre}
+ where {\ttfamily x1} is the current estimate, {\ttfamily x0} is the previous estimate and {\ttfamily f'(x0)} is the derivative of {\ttfamily f()} evaluated at {\ttfamily x0}. For the square root function, the algorithm reduces to\-: 
+\begin{DoxyPre}
+    x0 = in/2                         [initial guess]
+    x1 = 1/2 * ( x0 + in / x0)        [each iteration]
+\end{DoxyPre}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___s_q_r_t_gad8d530e02516dcf4bc724c7f7e173eb9}{\index{Square Root@{Square Root}!arm\-\_\-sqrt\-\_\-f32@{arm\-\_\-sqrt\-\_\-f32}}
+\index{arm\-\_\-sqrt\-\_\-f32@{arm\-\_\-sqrt\-\_\-f32}!Square Root@{Square Root}}
+\subsubsection[{arm\-\_\-sqrt\-\_\-f32}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E {\bf arm\-\_\-status} arm\-\_\-sqrt\-\_\-f32 (
+\begin{DoxyParamCaption}
+\item[{{\bf float32\-\_\-t}}]{in, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Out}
+\end{DoxyParamCaption}
+)}}\label{group___s_q_r_t_gad8d530e02516dcf4bc724c7f7e173eb9}
+
+
+Floating-\/point square root function. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em in} & input value. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Out} & square root of input value. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The function returns A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-S\-U\-C\-C\-E\-S\-S if input value is positive value or A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-A\-R\-G\-U\-M\-E\-N\-T\-\_\-\-E\-R\-R\-O\-R if {\ttfamily in} is negative value and returns zero output for negative values. 
+\end{DoxyReturn}
+
+
+Definition at line 6207 of file arm\-\_\-math.\-h.
+
+\hypertarget{group___s_q_r_t_ga5abe5ca724f3e15849662b03752c1238}{\index{Square Root@{Square Root}!arm\-\_\-sqrt\-\_\-q15@{arm\-\_\-sqrt\-\_\-q15}}
+\index{arm\-\_\-sqrt\-\_\-q15@{arm\-\_\-sqrt\-\_\-q15}!Square Root@{Square Root}}
+\subsubsection[{arm\-\_\-sqrt\-\_\-q15}]{\setlength{\rightskip}{0pt plus 5cm}{\bf arm\-\_\-status} arm\-\_\-sqrt\-\_\-q15 (
+\begin{DoxyParamCaption}
+\item[{{\bf q15\-\_\-t}}]{in, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Out}
+\end{DoxyParamCaption}
+)}}\label{group___s_q_r_t_ga5abe5ca724f3e15849662b03752c1238}
+
+
+Q15 square root function. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em in} & input value. The range of the input value is \mbox{[}0 +1) or 0x0000 to 0x7\-F\-F\-F. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Out} & square root of input value. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The function returns A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-S\-U\-C\-C\-E\-S\-S if input value is positive value or A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-A\-R\-G\-U\-M\-E\-N\-T\-\_\-\-E\-R\-R\-O\-R if {\ttfamily in} is negative value and returns zero output for negative values. 
+\end{DoxyReturn}
+
+
+Definition at line 45 of file arm\-\_\-sqrt\-\_\-q15.\-c.
+
+\hypertarget{group___s_q_r_t_ga119e25831e141d734d7ef10636670058}{\index{Square Root@{Square Root}!arm\-\_\-sqrt\-\_\-q31@{arm\-\_\-sqrt\-\_\-q31}}
+\index{arm\-\_\-sqrt\-\_\-q31@{arm\-\_\-sqrt\-\_\-q31}!Square Root@{Square Root}}
+\subsubsection[{arm\-\_\-sqrt\-\_\-q31}]{\setlength{\rightskip}{0pt plus 5cm}{\bf arm\-\_\-status} arm\-\_\-sqrt\-\_\-q31 (
+\begin{DoxyParamCaption}
+\item[{{\bf q31\-\_\-t}}]{in, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Out}
+\end{DoxyParamCaption}
+)}}\label{group___s_q_r_t_ga119e25831e141d734d7ef10636670058}
+
+
+Q31 square root function. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em in} & input value. The range of the input value is \mbox{[}0 +1) or 0x00000000 to 0x7\-F\-F\-F\-F\-F\-F\-F. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Out} & square root of input value. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The function returns A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-S\-U\-C\-C\-E\-S\-S if input value is positive value or A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-A\-R\-G\-U\-M\-E\-N\-T\-\_\-\-E\-R\-R\-O\-R if {\ttfamily in} is negative value and returns zero output for negative values. 
+\end{DoxyReturn}
+
+
+Definition at line 44 of file arm\-\_\-sqrt\-\_\-q31.\-c.
+

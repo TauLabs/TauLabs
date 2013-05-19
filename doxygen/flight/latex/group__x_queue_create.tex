@@ -1,0 +1,63 @@
+\hypertarget{group__x_queue_create}{\section{x\-Queue\-Create}
+\label{group__x_queue_create}\index{x\-Queue\-Create@{x\-Queue\-Create}}
+}
+queue. h 
+\begin{DoxyPre}
+ xQueueHandle xQueueCreate(
+                                                          unsigned portBASE\_TYPE uxQueueLength,
+                                                          unsigned portBASE\_TYPE uxItemSize
+                                                  );
+   \end{DoxyPre}
+
+
+Creates a new queue instance. This allocates the storage required by the new queue and returns a handle for the queue.
+
+
+\begin{DoxyParams}{Parameters}
+{\em ux\-Queue\-Length} & The maximum number of items that the queue can contain.\\
+\hline
+{\em ux\-Item\-Size} & The number of bytes each item in the queue will require. Items are queued by copy, not by reference, so this is the number of bytes that will be copied for each posted item. Each item on the queue must be the same size.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+If the queue is successfully create then a handle to the newly created queue is returned. If the queue cannot be created then 0 is returned.
+\end{DoxyReturn}
+Example usage\-: 
+\begin{DoxyPre}
+ struct AMessage
+ \{
+        char ucMessageID;
+        char ucData[ 20 ];
+ \};\end{DoxyPre}
+
+
+
+\begin{DoxyPre} void vATask( void *pvParameters )
+ \{
+ xQueueHandle xQueue1, xQueue2;\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Create a queue capable of containing 10 unsigned long values.
+        xQueue1 = xQueueCreate( 10, sizeof( unsigned long ) );
+        if( xQueue1 == 0 )
+        \{
+Queue was not created and must not be used.
+        \}\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Create a queue capable of containing 10 pointers to AMessage structures.
+These should be passed by pointer as they contain a lot of data.
+        xQueue2 = xQueueCreate( 10, sizeof( struct AMessage * ) );
+        if( xQueue2 == 0 )
+        \{
+Queue was not created and must not be used.
+        \}\end{DoxyPre}
+
+
+
+\begin{DoxyPre}... Rest of task code.
+ \}
+ \end{DoxyPre}
+ 

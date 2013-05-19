@@ -1,0 +1,163 @@
+\hypertarget{windows_2plat_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/platform/windows/plat.c File Reference}
+\label{windows_2plat_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/platform/windows/plat.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/platform/windows/plat.\-c}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+V\-O\-I\-D C\-A\-L\-L\-B\-A\-C\-K \hyperlink{windows_2plat_8c_a9752773c36578580609211188bad7269}{on\-\_\-timer} (H\-W\-N\-D h\-Wnd, U\-I\-N\-T u\-Msg, U\-I\-N\-T\-\_\-\-P\-T\-R id\-Event, D\-W\-O\-R\-D dw\-Time)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} C\-A\-L\-L\-B\-A\-C\-K \hyperlink{windows_2plat_8c_ae957105b9bd9522fab7262ed571f166b}{on\-\_\-mm\-\_\-timer} (U\-I\-N\-T u\-Timer\-I\-D, U\-I\-N\-T u\-Msg, D\-W\-O\-R\-D\-\_\-\-P\-T\-R dw\-User, D\-W\-O\-R\-D\-\_\-\-P\-T\-R dw1, D\-W\-O\-R\-D\-\_\-\-P\-T\-R dw2)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{windows_2plat_8c_a790fa88726eac7c278200333a6910f72}{plat\-\_\-init} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{windows_2plat_8c_ad6ada6efc112a1ad9cf65eff8b334324}{plat\-\_\-deinit} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{windows_2plat_8c_a905b13e46b1195fb8dbee583087132d8}{plat\-\_\-tick} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{windows_2plat_8c_a1616b2076e627fcbccf4afe7fca653f2}{plat\-\_\-mem\-Get\-Byte} (\hyperlink{mem_8h_a9c68f72c120fc5a782d464c144aafa2b}{Pm\-Mem\-Space\-\_\-t} memspace, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} $\ast$$\ast$paddr)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{windows_2plat_8c_acab16bcf9236cfbf96a21e4e8c7b39cc}{plat\-\_\-get\-Byte} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$b)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{windows_2plat_8c_a7b696b86772a8243350da39b3f39bbbd}{plat\-\_\-put\-Byte} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} b)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{windows_2plat_8c_ac79e24282e60677ab379557b1be09e48}{plat\-\_\-get\-Ms\-Ticks} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} $\ast$r\-\_\-ticks)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{windows_2plat_8c_a1fa56b5dbebd8e4eef6a1e99615ea405}{plat\-\_\-report\-Error} (\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} result)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{windows_2plat_8c_ae957105b9bd9522fab7262ed571f166b}{\index{windows/plat.\-c@{windows/plat.\-c}!on\-\_\-mm\-\_\-timer@{on\-\_\-mm\-\_\-timer}}
+\index{on\-\_\-mm\-\_\-timer@{on\-\_\-mm\-\_\-timer}!windows/plat.c@{windows/plat.\-c}}
+\subsubsection[{on\-\_\-mm\-\_\-timer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} C\-A\-L\-L\-B\-A\-C\-K on\-\_\-mm\-\_\-timer (
+\begin{DoxyParamCaption}
+\item[{U\-I\-N\-T}]{u\-Timer\-I\-D, }
+\item[{U\-I\-N\-T}]{u\-Msg, }
+\item[{D\-W\-O\-R\-D\-\_\-\-P\-T\-R}]{dw\-User, }
+\item[{D\-W\-O\-R\-D\-\_\-\-P\-T\-R}]{dw1, }
+\item[{D\-W\-O\-R\-D\-\_\-\-P\-T\-R}]{dw2}
+\end{DoxyParamCaption}
+)}}\label{windows_2plat_8c_ae957105b9bd9522fab7262ed571f166b}
+
+
+Definition at line 92 of file plat.\-c.
+
+\hypertarget{windows_2plat_8c_a9752773c36578580609211188bad7269}{\index{windows/plat.\-c@{windows/plat.\-c}!on\-\_\-timer@{on\-\_\-timer}}
+\index{on\-\_\-timer@{on\-\_\-timer}!windows/plat.c@{windows/plat.\-c}}
+\subsubsection[{on\-\_\-timer}]{\setlength{\rightskip}{0pt plus 5cm}V\-O\-I\-D C\-A\-L\-L\-B\-A\-C\-K on\-\_\-timer (
+\begin{DoxyParamCaption}
+\item[{H\-W\-N\-D}]{h\-Wnd, }
+\item[{U\-I\-N\-T}]{u\-Msg, }
+\item[{U\-I\-N\-T\-\_\-\-P\-T\-R}]{id\-Event, }
+\item[{D\-W\-O\-R\-D}]{dw\-Time}
+\end{DoxyParamCaption}
+)}}\label{windows_2plat_8c_a9752773c36578580609211188bad7269}
+Py\-Mite platform-\/specific routines for Desktop target 
+
+Definition at line 74 of file plat.\-c.
+
+\hypertarget{windows_2plat_8c_ad6ada6efc112a1ad9cf65eff8b334324}{\index{windows/plat.\-c@{windows/plat.\-c}!plat\-\_\-deinit@{plat\-\_\-deinit}}
+\index{plat\-\_\-deinit@{plat\-\_\-deinit}!windows/plat.c@{windows/plat.\-c}}
+\subsubsection[{plat\-\_\-deinit}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} plat\-\_\-deinit (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{windows_2plat_8c_ad6ada6efc112a1ad9cf65eff8b334324}
+De-\/initializes the platform after the V\-M is done running. 
+
+Definition at line 113 of file plat.\-c.
+
+\hypertarget{windows_2plat_8c_acab16bcf9236cfbf96a21e4e8c7b39cc}{\index{windows/plat.\-c@{windows/plat.\-c}!plat\-\_\-get\-Byte@{plat\-\_\-get\-Byte}}
+\index{plat\-\_\-get\-Byte@{plat\-\_\-get\-Byte}!windows/plat.c@{windows/plat.\-c}}
+\subsubsection[{plat\-\_\-get\-Byte}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} plat\-\_\-get\-Byte (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t} $\ast$}]{b}
+\end{DoxyParamCaption}
+)}}\label{windows_2plat_8c_acab16bcf9236cfbf96a21e4e8c7b39cc}
+Receives one byte from the default connection, usually U\-A\-R\-T0 on a target device or stdio on the desktop 
+
+Definition at line 175 of file plat.\-c.
+
+\hypertarget{windows_2plat_8c_ac79e24282e60677ab379557b1be09e48}{\index{windows/plat.\-c@{windows/plat.\-c}!plat\-\_\-get\-Ms\-Ticks@{plat\-\_\-get\-Ms\-Ticks}}
+\index{plat\-\_\-get\-Ms\-Ticks@{plat\-\_\-get\-Ms\-Ticks}!windows/plat.c@{windows/plat.\-c}}
+\subsubsection[{plat\-\_\-get\-Ms\-Ticks}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} plat\-\_\-get\-Ms\-Ticks (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t} $\ast$}]{r\-\_\-ticks}
+\end{DoxyParamCaption}
+)}}\label{windows_2plat_8c_ac79e24282e60677ab379557b1be09e48}
+Gets the number of timer ticks that have passed since system start. 
+
+Definition at line 212 of file plat.\-c.
+
+\hypertarget{windows_2plat_8c_a790fa88726eac7c278200333a6910f72}{\index{windows/plat.\-c@{windows/plat.\-c}!plat\-\_\-init@{plat\-\_\-init}}
+\index{plat\-\_\-init@{plat\-\_\-init}!windows/plat.c@{windows/plat.\-c}}
+\subsubsection[{plat\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} plat\-\_\-init (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{windows_2plat_8c_a790fa88726eac7c278200333a6910f72}
+Initializes the platform as needed by the routines in the platform implementation file. 
+
+Definition at line 50 of file plat.\-c.
+
+\hypertarget{windows_2plat_8c_a1616b2076e627fcbccf4afe7fca653f2}{\index{windows/plat.\-c@{windows/plat.\-c}!plat\-\_\-mem\-Get\-Byte@{plat\-\_\-mem\-Get\-Byte}}
+\index{plat\-\_\-mem\-Get\-Byte@{plat\-\_\-mem\-Get\-Byte}!windows/plat.c@{windows/plat.\-c}}
+\subsubsection[{plat\-\_\-mem\-Get\-Byte}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} plat\-\_\-mem\-Get\-Byte (
+\begin{DoxyParamCaption}
+\item[{{\bf Pm\-Mem\-Space\-\_\-t}}]{memspace, }
+\item[{{\bf uint8\-\_\-t} {\bf const} $\ast$$\ast$}]{paddr}
+\end{DoxyParamCaption}
+)}}\label{windows_2plat_8c_a1616b2076e627fcbccf4afe7fca653f2}
+Returns the byte at the given address in memspace.
+
+Increments the address (just like getc and read(1)) to make image loading work (recursively).
+
+P\-O\-R\-T\-: fill in get\-Byte for each memspace in the system; call sys\-\_\-error for invalid memspaces.
+
+
+\begin{DoxyParams}{Parameters}
+{\em memspace} & memory space/type \\
+\hline
+{\em paddr} & ptr to address \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+byte from memory. paddr -\/ points to the next byte 
+\end{DoxyReturn}
+
+
+Definition at line 149 of file plat.\-c.
+
+\hypertarget{windows_2plat_8c_a7b696b86772a8243350da39b3f39bbbd}{\index{windows/plat.\-c@{windows/plat.\-c}!plat\-\_\-put\-Byte@{plat\-\_\-put\-Byte}}
+\index{plat\-\_\-put\-Byte@{plat\-\_\-put\-Byte}!windows/plat.c@{windows/plat.\-c}}
+\subsubsection[{plat\-\_\-put\-Byte}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} plat\-\_\-put\-Byte (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{b}
+\end{DoxyParamCaption}
+)}}\label{windows_2plat_8c_a7b696b86772a8243350da39b3f39bbbd}
+Sends one byte out on the default connection, usually U\-A\-R\-T0 on a target device or stdio on the desktop 
+
+Definition at line 194 of file plat.\-c.
+
+\hypertarget{windows_2plat_8c_a1fa56b5dbebd8e4eef6a1e99615ea405}{\index{windows/plat.\-c@{windows/plat.\-c}!plat\-\_\-report\-Error@{plat\-\_\-report\-Error}}
+\index{plat\-\_\-report\-Error@{plat\-\_\-report\-Error}!windows/plat.c@{windows/plat.\-c}}
+\subsubsection[{plat\-\_\-report\-Error}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} plat\-\_\-report\-Error (
+\begin{DoxyParamCaption}
+\item[{{\bf Pm\-Return\-\_\-t}}]{result}
+\end{DoxyParamCaption}
+)}}\label{windows_2plat_8c_a1fa56b5dbebd8e4eef6a1e99615ea405}
+Reports an exception or other error that caused the thread to quit 
+
+Definition at line 221 of file plat.\-c.
+
+\hypertarget{windows_2plat_8c_a905b13e46b1195fb8dbee583087132d8}{\index{windows/plat.\-c@{windows/plat.\-c}!plat\-\_\-tick@{plat\-\_\-tick}}
+\index{plat\-\_\-tick@{plat\-\_\-tick}!windows/plat.c@{windows/plat.\-c}}
+\subsubsection[{plat\-\_\-tick}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} plat\-\_\-tick (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{windows_2plat_8c_a905b13e46b1195fb8dbee583087132d8}
+
+
+Definition at line 131 of file plat.\-c.
+

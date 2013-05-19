@@ -1,0 +1,151 @@
+\hypertarget{stm32f30x__gpio_8h}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F30x/\-Libraries/\-S\-T\-M32\-F30x\-\_\-\-Std\-Periph\-\_\-\-Driver/inc/stm32f30x\-\_\-gpio.h File Reference}
+\label{stm32f30x__gpio_8h}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F30x/\-Libraries/\-S\-T\-M32\-F30x\-\_\-\-Std\-Periph\-\_\-\-Driver/inc/stm32f30x\-\_\-gpio.\-h@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F30x/\-Libraries/\-S\-T\-M32\-F30x\-\_\-\-Std\-Periph\-\_\-\-Driver/inc/stm32f30x\-\_\-gpio.\-h}}
+}
+
+
+This file contains all the functions prototypes for the G\-P\-I\-O firmware library.  
+
+
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_g_p_i_o___init_type_def}{G\-P\-I\-O\-\_\-\-Init\-Type\-Def}
+\begin{DoxyCompactList}\small\item\em G\-P\-I\-O Init structure definition. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___output__type__enumeration_gae74212e8d66c389f47326b06bdf6d2ab}{G\-P\-I\-O\-O\-Type\-\_\-\-Type\-Def} \{ \hyperlink{group___output__type__enumeration_gae74212e8d66c389f47326b06bdf6d2abad967f141221bf702a343f91ad6acf55f}{G\-P\-I\-O\-\_\-\-O\-Type\-\_\-\-P\-P} = 0x00, 
+\hyperlink{group___output__type__enumeration_gae74212e8d66c389f47326b06bdf6d2aba1e3717d7271e0707f559a149a1963e43}{G\-P\-I\-O\-\_\-\-O\-Type\-\_\-\-O\-D} = 0x01, 
+\hyperlink{group___output__type__enumeration_gae74212e8d66c389f47326b06bdf6d2abad967f141221bf702a343f91ad6acf55f}{G\-P\-I\-O\-\_\-\-O\-Type\-\_\-\-P\-P} = 0x00, 
+\hyperlink{group___output__type__enumeration_gae74212e8d66c389f47326b06bdf6d2aba1e3717d7271e0707f559a149a1963e43}{G\-P\-I\-O\-\_\-\-O\-Type\-\_\-\-O\-D} = 0x01
+ \}
+\item 
+enum \hyperlink{group___output___maximum__frequency__enumeration_ga062ad92b67b4a1f301c161022cf3ba8e}{G\-P\-I\-O\-Speed\-\_\-\-Type\-Def} \{ \\*
+\hyperlink{group___output___maximum__frequency__enumeration_ga062ad92b67b4a1f301c161022cf3ba8ea9bff9e174639332007c914483361be18}{G\-P\-I\-O\-\_\-\-Speed\-\_\-2\-M\-Hz} = 0x01, 
+\hyperlink{group___output___maximum__frequency__enumeration_ga062ad92b67b4a1f301c161022cf3ba8ea8c567e4b0186e3708cd7020c13da6439}{G\-P\-I\-O\-\_\-\-Speed\-\_\-10\-M\-Hz} = 0x02, 
+\hyperlink{group___output___maximum__frequency__enumeration_ga062ad92b67b4a1f301c161022cf3ba8ea9c47db10456202ac05134b12738ce581}{G\-P\-I\-O\-\_\-\-Speed\-\_\-50\-M\-Hz} = 0x03, 
+\hyperlink{group___output___maximum__frequency__enumeration_ga062ad92b67b4a1f301c161022cf3ba8ea9bff9e174639332007c914483361be18}{G\-P\-I\-O\-\_\-\-Speed\-\_\-2\-M\-Hz} = 0x00, 
+\\*
+\hyperlink{group___output___maximum__frequency__enumeration_ga062ad92b67b4a1f301c161022cf3ba8ea59a0acdf2ccd1b4b8d507e845e497c62}{G\-P\-I\-O\-\_\-\-Speed\-\_\-25\-M\-Hz} = 0x01, 
+\hyperlink{group___output___maximum__frequency__enumeration_ga062ad92b67b4a1f301c161022cf3ba8ea9c47db10456202ac05134b12738ce581}{G\-P\-I\-O\-\_\-\-Speed\-\_\-50\-M\-Hz} = 0x02, 
+\hyperlink{group___output___maximum__frequency__enumeration_ga062ad92b67b4a1f301c161022cf3ba8ea195a0e73cd63d7f5b5d41bd0155eacbb}{G\-P\-I\-O\-\_\-\-Speed\-\_\-100\-M\-Hz} = 0x03
+ \}
+\item 
+enum \hyperlink{group___configuration___pull-_up___pull-_down__enumeration_gafb7ecd99c44b4fd702d669304a36c2c8}{G\-P\-I\-O\-Pu\-Pd\-\_\-\-Type\-Def} \{ \\*
+\hyperlink{group___configuration___pull-_up___pull-_down__enumeration_gafb7ecd99c44b4fd702d669304a36c2c8a013a40bdeb6b3f43e02f8e4da896ba51}{G\-P\-I\-O\-\_\-\-Pu\-Pd\-\_\-\-N\-O\-P\-U\-L\-L} = 0x00, 
+\hyperlink{group___configuration___pull-_up___pull-_down__enumeration_gafb7ecd99c44b4fd702d669304a36c2c8a474392f71830af3fcf2c4cc3896c9c8b}{G\-P\-I\-O\-\_\-\-Pu\-Pd\-\_\-\-U\-P} = 0x01, 
+\hyperlink{group___configuration___pull-_up___pull-_down__enumeration_gafb7ecd99c44b4fd702d669304a36c2c8ab1e6c016575596c73327862984d8955c}{G\-P\-I\-O\-\_\-\-Pu\-Pd\-\_\-\-D\-O\-W\-N} = 0x02, 
+\hyperlink{group___configuration___pull-_up___pull-_down__enumeration_gafb7ecd99c44b4fd702d669304a36c2c8a013a40bdeb6b3f43e02f8e4da896ba51}{G\-P\-I\-O\-\_\-\-Pu\-Pd\-\_\-\-N\-O\-P\-U\-L\-L} = 0x00, 
+\\*
+\hyperlink{group___configuration___pull-_up___pull-_down__enumeration_gafb7ecd99c44b4fd702d669304a36c2c8a474392f71830af3fcf2c4cc3896c9c8b}{G\-P\-I\-O\-\_\-\-Pu\-Pd\-\_\-\-U\-P} = 0x01, 
+\hyperlink{group___configuration___pull-_up___pull-_down__enumeration_gafb7ecd99c44b4fd702d669304a36c2c8ab1e6c016575596c73327862984d8955c}{G\-P\-I\-O\-\_\-\-Pu\-Pd\-\_\-\-D\-O\-W\-N} = 0x02
+ \}
+\item 
+enum \hyperlink{group___bit___s_e_t__and___bit___r_e_s_e_t__enumeration_ga176130b21c0e719121470a6042d4cf19}{Bit\-Action} \{ \\*
+\hyperlink{group___bit___s_e_t__and___bit___r_e_s_e_t__enumeration_ga176130b21c0e719121470a6042d4cf19ae2c026f2b44a949f82a65f3385edef09}{Bit\-\_\-\-R\-E\-S\-E\-T} = 0, 
+\hyperlink{group___bit___s_e_t__and___bit___r_e_s_e_t__enumeration_ga176130b21c0e719121470a6042d4cf19a3c477841a6ceec13fe47ef322432b992}{Bit\-\_\-\-S\-E\-T}, 
+\hyperlink{group___bit___s_e_t__and___bit___r_e_s_e_t__enumeration_ga176130b21c0e719121470a6042d4cf19ae2c026f2b44a949f82a65f3385edef09}{Bit\-\_\-\-R\-E\-S\-E\-T} = 0, 
+\hyperlink{group___bit___s_e_t__and___bit___r_e_s_e_t__enumeration_ga176130b21c0e719121470a6042d4cf19a3c477841a6ceec13fe47ef322432b992}{Bit\-\_\-\-S\-E\-T}, 
+\\*
+\hyperlink{group___bit___s_e_t__and___bit___r_e_s_e_t__enumeration_ga176130b21c0e719121470a6042d4cf19ae2c026f2b44a949f82a65f3385edef09}{Bit\-\_\-\-R\-E\-S\-E\-T} = 0, 
+\hyperlink{group___bit___s_e_t__and___bit___r_e_s_e_t__enumeration_ga176130b21c0e719121470a6042d4cf19a3c477841a6ceec13fe47ef322432b992}{Bit\-\_\-\-S\-E\-T}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___g_p_i_o___private___functions_gaa60bdf3182c44b5fa818f237042f52ee}{G\-P\-I\-O\-\_\-\-De\-Init} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox)
+\begin{DoxyCompactList}\small\item\em Deinitializes the G\-P\-I\-Ox peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___g_p_i_o___group1_ga71abf9404261370d03cca449b88d3a65}{G\-P\-I\-O\-\_\-\-Init} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox, \hyperlink{struct_g_p_i_o___init_type_def}{G\-P\-I\-O\-\_\-\-Init\-Type\-Def} $\ast$G\-P\-I\-O\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the G\-P\-I\-Ox peripheral according to the specified parameters in the G\-P\-I\-O\-\_\-\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___g_p_i_o___private___functions_gab28de41278e7f8c63d0851e2733b10df}{G\-P\-I\-O\-\_\-\-Struct\-Init} (\hyperlink{struct_g_p_i_o___init_type_def}{G\-P\-I\-O\-\_\-\-Init\-Type\-Def} $\ast$G\-P\-I\-O\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each G\-P\-I\-O\-\_\-\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___g_p_i_o___private___functions_gad2f2e615928c69fd0d8c641a7cedaafc}{G\-P\-I\-O\-\_\-\-Pin\-Lock\-Config} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} G\-P\-I\-O\-\_\-\-Pin)
+\begin{DoxyCompactList}\small\item\em Locks G\-P\-I\-O Pins configuration registers. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_p_i_o___private___functions_ga98772ef6b639b3fa06c8ae5ba28d3aaa}{G\-P\-I\-O\-\_\-\-Read\-Input\-Data\-Bit} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} G\-P\-I\-O\-\_\-\-Pin)
+\begin{DoxyCompactList}\small\item\em Reads the specified input port pin. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___g_p_i_o___private___functions_ga139a33adc8409288e9f193bbebb5a0f7}{G\-P\-I\-O\-\_\-\-Read\-Input\-Data} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox)
+\begin{DoxyCompactList}\small\item\em Reads the specified G\-P\-I\-O input data port. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_p_i_o___private___functions_ga138270f8695b105b7c6ed405792919c1}{G\-P\-I\-O\-\_\-\-Read\-Output\-Data\-Bit} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} G\-P\-I\-O\-\_\-\-Pin)
+\begin{DoxyCompactList}\small\item\em Reads the specified output data port bit. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___g_p_i_o___private___functions_gaf8938a34280b7dc3e39872a7c17bb323}{G\-P\-I\-O\-\_\-\-Read\-Output\-Data} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox)
+\begin{DoxyCompactList}\small\item\em Reads the specified G\-P\-I\-O output data port. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___g_p_i_o___private___functions_ga9e1352eed7c6620e18af2d86f6b6ff8e}{G\-P\-I\-O\-\_\-\-Set\-Bits} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} G\-P\-I\-O\-\_\-\-Pin)
+\begin{DoxyCompactList}\small\item\em Sets the selected data port bits. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___g_p_i_o___private___functions_ga6fcd35b207a66608dd2c9d7de9247dc8}{G\-P\-I\-O\-\_\-\-Reset\-Bits} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} G\-P\-I\-O\-\_\-\-Pin)
+\begin{DoxyCompactList}\small\item\em Clears the selected data port bits. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___g_p_i_o___private___functions_ga8f7b237fd744d9f7456fbe0da47a9b80}{G\-P\-I\-O\-\_\-\-Write\-Bit} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} G\-P\-I\-O\-\_\-\-Pin, \hyperlink{stm32f10x__gpio_8h_a176130b21c0e719121470a6042d4cf19}{Bit\-Action} Bit\-Val)
+\begin{DoxyCompactList}\small\item\em Sets or clears the selected data port bit. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___g_p_i_o___private___functions_gaa925f19c8547a00c7a0c269a84873bf9}{G\-P\-I\-O\-\_\-\-Write} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Port\-Val)
+\begin{DoxyCompactList}\small\item\em Writes data to the specified G\-P\-I\-O data port. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___g_p_i_o___group3_ga0a77617a322562ae84f8d72486032c5d}{G\-P\-I\-O\-\_\-\-Pin\-A\-F\-Config} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} G\-P\-I\-O\-\_\-\-Pin\-Source, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} G\-P\-I\-O\-\_\-\-A\-F)
+\begin{DoxyCompactList}\small\item\em Changes the mapping of the specified pin. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stm32f30x__gpio_8h_aaa53ca0b650dfd85c4f59fa156f7a2cc}{C}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file contains all the functions prototypes for the G\-P\-I\-O firmware library. \begin{DoxyAuthor}{Author}
+M\-C\-D Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V1.\-0.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+04-\/\-September-\/2012 
+\end{DoxyDate}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+\subsubsection*{\begin{center}\copyright C\-O\-P\-Y\-R\-I\-G\-H\-T 2012 S\-T\-Microelectronics\end{center} }
+
+Licensed under M\-C\-D-\/\-S\-T Liberty S\-W License Agreement V2, (the \char`\"{}\-License\char`\"{}); You may not use this file except in compliance with the License. You may obtain a copy of the License at\-: \begin{DoxyVerb}   http://www.st.com/software_license_agreement_liberty_v2
+\end{DoxyVerb}
+
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \char`\"{}\-A\-S I\-S\char`\"{} B\-A\-S\-I\-S, W\-I\-T\-H\-O\-U\-T W\-A\-R\-R\-A\-N\-T\-I\-E\-S O\-R C\-O\-N\-D\-I\-T\-I\-O\-N\-S O\-F A\-N\-Y K\-I\-N\-D, either express or implied. See the License for the specific language governing permissions and limitations under the License. 
+
+Definition in file \hyperlink{stm32f30x__gpio_8h_source}{stm32f30x\-\_\-gpio.\-h}.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{stm32f30x__gpio_8h_aaa53ca0b650dfd85c4f59fa156f7a2cc}{\index{stm32f30x\-\_\-gpio.\-h@{stm32f30x\-\_\-gpio.\-h}!C@{C}}
+\index{C@{C}!stm32f30x_gpio.h@{stm32f30x\-\_\-gpio.\-h}}
+\subsubsection[{C}]{\setlength{\rightskip}{0pt plus 5cm}C}}\label{stm32f30x__gpio_8h_aaa53ca0b650dfd85c4f59fa156f7a2cc}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+\{
+\textcolor{preprocessor}{#endif}
+\textcolor{preprocessor}{}
+
+\textcolor{preprocessor}{#include "\hyperlink{stm32f30x_8h}{stm32f30x.h}"}
+
+
+
+
+
+
+ 
+\textcolor{preprocessor}{#define IS\_GPIO\_ALL\_PERIPH(PERIPH) (((PERIPH) == GPIOA) || \(\backslash\)}
+\textcolor{preprocessor}{                                    ((PERIPH) == GPIOB) || \(\backslash\)}
+\textcolor{preprocessor}{                                    ((PERIPH) == GPIOC) || \(\backslash\)}
+\textcolor{preprocessor}{                                    ((PERIPH) == GPIOD) || \(\backslash\)}
+\textcolor{preprocessor}{                                    ((PERIPH) == GPIOE) || \(\backslash\)}
+\textcolor{preprocessor}{                                    ((PERIPH) == GPIOF))  }
+\textcolor{preprocessor}{}                                    
+\textcolor{preprocessor}{#define IS\_GPIO\_LIST\_PERIPH(PERIPH) (((PERIPH) == GPIOA) || \(\backslash\)}
+\textcolor{preprocessor}{                                     ((PERIPH) == GPIOB) || \(\backslash\)}
+\textcolor{preprocessor}{                                     ((PERIPH) == GPIOD))  }
+\textcolor{preprocessor}{} 
+\textcolor{keyword}{typedef} \textcolor{keyword}{enum}
+\{ 
+  GPIO\_Mode\_IN   = 0x00, 
+  GPIO\_Mode\_OUT  = 0x01, 
+  GPIO\_Mode\_AF   = 0x02, 
+  GPIO\_Mode\_AN   = 0x03  
+\}\hyperlink{stm32f10x__gpio_8h_a1347339e1c84a196fabbb31205eec5d4}{GPIOMode\_TypeDef}
+\end{DoxyCode}

@@ -1,0 +1,44 @@
+\hypertarget{system__stm32f10x_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/\-Libraries/\-C\-M\-S\-I\-S/\-Core/\-C\-M3/system\-\_\-stm32f10x.c File Reference}
+\label{system__stm32f10x_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/\-Libraries/\-C\-M\-S\-I\-S/\-Core/\-C\-M3/system\-\_\-stm32f10x.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/\-Libraries/\-C\-M\-S\-I\-S/\-Core/\-C\-M3/system\-\_\-stm32f10x.\-c}}
+}
+
+
+C\-M\-S\-I\-S Cortex-\/\-M3 \hyperlink{struct_device}{Device} Peripheral Access Layer System Source File.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_t_m32_f10x___system___private___functions_ga93f514700ccf00d08dbdcff7f1224eb2}{System\-Init} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Setup the microcontroller system Initialize the Embedded Flash Interface, the P\-L\-L and update the System\-Frequency variable. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_t_m32_f10x___system___private___functions_ga59fdd3019d74530ea5d197a652393923}{System\-Init\-\_\-\-Ext\-Mem\-Ctl} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Setup the external memory controller. Called in startup\-\_\-stm32f10x.\-s before jump to \-\_\-\-\_\-main. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___s_t_m32_f10x___system___private___variables_ga17f99e8fe8a601944f7d27ea3e8c6992}{System\-Frequency} = S\-Y\-S\-C\-L\-K\-\_\-\-F\-R\-E\-Q\-\_\-\-H\-S\-E
+\item 
+\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___s_t_m32_f10x___system___private___variables_ga9ad12bfdb8b11e0d6a10d7777d7a908c}{System\-Frequency\-\_\-\-Sys\-Clk} = S\-Y\-S\-C\-L\-K\-\_\-\-F\-R\-E\-Q\-\_\-\-H\-S\-E
+\item 
+\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___s_t_m32_f10x___system___private___variables_ga01881aecd4a21d0ff8f8e9e0552b2f07}{System\-Frequency\-\_\-\-A\-H\-B\-Clk} = S\-Y\-S\-C\-L\-K\-\_\-\-F\-R\-E\-Q\-\_\-\-H\-S\-E
+\item 
+\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___s_t_m32_f10x___system___private___variables_ga9dc824f030341041d8a3b272bc777038}{System\-Frequency\-\_\-\-A\-P\-B1\-Clk} = S\-Y\-S\-C\-L\-K\-\_\-\-F\-R\-E\-Q\-\_\-\-H\-S\-E
+\item 
+\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___s_t_m32_f10x___system___private___variables_ga82495245e97964eefc64c342459e0315}{System\-Frequency\-\_\-\-A\-P\-B2\-Clk} = S\-Y\-S\-C\-L\-K\-\_\-\-F\-R\-E\-Q\-\_\-\-H\-S\-E
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+C\-M\-S\-I\-S Cortex-\/\-M3 \hyperlink{struct_device}{Device} Peripheral Access Layer System Source File. \begin{DoxyAuthor}{Author}
+M\-C\-D Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V3.\-1.\-2 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+09/28/2009 T\-H\-E P\-R\-E\-S\-E\-N\-T F\-I\-R\-M\-W\-A\-R\-E W\-H\-I\-C\-H I\-S F\-O\-R G\-U\-I\-D\-A\-N\-C\-E O\-N\-L\-Y A\-I\-M\-S A\-T P\-R\-O\-V\-I\-D\-I\-N\-G C\-U\-S\-T\-O\-M\-E\-R\-S W\-I\-T\-H C\-O\-D\-I\-N\-G I\-N\-F\-O\-R\-M\-A\-T\-I\-O\-N R\-E\-G\-A\-R\-D\-I\-N\-G T\-H\-E\-I\-R P\-R\-O\-D\-U\-C\-T\-S I\-N O\-R\-D\-E\-R F\-O\-R T\-H\-E\-M T\-O S\-A\-V\-E T\-I\-M\-E. A\-S A R\-E\-S\-U\-L\-T, S\-T\-M\-I\-C\-R\-O\-E\-L\-E\-C\-T\-R\-O\-N\-I\-C\-S S\-H\-A\-L\-L N\-O\-T B\-E H\-E\-L\-D L\-I\-A\-B\-L\-E F\-O\-R A\-N\-Y D\-I\-R\-E\-C\-T, I\-N\-D\-I\-R\-E\-C\-T O\-R C\-O\-N\-S\-E\-Q\-U\-E\-N\-T\-I\-A\-L D\-A\-M\-A\-G\-E\-S W\-I\-T\-H R\-E\-S\-P\-E\-C\-T T\-O A\-N\-Y C\-L\-A\-I\-M\-S A\-R\-I\-S\-I\-N\-G F\-R\-O\-M T\-H\-E C\-O\-N\-T\-E\-N\-T O\-F S\-U\-C\-H F\-I\-R\-M\-W\-A\-R\-E A\-N\-D/\-O\-R T\-H\-E U\-S\-E M\-A\-D\-E B\-Y C\-U\-S\-T\-O\-M\-E\-R\-S O\-F T\-H\-E C\-O\-D\-I\-N\-G I\-N\-F\-O\-R\-M\-A\-T\-I\-O\-N C\-O\-N\-T\-A\-I\-N\-E\-D H\-E\-R\-E\-I\-N I\-N C\-O\-N\-N\-E\-C\-T\-I\-O\-N W\-I\-T\-H T\-H\-E\-I\-R P\-R\-O\-D\-U\-C\-T\-S.
+\end{DoxyDate}
+\subsubsection*{\begin{center}\copyright C\-O\-P\-Y\-R\-I\-G\-H\-T 2009 S\-T\-Microelectronics\end{center} }
+
+Definition in file \hyperlink{system__stm32f10x_8c_source}{system\-\_\-stm32f10x.\-c}.
+

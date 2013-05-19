@@ -1,0 +1,255 @@
+\hypertarget{group___u_s_a_r_t___group6}{\section{L\-I\-N mode functions}
+\label{group___u_s_a_r_t___group6}\index{L\-I\-N mode functions@{L\-I\-N mode functions}}
+}
+
+
+L\-I\-N mode functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group6_ga0e6e6dc4829b7d815256ad679496d9cc}{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-Config} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length)
+\begin{DoxyCompactList}\small\item\em Sets the U\-S\-A\-R\-T L\-I\-N Break detection length. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group6_ga9fdd6296f4ca4acdfcbd58bf56bd4185}{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Cmd} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\-S\-A\-R\-T's L\-I\-N mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group6_gac4a35c6acd71ae7e0d67c1f03f0a8777}{U\-S\-A\-R\-T\-\_\-\-Set\-Guard\-Time} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} U\-S\-A\-R\-T\-\_\-\-Guard\-Time)
+\begin{DoxyCompactList}\small\item\em Sets the specified U\-S\-A\-R\-T guard time. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group6_gabd1347e244c623447151ba3a5e986c5f}{U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-Cmd} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\-S\-A\-R\-T's Smart Card mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_a_r_t___group6_ga62e22f47e38aa53f2edce8771f7a5dfa}{U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-N\-A\-C\-K\-Cmd} (\hyperlink{struct_u_s_a_r_t___type_def}{U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$U\-S\-A\-R\-Tx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables N\-A\-C\-K transmission. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+L\-I\-N mode functions. Smartcard mode functions.
+
+\begin{DoxyVerb} ===============================================================================
+                       ##### LIN mode functions #####
+ ===============================================================================
+    [..] This subsection provides a set of functions allowing to manage the USART 
+         LIN Mode communication.
+    [..] In LIN mode, 8-bit data format with 1 stop bit is required in accordance 
+         with the LIN standard.
+    [..] Only this LIN Feature is supported by the USART IP:
+         (+) LIN Master Synchronous Break send capability and LIN slave break 
+             detection capability :  13-bit break generation and 10/11 bit break 
+             detection.
+    [..] USART LIN Master transmitter communication is possible through the 
+         following procedure:
+         (#) Program the Baud rate, Word length = 8bits, Stop bits = 1bit, Parity, 
+             Mode transmitter or Mode receiver and hardware flow control values 
+             using the USART_Init() function.
+         (#) Enable the LIN mode using the USART_LINCmd() function.
+         (#) Enable the USART using the USART_Cmd() function.
+         (#) Send the break character using USART_SendBreak() function.
+    [..] USART LIN Master receiver communication is possible through the 
+         following procedure:
+         (#) Program the Baud rate, Word length = 8bits, Stop bits = 1bit, Parity, 
+             Mode transmitter or Mode receiver and hardware flow control values 
+             using the USART_Init() function.
+         (#) Configures the break detection length 
+             using the USART_LINBreakDetectLengthConfig() function.
+         (#) Enable the LIN mode using the USART_LINCmd() function.
+         (#) Enable the USART using the USART_Cmd() function.
+         [..]
+         (@) In LIN mode, the following bits must be kept cleared:
+             (+@) CLKEN in the USART_CR2 register.
+             (+@) STOP[1:0], SCEN, HDSEL and IREN in the USART_CR3 register.\end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                               Smartcard mode functions
+ ===============================================================================  
+
+  This subsection provides a set of functions allowing to manage the USART 
+  Smartcard communication.
+  
+  The Smartcard interface is designed to support asynchronous protocol Smartcards as
+  defined in the ISO 7816-3 standard.
+
+  The USART can provide a clock to the smartcard through the SCLK output.
+  In smartcard mode, SCLK is not associated to the communication but is simply derived 
+  from the internal peripheral input clock through a 5-bit prescaler.
+
+  Smartcard communication is possible through the following procedure:
+     1. Configures the Smartcard Prescaler using the USART_SetPrescaler() function.
+     2. Configures the Smartcard Guard Time using the USART_SetGuardTime() function.
+     3. Program the USART clock using the USART_ClockInit() function as following:
+        - USART Clock enabled
+        - USART CPOL Low
+        - USART CPHA on first edge
+        - USART Last Bit Clock Enabled
+     4. Program the Smartcard interface using the USART_Init() function as following:
+        - Word Length = 9 Bits
+        - 1.5 Stop Bit
+        - Even parity
+        - BaudRate = 12096 baud
+        - Hardware flow control disabled (RTS and CTS signals)
+        - Tx and Rx enabled
+     5. Optionally you can enable the parity error interrupt using the USART_ITConfig()
+        function
+     6. Enable the USART using the USART_Cmd() function.
+     7. Enable the Smartcard NACK using the USART_SmartCardNACKCmd() function.
+     8. Enable the Smartcard interface using the USART_SmartCardCmd() function.
+
+  Please refer to the ISO 7816-3 specification for more details.
+
+
+@note It is also possible to choose 0.5 stop bit for receiving but it is recommended 
+      to use 1.5 stop bits for both transmitting and receiving to avoid switching 
+      between the two configurations.
+@note In smartcard mode, the following bits must be kept cleared:
+        - LINEN bit in the USART_CR2 register.
+        - HDSEL and IREN bits in the USART_CR3 register.
+@note Smartcard mode is available on USART peripherals only (not available on UART4 
+      and UART5 peripherals).\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___u_s_a_r_t___group6_ga0e6e6dc4829b7d815256ad679496d9cc}{\index{L\-I\-N mode functions@{L\-I\-N mode functions}!U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-Config@{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-Config}}
+\index{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-Config@{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-Config}!LIN mode functions@{L\-I\-N mode functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf uint32\-\_\-t}}]{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___group6_ga0e6e6dc4829b7d815256ad679496d9cc}
+
+
+Sets the U\-S\-A\-R\-T L\-I\-N Break detection length. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1 or U\-S\-A\-R\-T2 or U\-S\-A\-R\-T3 or U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+{\em U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length,\-:} & specifies the L\-I\-N break detection length. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-\_\-10b\-: 10-\/bit break detection \item U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Break\-Detect\-Length\-\_\-11b\-: 11-\/bit break detection \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1119 of file stm32f30x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___group6_ga9fdd6296f4ca4acdfcbd58bf56bd4185}{\index{L\-I\-N mode functions@{L\-I\-N mode functions}!U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Cmd@{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Cmd}}
+\index{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Cmd@{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Cmd}!LIN mode functions@{L\-I\-N mode functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-L\-I\-N\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___group6_ga9fdd6296f4ca4acdfcbd58bf56bd4185}
+
+
+Enables or disables the U\-S\-A\-R\-T's L\-I\-N mode. 
+
+Enables or disables the U\-S\-A\-R\-T’s L\-I\-N mode.
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & Select the U\-S\-A\-R\-T peripheral. This parameter can be one of the following values\-: U\-S\-A\-R\-T1 or U\-S\-A\-R\-T2 or U\-S\-A\-R\-T3 or U\-A\-R\-T4 or U\-A\-R\-T5. \\
+\hline
+{\em New\-State,\-:} & new state of the U\-S\-A\-R\-T L\-I\-N mode. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1137 of file stm32f30x\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___group6_gac4a35c6acd71ae7e0d67c1f03f0a8777}{\index{L\-I\-N mode functions@{L\-I\-N mode functions}!U\-S\-A\-R\-T\-\_\-\-Set\-Guard\-Time@{U\-S\-A\-R\-T\-\_\-\-Set\-Guard\-Time}}
+\index{U\-S\-A\-R\-T\-\_\-\-Set\-Guard\-Time@{U\-S\-A\-R\-T\-\_\-\-Set\-Guard\-Time}!LIN mode functions@{L\-I\-N mode functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Set\-Guard\-Time}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Set\-Guard\-Time (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf uint8\-\_\-t}}]{U\-S\-A\-R\-T\-\_\-\-Guard\-Time}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___group6_gac4a35c6acd71ae7e0d67c1f03f0a8777}
+
+
+Sets the specified U\-S\-A\-R\-T guard time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & where x can be 1, 2, 3 or 6 to select the U\-S\-A\-R\-T or U\-A\-R\-T peripheral. \\
+\hline
+{\em U\-S\-A\-R\-T\-\_\-\-Guard\-Time,\-:} & specifies the guard time. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 913 of file stm32f4xx\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___group6_gabd1347e244c623447151ba3a5e986c5f}{\index{L\-I\-N mode functions@{L\-I\-N mode functions}!U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-Cmd@{U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-Cmd}}
+\index{U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-Cmd@{U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-Cmd}!LIN mode functions@{L\-I\-N mode functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___group6_gabd1347e244c623447151ba3a5e986c5f}
+
+
+Enables or disables the U\-S\-A\-R\-T's Smart Card mode. 
+
+Enables or disables the U\-S\-A\-R\-T’s Smart Card mode.
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & where x can be 1, 2, 3 or 6 to select the U\-S\-A\-R\-T or U\-A\-R\-T peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the Smart Card mode. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 932 of file stm32f4xx\-\_\-usart.\-c.
+
+\hypertarget{group___u_s_a_r_t___group6_ga62e22f47e38aa53f2edce8771f7a5dfa}{\index{L\-I\-N mode functions@{L\-I\-N mode functions}!U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-N\-A\-C\-K\-Cmd@{U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-N\-A\-C\-K\-Cmd}}
+\index{U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-N\-A\-C\-K\-Cmd@{U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-N\-A\-C\-K\-Cmd}!LIN mode functions@{L\-I\-N mode functions}}
+\subsubsection[{U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-N\-A\-C\-K\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} U\-S\-A\-R\-T\-\_\-\-Smart\-Card\-N\-A\-C\-K\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-A\-R\-T\-\_\-\-Type\-Def} $\ast$}]{U\-S\-A\-R\-Tx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_a_r_t___group6_ga62e22f47e38aa53f2edce8771f7a5dfa}
+
+
+Enables or disables N\-A\-C\-K transmission. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\-S\-A\-R\-Tx,\-:} & where x can be 1, 2, 3 or 6 to select the U\-S\-A\-R\-T or U\-A\-R\-T peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the N\-A\-C\-K transmission. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 957 of file stm32f4xx\-\_\-usart.\-c.
+

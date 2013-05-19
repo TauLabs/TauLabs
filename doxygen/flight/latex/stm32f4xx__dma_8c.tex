@@ -1,0 +1,167 @@
+\hypertarget{stm32f4xx__dma_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/\-Libraries/\-S\-T\-M32\-F4xx\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f4xx\-\_\-dma.c File Reference}
+\label{stm32f4xx__dma_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/\-Libraries/\-S\-T\-M32\-F4xx\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f4xx\-\_\-dma.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/\-Libraries/\-S\-T\-M32\-F4xx\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f4xx\-\_\-dma.\-c}}
+}
+
+
+This file provides firmware functions to manage the following functionalities of the Direct Memory Access controller (D\-M\-A)\-:  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___group1_ga38d4a4ab8990299f8a6cf064e1e811d0}{D\-M\-A\-\_\-\-De\-Init} (\hyperlink{struct_d_m_a___stream___type_def}{D\-M\-A\-\_\-\-Stream\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Streamx)
+\begin{DoxyCompactList}\small\item\em Deinitialize the D\-M\-Ay Streamx registers to their default reset values. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___group1_gaced8a4149acfb0a50b50e63273a87148}{D\-M\-A\-\_\-\-Init} (\hyperlink{struct_d_m_a___stream___type_def}{D\-M\-A\-\_\-\-Stream\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Streamx, D\-M\-A\-\_\-\-Init\-Type\-Def $\ast$D\-M\-A\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the D\-M\-Ay Streamx according to the specified parameters in the D\-M\-A\-\_\-\-Init\-Struct structure. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___group1_ga0f7f95f750a90a6824f4e9b6f58adc7e}{D\-M\-A\-\_\-\-Struct\-Init} (D\-M\-A\-\_\-\-Init\-Type\-Def $\ast$D\-M\-A\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each D\-M\-A\-\_\-\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___group1_gab2bea22f9f6dc62fdd7afb385a0c1f73}{D\-M\-A\-\_\-\-Cmd} (\hyperlink{struct_d_m_a___stream___type_def}{D\-M\-A\-\_\-\-Stream\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Streamx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified D\-M\-Ay Streamx. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___group1_ga210a9861460b3c9b3fa14fdc1a949744}{D\-M\-A\-\_\-\-Periph\-Inc\-Offset\-Size\-Config} (\hyperlink{struct_d_m_a___stream___type_def}{D\-M\-A\-\_\-\-Stream\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Streamx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-M\-A\-\_\-\-Pincos)
+\begin{DoxyCompactList}\small\item\em Configures, when the P\-I\-N\-C (Peripheral Increment address mode) bit is set, if the peripheral address should be incremented with the data size (configured with P\-S\-I\-Z\-E bits) or by a fixed offset equal to 4 (32-\/bit aligned addresses). \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___group1_ga77f7628f6be9d6d088127eceb090b8b2}{D\-M\-A\-\_\-\-Flow\-Controller\-Config} (\hyperlink{struct_d_m_a___stream___type_def}{D\-M\-A\-\_\-\-Stream\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Streamx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-M\-A\-\_\-\-Flow\-Ctrl)
+\begin{DoxyCompactList}\small\item\em Configures, when the D\-M\-Ay Streamx is disabled, the flow controller for the next transactions (Peripheral or Memory). \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___group2_ga6a11a2c951cff59b125ba8857d44e3f3}{D\-M\-A\-\_\-\-Set\-Curr\-Data\-Counter} (\hyperlink{struct_d_m_a___stream___type_def}{D\-M\-A\-\_\-\-Stream\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Streamx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Counter)
+\begin{DoxyCompactList}\small\item\em Writes the number of data units to be transferred on the D\-M\-Ay Streamx. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___d_m_a___group2_ga4a76444a92423f5f15a4328738d6dc46}{D\-M\-A\-\_\-\-Get\-Curr\-Data\-Counter} (\hyperlink{struct_d_m_a___stream___type_def}{D\-M\-A\-\_\-\-Stream\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Streamx)
+\begin{DoxyCompactList}\small\item\em Returns the number of remaining data units in the current D\-M\-Ay Streamx transfer. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___group3_ga8d0957e50302efaf48a16c62d14c9ca8}{D\-M\-A\-\_\-\-Double\-Buffer\-Mode\-Config} (\hyperlink{struct_d_m_a___stream___type_def}{D\-M\-A\-\_\-\-Stream\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Streamx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Memory1\-Base\-Addr, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-M\-A\-\_\-\-Current\-Memory)
+\begin{DoxyCompactList}\small\item\em Configures, when the D\-M\-Ay Streamx is disabled, the double buffer mode and the current memory target. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___group3_ga7fe09e62ea3125db384829dab59ebe3e}{D\-M\-A\-\_\-\-Double\-Buffer\-Mode\-Cmd} (\hyperlink{struct_d_m_a___stream___type_def}{D\-M\-A\-\_\-\-Stream\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Streamx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the double buffer mode for the selected D\-M\-A stream. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___group3_ga4ebcffd32eb6968ac61cfb64a6bae258}{D\-M\-A\-\_\-\-Memory\-Target\-Config} (\hyperlink{struct_d_m_a___stream___type_def}{D\-M\-A\-\_\-\-Stream\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Streamx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Memory\-Base\-Addr, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-M\-A\-\_\-\-Memory\-Target)
+\begin{DoxyCompactList}\small\item\em Configures the Memory address for the next buffer transfer in double buffer mode (for dynamic use). This function can be called when the D\-M\-A Stream is enabled and when the transfer is ongoing. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___d_m_a___group3_ga74b6624f9faa2f43c9369ddbdeab241c}{D\-M\-A\-\_\-\-Get\-Current\-Memory\-Target} (\hyperlink{struct_d_m_a___stream___type_def}{D\-M\-A\-\_\-\-Stream\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Streamx)
+\begin{DoxyCompactList}\small\item\em Returns the current memory target used by double buffer transfer. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} \hyperlink{group___d_m_a___group4_gaa4d631cdd6cd020106435f30c0c6fb15}{D\-M\-A\-\_\-\-Get\-Cmd\-Status} (\hyperlink{struct_d_m_a___stream___type_def}{D\-M\-A\-\_\-\-Stream\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Streamx)
+\begin{DoxyCompactList}\small\item\em Returns the status of E\-N bit for the specified D\-M\-Ay Streamx. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___d_m_a___group4_ga9893809a7067861ec111f7d712ebf28d}{D\-M\-A\-\_\-\-Get\-F\-I\-F\-O\-Status} (\hyperlink{struct_d_m_a___stream___type_def}{D\-M\-A\-\_\-\-Stream\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Streamx)
+\begin{DoxyCompactList}\small\item\em Returns the current D\-M\-Ay Streamx F\-I\-F\-O filled level. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___d_m_a___group4_ga10cfc0fe31d64a1fd8fb3efb4ae2a411}{D\-M\-A\-\_\-\-Get\-Flag\-Status} (\hyperlink{struct_d_m_a___stream___type_def}{D\-M\-A\-\_\-\-Stream\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Streamx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-M\-A\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified D\-M\-Ay Streamx flag is set or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___group4_ga510d62b4051f5a5de164e84b266b851d}{D\-M\-A\-\_\-\-Clear\-Flag} (\hyperlink{struct_d_m_a___stream___type_def}{D\-M\-A\-\_\-\-Stream\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Streamx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-M\-A\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Clears the D\-M\-Ay Streamx's pending flags. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___group4_gab9c469a3f5d4aca5c97dee798ffc2f05}{D\-M\-A\-\_\-\-I\-T\-Config} (\hyperlink{struct_d_m_a___stream___type_def}{D\-M\-A\-\_\-\-Stream\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Streamx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-M\-A\-\_\-\-I\-T, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified D\-M\-Ay Streamx interrupts. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_gaacbd7ed539db0aacd973a0f6eca34074}{I\-T\-Status} \hyperlink{group___d_m_a___group4_gad0ccf5f6548bd7cf8f2cae30393bb716}{D\-M\-A\-\_\-\-Get\-I\-T\-Status} (\hyperlink{struct_d_m_a___stream___type_def}{D\-M\-A\-\_\-\-Stream\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Streamx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-M\-A\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified D\-M\-Ay Streamx interrupt has occurred or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___group4_gad5433018889cd36140d98bb380c4e76e}{D\-M\-A\-\_\-\-Clear\-I\-T\-Pending\-Bit} (\hyperlink{struct_d_m_a___stream___type_def}{D\-M\-A\-\_\-\-Stream\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Streamx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-M\-A\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Clears the D\-M\-Ay Streamx's interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file provides firmware functions to manage the following functionalities of the Direct Memory Access controller (D\-M\-A)\-: \begin{DoxyAuthor}{Author}
+M\-C\-D Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V1.\-0.\-2 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+05-\/\-March-\/2012
+\begin{DoxyItemize}
+\item Initialization and Configuration
+\item Data Counter
+\item Double Buffer mode configuration and command
+\item Interrupts and flags management
+\end{DoxyItemize}
+\end{DoxyDate}
+\begin{DoxyVerb}*      
+*          ===================================================================      
+*                                 How to use this driver
+*          =================================================================== 
+*          1. Enable The DMA controller clock using RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_DMA1, ENABLE)
+*             function for DMA1 or using RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_DMA2, ENABLE)
+*             function for DMA2.
+*
+*          2. Enable and configure the peripheral to be connected to the DMA Stream
+*             (except for internal SRAM / FLASH memories: no initialization is 
+*             necessary). 
+*        
+*          3. For a given Stream, program the required configuration through following parameters:   
+*             Source and Destination addresses, Transfer Direction, Transfer size, Source and Destination 
+*             data formats, Circular or Normal mode, Stream Priority level, Source and Destination 
+*             Incrementation mode, FIFO mode and its Threshold (if needed), Burst mode for Source and/or 
+*             Destination (if needed) using the DMA_Init() function.
+*             To avoid filling un-nesecessary fields, you can call DMA_StructInit() function
+*             to initialize a given structure with default values (reset values), the modify
+*             only necessary fields (ie. Source and Destination addresses, Transfer size and Data Formats).
+*
+*          4. Enable the NVIC and the corresponding interrupt(s) using the function 
+*             DMA_ITConfig() if you need to use DMA interrupts. 
+*
+*          5. Optionally, if the Circular mode is enabled, you can use the Double buffer mode by configuring 
+*             the second Memory address and the first Memory to be used through the function 
+*             DMA_DoubleBufferModeConfig(). Then enable the Double buffer mode through the function
+*             DMA_DoubleBufferModeCmd(). These operations must be done before step 6.
+*    
+*          6. Enable the DMA stream using the DMA_Cmd() function. 
+*                
+*          7. Activate the needed Stream Request using PPP_DMACmd() function for
+*             any PPP peripheral except internal SRAM and FLASH (ie. SPI, USART ...)
+*             The function allowing this operation is provided in each PPP peripheral
+*             driver (ie. SPI_DMACmd for SPI peripheral).
+*             Once the Stream is enabled, it is not possible to modify its configuration
+*             unless the stream is stopped and disabled.
+*             After enabling the Stream, it is advised to monitor the EN bit status using
+*             the function DMA_GetCmdStatus(). In case of configuration errors or bus errors
+*             this bit will remain reset and all transfers on this Stream will remain on hold.      
+*
+*          8. Optionally, you can configure the number of data to be transferred
+*             when the Stream is disabled (ie. after each Transfer Complete event
+*             or when a Transfer Error occurs) using the function DMA_SetCurrDataCounter().
+*             And you can get the number of remaining data to be transferred using 
+*             the function DMA_GetCurrDataCounter() at run time (when the DMA Stream is
+*             enabled and running).  
+*                   
+*          9. To control DMA events you can use one of the following 
+*              two methods:
+*               a- Check on DMA Stream flags using the function DMA_GetFlagStatus().  
+*               b- Use DMA interrupts through the function DMA_ITConfig() at initialization
+*                  phase and DMA_GetITStatus() function into interrupt routines in
+*                  communication phase.  
+*              After checking on a flag you should clear it using DMA_ClearFlag()
+*              function. And after checking on an interrupt event you should 
+*              clear it using DMA_ClearITPendingBit() function.    
+*              
+*          10. Optionally, if Circular mode and Double Buffer mode are enabled, you can modify
+*              the Memory Addresses using the function DMA_MemoryTargetConfig(). Make sure that
+*              the Memory Address to be modified is not the one currently in use by DMA Stream.
+*              This condition can be monitored using the function DMA_GetCurrentMemoryTarget().
+*              
+*          11. Optionally, Pause-Resume operations may be performed:
+*              The DMA_Cmd() function may be used to perform Pause-Resume operation. When a 
+*              transfer is ongoing, calling this function to disable the Stream will cause the 
+*              transfer to be paused. All configuration registers and the number of remaining 
+*              data will be preserved. When calling again this function to re-enable the Stream, 
+*              the transfer will be resumed from the point where it was paused.          
+*                 
+* @note   Memory-to-Memory transfer is possible by setting the address of the memory into
+*         the Peripheral registers. In this mode, Circular mode and Double Buffer mode
+*         are not allowed.
+*  
+* @note   The FIFO is used mainly to reduce bus usage and to allow data packing/unpacking: it is
+*         possible to set different Data Sizes for the Peripheral and the Memory (ie. you can set
+*         Half-Word data size for the peripheral to access its data register and set Word data size
+*         for the Memory to gain in access time. Each two Half-words will be packed and written in
+*         a single access to a Word in the Memory).
+*    
+* @note  When FIFO is disabled, it is not allowed to configure different Data Sizes for Source
+*        and Destination. In this case the Peripheral Data Size will be applied to both Source
+*        and Destination.               
+*
+*  \end{DoxyVerb}
+
+
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+\subsubsection*{\begin{center}\copyright C\-O\-P\-Y\-R\-I\-G\-H\-T 2012 S\-T\-Microelectronics\end{center} }
+
+Licensed under M\-C\-D-\/\-S\-T Liberty S\-W License Agreement V2, (the \char`\"{}\-License\char`\"{}); You may not use this file except in compliance with the License. You may obtain a copy of the License at\-: \begin{DoxyVerb}   http://www.st.com/software_license_agreement_liberty_v2
+\end{DoxyVerb}
+
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \char`\"{}\-A\-S I\-S\char`\"{} B\-A\-S\-I\-S, W\-I\-T\-H\-O\-U\-T W\-A\-R\-R\-A\-N\-T\-I\-E\-S O\-R C\-O\-N\-D\-I\-T\-I\-O\-N\-S O\-F A\-N\-Y K\-I\-N\-D, either express or implied. See the License for the specific language governing permissions and limitations under the License. 
+
+Definition in file \hyperlink{stm32f4xx__dma_8c_source}{stm32f4xx\-\_\-dma.\-c}.
+

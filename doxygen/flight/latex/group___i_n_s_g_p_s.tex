@@ -1,0 +1,659 @@
+\hypertarget{group___i_n_s_g_p_s}{\section{I\-N\-S\-G\-P\-S}
+\label{group___i_n_s_g_p_s}\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}}
+}
+
+
+I\-N\-S\-G\-P\-S is a joint attitude and position estimation E\-K\-F.  
+
+
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___constants}{Constants}
+\end{DoxyCompactItemize}
+\subsection*{Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{insgps_8h}{insgps.\-h}
+\begin{DoxyCompactList}\small\item\em Include file of the I\-N\-S\-G\-P\-S exposed functionality. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_nav_struct}{Nav\-Struct}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga37848fdaaf6ee155638ba5bb1521fffe}{I\-N\-S\-G\-P\-S\-Init} ()
+\item 
+struct \hyperlink{struct_nav_struct}{Nav\-Struct} $\ast$ \hyperlink{group___i_n_s_g_p_s_gae4fd8ec7bfe1edbff24eed9b3c52b3d7}{I\-N\-S\-G\-P\-S\-Get\-Nav} ()
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga57adeb4fc2f14e36f70531b52bd28193}{I\-N\-S\-State\-Prediction} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float gyro\-\_\-data\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float accel\-\_\-data\mbox{[}3\mbox{]}, float d\-T)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_gab680361c7bb4c9f7a0c06d189dc9d4a1}{I\-N\-S\-Covariance\-Prediction} (float d\-T)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_gaade300e6df3b427d5bde882fa2f7c93f}{I\-N\-S\-Correction} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float mag\-\_\-data\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float Pos\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float \hyperlink{pios__opahrs__proto_8h_a887ce86476d7dc3193741e1e01fd2652}{Vel}\mbox{[}3\mbox{]}, float Baro\-Alt, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Sensors\-Used)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga9afce3083f9ab90a40d620dde634f901}{I\-N\-S\-Reset\-P} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float P\-Diag\mbox{[}13\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga33be75afa533a464a8571e241a6caa10}{I\-N\-S\-Set\-State} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float pos\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float vel\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float q\mbox{[}4\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float \hyperlink{pios__opahrs__proto_8h_a2d2f11a33fd907b7df5b7b6a7f44e689}{gyro\-\_\-bias}\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float \hyperlink{pios__opahrs__proto_8h_a0ce75f6556b56ffcfee6db75c310c8d8}{accel\-\_\-bias}\mbox{[}3\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga8894e5945148a0520cd3e4c27f44cdac}{I\-N\-S\-Set\-Pos\-Vel\-Var} (float Pos\-Var, float Vel\-Var, float Vert\-Pos\-Var)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_gad385ddb89b431a68df14e4de88be3329}{I\-N\-S\-Set\-Gyro\-Bias} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float \hyperlink{pios__opahrs__proto_8h_a2d2f11a33fd907b7df5b7b6a7f44e689}{gyro\-\_\-bias}\mbox{[}3\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga97a7efb6d46aefde3ad20c9b8c44fc60}{I\-N\-S\-Set\-Accel\-Var} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float \hyperlink{pios__opahrs__proto_8h_a33c8cb8a34ddef8567e05dfc90349adc}{accel\-\_\-var}\mbox{[}3\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_gab34cb0f1a9700d0bbf8c0c864311e0e3}{I\-N\-S\-Set\-Gyro\-Var} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float \hyperlink{pios__opahrs__proto_8h_aac5a918cf946359f5801db26027927fe}{gyro\-\_\-var}\mbox{[}3\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_gaff5e5ac00ae43701b4dae7eeb9cdfea8}{I\-N\-S\-Set\-Mag\-North} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float B\mbox{[}3\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga0e46db3033f2daeb533de25cb92bbfd9}{I\-N\-S\-Set\-Mag\-Var} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float scaled\-\_\-mag\-\_\-var\mbox{[}3\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga5316ca3b2372588b1d2340297e976452}{I\-N\-S\-Set\-Baro\-Var} (float baro\-\_\-var)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_gad01d410c07ad8c74fe875b16246a265c}{I\-N\-S\-Pos\-Vel\-Reset} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float pos\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float vel\mbox{[}3\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga2b676563f0f8b93d971159b5b9320a5d}{Mag\-Correction} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float mag\-\_\-data\mbox{[}3\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga2d37f6670dad8a68c1c96282f02f208a}{Mag\-Vel\-Baro\-Correction} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float mag\-\_\-data\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float \hyperlink{pios__opahrs__proto_8h_a887ce86476d7dc3193741e1e01fd2652}{Vel}\mbox{[}3\mbox{]}, float Baro\-Alt)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_gac4dc3ac7ec074007dd65c472a2176c54}{Full\-Correction} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float mag\-\_\-data\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float Pos\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float \hyperlink{pios__opahrs__proto_8h_a887ce86476d7dc3193741e1e01fd2652}{Vel}\mbox{[}3\mbox{]}, float Baro\-Alt)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga6b469a6d3b312867b0b87c2c70c0749e}{Gps\-Baro\-Correction} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float Pos\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float \hyperlink{pios__opahrs__proto_8h_a887ce86476d7dc3193741e1e01fd2652}{Vel}\mbox{[}3\mbox{]}, float Baro\-Alt)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga7f60c28dd78eddbe08102c2d905261b8}{Gps\-Mag\-Correction} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float mag\-\_\-data\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float Pos\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float \hyperlink{pios__opahrs__proto_8h_a887ce86476d7dc3193741e1e01fd2652}{Vel}\mbox{[}2\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga3babc960a16e4ab48bf08da4a9153637}{Vel\-Baro\-Correction} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float \hyperlink{pios__opahrs__proto_8h_a887ce86476d7dc3193741e1e01fd2652}{Vel}\mbox{[}3\mbox{]}, float Baro\-Alt)
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___i_n_s_g_p_s_ga62f40f528dea50baf8d414d1f55469af}{ins\-\_\-get\-\_\-num\-\_\-states} ()
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_gae334cafbf8ace344247144c445997674}{Covariance\-Prediction} (float \hyperlink{group___i_n_s_g_p_s_ga8df5a9c6b80931e9a78e1ce3aa7fc8d7}{F}\mbox{[}N\-U\-M\-X\mbox{]}\mbox{[}N\-U\-M\-X\mbox{]}, float \hyperlink{group___i_n_s_g_p_s_ga728acb2fd56f38a4cab69ede7b3a027e}{G}\mbox{[}N\-U\-M\-X\mbox{]}\mbox{[}N\-U\-M\-W\mbox{]}, float \hyperlink{group___i_n_s_g_p_s_ga9403e530c40ea2ed78fba00336d98645}{Q}\mbox{[}N\-U\-M\-W\mbox{]}, float d\-T, float \hyperlink{group___i_n_s_g_p_s_gaa4dd4832559078fffbbe0afa316c216c}{P}\mbox{[}N\-U\-M\-X\mbox{]}\mbox{[}N\-U\-M\-X\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga4ae89830422fa564e86fd0fc2aa6267a}{Serial\-Update} (float \hyperlink{group___i_n_s_g_p_s_ga4080397a0d248e4c99d6f284b187f206}{H}\mbox{[}N\-U\-M\-V\mbox{]}\mbox{[}N\-U\-M\-X\mbox{]}, float \hyperlink{group___i_n_s_g_p_s_ga06fb8e491fbcc3c8cbe00ccaa0aa1aa7}{R}\mbox{[}N\-U\-M\-V\mbox{]}, float Z\mbox{[}N\-U\-M\-V\mbox{]}, float Y\mbox{[}N\-U\-M\-V\mbox{]}, float \hyperlink{group___i_n_s_g_p_s_gaa4dd4832559078fffbbe0afa316c216c}{P}\mbox{[}N\-U\-M\-X\mbox{]}\mbox{[}N\-U\-M\-X\mbox{]}, float \hyperlink{group___i_n_s_g_p_s_ga878335db1805364cefebddb5eccfc282}{X}\mbox{[}N\-U\-M\-X\mbox{]}, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Sensors\-Used)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_gac5eaabdd6d05ef0667c934d4ef59eafa}{Runge\-Kutta} (float \hyperlink{group___i_n_s_g_p_s_ga878335db1805364cefebddb5eccfc282}{X}\mbox{[}N\-U\-M\-X\mbox{]}, float U\mbox{[}N\-U\-M\-U\mbox{]}, float d\-T)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga48e6b0dab3d99bfc5cef7b24b773f533}{State\-Eq} (float \hyperlink{group___i_n_s_g_p_s_ga878335db1805364cefebddb5eccfc282}{X}\mbox{[}N\-U\-M\-X\mbox{]}, float U\mbox{[}N\-U\-M\-U\mbox{]}, float Xdot\mbox{[}N\-U\-M\-X\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_gab560144e7b798db7faf80a4c37902c88}{Linearize\-F\-G} (float \hyperlink{group___i_n_s_g_p_s_ga878335db1805364cefebddb5eccfc282}{X}\mbox{[}N\-U\-M\-X\mbox{]}, float U\mbox{[}N\-U\-M\-U\mbox{]}, float \hyperlink{group___i_n_s_g_p_s_ga8df5a9c6b80931e9a78e1ce3aa7fc8d7}{F}\mbox{[}N\-U\-M\-X\mbox{]}\mbox{[}N\-U\-M\-X\mbox{]}, float \hyperlink{group___i_n_s_g_p_s_ga728acb2fd56f38a4cab69ede7b3a027e}{G}\mbox{[}N\-U\-M\-X\mbox{]}\mbox{[}N\-U\-M\-W\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga5032060f6c979a9a7a0fe81d8b4ea8fb}{Measurement\-Eq} (float \hyperlink{group___i_n_s_g_p_s_ga878335db1805364cefebddb5eccfc282}{X}\mbox{[}N\-U\-M\-X\mbox{]}, float \hyperlink{pios__opahrs__proto_8h_ab41e99aaac91af4fb41d43cb5a869e59}{Be}\mbox{[}3\mbox{]}, float Y\mbox{[}N\-U\-M\-V\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga7c0662e4a09558eef02efcd11835266f}{Linearize\-H} (float \hyperlink{group___i_n_s_g_p_s_ga878335db1805364cefebddb5eccfc282}{X}\mbox{[}N\-U\-M\-X\mbox{]}, float \hyperlink{pios__opahrs__proto_8h_ab41e99aaac91af4fb41d43cb5a869e59}{Be}\mbox{[}3\mbox{]}, float \hyperlink{group___i_n_s_g_p_s_ga4080397a0d248e4c99d6f284b187f206}{H}\mbox{[}N\-U\-M\-V\mbox{]}\mbox{[}N\-U\-M\-X\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga6f92f7117413395897c8c6cc180da4d9}{I\-N\-S\-Reset\-P} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float P\-Diag\mbox{[}N\-U\-M\-X\mbox{]})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_n_s_g_p_s_ga8260b6cbf756639068fe6ea734c5662d}{Gps\-Mag\-Correction} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float mag\-\_\-data\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float Pos\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float \hyperlink{pios__opahrs__proto_8h_a887ce86476d7dc3193741e1e01fd2652}{Vel}\mbox{[}3\mbox{]})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{group___i_n_s_g_p_s_ga8df5a9c6b80931e9a78e1ce3aa7fc8d7}{F} \mbox{[}N\-U\-M\-X\mbox{]}\mbox{[}N\-U\-M\-X\mbox{]}
+\item 
+float \hyperlink{group___i_n_s_g_p_s_ga728acb2fd56f38a4cab69ede7b3a027e}{G} \mbox{[}N\-U\-M\-X\mbox{]}\mbox{[}N\-U\-M\-W\mbox{]}
+\item 
+float \hyperlink{group___i_n_s_g_p_s_ga4080397a0d248e4c99d6f284b187f206}{H} \mbox{[}N\-U\-M\-V\mbox{]}\mbox{[}N\-U\-M\-X\mbox{]}
+\item 
+float \hyperlink{group___i_n_s_g_p_s_gab41e99aaac91af4fb41d43cb5a869e59}{Be} \mbox{[}3\mbox{]}
+\item 
+float \hyperlink{group___i_n_s_g_p_s_gaa4dd4832559078fffbbe0afa316c216c}{P} \mbox{[}N\-U\-M\-X\mbox{]}\mbox{[}N\-U\-M\-X\mbox{]}
+\item 
+float \hyperlink{group___i_n_s_g_p_s_ga878335db1805364cefebddb5eccfc282}{X} \mbox{[}N\-U\-M\-X\mbox{]}
+\item 
+float \hyperlink{group___i_n_s_g_p_s_ga9403e530c40ea2ed78fba00336d98645}{Q} \mbox{[}N\-U\-M\-W\mbox{]}
+\item 
+float \hyperlink{group___i_n_s_g_p_s_ga06fb8e491fbcc3c8cbe00ccaa0aa1aa7}{R} \mbox{[}N\-U\-M\-V\mbox{]}
+\item 
+float \hyperlink{group___i_n_s_g_p_s_ga1a9a9b26f7cab8703fc488c6cc258490}{K} \mbox{[}N\-U\-M\-X\mbox{]}\mbox{[}N\-U\-M\-V\mbox{]}
+\item 
+float \hyperlink{group___i_n_s_g_p_s_ga37df636c79e0bd4b3fab83292679a4b0}{zeros} \mbox{[}3\mbox{]} = \{ 0, 0, 0 \}
+\item 
+float \hyperlink{group___i_n_s_g_p_s_ga8df5a9c6b80931e9a78e1ce3aa7fc8d7}{F} \mbox{[}N\-U\-M\-X\mbox{]}\mbox{[}N\-U\-M\-X\mbox{]}
+\item 
+float \hyperlink{group___i_n_s_g_p_s_ga728acb2fd56f38a4cab69ede7b3a027e}{G} \mbox{[}N\-U\-M\-X\mbox{]}\mbox{[}N\-U\-M\-W\mbox{]}
+\item 
+float \hyperlink{group___i_n_s_g_p_s_ga4080397a0d248e4c99d6f284b187f206}{H} \mbox{[}N\-U\-M\-V\mbox{]}\mbox{[}N\-U\-M\-X\mbox{]}
+\item 
+float \hyperlink{group___i_n_s_g_p_s_gab41e99aaac91af4fb41d43cb5a869e59}{Be} \mbox{[}3\mbox{]}
+\item 
+float \hyperlink{group___i_n_s_g_p_s_gaa4dd4832559078fffbbe0afa316c216c}{P} \mbox{[}N\-U\-M\-X\mbox{]}\mbox{[}N\-U\-M\-X\mbox{]}
+\item 
+float \hyperlink{group___i_n_s_g_p_s_ga878335db1805364cefebddb5eccfc282}{X} \mbox{[}N\-U\-M\-X\mbox{]}
+\item 
+float \hyperlink{group___i_n_s_g_p_s_ga9403e530c40ea2ed78fba00336d98645}{Q} \mbox{[}N\-U\-M\-W\mbox{]}
+\item 
+float \hyperlink{group___i_n_s_g_p_s_ga06fb8e491fbcc3c8cbe00ccaa0aa1aa7}{R} \mbox{[}N\-U\-M\-V\mbox{]}
+\item 
+float \hyperlink{group___i_n_s_g_p_s_ga1a9a9b26f7cab8703fc488c6cc258490}{K} \mbox{[}N\-U\-M\-X\mbox{]}\mbox{[}N\-U\-M\-V\mbox{]}
+\item 
+float \hyperlink{group___i_n_s_g_p_s_ga37df636c79e0bd4b3fab83292679a4b0}{zeros} \mbox{[}3\mbox{]} = \{ 0.\-0f, 0.\-0f, 0.\-0f \}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+I\-N\-S\-G\-P\-S is a joint attitude and position estimation E\-K\-F. 
+
+\subsection{Function Documentation}
+\hypertarget{group___i_n_s_g_p_s_gae334cafbf8ace344247144c445997674}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!Covariance\-Prediction@{Covariance\-Prediction}}
+\index{Covariance\-Prediction@{Covariance\-Prediction}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{Covariance\-Prediction}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Covariance\-Prediction (
+\begin{DoxyParamCaption}
+\item[{float}]{F\mbox{[}\-N\-U\-M\-X\mbox{]}\mbox{[}\-N\-U\-M\-X\mbox{]}, }
+\item[{float}]{G\mbox{[}\-N\-U\-M\-X\mbox{]}\mbox{[}\-N\-U\-M\-W\mbox{]}, }
+\item[{float}]{Q\mbox{[}\-N\-U\-M\-W\mbox{]}, }
+\item[{float}]{d\-T, }
+\item[{float}]{P\mbox{[}\-N\-U\-M\-X\mbox{]}\mbox{[}\-N\-U\-M\-X\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_gae334cafbf8ace344247144c445997674}
+
+
+Definition at line 388 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_gac4dc3ac7ec074007dd65c472a2176c54}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!Full\-Correction@{Full\-Correction}}
+\index{Full\-Correction@{Full\-Correction}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{Full\-Correction}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Full\-Correction (
+\begin{DoxyParamCaption}
+\item[{{\bf const} float}]{mag\-\_\-data\mbox{[}3\mbox{]}, }
+\item[{{\bf const} float}]{Pos\mbox{[}3\mbox{]}, }
+\item[{{\bf const} float}]{Vel\mbox{[}3\mbox{]}, }
+\item[{float}]{Baro\-Alt}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_gac4dc3ac7ec074007dd65c472a2176c54}
+
+
+Definition at line 304 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga6b469a6d3b312867b0b87c2c70c0749e}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!Gps\-Baro\-Correction@{Gps\-Baro\-Correction}}
+\index{Gps\-Baro\-Correction@{Gps\-Baro\-Correction}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{Gps\-Baro\-Correction}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Gps\-Baro\-Correction (
+\begin{DoxyParamCaption}
+\item[{{\bf const} float}]{Pos\mbox{[}3\mbox{]}, }
+\item[{{\bf const} float}]{Vel\mbox{[}3\mbox{]}, }
+\item[{float}]{Baro\-Alt}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_ga6b469a6d3b312867b0b87c2c70c0749e}
+
+
+Definition at line 298 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga7f60c28dd78eddbe08102c2d905261b8}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!Gps\-Mag\-Correction@{Gps\-Mag\-Correction}}
+\index{Gps\-Mag\-Correction@{Gps\-Mag\-Correction}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{Gps\-Mag\-Correction}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Gps\-Mag\-Correction (
+\begin{DoxyParamCaption}
+\item[{{\bf const} float}]{mag\-\_\-data\mbox{[}3\mbox{]}, }
+\item[{{\bf const} float}]{Pos\mbox{[}3\mbox{]}, }
+\item[{{\bf const} float}]{Vel\mbox{[}2\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_ga7f60c28dd78eddbe08102c2d905261b8}
+\hypertarget{group___i_n_s_g_p_s_ga8260b6cbf756639068fe6ea734c5662d}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!Gps\-Mag\-Correction@{Gps\-Mag\-Correction}}
+\index{Gps\-Mag\-Correction@{Gps\-Mag\-Correction}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{Gps\-Mag\-Correction}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Gps\-Mag\-Correction (
+\begin{DoxyParamCaption}
+\item[{{\bf const} float}]{mag\-\_\-data\mbox{[}3\mbox{]}, }
+\item[{{\bf const} float}]{Pos\mbox{[}3\mbox{]}, }
+\item[{{\bf const} float}]{Vel\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_ga8260b6cbf756639068fe6ea734c5662d}
+
+
+Definition at line 310 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga62f40f528dea50baf8d414d1f55469af}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!ins\-\_\-get\-\_\-num\-\_\-states@{ins\-\_\-get\-\_\-num\-\_\-states}}
+\index{ins\-\_\-get\-\_\-num\-\_\-states@{ins\-\_\-get\-\_\-num\-\_\-states}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{ins\-\_\-get\-\_\-num\-\_\-states}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} ins\-\_\-get\-\_\-num\-\_\-states (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_ga62f40f528dea50baf8d414d1f55469af}
+
+
+Definition at line 75 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_gaade300e6df3b427d5bde882fa2f7c93f}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!I\-N\-S\-Correction@{I\-N\-S\-Correction}}
+\index{I\-N\-S\-Correction@{I\-N\-S\-Correction}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{I\-N\-S\-Correction}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I\-N\-S\-Correction (
+\begin{DoxyParamCaption}
+\item[{{\bf const} float}]{mag\-\_\-data\mbox{[}3\mbox{]}, }
+\item[{{\bf const} float}]{Pos\mbox{[}3\mbox{]}, }
+\item[{{\bf const} float}]{Vel\mbox{[}3\mbox{]}, }
+\item[{float}]{Baro\-Alt, }
+\item[{{\bf uint16\-\_\-t}}]{Sensors\-Used}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_gaade300e6df3b427d5bde882fa2f7c93f}
+
+
+Definition at line 322 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_gab680361c7bb4c9f7a0c06d189dc9d4a1}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!I\-N\-S\-Covariance\-Prediction@{I\-N\-S\-Covariance\-Prediction}}
+\index{I\-N\-S\-Covariance\-Prediction@{I\-N\-S\-Covariance\-Prediction}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{I\-N\-S\-Covariance\-Prediction}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I\-N\-S\-Covariance\-Prediction (
+\begin{DoxyParamCaption}
+\item[{float}]{d\-T}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_gab680361c7bb4c9f7a0c06d189dc9d4a1}
+
+
+Definition at line 279 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_gae4fd8ec7bfe1edbff24eed9b3c52b3d7}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!I\-N\-S\-G\-P\-S\-Get\-Nav@{I\-N\-S\-G\-P\-S\-Get\-Nav}}
+\index{I\-N\-S\-G\-P\-S\-Get\-Nav@{I\-N\-S\-G\-P\-S\-Get\-Nav}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{I\-N\-S\-G\-P\-S\-Get\-Nav}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Nav\-Struct} $\ast$ I\-N\-S\-G\-P\-S\-Get\-Nav (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [read]}}}\label{group___i_n_s_g_p_s_gae4fd8ec7bfe1edbff24eed9b3c52b3d7}
+
+
+Definition at line 130 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga37848fdaaf6ee155638ba5bb1521fffe}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!I\-N\-S\-G\-P\-S\-Init@{I\-N\-S\-G\-P\-S\-Init}}
+\index{I\-N\-S\-G\-P\-S\-Init@{I\-N\-S\-G\-P\-S\-Init}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{I\-N\-S\-G\-P\-S\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I\-N\-S\-G\-P\-S\-Init (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_ga37848fdaaf6ee155638ba5bb1521fffe}
+
+
+Definition at line 80 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_gad01d410c07ad8c74fe875b16246a265c}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!I\-N\-S\-Pos\-Vel\-Reset@{I\-N\-S\-Pos\-Vel\-Reset}}
+\index{I\-N\-S\-Pos\-Vel\-Reset@{I\-N\-S\-Pos\-Vel\-Reset}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{I\-N\-S\-Pos\-Vel\-Reset}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I\-N\-S\-Pos\-Vel\-Reset (
+\begin{DoxyParamCaption}
+\item[{{\bf const} float}]{pos\mbox{[}3\mbox{]}, }
+\item[{{\bf const} float}]{vel\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_gad01d410c07ad8c74fe875b16246a265c}
+
+
+Definition at line 167 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga9afce3083f9ab90a40d620dde634f901}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!I\-N\-S\-Reset\-P@{I\-N\-S\-Reset\-P}}
+\index{I\-N\-S\-Reset\-P@{I\-N\-S\-Reset\-P}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{I\-N\-S\-Reset\-P}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I\-N\-S\-Reset\-P (
+\begin{DoxyParamCaption}
+\item[{{\bf const} float}]{P\-Diag\mbox{[}13\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_ga9afce3083f9ab90a40d620dde634f901}
+\hypertarget{group___i_n_s_g_p_s_ga6f92f7117413395897c8c6cc180da4d9}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!I\-N\-S\-Reset\-P@{I\-N\-S\-Reset\-P}}
+\index{I\-N\-S\-Reset\-P@{I\-N\-S\-Reset\-P}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{I\-N\-S\-Reset\-P}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I\-N\-S\-Reset\-P (
+\begin{DoxyParamCaption}
+\item[{{\bf const} float}]{P\-Diag\mbox{[}\-N\-U\-M\-X\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_ga6f92f7117413395897c8c6cc180da4d9}
+
+
+Definition at line 135 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga97a7efb6d46aefde3ad20c9b8c44fc60}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!I\-N\-S\-Set\-Accel\-Var@{I\-N\-S\-Set\-Accel\-Var}}
+\index{I\-N\-S\-Set\-Accel\-Var@{I\-N\-S\-Set\-Accel\-Var}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{I\-N\-S\-Set\-Accel\-Var}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I\-N\-S\-Set\-Accel\-Var (
+\begin{DoxyParamCaption}
+\item[{{\bf const} float}]{accel\-\_\-var\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_ga97a7efb6d46aefde3ad20c9b8c44fc60}
+
+
+Definition at line 204 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga5316ca3b2372588b1d2340297e976452}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!I\-N\-S\-Set\-Baro\-Var@{I\-N\-S\-Set\-Baro\-Var}}
+\index{I\-N\-S\-Set\-Baro\-Var@{I\-N\-S\-Set\-Baro\-Var}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{I\-N\-S\-Set\-Baro\-Var}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I\-N\-S\-Set\-Baro\-Var (
+\begin{DoxyParamCaption}
+\item[{float}]{baro\-\_\-var}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_ga5316ca3b2372588b1d2340297e976452}
+
+
+Definition at line 225 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_gad385ddb89b431a68df14e4de88be3329}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!I\-N\-S\-Set\-Gyro\-Bias@{I\-N\-S\-Set\-Gyro\-Bias}}
+\index{I\-N\-S\-Set\-Gyro\-Bias@{I\-N\-S\-Set\-Gyro\-Bias}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{I\-N\-S\-Set\-Gyro\-Bias}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I\-N\-S\-Set\-Gyro\-Bias (
+\begin{DoxyParamCaption}
+\item[{{\bf const} float}]{gyro\-\_\-bias\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_gad385ddb89b431a68df14e4de88be3329}
+
+
+Definition at line 197 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_gab34cb0f1a9700d0bbf8c0c864311e0e3}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!I\-N\-S\-Set\-Gyro\-Var@{I\-N\-S\-Set\-Gyro\-Var}}
+\index{I\-N\-S\-Set\-Gyro\-Var@{I\-N\-S\-Set\-Gyro\-Var}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{I\-N\-S\-Set\-Gyro\-Var}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I\-N\-S\-Set\-Gyro\-Var (
+\begin{DoxyParamCaption}
+\item[{{\bf const} float}]{gyro\-\_\-var\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_gab34cb0f1a9700d0bbf8c0c864311e0e3}
+
+
+Definition at line 211 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_gaff5e5ac00ae43701b4dae7eeb9cdfea8}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!I\-N\-S\-Set\-Mag\-North@{I\-N\-S\-Set\-Mag\-North}}
+\index{I\-N\-S\-Set\-Mag\-North@{I\-N\-S\-Set\-Mag\-North}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{I\-N\-S\-Set\-Mag\-North}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I\-N\-S\-Set\-Mag\-North (
+\begin{DoxyParamCaption}
+\item[{{\bf const} float}]{B\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_gaff5e5ac00ae43701b4dae7eeb9cdfea8}
+
+
+Definition at line 230 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga0e46db3033f2daeb533de25cb92bbfd9}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!I\-N\-S\-Set\-Mag\-Var@{I\-N\-S\-Set\-Mag\-Var}}
+\index{I\-N\-S\-Set\-Mag\-Var@{I\-N\-S\-Set\-Mag\-Var}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{I\-N\-S\-Set\-Mag\-Var}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I\-N\-S\-Set\-Mag\-Var (
+\begin{DoxyParamCaption}
+\item[{{\bf const} float}]{scaled\-\_\-mag\-\_\-var\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_ga0e46db3033f2daeb533de25cb92bbfd9}
+
+
+Definition at line 218 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga8894e5945148a0520cd3e4c27f44cdac}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!I\-N\-S\-Set\-Pos\-Vel\-Var@{I\-N\-S\-Set\-Pos\-Vel\-Var}}
+\index{I\-N\-S\-Set\-Pos\-Vel\-Var@{I\-N\-S\-Set\-Pos\-Vel\-Var}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{I\-N\-S\-Set\-Pos\-Vel\-Var}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I\-N\-S\-Set\-Pos\-Vel\-Var (
+\begin{DoxyParamCaption}
+\item[{float}]{Pos\-Var, }
+\item[{float}]{Vel\-Var, }
+\item[{float}]{Vert\-Pos\-Var}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_ga8894e5945148a0520cd3e4c27f44cdac}
+
+
+Definition at line 187 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga33be75afa533a464a8571e241a6caa10}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!I\-N\-S\-Set\-State@{I\-N\-S\-Set\-State}}
+\index{I\-N\-S\-Set\-State@{I\-N\-S\-Set\-State}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{I\-N\-S\-Set\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I\-N\-S\-Set\-State (
+\begin{DoxyParamCaption}
+\item[{{\bf const} float}]{pos\mbox{[}3\mbox{]}, }
+\item[{{\bf const} float}]{vel\mbox{[}3\mbox{]}, }
+\item[{{\bf const} float}]{q\mbox{[}4\mbox{]}, }
+\item[{{\bf const} float}]{gyro\-\_\-bias\mbox{[}3\mbox{]}, }
+\item[{{\bf const} float}]{accel\-\_\-bias\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_ga33be75afa533a464a8571e241a6caa10}
+
+
+Definition at line 149 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga57adeb4fc2f14e36f70531b52bd28193}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!I\-N\-S\-State\-Prediction@{I\-N\-S\-State\-Prediction}}
+\index{I\-N\-S\-State\-Prediction@{I\-N\-S\-State\-Prediction}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{I\-N\-S\-State\-Prediction}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I\-N\-S\-State\-Prediction (
+\begin{DoxyParamCaption}
+\item[{{\bf const} float}]{gyro\-\_\-data\mbox{[}3\mbox{]}, }
+\item[{{\bf const} float}]{accel\-\_\-data\mbox{[}3\mbox{]}, }
+\item[{float}]{d\-T}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_ga57adeb4fc2f14e36f70531b52bd28193}
+
+
+Definition at line 238 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_gab560144e7b798db7faf80a4c37902c88}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!Linearize\-F\-G@{Linearize\-F\-G}}
+\index{Linearize\-F\-G@{Linearize\-F\-G}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{Linearize\-F\-G}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Linearize\-F\-G (
+\begin{DoxyParamCaption}
+\item[{float}]{X\mbox{[}\-N\-U\-M\-X\mbox{]}, }
+\item[{float}]{U\mbox{[}\-N\-U\-M\-U\mbox{]}, }
+\item[{float}]{F\mbox{[}\-N\-U\-M\-X\mbox{]}\mbox{[}\-N\-U\-M\-X\mbox{]}, }
+\item[{float}]{G\mbox{[}\-N\-U\-M\-X\mbox{]}\mbox{[}\-N\-U\-M\-W\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_gab560144e7b798db7faf80a4c37902c88}
+
+
+Definition at line 1505 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga7c0662e4a09558eef02efcd11835266f}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!Linearize\-H@{Linearize\-H}}
+\index{Linearize\-H@{Linearize\-H}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{Linearize\-H}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Linearize\-H (
+\begin{DoxyParamCaption}
+\item[{float}]{X\mbox{[}\-N\-U\-M\-X\mbox{]}, }
+\item[{float}]{Be\mbox{[}3\mbox{]}, }
+\item[{float}]{H\mbox{[}\-N\-U\-M\-V\mbox{]}\mbox{[}\-N\-U\-M\-X\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_ga7c0662e4a09558eef02efcd11835266f}
+
+
+Definition at line 1642 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga2b676563f0f8b93d971159b5b9320a5d}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!Mag\-Correction@{Mag\-Correction}}
+\index{Mag\-Correction@{Mag\-Correction}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{Mag\-Correction}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Mag\-Correction (
+\begin{DoxyParamCaption}
+\item[{{\bf const} float}]{mag\-\_\-data\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_ga2b676563f0f8b93d971159b5b9320a5d}
+
+
+Definition at line 286 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga2d37f6670dad8a68c1c96282f02f208a}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!Mag\-Vel\-Baro\-Correction@{Mag\-Vel\-Baro\-Correction}}
+\index{Mag\-Vel\-Baro\-Correction@{Mag\-Vel\-Baro\-Correction}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{Mag\-Vel\-Baro\-Correction}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Mag\-Vel\-Baro\-Correction (
+\begin{DoxyParamCaption}
+\item[{{\bf const} float}]{mag\-\_\-data\mbox{[}3\mbox{]}, }
+\item[{{\bf const} float}]{Vel\mbox{[}3\mbox{]}, }
+\item[{float}]{Baro\-Alt}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_ga2d37f6670dad8a68c1c96282f02f208a}
+
+
+Definition at line 291 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga5032060f6c979a9a7a0fe81d8b4ea8fb}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!Measurement\-Eq@{Measurement\-Eq}}
+\index{Measurement\-Eq@{Measurement\-Eq}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{Measurement\-Eq}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Measurement\-Eq (
+\begin{DoxyParamCaption}
+\item[{float}]{X\mbox{[}\-N\-U\-M\-X\mbox{]}, }
+\item[{float}]{Be\mbox{[}3\mbox{]}, }
+\item[{float}]{Y\mbox{[}\-N\-U\-M\-V\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_ga5032060f6c979a9a7a0fe81d8b4ea8fb}
+
+
+Definition at line 1607 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_gac5eaabdd6d05ef0667c934d4ef59eafa}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!Runge\-Kutta@{Runge\-Kutta}}
+\index{Runge\-Kutta@{Runge\-Kutta}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{Runge\-Kutta}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Runge\-Kutta (
+\begin{DoxyParamCaption}
+\item[{float}]{X\mbox{[}\-N\-U\-M\-X\mbox{]}, }
+\item[{float}]{U\mbox{[}\-N\-U\-M\-U\mbox{]}, }
+\item[{float}]{d\-T}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_gac5eaabdd6d05ef0667c934d4ef59eafa}
+
+
+Definition at line 1413 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga4ae89830422fa564e86fd0fc2aa6267a}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!Serial\-Update@{Serial\-Update}}
+\index{Serial\-Update@{Serial\-Update}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{Serial\-Update}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Serial\-Update (
+\begin{DoxyParamCaption}
+\item[{float}]{H\mbox{[}\-N\-U\-M\-V\mbox{]}\mbox{[}\-N\-U\-M\-X\mbox{]}, }
+\item[{float}]{R\mbox{[}\-N\-U\-M\-V\mbox{]}, }
+\item[{float}]{Z\mbox{[}\-N\-U\-M\-V\mbox{]}, }
+\item[{float}]{Y\mbox{[}\-N\-U\-M\-V\mbox{]}, }
+\item[{float}]{P\mbox{[}\-N\-U\-M\-X\mbox{]}\mbox{[}\-N\-U\-M\-X\mbox{]}, }
+\item[{float}]{X\mbox{[}\-N\-U\-M\-X\mbox{]}, }
+\item[{{\bf uint16\-\_\-t}}]{Sensors\-Used}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_ga4ae89830422fa564e86fd0fc2aa6267a}
+
+
+Definition at line 1369 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga48e6b0dab3d99bfc5cef7b24b773f533}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!State\-Eq@{State\-Eq}}
+\index{State\-Eq@{State\-Eq}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{State\-Eq}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} State\-Eq (
+\begin{DoxyParamCaption}
+\item[{float}]{X\mbox{[}\-N\-U\-M\-X\mbox{]}, }
+\item[{float}]{U\mbox{[}\-N\-U\-M\-U\mbox{]}, }
+\item[{float}]{Xdot\mbox{[}\-N\-U\-M\-X\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_ga48e6b0dab3d99bfc5cef7b24b773f533}
+
+
+Definition at line 1460 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga3babc960a16e4ab48bf08da4a9153637}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!Vel\-Baro\-Correction@{Vel\-Baro\-Correction}}
+\index{Vel\-Baro\-Correction@{Vel\-Baro\-Correction}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{Vel\-Baro\-Correction}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Vel\-Baro\-Correction (
+\begin{DoxyParamCaption}
+\item[{{\bf const} float}]{Vel\mbox{[}3\mbox{]}, }
+\item[{float}]{Baro\-Alt}
+\end{DoxyParamCaption}
+)}}\label{group___i_n_s_g_p_s_ga3babc960a16e4ab48bf08da4a9153637}
+
+
+Definition at line 316 of file insgps13state.\-c.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{group___i_n_s_g_p_s_gab41e99aaac91af4fb41d43cb5a869e59}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!Be@{Be}}
+\index{Be@{Be}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{Be}]{\setlength{\rightskip}{0pt plus 5cm}float Be\mbox{[}3\mbox{]}}}\label{group___i_n_s_g_p_s_gab41e99aaac91af4fb41d43cb5a869e59}
+
+
+Definition at line 66 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_gab41e99aaac91af4fb41d43cb5a869e59}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!Be@{Be}}
+\index{Be@{Be}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{Be}]{\setlength{\rightskip}{0pt plus 5cm}float Be\mbox{[}3\mbox{]}}}\label{group___i_n_s_g_p_s_gab41e99aaac91af4fb41d43cb5a869e59}
+
+
+Definition at line 66 of file insgps16state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga8df5a9c6b80931e9a78e1ce3aa7fc8d7}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!F@{F}}
+\index{F@{F}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{F}]{\setlength{\rightskip}{0pt plus 5cm}float F\mbox{[}N\-U\-M\-X\mbox{]}\mbox{[}N\-U\-M\-X\mbox{]}}}\label{group___i_n_s_g_p_s_ga8df5a9c6b80931e9a78e1ce3aa7fc8d7}
+
+
+Definition at line 64 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga8df5a9c6b80931e9a78e1ce3aa7fc8d7}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!F@{F}}
+\index{F@{F}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{F}]{\setlength{\rightskip}{0pt plus 5cm}float F\mbox{[}N\-U\-M\-X\mbox{]}\mbox{[}N\-U\-M\-X\mbox{]}}}\label{group___i_n_s_g_p_s_ga8df5a9c6b80931e9a78e1ce3aa7fc8d7}
+
+
+Definition at line 64 of file insgps16state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga728acb2fd56f38a4cab69ede7b3a027e}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!G@{G}}
+\index{G@{G}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{G}]{\setlength{\rightskip}{0pt plus 5cm}float G\mbox{[}N\-U\-M\-X\mbox{]}\mbox{[}N\-U\-M\-W\mbox{]}}}\label{group___i_n_s_g_p_s_ga728acb2fd56f38a4cab69ede7b3a027e}
+
+
+Definition at line 64 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga728acb2fd56f38a4cab69ede7b3a027e}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!G@{G}}
+\index{G@{G}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{G}]{\setlength{\rightskip}{0pt plus 5cm}float G\mbox{[}N\-U\-M\-X\mbox{]}\mbox{[}N\-U\-M\-W\mbox{]}}}\label{group___i_n_s_g_p_s_ga728acb2fd56f38a4cab69ede7b3a027e}
+
+
+Definition at line 64 of file insgps16state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga4080397a0d248e4c99d6f284b187f206}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!H@{H}}
+\index{H@{H}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{H}]{\setlength{\rightskip}{0pt plus 5cm}float H\mbox{[}N\-U\-M\-V\mbox{]}\mbox{[}N\-U\-M\-X\mbox{]}}}\label{group___i_n_s_g_p_s_ga4080397a0d248e4c99d6f284b187f206}
+
+
+Definition at line 64 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga4080397a0d248e4c99d6f284b187f206}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!H@{H}}
+\index{H@{H}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{H}]{\setlength{\rightskip}{0pt plus 5cm}float H\mbox{[}N\-U\-M\-V\mbox{]}\mbox{[}N\-U\-M\-X\mbox{]}}}\label{group___i_n_s_g_p_s_ga4080397a0d248e4c99d6f284b187f206}
+
+
+Definition at line 64 of file insgps16state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga1a9a9b26f7cab8703fc488c6cc258490}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!K@{K}}
+\index{K@{K}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{K}]{\setlength{\rightskip}{0pt plus 5cm}float K\mbox{[}N\-U\-M\-X\mbox{]}\mbox{[}N\-U\-M\-V\mbox{]}}}\label{group___i_n_s_g_p_s_ga1a9a9b26f7cab8703fc488c6cc258490}
+
+
+Definition at line 69 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga1a9a9b26f7cab8703fc488c6cc258490}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!K@{K}}
+\index{K@{K}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{K}]{\setlength{\rightskip}{0pt plus 5cm}float K\mbox{[}N\-U\-M\-X\mbox{]}\mbox{[}N\-U\-M\-V\mbox{]}}}\label{group___i_n_s_g_p_s_ga1a9a9b26f7cab8703fc488c6cc258490}
+
+
+Definition at line 69 of file insgps16state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_gaa4dd4832559078fffbbe0afa316c216c}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!P@{P}}
+\index{P@{P}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{P}]{\setlength{\rightskip}{0pt plus 5cm}float P\mbox{[}N\-U\-M\-X\mbox{]}\mbox{[}N\-U\-M\-X\mbox{]}}}\label{group___i_n_s_g_p_s_gaa4dd4832559078fffbbe0afa316c216c}
+
+
+Definition at line 67 of file insgps16state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_gaa4dd4832559078fffbbe0afa316c216c}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!P@{P}}
+\index{P@{P}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{P}]{\setlength{\rightskip}{0pt plus 5cm}float P\mbox{[}N\-U\-M\-X\mbox{]}\mbox{[}N\-U\-M\-X\mbox{]}}}\label{group___i_n_s_g_p_s_gaa4dd4832559078fffbbe0afa316c216c}
+
+
+Definition at line 67 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga9403e530c40ea2ed78fba00336d98645}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!Q@{Q}}
+\index{Q@{Q}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{Q}]{\setlength{\rightskip}{0pt plus 5cm}float Q\mbox{[}N\-U\-M\-W\mbox{]}}}\label{group___i_n_s_g_p_s_ga9403e530c40ea2ed78fba00336d98645}
+
+
+Definition at line 68 of file insgps16state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga9403e530c40ea2ed78fba00336d98645}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!Q@{Q}}
+\index{Q@{Q}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{Q}]{\setlength{\rightskip}{0pt plus 5cm}float Q\mbox{[}N\-U\-M\-W\mbox{]}}}\label{group___i_n_s_g_p_s_ga9403e530c40ea2ed78fba00336d98645}
+
+
+Definition at line 68 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga06fb8e491fbcc3c8cbe00ccaa0aa1aa7}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!R@{R}}
+\index{R@{R}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{R}]{\setlength{\rightskip}{0pt plus 5cm}float R\mbox{[}N\-U\-M\-V\mbox{]}}}\label{group___i_n_s_g_p_s_ga06fb8e491fbcc3c8cbe00ccaa0aa1aa7}
+
+
+Definition at line 68 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga06fb8e491fbcc3c8cbe00ccaa0aa1aa7}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!R@{R}}
+\index{R@{R}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{R}]{\setlength{\rightskip}{0pt plus 5cm}float R\mbox{[}N\-U\-M\-V\mbox{]}}}\label{group___i_n_s_g_p_s_ga06fb8e491fbcc3c8cbe00ccaa0aa1aa7}
+
+
+Definition at line 68 of file insgps16state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga878335db1805364cefebddb5eccfc282}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!X@{X}}
+\index{X@{X}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{X}]{\setlength{\rightskip}{0pt plus 5cm}float X\mbox{[}N\-U\-M\-X\mbox{]}}}\label{group___i_n_s_g_p_s_ga878335db1805364cefebddb5eccfc282}
+
+
+Definition at line 67 of file insgps16state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga878335db1805364cefebddb5eccfc282}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!X@{X}}
+\index{X@{X}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{X}]{\setlength{\rightskip}{0pt plus 5cm}float X\mbox{[}N\-U\-M\-X\mbox{]}}}\label{group___i_n_s_g_p_s_ga878335db1805364cefebddb5eccfc282}
+
+
+Definition at line 67 of file insgps13state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga37df636c79e0bd4b3fab83292679a4b0}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!zeros@{zeros}}
+\index{zeros@{zeros}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{zeros}]{\setlength{\rightskip}{0pt plus 5cm}float zeros\mbox{[}3\mbox{]} = \{ 0.\-0f, 0.\-0f, 0.\-0f \}}}\label{group___i_n_s_g_p_s_ga37df636c79e0bd4b3fab83292679a4b0}
+
+
+Definition at line 259 of file insgps16state.\-c.
+
+\hypertarget{group___i_n_s_g_p_s_ga37df636c79e0bd4b3fab83292679a4b0}{\index{I\-N\-S\-G\-P\-S@{I\-N\-S\-G\-P\-S}!zeros@{zeros}}
+\index{zeros@{zeros}!INSGPS@{I\-N\-S\-G\-P\-S}}
+\subsubsection[{zeros}]{\setlength{\rightskip}{0pt plus 5cm}float zeros\mbox{[}3\mbox{]} = \{ 0, 0, 0 \}}}\label{group___i_n_s_g_p_s_ga37df636c79e0bd4b3fab83292679a4b0}
+
+
+Definition at line 284 of file insgps13state.\-c.
+

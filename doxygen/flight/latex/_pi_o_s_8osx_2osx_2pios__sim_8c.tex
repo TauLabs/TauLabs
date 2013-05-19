@@ -1,0 +1,180 @@
+\hypertarget{_pi_o_s_8osx_2osx_2pios__sim_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S.osx/osx/pios\-\_\-sim.c File Reference}
+\label{_pi_o_s_8osx_2osx_2pios__sim_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{_pi_o_s_8osx_2osx_2pios__sim_8c_aa892c0b33c4a2705509314d03d902ad8}{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Init} ()
+\item 
+int \hyperlink{_pi_o_s_8osx_2osx_2pios__sim_8c_a71abc3252bc9709f6242e7b47093d1c5}{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Step} (float d\-T)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{_pi_o_s_8osx_2osx_2pios__sim_8c_abfd216dc96bc93bd214d07df4ed8b51b}{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Set\-Actuator} (float $\ast$actuator, int nchannels)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{_pi_o_s_8osx_2osx_2pios__sim_8c_aa96c6195ec948011f07389dafad1f5bf}{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Accels} (float $\ast$\hyperlink{pios__opahrs__proto_8h_a95ac7014e5b72e25193076997442b227}{accels})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{_pi_o_s_8osx_2osx_2pios__sim_8c_a9e3fecc420593b02caddd7c9d843eba4}{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Gyros} (float $\ast$\hyperlink{pios__opahrs__proto_8h_ac76cbe9fe0157f71b7a76e57ef3bf7b1}{gyros})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{_pi_o_s_8osx_2osx_2pios__sim_8c_a8375ea0e835e5ecb35f93184a6749d8a}{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Attitude} (float $\ast$q)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{_pi_o_s_8osx_2osx_2pios__sim_8c_ad177a2144c7751989db4d707f78f3533}{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Velocity} (float $\ast$velocity)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{_pi_o_s_8osx_2osx_2pios__sim_8c_a6a9905b797dcb10d310df57a08489dbe}{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Position} (float $\ast$position)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__sim__state}{pios\-\_\-sim\-\_\-state} \hyperlink{_pi_o_s_8osx_2osx_2pios__sim_8c_a2bab277bb4a9462979be51c3c4c1b783}{pios\-\_\-sim\-\_\-state}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{_pi_o_s_8osx_2osx_2pios__sim_8c_aa96c6195ec948011f07389dafad1f5bf}{\index{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c@{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c}!P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Accels@{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Accels}}
+\index{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Accels@{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Accels}!PiOS.osx/osx/pios_sim.c@{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Accels}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Accels (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{accels}
+\end{DoxyParamCaption}
+)}}\label{_pi_o_s_8osx_2osx_2pios__sim_8c_aa96c6195ec948011f07389dafad1f5bf}
+Get the accelerometer data from the simulation model 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt out}  & {\em pointer} & to store the accelerometer data in \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 55 of file pios\-\_\-sim.\-c.
+
+\hypertarget{_pi_o_s_8osx_2osx_2pios__sim_8c_a8375ea0e835e5ecb35f93184a6749d8a}{\index{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c@{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c}!P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Attitude@{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Attitude}}
+\index{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Attitude@{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Attitude}!PiOS.osx/osx/pios_sim.c@{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Attitude}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Attitude (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{q}
+\end{DoxyParamCaption}
+)}}\label{_pi_o_s_8osx_2osx_2pios__sim_8c_a8375ea0e835e5ecb35f93184a6749d8a}
+Get the current attitude from the simulation model 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt out}  & {\em quat} & pointer to store the quaternion attitude in \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 75 of file pios\-\_\-sim.\-c.
+
+\hypertarget{_pi_o_s_8osx_2osx_2pios__sim_8c_a9e3fecc420593b02caddd7c9d843eba4}{\index{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c@{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c}!P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Gyros@{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Gyros}}
+\index{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Gyros@{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Gyros}!PiOS.osx/osx/pios_sim.c@{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Gyros}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Gyros (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{gyros}
+\end{DoxyParamCaption}
+)}}\label{_pi_o_s_8osx_2osx_2pios__sim_8c_a9e3fecc420593b02caddd7c9d843eba4}
+Get the gyro data from the simulation model 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt out}  & {\em pointer} & to store the gyro data in \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 65 of file pios\-\_\-sim.\-c.
+
+\hypertarget{_pi_o_s_8osx_2osx_2pios__sim_8c_a6a9905b797dcb10d310df57a08489dbe}{\index{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c@{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c}!P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Position@{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Position}}
+\index{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Position@{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Position}!PiOS.osx/osx/pios_sim.c@{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Position}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Position (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{position}
+\end{DoxyParamCaption}
+)}}\label{_pi_o_s_8osx_2osx_2pios__sim_8c_a6a9905b797dcb10d310df57a08489dbe}
+Get the current positiom from the simulation model 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt out}  & {\em position} & pointer to store the current position in (cm in N\-E\-D frame) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 97 of file pios\-\_\-sim.\-c.
+
+\hypertarget{_pi_o_s_8osx_2osx_2pios__sim_8c_ad177a2144c7751989db4d707f78f3533}{\index{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c@{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c}!P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Velocity@{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Velocity}}
+\index{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Velocity@{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Velocity}!PiOS.osx/osx/pios_sim.c@{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Velocity}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Get\-Velocity (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{velocity}
+\end{DoxyParamCaption}
+)}}\label{_pi_o_s_8osx_2osx_2pios__sim_8c_ad177a2144c7751989db4d707f78f3533}
+Get the current positiom from the simulation model 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt out}  & {\em position} & pointer to store the current position in (cm in N\-E\-D frame) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 86 of file pios\-\_\-sim.\-c.
+
+\hypertarget{_pi_o_s_8osx_2osx_2pios__sim_8c_aa892c0b33c4a2705509314d03d902ad8}{\index{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c@{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c}!P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Init@{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Init}}
+\index{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Init@{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Init}!PiOS.osx/osx/pios_sim.c@{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Init (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{_pi_o_s_8osx_2osx_2pios__sim_8c_aa892c0b33c4a2705509314d03d902ad8}
+Initialize the model in the external library \begin{DoxyReturn}{Returns}
+0 for success, -\/1 if fails to initialize external library 
+\end{DoxyReturn}
+
+
+Definition at line 21 of file pios\-\_\-sim.\-c.
+
+\hypertarget{_pi_o_s_8osx_2osx_2pios__sim_8c_abfd216dc96bc93bd214d07df4ed8b51b}{\index{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c@{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c}!P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Set\-Actuator@{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Set\-Actuator}}
+\index{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Set\-Actuator@{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Set\-Actuator}!PiOS.osx/osx/pios_sim.c@{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Set\-Actuator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Set\-Actuator (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{actuator, }
+\item[{int}]{nchannels}
+\end{DoxyParamCaption}
+)}}\label{_pi_o_s_8osx_2osx_2pios__sim_8c_abfd216dc96bc93bd214d07df4ed8b51b}
+Set the actuator inputs to the model 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em actuator} & pointer to an array of actuators to set \\
+\hline
+\mbox{\tt in}  & {\em nchannels} & number of channels that are valid coming in \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 45 of file pios\-\_\-sim.\-c.
+
+\hypertarget{_pi_o_s_8osx_2osx_2pios__sim_8c_a71abc3252bc9709f6242e7b47093d1c5}{\index{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c@{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c}!P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Step@{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Step}}
+\index{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Step@{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Step}!PiOS.osx/osx/pios_sim.c@{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Step}]{\setlength{\rightskip}{0pt plus 5cm}int P\-I\-O\-S\-\_\-\-S\-I\-M\-\_\-\-Step (
+\begin{DoxyParamCaption}
+\item[{float}]{d\-T}
+\end{DoxyParamCaption}
+)}}\label{_pi_o_s_8osx_2osx_2pios__sim_8c_a71abc3252bc9709f6242e7b47093d1c5}
+Step the model simulation in the external library \begin{DoxyReturn}{Returns}
+0 for success, -\/1 for failure to step external library 
+\end{DoxyReturn}
+
+
+Definition at line 32 of file pios\-\_\-sim.\-c.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{_pi_o_s_8osx_2osx_2pios__sim_8c_a2bab277bb4a9462979be51c3c4c1b783}{\index{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c@{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c}!pios\-\_\-sim\-\_\-state@{pios\-\_\-sim\-\_\-state}}
+\index{pios\-\_\-sim\-\_\-state@{pios\-\_\-sim\-\_\-state}!PiOS.osx/osx/pios_sim.c@{Pi\-O\-S.\-osx/osx/pios\-\_\-sim.\-c}}
+\subsubsection[{pios\-\_\-sim\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-sim\-\_\-state} {\bf pios\-\_\-sim\-\_\-state}}}\label{_pi_o_s_8osx_2osx_2pios__sim_8c_a2bab277bb4a9462979be51c3c4c1b783}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{
+        .accels = \{0, 0, 0\},
+        .gyros = \{0, 0, 0\},
+        .mag = \{0, 0, 0\},
+        .baro = \{0\},
+        .q = \{1, 0, 0, 0\},
+        .velocity = \{0, 0, 0\},
+        .position = \{0, 0, 0\},  
+        .actuator = \{0, 0, 0, 0, 0, 0, 0, 0\}
+\}
+\end{DoxyCode}
+
+
+Definition at line 6 of file pios\-\_\-sim.\-c.
+

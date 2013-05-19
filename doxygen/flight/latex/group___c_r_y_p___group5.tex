@@ -1,0 +1,195 @@
+\hypertarget{group___c_r_y_p___group5}{\section{Interrupts and flags management functions}
+\label{group___c_r_y_p___group5}\index{Interrupts and flags management functions@{Interrupts and flags management functions}}
+}
+
+
+Interrupts and flags management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_r_y_p___group5_gafbf5ee5f2c3ae4404149a994e15b33d8}{C\-R\-Y\-P\-\_\-\-I\-T\-Config} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} C\-R\-Y\-P\-\_\-\-I\-T, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified C\-R\-Y\-P interrupts. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_gaacbd7ed539db0aacd973a0f6eca34074}{I\-T\-Status} \hyperlink{group___c_r_y_p___group5_ga00a48b748ed127fa517cacec9dbf18f4}{C\-R\-Y\-P\-\_\-\-Get\-I\-T\-Status} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} C\-R\-Y\-P\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified C\-R\-Y\-P interrupt has occurred or not. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___c_r_y_p___group5_ga993d568b626a74b2973d4a6848a681f6}{C\-R\-Y\-P\-\_\-\-Get\-Flag\-Status} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} C\-R\-Y\-P\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified C\-R\-Y\-P flag is set or not. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interrupts and flags management functions. \begin{DoxyVerb} ===============================================================================
+                   Interrupts and flags management functions
+ ===============================================================================  
+
+  This section provides functions allowing to configure the CRYP Interrupts and 
+  to get the status and Interrupts pending bits.
+
+  The CRYP provides 2 Interrupts sources and 7 Flags:
+
+  Flags :
+  ------- 
+                          
+     1. CRYP_FLAG_IFEM :  Set when Input FIFO is empty.
+                          This Flag is cleared only by hardware.
+      
+     2. CRYP_FLAG_IFNF :  Set when Input FIFO is not full.
+                          This Flag is cleared only by hardware.
+
+
+     3. CRYP_FLAG_INRIS  : Set when Input FIFO Raw interrupt is pending 
+                           it gives the raw interrupt state prior to masking 
+                           of the input FIFO service interrupt.
+                           This Flag is cleared only by hardware.
+     
+     4. CRYP_FLAG_OFNE   : Set when Output FIFO not empty.
+                           This Flag is cleared only by hardware.
+        
+     5. CRYP_FLAG_OFFU   : Set when Output FIFO is full.
+                           This Flag is cleared only by hardware.
+                           
+     6. CRYP_FLAG_OUTRIS : Set when Output FIFO Raw interrupt is pending 
+                           it gives the raw interrupt state prior to masking 
+                           of the output FIFO service interrupt.
+                           This Flag is cleared only by hardware.
+                               
+     7. CRYP_FLAG_BUSY   : Set when the CRYP core is currently processing a 
+                           block of data or a key preparation (for AES 
+                           decryption).
+                           This Flag is cleared only by hardware.
+                           To clear it, the CRYP core must be disabled and the 
+                           last processing has completed. 
+
+  Interrupts :
+  ------------
+
+   1. CRYP_IT_INI   : The input FIFO service interrupt is asserted when there 
+                      are less than 4 words in the input FIFO.
+                      This interrupt is associated to CRYP_FLAG_INRIS flag.
+
+                @note This interrupt is cleared by performing write operations 
+                      to the input FIFO until it holds 4 or more words. The 
+                      input FIFO service interrupt INMIS is enabled with the 
+                      CRYP enable bit. Consequently, when CRYP is disabled, the 
+                      INMIS signal is low even if the input FIFO is empty.
+
+
+
+   2. CRYP_IT_OUTI  : The output FIFO service interrupt is asserted when there 
+                      is one or more (32-bit word) data items in the output FIFO.
+                      This interrupt is associated to CRYP_FLAG_OUTRIS flag.
+
+                @note This interrupt is cleared by reading data from the output 
+                      FIFO until there is no valid (32-bit) word left (that is, 
+                      the interrupt follows the state of the OFNE (output FIFO 
+                      not empty) flag).
+
+
+  Managing the CRYP controller events :
+  ------------------------------------ 
+  The user should identify which mode will be used in his application to manage 
+  the CRYP controller events: Polling mode or Interrupt mode.
+
+  1.  In the Polling Mode it is advised to use the following functions:
+      - CRYP_GetFlagStatus() : to check if flags events occur. 
+
+  @note  The CRYPT flags do not need to be cleared since they are cleared as 
+         soon as the associated event are reset.   
+
+
+  2.  In the Interrupt Mode it is advised to use the following functions:
+      - CRYP_ITConfig()       : to enable or disable the interrupt source.
+      - CRYP_GetITStatus()    : to check if Interrupt occurs.
+
+  @note  The CRYPT interrupts have no pending bits, the interrupt is cleared as 
+         soon as the associated event is reset. \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___c_r_y_p___group5_ga993d568b626a74b2973d4a6848a681f6}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!C\-R\-Y\-P\-\_\-\-Get\-Flag\-Status@{C\-R\-Y\-P\-\_\-\-Get\-Flag\-Status}}
+\index{C\-R\-Y\-P\-\_\-\-Get\-Flag\-Status@{C\-R\-Y\-P\-\_\-\-Get\-Flag\-Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{C\-R\-Y\-P\-\_\-\-Get\-Flag\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Flag\-Status} C\-R\-Y\-P\-\_\-\-Get\-Flag\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{C\-R\-Y\-P\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___c_r_y_p___group5_ga993d568b626a74b2973d4a6848a681f6}
+
+
+Checks whether the specified C\-R\-Y\-P flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\-R\-Y\-P\-\_\-\-F\-L\-A\-G,\-:} & specifies the C\-R\-Y\-P flag to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item C\-R\-Y\-P\-\_\-\-F\-L\-A\-G\-\_\-\-I\-F\-E\-M\-: Input F\-I\-F\-O Empty flag. \item C\-R\-Y\-P\-\_\-\-F\-L\-A\-G\-\_\-\-I\-F\-N\-F\-: Input F\-I\-F\-O Not Full flag. \item C\-R\-Y\-P\-\_\-\-F\-L\-A\-G\-\_\-\-O\-F\-N\-E\-: Output F\-I\-F\-O Not Empty flag. \item C\-R\-Y\-P\-\_\-\-F\-L\-A\-G\-\_\-\-O\-F\-F\-U\-: Output F\-I\-F\-O Full flag. \item C\-R\-Y\-P\-\_\-\-F\-L\-A\-G\-\_\-\-B\-U\-S\-Y\-: Busy flag. \item C\-R\-Y\-P\-\_\-\-F\-L\-A\-G\-\_\-\-O\-U\-T\-R\-I\-S\-: Output F\-I\-F\-O raw interrupt flag. \item C\-R\-Y\-P\-\_\-\-F\-L\-A\-G\-\_\-\-I\-N\-R\-I\-S\-: Input F\-I\-F\-O raw interrupt flag. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of C\-R\-Y\-P\-\_\-\-F\-L\-A\-G (S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 805 of file stm32f4xx\-\_\-cryp.\-c.
+
+\hypertarget{group___c_r_y_p___group5_ga00a48b748ed127fa517cacec9dbf18f4}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!C\-R\-Y\-P\-\_\-\-Get\-I\-T\-Status@{C\-R\-Y\-P\-\_\-\-Get\-I\-T\-Status}}
+\index{C\-R\-Y\-P\-\_\-\-Get\-I\-T\-Status@{C\-R\-Y\-P\-\_\-\-Get\-I\-T\-Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{C\-R\-Y\-P\-\_\-\-Get\-I\-T\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf I\-T\-Status} C\-R\-Y\-P\-\_\-\-Get\-I\-T\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{C\-R\-Y\-P\-\_\-\-I\-T}
+\end{DoxyParamCaption}
+)}}\label{group___c_r_y_p___group5_ga00a48b748ed127fa517cacec9dbf18f4}
+
+
+Checks whether the specified C\-R\-Y\-P interrupt has occurred or not. 
+
+\begin{DoxyNote}{Note}
+This function checks the status of the masked interrupt (i.\-e the interrupt should be previously enabled). 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em C\-R\-Y\-P\-\_\-\-I\-T,\-:} & specifies the C\-R\-Y\-P (masked) interrupt source to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item C\-R\-Y\-P\-\_\-\-I\-T\-\_\-\-I\-N\-I\-: Input F\-I\-F\-O interrupt \item C\-R\-Y\-P\-\_\-\-I\-T\-\_\-\-O\-U\-T\-I\-: Output F\-I\-F\-O interrupt \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of C\-R\-Y\-P\-\_\-\-I\-T (S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 771 of file stm32f4xx\-\_\-cryp.\-c.
+
+\hypertarget{group___c_r_y_p___group5_gafbf5ee5f2c3ae4404149a994e15b33d8}{\index{Interrupts and flags management functions@{Interrupts and flags management functions}!C\-R\-Y\-P\-\_\-\-I\-T\-Config@{C\-R\-Y\-P\-\_\-\-I\-T\-Config}}
+\index{C\-R\-Y\-P\-\_\-\-I\-T\-Config@{C\-R\-Y\-P\-\_\-\-I\-T\-Config}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection[{C\-R\-Y\-P\-\_\-\-I\-T\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} C\-R\-Y\-P\-\_\-\-I\-T\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{C\-R\-Y\-P\-\_\-\-I\-T, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___c_r_y_p___group5_gafbf5ee5f2c3ae4404149a994e15b33d8}
+
+
+Enables or disables the specified C\-R\-Y\-P interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\-R\-Y\-P\-\_\-\-I\-T,\-:} & specifies the C\-R\-Y\-P interrupt source to be enabled or disabled. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item C\-R\-Y\-P\-\_\-\-I\-T\-\_\-\-I\-N\-I\-: Input F\-I\-F\-O interrupt \item C\-R\-Y\-P\-\_\-\-I\-T\-\_\-\-O\-U\-T\-I\-: Output F\-I\-F\-O interrupt \end{DoxyItemize}
+\\
+\hline
+{\em New\-State,\-:} & new state of the specified C\-R\-Y\-P interrupt. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 743 of file stm32f4xx\-\_\-cryp.\-c.
+

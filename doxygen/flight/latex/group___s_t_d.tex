@@ -1,0 +1,131 @@
+\hypertarget{group___s_t_d}{\section{Standard deviation}
+\label{group___s_t_d}\index{Standard deviation@{Standard deviation}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_t_d_ga4969b5b5f3d001377bc401a3ee99dfc2}{arm\-\_\-std\-\_\-f32} (\hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Src, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Result)
+\begin{DoxyCompactList}\small\item\em Standard deviation of the elements of a floating-\/point vector. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_t_d_gaf9d27afa9928ff28a63cd98ea9218a72}{arm\-\_\-std\-\_\-q15} (\hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Src, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Result)
+\begin{DoxyCompactList}\small\item\em Standard deviation of the elements of a Q15 vector. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_t_d_ga39495e74f96116178be085c9dc7742f5}{arm\-\_\-std\-\_\-q31} (\hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Src, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Result)
+\begin{DoxyCompactList}\small\item\em Standard deviation of the elements of a Q31 vector. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Calculates the standard deviation of the elements in the input vector. The underlying algorithm is used\-:
+
+
+\begin{DoxyPre}    
+        Result = sqrt((sumOfSquares - sum$^{\mbox{2}}$  / blockSize) / (blockSize - 1))\end{DoxyPre}
+
+
+
+\begin{DoxyPre}        where, sumOfSquares = pSrc[0] * pSrc[0] + pSrc[1] * pSrc[1] + ... + pSrc[blockSize-1] * pSrc[blockSize-1]\end{DoxyPre}
+
+
+
+\begin{DoxyPre}                        sum = pSrc[0] + pSrc[1] + pSrc[2] + ... + pSrc[blockSize-1]   
+\end{DoxyPre}
+
+
+There are separate functions for floating point, Q31, and Q15 data types. 
+
+\subsection{Function Documentation}
+\hypertarget{group___s_t_d_ga4969b5b5f3d001377bc401a3ee99dfc2}{\index{Standard deviation@{Standard deviation}!arm\-\_\-std\-\_\-f32@{arm\-\_\-std\-\_\-f32}}
+\index{arm\-\_\-std\-\_\-f32@{arm\-\_\-std\-\_\-f32}!Standard deviation@{Standard deviation}}
+\subsubsection[{arm\-\_\-std\-\_\-f32}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-std\-\_\-f32 (
+\begin{DoxyParamCaption}
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Result}
+\end{DoxyParamCaption}
+)}}\label{group___s_t_d_ga4969b5b5f3d001377bc401a3ee99dfc2}
+
+
+Standard deviation of the elements of a floating-\/point vector. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the input vector \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & length of the input vector \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Result} & standard deviation value returned here \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none. 
+\end{DoxyReturn}
+
+
+Definition at line 72 of file arm\-\_\-std\-\_\-f32.\-c.
+
+\hypertarget{group___s_t_d_gaf9d27afa9928ff28a63cd98ea9218a72}{\index{Standard deviation@{Standard deviation}!arm\-\_\-std\-\_\-q15@{arm\-\_\-std\-\_\-q15}}
+\index{arm\-\_\-std\-\_\-q15@{arm\-\_\-std\-\_\-q15}!Standard deviation@{Standard deviation}}
+\subsubsection[{arm\-\_\-std\-\_\-q15}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-std\-\_\-q15 (
+\begin{DoxyParamCaption}
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Result}
+\end{DoxyParamCaption}
+)}}\label{group___s_t_d_gaf9d27afa9928ff28a63cd98ea9218a72}
+
+
+Standard deviation of the elements of a Q15 vector. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the input vector \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & length of the input vector \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Result} & standard deviation value returned here \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+{\bfseries Scaling and Overflow Behavior\-:}
+
+\begin{DoxyParagraph}{}
+The function is implemented using a 64-\/bit internal accumulator. The input is represented in 1.\-15 format. Intermediate multiplication yields a 2.\-30 format, and this result is added without saturation to a 64-\/bit accumulator in 34.\-30 format. With 33 guard bits in the accumulator, there is no risk of overflow, and the full precision of the intermediate multiplication is preserved. Finally, the 34.\-30 result is truncated to 34.\-15 format by discarding the lower 15 bits, and then saturated to yield a result in 1.\-15 format. 
+\end{DoxyParagraph}
+
+
+Definition at line 65 of file arm\-\_\-std\-\_\-q15.\-c.
+
+\hypertarget{group___s_t_d_ga39495e74f96116178be085c9dc7742f5}{\index{Standard deviation@{Standard deviation}!arm\-\_\-std\-\_\-q31@{arm\-\_\-std\-\_\-q31}}
+\index{arm\-\_\-std\-\_\-q31@{arm\-\_\-std\-\_\-q31}!Standard deviation@{Standard deviation}}
+\subsubsection[{arm\-\_\-std\-\_\-q31}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-std\-\_\-q31 (
+\begin{DoxyParamCaption}
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Result}
+\end{DoxyParamCaption}
+)}}\label{group___s_t_d_ga39495e74f96116178be085c9dc7742f5}
+
+
+Standard deviation of the elements of a Q31 vector. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the input vector \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & length of the input vector \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Result} & standard deviation value returned here \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+{\bfseries Scaling and Overflow Behavior\-:}
+
+\begin{DoxyParagraph}{}
+The function is implemented using an internal 64-\/bit accumulator. The input is represented in 1.\-31 format, and intermediate multiplication yields a 2.\-62 format. The accumulator maintains full precision of the intermediate multiplication results, but provides only a single guard bit. There is no saturation on intermediate additions. If the accumulator overflows it wraps around and distorts the result. In order to avoid overflows completely the input signal must be scaled down by log2(block\-Size) bits, as a total of block\-Size additions are performed internally. Finally, the 2.\-62 accumulator is right shifted by 31 bits to yield a 1.\-31 format value. 
+\end{DoxyParagraph}
+
+
+Definition at line 69 of file arm\-\_\-std\-\_\-q31.\-c.
+

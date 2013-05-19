@@ -1,0 +1,326 @@
+\hypertarget{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S.win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.h File Reference}
+\label{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S.\-win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S.\-win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}}
+}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$ \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{x\-Queue\-Handle}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{x\-Queue\-Handle} \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_ab3b70d2ace0dea373bc8057dc2718046}{x\-Queue\-Create} (unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E ux\-Queue\-Length, unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E ux\-Item\-Size)
+\item 
+signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_ad5fe313e77626d8e8ff0d39956f55a82}{x\-Queue\-Generic\-Send} (\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{x\-Queue\-Handle} x\-Queue, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} pv\-Item\-To\-Queue, \hyperlink{_s_t_m32_f10x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_a_r_m___c_m3_2portmacro_8h_a4d746b2ff8fafc490b764c66411ec457}{port\-Tick\-Type} x\-Ticks\-To\-Wait, port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Copy\-Position)
+\item 
+signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_ab6c30bf884a19b31acb4158d04c9c3f0}{x\-Queue\-Generic\-Receive} (\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{x\-Queue\-Handle} x\-Queue, \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} pv\-Buffer, \hyperlink{_s_t_m32_f10x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_a_r_m___c_m3_2portmacro_8h_a4d746b2ff8fafc490b764c66411ec457}{port\-Tick\-Type} x\-Ticks\-To\-Wait, port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Just\-Peek)
+\item 
+unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_aceeba9457d0f30b2a1c438e14352d7c2}{ux\-Queue\-Messages\-Waiting} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{x\-Queue\-Handle} x\-Queue)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a4149cbb0ea534b773543b75fdbcd1671}{v\-Queue\-Delete} (\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{x\-Queue\-Handle} x\-Queue)
+\item 
+signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a5f3e29eed8f166215648bc6465ebdb04}{x\-Queue\-Generic\-Send\-From\-I\-S\-R} (\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{x\-Queue\-Handle} px\-Queue, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} pv\-Item\-To\-Queue, signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E $\ast$px\-Higher\-Priority\-Task\-Woken, port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Copy\-Position)
+\item 
+signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a38afa09a1f9a629cbf0f7d6929984fe3}{x\-Queue\-Receive\-From\-I\-S\-R} (\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{x\-Queue\-Handle} px\-Queue, \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} pv\-Buffer, signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E $\ast$px\-Task\-Woken)
+\item 
+signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_adfc1100da88cb404d40359ea591eeb76}{x\-Queue\-Is\-Queue\-Empty\-From\-I\-S\-R} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{x\-Queue\-Handle} px\-Queue)
+\item 
+signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_ab257893a91f0fba462405b19614cb405}{x\-Queue\-Is\-Queue\-Full\-From\-I\-S\-R} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{x\-Queue\-Handle} px\-Queue)
+\item 
+unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a576ba04bf4abcd971cf784693f485b33}{ux\-Queue\-Messages\-Waiting\-From\-I\-S\-R} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{x\-Queue\-Handle} px\-Queue)
+\item 
+signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_aa9bff76f92251533d45348165c082de7}{x\-Queue\-Alt\-Generic\-Send} (\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{x\-Queue\-Handle} px\-Queue, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} pv\-Item\-To\-Queue, \hyperlink{_s_t_m32_f10x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_a_r_m___c_m3_2portmacro_8h_a4d746b2ff8fafc490b764c66411ec457}{port\-Tick\-Type} x\-Ticks\-To\-Wait, port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Copy\-Position)
+\item 
+signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_adf2034938c08ce4ac68edf290e2d6971}{x\-Queue\-Alt\-Generic\-Receive} (\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{x\-Queue\-Handle} px\-Queue, \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} pv\-Buffer, \hyperlink{_s_t_m32_f10x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_a_r_m___c_m3_2portmacro_8h_a4d746b2ff8fafc490b764c66411ec457}{port\-Tick\-Type} x\-Ticks\-To\-Wait, port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Just\-Peeking)
+\item 
+signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a6336db3a8d0a267780f59163c75fdf74}{x\-Queue\-C\-R\-Send\-From\-I\-S\-R} (\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{x\-Queue\-Handle} px\-Queue, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$pv\-Item\-To\-Queue, signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Co\-Routine\-Previously\-Woken)
+\item 
+signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a05f3267ee4737d7929dd485423205c74}{x\-Queue\-C\-R\-Receive\-From\-I\-S\-R} (\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{x\-Queue\-Handle} px\-Queue, \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$pv\-Buffer, signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E $\ast$px\-Task\-Woken)
+\item 
+signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a1d939f7ea1d10b19a57d41143c62adc0}{x\-Queue\-C\-R\-Send} (\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{x\-Queue\-Handle} px\-Queue, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$pv\-Item\-To\-Queue, \hyperlink{_s_t_m32_f10x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_a_r_m___c_m3_2portmacro_8h_a4d746b2ff8fafc490b764c66411ec457}{port\-Tick\-Type} x\-Ticks\-To\-Wait)
+\item 
+signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_ac683e1a6f46a9b01fe0f3c464240562b}{x\-Queue\-C\-R\-Receive} (\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{x\-Queue\-Handle} px\-Queue, \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$pv\-Buffer, \hyperlink{_s_t_m32_f10x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_a_r_m___c_m3_2portmacro_8h_a4d746b2ff8fafc490b764c66411ec457}{port\-Tick\-Type} x\-Ticks\-To\-Wait)
+\item 
+\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{x\-Queue\-Handle} \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a637daee588a12cec8db050f7ef3f7fa3}{x\-Queue\-Create\-Mutex} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{x\-Queue\-Handle} \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a778792256d17b532c0e8d180258b19a5}{x\-Queue\-Create\-Counting\-Semaphore} (unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E ux\-Count\-Value, unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E ux\-Initial\-Count)
+\item 
+port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_abeb9194726b0031bad5e1d68296c55df}{x\-Queue\-Take\-Mutex\-Recursive} (\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{x\-Queue\-Handle} x\-Mutex, \hyperlink{_s_t_m32_f10x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_a_r_m___c_m3_2portmacro_8h_a4d746b2ff8fafc490b764c66411ec457}{port\-Tick\-Type} x\-Block\-Time)
+\item 
+port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a2e7b99127ae421ac0a176d172e459b09}{x\-Queue\-Give\-Mutex\-Recursive} (\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{x\-Queue\-Handle} x\-Mutex)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a3c5dad65694bfbda11c99dcc63d68a83}{v\-Queue\-Add\-To\-Registry} (\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{x\-Queue\-Handle} x\-Queue, signed char $\ast$pc\-Name)
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{\index{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}!x\-Queue\-Handle@{x\-Queue\-Handle}}
+\index{x\-Queue\-Handle@{x\-Queue\-Handle}!win32/win32/Libraries/FreeRTOS/Source/include/queue.h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}}
+\subsubsection[{x\-Queue\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf void}$\ast$ {\bf x\-Queue\-Handle}}}\label{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}
+
+
+Definition at line 72 of file queue.\-h.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_aceeba9457d0f30b2a1c438e14352d7c2}{\index{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}!ux\-Queue\-Messages\-Waiting@{ux\-Queue\-Messages\-Waiting}}
+\index{ux\-Queue\-Messages\-Waiting@{ux\-Queue\-Messages\-Waiting}!win32/win32/Libraries/FreeRTOS/Source/include/queue.h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}}
+\subsubsection[{ux\-Queue\-Messages\-Waiting}]{\setlength{\rightskip}{0pt plus 5cm}unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E ux\-Queue\-Messages\-Waiting (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf x\-Queue\-Handle}}]{x\-Queue}
+\end{DoxyParamCaption}
+)}}\label{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_aceeba9457d0f30b2a1c438e14352d7c2}
+
+
+Definition at line 1171 of file queue.\-c.
+
+\hypertarget{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a576ba04bf4abcd971cf784693f485b33}{\index{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}!ux\-Queue\-Messages\-Waiting\-From\-I\-S\-R@{ux\-Queue\-Messages\-Waiting\-From\-I\-S\-R}}
+\index{ux\-Queue\-Messages\-Waiting\-From\-I\-S\-R@{ux\-Queue\-Messages\-Waiting\-From\-I\-S\-R}!win32/win32/Libraries/FreeRTOS/Source/include/queue.h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}}
+\subsubsection[{ux\-Queue\-Messages\-Waiting\-From\-I\-S\-R}]{\setlength{\rightskip}{0pt plus 5cm}unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E ux\-Queue\-Messages\-Waiting\-From\-I\-S\-R (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf x\-Queue\-Handle}}]{px\-Queue}
+\end{DoxyParamCaption}
+)}}\label{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a576ba04bf4abcd971cf784693f485b33}
+
+
+Definition at line 1185 of file queue.\-c.
+
+\hypertarget{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a3c5dad65694bfbda11c99dcc63d68a83}{\index{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}!v\-Queue\-Add\-To\-Registry@{v\-Queue\-Add\-To\-Registry}}
+\index{v\-Queue\-Add\-To\-Registry@{v\-Queue\-Add\-To\-Registry}!win32/win32/Libraries/FreeRTOS/Source/include/queue.h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}}
+\subsubsection[{v\-Queue\-Add\-To\-Registry}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Queue\-Add\-To\-Registry (
+\begin{DoxyParamCaption}
+\item[{{\bf x\-Queue\-Handle}}]{x\-Queue, }
+\item[{signed char $\ast$}]{pc\-Name}
+\end{DoxyParamCaption}
+)}}\label{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a3c5dad65694bfbda11c99dcc63d68a83}
+
+
+Definition at line 1614 of file queue.\-c.
+
+\hypertarget{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a4149cbb0ea534b773543b75fdbcd1671}{\index{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}!v\-Queue\-Delete@{v\-Queue\-Delete}}
+\index{v\-Queue\-Delete@{v\-Queue\-Delete}!win32/win32/Libraries/FreeRTOS/Source/include/queue.h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}}
+\subsubsection[{v\-Queue\-Delete}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Queue\-Delete (
+\begin{DoxyParamCaption}
+\item[{{\bf x\-Queue\-Handle}}]{x\-Queue}
+\end{DoxyParamCaption}
+)}}\label{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a4149cbb0ea534b773543b75fdbcd1671}
+
+
+Definition at line 1197 of file queue.\-c.
+
+\hypertarget{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_adf2034938c08ce4ac68edf290e2d6971}{\index{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}!x\-Queue\-Alt\-Generic\-Receive@{x\-Queue\-Alt\-Generic\-Receive}}
+\index{x\-Queue\-Alt\-Generic\-Receive@{x\-Queue\-Alt\-Generic\-Receive}!win32/win32/Libraries/FreeRTOS/Source/include/queue.h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}}
+\subsubsection[{x\-Queue\-Alt\-Generic\-Receive}]{\setlength{\rightskip}{0pt plus 5cm}signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Queue\-Alt\-Generic\-Receive (
+\begin{DoxyParamCaption}
+\item[{{\bf x\-Queue\-Handle}}]{px\-Queue, }
+\item[{{\bf void} $\ast${\bf const}}]{pv\-Buffer, }
+\item[{{\bf port\-Tick\-Type}}]{x\-Ticks\-To\-Wait, }
+\item[{port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E}]{x\-Just\-Peeking}
+\end{DoxyParamCaption}
+)}}\label{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_adf2034938c08ce4ac68edf290e2d6971}
+
+
+Definition at line 777 of file queue.\-c.
+
+\hypertarget{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_aa9bff76f92251533d45348165c082de7}{\index{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}!x\-Queue\-Alt\-Generic\-Send@{x\-Queue\-Alt\-Generic\-Send}}
+\index{x\-Queue\-Alt\-Generic\-Send@{x\-Queue\-Alt\-Generic\-Send}!win32/win32/Libraries/FreeRTOS/Source/include/queue.h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}}
+\subsubsection[{x\-Queue\-Alt\-Generic\-Send}]{\setlength{\rightskip}{0pt plus 5cm}signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Queue\-Alt\-Generic\-Send (
+\begin{DoxyParamCaption}
+\item[{{\bf x\-Queue\-Handle}}]{px\-Queue, }
+\item[{{\bf const} {\bf void} $\ast${\bf const}}]{pv\-Item\-To\-Queue, }
+\item[{{\bf port\-Tick\-Type}}]{x\-Ticks\-To\-Wait, }
+\item[{port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E}]{x\-Copy\-Position}
+\end{DoxyParamCaption}
+)}}\label{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_aa9bff76f92251533d45348165c082de7}
+
+
+Definition at line 700 of file queue.\-c.
+
+\hypertarget{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_ab3b70d2ace0dea373bc8057dc2718046}{\index{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}!x\-Queue\-Create@{x\-Queue\-Create}}
+\index{x\-Queue\-Create@{x\-Queue\-Create}!win32/win32/Libraries/FreeRTOS/Source/include/queue.h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}}
+\subsubsection[{x\-Queue\-Create}]{\setlength{\rightskip}{0pt plus 5cm}{\bf x\-Queue\-Handle} x\-Queue\-Create (
+\begin{DoxyParamCaption}
+\item[{unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E}]{ux\-Queue\-Length, }
+\item[{unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E}]{ux\-Item\-Size}
+\end{DoxyParamCaption}
+)}}\label{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_ab3b70d2ace0dea373bc8057dc2718046}
+
+
+Definition at line 252 of file queue.\-c.
+
+\hypertarget{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a778792256d17b532c0e8d180258b19a5}{\index{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}!x\-Queue\-Create\-Counting\-Semaphore@{x\-Queue\-Create\-Counting\-Semaphore}}
+\index{x\-Queue\-Create\-Counting\-Semaphore@{x\-Queue\-Create\-Counting\-Semaphore}!win32/win32/Libraries/FreeRTOS/Source/include/queue.h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}}
+\subsubsection[{x\-Queue\-Create\-Counting\-Semaphore}]{\setlength{\rightskip}{0pt plus 5cm}{\bf x\-Queue\-Handle} x\-Queue\-Create\-Counting\-Semaphore (
+\begin{DoxyParamCaption}
+\item[{unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E}]{ux\-Count\-Value, }
+\item[{unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E}]{ux\-Initial\-Count}
+\end{DoxyParamCaption}
+)}}\label{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a778792256d17b532c0e8d180258b19a5}
+
+
+Definition at line 555 of file queue.\-c.
+
+\hypertarget{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a637daee588a12cec8db050f7ef3f7fa3}{\index{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}!x\-Queue\-Create\-Mutex@{x\-Queue\-Create\-Mutex}}
+\index{x\-Queue\-Create\-Mutex@{x\-Queue\-Create\-Mutex}!win32/win32/Libraries/FreeRTOS/Source/include/queue.h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}}
+\subsubsection[{x\-Queue\-Create\-Mutex}]{\setlength{\rightskip}{0pt plus 5cm}{\bf x\-Queue\-Handle} x\-Queue\-Create\-Mutex (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a637daee588a12cec8db050f7ef3f7fa3}
+
+
+Definition at line 144 of file queue.\-c.
+
+\hypertarget{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_ac683e1a6f46a9b01fe0f3c464240562b}{\index{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}!x\-Queue\-C\-R\-Receive@{x\-Queue\-C\-R\-Receive}}
+\index{x\-Queue\-C\-R\-Receive@{x\-Queue\-C\-R\-Receive}!win32/win32/Libraries/FreeRTOS/Source/include/queue.h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}}
+\subsubsection[{x\-Queue\-C\-R\-Receive}]{\setlength{\rightskip}{0pt plus 5cm}signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Queue\-C\-R\-Receive (
+\begin{DoxyParamCaption}
+\item[{{\bf x\-Queue\-Handle}}]{px\-Queue, }
+\item[{{\bf void} $\ast$}]{pv\-Buffer, }
+\item[{{\bf port\-Tick\-Type}}]{x\-Ticks\-To\-Wait}
+\end{DoxyParamCaption}
+)}}\label{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_ac683e1a6f46a9b01fe0f3c464240562b}
+
+
+Definition at line 1469 of file queue.\-c.
+
+\hypertarget{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a05f3267ee4737d7929dd485423205c74}{\index{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}!x\-Queue\-C\-R\-Receive\-From\-I\-S\-R@{x\-Queue\-C\-R\-Receive\-From\-I\-S\-R}}
+\index{x\-Queue\-C\-R\-Receive\-From\-I\-S\-R@{x\-Queue\-C\-R\-Receive\-From\-I\-S\-R}!win32/win32/Libraries/FreeRTOS/Source/include/queue.h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}}
+\subsubsection[{x\-Queue\-C\-R\-Receive\-From\-I\-S\-R}]{\setlength{\rightskip}{0pt plus 5cm}signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Queue\-C\-R\-Receive\-From\-I\-S\-R (
+\begin{DoxyParamCaption}
+\item[{{\bf x\-Queue\-Handle}}]{px\-Queue, }
+\item[{{\bf void} $\ast$}]{pv\-Buffer, }
+\item[{signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E $\ast$}]{px\-Task\-Woken}
+\end{DoxyParamCaption}
+)}}\label{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a05f3267ee4737d7929dd485423205c74}
+
+
+Definition at line 1572 of file queue.\-c.
+
+\hypertarget{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a1d939f7ea1d10b19a57d41143c62adc0}{\index{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}!x\-Queue\-C\-R\-Send@{x\-Queue\-C\-R\-Send}}
+\index{x\-Queue\-C\-R\-Send@{x\-Queue\-C\-R\-Send}!win32/win32/Libraries/FreeRTOS/Source/include/queue.h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}}
+\subsubsection[{x\-Queue\-C\-R\-Send}]{\setlength{\rightskip}{0pt plus 5cm}signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Queue\-C\-R\-Send (
+\begin{DoxyParamCaption}
+\item[{{\bf x\-Queue\-Handle}}]{px\-Queue, }
+\item[{{\bf const} {\bf void} $\ast$}]{pv\-Item\-To\-Queue, }
+\item[{{\bf port\-Tick\-Type}}]{x\-Ticks\-To\-Wait}
+\end{DoxyParamCaption}
+)}}\label{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a1d939f7ea1d10b19a57d41143c62adc0}
+
+
+Definition at line 1401 of file queue.\-c.
+
+\hypertarget{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a6336db3a8d0a267780f59163c75fdf74}{\index{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}!x\-Queue\-C\-R\-Send\-From\-I\-S\-R@{x\-Queue\-C\-R\-Send\-From\-I\-S\-R}}
+\index{x\-Queue\-C\-R\-Send\-From\-I\-S\-R@{x\-Queue\-C\-R\-Send\-From\-I\-S\-R}!win32/win32/Libraries/FreeRTOS/Source/include/queue.h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}}
+\subsubsection[{x\-Queue\-C\-R\-Send\-From\-I\-S\-R}]{\setlength{\rightskip}{0pt plus 5cm}signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Queue\-C\-R\-Send\-From\-I\-S\-R (
+\begin{DoxyParamCaption}
+\item[{{\bf x\-Queue\-Handle}}]{px\-Queue, }
+\item[{{\bf const} {\bf void} $\ast$}]{pv\-Item\-To\-Queue, }
+\item[{signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E}]{x\-Co\-Routine\-Previously\-Woken}
+\end{DoxyParamCaption}
+)}}\label{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a6336db3a8d0a267780f59163c75fdf74}
+
+
+Definition at line 1544 of file queue.\-c.
+
+\hypertarget{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_ab6c30bf884a19b31acb4158d04c9c3f0}{\index{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}!x\-Queue\-Generic\-Receive@{x\-Queue\-Generic\-Receive}}
+\index{x\-Queue\-Generic\-Receive@{x\-Queue\-Generic\-Receive}!win32/win32/Libraries/FreeRTOS/Source/include/queue.h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}}
+\subsubsection[{x\-Queue\-Generic\-Receive}]{\setlength{\rightskip}{0pt plus 5cm}signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Queue\-Generic\-Receive (
+\begin{DoxyParamCaption}
+\item[{{\bf x\-Queue\-Handle}}]{x\-Queue, }
+\item[{{\bf void} $\ast${\bf const}}]{pv\-Buffer, }
+\item[{{\bf port\-Tick\-Type}}]{x\-Ticks\-To\-Wait, }
+\item[{port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E}]{x\-Just\-Peek}
+\end{DoxyParamCaption}
+)}}\label{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_ab6c30bf884a19b31acb4158d04c9c3f0}
+
+
+Definition at line 965 of file queue.\-c.
+
+\hypertarget{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_ad5fe313e77626d8e8ff0d39956f55a82}{\index{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}!x\-Queue\-Generic\-Send@{x\-Queue\-Generic\-Send}}
+\index{x\-Queue\-Generic\-Send@{x\-Queue\-Generic\-Send}!win32/win32/Libraries/FreeRTOS/Source/include/queue.h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}}
+\subsubsection[{x\-Queue\-Generic\-Send}]{\setlength{\rightskip}{0pt plus 5cm}signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Queue\-Generic\-Send (
+\begin{DoxyParamCaption}
+\item[{{\bf x\-Queue\-Handle}}]{x\-Queue, }
+\item[{{\bf const} {\bf void} $\ast${\bf const}}]{pv\-Item\-To\-Queue, }
+\item[{{\bf port\-Tick\-Type}}]{x\-Ticks\-To\-Wait, }
+\item[{port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E}]{x\-Copy\-Position}
+\end{DoxyParamCaption}
+)}}\label{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_ad5fe313e77626d8e8ff0d39956f55a82}
+
+
+Definition at line 579 of file queue.\-c.
+
+\hypertarget{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a5f3e29eed8f166215648bc6465ebdb04}{\index{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}!x\-Queue\-Generic\-Send\-From\-I\-S\-R@{x\-Queue\-Generic\-Send\-From\-I\-S\-R}}
+\index{x\-Queue\-Generic\-Send\-From\-I\-S\-R@{x\-Queue\-Generic\-Send\-From\-I\-S\-R}!win32/win32/Libraries/FreeRTOS/Source/include/queue.h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}}
+\subsubsection[{x\-Queue\-Generic\-Send\-From\-I\-S\-R}]{\setlength{\rightskip}{0pt plus 5cm}signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Queue\-Generic\-Send\-From\-I\-S\-R (
+\begin{DoxyParamCaption}
+\item[{{\bf x\-Queue\-Handle}}]{px\-Queue, }
+\item[{{\bf const} {\bf void} $\ast${\bf const}}]{pv\-Item\-To\-Queue, }
+\item[{signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E $\ast$}]{px\-Higher\-Priority\-Task\-Woken, }
+\item[{port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E}]{x\-Copy\-Position}
+\end{DoxyParamCaption}
+)}}\label{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a5f3e29eed8f166215648bc6465ebdb04}
+
+
+Definition at line 906 of file queue.\-c.
+
+\hypertarget{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a2e7b99127ae421ac0a176d172e459b09}{\index{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}!x\-Queue\-Give\-Mutex\-Recursive@{x\-Queue\-Give\-Mutex\-Recursive}}
+\index{x\-Queue\-Give\-Mutex\-Recursive@{x\-Queue\-Give\-Mutex\-Recursive}!win32/win32/Libraries/FreeRTOS/Source/include/queue.h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}}
+\subsubsection[{x\-Queue\-Give\-Mutex\-Recursive}]{\setlength{\rightskip}{0pt plus 5cm}port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Queue\-Give\-Mutex\-Recursive (
+\begin{DoxyParamCaption}
+\item[{{\bf x\-Queue\-Handle}}]{x\-Mutex}
+\end{DoxyParamCaption}
+)}}\label{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a2e7b99127ae421ac0a176d172e459b09}
+
+
+Definition at line 466 of file queue.\-c.
+
+\hypertarget{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_adfc1100da88cb404d40359ea591eeb76}{\index{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}!x\-Queue\-Is\-Queue\-Empty\-From\-I\-S\-R@{x\-Queue\-Is\-Queue\-Empty\-From\-I\-S\-R}}
+\index{x\-Queue\-Is\-Queue\-Empty\-From\-I\-S\-R@{x\-Queue\-Is\-Queue\-Empty\-From\-I\-S\-R}!win32/win32/Libraries/FreeRTOS/Source/include/queue.h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}}
+\subsubsection[{x\-Queue\-Is\-Queue\-Empty\-From\-I\-S\-R}]{\setlength{\rightskip}{0pt plus 5cm}signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Queue\-Is\-Queue\-Empty\-From\-I\-S\-R (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf x\-Queue\-Handle}}]{px\-Queue}
+\end{DoxyParamCaption}
+)}}\label{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_adfc1100da88cb404d40359ea591eeb76}
+
+
+Definition at line 1366 of file queue.\-c.
+
+\hypertarget{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_ab257893a91f0fba462405b19614cb405}{\index{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}!x\-Queue\-Is\-Queue\-Full\-From\-I\-S\-R@{x\-Queue\-Is\-Queue\-Full\-From\-I\-S\-R}}
+\index{x\-Queue\-Is\-Queue\-Full\-From\-I\-S\-R@{x\-Queue\-Is\-Queue\-Full\-From\-I\-S\-R}!win32/win32/Libraries/FreeRTOS/Source/include/queue.h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}}
+\subsubsection[{x\-Queue\-Is\-Queue\-Full\-From\-I\-S\-R}]{\setlength{\rightskip}{0pt plus 5cm}signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Queue\-Is\-Queue\-Full\-From\-I\-S\-R (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf x\-Queue\-Handle}}]{px\-Queue}
+\end{DoxyParamCaption}
+)}}\label{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_ab257893a91f0fba462405b19614cb405}
+
+
+Definition at line 1389 of file queue.\-c.
+
+\hypertarget{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a38afa09a1f9a629cbf0f7d6929984fe3}{\index{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}!x\-Queue\-Receive\-From\-I\-S\-R@{x\-Queue\-Receive\-From\-I\-S\-R}}
+\index{x\-Queue\-Receive\-From\-I\-S\-R@{x\-Queue\-Receive\-From\-I\-S\-R}!win32/win32/Libraries/FreeRTOS/Source/include/queue.h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}}
+\subsubsection[{x\-Queue\-Receive\-From\-I\-S\-R}]{\setlength{\rightskip}{0pt plus 5cm}signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Queue\-Receive\-From\-I\-S\-R (
+\begin{DoxyParamCaption}
+\item[{{\bf x\-Queue\-Handle}}]{px\-Queue, }
+\item[{{\bf void} $\ast${\bf const}}]{pv\-Buffer, }
+\item[{signed port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E $\ast$}]{px\-Task\-Woken}
+\end{DoxyParamCaption}
+)}}\label{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a38afa09a1f9a629cbf0f7d6929984fe3}
+
+
+Definition at line 1114 of file queue.\-c.
+
+\hypertarget{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_abeb9194726b0031bad5e1d68296c55df}{\index{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}!x\-Queue\-Take\-Mutex\-Recursive@{x\-Queue\-Take\-Mutex\-Recursive}}
+\index{x\-Queue\-Take\-Mutex\-Recursive@{x\-Queue\-Take\-Mutex\-Recursive}!win32/win32/Libraries/FreeRTOS/Source/include/queue.h@{win32/win32/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/include/queue.\-h}}
+\subsubsection[{x\-Queue\-Take\-Mutex\-Recursive}]{\setlength{\rightskip}{0pt plus 5cm}port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Queue\-Take\-Mutex\-Recursive (
+\begin{DoxyParamCaption}
+\item[{{\bf x\-Queue\-Handle}}]{x\-Mutex, }
+\item[{{\bf port\-Tick\-Type}}]{x\-Block\-Time}
+\end{DoxyParamCaption}
+)}}\label{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_abeb9194726b0031bad5e1d68296c55df}
+
+
+Definition at line 515 of file queue.\-c.
+

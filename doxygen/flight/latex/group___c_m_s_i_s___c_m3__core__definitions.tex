@@ -1,0 +1,596 @@
+\hypertarget{group___c_m_s_i_s___c_m3__core__definitions}{\section{C\-M3 Core Definitions}
+\label{group___c_m_s_i_s___c_m3__core__definitions}\index{C\-M3 Core Definitions@{C\-M3 Core Definitions}}
+}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___c_m_s_i_s___c_m3__core__register}{C\-M\-S\-I\-S C\-M3 Core Register}
+\item 
+\hyperlink{group___c_m_s_i_s___c_m3___core___function_interface}{C\-M\-S\-I\-S C\-M3 Core Function Interface}
+\item 
+\hyperlink{group___c_m_s_i_s___c_m3___core_debug_interface}{C\-M\-S\-I\-S C\-M3 Core Debug Interface}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_m_s_i_s___c_m3__core__definitions_ga914dfa8eff7ca53380dd54cf1d8bebd9}{\-\_\-\-\_\-get\-\_\-\-P\-S\-P} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Return the Process Stack Pointer. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_m_s_i_s___c_m3__core__definitions_ga48e5853f417e17a8a65080f6a605b743}{\-\_\-\-\_\-set\-\_\-\-P\-S\-P} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} top\-Of\-Proc\-Stack)
+\begin{DoxyCompactList}\small\item\em Set the Process Stack Pointer. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_m_s_i_s___c_m3__core__definitions_gab898559392ba027814e5bbb5a98b38d2}{\-\_\-\-\_\-get\-\_\-\-M\-S\-P} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Return the Main Stack Pointer. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_m_s_i_s___c_m3__core__definitions_ga0bf9564ebc1613a8faba014275dac2a4}{\-\_\-\-\_\-set\-\_\-\-M\-S\-P} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} top\-Of\-Main\-Stack)
+\begin{DoxyCompactList}\small\item\em Set the Main Stack Pointer. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_m_s_i_s___c_m3__core__definitions_ga8f5e0c8697e92da8a7e92732f477941d}{\-\_\-\-\_\-\-R\-E\-V16} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{protocol_8h_a4e9aec275e566b978a3ccb4e043d8c61}{value})
+\begin{DoxyCompactList}\small\item\em Reverse byte order in unsigned short value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___c_m_s_i_s___c_m3__core__definitions_gac57c8f1832bf1d42d49d62a56871a78e}{\-\_\-\-\_\-\-R\-E\-V\-S\-H} (\hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} \hyperlink{protocol_8h_a4e9aec275e566b978a3ccb4e043d8c61}{value})
+\begin{DoxyCompactList}\small\item\em Reverse byte order in signed short value with sign extension to integer. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_m_s_i_s___c_m3__core__definitions_ga354c5ac8870cc3dfb823367af9c4b412}{\-\_\-\-\_\-\-C\-L\-R\-E\-X} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Remove the exclusive lock created by ldrex. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_m_s_i_s___c_m3__core__definitions_ga32da759f46e52c95bcfbde5012260667}{\-\_\-\-\_\-get\-\_\-\-B\-A\-S\-E\-P\-R\-I} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Return the Base Priority value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_m_s_i_s___c_m3__core__definitions_ga360c73eb7ffb16088556f9278953b882}{\-\_\-\-\_\-set\-\_\-\-B\-A\-S\-E\-P\-R\-I} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} base\-Pri)
+\begin{DoxyCompactList}\small\item\em Set the Base Priority value. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_m_s_i_s___c_m3__core__definitions_ga799b5d9a2ae75e459264c8512c7c0e02}{\-\_\-\-\_\-get\-\_\-\-P\-R\-I\-M\-A\-S\-K} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Return the Priority Mask value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_m_s_i_s___c_m3__core__definitions_ga70b4e1a6c1c86eb913fb9d6e8400156f}{\-\_\-\-\_\-set\-\_\-\-P\-R\-I\-M\-A\-S\-K} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} pri\-Mask)
+\begin{DoxyCompactList}\small\item\em Set the Priority Mask value. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_m_s_i_s___c_m3__core__definitions_gaa78e4e6bf619a65e9f01b4af13fed3a8}{\-\_\-\-\_\-get\-\_\-\-F\-A\-U\-L\-T\-M\-A\-S\-K} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Return the Fault Mask value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_m_s_i_s___c_m3__core__definitions_gaa5587cc09031053a40a35c14ec36078a}{\-\_\-\-\_\-set\-\_\-\-F\-A\-U\-L\-T\-M\-A\-S\-K} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} fault\-Mask)
+\begin{DoxyCompactList}\small\item\em Set the Fault Mask value. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_m_s_i_s___c_m3__core__definitions_ga963cf236b73219ce78e965deb01b81a7}{\-\_\-\-\_\-get\-\_\-\-C\-O\-N\-T\-R\-O\-L} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Return the Control Register value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_m_s_i_s___c_m3__core__definitions_gac64d37e7ff9de06437f9fb94bbab8b6c}{\-\_\-\-\_\-set\-\_\-\-C\-O\-N\-T\-R\-O\-L} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} control)
+\begin{DoxyCompactList}\small\item\em Set the Control Register value. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_m_s_i_s___c_m3__core__definitions_gad6f9f297f6b91a995ee199fbc796b863}{\-\_\-\-\_\-\-R\-B\-I\-T} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{protocol_8h_a4e9aec275e566b978a3ccb4e043d8c61}{value})
+\begin{DoxyCompactList}\small\item\em Reverse bit order of value. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___c_m_s_i_s___c_m3__core__definitions_gacaeb02279002d3a6a9d575d0ba805739}{\-\_\-\-\_\-\-L\-D\-R\-E\-X\-B} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$\hyperlink{group___c_m_s_i_s___core___instruction_interface_gae5c31572d72f992f107a67f7c4e80d5b}{addr})
+\begin{DoxyCompactList}\small\item\em L\-D\-R Exclusive (8 bit) \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___c_m_s_i_s___c_m3__core__definitions_gae964f379d7726a559b7dc23008125ebb}{\-\_\-\-\_\-\-L\-D\-R\-E\-X\-H} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} $\ast$\hyperlink{group___c_m_s_i_s___core___instruction_interface_gae5c31572d72f992f107a67f7c4e80d5b}{addr})
+\begin{DoxyCompactList}\small\item\em L\-D\-R Exclusive (16 bit) \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_m_s_i_s___c_m3__core__definitions_ga441316e2a8ee03575bbc851a826bd913}{\-\_\-\-\_\-\-L\-D\-R\-E\-X\-W} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} $\ast$\hyperlink{group___c_m_s_i_s___core___instruction_interface_gae5c31572d72f992f107a67f7c4e80d5b}{addr})
+\begin{DoxyCompactList}\small\item\em L\-D\-R Exclusive (32 bit) \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_m_s_i_s___c_m3__core__definitions_gafb3f6ca9e7d47faf17b60487dfcf2639}{\-\_\-\-\_\-\-S\-T\-R\-E\-X\-B} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{protocol_8h_a4e9aec275e566b978a3ccb4e043d8c61}{value}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$\hyperlink{group___c_m_s_i_s___core___instruction_interface_gae5c31572d72f992f107a67f7c4e80d5b}{addr})
+\begin{DoxyCompactList}\small\item\em S\-T\-R Exclusive (8 bit) \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_m_s_i_s___c_m3__core__definitions_gadf303696bf1dd60beaf0f83a6b8ebd0d}{\-\_\-\-\_\-\-S\-T\-R\-E\-X\-H} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{protocol_8h_a4e9aec275e566b978a3ccb4e043d8c61}{value}, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} $\ast$\hyperlink{group___c_m_s_i_s___core___instruction_interface_gae5c31572d72f992f107a67f7c4e80d5b}{addr})
+\begin{DoxyCompactList}\small\item\em S\-T\-R Exclusive (16 bit) \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_m_s_i_s___c_m3__core__definitions_gac642af0307892e178d8726ac3a67e363}{\-\_\-\-\_\-\-S\-T\-R\-E\-X\-W} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{protocol_8h_a4e9aec275e566b978a3ccb4e043d8c61}{value}, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} $\ast$\hyperlink{group___c_m_s_i_s___core___instruction_interface_gae5c31572d72f992f107a67f7c4e80d5b}{addr})
+\begin{DoxyCompactList}\small\item\em S\-T\-R Exclusive (32 bit) \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_m_s_i_s___c_m3__core__definitions_ga4717abc17af5ba29b1e4c055e0a0d9b8}{\-\_\-\-\_\-\-R\-E\-V} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{protocol_8h_a4e9aec275e566b978a3ccb4e043d8c61}{value})
+\begin{DoxyCompactList}\small\item\em Reverse byte order in integer value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file defines all structures and symbols for C\-M\-S\-I\-S core\-:
+\begin{DoxyItemize}
+\item C\-M\-S\-I\-S version number
+\item Cortex-\/\-M core registers and bitfields
+\item Cortex-\/\-M core peripheral base address 
+\end{DoxyItemize}
+
+\subsection{Function Documentation}
+\hypertarget{group___c_m_s_i_s___c_m3__core__definitions_ga354c5ac8870cc3dfb823367af9c4b412}{\index{C\-M3 Core Definitions@{C\-M3 Core Definitions}!\-\_\-\-\_\-\-C\-L\-R\-E\-X@{\-\_\-\-\_\-\-C\-L\-R\-E\-X}}
+\index{\-\_\-\-\_\-\-C\-L\-R\-E\-X@{\-\_\-\-\_\-\-C\-L\-R\-E\-X}!CM3 Core Definitions@{C\-M3 Core Definitions}}
+\subsubsection[{\-\_\-\-\_\-\-C\-L\-R\-E\-X}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} \-\_\-\-\_\-\-C\-L\-R\-E\-X (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s___c_m3__core__definitions_ga354c5ac8870cc3dfb823367af9c4b412}
+
+
+Remove the exclusive lock created by ldrex. 
+
+Removes the exclusive lock which is created by ldrex. \hypertarget{group___c_m_s_i_s___c_m3__core__definitions_ga32da759f46e52c95bcfbde5012260667}{\index{C\-M3 Core Definitions@{C\-M3 Core Definitions}!\-\_\-\-\_\-get\-\_\-\-B\-A\-S\-E\-P\-R\-I@{\-\_\-\-\_\-get\-\_\-\-B\-A\-S\-E\-P\-R\-I}}
+\index{\-\_\-\-\_\-get\-\_\-\-B\-A\-S\-E\-P\-R\-I@{\-\_\-\-\_\-get\-\_\-\-B\-A\-S\-E\-P\-R\-I}!CM3 Core Definitions@{C\-M3 Core Definitions}}
+\subsubsection[{\-\_\-\-\_\-get\-\_\-\-B\-A\-S\-E\-P\-R\-I}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} \-\_\-\-\_\-get\-\_\-\-B\-A\-S\-E\-P\-R\-I (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s___c_m3__core__definitions_ga32da759f46e52c95bcfbde5012260667}
+
+
+Return the Base Priority value. 
+
+\begin{DoxyReturn}{Returns}
+Base\-Priority
+\end{DoxyReturn}
+Return the content of the base priority register \hypertarget{group___c_m_s_i_s___c_m3__core__definitions_ga963cf236b73219ce78e965deb01b81a7}{\index{C\-M3 Core Definitions@{C\-M3 Core Definitions}!\-\_\-\-\_\-get\-\_\-\-C\-O\-N\-T\-R\-O\-L@{\-\_\-\-\_\-get\-\_\-\-C\-O\-N\-T\-R\-O\-L}}
+\index{\-\_\-\-\_\-get\-\_\-\-C\-O\-N\-T\-R\-O\-L@{\-\_\-\-\_\-get\-\_\-\-C\-O\-N\-T\-R\-O\-L}!CM3 Core Definitions@{C\-M3 Core Definitions}}
+\subsubsection[{\-\_\-\-\_\-get\-\_\-\-C\-O\-N\-T\-R\-O\-L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} \-\_\-\-\_\-get\-\_\-\-C\-O\-N\-T\-R\-O\-L (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s___c_m3__core__definitions_ga963cf236b73219ce78e965deb01b81a7}
+
+
+Return the Control Register value. 
+
+\begin{DoxyReturn}{Returns}
+Control value
+\end{DoxyReturn}
+Return the content of the control register \hypertarget{group___c_m_s_i_s___c_m3__core__definitions_gaa78e4e6bf619a65e9f01b4af13fed3a8}{\index{C\-M3 Core Definitions@{C\-M3 Core Definitions}!\-\_\-\-\_\-get\-\_\-\-F\-A\-U\-L\-T\-M\-A\-S\-K@{\-\_\-\-\_\-get\-\_\-\-F\-A\-U\-L\-T\-M\-A\-S\-K}}
+\index{\-\_\-\-\_\-get\-\_\-\-F\-A\-U\-L\-T\-M\-A\-S\-K@{\-\_\-\-\_\-get\-\_\-\-F\-A\-U\-L\-T\-M\-A\-S\-K}!CM3 Core Definitions@{C\-M3 Core Definitions}}
+\subsubsection[{\-\_\-\-\_\-get\-\_\-\-F\-A\-U\-L\-T\-M\-A\-S\-K}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} \-\_\-\-\_\-get\-\_\-\-F\-A\-U\-L\-T\-M\-A\-S\-K (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s___c_m3__core__definitions_gaa78e4e6bf619a65e9f01b4af13fed3a8}
+
+
+Return the Fault Mask value. 
+
+\begin{DoxyReturn}{Returns}
+Fault\-Mask
+\end{DoxyReturn}
+Return the content of the fault mask register \hypertarget{group___c_m_s_i_s___c_m3__core__definitions_gab898559392ba027814e5bbb5a98b38d2}{\index{C\-M3 Core Definitions@{C\-M3 Core Definitions}!\-\_\-\-\_\-get\-\_\-\-M\-S\-P@{\-\_\-\-\_\-get\-\_\-\-M\-S\-P}}
+\index{\-\_\-\-\_\-get\-\_\-\-M\-S\-P@{\-\_\-\-\_\-get\-\_\-\-M\-S\-P}!CM3 Core Definitions@{C\-M3 Core Definitions}}
+\subsubsection[{\-\_\-\-\_\-get\-\_\-\-M\-S\-P}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} \-\_\-\-\_\-get\-\_\-\-M\-S\-P (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s___c_m3__core__definitions_gab898559392ba027814e5bbb5a98b38d2}
+
+
+Return the Main Stack Pointer. 
+
+\begin{DoxyReturn}{Returns}
+Main Stack Pointer
+\end{DoxyReturn}
+Return the current value of the M\-S\-P (main stack pointer) Cortex processor register
+
+Return the Main Stack Pointer.
+
+This function returns the current value of the Main Stack Pointer (M\-S\-P).
+
+\begin{DoxyReturn}{Returns}
+M\-S\-P Register value
+
+Main Stack Pointer
+\end{DoxyReturn}
+Return the current value of the M\-S\-P (main stack pointer) Cortex processor register 
+
+Definition at line 141 of file core\-\_\-cm\-Func.\-h.
+
+\hypertarget{group___c_m_s_i_s___c_m3__core__definitions_ga799b5d9a2ae75e459264c8512c7c0e02}{\index{C\-M3 Core Definitions@{C\-M3 Core Definitions}!\-\_\-\-\_\-get\-\_\-\-P\-R\-I\-M\-A\-S\-K@{\-\_\-\-\_\-get\-\_\-\-P\-R\-I\-M\-A\-S\-K}}
+\index{\-\_\-\-\_\-get\-\_\-\-P\-R\-I\-M\-A\-S\-K@{\-\_\-\-\_\-get\-\_\-\-P\-R\-I\-M\-A\-S\-K}!CM3 Core Definitions@{C\-M3 Core Definitions}}
+\subsubsection[{\-\_\-\-\_\-get\-\_\-\-P\-R\-I\-M\-A\-S\-K}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} \-\_\-\-\_\-get\-\_\-\-P\-R\-I\-M\-A\-S\-K (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s___c_m3__core__definitions_ga799b5d9a2ae75e459264c8512c7c0e02}
+
+
+Return the Priority Mask value. 
+
+\begin{DoxyReturn}{Returns}
+Pri\-Mask
+\end{DoxyReturn}
+Return state of the priority mask bit from the priority mask register \hypertarget{group___c_m_s_i_s___c_m3__core__definitions_ga914dfa8eff7ca53380dd54cf1d8bebd9}{\index{C\-M3 Core Definitions@{C\-M3 Core Definitions}!\-\_\-\-\_\-get\-\_\-\-P\-S\-P@{\-\_\-\-\_\-get\-\_\-\-P\-S\-P}}
+\index{\-\_\-\-\_\-get\-\_\-\-P\-S\-P@{\-\_\-\-\_\-get\-\_\-\-P\-S\-P}!CM3 Core Definitions@{C\-M3 Core Definitions}}
+\subsubsection[{\-\_\-\-\_\-get\-\_\-\-P\-S\-P}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} \-\_\-\-\_\-get\-\_\-\-P\-S\-P (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s___c_m3__core__definitions_ga914dfa8eff7ca53380dd54cf1d8bebd9}
+
+
+Return the Process Stack Pointer. 
+
+\begin{DoxyReturn}{Returns}
+Process\-Stack\-Pointer
+\end{DoxyReturn}
+Return the actual process stack pointer
+
+Return the Process Stack Pointer.
+
+This function returns the current value of the Process Stack Pointer (P\-S\-P).
+
+\begin{DoxyReturn}{Returns}
+P\-S\-P Register value
+
+Process\-Stack\-Pointer
+\end{DoxyReturn}
+Return the actual process stack pointer 
+
+Definition at line 115 of file core\-\_\-cm\-Func.\-h.
+
+\hypertarget{group___c_m_s_i_s___c_m3__core__definitions_gacaeb02279002d3a6a9d575d0ba805739}{\index{C\-M3 Core Definitions@{C\-M3 Core Definitions}!\-\_\-\-\_\-\-L\-D\-R\-E\-X\-B@{\-\_\-\-\_\-\-L\-D\-R\-E\-X\-B}}
+\index{\-\_\-\-\_\-\-L\-D\-R\-E\-X\-B@{\-\_\-\-\_\-\-L\-D\-R\-E\-X\-B}!CM3 Core Definitions@{C\-M3 Core Definitions}}
+\subsubsection[{\-\_\-\-\_\-\-L\-D\-R\-E\-X\-B}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-\-L\-D\-R\-E\-X\-B (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t} $\ast$}]{addr}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s___c_m3__core__definitions_gacaeb02279002d3a6a9d575d0ba805739}
+
+
+L\-D\-R Exclusive (8 bit) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$addr} & address pointer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value of ($\ast$address)
+\end{DoxyReturn}
+Exclusive L\-D\-R command for 8 bit values)
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$addr} & address pointer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value of ($\ast$address)
+\end{DoxyReturn}
+Exclusive L\-D\-R command for 8 bit value
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$addr} & address pointer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value of ($\ast$address)
+\end{DoxyReturn}
+Exclusive L\-D\-R command for 8 bit values)
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$addr} & address pointer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value of ($\ast$address)
+\end{DoxyReturn}
+Exclusive L\-D\-R command for 8 bit value 
+
+Definition at line 350 of file core\-\_\-cm3.\-c.
+
+\hypertarget{group___c_m_s_i_s___c_m3__core__definitions_gae964f379d7726a559b7dc23008125ebb}{\index{C\-M3 Core Definitions@{C\-M3 Core Definitions}!\-\_\-\-\_\-\-L\-D\-R\-E\-X\-H@{\-\_\-\-\_\-\-L\-D\-R\-E\-X\-H}}
+\index{\-\_\-\-\_\-\-L\-D\-R\-E\-X\-H@{\-\_\-\-\_\-\-L\-D\-R\-E\-X\-H}!CM3 Core Definitions@{C\-M3 Core Definitions}}
+\subsubsection[{\-\_\-\-\_\-\-L\-D\-R\-E\-X\-H}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} \-\_\-\-\_\-\-L\-D\-R\-E\-X\-H (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16\-\_\-t} $\ast$}]{addr}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s___c_m3__core__definitions_gae964f379d7726a559b7dc23008125ebb}
+
+
+L\-D\-R Exclusive (16 bit) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$addr} & address pointer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value of ($\ast$address)
+\end{DoxyReturn}
+Exclusive L\-D\-R command for 16 bit values 
+
+Definition at line 364 of file core\-\_\-cm3.\-c.
+
+\hypertarget{group___c_m_s_i_s___c_m3__core__definitions_ga441316e2a8ee03575bbc851a826bd913}{\index{C\-M3 Core Definitions@{C\-M3 Core Definitions}!\-\_\-\-\_\-\-L\-D\-R\-E\-X\-W@{\-\_\-\-\_\-\-L\-D\-R\-E\-X\-W}}
+\index{\-\_\-\-\_\-\-L\-D\-R\-E\-X\-W@{\-\_\-\-\_\-\-L\-D\-R\-E\-X\-W}!CM3 Core Definitions@{C\-M3 Core Definitions}}
+\subsubsection[{\-\_\-\-\_\-\-L\-D\-R\-E\-X\-W}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} \-\_\-\-\_\-\-L\-D\-R\-E\-X\-W (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t} $\ast$}]{addr}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s___c_m3__core__definitions_ga441316e2a8ee03575bbc851a826bd913}
+
+
+L\-D\-R Exclusive (32 bit) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$addr} & address pointer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value of ($\ast$address)
+\end{DoxyReturn}
+Exclusive L\-D\-R command for 32 bit values 
+
+Definition at line 378 of file core\-\_\-cm3.\-c.
+
+\hypertarget{group___c_m_s_i_s___c_m3__core__definitions_gad6f9f297f6b91a995ee199fbc796b863}{\index{C\-M3 Core Definitions@{C\-M3 Core Definitions}!\-\_\-\-\_\-\-R\-B\-I\-T@{\-\_\-\-\_\-\-R\-B\-I\-T}}
+\index{\-\_\-\-\_\-\-R\-B\-I\-T@{\-\_\-\-\_\-\-R\-B\-I\-T}!CM3 Core Definitions@{C\-M3 Core Definitions}}
+\subsubsection[{\-\_\-\-\_\-\-R\-B\-I\-T}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} \-\_\-\-\_\-\-R\-B\-I\-T (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{value}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s___c_m3__core__definitions_gad6f9f297f6b91a995ee199fbc796b863}
+
+
+Reverse bit order of value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & value to reverse \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+reversed value
+\end{DoxyReturn}
+Reverse bit order of value 
+
+Definition at line 336 of file core\-\_\-cm3.\-c.
+
+\hypertarget{group___c_m_s_i_s___c_m3__core__definitions_ga4717abc17af5ba29b1e4c055e0a0d9b8}{\index{C\-M3 Core Definitions@{C\-M3 Core Definitions}!\-\_\-\-\_\-\-R\-E\-V@{\-\_\-\-\_\-\-R\-E\-V}}
+\index{\-\_\-\-\_\-\-R\-E\-V@{\-\_\-\-\_\-\-R\-E\-V}!CM3 Core Definitions@{C\-M3 Core Definitions}}
+\subsubsection[{\-\_\-\-\_\-\-R\-E\-V}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} \-\_\-\-\_\-\-R\-E\-V (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{value}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s___c_m3__core__definitions_ga4717abc17af5ba29b1e4c055e0a0d9b8}
+
+
+Reverse byte order in integer value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & value to reverse \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+reversed value
+\end{DoxyReturn}
+Reverse byte order in integer value 
+
+Definition at line 619 of file core\-\_\-cm3.\-c.
+
+\hypertarget{group___c_m_s_i_s___c_m3__core__definitions_ga8f5e0c8697e92da8a7e92732f477941d}{\index{C\-M3 Core Definitions@{C\-M3 Core Definitions}!\-\_\-\-\_\-\-R\-E\-V16@{\-\_\-\-\_\-\-R\-E\-V16}}
+\index{\-\_\-\-\_\-\-R\-E\-V16@{\-\_\-\-\_\-\-R\-E\-V16}!CM3 Core Definitions@{C\-M3 Core Definitions}}
+\subsubsection[{\-\_\-\-\_\-\-R\-E\-V16}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} \-\_\-\-\_\-\-R\-E\-V16 (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16\-\_\-t}}]{value}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s___c_m3__core__definitions_ga8f5e0c8697e92da8a7e92732f477941d}
+
+
+Reverse byte order in unsigned short value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & value to reverse \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+reversed value
+\end{DoxyReturn}
+Reverse byte order in unsigned short value 
+
+Definition at line 114 of file core\-\_\-cm3.\-c.
+
+\hypertarget{group___c_m_s_i_s___c_m3__core__definitions_gac57c8f1832bf1d42d49d62a56871a78e}{\index{C\-M3 Core Definitions@{C\-M3 Core Definitions}!\-\_\-\-\_\-\-R\-E\-V\-S\-H@{\-\_\-\-\_\-\-R\-E\-V\-S\-H}}
+\index{\-\_\-\-\_\-\-R\-E\-V\-S\-H@{\-\_\-\-\_\-\-R\-E\-V\-S\-H}!CM3 Core Definitions@{C\-M3 Core Definitions}}
+\subsubsection[{\-\_\-\-\_\-\-R\-E\-V\-S\-H}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} \-\_\-\-\_\-\-R\-E\-V\-S\-H (
+\begin{DoxyParamCaption}
+\item[{{\bf int16\-\_\-t}}]{value}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s___c_m3__core__definitions_gac57c8f1832bf1d42d49d62a56871a78e}
+
+
+Reverse byte order in signed short value with sign extension to integer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & value to reverse \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+reversed value
+\end{DoxyReturn}
+Reverse byte order in signed short value with sign extension to integer 
+
+Definition at line 128 of file core\-\_\-cm3.\-c.
+
+\hypertarget{group___c_m_s_i_s___c_m3__core__definitions_ga360c73eb7ffb16088556f9278953b882}{\index{C\-M3 Core Definitions@{C\-M3 Core Definitions}!\-\_\-\-\_\-set\-\_\-\-B\-A\-S\-E\-P\-R\-I@{\-\_\-\-\_\-set\-\_\-\-B\-A\-S\-E\-P\-R\-I}}
+\index{\-\_\-\-\_\-set\-\_\-\-B\-A\-S\-E\-P\-R\-I@{\-\_\-\-\_\-set\-\_\-\-B\-A\-S\-E\-P\-R\-I}!CM3 Core Definitions@{C\-M3 Core Definitions}}
+\subsubsection[{\-\_\-\-\_\-set\-\_\-\-B\-A\-S\-E\-P\-R\-I}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} \-\_\-\-\_\-set\-\_\-\-B\-A\-S\-E\-P\-R\-I (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{base\-Pri}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s___c_m3__core__definitions_ga360c73eb7ffb16088556f9278953b882}
+
+
+Set the Base Priority value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em base\-Pri} & Base\-Priority\\
+\hline
+\end{DoxyParams}
+Set the base priority register \hypertarget{group___c_m_s_i_s___c_m3__core__definitions_gac64d37e7ff9de06437f9fb94bbab8b6c}{\index{C\-M3 Core Definitions@{C\-M3 Core Definitions}!\-\_\-\-\_\-set\-\_\-\-C\-O\-N\-T\-R\-O\-L@{\-\_\-\-\_\-set\-\_\-\-C\-O\-N\-T\-R\-O\-L}}
+\index{\-\_\-\-\_\-set\-\_\-\-C\-O\-N\-T\-R\-O\-L@{\-\_\-\-\_\-set\-\_\-\-C\-O\-N\-T\-R\-O\-L}!CM3 Core Definitions@{C\-M3 Core Definitions}}
+\subsubsection[{\-\_\-\-\_\-set\-\_\-\-C\-O\-N\-T\-R\-O\-L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} \-\_\-\-\_\-set\-\_\-\-C\-O\-N\-T\-R\-O\-L (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{control}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s___c_m3__core__definitions_gac64d37e7ff9de06437f9fb94bbab8b6c}
+
+
+Set the Control Register value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em control} & Control value\\
+\hline
+\end{DoxyParams}
+Set the control register \hypertarget{group___c_m_s_i_s___c_m3__core__definitions_gaa5587cc09031053a40a35c14ec36078a}{\index{C\-M3 Core Definitions@{C\-M3 Core Definitions}!\-\_\-\-\_\-set\-\_\-\-F\-A\-U\-L\-T\-M\-A\-S\-K@{\-\_\-\-\_\-set\-\_\-\-F\-A\-U\-L\-T\-M\-A\-S\-K}}
+\index{\-\_\-\-\_\-set\-\_\-\-F\-A\-U\-L\-T\-M\-A\-S\-K@{\-\_\-\-\_\-set\-\_\-\-F\-A\-U\-L\-T\-M\-A\-S\-K}!CM3 Core Definitions@{C\-M3 Core Definitions}}
+\subsubsection[{\-\_\-\-\_\-set\-\_\-\-F\-A\-U\-L\-T\-M\-A\-S\-K}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} \-\_\-\-\_\-set\-\_\-\-F\-A\-U\-L\-T\-M\-A\-S\-K (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{fault\-Mask}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s___c_m3__core__definitions_gaa5587cc09031053a40a35c14ec36078a}
+
+
+Set the Fault Mask value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fault\-Mask} & fault\-Mask value\\
+\hline
+\end{DoxyParams}
+Set the fault mask register \hypertarget{group___c_m_s_i_s___c_m3__core__definitions_ga0bf9564ebc1613a8faba014275dac2a4}{\index{C\-M3 Core Definitions@{C\-M3 Core Definitions}!\-\_\-\-\_\-set\-\_\-\-M\-S\-P@{\-\_\-\-\_\-set\-\_\-\-M\-S\-P}}
+\index{\-\_\-\-\_\-set\-\_\-\-M\-S\-P@{\-\_\-\-\_\-set\-\_\-\-M\-S\-P}!CM3 Core Definitions@{C\-M3 Core Definitions}}
+\subsubsection[{\-\_\-\-\_\-set\-\_\-\-M\-S\-P}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} \-\_\-\-\_\-set\-\_\-\-M\-S\-P (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{main\-Stack\-Pointer}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s___c_m3__core__definitions_ga0bf9564ebc1613a8faba014275dac2a4}
+
+
+Set the Main Stack Pointer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em top\-Of\-Main\-Stack} & Main Stack Pointer\\
+\hline
+\end{DoxyParams}
+Assign the value main\-Stack\-Pointer to the M\-S\-P (main stack pointer) Cortex processor register
+
+Set the Main Stack Pointer.
+
+This function assigns the given value to the Main Stack Pointer (M\-S\-P).
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em top\-Of\-Main\-Stack} & Main Stack Pointer value to set\\
+\hline
+ & {\em top\-Of\-Main\-Stack} & Main Stack Pointer\\
+\hline
+\end{DoxyParams}
+Assign the value main\-Stack\-Pointer to the M\-S\-P (main stack pointer) Cortex processor register 
+
+Definition at line 154 of file core\-\_\-cm\-Func.\-h.
+
+\hypertarget{group___c_m_s_i_s___c_m3__core__definitions_ga70b4e1a6c1c86eb913fb9d6e8400156f}{\index{C\-M3 Core Definitions@{C\-M3 Core Definitions}!\-\_\-\-\_\-set\-\_\-\-P\-R\-I\-M\-A\-S\-K@{\-\_\-\-\_\-set\-\_\-\-P\-R\-I\-M\-A\-S\-K}}
+\index{\-\_\-\-\_\-set\-\_\-\-P\-R\-I\-M\-A\-S\-K@{\-\_\-\-\_\-set\-\_\-\-P\-R\-I\-M\-A\-S\-K}!CM3 Core Definitions@{C\-M3 Core Definitions}}
+\subsubsection[{\-\_\-\-\_\-set\-\_\-\-P\-R\-I\-M\-A\-S\-K}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} \-\_\-\-\_\-set\-\_\-\-P\-R\-I\-M\-A\-S\-K (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{pri\-Mask}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s___c_m3__core__definitions_ga70b4e1a6c1c86eb913fb9d6e8400156f}
+
+
+Set the Priority Mask value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pri\-Mask} & Pri\-Mask\\
+\hline
+\end{DoxyParams}
+Set the priority mask bit in the priority mask register \hypertarget{group___c_m_s_i_s___c_m3__core__definitions_ga48e5853f417e17a8a65080f6a605b743}{\index{C\-M3 Core Definitions@{C\-M3 Core Definitions}!\-\_\-\-\_\-set\-\_\-\-P\-S\-P@{\-\_\-\-\_\-set\-\_\-\-P\-S\-P}}
+\index{\-\_\-\-\_\-set\-\_\-\-P\-S\-P@{\-\_\-\-\_\-set\-\_\-\-P\-S\-P}!CM3 Core Definitions@{C\-M3 Core Definitions}}
+\subsubsection[{\-\_\-\-\_\-set\-\_\-\-P\-S\-P}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} \-\_\-\-\_\-set\-\_\-\-P\-S\-P (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{top\-Of\-Proc\-Stack}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s___c_m3__core__definitions_ga48e5853f417e17a8a65080f6a605b743}
+
+
+Set the Process Stack Pointer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em top\-Of\-Proc\-Stack} & Process Stack Pointer\\
+\hline
+\end{DoxyParams}
+Assign the value Process\-Stack\-Pointer to the M\-S\-P (process stack pointer) Cortex processor register
+
+Set the Process Stack Pointer.
+
+This function assigns the given value to the Process Stack Pointer (P\-S\-P).
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em top\-Of\-Proc\-Stack} & Process Stack Pointer value to set\\
+\hline
+ & {\em top\-Of\-Proc\-Stack} & Process Stack Pointer\\
+\hline
+\end{DoxyParams}
+Assign the value Process\-Stack\-Pointer to the M\-S\-P (process stack pointer) Cortex processor register 
+
+Definition at line 128 of file core\-\_\-cm\-Func.\-h.
+
+\hypertarget{group___c_m_s_i_s___c_m3__core__definitions_gafb3f6ca9e7d47faf17b60487dfcf2639}{\index{C\-M3 Core Definitions@{C\-M3 Core Definitions}!\-\_\-\-\_\-\-S\-T\-R\-E\-X\-B@{\-\_\-\-\_\-\-S\-T\-R\-E\-X\-B}}
+\index{\-\_\-\-\_\-\-S\-T\-R\-E\-X\-B@{\-\_\-\-\_\-\-S\-T\-R\-E\-X\-B}!CM3 Core Definitions@{C\-M3 Core Definitions}}
+\subsubsection[{\-\_\-\-\_\-\-S\-T\-R\-E\-X\-B}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} \-\_\-\-\_\-\-S\-T\-R\-E\-X\-B (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{value, }
+\item[{{\bf uint8\-\_\-t} $\ast$}]{addr}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s___c_m3__core__definitions_gafb3f6ca9e7d47faf17b60487dfcf2639}
+
+
+S\-T\-R Exclusive (8 bit) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & value to store \\
+\hline
+{\em $\ast$addr} & address pointer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+successful / failed
+\end{DoxyReturn}
+Exclusive S\-T\-R command for 8 bit values 
+
+Definition at line 393 of file core\-\_\-cm3.\-c.
+
+\hypertarget{group___c_m_s_i_s___c_m3__core__definitions_gadf303696bf1dd60beaf0f83a6b8ebd0d}{\index{C\-M3 Core Definitions@{C\-M3 Core Definitions}!\-\_\-\-\_\-\-S\-T\-R\-E\-X\-H@{\-\_\-\-\_\-\-S\-T\-R\-E\-X\-H}}
+\index{\-\_\-\-\_\-\-S\-T\-R\-E\-X\-H@{\-\_\-\-\_\-\-S\-T\-R\-E\-X\-H}!CM3 Core Definitions@{C\-M3 Core Definitions}}
+\subsubsection[{\-\_\-\-\_\-\-S\-T\-R\-E\-X\-H}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} \-\_\-\-\_\-\-S\-T\-R\-E\-X\-H (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16\-\_\-t}}]{value, }
+\item[{{\bf uint16\-\_\-t} $\ast$}]{addr}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s___c_m3__core__definitions_gadf303696bf1dd60beaf0f83a6b8ebd0d}
+
+
+S\-T\-R Exclusive (16 bit) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & value to store \\
+\hline
+{\em $\ast$addr} & address pointer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+successful / failed
+\end{DoxyReturn}
+Exclusive S\-T\-R command for 16 bit values 
+
+Definition at line 408 of file core\-\_\-cm3.\-c.
+
+\hypertarget{group___c_m_s_i_s___c_m3__core__definitions_gac642af0307892e178d8726ac3a67e363}{\index{C\-M3 Core Definitions@{C\-M3 Core Definitions}!\-\_\-\-\_\-\-S\-T\-R\-E\-X\-W@{\-\_\-\-\_\-\-S\-T\-R\-E\-X\-W}}
+\index{\-\_\-\-\_\-\-S\-T\-R\-E\-X\-W@{\-\_\-\-\_\-\-S\-T\-R\-E\-X\-W}!CM3 Core Definitions@{C\-M3 Core Definitions}}
+\subsubsection[{\-\_\-\-\_\-\-S\-T\-R\-E\-X\-W}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} \-\_\-\-\_\-\-S\-T\-R\-E\-X\-W (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{value, }
+\item[{{\bf uint32\-\_\-t} $\ast$}]{addr}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s___c_m3__core__definitions_gac642af0307892e178d8726ac3a67e363}
+
+
+S\-T\-R Exclusive (32 bit) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & value to store \\
+\hline
+{\em $\ast$addr} & address pointer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+successful / failed
+\end{DoxyReturn}
+Exclusive S\-T\-R command for 32 bit values 
+
+Definition at line 423 of file core\-\_\-cm3.\-c.
+

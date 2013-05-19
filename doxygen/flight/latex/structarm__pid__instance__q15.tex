@@ -1,0 +1,102 @@
+\hypertarget{structarm__pid__instance__q15}{\section{arm\-\_\-pid\-\_\-instance\-\_\-q15 Struct Reference}
+\label{structarm__pid__instance__q15}\index{arm\-\_\-pid\-\_\-instance\-\_\-q15@{arm\-\_\-pid\-\_\-instance\-\_\-q15}}
+}
+
+
+Instance structure for the Q15 P\-I\-D Control.  
+
+
+
+
+{\ttfamily \#include $<$arm\-\_\-math.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} \hyperlink{structarm__pid__instance__q15_ad77f3a2823c7f96de42c92a3fbf3246b}{A0}
+\item 
+\hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} \hyperlink{structarm__pid__instance__q15_ad8ac5ff736c0e51180398c31f777f18a}{A1}
+\item 
+\hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} \hyperlink{structarm__pid__instance__q15_a33e8b4c2d3e24b8b494f6edca6a89c1b}{A2}
+\item 
+\hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} \hyperlink{structarm__pid__instance__q15_a1b8412c517071962a9acfdc6778906ec}{A1}
+\item 
+\hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} \hyperlink{structarm__pid__instance__q15_a4a3f0a878b5b6b055e3478a2f244cd30}{state} \mbox{[}3\mbox{]}
+\item 
+\hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} \hyperlink{structarm__pid__instance__q15_ad228aae24a1b6d855c93a8b9bbc1c4f1}{Kp}
+\item 
+\hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} \hyperlink{structarm__pid__instance__q15_a0dcc19d5c8f7bc401acea9e8318cd777}{Ki}
+\item 
+\hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} \hyperlink{structarm__pid__instance__q15_af5d4b53091f19eff7536636b7cc43111}{Kd}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Instance structure for the Q15 P\-I\-D Control. 
+
+Definition at line 1716 of file arm\-\_\-math.\-h.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{structarm__pid__instance__q15_ad77f3a2823c7f96de42c92a3fbf3246b}{\index{arm\-\_\-pid\-\_\-instance\-\_\-q15@{arm\-\_\-pid\-\_\-instance\-\_\-q15}!A0@{A0}}
+\index{A0@{A0}!arm_pid_instance_q15@{arm\-\_\-pid\-\_\-instance\-\_\-q15}}
+\subsubsection[{A0}]{\setlength{\rightskip}{0pt plus 5cm}{\bf q15\-\_\-t} arm\-\_\-pid\-\_\-instance\-\_\-q15\-::\-A0}}\label{structarm__pid__instance__q15_ad77f3a2823c7f96de42c92a3fbf3246b}
+The derived gain, A0 = Kp + Ki + Kd . 
+
+Definition at line 1718 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__pid__instance__q15_ad8ac5ff736c0e51180398c31f777f18a}{\index{arm\-\_\-pid\-\_\-instance\-\_\-q15@{arm\-\_\-pid\-\_\-instance\-\_\-q15}!A1@{A1}}
+\index{A1@{A1}!arm_pid_instance_q15@{arm\-\_\-pid\-\_\-instance\-\_\-q15}}
+\subsubsection[{A1}]{\setlength{\rightskip}{0pt plus 5cm}{\bf q15\-\_\-t} arm\-\_\-pid\-\_\-instance\-\_\-q15\-::\-A1}}\label{structarm__pid__instance__q15_ad8ac5ff736c0e51180398c31f777f18a}
+
+
+Definition at line 1720 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__pid__instance__q15_a1b8412c517071962a9acfdc6778906ec}{\index{arm\-\_\-pid\-\_\-instance\-\_\-q15@{arm\-\_\-pid\-\_\-instance\-\_\-q15}!A1@{A1}}
+\index{A1@{A1}!arm_pid_instance_q15@{arm\-\_\-pid\-\_\-instance\-\_\-q15}}
+\subsubsection[{A1}]{\setlength{\rightskip}{0pt plus 5cm}{\bf q31\-\_\-t} arm\-\_\-pid\-\_\-instance\-\_\-q15\-::\-A1}}\label{structarm__pid__instance__q15_a1b8412c517071962a9acfdc6778906ec}
+The derived gain A1 = -\/\-Kp -\/ 2\-Kd $|$ Kd. 
+
+Definition at line 1723 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__pid__instance__q15_a33e8b4c2d3e24b8b494f6edca6a89c1b}{\index{arm\-\_\-pid\-\_\-instance\-\_\-q15@{arm\-\_\-pid\-\_\-instance\-\_\-q15}!A2@{A2}}
+\index{A2@{A2}!arm_pid_instance_q15@{arm\-\_\-pid\-\_\-instance\-\_\-q15}}
+\subsubsection[{A2}]{\setlength{\rightskip}{0pt plus 5cm}{\bf q15\-\_\-t} arm\-\_\-pid\-\_\-instance\-\_\-q15\-::\-A2}}\label{structarm__pid__instance__q15_a33e8b4c2d3e24b8b494f6edca6a89c1b}
+
+
+Definition at line 1721 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__pid__instance__q15_af5d4b53091f19eff7536636b7cc43111}{\index{arm\-\_\-pid\-\_\-instance\-\_\-q15@{arm\-\_\-pid\-\_\-instance\-\_\-q15}!Kd@{Kd}}
+\index{Kd@{Kd}!arm_pid_instance_q15@{arm\-\_\-pid\-\_\-instance\-\_\-q15}}
+\subsubsection[{Kd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf q15\-\_\-t} arm\-\_\-pid\-\_\-instance\-\_\-q15\-::\-Kd}}\label{structarm__pid__instance__q15_af5d4b53091f19eff7536636b7cc43111}
+The derivative gain. 
+
+Definition at line 1728 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__pid__instance__q15_a0dcc19d5c8f7bc401acea9e8318cd777}{\index{arm\-\_\-pid\-\_\-instance\-\_\-q15@{arm\-\_\-pid\-\_\-instance\-\_\-q15}!Ki@{Ki}}
+\index{Ki@{Ki}!arm_pid_instance_q15@{arm\-\_\-pid\-\_\-instance\-\_\-q15}}
+\subsubsection[{Ki}]{\setlength{\rightskip}{0pt plus 5cm}{\bf q15\-\_\-t} arm\-\_\-pid\-\_\-instance\-\_\-q15\-::\-Ki}}\label{structarm__pid__instance__q15_a0dcc19d5c8f7bc401acea9e8318cd777}
+The integral gain. 
+
+Definition at line 1727 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__pid__instance__q15_ad228aae24a1b6d855c93a8b9bbc1c4f1}{\index{arm\-\_\-pid\-\_\-instance\-\_\-q15@{arm\-\_\-pid\-\_\-instance\-\_\-q15}!Kp@{Kp}}
+\index{Kp@{Kp}!arm_pid_instance_q15@{arm\-\_\-pid\-\_\-instance\-\_\-q15}}
+\subsubsection[{Kp}]{\setlength{\rightskip}{0pt plus 5cm}{\bf q15\-\_\-t} arm\-\_\-pid\-\_\-instance\-\_\-q15\-::\-Kp}}\label{structarm__pid__instance__q15_ad228aae24a1b6d855c93a8b9bbc1c4f1}
+The proportional gain. 
+
+Definition at line 1726 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__pid__instance__q15_a4a3f0a878b5b6b055e3478a2f244cd30}{\index{arm\-\_\-pid\-\_\-instance\-\_\-q15@{arm\-\_\-pid\-\_\-instance\-\_\-q15}!state@{state}}
+\index{state@{state}!arm_pid_instance_q15@{arm\-\_\-pid\-\_\-instance\-\_\-q15}}
+\subsubsection[{state}]{\setlength{\rightskip}{0pt plus 5cm}{\bf q15\-\_\-t} arm\-\_\-pid\-\_\-instance\-\_\-q15\-::state\mbox{[}3\mbox{]}}}\label{structarm__pid__instance__q15_a4a3f0a878b5b6b055e3478a2f244cd30}
+The state array of length 3. 
+
+Definition at line 1725 of file arm\-\_\-math.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-C\-M\-S\-I\-S3/\-D\-S\-P\-\_\-\-Lib/\-Include/\hyperlink{arm__math_8h}{arm\-\_\-math.\-h}\end{DoxyCompactItemize}

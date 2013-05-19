@@ -1,0 +1,161 @@
+\hypertarget{group___f_s_m_c___group1}{\section{N\-O\-R/\-S\-R\-A\-M Controller functions}
+\label{group___f_s_m_c___group1}\index{N\-O\-R/\-S\-R\-A\-M Controller functions@{N\-O\-R/\-S\-R\-A\-M Controller functions}}
+}
+
+
+N\-O\-R/\-S\-R\-A\-M Controller functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___f_s_m_c___group1_gaab3e6648e8a584e73785361ac960eded}{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-De\-Init} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} F\-S\-M\-C\-\_\-\-Bank)
+\begin{DoxyCompactList}\small\item\em Deinitializes the F\-S\-M\-C N\-O\-R/\-S\-R\-A\-M Banks registers to their default reset values. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___f_s_m_c___group1_ga9c27816e8b17394c9ee1ce9298917b4a}{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Init} (\hyperlink{struct_f_s_m_c___n_o_r_s_r_a_m_init_type_def}{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Init\-Type\-Def} $\ast$F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the F\-S\-M\-C N\-O\-R/\-S\-R\-A\-M Banks according to the specified parameters in the F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___f_s_m_c___group1_gaf33e6dfc34f62d16a0cb416de9e83d28}{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Struct\-Init} (\hyperlink{struct_f_s_m_c___n_o_r_s_r_a_m_init_type_def}{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Init\-Type\-Def} $\ast$F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___f_s_m_c___group1_gaf943f0f2680168d3a95a3c2c9f3eca2a}{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Cmd} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} F\-S\-M\-C\-\_\-\-Bank, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified N\-O\-R/\-S\-R\-A\-M Memory Bank. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+N\-O\-R/\-S\-R\-A\-M Controller functions. \begin{DoxyVerb} ===============================================================================
+                    NOR/SRAM Controller functions
+ ===============================================================================  
+
+ The following sequence should be followed to configure the FSMC to interface with
+ SRAM, PSRAM, NOR or OneNAND memory connected to the NOR/SRAM Bank:
+ 
+   1. Enable the clock for the FSMC and associated GPIOs using the following functions:
+          RCC_AHB3PeriphClockCmd(RCC_AHB3Periph_FSMC, ENABLE);
+          RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOx, ENABLE);
+
+   2. FSMC pins configuration 
+       - Connect the involved FSMC pins to AF12 using the following function 
+          GPIO_PinAFConfig(GPIOx, GPIO_PinSourcex, GPIO_AF_FSMC); 
+       - Configure these FSMC pins in alternate function mode by calling the function
+          GPIO_Init();    
+       
+   3. Declare a FSMC_NORSRAMInitTypeDef structure, for example:
+          FSMC_NORSRAMInitTypeDef  FSMC_NORSRAMInitStructure;
+      and fill the FSMC_NORSRAMInitStructure variable with the allowed values of
+      the structure member.
+      
+   4. Initialize the NOR/SRAM Controller by calling the function
+          FSMC_NORSRAMInit(&FSMC_NORSRAMInitStructure); 
+
+   5. Then enable the NOR/SRAM Bank, for example:
+          FSMC_NORSRAMCmd(FSMC_Bank1_NORSRAM2, ENABLE);  
+
+   6. At this stage you can read/write from/to the memory connected to the NOR/SRAM Bank. \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___f_s_m_c___group1_gaf943f0f2680168d3a95a3c2c9f3eca2a}{\index{N\-O\-R/\-S\-R\-A\-M Controller functions@{N\-O\-R/\-S\-R\-A\-M Controller functions}!F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Cmd@{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Cmd}}
+\index{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Cmd@{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Cmd}!NOR/SRAM Controller functions@{N\-O\-R/\-S\-R\-A\-M Controller functions}}
+\subsubsection[{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{F\-S\-M\-C\-\_\-\-Bank, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___f_s_m_c___group1_gaf943f0f2680168d3a95a3c2c9f3eca2a}
+
+
+Enables or disables the specified N\-O\-R/\-S\-R\-A\-M Memory Bank. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\-S\-M\-C\-\_\-\-Bank,\-:} & specifies the F\-S\-M\-C Bank to be used This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item F\-S\-M\-C\-\_\-\-Bank1\-\_\-\-N\-O\-R\-S\-R\-A\-M1\-: F\-S\-M\-C Bank1 N\-O\-R/\-S\-R\-A\-M1 \item F\-S\-M\-C\-\_\-\-Bank1\-\_\-\-N\-O\-R\-S\-R\-A\-M2\-: F\-S\-M\-C Bank1 N\-O\-R/\-S\-R\-A\-M2 \item F\-S\-M\-C\-\_\-\-Bank1\-\_\-\-N\-O\-R\-S\-R\-A\-M3\-: F\-S\-M\-C Bank1 N\-O\-R/\-S\-R\-A\-M3 \item F\-S\-M\-C\-\_\-\-Bank1\-\_\-\-N\-O\-R\-S\-R\-A\-M4\-: F\-S\-M\-C Bank1 N\-O\-R/\-S\-R\-A\-M4 \end{DoxyItemize}
+\\
+\hline
+{\em New\-State,\-:} & new state of the F\-S\-M\-C\-\_\-\-Bank. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 273 of file stm32f4xx\-\_\-fsmc.\-c.
+
+\hypertarget{group___f_s_m_c___group1_gaab3e6648e8a584e73785361ac960eded}{\index{N\-O\-R/\-S\-R\-A\-M Controller functions@{N\-O\-R/\-S\-R\-A\-M Controller functions}!F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-De\-Init@{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-De\-Init}}
+\index{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-De\-Init@{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-De\-Init}!NOR/SRAM Controller functions@{N\-O\-R/\-S\-R\-A\-M Controller functions}}
+\subsubsection[{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-De\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-De\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{F\-S\-M\-C\-\_\-\-Bank}
+\end{DoxyParamCaption}
+)}}\label{group___f_s_m_c___group1_gaab3e6648e8a584e73785361ac960eded}
+
+
+Deinitializes the F\-S\-M\-C N\-O\-R/\-S\-R\-A\-M Banks registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\-S\-M\-C\-\_\-\-Bank,\-:} & specifies the F\-S\-M\-C Bank to be used This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item F\-S\-M\-C\-\_\-\-Bank1\-\_\-\-N\-O\-R\-S\-R\-A\-M1\-: F\-S\-M\-C Bank1 N\-O\-R/\-S\-R\-A\-M1 \item F\-S\-M\-C\-\_\-\-Bank1\-\_\-\-N\-O\-R\-S\-R\-A\-M2\-: F\-S\-M\-C Bank1 N\-O\-R/\-S\-R\-A\-M2 \item F\-S\-M\-C\-\_\-\-Bank1\-\_\-\-N\-O\-R\-S\-R\-A\-M3\-: F\-S\-M\-C Bank1 N\-O\-R/\-S\-R\-A\-M3 \item F\-S\-M\-C\-\_\-\-Bank1\-\_\-\-N\-O\-R\-S\-R\-A\-M4\-: F\-S\-M\-C Bank1 N\-O\-R/\-S\-R\-A\-M4 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 121 of file stm32f4xx\-\_\-fsmc.\-c.
+
+\hypertarget{group___f_s_m_c___group1_ga9c27816e8b17394c9ee1ce9298917b4a}{\index{N\-O\-R/\-S\-R\-A\-M Controller functions@{N\-O\-R/\-S\-R\-A\-M Controller functions}!F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Init@{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Init}}
+\index{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Init@{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Init}!NOR/SRAM Controller functions@{N\-O\-R/\-S\-R\-A\-M Controller functions}}
+\subsubsection[{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Init\-Type\-Def} $\ast$}]{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___f_s_m_c___group1_ga9c27816e8b17394c9ee1ce9298917b4a}
+
+
+Initializes the F\-S\-M\-C N\-O\-R/\-S\-R\-A\-M Banks according to the specified parameters in the F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Init\-Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Init\-Struct} & \-: pointer to a \hyperlink{struct_f_s_m_c___n_o_r_s_r_a_m_init_type_def}{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Init\-Type\-Def} structure that contains the configuration information for the F\-S\-M\-C N\-O\-R/\-S\-R\-A\-M specified Banks. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 148 of file stm32f4xx\-\_\-fsmc.\-c.
+
+\hypertarget{group___f_s_m_c___group1_gaf33e6dfc34f62d16a0cb416de9e83d28}{\index{N\-O\-R/\-S\-R\-A\-M Controller functions@{N\-O\-R/\-S\-R\-A\-M Controller functions}!F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Struct\-Init@{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Struct\-Init}}
+\index{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Struct\-Init@{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Struct\-Init}!NOR/SRAM Controller functions@{N\-O\-R/\-S\-R\-A\-M Controller functions}}
+\subsubsection[{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Struct\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Struct\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Init\-Type\-Def} $\ast$}]{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___f_s_m_c___group1_gaf33e6dfc34f62d16a0cb416de9e83d28}
+
+
+Fills each F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Init\-Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Init\-Struct,\-:} & pointer to a \hyperlink{struct_f_s_m_c___n_o_r_s_r_a_m_init_type_def}{F\-S\-M\-C\-\_\-\-N\-O\-R\-S\-R\-A\-M\-Init\-Type\-Def} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 230 of file stm32f4xx\-\_\-fsmc.\-c.
+

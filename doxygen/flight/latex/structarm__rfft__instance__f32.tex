@@ -1,0 +1,102 @@
+\hypertarget{structarm__rfft__instance__f32}{\section{arm\-\_\-rfft\-\_\-instance\-\_\-f32 Struct Reference}
+\label{structarm__rfft__instance__f32}\index{arm\-\_\-rfft\-\_\-instance\-\_\-f32@{arm\-\_\-rfft\-\_\-instance\-\_\-f32}}
+}
+
+
+Instance structure for the floating-\/point R\-F\-F\-T/\-R\-I\-F\-F\-T function.  
+
+
+
+
+{\ttfamily \#include $<$arm\-\_\-math.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{structarm__rfft__instance__f32_a4219d4669699e4efdcb150ed7a0d9a57}{fft\-Len\-Real}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{structarm__rfft__instance__f32_a075076e07ebb8521d8e3b49a31db6c57}{fft\-Len\-By2}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{structarm__rfft__instance__f32_a5ee6d10a934ab4b666e0bb286c3d633f}{ifft\-Flag\-R}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{structarm__rfft__instance__f32_ac342f3248157cbbd2f04a3c8ec9fc9eb}{bit\-Reverse\-Flag\-R}
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{structarm__rfft__instance__f32_aede85350fb5ae6baa1b3e8bfa15b18d6}{twid\-Coef\-R\-Modifier}
+\item 
+\hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$ \hyperlink{structarm__rfft__instance__f32_a534cc7e6e9b3e3dd022fad611c762142}{p\-Twiddle\-A\-Real}
+\item 
+\hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$ \hyperlink{structarm__rfft__instance__f32_a23543ecfd027fea2477fe1eea23c3c4d}{p\-Twiddle\-B\-Real}
+\item 
+\hyperlink{structarm__cfft__radix4__instance__f32}{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-f32} $\ast$ \hyperlink{structarm__rfft__instance__f32_a9f47ba9f50c81e4445ae3827b981bc05}{p\-Cfft}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Instance structure for the floating-\/point R\-F\-F\-T/\-R\-I\-F\-F\-T function. 
+
+Definition at line 2463 of file arm\-\_\-math.\-h.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{structarm__rfft__instance__f32_ac342f3248157cbbd2f04a3c8ec9fc9eb}{\index{arm\-\_\-rfft\-\_\-instance\-\_\-f32@{arm\-\_\-rfft\-\_\-instance\-\_\-f32}!bit\-Reverse\-Flag\-R@{bit\-Reverse\-Flag\-R}}
+\index{bit\-Reverse\-Flag\-R@{bit\-Reverse\-Flag\-R}!arm_rfft_instance_f32@{arm\-\_\-rfft\-\_\-instance\-\_\-f32}}
+\subsubsection[{bit\-Reverse\-Flag\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} arm\-\_\-rfft\-\_\-instance\-\_\-f32\-::bit\-Reverse\-Flag\-R}}\label{structarm__rfft__instance__f32_ac342f3248157cbbd2f04a3c8ec9fc9eb}
+flag that enables (bit\-Reverse\-Flag\-R=1) or disables (bit\-Reverse\-Flag\-R=0) bit reversal of output. 
+
+Definition at line 2468 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__rfft__instance__f32_a075076e07ebb8521d8e3b49a31db6c57}{\index{arm\-\_\-rfft\-\_\-instance\-\_\-f32@{arm\-\_\-rfft\-\_\-instance\-\_\-f32}!fft\-Len\-By2@{fft\-Len\-By2}}
+\index{fft\-Len\-By2@{fft\-Len\-By2}!arm_rfft_instance_f32@{arm\-\_\-rfft\-\_\-instance\-\_\-f32}}
+\subsubsection[{fft\-Len\-By2}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} arm\-\_\-rfft\-\_\-instance\-\_\-f32\-::fft\-Len\-By2}}\label{structarm__rfft__instance__f32_a075076e07ebb8521d8e3b49a31db6c57}
+length of the complex F\-F\-T. 
+
+Definition at line 2466 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__rfft__instance__f32_a4219d4669699e4efdcb150ed7a0d9a57}{\index{arm\-\_\-rfft\-\_\-instance\-\_\-f32@{arm\-\_\-rfft\-\_\-instance\-\_\-f32}!fft\-Len\-Real@{fft\-Len\-Real}}
+\index{fft\-Len\-Real@{fft\-Len\-Real}!arm_rfft_instance_f32@{arm\-\_\-rfft\-\_\-instance\-\_\-f32}}
+\subsubsection[{fft\-Len\-Real}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} arm\-\_\-rfft\-\_\-instance\-\_\-f32\-::fft\-Len\-Real}}\label{structarm__rfft__instance__f32_a4219d4669699e4efdcb150ed7a0d9a57}
+length of the real F\-F\-T. 
+
+Definition at line 2465 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__rfft__instance__f32_a5ee6d10a934ab4b666e0bb286c3d633f}{\index{arm\-\_\-rfft\-\_\-instance\-\_\-f32@{arm\-\_\-rfft\-\_\-instance\-\_\-f32}!ifft\-Flag\-R@{ifft\-Flag\-R}}
+\index{ifft\-Flag\-R@{ifft\-Flag\-R}!arm_rfft_instance_f32@{arm\-\_\-rfft\-\_\-instance\-\_\-f32}}
+\subsubsection[{ifft\-Flag\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} arm\-\_\-rfft\-\_\-instance\-\_\-f32\-::ifft\-Flag\-R}}\label{structarm__rfft__instance__f32_a5ee6d10a934ab4b666e0bb286c3d633f}
+flag that selects forward (ifft\-Flag\-R=0) or inverse (ifft\-Flag\-R=1) transform. 
+
+Definition at line 2467 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__rfft__instance__f32_a9f47ba9f50c81e4445ae3827b981bc05}{\index{arm\-\_\-rfft\-\_\-instance\-\_\-f32@{arm\-\_\-rfft\-\_\-instance\-\_\-f32}!p\-Cfft@{p\-Cfft}}
+\index{p\-Cfft@{p\-Cfft}!arm_rfft_instance_f32@{arm\-\_\-rfft\-\_\-instance\-\_\-f32}}
+\subsubsection[{p\-Cfft}]{\setlength{\rightskip}{0pt plus 5cm}{\bf arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-f32}$\ast$ arm\-\_\-rfft\-\_\-instance\-\_\-f32\-::p\-Cfft}}\label{structarm__rfft__instance__f32_a9f47ba9f50c81e4445ae3827b981bc05}
+points to the complex F\-F\-T instance. 
+
+Definition at line 2472 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__rfft__instance__f32_a534cc7e6e9b3e3dd022fad611c762142}{\index{arm\-\_\-rfft\-\_\-instance\-\_\-f32@{arm\-\_\-rfft\-\_\-instance\-\_\-f32}!p\-Twiddle\-A\-Real@{p\-Twiddle\-A\-Real}}
+\index{p\-Twiddle\-A\-Real@{p\-Twiddle\-A\-Real}!arm_rfft_instance_f32@{arm\-\_\-rfft\-\_\-instance\-\_\-f32}}
+\subsubsection[{p\-Twiddle\-A\-Real}]{\setlength{\rightskip}{0pt plus 5cm}{\bf float32\-\_\-t}$\ast$ arm\-\_\-rfft\-\_\-instance\-\_\-f32\-::p\-Twiddle\-A\-Real}}\label{structarm__rfft__instance__f32_a534cc7e6e9b3e3dd022fad611c762142}
+points to the real twiddle factor table. 
+
+Definition at line 2470 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__rfft__instance__f32_a23543ecfd027fea2477fe1eea23c3c4d}{\index{arm\-\_\-rfft\-\_\-instance\-\_\-f32@{arm\-\_\-rfft\-\_\-instance\-\_\-f32}!p\-Twiddle\-B\-Real@{p\-Twiddle\-B\-Real}}
+\index{p\-Twiddle\-B\-Real@{p\-Twiddle\-B\-Real}!arm_rfft_instance_f32@{arm\-\_\-rfft\-\_\-instance\-\_\-f32}}
+\subsubsection[{p\-Twiddle\-B\-Real}]{\setlength{\rightskip}{0pt plus 5cm}{\bf float32\-\_\-t}$\ast$ arm\-\_\-rfft\-\_\-instance\-\_\-f32\-::p\-Twiddle\-B\-Real}}\label{structarm__rfft__instance__f32_a23543ecfd027fea2477fe1eea23c3c4d}
+points to the imag twiddle factor table. 
+
+Definition at line 2471 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__rfft__instance__f32_aede85350fb5ae6baa1b3e8bfa15b18d6}{\index{arm\-\_\-rfft\-\_\-instance\-\_\-f32@{arm\-\_\-rfft\-\_\-instance\-\_\-f32}!twid\-Coef\-R\-Modifier@{twid\-Coef\-R\-Modifier}}
+\index{twid\-Coef\-R\-Modifier@{twid\-Coef\-R\-Modifier}!arm_rfft_instance_f32@{arm\-\_\-rfft\-\_\-instance\-\_\-f32}}
+\subsubsection[{twid\-Coef\-R\-Modifier}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} arm\-\_\-rfft\-\_\-instance\-\_\-f32\-::twid\-Coef\-R\-Modifier}}\label{structarm__rfft__instance__f32_aede85350fb5ae6baa1b3e8bfa15b18d6}
+twiddle coefficient modifier that supports different size F\-F\-Ts with the same twiddle factor table. 
+
+Definition at line 2469 of file arm\-\_\-math.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-C\-M\-S\-I\-S3/\-D\-S\-P\-\_\-\-Lib/\-Include/\hyperlink{arm__math_8h}{arm\-\_\-math.\-h}\end{DoxyCompactItemize}

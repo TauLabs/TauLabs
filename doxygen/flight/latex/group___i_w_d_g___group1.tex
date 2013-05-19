@@ -1,0 +1,164 @@
+\hypertarget{group___i_w_d_g___group1}{\section{Prescaler and Counter configuration functions}
+\label{group___i_w_d_g___group1}\index{Prescaler and Counter configuration functions@{Prescaler and Counter configuration functions}}
+}
+
+
+Prescaler and Counter configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_w_d_g___group1_gae466681e5bdc11b353c508b89d75ca05}{I\-W\-D\-G\-\_\-\-Write\-Access\-Cmd} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} I\-W\-D\-G\-\_\-\-Write\-Access)
+\begin{DoxyCompactList}\small\item\em Enables or disables write access to I\-W\-D\-G\-\_\-\-P\-R and I\-W\-D\-G\-\_\-\-R\-L\-R registers. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_w_d_g___group1_ga4fa7f1cd690533a35ad9e4729c0450a3}{I\-W\-D\-G\-\_\-\-Set\-Prescaler} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} I\-W\-D\-G\-\_\-\-Prescaler)
+\begin{DoxyCompactList}\small\item\em Sets I\-W\-D\-G Prescaler value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_w_d_g___group1_gae2a14752a0431f23cb80cebf202ac365}{I\-W\-D\-G\-\_\-\-Set\-Reload} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Reload)
+\begin{DoxyCompactList}\small\item\em Sets I\-W\-D\-G Reload value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_w_d_g___group1_ga7147ebabdc3fef97f532b171a4e70d49}{I\-W\-D\-G\-\_\-\-Reload\-Counter} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Reloads I\-W\-D\-G counter with value defined in the reload register (write access to I\-W\-D\-G\-\_\-\-P\-R and I\-W\-D\-G\-\_\-\-R\-L\-R registers disabled). \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_w_d_g___group1_ga1b52c753f24efe752fb1bb7a7efaa0ef}{I\-W\-D\-G\-\_\-\-Set\-Window\-Value} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Window\-Value)
+\begin{DoxyCompactList}\small\item\em Sets the I\-W\-D\-G window value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Prescaler and Counter configuration functions. \begin{DoxyVerb} ===============================================================================
+            ##### Prescaler and Counter configuration functions #####
+ ===============================================================================  \end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                  Prescaler and Counter configuration functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___i_w_d_g___group1_ga7147ebabdc3fef97f532b171a4e70d49}{\index{Prescaler and Counter configuration functions@{Prescaler and Counter configuration functions}!I\-W\-D\-G\-\_\-\-Reload\-Counter@{I\-W\-D\-G\-\_\-\-Reload\-Counter}}
+\index{I\-W\-D\-G\-\_\-\-Reload\-Counter@{I\-W\-D\-G\-\_\-\-Reload\-Counter}!Prescaler and Counter configuration functions@{Prescaler and Counter configuration functions}}
+\subsubsection[{I\-W\-D\-G\-\_\-\-Reload\-Counter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I\-W\-D\-G\-\_\-\-Reload\-Counter (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___i_w_d_g___group1_ga7147ebabdc3fef97f532b171a4e70d49}
+
+
+Reloads I\-W\-D\-G counter with value defined in the reload register (write access to I\-W\-D\-G\-\_\-\-P\-R and I\-W\-D\-G\-\_\-\-R\-L\-R registers disabled). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 186 of file stm32f30x\-\_\-iwdg.\-c.
+
+\hypertarget{group___i_w_d_g___group1_ga4fa7f1cd690533a35ad9e4729c0450a3}{\index{Prescaler and Counter configuration functions@{Prescaler and Counter configuration functions}!I\-W\-D\-G\-\_\-\-Set\-Prescaler@{I\-W\-D\-G\-\_\-\-Set\-Prescaler}}
+\index{I\-W\-D\-G\-\_\-\-Set\-Prescaler@{I\-W\-D\-G\-\_\-\-Set\-Prescaler}!Prescaler and Counter configuration functions@{Prescaler and Counter configuration functions}}
+\subsubsection[{I\-W\-D\-G\-\_\-\-Set\-Prescaler}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I\-W\-D\-G\-\_\-\-Set\-Prescaler (
+\begin{DoxyParamCaption}
+\item[{{\bf uint8\-\_\-t}}]{I\-W\-D\-G\-\_\-\-Prescaler}
+\end{DoxyParamCaption}
+)}}\label{group___i_w_d_g___group1_ga4fa7f1cd690533a35ad9e4729c0450a3}
+
+
+Sets I\-W\-D\-G Prescaler value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I\-W\-D\-G\-\_\-\-Prescaler,\-:} & specifies the I\-W\-D\-G Prescaler value. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item I\-W\-D\-G\-\_\-\-Prescaler\-\_\-4\-: I\-W\-D\-G prescaler set to 4 \item I\-W\-D\-G\-\_\-\-Prescaler\-\_\-8\-: I\-W\-D\-G prescaler set to 8 \item I\-W\-D\-G\-\_\-\-Prescaler\-\_\-16\-: I\-W\-D\-G prescaler set to 16 \item I\-W\-D\-G\-\_\-\-Prescaler\-\_\-32\-: I\-W\-D\-G prescaler set to 32 \item I\-W\-D\-G\-\_\-\-Prescaler\-\_\-64\-: I\-W\-D\-G prescaler set to 64 \item I\-W\-D\-G\-\_\-\-Prescaler\-\_\-128\-: I\-W\-D\-G prescaler set to 128 \item I\-W\-D\-G\-\_\-\-Prescaler\-\_\-256\-: I\-W\-D\-G prescaler set to 256 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 160 of file stm32f30x\-\_\-iwdg.\-c.
+
+\hypertarget{group___i_w_d_g___group1_gae2a14752a0431f23cb80cebf202ac365}{\index{Prescaler and Counter configuration functions@{Prescaler and Counter configuration functions}!I\-W\-D\-G\-\_\-\-Set\-Reload@{I\-W\-D\-G\-\_\-\-Set\-Reload}}
+\index{I\-W\-D\-G\-\_\-\-Set\-Reload@{I\-W\-D\-G\-\_\-\-Set\-Reload}!Prescaler and Counter configuration functions@{Prescaler and Counter configuration functions}}
+\subsubsection[{I\-W\-D\-G\-\_\-\-Set\-Reload}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I\-W\-D\-G\-\_\-\-Set\-Reload (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16\-\_\-t}}]{Reload}
+\end{DoxyParamCaption}
+)}}\label{group___i_w_d_g___group1_gae2a14752a0431f23cb80cebf202ac365}
+
+
+Sets I\-W\-D\-G Reload value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reload,\-:} & specifies the I\-W\-D\-G Reload value. This parameter must be a number between 0 and 0x0\-F\-F\-F. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 173 of file stm32f30x\-\_\-iwdg.\-c.
+
+\hypertarget{group___i_w_d_g___group1_ga1b52c753f24efe752fb1bb7a7efaa0ef}{\index{Prescaler and Counter configuration functions@{Prescaler and Counter configuration functions}!I\-W\-D\-G\-\_\-\-Set\-Window\-Value@{I\-W\-D\-G\-\_\-\-Set\-Window\-Value}}
+\index{I\-W\-D\-G\-\_\-\-Set\-Window\-Value@{I\-W\-D\-G\-\_\-\-Set\-Window\-Value}!Prescaler and Counter configuration functions@{Prescaler and Counter configuration functions}}
+\subsubsection[{I\-W\-D\-G\-\_\-\-Set\-Window\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I\-W\-D\-G\-\_\-\-Set\-Window\-Value (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16\-\_\-t}}]{Window\-Value}
+\end{DoxyParamCaption}
+)}}\label{group___i_w_d_g___group1_ga1b52c753f24efe752fb1bb7a7efaa0ef}
+
+
+Sets the I\-W\-D\-G window value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Window\-Value,\-:} & specifies the window value to be compared to the downcounter. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 197 of file stm32f30x\-\_\-iwdg.\-c.
+
+\hypertarget{group___i_w_d_g___group1_gae466681e5bdc11b353c508b89d75ca05}{\index{Prescaler and Counter configuration functions@{Prescaler and Counter configuration functions}!I\-W\-D\-G\-\_\-\-Write\-Access\-Cmd@{I\-W\-D\-G\-\_\-\-Write\-Access\-Cmd}}
+\index{I\-W\-D\-G\-\_\-\-Write\-Access\-Cmd@{I\-W\-D\-G\-\_\-\-Write\-Access\-Cmd}!Prescaler and Counter configuration functions@{Prescaler and Counter configuration functions}}
+\subsubsection[{I\-W\-D\-G\-\_\-\-Write\-Access\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} I\-W\-D\-G\-\_\-\-Write\-Access\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16\-\_\-t}}]{I\-W\-D\-G\-\_\-\-Write\-Access}
+\end{DoxyParamCaption}
+)}}\label{group___i_w_d_g___group1_gae466681e5bdc11b353c508b89d75ca05}
+
+
+Enables or disables write access to I\-W\-D\-G\-\_\-\-P\-R and I\-W\-D\-G\-\_\-\-R\-L\-R registers. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I\-W\-D\-G\-\_\-\-Write\-Access,\-:} & new state of write access to I\-W\-D\-G\-\_\-\-P\-R and I\-W\-D\-G\-\_\-\-R\-L\-R registers. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item I\-W\-D\-G\-\_\-\-Write\-Access\-\_\-\-Enable\-: Enable write access to I\-W\-D\-G\-\_\-\-P\-R and I\-W\-D\-G\-\_\-\-R\-L\-R registers \item I\-W\-D\-G\-\_\-\-Write\-Access\-\_\-\-Disable\-: Disable write access to I\-W\-D\-G\-\_\-\-P\-R and I\-W\-D\-G\-\_\-\-R\-L\-R registers \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 140 of file stm32f30x\-\_\-iwdg.\-c.
+

@@ -1,0 +1,158 @@
+\hypertarget{group__x_co_routine_create}{\section{x\-Co\-Routine\-Create}
+\label{group__x_co_routine_create}\index{x\-Co\-Routine\-Create@{x\-Co\-Routine\-Create}}
+}
+croutine. h 
+\begin{DoxyPre}
+ portBASE\_TYPE xCoRoutineCreate(
+                                 crCOROUTINE\_CODE pxCoRoutineCode,
+                                 unsigned portBASE\_TYPE uxPriority,
+                                 unsigned portBASE\_TYPE uxIndex
+                               );\end{DoxyPre}
+
+
+Create a new co-\/routine and add it to the list of co-\/routines that are ready to run.
+
+
+\begin{DoxyParams}{Parameters}
+{\em px\-Co\-Routine\-Code} & Pointer to the co-\/routine function. Co-\/routine functions require special syntax -\/ see the co-\/routine section of the W\-E\-B documentation for more information.\\
+\hline
+{\em ux\-Priority} & The priority with respect to other co-\/routines at which the co-\/routine will run.\\
+\hline
+{\em ux\-Index} & Used to distinguish between different co-\/routines that execute the same function. See the example below and the co-\/routine section of the W\-E\-B documentation for further information.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pd\-P\-A\-S\-S if the co-\/routine was successfully created and added to a ready list, otherwise an error code defined with Proj\-Defs.\-h.
+\end{DoxyReturn}
+Example usage\-: 
+\begin{DoxyPre}
+Co-routine to be created.
+ void vFlashCoRoutine( xCoRoutineHandle xHandle, unsigned portBASE\_TYPE uxIndex )
+ \{
+Variables in co-routines must be declared static if they must maintain value across a blocking call.
+This may not be necessary for const variables.
+ static const char cLedToFlash[ 2 ] = \{ 5, 6 \};
+ static const portTickType uxFlashRates[ 2 ] = \{ 200, 400 \};\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Must start every co-routine with a call to crSTART();
+     crSTART( xHandle );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}     for( ;; )
+     \{
+This co-routine just delays for a fixed period, then toggles
+an LED.  Two co-routines are created using this function, so
+the uxIndex parameter is used to tell the co-routine which
+LED to flash and how long to delay.  This assumes xQueue has
+already been created.
+         vParTestToggleLED( cLedToFlash[ uxIndex ] );
+         crDELAY( xHandle, uxFlashRates[ uxIndex ] );
+     \}\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Must end every co-routine with a call to crEND();
+     crEND();
+ \}\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Function that creates two co-routines.
+ void vOtherFunction( void )
+ \{
+ unsigned char ucParameterToPass;
+ xTaskHandle xHandle;\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Create two co-routines at priority 0.  The first is given index 0
+so (from the code above) toggles LED 5 every 200 ticks.  The second
+is given index 1 so toggles LED 6 every 400 ticks.
+     for( uxIndex = 0; uxIndex < 2; uxIndex++ )
+     \{
+         xCoRoutineCreate( vFlashCoRoutine, 0, uxIndex );
+     \}
+ \}
+   \end{DoxyPre}
+
+
+croutine. h 
+\begin{DoxyPre}
+ portBASE\_TYPE xCoRoutineCreate(
+                                 crCOROUTINE\_CODE pxCoRoutineCode,
+                                 unsigned portBASE\_TYPE uxPriority,
+                                 unsigned portBASE\_TYPE uxIndex
+                               );\end{DoxyPre}
+
+
+Create a new co-\/routine and add it to the list of co-\/routines that are ready to run.
+
+
+\begin{DoxyParams}{Parameters}
+{\em px\-Co\-Routine\-Code} & Pointer to the co-\/routine function. Co-\/routine functions require special syntax -\/ see the co-\/routine section of the W\-E\-B documentation for more information.\\
+\hline
+{\em ux\-Priority} & The priority with respect to other co-\/routines at which the co-\/routine will run.\\
+\hline
+{\em ux\-Index} & Used to distinguish between different co-\/routines that execute the same function. See the example below and the co-\/routine section of the W\-E\-B documentation for further information.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pd\-P\-A\-S\-S if the co-\/routine was successfully created and added to a ready list, otherwise an error code defined with Proj\-Defs.\-h.
+\end{DoxyReturn}
+Example usage\-: 
+\begin{DoxyPre}
+Co-routine to be created.
+ void vFlashCoRoutine( xCoRoutineHandle xHandle, unsigned portBASE\_TYPE uxIndex )
+ \{
+Variables in co-routines must be declared static if they must maintain value across a blocking call.
+This may not be necessary for const variables.
+ static const char cLedToFlash[ 2 ] = \{ 5, 6 \};
+ static const portTickType xTimeToDelay[ 2 ] = \{ 200, 400 \};\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Must start every co-routine with a call to crSTART();
+     crSTART( xHandle );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}     for( ;; )
+     \{
+This co-routine just delays for a fixed period, then toggles
+an LED.  Two co-routines are created using this function, so
+the uxIndex parameter is used to tell the co-routine which
+LED to flash and how long to delay.  This assumes xQueue has
+already been created.
+         vParTestToggleLED( cLedToFlash[ uxIndex ] );
+         crDELAY( xHandle, uxFlashRates[ uxIndex ] );
+     \}\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Must end every co-routine with a call to crEND();
+     crEND();
+ \}\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Function that creates two co-routines.
+ void vOtherFunction( void )
+ \{
+ unsigned char ucParameterToPass;
+ xTaskHandle xHandle;\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Create two co-routines at priority 0.  The first is given index 0
+so (from the code above) toggles LED 5 every 200 ticks.  The second
+is given index 1 so toggles LED 6 every 400 ticks.
+     for( uxIndex = 0; uxIndex < 2; uxIndex++ )
+     \{
+         xCoRoutineCreate( vFlashCoRoutine, 0, uxIndex );
+     \}
+ \}
+   \end{DoxyPre}
+ 

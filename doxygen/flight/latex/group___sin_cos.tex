@@ -1,0 +1,84 @@
+\hypertarget{group___sin_cos}{\section{Sine Cosine}
+\label{group___sin_cos}\index{Sine Cosine@{Sine Cosine}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___sin_cos_ga4420d45c37d58c310ef9ae1b5fe58020}{arm\-\_\-sin\-\_\-cos\-\_\-f32} (\hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} theta, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Sin\-Val, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Cos\-Val)
+\begin{DoxyCompactList}\small\item\em Floating-\/point sin\-\_\-cos function. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___sin_cos_gae9e4ddebff9d4eb5d0a093e28e0bc504}{arm\-\_\-sin\-\_\-cos\-\_\-q31} (\hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} theta, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Sin\-Val, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Cos\-Val)
+\begin{DoxyCompactList}\small\item\em Q31 sin\-\_\-cos function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Computes the trigonometric sine and cosine values using a combination of table lookup and linear interpolation. There are separate functions for Q31 and floating-\/point data types. The input to the floating-\/point version is in degrees while the fixed-\/point Q31 have a scaled input with the range \mbox{[}-\/1 0.\-9999\mbox{]} mapping to \mbox{[}-\/180 179\mbox{]} degrees.
+
+The implementation is based on table lookup using 360 values together with linear interpolation. The steps used are\-:
+\begin{DoxyEnumerate}
+\item Calculation of the nearest integer table index.
+\item Compute the fractional portion (fract) of the input.
+\item Fetch the value corresponding to {\ttfamily index} from sine table to {\ttfamily y0} and also value from {\ttfamily index+1} to {\ttfamily y1}.
+\item Sine value is computed as {\ttfamily  $\ast$psin\-Val = y0 + (fract $\ast$ (y1 -\/ y0))}.
+\item Fetch the value corresponding to {\ttfamily index} from cosine table to {\ttfamily y0} and also value from {\ttfamily index+1} to {\ttfamily y1}.
+\item Cosine value is computed as {\ttfamily  $\ast$pcos\-Val = y0 + (fract $\ast$ (y1 -\/ y0))}. 
+\end{DoxyEnumerate}
+
+\subsection{Function Documentation}
+\hypertarget{group___sin_cos_ga4420d45c37d58c310ef9ae1b5fe58020}{\index{Sine Cosine@{Sine Cosine}!arm\-\_\-sin\-\_\-cos\-\_\-f32@{arm\-\_\-sin\-\_\-cos\-\_\-f32}}
+\index{arm\-\_\-sin\-\_\-cos\-\_\-f32@{arm\-\_\-sin\-\_\-cos\-\_\-f32}!Sine Cosine@{Sine Cosine}}
+\subsubsection[{arm\-\_\-sin\-\_\-cos\-\_\-f32}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-sin\-\_\-cos\-\_\-f32 (
+\begin{DoxyParamCaption}
+\item[{{\bf float32\-\_\-t}}]{theta, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Sin\-Val, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Cos\-Val}
+\end{DoxyParamCaption}
+)}}\label{group___sin_cos_ga4420d45c37d58c310ef9ae1b5fe58020}
+
+
+Floating-\/point sin\-\_\-cos function. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em theta} & input value in degrees \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Sin\-Val} & points to the processed sine output. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Cos\-Val} & points to the processed cos output. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none. 
+\end{DoxyReturn}
+
+
+Definition at line 370 of file arm\-\_\-sin\-\_\-cos\-\_\-f32.\-c.
+
+\hypertarget{group___sin_cos_gae9e4ddebff9d4eb5d0a093e28e0bc504}{\index{Sine Cosine@{Sine Cosine}!arm\-\_\-sin\-\_\-cos\-\_\-q31@{arm\-\_\-sin\-\_\-cos\-\_\-q31}}
+\index{arm\-\_\-sin\-\_\-cos\-\_\-q31@{arm\-\_\-sin\-\_\-cos\-\_\-q31}!Sine Cosine@{Sine Cosine}}
+\subsubsection[{arm\-\_\-sin\-\_\-cos\-\_\-q31}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-sin\-\_\-cos\-\_\-q31 (
+\begin{DoxyParamCaption}
+\item[{{\bf q31\-\_\-t}}]{theta, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Sin\-Val, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Cos\-Val}
+\end{DoxyParamCaption}
+)}}\label{group___sin_cos_gae9e4ddebff9d4eb5d0a093e28e0bc504}
+
+
+Q31 sin\-\_\-cos function. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em theta} & scaled input value in degrees \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Sin\-Val} & points to the processed sine output. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Cos\-Val} & points to the processed cosine output. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+The Q31 input value is in the range \mbox{[}-\/1 0.\-999999\mbox{]} and is mapped to a degree value in the range \mbox{[}-\/180 179\mbox{]}. 
+
+Definition at line 267 of file arm\-\_\-sin\-\_\-cos\-\_\-q31.\-c.
+

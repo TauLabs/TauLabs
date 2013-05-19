@@ -1,0 +1,165 @@
+\hypertarget{group___linear_interpolate}{\section{Linear Interpolation}
+\label{group___linear_interpolate}\index{Linear Interpolation@{Linear Interpolation}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} \hyperlink{group___linear_interpolate_gafd29f33d19cb1b3e1b5ddb9dddffd87b}{arm\-\_\-linear\-\_\-interp\-\_\-f32} (\hyperlink{structarm__linear__interp__instance__f32}{arm\-\_\-linear\-\_\-interp\-\_\-instance\-\_\-f32} $\ast$S, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} \hyperlink{pios__opahrs__proto_8h_ad0da36b2558901e21e7a30f6c227a45e}{x})
+\begin{DoxyCompactList}\small\item\em Process function for the floating-\/point Linear Interpolation Function. \end{DoxyCompactList}\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} \hyperlink{group___linear_interpolate_gac3594139f4f1fe548164bb39461f72c8}{arm\-\_\-linear\-\_\-interp\-\_\-q31} (\hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Y\-Data, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} \hyperlink{pios__opahrs__proto_8h_ad0da36b2558901e21e7a30f6c227a45e}{x}, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} n\-Values)
+\begin{DoxyCompactList}\small\item\em Process function for the Q31 Linear Interpolation Function. \end{DoxyCompactList}\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} \hyperlink{group___linear_interpolate_gad756229ce722b3a2f107a82878768b71}{arm\-\_\-linear\-\_\-interp\-\_\-q15} (\hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Y\-Data, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} \hyperlink{pios__opahrs__proto_8h_ad0da36b2558901e21e7a30f6c227a45e}{x}, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} n\-Values)
+\begin{DoxyCompactList}\small\item\em Process function for the Q15 Linear Interpolation Function. \end{DoxyCompactList}\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{arm__math_8h_ae541b6f232c305361e9b416fc9eed263}{q7\-\_\-t} \hyperlink{group___linear_interpolate_ga40267c9835983a9631d933f55814ba47}{arm\-\_\-linear\-\_\-interp\-\_\-q7} (\hyperlink{arm__math_8h_ae541b6f232c305361e9b416fc9eed263}{q7\-\_\-t} $\ast$p\-Y\-Data, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} \hyperlink{pios__opahrs__proto_8h_ad0da36b2558901e21e7a30f6c227a45e}{x}, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} n\-Values)
+\begin{DoxyCompactList}\small\item\em Process function for the Q7 Linear Interpolation Function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Linear interpolation is a method of curve fitting using linear polynomials. Linear interpolation works by effectively drawing a straight line between two neighboring samples and returning the appropriate point along that line
+
+\begin{DoxyParagraph}{}
+ 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+A Linear Interpolate function calculates an output value(y), for the input(x) using linear interpolation of the input values x0, x1( nearest input values) and the output values y0 and y1(nearest output values)
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Algorithm\-:}
+
+\begin{DoxyPre}
+      y = y0 + (x - x0) * ((y1 - y0)/(x1-x0))
+      where x0, x1 are nearest values of input x
+            y0, y1 are nearest values to output y
+\end{DoxyPre}
+
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+This set of functions implements Linear interpolation process for Q7, Q15, Q31, and floating-\/point data types. The functions operate on a single sample of data and each call to the function returns a single processed value. {\ttfamily S} points to an instance of the Linear Interpolate function data structure. {\ttfamily x} is the input sample value. The functions returns the output value.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+if x is outside of the table boundary, Linear interpolation returns first value of the table if x is below input range and returns last value of table if x is above range. 
+\end{DoxyParagraph}
+
+
+\subsection{Function Documentation}
+\hypertarget{group___linear_interpolate_gafd29f33d19cb1b3e1b5ddb9dddffd87b}{\index{Linear Interpolation@{Linear Interpolation}!arm\-\_\-linear\-\_\-interp\-\_\-f32@{arm\-\_\-linear\-\_\-interp\-\_\-f32}}
+\index{arm\-\_\-linear\-\_\-interp\-\_\-f32@{arm\-\_\-linear\-\_\-interp\-\_\-f32}!Linear Interpolation@{Linear Interpolation}}
+\subsubsection[{arm\-\_\-linear\-\_\-interp\-\_\-f32}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E {\bf float32\-\_\-t} arm\-\_\-linear\-\_\-interp\-\_\-f32 (
+\begin{DoxyParamCaption}
+\item[{{\bf arm\-\_\-linear\-\_\-interp\-\_\-instance\-\_\-f32} $\ast$}]{S, }
+\item[{{\bf float32\-\_\-t}}]{x}
+\end{DoxyParamCaption}
+)}}\label{group___linear_interpolate_gafd29f33d19cb1b3e1b5ddb9dddffd87b}
+
+
+Process function for the floating-\/point Linear Interpolation Function. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em $\ast$\-S} & is an instance of the floating-\/point Linear Interpolation structure \\
+\hline
+\mbox{\tt in}  & {\em x} & input sample to process \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+y processed output sample. 
+\end{DoxyReturn}
+
+
+Definition at line 5881 of file arm\-\_\-math.\-h.
+
+\hypertarget{group___linear_interpolate_gad756229ce722b3a2f107a82878768b71}{\index{Linear Interpolation@{Linear Interpolation}!arm\-\_\-linear\-\_\-interp\-\_\-q15@{arm\-\_\-linear\-\_\-interp\-\_\-q15}}
+\index{arm\-\_\-linear\-\_\-interp\-\_\-q15@{arm\-\_\-linear\-\_\-interp\-\_\-q15}!Linear Interpolation@{Linear Interpolation}}
+\subsubsection[{arm\-\_\-linear\-\_\-interp\-\_\-q15}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E {\bf q15\-\_\-t} arm\-\_\-linear\-\_\-interp\-\_\-q15 (
+\begin{DoxyParamCaption}
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Y\-Data, }
+\item[{{\bf q31\-\_\-t}}]{x, }
+\item[{{\bf uint32\-\_\-t}}]{n\-Values}
+\end{DoxyParamCaption}
+)}}\label{group___linear_interpolate_gad756229ce722b3a2f107a82878768b71}
+
+
+Process function for the Q15 Linear Interpolation Function. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Y\-Data} & pointer to Q15 Linear Interpolation table \\
+\hline
+\mbox{\tt in}  & {\em x} & input sample to process \\
+\hline
+\mbox{\tt in}  & {\em n\-Values} & number of table values \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+y processed output sample.
+\end{DoxyReturn}
+\begin{DoxyParagraph}{}
+Input sample {\ttfamily x} is in 12.\-20 format which contains 12 bits for table index and 20 bits for fractional part. This function can support maximum of table size 2$^\wedge$12. 
+\end{DoxyParagraph}
+
+
+Definition at line 6002 of file arm\-\_\-math.\-h.
+
+\hypertarget{group___linear_interpolate_gac3594139f4f1fe548164bb39461f72c8}{\index{Linear Interpolation@{Linear Interpolation}!arm\-\_\-linear\-\_\-interp\-\_\-q31@{arm\-\_\-linear\-\_\-interp\-\_\-q31}}
+\index{arm\-\_\-linear\-\_\-interp\-\_\-q31@{arm\-\_\-linear\-\_\-interp\-\_\-q31}!Linear Interpolation@{Linear Interpolation}}
+\subsubsection[{arm\-\_\-linear\-\_\-interp\-\_\-q31}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E {\bf q31\-\_\-t} arm\-\_\-linear\-\_\-interp\-\_\-q31 (
+\begin{DoxyParamCaption}
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Y\-Data, }
+\item[{{\bf q31\-\_\-t}}]{x, }
+\item[{{\bf uint32\-\_\-t}}]{n\-Values}
+\end{DoxyParamCaption}
+)}}\label{group___linear_interpolate_gac3594139f4f1fe548164bb39461f72c8}
+
+
+Process function for the Q31 Linear Interpolation Function. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Y\-Data} & pointer to Q31 Linear Interpolation table \\
+\hline
+\mbox{\tt in}  & {\em x} & input sample to process \\
+\hline
+\mbox{\tt in}  & {\em n\-Values} & number of table values \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+y processed output sample.
+\end{DoxyReturn}
+\begin{DoxyParagraph}{}
+Input sample {\ttfamily x} is in 12.\-20 format which contains 12 bits for table index and 20 bits for fractional part. This function can support maximum of table size 2$^\wedge$12. 
+\end{DoxyParagraph}
+
+
+Definition at line 5940 of file arm\-\_\-math.\-h.
+
+\hypertarget{group___linear_interpolate_ga40267c9835983a9631d933f55814ba47}{\index{Linear Interpolation@{Linear Interpolation}!arm\-\_\-linear\-\_\-interp\-\_\-q7@{arm\-\_\-linear\-\_\-interp\-\_\-q7}}
+\index{arm\-\_\-linear\-\_\-interp\-\_\-q7@{arm\-\_\-linear\-\_\-interp\-\_\-q7}!Linear Interpolation@{Linear Interpolation}}
+\subsubsection[{arm\-\_\-linear\-\_\-interp\-\_\-q7}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E {\bf q7\-\_\-t} arm\-\_\-linear\-\_\-interp\-\_\-q7 (
+\begin{DoxyParamCaption}
+\item[{{\bf q7\-\_\-t} $\ast$}]{p\-Y\-Data, }
+\item[{{\bf q31\-\_\-t}}]{x, }
+\item[{{\bf uint32\-\_\-t}}]{n\-Values}
+\end{DoxyParamCaption}
+)}}\label{group___linear_interpolate_ga40267c9835983a9631d933f55814ba47}
+
+
+Process function for the Q7 Linear Interpolation Function. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Y\-Data} & pointer to Q7 Linear Interpolation table \\
+\hline
+\mbox{\tt in}  & {\em x} & input sample to process \\
+\hline
+\mbox{\tt in}  & {\em n\-Values} & number of table values \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+y processed output sample.
+\end{DoxyReturn}
+\begin{DoxyParagraph}{}
+Input sample {\ttfamily x} is in 12.\-20 format which contains 12 bits for table index and 20 bits for fractional part. This function can support maximum of table size 2$^\wedge$12. 
+\end{DoxyParagraph}
+
+
+Definition at line 6062 of file arm\-\_\-math.\-h.
+

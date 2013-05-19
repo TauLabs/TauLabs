@@ -1,0 +1,114 @@
+\hypertarget{group___c_m_s_i_s__core___debug_functions}{\section{I\-T\-M Functions}
+\label{group___c_m_s_i_s__core___debug_functions}\index{I\-T\-M Functions@{I\-T\-M Functions}}
+}
+
+
+Functions that access the I\-T\-M debug interface.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_m_s_i_s__core___debug_functions_gac90a497bd64286b84552c2c553d3419e}{I\-T\-M\-\_\-\-Send\-Char} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} ch)
+\begin{DoxyCompactList}\small\item\em I\-T\-M Send Character. \end{DoxyCompactList}\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___c_m_s_i_s__core___debug_functions_gac3ee2c30a1ac4ed34c8a866a17decd53}{I\-T\-M\-\_\-\-Receive\-Char} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em I\-T\-M Receive Character. \end{DoxyCompactList}\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___c_m_s_i_s__core___debug_functions_gae61ce9ca5917735325cd93b0fb21dd29}{I\-T\-M\-\_\-\-Check\-Char} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em I\-T\-M Check Character. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___c_m_s_i_s___core___instruction_interface_gad7d93af13046b0378601b85c8c16673b}{volatile} \hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___c_m_s_i_s__core___debug_functions_ga12e68e55a7badc271b948d6c7230b2a8}{I\-T\-M\-\_\-\-Rx\-Buffer}
+\item 
+\hyperlink{group___c_m_s_i_s___core___instruction_interface_gad7d93af13046b0378601b85c8c16673b}{volatile} \hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___c_m_s_i_s__core___debug_functions_ga12e68e55a7badc271b948d6c7230b2a8}{I\-T\-M\-\_\-\-Rx\-Buffer}
+\item 
+\hyperlink{group___c_m_s_i_s___core___instruction_interface_gad7d93af13046b0378601b85c8c16673b}{volatile} \hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___c_m_s_i_s__core___debug_functions_ga12e68e55a7badc271b948d6c7230b2a8}{I\-T\-M\-\_\-\-Rx\-Buffer}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Functions that access the I\-T\-M debug interface. 
+
+\subsection{Function Documentation}
+\hypertarget{group___c_m_s_i_s__core___debug_functions_gae61ce9ca5917735325cd93b0fb21dd29}{\index{I\-T\-M Functions@{I\-T\-M Functions}!I\-T\-M\-\_\-\-Check\-Char@{I\-T\-M\-\_\-\-Check\-Char}}
+\index{I\-T\-M\-\_\-\-Check\-Char@{I\-T\-M\-\_\-\-Check\-Char}!ITM Functions@{I\-T\-M Functions}}
+\subsubsection[{I\-T\-M\-\_\-\-Check\-Char}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E {\bf int32\-\_\-t} I\-T\-M\-\_\-\-Check\-Char (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s__core___debug_functions_gae61ce9ca5917735325cd93b0fb21dd29}
+
+
+I\-T\-M Check Character. 
+
+The function checks whether a character is pending for reading in the variable \hyperlink{group___c_m_s_i_s___c_m3___core_debug_interface_gacf1fe3063cedf11b6e6f7cb0dd7c1a51}{I\-T\-M\-\_\-\-Rx\-Buffer}.
+
+\begin{DoxyReturn}{Returns}
+0 No character available. 
+
+1 Character available. 
+\end{DoxyReturn}
+
+
+Definition at line 1595 of file core\-\_\-cm3.\-h.
+
+\hypertarget{group___c_m_s_i_s__core___debug_functions_gac3ee2c30a1ac4ed34c8a866a17decd53}{\index{I\-T\-M Functions@{I\-T\-M Functions}!I\-T\-M\-\_\-\-Receive\-Char@{I\-T\-M\-\_\-\-Receive\-Char}}
+\index{I\-T\-M\-\_\-\-Receive\-Char@{I\-T\-M\-\_\-\-Receive\-Char}!ITM Functions@{I\-T\-M Functions}}
+\subsubsection[{I\-T\-M\-\_\-\-Receive\-Char}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E {\bf int32\-\_\-t} I\-T\-M\-\_\-\-Receive\-Char (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s__core___debug_functions_gac3ee2c30a1ac4ed34c8a866a17decd53}
+
+
+I\-T\-M Receive Character. 
+
+The function inputs a character via the external variable \hyperlink{group___c_m_s_i_s___c_m3___core_debug_interface_gacf1fe3063cedf11b6e6f7cb0dd7c1a51}{I\-T\-M\-\_\-\-Rx\-Buffer}.
+
+\begin{DoxyReturn}{Returns}
+Received character. 
+
+-\/1 No character pending. 
+\end{DoxyReturn}
+
+
+Definition at line 1576 of file core\-\_\-cm3.\-h.
+
+\hypertarget{group___c_m_s_i_s__core___debug_functions_gac90a497bd64286b84552c2c553d3419e}{\index{I\-T\-M Functions@{I\-T\-M Functions}!I\-T\-M\-\_\-\-Send\-Char@{I\-T\-M\-\_\-\-Send\-Char}}
+\index{I\-T\-M\-\_\-\-Send\-Char@{I\-T\-M\-\_\-\-Send\-Char}!ITM Functions@{I\-T\-M Functions}}
+\subsubsection[{I\-T\-M\-\_\-\-Send\-Char}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E {\bf uint32\-\_\-t} I\-T\-M\-\_\-\-Send\-Char (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{ch}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s__core___debug_functions_gac90a497bd64286b84552c2c553d3419e}
+
+
+I\-T\-M Send Character. 
+
+The function transmits a character via the I\-T\-M channel 0, and \begin{DoxyItemize}
+\item Just returns when no debugger is connected that has booked the output. \item Is blocking when a debugger is connected, but the previous character sent has not been transmitted.\end{DoxyItemize}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em ch} & Character to transmit.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Character to transmit. 
+\end{DoxyReturn}
+
+
+Definition at line 1557 of file core\-\_\-cm3.\-h.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{group___c_m_s_i_s__core___debug_functions_ga12e68e55a7badc271b948d6c7230b2a8}{\index{I\-T\-M Functions@{I\-T\-M Functions}!I\-T\-M\-\_\-\-Rx\-Buffer@{I\-T\-M\-\_\-\-Rx\-Buffer}}
+\index{I\-T\-M\-\_\-\-Rx\-Buffer@{I\-T\-M\-\_\-\-Rx\-Buffer}!ITM Functions@{I\-T\-M Functions}}
+\subsubsection[{I\-T\-M\-\_\-\-Rx\-Buffer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf volatile} {\bf int32\-\_\-t} I\-T\-M\-\_\-\-Rx\-Buffer}}\label{group___c_m_s_i_s__core___debug_functions_ga12e68e55a7badc271b948d6c7230b2a8}
+External variable to receive characters. \hypertarget{group___c_m_s_i_s__core___debug_functions_ga12e68e55a7badc271b948d6c7230b2a8}{\index{I\-T\-M Functions@{I\-T\-M Functions}!I\-T\-M\-\_\-\-Rx\-Buffer@{I\-T\-M\-\_\-\-Rx\-Buffer}}
+\index{I\-T\-M\-\_\-\-Rx\-Buffer@{I\-T\-M\-\_\-\-Rx\-Buffer}!ITM Functions@{I\-T\-M Functions}}
+\subsubsection[{I\-T\-M\-\_\-\-Rx\-Buffer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf volatile} {\bf int32\-\_\-t} I\-T\-M\-\_\-\-Rx\-Buffer}}\label{group___c_m_s_i_s__core___debug_functions_ga12e68e55a7badc271b948d6c7230b2a8}
+External variable to receive characters. \hypertarget{group___c_m_s_i_s__core___debug_functions_ga12e68e55a7badc271b948d6c7230b2a8}{\index{I\-T\-M Functions@{I\-T\-M Functions}!I\-T\-M\-\_\-\-Rx\-Buffer@{I\-T\-M\-\_\-\-Rx\-Buffer}}
+\index{I\-T\-M\-\_\-\-Rx\-Buffer@{I\-T\-M\-\_\-\-Rx\-Buffer}!ITM Functions@{I\-T\-M Functions}}
+\subsubsection[{I\-T\-M\-\_\-\-Rx\-Buffer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf volatile} {\bf int32\-\_\-t} I\-T\-M\-\_\-\-Rx\-Buffer}}\label{group___c_m_s_i_s__core___debug_functions_ga12e68e55a7badc271b948d6c7230b2a8}
+External variable to receive characters. 

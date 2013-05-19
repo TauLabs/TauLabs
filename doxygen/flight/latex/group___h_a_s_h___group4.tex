@@ -1,0 +1,56 @@
+\hypertarget{group___h_a_s_h___group4}{\section{H\-A\-S\-H's D\-M\-A interface Configuration function}
+\label{group___h_a_s_h___group4}\index{H\-A\-S\-H's D\-M\-A interface Configuration function@{H\-A\-S\-H's D\-M\-A interface Configuration function}}
+}
+
+
+H\-A\-S\-H's D\-M\-A interface Configuration function.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___h_a_s_h___group4_ga6bc756803b0b3a03eecc47cb570e1bd3}{H\-A\-S\-H\-\_\-\-D\-M\-A\-Cmd} (\hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the H\-A\-S\-H D\-M\-A interface. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+H\-A\-S\-H's D\-M\-A interface Configuration function. \begin{DoxyVerb} ===============================================================================
+                   HASH's DMA interface Configuration function
+ ===============================================================================  
+
+  This section provides functions allowing to configure the DMA interface for 
+  HASH/ HMAC data input transfer.
+   
+  When the DMA mode is enabled (using the HASH_DMACmd() function), data can be 
+  sent to the IN FIFO using the DMA peripheral.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___h_a_s_h___group4_ga6bc756803b0b3a03eecc47cb570e1bd3}{\index{H\-A\-S\-H's D\-M\-A interface Configuration function@{H\-A\-S\-H's D\-M\-A interface Configuration function}!H\-A\-S\-H\-\_\-\-D\-M\-A\-Cmd@{H\-A\-S\-H\-\_\-\-D\-M\-A\-Cmd}}
+\index{H\-A\-S\-H\-\_\-\-D\-M\-A\-Cmd@{H\-A\-S\-H\-\_\-\-D\-M\-A\-Cmd}!HASH's DMA interface Configuration function@{H\-A\-S\-H's D\-M\-A interface Configuration function}}
+\subsubsection[{H\-A\-S\-H\-\_\-\-D\-M\-A\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} H\-A\-S\-H\-\_\-\-D\-M\-A\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___h_a_s_h___group4_ga6bc756803b0b3a03eecc47cb570e1bd3}
+
+
+Enables or disables the H\-A\-S\-H D\-M\-A interface. 
+
+\begin{DoxyNote}{Note}
+The D\-M\-A is disabled by hardware after the end of transfer. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\-State,\-:} & new state of the selected H\-A\-S\-H D\-M\-A transfer request. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 466 of file stm32f4xx\-\_\-hash.\-c.
+

@@ -1,0 +1,198 @@
+\hypertarget{group___r_t_c___group7}{\section{Digital Calibration configuration functions}
+\label{group___r_t_c___group7}\index{Digital Calibration configuration functions@{Digital Calibration configuration functions}}
+}
+
+
+Digital Calibration configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___group7_ga25eaa2de5ee858a4572d5fb1eb146ff8}{R\-T\-C\-\_\-\-Calib\-Output\-Cmd} (\hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the R\-T\-C clock to be output through the relative pin. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___group7_ga2139adc802bdb6882904c0b855d50b29}{R\-T\-C\-\_\-\-Calib\-Output\-Config} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} R\-T\-C\-\_\-\-Calib\-Output)
+\begin{DoxyCompactList}\small\item\em Configures the Calibration Pinout (R\-T\-C\-\_\-\-C\-A\-L\-I\-B) Selection (1\-Hz or 512\-Hz). \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga8333b96c67f83cba354b3407fcbb6ee8}{Error\-Status} \hyperlink{group___r_t_c___group7_ga91a28dcc7d45340a469dd8b8c029f841}{R\-T\-C\-\_\-\-Smooth\-Calib\-Config} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} R\-T\-C\-\_\-\-Smooth\-Calib\-Period, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} R\-T\-C\-\_\-\-Smooth\-Calib\-Plus\-Pulses, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} R\-T\-C\-\_\-\-Smouth\-Calib\-Minus\-Pulses\-Value)
+\begin{DoxyCompactList}\small\item\em Configures the Smooth Calibration Settings. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga8333b96c67f83cba354b3407fcbb6ee8}{Error\-Status} \hyperlink{group___r_t_c___group7_gaa3bb10170a2c70ac9ce3e41c611bdd43}{R\-T\-C\-\_\-\-Coarse\-Calib\-Config} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} R\-T\-C\-\_\-\-Calib\-Sign, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Value)
+\begin{DoxyCompactList}\small\item\em Configures the Coarse calibration parameters. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga8333b96c67f83cba354b3407fcbb6ee8}{Error\-Status} \hyperlink{group___r_t_c___group7_ga008ae7173b2befe876f5e76686bc9089}{R\-T\-C\-\_\-\-Coarse\-Calib\-Cmd} (\hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the Coarse calibration process. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Digital Calibration configuration functions. Coarse Calibration configuration functions.
+
+\begin{DoxyVerb} ===============================================================================
+            ##### Digital Calibration configuration functions #####
+ ===============================================================================\end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                  Digital Calibration configuration functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___r_t_c___group7_ga25eaa2de5ee858a4572d5fb1eb146ff8}{\index{Digital Calibration configuration functions@{Digital Calibration configuration functions}!R\-T\-C\-\_\-\-Calib\-Output\-Cmd@{R\-T\-C\-\_\-\-Calib\-Output\-Cmd}}
+\index{R\-T\-C\-\_\-\-Calib\-Output\-Cmd@{R\-T\-C\-\_\-\-Calib\-Output\-Cmd}!Digital Calibration configuration functions@{Digital Calibration configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Calib\-Output\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} R\-T\-C\-\_\-\-Calib\-Output\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group7_ga25eaa2de5ee858a4572d5fb1eb146ff8}
+
+
+Enables or disables the R\-T\-C clock to be output through the relative pin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\-State,\-:} & new state of the digital calibration Output. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1697 of file stm32f30x\-\_\-rtc.\-c.
+
+\hypertarget{group___r_t_c___group7_ga2139adc802bdb6882904c0b855d50b29}{\index{Digital Calibration configuration functions@{Digital Calibration configuration functions}!R\-T\-C\-\_\-\-Calib\-Output\-Config@{R\-T\-C\-\_\-\-Calib\-Output\-Config}}
+\index{R\-T\-C\-\_\-\-Calib\-Output\-Config@{R\-T\-C\-\_\-\-Calib\-Output\-Config}!Digital Calibration configuration functions@{Digital Calibration configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Calib\-Output\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} R\-T\-C\-\_\-\-Calib\-Output\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{R\-T\-C\-\_\-\-Calib\-Output}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group7_ga2139adc802bdb6882904c0b855d50b29}
+
+
+Configures the Calibration Pinout (R\-T\-C\-\_\-\-C\-A\-L\-I\-B) Selection (1\-Hz or 512\-Hz). 
+
+Configure the Calibration Pinout (R\-T\-C\-\_\-\-C\-A\-L\-I\-B) Selection (1\-Hz or 512\-Hz).
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\-T\-C\-\_\-\-Calib\-Output} & \-: Select the Calibration output Selection . This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item R\-T\-C\-\_\-\-Calib\-Output\-\_\-512\-Hz\-: A signal has a regular waveform at 512\-Hz. \item R\-T\-C\-\_\-\-Calib\-Output\-\_\-1\-Hz \-: A signal has a regular waveform at 1\-Hz. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1729 of file stm32f30x\-\_\-rtc.\-c.
+
+\hypertarget{group___r_t_c___group7_ga008ae7173b2befe876f5e76686bc9089}{\index{Digital Calibration configuration functions@{Digital Calibration configuration functions}!R\-T\-C\-\_\-\-Coarse\-Calib\-Cmd@{R\-T\-C\-\_\-\-Coarse\-Calib\-Cmd}}
+\index{R\-T\-C\-\_\-\-Coarse\-Calib\-Cmd@{R\-T\-C\-\_\-\-Coarse\-Calib\-Cmd}!Digital Calibration configuration functions@{Digital Calibration configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Coarse\-Calib\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Error\-Status} R\-T\-C\-\_\-\-Coarse\-Calib\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group7_ga008ae7173b2befe876f5e76686bc9089}
+
+
+Enables or disables the Coarse calibration process. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\-State,\-:} & new state of the Coarse calibration. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\-Status enumeration value\-:
+\begin{DoxyItemize}
+\item S\-U\-C\-C\-E\-S\-S\-: R\-T\-C Coarse calibration are enabled/disabled
+\item E\-R\-R\-O\-R\-: R\-T\-C Coarse calibration are not enabled/disabled 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1790 of file stm32f4xx\-\_\-rtc.\-c.
+
+\hypertarget{group___r_t_c___group7_gaa3bb10170a2c70ac9ce3e41c611bdd43}{\index{Digital Calibration configuration functions@{Digital Calibration configuration functions}!R\-T\-C\-\_\-\-Coarse\-Calib\-Config@{R\-T\-C\-\_\-\-Coarse\-Calib\-Config}}
+\index{R\-T\-C\-\_\-\-Coarse\-Calib\-Config@{R\-T\-C\-\_\-\-Coarse\-Calib\-Config}!Digital Calibration configuration functions@{Digital Calibration configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Coarse\-Calib\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Error\-Status} R\-T\-C\-\_\-\-Coarse\-Calib\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{R\-T\-C\-\_\-\-Calib\-Sign, }
+\item[{{\bf uint32\-\_\-t}}]{Value}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group7_gaa3bb10170a2c70ac9ce3e41c611bdd43}
+
+
+Configures the Coarse calibration parameters. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\-T\-C\-\_\-\-Calib\-Sign,\-:} & specifies the sign of the coarse calibration value. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item R\-T\-C\-\_\-\-Calib\-Sign\-\_\-\-Positive\-: The value sign is positive \item R\-T\-C\-\_\-\-Calib\-Sign\-\_\-\-Negative\-: The value sign is negative \end{DoxyItemize}
+\\
+\hline
+{\em Value,\-:} & value of coarse calibration expressed in ppm (coded on 5 bits).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This Calibration value should be between 0 and 63 when using negative sign with a 2-\/ppm step.
+
+This Calibration value should be between 0 and 126 when using positive sign with a 4-\/ppm step.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\-Status enumeration value\-:
+\begin{DoxyItemize}
+\item S\-U\-C\-C\-E\-S\-S\-: R\-T\-C Coarse calibration are initialized
+\item E\-R\-R\-O\-R\-: R\-T\-C Coarse calibration are not initialized 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1749 of file stm32f4xx\-\_\-rtc.\-c.
+
+\hypertarget{group___r_t_c___group7_ga91a28dcc7d45340a469dd8b8c029f841}{\index{Digital Calibration configuration functions@{Digital Calibration configuration functions}!R\-T\-C\-\_\-\-Smooth\-Calib\-Config@{R\-T\-C\-\_\-\-Smooth\-Calib\-Config}}
+\index{R\-T\-C\-\_\-\-Smooth\-Calib\-Config@{R\-T\-C\-\_\-\-Smooth\-Calib\-Config}!Digital Calibration configuration functions@{Digital Calibration configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Smooth\-Calib\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Error\-Status} R\-T\-C\-\_\-\-Smooth\-Calib\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{R\-T\-C\-\_\-\-Smooth\-Calib\-Period, }
+\item[{{\bf uint32\-\_\-t}}]{R\-T\-C\-\_\-\-Smooth\-Calib\-Plus\-Pulses, }
+\item[{{\bf uint32\-\_\-t}}]{R\-T\-C\-\_\-\-Smouth\-Calib\-Minus\-Pulses\-Value}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group7_ga91a28dcc7d45340a469dd8b8c029f841}
+
+
+Configures the Smooth Calibration Settings. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\-T\-C\-\_\-\-Smooth\-Calib\-Period} & \-: Select the Smooth Calibration Period. This parameter can be can be one of the following values\-: \begin{DoxyItemize}
+\item R\-T\-C\-\_\-\-Smooth\-Calib\-Period\-\_\-32sec \-: The smooth calibration periode is 32s. \item R\-T\-C\-\_\-\-Smooth\-Calib\-Period\-\_\-16sec \-: The smooth calibration periode is 16s. \item R\-T\-C\-\_\-\-Smooth\-Calib\-Period\-\_\-8sec \-: The smooth calibartion periode is 8s. \end{DoxyItemize}
+\\
+\hline
+{\em R\-T\-C\-\_\-\-Smooth\-Calib\-Plus\-Pulses} & \-: Select to Set or reset the C\-A\-L\-P bit. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item R\-T\-C\-\_\-\-Smooth\-Calib\-Plus\-Pulses\-\_\-\-Set \-: Add one R\-T\-C\-C\-L\-K puls every 2$\ast$$\ast$11 pulses. \item R\-T\-C\-\_\-\-Smooth\-Calib\-Plus\-Pulses\-\_\-\-Reset\-: No R\-T\-C\-C\-L\-K pulses are added. \end{DoxyItemize}
+\\
+\hline
+{\em R\-T\-C\-\_\-\-Smouth\-Calib\-Minus\-Pulses\-Value,\-:} & Select the value of C\-A\-L\-M\mbox{[}8\-:0\mbox{]} bits. This parameter can be one any value from 0 to 0x000001\-F\-F. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\-Status enumeration value\-:
+\begin{DoxyItemize}
+\item S\-U\-C\-C\-E\-S\-S\-: R\-T\-C Calib registers are configured
+\item E\-R\-R\-O\-R\-: R\-T\-C Calib registers are not configured 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1765 of file stm32f30x\-\_\-rtc.\-c.
+

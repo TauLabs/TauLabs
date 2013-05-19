@@ -1,0 +1,142 @@
+\hypertarget{struct___device__cb}{\section{\-\_\-\-Device\-\_\-cb Struct Reference}
+\label{struct___device__cb}\index{\-\_\-\-Device\-\_\-cb@{\-\_\-\-Device\-\_\-cb}}
+}
+
+
+{\ttfamily \#include $<$usb\-\_\-core.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t}($\ast$ \hyperlink{struct___device__cb_a32d5bd2c14d36adaeee879efb2d99937}{Init} )(\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$pdev, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} cfgidx)
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t}($\ast$ \hyperlink{struct___device__cb_a356783fc0dd7be07db7d764214937dad}{De\-Init} )(\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$pdev, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} cfgidx)
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t}($\ast$ \hyperlink{struct___device__cb_ab7ffbb974bc00c175cfed7ba03c8b16b}{Setup} )(\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$pdev, \hyperlink{group___u_s_b___c_o_r_e___exported___types_gacd8d898c844c3657315c7d7a4ea3a99c}{U\-S\-B\-\_\-\-S\-E\-T\-U\-P\-\_\-\-R\-E\-Q} $\ast$\hyperlink{pios__opahrs__proto_8h_ad651fd9affe5ed0ac9abccd8e2791a2c}{req})
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t}($\ast$ \hyperlink{struct___device__cb_af5e2e1683935d2e6655930e8857fbc1d}{E\-P0\-\_\-\-Tx\-Sent} )(\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$pdev)
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t}($\ast$ \hyperlink{struct___device__cb_a88cc8d66e3ccb037e515a76a37f5aae5}{E\-P0\-\_\-\-Rx\-Ready} )(\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$pdev)
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t}($\ast$ \hyperlink{struct___device__cb_a123969c5d82101054ecfa686ea695db0}{Data\-In} )(\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$pdev, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} epnum)
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t}($\ast$ \hyperlink{struct___device__cb_a420d525bfff88ecb1e819c48251cc6f2}{Data\-Out} )(\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$pdev, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} epnum)
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t}($\ast$ \hyperlink{struct___device__cb_aa466062cecbfcca282201c92c6c6c644}{S\-O\-F} )(\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$pdev)
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t}($\ast$ \hyperlink{struct___device__cb_a0edbe34c35d5d64485f293448aa8cae6}{Iso\-I\-N\-Incomplete} )(\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$pdev)
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t}($\ast$ \hyperlink{struct___device__cb_aa3104ec3940cc254286c6f93ee23b632}{Iso\-O\-U\-T\-Incomplete} )(\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$pdev)
+\item 
+\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$($\ast$ \hyperlink{struct___device__cb_a1a422e4eaf53cfd3d4208ddf7fdb64a1}{Get\-Config\-Descriptor} )(\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} speed, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} $\ast$\hyperlink{mavlink__helpers_8h_a4254bfa282bd215965d99b8d6b527a04}{length})
+\item 
+\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$($\ast$ \hyperlink{struct___device__cb_abcc9a422a304094e617d53181185e242}{Get\-Other\-Config\-Descriptor} )(\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} speed, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} $\ast$\hyperlink{mavlink__helpers_8h_a4254bfa282bd215965d99b8d6b527a04}{length})
+\item 
+\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$($\ast$ \hyperlink{struct___device__cb_a5809d0b352a170d39c3ec15fa9070d15}{Get\-Usr\-Str\-Descriptor} )(\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} speed, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} index, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} $\ast$\hyperlink{mavlink__helpers_8h_a4254bfa282bd215965d99b8d6b527a04}{length})
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 210 of file usb\-\_\-core.\-h.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{struct___device__cb_a123969c5d82101054ecfa686ea695db0}{\index{\-\_\-\-Device\-\_\-cb@{\-\_\-\-Device\-\_\-cb}!Data\-In@{Data\-In}}
+\index{Data\-In@{Data\-In}!_Device_cb@{\-\_\-\-Device\-\_\-cb}}
+\subsubsection[{Data\-In}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t}($\ast$ \-\_\-\-Device\-\_\-cb\-::\-Data\-In)({\bf void} $\ast$pdev, {\bf uint8\-\_\-t} epnum)}}\label{struct___device__cb_a123969c5d82101054ecfa686ea695db0}
+
+
+Definition at line 219 of file usb\-\_\-core.\-h.
+
+\hypertarget{struct___device__cb_a420d525bfff88ecb1e819c48251cc6f2}{\index{\-\_\-\-Device\-\_\-cb@{\-\_\-\-Device\-\_\-cb}!Data\-Out@{Data\-Out}}
+\index{Data\-Out@{Data\-Out}!_Device_cb@{\-\_\-\-Device\-\_\-cb}}
+\subsubsection[{Data\-Out}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t}($\ast$ \-\_\-\-Device\-\_\-cb\-::\-Data\-Out)({\bf void} $\ast$pdev, {\bf uint8\-\_\-t} epnum)}}\label{struct___device__cb_a420d525bfff88ecb1e819c48251cc6f2}
+
+
+Definition at line 220 of file usb\-\_\-core.\-h.
+
+\hypertarget{struct___device__cb_a356783fc0dd7be07db7d764214937dad}{\index{\-\_\-\-Device\-\_\-cb@{\-\_\-\-Device\-\_\-cb}!De\-Init@{De\-Init}}
+\index{De\-Init@{De\-Init}!_Device_cb@{\-\_\-\-Device\-\_\-cb}}
+\subsubsection[{De\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t}($\ast$ \-\_\-\-Device\-\_\-cb\-::\-De\-Init)({\bf void} $\ast$pdev, {\bf uint8\-\_\-t} cfgidx)}}\label{struct___device__cb_a356783fc0dd7be07db7d764214937dad}
+
+
+Definition at line 213 of file usb\-\_\-core.\-h.
+
+\hypertarget{struct___device__cb_a88cc8d66e3ccb037e515a76a37f5aae5}{\index{\-\_\-\-Device\-\_\-cb@{\-\_\-\-Device\-\_\-cb}!E\-P0\-\_\-\-Rx\-Ready@{E\-P0\-\_\-\-Rx\-Ready}}
+\index{E\-P0\-\_\-\-Rx\-Ready@{E\-P0\-\_\-\-Rx\-Ready}!_Device_cb@{\-\_\-\-Device\-\_\-cb}}
+\subsubsection[{E\-P0\-\_\-\-Rx\-Ready}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t}($\ast$ \-\_\-\-Device\-\_\-cb\-::\-E\-P0\-\_\-\-Rx\-Ready)({\bf void} $\ast$pdev)}}\label{struct___device__cb_a88cc8d66e3ccb037e515a76a37f5aae5}
+
+
+Definition at line 217 of file usb\-\_\-core.\-h.
+
+\hypertarget{struct___device__cb_af5e2e1683935d2e6655930e8857fbc1d}{\index{\-\_\-\-Device\-\_\-cb@{\-\_\-\-Device\-\_\-cb}!E\-P0\-\_\-\-Tx\-Sent@{E\-P0\-\_\-\-Tx\-Sent}}
+\index{E\-P0\-\_\-\-Tx\-Sent@{E\-P0\-\_\-\-Tx\-Sent}!_Device_cb@{\-\_\-\-Device\-\_\-cb}}
+\subsubsection[{E\-P0\-\_\-\-Tx\-Sent}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t}($\ast$ \-\_\-\-Device\-\_\-cb\-::\-E\-P0\-\_\-\-Tx\-Sent)({\bf void} $\ast$pdev)}}\label{struct___device__cb_af5e2e1683935d2e6655930e8857fbc1d}
+
+
+Definition at line 216 of file usb\-\_\-core.\-h.
+
+\hypertarget{struct___device__cb_a1a422e4eaf53cfd3d4208ddf7fdb64a1}{\index{\-\_\-\-Device\-\_\-cb@{\-\_\-\-Device\-\_\-cb}!Get\-Config\-Descriptor@{Get\-Config\-Descriptor}}
+\index{Get\-Config\-Descriptor@{Get\-Config\-Descriptor}!_Device_cb@{\-\_\-\-Device\-\_\-cb}}
+\subsubsection[{Get\-Config\-Descriptor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf const} {\bf uint8\-\_\-t}$\ast$($\ast$ \-\_\-\-Device\-\_\-cb\-::\-Get\-Config\-Descriptor)({\bf uint8\-\_\-t} speed, {\bf uint16\-\_\-t} $\ast${\bf length})}}\label{struct___device__cb_a1a422e4eaf53cfd3d4208ddf7fdb64a1}
+
+
+Definition at line 225 of file usb\-\_\-core.\-h.
+
+\hypertarget{struct___device__cb_abcc9a422a304094e617d53181185e242}{\index{\-\_\-\-Device\-\_\-cb@{\-\_\-\-Device\-\_\-cb}!Get\-Other\-Config\-Descriptor@{Get\-Other\-Config\-Descriptor}}
+\index{Get\-Other\-Config\-Descriptor@{Get\-Other\-Config\-Descriptor}!_Device_cb@{\-\_\-\-Device\-\_\-cb}}
+\subsubsection[{Get\-Other\-Config\-Descriptor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf const} {\bf uint8\-\_\-t}$\ast$($\ast$ \-\_\-\-Device\-\_\-cb\-::\-Get\-Other\-Config\-Descriptor)({\bf uint8\-\_\-t} speed, {\bf uint16\-\_\-t} $\ast${\bf length})}}\label{struct___device__cb_abcc9a422a304094e617d53181185e242}
+
+
+Definition at line 227 of file usb\-\_\-core.\-h.
+
+\hypertarget{struct___device__cb_a5809d0b352a170d39c3ec15fa9070d15}{\index{\-\_\-\-Device\-\_\-cb@{\-\_\-\-Device\-\_\-cb}!Get\-Usr\-Str\-Descriptor@{Get\-Usr\-Str\-Descriptor}}
+\index{Get\-Usr\-Str\-Descriptor@{Get\-Usr\-Str\-Descriptor}!_Device_cb@{\-\_\-\-Device\-\_\-cb}}
+\subsubsection[{Get\-Usr\-Str\-Descriptor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf const} {\bf uint8\-\_\-t}$\ast$($\ast$ \-\_\-\-Device\-\_\-cb\-::\-Get\-Usr\-Str\-Descriptor)({\bf uint8\-\_\-t} speed,{\bf uint8\-\_\-t} index, {\bf uint16\-\_\-t} $\ast${\bf length})}}\label{struct___device__cb_a5809d0b352a170d39c3ec15fa9070d15}
+
+
+Definition at line 231 of file usb\-\_\-core.\-h.
+
+\hypertarget{struct___device__cb_a32d5bd2c14d36adaeee879efb2d99937}{\index{\-\_\-\-Device\-\_\-cb@{\-\_\-\-Device\-\_\-cb}!Init@{Init}}
+\index{Init@{Init}!_Device_cb@{\-\_\-\-Device\-\_\-cb}}
+\subsubsection[{Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t}($\ast$ \-\_\-\-Device\-\_\-cb\-::\-Init)({\bf void} $\ast$pdev, {\bf uint8\-\_\-t} cfgidx)}}\label{struct___device__cb_a32d5bd2c14d36adaeee879efb2d99937}
+
+
+Definition at line 212 of file usb\-\_\-core.\-h.
+
+\hypertarget{struct___device__cb_a0edbe34c35d5d64485f293448aa8cae6}{\index{\-\_\-\-Device\-\_\-cb@{\-\_\-\-Device\-\_\-cb}!Iso\-I\-N\-Incomplete@{Iso\-I\-N\-Incomplete}}
+\index{Iso\-I\-N\-Incomplete@{Iso\-I\-N\-Incomplete}!_Device_cb@{\-\_\-\-Device\-\_\-cb}}
+\subsubsection[{Iso\-I\-N\-Incomplete}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t}($\ast$ \-\_\-\-Device\-\_\-cb\-::\-Iso\-I\-N\-Incomplete)({\bf void} $\ast$pdev)}}\label{struct___device__cb_a0edbe34c35d5d64485f293448aa8cae6}
+
+
+Definition at line 222 of file usb\-\_\-core.\-h.
+
+\hypertarget{struct___device__cb_aa3104ec3940cc254286c6f93ee23b632}{\index{\-\_\-\-Device\-\_\-cb@{\-\_\-\-Device\-\_\-cb}!Iso\-O\-U\-T\-Incomplete@{Iso\-O\-U\-T\-Incomplete}}
+\index{Iso\-O\-U\-T\-Incomplete@{Iso\-O\-U\-T\-Incomplete}!_Device_cb@{\-\_\-\-Device\-\_\-cb}}
+\subsubsection[{Iso\-O\-U\-T\-Incomplete}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t}($\ast$ \-\_\-\-Device\-\_\-cb\-::\-Iso\-O\-U\-T\-Incomplete)({\bf void} $\ast$pdev)}}\label{struct___device__cb_aa3104ec3940cc254286c6f93ee23b632}
+
+
+Definition at line 223 of file usb\-\_\-core.\-h.
+
+\hypertarget{struct___device__cb_ab7ffbb974bc00c175cfed7ba03c8b16b}{\index{\-\_\-\-Device\-\_\-cb@{\-\_\-\-Device\-\_\-cb}!Setup@{Setup}}
+\index{Setup@{Setup}!_Device_cb@{\-\_\-\-Device\-\_\-cb}}
+\subsubsection[{Setup}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t}($\ast$ \-\_\-\-Device\-\_\-cb\-::\-Setup)({\bf void} $\ast$pdev, {\bf U\-S\-B\-\_\-\-S\-E\-T\-U\-P\-\_\-\-R\-E\-Q} $\ast${\bf req})}}\label{struct___device__cb_ab7ffbb974bc00c175cfed7ba03c8b16b}
+
+
+Definition at line 215 of file usb\-\_\-core.\-h.
+
+\hypertarget{struct___device__cb_aa466062cecbfcca282201c92c6c6c644}{\index{\-\_\-\-Device\-\_\-cb@{\-\_\-\-Device\-\_\-cb}!S\-O\-F@{S\-O\-F}}
+\index{S\-O\-F@{S\-O\-F}!_Device_cb@{\-\_\-\-Device\-\_\-cb}}
+\subsubsection[{S\-O\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t}($\ast$ \-\_\-\-Device\-\_\-cb\-::\-S\-O\-F)({\bf void} $\ast$pdev)}}\label{struct___device__cb_aa466062cecbfcca282201c92c6c6c644}
+
+
+Definition at line 221 of file usb\-\_\-core.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/\-Libraries/\-S\-T\-M32\-\_\-\-U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-Driver/inc/\hyperlink{_s_t_m32_f4xx_2_libraries_2_s_t_m32___u_s_b___o_t_g___driver_2inc_2usb__core_8h}{usb\-\_\-core.\-h}\end{DoxyCompactItemize}

@@ -1,0 +1,102 @@
+\hypertarget{structarm__lms__norm__instance__q31}{\section{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31 Struct Reference}
+\label{structarm__lms__norm__instance__q31}\index{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31@{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31}}
+}
+
+
+Instance structure for the Q31 normalized L\-M\-S filter.  
+
+
+
+
+{\ttfamily \#include $<$arm\-\_\-math.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{structarm__lms__norm__instance__q31_a28e4c085af69c9c3e2e95dacf8004c3e}{num\-Taps}
+\item 
+\hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$ \hyperlink{structarm__lms__norm__instance__q31_a6b25c96cf048b77078d62f4252a01ec4}{p\-State}
+\item 
+\hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$ \hyperlink{structarm__lms__norm__instance__q31_a57a64c1ff102d033c1bd05043f1d9955}{p\-Coeffs}
+\item 
+\hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} \hyperlink{structarm__lms__norm__instance__q31_ad3dd2a2406e02fdaa7782ba6c3940a64}{mu}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{structarm__lms__norm__instance__q31_a28d7b9e437817f83397e081967e90f3c}{post\-Shift}
+\item 
+\hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$ \hyperlink{structarm__lms__norm__instance__q31_a85836d0907077b9ac660f7bbbaa9d694}{recip\-Table}
+\item 
+\hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} \hyperlink{structarm__lms__norm__instance__q31_a3c0ae42869afec8555dc8e3a7ef9b386}{energy}
+\item 
+\hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} \hyperlink{structarm__lms__norm__instance__q31_a47c4466d644e0d8ba407995adfa9b917}{x0}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Instance structure for the Q31 normalized L\-M\-S filter. 
+
+Definition at line 4533 of file arm\-\_\-math.\-h.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{structarm__lms__norm__instance__q31_a3c0ae42869afec8555dc8e3a7ef9b386}{\index{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31@{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31}!energy@{energy}}
+\index{energy@{energy}!arm_lms_norm_instance_q31@{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31}}
+\subsubsection[{energy}]{\setlength{\rightskip}{0pt plus 5cm}{\bf q31\-\_\-t} arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31\-::energy}}\label{structarm__lms__norm__instance__q31_a3c0ae42869afec8555dc8e3a7ef9b386}
+saves previous frame energy. 
+
+Definition at line 4541 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__lms__norm__instance__q31_ad3dd2a2406e02fdaa7782ba6c3940a64}{\index{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31@{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31}!mu@{mu}}
+\index{mu@{mu}!arm_lms_norm_instance_q31@{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31}}
+\subsubsection[{mu}]{\setlength{\rightskip}{0pt plus 5cm}{\bf q31\-\_\-t} arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31\-::mu}}\label{structarm__lms__norm__instance__q31_ad3dd2a2406e02fdaa7782ba6c3940a64}
+step size that controls filter coefficient updates. 
+
+Definition at line 4538 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__lms__norm__instance__q31_a28e4c085af69c9c3e2e95dacf8004c3e}{\index{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31@{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31}!num\-Taps@{num\-Taps}}
+\index{num\-Taps@{num\-Taps}!arm_lms_norm_instance_q31@{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31}}
+\subsubsection[{num\-Taps}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31\-::num\-Taps}}\label{structarm__lms__norm__instance__q31_a28e4c085af69c9c3e2e95dacf8004c3e}
+number of coefficients in the filter. 
+
+Definition at line 4535 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__lms__norm__instance__q31_a57a64c1ff102d033c1bd05043f1d9955}{\index{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31@{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31}!p\-Coeffs@{p\-Coeffs}}
+\index{p\-Coeffs@{p\-Coeffs}!arm_lms_norm_instance_q31@{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31}}
+\subsubsection[{p\-Coeffs}]{\setlength{\rightskip}{0pt plus 5cm}{\bf q31\-\_\-t}$\ast$ arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31\-::p\-Coeffs}}\label{structarm__lms__norm__instance__q31_a57a64c1ff102d033c1bd05043f1d9955}
+points to the coefficient array. The array is of length num\-Taps. 
+
+Definition at line 4537 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__lms__norm__instance__q31_a28d7b9e437817f83397e081967e90f3c}{\index{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31@{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31}!post\-Shift@{post\-Shift}}
+\index{post\-Shift@{post\-Shift}!arm_lms_norm_instance_q31@{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31}}
+\subsubsection[{post\-Shift}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31\-::post\-Shift}}\label{structarm__lms__norm__instance__q31_a28d7b9e437817f83397e081967e90f3c}
+bit shift applied to coefficients. 
+
+Definition at line 4539 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__lms__norm__instance__q31_a6b25c96cf048b77078d62f4252a01ec4}{\index{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31@{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31}!p\-State@{p\-State}}
+\index{p\-State@{p\-State}!arm_lms_norm_instance_q31@{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31}}
+\subsubsection[{p\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf q31\-\_\-t}$\ast$ arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31\-::p\-State}}\label{structarm__lms__norm__instance__q31_a6b25c96cf048b77078d62f4252a01ec4}
+points to the state variable array. The array is of length num\-Taps+block\-Size-\/1. 
+
+Definition at line 4536 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__lms__norm__instance__q31_a85836d0907077b9ac660f7bbbaa9d694}{\index{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31@{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31}!recip\-Table@{recip\-Table}}
+\index{recip\-Table@{recip\-Table}!arm_lms_norm_instance_q31@{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31}}
+\subsubsection[{recip\-Table}]{\setlength{\rightskip}{0pt plus 5cm}{\bf q31\-\_\-t}$\ast$ arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31\-::recip\-Table}}\label{structarm__lms__norm__instance__q31_a85836d0907077b9ac660f7bbbaa9d694}
+points to the reciprocal initial value table. 
+
+Definition at line 4540 of file arm\-\_\-math.\-h.
+
+\hypertarget{structarm__lms__norm__instance__q31_a47c4466d644e0d8ba407995adfa9b917}{\index{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31@{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31}!x0@{x0}}
+\index{x0@{x0}!arm_lms_norm_instance_q31@{arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31}}
+\subsubsection[{x0}]{\setlength{\rightskip}{0pt plus 5cm}{\bf q31\-\_\-t} arm\-\_\-lms\-\_\-norm\-\_\-instance\-\_\-q31\-::x0}}\label{structarm__lms__norm__instance__q31_a47c4466d644e0d8ba407995adfa9b917}
+saves previous input sample. 
+
+Definition at line 4542 of file arm\-\_\-math.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-C\-M\-S\-I\-S3/\-D\-S\-P\-\_\-\-Lib/\-Include/\hyperlink{arm__math_8h}{arm\-\_\-math.\-h}\end{DoxyCompactItemize}

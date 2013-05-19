@@ -1,0 +1,178 @@
+\hypertarget{group___p_i_o_s___l_e_d}{\section{L\-E\-D Functions}
+\label{group___p_i_o_s___l_e_d}\index{L\-E\-D Functions@{L\-E\-D Functions}}
+}
+
+
+P\-I\-O\-S interface for L\-E\-Ds.  
+
+
+\subsection*{Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__led__priv_8h}{pios\-\_\-led\-\_\-priv.\-h}
+\begin{DoxyCompactList}\small\item\em L\-E\-D private definitions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__led}{pios\-\_\-led}
+\item 
+struct \hyperlink{structpios__led__cfg}{pios\-\_\-led\-\_\-cfg}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___p_i_o_s___l_e_d_ga01bdbb3dbc510df35605228515952f41}{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-On} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} led\-\_\-id)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___p_i_o_s___l_e_d_gac35252f6ff6eee4d950345b66d62703c}{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Off} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} led\-\_\-id)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___p_i_o_s___l_e_d_gabbfdd5bda4ecd72780fa1189f5d61840}{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Toggle} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} led\-\_\-id)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___p_i_o_s___l_e_d_ga9ef731c878c1e48fa760add09e1f2720}{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Init} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} struct \hyperlink{structpios__led__cfg}{pios\-\_\-led\-\_\-cfg} $\ast$cfg)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___p_i_o_s___l_e_d_gabefc8750c0f756d74b6ad70d3aae887b}{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Init} ()
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___p_i_o_s___l_e_d_ga018c8e7d55d50682764d8c55d7cc77f8}{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-On} (\hyperlink{win32_2inc_2pios__led_8h_aa9b117150c70d6a396fc4498b6474e3a}{Led\-Type\-Def} L\-E\-D)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___p_i_o_s___l_e_d_gac279283707be5f6d38b0f6ab91381c7c}{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Off} (\hyperlink{win32_2inc_2pios__led_8h_aa9b117150c70d6a396fc4498b6474e3a}{Led\-Type\-Def} L\-E\-D)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___p_i_o_s___l_e_d_ga47da390e2fc9352d89e8d80e83a3efbf}{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Toggle} (\hyperlink{win32_2inc_2pios__led_8h_aa9b117150c70d6a396fc4498b6474e3a}{Led\-Type\-Def} L\-E\-D)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+P\-I\-O\-S interface for L\-E\-Ds. S\-T\-M32 Hardware L\-E\-D handling code.
+
+\subsection{Function Documentation}
+\hypertarget{group___p_i_o_s___l_e_d_gabefc8750c0f756d74b6ad70d3aae887b}{\index{L\-E\-D Functions@{L\-E\-D Functions}!P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Init@{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Init}}
+\index{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Init@{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Init}!LED Functions@{L\-E\-D Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___l_e_d_gabefc8750c0f756d74b6ad70d3aae887b}
+Initialises all the L\-E\-D's 
+
+Definition at line 49 of file pios\-\_\-led.\-c.
+
+\hypertarget{group___p_i_o_s___l_e_d_ga9ef731c878c1e48fa760add09e1f2720}{\index{L\-E\-D Functions@{L\-E\-D Functions}!P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Init@{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Init}}
+\index{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Init@{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Init}!LED Functions@{L\-E\-D Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf const} struct {\bf pios\-\_\-led\-\_\-cfg} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___l_e_d_ga9ef731c878c1e48fa760add09e1f2720}
+Initialises all the L\-E\-D's 
+
+Definition at line 43 of file pios\-\_\-led.\-c.
+
+\hypertarget{group___p_i_o_s___l_e_d_gac35252f6ff6eee4d950345b66d62703c}{\index{L\-E\-D Functions@{L\-E\-D Functions}!P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Off@{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Off}}
+\index{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Off@{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Off}!LED Functions@{L\-E\-D Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Off}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Off (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{led}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___l_e_d_gac35252f6ff6eee4d950345b66d62703c}
+Turn off L\-E\-D 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em L\-E\-D} & L\-E\-D id\\
+\hline
+\end{DoxyParams}
+Turn off L\-E\-D 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em L\-E\-D} & L\-E\-D Name (L\-E\-D1, L\-E\-D2) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 106 of file pios\-\_\-led.\-c.
+
+\hypertarget{group___p_i_o_s___l_e_d_gac279283707be5f6d38b0f6ab91381c7c}{\index{L\-E\-D Functions@{L\-E\-D Functions}!P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Off@{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Off}}
+\index{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Off@{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Off}!LED Functions@{L\-E\-D Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Off}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Off (
+\begin{DoxyParamCaption}
+\item[{{\bf Led\-Type\-Def}}]{L\-E\-D}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___l_e_d_gac279283707be5f6d38b0f6ab91381c7c}
+Turn off L\-E\-D 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em L\-E\-D} & L\-E\-D Name (L\-E\-D1, L\-E\-D2) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 85 of file pios\-\_\-led.\-c.
+
+\hypertarget{group___p_i_o_s___l_e_d_ga01bdbb3dbc510df35605228515952f41}{\index{L\-E\-D Functions@{L\-E\-D Functions}!P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-On@{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-On}}
+\index{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-On@{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-On}!LED Functions@{L\-E\-D Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-On}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-On (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{led}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___l_e_d_ga01bdbb3dbc510df35605228515952f41}
+Turn on L\-E\-D 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em L\-E\-D} & L\-E\-D id\\
+\hline
+\end{DoxyParams}
+Turn on L\-E\-D 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em L\-E\-D} & L\-E\-D Name (L\-E\-D1, L\-E\-D2) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 85 of file pios\-\_\-led.\-c.
+
+\hypertarget{group___p_i_o_s___l_e_d_ga018c8e7d55d50682764d8c55d7cc77f8}{\index{L\-E\-D Functions@{L\-E\-D Functions}!P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-On@{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-On}}
+\index{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-On@{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-On}!LED Functions@{L\-E\-D Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-On}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-On (
+\begin{DoxyParamCaption}
+\item[{{\bf Led\-Type\-Def}}]{L\-E\-D}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___l_e_d_ga018c8e7d55d50682764d8c55d7cc77f8}
+Turn on L\-E\-D 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em L\-E\-D} & L\-E\-D Name (L\-E\-D1, L\-E\-D2) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 74 of file pios\-\_\-led.\-c.
+
+\hypertarget{group___p_i_o_s___l_e_d_gabbfdd5bda4ecd72780fa1189f5d61840}{\index{L\-E\-D Functions@{L\-E\-D Functions}!P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Toggle@{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Toggle}}
+\index{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Toggle@{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Toggle}!LED Functions@{L\-E\-D Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Toggle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Toggle (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{led}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___l_e_d_gabbfdd5bda4ecd72780fa1189f5d61840}
+Toggle L\-E\-D on/off 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em L\-E\-D} & L\-E\-D id\\
+\hline
+\end{DoxyParams}
+Toggle L\-E\-D on/off 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em L\-E\-D} & L\-E\-D Name (L\-E\-D1, L\-E\-D2) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 127 of file pios\-\_\-led.\-c.
+
+\hypertarget{group___p_i_o_s___l_e_d_ga47da390e2fc9352d89e8d80e83a3efbf}{\index{L\-E\-D Functions@{L\-E\-D Functions}!P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Toggle@{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Toggle}}
+\index{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Toggle@{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Toggle}!LED Functions@{L\-E\-D Functions}}
+\subsubsection[{P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Toggle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} P\-I\-O\-S\-\_\-\-L\-E\-D\-\_\-\-Toggle (
+\begin{DoxyParamCaption}
+\item[{{\bf Led\-Type\-Def}}]{L\-E\-D}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___l_e_d_ga47da390e2fc9352d89e8d80e83a3efbf}
+Toggle L\-E\-D on/off 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em L\-E\-D} & L\-E\-D Name (L\-E\-D1, L\-E\-D2) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 96 of file pios\-\_\-led.\-c.
+

@@ -1,0 +1,98 @@
+\hypertarget{group___c_l_a_s_s}{\section{\%}
+\label{group___c_l_a_s_s}\index{\%@{\%}}
+}
+
+
+I2\-C Virtual machine demo program.  
+
+
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_l_a_s_s_ga97db8eb6770f15d92457ae44bf607d31}{vmprog\-\_\-endiantest} \mbox{[}$\,$\mbox{]}
+\item 
+\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_l_a_s_s_ga3158e6c7b2a8dff094103560829aba35}{vmprog\-\_\-endiantest\-\_\-len} = N\-E\-L\-E\-M\-E\-N\-T\-S(\hyperlink{group___c_l_a_s_s_ga97db8eb6770f15d92457ae44bf607d31}{vmprog\-\_\-endiantest})
+\item 
+\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_l_a_s_s_ga4521deb4c490a6b3d44fc340ad4161cd}{vmprog\-\_\-mathtest} \mbox{[}$\,$\mbox{]}
+\item 
+\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_l_a_s_s_gad7ec24bf861eca543cf96c11f9607fcc}{vmprog\-\_\-mathtest\-\_\-len} = N\-E\-L\-E\-M\-E\-N\-T\-S(\hyperlink{group___c_l_a_s_s_ga4521deb4c490a6b3d44fc340ad4161cd}{vmprog\-\_\-mathtest})
+\item 
+\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_l_a_s_s_ga7f8283bd8d2bd7a50c0de34bc17e6e59}{vmprog\-\_\-op\-\_\-mag\-\_\-baro} \mbox{[}$\,$\mbox{]}
+\item 
+\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_l_a_s_s_gab041ee4d6bd39413440978233bbb8934}{vmprog\-\_\-op\-\_\-mag\-\_\-baro\-\_\-len} = N\-E\-L\-E\-M\-E\-N\-T\-S(\hyperlink{group___c_l_a_s_s_ga7f8283bd8d2bd7a50c0de34bc17e6e59}{vmprog\-\_\-op\-\_\-mag\-\_\-baro})
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+I2\-C Virtual machine demo program. I2\-C Virtual machine demo program for the Open\-Pilot Mag+\-Baro board.
+
+\subsection{Variable Documentation}
+\hypertarget{group___c_l_a_s_s_ga97db8eb6770f15d92457ae44bf607d31}{\index{\%@{\%}!vmprog\-\_\-endiantest@{vmprog\-\_\-endiantest}}
+\index{vmprog\-\_\-endiantest@{vmprog\-\_\-endiantest}!%@{\%}}
+\subsubsection[{vmprog\-\_\-endiantest}]{\setlength{\rightskip}{0pt plus 5cm}{\bf const} {\bf uint32\-\_\-t} vmprog\-\_\-endiantest\mbox{[}$\,$\mbox{]}}}\label{group___c_l_a_s_s_ga97db8eb6770f15d92457ae44bf607d31}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{
+        I2C\_VM\_ASM\_SET\_IMM (VM\_R6, 10),
+
+        I2C\_VM\_ASM\_STORE(0x0A, 0),
+        I2C\_VM\_ASM\_STORE(0x0B, 1),
+        I2C\_VM\_ASM\_STORE(0x0C, 2),
+        I2C\_VM\_ASM\_STORE(0x0D, 3),
+
+        
+        I2C\_VM\_ASM\_LOAD\_LE(0, 2, VM\_R0),
+        I2C\_VM\_ASM\_LOAD\_LE(0, 3, VM\_R1),
+        I2C\_VM\_ASM\_LOAD\_LE(0, 4, VM\_R2),
+
+        
+        I2C\_VM\_ASM\_LOAD\_BE(0, 2, VM\_R3),
+        I2C\_VM\_ASM\_LOAD\_BE(0, 3, VM\_R4),
+        I2C\_VM\_ASM\_LOAD\_BE(0, 4, VM\_R5),
+
+        I2C\_VM\_ASM\_SEND\_UAVO(), 
+
+        I2C\_VM\_ASM\_ADD\_IMM(VM\_R6, -1),
+        I2C\_VM\_ASM\_DELAY(20),
+        I2C\_VM\_ASM\_BNZ(VM\_R6, -9),
+\}
+\end{DoxyCode}
+
+
+Definition at line 30 of file vmprog\-\_\-endiantest.\-c.
+
+\hypertarget{group___c_l_a_s_s_ga3158e6c7b2a8dff094103560829aba35}{\index{\%@{\%}!vmprog\-\_\-endiantest\-\_\-len@{vmprog\-\_\-endiantest\-\_\-len}}
+\index{vmprog\-\_\-endiantest\-\_\-len@{vmprog\-\_\-endiantest\-\_\-len}!%@{\%}}
+\subsubsection[{vmprog\-\_\-endiantest\-\_\-len}]{\setlength{\rightskip}{0pt plus 5cm}{\bf const} {\bf uint32\-\_\-t} vmprog\-\_\-endiantest\-\_\-len = N\-E\-L\-E\-M\-E\-N\-T\-S({\bf vmprog\-\_\-endiantest})}}\label{group___c_l_a_s_s_ga3158e6c7b2a8dff094103560829aba35}
+
+
+Definition at line 56 of file vmprog\-\_\-endiantest.\-c.
+
+\hypertarget{group___c_l_a_s_s_ga4521deb4c490a6b3d44fc340ad4161cd}{\index{\%@{\%}!vmprog\-\_\-mathtest@{vmprog\-\_\-mathtest}}
+\index{vmprog\-\_\-mathtest@{vmprog\-\_\-mathtest}!%@{\%}}
+\subsubsection[{vmprog\-\_\-mathtest}]{\setlength{\rightskip}{0pt plus 5cm}{\bf const} {\bf uint32\-\_\-t} vmprog\-\_\-mathtest\mbox{[}$\,$\mbox{]}}}\label{group___c_l_a_s_s_ga4521deb4c490a6b3d44fc340ad4161cd}
+
+
+Definition at line 30 of file vmprog\-\_\-mathtest.\-c.
+
+\hypertarget{group___c_l_a_s_s_gad7ec24bf861eca543cf96c11f9607fcc}{\index{\%@{\%}!vmprog\-\_\-mathtest\-\_\-len@{vmprog\-\_\-mathtest\-\_\-len}}
+\index{vmprog\-\_\-mathtest\-\_\-len@{vmprog\-\_\-mathtest\-\_\-len}!%@{\%}}
+\subsubsection[{vmprog\-\_\-mathtest\-\_\-len}]{\setlength{\rightskip}{0pt plus 5cm}{\bf const} {\bf uint32\-\_\-t} vmprog\-\_\-mathtest\-\_\-len = N\-E\-L\-E\-M\-E\-N\-T\-S({\bf vmprog\-\_\-mathtest})}}\label{group___c_l_a_s_s_gad7ec24bf861eca543cf96c11f9607fcc}
+
+
+Definition at line 91 of file vmprog\-\_\-mathtest.\-c.
+
+\hypertarget{group___c_l_a_s_s_ga7f8283bd8d2bd7a50c0de34bc17e6e59}{\index{\%@{\%}!vmprog\-\_\-op\-\_\-mag\-\_\-baro@{vmprog\-\_\-op\-\_\-mag\-\_\-baro}}
+\index{vmprog\-\_\-op\-\_\-mag\-\_\-baro@{vmprog\-\_\-op\-\_\-mag\-\_\-baro}!%@{\%}}
+\subsubsection[{vmprog\-\_\-op\-\_\-mag\-\_\-baro}]{\setlength{\rightskip}{0pt plus 5cm}{\bf const} {\bf uint32\-\_\-t} vmprog\-\_\-op\-\_\-mag\-\_\-baro\mbox{[}$\,$\mbox{]}}}\label{group___c_l_a_s_s_ga7f8283bd8d2bd7a50c0de34bc17e6e59}
+
+
+Definition at line 31 of file vmprog\-\_\-op\-\_\-mag\-\_\-baro.\-c.
+
+\hypertarget{group___c_l_a_s_s_gab041ee4d6bd39413440978233bbb8934}{\index{\%@{\%}!vmprog\-\_\-op\-\_\-mag\-\_\-baro\-\_\-len@{vmprog\-\_\-op\-\_\-mag\-\_\-baro\-\_\-len}}
+\index{vmprog\-\_\-op\-\_\-mag\-\_\-baro\-\_\-len@{vmprog\-\_\-op\-\_\-mag\-\_\-baro\-\_\-len}!%@{\%}}
+\subsubsection[{vmprog\-\_\-op\-\_\-mag\-\_\-baro\-\_\-len}]{\setlength{\rightskip}{0pt plus 5cm}{\bf const} {\bf uint32\-\_\-t} vmprog\-\_\-op\-\_\-mag\-\_\-baro\-\_\-len = N\-E\-L\-E\-M\-E\-N\-T\-S({\bf vmprog\-\_\-op\-\_\-mag\-\_\-baro})}}\label{group___c_l_a_s_s_gab041ee4d6bd39413440978233bbb8934}
+
+
+Definition at line 118 of file vmprog\-\_\-op\-\_\-mag\-\_\-baro.\-c.
+

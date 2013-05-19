@@ -1,0 +1,77 @@
+\hypertarget{struct____mavlink__param__request__read__t}{\section{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-request\-\_\-read\-\_\-t Struct Reference}
+\label{struct____mavlink__param__request__read__t}\index{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-request\-\_\-read\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-request\-\_\-read\-\_\-t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\-\_\-msg\-\_\-param\-\_\-request\-\_\-read.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} \hyperlink{struct____mavlink__param__request__read__t_aef0bfa3c1d8457e0b417fa87b31f3c22}{param\-\_\-index}
+\begin{DoxyCompactList}\small\item\em Parameter index. Send -\/1 to use the param I\-D field as identifier (else the param id will be ignored) \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__param__request__read__t_adc4407f944beba256a385768ea61e588}{target\-\_\-system}
+\begin{DoxyCompactList}\small\item\em System I\-D. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__param__request__read__t_aa865f64059877480b11a2f476d1a8ca4}{target\-\_\-component}
+\begin{DoxyCompactList}\small\item\em Component I\-D. \end{DoxyCompactList}\item 
+char \hyperlink{struct____mavlink__param__request__read__t_aa8ffcf4369a38e0a04cc0252ec13b54e}{param\-\_\-id} \mbox{[}16\mbox{]}
+\begin{DoxyCompactList}\small\item\em Onboard parameter id, terminated by N\-U\-L\-L if the length is less than 16 human-\/readable chars and W\-I\-T\-H\-O\-U\-T null termination (N\-U\-L\-L) byte if the length is exactly 16 chars -\/ applications have to provide 16+1 bytes storage if the I\-D is stored as string. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 5 of file mavlink\-\_\-msg\-\_\-param\-\_\-request\-\_\-read.\-h.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__param__request__read__t_aa8ffcf4369a38e0a04cc0252ec13b54e}{\index{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-request\-\_\-read\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-request\-\_\-read\-\_\-t}!param\-\_\-id@{param\-\_\-id}}
+\index{param\-\_\-id@{param\-\_\-id}!__mavlink_param_request_read_t@{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-request\-\_\-read\-\_\-t}}
+\subsubsection[{param\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}char \-\_\-\-\_\-mavlink\-\_\-param\-\_\-request\-\_\-read\-\_\-t\-::param\-\_\-id\mbox{[}16\mbox{]}}}\label{struct____mavlink__param__request__read__t_aa8ffcf4369a38e0a04cc0252ec13b54e}
+
+
+Onboard parameter id, terminated by N\-U\-L\-L if the length is less than 16 human-\/readable chars and W\-I\-T\-H\-O\-U\-T null termination (N\-U\-L\-L) byte if the length is exactly 16 chars -\/ applications have to provide 16+1 bytes storage if the I\-D is stored as string. 
+
+
+
+Definition at line 10 of file mavlink\-\_\-msg\-\_\-param\-\_\-request\-\_\-read.\-h.
+
+\hypertarget{struct____mavlink__param__request__read__t_aef0bfa3c1d8457e0b417fa87b31f3c22}{\index{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-request\-\_\-read\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-request\-\_\-read\-\_\-t}!param\-\_\-index@{param\-\_\-index}}
+\index{param\-\_\-index@{param\-\_\-index}!__mavlink_param_request_read_t@{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-request\-\_\-read\-\_\-t}}
+\subsubsection[{param\-\_\-index}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int16\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-param\-\_\-request\-\_\-read\-\_\-t\-::param\-\_\-index}}\label{struct____mavlink__param__request__read__t_aef0bfa3c1d8457e0b417fa87b31f3c22}
+
+
+Parameter index. Send -\/1 to use the param I\-D field as identifier (else the param id will be ignored) 
+
+
+
+Definition at line 7 of file mavlink\-\_\-msg\-\_\-param\-\_\-request\-\_\-read.\-h.
+
+\hypertarget{struct____mavlink__param__request__read__t_aa865f64059877480b11a2f476d1a8ca4}{\index{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-request\-\_\-read\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-request\-\_\-read\-\_\-t}!target\-\_\-component@{target\-\_\-component}}
+\index{target\-\_\-component@{target\-\_\-component}!__mavlink_param_request_read_t@{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-request\-\_\-read\-\_\-t}}
+\subsubsection[{target\-\_\-component}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-param\-\_\-request\-\_\-read\-\_\-t\-::target\-\_\-component}}\label{struct____mavlink__param__request__read__t_aa865f64059877480b11a2f476d1a8ca4}
+
+
+Component I\-D. 
+
+
+
+Definition at line 9 of file mavlink\-\_\-msg\-\_\-param\-\_\-request\-\_\-read.\-h.
+
+\hypertarget{struct____mavlink__param__request__read__t_adc4407f944beba256a385768ea61e588}{\index{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-request\-\_\-read\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-request\-\_\-read\-\_\-t}!target\-\_\-system@{target\-\_\-system}}
+\index{target\-\_\-system@{target\-\_\-system}!__mavlink_param_request_read_t@{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-request\-\_\-read\-\_\-t}}
+\subsubsection[{target\-\_\-system}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-param\-\_\-request\-\_\-read\-\_\-t\-::target\-\_\-system}}\label{struct____mavlink__param__request__read__t_adc4407f944beba256a385768ea61e588}
+
+
+System I\-D. 
+
+
+
+Definition at line 8 of file mavlink\-\_\-msg\-\_\-param\-\_\-request\-\_\-read.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Libraries/mavlink/v1.\-0/common/\hyperlink{mavlink__msg__param__request__read_8h}{mavlink\-\_\-msg\-\_\-param\-\_\-request\-\_\-read.\-h}\end{DoxyCompactItemize}

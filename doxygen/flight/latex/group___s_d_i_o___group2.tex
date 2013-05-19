@@ -1,0 +1,133 @@
+\hypertarget{group___s_d_i_o___group2}{\section{Command path state machine (C\-P\-S\-M) management functions}
+\label{group___s_d_i_o___group2}\index{Command path state machine (\-C\-P\-S\-M) management functions@{Command path state machine (\-C\-P\-S\-M) management functions}}
+}
+
+
+Command path state machine (C\-P\-S\-M) management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___group2_ga7117d2f702703f6c0a66bc07707cab23}{S\-D\-I\-O\-\_\-\-Send\-Command} (\hyperlink{struct_s_d_i_o___cmd_init_type_def}{S\-D\-I\-O\-\_\-\-Cmd\-Init\-Type\-Def} $\ast$S\-D\-I\-O\-\_\-\-Cmd\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the S\-D\-I\-O Command according to the specified parameters in the S\-D\-I\-O\-\_\-\-Cmd\-Init\-Struct and send the command. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_d_i_o___group2_ga09d9e89f49c87c82aec79c97b7068e24}{S\-D\-I\-O\-\_\-\-Cmd\-Struct\-Init} (\hyperlink{struct_s_d_i_o___cmd_init_type_def}{S\-D\-I\-O\-\_\-\-Cmd\-Init\-Type\-Def} $\ast$S\-D\-I\-O\-\_\-\-Cmd\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each S\-D\-I\-O\-\_\-\-Cmd\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___s_d_i_o___group2_ga9badf271c818e09da301d715c4ad0e5b}{S\-D\-I\-O\-\_\-\-Get\-Command\-Response} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Returns command index of last command for which response received. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___s_d_i_o___group2_ga5c1e859511840e8cca6a9a768bce220b}{S\-D\-I\-O\-\_\-\-Get\-Response} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} S\-D\-I\-O\-\_\-\-R\-E\-S\-P)
+\begin{DoxyCompactList}\small\item\em Returns response received from the card for the last command. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Command path state machine (C\-P\-S\-M) management functions. \begin{DoxyVerb} ===============================================================================
+              Command path state machine (CPSM) management functions
+ ===============================================================================  
+
+  This section provide functions allowing to program and read the Command path 
+  state machine (CPSM).\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___s_d_i_o___group2_ga09d9e89f49c87c82aec79c97b7068e24}{\index{Command path state machine (\-C\-P\-S\-M) management functions@{Command path state machine (\-C\-P\-S\-M) management functions}!S\-D\-I\-O\-\_\-\-Cmd\-Struct\-Init@{S\-D\-I\-O\-\_\-\-Cmd\-Struct\-Init}}
+\index{S\-D\-I\-O\-\_\-\-Cmd\-Struct\-Init@{S\-D\-I\-O\-\_\-\-Cmd\-Struct\-Init}!Command path state machine (CPSM) management functions@{Command path state machine (\-C\-P\-S\-M) management functions}}
+\subsubsection[{S\-D\-I\-O\-\_\-\-Cmd\-Struct\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} S\-D\-I\-O\-\_\-\-Cmd\-Struct\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf S\-D\-I\-O\-\_\-\-Cmd\-Init\-Type\-Def} $\ast$}]{S\-D\-I\-O\-\_\-\-Cmd\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___s_d_i_o___group2_ga09d9e89f49c87c82aec79c97b7068e24}
+
+
+Fills each S\-D\-I\-O\-\_\-\-Cmd\-Init\-Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\-D\-I\-O\-\_\-\-Cmd\-Init\-Struct,\-:} & pointer to an \hyperlink{struct_s_d_i_o___cmd_init_type_def}{S\-D\-I\-O\-\_\-\-Cmd\-Init\-Type\-Def} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 434 of file stm32f4xx\-\_\-sdio.\-c.
+
+\hypertarget{group___s_d_i_o___group2_ga9badf271c818e09da301d715c4ad0e5b}{\index{Command path state machine (\-C\-P\-S\-M) management functions@{Command path state machine (\-C\-P\-S\-M) management functions}!S\-D\-I\-O\-\_\-\-Get\-Command\-Response@{S\-D\-I\-O\-\_\-\-Get\-Command\-Response}}
+\index{S\-D\-I\-O\-\_\-\-Get\-Command\-Response@{S\-D\-I\-O\-\_\-\-Get\-Command\-Response}!Command path state machine (CPSM) management functions@{Command path state machine (\-C\-P\-S\-M) management functions}}
+\subsubsection[{S\-D\-I\-O\-\_\-\-Get\-Command\-Response}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} S\-D\-I\-O\-\_\-\-Get\-Command\-Response (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___s_d_i_o___group2_ga9badf271c818e09da301d715c4ad0e5b}
+
+
+Returns command index of last command for which response received. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Returns} & the command index of the last command response received. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 449 of file stm32f4xx\-\_\-sdio.\-c.
+
+\hypertarget{group___s_d_i_o___group2_ga5c1e859511840e8cca6a9a768bce220b}{\index{Command path state machine (\-C\-P\-S\-M) management functions@{Command path state machine (\-C\-P\-S\-M) management functions}!S\-D\-I\-O\-\_\-\-Get\-Response@{S\-D\-I\-O\-\_\-\-Get\-Response}}
+\index{S\-D\-I\-O\-\_\-\-Get\-Response@{S\-D\-I\-O\-\_\-\-Get\-Response}!Command path state machine (CPSM) management functions@{Command path state machine (\-C\-P\-S\-M) management functions}}
+\subsubsection[{S\-D\-I\-O\-\_\-\-Get\-Response}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} S\-D\-I\-O\-\_\-\-Get\-Response (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{S\-D\-I\-O\-\_\-\-R\-E\-S\-P}
+\end{DoxyParamCaption}
+)}}\label{group___s_d_i_o___group2_ga5c1e859511840e8cca6a9a768bce220b}
+
+
+Returns response received from the card for the last command. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\-D\-I\-O\-\_\-\-R\-E\-S\-P,\-:} & Specifies the S\-D\-I\-O response register. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item S\-D\-I\-O\-\_\-\-R\-E\-S\-P1\-: Response Register 1 \item S\-D\-I\-O\-\_\-\-R\-E\-S\-P2\-: Response Register 2 \item S\-D\-I\-O\-\_\-\-R\-E\-S\-P3\-: Response Register 3 \item S\-D\-I\-O\-\_\-\-R\-E\-S\-P4\-: Response Register 4 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & Corresponding response register value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 464 of file stm32f4xx\-\_\-sdio.\-c.
+
+\hypertarget{group___s_d_i_o___group2_ga7117d2f702703f6c0a66bc07707cab23}{\index{Command path state machine (\-C\-P\-S\-M) management functions@{Command path state machine (\-C\-P\-S\-M) management functions}!S\-D\-I\-O\-\_\-\-Send\-Command@{S\-D\-I\-O\-\_\-\-Send\-Command}}
+\index{S\-D\-I\-O\-\_\-\-Send\-Command@{S\-D\-I\-O\-\_\-\-Send\-Command}!Command path state machine (CPSM) management functions@{Command path state machine (\-C\-P\-S\-M) management functions}}
+\subsubsection[{S\-D\-I\-O\-\_\-\-Send\-Command}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} S\-D\-I\-O\-\_\-\-Send\-Command (
+\begin{DoxyParamCaption}
+\item[{{\bf S\-D\-I\-O\-\_\-\-Cmd\-Init\-Type\-Def} $\ast$}]{S\-D\-I\-O\-\_\-\-Cmd\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___s_d_i_o___group2_ga7117d2f702703f6c0a66bc07707cab23}
+
+
+Initializes the S\-D\-I\-O Command according to the specified parameters in the S\-D\-I\-O\-\_\-\-Cmd\-Init\-Struct and send the command. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\-D\-I\-O\-\_\-\-Cmd\-Init\-Struct} & \-: pointer to a \hyperlink{struct_s_d_i_o___cmd_init_type_def}{S\-D\-I\-O\-\_\-\-Cmd\-Init\-Type\-Def} structure that contains the configuration information for the S\-D\-I\-O command. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 398 of file stm32f4xx\-\_\-sdio.\-c.
+

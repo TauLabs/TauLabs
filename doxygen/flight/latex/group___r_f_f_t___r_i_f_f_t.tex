@@ -1,0 +1,351 @@
+\hypertarget{group___r_f_f_t___r_i_f_f_t}{\section{Real F\-F\-T Functions}
+\label{group___r_f_f_t___r_i_f_f_t}\index{Real F\-F\-T Functions@{Real F\-F\-T Functions}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_f_f_t___r_i_f_f_t_ga3df1766d230532bc068fc4ed69d0fcdc}{arm\-\_\-rfft\-\_\-f32} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__rfft__instance__f32}{arm\-\_\-rfft\-\_\-instance\-\_\-f32} $\ast$S, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Src, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Dst)
+\begin{DoxyCompactList}\small\item\em Processing function for the floating-\/point R\-F\-F\-T/\-R\-I\-F\-F\-T. \end{DoxyCompactList}\item 
+\hyperlink{arm__math_8h_a5e459c6409dfcd2927bb8a57491d7cf6}{arm\-\_\-status} \hyperlink{group___r_f_f_t___r_i_f_f_t_ga10717ee326bf50832ef1c25b85a23068}{arm\-\_\-rfft\-\_\-init\-\_\-f32} (\hyperlink{structarm__rfft__instance__f32}{arm\-\_\-rfft\-\_\-instance\-\_\-f32} $\ast$S, \hyperlink{structarm__cfft__radix4__instance__f32}{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-f32} $\ast$S\-\_\-\-C\-F\-F\-T, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} fft\-Len\-Real, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} ifft\-Flag\-R, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} bit\-Reverse\-Flag)
+\begin{DoxyCompactList}\small\item\em Initialization function for the floating-\/point R\-F\-F\-T/\-R\-I\-F\-F\-T. \end{DoxyCompactList}\item 
+\hyperlink{arm__math_8h_a5e459c6409dfcd2927bb8a57491d7cf6}{arm\-\_\-status} \hyperlink{group___r_f_f_t___r_i_f_f_t_ga2530ebf44b7f5b559b191ff7265a9120}{arm\-\_\-rfft\-\_\-init\-\_\-q15} (\hyperlink{structarm__rfft__instance__q15}{arm\-\_\-rfft\-\_\-instance\-\_\-q15} $\ast$S, \hyperlink{structarm__cfft__radix4__instance__q15}{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q15} $\ast$S\-\_\-\-C\-F\-F\-T, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} fft\-Len\-Real, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} ifft\-Flag\-R, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} bit\-Reverse\-Flag)
+\begin{DoxyCompactList}\small\item\em Initialization function for the Q15 R\-F\-F\-T/\-R\-I\-F\-F\-T. \end{DoxyCompactList}\item 
+\hyperlink{arm__math_8h_a5e459c6409dfcd2927bb8a57491d7cf6}{arm\-\_\-status} \hyperlink{group___r_f_f_t___r_i_f_f_t_ga8b9c7f99f3c368c82048cd1899acbbd5}{arm\-\_\-rfft\-\_\-init\-\_\-q31} (\hyperlink{structarm__rfft__instance__q31}{arm\-\_\-rfft\-\_\-instance\-\_\-q31} $\ast$S, \hyperlink{structarm__cfft__radix4__instance__q31}{arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31} $\ast$S\-\_\-\-C\-F\-F\-T, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} fft\-Len\-Real, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} ifft\-Flag\-R, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} bit\-Reverse\-Flag)
+\begin{DoxyCompactList}\small\item\em Initialization function for the Q31 R\-F\-F\-T/\-R\-I\-F\-F\-T. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_f_f_t___r_i_f_f_t_ga00e615f5db21736ad5b27fb6146f3fc5}{arm\-\_\-rfft\-\_\-q15} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__rfft__instance__q15}{arm\-\_\-rfft\-\_\-instance\-\_\-q15} $\ast$S, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Src, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Dst)
+\begin{DoxyCompactList}\small\item\em Processing function for the Q15 R\-F\-F\-T/\-R\-I\-F\-F\-T. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_f_f_t___r_i_f_f_t_gabaeab5646aeea9844e6d42ca8c73fe3a}{arm\-\_\-rfft\-\_\-q31} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__rfft__instance__q31}{arm\-\_\-rfft\-\_\-instance\-\_\-q31} $\ast$S, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Src, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Dst)
+\begin{DoxyCompactList}\small\item\em Processing function for the Q31 R\-F\-F\-T/\-R\-I\-F\-F\-T. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyParagraph}{}
+Complex F\-F\-T/\-I\-F\-F\-T typically assumes complex input and output. However many applications use real valued data in time domain. Real F\-F\-T/\-I\-F\-F\-T efficiently process real valued sequences with the advantage of requirement of low memory and with less complexity.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+This set of functions implements Real Fast Fourier Transforms(\-R\-F\-F\-T) and Real Inverse Fast Fourier Transform(\-R\-I\-F\-F\-T) for Q15, Q31, and floating-\/point data types.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Algorithm\-: }
+
+\end{DoxyParagraph}
+{\bfseries Real Fast Fourier Transform\-:} \begin{DoxyParagraph}{}
+Real F\-F\-T of N-\/point is calculated using C\-F\-F\-T of N/2-\/point and Split R\-F\-F\-T process as shown below figure. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+ 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+The R\-F\-F\-T functions operate on blocks of input and output data and each call to the function processes {\ttfamily fft\-Len\-R} samples through the transform. {\ttfamily p\-Src} points to input array containing {\ttfamily fft\-Len\-R} values. {\ttfamily p\-Dst} points to output array containing {\ttfamily 2$\ast$fft\-Len\-R} values. \par
+ Input for real F\-F\-T is in the order of 
+\begin{DoxyPre}\{real[0], real[1], real[2], real[3], ..\}\end{DoxyPre}
+ Output for real F\-F\-T is complex and are in the order of 
+\begin{DoxyPre}\{real(0), imag(0), real(1), imag(1), ...\}\end{DoxyPre}
+
+\end{DoxyParagraph}
+{\bfseries Real Inverse Fast Fourier Transform\-:} \begin{DoxyParagraph}{}
+Real I\-F\-F\-T of N-\/point is calculated using Split R\-I\-F\-F\-T process and C\-F\-F\-T of N/2-\/point as shown below figure. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+ 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+The R\-I\-F\-F\-T functions operate on blocks of input and output data and each call to the function processes {\ttfamily 2$\ast$fft\-Len\-R} samples through the transform. {\ttfamily p\-Src} points to input array containing {\ttfamily 2$\ast$fft\-Len\-R} values. {\ttfamily p\-Dst} points to output array containing {\ttfamily fft\-Len\-R} values. \par
+ Input for real I\-F\-F\-T is complex and are in the order of 
+\begin{DoxyPre}\{real(0), imag(0), real(1), imag(1), ...\}\end{DoxyPre}
+ Output for real I\-F\-F\-T is real and in the order of 
+\begin{DoxyPre}\{real[0], real[1], real[2], real[3], ..\}\end{DoxyPre}
+
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Lengths supported by the transform\-: }
+
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Real F\-F\-T/\-I\-F\-F\-T supports the lengths \mbox{[}128, 512, 2048\mbox{]}, as it internally uses C\-F\-F\-T/\-C\-I\-F\-F\-T.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Instance Structure }
+A separate instance structure must be defined for each Instance but the twiddle factors can be reused. There are separate instance structure declarations for each of the 3 supported data types.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Initialization Functions }
+There is also an associated initialization function for each data type. The initialization function performs the following operations\-:
+\begin{DoxyItemize}
+\item Sets the values of the internal structure fields.
+\item Initializes twiddle factor tables.
+\item Initializes C\-F\-F\-T data structure fields. 
+\end{DoxyItemize}
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Use of the initialization function is optional. However, if the initialization function is used, then the instance structure cannot be placed into a const data section. To place an instance structure into a const data section, the instance structure must be manually initialized. Manually initialize the instance structure as follows\-: 
+\begin{DoxyPre}    
+*arm\_rfft\_instance\_f32 S = \{fftLenReal, fftLenBy2, ifftFlagR, bitReverseFlagR, twidCoefRModifier, pTwiddleAReal, pTwiddleBReal, pCfft\};    
+*arm\_rfft\_instance\_q31 S = \{fftLenReal, fftLenBy2, ifftFlagR, bitReverseFlagR, twidCoefRModifier, pTwiddleAReal, pTwiddleBReal, pCfft\};    
+*arm\_rfft\_instance\_q15 S = \{fftLenReal, fftLenBy2, ifftFlagR, bitReverseFlagR, twidCoefRModifier, pTwiddleAReal, pTwiddleBReal, pCfft\};    
+  \end{DoxyPre}
+ where {\ttfamily fft\-Len\-Real} length of R\-F\-F\-T/\-R\-I\-F\-F\-T; {\ttfamily fft\-Len\-By2} length of C\-F\-F\-T/\-C\-I\-F\-F\-T. {\ttfamily ifft\-Flag\-R} Flag for selection of R\-F\-F\-T or R\-I\-F\-F\-T(\-Set ifft\-Flag\-R to calculate R\-I\-F\-F\-T otherwise calculates R\-F\-F\-T); {\ttfamily bit\-Reverse\-Flag\-R} Flag for selection of output order(\-Set bit\-Reverse\-Flag\-R to output in normal order otherwise output in bit reversed order); {\ttfamily twid\-Coef\-R\-Modifier} modifier for twiddle factor table which supports 128, 512, 2048 R\-F\-F\-T lengths with same table; {\ttfamily p\-Twiddle\-A\-Real}points to A array of twiddle coefficients; {\ttfamily p\-Twiddle\-B\-Real}points to B array of twiddle coefficients; {\ttfamily p\-Cfft} points to the C\-F\-F\-T Instance structure. The C\-F\-F\-T structure also needs to be initialized, refer to \hyperlink{group___radix4___c_f_f_t___c_i_f_f_t_ga521f670cd9c571bc61aff9bec89f4c26}{arm\-\_\-cfft\-\_\-radix4\-\_\-f32()} for details regarding static initialization of cfft structure.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Fixed-\/\-Point Behavior }
+Care must be taken when using the fixed-\/point versions of the R\-F\-F\-T/\-R\-I\-F\-F\-T function. Refer to the function specific documentation below for usage guidelines. 
+\end{DoxyParagraph}
+
+
+\subsection{Function Documentation}
+\hypertarget{group___r_f_f_t___r_i_f_f_t_ga3df1766d230532bc068fc4ed69d0fcdc}{\index{Real F\-F\-T Functions@{Real F\-F\-T Functions}!arm\-\_\-rfft\-\_\-f32@{arm\-\_\-rfft\-\_\-f32}}
+\index{arm\-\_\-rfft\-\_\-f32@{arm\-\_\-rfft\-\_\-f32}!Real FFT Functions@{Real F\-F\-T Functions}}
+\subsubsection[{arm\-\_\-rfft\-\_\-f32}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-rfft\-\_\-f32 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-rfft\-\_\-instance\-\_\-f32} $\ast$}]{S, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Dst}
+\end{DoxyParamCaption}
+)}}\label{group___r_f_f_t___r_i_f_f_t_ga3df1766d230532bc068fc4ed69d0fcdc}
+
+
+Processing function for the floating-\/point R\-F\-F\-T/\-R\-I\-F\-F\-T. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$\-S} & points to an instance of the floating-\/point R\-F\-F\-T/\-R\-I\-F\-F\-T structure. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the input buffer. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the output buffer. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none. 
+\end{DoxyReturn}
+
+
+Definition at line 153 of file arm\-\_\-rfft\-\_\-f32.\-c.
+
+\hypertarget{group___r_f_f_t___r_i_f_f_t_ga10717ee326bf50832ef1c25b85a23068}{\index{Real F\-F\-T Functions@{Real F\-F\-T Functions}!arm\-\_\-rfft\-\_\-init\-\_\-f32@{arm\-\_\-rfft\-\_\-init\-\_\-f32}}
+\index{arm\-\_\-rfft\-\_\-init\-\_\-f32@{arm\-\_\-rfft\-\_\-init\-\_\-f32}!Real FFT Functions@{Real F\-F\-T Functions}}
+\subsubsection[{arm\-\_\-rfft\-\_\-init\-\_\-f32}]{\setlength{\rightskip}{0pt plus 5cm}{\bf arm\-\_\-status} arm\-\_\-rfft\-\_\-init\-\_\-f32 (
+\begin{DoxyParamCaption}
+\item[{{\bf arm\-\_\-rfft\-\_\-instance\-\_\-f32} $\ast$}]{S, }
+\item[{{\bf arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-f32} $\ast$}]{S\-\_\-\-C\-F\-F\-T, }
+\item[{{\bf uint32\-\_\-t}}]{fft\-Len\-Real, }
+\item[{{\bf uint32\-\_\-t}}]{ifft\-Flag\-R, }
+\item[{{\bf uint32\-\_\-t}}]{bit\-Reverse\-Flag}
+\end{DoxyParamCaption}
+)}}\label{group___r_f_f_t___r_i_f_f_t_ga10717ee326bf50832ef1c25b85a23068}
+
+
+Initialization function for the floating-\/point R\-F\-F\-T/\-R\-I\-F\-F\-T. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em $\ast$\-S} & points to an instance of the floating-\/point R\-F\-F\-T/\-R\-I\-F\-F\-T structure. \\
+\hline
+\mbox{\tt in,out}  & {\em $\ast$\-S\-\_\-\-C\-F\-F\-T} & points to an instance of the floating-\/point C\-F\-F\-T/\-C\-I\-F\-F\-T structure. \\
+\hline
+\mbox{\tt in}  & {\em fft\-Len\-Real} & length of the F\-F\-T. \\
+\hline
+\mbox{\tt in}  & {\em ifft\-Flag\-R} & flag that selects forward (ifft\-Flag\-R=0) or inverse (ifft\-Flag\-R=1) transform. \\
+\hline
+\mbox{\tt in}  & {\em bit\-Reverse\-Flag} & flag that enables (bit\-Reverse\-Flag=1) or disables (bit\-Reverse\-Flag=0) bit reversal of output. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The function returns A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-S\-U\-C\-C\-E\-S\-S if initialization is successful or A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-A\-R\-G\-U\-M\-E\-N\-T\-\_\-\-E\-R\-R\-O\-R if {\ttfamily fft\-Len\-Real} is not a supported value.
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Description\-: }
+
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+The parameter {\ttfamily fft\-Len\-Real} Specifies length of R\-F\-F\-T/\-R\-I\-F\-F\-T Process. Supported F\-F\-T Lengths are 128, 512, 2048. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+The parameter {\ttfamily ifft\-Flag\-R} controls whether a forward or inverse transform is computed. Set(=1) ifft\-Flag\-R to calculate R\-I\-F\-F\-T, otherwise R\-F\-F\-T is calculated. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+The parameter {\ttfamily bit\-Reverse\-Flag} controls whether output is in normal order or bit reversed order. Set(=1) bit\-Reverse\-Flag for output to be in normal order otherwise output is in bit reversed order. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+This function also initializes Twiddle factor table. 
+\end{DoxyParagraph}
+
+
+Definition at line 8297 of file arm\-\_\-rfft\-\_\-init\-\_\-f32.\-c.
+
+\hypertarget{group___r_f_f_t___r_i_f_f_t_ga2530ebf44b7f5b559b191ff7265a9120}{\index{Real F\-F\-T Functions@{Real F\-F\-T Functions}!arm\-\_\-rfft\-\_\-init\-\_\-q15@{arm\-\_\-rfft\-\_\-init\-\_\-q15}}
+\index{arm\-\_\-rfft\-\_\-init\-\_\-q15@{arm\-\_\-rfft\-\_\-init\-\_\-q15}!Real FFT Functions@{Real F\-F\-T Functions}}
+\subsubsection[{arm\-\_\-rfft\-\_\-init\-\_\-q15}]{\setlength{\rightskip}{0pt plus 5cm}{\bf arm\-\_\-status} arm\-\_\-rfft\-\_\-init\-\_\-q15 (
+\begin{DoxyParamCaption}
+\item[{{\bf arm\-\_\-rfft\-\_\-instance\-\_\-q15} $\ast$}]{S, }
+\item[{{\bf arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q15} $\ast$}]{S\-\_\-\-C\-F\-F\-T, }
+\item[{{\bf uint32\-\_\-t}}]{fft\-Len\-Real, }
+\item[{{\bf uint32\-\_\-t}}]{ifft\-Flag\-R, }
+\item[{{\bf uint32\-\_\-t}}]{bit\-Reverse\-Flag}
+\end{DoxyParamCaption}
+)}}\label{group___r_f_f_t___r_i_f_f_t_ga2530ebf44b7f5b559b191ff7265a9120}
+
+
+Initialization function for the Q15 R\-F\-F\-T/\-R\-I\-F\-F\-T. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em $\ast$\-S} & points to an instance of the Q15 R\-F\-F\-T/\-R\-I\-F\-F\-T structure. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$\-S\-\_\-\-C\-F\-F\-T} & points to an instance of the Q15 C\-F\-F\-T/\-C\-I\-F\-F\-T structure. \\
+\hline
+\mbox{\tt in}  & {\em fft\-Len\-Real} & length of the F\-F\-T. \\
+\hline
+\mbox{\tt in}  & {\em ifft\-Flag\-R} & flag that selects forward (ifft\-Flag\-R=0) or inverse (ifft\-Flag\-R=1) transform. \\
+\hline
+\mbox{\tt in}  & {\em bit\-Reverse\-Flag} & flag that enables (bit\-Reverse\-Flag=1) or disables (bit\-Reverse\-Flag=0) bit reversal of output. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The function returns A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-S\-U\-C\-C\-E\-S\-S if initialization is successful or A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-A\-R\-G\-U\-M\-E\-N\-T\-\_\-\-E\-R\-R\-O\-R if {\ttfamily fft\-Len\-Real} is not a supported value.
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Description\-: }
+
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+The parameter {\ttfamily fft\-Len\-Real} Specifies length of R\-F\-F\-T/\-R\-I\-F\-F\-T Process. Supported F\-F\-T Lengths are 128, 512, 2048. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+The parameter {\ttfamily ifft\-Flag\-R} controls whether a forward or inverse transform is computed. Set(=1) ifft\-Flag\-R to calculate R\-I\-F\-F\-T, otherwise R\-F\-F\-T is calculated. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+The parameter {\ttfamily bit\-Reverse\-Flag} controls whether output is in normal order or bit reversed order. Set(=1) bit\-Reverse\-Flag for output to be in normal order otherwise output is in bit reversed order. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+This function also initializes Twiddle factor table. 
+\end{DoxyParagraph}
+
+
+Definition at line 2158 of file arm\-\_\-rfft\-\_\-init\-\_\-q15.\-c.
+
+\hypertarget{group___r_f_f_t___r_i_f_f_t_ga8b9c7f99f3c368c82048cd1899acbbd5}{\index{Real F\-F\-T Functions@{Real F\-F\-T Functions}!arm\-\_\-rfft\-\_\-init\-\_\-q31@{arm\-\_\-rfft\-\_\-init\-\_\-q31}}
+\index{arm\-\_\-rfft\-\_\-init\-\_\-q31@{arm\-\_\-rfft\-\_\-init\-\_\-q31}!Real FFT Functions@{Real F\-F\-T Functions}}
+\subsubsection[{arm\-\_\-rfft\-\_\-init\-\_\-q31}]{\setlength{\rightskip}{0pt plus 5cm}{\bf arm\-\_\-status} arm\-\_\-rfft\-\_\-init\-\_\-q31 (
+\begin{DoxyParamCaption}
+\item[{{\bf arm\-\_\-rfft\-\_\-instance\-\_\-q31} $\ast$}]{S, }
+\item[{{\bf arm\-\_\-cfft\-\_\-radix4\-\_\-instance\-\_\-q31} $\ast$}]{S\-\_\-\-C\-F\-F\-T, }
+\item[{{\bf uint32\-\_\-t}}]{fft\-Len\-Real, }
+\item[{{\bf uint32\-\_\-t}}]{ifft\-Flag\-R, }
+\item[{{\bf uint32\-\_\-t}}]{bit\-Reverse\-Flag}
+\end{DoxyParamCaption}
+)}}\label{group___r_f_f_t___r_i_f_f_t_ga8b9c7f99f3c368c82048cd1899acbbd5}
+
+
+Initialization function for the Q31 R\-F\-F\-T/\-R\-I\-F\-F\-T. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em $\ast$\-S} & points to an instance of the Q31 R\-F\-F\-T/\-R\-I\-F\-F\-T structure. \\
+\hline
+\mbox{\tt in,out}  & {\em $\ast$\-S\-\_\-\-C\-F\-F\-T} & points to an instance of the Q31 C\-F\-F\-T/\-C\-I\-F\-F\-T structure. \\
+\hline
+\mbox{\tt in}  & {\em fft\-Len\-Real} & length of the F\-F\-T. \\
+\hline
+\mbox{\tt in}  & {\em ifft\-Flag\-R} & flag that selects forward (ifft\-Flag\-R=0) or inverse (ifft\-Flag\-R=1) transform. \\
+\hline
+\mbox{\tt in}  & {\em bit\-Reverse\-Flag} & flag that enables (bit\-Reverse\-Flag=1) or disables (bit\-Reverse\-Flag=0) bit reversal of output. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The function returns A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-S\-U\-C\-C\-E\-S\-S if initialization is successful or A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-A\-R\-G\-U\-M\-E\-N\-T\-\_\-\-E\-R\-R\-O\-R if {\ttfamily fft\-Len\-Real} is not a supported value.
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Description\-: }
+
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+The parameter {\ttfamily fft\-Len\-Real} Specifies length of R\-F\-F\-T/\-R\-I\-F\-F\-T Process. Supported F\-F\-T Lengths are 128, 512, 2048. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+The parameter {\ttfamily ifft\-Flag\-R} controls whether a forward or inverse transform is computed. Set(=1) ifft\-Flag\-R to calculate R\-I\-F\-F\-T, otherwise R\-F\-F\-T is calculated. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+The parameter {\ttfamily bit\-Reverse\-Flag} controls whether output is in normal order or bit reversed order. Set(=1) bit\-Reverse\-Flag for output to be in normal order otherwise output is in bit reversed order. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+This function also initializes Twiddle factor table. 
+\end{DoxyParagraph}
+
+
+Definition at line 4204 of file arm\-\_\-rfft\-\_\-init\-\_\-q31.\-c.
+
+\hypertarget{group___r_f_f_t___r_i_f_f_t_ga00e615f5db21736ad5b27fb6146f3fc5}{\index{Real F\-F\-T Functions@{Real F\-F\-T Functions}!arm\-\_\-rfft\-\_\-q15@{arm\-\_\-rfft\-\_\-q15}}
+\index{arm\-\_\-rfft\-\_\-q15@{arm\-\_\-rfft\-\_\-q15}!Real FFT Functions@{Real F\-F\-T Functions}}
+\subsubsection[{arm\-\_\-rfft\-\_\-q15}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-rfft\-\_\-q15 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-rfft\-\_\-instance\-\_\-q15} $\ast$}]{S, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Dst}
+\end{DoxyParamCaption}
+)}}\label{group___r_f_f_t___r_i_f_f_t_ga00e615f5db21736ad5b27fb6146f3fc5}
+
+
+Processing function for the Q15 R\-F\-F\-T/\-R\-I\-F\-F\-T. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$\-S} & points to an instance of the Q15 R\-F\-F\-T/\-R\-I\-F\-F\-T structure. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the input buffer. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the output buffer. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Input an output formats\-: }
+
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Internally input is downscaled by 2 for every stage to avoid saturations inside C\-F\-F\-T/\-C\-I\-F\-F\-T process. Hence the output format is different for different R\-F\-F\-T sizes. The input and output formats for different R\-F\-F\-T sizes and number of bits to upscale are mentioned in the tables below for R\-F\-F\-T and R\-I\-F\-F\-T\-: 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+ 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+ 
+\end{DoxyParagraph}
+
+
+Definition at line 83 of file arm\-\_\-rfft\-\_\-q15.\-c.
+
+\hypertarget{group___r_f_f_t___r_i_f_f_t_gabaeab5646aeea9844e6d42ca8c73fe3a}{\index{Real F\-F\-T Functions@{Real F\-F\-T Functions}!arm\-\_\-rfft\-\_\-q31@{arm\-\_\-rfft\-\_\-q31}}
+\index{arm\-\_\-rfft\-\_\-q31@{arm\-\_\-rfft\-\_\-q31}!Real FFT Functions@{Real F\-F\-T Functions}}
+\subsubsection[{arm\-\_\-rfft\-\_\-q31}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-rfft\-\_\-q31 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-rfft\-\_\-instance\-\_\-q31} $\ast$}]{S, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Dst}
+\end{DoxyParamCaption}
+)}}\label{group___r_f_f_t___r_i_f_f_t_gabaeab5646aeea9844e6d42ca8c73fe3a}
+
+
+Processing function for the Q31 R\-F\-F\-T/\-R\-I\-F\-F\-T. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$\-S} & points to an instance of the Q31 R\-F\-F\-T/\-R\-I\-F\-F\-T structure. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the input buffer. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the output buffer. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Input an output formats\-: }
+
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Internally input is downscaled by 2 for every stage to avoid saturations inside C\-F\-F\-T/\-C\-I\-F\-F\-T process. Hence the output format is different for different R\-F\-F\-T sizes. The input and output formats for different R\-F\-F\-T sizes and number of bits to upscale are mentioned in the tables below for R\-F\-F\-T and R\-I\-F\-F\-T\-: 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+ 
+\end{DoxyParagraph}
+
+
+Definition at line 83 of file arm\-\_\-rfft\-\_\-q31.\-c.
+

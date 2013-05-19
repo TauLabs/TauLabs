@@ -1,0 +1,113 @@
+\hypertarget{group___matrix_sub}{\section{Matrix Subtraction}
+\label{group___matrix_sub}\index{Matrix Subtraction@{Matrix Subtraction}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{arm__math_8h_a5e459c6409dfcd2927bb8a57491d7cf6}{arm\-\_\-status} \hyperlink{group___matrix_sub_gac8b72fb70246ccfee3b372002345732c}{arm\-\_\-mat\-\_\-sub\-\_\-f32} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__matrix__instance__f32}{arm\-\_\-matrix\-\_\-instance\-\_\-f32} $\ast$p\-Src\-A, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__matrix__instance__f32}{arm\-\_\-matrix\-\_\-instance\-\_\-f32} $\ast$p\-Src\-B, \hyperlink{structarm__matrix__instance__f32}{arm\-\_\-matrix\-\_\-instance\-\_\-f32} $\ast$p\-Dst)
+\begin{DoxyCompactList}\small\item\em Floating-\/point matrix subtraction. \end{DoxyCompactList}\item 
+\hyperlink{arm__math_8h_a5e459c6409dfcd2927bb8a57491d7cf6}{arm\-\_\-status} \hyperlink{group___matrix_sub_gaf647776a425b7f9dd0aca3e11d81f02f}{arm\-\_\-mat\-\_\-sub\-\_\-q15} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__matrix__instance__q15}{arm\-\_\-matrix\-\_\-instance\-\_\-q15} $\ast$p\-Src\-A, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__matrix__instance__q15}{arm\-\_\-matrix\-\_\-instance\-\_\-q15} $\ast$p\-Src\-B, \hyperlink{structarm__matrix__instance__q15}{arm\-\_\-matrix\-\_\-instance\-\_\-q15} $\ast$p\-Dst)
+\begin{DoxyCompactList}\small\item\em Q15 matrix subtraction. \end{DoxyCompactList}\item 
+\hyperlink{arm__math_8h_a5e459c6409dfcd2927bb8a57491d7cf6}{arm\-\_\-status} \hyperlink{group___matrix_sub_ga39f42e0e3b7f115fbb909d6ff4e1329d}{arm\-\_\-mat\-\_\-sub\-\_\-q31} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__matrix__instance__q31}{arm\-\_\-matrix\-\_\-instance\-\_\-q31} $\ast$p\-Src\-A, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__matrix__instance__q31}{arm\-\_\-matrix\-\_\-instance\-\_\-q31} $\ast$p\-Src\-B, \hyperlink{structarm__matrix__instance__q31}{arm\-\_\-matrix\-\_\-instance\-\_\-q31} $\ast$p\-Dst)
+\begin{DoxyCompactList}\small\item\em Q31 matrix subtraction. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Subtract two matrices. 
+
+The functions check to make sure that {\ttfamily p\-Src\-A}, {\ttfamily p\-Src\-B}, and {\ttfamily p\-Dst} have the same number of rows and columns. 
+
+\subsection{Function Documentation}
+\hypertarget{group___matrix_sub_gac8b72fb70246ccfee3b372002345732c}{\index{Matrix Subtraction@{Matrix Subtraction}!arm\-\_\-mat\-\_\-sub\-\_\-f32@{arm\-\_\-mat\-\_\-sub\-\_\-f32}}
+\index{arm\-\_\-mat\-\_\-sub\-\_\-f32@{arm\-\_\-mat\-\_\-sub\-\_\-f32}!Matrix Subtraction@{Matrix Subtraction}}
+\subsubsection[{arm\-\_\-mat\-\_\-sub\-\_\-f32}]{\setlength{\rightskip}{0pt plus 5cm}{\bf arm\-\_\-status} arm\-\_\-mat\-\_\-sub\-\_\-f32 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-matrix\-\_\-instance\-\_\-f32} $\ast$}]{p\-Src\-A, }
+\item[{{\bf const} {\bf arm\-\_\-matrix\-\_\-instance\-\_\-f32} $\ast$}]{p\-Src\-B, }
+\item[{{\bf arm\-\_\-matrix\-\_\-instance\-\_\-f32} $\ast$}]{p\-Dst}
+\end{DoxyParamCaption}
+)}}\label{group___matrix_sub_gac8b72fb70246ccfee3b372002345732c}
+
+
+Floating-\/point matrix subtraction. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Src\-A} & points to the first input matrix structure \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src\-B} & points to the second input matrix structure \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to output matrix structure \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The function returns either {\ttfamily A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-S\-I\-Z\-E\-\_\-\-M\-I\-S\-M\-A\-T\-C\-H} or {\ttfamily A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-S\-U\-C\-C\-E\-S\-S} based on the outcome of size checking. 
+\end{DoxyReturn}
+
+
+Definition at line 70 of file arm\-\_\-mat\-\_\-sub\-\_\-f32.\-c.
+
+\hypertarget{group___matrix_sub_gaf647776a425b7f9dd0aca3e11d81f02f}{\index{Matrix Subtraction@{Matrix Subtraction}!arm\-\_\-mat\-\_\-sub\-\_\-q15@{arm\-\_\-mat\-\_\-sub\-\_\-q15}}
+\index{arm\-\_\-mat\-\_\-sub\-\_\-q15@{arm\-\_\-mat\-\_\-sub\-\_\-q15}!Matrix Subtraction@{Matrix Subtraction}}
+\subsubsection[{arm\-\_\-mat\-\_\-sub\-\_\-q15}]{\setlength{\rightskip}{0pt plus 5cm}{\bf arm\-\_\-status} arm\-\_\-mat\-\_\-sub\-\_\-q15 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-matrix\-\_\-instance\-\_\-q15} $\ast$}]{p\-Src\-A, }
+\item[{{\bf const} {\bf arm\-\_\-matrix\-\_\-instance\-\_\-q15} $\ast$}]{p\-Src\-B, }
+\item[{{\bf arm\-\_\-matrix\-\_\-instance\-\_\-q15} $\ast$}]{p\-Dst}
+\end{DoxyParamCaption}
+)}}\label{group___matrix_sub_gaf647776a425b7f9dd0aca3e11d81f02f}
+
+
+Q15 matrix subtraction. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Src\-A} & points to the first input matrix structure \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src\-B} & points to the second input matrix structure \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to output matrix structure \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The function returns either {\ttfamily A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-S\-I\-Z\-E\-\_\-\-M\-I\-S\-M\-A\-T\-C\-H} or {\ttfamily A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-S\-U\-C\-C\-E\-S\-S} based on the outcome of size checking.
+\end{DoxyReturn}
+{\bfseries Scaling and Overflow Behavior\-:} \begin{DoxyParagraph}{}
+The function uses saturating arithmetic. Results outside of the allowable Q15 range \mbox{[}0x8000 0x7\-F\-F\-F\mbox{]} will be saturated. 
+\end{DoxyParagraph}
+
+
+Definition at line 64 of file arm\-\_\-mat\-\_\-sub\-\_\-q15.\-c.
+
+\hypertarget{group___matrix_sub_ga39f42e0e3b7f115fbb909d6ff4e1329d}{\index{Matrix Subtraction@{Matrix Subtraction}!arm\-\_\-mat\-\_\-sub\-\_\-q31@{arm\-\_\-mat\-\_\-sub\-\_\-q31}}
+\index{arm\-\_\-mat\-\_\-sub\-\_\-q31@{arm\-\_\-mat\-\_\-sub\-\_\-q31}!Matrix Subtraction@{Matrix Subtraction}}
+\subsubsection[{arm\-\_\-mat\-\_\-sub\-\_\-q31}]{\setlength{\rightskip}{0pt plus 5cm}{\bf arm\-\_\-status} arm\-\_\-mat\-\_\-sub\-\_\-q31 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-matrix\-\_\-instance\-\_\-q31} $\ast$}]{p\-Src\-A, }
+\item[{{\bf const} {\bf arm\-\_\-matrix\-\_\-instance\-\_\-q31} $\ast$}]{p\-Src\-B, }
+\item[{{\bf arm\-\_\-matrix\-\_\-instance\-\_\-q31} $\ast$}]{p\-Dst}
+\end{DoxyParamCaption}
+)}}\label{group___matrix_sub_ga39f42e0e3b7f115fbb909d6ff4e1329d}
+
+
+Q31 matrix subtraction. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Src\-A} & points to the first input matrix structure \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src\-B} & points to the second input matrix structure \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to output matrix structure \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The function returns either {\ttfamily A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-S\-I\-Z\-E\-\_\-\-M\-I\-S\-M\-A\-T\-C\-H} or {\ttfamily A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-S\-U\-C\-C\-E\-S\-S} based on the outcome of size checking.
+\end{DoxyReturn}
+{\bfseries Scaling and Overflow Behavior\-:} \begin{DoxyParagraph}{}
+The function uses saturating arithmetic. Results outside of the allowable Q31 range \mbox{[}0x80000000 0x7\-F\-F\-F\-F\-F\-F\-F\mbox{]} will be saturated. 
+\end{DoxyParagraph}
+
+
+Definition at line 65 of file arm\-\_\-mat\-\_\-sub\-\_\-q31.\-c.
+

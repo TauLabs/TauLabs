@@ -1,0 +1,157 @@
+\hypertarget{group___s_t_m32_f4xx___system___exported___functions}{\section{S\-T\-M32\-F4xx\-\_\-\-System\-\_\-\-Exported\-\_\-\-Functions}
+\label{group___s_t_m32_f4xx___system___exported___functions}\index{S\-T\-M32\-F4xx\-\_\-\-System\-\_\-\-Exported\-\_\-\-Functions@{S\-T\-M32\-F4xx\-\_\-\-System\-\_\-\-Exported\-\_\-\-Functions}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_t_m32_f4xx___system___exported___functions_ga93f514700ccf00d08dbdcff7f1224eb2}{System\-Init} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Setup the microcontroller system Initialize the Embedded Flash Interface, the P\-L\-L and update the System\-Frequency variable. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_t_m32_f4xx___system___exported___functions_gae0c36a9591fe6e9c45ecb21a794f0f0f}{System\-Core\-Clock\-Update} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Update System\-Core\-Clock variable according to Clock Register Values. The System\-Core\-Clock variable contains the core clock (H\-C\-L\-K), it can be used by the user application to setup the Sys\-Tick timer or configure other parameters. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Function Documentation}
+\hypertarget{group___s_t_m32_f4xx___system___exported___functions_gae0c36a9591fe6e9c45ecb21a794f0f0f}{\index{S\-T\-M32\-F4xx\-\_\-\-System\-\_\-\-Exported\-\_\-\-Functions@{S\-T\-M32\-F4xx\-\_\-\-System\-\_\-\-Exported\-\_\-\-Functions}!System\-Core\-Clock\-Update@{System\-Core\-Clock\-Update}}
+\index{System\-Core\-Clock\-Update@{System\-Core\-Clock\-Update}!STM32F4xx_System_Exported_Functions@{S\-T\-M32\-F4xx\-\_\-\-System\-\_\-\-Exported\-\_\-\-Functions}}
+\subsubsection[{System\-Core\-Clock\-Update}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} System\-Core\-Clock\-Update (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___s_t_m32_f4xx___system___exported___functions_gae0c36a9591fe6e9c45ecb21a794f0f0f}
+
+
+Update System\-Core\-Clock variable according to Clock Register Values. The System\-Core\-Clock variable contains the core clock (H\-C\-L\-K), it can be used by the user application to setup the Sys\-Tick timer or configure other parameters. 
+
+\begin{DoxyNote}{Note}
+Each time the core clock (H\-C\-L\-K) changes, this function must be called to update System\-Core\-Clock variable value. Otherwise, any configuration based on this variable will be incorrect.
+
+-\/ The system frequency computed by this function is not the real frequency in the chip. It is calculated based on the predefined constant and the selected clock source\-:
+\end{DoxyNote}
+
+\begin{DoxyItemize}
+\item If S\-Y\-S\-C\-L\-K source is H\-S\-I, System\-Core\-Clock will contain the H\-S\-I\-\_\-\-V\-A\-L\-U\-E($\ast$)
+\end{DoxyItemize}
+
+
+\begin{DoxyItemize}
+\item If S\-Y\-S\-C\-L\-K source is H\-S\-E, System\-Core\-Clock will contain the H\-S\-E\-\_\-\-V\-A\-L\-U\-E($\ast$$\ast$)
+\end{DoxyItemize}
+
+
+\begin{DoxyItemize}
+\item If S\-Y\-S\-C\-L\-K source is P\-L\-L, System\-Core\-Clock will contain the H\-S\-E\-\_\-\-V\-A\-L\-U\-E($\ast$$\ast$) or H\-S\-I\-\_\-\-V\-A\-L\-U\-E($\ast$) multiplied/divided by the P\-L\-L factors.
+\end{DoxyItemize}
+
+($\ast$) H\-S\-I\-\_\-\-V\-A\-L\-U\-E is a constant defined in \hyperlink{stm32f30x_8h}{stm32f30x.\-h} file (default value 8 M\-Hz) but the real value may vary depending on the variations in voltage and temperature.
+
+($\ast$$\ast$) H\-S\-E\-\_\-\-V\-A\-L\-U\-E is a constant defined in \hyperlink{stm32f30x_8h}{stm32f30x.\-h} file (default value 8 M\-Hz), user has to ensure that H\-S\-E\-\_\-\-V\-A\-L\-U\-E is same as the real frequency of the crystal used. Otherwise, this function may have wrong result.
+
+
+\begin{DoxyItemize}
+\item The result of this function could be not correct when using fractional value for H\-S\-E crystal.
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\begin{DoxyNote}{Note}
+Each time the core clock (H\-C\-L\-K) changes, this function must be called to update System\-Core\-Clock variable value. Otherwise, any configuration based on this variable will be incorrect.
+
+-\/ The system frequency computed by this function is not the real frequency in the chip. It is calculated based on the predefined constant and the selected clock source\-:
+\end{DoxyNote}
+
+\begin{DoxyItemize}
+\item If S\-Y\-S\-C\-L\-K source is H\-S\-I, System\-Core\-Clock will contain the H\-S\-I\-\_\-\-V\-A\-L\-U\-E($\ast$)
+\end{DoxyItemize}
+
+
+\begin{DoxyItemize}
+\item If S\-Y\-S\-C\-L\-K source is H\-S\-E, System\-Core\-Clock will contain the H\-S\-E\-\_\-\-V\-A\-L\-U\-E($\ast$$\ast$)
+\end{DoxyItemize}
+
+
+\begin{DoxyItemize}
+\item If S\-Y\-S\-C\-L\-K source is P\-L\-L, System\-Core\-Clock will contain the H\-S\-E\-\_\-\-V\-A\-L\-U\-E($\ast$$\ast$) or H\-S\-I\-\_\-\-V\-A\-L\-U\-E($\ast$) multiplied/divided by the P\-L\-L factors.
+\end{DoxyItemize}
+
+($\ast$) H\-S\-I\-\_\-\-V\-A\-L\-U\-E is a constant defined in \hyperlink{stm32f4xx_8h}{stm32f4xx.\-h} file (default value 16 M\-Hz) but the real value may vary depending on the variations in voltage and temperature.
+
+($\ast$$\ast$) H\-S\-E\-\_\-\-V\-A\-L\-U\-E is a constant defined in \hyperlink{stm32f4xx_8h}{stm32f4xx.\-h} file (default value 25 M\-Hz), user has to ensure that H\-S\-E\-\_\-\-V\-A\-L\-U\-E is same as the real frequency of the crystal used. Otherwise, this function may have wrong result.
+
+
+\begin{DoxyItemize}
+\item The result of this function could be not correct when using fractional value for H\-S\-E crystal.
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 247 of file system\-\_\-stm32f30x.\-c.
+
+\hypertarget{group___s_t_m32_f4xx___system___exported___functions_ga93f514700ccf00d08dbdcff7f1224eb2}{\index{S\-T\-M32\-F4xx\-\_\-\-System\-\_\-\-Exported\-\_\-\-Functions@{S\-T\-M32\-F4xx\-\_\-\-System\-\_\-\-Exported\-\_\-\-Functions}!System\-Init@{System\-Init}}
+\index{System\-Init@{System\-Init}!STM32F4xx_System_Exported_Functions@{S\-T\-M32\-F4xx\-\_\-\-System\-\_\-\-Exported\-\_\-\-Functions}}
+\subsubsection[{System\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} System\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___s_t_m32_f4xx___system___exported___functions_ga93f514700ccf00d08dbdcff7f1224eb2}
+
+
+Setup the microcontroller system Initialize the Embedded Flash Interface, the P\-L\-L and update the System\-Frequency variable. 
+
+\begin{DoxyNote}{Note}
+This function should be used only after reset. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 187 of file system\-\_\-stm32f10x.\-c.
+

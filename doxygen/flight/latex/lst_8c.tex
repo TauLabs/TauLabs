@@ -1,0 +1,345 @@
+\hypertarget{lst_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/lst.c File Reference}
+\label{lst_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/lst.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/lst.\-c}}
+}
+
+
+List Object Type.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{lst_8c_aea0155a39fdd71d89a77acff3c8259b8}{list\-\_\-append} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} plist, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pobj)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{lst_8c_a63c75ac91ce481fa844caffa511b358f}{list\-\_\-get\-Item} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} plist, \hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} index, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} $\ast$r\-\_\-pobj)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{lst_8c_a95239a8d9691081bdd2cc3f46c98be60}{list\-\_\-insert} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} plist, \hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} index, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pobj)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{lst_8c_ae697e1e6f480023d8914d0aac9a1702c}{list\-\_\-new} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} $\ast$r\-\_\-pobj)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{lst_8c_a6440a4e2066eb2b8724285ba676d356b}{list\-\_\-copy} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pobj, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} $\ast$r\-\_\-pobj)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{lst_8c_ac9f1f068a7b7b46fa24ce71decc5a2eb}{list\-\_\-replicate} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} psrclist, \hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} n, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} $\ast$r\-\_\-pnewlist)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{lst_8c_ad9715cf5e36b2ebf8f1f0d9f8dd135ea}{list\-\_\-set\-Item} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} plist, \hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} index, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pobj)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{lst_8c_a65066c41f5c0ccdd6c14d53ee3d41d64}{list\-\_\-remove} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} plist, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} item)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{lst_8c_a6e9b6dab02a8e0dab47592eb4f5933ea}{list\-\_\-index} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} plist, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pitem, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} $\ast$r\-\_\-index)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{lst_8c_abef066435f332b2d8cab7d5f315f786f}{list\-\_\-del\-Item} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} plist, \hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} index)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{lst_8c_aa8cd3fa2ab8c6f604a9904d5d8bfec65}{list\-\_\-print} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} plist)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{lst_8c_ad7796d6dfa62a528c65ddc43b7c532be}{list\-\_\-clear} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} plist)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+List Object Type. List object type operations. 
+
+Definition in file \hyperlink{lst_8c_source}{lst.\-c}.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{lst_8c_aea0155a39fdd71d89a77acff3c8259b8}{\index{lst.\-c@{lst.\-c}!list\-\_\-append@{list\-\_\-append}}
+\index{list\-\_\-append@{list\-\_\-append}!lst.c@{lst.\-c}}
+\subsubsection[{list\-\_\-append}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} list\-\_\-append (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{plist, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pobj}
+\end{DoxyParamCaption}
+)}}\label{lst_8c_aea0155a39fdd71d89a77acff3c8259b8}
+Appends the given obj to the end of the given list.
+
+Allocate the memory for the node. Do not copy obj, just reuse ptr.
+
+
+\begin{DoxyParams}{Parameters}
+{\em plist} & Ptr to list \\
+\hline
+{\em pobj} & Ptr to item to append \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 32 of file lst.\-c.
+
+\hypertarget{lst_8c_ad7796d6dfa62a528c65ddc43b7c532be}{\index{lst.\-c@{lst.\-c}!list\-\_\-clear@{list\-\_\-clear}}
+\index{list\-\_\-clear@{list\-\_\-clear}!lst.c@{lst.\-c}}
+\subsubsection[{list\-\_\-clear}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} list\-\_\-clear (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{plist}
+\end{DoxyParamCaption}
+)}}\label{lst_8c_ad7796d6dfa62a528c65ddc43b7c532be}
+Removes all items from the list and zeroes the length.
+
+
+\begin{DoxyParams}{Parameters}
+{\em plist} & List to clear \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 406 of file lst.\-c.
+
+\hypertarget{lst_8c_a6440a4e2066eb2b8724285ba676d356b}{\index{lst.\-c@{lst.\-c}!list\-\_\-copy@{list\-\_\-copy}}
+\index{list\-\_\-copy@{list\-\_\-copy}!lst.c@{lst.\-c}}
+\subsubsection[{list\-\_\-copy}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} list\-\_\-copy (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pobj, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t} $\ast$}]{r\-\_\-pobj}
+\end{DoxyParamCaption}
+)}}\label{lst_8c_a6440a4e2066eb2b8724285ba676d356b}
+Makes a copy of the given list.
+
+Allocate the necessary memory for root and nodes. Duplicate ptrs to objs.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pobj} & Ptr to source list \\
+\hline
+{\em r\-\_\-pobj} & Return; Addr of ptr to return obj \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 170 of file lst.\-c.
+
+\hypertarget{lst_8c_abef066435f332b2d8cab7d5f315f786f}{\index{lst.\-c@{lst.\-c}!list\-\_\-del\-Item@{list\-\_\-del\-Item}}
+\index{list\-\_\-del\-Item@{list\-\_\-del\-Item}!lst.c@{lst.\-c}}
+\subsubsection[{list\-\_\-del\-Item}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} list\-\_\-del\-Item (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{plist, }
+\item[{{\bf int16\-\_\-t}}]{index}
+\end{DoxyParamCaption}
+)}}\label{lst_8c_abef066435f332b2d8cab7d5f315f786f}
+Removes the item at the given index. Raises a Type\-Error if the first argument is not a list. Raises an Index\-Error if the index is out of bounds.
+
+
+\begin{DoxyParams}{Parameters}
+{\em plist} & Ptr to list obj \\
+\hline
+{\em index} & Index of item to remove \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 324 of file lst.\-c.
+
+\hypertarget{lst_8c_a63c75ac91ce481fa844caffa511b358f}{\index{lst.\-c@{lst.\-c}!list\-\_\-get\-Item@{list\-\_\-get\-Item}}
+\index{list\-\_\-get\-Item@{list\-\_\-get\-Item}!lst.c@{lst.\-c}}
+\subsubsection[{list\-\_\-get\-Item}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} list\-\_\-get\-Item (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{plist, }
+\item[{{\bf int16\-\_\-t}}]{index, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t} $\ast$}]{r\-\_\-pobj}
+\end{DoxyParamCaption}
+)}}\label{lst_8c_a63c75ac91ce481fa844caffa511b358f}
+Gets the object in the list at the index.
+
+
+\begin{DoxyParams}{Parameters}
+{\em plist} & Ptr to list obj \\
+\hline
+{\em index} & Index into list \\
+\hline
+{\em r\-\_\-pobj} & Return by reference; ptr to item \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 68 of file lst.\-c.
+
+\hypertarget{lst_8c_a6e9b6dab02a8e0dab47592eb4f5933ea}{\index{lst.\-c@{lst.\-c}!list\-\_\-index@{list\-\_\-index}}
+\index{list\-\_\-index@{list\-\_\-index}!lst.c@{lst.\-c}}
+\subsubsection[{list\-\_\-index}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} list\-\_\-index (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{plist, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pitem, }
+\item[{{\bf uint16\-\_\-t} $\ast$}]{r\-\_\-index}
+\end{DoxyParamCaption}
+)}}\label{lst_8c_a6e9b6dab02a8e0dab47592eb4f5933ea}
+Finds the first index of the item that matches pitem. Returns an Value\-Error Exception if the item is not found.
+
+
+\begin{DoxyParams}{Parameters}
+{\em plist} & Ptr to list obj \\
+\hline
+{\em pitem} & Ptr to object to be removed \\
+\hline
+{\em r\-\_\-index} & Return by reference; ptr to index (C uint16) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 282 of file lst.\-c.
+
+\hypertarget{lst_8c_a95239a8d9691081bdd2cc3f46c98be60}{\index{lst.\-c@{lst.\-c}!list\-\_\-insert@{list\-\_\-insert}}
+\index{list\-\_\-insert@{list\-\_\-insert}!lst.c@{lst.\-c}}
+\subsubsection[{list\-\_\-insert}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} list\-\_\-insert (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{plist, }
+\item[{{\bf int16\-\_\-t}}]{index, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pobj}
+\end{DoxyParamCaption}
+)}}\label{lst_8c_a95239a8d9691081bdd2cc3f46c98be60}
+Inserts the object into the list at the desired index.
+
+
+\begin{DoxyParams}{Parameters}
+{\em plist} & Ptr to list obj \\
+\hline
+{\em pobj} & Ptr to obj to insert \\
+\hline
+{\em index} & Index of where to insert obj \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 99 of file lst.\-c.
+
+\hypertarget{lst_8c_ae697e1e6f480023d8914d0aac9a1702c}{\index{lst.\-c@{lst.\-c}!list\-\_\-new@{list\-\_\-new}}
+\index{list\-\_\-new@{list\-\_\-new}!lst.c@{lst.\-c}}
+\subsubsection[{list\-\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} list\-\_\-new (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t} $\ast$}]{r\-\_\-pobj}
+\end{DoxyParamCaption}
+)}}\label{lst_8c_ae697e1e6f480023d8914d0aac9a1702c}
+Allocates a new List object.
+
+If there is not enough memory to allocate the List, the return status will indicate an Out\-Of\-Memory\-Error that must be passed up to the interpreter. Otherwise, a ptr to the list is returned by reference and the return status is O\-K.
+
+
+\begin{DoxyParams}{Parameters}
+{\em r\-\_\-pobj} & Return; addr of ptr to obj \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 150 of file lst.\-c.
+
+\hypertarget{lst_8c_aa8cd3fa2ab8c6f604a9904d5d8bfec65}{\index{lst.\-c@{lst.\-c}!list\-\_\-print@{list\-\_\-print}}
+\index{list\-\_\-print@{list\-\_\-print}!lst.c@{lst.\-c}}
+\subsubsection[{list\-\_\-print}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} list\-\_\-print (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pobj}
+\end{DoxyParamCaption}
+)}}\label{lst_8c_aa8cd3fa2ab8c6f604a9904d5d8bfec65}
+Prints out a list. Uses \hyperlink{obj_8c_ace3ddc65cd26903046d201957bbb42a6}{obj\-\_\-print()} to print elements.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pobj} & Object to print. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 364 of file lst.\-c.
+
+\hypertarget{lst_8c_a65066c41f5c0ccdd6c14d53ee3d41d64}{\index{lst.\-c@{lst.\-c}!list\-\_\-remove@{list\-\_\-remove}}
+\index{list\-\_\-remove@{list\-\_\-remove}!lst.c@{lst.\-c}}
+\subsubsection[{list\-\_\-remove}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} list\-\_\-remove (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{plist, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{item}
+\end{DoxyParamCaption}
+)}}\label{lst_8c_a65066c41f5c0ccdd6c14d53ee3d41d64}
+Removes a given object from the list.
+
+
+\begin{DoxyParams}{Parameters}
+{\em plist} & Ptr to list obj \\
+\hline
+{\em item} & Ptr to object to be removed \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 251 of file lst.\-c.
+
+\hypertarget{lst_8c_ac9f1f068a7b7b46fa24ce71decc5a2eb}{\index{lst.\-c@{lst.\-c}!list\-\_\-replicate@{list\-\_\-replicate}}
+\index{list\-\_\-replicate@{list\-\_\-replicate}!lst.c@{lst.\-c}}
+\subsubsection[{list\-\_\-replicate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} list\-\_\-replicate (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{psrclist, }
+\item[{{\bf int16\-\_\-t}}]{n, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t} $\ast$}]{r\-\_\-pnewlist}
+\end{DoxyParamCaption}
+)}}\label{lst_8c_ac9f1f068a7b7b46fa24ce71decc5a2eb}
+Creates a new list with the contents of psrclist copied pint number of times. This implements the python code \char`\"{}\mbox{[}0,...\mbox{]} $\ast$ N\char`\"{} where the list can be any list and N is an integer.
+
+
+\begin{DoxyParams}{Parameters}
+{\em psrclist} & The source list to replicate \\
+\hline
+{\em n} & The integer number of times to replicate it \\
+\hline
+{\em r\-\_\-pnewlist} & Return; new list with its contents set. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 177 of file lst.\-c.
+
+\hypertarget{lst_8c_ad9715cf5e36b2ebf8f1f0d9f8dd135ea}{\index{lst.\-c@{lst.\-c}!list\-\_\-set\-Item@{list\-\_\-set\-Item}}
+\index{list\-\_\-set\-Item@{list\-\_\-set\-Item}!lst.c@{lst.\-c}}
+\subsubsection[{list\-\_\-set\-Item}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} list\-\_\-set\-Item (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{plist, }
+\item[{{\bf int16\-\_\-t}}]{index, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pobj}
+\end{DoxyParamCaption}
+)}}\label{lst_8c_ad9715cf5e36b2ebf8f1f0d9f8dd135ea}
+Sets the item in the list at the index.
+
+
+\begin{DoxyParams}{Parameters}
+{\em plist} & Ptr to list \\
+\hline
+{\em index} & Index into list \\
+\hline
+{\em pobj} & Ptr to obj to put into list \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 220 of file lst.\-c.
+

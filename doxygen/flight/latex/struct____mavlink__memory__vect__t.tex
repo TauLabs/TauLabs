@@ -1,0 +1,77 @@
+\hypertarget{struct____mavlink__memory__vect__t}{\section{\-\_\-\-\_\-mavlink\-\_\-memory\-\_\-vect\-\_\-t Struct Reference}
+\label{struct____mavlink__memory__vect__t}\index{\-\_\-\-\_\-mavlink\-\_\-memory\-\_\-vect\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-memory\-\_\-vect\-\_\-t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\-\_\-msg\-\_\-memory\-\_\-vect.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{struct____mavlink__memory__vect__t_a079a0cecfd6f6e3d47c4c1d324ddd29d}{address}
+\begin{DoxyCompactList}\small\item\em Starting address of the debug variables. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__memory__vect__t_acb180cded1d3dcbf3e719545b50f392e}{ver}
+\begin{DoxyCompactList}\small\item\em Version code of the type variable. 0=unknown, type ignored and assumed int16\-\_\-t. 1=as below. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__memory__vect__t_a5c37b4f5d396209693c7bb32097a6e88}{type}
+\begin{DoxyCompactList}\small\item\em Type code of the memory variables. for ver = 1\-: 0=16 x int16\-\_\-t, 1=16 x uint16\-\_\-t, 2=16 x Q15, 3=16 x 1\-Q14. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_ad566f6541e98b74246db1a3a3a85ad49}{int8\-\_\-t} \hyperlink{struct____mavlink__memory__vect__t_a9d2124dfb0efc698eff93eb6744654cf}{value} \mbox{[}32\mbox{]}
+\begin{DoxyCompactList}\small\item\em Memory contents at specified address. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 5 of file mavlink\-\_\-msg\-\_\-memory\-\_\-vect.\-h.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__memory__vect__t_a079a0cecfd6f6e3d47c4c1d324ddd29d}{\index{\-\_\-\-\_\-mavlink\-\_\-memory\-\_\-vect\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-memory\-\_\-vect\-\_\-t}!address@{address}}
+\index{address@{address}!__mavlink_memory_vect_t@{\-\_\-\-\_\-mavlink\-\_\-memory\-\_\-vect\-\_\-t}}
+\subsubsection[{address}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-memory\-\_\-vect\-\_\-t\-::address}}\label{struct____mavlink__memory__vect__t_a079a0cecfd6f6e3d47c4c1d324ddd29d}
+
+
+Starting address of the debug variables. 
+
+
+
+Definition at line 7 of file mavlink\-\_\-msg\-\_\-memory\-\_\-vect.\-h.
+
+\hypertarget{struct____mavlink__memory__vect__t_a5c37b4f5d396209693c7bb32097a6e88}{\index{\-\_\-\-\_\-mavlink\-\_\-memory\-\_\-vect\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-memory\-\_\-vect\-\_\-t}!type@{type}}
+\index{type@{type}!__mavlink_memory_vect_t@{\-\_\-\-\_\-mavlink\-\_\-memory\-\_\-vect\-\_\-t}}
+\subsubsection[{type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-memory\-\_\-vect\-\_\-t\-::type}}\label{struct____mavlink__memory__vect__t_a5c37b4f5d396209693c7bb32097a6e88}
+
+
+Type code of the memory variables. for ver = 1\-: 0=16 x int16\-\_\-t, 1=16 x uint16\-\_\-t, 2=16 x Q15, 3=16 x 1\-Q14. 
+
+
+
+Definition at line 9 of file mavlink\-\_\-msg\-\_\-memory\-\_\-vect.\-h.
+
+\hypertarget{struct____mavlink__memory__vect__t_a9d2124dfb0efc698eff93eb6744654cf}{\index{\-\_\-\-\_\-mavlink\-\_\-memory\-\_\-vect\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-memory\-\_\-vect\-\_\-t}!value@{value}}
+\index{value@{value}!__mavlink_memory_vect_t@{\-\_\-\-\_\-mavlink\-\_\-memory\-\_\-vect\-\_\-t}}
+\subsubsection[{value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-memory\-\_\-vect\-\_\-t\-::value\mbox{[}32\mbox{]}}}\label{struct____mavlink__memory__vect__t_a9d2124dfb0efc698eff93eb6744654cf}
+
+
+Memory contents at specified address. 
+
+
+
+Definition at line 10 of file mavlink\-\_\-msg\-\_\-memory\-\_\-vect.\-h.
+
+\hypertarget{struct____mavlink__memory__vect__t_acb180cded1d3dcbf3e719545b50f392e}{\index{\-\_\-\-\_\-mavlink\-\_\-memory\-\_\-vect\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-memory\-\_\-vect\-\_\-t}!ver@{ver}}
+\index{ver@{ver}!__mavlink_memory_vect_t@{\-\_\-\-\_\-mavlink\-\_\-memory\-\_\-vect\-\_\-t}}
+\subsubsection[{ver}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-memory\-\_\-vect\-\_\-t\-::ver}}\label{struct____mavlink__memory__vect__t_acb180cded1d3dcbf3e719545b50f392e}
+
+
+Version code of the type variable. 0=unknown, type ignored and assumed int16\-\_\-t. 1=as below. 
+
+
+
+Definition at line 8 of file mavlink\-\_\-msg\-\_\-memory\-\_\-vect.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Libraries/mavlink/v1.\-0/common/\hyperlink{mavlink__msg__memory__vect_8h}{mavlink\-\_\-msg\-\_\-memory\-\_\-vect.\-h}\end{DoxyCompactItemize}

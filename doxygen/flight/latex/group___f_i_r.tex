@@ -1,0 +1,512 @@
+\hypertarget{group___f_i_r}{\section{Finite Impulse Response (F\-I\-R) Filters}
+\label{group___f_i_r}\index{Finite Impulse Response (\-F\-I\-R) Filters@{Finite Impulse Response (\-F\-I\-R) Filters}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___f_i_r_gae8fb334ea67eb6ecbd31824ddc14cd6a}{arm\-\_\-fir\-\_\-f32} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__fir__instance__f32}{arm\-\_\-fir\-\_\-instance\-\_\-f32} $\ast$S, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Src, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Processing function for the floating-\/point F\-I\-R filter. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___f_i_r_gac7d35e9472e49ccd88800f37f3476bd3}{arm\-\_\-fir\-\_\-fast\-\_\-q15} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__fir__instance__q15}{arm\-\_\-fir\-\_\-instance\-\_\-q15} $\ast$S, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Src, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Processing function for the fast Q15 F\-I\-R filter for Cortex-\/\-M3 and Cortex-\/\-M4. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___f_i_r_ga55aa292e057b43c376428ea1d9a938cc}{arm\-\_\-fir\-\_\-fast\-\_\-q31} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__fir__instance__q31}{arm\-\_\-fir\-\_\-instance\-\_\-q31} $\ast$S, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Src, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Processing function for the fast Q31 F\-I\-R filter for Cortex-\/\-M3 and Cortex-\/\-M4. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___f_i_r_ga98d13def6427e29522829f945d0967db}{arm\-\_\-fir\-\_\-init\-\_\-f32} (\hyperlink{structarm__fir__instance__f32}{arm\-\_\-fir\-\_\-instance\-\_\-f32} $\ast$S, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} num\-Taps, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Coeffs, \hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-State, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Initialization function for the floating-\/point F\-I\-R filter. \end{DoxyCompactList}\item 
+\hyperlink{arm__math_8h_a5e459c6409dfcd2927bb8a57491d7cf6}{arm\-\_\-status} \hyperlink{group___f_i_r_gae2a50f692f41ba57e44ed0719b1368bd}{arm\-\_\-fir\-\_\-init\-\_\-q15} (\hyperlink{structarm__fir__instance__q15}{arm\-\_\-fir\-\_\-instance\-\_\-q15} $\ast$S, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} num\-Taps, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Coeffs, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-State, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Initialization function for the Q15 F\-I\-R filter. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___f_i_r_gac00d53af87684cbbe135767b55e748a5}{arm\-\_\-fir\-\_\-init\-\_\-q31} (\hyperlink{structarm__fir__instance__q31}{arm\-\_\-fir\-\_\-instance\-\_\-q31} $\ast$S, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} num\-Taps, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Coeffs, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-State, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Initialization function for the Q31 F\-I\-R filter. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___f_i_r_ga88e48688224d42dc173dbcec702f0c1d}{arm\-\_\-fir\-\_\-init\-\_\-q7} (\hyperlink{structarm__fir__instance__q7}{arm\-\_\-fir\-\_\-instance\-\_\-q7} $\ast$S, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} num\-Taps, \hyperlink{arm__math_8h_ae541b6f232c305361e9b416fc9eed263}{q7\-\_\-t} $\ast$p\-Coeffs, \hyperlink{arm__math_8h_ae541b6f232c305361e9b416fc9eed263}{q7\-\_\-t} $\ast$p\-State, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Initialization function for the Q7 F\-I\-R filter. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___f_i_r_ga262d173058d6f80fdf60404ba262a8f5}{arm\-\_\-fir\-\_\-q15} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__fir__instance__q15}{arm\-\_\-fir\-\_\-instance\-\_\-q15} $\ast$S, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Src, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Processing function for the Q15 F\-I\-R filter. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___f_i_r_gaadd938c68ab08967cbb5fc696f384bb5}{arm\-\_\-fir\-\_\-q31} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__fir__instance__q31}{arm\-\_\-fir\-\_\-instance\-\_\-q31} $\ast$S, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Src, \hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Processing function for the Q31 F\-I\-R filter. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___f_i_r_ga31c91a0bf0962327ef8f626fae68ea32}{arm\-\_\-fir\-\_\-q7} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__fir__instance__q7}{arm\-\_\-fir\-\_\-instance\-\_\-q7} $\ast$S, \hyperlink{arm__math_8h_ae541b6f232c305361e9b416fc9eed263}{q7\-\_\-t} $\ast$p\-Src, \hyperlink{arm__math_8h_ae541b6f232c305361e9b416fc9eed263}{q7\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} block\-Size)
+\begin{DoxyCompactList}\small\item\em Processing function for the Q7 F\-I\-R filter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This set of functions implements Finite Impulse Response (F\-I\-R) filters for Q7, Q15, Q31, and floating-\/point data types. Fast versions of Q15 and Q31 are also provided. The functions operate on blocks of input and output data and each call to the function processes {\ttfamily block\-Size} samples through the filter. {\ttfamily p\-Src} and {\ttfamily p\-Dst} points to input and output arrays containing {\ttfamily block\-Size} values.
+
+\begin{DoxyParagraph}{Algorithm\-: }
+The F\-I\-R filter algorithm is based upon a sequence of multiply-\/accumulate (M\-A\-C) operations. Each filter coefficient {\ttfamily b\mbox{[}n\mbox{]}} is multiplied by a state variable which equals a previous input sample {\ttfamily x\mbox{[}n\mbox{]}}. 
+\begin{DoxyPre}  
+     y[n] = b[0] * x[n] + b[1] * x[n-1] + b[2] * x[n-2] + ...+ b[numTaps-1] * x[n-numTaps+1]  
+  \end{DoxyPre}
+ 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+ 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+{\ttfamily p\-Coeffs} points to a coefficient array of size {\ttfamily num\-Taps}. Coefficients are stored in time reversed order. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+
+\begin{DoxyPre}  
+     \{b[numTaps-1], b[numTaps-2], b[N-2], ..., b[1], b[0]\}  
+  \end{DoxyPre}
+ 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+{\ttfamily p\-State} points to a state array of size {\ttfamily num\-Taps + block\-Size -\/ 1}. Samples in the state buffer are stored in the following order. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+
+\begin{DoxyPre}  
+     \{x[n-numTaps+1], x[n-numTaps], x[n-numTaps-1], x[n-numTaps-2]....x[0], x[1], ..., x[blockSize-1]\}  
+  \end{DoxyPre}
+ 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Note that the length of the state buffer exceeds the length of the coefficient array by {\ttfamily block\-Size-\/1}. The increased state buffer length allows circular addressing, which is traditionally used in the F\-I\-R filters, to be avoided and yields a significant speed improvement. The state variables are updated after each block of data is processed; the coefficients are untouched. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Instance Structure }
+The coefficients and state variables for a filter are stored together in an instance data structure. A separate instance structure must be defined for each filter. Coefficient arrays may be shared among several instances while state variable arrays cannot be shared. There are separate instance structure declarations for each of the 4 supported data types.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Initialization Functions }
+There is also an associated initialization function for each data type. The initialization function performs the following operations\-:
+\begin{DoxyItemize}
+\item Sets the values of the internal structure fields.
+\item Zeros out the values in the state buffer.
+\end{DoxyItemize}
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Use of the initialization function is optional. However, if the initialization function is used, then the instance structure cannot be placed into a const data section. To place an instance structure into a const data section, the instance structure must be manually initialized. Set the values in the state buffer to zeros before static initialization. The code below statically initializes each of the 4 different data type filter instance structures 
+\begin{DoxyPre}  
+*arm\_fir\_instance\_f32 S = \{numTaps, pState, pCoeffs\};  
+*arm\_fir\_instance\_q31 S = \{numTaps, pState, pCoeffs\};  
+*arm\_fir\_instance\_q15 S = \{numTaps, pState, pCoeffs\};  
+*arm\_fir\_instance\_q7 S =  \{numTaps, pState, pCoeffs\};  
+  \end{DoxyPre}
+
+\end{DoxyParagraph}
+where {\ttfamily num\-Taps} is the number of filter coefficients in the filter; {\ttfamily p\-State} is the address of the state buffer; {\ttfamily p\-Coeffs} is the address of the coefficient buffer.
+
+\begin{DoxyParagraph}{Fixed-\/\-Point Behavior }
+Care must be taken when using the fixed-\/point versions of the F\-I\-R filter functions. In particular, the overflow and saturation behavior of the accumulator used in each function must be considered. Refer to the function specific documentation below for usage guidelines. 
+\end{DoxyParagraph}
+
+
+\subsection{Function Documentation}
+\hypertarget{group___f_i_r_gae8fb334ea67eb6ecbd31824ddc14cd6a}{\index{Finite Impulse Response (\-F\-I\-R) Filters@{Finite Impulse Response (\-F\-I\-R) Filters}!arm\-\_\-fir\-\_\-f32@{arm\-\_\-fir\-\_\-f32}}
+\index{arm\-\_\-fir\-\_\-f32@{arm\-\_\-fir\-\_\-f32}!Finite Impulse Response (FIR) Filters@{Finite Impulse Response (\-F\-I\-R) Filters}}
+\subsubsection[{arm\-\_\-fir\-\_\-f32}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-fir\-\_\-f32 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-fir\-\_\-instance\-\_\-f32} $\ast$}]{S, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___f_i_r_gae8fb334ea67eb6ecbd31824ddc14cd6a}
+
+
+Processing function for the floating-\/point F\-I\-R filter. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$\-S} & points to an instance of the floating-\/point F\-I\-R filter structure. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the block of input data. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the block of output data. \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of samples to process per call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none. 
+\end{DoxyReturn}
+
+
+Definition at line 128 of file arm\-\_\-fir\-\_\-f32.\-c.
+
+\hypertarget{group___f_i_r_gac7d35e9472e49ccd88800f37f3476bd3}{\index{Finite Impulse Response (\-F\-I\-R) Filters@{Finite Impulse Response (\-F\-I\-R) Filters}!arm\-\_\-fir\-\_\-fast\-\_\-q15@{arm\-\_\-fir\-\_\-fast\-\_\-q15}}
+\index{arm\-\_\-fir\-\_\-fast\-\_\-q15@{arm\-\_\-fir\-\_\-fast\-\_\-q15}!Finite Impulse Response (FIR) Filters@{Finite Impulse Response (\-F\-I\-R) Filters}}
+\subsubsection[{arm\-\_\-fir\-\_\-fast\-\_\-q15}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-fir\-\_\-fast\-\_\-q15 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-fir\-\_\-instance\-\_\-q15} $\ast$}]{S, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___f_i_r_gac7d35e9472e49ccd88800f37f3476bd3}
+
+
+Processing function for the fast Q15 F\-I\-R filter for Cortex-\/\-M3 and Cortex-\/\-M4. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$\-S} & points to an instance of the Q15 F\-I\-R filter structure. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the block of input data. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the block of output data. \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of samples to process per call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+{\bfseries Scaling and Overflow Behavior\-:} \begin{DoxyParagraph}{}
+This fast version uses a 32-\/bit accumulator with 2.\-30 format. The accumulator maintains full precision of the intermediate multiplication results but provides only a single guard bit. Thus, if the accumulator result overflows it wraps around and distorts the result. In order to avoid overflows completely the input signal must be scaled down by log2(num\-Taps) bits. The 2.\-30 accumulator is then truncated to 2.\-15 format and saturated to yield the 1.\-15 result.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Refer to the function {\ttfamily \hyperlink{group___f_i_r_ga262d173058d6f80fdf60404ba262a8f5}{arm\-\_\-fir\-\_\-q15()}} for a slower implementation of this function which uses 64-\/bit accumulation to avoid wrap around distortion. Both the slow and the fast versions use the same instance structure. Use the function {\ttfamily \hyperlink{group___f_i_r_gae2a50f692f41ba57e44ed0719b1368bd}{arm\-\_\-fir\-\_\-init\-\_\-q15()}} to initialize the filter structure. 
+\end{DoxyParagraph}
+
+
+Definition at line 68 of file arm\-\_\-fir\-\_\-fast\-\_\-q15.\-c.
+
+\hypertarget{group___f_i_r_ga55aa292e057b43c376428ea1d9a938cc}{\index{Finite Impulse Response (\-F\-I\-R) Filters@{Finite Impulse Response (\-F\-I\-R) Filters}!arm\-\_\-fir\-\_\-fast\-\_\-q31@{arm\-\_\-fir\-\_\-fast\-\_\-q31}}
+\index{arm\-\_\-fir\-\_\-fast\-\_\-q31@{arm\-\_\-fir\-\_\-fast\-\_\-q31}!Finite Impulse Response (FIR) Filters@{Finite Impulse Response (\-F\-I\-R) Filters}}
+\subsubsection[{arm\-\_\-fir\-\_\-fast\-\_\-q31}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-fir\-\_\-fast\-\_\-q31 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-fir\-\_\-instance\-\_\-q31} $\ast$}]{S, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___f_i_r_ga55aa292e057b43c376428ea1d9a938cc}
+
+
+Processing function for the fast Q31 F\-I\-R filter for Cortex-\/\-M3 and Cortex-\/\-M4. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$\-S} & points to an instance of the Q31 structure. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the block of input data. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the block output data. \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of samples to process per call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+{\bfseries Scaling and Overflow Behavior\-:}
+
+\begin{DoxyParagraph}{}
+This function is optimized for speed at the expense of fixed-\/point precision and overflow protection. The result of each 1.\-31 x 1.\-31 multiplication is truncated to 2.\-30 format. These intermediate results are added to a 2.\-30 accumulator. Finally, the accumulator is saturated and converted to a 1.\-31 result. The fast version has the same overflow behavior as the standard version and provides less precision since it discards the low 32 bits of each multiplication result. In order to avoid overflows completely the input signal must be scaled down by log2(num\-Taps) bits.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Refer to the function {\ttfamily \hyperlink{group___f_i_r_gaadd938c68ab08967cbb5fc696f384bb5}{arm\-\_\-fir\-\_\-q31()}} for a slower implementation of this function which uses a 64-\/bit accumulator to provide higher precision. Both the slow and the fast versions use the same instance structure. Use the function {\ttfamily \hyperlink{group___f_i_r_gac00d53af87684cbbe135767b55e748a5}{arm\-\_\-fir\-\_\-init\-\_\-q31()}} to initialize the filter structure. 
+\end{DoxyParagraph}
+
+
+Definition at line 69 of file arm\-\_\-fir\-\_\-fast\-\_\-q31.\-c.
+
+\hypertarget{group___f_i_r_ga98d13def6427e29522829f945d0967db}{\index{Finite Impulse Response (\-F\-I\-R) Filters@{Finite Impulse Response (\-F\-I\-R) Filters}!arm\-\_\-fir\-\_\-init\-\_\-f32@{arm\-\_\-fir\-\_\-init\-\_\-f32}}
+\index{arm\-\_\-fir\-\_\-init\-\_\-f32@{arm\-\_\-fir\-\_\-init\-\_\-f32}!Finite Impulse Response (FIR) Filters@{Finite Impulse Response (\-F\-I\-R) Filters}}
+\subsubsection[{arm\-\_\-fir\-\_\-init\-\_\-f32}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-fir\-\_\-init\-\_\-f32 (
+\begin{DoxyParamCaption}
+\item[{{\bf arm\-\_\-fir\-\_\-instance\-\_\-f32} $\ast$}]{S, }
+\item[{{\bf uint16\-\_\-t}}]{num\-Taps, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Coeffs, }
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-State, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___f_i_r_ga98d13def6427e29522829f945d0967db}
+
+
+Initialization function for the floating-\/point F\-I\-R filter. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em $\ast$\-S} & points to an instance of the floating-\/point F\-I\-R filter structure. \\
+\hline
+\mbox{\tt in}  & {\em num\-Taps} & Number of filter coefficients in the filter. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Coeffs} & points to the filter coefficients buffer. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-State} & points to the state buffer. \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of samples that are processed per call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+{\bfseries Description\-:} \begin{DoxyParagraph}{}
+{\ttfamily p\-Coeffs} points to the array of filter coefficients stored in time reversed order\-: 
+\begin{DoxyPre}    
+   \{b[numTaps-1], b[numTaps-2], b[N-2], ..., b[1], b[0]\}    
+\end{DoxyPre}
+ 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+{\ttfamily p\-State} points to the array of state variables. {\ttfamily p\-State} is of length {\ttfamily num\-Taps+block\-Size-\/1} samples, where {\ttfamily block\-Size} is the number of input samples processed by each call to {\ttfamily \hyperlink{group___f_i_r_gae8fb334ea67eb6ecbd31824ddc14cd6a}{arm\-\_\-fir\-\_\-f32()}}. 
+\end{DoxyParagraph}
+
+
+Definition at line 71 of file arm\-\_\-fir\-\_\-init\-\_\-f32.\-c.
+
+\hypertarget{group___f_i_r_gae2a50f692f41ba57e44ed0719b1368bd}{\index{Finite Impulse Response (\-F\-I\-R) Filters@{Finite Impulse Response (\-F\-I\-R) Filters}!arm\-\_\-fir\-\_\-init\-\_\-q15@{arm\-\_\-fir\-\_\-init\-\_\-q15}}
+\index{arm\-\_\-fir\-\_\-init\-\_\-q15@{arm\-\_\-fir\-\_\-init\-\_\-q15}!Finite Impulse Response (FIR) Filters@{Finite Impulse Response (\-F\-I\-R) Filters}}
+\subsubsection[{arm\-\_\-fir\-\_\-init\-\_\-q15}]{\setlength{\rightskip}{0pt plus 5cm}{\bf arm\-\_\-status} arm\-\_\-fir\-\_\-init\-\_\-q15 (
+\begin{DoxyParamCaption}
+\item[{{\bf arm\-\_\-fir\-\_\-instance\-\_\-q15} $\ast$}]{S, }
+\item[{{\bf uint16\-\_\-t}}]{num\-Taps, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Coeffs, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-State, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___f_i_r_gae2a50f692f41ba57e44ed0719b1368bd}
+
+
+Initialization function for the Q15 F\-I\-R filter. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em $\ast$\-S} & points to an instance of the Q15 F\-I\-R filter structure. \\
+\hline
+\mbox{\tt in}  & {\em num\-Taps} & Number of filter coefficients in the filter. Must be even and greater than or equal to 4. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Coeffs} & points to the filter coefficients buffer. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-State} & points to the state buffer. \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & is number of samples processed per call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The function returns A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-S\-U\-C\-C\-E\-S\-S if initialization is successful or A\-R\-M\-\_\-\-M\-A\-T\-H\-\_\-\-A\-R\-G\-U\-M\-E\-N\-T\-\_\-\-E\-R\-R\-O\-R if {\ttfamily num\-Taps} is not greater than or equal to 4 and even.
+\end{DoxyReturn}
+{\bfseries Description\-:} \begin{DoxyParagraph}{}
+{\ttfamily p\-Coeffs} points to the array of filter coefficients stored in time reversed order\-: 
+\begin{DoxyPre}    
+   \{b[numTaps-1], b[numTaps-2], b[N-2], ..., b[1], b[0]\}    
+\end{DoxyPre}
+ Note that {\ttfamily num\-Taps} must be even and greater than or equal to 4. To implement an odd length filter simply increase {\ttfamily num\-Taps} by 1 and set the last coefficient to zero. For example, to implement a filter with {\ttfamily num\-Taps=3} and coefficients 
+\begin{DoxyPre}    
+    \{0.3, -0.8, 0.3\}    
+\end{DoxyPre}
+ set {\ttfamily num\-Taps=4} and use the coefficients\-: 
+\begin{DoxyPre}    
+    \{0.3, -0.8, 0.3, 0\}.    
+\end{DoxyPre}
+ Similarly, to implement a two point filter 
+\begin{DoxyPre}    
+    \{0.3, -0.3\}    
+\end{DoxyPre}
+ set {\ttfamily num\-Taps=4} and use the coefficients\-: 
+\begin{DoxyPre}    
+    \{0.3, -0.3, 0, 0\}.    
+\end{DoxyPre}
+ 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+{\ttfamily p\-State} points to the array of state variables. {\ttfamily p\-State} is of length {\ttfamily num\-Taps+block\-Size}, when running on Cortex-\/\-M4 and Cortex-\/\-M3 and is of length {\ttfamily num\-Taps+block\-Size-\/1}, when running on Cortex-\/\-M0 where {\ttfamily block\-Size} is the number of input samples processed by each call to {\ttfamily \hyperlink{group___f_i_r_ga262d173058d6f80fdf60404ba262a8f5}{arm\-\_\-fir\-\_\-q15()}}. 
+\end{DoxyParagraph}
+
+
+Definition at line 88 of file arm\-\_\-fir\-\_\-init\-\_\-q15.\-c.
+
+\hypertarget{group___f_i_r_gac00d53af87684cbbe135767b55e748a5}{\index{Finite Impulse Response (\-F\-I\-R) Filters@{Finite Impulse Response (\-F\-I\-R) Filters}!arm\-\_\-fir\-\_\-init\-\_\-q31@{arm\-\_\-fir\-\_\-init\-\_\-q31}}
+\index{arm\-\_\-fir\-\_\-init\-\_\-q31@{arm\-\_\-fir\-\_\-init\-\_\-q31}!Finite Impulse Response (FIR) Filters@{Finite Impulse Response (\-F\-I\-R) Filters}}
+\subsubsection[{arm\-\_\-fir\-\_\-init\-\_\-q31}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-fir\-\_\-init\-\_\-q31 (
+\begin{DoxyParamCaption}
+\item[{{\bf arm\-\_\-fir\-\_\-instance\-\_\-q31} $\ast$}]{S, }
+\item[{{\bf uint16\-\_\-t}}]{num\-Taps, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Coeffs, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-State, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___f_i_r_gac00d53af87684cbbe135767b55e748a5}
+
+
+Initialization function for the Q31 F\-I\-R filter. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em $\ast$\-S} & points to an instance of the Q31 F\-I\-R filter structure. \\
+\hline
+\mbox{\tt in}  & {\em num\-Taps} & Number of filter coefficients in the filter. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Coeffs} & points to the filter coefficients buffer. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-State} & points to the state buffer. \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of samples that are processed per call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+{\bfseries Description\-:} \begin{DoxyParagraph}{}
+{\ttfamily p\-Coeffs} points to the array of filter coefficients stored in time reversed order\-: 
+\begin{DoxyPre}    
+   \{b[numTaps-1], b[numTaps-2], b[N-2], ..., b[1], b[0]\}    
+\end{DoxyPre}
+ 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+{\ttfamily p\-State} points to the array of state variables. {\ttfamily p\-State} is of length {\ttfamily num\-Taps+block\-Size-\/1} samples, where {\ttfamily block\-Size} is the number of input samples processed by each call to {\ttfamily \hyperlink{group___f_i_r_gaadd938c68ab08967cbb5fc696f384bb5}{arm\-\_\-fir\-\_\-q31()}}. 
+\end{DoxyParagraph}
+
+
+Definition at line 71 of file arm\-\_\-fir\-\_\-init\-\_\-q31.\-c.
+
+\hypertarget{group___f_i_r_ga88e48688224d42dc173dbcec702f0c1d}{\index{Finite Impulse Response (\-F\-I\-R) Filters@{Finite Impulse Response (\-F\-I\-R) Filters}!arm\-\_\-fir\-\_\-init\-\_\-q7@{arm\-\_\-fir\-\_\-init\-\_\-q7}}
+\index{arm\-\_\-fir\-\_\-init\-\_\-q7@{arm\-\_\-fir\-\_\-init\-\_\-q7}!Finite Impulse Response (FIR) Filters@{Finite Impulse Response (\-F\-I\-R) Filters}}
+\subsubsection[{arm\-\_\-fir\-\_\-init\-\_\-q7}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-fir\-\_\-init\-\_\-q7 (
+\begin{DoxyParamCaption}
+\item[{{\bf arm\-\_\-fir\-\_\-instance\-\_\-q7} $\ast$}]{S, }
+\item[{{\bf uint16\-\_\-t}}]{num\-Taps, }
+\item[{{\bf q7\-\_\-t} $\ast$}]{p\-Coeffs, }
+\item[{{\bf q7\-\_\-t} $\ast$}]{p\-State, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___f_i_r_ga88e48688224d42dc173dbcec702f0c1d}
+
+
+Initialization function for the Q7 F\-I\-R filter. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em $\ast$\-S} & points to an instance of the Q7 F\-I\-R filter structure. \\
+\hline
+\mbox{\tt in}  & {\em num\-Taps} & Number of filter coefficients in the filter. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Coeffs} & points to the filter coefficients buffer. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-State} & points to the state buffer. \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of samples that are processed per call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none
+\end{DoxyReturn}
+{\bfseries Description\-:} \begin{DoxyParagraph}{}
+{\ttfamily p\-Coeffs} points to the array of filter coefficients stored in time reversed order\-: 
+\begin{DoxyPre}    
+   \{b[numTaps-1], b[numTaps-2], b[N-2], ..., b[1], b[0]\}    
+\end{DoxyPre}
+ 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+{\ttfamily p\-State} points to the array of state variables. {\ttfamily p\-State} is of length {\ttfamily num\-Taps+block\-Size-\/1} samples, where {\ttfamily block\-Size} is the number of input samples processed by each call to {\ttfamily \hyperlink{group___f_i_r_ga31c91a0bf0962327ef8f626fae68ea32}{arm\-\_\-fir\-\_\-q7()}}. 
+\end{DoxyParagraph}
+
+
+Definition at line 68 of file arm\-\_\-fir\-\_\-init\-\_\-q7.\-c.
+
+\hypertarget{group___f_i_r_ga262d173058d6f80fdf60404ba262a8f5}{\index{Finite Impulse Response (\-F\-I\-R) Filters@{Finite Impulse Response (\-F\-I\-R) Filters}!arm\-\_\-fir\-\_\-q15@{arm\-\_\-fir\-\_\-q15}}
+\index{arm\-\_\-fir\-\_\-q15@{arm\-\_\-fir\-\_\-q15}!Finite Impulse Response (FIR) Filters@{Finite Impulse Response (\-F\-I\-R) Filters}}
+\subsubsection[{arm\-\_\-fir\-\_\-q15}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-fir\-\_\-q15 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-fir\-\_\-instance\-\_\-q15} $\ast$}]{S, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___f_i_r_ga262d173058d6f80fdf60404ba262a8f5}
+
+
+Processing function for the Q15 F\-I\-R filter. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$\-S} & points to an instance of the Q15 F\-I\-R structure. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the block of input data. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the block of output data. \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of samples to process per call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Restrictions }
+If the silicon does not support unaligned memory access enable the macro U\-N\-A\-L\-I\-G\-N\-E\-D\-\_\-\-S\-U\-P\-P\-O\-R\-T\-\_\-\-D\-I\-S\-A\-B\-L\-E In this case input, output, state buffers should be aligned by 32-\/bit
+\end{DoxyParagraph}
+{\bfseries Scaling and Overflow Behavior\-:} \begin{DoxyParagraph}{}
+The function is implemented using a 64-\/bit internal accumulator. Both coefficients and state variables are represented in 1.\-15 format and multiplications yield a 2.\-30 result. The 2.\-30 intermediate results are accumulated in a 64-\/bit accumulator in 34.\-30 format. There is no risk of internal overflow with this approach and the full precision of intermediate multiplications is preserved. After all additions have been performed, the accumulator is truncated to 34.\-15 format by discarding low 15 bits. Lastly, the accumulator is saturated to yield a result in 1.\-15 format.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Refer to the function {\ttfamily \hyperlink{group___f_i_r_gac7d35e9472e49ccd88800f37f3476bd3}{arm\-\_\-fir\-\_\-fast\-\_\-q15()}} for a faster but less precise implementation of this function. 
+\end{DoxyParagraph}
+
+
+Definition at line 83 of file arm\-\_\-fir\-\_\-q15.\-c.
+
+\hypertarget{group___f_i_r_gaadd938c68ab08967cbb5fc696f384bb5}{\index{Finite Impulse Response (\-F\-I\-R) Filters@{Finite Impulse Response (\-F\-I\-R) Filters}!arm\-\_\-fir\-\_\-q31@{arm\-\_\-fir\-\_\-q31}}
+\index{arm\-\_\-fir\-\_\-q31@{arm\-\_\-fir\-\_\-q31}!Finite Impulse Response (FIR) Filters@{Finite Impulse Response (\-F\-I\-R) Filters}}
+\subsubsection[{arm\-\_\-fir\-\_\-q31}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-fir\-\_\-q31 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-fir\-\_\-instance\-\_\-q31} $\ast$}]{S, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___f_i_r_gaadd938c68ab08967cbb5fc696f384bb5}
+
+
+Processing function for the Q31 F\-I\-R filter. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$\-S} & points to an instance of the Q31 F\-I\-R filter structure. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the block of input data. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the block of output data. \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of samples to process per call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+{\bfseries Scaling and Overflow Behavior\-:} \begin{DoxyParagraph}{}
+The function is implemented using an internal 64-\/bit accumulator. The accumulator has a 2.\-62 format and maintains full precision of the intermediate multiplication results but provides only a single guard bit. Thus, if the accumulator result overflows it wraps around rather than clip. In order to avoid overflows completely the input signal must be scaled down by log2(num\-Taps) bits. After all multiply-\/accumulates are performed, the 2.\-62 accumulator is right shifted by 31 bits and saturated to 1.\-31 format to yield the final result.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Refer to the function {\ttfamily \hyperlink{group___f_i_r_ga55aa292e057b43c376428ea1d9a938cc}{arm\-\_\-fir\-\_\-fast\-\_\-q31()}} for a faster but less precise implementation of this filter for Cortex-\/\-M3 and Cortex-\/\-M4. 
+\end{DoxyParagraph}
+
+
+Definition at line 70 of file arm\-\_\-fir\-\_\-q31.\-c.
+
+\hypertarget{group___f_i_r_ga31c91a0bf0962327ef8f626fae68ea32}{\index{Finite Impulse Response (\-F\-I\-R) Filters@{Finite Impulse Response (\-F\-I\-R) Filters}!arm\-\_\-fir\-\_\-q7@{arm\-\_\-fir\-\_\-q7}}
+\index{arm\-\_\-fir\-\_\-q7@{arm\-\_\-fir\-\_\-q7}!Finite Impulse Response (FIR) Filters@{Finite Impulse Response (\-F\-I\-R) Filters}}
+\subsubsection[{arm\-\_\-fir\-\_\-q7}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-fir\-\_\-q7 (
+\begin{DoxyParamCaption}
+\item[{{\bf const} {\bf arm\-\_\-fir\-\_\-instance\-\_\-q7} $\ast$}]{S, }
+\item[{{\bf q7\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf q7\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{block\-Size}
+\end{DoxyParamCaption}
+)}}\label{group___f_i_r_ga31c91a0bf0962327ef8f626fae68ea32}
+
+
+Processing function for the Q7 F\-I\-R filter. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$\-S} & points to an instance of the Q7 F\-I\-R filter structure. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the block of input data. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the block of output data. \\
+\hline
+\mbox{\tt in}  & {\em block\-Size} & number of samples to process per call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none.
+\end{DoxyReturn}
+{\bfseries Scaling and Overflow Behavior\-:} \begin{DoxyParagraph}{}
+The function is implemented using a 32-\/bit internal accumulator. Both coefficients and state variables are represented in 1.\-7 format and multiplications yield a 2.\-14 result. The 2.\-14 intermediate results are accumulated in a 32-\/bit accumulator in 18.\-14 format. There is no risk of internal overflow with this approach and the full precision of intermediate multiplications is preserved. The accumulator is converted to 18.\-7 format by discarding the low 7 bits. Finally, the result is truncated to 1.\-7 format. 
+\end{DoxyParagraph}
+
+
+Definition at line 67 of file arm\-\_\-fir\-\_\-q7.\-c.
+

@@ -1,0 +1,112 @@
+\hypertarget{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.c File Reference}
+\label{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c}}
+}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+union {\bfseries x\-R\-T\-O\-S\-\_\-\-H\-E\-A\-P}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$ \hyperlink{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c_a0379669d07d76cc81e3028123113b271}{pv\-Port\-Malloc} (size\-\_\-t x\-Wanted\-Size)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c_a1e7cea2fd1bc894ea3b5f5e8179d259b}{v\-Port\-Free} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$pv)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c_a8bf103ce32ce8473574e9920af8b4eec}{v\-Port\-Initialise\-Blocks} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+size\-\_\-t \hyperlink{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c_a0c28a12b313bc248be0cb7a37ed81bb7}{x\-Port\-Get\-Free\-Heap\-Size} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c_a3411b27b8442796de552271971221c45}{x\-Port\-Increase\-Heap\-Size} (size\-\_\-t bytes)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___c_m_s_i_s___core___instruction_interface_gad7d93af13046b0378601b85c8c16673b}{volatile} port\-D\-O\-U\-B\-L\-E \hyperlink{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c_ab3f77adabb43fe9082607ab4845301ab}{d\-Dummy}
+\item 
+\hyperlink{group___c_m_s_i_s___core___instruction_interface_gad7d93af13046b0378601b85c8c16673b}{volatile} unsigned long \hyperlink{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c_affc66a7239033cf13720f6325f8e0dce}{ul\-Dummy}
+\item 
+unsigned char \hyperlink{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c_a6e3c91713d11b263270104c49c02bcd9}{uc\-Heap} \mbox{[}config\-T\-O\-T\-A\-L\-\_\-\-H\-E\-A\-P\-\_\-\-S\-I\-Z\-E\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c_a0379669d07d76cc81e3028123113b271}{\index{S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c@{S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c}!pv\-Port\-Malloc@{pv\-Port\-Malloc}}
+\index{pv\-Port\-Malloc@{pv\-Port\-Malloc}!STM32F30x/Libraries/FreeRTOS/Source/portable/MemMang/heap_1.c@{S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c}}
+\subsubsection[{pv\-Port\-Malloc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void}$\ast$ pv\-Port\-Malloc (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{x\-Wanted\-Size}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c_a0379669d07d76cc81e3028123113b271}
+
+
+Definition at line 106 of file heap\-\_\-1.\-c.
+
+\hypertarget{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c_a1e7cea2fd1bc894ea3b5f5e8179d259b}{\index{S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c@{S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c}!v\-Port\-Free@{v\-Port\-Free}}
+\index{v\-Port\-Free@{v\-Port\-Free}!STM32F30x/Libraries/FreeRTOS/Source/portable/MemMang/heap_1.c@{S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c}}
+\subsubsection[{v\-Port\-Free}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Port\-Free (
+\begin{DoxyParamCaption}
+\item[{{\bf void} $\ast$}]{pv}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c_a1e7cea2fd1bc894ea3b5f5e8179d259b}
+
+
+Definition at line 147 of file heap\-\_\-1.\-c.
+
+\hypertarget{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c_a8bf103ce32ce8473574e9920af8b4eec}{\index{S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c@{S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c}!v\-Port\-Initialise\-Blocks@{v\-Port\-Initialise\-Blocks}}
+\index{v\-Port\-Initialise\-Blocks@{v\-Port\-Initialise\-Blocks}!STM32F30x/Libraries/FreeRTOS/Source/portable/MemMang/heap_1.c@{S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c}}
+\subsubsection[{v\-Port\-Initialise\-Blocks}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Port\-Initialise\-Blocks (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c_a8bf103ce32ce8473574e9920af8b4eec}
+
+
+Definition at line 159 of file heap\-\_\-1.\-c.
+
+\hypertarget{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c_a0c28a12b313bc248be0cb7a37ed81bb7}{\index{S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c@{S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c}!x\-Port\-Get\-Free\-Heap\-Size@{x\-Port\-Get\-Free\-Heap\-Size}}
+\index{x\-Port\-Get\-Free\-Heap\-Size@{x\-Port\-Get\-Free\-Heap\-Size}!STM32F30x/Libraries/FreeRTOS/Source/portable/MemMang/heap_1.c@{S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c}}
+\subsubsection[{x\-Port\-Get\-Free\-Heap\-Size}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t x\-Port\-Get\-Free\-Heap\-Size (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c_a0c28a12b313bc248be0cb7a37ed81bb7}
+
+
+Definition at line 166 of file heap\-\_\-1.\-c.
+
+\hypertarget{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c_a3411b27b8442796de552271971221c45}{\index{S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c@{S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c}!x\-Port\-Increase\-Heap\-Size@{x\-Port\-Increase\-Heap\-Size}}
+\index{x\-Port\-Increase\-Heap\-Size@{x\-Port\-Increase\-Heap\-Size}!STM32F30x/Libraries/FreeRTOS/Source/portable/MemMang/heap_1.c@{S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c}}
+\subsubsection[{x\-Port\-Increase\-Heap\-Size}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} x\-Port\-Increase\-Heap\-Size (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{bytes}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c_a3411b27b8442796de552271971221c45}
+
+
+Definition at line 172 of file heap\-\_\-1.\-c.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c_ab3f77adabb43fe9082607ab4845301ab}{\index{S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c@{S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c}!d\-Dummy@{d\-Dummy}}
+\index{d\-Dummy@{d\-Dummy}!STM32F30x/Libraries/FreeRTOS/Source/portable/MemMang/heap_1.c@{S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c}}
+\subsubsection[{d\-Dummy}]{\setlength{\rightskip}{0pt plus 5cm}{\bf volatile} port\-D\-O\-U\-B\-L\-E d\-Dummy}}\label{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c_ab3f77adabb43fe9082607ab4845301ab}
+
+
+Definition at line 101 of file heap\-\_\-1.\-c.
+
+\hypertarget{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c_a6e3c91713d11b263270104c49c02bcd9}{\index{S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c@{S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c}!uc\-Heap@{uc\-Heap}}
+\index{uc\-Heap@{uc\-Heap}!STM32F30x/Libraries/FreeRTOS/Source/portable/MemMang/heap_1.c@{S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c}}
+\subsubsection[{uc\-Heap}]{\setlength{\rightskip}{0pt plus 5cm}unsigned char uc\-Heap\mbox{[}config\-T\-O\-T\-A\-L\-\_\-\-H\-E\-A\-P\-\_\-\-S\-I\-Z\-E\mbox{]}}}\label{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c_a6e3c91713d11b263270104c49c02bcd9}
+
+
+Definition at line 105 of file heap\-\_\-1.\-c.
+
+\hypertarget{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c_affc66a7239033cf13720f6325f8e0dce}{\index{S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c@{S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c}!ul\-Dummy@{ul\-Dummy}}
+\index{ul\-Dummy@{ul\-Dummy}!STM32F30x/Libraries/FreeRTOS/Source/portable/MemMang/heap_1.c@{S\-T\-M32\-F30x/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-Mem\-Mang/heap\-\_\-1.\-c}}
+\subsubsection[{ul\-Dummy}]{\setlength{\rightskip}{0pt plus 5cm}{\bf volatile} unsigned long ul\-Dummy}}\label{_s_t_m32_f30x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_mem_mang_2heap__1_8c_affc66a7239033cf13720f6325f8e0dce}
+
+
+Definition at line 103 of file heap\-\_\-1.\-c.
+

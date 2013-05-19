@@ -1,0 +1,70 @@
+\hypertarget{group___tx_p_i_d_module}{\section{Tx\-P\-I\-D Module}
+\label{group___tx_p_i_d_module}\index{Tx\-P\-I\-D Module@{Tx\-P\-I\-D Module}}
+}
+
+
+Optional module to tune P\-I\-D settings using R/\-C transmitter. Updates P\-I\-D settings in R\-A\-M in real-\/time using configured Accessory channels as controllers.  
+
+
+\subsection*{Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{txpid_8c}{txpid.\-c}
+\begin{DoxyCompactList}\small\item\em Optional module to tune P\-I\-D settings using R/\-C transmitter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___tx_p_i_d_module_ga25f9f8de3b52c6d5d765abc545cdf923}{Tx\-P\-I\-D\-Initialize} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___tx_p_i_d_module_ga4582dfc51cab82468b84a6d0f0e4eb8d}{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{group___tx_p_i_d_module_ga25f9f8de3b52c6d5d765abc545cdf923}{Tx\-P\-I\-D\-Initialize}, N\-U\-L\-L)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structopahrs__msg__v1__req__update}{opahrs\-\_\-msg\-\_\-v1\-\_\-req\-\_\-update} \hyperlink{group___tx_p_i_d_module_ga4954ac5b993eef7c92515d6a5284a4f7}{update}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Optional module to tune P\-I\-D settings using R/\-C transmitter. Updates P\-I\-D settings in R\-A\-M in real-\/time using configured Accessory channels as controllers. 
+
+\subsection{Function Documentation}
+\hypertarget{group___tx_p_i_d_module_ga4582dfc51cab82468b84a6d0f0e4eb8d}{\index{Tx\-P\-I\-D Module@{Tx\-P\-I\-D Module}!M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}}
+\index{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}!TxPID Module@{Tx\-P\-I\-D Module}}
+\subsubsection[{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L (
+\begin{DoxyParamCaption}
+\item[{{\bf Tx\-P\-I\-D\-Initialize}}]{, }
+\item[{N\-U\-L\-L}]{}
+\end{DoxyParamCaption}
+)}}\label{group___tx_p_i_d_module_ga4582dfc51cab82468b84a6d0f0e4eb8d}
+Update P\-I\-Ds callback function 
+
+Definition at line 138 of file txpid.\-c.
+
+\hypertarget{group___tx_p_i_d_module_ga25f9f8de3b52c6d5d765abc545cdf923}{\index{Tx\-P\-I\-D Module@{Tx\-P\-I\-D Module}!Tx\-P\-I\-D\-Initialize@{Tx\-P\-I\-D\-Initialize}}
+\index{Tx\-P\-I\-D\-Initialize@{Tx\-P\-I\-D\-Initialize}!TxPID Module@{Tx\-P\-I\-D Module}}
+\subsubsection[{Tx\-P\-I\-D\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} Tx\-P\-I\-D\-Initialize (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___tx_p_i_d_module_ga25f9f8de3b52c6d5d765abc545cdf923}
+Initialise the module, called on startup \begin{DoxyReturn}{Returns}
+0 on success or -\/1 if initialisation failed 
+\end{DoxyReturn}
+
+
+Definition at line 88 of file txpid.\-c.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{group___tx_p_i_d_module_ga4954ac5b993eef7c92515d6a5284a4f7}{\index{Tx\-P\-I\-D Module@{Tx\-P\-I\-D Module}!update@{update}}
+\index{update@{update}!TxPID Module@{Tx\-P\-I\-D Module}}
+\subsubsection[{update}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf opahrs\-\_\-msg\-\_\-v1\-\_\-rsp\-\_\-update} update}}\label{group___tx_p_i_d_module_ga4954ac5b993eef7c92515d6a5284a4f7}
+Updates var using val if needed. \begin{DoxyReturn}{Returns}
+1 if updated, 0 otherwise 
+\end{DoxyReturn}
+
+
+Definition at line 276 of file pios\-\_\-opahrs\-\_\-proto.\-h.
+

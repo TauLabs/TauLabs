@@ -1,0 +1,56 @@
+\hypertarget{group__x_semaphore_create_counting}{\section{x\-Semaphore\-Create\-Counting}
+\label{group__x_semaphore_create_counting}\index{x\-Semaphore\-Create\-Counting@{x\-Semaphore\-Create\-Counting}}
+}
+semphr. h 
+\begin{DoxyPre}xSemaphoreHandle xSemaphoreCreateCounting( unsigned portBASE\_TYPE uxMaxCount, unsigned portBASE\_TYPE uxInitialCount )\end{DoxyPre}
+
+
+{\itshape Macro} that creates a counting semaphore by using the existing queue mechanism.
+
+Counting semaphores are typically used for two things\-:
+
+1) Counting events.
+
+In this usage scenario an event handler will 'give' a semaphore each time an event occurs (incrementing the semaphore count value), and a handler task will 'take' a semaphore each time it processes an event (decrementing the semaphore count value). The count value is therefore the difference between the number of events that have occurred and the number that have been processed. In this case it is desirable for the initial count value to be zero.
+
+2) Resource management.
+
+In this usage scenario the count value indicates the number of resources available. To obtain control of a resource a task must first obtain a semaphore -\/ decrementing the semaphore count value. When the count value reaches zero there are no free resources. When a task finishes with the resource it 'gives' the semaphore back -\/ incrementing the semaphore count value. In this case it is desirable for the initial count value to be equal to the maximum count value, indicating that all resources are free.
+
+
+\begin{DoxyParams}{Parameters}
+{\em ux\-Max\-Count} & The maximum count value that can be reached. When the semaphore reaches this value it can no longer be 'given'.\\
+\hline
+{\em ux\-Initial\-Count} & The count value assigned to the semaphore when it is created.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Handle to the created semaphore. Null if the semaphore could not be created.
+\end{DoxyReturn}
+Example usage\-: 
+\begin{DoxyPre}
+ xSemaphoreHandle xSemaphore;\end{DoxyPre}
+
+
+
+\begin{DoxyPre} void vATask( void * pvParameters )
+ \{
+ xSemaphoreHandle xSemaphore = NULL;\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Semaphore cannot be used before a call to xSemaphoreCreateCounting().
+The max value to which the semaphore can count should be 10, and the
+initial value assigned to the count should be 0.
+    xSemaphore = xSemaphoreCreateCounting( 10, 0 );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}    if( xSemaphore != NULL )
+    \{
+The semaphore was created successfully.
+The semaphore can now be used.  
+    \}
+ \}
+ \end{DoxyPre}
+ 

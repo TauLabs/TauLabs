@@ -1,0 +1,391 @@
+\hypertarget{group___u_s_b___d_c_d___private___functions}{\section{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}
+\label{group___u_s_b___d_c_d___private___functions}\index{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_b___d_c_d___private___functions_ga32ea24db123f7f8bb0edfb4f97c1c892}{D\-C\-D\-\_\-\-Init} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev, \hyperlink{group___u_s_b___d_e_f_i_n_e_s___exported___types_gab31b9dd0bc08bf6120424c20bda8eb7e}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-I\-D\-\_\-\-Type\-Def} core\-I\-D)
+\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___u_s_b___d_c_d___private___functions_ga9d1aa06cfde8fe3442ab7486c6c5bbdd}{D\-C\-D\-\_\-\-E\-P\-\_\-\-Open} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} ep\-\_\-addr, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} ep\-\_\-mps, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} ep\-\_\-type)
+\begin{DoxyCompactList}\small\item\em Configure an E\-P. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___u_s_b___d_c_d___private___functions_ga6fdf047e0b91049b43d9cb2b1c39dcb8}{D\-C\-D\-\_\-\-E\-P\-\_\-\-Close} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} ep\-\_\-addr)
+\begin{DoxyCompactList}\small\item\em called when an E\-P is disabled \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___u_s_b___d_c_d___private___functions_gadb1ab76f48d6ea405e62c68af8ea6444}{D\-C\-D\-\_\-\-E\-P\-\_\-\-Prepare\-Rx} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} ep\-\_\-addr, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$pbuf, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} buf\-\_\-len)
+\begin{DoxyCompactList}\small\item\em D\-C\-D\-\_\-\-E\-P\-\_\-\-Prepare\-Rx. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___u_s_b___d_c_d___private___functions_gad55cbc7c1e8666257b9a3918b80effa3}{D\-C\-D\-\_\-\-E\-P\-\_\-\-Tx} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} ep\-\_\-addr, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$pbuf, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} buf\-\_\-len)
+\begin{DoxyCompactList}\small\item\em Transmit data over U\-S\-B. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___u_s_b___d_c_d___private___functions_ga9c6f692cb2607db05b83073dc67bc429}{D\-C\-D\-\_\-\-E\-P\-\_\-\-Stall} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} epnum)
+\begin{DoxyCompactList}\small\item\em Stall an endpoint. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___u_s_b___d_c_d___private___functions_gabdb4ba47ac9d83d0690d425bb616d83d}{D\-C\-D\-\_\-\-E\-P\-\_\-\-Clr\-Stall} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} epnum)
+\begin{DoxyCompactList}\small\item\em Clear stall condition on endpoints. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___u_s_b___d_c_d___private___functions_ga60384fbc64829d957de52fe32a9a70a8}{D\-C\-D\-\_\-\-E\-P\-\_\-\-Flush} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} epnum)
+\begin{DoxyCompactList}\small\item\em This Function flushes the F\-I\-F\-Os. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_b___d_c_d___private___functions_ga14cab44ffb4094334bb0292ea81c9a5a}{D\-C\-D\-\_\-\-E\-P\-\_\-\-Set\-Address} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} address)
+\begin{DoxyCompactList}\small\item\em This Function set U\-S\-B device address. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_b___d_c_d___private___functions_gae86236f273ed0499af2ab44915ff3983}{D\-C\-D\-\_\-\-Dev\-Connect} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev)
+\begin{DoxyCompactList}\small\item\em Connect device (enable internal pull-\/up) \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_b___d_c_d___private___functions_gabceac3831bd896522e96c5885ac9ac3b}{D\-C\-D\-\_\-\-Dev\-Disconnect} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev)
+\begin{DoxyCompactList}\small\item\em Disconnect device (disable internal pull-\/up) \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___u_s_b___d_c_d___private___functions_ga4c90c3ca8ad2f5dda0de937ddc2c115c}{D\-C\-D\-\_\-\-Get\-E\-P\-Status} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} epnum)
+\begin{DoxyCompactList}\small\item\em returns the E\-P Status \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___u_s_b___d_c_d___private___functions_ga38147684b1cc15f071ef305a8f50320b}{D\-C\-D\-\_\-\-Set\-E\-P\-Status} (\hyperlink{group___u_s_b___c_o_r_e___exported___types_gaf76054c11eb8a3367907aad7ae700e80}{U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$pdev, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} epnum, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Status)
+\begin{DoxyCompactList}\small\item\em Set the E\-P Status. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Function Documentation}
+\hypertarget{group___u_s_b___d_c_d___private___functions_gae86236f273ed0499af2ab44915ff3983}{\index{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}!D\-C\-D\-\_\-\-Dev\-Connect@{D\-C\-D\-\_\-\-Dev\-Connect}}
+\index{D\-C\-D\-\_\-\-Dev\-Connect@{D\-C\-D\-\_\-\-Dev\-Connect}!USB_DCD_Private_Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{D\-C\-D\-\_\-\-Dev\-Connect}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} D\-C\-D\-\_\-\-Dev\-Connect (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$}]{pdev}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_b___d_c_d___private___functions_gae86236f273ed0499af2ab44915ff3983}
+
+
+Connect device (enable internal pull-\/up) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pdev,\-:} & device instance \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em \-:} & None \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 385 of file usb\-\_\-dcd.\-c.
+
+\hypertarget{group___u_s_b___d_c_d___private___functions_gabceac3831bd896522e96c5885ac9ac3b}{\index{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}!D\-C\-D\-\_\-\-Dev\-Disconnect@{D\-C\-D\-\_\-\-Dev\-Disconnect}}
+\index{D\-C\-D\-\_\-\-Dev\-Disconnect@{D\-C\-D\-\_\-\-Dev\-Disconnect}!USB_DCD_Private_Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{D\-C\-D\-\_\-\-Dev\-Disconnect}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} D\-C\-D\-\_\-\-Dev\-Disconnect (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$}]{pdev}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_b___d_c_d___private___functions_gabceac3831bd896522e96c5885ac9ac3b}
+
+
+Disconnect device (disable internal pull-\/up) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pdev,\-:} & device instance \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em \-:} & None \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 403 of file usb\-\_\-dcd.\-c.
+
+\hypertarget{group___u_s_b___d_c_d___private___functions_ga6fdf047e0b91049b43d9cb2b1c39dcb8}{\index{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}!D\-C\-D\-\_\-\-E\-P\-\_\-\-Close@{D\-C\-D\-\_\-\-E\-P\-\_\-\-Close}}
+\index{D\-C\-D\-\_\-\-E\-P\-\_\-\-Close@{D\-C\-D\-\_\-\-E\-P\-\_\-\-Close}!USB_DCD_Private_Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{D\-C\-D\-\_\-\-E\-P\-\_\-\-Close}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} D\-C\-D\-\_\-\-E\-P\-\_\-\-Close (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$}]{pdev, }
+\item[{{\bf uint8\-\_\-t}}]{ep\-\_\-addr}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_b___d_c_d___private___functions_ga6fdf047e0b91049b43d9cb2b1c39dcb8}
+
+
+called when an E\-P is disabled 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pdev,\-:} & device instance \\
+\hline
+{\em ep\-\_\-addr,\-:} & endpoint address \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em \-:} & status \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 194 of file usb\-\_\-dcd.\-c.
+
+\hypertarget{group___u_s_b___d_c_d___private___functions_gabdb4ba47ac9d83d0690d425bb616d83d}{\index{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}!D\-C\-D\-\_\-\-E\-P\-\_\-\-Clr\-Stall@{D\-C\-D\-\_\-\-E\-P\-\_\-\-Clr\-Stall}}
+\index{D\-C\-D\-\_\-\-E\-P\-\_\-\-Clr\-Stall@{D\-C\-D\-\_\-\-E\-P\-\_\-\-Clr\-Stall}!USB_DCD_Private_Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{D\-C\-D\-\_\-\-E\-P\-\_\-\-Clr\-Stall}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} D\-C\-D\-\_\-\-E\-P\-\_\-\-Clr\-Stall (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$}]{pdev, }
+\item[{{\bf uint8\-\_\-t}}]{epnum}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_b___d_c_d___private___functions_gabdb4ba47ac9d83d0690d425bb616d83d}
+
+
+Clear stall condition on endpoints. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pdev,\-:} & device instance \\
+\hline
+{\em epnum,\-:} & endpoint address \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em \-:} & status \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 323 of file usb\-\_\-dcd.\-c.
+
+\hypertarget{group___u_s_b___d_c_d___private___functions_ga60384fbc64829d957de52fe32a9a70a8}{\index{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}!D\-C\-D\-\_\-\-E\-P\-\_\-\-Flush@{D\-C\-D\-\_\-\-E\-P\-\_\-\-Flush}}
+\index{D\-C\-D\-\_\-\-E\-P\-\_\-\-Flush@{D\-C\-D\-\_\-\-E\-P\-\_\-\-Flush}!USB_DCD_Private_Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{D\-C\-D\-\_\-\-E\-P\-\_\-\-Flush}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} D\-C\-D\-\_\-\-E\-P\-\_\-\-Flush (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$}]{pdev, }
+\item[{{\bf uint8\-\_\-t}}]{epnum}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_b___d_c_d___private___functions_ga60384fbc64829d957de52fe32a9a70a8}
+
+
+This Function flushes the F\-I\-F\-Os. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pdev,\-:} & device instance \\
+\hline
+{\em epnum,\-:} & endpoint address \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em \-:} & status \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 350 of file usb\-\_\-dcd.\-c.
+
+\hypertarget{group___u_s_b___d_c_d___private___functions_ga9d1aa06cfde8fe3442ab7486c6c5bbdd}{\index{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}!D\-C\-D\-\_\-\-E\-P\-\_\-\-Open@{D\-C\-D\-\_\-\-E\-P\-\_\-\-Open}}
+\index{D\-C\-D\-\_\-\-E\-P\-\_\-\-Open@{D\-C\-D\-\_\-\-E\-P\-\_\-\-Open}!USB_DCD_Private_Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{D\-C\-D\-\_\-\-E\-P\-\_\-\-Open}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} D\-C\-D\-\_\-\-E\-P\-\_\-\-Open (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$}]{pdev, }
+\item[{{\bf uint8\-\_\-t}}]{ep\-\_\-addr, }
+\item[{{\bf uint16\-\_\-t}}]{ep\-\_\-mps, }
+\item[{{\bf uint8\-\_\-t}}]{ep\-\_\-type}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_b___d_c_d___private___functions_ga9d1aa06cfde8fe3442ab7486c6c5bbdd}
+
+
+Configure an E\-P. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pdev} & \-: \hyperlink{struct_device}{Device} instance \\
+\hline
+{\em epdesc} & \-: Endpoint Descriptor \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em \-:} & status \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 155 of file usb\-\_\-dcd.\-c.
+
+\hypertarget{group___u_s_b___d_c_d___private___functions_gadb1ab76f48d6ea405e62c68af8ea6444}{\index{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}!D\-C\-D\-\_\-\-E\-P\-\_\-\-Prepare\-Rx@{D\-C\-D\-\_\-\-E\-P\-\_\-\-Prepare\-Rx}}
+\index{D\-C\-D\-\_\-\-E\-P\-\_\-\-Prepare\-Rx@{D\-C\-D\-\_\-\-E\-P\-\_\-\-Prepare\-Rx}!USB_DCD_Private_Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{D\-C\-D\-\_\-\-E\-P\-\_\-\-Prepare\-Rx}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} D\-C\-D\-\_\-\-E\-P\-\_\-\-Prepare\-Rx (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$}]{pdev, }
+\item[{{\bf uint8\-\_\-t}}]{ep\-\_\-addr, }
+\item[{{\bf uint8\-\_\-t} $\ast$}]{pbuf, }
+\item[{{\bf uint16\-\_\-t}}]{buf\-\_\-len}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_b___d_c_d___private___functions_gadb1ab76f48d6ea405e62c68af8ea6444}
+
+
+D\-C\-D\-\_\-\-E\-P\-\_\-\-Prepare\-Rx. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pdev,\-:} & device instance \\
+\hline
+{\em ep\-\_\-addr,\-:} & endpoint address \\
+\hline
+{\em pbuf,\-:} & pointer to Rx buffer \\
+\hline
+{\em buf\-\_\-len,\-:} & data length \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em \-:} & status \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 221 of file usb\-\_\-dcd.\-c.
+
+\hypertarget{group___u_s_b___d_c_d___private___functions_ga14cab44ffb4094334bb0292ea81c9a5a}{\index{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}!D\-C\-D\-\_\-\-E\-P\-\_\-\-Set\-Address@{D\-C\-D\-\_\-\-E\-P\-\_\-\-Set\-Address}}
+\index{D\-C\-D\-\_\-\-E\-P\-\_\-\-Set\-Address@{D\-C\-D\-\_\-\-E\-P\-\_\-\-Set\-Address}!USB_DCD_Private_Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{D\-C\-D\-\_\-\-E\-P\-\_\-\-Set\-Address}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} D\-C\-D\-\_\-\-E\-P\-\_\-\-Set\-Address (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$}]{pdev, }
+\item[{{\bf uint8\-\_\-t}}]{address}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_b___d_c_d___private___functions_ga14cab44ffb4094334bb0292ea81c9a5a}
+
+
+This Function set U\-S\-B device address. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pdev,\-:} & device instance \\
+\hline
+{\em address,\-:} & new device address \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em \-:} & status \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 372 of file usb\-\_\-dcd.\-c.
+
+\hypertarget{group___u_s_b___d_c_d___private___functions_ga9c6f692cb2607db05b83073dc67bc429}{\index{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}!D\-C\-D\-\_\-\-E\-P\-\_\-\-Stall@{D\-C\-D\-\_\-\-E\-P\-\_\-\-Stall}}
+\index{D\-C\-D\-\_\-\-E\-P\-\_\-\-Stall@{D\-C\-D\-\_\-\-E\-P\-\_\-\-Stall}!USB_DCD_Private_Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{D\-C\-D\-\_\-\-E\-P\-\_\-\-Stall}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} D\-C\-D\-\_\-\-E\-P\-\_\-\-Stall (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$}]{pdev, }
+\item[{{\bf uint8\-\_\-t}}]{epnum}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_b___d_c_d___private___functions_ga9c6f692cb2607db05b83073dc67bc429}
+
+
+Stall an endpoint. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pdev,\-:} & device instance \\
+\hline
+{\em epnum,\-:} & endpoint address \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em \-:} & status \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 296 of file usb\-\_\-dcd.\-c.
+
+\hypertarget{group___u_s_b___d_c_d___private___functions_gad55cbc7c1e8666257b9a3918b80effa3}{\index{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}!D\-C\-D\-\_\-\-E\-P\-\_\-\-Tx@{D\-C\-D\-\_\-\-E\-P\-\_\-\-Tx}}
+\index{D\-C\-D\-\_\-\-E\-P\-\_\-\-Tx@{D\-C\-D\-\_\-\-E\-P\-\_\-\-Tx}!USB_DCD_Private_Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{D\-C\-D\-\_\-\-E\-P\-\_\-\-Tx}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} D\-C\-D\-\_\-\-E\-P\-\_\-\-Tx (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$}]{pdev, }
+\item[{{\bf uint8\-\_\-t}}]{ep\-\_\-addr, }
+\item[{{\bf const} {\bf uint8\-\_\-t} $\ast$}]{pbuf, }
+\item[{{\bf uint32\-\_\-t}}]{buf\-\_\-len}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_b___d_c_d___private___functions_gad55cbc7c1e8666257b9a3918b80effa3}
+
+
+Transmit data over U\-S\-B. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pdev,\-:} & device instance \\
+\hline
+{\em ep\-\_\-addr,\-:} & endpoint address \\
+\hline
+{\em pbuf,\-:} & pointer to Tx buffer \\
+\hline
+{\em buf\-\_\-len,\-:} & data length \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em \-:} & status \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 261 of file usb\-\_\-dcd.\-c.
+
+\hypertarget{group___u_s_b___d_c_d___private___functions_ga4c90c3ca8ad2f5dda0de937ddc2c115c}{\index{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}!D\-C\-D\-\_\-\-Get\-E\-P\-Status@{D\-C\-D\-\_\-\-Get\-E\-P\-Status}}
+\index{D\-C\-D\-\_\-\-Get\-E\-P\-Status@{D\-C\-D\-\_\-\-Get\-E\-P\-Status}!USB_DCD_Private_Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{D\-C\-D\-\_\-\-Get\-E\-P\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} D\-C\-D\-\_\-\-Get\-E\-P\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$}]{pdev, }
+\item[{{\bf uint8\-\_\-t}}]{epnum}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_b___d_c_d___private___functions_ga4c90c3ca8ad2f5dda0de937ddc2c115c}
+
+
+returns the E\-P Status 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pdev} & \-: Selected device epnum \-: endpoint address \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em \-:} & E\-P status \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 423 of file usb\-\_\-dcd.\-c.
+
+\hypertarget{group___u_s_b___d_c_d___private___functions_ga32ea24db123f7f8bb0edfb4f97c1c892}{\index{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}!D\-C\-D\-\_\-\-Init@{D\-C\-D\-\_\-\-Init}}
+\index{D\-C\-D\-\_\-\-Init@{D\-C\-D\-\_\-\-Init}!USB_DCD_Private_Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{D\-C\-D\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} D\-C\-D\-\_\-\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$}]{pdev, }
+\item[{{\bf U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-I\-D\-\_\-\-Type\-Def}}]{core\-I\-D}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_b___d_c_d___private___functions_ga32ea24db123f7f8bb0edfb4f97c1c892}
+
+
+Definition at line 91 of file usb\-\_\-dcd.\-c.
+
+\hypertarget{group___u_s_b___d_c_d___private___functions_ga38147684b1cc15f071ef305a8f50320b}{\index{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}!D\-C\-D\-\_\-\-Set\-E\-P\-Status@{D\-C\-D\-\_\-\-Set\-E\-P\-Status}}
+\index{D\-C\-D\-\_\-\-Set\-E\-P\-Status@{D\-C\-D\-\_\-\-Set\-E\-P\-Status}!USB_DCD_Private_Functions@{U\-S\-B\-\_\-\-D\-C\-D\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{D\-C\-D\-\_\-\-Set\-E\-P\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} D\-C\-D\-\_\-\-Set\-E\-P\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-S\-B\-\_\-\-O\-T\-G\-\_\-\-C\-O\-R\-E\-\_\-\-H\-A\-N\-D\-L\-E} $\ast$}]{pdev, }
+\item[{{\bf uint8\-\_\-t}}]{epnum, }
+\item[{{\bf uint32\-\_\-t}}]{Status}
+\end{DoxyParamCaption}
+)}}\label{group___u_s_b___d_c_d___private___functions_ga38147684b1cc15f071ef305a8f50320b}
+
+
+Set the E\-P Status. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pdev} & \-: Selected device Status \-: new Status epnum \-: E\-P address \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em \-:} & None \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 450 of file usb\-\_\-dcd.\-c.
+

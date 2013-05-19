@@ -1,0 +1,154 @@
+\hypertarget{group___f_s_m_c___group3}{\section{P\-C\-C\-A\-R\-D Controller functions}
+\label{group___f_s_m_c___group3}\index{P\-C\-C\-A\-R\-D Controller functions@{P\-C\-C\-A\-R\-D Controller functions}}
+}
+
+
+P\-C\-C\-A\-R\-D Controller functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___f_s_m_c___group3_ga2f53ccf3a4f3c80a5a56fb47ccd47ccd}{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-De\-Init} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Deinitializes the F\-S\-M\-C P\-C\-C\-A\-R\-D Bank registers to their default reset values. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___f_s_m_c___group3_gacee1351363e7700a296faa1734a910aa}{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Init} (\hyperlink{struct_f_s_m_c___p_c_c_a_r_d_init_type_def}{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Init\-Type\-Def} $\ast$F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the F\-S\-M\-C P\-C\-C\-A\-R\-D Bank according to the specified parameters in the F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___f_s_m_c___group3_ga7a64ba0e0545b3f1913c9d1d28c05e62}{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Struct\-Init} (\hyperlink{struct_f_s_m_c___p_c_c_a_r_d_init_type_def}{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Init\-Type\-Def} $\ast$F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___f_s_m_c___group3_ga2d410151ceb3428c6a1bf374a0472cde}{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Cmd} (\hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the P\-C\-C\-A\-R\-D Memory Bank. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+P\-C\-C\-A\-R\-D Controller functions. \begin{DoxyVerb} ===============================================================================
+                    PCCARD Controller functions
+ ===============================================================================  
+
+ The following sequence should be followed to configure the FSMC to interface with
+ 16-bit PC Card compatible memory connected to the PCCARD Bank:
+ 
+   1. Enable the clock for the FSMC and associated GPIOs using the following functions:
+          RCC_AHB3PeriphClockCmd(RCC_AHB3Periph_FSMC, ENABLE);
+          RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOx, ENABLE);
+
+   2. FSMC pins configuration 
+       - Connect the involved FSMC pins to AF12 using the following function 
+          GPIO_PinAFConfig(GPIOx, GPIO_PinSourcex, GPIO_AF_FSMC); 
+       - Configure these FSMC pins in alternate function mode by calling the function
+          GPIO_Init();    
+       
+   3. Declare a FSMC_PCCARDInitTypeDef structure, for example:
+          FSMC_PCCARDInitTypeDef  FSMC_PCCARDInitStructure;
+      and fill the FSMC_PCCARDInitStructure variable with the allowed values of
+      the structure member.
+      
+   4. Initialize the PCCARD Controller by calling the function
+          FSMC_PCCARDInit(&FSMC_PCCARDInitStructure); 
+
+   5. Then enable the PCCARD Bank:
+          FSMC_PCCARDCmd(ENABLE);  
+
+   6. At this stage you can read/write from/to the memory connected to the PCCARD Bank. \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___f_s_m_c___group3_ga2d410151ceb3428c6a1bf374a0472cde}{\index{P\-C\-C\-A\-R\-D Controller functions@{P\-C\-C\-A\-R\-D Controller functions}!F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Cmd@{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Cmd}}
+\index{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Cmd@{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Cmd}!PCCARD Controller functions@{P\-C\-C\-A\-R\-D Controller functions}}
+\subsubsection[{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___f_s_m_c___group3_ga2d410151ceb3428c6a1bf374a0472cde}
+
+
+Enables or disables the P\-C\-C\-A\-R\-D Memory Bank. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\-State,\-:} & new state of the P\-C\-C\-A\-R\-D Memory Bank. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 707 of file stm32f4xx\-\_\-fsmc.\-c.
+
+\hypertarget{group___f_s_m_c___group3_ga2f53ccf3a4f3c80a5a56fb47ccd47ccd}{\index{P\-C\-C\-A\-R\-D Controller functions@{P\-C\-C\-A\-R\-D Controller functions}!F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-De\-Init@{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-De\-Init}}
+\index{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-De\-Init@{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-De\-Init}!PCCARD Controller functions@{P\-C\-C\-A\-R\-D Controller functions}}
+\subsubsection[{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-De\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-De\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___f_s_m_c___group3_ga2f53ccf3a4f3c80a5a56fb47ccd47ccd}
+
+
+Deinitializes the F\-S\-M\-C P\-C\-C\-A\-R\-D Bank registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 612 of file stm32f4xx\-\_\-fsmc.\-c.
+
+\hypertarget{group___f_s_m_c___group3_gacee1351363e7700a296faa1734a910aa}{\index{P\-C\-C\-A\-R\-D Controller functions@{P\-C\-C\-A\-R\-D Controller functions}!F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Init@{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Init}}
+\index{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Init@{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Init}!PCCARD Controller functions@{P\-C\-C\-A\-R\-D Controller functions}}
+\subsubsection[{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Init\-Type\-Def} $\ast$}]{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___f_s_m_c___group3_gacee1351363e7700a296faa1734a910aa}
+
+
+Initializes the F\-S\-M\-C P\-C\-C\-A\-R\-D Bank according to the specified parameters in the F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Init\-Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Init\-Struct} & \-: pointer to a \hyperlink{struct_f_s_m_c___p_c_c_a_r_d_init_type_def}{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Init\-Type\-Def} structure that contains the configuration information for the F\-S\-M\-C P\-C\-C\-A\-R\-D Bank. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 629 of file stm32f4xx\-\_\-fsmc.\-c.
+
+\hypertarget{group___f_s_m_c___group3_ga7a64ba0e0545b3f1913c9d1d28c05e62}{\index{P\-C\-C\-A\-R\-D Controller functions@{P\-C\-C\-A\-R\-D Controller functions}!F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Struct\-Init@{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Struct\-Init}}
+\index{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Struct\-Init@{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Struct\-Init}!PCCARD Controller functions@{P\-C\-C\-A\-R\-D Controller functions}}
+\subsubsection[{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Struct\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Struct\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Init\-Type\-Def} $\ast$}]{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___f_s_m_c___group3_ga7a64ba0e0545b3f1913c9d1d28c05e62}
+
+
+Fills each F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Init\-Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Init\-Struct,\-:} & pointer to a \hyperlink{struct_f_s_m_c___p_c_c_a_r_d_init_type_def}{F\-S\-M\-C\-\_\-\-P\-C\-C\-A\-R\-D\-Init\-Type\-Def} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 681 of file stm32f4xx\-\_\-fsmc.\-c.
+

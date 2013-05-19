@@ -1,0 +1,68 @@
+\hypertarget{group__x_semaphore_give}{\section{x\-Semaphore\-Give}
+\label{group__x_semaphore_give}\index{x\-Semaphore\-Give@{x\-Semaphore\-Give}}
+}
+semphr. h 
+\begin{DoxyPre}xSemaphoreGive( xSemaphoreHandle xSemaphore )\end{DoxyPre}
+
+
+{\itshape Macro} to release a semaphore. The semaphore must have previously been created with a call to v\-Semaphore\-Create\-Binary(), x\-Semaphore\-Create\-Mutex() or x\-Semaphore\-Create\-Counting(). and obtained using s\-Semaphore\-Take().
+
+This macro must not be used from an I\-S\-R. See x\-Semaphore\-Give\-From\-I\-S\-R () for an alternative which can be used from an I\-S\-R.
+
+This macro must also not be used on semaphores created using x\-Semaphore\-Create\-Recursive\-Mutex().
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\-Semaphore} & A handle to the semaphore being released. This is the handle returned when the semaphore was created.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pd\-T\-R\-U\-E if the semaphore was released. pd\-F\-A\-L\-S\-E if an error occurred. Semaphores are implemented using queues. An error can occur if there is no space on the queue to post a message -\/ indicating that the semaphore was not first obtained correctly.
+\end{DoxyReturn}
+Example usage\-: 
+\begin{DoxyPre}
+ xSemaphoreHandle xSemaphore = NULL;\end{DoxyPre}
+
+
+
+\begin{DoxyPre} void vATask( void * pvParameters )
+ \{
+Create the semaphore to guard a shared resource.
+    vSemaphoreCreateBinary( xSemaphore );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}    if( xSemaphore != NULL )
+    \{
+        if( xSemaphoreGive( xSemaphore ) != pdTRUE )
+        \{
+We would expect this call to fail because we cannot give
+a semaphore without first "taking" it!
+        \}\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Obtain the semaphore - don't block if the semaphore is not
+immediately available.
+        if( xSemaphoreTake( xSemaphore, ( portTickType ) 0 ) )
+        \{
+We now have the semaphore and can access the shared resource.\end{DoxyPre}
+
+
+
+\begin{DoxyPre}...\end{DoxyPre}
+
+
+
+\begin{DoxyPre}We have finished accessing the shared resource so can free the
+semaphore.
+            if( xSemaphoreGive( xSemaphore ) != pdTRUE )
+            \{
+We would not expect this call to fail because we must have
+obtained the semaphore to get here.
+            \}
+        \}
+    \}
+ \}
+ \end{DoxyPre}
+ 

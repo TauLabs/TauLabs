@@ -1,0 +1,63 @@
+\hypertarget{group__v_task_suspend}{\section{v\-Task\-Suspend}
+\label{group__v_task_suspend}\index{v\-Task\-Suspend@{v\-Task\-Suspend}}
+}
+task. h 
+\begin{DoxyPre}void \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2tasks_8c_a5ff4e8e6b960afcc505c6427002526f6}{vTaskSuspend( xTaskHandle pxTaskToSuspend )};\end{DoxyPre}
+
+
+I\-N\-C\-L\-U\-D\-E\-\_\-v\-Task\-Suspend must be defined as 1 for this function to be available. See the configuration section for more information.
+
+Suspend any task. When suspended a task will never get any microcontroller processing time, no matter what its priority.
+
+Calls to v\-Task\-Suspend are not accumulative -\/ i.\-e. calling v\-Task\-Suspend () twice on the same task still only requires one call to v\-Task\-Resume () to ready the suspended task.
+
+
+\begin{DoxyParams}{Parameters}
+{\em px\-Task\-To\-Suspend} & Handle to the task being suspended. Passing a N\-U\-L\-L handle will cause the calling task to be suspended.\\
+\hline
+\end{DoxyParams}
+Example usage\-: 
+\begin{DoxyPre}
+ void vAFunction( void )
+ \{
+ xTaskHandle xHandle;\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Create a task, storing the handle.
+         xTaskCreate( vTaskCode, "NAME", STACK\_SIZE, NULL, tskIDLE\_PRIORITY, \&xHandle );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}...\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Use the handle to suspend the created task.
+         vTaskSuspend( xHandle );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}...\end{DoxyPre}
+
+
+
+\begin{DoxyPre}The created task will not run during this period, unless
+another task calls vTaskResume( xHandle ).\end{DoxyPre}
+
+
+
+\begin{DoxyPre}...\end{DoxyPre}
+
+
+
+\begin{DoxyPre}Suspend ourselves.
+         vTaskSuspend( NULL );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}We cannot get here unless another task calls vTaskResume
+with our handle as the parameter.
+ \}
+   \end{DoxyPre}
+ 

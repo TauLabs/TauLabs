@@ -1,0 +1,123 @@
+\hypertarget{group___r_t_c___group8}{\section{Time\-Stamp configuration functions}
+\label{group___r_t_c___group8}\index{Time\-Stamp configuration functions@{Time\-Stamp configuration functions}}
+}
+
+
+Time\-Stamp configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___group8_ga7d80fa4a2c87654598d8207154ac8e96}{R\-T\-C\-\_\-\-Time\-Stamp\-Cmd} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} R\-T\-C\-\_\-\-Time\-Stamp\-Edge, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the R\-T\-C Time\-Stamp functionality with the specified time stamp pin stimulating edge. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___group8_ga44c38b0c74e9e960a4263b2905f44796}{R\-T\-C\-\_\-\-Get\-Time\-Stamp} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} R\-T\-C\-\_\-\-Format, \hyperlink{struct_r_t_c___time_type_def}{R\-T\-C\-\_\-\-Time\-Type\-Def} $\ast$R\-T\-C\-\_\-\-Stamp\-Time\-Struct, \hyperlink{struct_r_t_c___date_type_def}{R\-T\-C\-\_\-\-Date\-Type\-Def} $\ast$R\-T\-C\-\_\-\-Stamp\-Date\-Struct)
+\begin{DoxyCompactList}\small\item\em Gets the R\-T\-C Time\-Stamp value and masks. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___r_t_c___group8_ga2b0ef81f4959a2f9fc6361fbda759b00}{R\-T\-C\-\_\-\-Get\-Time\-Stamp\-Sub\-Second} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Gets the R\-T\-C timestamp Subseconds value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Time\-Stamp configuration functions. \begin{DoxyVerb} ===============================================================================
+                ##### TimeStamp configuration functions #####
+ ===============================================================================  \end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                       TimeStamp configuration functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___r_t_c___group8_ga44c38b0c74e9e960a4263b2905f44796}{\index{Time\-Stamp configuration functions@{Time\-Stamp configuration functions}!R\-T\-C\-\_\-\-Get\-Time\-Stamp@{R\-T\-C\-\_\-\-Get\-Time\-Stamp}}
+\index{R\-T\-C\-\_\-\-Get\-Time\-Stamp@{R\-T\-C\-\_\-\-Get\-Time\-Stamp}!TimeStamp configuration functions@{Time\-Stamp configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Get\-Time\-Stamp}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} R\-T\-C\-\_\-\-Get\-Time\-Stamp (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{R\-T\-C\-\_\-\-Format, }
+\item[{{\bf R\-T\-C\-\_\-\-Time\-Type\-Def} $\ast$}]{R\-T\-C\-\_\-\-Stamp\-Time\-Struct, }
+\item[{{\bf R\-T\-C\-\_\-\-Date\-Type\-Def} $\ast$}]{R\-T\-C\-\_\-\-Stamp\-Date\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group8_ga44c38b0c74e9e960a4263b2905f44796}
+
+
+Gets the R\-T\-C Time\-Stamp value and masks. 
+
+Get the R\-T\-C Time\-Stamp value and masks.
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\-T\-C\-\_\-\-Format,\-:} & specifies the format of the output parameters. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item R\-T\-C\-\_\-\-Format\-\_\-\-B\-I\-N\-: Binary data format \item R\-T\-C\-\_\-\-Format\-\_\-\-B\-C\-D\-: B\-C\-D data format \end{DoxyItemize}
+\\
+\hline
+{\em R\-T\-C\-\_\-\-Stamp\-Time\-Struct,\-:} & pointer to a \hyperlink{struct_r_t_c___time_type_def}{R\-T\-C\-\_\-\-Time\-Type\-Def} structure that will contains the Time\-Stamp time values. \\
+\hline
+{\em R\-T\-C\-\_\-\-Stamp\-Date\-Struct,\-:} & pointer to a \hyperlink{struct_r_t_c___date_type_def}{R\-T\-C\-\_\-\-Date\-Type\-Def} structure that will contains the Time\-Stamp date values. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1885 of file stm32f30x\-\_\-rtc.\-c.
+
+\hypertarget{group___r_t_c___group8_ga2b0ef81f4959a2f9fc6361fbda759b00}{\index{Time\-Stamp configuration functions@{Time\-Stamp configuration functions}!R\-T\-C\-\_\-\-Get\-Time\-Stamp\-Sub\-Second@{R\-T\-C\-\_\-\-Get\-Time\-Stamp\-Sub\-Second}}
+\index{R\-T\-C\-\_\-\-Get\-Time\-Stamp\-Sub\-Second@{R\-T\-C\-\_\-\-Get\-Time\-Stamp\-Sub\-Second}!TimeStamp configuration functions@{Time\-Stamp configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Get\-Time\-Stamp\-Sub\-Second}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} R\-T\-C\-\_\-\-Get\-Time\-Stamp\-Sub\-Second (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group8_ga2b0ef81f4959a2f9fc6361fbda759b00}
+
+
+Gets the R\-T\-C timestamp Subseconds value. 
+
+Get the R\-T\-C timestamp Subseconds value.
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em R\-T\-C} & current timestamp Subseconds value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1929 of file stm32f30x\-\_\-rtc.\-c.
+
+\hypertarget{group___r_t_c___group8_ga7d80fa4a2c87654598d8207154ac8e96}{\index{Time\-Stamp configuration functions@{Time\-Stamp configuration functions}!R\-T\-C\-\_\-\-Time\-Stamp\-Cmd@{R\-T\-C\-\_\-\-Time\-Stamp\-Cmd}}
+\index{R\-T\-C\-\_\-\-Time\-Stamp\-Cmd@{R\-T\-C\-\_\-\-Time\-Stamp\-Cmd}!TimeStamp configuration functions@{Time\-Stamp configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Time\-Stamp\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} R\-T\-C\-\_\-\-Time\-Stamp\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{R\-T\-C\-\_\-\-Time\-Stamp\-Edge, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group8_ga7d80fa4a2c87654598d8207154ac8e96}
+
+
+Enables or Disables the R\-T\-C Time\-Stamp functionality with the specified time stamp pin stimulating edge. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\-T\-C\-\_\-\-Time\-Stamp\-Edge,\-:} & Specifies the pin edge on which the Time\-Stamp is activated. This parameter can be one of the following\-: \begin{DoxyItemize}
+\item R\-T\-C\-\_\-\-Time\-Stamp\-Edge\-\_\-\-Rising\-: the Time stamp event occurs on the rising edge of the related pin. \item R\-T\-C\-\_\-\-Time\-Stamp\-Edge\-\_\-\-Falling\-: the Time stamp event occurs on the falling edge of the related pin. \end{DoxyItemize}
+\\
+\hline
+{\em New\-State,\-:} & new state of the Time\-Stamp. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 1841 of file stm32f30x\-\_\-rtc.\-c.
+

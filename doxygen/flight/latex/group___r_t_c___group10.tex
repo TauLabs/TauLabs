@@ -1,0 +1,82 @@
+\hypertarget{group___r_t_c___group10}{\section{Backup Data Registers configuration functions}
+\label{group___r_t_c___group10}\index{Backup Data Registers configuration functions@{Backup Data Registers configuration functions}}
+}
+
+
+Backup Data Registers configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___group10_gaa1241e2b47d04acc116b50d7b031c3aa}{R\-T\-C\-\_\-\-Write\-Backup\-Register} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} R\-T\-C\-\_\-\-B\-K\-P\-\_\-\-D\-R, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___copter_control_b_l_ga6f3335509cc4943e20df66f72483910c}{Data})
+\begin{DoxyCompactList}\small\item\em Writes a data in a specified R\-T\-C Backup data register. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___r_t_c___group10_ga504489fd91a66e392beb82bb8230b37f}{R\-T\-C\-\_\-\-Read\-Backup\-Register} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} R\-T\-C\-\_\-\-B\-K\-P\-\_\-\-D\-R)
+\begin{DoxyCompactList}\small\item\em Reads data from the specified R\-T\-C Backup data Register. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Backup Data Registers configuration functions. \begin{DoxyVerb} ===============================================================================
+          ##### Backup Data Registers configuration functions #####
+ ===============================================================================  \end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                       Backup Data Registers configuration functions 
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___r_t_c___group10_ga504489fd91a66e392beb82bb8230b37f}{\index{Backup Data Registers configuration functions@{Backup Data Registers configuration functions}!R\-T\-C\-\_\-\-Read\-Backup\-Register@{R\-T\-C\-\_\-\-Read\-Backup\-Register}}
+\index{R\-T\-C\-\_\-\-Read\-Backup\-Register@{R\-T\-C\-\_\-\-Read\-Backup\-Register}!Backup Data Registers configuration functions@{Backup Data Registers configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Read\-Backup\-Register}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} R\-T\-C\-\_\-\-Read\-Backup\-Register (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{R\-T\-C\-\_\-\-B\-K\-P\-\_\-\-D\-R}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group10_ga504489fd91a66e392beb82bb8230b37f}
+
+
+Reads data from the specified R\-T\-C Backup data Register. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\-T\-C\-\_\-\-B\-K\-P\-\_\-\-D\-R,\-:} & R\-T\-C Backup data Register number. This parameter can be\-: R\-T\-C\-\_\-\-B\-K\-P\-\_\-\-D\-Rx where x can be from 0 to 19 to specify the register. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2190 of file stm32f30x\-\_\-rtc.\-c.
+
+\hypertarget{group___r_t_c___group10_gaa1241e2b47d04acc116b50d7b031c3aa}{\index{Backup Data Registers configuration functions@{Backup Data Registers configuration functions}!R\-T\-C\-\_\-\-Write\-Backup\-Register@{R\-T\-C\-\_\-\-Write\-Backup\-Register}}
+\index{R\-T\-C\-\_\-\-Write\-Backup\-Register@{R\-T\-C\-\_\-\-Write\-Backup\-Register}!Backup Data Registers configuration functions@{Backup Data Registers configuration functions}}
+\subsubsection[{R\-T\-C\-\_\-\-Write\-Backup\-Register}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} R\-T\-C\-\_\-\-Write\-Backup\-Register (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{R\-T\-C\-\_\-\-B\-K\-P\-\_\-\-D\-R, }
+\item[{{\bf uint32\-\_\-t}}]{Data}
+\end{DoxyParamCaption}
+)}}\label{group___r_t_c___group10_gaa1241e2b47d04acc116b50d7b031c3aa}
+
+
+Writes a data in a specified R\-T\-C Backup data register. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\-T\-C\-\_\-\-B\-K\-P\-\_\-\-D\-R,\-:} & R\-T\-C Backup data Register number. This parameter can be\-: R\-T\-C\-\_\-\-B\-K\-P\-\_\-\-D\-Rx where x can be from 0 to 19 to specify the register. \\
+\hline
+{\em Data,\-:} & Data to be written in the specified R\-T\-C Backup data register. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2169 of file stm32f30x\-\_\-rtc.\-c.
+

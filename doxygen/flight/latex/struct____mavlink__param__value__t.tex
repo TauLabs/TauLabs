@@ -1,0 +1,90 @@
+\hypertarget{struct____mavlink__param__value__t}{\section{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-value\-\_\-t Struct Reference}
+\label{struct____mavlink__param__value__t}\index{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-value\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-value\-\_\-t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\-\_\-msg\-\_\-param\-\_\-value.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{struct____mavlink__param__value__t_acd7d6401383f92dac17a95946b501a50}{param\-\_\-value}
+\begin{DoxyCompactList}\small\item\em Onboard parameter value. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{struct____mavlink__param__value__t_ab53bec8370ac590fc761b9a9de49f6b6}{param\-\_\-count}
+\begin{DoxyCompactList}\small\item\em Total number of onboard parameters. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{struct____mavlink__param__value__t_a213d71adbd95b241f962dd1d375c3a5a}{param\-\_\-index}
+\begin{DoxyCompactList}\small\item\em Index of this onboard parameter. \end{DoxyCompactList}\item 
+char \hyperlink{struct____mavlink__param__value__t_af686385ecc22c23ab4e2b5d115838119}{param\-\_\-id} \mbox{[}16\mbox{]}
+\begin{DoxyCompactList}\small\item\em Onboard parameter id, terminated by N\-U\-L\-L if the length is less than 16 human-\/readable chars and W\-I\-T\-H\-O\-U\-T null termination (N\-U\-L\-L) byte if the length is exactly 16 chars -\/ applications have to provide 16+1 bytes storage if the I\-D is stored as string. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__param__value__t_a825cfefbe7cfd71991186c4ffc897447}{param\-\_\-type}
+\begin{DoxyCompactList}\small\item\em Onboard parameter type\-: see the M\-A\-V\-\_\-\-P\-A\-R\-A\-M\-\_\-\-T\-Y\-P\-E enum for supported data types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 5 of file mavlink\-\_\-msg\-\_\-param\-\_\-value.\-h.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__param__value__t_ab53bec8370ac590fc761b9a9de49f6b6}{\index{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-value\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-value\-\_\-t}!param\-\_\-count@{param\-\_\-count}}
+\index{param\-\_\-count@{param\-\_\-count}!__mavlink_param_value_t@{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-value\-\_\-t}}
+\subsubsection[{param\-\_\-count}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-param\-\_\-value\-\_\-t\-::param\-\_\-count}}\label{struct____mavlink__param__value__t_ab53bec8370ac590fc761b9a9de49f6b6}
+
+
+Total number of onboard parameters. 
+
+
+
+Definition at line 8 of file mavlink\-\_\-msg\-\_\-param\-\_\-value.\-h.
+
+\hypertarget{struct____mavlink__param__value__t_af686385ecc22c23ab4e2b5d115838119}{\index{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-value\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-value\-\_\-t}!param\-\_\-id@{param\-\_\-id}}
+\index{param\-\_\-id@{param\-\_\-id}!__mavlink_param_value_t@{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-value\-\_\-t}}
+\subsubsection[{param\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}char \-\_\-\-\_\-mavlink\-\_\-param\-\_\-value\-\_\-t\-::param\-\_\-id\mbox{[}16\mbox{]}}}\label{struct____mavlink__param__value__t_af686385ecc22c23ab4e2b5d115838119}
+
+
+Onboard parameter id, terminated by N\-U\-L\-L if the length is less than 16 human-\/readable chars and W\-I\-T\-H\-O\-U\-T null termination (N\-U\-L\-L) byte if the length is exactly 16 chars -\/ applications have to provide 16+1 bytes storage if the I\-D is stored as string. 
+
+
+
+Definition at line 10 of file mavlink\-\_\-msg\-\_\-param\-\_\-value.\-h.
+
+\hypertarget{struct____mavlink__param__value__t_a213d71adbd95b241f962dd1d375c3a5a}{\index{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-value\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-value\-\_\-t}!param\-\_\-index@{param\-\_\-index}}
+\index{param\-\_\-index@{param\-\_\-index}!__mavlink_param_value_t@{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-value\-\_\-t}}
+\subsubsection[{param\-\_\-index}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-param\-\_\-value\-\_\-t\-::param\-\_\-index}}\label{struct____mavlink__param__value__t_a213d71adbd95b241f962dd1d375c3a5a}
+
+
+Index of this onboard parameter. 
+
+
+
+Definition at line 9 of file mavlink\-\_\-msg\-\_\-param\-\_\-value.\-h.
+
+\hypertarget{struct____mavlink__param__value__t_a825cfefbe7cfd71991186c4ffc897447}{\index{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-value\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-value\-\_\-t}!param\-\_\-type@{param\-\_\-type}}
+\index{param\-\_\-type@{param\-\_\-type}!__mavlink_param_value_t@{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-value\-\_\-t}}
+\subsubsection[{param\-\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-param\-\_\-value\-\_\-t\-::param\-\_\-type}}\label{struct____mavlink__param__value__t_a825cfefbe7cfd71991186c4ffc897447}
+
+
+Onboard parameter type\-: see the M\-A\-V\-\_\-\-P\-A\-R\-A\-M\-\_\-\-T\-Y\-P\-E enum for supported data types. 
+
+
+
+Definition at line 11 of file mavlink\-\_\-msg\-\_\-param\-\_\-value.\-h.
+
+\hypertarget{struct____mavlink__param__value__t_acd7d6401383f92dac17a95946b501a50}{\index{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-value\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-value\-\_\-t}!param\-\_\-value@{param\-\_\-value}}
+\index{param\-\_\-value@{param\-\_\-value}!__mavlink_param_value_t@{\-\_\-\-\_\-mavlink\-\_\-param\-\_\-value\-\_\-t}}
+\subsubsection[{param\-\_\-value}]{\setlength{\rightskip}{0pt plus 5cm}float \-\_\-\-\_\-mavlink\-\_\-param\-\_\-value\-\_\-t\-::param\-\_\-value}}\label{struct____mavlink__param__value__t_acd7d6401383f92dac17a95946b501a50}
+
+
+Onboard parameter value. 
+
+
+
+Definition at line 7 of file mavlink\-\_\-msg\-\_\-param\-\_\-value.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Libraries/mavlink/v1.\-0/common/\hyperlink{mavlink__msg__param__value_8h}{mavlink\-\_\-msg\-\_\-param\-\_\-value.\-h}\end{DoxyCompactItemize}

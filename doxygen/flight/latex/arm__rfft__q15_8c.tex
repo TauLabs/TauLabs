@@ -1,0 +1,91 @@
+\hypertarget{arm__rfft__q15_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-C\-M\-S\-I\-S3/\-D\-S\-P\-\_\-\-Lib/\-Source/\-Transform\-Functions/arm\-\_\-rfft\-\_\-q15.c File Reference}
+\label{arm__rfft__q15_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-C\-M\-S\-I\-S3/\-D\-S\-P\-\_\-\-Lib/\-Source/\-Transform\-Functions/arm\-\_\-rfft\-\_\-q15.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-C\-M\-S\-I\-S3/\-D\-S\-P\-\_\-\-Lib/\-Source/\-Transform\-Functions/arm\-\_\-rfft\-\_\-q15.\-c}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{arm__rfft__q15_8c_a7c2a21793586f9a69c42140665550e09}{arm\-\_\-split\-\_\-rfft\-\_\-q15} (\hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Src, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} fft\-Len, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-A\-Table, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-B\-Table, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} modifier)
+\begin{DoxyCompactList}\small\item\em Core Real F\-F\-T process. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{arm__rfft__q15_8c_aa72a531dd15a53570dddaf01b62158f4}{arm\-\_\-split\-\_\-rifft\-\_\-q15} (\hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Src, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} fft\-Len, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-A\-Table, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-B\-Table, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Dst, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} modifier)
+\begin{DoxyCompactList}\small\item\em Core Real I\-F\-F\-T process. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_f_f_t___r_i_f_f_t_ga00e615f5db21736ad5b27fb6146f3fc5}{arm\-\_\-rfft\-\_\-q15} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{structarm__rfft__instance__q15}{arm\-\_\-rfft\-\_\-instance\-\_\-q15} $\ast$S, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Src, \hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Dst)
+\begin{DoxyCompactList}\small\item\em Processing function for the Q15 R\-F\-F\-T/\-R\-I\-F\-F\-T. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{arm__rfft__q15_8c_a7c2a21793586f9a69c42140665550e09}{\index{arm\-\_\-rfft\-\_\-q15.\-c@{arm\-\_\-rfft\-\_\-q15.\-c}!arm\-\_\-split\-\_\-rfft\-\_\-q15@{arm\-\_\-split\-\_\-rfft\-\_\-q15}}
+\index{arm\-\_\-split\-\_\-rfft\-\_\-q15@{arm\-\_\-split\-\_\-rfft\-\_\-q15}!arm_rfft_q15.c@{arm\-\_\-rfft\-\_\-q15.\-c}}
+\subsubsection[{arm\-\_\-split\-\_\-rfft\-\_\-q15}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-split\-\_\-rfft\-\_\-q15 (
+\begin{DoxyParamCaption}
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf uint32\-\_\-t}}]{fft\-Len, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-A\-Table, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-B\-Table, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{modifier}
+\end{DoxyParamCaption}
+)}}\label{arm__rfft__q15_8c_a7c2a21793586f9a69c42140665550e09}
+
+
+Core Real F\-F\-T process. 
+
+end of R\-F\-F\-T\-\_\-\-R\-I\-F\-F\-T group 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$p\-Src} & points to the input buffer. \\
+\hline
+{\em fft\-Len} & length of F\-F\-T. \\
+\hline
+{\em $\ast$p\-A\-Table} & points to the A twiddle Coef buffer. \\
+\hline
+{\em $\ast$p\-B\-Table} & points to the B twiddle Coef buffer. \\
+\hline
+{\em $\ast$p\-Dst} & points to the output buffer. \\
+\hline
+{\em modifier} & twiddle coefficient modifier that supports different size F\-F\-Ts with the same twiddle factor table. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none. The function implements a Real F\-F\-T 
+\end{DoxyReturn}
+
+
+Definition at line 146 of file arm\-\_\-rfft\-\_\-q15.\-c.
+
+\hypertarget{arm__rfft__q15_8c_aa72a531dd15a53570dddaf01b62158f4}{\index{arm\-\_\-rfft\-\_\-q15.\-c@{arm\-\_\-rfft\-\_\-q15.\-c}!arm\-\_\-split\-\_\-rifft\-\_\-q15@{arm\-\_\-split\-\_\-rifft\-\_\-q15}}
+\index{arm\-\_\-split\-\_\-rifft\-\_\-q15@{arm\-\_\-split\-\_\-rifft\-\_\-q15}!arm_rfft_q15.c@{arm\-\_\-rfft\-\_\-q15.\-c}}
+\subsubsection[{arm\-\_\-split\-\_\-rifft\-\_\-q15}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-split\-\_\-rifft\-\_\-q15 (
+\begin{DoxyParamCaption}
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf uint32\-\_\-t}}]{fft\-Len, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-A\-Table, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-B\-Table, }
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Dst, }
+\item[{{\bf uint32\-\_\-t}}]{modifier}
+\end{DoxyParamCaption}
+)}}\label{arm__rfft__q15_8c_aa72a531dd15a53570dddaf01b62158f4}
+
+
+Core Real I\-F\-F\-T process. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em $\ast$p\-Src} & points to the input buffer. \\
+\hline
+\mbox{\tt in}  & {\em fft\-Len} & length of F\-F\-T. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-A\-Table} & points to the twiddle Coef A buffer. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-B\-Table} & points to the twiddle Coef B buffer. \\
+\hline
+\mbox{\tt out}  & {\em $\ast$p\-Dst} & points to the output buffer. \\
+\hline
+\mbox{\tt in}  & {\em modifier} & twiddle coefficient modifier that supports different size F\-F\-Ts with the same twiddle factor table. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none. The function implements a Real I\-F\-F\-T 
+\end{DoxyReturn}
+
+
+Definition at line 315 of file arm\-\_\-rfft\-\_\-q15.\-c.
+

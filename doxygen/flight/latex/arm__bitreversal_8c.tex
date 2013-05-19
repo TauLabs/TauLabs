@@ -1,0 +1,111 @@
+\hypertarget{arm__bitreversal_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-C\-M\-S\-I\-S3/\-D\-S\-P\-\_\-\-Lib/\-Source/\-Transform\-Functions/arm\-\_\-bitreversal.c File Reference}
+\label{arm__bitreversal_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-C\-M\-S\-I\-S3/\-D\-S\-P\-\_\-\-Lib/\-Source/\-Transform\-Functions/arm\-\_\-bitreversal.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-C\-M\-S\-I\-S3/\-D\-S\-P\-\_\-\-Lib/\-Source/\-Transform\-Functions/arm\-\_\-bitreversal.\-c}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{arm__bitreversal_8c_a3d4062fdfa6aaa3f51f41cab868e508b}{arm\-\_\-bitreversal\-\_\-f32} (\hyperlink{arm__math_8h_a4611b605e45ab401f02cab15c5e38715}{float32\-\_\-t} $\ast$p\-Src, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} fft\-Size, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} bit\-Rev\-Factor, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} $\ast$p\-Bit\-Rev\-Tab)
+\begin{DoxyCompactList}\small\item\em In-\/place bit reversal function. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{arm__bitreversal_8c_a27618705158b5c42db5fb0a381f8efc1}{arm\-\_\-bitreversal\-\_\-q31} (\hyperlink{arm__math_8h_adc89a3547f5324b7b3b95adec3806bc0}{q31\-\_\-t} $\ast$p\-Src, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} fft\-Len, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} bit\-Rev\-Factor, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} $\ast$p\-Bit\-Rev\-Table)
+\begin{DoxyCompactList}\small\item\em In-\/place bit reversal function. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{arm__bitreversal_8c_a12a07b49948c354172ae07358309a4a5}{arm\-\_\-bitreversal\-\_\-q15} (\hyperlink{arm__math_8h_ab5a8fb21a5b3b983d5f54f31614052ea}{q15\-\_\-t} $\ast$p\-Src16, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} fft\-Len, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} bit\-Rev\-Factor, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} $\ast$p\-Bit\-Rev\-Tab)
+\begin{DoxyCompactList}\small\item\em In-\/place bit reversal function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{arm__bitreversal_8c_a3d4062fdfa6aaa3f51f41cab868e508b}{\index{arm\-\_\-bitreversal.\-c@{arm\-\_\-bitreversal.\-c}!arm\-\_\-bitreversal\-\_\-f32@{arm\-\_\-bitreversal\-\_\-f32}}
+\index{arm\-\_\-bitreversal\-\_\-f32@{arm\-\_\-bitreversal\-\_\-f32}!arm_bitreversal.c@{arm\-\_\-bitreversal.\-c}}
+\subsubsection[{arm\-\_\-bitreversal\-\_\-f32}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-bitreversal\-\_\-f32 (
+\begin{DoxyParamCaption}
+\item[{{\bf float32\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf uint16\-\_\-t}}]{fft\-Size, }
+\item[{{\bf uint16\-\_\-t}}]{bit\-Rev\-Factor, }
+\item[{{\bf uint16\-\_\-t} $\ast$}]{p\-Bit\-Rev\-Tab}
+\end{DoxyParamCaption}
+)}}\label{arm__bitreversal_8c_a3d4062fdfa6aaa3f51f41cab868e508b}
+
+
+In-\/place bit reversal function. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em $\ast$p\-Src} & points to the in-\/place buffer of floating-\/point data type. \\
+\hline
+\mbox{\tt in}  & {\em fft\-Size} & length of the F\-F\-T. \\
+\hline
+\mbox{\tt in}  & {\em bit\-Rev\-Factor} & bit reversal modifier that supports different size F\-F\-Ts with the same bit reversal table. \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Bit\-Rev\-Tab} & points to the bit reversal table. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none. 
+\end{DoxyReturn}
+
+
+Definition at line 33 of file arm\-\_\-bitreversal.\-c.
+
+\hypertarget{arm__bitreversal_8c_a12a07b49948c354172ae07358309a4a5}{\index{arm\-\_\-bitreversal.\-c@{arm\-\_\-bitreversal.\-c}!arm\-\_\-bitreversal\-\_\-q15@{arm\-\_\-bitreversal\-\_\-q15}}
+\index{arm\-\_\-bitreversal\-\_\-q15@{arm\-\_\-bitreversal\-\_\-q15}!arm_bitreversal.c@{arm\-\_\-bitreversal.\-c}}
+\subsubsection[{arm\-\_\-bitreversal\-\_\-q15}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-bitreversal\-\_\-q15 (
+\begin{DoxyParamCaption}
+\item[{{\bf q15\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf uint32\-\_\-t}}]{fft\-Len, }
+\item[{{\bf uint16\-\_\-t}}]{bit\-Rev\-Factor, }
+\item[{{\bf uint16\-\_\-t} $\ast$}]{p\-Bit\-Rev\-Tab}
+\end{DoxyParamCaption}
+)}}\label{arm__bitreversal_8c_a12a07b49948c354172ae07358309a4a5}
+
+
+In-\/place bit reversal function. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em $\ast$p\-Src} & points to the in-\/place buffer of Q15 data type. \\
+\hline
+\mbox{\tt in}  & {\em fft\-Len} & length of the F\-F\-T. \\
+\hline
+\mbox{\tt in}  & {\em bit\-Rev\-Factor} & bit reversal modifier that supports different size F\-F\-Ts with the same bit reversal table \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Bit\-Rev\-Tab} & points to bit reversal table. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none. 
+\end{DoxyReturn}
+
+
+Definition at line 176 of file arm\-\_\-bitreversal.\-c.
+
+\hypertarget{arm__bitreversal_8c_a27618705158b5c42db5fb0a381f8efc1}{\index{arm\-\_\-bitreversal.\-c@{arm\-\_\-bitreversal.\-c}!arm\-\_\-bitreversal\-\_\-q31@{arm\-\_\-bitreversal\-\_\-q31}}
+\index{arm\-\_\-bitreversal\-\_\-q31@{arm\-\_\-bitreversal\-\_\-q31}!arm_bitreversal.c@{arm\-\_\-bitreversal.\-c}}
+\subsubsection[{arm\-\_\-bitreversal\-\_\-q31}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} arm\-\_\-bitreversal\-\_\-q31 (
+\begin{DoxyParamCaption}
+\item[{{\bf q31\-\_\-t} $\ast$}]{p\-Src, }
+\item[{{\bf uint32\-\_\-t}}]{fft\-Len, }
+\item[{{\bf uint16\-\_\-t}}]{bit\-Rev\-Factor, }
+\item[{{\bf uint16\-\_\-t} $\ast$}]{p\-Bit\-Rev\-Tab}
+\end{DoxyParamCaption}
+)}}\label{arm__bitreversal_8c_a27618705158b5c42db5fb0a381f8efc1}
+
+
+In-\/place bit reversal function. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em $\ast$p\-Src} & points to the in-\/place buffer of Q31 data type. \\
+\hline
+\mbox{\tt in}  & {\em fft\-Len} & length of the F\-F\-T. \\
+\hline
+\mbox{\tt in}  & {\em bit\-Rev\-Factor} & bit reversal modifier that supports different size F\-F\-Ts with the same bit reversal table \\
+\hline
+\mbox{\tt in}  & {\em $\ast$p\-Bit\-Rev\-Tab} & points to bit reversal table. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none. 
+\end{DoxyReturn}
+
+
+Definition at line 105 of file arm\-\_\-bitreversal.\-c.
+

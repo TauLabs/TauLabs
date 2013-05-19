@@ -1,0 +1,38 @@
+\hypertarget{group__v_semaphore_create_binary}{\section{v\-Semaphore\-Create\-Binary}
+\label{group__v_semaphore_create_binary}\index{v\-Semaphore\-Create\-Binary@{v\-Semaphore\-Create\-Binary}}
+}
+semphr. h 
+\begin{DoxyPre}vSemaphoreCreateBinary( xSemaphoreHandle xSemaphore )\end{DoxyPre}
+
+
+{\itshape Macro} that implements a semaphore by using the existing queue mechanism. The queue length is 1 as this is a binary semaphore. The data size is 0 as we don't want to actually store any data -\/ we just want to know if the queue is empty or full.
+
+This type of semaphore can be used for pure synchronisation between tasks or between an interrupt and a task. The semaphore need not be given back once obtained, so one task/interrupt can continuously 'give' the semaphore while another continuously 'takes' the semaphore. For this reason this type of semaphore does not use a priority inheritance mechanism. For an alternative that does use priority inheritance see x\-Semaphore\-Create\-Mutex().
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\-Semaphore} & Handle to the created semaphore. Should be of type x\-Semaphore\-Handle.\\
+\hline
+\end{DoxyParams}
+Example usage\-: 
+\begin{DoxyPre}
+ xSemaphoreHandle xSemaphore;\end{DoxyPre}
+
+
+
+\begin{DoxyPre} void vATask( void * pvParameters )
+ \{
+Semaphore cannot be used before a call to vSemaphoreCreateBinary ().
+This is a macro so pass the variable in directly.
+    vSemaphoreCreateBinary( xSemaphore );\end{DoxyPre}
+
+
+
+\begin{DoxyPre}    if( xSemaphore != NULL )
+    \{
+The semaphore was created successfully.
+The semaphore can now be used.  
+    \}
+ \}
+ \end{DoxyPre}
+ 

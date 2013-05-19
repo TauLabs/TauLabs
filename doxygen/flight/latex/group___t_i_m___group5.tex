@@ -1,0 +1,546 @@
+\hypertarget{group___t_i_m___group5}{\section{Interrupts D\-M\-A and flags management functions}
+\label{group___t_i_m___group5}\index{Interrupts D\-M\-A and flags management functions@{Interrupts D\-M\-A and flags management functions}}
+}
+
+
+Interrupts, D\-M\-A and flags management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group5_ga70e3d6c09d55ee69002e154c85cd40e4}{T\-I\-M\-\_\-\-I\-T\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-I\-T, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified T\-I\-M interrupts. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group5_ga38bd4ffda920dd4f7655a0a2c6100a6e}{T\-I\-M\-\_\-\-Generate\-Event} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-Event\-Source)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx event to be generate by software. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___t_i_m___group5_gab03e4421f9d86500a8f19822a894067f}{T\-I\-M\-\_\-\-Get\-Flag\-Status} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} T\-I\-M\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified T\-I\-M flag is set or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group5_ga46568c7b254941dc53e785342d60baf3}{T\-I\-M\-\_\-\-Clear\-Flag} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Clears the T\-I\-Mx's pending flags. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_gaacbd7ed539db0aacd973a0f6eca34074}{I\-T\-Status} \hyperlink{group___t_i_m___group5_ga0827a0b411707304f76d33050727c24d}{T\-I\-M\-\_\-\-Get\-I\-T\-Status} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Checks whether the T\-I\-M interrupt has occurred or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group5_ga9eb1e95af71ed380f51a2c6d585cc5d6}{T\-I\-M\-\_\-\-Clear\-I\-T\-Pending\-Bit} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Clears the T\-I\-Mx's interrupt pending bits. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group5_gad7156f84c436c8ac92cd789611826d09}{T\-I\-M\-\_\-\-D\-M\-A\-Config} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-D\-M\-A\-Base, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-D\-M\-A\-Burst\-Length)
+\begin{DoxyCompactList}\small\item\em Configures the T\-I\-Mx's D\-M\-A interface. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group5_ga24700389cfa3ea9b42234933b23f1399}{T\-I\-M\-\_\-\-D\-M\-A\-Cmd} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-D\-M\-A\-Source, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\-I\-Mx's D\-M\-A Requests. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___t_i_m___group5_ga5273cb65acb885fe7982827b1c6b7d75}{T\-I\-M\-\_\-\-Select\-C\-C\-D\-M\-A} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Selects the T\-I\-Mx peripheral Capture Compare D\-M\-A source. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___t_i_m___group5_ga0adcbbd5e838ec8642e7a9b80075f41f}{T\-I\-M\-\_\-\-Get\-Flag\-Status} (\hyperlink{struct_t_i_m___type_def}{T\-I\-M\-\_\-\-Type\-Def} $\ast$T\-I\-Mx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} T\-I\-M\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified T\-I\-M flag is set or not. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interrupts, D\-M\-A and flags management functions. \begin{DoxyVerb} ===============================================================================
+         ##### Interrupts, DMA and flags management functions #####
+ ===============================================================================  \end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                 Interrupts, DMA and flags management functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___t_i_m___group5_ga46568c7b254941dc53e785342d60baf3}{\index{Interrupts D\-M\-A and flags management functions@{Interrupts D\-M\-A and flags management functions}!T\-I\-M\-\_\-\-Clear\-Flag@{T\-I\-M\-\_\-\-Clear\-Flag}}
+\index{T\-I\-M\-\_\-\-Clear\-Flag@{T\-I\-M\-\_\-\-Clear\-Flag}!Interrupts DMA and flags management functions@{Interrupts D\-M\-A and flags management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Clear\-Flag}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Clear\-Flag (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group5_ga46568c7b254941dc53e785342d60baf3}
+
+
+Clears the T\-I\-Mx's pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 6, 7, 8, 15, 16 or 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-F\-L\-A\-G,\-:} & specifies the flag bit to clear. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Update\-: T\-I\-M update Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C1\-: T\-I\-M Capture Compare 1 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C2\-: T\-I\-M Capture Compare 2 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C3\-: T\-I\-M Capture Compare 3 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C4\-: T\-I\-M Capture Compare 4 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C5\-: T\-I\-M Capture Compare 5 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C6\-: T\-I\-M Capture Compare 6 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-O\-M\-: T\-I\-M Commutation Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Trigger\-: T\-I\-M Trigger Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Break\-: T\-I\-M Break Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C1\-O\-F\-: T\-I\-M Capture Compare 1 over capture Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C2\-O\-F\-: T\-I\-M Capture Compare 2 over capture Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C3\-O\-F\-: T\-I\-M Capture Compare 3 over capture Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C4\-O\-F\-: T\-I\-M Capture Compare 4 over capture Flag\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+T\-I\-M6 and T\-I\-M7 can have only one update flag. 
+
+T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-O\-M and T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Break are used only with T\-I\-M1 and T\-I\-M8.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 14 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-F\-L\-A\-G,\-:} & specifies the flag bit to clear. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Update\-: T\-I\-M update Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C1\-: T\-I\-M Capture Compare 1 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C2\-: T\-I\-M Capture Compare 2 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C3\-: T\-I\-M Capture Compare 3 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C4\-: T\-I\-M Capture Compare 4 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-O\-M\-: T\-I\-M Commutation Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Trigger\-: T\-I\-M Trigger Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Break\-: T\-I\-M Break Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C1\-O\-F\-: T\-I\-M Capture Compare 1 over capture Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C2\-O\-F\-: T\-I\-M Capture Compare 2 over capture Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C3\-O\-F\-: T\-I\-M Capture Compare 3 over capture Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C4\-O\-F\-: T\-I\-M Capture Compare 4 over capture Flag\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+T\-I\-M6 and T\-I\-M7 can have only one update flag. 
+
+T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-O\-M and T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Break are used only with T\-I\-M1 and T\-I\-M8.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 3073 of file stm32f30x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___group5_ga9eb1e95af71ed380f51a2c6d585cc5d6}{\index{Interrupts D\-M\-A and flags management functions@{Interrupts D\-M\-A and flags management functions}!T\-I\-M\-\_\-\-Clear\-I\-T\-Pending\-Bit@{T\-I\-M\-\_\-\-Clear\-I\-T\-Pending\-Bit}}
+\index{T\-I\-M\-\_\-\-Clear\-I\-T\-Pending\-Bit@{T\-I\-M\-\_\-\-Clear\-I\-T\-Pending\-Bit}!Interrupts DMA and flags management functions@{Interrupts D\-M\-A and flags management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Clear\-I\-T\-Pending\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Clear\-I\-T\-Pending\-Bit (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-I\-T}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group5_ga9eb1e95af71ed380f51a2c6d585cc5d6}
+
+
+Clears the T\-I\-Mx's interrupt pending bits. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 6, 7, 8, 15, 16 or 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-I\-T,\-:} & specifies the pending bit to clear. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-I\-T\-\_\-\-Update\-: T\-I\-M1 update Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C1\-: T\-I\-M Capture Compare 1 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C2\-: T\-I\-M Capture Compare 2 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C3\-: T\-I\-M Capture Compare 3 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C4\-: T\-I\-M Capture Compare 4 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-O\-M\-: T\-I\-M Commutation Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-Trigger\-: T\-I\-M Trigger Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-Break\-: T\-I\-M Break Interrupt source\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+T\-I\-M6 and T\-I\-M7 can generate only an update interrupt. 
+
+T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-O\-M and T\-I\-M\-\_\-\-I\-T\-\_\-\-Break are used only with T\-I\-M1 and T\-I\-M8.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 14 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-I\-T,\-:} & specifies the pending bit to clear. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-I\-T\-\_\-\-Update\-: T\-I\-M1 update Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C1\-: T\-I\-M Capture Compare 1 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C2\-: T\-I\-M Capture Compare 2 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C3\-: T\-I\-M Capture Compare 3 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C4\-: T\-I\-M Capture Compare 4 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-O\-M\-: T\-I\-M Commutation Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-Trigger\-: T\-I\-M Trigger Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-Break\-: T\-I\-M Break Interrupt source\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+T\-I\-M6 and T\-I\-M7 can generate only an update interrupt. 
+
+T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-O\-M and T\-I\-M\-\_\-\-I\-T\-\_\-\-Break are used only with T\-I\-M1 and T\-I\-M8.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 3142 of file stm32f30x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___group5_ga24700389cfa3ea9b42234933b23f1399}{\index{Interrupts D\-M\-A and flags management functions@{Interrupts D\-M\-A and flags management functions}!T\-I\-M\-\_\-\-D\-M\-A\-Cmd@{T\-I\-M\-\_\-\-D\-M\-A\-Cmd}}
+\index{T\-I\-M\-\_\-\-D\-M\-A\-Cmd@{T\-I\-M\-\_\-\-D\-M\-A\-Cmd}!Interrupts DMA and flags management functions@{Interrupts D\-M\-A and flags management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-D\-M\-A\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-D\-M\-A\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-D\-M\-A\-Source, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group5_ga24700389cfa3ea9b42234933b23f1399}
+
+
+Enables or disables the T\-I\-Mx's D\-M\-A Requests. 
+
+Enables or disables the T\-I\-Mx’s D\-M\-A Requests.
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 6, 7, 8, 15, 16 or 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-D\-M\-A\-Source,\-:} & specifies the D\-M\-A Request sources. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-D\-M\-A\-\_\-\-Update\-: T\-I\-M update Interrupt source \item T\-I\-M\-\_\-\-D\-M\-A\-\_\-\-C\-C1\-: T\-I\-M Capture Compare 1 D\-M\-A source \item T\-I\-M\-\_\-\-D\-M\-A\-\_\-\-C\-C2\-: T\-I\-M Capture Compare 2 D\-M\-A source \item T\-I\-M\-\_\-\-D\-M\-A\-\_\-\-C\-C3\-: T\-I\-M Capture Compare 3 D\-M\-A source \item T\-I\-M\-\_\-\-D\-M\-A\-\_\-\-C\-C4\-: T\-I\-M Capture Compare 4 D\-M\-A source \item T\-I\-M\-\_\-\-D\-M\-A\-\_\-\-C\-O\-M\-: T\-I\-M Commutation D\-M\-A source \item T\-I\-M\-\_\-\-D\-M\-A\-\_\-\-Trigger\-: T\-I\-M Trigger D\-M\-A source \end{DoxyItemize}
+\\
+\hline
+{\em New\-State,\-:} & new state of the D\-M\-A Request sources. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5, 6, 7 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-D\-M\-A\-Source,\-:} & specifies the D\-M\-A Request sources. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-D\-M\-A\-\_\-\-Update\-: T\-I\-M update Interrupt source \item T\-I\-M\-\_\-\-D\-M\-A\-\_\-\-C\-C1\-: T\-I\-M Capture Compare 1 D\-M\-A source \item T\-I\-M\-\_\-\-D\-M\-A\-\_\-\-C\-C2\-: T\-I\-M Capture Compare 2 D\-M\-A source \item T\-I\-M\-\_\-\-D\-M\-A\-\_\-\-C\-C3\-: T\-I\-M Capture Compare 3 D\-M\-A source \item T\-I\-M\-\_\-\-D\-M\-A\-\_\-\-C\-C4\-: T\-I\-M Capture Compare 4 D\-M\-A source \item T\-I\-M\-\_\-\-D\-M\-A\-\_\-\-C\-O\-M\-: T\-I\-M Commutation D\-M\-A source \item T\-I\-M\-\_\-\-D\-M\-A\-\_\-\-Trigger\-: T\-I\-M Trigger D\-M\-A source \end{DoxyItemize}
+\\
+\hline
+{\em New\-State,\-:} & new state of the D\-M\-A Request sources. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 3206 of file stm32f30x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___group5_gad7156f84c436c8ac92cd789611826d09}{\index{Interrupts D\-M\-A and flags management functions@{Interrupts D\-M\-A and flags management functions}!T\-I\-M\-\_\-\-D\-M\-A\-Config@{T\-I\-M\-\_\-\-D\-M\-A\-Config}}
+\index{T\-I\-M\-\_\-\-D\-M\-A\-Config@{T\-I\-M\-\_\-\-D\-M\-A\-Config}!Interrupts DMA and flags management functions@{Interrupts D\-M\-A and flags management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-D\-M\-A\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-D\-M\-A\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-D\-M\-A\-Base, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-D\-M\-A\-Burst\-Length}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group5_gad7156f84c436c8ac92cd789611826d09}
+
+
+Configures the T\-I\-Mx's D\-M\-A interface. 
+
+Configures the T\-I\-Mx’s D\-M\-A interface.
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-D\-M\-A\-Base,\-:} & D\-M\-A Base address. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-R1 \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-R2 \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-S\-M\-C\-R \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-D\-I\-E\-R \item T\-I\-M1\-\_\-\-D\-M\-A\-Base\-\_\-\-S\-R \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-E\-G\-R \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-C\-M\-R1 \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-C\-M\-R2 \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-C\-E\-R \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-N\-T \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-P\-S\-C \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-A\-R\-R \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-R\-C\-R \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-C\-R1 \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-C\-R2 \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-C\-R3 \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-C\-R4 \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-B\-D\-T\-R \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-D\-C\-R \end{DoxyItemize}
+\\
+\hline
+{\em T\-I\-M\-\_\-\-D\-M\-A\-Burst\-Length,\-:} & D\-M\-A Burst length. This parameter can be one value between\-: T\-I\-M\-\_\-\-D\-M\-A\-Burst\-Length\-\_\-1\-Transfer and T\-I\-M\-\_\-\-D\-M\-A\-Burst\-Length\-\_\-18\-Transfers. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-D\-M\-A\-Base,\-:} & D\-M\-A Base address. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-R1 \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-R2 \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-S\-M\-C\-R \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-D\-I\-E\-R \item T\-I\-M1\-\_\-\-D\-M\-A\-Base\-\_\-\-S\-R \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-E\-G\-R \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-C\-M\-R1 \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-C\-M\-R2 \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-C\-E\-R \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-N\-T \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-P\-S\-C \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-A\-R\-R \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-R\-C\-R \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-C\-R1 \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-C\-R2 \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-C\-R3 \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-C\-C\-R4 \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-B\-D\-T\-R \item T\-I\-M\-\_\-\-D\-M\-A\-Base\-\_\-\-D\-C\-R \end{DoxyItemize}
+\\
+\hline
+{\em T\-I\-M\-\_\-\-D\-M\-A\-Burst\-Length,\-:} & D\-M\-A Burst length. This parameter can be one value between\-: T\-I\-M\-\_\-\-D\-M\-A\-Burst\-Length\-\_\-1\-Transfer and T\-I\-M\-\_\-\-D\-M\-A\-Burst\-Length\-\_\-18\-Transfers. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 3179 of file stm32f30x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___group5_ga38bd4ffda920dd4f7655a0a2c6100a6e}{\index{Interrupts D\-M\-A and flags management functions@{Interrupts D\-M\-A and flags management functions}!T\-I\-M\-\_\-\-Generate\-Event@{T\-I\-M\-\_\-\-Generate\-Event}}
+\index{T\-I\-M\-\_\-\-Generate\-Event@{T\-I\-M\-\_\-\-Generate\-Event}!Interrupts DMA and flags management functions@{Interrupts D\-M\-A and flags management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Generate\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Generate\-Event (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-Event\-Source}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group5_ga38bd4ffda920dd4f7655a0a2c6100a6e}
+
+
+Configures the T\-I\-Mx event to be generate by software. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 6, 7, 8, 15, 16 or 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Event\-Source,\-:} & specifies the event source. This parameter can be one or more of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-Update\-: Timer update Event source \item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-C\-C1\-: Timer Capture Compare 1 Event source \item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-C\-C2\-: Timer Capture Compare 2 Event source \item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-C\-C3\-: Timer Capture Compare 3 Event source \item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-C\-C4\-: Timer Capture Compare 4 Event source \item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-C\-O\-M\-: Timer C\-O\-M event source \item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-Trigger\-: Timer Trigger Event source \item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-Break\-: Timer Break event source\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+T\-I\-M6 and T\-I\-M7 can only generate an update event. 
+
+T\-I\-M\-\_\-\-Event\-Source\-\_\-\-C\-O\-M and T\-I\-M\-\_\-\-Event\-Source\-\_\-\-Break are used only with T\-I\-M1 and T\-I\-M8.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 14 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-Event\-Source,\-:} & specifies the event source. This parameter can be one or more of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-Update\-: Timer update Event source \item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-C\-C1\-: Timer Capture Compare 1 Event source \item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-C\-C2\-: Timer Capture Compare 2 Event source \item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-C\-C3\-: Timer Capture Compare 3 Event source \item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-C\-C4\-: Timer Capture Compare 4 Event source \item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-C\-O\-M\-: Timer C\-O\-M event source \item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-Trigger\-: Timer Trigger Event source \item T\-I\-M\-\_\-\-Event\-Source\-\_\-\-Break\-: Timer Break event source\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+T\-I\-M6 and T\-I\-M7 can only generate an update event. 
+
+T\-I\-M\-\_\-\-Event\-Source\-\_\-\-C\-O\-M and T\-I\-M\-\_\-\-Event\-Source\-\_\-\-Break are used only with T\-I\-M1 and T\-I\-M8.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2994 of file stm32f30x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___group5_ga0adcbbd5e838ec8642e7a9b80075f41f}{\index{Interrupts D\-M\-A and flags management functions@{Interrupts D\-M\-A and flags management functions}!T\-I\-M\-\_\-\-Get\-Flag\-Status@{T\-I\-M\-\_\-\-Get\-Flag\-Status}}
+\index{T\-I\-M\-\_\-\-Get\-Flag\-Status@{T\-I\-M\-\_\-\-Get\-Flag\-Status}!Interrupts DMA and flags management functions@{Interrupts D\-M\-A and flags management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Get\-Flag\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Flag\-Status} T\-I\-M\-\_\-\-Get\-Flag\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group5_ga0adcbbd5e838ec8642e7a9b80075f41f}
+
+
+Checks whether the specified T\-I\-M flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 14 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-F\-L\-A\-G,\-:} & specifies the flag to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Update\-: T\-I\-M update Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C1\-: T\-I\-M Capture Compare 1 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C2\-: T\-I\-M Capture Compare 2 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C3\-: T\-I\-M Capture Compare 3 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C4\-: T\-I\-M Capture Compare 4 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-O\-M\-: T\-I\-M Commutation Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Trigger\-: T\-I\-M Trigger Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Break\-: T\-I\-M Break Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C1\-O\-F\-: T\-I\-M Capture Compare 1 over capture Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C2\-O\-F\-: T\-I\-M Capture Compare 2 over capture Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C3\-O\-F\-: T\-I\-M Capture Compare 3 over capture Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C4\-O\-F\-: T\-I\-M Capture Compare 4 over capture Flag\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+T\-I\-M6 and T\-I\-M7 can have only one update flag. 
+
+T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-O\-M and T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Break are used only with T\-I\-M1 and T\-I\-M8.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of T\-I\-M\-\_\-\-F\-L\-A\-G (S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2439 of file stm32f4xx\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___group5_gab03e4421f9d86500a8f19822a894067f}{\index{Interrupts D\-M\-A and flags management functions@{Interrupts D\-M\-A and flags management functions}!T\-I\-M\-\_\-\-Get\-Flag\-Status@{T\-I\-M\-\_\-\-Get\-Flag\-Status}}
+\index{T\-I\-M\-\_\-\-Get\-Flag\-Status@{T\-I\-M\-\_\-\-Get\-Flag\-Status}!Interrupts DMA and flags management functions@{Interrupts D\-M\-A and flags management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Get\-Flag\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Flag\-Status} T\-I\-M\-\_\-\-Get\-Flag\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint32\-\_\-t}}]{T\-I\-M\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group5_gab03e4421f9d86500a8f19822a894067f}
+
+
+Checks whether the specified T\-I\-M flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 6, 7, 8, 15, 16 or 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-F\-L\-A\-G,\-:} & specifies the flag to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Update\-: T\-I\-M update Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C1\-: T\-I\-M Capture Compare 1 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C2\-: T\-I\-M Capture Compare 2 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C3\-: T\-I\-M Capture Compare 3 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C4\-: T\-I\-M Capture Compare 4 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C5\-: T\-I\-M Capture Compare 5 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C6\-: T\-I\-M Capture Compare 6 Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-O\-M\-: T\-I\-M Commutation Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Trigger\-: T\-I\-M Trigger Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Break\-: T\-I\-M Break Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C1\-O\-F\-: T\-I\-M Capture Compare 1 over capture Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C2\-O\-F\-: T\-I\-M Capture Compare 2 over capture Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C3\-O\-F\-: T\-I\-M Capture Compare 3 over capture Flag \item T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-C4\-O\-F\-: T\-I\-M Capture Compare 4 over capture Flag\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+T\-I\-M6 and T\-I\-M7 can have only one update flag. 
+
+T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-C\-O\-M and T\-I\-M\-\_\-\-F\-L\-A\-G\-\_\-\-Break are used only with T\-I\-M1 and T\-I\-M8.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of T\-I\-M\-\_\-\-F\-L\-A\-G (S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 3029 of file stm32f30x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___group5_ga0827a0b411707304f76d33050727c24d}{\index{Interrupts D\-M\-A and flags management functions@{Interrupts D\-M\-A and flags management functions}!T\-I\-M\-\_\-\-Get\-I\-T\-Status@{T\-I\-M\-\_\-\-Get\-I\-T\-Status}}
+\index{T\-I\-M\-\_\-\-Get\-I\-T\-Status@{T\-I\-M\-\_\-\-Get\-I\-T\-Status}!Interrupts DMA and flags management functions@{Interrupts D\-M\-A and flags management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Get\-I\-T\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf I\-T\-Status} T\-I\-M\-\_\-\-Get\-I\-T\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-I\-T}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group5_ga0827a0b411707304f76d33050727c24d}
+
+
+Checks whether the T\-I\-M interrupt has occurred or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 6, 7, 8, 15, 16 or 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-I\-T,\-:} & specifies the T\-I\-M interrupt source to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-I\-T\-\_\-\-Update\-: T\-I\-M update Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C1\-: T\-I\-M Capture Compare 1 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C2\-: T\-I\-M Capture Compare 2 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C3\-: T\-I\-M Capture Compare 3 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C4\-: T\-I\-M Capture Compare 4 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-O\-M\-: T\-I\-M Commutation Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-Trigger\-: T\-I\-M Trigger Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-Break\-: T\-I\-M Break Interrupt source\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+T\-I\-M6 and T\-I\-M7 can generate only an update interrupt. 
+
+T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-O\-M and T\-I\-M\-\_\-\-I\-T\-\_\-\-Break are used only with T\-I\-M1 and T\-I\-M8.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of the T\-I\-M\-\_\-\-I\-T(\-S\-E\-T or R\-E\-S\-E\-T).\\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 14 to select the T\-I\-M peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-I\-T,\-:} & specifies the T\-I\-M interrupt source to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-I\-T\-\_\-\-Update\-: T\-I\-M update Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C1\-: T\-I\-M Capture Compare 1 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C2\-: T\-I\-M Capture Compare 2 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C3\-: T\-I\-M Capture Compare 3 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C4\-: T\-I\-M Capture Compare 4 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-O\-M\-: T\-I\-M Commutation Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-Trigger\-: T\-I\-M Trigger Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-Break\-: T\-I\-M Break Interrupt source\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+T\-I\-M6 and T\-I\-M7 can generate only an update interrupt. 
+
+T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-O\-M and T\-I\-M\-\_\-\-I\-T\-\_\-\-Break are used only with T\-I\-M1 and T\-I\-M8.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of the T\-I\-M\-\_\-\-I\-T(\-S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 3101 of file stm32f30x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___group5_ga70e3d6c09d55ee69002e154c85cd40e4}{\index{Interrupts D\-M\-A and flags management functions@{Interrupts D\-M\-A and flags management functions}!T\-I\-M\-\_\-\-I\-T\-Config@{T\-I\-M\-\_\-\-I\-T\-Config}}
+\index{T\-I\-M\-\_\-\-I\-T\-Config@{T\-I\-M\-\_\-\-I\-T\-Config}!Interrupts DMA and flags management functions@{Interrupts D\-M\-A and flags management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-I\-T\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-I\-T\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf uint16\-\_\-t}}]{T\-I\-M\-\_\-\-I\-T, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group5_ga70e3d6c09d55ee69002e154c85cd40e4}
+
+
+Enables or disables the specified T\-I\-M interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 6, 7, 8, 15, 16 or 17 to select the T\-I\-Mx peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-I\-T,\-:} & specifies the T\-I\-M interrupts sources to be enabled or disabled. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-I\-T\-\_\-\-Update\-: T\-I\-M update Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C1\-: T\-I\-M Capture Compare 1 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C2\-: T\-I\-M Capture Compare 2 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C3\-: T\-I\-M Capture Compare 3 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C4\-: T\-I\-M Capture Compare 4 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-O\-M\-: T\-I\-M Commutation Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-Trigger\-: T\-I\-M Trigger Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-Break\-: T\-I\-M Break Interrupt source\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+For T\-I\-M6 and T\-I\-M7 only the parameter T\-I\-M\-\_\-\-I\-T\-\_\-\-Update can be used 
+
+For T\-I\-M9 and T\-I\-M12 only one of the following parameters can be used\-: T\-I\-M\-\_\-\-I\-T\-\_\-\-Update, T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C1, T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C2 or T\-I\-M\-\_\-\-I\-T\-\_\-\-Trigger. 
+
+For T\-I\-M10, T\-I\-M11, T\-I\-M13 and T\-I\-M14 only one of the following parameters can be used\-: T\-I\-M\-\_\-\-I\-T\-\_\-\-Update or T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C1 
+
+T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-O\-M and T\-I\-M\-\_\-\-I\-T\-\_\-\-Break can be used only with T\-I\-M1 and T\-I\-M8
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\-State,\-:} & new state of the T\-I\-M interrupts. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1 to 14 to select the T\-I\-Mx peripheral. \\
+\hline
+{\em T\-I\-M\-\_\-\-I\-T,\-:} & specifies the T\-I\-M interrupts sources to be enabled or disabled. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item T\-I\-M\-\_\-\-I\-T\-\_\-\-Update\-: T\-I\-M update Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C1\-: T\-I\-M Capture Compare 1 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C2\-: T\-I\-M Capture Compare 2 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C3\-: T\-I\-M Capture Compare 3 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C4\-: T\-I\-M Capture Compare 4 Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-O\-M\-: T\-I\-M Commutation Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-Trigger\-: T\-I\-M Trigger Interrupt source \item T\-I\-M\-\_\-\-I\-T\-\_\-\-Break\-: T\-I\-M Break Interrupt source\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+For T\-I\-M6 and T\-I\-M7 only the parameter T\-I\-M\-\_\-\-I\-T\-\_\-\-Update can be used 
+
+For T\-I\-M9 and T\-I\-M12 only one of the following parameters can be used\-: T\-I\-M\-\_\-\-I\-T\-\_\-\-Update, T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C1, T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C2 or T\-I\-M\-\_\-\-I\-T\-\_\-\-Trigger. 
+
+For T\-I\-M10, T\-I\-M11, T\-I\-M13 and T\-I\-M14 only one of the following parameters can be used\-: T\-I\-M\-\_\-\-I\-T\-\_\-\-Update or T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-C1 
+
+T\-I\-M\-\_\-\-I\-T\-\_\-\-C\-O\-M and T\-I\-M\-\_\-\-I\-T\-\_\-\-Break can be used only with T\-I\-M1 and T\-I\-M8
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\-State,\-:} & new state of the T\-I\-M interrupts. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 2956 of file stm32f30x\-\_\-tim.\-c.
+
+\hypertarget{group___t_i_m___group5_ga5273cb65acb885fe7982827b1c6b7d75}{\index{Interrupts D\-M\-A and flags management functions@{Interrupts D\-M\-A and flags management functions}!T\-I\-M\-\_\-\-Select\-C\-C\-D\-M\-A@{T\-I\-M\-\_\-\-Select\-C\-C\-D\-M\-A}}
+\index{T\-I\-M\-\_\-\-Select\-C\-C\-D\-M\-A@{T\-I\-M\-\_\-\-Select\-C\-C\-D\-M\-A}!Interrupts DMA and flags management functions@{Interrupts D\-M\-A and flags management functions}}
+\subsubsection[{T\-I\-M\-\_\-\-Select\-C\-C\-D\-M\-A}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} T\-I\-M\-\_\-\-Select\-C\-C\-D\-M\-A (
+\begin{DoxyParamCaption}
+\item[{{\bf T\-I\-M\-\_\-\-Type\-Def} $\ast$}]{T\-I\-Mx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___t_i_m___group5_ga5273cb65acb885fe7982827b1c6b7d75}
+
+
+Selects the T\-I\-Mx peripheral Capture Compare D\-M\-A source. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 8, 15, 16 or 17 to select the T\-I\-M peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the Capture Compare D\-M\-A source This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyParams}{Parameters}
+{\em T\-I\-Mx,\-:} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\-I\-M peripheral. \\
+\hline
+{\em New\-State,\-:} & new state of the Capture Compare D\-M\-A source This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 3232 of file stm32f30x\-\_\-tim.\-c.
+

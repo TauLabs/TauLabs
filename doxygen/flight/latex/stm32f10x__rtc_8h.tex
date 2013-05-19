@@ -1,0 +1,67 @@
+\hypertarget{stm32f10x__rtc_8h}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/\-Libraries/\-S\-T\-M32\-F10x\-\_\-\-Std\-Periph\-\_\-\-Driver/inc/stm32f10x\-\_\-rtc.h File Reference}
+\label{stm32f10x__rtc_8h}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/\-Libraries/\-S\-T\-M32\-F10x\-\_\-\-Std\-Periph\-\_\-\-Driver/inc/stm32f10x\-\_\-rtc.\-h@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/\-Libraries/\-S\-T\-M32\-F10x\-\_\-\-Std\-Periph\-\_\-\-Driver/inc/stm32f10x\-\_\-rtc.\-h}}
+}
+
+
+This file contains all the functions prototypes for the R\-T\-C firmware library.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___private___functions_ga23612d9da2fe057a0cd72c684e5b438a}{R\-T\-C\-\_\-\-Enter\-Config\-Mode} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Enters the R\-T\-C configuration mode. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___private___functions_ga7585aa6e2dbb497173b2fd03bac0d304}{R\-T\-C\-\_\-\-Exit\-Config\-Mode} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Exits from the R\-T\-C configuration mode. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___r_t_c___private___functions_ga6edb19a0ad8414a40610341121c5ea6c}{R\-T\-C\-\_\-\-Get\-Counter} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Gets the R\-T\-C counter value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___private___functions_gafa81ec17158de1d1a7740eca81b9fb65}{R\-T\-C\-\_\-\-Set\-Counter} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Counter\-Value)
+\begin{DoxyCompactList}\small\item\em Sets the R\-T\-C counter value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___private___functions_gaf76be6071d1ba65b009e0791069e602c}{R\-T\-C\-\_\-\-Set\-Prescaler} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Prescaler\-Value)
+\begin{DoxyCompactList}\small\item\em Sets the R\-T\-C prescaler value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___private___functions_gaec644c636a30ab5e287ba60ffc77132c}{R\-T\-C\-\_\-\-Set\-Alarm} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Alarm\-Value)
+\begin{DoxyCompactList}\small\item\em Sets the R\-T\-C alarm value. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___r_t_c___private___functions_gaa4f00e0469fedcf6cbf23760e6d801ed}{R\-T\-C\-\_\-\-Get\-Divider} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Gets the R\-T\-C divider value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___private___functions_gaa0a406ef860d5231748c5f0d82673036}{R\-T\-C\-\_\-\-Wait\-For\-Last\-Task} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Waits until last write operation on R\-T\-C registers has finished. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___private___functions_ga2938febeef6baf0d91cc066ca5caf095}{R\-T\-C\-\_\-\-Wait\-For\-Synchro} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Waits until the R\-T\-C Time and Date registers (R\-T\-C\-\_\-\-T\-R and R\-T\-C\-\_\-\-D\-R) are synchronized with R\-T\-C A\-P\-B clock. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___r_t_c___private___functions_ga21a85e5f846cb4552d5e76420779f3f6}{R\-T\-C\-\_\-\-Get\-Flag\-Status} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} R\-T\-C\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified R\-T\-C flag is set or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___private___functions_gacefb05730a77ffaa273c1ac3ade1a22f}{R\-T\-C\-\_\-\-Clear\-Flag} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} R\-T\-C\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Clears the R\-T\-C’s pending flags. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_gaacbd7ed539db0aacd973a0f6eca34074}{I\-T\-Status} \hyperlink{group___r_t_c___private___functions_ga23274ad8aa28e86d5b0d58eee295db21}{R\-T\-C\-\_\-\-Get\-I\-T\-Status} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} R\-T\-C\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified R\-T\-C interrupt has occured or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___r_t_c___private___functions_ga62b9a04d89a11f28db7dcfd50d9ee768}{R\-T\-C\-\_\-\-Clear\-I\-T\-Pending\-Bit} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} R\-T\-C\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Clears the R\-T\-C’s interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stm32f10x__rtc_8h_aaa53ca0b650dfd85c4f59fa156f7a2cc}{C}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file contains all the functions prototypes for the R\-T\-C firmware library. \begin{DoxyAuthor}{Author}
+M\-C\-D Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V3.\-4.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+10/15/2010 
+\end{DoxyDate}
+T\-H\-E P\-R\-E\-S\-E\-N\-T F\-I\-R\-M\-W\-A\-R\-E W\-H\-I\-C\-H I\-S F\-O\-R G\-U\-I\-D\-A\-N\-C\-E O\-N\-L\-Y A\-I\-M\-S A\-T P\-R\-O\-V\-I\-D\-I\-N\-G C\-U\-S\-T\-O\-M\-E\-R\-S W\-I\-T\-H C\-O\-D\-I\-N\-G I\-N\-F\-O\-R\-M\-A\-T\-I\-O\-N R\-E\-G\-A\-R\-D\-I\-N\-G T\-H\-E\-I\-R P\-R\-O\-D\-U\-C\-T\-S I\-N O\-R\-D\-E\-R F\-O\-R T\-H\-E\-M T\-O S\-A\-V\-E T\-I\-M\-E. A\-S A R\-E\-S\-U\-L\-T, S\-T\-M\-I\-C\-R\-O\-E\-L\-E\-C\-T\-R\-O\-N\-I\-C\-S S\-H\-A\-L\-L N\-O\-T B\-E H\-E\-L\-D L\-I\-A\-B\-L\-E F\-O\-R A\-N\-Y D\-I\-R\-E\-C\-T, I\-N\-D\-I\-R\-E\-C\-T O\-R C\-O\-N\-S\-E\-Q\-U\-E\-N\-T\-I\-A\-L D\-A\-M\-A\-G\-E\-S W\-I\-T\-H R\-E\-S\-P\-E\-C\-T T\-O A\-N\-Y C\-L\-A\-I\-M\-S A\-R\-I\-S\-I\-N\-G F\-R\-O\-M T\-H\-E C\-O\-N\-T\-E\-N\-T O\-F S\-U\-C\-H F\-I\-R\-M\-W\-A\-R\-E A\-N\-D/\-O\-R T\-H\-E U\-S\-E M\-A\-D\-E B\-Y C\-U\-S\-T\-O\-M\-E\-R\-S O\-F T\-H\-E C\-O\-D\-I\-N\-G I\-N\-F\-O\-R\-M\-A\-T\-I\-O\-N C\-O\-N\-T\-A\-I\-N\-E\-D H\-E\-R\-E\-I\-N I\-N C\-O\-N\-N\-E\-C\-T\-I\-O\-N W\-I\-T\-H T\-H\-E\-I\-R P\-R\-O\-D\-U\-C\-T\-S.
+
+\subsubsection*{\begin{center}\copyright C\-O\-P\-Y\-R\-I\-G\-H\-T 2010 S\-T\-Microelectronics\end{center} }
+
+Definition in file \hyperlink{stm32f10x__rtc_8h_source}{stm32f10x\-\_\-rtc.\-h}.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{stm32f10x__rtc_8h_aaa53ca0b650dfd85c4f59fa156f7a2cc}{\index{stm32f10x\-\_\-rtc.\-h@{stm32f10x\-\_\-rtc.\-h}!C@{C}}
+\index{C@{C}!stm32f10x_rtc.h@{stm32f10x\-\_\-rtc.\-h}}
+\subsubsection[{C}]{\setlength{\rightskip}{0pt plus 5cm}C}}\label{stm32f10x__rtc_8h_aaa53ca0b650dfd85c4f59fa156f7a2cc}
+Overflow interrupt Alarm interrupt Second interrupt R\-T\-C Operation O\-F\-F flag Registers Synchronized flag Overflow flag Alarm flag Second flag 

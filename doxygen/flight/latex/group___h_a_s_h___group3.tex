@@ -1,0 +1,91 @@
+\hypertarget{group___h_a_s_h___group3}{\section{Context swapping functions}
+\label{group___h_a_s_h___group3}\index{Context swapping functions@{Context swapping functions}}
+}
+
+
+Context swapping functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___h_a_s_h___group3_ga9432b2b66e223414c840e9313c388bc5}{H\-A\-S\-H\-\_\-\-Save\-Context} (\hyperlink{struct_h_a_s_h___context}{H\-A\-S\-H\-\_\-\-Context} $\ast$H\-A\-S\-H\-\_\-\-Context\-Save)
+\begin{DoxyCompactList}\small\item\em Save the Hash peripheral Context. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___h_a_s_h___group3_ga1d8412a13601376c968aec63212ca54e}{H\-A\-S\-H\-\_\-\-Restore\-Context} (\hyperlink{struct_h_a_s_h___context}{H\-A\-S\-H\-\_\-\-Context} $\ast$H\-A\-S\-H\-\_\-\-Context\-Restore)
+\begin{DoxyCompactList}\small\item\em Restore the Hash peripheral Context. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Context swapping functions. \begin{DoxyVerb} ===============================================================================
+                             Context swapping functions
+ ===============================================================================  
+
+  This section provides functions allowing to save and store HASH Context
+  
+  It is possible to interrupt a HASH/HMAC process to perform another processing 
+  with a higher priority, and to complete the interrupted process later on, when 
+  the higher priority task is complete. To do so, the context of the interrupted 
+  task must be saved from the HASH registers to memory, and then be restored 
+  from memory to the HASH registers.
+  
+  1. To save the current context, use HASH_SaveContext() function
+  2. To restore the saved context, use HASH_RestoreContext() function \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___h_a_s_h___group3_ga1d8412a13601376c968aec63212ca54e}{\index{Context swapping functions@{Context swapping functions}!H\-A\-S\-H\-\_\-\-Restore\-Context@{H\-A\-S\-H\-\_\-\-Restore\-Context}}
+\index{H\-A\-S\-H\-\_\-\-Restore\-Context@{H\-A\-S\-H\-\_\-\-Restore\-Context}!Context swapping functions@{Context swapping functions}}
+\subsubsection[{H\-A\-S\-H\-\_\-\-Restore\-Context}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} H\-A\-S\-H\-\_\-\-Restore\-Context (
+\begin{DoxyParamCaption}
+\item[{{\bf H\-A\-S\-H\-\_\-\-Context} $\ast$}]{H\-A\-S\-H\-\_\-\-Context\-Restore}
+\end{DoxyParamCaption}
+)}}\label{group___h_a_s_h___group3_ga1d8412a13601376c968aec63212ca54e}
+
+
+Restore the Hash peripheral Context. 
+
+\begin{DoxyNote}{Note}
+After calling this function, user can restart the processing from the point where it has been interrupted. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em H\-A\-S\-H\-\_\-\-Context\-Restore,\-:} & pointer to a \hyperlink{struct_h_a_s_h___context}{H\-A\-S\-H\-\_\-\-Context} structure that contains the repository for saved context. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 417 of file stm32f4xx\-\_\-hash.\-c.
+
+\hypertarget{group___h_a_s_h___group3_ga9432b2b66e223414c840e9313c388bc5}{\index{Context swapping functions@{Context swapping functions}!H\-A\-S\-H\-\_\-\-Save\-Context@{H\-A\-S\-H\-\_\-\-Save\-Context}}
+\index{H\-A\-S\-H\-\_\-\-Save\-Context@{H\-A\-S\-H\-\_\-\-Save\-Context}!Context swapping functions@{Context swapping functions}}
+\subsubsection[{H\-A\-S\-H\-\_\-\-Save\-Context}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} H\-A\-S\-H\-\_\-\-Save\-Context (
+\begin{DoxyParamCaption}
+\item[{{\bf H\-A\-S\-H\-\_\-\-Context} $\ast$}]{H\-A\-S\-H\-\_\-\-Context\-Save}
+\end{DoxyParamCaption}
+)}}\label{group___h_a_s_h___group3_ga9432b2b66e223414c840e9313c388bc5}
+
+
+Save the Hash peripheral Context. 
+
+\begin{DoxyNote}{Note}
+The context can be saved only when no block is currently being processed. So user must wait for D\-I\-N\-I\-S = 1 (the last block has been processed and the input F\-I\-F\-O is empty) or N\-B\-W != 0 (the F\-I\-F\-O is not full and no processing is ongoing). 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em H\-A\-S\-H\-\_\-\-Context\-Save,\-:} & pointer to a \hyperlink{struct_h_a_s_h___context}{H\-A\-S\-H\-\_\-\-Context} structure that contains the repository for current context. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 395 of file stm32f4xx\-\_\-hash.\-c.
+

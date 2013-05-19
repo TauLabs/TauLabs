@@ -1,0 +1,100 @@
+\hypertarget{stm32f30x__dma_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F30x/\-Libraries/\-S\-T\-M32\-F30x\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f30x\-\_\-dma.c File Reference}
+\label{stm32f30x__dma_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F30x/\-Libraries/\-S\-T\-M32\-F30x\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f30x\-\_\-dma.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F30x/\-Libraries/\-S\-T\-M32\-F30x\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f30x\-\_\-dma.\-c}}
+}
+
+
+This file provides firmware functions to manage the following functionalities of the Direct Memory Access controller (D\-M\-A)\-:  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___group1_ga21ca0d50b13e502db5ab5feb484f9ece}{D\-M\-A\-\_\-\-De\-Init} (\hyperlink{struct_d_m_a___channel___type_def}{D\-M\-A\-\_\-\-Channel\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Channelx)
+\begin{DoxyCompactList}\small\item\em Deinitializes the D\-M\-Ay Channelx registers to their default reset values. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___group1_ga7c3d1b9dc041f8e5f2cfc8d5dd858278}{D\-M\-A\-\_\-\-Init} (\hyperlink{struct_d_m_a___channel___type_def}{D\-M\-A\-\_\-\-Channel\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Channelx, D\-M\-A\-\_\-\-Init\-Type\-Def $\ast$D\-M\-A\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the D\-M\-Ay Channelx according to the specified parameters in the D\-M\-A\-\_\-\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___group1_ga0f7f95f750a90a6824f4e9b6f58adc7e}{D\-M\-A\-\_\-\-Struct\-Init} (D\-M\-A\-\_\-\-Init\-Type\-Def $\ast$D\-M\-A\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each D\-M\-A\-\_\-\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___group1_ga8e7cb6b9ae5f142e2961df879cdaba65}{D\-M\-A\-\_\-\-Cmd} (\hyperlink{struct_d_m_a___channel___type_def}{D\-M\-A\-\_\-\-Channel\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Channelx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified D\-M\-Ay Channelx. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___group2_gade5d9e532814eaa46514cb385fdff709}{D\-M\-A\-\_\-\-Set\-Curr\-Data\-Counter} (\hyperlink{struct_d_m_a___channel___type_def}{D\-M\-A\-\_\-\-Channel\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Channelx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Data\-Number)
+\begin{DoxyCompactList}\small\item\em Sets the number of data units in the current D\-M\-Ay Channelx transfer. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___d_m_a___group2_ga511b4c402d1ff32d53f28736956cac5d}{D\-M\-A\-\_\-\-Get\-Curr\-Data\-Counter} (\hyperlink{struct_d_m_a___channel___type_def}{D\-M\-A\-\_\-\-Channel\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Channelx)
+\begin{DoxyCompactList}\small\item\em Returns the number of remaining data units in the current D\-M\-Ay Channelx transfer. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___group3_ga0bb60360be9cd57f96399be2f3b5eb2b}{D\-M\-A\-\_\-\-I\-T\-Config} (\hyperlink{struct_d_m_a___channel___type_def}{D\-M\-A\-\_\-\-Channel\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Channelx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-M\-A\-\_\-\-I\-T, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified D\-M\-Ay Channelx interrupts. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___d_m_a___group3_gafb30b7a891834c267eefd5d30b688a9f}{D\-M\-A\-\_\-\-Get\-Flag\-Status} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-M\-Ay\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified D\-M\-Ay Channelx flag is set or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___group3_ga25cdca360f309c8ceb7c206cd9ad9119}{D\-M\-A\-\_\-\-Clear\-Flag} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-M\-Ay\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Clears the D\-M\-Ay Channelx's pending flags. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_gaacbd7ed539db0aacd973a0f6eca34074}{I\-T\-Status} \hyperlink{group___d_m_a___group3_ga9287331247150fe84d03ecd7ad8adb52}{D\-M\-A\-\_\-\-Get\-I\-T\-Status} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-M\-Ay\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified D\-M\-Ay Channelx interrupt has occurred or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___group3_ga91a7340e5b334a942f3eb1e05ed5f67a}{D\-M\-A\-\_\-\-Clear\-I\-T\-Pending\-Bit} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-M\-Ay\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Clears the D\-M\-Ay Channelx's interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file provides firmware functions to manage the following functionalities of the Direct Memory Access controller (D\-M\-A)\-: \begin{DoxyAuthor}{Author}
+M\-C\-D Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V1.\-0.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+04-\/\-September-\/2012
+\begin{DoxyItemize}
+\item Initialization and Configuration
+\item Data Counter
+\item Interrupts and flags management
+\end{DoxyItemize}
+\end{DoxyDate}
+\begin{DoxyVerb}===============================================================================
+                      ##### How to use this driver #####
+===============================================================================
+   [..]
+   (#) Enable The DMA controller clock using 
+       RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE) function for DMA1 or 
+       using RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA2, ENABLE) function for DMA2.
+   (#) Enable and configure the peripheral to be connected to the DMA channel
+       (except for internal SRAM / FLASH memories: no initialization is necessary). 
+   (#) For a given Channel, program the Source and Destination addresses,  
+       the transfer Direction, the Buffer Size, the Peripheral and Memory
+       Incrementation mode and Data Size, the Circular or Normal mode, 
+       the channel transfer Priority and the Memory-to-Memory transfer 
+       mode (if needed) using the DMA_Init() function.
+   (#) Enable the NVIC and the corresponding interrupt(s) using the function 
+       DMA_ITConfig() if you need to use DMA interrupts.
+   (#) Enable the DMA channel using the DMA_Cmd() function.
+   (#) Activate the needed channel Request using PPP_DMACmd() function for
+       any PPP peripheral except internal SRAM and FLASH (ie. SPI, USART ...)
+       The function allowing this operation is provided in each PPP peripheral
+       driver (ie. SPI_DMACmd for SPI peripheral).
+   (#) Optionally, you can configure the number of data to be transferred
+       when the channel is disabled (ie. after each Transfer Complete event
+       or when a Transfer Error occurs) using the function DMA_SetCurrDataCounter().
+       And you can get the number of remaining data to be transferred using 
+       the function DMA_GetCurrDataCounter() at run time (when the DMA channel is
+       enabled and running).
+   (#) To control DMA events you can use one of the following two methods:
+       (##) Check on DMA channel flags using the function DMA_GetFlagStatus().
+       (##) Use DMA interrupts through the function DMA_ITConfig() at initialization
+            phase and DMA_GetITStatus() function into interrupt routines in
+            communication phase.
+            After checking on a flag you should clear it using DMA_ClearFlag()
+            function. And after checking on an interrupt event you should 
+            clear it using DMA_ClearITPendingBit() function.\end{DoxyVerb}
+
+
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+\subsubsection*{\begin{center}\copyright C\-O\-P\-Y\-R\-I\-G\-H\-T 2012 S\-T\-Microelectronics\end{center} }
+
+Licensed under M\-C\-D-\/\-S\-T Liberty S\-W License Agreement V2, (the \char`\"{}\-License\char`\"{}); You may not use this file except in compliance with the License. You may obtain a copy of the License at\-: \begin{DoxyVerb}   http://www.st.com/software_license_agreement_liberty_v2
+\end{DoxyVerb}
+
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \char`\"{}\-A\-S I\-S\char`\"{} B\-A\-S\-I\-S, W\-I\-T\-H\-O\-U\-T W\-A\-R\-R\-A\-N\-T\-I\-E\-S O\-R C\-O\-N\-D\-I\-T\-I\-O\-N\-S O\-F A\-N\-Y K\-I\-N\-D, either express or implied. See the License for the specific language governing permissions and limitations under the License. 
+
+Definition in file \hyperlink{stm32f30x__dma_8c_source}{stm32f30x\-\_\-dma.\-c}.
+

@@ -1,0 +1,81 @@
+\hypertarget{_common_2_libraries_2_c_m_s_i_s3_2_include_2core__cm3_8h}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-Common/\-Libraries/\-C\-M\-S\-I\-S3/\-Include/core\-\_\-cm3.h File Reference}
+\label{_common_2_libraries_2_c_m_s_i_s3_2_include_2core__cm3_8h}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-Common/\-Libraries/\-C\-M\-S\-I\-S3/\-Include/core\-\_\-cm3.\-h@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-Common/\-Libraries/\-C\-M\-S\-I\-S3/\-Include/core\-\_\-cm3.\-h}}
+}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+union \hyperlink{union_i_p_s_r___type}{I\-P\-S\-R\-\_\-\-Type}
+\begin{DoxyCompactList}\small\item\em Union type to access the Interrupt Program Status Register (I\-P\-S\-R). \end{DoxyCompactList}\item 
+union \hyperlink{unionx_p_s_r___type}{x\-P\-S\-R\-\_\-\-Type}
+\begin{DoxyCompactList}\small\item\em Union type to access the Special-\/\-Purpose Program Status Registers (x\-P\-S\-R). \end{DoxyCompactList}\item 
+union \hyperlink{union_c_o_n_t_r_o_l___type}{C\-O\-N\-T\-R\-O\-L\-\_\-\-Type}
+\begin{DoxyCompactList}\small\item\em Union type to access the Control Registers (C\-O\-N\-T\-R\-O\-L). \end{DoxyCompactList}\item 
+struct \hyperlink{struct_n_v_i_c___type}{N\-V\-I\-C\-\_\-\-Type}
+\begin{DoxyCompactList}\small\item\em Structure type to access the Nested Vectored Interrupt Controller (N\-V\-I\-C). \end{DoxyCompactList}\item 
+struct \hyperlink{struct_s_c_b___type}{S\-C\-B\-\_\-\-Type}
+\begin{DoxyCompactList}\small\item\em Structure type to access the System Control Block (S\-C\-B). \end{DoxyCompactList}\item 
+struct \hyperlink{struct_s_cn_s_c_b___type}{S\-Cn\-S\-C\-B\-\_\-\-Type}
+\begin{DoxyCompactList}\small\item\em Structure type to access the System Control and I\-D Register not in the S\-C\-B. \end{DoxyCompactList}\item 
+struct \hyperlink{struct_sys_tick___type}{Sys\-Tick\-\_\-\-Type}
+\begin{DoxyCompactList}\small\item\em Structure type to access the System Timer (Sys\-Tick). \end{DoxyCompactList}\item 
+struct \hyperlink{struct_i_t_m___type}{I\-T\-M\-\_\-\-Type}
+\begin{DoxyCompactList}\small\item\em Structure type to access the Instrumentation Trace Macrocell Register (I\-T\-M). \end{DoxyCompactList}\item 
+struct \hyperlink{struct_d_w_t___type}{D\-W\-T\-\_\-\-Type}
+\begin{DoxyCompactList}\small\item\em Structure type to access the Data Watchpoint and Trace Register (D\-W\-T). \end{DoxyCompactList}\item 
+struct \hyperlink{struct_t_p_i___type}{T\-P\-I\-\_\-\-Type}
+\begin{DoxyCompactList}\small\item\em Structure type to access the Trace Port Interface Register (T\-P\-I). \end{DoxyCompactList}\item 
+struct \hyperlink{struct_m_p_u___type}{M\-P\-U\-\_\-\-Type}
+\begin{DoxyCompactList}\small\item\em Structure type to access the Memory Protection Unit (M\-P\-U). \end{DoxyCompactList}\item 
+struct \hyperlink{struct_core_debug___type}{Core\-Debug\-\_\-\-Type}
+\begin{DoxyCompactList}\small\item\em Structure type to access the Core Debug Register (Core\-Debug). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_m_s_i_s___core___n_v_i_c_functions_ga77cfbb35a9d8027e392034321bed6904}{N\-V\-I\-C\-\_\-\-Set\-Priority\-Grouping} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Priority\-Group)
+\begin{DoxyCompactList}\small\item\em Set Priority Grouping. \end{DoxyCompactList}\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_m_s_i_s___core___n_v_i_c_functions_ga394f7ce2ca826c0da26284d17ac6524d}{N\-V\-I\-C\-\_\-\-Get\-Priority\-Grouping} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Get Priority Grouping. \end{DoxyCompactList}\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_m_s_i_s___core___n_v_i_c_functions_ga3349f2e3580d7ce22d6530b7294e5921}{N\-V\-I\-C\-\_\-\-Enable\-I\-R\-Q} (I\-R\-Qn\-\_\-\-Type I\-R\-Qn)
+\begin{DoxyCompactList}\small\item\em Enable External Interrupt. \end{DoxyCompactList}\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_m_s_i_s___core___n_v_i_c_functions_ga260fba04ac8346855c57f091d4ee1e71}{N\-V\-I\-C\-\_\-\-Disable\-I\-R\-Q} (I\-R\-Qn\-\_\-\-Type I\-R\-Qn)
+\begin{DoxyCompactList}\small\item\em Disable External Interrupt. \end{DoxyCompactList}\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_m_s_i_s___core___n_v_i_c_functions_gafec8042db64c0f8ed432b6c8386a05d8}{N\-V\-I\-C\-\_\-\-Get\-Pending\-I\-R\-Q} (I\-R\-Qn\-\_\-\-Type I\-R\-Qn)
+\begin{DoxyCompactList}\small\item\em Get Pending Interrupt. \end{DoxyCompactList}\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_m_s_i_s___core___n_v_i_c_functions_ga3ecf446519da33e1690deffbf5be505f}{N\-V\-I\-C\-\_\-\-Set\-Pending\-I\-R\-Q} (I\-R\-Qn\-\_\-\-Type I\-R\-Qn)
+\begin{DoxyCompactList}\small\item\em Set Pending Interrupt. \end{DoxyCompactList}\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_m_s_i_s___core___n_v_i_c_functions_ga332e10ef9605dc6eb10b9e14511930f8}{N\-V\-I\-C\-\_\-\-Clear\-Pending\-I\-R\-Q} (I\-R\-Qn\-\_\-\-Type I\-R\-Qn)
+\begin{DoxyCompactList}\small\item\em Clear Pending Interrupt. \end{DoxyCompactList}\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_m_s_i_s___core___n_v_i_c_functions_ga47a0f52794068d076c9147aa3cb8d8a6}{N\-V\-I\-C\-\_\-\-Get\-Active} (I\-R\-Qn\-\_\-\-Type I\-R\-Qn)
+\begin{DoxyCompactList}\small\item\em Get Active Interrupt. \end{DoxyCompactList}\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_m_s_i_s___core___n_v_i_c_functions_ga2305cbd44aaad792e3a4e538bdaf14f9}{N\-V\-I\-C\-\_\-\-Set\-Priority} (I\-R\-Qn\-\_\-\-Type I\-R\-Qn, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} priority)
+\begin{DoxyCompactList}\small\item\em Set Interrupt Priority. \end{DoxyCompactList}\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_m_s_i_s___core___n_v_i_c_functions_ga1cbaf8e6abd4aa4885828e7f24fcfeb4}{N\-V\-I\-C\-\_\-\-Get\-Priority} (I\-R\-Qn\-\_\-\-Type I\-R\-Qn)
+\begin{DoxyCompactList}\small\item\em Get Interrupt Priority. \end{DoxyCompactList}\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_m_s_i_s___core___n_v_i_c_functions_gadb94ac5d892b376e4f3555ae0418ebac}{N\-V\-I\-C\-\_\-\-Encode\-Priority} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Priority\-Group, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Preempt\-Priority, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Sub\-Priority)
+\begin{DoxyCompactList}\small\item\em Encode Priority. \end{DoxyCompactList}\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_m_s_i_s___core___n_v_i_c_functions_ga4f23ef94633f75d3c97670a53949003c}{N\-V\-I\-C\-\_\-\-Decode\-Priority} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Priority, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} Priority\-Group, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} $\ast$p\-Preempt\-Priority, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} $\ast$p\-Sub\-Priority)
+\begin{DoxyCompactList}\small\item\em Decode Priority. \end{DoxyCompactList}\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___c_m_s_i_s___core___n_v_i_c_functions_ga1143dec48d60a3d6f238c4798a87759c}{N\-V\-I\-C\-\_\-\-System\-Reset} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em System Reset. \end{DoxyCompactList}\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_m_s_i_s___core___sys_tick_functions_gae4e8f0238527c69f522029b93c8e5b78}{Sys\-Tick\-\_\-\-Config} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} ticks)
+\begin{DoxyCompactList}\small\item\em System Tick Configuration. \end{DoxyCompactList}\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_m_s_i_s__core___debug_functions_gac90a497bd64286b84552c2c553d3419e}{I\-T\-M\-\_\-\-Send\-Char} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} ch)
+\begin{DoxyCompactList}\small\item\em I\-T\-M Send Character. \end{DoxyCompactList}\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___c_m_s_i_s__core___debug_functions_gac3ee2c30a1ac4ed34c8a866a17decd53}{I\-T\-M\-\_\-\-Receive\-Char} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em I\-T\-M Receive Character. \end{DoxyCompactList}\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___c_m_s_i_s__core___debug_functions_gae61ce9ca5917735325cd93b0fb21dd29}{I\-T\-M\-\_\-\-Check\-Char} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em I\-T\-M Check Character. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_common_2_libraries_2_c_m_s_i_s3_2_include_2core__cm3_8h_aaa53ca0b650dfd85c4f59fa156f7a2cc}{C}
+\item 
+\hyperlink{group___c_m_s_i_s___core___instruction_interface_gad7d93af13046b0378601b85c8c16673b}{volatile} \hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___c_m_s_i_s__core___debug_functions_ga12e68e55a7badc271b948d6c7230b2a8}{I\-T\-M\-\_\-\-Rx\-Buffer}
+\end{DoxyCompactItemize}
+
+
+\subsection{Variable Documentation}
+\hypertarget{_common_2_libraries_2_c_m_s_i_s3_2_include_2core__cm3_8h_aaa53ca0b650dfd85c4f59fa156f7a2cc}{\index{Common/\-Libraries/\-C\-M\-S\-I\-S3/\-Include/core\-\_\-cm3.\-h@{Common/\-Libraries/\-C\-M\-S\-I\-S3/\-Include/core\-\_\-cm3.\-h}!C@{C}}
+\index{C@{C}!Common/Libraries/CMSIS3/Include/core_cm3.h@{Common/\-Libraries/\-C\-M\-S\-I\-S3/\-Include/core\-\_\-cm3.\-h}}
+\subsubsection[{C}]{\setlength{\rightskip}{0pt plus 5cm}C}}\label{_common_2_libraries_2_c_m_s_i_s3_2_include_2core__cm3_8h_aaa53ca0b650dfd85c4f59fa156f7a2cc}
+\mbox{[}31\-:16\mbox{]} C\-M\-S\-I\-S H\-A\-L main version \mbox{[}15\-:0\mbox{]} C\-M\-S\-I\-S H\-A\-L sub version C\-M\-S\-I\-S H\-A\-L version number Cortex-\/\-M Core asm keyword for A\-R\-M Compiler inline keyword for A\-R\-M Compiler asm keyword for I\-A\-R Compiler inline keyword for I\-A\-R Compiler. Only available in High optimization mode! asm keyword for T\-I C\-C\-S Compiler asm keyword for G\-N\-U Compiler inline keyword for G\-N\-U Compiler asm keyword for T\-A\-S\-K\-I\-N\-G Compiler inline keyword for T\-A\-S\-K\-I\-N\-G Compiler Defines 'read only' permissions Defines 'read only' permissions Defines 'write only' permissions Defines 'read / write' permissions 

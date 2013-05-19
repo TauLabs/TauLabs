@@ -1,0 +1,103 @@
+\hypertarget{struct____mavlink__gps__status__t}{\section{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t Struct Reference}
+\label{struct____mavlink__gps__status__t}\index{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\-\_\-msg\-\_\-gps\-\_\-status.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__gps__status__t_aaf907a0b7ca1bf692b59b3c07269a72d}{satellites\-\_\-visible}
+\begin{DoxyCompactList}\small\item\em Number of satellites visible. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__gps__status__t_a1a615b66354df8f0bfb0c269251b1f21}{satellite\-\_\-prn} \mbox{[}20\mbox{]}
+\begin{DoxyCompactList}\small\item\em Global satellite I\-D. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__gps__status__t_a84d55d0f78f60eecf76ee27767a80695}{satellite\-\_\-used} \mbox{[}20\mbox{]}
+\begin{DoxyCompactList}\small\item\em 0\-: Satellite not used, 1\-: used for localization \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__gps__status__t_aa0df643ba0353ad8affab5768675b9ea}{satellite\-\_\-elevation} \mbox{[}20\mbox{]}
+\begin{DoxyCompactList}\small\item\em Elevation (0\-: right on top of receiver, 90\-: on the horizon) of satellite. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__gps__status__t_a956bcb507823363c6dd78318ecbd0ff4}{satellite\-\_\-azimuth} \mbox{[}20\mbox{]}
+\begin{DoxyCompactList}\small\item\em Direction of satellite, 0\-: 0 deg, 255\-: 360 deg. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__gps__status__t_ab2fd8b1564a9ff56248448f6744f6f0e}{satellite\-\_\-snr} \mbox{[}20\mbox{]}
+\begin{DoxyCompactList}\small\item\em Signal to noise ratio of satellite. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 5 of file mavlink\-\_\-msg\-\_\-gps\-\_\-status.\-h.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__gps__status__t_a956bcb507823363c6dd78318ecbd0ff4}{\index{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t}!satellite\-\_\-azimuth@{satellite\-\_\-azimuth}}
+\index{satellite\-\_\-azimuth@{satellite\-\_\-azimuth}!__mavlink_gps_status_t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t}}
+\subsubsection[{satellite\-\_\-azimuth}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t\-::satellite\-\_\-azimuth\mbox{[}20\mbox{]}}}\label{struct____mavlink__gps__status__t_a956bcb507823363c6dd78318ecbd0ff4}
+
+
+Direction of satellite, 0\-: 0 deg, 255\-: 360 deg. 
+
+
+
+Definition at line 11 of file mavlink\-\_\-msg\-\_\-gps\-\_\-status.\-h.
+
+\hypertarget{struct____mavlink__gps__status__t_aa0df643ba0353ad8affab5768675b9ea}{\index{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t}!satellite\-\_\-elevation@{satellite\-\_\-elevation}}
+\index{satellite\-\_\-elevation@{satellite\-\_\-elevation}!__mavlink_gps_status_t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t}}
+\subsubsection[{satellite\-\_\-elevation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t\-::satellite\-\_\-elevation\mbox{[}20\mbox{]}}}\label{struct____mavlink__gps__status__t_aa0df643ba0353ad8affab5768675b9ea}
+
+
+Elevation (0\-: right on top of receiver, 90\-: on the horizon) of satellite. 
+
+
+
+Definition at line 10 of file mavlink\-\_\-msg\-\_\-gps\-\_\-status.\-h.
+
+\hypertarget{struct____mavlink__gps__status__t_a1a615b66354df8f0bfb0c269251b1f21}{\index{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t}!satellite\-\_\-prn@{satellite\-\_\-prn}}
+\index{satellite\-\_\-prn@{satellite\-\_\-prn}!__mavlink_gps_status_t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t}}
+\subsubsection[{satellite\-\_\-prn}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t\-::satellite\-\_\-prn\mbox{[}20\mbox{]}}}\label{struct____mavlink__gps__status__t_a1a615b66354df8f0bfb0c269251b1f21}
+
+
+Global satellite I\-D. 
+
+
+
+Definition at line 8 of file mavlink\-\_\-msg\-\_\-gps\-\_\-status.\-h.
+
+\hypertarget{struct____mavlink__gps__status__t_ab2fd8b1564a9ff56248448f6744f6f0e}{\index{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t}!satellite\-\_\-snr@{satellite\-\_\-snr}}
+\index{satellite\-\_\-snr@{satellite\-\_\-snr}!__mavlink_gps_status_t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t}}
+\subsubsection[{satellite\-\_\-snr}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t\-::satellite\-\_\-snr\mbox{[}20\mbox{]}}}\label{struct____mavlink__gps__status__t_ab2fd8b1564a9ff56248448f6744f6f0e}
+
+
+Signal to noise ratio of satellite. 
+
+
+
+Definition at line 12 of file mavlink\-\_\-msg\-\_\-gps\-\_\-status.\-h.
+
+\hypertarget{struct____mavlink__gps__status__t_a84d55d0f78f60eecf76ee27767a80695}{\index{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t}!satellite\-\_\-used@{satellite\-\_\-used}}
+\index{satellite\-\_\-used@{satellite\-\_\-used}!__mavlink_gps_status_t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t}}
+\subsubsection[{satellite\-\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t\-::satellite\-\_\-used\mbox{[}20\mbox{]}}}\label{struct____mavlink__gps__status__t_a84d55d0f78f60eecf76ee27767a80695}
+
+
+0\-: Satellite not used, 1\-: used for localization 
+
+
+
+Definition at line 9 of file mavlink\-\_\-msg\-\_\-gps\-\_\-status.\-h.
+
+\hypertarget{struct____mavlink__gps__status__t_aaf907a0b7ca1bf692b59b3c07269a72d}{\index{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t}!satellites\-\_\-visible@{satellites\-\_\-visible}}
+\index{satellites\-\_\-visible@{satellites\-\_\-visible}!__mavlink_gps_status_t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t}}
+\subsubsection[{satellites\-\_\-visible}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-gps\-\_\-status\-\_\-t\-::satellites\-\_\-visible}}\label{struct____mavlink__gps__status__t_aaf907a0b7ca1bf692b59b3c07269a72d}
+
+
+Number of satellites visible. 
+
+
+
+Definition at line 7 of file mavlink\-\_\-msg\-\_\-gps\-\_\-status.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Libraries/mavlink/v1.\-0/common/\hyperlink{mavlink__msg__gps__status_8h}{mavlink\-\_\-msg\-\_\-gps\-\_\-status.\-h}\end{DoxyCompactItemize}

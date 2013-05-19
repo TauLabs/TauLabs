@@ -1,0 +1,53 @@
+\hypertarget{group___c_m_s_i_s___c_m3__core___lint_cinfiguration}{\section{C\-M\-S\-I\-S C\-M3 Core Lint Configuration}
+\label{group___c_m_s_i_s___c_m3__core___lint_cinfiguration}\index{C\-M\-S\-I\-S C\-M3 Core Lint Configuration@{C\-M\-S\-I\-S C\-M3 Core Lint Configuration}}
+}
+List of Lint messages which will be suppressed and not shown\-:
+\begin{DoxyItemize}
+\item Error 10\-: \par
+ register uint32\-\_\-t \-\_\-\-\_\-reg\-Base\-Pri \-\_\-\-\_\-asm(\char`\"{}basepri\char`\"{}); \par
+ Error 10\-: Expecting ';'
+\end{DoxyItemize}
+
+
+\begin{DoxyItemize}
+\item Error 530\-: \par
+ return(\-\_\-\-\_\-reg\-Base\-Pri); \par
+ Warning 530\-: Symbol '\-\_\-\-\_\-reg\-Base\-Pri' (line 264) not initialized
+\end{DoxyItemize}
+
+
+\begin{DoxyItemize}
+\item Error 550\-: \par
+ \-\_\-\-\_\-reg\-Base\-Pri = (base\-Pri \& 0x1ff); \par
+ Warning 550\-: Symbol '\-\_\-\-\_\-reg\-Base\-Pri' (line 271) not accessed
+\end{DoxyItemize}
+
+
+\begin{DoxyItemize}
+\item Error 754\-: \par
+ uint32\-\_\-t R\-E\-S\-E\-R\-V\-E\-D0\mbox{[}24\mbox{]}; \par
+ Info 754\-: local structure member '$<$some, not used in the H\-A\-L$>$' (line 109, file ./cm3\-\_\-core.h) not referenced
+\end{DoxyItemize}
+
+
+\begin{DoxyItemize}
+\item Error 750\-: \par
+ \#define {\bfseries C\-M3\-\_\-\-C\-O\-R\-E\-\_\-\-H} \par
+ Info 750\-: local macro '{\bfseries C\-M3\-\_\-\-C\-O\-R\-E\-\_\-\-H}' (line 43, file./cm3\-\_\-core.h) not referenced
+\end{DoxyItemize}
+
+
+\begin{DoxyItemize}
+\item Error 528\-: \par
+ static \-\_\-\-\_\-\-I\-N\-L\-I\-N\-E void N\-V\-I\-C\-\_\-\-Disable\-I\-R\-Q(uint32\-\_\-t I\-R\-Qn) \par
+ Warning 528\-: Symbol 'N\-V\-I\-C\-\_\-\-Disable\-I\-R\-Q(unsigned int)' (line 419, file ./cm3\-\_\-core.h) not referenced
+\end{DoxyItemize}
+
+
+\begin{DoxyItemize}
+\item Error 751\-: \par
+ \} \hyperlink{struct_interrupt_type___type}{Interrupt\-Type\-\_\-\-Type}; \par
+ Info 751\-: local typedef '\hyperlink{struct_interrupt_type___type}{Interrupt\-Type\-\_\-\-Type}' (line 170, file ./cm3\-\_\-core.h) not referenced
+\end{DoxyItemize}
+
+Note\-: To re-\/enable a Message, insert a space before 'lint' $\ast$ 

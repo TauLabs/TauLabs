@@ -1,0 +1,106 @@
+\hypertarget{stm32f30x__gpio_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F30x/\-Libraries/\-S\-T\-M32\-F30x\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f30x\-\_\-gpio.c File Reference}
+\label{stm32f30x__gpio_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F30x/\-Libraries/\-S\-T\-M32\-F30x\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f30x\-\_\-gpio.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F30x/\-Libraries/\-S\-T\-M32\-F30x\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f30x\-\_\-gpio.\-c}}
+}
+
+
+This file provides firmware functions to manage the following functionalities of the G\-P\-I\-O peripheral\-:  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___g_p_i_o___group1_gaa60bdf3182c44b5fa818f237042f52ee}{G\-P\-I\-O\-\_\-\-De\-Init} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox)
+\begin{DoxyCompactList}\small\item\em Deinitializes the G\-P\-I\-Ox peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___g_p_i_o___group1_ga71abf9404261370d03cca449b88d3a65}{G\-P\-I\-O\-\_\-\-Init} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox, \hyperlink{struct_g_p_i_o___init_type_def}{G\-P\-I\-O\-\_\-\-Init\-Type\-Def} $\ast$G\-P\-I\-O\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the G\-P\-I\-Ox peripheral according to the specified parameters in the G\-P\-I\-O\-\_\-\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___g_p_i_o___group1_gab28de41278e7f8c63d0851e2733b10df}{G\-P\-I\-O\-\_\-\-Struct\-Init} (\hyperlink{struct_g_p_i_o___init_type_def}{G\-P\-I\-O\-\_\-\-Init\-Type\-Def} $\ast$G\-P\-I\-O\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each G\-P\-I\-O\-\_\-\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___g_p_i_o___group1_gad2f2e615928c69fd0d8c641a7cedaafc}{G\-P\-I\-O\-\_\-\-Pin\-Lock\-Config} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} G\-P\-I\-O\-\_\-\-Pin)
+\begin{DoxyCompactList}\small\item\em Locks G\-P\-I\-O Pins configuration registers. The locked registers are G\-P\-I\-Ox\-\_\-\-M\-O\-D\-E\-R, G\-P\-I\-Ox\-\_\-\-O\-T\-Y\-P\-E\-R, G\-P\-I\-Ox\-\_\-\-O\-S\-P\-E\-E\-D\-R, G\-P\-I\-Ox\-\_\-\-P\-U\-P\-D\-R, G\-P\-I\-Ox\-\_\-\-A\-F\-R\-L and G\-P\-I\-Ox\-\_\-\-A\-F\-R\-H. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_p_i_o___group2_ga98772ef6b639b3fa06c8ae5ba28d3aaa}{G\-P\-I\-O\-\_\-\-Read\-Input\-Data\-Bit} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} G\-P\-I\-O\-\_\-\-Pin)
+\begin{DoxyCompactList}\small\item\em Reads the specified input port pin. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___g_p_i_o___group2_ga139a33adc8409288e9f193bbebb5a0f7}{G\-P\-I\-O\-\_\-\-Read\-Input\-Data} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox)
+\begin{DoxyCompactList}\small\item\em Reads the specified input port pin. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___g_p_i_o___group2_ga138270f8695b105b7c6ed405792919c1}{G\-P\-I\-O\-\_\-\-Read\-Output\-Data\-Bit} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} G\-P\-I\-O\-\_\-\-Pin)
+\begin{DoxyCompactList}\small\item\em Reads the specified output data port bit. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___g_p_i_o___group2_gaf8938a34280b7dc3e39872a7c17bb323}{G\-P\-I\-O\-\_\-\-Read\-Output\-Data} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox)
+\begin{DoxyCompactList}\small\item\em Reads the specified G\-P\-I\-O output data port. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___g_p_i_o___group2_ga9e1352eed7c6620e18af2d86f6b6ff8e}{G\-P\-I\-O\-\_\-\-Set\-Bits} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} G\-P\-I\-O\-\_\-\-Pin)
+\begin{DoxyCompactList}\small\item\em Sets the selected data port bits. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___g_p_i_o___group2_ga6fcd35b207a66608dd2c9d7de9247dc8}{G\-P\-I\-O\-\_\-\-Reset\-Bits} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} G\-P\-I\-O\-\_\-\-Pin)
+\begin{DoxyCompactList}\small\item\em Clears the selected data port bits. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___g_p_i_o___group2_ga8f7b237fd744d9f7456fbe0da47a9b80}{G\-P\-I\-O\-\_\-\-Write\-Bit} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} G\-P\-I\-O\-\_\-\-Pin, \hyperlink{stm32f10x__gpio_8h_a176130b21c0e719121470a6042d4cf19}{Bit\-Action} Bit\-Val)
+\begin{DoxyCompactList}\small\item\em Sets or clears the selected data port bit. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___g_p_i_o___group2_gaa925f19c8547a00c7a0c269a84873bf9}{G\-P\-I\-O\-\_\-\-Write} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Port\-Val)
+\begin{DoxyCompactList}\small\item\em Writes data to the specified G\-P\-I\-O data port. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___g_p_i_o___group3_ga0a77617a322562ae84f8d72486032c5d}{G\-P\-I\-O\-\_\-\-Pin\-A\-F\-Config} (\hyperlink{struct_g_p_i_o___type_def}{G\-P\-I\-O\-\_\-\-Type\-Def} $\ast$G\-P\-I\-Ox, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} G\-P\-I\-O\-\_\-\-Pin\-Source, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} G\-P\-I\-O\-\_\-\-A\-F)
+\begin{DoxyCompactList}\small\item\em Writes data to the specified G\-P\-I\-O data port. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file provides firmware functions to manage the following functionalities of the G\-P\-I\-O peripheral\-: \begin{DoxyAuthor}{Author}
+M\-C\-D Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V1.\-0.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+04-\/\-September-\/2012
+\begin{DoxyItemize}
+\item Initialization and Configuration functions
+\item G\-P\-I\-O Read and Write functions
+\item G\-P\-I\-O Alternate functions configuration functions
+\end{DoxyItemize}
+\end{DoxyDate}
+\begin{DoxyVerb}===============================================================================
+                     ##### How to use this driver #####
+===============================================================================
+   [..]
+   (#) Enable the GPIO AHB clock using RCC_AHBPeriphClockCmd()
+   (#) Configure the GPIO pin(s) using GPIO_Init()
+       Four possible configuration are available for each pin:
+       (++) Input: Floating, Pull-up, Pull-down.
+       (++) Output: Push-Pull (Pull-up, Pull-down or no Pull),
+                    Open Drain (Pull-up, Pull-down or no Pull).
+            In output mode, the speed is configurable: Low, Medium, Fast or High.
+       (++) Alternate Function: Push-Pull (Pull-up, Pull-down or no Pull), 
+                                Open Drain (Pull-up, Pull-down or no Pull).
+       (++) Analog: required mode when a pin is to be used as ADC channel,
+            DAC output or comparator input.
+   (#) Peripherals alternate function:
+       (++) For ADC, DAC and comparators, configure the desired pin in 
+            analog mode using GPIO_InitStruct->GPIO_Mode = GPIO_Mode_AN
+       (++) For other peripherals (TIM, USART...):
+            (+++) Connect the pin to the desired peripherals' Alternate 
+                  Function (AF) using GPIO_PinAFConfig() function.
+            (+++) Configure the desired pin in alternate function mode using
+                  GPIO_InitStruct->GPIO_Mode = GPIO_Mode_AF
+            (+++) Select the type, pull-up/pull-down and output speed via 
+                  GPIO_PuPd, GPIO_OType and GPIO_Speed members.
+            (+++) Call GPIO_Init() function.
+   (#) To get the level of a pin configured in input mode use GPIO_ReadInputDataBit()
+   (#) To set/reset the level of a pin configured in output mode use
+       GPIO_SetBits()/GPIO_ResetBits()
+   (#) During and just after reset, the alternate functions are not active 
+       and the GPIO pins are configured in input floating mode (except JTAG pins).
+   (#) The LSE oscillator pins OSC32_IN and OSC32_OUT can be used as 
+       general-purpose (PC14 and PC15, respectively) when the LSE
+       oscillator is off. The LSE has priority over the GPIO function.
+   (#) The HSE oscillator pins OSC_IN/OSC_OUT can be used as general-purpose 
+       (PF0 and PF1 respectively) when the HSE oscillator is off. The HSE has 
+       the priority over the GPIO function.  \end{DoxyVerb}
+
+
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+\subsubsection*{\begin{center}\copyright C\-O\-P\-Y\-R\-I\-G\-H\-T 2012 S\-T\-Microelectronics\end{center} }
+
+Licensed under M\-C\-D-\/\-S\-T Liberty S\-W License Agreement V2, (the \char`\"{}\-License\char`\"{}); You may not use this file except in compliance with the License. You may obtain a copy of the License at\-: \begin{DoxyVerb}   http://www.st.com/software_license_agreement_liberty_v2
+\end{DoxyVerb}
+
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \char`\"{}\-A\-S I\-S\char`\"{} B\-A\-S\-I\-S, W\-I\-T\-H\-O\-U\-T W\-A\-R\-R\-A\-N\-T\-I\-E\-S O\-R C\-O\-N\-D\-I\-T\-I\-O\-N\-S O\-F A\-N\-Y K\-I\-N\-D, either express or implied. See the License for the specific language governing permissions and limitations under the License. 
+
+Definition in file \hyperlink{stm32f30x__gpio_8c_source}{stm32f30x\-\_\-gpio.\-c}.
+

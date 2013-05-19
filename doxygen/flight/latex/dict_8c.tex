@@ -1,0 +1,202 @@
+\hypertarget{dict_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/dict.c File Reference}
+\label{dict_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/dict.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/dict.\-c}}
+}
+
+
+Dict Object Type.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{dict_8c_ac4d1f67887b168e520c51b606077402d}{dict\-\_\-new} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} $\ast$r\-\_\-pdict)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{dict_8c_a908dbd281fe9eb68adb4dfc0f9ec4091}{dict\-\_\-clear} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pdict)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{dict_8c_a0a3329e6a29a06c7e1c981e54e847ffe}{dict\-\_\-set\-Item} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pdict, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pkey, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pval)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{dict_8c_a5d9a2ea4f512c5794f59f1d857ace5d7}{dict\-\_\-get\-Item} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pdict, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pkey, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} $\ast$r\-\_\-pobj)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{dict_8c_aa1a88d6bf0e9452dd35a3ee8b8ad8608}{dict\-\_\-del\-Item} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pdict, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pkey)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{dict_8c_a4e6eccaae6a45c36297623d0a3e31c85}{dict\-\_\-print} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pdict)
+\item 
+\hyperlink{pm_8h_a78d16e71b533f23ea2eaa9453f966d56}{Pm\-Return\-\_\-t} \hyperlink{dict_8c_a57acd0752632239027f8f6f4c9b3dd0e}{dict\-\_\-update} (\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} pdestdict, \hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} psourcedict)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Dict Object Type. Dict object type operations. 
+
+Definition in file \hyperlink{dict_8c_source}{dict.\-c}.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{dict_8c_a908dbd281fe9eb68adb4dfc0f9ec4091}{\index{dict.\-c@{dict.\-c}!dict\-\_\-clear@{dict\-\_\-clear}}
+\index{dict\-\_\-clear@{dict\-\_\-clear}!dict.c@{dict.\-c}}
+\subsubsection[{dict\-\_\-clear}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} dict\-\_\-clear (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pdict}
+\end{DoxyParamCaption}
+)}}\label{dict_8c_a908dbd281fe9eb68adb4dfc0f9ec4091}
+Clears the contents of a dict. after this operation, the dict should in the same state as if it were just created using \hyperlink{dict_8c_ac4d1f67887b168e520c51b606077402d}{dict\-\_\-new()}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pdict} & ptr to dict to clear. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+nothing 
+\end{DoxyReturn}
+
+
+Definition at line 55 of file dict.\-c.
+
+\hypertarget{dict_8c_aa1a88d6bf0e9452dd35a3ee8b8ad8608}{\index{dict.\-c@{dict.\-c}!dict\-\_\-del\-Item@{dict\-\_\-del\-Item}}
+\index{dict\-\_\-del\-Item@{dict\-\_\-del\-Item}!dict.c@{dict.\-c}}
+\subsubsection[{dict\-\_\-del\-Item}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} dict\-\_\-del\-Item (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pdict, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pkey}
+\end{DoxyParamCaption}
+)}}\label{dict_8c_aa1a88d6bf0e9452dd35a3ee8b8ad8608}
+Removes a key and value from the dict. Throws Type\-Error if pdict is not a dict. Throws Key\-Error if pkey does not exist in pdict.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pdict} & Ptr to dict to search \\
+\hline
+{\em pkey} & Ptr to key obj \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 215 of file dict.\-c.
+
+\hypertarget{dict_8c_a5d9a2ea4f512c5794f59f1d857ace5d7}{\index{dict.\-c@{dict.\-c}!dict\-\_\-get\-Item@{dict\-\_\-get\-Item}}
+\index{dict\-\_\-get\-Item@{dict\-\_\-get\-Item}!dict.c@{dict.\-c}}
+\subsubsection[{dict\-\_\-get\-Item}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} dict\-\_\-get\-Item (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pdict, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pkey, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t} $\ast$}]{r\-\_\-pobj}
+\end{DoxyParamCaption}
+)}}\label{dict_8c_a5d9a2ea4f512c5794f59f1d857ace5d7}
+Gets the value in the dict using the given key.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pdict} & ptr to dict to search \\
+\hline
+{\em pkey} & ptr to key obj \\
+\hline
+{\em r\-\_\-pobj} & Return; addr of ptr to obj \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 166 of file dict.\-c.
+
+\hypertarget{dict_8c_ac4d1f67887b168e520c51b606077402d}{\index{dict.\-c@{dict.\-c}!dict\-\_\-new@{dict\-\_\-new}}
+\index{dict\-\_\-new@{dict\-\_\-new}!dict.c@{dict.\-c}}
+\subsubsection[{dict\-\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} dict\-\_\-new (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t} $\ast$}]{r\-\_\-pdict}
+\end{DoxyParamCaption}
+)}}\label{dict_8c_ac4d1f67887b168e520c51b606077402d}
+Allocates space for a new Dict. Return a pointer to the dict by reference.
+
+
+\begin{DoxyParams}{Parameters}
+{\em r\-\_\-pdict} & Return; Addr of ptr to dict \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 32 of file dict.\-c.
+
+\hypertarget{dict_8c_a4e6eccaae6a45c36297623d0a3e31c85}{\index{dict.\-c@{dict.\-c}!dict\-\_\-print@{dict\-\_\-print}}
+\index{dict\-\_\-print@{dict\-\_\-print}!dict.c@{dict.\-c}}
+\subsubsection[{dict\-\_\-print}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} dict\-\_\-print (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pdict}
+\end{DoxyParamCaption}
+)}}\label{dict_8c_a4e6eccaae6a45c36297623d0a3e31c85}
+Prints out a dict. Uses \hyperlink{obj_8c_ace3ddc65cd26903046d201957bbb42a6}{obj\-\_\-print()} to print elements.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pobj} & Object to print. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 249 of file dict.\-c.
+
+\hypertarget{dict_8c_a0a3329e6a29a06c7e1c981e54e847ffe}{\index{dict.\-c@{dict.\-c}!dict\-\_\-set\-Item@{dict\-\_\-set\-Item}}
+\index{dict\-\_\-set\-Item@{dict\-\_\-set\-Item}!dict.c@{dict.\-c}}
+\subsubsection[{dict\-\_\-set\-Item}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} dict\-\_\-set\-Item (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pdict, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pkey, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pval}
+\end{DoxyParamCaption}
+)}}\label{dict_8c_a0a3329e6a29a06c7e1c981e54e847ffe}
+Sets a value in the dict using the given key.
+
+If the dict already contains a matching key, the value is replaced; otherwise the new key,val pair is inserted at the front of the dict (for fast lookup). In the later case, the length of the dict is incremented.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pdict} & ptr to dict in which (key,val) will go \\
+\hline
+{\em pkey} & ptr to key obj \\
+\hline
+{\em pval} & ptr to val obj \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 96 of file dict.\-c.
+
+\hypertarget{dict_8c_a57acd0752632239027f8f6f4c9b3dd0e}{\index{dict.\-c@{dict.\-c}!dict\-\_\-update@{dict\-\_\-update}}
+\index{dict\-\_\-update@{dict\-\_\-update}!dict.c@{dict.\-c}}
+\subsubsection[{dict\-\_\-update}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Return\-\_\-t} dict\-\_\-update (
+\begin{DoxyParamCaption}
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{pdestdict, }
+\item[{{\bf p\-Pm\-Obj\-\_\-t}}]{psourcedict}
+\end{DoxyParamCaption}
+)}}\label{dict_8c_a57acd0752632239027f8f6f4c9b3dd0e}
+Updates the destination dict with the key,value pairs from the source dict
+
+
+\begin{DoxyParams}{Parameters}
+{\em pdestdict} & ptr to destination dict in which key,val pairs will go \\
+\hline
+{\em psourcedict} & ptr to source dict which has all key,val pairs to copy \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return status 
+\end{DoxyReturn}
+
+
+Definition at line 296 of file dict.\-c.
+

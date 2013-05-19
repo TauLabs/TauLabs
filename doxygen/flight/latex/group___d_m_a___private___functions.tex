@@ -1,0 +1,346 @@
+\hypertarget{group___d_m_a___private___functions}{\section{D\-M\-A\-\_\-\-Private\-\_\-\-Functions}
+\label{group___d_m_a___private___functions}\index{D\-M\-A\-\_\-\-Private\-\_\-\-Functions@{D\-M\-A\-\_\-\-Private\-\_\-\-Functions}}
+}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___d_m_a___group1}{Initialization and Configuration functions}
+\begin{DoxyCompactList}\small\item\em Initialization and Configuration functions. \end{DoxyCompactList}\item 
+\hyperlink{group___d_m_a___group2}{Data Counter functions}
+\begin{DoxyCompactList}\small\item\em Data Counter functions. \end{DoxyCompactList}\item 
+\hyperlink{group___d_m_a___group3}{Interrupts and flags management functions}
+\begin{DoxyCompactList}\small\item\em Interrupts and flags management functions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___private___functions_ga21ca0d50b13e502db5ab5feb484f9ece}{D\-M\-A\-\_\-\-De\-Init} (\hyperlink{struct_d_m_a___channel___type_def}{D\-M\-A\-\_\-\-Channel\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Channelx)
+\begin{DoxyCompactList}\small\item\em Deinitializes the D\-M\-Ay Channelx registers to their default reset values. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___private___functions_ga336d9ceb805729470be232503dd2fb17}{D\-M\-A\-\_\-\-Init} (\hyperlink{struct_d_m_a___channel___type_def}{D\-M\-A\-\_\-\-Channel\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Channelx, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} D\-M\-A\-\_\-\-Init\-Type\-Def $\ast$D\-M\-A\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the D\-M\-Ay Channelx according to the specified parameters in the D\-M\-A\-\_\-\-Init\-Struct. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___private___functions_ga0f7f95f750a90a6824f4e9b6f58adc7e}{D\-M\-A\-\_\-\-Struct\-Init} (D\-M\-A\-\_\-\-Init\-Type\-Def $\ast$D\-M\-A\-\_\-\-Init\-Struct)
+\begin{DoxyCompactList}\small\item\em Fills each D\-M\-A\-\_\-\-Init\-Struct member with its default value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___private___functions_ga8e7cb6b9ae5f142e2961df879cdaba65}{D\-M\-A\-\_\-\-Cmd} (\hyperlink{struct_d_m_a___channel___type_def}{D\-M\-A\-\_\-\-Channel\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Channelx, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified D\-M\-Ay Channelx. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___private___functions_ga0bb60360be9cd57f96399be2f3b5eb2b}{D\-M\-A\-\_\-\-I\-T\-Config} (\hyperlink{struct_d_m_a___channel___type_def}{D\-M\-A\-\_\-\-Channel\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Channelx, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-M\-A\-\_\-\-I\-T, \hyperlink{group___exported__types_gac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\-State} New\-State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified D\-M\-Ay Channelx interrupts. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___private___functions_gade5d9e532814eaa46514cb385fdff709}{D\-M\-A\-\_\-\-Set\-Curr\-Data\-Counter} (\hyperlink{struct_d_m_a___channel___type_def}{D\-M\-A\-\_\-\-Channel\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Channelx, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Data\-Number)
+\begin{DoxyCompactList}\small\item\em Sets the number of data units in the current D\-M\-Ay Channelx transfer. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___d_m_a___private___functions_ga511b4c402d1ff32d53f28736956cac5d}{D\-M\-A\-\_\-\-Get\-Curr\-Data\-Counter} (\hyperlink{struct_d_m_a___channel___type_def}{D\-M\-A\-\_\-\-Channel\-\_\-\-Type\-Def} $\ast$D\-M\-Ay\-\_\-\-Channelx)
+\begin{DoxyCompactList}\small\item\em Returns the number of remaining data units in the current D\-M\-Ay Channelx transfer. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___d_m_a___private___functions_gafcb7a6712ae8d19e5bf3f329d56d1b8c}{D\-M\-A\-\_\-\-Get\-Flag\-Status} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-M\-A\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified D\-M\-Ay Channelx flag is set or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___private___functions_ga793d2dabd284e0c148ee1bde07ec7b20}{D\-M\-A\-\_\-\-Clear\-Flag} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-M\-A\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Clears the D\-M\-Ay Channelx's pending flags. \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_gaacbd7ed539db0aacd973a0f6eca34074}{I\-T\-Status} \hyperlink{group___d_m_a___private___functions_ga5d4c26f0c6615e9647193d79386b2244}{D\-M\-A\-\_\-\-Get\-I\-T\-Status} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-M\-A\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified D\-M\-Ay Channelx interrupt has occurred or not. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___d_m_a___private___functions_ga8e2490f878985d3c55d584736214187d}{D\-M\-A\-\_\-\-Clear\-I\-T\-Pending\-Bit} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} D\-M\-A\-\_\-\-I\-T)
+\begin{DoxyCompactList}\small\item\em Clears the D\-M\-Ay Channelx’s interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Function Documentation}
+\hypertarget{group___d_m_a___private___functions_ga793d2dabd284e0c148ee1bde07ec7b20}{\index{D\-M\-A\-\_\-\-Private\-\_\-\-Functions@{D\-M\-A\-\_\-\-Private\-\_\-\-Functions}!D\-M\-A\-\_\-\-Clear\-Flag@{D\-M\-A\-\_\-\-Clear\-Flag}}
+\index{D\-M\-A\-\_\-\-Clear\-Flag@{D\-M\-A\-\_\-\-Clear\-Flag}!DMA_Private_Functions@{D\-M\-A\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{D\-M\-A\-\_\-\-Clear\-Flag}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} D\-M\-A\-\_\-\-Clear\-Flag (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{D\-M\-A\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___d_m_a___private___functions_ga793d2dabd284e0c148ee1bde07ec7b20}
+
+
+Clears the D\-M\-Ay Channelx's pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\-M\-A\-\_\-\-F\-L\-A\-G,\-:} & specifies the flag to clear. This parameter can be any combination (for the same D\-M\-A) of the following values\-: \begin{DoxyItemize}
+\item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-G\-L1\-: D\-M\-A1 Channel1 global flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C1\-: D\-M\-A1 Channel1 transfer complete flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-H\-T1\-: D\-M\-A1 Channel1 half transfer flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-E1\-: D\-M\-A1 Channel1 transfer error flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-G\-L2\-: D\-M\-A1 Channel2 global flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C2\-: D\-M\-A1 Channel2 transfer complete flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-H\-T2\-: D\-M\-A1 Channel2 half transfer flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-E2\-: D\-M\-A1 Channel2 transfer error flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-G\-L3\-: D\-M\-A1 Channel3 global flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C3\-: D\-M\-A1 Channel3 transfer complete flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-H\-T3\-: D\-M\-A1 Channel3 half transfer flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-E3\-: D\-M\-A1 Channel3 transfer error flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-G\-L4\-: D\-M\-A1 Channel4 global flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C4\-: D\-M\-A1 Channel4 transfer complete flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-H\-T4\-: D\-M\-A1 Channel4 half transfer flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-E4\-: D\-M\-A1 Channel4 transfer error flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-G\-L5\-: D\-M\-A1 Channel5 global flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C5\-: D\-M\-A1 Channel5 transfer complete flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-H\-T5\-: D\-M\-A1 Channel5 half transfer flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-E5\-: D\-M\-A1 Channel5 transfer error flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-G\-L6\-: D\-M\-A1 Channel6 global flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C6\-: D\-M\-A1 Channel6 transfer complete flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-H\-T6\-: D\-M\-A1 Channel6 half transfer flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-E6\-: D\-M\-A1 Channel6 transfer error flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-G\-L7\-: D\-M\-A1 Channel7 global flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C7\-: D\-M\-A1 Channel7 transfer complete flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-H\-T7\-: D\-M\-A1 Channel7 half transfer flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-E7\-: D\-M\-A1 Channel7 transfer error flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-G\-L1\-: D\-M\-A2 Channel1 global flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C1\-: D\-M\-A2 Channel1 transfer complete flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-H\-T1\-: D\-M\-A2 Channel1 half transfer flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-T\-E1\-: D\-M\-A2 Channel1 transfer error flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-G\-L2\-: D\-M\-A2 Channel2 global flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C2\-: D\-M\-A2 Channel2 transfer complete flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-H\-T2\-: D\-M\-A2 Channel2 half transfer flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-T\-E2\-: D\-M\-A2 Channel2 transfer error flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-G\-L3\-: D\-M\-A2 Channel3 global flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C3\-: D\-M\-A2 Channel3 transfer complete flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-H\-T3\-: D\-M\-A2 Channel3 half transfer flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-T\-E3\-: D\-M\-A2 Channel3 transfer error flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-G\-L4\-: D\-M\-A2 Channel4 global flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C4\-: D\-M\-A2 Channel4 transfer complete flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-H\-T4\-: D\-M\-A2 Channel4 half transfer flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-T\-E4\-: D\-M\-A2 Channel4 transfer error flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-G\-L5\-: D\-M\-A2 Channel5 global flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C5\-: D\-M\-A2 Channel5 transfer complete flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-H\-T5\-: D\-M\-A2 Channel5 half transfer flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-T\-E5\-: D\-M\-A2 Channel5 transfer error flag. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 521 of file stm32f10x\-\_\-dma.\-c.
+
+\hypertarget{group___d_m_a___private___functions_ga8e2490f878985d3c55d584736214187d}{\index{D\-M\-A\-\_\-\-Private\-\_\-\-Functions@{D\-M\-A\-\_\-\-Private\-\_\-\-Functions}!D\-M\-A\-\_\-\-Clear\-I\-T\-Pending\-Bit@{D\-M\-A\-\_\-\-Clear\-I\-T\-Pending\-Bit}}
+\index{D\-M\-A\-\_\-\-Clear\-I\-T\-Pending\-Bit@{D\-M\-A\-\_\-\-Clear\-I\-T\-Pending\-Bit}!DMA_Private_Functions@{D\-M\-A\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{D\-M\-A\-\_\-\-Clear\-I\-T\-Pending\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} D\-M\-A\-\_\-\-Clear\-I\-T\-Pending\-Bit (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{D\-M\-A\-\_\-\-I\-T}
+\end{DoxyParamCaption}
+)}}\label{group___d_m_a___private___functions_ga8e2490f878985d3c55d584736214187d}
+
+
+Clears the D\-M\-Ay Channelx’s interrupt pending bits. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\-M\-A\-\_\-\-I\-T,\-:} & specifies the D\-M\-A interrupt pending bit to clear. This parameter can be any combination (for the same D\-M\-A) of the following values\-: \begin{DoxyItemize}
+\item D\-M\-A1\-\_\-\-I\-T\-\_\-\-G\-L1\-: D\-M\-A1 Channel1 global interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-C1\-: D\-M\-A1 Channel1 transfer complete interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-H\-T1\-: D\-M\-A1 Channel1 half transfer interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-E1\-: D\-M\-A1 Channel1 transfer error interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-G\-L2\-: D\-M\-A1 Channel2 global interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-C2\-: D\-M\-A1 Channel2 transfer complete interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-H\-T2\-: D\-M\-A1 Channel2 half transfer interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-E2\-: D\-M\-A1 Channel2 transfer error interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-G\-L3\-: D\-M\-A1 Channel3 global interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-C3\-: D\-M\-A1 Channel3 transfer complete interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-H\-T3\-: D\-M\-A1 Channel3 half transfer interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-E3\-: D\-M\-A1 Channel3 transfer error interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-G\-L4\-: D\-M\-A1 Channel4 global interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-C4\-: D\-M\-A1 Channel4 transfer complete interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-H\-T4\-: D\-M\-A1 Channel4 half transfer interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-E4\-: D\-M\-A1 Channel4 transfer error interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-G\-L5\-: D\-M\-A1 Channel5 global interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-C5\-: D\-M\-A1 Channel5 transfer complete interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-H\-T5\-: D\-M\-A1 Channel5 half transfer interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-E5\-: D\-M\-A1 Channel5 transfer error interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-G\-L6\-: D\-M\-A1 Channel6 global interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-C6\-: D\-M\-A1 Channel6 transfer complete interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-H\-T6\-: D\-M\-A1 Channel6 half transfer interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-E6\-: D\-M\-A1 Channel6 transfer error interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-G\-L7\-: D\-M\-A1 Channel7 global interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-C7\-: D\-M\-A1 Channel7 transfer complete interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-H\-T7\-: D\-M\-A1 Channel7 half transfer interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-E7\-: D\-M\-A1 Channel7 transfer error interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-G\-L1\-: D\-M\-A2 Channel1 global interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-T\-C1\-: D\-M\-A2 Channel1 transfer complete interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-H\-T1\-: D\-M\-A2 Channel1 half transfer interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-T\-E1\-: D\-M\-A2 Channel1 transfer error interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-G\-L2\-: D\-M\-A2 Channel2 global interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-T\-C2\-: D\-M\-A2 Channel2 transfer complete interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-H\-T2\-: D\-M\-A2 Channel2 half transfer interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-T\-E2\-: D\-M\-A2 Channel2 transfer error interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-G\-L3\-: D\-M\-A2 Channel3 global interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-T\-C3\-: D\-M\-A2 Channel3 transfer complete interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-H\-T3\-: D\-M\-A2 Channel3 half transfer interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-T\-E3\-: D\-M\-A2 Channel3 transfer error interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-G\-L4\-: D\-M\-A2 Channel4 global interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-T\-C4\-: D\-M\-A2 Channel4 transfer complete interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-H\-T4\-: D\-M\-A2 Channel4 half transfer interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-T\-E4\-: D\-M\-A2 Channel4 transfer error interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-G\-L5\-: D\-M\-A2 Channel5 global interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-T\-C5\-: D\-M\-A2 Channel5 transfer complete interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-H\-T5\-: D\-M\-A2 Channel5 half transfer interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-T\-E5\-: D\-M\-A2 Channel5 transfer error interrupt. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 681 of file stm32f10x\-\_\-dma.\-c.
+
+\hypertarget{group___d_m_a___private___functions_ga8e7cb6b9ae5f142e2961df879cdaba65}{\index{D\-M\-A\-\_\-\-Private\-\_\-\-Functions@{D\-M\-A\-\_\-\-Private\-\_\-\-Functions}!D\-M\-A\-\_\-\-Cmd@{D\-M\-A\-\_\-\-Cmd}}
+\index{D\-M\-A\-\_\-\-Cmd@{D\-M\-A\-\_\-\-Cmd}!DMA_Private_Functions@{D\-M\-A\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{D\-M\-A\-\_\-\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} D\-M\-A\-\_\-\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf D\-M\-A\-\_\-\-Channel\-\_\-\-Type\-Def} $\ast$}]{D\-M\-Ay\-\_\-\-Channelx, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___d_m_a___private___functions_ga8e7cb6b9ae5f142e2961df879cdaba65}
+
+
+Enables or disables the specified D\-M\-Ay Channelx. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\-M\-Ay\-\_\-\-Channelx,\-:} & where y can be 1 or 2 to select the D\-M\-A and x can be 1 to 7 for D\-M\-A1 and 1 to 5 for D\-M\-A2 to select the D\-M\-A Channel. \\
+\hline
+{\em New\-State,\-:} & new state of the D\-M\-Ay Channelx. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 293 of file stm32f10x\-\_\-dma.\-c.
+
+\hypertarget{group___d_m_a___private___functions_ga21ca0d50b13e502db5ab5feb484f9ece}{\index{D\-M\-A\-\_\-\-Private\-\_\-\-Functions@{D\-M\-A\-\_\-\-Private\-\_\-\-Functions}!D\-M\-A\-\_\-\-De\-Init@{D\-M\-A\-\_\-\-De\-Init}}
+\index{D\-M\-A\-\_\-\-De\-Init@{D\-M\-A\-\_\-\-De\-Init}!DMA_Private_Functions@{D\-M\-A\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{D\-M\-A\-\_\-\-De\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} D\-M\-A\-\_\-\-De\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf D\-M\-A\-\_\-\-Channel\-\_\-\-Type\-Def} $\ast$}]{D\-M\-Ay\-\_\-\-Channelx}
+\end{DoxyParamCaption}
+)}}\label{group___d_m_a___private___functions_ga21ca0d50b13e502db5ab5feb484f9ece}
+
+
+Deinitializes the D\-M\-Ay Channelx registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\-M\-Ay\-\_\-\-Channelx,\-:} & where y can be 1 or 2 to select the D\-M\-A and x can be 1 to 7 for D\-M\-A1 and 1 to 5 for D\-M\-A2 to select the D\-M\-A Channel. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 107 of file stm32f10x\-\_\-dma.\-c.
+
+\hypertarget{group___d_m_a___private___functions_ga511b4c402d1ff32d53f28736956cac5d}{\index{D\-M\-A\-\_\-\-Private\-\_\-\-Functions@{D\-M\-A\-\_\-\-Private\-\_\-\-Functions}!D\-M\-A\-\_\-\-Get\-Curr\-Data\-Counter@{D\-M\-A\-\_\-\-Get\-Curr\-Data\-Counter}}
+\index{D\-M\-A\-\_\-\-Get\-Curr\-Data\-Counter@{D\-M\-A\-\_\-\-Get\-Curr\-Data\-Counter}!DMA_Private_Functions@{D\-M\-A\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{D\-M\-A\-\_\-\-Get\-Curr\-Data\-Counter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} D\-M\-A\-\_\-\-Get\-Curr\-Data\-Counter (
+\begin{DoxyParamCaption}
+\item[{{\bf D\-M\-A\-\_\-\-Channel\-\_\-\-Type\-Def} $\ast$}]{D\-M\-Ay\-\_\-\-Channelx}
+\end{DoxyParamCaption}
+)}}\label{group___d_m_a___private___functions_ga511b4c402d1ff32d53f28736956cac5d}
+
+
+Returns the number of remaining data units in the current D\-M\-Ay Channelx transfer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\-M\-Ay\-\_\-\-Channelx,\-:} & where y can be 1 or 2 to select the D\-M\-A and x can be 1 to 7 for D\-M\-A1 and 1 to 5 for D\-M\-A2 to select the D\-M\-A Channel. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & number of remaining data units in the current D\-M\-Ay Channelx transfer. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 370 of file stm32f10x\-\_\-dma.\-c.
+
+\hypertarget{group___d_m_a___private___functions_gafcb7a6712ae8d19e5bf3f329d56d1b8c}{\index{D\-M\-A\-\_\-\-Private\-\_\-\-Functions@{D\-M\-A\-\_\-\-Private\-\_\-\-Functions}!D\-M\-A\-\_\-\-Get\-Flag\-Status@{D\-M\-A\-\_\-\-Get\-Flag\-Status}}
+\index{D\-M\-A\-\_\-\-Get\-Flag\-Status@{D\-M\-A\-\_\-\-Get\-Flag\-Status}!DMA_Private_Functions@{D\-M\-A\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{D\-M\-A\-\_\-\-Get\-Flag\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Flag\-Status} D\-M\-A\-\_\-\-Get\-Flag\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{D\-M\-A\-\_\-\-F\-L\-A\-G}
+\end{DoxyParamCaption}
+)}}\label{group___d_m_a___private___functions_gafcb7a6712ae8d19e5bf3f329d56d1b8c}
+
+
+Checks whether the specified D\-M\-Ay Channelx flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\-M\-A\-\_\-\-F\-L\-A\-G,\-:} & specifies the flag to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-G\-L1\-: D\-M\-A1 Channel1 global flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C1\-: D\-M\-A1 Channel1 transfer complete flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-H\-T1\-: D\-M\-A1 Channel1 half transfer flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-E1\-: D\-M\-A1 Channel1 transfer error flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-G\-L2\-: D\-M\-A1 Channel2 global flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C2\-: D\-M\-A1 Channel2 transfer complete flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-H\-T2\-: D\-M\-A1 Channel2 half transfer flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-E2\-: D\-M\-A1 Channel2 transfer error flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-G\-L3\-: D\-M\-A1 Channel3 global flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C3\-: D\-M\-A1 Channel3 transfer complete flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-H\-T3\-: D\-M\-A1 Channel3 half transfer flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-E3\-: D\-M\-A1 Channel3 transfer error flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-G\-L4\-: D\-M\-A1 Channel4 global flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C4\-: D\-M\-A1 Channel4 transfer complete flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-H\-T4\-: D\-M\-A1 Channel4 half transfer flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-E4\-: D\-M\-A1 Channel4 transfer error flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-G\-L5\-: D\-M\-A1 Channel5 global flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C5\-: D\-M\-A1 Channel5 transfer complete flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-H\-T5\-: D\-M\-A1 Channel5 half transfer flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-E5\-: D\-M\-A1 Channel5 transfer error flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-G\-L6\-: D\-M\-A1 Channel6 global flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C6\-: D\-M\-A1 Channel6 transfer complete flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-H\-T6\-: D\-M\-A1 Channel6 half transfer flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-E6\-: D\-M\-A1 Channel6 transfer error flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-G\-L7\-: D\-M\-A1 Channel7 global flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C7\-: D\-M\-A1 Channel7 transfer complete flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-H\-T7\-: D\-M\-A1 Channel7 half transfer flag. \item D\-M\-A1\-\_\-\-F\-L\-A\-G\-\_\-\-T\-E7\-: D\-M\-A1 Channel7 transfer error flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-G\-L1\-: D\-M\-A2 Channel1 global flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C1\-: D\-M\-A2 Channel1 transfer complete flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-H\-T1\-: D\-M\-A2 Channel1 half transfer flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-T\-E1\-: D\-M\-A2 Channel1 transfer error flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-G\-L2\-: D\-M\-A2 Channel2 global flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C2\-: D\-M\-A2 Channel2 transfer complete flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-H\-T2\-: D\-M\-A2 Channel2 half transfer flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-T\-E2\-: D\-M\-A2 Channel2 transfer error flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-G\-L3\-: D\-M\-A2 Channel3 global flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C3\-: D\-M\-A2 Channel3 transfer complete flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-H\-T3\-: D\-M\-A2 Channel3 half transfer flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-T\-E3\-: D\-M\-A2 Channel3 transfer error flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-G\-L4\-: D\-M\-A2 Channel4 global flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C4\-: D\-M\-A2 Channel4 transfer complete flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-H\-T4\-: D\-M\-A2 Channel4 half transfer flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-T\-E4\-: D\-M\-A2 Channel4 transfer error flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-G\-L5\-: D\-M\-A2 Channel5 global flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-T\-C5\-: D\-M\-A2 Channel5 transfer complete flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-H\-T5\-: D\-M\-A2 Channel5 half transfer flag. \item D\-M\-A2\-\_\-\-F\-L\-A\-G\-\_\-\-T\-E5\-: D\-M\-A2 Channel5 transfer error flag. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of D\-M\-A\-\_\-\-F\-L\-A\-G (S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 432 of file stm32f10x\-\_\-dma.\-c.
+
+\hypertarget{group___d_m_a___private___functions_ga5d4c26f0c6615e9647193d79386b2244}{\index{D\-M\-A\-\_\-\-Private\-\_\-\-Functions@{D\-M\-A\-\_\-\-Private\-\_\-\-Functions}!D\-M\-A\-\_\-\-Get\-I\-T\-Status@{D\-M\-A\-\_\-\-Get\-I\-T\-Status}}
+\index{D\-M\-A\-\_\-\-Get\-I\-T\-Status@{D\-M\-A\-\_\-\-Get\-I\-T\-Status}!DMA_Private_Functions@{D\-M\-A\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{D\-M\-A\-\_\-\-Get\-I\-T\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf I\-T\-Status} D\-M\-A\-\_\-\-Get\-I\-T\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{D\-M\-A\-\_\-\-I\-T}
+\end{DoxyParamCaption}
+)}}\label{group___d_m_a___private___functions_ga5d4c26f0c6615e9647193d79386b2244}
+
+
+Checks whether the specified D\-M\-Ay Channelx interrupt has occurred or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\-M\-A\-\_\-\-I\-T,\-:} & specifies the D\-M\-A interrupt source to check. This parameter can be one of the following values\-: \begin{DoxyItemize}
+\item D\-M\-A1\-\_\-\-I\-T\-\_\-\-G\-L1\-: D\-M\-A1 Channel1 global interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-C1\-: D\-M\-A1 Channel1 transfer complete interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-H\-T1\-: D\-M\-A1 Channel1 half transfer interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-E1\-: D\-M\-A1 Channel1 transfer error interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-G\-L2\-: D\-M\-A1 Channel2 global interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-C2\-: D\-M\-A1 Channel2 transfer complete interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-H\-T2\-: D\-M\-A1 Channel2 half transfer interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-E2\-: D\-M\-A1 Channel2 transfer error interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-G\-L3\-: D\-M\-A1 Channel3 global interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-C3\-: D\-M\-A1 Channel3 transfer complete interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-H\-T3\-: D\-M\-A1 Channel3 half transfer interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-E3\-: D\-M\-A1 Channel3 transfer error interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-G\-L4\-: D\-M\-A1 Channel4 global interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-C4\-: D\-M\-A1 Channel4 transfer complete interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-H\-T4\-: D\-M\-A1 Channel4 half transfer interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-E4\-: D\-M\-A1 Channel4 transfer error interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-G\-L5\-: D\-M\-A1 Channel5 global interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-C5\-: D\-M\-A1 Channel5 transfer complete interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-H\-T5\-: D\-M\-A1 Channel5 half transfer interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-E5\-: D\-M\-A1 Channel5 transfer error interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-G\-L6\-: D\-M\-A1 Channel6 global interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-C6\-: D\-M\-A1 Channel6 transfer complete interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-H\-T6\-: D\-M\-A1 Channel6 half transfer interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-E6\-: D\-M\-A1 Channel6 transfer error interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-G\-L7\-: D\-M\-A1 Channel7 global interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-C7\-: D\-M\-A1 Channel7 transfer complete interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-H\-T7\-: D\-M\-A1 Channel7 half transfer interrupt. \item D\-M\-A1\-\_\-\-I\-T\-\_\-\-T\-E7\-: D\-M\-A1 Channel7 transfer error interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-G\-L1\-: D\-M\-A2 Channel1 global interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-T\-C1\-: D\-M\-A2 Channel1 transfer complete interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-H\-T1\-: D\-M\-A2 Channel1 half transfer interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-T\-E1\-: D\-M\-A2 Channel1 transfer error interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-G\-L2\-: D\-M\-A2 Channel2 global interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-T\-C2\-: D\-M\-A2 Channel2 transfer complete interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-H\-T2\-: D\-M\-A2 Channel2 half transfer interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-T\-E2\-: D\-M\-A2 Channel2 transfer error interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-G\-L3\-: D\-M\-A2 Channel3 global interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-T\-C3\-: D\-M\-A2 Channel3 transfer complete interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-H\-T3\-: D\-M\-A2 Channel3 half transfer interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-T\-E3\-: D\-M\-A2 Channel3 transfer error interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-G\-L4\-: D\-M\-A2 Channel4 global interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-T\-C4\-: D\-M\-A2 Channel4 transfer complete interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-H\-T4\-: D\-M\-A2 Channel4 half transfer interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-T\-E4\-: D\-M\-A2 Channel4 transfer error interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-G\-L5\-: D\-M\-A2 Channel5 global interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-T\-C5\-: D\-M\-A2 Channel5 transfer complete interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-H\-T5\-: D\-M\-A2 Channel5 half transfer interrupt. \item D\-M\-A2\-\_\-\-I\-T\-\_\-\-T\-E5\-: D\-M\-A2 Channel5 transfer error interrupt. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of D\-M\-A\-\_\-\-I\-T (S\-E\-T or R\-E\-S\-E\-T). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 593 of file stm32f10x\-\_\-dma.\-c.
+
+\hypertarget{group___d_m_a___private___functions_ga336d9ceb805729470be232503dd2fb17}{\index{D\-M\-A\-\_\-\-Private\-\_\-\-Functions@{D\-M\-A\-\_\-\-Private\-\_\-\-Functions}!D\-M\-A\-\_\-\-Init@{D\-M\-A\-\_\-\-Init}}
+\index{D\-M\-A\-\_\-\-Init@{D\-M\-A\-\_\-\-Init}!DMA_Private_Functions@{D\-M\-A\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{D\-M\-A\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} D\-M\-A\-\_\-\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf D\-M\-A\-\_\-\-Channel\-\_\-\-Type\-Def} $\ast$}]{D\-M\-Ay\-\_\-\-Channelx, }
+\item[{{\bf const} D\-M\-A\-\_\-\-Init\-Type\-Def $\ast$}]{D\-M\-A\-\_\-\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___d_m_a___private___functions_ga336d9ceb805729470be232503dd2fb17}
+
+
+Initializes the D\-M\-Ay Channelx according to the specified parameters in the D\-M\-A\-\_\-\-Init\-Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\-M\-Ay\-\_\-\-Channelx,\-:} & where y can be 1 or 2 to select the D\-M\-A and x can be 1 to 7 for D\-M\-A1 and 1 to 5 for D\-M\-A2 to select the D\-M\-A Channel. \\
+\hline
+{\em D\-M\-A\-\_\-\-Init\-Struct,\-:} & pointer to a D\-M\-A\-\_\-\-Init\-Type\-Def structure that contains the configuration information for the specified D\-M\-A Channel. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 201 of file stm32f10x\-\_\-dma.\-c.
+
+\hypertarget{group___d_m_a___private___functions_ga0bb60360be9cd57f96399be2f3b5eb2b}{\index{D\-M\-A\-\_\-\-Private\-\_\-\-Functions@{D\-M\-A\-\_\-\-Private\-\_\-\-Functions}!D\-M\-A\-\_\-\-I\-T\-Config@{D\-M\-A\-\_\-\-I\-T\-Config}}
+\index{D\-M\-A\-\_\-\-I\-T\-Config@{D\-M\-A\-\_\-\-I\-T\-Config}!DMA_Private_Functions@{D\-M\-A\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{D\-M\-A\-\_\-\-I\-T\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} D\-M\-A\-\_\-\-I\-T\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf D\-M\-A\-\_\-\-Channel\-\_\-\-Type\-Def} $\ast$}]{D\-M\-Ay\-\_\-\-Channelx, }
+\item[{{\bf uint32\-\_\-t}}]{D\-M\-A\-\_\-\-I\-T, }
+\item[{{\bf Functional\-State}}]{New\-State}
+\end{DoxyParamCaption}
+)}}\label{group___d_m_a___private___functions_ga0bb60360be9cd57f96399be2f3b5eb2b}
+
+
+Enables or disables the specified D\-M\-Ay Channelx interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\-M\-Ay\-\_\-\-Channelx,\-:} & where y can be 1 or 2 to select the D\-M\-A and x can be 1 to 7 for D\-M\-A1 and 1 to 5 for D\-M\-A2 to select the D\-M\-A Channel. \\
+\hline
+{\em D\-M\-A\-\_\-\-I\-T,\-:} & specifies the D\-M\-A interrupts sources to be enabled or disabled. This parameter can be any combination of the following values\-: \begin{DoxyItemize}
+\item D\-M\-A\-\_\-\-I\-T\-\_\-\-T\-C\-: Transfer complete interrupt mask \item D\-M\-A\-\_\-\-I\-T\-\_\-\-H\-T\-: Half transfer interrupt mask \item D\-M\-A\-\_\-\-I\-T\-\_\-\-T\-E\-: Transfer error interrupt mask \end{DoxyItemize}
+\\
+\hline
+{\em New\-State,\-:} & new state of the specified D\-M\-A interrupts. This parameter can be\-: E\-N\-A\-B\-L\-E or D\-I\-S\-A\-B\-L\-E. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 325 of file stm32f10x\-\_\-dma.\-c.
+
+\hypertarget{group___d_m_a___private___functions_gade5d9e532814eaa46514cb385fdff709}{\index{D\-M\-A\-\_\-\-Private\-\_\-\-Functions@{D\-M\-A\-\_\-\-Private\-\_\-\-Functions}!D\-M\-A\-\_\-\-Set\-Curr\-Data\-Counter@{D\-M\-A\-\_\-\-Set\-Curr\-Data\-Counter}}
+\index{D\-M\-A\-\_\-\-Set\-Curr\-Data\-Counter@{D\-M\-A\-\_\-\-Set\-Curr\-Data\-Counter}!DMA_Private_Functions@{D\-M\-A\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{D\-M\-A\-\_\-\-Set\-Curr\-Data\-Counter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} D\-M\-A\-\_\-\-Set\-Curr\-Data\-Counter (
+\begin{DoxyParamCaption}
+\item[{{\bf D\-M\-A\-\_\-\-Channel\-\_\-\-Type\-Def} $\ast$}]{D\-M\-Ay\-\_\-\-Channelx, }
+\item[{{\bf uint16\-\_\-t}}]{Data\-Number}
+\end{DoxyParamCaption}
+)}}\label{group___d_m_a___private___functions_gade5d9e532814eaa46514cb385fdff709}
+
+
+Sets the number of data units in the current D\-M\-Ay Channelx transfer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\-M\-Ay\-\_\-\-Channelx,\-:} & where y can be 1 or 2 to select the D\-M\-A and x can be 1 to 7 for D\-M\-A1 and 1 to 5 for D\-M\-A2 to select the D\-M\-A Channel. \\
+\hline
+{\em Data\-Number,\-:} & The number of data units in the current D\-M\-Ay Channelx transfer. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This function can only be used when the D\-M\-Ay\-\_\-\-Channelx is disabled. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None.} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 352 of file stm32f10x\-\_\-dma.\-c.
+
+\hypertarget{group___d_m_a___private___functions_ga0f7f95f750a90a6824f4e9b6f58adc7e}{\index{D\-M\-A\-\_\-\-Private\-\_\-\-Functions@{D\-M\-A\-\_\-\-Private\-\_\-\-Functions}!D\-M\-A\-\_\-\-Struct\-Init@{D\-M\-A\-\_\-\-Struct\-Init}}
+\index{D\-M\-A\-\_\-\-Struct\-Init@{D\-M\-A\-\_\-\-Struct\-Init}!DMA_Private_Functions@{D\-M\-A\-\_\-\-Private\-\_\-\-Functions}}
+\subsubsection[{D\-M\-A\-\_\-\-Struct\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} D\-M\-A\-\_\-\-Struct\-Init (
+\begin{DoxyParamCaption}
+\item[{D\-M\-A\-\_\-\-Init\-Type\-Def $\ast$}]{D\-M\-A\-\_\-\-Init\-Struct}
+\end{DoxyParamCaption}
+)}}\label{group___d_m_a___private___functions_ga0f7f95f750a90a6824f4e9b6f58adc7e}
+
+
+Fills each D\-M\-A\-\_\-\-Init\-Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\-M\-A\-\_\-\-Init\-Struct} & \-: pointer to a D\-M\-A\-\_\-\-Init\-Type\-Def structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 258 of file stm32f10x\-\_\-dma.\-c.
+

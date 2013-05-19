@@ -1,0 +1,11 @@
+semphr. h 
+\begin{DoxyPre}void vSemaphoreDelete( xSemaphoreHandle xSemaphore );\end{DoxyPre}
+
+
+Delete a semaphore. This function must be used with care. For example, do not delete a mutex type semaphore if the mutex is held by a task.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\-Semaphore} & A handle to the semaphore to be deleted. \\
+\hline
+\end{DoxyParams}

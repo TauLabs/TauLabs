@@ -1,0 +1,229 @@
+\hypertarget{eventdispatcher_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/targets/\-U\-A\-V\-Objects/eventdispatcher.c File Reference}
+\label{eventdispatcher_8c}\index{/home/jose/\-Code/gui\-Tau/flight/targets/\-U\-A\-V\-Objects/eventdispatcher.\-c@{/home/jose/\-Code/gui\-Tau/flight/targets/\-U\-A\-V\-Objects/eventdispatcher.\-c}}
+}
+
+
+Event dispatcher, distributes object events as callbacks. Alternative to using tasks and queues. All callbacks are invoked from the event task.  
+
+
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_event_callback_info}{Event\-Callback\-Info}
+\item 
+struct \hyperlink{struct_periodic_object_list_struct}{Periodic\-Object\-List\-Struct}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \\*
+\hyperlink{struct_periodic_object_list_struct}{Periodic\-Object\-List\-Struct} \hyperlink{eventdispatcher_8c_a3da0c8782a25b0b174e36b9f80d02183}{Periodic\-Object\-List}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{eventdispatcher_8c_abfbe02253807a718d938d5f14d264645}{Event\-Dispatcher\-Initialize} ()
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{eventdispatcher_8c_a938822e7233dbbb444a5bdde8f626fae}{Event\-Get\-Stats} (\hyperlink{struct_event_stats}{Event\-Stats} $\ast$stats\-Out)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{eventdispatcher_8c_a17f7c06410e7f0c04e1d1df6beee93d4}{Event\-Clear\-Stats} ()
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{eventdispatcher_8c_aff090284e03d5655f766c9c6dd27f555}{Event\-Callback\-Dispatch} (\hyperlink{struct_u_a_v_obj_event}{U\-A\-V\-Obj\-Event} $\ast$ev, \hyperlink{group___u_a_v_ga33d11560e38b56dc904220fb0f785c28}{U\-A\-V\-Obj\-Event\-Callback} cb)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{eventdispatcher_8c_a34e9f120ad77feee68d20f0a22adeb51}{Event\-Periodic\-Callback\-Create} (\hyperlink{struct_u_a_v_obj_event}{U\-A\-V\-Obj\-Event} $\ast$ev, \hyperlink{group___u_a_v_ga33d11560e38b56dc904220fb0f785c28}{U\-A\-V\-Obj\-Event\-Callback} cb, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} period\-Ms)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{eventdispatcher_8c_a10f109820071bea9b310dce65a46d784}{Event\-Periodic\-Callback\-Update} (\hyperlink{struct_u_a_v_obj_event}{U\-A\-V\-Obj\-Event} $\ast$ev, \hyperlink{group___u_a_v_ga33d11560e38b56dc904220fb0f785c28}{U\-A\-V\-Obj\-Event\-Callback} cb, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} period\-Ms)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{eventdispatcher_8c_ae4d288e110cd074d66fcd5ab8825cf10}{Event\-Periodic\-Queue\-Create} (\hyperlink{struct_u_a_v_obj_event}{U\-A\-V\-Obj\-Event} $\ast$ev, \hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{x\-Queue\-Handle} queue, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} period\-Ms)
+\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{eventdispatcher_8c_a5d68f0ec012a592f38691e782b636f8a}{Event\-Periodic\-Queue\-Update} (\hyperlink{struct_u_a_v_obj_event}{U\-A\-V\-Obj\-Event} $\ast$ev, \hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2queue_8h_a229037f755b756156e34a440ce134b8b}{x\-Queue\-Handle} queue, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} period\-Ms)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Event dispatcher, distributes object events as callbacks. Alternative to using tasks and queues. All callbacks are invoked from the event task. \begin{DoxyAuthor}{Author}
+The Open\-Pilot Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} Copyright (C) 2010. 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{See Also}
+The G\-N\-U Public License (G\-P\-L) Version 3 
+\end{DoxySeeAlso}
+
+
+Definition in file \hyperlink{eventdispatcher_8c_source}{eventdispatcher.\-c}.
+
+
+
+\subsection{Typedef Documentation}
+\hypertarget{eventdispatcher_8c_a3da0c8782a25b0b174e36b9f80d02183}{\index{eventdispatcher.\-c@{eventdispatcher.\-c}!Periodic\-Object\-List@{Periodic\-Object\-List}}
+\index{Periodic\-Object\-List@{Periodic\-Object\-List}!eventdispatcher.c@{eventdispatcher.\-c}}
+\subsubsection[{Periodic\-Object\-List}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf Periodic\-Object\-List\-Struct} {\bf Periodic\-Object\-List}}}\label{eventdispatcher_8c_a3da0c8782a25b0b174e36b9f80d02183}
+
+
+Definition at line 66 of file eventdispatcher.\-c.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{eventdispatcher_8c_aff090284e03d5655f766c9c6dd27f555}{\index{eventdispatcher.\-c@{eventdispatcher.\-c}!Event\-Callback\-Dispatch@{Event\-Callback\-Dispatch}}
+\index{Event\-Callback\-Dispatch@{Event\-Callback\-Dispatch}!eventdispatcher.c@{eventdispatcher.\-c}}
+\subsubsection[{Event\-Callback\-Dispatch}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} Event\-Callback\-Dispatch (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-A\-V\-Obj\-Event} $\ast$}]{ev, }
+\item[{{\bf U\-A\-V\-Obj\-Event\-Callback}}]{cb}
+\end{DoxyParamCaption}
+)}}\label{eventdispatcher_8c_aff090284e03d5655f766c9c6dd27f555}
+Dispatch an event by invoking the supplied callback. The function returns imidiatelly, the callback is invoked from the event task. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em ev} & The event to be dispatched \\
+\hline
+\mbox{\tt in}  & {\em cb} & The callback function \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Success (0), failure (-\/1) 
+\end{DoxyReturn}
+
+
+Definition at line 136 of file eventdispatcher.\-c.
+
+\hypertarget{eventdispatcher_8c_a17f7c06410e7f0c04e1d1df6beee93d4}{\index{eventdispatcher.\-c@{eventdispatcher.\-c}!Event\-Clear\-Stats@{Event\-Clear\-Stats}}
+\index{Event\-Clear\-Stats@{Event\-Clear\-Stats}!eventdispatcher.c@{eventdispatcher.\-c}}
+\subsubsection[{Event\-Clear\-Stats}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Event\-Clear\-Stats (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{eventdispatcher_8c_a17f7c06410e7f0c04e1d1df6beee93d4}
+Clear the statistics counters 
+
+Definition at line 122 of file eventdispatcher.\-c.
+
+\hypertarget{eventdispatcher_8c_abfbe02253807a718d938d5f14d264645}{\index{eventdispatcher.\-c@{eventdispatcher.\-c}!Event\-Dispatcher\-Initialize@{Event\-Dispatcher\-Initialize}}
+\index{Event\-Dispatcher\-Initialize@{Event\-Dispatcher\-Initialize}!eventdispatcher.c@{eventdispatcher.\-c}}
+\subsubsection[{Event\-Dispatcher\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} Event\-Dispatcher\-Initialize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{eventdispatcher_8c_abfbe02253807a718d938d5f14d264645}
+Initialize the dispatcher \begin{DoxyReturn}{Returns}
+Success (0), failure (-\/1) 
+\end{DoxyReturn}
+
+
+Definition at line 87 of file eventdispatcher.\-c.
+
+\hypertarget{eventdispatcher_8c_a938822e7233dbbb444a5bdde8f626fae}{\index{eventdispatcher.\-c@{eventdispatcher.\-c}!Event\-Get\-Stats@{Event\-Get\-Stats}}
+\index{Event\-Get\-Stats@{Event\-Get\-Stats}!eventdispatcher.c@{eventdispatcher.\-c}}
+\subsubsection[{Event\-Get\-Stats}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Event\-Get\-Stats (
+\begin{DoxyParamCaption}
+\item[{{\bf Event\-Stats} $\ast$}]{stats\-Out}
+\end{DoxyParamCaption}
+)}}\label{eventdispatcher_8c_a938822e7233dbbb444a5bdde8f626fae}
+Get the statistics counters 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt out}  & {\em stats\-Out} & The statistics counters will be copied there \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 112 of file eventdispatcher.\-c.
+
+\hypertarget{eventdispatcher_8c_a34e9f120ad77feee68d20f0a22adeb51}{\index{eventdispatcher.\-c@{eventdispatcher.\-c}!Event\-Periodic\-Callback\-Create@{Event\-Periodic\-Callback\-Create}}
+\index{Event\-Periodic\-Callback\-Create@{Event\-Periodic\-Callback\-Create}!eventdispatcher.c@{eventdispatcher.\-c}}
+\subsubsection[{Event\-Periodic\-Callback\-Create}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} Event\-Periodic\-Callback\-Create (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-A\-V\-Obj\-Event} $\ast$}]{ev, }
+\item[{{\bf U\-A\-V\-Obj\-Event\-Callback}}]{cb, }
+\item[{{\bf uint16\-\_\-t}}]{period\-Ms}
+\end{DoxyParamCaption}
+)}}\label{eventdispatcher_8c_a34e9f120ad77feee68d20f0a22adeb51}
+Dispatch an event at periodic intervals. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em ev} & The event to be dispatched \\
+\hline
+\mbox{\tt in}  & {\em cb} & The callback to be invoked \\
+\hline
+\mbox{\tt in}  & {\em period\-Ms} & The period the event is generated \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Success (0), failure (-\/1) 
+\end{DoxyReturn}
+
+
+Definition at line 154 of file eventdispatcher.\-c.
+
+\hypertarget{eventdispatcher_8c_a10f109820071bea9b310dce65a46d784}{\index{eventdispatcher.\-c@{eventdispatcher.\-c}!Event\-Periodic\-Callback\-Update@{Event\-Periodic\-Callback\-Update}}
+\index{Event\-Periodic\-Callback\-Update@{Event\-Periodic\-Callback\-Update}!eventdispatcher.c@{eventdispatcher.\-c}}
+\subsubsection[{Event\-Periodic\-Callback\-Update}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} Event\-Periodic\-Callback\-Update (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-A\-V\-Obj\-Event} $\ast$}]{ev, }
+\item[{{\bf U\-A\-V\-Obj\-Event\-Callback}}]{cb, }
+\item[{{\bf uint16\-\_\-t}}]{period\-Ms}
+\end{DoxyParamCaption}
+)}}\label{eventdispatcher_8c_a10f109820071bea9b310dce65a46d784}
+Update the period of a periodic event. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em ev} & The event to be dispatched \\
+\hline
+\mbox{\tt in}  & {\em cb} & The callback to be invoked \\
+\hline
+\mbox{\tt in}  & {\em period\-Ms} & The period the event is generated \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Success (0), failure (-\/1) 
+\end{DoxyReturn}
+
+
+Definition at line 166 of file eventdispatcher.\-c.
+
+\hypertarget{eventdispatcher_8c_ae4d288e110cd074d66fcd5ab8825cf10}{\index{eventdispatcher.\-c@{eventdispatcher.\-c}!Event\-Periodic\-Queue\-Create@{Event\-Periodic\-Queue\-Create}}
+\index{Event\-Periodic\-Queue\-Create@{Event\-Periodic\-Queue\-Create}!eventdispatcher.c@{eventdispatcher.\-c}}
+\subsubsection[{Event\-Periodic\-Queue\-Create}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} Event\-Periodic\-Queue\-Create (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-A\-V\-Obj\-Event} $\ast$}]{ev, }
+\item[{{\bf x\-Queue\-Handle}}]{queue, }
+\item[{{\bf uint16\-\_\-t}}]{period\-Ms}
+\end{DoxyParamCaption}
+)}}\label{eventdispatcher_8c_ae4d288e110cd074d66fcd5ab8825cf10}
+Dispatch an event at periodic intervals. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em ev} & The event to be dispatched \\
+\hline
+\mbox{\tt in}  & {\em queue} & The queue that the event will be pushed in \\
+\hline
+\mbox{\tt in}  & {\em period\-Ms} & The period the event is generated \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Success (0), failure (-\/1) 
+\end{DoxyReturn}
+
+
+Definition at line 178 of file eventdispatcher.\-c.
+
+\hypertarget{eventdispatcher_8c_a5d68f0ec012a592f38691e782b636f8a}{\index{eventdispatcher.\-c@{eventdispatcher.\-c}!Event\-Periodic\-Queue\-Update@{Event\-Periodic\-Queue\-Update}}
+\index{Event\-Periodic\-Queue\-Update@{Event\-Periodic\-Queue\-Update}!eventdispatcher.c@{eventdispatcher.\-c}}
+\subsubsection[{Event\-Periodic\-Queue\-Update}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} Event\-Periodic\-Queue\-Update (
+\begin{DoxyParamCaption}
+\item[{{\bf U\-A\-V\-Obj\-Event} $\ast$}]{ev, }
+\item[{{\bf x\-Queue\-Handle}}]{queue, }
+\item[{{\bf uint16\-\_\-t}}]{period\-Ms}
+\end{DoxyParamCaption}
+)}}\label{eventdispatcher_8c_a5d68f0ec012a592f38691e782b636f8a}
+Update the period of a periodic event. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em ev} & The event to be dispatched \\
+\hline
+\mbox{\tt in}  & {\em queue} & The queue \\
+\hline
+\mbox{\tt in}  & {\em period\-Ms} & The period the event is generated \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Success (0), failure (-\/1) 
+\end{DoxyReturn}
+
+
+Definition at line 190 of file eventdispatcher.\-c.
+

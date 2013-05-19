@@ -1,0 +1,41 @@
+\hypertarget{stm32f10x__iwdg_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/\-Libraries/\-S\-T\-M32\-F10x\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f10x\-\_\-iwdg.c File Reference}
+\label{stm32f10x__iwdg_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/\-Libraries/\-S\-T\-M32\-F10x\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f10x\-\_\-iwdg.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/\-Libraries/\-S\-T\-M32\-F10x\-\_\-\-Std\-Periph\-\_\-\-Driver/src/stm32f10x\-\_\-iwdg.\-c}}
+}
+
+
+This file provides all the I\-W\-D\-G firmware functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_w_d_g___private___functions_gae466681e5bdc11b353c508b89d75ca05}{I\-W\-D\-G\-\_\-\-Write\-Access\-Cmd} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} I\-W\-D\-G\-\_\-\-Write\-Access)
+\begin{DoxyCompactList}\small\item\em Enables or disables write access to I\-W\-D\-G\-\_\-\-P\-R and I\-W\-D\-G\-\_\-\-R\-L\-R registers. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_w_d_g___private___functions_ga4fa7f1cd690533a35ad9e4729c0450a3}{I\-W\-D\-G\-\_\-\-Set\-Prescaler} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} I\-W\-D\-G\-\_\-\-Prescaler)
+\begin{DoxyCompactList}\small\item\em Sets I\-W\-D\-G Prescaler value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_w_d_g___private___functions_gae2a14752a0431f23cb80cebf202ac365}{I\-W\-D\-G\-\_\-\-Set\-Reload} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} Reload)
+\begin{DoxyCompactList}\small\item\em Sets I\-W\-D\-G Reload value. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_w_d_g___private___functions_ga7147ebabdc3fef97f532b171a4e70d49}{I\-W\-D\-G\-\_\-\-Reload\-Counter} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Reloads I\-W\-D\-G counter with value defined in the reload register (write access to I\-W\-D\-G\-\_\-\-P\-R and I\-W\-D\-G\-\_\-\-R\-L\-R registers disabled). \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___i_w_d_g___private___functions_ga479b2921c86f8c67b819f5c4bea6bdb6}{I\-W\-D\-G\-\_\-\-Enable} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\begin{DoxyCompactList}\small\item\em Enables I\-W\-D\-G (write access to I\-W\-D\-G\-\_\-\-P\-R and I\-W\-D\-G\-\_\-\-R\-L\-R registers disabled). \end{DoxyCompactList}\item 
+\hyperlink{group___exported__types_ga89136caac2e14c55151f527ac02daaff}{Flag\-Status} \hyperlink{group___i_w_d_g___private___functions_ga37f050cfbedc0c15f9e0816c0b22011e}{I\-W\-D\-G\-\_\-\-Get\-Flag\-Status} (\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} I\-W\-D\-G\-\_\-\-F\-L\-A\-G)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified I\-W\-D\-G flag is set or not. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file provides all the I\-W\-D\-G firmware functions. \begin{DoxyAuthor}{Author}
+M\-C\-D Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V3.\-4.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+10/15/2010 
+\end{DoxyDate}
+T\-H\-E P\-R\-E\-S\-E\-N\-T F\-I\-R\-M\-W\-A\-R\-E W\-H\-I\-C\-H I\-S F\-O\-R G\-U\-I\-D\-A\-N\-C\-E O\-N\-L\-Y A\-I\-M\-S A\-T P\-R\-O\-V\-I\-D\-I\-N\-G C\-U\-S\-T\-O\-M\-E\-R\-S W\-I\-T\-H C\-O\-D\-I\-N\-G I\-N\-F\-O\-R\-M\-A\-T\-I\-O\-N R\-E\-G\-A\-R\-D\-I\-N\-G T\-H\-E\-I\-R P\-R\-O\-D\-U\-C\-T\-S I\-N O\-R\-D\-E\-R F\-O\-R T\-H\-E\-M T\-O S\-A\-V\-E T\-I\-M\-E. A\-S A R\-E\-S\-U\-L\-T, S\-T\-M\-I\-C\-R\-O\-E\-L\-E\-C\-T\-R\-O\-N\-I\-C\-S S\-H\-A\-L\-L N\-O\-T B\-E H\-E\-L\-D L\-I\-A\-B\-L\-E F\-O\-R A\-N\-Y D\-I\-R\-E\-C\-T, I\-N\-D\-I\-R\-E\-C\-T O\-R C\-O\-N\-S\-E\-Q\-U\-E\-N\-T\-I\-A\-L D\-A\-M\-A\-G\-E\-S W\-I\-T\-H R\-E\-S\-P\-E\-C\-T T\-O A\-N\-Y C\-L\-A\-I\-M\-S A\-R\-I\-S\-I\-N\-G F\-R\-O\-M T\-H\-E C\-O\-N\-T\-E\-N\-T O\-F S\-U\-C\-H F\-I\-R\-M\-W\-A\-R\-E A\-N\-D/\-O\-R T\-H\-E U\-S\-E M\-A\-D\-E B\-Y C\-U\-S\-T\-O\-M\-E\-R\-S O\-F T\-H\-E C\-O\-D\-I\-N\-G I\-N\-F\-O\-R\-M\-A\-T\-I\-O\-N C\-O\-N\-T\-A\-I\-N\-E\-D H\-E\-R\-E\-I\-N I\-N C\-O\-N\-N\-E\-C\-T\-I\-O\-N W\-I\-T\-H T\-H\-E\-I\-R P\-R\-O\-D\-U\-C\-T\-S.
+
+\subsubsection*{\begin{center}\copyright C\-O\-P\-Y\-R\-I\-G\-H\-T 2010 S\-T\-Microelectronics\end{center} }
+
+Definition in file \hyperlink{stm32f10x__iwdg_8c_source}{stm32f10x\-\_\-iwdg.\-c}.
+

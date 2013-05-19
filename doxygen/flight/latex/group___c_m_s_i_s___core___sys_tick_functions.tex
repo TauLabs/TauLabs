@@ -1,0 +1,49 @@
+\hypertarget{group___c_m_s_i_s___core___sys_tick_functions}{\section{Sys\-Tick Functions}
+\label{group___c_m_s_i_s___core___sys_tick_functions}\index{Sys\-Tick Functions@{Sys\-Tick Functions}}
+}
+
+
+Functions that configure the System.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___c_m_s_i_s___core___sys_tick_functions_gae4e8f0238527c69f522029b93c8e5b78}{Sys\-Tick\-\_\-\-Config} (\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} ticks)
+\begin{DoxyCompactList}\small\item\em System Tick Configuration. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Functions that configure the System. 
+
+\subsection{Function Documentation}
+\hypertarget{group___c_m_s_i_s___core___sys_tick_functions_gae4e8f0238527c69f522029b93c8e5b78}{\index{Sys\-Tick Functions@{Sys\-Tick Functions}!Sys\-Tick\-\_\-\-Config@{Sys\-Tick\-\_\-\-Config}}
+\index{Sys\-Tick\-\_\-\-Config@{Sys\-Tick\-\_\-\-Config}!SysTick Functions@{Sys\-Tick Functions}}
+\subsubsection[{Sys\-Tick\-\_\-\-Config}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-\_\-\-S\-T\-A\-T\-I\-C\-\_\-\-I\-N\-L\-I\-N\-E {\bf uint32\-\_\-t} Sys\-Tick\-\_\-\-Config (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\-\_\-t}}]{ticks}
+\end{DoxyParamCaption}
+)}}\label{group___c_m_s_i_s___core___sys_tick_functions_gae4e8f0238527c69f522029b93c8e5b78}
+
+
+System Tick Configuration. 
+
+The function initializes the System Timer and its interrupt, and starts the System Tick Timer. Counter is in free running mode to generate periodic interrupts.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em ticks} & Number of ticks between two interrupts.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 Function succeeded. 
+
+1 Function failed.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+When the variable {\bfseries \-\_\-\-\_\-\-Vendor\-\_\-\-Sys\-Tick\-Config} is set to 1, then the function {\bfseries Sys\-Tick\-\_\-\-Config} is not included. In this case, the file {\bfseries {\itshape device}.h} must contain a vendor-\/specific implementation of this function. 
+\end{DoxyNote}
+
+
+Definition at line 641 of file core\-\_\-cm0.\-h.
+

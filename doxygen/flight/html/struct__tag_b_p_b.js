@@ -1,0 +1,28 @@
+var struct__tag_b_p_b =
+[
+    [ "bytepersec_h", "struct__tag_b_p_b.html#a2a4fd74f8aefcad0745420989433c6bf", null ],
+    [ "bytepersec_l", "struct__tag_b_p_b.html#abc6e118f3b0bd4d9ca38003a7505f1f7", null ],
+    [ "heads_h", "struct__tag_b_p_b.html#a89970cb51f94d482caa1ae73c7aeb132", null ],
+    [ "heads_l", "struct__tag_b_p_b.html#a00cd04f4301393e44790dbc6aa6b5ee4", null ],
+    [ "hidden_0", "struct__tag_b_p_b.html#af3649e1c4f53814419d9f3d7264cf231", null ],
+    [ "hidden_1", "struct__tag_b_p_b.html#aa224dc853f04d17108598ff858b00e03", null ],
+    [ "hidden_2", "struct__tag_b_p_b.html#a008c509f7d7fd6e8b97a307a070bf81a", null ],
+    [ "hidden_3", "struct__tag_b_p_b.html#a80d18a3627cf46787461f4e8d88b495c", null ],
+    [ "mediatype", "struct__tag_b_p_b.html#a4c2e50e2f2b7b532c0e8f67f9ac8e10d", null ],
+    [ "numfats", "struct__tag_b_p_b.html#a0d1d00766ed88a28af9933452ddc0e1e", null ],
+    [ "reserved_h", "struct__tag_b_p_b.html#ab54c9d454d0ed1051ee1324a15712ce7", null ],
+    [ "reserved_l", "struct__tag_b_p_b.html#a076add418bb8ca1994ff0816795cf3ac", null ],
+    [ "rootentries_h", "struct__tag_b_p_b.html#a5eda6b74b493d777364fc99f0aa5c655", null ],
+    [ "rootentries_l", "struct__tag_b_p_b.html#aaffc05fd0f136b6eb9e156b08654b91a", null ],
+    [ "secperclus", "struct__tag_b_p_b.html#adc3def0c79541dad2f5e90424b784b2c", null ],
+    [ "secperfat_h", "struct__tag_b_p_b.html#a8b7bb8bdff532c5fa854884c91dfe5ac", null ],
+    [ "secperfat_l", "struct__tag_b_p_b.html#aa78aa15761af64f84e739d28648a8e8a", null ],
+    [ "secpertrk_h", "struct__tag_b_p_b.html#accdeb370774ce0351eb634051633a88a", null ],
+    [ "secpertrk_l", "struct__tag_b_p_b.html#a937905a1a955310fcdc08d1232807097", null ],
+    [ "sectors_l_0", "struct__tag_b_p_b.html#a0182c668cbdf0f95aba000884f297ce2", null ],
+    [ "sectors_l_1", "struct__tag_b_p_b.html#a65a3e7ba723feb0e9437fb0471cd4aa7", null ],
+    [ "sectors_l_2", "struct__tag_b_p_b.html#a359489cee09a2925c30aa8711a551b5f", null ],
+    [ "sectors_l_3", "struct__tag_b_p_b.html#a1d9186bcf5e98263f2a2cddd37f01570", null ],
+    [ "sectors_s_h", "struct__tag_b_p_b.html#a802a986b05ee2c36a3ac5925b0342031", null ],
+    [ "sectors_s_l", "struct__tag_b_p_b.html#aee93eff1b83b89f70c1c0ca5740b9b82", null ]
+];

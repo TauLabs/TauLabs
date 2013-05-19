@@ -1,0 +1,109 @@
+\hypertarget{namespacedismantle}{\section{dismantle Namespace Reference}
+\label{namespacedismantle}\index{dismantle@{dismantle}}
+}
+
+
+Dismantles a .py file by compiling it into a code object and recursively dismantling and disassembling the code object.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{namespacedismantle_a228ae9383e16d6c62fd32625140ace6c}{dismantle\-\_\-file}
+\item 
+def \hyperlink{namespacedismantle_a4fd47c870eb4e4db257d7062816ea752}{dismantle}
+\item 
+def \hyperlink{namespacedismantle_a2471fd15f1bac193e1e15ecfc50bf859}{rdismantle}
+\item 
+def \hyperlink{namespacedismantle_ab84a4f1b9a37d914291e148e6fb9a92c}{main}
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{namespacedismantle_a46aea8853af02029a008f2899c711e8c}{\-\_\-\-\_\-usage\-\_\-\-\_\-}
+\item 
+int \hyperlink{namespacedismantle_a9db810cc2b3ee053900fbcf23b828aaa}{S\-T\-R\-I\-N\-G\-T\-O\-O\-L\-O\-N\-G} = 32
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Dismantles a .py file by compiling it into a code object and recursively dismantling and disassembling the code object. 
+
+\subsection{Function Documentation}
+\hypertarget{namespacedismantle_a4fd47c870eb4e4db257d7062816ea752}{\index{dismantle@{dismantle}!dismantle@{dismantle}}
+\index{dismantle@{dismantle}!dismantle@{dismantle}}
+\subsubsection[{dismantle}]{\setlength{\rightskip}{0pt plus 5cm}def dismantle.\-dismantle (
+\begin{DoxyParamCaption}
+\item[{}]{source, }
+\item[{}]{fn = {\ttfamily \char`\"{}\char`\"{}}}
+\end{DoxyParamCaption}
+)}}\label{namespacedismantle_a4fd47c870eb4e4db257d7062816ea752}
+
+
+Definition at line 51 of file dismantle.\-py.
+
+\hypertarget{namespacedismantle_a228ae9383e16d6c62fd32625140ace6c}{\index{dismantle@{dismantle}!dismantle\-\_\-file@{dismantle\-\_\-file}}
+\index{dismantle\-\_\-file@{dismantle\-\_\-file}!dismantle@{dismantle}}
+\subsubsection[{dismantle\-\_\-file}]{\setlength{\rightskip}{0pt plus 5cm}def dismantle.\-dismantle\-\_\-file (
+\begin{DoxyParamCaption}
+\item[{}]{fn}
+\end{DoxyParamCaption}
+)}}\label{namespacedismantle_a228ae9383e16d6c62fd32625140ace6c}
+\begin{DoxyVerb}Dismantles the .py file, fn. Returns the root code object.
+\end{DoxyVerb}
+ 
+
+Definition at line 40 of file dismantle.\-py.
+
+\hypertarget{namespacedismantle_ab84a4f1b9a37d914291e148e6fb9a92c}{\index{dismantle@{dismantle}!main@{main}}
+\index{main@{main}!dismantle@{dismantle}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}def dismantle.\-main (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{namespacedismantle_ab84a4f1b9a37d914291e148e6fb9a92c}
+\begin{DoxyVerb}Dismantles the source file given as an arg.
+\end{DoxyVerb}
+ 
+
+Definition at line 158 of file dismantle.\-py.
+
+\hypertarget{namespacedismantle_a2471fd15f1bac193e1e15ecfc50bf859}{\index{dismantle@{dismantle}!rdismantle@{rdismantle}}
+\index{rdismantle@{rdismantle}!dismantle@{dismantle}}
+\subsubsection[{rdismantle}]{\setlength{\rightskip}{0pt plus 5cm}def dismantle.\-rdismantle (
+\begin{DoxyParamCaption}
+\item[{}]{co, }
+\item[{}]{parent = {\ttfamily None}}
+\end{DoxyParamCaption}
+)}}\label{namespacedismantle_a2471fd15f1bac193e1e15ecfc50bf859}
+\begin{DoxyVerb}Dismantles the code object, co.  Prints the co_* field values and
+the co_code disassembly for each code object in the file and recurses
+into any code objects in the constant pool.
+\end{DoxyVerb}
+ 
+
+Definition at line 95 of file dismantle.\-py.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{namespacedismantle_a46aea8853af02029a008f2899c711e8c}{\index{dismantle@{dismantle}!\-\_\-\-\_\-usage\-\_\-\-\_\-@{\-\_\-\-\_\-usage\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-usage\-\_\-\-\_\-@{\-\_\-\-\_\-usage\-\_\-\-\_\-}!dismantle@{dismantle}}
+\subsubsection[{\-\_\-\-\_\-usage\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}string dismantle.\-\_\-\-\_\-usage\-\_\-\-\_\-}}\label{namespacedismantle_a46aea8853af02029a008f2899c711e8c}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+1 = \textcolor{stringliteral}{"""Usage:}
+2 \textcolor{stringliteral}{    dismantle.py sourcefilename.py}
+3 \textcolor{stringliteral}{"""}
+\end{DoxyCode}
+
+
+Definition at line 21 of file dismantle.\-py.
+
+\hypertarget{namespacedismantle_a9db810cc2b3ee053900fbcf23b828aaa}{\index{dismantle@{dismantle}!S\-T\-R\-I\-N\-G\-T\-O\-O\-L\-O\-N\-G@{S\-T\-R\-I\-N\-G\-T\-O\-O\-L\-O\-N\-G}}
+\index{S\-T\-R\-I\-N\-G\-T\-O\-O\-L\-O\-N\-G@{S\-T\-R\-I\-N\-G\-T\-O\-O\-L\-O\-N\-G}!dismantle@{dismantle}}
+\subsubsection[{S\-T\-R\-I\-N\-G\-T\-O\-O\-L\-O\-N\-G}]{\setlength{\rightskip}{0pt plus 5cm}int dismantle.\-S\-T\-R\-I\-N\-G\-T\-O\-O\-L\-O\-N\-G = 32}}\label{namespacedismantle_a9db810cc2b3ee053900fbcf23b828aaa}
+
+
+Definition at line 34 of file dismantle.\-py.
+

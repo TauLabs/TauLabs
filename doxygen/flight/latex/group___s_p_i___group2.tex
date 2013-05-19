@@ -1,0 +1,216 @@
+\hypertarget{group___s_p_i___group2}{\section{Data transfers functions}
+\label{group___s_p_i___group2}\index{Data transfers functions@{Data transfers functions}}
+}
+
+
+Data transfers functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_p_i___group2_gabacb635cd2b8d14ededffb9d51ed3491}{S\-P\-I\-\_\-\-Send\-Data8} (\hyperlink{struct_s_p_i___type_def}{S\-P\-I\-\_\-\-Type\-Def} $\ast$S\-P\-Ix, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___copter_control_b_l_ga6f3335509cc4943e20df66f72483910c}{Data})
+\begin{DoxyCompactList}\small\item\em Transmits a Data through the S\-P\-Ix peripheral. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_p_i___group2_gad4592b2e3e64e7ebd73e960da8d7af24}{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Send\-Data16} (\hyperlink{struct_s_p_i___type_def}{S\-P\-I\-\_\-\-Type\-Def} $\ast$S\-P\-Ix, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___copter_control_b_l_ga6f3335509cc4943e20df66f72483910c}{Data})
+\begin{DoxyCompactList}\small\item\em Transmits a Data through the S\-P\-Ix/\-I2\-Sx peripheral. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___s_p_i___group2_gaf3b5692873d59d51e704818d17dda368}{S\-P\-I\-\_\-\-Receive\-Data8} (\hyperlink{struct_s_p_i___type_def}{S\-P\-I\-\_\-\-Type\-Def} $\ast$S\-P\-Ix)
+\begin{DoxyCompactList}\small\item\em Returns the most recent received data by the S\-P\-Ix peripheral. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___s_p_i___group2_ga1920d9529f224dec9b83eec969e2597d}{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Receive\-Data16} (\hyperlink{struct_s_p_i___type_def}{S\-P\-I\-\_\-\-Type\-Def} $\ast$S\-P\-Ix)
+\begin{DoxyCompactList}\small\item\em Returns the most recent received data by the S\-P\-Ix peripheral. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___s_p_i___group2_gab77de76547f3bff403236b263b070a30}{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Receive\-Data} (\hyperlink{struct_s_p_i___type_def}{S\-P\-I\-\_\-\-Type\-Def} $\ast$S\-P\-Ix)
+\begin{DoxyCompactList}\small\item\em Returns the most recent received data by the S\-P\-Ix/\-I2\-Sx peripheral. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___s_p_i___group2_gad5af40bebe8dbe3fa8bd476489d7e3da}{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Send\-Data} (\hyperlink{struct_s_p_i___type_def}{S\-P\-I\-\_\-\-Type\-Def} $\ast$S\-P\-Ix, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___copter_control_b_l_ga6f3335509cc4943e20df66f72483910c}{Data})
+\begin{DoxyCompactList}\small\item\em Transmits a Data through the S\-P\-Ix/\-I2\-Sx peripheral. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Data transfers functions. \begin{DoxyVerb} ===============================================================================
+                    ##### Data transfers functions #####
+ ===============================================================================  
+    [..] This section provides a set of functions allowing to manage the SPI or I2S 
+         data transfers.
+    [..] In reception, data are received and then stored into an internal Rx buffer while 
+         In transmission, data are first stored into an internal Tx buffer before being 
+         transmitted.
+    [..] The read access of the SPI_DR register can be done using the SPI_I2S_ReceiveData()
+         function and returns the Rx buffered value. Whereas a write access to the SPI_DR 
+         can be done using SPI_I2S_SendData() function and stores the written data into 
+         Tx buffer.\end{DoxyVerb}
+
+
+\begin{DoxyVerb} ===============================================================================
+                         Data transfers functions
+ ===============================================================================  
+
+  This section provides a set of functions allowing to manage the SPI data transfers
+  
+  In reception, data are received and then stored into an internal Rx buffer while 
+  In transmission, data are first stored into an internal Tx buffer before being 
+  transmitted.
+
+  The read access of the SPI_DR register can be done using the SPI_I2S_ReceiveData()
+  function and returns the Rx buffered value. Whereas a write access to the SPI_DR 
+  can be done using SPI_I2S_SendData() function and stores the written data into 
+  Tx buffer.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{group___s_p_i___group2_gab77de76547f3bff403236b263b070a30}{\index{Data transfers functions@{Data transfers functions}!S\-P\-I\-\_\-\-I2\-S\-\_\-\-Receive\-Data@{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Receive\-Data}}
+\index{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Receive\-Data@{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Receive\-Data}!Data transfers functions@{Data transfers functions}}
+\subsubsection[{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Receive\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} S\-P\-I\-\_\-\-I2\-S\-\_\-\-Receive\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf S\-P\-I\-\_\-\-Type\-Def} $\ast$}]{S\-P\-Ix}
+\end{DoxyParamCaption}
+)}}\label{group___s_p_i___group2_gab77de76547f3bff403236b263b070a30}
+
+
+Returns the most recent received data by the S\-P\-Ix/\-I2\-Sx peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\-P\-Ix,\-:} & To select the S\-P\-Ix/\-I2\-Sx peripheral, where x can be\-: 1, 2 or 3 in S\-P\-I mode or 2 or 3 in I2\-S mode or I2\-Sxext for I2\-S full duplex mode. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & value of the received data. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 781 of file stm32f4xx\-\_\-spi.\-c.
+
+\hypertarget{group___s_p_i___group2_ga1920d9529f224dec9b83eec969e2597d}{\index{Data transfers functions@{Data transfers functions}!S\-P\-I\-\_\-\-I2\-S\-\_\-\-Receive\-Data16@{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Receive\-Data16}}
+\index{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Receive\-Data16@{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Receive\-Data16}!Data transfers functions@{Data transfers functions}}
+\subsubsection[{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Receive\-Data16}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} S\-P\-I\-\_\-\-I2\-S\-\_\-\-Receive\-Data16 (
+\begin{DoxyParamCaption}
+\item[{{\bf S\-P\-I\-\_\-\-Type\-Def} $\ast$}]{S\-P\-Ix}
+\end{DoxyParamCaption}
+)}}\label{group___s_p_i___group2_ga1920d9529f224dec9b83eec969e2597d}
+
+
+Returns the most recent received data by the S\-P\-Ix peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\-P\-Ix,\-:} & To select the S\-P\-Ix/\-I2\-Sx peripheral, where x can be\-: 1, 2 or 3 in S\-P\-I mode or 2 or 3 in I2\-S mode or I2\-Sxext for I2\-S full duplex mode. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & value of the received data. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 882 of file stm32f30x\-\_\-spi.\-c.
+
+\hypertarget{group___s_p_i___group2_gad5af40bebe8dbe3fa8bd476489d7e3da}{\index{Data transfers functions@{Data transfers functions}!S\-P\-I\-\_\-\-I2\-S\-\_\-\-Send\-Data@{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Send\-Data}}
+\index{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Send\-Data@{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Send\-Data}!Data transfers functions@{Data transfers functions}}
+\subsubsection[{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Send\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} S\-P\-I\-\_\-\-I2\-S\-\_\-\-Send\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf S\-P\-I\-\_\-\-Type\-Def} $\ast$}]{S\-P\-Ix, }
+\item[{{\bf uint16\-\_\-t}}]{Data}
+\end{DoxyParamCaption}
+)}}\label{group___s_p_i___group2_gad5af40bebe8dbe3fa8bd476489d7e3da}
+
+
+Transmits a Data through the S\-P\-Ix/\-I2\-Sx peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\-P\-Ix,\-:} & To select the S\-P\-Ix/\-I2\-Sx peripheral, where x can be\-: 1, 2 or 3 in S\-P\-I mode or 2 or 3 in I2\-S mode or I2\-Sxext for I2\-S full duplex mode. \\
+\hline
+{\em Data,\-:} & Data to be transmitted. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 797 of file stm32f4xx\-\_\-spi.\-c.
+
+\hypertarget{group___s_p_i___group2_gad4592b2e3e64e7ebd73e960da8d7af24}{\index{Data transfers functions@{Data transfers functions}!S\-P\-I\-\_\-\-I2\-S\-\_\-\-Send\-Data16@{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Send\-Data16}}
+\index{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Send\-Data16@{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Send\-Data16}!Data transfers functions@{Data transfers functions}}
+\subsubsection[{S\-P\-I\-\_\-\-I2\-S\-\_\-\-Send\-Data16}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} S\-P\-I\-\_\-\-I2\-S\-\_\-\-Send\-Data16 (
+\begin{DoxyParamCaption}
+\item[{{\bf S\-P\-I\-\_\-\-Type\-Def} $\ast$}]{S\-P\-Ix, }
+\item[{{\bf uint16\-\_\-t}}]{Data}
+\end{DoxyParamCaption}
+)}}\label{group___s_p_i___group2_gad4592b2e3e64e7ebd73e960da8d7af24}
+
+
+Transmits a Data through the S\-P\-Ix/\-I2\-Sx peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\-P\-Ix,\-:} & To select the S\-P\-Ix/\-I2\-Sx peripheral, where x can be\-: 1, 2 or 3 in S\-P\-I mode or 2 or 3 in I2\-S mode or I2\-Sxext for I2\-S full duplex mode. \\
+\hline
+{\em Data,\-:} & Data to be transmitted. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 850 of file stm32f30x\-\_\-spi.\-c.
+
+\hypertarget{group___s_p_i___group2_gaf3b5692873d59d51e704818d17dda368}{\index{Data transfers functions@{Data transfers functions}!S\-P\-I\-\_\-\-Receive\-Data8@{S\-P\-I\-\_\-\-Receive\-Data8}}
+\index{S\-P\-I\-\_\-\-Receive\-Data8@{S\-P\-I\-\_\-\-Receive\-Data8}!Data transfers functions@{Data transfers functions}}
+\subsubsection[{S\-P\-I\-\_\-\-Receive\-Data8}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} S\-P\-I\-\_\-\-Receive\-Data8 (
+\begin{DoxyParamCaption}
+\item[{{\bf S\-P\-I\-\_\-\-Type\-Def} $\ast$}]{S\-P\-Ix}
+\end{DoxyParamCaption}
+)}}\label{group___s_p_i___group2_gaf3b5692873d59d51e704818d17dda368}
+
+
+Returns the most recent received data by the S\-P\-Ix peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\-P\-Ix,\-:} & where x can be 1, 2 or 3 to select the S\-P\-I peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & value of the received data. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 863 of file stm32f30x\-\_\-spi.\-c.
+
+\hypertarget{group___s_p_i___group2_gabacb635cd2b8d14ededffb9d51ed3491}{\index{Data transfers functions@{Data transfers functions}!S\-P\-I\-\_\-\-Send\-Data8@{S\-P\-I\-\_\-\-Send\-Data8}}
+\index{S\-P\-I\-\_\-\-Send\-Data8@{S\-P\-I\-\_\-\-Send\-Data8}!Data transfers functions@{Data transfers functions}}
+\subsubsection[{S\-P\-I\-\_\-\-Send\-Data8}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} S\-P\-I\-\_\-\-Send\-Data8 (
+\begin{DoxyParamCaption}
+\item[{{\bf S\-P\-I\-\_\-\-Type\-Def} $\ast$}]{S\-P\-Ix, }
+\item[{{\bf uint8\-\_\-t}}]{Data}
+\end{DoxyParamCaption}
+)}}\label{group___s_p_i___group2_gabacb635cd2b8d14ededffb9d51ed3491}
+
+
+Transmits a Data through the S\-P\-Ix peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\-P\-Ix,\-:} & where x can be 1, 2 or 3 to select the S\-P\-I peripheral. \\
+\hline
+{\em Data,\-:} & Data to be transmitted. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line 830 of file stm32f30x\-\_\-spi.\-c.
+

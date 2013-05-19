@@ -1,0 +1,36 @@
+var group___sine =
+[
+    [ "pid.c", "pid_8c.html", null ],
+    [ "pid.h", "pid_8h.html", null ],
+    [ "sin_lookup.c", "sin__lookup_8c.html", null ],
+    [ "sin_lookup.h", "sin__lookup_8h.html", null ],
+    [ "pid", "structpid.html", [
+      [ "d", "group___sine.html#ga1c4d7f2ca382af4be8d036cc36bd9c31", null ],
+      [ "i", "group___sine.html#ga97ebc09fc39d749940ebdc48926b8bb1", null ],
+      [ "iAccumulator", "group___sine.html#gafb7f8463c8cefe80b65db478c349a0b1", null ],
+      [ "iLim", "group___sine.html#ga2a3ee941dff64851693d27d04ece04f3", null ],
+      [ "lastDer", "group___sine.html#gae79ee69d35b5daccddb71cbe270fbbd1", null ],
+      [ "lastErr", "group___sine.html#gab61187c1e1bf8e3f6b09501992bd744f", null ],
+      [ "p", "group___sine.html#ga8281b69c68be641d7b0dcf0322b3715f", null ]
+    ] ],
+    [ "cos_lookup_deg", "group___sine.html#ga0a33b0bed5253ba4fe99f9e473d2fd53", null ],
+    [ "cos_lookup_rad", "group___sine.html#ga91a19e3f141f282bbdb792b2d4a69181", null ],
+    [ "pid_apply", "group___sine.html#gad03a357c11d4b4f48d0b53508c134172", null ],
+    [ "pid_apply_antiwindup", "group___sine.html#gaf54d5f129b61126e45090a00f76a5e5f", null ],
+    [ "pid_apply_setpoint", "group___sine.html#ga45b7c7ad39b81a853b97decfeed5e7c1", null ],
+    [ "pid_configure", "group___sine.html#ga01f26a319e659b2b74a32a52a4a88f95", null ],
+    [ "pid_configure_derivative", "group___sine.html#ga90a5d55ff766104f2cf9b4f2cc28d60f", null ],
+    [ "pid_zero", "group___sine.html#ga2e2dbc48e2b186b32beebd99e18f79e9", null ],
+    [ "sin_lookup_deg", "group___sine.html#ga13ede2c56ef26af3ff520fecfe431e93", null ],
+    [ "sin_lookup_initialize", "group___sine.html#gab64609ff84fffb0c000fc2662bd366c8", null ],
+    [ "sin_lookup_rad", "group___sine.html#gab8fd4ab7486a98f459a2d33ef3f31e9e", null ],
+    [ "d", "group___sine.html#ga1c4d7f2ca382af4be8d036cc36bd9c31", null ],
+    [ "i", "group___sine.html#ga97ebc09fc39d749940ebdc48926b8bb1", null ],
+    [ "iAccumulator", "group___sine.html#gafb7f8463c8cefe80b65db478c349a0b1", null ],
+    [ "iLim", "group___sine.html#ga2a3ee941dff64851693d27d04ece04f3", null ],
+    [ "lastDer", "group___sine.html#gae79ee69d35b5daccddb71cbe270fbbd1", null ],
+    [ "lastErr", "group___sine.html#gab61187c1e1bf8e3f6b09501992bd744f", null ],
+    [ "p", "group___sine.html#ga8281b69c68be641d7b0dcf0322b3715f", null ],
+    [ "SIN_RESOLUTION", "group___sine.html#gace095cad8be21b689623bd604ea20aaa", null ],
+    [ "sin_table", "group___sine.html#ga70cc8b18ae100423fdb14030bc26eeb5", null ]
+];

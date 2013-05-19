@@ -1,0 +1,155 @@
+\hypertarget{struct____mavlink__gps__raw__int__t}{\section{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t Struct Reference}
+\label{struct____mavlink__gps__raw__int__t}\index{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\-\_\-msg\-\_\-gps\-\_\-raw\-\_\-int.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint64\-\_\-t \hyperlink{struct____mavlink__gps__raw__int__t_a39d30393d02f2b1882040e3fa063f6ea}{time\-\_\-usec}
+\begin{DoxyCompactList}\small\item\em Timestamp (microseconds since U\-N\-I\-X epoch or microseconds since system boot) \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{struct____mavlink__gps__raw__int__t_aefd27d0b2d23c58a59b218aa151220d3}{lat}
+\begin{DoxyCompactList}\small\item\em Latitude in 1\-E7 degrees. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{struct____mavlink__gps__raw__int__t_a025fd2dd700ff7180af5a26c2a3497f4}{lon}
+\begin{DoxyCompactList}\small\item\em Longitude in 1\-E7 degrees. \end{DoxyCompactList}\item 
+\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{struct____mavlink__gps__raw__int__t_a00fe92144cfdaf8440a841493e5b6e99}{alt}
+\begin{DoxyCompactList}\small\item\em Altitude in 1\-E3 meters (millimeters) above M\-S\-L. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{struct____mavlink__gps__raw__int__t_ad7ec0749ffe37d3ada65b701be2cd305}{eph}
+\begin{DoxyCompactList}\small\item\em G\-P\-S H\-D\-O\-P horizontal dilution of position in cm (m$\ast$100). If unknown, set to\-: 65535. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{struct____mavlink__gps__raw__int__t_a0d50bc6cc0e56d9f49885e3e550ec944}{epv}
+\begin{DoxyCompactList}\small\item\em G\-P\-S V\-D\-O\-P horizontal dilution of position in cm (m$\ast$100). If unknown, set to\-: 65535. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{struct____mavlink__gps__raw__int__t_a77e8cbdbf554637e4fbbdaaabd562eaf}{vel}
+\begin{DoxyCompactList}\small\item\em G\-P\-S ground speed (m/s $\ast$ 100). If unknown, set to\-: 65535. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{struct____mavlink__gps__raw__int__t_adbe4dfbea17d1fd08a0841ce29e32637}{cog}
+\begin{DoxyCompactList}\small\item\em Course over ground (N\-O\-T heading, but direction of movement) in degrees $\ast$ 100, 0.\-0..359.\-99 degrees. If unknown, set to\-: 65535. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__gps__raw__int__t_ae014afb6eea2b6033ebde37c79e120f2}{fix\-\_\-type}
+\begin{DoxyCompactList}\small\item\em 0-\/1\-: no fix, 2\-: 2\-D fix, 3\-: 3\-D fix. Some applications will not use the value of this field unless it is at least two, so always correctly fill in the fix. \end{DoxyCompactList}\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct____mavlink__gps__raw__int__t_af1481a191aa3ffbf832dc3a4c35cbf09}{satellites\-\_\-visible}
+\begin{DoxyCompactList}\small\item\em Number of satellites visible. If unknown, set to 255. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 5 of file mavlink\-\_\-msg\-\_\-gps\-\_\-raw\-\_\-int.\-h.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__gps__raw__int__t_a00fe92144cfdaf8440a841493e5b6e99}{\index{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t}!alt@{alt}}
+\index{alt@{alt}!__mavlink_gps_raw_int_t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t}}
+\subsubsection[{alt}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t\-::alt}}\label{struct____mavlink__gps__raw__int__t_a00fe92144cfdaf8440a841493e5b6e99}
+
+
+Altitude in 1\-E3 meters (millimeters) above M\-S\-L. 
+
+
+
+Definition at line 10 of file mavlink\-\_\-msg\-\_\-gps\-\_\-raw\-\_\-int.\-h.
+
+\hypertarget{struct____mavlink__gps__raw__int__t_adbe4dfbea17d1fd08a0841ce29e32637}{\index{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t}!cog@{cog}}
+\index{cog@{cog}!__mavlink_gps_raw_int_t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t}}
+\subsubsection[{cog}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t\-::cog}}\label{struct____mavlink__gps__raw__int__t_adbe4dfbea17d1fd08a0841ce29e32637}
+
+
+Course over ground (N\-O\-T heading, but direction of movement) in degrees $\ast$ 100, 0.\-0..359.\-99 degrees. If unknown, set to\-: 65535. 
+
+
+
+Definition at line 14 of file mavlink\-\_\-msg\-\_\-gps\-\_\-raw\-\_\-int.\-h.
+
+\hypertarget{struct____mavlink__gps__raw__int__t_ad7ec0749ffe37d3ada65b701be2cd305}{\index{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t}!eph@{eph}}
+\index{eph@{eph}!__mavlink_gps_raw_int_t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t}}
+\subsubsection[{eph}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t\-::eph}}\label{struct____mavlink__gps__raw__int__t_ad7ec0749ffe37d3ada65b701be2cd305}
+
+
+G\-P\-S H\-D\-O\-P horizontal dilution of position in cm (m$\ast$100). If unknown, set to\-: 65535. 
+
+
+
+Definition at line 11 of file mavlink\-\_\-msg\-\_\-gps\-\_\-raw\-\_\-int.\-h.
+
+\hypertarget{struct____mavlink__gps__raw__int__t_a0d50bc6cc0e56d9f49885e3e550ec944}{\index{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t}!epv@{epv}}
+\index{epv@{epv}!__mavlink_gps_raw_int_t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t}}
+\subsubsection[{epv}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t\-::epv}}\label{struct____mavlink__gps__raw__int__t_a0d50bc6cc0e56d9f49885e3e550ec944}
+
+
+G\-P\-S V\-D\-O\-P horizontal dilution of position in cm (m$\ast$100). If unknown, set to\-: 65535. 
+
+
+
+Definition at line 12 of file mavlink\-\_\-msg\-\_\-gps\-\_\-raw\-\_\-int.\-h.
+
+\hypertarget{struct____mavlink__gps__raw__int__t_ae014afb6eea2b6033ebde37c79e120f2}{\index{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t}!fix\-\_\-type@{fix\-\_\-type}}
+\index{fix\-\_\-type@{fix\-\_\-type}!__mavlink_gps_raw_int_t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t}}
+\subsubsection[{fix\-\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t\-::fix\-\_\-type}}\label{struct____mavlink__gps__raw__int__t_ae014afb6eea2b6033ebde37c79e120f2}
+
+
+0-\/1\-: no fix, 2\-: 2\-D fix, 3\-: 3\-D fix. Some applications will not use the value of this field unless it is at least two, so always correctly fill in the fix. 
+
+
+
+Definition at line 15 of file mavlink\-\_\-msg\-\_\-gps\-\_\-raw\-\_\-int.\-h.
+
+\hypertarget{struct____mavlink__gps__raw__int__t_aefd27d0b2d23c58a59b218aa151220d3}{\index{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t}!lat@{lat}}
+\index{lat@{lat}!__mavlink_gps_raw_int_t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t}}
+\subsubsection[{lat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t\-::lat}}\label{struct____mavlink__gps__raw__int__t_aefd27d0b2d23c58a59b218aa151220d3}
+
+
+Latitude in 1\-E7 degrees. 
+
+
+
+Definition at line 8 of file mavlink\-\_\-msg\-\_\-gps\-\_\-raw\-\_\-int.\-h.
+
+\hypertarget{struct____mavlink__gps__raw__int__t_a025fd2dd700ff7180af5a26c2a3497f4}{\index{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t}!lon@{lon}}
+\index{lon@{lon}!__mavlink_gps_raw_int_t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t}}
+\subsubsection[{lon}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t\-::lon}}\label{struct____mavlink__gps__raw__int__t_a025fd2dd700ff7180af5a26c2a3497f4}
+
+
+Longitude in 1\-E7 degrees. 
+
+
+
+Definition at line 9 of file mavlink\-\_\-msg\-\_\-gps\-\_\-raw\-\_\-int.\-h.
+
+\hypertarget{struct____mavlink__gps__raw__int__t_af1481a191aa3ffbf832dc3a4c35cbf09}{\index{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t}!satellites\-\_\-visible@{satellites\-\_\-visible}}
+\index{satellites\-\_\-visible@{satellites\-\_\-visible}!__mavlink_gps_raw_int_t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t}}
+\subsubsection[{satellites\-\_\-visible}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t\-::satellites\-\_\-visible}}\label{struct____mavlink__gps__raw__int__t_af1481a191aa3ffbf832dc3a4c35cbf09}
+
+
+Number of satellites visible. If unknown, set to 255. 
+
+
+
+Definition at line 16 of file mavlink\-\_\-msg\-\_\-gps\-\_\-raw\-\_\-int.\-h.
+
+\hypertarget{struct____mavlink__gps__raw__int__t_a39d30393d02f2b1882040e3fa063f6ea}{\index{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t}!time\-\_\-usec@{time\-\_\-usec}}
+\index{time\-\_\-usec@{time\-\_\-usec}!__mavlink_gps_raw_int_t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t}}
+\subsubsection[{time\-\_\-usec}]{\setlength{\rightskip}{0pt plus 5cm}uint64\-\_\-t \-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t\-::time\-\_\-usec}}\label{struct____mavlink__gps__raw__int__t_a39d30393d02f2b1882040e3fa063f6ea}
+
+
+Timestamp (microseconds since U\-N\-I\-X epoch or microseconds since system boot) 
+
+
+
+Definition at line 7 of file mavlink\-\_\-msg\-\_\-gps\-\_\-raw\-\_\-int.\-h.
+
+\hypertarget{struct____mavlink__gps__raw__int__t_a77e8cbdbf554637e4fbbdaaabd562eaf}{\index{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t}!vel@{vel}}
+\index{vel@{vel}!__mavlink_gps_raw_int_t@{\-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t}}
+\subsubsection[{vel}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} \-\_\-\-\_\-mavlink\-\_\-gps\-\_\-raw\-\_\-int\-\_\-t\-::vel}}\label{struct____mavlink__gps__raw__int__t_a77e8cbdbf554637e4fbbdaaabd562eaf}
+
+
+G\-P\-S ground speed (m/s $\ast$ 100). If unknown, set to\-: 65535. 
+
+
+
+Definition at line 13 of file mavlink\-\_\-msg\-\_\-gps\-\_\-raw\-\_\-int.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Libraries/mavlink/v1.\-0/common/\hyperlink{mavlink__msg__gps__raw__int_8h}{mavlink\-\_\-msg\-\_\-gps\-\_\-raw\-\_\-int.\-h}\end{DoxyCompactItemize}

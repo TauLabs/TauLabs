@@ -1,0 +1,137 @@
+\hypertarget{struct_pm_frame__s}{\section{Pm\-Frame\-\_\-s Struct Reference}
+\label{struct_pm_frame__s}\index{Pm\-Frame\-\_\-s@{Pm\-Frame\-\_\-s}}
+}
+
+
+{\ttfamily \#include $<$frame.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{obj_8h_a72d816790acd8eb550fb25268c2b3489}{Pm\-Obj\-Desc\-\_\-t} \hyperlink{struct_pm_frame__s_a0850b7a1ffb7143d385aa9b438a0afa4}{od}
+\item 
+struct \hyperlink{struct_pm_frame__s}{Pm\-Frame\-\_\-s} $\ast$ \hyperlink{struct_pm_frame__s_ab9973b6a1a9107539de3ffa4b181a3ff}{fo\-\_\-back}
+\item 
+\hyperlink{func_8h_a31ea34c165a41eee786d036607d224b3}{p\-Pm\-Func\-\_\-t} \hyperlink{struct_pm_frame__s_a019782d26f22cdd2a08464d9ad463fdc}{fo\-\_\-func}
+\item 
+\hyperlink{mem_8h_a9c68f72c120fc5a782d464c144aafa2b}{Pm\-Mem\-Space\-\_\-t} \hyperlink{struct_pm_frame__s_ae2f6eee1acc2c6d1de398ce187e55100}{fo\-\_\-memspace}\-:8
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} $\ast$ \hyperlink{struct_pm_frame__s_a84b1a72fd9d6791fe887d05c5848d8c6}{fo\-\_\-ip}
+\item 
+\hyperlink{frame_8h_aceaac1fe42f08b3880cfc27d3db6075f}{p\-Pm\-Block\-\_\-t} \hyperlink{struct_pm_frame__s_aff746256e6c9b88ca389f5e61468501b}{fo\-\_\-blockstack}
+\item 
+\hyperlink{dict_8h_a32b81dc9e05f3a84863319301daf749b}{p\-Pm\-Dict\-\_\-t} \hyperlink{struct_pm_frame__s_ac31f338509fd3301afdb42bcc6c2517e}{fo\-\_\-attrs}
+\item 
+\hyperlink{dict_8h_a32b81dc9e05f3a84863319301daf749b}{p\-Pm\-Dict\-\_\-t} \hyperlink{struct_pm_frame__s_aac8ced4f070e0e9d071fa9c361195b71}{fo\-\_\-globals}
+\item 
+\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} $\ast$ \hyperlink{struct_pm_frame__s_aa256889546729dcf74733e782b03e88b}{fo\-\_\-sp}
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct_pm_frame__s_aa4786cc606fdf9b74d60454287788854}{fo\-\_\-is\-Import}\-:1
+\item 
+\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{struct_pm_frame__s_a3447b81b1d8fbf95cae30d054b81c168}{fo\-\_\-is\-Init}\-:1
+\item 
+\hyperlink{obj_8h_af293479fa3f9d92b941ee7445ad3960e}{p\-Pm\-Obj\-\_\-t} \hyperlink{struct_pm_frame__s_adfe4e983a61e7615ffa0219baf8d6632}{fo\-\_\-locals} \mbox{[}1\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Frame
+
+A struct that holds the execution frame of a function, including the stack, local vars and pointer to the code object.
+
+This struct doesn't declare the stack. \hyperlink{frame_8c_ab2ab765d372a18353af06acfb54e5ad7}{frame\-\_\-new()} is responsible for allocating the extra memory at the tail of fo\-\_\-locals\mbox{[}\mbox{]} to hold both the locals and stack. 
+
+Definition at line 90 of file frame.\-h.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{struct_pm_frame__s_ac31f338509fd3301afdb42bcc6c2517e}{\index{Pm\-Frame\-\_\-s@{Pm\-Frame\-\_\-s}!fo\-\_\-attrs@{fo\-\_\-attrs}}
+\index{fo\-\_\-attrs@{fo\-\_\-attrs}!PmFrame_s@{Pm\-Frame\-\_\-s}}
+\subsubsection[{fo\-\_\-attrs}]{\setlength{\rightskip}{0pt plus 5cm}{\bf p\-Pm\-Dict\-\_\-t} Pm\-Frame\-\_\-s\-::fo\-\_\-attrs}}\label{struct_pm_frame__s_ac31f338509fd3301afdb42bcc6c2517e}
+Local attributes dict (non-\/fast locals) 
+
+Definition at line 111 of file frame.\-h.
+
+\hypertarget{struct_pm_frame__s_ab9973b6a1a9107539de3ffa4b181a3ff}{\index{Pm\-Frame\-\_\-s@{Pm\-Frame\-\_\-s}!fo\-\_\-back@{fo\-\_\-back}}
+\index{fo\-\_\-back@{fo\-\_\-back}!PmFrame_s@{Pm\-Frame\-\_\-s}}
+\subsubsection[{fo\-\_\-back}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Pm\-Frame\-\_\-s}$\ast$ Pm\-Frame\-\_\-s\-::fo\-\_\-back}}\label{struct_pm_frame__s_ab9973b6a1a9107539de3ffa4b181a3ff}
+Ptr to previous frame obj 
+
+Definition at line 96 of file frame.\-h.
+
+\hypertarget{struct_pm_frame__s_aff746256e6c9b88ca389f5e61468501b}{\index{Pm\-Frame\-\_\-s@{Pm\-Frame\-\_\-s}!fo\-\_\-blockstack@{fo\-\_\-blockstack}}
+\index{fo\-\_\-blockstack@{fo\-\_\-blockstack}!PmFrame_s@{Pm\-Frame\-\_\-s}}
+\subsubsection[{fo\-\_\-blockstack}]{\setlength{\rightskip}{0pt plus 5cm}{\bf p\-Pm\-Block\-\_\-t} Pm\-Frame\-\_\-s\-::fo\-\_\-blockstack}}\label{struct_pm_frame__s_aff746256e6c9b88ca389f5e61468501b}
+Linked list of blocks 
+
+Definition at line 108 of file frame.\-h.
+
+\hypertarget{struct_pm_frame__s_a019782d26f22cdd2a08464d9ad463fdc}{\index{Pm\-Frame\-\_\-s@{Pm\-Frame\-\_\-s}!fo\-\_\-func@{fo\-\_\-func}}
+\index{fo\-\_\-func@{fo\-\_\-func}!PmFrame_s@{Pm\-Frame\-\_\-s}}
+\subsubsection[{fo\-\_\-func}]{\setlength{\rightskip}{0pt plus 5cm}{\bf p\-Pm\-Func\-\_\-t} Pm\-Frame\-\_\-s\-::fo\-\_\-func}}\label{struct_pm_frame__s_a019782d26f22cdd2a08464d9ad463fdc}
+Ptr to fxn obj 
+
+Definition at line 99 of file frame.\-h.
+
+\hypertarget{struct_pm_frame__s_aac8ced4f070e0e9d071fa9c361195b71}{\index{Pm\-Frame\-\_\-s@{Pm\-Frame\-\_\-s}!fo\-\_\-globals@{fo\-\_\-globals}}
+\index{fo\-\_\-globals@{fo\-\_\-globals}!PmFrame_s@{Pm\-Frame\-\_\-s}}
+\subsubsection[{fo\-\_\-globals}]{\setlength{\rightskip}{0pt plus 5cm}{\bf p\-Pm\-Dict\-\_\-t} Pm\-Frame\-\_\-s\-::fo\-\_\-globals}}\label{struct_pm_frame__s_aac8ced4f070e0e9d071fa9c361195b71}
+Global attributes dict (pts to root frame's globals 
+
+Definition at line 114 of file frame.\-h.
+
+\hypertarget{struct_pm_frame__s_a84b1a72fd9d6791fe887d05c5848d8c6}{\index{Pm\-Frame\-\_\-s@{Pm\-Frame\-\_\-s}!fo\-\_\-ip@{fo\-\_\-ip}}
+\index{fo\-\_\-ip@{fo\-\_\-ip}!PmFrame_s@{Pm\-Frame\-\_\-s}}
+\subsubsection[{fo\-\_\-ip}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} {\bf const}$\ast$ Pm\-Frame\-\_\-s\-::fo\-\_\-ip}}\label{struct_pm_frame__s_a84b1a72fd9d6791fe887d05c5848d8c6}
+Instrxn ptr (pts into memspace) 
+
+Definition at line 105 of file frame.\-h.
+
+\hypertarget{struct_pm_frame__s_aa4786cc606fdf9b74d60454287788854}{\index{Pm\-Frame\-\_\-s@{Pm\-Frame\-\_\-s}!fo\-\_\-is\-Import@{fo\-\_\-is\-Import}}
+\index{fo\-\_\-is\-Import@{fo\-\_\-is\-Import}!PmFrame_s@{Pm\-Frame\-\_\-s}}
+\subsubsection[{fo\-\_\-is\-Import}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} Pm\-Frame\-\_\-s\-::fo\-\_\-is\-Import}}\label{struct_pm_frame__s_aa4786cc606fdf9b74d60454287788854}
+Frame can be an import-\/frame that handles R\-E\-T\-U\-R\-N differently 
+
+Definition at line 120 of file frame.\-h.
+
+\hypertarget{struct_pm_frame__s_a3447b81b1d8fbf95cae30d054b81c168}{\index{Pm\-Frame\-\_\-s@{Pm\-Frame\-\_\-s}!fo\-\_\-is\-Init@{fo\-\_\-is\-Init}}
+\index{fo\-\_\-is\-Init@{fo\-\_\-is\-Init}!PmFrame_s@{Pm\-Frame\-\_\-s}}
+\subsubsection[{fo\-\_\-is\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} Pm\-Frame\-\_\-s\-::fo\-\_\-is\-Init}}\label{struct_pm_frame__s_a3447b81b1d8fbf95cae30d054b81c168}
+Flag to indicate class initailzer frame; handle R\-E\-T\-U\-R\-N differently 
+
+Definition at line 124 of file frame.\-h.
+
+\hypertarget{struct_pm_frame__s_adfe4e983a61e7615ffa0219baf8d6632}{\index{Pm\-Frame\-\_\-s@{Pm\-Frame\-\_\-s}!fo\-\_\-locals@{fo\-\_\-locals}}
+\index{fo\-\_\-locals@{fo\-\_\-locals}!PmFrame_s@{Pm\-Frame\-\_\-s}}
+\subsubsection[{fo\-\_\-locals}]{\setlength{\rightskip}{0pt plus 5cm}{\bf p\-Pm\-Obj\-\_\-t} Pm\-Frame\-\_\-s\-::fo\-\_\-locals\mbox{[}1\mbox{]}}}\label{struct_pm_frame__s_adfe4e983a61e7615ffa0219baf8d6632}
+Array of local vars and stack (space appended at alloc) 
+
+Definition at line 128 of file frame.\-h.
+
+\hypertarget{struct_pm_frame__s_ae2f6eee1acc2c6d1de398ce187e55100}{\index{Pm\-Frame\-\_\-s@{Pm\-Frame\-\_\-s}!fo\-\_\-memspace@{fo\-\_\-memspace}}
+\index{fo\-\_\-memspace@{fo\-\_\-memspace}!PmFrame_s@{Pm\-Frame\-\_\-s}}
+\subsubsection[{fo\-\_\-memspace}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Mem\-Space\-\_\-t} Pm\-Frame\-\_\-s\-::fo\-\_\-memspace}}\label{struct_pm_frame__s_ae2f6eee1acc2c6d1de398ce187e55100}
+Mem space where func's C\-O comes from 
+
+Definition at line 102 of file frame.\-h.
+
+\hypertarget{struct_pm_frame__s_aa256889546729dcf74733e782b03e88b}{\index{Pm\-Frame\-\_\-s@{Pm\-Frame\-\_\-s}!fo\-\_\-sp@{fo\-\_\-sp}}
+\index{fo\-\_\-sp@{fo\-\_\-sp}!PmFrame_s@{Pm\-Frame\-\_\-s}}
+\subsubsection[{fo\-\_\-sp}]{\setlength{\rightskip}{0pt plus 5cm}{\bf p\-Pm\-Obj\-\_\-t}$\ast$ Pm\-Frame\-\_\-s\-::fo\-\_\-sp}}\label{struct_pm_frame__s_aa256889546729dcf74733e782b03e88b}
+Points to next empty slot in fo\-\_\-locals (1 past T\-O\-S) 
+
+Definition at line 117 of file frame.\-h.
+
+\hypertarget{struct_pm_frame__s_a0850b7a1ffb7143d385aa9b438a0afa4}{\index{Pm\-Frame\-\_\-s@{Pm\-Frame\-\_\-s}!od@{od}}
+\index{od@{od}!PmFrame_s@{Pm\-Frame\-\_\-s}}
+\subsubsection[{od}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pm\-Obj\-Desc\-\_\-t} Pm\-Frame\-\_\-s\-::od}}\label{struct_pm_frame__s_a0850b7a1ffb7143d385aa9b438a0afa4}
+Obligatory obj descriptor 
+
+Definition at line 93 of file frame.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-Py\-Mite/vm/\hyperlink{frame_8h}{frame.\-h}\end{DoxyCompactItemize}

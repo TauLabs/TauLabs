@@ -1,0 +1,610 @@
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S.osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.c File Reference}
+\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S.\-osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Pi\-O\-S.\-osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_x_p_a_r_a_m_s}{X\-P\-A\-R\-A\-M\-S}
+\item 
+struct \hyperlink{struct_t_h_r_e_a_d___s_u_s_p_e_n_s_i_o_n_s}{T\-H\-R\-E\-A\-D\-\_\-\-S\-U\-S\-P\-E\-N\-S\-I\-O\-N\-S}
+\item 
+struct \hyperlink{structtsk_task_control_block}{tsk\-Task\-Control\-Block}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{struct_x_p_a_r_a_m_s}{X\-P\-A\-R\-A\-M\-S} \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_ac722d940aea2dc26b97464a1dbd63b21}{x\-Params}
+\item 
+typedef struct \hyperlink{struct_t_h_r_e_a_d___s_u_s_p_e_n_s_i_o_n_s}{T\-H\-R\-E\-A\-D\-\_\-\-S\-U\-S\-P\-E\-N\-S\-I\-O\-N\-S} \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a4e7bff5d8a720a47276b1f687f370df6}{x\-Thread\-State}
+\item 
+typedef struct \hyperlink{structtsk_task_control_block}{tsk\-Task\-Control\-Block} \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a1e66c51944fbc63a4c7682217174b241}{tsk\-T\-C\-B}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a3ba0ae993b26446020f1d02c37341f8e}{thread\-\_\-status} \{ \\*
+\hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a3ba0ae993b26446020f1d02c37341f8ea1061be6c3fb88d32829cba6f6b2be304}{R\-U\-N\-N\-I\-N\-G}, 
+\hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a3ba0ae993b26446020f1d02c37341f8ea77647f28a49007bb2c1f10fa36f33b55}{S\-T\-O\-R\-E\-D}, 
+\hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a3ba0ae993b26446020f1d02c37341f8ea948b2aee15f52b421fa4770c47bcfe8c}{S\-T\-O\-P\-P\-E\-D}, 
+\hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a3ba0ae993b26446020f1d02c37341f8eaa387e4668dfb404ce73595c772d57144}{C\-R\-E\-A\-T\-E\-D}, 
+\\*
+\hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a3ba0ae993b26446020f1d02c37341f8ea4ff8bebc049a0e8fa161e18027e989ff}{D\-E\-S\-T\-R\-O\-Y\-E\-D}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a0ae4ce184bb557236f1ef9c3e43a7a07}{mask\-Suspend} ()
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a1b0917335b5f9cfc2ca33bed30846964}{unmask\-Suspend} ()
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a2a4ff76548dd0713f21b35e9fccf9b09}{store\-Self} ()
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a9d56287817b5b05e0476cbae96eb42c1}{pause\-Self} ()
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a04020c5dc1a7c33a416e44e5156f77a3}{prv\-Set\-Task\-Interrupt} (pthread\-\_\-t x\-Thread\-Id, unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{task_8c_abb05820964c59810102c40b0400dfdbe}{x\-Interrupts\-Enabled})
+\item 
+unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_aaed733c8542465d9b9a12ed64fceff6d}{prv\-Get\-Task\-Interrupt} (pthread\-\_\-t x\-Thread\-Id)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_add01c927fb689f7ec170e42d47d27927}{v\-Port\-Yield} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_af4576b8a51329ade55e290866f7dc8ec}{v\-Port\-System\-Tick\-Handler} (int sig)
+\item 
+int \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_abb64633363aa863c1e33aee27d296f8e}{real\-\_\-pthread\-\_\-mutex\-\_\-lock} (pthread\-\_\-mutex\-\_\-t $\ast$mutex)
+\item 
+int \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a966a768bf9c4e091c298423e4958085e}{real\-\_\-pthread\-\_\-mutex\-\_\-unlock} (pthread\-\_\-mutex\-\_\-t $\ast$mutex)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a5cfc38319f17c8e804020ec247b6325d}{v\-Port\-Start\-First\-Task} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+char $\ast$ \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a41fc1d233522e28c1f2b7a57a663746c}{thread\-To\-Name} (pthread\-\_\-t \hyperlink{pios__opahrs__proto_8h_a9dcbdb7ee917d3a8b4c206575187b1d9}{t})
+\item 
+port\-S\-T\-A\-C\-K\-\_\-\-T\-Y\-P\-E $\ast$ \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a4a439f783d47636cea978a4c8669f258}{px\-Port\-Initialise\-Stack} (port\-S\-T\-A\-C\-K\-\_\-\-T\-Y\-P\-E $\ast$px\-Top\-Of\-Stack, \hyperlink{win32_2win32_2_libraries_2_free_r_t_o_s_2_source_2include_2projdefs_8h_ae74d12a2f9cb1fcae89532830b5413ac}{pd\-T\-A\-S\-K\-\_\-\-C\-O\-D\-E} px\-Code, \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$pv\-Parameters)
+\item 
+port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a53fbb684e09a643c56b7508f1ef97ad3}{x\-Port\-Start\-Scheduler} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_af76f3c0b44c5b5c06fc046a4ee1a6423}{v\-Port\-End\-Scheduler} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_afdcc79704f1ce3c8790268b732b7911d}{v\-Port\-Yield\-From\-I\-S\-R} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a2ed3554a3de09a3bd09d396ee081ab69}{v\-Port\-Enter\-Critical} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_aed20ada05b957181a0de042802a82a5b}{v\-Port\-Exit\-Critical} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a6efcba81026ff6f2920ea53804bc6bdf}{v\-Port\-Disable\-Interrupts} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_af329f3280e39011c4d9efbca3d5dd329}{v\-Port\-Enable\-Interrupts} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a74874880bc92942127e3a07be5571822}{x\-Port\-Set\-Interrupt\-Mask} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_ae909be125cc9a2220ed8ee1acbf28874}{v\-Port\-Clear\-Interrupt\-Mask} (port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Mask)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_ab5abb38fd2477d71d71d21e81f6f0206}{v\-Port\-Forcibly\-End\-Thread} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$px\-Task\-To\-Delete)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a88c7620356047aea8d55bb5c4fa51ac5}{v\-Port\-Add\-Task\-Handle} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$px\-Task\-Handle)
+\item 
+\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_ac407473e70202ce8c914854a8edad969}{v\-Port\-Find\-Ticks\-Per\-Second} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\item 
+unsigned long \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_abbd3994df98343a0a306ca8cd7d6e53b}{ul\-Port\-Get\-Timer\-Value} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___c_m_s_i_s___core___instruction_interface_gad7d93af13046b0378601b85c8c16673b}{volatile} port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_abb05820964c59810102c40b0400dfdbe}{x\-Interrupts\-Enabled} = pd\-T\-R\-U\-E
+\item 
+F\-I\-L\-E $\ast$ \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a646170d6f9e3b0d001430a771e9f2247}{fid}
+\item 
+\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2tasks_8c_a1e66c51944fbc63a4c7682217174b241}{tsk\-T\-C\-B} $\ast$ \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_adbd7100a533d561bcd2289a0d581cb85}{debug\-\_\-task\-\_\-handle}
+\item 
+int \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_ae45448cd3faa5057ebcdd0087db22730}{yield\-\_\-locking} = 0
+\item 
+\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2tasks_8c_a1e66c51944fbc63a4c7682217174b241}{tsk\-T\-C\-B} $\ast$ \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a78314732c9a2e6fbef6aece938751b75}{last\-Yield}
+\item 
+int \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_af289b02f79086479279f9374594707cf}{yield\-\_\-count} = 0
+\item 
+int \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a831cefd0616efef301931d14266dc130}{irq\-\_\-lock}
+\item 
+\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2tasks_8c_a1e66c51944fbc63a4c7682217174b241}{tsk\-T\-C\-B} $\ast$ \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a269537d77900a5617ee310b51be37f9b}{last\-Interrupt\-Disable}
+\item 
+\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2tasks_8c_a1e66c51944fbc63a4c7682217174b241}{tsk\-T\-C\-B} $\ast$ \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_af9f66a4add9632b1d23f969894f8d0fd}{old\-Task}
+\item 
+\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2tasks_8c_a1e66c51944fbc63a4c7682217174b241}{tsk\-T\-C\-B} $\ast$ \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a75922c895d2abd36a434c3182c5a28f2}{new\-Task}
+\item 
+int \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_aea199b99e629328fd769d550abedd153}{preemptive\-\_\-count} = 0
+\item 
+int \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_ade8453d031493ff79b111179bec480a3}{noirq\-\_\-count} = 0
+\item 
+int \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_aaab695f7f7e6849891f26a9d0ac901cb}{init\-\_\-destroyed} = 0
+\item 
+\hyperlink{group___c_m_s_i_s___core___instruction_interface_gad7d93af13046b0378601b85c8c16673b}{volatile} unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_ae3fc8dcc83620d1683bf71f7e12db76d}{ux\-Scheduler\-Suspended}
+\item 
+\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2tasks_8c_a1e66c51944fbc63a4c7682217174b241}{tsk\-T\-C\-B} $\ast$ \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a38d9ef8579a95640214eb184079e0e33}{last\-Resume\-Attempt}
+\item 
+\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2tasks_8c_a1e66c51944fbc63a4c7682217174b241}{tsk\-T\-C\-B} $\ast$ \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_ab2800385acdb12cfff3370e688bc287c}{last\-Resume}
+\item 
+\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2tasks_8c_a1e66c51944fbc63a4c7682217174b241}{tsk\-T\-C\-B} $\ast$ \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_af8eb5463eb5bc22fcf2546fc940c1d33}{last\-Claim}
+\item 
+int \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a3fa75ad2b6c0c5eddd19ca027b1e4029}{last\-Claim\-Type}
+\item 
+int \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a68f952144b7a627e189dcae5fdd1a1ac}{claim\-\_\-count} = 0
+\item 
+\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2tasks_8c_a1e66c51944fbc63a4c7682217174b241}{tsk\-T\-C\-B} $\ast$ \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_aa12b02dbe7c39c958c1f64aff70794d7}{last\-Release}
+\item 
+int \hyperlink{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a1316aa3d611ebf4ed9fa2c5f36bc6f79}{release\-\_\-count} = 0
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a1e66c51944fbc63a4c7682217174b241}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!tsk\-T\-C\-B@{tsk\-T\-C\-B}}
+\index{tsk\-T\-C\-B@{tsk\-T\-C\-B}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{tsk\-T\-C\-B}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf tsk\-Task\-Control\-Block}  {\bf tsk\-T\-C\-B}}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a1e66c51944fbc63a4c7682217174b241}
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_ac722d940aea2dc26b97464a1dbd63b21}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!x\-Params@{x\-Params}}
+\index{x\-Params@{x\-Params}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{x\-Params}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf X\-P\-A\-R\-A\-M\-S}  {\bf x\-Params}}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_ac722d940aea2dc26b97464a1dbd63b21}
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a4e7bff5d8a720a47276b1f687f370df6}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!x\-Thread\-State@{x\-Thread\-State}}
+\index{x\-Thread\-State@{x\-Thread\-State}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{x\-Thread\-State}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf T\-H\-R\-E\-A\-D\-\_\-\-S\-U\-S\-P\-E\-N\-S\-I\-O\-N\-S}  {\bf x\-Thread\-State}}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a4e7bff5d8a720a47276b1f687f370df6}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a3ba0ae993b26446020f1d02c37341f8e}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!thread\-\_\-status@{thread\-\_\-status}}
+\index{thread\-\_\-status@{thread\-\_\-status}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{thread\-\_\-status}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf thread\-\_\-status}}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a3ba0ae993b26446020f1d02c37341f8e}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{R\-U\-N\-N\-I\-N\-G@{R\-U\-N\-N\-I\-N\-G}!osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!R\-U\-N\-N\-I\-N\-G@{R\-U\-N\-N\-I\-N\-G}}\item[{\em 
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a3ba0ae993b26446020f1d02c37341f8ea1061be6c3fb88d32829cba6f6b2be304}{R\-U\-N\-N\-I\-N\-G}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a3ba0ae993b26446020f1d02c37341f8ea1061be6c3fb88d32829cba6f6b2be304}
+}]\index{S\-T\-O\-R\-E\-D@{S\-T\-O\-R\-E\-D}!osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!S\-T\-O\-R\-E\-D@{S\-T\-O\-R\-E\-D}}\item[{\em 
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a3ba0ae993b26446020f1d02c37341f8ea77647f28a49007bb2c1f10fa36f33b55}{S\-T\-O\-R\-E\-D}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a3ba0ae993b26446020f1d02c37341f8ea77647f28a49007bb2c1f10fa36f33b55}
+}]\index{S\-T\-O\-P\-P\-E\-D@{S\-T\-O\-P\-P\-E\-D}!osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!S\-T\-O\-P\-P\-E\-D@{S\-T\-O\-P\-P\-E\-D}}\item[{\em 
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a3ba0ae993b26446020f1d02c37341f8ea948b2aee15f52b421fa4770c47bcfe8c}{S\-T\-O\-P\-P\-E\-D}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a3ba0ae993b26446020f1d02c37341f8ea948b2aee15f52b421fa4770c47bcfe8c}
+}]\index{C\-R\-E\-A\-T\-E\-D@{C\-R\-E\-A\-T\-E\-D}!osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!C\-R\-E\-A\-T\-E\-D@{C\-R\-E\-A\-T\-E\-D}}\item[{\em 
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a3ba0ae993b26446020f1d02c37341f8eaa387e4668dfb404ce73595c772d57144}{C\-R\-E\-A\-T\-E\-D}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a3ba0ae993b26446020f1d02c37341f8eaa387e4668dfb404ce73595c772d57144}
+}]\index{D\-E\-S\-T\-R\-O\-Y\-E\-D@{D\-E\-S\-T\-R\-O\-Y\-E\-D}!osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!D\-E\-S\-T\-R\-O\-Y\-E\-D@{D\-E\-S\-T\-R\-O\-Y\-E\-D}}\item[{\em 
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a3ba0ae993b26446020f1d02c37341f8ea4ff8bebc049a0e8fa161e18027e989ff}{D\-E\-S\-T\-R\-O\-Y\-E\-D}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a3ba0ae993b26446020f1d02c37341f8ea4ff8bebc049a0e8fa161e18027e989ff}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 129 of file port.\-c.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a0ae4ce184bb557236f1ef9c3e43a7a07}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!mask\-Suspend@{mask\-Suspend}}
+\index{mask\-Suspend@{mask\-Suspend}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{mask\-Suspend}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} mask\-Suspend (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a0ae4ce184bb557236f1ef9c3e43a7a07}
+Methods to facilitate the task switching 
+
+Definition at line 560 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a9d56287817b5b05e0476cbae96eb42c1}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!pause\-Self@{pause\-Self}}
+\index{pause\-Self@{pause\-Self}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{pause\-Self}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} pause\-Self (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a9d56287817b5b05e0476cbae96eb42c1}
+Pause self, either from the signal handler or from its own thread. Marks the status to stopped then waits for condition. When resumes marks condition as true 
+
+Definition at line 1218 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_aaed733c8542465d9b9a12ed64fceff6d}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!prv\-Get\-Task\-Interrupt@{prv\-Get\-Task\-Interrupt}}
+\index{prv\-Get\-Task\-Interrupt@{prv\-Get\-Task\-Interrupt}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{prv\-Get\-Task\-Interrupt}]{\setlength{\rightskip}{0pt plus 5cm}unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E prv\-Get\-Task\-Interrupt (
+\begin{DoxyParamCaption}
+\item[{pthread\-\_\-t}]{x\-Thread\-Id}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_aaed733c8542465d9b9a12ed64fceff6d}
+
+
+Definition at line 1102 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a04020c5dc1a7c33a416e44e5156f77a3}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!prv\-Set\-Task\-Interrupt@{prv\-Set\-Task\-Interrupt}}
+\index{prv\-Set\-Task\-Interrupt@{prv\-Set\-Task\-Interrupt}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{prv\-Set\-Task\-Interrupt}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} prv\-Set\-Task\-Interrupt (
+\begin{DoxyParamCaption}
+\item[{pthread\-\_\-t}]{x\-Thread\-Id, }
+\item[{unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E}]{x\-Interrupts\-Enabled}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a04020c5dc1a7c33a416e44e5156f77a3}
+
+
+Definition at line 1087 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a4a439f783d47636cea978a4c8669f258}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!px\-Port\-Initialise\-Stack@{px\-Port\-Initialise\-Stack}}
+\index{px\-Port\-Initialise\-Stack@{px\-Port\-Initialise\-Stack}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{px\-Port\-Initialise\-Stack}]{\setlength{\rightskip}{0pt plus 5cm}port\-S\-T\-A\-C\-K\-\_\-\-T\-Y\-P\-E$\ast$ px\-Port\-Initialise\-Stack (
+\begin{DoxyParamCaption}
+\item[{port\-S\-T\-A\-C\-K\-\_\-\-T\-Y\-P\-E $\ast$}]{px\-Top\-Of\-Stack, }
+\item[{{\bf pd\-T\-A\-S\-K\-\_\-\-C\-O\-D\-E}}]{px\-Code, }
+\item[{{\bf void} $\ast$}]{pv\-Parameters}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a4a439f783d47636cea978a4c8669f258}
+
+
+Definition at line 358 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_abb64633363aa863c1e33aee27d296f8e}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!real\-\_\-pthread\-\_\-mutex\-\_\-lock@{real\-\_\-pthread\-\_\-mutex\-\_\-lock}}
+\index{real\-\_\-pthread\-\_\-mutex\-\_\-lock@{real\-\_\-pthread\-\_\-mutex\-\_\-lock}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{real\-\_\-pthread\-\_\-mutex\-\_\-lock}]{\setlength{\rightskip}{0pt plus 5cm}int real\-\_\-pthread\-\_\-mutex\-\_\-lock (
+\begin{DoxyParamCaption}
+\item[{pthread\-\_\-mutex\-\_\-t $\ast$}]{mutex}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_abb64633363aa863c1e33aee27d296f8e}
+
+
+Definition at line 264 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a966a768bf9c4e091c298423e4958085e}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!real\-\_\-pthread\-\_\-mutex\-\_\-unlock@{real\-\_\-pthread\-\_\-mutex\-\_\-unlock}}
+\index{real\-\_\-pthread\-\_\-mutex\-\_\-unlock@{real\-\_\-pthread\-\_\-mutex\-\_\-unlock}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{real\-\_\-pthread\-\_\-mutex\-\_\-unlock}]{\setlength{\rightskip}{0pt plus 5cm}int real\-\_\-pthread\-\_\-mutex\-\_\-unlock (
+\begin{DoxyParamCaption}
+\item[{pthread\-\_\-mutex\-\_\-t $\ast$}]{mutex}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a966a768bf9c4e091c298423e4958085e}
+
+
+Definition at line 267 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a2a4ff76548dd0713f21b35e9fccf9b09}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!store\-Self@{store\-Self}}
+\index{store\-Self@{store\-Self}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{store\-Self}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} store\-Self (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a2a4ff76548dd0713f21b35e9fccf9b09}
+Prepares a task to pause (stores critical nesting, releases running semaphore) but doesn't actually sleep
+
+Prepares a task to pause (stores critical nesting, releases running semaphore) but doesn't actually sleep. Must be follows by a pause\-Self as soon as another thread is running. 
+
+Definition at line 1195 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a41fc1d233522e28c1f2b7a57a663746c}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!thread\-To\-Name@{thread\-To\-Name}}
+\index{thread\-To\-Name@{thread\-To\-Name}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{thread\-To\-Name}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ thread\-To\-Name (
+\begin{DoxyParamCaption}
+\item[{pthread\-\_\-t}]{t}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a41fc1d233522e28c1f2b7a57a663746c}
+
+
+Definition at line 346 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_abbd3994df98343a0a306ca8cd7d6e53b}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!ul\-Port\-Get\-Timer\-Value@{ul\-Port\-Get\-Timer\-Value}}
+\index{ul\-Port\-Get\-Timer\-Value@{ul\-Port\-Get\-Timer\-Value}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{ul\-Port\-Get\-Timer\-Value}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long ul\-Port\-Get\-Timer\-Value (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_abbd3994df98343a0a306ca8cd7d6e53b}
+
+
+Definition at line 1173 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a1b0917335b5f9cfc2ca33bed30846964}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!unmask\-Suspend@{unmask\-Suspend}}
+\index{unmask\-Suspend@{unmask\-Suspend}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{unmask\-Suspend}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} unmask\-Suspend (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a1b0917335b5f9cfc2ca33bed30846964}
+
+
+Definition at line 567 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a88c7620356047aea8d55bb5c4fa51ac5}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!v\-Port\-Add\-Task\-Handle@{v\-Port\-Add\-Task\-Handle}}
+\index{v\-Port\-Add\-Task\-Handle@{v\-Port\-Add\-Task\-Handle}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{v\-Port\-Add\-Task\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Port\-Add\-Task\-Handle (
+\begin{DoxyParamCaption}
+\item[{{\bf void} $\ast$}]{px\-Task\-Handle}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a88c7620356047aea8d55bb5c4fa51ac5}
+
+
+Definition at line 1141 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_ae909be125cc9a2220ed8ee1acbf28874}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!v\-Port\-Clear\-Interrupt\-Mask@{v\-Port\-Clear\-Interrupt\-Mask}}
+\index{v\-Port\-Clear\-Interrupt\-Mask@{v\-Port\-Clear\-Interrupt\-Mask}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{v\-Port\-Clear\-Interrupt\-Mask}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Port\-Clear\-Interrupt\-Mask (
+\begin{DoxyParamCaption}
+\item[{port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E}]{x\-Mask}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_ae909be125cc9a2220ed8ee1acbf28874}
+
+
+Definition at line 647 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a6efcba81026ff6f2920ea53804bc6bdf}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!v\-Port\-Disable\-Interrupts@{v\-Port\-Disable\-Interrupts}}
+\index{v\-Port\-Disable\-Interrupts@{v\-Port\-Disable\-Interrupts}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{v\-Port\-Disable\-Interrupts}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Port\-Disable\-Interrupts (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a6efcba81026ff6f2920ea53804bc6bdf}
+
+
+Definition at line 576 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_af329f3280e39011c4d9efbca3d5dd329}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!v\-Port\-Enable\-Interrupts@{v\-Port\-Enable\-Interrupts}}
+\index{v\-Port\-Enable\-Interrupts@{v\-Port\-Enable\-Interrupts}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{v\-Port\-Enable\-Interrupts}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Port\-Enable\-Interrupts (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_af329f3280e39011c4d9efbca3d5dd329}
+Obvious the simulated interrupts status must be thread safe. This means we also must mask these threads ever being suspended while they have the irq\-Mutex. 
+
+Definition at line 610 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_af76f3c0b44c5b5c06fc046a4ee1a6423}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!v\-Port\-End\-Scheduler@{v\-Port\-End\-Scheduler}}
+\index{v\-Port\-End\-Scheduler@{v\-Port\-End\-Scheduler}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{v\-Port\-End\-Scheduler}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Port\-End\-Scheduler (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_af76f3c0b44c5b5c06fc046a4ee1a6423}
+
+
+Definition at line 480 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a2ed3554a3de09a3bd09d396ee081ab69}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!v\-Port\-Enter\-Critical@{v\-Port\-Enter\-Critical}}
+\index{v\-Port\-Enter\-Critical@{v\-Port\-Enter\-Critical}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{v\-Port\-Enter\-Critical}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Port\-Enter\-Critical (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a2ed3554a3de09a3bd09d396ee081ab69}
+
+
+Definition at line 512 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_aed20ada05b957181a0de042802a82a5b}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!v\-Port\-Exit\-Critical@{v\-Port\-Exit\-Critical}}
+\index{v\-Port\-Exit\-Critical@{v\-Port\-Exit\-Critical}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{v\-Port\-Exit\-Critical}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Port\-Exit\-Critical (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_aed20ada05b957181a0de042802a82a5b}
+
+
+Definition at line 519 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_ac407473e70202ce8c914854a8edad969}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!v\-Port\-Find\-Ticks\-Per\-Second@{v\-Port\-Find\-Ticks\-Per\-Second}}
+\index{v\-Port\-Find\-Ticks\-Per\-Second@{v\-Port\-Find\-Ticks\-Per\-Second}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{v\-Port\-Find\-Ticks\-Per\-Second}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Port\-Find\-Ticks\-Per\-Second (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_ac407473e70202ce8c914854a8edad969}
+
+
+Definition at line 1164 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_ab5abb38fd2477d71d71d21e81f6f0206}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!v\-Port\-Forcibly\-End\-Thread@{v\-Port\-Forcibly\-End\-Thread}}
+\index{v\-Port\-Forcibly\-End\-Thread@{v\-Port\-Forcibly\-End\-Thread}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{v\-Port\-Forcibly\-End\-Thread}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Port\-Forcibly\-End\-Thread (
+\begin{DoxyParamCaption}
+\item[{{\bf void} $\ast$}]{px\-Task\-To\-Delete}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_ab5abb38fd2477d71d71d21e81f6f0206}
+
+
+Definition at line 728 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a5cfc38319f17c8e804020ec247b6325d}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!v\-Port\-Start\-First\-Task@{v\-Port\-Start\-First\-Task}}
+\index{v\-Port\-Start\-First\-Task@{v\-Port\-Start\-First\-Task}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{v\-Port\-Start\-First\-Task}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Port\-Start\-First\-Task (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a5cfc38319f17c8e804020ec247b6325d}
+Initially the schedulers main thread holds the running thread mutex. it needs to be given up, to allow the first running task to execute 
+
+Definition at line 411 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_af4576b8a51329ade55e290866f7dc8ec}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!v\-Port\-System\-Tick\-Handler@{v\-Port\-System\-Tick\-Handler}}
+\index{v\-Port\-System\-Tick\-Handler@{v\-Port\-System\-Tick\-Handler}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{v\-Port\-System\-Tick\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Port\-System\-Tick\-Handler (
+\begin{DoxyParamCaption}
+\item[{int}]{sig}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_af4576b8a51329ade55e290866f7dc8ec}
+
+
+Definition at line 662 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_add01c927fb689f7ec170e42d47d27927}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!v\-Port\-Yield@{v\-Port\-Yield}}
+\index{v\-Port\-Yield@{v\-Port\-Yield}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{v\-Port\-Yield}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Port\-Yield (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_add01c927fb689f7ec170e42d47d27927}
+public yield function -\/ secure 
+
+Definition at line 534 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_afdcc79704f1ce3c8790268b732b7911d}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!v\-Port\-Yield\-From\-I\-S\-R@{v\-Port\-Yield\-From\-I\-S\-R}}
+\index{v\-Port\-Yield\-From\-I\-S\-R@{v\-Port\-Yield\-From\-I\-S\-R}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{v\-Port\-Yield\-From\-I\-S\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Port\-Yield\-From\-I\-S\-R (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_afdcc79704f1ce3c8790268b732b7911d}
+
+
+Definition at line 501 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a74874880bc92942127e3a07be5571822}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!x\-Port\-Set\-Interrupt\-Mask@{x\-Port\-Set\-Interrupt\-Mask}}
+\index{x\-Port\-Set\-Interrupt\-Mask@{x\-Port\-Set\-Interrupt\-Mask}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{x\-Port\-Set\-Interrupt\-Mask}]{\setlength{\rightskip}{0pt plus 5cm}port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Port\-Set\-Interrupt\-Mask (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a74874880bc92942127e3a07be5571822}
+
+
+Definition at line 637 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a53fbb684e09a643c56b7508f1ef97ad3}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!x\-Port\-Start\-Scheduler@{x\-Port\-Start\-Scheduler}}
+\index{x\-Port\-Start\-Scheduler@{x\-Port\-Start\-Scheduler}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{x\-Port\-Start\-Scheduler}]{\setlength{\rightskip}{0pt plus 5cm}port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Port\-Start\-Scheduler (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a53fbb684e09a643c56b7508f1ef97ad3}
+
+
+Definition at line 430 of file port.\-c.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a68f952144b7a627e189dcae5fdd1a1ac}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!claim\-\_\-count@{claim\-\_\-count}}
+\index{claim\-\_\-count@{claim\-\_\-count}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{claim\-\_\-count}]{\setlength{\rightskip}{0pt plus 5cm}int claim\-\_\-count = 0}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a68f952144b7a627e189dcae5fdd1a1ac}
+
+
+Definition at line 1362 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_adbd7100a533d561bcd2289a0d581cb85}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!debug\-\_\-task\-\_\-handle@{debug\-\_\-task\-\_\-handle}}
+\index{debug\-\_\-task\-\_\-handle@{debug\-\_\-task\-\_\-handle}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{debug\-\_\-task\-\_\-handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf tsk\-T\-C\-B}$\ast$ debug\-\_\-task\-\_\-handle}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_adbd7100a533d561bcd2289a0d581cb85}
+
+
+Definition at line 344 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a646170d6f9e3b0d001430a771e9f2247}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!fid@{fid}}
+\index{fid@{fid}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{fid}]{\setlength{\rightskip}{0pt plus 5cm}F\-I\-L\-E$\ast$ fid}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a646170d6f9e3b0d001430a771e9f2247}
+
+
+Definition at line 245 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_aaab695f7f7e6849891f26a9d0ac901cb}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!init\-\_\-destroyed@{init\-\_\-destroyed}}
+\index{init\-\_\-destroyed@{init\-\_\-destroyed}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{init\-\_\-destroyed}]{\setlength{\rightskip}{0pt plus 5cm}int init\-\_\-destroyed = 0}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_aaab695f7f7e6849891f26a9d0ac901cb}
+
+
+Definition at line 727 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a831cefd0616efef301931d14266dc130}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!irq\-\_\-lock@{irq\-\_\-lock}}
+\index{irq\-\_\-lock@{irq\-\_\-lock}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{irq\-\_\-lock}]{\setlength{\rightskip}{0pt plus 5cm}int irq\-\_\-lock}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a831cefd0616efef301931d14266dc130}
+
+
+Definition at line 574 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_af8eb5463eb5bc22fcf2546fc940c1d33}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!last\-Claim@{last\-Claim}}
+\index{last\-Claim@{last\-Claim}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{last\-Claim}]{\setlength{\rightskip}{0pt plus 5cm}{\bf tsk\-T\-C\-B}$\ast$ last\-Claim}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_af8eb5463eb5bc22fcf2546fc940c1d33}
+Claims the running semaphore or fails. Does not block as failing to get this lock indicates another failure upstream. 
+
+Definition at line 1360 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a3fa75ad2b6c0c5eddd19ca027b1e4029}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!last\-Claim\-Type@{last\-Claim\-Type}}
+\index{last\-Claim\-Type@{last\-Claim\-Type}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{last\-Claim\-Type}]{\setlength{\rightskip}{0pt plus 5cm}int last\-Claim\-Type}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a3fa75ad2b6c0c5eddd19ca027b1e4029}
+
+
+Definition at line 1361 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a269537d77900a5617ee310b51be37f9b}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!last\-Interrupt\-Disable@{last\-Interrupt\-Disable}}
+\index{last\-Interrupt\-Disable@{last\-Interrupt\-Disable}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{last\-Interrupt\-Disable}]{\setlength{\rightskip}{0pt plus 5cm}{\bf tsk\-T\-C\-B}$\ast$ last\-Interrupt\-Disable}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a269537d77900a5617ee310b51be37f9b}
+
+
+Definition at line 575 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_aa12b02dbe7c39c958c1f64aff70794d7}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!last\-Release@{last\-Release}}
+\index{last\-Release@{last\-Release}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{last\-Release}]{\setlength{\rightskip}{0pt plus 5cm}{\bf tsk\-T\-C\-B}$\ast$ last\-Release}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_aa12b02dbe7c39c958c1f64aff70794d7}
+Claims the running semaphore or fails 
+
+Definition at line 1415 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_ab2800385acdb12cfff3370e688bc287c}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!last\-Resume@{last\-Resume}}
+\index{last\-Resume@{last\-Resume}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{last\-Resume}]{\setlength{\rightskip}{0pt plus 5cm}{\bf tsk\-T\-C\-B}$\ast$ last\-Resume}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_ab2800385acdb12cfff3370e688bc287c}
+
+
+Definition at line 1319 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a38d9ef8579a95640214eb184079e0e33}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!last\-Resume\-Attempt@{last\-Resume\-Attempt}}
+\index{last\-Resume\-Attempt@{last\-Resume\-Attempt}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{last\-Resume\-Attempt}]{\setlength{\rightskip}{0pt plus 5cm}{\bf tsk\-T\-C\-B}$\ast$ last\-Resume\-Attempt}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a38d9ef8579a95640214eb184079e0e33}
+Resumes another thread that is running (from either System Tick handler or another thread) and returns when that thread has done so. Sends resume condition to that thread and waits for the status flag to change to running. 
+
+Definition at line 1318 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a78314732c9a2e6fbef6aece938751b75}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!last\-Yield@{last\-Yield}}
+\index{last\-Yield@{last\-Yield}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{last\-Yield}]{\setlength{\rightskip}{0pt plus 5cm}{\bf tsk\-T\-C\-B}$\ast$ last\-Yield}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a78314732c9a2e6fbef6aece938751b75}
+
+
+Definition at line 532 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a75922c895d2abd36a434c3182c5a28f2}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!new\-Task@{new\-Task}}
+\index{new\-Task@{new\-Task}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{new\-Task}]{\setlength{\rightskip}{0pt plus 5cm}{\bf tsk\-T\-C\-B} $\ast$ new\-Task}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a75922c895d2abd36a434c3182c5a28f2}
+
+
+Definition at line 659 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_ade8453d031493ff79b111179bec480a3}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!noirq\-\_\-count@{noirq\-\_\-count}}
+\index{noirq\-\_\-count@{noirq\-\_\-count}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{noirq\-\_\-count}]{\setlength{\rightskip}{0pt plus 5cm}int noirq\-\_\-count = 0}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_ade8453d031493ff79b111179bec480a3}
+
+
+Definition at line 661 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_af9f66a4add9632b1d23f969894f8d0fd}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!old\-Task@{old\-Task}}
+\index{old\-Task@{old\-Task}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{old\-Task}]{\setlength{\rightskip}{0pt plus 5cm}{\bf tsk\-T\-C\-B}$\ast$ old\-Task}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_af9f66a4add9632b1d23f969894f8d0fd}
+
+
+Definition at line 659 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_aea199b99e629328fd769d550abedd153}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!preemptive\-\_\-count@{preemptive\-\_\-count}}
+\index{preemptive\-\_\-count@{preemptive\-\_\-count}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{preemptive\-\_\-count}]{\setlength{\rightskip}{0pt plus 5cm}int preemptive\-\_\-count = 0}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_aea199b99e629328fd769d550abedd153}
+
+
+Definition at line 660 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a1316aa3d611ebf4ed9fa2c5f36bc6f79}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!release\-\_\-count@{release\-\_\-count}}
+\index{release\-\_\-count@{release\-\_\-count}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{release\-\_\-count}]{\setlength{\rightskip}{0pt plus 5cm}int release\-\_\-count = 0}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_a1316aa3d611ebf4ed9fa2c5f36bc6f79}
+
+
+Definition at line 1416 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_ae3fc8dcc83620d1683bf71f7e12db76d}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!ux\-Scheduler\-Suspended@{ux\-Scheduler\-Suspended}}
+\index{ux\-Scheduler\-Suspended@{ux\-Scheduler\-Suspended}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{ux\-Scheduler\-Suspended}]{\setlength{\rightskip}{0pt plus 5cm}{\bf volatile} unsigned port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E ux\-Scheduler\-Suspended}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_ae3fc8dcc83620d1683bf71f7e12db76d}
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_abb05820964c59810102c40b0400dfdbe}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!x\-Interrupts\-Enabled@{x\-Interrupts\-Enabled}}
+\index{x\-Interrupts\-Enabled@{x\-Interrupts\-Enabled}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{x\-Interrupts\-Enabled}]{\setlength{\rightskip}{0pt plus 5cm}{\bf volatile} port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E x\-Interrupts\-Enabled = pd\-T\-R\-U\-E}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_abb05820964c59810102c40b0400dfdbe}
+
+
+Definition at line 162 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_af289b02f79086479279f9374594707cf}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!yield\-\_\-count@{yield\-\_\-count}}
+\index{yield\-\_\-count@{yield\-\_\-count}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{yield\-\_\-count}]{\setlength{\rightskip}{0pt plus 5cm}int yield\-\_\-count = 0}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_af289b02f79086479279f9374594707cf}
+
+
+Definition at line 533 of file port.\-c.
+
+\hypertarget{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_ae45448cd3faa5057ebcdd0087db22730}{\index{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}!yield\-\_\-locking@{yield\-\_\-locking}}
+\index{yield\-\_\-locking@{yield\-\_\-locking}!osx/osx/Libraries/FreeRTOS/Source/portable/GCC/Posix/port.c@{osx/osx/\-Libraries/\-Free\-R\-T\-O\-S/\-Source/portable/\-G\-C\-C/\-Posix/port.\-c}}
+\subsubsection[{yield\-\_\-locking}]{\setlength{\rightskip}{0pt plus 5cm}int yield\-\_\-locking = 0}}\label{osx_2osx_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_posix_2port_8c_ae45448cd3faa5057ebcdd0087db22730}
+
+
+Definition at line 531 of file port.\-c.
+
