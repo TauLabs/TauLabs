@@ -162,92 +162,92 @@ static void pathPlannerTask(void *parameters)
 		FlightStatusGet(&flightStatus);
 
 		switch (flightStatus.FlightMode) {
-			case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
-				if (guidanceType != RETURNHOME) {
-					// Ensure we have latest copy of settings
-					PathPlannerSettingsGet(&pathPlannerSettings);
+		case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
+			if (guidanceType != RETURNHOME) {
+				// Ensure we have latest copy of settings
+				PathPlannerSettingsGet(&pathPlannerSettings);
 
-					// Create path plan
-					createPathReturnToHome();
-
-					pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
-					PathPlannerStatusSet(&pathPlannerStatus);
-					guidanceType = RETURNHOME;
-					process_waypoints_flag = true;
-				}
-				break;
-			case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
-				if (guidanceType != HOLDPOSITION) {
-					// Ensure we have latest copy of settings
-					PathPlannerSettingsGet(&pathPlannerSettings);
-
-					// Create path plan
-					createPathHoldPosition();
-
-					pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
-					PathPlannerStatusSet(&pathPlannerStatus);
-					guidanceType = HOLDPOSITION;
-					process_waypoints_flag = true;
-				}
-				break;
-			case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
-				if (guidanceType != PATHPLANNER) {
-					// Ensure we have latest copy of settings
-					PathPlannerSettingsGet(&pathPlannerSettings);
-
-					switch(pathPlannerSettings.PreprogrammedPath) {
-						case PATHPLANNERSETTINGS_PREPROGRAMMEDPATH_NONE:
-							if (UAVObjGetNumInstances(WaypointHandle()) > 1) {
-								pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
-								pathPlannerStatus.NumberOfWaypoints = UAVObjGetNumInstances(WaypointHandle()); //Fixme: This is dangerous, because waypoints, once created, cannot be destroyed. This means that a long program followed by a short one will lead to the wrong number of waypoints!
-								PathPlannerStatusSet(&pathPlannerStatus);
-
-								guidanceType = PATHPLANNER;
-								process_waypoints_flag = true;
-							}
-							else {
-								// No path? In that case, burn some time and loop back to beginning. This is something that should be fixed as this takes the final form.
-								guidanceType = NOMANAGER;
-								vTaskDelay(IDLE_UPDATE_RATE_MS * portTICK_RATE_MS);
-							}
-							break;
-						case PATHPLANNERSETTINGS_PREPROGRAMMEDPATH_10M_BOX:
-							createPathBox();
-
-							pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
-							PathPlannerStatusSet(&pathPlannerStatus);
-							guidanceType = PATHPLANNER;
-							process_waypoints_flag = true;
-							break;
-						case PATHPLANNERSETTINGS_PREPROGRAMMEDPATH_STAR:
-							createPathStar();
-							
-							pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
-							PathPlannerStatusSet(&pathPlannerStatus);
-							guidanceType = PATHPLANNER;
-							process_waypoints_flag = true;
-							break;
-						case PATHPLANNERSETTINGS_PREPROGRAMMEDPATH_LOGO:
-							createPathLogo();
-
-							pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
-							PathPlannerStatusSet(&pathPlannerStatus);
-							guidanceType = PATHPLANNER;
-							process_waypoints_flag = true;
-							break;
-					}
-				}
-				break;
-			default:
-				// When not running the path manager, short circuit and wait
-				guidanceType = NOMANAGER;
+				// Create path plan
+				createPathReturnToHome();
 
 				pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
 				PathPlannerStatusSet(&pathPlannerStatus);
+				guidanceType = RETURNHOME;
+				process_waypoints_flag = true;
+			}
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
+			if (guidanceType != HOLDPOSITION) {
+				// Ensure we have latest copy of settings
+				PathPlannerSettingsGet(&pathPlannerSettings);
 
-				vTaskDelay(IDLE_UPDATE_RATE_MS * portTICK_RATE_MS);
+				// Create path plan
+				createPathHoldPosition();
 
-				continue;
+				pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
+				PathPlannerStatusSet(&pathPlannerStatus);
+				guidanceType = HOLDPOSITION;
+				process_waypoints_flag = true;
+			}
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
+			if (guidanceType != PATHPLANNER) {
+				// Ensure we have latest copy of settings
+				PathPlannerSettingsGet(&pathPlannerSettings);
+
+				switch (pathPlannerSettings.PreprogrammedPath) {
+				case PATHPLANNERSETTINGS_PREPROGRAMMEDPATH_NONE:
+					if (UAVObjGetNumInstances(WaypointHandle()) > 1) {
+						pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
+						pathPlannerStatus.NumberOfWaypoints = UAVObjGetNumInstances(WaypointHandle()); //Fixme: This is dangerous, because waypoints, once created, cannot be destroyed. This means that a long program followed by a short one will lead to the wrong number of waypoints!
+						PathPlannerStatusSet(&pathPlannerStatus);
+
+						guidanceType = PATHPLANNER;
+						process_waypoints_flag = true;
+					}
+					else {
+						// No path? In that case, burn some time and loop back to beginning. This is something that should be fixed as this takes the final form.
+						guidanceType = NOMANAGER;
+						vTaskDelay(IDLE_UPDATE_RATE_MS * portTICK_RATE_MS);
+					}
+					break;
+				case PATHPLANNERSETTINGS_PREPROGRAMMEDPATH_10M_BOX:
+					createPathBox();
+
+					pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
+					PathPlannerStatusSet(&pathPlannerStatus);
+					guidanceType = PATHPLANNER;
+					process_waypoints_flag = true;
+					break;
+				case PATHPLANNERSETTINGS_PREPROGRAMMEDPATH_STAR:
+					createPathStar();
+
+					pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
+					PathPlannerStatusSet(&pathPlannerStatus);
+					guidanceType = PATHPLANNER;
+					process_waypoints_flag = true;
+					break;
+				case PATHPLANNERSETTINGS_PREPROGRAMMEDPATH_LOGO:
+					createPathLogo();
+
+					pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
+					PathPlannerStatusSet(&pathPlannerStatus);
+					guidanceType = PATHPLANNER;
+					process_waypoints_flag = true;
+					break;
+				}
+			}
+			break;
+		default:
+			// When not running the path manager, short circuit and wait
+			guidanceType = NOMANAGER;
+
+			pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
+			PathPlannerStatusSet(&pathPlannerStatus);
+
+			vTaskDelay(IDLE_UPDATE_RATE_MS * portTICK_RATE_MS);
+
+			continue;
 		}
 
 		vTaskDelay(UPDATE_RATE_MS * portTICK_RATE_MS);
@@ -256,27 +256,25 @@ static void pathPlannerTask(void *parameters)
 			enum path_planner_states ret;
 			ret = processWaypoints(plannerAlgorithm);
 			switch (ret) {
-				case PATH_PLANNER_SUCCESS:
-					{
-						process_waypoints_flag = false;
+			case PATH_PLANNER_SUCCESS:
+				process_waypoints_flag = false;
 
-						pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_PATHREADY;
-						PathPlannerStatusSet(&pathPlannerStatus);
-					}
-					break;
-				case PATH_PLANNER_PROCESSING:
-					pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_PROCESSING;
-					break;
-				case PATH_PLANNER_STUCK:
-					pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NOCONVERGENCE;
-					process_waypoints_flag = false;
-					// Need to inform the FlightDirector that the planner cannot find a solution to the path
-					break;
-				case PATH_PLANNER_INSUFFICIENT_MEMORY:
-					pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_OUTOFMEMORY;
-					process_waypoints_flag = false;
-					// Need to inform the FlightDirector that there isn't enough memory to continue. This could be because of refinement of the path, or because of too many waypoints
-					break;
+				pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_PATHREADY;
+				PathPlannerStatusSet(&pathPlannerStatus);
+				break;
+			case PATH_PLANNER_PROCESSING:
+				pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_PROCESSING;
+				break;
+			case PATH_PLANNER_STUCK:
+				pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NOCONVERGENCE;
+				process_waypoints_flag = false;
+				// Need to inform the FlightDirector that the planner cannot find a solution to the path
+				break;
+			case PATH_PLANNER_INSUFFICIENT_MEMORY:
+				pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_OUTOFMEMORY;
+				process_waypoints_flag = false;
+				// Need to inform the FlightDirector that there isn't enough memory to continue. This could be because of refinement of the path, or because of too many waypoints
+				break;
 			}
 		}
 	}
@@ -287,18 +285,17 @@ static enum path_planner_states processWaypoints(PathPlannerSettingsPlannerAlgor
 {
 	enum path_planner_states ret;
 	
-	switch(algorithm)
-	{
-		case PATHPLANNERSETTINGS_PLANNERALGORITHM_DIRECT:
-			ret = direct_path_planner(pathPlannerStatus.NumberOfWaypoints);
-			break;
-		case PATHPLANNERSETTINGS_PLANNERALGORITHM_DIRECTWITHFILLETING:
-			ret = direct_path_planner_with_filleting(pathPlannerStatus.NumberOfWaypoints, pathPlannerSettings.PreferredRadius);
-			break;
-		default:
-			// TODO: Some kind of error here
-			ret = PATH_PLANNER_PROCESSING;
-			break;
+	switch (algorithm) {
+	case PATHPLANNERSETTINGS_PLANNERALGORITHM_DIRECT:
+		ret = direct_path_planner(pathPlannerStatus.NumberOfWaypoints);
+		break;
+	case PATHPLANNERSETTINGS_PLANNERALGORITHM_DIRECTWITHFILLETING:
+		ret = direct_path_planner_with_filleting(pathPlannerStatus.NumberOfWaypoints, pathPlannerSettings.PreferredRadius);
+		break;
+	default:
+		// TODO: Some kind of error here
+		ret = PATH_PLANNER_PROCESSING;
+		break;
 	}
 
 	return ret;

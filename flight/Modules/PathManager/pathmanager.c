@@ -183,41 +183,40 @@ static void pathManagerTask(void *parameters)
 		FlightStatusGet(&flightStatus);
 
 		switch (flightStatus.FlightMode) {
-			case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
-
-				if (guidanceType != RETURNHOME) {
-					guidanceType = RETURNHOME;
-					pathplanner_active = false;
-
-					// Load pregenerated return to home program
-					simple_return_to_home();
-				}
-				break;
-			case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
-				if (guidanceType != HOLDPOSITION) {
-					guidanceType = HOLDPOSITION;
-					pathplanner_active = false;
-
-					// Load pregenerated hold-position program
-					simple_hold_position();
-				}
-				break;
-			case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
-				if (guidanceType != PATHPLANNER) {
-					guidanceType = PATHPLANNER;
-					pathplanner_active = false;
-
-					// Load pregenerated example program
-					example_program();
-				}
-				break;
-			default:
-				// When not running the path manager, short circuit and wait
+		case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
+			if (guidanceType != RETURNHOME) {
+				guidanceType = RETURNHOME;
 				pathplanner_active = false;
-				guidanceType = NOMANAGER;
-				vTaskDelay(IDLE_UPDATE_RATE_MS * portTICK_RATE_MS);
 
-				continue;
+				// Load pregenerated return to home program
+				simple_return_to_home();
+			}
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
+			if (guidanceType != HOLDPOSITION) {
+				guidanceType = HOLDPOSITION;
+				pathplanner_active = false;
+
+				// Load pregenerated hold-position program
+				simple_hold_position();
+			}
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
+			if (guidanceType != PATHPLANNER) {
+				guidanceType = PATHPLANNER;
+				pathplanner_active = false;
+
+				// Load pregenerated example program
+				example_program();
+			}
+			break;
+		default:
+			// When not running the path manager, short circuit and wait
+			pathplanner_active = false;
+			guidanceType = NOMANAGER;
+			vTaskDelay(IDLE_UPDATE_RATE_MS * portTICK_RATE_MS);
+
+			continue;
 		}
 #else
 		PathPlannerStatusData pathPlannerStatus;
@@ -346,25 +345,25 @@ static void advanceSegment()
 		// If the arc has a center, then set the initial position as the beginning of the arc, and calculate the angular
 		// distance to be traveled along the arc
 		switch (arc_has_center) {
-			case CENTER_FOUND: 
-			{
-				oldPosition_NE[0] = previousLocus->Position[0];
-				oldPosition_NE[1] = previousLocus->Position[1];
+		case CENTER_FOUND:
+		{
+			oldPosition_NE[0] = previousLocus->Position[0];
+			oldPosition_NE[1] = previousLocus->Position[1];
 
-				float tmpAngle_D = measure_arc_rad(previousLocus->Position, pathSegmentDescriptor_current.SwitchingLocus, arcCenter_NE) * RAD2DEG;
-				if (SIGN(pathSegmentDescriptor_current.PathCurvature) * tmpAngle_D < 0)
-				{
-					tmpAngle_D = tmpAngle_D	+ 360*SIGN(pathSegmentDescriptor_current.PathCurvature);
-				}
-				angularDistanceToComplete_D = SIGN(pathSegmentDescriptor_current.PathCurvature) * pathSegmentDescriptor_current.NumberOfOrbits*360 + tmpAngle_D;
+			float tmpAngle_D = measure_arc_rad(previousLocus->Position, pathSegmentDescriptor_current.SwitchingLocus, arcCenter_NE) * RAD2DEG;
+			if (SIGN(pathSegmentDescriptor_current.PathCurvature) * tmpAngle_D < 0)
+			{
+				tmpAngle_D = tmpAngle_D	+ 360*SIGN(pathSegmentDescriptor_current.PathCurvature);
 			}
-				break;
-			default:
-				// This is really bad, and is only possible if the path planner screws up, but we need to handle these cases nonetheless because
-				// the alternative might be to crash. The simplest way tof fix the problem is to increase the radius, but we can't do this
-				// because it is forbidden for two modules to write one UAVO.
-				angularDistanceToComplete_D = 0;
-				break;
+			angularDistanceToComplete_D = SIGN(pathSegmentDescriptor_current.PathCurvature) * pathSegmentDescriptor_current.NumberOfOrbits*360 + tmpAngle_D;
+		}
+			break;
+		default:
+			// This is really bad, and is only possible if the path planner screws up, but we need to handle these cases nonetheless because
+			// the alternative might be to crash. The simplest way tof fix the problem is to increase the radius, but we can't do this
+			// because it is forbidden for two modules to write one UAVO.
+			angularDistanceToComplete_D = 0;
+			break;
 		}
 	}
 	else {
@@ -400,36 +399,36 @@ static bool checkGoalCondition()
 	bool advanceSegment_flag = false;
 
 	switch (pathManagerSettings.SwitchingStrategy) {
-		case PATHMANAGERSETTINGS_SWITCHINGSTRATEGY_HALFPLANE:
-		// Half-plane approach. This is the preferred strategy
+	case PATHMANAGERSETTINGS_SWITCHINGSTRATEGY_HALFPLANE:
+	// Half-plane approach. This is the preferred strategy
+	{
+		// Check if there is a switching locus after the present one
+		if (pathManagerStatus.ActiveSegment + 1 < UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
 		{
-			// Check if there is a switching locus after the present one
-			if (pathManagerStatus.ActiveSegment + 1 < UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
-			{
-				PathSegmentDescriptorData pathSegmentDescriptor_future;
-				PathSegmentDescriptorInstGet(pathManagerStatus.ActiveSegment+1, &pathSegmentDescriptor_future);  // TODO: Check that an instance is successfully returned
+			PathSegmentDescriptorData pathSegmentDescriptor_future;
+			PathSegmentDescriptorInstGet(pathManagerStatus.ActiveSegment+1, &pathSegmentDescriptor_future);  // TODO: Check that an instance is successfully returned
 
-				PositionActualData positionActual;
-				PositionActualGet(&positionActual);
-				float position_NE[2] = {positionActual.North, positionActual.East};
-
-				advanceSegment_flag = half_plane_goal_test(position_NE, angularDistanceCompleted_D, angularDistanceToComplete_D,
-														   previousLocus->Position, &pathSegmentDescriptor_current, &pathSegmentDescriptor_future,
-														   pathManagerSettings.HalfPlaneAdvanceTiming, fixedWingAirspeeds.BestClimbRateSpeed);
-			}
-			else { // Since there are no further switching loci, this must be the waypoint.
-				//Do nothing.
-			}
-		}
-		break;
-		case PATHMANAGERSETTINGS_SWITCHINGSTRATEGY_BBALL:
-		// This method is less robust to error than the half-plane. It is cheaper and simpler, but those are it's only two advantages
-		{
 			PositionActualData positionActual;
 			PositionActualGet(&positionActual);
 			float position_NE[2] = {positionActual.North, positionActual.East};
-			advanceSegment_flag = b_ball_goal_test(position_NE, pathSegmentDescriptor_current.SwitchingLocus, pathManagerSettings.BBallThresholdDistance);
+
+			advanceSegment_flag = half_plane_goal_test(position_NE, angularDistanceCompleted_D, angularDistanceToComplete_D,
+													   previousLocus->Position, &pathSegmentDescriptor_current, &pathSegmentDescriptor_future,
+													   pathManagerSettings.HalfPlaneAdvanceTiming, fixedWingAirspeeds.BestClimbRateSpeed);
 		}
+		else { // Since there are no further switching loci, this must be the waypoint.
+			//Do nothing.
+		}
+	}
+		break;
+	case PATHMANAGERSETTINGS_SWITCHINGSTRATEGY_BBALL:
+	// This method is less robust to error than the half-plane. It is cheaper and simpler, but those are it's only two advantages
+	{
+		PositionActualData positionActual;
+		PositionActualGet(&positionActual);
+		float position_NE[2] = {positionActual.North, positionActual.East};
+		advanceSegment_flag = b_ball_goal_test(position_NE, pathSegmentDescriptor_current.SwitchingLocus, pathManagerSettings.BBallThresholdDistance);
+	}
 		break;
 	default:
 		// TODO: This is bad to get here. Make sure it's not possible.

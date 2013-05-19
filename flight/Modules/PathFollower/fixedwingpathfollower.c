@@ -238,12 +238,12 @@ int8_t updateFixedWingDesiredStabilization()
 	// Compute heading control
 	struct ControllerOutput headingControl;
 	switch (fixedwingpathfollowerSettings.FollowerAlgorithm) {
-		case FIXEDWINGPATHFOLLOWERSETTINGS_FOLLOWERALGORITHM_ROLLLIMITED:
-			roll_constrained_heading_controller(&headingControl, headingActual_R, &positionActual, &velocityActual, pathDesired->Curvature, true_airspeed, true_airspeed_desired);
+	case FIXEDWINGPATHFOLLOWERSETTINGS_FOLLOWERALGORITHM_ROLLLIMITED:
+		roll_constrained_heading_controller(&headingControl, headingActual_R, &positionActual, &velocityActual, pathDesired->Curvature, true_airspeed, true_airspeed_desired);
 		break;
-		case FIXEDWINGPATHFOLLOWERSETTINGS_FOLLOWERALGORITHM_SIMPLE:
-		default:
-			simple_heading_controller(&headingControl, &positionActual, pathDesired->Curvature, courseActual_R, true_airspeed_desired, dT);
+	case FIXEDWINGPATHFOLLOWERSETTINGS_FOLLOWERALGORITHM_SIMPLE:
+	default:
+		simple_heading_controller(&headingControl, &positionActual, pathDesired->Curvature, courseActual_R, true_airspeed_desired, dT);
 		break;
 	}
 

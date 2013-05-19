@@ -103,22 +103,21 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 		bool path_is_circle = false;
 		float curvature = 0;
 		float number_of_orbits = 0;
-		switch (waypoint.Mode)
-		{
-			case WAYPOINT_MODE_CIRCLEPOSITIONRIGHT:
-				path_is_circle = true;
-				number_of_orbits = 1e8; //TODO: Define this really large floating-point value as a magic number
-			case WAYPOINT_MODE_FLYCIRCLERIGHT:
-			case WAYPOINT_MODE_DRIVECIRCLERIGHT:
-				curvature = 1.0f/waypoint.ModeParameters;
-				break;
-			case WAYPOINT_MODE_CIRCLEPOSITIONLEFT:
-				path_is_circle = true;
-				number_of_orbits = 1e8; //TODO: Define this really large floating-point value as a magic number
-			case WAYPOINT_MODE_FLYCIRCLELEFT:
-			case WAYPOINT_MODE_DRIVECIRCLELEFT:
-				curvature = -1.0f/waypoint.ModeParameters;
-				break;
+		switch (waypoint.Mode) {
+		case WAYPOINT_MODE_CIRCLEPOSITIONRIGHT:
+			path_is_circle = true;
+			number_of_orbits = 1e8; //TODO: Define this really large floating-point value as a magic number
+		case WAYPOINT_MODE_FLYCIRCLERIGHT:
+		case WAYPOINT_MODE_DRIVECIRCLERIGHT:
+			curvature = 1.0f/waypoint.ModeParameters;
+			break;
+		case WAYPOINT_MODE_CIRCLEPOSITIONLEFT:
+			path_is_circle = true;
+			number_of_orbits = 1e8; //TODO: Define this really large floating-point value as a magic number
+		case WAYPOINT_MODE_FLYCIRCLELEFT:
+		case WAYPOINT_MODE_DRIVECIRCLELEFT:
+			curvature = -1.0f/waypoint.ModeParameters;
+			break;
 		}
 
 		// Only add fillets if the radius is greater than 0, and this is not the last waypoint
@@ -133,12 +132,11 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 			WaypointInstGet(wptIdx+1, &waypoint_future);
 			bool future_path_is_circle = false;
 
-			switch (waypoint_future.Mode)
-			{
-				case WAYPOINT_MODE_CIRCLEPOSITIONRIGHT:
-				case WAYPOINT_MODE_CIRCLEPOSITIONLEFT:
-					future_path_is_circle = true;
-					break;
+			switch (waypoint_future.Mode) {
+			case WAYPOINT_MODE_CIRCLEPOSITIONRIGHT:
+			case WAYPOINT_MODE_CIRCLEPOSITIONLEFT:
+				future_path_is_circle = true;
+				break;
 			}
 
 

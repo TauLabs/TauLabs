@@ -89,22 +89,21 @@ enum path_planner_states direct_path_planner(uint16_t numberOfWaypoints)
 		float curvature = 0;
 		bool path_is_circle = false;
 		float number_of_orbits = 0;
-		switch (waypoint.Mode)
-		{
-			case WAYPOINT_MODE_CIRCLEPOSITIONRIGHT:
-				path_is_circle = true;
-				number_of_orbits = 1e8; //TODO: Define this really large floating-point value as a magic number
-			case WAYPOINT_MODE_FLYCIRCLERIGHT:
-			case WAYPOINT_MODE_DRIVECIRCLERIGHT:
-				curvature = 1.0f/waypoint.ModeParameters;
-				break;
-			case WAYPOINT_MODE_CIRCLEPOSITIONLEFT:
-				path_is_circle = true;
-				number_of_orbits = 1e8; //TODO: Define this really large floating-point value as a magic number
-			case WAYPOINT_MODE_FLYCIRCLELEFT:
-			case WAYPOINT_MODE_DRIVECIRCLELEFT:
-				curvature = -1.0f/waypoint.ModeParameters;
-				break;
+		switch (waypoint.Mode) {
+		case WAYPOINT_MODE_CIRCLEPOSITIONRIGHT:
+			path_is_circle = true;
+			number_of_orbits = 1e8; //TODO: Define this really large floating-point value as a magic number
+		case WAYPOINT_MODE_FLYCIRCLERIGHT:
+		case WAYPOINT_MODE_DRIVECIRCLERIGHT:
+			curvature = 1.0f/waypoint.ModeParameters;
+			break;
+		case WAYPOINT_MODE_CIRCLEPOSITIONLEFT:
+			path_is_circle = true;
+			number_of_orbits = 1e8; //TODO: Define this really large floating-point value as a magic number
+		case WAYPOINT_MODE_FLYCIRCLELEFT:
+		case WAYPOINT_MODE_DRIVECIRCLELEFT:
+			curvature = -1.0f/waypoint.ModeParameters;
+			break;
 		}
 
 		// In the case of pure circles, the given waypoint is for a circle center
