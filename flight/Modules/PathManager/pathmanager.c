@@ -459,7 +459,7 @@ static void checkOvershoot()
 		float q_mag = VectorMagnitude(q); //Normalize
 
 		// Add in a distance equal to 5s of flight time for good measure, in to make sure we don't have any jitter.
-		for (int i=0; i < 2; i++)
+		for (uint16_t i=0; i < 2; i++)
 			c[i] += q[i]/q_mag * fixedWingAirspeeds.BestClimbRateSpeed * 5;
 
 		// Perform a quick vector dot product to test if we've gone past the waypoint.

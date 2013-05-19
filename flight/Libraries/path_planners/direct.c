@@ -53,7 +53,7 @@ enum path_planner_states direct_path_planner(uint16_t numberOfWaypoints)
 	if(1) //There is enough memory
 	{
 		// Generate the path segment descriptors
-		for (int i=UAVObjGetNumInstances(PathSegmentDescriptorHandle()); i<UAVObjGetNumInstances(WaypointHandle())+1; i++) {
+		for (uint16_t i=UAVObjGetNumInstances(PathSegmentDescriptorHandle()); i<UAVObjGetNumInstances(WaypointHandle())+1; i++) {
 			//TODO: Ensure there is enough memory before generating
 			PathSegmentDescriptorCreateInstance();
 		}
