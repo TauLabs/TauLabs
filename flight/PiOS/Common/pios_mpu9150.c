@@ -143,7 +143,7 @@ static int32_t PIOS_MPU9150_Validate(struct mpu9150_dev * dev)
 
 /**
  * @brief Initialize the MPU9150 3-axis gyro sensor.
- * @return 0 for success, -1 for failure
+ * @return 0 for success, -1 for failure to allocate, -2 for failure to get irq
  */
 int32_t PIOS_MPU9150_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_mpu60x0_cfg * cfg)
 {
@@ -158,13 +158,17 @@ int32_t PIOS_MPU9150_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_m
 	/* Configure the MPU9150 Sensor */
 	PIOS_MPU9150_Config(cfg);
 
+	/* Set up EXTI line */
+	PIOS_EXTI_Init(cfg->exti_cfg);
+
+	//Wait 5 ms for data ready interrupt
+	if (xSemaphoreTake(dev->data_ready_sema, 5) != pdTRUE)
+		return -2;
+
 	int result = xTaskCreate(PIOS_MPU9150_Task, (const signed char *)"PIOS_MPU9150_Task",
 						 MPU9150_TASK_STACK, NULL, MPU9150_TASK_PRIORITY,
 						 &dev->TaskHandle);
 	PIOS_Assert(result == pdPASS);
-
-	/* Set up EXTI line */
-	PIOS_EXTI_Init(cfg->exti_cfg);
 
 	PIOS_SENSORS_Register(PIOS_SENSOR_ACCEL, dev->accel_queue);
 	PIOS_SENSORS_Register(PIOS_SENSOR_GYRO, dev->gyro_queue);
