@@ -284,7 +284,7 @@ static void airspeedController(struct ControllerOutput *airspeedControl, float c
 #define AIRSPEED_KI      fixedwingpathfollowerSettings.AirspeedPI[FIXEDWINGPATHFOLLOWERSETTINGS_AIRSPEEDPI_KI]
 #define AIRSPEED_ILIMIT	 fixedwingpathfollowerSettings.AirspeedPI[FIXEDWINGPATHFOLLOWERSETTINGS_AIRSPEEDPI_ILIMIT]
 
-	if (AIRSPEED_KI > 0.0f){
+	if (AIRSPEED_KI > 0.0f) {
 		//Integrate with saturation
 		integral->calibrated_airspeed_error=bound_sym(integral->calibrated_airspeed_error + calibrated_airspeed_error * dT,
 													  AIRSPEED_ILIMIT/AIRSPEED_KI);
@@ -328,7 +328,7 @@ static void totalEnergyController(struct ControllerOutput *energyControl, float 
 #define THROTTLE_ILIMIT fixedwingpathfollowerSettings.ThrottlePI[FIXEDWINGPATHFOLLOWERSETTINGS_THROTTLEPI_ILIMIT]
 
 	//Integrate with bound. Make integral leaky for better performance. Approximately 30s time constant.
-	if (THROTTLE_KI > 0.0f){
+	if (THROTTLE_KI > 0.0f) {
 		integral->total_energy_error=bound_sym(integral->total_energy_error+errorTotalEnergy*dT,
 											   THROTTLE_ILIMIT/THROTTLE_KI)*(1.0f-1.0f/(1.0f+30.0f/dT));
 	}
@@ -451,7 +451,7 @@ static void updateDestination()
 
 	int8_t ret;
 	ret = PathSegmentDescriptorInstGet(activeSegment-1, &pathSegmentDescriptor_old);
-	if(ret != 0){
+	if(ret != 0) {
 			if (activeSegment == 0) { // This means we're going to the first switching locus.
 				PositionActualData positionActual;
 				PositionActualGet(&positionActual);
@@ -462,34 +462,34 @@ static void updateDestination()
 
 				// TODO: Figure out if this can't happen in normal behavior. Consider adding a warning if so.
 			}
-			else{
+			else {
 			//TODO: Set off a warning
 
 			return;
 			}
 	}
-	else{
+	else {
 		pathDesired->Start[0]=pathSegmentDescriptor_old.SwitchingLocus[0];
 		pathDesired->Start[1]=pathSegmentDescriptor_old.SwitchingLocus[1];
 		pathDesired->Start[2]=pathSegmentDescriptor_old.SwitchingLocus[2];
 	}
 
 	ret = PathSegmentDescriptorInstGet(activeSegment, pathSegmentDescriptor);
-	if(ret != 0){
+	if(ret != 0) {
 			//TODO: Set off a warning
 
 			return;
 	}
 
 	// For a straight line use the switching locus as the vector endpoint...
-	if(pathSegmentDescriptor->PathCurvature == 0){
+	if(pathSegmentDescriptor->PathCurvature == 0) {
 		pathDesired->End[0]=pathSegmentDescriptor->SwitchingLocus[0];
 		pathDesired->End[1]=pathSegmentDescriptor->SwitchingLocus[1];
 		pathDesired->End[2]=pathSegmentDescriptor->SwitchingLocus[2];
 
 		pathDesired->Curvature = 0;
 	}
-	else{ // ...but for an arc, use the switching loci to calculate the arc center
+	else { // ...but for an arc, use the switching loci to calculate the arc center
 		float *oldPosition_NE = pathDesired->Start;
 		float *newPosition_NE = pathSegmentDescriptor->SwitchingLocus;
 		float arcCenter_NE[2];
@@ -497,7 +497,7 @@ static void updateDestination()
 
 		ret = find_arc_center(oldPosition_NE, newPosition_NE, 1.0f/pathSegmentDescriptor->PathCurvature, pathSegmentDescriptor->PathCurvature > 0, pathSegmentDescriptor->ArcRank == PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR, arcCenter_NE);
 
-		if (ret == CENTER_FOUND){
+		if (ret == CENTER_FOUND) {
 			pathDesired->End[0]=arcCenter_NE[0];
 			pathDesired->End[1]=arcCenter_NE[1];
 			pathDesired->End[2]=pathSegmentDescriptor->SwitchingLocus[2];

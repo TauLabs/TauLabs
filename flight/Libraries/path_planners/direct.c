@@ -114,7 +114,7 @@ enum path_planner_states direct_path_planner(uint16_t numberOfWaypoints)
 			ret = addNonCircleToSwitchingLoci(waypoint.Position, final_velocity, curvature, wptIdx+offset);
 			offset += ret;
 		}
-		else{
+		else {
 			uint8_t ret;
 			ret = addCircleToSwitchingLoci(waypoint.Position, final_velocity, curvature, number_of_orbits, wptIdx+offset);
 			offset += ret;

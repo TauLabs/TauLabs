@@ -146,7 +146,7 @@ bool half_plane_goal_test(float position_NE[2], float angular_distance_completed
 
 		return advanceSegment_flag;
 	}
-	else{
+	else {
 		// Shouldn't be able to get here. Something has gone wrong.
 		// TODO.
 		AlarmsSet(SYSTEMALARMS_ALARM_PATHMANAGER, SYSTEMALARMS_ALARM_CRITICAL);

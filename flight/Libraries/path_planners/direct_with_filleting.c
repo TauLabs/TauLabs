@@ -327,7 +327,7 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 					ret = addNonCircleToSwitchingLoci(f1, finalVelocity, curvature, wptIdx+offset);
 					offset += ret;
 				}
-				else{
+				else {
 					uint8_t ret;
 					ret = addCircleToSwitchingLoci(f1, finalVelocity, curvature, number_of_orbits, R, wptIdx+offset);
 					offset += ret;
@@ -420,7 +420,7 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 					ret = addNonCircleToSwitchingLoci(f1, finalVelocity, curvature, wptIdx+offset);
 					offset += ret;
 				}
-				else{
+				else {
 					uint8_t ret;
 					ret = addCircleToSwitchingLoci(f1, finalVelocity, curvature, number_of_orbits, R, wptIdx+offset);
 					offset += ret;
@@ -450,7 +450,7 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 					ret = addNonCircleToSwitchingLoci(waypoint.Position, finalVelocity, curvature, wptIdx+offset);
 					offset += ret;
 				}
-				else{
+				else {
 					uint8_t ret;
 					ret = addCircleToSwitchingLoci(waypoint.Position, finalVelocity, curvature, number_of_orbits, fillet_radius, wptIdx+offset);
 					offset += ret;
@@ -467,7 +467,7 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 				ret = addNonCircleToSwitchingLoci(waypoint.Position, finalVelocity, curvature, wptIdx+offset);
 				offset += ret;
 			}
-			else{
+			else {
 				uint8_t ret;
 				ret = addCircleToSwitchingLoci(waypoint.Position, finalVelocity, curvature, number_of_orbits, fillet_radius, wptIdx+offset);
 				offset += ret;

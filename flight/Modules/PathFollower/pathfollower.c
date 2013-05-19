@@ -229,7 +229,7 @@ static void PathFollowerTask(void *parameters)
 
 		if(flightMode != FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME &&
 				flightMode != FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD &&
-				flightMode != FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER){
+				flightMode != FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER) {
 
 			// Be clean and reset integrals
 			zeroGuidanceIntegral();

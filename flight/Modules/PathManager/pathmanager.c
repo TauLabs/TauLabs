@@ -230,7 +230,7 @@ static void pathManagerTask(void *parameters)
 				pathplanner_active = false;
 			}
 		}
-		else{
+		else {
 			pathplanner_active = false;
 			guidanceType = NOMANAGER;
 			vTaskDelay(IDLE_UPDATE_RATE_MS * portTICK_RATE_MS);
@@ -367,7 +367,7 @@ static void advanceSegment()
 				break;
 		}
 	}
-	else{
+	else {
 		angularDistanceToComplete_D = 0;
 	}
 
@@ -417,7 +417,7 @@ static bool checkGoalCondition()
 														   previousLocus->Position, &pathSegmentDescriptor_current, &pathSegmentDescriptor_future,
 														   pathManagerSettings.HalfPlaneAdvanceTiming, fixedWingAirspeeds.BestClimbRateSpeed);
 			}
-			else{ // Since there are no further switching loci, this must be the waypoint.
+			else { // Since there are no further switching loci, this must be the waypoint.
 				//Do nothing.
 			}
 		}

@@ -252,8 +252,7 @@ static void pathPlannerTask(void *parameters)
 
 		vTaskDelay(UPDATE_RATE_MS * portTICK_RATE_MS);
 
-		if(process_waypoints_flag)
-		{
+		if(process_waypoints_flag) {
 			enum path_planner_states ret;
 			ret = processWaypoints(plannerAlgorithm);
 			switch (ret) {
@@ -284,7 +283,7 @@ static void pathPlannerTask(void *parameters)
 }
 
 
-enum path_planner_states processWaypoints(PathPlannerSettingsPlannerAlgorithmOptions algorithm)
+static enum path_planner_states processWaypoints(PathPlannerSettingsPlannerAlgorithmOptions algorithm)
 {
 	enum path_planner_states ret;
 	
@@ -306,7 +305,7 @@ enum path_planner_states processWaypoints(PathPlannerSettingsPlannerAlgorithmOpt
 }
 
 
-void settingsUpdated(UAVObjEvent * ev)
+static void settingsUpdated(UAVObjEvent * ev)
 {
 	PathPlannerSettingsGet(&pathPlannerSettings);
 }
@@ -322,7 +321,7 @@ static void createPathReturnToHome()
 
 	float airspeedDesired;
 	FixedWingAirspeedsBestClimbRateSpeedGet(&airspeedDesired);
-	float radius = airspeedDesired*airspeedDesired/(GRAVITY*tanf(15*DEG2RAD)); // 15 degree average bank for staying on circle
+	float radius = airspeedDesired * airspeedDesired/(GRAVITY * tanf(15 * DEG2RAD)); // 15 degree average bank for staying on circle
 
 	PositionActualData positionActual;
 	PositionActualGet(&positionActual);
@@ -348,7 +347,7 @@ static void createPathHoldPosition()
 
 	float airspeedDesired;
 	FixedWingAirspeedsBestClimbRateSpeedGet(&airspeedDesired);
-	float radius = airspeedDesired*airspeedDesired/(GRAVITY*tanf(15*DEG2RAD)); // 15 degree average bank for staying on circle
+	float radius = airspeedDesired * airspeedDesired/(GRAVITY * tanf(15 * DEG2RAD)); // 15 degree average bank for staying on circle
 
 	waypoint.Position[0] = positionActual.North;
 	waypoint.Position[1] = positionActual.East;
