@@ -43,9 +43,9 @@
 extern int32_t PIOS_MPU9150_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_mpu60x0_cfg * new_cfg);
 extern uint8_t PIOS_MPU9150_Test();
 extern int32_t PIOS_MPU9150_Probe(uint32_t i2c_id, uint8_t i2c_addr);
-extern void PIOS_MPU9150_SetGyroRange(enum pios_mpu60x0_range);
-extern void PIOS_MPU9150_SetAccelRange(enum pios_mpu60x0_accel_range);
-extern void PIOS_MPU9150_SetSampleRate(uint16_t samplerate_hz);
+extern int32_t PIOS_MPU9150_SetGyroRange(enum pios_mpu60x0_range);
+extern int32_t PIOS_MPU9150_SetAccelRange(enum pios_mpu60x0_accel_range);
+extern int32_t PIOS_MPU9150_SetSampleRate(uint16_t samplerate_hz);
 extern void PIOS_MPU9150_SetLPF(enum pios_mpu60x0_filter filter);
 extern bool PIOS_MPU9150_IRQHandler(void);
 

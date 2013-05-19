@@ -231,26 +231,30 @@ static int32_t PIOS_MPU9150_Config(struct pios_mpu60x0_cfg const * cfg)
 /**
  * Set the gyro range and store it locally for scaling
  */
-void PIOS_MPU9150_SetGyroRange(enum pios_mpu60x0_range gyro_range)
+int32_t PIOS_MPU9150_SetGyroRange(enum pios_mpu60x0_range gyro_range)
 {
-	while (PIOS_MPU9150_SetReg(PIOS_MPU60X0_GYRO_CFG_REG, gyro_range) != 0);
+	if (PIOS_MPU9150_SetReg(PIOS_MPU60X0_GYRO_CFG_REG, gyro_range) != 0)
+		return -1;
 	dev->gyro_range = gyro_range;
+	return 0;
 }
 
 /**
  * Set the accel range and store it locally for scaling
  */
-void PIOS_MPU9150_SetAccelRange(enum pios_mpu60x0_accel_range accel_range)
+int32_t PIOS_MPU9150_SetAccelRange(enum pios_mpu60x0_accel_range accel_range)
 {
-	while (PIOS_MPU9150_SetReg(PIOS_MPU60X0_ACCEL_CFG_REG, accel_range) != 0);
+	if (PIOS_MPU9150_SetReg(PIOS_MPU60X0_ACCEL_CFG_REG, accel_range) != 0)
+		return -1;
 	dev->accel_range = accel_range;
+	return 0;
 }
 
 /**
  * Set the sample rate in Hz by determining the nearest divisor
  * @param[in] sample rate in Hz
  */
-void PIOS_MPU9150_SetSampleRate(uint16_t samplerate_hz)
+int32_t PIOS_MPU9150_SetSampleRate(uint16_t samplerate_hz)
 {
 	uint16_t filter_frequency = 8000;
 
@@ -271,7 +275,7 @@ void PIOS_MPU9150_SetSampleRate(uint16_t samplerate_hz)
 	if (divisor > 0xff)
 		divisor = 0xff;
 
-	PIOS_MPU9150_SetReg(PIOS_MPU60X0_SMPLRT_DIV_REG, (uint8_t)divisor);
+	return PIOS_MPU9150_SetReg(PIOS_MPU60X0_SMPLRT_DIV_REG, (uint8_t)divisor);
 }
 
 /**
