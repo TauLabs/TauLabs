@@ -79,7 +79,7 @@ static struct mpu9150_dev * dev;
 //! Private functions
 static struct mpu9150_dev * PIOS_MPU9150_alloc(void);
 static int32_t PIOS_MPU9150_Validate(struct mpu9150_dev * dev);
-static void PIOS_MPU9150_Config(struct pios_mpu60x0_cfg const * cfg);
+static int32_t PIOS_MPU9150_Config(struct pios_mpu60x0_cfg const * cfg);
 static int32_t PIOS_MPU9150_SetReg(uint8_t address, uint8_t buffer);
 static int32_t PIOS_MPU9150_GetReg(uint8_t address);
 static int32_t PIOS_MPU9150_ReadID();
@@ -156,14 +156,15 @@ int32_t PIOS_MPU9150_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_m
 	dev->cfg = cfg;
 
 	/* Configure the MPU9150 Sensor */
-	PIOS_MPU9150_Config(cfg);
+	if (PIOS_MPU9150_Config(cfg) != 0)
+		return -2;
 
 	/* Set up EXTI line */
 	PIOS_EXTI_Init(cfg->exti_cfg);
 
 	//Wait 5 ms for data ready interrupt
 	if (xSemaphoreTake(dev->data_ready_sema, 5) != pdTRUE)
-		return -2;
+		return -233;
 
 	int result = xTaskCreate(PIOS_MPU9150_Task, (const signed char *)"PIOS_MPU9150_Task",
 						 MPU9150_TASK_STACK, NULL, MPU9150_TASK_PRIORITY,
@@ -183,10 +184,11 @@ int32_t PIOS_MPU9150_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_m
  * \param[in] PIOS_MPU9150_ConfigTypeDef struct to be used to configure sensor.
 *
 */
-static void PIOS_MPU9150_Config(struct pios_mpu60x0_cfg const * cfg)
+static int32_t PIOS_MPU9150_Config(struct pios_mpu60x0_cfg const * cfg)
 {
 	// Reset chip
-	PIOS_MPU9150_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, PIOS_MPU60X0_PWRMGMT_IMU_RST);
+	if (PIOS_MPU9150_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, PIOS_MPU60X0_PWRMGMT_IMU_RST) != 0)
+		return -1;
 
 	// Reset sensors signal path
 	PIOS_MPU9150_SetReg(PIOS_MPU60X0_USER_CTRL_REG, PIOS_MPU60X0_USERCTL_GYRO_RST);
@@ -222,6 +224,8 @@ static void PIOS_MPU9150_Config(struct pios_mpu60x0_cfg const * cfg)
 
 	// Interrupt enable
 	PIOS_MPU9150_SetReg(PIOS_MPU60X0_INT_EN_REG, cfg->interrupt_en);
+
+	return 0;
 }
 
 /**
