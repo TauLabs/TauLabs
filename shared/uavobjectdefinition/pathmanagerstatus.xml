@@ -2,7 +2,17 @@
 	<object name="PathManagerStatus" singleinstance="true" settings="false" category="Navigation">
 		<description>Status of the path manager</description>
 
-		<field name="Status" units="" type="enum" elements="1" options="InProgress,Completed,TimedOut,Overshoot,Warning,Critical" defaultvalue="Completed"/>
+		<field name="Status" units="" type="enum" elements="1" defaultvalue="Completed">
+			<options>
+			<option>InProgress</option>
+			<option>Completed</option>
+			<option>TimedOut</option>
+			<option>Overshoot</option>
+			<option>Warning</option>
+			<option>Critical</option>
+			</options>
+		</field>
+
 		<field name="ActiveSegment" units="" type="uint8" elements="1"/>
 
 		<field name="PathCounter" units="" type="uint8" elements="1"/>

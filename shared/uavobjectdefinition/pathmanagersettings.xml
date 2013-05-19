@@ -1,7 +1,13 @@
 <xml>
 	<object name="PathManagerSettings" singleinstance="true" settings="true">
 		<description>Settings for the @ref PathManager Module</description>
-		<field name="SwitchingStrategy" units="" type="enum" elements="1" options="HalfPlane,BBall" defaultvalue="HalfPlane"/>
+		<field name="SwitchingStrategy" units="" type="enum" elements="1" defaultvalue="HalfPlane">
+			<options>
+				<option>HalfPlane</option>
+				<option>BBall</option>
+			</options>
+		</field>
+
 		<field name="HalfPlaneAdvanceTiming" units="ms" type="int16" elements="1" defaultvalue="0"/>
 		<field name="BBallThresholdDistance" units="m" type="float" elements="1" defaultvalue="10"/>
 

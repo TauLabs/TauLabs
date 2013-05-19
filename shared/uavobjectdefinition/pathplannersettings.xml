@@ -1,8 +1,22 @@
 <xml>
 	<object name="PathPlannerSettings" singleinstance="true" settings="true">
 		<description>Settings for the @ref PathPlanner Module</description>
-		<field name="PreprogrammedPath" units="" type="enum" elements="1" options="None,10m_Box,Logo,Star" defaultvalue="None"/>
-		<field name="PlannerAlgorithm" units="" type="enum" elements="1" options="Direct,DirectWithFilleting" defaultvalue="Direct"/>
+		<field name="PreprogrammedPath" units="" type="enum" elements="1" defaultvalue="None">
+			<options>
+				<option>None</option>
+				<option>10m_Box</option>
+				<option>Logo</option>
+				<option>Star</option>
+			</options>
+		</field>
+
+		<field name="PlannerAlgorithm" units="" type="enum" elements="1" defaultvalue="Direct">
+			<options>
+				<option>Direct</option>
+				<option>DirectWithFilleting</option>
+			</options>
+		</field>
+
 		<field name="PreferredRadius" units="m" type="float" elements="1" defaultvalue="0"/>
 		<field name="FlashOperation" units="" type="enum" elements="1" defaultvalue="NONE">
 			<options>
