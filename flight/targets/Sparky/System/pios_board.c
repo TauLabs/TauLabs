@@ -171,13 +171,13 @@ uint32_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 uintptr_t pios_com_debug_id;
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 
-uintptr_t pios_com_aux_id = 0;
-uintptr_t pios_com_gps_id = 0;
-uintptr_t pios_com_telem_usb_id = 0;
-uintptr_t pios_com_telem_rf_id = 0;
-uintptr_t pios_com_vcp_id = 0;
-uintptr_t pios_com_bridge_id = 0;
-uintptr_t pios_com_mavlink_id = 0;
+uintptr_t pios_com_aux_id;
+uintptr_t pios_com_gps_id;
+uintptr_t pios_com_telem_usb_id;
+uintptr_t pios_com_telem_rf_id;
+uintptr_t pios_com_vcp_id;
+uintptr_t pios_com_bridge_id;
+uintptr_t pios_com_mavlink_id;
 
 uintptr_t pios_uavo_settings_fs_id;
 uintptr_t pios_waypoints_settings_fs_id;
